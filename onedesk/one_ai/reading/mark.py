@@ -53,7 +53,7 @@ def clear(doctype: str, name: str, by: str | None = None) -> bool:
 		return False
 	frappe.db.delete("AI Touch", {"for_doctype": doctype, "record": name, "fieldname": WHOLE})
 	frappe.db.set_value(
-		"Intake Action",
+		"Reading Action",
 		{"target_doctype": doctype, "target_name": name, "kind": "Create", "level": "Done"},
 		"checked_by",
 		by or frappe.session.user,
@@ -112,7 +112,7 @@ def onload(doc, method=None) -> None:
 
 def _action_of(doctype: str, name: str) -> str | None:
 	return frappe.db.get_value(
-		"Intake Action", {"target_doctype": doctype, "target_name": name, "kind": "Create", "level": "Done"}, "name"
+		"Reading Action", {"target_doctype": doctype, "target_name": name, "kind": "Create", "level": "Done"}, "name"
 	)
 
 

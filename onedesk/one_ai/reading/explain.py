@@ -96,5 +96,5 @@ def _ask(doc, language: str, purpose: str) -> dict | None:
 
 def _cancel_by(doc) -> str | None:
 	"""The last day to cancel, from the Contract Intake made for this reading."""
-	contract = frappe.db.get_value("Intake Action", {"reading": doc.name, "target_doctype": "Contract", "level": "Done"}, "target_name")
+	contract = frappe.db.get_value("Reading Action", {"reading": doc.name, "target_doctype": "Contract", "level": "Done"}, "target_name")
 	return str(frappe.db.get_value("Contract", contract, "one_cancel_by") or "") or None if contract else None

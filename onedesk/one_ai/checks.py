@@ -53,7 +53,7 @@ def ai_center_sets_the_tier_and_a_modules_part():
 		quiet = next(one["value"] for one in read["settings"] if one["key"] == "quiet_minutes")
 		try:
 			center.set_reading("quiet_minutes", 9)
-			assert frappe.db.get_single_value("Intake Settings", "quiet_minutes") == 9
+			assert frappe.db.get_single_value("Reading Settings", "quiet_minutes") == 9
 		finally:
 			center.set_reading("quiet_minutes", quiet or 0)
 		try:

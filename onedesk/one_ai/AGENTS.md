@@ -1318,7 +1318,7 @@ for a document that changes nothing.
 Undoing an action, dismissing a proposal, deleting a record OneAI created or
 moving a file it filed is remembered for that party, and the next document
 from them is read with that in mind. After the same correction three times,
-OneAI asks instead of acting. The **Intake Lesson** list shows what it
+OneAI asks instead of acting. The **Reading Lesson** list shows what it
 learned. Delete a lesson to let it act again.
 
 OneAI never submits, posts or sends anything. Whatever it creates that could
@@ -1440,7 +1440,7 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   6. **the mark** on a record OneAI made (`mark.py`), and the **Reading
      Action** row.
 
-  The Intake Action table is the idempotency, Undo, Needs Review and the
+  The Reading Action table is the idempotency, Undo, Needs Review and the
   audit in one. A person sees the rows done on their behalf, an administrator
   all of them. `settle` applies a proposal as the person who pressed Apply,
   under their own permission and with no mark, since a person decided.
@@ -1503,7 +1503,7 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   Phishing, and money or deadlines due within a day, do not wait. `key` gives
   planners a key per matter, so "a task to pay this invoice" exists once
   however many reminders follow.
-- `lessons.py` writes an **Intake Lesson**, with the party and the kind of
+- `lessons.py` writes an **Reading Lesson**, with the party and the kind of
   document, on Dismiss, on Undo, on deleting a marked record (read in
   `on_trash` before the mark goes) and on moving a filed file back (File
   `on_update`). The next document from that party is read with its lessons
@@ -1619,7 +1619,7 @@ OneAI as an employee. After `parties`, filing, `money` and `second`,
 OneAI's own loop (`run.ask` with `only` and `nudges=False`) as the reading's
 `on_behalf_of`, so every lookup is that person's. The model is shown the
 reading (`told`): what it says, who it names, its references, asks and
-lines, and `already_done`, the Intake Actions the planners took. It reads
+lines, and `already_done`, the Reading Actions the planners took. It reads
 with the chat's tools (`LOOKS`) and acts with six of its own (`HANDS`):
 `link_to`, `make_record`, `fill_in`, `add_comment`, `make_task` and
 `who_handles`. Each acting tool is one `act.Action` handed to `act.apply`,
@@ -2411,7 +2411,7 @@ gives OneAI instead:
   were booked last time, used before any model is asked;
 - **lessons from corrections.** Undoing an action, dismissing a proposal,
   deleting a record OneAI made and moving a filed file back are each kept as
-  an **Intake Lesson** with the facts that led to it. The next reading from
+  an **Reading Lesson** with the facts that led to it. The next reading from
   the same party is given its lessons, and three alike make OneAI propose
   instead of act, until a person deletes them;
 - **AI Knowledge** is given to every reading, so "our tax adviser is Kanzlei
@@ -2560,11 +2560,11 @@ Doctypes, all in `one_intake`:
 - **Identifier** (§7);
 - **File Link**: a file linked to a record other than the one it is attached
   to;
-- **Intake Action**: every action, with its key, kind, target, the values
+- **Reading Action**: every action, with its key, kind, target, the values
   before and after, confidence, why, state, and the document and matter it
   came from. This one table is the idempotency, Undo, Needs Review and the
   audit;
-- **Intake Lesson** (§10);
+- **Reading Lesson** (§10);
 - **AICenter › Reading**: one Single for the floors, lead times, quiet minutes
   and the optional e-invoice submit.
 
@@ -2596,7 +2596,7 @@ the OneAI user as author, `Task Step` for asks, Frappe's tags and
 `act.apply(action)` is the only code that writes, in the order given under
 `act.py` above: the key, on whose behalf (§4.3), the level (§4.1 and the
 confidence floor), the flow (§5.1), the write as the OneAI user keeping the
-values before for Undo, and the mark (§4.2) with the Intake Action row. A new
+values before for Undo, and the mark (§4.2) with the Reading Action row. A new
 kind of document never adds a write path. It adds a planner.
 
 ###### 15.4 Jobs, locks and time

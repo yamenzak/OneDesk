@@ -68,7 +68,7 @@ APP_SAID = {
 	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
 	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
 	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
-	"OneIntake": _lt("Mail and files read as they arrive, and filed on their record."),
+	"Reading": _lt("Mail and files read as they arrive, and filed on their record."),
 }
 
 LEVELS = ("None", "User", "Manager")
@@ -1323,13 +1323,13 @@ def _intake() -> dict:
 	now, for everybody."""
 	from onedesk.one_ai.reading import act, pipeline
 
-	doc = frappe.get_single("Intake Settings")
+	doc = frappe.get_single("Reading Settings")
 	values = {name: doc.get(name) for name in INTAKE}
 	values["most_pages"] = values["most_pages"] or pipeline.MOST_PAGES
 	values["floor"] = values["floor"] or act.FLOOR
 	fields = [
 		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
-		for one in _fields("Intake Settings", INTAKE)
+		for one in _fields("Reading Settings", INTAKE)
 	]
 	from onedesk.one_ai.reading import switches
 
@@ -1366,7 +1366,7 @@ def _intake_month() -> dict:
 	month = digest.this_month()
 	start = get_first_day(today())
 	waiting = frappe.db.sql(f"select count(*) from `tabReading` r where {inbox._box('waiting')}")[0][0]
-	undone = frappe.db.count("Intake Action", {"level": "Undone", "modified": [">=", start]})
+	undone = frappe.db.count("Reading Action", {"level": "Undone", "modified": [">=", start]})
 	return {**month, "waiting": int(waiting or 0), "undone": int(undone or 0)}
 
 
@@ -1376,7 +1376,7 @@ TOLD_OF = ("audit", "household", "submit_einvoices", "floor")
 def _save_intake(values: dict) -> None:
 	from onedesk.one_ai.reading import act
 
-	doc = _as_opened(frappe.get_single("Intake Settings"))
+	doc = _as_opened(frappe.get_single("Reading Settings"))
 
 	def meant(name):
 		value = frappe.utils.flt(doc.get(name))

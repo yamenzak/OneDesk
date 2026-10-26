@@ -82,15 +82,15 @@ No doctypes yet.
 | AI Touch | 8 | document |
 | File Link | 4 | document |
 | Identifier | 6 | document |
-| Intake Action | 19 | document |
-| Intake Lesson | 12 | document |
-| Intake Settings | 8 | single |
 | Reading | 71 | document |
+| Reading Action | 19 | document |
 | Reading Ask | 5 | child |
 | Reading Date | 6 | child |
+| Reading Lesson | 12 | document |
 | Reading Line | 7 | child |
 | Reading Party | 19 | child |
 | Reading Reference | 3 | child |
+| Reading Settings | 8 | single |
 
 ## One Calendar
 

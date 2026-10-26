@@ -617,8 +617,8 @@ the screen), a commit, and the docs it changes.
    is part of OneAI's (`guide.manuals` reads `one_ai/reading/README.md`);
    its clauses are OneAI's; OneIntake Changed is Reading Changed. Kept as
    ids: the Apps key `OneIntake`, the fields `one_intake` and
-   `one_intake_for`, the doctype names Intake Settings, Intake Action and
-   Intake Lesson, and the notification names Intake Waiting and Intake
+   `one_intake_for`, the doctype names Reading Settings, Reading Action and
+   Reading Lesson, and the notification names Documents Waiting and Intake
    Weekly. **Reading on the new models is built (2026-10-26)** where it was
    measured to help: the first look is Clef Flash (`intake_decide`, through
    a new reading door: `run.read`, `proxy.ai_read`, `actions.read`), real or

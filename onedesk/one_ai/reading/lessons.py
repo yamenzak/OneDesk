@@ -15,13 +15,13 @@ MOST_TOLD = 8
 
 
 def learn(row, what: str) -> None:
-	"""Remember that a person took an Intake Action back."""
+	"""Remember that a person took an Reading Action back."""
 	reading = frappe.db.get_value("Reading", row.reading, ["kind", "party_doctype", "party_name"], as_dict=True) if row.reading else None
 	if not reading or not reading.party_name:
 		return
 	frappe.get_doc(
 		{
-			"doctype": "Intake Lesson",
+			"doctype": "Reading Lesson",
 			"what": what,
 			"action_kind": row.kind,
 			"target_doctype": row.target_doctype,
@@ -47,7 +47,7 @@ def times(reading, action) -> int:
 	if not reading.get("party_name"):
 		return 0
 	return frappe.db.count(
-		"Intake Lesson",
+		"Reading Lesson",
 		{
 			"party_doctype": reading.get("party_doctype"),
 			"party_name": reading.get("party_name"),
@@ -63,7 +63,7 @@ def told(party_doctype: str | None, party_name: str | None) -> str:
 	if not party_name:
 		return ""
 	rows = frappe.get_all(
-		"Intake Lesson",
+		"Reading Lesson",
 		filters={"party_doctype": party_doctype, "party_name": party_name},
 		fields=["what", "kind", "said"],
 		order_by="creation desc",
@@ -81,9 +81,9 @@ def deleted(doc, method=None) -> None:
 
 	if doc.doctype not in mark.marked_doctypes() or frappe.flags.one_intake_writing or not mark.is_marked(doc.doctype, doc.name):
 		return
-	held = frappe.db.get_value("Intake Action", {"target_doctype": doc.doctype, "target_name": doc.name, "kind": "Create", "level": "Done"}, "name")
+	held = frappe.db.get_value("Reading Action", {"target_doctype": doc.doctype, "target_name": doc.name, "kind": "Create", "level": "Done"}, "name")
 	if held:
-		row = frappe.get_doc("Intake Action", held)
+		row = frappe.get_doc("Reading Action", held)
 		row.db_set({"level": "Undone", "undone_by": frappe.session.user})
 		learn(row, "Deleted")
 
@@ -96,12 +96,12 @@ def moved(doc, method=None) -> None:
 	if not before:
 		return
 	if before.folder != doc.folder:
-		held = frappe.db.get_value("Intake Action", {"target_doctype": "File", "target_name": doc.name, "kind": "Move", "level": "Done"}, "name")
+		held = frappe.db.get_value("Reading Action", {"target_doctype": "File", "target_name": doc.name, "kind": "Move", "level": "Done"}, "name")
 		if held:
 			_moved_back(held)
 	if (before.attached_to_doctype, before.attached_to_name) != (doc.attached_to_doctype, doc.attached_to_name) and before.attached_to_name:
 		held = frappe.db.get_value(
-			"Intake Action",
+			"Reading Action",
 			{"target_doctype": before.attached_to_doctype, "target_name": before.attached_to_name, "kind": "Attach", "level": "Done", "after": ["like", f'%"file": "{doc.name}"%']},
 			"name",
 		)
@@ -110,7 +110,7 @@ def moved(doc, method=None) -> None:
 
 
 def _moved_back(name: str) -> None:
-	row = frappe.get_doc("Intake Action", name)
+	row = frappe.get_doc("Reading Action", name)
 	row.db_set({"level": "Undone", "undone_by": frappe.session.user})
 	learn(row, "Moved Back")
 

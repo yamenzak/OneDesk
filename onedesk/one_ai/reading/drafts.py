@@ -79,7 +79,7 @@ def _iban(doc, reading) -> list[str]:
 
 def _drafts() -> list[dict]:
 	rows = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"kind": "Create", "level": "Done", "target_doctype": ["in", DOCTYPES]},
 		fields=["name", "target_doctype", "target_name", "reading"],
 		order_by="creation desc",
@@ -128,7 +128,7 @@ def submit_all(names) -> dict:
 		doc = frappe.get_doc(doctype, name)
 		if doc.docstatus != 0:
 			continue
-		reading = frappe.db.get_value("Intake Action", {"target_doctype": doctype, "target_name": name, "kind": "Create"}, "reading")
+		reading = frappe.db.get_value("Reading Action", {"target_doctype": doctype, "target_name": name, "kind": "Create"}, "reading")
 		if red(doc, frappe.get_doc("Reading", reading) if reading and frappe.db.exists("Reading", reading) else None):
 			failed.append({"name": name, "why": _("No longer ready.")})
 			continue
@@ -156,13 +156,13 @@ def submit_all(names) -> dict:
 def maybe_submit(reading) -> None:
 	"""The optional e-invoice submit: from a known supplier, billed from an
 	order, and ready. Off unless the workspace switched it on."""
-	if not frappe.db.get_single_value("Intake Settings", "submit_einvoices") or reading.how != "E-invoice":
+	if not frappe.db.get_single_value("Reading Settings", "submit_einvoices") or reading.how != "E-invoice":
 		return
 	from onedesk.one_mail import gate
 
 	if not gate.does(gate.account_of("Reading", reading.name), "money"):
 		return
-	made = frappe.db.get_value("Intake Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
+	made = frappe.db.get_value("Reading Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
 	if not made:
 		return
 	doc = frappe.get_doc("Purchase Invoice", made)

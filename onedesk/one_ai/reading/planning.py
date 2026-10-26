@@ -56,7 +56,7 @@ def run(name: str, which: str) -> None:
 def _made_for(reading, said: dict, made: list) -> bool:
 	"""The counterpart is the record just made for it, which also learns how
 	the document reached it, so the next one from there is matched to it."""
-	done = [frappe.db.get_value("Intake Action", name, ["kind", "level", "target_doctype", "target_name"], as_dict=True) for name in made if name]
+	done = [frappe.db.get_value("Reading Action", name, ["kind", "level", "target_doctype", "target_name"], as_dict=True) for name in made if name]
 	record = next((one for one in done if one and one.kind == "Create" and one.level == "Done" and one.target_name), None)
 	party = plans.counterpart(said)
 	row = next((one for one in reading.parties if party and one.idx == party.get("idx")), None)
@@ -360,7 +360,7 @@ def _task(ctx: dict, reading) -> None:
 	"""The task the matter already has, and what ticks each new step."""
 	readings = frappe.get_all("Reading", filters={"matter": reading.matter}, pluck="name") if reading.matter else [reading.name]
 	made = frappe.db.get_value(
-		"Intake Action",
+		"Reading Action",
 		{"reading": ["in", readings], "kind": "Create", "target_doctype": "Task", "level": "Done", "key": ["like", "%|task"]},
 		"target_name",
 	)
@@ -379,7 +379,7 @@ def _money(ctx: dict, reading) -> None:
 	"""What the money planners need: the party's record, what came before
 	(the order, the invoice a credit note credits, one already booked), the
 	items the lines are, our bank account, and the books' lock."""
-	ctx["books"] = not cint(frappe.db.get_single_value("Intake Settings", "household")) and frappe.db.count("Company") > 0
+	ctx["books"] = not cint(frappe.db.get_single_value("Reading Settings", "household")) and frappe.db.count("Company") > 0
 	if not ctx["books"]:
 		return
 	company = frappe.defaults.get_global_default("company") or frappe.db.get_value("Company", {}, "name")
@@ -488,7 +488,7 @@ def _payable(ctx: dict, reading) -> None:
 	submitted and paid. A document paid by direct debit, or already paid,
 	asks nobody to pay."""
 	readings = frappe.get_all("Reading", filters={"matter": reading.matter}, pluck="name") if reading.matter else [reading.name]
-	booked = frappe.db.get_value("Intake Action", {"reading": ["in", readings], "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
+	booked = frappe.db.get_value("Reading Action", {"reading": ["in", readings], "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "target_name")
 	if booked:
 		ctx["done_when"]["Pay"] = json.dumps({"doctype": "Purchase Invoice", "name": booked, "all": [{"field": "docstatus", "equals": 1}, {"field": "outstanding_amount", "equals": 0}]})
 	ctx["nobody_pays"] = reading.paid_how in ("Direct Debit", "Already Paid") or reading.kind == "Receipt"
@@ -499,16 +499,16 @@ def _hold_iban(reading) -> None:
 	for them is exactly what invoice fraud looks like. Its draft bill is held
 	(drafts.red) and the IBAN is never written over ours; here the bill is also
 	marked wrong, with why, so it waits for the person like anything else OneAI
-	could not settle, and Intake Waiting says so (tell.waiting)."""
+	could not settle, and Documents Waiting says so (tell.waiting)."""
 	if not reading.iban or reading.party_doctype != "Supplier" or not reading.party_name:
 		return
 	known = [one.replace(" ", "").upper() for one in frappe.get_all("Bank Account", filters={"party_type": "Supplier", "party": reading.party_name}, pluck="iban") if one]
 	if not known or reading.iban.replace(" ", "").upper() in known:
 		return
-	made = frappe.db.get_value("Intake Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "name")
+	made = frappe.db.get_value("Reading Action", {"reading": reading.name, "kind": "Create", "target_doctype": "Purchase Invoice", "level": "Done"}, "name")
 	if made:
 		why = _("The IBAN isn't on file for {0}. Confirm it by phone before paying.").format(reading.party_name)
-		frappe.db.set_value("Intake Action", made, {"audit": "Wrong", "audit_why": why}, update_modified=False)
+		frappe.db.set_value("Reading Action", made, {"audit": "Wrong", "audit_why": why}, update_modified=False)
 
 
 def make_task(values: dict):

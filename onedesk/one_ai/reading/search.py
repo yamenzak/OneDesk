@@ -255,7 +255,7 @@ def about(doctype: str, name: str, most: int = 12) -> list[dict]:
 	OneAI's record memory tells them: what each is and what it still asks.
 	Only those the reader may open."""
 	readings = set(
-		frappe.get_all("Intake Action", filters={"target_doctype": doctype, "target_name": name, "level": "Done"}, pluck="reading", limit=100)
+		frappe.get_all("Reading Action", filters={"target_doctype": doctype, "target_name": name, "level": "Done"}, pluck="reading", limit=100)
 	)
 	readings |= set(frappe.get_all("Reading Party", filters={"matched_doctype": doctype, "matched_name": name}, pluck="parent", limit=100))
 	readings.discard(None)

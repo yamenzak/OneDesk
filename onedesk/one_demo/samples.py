@@ -28,7 +28,7 @@ def samples() -> list[Path]:
 
 
 def handle(path: Path, kept: bool = False) -> Handled:
-	"""One sample through Intake as it arrives: the Intake Action rows it made,
+	"""One sample through Intake as it arrives: the Reading Action rows it made,
 	and any model call the sample does not answer. Kept, it stays in the demo
 	as Intake left it; otherwise each commit is only a savepoint."""
 	spec = json.loads(path.read_text())
@@ -48,7 +48,7 @@ def handle(path: Path, kept: bool = False) -> Handled:
 		for name in readings:
 			matters.act_now(name)
 	made = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": ["in", readings or [""]]},
 		fields=["kind", "level", "target_doctype", "target_name", "after", "why"],
 		order_by="creation asc",
@@ -57,13 +57,13 @@ def handle(path: Path, kept: bool = False) -> Handled:
 
 
 def found(path: Path) -> Handled | None:
-	"""What a sample the demo kept made, read back: the Intake Action rows of
+	"""What a sample the demo kept made, read back: the Reading Action rows of
 	its readings. None when it never arrived."""
 	readings = readings_of(path)
 	if not readings:
 		return None
 	made = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": ["in", readings]},
 		fields=["kind", "level", "target_doctype", "target_name", "after", "why"],
 		order_by="creation asc",

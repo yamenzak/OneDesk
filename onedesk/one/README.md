@@ -3469,7 +3469,7 @@ so a new version of it arrives with the app.
 ### settings.py
 
 Before Settings a workspace manager had no single place to go. The account was
-a bare form, Intake Settings sat in its own sidebar, mailboxes were in OneMail,
+a bare form, Reading Settings sat in its own sidebar, mailboxes were in OneMail,
 holidays in OneCalendar's Setup, people in frappe's User list, and a person's
 own settings were frappe's My Settings. Now every section is an entry in One's
 own sidebar, so the page itself is one wide column, in two groups:
@@ -3483,7 +3483,7 @@ own sidebar, so the page itself is one wide column, in two groups:
 
 Nothing new is stored. Each section reads and writes the records that already
 hold it — User, Notification Settings, Company, System Settings, Workspace
-Account, AI Action Setting, Intake Settings, Holiday List — and the verbs that
+Account, AI Action Setting, Reading Settings, Holiday List — and the verbs that
 already exist are called as they are (a mailbox is connected in OneMail, a
 domain through the account). A workspace section asks `roles.require()`
 first, so a person who is not an administrator cannot reach it by calling it.

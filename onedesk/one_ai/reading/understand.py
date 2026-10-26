@@ -509,7 +509,7 @@ def kept_until(reading):
 
 	from onedesk.one_ai.reading import keep
 
-	if frappe.db.get_single_value("Intake Settings", "household"):
+	if frappe.db.get_single_value("Reading Settings", "household"):
 		return None
 	dated = reading.issued_on or reading.creation or today()
 	return keep.until(reading.kind, identity.country(), getdate(dated))

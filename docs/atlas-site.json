@@ -1265,14 +1265,14 @@
 "Installed Applications": [
 "System Manager"
 ],
-"Intake Action": [
+"Reading Action": [
 "Desk User",
 "Workspace Administrator"
 ],
-"Intake Lesson": [
+"Reading Lesson": [
 "Workspace Administrator"
 ],
-"Intake Settings": [
+"Reading Settings": [
 "Workspace Administrator"
 ],
 "Integration Request": [
@@ -3180,7 +3180,7 @@
 "Incoming Call Settings",
 "Incoterm",
 "Industry Type",
-"Intake Action",
+"Reading Action",
 "Interview",
 "Interview Feedback",
 "Interview Type",

@@ -1,6 +1,6 @@
 """Where OneAI reads what arrives, and on whose behalf.
 
-Three switches: a OneCloud folder, a OneMail mailbox, and Intake Settings'
+Three switches: a OneCloud folder, a OneMail mailbox, and Reading Settings'
 "Read Files Attached to Records", each remembering who turned it on.
 """
 
@@ -38,7 +38,7 @@ def of_file(doc) -> str | None:
 
 			account = frappe.db.get_value("Communication", doc.attached_to_name, "email_account")
 			return of_mailbox(account) if gate.reads_attachments(account) else None
-		return doc.owner if frappe.db.get_single_value("Intake Settings", "records") else None
+		return doc.owner if frappe.db.get_single_value("Reading Settings", "records") else None
 	return of_folder(doc.folder)[1]
 
 

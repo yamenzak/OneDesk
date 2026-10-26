@@ -714,7 +714,7 @@ override_whitelisted_methods = {
 	"frappe.desk.search.search_link": "onedesk.one.apps.search_link",
 }
 
-ignore_links_on_delete = ["Intake Action", "Intake Lesson", "Reading", "Reading Party"]
+ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party"]
 
 has_permission = {
 	"Number Card": "onedesk.one.home.card_shown",
@@ -728,7 +728,7 @@ has_permission = {
 	"Webhook Request Log": "onedesk.one.webhooks.has_permission",
 	"Personal Data Deletion Request": "onedesk.one.privacy.has_permission",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.has_permission",
-	"Intake Action": "onedesk.one_ai.reading.act.has_permission",
+	"Reading Action": "onedesk.one_ai.reading.act.has_permission",
 	"Communication": "onedesk.one_mail.access.allowed",
 	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
@@ -758,7 +758,7 @@ permission_query_conditions = {
 	"Webhook Request Log": "onedesk.one.webhooks.log_query",
 	"Personal Data Deletion Request": "onedesk.one.privacy.query",
 	"Personal Data Download Request": "onedesk.one.privacy_copy.query",
-	"Intake Action": "onedesk.one_ai.reading.act.query",
+	"Reading Action": "onedesk.one_ai.reading.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
 	"Task": "onedesk.one_task.access.query",

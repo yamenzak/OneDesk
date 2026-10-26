@@ -3,5 +3,5 @@
 from frappe.model.document import Document
 
 
-class IntakeLesson(Document):
+class ReadingLesson(Document):
 	pass

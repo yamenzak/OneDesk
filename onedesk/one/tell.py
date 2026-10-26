@@ -471,7 +471,7 @@ def intake_changed(doc, changed: list[str]) -> None:
 	people = [one for one in _administrators() if one != frappe.session.user]
 	if not people:
 		return
-	meta = frappe.get_meta("Intake Settings")
+	meta = frappe.get_meta("Reading Settings")
 	said = []
 	for name in changed:
 		label = _(meta.get_label(name))

@@ -21,7 +21,7 @@ def _card(value: int, route: list, route_options: dict | None = None) -> dict:
 	}
 
 
-NEEDS = {"Documents Waiting": "OneIntake", "OneAI Suggestions": "OneAI"}
+NEEDS = {"Documents Waiting": "Reading", "OneAI Suggestions": "OneAI"}
 
 
 def card_shown(doc, ptype=None, user=None, debug=False) -> bool:

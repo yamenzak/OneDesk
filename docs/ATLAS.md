@@ -40,10 +40,10 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 
 | Screen | Lists | Not heard | Bare | Not the company's |
 |---|---|---|---|---|
-| project (`frontend/src/project/ProjectPage.vue`) | Cloud File Version, Comment, Contact, DocShare, Employee, File, Intake Action, Payment Schedule, Project, Quotation, Reading, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Cloud File Version, Comment, DocShare, Intake Action, Reading, Record Head | – | Employee, Project, Task, Timesheet |
+| project (`frontend/src/project/ProjectPage.vue`) | Cloud File Version, Comment, Contact, DocShare, Employee, File, Payment Schedule, Project, Quotation, Reading, Reading Action, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Cloud File Version, Comment, DocShare, Reading, Reading Action, Record Head | – | Employee, Project, Task, Timesheet |
 | template (`frontend/src/template/TemplatePage.vue`) | – | – | – | – |
-| task (`frontend/src/task/TaskPage.vue`) | Cloud File Version, Comment, DocShare, File, Intake Action, Reading, Task, Task Depends On, Timesheet, Timesheet Detail, User | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | Task, Timesheet |
-| item (`frontend/src/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Cloud File Version, Comment, DocShare, Employee, File, Intake Action, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Reading, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | – |
+| task (`frontend/src/task/TaskPage.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action, Task, Task Depends On, Timesheet, Timesheet Detail, User | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | Task, Timesheet |
+| item (`frontend/src/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Cloud File Version, Comment, DocShare, Employee, File, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Reading, Reading Action, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | stock (`frontend/src/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | home (`frontend/src/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
 | books (`frontend/src/home/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
@@ -64,8 +64,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
-| onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Intake Action, Reading, User Email | Communication, Communication Link, File, Intake Action, Reading, User Email | – | – |
-| onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Intake Action, Reading | Cloud File Version, Comment, DocShare, Intake Action, Reading | – | – |
+| onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
+| onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 
 ## erpnext / Accounts
 
@@ -896,10 +896,10 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | File Link | engine: what OneAI filed a document under | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Identifier | engine: numbers OneAI recognised a party by | the administrator | untouched | no | general |  | yes |  |  |  |  |
-| Intake Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |
-| Intake Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
-| Intake Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 | Reading | inside: a document OneAI read's Reading | the administrator | untouched | no | taught |  | yes |  |  |  | Couldn't Read, Phishing |
+| Reading Action | engine: what OneAI did with an item, shown in its inbox | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Reading Lesson | engine: what OneAI learnt from a correction | the administrator | untouched | no | general |  | **none** |  |  |  |  |
+| Reading Settings | inside: AICenter › Reading | the administrator | untouched | no | general |  |  |  |  |  |  |
 
 Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
 

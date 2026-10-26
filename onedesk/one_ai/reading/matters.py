@@ -141,7 +141,7 @@ def place(reading) -> None:
 		_head(reading)
 	else:
 		_place(reading)
-	quiet = cint(frappe.db.get_single_value("Intake Settings", "quiet_minutes"))
+	quiet = cint(frappe.db.get_single_value("Reading Settings", "quiet_minutes"))
 	now = now_datetime()
 	dates = [row.as_dict() for row in reading.dates]
 	reading.act_after = now if not quiet or urgent(dates, today(), reading.verdict) else add_to_date(now, minutes=quiet)
@@ -380,7 +380,7 @@ def records_of(matter: str) -> list[tuple[str, str]]:
 	if not readings:
 		return []
 	rows = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": ["in", readings], "kind": ["in", ("Attach", "Link")], "level": "Done"},
 		fields=["target_doctype", "target_name"],
 		order_by="creation asc",

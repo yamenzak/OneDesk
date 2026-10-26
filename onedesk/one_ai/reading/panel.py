@@ -167,7 +167,7 @@ def actions_of(reading: str) -> list[dict]:
 	reader may know it: a record they may not open is named by its type only."""
 	names = [reading, *frappe.get_all("Reading", filters={"part_of": reading}, pluck="name")]
 	rows = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": ["in", names], "level": ["in", ("Done", "Proposed", "Refused")]},
 		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "after", "before", "audit", "audit_why", "checked_by"],
 		order_by="creation asc",

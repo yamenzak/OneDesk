@@ -65,8 +65,8 @@
   {
    "fieldname": "action",
    "fieldtype": "Link",
-   "label": "Intake Action",
-   "options": "Intake Action",
+   "label": "Reading Action",
+   "options": "Reading Action",
    "read_only": 1
   },
   {
@@ -101,7 +101,7 @@
  "modified": "2026-09-28 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
- "name": "Intake Lesson",
+ "name": "Reading Lesson",
  "naming_rule": "Random",
  "owner": "Administrator",
  "permissions": [

@@ -185,7 +185,7 @@ def test_the_mark_is_taken_down_by_a_person_and_nothing_else():
 	assert '"before_rename": "onedesk.one_ai.reading.mark.before_rename"' in hooks
 	source = (ROOT / "mark.py").read_text()
 	assert "one_intake_writing" in source and "in_import" in source, "OneAI's own writes and imports do not count as looking"
-	assert '"Intake Action": "onedesk.one_ai.reading.act.query"' in hooks and '"Intake Action": "onedesk.one_ai.reading.act.has_permission"' in hooks
+	assert '"Reading Action": "onedesk.one_ai.reading.act.query"' in hooks and '"Reading Action": "onedesk.one_ai.reading.act.has_permission"' in hooks
 
 
 def test_a_first_look_names_the_rules_a_message_is_about():

@@ -21,10 +21,10 @@ VERDICTS = ("right", "wrong", "unsure")
 
 def run(name: str) -> None:
 	"""Audit one document's actions, once they are all made."""
-	if not cint(frappe.db.get_single_value("Intake Settings", "audit")):
+	if not cint(frappe.db.get_single_value("Reading Settings", "audit")):
 		return
 	rows = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": name, "level": ["in", ("Done", "Proposed")], "audit": ["in", ("", None)]},
 		fields=["name", "kind", "level", "target_doctype", "target_name", "why", "before", "after", "on_behalf_of", "flow"],
 		order_by="creation asc",
@@ -107,9 +107,9 @@ def decide(rows: list[dict], said: dict) -> None:
 		verdict = found.get(row["name"]) or {"verdict": "unsure", "why": ""}
 		audit = verdict["verdict"].title()
 		if row["level"] == "Done" or held(row) or audit == "Unsure":
-			frappe.db.set_value("Intake Action", row["name"], {"audit": audit, "audit_why": verdict["why"]}, update_modified=False)
+			frappe.db.set_value("Reading Action", row["name"], {"audit": audit, "audit_why": verdict["why"]}, update_modified=False)
 			continue
-		act.settle_for(frappe.get_doc("Intake Action", row["name"]), audit == "Right", verdict["why"])
+		act.settle_for(frappe.get_doc("Reading Action", row["name"]), audit == "Right", verdict["why"])
 
 
 def _ask(text: str) -> dict | None:

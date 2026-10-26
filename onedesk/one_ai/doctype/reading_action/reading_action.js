@@ -1,4 +1,4 @@
-frappe.ui.form.on("Intake Action", {
+frappe.ui.form.on("Reading Action", {
 	refresh(frm) {
 		const settle = (take) =>
 			frappe.xcall("onedesk.one_ai.reading.act.settle", { action: frm.doc.name, take }).then(() => frm.reload_doc());

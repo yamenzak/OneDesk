@@ -163,7 +163,7 @@ SCREENS = {
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",
-	"intake": "what Intake read and did (Reading, Intake Action)",
+	"intake": "what Intake read and did (Reading, Reading Action)",
 	"masters": "the simple lists, one home each",
 	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
 	"settings": "the reader's own settings",

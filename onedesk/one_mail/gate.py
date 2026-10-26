@@ -28,7 +28,7 @@ FIELDS = [
 
 #: What OneAI does with a mailbox's mail, each its own switch on the
 #: mailbox's OneAI tab, by the level it starts at. All are on until switched
-#: off (`one_ai_skips`); `job_of` says which one an Intake Action is.
+#: off (`one_ai_skips`); `job_of` says which one an Reading Action is.
 JOBS = {
 	SORT: ("junk", "newsletters"),
 	FILE: ("link", "attach", "tidy"),
@@ -66,7 +66,7 @@ TWO = {"task|renew": "hr", "task|unordered": "money", "task|contract": "money", 
 
 
 def job_of(key: str) -> str | None:
-	"""The job an Intake Action's key says it is (JOBS), or None for one
+	"""The job an Reading Action's key says it is (JOBS), or None for one
 	no switch covers. A key may start with its reading's or its matter's
 	key. Pure."""
 	parts = (key or "").split("|")

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 06:45+0000\n"
-"PO-Revision-Date: 2026-10-26 06:45+0000\n"
+"POT-Creation-Date: 2026-10-26 06:51+0000\n"
+"PO-Revision-Date: 2026-10-26 06:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -917,9 +917,9 @@ msgstr ""
 msgid "A list of addresses a newsletter goes to."
 msgstr ""
 
-#. Description of the 'Most Pages Read' (Int) field in DocType 'Intake
+#. Description of the 'Most Pages Read' (Int) field in DocType 'Reading
 #. Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "A longer scan is read up to this page and found by its name beyond it."
 msgstr ""
 
@@ -2041,13 +2041,13 @@ msgid "Acted On"
 msgstr ""
 
 #. Label of the action (Data) field in DocType 'Credit Reservation'
-#. Label of the section_what (Section Break) field in DocType 'Intake Action'
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
+#. Label of the section_what (Section Break) field in DocType 'Reading Action'
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:96
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/public/js/doctype_settings.js:476
 msgid "Action"
@@ -2153,14 +2153,14 @@ msgstr ""
 msgid "Actual Time"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/index.vue:616
 #: frontend/src/sheet/components/SheetEditor/index.vue:619
 #: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1744
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/report/books_check/books_check.js:16
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
 #: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:352
@@ -2888,10 +2888,10 @@ msgstr ""
 msgid "Advertising"
 msgstr ""
 
-#. Label of the after (JSON) field in DocType 'Intake Action'
+#. Label of the after (JSON) field in DocType 'Reading Action'
 #. Task in the Event project template
 #. Label of the after_json (Long Text) field in DocType 'Workbook Change'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_project/library/event.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 #: onedesk/public/js/head.js:181
@@ -4043,8 +4043,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:986
 #: frontend/src/sheet/components/SheetEditor/index.vue:1035
 #: frontend/src/sheet/components/SheetEditor/index.vue:1232
-#: onedesk/one_ai/doctype/intake_action/intake_action.js:6
-#: onedesk/one_ai/doctype/intake_action/intake_action.js:7
+#: onedesk/one_ai/doctype/reading_action/reading_action.js:6
+#: onedesk/one_ai/doctype/reading_action/reading_action.js:7
 msgid "Apply"
 msgstr ""
 
@@ -4992,10 +4992,10 @@ msgstr ""
 msgid "At: {0}"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/public/js/onecloud_picker.js:37
 #: onedesk/public/js/onecloud_picker.js:74
 msgid "Attach"
@@ -5176,8 +5176,8 @@ msgstr ""
 msgid "Audio Deleted On"
 msgstr ""
 
-#. Label of the audit (Select) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Label of the audit (Select) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Audit"
 msgstr ""
 
@@ -5186,8 +5186,8 @@ msgstr ""
 msgid "Audit Log"
 msgstr ""
 
-#. Label of the audit (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the audit (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Audit OneAI Actions"
 msgstr ""
 
@@ -5208,8 +5208,8 @@ msgstr ""
 msgid "Auditor Disagrees"
 msgstr ""
 
-#. Label of the audit_why (Small Text) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Label of the audit_why (Small Text) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Auditor's Reason"
 msgstr ""
 
@@ -5849,9 +5849,9 @@ msgstr ""
 msgid "Becomes {0}"
 msgstr ""
 
-#. Label of the before (JSON) field in DocType 'Intake Action'
+#. Label of the before (JSON) field in DocType 'Reading Action'
 #. Label of the before_json (Long Text) field in DocType 'Workbook Change'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 msgid "Before"
 msgstr ""
@@ -5996,9 +5996,9 @@ msgstr ""
 msgid "Below the confidence floor."
 msgstr ""
 
-#. Description of the 'Confidence Floor' (Percent) field in DocType 'Intake
+#. Description of the 'Confidence Floor' (Percent) field in DocType 'Reading
 #. Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Below this, OneAI's changes wait in Needs Review."
 msgstr ""
 
@@ -6720,8 +6720,8 @@ msgid "Buying, Selling and Stock"
 msgstr ""
 
 #. Label of the by (Select) field in DocType 'Tenant Event'
-#. Label of the by (Link) field in DocType 'Intake Lesson'
 #. Label of the by_date (Date) field in DocType 'Reading Ask'
+#. Label of the by (Link) field in DocType 'Reading Lesson'
 #. Label in the One Payment Order print format
 #. Label in the One Contract print format
 #. Label in the One Maintenance Plan print format
@@ -6734,8 +6734,8 @@ msgstr ""
 #: frontend/src/upkeep/UpkeepRows.vue:106
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:17
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.js:17
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -7585,7 +7585,7 @@ msgstr ""
 msgid "Checkbox"
 msgstr ""
 
-#. Label of the checked_by (Link) field in DocType 'Intake Action'
+#. Label of the checked_by (Link) field in DocType 'Reading Action'
 #. Label in the One Journal Voucher print format
 #. Label in the One Payment Voucher print format
 #. Label in the One Purchase Voucher print format
@@ -7593,7 +7593,7 @@ msgstr ""
 #. Label in the One Vehicle Log print format
 #. Label in the One Maintenance Record print format
 #. Label in the One Pick List print format
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
@@ -8365,14 +8365,14 @@ msgstr ""
 msgid "Comma"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/kit/ActivityComposer.vue:10
 #: frontend/src/sheet/components/SheetEditor/index.vue:1078
 #: frontend/src/sheet/components/SheetEditor/index.vue:1107
 #: frontend/src/writer/components/CoreEditor.vue:274
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Comment"
 msgstr ""
 
@@ -8658,8 +8658,8 @@ msgstr ""
 msgid "Conditions on the record, as frappe filters. Empty is always."
 msgstr ""
 
-#. Label of the floor (Percent) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the floor (Percent) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Confidence Floor"
 msgstr ""
 
@@ -9263,8 +9263,8 @@ msgstr ""
 msgid "Corner"
 msgstr ""
 
-#. Label of the what (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Label of the what (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Correction"
 msgstr ""
 
@@ -9644,14 +9644,14 @@ msgid "Covering until {0}"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Marketing Campaign project template
 #: frontend/src/mail/OneMail.vue:314
 #: frontend/src/writer/components/NewVersionDialog.vue:8
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_project/library/marketing_campaign.json
 #: onedesk/public/js/doctype_settings.js:254
 #: onedesk/public/js/doctype_settings.js:717
@@ -11354,10 +11354,10 @@ msgstr ""
 msgid "Delete {0}? This removes its permissions."
 msgstr ""
 
-#. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Correction' (Select) field in DocType 'Reading Lesson'
 #. Label in the One Transaction Deletion Record print format
 #: frontend/src/cloud/CloudPreview.vue:94
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/public/js/deleted_document_list.js:13
 #: onedesk/public/js/privacy_request_list.js:10
@@ -12029,7 +12029,7 @@ msgid "Designs approved"
 msgstr ""
 
 #. Name of a role
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -12049,8 +12049,8 @@ msgstr ""
 msgid "Detail"
 msgstr ""
 
-#. Label of the said (Small Text) field in DocType 'Intake Lesson'
 #. Label of the section_details (Section Break) field in DocType 'Reading'
+#. Label of the said (Small Text) field in DocType 'Reading Lesson'
 #. Label in the One Travel Request print format
 #: frontend/portal/src/pages/Record.vue:66
 #: frontend/portal/src/pages/Rfq.vue:109 frontend/src/cloud/OneCloud.vue:232
@@ -12059,8 +12059,8 @@ msgstr ""
 #: frontend/src/item/ItemOverview.vue:28 frontend/src/item/ItemSelling.vue:22
 #: frontend/src/item/ItemStock.vue:20 frontend/src/task/TaskPage.vue:96
 #: frontend/src/task/TaskPage.vue:192
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
 #: onedesk/public/js/project_actions.js:700
@@ -12280,14 +12280,14 @@ msgid "Discrimination"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:32
-#: onedesk/one_ai/doctype/intake_action/intake_action.js:8
+#: onedesk/one_ai/doctype/reading_action/reading_action.js:8
 msgid "Dismiss"
 msgstr ""
 
-#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
-#. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
+#. Option for the 'Correction' (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Dismissed"
 msgstr ""
 
@@ -12444,9 +12444,20 @@ msgstr ""
 
 #. Label of a number card
 #. Label of a number card in the One Workspace
+#. Name of a notification
 #: onedesk/one/number_card/documents_waiting/documents_waiting.json
-#: onedesk/one/workspace/one/one.json
+#: onedesk/one/workspace/one/one.json onedesk/one_ai/notifications.py
 msgid "Documents Waiting"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/one_ai/notifications.py
+msgid "Documents Waiting, One Thing"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/one_ai/notifications.py
+msgid "Documents Weekly"
 msgstr ""
 
 #: onedesk/one_doc/api.py:80
@@ -12515,7 +12526,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
-#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
 #. Label in the One Transaction Deletion Record print format
 #. Label in the One Contract print format
 #. Label in the One Appraisal print format
@@ -12532,7 +12543,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:25
 #: onedesk/one_admin/heads.py:31
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/heads.py:15
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -16085,8 +16096,8 @@ msgstr ""
 msgid "Flooring"
 msgstr ""
 
-#. Label of the flow (Data) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Label of the flow (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Flow"
 msgstr ""
 
@@ -18209,8 +18220,8 @@ msgstr ""
 msgid "Hours worked, on what."
 msgstr ""
 
-#. Label of the household (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the household (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Household"
 msgstr ""
 
@@ -18244,7 +18255,7 @@ msgid "How Old Stock Is"
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "How OneAI reads what arrives in this workspace."
 msgstr ""
 
@@ -18890,9 +18901,9 @@ msgstr ""
 msgid "If enabled, OneAI can't read this mailbox, including in the OneAI panel."
 msgstr ""
 
-#. Description of the 'Audit OneAI Actions' (Check) field in DocType 'Intake
+#. Description of the 'Audit OneAI Actions' (Check) field in DocType 'Reading
 #. Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "If enabled, a second check approves what OneAI did with each document or sends it to a person."
 msgstr ""
 
@@ -18903,8 +18914,8 @@ msgid "If enabled, a user may log two timesheet rows for the same hours."
 msgstr ""
 
 #. Description of the 'Submit Matching E-Invoices' (Check) field in DocType
-#. 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "If enabled, an e-invoice from a known supplier that matches its order is submitted."
 msgstr ""
 
@@ -18921,13 +18932,13 @@ msgid "If enabled, choosing a project on a sales invoice adds its billable times
 msgstr ""
 
 #. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
-#. 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "If enabled, files that match no record stay where they arrived."
 msgstr ""
 
-#. Description of the 'Household' (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Description of the 'Household' (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "If enabled, no drafts are made and Spending shows what was bought."
 msgstr ""
 
@@ -19648,38 +19659,6 @@ msgstr ""
 #. Label in the One Asset Card print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Insurer"
-msgstr ""
-
-#. Name of a DocType
-#. Label of the action (Link) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
-msgid "Intake Action"
-msgstr ""
-
-#. Name of a DocType
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
-msgid "Intake Lesson"
-msgstr ""
-
-#. Name of a DocType
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "Intake Settings"
-msgstr ""
-
-#. Name of a notification
-#: onedesk/one_ai/notifications.py
-msgid "Intake Waiting"
-msgstr ""
-
-#. Name of a notification
-#: onedesk/one_ai/notifications.py
-msgid "Intake Waiting, One Thing"
-msgstr ""
-
-#. Name of a notification
-#: onedesk/one_ai/notifications.py
-msgid "Intake Weekly"
 msgstr ""
 
 #. Label in the One Payment Reminder print format
@@ -21111,9 +21090,9 @@ msgstr ""
 msgid "Keeps {0} days"
 msgstr ""
 
-#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#. Option for the 'Audit' (Select) field in DocType 'Reading Action'
 #. Label of the pinned (Check) field in DocType 'Workbook Version'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 #: onedesk/public/js/one_ai/panel/Panel.vue:332
 msgid "Kept"
@@ -21159,11 +21138,11 @@ msgid "Kept on Account"
 msgstr ""
 
 #. Label of the key (Data) field in DocType 'Offering'
-#. Label of the key (Data) field in DocType 'Intake Action'
 #. Label of the key (Data) field in DocType 'Reading'
+#. Label of the key (Data) field in DocType 'Reading Action'
 #: onedesk/one_admin/doctype/offering/offering.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Key"
 msgstr ""
 
@@ -21211,8 +21190,8 @@ msgstr ""
 #. Label in the One Credit Ledger Entry print format
 #. Label of the kind (Select) field in DocType 'AI Proposal'
 #. Label of the kind (Select) field in DocType 'Identifier'
-#. Label of the kind (Select) field in DocType 'Intake Action'
 #. Label of the kind (Select) field in DocType 'Reading'
+#. Label of the kind (Select) field in DocType 'Reading Action'
 #. Label of the kind (Select) field in DocType 'Reading Reference'
 #. Label in the One Transaction Deletion Record print format
 #. Label in the One Employee Grievance print format
@@ -21232,8 +21211,8 @@ msgstr ""
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/identifier/identifier.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
@@ -21251,8 +21230,8 @@ msgstr ""
 msgid "Kind"
 msgstr ""
 
-#. Label of the kind (Data) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Label of the kind (Data) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Kind of Document"
 msgstr ""
 
@@ -21900,8 +21879,8 @@ msgstr ""
 msgid "Leave Type"
 msgstr ""
 
-#. Label of the keep_in_place (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the keep_in_place (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Leave Unmatched Files in Place"
 msgstr ""
 
@@ -22339,12 +22318,12 @@ msgstr ""
 msgid "Lines"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Label in the One Payment Request print format
 #: frontend/src/mail/MailConversation.vue:142
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
 msgid "Link"
 msgstr ""
@@ -22979,10 +22958,10 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #: onedesk/one/sidebar/one/one.json onedesk/one_ai/chat.py:327
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
 #: onedesk/one_storage/namespace.py:364 onedesk/public/js/window/form.js:136
@@ -24316,8 +24295,8 @@ msgstr ""
 msgid "More ways to split stock, such as a shelf or a project."
 msgstr ""
 
-#. Label of the most_pages (Int) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the most_pages (Int) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Most Pages Read"
 msgstr ""
 
@@ -24331,12 +24310,12 @@ msgid "Most Workspaces"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Office Move project template
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_project/library/office_move.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:26
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:72
@@ -24448,8 +24427,8 @@ msgstr ""
 msgid "Moved 1 item to the Recycle Bin"
 msgstr ""
 
-#. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Option for the 'Correction' (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Moved Back"
 msgstr ""
 
@@ -24792,7 +24771,7 @@ msgid "Needs Attention"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:94
-#: onedesk/one_ai/doctype/intake_action/intake_action_list.js:4
+#: onedesk/one_ai/doctype/reading_action/reading_action_list.js:4
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:23
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:34
 msgid "Needs Review"
@@ -27505,11 +27484,11 @@ msgstr ""
 
 #. Label of the one_intake_for (Link) field in DocType 'Email Account'
 #. Label of the one_intake_for (Link) field in DocType 'File'
-#. Label of the on_behalf_of (Link) field in DocType 'Intake Action'
 #. Label of the on_behalf_of (Link) field in DocType 'Reading'
+#. Label of the on_behalf_of (Link) field in DocType 'Reading Action'
 #: onedesk/one_ai/custom/email_account.json onedesk/one_ai/custom/file.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "On Behalf Of"
 msgstr ""
 
@@ -27947,7 +27926,7 @@ msgid "One short fact, in a sentence. OneAI reads the newest ones in every conve
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked."
 msgstr ""
 
@@ -28007,8 +27986,8 @@ msgstr ""
 msgid "OneAI"
 msgstr ""
 
-#. Label of the action_kind (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Label of the action_kind (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "OneAI Action"
 msgstr ""
 
@@ -28062,8 +28041,8 @@ msgstr ""
 msgid "OneAI Turned Off"
 msgstr ""
 
-#. Description of the 'Quiet Minutes' (Int) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Description of the 'Quiet Minutes' (Int) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
 msgstr ""
 
@@ -29647,14 +29626,14 @@ msgstr ""
 #. Label of the outcome_section (Section Break) field in DocType 'Account
 #. Request'
 #. Label of the done_section (Section Break) field in DocType 'AI Proposal'
-#. Label of the level (Select) field in DocType 'Intake Action'
+#. Label of the level (Select) field in DocType 'Reading Action'
 #. Label of the one_outcome (Select) field in DocType 'Sales Stage'
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
 #. Label in the One Exit Interview print format
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -30308,9 +30287,9 @@ msgstr ""
 msgid "Parts in {{ }} and {% %} are filled in when it is sent."
 msgstr ""
 
-#. Label of the party_name (Dynamic Link) field in DocType 'Intake Lesson'
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
 #. Label of the party_name (Dynamic Link) field in DocType 'Reading'
+#. Label of the party_name (Dynamic Link) field in DocType 'Reading Lesson'
 #. Label in the One Bank Transaction print format
 #. Label in the One Exchange Rate Revaluation print format
 #. Label in the One Journal Credit Note print format
@@ -30320,8 +30299,8 @@ msgstr ""
 #. Label in the One Payment Voucher print format
 #. Label in the One Process Payment Reconciliation print format
 #. Label of the party (Select) field in DocType 'Legal Acceptance'
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:19
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
@@ -30345,11 +30324,11 @@ msgid "Party Specific Item"
 msgstr ""
 
 #. Label of the party_type (Data) field in DocType 'Portal Link'
-#. Label of the party_doctype (Link) field in DocType 'Intake Lesson'
 #. Label of the party_doctype (Link) field in DocType 'Reading'
+#. Label of the party_doctype (Link) field in DocType 'Reading Lesson'
 #: onedesk/one/doctype/portal_link/portal_link.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Party Type"
 msgstr ""
 
@@ -32819,11 +32798,11 @@ msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'AI Proposal'
 #. Label of the changes (Code) field in DocType 'AI Proposal'
-#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
 #. Option for the 'Status' (Select) field in DocType 'Clock Network'
 #. Option for the 'Status' (Select) field in DocType 'Clock Place'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "Proposed"
@@ -33293,8 +33272,8 @@ msgstr ""
 msgid "Quick filter on column"
 msgstr ""
 
-#. Label of the quiet_minutes (Int) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the quiet_minutes (Int) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Quiet Minutes"
 msgstr ""
 
@@ -33574,8 +33553,8 @@ msgstr ""
 msgid "Read Check-ins"
 msgstr ""
 
-#. Label of the records (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the records (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Read Files Attached to Records"
 msgstr ""
 
@@ -33708,21 +33687,28 @@ msgstr ""
 
 #. Label of the one_reading (Link) field in DocType 'File'
 #. Label of the reading (Link) field in DocType 'File Link'
-#. Label of the reading (Link) field in DocType 'Intake Action'
-#. Label of the reading (Link) field in DocType 'Intake Lesson'
 #. Name of a DocType
 #. Label of the section_reading (Section Break) field in DocType 'Reading'
+#. Label of the reading (Link) field in DocType 'Reading Action'
+#. Label of the reading (Link) field in DocType 'Reading Lesson'
 #: onedesk/one/apps.py:31 onedesk/one/settings.py:33
 #: onedesk/one_ai/custom/file.json
 #: onedesk/one_ai/doctype/file_link/file_link.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/public/js/one_ai/ai_center.js:105
 #: onedesk/public/js/one_ai/ai_center.js:107
 #: onedesk/public/js/one_ai/ai_center.js:113
 #: onedesk/public/js/one_ai/ai_center.js:116
 msgid "Reading"
+msgstr ""
+
+#. Name of a DocType
+#. Label of the action (Link) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
+msgid "Reading Action"
 msgstr ""
 
 #. Name of a DocType
@@ -33741,6 +33727,11 @@ msgid "Reading Date"
 msgstr ""
 
 #. Name of a DocType
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
+msgid "Reading Lesson"
+msgstr ""
+
+#. Name of a DocType
 #: onedesk/one_ai/doctype/reading_line/reading_line.json
 msgid "Reading Line"
 msgstr ""
@@ -33753,6 +33744,11 @@ msgstr ""
 #. Name of a DocType
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json
 msgid "Reading Reference"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
+msgid "Reading Settings"
 msgstr ""
 
 #: onedesk/one_ai/reading/switches.py:219
@@ -34057,7 +34053,7 @@ msgstr ""
 #. Label of the record (Data) field in DocType 'AI Proposal'
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
-#. Label of the target_name (Dynamic Link) field in DocType 'Intake Action'
+#. Label of the target_name (Dynamic Link) field in DocType 'Reading Action'
 #. Label of the bound_name (Dynamic Link) field in DocType 'Writer Document'
 #. Label of the bound_name (Dynamic Link) field in DocType 'Workbook'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Cloud File
@@ -34071,7 +34067,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_ai/doctype/identifier/identifier.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/report/deadlines/deadlines.py:38
 #: onedesk/one_book/heads.py:569
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
@@ -34169,16 +34165,16 @@ msgstr ""
 
 #. Label of the reference_doctype (Link) field in DocType 'Portal Link'
 #. Label of the for_doctype (Data) field in DocType 'AI Proposal'
-#. Label of the target_doctype (Link) field in DocType 'Intake Action'
-#. Label of the target_doctype (Link) field in DocType 'Intake Lesson'
+#. Label of the target_doctype (Link) field in DocType 'Reading Action'
+#. Label of the target_doctype (Link) field in DocType 'Reading Lesson'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
 #: frontend/src/mail/MailConversation.vue:139
 #: onedesk/one/doctype/portal_link/portal_link.json
 #: onedesk/one/settings.py:1590 onedesk/one/settings.py:1887
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/doctype_settings.js:732
@@ -34448,12 +34444,12 @@ msgid "Refuse Check-in Without Passkey"
 msgstr ""
 
 #. Option for the 'State' (Select) field in DocType 'AI Proposal'
-#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
+#. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
 #. Option for the 'Outcome' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #. Option for the 'Review' (Select) field in DocType 'Extension'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/heads.py:16
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -34847,8 +34843,8 @@ msgstr ""
 msgid "Removing the address"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/cloud/OneCloud.vue:538 frontend/src/cloud/OneCloud.vue:625
 #: frontend/src/mail/OneMail.vue:287 frontend/src/mail/OneMail.vue:321
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
@@ -34856,8 +34852,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:742
 #: frontend/src/writer/DocumentPage.vue:287
 #: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1744
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/public/js/one_ai/panel/Panel.vue:23
 #: onedesk/public/js/one_ai/panel/Panel.vue:491 onedesk/public/js/record.js:160
 msgid "Rename"
@@ -35944,9 +35940,9 @@ msgstr ""
 msgid "Rewrite with OneAI"
 msgstr ""
 
-#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#. Option for the 'Audit' (Select) field in DocType 'Reading Action'
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:12
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/public/js/settings.js:1865
 msgid "Right"
 msgstr ""
@@ -36122,8 +36118,8 @@ msgstr ""
 msgid "Run Now"
 msgstr ""
 
-#. Label of the as_person (Check) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Label of the as_person (Check) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Run as Recipient"
 msgstr ""
 
@@ -36611,8 +36607,8 @@ msgid "Scan with your banking app"
 msgstr ""
 
 #. Description of the 'Read Files Attached to Records' (Check) field in DocType
-#. 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Scans and photos attached on a form are read too, on behalf of whoever attached them."
 msgstr ""
 
@@ -39155,7 +39151,7 @@ msgid "Something a model suggested doing. Nothing happens until a person presses
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr ""
 
@@ -40444,8 +40440,8 @@ msgstr ""
 msgid "Submit"
 msgstr ""
 
-#. Label of the submit_einvoices (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+#. Label of the submit_einvoices (Check) field in DocType 'Reading Settings'
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Submit Matching E-Invoices"
 msgstr ""
 
@@ -40903,11 +40899,11 @@ msgstr ""
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr ""
 
-#. Label of the confidence (Percent) field in DocType 'Intake Action'
 #. Label of the confidence (Percent) field in DocType 'Reading'
+#. Label of the confidence (Percent) field in DocType 'Reading Action'
 #. Label of the score (Float) field in DocType 'Reading Party'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
 msgid "Sureness"
 msgstr ""
@@ -41051,10 +41047,10 @@ msgstr ""
 msgid "Table of Contents"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Tag"
 msgstr ""
 
@@ -42739,8 +42735,8 @@ msgstr ""
 msgid "The full download is ready"
 msgstr ""
 
-#. Description of the 'Flow' (Data) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Description of the 'Flow' (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "The function that makes the record, when it is not a plain insert."
 msgstr ""
 
@@ -46197,7 +46193,7 @@ msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:480
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
-#: onedesk/one_ai/doctype/intake_action/intake_action.js:11
+#: onedesk/one_ai/doctype/reading_action/reading_action.js:11
 #: onedesk/public/js/one_ai/intake.js:18
 #: onedesk/public/js/one_ai/panel/Panel.vue:121
 msgid "Undo"
@@ -46215,18 +46211,18 @@ msgstr ""
 msgid "Undo what OneAI did here?"
 msgstr ""
 
-#. Option for the 'Outcome' (Select) field in DocType 'Intake Action'
-#. Option for the 'Correction' (Select) field in DocType 'Intake Lesson'
+#. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
+#. Option for the 'Correction' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/intake/IntakeReading.vue:126
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/public/js/one_ai/ai_center.js:130
 #: onedesk/public/js/one_ai/intake.js:35
 msgid "Undone"
 msgstr ""
 
-#. Label of the undone_by (Link) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Label of the undone_by (Link) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Undone By"
 msgstr ""
 
@@ -46471,11 +46467,11 @@ msgstr ""
 msgid "Unstar"
 msgstr ""
 
-#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
 #. Label of the unsure (Check) field in DocType 'Reading'
+#. Option for the 'Audit' (Select) field in DocType 'Reading Action'
 #: frontend/src/intake/IntakePanel.vue:8
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Unsure"
 msgstr ""
 
@@ -46563,17 +46559,17 @@ msgid "Up to {0}"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#. Option for the 'Kind' (Select) field in DocType 'Intake Action'
-#. Option for the 'OneAI Action' (Select) field in DocType 'Intake Lesson'
 #. Option for the 'Change' (Select) field in DocType 'Reading'
+#. Option for the 'Kind' (Select) field in DocType 'Reading Action'
+#. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Label in the One Project Update print format
 #: frontend/portal/src/pages/Password.vue:4
 #: frontend/src/writer/components/WriterSettings.vue:134
 #: onedesk/one_admin/home.py:385 onedesk/one_ai/chat.py:336
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 #: onedesk/public/js/doctype_settings.js:415
 #: onedesk/public/js/doctype_settings.js:926
@@ -48270,8 +48266,8 @@ msgstr ""
 msgid "What suppliers have billed you."
 msgstr ""
 
-#. Description of the 'Audit' (Select) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Description of the 'Audit' (Select) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "What the auditor said of it, or Kept when a person kept what the auditor doubted."
 msgstr ""
 
@@ -48601,8 +48597,8 @@ msgstr ""
 msgid "What was deleted lately?"
 msgstr ""
 
-#. Description of the 'Key' (Data) field in DocType 'Intake Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#. Description of the 'Key' (Data) field in DocType 'Reading Action'
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "What was done and for what, so the same thing is never done twice."
 msgstr ""
 
@@ -50906,10 +50902,10 @@ msgstr ""
 msgid "Whose permissions were checked when this was written, and whose will be checked again."
 msgstr ""
 
-#. Label of the why (Small Text) field in DocType 'Intake Action'
+#. Label of the why (Small Text) field in DocType 'Reading Action'
 #. Label in the One Employee Referral print format
 #: frontend/src/to_order/ToOrderPage.vue:19
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_hr/print_format/one_employee_referral/one_employee_referral.json
 msgid "Why"
 msgstr ""
@@ -51514,10 +51510,10 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/one_ai/doctype/file_link/file_link.json
 #: onedesk/one_ai/doctype/identifier/identifier.json
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
-#: onedesk/one_ai/doctype/intake_lesson/intake_lesson.json
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+#: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
@@ -51937,9 +51933,9 @@ msgstr ""
 msgid "Written Value"
 msgstr ""
 
-#. Description of the 'Run as Recipient' (Check) field in DocType 'Intake
+#. Description of the 'Run as Recipient' (Check) field in DocType 'Reading
 #. Action'
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Written as the person it was read for, for a flow that checks who is signed in."
 msgstr ""
 
@@ -51976,9 +51972,9 @@ msgstr ""
 msgid "Written {0}."
 msgstr ""
 
-#. Option for the 'Audit' (Select) field in DocType 'Intake Action'
+#. Option for the 'Audit' (Select) field in DocType 'Reading Action'
 #: onedesk/one_admin/report/price_check/price_check.py:68
-#: onedesk/one_ai/doctype/intake_action/intake_action.json
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
 msgid "Wrong"
 msgstr ""
 

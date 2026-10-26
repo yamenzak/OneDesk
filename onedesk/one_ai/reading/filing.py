@@ -170,7 +170,7 @@ def where_of(reading, held: str | None = None) -> dict | None:
 		"kind_label": kind_label,
 		"advertising_label": _("Advertising", lang=language),
 		"newsletters_label": _("Newsletters", lang=language),
-		"file_away": not cint(frappe.db.get_single_value("Intake Settings", "keep_in_place")),
+		"file_away": not cint(frappe.db.get_single_value("Reading Settings", "keep_in_place")),
 	}
 	if reading.source_doctype == "Communication" and not reading.part_of:
 		comm = frappe.db.get_value("Communication", reading.source_name, ["name", "email_account", "one_folder", "sent_or_received"], as_dict=True)
@@ -246,7 +246,7 @@ def _part_file(reading) -> str | None:
 		),
 		reading,
 	)
-	return frappe.db.get_value("Intake Action", done, "target_name") if done else None
+	return frappe.db.get_value("Reading Action", done, "target_name") if done else None
 
 
 def _pages(said: str) -> list[int]:
@@ -285,5 +285,5 @@ def forget(doc, method=None) -> None:
 	"""on_trash: a file or a record that goes takes its File Links with it."""
 	if doc.doctype == "File":
 		frappe.db.delete("File Link", {"file": doc.name})
-	elif doc.doctype not in ("File Link", "Intake Action", "AI Touch"):
+	elif doc.doctype not in ("File Link", "Reading Action", "AI Touch"):
 		frappe.db.delete("File Link", {"for_doctype": doc.doctype, "for_name": doc.name})

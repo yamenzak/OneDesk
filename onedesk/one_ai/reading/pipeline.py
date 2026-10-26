@@ -299,7 +299,7 @@ MOST_PAGES = 60
 
 
 def _most_pages() -> int:
-	return cint(frappe.db.get_single_value("Intake Settings", "most_pages")) or MOST_PAGES
+	return cint(frappe.db.get_single_value("Reading Settings", "most_pages")) or MOST_PAGES
 
 
 def read_mail(name: str, history: int = 0, automatic: int = 0) -> str | None:

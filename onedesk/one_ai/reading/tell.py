@@ -33,12 +33,12 @@ def waiting(name: str) -> None:
 	reading = frappe.db.get_value("Reading", name, ["name", "title", "on_behalf_of", "change"], as_dict=True)
 	if not reading or not reading.on_behalf_of or reading.change == "Nothing New":
 		return
-	waiting = frappe.db.sql(f"select count(*) from `tabIntake Action` a where a.reading = %s and {WAITS}", name)[0][0]
+	waiting = frappe.db.sql(f"select count(*) from `tabReading Action` a where a.reading = %s and {WAITS}", name)[0][0]
 	email = frappe.db.get_value("User", reading.on_behalf_of, "email")
 	if not waiting or not email:
 		return
 	notify.notify(
-		"Intake Waiting" if waiting > 1 else "Intake Waiting, One Thing",
+		"Documents Waiting" if waiting > 1 else "Documents Waiting, One Thing",
 		email,
 		record=("Reading", name),
 		link=f"/app/intake?box=waiting&reading={name}",
@@ -74,7 +74,7 @@ def weekly(email: str, week: dict, waiting: list, said: str) -> None:
 	from markupsafe import Markup
 
 	notify.notify(
-		"Intake Weekly",
+		"Documents Weekly",
 		email,
 		link="/desk/query-report/Deadlines",
 		sender=notify.ONEAI,

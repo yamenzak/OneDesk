@@ -1,6 +1,6 @@
 """What OneMail adds to the agreements: who carries the mail, and the two
 lookups it makes to draw people's faces and organisations' logos
-(one_mail/faces.py). See one_legal/README.md."""
+(one_mail/faces.py). See one_legal/AGENTS.md."""
 
 from onedesk.one_legal.registry import clause, service, subprocessor
 

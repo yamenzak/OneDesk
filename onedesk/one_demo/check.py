@@ -2497,13 +2497,13 @@ def oneintake_layla_works_through_what_oneai_read():
 			assert asked.call_count == 1, "explained once, then read back"
 
 		contract = _sample("signed-contract")
-		proposed = frappe.get_all("Intake Action", filters={"reading": contract, "level": "Proposed"}, pluck="name")[0]
+		proposed = frappe.get_all("Reading Action", filters={"reading": contract, "level": "Proposed"}, pluck="name")[0]
 		act.settle(proposed, 0)
-		assert frappe.db.get_value("Intake Action", proposed, "level") != "Proposed"
-		contact = frappe.db.get_value("Intake Action", {"reading": contract, "target_doctype": "Contact", "level": "Done"}, "name")
+		assert frappe.db.get_value("Reading Action", proposed, "level") != "Proposed"
+		contact = frappe.db.get_value("Reading Action", {"reading": contract, "target_doctype": "Contact", "level": "Done"}, "name")
 		assert act.undo_one(contact)["undone"] == 1
 		drawings = _sample("drawings-request")
-		task = frappe.db.get_value("Intake Action", {"reading": drawings, "target_doctype": "Task", "level": "Done"}, "target_name")
+		task = frappe.db.get_value("Reading Action", {"reading": drawings, "target_doctype": "Task", "level": "Done"}, "target_name")
 		assert act.undo(drawings)["undone"] >= 1 and not frappe.db.exists("Task", task)
 
 		marked = [
@@ -3404,7 +3404,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	try:
 		with as_user(OWNER):
 			apps.save(["OneAI"])
-			assert {"OneAI", "OneIntake"} <= set(apps.hidden()), apps.hidden()
+			assert {"OneAI", "Reading"} <= set(apps.hidden()), apps.hidden()
 			try:
 				run.once("chat_title", "anything")
 			except faults.Refused:
@@ -3433,10 +3433,10 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 			sidebars = get_module_sidebars()
 			apps.trim(sidebars)
 			labels = {item.get("label") for item in sidebars["One"]["items"] if item.get("type") == "Section Break"}
-			assert not labels & {"OneAI", "OneIntake"}, labels
+			assert not labels & {"OneAI", "Reading"}, labels
 			assert "One Intake" not in sidebars
 			assert all(item.get("link_to") != "Ready to Submit" for item in (sidebars.get("OneBook") or {}).get("items", []))
-			apps.save(["OneIntake"])
+			apps.save(["Reading"])
 			assert apps.ai_on() and not apps.intake_on()
 			apps.save([])
 			assert apps.intake_on() and hiring.on("one_ai_screen") == bool(frappe.db.get_single_value("HR Settings", "one_ai_screen"))

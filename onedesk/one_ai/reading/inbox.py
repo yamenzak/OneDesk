@@ -27,10 +27,10 @@ def _scope(everyone: bool) -> tuple[str, dict]:
 
 def _box(box: str) -> str:
 	"""Which documents a box holds. A document is in one box only."""
-	waiting = f"exists (select 1 from `tabIntake Action` a where a.reading = r.name and {WAITS})"
+	waiting = f"exists (select 1 from `tabReading Action` a where a.reading = r.name and {WAITS})"
 	if box == "waiting":
 		return waiting
-	return f"exists (select 1 from `tabIntake Action` a where a.reading = r.name and a.level = 'Done') and not {waiting}"
+	return f"exists (select 1 from `tabReading Action` a where a.reading = r.name and a.level = 'Done') and not {waiting}"
 
 
 @frappe.whitelist()
@@ -44,9 +44,9 @@ def listing(
 	scope, values = _scope(bool(int(everyone)))
 	rows = frappe.db.sql(
 		f"""select r.name, r.title, r.kind, r.summary, r.on_behalf_of, r._seen, r.verdict,
-			(select max(a.modified) from `tabIntake Action` a where a.reading = r.name) as happened,
-			(select count(*) from `tabIntake Action` a where a.reading = r.name and a.level = 'Done') as done,
-			(select count(*) from `tabIntake Action` a where a.reading = r.name and {WAITS}) as waiting
+			(select max(a.modified) from `tabReading Action` a where a.reading = r.name) as happened,
+			(select count(*) from `tabReading Action` a where a.reading = r.name and a.level = 'Done') as done,
+			(select count(*) from `tabReading Action` a where a.reading = r.name and {WAITS}) as waiting
 		from `tabReading` r
 		where {scope} and {_box(box)}
 		order by happened desc limit %(most)s offset %(start)s""",
@@ -81,7 +81,7 @@ def counts() -> dict:
 	waiting, unread = frappe.db.sql(
 		f"""select
 			sum({_box("waiting")}),
-			sum(ifnull(r._seen, '') not like %(like)s and exists (select 1 from `tabIntake Action` a where a.reading = r.name and a.level in ('Done', 'Proposed')))
+			sum(ifnull(r._seen, '') not like %(like)s and exists (select 1 from `tabReading Action` a where a.reading = r.name and a.level in ('Done', 'Proposed')))
 		from `tabReading` r where {scope}""",
 		{**values, "like": like},
 	)[0]
@@ -102,11 +102,11 @@ def item(name: Annotated[str, "The Reading."]) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def keep(action: Annotated[str, "The Intake Action the auditor doubted."]) -> dict:
+def keep(action: Annotated[str, "The Reading Action the auditor doubted."]) -> dict:
 	"""A person keeps what the auditor thought wrong."""
 	from onedesk.one_ai.reading import act
 
-	row = frappe.get_doc("Intake Action", action)
+	row = frappe.get_doc("Reading Action", action)
 	act._may_decide(row)
 	row.db_set("audit", "Kept")
 	return {"audit": "Kept"}

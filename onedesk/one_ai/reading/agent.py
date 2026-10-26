@@ -111,7 +111,7 @@ def told(reading) -> str:
 		"already_done": [
 			f"{one.level}: {one.kind} {one.target_doctype} {one.target_name or ''}".strip()
 			for one in frappe.get_all(
-				"Intake Action",
+				"Reading Action",
 				filters={"reading": reading.name},
 				fields=["kind", "target_doctype", "target_name", "level"],
 				order_by="creation asc",
@@ -134,7 +134,7 @@ def _done(action: act.Action) -> dict:
 	reading = _reading()
 	action.key = f"{reading.key[:80]}|agent|{action.kind}|{action.doctype}|{action.name or ''}|{_digest(action.values)}"
 	made = act.apply(action, reading)
-	row = frappe.db.get_value("Intake Action", made, ["level", "target_name", "why"], as_dict=True) if made else None
+	row = frappe.db.get_value("Reading Action", made, ["level", "target_name", "why"], as_dict=True) if made else None
 	if not row:
 		return {"state": "Not done", "why": "There is nobody this document is read for."}
 	return {

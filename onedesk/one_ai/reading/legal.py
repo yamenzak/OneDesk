@@ -1,6 +1,6 @@
 """What reading adds to the agreements. It is the one part of One that acts
 without being asked each time, so the AI Addendum has to say so plainly. See
-one_legal/README.md and one_ai/reading/README.md."""
+one_legal/AGENTS.md and one_ai/AGENTS.md, Reading what arrives."""
 
 from onedesk.one_legal.registry import clause
 

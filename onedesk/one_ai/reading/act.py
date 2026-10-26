@@ -113,11 +113,11 @@ def apply(action: Action, reading) -> str | None:
 	key = key_of(reading.key, action)
 	if not _does(reading, key) or _ruled(reading, action):
 		return None
-	held = frappe.db.get_value("Intake Action", {"key": key}, "name")
+	held = frappe.db.get_value("Reading Action", {"key": key}, "name")
 	if held:
 		return held
 
-	row = frappe.new_doc("Intake Action")
+	row = frappe.new_doc("Reading Action")
 	row.update(
 		{
 			"kind": action.kind,
@@ -198,7 +198,7 @@ def _insert(row) -> str:
 	try:
 		row.insert(ignore_permissions=True)
 	except frappe.DuplicateEntryError:
-		return frappe.db.get_value("Intake Action", {"key": row.key}, "name")
+		return frappe.db.get_value("Reading Action", {"key": row.key}, "name")
 	return row.name
 
 
@@ -209,7 +209,7 @@ def _join(said: str | None, more: str) -> str:
 
 
 def _floor() -> float:
-	return flt(frappe.db.get_single_value("Intake Settings", "floor")) or FLOOR
+	return flt(frappe.db.get_single_value("Reading Settings", "floor")) or FLOOR
 
 
 @contextmanager
@@ -450,7 +450,7 @@ def settle(action: str, take: int = 1) -> dict:
 	"""Apply or dismiss something OneAI proposed. Applied, it is done as the
 	person pressing Apply, under their own permission, and carries no mark:
 	a person decided to make it."""
-	row = frappe.get_doc("Intake Action", action)
+	row = frappe.get_doc("Reading Action", action)
 	_may_decide(row)
 	if row.level != "Proposed":
 		frappe.throw(_("This was already {0}.").format(_(row.level).lower()))
@@ -534,10 +534,10 @@ def undo(reading: str) -> dict:
 	"""Take back everything done because of one document, and its parts,
 	newest first. Answers what was undone and what was kept, and why."""
 	names = [reading, *frappe.get_all("Reading", filters={"part_of": reading}, pluck="name")]
-	rows = frappe.get_all("Intake Action", filters={"reading": ["in", names], "level": "Done"}, pluck="name", order_by="creation desc")
+	rows = frappe.get_all("Reading Action", filters={"reading": ["in", names], "level": "Done"}, pluck="name", order_by="creation desc")
 	undone, kept = 0, []
 	for name in rows:
-		row = frappe.get_doc("Intake Action", name)
+		row = frappe.get_doc("Reading Action", name)
 		_may_decide(row)
 		why = take_back(row)
 		if why:
@@ -549,7 +549,7 @@ def undo(reading: str) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def undo_one(action: str) -> dict:
-	row = frappe.get_doc("Intake Action", action)
+	row = frappe.get_doc("Reading Action", action)
 	_may_decide(row)
 	if row.level != "Done":
 		frappe.throw(_("This was already {0}.").format(_(row.level).lower()))
@@ -695,14 +695,14 @@ UNDO = {
 
 
 def query(user=None) -> str:
-	"""Intake Action list: a person sees what OneAI did on their behalf; an
+	"""Reading Action list: a person sees what OneAI did on their behalf; an
 	administrator sees all of it."""
 	from onedesk.one.roles import administers
 
 	user = user or frappe.session.user
 	if administers(user):
 		return ""
-	return f"`tabIntake Action`.on_behalf_of = {frappe.db.escape(user)}"
+	return f"`tabReading Action`.on_behalf_of = {frappe.db.escape(user)}"
 
 
 def has_permission(doc, ptype=None, user=None, debug=False) -> bool:

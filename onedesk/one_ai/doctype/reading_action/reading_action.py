@@ -3,5 +3,5 @@
 from frappe.model.document import Document
 
 
-class IntakeAction(Document):
+class ReadingAction(Document):
 	pass

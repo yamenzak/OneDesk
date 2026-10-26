@@ -190,7 +190,7 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
 - **DATEV export** for a business's tax year (§16.6).
 - **Keeping periods elsewhere**: countries other than Germany and the
   Emirates, and mail deleted in OneMail (§16.10).
-- **Credits used this month** in Intake Settings (§14).
+- **Credits used this month** in Reading Settings (§14).
 - **An asset from an equipment invoice**, with its warranty in Deadlines
   (§3.1, §16.7).
 - **An order confirmation** matched to our Purchase Order, with changed dates

@@ -19474,33 +19474,29 @@ msgstr "شركة التأمين"
 #. Label of the action (Link) field in DocType 'Intake Lesson'
 #: onedesk/one_intake/doctype/intake_action/intake_action.json
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-msgid "Intake Action"
-msgstr "إجراء الاستلام"
+msgid "Reading Action"
+msgstr "إجراء القراءة"
 
 #. Name of a DocType
 #: onedesk/one_intake/doctype/intake_lesson/intake_lesson.json
-msgid "Intake Lesson"
-msgstr "درس الاستلام"
+msgid "Reading Lesson"
+msgstr "درس القراءة"
 
 #. Name of a DocType
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "Intake Settings"
-msgstr "إعدادات الاستلام"
+msgid "Reading Settings"
+msgstr "إعدادات القراءة"
 
-#. Name of a notification
-#: onedesk/notifications/one_intake/intake_waiting.md
-msgid "Intake Waiting"
-msgstr "بانتظارك في الوارد"
 
 #. Name of a notification
 #: onedesk/notifications/one_intake/intake_waiting_one_thing.md
-msgid "Intake Waiting, One Thing"
-msgstr "بانتظارك في الوارد، أمر واحد"
+msgid "Documents Waiting, One Thing"
+msgstr "مستندات بانتظارك، أمر واحد"
 
 #. Name of a notification
 #: onedesk/notifications/one_intake/intake_weekly.md
-msgid "Intake Weekly"
-msgstr "الوارد الأسبوعي"
+msgid "Documents Weekly"
+msgstr "المستندات الأسبوعية"
 
 #. Label in the One Payment Reminder print format
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json

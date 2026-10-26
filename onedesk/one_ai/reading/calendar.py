@@ -114,7 +114,7 @@ def settled(readings: dict) -> set[str]:
 	closed = set(frappe.get_all("Reading", filters={"name": ["in", list(heads)], "matter_state": "Closed"}, pluck="name")) if heads else set()
 	out = {name for name, one in readings.items() if one.matter in closed}
 	made = frappe.get_all(
-		"Intake Action",
+		"Reading Action",
 		filters={"reading": ["in", list(readings)], "kind": ["in", ("Create", "Link")], "target_doctype": ["in", ("Task", *INVOICES)], "undone_by": ["is", "not set"]},
 		fields=["reading", "target_doctype", "target_name"],
 	)

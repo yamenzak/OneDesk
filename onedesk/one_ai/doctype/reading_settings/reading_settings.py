@@ -3,7 +3,7 @@
 from frappe.model.document import Document
 
 
-class IntakeSettings(Document):
+class ReadingSettings(Document):
 	def onload(self):
 		from onedesk.one_ai.reading import digest
 

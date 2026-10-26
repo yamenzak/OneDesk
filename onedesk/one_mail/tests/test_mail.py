@@ -832,7 +832,7 @@ def test_a_sender_is_verified_only_by_the_receiving_servers_own_results():
 	assert not theirs["verified"](Mail([]), "ana@shop.example") and not theirs["verified"](None, "ana@shop.example")
 
 
-def test_every_intake_action_belongs_to_a_job_a_mailbox_can_switch_off():
+def test_every_reading_action_belongs_to_a_job_a_mailbox_can_switch_off():
 	gate = _load(MAIL / "gate.py", ("HEADS", "TWO", "job_of"))
 	intake = MAIL.parent / "one_ai" / "reading"
 	keys = set()

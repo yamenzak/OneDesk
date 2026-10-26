@@ -58,7 +58,7 @@ def test_oneai_and_reading_off_leave_ones_sidebar_and_others_links():
 	space.update(
 		json=__import__("json"),
 		AI="OneAI",
-		INTAKE="OneIntake",
+		INTAKE="Reading",
 		MEMORY={"link_to": "settings", "route_options": {"section": "memory"}},
 		READS=({"link_to": "intake"}, {"link_to": "Ready to Submit"}, {"link_to": "settings", "route_options": {"section": "reads"}}),
 	)
@@ -72,10 +72,10 @@ def test_oneai_and_reading_off_leave_ones_sidebar_and_others_links():
 		{"type": "Section Break", "label": "Audit Log"},
 		{"type": "Link", "label": "Changes", "link_to": "Version"},
 	]
-	kept, gone = space["sectioned"](items, {"OneIntake"})
+	kept, gone = space["sectioned"](items, {"Reading"})
 	assert [one["label"] for one in kept] == ["What OneAI Remembers", "OneAI", "AICenter", "Audit Log", "Changes"]
 	assert ("Ready to Submit", "null") in gone and ("intake", "null") in gone
-	kept, gone = space["sectioned"](items, {"OneAI", "OneIntake"})
+	kept, gone = space["sectioned"](items, {"OneAI", "Reading"})
 	assert [one["label"] for one in kept] == ["Audit Log", "Changes"], "What OneAI Remembers goes with OneAI"
 	assert ("workspace-settings", '{"section": "oneai"}') in gone
 

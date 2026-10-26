@@ -1,7 +1,7 @@
 """The week, and the month, in one number each (onedesk/one_ai/reading/README.md §14, §16.9).
 
 **The weekly digest** goes to each person OneAI read for this week, and **the
-monthly number** is what a workspace pays OneAI for, in Intake Settings.
+monthly number** is what a workspace pays OneAI for, in Reading Settings.
 """
 
 import frappe
@@ -27,7 +27,7 @@ def measured(start, end, person: str | None = None) -> dict:
 	arrived = frappe.db.sql(f"select count(*) from `tabReading` where {where}", values)[0][0]
 	needed = frappe.db.sql(
 		f"""select count(*) from `tabReading` where {where} and (unsure = 1 or name in (
-			select reading from `tabIntake Action` where level in ('Proposed', 'Refused')))""",
+			select reading from `tabReading Action` where level in ('Proposed', 'Refused')))""",
 		values,
 	)[0][0]
 	return {"arrived": arrived, "needed": needed, "handled": arrived - needed}
@@ -73,7 +73,7 @@ def send(person: str, since, until) -> None:
 	lang = frappe.db.get_value("User", person, "language") or frappe.db.get_default("lang") or "en"
 	frappe.local.lang = lang
 	waiting = frappe.db.sql(
-		"""select r.name, r.title from `tabIntake Action` a join `tabReading` r on r.name = a.reading
+		"""select r.name, r.title from `tabReading Action` a join `tabReading` r on r.name = a.reading
 		where a.level = 'Proposed' and r.on_behalf_of = %s group by r.name order by max(a.creation) desc limit 20""",
 		person,
 		as_dict=True,
