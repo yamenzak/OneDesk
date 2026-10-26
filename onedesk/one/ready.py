@@ -92,11 +92,11 @@ MODULES = {
 		"names": ("one_ai", "oneai"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-26", "commit": "b76adf574e2b", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-26", "commit": "b76adf574e2b", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-26", "commit": "b76adf574e2b", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-26", "commit": "b76adf574e2b", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-26", "commit": "b76adf574e2b", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
