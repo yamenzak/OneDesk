@@ -60,7 +60,7 @@ FLAGGED = ("Contact", "Customer", "Supplier")
 def country() -> str:
 	"""The workspace's country, as two letters, for reading national numbers:
 	the company's, else the system's; empty when neither is set."""
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	held = holidays.company()
 	named = (held and frappe.get_cached_value("Company", held, "country")) or frappe.db.get_default("country")

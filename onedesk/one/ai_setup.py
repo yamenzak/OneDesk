@@ -551,10 +551,7 @@ def suggest_level(
 		"take": take,
 		"state": _state(rows),
 	}
-	route = [
-		"workspace-settings",
-		{"section": "access", "level": access.key_of(app, name) if not new else name},
-	]
+	route = ["one", {"center": "access", "at": "access", "record": f"level:{access.key_of(app, name) if not new else name}"}]
 	return _card(
 		"level",
 		"Role",
@@ -599,7 +596,7 @@ def suggest_profile(
 	]
 	if exists:
 		summary.append({"label": _("Who it changes"), "value": _("Everyone on {0}").format(name)})
-	route = ["workspace-settings", {"section": "access", "profile": name}]
+	route = ["one", {"center": "access", "at": "access", "record": f"profile:{name}"}]
 	return _card(
 		"profile",
 		"Role Profile",
@@ -645,7 +642,7 @@ def suggest_group(
 		summary.append({"label": _("Joining"), "value": label(sorted(set(people) - was))})
 	if exists and was - set(people):
 		summary.append({"label": _("Leaving"), "value": label(sorted(was - set(people)))})
-	route = ["workspace-settings", {"section": "access", "group": name}]
+	route = ["one", {"center": "access", "at": "access", "record": f"group:{name}"}]
 	return _card(
 		"group",
 		"User Group",

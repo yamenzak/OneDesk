@@ -32,3 +32,16 @@ def apply() -> None:
 			settings.set(field, value)
 		settings.flags.ignore_mandatory = True
 		settings.save(ignore_permissions=True)
+
+
+MARK_OF = {"OneCloud": "onestorage", "OneWriter": "onedoc", "OneWorkbook": "onesheet"}
+
+
+def mark(app: str) -> str | None:
+	"""The mark drawn beside an app's name (brand/): One's own for what every
+	app shares, none for the workspace's rules. Pure."""
+	if not app:
+		return "one"
+	if not app.startswith("One"):
+		return None
+	return MARK_OF.get(app, app.lower())

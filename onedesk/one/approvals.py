@@ -293,12 +293,12 @@ def roles_offered() -> list[dict]:
 	"""The roles a step may be for, in One's words: each app's user and manager
 	roles (one/settings.py APPS), the levels the workspace made between them
 	(one/access.py), and the workspace's administrators."""
-	from onedesk.one import settings
+	from onedesk.one.people import APPS
 	from onedesk.one.access import all_levels
 
 	own = all_levels()
 	said = [{"role": roles.ADMINISTRATOR, "is": _("Workspace administrators")}]
-	for product, _code, users, managers in settings.APPS:
+	for product, _code, users, managers in APPS:
 		said += [{"role": one, "is": _("{0} users").format(product)} for one in users]
 		said += [
 			{"role": one, "is": _("{0} at the level {1}").format(product, one)}

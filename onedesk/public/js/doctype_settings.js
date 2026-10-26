@@ -254,8 +254,7 @@ onedesk.doctype_settings.adapt = () => {
 			({ select: __("Select"), read: __("Read"), write: __("Edit"), create: __("Create"), delete: __("Delete"), submit: __("Submit"), cancel: __("Cancel"), export: __("Export") })[right];
 		const level = (name) => {
 			panel.dialog.hide();
-			frappe.app.sidebar && frappe.app.sidebar.select_module("One");
-			frappe.set_route("workspace-settings", name ? { section: "access", level: name } : { section: "access" });
+			onedesk.access.open({ at: "access", record: name ? `level:${name}` : null });
 		};
 		table(panel, {
 			title: __("Access"),

@@ -876,12 +876,14 @@ are in `docs/AICENTER.md`.
 
 ### 17. AccountCenter
 
-**Planned.** A module of its own: for everybody, **Yours** (profile,
-sign-in, your devices); for administrators, **Workspace** (people,
-company devices, plan and credits, domains, apps, closing the workspace).
-It is the first step of cutting One down to the shell, Home and a few
-screens of its own, each drawn on OneInterface. The plan and its stages
-are in `docs/ONE.md`.
+**Built.** OneAccount (`one_account/`), on the settings dialog
+(`onedesk.CENTERS.account`): for everybody, **Yours** (Profile, Sign-in);
+for administrators, **Workspace** (People, Devices, Plan and Credits with
+closing the workspace at its foot, Domains). It opens from the avatar, the
+rail and `/desk/one?center=account&at=...`. Each section is a
+`CenterSection` (`public/js/center_section.js`), which every centre with a
+form to save now draws on. It is the first step of cutting One down to
+the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
 
 ## The fourteen points
 

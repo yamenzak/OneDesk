@@ -55,7 +55,7 @@ SUGGESTIONS = {
 			"expects": "agreement",
 		},
 	],
-	"page:settings/notifications": [
+	"page:notifications/everything": [
 		{
 			"label": _lt("What will I be told about?"),
 			"ask": _lt("What can One tell me about, and which of those do I also get by email?"),
@@ -70,7 +70,7 @@ SUGGESTIONS = {
 			"expects": "my_notifications",
 		},
 	],
-	"page:settings/memory": [
+	"page:ai/yours": [
 		{
 			"label": _lt("What do you know about me?"),
 			"ask": _lt(
@@ -250,7 +250,7 @@ SUGGESTIONS = {
 			"expects": "list_records",
 		},
 	],
-	"page:workspace-settings/access": [
+	"page:access/access": [
 		{
 			"label": _lt("Who can do what?"),
 			"ask": _lt(
@@ -313,7 +313,7 @@ SUGGESTIONS = {
 			"expects": "workspace_plan",
 		},
 	],
-	"page:workspace-settings/oneai": [
+	"page:ai/oneai": [
 		{
 			"label": _lt("What used the most credits?"),
 			"ask": _lt("Which of OneAI's jobs used the most credits in the last thirty days?"),
@@ -330,7 +330,7 @@ SUGGESTIONS = {
 			"expects": "my_day",
 		},
 	],
-	"page:workspace-settings/holidays": [
+	"page:onehr/holidays": [
 		{
 			"label": _lt("Are our holidays ready for next year?"),
 			"ask": _lt(
@@ -340,7 +340,7 @@ SUGGESTIONS = {
 			"expects": "workspace_holidays",
 		},
 	],
-	"page:workspace-settings/general": [
+	"page:one/general": [
 		{
 			"label": _lt("Is signing in here safe enough?"),
 			"ask": _lt(
@@ -359,7 +359,7 @@ SUGGESTIONS = {
 			"expects": "my_sign_in",
 		},
 	],
-	"page:settings/calendar": [
+	"page:onecalendar/link": [
 		{
 			"label": _lt("How do I add it?"),
 			"ask": _lt("How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"),
@@ -406,7 +406,7 @@ from onedesk.one import masters as _masters  # noqa: E402
 
 SUGGESTIONS.update(_masters.SUGGESTIONS)
 
-OPENS_ON = {"settings": "notifications", "workspace-settings": "general", "account": "profile"}
+OPENS_ON = {"workspace-settings": "notification_types", "account": "profile", "one": "general", "notifications": "everything", "ai": "oneai"}
 
 
 def page(said: dict) -> str | None:
@@ -454,12 +454,12 @@ def page(said: dict) -> str | None:
 			"by clicking them, and turn off, sign out or send a password reset from there; how is in OneAccount's "
 			"Help under People and Devices (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "access":
+	if said.get("page") == "access" and said.get("section") == "access":
 		return (
-			"The reader administers this workspace and is on Workspace › Access: every level of each app, its user, "
+			"The reader administers this workspace and is on Roles and Profiles in AccessCenter: every level of each app, its user, "
 			"its manager and the ones made between, and what each may do, the profiles (a job's apps and levels in one) and who is on each, "
 			"and the groups and who is in each. A person's page also holds what records they are held to. "
-			"workspace_access reads it all. How is in One's documentation under Access, for the Workspace (how_to)."
+			"workspace_access reads it all. How is in One's documentation under AccessCenter (how_to)."
 		)
 	if said.get("page") == "account" and said.get("section") == "plan":
 		return (
@@ -477,20 +477,20 @@ def page(said: dict) -> str | None:
 			"on them as approver), each opening its list, and for an administrator what in the workspace needs "
 			"them. my_day reads it all, with the first tasks. How is in One's documentation under Home (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "holidays":
+	if said.get("page") == "onehr" and said.get("section") == "holidays":
 		return (
-			"The reader administers this workspace and is on Workspace › Holidays: the holiday list in force "
+			"The reader administers this workspace and is on Holidays in OneHR's ControlCenter: the holiday list in force "
 			"(its first and last day, the days off each week, the country and its public holidays), whether a list "
 			"follows it, and how many people are on a list of their own. Leave, attendance, check-ins, the calendar "
 			"and deadlines count around these days. workspace_holidays reads it all. They add, rename or remove a "
 			"holiday in the table and save from the page head, make next year's list or use another list from the "
 			"page head. Asked to add, rename or remove a holiday or a day the workplace is closed, or to change the "
-			"days off, change_holidays suggests it as a card they approve. How is in One's documentation under "
-			"Holidays, for the Workspace (how_to)."
+			"days off, change_holidays suggests it as a card they approve. How is in OneHR's Help under "
+			"Holidays (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "oneai":
+	if said.get("page") == "ai" and said.get("section") == "oneai":
 		return (
-			"The reader administers this workspace and is on Workspace › OneAI: which records get a summary at "
+			"The reader administers this workspace and is on OneAI in AICenter: which records get a summary at "
 			"the top, each switched on or off by clicking it, with Knowledge and Credit Usage in the page head. "
 			"workspace_oneai reads it, with what each of OneAI's jobs used in the last thirty days. One picks the "
 			"models OneAI runs on and what it is told; nothing about either is set in a workspace."
@@ -508,61 +508,61 @@ def page(said: dict) -> str | None:
 			"domain under domains, with its status and the target. They add one from the page head and make it the main address or "
 			"remove it from its row; how is in OneAccount's Help under Plan and Credits (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "general":
+	if said.get("page") == "one" and said.get("section") == "general":
 		return (
-			"The reader administers this workspace and is on Workspace › General: what it was made with, its "
+			"The reader administers this workspace and is on General in One's ControlCenter: what it was made with, its "
 			"logo for printed documents, its language, time zone and formats, the rules for signing in "
 			"(two-factor, passkey and email link sign-in, one device at a time, how long a session lasts, "
 			"passwords and their expiry, the lockout after wrong passwords), calendar links and record sharing. workspace_sign_in reads the rules and how people sign in. They change them on "
 			"the page and save; how is in One's documentation under General, for the Workspace (how_to)."
 		)
-	if said.get("page") not in ("settings", "account"):
-		return None
-	if said.get("section") == "notifications":
+	at = (said.get("page"), said.get("section"))
+	if at == ("notifications", "everything"):
 		return (
-			"The reader is on Notifications in their own Settings: every kind of notification they can "
-			"receive, which all reach their bell, and ticks for each they also want by email or pushed to the "
-			"browsers they turned push on in. my_notifications reads what they get and how. They change the ticks themselves and save; how is in One's "
-			"documentation under Settings › Notifications (how_to)."
+			"The reader is on Everything in NotificationCenter: whether they get notifications at all, "
+			"whether they also get them by email, whether new mail on a record they were given is mailed "
+			"to them, and push in this browser. Each app's notifications, with an Email and a Push switch "
+			"each, are under Yours. my_notifications reads what they get and how. They change the switches "
+			"themselves; how is in One's Help under NotificationCenter (how_to)."
 		)
-	if said.get("section") == "memory":
+	if at == ("ai", "yours"):
 		return (
-			"The reader is on What OneAI Remembers in their own Settings: the facts you keep for them, each "
-			"with when and the record it is about, which they add, edit and forget there; and, to read only, "
-			"what the workspace's administrators wrote for everybody. recall, with no words, reads both. How it works "
-			"is in One's documentation under Settings › What OneAI Remembers (how_to)."
+			"The reader is on Yours in AICenter: the facts you keep for them, each with when and the record "
+			"it is about, which they add, edit and forget there; and, to read only, what the workspace's "
+			"administrators wrote for everybody. recall, with no words, reads both. How it works is in "
+			"OneAI's Help (how_to)."
 		)
-	if said.get("section") == "signin":
+	if at == ("account", "signin"):
 		return (
 			"The reader is on Sign-in in AccountCenter: their password, their passkey, whether two-factor "
 			"sign-in applies to them, every place they are signed in with a Sign Out each, and their last "
 			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in OneAccount's "
 			"Help under Your Account (how_to)."
 		)
-	if said.get("section") == "calendar":
+	if at == ("onecalendar", "link"):
 		from onedesk.one_calendar import feed
 
 		if not feed.allowed():
 			return (
-				"The reader is on Calendar in their own Settings, but this workspace does not allow calendar "
-				"links: its administrators switched them off under Workspace › General › Calendar Links, so "
-				"nobody can have one. Say so rather than explaining how to add one."
+				"The reader is on Your Calendar Link in OneCalendar's ControlCenter, but this workspace does "
+				"not allow calendar links: its administrators switched them off under General › Sharing in "
+				"One's ControlCenter, so nobody can have one. Say so rather than explaining how to add one."
 			)
 		return (
-			"The reader is on Calendar in their own Settings: a private link to their calendar that another "
-			"calendar app reads, with a button for Google Calendar, Apple Calendar and Outlook, what the link "
-			"carries, and when an app last read it. They make it, copy it, replace it or switch it off "
-			"themselves. How to add it to each app is in One's documentation under Settings › Calendar, and "
-			"OneCalendar's under Subscribe (how_to)."
+			"The reader is on Your Calendar Link in OneCalendar's ControlCenter: a private link to their "
+			"calendar that another calendar app reads, with a button for Google Calendar, Apple Calendar and "
+			"Outlook, what the link carries, and when an app last read it. They make it, copy it, replace it "
+			"or switch it off themselves. How to add it to each app is in OneCalendar's Help under Subscribe "
+			"(how_to)."
 		)
-	if said.get("section") == "reads":
+	if at == ("ai", "reads"):
 		return (
-			"The reader is on What OneAI Reads in their own Settings: the mailboxes they hold and the shared "
+			"The reader is on What OneAI Reads in AICenter: the mailboxes they hold and the shared "
 			"folders they may change, each with a switch for whether OneAI reads what arrives in it. They "
 			"switch them themselves; everything OneAI reads, for every mailbox and folder, is an "
-			"administrator's, under AICenter › Reading. How it works is in OneAI's documentation (how_to)."
+			"administrator's, under AICenter › Reading. How it works is in OneAI's Help (how_to)."
 		)
-	if said.get("section") != "profile":
+	if at != ("account", "profile"):
 		return None
 	from onedesk.one_hr import own
 
@@ -1611,11 +1611,12 @@ def workspace_intake() -> dict:
 	"""OneAI's reading settings and this month, for the workspace's administrators:
 	each setting with what it means now, and what arrived, what OneAI handled,
 	what needed a person, what waits and what was undone."""
-	from onedesk.one import roles, settings
+	from onedesk.one import roles
+	from onedesk.one_ai import yours
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees OneAI's reading settings."}
-	said = settings._intake()
+	said = yours._intake()
 	labels = {one["fieldname"]: one["label"] for one in said["fields"]}
 	return {
 		"settings": {labels.get(name, name): value for name, value in said["values"].items()},
@@ -1638,11 +1639,13 @@ def workspace_holidays() -> dict:
 	"""The holiday list in force, for the workspace's administrators: its days,
 	when it ends, the list after it if any, the public holidays the country
 	has that it lacks, and how many people are on a list of their own."""
-	from onedesk.one import holidays, roles, settings
+	from onedesk.one import roles
+	from onedesk.one_hr import holidays
+	from onedesk.one_hr import control as hr_control
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the workspace's holidays."}
-	said = settings._holidays()
+	said = hr_control._holidays()
 	if said.get("empty"):
 		return {
 			"holiday_list": None,
@@ -1707,7 +1710,9 @@ def change_holidays(
 	administrators only."""
 	from frappe.utils import formatdate, getdate
 
-	from onedesk.one import holidays, roles, settings
+	from onedesk.one import roles
+	from onedesk.one_hr import holidays
+	from onedesk.one_hr import control as hr_control
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
@@ -1733,7 +1738,7 @@ def change_holidays(
 	target = covering.pop() if covering else holidays.in_force()
 	if not target:
 		return {"error": "The workspace has no holiday list yet."}
-	said = settings._holidays(target)
+	said = hr_control._holidays(target)
 	values = said["values"]
 	rows = {one["holiday_date"]: one["description"] for one in values["holidays"]}
 	was_off = list(said["list"]["weekly"])
@@ -1952,7 +1957,7 @@ def workspace_sign_in() -> dict:
 	the failed sign-ins of the last week."""
 	from frappe.utils import add_days, add_to_date, now_datetime
 
-	from onedesk.one import roles, settings
+	from onedesk.one import control, roles
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how everybody signs in."}
@@ -1985,7 +1990,7 @@ def workspace_sign_in() -> dict:
 		limit=20,
 	)
 	return {
-		"two_factor": settings._two_factor(system),
+		"two_factor": control._two_factor(system),
 		"two_factor_by": system.two_factor_method if system.enable_two_factor_auth else None,
 		"passkey_sign_in": bool(system.get("one_login_with_passkey")),
 		"email_link_sign_in": bool(system.login_with_email_link),
@@ -2263,12 +2268,12 @@ def workspace_printing(
 	logo Workspace > General keeps, the print formats the workspace made, and for
 	a kind of record the formats it may print with and the one it prints with
 	unless another is chosen. Read it before suggesting a change."""
-	from onedesk.one import letter_heads, printing, roles, settings
+	from onedesk.one import control, letter_heads, printing, roles
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how documents are printed."}
 	try:
-		company = settings._company()
+		company = control._company()
 		said = {
 			"letter_heads": [
 				{
@@ -2368,7 +2373,7 @@ def change_printing(
 	design_print_format. Read workspace_printing first. The card shows the
 	page before it is approved; nothing changes until they approve it.
 	Workspace administrators only."""
-	from onedesk.one import letter_heads, print_html, printing, roles, settings
+	from onedesk.one import control, letter_heads, print_html, printing, roles
 	from onedesk.one_ai import proposals
 
 	if not roles.administers():
@@ -2399,7 +2404,7 @@ def change_printing(
 				return {"error": f"There is no letter head {name}; read workspace_printing for them."}
 			logo = letter_head.get("logo")
 			if logo == "company":
-				company = settings._company()
+				company = control._company()
 				logo = company.company_logo if company else None
 				if not logo:
 					return {"error": "Workspace > General has no logo yet; ask them to add one there first."}
@@ -2508,11 +2513,11 @@ def change_printing(
 
 def _on_documents(company) -> dict:
 	"""The company as a printed page shows it (Workspace > General > Contact and Branding)."""
-	from onedesk.one import settings
+	from onedesk.one import control
 
 	if not company:
 		return {}
-	address = settings._company_address(company)
+	address = control._company_address(company)
 	return {
 		"name": company.company_name,
 		"phone": company.phone_no,
@@ -2521,7 +2526,7 @@ def _on_documents(company) -> dict:
 		"address": [
 			one
 			for one in (
-				*(address.get(key) for key in settings.ADDRESS),
+				*(address.get(key) for key in control.ADDRESS),
 				company.country,
 			)
 			if one

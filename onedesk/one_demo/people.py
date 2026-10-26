@@ -115,11 +115,11 @@ HEAD = {
 
 def _look():
 	"""The company's look and its letter head, set by the owner as a new
-	workspace sets them: Workspace › General, then Printing."""
-	from onedesk.one import printing, settings
+	workspace sets them: General in One's ControlCenter, then Printing."""
+	from onedesk.one import control, printing
 
 	with _as(OWNER):
-		settings.save("general", LOOK)
+		control.save("general", LOOK)
 		if not frappe.db.exists("Letter Head", COMPANY):
 			printing.save_letter_head({"letter_head_name": COMPANY, "is_default": 1, **HEAD})
 

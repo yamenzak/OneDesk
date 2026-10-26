@@ -22,7 +22,6 @@ SHELL_CSS = tree.APP / "public" / "css" / "shell.css"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 ON_THE_SHELL = {
-	"settings": ("public/js/settings.js", "public/css/settings.css"),
 	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
 	"onecalendar": (
 		"one_calendar/page/onecalendar/onecalendar.js",
@@ -35,10 +34,18 @@ ON_THE_SHELL = {
 WERE_ON_THE_SHELL = {"settings", "workspace_settings", "legal", "intake", "ready_to_submit", "onecalendar", "onemail", "onecloud", "masters"}
 
 # Every file that still calls a part of the shell. It only shrinks too; when
-# it is empty, shell.js and shell.css are deleted.
+# it is empty, shell.js and shell.css are deleted. A section that moved out
+# of Settings into a centre took its drawing with it (docs/ONE.md, stage 2)
+# until One's screens are drawn again (stage 8): center_section.js and the
+# five files below it.
 USE_THE_SHELL = {
-	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
+	"public/js/center_section.js",
+	"public/js/access_center.js",
+	"public/js/one_ai/ai_center.js",
+	"public/js/one_calendar/calendar_control.js",
+	"public/js/one_control.js",
+	"public/js/one_hr/hr_control.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
 	"public/js/one_account/account_center.js",
 	"public/js/band.js",

@@ -69,17 +69,29 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 		onedesk.module_head_expand($head, () => {
 			if (this.expand) return this.expand();
 			this.hide();
-			frappe.set_route("one", frappe.boot.one_administers ? "workspace-settings" : "settings");
+			// The whole of a ControlCenter is One's, the workspace's own; for
+			// somebody who doesn't administer it, their own account.
+			if (frappe.boot.one_administers) onedesk.one_control.open();
+			else onedesk.account_center.open();
 		});
 	}
 
 	// A row that is another centre (`opens`) opens it rather than a tab.
+	// OneAI is told which tab is open (oneai.js `where`): the centre's key,
+	// or a module's own for its ControlCenter, until the dialog closes.
 	activate(id) {
 		const item = this._items[id];
 		if (item && item.opens) {
 			this.hide();
 			item.opens();
 			return;
+		}
+		const center = this.center && typeof this.center === "object" ? this.center.center : this.center;
+		const page = center && center !== "settings" ? center : (this.module || "One").toLowerCase();
+		onedesk.centers.here = { page, section: id, record: "", label: (item && item.label) || "" };
+		if (!this.forgets) {
+			this.forgets = true;
+			this.$wrapper.on("hidden.bs.modal", () => (onedesk.centers.here = null));
 		}
 		super.activate(id);
 	}

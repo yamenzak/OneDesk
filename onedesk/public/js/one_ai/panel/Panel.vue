@@ -508,11 +508,11 @@ const seeing = (here) => {
 };
 
 function toMemory() {
-	frappe.set_route("settings", { section: "memory" });
+	onedesk.ai_center.open({ at: "yours" });
 }
 
 async function unremember(kept) {
-	await frappe.xcall("onedesk.one.settings.forget", { name: kept.memory });
+	await frappe.xcall("onedesk.one_ai.yours.forget", { name: kept.memory });
 	kept.undone = true;
 }
 

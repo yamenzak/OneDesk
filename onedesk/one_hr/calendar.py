@@ -115,7 +115,7 @@ def whos_off(start, end) -> list[dict]:
 def holidays(start, end) -> list[dict]:
 	"""The company's holidays, not its weekly days off: a calendar with every
 	Friday marked is a calendar nobody reads."""
-	from onedesk.one import holidays as lists
+	from onedesk.one_hr import holidays as lists
 
 	return [
 		{"name": one.parent, "id": f"Holiday:{one.name}", "title": layers.plain(one.description, 80), "start": one.holiday_date, "all_day": 1}

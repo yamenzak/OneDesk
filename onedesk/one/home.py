@@ -189,7 +189,7 @@ HOLIDAYS_WARN = 60
 
 
 def _holidays() -> list[dict]:
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	now = holidays.in_force()
 	if not now or holidays.after(now):
@@ -204,7 +204,7 @@ def _holidays() -> list[dict]:
 			"detail": _("From {0} every day counts as a working day. Make next year's list.").format(
 				frappe.utils.formatdate(add_days(end, 1))
 			),
-			"route": "/desk/workspace-settings?section=holidays",
+			"route": "/desk/one?center=settings&module=OneHR&at=holidays",
 		}
 	]
 

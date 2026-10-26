@@ -235,7 +235,7 @@ def test_the_frame_wears_the_workspaces_colour():
 	"""Frame Colour (Workspace › General › Contact and Branding, on the Company) is the
 	frame's colour for everyone, with the ink that reads on it; a dark theme
 	deepens it. Empty is One's own."""
-	assert '"one_frame_colour"' in (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
+	assert '"one_frame_colour"' in (tree.APP / "one" / "control.py").read_text(encoding="utf-8")
 	assert 'bootinfo["one_frame_colour"]' in (tree.APP / "one" / "boot.py").read_text(encoding="utf-8")
 	assert "root.dataset.oneFrameInk" in CHROME and '"one_frame"' in CHROME
 	company = (tree.APP / "one" / "company.py").read_text(encoding="utf-8")

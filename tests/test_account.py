@@ -96,9 +96,10 @@ def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
 
 def test_a_section_is_an_editor_on_its_panel():
 	script = SCRIPT.read_text()
-	assert "extends onedesk.shell.Editor" in script
+	engine = (SCRIPT.parent.parent / "center_section.js").read_text()
+	assert "extends onedesk.CenterSection" in script and "extends onedesk.shell.Editor" in engine
 	assert "get_values(" not in script, "FieldGroup.get_values leaves a cleared field out, so it would never be cleared"
-	page = script.split("onedesk.account_center.page = ", 1)[1].split("\n};\n", 1)[0]
+	page = engine.split("onedesk.center_section.page = ", 1)[1].split("\n};\n", 1)[0]
 	for part in ("set_indicator", "clear_indicator", "set_primary_action", "clear_primary_action", "add_inner_button", "clear_inner_toolbar", "set_breadcrumbs"):
 		assert part in page, part
 

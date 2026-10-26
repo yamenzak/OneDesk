@@ -347,7 +347,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 					.row({ lead: kit.glyph("brain"), title: one.fact, sub: esc([one.about_title, frappe.datetime.prettyDate(one.creation)].filter(Boolean).join(" · ")) })
 					.appendTo($list);
 				$row.find(".one-set-title").on("click", () => remember(panel, one));
-				kit.remove(() => frappe.xcall("onedesk.one.settings.forget", { name: one.name }).then(() => panel.refresh())).appendTo($row.find(".one-set-end"));
+				kit.remove(() => frappe.xcall("onedesk.one_ai.yours.forget", { name: one.name }).then(() => panel.refresh())).appendTo($row.find(".one-set-end"));
 			}
 			if (said.knowledge.length) {
 				$body.append(kit.heading(__("Workspace Knowledge")));
@@ -356,6 +356,15 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 			}
 		},
 	};
+
+	// The mailboxes and folders reading goes through that are the reader's
+	// to switch (one_ai/yours.py `_reads`).
+	const reads_tab = onedesk.center_section.tab(onedesk.ReadsSection, {
+		id: "reads",
+		label: __("What OneAI Reads"),
+		icon: "oneintake",
+		about: __("Your mailboxes and folders that OneAI reads, files and acts on as you."),
+	});
 
 	const remember = (panel, one = null) => {
 		const asked = new frappe.ui.Dialog({
@@ -367,7 +376,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 			],
 			primary_action_label: one ? __("Save") : __("Add"),
 			primary_action: async (values) => {
-				await frappe.xcall("onedesk.one.settings.keep", { ...values, name: one ? one.name : null });
+				await frappe.xcall("onedesk.one_ai.yours.keep", { ...values, name: one ? one.name : null });
 				asked.hide();
 				panel.refresh();
 			},
@@ -381,7 +390,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		? [
 				{ group: null, items: module ? [] : [oneai_tab, reading_tab, knowledge_tab] },
 				{ group: module ? null : __("Modules"), items: [...mine.map(part_tab), ...(module ? [] : [summaries_tab])] },
-				{ group: null, items: module ? [] : [usage_tab, yours_tab] },
+				{ group: null, items: module ? [] : [usage_tab, yours_tab, reads_tab] },
 		  ]
 		: [
 				{
@@ -390,6 +399,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 						...((frappe.boot.one_ai_may || {}).knowledge ? [knowledge_tab] : []),
 						...((frappe.boot.one_ai_may || {}).usage ? [usage_tab] : []),
 						yours_tab,
+						reads_tab,
 					],
 				},
 		  ];
@@ -413,4 +423,119 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	dialog.$wrapper.addClass("one-set one-ai-center");
 	dialog.show();
 	return dialog;
+};
+
+// What OneAI Reads: a CenterSection, so its tables and switches are drawn
+// as the other centres' sections are.
+onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
+	static API = "onedesk.one_ai.yours.";
+	static HERE = "ai";
+	static LABEL = "AICenter";
+
+	static read_switch(on) {
+		return `<span class="switch-control one-read-switch" aria-hidden="true"><span class="input-area"><input type="checkbox" tabindex="-1" ${
+			on ? "checked" : ""
+		}></span><span class="switch-visual"><span class="switch-thumb"></span></span></span>`;
+	}
+
+	draw_reads(data) {
+		const esc = frappe.utils.escape_html;
+		if (data.off) {
+			this.$content.append(onedesk.shell.section("", `<p class="one-shell-quiet">${esc(__("Reading is turned off for this workspace."))}</p>`));
+			return;
+		}
+		const marks = data.marks || {};
+		const reading = (one) =>
+			!one.on ? __("Not read") : one.for && one.for !== frappe.session.user_fullname ? __("Read on behalf of {0}", [one.for]) : __("Read as you");
+		const none = (text) => `<p class="one-shell-quiet">${esc(text)}</p>`;
+		const mailboxes = data.mailboxes || [];
+		const folders = data.folders || [];
+		this.$content.append(
+			onedesk.shell.section(
+				__("Mailboxes"),
+				mailboxes.length ? '<div data-list="mailboxes"></div>' : none(__("You don't hold a mailbox.")),
+				__("New mail and its attachments are read, filed and acted on as you.")
+			),
+			onedesk.shell.section(
+				__("Folders"),
+				folders.length ? '<div data-list="folders"></div>' : none(__("OneAI has no access to any of your folders.")),
+				__("New files in the folder and the folders inside it are read, filed and acted on as you."),
+				onedesk.shell.button(__("Add Folder"), { "data-add-folder": "1" }, "subtle", "plus")
+			)
+		);
+		if (mailboxes.length)
+			onedesk.shell.table(this.$content.find('[data-list="mailboxes"]'), {
+				mark: marks.OneMail,
+				rows: mailboxes,
+				columns: [
+					{ label: __("Mailbox"), fieldname: "email" },
+					{ label: __("Read by OneAI"), render: (one) => esc(reading(one)) },
+					{ label: "", render: (one) => ReadsSection.read_switch(one.on) },
+				],
+				open: (one) => this.switch_mailbox(one),
+			});
+		if (folders.length)
+			onedesk.shell.table(this.$content.find('[data-list="folders"]'), {
+				mark: marks.OneCloud,
+				rows: folders,
+				columns: [
+					{ label: __("Folder"), render: (one) => esc(one.path.replace(/^Home\//, "")) },
+					{ label: __("Read by OneAI"), render: (one) => esc(reading({ on: true, for: one.for })) },
+					{ label: "", render: () => ReadsSection.read_switch(true) },
+				],
+				open: (one) => this.stop_folder(one),
+			});
+		this.$content.on("click", "[data-add-folder]", () => this.add_folder());
+	}
+
+	switch_mailbox(one) {
+		const esc = frappe.utils.escape_html;
+		const set = async (on) => {
+			await frappe.xcall("onedesk.one_ai.reading.switches.set_mailbox", { account: one.name, on });
+			this.refresh();
+		};
+		if (one.on) return frappe.confirm(__("Stop OneAI reading new mail in {0}?", [esc(one.email)]), () => set(0));
+		if (!one.mine) return frappe.msgprint(__("Only the owner of {0} can turn this on, because OneAI acts on their behalf.", [esc(one.email)]));
+		frappe.confirm(
+			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [`<b>${esc(one.email)}</b>`]),
+			() => set(1)
+		);
+	}
+
+	stop_folder(one) {
+		frappe.confirm(__("Stop OneAI reading new files in {0} and the folders inside it?", [frappe.utils.escape_html(one.path)]), async () => {
+			await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: one.name, on: 0 });
+			this.refresh();
+		});
+	}
+
+	add_folder() {
+		const dialog = new frappe.ui.Dialog({
+			title: __("Add Folder"),
+			fields: [
+				{
+					fieldname: "folder",
+					fieldtype: "Link",
+					options: "File",
+					label: __("Folder"),
+					reqd: 1,
+					get_query: () => ({ filters: { is_folder: 1, one_intake: 0 } }),
+				},
+				{
+					fieldname: "said",
+					fieldtype: "HTML",
+					options: `<div class="one-shell-quiet">${frappe.utils.escape_html(
+						__("New files in this folder and its subfolders are read and filed, using credits.")
+					)}</div>`,
+				},
+			],
+			primary_action_label: __("Add"),
+			primary_action: async (values) => {
+				await frappe.xcall("onedesk.one_ai.reading.switches.set_folder", { folder: values.folder, on: 1 });
+				dialog.hide();
+				this.refresh();
+			},
+		});
+		dialog.show();
+	}
 };

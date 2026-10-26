@@ -13,7 +13,7 @@ from frappe.utils import getdate
 def execute():
 	from holidays import country_holidays
 
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	frappe.local.lang = frappe.db.get_single_value("System Settings", "language") or "en"
 	for held in frappe.get_all(

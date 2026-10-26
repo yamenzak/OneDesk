@@ -2,7 +2,7 @@
 frappe.pages["workspace-settings"].on_page_load = (wrapper) => {
 	const page = onedesk.shell.page(wrapper, __("Workspace Settings"));
 	wrapper.loading = frappe.require(["/assets/onedesk/css/settings.css", "/assets/onedesk/js/settings.js"]).then(() => {
-		wrapper.settings = new onedesk.Settings(page, "workspace");
+		wrapper.settings = new onedesk.Settings(page);
 	});
 };
 

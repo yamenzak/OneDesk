@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 67 | 2 | 36 | 0 |
+| onedesk | 66 | 2 | 36 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -529,7 +529,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Data Import Log | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  | ar 1, de 1 |  |
 | Deleted Document | on a rail or a home | everybody | form script, list script, 1 fields, 2 settings | no | taught |  | yes |  |  |  |  |
 | DocShare | inside: a record's Share | **nobody** | events | no | taught |  | yes |  |  |  |  |
-| DocType | through a form's link (Transaction Deletion Record: doctype_name) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
+| DocType | through a form's link (Customize Form: doc_type) | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | DocType Layout | through a form's link (Workspace: doctype_layout) | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | DocType Settings Map | engine: which settings record holds a kind's settings | **nobody** | untouched | no | general |  | yes |  |  | ar 3, de 3 |  |
 | Document Naming Rule | inside: Workspace Settings › Numbering, which writes it | the administrator | events | no | taught |  | **none** |  |  |  |  |
@@ -658,7 +658,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Email Group Member | inside: an Email Group's members, in OneCRM | OneCRM | untouched | no | general |  | yes |  |  |  |  |
 | Email Queue | engine: mail on its way out | **nobody** | untouched | no | general |  | yes |  | **only an ID** | ar 1, de 1 |  |
 | Email Rule | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Email Template | through a form's link (DocType: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
+| Email Template | through a form's link (Customize Form: default_email_template) | everybody | events | no | taught |  | yes |  |  |  |  |
 | Email Unsubscribe | engine: who asked for no more mail, which OneMail's rules honour | **nobody** | 1 fields | no | general |  | yes |  |  |  |  |
 | Notification | inside: Workspace Settings › Workspace Notifications, which writes it | the administrator | class, events, 1 fields, 1 settings | no | taught |  | yes |  |  |  |  |
 | Unhandled Email | engine: mail a mailbox could not file, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -880,7 +880,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 
-Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-settings (on a rail or a home).
+Pages: masters (on a rail or a home); workspace-settings (on a rail or a home).
 
 ## onedesk / One AI
 

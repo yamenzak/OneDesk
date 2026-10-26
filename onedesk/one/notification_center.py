@@ -9,7 +9,7 @@ from frappe import _
 from onedesk.one import notify, roles
 
 # A person's own switches, over every type.
-OWN = ("enabled", "enable_email_notifications")
+OWN = ("enabled", "enable_email_notifications", "enable_email_threads_on_assigned_document")
 
 # What an administrator sets on a type: whether it is sent, and whether people
 # may have it by email and by push. Whether a new person starts with a channel
@@ -59,6 +59,7 @@ def yours(module: str | None = None) -> dict:
 	return {
 		"enabled": int(doc.enabled),
 		"email": int(doc.enable_email_notifications),
+		"threads": int(doc.enable_email_threads_on_assigned_document),
 		"types": [
 			{
 				"name": one["name"],

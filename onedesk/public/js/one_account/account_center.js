@@ -1,151 +1,23 @@
 // AccountCenter (docs/ONE.md): your own account and the workspace's, on the
 // settings dialog (onedesk.CENTERS.account). For everybody, Yours: Profile
 // and Sign-in; for administrators, Workspace: People, Devices, Plan and
-// Credits, and Domains. Each section is an Editor (shell.js) whose page is
-// its panel, so a form is saved, refused when somebody saved first, and
-// heard when it changes, as anywhere else in One.
+// Credits, and Domains. Each section is a CenterSection (center_section.js).
 frappe.provide("onedesk.account_center");
 
-// What an Editor uses of a page, kept by the panel's header instead: the
-// title's indicator, the primary action and the buttons beside it. A
-// dialog is its own place, so there are no breadcrumbs.
-onedesk.account_center.page = (panel) => {
-	const $actions = () => panel.$header.find(".settings-dialog-panel-actions");
-	const $title = () => panel.$header.find(".settings-dialog-panel-title");
-	return {
-		wrapper: [{}],
-		set_indicator(label, colour) {
-			this.clear_indicator();
-			$title().append(`<span class="one-account-status">${frappe.ui.badge.html({ label, theme: colour })}</span>`);
-		},
-		clear_indicator() {
-			$title().find(".one-account-status").remove();
-		},
-		set_primary_action(label, click, icon) {
-			this.clear_primary_action();
-			$(frappe.ui.button.html({ label, icon, variant: "solid" })).addClass("one-account-primary").on("click", click).appendTo($actions());
-			panel.$header.removeClass("hide");
-		},
-		clear_primary_action() {
-			$actions().find(".one-account-primary").remove();
-		},
-		// A group's actions are one menu named for it, and the rest share a
-		// menu of their own, so the header keeps to a few buttons.
-		add_inner_button(label, action, group = null) {
-			const name = group || "more";
-			let $menu = $actions().find(`.one-account-inner[data-group="${CSS.escape(name)}"]`);
-			if (!$menu.length) {
-				$menu = $(`<div class="dropdown one-account-inner"><div class="dropdown-menu dropdown-menu-right"></div></div>`)
-					.attr("data-group", name)
-					.prependTo($actions());
-				$(
-					frappe.ui.button.html({
-						label: group || "",
-						icon: group ? null : "ellipsis",
-						variant: "subtle",
-						attrs: { "data-toggle": "dropdown", "aria-label": group || __("More") },
-					})
-				).prependTo($menu);
-			}
-			$(`<a class="dropdown-item" href="#"></a>`)
-				.text(label)
-				.on("click", (event) => {
-					event.preventDefault();
-					action();
-				})
-				.appendTo($menu.find(".dropdown-menu"));
-			panel.$header.removeClass("hide");
-		},
-		clear_inner_toolbar() {
-			$actions().find(".one-account-inner").remove();
-		},
-		set_breadcrumbs() {},
-	};
-};
-
-onedesk.AccountSection = class AccountSection extends onedesk.shell.Editor {
+onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 	static API = "onedesk.one_account.center.";
+	static HERE = "account";
+	static LABEL = "AccountCenter";
 
 	constructor(panel, key) {
-		super(onedesk.account_center.page(panel));
-		this.panel = panel;
-		this.key = key;
-		const heard = (event, key) =>
-			frappe.realtime.on(event, () => this.key === key && this.$content && this.$content.is(":visible") && this.refresh());
-		heard("one_privacy", "profile");
-		heard("one_closing", "plan");
-		heard("one_domains", "domains");
+		super(panel, key);
+		this.heard("one_privacy", "profile");
+		this.heard("one_closing", "plan");
+		this.heard("one_domains", "domains");
 	}
 
-	async open(key = this.key, { record = null } = {}) {
-		this.key = key;
-		this.record = record;
-		// OneAI is told which section the reader is on (oneai.js `where`).
-		onedesk.centers.here = { page: "account", section: key, record: record || "", label: "AccountCenter" };
-		this.panel.set_header(this.panel.item);
-		this.unsaved();
-		this.$content = $(`<div class="one-shell-body one-account-body" data-tour="account-section">${onedesk.shell.quiet(__("Loading…"))}</div>`).appendTo(
-			this.panel.body.empty()
-		);
-		try {
-			this.data = await frappe.xcall(AccountSection.API + "load", { section: key, record });
-		} catch (e) {
-			this.$content.html(frappe.ui.alert.html({ title: __("Could Not Open This"), theme: "red" }));
-			return;
-		}
-		this.$content.empty();
-		this.hear(this.data.opened);
-		this.links();
-		this[`draw_${key}`](this.data);
-	}
-
-	saver(values) {
-		return { method: AccountSection.API + "save", args: { section: this.key, values, record: this.record } };
-	}
-
-	redraw(said) {
-		if (this.trailed) {
-			this.unsaved();
-			this.panel.set_header(this.panel.item);
-			this.$content = $(`<div class="one-shell-body one-account-body" data-tour="account-section"></div>`).appendTo(this.panel.body.empty());
-			this.links();
-		}
-		this[`draw_${this.key}`](said);
-	}
-
-	refresh() {
-		this.open(this.key, { record: this.record });
-	}
-
-	// One record of a section, such as a person in People: its name heads the
-	// panel, with Back to the section before it.
-	as_record(record) {
-		this.trailed = true;
-		this.status = record.status || null;
-		this.panel.set_header({ title: record.title });
-		onedesk.module_settings.kit
-			.button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
-			.addClass("one-set-back")
-			.on("click", () => this.open(this.key))
-			.prependTo(this.panel.$header.find(".settings-dialog-panel-title"));
-		this.$content = onedesk.shell.record(this.$content, { ...record, parent: null, page: this.page });
-		return this.$content;
-	}
-
-	// A link to another section of the centre (#people) opens its tab, and a
-	// link anywhere else in One closes the centre first.
-	links() {
-		this.$content.on("click", 'a[href^="#"]', (event) => {
-			event.preventDefault();
-			this.panel.dialog.activate($(event.currentTarget).attr("href").slice(1));
-		});
-		this.$content.on("click", 'a[href^="/desk"]', () => this.panel.dialog.hide());
-	}
-
-	// Going somewhere else in One closes the centre first.
-	leave(go) {
-		this.panel.dialog.hide();
-		go();
+	body() {
+		return $(`<div class="one-shell-body one-account-body" data-tour="account-section"></div>`).appendTo(this.panel.body.empty());
 	}
 
 	draw_profile(data) {

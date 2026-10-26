@@ -154,5 +154,5 @@ def test_oneai_offers_on_every_kinds_list():
 
 
 def test_each_group_has_its_apps_mark_and_folds():
-	assert '"mark": settings._mark("" if group == "Shared" else group)' in SOURCE
+	assert '"mark": brand.mark("" if group == "Shared" else group)' in SOURCE
 	assert 'frappe.model.user_settings.save("Masters", "closed"' in TREE and "open });" in TREE and "twist: fold" in TREE

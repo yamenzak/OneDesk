@@ -130,7 +130,7 @@ def listed() -> list[str]:
 def kinds() -> list[dict]:
 	"""Every kind the reader may open, grouped, with how many values each has:
 	the nav pane's tree."""
-	from onedesk.one import settings
+	from onedesk.one import brand
 
 	groups = _groups()
 	return [
@@ -138,7 +138,7 @@ def kinds() -> list[dict]:
 			"group": group,
 			"doctype": doctype,
 			"label": str(label),
-			"mark": settings._mark("" if group == "Shared" else group),
+			"mark": brand.mark("" if group == "Shared" else group),
 			"count": frappe.db.count(doctype, _below_root(doctype)),
 		}
 		for group, doctype, label, _one in KINDS

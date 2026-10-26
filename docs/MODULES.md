@@ -220,10 +220,12 @@ No doctypes yet.
 * `onedesk.one.access.remove_profile`
 * `onedesk.one.access.rename_role`
 * `onedesk.one.access_center.give`
+* `onedesk.one.access_center.load`
 * `onedesk.one.access_center.modules`
 * `onedesk.one.access_center.people`
 * `onedesk.one.access_center.put`
 * `onedesk.one.access_center.records`
+* `onedesk.one.access_center.save`
 * `onedesk.one.account.buy_credits`
 * `onedesk.one.account.check_again`
 * `onedesk.one.account.credit_packs`
@@ -244,6 +246,9 @@ No doctypes yet.
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
 * `onedesk.one.automations.steps`
+* `onedesk.one.control.load`
+* `onedesk.one.control.save`
+* `onedesk.one.control.sections_of`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
@@ -252,10 +257,6 @@ No doctypes yet.
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
-* `onedesk.one.holidays.country_holidays`
-* `onedesk.one.holidays.next_year`
-* `onedesk.one.holidays.subdivisions`
-* `onedesk.one.holidays.use`
 * `onedesk.one.home.approvals_waiting`
 * `onedesk.one.home.attention`
 * `onedesk.one.home.intake_waiting`
@@ -344,9 +345,6 @@ No doctypes yet.
 * `onedesk.one.rules.fields_of`
 * `onedesk.one.rules.watchable`
 * `onedesk.one.settings.delete_rule`
-* `onedesk.one.settings.forget`
-* `onedesk.one.settings.forget_all`
-* `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
@@ -502,6 +500,10 @@ No doctypes yet.
 * `onedesk.one_ai.run.tools`
 * `onedesk.one_ai.run.use`
 * `onedesk.one_ai.run.waiting`
+* `onedesk.one_ai.yours.forget`
+* `onedesk.one_ai.yours.forget_all`
+* `onedesk.one_ai.yours.keep`
+* `onedesk.one_ai.yours.load`
 * `onedesk.one_book.closing.lock`
 * `onedesk.one_book.home.cash`
 * `onedesk.one_book.home.due_this_week`
@@ -514,6 +516,7 @@ No doctypes yet.
 * `onedesk.one_book.ready.fix`
 * `onedesk.one_book.story.read`
 * `onedesk.one_book.tell.credit_limit`
+* `onedesk.one_calendar.control.load`
 * `onedesk.one_calendar.events.card`
 * `onedesk.one_calendar.events.make`
 * `onedesk.one_calendar.feed.ics`
@@ -558,6 +561,8 @@ No doctypes yet.
 * `onedesk.one_doc.word.write_back`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
+* `onedesk.one_hr.control.load`
+* `onedesk.one_hr.control.save`
 * `onedesk.one_hr.employee.get_assignable_masters`
 * `onedesk.one_hr.employee.overview`
 * `onedesk.one_hr.employee.passkey_of`
@@ -572,6 +577,10 @@ No doctypes yet.
 * `onedesk.one_hr.hiring.start_recording`
 * `onedesk.one_hr.hiring.stop_recording`
 * `onedesk.one_hr.hiring.transcribe_again`
+* `onedesk.one_hr.holidays.country_holidays`
+* `onedesk.one_hr.holidays.next_year`
+* `onedesk.one_hr.holidays.subdivisions`
+* `onedesk.one_hr.holidays.use`
 * `onedesk.one_hr.home.read`
 * `onedesk.one_hr.learned.confirm`
 * `onedesk.one_hr.learned.reject`

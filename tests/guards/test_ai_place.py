@@ -39,8 +39,9 @@ def test_one_ai_has_no_dock_entry_and_one_inherits_it():
 
 
 def test_what_a_workspace_administers_is_in_one():
-	assert {"settings", "AI Credits", "AI Chat", "AI Proposal"} <= _links(ONE)
-	assert "onedesk.ai_center.open(" in (tree.APP / "public" / "js" / "settings.js").read_text()
+	assert {"AI Credits", "AI Chat", "AI Proposal"} <= _links(ONE)
+	urls = {i.get("url") for i in json.loads(ONE.read_text())["items"] if i.get("type") == "Link"}
+	assert "/desk/one?center=ai" in urls, "AICenter is not on One's rail"
 
 
 def test_what_the_operator_does_is_in_one_admin():

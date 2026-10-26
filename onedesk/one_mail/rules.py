@@ -196,7 +196,7 @@ def kinds_of(sender: str) -> set:
 def holiday_today() -> bool:
 	"""Whether today is a day off on the company's holiday list, weekly days
 	off included."""
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	held = holidays.in_force()
 	return bool(held and frappe.db.exists("Holiday", {"parent": held, "holiday_date": today()}))

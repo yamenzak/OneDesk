@@ -107,10 +107,10 @@ def set_on(on: int | str) -> bool:
 def reading() -> dict:
 	"""Reading what arrives: on or off, this month, what it may do, and the
 	mailboxes and folders it reads."""
-	from onedesk.one import settings
+	from onedesk.one_ai import yours
 
 	roles.require()
-	said = settings._intake()
+	said = yours._intake()
 	kinds = {"Switch": "switch", "Int": "number", "Percent": "number"}
 	return {
 		"on": apps.intake_on(),
@@ -135,12 +135,12 @@ def reading() -> dict:
 def set_reading(key: str, value) -> None:
 	"""One of reading's settings, saved as Settings saved it, which tells the
 	other administrators of a change that matters (tell.intake_changed)."""
-	from onedesk.one import settings
+	from onedesk.one_ai import yours
 
 	roles.require()
-	if key not in settings.INTAKE:
+	if key not in yours.INTAKE:
 		frappe.throw(_("{0} is not one of OneAI's settings.").format(key))
-	settings._save_intake({key: frappe.utils.flt(value)})
+	yours._save_intake({key: frappe.utils.flt(value)})
 
 
 @frappe.whitelist(methods=["POST"])
@@ -287,7 +287,7 @@ def drop_knowledge(name: str) -> None:
 def yours() -> dict:
 	"""What OneAI keeps about the reader, and the workspace's Knowledge it
 	reads too."""
-	from onedesk.one import settings
+	from onedesk.one_ai import yours
 
-	return settings._memory()
+	return yours._memory()
 

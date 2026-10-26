@@ -265,12 +265,22 @@ frappe.provide("onedesk.centers");
 onedesk.centers.open = (center, { at = null, record = null, module = null } = {}) => {
 	const doors = {
 		account: () => onedesk.account_center.open({ at, record }),
-		access: () => onedesk.access.open({ module, at }),
+		// A module's ControlCenter (onedesk.control_centers), One's own when
+		// no module is named, its files loaded first where they are not
+		// loaded with the desk.
+		settings: async () => {
+			await frappe.require(onedesk.centers.FILES[module] || []);
+			return (onedesk.control_centers[module || "One"] || onedesk.control_centers.One)({ at, record });
+		},
+		access: () => onedesk.access.open({ module, at, record }),
 		notifications: () => onedesk.notification_center.open({ module, at }),
 		ai: () => onedesk.ai_center.open({ module, at }),
 		trust: () => onedesk.trust.open({ module, at }),
 	};
 	return (doors[center] || doors.account)();
+};
+onedesk.centers.FILES = {
+	OneMail: ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"],
 };
 $(document).on("page-change", () => {
 	onedesk.centers.here = null;

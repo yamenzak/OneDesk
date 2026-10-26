@@ -482,7 +482,7 @@ def intake_changed(doc, changed: list[str]) -> None:
 	notify.notify(
 		"Reading Changed",
 		people,
-		link="/desk/workspace-settings?section=intake",
+		link="/desk/one?center=ai&at=reading",
 		by=frappe.utils.get_fullname(),
 		what=", ".join(said),
 	)
@@ -493,7 +493,7 @@ def holidays_changed(what: str, holiday_list: str) -> None:
 	notify.notify(
 		"Holidays Changed",
 		roles.administrators(),
-		link="/desk/workspace-settings?section=holidays",
+		link="/desk/one?center=settings&module=OneHR&at=holidays",
 		by=frappe.utils.get_fullname(),
 		what=what,
 		holiday_list=holiday_list,
@@ -507,7 +507,7 @@ def holidays_run_out_soon(holiday_list: str, end, left: int) -> None:
 	notify.notify(
 		"Holidays Run Out Soon",
 		roles.administrators(),
-		link="/desk/workspace-settings?section=holidays",
+		link="/desk/one?center=settings&module=OneHR&at=holidays",
 		holiday_list=holiday_list,
 		last_day=frappe.utils.formatdate(end),
 		days=left,
@@ -629,7 +629,7 @@ def sign_in_rules_changed(said: list[str]) -> None:
 	notify.notify(
 		"Sign-in Rules Changed",
 		admins,
-		link="/desk/workspace-settings?section=signing_in",
+		link="/desk/one?center=settings&module=One&at=general",
 		sender="Administrator",
 		by=frappe.utils.get_fullname(),
 		what=", ".join(said),

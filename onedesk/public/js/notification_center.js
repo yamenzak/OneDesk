@@ -125,15 +125,16 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 		async render(panel) {
 			const said = await frappe.xcall(N + "yours", { module: "" }, "GET");
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			for (const [field, title, sub] of [
-				["enabled", __("Notifications"), __("Turn off to stop all notifications.")],
-				["email", __("Also by Email"), __("Emails you the notifications turned on for email.")],
+			for (const [key, field, glyph, title, sub] of [
+				["enabled", "enabled", "bell", __("Notifications"), __("Turn off to stop all notifications.")],
+				["email", "enable_email_notifications", "mail", __("Also by Email"), __("Emails you the notifications turned on for email.")],
+				["threads", "enable_email_threads_on_assigned_document", "mails", __("Mail About What Is Assigned to You"), __("Mails you each new mail on a record you were given to do.")],
 			]) {
-				const $row = kit.row({ lead: kit.glyph(field === "email" ? "mail" : "bell"), title, sub: esc(sub) }).appendTo($list);
+				const $row = kit.row({ lead: kit.glyph(glyph), title, sub: esc(sub) }).appendTo($list);
 				toggle($row.find(".one-set-end"), {
-					value: said[field],
+					value: said[key],
 					label: title,
-					change: (on) => frappe.xcall(N + "switch", { field: field === "email" ? "enable_email_notifications" : "enabled", on }),
+					change: (on) => frappe.xcall(N + "switch", { field, on }),
 				});
 			}
 			push($list);

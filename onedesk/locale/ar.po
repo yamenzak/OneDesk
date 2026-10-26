@@ -13601,10 +13601,6 @@ msgstr "البريد الإلكتروني غير مُعَدّ، لذا لم تُ
 msgid "Emails people start from when they write."
 msgstr "رسائل يبدأ منها الأشخاص عندما يكتبون."
 
-#: onedesk/one/settings.py:118
-msgid "Emails you the notifications turned on for email below."
-msgstr "يرسل إليك بالبريد الإشعارات المفعّلة للبريد أدناه."
-
 #: onedesk/public/js/settings.js:155
 msgid "Emergency Contact"
 msgstr ""
@@ -29280,20 +29276,12 @@ msgstr "أخرى"
 msgid "Other Actions"
 msgstr "إجراءات أخرى"
 
-#: onedesk/public/js/settings.js:312
-msgid "Other Browsers"
-msgstr "متصفحات أخرى"
-
 #. Label in the One Subcontracting Order print format
 #. Label in the One Subcontracting Receipt print format
 #: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 msgid "Other Costs"
 msgstr "تكاليف أخرى"
-
-#: onedesk/public/js/settings.js:254
-msgid "Other Emails"
-msgstr "رسائل بريد أخرى"
 
 #. Label of the noted (JSON) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -44883,10 +44871,6 @@ msgstr "الليلة"
 msgid "Too Long"
 msgstr "مدة طويلة جداً"
 
-#: onedesk/public/js/settings.js:256
-msgid "Too Many Emails?"
-msgstr "رسائل بريد كثيرة؟"
-
 #: onedesk/one_hr/overtime.py:77
 msgid "Too Much Overtime"
 msgstr "عمل إضافي يتجاوز الحد"
@@ -57502,3 +57486,30 @@ msgstr "جعله {by} واحدًا منهم. إن لم تكن تتوقع هذا�
 
 msgid "{by} took it away. If you did not expect this, check People in AccountCenter now."
 msgstr "سحبه {by}. إن لم تكن تتوقع هذا، فراجع الأشخاص في AccountCenter الآن."
+
+msgid "Only the workspace's administrators set the holidays."
+msgstr "لا يضبط العطلات إلا مسؤولو مساحة العمل."
+
+msgid "Only the workspace's administrators set who may do what."
+msgstr "لا يحدد من يفعل ماذا إلا مسؤولو مساحة العمل."
+
+msgid "Profiles give people their apps at once, groups share records, and custom roles sit between User and Manager."
+msgstr "الملفات تمنح الأشخاص تطبيقاتهم دفعة واحدة، والمجموعات تتشارك السجلات، والأدوار المخصصة تقع بين المستخدم والمدير."
+
+msgid "Roles and Profiles"
+msgstr "الأدوار والملفات"
+
+msgid "The company, its contact details and branding, formats, sign-in and sharing."
+msgstr "الشركة وبيانات الاتصال بها وهويتها، والتنسيقات وتسجيل الدخول والمشاركة."
+
+msgid "The public holidays and weekly days off leave and attendance count around."
+msgstr "العطلات الرسمية وأيام الراحة الأسبوعية التي تُحسب الإجازات والحضور حولها."
+
+msgid "Your Calendar Link"
+msgstr "رابط تقويمك"
+
+msgid "Your OneCalendar in Google Calendar, Apple Calendar or Outlook, through a private link."
+msgstr "تقويمك في OneCalendar داخل Google Calendar أو Apple Calendar أو Outlook عبر رابط خاص."
+
+msgid "Your mailboxes and folders that OneAI reads, files and acts on as you."
+msgstr "صناديق بريدك ومجلداتك التي يقرؤها OneAI ويصنّفها ويتصرّف فيها نيابةً عنك."

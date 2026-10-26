@@ -16,4 +16,7 @@ NOT_FOR_AI = {
 	"center.drop_knowledge": "Knowledge is what OneAI is told as fact, so a person removes it, never OneAI.",
 	"center.set_job": "What OneAI does by itself in a module is decided by an administrator, never by OneAI.",
 	"run.apply_all": "It approves OneAI's cards, which is the person's answer to OneAI and never OneAI's own.",
+	"yours.keep": "What OneAI remembers about a person is theirs to write in AICenter; OneAI keeps a fact only from what they tell it in a conversation.",
+	"yours.forget": "Forgetting is the person's own say over what OneAI keeps, so they do it, never OneAI.",
+	"yours.forget_all": "Forgetting is the person's own say over what OneAI keeps, so they do it, never OneAI.",
 }

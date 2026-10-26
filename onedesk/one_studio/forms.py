@@ -96,7 +96,7 @@ def forms() -> list[dict]:
 	it. The changed ones first."""
 	roles.require()
 	from onedesk.one import audit
-	from onedesk.one.settings import _mark
+	from onedesk.one.brand import mark as _mark
 
 	apps = _apps()
 	products = dict(

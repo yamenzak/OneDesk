@@ -528,7 +528,7 @@ def rule(result: dict) -> str:
 def _holidays() -> set:
 	"""Every day off on any of the company's lists, so a deadline in January
 	is moved by January's list, not last year's."""
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	return holidays.all_dates()
 

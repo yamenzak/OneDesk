@@ -58,7 +58,7 @@ def make(company: str, start, end) -> None:
 
 def daily() -> None:
 	"""Next year's periods, once this year's end is a month away."""
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	company = holidays.company()
 	if not company:

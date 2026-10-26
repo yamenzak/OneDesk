@@ -156,7 +156,7 @@ def _holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
 	holidays (one/holidays.py, `make`), put in force for the company."""
 	if not company:
 		return None
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	name = holidays.make(company, getdate(nowdate()).year, weekly_offs, _country_code(company))
 	holidays.assign(name, company)

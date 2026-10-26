@@ -124,7 +124,8 @@ def apply(proposal: str) -> dict:
 		return {"proposal": entry.name, "state": "Applied", "update": changes}
 
 	if entry.kind == "Holidays":
-		from onedesk.one import roles, settings
+		from onedesk.one import roles
+		from onedesk.one_hr import control as hr_control
 
 		roles.require()
 		if str(frappe.db.get_value("Holiday List", entry.record, "modified")) != changes.get("modified"):
@@ -135,7 +136,7 @@ def apply(proposal: str) -> dict:
 					entry.record
 				)
 			)
-		settings._save_holidays(entry.record, changes.get("values") or {})
+		hr_control._save_holidays(entry.record, changes.get("values") or {})
 		return _done(entry, entry.record)
 
 	if entry.kind == "Signature":

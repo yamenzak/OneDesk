@@ -99,7 +99,7 @@ def foot_settings(raw) -> dict:
 
 def company() -> dict:
 	"""What General keeps about the company, as a top shows it."""
-	from onedesk.one import settings as workspace
+	from onedesk.one import control as workspace
 
 	held = workspace._company()
 	if not held:

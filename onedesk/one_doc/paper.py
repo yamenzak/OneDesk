@@ -170,10 +170,10 @@ div[data-page-break]{{page-break-after:always;height:0;border:0}}
 
 def _company() -> dict:
 	"""What a letter head's template reads when the document is on no record."""
-	from onedesk.one import settings
+	from onedesk.one import control
 
-	company = settings._company()
-	address = settings._company_address(company)
+	company = control._company()
+	address = control._company_address(company)
 	return frappe._dict(doctype="", name="", company=company.name if company else "", company_address=address.name if address else "")
 
 

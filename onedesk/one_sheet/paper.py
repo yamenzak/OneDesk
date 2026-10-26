@@ -263,13 +263,13 @@ def _record(name: str | None) -> dict:
 	"""What a letter head's template reads as `doc`: the record a workbook
 	belongs to when the reader may open it, else the company and its
 	address, so a head written for record prints still finds them."""
-	from onedesk.one import settings
+	from onedesk.one import control
 
 	book = frappe.db.get_value(api.WORKBOOK, name, ["bound_doctype", "bound_name"], as_dict=True) if name else None
 	if book and book.bound_doctype and frappe.has_permission(book.bound_doctype, "read", book.bound_name):
 		return frappe.get_doc(book.bound_doctype, book.bound_name)
-	company = settings._company()
-	address = settings._company_address(company)
+	company = control._company()
+	address = control._company_address(company)
 	return frappe._dict(
 		doctype="", name="", company=company.name if company else "", company_address=address.name if address else ""
 	)

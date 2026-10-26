@@ -727,7 +727,7 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	if always:
 		reason = f"{said}<br>{_('Mailed to everybody it concerns, whatever they chose.', lang=lang)}"
 	else:
-		change = frappe.utils.get_url("/desk/settings?section=notifications")
+		change = frappe.utils.get_url("/desk/one?center=notifications")
 		reason = f'{said}<br><a href="{change}">{_("Change what you get by mail", lang=lang)}</a>'
 	frappe.sendmail(
 		recipients=email,

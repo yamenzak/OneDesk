@@ -1436,3 +1436,8 @@ onedesk.mail.settings = (tab) => {
 	else if (joining) connect(dialog.get_panel(joining), { shared: joining === "shared" });
 	return dialog;
 };
+
+// OneMail's ControlCenter by name, for links and the rail (desk.js
+// `onedesk.centers.open`).
+frappe.provide("onedesk.control_centers");
+onedesk.control_centers.OneMail = ({ at = null } = {}) => onedesk.mail.settings(at);

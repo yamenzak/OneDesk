@@ -634,7 +634,7 @@ def a_mail_says_what_happened_and_opens_it():
 	assert said["subject"] == "Emirates Sealants & Fixings sent a quote for PUR-RFQ-2026-00005", said["subject"]
 	assert said["with_container"] and 'class="one-title"' in said["message"]
 	assert "Open Supplier Quotation" in said["message"] and "/desk/supplier-quotation/PUR-SQTN-1" in said["message"]
-	assert "<b>Quote Received</b>" in said["message"] and "section=notifications" in said["message"]
+	assert "<b>Quote Received</b>" in said["message"] and "center=notifications" in said["message"]
 	assert "New Notification" not in said["message"]
 	with mock.patch("frappe.sendmail") as sent:
 		tell.portal_link("x@example.com", by="Karim", what="Quote Request R", workspace="W", link="https://x/l/1", button="Answer", until="1-1-2027")
@@ -3392,14 +3392,14 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 	OneAI Reads holds only the reader's own mailboxes."""
 	from frappe.boot import get_module_sidebars
 
-	from onedesk.one import apps, settings
+	from onedesk.one import apps
 	from onedesk.one_admin import faults
-	from onedesk.one_ai import chat, run
+	from onedesk.one_ai import chat, run, yours
 	from onedesk.one_ai.reading import pipeline, switches
 	from onedesk.one_hr import hiring
 
 	with as_user("rania@one.test"):
-		mine = settings.load("reads")
+		mine = yours.load("reads")
 		assert all(one["mine"] for one in mine["mailboxes"]), mine["mailboxes"]
 	queued = []
 	enqueue = frappe.enqueue
@@ -3431,8 +3431,6 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 				else:
 					raise AssertionError("a mailbox switched on with OneAI off")
 			assert not hiring.on("one_ai_screen")
-			shown = {one["key"] for one in settings.sections()["sections"]}
-			assert not shown & {"memory", "oneai", "reads", "intake"}, shown
 			sidebars = get_module_sidebars()
 			apps.trim(sidebars)
 			labels = {item.get("label") for item in sidebars["One"]["items"] if item.get("type") == "Section Break"}
@@ -3453,13 +3451,13 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 def one_the_frame_wears_the_workspace_colour():
 	"""Frame Colour in Workspace › General › Contact and Branding is the rail and the bars
 	around every screen, for everyone; saved empty, the frame is One's own."""
-	from onedesk.one import company, settings
+	from onedesk.one import company, control
 
 	was = frappe.db.get_value("Company", COMPANY, "one_frame_colour")
 	try:
-		settings._save_general({"one_frame_colour": "#7C2D12"})
+		control._save_general({"one_frame_colour": "#7C2D12"})
 		assert company.frame_colour() == "#7C2D12", "the frame did not take the workspace's colour"
-		settings._save_general({"one_frame_colour": ""})
+		control._save_general({"one_frame_colour": ""})
 		assert not company.frame_colour(), "an emptied Frame Colour still coloured the frame"
 	finally:
 		frappe.db.set_value("Company", COMPANY, "one_frame_colour", was)
@@ -3863,22 +3861,26 @@ def onehr_an_interview_is_recorded_and_its_people_read_again():
 
 @check
 def settings_open_and_save_for_each_person():
-	"""Every Settings page opens for Layla, and Rania sees only her own.
-	Rania changes her mobile number, and a save from a page loaded before
-	somebody else's change is refused, as a desk form refuses it. Layla
-	invites Hana, invites her again, turns Nadia off and on, sends her a
-	reset and signs her out, and writes and drops a notification rule
-	through OneAI. What OneAI remembers is kept and forgotten."""
-	from onedesk.one import ai, rules, settings
+	"""Every centre's section opens for Layla and only Rania's own for her.
+	Rania's stale save is refused; Layla saves General and Holidays, invites
+	Hana, turns Nadia off and on, and drops a rule OneAI wrote. What OneAI
+	remembers is kept and forgotten."""
+	from onedesk.one import access_center, ai, control, rules, settings
 	from onedesk.one_account import center
 	from onedesk.one_ai import run as runs
+	from onedesk.one_ai import yours
+	from onedesk.one_calendar import control as calendar_control
+	from onedesk.one_hr import control as hr_control
 
 	with as_user("rania@one.test"):
-		mine = settings.sections()
-		assert not mine["admin"] and {one["group"] for one in mine["sections"]} == {"you"}
-		for one in mine["sections"]:
-			if one["key"] not in settings.OPENS:
-				settings.load(one["key"])
+		assert not settings.sections()["admin"] and not settings.sections()["sections"]
+		assert "link" in calendar_control.load("link") and yours.load("reads") is not None
+		for refused in (control.sections_of, lambda: control.load("general"), lambda: hr_control.load("holidays"), lambda: access_center.load("access")):
+			try:
+				refused()
+				raise AssertionError("Rania opened a workspace setting")
+			except frappe.PermissionError:
+				pass
 		hers = center.sections_of()
 		assert {one["group"] for one in hers["sections"]} == {"yours"}
 		for one in hers["sections"]:
@@ -3897,19 +3899,24 @@ def settings_open_and_save_for_each_person():
 			raise AssertionError("a stale page overwrote a newer save")
 		except frappe.TimestampMismatchError:
 			pass
-		kept = settings.keep("I prefer replies in Arabic.")
+		kept = yours.keep("I prefer replies in Arabic.")
 		memory = next(one["name"] for one in kept["facts"] if one["fact"] == "I prefer replies in Arabic.")
-		settings.forget(memory)
-		settings.keep("I work from the Bayview site on Tuesdays.")
-		settings.forget_all()
+		yours.forget(memory)
+		yours.keep("I work from the Bayview site on Tuesdays.")
+		yours.forget_all()
 		assert not frappe.db.exists("AI Memory", {"owner": "rania@one.test"})
 		assert center.sign_out_elsewhere() == 1
 	with as_user(OWNER):
 		every = settings.sections()
 		assert every["admin"]
 		for one in every["sections"]:
-			if one["key"] not in settings.OPENS:
-				settings.load(one["key"])
+			settings.load(one["key"])
+		assert [one["key"] for one in control.sections_of()["sections"]] == ["general"]
+		general = control.load("general")
+		control.save("general", {}, general["opened"])
+		holidays = hr_control.load("holidays")
+		hr_control.save("holidays", holidays["values"], holidays.get("opened"))
+		assert access_center.load("access")["levels"]
 		for one in center.sections_of()["sections"]:
 			center.load(one["key"])
 		center.invite("hana@one.test", "Hana", "Rizk", {"OneCRM": "User"})
@@ -3927,6 +3934,8 @@ def settings_open_and_save_for_each_person():
 		rule = frappe.db.get_value("Notification", {"one_rule": 1, "document_type": "Sales Invoice", "event": "Submit"})
 		assert rule, "the rule was not made"
 		kind = frappe.db.get_value("Notification Type", {"one_rule": rule})
+		typed = settings.load("notification_types", kind)
+		settings.save("notification_types", typed.get("values") or {}, typed.get("opened"), kind)
 		assert "html" in settings.preview_notification(kind, "Invoice {{ doc.name }}") or settings.preview_notification(kind, "Invoice {{ doc.name }}")
 		settings.delete_rule(rule)
 		assert not frappe.db.exists("Notification", rule)
@@ -3939,7 +3948,7 @@ def access_is_shaped_by_the_administrator():
 	one; each goes again. OneAI suggests a level, a profile, a group, a hold,
 	a saved report, a dashboard and a report by mail, and each card applied
 	is there afterwards. Omar may do none of it."""
-	from onedesk.one import access, ai_setup
+	from onedesk.one import access, access_center, ai_setup
 	from onedesk.one_ai import run as runs
 
 	customers = frappe.get_all("Customer", pluck="name", order_by="name asc")
@@ -3966,6 +3975,9 @@ def access_is_shaped_by_the_administrator():
 		access.remove_level(level)
 		profile = access.new_profile("Estimator")
 		assert frappe.db.exists("Role Profile", profile)
+		opened = access_center.load("access", f"profile:{profile}")
+		access_center.save("access", {"app_onecrm": "User"}, opened.get("opened"), f"profile:{profile}")
+		assert access.profile(profile)["levels"].get("OneCRM") == "User", "AccessCenter did not save the profile"
 		access.remove_profile(profile)
 		group = access.new_group("Site Team", ["rania@one.test", "tariq@one.test"])
 		assert frappe.db.count("User Group Member", {"parent": group}) == 2
@@ -4796,7 +4808,8 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 	the shared lists of values read, added to, renamed and counted, next
 	year's holidays made and put in force with the country's own public
 	holidays, and a deleted project task brought back from the bin."""
-	from onedesk.one import holidays, home, masters, recycle, reports
+	from onedesk.one import home, masters, recycle, reports
+	from onedesk.one_hr import holidays
 
 	with as_user("samir@one.test"):
 		figures = {
@@ -8692,7 +8705,7 @@ def the_workspace_tells_what_the_second_pass_found():
 	import copy
 	from unittest.mock import patch
 
-	from onedesk.one import approvals, settings, tell
+	from onedesk.one import approvals, control, tell
 	from onedesk.one.people import told_of_access
 	from onedesk.one_legal import gate
 
@@ -8712,7 +8725,7 @@ def the_workspace_tells_what_the_second_pass_found():
 		assert OWNER not in said("Administrator Removed")[1]
 
 		with as_user(OWNER):
-			settings.save("general", {"allow_consecutive_login_attempts": 7})
+			control.save("general", {"allow_consecutive_login_attempts": 7})
 		assert "allow_consecutive_login_attempts" not in str(said("Sign-in Rules Changed")[2]["what"]), said("Sign-in Rules Changed")
 
 		frappe.cache.delete_value("one_storage_full_told")

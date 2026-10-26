@@ -174,10 +174,21 @@ moves its version.
    Your devices (Sign-in already lists where you are signed in), Apps stays
    in Workspace Settings until stage 2, and `account.py`, `apps.py` and
    `tell.py` stay in One, which every module calls through them.
-2. **Settings empties.** Every other You and Workspace section goes to the
-   centre or module in the table. The Settings and Workspace Settings pages,
-   and `settings.py` and `settings.js`, are deleted once nothing is left
-   in them.
+2. **Settings empties.** Built. A centre's section is a `CenterSection`
+   (`public/js/center_section.js`), lifted out of AccountCenter, so each
+   moved section kept its drawing and its save. General is One's
+   ControlCenter (`one/control.py`, `public/js/one_control.js`); Access's
+   roles, profiles and groups are AccessCenter's Roles and Profiles, under
+   Across One; Holidays is OneHR's ControlCenter (`one_hr/control.py`, and
+   `holidays.py` moved into OneHR); the calendar link is OneCalendar's
+   ControlCenter, Your Calendar Link; What OneAI Remembers and What OneAI
+   Reads are AICenter's Yours (`one_ai/yours.py`); Notifications is
+   NotificationCenter's Everything, which took the one switch it lacked
+   (mail about what is assigned to you). The Settings page is deleted.
+   `/desk/one?center=settings&module=OneHR&at=holidays` opens any module's
+   ControlCenter (`onedesk.control_centers`), and every centre tells OneAI
+   which tab is open. Workspace Settings keeps Workspace Notifications,
+   Numbering, Printing and Approvals until stage 3.
 3. **OneStudio takes Setup and Automation.** Numbering, printing, approvals,
    automations, webhooks, reports by mail, saved reports and dashboards,
    Customize. Mail Templates to OneMail. Workspace Notifications to

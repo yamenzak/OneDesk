@@ -109,7 +109,7 @@ def days_off(
 	When the company is closed is nobody's secret, so every desk user sees it,
 	whether or not they may open a Holiday List: read here rather than through
 	`get_list`, which would refuse them."""
-	from onedesk.one import holidays
+	from onedesk.one_hr import holidays
 
 	named = holidays.lists()
 	if not named:
