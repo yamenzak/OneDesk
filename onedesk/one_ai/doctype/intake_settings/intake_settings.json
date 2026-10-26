@@ -29,7 +29,7 @@
    "label": "Most Pages Read",
    "default": "60",
    "non_negative": 1,
-   "description": "A scan longer than this is read up to here. The rest stays searchable by its name."
+   "description": "A longer scan is read up to this page and found by its name beyond it."
   },
   {
    "fieldname": "floor",
@@ -43,14 +43,14 @@
    "fieldtype": "Check",
    "label": "Audit OneAI Actions",
    "default": "1",
-   "description": "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
+   "description": "If enabled, a second check approves what OneAI did with each document or sends it to a person."
   },
   {
    "fieldname": "keep_in_place",
    "fieldtype": "Check",
    "label": "Leave Unmatched Files in Place",
    "default": "0",
-   "description": "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
+   "description": "If enabled, files that match no record stay where they arrived."
   },
   {
    "fieldname": "quiet_minutes",
@@ -58,21 +58,21 @@
    "label": "Quiet Minutes",
    "default": "5",
    "non_negative": 1,
-   "description": "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
+   "description": "OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
   },
   {
    "fieldname": "household",
    "fieldtype": "Check",
    "label": "Household",
    "default": "0",
-   "description": "A household keeps no books. No drafts are made, and Spending shows what was bought."
+   "description": "If enabled, no drafts are made and Spending shows what was bought."
   },
   {
    "fieldname": "submit_einvoices",
    "fieldtype": "Check",
    "label": "Submit Matching E-Invoices",
    "default": "0",
-   "description": "An e-invoice from a known supplier, billed from an order and ready, is submitted by OneAI. Off unless switched on."
+   "description": "If enabled, an e-invoice from a known supplier that matches its order is submitted."
   }
  ],
  "issingle": 1,

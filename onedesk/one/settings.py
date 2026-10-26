@@ -68,7 +68,7 @@ APP_SAID = {
 	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
 	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
 	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
-	"OneIntake": _lt("Mail and files read as they arrive, filed on the right record and acted on."),
+	"OneIntake": _lt("Mail and files read as they arrive, and filed on their record."),
 }
 
 LEVELS = ("None", "User", "Manager")

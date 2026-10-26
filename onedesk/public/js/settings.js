@@ -2377,7 +2377,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 					fieldname: "said",
 					fieldtype: "HTML",
 					options: `<div class="one-shell-quiet">${frappe.utils.escape_html(
-						__("OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits.")
+						__("New files in this folder and its subfolders are read and filed, using credits.")
 					)}</div>`,
 				},
 			],

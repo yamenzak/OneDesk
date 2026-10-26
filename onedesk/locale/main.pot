@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 01:51+0000\n"
-"PO-Revision-Date: 2026-10-26 01:51+0000\n"
+"POT-Creation-Date: 2026-10-26 05:25+0000\n"
+"PO-Revision-Date: 2026-10-26 05:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -755,10 +755,6 @@ msgstr ""
 msgid "A fact somebody asked OneAI to keep. Theirs alone, like their conversations."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:259
-msgid "A few sentences at the top of each record, written again when something happens to it, at most once a day."
-msgstr ""
-
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
@@ -842,11 +838,6 @@ msgstr ""
 msgid "A group's name is 2 to 40 letters, numbers and spaces."
 msgstr ""
 
-#. Description of the 'Household' (Check) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "A household keeps no books. No drafts are made, and Spending shows what was bought."
-msgstr ""
-
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
 msgid "A job needs a workspace."
 msgstr ""
@@ -924,6 +915,12 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:124
 msgid "A list of addresses a newsletter goes to."
+msgstr ""
+
+#. Description of the 'Most Pages Read' (Int) field in DocType 'Intake
+#. Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "A longer scan is read up to this page and found by its name beyond it."
 msgstr ""
 
 #: onedesk/one_ai/proposals.py:634
@@ -1320,20 +1317,8 @@ msgstr ""
 msgid "A sale you are working on, what it is worth and how far it has got."
 msgstr ""
 
-#. Description of the 'Most Pages Read' (Int) field in DocType 'Intake
-#. Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "A scan longer than this is read up to here. The rest stays searchable by its name."
-msgstr ""
-
 #: onedesk/one_studio/extensions.py:139
 msgid "A scheduled extension runs at most once an hour."
-msgstr ""
-
-#. Description of the 'Audit OneAI Actions' (Check) field in DocType 'Intake
-#. Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
 msgstr ""
 
 #: onedesk/one_book/home.py:374
@@ -3662,12 +3647,6 @@ msgstr ""
 
 #: onedesk/one/automations.py:85
 msgid "An automation here decides by its field rules, not by code."
-msgstr ""
-
-#. Description of the 'Submit Matching E-Invoices' (Check) field in DocType
-#. 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "An e-invoice from a known supplier, billed from an order and ready, is submitted by OneAI. Off unless switched on."
 msgstr ""
 
 #. Description of the 'Address or Domain' (Data) field in DocType 'Face'
@@ -7093,7 +7072,7 @@ msgid "Card and billing details"
 msgstr ""
 
 #: onedesk/one_ai/center.py:21
-msgid "Careful answers at a modest cost. Right for most workspaces."
+msgid "Careful answers at a modest cost, right for most workspaces."
 msgstr ""
 
 #. Label in the One Leave Allocation print format
@@ -10017,7 +9996,7 @@ msgid "Credits can't be zero."
 msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:281
-msgid "Credits each job used in the last thirty days."
+msgid "Credits each job used in the last 30 days."
 msgstr ""
 
 #. Description of a DocType
@@ -15308,6 +15287,10 @@ msgstr ""
 msgid "Factory quality inspection"
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:198
+msgid "Facts, terms and policies OneAI reads with every answer."
+msgstr ""
+
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Private App Grant'
@@ -15677,12 +15660,6 @@ msgstr ""
 
 #: onedesk/public/js/record_files.js:52
 msgid "Files of {0}"
-msgstr ""
-
-#. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
-#. 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
 msgstr ""
 
 #: onedesk/one_admin/billing.py:154
@@ -18326,6 +18303,10 @@ msgstr ""
 msgid "How far OneAI goes with each new message."
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:220
+msgid "How far OneAI reads each mailbox's new mail."
+msgstr ""
+
 #: onedesk/one_inventory/ai.py:218
 msgid "How far along is it?"
 msgstr ""
@@ -18870,10 +18851,22 @@ msgstr ""
 msgid "If enabled, OneAI can't read this mailbox, including in the OneAI panel."
 msgstr ""
 
+#. Description of the 'Audit OneAI Actions' (Check) field in DocType 'Intake
+#. Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "If enabled, a second check approves what OneAI did with each document or sends it to a person."
+msgstr ""
+
 #. Description of the 'ignore_user_time_overlap' field in DocType 'Projects
 #. Settings'
 #: onedesk/one_project/custom/projects_settings.json
 msgid "If enabled, a user may log two timesheet rows for the same hours."
+msgstr ""
+
+#. Description of the 'Submit Matching E-Invoices' (Check) field in DocType
+#. 'Intake Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "If enabled, an e-invoice from a known supplier that matches its order is submitted."
 msgstr ""
 
 #. Description of the 'ignore_employee_time_overlap' field in DocType 'Projects
@@ -18888,6 +18881,17 @@ msgstr ""
 msgid "If enabled, choosing a project on a sales invoice adds its billable timesheets. Invoice Time on a project adds them either way."
 msgstr ""
 
+#. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
+#. 'Intake Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "If enabled, files that match no record stay where they arrived."
+msgstr ""
+
+#. Description of the 'Household' (Check) field in DocType 'Intake Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "If enabled, no drafts are made and Spending shows what was bought."
+msgstr ""
+
 #: onedesk/public/js/one_mail/rule_builder.js:377
 msgid "If it's none of these"
 msgstr ""
@@ -18898,6 +18902,14 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:380
 msgid "If not"
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:49
+msgid "If off, nobody can ask OneAI and none of its jobs run."
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:113
+msgid "If off, nothing new is read and Documents keeps what it holds."
 msgstr ""
 
 #: onedesk/www/s.py:21
@@ -20925,6 +20937,10 @@ msgstr ""
 msgid "Jobs"
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:221
+msgid "Jobs OneAI runs in {0} by itself, each using credits."
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:320
 msgid "Join"
 msgstr ""
@@ -21079,6 +21095,10 @@ msgstr ""
 
 #: onedesk/public/js/item_new.js:108
 msgid "Kept In"
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:259
+msgid "Kept at the top of a record and rewritten at most once a day."
 msgstr ""
 
 #: onedesk/one_ai/reading/keep.py:49
@@ -22995,7 +23015,7 @@ msgid "Mail Templates"
 msgstr ""
 
 #: onedesk/one/settings.py:71 onedesk/public/js/one_ai/ai_center.js:108
-msgid "Mail and files read as they arrive, filed on the right record and acted on."
+msgid "Mail and files read as they arrive, and filed on their record."
 msgstr ""
 
 #: onedesk/one_crm/home.py:123
@@ -25147,6 +25167,10 @@ msgstr ""
 msgid "New files in the folder and the folders inside it are read, filed and acted on as you."
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:179 onedesk/public/js/settings.js:2380
+msgid "New files in this folder and its subfolders are read and filed, using credits."
+msgstr ""
+
 #. Description of the 'Read by OneAI' (Check) field in DocType 'File'
 #: onedesk/one_ai/custom/file.json
 msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
@@ -25856,6 +25880,10 @@ msgstr ""
 msgid "No items match"
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:203
+msgid "No knowledge"
+msgstr ""
+
 #: onedesk/public/js/settings.js:1738
 msgid "No letter heads"
 msgstr ""
@@ -25890,13 +25918,10 @@ msgid "No mailbox can send as {0}."
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:53 onedesk/public/js/one_ai/ai_center.js:144
+#: onedesk/public/js/one_ai/ai_center.js:225
 #: onedesk/public/js/one_mail/onemail_settings.js:64
 #: onedesk/public/js/one_mail/onemail_settings.js:1245
 msgid "No mailboxes"
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:225
-msgid "No mailboxes receive mail yet."
 msgstr ""
 
 #: frontend/src/item/ItemBuying.vue:18
@@ -25937,6 +25962,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:584
 msgid "No matching values"
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:312
+msgid "No memories"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:55 frontend/src/project/Overview.vue:76
@@ -26236,6 +26265,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:1305
 msgid "No transactions"
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:287
+msgid "No usage"
 msgstr ""
 
 #: onedesk/public/js/settings.js:1099
@@ -27040,10 +27073,6 @@ msgstr ""
 msgid "Nothing to show"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:287
-msgid "Nothing used yet."
-msgstr ""
-
 #: frontend/src/intake/IntakeInbox.vue:15 frontend/src/plant/PlantFloor.vue:49
 msgid "Nothing waiting"
 msgstr ""
@@ -27058,10 +27087,6 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:539
 msgid "Nothing will be written to attendance."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:203
-msgid "Nothing written down yet."
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:1138
@@ -27994,6 +28019,11 @@ msgstr ""
 msgid "OneAI Turned Off"
 msgstr ""
 
+#. Description of the 'Quiet Minutes' (Int) field in DocType 'Intake Settings'
+#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
+msgid "OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
+msgstr ""
+
 #. Description of the 'Prepare Interviews' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -28134,10 +28164,6 @@ msgstr ""
 msgid "OneAI reads each message and picks a label, and each label has its own steps."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:312
-msgid "OneAI remembers nothing about you yet."
-msgstr ""
-
 #: onedesk/public/js/one_mail/rule_builder.js:782
 msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
 msgstr ""
@@ -28154,10 +28180,6 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2352
 msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:179 onedesk/public/js/settings.js:2380
-msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
 msgstr ""
 
 #: onedesk/one_ai/heads.py:66
@@ -28408,10 +28430,6 @@ msgstr ""
 
 #: onedesk/one_legal/services.py:109
 msgid "Only a workspace administrator can turn this on or off."
-msgstr ""
-
-#: onedesk/one_ai/center.py:230
-msgid "Only a workspace administrator, or a role given Usage, sees what OneAI used."
 msgstr ""
 
 #: onedesk/one/masters.py:69 onedesk/one/page/masters/masters.js:9
@@ -31093,11 +31111,6 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one/approval_waiting.md
 msgid "People with the step's role who can open the record"
-msgstr ""
-
-#. Description of the 'Quiet Minutes' (Int) field in DocType 'Intake Settings'
-#: onedesk/one_ai/doctype/intake_settings/intake_settings.json
-msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
 msgstr ""
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:47
@@ -43495,7 +43508,7 @@ msgid "The stock and buying managers"
 msgstr ""
 
 #: onedesk/one_ai/center.py:22
-msgid "The strongest models, for the hardest questions. The dearest."
+msgid "The strongest models for the hardest questions, at the highest cost."
 msgstr ""
 
 #. Description of the 'Stripe Item' (Data) field in DocType 'Tenant Add-on'
@@ -43555,6 +43568,10 @@ msgstr ""
 
 #: onedesk/public/js/settings.js:2610
 msgid "The text comes from {0}."
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:43
+msgid "The tier sets which models answer and what each answer costs."
 msgstr ""
 
 #: onedesk/one_admin/setup.py:95
@@ -43975,10 +43992,6 @@ msgstr ""
 
 #: onedesk/one/access.py:710
 msgid "There is no {0} {1}."
-msgstr ""
-
-#: onedesk/one_ai/center.py:134 onedesk/one_ai/center.py:179
-msgid "There is nothing called {0} here."
 msgstr ""
 
 #: onedesk/one_hr/clock.py:105
@@ -47698,18 +47711,10 @@ msgstr ""
 msgid "What OneAI did"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:221
-msgid "What OneAI does in {0} on its own. Each uses credits."
-msgstr ""
-
 #. Description of the 'OneAI Leaves Alone' (Small Text) field in DocType 'Email
 #. Account'
 #: onedesk/one_ai/custom/email_account.json
 msgid "What OneAI does not do with this mailbox's mail, by job (one_mail/gate.py JOBS)."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:220
-msgid "What OneAI does with each mailbox's new mail. Each is set on the mailbox."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:439
@@ -47736,10 +47741,6 @@ msgstr ""
 #. Description of the 'Explained' (Long Text) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "What OneAI said when asked to explain it, per language."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:198
-msgid "What OneAI should know about the company, such as its facts, its terms and how work is done here."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:237
@@ -49471,14 +49472,6 @@ msgstr ""
 msgid "When mail you sent could not be delivered after every retry."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:49
-msgid "When off, nobody can ask OneAI, and nothing it does on its own runs."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:113
-msgid "When off, nothing that arrives is read, and Documents stays as it is."
-msgstr ""
-
 #: onedesk/public/js/doctype_settings.js:492
 msgid "When one is cancelled"
 msgstr ""
@@ -50169,10 +50162,6 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:208
 msgid "Where work is done, and what an hour there costs."
-msgstr ""
-
-#: onedesk/public/js/one_ai/ai_center.js:43
-msgid "Whether OneAI answers in this workspace, and how carefully."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:438
@@ -52667,6 +52656,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:93
 msgid "Your role doesn't allow changing this."
+msgstr ""
+
+#: onedesk/one_ai/center.py:230
+msgid "Your role doesn't allow seeing OneAI's usage."
 msgstr ""
 
 #: onedesk/one_mail/holders.py:42
@@ -55515,6 +55508,10 @@ msgstr ""
 
 #: onedesk/one_admin/domains.py:212
 msgid "{0} is not on this workspace."
+msgstr ""
+
+#: onedesk/one_ai/center.py:134 onedesk/one_ai/center.py:179
+msgid "{0} is not one of OneAI's settings."
 msgstr ""
 
 #: onedesk/one/masters.py:77

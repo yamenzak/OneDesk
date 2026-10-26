@@ -756,8 +756,8 @@ msgid "A fact somebody asked OneAI to keep. Theirs alone, like their conversatio
 msgstr "معلومة طلب أحدهم من OneAI الاحتفاظ بها. تخصّه وحده، مثل محادثاته."
 
 #: onedesk/public/js/settings.js:2545
-msgid "A few sentences at the top of each record, written again when something happens to it, at most once a day."
-msgstr "بضع جمل أعلى كل سجل، تُكتب من جديد عندما يحدث له شيء، مرة واحدة في اليوم على الأكثر."
+msgid "Kept at the top of a record and rewritten at most once a day."
+msgstr "يظهر أعلى السجل ويُعاد كتابته مرة في اليوم على الأكثر."
 
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
@@ -844,8 +844,8 @@ msgstr "اسم المجموعة من 2 إلى 40 حرفًا ورقمًا ومس�
 
 #. Description of the 'Household' (Check) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "A household keeps no books. No drafts are made, and Spending shows what was bought."
-msgstr "الأسرة لا تمسك دفاتر. لا تُنشأ مسودات، ويعرض الإنفاق ما اشتُري."
+msgid "If enabled, no drafts are made and Spending shows what was bought."
+msgstr "عند التفعيل، لا تُنشأ مسودات ويعرض الإنفاق ما اشتُري."
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
 msgid "A job needs a workspace."
@@ -1320,8 +1320,8 @@ msgstr "صفقة تعمل عليها، وقيمتها وإلى أين وصلت."
 #. Description of the 'Most Pages Read' (Int) field in DocType 'Intake
 #. Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "A scan longer than this is read up to here. The rest stays searchable by its name."
-msgstr "يُقرأ المستند الممسوح الأطول من هذا حتى هنا فقط. ويبقى الباقي قابلاً للبحث باسمه."
+msgid "A longer scan is read up to this page and found by its name beyond it."
+msgstr "يُقرأ المسح الأطول حتى هذه الصفحة، ويُعثر على ما بعدها باسمه."
 
 #: onedesk/one_studio/extensions.py:139
 msgid "A scheduled extension runs at most once an hour."
@@ -1330,8 +1330,8 @@ msgstr "الإضافة المجدولة تعمل مرة واحدة في السا
 #. Description of the 'Audit OneAI Actions' (Check) field in DocType 'Intake
 #. Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "A second agent checks each document's actions, approves what is right and sends what is wrong to a person."
-msgstr "وكيل ثانٍ يراجع إجراءات كل مستند، ويعتمد الصحيح منها ويحيل الخاطئ إلى شخص."
+msgid "If enabled, a second check approves what OneAI did with each document or sends it to a person."
+msgstr "عند التفعيل، يوافق فحص ثانٍ على ما فعله OneAI بكل مستند أو يرسله إلى شخص."
 
 #: onedesk/one_book/home.py:374
 msgid "A second set of books, such as for tax depreciation."
@@ -3666,8 +3666,8 @@ msgstr "تقرر الأتمتة هنا بقواعد حقولها، لا بالش
 #. Description of the 'Submit Matching E-Invoices' (Check) field in DocType
 #. 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "An e-invoice from a known supplier, billed from an order and ready, is submitted by OneAI. Off unless switched on."
-msgstr "يعتمد OneAI فاتورة إلكترونية من مورد معروف مفوترة من أمر شراء وجاهزة. متوقف ما لم يُفعَّل."
+msgid "If enabled, an e-invoice from a known supplier that matches its order is submitted."
+msgstr "عند التفعيل، تُعتمد الفاتورة الإلكترونية من مورد معروف إذا طابقت طلبها."
 
 #. Description of the 'Address or Domain' (Data) field in DocType 'Face'
 #: onedesk/one_mail/doctype/face/face.json
@@ -6799,8 +6799,8 @@ msgid "Bytes, from the last measurement."
 msgstr "بالبايت، من آخر قياس."
 
 #: onedesk/one_ai/center.py
-msgid "Careful answers at a modest cost. Right for most workspaces."
-msgstr "إجابات متأنية بتكلفة معتدلة. مناسب لمعظم مساحات العمل."
+msgid "Careful answers at a modest cost, right for most workspaces."
+msgstr "إجابات متأنية بتكلفة معتدلة، مناسبة لمعظم مساحات العمل."
 
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "Changes OneAI is unsure of wait for approval in Documents."
@@ -6827,8 +6827,8 @@ msgid "Covering Mail"
 msgstr "تغطية البريد"
 
 #: onedesk/public/js/ai_center.js
-msgid "Credits each job used in the last thirty days."
-msgstr "الرصيد الذي استهلكته كل مهمة خلال الثلاثين يومًا الماضية."
+msgid "Credits each job used in the last 30 days."
+msgstr "الرصيد الذي استخدمته كل مهمة في آخر 30 يومًا."
 
 #: onedesk/one_crm/home.py:159
 msgid "CRM Settings"
@@ -15576,8 +15576,8 @@ msgstr "ملفات {0}"
 #. Description of the 'Leave Unmatched Files in Place' (Check) field in DocType
 #. 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "Files that belong to no record stay where they arrived instead of going to a folder for their kind and year."
-msgstr "تبقى الملفات التي لا تخص أي سجل حيث وصلت بدل نقلها إلى مجلد نوعها وسنتها."
+msgid "If enabled, files that match no record stay where they arrived."
+msgstr "عند التفعيل، تبقى الملفات التي لا تطابق أي سجل حيث وصلت."
 
 #: onedesk/one_admin/billing.py:154
 msgid "Files use {0} GB and the plan allows {1} GB."
@@ -22867,8 +22867,8 @@ msgid "Mail Templates"
 msgstr "قوالب البريد"
 
 #: onedesk/one/settings.py:65
-msgid "Mail and files read as they arrive, filed on the right record and acted on."
-msgstr "البريد والملفات تُقرأ فور وصولها، وتُحفظ في السجل الصحيح ويُتصرّف بشأنها."
+msgid "Mail and files read as they arrive, and filed on their record."
+msgstr "البريد والملفات تُقرأ عند وصولها وتُحفظ على سجلها."
 
 #: onedesk/one_crm/home.py:123
 msgid "Mail sent to a lead or a contact on a schedule."
@@ -25378,9 +25378,6 @@ msgstr "بلا تاريخ استحقاق"
 msgid "No Location"
 msgstr "لا يوجد موقع"
 
-#: onedesk/public/js/ai_center.js
-msgid "No mailboxes receive mail yet."
-msgstr "لا يوجد صندوق بريد يستقبل البريد بعد."
 
 #: onedesk/one_admin/gateway.py
 msgid "No model here reads {0}."
@@ -26854,8 +26851,8 @@ msgid "Nothing to show"
 msgstr "لا شيء لعرضه"
 
 #: onedesk/public/js/ai_center.js
-msgid "Nothing used yet."
-msgstr "لم يُستهلك شيء بعد."
+msgid "No usage"
+msgstr "لا استخدام"
 
 #: frontend/src/plant/PlantFloor.vue:49
 #: onedesk/one_intake/page/intake/intake.js:94
@@ -26875,8 +26872,8 @@ msgid "Nothing will be written to attendance."
 msgstr "لن يُكتب شيء في سجل الحضور."
 
 #: onedesk/public/js/ai_center.js
-msgid "Nothing written down yet."
-msgstr "لم يُكتب شيء بعد."
+msgid "No knowledge"
+msgstr "لا توجد معرفة"
 
 #: onedesk/one_inventory/heads.py:1138
 msgid "Nothing yet"
@@ -27094,8 +27091,8 @@ msgid "Off until an administrator turns them on."
 msgstr "متوقفة حتى يشغّلها مسؤول."
 
 #: onedesk/one_ai/center.py
-msgid "Only a workspace administrator, or a role given Usage, sees what OneAI used."
-msgstr "لا يرى ما استخدمه OneAI إلا مسؤول مساحة العمل، أو دور أُعطي الاستخدام."
+msgid "Your role doesn't allow seeing OneAI's usage."
+msgstr "دورك لا يسمح برؤية استخدام OneAI."
 
 #: onedesk/one_mail/notifications.py
 msgid "Open Automation"
@@ -27190,8 +27187,8 @@ msgid "When mail you sent could not be delivered after every retry."
 msgstr "عندما يتعذر تسليم بريد أرسلته بعد كل محاولة."
 
 #: onedesk/public/js/ai_center.js
-msgid "When off, nobody can ask OneAI, and nothing it does on its own runs."
-msgstr "عند الإيقاف، لا يستطيع أحد سؤال OneAI، ولا يعمل شيء مما يفعله من تلقاء نفسه."
+msgid "If off, nobody can ask OneAI and none of its jobs run."
+msgstr "عند الإيقاف، لا يمكن لأحد سؤال OneAI ولا تعمل أي من مهامه."
 
 #: onedesk/one_admin/report/price_check/price_check.py:52
 msgid "OK"
@@ -27214,8 +27211,8 @@ msgid "OneAI reads each message and picks a label, and each label has its own st
 msgstr "يقرأ OneAI كل رسالة ويختار لها تصنيفًا، ولكل تصنيف خطواته."
 
 #: onedesk/public/js/ai_center.js
-msgid "OneAI remembers nothing about you yet."
-msgstr "لا يتذكر OneAI شيئًا عنك بعد."
+msgid "No memories"
+msgstr "لا ذكريات"
 
 #: onedesk/public/js/trust_center.js
 msgid "Only a workspace administrator can turn it on."
@@ -28079,8 +28076,8 @@ msgid "OneAI will read new mail in {0} and its attachments, file them and act on
 msgstr "سيقرأ OneAI البريد الجديد في {0} ومرفقاته، ويحفظها ويتصرف بناءً عليها نيابةً عنك. تُقرأ المستندات الممسوحة والصور برصيد OneAI."
 
 #: onedesk/public/js/settings.js:2966
-msgid "OneAI will read, file and act on new files in this folder and its subfolders. Scans and photos use OneAI credits."
-msgstr "سيقرأ OneAI الملفات الجديدة في هذا المجلد ومجلداته الفرعية ويحفظها ويتصرف بناءً عليها. تستهلك المستندات الممسوحة والصور أرصدة OneAI."
+msgid "New files in this folder and its subfolders are read and filed, using credits."
+msgstr "تُقرأ الملفات الجديدة في هذا المجلد ومجلداته الفرعية وتُحفظ، باستخدام الرصيد."
 
 #: onedesk/one_ai/heads.py:83
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -30971,8 +30968,8 @@ msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
 
 #. Description of the 'Quiet Minutes' (Int) field in DocType 'Intake Settings'
 #: onedesk/one_intake/doctype/intake_settings/intake_settings.json
-msgid "People write in bursts. OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
-msgstr "يكتب الناس على دفعات. يتصرف OneAI بعد هدوء الموضوع هذه المدة، إلا في المال أو المواعيد المستحقة خلال يوم."
+msgid "OneAI acts once a matter has been quiet this long, except on money or deadlines due within a day."
+msgstr "يتصرف OneAI بعد أن يهدأ الأمر هذه المدة، إلا في المال أو المواعيد المستحقة خلال يوم."
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:48
 msgid "Per Call"
@@ -40737,8 +40734,8 @@ msgid "The standard reply"
 msgstr "الرد المعتاد"
 
 #: onedesk/one_ai/center.py
-msgid "The strongest models, for the hardest questions. The dearest."
-msgstr "أقوى النماذج، لأصعب الأسئلة. والأعلى تكلفة."
+msgid "The strongest models for the hardest questions, at the highest cost."
+msgstr "أقوى النماذج لأصعب الأسئلة، بأعلى تكلفة."
 
 #: onedesk/public/js/trust_center.js
 msgid "There is no such service."
@@ -40749,8 +40746,8 @@ msgid "There is no tour of this screen yet."
 msgstr "لا توجد جولة لهذه الشاشة بعد."
 
 #: onedesk/one_ai/center.py
-msgid "There is nothing called {0} here."
-msgstr "لا يوجد هنا شيء باسم {0}."
+msgid "{0} is not one of OneAI's settings."
+msgstr "{0} ليس من إعدادات OneAI."
 
 #: onedesk/one_mail/rules.py
 msgid "This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."
@@ -47380,12 +47377,12 @@ msgid "What One stores on your device and why."
 msgstr "ما يحفظه One على جهازك ولماذا."
 
 #: onedesk/public/js/ai_center.js
-msgid "What OneAI does in {0} on its own. Each uses credits."
-msgstr "ما يفعله OneAI في {0} من تلقاء نفسه. كل منها يستهلك رصيدًا."
+msgid "Jobs OneAI runs in {0} by itself, each using credits."
+msgstr "مهام يشغّلها OneAI في {0} من تلقاء نفسه، وكل منها يستخدم الرصيد."
 
 #: onedesk/public/js/ai_center.js
-msgid "What OneAI does with each mailbox's new mail. Each is set on the mailbox."
-msgstr "ما يفعله OneAI بالبريد الجديد في كل صندوق بريد. يُضبط كل منها في صندوق البريد نفسه."
+msgid "How far OneAI reads each mailbox's new mail."
+msgstr "إلى أي حد يقرأ OneAI البريد الجديد في كل صندوق."
 
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "What OneAI does with new mail here, which your role doesn't allow changing."
@@ -47432,8 +47429,8 @@ msgid "What OneAI said when asked to explain it, per language."
 msgstr "ما قاله OneAI عندما طُلب منه شرحه، لكل لغة."
 
 #: onedesk/public/js/ai_center.js
-msgid "What OneAI should know about the company, such as its facts, its terms and how work is done here."
-msgstr "ما ينبغي أن يعرفه OneAI عن الشركة، مثل حقائقها ومصطلحاتها وطريقة سير العمل فيها."
+msgid "Facts, terms and policies OneAI reads with every answer."
+msgstr "حقائق وشروط وسياسات يقرؤها OneAI مع كل إجابة."
 
 #: onedesk/public/js/rule_builder.js:237
 msgid "What OneAI's reply should do, such as answering from their orders and promising an answer within a day."
@@ -48426,8 +48423,8 @@ msgid "When HR turns down a check-in of yours that was flagged."
 msgstr "عندما ترفض الموارد البشرية تسجيل حضور لك عليه علامة."
 
 #: onedesk/public/js/ai_center.js
-msgid "When off, nothing that arrives is read, and Documents stays as it is."
-msgstr "عند الإيقاف، لا يُقرأ شيء مما يصل، وتبقى المستندات كما هي."
+msgid "If off, nothing new is read and Documents keeps what it holds."
+msgstr "عند الإيقاف، لا يُقرأ شيء جديد وتحتفظ المستندات بما فيها."
 
 #. When a notification is sent
 #: onedesk/notifications/one_hr/check_in_place_proposed.md
@@ -49788,8 +49785,8 @@ msgid "Whether a person takes calls, and what callers hear."
 msgstr "هل يستقبل الشخص المكالمات، وما يسمعه المتصلون."
 
 #: onedesk/public/js/ai_center.js
-msgid "Whether OneAI answers in this workspace, and how carefully."
-msgstr "هل يجيب OneAI في مساحة العمل هذه، وبأي قدر من التأني."
+msgid "The tier sets which models answer and what each answer costs."
+msgstr "يحدد المستوى النماذج التي تجيب وتكلفة كل إجابة."
 
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."

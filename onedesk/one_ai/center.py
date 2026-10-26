@@ -18,8 +18,8 @@ TIER = "one_ai_tier"
 # What each tier means to the person choosing it.
 TIERS = {
 	"fast": (_lt("Fast"), _lt("Quick answers for everyday questions, at the lowest cost.")),
-	"balanced": (_lt("Balanced"), _lt("Careful answers at a modest cost. Right for most workspaces.")),
-	"full": (_lt("Full"), _lt("The strongest models, for the hardest questions. The dearest.")),
+	"balanced": (_lt("Balanced"), _lt("Careful answers at a modest cost, right for most workspaces.")),
+	"full": (_lt("Full"), _lt("The strongest models for the hardest questions, at the highest cost.")),
 }
 
 # Modules whose `ai.py` declares `JOBS`: what OneAI does there on its own, as
@@ -131,7 +131,7 @@ def set_reading(key: str, value) -> None:
 
 	roles.require()
 	if key not in settings.INTAKE:
-		frappe.throw(_("There is nothing called {0} here.").format(key))
+		frappe.throw(_("{0} is not one of OneAI's settings.").format(key))
 	settings._save_intake({key: frappe.utils.flt(value)})
 
 
@@ -176,7 +176,7 @@ def _declared(key: str) -> dict:
 		for one in getattr(importlib.import_module(path), "JOBS", []):
 			if one["key"] == key:
 				return one
-	frappe.throw(_("There is nothing called {0} here.").format(key))
+	frappe.throw(_("{0} is not one of OneAI's settings.").format(key))
 
 
 @frappe.whitelist(methods=["POST"])
@@ -227,7 +227,7 @@ def usage() -> dict:
 	from onedesk.one_ai.report.ai_credits import ai_credits
 
 	if not may()["usage"]:
-		frappe.throw(_("Only a workspace administrator, or a role given Usage, sees what OneAI used."), frappe.PermissionError)
+		frappe.throw(_("Your role doesn't allow seeing OneAI's usage."), frappe.PermissionError)
 	if not account.configured():
 		return {"reached": False, "jobs": []}
 	end = getdate()

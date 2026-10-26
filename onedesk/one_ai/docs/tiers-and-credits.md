@@ -9,7 +9,7 @@ tier, and the tier decides how strong the models are that talk and write.
 | --- | --- |
 | **Fast** | Quick answers for everyday questions, at the lowest cost |
 | **Balanced** | Careful answers at a modest cost, right for most workspaces |
-| **Full** | The strongest models, for the hardest questions, and the dearest |
+| **Full** | The strongest models for the hardest questions, at the highest cost |
 
 A workspace is on **Balanced** until an administrator chooses another in
 [AICenter](settings), which shows about what an answer costs at each. Reading
