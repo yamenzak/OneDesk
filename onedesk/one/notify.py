@@ -74,6 +74,25 @@ def slots(name: str) -> list[str]:
 	return list(dict.fromkeys(found))
 
 
+def _forget_gone() -> None:
+	"""Drop people's choices for a type that no longer exists. A type deleted
+	with force (a patch, a rule taken away) leaves its rows behind, and the
+	next type seeded saves every person's settings, which frappe refuses
+	while one of them links to nothing."""
+	pref = frappe.qb.DocType("Notification Type Preference")
+	kind = frappe.qb.DocType("Notification Type")
+	gone = (
+		frappe.qb.from_(pref)
+		.left_join(kind)
+		.on(kind.name == pref.notification_type)
+		.select(pref.name)
+		.where((pref.parenttype == "Notification Settings") & kind.name.isnull())
+		.run(pluck=True)
+	)
+	if gone:
+		frappe.db.delete("Notification Type Preference", {"name": ("in", gone)})
+
+
 def install(*_args) -> None:
 	"""Each declared type as a Notification Type, after every migrate.
 
@@ -85,6 +104,7 @@ def install(*_args) -> None:
 	"""
 	from frappe.desk.doctype.notification_type.notification_type import seed_type_into_settings
 
+	_forget_gone()
 	for name, one in declared().items():
 		subject, message = jinja(one.get("subject")), jinja(one.get("message") or "")
 		mailed = bool(one.get("mailed_by"))
