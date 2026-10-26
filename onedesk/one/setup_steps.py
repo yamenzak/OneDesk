@@ -101,15 +101,15 @@ def apply(args=None) -> None:
 
 
 def _may(module: str, step: dict) -> bool:
-	from onedesk.one import abilities, roles
+	from onedesk.one import rights, roles
 
 	if roles.administers():
 		return True
-	declared_abilities = abilities.of_app(module)
+	declared_abilities = rights.of_app(module)
 	if not declared_abilities or not step.get("needs"):
 		return False
-	ability = abilities.ability(module, step["needs"])
-	return abilities.held(declared_abilities.DOCTYPE, ability["all"])
+	ability = rights.ability(module, step["needs"])
+	return rights.held(declared_abilities.DOCTYPE, ability["all"])
 
 
 def for_boot() -> dict:

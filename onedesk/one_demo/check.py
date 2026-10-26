@@ -9172,7 +9172,7 @@ def help_shows_every_page_in_order():
 		for one in versions.whats_new("OneMail")["versions"]:
 			assert {page["id"] for page in one["docs"]} <= ids, one["docs"]
 		# Who Can Do What shows what OneMail's roles ship with, from its
-		# abilities.py (one/abilities.py defaults_table).
+		# abilities.py (one/rights.py defaults_table).
 		roles = next(one["html"] for one in pages if one["id"] == "who-can-do-what")
 		assert "{roles}" not in roles and "Every Mailbox" in roles and "Ask for Approval" in roles, roles[:200]
 	from onedesk.one.notify import declared
@@ -9250,7 +9250,7 @@ def access_center_finds_and_sets_roles():
 	abilities.py: its people with their role, which it changes and puts
 	back, and what somebody was given on one mailbox, which it takes away.
 	Nobody else may read it."""
-	from onedesk.one import abilities, access_center
+	from onedesk.one import access_center, rights
 
 	with as_user("wsadmin@one.test"):
 		assert "OneMail" in access_center.modules()
@@ -9265,7 +9265,7 @@ def access_center_finds_and_sets_roles():
 		finally:
 			access_center.put("OneMail", "nadia@one.test", was)
 		box = frappe.get_all("Email Account", filters={"email_id": ["like", "%"]}, pluck="name", limit=1)[0]
-		had = abilities.grants("OneMail", box).get("nadia@one.test")
+		had = rights.grants("OneMail", box).get("nadia@one.test")
 		try:
 			access_center.give("OneMail", box, "nadia@one.test", ["signature"])
 			given = [one for one in access_center.records("OneMail")["grants"] if one["user"] == "nadia@one.test" and one["record"] == box]
@@ -9274,7 +9274,7 @@ def access_center_finds_and_sets_roles():
 			assert not [one for one in access_center.records("OneMail")["grants"] if one["user"] == "nadia@one.test" and one["record"] == box]
 		finally:
 			if had:
-				abilities.grant("OneMail", box, "nadia@one.test", had)
+				rights.grant("OneMail", box, "nadia@one.test", had)
 	with as_user("nadia@one.test"):
 		try:
 			access_center.people("OneMail")

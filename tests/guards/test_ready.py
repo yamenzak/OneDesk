@@ -25,11 +25,15 @@ def test_nothing_of_a_module_is_left_outside():
 def test_nothing_outside_a_module_is_named_for_it():
 	tracked = _tracked()
 	stray = []
+	placed = {module: tuple(str(place.relative_to(ROOT)) + "/" for place in ready.places(module)) for module in ready.MODULES}
+	anywhere = tuple(prefix for prefixes in placed.values() for prefix in prefixes)
 	for module, spec in ready.MODULES.items():
-		inside = [str(place.relative_to(ROOT)) + "/" for place in ready.places(module)]
+		inside = placed[module]
 		for path in tracked:
 			named = any(name in path.lower() for name in spec["names"])
-			if named and not path.startswith(tuple(inside)) and path not in ready.SHARED:
+			# A file in another module's places is that module's, whatever it is named.
+			elsewhere = path.startswith(anywhere) and not path.startswith(inside)
+			if named and not path.startswith(inside) and not elsewhere and not ready.shared(path):
 				stray.append(f"  {module}: {path}")
 	assert not stray, "Move it into the module's places, or say in ready.SHARED why it is shared:\n" + "\n".join(stray)
 
@@ -179,7 +183,9 @@ def test_a_module_has_one_settings_dialog_and_one_foot():
 		loose = [str(path.relative_to(ROOT)) for path, text in code.items() if "windowFootAction(" in text]
 		assert not loose, f"{module} draws its own foot in {loose}; use windowModuleFoot"
 		assert any("onedesk.module_settings.open(" in text for text in code.values()), f"{module} has no settings dialog"
-		assert any("windowModuleFoot(" in text for text in code.values()), f"{module} has no foot"
+		# An island draws it with windowModuleFoot, frappe's desk pages through
+		# the window's own module_foot.
+		assert any("windowModuleFoot(" in text or ".module_foot({ module:" in text for text in code.values()), f"{module} has no foot"
 
 
 AGREEMENTS = re.compile(r"\bagree|\bpolicy\b|\bterms\b|\baddendum\b|\bsubprocessors?\b", re.I)
@@ -254,13 +260,13 @@ SHARES = re.compile(
 
 def test_a_module_grants_through_abilities_alone():
 	"""One person given more on one record than their role says is one idea:
-	abilities.grant, a share frappe answers (docs/READY.md, mechanism 7). A
+	rights.grant, a share frappe answers (docs/READY.md, mechanism 7). A
 	module writes no share of its own."""
 	for module in ready.MODULES:
 		for path in ready.files(module):
 			if path.suffix == ".py" and "tests" not in path.parts:
 				hit = SHARES.search(path.read_text(encoding="utf-8"))
-				assert not hit, f"{path.relative_to(ROOT)} writes a share itself ({hit.group(0)}); use abilities.grant"
+				assert not hit, f"{path.relative_to(ROOT)} writes a share itself ({hit.group(0)}); use rights.grant"
 
 
 def test_a_module_says_how_and_from_whom_it_tells_people():
@@ -284,12 +290,15 @@ def test_a_module_says_how_and_from_whom_it_tells_people():
 			assert one.get("sender") in layout["SENDERS"], f"{where}'s sender is one of {layout['SENDERS']}"
 			loose = {"email", "push", "from_one"} & set(one)
 			assert not loose, f"{where} says {sorted(loose)}; its channels and sender say that"
-			line = re.sub(r"\{\w+\}", "x" * 20, one["subject"])
+			# A mail its app writes itself (mailed_by) has no subject of ours.
+			line = re.sub(r"\{\w+\}", "x" * 20, one.get("subject", ""))
 			assert len(line) <= layout["BELL_LINE"], f"{where}'s subject is longer than the bell's line"
 
 
 # What only AccessCenter and NotificationCenter draw (docs/READY.md,
 # mechanisms 14 and 15): the role matrix and a person's notification choices.
+# They are One's, and their own files draw it.
+DRAWN_BY = {"access_center.js", "role_matrix.js", "notification_center.js"}
 CENTERS = {
 	"AccessCenter": re.compile(r"onedesk\.roles\.(?:draw|pick|create|edit)\(|role_matrix\.js"),
 	"NotificationCenter": re.compile(r"notification_center\.(?:choose|set_type)|email_notification_types|one_allow_(?:email|push)"),
@@ -302,7 +311,7 @@ def test_a_module_leaves_roles_and_notifications_to_their_centers():
 	a ready module's screens draw neither, and ControlCenter offers both."""
 	for module in ready.MODULES:
 		for path in ready.files(module):
-			if path.suffix not in (".js", ".vue"):
+			if path.suffix not in (".js", ".vue") or (module == "One" and path.name in DRAWN_BY):
 				continue
 			text = path.read_text(encoding="utf-8")
 			for center, drawn in CENTERS.items():
@@ -401,13 +410,15 @@ def test_a_module_ships_a_tour_of_its_screen():
 		assert len(keys) == len(set(keys)), f"{module} has two tours with one key"
 
 
-def _changers(folder: Path) -> set[str]:
+def _changers(module: str) -> set[str]:
 	"""A module's calls whitelisted for POST alone: the ones that change
-	something, as `file.function`."""
+	something, as `file.function`, in its own files (not the engines
+	ready.SHARED names)."""
 	import ast
 
+	folder = ROOT / "onedesk" / ready.MODULES[module]["folder"]
 	found = set()
-	for path in folder.glob("*.py"):
+	for path in (one for one in ready.files(module) if one.parent == folder and one.suffix == ".py"):
 		for node in ast.parse(path.read_text(encoding="utf-8")).body:
 			if isinstance(node, ast.FunctionDef) and any(
 				"whitelist" in ast.unparse(one) and "POST" in ast.unparse(one) for one in node.decorator_list
@@ -432,7 +443,7 @@ def test_a_module_reaches_every_change_through_oneai_or_says_why_not():
 		source = path.read_text(encoding="utf-8")
 		declared = _declared(path)
 		reach, refused = declared.get("REACH", {}), declared.get("NOT_FOR_AI", {})
-		changers = _changers(folder)
+		changers = _changers(module)
 		missing = sorted(changers - set(reach) - set(refused))
 		assert not missing, f"{module}: give OneAI a card for these, or say in NOT_FOR_AI why not: {missing}"
 		assert not set(reach) & set(refused), f"{module}: in both REACH and NOT_FOR_AI: {sorted(set(reach) & set(refused))}"

@@ -671,6 +671,49 @@ sort, filter and add columns to.
 In the OneAI panel on a settings page, *Help me set this up* goes through
 the settings and suggests changes.
 
+## Holidays
+
+**Holidays**, under Workspace, shows the holiday list in effect today, with
+the days no one works. Leave, attendance, check-ins, OneCalendar and
+OneAI's deadlines all use it. Only administrators see and change it.
+OneCalendar's **Holidays** also opens it.
+
+- The top shows how many public holidays and weekly days off the list has, the
+  next holiday and the list's last day. **People on Other Lists** appears
+  when someone has a holiday list of their own, and opens those assignments.
+- **Days Off Each Week** sets the days no one works, every week of the list.
+  Tick two for a two-day weekend. Saving updates every one of those days.
+- **Public Holidays** is a table. Add, edit or remove rows, then click **Save**
+  in the page head. **Add Public Holidays** adds the country's
+  holidays that are missing, including the state or region's where it
+  matters, in your language. Lunar holiday dates are marked as estimates and
+  are worth checking.
+
+You can also ask OneAI, for example "add 15 November as Founders Day", "we're
+closed 24 to 31 December" or "Saturday and Sunday off from now on". It shows a
+card with each day it would add, rename or remove, or the new days off.
+Nothing changes until you click **Approve**. A day that falls in next year
+goes on next year's list once it's created.
+
+Every administrator is notified in One when someone else changes the
+holidays. They're also notified in One and by email 60, 30 and 7 days before
+the list ends with no list after it.
+
+OneAI offers **Are our holidays ready for next year?**
+
+### Next year's holiday list
+
+On Workspace › **Holidays**:
+
+- A list covers one year. When it ends within 90 days with no list after it,
+  the page warns you, since every day after its last day counts as a working
+  day for leave and attendance.
+- **Create Next Year's List**, in the page head, creates next year's list from
+  this one, with the same days off and the country's public holidays. It takes
+  effect on 1 January. **Next Year's List** opens it so you can check it.
+- **Use Another List** puts a different list in effect for everyone, from
+  today, or from its first day if that's later.
+
 ## Being told
 
 OneHR tells people in One's notifications, and each person chooses how under
@@ -2233,3 +2276,28 @@ The chart is gone rather than replaced. Attendance Overview is where the shape
 of a month is looked at; this is the sheet somebody prints and initials, and a
 three-series line of counts between nought and three, with every date label
 rendered as an ellipsis, was a third of the screen in front of it.
+
+### holidays.py
+
+A Holiday List is erpnext's: a year of dates, the week's day off written out
+as one row per Friday, and the country's public holidays. Two things read it,
+and they read it differently:
+
+- **hrms reads only a submitted `Holiday List Assignment`**
+  (`hrms.utils.holiday_list`): leave, attendance, shifts and check-ins. An
+  assignment holds from its first day until the next one starts.
+- **erpnext's reports read `Company.default_holiday_list`**, whatever the
+  date.
+
+So choosing a list is both (`use`), and the company field follows the
+assignment in force (`daily`), so the two never disagree. OneCalendar and
+Intake's deadlines read by date across every list the company was assigned
+(`public`, `all_dates`), so January is counted against January's list.
+
+**A list ends.** A list is a year, and on 1 January the old assignment still
+holds with no days in it: every Friday becomes a working day, and nothing
+fails. `next_year` makes the next list from this one (same day off, the
+country's public holidays) and assigns it from its first day; `daily` tells
+the administrators 60, 30 and 7 days before a list ends with nothing after
+it. Only administrators change the list here (the page is theirs), so only
+they are told.

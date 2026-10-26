@@ -1,4 +1,4 @@
-"""What OneAccount lets a role do beyond its records (one/abilities.py,
+"""What OneAccount lets a role do beyond its records (one/rights.py,
 docs/ROLES.md): each ability is one of frappe's Permission Types on Workspace
 Account, declared in permission_type/ beside this file. Everything else of
 the workspace's in AccountCenter stays a workspace administrator's
@@ -9,7 +9,7 @@ from frappe import _lt
 APP = "OneAccount"
 
 # Everybody keeps their own account: its User role is given to every person
-# (abilities.everyone).
+# (rights.everyone).
 EVERYONE = "OneAccount User"
 
 DOCTYPE = "Workspace Account"
@@ -33,7 +33,7 @@ ABILITIES = [
 SHARED = ()
 
 # OneAccount's roles and what each starts with: made and written once on
-# migrate (abilities.settle), and shown in Help ({roles}).
+# migrate (rights.settle), and shown in Help ({roles}).
 DEFAULTS = {
 	"OneAccount User": {},
 	"OneAccount Manager": {"plan": 1},

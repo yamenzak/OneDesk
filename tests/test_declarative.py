@@ -37,7 +37,7 @@ LAYERS = (
 	"onedesk/one_studio/printing.py",
 	"onedesk/one_studio/approvals.py",
 	"onedesk/one/access.py",
-	"onedesk/one/abilities.py",
+	"onedesk/one/rights.py",
 	"onedesk/one_studio/reports.py",
 	"onedesk/one_studio/record_types.py",
 	"onedesk/one_studio/patches/collection_groups.py",

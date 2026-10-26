@@ -1,10 +1,10 @@
 """What OneAI offers on One's own pages, and what it is told about them.
 
-Settings is a desk page, not a record: the panel has no doctype to go on, so
-the page says where the reader is (`page` and `section` from oneai.js), and
-this module turns that into the sentence the model is told and the
-suggestions the panel offers. How to use each section is in `README.md`, which
-OneAI reads through `how_to`.
+A centre is a dialog, not a record: the panel has no doctype to go on, so
+the centre says where the reader is (`page` and `section` from oneai.js),
+and this module turns that into the sentence the model is told and the
+suggestions the panel offers. How to use each is in One's Help (docs/),
+which OneAI reads through `how_to`.
 """
 
 import json
@@ -13,6 +13,38 @@ from typing import Annotated
 
 import frappe
 from frappe import _, _lt
+
+# One's calls that change something, each a card OneAI suggests (none yet),
+# or why it is not OneAI's to make (docs/READY.md, mechanism 11).
+REACH = {}
+
+NOT_FOR_AI = {
+	"access.change_ability": "What a role may do is an administrator's decision in AccessCenter, never OneAI's.",
+	"access.rename_role": "Naming a role is an administrator's choice in AccessCenter, never OneAI's.",
+	"access.make_level": "Making a role is an administrator's decision in AccessCenter, never OneAI's.",
+	"access.remove_level": "Removing a role is an administrator's decision in AccessCenter, never OneAI's.",
+	"access.hold": "Holding somebody to some records is an administrator's decision, never OneAI's.",
+	"access.let_go": "Letting somebody see more is an administrator's decision, never OneAI's.",
+	"access.new_profile": "An access profile is an administrator's to make, never OneAI's.",
+	"access.remove_profile": "Removing an access profile is an administrator's decision, never OneAI's.",
+	"access.new_group": "A group of people is an administrator's to make, never OneAI's.",
+	"access.remove_group": "Removing a group is an administrator's decision, never OneAI's.",
+	"access_center.put": "What a person may use is an administrator's decision, never OneAI's.",
+	"access_center.give": "What a person may do on one record is decided by whoever may share it, never OneAI.",
+	"access_center.save": "A role's access is saved by the administrator changing it, never by OneAI.",
+	"announcements.hide": "Folding the announcements is the reader's own choice on their bar.",
+	"announcements.show": "Opening the folded announcements is the reader's own choice on their bar.",
+	"control.save": "The workspace's own settings are saved by the administrator changing them, and OneAI suggests a letter head as a card instead.",
+	"notification_center.choose": "How a person hears of something is theirs to choose, never OneAI's.",
+	"notification_center.switch": "Turning a person's notifications off or on is theirs to do, never OneAI's.",
+	"notification_center.set_type": "A notification's channels for everyone are an administrator's decision, and OneAI rewrites its words as a card instead.",
+	"notification_words.save": "Words and Rules are saved by the administrator writing them, and OneAI drafts a rule or its words as a card instead.",
+	"notification_words.preview_notification": "A preview changes nothing and is drawn for the person writing.",
+	"notification_words.delete_rule": "Stopping a rule for good is an administrator's decision, never OneAI's.",
+	"recycle.restore": "Putting a deleted record back is the reader's decision in the bin, never OneAI's.",
+	"recycle.bulk_restore": "Putting deleted records back is the reader's decision in the bin, never OneAI's.",
+	"start_again.start": "Deleting every transaction can't be undone, so only an administrator starts it, never OneAI.",
+}
 
 SUGGESTIONS = {
 	"page:account/profile": [

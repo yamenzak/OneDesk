@@ -119,8 +119,7 @@ say(
 	"""
 	Everything you and your users put into the workspace is yours: files, messages, records, documents.
 	We claim no ownership of it and take no licence to it beyond what running the service for you needs:
-	storing it, sending it, backing it up, indexing it so you can search it, showing it to the people you
-	gave access to, and, where you turn on OneAI or Intake, sending it to the models that read it for you.
+	storing it, sending it, backing it up, indexing it so you can search it, and showing it to the people you gave access to. Where you turn on OneAI, it also means sending it to the models that read it for you.
 """,
 )
 
@@ -140,8 +139,7 @@ say(
 	"content",
 	"export",
 	"""
-	While your workspace is live, files download as themselves and records export from their lists, and
-	the person who pays for it can take a full download of everything in it from Plan and Credits: the
+	While your workspace is live, files download as themselves and records export from their lists. The person who pays for it can also take a full download of everything in it from Plan and Credits: the
 	database, every record as a spreadsheet, and every file. Do not rely on us to hold the only copy of
 	anything you cannot lose.
 """,
@@ -180,9 +178,7 @@ say(
 	refundable except where the law requires.
 
 	A workspace's administrators can move it to another plan, or add seats, storage or database to its plan
-	as add-ons billed monthly with it. A change takes effect at once: moving up or adding is charged for the
-	rest of the billing period when it is made, and moving down or taking an add-on off is credited against
-	the next invoice. A change that would leave the workspace using more than it allows is refused until
+	as add-ons billed monthly with it. A change takes effect at once: moving up or adding is charged for the rest of the billing period when it is made. Moving down or taking an add-on off is credited against the next invoice. A change that would leave the workspace using more than it allows is refused until
 	enough is cleared.
 
 	When a workspace reaches a limit, people past its seats cannot be turned on and files past its storage
@@ -283,9 +279,7 @@ say(
 	"suspension",
 	"breach",
 	"""
-	We may suspend a workspace at once, without the steps above, where running it would break the law,
-	endanger other customers or our infrastructure, or where the Acceptable Use Policy has been seriously
-	breached. We will tell you why, and restore it once the cause is fixed.
+	We may suspend a workspace at once, without the steps above, where running it would break the law or endanger other customers or our infrastructure. We may also do so where the Acceptable Use Policy has been seriously breached. We will tell you why, and restore it once the cause is fixed.
 """,
 	order=30,
 )
@@ -317,9 +311,7 @@ say(
 	"liability",
 	"cap",
 	"""
-	To the extent the law allows, neither party is liable for indirect or consequential loss, for loss of
-	profit, revenue, goodwill or anticipated savings, or for loss of data that keeping your own export
-	would have avoided. Our total liability in any twelve months is limited to the fees you paid us in
+	To the extent the law allows, neither party is liable for indirect or consequential loss, or for loss of profit, revenue, goodwill or anticipated savings. Nor is either liable for loss of data that keeping your own export would have avoided. Our total liability in any twelve months is limited to the fees you paid us in
 	those twelve months.
 """,
 	order=20,
@@ -357,7 +349,7 @@ say(
 	"governing",
 	f"""
 	This agreement is governed by the federal laws of the United Arab Emirates as applied in
-	{PARTY["jurisdiction"]}, and the courts of Abu Dhabi have exclusive jurisdiction over any dispute.
+	{PARTY["jurisdiction"]}. The courts of Abu Dhabi have exclusive jurisdiction over any dispute.
 	Acceptance recorded electronically, with the date, the version and the account that accepted, is valid
 	and admissible, as UAE law on electronic transactions provides.
 """,
@@ -402,9 +394,7 @@ say(
 	"prohibited",
 	"harm",
 	"""
-	Do not use it to harass, threaten, defame or impersonate anybody, to spread malware, to attack any
-	system, to get round any security measure, or to store or share material that sexually exploits
-	children.
+	Do not use it to harass, threaten, defame or impersonate anybody, to spread malware, to attack any system or to get round any security measure. Do not use it to store or share material that sexually exploits children.
 """,
 	order=20,
 )
@@ -460,12 +450,9 @@ say(
 	"who",
 	"roles",
 	f"""
-	There are two kinds of personal data here, and it matters which is which. For the personal data your
-	organisation puts into its workspace, such as a customer's name on an invoice or a colleague's address
-	on their employee record, your organisation decides what is collected and why, and we handle it on its
-	instructions: it is the controller and we are the processor, and the Data Processing Addendum is the
+	There are two kinds of personal data here, and it matters which is which. For the personal data your organisation puts into its workspace, such as a customer's name on an invoice or a colleague's address, your organisation decides what is collected and why. We handle it on its instructions: it is the controller and we are the processor, and the Data Processing Addendum is the
 	terms for that. For the data we need to run the service and your account, such as who signed in, from
-	where, and what was billed, {PARTY["legal_name"]} is the controller and this policy is ours.
+	where, and what was billed, {PARTY["legal_name"]} is the controller. This policy is ours.
 """,
 )
 
@@ -474,8 +461,7 @@ say(
 	"what",
 	"account",
 	"""
-	For your account we hold your name, your email address, the workspace you belong to and what you may
-	do in it, your language and time zone, and any photo you choose to add.
+	For your account we hold your name, your email address, the workspace you belong to and what you may do in it. We also hold your language and time zone, and any photo you choose to add.
 """,
 )
 
@@ -484,8 +470,7 @@ say(
 	"what",
 	"usage",
 	"""
-	To keep the service running and secure we hold sign-in records with the time and network address, a
-	log of errors, what each use of OneAI cost, and how much storage and mail a workspace uses.
+	To keep the service running and secure we hold sign-in records with the time and network address, and a log of errors. We also hold what each use of OneAI cost, and how much storage and mail a workspace uses.
 """,
 	order=20,
 )
@@ -562,9 +547,7 @@ say(
 	"rights",
 	"what",
 	f"""
-	Under UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data, and under the GDPR, the UK
-	GDPR or Saudi Arabia's Personal Data Protection Law where one applies to you, you may ask for a copy of your personal data, ask us to correct or delete it, object
-	to some processing, and ask us to restrict it. Write to {PARTY["email"]} and we will answer within thirty
+	You may ask for a copy of your personal data, ask us to correct or delete it, object to some processing, and ask us to restrict it. UAE Federal Decree-Law No. 45 of 2021 on the Protection of Personal Data gives you these rights. So do the GDPR, the UK GDPR and Saudi Arabia's Personal Data Protection Law, where one applies to you. Write to {PARTY["email"]} and we will answer within thirty
 	days. If the data is in your organisation's workspace rather than in your account with us, we pass the
 	request to them, because it is their decision.
 """,
@@ -575,9 +558,7 @@ say(
 	"rights",
 	"complain",
 	f"""
-	If you think we have got this wrong, tell us first at {PARTY["email"]}. You may also complain to the UAE
-	Data Office, to the Saudi Data and AI Authority if you are in Saudi Arabia, or to the supervisory authority
-	in your country if you are in the European Economic Area or the United Kingdom.
+	If you think we have got this wrong, tell us first at {PARTY["email"]}. You may also complain to the UAE Data Office, or to the Saudi Data and AI Authority if you are in Saudi Arabia. If you are in the European Economic Area or the United Kingdom, you may complain to your country's supervisory authority.
 """,
 	order=20,
 )
@@ -696,8 +677,7 @@ say(
 	"confidentiality",
 	"staff",
 	"""
-	Everybody at Four Degree Labs with access to customer data is bound by confidentiality, and access is
-	limited to those who need it to run the service or to answer a support request you raised.
+	Everybody at Four Degree Labs with access to customer data is bound by confidentiality. Access is limited to those who need it to run the service or to answer a support request you raised.
 """,
 )
 
@@ -706,10 +686,7 @@ say(
 	"security",
 	"measures",
 	"""
-	We keep appropriate technical and organisational measures: encryption in transit everywhere, encryption
-	at rest for stored files and backups, a separate database for each workspace, access inside the product
-	that follows each record's own permissions, suppliers' keys held in our gateway and never in a
-	workspace, and daily backups.
+	We keep appropriate technical and organisational measures: encryption in transit everywhere, encryption at rest for stored files and backups, a separate database for each workspace, and access inside the product that follows each record's own permissions. Suppliers' keys are held in our gateway and never in a workspace, and backups are taken daily.
 """,
 )
 
@@ -774,8 +751,7 @@ say(
 	"deletion",
 	"end",
 	"""
-	When the agreement ends you can export your data, the whole of it in one download, and the steps in the
-	Terms of Service say how long the workspace can still be restored. After that we delete it, including from backups as they expire.
+	When the agreement ends you can export your data, the whole of it in one download. The steps in the Terms of Service say how long the workspace can still be restored. After that we delete it, including from backups as they expire.
 	We confirm deletion in writing if you ask.
 """,
 )
@@ -808,10 +784,8 @@ say(
 	"changes",
 	"notice",
 	f"""
-	When we add a subprocessor One cannot work without, we publish the new list at least thirty days before
-	it receives any of your data, and your administrators are told in One and by mail. If you object on
-	reasonable data-protection grounds, tell us at {PARTY["email"]} before then, and we will either find
-	another way or let you end the affected part of the service and refund the unused period. A company
+	When we add a subprocessor One cannot work without, we publish the new list at least thirty days before it receives any of your data. Your administrators are told in One and by mail. If you object on
+	reasonable data-protection grounds, tell us at {PARTY["email"]} before then. We will then either find another way or let you end the affected part of the service and refund the unused period. A company
 	used only by an optional service receives nothing until your administrators turn that service on.
 """,
 )
@@ -836,9 +810,7 @@ say(
 	"""
 	We choose the models, and every call goes through our own gateway. Your administrators choose a tier,
 	Fast, Balanced or Full, and the tier decides which models talk and write. What arrives is read by small
-	models built for reading, whatever the tier. A workspace cannot bring its own key or point One at
-	another provider, which is how we can say what happens to what you send, charge for it, and keep a
-	complete record.
+	models built for reading, whatever the tier. A workspace cannot bring its own key or point One at another provider. That is how we can say what happens to what you send, charge for it, and keep a complete record.
 """,
 )
 
@@ -880,8 +852,7 @@ say(
 	"wrong",
 	"""
 	Language models get things wrong confidently. Nothing OneAI produces is advice, legal, financial,
-	medical or otherwise. Check what it writes before relying on it, and do not use it alone to make a
-	decision about a person that has a legal or similarly significant effect on them.
+	medical or otherwise. Check what it writes before relying on it. Do not use it alone to make a decision about a person that has a legal or similarly significant effect on them.
 """,
 )
 

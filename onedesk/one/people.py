@@ -25,7 +25,7 @@ APPS = [
 
 
 # Apps everybody uses: no None, and User is not worth saying on the list
-# of people (one/abilities.py `always`).
+# of people (one/rights.py `always`).
 ALWAYS = ("OneMail",)
 
 
@@ -151,7 +151,7 @@ def not_the_last_administrator(user: str) -> None:
 
 def told_of_access(doc, before: set, after: set) -> None:
 	"""The person hears what they may now use; every other administrator
-	hears of a new administrator, always by mail (notifications/one/)."""
+	hears of a new administrator, always by mail (one/notifications.py)."""
 	said = []
 	own = all_levels()
 	for name, _icon, used, managed in APPS:

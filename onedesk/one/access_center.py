@@ -1,5 +1,5 @@
 """AccessCenter (docs/READY.md, mechanism 14): who may do what in each module
-that declares its abilities (`one_abilities`, one/abilities.py). Its roles
+that declares its abilities (`one_abilities`, one/rights.py). Its roles
 are the matrix one/access.py builds; its people are People's levels of the
 app; what one person was given on one record is the module's shares. Only a
 workspace administrator reads or changes any of it."""
@@ -9,7 +9,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-from onedesk.one import abilities, access, roles
+from onedesk.one import access, rights, roles
 from onedesk.one.access import all_levels
 from onedesk.one.people import APP_SAID, APPS, levels_of
 from onedesk.one.sections import opened as opened_of
@@ -19,7 +19,7 @@ def _app(app: str):
 	"""The `abilities` module of an app AccessCenter shows, or a refusal."""
 	from onedesk.one.people import APPS
 
-	declared = abilities.of_app(app)
+	declared = rights.of_app(app)
 	if not declared or app not in {name for name, *_rest in APPS}:
 		frappe.throw(_("{0} has no roles to set.").format(app))
 	return declared
@@ -31,7 +31,7 @@ def modules() -> list[str]:
 	from onedesk.one.people import APPS
 
 	roles.require()
-	declared = {one.APP for one in abilities.modules()}
+	declared = {one.APP for one in rights.modules()}
 	return [name for name, *_rest in APPS if name in declared]
 
 
@@ -94,7 +94,7 @@ def _title(declared, name: str) -> str:
 @frappe.whitelist()
 def records(app: str) -> dict:
 	"""Every person given more than their role on one record of the app, and
-	what: each of the module's shares that carries one of its abilities."""
+	what: each of the module's shares that carries one of its rights."""
 	roles.require()
 	declared = _app(app)
 	shared = [one for one in declared.ABILITIES if one["key"] in declared.SHARED]
@@ -129,10 +129,10 @@ def records(app: str) -> dict:
 @frappe.whitelist(methods=["POST"])
 def give(app: str, record: str, user: str, keys: str | list) -> list[str]:
 	"""What one person may do on one record beyond their role; none takes
-	the share away (abilities.grant)."""
+	the share away (rights.grant)."""
 	roles.require()
 	_app(app)
-	return abilities.grant(app, record, user, list(frappe.parse_json(keys) or []))
+	return rights.grant(app, record, user, list(frappe.parse_json(keys) or []))
 
 
 # The workspace's own roles, profiles and groups, for the apps that don't
@@ -277,17 +277,17 @@ def _level_page(key: str) -> dict:
 
 
 def abilities_doctypes() -> set:
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	return abilities.doctypes()
+	return rights.doctypes()
 
 
 def _ability_fields(app: str, held: list[dict]) -> list[dict]:
 	"""A level's abilities as fields: a switch, or a choice of scope from the
 	least the level can have (User's) up."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	declared = abilities.of_app(app)
+	declared = rights.of_app(app)
 	if not declared:
 		return []
 	names = getattr(declared, "SCOPE_LABELS", {})
@@ -297,7 +297,7 @@ def _ability_fields(app: str, held: list[dict]) -> list[dict]:
 		if one["kind"] == "switch":
 			fields.append({**field, "fieldtype": "Switch", "read_only": int(bool(one["least"]))})
 			continue
-		order = abilities.SCOPES
+		order = rights.SCOPES
 		said = {**names, **({"none": one["none"]} if one.get("none") else {})}
 		fields.append(
 			{

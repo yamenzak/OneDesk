@@ -49,8 +49,8 @@ def test_turning_an_app_off_hides_and_never_refuses():
 def test_a_turned_off_apps_records_open_elsewhere():
 	outside = (tree.APP / "one" / "outside.py").read_text()
 	assert "name not in off" in outside and "apps.rehome(said)" in outside
-	readme = (tree.APP / "one" / "README.md").read_text()
-	assert "**Apps**, at the bottom of the rail" in readme.split("## Under the hood")[0], "how_to answers it"
+	help_page = (tree.APP / "one" / "docs" / "settings.md").read_text()
+	assert "**Apps**, at the bottom of the rail" in help_page, "how_to answers it"
 
 
 def test_oneai_is_a_rail_and_reading_off_leaves_every_rail():

@@ -122,9 +122,9 @@ def overview() -> dict:
 
 def _sees_acceptances() -> bool:
 	"""A workspace administrator, or a role given Who Agreed (abilities.py)."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	return abilities.may("Legal Acceptance", "legal_acceptances")
+	return rights.may("Legal Acceptance", "legal_acceptances")
 
 
 @frappe.whitelist(methods=["GET"])

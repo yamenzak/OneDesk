@@ -1,4 +1,4 @@
-"""What OneLegal lets a role do beyond its records (one/abilities.py,
+"""What OneLegal lets a role do beyond its records (one/rights.py,
 docs/ROLES.md): each ability is one of frappe's Permission Types on Legal
 Acceptance, declared in permission_type/ beside this file. Agreeing for the
 workspace and turning an optional service on stay a workspace
@@ -9,7 +9,7 @@ from frappe import _lt
 APP = "OneLegal"
 
 # Everybody reads the agreements: its User role is given to every person
-# (abilities.everyone).
+# (rights.everyone).
 EVERYONE = "OneLegal User"
 
 DOCTYPE = "Legal Acceptance"
@@ -35,7 +35,7 @@ ABILITIES = [
 SHARED = ()
 
 # OneLegal's roles and what each starts with: made and written once on
-# migrate (abilities.settle), and shown in Help ({roles}).
+# migrate (rights.settle), and shown in Help ({roles}).
 DEFAULTS = {
 	"OneLegal User": {},
 	"OneLegal Manager": {"acceptances": 1},

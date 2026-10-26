@@ -16,8 +16,8 @@ after_sync = [
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
-	"onedesk.one.abilities.settle",
-	"onedesk.one.abilities.everyone",
+	"onedesk.one.rights.settle",
+	"onedesk.one.rights.everyone",
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one_studio.print_blocks.settle",
 	"onedesk.one_book.paper.settle",
@@ -75,6 +75,8 @@ after_migrate = [
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
+	"onedesk.one.rights.settle",
+	"onedesk.one.rights.everyone",
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one_studio.print_blocks.settle",
 	"onedesk.one_book.paper.settle",
@@ -958,10 +960,10 @@ app_include_js = stamped([
 	"/assets/onedesk/js/shell.js",
 	"/assets/onedesk/js/center_section.js",
 	"/assets/onedesk/js/one_account/account_center.js",
-	"/assets/onedesk/js/access_center.js",
+	"/assets/onedesk/js/one/access_center.js",
 	"/assets/onedesk/js/one_ai/ai_center.js",
-	"/assets/onedesk/js/notification_center.js",
-	"/assets/onedesk/js/one_control.js",
+	"/assets/onedesk/js/one/notification_center.js",
+	"/assets/onedesk/js/one/one_control.js",
 	"/assets/onedesk/js/one_hr/hr_control.js",
 	"/assets/onedesk/js/one_calendar/calendar_control.js",
 	"/assets/onedesk/js/one_studio/studio_control.js",
@@ -1353,7 +1355,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities"]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",

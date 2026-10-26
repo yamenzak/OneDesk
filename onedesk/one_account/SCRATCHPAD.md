@@ -10,7 +10,7 @@ answered leaves it.
   A workspace OneAdmin runs shows both.
 - **Sign-in's own mails stay One's for now**: the sign-in code, the
   sign-in link, the password reset and setting up an authenticator are
-  frappe's mails in One's frame (`notifications/one/`).
+  frappe's mails in One's frame (`one/notifications.py`).
 
 ## Planned
 

@@ -30,13 +30,13 @@ def may() -> dict:
 	"""What the reader may open of AICenter beyond Yours: everything, for a
 	workspace administrator; Usage and Knowledge, for a role that holds them
 	(abilities.py)."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	admin = roles.administers()
 	return {
 		"all": admin,
-		"usage": admin or abilities.may("AI Knowledge", "ai_usage"),
-		"knowledge": admin or abilities.may("AI Knowledge", "ai_knowledge"),
+		"usage": admin or rights.may("AI Knowledge", "ai_usage"),
+		"knowledge": admin or rights.may("AI Knowledge", "ai_knowledge"),
 	}
 
 

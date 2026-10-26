@@ -18,13 +18,13 @@ from onedesk.one import ready  # noqa: E402
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
-	"terms": "12.88c95250",
-	"aup": "1.cc05bbc3",
-	"privacy": "27.9c6377c6",
+	"terms": "12.4511ee03",
+	"aup": "1.87e4fdd0",
+	"privacy": "27.629b44f5",
 	"cookies": "2.946a434c",
-	"dpa": "7.0d5532aa",
-	"subprocessors": "5.ac2b6ba2",
-	"ai": "25.8fd3f931",
+	"dpa": "7.01d9c65f",
+	"subprocessors": "5.06653ee9",
+	"ai": "25.9a1c2b4c",
 	"licences": "1.c71daf62",
 }
 

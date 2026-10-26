@@ -53,7 +53,7 @@ def test_accesscenter_reads_the_three_as_one_log():
 	for doctype in ("Version", "Activity Log", "Access Log"):
 		assert f'("{doctype}", [' in audit, doctype
 	assert "roles.require()" in audit.split("def log(", 1)[1].split("\ndef ", 1)[0]
-	centre = (tree.APP / "public" / "js" / "access_center.js").read_text()
+	centre = (tree.APP / "public" / "js" / "one" / "access_center.js").read_text()
 	assert 'id: "audit"' in centre and 'audit." + "log"' in centre.replace('A.replace("access_center.", "audit.")', 'audit."')
 	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	assert not {"Version", "Activity Log", "Access Log"} & {one.get("link_to") for one in sidebar["items"]}

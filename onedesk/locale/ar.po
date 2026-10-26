@@ -57530,3 +57530,9 @@ msgstr "قوائم {0}"
 
 msgid "{0} values"
 msgstr "{0} قيم"
+
+msgid "Everyone's Deletions"
+msgstr "محذوفات الجميع"
+
+msgid "See and put back what anybody deleted, of the kinds of record they may read."
+msgstr "رؤية ما حذفه أي شخص واستعادته، من أنواع السجلات التي يمكنه قراءتها."

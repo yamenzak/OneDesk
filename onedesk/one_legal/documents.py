@@ -14,7 +14,7 @@ PARTY = {
 	"representative": "Yamen Zakhour",
 	"phone": "+971 56 331 5633",
 	"products": "One and the applications in it: OneMail, OneCloud, OneCalendar, OneTask, OneProject, "
-	"OneCRM, OneBook, OneInventory, OneHR, OneAI and Intake",
+	"OneCRM, OneBook, OneInventory, OneHR and OneAI",
 }
 
 SECTIONS = {

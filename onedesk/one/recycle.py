@@ -94,15 +94,23 @@ def _machinery() -> list[str]:
 
 
 def _kinds(user: str) -> list[str]:
-	"""The kinds of record an administrator sees deleted: those they may read
-	and that are records."""
+	"""The kinds of record somebody who sees everyone's deletions sees: those
+	they may read and that are records."""
 	left_out = set(_machinery())
 	return [one for one in get_doctypes_with_read() if one not in left_out] + list(RESTORERS)
 
 
+def _everyone(user: str) -> bool:
+	"""Whether somebody sees what anybody deleted: an administrator, or a role
+	holding One's Everyone's Deletions (one/abilities.py)."""
+	from onedesk.one import rights
+
+	return rights.held("Deleted Document", "all_deletions", user)
+
+
 def query(user: str | None = None) -> str | None:
-	"""permission_query_conditions: one's own deletions, and an administrator's
-	readable kinds."""
+	"""permission_query_conditions: one's own deletions, and, for whoever sees
+	everyone's, the kinds they may read."""
 	user = user or frappe.session.user
 	if _trusted(user):
 		return None
@@ -111,7 +119,7 @@ def query(user: str | None = None) -> str | None:
 		f"(`tabDeleted Document`.`owner` = {frappe.db.escape(user)}"
 		f" and `tabDeleted Document`.`deleted_doctype` not in ({left_out}))"
 	)
-	if not roles.administers(user):
+	if not _everyone(user):
 		return own
 	kinds = ", ".join(frappe.db.escape(one) for one in _kinds(user)) or "''"
 	system = ", ".join(frappe.db.escape(one) for one in SYSTEM)
@@ -127,12 +135,11 @@ def has_permission(doc, ptype: str | None = None, user: str | None = None) -> bo
 	user = user or frappe.session.user
 	if _trusted(user):
 		return True
-	admin = roles.administers(user)
-	if ptype == "delete" and not admin:
+	if ptype == "delete" and not roles.administers(user):
 		return False
 	if doc.owner == user and doc.deleted_doctype not in _machinery():
 		return True
-	return admin and doc.owner not in SYSTEM and doc.deleted_doctype in _kinds(user)
+	return _everyone(user) and doc.owner not in SYSTEM and doc.deleted_doctype in _kinds(user)
 
 
 @frappe.whitelist(methods=["POST"])

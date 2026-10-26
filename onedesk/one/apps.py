@@ -2,7 +2,7 @@
 
 An app turned off leaves the rail, search and the pickers for everybody, and
 nothing is deleted or refused. OneAI off refuses every model call and turns
-OneAI off with it. The rest is in one/README.md, under Apps.
+OneAI off with it. The rest is in One's Help, under Settings (one/docs/settings.md).
 """
 
 import json

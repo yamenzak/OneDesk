@@ -1,5 +1,5 @@
 """Telling people about the workspace itself: its account, its people and what
-they may do, their data and their sign-in (notifications/one/)."""
+they may do, their data and their sign-in (one/notifications.py)."""
 
 import frappe
 from frappe import _, _lt

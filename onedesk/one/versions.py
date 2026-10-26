@@ -80,11 +80,11 @@ def _pictured(one: dict) -> str:
 
 def _filled(module: str, body: str) -> str:
 	"""A page's words with what the module ships put in: `{roles}` is what
-	each of its roles starts with (one/abilities.py `defaults_table`)."""
+	each of its roles starts with (one/rights.py `defaults_table`)."""
 	if "{roles}" in body:
-		from onedesk.one import abilities
+		from onedesk.one import rights
 
-		body = body.replace("{roles}", abilities.defaults_table(module))
+		body = body.replace("{roles}", rights.defaults_table(module))
 	return body
 
 

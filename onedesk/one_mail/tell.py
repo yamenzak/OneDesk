@@ -53,12 +53,12 @@ def oneai_limit_reached(held) -> None:
 def rule_requested(rule) -> None:
 	"""A rule asked for on an issued address: everybody who may approve it
 	hears what it would do."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	when, then = said_of(rule)
 	notify.notify(
 		"Mail Rule Requested",
-		abilities.people_with("Email Account", "mail_rules", rule.account),
+		rights.people_with("Email Account", "mail_rules", rule.account),
 		link=f"/desk/onemail?settings=mailbox:{rule.account}:rules",
 		who=frappe.utils.get_fullname(frappe.session.user),
 		mailbox=frappe.db.get_value("Email Account", rule.account, "email_id") or rule.account,

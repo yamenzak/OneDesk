@@ -39,13 +39,13 @@ WERE_ON_THE_SHELL = {"settings", "workspace_settings", "legal", "intake", "ready
 # files below it that draw a centre's tabs.
 USE_THE_SHELL = {
 	"public/js/center_section.js",
-	"public/js/access_center.js",
+	"public/js/one/access_center.js",
 	"public/js/one_ai/ai_center.js",
 	"public/js/one_calendar/calendar_control.js",
-	"public/js/one_control.js",
+	"public/js/one/one_control.js",
 	"public/js/one_hr/hr_control.js",
 	"public/js/one_studio/studio_control.js",
-	"public/js/notification_center.js",
+	"public/js/one/notification_center.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
 	"public/js/one_account/account_center.js",
 	"public/js/band.js",

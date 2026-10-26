@@ -30,10 +30,10 @@ def may_do(key: str, user: str | None = None) -> bool:
 	"""Whether somebody's roles let them do a workspace-wide thing in
 	OneMail: connect shared mailboxes, set the address policy, keep the mail
 	templates (one_mail/abilities.py)."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 	from onedesk.one_mail.abilities import DOCTYPE
 
-	return abilities.held(DOCTYPE, _ability(key)["all"], user)
+	return rights.held(DOCTYPE, _ability(key)["all"], user)
 
 
 def _admin(*keys: str) -> None:
@@ -85,7 +85,7 @@ def may(account: str, key: str, user: str | None = None) -> bool:
 	with a scope, the address the workspace issued them), or through a share
 	of that one mailbox. Workspace administrators may do everything, except
 	in a private mailbox (addresses.is_private), which only its holder may."""
-	from onedesk.one import abilities, roles
+	from onedesk.one import rights, roles
 	from onedesk.one_mail import actions
 	from onedesk.one_mail.abilities import DOCTYPE
 
@@ -101,9 +101,9 @@ def may(account: str, key: str, user: str | None = None) -> bool:
 	if holds and not shared and not hosted:
 		return True
 	one = _ability(key)
-	if abilities.may(DOCTYPE, one["all"], account, user):
+	if rights.may(DOCTYPE, one["all"], account, user):
 		return True
-	return bool(one.get("own") and holds and hosted and not shared and abilities.held(DOCTYPE, one["own"], user))
+	return bool(one.get("own") and holds and hosted and not shared and rights.held(DOCTYPE, one["own"], user))
 
 
 def must(account: str, key: str) -> None:
@@ -267,7 +267,7 @@ def _by_role(user: str) -> dict:
 	"""A person's OneMail role (one/access.py), and the parts of any mailbox
 	(one_mail/abilities.py SHARED) it already lets them change, which a
 	share of one mailbox can add nothing to."""
-	from onedesk.one import abilities, access, roles
+	from onedesk.one import access, rights, roles
 	from onedesk.one.people import level_of
 	from onedesk.one_mail.abilities import DOCTYPE, SHARED
 
@@ -280,7 +280,7 @@ def _by_role(user: str) -> dict:
 			tier = level_of(set(frappe.get_roles(user)), used, managed, access.levels_of("OneMail"))
 			cache[user] = {
 				"role": _(tier) if tier in ("User", "Manager", "None") else tier,
-				"covered": [key for key in SHARED if abilities.held(DOCTYPE, _ability(key)["all"], user)],
+				"covered": [key for key in SHARED if rights.held(DOCTYPE, _ability(key)["all"], user)],
 			}
 	return cache[user]
 
@@ -298,12 +298,12 @@ def shared() -> dict:
 		fields=["name", "email_id", "one_hosted", "one_connected", "enable_outgoing"],
 		order_by="email_id asc",
 	)
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	ours, sends = workspace(), sends_from()
 	names = dict(frappe.get_all("User", filters={"user_type": "System User"}, fields=["name", "full_name"], as_list=True))
 	for account in accounts:
-		given = abilities.grants("OneMail", account.name)
+		given = rights.grants("OneMail", account.name)
 		account["people"] = [
 			{
 				"user": row.parent,
@@ -392,11 +392,11 @@ def set_access(account: str, people) -> list[dict]:
 	now = set(frappe.get_all("User Email", filters={"email_account": account}, pluck="parent"))
 	for user in set(wanted) - now:
 		addresses.hold(account, user)
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	for user in now - set(wanted):
 		frappe.db.delete("User Email", {"parent": user, "email_account": account})
-		abilities.grant("OneMail", account, user, [])
+		rights.grant("OneMail", account, user, [])
 	for user, sends in wanted.items():
 		frappe.db.set_value("User Email", {"parent": user, "email_account": account}, "one_sends", sends, update_modified=False)
 	from onedesk.one_mail import tell
@@ -410,14 +410,14 @@ def set_access(account: str, people) -> list[dict]:
 def give(account: str, user: str, keys: str | list) -> list[str]:
 	"""What one person who holds a mailbox may change in it, beyond what
 	their role allows: [key, ...] of one_mail/abilities.py SHARED, kept as a
-	share of the mailbox (one/abilities.py grant)."""
-	from onedesk.one import abilities
+	share of the mailbox (one/rights.py grant)."""
+	from onedesk.one import rights
 
 	must(account, "holders")
 	if not frappe.db.exists("User Email", {"parent": user, "email_account": account}):
 		frappe.throw(_("{0} doesn't use this mailbox.").format(user))
 	keys = frappe.parse_json(keys) if isinstance(keys, str) else keys or []
-	return abilities.grant("OneMail", account, user, list(keys))
+	return rights.grant("OneMail", account, user, list(keys))
 
 
 @frappe.whitelist(methods=["POST"])

@@ -186,10 +186,10 @@ def kinds(app: str) -> list[str]:
 
 def _matrix(app: str, tier: str) -> set:
 	"""The kinds a level's record matrix shows: the app's, and any the level
-	was given, less those an app's abilities live on (one/abilities.py)."""
-	from onedesk.one import abilities
+	was given, less those an app's abilities live on (one/rights.py)."""
+	from onedesk.one import rights
 
-	return (set(kinds(app)) | _written(_carriers(app, tier))) - abilities.doctypes()
+	return (set(kinds(app)) | _written(_carriers(app, tier))) - rights.doctypes()
 
 
 def ability_role(app: str, tier: str) -> str:
@@ -204,14 +204,14 @@ def abilities_of(app: str, tier: str) -> list[dict]:
 	"""A level's abilities as its page shows them: each declared ability, what
 	the level has of it with User's included, and the least it can be set to
 	(User's own) for a level above User."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	declared = abilities.of_app(app)
+	declared = rights.of_app(app)
 	if not declared:
 		return []
-	mine = abilities.of(app, ability_role(app, tier))
-	base = abilities.of(app, ability_role(app, "User")) if tier != "User" else {}
-	order = abilities.SCOPES
+	mine = rights.of(app, ability_role(app, tier))
+	base = rights.of(app, ability_role(app, "User")) if tier != "User" else {}
+	order = rights.SCOPES
 	said = []
 	for one in declared.ABILITIES:
 		key = one["key"]
@@ -233,11 +233,11 @@ def abilities_of(app: str, tier: str) -> list[dict]:
 
 def save_abilities(app: str, tier: str, values: dict) -> bool:
 	"""A level's abilities saved on its role; True when anything changed."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	if not abilities.of_app(app):
+	if not rights.of_app(app):
 		return False
-	return abilities.save(app, ability_role(app, tier), values)
+	return rights.save(app, ability_role(app, tier), values)
 
 
 def _written(roles_: tuple | set) -> set:
@@ -564,13 +564,13 @@ def for_doctype(doctype: str) -> list[dict]:
 
 
 def matrix_of(app: str) -> dict:
-	"""A module's role builder (one/abilities.py): its roles as columns, User,
+	"""A module's role builder (one/rights.py): its roles as columns, User,
 	the workspace's own, Manager; its abilities as rows, in the module's
 	groups; and what each role holds of each."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	roles.require()
-	declared = abilities.of_app(app)
+	declared = rights.of_app(app)
 	if not declared or app not in _apps():
 		frappe.throw(_("That cannot be set."))
 	names = getattr(declared, "SCOPE_LABELS", {})
@@ -594,7 +594,7 @@ def matrix_of(app: str) -> dict:
 				"about": str(one.get("about") or ""),
 				"kind": one["kind"],
 				"options": [] if one["kind"] == "switch" else [
-					{"value": scope, "label": str(said.get(scope) or scope)} for scope in abilities.SCOPES
+					{"value": scope, "label": str(said.get(scope) or scope)} for scope in rights.SCOPES
 				],
 			}
 		)
@@ -604,17 +604,17 @@ def matrix_of(app: str) -> dict:
 def set_ability(key: str, ability: str, value) -> dict:
 	"""One cell of the role builder: what one role holds of one ability. A
 	role above User never holds less than User does."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	roles.require()
 	app, tier = tier_of(key)
-	one = abilities.ability(app, ability)
+	one = rights.ability(app, ability)
 	held = {row["key"]: row for row in abilities_of(app, tier)}
 	if one["kind"] == "switch":
 		value = frappe.utils.cint(value)
 		too_little = value < held[ability]["least"]
 	else:
-		too_little = value not in abilities.SCOPES or abilities.SCOPES.index(value) < abilities.SCOPES.index(held[ability]["least"])
+		too_little = value not in rights.SCOPES or rights.SCOPES.index(value) < rights.SCOPES.index(held[ability]["least"])
 	if too_little:
 		frappe.throw(_("A role above User has everything User has."))
 	save_abilities(app, tier, {**{name: row["value"] for name, row in held.items()}, ability: value})

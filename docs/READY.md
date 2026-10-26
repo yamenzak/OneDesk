@@ -404,18 +404,18 @@ the agreement.
 **Built.** A module's roles come from its folder alone. `<module>/abilities.py`,
 named by the `one_abilities` hook, declares its abilities, the role everyone
 holds (EVERYONE) and DEFAULTS: every role it ships and what each starts with.
-`abilities.settle`, on migrate, makes a role named there if it isn't there
+`rights.settle`, on migrate, makes a role named there if it isn't there
 and writes its defaults once, so a workspace's own changes survive an update;
 the Role fixture is gone. The module's Help shows the same defaults: `{roles}`
-on a page becomes `abilities.defaults_table`, in English as Help is, so the
-page can't say other than what ships. Overrides are one idea: `abilities.grant`
+on a page becomes `rights.defaults_table`, in English as Help is, so the
+page can't say other than what ships. Overrides are one idea: `rights.grant`
 gives one person more on one record than their role says, as a share frappe
 answers, and nothing else in a module writes a share. `test_ready.py` fails on
 a ready module without abilities.py or its hook, with defaults naming an
 ability it doesn't declare, without `{roles}` in its Help, with a Role fixture,
 or writing a share itself.
 
-**Before.** The abilities engine (`one/abilities.py`, the `one_abilities`
+**Before.** The abilities engine (`one/rights.py`, the `one_abilities`
 hook, `docs/ROLES.md`). OneMail ships OneMail User, given to everyone, and
 Mail Manager. Roles are columns in the Roles matrix. The only override is a
 grant on one mailbox (Users › Edit Access).
@@ -426,7 +426,7 @@ grant on one mailbox (Users › Edit Access).
   matrix in `docs/ROLES.md` checked against the fixtures.
 - **Overrides become one idea**: a grant to one person on one record, over
   what their role says. OneMail's per-mailbox grant is the first, and every
-  module's overrides use the same `abilities.grant`.
+  module's overrides use the same `rights.grant`.
 
 ### 8. Notifications
 
@@ -796,14 +796,14 @@ theirs to complete.
 
 ### 14. AccessCenter
 
-**Built.** `public/js/access_center.js` and `one/access_center.py`, on the
+**Built.** `public/js/one/access_center.js` and `one/access_center.py`, on the
 settings dialog (`onedesk.CENTERS.access`), for workspace administrators.
 A module's part has three tabs: **Roles**, the matrix (`role_matrix.js`,
 with Show Roles and New Role); **People**, everybody's role in the module,
 changed in place as People changes it (`put`, which takes somebody off a
 profile that says otherwise); and **On One Record**, everybody given more
 than their role on one record (`records`, read from the module's shares),
-with Edit and Remove through `abilities.grant` (`give`). A record is named
+with Edit and Remove through `rights.grant` (`give`). A record is named
 by the field its `abilities.py` names (`TITLE`, OneMail's `email_id`).
 
 It is found, not drawn: the boot names the modules with abilities
@@ -825,7 +825,7 @@ mailbox's Users).
 
 ### 15. NotificationCenter
 
-**Built.** `public/js/notification_center.js` and
+**Built.** `public/js/one/notification_center.js` and
 `one/notification_center.py`, on the settings dialog
 (`onedesk.CENTERS.notifications`), for everybody. A module's part has
 **Yours**, each type the reader can get from it with an Email and a Push

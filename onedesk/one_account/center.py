@@ -42,9 +42,9 @@ ON_A_RECORD = ("people",)
 def _sees_plan() -> bool:
 	"""Whether somebody may read Plan and Credits: an administrator, or a
 	role given it in AccessCenter (abilities.py, `plan`)."""
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	return roles.administers() or abilities.may("Workspace Account", "account_plan")
+	return roles.administers() or rights.may("Workspace Account", "account_plan")
 
 
 def _may_open(section: str) -> bool:

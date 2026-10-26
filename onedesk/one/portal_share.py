@@ -1,7 +1,7 @@
 """Who sees a record on the portal, and signed links to it: the desk's
 Portal dialog (public/js/portal_share.js) and the link's page
 (frontend/portal, /portal/l/<token>), which answers once, then reads. See
-one/README.md, The Portal."""
+One's Help, The Portal (one/docs/the-portal.md)."""
 
 import json
 from urllib.parse import quote

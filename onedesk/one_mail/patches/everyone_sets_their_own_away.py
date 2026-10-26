@@ -6,10 +6,10 @@ import frappe
 
 
 def execute():
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
-	if not frappe.db.exists("Role", "OneMail User") or not abilities.of_app("OneMail"):
+	if not frappe.db.exists("Role", "OneMail User") or not rights.of_app("OneMail"):
 		return
-	held = abilities.of("OneMail", "OneMail User")
+	held = rights.of("OneMail", "OneMail User")
 	if held.get("away", "none") == "none":
-		abilities.save("OneMail", "OneMail User", {**held, "away": "own"})
+		rights.save("OneMail", "OneMail User", {**held, "away": "own"})

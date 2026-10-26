@@ -49,7 +49,7 @@ Measured on 2026-10-26.
   are the shell, some are engines every module uses, and the rest are
   screens that belong to somebody else.
 - **AccessCenter and NotificationCenter** are One's, in
-  `public/js/access_center.js` and `public/js/notification_center.js`,
+  `public/js/one/access_center.js` and `public/js/one/notification_center.js`,
   outside any module's places.
 - **AccountCenter** is only a heading: `dialog.center = { center: "account" }`
   in `one_mail/onemail_settings.js`.
@@ -177,7 +177,7 @@ moves its version.
 2. **Settings empties.** Built. A centre's section is a `CenterSection`
    (`public/js/center_section.js`), lifted out of AccountCenter, so each
    moved section kept its drawing and its save. General is One's
-   ControlCenter (`one/control.py`, `public/js/one_control.js`); Access's
+   ControlCenter (`one/control.py`, `public/js/one/one_control.js`); Access's
    roles, profiles and groups are AccessCenter's Roles and Profiles, under
    Across One; Holidays is OneHR's ControlCenter (`one_hr/control.py`, and
    `holidays.py` moved into OneHR); the calendar link is OneCalendar's
@@ -230,10 +230,24 @@ moves its version.
    rows it named (Documents, its reports, What OneAI Remembers and Reads)
    leave every rail (`apps.gone`). What OneAI Remembers and Reads stay under
    You in One's rail, since they are the reader's own.
-7. **One's own places.** AccessCenter and NotificationCenter into One's
-   folder; One registered in `ready.MODULES`; every file left in
-   `onedesk/one/` either One's, in `SHARED` with a reason, or in `OUTSIDE`
-   with where it is going.
+7. **One's own places.** Built. One is in `ready.MODULES` (not ready
+   yet), and every READY guard holds it. AccessCenter's, NotificationCenter's
+   and One's ControlCenter's scripts are in `public/js/one/`. Every file
+   left in `onedesk/one/` is One's or named in `ready.SHARED` with why: the
+   engines every module uses, and the portal, privacy and webhooks on their
+   way to their own modules (`OUTSIDE` must be empty, so `SHARED` says
+   where they are going); a module's files leave `SHARED` out. The
+   abilities engine is `one/rights.py`, so `one/abilities.py` is One's own:
+   One User and One Manager, and **Everyone's Deletions**, which lets a role
+   see and put back what anybody deleted. One's README became its AGENTS.md
+   and twelve Help pages; what it said of OneStudio, OneHR and OneCalendar
+   went to theirs. Its notifications are `one/notifications.py`, its
+   changing calls are each in `NOT_FOR_AI` with why, its foot is drawn on
+   any screen of its rail, and it has no setup steps or tours until stage 8.
+   Registering One held OneLegal's own clauses, written under One's name, to
+   one point to a sentence, so the agreements were reworded without
+   changing what they say. Roles and abilities now settle on every migrate,
+   not only on install.
 8. **One's screens, bespoke.** Home, Address Book, Announcements,
    Dashboards and Recycle Bin, each designed and drawn on OneInterface.
 9. **READY for One and AccountCenter.** The fourteen points, the hand

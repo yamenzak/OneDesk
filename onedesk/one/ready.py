@@ -86,6 +86,27 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"One": {
+		"folder": "one",
+		"screens": "one",
+		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
+		"ready": False,
+		"checked": {},
+		"help": (
+			("overview", "info"),
+			("home", "house"),
+			("address-book", "book-user"),
+			("announcements", "megaphone"),
+			("records", "file-text"),
+			("recycle-bin", "trash-2"),
+			("notifications", "bell"),
+			("access-and-the-audit-log", "shield-check"),
+			("your-data", "folder-lock"),
+			("the-portal", "globe"),
+			("who-can-do-what", "shield"),
+			("settings", "settings"),
+		),
+	},
 	"OneAI": {
 		"folder": "one_ai",
 		"screens": "intake",
@@ -207,24 +228,91 @@ HAND = {
 	"legal": "what it does with data, read against what its clauses, subprocessors and optional services say",
 }
 
-# Files named for a module that are not its own, and why.
+# Files named for a module, or in its places, that are not its own, and why.
+# A path ending in / is a whole folder. A module's files leave them out, so
+# its version moves only with what is its own.
+_ENGINE = "an engine every module uses, kept in One's folder"
+_PORTAL = "the portal's, which becomes its own module in a later plan (docs/ONE.md)"
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/templates/emails/one_mail.html": "the frame every mail One sends is laid in, OneMail's or not",
 	"brand/oneai.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/public/images/oneai.svg": "the mark as an image, for the places that can't use the sprite",
-	"onedesk/one/number_card/oneai_suggestions/__init__.py": "Home's figure of OneAI's suggestions, which Home owns",
-	"onedesk/one/number_card/oneai_suggestions/oneai_suggestions.json": "Home's figure of OneAI's suggestions, which Home owns",
 	"onedesk/one_mail/docs/asking-oneai.md": "OneMail's own Help page on what OneAI does in mail",
 	"onedesk/one_mail/docs/asking-oneai/reading.png": "the picture on OneMail's page on OneAI",
 	"tests/samples/intake/one_ai/ignore-instructions.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_ai/ignore-instructions.json": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_ai/locked-invoice.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_ai/locked-invoice.json": "reading's samples sit with every module's, under tests/samples",
+	# The engines every module uses (docs/ONE.md, What One keeps).
+	"onedesk/one/rights.py": _ENGINE + ": what a role may do in each module (docs/ROLES.md)",
+	"onedesk/one/roles.py": _ENGINE + ": who administers the workspace",
+	"onedesk/one/notify.py": _ENGINE + ": every notification goes through it",
+	"onedesk/one/push.py": _ENGINE + ": every notification's push",
+	"onedesk/one/doctype/push_device/": _ENGINE + ": the devices a push goes to",
+	"onedesk/one/tell.py": _ENGINE + ": what every module tells people about the workspace goes through it",
+	"onedesk/one/account.py": _ENGINE + ": every module asks the account through it",
+	"onedesk/one/apps.py": _ENGINE + ": which apps the workspace has turned off, which every module asks",
+	"onedesk/one/people.py": _ENGINE + ": the apps every person is given, which every module asks",
+	"onedesk/one/head.py": _ENGINE + ": the record head every module's records wear",
+	"onedesk/one/stages.py": _ENGINE + ": the record head's stages",
+	"onedesk/one/figures.py": _ENGINE + ": the record head's figures",
+	"onedesk/one/linked.py": _ENGINE + ": another record's fields edited on this one",
+	"onedesk/one/tabs.py": _ENGINE + ": a record's tabs after its fields",
+	"onedesk/one/homes.py": _ENGINE + ": where every module's record leads back to",
+	"onedesk/one/doctype/record_head/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_band/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_chart/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_indicator/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_linked/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_sentence/": _ENGINE + ": the record head",
+	"onedesk/one/doctype/record_head_verb/": _ENGINE + ": the record head",
+	"onedesk/one/layer.py": _ENGINE + ": what a workspace may change about any module's forms",
+	"onedesk/one/babel.py": _ENGINE + ": every module's standard records in the reader's language",
+	"onedesk/one/doctype/workspace_customization/": _ENGINE + ": the workspace layer",
+	"onedesk/one/boards.py": _ENGINE + ": the board every module's boards open in",
+	"onedesk/one/sections.py": _ENGINE + ": what every centre's section is drawn from and saved to",
+	"onedesk/one/print_format_field_template/": _ENGINE + ": the blocks every module's print formats are made of",
+	"onedesk/one/ready.py": _ENGINE + ": the READY mechanisms (docs/READY.md)",
+	"onedesk/one/versions.py": _ENGINE + ": the READY mechanisms, What's New",
+	"onedesk/one/tours.py": _ENGINE + ": the READY mechanisms, tours",
+	"onedesk/one/setup_steps.py": _ENGINE + ": the READY mechanisms, setup steps",
+	"onedesk/one/setup_wizard.py": _ENGINE + ": the first run, which sets every module up",
+	# What is in One's folder on its way to the module it belongs to.
+	"onedesk/one/portal.py": _PORTAL,
+	"onedesk/one/portal_invite.py": _PORTAL,
+	"onedesk/one/portal_share.py": _PORTAL,
+	"onedesk/one/doctype/portal_link/": _PORTAL,
+	"onedesk/one/patches/portal_account_forms.py": _PORTAL,
+	"onedesk/one/patches/portal_address_button.py": _PORTAL,
+	"onedesk/one/patches/portal_own_by_record.py": _PORTAL,
+	"onedesk/one/patches/portal_settle.py": _PORTAL,
+	"onedesk/one/custom/delivery_note.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/purchase_invoice.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/purchase_order.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/quotation.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/request_for_quotation.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/sales_invoice.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/sales_order.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/custom/supplier_quotation.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/privacy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/privacy_copy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/privacy_public.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/custom/personal_data_deletion_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/custom/personal_data_download_request.json": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
+	"onedesk/one/webhooks.py": "OneStudio's Webhooks, to move into one_studio",
+	"onedesk/one/patches/holiday_names.py": "OneHR's holidays, a patch that has run",
 }
+
+
+def shared(path: str) -> bool:
+	"""Whether a path, from the repository's root, is in SHARED."""
+	return path in SHARED or any(key.endswith("/") and path.startswith(key) for key in SHARED)
+
 
 OUTSIDE = {
 	"OneMail": [],
+	"One": [],
 	"OneAI": [],
 	"OneLegal": [],
 	"OneAccount": [],
@@ -238,6 +326,7 @@ def files(module: str) -> list[Path]:
 	for root in places(module):
 		if root.exists():
 			found += [path for path in root.rglob("*") if path.is_file() and "__pycache__" not in path.parts]
+	found = [path for path in found if not shared(str(path.relative_to(ROOT)))]
 	found += [ROOT / one for one in OUTSIDE.get(module, [])]
 	return sorted(found)
 

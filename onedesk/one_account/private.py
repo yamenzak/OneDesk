@@ -3,7 +3,7 @@
 An installed app whose hooks.py says `one_private_app` is one of One's apps,
 always on and never uninstalled. It arrives by a code typed into Apps, which
 the control plane turns into an Install App job (one_admin/private.py). The
-rest is in one/README.md under Under the hood, and docs/PRIVATE-APPS.md.
+rest is in one/AGENTS.md under Under the hood, and docs/PRIVATE-APPS.md.
 """
 
 import frappe

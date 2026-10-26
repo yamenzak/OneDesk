@@ -1,7 +1,7 @@
 # Roles
 
 How a workspace decides who may do what, module by module, and the plan for
-it. The guide for the people using it is `onedesk/one/README.md` (Access,
+it. The guide for the people using it is One's Help, `onedesk/one/docs/` (Access,
 for the Workspace); this is the design under it.
 
 ## What there was
@@ -66,12 +66,12 @@ A module declares its abilities once, in `<module>/abilities.py`, named by the
 - **Choice**: a dropdown of scopes, two permission types. For OneMail, "No",
   "Their own address" and "Every mailbox": `one_sign_own` and `one_sign`.
 
-`one/abilities.py` is the one engine: what a role holds (`of`), saving a role's
+`one/rights.py` is the one engine: what a role holds (`of`), saving a role's
 abilities (`save`), whether somebody may do one (`may`), and a mailbox's
-shares (`grants`, `grant`). A module asks `abilities.may("one_sign", doc)` and
+shares (`grants`, `grant`). A module asks `rights.may("one_sign", doc)` and
 never looks at roles itself.
 
-Defaults are written on migrate (`abilities.settle`) only for a role that has
+Defaults are written on migrate (`rights.settle`) only for a role that has
 no row on the doctype yet, so a workspace's own changes are never undone by
 an update, the same rule the record matrix keeps. An ability an update
 brings (its Permission Type is newer than the role's row) is given its
@@ -93,7 +93,7 @@ starts at User's value, since every role holds User's roles. **New Role**
 adds a column based on another; a custom role's name renames or deletes it.
 The abilities' column stays put while the roles scroll sideways under it,
 and **Show Roles** picks which columns show, kept for each person.
-`public/js/role_matrix.js` draws it for any module that declares abilities,
+`public/js/one/role_matrix.js` draws it for any module that declares abilities,
 from `access.matrix_of`.
 
 Workspace › Access keeps what crosses modules: every app's roles in one
@@ -115,20 +115,20 @@ Profiles take OneMail like any other app.
 A module ships its roles from its own folder: `<module>/abilities.py`
 declares its abilities and, in DEFAULTS, the roles it ships and what each
 starts with. Migrate makes those roles if they aren't there and writes their
-defaults once (`abilities.settle`); there is no fixture. The module's Help
-shows the same defaults (`{roles}` on a page, `abilities.defaults_table`), so
+defaults once (`rights.settle`); there is no fixture. The module's Help
+shows the same defaults (`{roles}` on a page, `rights.defaults_table`), so
 what the page says is what ships. OneMail's are on its Who Can Do What page.
 
 One person given more on one record than their role says is a share,
-written by `abilities.grant` and nothing else; OneMail's per-mailbox Edit
+written by `rights.grant` and nothing else; OneMail's per-mailbox Edit
 Access is the first. `tests/guards/test_ready.py` holds both.
 
 ## Stages
 
-1. **Engine and OneMail.** Permission types, `one/abilities.py`, roles in
+1. **Engine and OneMail.** Permission types, `one/rights.py`, roles in
    place of levels, OneMail as an app with roles, the role builder as a
    matrix in OneMail's settings, the Users tab's per-mailbox abilities,
-   OneMail's checks moved onto `abilities.may`. Guide, tests, demo checks.
+   OneMail's checks moved onto `rights.may`. Guide, tests, demo checks.
 2. **OneCloud.** Sharing outside the workspace, deleting others' files,
    storage settings; per-folder grants on Drive's own model.
 3. **OneTask and OneCalendar.** Assigning to others, others' calendars.
@@ -138,5 +138,5 @@ Access is the first. `tests/guards/test_ready.py` holds both.
    approving, discounts past a limit, seeing cost and margin.
 
 Each stage is the same four steps: a module's `abilities.py`, its permission
-types, its own checks moved onto `abilities.may`, and a Roles tab in its
+types, its own checks moved onto `rights.may`, and a Roles tab in its
 settings drawing `role_matrix.js`.

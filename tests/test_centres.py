@@ -14,15 +14,15 @@ import tree
 JS = tree.APP / "public" / "js"
 
 MOVED = {
-	"draw_general(": (JS / "one_control.js", tree.APP / "one" / "control.py"),
+	"draw_general(": (JS / "one" / "one_control.js", tree.APP / "one" / "control.py"),
 	"draw_holidays(": (JS / "one_hr" / "hr_control.js", tree.APP / "one_hr" / "control.py"),
 	"draw_link(": (JS / "one_calendar" / "calendar_control.js", tree.APP / "one_calendar" / "control.py"),
 	"draw_reads(": (JS / "one_ai" / "ai_center.js", tree.APP / "one_ai" / "yours.py"),
-	"draw_access(": (JS / "access_center.js", tree.APP / "one" / "access_center.py"),
+	"draw_access(": (JS / "one" / "access_center.js", tree.APP / "one" / "access_center.py"),
 	"draw_numbering(": (JS / "one_studio" / "studio_control.js", tree.APP / "one_studio" / "control.py"),
 	"draw_printing(": (JS / "one_studio" / "studio_control.js", tree.APP / "one_studio" / "control.py"),
 	"draw_approvals(": (JS / "one_studio" / "studio_control.js", tree.APP / "one_studio" / "control.py"),
-	"draw_words(": (JS / "notification_center.js", tree.APP / "one" / "notification_words.py"),
+	"draw_words(": (JS / "one" / "notification_center.js", tree.APP / "one" / "notification_words.py"),
 }
 
 

@@ -1005,10 +1005,10 @@ def rule_allowed(doc, ptype=None, user=None, debug=False) -> bool:
 
 
 def rule_query(user=None) -> str:
-	from onedesk.one import abilities
+	from onedesk.one import rights
 
 	user = user or frappe.session.user
-	if user == "Administrator" or abilities.held("Email Account", "mail_rules", user):
+	if user == "Administrator" or rights.held("Email Account", "mail_rules", user):
 		return ""
 	return (
 		f"""(`tabMail Rule`.account in (select email_account from `tabUser Email` where parent = {frappe.db.escape(user)})"""

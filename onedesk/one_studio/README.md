@@ -198,6 +198,476 @@ data is lost.
 records can't be deleted. A deleted collection is in One › **Recycle Bin**, and
 restoring it brings back its records list.
 
+## Numbering
+
+How each record type is named when a record is created. For example, an
+invoice `ACC-SINV-2026-00006`, a customer by its name, or a project by its
+title. Only administrators see this, and only for record types they can open.
+
+The list shows every record type you can open that uses a naming series, a
+naming method the workspace chose, or naming rules:
+
+- **Naming Rule**: how a new record is named.
+- **Series**: the series or expression.
+- **Next**: the exact name the next record gets, where it can be known.
+- **Document Naming Rules**: how many naming rules it has.
+
+Click a row to open that record type's **Settings › Numbering** (see A Form's
+Settings), where you make changes. The list refreshes when you close it. **Set
+Up Naming** lets you choose any other record type and opens it there. While
+you type a series or expression, the window shows the next name it would give,
+or what's wrong with it.
+
+You can also ask OneAI, for example "number our invoices by year", "start
+this year's quotations at 500", "name projects by their title", "give
+government customers their own prefix" or "is any numbering behind?". OneAI
+suggests the change as a card, and nothing changes until you approve it.
+
+### Changing how invoices are numbered
+
+The same steps work for quotations, orders or any record type with a series.
+
+1. Open Setup › **Numbering** and click the **Sales Invoice** row.
+2. Click the series to change, or **Add Series** for a new one.
+3. Type the series, such as `INV-.YYYY.-.####`. The window shows the next
+   name it would give, or what's wrong with it.
+4. Tick **Default** so new invoices start with this series.
+5. To start from a higher number, set **Current Value**. It can only go up.
+6. Click **Update**, or **Add** for a new series.
+
+Existing invoices keep their names. Only new ones use the change.
+
+### Writing a series
+
+A series is parts separated by dots, read left to right.
+
+- Text stays as written (`INV-`, `SO/`).
+- `YYYY` is the year (2026) and `YY` its last two digits (26). `MM` is the
+  month, `DD` the day, `JJJ` the day of the year and `WW` the week of the year.
+- `FY` is the fiscal year (2025-2026) and `TFY` its short form. `ABBR` is the
+  company's abbreviation.
+- `{department}`, or a field's name on its own, inserts that field of the
+  record. `timestamp` inserts the time the record is created.
+- The number is one `#` per digit, after a dot. `.#####` gives 00001. Only the
+  first run of `#` counts.
+- The number restarts whenever the text before it changes. `INV-.YYYY.-.####`
+  restarts at 0001 each year, and `INV-.YYYY.-.MM.-.####` each month.
+- Only letters, digits, spaces and `- / _ . # { }` are allowed.
+
+**Series Format**, in the edit window, explains the same.
+
+A series another record type already uses is refused, so two record types
+never share numbers. You can move a series' number up, for example to start a
+new year at 1000, but never down, and never below the highest number a record
+already has. The edit window shows that number. Each change is kept in the
+record's history.
+
+### Choosing how a record type is named
+
+**Name each new ... by**, at the top of Numbering, sets how a new record gets
+its name, with these options:
+
+- **Naming Series**: the next name in one of its series, for record types that
+  have them.
+- **Field**: the value of a field you choose, such as a project's title or a
+  vehicle's plate. The field becomes required and unique. It's refused while
+  two records share a value, and the message names that value.
+- **Expression**: a pattern written like a series, such as `PRJ-.YYYY.-.####`,
+  for record types with no series of their own. The window shows the next name
+  as you type, and **Use This Expression** applies it.
+- **Set by User**: the person creating the record types its name. Not offered
+  for record types One creates in the background, such as expense claims
+  OneHR files or timesheets from the timer, since no one is there to type a
+  name. These can be named by a field only if that field is always filled in.
+  Records OneAI creates from a document aren't limited this way, since OneAI
+  reads the name or field from the document.
+- **Random**: a random name, for records no one refers to by name.
+
+**Customer**, **Supplier**, **Item**, **Employee** and **Campaign** have their
+own naming options: Customer Name, Naming Series or Auto Name, an Item by its
+Item Code, and an Employee by Full Name or Employee Number. The series list
+and **Add Series** appear only while the record type is named by a series.
+
+Changes never rename existing records. They apply only to records created
+afterwards. Switching back to a series continues from the number it had
+reached.
+
+The naming method can only be changed on record types people create
+themselves. Ledgers, logs, and the system's and One's own record types are
+named by the system. Rules work on all of them.
+
+### Naming rules: a prefix for some records
+
+A rule gives a record its own prefix when its fields match, whatever its
+naming method. For example, returns as `RET-.YYYY.-`, or government customers
+as `CUST-GOV-.YYYY.-`.
+
+1. Click **Add Rule**.
+2. Enter the prefix, written like a series but without `#`. The window shows
+   the next name it would give.
+3. Set how many digits the number has.
+4. Under **When**, add conditions, each a field, a comparison and a value. All
+   of them must match. A rule with no conditions names every new record.
+
+When two rules match, the one with the higher **Priority** wins. Rules only
+check the record's standard fields.
+
+## Printing
+
+How the workspace's documents look on paper: letter heads and print formats,
+each below. Only administrators see this, and only formats for record types
+they can open. Print headings are in OneStudio's ControlCenter, under
+**Lists**.
+
+### Letter heads
+
+A letter head is the header and footer of every printed page. Each letter head
+shows as a card with a full page, as it prints. The star makes one the
+default. Click a card to open it. The letter head window has **Header** and
+**Footer** tabs on the left, each a list of presets with its options under
+it, and the page on the right. Pointing at a preset shows it on the page;
+clicking keeps it.
+
+**Edit in Builder** opens the letter head in the print format builder
+instead, where the header and footer are each an image or HTML. A header or
+footer edited there stays as written. Choosing a preset again replaces it.
+
+**Default** prints a letter head on every document unless another is chosen.
+**Disabled** keeps it but stops offering it. The workspace's standard letter
+heads can be made the default or disabled.
+
+### Letter head headers
+
+The header uses one of thirteen presets, filled in from Workspace › General:
+
+- **Classic**: the logo on the left, the company stacked on the right.
+- **Columns**: the logo on the left; the address and contacts in columns
+  under small grey labels.
+- **Ledger**: the logo on the left; address, phone, email and tax number two
+  by two under labels in the Brand Colour.
+- **Strip**: the logo on its own, then every detail in a labelled row across
+  the page.
+- **Masthead**: the logo centred over three columns.
+- **Centred**
+- **Window**: everything top right, leaving the left free for the address a
+  letter goes to.
+- **Accent**: a short bar in the Brand Colour over the logo.
+- **Wordmark**: with no logo, the name in large spaced capitals.
+- **Minimal**: the name and contacts on one line.
+- **Tinted**: the company on a faint tint of the Brand Colour.
+- **Band**: a band in the Brand Colour, the name or the logo on it.
+- **Logo Only**
+
+A company with no logo shows its initials on the Brand Colour beside its
+name. The name isn't repeated beside a logo unless **Name** is ticked, for a
+logo that is only a symbol. A light Brand Colour is darkened wherever it is
+text, so it still reads; lines and bands keep it as it is. A UAE company's
+tax number is its **TRN**.
+
+Under the presets:
+
+- tick what it should **Show** (name, address, phone, email, website, tax ID)
+- set the **Logo Height**
+- turn on the **Brand Line**, a line in the Brand Colour under the header
+
+When you change any of these details in General, including the Brand Colour,
+every preset header and footer updates.
+
+### Letter head footers
+
+The footer uses one of nine presets:
+
+- **Centred**: one line.
+- **Two Sides**: the name and address on the left, the rest on the right.
+- **Fact Strip**: each detail in a column under a small label.
+- **Legal**: the name, address and tax number centred, contacts under them.
+- **Accent**: a short bar in the Brand Colour over one line.
+- **Corner**: the logo or the name on the left, the rest on the right.
+- **Spread**: each detail in an equal share of the width.
+- **Logo Above**: the logo centred above the line.
+- **Tinted**: the line on a faint tint of the Brand Colour.
+- **None**
+
+A new footer shows the phone, website and tax number. Tick what else to
+**Show**, including the **Logo**, add a **Note** of your own, such as "Thank
+you for your business.", and turn on its **Brand Line** if you like. A new
+letter head starts with the Centred footer.
+
+The page number isn't part of the footer. It's part of the print format (Page
+Number, in the builder), and it prints on every page.
+
+### Print formats
+
+This shows the same cards as a record's **Settings › Print Formats** (see A
+Form's Settings). There's one group for each record type the workspace made a
+format for, with the other formats it can print with. Click a page to preview
+it, the star to make it the default, or the name to open it in the builder.
+
+To add a format:
+
+1. Click **New**.
+2. Enter a name and choose what to **Start From**: a copy of one of the record
+   type's formats, or all of its fields.
+3. The format opens in the builder.
+
+A format belongs to one record type. A printed record stays inside its app,
+with that app's sidebar.
+
+### Print formats One ships
+
+Everything that leaves the company prints from a format of ours unless the
+workspace chooses another: One Quotation, One Sales Order, One Sales Invoice,
+One Payment Receipt, One Delivery Note, One Purchase Order, One Request for
+Quotation, One Payslip, One Job Offer and One Appointment Letter. Each prints
+under the default letter head, with its title and total in the company's
+Brand Colour (Workspace › General). To change one, open it in the builder and
+save a copy, which the star then makes the default.
+
+Their blocks are in the builder's **Library**, for any format of the
+workspace's own:
+
+- **One Title**: what the paper is (an invoice, a credit note, a receipt) and
+  its number. A Print Heading chosen on the record replaces it.
+- **One Party**: who it's for, their address, contact and tax ID, and where
+  the goods go when that's somewhere else.
+- **One Details**: its dates and references, the ones that are set.
+- **One Totals**: the subtotal, discount and each tax, the total, what's paid
+  and still owed, the total in the company's currency when the record is in
+  another, and the total in words.
+- **One Payment Schedule** and **One Bank Details**: when it's due, and the
+  company's bank account to pay into, its default one first.
+- **One Payslip**: earnings, deductions and net pay.
+- **One Payment**: the amount and the invoices it settles.
+- **One Signatures**: a line for each side to sign, on a quotation, a
+  delivery note, a job offer and an appointment letter.
+
+### HTML blocks in a print format
+
+In the builder, a format is made of the record's fields, tables, text, images,
+barcodes, the standard field templates and **Custom HTML** blocks.
+
+- An HTML block is a template of the record and nothing else. It can use the
+  record's fields and rows (`{{ doc.customer_name }}`,
+  `{% for row in doc.items %}`), `doc.get_formatted(...)`, conditions, loops,
+  `_()` and plain filters.
+- Every value is escaped. Scripts, forms, frames and images from other sites
+  are removed. The same applies to a letter head's HTML, which can't contain
+  template code at all.
+- Images must be uploaded to the workspace.
+- Typst blocks, formats written by hand, and styles that load anything from
+  another site aren't available, since each would print exactly what's
+  written, on the workspace's address.
+
+### Designing a letter head or print format with OneAI
+
+OneAI offers **Suggest a letter head**, **Tidy our footer**, **Design a letter
+head from our details**, **Design a clean invoice format** and **Which format
+do invoices print with?**
+
+Each suggestion is a card an administrator approves. **See the Page** on the
+card previews it first: a format on the record type's latest record, or a
+letter head's header and footer.
+
+- **Letter heads**: OneAI can change an existing header or footer as well as
+  create one. Ask it to remove the footer's line or add a note, and only that
+  changes. It can use any preset, or write HTML from the company's details,
+  where `[icon:phone]` (any Lucide icon name) shows that icon in
+  the Brand Colour.
+- OneAI can also suggest the default letter head, and which format a record
+  type prints with.
+- **Model**: designing a format uses a stronger model than the chat, which
+  One picks.
+- **Checks**: a layout that would print badly, such as an empty section, a
+  table wider than the page, or an invoice without its customer or total, is
+  fixed before you see a card. If it still can't be fixed, OneAI says nothing
+  was made.
+
+### How OneAI lays out a print format
+
+- **Print formats**: OneAI designs a format for any record type from the
+  builder's own blocks, so it opens in the builder like any other. It uses an
+  HTML block only for a part the blocks can't show, such as a stamp, a grid of
+  terms or a figure calculated from the rows, or across the whole body for a
+  page designed from end to end.
+- **Layout**: it starts from a standard layout for the record type and changes
+  only what you ask, so the same request gives the same result. For an
+  invoice, quotation, order or bill, that's who it's for on the left, the
+  dates on the right, the items in one table, the totals below next to the
+  amount in words, and the terms last.
+- **Style**: by default it uses a house style based on the standard print style,
+  with small muted labels, space between sections, an items table under a
+  soft header without a box, and the totals as label and figure on one line,
+  with the grand total above a rule. A look you ask for, such as a colour, a
+  band behind the title or a typeface, replaces the house style. A typeface is
+  set with the format's Google Font setting.
+- **Properties**: it can set any property the builder shows, by the
+  builder's own name. That includes a section's background, padding, margin,
+  radius, borders and when it prints, a field's size and colours, a table's
+  style, which rows print and column widths, barcodes, images, repeaters, and
+  the page's font size, margins and colours. You can keep editing all of it in
+  the builder.
+- **HTML blocks**: in the house style these use cards, large figures, status
+  badges, stamps, tables and label and value rows, in One's own colours. They
+  can only use the record's fields and rows, `get_formatted`, conditions, loops
+  and plain filters.
+
+## Approvals
+
+An approval sets the states a record moves through before it's done, and who
+moves it. For example, a purchase order stays Waiting for Approval until a
+manager approves it, or a customer stays Pending until the accounts team
+checks it. Only administrators see this, and only for record types they can
+open. The system's own record types, such as users and roles, and One's own
+can't have approvals.
+
+OneAI offers **Approve bills by amount** and **Who approves what?** It
+suggests a new or changed approval as a card you approve. The approval then
+opens in the builder, laid out, to edit like any other.
+
+A bill OneAI drafted waits in **Ready to Submit**. **Submit** takes
+the approval's step when the step is waiting on your role. Otherwise it says
+who it's waiting for. OneAI never takes a step itself.
+
+### Adding an approval
+
+Open Setup › **Approvals**, or a record type's **Settings › Approvals**.
+
+1. Click **New Approval**, and choose the record type and a name.
+2. In the approval builder, drag a state onto the page for each step.
+3. Connect two states with an action, such as Approve or Reject, and choose
+   the role that can take it.
+4. Optionally, have a state set a field of the record, such as Status to
+   Approved.
+5. Click **Save**, then turn the approval **On**. Only one approval can be on
+   for each record type.
+
+People with the role see the action on the record. Each step waiting on their
+role counts in **Approvals Waiting** on their Home. They're also notified in
+One, and by email if they chose (**Approval Waiting** in NotificationCenter's Words and Rules), when a record reaches their step. Whoever made the
+record, and whoever sent it to the step, hear where it went next (**Approval
+Answered**).
+
+### Conditions on an approval step
+
+An action can have a **Condition** that compares the record's fields with
+plain values. The same action can then go to different people depending on
+the amount. For example, **Approve** by an accounts user when
+`doc.grand_total <= 5000`, and by an accounts manager when
+`doc.grand_total > 5000`.
+
+- Write a field as `doc.` followed by its name.
+- Compare with `==`, `!=`, `<`, `>`, `<=`, `>=` or `in`.
+- Combine with `and`, `or` and `not`.
+
+Conditions that do more, calculated values and tasks an action runs aren't
+available here, since they'd run as whoever takes the action. A state can only
+set fields that anyone who can edit the record could set.
+
+## Automations
+
+An automation runs by itself when a record is created, changed, submitted or
+deleted, when a field changes to a value, on a date before or after one of the
+record's dates, or on a schedule. Only administrators see this, and only for
+record types they can open. The system's own record types, such as users and
+roles, and One's own can't have automations. **Automations**, under
+Automation, lists them all.
+
+An automation applies to records that match its **Match Fields**, then runs
+its steps in order. A step can:
+
+- set a field
+- add to a number
+- create another record
+- notify people
+- assign the record to someone
+- call a web address (https only)
+- wait
+
+A value can include a field of the record, such as `{{ doc.customer_name }}`.
+
+An automation runs as whoever last saved it. Each step can only do what that
+person could do by hand. Advanced conditions, If steps, scripts and calculated
+values aren't available, since they'd run as code. How often automations can
+run, and turning them all off, is managed by the platform team.
+
+On the list, OneAI offers **Thank customers who pay** and **What runs by
+itself?** It suggests a new or changed automation as a card. Once you approve
+it, it runs as you.
+
+### Adding an automation
+
+1. Open Automation › **Automations** and click **Add Automation Flow**, or
+   click **New** on a record type's **Settings › Automations**.
+2. Give it a **Title** and choose the **Document Type**, the record type it
+   runs on.
+3. Under **Trigger**, choose the **Trigger Type**: when it runs.
+   **Match Fields** limits it to the records it's for.
+4. Under **Actions**, click **Add row** and open the row.
+5. Choose the **Action Type**. Its own fields appear below, such as who to
+   notify and what to say, which field to set and to what, or how long to
+   wait. The record's creator and assignee are offered alongside your team.
+6. Turn the automation **On** once it has at least one step.
+
+**Tell People** notifies the people it names (team members, the record's
+creator or its assignee) in One, and by email if they chose (**Automation
+Notice** in NotificationCenter's Words and Rules). Give it a subject and
+message, or a **Mail Template**. The template is filled in from the record the
+same way the email window does it, with amounts and dates as the record shows
+them.
+
+**Test Run** runs the automation on one record and then undoes everything, so
+you can see what it would do.
+
+## Reports by Mail
+
+Automation › **Reports by Mail**, or **Setup Auto Email** on a report's menu,
+emails a report daily, weekly or monthly to the addresses you enter. The
+report shows what the person who set it up can see. Only administrators
+create them.
+
+## Webhooks
+
+A webhook notifies another system, such as Zapier, Make, n8n or your own
+server, when a record is created or changed. Automation › **Webhooks** lists
+them, and **Webhook Calls** lists every call each one made. Only
+administrators see either.
+
+**Adding a webhook**
+
+1. Choose the record type and the event: created, changed, submitted,
+   cancelled or deleted.
+2. Enter the address the other system gave you.
+3. Choose what to send. Either JSON with the record's fields, such as
+   `{"customer": "{{ doc.customer_name }}", "id": "{{ doc.name }}"}`, or a
+   list of fields, each under the name the other system expects.
+4. Add a header if the other system needs a key. Turn on **Enable Security**
+   to sign each call with a secret it can check.
+5. Set **Max Retries** to retry a failed call, up to five times, waiting
+   longer each time.
+
+**Limits**
+
+- A webhook must be on a record type you can open, and can only send fields
+  you can read. For example, you can't send a salary above your level.
+- It sends every record of its type on its event. To send only some, such as
+  won deals, use an automation with a Call Webhook step.
+- What it sends can only use the record's fields, as `{{ doc.field }}`.
+- It uses https to an address on the public internet, never an internal one,
+  even through a redirect.
+
+**Webhook Calls** shows each call's record, what was sent, the response and
+its status:
+
+- **Delivered**
+- **Failed**: it will be retried.
+- **Exhausted**: no more retries.
+
+Each morning, administrators are notified of any calls exhausted the day
+before (**Webhooks Failing**).
+
+OneAI offers **Are the webhooks working?**, and on the calls, **Why did these
+fail?**
+
 ## Notifications
 
 Every administrator is notified in One and by email, unless they turned it
@@ -546,3 +1016,331 @@ changed since it passed, cannot be turned on (`extensions.py`).
 
 Both come after `guard.py` and `checks.py`, so what is tried has already been
 read for what it may do and for the names it uses.
+
+### ai_setup.py
+
+Each tool in ai_setup.py checks what it was asked against the same rules the
+page does, and writes a card (an `AI Proposal` of kind Setup) that does
+nothing until a person approves it. Approving runs the page's own code
+(one_studio/reports.py, one/access.py) as whoever pressed Approve, so a card can do
+no more than they could by hand. A card says in plain words what changes: a
+level's card names every right it gives and takes away.
+
+All of them run on Workspace Setup, the stronger model approvals and
+automations run on.
+
+### approvals.py
+
+An approval is frappe's own Workflow: its states, the actions between them,
+and the role each action is for, drawn in frappe's workflow builder. The
+workspace administrator is given Workflow, Workflow State and Workflow
+Action Master, and the builder page through frappe's Custom Role.
+
+Frappe trusts whoever writes a Workflow, because only its System Managers
+may, and a workflow can run code: a transition's condition is Python, a
+state's value can be an expression, a transition can run tasks (a Server
+Script's method among them), and the field the workflow keeps its state in is
+written on every record of the kind. A workflow written by somebody frappe
+does not let customize (layer.held) is held to this:
+
+- it is on a kind of record they can open, never frappe's own or One's;
+- its transitions run no tasks, and a condition only compares the record's
+  own fields with plain values (`doc.grand_total > 5000`), so a bill over a
+  sum can go to a manager without a line of code;
+- a state sets a field only to a plain value, and only a field anybody who
+  may edit the record may set (the first permission level, not the record's
+  own bookkeeping);
+- it keeps its state in a field of its own, which is made here the first
+  time, as frappe makes it but as the workspace, since the administrator may
+  not add a field by hand.
+
+Every approval, the workspace's or not, is told through One's hub: frappe's
+own mail to whoever a step waits on is off (`send_email_alert`), and
+`waiting` tells them on the bell, and by mail as they chose, as Approval
+Waiting. One made without the builder (by OneAI, or by code) is laid out for
+it, since frappe's builder stacks every step it has no place for on one spot.
+
+### automation_steps.py
+
+Tell People tells people through the hub (one/notify.py), on the bell and by
+mail as each chose, as Automation Notice, and fills a mail template in as the
+composer does (one_mail/mail_templates.py). Frappe's Send Notification mails past
+the hub, and renders a template with only `doc`, so a template that names the
+record's fields bare, as the composer and the leave mails need, prints its
+tags there.
+
+### automations.py
+
+An automation is frappe's own Automation Flow: a trigger, the records it
+matches, and steps (set a field, make a record, notify, assign, call a
+webhook, wait). The workspace administrator is given Automation Flow, and
+it is listed in One's sidebar, so its list and form keep One's rail.
+
+Frappe trusts whoever writes a flow, because only its System Managers may.
+A flow runs as Administrator unless told otherwise, its condition and an If
+step's are Python, every step's values are Jinja with frappe's globals, and
+a step can run a Server Script. A flow written by somebody frappe does not
+let customize (layer.held) is held to this:
+
+- it runs as whoever wrote it, so each step can do only what they could do
+  by hand, and frappe's own permission checks decide;
+- it decides by its field rules, never by code: no condition, no If step;
+- it runs no script;
+- a value names a field of a record, `{{ doc.customer_name }}`, and nothing
+  else (as one_mail/mail_templates.py holds a template);
+- a webhook is sent over https (frappe already refuses internal addresses);
+- it is on a kind of record they can open, never frappe's own or One's.
+
+Automation Settings stays the operator's.
+
+**Tell People** (`TellPeople`, one_studio/automation_steps.py) is One's own step,
+added through frappe's `automation_actions` hook: it tells people through the
+hub (one/notify.py), on the bell and by mail as each chose, as Automation
+Notice, and fills a mail template in as the composer does
+(one_mail/mail_templates.py), from the record's own fields. Frappe's Send
+Notification mails past the hub and renders a template with only `doc`, so a
+template named by its fields prints its tags; it is not offered to a
+workspace's own flows.
+
+### customize.py
+
+What a workspace administrator changes on the Customize page is frappe's own
+records, and one of ours:
+
+- **Fields**: a field's label, whether it is hidden, required or in the list,
+  and the order of them all, as **Property Setters**; a field of the
+  workspace's own, as a **Custom Field**, which it may change again or take
+  away. A field the record came with may be hidden, never removed.
+- **Above the fields**: rows of the doctype's **Record Head** (one/head.py):
+  numbers in the band, verbs a module registered, and linked sections
+  (one/linked.py). A module's own rows are shown and kept; the workspace's are
+  marked `custom`, so a migrate keeps them too.
+- **Connections and buttons**: the DocType's own Links and Actions, marked
+  `custom` as frappe's Customize Form marks them. A button there only goes
+  somewhere; one that runs something is a verb.
+
+Every row is written under `frappe.flags.one_workspace_layer`, so the holds in
+one/layer.py read it as the workspace's, and it is saved against the state
+the page loaded (`state`), so two administrators do not overwrite each other.
+What frappe does not mark (a custom field, a property setter) the page writes
+into a ledger, **Workspace Customization**, and **Reset** takes back what the
+ledger names and nothing else: a module's customizations are never the
+workspace's to remove.
+
+### letter_heads.py
+
+frappe keeps a letter head's top as HTML, and ERPNext's own reads the
+company's logo, name, address and contacts from the document as it prints. A
+workspace's letter head may hold no template (`print_html.letter_head_html`),
+so its top is drawn in letter_heads.py instead: one of `PRESETS`, from what
+Workspace > General keeps (the logo, the name, the company's own address, its
+phone, email, website and tax ID, and its Brand Colour), showing what the
+administrator ticked. The choice is kept on the letter head (`one_top`), and
+the top is drawn again whenever the company or its address changes (`redraw`),
+so a printed page always says what General says now.
+
+The foot is drawn the same way, from `FEET` (`one_foot`, `draw_foot`). It
+carries no page number: that is the print format's own (Print Format's Page
+Number), which frappe draws on every page.
+
+A top or foot written by hand, in frappe's builder, stays as it was written:
+editing a drawn one there makes it hand-written (`apply`).
+
+In `draw`, the logo's cell is as wide as the logo, so the company's lines have
+the rest of the width and the address and the contacts each stay one line. It
+is said in pixels: frappe's print style holds every letter head picture to its
+cell, and a cell sized to its content would hold it to nothing.
+
+### numbering.py
+
+Frappe keeps this in Document Naming Settings, a Single whose whitelisted
+methods change any doctype's series and run for anybody who can read it
+(`run_doc_method` checks read, and `update_series` writes the property
+setters itself). So the workspace administrator is not given that Single.
+numbering.py's functions are the doors instead, each guarded to a doctype the
+workspace may change and its administrator may read, and each calling
+frappe's own logic: `update_series` validates a series and refuses one
+another doctype uses, `NamingSeries` previews and counts.
+
+The one thing frappe lets its System Managers do that numbering.py does not:
+set a series' next number lower. Going down repeats a number already used, and
+the save that meets it fails; going up only skips numbers, as a new year does.
+
+`NAMED_BY` holds the kinds of record that name themselves in code, by one of
+their app's own settings: the Single, the field, the method that shows or
+hides the series and the name field to match (or None), and whether the code
+reads the setting as a global default, which the Single's save would have
+written.
+
+`SERIES`, `FIELD` and `EXPRESSION` are how any other kind may be named, as
+frappe's Customize Form offers it: the naming rule it records, and what it
+writes as `autoname`. Frappe's Autoincrement cannot be changed to or from once
+records exist, UUID changes how the name is stored, and By script is code, so
+none is offered.
+
+### print_blocks.py
+
+Everything One submits prints from a format laid out in frappe's print format
+builder (each module's `print_format/`, written by `scripts/print_formats.py`)
+out of the builder's own pieces: fields, tables, linked fields, static text,
+sections that show only when they say something. A workspace changes them in
+the builder like any of its own.
+
+A few papers are gathered from records the one printed doesn't hold, which the
+builder can't reach. That part alone is one of One's blocks, frappe's own Print
+Format Field Templates, standard in module One
+(`one/print_format_field_template/`), so a workspace finds them in the
+builder's Library; the rest of the paper is still the builder's:
+
+- **One Statement**: a customer's or a supplier's account this fiscal year,
+  from the general ledger: the opening balance, each document with the
+  balance after it, how old what's open is, the open invoices, and where to
+  pay. On **One Statement of Account** and **One Supplier Statement**.
+- **One Salary Certificate** and **One Experience Letter**: the letter an
+  employee asks for, dated today, with the monthly pay as their latest
+  payslip made it up.
+- **One Leave Balance**: each leave the employee has, on a leave
+  application, as HRMS counts it.
+- **One Total**: a payment order's total, which it doesn't keep.
+- **One Progress**, with **One Title**, **One Party** and **One Details**:
+  a project's status, the one paper still drawn wholly from blocks.
+
+Each template (templates/one_print/) is drawn from `one_print_block`, which
+says what to show; every amount is frappe's own formatting in the record's
+currency.
+
+Each record in `FORMATS` prints with One's format unless the workspace has
+chosen another (`settle`), and ERPNext's own that One's replace (`REPLACES`)
+are turned off.
+
+### print_html.py
+
+A printed page is drawn on this site's address, where a script runs as
+whoever opens it, and a PDF is drawn by a browser on the server, which fetches
+whatever the page points at. And an HTML block is a Jinja template, which
+frappe renders with globals that read any table (`frappe.db.sql`,
+`frappe.get_all`) and fetch any address (`make_get_request`). So what a
+workspace administrator writes in HTML is held to three things:
+
+- **The template reads the record and nothing else** (`check_template`): the
+  record's fields and rows (`doc.grand_total`, `{% for row in doc.items %}`),
+  `doc.get_formatted(...)` and `doc.get(...)`, conditions, loops, arithmetic,
+  `_()` and plain filters. It is rendered in a sandbox of its own that holds
+  only those (`render`), escaping every value, never in frappe's.
+- **The markup is markup for paper** (`clean`): text, headings, tables, lists,
+  images and links, with scripts, forms, frames, media and event handlers
+  taken out.
+- **Nothing is fetched from elsewhere**: an image is this site's file or an
+  inline image, and a style may not import or point off this site.
+
+A block the workspace saves is marked `one_sandboxed`, and onedesk's copy of
+frappe's HTML block macro (templates/print_format/macros/HTML.html) renders a
+marked block through `render`. A block frappe or its System Managers wrote is
+unmarked and renders as frappe renders it. A letter head's HTML is rendered by
+frappe as it is stored (printview.get_letter_head), so it holds no template at
+all and is stored already cleaned.
+
+### print_props.py
+
+The properties are read from frappe's builder (public/js/print_format_builder:
+field_properties.js, SectionPropertiesPanel.vue, TableFieldInspector.vue,
+BarcodeRows.vue and the rest of the inspector) and checked against what its
+renderer reads (templates/print_format/print_format.html, macros.html and
+macros/*): a property the builder sets and the page never reads is left out,
+and so is one the page reads that nothing sets. What each accepts is what the
+builder's own control offers.
+
+A value is checked in print_props.py for its shape; a style for what it may
+load (`printing._style`), and a condition for its grammar. frappe runs a
+condition in its own safe_eval with the record and the print settings, as the
+builder's own do.
+
+### print_recipes.py
+
+OneAI designs a print format as the builder lays one out
+(`ai.design_print_format`). Left to itself, two requests for the same invoice
+came out as two different pages. So `print_layout` offers a starting layout
+made from the kind's own fields, in the order a reader looks for them, and
+OneAI changes only what was asked. The look is frappe's own print style with
+`HOUSE_CSS` over it: the same page, spaced and toned the way frappe-ui draws
+one, so it still reads like every other format the workspace prints. A format
+made to a look somebody asked for carries their css instead, never this one as
+well.
+
+Two shapes cover what a workspace prints:
+
+- a document of trade (an invoice, a quotation, an order, a delivery note, a
+  bill): who it is for and where on the left, its dates and references on the
+  right, the items as one table, the amount in words beside the totals, and the
+  terms last;
+- anything else: its main fields in two columns, each of its tables with the
+  columns its list shows, and its long text last, each under its label.
+
+Every layout is written as `ai.LAYOUT_HELP` describes: sections of columns of
+blocks.
+
+`HOUSE_CSS` is the house finish over frappe's print style, in frappe's own
+classes and its grey scale: labels small and muted, room between sections,
+tables lined rather than boxed under a soft header, the totals as label and
+figure on one line and the grand total set off above them. Sizes are em, as
+frappe's are.
+
+### printing.py
+
+The formats are frappe's own: Print Format made in frappe's print format
+builder, and Letter Head. The workspace administrator is given both, and the
+builder page, through frappe's own Custom DocPerm and Custom Role. What is
+held in printing.py is what a printed page may carry when somebody frappe does
+not let customize wrote it (layer.held), because the page is drawn on this
+site's origin, where a script runs as whoever opens it, and a PDF is drawn by
+a browser on the server:
+
+- **A format is made in the builder.** No hand-written HTML format, no raw
+  printing, no JS format, and in the builder no Typst block, which reads
+  files. An HTML block is allowed as print_html.py holds it: a template that
+  reads only the record, rendered in a sandbox of its own, its markup cleaned.
+  Everything else the builder offers (fields, tables, text, images, barcodes,
+  a standard field template) is escaped by frappe's own macros.
+- **Styles are styles.** A format's CSS goes into a `<style>` element as it
+  is, so it may not contain markup, `@import`, or a URL that is not this
+  site's file or an inline image; a block's own style, likewise.
+- **A letter head is a picture or plain HTML.** Its top and foot are each a
+  picture, which frappe turns into its own markup, or HTML with no template in
+  it, stored cleaned (`print_html.letter_head_html`). The header and footer
+  scripts stay frappe's System Managers'.
+
+A standard format stays frappe's (it refuses changes outside developer
+mode); a workspace copies it in the builder and changes the copy.
+
+`DESIGNER` is the workspace's own format frappe's builder opens to design a
+letter head on: the builder draws a format's letter head above and below it,
+top and foot, each a picture or HTML. It is kept off, so nothing prints with
+it, and out of every list of formats.
+
+### reports.py
+
+Three things, each frappe's own:
+
+- **Saved reports.** A list's Report view, saved under a name, is frappe's
+  `Report` of type Report Builder. Anybody may save one (frappe offers Save As
+  to everybody, and its `save_report` only ever writes that type), and it goes
+  in the sidebar of the app whose list it was: for everybody when a workspace
+  administrator saved it, in the person's own sidebar otherwise, through
+  frappe's own sidebar layers (`Custom Sidebar`). Deleted, it leaves.
+- **Dashboards.** frappe's `Dashboard`, of its `Dashboard Chart` and `Number
+  Card`, which a workspace administrator makes. Everybody sees them under One >
+  Dashboards, and frappe shows each chart only to who may read what it counts.
+- **Reports by mail.** frappe's `Auto Email Report`, which a workspace
+  administrator sets from a report's menu (Setup Auto Email).
+
+What frappe trusts to whoever may customize it, and a workspace does not get:
+
+- a report of any type but Report Builder. A Custom Report runs the report it
+  is a copy of with no check of who may open that one, and frappe leaves
+  Script and Query reports to its Script Manager already;
+- a chart or a card of type Custom, which runs code an app wrote and is free
+  to read past the reader's permissions;
+- a report by mail that runs as somebody else.
+
+erpnext's own dashboards are its modules' (Accounts, Stock, CRM), with a
+company on every chart; One > Dashboards lists the workspace's own.

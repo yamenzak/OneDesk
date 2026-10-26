@@ -28,7 +28,9 @@ def test_who_sees_what():
 	query = _body("query")
 	assert "not in ({left_out})" in query
 	allowed = _body("has_permission")
-	assert 'ptype == "delete" and not admin' in allowed
+	assert 'ptype == "delete" and not roles.administers(user)' in allowed, "only an administrator empties one for good"
+	assert "_everyone(user)" in allowed and "_everyone(user)" in query, "Everyone's Deletions, One's ability"
+	assert 'rights.held("Deleted Document", "all_deletions", user)' in _body("_everyone")
 
 
 def test_putting_back_keeps_frappes_checks():

@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "deleted_document_all_deletions",
+ "doc_type": "Deleted Document",
+ "perm_type": "all_deletions",
+ "modified": "2026-10-26 18:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-26 18:00:00.000000"
+}
