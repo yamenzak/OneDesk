@@ -21,8 +21,8 @@ answered leaves it.
 - **Demo checks failing before this work, left alone:** OneCalendar's week,
   OneInventory's sent-out and equipment checks and OneBook's Home fail on
   dates that moved since the demo was seeded, and
-  `oneai_is_told_what_every_place_shows` finds Settings › Mail, Masters and
-  Mail Templates with no sentence for OneAI. None touch OneAI's reading.
+  `oneai_is_told_what_every_place_shows` finds Settings › Mail and
+  Mail Templates with no sentence for OneAI (Masters went in docs/ONE.md stage 5). None touch OneAI's reading.
 - **Five reading scenarios have no sample yet:** a voice note, several
   attachments in one mail, a PDF longer than one Clairic pass, the same
   invoice twice, and a currency written as a word (docs/AICENTER.md, stage

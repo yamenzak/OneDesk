@@ -69,7 +69,7 @@ The rail keeps what people use every day:
 - **Setup** — the **Inventory Check** first (what is missing before stock
   can be kept right), then warehouses with their putaway rules, stock
   dimensions and stock closings, item groups, brands, units and attributes
-  (from One's **Masters**) with variant settings, supplier groups and
+  (from OneInventory's **Lists**) with variant settings, supplier groups and
   scorecard variables, price lists, workstations, plant floors, operations,
   routings, Replace in Bills of Materials, subcontracted items, asset
   categories, locations, maintenance teams, shift factors, delivery

@@ -34,7 +34,7 @@ onedesk.window.adapt("list", () => {
 
 	// A module's tree, the window's (`win.tree`), under the list's row in the
 	// nav pane, for the lists it says are its (`onedesk.window.trees`,
-	// { covers(doctype), draw(win, doctype) }): Masters' kinds. Drawn again
+	// { covers(doctype), draw(win, doctype) }): a module's lists (lists.js). Drawn again
 	// each time the list is shown, since what it counts changes elsewhere.
 	const tree = (view) => {
 		const win = view.page && view.page.window;

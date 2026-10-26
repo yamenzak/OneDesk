@@ -11,22 +11,16 @@ The sidebar has these groups:
 
 - **Address Book**: the workspace's **Contacts** and **Addresses**. Customers,
   suppliers, companies and employees all use them, so they live here rather
-  than in one app. You see the ones your work lets you open.
+  than in one app. You see the ones your work lets you open. **Lists** opens
+  the salutations, genders and address templates they pick from.
 - **You**: your own settings. Everyone has these.
-- **Workspace**: the workspace itself: its details, people, access,
-  holidays, plan and domains.
-- **Setup**: how records work: Masters, Numbering, Printing, Mail Templates
-  and Approvals.
-- **Automation**: what happens by itself: Workspace Notifications, Automations,
-  Reports by Mail and Webhooks.
-- **Privacy**: requests for a copy of someone's data or to delete an account.
-- **Audit Log**: who changed, signed in, exported or printed what.
+- **Workspace**: the workspace itself: its details, people, access, the audit
+  log, devices, plan and domains.
 - **OneAI**: AICenter, Knowledge, credits, conversations, suggestions, and
   Documents with its reports.
 
-Only administrators see Workspace, Setup, Automation, Privacy and Audit Log,
-except **Masters**, which an app's managers see too. Click a group's name to
-fold it away; the quieter ones start folded.
+Only administrators see Workspace and the Address Book's Lists. Click a
+group's name to fold it away; the quieter ones start folded.
 
 Which mailboxes and folders OneAI reads is set in One, not in OneMail or
 OneCloud: **What OneAI Reads**, under You, lists yours, the mailboxes you hold
@@ -1136,7 +1130,8 @@ check the record's standard fields.
 
 How the workspace's documents look on paper: letter heads and print formats,
 each below. Only administrators see this, and only formats for record types
-they can open. Print headings and address templates are in **Masters**.
+they can open. Print headings are in OneStudio's ControlCenter, under
+**Lists**.
 
 ### Letter heads
 
@@ -1330,18 +1325,20 @@ letter head's header and footer.
   can only use the record's fields and rows, `get_formatted`, conditions, loops
   and plain filters.
 
-### Masters
+### Lists
 
-The short lists records pick their values from, in one place: a contact's
-salutation, a customer's group, an item's unit, an employee's department.
-They are grouped by the app that uses them.
+The short lists records pick their values from: a contact's salutation, a
+customer's group, an item's unit, an employee's department. Each app keeps its
+own, at the end of its ControlCenter under **Lists**, and its rail has a
+**Lists** row that opens them.
 
-- **Shared**: Salutations, Genders, Print Headings and Address Templates.
+- **One**: Salutations, Genders and Address Templates, the Address Book's.
+- **OneStudio**: Print Headings.
 - **OneCRM**: Customer Groups, Territories, Industries, Market Segments, Lead
-  Sources and Lost Reasons.
+  Sources, Lost Reasons, Issue Types and Issue Priorities.
 - **OneBook**: Tax Categories and Finance Books.
-- **OneInventory**: Item Groups, Brands, Units, Unit Categories and Supplier
-  Groups.
+- **OneInventory**: Item Groups, Brands, Units, Unit Categories, Attributes
+  and Supplier Groups.
 - **OneProject**: Project Types.
 - **OneHR**: Departments, Designations, Branches, Employment Types, Skills, Key
   Result Areas, Grievance Types and ID Document Types.
@@ -1349,15 +1346,14 @@ They are grouped by the app that uses them.
 Lists that carry settings of their own stay in their app's Setup, such as sales
 stages, leave types and salary components.
 
-Each one is a list like any other. Setup › **Masters** opens the last
-one you used; the others are a tree in the pane beside the list, grouped as
-above, each with how many values it has. Click a group's name to fold it
-away; it stays folded for you on every device.
+Each one is a list like any other. Lists shows how many values each has;
+click one to open it, and the app's other lists are in the pane beside it.
 
-Administrators see every group. An app's managers see their app's group and
-can add, rename and remove its values. Nobody else sees Masters.
+Administrators see every app's lists. An app's managers see their app's and
+can add, rename and remove its values. One's and OneStudio's are the
+administrators' alone.
 
-### Adding, renaming or removing a value in Masters
+### Adding, renaming or removing a value in a list
 
 **Add**, above the list, opens the new value in a dialog. A new customer
 group, territory, item group, supplier group or department goes under the top
@@ -1370,7 +1366,8 @@ list.
 
 ### Print headings and address templates
 
-Both are in Setup › **Masters**, under Shared.
+Print headings are in OneStudio's **Lists**, address templates in One's
+(Address Book › **Lists**).
 
 **Print Headings**: the title printed above a document, such as **Tax
 Invoice** or **Proforma Invoice**. A print format picks one.
@@ -2343,7 +2340,7 @@ lock only refuses the next save.
 
 `settle` gives the workspace administrator what each Settings page needs, all
 in one list (`ADMINISTRATOR`): Printing, Approvals, Automations, Numbering,
-Mail Templates, Reports and Dashboards, Masters, Audit Log, Webhooks,
+Mail Templates, Reports and Dashboards, every module's lists, Audit Log, Webhooks,
 Announcements, Privacy Requests and the Recycle Bin. It also opens the two
 builders (workflow and print format), the Note's two field levels, and the
 two rights everybody at a desk has (making a report and reading what they
@@ -2736,7 +2733,7 @@ Nothing here is kept: each number is asked when Home is drawn.
 ### homes.py
 
 frappe's form trail is the record's list, then the record. A kind of record
-One keeps on a page of its own (a department on Masters) has a list nobody
+One keeps on a page of its own (a department, in OneHR's Lists) has a list nobody
 reaches: no rail links it. So its trail named a list the reader never came
 from, and left out the page they did.
 
@@ -2835,24 +2832,27 @@ OneMail writes with frappe's composer too, with no form behind it
 conversation is filed on, or those for any record, and `get_email_template`
 fills one in from the record itself.
 
-### masters.py
+### lists.py
 
-Each master is frappe's or erpnext's own doctype. They are grouped by where
-they are used: Shared for what every app's records pick (and the two a
-printed page reads), then each app's own. An administrator sees every group;
-an app's managers see their app's, and are given what erpnext keeps for a
-role of its own (`_give_managers`). Whether a kind can be added to, renamed
-or removed is frappe's own permission check, as anywhere else; the workspace
-administrator is given the kinds frappe keeps for its System Manager
-(`settle`), so frappe's "Create a new" under a field works for them too.
+Each list is frappe's or erpnext's own doctype, declared by the module whose
+records pick from it, as `LISTS` in its `lists.py` (One's are here, the
+Address Book's); `HOMES` names the modules that have any. An administrator
+keeps every module's; an app's managers keep their app's, and are given what
+erpnext keeps for a role of its own (access.py `_lists`). Whether a value can
+be added, renamed or removed is frappe's own permission check, as anywhere
+else; the workspace administrator is given the kinds frappe keeps for its
+System Manager (`settle`), so frappe's "Create a new" under a field works for
+them too.
 
-**There is no Masters screen.** It was a page of its own with a list, a
-dialog, rename, remove and a "used on" count, all of which frappe's list and
-form already do. Now the page only opens a kind's frappe list
-(page/masters/masters.js: the `type` asked for, else the last one, else the
-first), and the kinds are a tree in the window's nav pane
-(public/js/masters.js, through `onedesk.window.trees`). `listed()` is the
-kinds this person may see, in boot; `kinds()` adds the counts the tree shows.
+**There is no screen of lists.** Every module's ControlCenter ends with
+Lists (public/js/lists.js, added by `module_settings.open` as the centres
+are), one row per list with its count, each opening frappe's list; the
+module's other lists are a tree in the window's nav pane beside it (through
+`onedesk.window.trees`). A module with lists and no ControlCenter of its own
+(OneCRM, OneBook, OneInventory, OneProject) gets one with only what every
+ControlCenter finds. `listed()` is the lists this person keeps, by module, in
+boot; `kinds(module)` adds the counts. A value's trail leads to its module's
+Lists, then its list (`homes`).
 
 An address template is Jinja, run wherever an address is shown or printed, so
 one the workspace writes (layer.held) is held to what a mail template is held

@@ -68,7 +68,7 @@ REPORT_TOPICS = {
 SETUP_SECTIONS = (
 	("settings", _lt("Settings")),
 	("selling", _lt("Selling")),
-	("lists", _lt("Masters")),
+	("lists", _lt("Lists")),
 	("terms", _lt("Pricing")),
 	("support", _lt("Support")),
 	("calls", _lt("Telephony")),
@@ -164,14 +164,14 @@ EVERYTHING = (
 	("setup", _lt("Sales Person"), "DocType", "Sales Person", _lt("Who sells, and the team they are in.")),
 	("setup", _lt("Assignment Rule"), "DocType", "Assignment Rule", _lt("How new leads are shared out."), {"document_type": "Lead"}),
 	("setup", _lt("Sales Partner"), "DocType", "Sales Partner", _lt("Who sells for you, on commission.")),
-	("setup", _lt("Lead Source"), "Masters", "UTM Source", _lt("Where a lead or an opportunity came from.")),
-	("setup", _lt("Opportunity Lost Reason"), "Masters", "Opportunity Lost Reason", _lt("Why an opportunity or a quotation is lost.")),
+	("setup", _lt("Lead Source"), "List", "UTM Source", _lt("Where a lead or an opportunity came from.")),
+	("setup", _lt("Opportunity Lost Reason"), "List", "Opportunity Lost Reason", _lt("Why an opportunity or a quotation is lost.")),
 	("setup", _lt("Opportunity Type"), "DocType", "Opportunity Type", _lt("Sales, support, maintenance: what an opportunity is for.")),
 	("setup", _lt("Competitor"), "DocType", "Competitor", _lt("Who else a customer is talking to.")),
-	("setup", _lt("Territory"), "Masters", "Territory", _lt("The places you sell in.")),
-	("setup", _lt("Customer Group"), "Masters", "Customer Group", _lt("Kinds of customer, each with its price list and terms.")),
-	("setup", _lt("Industry Type"), "Masters", "Industry Type", _lt("The industry a lead or a customer is in.")),
-	("setup", _lt("Market Segment"), "Masters", "Market Segment", _lt("The part of the market a lead or a customer is in.")),
+	("setup", _lt("Territory"), "List", "Territory", _lt("The places you sell in.")),
+	("setup", _lt("Customer Group"), "List", "Customer Group", _lt("Kinds of customer, each with its price list and terms.")),
+	("setup", _lt("Industry Type"), "List", "Industry Type", _lt("The industry a lead or a customer is in.")),
+	("setup", _lt("Market Segment"), "List", "Market Segment", _lt("The part of the market a lead or a customer is in.")),
 	("setup", _lt("Price List"), "DocType", "Price List", _lt("The prices you sell at, one list per currency or customer group.")),
 	("setup", _lt("Pricing Rule"), "DocType", "Pricing Rule", _lt("A discount or price for some customers, items or quantities.")),
 	("setup", _lt("Terms and Conditions"), "DocType", "Terms and Conditions", _lt("The terms a quotation and an order carry.")),
@@ -180,8 +180,8 @@ EVERYTHING = (
 	("setup", _lt("Party Specific Item"), "DocType", "Party Specific Item", _lt("The only items a customer or supplier is offered.")),
 	("setup", _lt("Support Settings"), "DocType", "Support Settings", _lt("When issues close by themselves, and what the help page shows.")),
 	("setup", _lt("Service Level Agreement"), "DocType", "Service Level Agreement", _lt("How fast an issue must be answered and resolved, by priority.")),
-	("setup", _lt("Issue Type"), "Masters", "Issue Type", _lt("Kinds of issue, such as a fault or a question.")),
-	("setup", _lt("Issue Priority"), "Masters", "Issue Priority", _lt("How urgent an issue is.")),
+	("setup", _lt("Issue Type"), "List", "Issue Type", _lt("Kinds of issue, such as a fault or a question.")),
+	("setup", _lt("Issue Priority"), "List", "Issue Priority", _lt("How urgent an issue is.")),
 	("setup", _lt("Telephony Call Type"), "DocType", "Telephony Call Type", _lt("What a call was about.")),
 	("setup", _lt("Incoming Call Settings"), "DocType", "Incoming Call Settings", _lt("Who answers calls to a number, on which days and hours.")),
 	("setup", _lt("Voice Call Settings"), "DocType", "Voice Call Settings", _lt("Whether a person takes calls, and what callers hear.")),
@@ -364,7 +364,7 @@ def drafts() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
-	if kind in ("DocType", "Masters"):
+	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False

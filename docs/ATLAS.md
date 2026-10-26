@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 65 | 2 | 36 | 0 |
+| onedesk | 64 | 2 | 36 | 0 |
 | frappe | 22 | 37 | 155 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -503,7 +503,7 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
-| Address Template | inside: One › Setup › Masters | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Address Template | inside: One's ControlCenter › Lists, the Address Book's | the administrator | events | yes | general |  | yes |  |  |  |  |
 | Contact | on a rail or a home | everybody | events, form script, 3 fields, 6 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
@@ -720,7 +720,7 @@ Pages: print (inside: every record's Print); print-format-builder (inside: OneSt
 | Help Article | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Help Category | left out: frappe's website builder; a workspace's public pages are One's portal and its forms | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Personal Data Deletion Request | inside: TrustCenter › Your Data, under Requests, each opening its request | the administrator | form script, list script, 3 settings | no | taught |  | **none** |  |  |  |  |
-| Personal Data Download Request | opened by our screens | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | **none** |  |  |  |  |
+| Personal Data Download Request | opened by our screens | the administrator | form script, list script, 4 fields, 3 settings | no | taught |  | yes |  |  |  |  |
 | Portal Settings | replaced: One's portal, which reads it for its tabs | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | UTM Campaign | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | UTM Medium | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -879,8 +879,6 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
-
-Pages: masters (on a rail or a home).
 
 ## onedesk / One AI
 

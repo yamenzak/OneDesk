@@ -112,9 +112,9 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_record_tabs"] = tabs.for_boot()
 
-	from onedesk.one import masters
+	from onedesk.one import lists
 
-	bootinfo["one_masters"] = masters.listed()
+	bootinfo["one_lists"] = lists.listed()
 
 	from onedesk.one import head
 

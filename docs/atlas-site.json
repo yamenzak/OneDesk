@@ -3271,6 +3271,7 @@
 "Payroll Period",
 "Permission Log",
 "Permission Type",
+"Personal Data Download Request",
 "Pick List",
 "Plant Floor",
 "Price List",
@@ -3470,16 +3471,6 @@
 "Purchase User",
 "Stock Manager",
 "Stock User"
-],
-"masters": [
-"Accounts Manager",
-"HR Manager",
-"Item Manager",
-"Projects Manager",
-"Purchase Manager",
-"Sales Manager",
-"Stock Manager",
-"Workspace Administrator"
 ],
 "my-tasks": [
 "Desk User"

@@ -149,7 +149,7 @@ onedesk.module_settings.getting_started = (module) => ({
 });
 
 // What every module's ControlCenter ends with, found rather than drawn
-// (docs/READY.md, mechanisms 14-16): Roles and Access for a module that
+// (docs/READY.md, mechanisms 14-16), after its Lists (lists.js): Roles and Access for a module that
 // declares abilities, to its administrators, Notifications for a module
 // that sends any, and OneAI for one OneAI works in, each opening its centre
 // on the module.
@@ -176,7 +176,7 @@ onedesk.module_settings.open = ({ module, may = {}, tabs, default_tab = null, ..
 	// something is. What it adds to the agreements is in TrustCenter.
 	const steps = (frappe.boot.one_setup || {})[module] || [];
 	const starting = steps.some((step) => !step.done) ? [{ group: __("Start Here"), items: [onedesk.module_settings.getting_started(module)] }] : [];
-	tabs = [...starting, ...tabs, ...onedesk.module_settings.centers(module)];
+	tabs = [...starting, ...tabs, ...onedesk.lists.tab(module), ...onedesk.module_settings.centers(module)];
 	const shown = tabs
 		.map((group) => ({ ...group, items: (group.items || []).filter((item) => item && onedesk.module_settings.allows(item.needs, may)) }))
 		.filter((group) => group.items.length);

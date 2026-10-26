@@ -196,13 +196,13 @@ EVERYTHING = (
 	("setup", _lt("Putaway Rule"), "DocType", "Putaway Rule", _lt("Where arriving stock is put away, and how much each warehouse holds.")),
 	("setup", _lt("Inventory Dimension"), "DocType", "Inventory Dimension", _lt("More ways to split stock, such as a shelf or a project.")),
 	("setup", _lt("Stock Closing Entry"), "DocType", "Stock Closing Entry", _lt("Stock's balances kept at a date, so older moves need not be read again.")),
-	("setup", _lt("Item Group"), "Masters", "Item Group", _lt("The groups items are sorted into.")),
-	("setup", _lt("Brand"), "Masters", "Brand", _lt("The makes items are sold under.")),
-	("setup", _lt("UOM"), "Masters", "UOM", _lt("What things are counted in.")),
+	("setup", _lt("Item Group"), "List", "Item Group", _lt("The groups items are sorted into.")),
+	("setup", _lt("Brand"), "List", "Brand", _lt("The makes items are sold under.")),
+	("setup", _lt("UOM"), "List", "UOM", _lt("What things are counted in.")),
 	("setup", _lt("UOM Conversion Factor"), "DocType", "UOM Conversion Factor", _lt("How many of one unit make another.")),
-	("setup", _lt("Item Attribute"), "Masters", "Item Attribute", _lt("Sizes, colours and the like, for an item's versions.")),
+	("setup", _lt("Item Attribute"), "List", "Item Attribute", _lt("Sizes, colours and the like, for an item's versions.")),
 	("setup", _lt("Item Variant Settings"), "DocType", "Item Variant Settings", _lt("What a new version of an item copies from its template.")),
-	("setup", _lt("Supplier Group"), "Masters", "Supplier Group", _lt("The groups suppliers are sorted into.")),
+	("setup", _lt("Supplier Group"), "List", "Supplier Group", _lt("The groups suppliers are sorted into.")),
 	("setup", _lt("Supplier Scorecard Variable"), "DocType", "Supplier Scorecard Variable", _lt("The figures a supplier's score is worked out from.")),
 	("setup", _lt("Price List"), "DocType", "Price List", _lt("The lists prices are kept in, for buying and selling.")),
 	("setup", _lt("Workstation"), "DocType", "Workstation", _lt("Where work is done, and what an hour there costs.")),
@@ -342,7 +342,7 @@ def drafts() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
-	if kind in ("DocType", "Masters"):
+	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False

@@ -314,9 +314,22 @@
    "link_to": "inventory",
    "icon": "settings",
    "route": "setup"
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Lists",
+   "link_to": null,
+   "link_type": "URL",
+   "icon": "tags",
+   "child": 0,
+   "route_options": null,
+   "idx": null,
+   "filters": null,
+   "url": "/desk/one?center=settings&module=OneInventory&at=lists"
   }
  ],
- "modified": "2026-11-01 09:00:00.000000",
+ "modified": "2026-11-06 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

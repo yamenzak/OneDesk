@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 10:55+0000\n"
-"PO-Revision-Date: 2026-10-26 10:55+0000\n"
+"POT-Creation-Date: 2026-10-26 11:29+0000\n"
+"PO-Revision-Date: 2026-10-26 11:29+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -202,7 +202,7 @@ msgstr ""
 msgid "1 day"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
+#: frontend/src/home/BooksHome.vue:170 frontend/src/home/InventoryHome.vue:207
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:267
 #: frontend/src/project/Overview.vue:376 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/retention.py:237
@@ -222,12 +222,12 @@ msgstr ""
 msgid "1 day overdue"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:189
+#: frontend/src/home/CrmHome.vue:188
 msgid "1 day past"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:237 frontend/src/home/CrmHome.vue:259
-#: frontend/src/home/InventoryHome.vue:293
+#: frontend/src/home/BooksHome.vue:236 frontend/src/home/CrmHome.vue:258
+#: frontend/src/home/InventoryHome.vue:292
 #: frontend/src/project/Invoices.vue:107
 msgid "1 draft"
 msgstr ""
@@ -317,8 +317,12 @@ msgstr ""
 msgid "1 task without dates"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:222
+#: frontend/src/home/BooksHome.vue:221
 msgid "1 transaction"
+msgstr ""
+
+#: onedesk/public/js/lists.js:33
+msgid "1 value"
 msgstr ""
 
 #: frontend/src/item/ItemVariantsMake.vue:135
@@ -1325,7 +1329,7 @@ msgstr ""
 msgid "A second set of books, such as for tax depreciation."
 msgstr ""
 
-#: onedesk/one/ai.py:2846
+#: onedesk/one/ai.py:2873
 msgid "A section is a list of columns, each a list of blocks."
 msgstr ""
 
@@ -1402,7 +1406,7 @@ msgstr ""
 msgid "A supplier's scorecard scores them by {0}."
 msgstr ""
 
-#: onedesk/one/ai.py:2638
+#: onedesk/one/ai.py:2665
 msgid "A table block names its table: {table: 'items', columns: ['item_name:45', 'qty:15']}."
 msgstr ""
 
@@ -2165,7 +2169,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/index.vue:616
 #: frontend/src/sheet/components/SheetEditor/index.vue:619
-#: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1750
+#: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1777
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/report/books_check/books_check.js:16
@@ -2517,7 +2521,7 @@ msgstr ""
 msgid "Add people…"
 msgstr ""
 
-#: onedesk/one/masters.py:85
+#: onedesk/one/lists.py:106
 msgid "Add several at once"
 msgstr ""
 
@@ -2794,11 +2798,11 @@ msgstr ""
 msgid "Address Book"
 msgstr ""
 
-#: onedesk/one/masters.py:21
+#: onedesk/one/lists.py:22
 msgid "Address Template"
 msgstr ""
 
-#: onedesk/one/masters.py:21
+#: onedesk/one/lists.py:22
 msgid "Address Templates"
 msgstr ""
 
@@ -3397,7 +3401,7 @@ msgstr ""
 msgid "Also links each message and its files to its records."
 msgstr ""
 
-#: onedesk/one/ai.py:1047 onedesk/one/ai.py:1070
+#: onedesk/one/ai.py:1074 onedesk/one/ai.py:1097
 msgid "Also on {0}"
 msgstr ""
 
@@ -3602,11 +3606,11 @@ msgstr ""
 msgid "An add-on must be recurring."
 msgstr ""
 
-#: onedesk/one/masters.py:185
+#: onedesk/one/lists.py:168
 msgid "An address has no field {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:183
+#: onedesk/one/lists.py:166
 msgid "An address template can name a field of the address, as {{ city }}, and nothing else."
 msgstr ""
 
@@ -4606,7 +4610,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:332 onedesk/public/js/outside.js:273
+#: onedesk/public/js/desk.js:337 onedesk/public/js/outside.js:273
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -4739,7 +4743,7 @@ msgstr ""
 msgid "Asked twice a day"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:205 frontend/src/quotes/QuotesPage.vue:145
+#: frontend/src/home/HrHome.vue:204 frontend/src/quotes/QuotesPage.vue:145
 msgid "Asked {0}"
 msgstr ""
 
@@ -4826,7 +4830,7 @@ msgid "Asset Depreciations and Balances"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:264
+#: frontend/src/home/InventoryHome.vue:263
 #: frontend/src/upkeep/UpkeepPage.vue:75 frontend/src/upkeep/UpkeepPage.vue:103
 #: onedesk/one_inventory/home.py:156
 #: onedesk/one_inventory/page/upkeep/upkeep.js:6
@@ -4905,7 +4909,7 @@ msgstr ""
 msgid "Assets have categories"
 msgstr ""
 
-#: frontend/src/kit/People.vue:4 onedesk/one/ai.py:3641
+#: frontend/src/kit/People.vue:4 onedesk/one/ai.py:3668
 #: onedesk/public/js/one_mail/rule_builder.js:45
 msgid "Assign"
 msgstr ""
@@ -5177,11 +5181,11 @@ msgstr ""
 msgid "Attending"
 msgstr ""
 
-#: onedesk/one/masters.py:36
+#: onedesk/one_inventory/lists.py:10
 msgid "Attribute"
 msgstr ""
 
-#: onedesk/one/masters.py:36
+#: onedesk/one_inventory/lists.py:10
 msgid "Attributes"
 msgstr ""
 
@@ -5710,7 +5714,7 @@ msgid "Bank Reconciliation Statement"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:217 onedesk/one_book/heads.py:642
+#: frontend/src/home/BooksHome.vue:216 onedesk/one_book/heads.py:642
 #: onedesk/one_book/home.py:322 onedesk/one_book/sidebar/onebook/onebook.json
 msgid "Bank Reconciliation Tool"
 msgstr ""
@@ -5850,7 +5854,7 @@ msgid "Batch Quantity"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:247 frontend/src/lots/LotsPage.vue:153
+#: frontend/src/home/InventoryHome.vue:246 frontend/src/lots/LotsPage.vue:153
 #: onedesk/one_inventory/home.py:24 onedesk/one_inventory/home.py:113
 #: onedesk/one_inventory/page/lots/lots.js:6
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -6526,20 +6530,19 @@ msgstr ""
 
 #. Label in the One Bank Guarantee print format
 #. Label in the One Payment Order print format
-#: onedesk/one/masters.py:41
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_payment_order/one_payment_order.json
-#: onedesk/one_hr/home.py:545
+#: onedesk/one_hr/home.py:545 onedesk/one_hr/lists.py:8
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:80
 msgid "Branch"
 msgstr ""
 
-#: onedesk/one/masters.py:41
+#: onedesk/one_hr/lists.py:8
 msgid "Branches"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:216 onedesk/one/masters.py:33
-#: onedesk/one_inventory/home.py:200
+#: frontend/src/item/ItemPage.vue:216 onedesk/one_inventory/home.py:200
+#: onedesk/one_inventory/lists.py:7
 msgid "Brand"
 msgstr ""
 
@@ -6553,7 +6556,7 @@ msgstr ""
 msgid "Brand Line"
 msgstr ""
 
-#: onedesk/one/masters.py:33
+#: onedesk/one_inventory/lists.py:7
 msgid "Brands"
 msgstr ""
 
@@ -6706,7 +6709,7 @@ msgstr ""
 msgid "Busy Days"
 msgstr ""
 
-#: onedesk/one/ai.py:1089
+#: onedesk/one/ai.py:1116
 msgid "Button"
 msgstr ""
 
@@ -7335,7 +7338,7 @@ msgstr ""
 msgid "Changed By"
 msgstr ""
 
-#: onedesk/one/ai.py:3229
+#: onedesk/one/ai.py:3256
 msgid "Changed Format"
 msgstr ""
 
@@ -7407,7 +7410,7 @@ msgid "Charges Added"
 msgstr ""
 
 #. Label of the chart (Data) field in DocType 'Record Head Chart'
-#: onedesk/one/ai.py:1093
+#: onedesk/one/ai.py:1120
 #: onedesk/one/doctype/record_head_chart/record_head_chart.json
 msgid "Chart"
 msgstr ""
@@ -7483,14 +7486,14 @@ msgid "Check Again"
 msgstr ""
 
 #. The button on a notification's mail
-#: frontend/src/home/HrHome.vue:238
+#: frontend/src/home/HrHome.vue:237
 #: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:96
 #: onedesk/public/js/desk.js:188 onedesk/public/js/desk.js:199
 #: onedesk/public/js/desk.js:204 onedesk/public/js/window/chrome.js:110
 msgid "Check In"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:237
+#: frontend/src/home/HrHome.vue:236
 msgid "Check In (late)"
 msgstr ""
 
@@ -7508,7 +7511,7 @@ msgstr ""
 msgid "Check Network"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:235 onedesk/public/js/clock.js:60
+#: frontend/src/home/HrHome.vue:234 onedesk/public/js/clock.js:60
 msgid "Check Out"
 msgstr ""
 
@@ -7528,7 +7531,7 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:238 onedesk/public/js/desk.js:197
+#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:197
 #: onedesk/public/js/desk.js:204
 msgid "Check in by {0}"
 msgstr ""
@@ -7606,7 +7609,7 @@ msgstr ""
 msgid "Check-ins"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:221
+#: frontend/src/home/HrHome.vue:220
 msgid "Check-ins Flagged"
 msgstr ""
 
@@ -7910,7 +7913,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:249 onedesk/public/js/employee.js:5
+#: frontend/src/home/HrHome.vue:248 onedesk/public/js/employee.js:5
 msgid "Claim an Expense"
 msgstr ""
 
@@ -8016,7 +8019,7 @@ msgstr ""
 #. Name of a DocType
 #. Label of a Sidebar Item
 #. Label of a Link in the OneHR Setup Workspace
-#: frontend/src/home/HrHome.vue:225 onedesk/one_hr/custom/employee_checkin.json
+#: frontend/src/home/HrHome.vue:224 onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/home.py:87 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -8714,7 +8717,7 @@ msgstr ""
 msgid "Conditional format…"
 msgstr ""
 
-#: onedesk/one/ai.py:3663 onedesk/public/js/notification_center.js:457
+#: onedesk/one/ai.py:3690 onedesk/public/js/notification_center.js:457
 msgid "Conditions"
 msgstr ""
 
@@ -8874,7 +8877,7 @@ msgstr ""
 msgid "Connected without outgoing mail."
 msgstr ""
 
-#: onedesk/one/ai.py:1118 onedesk/one_mail/abilities.py:70
+#: onedesk/one/ai.py:1145 onedesk/one_mail/abilities.py:70
 #: onedesk/public/js/one_mail/onemail_settings.js:689
 #: onedesk/public/js/one_mail/onemail_settings.js:691
 msgid "Connection"
@@ -9114,7 +9117,7 @@ msgstr ""
 msgid "Continue to payment"
 msgstr ""
 
-#: onedesk/one/ai.py:2214
+#: onedesk/one/ai.py:2241
 msgid "Continues after {0} (was {1})"
 msgstr ""
 
@@ -9206,7 +9209,7 @@ msgstr ""
 msgid "Contracts"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:228
+#: frontend/src/home/HrHome.vue:227
 msgid "Contracts and Probations Ending"
 msgstr ""
 
@@ -10375,11 +10378,11 @@ msgstr ""
 msgid "Customer Credit Balance"
 msgstr ""
 
-#: onedesk/one/masters.py:22 onedesk/one_crm/home.py:172
+#: onedesk/one_crm/home.py:172 onedesk/one_crm/lists.py:6
 msgid "Customer Group"
 msgstr ""
 
-#: onedesk/one/masters.py:22
+#: onedesk/one_crm/lists.py:6
 msgid "Customer Groups"
 msgstr ""
 
@@ -10904,7 +10907,7 @@ msgstr ""
 msgid "Days Off"
 msgstr ""
 
-#: onedesk/one/ai.py:1775 onedesk/one_hr/control.py:70
+#: onedesk/one/ai.py:1802 onedesk/one_hr/control.py:70
 msgid "Days Off Each Week"
 msgstr ""
 
@@ -11161,7 +11164,7 @@ msgstr ""
 #: frontend/src/item/ItemManufacturerRow.vue:8
 #: frontend/src/item/ItemSuppliers.vue:11
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:84
-#: frontend/src/supplier/SupplierItems.vue:28 onedesk/one/ai.py:2489
+#: frontend/src/supplier/SupplierItems.vue:28 onedesk/one/ai.py:2516
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/doctype_settings.js:324
 #: onedesk/public/js/doctype_settings.js:346
@@ -11793,8 +11796,8 @@ msgstr ""
 #. Label in the One Transfer Letter print format
 #. Label in the One Asset Card print format
 #. Label in the One Timesheet print format
-#: frontend/src/project/Overview.vue:298 onedesk/one/masters.py:39
-#: onedesk/one_hr/home.py:543
+#: frontend/src/project/Overview.vue:298 onedesk/one_hr/home.py:543
+#: onedesk/one_hr/lists.py:6
 #: onedesk/one_hr/print_format/one_additional_salary/one_additional_salary.json
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -11843,7 +11846,7 @@ msgstr ""
 msgid "Department"
 msgstr ""
 
-#: onedesk/one/masters.py:39
+#: onedesk/one_hr/lists.py:6
 msgid "Departments"
 msgstr ""
 
@@ -12092,7 +12095,7 @@ msgstr ""
 #. Label in the One Salary Certificate print format
 #. Label in the One Salary Statement print format
 #. Label in the One Salary Structure Assignment print format
-#: onedesk/one/masters.py:40 onedesk/one_hr/home.py:544
+#: onedesk/one_hr/home.py:544 onedesk/one_hr/lists.py:7
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
@@ -12113,11 +12116,11 @@ msgstr ""
 msgid "Designation"
 msgstr ""
 
-#: onedesk/one/masters.py:40
+#: onedesk/one_hr/lists.py:7
 msgid "Designations"
 msgstr ""
 
-#: onedesk/one/ai.py:2467 onedesk/one/ai.py:2486
+#: onedesk/one/ai.py:2494 onedesk/one/ai.py:2513
 msgid "Designed in HTML"
 msgstr ""
 
@@ -12540,7 +12543,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:227
+#: frontend/src/home/HrHome.vue:226
 msgid "Documents Expiring"
 msgstr ""
 
@@ -13100,7 +13103,7 @@ msgstr ""
 msgid "Due on Receipt"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:206 frontend/src/home/CrmHome.vue:178
+#: frontend/src/home/BooksHome.vue:205 frontend/src/home/CrmHome.vue:177
 #: frontend/src/project/Overview.vue:378 frontend/src/task/TaskPage.vue:211
 #: onedesk/one_project/portal.py:259 onedesk/one_project/retention.py:239
 msgid "Due today"
@@ -13110,8 +13113,8 @@ msgstr ""
 msgid "Due tomorrow"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:206 frontend/src/home/CrmHome.vue:178
-#: frontend/src/home/InventoryHome.vue:261 frontend/src/item/ItemBuying.vue:61
+#: frontend/src/home/BooksHome.vue:205 frontend/src/home/CrmHome.vue:177
+#: frontend/src/home/InventoryHome.vue:260 frontend/src/item/ItemBuying.vue:61
 #: frontend/src/item/ItemOverview.vue:96 frontend/src/item/ItemOverview.vue:100
 #: frontend/src/item/ItemOverview.vue:103 frontend/src/item/ItemSelling.vue:58
 #: frontend/src/project/Invoices.vue:48 frontend/src/project/Overview.vue:325
@@ -14147,11 +14150,11 @@ msgstr ""
 msgid "Employment Letter"
 msgstr ""
 
-#: onedesk/one/masters.py:42
+#: onedesk/one_hr/lists.py:9
 msgid "Employment Type"
 msgstr ""
 
-#: onedesk/one/masters.py:42
+#: onedesk/one_hr/lists.py:9
 msgid "Employment Types"
 msgstr ""
 
@@ -15184,7 +15187,7 @@ msgstr ""
 msgid "Expired"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:244
+#: frontend/src/home/InventoryHome.vue:243
 #: frontend/src/item/ItemOverview.vue:86 frontend/src/lots/LotsPage.vue:102
 #: frontend/src/quotes/QuoteCompare.vue:73 onedesk/one_inventory/heads.py:453
 msgid "Expired {0}"
@@ -15210,7 +15213,7 @@ msgstr ""
 msgid "Expires On"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:190
+#: frontend/src/home/CrmHome.vue:189
 msgid "Expires in {0} days"
 msgstr ""
 
@@ -15220,15 +15223,15 @@ msgstr ""
 msgid "Expires on"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:190
+#: frontend/src/home/CrmHome.vue:189
 msgid "Expires today"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:190
+#: frontend/src/home/CrmHome.vue:189
 msgid "Expires tomorrow"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:244
+#: frontend/src/home/InventoryHome.vue:243
 #: frontend/src/item/ItemOverview.vue:86
 msgid "Expires {0}"
 msgstr ""
@@ -15245,7 +15248,7 @@ msgid "Expiring Documents"
 msgstr ""
 
 #. Name of a notification
-#: frontend/src/home/InventoryHome.vue:235
+#: frontend/src/home/InventoryHome.vue:234
 #: frontend/src/item/ItemOverview.vue:83 frontend/src/lots/LotRows.vue:73
 #: frontend/src/lots/LotsPage.vue:116
 #: onedesk/notifications/one_inventory/expiring_soon.md
@@ -15311,7 +15314,7 @@ msgstr ""
 msgid "Export as XLSX"
 msgstr ""
 
-#: onedesk/one/audit.py:154
+#: onedesk/one/audit.py:156
 msgid "Exported"
 msgstr ""
 
@@ -15920,12 +15923,12 @@ msgid "Final results"
 msgstr ""
 
 #. Label in the One Asset Shift Allocation print format
-#: onedesk/one/masters.py:31 onedesk/one_book/home.py:374
+#: onedesk/one_book/home.py:374 onedesk/one_book/lists.py:7
 #: onedesk/one_inventory/print_format/one_asset_shift_allocation/one_asset_shift_allocation.json
 msgid "Finance Book"
 msgstr ""
 
-#: onedesk/one/masters.py:31
+#: onedesk/one_book/lists.py:7
 msgid "Finance Books"
 msgstr ""
 
@@ -16278,8 +16281,8 @@ msgstr ""
 msgid "Foot Preset"
 msgstr ""
 
-#: onedesk/one/ai.py:2474 onedesk/one/ai.py:2482 onedesk/one/ai.py:2485
-#: onedesk/one/ai.py:2486 onedesk/one_studio/printing.py:288
+#: onedesk/one/ai.py:2501 onedesk/one/ai.py:2509 onedesk/one/ai.py:2512
+#: onedesk/one/ai.py:2513 onedesk/one_studio/printing.py:288
 #: onedesk/public/js/one_studio/studio_control.js:257
 msgid "Footer"
 msgstr ""
@@ -17124,11 +17127,11 @@ msgstr ""
 msgid "Gathering"
 msgstr ""
 
-#: onedesk/one/masters.py:19
+#: onedesk/one/lists.py:21
 msgid "Gender"
 msgstr ""
 
-#: onedesk/one/masters.py:19
+#: onedesk/one/lists.py:21
 msgid "Genders"
 msgstr ""
 
@@ -17410,7 +17413,7 @@ msgstr ""
 msgid "Goes Into"
 msgstr ""
 
-#: onedesk/one/ai.py:1125
+#: onedesk/one/ai.py:1152
 msgid "Goes to"
 msgstr ""
 
@@ -17593,11 +17596,11 @@ msgstr ""
 msgid "Grievance Raised"
 msgstr ""
 
-#: onedesk/one/masters.py:45
+#: onedesk/one_hr/lists.py:12
 msgid "Grievance Type"
 msgstr ""
 
-#: onedesk/one/masters.py:45
+#: onedesk/one_hr/lists.py:12
 msgid "Grievance Types"
 msgstr ""
 
@@ -17915,7 +17918,7 @@ msgstr ""
 msgid "Headcount by department, branch or grade."
 msgstr ""
 
-#: onedesk/one/ai.py:2458 onedesk/one/ai.py:2466 onedesk/one/ai.py:2467
+#: onedesk/one/ai.py:2485 onedesk/one/ai.py:2493 onedesk/one/ai.py:2494
 #: onedesk/one_studio/printing.py:282
 #: onedesk/public/js/one_studio/studio_control.js:256
 msgid "Header"
@@ -18212,7 +18215,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/calendar.py:36 onedesk/one_hr/control.py:15
 #: onedesk/public/js/one_hr/hr_control.js:44
-#: onedesk/public/js/one_hr/hr_control.js:143
+#: onedesk/public/js/one_hr/hr_control.js:140
 msgid "Holidays"
 msgstr ""
 
@@ -18846,7 +18849,7 @@ msgstr ""
 msgid "I want to change {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:86
+#: onedesk/one/lists.py:107
 msgid "I will paste a list. Suggest each line as a new value of the list I have open, leaving out any it already has."
 msgstr ""
 
@@ -18909,11 +18912,11 @@ msgstr ""
 msgid "ID"
 msgstr ""
 
-#: onedesk/one/masters.py:46
+#: onedesk/one_hr/lists.py:13
 msgid "ID Document Type"
 msgstr ""
 
-#: onedesk/one/masters.py:46
+#: onedesk/one_hr/lists.py:13
 msgid "ID Document Types"
 msgstr ""
 
@@ -19378,7 +19381,7 @@ msgstr ""
 msgid "In {0}"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:208 frontend/src/project/Milestones.vue:29
+#: frontend/src/home/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_admin/heads.py:184 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:260 onedesk/one_project/view.py:428
 #: onedesk/one_project/view.py:636
@@ -19555,11 +19558,11 @@ msgstr ""
 msgid "Individual"
 msgstr ""
 
-#: onedesk/one/masters.py:24
+#: onedesk/one_crm/lists.py:8
 msgid "Industries"
 msgstr ""
 
-#: onedesk/one/masters.py:24
+#: onedesk/one_crm/lists.py:8
 msgid "Industry"
 msgstr ""
 
@@ -19917,7 +19920,7 @@ msgstr ""
 msgid "Interviews"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:230
+#: frontend/src/home/HrHome.vue:229
 msgid "Interviews Today"
 msgstr ""
 
@@ -20341,11 +20344,11 @@ msgstr ""
 msgid "Issue Note"
 msgstr ""
 
-#: onedesk/one/masters.py:29
+#: onedesk/one_crm/lists.py:13
 msgid "Issue Priorities"
 msgstr ""
 
-#: onedesk/one/masters.py:29 onedesk/one_crm/home.py:184
+#: onedesk/one_crm/home.py:184 onedesk/one_crm/lists.py:13
 msgid "Issue Priority"
 msgstr ""
 
@@ -20363,11 +20366,11 @@ msgstr ""
 msgid "Issue Summary"
 msgstr ""
 
-#: onedesk/one/masters.py:28 onedesk/one_crm/home.py:183
+#: onedesk/one_crm/home.py:183 onedesk/one_crm/lists.py:12
 msgid "Issue Type"
 msgstr ""
 
-#: onedesk/one/masters.py:28
+#: onedesk/one_crm/lists.py:12
 msgid "Issue Types"
 msgstr ""
 
@@ -20716,12 +20719,12 @@ msgstr ""
 msgid "Item Code"
 msgstr ""
 
-#: frontend/src/item/ItemPage.vue:214 onedesk/one/masters.py:32
-#: onedesk/one_inventory/home.py:199
+#: frontend/src/item/ItemPage.vue:214 onedesk/one_inventory/home.py:199
+#: onedesk/one_inventory/lists.py:6
 msgid "Item Group"
 msgstr ""
 
-#: onedesk/one/masters.py:32
+#: onedesk/one_inventory/lists.py:6
 msgid "Item Groups"
 msgstr ""
 
@@ -21269,11 +21272,11 @@ msgstr ""
 msgid "Key Authentication"
 msgstr ""
 
-#: onedesk/one/masters.py:44
+#: onedesk/one_hr/lists.py:11
 msgid "Key Result Area"
 msgstr ""
 
-#: onedesk/one/masters.py:44
+#: onedesk/one_hr/lists.py:11
 msgid "Key Result Areas"
 msgstr ""
 
@@ -21701,7 +21704,7 @@ msgstr ""
 msgid "Late Only"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:199
+#: frontend/src/home/InventoryHome.vue:198
 msgid "Late Orders"
 msgstr ""
 
@@ -21755,7 +21758,7 @@ msgstr ""
 
 #. Label of the lead (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:212 frontend/src/home/CrmHome.vue:230
+#: frontend/src/home/CrmHome.vue:211 frontend/src/home/CrmHome.vue:229
 #: frontend/src/home/CrmStory.vue:78 frontend/src/home/CrmStory.vue:91
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/heads.py:125 onedesk/one_crm/home.py:31
@@ -21779,12 +21782,12 @@ msgstr ""
 msgid "Lead Owner Efficiency"
 msgstr ""
 
-#: onedesk/one/masters.py:26 onedesk/one_crm/home.py:167
+#: onedesk/one_crm/home.py:167 onedesk/one_crm/lists.py:10
 msgid "Lead Source"
 msgstr ""
 
 #. Name of a report
-#: onedesk/one/masters.py:26 onedesk/one_crm/home.py:136
+#: onedesk/one_crm/home.py:136 onedesk/one_crm/lists.py:10
 #: onedesk/one_crm/report/lead_sources/lead_sources.json
 msgid "Lead Sources"
 msgstr ""
@@ -21805,7 +21808,7 @@ msgstr ""
 msgid "Leads"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:208
+#: frontend/src/home/CrmHome.vue:207
 msgid "Leads Due"
 msgstr ""
 
@@ -21901,7 +21904,7 @@ msgstr ""
 
 #. Label in the One Leave Application print format
 #. Label of a Sidebar Item
-#: frontend/src/home/HrHome.vue:216 onedesk/one_hr/home.py:117
+#: frontend/src/home/HrHome.vue:215 onedesk/one_hr/home.py:117
 #: onedesk/one_hr/print_format/one_leave_application/one_leave_application.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Application"
@@ -22139,8 +22142,8 @@ msgstr ""
 msgid "Left Early Only"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:230 frontend/src/home/CrmHome.vue:252
-#: frontend/src/home/InventoryHome.vue:286
+#: frontend/src/home/BooksHome.vue:229 frontend/src/home/CrmHome.vue:251
+#: frontend/src/home/InventoryHome.vue:285
 msgid "Left as Drafts"
 msgstr ""
 
@@ -22557,7 +22560,7 @@ msgstr ""
 msgid "Linked manually"
 msgstr ""
 
-#: onedesk/one/ai.py:1108
+#: onedesk/one/ai.py:1135
 msgid "Linked section"
 msgstr ""
 
@@ -22620,6 +22623,18 @@ msgstr ""
 
 #: onedesk/one_inventory/parts.py:125
 msgid "Listed in {0}, stocked in {1}"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+#: onedesk/one_book/sidebar/onebook/onebook.json onedesk/one_crm/home.py:71
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json onedesk/one_hr/home.py:44
+#: onedesk/one_hr/sidebar/onehr/onehr.json
+#: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
+#: onedesk/one_project/sidebar/oneproject/oneproject.json
+#: onedesk/one_studio/sidebar/onestudio/onestudio.json
+#: onedesk/public/js/lists.js:43 onedesk/public/js/lists.js:45
+msgid "Lists"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
@@ -22760,7 +22775,7 @@ msgstr ""
 msgid "Logged by hand"
 msgstr ""
 
-#: frontend/src/writer/components/ErrorPage.vue:42 onedesk/one/audit.py:150
+#: frontend/src/writer/components/ErrorPage.vue:42 onedesk/one/audit.py:152
 msgid "Login"
 msgstr ""
 
@@ -22780,7 +22795,7 @@ msgid "Login with Passkey is not enabled on this site."
 msgstr ""
 
 #. Label of the one_logo (Attach Image) field in DocType 'Bank'
-#: onedesk/one/ai.py:2463 onedesk/one_mail/custom/bank.json
+#: onedesk/one/ai.py:2490 onedesk/one_mail/custom/bank.json
 #: onedesk/one_mail/signatures.py:33 onedesk/one_studio/letter_heads.py:42
 #: onedesk/public/js/one_studio/studio_control.js:239
 msgid "Logo"
@@ -22892,12 +22907,12 @@ msgstr ""
 msgid "Lost Quotations"
 msgstr ""
 
-#: onedesk/one/masters.py:27
+#: onedesk/one_crm/lists.py:11
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:23
 msgid "Lost Reason"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:32 onedesk/one/masters.py:27
+#: frontend/src/home/CrmStory.vue:32 onedesk/one_crm/lists.py:11
 msgid "Lost Reasons"
 msgstr ""
 
@@ -23285,7 +23300,7 @@ msgstr ""
 msgid "Maintenance"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:252 onedesk/one_inventory/calendar.py:21
+#: frontend/src/home/InventoryHome.vue:251 onedesk/one_inventory/calendar.py:21
 msgid "Maintenance Due"
 msgstr ""
 
@@ -23697,11 +23712,11 @@ msgstr ""
 msgid "Marked {0}."
 msgstr ""
 
-#: onedesk/one/masters.py:25 onedesk/one_crm/home.py:174
+#: onedesk/one_crm/home.py:174 onedesk/one_crm/lists.py:9
 msgid "Market Segment"
 msgstr ""
 
-#: onedesk/one/masters.py:25
+#: onedesk/one_crm/lists.py:9
 msgid "Market Segments"
 msgstr ""
 
@@ -23747,13 +23762,6 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:140
 msgid "Master Production Schedule"
-msgstr ""
-
-#. Label of a Sidebar Item
-#: onedesk/one/masters.py:107 onedesk/one/sidebar/one/one.json
-#: onedesk/one_crm/home.py:71 onedesk/one_hr/home.py:44
-#: onedesk/public/js/masters.js:44
-msgid "Masters"
 msgstr ""
 
 #: onedesk/one_studio/letter_heads.py:19
@@ -24800,7 +24808,7 @@ msgstr ""
 msgid "Named"
 msgstr ""
 
-#: onedesk/one/ai.py:2191
+#: onedesk/one/ai.py:2218
 msgid "Named By"
 msgstr ""
 
@@ -25099,7 +25107,7 @@ msgstr ""
 msgid "New Folder {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:3229
+#: onedesk/one/ai.py:3256
 msgid "New Format"
 msgstr ""
 
@@ -25112,11 +25120,11 @@ msgstr ""
 msgid "New Invoice"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:307 onedesk/public/js/item_new.js:16
+#: frontend/src/home/InventoryHome.vue:306 onedesk/public/js/item_new.js:16
 msgid "New Item"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:254
+#: frontend/src/home/BooksHome.vue:253
 msgid "New Journal Entry"
 msgstr ""
 
@@ -25129,7 +25137,7 @@ msgstr ""
 msgid "New Label"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:273
+#: frontend/src/home/CrmHome.vue:272
 msgid "New Lead"
 msgstr ""
 
@@ -25143,7 +25151,7 @@ msgstr ""
 msgid "New Leads"
 msgstr ""
 
-#: onedesk/one/ai.py:2449 onedesk/public/js/one_studio/studio_control.js:83
+#: onedesk/one/ai.py:2476 onedesk/public/js/one_studio/studio_control.js:83
 #: onedesk/public/js/one_studio/studio_control.js:176
 msgid "New Letter Head"
 msgstr ""
@@ -25172,13 +25180,13 @@ msgstr ""
 msgid "New Mail is set to Not Read in the OneAI tab."
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:310
+#: frontend/src/home/InventoryHome.vue:309
 #: frontend/src/project/Suppliers.vue:123
 #: frontend/src/to_order/ToOrderPage.vue:177
 msgid "New Material Request"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:274
+#: frontend/src/home/CrmHome.vue:273
 msgid "New Opportunity"
 msgstr ""
 
@@ -25191,7 +25199,7 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:253
+#: frontend/src/home/BooksHome.vue:252
 msgid "New Payment Entry"
 msgstr ""
 
@@ -25216,7 +25224,7 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:252
+#: frontend/src/home/BooksHome.vue:251
 msgid "New Purchase Invoice"
 msgstr ""
 
@@ -25225,11 +25233,11 @@ msgstr ""
 msgid "New Purchase Order"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:308
+#: frontend/src/home/InventoryHome.vue:307
 msgid "New Purchase Receipt"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:275 frontend/src/item/ItemCustomers.vue:72
+#: frontend/src/home/CrmHome.vue:274 frontend/src/item/ItemCustomers.vue:72
 #: frontend/src/project/Overview.vue:388
 msgid "New Quotation"
 msgstr ""
@@ -25246,7 +25254,7 @@ msgstr ""
 msgid "New Role"
 msgstr ""
 
-#: onedesk/one/ai.py:2233 onedesk/public/js/doctype_settings.js:234
+#: onedesk/one/ai.py:2260 onedesk/public/js/doctype_settings.js:234
 #: onedesk/public/js/notification_center.js:285
 #: onedesk/public/js/notification_center.js:440
 #: onedesk/public/js/notification_center.js:444
@@ -25254,7 +25262,7 @@ msgstr ""
 msgid "New Rule"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:251
+#: frontend/src/home/BooksHome.vue:250
 msgid "New Sales Invoice"
 msgstr ""
 
@@ -25272,7 +25280,7 @@ msgstr ""
 msgid "New Signup"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:309
+#: frontend/src/home/InventoryHome.vue:308
 msgid "New Stock Entry"
 msgstr ""
 
@@ -25314,7 +25322,7 @@ msgstr ""
 msgid "New drive password"
 msgstr ""
 
-#: onedesk/one/ai.py:1029
+#: onedesk/one/ai.py:1056
 msgid "New field"
 msgstr ""
 
@@ -25490,7 +25498,7 @@ msgstr ""
 
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
-#: frontend/src/home/CrmHome.vue:185 onedesk/one_crm/calendar.py:30
+#: frontend/src/home/CrmHome.vue:184 onedesk/one_crm/calendar.py:30
 #: onedesk/one_crm/calendar.py:40 onedesk/one_crm/calendar.py:69
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
 #: onedesk/one_crm/heads.py:218 onedesk/one_crm/heads.py:219
@@ -25619,8 +25627,8 @@ msgstr ""
 #. Label in the One Subcontracting Receipt print format
 #. Label in the One Supplier Quotation print format
 #. Label in the One Work Order print format
-#: frontend/src/cloud/CloudPreview.vue:115 onedesk/one/ai.py:2489
-#: onedesk/one/ai.py:2492 onedesk/one/ai.py:3451 onedesk/one/ai.py:3666
+#: frontend/src/cloud/CloudPreview.vue:115 onedesk/one/ai.py:2516
+#: onedesk/one/ai.py:2519 onedesk/one/ai.py:3478 onedesk/one/ai.py:3693
 #: onedesk/one_account/abilities.py:19 onedesk/one_ai/abilities.py:20
 #: onedesk/one_ai/chat.py:699
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -25726,7 +25734,7 @@ msgstr ""
 msgid "No Attachment"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:220
+#: frontend/src/home/BooksHome.vue:219
 msgid "No Bank Account"
 msgstr ""
 
@@ -25747,7 +25755,7 @@ msgstr ""
 msgid "No More Holidays This Year"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:244
+#: frontend/src/home/CrmHome.vue:243
 msgid "No Next Step"
 msgstr ""
 
@@ -26453,7 +26461,7 @@ msgstr ""
 msgid "No users"
 msgstr ""
 
-#: frontend/src/item/ItemVariantsMake.vue:25
+#: frontend/src/item/ItemVariantsMake.vue:25 onedesk/public/js/lists.js:32
 msgid "No values"
 msgstr ""
 
@@ -26564,7 +26572,7 @@ msgstr ""
 
 #: frontend/src/item/ItemVariantsMake.vue:11 frontend/src/project/Time.vue:90
 #: frontend/src/sheet/shim/PrintDialog.vue:60
-#: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2474
+#: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2501
 #: onedesk/one_book/heads.py:473 onedesk/one_studio/ai_setup.py:129
 #: onedesk/public/js/one_studio/studio_control.js:319
 msgid "None"
@@ -27127,7 +27135,7 @@ msgid "Nothing has happened yet. It is checked against your own permissions when
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:68 frontend/portal/src/pages/List.vue:84
-#: onedesk/public/js/desk.js:331
+#: onedesk/public/js/desk.js:336
 msgid "Nothing here yet"
 msgstr ""
 
@@ -27168,7 +27176,7 @@ msgstr ""
 msgid "Nothing on hand here"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:225 frontend/src/item/ItemBuying.vue:12
+#: frontend/src/home/InventoryHome.vue:224 frontend/src/item/ItemBuying.vue:12
 msgid "Nothing on order"
 msgstr ""
 
@@ -27268,7 +27276,7 @@ msgstr ""
 msgid "Nothing yet"
 msgstr ""
 
-#: onedesk/public/js/access_center.js:172
+#: onedesk/public/js/access_center.js:175
 msgid "Nothing yet."
 msgstr ""
 
@@ -27336,7 +27344,7 @@ msgstr ""
 msgid "Notifies people in One and by email, as each person prefers."
 msgstr ""
 
-#: onedesk/one/ai.py:3623
+#: onedesk/one/ai.py:3650
 msgid "Notify"
 msgstr ""
 
@@ -27522,7 +27530,7 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/abilities.py:260 onedesk/one/ai.py:2492
+#: onedesk/one/abilities.py:260 onedesk/one/ai.py:2519
 #: onedesk/one/control.py:258 onedesk/one_ai/chat.py:698
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:180
@@ -27631,7 +27639,7 @@ msgstr ""
 msgid "Old system closed"
 msgstr ""
 
-#: onedesk/one/abilities.py:260 onedesk/one/ai.py:3451 onedesk/one/ai.py:3666
+#: onedesk/one/abilities.py:260 onedesk/one/ai.py:3478 onedesk/one/ai.py:3693
 #: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:136
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
@@ -28386,7 +28394,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/BooksHome.vue:246 onedesk/one_book/page/books/books.js:5
+#: frontend/src/home/BooksHome.vue:245 onedesk/one_book/page/books/books.js:5
 #: onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneBook"
@@ -28398,7 +28406,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/CrmHome.vue:268 onedesk/one_crm/page/onecrm/onecrm.js:5
+#: frontend/src/home/CrmHome.vue:267 onedesk/one_crm/page/onecrm/onecrm.js:5
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneCRM"
@@ -28428,7 +28436,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/HrHome.vue:243 onedesk/one_hr/page/onehr/onehr.js:5
+#: frontend/src/home/HrHome.vue:242 onedesk/one_hr/page/onehr/onehr.js:5
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneHR"
@@ -28445,7 +28453,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/InventoryHome.vue:302
+#: frontend/src/home/InventoryHome.vue:301
 #: onedesk/one_inventory/page/inventory/inventory.js:5
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
@@ -28601,8 +28609,8 @@ msgstr ""
 msgid "Only a suggested change can be applied in the form."
 msgstr ""
 
-#: onedesk/one/masters.py:69 onedesk/one/page/masters/masters.js:9
-msgid "Only administrators and an app's managers see Masters."
+#: onedesk/one/lists.py:88
+msgid "Only administrators and the app's managers keep its lists."
 msgstr ""
 
 #: onedesk/one_hr/hiring.py:836
@@ -28776,7 +28784,7 @@ msgstr ""
 msgid "Only the record's own contacts can be hidden from."
 msgstr ""
 
-#: onedesk/public/js/one_hr/hr_control.js:132
+#: onedesk/public/js/one_hr/hr_control.js:135
 msgid "Only the workspace's administrators set the holidays."
 msgstr ""
 
@@ -29215,7 +29223,7 @@ msgstr ""
 msgid "Opportunities"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:199
+#: frontend/src/home/CrmHome.vue:198
 msgid "Opportunities Due"
 msgstr ""
 
@@ -29237,7 +29245,7 @@ msgstr ""
 
 #. Label of the deal (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:203 frontend/src/home/CrmHome.vue:221
+#: frontend/src/home/CrmHome.vue:202 frontend/src/home/CrmHome.vue:220
 #: frontend/src/home/CrmStory.vue:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_book/heads.py:707 onedesk/one_crm/heads.py:126
@@ -29347,7 +29355,7 @@ msgstr ""
 #. Label of the seq (Int) field in DocType 'Workbook Change'
 #. Label of the seq (Int) field in DocType 'Workbook Version'
 #: frontend/portal/src/pages/Project.vue:145
-#: frontend/src/home/InventoryHome.vue:219
+#: frontend/src/home/InventoryHome.vue:218
 #: frontend/src/quotes/QuoteCompare.vue:48 frontend/src/quotes/QuoteRows.vue:81
 #: frontend/src/to_order/ToOrderPage.vue:164
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -29880,7 +29888,7 @@ msgstr ""
 #. Label in the One Sales Invoice Bordered print format
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
-#: frontend/src/home/BooksHome.vue:102 frontend/src/home/BooksHome.vue:180
+#: frontend/src/home/BooksHome.vue:102 frontend/src/home/BooksHome.vue:179
 #: frontend/src/project/Invoices.vue:110 frontend/src/task/MyTasks.vue:8
 #: frontend/src/upkeep/UpkeepPage.vue:83 frontend/src/upkeep/UpkeepRows.vue:182
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -30603,7 +30611,7 @@ msgstr ""
 msgid "Past Due"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:217
+#: frontend/src/home/CrmHome.vue:216
 msgid "Past Expected Closing Date"
 msgstr ""
 
@@ -32350,11 +32358,11 @@ msgstr ""
 msgid "Print Formats"
 msgstr ""
 
-#: onedesk/one/masters.py:20
+#: onedesk/one_studio/lists.py:6
 msgid "Print Heading"
 msgstr ""
 
-#: onedesk/one/masters.py:20
+#: onedesk/one_studio/lists.py:6
 msgid "Print Headings"
 msgstr ""
 
@@ -32378,7 +32386,7 @@ msgstr ""
 msgid "Print, export and import"
 msgstr ""
 
-#: onedesk/one/audit.py:154
+#: onedesk/one/audit.py:156
 msgid "Printed"
 msgstr ""
 
@@ -32406,7 +32414,7 @@ msgstr ""
 msgid "Printing of {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:2399 onedesk/one/ai.py:3233
+#: onedesk/one/ai.py:2426 onedesk/one/ai.py:3260
 msgid "Prints With"
 msgstr ""
 
@@ -32840,11 +32848,11 @@ msgstr ""
 msgid "Project Template"
 msgstr ""
 
-#: frontend/src/project/Overview.vue:297 onedesk/one/masters.py:38
+#: frontend/src/project/Overview.vue:297 onedesk/one_project/lists.py:5
 msgid "Project Type"
 msgstr ""
 
-#: onedesk/one/masters.py:38
+#: onedesk/one_project/lists.py:5
 msgid "Project Types"
 msgstr ""
 
@@ -33076,7 +33084,7 @@ msgstr ""
 #. Label in the One Purchase Invoice Classic print format
 #. Label in the One Purchase Invoice with Images print format
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:209 onedesk/one_book/home.py:312
+#: frontend/src/home/BooksHome.vue:208 onedesk/one_book/home.py:312
 #: onedesk/one_book/home.py:496
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
@@ -33094,7 +33102,7 @@ msgstr ""
 msgid "Purchase Invoice by Status"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:197
+#: frontend/src/home/BooksHome.vue:196
 msgid "Purchase Invoices Due"
 msgstr ""
 
@@ -33120,7 +33128,7 @@ msgstr ""
 msgid "Purchase Order Analysis"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:211
+#: frontend/src/home/InventoryHome.vue:210
 #: frontend/src/to_order/ToOrderPage.vue:179
 msgid "Purchase Orders"
 msgstr ""
@@ -33452,7 +33460,7 @@ msgstr ""
 #. Label in the One Quotation Classic print format
 #. Label in the One Quotation with Images print format
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:239 onedesk/one_crm/heads.py:127
+#: frontend/src/home/CrmHome.vue:238 onedesk/one_crm/heads.py:127
 #: onedesk/one_crm/heads.py:300 onedesk/one_crm/home.py:118
 #: onedesk/one_crm/home.py:337
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -33513,7 +33521,7 @@ msgstr ""
 msgid "Quotations"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:235
+#: frontend/src/home/CrmHome.vue:234
 msgid "Quotations Expiring"
 msgstr ""
 
@@ -34898,7 +34906,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
 #: frontend/src/sheet/components/SheetEditor/index.vue:888
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
-#: onedesk/one/ai.py:1764 onedesk/public/js/module_settings.js:244
+#: onedesk/one/ai.py:1791 onedesk/public/js/module_settings.js:244
 #: onedesk/public/js/one_account/account_center.js:202
 #: onedesk/public/js/one_account/account_center.js:529
 #: onedesk/public/js/one_account/account_center.js:686
@@ -34976,7 +34984,7 @@ msgstr ""
 msgid "Remove your passkey?"
 msgstr ""
 
-#: frontend/src/task/TaskWaits.vue:8 onedesk/one/ai.py:2223
+#: frontend/src/task/TaskWaits.vue:8 onedesk/one/ai.py:2250
 #: onedesk/one_mail/ai.py:1089
 msgid "Remove {0}"
 msgstr ""
@@ -35009,7 +35017,7 @@ msgstr ""
 msgid "Remove {0}? The workspace will no longer open at this domain."
 msgstr ""
 
-#: onedesk/one/ai.py:1008
+#: onedesk/one/ai.py:1035
 msgid "Removed"
 msgstr ""
 
@@ -35030,7 +35038,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:708
 #: frontend/src/sheet/components/SheetEditor/index.vue:742
 #: frontend/src/writer/DocumentPage.vue:287
-#: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1750
+#: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1777
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/public/js/one_ai/panel/Panel.vue:23
@@ -35102,7 +35110,7 @@ msgid "Reopen Task"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/InventoryHome.vue:230
+#: frontend/src/home/InventoryHome.vue:229
 #: frontend/src/to_order/ToOrderPage.vue:172 onedesk/one_inventory/home.py:124
 #: onedesk/one_inventory/page/to_order/to_order.js:5
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -35117,7 +35125,7 @@ msgstr ""
 msgid "Reorder Quantity"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:227
+#: frontend/src/home/InventoryHome.vue:226
 msgid "Reorder at {0}"
 msgstr ""
 
@@ -35387,7 +35395,7 @@ msgstr ""
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:248
+#: frontend/src/home/HrHome.vue:247
 msgid "Request Leave"
 msgstr ""
 
@@ -36251,7 +36259,7 @@ msgstr ""
 #. Label of the one_rule (Data) field in DocType 'Notification Type'
 #. Label of the rule (Data) field in DocType 'Reading Date'
 #. Label in the One Gratuity print format
-#: onedesk/one/ai.py:2223 onedesk/one/ai.py:2233
+#: onedesk/one/ai.py:2250 onedesk/one/ai.py:2260
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
 #: onedesk/one_ai/report/deadlines/deadlines.py:41
@@ -36328,7 +36336,7 @@ msgstr ""
 msgid "Running"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:216
+#: frontend/src/home/InventoryHome.vue:215
 #: frontend/src/to_order/ToOrderPage.vue:91
 #: frontend/src/to_order/ToOrderPage.vue:142
 msgid "Running Low"
@@ -36484,7 +36492,7 @@ msgid "Sales Forecast"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/home/BooksHome.vue:192 onedesk/one_book/home.py:306
+#: frontend/src/home/BooksHome.vue:191 onedesk/one_book/home.py:306
 #: onedesk/one_book/home.py:495 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_crm/home.py:120
 msgid "Sales Invoice"
@@ -36595,11 +36603,11 @@ msgstr ""
 msgid "Sales, support, maintenance: what an opportunity is for."
 msgstr ""
 
-#: onedesk/one/masters.py:18
+#: onedesk/one/lists.py:20
 msgid "Salutation"
 msgstr ""
 
-#: onedesk/one/masters.py:18
+#: onedesk/one/lists.py:20
 msgid "Salutations"
 msgstr ""
 
@@ -37013,7 +37021,7 @@ msgstr ""
 msgid "Secret Key"
 msgstr ""
 
-#: onedesk/one/ai.py:3230
+#: onedesk/one/ai.py:3257
 msgid "Sections"
 msgstr ""
 
@@ -37512,7 +37520,7 @@ msgid "Serial and batch numbers can be used"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:77
-#: onedesk/one/ai.py:2176 onedesk/public/js/doctype_settings.js:323
+#: onedesk/one/ai.py:2203 onedesk/public/js/doctype_settings.js:323
 #: onedesk/public/js/doctype_settings.js:387
 #: onedesk/public/js/one_studio/studio_control.js:46
 msgid "Series"
@@ -37646,7 +37654,7 @@ msgstr ""
 msgid "Session Address"
 msgstr ""
 
-#: onedesk/one/ai.py:3612
+#: onedesk/one/ai.py:3639
 msgid "Set"
 msgstr ""
 
@@ -37904,9 +37912,9 @@ msgstr ""
 msgid "Settles"
 msgstr ""
 
-#. Label of a Sidebar Item
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/task/MyTasks.vue:17 onedesk/one/sidebar/one/one.json
+#. Label of a Sidebar Item
+#: frontend/src/task/MyTasks.vue:17
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/home.py:194 onedesk/one_book/sidebar/onebook/onebook.json
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:82
@@ -38020,7 +38028,6 @@ msgstr ""
 #. Option for the 'Used By' (Select) field in DocType 'Device'
 #: frontend/src/cloud/CloudItems.vue:74
 #: onedesk/one_account/doctype/device/device.json
-#: onedesk/public/js/masters.js:25
 #: onedesk/public/js/one_account/account_center.js:1082
 #: onedesk/public/js/one_mail/onemail_settings.js:31
 #: onedesk/public/js/one_mail/onemail_settings.js:1189
@@ -39097,11 +39104,11 @@ msgstr ""
 msgid "Sizes, colours and the like, for an item's versions."
 msgstr ""
 
-#: onedesk/one/masters.py:43
+#: onedesk/one_hr/lists.py:10
 msgid "Skill"
 msgstr ""
 
-#: onedesk/one/masters.py:43
+#: onedesk/one_hr/lists.py:10
 msgid "Skills"
 msgstr ""
 
@@ -39610,7 +39617,7 @@ msgstr ""
 msgid "Stalled"
 msgstr ""
 
-#: onedesk/one/ai.py:2400 onedesk/public/js/one_studio/studio_control.js:127
+#: onedesk/one/ai.py:2427 onedesk/public/js/one_studio/studio_control.js:127
 msgid "Standard"
 msgstr ""
 
@@ -39774,8 +39781,8 @@ msgstr ""
 msgid "Started by {0} from Workspace Settings."
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:236 frontend/src/home/CrmHome.vue:258
-#: frontend/src/home/InventoryHome.vue:292
+#: frontend/src/home/BooksHome.vue:235 frontend/src/home/CrmHome.vue:257
+#: frontend/src/home/InventoryHome.vue:291
 msgid "Started more than a day ago"
 msgstr ""
 
@@ -39875,7 +39882,7 @@ msgstr ""
 msgid "Statement of Accounts"
 msgstr ""
 
-#: onedesk/one/ai.py:3450
+#: onedesk/one/ai.py:3477
 msgid "States"
 msgstr ""
 
@@ -40962,11 +40969,11 @@ msgstr ""
 msgid "Supplier"
 msgstr ""
 
-#: onedesk/one/masters.py:37 onedesk/one_inventory/home.py:205
+#: onedesk/one_inventory/home.py:205 onedesk/one_inventory/lists.py:11
 msgid "Supplier Group"
 msgstr ""
 
-#: onedesk/one/masters.py:37
+#: onedesk/one_inventory/lists.py:11
 msgid "Supplier Groups"
 msgstr ""
 
@@ -41541,11 +41548,11 @@ msgstr ""
 msgid "Tax Assessment"
 msgstr ""
 
-#: onedesk/one/masters.py:30
+#: onedesk/one_book/lists.py:6
 msgid "Tax Categories"
 msgstr ""
 
-#: onedesk/one/masters.py:30 onedesk/one_book/home.py:381
+#: onedesk/one_book/home.py:381 onedesk/one_book/lists.py:6
 msgid "Tax Category"
 msgstr ""
 
@@ -42068,11 +42075,11 @@ msgstr ""
 msgid "Terms of Service"
 msgstr ""
 
-#: onedesk/one/masters.py:23
+#: onedesk/one_crm/lists.py:7
 msgid "Territories"
 msgstr ""
 
-#: onedesk/one/masters.py:23 onedesk/one_crm/home.py:171
+#: onedesk/one_crm/home.py:171 onedesk/one_crm/lists.py:7
 msgid "Territory"
 msgstr ""
 
@@ -43084,7 +43091,7 @@ msgstr ""
 msgid "The law says a business keeps this until then. It cannot be deleted before."
 msgstr ""
 
-#: onedesk/one/ai.py:2916
+#: onedesk/one/ai.py:2943
 msgid "The layout would print badly: {0}."
 msgstr ""
 
@@ -43594,7 +43601,7 @@ msgstr ""
 msgid "The project's requests still to order"
 msgstr ""
 
-#: onedesk/public/js/one_hr/hr_control.js:145
+#: onedesk/public/js/one_hr/hr_control.js:142
 msgid "The public holidays and weekly days off leave and attendance count around."
 msgstr ""
 
@@ -43799,7 +43806,7 @@ msgstr ""
 msgid "The supplier's contact"
 msgstr ""
 
-#: onedesk/one/ai.py:2661
+#: onedesk/one/ai.py:2688
 msgid "The table {0} needs its columns."
 msgstr ""
 
@@ -43870,6 +43877,10 @@ msgstr ""
 
 #: frontend/portal/src/pages/Password.vue:12
 msgid "The two passwords are not the same."
+msgstr ""
+
+#: onedesk/public/js/lists.js:46
+msgid "The values {0}'s records pick from. Each opens as its own list."
 msgstr ""
 
 #: onedesk/one_crm/home.py:127
@@ -45442,7 +45453,7 @@ msgid "To-dos given to you"
 msgstr ""
 
 #: frontend/src/home/BooksHome.vue:88 frontend/src/home/CrmHome.vue:88
-#: frontend/src/home/HrHome.vue:107 frontend/src/home/HrHome.vue:208
+#: frontend/src/home/HrHome.vue:107 frontend/src/home/HrHome.vue:207
 #: frontend/src/home/InventoryHome.vue:104
 #: frontend/src/project/MilestoneLanes.vue:16
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:267
@@ -45511,7 +45522,7 @@ msgstr ""
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:208 frontend/src/project/Milestones.vue:29
+#: frontend/src/home/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_task/mine.py:17
 msgid "Tomorrow"
 msgstr ""
@@ -46396,7 +46407,7 @@ msgstr ""
 msgid "Unchanged"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:226
+#: frontend/src/home/CrmHome.vue:225
 msgid "Unclaimed Leads"
 msgstr ""
 
@@ -46408,7 +46419,7 @@ msgstr ""
 msgid "Under a minute. Nothing added."
 msgstr ""
 
-#: onedesk/one/ai.py:1079
+#: onedesk/one/ai.py:1106
 msgid "Under the title"
 msgstr ""
 
@@ -46513,7 +46524,7 @@ msgstr ""
 #. Label in the One Subcontracting Order print format
 #. Label in the One Subcontracting Receipt print format
 #. Label in the One Work Order print format
-#: frontend/src/item/ItemBarcodes.vue:68 onedesk/one/masters.py:34
+#: frontend/src/item/ItemBarcodes.vue:68 onedesk/one_inventory/lists.py:8
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -46538,11 +46549,11 @@ msgstr ""
 msgid "Unit"
 msgstr ""
 
-#: onedesk/one/masters.py:35
+#: onedesk/one_inventory/lists.py:9
 msgid "Unit Categories"
 msgstr ""
 
-#: onedesk/one/masters.py:35
+#: onedesk/one_inventory/lists.py:9
 msgid "Unit Category"
 msgstr ""
 
@@ -46607,7 +46618,7 @@ msgstr ""
 msgid "Unit {0} not found"
 msgstr ""
 
-#: onedesk/one/masters.py:34 onedesk/public/js/item_actions.js:7
+#: onedesk/one_inventory/lists.py:8 onedesk/public/js/item_actions.js:7
 msgid "Units"
 msgstr ""
 
@@ -46697,7 +46708,7 @@ msgstr ""
 msgid "Unreconciled"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:214
+#: frontend/src/home/BooksHome.vue:213
 msgid "Unreconciled Bank Transactions"
 msgstr ""
 
@@ -47590,7 +47601,7 @@ msgstr ""
 msgid "Waiting for Prices"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:216 onedesk/public/js/privacy_copy_list.js:7
+#: frontend/src/home/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
 msgid "Waiting for You"
 msgstr ""
@@ -47738,12 +47749,12 @@ msgstr ""
 msgid "Was Worth"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:261 frontend/src/item/ItemBuying.vue:61
+#: frontend/src/home/InventoryHome.vue:260 frontend/src/item/ItemBuying.vue:61
 #: frontend/src/item/ItemSelling.vue:58
 msgid "Was due {0}"
 msgstr ""
 
-#: frontend/src/floor/ShopFloor.vue:17 frontend/src/home/InventoryHome.vue:278
+#: frontend/src/floor/ShopFloor.vue:17 frontend/src/home/InventoryHome.vue:277
 msgid "Was expected by {0}"
 msgstr ""
 
@@ -48402,7 +48413,7 @@ msgstr ""
 msgid "What is taking the space?"
 msgstr ""
 
-#: onedesk/one/masters.py:94
+#: onedesk/one/lists.py:115
 msgid "What is the list I have open used for, on which records, and who may change it?"
 msgstr ""
 
@@ -48410,7 +48421,7 @@ msgstr ""
 msgid "What is the workshop making?"
 msgstr ""
 
-#: onedesk/one/masters.py:93
+#: onedesk/one/lists.py:114
 msgid "What is this list for?"
 msgstr ""
 
@@ -49017,7 +49028,7 @@ msgstr ""
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the event (Select) field in DocType 'Extension'
 #: frontend/src/intake/IntakeFacts.vue:73 frontend/src/template/Tasks.vue:6
-#: onedesk/one/ai.py:3655 onedesk/one/notification_words.py:223
+#: onedesk/one/ai.py:3682 onedesk/one/notification_words.py:223
 #: onedesk/one_hr/custom/timesheet_detail.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/ai.py:284
@@ -51581,12 +51592,12 @@ msgstr ""
 msgid "Work Order Summary"
 msgstr ""
 
-#: frontend/src/floor/ShopFloor.vue:146 frontend/src/home/InventoryHome.vue:281
+#: frontend/src/floor/ShopFloor.vue:146 frontend/src/home/InventoryHome.vue:280
 #: frontend/src/home/InventoryStory.vue:70
 msgid "Work Orders"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:269
+#: frontend/src/home/InventoryHome.vue:268
 msgid "Work Running Late"
 msgstr ""
 
@@ -52278,8 +52289,8 @@ msgid "Years Served"
 msgstr ""
 
 #: frontend/src/cloud/CloudPreview.vue:115
-#: frontend/src/item/ItemOverview.vue:113 onedesk/one/ai.py:2489
-#: onedesk/one/ai.py:2492 onedesk/one/ai.py:3451 onedesk/one/ai.py:3666
+#: frontend/src/item/ItemOverview.vue:113 onedesk/one/ai.py:2516
+#: onedesk/one/ai.py:2519 onedesk/one/ai.py:3478 onedesk/one/ai.py:3693
 #: onedesk/one_account/abilities.py:19 onedesk/one_ai/abilities.py:20
 #: onedesk/one_ai/chat.py:699 onedesk/one_legal/abilities.py:21
 #: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1052
@@ -52712,7 +52723,7 @@ msgstr ""
 msgid "Your Request Is On Hold"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:217
+#: frontend/src/home/HrHome.vue:216
 msgid "Your Requests"
 msgstr ""
 
@@ -53169,7 +53180,7 @@ msgstr ""
 msgid "a colour such as #0f766e or var(--gray-100)"
 msgstr ""
 
-#: onedesk/one/ai.py:2851
+#: onedesk/one/ai.py:2878
 msgid "a column"
 msgstr ""
 
@@ -53254,7 +53265,7 @@ msgstr ""
 msgid "administrator of the workspace"
 msgstr ""
 
-#: onedesk/one/ai.py:996 onedesk/one_crm/heads.py:192
+#: onedesk/one/ai.py:1023 onedesk/one_crm/heads.py:192
 msgid "after {0}"
 msgstr ""
 
@@ -53344,7 +53355,7 @@ msgstr ""
 msgid "by {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:979
+#: onedesk/one/ai.py:1006
 msgid "called {0}"
 msgstr ""
 
@@ -53593,7 +53604,7 @@ msgstr ""
 msgid "help, problem, not working, broken"
 msgstr ""
 
-#: onedesk/one/ai.py:984
+#: onedesk/one/ai.py:1011
 msgid "hidden"
 msgstr ""
 
@@ -53609,7 +53620,7 @@ msgstr ""
 msgid "in late, left early"
 msgstr ""
 
-#: onedesk/one/ai.py:986
+#: onedesk/one/ai.py:1013
 msgid "in the list"
 msgstr ""
 
@@ -53669,7 +53680,7 @@ msgstr ""
 msgid "it arrives on a holiday"
 msgstr ""
 
-#: onedesk/one/ai.py:2914
+#: onedesk/one/ai.py:2941
 msgid "it does not print {0}"
 msgstr ""
 
@@ -53726,7 +53737,7 @@ msgstr ""
 msgid "just you"
 msgstr ""
 
-#: onedesk/one/ai.py:1071 onedesk/one/ai.py:1073
+#: onedesk/one/ai.py:1098 onedesk/one/ai.py:1100
 msgid "label"
 msgstr ""
 
@@ -53874,7 +53885,7 @@ msgstr ""
 msgid "nobody yet"
 msgstr ""
 
-#: onedesk/one/ai.py:1777 onedesk/one/ai.py:1778 onedesk/one_hr/control.py:147
+#: onedesk/one/ai.py:1804 onedesk/one/ai.py:1805 onedesk/one_hr/control.py:147
 msgid "none"
 msgstr ""
 
@@ -53882,7 +53893,7 @@ msgstr ""
 msgid "none of them live."
 msgstr ""
 
-#: onedesk/one/ai.py:986
+#: onedesk/one/ai.py:1013
 msgid "not in the list"
 msgstr ""
 
@@ -53891,7 +53902,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/notify.py:321 onedesk/one_account/heads.py:28
-#: onedesk/public/js/desk.js:293
+#: onedesk/public/js/desk.js:298
 msgid "nothing"
 msgstr ""
 
@@ -53996,7 +54007,7 @@ msgstr ""
 msgid "opened {0} times"
 msgstr ""
 
-#: onedesk/one/ai.py:985
+#: onedesk/one/ai.py:1012
 msgid "optional"
 msgstr ""
 
@@ -54116,7 +54127,7 @@ msgstr ""
 msgid "renamed {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:985
+#: onedesk/one/ai.py:1012
 msgid "required"
 msgstr ""
 
@@ -54146,19 +54157,19 @@ msgstr ""
 msgid "seats"
 msgstr ""
 
-#: onedesk/one/ai.py:2841
+#: onedesk/one/ai.py:2868
 msgid "section {0}"
 msgstr ""
 
-#: onedesk/one/ai.py:2859
+#: onedesk/one/ai.py:2886
 msgid "section {0} is empty"
 msgstr ""
 
-#: onedesk/one/ai.py:2826
+#: onedesk/one/ai.py:2853
 msgid "sections is a list of sections, each a list of columns."
 msgstr ""
 
-#: onedesk/one/ai.py:2751
+#: onedesk/one/ai.py:2778
 msgid "sections is not JSON: {0}."
 msgstr ""
 
@@ -54170,7 +54181,7 @@ msgstr ""
 msgid "sheet"
 msgstr ""
 
-#: onedesk/one/ai.py:984
+#: onedesk/one/ai.py:1011
 msgid "shown"
 msgstr ""
 
@@ -54257,7 +54268,7 @@ msgstr ""
 msgid "the billing owner"
 msgstr ""
 
-#: onedesk/one/ai.py:2869
+#: onedesk/one/ai.py:2896
 msgid "the columns of {0} come to {1}%, more than the page"
 msgstr ""
 
@@ -54346,7 +54357,7 @@ msgstr ""
 msgid "the year, 2026"
 msgstr ""
 
-#: onedesk/one/ai.py:2883
+#: onedesk/one/ai.py:2910
 msgid "there is no field {0} for the barcode"
 msgstr ""
 
@@ -54559,8 +54570,8 @@ msgstr ""
 msgid "{0} (supplier)"
 msgstr ""
 
-#: onedesk/one/ai.py:1755 onedesk/one/ai.py:1776 onedesk/one/ai.py:2176
-#: onedesk/one/ai.py:2192 onedesk/one/ai.py:2400
+#: onedesk/one/ai.py:1782 onedesk/one/ai.py:1803 onedesk/one/ai.py:2203
+#: onedesk/one/ai.py:2219 onedesk/one/ai.py:2427
 msgid "{0} (was {1})"
 msgstr ""
 
@@ -54590,7 +54601,7 @@ msgstr ""
 msgid "{0} AI credits a month"
 msgstr ""
 
-#: onedesk/one/ai.py:3341
+#: onedesk/one/ai.py:3368
 msgid "{0} Approval"
 msgstr ""
 
@@ -54652,6 +54663,10 @@ msgstr ""
 
 #: frontend/src/home/HrHome.vue:139
 msgid "{0} Left"
+msgstr ""
+
+#: onedesk/one/lists.py:131 onedesk/public/js/lists.js:14
+msgid "{0} Lists"
 msgstr ""
 
 #: frontend/src/home/InventoryHome.vue:155
@@ -54877,7 +54892,7 @@ msgstr ""
 msgid "{0} attached to {1}."
 msgstr ""
 
-#: onedesk/one/ai.py:3583
+#: onedesk/one/ai.py:3610
 msgid "{0} automation"
 msgstr ""
 
@@ -55102,7 +55117,7 @@ msgstr ""
 msgid "{0} days before {1}"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:171 frontend/src/home/InventoryHome.vue:208
+#: frontend/src/home/BooksHome.vue:170 frontend/src/home/InventoryHome.vue:207
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:267
 #: frontend/src/project/Overview.vue:377 frontend/src/project/Suppliers.vue:202
 #: frontend/src/task/TaskPage.vue:210 onedesk/one_project/heads.py:76
@@ -55123,7 +55138,7 @@ msgstr ""
 msgid "{0} days overdue"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:189
+#: frontend/src/home/CrmHome.vue:188
 msgid "{0} days past"
 msgstr ""
 
@@ -55172,8 +55187,8 @@ msgstr ""
 msgid "{0} draft orders made"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:237 frontend/src/home/CrmHome.vue:259
-#: frontend/src/home/InventoryHome.vue:293
+#: frontend/src/home/BooksHome.vue:236 frontend/src/home/CrmHome.vue:258
+#: frontend/src/home/InventoryHome.vue:292
 #: frontend/src/project/Invoices.vue:107
 msgid "{0} drafts"
 msgstr ""
@@ -55346,7 +55361,7 @@ msgstr ""
 msgid "{0} has no field that links to {1}, so the field cannot be filled from it."
 msgstr ""
 
-#: onedesk/one/ai.py:2781 onedesk/one/ai.py:2793
+#: onedesk/one/ai.py:2808 onedesk/one/ai.py:2820
 msgid "{0} has no field {1}"
 msgstr ""
 
@@ -55540,7 +55555,7 @@ msgstr ""
 msgid "{0} is a sub-project of {1}."
 msgstr ""
 
-#: onedesk/one/ai.py:2876
+#: onedesk/one/ai.py:2903
 msgid "{0} is a table: give it its columns"
 msgstr ""
 
@@ -55752,7 +55767,7 @@ msgstr ""
 msgid "{0} is not a library."
 msgstr ""
 
-#: onedesk/one/ai.py:2778
+#: onedesk/one/ai.py:2805
 msgid "{0} is not a link field and one of its fields, such as customer.customer_group"
 msgstr ""
 
@@ -55792,7 +55807,7 @@ msgstr ""
 msgid "{0} is not a shared mailbox."
 msgstr ""
 
-#: onedesk/one/ai.py:2865
+#: onedesk/one/ai.py:2892
 msgid "{0} is not a table"
 msgstr ""
 
@@ -55800,7 +55815,7 @@ msgstr ""
 msgid "{0} is not a table of a form you may customize."
 msgstr ""
 
-#: onedesk/one/ai.py:2790
+#: onedesk/one/ai.py:2817
 msgid "{0} is not a table to repeat"
 msgstr ""
 
@@ -55895,10 +55910,6 @@ msgstr ""
 
 #: onedesk/one_ai/center.py:142 onedesk/one_ai/center.py:187
 msgid "{0} is not one of OneAI's settings."
-msgstr ""
-
-#: onedesk/one/masters.py:77
-msgid "{0} is not one of the masters you manage."
 msgstr ""
 
 #: onedesk/one/access.py:284 onedesk/one/access.py:294
@@ -56133,8 +56144,8 @@ msgstr ""
 msgid "{0} months"
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:175 frontend/src/home/CrmHome.vue:194
-#: frontend/src/home/HrHome.vue:213 frontend/src/home/InventoryHome.vue:194
+#: frontend/src/home/BooksHome.vue:174 frontend/src/home/CrmHome.vue:193
+#: frontend/src/home/HrHome.vue:212 frontend/src/home/InventoryHome.vue:193
 #: frontend/src/project/ProjectActivity.vue:40
 #: frontend/src/sheet/components/SheetEditor/index.vue:693
 msgid "{0} more"
@@ -56314,7 +56325,7 @@ msgstr ""
 msgid "{0} of {1} lines in"
 msgstr ""
 
-#: frontend/src/floor/ShopFloor.vue:21 frontend/src/home/InventoryHome.vue:277
+#: frontend/src/floor/ShopFloor.vue:21 frontend/src/home/InventoryHome.vue:276
 #: frontend/src/item/ItemMaking.vue:87
 msgid "{0} of {1} made"
 msgstr ""
@@ -56380,7 +56391,7 @@ msgstr ""
 msgid "{0} on"
 msgstr ""
 
-#: frontend/src/home/InventoryHome.vue:225 frontend/src/item/ItemPlaces.vue:58
+#: frontend/src/home/InventoryHome.vue:224 frontend/src/item/ItemPlaces.vue:58
 #: frontend/src/supplier/SupplierItems.vue:119 onedesk/one_project/view.py:596
 msgid "{0} on order"
 msgstr ""
@@ -56785,7 +56796,7 @@ msgstr ""
 msgid "{0} to {1}%"
 msgstr ""
 
-#: onedesk/one/ai.py:3439
+#: onedesk/one/ai.py:3466
 msgid "{0} to {1}, by {2}"
 msgstr ""
 
@@ -56801,7 +56812,7 @@ msgstr ""
 msgid "{0} tonight."
 msgstr ""
 
-#: frontend/src/home/BooksHome.vue:222
+#: frontend/src/home/BooksHome.vue:221
 msgid "{0} transactions"
 msgstr ""
 
@@ -56823,6 +56834,10 @@ msgstr ""
 
 #: onedesk/one_studio/approvals.py:302
 msgid "{0} users"
+msgstr ""
+
+#: onedesk/public/js/lists.js:33
+msgid "{0} values"
 msgstr ""
 
 #: frontend/src/item/ItemVariantsMake.vue:135
@@ -56891,7 +56906,7 @@ msgstr ""
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr ""
 
-#: onedesk/one/ai.py:2114
+#: onedesk/one/ai.py:2141
 msgid "{0} with {1} digits"
 msgstr ""
 
@@ -57065,15 +57080,15 @@ msgstr ""
 msgid "{0}'s role in {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:1050 onedesk/one/ai.py:1073
+#: onedesk/one/ai.py:1077 onedesk/one/ai.py:1100
 msgid "{0}, copied when made from {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:1048 onedesk/one/ai.py:1071
+#: onedesk/one/ai.py:1075 onedesk/one/ai.py:1098
 msgid "{0}, filled from {1}"
 msgstr ""
 
-#: onedesk/one/ai.py:2115
+#: onedesk/one/ai.py:2142
 msgid "{0}, for every record"
 msgstr ""
 
@@ -57121,7 +57136,7 @@ msgstr ""
 msgid "{0}, unmetered"
 msgstr ""
 
-#: onedesk/one/ai.py:2115
+#: onedesk/one/ai.py:2142
 msgid "{0}, when {1}"
 msgstr ""
 
@@ -57190,7 +57205,7 @@ msgstr ""
 msgid "{0}: a style may only use this site's files and images."
 msgstr ""
 
-#: onedesk/one/ai.py:1173 onedesk/one/layer.py:156
+#: onedesk/one/ai.py:1200 onedesk/one/layer.py:156
 msgid "{0}: a text field may hold any text, or an email, a name, a phone number, a web address, a barcode or an IBAN."
 msgstr ""
 
@@ -57278,7 +57293,7 @@ msgstr ""
 msgid "{0}: {1} has no field {2} visible to everyone who can read it."
 msgstr ""
 
-#: onedesk/one/ai.py:1178
+#: onedesk/one/ai.py:1205
 msgid "{0}: {1} is not a form here."
 msgstr ""
 

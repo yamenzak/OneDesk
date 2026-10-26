@@ -271,12 +271,12 @@ doc_events = {
 		"validate": "onedesk.one_mail.mail_templates.validate",
 		"on_trash": "onedesk.one_mail.mail_templates.on_trash",
 	},
-	"Address Template": {"validate": "onedesk.one.masters.validate_address_template"},
-	"Customer Group": {"before_insert": "onedesk.one.masters.place"},
-	"Territory": {"before_insert": "onedesk.one.masters.place"},
-	"Item Group": {"before_insert": "onedesk.one.masters.place"},
-	"Supplier Group": {"before_insert": "onedesk.one.masters.place"},
-	"Department": {"before_insert": "onedesk.one.masters.place"},
+	"Address Template": {"validate": "onedesk.one.lists.validate_address_template"},
+	"Customer Group": {"before_insert": "onedesk.one.lists.place"},
+	"Territory": {"before_insert": "onedesk.one.lists.place"},
+	"Item Group": {"before_insert": "onedesk.one.lists.place"},
+	"Supplier Group": {"before_insert": "onedesk.one.lists.place"},
+	"Department": {"before_insert": "onedesk.one.lists.place"},
 	"Workflow": {"validate": "onedesk.one_studio.approvals.validate"},
 	"Workflow Action": {"after_insert": "onedesk.one_studio.approvals.waiting"},
 	"Automation Flow": {"validate": "onedesk.one_studio.automations.validate"},
@@ -1013,7 +1013,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_ai/oneai.js",
 	"/assets/onedesk/js/one_ai/intake.js",
 	"/assets/onedesk/js/one_legal/legal.js",
-	"/assets/onedesk/js/masters.js",
+	"/assets/onedesk/js/lists.js",
 ])
 
 company_data_to_be_ignored = [
@@ -1349,7 +1349,7 @@ one_ai_page = [
 	"onedesk.one_legal.ai.page",
 ]
 
-one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
+one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 

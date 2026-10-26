@@ -45,7 +45,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 
 | Page on the shell | Becomes |
 |---|---|
-| Masters | 1, moved: each kind's frappe list, the kinds as a tree in the nav pane |
+| Masters | gone: each module's lists at the end of its ControlCenter, frappe's list for each, the module's lists as a tree in the nav pane (docs/ONE.md, stage 5) |
 | Ready to Submit | 1, moved: a script report with a checkbox column and Submit |
 | Intake | 2, moved: the island `onedesk.intake`, the document open in the details pane |
 | Agreements (legal) | 2, moved: a reader, the island `onedesk.legal` |
@@ -71,7 +71,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   what it lists. Its edge, which frappe uses to fold it to the rail, can also
   be dragged: a drag sets `--sidebar-width` (frappe's own variable) between
   180 and 440 px and keeps it per browser; a click still folds. A view that
-  has a tree (OneCloud's folders, OneMail's mailboxes, Masters' kinds) hands
+  has a tree (OneCloud's folders, OneMail's mailboxes, a module's lists) hands
   its rows to the window's tree (`win.tree()`, `window/nav_tree.js`, and
   `windowTree` from an island), which draws them as the rail's own rows
   under the view's row, so there is one place to go somewhere and one way

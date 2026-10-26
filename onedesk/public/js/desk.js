@@ -265,10 +265,12 @@ onedesk.centers.open = (center, { at = null, record = null, module = null } = {}
 		account: () => onedesk.account_center.open({ at, record }),
 		// A module's ControlCenter (onedesk.control_centers), One's own when
 		// no module is named, its files loaded first where they are not
-		// loaded with the desk.
+		// loaded with the desk. A module with lists and no ControlCenter of
+		// its own has one of what every ControlCenter finds (lists.js).
 		settings: async () => {
 			await frappe.require(onedesk.centers.FILES[module] || []);
-			return (onedesk.control_centers[module || "One"] || onedesk.control_centers.One)({ at, record });
+			const open = onedesk.control_centers[module || "One"] || (module && onedesk.lists.center(module)) || onedesk.control_centers.One;
+			return open({ at, record });
 		},
 		access: () => onedesk.access.open({ module, at, record }),
 		notifications: () => onedesk.notification_center.open({ module, at }),
@@ -284,7 +286,10 @@ $(document).on("page-change", () => {
 	onedesk.centers.here = null;
 	const asked = frappe.utils.get_query_params();
 	if (!asked.center) return;
+	// frappe keeps the address's question as the next route's options, so
+	// the list opened from the centre would carry it, and open it again.
 	window.history.replaceState(null, "", window.location.pathname);
+	frappe.route_options = null;
 	onedesk.centers.open(asked.center, asked);
 });
 

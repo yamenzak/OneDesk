@@ -349,7 +349,7 @@ def test_the_engine_names_no_doctype():
 
 
 def test_a_screen_with_a_tree_hands_its_rows_to_the_windows():
-	"""OneCloud's folders, OneMail's mailboxes and Masters' kinds are one tree,
+	"""OneCloud's folders, OneMail's mailboxes and a module's lists are one tree,
 	the window's (window/nav_tree.js), drawn as the rail's own rows; no screen
 	draws a tree of its own, and a rail whose one row is the screen shows only
 	the tree."""
@@ -358,8 +358,8 @@ def test_a_screen_with_a_tree_hands_its_rows_to_the_windows():
 	assert 'class="standard-sidebar-item' in nav and "active-sidebar" in nav and "one-window-count" in nav
 	assert HOOKS.index('"/assets/onedesk/js/window/frame.js"') < HOOKS.index('"/assets/onedesk/js/window/nav_tree.js"')
 	mail = (tree.ROOT / "frontend" / "src" / "mail" / "OneMail.vue").read_text(encoding="utf-8")
-	masters = (tree.APP / "public" / "js" / "masters.js").read_text(encoding="utf-8")
-	assert "windowTree(props.win" in mail and "windowTree(props.win" in CLOUD and "win.tree(" in masters
+	lists = (tree.APP / "public" / "js" / "lists.js").read_text(encoding="utf-8")
+	assert "windowTree(props.win" in mail and "windowTree(props.win" in CLOUD and "win.tree(" in lists
 	for gone in ("cloud/CloudTree.vue", "mail/MailBoxes.vue"):
 		assert not (tree.ROOT / "frontend" / "src" / gone).exists(), gone
 	for path in (tree.ROOT / "frontend" / "src").rglob("*.vue"):

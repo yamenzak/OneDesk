@@ -23386,14 +23386,6 @@ msgstr "Baukörper und Grundrisse"
 msgid "Master Production Schedule"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/masters.py:89 onedesk/one/page/masters/masters.js:3
-#: onedesk/one/page/masters/masters.js:74
-#: onedesk/one/page/masters/masters.js:109 onedesk/one/sidebar/one/one.json
-#: onedesk/one_crm/home.py:71 onedesk/one_hr/home.py:44
-msgid "Masters"
-msgstr "Stammdaten"
-
 #: onedesk/one/letter_heads.py:19
 msgid "Masthead"
 msgstr "Kopfzeile"
@@ -28287,10 +28279,6 @@ msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
 #: onedesk/one_legal/gate.py:162
 msgid "Your role doesn't allow agreeing for the organisation."
 msgstr "Ihre Rolle erlaubt nicht, für die Organisation zuzustimmen."
-
-#: onedesk/one/masters.py:71
-msgid "Only administrators and an app's managers see Masters."
-msgstr "Stammdaten sehen nur Administratoren und die Manager einer App."
 
 #: onedesk/one_hr/hiring.py:836
 msgid "Only an HR Manager can delete the sound of a recorded interview."
@@ -54979,10 +54967,6 @@ msgstr "{0} gehört nicht zu diesem Projekt."
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
 
-#: onedesk/one/masters.py:79
-msgid "{0} is not one of the masters you manage."
-msgstr "{0} gehört nicht zu den Stammdaten, die Sie verwalten."
-
 #: onedesk/one/access.py:269 onedesk/one/access.py:279
 msgid "{0} is not one of the workspace's roles."
 msgstr "{0} ist keine Rolle des Arbeitsbereichs."
@@ -57528,3 +57512,21 @@ msgstr "Anfragen, ein Konto zu löschen oder seine Daten zu kopieren, die neuest
 
 msgid "Who changed what, who signed in, and what left the workspace as a file or a print."
 msgstr "Wer was geändert hat, wer sich angemeldet hat und was den Arbeitsbereich als Datei oder Ausdruck verlassen hat."
+
+msgid "1 value"
+msgstr "1 Wert"
+
+msgid "Lists"
+msgstr "Listen"
+
+msgid "Only administrators and the app's managers keep its lists."
+msgstr "Nur Administratoren und die Manager der App pflegen ihre Listen."
+
+msgid "The values {0}'s records pick from. Each opens as its own list."
+msgstr "Die Werte, aus denen die Datensätze von {0} wählen. Jede öffnet sich als eigene Liste."
+
+msgid "{0} Lists"
+msgstr "{0}-Listen"
+
+msgid "{0} values"
+msgstr "{0} Werte"

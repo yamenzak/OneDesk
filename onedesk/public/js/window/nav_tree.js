@@ -1,6 +1,6 @@
 // The window's tree: rows in the nav pane under a view's rail row, drawn as
 // the rail's own rows so a screen's folders read as the rail going on.
-// OneCloud's folders, OneMail's mailboxes and Masters' kinds are this one
+// OneCloud's folders, OneMail's mailboxes and a module's lists are this one
 // tree; a screen hands it rows and is told what was done to them.
 //
 //   rows   [{ id, label, note, icon, depth, open, active, count, href, title,

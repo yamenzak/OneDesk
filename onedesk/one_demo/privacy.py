@@ -1,12 +1,13 @@
-"""One privacy request waiting for an administrator: Rania asked for a copy
-of her data, so TrustCenter's Requests and the request itself have one to
-show. No deletion is asked for; approving one would delete a demo person."""
+"""One privacy request waiting for an administrator: Samir asked for a copy
+of his data, so TrustCenter's Requests and the request itself have one to
+show. No deletion is asked for; approving one would delete a demo person.
+Not Rania, whom the checks have ask for a copy of her own."""
 
 import frappe
 
 from onedesk.one_demo.base import as_user
 
-ASKER = "rania@one.test"
+ASKER = "samir@one.test"
 
 
 def run(password=None):

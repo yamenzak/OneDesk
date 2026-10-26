@@ -60,7 +60,7 @@ USE_THE_SHELL = {
 
 # Addresses that only open a frappe view in their own place (a rail's or a
 # home's link), or a center over the desk, and draw nothing.
-OPENS_A_VIEW = {"masters", "legal"}
+OPENS_A_VIEW = {"legal"}
 
 ISLAND_PAGES = {"project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "intake", "onemail", "onecloud"}
 

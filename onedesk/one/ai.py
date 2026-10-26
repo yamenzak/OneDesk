@@ -401,10 +401,10 @@ SUGGESTIONS = {
 
 
 #: The section a Settings page opens on when the address names none: its first.
-# Each Masters kind's list offers what Masters offered (one/masters.py).
-from onedesk.one import masters as _masters  # noqa: E402
+# What every module's lists offer (one/lists.py).
+from onedesk.one import lists as _lists  # noqa: E402
 
-SUGGESTIONS.update(_masters.SUGGESTIONS)
+SUGGESTIONS.update(_lists.suggestions())
 
 OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "general", "notifications": "everything", "ai": "oneai"}
 
@@ -414,6 +414,8 @@ def page(said: dict) -> str | None:
 	it is, and where its documentation is. Only the reader's own records, found
 	on the server rather than taken from the browser."""
 	said = {**said, "section": said.get("section") or OPENS_ON.get(said.get("page"), "")}
+	if said.get("section") == "lists":
+		return _lists_page(said.get("page"))
 	if said.get("page") == "account" and said.get("section") == "devices":
 		return (
 			"The reader administers the workspace and is on Devices in AccountCenter: every browser "
@@ -588,6 +590,24 @@ def page(said: dict) -> str | None:
 			else "."
 		)
 		+ " How to use it is in OneAccount's Help under Your Account (how_to)."
+	)
+
+
+def _lists_page(page: str | None) -> str | None:
+	"""Lists, at the end of a module's ControlCenter (one/lists.py): the
+	module's lists the reader keeps, by name."""
+	from onedesk.one import lists
+
+	module = next((one for one in lists.HOMES if one.lower() == page), None)
+	if not module:
+		return None
+	names = [str(label) for doctype, label, _one in lists.declared()[module] if doctype in lists.listed().get(module, ())]
+	return (
+		f"The reader is on Lists in {module}'s ControlCenter: the short lists {module}'s records pick their values "
+		f"from ({', '.join(names) or 'none they keep'}), each with how many values it has, and each opening as its "
+		"own list, where they add, rename or remove a value. Asked to add several values at once, suggest each as "
+		"a new record of that list (create_record), leaving out the ones it has. How is in One's documentation "
+		"under Lists (how_to)."
 	)
 
 

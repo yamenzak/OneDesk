@@ -88,7 +88,7 @@ ANSWERS = {
 	("Page", "permission-manager"): (INSIDE, "AccessCenter › Roles and Profiles"),
 	("DocType", "Document Naming Settings"): (REPLACED, "OneStudio's ControlCenter › Numbering"),
 	("DocType", "User Invitation"): (REPLACED, "AccountCenter › People, Invite"),
-	("DocType", "Address Template"): (INSIDE, "One › Setup › Masters"),
+	("DocType", "Address Template"): (INSIDE, "One's ControlCenter › Lists, the Address Book's"),
 	("DocType", "Print Settings"): (INSIDE, "OneStudio's ControlCenter › Printing"),
 	("DocType", "Print Format Field Template"): (INSIDE, "One's print blocks, laid out in Printing's builder"),
 	("DocType", "Print Format Snippet"): (INSIDE, "OneStudio's ControlCenter › Printing"),

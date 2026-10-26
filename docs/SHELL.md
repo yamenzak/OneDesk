@@ -105,8 +105,8 @@ composes them rather than drawing its own:
   rail calls that list one thing, the crumb says it ("Items / A4 Paper Box",
   "Recycle Bin / …"), on the list, the tree and every record under them
   (`one/titles.py`, `Crumb`). A kind whose home is a page says the page
-  instead, and the rail lights it: a department reads "Masters / Departments
-  / Engineering" (`one_homes` in hooks.py, `one/homes.py`). Both are set in
+  instead, and the rail lights it: a department reads "OneHR Lists /
+  Departments / Engineering" (`one_homes` in hooks.py, `one/homes.py`). Both are set in
   `shell.js` at load, so a record opened by its address reads the same as one
   reached by a click. `tests/test_crumbs.py`.
   `tests/guards/test_shell.py` fails on a back button in a page, on `shell.name`

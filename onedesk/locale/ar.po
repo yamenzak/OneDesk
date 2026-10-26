@@ -23386,14 +23386,6 @@ msgstr "الكتلة والمساقط"
 msgid "Master Production Schedule"
 msgstr ""
 
-#. Label of a Sidebar Item
-#: onedesk/one/masters.py:89 onedesk/one/page/masters/masters.js:3
-#: onedesk/one/page/masters/masters.js:74
-#: onedesk/one/page/masters/masters.js:109 onedesk/one/sidebar/one/one.json
-#: onedesk/one_crm/home.py:71 onedesk/one_hr/home.py:44
-msgid "Masters"
-msgstr "البيانات الأساسية"
-
 #: onedesk/one/letter_heads.py:19
 msgid "Masthead"
 msgstr "الترويسة"
@@ -28287,10 +28279,6 @@ msgstr "لا يمكن تطبيق شيء في النموذج إلا التغيي�
 #: onedesk/one_legal/gate.py:162
 msgid "Your role doesn't allow agreeing for the organisation."
 msgstr "دورك لا يسمح بالموافقة نيابةً عن المؤسسة."
-
-#: onedesk/one/masters.py:71
-msgid "Only administrators and an app's managers see Masters."
-msgstr "لا يرى البيانات الأساسية إلا المسؤولون ومديرو التطبيقات."
 
 #: onedesk/one_hr/hiring.py:836
 msgid "Only an HR Manager can delete the sound of a recorded interview."
@@ -54979,10 +54967,6 @@ msgstr "{0} ليس ضمن هذا المشروع."
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
 
-#: onedesk/one/masters.py:79
-msgid "{0} is not one of the masters you manage."
-msgstr "{0} ليس من البيانات الأساسية التي تديرها."
-
 #: onedesk/one/access.py:269 onedesk/one/access.py:279
 msgid "{0} is not one of the workspace's roles."
 msgstr "{0} ليس من أدوار مساحة العمل."
@@ -57528,3 +57512,21 @@ msgstr "طلبات حذف حساب أو نسخ بياناته، الأحدث أ�
 
 msgid "Who changed what, who signed in, and what left the workspace as a file or a print."
 msgstr "من غيّر ماذا، ومن سجّل الدخول، وما خرج من مساحة العمل ملفًا أو مطبوعًا."
+
+msgid "1 value"
+msgstr "قيمة واحدة"
+
+msgid "Lists"
+msgstr "القوائم"
+
+msgid "Only administrators and the app's managers keep its lists."
+msgstr "لا يدير قوائم التطبيق إلا المسؤولون ومديرو التطبيق."
+
+msgid "The values {0}'s records pick from. Each opens as its own list."
+msgstr "القيم التي تختار منها سجلات {0}. تُفتح كل منها قائمةً مستقلة."
+
+msgid "{0} Lists"
+msgstr "قوائم {0}"
+
+msgid "{0} values"
+msgstr "{0} قيم"

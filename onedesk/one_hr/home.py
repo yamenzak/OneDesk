@@ -41,7 +41,7 @@ SETUP_SECTIONS = (
 	("time", _lt("Time")),
 	("leave", _lt("Leave")),
 	("pay", _lt("Pay")),
-	("lists", _lt("Masters")),
+	("lists", _lt("Lists")),
 )
 
 EVERYTHING = (
@@ -540,9 +540,9 @@ EVERYTHING = (
 		_lt("The kinds of expense somebody may claim."),
 		"pay",
 	),
-	("setup", _lt("Department"), "Masters", "Department", _lt("The company's departments."), "lists"),
-	("setup", _lt("Designation"), "Masters", "Designation", _lt("The roles people hold."), "lists"),
-	("setup", _lt("Branch"), "Masters", "Branch", _lt("Where people work."), "lists"),
+	("setup", _lt("Department"), "List", "Department", _lt("The company's departments."), "lists"),
+	("setup", _lt("Designation"), "List", "Designation", _lt("The roles people hold."), "lists"),
+	("setup", _lt("Branch"), "List", "Branch", _lt("Where people work."), "lists"),
 	(
 		"setup",
 		_lt("Employee Grade"),
@@ -850,7 +850,7 @@ def _interviews() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
-	if kind in ("DocType", "Masters"):
+	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False

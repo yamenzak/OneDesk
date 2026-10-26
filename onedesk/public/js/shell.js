@@ -414,6 +414,13 @@ onedesk.shell.Editor = class Editor {
 	const named = (doctype) => ((frappe.boot.one_titles || {}).Crumb || {})[doctype];
 	const homes = (doctype) => (frappe.boot.one_homes || {})[doctype];
 	const home_crumbs = (home) => home.map((one) => ({ label: __(one.label), href: encodeURI(one.route) }));
+	// A doctype's list, in whichever rail it is open and in any of its views
+	// (/desk/onehr/department, /desk/department/view/List).
+	const is_list = (href, doctype) => {
+		const path = (href || "").split("?")[0].replace(/\/view\/[^/]+(\/.*)?$/, "");
+		const slug = frappe.router.slug(doctype);
+		return path === `/desk/${slug}` || new RegExp(`^/desk/[^/]+/${slug}$`).test(path);
+	};
 
 	const List = frappe.views.BaseList;
 	if (List && !List.prototype.__one_crumbs) {
@@ -424,9 +431,8 @@ onedesk.shell.Editor = class Editor {
 			const home = homes(this.doctype);
 			if (!home) return items;
 			// A home's crumb for this very list names the list itself.
-			const self = `/desk/${frappe.router.slug(this.doctype)}`;
 			const crumbs = home_crumbs(home);
-			const at = crumbs.findIndex((one) => one.href.split("?")[0] === self);
+			const at = crumbs.findIndex((one) => is_list(one.href, this.doctype));
 			if (at >= 0 && items.length) items[items.length - 1] = { ...items[items.length - 1], label: crumbs.splice(at, 1)[0].label };
 			return [...crumbs, ...items];
 		};
@@ -436,8 +442,7 @@ onedesk.shell.Editor = class Editor {
 	if (formed && !formed.__one) {
 		frappe.ui.form.get_breadcrumbs = function (frm) {
 			const items = formed(frm);
-			const list = `/desk/${frappe.router.slug(frm.doctype)}`;
-			const at = items.findIndex((one) => (one.href || "").split("?")[0] === list);
+			const at = items.findIndex((one) => is_list(one.href, frm.doctype));
 			const home = homes(frm.doctype);
 			if (at >= 0 && home) items.splice(at, 1, ...home_crumbs(home));
 			else if (at >= 0 && named(frm.doctype)) items[at] = { ...items[at], label: __(named(frm.doctype)) };
@@ -457,6 +462,15 @@ onedesk.shell.Editor = class Editor {
 			return true;
 		};
 		Sidebar.prototype.find_active_item = function () {
+			// A kind whose home is a row of this rail lights that row, before
+			// frappe's own match, which would light the rail's Home for any
+			// list under it (/desk/onehr/department).
+			const asked = frappe.get_route();
+			const kept = ["Form", "List"].includes(asked[0]) && homes(asked[1]);
+			// A rail's own rows carry its name (/desk/onehr/one?center=…).
+			const tail = kept && kept[0].route.replace(/^\/desk/, "");
+			const exact = kept && $(".item-anchor[href]").filter((_i, a) => a.getAttribute("href").endsWith(tail));
+			if (exact && light(this, exact.first().parent())) return true;
 			if (found.call(this)) return true;
 			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
 			const row = (path) =>

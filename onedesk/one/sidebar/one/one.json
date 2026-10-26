@@ -95,12 +95,25 @@
   },
   {
    "keep_closed": 0,
+   "type": "Link",
+   "label": "Lists",
+   "link_to": null,
+   "link_type": "URL",
+   "icon": "tags",
+   "child": 1,
+   "route_options": null,
+   "idx": 7,
+   "filters": null,
+   "url": "/desk/one?center=settings&module=One&at=lists"
+  },
+  {
+   "keep_closed": 0,
    "type": "Section Break",
    "label": "You",
    "icon": "user",
    "indent": 1,
    "collapsible": 1,
-   "idx": 7
+   "idx": 8
   },
   {
    "keep_closed": 0,
@@ -111,7 +124,7 @@
    "icon": "user",
    "child": 1,
    "route_options": null,
-   "idx": 8,
+   "idx": 9,
    "filters": null,
    "url": "/desk/one?center=account&at=profile"
   },
@@ -124,7 +137,7 @@
    "icon": "bell",
    "child": 1,
    "route_options": null,
-   "idx": 9,
+   "idx": 10,
    "filters": null,
    "url": "/desk/one?center=notifications"
   },
@@ -137,7 +150,7 @@
    "icon": "mail",
    "child": 1,
    "route_options": null,
-   "idx": 10,
+   "idx": 11,
    "filters": null,
    "url": "/desk/one?center=settings&module=OneMail"
   },
@@ -150,7 +163,7 @@
    "icon": "calendar",
    "child": 1,
    "route_options": null,
-   "idx": 11,
+   "idx": 12,
    "filters": null,
    "url": "/desk/one?center=settings&module=OneCalendar&at=link"
   },
@@ -163,7 +176,7 @@
    "icon": "key-round",
    "child": 1,
    "route_options": null,
-   "idx": 12,
+   "idx": 13,
    "filters": null,
    "url": "/desk/one?center=account&at=signin"
   },
@@ -176,7 +189,7 @@
    "icon": "brain",
    "child": 1,
    "route_options": null,
-   "idx": 13,
+   "idx": 14,
    "filters": null,
    "url": "/desk/one?center=ai&at=yours"
   },
@@ -189,7 +202,7 @@
    "icon": "oneintake",
    "child": 1,
    "route_options": null,
-   "idx": 14,
+   "idx": 15,
    "filters": null,
    "url": "/desk/one?center=ai&at=reads"
   },
@@ -201,7 +214,7 @@
    "link_type": "Page",
    "icon": "scale",
    "child": 1,
-   "idx": 15
+   "idx": 16
   },
   {
    "keep_closed": 0,
@@ -210,7 +223,7 @@
    "icon": "building-2",
    "indent": 1,
    "collapsible": 1,
-   "idx": 16
+   "idx": 17
   },
   {
    "keep_closed": 0,
@@ -221,7 +234,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": null,
-   "idx": 17,
+   "idx": 18,
    "filters": null,
    "url": "/desk/one?center=settings&module=One&at=general"
   },
@@ -234,7 +247,7 @@
    "icon": "users",
    "child": 1,
    "route_options": null,
-   "idx": 18,
+   "idx": 19,
    "filters": null,
    "url": "/desk/one?center=account&at=people"
   },
@@ -247,7 +260,7 @@
    "icon": "shield-check",
    "child": 1,
    "route_options": null,
-   "idx": 19,
+   "idx": 20,
    "filters": null,
    "url": "/desk/one?center=access&at=access"
   },
@@ -260,7 +273,7 @@
    "icon": "scroll-text",
    "child": 1,
    "route_options": null,
-   "idx": 20,
+   "idx": 21,
    "filters": null,
    "url": "/desk/one?center=access&at=audit"
   },
@@ -273,7 +286,7 @@
    "icon": "monitor-smartphone",
    "child": 1,
    "route_options": null,
-   "idx": 21,
+   "idx": 22,
    "filters": null,
    "url": "/desk/one?center=account&at=devices"
   },
@@ -286,7 +299,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": null,
-   "idx": 22,
+   "idx": 23,
    "filters": null,
    "url": "/desk/one?center=account&at=plan"
   },
@@ -299,28 +312,9 @@
    "icon": "globe",
    "child": 1,
    "route_options": null,
-   "idx": 23,
+   "idx": 24,
    "filters": null,
    "url": "/desk/one?center=account&at=domains"
-  },
-  {
-   "keep_closed": 1,
-   "type": "Section Break",
-   "label": "Setup",
-   "icon": "settings",
-   "indent": 1,
-   "collapsible": 1,
-   "idx": 24
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Masters",
-   "link_to": "masters",
-   "link_type": "Page",
-   "icon": "database",
-   "child": 1,
-   "idx": 25
   },
   {
    "keep_closed": 1,
@@ -330,7 +324,7 @@
    "icon": "oneai",
    "indent": 1,
    "collapsible": 1,
-   "idx": 26
+   "idx": 25
   },
   {
    "keep_closed": 0,
@@ -341,7 +335,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": null,
-   "idx": 27,
+   "idx": 26,
    "filters": null,
    "url": "/desk/one?center=ai"
   },
@@ -354,7 +348,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 28
+   "idx": 27
   },
   {
    "keep_closed": 0,
@@ -365,7 +359,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 29
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -376,7 +370,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 30
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -387,7 +381,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 31
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -398,7 +392,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 32
+   "idx": 31
   },
   {
    "keep_closed": 0,
@@ -409,7 +403,7 @@
    "link_type": "Report",
    "link_to": "Ready to Submit",
    "icon": "file-check",
-   "idx": 33
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -420,7 +414,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 34
+   "idx": 33
   },
   {
    "keep_closed": 0,
@@ -431,10 +425,10 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 35
+   "idx": 34
   }
  ],
- "modified": "2026-10-27 10:00:00.000000",
+ "modified": "2026-11-06 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

@@ -1,7 +1,7 @@
 // OneHR's ControlCenter (docs/ONE.md): Holidays, the lists of public
 // holidays and weekly days off, for the workspace's administrators
-// (one_hr/control.py, one_hr/holidays.py). A list other than the one in
-// force opens as the record the tab is on.
+// (one_hr/control.py, one_hr/holidays.py), and OneHR's Lists (lists.js).
+// A holiday list other than the one in force opens as the record the tab is on.
 frappe.provide("onedesk.hr_control");
 
 onedesk.HRSection = class HRSection extends onedesk.CenterSection {
@@ -127,27 +127,24 @@ onedesk.HRSection = class HRSection extends onedesk.CenterSection {
 	}
 };
 
+// Holidays are the administrators'; HR's managers who aren't one keep
+// OneHR's lists alone.
 onedesk.hr_control.open = ({ at = null, record = null } = {}) => {
-	if (!frappe.boot.one_administers) {
+	const lists = ((frappe.boot.one_lists || {}).OneHR || []).length;
+	if (!frappe.boot.one_administers && !lists) {
 		frappe.show_alert({ message: __("Only the workspace's administrators set the holidays."), indicator: "orange" });
 		return null;
 	}
+	const holidays = onedesk.center_section.tab(onedesk.HRSection, {
+		id: "holidays",
+		label: __("Holidays"),
+		icon: "calendar-days",
+		about: __("The public holidays and weekly days off leave and attendance count around."),
+		record: at === "holidays" ? record : null,
+	});
 	const dialog = onedesk.module_settings.open({
 		module: "OneHR",
-		tabs: [
-			{
-				group: null,
-				items: [
-					onedesk.center_section.tab(onedesk.HRSection, {
-						id: "holidays",
-						label: __("Holidays"),
-						icon: "calendar-days",
-						about: __("The public holidays and weekly days off leave and attendance count around."),
-						record: at === "holidays" ? record : null,
-					}),
-				],
-			},
-		],
+		tabs: frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : [],
 		default_tab: at,
 	});
 	dialog.show();

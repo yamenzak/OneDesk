@@ -208,8 +208,18 @@ moves its version.
    first, filtered by kind, each row opening frappe's record
    (`audit.log`). One's rail loses Privacy and Audit Log, and its
    Workspace group gains Audit Log.
-5. **Masters go home.** `LISTS` in each module, Lists in each ControlCenter,
-   the shared four placed, the Masters page and `masters.py` deleted.
+5. **Masters go home.** Built. Each module declares its lists as `LISTS` in
+   its `lists.py`, and `one/lists.py` is the engine (`HOMES`, `listed`,
+   `kinds`, `homes`, `place`). Every ControlCenter ends with Lists
+   (`public/js/lists.js`, found by `module_settings.open` as the centres
+   are), one row per list with its count, each opening frappe's list in the
+   module's own rail with the module's other lists beside it. Salutation,
+   Gender and Address Template are One's (Address Book › Lists), Print
+   Heading OneStudio's. OneCRM, OneBook, OneInventory and OneProject have
+   no ControlCenter of their own yet, so theirs holds only what every
+   ControlCenter finds, and each module's rail has a Lists row that opens
+   it. A list's trail reads "OneHR Lists / Departments". The Masters page,
+   `masters.py` and `masters.js` are deleted, and One's rail has no Setup.
 6. **OneAI's rail leaves One's.** OneAI gets its own rail with what is in
    One's OneAI group today.
 7. **One's own places.** AccessCenter and NotificationCenter into One's

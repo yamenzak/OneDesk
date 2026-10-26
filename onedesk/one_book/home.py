@@ -371,14 +371,14 @@ EVERYTHING = (
 	("setup", _lt("Chart of Accounts"), "DocType", "Account", _lt("The accounts the books are kept in.")),
 	("setup", _lt("Cost Center"), "DocType", "Cost Center", _lt("The parts of the business costs and income are kept by.")),
 	("setup", _lt("Fiscal Year"), "DocType", "Fiscal Year", _lt("The years the books are kept and closed in.")),
-	("setup", _lt("Finance Book"), "Masters", "Finance Book", _lt("A second set of books, such as for tax depreciation.")),
+	("setup", _lt("Finance Book"), "List", "Finance Book", _lt("A second set of books, such as for tax depreciation.")),
 	("setup", _lt("Period Closing Voucher"), "DocType", "Period Closing Voucher", _lt("A year closed, its profit carried into equity.")),
 	("setup", _lt("Opening Invoice Creation Tool"), "DocType", "Opening Invoice Creation Tool", _lt("What customers and suppliers owed when you started.")),
 	("setup", _lt("Sales Taxes and Charges Template"), "DocType", "Sales Taxes and Charges Template", _lt("The taxes a sale carries.")),
 	("setup", _lt("Purchase Taxes and Charges Template"), "DocType", "Purchase Taxes and Charges Template", _lt("The taxes a purchase carries.")),
 	("setup", _lt("Item Tax Template"), "DocType", "Item Tax Template", _lt("A rate for items taxed differently.")),
 	("setup", _lt("Tax Rule"), "DocType", "Tax Rule", _lt("Which tax template a sale or purchase takes, by party and place.")),
-	("setup", _lt("Tax Category"), "Masters", "Tax Category", _lt("Groups of customers and suppliers taxed alike.")),
+	("setup", _lt("Tax Category"), "List", "Tax Category", _lt("Groups of customers and suppliers taxed alike.")),
 	("setup", _lt("Code List"), "DocType", "Code List", _lt("A published list of codes an electronic invoice uses, such as units.")),
 	("setup", _lt("Common Code"), "DocType", "Common Code", _lt("One code of a code list, and what it stands for here.")),
 	("setup", _lt("Tax Withholding Category"), "DocType", "Tax Withholding Category", _lt("Tax held back from what is paid to suppliers.")),
@@ -518,7 +518,7 @@ def drafts() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
-	if kind in ("DocType", "Masters"):
+	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False

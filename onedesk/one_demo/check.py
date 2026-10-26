@@ -4808,10 +4808,10 @@ def a_saved_report_is_its_makers_and_runs_no_code():
 def the_one_home_lists_and_the_bin_answer_for_their_people():
 	"""The One home's figures as Samir and as Layla, what needs Layla's
 	attention, a saved report placed in OneCRM's sidebar for everybody,
-	the shared lists of values read, added to, renamed and counted, next
+	every module's lists read, added to and counted, next
 	year's holidays made and put in force with the country's own public
 	holidays, and a deleted project task brought back from the bin."""
-	from onedesk.one import home, masters, recycle
+	from onedesk.one import home, lists, recycle
 	from onedesk.one_hr import holidays
 	from onedesk.one_studio import reports
 
@@ -4832,12 +4832,18 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 		assert reports.where("Report", saved.name) | {"places": None} == {"module": crm, "everybody": 1, "places": None, "administers": 1}
 		assert reports.where("Report", saved.name)
 		assert reports.sidebars()
-		kinds = masters.kinds()
-		assert kinds and {one["doctype"] for one in kinds} == set(masters.listed())
-		assert all(set(one) == {"group", "doctype", "label", "mark", "count"} for one in kinds)
+		kept = lists.listed()
+		assert set(kept) == set(lists.HOMES), kept
+		for module, doctypes in kept.items():
+			kinds = lists.kinds(module)
+			assert [one["doctype"] for one in kinds] == doctypes, (module, kinds)
+			assert all(set(one) == {"doctype", "label", "count"} for one in kinds)
 		territory = frappe.get_doc({"doctype": "Territory", "territory_name": "Oman"}).insert()
-		assert territory.parent_territory, "a tree's new value goes under its root (masters.place)"
-		assert masters.homes()["Territory"][1]["route"] == "/desk/territory"
+		assert territory.parent_territory, "a tree's new value goes under its root (lists.place)"
+		assert lists.homes()["Territory"] == [
+			{"label": "OneCRM Lists", "route": "/desk/one?center=settings&module=OneCRM&at=lists"},
+			{"label": "Territories", "route": "/desk/territory"},
+		]
 		assert holidays.subdivisions("AE") is not None
 		public = holidays.country_holidays("AE", f"{getdate(today()).year + 1}-01-01", f"{getdate(today()).year + 1}-12-31")
 		assert public, "no public holidays for the Emirates next year"
@@ -7402,7 +7408,7 @@ def onebook_home_tells_how_the_money_is_doing():
 		overdue = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Overdue"}, pluck="name")
 		assert overdue and said["needs"]["overdue"]["count"] == len(overdue), (said["needs"]["overdue"], overdue)
 		for row in said["everything"]:
-			kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+			kind = "DocType" if row["kind"] == "List" else row["kind"]
 			assert frappe.db.exists(kind, row["target"]), row
 		record = frappe.get_doc("Record Head", "Sales Invoice")
 		late = head.said(frappe.get_doc("Sales Invoice", overdue[0]), record)
@@ -7440,7 +7446,7 @@ def onecrm_home_tells_how_selling_is_going():
 		due = said["needs"]["opportunities"]["rows"] + said["needs"]["leads"]["rows"]
 		assert due and all(one["on"] for one in due), due
 		for row in said["everything"]:
-			kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+			kind = "DocType" if row["kind"] == "List" else row["kind"]
 			assert frappe.db.exists(kind, row["target"]), row
 		from onedesk.one_ai import chat, suggest
 
@@ -8802,7 +8808,7 @@ def onehr_home_tells_everybody_their_day():
 	assert said["needs"]["flagged"]["count"] >= 1
 	assert [one["step"] for one in told["hiring"]["funnel"]] == list(story.FUNNEL)
 	for row in said["everything"]:
-		kind = "DocType" if row["kind"] == "Masters" else row["kind"]
+		kind = "DocType" if row["kind"] == "List" else row["kind"]
 		assert frappe.db.exists(kind, row["target"]), row
 	with as_user("nadia@one.test"):
 		assert story.read() is None

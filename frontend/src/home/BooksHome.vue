@@ -140,7 +140,7 @@ const chips = computed(() => {
   ].filter(Boolean);
 });
 
-const ICONS = { DocType: "lucide-list", Report: "lucide-chart-column", Page: "lucide-layout-panel-top", Masters: "lucide-tags" };
+const ICONS = { DocType: "lucide-list", Report: "lucide-chart-column", Page: "lucide-layout-panel-top", List: "lucide-tags" };
 
 function slug(doctype) {
   return doctype.toLowerCase().replace(/ /g, "-");
@@ -149,7 +149,6 @@ function slug(doctype) {
 function route(one) {
   if (one.kind === "Report") return `/desk/query-report/${encodeURIComponent(one.target)}`;
   if (one.kind === "Page") return `/desk/${one.target}`;
-  if (one.kind === "Masters") return `/desk/masters?type=${encodeURIComponent(one.target)}`;
   const filters = Object.entries(one.filters || {}).map(([key, value]) => `${key}=${encodeURIComponent(typeof value === "object" ? JSON.stringify(value) : value)}`);
   return `/desk/${slug(one.target)}${filters.length ? `?${filters.join("&")}` : ""}`;
 }

@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onestudio",
  "idx": 0,
- "modified": "2026-10-27 09:00:00.000000",
+ "modified": "2026-11-06 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Studio",
  "name": "OneStudio",
@@ -117,12 +117,25 @@
   },
   {
    "keep_closed": 0,
+   "type": "Link",
+   "label": "Lists",
+   "link_to": null,
+   "link_type": "URL",
+   "icon": "tags",
+   "child": 1,
+   "route_options": null,
+   "idx": 7,
+   "filters": null,
+   "url": "/desk/one?center=settings&module=OneStudio&at=lists"
+  },
+  {
+   "keep_closed": 0,
    "type": "Section Break",
    "label": "Automation",
    "icon": "workflow",
    "indent": 1,
    "collapsible": 1,
-   "idx": 7
+   "idx": 8
   },
   {
    "child": 1,
@@ -139,7 +152,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 8
+   "idx": 9
   },
   {
    "child": 1,
@@ -156,7 +169,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 9
+   "idx": 10
   },
   {
    "child": 1,
@@ -173,7 +186,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 10
+   "idx": 11
   },
   {
    "child": 1,
@@ -190,7 +203,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 11
+   "idx": 12
   }
  ]
 }

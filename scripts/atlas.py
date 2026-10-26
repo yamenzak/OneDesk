@@ -239,7 +239,7 @@ _ROUTED = re.compile(
 )
 _NEW = re.compile(r"""new_doc\(\s*["']([^"']+)["']""")
 _PAGE = re.compile(r"""set_route\(\s*["']([a-z0-9-]+)["']\s*\)""")
-_DIRECTORY = re.compile(r"""_lt\("[^"]*"\),\s*"(DocType|Report|Page|Masters)",\s*"([^"]+)\"""")
+_DIRECTORY = re.compile(r"""_lt\("[^"]*"\),\s*"(DocType|Report|Page|List)",\s*"([^"]+)\"""")
 
 
 def _slug(name: str) -> str:
@@ -275,7 +275,7 @@ def named() -> dict:
 		if "one_demo" in path.parts or "__pycache__" in path.parts:
 			continue
 		for kind, name in _DIRECTORY.findall(path.read_text()):
-			add("DocType" if kind == "Masters" else kind, name, f"{path.parent.name}'s Home")
+			add("DocType" if kind == "List" else kind, name, f"{path.parent.name}'s Home")
 	return found
 
 

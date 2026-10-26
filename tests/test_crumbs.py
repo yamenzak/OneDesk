@@ -37,12 +37,12 @@ def test_a_crumb_says_what_the_rail_says_and_leads_home():
 	assert "Sidebar.prototype.find_active_item = function" in SHELL
 	assert "frappe.breadcrumbs" not in REPORTS and "BaseList.prototype.get_breadcrumbs" in REPORTS
 	assert "TreeView.prototype.set_title" in REPORTS and "crumb(this.doctype)" in REPORTS
-	assert 'one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]' in HOOKS
+	assert 'one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]' in HOOKS
 	titles = (tree.APP / "one" / "titles.py").read_text()
 	assert 'found["Crumb"]' in titles and "len(labels) == 1" in titles
-	masters = (tree.APP / "one" / "masters.py").read_text()
-	homes = masters.split("def homes(", 1)[1].split("\ndef ", 1)[0]
-	assert '"route": "/desk/masters"' in homes and "f\"/desk/{doctype.lower().replace(' ', '-')}\"" in homes
+	lists = (tree.APP / "one" / "lists.py").read_text()
+	homes = lists.split("def homes(", 1)[1].split("\ndef ", 1)[0]
+	assert "&at=lists" in homes and "f\"/desk/{doctype.lower().replace(' ', '-')}\"" in homes
 
 
 def test_a_folded_group_opens_around_the_page_it_holds():

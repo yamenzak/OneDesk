@@ -1254,6 +1254,7 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 		("Timesheet Billing Summary", "Timesheet Billing Summary"),
 		("Daily Timesheet Summary", "Daily Timesheet Summary"),
 		("Stock by Project", "Stock by Project"),
+		("Lists", None),
 	]
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places

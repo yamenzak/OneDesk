@@ -428,7 +428,7 @@ Settings**, **Get in Touch Form**, **Sales Stage**, **Sales Person**,
 carries, among them a **Promotional Scheme** and the **Party Specific Items**
 a customer is offered. **Support** has Support Settings, the **Service Level
 Agreement**, Issue Type and Issue Priority; **Telephony** the call types and
-who answers which line when. The lists are kept in One's **Masters**.
+who answers which line when. The lists are kept in OneCRM's **Lists**.
 **Campaign** in the rail has Campaign, Email Campaign and Email Group;
 Campaign Efficiency is under Reports.
 The workspace's mailboxes are in OneMail › Settings.

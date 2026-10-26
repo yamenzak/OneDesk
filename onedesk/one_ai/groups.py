@@ -326,7 +326,6 @@ PAGES = {
 	"onecloud": "files",
 	"workbook": "workbooks",
 	"document": "documents",
-	"masters": "workspace",
 	"one-admin": "console",
 	"item-view": "inventory",
 	"stock-on-hand": "inventory",

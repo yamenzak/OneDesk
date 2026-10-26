@@ -941,7 +941,7 @@ NOTE_LEVELS = {1: ("read", "write"), 2: ("read",)}
 
 MASTER = ("read", "write", "create", "delete")
 
-MASTERS_GIVEN = "onedesk_masters_given"
+LISTS_GIVEN = "onedesk_masters_given"
 
 DESK = "Desk User"
 
@@ -952,7 +952,7 @@ def settle() -> None:
 	for page in PAGES:
 		roles.open_page(page)
 	_note_levels()
-	_masters()
+	_lists()
 	_everybody("Report", "create")
 	_own_reports()
 	_everybody("Deleted Document", "read")
@@ -971,18 +971,20 @@ def _note_levels() -> None:
 			update_permission_property("Note", roles.ADMINISTRATOR, level, ptype, 1, validate=False)
 
 
-def _masters() -> None:
-	"""The administrator manages every master, and an app's managers its own.
-	erpnext keeps several for a role of its own (Customer Group for its Sales
-	Master Manager), so One's managers are given them once each."""
-	from onedesk.one.masters import KINDS
+def _lists() -> None:
+	"""The administrator keeps every module's lists (one/lists.py), and an
+	app's managers its own. erpnext keeps several for a role of its own
+	(Customer Group for its Sales Master Manager), so One's managers are
+	given them once each."""
+	from onedesk.one.lists import kinds_of
 	from onedesk.one.people import APPS
 
-	roles.grant({doctype: MASTER for _group, doctype, _label, _one in KINDS if frappe.db.exists("DocType", doctype)})
+	kinds = kinds_of()
+	roles.grant({doctype: MASTER for _module, doctype, _label, _one in kinds if frappe.db.exists("DocType", doctype)})
 	managers = {label: roles_ for label, _code, _users, roles_ in APPS}
 	roles.raise_once(
-		{doctype: dict.fromkeys(managers.get(group, ()), MASTER) for group, doctype, _label, _one in KINDS},
-		MASTERS_GIVEN,
+		{doctype: dict.fromkeys(managers.get(module, ()), MASTER) for module, doctype, _label, _one in kinds},
+		LISTS_GIVEN,
 	)
 
 

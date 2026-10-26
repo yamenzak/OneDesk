@@ -259,7 +259,7 @@ No doctypes yet.
 * `onedesk.one.home.meetings_today`
 * `onedesk.one.home.suggestions_waiting`
 * `onedesk.one.home.tasks_due`
-* `onedesk.one.masters.kinds`
+* `onedesk.one.lists.kinds`
 * `onedesk.one.notification_center.choose`
 * `onedesk.one.notification_center.set_type`
 * `onedesk.one.notification_center.switch`
