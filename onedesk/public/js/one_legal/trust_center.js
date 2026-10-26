@@ -100,9 +100,9 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		});
 		page({
 			id: "companies",
-			label: __("Subprocessors"),
+			label: __("Companies"),
 			icon: "building-2",
-			title: __("Subprocessors"),
+			title: __("Companies That Receive Data"),
 			description: __("Every company that receives data, and whether yours uses it."),
 			html: "",
 			after(panel) {

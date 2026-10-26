@@ -4,7 +4,6 @@ and what was used; and for everybody, what OneAI keeps about them. Every
 value stays where it was kept; this only reads and writes it."""
 
 import importlib
-
 import json
 
 import frappe
@@ -74,6 +73,10 @@ def _tiers() -> list[dict]:
 
 
 def _credits() -> float | None:
+	"""The balance last heard from the account, or nothing while the
+	workspace isn't connected to one, rather than a balance of nothing."""
+	if not account.configured():
+		return None
 	held = frappe.db.get_single_value("Workspace Account", "credits_balance")
 	return float(held) if held is not None else None
 
@@ -234,7 +237,7 @@ def usage() -> dict:
 	if not may()["usage"]:
 		frappe.throw(_("Your role doesn't allow seeing OneAI's usage."), frappe.PermissionError)
 	if not account.configured():
-		return {"reached": False, "jobs": []}
+		return {"reached": False, "linked": False, "jobs": []}
 	end = getdate()
 	try:
 		_columns, rows, *_rest = ai_credits.execute({"from_date": add_days(end, -29), "to_date": end, "by": "Job"})

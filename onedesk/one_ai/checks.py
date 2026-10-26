@@ -63,7 +63,8 @@ def ai_center_sets_the_tier_and_a_modules_part():
 			center.set_reading_on(1)
 		assert apps.intake_on()
 		assert center.summaries() and isinstance(center.knowledge(), list)
-		assert center.usage() == {"reached": False, "jobs": []} or center.usage()["reached"]
+		used = center.usage()
+		assert used["reached"] or not used["jobs"], used
 
 
 @check

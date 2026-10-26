@@ -890,7 +890,7 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | AI Chat | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | AI Chunk | engine: pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  | **none** |  |  |  |  |
+| AI Knowledge | on a rail or a home | everybody | untouched | no | taught |  | yes |  |  |  |  |
 | AI Memory | inside: Workspace Settings › Privacy lists and forgets what OneAI remembers | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | AI Proposal | on a rail or a home | everybody | a head, list script | no | general |  | yes |  |  |  |  |
 | AI Touch | engine: what OneAI wrote into a record, read back as the AI badge on it | **nobody** | untouched | no | general |  | yes |  |  |  |  |

@@ -9,6 +9,7 @@
 ],
 "AI Knowledge": [
 "All",
+"OneAI Manager",
 "Workspace Administrator"
 ],
 "AI Memory": [
@@ -1265,16 +1266,6 @@
 "Installed Applications": [
 "System Manager"
 ],
-"Reading Action": [
-"Desk User",
-"Workspace Administrator"
-],
-"Reading Lesson": [
-"Workspace Administrator"
-],
-"Reading Settings": [
-"Workspace Administrator"
-],
 "Integration Request": [
 "System Manager"
 ],
@@ -1547,6 +1538,7 @@
 "System Manager"
 ],
 "Legal Acceptance": [
+"OneLegal Manager",
 "Workspace Administrator"
 ],
 "Legal Document Version": [
@@ -2207,6 +2199,16 @@
 "System Manager"
 ],
 "Reading": [
+"Workspace Administrator"
+],
+"Reading Action": [
+"Desk User",
+"Workspace Administrator"
+],
+"Reading Lesson": [
+"Workspace Administrator"
+],
+"Reading Settings": [
 "Workspace Administrator"
 ],
 "Record Head": [],
@@ -3025,6 +3027,7 @@
 },
 "kept": [
 "AI Chat",
+"AI Knowledge",
 "AI Proposal",
 "AI Touch",
 "Account",
@@ -3180,7 +3183,6 @@
 "Incoming Call Settings",
 "Incoterm",
 "Industry Type",
-"Reading Action",
 "Interview",
 "Interview Feedback",
 "Interview Type",
@@ -3304,6 +3306,7 @@
 "Quotation",
 "Quotation Lost Reason",
 "Reading",
+"Reading Action",
 "Record Head",
 "Record Type",
 "Report",

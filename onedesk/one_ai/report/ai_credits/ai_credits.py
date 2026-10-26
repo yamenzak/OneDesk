@@ -24,6 +24,8 @@ def execute(filters=None):
 
 	from onedesk.one_admin import faults
 
+	if not account.configured():
+		return _columns(by), [], frappe._("This workspace isn't connected to its account yet, so this isn't available.")
 	try:
 		said = account.ask("onedesk.one_admin.proxy.ai_usage", start=str(start), end=str(end)) or {}
 	except faults.Again:

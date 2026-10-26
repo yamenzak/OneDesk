@@ -625,7 +625,7 @@ The guards each point names, as they stand:
   workspace stand on it, and the changes to those. **The whole**, from the
   shield in the bottom bar, from Read in Full, from the arrows at the top of
   a module's part, and from `/desk/legal`: every **Agreement** in full,
-  **Optional Services**, **Subprocessors** (struck through where unused),
+  **Optional Services**, **Companies** (struck through where unused),
   **Your Data** and **Changes**. The Agreements island and the Legal tab
   are gone.
 - **The laws.** `one_legal/laws.py`; One's own clauses name their duties in
@@ -696,7 +696,7 @@ sidebar is:
   sends data to, and its optional services with their switches;
 - **Agreements**: each one, its version, when it takes effect, who agreed
   and when, every earlier version, and print;
-- **Subprocessors**: every company, what it gets, where, under which
+- **Companies**: every company, what it gets, where, under which
   safeguard, and which app sends it. One a workspace doesn't use is struck
   through, marked **Not used by this workspace**;
 - **Your data**: what is kept and for how long, the full export, and how to

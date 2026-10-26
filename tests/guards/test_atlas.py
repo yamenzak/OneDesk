@@ -225,7 +225,7 @@ EMPTY = {
 	"hrms / HR": 0,
 	"hrms / Payroll": 9,
 	"onedesk / One": 0,
-	"onedesk / One AI": 1,
+	"onedesk / One AI": 0,
 	"onedesk / One Admin": 9,
 	"onedesk / One Calendar": 1,
 	"onedesk / One HR": 0,

@@ -16810,7 +16810,7 @@ msgstr "التنفيذ"
 
 #: onedesk/one_admin/home.py:331 onedesk/one_admin/home.py:354
 msgid "Full"
-msgstr ""
+msgstr "كامل"
 
 #. Label of the export_status (Select) field in DocType 'Workspace Account'
 #: onedesk/one/doctype/workspace_account/workspace_account.json
@@ -57473,3 +57473,9 @@ msgstr "كتابة الحقائق والشروط والسياسات التي ي�
 
 msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr "دورك لا يسمح بكتابة معرفة OneAI."
+
+msgid "Companies"
+msgstr "الشركات"
+
+msgid "Companies That Receive Data"
+msgstr "الشركات التي تتلقى البيانات"

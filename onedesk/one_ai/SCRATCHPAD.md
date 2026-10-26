@@ -27,6 +27,10 @@ answered leaves it.
   attachments in one mail, a PDF longer than one Clairic pass, the same
   invoice twice, and a currency written as a word (docs/AICENTER.md, stage
   4). The readers handle the first four; the fifth relies on the talk read.
+- **The demo workspace isn't connected to a control plane on this bench,**
+  so AICenter's Usage and Balance say "Not Connected Yet" and the AI
+  Credits report says it isn't available. A workspace OneAdmin runs shows
+  both; the READY pass read them in code and checks only.
 - **Fixed on the way:** `brief.py` defined `_off()` twice, so turning a
   record type's summaries off never took; the second is `_mailboxes_off()`.
 

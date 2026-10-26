@@ -39,8 +39,7 @@
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled",
-   "default": "1",
-   "in_list_view": 1
+   "default": "1"
   },
   {
    "fieldname": "body_section",
@@ -55,7 +54,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-09-23 18:00:00.000000",
+ "modified": "2026-10-26 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Knowledge",

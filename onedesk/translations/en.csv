@@ -29,3 +29,6 @@ User not allowed to synchronize data from Frappe CRM on ERPNext. Contact System 
 "WARNING: Exotel app has been separated from ERPNext, please install the app to continue using Exotel integration.","WARNING: Exotel app has been separated from One, please install the app to continue using Exotel integration.",
 WARNING: Loan Management module has been separated from ERPNext.,WARNING: Loan Management module has been separated from One.,
 [Important] [ERPNext] Auto Reorder Errors,[Important] [One] Auto Reorder Errors,
+AI Chat,Conversation,
+AI Knowledge,Knowledge,
+AI Proposal,Suggestion,

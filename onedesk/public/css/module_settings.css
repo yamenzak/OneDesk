@@ -390,3 +390,17 @@ the radio, and what it says may run to two lines. */
 .one-notify .one-notify-list .one-set-switch .switch-text {
 	display: none;
 }
+
+/* On a phone every centre (the settings and docs dialogs) stacks its list of
+   pages above the page, which then has the screen's whole width. */
+@media (max-width: 640px) {
+	.settings-dialog-wrapper .settings-dialog {
+		flex-direction: column;
+	}
+	.settings-dialog-wrapper .settings-dialog-sidebar {
+		width: 100%;
+		max-height: 34vh;
+		border-bottom-left-radius: 0;
+		border-top-right-radius: var(--radius-lg);
+	}
+}

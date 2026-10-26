@@ -41,8 +41,7 @@
    "fieldtype": "Float",
    "label": "Credits Spent",
    "precision": "6",
-   "read_only": 1,
-   "in_list_view": 1
+   "read_only": 1
   },
   {
    "fieldname": "model",
@@ -74,7 +73,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-03 10:00:00.000000",
+ "modified": "2026-10-26 16:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Chat",

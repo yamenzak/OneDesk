@@ -1,6 +1,6 @@
 .one-ai-dial {
 	position: fixed;
-	right: 24px;
+	inset-inline-end: 24px;
 	bottom: 24px;
 	z-index: 1030;
 	width: 52px;
@@ -41,7 +41,7 @@
 .one-ai-dial__count {
 	position: absolute;
 	top: -2px;
-	right: -2px;
+	inset-inline-end: -2px;
 	min-width: 20px;
 	height: 20px;
 	padding: 0 5px;
@@ -60,7 +60,7 @@
 
 .one-ai-panel {
 	position: fixed;
-	right: 24px;
+	inset-inline-end: 24px;
 	bottom: 88px;
 	z-index: 1029;
 	display: flex;
@@ -936,7 +936,7 @@
 		width: auto;
 		height: calc(100vh - 96px);
 	}
-	.one-ai-dial { right: 16px; bottom: 16px; }
+	.one-ai-dial { inset-inline-end: 16px; bottom: 16px; }
 	body:has(.one-ai-panel) .one-ai-dial { display: none; }
 }
 

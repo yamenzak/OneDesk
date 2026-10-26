@@ -315,7 +315,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		async render(panel) {
 			const said = await frappe.xcall(C + "usage", {}, "GET");
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			if (!said.reached) return $list.append(kit.empty(__("The account could not be reached.")));
+			if (!said.reached) return $list.append(kit.empty(said.linked === false ? __("Not Connected Yet") : __("The account could not be reached.")));
 			if (!said.jobs.length) return $list.append(kit.empty(__("No usage")));
 			for (const one of said.jobs) {
 				kit.row({

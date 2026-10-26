@@ -2662,7 +2662,10 @@ def oneai_a_conversation_its_cards_and_its_settings():
 		with mock.patch("onedesk.one.account.ask", return_value=[{"tier": "balanced", "credits": 0.4}]):
 			held = center.state()
 		assert set(held) == {"on", "tier", "tiers", "credits"} and held["tier"] in {"fast", "balanced", "full"}, "a workspace sets no model and no words"
-		with mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}):
+		with (
+			mock.patch("onedesk.one.account.configured", return_value=True),
+			mock.patch("onedesk.one.account.ask", return_value={"actions": [{"action": chat.CHAT, "calls": 3, "credits": 1.5}]}),
+		):
 			said = ai.workspace_oneai()
 		assert said["last_30_days"][0]["calls"] == 3 and said["summaries"], said
 
