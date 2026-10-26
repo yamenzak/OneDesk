@@ -75,8 +75,14 @@ MODULES = {
 		"folder": "one_account",
 		"screens": "account",
 		"names": ("one_account", "oneaccount"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+		},
 		"windowless": "AccountCenter is a dialog the avatar's menu and links open, so OneAccount has no window, foot or settings of its own.",
 		"help": (
 			("overview", "info"),
@@ -90,8 +96,14 @@ MODULES = {
 		"folder": "one",
 		"screens": "one",
 		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("home", "house"),
