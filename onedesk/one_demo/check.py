@@ -579,7 +579,7 @@ def the_books_lock_up_to_today_at_most():
 
 @check
 def nobody_is_turned_on_past_the_seats():
-	from onedesk.one.settings import seats_used
+	from onedesk.one.people import seats_used
 
 	frappe.db.set_value("User", "yousef@one.test", "enabled", 0)
 	frappe.db.set_single_value("Workspace Account", "seats", seats_used())
@@ -3552,7 +3552,8 @@ def one_a_private_app_is_always_on():
 	and uninstalling it is refused."""
 	from unittest.mock import patch
 
-	from onedesk.one import apps, private
+	from onedesk.one import apps
+	from onedesk.one_account import private
 
 	said = {"name": "acme_fleet", "title": "Acme Fleet", "said": "Acme's vans.", "icon": "truck"}
 	with patch.object(private, "names", return_value=["acme_fleet"]), patch.object(private, "about", return_value=said), patch.object(private, "rail", return_value=set()):
@@ -3632,8 +3633,8 @@ def one_devices_decide_where_a_passkey_lives():
 	that signs for him. Lost retires the laptop's and leaves the phone's."""
 	import json
 
-	from onedesk.one import devices
-	from onedesk.one.signin import facts
+	from onedesk.one_account import devices
+	from onedesk.one_account.signin import facts
 	from onedesk.one_demo.setup import BUILDER
 	from onedesk.one_hr import passkey
 
@@ -3869,6 +3870,7 @@ def settings_open_and_save_for_each_person():
 	reset and signs her out, and writes and drops a notification rule
 	through OneAI. What OneAI remembers is kept and forgotten."""
 	from onedesk.one import ai, rules, settings
+	from onedesk.one_account import center
 	from onedesk.one_ai import run as runs
 
 	with as_user("rania@one.test"):
@@ -3877,17 +3879,21 @@ def settings_open_and_save_for_each_person():
 		for one in mine["sections"]:
 			if one["key"] not in settings.OPENS:
 				settings.load(one["key"])
+		hers = center.sections_of()
+		assert {one["group"] for one in hers["sections"]} == {"yours"}
+		for one in hers["sections"]:
+			center.load(one["key"])
 		try:
-			settings.load("people")
+			center.load("people")
 			raise AssertionError("Rania opened People")
 		except frappe.PermissionError:
 			pass
-		loaded = settings.load("profile")
-		settings.save("profile", {"mobile_no": "+971 50 555 0142"}, loaded["opened"])
+		loaded = center.load("profile")
+		center.save("profile", {"mobile_no": "+971 50 555 0142"}, loaded["opened"])
 		assert frappe.db.get_value("User", "rania@one.test", "mobile_no") == "+971 50 555 0142"
 		stale = [{**one, "modified": "2020-01-01 00:00:00"} for one in loaded["opened"]]
 		try:
-			settings.save("profile", {"mobile_no": "+971 50 555 0199"}, stale)
+			center.save("profile", {"mobile_no": "+971 50 555 0199"}, stale)
 			raise AssertionError("a stale page overwrote a newer save")
 		except frappe.TimestampMismatchError:
 			pass
@@ -3897,21 +3903,23 @@ def settings_open_and_save_for_each_person():
 		settings.keep("I work from the Bayview site on Tuesdays.")
 		settings.forget_all()
 		assert not frappe.db.exists("AI Memory", {"owner": "rania@one.test"})
-		assert settings.sign_out_elsewhere() == 1
+		assert center.sign_out_elsewhere() == 1
 	with as_user(OWNER):
 		every = settings.sections()
 		assert every["admin"]
 		for one in every["sections"]:
 			if one["key"] not in settings.OPENS:
 				settings.load(one["key"])
-		settings.invite("hana@one.test", "Hana", "Rizk", {"OneCRM": "User"})
+		for one in center.sections_of()["sections"]:
+			center.load(one["key"])
+		center.invite("hana@one.test", "Hana", "Rizk", {"OneCRM": "User"})
 		assert frappe.db.exists("User", "hana@one.test")
-		settings.invite_again("hana@one.test")
-		settings.set_enabled("nadia@one.test", 0)
+		center.invite_again("hana@one.test")
+		center.set_enabled("nadia@one.test", 0)
 		assert frappe.db.get_value("User", "nadia@one.test", "enabled") == 0
-		settings.set_enabled("nadia@one.test", 1)
-		settings.send_reset("nadia@one.test")
-		settings.sign_out_everywhere("nadia@one.test")
+		center.set_enabled("nadia@one.test", 1)
+		center.send_reset("nadia@one.test")
+		center.sign_out_everywhere("nadia@one.test")
 		assert rules.fields_of("Sales Invoice")
 		assert rules.watchable("DocType", "Sales", "name", 0, 20)
 		drafted = ai.draft_notification("Big Invoice", "Sales Invoice", "Submit", "Invoice {{ doc.name }} is out", roles=["Accounts Manager"])
@@ -4298,7 +4306,7 @@ def the_payer_downloads_everything_and_closes_the_workspace():
 	import zipfile
 	from unittest import mock
 
-	from onedesk.one import closing
+	from onedesk.one_account import closing
 
 	frappe.db.set_single_value("Workspace Account", "billed_to", OWNER)
 	folder = frappe.get_site_path("private", "closing")
@@ -4377,7 +4385,8 @@ def a_supplier_is_invited_to_the_portal_and_answers_a_quote_request():
 	outside the supplier cannot answer it."""
 	from unittest import mock
 
-	from onedesk.one import invite, outside, portal, portal_invite
+	from onedesk.one import outside, portal, portal_invite
+	from onedesk.one_account import invite
 
 	contact = _party_contact("Supplier")
 	supplier = frappe.db.get_value("Dynamic Link", {"parent": contact, "link_doctype": "Supplier"}, "link_name")
@@ -5875,9 +5884,15 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 	none of it, and the build's wake call is answered for a guest."""
 	from unittest import mock
 
-	from onedesk.one import account, bills
+	from onedesk.one import account
+	from onedesk.one_account import bills
 
-	with as_user(OWNER), mock.patch("onedesk.one.account.ask", side_effect=_account), mock.patch("onedesk.one.account.refresh"):
+	with (
+		as_user(OWNER),
+		mock.patch("onedesk.one.account.ask", side_effect=_account),
+		mock.patch("onedesk.one.account.configured", return_value=True),
+		mock.patch("onedesk.one.account.refresh"),
+	):
 		assert account.credit_packs()[0]["label"] == "500 credits"
 		assert account.buy_credits("credits-500")["url"].startswith("https://checkout.stripe.com/")
 		assert account.plans_offered()["current"] == "Team"
@@ -5892,7 +5907,7 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 		account.domain_drop("erp.saharaglass.com")
 		assert bills.invoices()["invoices"][0]["number"] == "ONE-2026-0042"
 		assert bills.payment_portal()["url"].startswith("https://billing.stripe.com/")
-		with mock.patch("onedesk.one.bills._attach"):
+		with mock.patch("onedesk.one_account.bills._attach"):
 			bill = bills.to_books("ONE-2026-0042")
 		made = frappe.get_doc("Purchase Invoice", bill)
 		assert made.bill_no == "ONE-2026-0042" and made.discount_amount == 20 and made.docstatus == 0
@@ -5963,7 +5978,8 @@ def push_reaches_a_persons_own_browsers():
 	tells her it changed. The push service is not called."""
 	from unittest import mock
 
-	from onedesk.one import push, signin
+	from onedesk.one import push
+	from onedesk.one_account import signin
 
 	endpoint = "https://fcm.googleapis.com/fcm/send/demo-rania"
 	with as_user("rania@one.test"):
@@ -8677,6 +8693,7 @@ def the_workspace_tells_what_the_second_pass_found():
 	from unittest.mock import patch
 
 	from onedesk.one import approvals, settings, tell
+	from onedesk.one.people import told_of_access
 	from onedesk.one_legal import gate
 
 	told = []
@@ -8691,7 +8708,7 @@ def the_workspace_tells_what_the_second_pass_found():
 
 	with patch("onedesk.one.notify.notify", side_effect=heard):
 		with as_user(OWNER):
-			settings._told_of_access(frappe.get_doc("User", "mariam@one.test"), {"Workspace Administrator"}, set())
+			told_of_access(frappe.get_doc("User", "mariam@one.test"), {"Workspace Administrator"}, set())
 		assert OWNER not in said("Administrator Removed")[1]
 
 		with as_user(OWNER):
@@ -8980,7 +8997,8 @@ def the_workspace_tells_what_it_promised_to():
 	from types import SimpleNamespace
 	from unittest.mock import patch
 
-	from onedesk.one import account, signin, tell
+	from onedesk.one import account, tell
+	from onedesk.one_account import signin
 	from onedesk.one_admin import tell as admin
 	from onedesk.one_ai.reading import tell as intake
 	from onedesk.one_studio import tell as studio

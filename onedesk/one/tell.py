@@ -58,7 +58,7 @@ def credits_expiring(people: list[str], credits: str, date: str) -> None:
 def storage_nearly_full(people: list[str], used, limit) -> None:
 	"""The files crossed nine tenths of what the plan holds."""
 	from onedesk.one import account
-	from onedesk.one.heads import size
+	from onedesk.one_account.heads import size
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Storage Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
@@ -67,7 +67,7 @@ def storage_nearly_full(people: list[str], used, limit) -> None:
 def database_nearly_full(people: list[str], used, limit) -> None:
 	"""The database crossed nine tenths of what the plan holds."""
 	from onedesk.one import account
-	from onedesk.one.heads import size
+	from onedesk.one_account.heads import size
 
 	slots = {"used": size(used), "limit": size(limit)}
 	notify.notify("Database Nearly Full", people, link=account.PAGE, sender="Administrator", **slots)
@@ -139,7 +139,7 @@ def domain_stopped_working(people: list[str], domain: str, target: str | None) -
 
 def _everybody() -> list[str]:
 	"""Everybody who signs in to the workspace, the payer included."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	return frappe.get_all(
 		"User",
@@ -217,7 +217,7 @@ def access_changed(user: str, changes: str) -> None:
 
 def administrator_added(doc) -> None:
 	"""A new administrator, told to every other one, and always mailed."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	admins = [
 		one for one in roles.administrators() if one not in (doc.name, frappe.session.user, *NOT_PEOPLE)
@@ -226,7 +226,7 @@ def administrator_added(doc) -> None:
 	notify.notify(
 		"Administrator Added",
 		admins,
-		link="/desk/workspace-settings?section=people",
+		link="/desk/one?center=account&at=people",
 		sender="Administrator",
 		**slots,
 	)
@@ -236,7 +236,7 @@ def _said() -> dict:
 	"""When, from which device and address: what a security notice says."""
 	from frappe.utils import now_datetime
 
-	from onedesk.one.signin import device
+	from onedesk.one_account.signin import device
 
 	agent = frappe.request.headers.get("User-Agent") if getattr(frappe.local, "request", None) else None
 	return {
@@ -249,7 +249,7 @@ def _said() -> dict:
 def new_sign_in(user: str) -> None:
 	"""A person signed in from a device they had not used before."""
 	notify.notify(
-		"New Sign-in", user, link="/desk/settings?section=signin", sender="Administrator", **_said()
+		"New Sign-in", user, link="/desk/one?center=account&at=signin", sender="Administrator", **_said()
 	)
 
 
@@ -257,7 +257,7 @@ def password_changed(user: str) -> None:
 	"""A person's password changed."""
 	slots = _said()
 	notify.notify(
-		"Password Changed", user, link="/desk/settings?section=signin", sender="Administrator", **slots
+		"Password Changed", user, link="/desk/one?center=account&at=signin", sender="Administrator", **slots
 	)
 
 
@@ -265,14 +265,14 @@ def passkey_added(user: str) -> None:
 	"""A passkey was added to a person's account."""
 	slots = _said()
 	notify.notify(
-		"Passkey Added", user, link="/desk/settings?section=signin", sender="Administrator", **slots
+		"Passkey Added", user, link="/desk/one?center=account&at=signin", sender="Administrator", **slots
 	)
 
 
 def passkey_turned_off(user: str, device: str) -> None:
 	"""An administrator sorted, lost or retired a device a passkey of theirs was on."""
 	notify.notify(
-		"Passkey Turned Off", user, link="/desk/settings?section=signin", sender="Administrator", device=device
+		"Passkey Turned Off", user, link="/desk/one?center=account&at=signin", sender="Administrator", device=device
 	)
 
 
@@ -384,7 +384,7 @@ def copy_ready_to_download(request: str, address: str, withheld: str) -> None:
 def announced(doc) -> None:
 	"""A note made public, told once to everybody but whoever posted it."""
 	from onedesk.one.announcements import NOTE, SAID
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	people = frappe.get_all(
 		"User",
@@ -605,7 +605,7 @@ class Reminder(_FrappeReminder):
 
 def administrator_removed(doc) -> None:
 	"""An administrator no more, told to every other one, and always mailed."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	admins = [
 		one for one in roles.administrators() if one not in (doc.name, frappe.session.user, *NOT_PEOPLE)
@@ -613,7 +613,7 @@ def administrator_removed(doc) -> None:
 	notify.notify(
 		"Administrator Removed",
 		admins,
-		link="/desk/workspace-settings?section=people",
+		link="/desk/one?center=account&at=people",
 		sender="Administrator",
 		person=doc.full_name or doc.name,
 		by=frappe.utils.get_fullname(),
@@ -623,7 +623,7 @@ def administrator_removed(doc) -> None:
 def sign_in_rules_changed(said: list[str]) -> None:
 	"""Two-factor, the password policy, lockouts or sharing changed, told to
 	every other administrator, and always mailed."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	admins = [one for one in roles.administrators() if one not in (frappe.session.user, *NOT_PEOPLE)]
 	notify.notify(

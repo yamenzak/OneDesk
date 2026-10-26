@@ -58,7 +58,7 @@ def _apps() -> dict:
 	"""The apps a record type may belong to, as their rail's module, and the
 	roles that use and manage each."""
 	from onedesk.one import reports
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	held = {one["label"]: one["module"] for one in reports.places()}
 	out = {"One": {"module": held.get("One"), "users": ("Desk User",), "managers": ()}}

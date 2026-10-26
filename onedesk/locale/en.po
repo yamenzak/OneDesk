@@ -66,3 +66,6 @@ msgstr "OneIntake"
 msgid "One Legal"
 msgstr "OneLegal"
 
+
+msgid "One Account"
+msgstr "OneAccount"

@@ -17,7 +17,7 @@ def attachments_not_saved(doc) -> None:
 	notify.notify(
 		"Attachments Not Saved",
 		list(dict.fromkeys([*roles.administrators(), *holders])),
-		link="/desk/workspace-settings?section=plan",
+		link="/desk/one?center=account&at=plan",
 		sender="Administrator",
 		mailbox=frappe.db.get_value("Email Account", doc.email_account, "email_id") or doc.email_account,
 	)

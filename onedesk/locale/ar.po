@@ -7301,11 +7301,6 @@ msgstr "تنسيق معدّل"
 msgid "Changed {0}"
 msgstr "غيّر {0}"
 
-#. Message of a notification
-#: onedesk/notifications/one/sign_in_rules_changed.md
-msgid "Changed: {what}. If you did not expect this, check Workspace › Sign-in now."
-msgstr "تغيّر: {what}. إن لم تتوقع هذا، فتحقّق من مساحة العمل › تسجيل الدخول الآن."
-
 #. Label of a Sidebar Item
 #. Label of the changes_section (Section Break) field in DocType 'AI Proposal'
 #. Label in the One Promotion Letter print format
@@ -16770,11 +16765,6 @@ msgid "From {0}, for {1}"
 msgstr "من {0}، إلى {1}"
 
 #. Message of a notification
-#: onedesk/notifications/one/new_sign_in.md
-msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else in You › Sign-in."
-msgstr "من {device}، على العنوان {address}، في {when}. إن كنت أنت، فلا حاجة لأي إجراء. وإن لم تكن، فغيّر كلمة المرور وسجّل الخروج من كل مكان آخر في أنت › تسجيل الدخول."
-
-#. Message of a notification
 #: onedesk/notifications/one_hr/leave_asked.md
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr "من {from_date} إلى {to_date}. وافق عليه أو ارفضه."
@@ -17110,10 +17100,6 @@ msgstr "التشغيل"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Go live"
 msgstr "التشغيل"
-
-#: onedesk/one/ai.py:36
-msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
-msgstr "اشرح لي صفحة الملف الشخصي: ما الغرض من كل جزء، وما الذي لا يغيّره إلا الموارد البشرية."
 
 #: onedesk/one_ai/suggest.py:21
 msgid "Go through these settings with me: which ones matter for a company like ours, what each is set to now, and what you would change. Suggest the changes."
@@ -18539,10 +18525,6 @@ msgstr "استلمت المعدات المذكورة أعلاه بحالة جي�
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "أحتاج خطابًا من الموارد البشرية — شهادة راتب أو شهادة خبرة أو خطاب توظيف. اسألني أيها ولمن هو، ثم صِغه."
 
-#: onedesk/public/js/settings.js:1603
-msgid "I understand everything in it will be deleted"
-msgstr "أفهم أن كل ما فيها سيُحذف"
-
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:14
 msgid "I want a new collection."
 msgstr "أريد مجموعة جديدة."
@@ -19931,7 +19913,7 @@ msgstr "مفوتر {0}"
 #: onedesk/one/print_blocks.py:674
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/public/js/settings.js:1442 onedesk/public/js/tenant.js:9
-#: onedesk/templates/includes/one_account_tabs.html:3
+#: onedesk/templates/includes/admin_account_tabs.html:3
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
 msgstr "الفواتير"
@@ -27982,11 +27964,6 @@ msgstr "لا يفعل OneAI هنا إلا ما يحق لهذا الشخص فعل
 msgid "OneAI does not read new mail."
 msgstr "لا يقرأ OneAI البريد الجديد."
 
-#. Message of a notification
-#: onedesk/notifications/one/credits_ran_out.md
-msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Workspace › Plan and Credits."
-msgstr "يتوقف OneAI، وتنتظر المستندات دون قراءة، حتى تُضاف أرصدة. اشترِ حزمة أو انتقل إلى خطة أكبر في مساحة العمل › الخطة والأرصدة."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:2028
 msgid "OneAI edited this workbook. Reopen it to see the changes."
 msgstr "عدّل OneAI هذا المصنف. أعد فتحه لرؤية التغييرات."
@@ -32248,7 +32225,7 @@ msgstr "خدمات مهنية"
 #: onedesk/one/settings.py:16 onedesk/one/settings.py:1053
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/settings.js:1052
 #: onedesk/public/js/settings.js:1200
-#: onedesk/templates/includes/one_account_tabs.html:4
+#: onedesk/templates/includes/admin_account_tabs.html:4
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
 msgid "Profile"
 msgstr "الملف الشخصي"
@@ -41717,7 +41694,7 @@ msgstr "هذا الرمز لا يفتح تطبيقًا لمساحة العمل �
 msgid "That did not go through."
 msgstr "لم يتم ذلك."
 
-#: onedesk/templates/includes/one_account_pay.html:18
+#: onedesk/templates/includes/admin_account_pay.html:18
 #: onedesk/www/account_profile.html:57 onedesk/www/start.html:118
 #: onedesk/www/welcome.html:105
 msgid "That did not work. Try again in a moment."
@@ -43360,11 +43337,6 @@ msgstr "لا تفتح مساحة العمل عليه بعد."
 msgid "The workspace has run out of OneAI credits. It is read as soon as more are added."
 msgstr "نفدت أرصدة OneAI في مساحة العمل. يُقرأ فور إضافة المزيد."
 
-#. Message of a notification
-#: onedesk/notifications/one/credits_running_low.md
-msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Workspace › Plan and Credits."
-msgstr "تبقّى لمساحة العمل {balance} من أرصدة OneAI، أي نحو {days} يومًا بمعدل الثلاثين يومًا الماضية. اشترِ المزيد من مساحة العمل › الخطة والأرصدة."
-
 #: onedesk/one_admin/heads.py:269
 msgid "The workspace is being built."
 msgstr "يجري إنشاء مساحة العمل."
@@ -43391,33 +43363,13 @@ msgid "The workspace keeps working for {0} days and everyone is notified. Then s
 msgstr "تبقى مساحة العمل تعمل لمدة {0} يومًا ويُبلَّغ الجميع. ثم يتوقف تسجيل الدخول وتُحذف بعد بضعة أسابيع."
 
 #. Message of a notification
-#: onedesk/notifications/one/domain_stopped_working.md
-msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Workspace › Domains."
-msgstr "لم تعد مساحة العمل تُفتح على {domain}. تحقق من أن DNS الخاص به لا يزال يشير إلى {target}، ثم اضغط تحقق مرة أخرى في مساحة العمل › النطاقات."
-
-#. Message of a notification
 #: onedesk/notifications/one/credits_added.md
 msgid "The workspace now has {balance} credits.{note}"
 msgstr "لدى مساحة العمل الآن {balance} رصيد.{note}"
 
-#. Message of a notification
-#: onedesk/notifications/one/domain_working.md
-msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
-msgstr "تُفتح مساحة العمل الآن على {domain}. ليستخدمه تسجيل الدخول والروابط في البريد، اجعله العنوان الرئيسي في مساحة العمل › النطاقات."
-
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
 msgstr "تغيّرت تطبيقات مساحة العمل. أعد التحميل لرؤيتها."
-
-#. Message of a notification
-#: onedesk/notifications/one/database_nearly_full.md
-msgid "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Workspace › Plan and Credits before it is full."
-msgstr "تشغل قاعدة بيانات مساحة العمل {used} من {limit} التي تسمح بها خطتها. أضف قاعدة بيانات أو انتقل إلى خطة أكبر من مساحة العمل › الخطة والأرصدة قبل أن تمتلئ."
-
-#. Message of a notification
-#: onedesk/notifications/one/storage_nearly_full.md
-msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Workspace › Plan and Credits."
-msgstr "تشغل ملفات مساحة العمل {used} من {limit} تسمح بها خطتها. عند امتلائها لا يمكن رفع شيء جديد. أضف مساحة أو انتقل إلى خطة أكبر في مساحة العمل › الخطة والأرصدة."
 
 #: onedesk/one_admin/heads.py:419
 msgid "The workspace's main address."
@@ -46018,11 +45970,6 @@ msgstr "طرف غير معروف."
 #: onedesk/public/js/onemail.js:281
 msgid "Unknown sender"
 msgstr "مرسل غير معروف"
-
-#. Message of a notification
-#: onedesk/notifications/one/payment_overdue.md
-msgid "Unless it is paid, the workspace is suspended on {date}. Pay it on Workspace › Plan and Credits."
-msgstr "ما لم يُدفع، تُعلَّق مساحة العمل في {date}. ادفعه في مساحة العمل › الخطة والأرصدة."
 
 #: onedesk/public/js/settings.js:1702 onedesk/public/js/settings.js:1709
 msgid "Unlimited"
@@ -51233,7 +51180,7 @@ msgstr "قاعدة مساحة العمل"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:116
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:164
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/templates/includes/one_account_tabs.html:2
+#: onedesk/templates/includes/admin_account_tabs.html:2
 msgid "Workspaces"
 msgstr "مساحات العمل"
 
@@ -51918,7 +51865,7 @@ msgstr "صناديق بريدك"
 msgid "Your notifications are off."
 msgstr "إشعاراتك متوقفة."
 
-#: onedesk/templates/includes/one_account_tabs.html:1
+#: onedesk/templates/includes/admin_account_tabs.html:1
 #: onedesk/www/account.html:2
 msgid "Your One account"
 msgstr "حسابك في One"
@@ -54455,10 +54402,6 @@ msgstr "{0} من {1}"
 msgid "{0} from {1} to {2}."
 msgstr "{0} من {1} إلى {2}."
 
-#: onedesk/public/js/settings.js:1812
-msgid "{0} gives you this for {1} a month, {2} less."
-msgstr "{0} يمنحك هذا مقابل {1} شهريًا، أقل بـ {2}."
-
 #: onedesk/one/head.py:160 onedesk/one/linked.py:127
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} يمر عبر {1}، وهو ليس رابطًا."
@@ -56570,11 +56513,6 @@ msgid "{by} kept the workspace open. Nothing changes."
 msgstr "أبقى {by} مساحة العمل مفتوحة. لا شيء يتغيّر."
 
 #. Message of a notification
-#: onedesk/notifications/one/administrator_added.md
-msgid "{by} made them one. If you did not expect this, check Workspace › People now."
-msgstr "جعله {by} مسؤولًا. إن لم تتوقع هذا، فتحقّق من مساحة العمل › الأشخاص الآن."
-
-#. Message of a notification
 #: onedesk/notifications/one_admin/workspace_moved_to_you.md
 msgid "{by} made you the billing contact for {workspace}. Its invoices and payment notices now come to you. Sign in with this address. If this is a mistake, reply to this email."
 msgstr "جعلك {by} جهة الاتصال للفوترة في {workspace}. تصلك الآن فواتيرها وإشعارات الدفع. سجّل الدخول بهذا العنوان. إن كان هذا خطأ، فردّ على هذه الرسالة."
@@ -56603,11 +56541,6 @@ msgstr "أرسل إليك {by} {what}"
 #: onedesk/notifications/one_inventory/material_request_stopped.md
 msgid "{by} stopped your request {request}"
 msgstr "أوقف {by} طلبك {request}"
-
-#. Message of a notification
-#: onedesk/notifications/one/administrator_removed.md
-msgid "{by} took it away. If you did not expect this, check Workspace › People now."
-msgstr "أزاله {by}. إن لم تتوقع هذا، فتحقّق من مساحة العمل › الأشخاص الآن."
 
 #. Message of a notification
 #: onedesk/notifications/one_book/credit_limit_crossed.md
@@ -57479,3 +57412,93 @@ msgstr "الشركات"
 
 msgid "Companies That Receive Data"
 msgstr "الشركات التي تتلقى البيانات"
+
+msgid "Change what you need and press Save, and a newer change by somebody else stops yours with a message."
+msgstr "غيّر ما تحتاج واضغط حفظ، وإذا سبقك أحد بتغيير أحدث يتوقف تغييرك برسالة."
+
+msgid "Changed: {what}. If you did not expect this, check Sign-in in AccountCenter now."
+msgstr "تم التغيير: {what}. إن لم تكن تتوقع هذا، فراجع تسجيل الدخول في AccountCenter الآن."
+
+msgid "Could Not Open This"
+msgstr "تعذّر فتح هذا"
+
+msgid "Delete Everything"
+msgstr "حذف كل شيء"
+
+msgid "Everybody who works here, each with the apps their work needs."
+msgstr "كل من يعمل هنا، ولكل منهم التطبيقات التي يحتاجها عمله."
+
+msgid "Everyone in the workspace, and inviting someone new."
+msgstr "كل من في مساحة العمل، ودعوة شخص جديد."
+
+msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else on Sign-in in AccountCenter."
+msgstr "من {device}، من العنوان {address}، في {when}. إن كنت أنت، فلا شيء عليك. وإن لم تكن، فغيّر كلمة المرور وسجّل الخروج من كل مكان آخر في تسجيل الدخول في AccountCenter."
+
+msgid "Go through my profile with me: what each part is for, and what only HR can change."
+msgstr "راجع ملفي الشخصي معي: ما فائدة كل جزء، وما الذي لا يغيّره إلا قسم الموارد البشرية."
+
+msgid "I understand everything in the workspace will be deleted."
+msgstr "أفهم أن كل شيء في مساحة العمل سيُحذف."
+
+msgid "Invite Your People"
+msgstr "ادعُ فريقك"
+
+msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Plan and Credits in AccountCenter."
+msgstr "لن يعمل OneAI بعد الآن، وستنتظر المستندات دون قراءة، حتى يُضاف رصيد. اشترِ باقة أو انتقل إلى خطة أكبر في الخطة والأرصدة في AccountCenter."
+
+msgid "Saved When You Say"
+msgstr "يُحفظ حين تقرّر"
+
+msgid "See the plan, its seats and storage, OneAI credits and invoices."
+msgstr "اطّلع على الخطة ومقاعدها ومساحة التخزين ورصيد OneAI والفواتير."
+
+msgid "The addresses the workspace answers on."
+msgstr "العناوين التي تفتح عليها مساحة العمل."
+
+msgid "The company's computers and phones, and the passkeys on people's own."
+msgstr "حواسيب الشركة وهواتفها، ومفاتيح المرور على أجهزة الأشخاص الخاصة."
+
+msgid "The plan, its seats and storage, OneAI credits and invoices."
+msgstr "الخطة ومقاعدها ومساحة التخزين ورصيد OneAI والفواتير."
+
+msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
+msgstr "تبقّى لمساحة العمل {balance} من رصيد OneAI، أي نحو {days} يومًا بمعدل الثلاثين يومًا الماضية. اشترِ المزيد في الخطة والأرصدة في AccountCenter."
+
+msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Domains in AccountCenter."
+msgstr "لم تعد مساحة العمل تفتح على {domain}. تأكّد أن DNS الخاص به ما زال يشير إلى {target}، ثم اضغط تحقق مرة أخرى في النطاقات في AccountCenter."
+
+msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in AccountCenter."
+msgstr "صارت مساحة العمل تفتح على {domain}. لاستخدامه في تسجيل الدخول والروابط في البريد، اجعله العنوان الرئيسي في النطاقات في AccountCenter."
+
+msgid "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Plan and Credits in AccountCenter before it is full."
+msgstr "تشغل قاعدة بيانات مساحة العمل {used} من {limit} تسمح بها خطتها. أضف مساحة لقاعدة البيانات أو انتقل إلى خطة أكبر في الخطة والأرصدة في AccountCenter قبل أن تمتلئ."
+
+msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Plan and Credits in AccountCenter."
+msgstr "تشغل ملفات مساحة العمل {used} من {limit} تسمح بها خطتها. حين تمتلئ لا يمكن رفع أي جديد. أضف مساحة تخزين أو انتقل إلى خطة أكبر في الخطة والأرصدة في AccountCenter."
+
+msgid "Unless it is paid, the workspace is suspended on {date}. Pay it on Plan and Credits in AccountCenter."
+msgstr "ما لم تُدفع، ستُعلَّق مساحة العمل في {date}. ادفعها في الخطة والأرصدة في AccountCenter."
+
+msgid "Your name, photo and language, and your employee details if you have them."
+msgstr "اسمك وصورتك ولغتك، وبيانات الموظف إن كانت لديك."
+
+msgid "Your password, your passkey and where you are signed in."
+msgstr "كلمة المرور ومفتاح المرور والأماكن التي سجّلت الدخول منها."
+
+msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."
+msgstr "ملفك الشخصي وطريقة تسجيل دخولك، وللمسؤولين: أشخاص مساحة العمل وأجهزتها وخطتها ونطاقاتها."
+
+msgid "Yours, Then the Workspace's"
+msgstr "ما يخصّك، ثم ما يخصّ مساحة العمل"
+
+msgid "{0} Saves {1}"
+msgstr "{0} يوفّر {1}"
+
+msgid "{0} gives you this for {1} a month."
+msgstr "{0} يمنحك هذا مقابل {1} شهريًا."
+
+msgid "{by} made them one. If you did not expect this, check People in AccountCenter now."
+msgstr "جعله {by} واحدًا منهم. إن لم تكن تتوقع هذا، فراجع الأشخاص في AccountCenter الآن."
+
+msgid "{by} took it away. If you did not expect this, check People in AccountCenter now."
+msgstr "سحبه {by}. إن لم تكن تتوقع هذا، فراجع الأشخاص في AccountCenter الآن."

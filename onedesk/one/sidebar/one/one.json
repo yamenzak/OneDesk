@@ -106,13 +106,14 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "Profile",
-   "link_to": "settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "user",
    "child": 1,
-   "route_options": "{\"section\": \"profile\"}",
+   "route_options": null,
    "idx": 9,
-   "filters": "{\"section\": \"profile\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=profile"
   },
   {
    "keep_closed": 0,
@@ -154,13 +155,14 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "Sign-in",
-   "link_to": "settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "key-round",
    "child": 1,
-   "route_options": "{\"section\": \"signin\"}",
+   "route_options": null,
    "idx": 13,
-   "filters": "{\"section\": \"signin\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=signin"
   },
   {
    "keep_closed": 0,
@@ -221,13 +223,14 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "People",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "users",
    "child": 1,
-   "route_options": "{\"section\": \"people\"}",
+   "route_options": null,
    "idx": 19,
-   "filters": "{\"section\": \"people\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=people"
   },
   {
    "keep_closed": 0,
@@ -245,13 +248,14 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "Devices",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "monitor-smartphone",
    "child": 1,
-   "route_options": "{\"section\": \"devices\"}",
+   "route_options": null,
    "idx": 21,
-   "filters": "{\"section\": \"devices\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=devices"
   },
   {
    "keep_closed": 0,
@@ -269,25 +273,27 @@
    "keep_closed": 0,
    "type": "Link",
    "label": "Plan and Credits",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "credit-card",
    "child": 1,
-   "route_options": "{\"section\": \"plan\"}",
+   "route_options": null,
    "idx": 23,
-   "filters": "{\"section\": \"plan\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=plan"
   },
   {
    "keep_closed": 0,
    "type": "Link",
    "label": "Domains",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "globe",
    "child": 1,
-   "route_options": "{\"section\": \"domains\"}",
+   "route_options": null,
    "idx": 24,
-   "filters": "{\"section\": \"domains\"}"
+   "filters": null,
+   "url": "/desk/one?center=account&at=domains"
   },
   {
    "keep_closed": 1,
@@ -618,7 +624,7 @@
    "idx": 53
   }
  ],
- "modified": "2026-10-26 15:00:00.000000",
+ "modified": "2026-10-26 18:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

@@ -129,7 +129,7 @@ def _mailboxes() -> list[dict]:
 
 
 def _account() -> list[dict]:
-	from onedesk.one import account, settings
+	from onedesk.one import account, people
 
 	held = frappe.get_single("Workspace Account")
 	said = []
@@ -139,7 +139,7 @@ def _account() -> list[dict]:
 				{
 					"what": _("{0} is not working").format(row.domain),
 					"detail": row.get("problem") or _("The workspace does not open at it yet."),
-					"route": "/desk/workspace-settings?section=domains",
+					"route": "/desk/one?center=account&at=domains",
 				}
 			)
 	month = flt(held.credits_month)
@@ -150,7 +150,7 @@ def _account() -> list[dict]:
 				"detail": _("{0} left, about three days at the rate the workspace uses them.").format(
 					frappe.utils.fmt_money(flt(held.credits_balance), precision=0).strip()
 				),
-				"route": "/desk/workspace-settings?section=plan",
+				"route": "/desk/one?center=account&at=plan",
 			}
 		)
 	for used, limit, label in (
@@ -162,16 +162,16 @@ def _account() -> list[dict]:
 				{
 					"what": label,
 					"detail": _("{0}% used.").format(int(flt(used) / flt(limit) * 100)),
-					"route": "/desk/workspace-settings?section=plan",
+					"route": "/desk/one?center=account&at=plan",
 				}
 			)
 	seats = int(held.seats or 0)
-	if seats and settings.seats_used() >= seats:
+	if seats and people.seats_used() >= seats:
 		said.append(
 			{
 				"what": _("All seats are in use"),
 				"detail": _("Disable someone or add seats to invite more people."),
-				"route": "/desk/workspace-settings?section=plan",
+				"route": "/desk/one?center=account&at=plan",
 			}
 		)
 	if flt(held.owing):
@@ -179,7 +179,7 @@ def _account() -> list[dict]:
 			{
 				"what": _("A payment is overdue"),
 				"detail": _("Pay it from Payment Method so the workspace stays open."),
-				"route": "/desk/workspace-settings?section=plan",
+				"route": "/desk/one?center=account&at=plan",
 			}
 		)
 	return said

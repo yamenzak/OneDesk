@@ -23,21 +23,9 @@ def _load(names):
 	return space
 
 
-S = _load({"SECTIONS", "OPENS", "APPS", "LEVELS", "level_of", "roles_for", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "_masked"})
+S = _load({"SECTIONS", "OPENS"})
 
 
-def test_a_level_is_read_from_the_roles_a_person_holds():
-	used, managed = ("Sales User",), ("Sales Manager",)
-	assert S["level_of"]({"Sales Manager"}, used, managed) == "Manager"
-	assert S["level_of"]({"Sales User", "Desk User"}, used, managed) == "User"
-	assert S["level_of"]({"Desk User"}, used, managed) == "None"
-
-
-def test_a_manager_uses_the_app_as_well():
-	used, managed = ("Stock User", "Purchase User"), ("Stock Manager",)
-	assert S["roles_for"]("Manager", used, managed) == {"Stock User", "Purchase User", "Stock Manager"}
-	assert S["roles_for"]("User", used, managed) == {"Stock User", "Purchase User"}
-	assert S["roles_for"]("None", used, managed) == set()
 
 
 def test_every_section_has_a_loader_and_a_drawing():
@@ -54,9 +42,6 @@ def test_every_section_has_a_loader_and_a_drawing():
 
 def test_every_workspace_section_is_for_its_administrators():
 	source = SETTINGS.read_text()
-	for name in ("sign_out_everywhere", "send_reset", "set_enabled", "invite"):
-		body = source.split(f"def {name}(", 1)[1].split("\n@frappe.whitelist", 1)[0]
-		assert "roles.require()" in body, name
 	assert re.search(r'if _group\(section\) == "workspace":\s+roles\.require\(\)', source)
 
 
@@ -73,32 +58,8 @@ def test_the_sections_are_the_ones_sidebar_and_the_workspaces_only_for_its_admin
 	assert [one["role"] for one in page["roles"]] == ["Workspace Administrator"]
 
 
-def test_a_person_changes_how_to_reach_them_and_never_their_job_or_their_pay():
-	own = set(S["EMPLOYEE_OWN"]) | set(S["SHARED"].values())
-	assert not own & set(S["AT_WORK"]), "HR sets a person's job"
-	assert not own & set(S["BANK"]), "a changed bank account is how pay is stolen, so HR changes it"
-	assert not own & {"ctc", "salary_mode", "status", "user_id", "relieving_date", "company"}
 
 
-def test_what_both_records_say_is_asked_once_and_written_to_the_employee():
-	assert set(S["SHARED"]) <= set(S["PROFILE"])
-	assert not set(S["SHARED"]) & set(S["EMPLOYEE_OWN"])
-
-
-def test_an_account_number_shows_its_last_four_only():
-	assert S["_masked"]("DE89 3704 0044 0532 0130 00") == "•••• 3000"
-	assert S["_masked"]("123") == "123"
-	assert S["_masked"]("") == ""
-
-
-def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
-	"""Profile saves the login and the employee against the `modified` the page
-	loaded, so frappe's own check_if_latest refuses a stale save."""
-	source = SETTINGS.read_text()
-	body = source[source.index("def _save_profile") :]
-	body = body[: body.index("\ndef ")]
-	assert body.count("_as_opened(") == 2
-	assert '"opened"' in source and "_opened(user, employee)" in source
 
 
 def test_the_page_sends_every_field_and_behaves_like_a_form():
@@ -127,20 +88,3 @@ def test_what_oneai_offers_on_settings_is_for_a_section_that_exists_and_is_docum
 		assert key in keys, key
 		heading = labels[key] if labels[key].startswith("Workspace ") else f"{labels[key]}, for the Workspace"
 		assert f"### {heading}\n" in readme, f"Workspace › {labels[key]} is not in one/README.md"
-
-
-def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole():
-	source = SETTINGS.read_text()
-	body = source[source.index("def _save_profile") :]
-	body = body[: body.index("\ndef ")]
-	assert "person_to_be_contacted and employee.emergency_phone_number" in body
-	assert body.index("frappe.throw(") < body.index("employee.save(")
-	assert "_tell_hr(employee, was)" in body
-	tell = source[source.index("def _tell_hr") :]
-	tell = tell[: tell.index("\ndef ")]
-	assert "hr.employee_details_changed(employee, said)" in tell
-	told = (tree.APP / "one_hr" / "tell.py").read_text()
-	tell = told[told.index("def employee_details_changed") :].split("\ndef ", 1)[0]
-	assert '"Employee Details Changed"' in tell and '"HR Manager"' in tell
-	assert "NOT_PEOPLE" in tell and "frappe.session.user" in tell, "not the bench account, not themselves"
-	assert tree.notifications()["Employee Details Changed"]["module"] == "one_hr"

@@ -875,11 +875,9 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Device | inside: Workspace Settings › Devices | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Portal Link | inside: a submitted sale or purchase's Portal, under Links | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |  |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 
 Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-settings (on a rail or a home).
@@ -904,6 +902,13 @@ Pages: masters (on a rail or a home); settings (on a rail or a home); workspace-
 Reports: AI Credits (on a rail or a home); Deadlines (on a rail or a home); Ready to Submit (on a rail or a home); Spending (on a rail or a home).
 
 Pages: intake (on a rail or a home).
+
+## onedesk / One Account
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Device | inside: Workspace Settings › Devices | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Workspace Account | inside: Account, from the rail's foot | the administrator | a head, form script | no | taught |  |  |  |  |  |  |
 
 ## onedesk / One Admin
 

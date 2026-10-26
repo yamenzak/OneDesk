@@ -7,7 +7,7 @@ from onedesk.one import roles
 
 def managers() -> set[str]:
 	"""The roles that make somebody work with everybody's records."""
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	return {role for *_names, _users, managing in APPS for role in managing} | {roles.ADMINISTRATOR}
 

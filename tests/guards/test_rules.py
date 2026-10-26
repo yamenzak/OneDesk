@@ -26,7 +26,7 @@ RULES = (
 	("Project", "onedesk.one_project.budget.summed", {"estimated_costing"}, "a_projects_budget_is_its_cost_types"),
 	("Budget", "onedesk.one_project.budget.synced", set(), "a_cancelled_budget_leaves_its_project"),
 	("Company", "onedesk.one_book.closing.kept_to_today", {"accounts_frozen_till_date"}, "the_books_lock_up_to_today_at_most"),
-	("User", "onedesk.one.settings.seated", {"enabled"}, "nobody_is_turned_on_past_the_seats"),
+	("User", "onedesk.one.people.seated", {"enabled"}, "nobody_is_turned_on_past_the_seats"),
 	("Employee", "onedesk.one_hr.everybody.employee", {"create_user_permission"}, "a_manager_is_not_kept_to_their_own_records"),
 	("File", "onedesk.one_ai.reading.switches.file_switched", {"one_intake", "one_intake_for"}, "a_folder_reads_for_whoever_turned_it_on"),
 	("File", "onedesk.one_project.media.kept_shown", {"one_featured", "is_private"}, None),

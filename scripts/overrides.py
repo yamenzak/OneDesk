@@ -270,8 +270,8 @@ OVERRIDES = [
 	),
 	(
 		"Using OneInventory includes making",
-		"ERPNext keeps work orders, job cards and bills of materials to the Manufacturing User and Manager, roles People never handed out; one/settings.py APPS gives them with OneInventory's User and Manager levels, and patches/making_roles.py to whoever held them already",
-		"onedesk/one/settings.py",
+		"ERPNext keeps work orders, job cards and bills of materials to the Manufacturing User and Manager, roles People never handed out; one/people.py APPS gives them with OneInventory's User and Manager levels, and patches/making_roles.py to whoever held them already",
+		"onedesk/one/people.py",
 		"erpnext/erpnext/manufacturing/doctype/work_order/work_order.json",
 		'"role": "Manufacturing User"',
 	),

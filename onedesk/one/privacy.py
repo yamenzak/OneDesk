@@ -33,7 +33,7 @@ OPEN = ("Pending Verification", "Pending Approval", "On Hold")
 
 def _administrators() -> list[str]:
 	"""The workspace's administrators who are people."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
 
@@ -43,7 +43,7 @@ def where(user: str) -> str:
 	the portal for a customer's or supplier's contact, or the page anybody
 	may ask from."""
 	if frappe.db.get_value("User", user, "user_type") == "System User":
-		return "/desk/settings?section=profile"
+		return "/desk/one?center=account&at=profile"
 	if set(frappe.get_roles(user)) & {"Customer", "Supplier"}:
 		return "/portal/your-data"
 	return "/your-data"
@@ -51,7 +51,7 @@ def where(user: str) -> str:
 
 def _mine(user: str | None = None) -> str:
 	user = user or frappe.session.user
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	if user in NOT_PEOPLE:
 		frappe.throw(_("This account is not a person's."), frappe.PermissionError)

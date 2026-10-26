@@ -252,12 +252,33 @@ onedesk.dock.told = (done, ready) => {
 };
 
 (() => {
-	const ours = (section) => {
-		const known = { profile: "profile", notifications: "notifications" };
-		frappe.set_route("settings", { section: known[section] || "profile" });
-	};
+	const ours = (section) =>
+		section === "notifications" ? onedesk.notification_center.open() : onedesk.account_center.open({ at: "profile" });
 	Object.defineProperty(frappe.ui, "show_user_settings", { get: () => ours, set: () => {}, configurable: true });
 })();
+
+// Every centre by its name (onedesk.CENTERS), and a centre opened from a
+// link in a mail or a notification: /desk/one?center=account&at=plan opens
+// AccountCenter on Plan and Credits over Home, and the address loses the
+// question so that going back does not open it again.
+frappe.provide("onedesk.centers");
+onedesk.centers.open = (center, { at = null, record = null, module = null } = {}) => {
+	const doors = {
+		account: () => onedesk.account_center.open({ at, record }),
+		access: () => onedesk.access.open({ module, at }),
+		notifications: () => onedesk.notification_center.open({ module, at }),
+		ai: () => onedesk.ai_center.open({ module, at }),
+		trust: () => onedesk.trust.open({ module, at }),
+	};
+	return (doors[center] || doors.account)();
+};
+$(document).on("page-change", () => {
+	onedesk.centers.here = null;
+	const asked = frappe.utils.get_query_params();
+	if (!asked.center) return;
+	window.history.replaceState(null, "", window.location.pathname);
+	onedesk.centers.open(asked.center, asked);
+});
 
 frappe.provide("onedesk.tenant");
 

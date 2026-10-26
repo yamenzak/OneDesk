@@ -153,7 +153,7 @@ def _place(show_in: str | None, everybody: bool) -> dict | None:
 
 def _person(who: str) -> str:
 	"""A person of the workspace, by address or by name."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	found = frappe.get_all(
 		"User",
@@ -477,7 +477,7 @@ def suggest_level(
 	administrators only."""
 	if not roles.administers():
 		return _mend("suggest_level", "Only a workspace administrator changes levels.")
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	try:
 		if app not in {one[0] for one in APPS}:
@@ -578,7 +578,7 @@ def suggest_profile(
 	person's page at once. Workspace administrators only."""
 	if not roles.administers():
 		return _mend("suggest_profile", "Only a workspace administrator makes profiles.")
-	from onedesk.one.settings import APPS, LEVELS
+	from onedesk.one.people import APPS, LEVELS
 
 	name = (name or "").strip()
 	if not name:
@@ -709,7 +709,7 @@ def suggest_hold(
 		"let_go": int(bool(let_go)),
 		"hold": held,
 	}
-	route = ["workspace-settings", {"section": "people", "person": user}]
+	route = ["one", {"center": "account", "at": "people", "record": user}]
 	return _card("hold", "User Permission", payload, _("What {0} sees").format(who), summary, route, why)
 
 

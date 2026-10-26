@@ -40,6 +40,7 @@ USE_THE_SHELL = {
 	"one/page/settings/settings.js",
 	"one/page/workspace_settings/workspace_settings.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
+	"public/js/one_account/account_center.js",
 	"public/js/band.js",
 	"public/js/calendar_link.js",
 	"public/js/desk.js",

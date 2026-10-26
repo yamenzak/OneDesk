@@ -22,7 +22,7 @@ def _readers(doctype: str) -> set:
 
 def unreachable() -> list[dict]:
 	"""Every rail link to a kind of record its app's roles cannot open."""
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	app = os.path.dirname(os.path.dirname(__file__))
 	out = []

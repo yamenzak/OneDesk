@@ -66,9 +66,9 @@ after_sync = [
 	"onedesk.one_hr.lifecycle.settle_boardings",
 ]
 
-after_app_install = ["onedesk.one.private.installed_now"]
+after_app_install = ["onedesk.one_account.private.installed_now"]
 
-before_app_uninstall = ["onedesk.one.private.refuse_uninstall"]
+before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]
 
 after_migrate = [
 	"onedesk.one.roles.ensure",
@@ -165,7 +165,7 @@ scheduler_events = {
 	"daily": [
 		"onedesk.one_sheet.versions.tidy",
 		"onedesk.one_doc.versions.tidy",
-		"onedesk.one.devices.forget",
+		"onedesk.one_account.devices.forget",
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
 		"onedesk.one.tell.automations_failing",
@@ -233,7 +233,7 @@ doc_events = {
 	"Offering": {"on_update": ["onedesk.one_admin.books.synced", "onedesk.one_admin.offerings.warn"]},
 	"One Admin Settings": {"on_update": "onedesk.one_admin.offerings.warn"},
 	"User": {
-		"validate": "onedesk.one.settings.seated",
+		"validate": "onedesk.one.people.seated",
 		"before_save": "onedesk.one_mail.addresses.for_person",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user"],
@@ -704,7 +704,7 @@ override_whitelisted_methods = {
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",
 	"erpnext.selling.doctype.customer.customer.send_emails": "onedesk.one_book.tell.credit_limit",
-	"frappe.core.doctype.user.user.update_password": "onedesk.one.signin.update_password",
+	"frappe.core.doctype.user.user.update_password": "onedesk.one_account.signin.update_password",
 	"frappe.www.login.send_login_link": "onedesk.one_admin.accounts.send_login_link",
 	"frappe.utils.print_format_generator.render_builder_preview": "onedesk.one.printing.render_builder_preview",
 	"frappe.utils.print_format_generator.download_builder_preview_pdf": "onedesk.one.printing.download_builder_preview_pdf",
@@ -801,7 +801,7 @@ doctype_js = {
 	"Personal Data Deletion Request": "public/js/privacy_request.js",
 	"Contact": "public/js/contact.js",
 	"Personal Data Download Request": "public/js/privacy_copy.js",
-	"Workspace Account": "public/js/workspace_account.js",
+	"Workspace Account": "public/js/one_account/workspace_account.js",
 	"Tenant": "public/js/tenant.js",
 	"Account Request": "public/js/account_request.js",
 	"Credit Ledger Entry": "public/js/credit_ledger_entry.js",
@@ -922,6 +922,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/module_docs.css",
 	"/assets/onedesk/css/module_settings.css",
+	"/assets/onedesk/css/one_account/account_center.css",
 	"/assets/onedesk/css/shell.css",
 	"/assets/onedesk/css/window/chrome.css",
 	"/assets/onedesk/css/window/frame.css",
@@ -957,6 +958,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/measure.js",
 	"/assets/onedesk/js/outside.js",
 	"/assets/onedesk/js/shell.js",
+	"/assets/onedesk/js/one_account/account_center.js",
 	"/assets/onedesk/js/window/frame.js",
 	"/assets/onedesk/js/window/chrome.js",
 	"/assets/onedesk/js/window/nav_tree.js",
@@ -1047,7 +1049,7 @@ one_module_heirs = {
 }
 
 one_makes_records = {
-	"Account": ["one", "one_admin", "one_book", "one_project"],
+	"Account": ["one_account", "one_admin", "one_book", "one_project"],
 	"Activity Type": ["one_project"],
 	"Address": ["one", "one_book"],
 	"Appraisal": ["one_hr"],
@@ -1085,7 +1087,7 @@ one_makes_records = {
 	"Holiday List Assignment": ["one"],
 	"Interview": ["one_hr"],
 	"Interview Feedback": ["one_hr"],
-	"Item": ["one", "one_admin", "one_inventory", "one_project"],
+	"Item": ["one_account", "one_admin", "one_inventory", "one_project"],
 	"Item Group": ["one_admin"],
 	"Item Price": ["one_inventory"],
 	"Job Applicant": ["one_hr"],
@@ -1112,7 +1114,7 @@ one_makes_records = {
 	"Project Template": ["one_project"],
 	"Project Type": ["one_hr"],
 	"Project Update": ["one_project"],
-	"Purchase Invoice": ["one"],
+	"Purchase Invoice": ["one_account"],
 	"Purchase Order": ["one_inventory"],
 	"Purchase Receipt": ["one_inventory"],
 	"Request for Quotation": ["one_inventory"],
@@ -1127,7 +1129,7 @@ one_makes_records = {
 	"Stock Reconciliation": ["one_inventory"],
 	"Subcontracting Order": ["one_inventory"],
 	"Subcontracting Receipt": ["one_inventory"],
-	"Supplier": ["one", "one_book"],
+	"Supplier": ["one_account", "one_book"],
 	"Supplier Quotation": ["one", "one_inventory"],
 	"Supplier Scorecard Criteria": ["one_inventory"],
 	"Task": ["one_project", "one_task"],
@@ -1345,7 +1347,7 @@ one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities"]
+one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities"]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",
@@ -1353,7 +1355,7 @@ one_record_heads = [
 	"onedesk.one_crm.heads.HEADS",
 	"onedesk.one_project.heads.HEADS",
 	"onedesk.one_hr.heads.HEADS",
-	"onedesk.one.heads.HEADS",
+	"onedesk.one_account.heads.HEADS",
 	"onedesk.one_admin.heads.HEADS",
 	"onedesk.one_ai.heads.HEADS",
 	"onedesk.one_studio.heads.HEADS",
@@ -1364,7 +1366,7 @@ one_measures = [
 	"onedesk.one_crm.heads.MEASURES",
 	"onedesk.one_project.heads.MEASURES",
 	"onedesk.one_hr.heads.MEASURES",
-	"onedesk.one.heads.MEASURES",
+	"onedesk.one_account.heads.MEASURES",
 	"onedesk.one_admin.heads.MEASURES",
 	"onedesk.one_ai.heads.MEASURES",
 	"onedesk.one_studio.heads.MEASURES",
@@ -1462,4 +1464,4 @@ user_data_fields = [
 	{"doctype": "Job Applicant", "filter_by": "email_id", "redact_fields": ["applicant_name", "email_id", "phone_number"]},
 ]
 
-on_session_creation = ["onedesk.one.signin.arrived", "onedesk.one.devices.signed_in"]
+on_session_creation = ["onedesk.one_account.signin.arrived", "onedesk.one_account.devices.signed_in"]

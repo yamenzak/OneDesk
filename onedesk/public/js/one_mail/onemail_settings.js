@@ -888,8 +888,8 @@ onedesk.mail.settings = (tab) => {
 		if (box.shared && box.may.holders) items.push(users_tab(box, from));
 		if (box.connected && box.may_reconnect) items.push(connection_tab(box, from));
 		items.push(rules_tab(box));
-		// One mailbox is an AccountCenter, its address under the name.
-		dialog.center = { center: "account", label: box.email, icon: icon_of(box) };
+		// One mailbox is OneMail's ControlCenter, its address under the name.
+		dialog.center = { center: "settings", label: box.email, icon: icon_of(box) };
 		dialog.expand = () => home(from);
 		dialog.reset(
 			[{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] }, { items }],

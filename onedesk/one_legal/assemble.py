@@ -10,6 +10,7 @@ from .registry import SERVICES, clauses_for, subprocessor_rows
 
 MODULES = (
 	"one",
+	"one_account",
 	"one_admin",
 	"one_ai",
 	"one_storage",

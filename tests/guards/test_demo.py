@@ -30,7 +30,7 @@ def test_every_step_is_built_and_written_down():
 
 
 def test_every_app_people_gives_is_given_to_somebody_in_the_demo():
-	source = (ROOT / "onedesk" / "one" / "settings.py").read_text()
+	source = (ROOT / "onedesk" / "one" / "people.py").read_text()
 	apps = set(re.findall(r'^\t\("(One\w+)", "one\w+",', source, flags=re.M))
 	people = ast.literal_eval(_assigned(DEMO / "people.py", "APPS"))
 	assert apps and apps <= set(people), sorted(apps - set(people))

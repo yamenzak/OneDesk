@@ -3009,7 +3009,7 @@ The admin site builds the site and knows who paid (`Tenant.owner_email`), but
 it cannot sign in to the site it built, and it holds only a hash of the token
 the site proves itself with. So the workspace asks instead. `hello` names the
 owner in its answer, and a workspace that has no administrator yet makes them
-one and sends them One's own invitation (one/invite.py), with a link that
+one and sends them One's own invitation (one_account/invite.py), with a link that
 works for a week. The admin site's last step of a build asks the new site to
 ask at once (`account.wake`), so the invitation leaves as the build finishes
 rather than at the next nightly refresh.
@@ -3092,7 +3092,7 @@ customer (Sales Manager) or supplier (Purchase Manager), invites the contact
 from their form: a Website User is made for the contact's address, linked to
 the contact (`portal.invited` then makes it a portal user of each customer and
 supplier the contact is for), and One's Portal Invitation is mailed with a
-link that works for a week (one/invite.py). An address that is already
+link that works for a week (one_account/invite.py). An address that is already
 somebody's in the workspace is refused: they sign in to One, not the portal.
 
 Revoke Access turns the login off and signs it out everywhere; Restore Access

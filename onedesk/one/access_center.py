@@ -12,7 +12,7 @@ from onedesk.one import abilities, access, roles
 
 def _app(app: str):
 	"""The `abilities` module of an app AccessCenter shows, or a refusal."""
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	declared = abilities.of_app(app)
 	if not declared or app not in {name for name, *_rest in APPS}:
@@ -23,7 +23,7 @@ def _app(app: str):
 @frappe.whitelist()
 def modules() -> list[str]:
 	"""The modules AccessCenter has a part for, in People's order."""
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	roles.require()
 	declared = {one.APP for one in abilities.modules()}
@@ -35,28 +35,28 @@ def people(app: str) -> dict:
 	"""Everybody on the workspace and their role in one app, with the roles
 	the app offers: None (unless everybody uses it), User, the workspace's
 	own, Manager."""
-	from onedesk.one import settings
+	from onedesk.one import people
 
 	roles.require()
 	_app(app)
-	used, managed = next((u, m) for name, _icon, u, m in settings.APPS if name == app)
+	used, managed = next((u, m) for name, _icon, u, m in people.APPS if name == app)
 	own = access.levels_of(app)
 	users = frappe.get_all(
 		"User",
-		filters={"user_type": "System User", "enabled": 1, "name": ["not in", settings.NOT_PEOPLE]},
+		filters={"user_type": "System User", "enabled": 1, "name": ["not in", people.NOT_PEOPLE]},
 		fields=["name", "full_name", "user_image"],
 		order_by="full_name asc",
 		limit=500,
 	)
-	held = settings._held([one.name for one in users])
+	held = people.roles_held([one.name for one in users])
 	return {
-		"levels": settings._levels(app, {app: own}),
+		"levels": people.levels_of(app, {app: own}),
 		"people": [
 			{
 				"user": one.name,
 				"name": one.full_name or one.name,
 				"image": one.user_image,
-				"level": settings.app_level(app, held.get(one.name, set()), used, managed, own),
+				"level": people.app_level(app, held.get(one.name, set()), used, managed, own),
 			}
 			for one in users
 		],
@@ -67,12 +67,12 @@ def people(app: str) -> dict:
 def put(app: str, user: str, level: str) -> str:
 	"""One person's role in one app, as People sets it; a person on a
 	profile that says otherwise comes off it."""
-	from onedesk.one import settings
+	from onedesk.one import people
 
 	_app(app)
-	doc = settings._one_of_the_people(user)
+	doc = people.one_of_the_people(user)
 	admin = int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
-	settings._set_access(doc, {app: level}, admin)
+	people.set_access(doc, {app: level}, admin)
 	on = doc.get("one_profile")
 	if on and access.profile(on)["levels"].get(app) != level:
 		frappe.db.set_value("User", doc.name, "one_profile", None, update_modified=False)

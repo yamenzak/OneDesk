@@ -100,7 +100,7 @@ def test_the_sidebar_and_the_profile_reach_it():
 	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "DocType"}
 	assert links["Personal Data Deletion Request"] == "Account Deletions"
 	assert links["Personal Data Download Request"] == "Data Copies"
-	page = (tree.APP / "public" / "js" / "settings.js").read_text()
+	page = (tree.APP / "public" / "js" / "one_account" / "account_center.js").read_text()
 	for method in ("privacy_copy.ask", "privacy.ask_to_delete", "privacy.withdraw"):
 		assert f"onedesk.one.{method}" in page, method
 

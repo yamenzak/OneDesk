@@ -64,7 +64,7 @@ def test_a_workspace_books_our_invoice_only_when_asked_and_only_once():
 	"""Add to OneBook is a button: nothing writes a bill into a workspace's
 	books on its own, and a bill with the same number is found, not doubled
 	(OneIntake finds it the same way)."""
-	bills = (tree.APP / "one" / "bills.py").read_text(encoding="utf-8")
+	bills = (tree.APP / "one_account" / "bills.py").read_text(encoding="utf-8")
 	body = bills.split("def to_books", 1)[1].split("\ndef ", 1)[0]
 	assert "roles.require()" in body and "_bill(" in body
 	assert '"Purchase Invoice"' in body and ".submit()" not in body, (

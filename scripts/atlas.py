@@ -446,8 +446,8 @@ ADMINISTRATOR = "Workspace Administrator"
 
 @cache
 def givable() -> dict:
-	"""{role: the app a workspace gives it with} (one/settings.py APPS)."""
-	module = ast.parse((tree.APP / "one" / "settings.py").read_text())
+	"""{role: the app a workspace gives it with} (one/people.py APPS)."""
+	module = ast.parse((tree.APP / "one" / "people.py").read_text())
 	out = {role: "everybody" for role in EVERYBODY} | {ADMINISTRATOR: "the administrator"}
 	for node in module.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "APPS":

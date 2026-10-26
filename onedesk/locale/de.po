@@ -7301,11 +7301,6 @@ msgstr "Geändertes Format"
 msgid "Changed {0}"
 msgstr "{0} geändert"
 
-#. Message of a notification
-#: onedesk/notifications/one/sign_in_rules_changed.md
-msgid "Changed: {what}. If you did not expect this, check Workspace › Sign-in now."
-msgstr "Geändert: {what}. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Anmeldung."
-
 #. Label of a Sidebar Item
 #. Label of the changes_section (Section Break) field in DocType 'AI Proposal'
 #. Label in the One Promotion Letter print format
@@ -16770,11 +16765,6 @@ msgid "From {0}, for {1}"
 msgstr "Von {0}, für {1}"
 
 #. Message of a notification
-#: onedesk/notifications/one/new_sign_in.md
-msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else in You › Sign-in."
-msgstr "Von {device}, unter {address}, am {when}. Wenn Sie es waren, ist nichts zu tun. Wenn nicht, ändern Sie Ihr Passwort und melden Sie sich unter Sie › Anmeldung überall sonst ab."
-
-#. Message of a notification
 #: onedesk/notifications/one_hr/leave_asked.md
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr "Vom {from_date} bis {to_date}. Genehmigen oder ablehnen."
@@ -17110,10 +17100,6 @@ msgstr "Livegang"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Go live"
 msgstr "Livegang"
-
-#: onedesk/one/ai.py:36
-msgid "Go through the Profile page with me: what each part is for, and what only HR can change."
-msgstr "Geh mit mir die Profilseite durch: wofür jeder Teil da ist und was nur die Personalabteilung ändern kann."
 
 #: onedesk/one_ai/suggest.py:21
 msgid "Go through these settings with me: which ones matter for a company like ours, what each is set to now, and what you would change. Suggest the changes."
@@ -18539,10 +18525,6 @@ msgstr "Ich habe die obige Ausrüstung in gutem Zustand erhalten. Ich werde sie 
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "Ich brauche einen Brief von HR – eine Gehaltsbescheinigung, ein Arbeitszeugnis oder eine Beschäftigungsbestätigung. Frag mich, welchen und für wen, und entwirf ihn dann."
 
-#: onedesk/public/js/settings.js:1603
-msgid "I understand everything in it will be deleted"
-msgstr "Ich verstehe, dass alles darin gelöscht wird"
-
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:14
 msgid "I want a new collection."
 msgstr "Ich möchte eine neue Sammlung."
@@ -19931,7 +19913,7 @@ msgstr "Berechnet {0}"
 #: onedesk/one/print_blocks.py:674
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 #: onedesk/public/js/settings.js:1442 onedesk/public/js/tenant.js:9
-#: onedesk/templates/includes/one_account_tabs.html:3
+#: onedesk/templates/includes/admin_account_tabs.html:3
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
 msgstr "Rechnungen"
@@ -27982,11 +27964,6 @@ msgstr "OneAI tut hier nur, was diese Person darf."
 msgid "OneAI does not read new mail."
 msgstr "OneAI liest keine neuen E-Mails."
 
-#. Message of a notification
-#: onedesk/notifications/one/credits_ran_out.md
-msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Workspace › Plan and Credits."
-msgstr "OneAI tut nichts mehr, und Dokumente bleiben ungelesen, bis Credits hinzukommen. Kaufen Sie ein Paket oder wechseln Sie unter Arbeitsbereich › Plan und Credits zu einem größeren Plan."
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:2028
 msgid "OneAI edited this workbook. Reopen it to see the changes."
 msgstr "OneAI hat diese Arbeitsmappe bearbeitet. Öffnen Sie sie erneut, um die Änderungen zu sehen."
@@ -32248,7 +32225,7 @@ msgstr "Dienstleistungen"
 #: onedesk/one/settings.py:16 onedesk/one/settings.py:1053
 #: onedesk/one/sidebar/one/one.json onedesk/public/js/settings.js:1052
 #: onedesk/public/js/settings.js:1200
-#: onedesk/templates/includes/one_account_tabs.html:4
+#: onedesk/templates/includes/admin_account_tabs.html:4
 #: onedesk/www/account_profile.html:2 onedesk/www/account_profile.html:17
 msgid "Profile"
 msgstr "Profil"
@@ -41717,7 +41694,7 @@ msgstr "Dieser Code öffnet keine App für diesen Arbeitsbereich."
 msgid "That did not go through."
 msgstr "Das ist nicht durchgegangen."
 
-#: onedesk/templates/includes/one_account_pay.html:18
+#: onedesk/templates/includes/admin_account_pay.html:18
 #: onedesk/www/account_profile.html:57 onedesk/www/start.html:118
 #: onedesk/www/welcome.html:105
 msgid "That did not work. Try again in a moment."
@@ -43360,11 +43337,6 @@ msgstr "Der Arbeitsbereich ist darunter noch nicht erreichbar."
 msgid "The workspace has run out of OneAI credits. It is read as soon as more are added."
 msgstr "Der Arbeitsbereich hat keine OneAI-Credits mehr. Es wird gelesen, sobald neue hinzukommen."
 
-#. Message of a notification
-#: onedesk/notifications/one/credits_running_low.md
-msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Workspace › Plan and Credits."
-msgstr "Der Arbeitsbereich hat noch {balance} OneAI-Guthaben, etwa {days} Tage beim Verbrauch der letzten dreißig. Mehr unter Arbeitsbereich › Tarif und Guthaben kaufen."
-
 #: onedesk/one_admin/heads.py:269
 msgid "The workspace is being built."
 msgstr "Der Arbeitsbereich wird erstellt."
@@ -43391,33 +43363,13 @@ msgid "The workspace keeps working for {0} days and everyone is notified. Then s
 msgstr "Der Arbeitsbereich läuft noch {0} Tage weiter, und alle werden benachrichtigt. Danach ist keine Anmeldung mehr möglich, und er wird einige Wochen später gelöscht."
 
 #. Message of a notification
-#: onedesk/notifications/one/domain_stopped_working.md
-msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Workspace › Domains."
-msgstr "Der Arbeitsbereich öffnet sich nicht mehr unter {domain}. Prüfen Sie, ob ihr DNS noch auf {target} zeigt, und klicken Sie dann unter Arbeitsbereich › Domains auf Erneut prüfen."
-
-#. Message of a notification
 #: onedesk/notifications/one/credits_added.md
 msgid "The workspace now has {balance} credits.{note}"
 msgstr "Der Arbeitsbereich hat jetzt {balance} Credits.{note}"
 
-#. Message of a notification
-#: onedesk/notifications/one/domain_working.md
-msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Workspace › Domains."
-msgstr "Der Arbeitsbereich öffnet sich jetzt unter {domain}. Damit Anmeldung und Links in E-Mails sie verwenden, machen Sie sie unter Arbeitsbereich › Domains zur Hauptadresse."
-
 #: onedesk/public/js/apps.js:140
 msgid "The workspace's apps changed. Reload to see them."
 msgstr "Die Apps des Arbeitsbereichs haben sich geändert. Laden Sie neu, um sie zu sehen."
-
-#. Message of a notification
-#: onedesk/notifications/one/database_nearly_full.md
-msgid "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Workspace › Plan and Credits before it is full."
-msgstr "Die Datenbank des Arbeitsbereichs belegt {used} der {limit}, die sein Tarif erlaubt. Fügen Sie unter Arbeitsbereich › Tarif und Guthaben Datenbank hinzu oder wechseln Sie in einen größeren Tarif, bevor sie voll ist."
-
-#. Message of a notification
-#: onedesk/notifications/one/storage_nearly_full.md
-msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Workspace › Plan and Credits."
-msgstr "Die Dateien des Arbeitsbereichs belegen {used} der {limit}, die der Plan erlaubt. Ist er voll, kann nichts Neues hochgeladen werden. Fügen Sie Speicher hinzu oder wechseln Sie unter Arbeitsbereich › Plan und Credits zu einem größeren Plan."
 
 #: onedesk/one_admin/heads.py:419
 msgid "The workspace's main address."
@@ -46018,11 +45970,6 @@ msgstr "Unbekannter Partner."
 #: onedesk/public/js/onemail.js:281
 msgid "Unknown sender"
 msgstr "Unbekannter Absender"
-
-#. Message of a notification
-#: onedesk/notifications/one/payment_overdue.md
-msgid "Unless it is paid, the workspace is suspended on {date}. Pay it on Workspace › Plan and Credits."
-msgstr "Wird nicht bezahlt, wird der Arbeitsbereich am {date} gesperrt. Bezahlen Sie unter Arbeitsbereich › Plan und Credits."
 
 #: onedesk/public/js/settings.js:1702 onedesk/public/js/settings.js:1709
 msgid "Unlimited"
@@ -51233,7 +51180,7 @@ msgstr "Regel des Arbeitsbereichs"
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:116
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:164
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
-#: onedesk/templates/includes/one_account_tabs.html:2
+#: onedesk/templates/includes/admin_account_tabs.html:2
 msgid "Workspaces"
 msgstr "Arbeitsbereiche"
 
@@ -51918,7 +51865,7 @@ msgstr "Ihre Postfächer"
 msgid "Your notifications are off."
 msgstr "Ihre Benachrichtigungen sind aus."
 
-#: onedesk/templates/includes/one_account_tabs.html:1
+#: onedesk/templates/includes/admin_account_tabs.html:1
 #: onedesk/www/account.html:2
 msgid "Your One account"
 msgstr "Ihr One-Konto"
@@ -54455,10 +54402,6 @@ msgstr "{0} von {1}"
 msgid "{0} from {1} to {2}."
 msgstr "{0} von {1} nach {2}."
 
-#: onedesk/public/js/settings.js:1812
-msgid "{0} gives you this for {1} a month, {2} less."
-msgstr "{0} gibt Ihnen das für {1} pro Monat, {2} weniger."
-
 #: onedesk/one/head.py:160 onedesk/one/linked.py:127
 msgid "{0} goes through {1}, which is not a link."
 msgstr "{0} geht über {1}, das keine Verknüpfung ist."
@@ -56570,11 +56513,6 @@ msgid "{by} kept the workspace open. Nothing changes."
 msgstr "{by} hat den Arbeitsbereich offen gehalten. Es ändert sich nichts."
 
 #. Message of a notification
-#: onedesk/notifications/one/administrator_added.md
-msgid "{by} made them one. If you did not expect this, check Workspace › People now."
-msgstr "{by} hat die Person dazu gemacht. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Personen."
-
-#. Message of a notification
 #: onedesk/notifications/one_admin/workspace_moved_to_you.md
 msgid "{by} made you the billing contact for {workspace}. Its invoices and payment notices now come to you. Sign in with this address. If this is a mistake, reply to this email."
 msgstr "{by} hat Sie zum Rechnungskontakt für {workspace} gemacht. Rechnungen und Zahlungshinweise gehen jetzt an Sie. Melden Sie sich mit dieser Adresse an. Wenn das ein Irrtum ist, antworten Sie auf diese E-Mail."
@@ -56603,11 +56541,6 @@ msgstr "{by} hat Ihnen {what} gesendet"
 #: onedesk/notifications/one_inventory/material_request_stopped.md
 msgid "{by} stopped your request {request}"
 msgstr "{by} hat Ihre Anforderung {request} angehalten"
-
-#. Message of a notification
-#: onedesk/notifications/one/administrator_removed.md
-msgid "{by} took it away. If you did not expect this, check Workspace › People now."
-msgstr "{by} hat es entzogen. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Arbeitsbereich › Personen."
 
 #. Message of a notification
 #: onedesk/notifications/one_book/credit_limit_crossed.md
@@ -57479,3 +57412,93 @@ msgstr "Unternehmen"
 
 msgid "Companies That Receive Data"
 msgstr "Unternehmen, die Daten erhalten"
+
+msgid "Change what you need and press Save, and a newer change by somebody else stops yours with a message."
+msgstr "Ändern Sie, was nötig ist, und drücken Sie Speichern. Hat jemand inzwischen etwas Neueres gespeichert, hält eine Meldung Ihre Änderung auf."
+
+msgid "Changed: {what}. If you did not expect this, check Sign-in in AccountCenter now."
+msgstr "Geändert: {what}. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Anmeldung in AccountCenter."
+
+msgid "Could Not Open This"
+msgstr "Konnte nicht geöffnet werden"
+
+msgid "Delete Everything"
+msgstr "Alles löschen"
+
+msgid "Everybody who works here, each with the apps their work needs."
+msgstr "Alle, die hier arbeiten, jeweils mit den Apps, die ihre Arbeit braucht."
+
+msgid "Everyone in the workspace, and inviting someone new."
+msgstr "Alle im Arbeitsbereich, und jemanden neu einladen."
+
+msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doing. If it was not, change your password and sign out everywhere else on Sign-in in AccountCenter."
+msgstr "Von {device}, über {address}, am {when}. Wenn Sie das waren, ist nichts zu tun. Wenn nicht, ändern Sie Ihr Passwort und melden Sie sich unter Anmeldung in AccountCenter überall sonst ab."
+
+msgid "Go through my profile with me: what each part is for, and what only HR can change."
+msgstr "Gehen Sie mein Profil mit mir durch: wofür jeder Teil ist und was nur die Personalabteilung ändern kann."
+
+msgid "I understand everything in the workspace will be deleted."
+msgstr "Mir ist klar, dass alles im Arbeitsbereich gelöscht wird."
+
+msgid "Invite Your People"
+msgstr "Ihre Leute einladen"
+
+msgid "OneAI does nothing more, and documents wait unread, until credits are added. Buy a pack or move to a bigger plan on Plan and Credits in AccountCenter."
+msgstr "OneAI tut nichts mehr, und Dokumente bleiben ungelesen, bis Guthaben hinzukommt. Kaufen Sie ein Paket oder wechseln Sie unter Tarif und Guthaben in AccountCenter zu einem größeren Tarif."
+
+msgid "Saved When You Say"
+msgstr "Gespeichert, wenn Sie es sagen"
+
+msgid "See the plan, its seats and storage, OneAI credits and invoices."
+msgstr "Sehen Sie den Tarif, seine Plätze und den Speicher, das OneAI-Guthaben und die Rechnungen."
+
+msgid "The addresses the workspace answers on."
+msgstr "Die Adressen, unter denen der Arbeitsbereich erreichbar ist."
+
+msgid "The company's computers and phones, and the passkeys on people's own."
+msgstr "Die Computer und Telefone des Unternehmens und die Passkeys auf den eigenen Geräten der Leute."
+
+msgid "The plan, its seats and storage, OneAI credits and invoices."
+msgstr "Der Tarif, seine Plätze und der Speicher, das OneAI-Guthaben und die Rechnungen."
+
+msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
+msgstr "Der Arbeitsbereich hat noch {balance} OneAI-Guthaben, beim Verbrauch der letzten dreißig Tage etwa {days} Tage. Kaufen Sie mehr unter Tarif und Guthaben in AccountCenter."
+
+msgid "The workspace no longer opens at {domain}. Check that its DNS still points at {target}, then press Check Again on Domains in AccountCenter."
+msgstr "Der Arbeitsbereich ist unter {domain} nicht mehr erreichbar. Prüfen Sie, ob sein DNS noch auf {target} zeigt, und drücken Sie dann unter Domains in AccountCenter auf Erneut prüfen."
+
+msgid "The workspace now opens at {domain}. To have sign-in and links in mail use it, make it the main address on Domains in AccountCenter."
+msgstr "Der Arbeitsbereich ist jetzt unter {domain} erreichbar. Damit Anmeldung und Links in E-Mails sie nutzen, machen Sie sie unter Domains in AccountCenter zur Hauptadresse."
+
+msgid "The workspace's database takes {used} of the {limit} its plan allows. Add database or move to a bigger plan on Plan and Credits in AccountCenter before it is full."
+msgstr "Die Datenbank des Arbeitsbereichs belegt {used} der {limit}, die sein Tarif erlaubt. Erweitern Sie die Datenbank oder wechseln Sie unter Tarif und Guthaben in AccountCenter zu einem größeren Tarif, bevor sie voll ist."
+
+msgid "The workspace's files take {used} of the {limit} its plan allows. Once it is full, nothing new can be uploaded. Add storage or move to a bigger plan on Plan and Credits in AccountCenter."
+msgstr "Die Dateien des Arbeitsbereichs belegen {used} der {limit}, die sein Tarif erlaubt. Ist er voll, kann nichts Neues hochgeladen werden. Erweitern Sie den Speicher oder wechseln Sie unter Tarif und Guthaben in AccountCenter zu einem größeren Tarif."
+
+msgid "Unless it is paid, the workspace is suspended on {date}. Pay it on Plan and Credits in AccountCenter."
+msgstr "Wird sie nicht bezahlt, wird der Arbeitsbereich am {date} gesperrt. Bezahlen Sie sie unter Tarif und Guthaben in AccountCenter."
+
+msgid "Your name, photo and language, and your employee details if you have them."
+msgstr "Ihr Name, Foto und Ihre Sprache, und Ihre Mitarbeiterdaten, falls vorhanden."
+
+msgid "Your password, your passkey and where you are signed in."
+msgstr "Ihr Passwort, Ihr Passkey und wo Sie angemeldet sind."
+
+msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."
+msgstr "Ihr Profil und wie Sie sich anmelden, und für Administratoren die Leute, Geräte, der Tarif und die Domains des Arbeitsbereichs."
+
+msgid "Yours, Then the Workspace's"
+msgstr "Erst Ihres, dann das des Arbeitsbereichs"
+
+msgid "{0} Saves {1}"
+msgstr "{0} spart {1}"
+
+msgid "{0} gives you this for {1} a month."
+msgstr "{0} bietet Ihnen das für {1} im Monat."
+
+msgid "{by} made them one. If you did not expect this, check People in AccountCenter now."
+msgstr "{by} hat das veranlasst. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Personen in AccountCenter."
+
+msgid "{by} took it away. If you did not expect this, check People in AccountCenter now."
+msgstr "{by} hat es entzogen. Wenn Sie das nicht erwartet haben, prüfen Sie jetzt Personen in AccountCenter."

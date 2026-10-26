@@ -12,7 +12,7 @@
 		<span>One</span>
 	</a>
 
-	{% include "templates/includes/one_account_tabs.html" %}
+	{% include "templates/includes/admin_account_tabs.html" %}
 
 	<h1>{{ _("Profile") }}</h1>
 	{% if changed %}<p class="one-portal__lede">{{ _("Your account's address is now {0}.").format(me.name|e) }}</p>{% endif %}

@@ -15,7 +15,7 @@ import frappe
 from frappe import _, _lt
 
 SUGGESTIONS = {
-	"page:settings/profile": [
+	"page:account/profile": [
 		{
 			"label": _lt("What is missing from my profile?"),
 			"ask": _lt(
@@ -34,7 +34,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("How do I fill this in?"),
 			"ask": _lt(
-				"Go through the Profile page with me: what each part is for, and what only HR can change."
+				"Go through my profile with me: what each part is for, and what only HR can change."
 			),
 			"expects": "how_to",
 		},
@@ -264,7 +264,7 @@ SUGGESTIONS = {
 			"expects": "workspace_access",
 		},
 	],
-	"page:workspace-settings/people": [
+	"page:account/people": [
 		{
 			"label": _lt("Who has access to what?"),
 			"ask": _lt(
@@ -280,7 +280,7 @@ SUGGESTIONS = {
 			"expects": "workspace_people",
 		},
 	],
-	"page:workspace-settings/plan": [
+	"page:account/plan": [
 		{
 			"label": _lt("Are we on the cheapest plan?"),
 			"ask": _lt(
@@ -303,7 +303,7 @@ SUGGESTIONS = {
 			"expects": "workspace_plan",
 		},
 	],
-	"page:workspace-settings/domains": [
+	"page:account/domains": [
 		{
 			"label": _lt("Why is our domain not working?"),
 			"ask": _lt(
@@ -350,7 +350,7 @@ SUGGESTIONS = {
 			"expects": "workspace_sign_in",
 		},
 	],
-	"page:settings/signin": [
+	"page:account/signin": [
 		{
 			"label": _lt("Is my account safe?"),
 			"ask": _lt(
@@ -406,7 +406,7 @@ from onedesk.one import masters as _masters  # noqa: E402
 
 SUGGESTIONS.update(_masters.SUGGESTIONS)
 
-OPENS_ON = {"settings": "profile", "workspace-settings": "general"}
+OPENS_ON = {"settings": "notifications", "workspace-settings": "general", "account": "profile"}
 
 
 def page(said: dict) -> str | None:
@@ -414,13 +414,13 @@ def page(said: dict) -> str | None:
 	it is, and where its documentation is. Only the reader's own records, found
 	on the server rather than taken from the browser."""
 	said = {**said, "section": said.get("section") or OPENS_ON.get(said.get("page"), "")}
-	if said.get("page") == "workspace-settings" and said.get("section") == "devices":
+	if said.get("page") == "account" and said.get("section") == "devices":
 		return (
-			"The reader administers the workspace and is on Devices in Workspace Settings: every browser "
+			"The reader administers the workspace and is on Devices in AccountCenter: every browser "
 			"somebody signed in on, with who signed in last, when and from where, and how many passkeys it "
 			"holds. They name one and set it Shared (nobody's passkey is made there) or Assigned to one "
-			"person (theirs may be), or mark it Lost or Retired. How it works is in One's documentation "
-			"under Devices (how_to)."
+			"person (theirs may be), or mark it Lost or Retired. How it works is in OneAccount's Help "
+			"under People and Devices (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "numbering":
 		return (
@@ -446,13 +446,13 @@ def page(said: dict) -> str | None:
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "notification_types":
 		return _notifications_page(said.get("record"))
-	if said.get("page") == "workspace-settings" and said.get("section") == "people":
+	if said.get("page") == "account" and said.get("section") == "people":
 		return (
-			"The reader administers this workspace and is on Workspace › People: everybody on it, which of "
+			"The reader administers this workspace and is on People in AccountCenter: everybody on it, which of "
 			"OneCRM, OneBook, OneInventory, OneProject and OneHR each may use and as a user or a manager, who "
 			"administers it, and when each was last active. workspace_people reads it all. They change a person "
-			"by clicking them, and turn off, sign out or send a password reset from there; how is in One's "
-			"documentation under People, for the Workspace (how_to)."
+			"by clicking them, and turn off, sign out or send a password reset from there; how is in OneAccount's "
+			"Help under People and Devices (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "access":
 		return (
@@ -461,14 +461,14 @@ def page(said: dict) -> str | None:
 			"and the groups and who is in each. A person's page also holds what records they are held to. "
 			"workspace_access reads it all. How is in One's documentation under Access, for the Workspace (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "plan":
+	if said.get("page") == "account" and said.get("section") == "plan":
 		return (
-			"The reader administers this workspace and is on Workspace › Plan and Credits: its plan and what is "
+			"The reader administers this workspace and is on Plan and Credits in AccountCenter: its plan and what is "
 			"added to it, its seats, storage and database, and its OneAI credits (what is left, held by calls running now, used in the last thirty "
 			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
-			"add seats, storage, database or credits from Add; how is in One's documentation under Plan and "
-			"Credits, for the Workspace (how_to)."
+			"add seats, storage, database or credits from Add; how is in OneAccount's Help under Plan and "
+			"Credits (how_to)."
 		)
 	if said.get("workspace") == "One":
 		return (
@@ -495,9 +495,9 @@ def page(said: dict) -> str | None:
 			"workspace_oneai reads it, with what each of OneAI's jobs used in the last thirty days. One picks the "
 			"models OneAI runs on and what it is told; nothing about either is set in a workspace."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "domains":
+	if said.get("page") == "account" and said.get("section") == "domains":
 		return (
-			"The reader administers this workspace and is on Workspace › Domains: the addresses it opens at in a "
+			"The reader administers this workspace and is on Domains in AccountCenter: the addresses it opens at in a "
 			"browser. The one One gives it always works; their own domain works once a CNAME record points it at "
 			"that address, as the page shows, and Cloudflare has issued its certificate, usually minutes later. A "
 			"TXT record at _one.<domain> with the same value proves the domain is theirs where the CNAME cannot "
@@ -506,7 +506,7 @@ def page(said: dict) -> str | None:
 			"subdomain. "
 			"The main address is the one sign-in, invitations and links in mail use. workspace_plan reads each "
 			"domain under domains, with its status and the target. They add one from the page head and make it the main address or "
-			"remove it from its row; how is in One's documentation under Domains, for the Workspace (how_to)."
+			"remove it from its row; how is in OneAccount's Help under Plan and Credits (how_to)."
 		)
 	if said.get("page") == "workspace-settings" and said.get("section") == "general":
 		return (
@@ -516,7 +516,7 @@ def page(said: dict) -> str | None:
 			"passwords and their expiry, the lockout after wrong passwords), calendar links and record sharing. workspace_sign_in reads the rules and how people sign in. They change them on "
 			"the page and save; how is in One's documentation under General, for the Workspace (how_to)."
 		)
-	if said.get("page") != "settings":
+	if said.get("page") not in ("settings", "account"):
 		return None
 	if said.get("section") == "notifications":
 		return (
@@ -534,10 +534,10 @@ def page(said: dict) -> str | None:
 		)
 	if said.get("section") == "signin":
 		return (
-			"The reader is on Sign-in in their own Settings: their password, their passkey, whether two-factor "
+			"The reader is on Sign-in in AccountCenter: their password, their passkey, whether two-factor "
 			"sign-in applies to them, every place they are signed in with a Sign Out each, and their last "
-			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in One's "
-			"documentation under Settings › Sign-in (how_to)."
+			"sign-ins. my_sign_in reads it all. They change things themselves on the page; how is in OneAccount's "
+			"Help under Your Account (how_to)."
 		)
 	if said.get("section") == "calendar":
 		from onedesk.one_calendar import feed
@@ -572,7 +572,7 @@ def page(said: dict) -> str | None:
 		f" and their own Employee record {employee}" if employee else ""
 	)
 	return (
-		f"The reader is on their Profile page in Settings, which edits {records}. "
+		f"The reader is on their Profile in AccountCenter, which edits {records}. "
 		"They may change their name, gender, birth date, mobile, location, bio, language and time zone"
 		+ (
 			"; on the employee record, their addresses, personal email, emergency contact, marital status "
@@ -580,7 +580,7 @@ def page(said: dict) -> str | None:
 			if employee
 			else "."
 		)
-		+ " How to use the page is in One's documentation under Settings › Profile (how_to)."
+		+ " How to use it is in OneAccount's Help under Your Account (how_to)."
 	)
 
 
@@ -1185,11 +1185,12 @@ def workspace_people() -> dict:
 	"""Everybody on this workspace, for its administrators: which apps each
 	may use and at what level, who administers it, when each was last active,
 	who is turned off, and the seats."""
-	from onedesk.one import roles, settings
+	from onedesk.one import roles
+	from onedesk.one_account import center
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees everybody's access."}
-	said = settings._people()
+	said = center._people()
 	return {
 		"seats": said["seats"] or "no limit",
 		"used": said["used"],
@@ -1369,7 +1370,7 @@ def announcements(
 	posted it, until when it shows on sign-in, and, for an administrator,
 	who has seen it and who has not."""
 	from onedesk.one import roles
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	filters = {"public": 1}
 	if title:
@@ -1840,10 +1841,10 @@ def _domains() -> dict:
 	"""The workspace's addresses as `workspace_plan` hands them over: each
 	domain, whether it works and what that means, which is the main address,
 	and the CNAME target. Asks the account again when what it said is stale
-	(settings._domains)."""
-	from onedesk.one import settings
+	(one_account/center.py, _domains)."""
+	from onedesk.one_account import center
 
-	said = settings._domains()
+	said = center._domains()
 	return {
 		"cname_target": said["target"],
 		"domains": [
@@ -1869,12 +1870,13 @@ def workspace_plan() -> dict:
 	target a domain of its own has to point at."""
 	from frappe.utils import add_days, getdate
 
-	from onedesk.one import roles, settings
+	from onedesk.one import roles
+	from onedesk.one_account import center
 	from onedesk.one_ai.report.ai_credits import ai_credits
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the plan and the credits."}
-	said = settings._plan()
+	said = center._plan()
 	held = said["account"]
 	end = getdate()
 	cut = {}
@@ -2012,7 +2014,7 @@ def my_sign_in() -> dict:
 	password last changed, whether they have a passkey and what it is for,
 	whether two-factor sign-in applies to them, the devices they are signed in
 	on, and their last sign-ins, failed ones included."""
-	from onedesk.one import signin
+	from onedesk.one_account import signin
 
 	said = signin.facts()
 	return {
@@ -2037,7 +2039,7 @@ def my_sign_in() -> dict:
 			for one in said["recent"]
 		],
 		"next": "Say plainly what looks fine and what to do: an old password, no two-factor, places they do not "
-		"recognise, failed sign-ins they did not make. They change it themselves on Settings › Sign-in.",
+		"recognise, failed sign-ins they did not make. They change it themselves on Sign-in in AccountCenter.",
 	}
 
 

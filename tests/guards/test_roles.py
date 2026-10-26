@@ -64,7 +64,7 @@ def test_what_a_workspace_administers_is_granted_to_its_administrator():
 		held = json.loads((tree.APP / "one_ai" / "doctype" / doctype / f"{doctype}.json").read_text())
 		assert any(p["role"] == role for p in held["permissions"]), doctype
 	account = json.loads(
-		(tree.APP / "one" / "doctype" / "workspace_account" / "workspace_account.json").read_text()
+		(tree.APP / "one_account" / "doctype" / "workspace_account" / "workspace_account.json").read_text()
 	)
 	assert any(p["role"] == role for p in account["permissions"])
 

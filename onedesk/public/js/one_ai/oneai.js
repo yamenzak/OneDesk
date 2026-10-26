@@ -14,6 +14,11 @@ onedesk.oneai = {
 		const kind = (route[0] || "").toLowerCase();
 		if (!route.length) return null;
 
+		// A centre open over the page says which section the reader is on
+		// (desk.js, onedesk.centers.here), until the page changes.
+		const centre = onedesk.centers && onedesk.centers.here;
+		if (centre) return { doctype: "", name: "", view: "Page", record: "", ...centre };
+
 		if (kind === "form" && route[1]) {
 			const single = !route[2] && frappe.get_meta(route[1]) && frappe.get_meta(route[1]).issingle;
 			const name = route[2] || (single ? route[1] : "");

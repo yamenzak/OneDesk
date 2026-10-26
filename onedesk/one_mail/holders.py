@@ -268,7 +268,7 @@ def _by_role(user: str) -> dict:
 	(one_mail/abilities.py SHARED) it already lets them change, which a
 	share of one mailbox can add nothing to."""
 	from onedesk.one import abilities, access, roles
-	from onedesk.one.settings import level_of
+	from onedesk.one.people import level_of
 	from onedesk.one_mail.abilities import DOCTYPE, SHARED
 
 	cache = frappe.local.flags.setdefault("one_mail_by_role", {})

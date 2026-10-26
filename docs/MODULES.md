@@ -7,7 +7,6 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Device | 13 | document |
 | Portal Link | 16 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
@@ -17,10 +16,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Workspace Account | 45 | single |
-| Workspace Add-on | 4 | child |
 | Workspace Customization | 5 | document |
-| Workspace Domain | 5 | child |
 
 ## One HR
 
@@ -192,6 +188,17 @@ No doctypes yet.
 | Writer Document | 12 | document |
 | Writer Document Version | 4 | document |
 
+## One Account
+
+`onedesk/one_account`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Device | 13 | document |
+| Workspace Account | 45 | single |
+| Workspace Add-on | 4 | child |
+| Workspace Domain | 5 | child |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -237,22 +244,10 @@ No doctypes yet.
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
 * `onedesk.one.automations.steps`
-* `onedesk.one.bills.invoices`
-* `onedesk.one.bills.payment_portal`
-* `onedesk.one.bills.to_books`
-* `onedesk.one.closing.close`
-* `onedesk.one.closing.download`
-* `onedesk.one.closing.keep`
-* `onedesk.one.closing.prepare`
-* `onedesk.one.closing.state`
 * `onedesk.one.customize.export`
 * `onedesk.one.customize.load`
 * `onedesk.one.customize.reset`
 * `onedesk.one.customize.save`
-* `onedesk.one.devices.lost`
-* `onedesk.one.devices.retire`
-* `onedesk.one.devices.retire_passkey`
-* `onedesk.one.devices.save`
 * `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
@@ -267,7 +262,6 @@ No doctypes yet.
 * `onedesk.one.home.meetings_today`
 * `onedesk.one.home.suggestions_waiting`
 * `onedesk.one.home.tasks_due`
-* `onedesk.one.invite.accept`
 * `onedesk.one.letter_heads.presets`
 * `onedesk.one.masters.kinds`
 * `onedesk.one.notification_center.choose`
@@ -337,7 +331,6 @@ No doctypes yet.
 * `onedesk.one.privacy_public.ask`
 * `onedesk.one.privacy_public.confirm`
 * `onedesk.one.privacy_public.download`
-* `onedesk.one.private.claim`
 * `onedesk.one.push.devices`
 * `onedesk.one.push.forget`
 * `onedesk.one.push.register`
@@ -353,26 +346,43 @@ No doctypes yet.
 * `onedesk.one.settings.delete_rule`
 * `onedesk.one.settings.forget`
 * `onedesk.one.settings.forget_all`
-* `onedesk.one.settings.invite`
-* `onedesk.one.settings.invite_again`
 * `onedesk.one.settings.keep`
 * `onedesk.one.settings.load`
 * `onedesk.one.settings.preview_notification`
 * `onedesk.one.settings.save`
 * `onedesk.one.settings.sections`
-* `onedesk.one.settings.send_reset`
-* `onedesk.one.settings.set_enabled`
-* `onedesk.one.settings.sign_out_elsewhere`
-* `onedesk.one.settings.sign_out_everywhere`
 * `onedesk.one.setup_steps.finish`
 * `onedesk.one.setup_wizard.setup_complete`
-* `onedesk.one.signin.sign_out`
-* `onedesk.one.signin.update_password`
 * `onedesk.one.start_again.start`
 * `onedesk.one.tours.seen`
 * `onedesk.one.tours.tour`
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
+* `onedesk.one_account.bills.invoices`
+* `onedesk.one_account.bills.payment_portal`
+* `onedesk.one_account.bills.to_books`
+* `onedesk.one_account.center.invite`
+* `onedesk.one_account.center.invite_again`
+* `onedesk.one_account.center.load`
+* `onedesk.one_account.center.save`
+* `onedesk.one_account.center.sections_of`
+* `onedesk.one_account.center.send_reset`
+* `onedesk.one_account.center.set_enabled`
+* `onedesk.one_account.center.sign_out_elsewhere`
+* `onedesk.one_account.center.sign_out_everywhere`
+* `onedesk.one_account.closing.close`
+* `onedesk.one_account.closing.download`
+* `onedesk.one_account.closing.keep`
+* `onedesk.one_account.closing.prepare`
+* `onedesk.one_account.closing.state`
+* `onedesk.one_account.devices.lost`
+* `onedesk.one_account.devices.retire`
+* `onedesk.one_account.devices.retire_passkey`
+* `onedesk.one_account.devices.save`
+* `onedesk.one_account.invite.accept`
+* `onedesk.one_account.private.claim`
+* `onedesk.one_account.signin.sign_out`
+* `onedesk.one_account.signin.update_password`
 * `onedesk.one_admin.accounts.ask_email_change`
 * `onedesk.one_admin.accounts.confirm_email`
 * `onedesk.one_admin.accounts.pay`

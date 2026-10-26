@@ -65,8 +65,8 @@ def offered() -> list[dict]:
 	private apps it has (always on), then OneAI and its reading."""
 	from frappe.desk.doctype.dock.dock import get_app_dock
 
-	from onedesk.one import private
-	from onedesk.one.settings import APP_SAID
+	from onedesk.one_account import private
+	from onedesk.one.people import APP_SAID
 
 	off = set(hidden())
 	theirs = private.rail()
@@ -195,7 +195,8 @@ def boot(bootinfo) -> None:
 
 @frappe.whitelist()
 def read() -> dict:
-	from onedesk.one import private, roles
+	from onedesk.one import roles
+	from onedesk.one_account import private
 
 	roles.require()
 	return {"apps": offered() + private.waiting()}

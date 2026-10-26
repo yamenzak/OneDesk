@@ -14,7 +14,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 SOURCE = (tree.APP / "one" / "access.py").read_text()
-SETTINGS = (tree.APP / "one" / "settings.py").read_text()
+PEOPLE = (tree.APP / "one" / "people.py").read_text()
 
 
 def _body(name: str) -> str:
@@ -66,9 +66,9 @@ def test_a_right_brings_what_it_needs_and_a_record_what_it_names():
 
 
 def test_a_plain_user_holds_the_companion_and_nobody_else_does():
-	assert '"User": set(used) | set(alone)' in SETTINGS
-	assert "return set(used) | {level}" in SETTINGS
-	assert "set(alone)" in SETTINGS.split("def _set_access(", 1)[1].split("\ndef ", 1)[0]
+	assert '"User": set(used) | set(alone)' in PEOPLE
+	assert "return set(used) | {level}" in PEOPLE
+	assert "set(alone)" in PEOPLE.split("def set_access(", 1)[1].split("\ndef ", 1)[0]
 
 
 def test_record_access_stays_within_its_kinds():
@@ -76,7 +76,7 @@ def test_record_access_stays_within_its_kinds():
 
 
 def test_a_profile_keeps_what_else_a_person_holds():
-	assert "_set_access(" in _body("put_on")
+	assert "set_access(" in _body("put_on")
 	assert "doc.unlock()" in _body("save_profile")
 
 

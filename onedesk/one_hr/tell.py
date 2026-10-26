@@ -178,7 +178,7 @@ def _attendance(doc) -> dict:
 
 
 def _hr() -> list[str]:
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	found = frappe.get_all(
 		"Has Role",
@@ -566,7 +566,7 @@ def passkey_reset_done(employee: str) -> None:
 		notify.notify(
 			"Passkey Reset Done",
 			user,
-			link="/desk/settings?section=signin",
+			link="/desk/one?center=account&at=signin",
 			by=frappe.utils.get_fullname(frappe.session.user),
 		)
 
@@ -865,7 +865,7 @@ def claims_paid(doc, method=None) -> None:
 
 def employee_details_changed(employee, said: list[str]) -> None:
 	"""A person changed where they live or who to call, told to HR but not them."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	hr = frappe.get_all("Has Role", filters={"role": "HR Manager", "parenttype": "User"}, pluck="parent")
 	hr = [

@@ -337,7 +337,7 @@ def test_a_new_workspace_invites_its_owner_and_says_it_is_ready():
 	assert order.index('"push_config"') < order.index('"invite_owner"') < order.index('"live"')
 	assert "onedesk.one.account.wake" in steps and "tell.ready(tenant)" in steps
 	assert '"owner": known.owner_email' in (ADMIN / "proxy.py").read_text()
-	owner = (tree.APP / "one" / "owner.py").read_text()
+	owner = (tree.APP / "one_account" / "owner.py").read_text()
 	assert 'if roles.administrators() or frappe.db.exists("User", email)' in owner
 	assert "roles.ADMINISTRATOR" in owner and 'invite.send(user.name, inviter="One")' in owner
 	account = (tree.APP / "one" / "account.py").read_text()

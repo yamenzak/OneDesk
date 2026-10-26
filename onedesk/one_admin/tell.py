@@ -233,7 +233,7 @@ def settings_changed(said: list[str]) -> None:
 @_quietly
 def closing(tenant) -> None:
 	"""Its payer asked for it to be closed (closing.ask). They and everybody in
-	the workspace are told there (one/closing.py); the operators here."""
+	the workspace are told there (one_account/closing.py); the operators here."""
 	from frappe.utils import formatdate
 
 	from onedesk.one_admin import closing as closing_

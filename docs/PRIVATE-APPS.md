@@ -5,7 +5,7 @@ it is given a code. Somebody there types the code into **Apps**, and the app
 is installed on their site, migrations and all. From then on it is one of
 One's apps, and it can never be turned off or uninstalled.
 
-The code is `one_admin/private.py` (control plane) and `one/private.py`
+The code is `one_admin/private.py` (control plane) and `one_account/private.py`
 (workspace). This file is how to write one, and how it gets to a customer.
 
 ## Writing one

@@ -340,7 +340,7 @@ def billed_to(email: str, by: str | None = None) -> dict:
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def close(by: str) -> dict:
 	"""Close this workspace in a fortnight. The workspace asks only for the
-	person it is billed to, who confirmed with their password (one/closing.py)."""
+	person it is billed to, who confirmed with their password (one_account/closing.py)."""
 	from onedesk.one_admin import closing
 
 	return closing.ask(caller().name, by)

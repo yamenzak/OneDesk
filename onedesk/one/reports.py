@@ -169,7 +169,7 @@ def places() -> list[dict]:
 	from frappe.boot import get_module_sidebars
 
 	from onedesk.one.access import all_levels
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	seen = get_module_sidebars()
 	held = set(frappe.get_roles())

@@ -13,7 +13,7 @@ def get_context(context):
 	if frappe.session.user == "Guest":
 		frappe.throw(_("You need to be logged in to access this page"), frappe.PermissionError)
 	if frappe.session.data.user_type == "System User":
-		frappe.local.flags.redirect_location = "/desk/settings?section=profile"
+		frappe.local.flags.redirect_location = "/desk/one?center=account&at=profile"
 		raise frappe.Redirect
 	from onedesk.one_admin import site
 

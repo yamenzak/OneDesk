@@ -219,7 +219,7 @@ def workspace_facts(
 		workspace = frappe.db.get_value("Tenant Domain", workspace, "tenant")
 	if not workspace or not frappe.db.exists("Tenant", workspace):
 		return {"error": f"There is no workspace {workspace}. Ask which one they meant."}
-	from onedesk.one.heads import size
+	from onedesk.one_account.heads import size
 	from onedesk.one_admin import operator
 
 	held = frappe.get_doc("Tenant", workspace)

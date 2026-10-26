@@ -64,6 +64,8 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 				? { center: this.center || "settings", module: this.module }
 				: { center: this.center, label: __("Your Workspace"), icon: "building" };
 		const $head = onedesk.module_head(this.$sidebar, center);
+		// A centre that is already the whole of itself has nothing to open.
+		if (this.expand === false) return;
 		onedesk.module_head_expand($head, () => {
 			if (this.expand) return this.expand();
 			this.hide();

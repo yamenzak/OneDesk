@@ -56,7 +56,7 @@ Measured on 2026-10-26.
 
 ## AccountCenter
 
-The module's id is open (Open, below); `one_account` is used here. Its
+The module is OneAccount (`one_account`). Its
 centre is drawn on the settings dialog like the others
 (`onedesk.CENTERS.account`), opens from your avatar at the foot of the rail
 and from the arrows, and has two groups.
@@ -163,10 +163,17 @@ browser on a desktop and a phone, in English and Arabic, a commit, a push
 and a screenshot. A module that is already ready and takes something in
 moves its version.
 
-1. **AccountCenter.** The module, its folder and registry entry, its centre
-   with Yours and Workspace, the files above moved in, Help pages, roles,
-   notifications, setup step and tour. The rail rows for these open it;
-   OneMail's mailbox dialog stops using the name.
+1. **AccountCenter.** Built. OneAccount (`one_account`) has its folder,
+   registry entry, Help pages, roles, notifications, legal clauses, setup
+   step and tour; `signin.py`, `devices.py`, `invite.py`, `owner.py`,
+   `bills.py`, `heads.py`, `closing.py` and `private.py` and the four
+   account doctypes moved in. The centre has Profile and Sign-in under
+   Yours, and People, Devices, Plan and Credits and Domains under
+   Workspace. One's rail rows for those six open it, and OneMail's mailbox
+   dialog is its ControlCenter. Changed from the plan: there is no separate
+   Your devices (Sign-in already lists where you are signed in), Apps stays
+   in Workspace Settings until stage 2, and `account.py`, `apps.py` and
+   `tell.py` stay in One, which every module calls through them.
 2. **Settings empties.** Every other You and Workspace section goes to the
    centre or module in the table. The Settings and Workspace Settings pages,
    and `settings.py` and `settings.js`, are deleted once nothing is left
@@ -192,8 +199,6 @@ moves its version.
 
 ## Open
 
-- **AccountCenter's module needs a product name** (and the id under it),
-  written once in `scripts/gen_brand.py`.
 - **Whether the Address Book stays One's.** Every module uses contacts, which
   is why it is here; it could also be a module of its own.
 - **The portal's module** (above).

@@ -595,3 +595,65 @@ a.one-shell-row:hover {
 	height: 100%;
 	min-height: 0;
 }
+
+/* The shell drawn in a centre's panel (AccountCenter): the dialog is its
+   frame, so the page's centred column and its side padding go, and what a
+   record's page shows in a side column sits on top, in one row. */
+.settings-dialog-panel .one-shell-body,
+.settings-dialog-panel .one-shell-body.one-shell-wide {
+	max-width: none;
+	margin: 0;
+}
+
+.settings-dialog-panel .one-shell-section {
+	padding-inline: 0;
+}
+
+.settings-dialog-panel .one-shell-section:last-child {
+	border-bottom: 0;
+}
+
+.settings-dialog-panel .one-record-view {
+	flex-direction: column;
+	min-height: 0;
+}
+
+.settings-dialog-panel .one-record-side {
+	order: -1;
+	flex: none;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: calc(var(--spacing) * 2) calc(var(--spacing) * 6);
+	padding: 0 0 calc(var(--spacing) * 4);
+	border-inline-start: 0;
+	border-bottom: 1px solid var(--outline-gray-1);
+}
+
+.settings-dialog-panel .one-record-side .sidebar-section {
+	margin: 0;
+	padding: 0;
+	border: 0;
+}
+
+.settings-dialog-panel .one-record-side .sidebar-image-wrapper img,
+.settings-dialog-panel .one-record-side .sidebar-standard-image {
+	width: 48px;
+	height: 48px;
+}
+
+.settings-dialog-panel .one-record-side .standard-image {
+	font-size: var(--text-lg);
+}
+
+.settings-dialog-panel .one-record-side .sidebar-menu {
+	display: flex;
+	gap: calc(var(--spacing) * 4);
+	margin: 0;
+}
+
+.settings-dialog-panel .one-record-main > .one-shell-section:not(:has(.one-shell-form)),
+.settings-dialog-panel .one-record-main > .one-record-news,
+.settings-dialog-panel .one-record-main .one-shell-form .form-section {
+	padding-inline: 0;
+}

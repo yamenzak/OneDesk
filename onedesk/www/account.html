@@ -12,7 +12,7 @@
 		<span>One</span>
 	</a>
 
-	{% include "templates/includes/one_account_tabs.html" %}
+	{% include "templates/includes/admin_account_tabs.html" %}
 
 	<h1>{{ _("Your workspaces") }}</h1>
 	<p class="one-portal__lede">{{ _("Signed in as {0}.").format(me|e) }} <a href="/logout">{{ _("Sign out") }}</a></p>
@@ -44,5 +44,5 @@
 	{% endif %}
 </div>
 
-{% include "templates/includes/one_account_pay.html" %}
+{% include "templates/includes/admin_account_pay.html" %}
 {% endblock %}

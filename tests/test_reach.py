@@ -67,7 +67,7 @@ def test_a_sales_managers_assignment_rule_shares_out_leads_by_their_fields():
 
 def test_reach_reads_the_rails_against_the_roles_people_hands_out():
 	reach = (tree.APP / "one" / "reach.py").read_text()
-	assert "from onedesk.one.settings import APPS" in reach
+	assert "from onedesk.one.people import APPS" in reach
 	assert "{*users, *managers, *EVERYBODY}" in reach
 
 

@@ -1,0 +1,247 @@
+.os-who {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 3);
+	min-width: 0;
+}
+
+.os-who-name {
+	color: var(--ink-gray-9);
+	font-size: var(--text-lg);
+	font-weight: var(--font-weight-semibold);
+}
+
+.one-shell-section > .os-who {
+	margin-bottom: calc(var(--spacing) * 6);
+}
+
+.os-who-actions {
+	display: flex;
+	gap: calc(var(--spacing) * 1);
+	margin: calc(var(--spacing) * 1.5) 0 0 calc(var(--spacing) * -2);
+}
+
+.os-photo {
+	position: relative;
+	flex: none;
+	border-radius: var(--radius-full);
+}
+
+.os-photo-edit {
+	position: absolute;
+	right: 0;
+	bottom: 0;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 24px;
+	height: 24px;
+	outline: 2px solid var(--surface-base);
+	border-radius: var(--radius-full);
+	background: var(--surface-gray-7);
+	color: var(--ink-base);
+	opacity: 0;
+	transition: opacity 0.15s;
+}
+
+.os-photo:hover .os-photo-edit,
+.os-photo:focus-visible .os-photo-edit {
+	opacity: 1;
+}
+
+.os-facts {
+	display: grid;
+	grid-template-columns: max-content 1fr;
+	gap: calc(var(--spacing) * 2) calc(var(--spacing) * 6);
+	margin: calc(var(--spacing) * 3) 0 0;
+}
+
+.os-facts dt {
+	color: var(--ink-gray-5);
+	font-weight: normal;
+}
+
+.os-facts dd {
+	margin: 0;
+	color: var(--ink-gray-9);
+}
+
+.os-bar {
+	display: block;
+	margin-top: calc(var(--spacing) * 5);
+	color: inherit;
+	text-decoration: none;
+}
+
+.os-bar .os-bar-near .es-progress__fill {
+	background: var(--surface-amber-5);
+}
+
+.os-bar .os-bar-over .es-progress__fill {
+	background: var(--surface-red-5);
+}
+
+.os-copy {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin: calc(var(--spacing) * 2) 0;
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	border-radius: var(--radius-md);
+	background: var(--surface-gray-2);
+}
+
+.os-copy code {
+	flex: 1;
+	overflow: hidden;
+	background: none;
+	color: var(--ink-gray-8);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.os-person {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2.5);
+}
+
+.os-person-name {
+	color: var(--ink-gray-8);
+	font-weight: var(--font-weight-medium);
+}
+
+.os-who-large .es-avatar {
+	--es-av-size: calc(var(--spacing) * 20);
+	--es-av-text: var(--text-3xl);
+}
+
+.os-who-large .os-photo-edit {
+	width: 28px;
+	height: 28px;
+}
+
+.one-shell-form .os-facts {
+	margin: 0;
+}
+
+.os-notify-intro {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 4);
+	margin-bottom: calc(var(--spacing) * 4);
+}
+
+.os-under-field {
+	margin-top: calc(var(--spacing) * -3);
+}
+
+.os-person-head {
+	align-items: flex-start;
+	gap: calc(var(--spacing) * 4);
+}
+
+.os-facts dd a {
+	color: inherit;
+	text-decoration: underline;
+	text-decoration-color: var(--outline-gray-3);
+	text-underline-offset: 3px;
+}
+
+.os-plans {
+	font-size: var(--text-sm);
+}
+
+.os-plans .os-plan-current td {
+	background: var(--surface-gray-1);
+}
+
+.os-better {
+	margin-top: calc(var(--spacing) * 3);
+}
+
+.os-add-ons {
+	margin-top: calc(var(--spacing) * 6);
+}
+
+.os-dns {
+	width: 100%;
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-md);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	font-size: var(--text-base);
+}
+
+.os-dns th {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-6);
+	font-weight: 500;
+	font-size: var(--text-sm);
+	padding: 6px 12px;
+	text-align: left;
+}
+
+.os-dns td {
+	border-top: 1px solid var(--outline-gray-1);
+	padding: 8px 12px;
+	vertical-align: middle;
+}
+
+.os-dns th:first-child,
+.os-dns td:first-child {
+	width: 88px;
+}
+
+.os-dns-value {
+	font-family: var(--font-stack-monospace, monospace);
+	font-size: var(--text-sm);
+	color: var(--ink-gray-8);
+	word-break: break-all;
+}
+
+.os-dns-copy {
+	display: inline-flex;
+	align-items: center;
+	margin-left: 6px;
+	padding: 3px;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--ink-gray-6);
+	vertical-align: middle;
+}
+
+.os-dns td > * {
+	vertical-align: middle;
+}
+
+.os-dns-copy:hover {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+}
+
+.os-dns-lead {
+	margin: 8px 0;
+}
+
+.one-account .settings-dialog-panel-title {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+}
+
+.one-account .settings-dialog-panel-actions {
+	flex-wrap: wrap;
+	justify-content: flex-end;
+}
+
+/* The tabs, wrapped so the tour can point at them, still fill the sidebar. */
+.one-account .one-account-tabs {
+	display: flex;
+	flex-direction: column;
+	flex: 1 1 auto;
+	min-height: 0;
+}

@@ -10,25 +10,23 @@ import frappe
 from frappe import _, _lt
 
 from onedesk.one import roles, tell
-from onedesk.one.access import all_levels, companion
+from onedesk.one.access import all_levels
+from onedesk.one.people import APP_SAID, APPS, levels_of
+from onedesk.one.sections import as_opened
+from onedesk.one.sections import fields as fields_of
+from onedesk.one.sections import opened as opened_of
 
 SECTIONS = [
-	("profile", _lt("Profile"), "user", "you"),
 	("notifications", _lt("Notifications"), "bell", "you"),
 	("calendar", _lt("Calendar"), "calendar", "you"),
-	("signin", _lt("Sign-in"), "key-round", "you"),
 	("memory", _lt("What OneAI Remembers"), "brain", "you"),
 	("reads", _lt("What OneAI Reads"), "oneintake", "you"),
 	("general", _lt("General"), "building-2", "workspace"),
-	("people", _lt("People"), "users", "workspace"),
 	("access", _lt("Access"), "shield-check", "workspace"),
-	("devices", _lt("Devices"), "monitor-smartphone", "workspace"),
 	("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace"),
 	("numbering", _lt("Numbering"), "hash", "workspace"),
 	("printing", _lt("Printing"), "printer", "workspace"),
 	("approvals", _lt("Approvals"), "route", "workspace"),
-	("plan", _lt("Plan and Credits"), "credit-card", "workspace"),
-	("domains", _lt("Domains"), "globe", "workspace"),
 	("oneai", _lt("OneAI"), "sparkles", "workspace"),
 	("intake", _lt("Reading"), "oneintake", "workspace"),
 	("holidays", _lt("Holidays"), "calendar-days", "workspace"),
@@ -38,75 +36,6 @@ SECTIONS = [
 # (settings.js `show`): OneAI, what it remembers and its reading are AICenter's.
 OPENS = ("memory", "oneai", "intake")
 
-APPS = [
-	("OneCRM", "onecrm", ("Sales User",), ("Sales Manager",)),
-	("OneBook", "onebook", ("Accounts User",), ("Accounts Manager",)),
-	(
-		"OneInventory",
-		"oneinventory",
-		("Stock User", "Purchase User", "Manufacturing User"),
-		("Stock Manager", "Purchase Manager", "Item Manager", "Manufacturing Manager"),
-	),
-	("OneProject", "oneproject", ("Projects User",), ("Projects Manager",)),
-	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
-	("OneMail", "onemail", ("OneMail User",), ("Mail Manager",)),
-]
-
-# Apps everybody uses: no None, and User is not worth saying on the list
-# of people (one/abilities.py `always`).
-ALWAYS = ("OneMail",)
-
-APP_SAID = {
-	"OneCRM": _lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
-	"OneBook": _lt("Send invoices, pay bills, match the bank and see where the money stands."),
-	"OneInventory": _lt("Know what's in stock, buy what runs low, and make and track what you sell."),
-	"OneProject": _lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
-	"OneHR": _lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
-	"OneCloud": _lt("Keep the company's files in one place and share them with anyone, inside or out."),
-	"OneMail": _lt("The company's email, each message kept on the customer, supplier or job it's about."),
-	"OneTask": _lt("Everybody's work in one list, with checklists, due dates and timers."),
-	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
-	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
-	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
-	"Reading": _lt("Mail and files read as they arrive, and filed on their record."),
-}
-
-LEVELS = ("None", "User", "Manager")
-
-NOT_PEOPLE = ("Administrator", "Guest", "oneai@one.invalid")
-
-PROFILE = ("first_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone", "user_image")
-
-EMPLOYEE_OWN = (
-	"personal_email",
-	"current_address",
-	"permanent_address",
-	"person_to_be_contacted",
-	"relation",
-	"emergency_phone_number",
-	"marital_status",
-	"blood_group",
-)
-
-TOLD_HR = {
-	"current_address": _lt("current address"),
-	"permanent_address": _lt("permanent address"),
-	"person_to_be_contacted": _lt("emergency contact"),
-	"relation": _lt("emergency contact"),
-	"emergency_phone_number": _lt("emergency contact"),
-}
-
-EMERGENCY = ("person_to_be_contacted", "relation", "emergency_phone_number")
-
-LABELS = {"mobile_no": _lt("Mobile"), "phone_no": _lt("Phone"), "city": _lt("City"), "state": _lt("State or Region")}
-
-SHARED = {"gender": "gender", "birth_date": "date_of_birth", "mobile_no": "cell_number", "user_image": "image"}
-
-AT_WORK = ("name", "designation", "department", "reports_to", "branch", "employment_type", "date_of_joining", "company_email")
-
-TITLES = {"Employee": "employee_name", "Department": "department_name"}
-
-BANK = ("bank_name", "iban", "bank_ac_no")
 
 NOTIFY = (
 	"enabled",
@@ -136,7 +65,7 @@ SYSTEM = ("date_format", "time_format", "number_format", "first_day_of_the_week"
 NEEDS_AI = ("memory", "oneai")
 NEEDS_INTAKE = ("reads", "intake")
 
-ON_A_RECORD = ("notification_types", "people", "holidays", "access")
+ON_A_RECORD = ("notification_types", "holidays", "access")
 
 NOTIFICATION_TYPE = (
 	"enabled",
@@ -172,18 +101,12 @@ def load(
 	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
 ) -> dict:
 	loaders = {
-		"profile": _profile,
 		"notifications": _notifications,
 		"calendar": _calendar,
-		"signin": _signin,
 		"memory": _memory,
 		"reads": _reads,
 		"general": _general,
-		"people": _people,
 		"access": _access,
-		"plan": _plan,
-		"domains": _domains,
-		"devices": _devices,
 		"holidays": _holidays,
 		"notification_types": _notification_types,
 		"numbering": _numbering,
@@ -207,12 +130,10 @@ def save(
 	values = frappe.parse_json(values) or {}
 	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
 	savers = {
-		"profile": _save_profile,
 		"notifications": _save_notifications,
 		"general": _save_general,
 		"holidays": _save_holidays,
 		"notification_types": _save_notification_type,
-		"people": _save_person,
 		"access": _save_access,
 	}
 	if section not in savers:
@@ -230,144 +151,12 @@ def save(
 	return said
 
 
-def _as_opened(doc):
-	"""The record as the page loaded it, for frappe's own `check_if_latest`,
-	which refuses the save if it has changed since, with frappe's own message
-	(Document.check_if_latest). A record the page did not send is saved as
-	it is."""
-	modified = (frappe.flags.one_opened or {}).get(f"{doc.doctype}:{doc.name}")
-	if modified:
-		doc.modified = modified
-	return doc
-
-
-def _opened(*docs) -> list[dict]:
-	"""What the page needs to save these back, and to hear when somebody else
-	changes them: each record's doctype, name and modified."""
-	return [{"doctype": doc.doctype, "name": doc.name, "modified": str(doc.modified)} for doc in docs if doc]
-
-
 def _group(section: str) -> str:
 	return next((group for key, _label, _icon, group in SECTIONS if key == section), "")
 
 
 def _needs_admin(section: str) -> bool:
 	return _group(section) == "workspace"
-
-
-def _fields(doctype: str, names: tuple) -> list[dict]:
-	"""A doctype's own fields, as the page draws them: its labels, options and
-	descriptions rather than a second copy of them here."""
-	meta = frappe.get_meta(doctype)
-	out = []
-	for name in names:
-		field = meta.get_field(name)
-		if not field:
-			continue
-		out.append(
-			{
-				"fieldname": field.fieldname,
-				"fieldtype": field.fieldtype,
-				"label": str(LABELS[name]) if name in LABELS else _(field.label),
-				"options": field.options,
-				"description": _(field.description) if field.description else None,
-			}
-		)
-	return out
-
-
-def _profile() -> dict:
-	user = frappe.get_doc("User", frappe.session.user)
-	said = {
-		"fields": _fields("User", PROFILE),
-		"values": {name: user.get(name) for name in PROFILE},
-		"email": user.email,
-		"full_name": user.full_name,
-		"employee": None,
-	}
-	employee = _employee()
-	said["opened"] = _opened(user, employee)
-	from onedesk.one import privacy
-
-	said["privacy"] = privacy.state()
-	if employee:
-		said["values"].update({mine: employee.get(theirs) or said["values"].get(mine) for mine, theirs in SHARED.items()})
-		said["values"].update({name: employee.get(name) for name in EMPLOYEE_OWN})
-		said["employee"] = {
-			"fields": _fields("Employee", EMPLOYEE_OWN),
-			"work": _facts(employee, AT_WORK),
-			"bank": [{**one, "value": _masked(one["value"])} if one["fieldname"] != "bank_name" else one for one in _facts(employee, BANK)],
-		}
-	return said
-
-
-def _employee():
-	"""The person's own employee record, when they have one. Read past
-	permissions: the only filter is the session's own user."""
-	from onedesk.one_hr import own
-
-	name = own.employee_of()
-	return frappe.get_doc("Employee", name) if name else None
-
-
-def _facts(doc, names: tuple) -> list[dict]:
-	"""Fields of a record as label and value, for reading rather than editing.
-	A link shows the record's title, not its id."""
-	meta = frappe.get_meta(doc.doctype)
-	out = []
-	for name in names:
-		value = doc.get(name)
-		if not value:
-			continue
-		field = meta.get_field(name)
-		label = _(field.label) if field else _("Employee ID")
-		if field and field.fieldtype == "Link":
-			value = frappe.db.get_value(field.options, value, TITLES.get(field.options) or frappe.get_meta(field.options).get_title_field()) or value
-			value = _(value) if field.options in ("Designation", "Employment Type") else value
-		elif field and field.fieldtype == "Date":
-			value = frappe.utils.formatdate(value)
-		out.append({"fieldname": name, "label": label, "value": value})
-	return out
-
-
-def _masked(value: str) -> str:
-	"""All but the last four characters hidden. Pure."""
-	value = (value or "").replace(" ", "")
-	return "•••• " + value[-4:] if len(value) > 4 else value
-
-
-def _save_profile(values: dict) -> None:
-	user = _as_opened(frappe.get_doc("User", frappe.session.user))
-	user.update({name: values[name] for name in PROFILE if name in values})
-	user.save(ignore_permissions=True)
-	employee = _employee()
-	if not employee:
-		return
-	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
-	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
-	was = {name: employee.get(name) for name in TOLD_HR}
-	_as_opened(employee).update(changes)
-	if any(employee.get(name) for name in EMERGENCY) and not (
-		employee.person_to_be_contacted and employee.emergency_phone_number
-	):
-		frappe.throw(_("An emergency contact needs a name and a phone number, so HR can call them."))
-	employee.save(ignore_permissions=True)
-	_tell_hr(employee, was)
-
-
-def _tell_hr(employee, was: dict) -> None:
-	"""HR learns when a person changes where they live or who to call, once
-	per save, saying what changed. Not the person themselves, if they are HR."""
-	said = list(
-		dict.fromkeys(
-			str(label) for name, label in TOLD_HR.items() if (was.get(name) or "") != (employee.get(name) or "")
-		)
-	)
-	if not said:
-		return
-	from onedesk.one_hr import tell as hr
-
-	hr.employee_details_changed(employee, said)
 
 
 def _notifications() -> dict:
@@ -383,7 +172,7 @@ def _notifications() -> dict:
 	doc = frappe.get_doc("Notification Settings", frappe.session.user)
 	mailed = {row.notification_type for row in doc.email_notification_types}
 	pushed = {row.notification_type for row in doc.get(notify.PUSH_FIELD) or []}
-	fields = _fields("Notification Settings", NOTIFY)
+	fields = fields_of("Notification Settings", NOTIFY)
 	for field in fields:
 		label, description = NOTIFY_SAID[field["fieldname"]]
 		field.update({"fieldtype": "Switch", "label": str(label), "description": str(description)})
@@ -429,7 +218,7 @@ def _notifications() -> dict:
 			for app, rows in groups.items()
 		],
 		"push": push.devices(),
-		"opened": _opened(doc),
+		"opened": opened_of(doc),
 	}
 
 
@@ -471,7 +260,7 @@ def _save_notifications(values: dict) -> None:
 	is left as it was."""
 	from onedesk.one import notify
 
-	doc = _as_opened(frappe.get_doc("Notification Settings", frappe.session.user))
+	doc = as_opened(frappe.get_doc("Notification Settings", frappe.session.user))
 	doc.update({name: values[name] for name in NOTIFY if name in values})
 	kinds = notify.choosable()
 	for field, prefix, may in (
@@ -495,21 +284,6 @@ def _calendar() -> dict:
 	from onedesk.one_calendar import feed
 
 	return {"link": feed.current(), "allowed": feed.allowed()}
-
-
-def _signin() -> dict:
-	from onedesk.one import signin
-
-	return signin.facts()
-
-
-@frappe.whitelist(methods=["POST"])
-def sign_out_elsewhere() -> int:
-	"""Every other session of this person ends; this one stays."""
-	from frappe.sessions import clear_sessions
-
-	clear_sessions(frappe.session.user, keep_current=True)
-	return 1
 
 
 def _memory() -> dict:
@@ -609,10 +383,10 @@ def _general() -> dict:
 	defaults = frappe.get_single("Global Defaults")
 	address = _company_address(company)
 	fields = (
-		_fields("Company", ("company_logo", *ON_DOCUMENTS, *ON_SCREEN))
-		+ _fields("Address", ADDRESS)
-		+ _zones(_switches(_fields("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
-		+ _switches(_fields("Global Defaults", AMOUNTS))
+		fields_of("Company", ("company_logo", *ON_DOCUMENTS, *ON_SCREEN))
+		+ fields_of("Address", ADDRESS)
+		+ _zones(_switches(fields_of("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
+		+ _switches(fields_of("Global Defaults", AMOUNTS))
 	)
 	return {
 		"name": account.workspace_name,
@@ -634,7 +408,7 @@ def _general() -> dict:
 			"one_two_factor": _two_factor(system),
 			"one_password": str(system.minimum_password_score or "") if system.enable_password_policy else "",
 		},
-		"opened": _opened(company, system, address, defaults),
+		"opened": opened_of(company, system, address, defaults),
 	}
 
 
@@ -686,7 +460,7 @@ def _save_company_address(company, values: dict) -> None:
 			}
 		)
 	else:
-		_as_opened(address)
+		as_opened(address)
 	if all(address.get(name) == value for name, value in wanted.items()) and not address.is_new():
 		return
 	address.update(wanted)
@@ -849,7 +623,7 @@ def _save_general(values: dict) -> None:
 			if name in values and (values[name] or None) != (company.get(name) or None)
 		}
 		if changed:
-			_as_opened(company).update(changed)
+			as_opened(company).update(changed)
 			company.save(ignore_permissions=True)
 		if "one_frame_colour" in changed:
 			from onedesk.one import company as workspace_company
@@ -861,7 +635,7 @@ def _save_general(values: dict) -> None:
 			)
 		_save_company_address(company, values)
 	_save_amounts(values)
-	system = _as_opened(frappe.get_single("System Settings"))
+	system = as_opened(frappe.get_single("System Settings"))
 	guarded = (*SIGNING_IN, "enable_two_factor_auth", "enable_password_policy", "minimum_password_score", "disable_document_sharing")
 	was = {name: system.get(name) for name in guarded}
 	system.update({name: values[name] for name in ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER) if name in values})
@@ -889,431 +663,8 @@ def _save_amounts(values: dict) -> None:
 	defaults = frappe.get_single("Global Defaults")
 	wanted = {name: frappe.utils.cint(values[name]) for name in AMOUNTS if name in values}
 	if any(frappe.utils.cint(defaults.get(name)) != value for name, value in wanted.items()):
-		_as_opened(defaults).update(wanted)
+		as_opened(defaults).update(wanted)
 		defaults.save(ignore_permissions=True)
-
-
-def level_of(held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:
-	"""None, User, one of the workspace's own levels of the app
-	(one/access.py), or Manager, from the roles a person holds. Pure."""
-	if held & set(managed):
-		return "Manager"
-	for one in levels:
-		if one in held:
-			return one
-	if held & set(used):
-		return "User"
-	return "None"
-
-
-def roles_for(level: str, used: tuple, managed: tuple, levels: tuple | list = (), alone: tuple | list = ()) -> set:
-	"""The roles a level means: every level holds the app's User roles, a
-	plain user also the app's companion role (`alone`, one/access.py), a
-	manager the app's Manager roles, and a level of the workspace's own
-	itself. Pure."""
-	if level in levels:
-		return set(used) | {level}
-	return {"None": set(), "User": set(used) | set(alone), "Manager": set(used) | set(managed)}[level]
-
-
-def app_level(app: str, held: set, used: tuple, managed: tuple, levels: tuple | list = ()) -> str:
-	"""level_of, where an app everybody uses is at least User."""
-	said = level_of(held, used, managed, levels)
-	return "User" if said == "None" and app in ALWAYS else said
-
-
-def _listed(held: set, own: dict) -> dict:
-	"""A person's role in each app, as the list of people shows it: User in
-	an app everybody uses goes without saying."""
-	said = {}
-	for name, _icon, used, managed in APPS:
-		level = app_level(name, held, used, managed, own.get(name, ()))
-		if not (name in ALWAYS and level == "User"):
-			said[name] = level
-	return said
-
-
-def _levels(app: str, own: dict) -> list[dict]:
-	"""What People offers for one app: None, User, the workspace's own roles
-	between, and Manager. An app everybody uses has no None."""
-	return [{"value": one, "label": _(one)} for one in ("None", "User") if not (one == "None" and app in ALWAYS)] + [
-		{"value": one, "label": one} for one in own.get(app, [])
-	] + [{"value": "Manager", "label": _("Manager")}]
-
-
-def _people(record: str | None = None) -> dict:
-	"""Everybody on the workspace; or the one person the section is open on."""
-	if record:
-		return _person_page(record)
-	users = frappe.get_all(
-		"User",
-		filters={"user_type": "System User", "name": ["not in", NOT_PEOPLE]},
-		fields=["name", "full_name", "enabled", "last_active", "user_image"],
-		order_by="enabled desc, full_name asc",
-		limit=500,
-	)
-	held = _held([one.name for one in users])
-	employees = dict(
-		frappe.get_all("Employee", filters={"user_id": ["in", [one.name for one in users] or [""]]}, fields=["user_id", "name"], as_list=True)
-	)
-	account = frappe.get_single("Workspace Account")
-	own = all_levels()
-	return {
-		"apps": [{"name": name, "icon": icon, "levels": _levels(name, own)} for name, icon, _used, _managed in APPS],
-		"levels": [{"value": one, "label": _(one)} for one in LEVELS],
-		"people": [
-			{
-				**one,
-				"admin": roles.ADMINISTRATOR in held.get(one.name, set()),
-				"access": _listed(held.get(one.name, set()), own),
-				"employee": employees.get(one.name),
-			}
-			for one in users
-		],
-		"seats": account.seats or 0,
-		"used": sum(1 for one in users if one.enabled),
-		"me": frappe.session.user,
-	}
-
-
-def _held(users: list) -> dict:
-	held = {}
-	for row in frappe.get_all("Has Role", filters={"parenttype": "User", "parent": ["in", users or [""]]}, fields=["parent", "role"], limit=0):
-		held.setdefault(row.parent, set()).add(row.role)
-	return held
-
-
-def _one_of_the_people(user: str):
-	roles.require()
-	if user in NOT_PEOPLE or frappe.db.get_value("User", user, "user_type") != "System User":
-		frappe.throw(_("That cannot be set."))
-	return frappe.get_doc("User", user)
-
-
-def _person_page(user: str) -> dict:
-	"""One person as an administrator sees them, as a form: a Select per app
-	and the Administrator switch, saved against the User as it was loaded;
-	where they are signed in and their last sign-ins (one/signin.py), and the
-	records they are held to (one/access.py)."""
-	from onedesk.one import access, signin
-
-	doc = _one_of_the_people(user)
-	held = {one.role for one in doc.roles}
-	own = all_levels()
-	fields = [
-		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": name, "options": _levels(name, own), "description": str(APP_SAID[name])}
-		for name, icon, _used, _managed in APPS
-	]
-	fields.insert(
-		0,
-		{
-			"fieldname": "profile",
-			"fieldtype": "Select",
-			"label": _("Profile"),
-			"options": [{"value": "", "label": _("None, set by hand")}] + [{"value": one["name"], "label": one["name"]} for one in access.profiles()],
-			"description": _("Sets every app below. Changing an app by hand removes the profile."),
-		},
-	)
-	fields.append(
-		{
-			"fieldname": "admin",
-			"fieldtype": "Switch",
-			"label": _("Administrator"),
-			"description": _("Can manage people, the plan, domains and OneAI. Other administrators are notified."),
-		}
-	)
-	me = doc.name == frappe.session.user
-	return {
-		"person": {
-			"name": doc.name,
-			"full_name": doc.full_name,
-			"user_image": doc.user_image,
-			"enabled": doc.enabled,
-			"last_active": doc.last_active,
-			"joined": bool(doc.last_login),
-			"employee": frappe.db.get_value("Employee", {"user_id": doc.name}, "name"),
-			"sessions": [] if me else signin.sessions(doc.name),
-			"recent": signin.recent(doc.name),
-			"me": me,
-			"holds": access.record_access(doc.name),
-			"kinds": access.kinds_held(),
-		},
-		"profiles": {one["name"]: one["levels"] for one in access.profiles()},
-		"apps": [{"name": name, "icon": icon, "levels": _levels(name, own)} for name, icon, _used, _managed in APPS],
-		"fields": fields,
-		"values": {
-			**{f"app_{icon}": app_level(name, held, used, managed, own.get(name, ())) for name, icon, used, managed in APPS},
-			"admin": 1 if roles.ADMINISTRATOR in held else 0,
-			"profile": doc.get("one_profile") or "",
-		},
-		"opened": _opened(doc),
-	}
-
-
-def _save_person(record: str, values: dict) -> None:
-	"""What a person may use. A profile picked sets every app at once; an app
-	changed by hand takes them off the profile they were on."""
-	from onedesk.one import access as profiles
-
-	doc = _as_opened(_one_of_the_people(record))
-	chosen = {name: values.get(f"app_{icon}") for name, icon, _used, _managed in APPS if values.get(f"app_{icon}")}
-	admin = frappe.utils.cint(values.get("admin")) if "admin" in values else int(roles.ADMINISTRATOR in {one.role for one in doc.roles})
-	if values.get("profile") and values["profile"] != doc.get("one_profile"):
-		_set_access(doc, profiles.profile(values["profile"])["levels"], admin)
-		frappe.db.set_value("User", doc.name, "one_profile", values["profile"], update_modified=False)
-		return
-	_set_access(doc, chosen, admin)
-	on = values.get("profile", doc.get("one_profile"))
-	if on and any(level != profiles.profile(on)["levels"].get(name) for name, level in chosen.items()):
-		on = None
-	if (on or None) != (doc.get("one_profile") or None):
-		frappe.db.set_value("User", doc.name, "one_profile", on or None, update_modified=False)
-
-
-def _set_access(doc, access: dict, admin: int, told: bool = True) -> None:
-	"""What a person may use, as frappe's roles, in one save. They are told
-	what changed, and every administrator is told of a new administrator. An
-	app everybody uses is never None."""
-	own = all_levels()
-	if any(level not in LEVELS and level not in own.get(name, ()) for name, level in access.items()):
-		frappe.throw(_("That cannot be set."))
-	before = {one.role for one in doc.roles}
-	ours = {roles.ADMINISTRATOR}
-	wanted = set()
-	for name, _icon, used, managed in APPS:
-		levels = own.get(name, ())
-		alone = (companion(name),)
-		ours |= set(used) | set(managed) | set(levels) | set(alone)
-		level = access.get(name) or level_of(before, used, managed, levels)
-		if name in ALWAYS and level == "None":
-			level = "User"
-		wanted |= roles_for(level, used, managed, levels, alone)
-	if admin:
-		wanted.add(roles.ADMINISTRATOR)
-	elif roles.ADMINISTRATOR in before:
-		_not_the_last_administrator(doc.name)
-	after = (before - ours) | {role for role in wanted | {"Desk User"} if frappe.db.exists("Role", role)}
-	if after != before:
-		doc.set("roles", [{"role": role} for role in sorted(after)])
-		doc.save(ignore_permissions=True)
-		if told:
-			_told_of_access(doc, before, after)
-
-
-def _not_the_last_administrator(user: str) -> None:
-	others = frappe.get_all("Has Role", filters={"role": roles.ADMINISTRATOR, "parenttype": "User", "parent": ["not in", (user, *NOT_PEOPLE)]}, pluck="parent")
-	if not [one for one in others if frappe.db.get_value("User", one, "enabled")]:
-		frappe.throw(_("A workspace needs at least one administrator."))
-
-
-def _told_of_access(doc, before: set, after: set) -> None:
-	"""The person hears what they may now use; every other administrator
-	hears of a new administrator, always by mail (notifications/one/)."""
-	said = []
-	own = all_levels()
-	for name, _icon, used, managed in APPS:
-		levels = own.get(name, ())
-		was, now = app_level(name, before, used, managed, levels), app_level(name, after, used, managed, levels)
-		if was != now:
-			plain = {"None": _("no longer {0}"), "User": _("{0} as a user"), "Manager": _("{0} as a manager")}
-			said.append(plain[now].format(name) if now in plain else _("{0} as {1}").format(name, now))
-	if (roles.ADMINISTRATOR in after) != (roles.ADMINISTRATOR in before):
-		said.append(_("administrator of the workspace") if roles.ADMINISTRATOR in after else _("no longer an administrator"))
-	if said:
-		tell.access_changed(doc.name, ", ".join(said))
-	if roles.ADMINISTRATOR in after and roles.ADMINISTRATOR not in before:
-		tell.administrator_added(doc)
-	if roles.ADMINISTRATOR in before and roles.ADMINISTRATOR not in after:
-		tell.administrator_removed(doc)
-
-
-@frappe.whitelist(methods=["POST"])
-def sign_out_everywhere(user: Annotated[str, "The person."]) -> dict:
-	"""Every session a person has, ended: frappe's own, so the Activity Log
-	records it. Your own are ended on your Sign-in page."""
-	roles.require()
-	from frappe.sessions import clear_sessions
-
-	doc = _one_of_the_people(user)
-	if doc.name == frappe.session.user:
-		frappe.throw(_("Sign yourself out from your own Sign-in page."))
-	clear_sessions(user=doc.name, force=True)
-	return _person_page(doc.name)
-
-
-@frappe.whitelist(methods=["POST"])
-def send_reset(user: Annotated[str, "The person."]) -> None:
-	"""Frappe's own password reset mail, sent to the person."""
-	roles.require()
-	doc = _one_of_the_people(user)
-	if not doc.enabled:
-		frappe.throw(_("Turn them on first."))
-	doc._reset_password(send_email=True)
-
-
-@frappe.whitelist(methods=["POST"])
-def set_enabled(user: Annotated[str, "The person."], on: Annotated[int, "1 to let them sign in."]) -> dict:
-	"""A person may sign in, or not. Their records stay either way."""
-	roles.require()
-	if user in NOT_PEOPLE or user == frappe.session.user:
-		frappe.throw(_("You cannot turn yourself off."))
-	doc = frappe.get_doc("User", user)
-	doc.enabled = int(on)
-	doc.flags.ignore_permissions = True
-	doc.save()
-	if not int(on):
-		from frappe.sessions import clear_sessions
-
-		clear_sessions(user=user, force=True)
-	return _people()
-
-
-@frappe.whitelist(methods=["POST"])
-def invite(
-	email: Annotated[str, "Their address."],
-	first_name: Annotated[str, "Their first name."],
-	last_name: Annotated[str | None, "Their last name."] = None,
-	access: Annotated[str | dict | None, "Each app's level: None, User or Manager."] = None,
-) -> dict:
-	"""A new person on the workspace, sent frappe's welcome mail to set a
-	password. They can use One, OneCloud, OneMail, OneTask and OneCalendar at
-	once; the apps whose records are somebody's job are given in People."""
-	roles.require()
-	email = (email or "").strip().lower()
-	if not frappe.utils.validate_email_address(email):
-		frappe.throw(_("That is not an email address."))
-	if frappe.db.exists("User", email):
-		frappe.throw(_("{0} is already on the workspace.").format(email))
-	user = frappe.get_doc(
-		{
-			"doctype": "User",
-			"email": email,
-			"first_name": first_name,
-			"last_name": last_name,
-			"user_type": "System User",
-			"send_welcome_email": 0,
-			"roles": [{"role": "Desk User"}],
-		}
-	)
-	user.insert(ignore_permissions=True)
-	from onedesk.one import invite as invitation
-
-	wanted = frappe.parse_json(access) or {}
-	if any(level != "None" for level in wanted.values()):
-		_set_access(frappe.get_doc("User", user.name), wanted, 0, told=False)
-	invitation.send(user.name, _apps_said(wanted))
-	return _people()
-
-
-def _apps_said(access: dict) -> list[str]:
-	said = {"User": _("{0} as a user"), "Manager": _("{0} as a manager")}
-	return [
-		said[level].format(name) if level in said else _("{0} as {1}").format(name, level)
-		for name, level in access.items()
-		if level and level != "None"
-	]
-
-
-@frappe.whitelist(methods=["POST"])
-def invite_again(user: Annotated[str, "The person."]) -> None:
-	"""A new invitation for somebody who has not joined yet; the old link stops."""
-	from onedesk.one import invite as invitation
-
-	roles.require()
-	doc = _one_of_the_people(user)
-	if doc.last_login:
-		frappe.throw(_("{0} has already joined. Send a password reset instead.").format(doc.full_name))
-	held = {one.role for one in doc.roles}
-	own = all_levels()
-	invitation.send(
-		doc.name, _apps_said({name: level_of(held, used, managed, own.get(name, ())) for name, _icon, used, managed in APPS})
-	)
-
-
-def seats_used() -> int:
-	"""Everybody turned on who takes a seat."""
-	return frappe.db.count("User", {"user_type": "System User", "enabled": 1, "name": ["not in", NOT_PEOPLE]})
-
-
-def seated(doc, method=None) -> None:
-	"""User validate: a person turned on takes a seat, and there are only as
-	many as the plan has, however they are added or turned on (People, the
-	User form, a bulk edit, an import)."""
-	if doc.user_type != "System User" or not doc.enabled or doc.name in NOT_PEOPLE:
-		return
-	before = None if doc.is_new() else doc.get_doc_before_save()
-	if before and before.enabled and before.user_type == "System User":
-		return
-	if not frappe.db.exists("DocType", "Workspace Account"):
-		return
-	seats = frappe.get_single("Workspace Account").seats or 0
-	if seats and seats_used() >= seats:
-		frappe.throw(_("All {0} seats are in use. Disable someone or add seats to the plan.").format(seats))
-
-
-STALE = 60 * 60
-
-
-def _plan() -> dict:
-	"""The workspace's account, as the administrator last said it: asked again
-	first when that was over an hour ago, so a pack just paid for shows."""
-	from onedesk.one import account, closing, heads
-
-	held = frappe.get_single("Workspace Account")
-	heard = held.last_heard
-	if account.configured() and (not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE):
-		account.refresh()
-		frappe.db.commit()
-		held = frappe.get_single("Workspace Account")
-	return {
-		"account": {
-			key: held.get(key)
-			for key in (
-				"workspace_name", "billed_to", "plan", "plan_key", "monthly", "plan_currency", "seats", "storage_bytes", "storage_limit", "database_bytes",
-				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring",
-				"credits_expires_on", "last_heard",
-			)
-		},
-		"used": seats_used(),
-		"state": heads.account_state(held),
-		"said": heads.account_said(held),
-		"storage": {"used": heads.size(held.storage_bytes), "limit": heads.size(held.storage_limit)},
-		"database": {"used": heads.size(held.database_bytes), "limit": heads.size(held.database_limit)},
-		"add_ons": [{"offering": one.offering, "label": one.label, "quantity": one.quantity, "amount": one.amount} for one in held.add_ons],
-		"ledger": account.ledger() if account.configured() else None,
-		"ledger_days": account.LEDGER_DAYS,
-		"closing": closing.state(),
-	}
-
-
-def _domains() -> dict:
-	"""What the account last said, asked again first when that was over an
-	hour ago or never said where a domain should point. Check Again asks."""
-	from onedesk.one import account
-
-	held = frappe.get_single("Workspace Account")
-	heard = held.last_heard
-	stale = not heard or frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), heard) > STALE
-	if account.configured() and (stale or not held.dns_target):
-		account.refresh()
-		frappe.db.commit()
-		held = frappe.get_single("Workspace Account")
-	return {
-		"domains": [
-			{"domain": one.domain, "status": one.status, "problem": one.problem, "primary": one.primary, "given": one.given}
-			for one in held.domains
-		],
-		"target": held.dns_target,
-		"last_heard": held.last_heard,
-	}
-
-
-def _devices() -> dict:
-	"""The company's machines and every passkey on somebody's own. See
-	one/devices.py."""
-	from onedesk.one import devices
-
-	return devices.for_settings()
 
 
 def _intake() -> dict:
@@ -1329,7 +680,7 @@ def _intake() -> dict:
 	values["floor"] = values["floor"] or act.FLOOR
 	fields = [
 		{**one, "fieldtype": "Switch"} if one["fieldtype"] == "Check" else one
-		for one in _fields("Reading Settings", INTAKE)
+		for one in fields_of("Reading Settings", INTAKE)
 	]
 	from onedesk.one_ai.reading import switches
 
@@ -1339,7 +690,7 @@ def _intake() -> dict:
 		"month": _intake_month(),
 		"marks": {app: _mark(app) for app in ("OneBook", "OneMail", "OneCloud")},
 		**switches.overview(),
-		"opened": _opened(doc),
+		"opened": opened_of(doc),
 	}
 
 
@@ -1376,7 +727,7 @@ TOLD_OF = ("audit", "household", "submit_einvoices", "floor")
 def _save_intake(values: dict) -> None:
 	from onedesk.one_ai.reading import act
 
-	doc = _as_opened(frappe.get_single("Reading Settings"))
+	doc = as_opened(frappe.get_single("Reading Settings"))
 
 	def meant(name):
 		value = frappe.utils.flt(doc.get(name))
@@ -1416,7 +767,7 @@ def _holidays(record: str | None = None) -> dict:
 			"options": [{"label": _(day), "value": day, "checked": day in off} for day in holidays.WEEK],
 			"description": _("Every one of these days in the list is a day off. Tick two for a weekend of two days."),
 		},
-		*_fields("Holiday List", ("country", "subdivision")),
+		*fields_of("Holiday List", ("country", "subdivision")),
 	]
 	for one in fields:
 		if one["fieldname"] == "country":
@@ -1458,7 +809,7 @@ def _holidays(record: str | None = None) -> dict:
 		"next": next_list,
 		"now": now,
 		"elsewhere": holidays.elsewhere(held),
-		"opened": _opened(doc),
+		"opened": opened_of(doc),
 	}
 
 
@@ -1469,7 +820,7 @@ def _save_holidays(record: str | None, values: dict) -> str:
 	from onedesk.one import holidays
 
 	name = record or holidays.in_force()
-	doc = _as_opened(frappe.get_doc("Holiday List", name))
+	doc = as_opened(frappe.get_doc("Holiday List", name))
 	was_off = holidays.days_off(doc)
 	was = {str(one.holiday_date): frappe.utils.strip_html_tags(one.description or "") for one in doc.holidays if not one.weekly_off}
 	wanted = {}
@@ -1545,7 +896,7 @@ def _profile_page(name: str) -> dict:
 	said = access.profile(name)
 	own = all_levels()
 	fields = [{"fieldname": "title", "fieldtype": "Data", "label": _("Name"), "reqd": 1}] + [
-		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": app, "options": _levels(app, own), "description": str(APP_SAID[app])}
+		{"fieldname": f"app_{icon}", "fieldtype": "Select", "label": app, "options": levels_of(app, own), "description": str(APP_SAID[app])}
 		for app, icon, _used, _managed in APPS
 	]
 	return {
@@ -1553,7 +904,7 @@ def _profile_page(name: str) -> dict:
 		"apps": [{"name": app, "icon": icon} for app, icon, _used, _managed in APPS],
 		"fields": fields,
 		"values": {"title": name, **{f"app_{icon}": said["levels"].get(app, "None") for app, icon, _used, _managed in APPS}},
-		"opened": _opened(frappe.get_doc("Role Profile", name)),
+		"opened": opened_of(frappe.get_doc("Role Profile", name)),
 	}
 
 
@@ -1568,7 +919,7 @@ def _group_page(name: str) -> dict:
 			{"fieldname": "members", "fieldtype": "Table MultiSelect", "label": _("Members"), "options": "User Group Member"},
 		],
 		"values": {"title": doc.name, "members": [{"user": one.user} for one in doc.user_group_members]},
-		"opened": _opened(doc),
+		"opened": opened_of(doc),
 	}
 
 
@@ -1778,7 +1129,7 @@ def _notification_type(name: str) -> dict:
 		frappe.throw(_("There is no notification type {0}.").format(name))
 	doc = frappe.get_doc("Notification Type", name)
 	one = notify.declared().get(name) or {}
-	fields = _fields("Notification Type", NOTIFICATION_TYPE)
+	fields = fields_of("Notification Type", NOTIFICATION_TYPE)
 	for field in fields:
 		if field["fieldname"] == "one_message":
 			field.update({"wrap": 1, "min_lines": 3, "max_lines": 12})
@@ -1815,7 +1166,7 @@ def _notification_type(name: str) -> dict:
 		},
 		"fields": fields if one else [one for one in fields if one["fieldname"] == "enabled"],
 		"values": {field: doc.get(field) for field in NOTIFICATION_TYPE},
-		"opened": _opened(doc),
+		"opened": opened_of(doc),
 	}
 
 
@@ -1824,7 +1175,7 @@ def _save_notification_type(name: str | None, values: dict) -> str | None:
 		return f"rule:{_save_rule(name[5:], values)}"
 	if not name or not frappe.db.exists("Notification Type", name):
 		frappe.throw(_("There is nothing to save here."))
-	doc = _as_opened(frappe.get_doc("Notification Type", name))
+	doc = as_opened(frappe.get_doc("Notification Type", name))
 	doc.update({field: values[field] for field in NOTIFICATION_TYPE if field in values})
 	doc.save(ignore_permissions=True)
 
@@ -1881,7 +1232,7 @@ def _rule(name: str) -> dict:
 	kind = (
 		frappe.db.get_value("Notification Type", doc.name, RULE_CHANNELS, as_dict=True) if not new else None
 	)
-	fields = _fields("Notification", RULE)
+	fields = fields_of("Notification", RULE)
 	said = {
 		"enabled": (_("Send This"), None),
 		"document_type": (_("Record Type"), _("Only record types you can open.")),
@@ -1973,7 +1324,7 @@ def _rule(name: str) -> dict:
 		"fields": fields,
 		"values": values,
 		"options": rules.fields_of(doc.document_type) if doc.document_type else None,
-		"opened": [] if new else _opened(doc),
+		"opened": [] if new else opened_of(doc),
 	}
 
 
@@ -1992,7 +1343,7 @@ def _save_rule(name: str, values: dict) -> str:
 	else:
 		if not frappe.db.exists("Notification", {"name": name, "one_rule": 1}):
 			frappe.throw(_("There is no rule {0}.").format(name))
-		doc = _as_opened(rules.get(name))
+		doc = as_opened(rules.get(name))
 	doc.update({one: values[one] for one in RULE if one in values})
 	doc.update({"one_rule": 1, "channel": "System Notification", "condition_type": "Filters"})
 	roles_wanted = (

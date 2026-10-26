@@ -119,7 +119,8 @@ def capacity() -> list[dict]:
 	no bar. Where each number comes from is in the README, Under the hood."""
 	from frappe.utils import cint
 
-	from onedesk.one import account, heads
+	from onedesk.one import account
+	from onedesk.one_account import heads
 
 	held = frappe.get_single("Workspace Account")
 	linked = account.configured()

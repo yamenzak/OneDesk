@@ -41,7 +41,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		icon: "oneai",
 		title: __("OneAI"),
 		description: __("The tier sets which models answer and what each answer costs."),
-		actions: [{ label: __("Add Credits"), icon: "plus", click: () => frappe.set_route("workspace-settings", { section: "plan" }) }],
+		actions: [{ label: __("Add Credits"), icon: "plus", click: (panel) => (panel.dialog.hide(), onedesk.account_center.open({ at: "plan" })) }],
 		async render(panel) {
 			const said = await frappe.xcall(C + "state", {}, "GET");
 			const $body = panel.body.empty();

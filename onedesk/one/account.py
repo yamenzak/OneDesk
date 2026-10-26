@@ -120,7 +120,7 @@ def refresh() -> dict:
 	)
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held, credits.get("gift"))
-	from onedesk.one import owner
+	from onedesk.one_account import owner
 
 	owner.arrive(said)
 	return held.as_dict()
@@ -131,7 +131,7 @@ def refresh() -> dict:
 def wake() -> dict:
 	"""Ask the administrator who this workspace is, now: the admin site's last
 	step of a build calls this, so the owner's invitation leaves as the build
-	finishes (one/owner.py). It takes nothing and trusts nobody: all it does
+	finishes (one_account/owner.py). It takes nothing and trusts nobody: all it does
 	is make this site ask, with its own token, and it says only whether the
 	workspace has an administrator after."""
 	if not configured():
@@ -225,7 +225,7 @@ def _number(value) -> str:
 
 
 def _administrators() -> list[str]:
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	return [one for one in roles.administrators() if one not in NOT_PEOPLE]
 
@@ -280,7 +280,7 @@ def ledger() -> list[dict] | None:
 	return sorted(rows, key=lambda one: (one["on"], "came" in one), reverse=True)
 
 
-PAGE = "/desk/workspace-settings?section=plan"
+PAGE = "/desk/one?center=account&at=plan"
 
 
 @frappe.whitelist(methods=["POST"])
@@ -399,7 +399,7 @@ def _plainly(refused) -> str:
 
 
 def _seats_used() -> int:
-	from onedesk.one.settings import seats_used
+	from onedesk.one.people import seats_used
 
 	return seats_used()
 
@@ -530,7 +530,7 @@ def _domains_ask(what: str, **params):
 		frappe.throw(_plainly(refused), title=frappe._("Domains"))
 
 
-DOMAINS = "/desk/workspace-settings?section=domains"
+DOMAINS = "/desk/one?center=account&at=domains"
 
 WORKING = "Active"
 

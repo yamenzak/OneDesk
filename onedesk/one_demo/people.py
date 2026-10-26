@@ -33,22 +33,23 @@ PEOPLE = (
 
 
 def run(password=None):
-	from onedesk.one import settings
+	from onedesk.one.people import set_access
+	from onedesk.one_account.center import invite
 	from onedesk.one_demo.setup import BUILDER
 
 	frappe.db.set_single_value("System Settings", "enable_password_policy", 0)
 	if not frappe.db.exists("User", OWNER):
 		with _as(BUILDER):
-			settings.invite(OWNER, "Layla", "Haddad", dict.fromkeys(APPS, "Manager"))
-	settings._set_access(frappe.get_doc("User", OWNER), dict.fromkeys(APPS, "Manager"), 1, told=False)
+			invite(OWNER, "Layla", "Haddad", dict.fromkeys(APPS, "Manager"))
+	set_access(frappe.get_doc("User", OWNER), dict.fromkeys(APPS, "Manager"), 1, told=False)
 	for first, last, email, *_rest, access in PEOPLE:
 		if not email or email == OWNER:
 			continue
 		with _as(OWNER):
 			if frappe.db.exists("User", email):
-				settings._set_access(frappe.get_doc("User", email), access, 0, told=False)
+				set_access(frappe.get_doc("User", email), access, 0, told=False)
 			else:
-				settings.invite(email, first, last, access)
+				invite(email, first, last, access)
 	for _first, _last, email, *_rest in PEOPLE:
 		if email and password:
 			update_password(email, password)

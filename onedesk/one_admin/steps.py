@@ -292,7 +292,7 @@ def push_config(job, tenant) -> None:
 def invite_owner(job, tenant) -> str | None:
 	"""Have the new site invite whoever paid for it as its first administrator.
 
-	The site does it (`account.wake`, one/owner.py), since we cannot sign in to
+	The site does it (`account.wake`, one_account/owner.py), since we cannot sign in to
 	it. Safe to run twice; a site that has not read its new config yet waits.
 	"""
 	if not tenant.get("owner_email"):

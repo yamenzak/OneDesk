@@ -88,7 +88,7 @@ def gather_kind(key: str, user: str):
 		account["roles"] = frappe.get_roles(user)
 		employee = frappe.db.get_value("Employee", {"user_id": user}, "name")
 		if employee:
-			from onedesk.one import settings
+			from onedesk.one_account import center
 
 			fields = (
 				"employee_name",
@@ -98,7 +98,7 @@ def gather_kind(key: str, user: str):
 				"designation",
 				"department",
 			)
-			fields += tuple(settings.EMPLOYEE_OWN) + tuple(settings.SHARED.values())
+			fields += tuple(center.EMPLOYEE_OWN) + tuple(center.SHARED.values())
 			meta = frappe.get_meta("Employee")
 			wanted = [one for one in dict.fromkeys(fields) if meta.get_field(one)]
 			account["employee"] = frappe.db.get_value("Employee", employee, wanted, as_dict=True)

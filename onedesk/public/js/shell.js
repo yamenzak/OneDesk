@@ -211,6 +211,24 @@ $.extend(onedesk.shell, {
 	quiet(text) {
 		return `<div class="one-shell-quiet">${frappe.utils.escape_html(text)}</div>`;
 	},
+
+	// Each app's mark before its field's label, on a form of app levels.
+	marks($wrapper, apps) {
+		for (const app of apps) {
+			$wrapper.find(`.frappe-control[data-fieldname="app_${app.icon}"] .control-label`).first().prepend(`<span class="one-shell-app-mark">${frappe.utils.icon(app.icon, "sm")}</span>`);
+		}
+	},
+
+	pairs(names) {
+		const rows = [];
+		for (let at = 0; at < names.length; at += 2) rows.push([names[at], names[at + 1] || ""]);
+		return rows;
+	},
+
+	two_columns(list, field) {
+		const half = Math.ceil(list.length / 2);
+		return list.flatMap((one, at) => [...(at === half ? [{ fieldtype: "Column Break" }] : []), field(one, at)]);
+	},
 });
 
 onedesk.shell.Editor = class Editor {

@@ -47,11 +47,11 @@ def start_registration() -> dict:
 def _may_register(user: str, employee: str) -> str | None:
 	"""One passkey a person; for somebody the clock checks, one HR resets.
 
-	A browser the administrator sorted decides first (one/devices.py): a
+	A browser the administrator sorted decides first (one_account/devices.py): a
 	shared one holds nobody's, an assigned one its person's beside their
 	phone's. Answers the browser's Device, which the passkey records.
 	"""
-	from onedesk.one import devices
+	from onedesk.one_account import devices
 
 	if employee and is_blocked(employee):
 		frappe.throw(
@@ -275,7 +275,7 @@ def ask() -> bool:
 	from onedesk.one_hr import signin
 
 	user = frappe.session.user
-	from onedesk.one import devices
+	from onedesk.one_account import devices
 
 	if user in ("Guest", "Administrator") or not signin.offered():
 		return False

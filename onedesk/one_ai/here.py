@@ -142,6 +142,8 @@ def sent(item: dict) -> dict | None:
 		url = urllib.parse.urlparse(item.get("url") or "")
 		parts = [one for one in url.path.split("/") if one][1:]
 		asked = dict(urllib.parse.parse_qsl(url.query))
+		if asked.get("center"):
+			return {"page": asked["center"], "section": asked.get("at") or "", "record": asked.get("record") or "", "view": "Page", "label": label}
 		if not parts:
 			return None
 		if frappe.db.exists("Page", parts[0]):

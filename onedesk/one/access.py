@@ -53,7 +53,7 @@ EVERYONE = ("All", "Desk User", "Guest")
 
 def _apps() -> dict:
 	"""{app: (used, managed)}, from People's own list."""
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	return {name: (tuple(used), tuple(managed)) for name, _icon, used, managed in APPS}
 
@@ -302,7 +302,7 @@ def key_of(app: str, tier: str) -> str:
 
 def people_at(app: str, tier: str) -> list[str]:
 	"""Everybody whose level of an app is this one."""
-	from onedesk.one.settings import NOT_PEOPLE, level_of
+	from onedesk.one.people import NOT_PEOPLE, level_of
 
 	used, managed = _apps()[app]
 	own = levels_of(app)
@@ -671,7 +671,7 @@ RECORD_KINDS = (
 
 
 def _person(user: str) -> None:
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	roles.require()
 	if user in NOT_PEOPLE or frappe.db.get_value("User", user, "user_type") != "System User":
@@ -763,7 +763,7 @@ def profiles() -> list[dict]:
 
 
 def _levels_in(held: set, own: dict) -> dict:
-	from onedesk.one.settings import app_level
+	from onedesk.one.people import app_level
 
 	return {app: app_level(app, held, used, managed, own.get(app, ())) for app, (used, managed) in _apps().items()}
 
@@ -783,7 +783,7 @@ def profile(name: str) -> dict:
 def save_profile(name: str | None, title: str, levels: dict) -> str:
 	"""A profile made or changed, as the levels it sets, and set again on
 	everybody on it, keeping what else they hold."""
-	from onedesk.one.settings import ALWAYS, LEVELS, roles_for
+	from onedesk.one.people import ALWAYS, LEVELS, roles_for
 
 	roles.require()
 	title = (title or "").strip()
@@ -821,12 +821,12 @@ def save_profile(name: str | None, title: str, levels: dict) -> str:
 def put_on(user: str, name: str | None) -> None:
 	"""A person set to a profile's levels, or taken off one. Their
 	administrator switch and every role outside the apps are kept."""
-	from onedesk.one.settings import _set_access
+	from onedesk.one.people import set_access
 
 	doc = frappe.get_doc("User", user)
 	if name:
 		levels = profile(name)["levels"]
-		_set_access(doc, levels, 1 if roles.ADMINISTRATOR in {one.role for one in doc.roles} else 0)
+		set_access(doc, levels, 1 if roles.ADMINISTRATOR in {one.role for one in doc.roles} else 0)
 	frappe.db.set_value("User", user, "one_profile", name or None, update_modified=False)
 
 
@@ -855,7 +855,7 @@ def groups() -> list[dict]:
 def save_group(name: str | None, title: str, members: list[str]) -> str:
 	"""A group made or changed: its name and who is in it, people of the
 	workspace only."""
-	from onedesk.one.settings import NOT_PEOPLE
+	from onedesk.one.people import NOT_PEOPLE
 
 	roles.require()
 	title = (title or "").strip()
@@ -976,7 +976,7 @@ def _masters() -> None:
 	erpnext keeps several for a role of its own (Customer Group for its Sales
 	Master Manager), so One's managers are given them once each."""
 	from onedesk.one.masters import KINDS
-	from onedesk.one.settings import APPS
+	from onedesk.one.people import APPS
 
 	roles.grant({doctype: MASTER for _group, doctype, _label, _one in KINDS if frappe.db.exists("DocType", doctype)})
 	managers = {label: roles_ for label, _code, _users, roles_ in APPS}

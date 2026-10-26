@@ -1,0 +1,36 @@
+"""OneAccount's part of the integration suite (one_demo/check.py runs it):
+AccountCenter as an administrator, and as somebody who isn't."""
+
+import frappe
+
+from onedesk.one_demo.base import as_user
+from onedesk.one_demo.check import check
+
+
+@check
+def account_center_opens_each_section_for_whoever_may_see_it():
+	"""AccountCenter (one_account/center.py): Layla opens all six sections and
+	one person's page from People; Nadia sees Yours only, and People, Devices,
+	Plan and Credits and Domains each refuse her."""
+	from unittest import mock
+
+	from onedesk.one_account import center
+
+	with as_user("wsadmin@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
+		said = center.sections_of()
+		keys = {one["key"] for one in said["sections"]}
+		assert keys == {"profile", "signin", "people", "devices", "plan", "domains"}, keys
+		for key in keys:
+			center.load(key)
+		people = center.load("people")
+		assert people["used"] and any(one["name"] == "nadia@one.test" for one in people["people"]), people["used"]
+		page = center.load("people", "nadia@one.test")
+		assert page, "Nadia's page in People is empty"
+	with as_user("nadia@one.test"):
+		assert {one["group"] for one in center.sections_of()["sections"]} == {"yours"}
+		for key in ("people", "devices", "plan", "domains"):
+			try:
+				center.load(key)
+			except frappe.PermissionError:
+				continue
+			raise AssertionError(f"somebody who doesn't administer the workspace opened {key}")

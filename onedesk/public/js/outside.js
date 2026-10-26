@@ -96,6 +96,10 @@ if (frappe.boot.one_elsewhere && frappe.ui.Sidebar) {
 			frappe.ui.Dropdown = class extends Dropdown {
 				constructor(opts) {
 					const options = onedesk.outside.without(opts.options, ["workspace-selector"]);
+					// frappe's Settings is AccountCenter here (desk.js, show_user_settings).
+					for (const one of options.flatMap((it) => it.options || [])) {
+						if (one.name === "settings") Object.assign(one, { label: "AccountCenter", icon: "user" });
+					}
 					const group = options.find((one) => Array.isArray(one.options) && one.options.some((o) => o.name === "reload"));
 					group?.options.splice(group.options.findIndex((o) => o.name === "reload"), 0, {
 						name: "theme",
@@ -124,10 +128,11 @@ onedesk.outside.instead = (sub_path) => {
 			onedesk.notification_center.open();
 			return frappe.get_route();
 		case "user":
-			if (name && decodeURIComponent(name) === me) return ["settings", { section: "profile" }];
+			// A person is AccountCenter's: your own profile, or People.
+			if (name && decodeURIComponent(name) === me) return ["one", { center: "account", at: "profile" }];
 			return name && name !== "new" && !name.startsWith("new-")
-				? ["workspace-settings", { section: "people", person: decodeURIComponent(name) }]
-				: ["workspace-settings", { section: "people" }];
+				? ["one", { center: "account", at: "people", record: decodeURIComponent(name) }]
+				: ["one", { center: "account", at: "people" }];
 		case "file":
 			return name ? null : ["onecloud"];
 		case "todo":

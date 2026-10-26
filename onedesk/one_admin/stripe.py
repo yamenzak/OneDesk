@@ -163,7 +163,7 @@ def checkout_for_credits(tenant: str, pack: str) -> str:
 		"Tenant", tenant, ["owner_email", "stripe_customer", "domain", "primary_domain"],
 		as_dict=True,
 	)
-	back = f"https://{held.primary_domain or held.domain}/desk/workspace-settings?section=plan"
+	back = f"https://{held.primary_domain or held.domain}/desk/one?center=account&at=plan"
 	made = _post(
 		"checkout/sessions",
 		{

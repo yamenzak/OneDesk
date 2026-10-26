@@ -59,8 +59,8 @@ def test_frappes_screens_open_ones_own():
 	the history entry, and an address belongs to OneCRM beside its contact."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	for route in (
-		'["settings", { section: "profile" }]',
-		'["workspace-settings", { section: "people" }]',
+		'["one", { center: "account", at: "profile" }]',
+		'["one", { center: "account", at: "people" }]',
 		'["onecloud"]',
 		'["my-tasks"]',
 		'["workspace-settings", { section: "printing" }]',
@@ -97,7 +97,7 @@ def test_frappes_error_pages_are_ones():
 	assert "return message.get_context(context)" in (www / "message.py").read_text()
 	assert "context.http_status_code = 404" in (www / "404.py").read_text()
 	me = (www / "me.py").read_text()
-	assert '"/desk/settings?section=profile"' in me and '"/account"' in me and "/portal/profile" in me
+	assert '"/desk/one?center=account&at=profile"' in me and '"/account"' in me and "/portal/profile" in me
 	assert (
 		'".for-login:not(.one-your-data) .page-card-body"'
 		in (tree.APP / "public" / "js" / "login.js").read_text()

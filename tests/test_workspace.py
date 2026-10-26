@@ -22,8 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 ONE = tree.APP / "one"
-ACCOUNT = ONE / "doctype" / "workspace_account" / "workspace_account.json"
-DOMAIN = ONE / "doctype" / "workspace_domain" / "workspace_domain.json"
+ACCOUNT = tree.APP / "one_account" / "doctype" / "workspace_account" / "workspace_account.json"
+DOMAIN = tree.APP / "one_account" / "doctype" / "workspace_domain" / "workspace_domain.json"
 
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
@@ -82,12 +82,13 @@ def test_every_call_that_changes_an_address_asks_who_is_asking():
 		assert "require" in calls, f"{name} does not ask who is asking"
 
 
-def test_the_account_is_in_the_rail():
+def test_the_account_is_in_accountcenter():
 	"""Otherwise it is reachable only by typing its name, which is where it was.
-	It is Settings' Plan and Credits and Domains now, and Settings is in the rail."""
-	rail = _json(ONE / "sidebar" / "one" / "one.json")
-	assert any(item.get("link_to") == "settings" for item in rail["items"]), "the One rail does not offer Settings"
-	assert '"Workspace Account"' in (ONE / "settings.py").read_text(), "Settings does not show the account"
+	It is AccountCenter's Plan and Credits and Domains now, which the avatar's
+	menu opens."""
+	assert '"Workspace Account"' in (tree.APP / "one_account" / "center.py").read_text(), "AccountCenter does not show the account"
+	outside = (tree.APP / "public" / "js" / "outside.js").read_text()
+	assert 'one.name === "settings"' in outside and 'label: "AccountCenter"' in outside
 
 
 def test_the_screen_text_is_in_register():

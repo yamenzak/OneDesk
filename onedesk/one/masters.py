@@ -59,7 +59,7 @@ WORDS = re.compile(r"""\{\{-?\s*_\(\s*(?:"[^"{}%\\]*"|'[^'{}%\\]*')\s*\)\s*-?\}\
 def _groups() -> set[str]:
 	"""The groups the reader may see: all of them for an administrator, else
 	each app they manage."""
-	from onedesk.one.settings import ALWAYS, APPS
+	from onedesk.one.people import ALWAYS, APPS
 
 	if roles.administers():
 		return {group for group, _doctype, _label, _one in KINDS}

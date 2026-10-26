@@ -71,6 +71,21 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"OneAccount": {
+		"folder": "one_account",
+		"screens": "account",
+		"names": ("one_account", "oneaccount"),
+		"ready": False,
+		"checked": {},
+		"windowless": "AccountCenter is a dialog the avatar's menu and links open, so OneAccount has no window, foot or settings of its own.",
+		"help": (
+			("overview", "info"),
+			("your-account", "user"),
+			("people-and-devices", "users"),
+			("plan-and-credits", "credit-card"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"OneAI": {
 		"folder": "one_ai",
 		"screens": "intake",
@@ -212,6 +227,7 @@ OUTSIDE = {
 	"OneMail": [],
 	"OneAI": [],
 	"OneLegal": [],
+	"OneAccount": [],
 }
 
 
