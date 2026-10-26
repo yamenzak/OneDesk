@@ -800,7 +800,7 @@ def add_contact(
 def approved(changes: dict) -> str:
 	"""A project, status, milestone, time, budget, member or contact card
 	approved, made by the page's own code as whoever pressed Approve
-	(one/ai_setup.py)."""
+	(one_studio/ai_setup.py)."""
 	from onedesk.one_project import contacts, team
 
 	if changes["what"] == "project":

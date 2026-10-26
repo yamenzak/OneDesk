@@ -9,7 +9,7 @@ from frappe import _
 from frappe.permissions import setup_custom_perms
 
 from onedesk.one import roles, tell
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 RIGHTS = ("select", "read", "write", "create", "delete", "submit", "cancel", "export")
 

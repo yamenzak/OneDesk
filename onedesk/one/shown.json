@@ -575,8 +575,7 @@
   "to-order",
   "upkeep",
   "warehouse-capacity-summary",
-  "workflow-builder",
-  "workspace-settings"
+  "workflow-builder"
  ],
  "Dashboard": [
   "Attendance Overview",

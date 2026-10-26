@@ -65,7 +65,7 @@ onedesk.doctype_settings.adapt = () => {
 	frappe.doctype_settings.set_property = (doctype, property, value) =>
 		property === "default_print_format"
 			? frappe
-					.xcall("onedesk.one.printing.set_default", { doctype, print_format: value })
+					.xcall("onedesk.one_studio.printing.set_default", { doctype, print_format: value })
 					.then(() => frappe.show_alert({ message: __("Default updated"), indicator: "green" }))
 			: set_property(doctype, property, value);
 	const get_value = frappe.db.get_value;
@@ -74,7 +74,7 @@ onedesk.doctype_settings.adapt = () => {
 		const own = doctype === "DocType" && fieldname === "default_print_format";
 		if ((!setter && !own) || frappe.model.can_read(doctype)) return get_value.apply(this, arguments);
 		const answer = setter
-			? frappe.xcall("onedesk.one.printing.default", { doctype: filters.doc_type }).then((value) => ({ message: { value } }))
+			? frappe.xcall("onedesk.one_studio.printing.default", { doctype: filters.doc_type }).then((value) => ({ message: { value } }))
 			: Promise.resolve({ message: { default_print_format: null } });
 		return answer.then((r) => {
 			callback && callback(r.message);
@@ -224,10 +224,9 @@ onedesk.doctype_settings.adapt = () => {
 			],
 		});
 	});
-	const go = (panel, args) => {
+	const go = (panel, { rule = null, type = null, for: for_doctype = null } = {}) => {
 		panel.dialog.hide();
-		frappe.app.sidebar && frappe.app.sidebar.select_module("One");
-		frappe.set_route("workspace-settings", { section: "notification_types", ...args });
+		onedesk.notification_center.open({ at: "words", record: rule ? `rule:${rule}` : type, for_doctype });
 	};
 	frappe.doctype_settings.register("notifications", (panel, doctype) =>
 		table(panel, {
@@ -307,7 +306,7 @@ onedesk.doctype_settings.adapt = () => {
 
 frappe.provide("onedesk.numbering");
 
-onedesk.numbering.API = "onedesk.one.numbering.";
+onedesk.numbering.API = "onedesk.one_studio.numbering.";
 
 onedesk.numbering.list = ($wrapper, doctype) => {
 	const esc = frappe.utils.escape_html;
@@ -461,7 +460,7 @@ onedesk.automations.steps = (frm) => {
 	const key = `${frm.doc.document_type || ""}|${frm.doc.trigger_type || ""}`;
 	if (frm.one_steps?.key !== key) {
 		const ready = frappe
-			.xcall("onedesk.one.automations.steps", {
+			.xcall("onedesk.one_studio.automations.steps", {
 				doctype: frm.doc.document_type || null,
 				trigger_type: frm.doc.trigger_type || null,
 			})
@@ -698,7 +697,7 @@ onedesk.numbering.help_html = () => {
 frappe.provide("onedesk.printing");
 
 onedesk.printing.new_format = async (panel, doctype) => {
-	const starts = await frappe.xcall("onedesk.one.printing.new_format_starts", { doctype });
+	const starts = await frappe.xcall("onedesk.one_studio.printing.new_format_starts", { doctype });
 	const every = __("Every field of {0}", [__(doctype)]);
 	const dialog = new frappe.ui.Dialog({
 		title: __("New Print Format"),
@@ -715,7 +714,7 @@ onedesk.printing.new_format = async (panel, doctype) => {
 		],
 		primary_action_label: __("Create"),
 		primary_action: async ({ name, start_from }) => {
-			const made = await frappe.xcall("onedesk.one.printing.new_format", { doctype, name, start_from: start_from || null });
+			const made = await frappe.xcall("onedesk.one_studio.printing.new_format", { doctype, name, start_from: start_from || null });
 			dialog.hide();
 			panel.dialog.hide();
 			frappe.set_route("print-format-builder", made);

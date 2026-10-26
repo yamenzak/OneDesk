@@ -786,7 +786,7 @@ def test_oneai_suggests_a_mail_rule_as_a_card():
 	assert "actions.require(account)" in make and "actions.create_folder(" in make
 	assert "switches.set_mailbox(account, 1)" in make
 	assert "rules.save_rule(account" in make, "saved as the page saves one, so an asked-for rule waits"
-	setup = (MAIL.parent / "one" / "ai_setup.py").read_text()
+	setup = (MAIL.parent / "one_studio" / "ai_setup.py").read_text()
 	assert "if what in mail_ai.APPROVED:" in setup and 'if what == "mail_rule":\n\t\treturn make_rule(changes)' in ai
 
 

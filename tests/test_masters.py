@@ -53,9 +53,9 @@ def test_masters_are_granted_to_the_administrator_and_wired():
 	assert 'MASTER = ("read", "write", "create", "delete")' in (tree.APP / "one" / "access.py").read_text()
 	assert '"onedesk.one.access.settle"' in HOOKS
 	assert '"Address Template": {"validate": "onedesk.one.masters.validate_address_template"}' in HOOKS
-	settings = (tree.APP / "one" / "settings.py").read_text()
-	assert '"lists"' not in settings and "address_templates" not in settings
-	js = (tree.APP / "public" / "js" / "settings.js").read_text()
+	studio = (tree.APP / "one_studio" / "control.py").read_text()
+	assert '"lists"' not in studio and "address_templates" not in studio
+	js = (tree.APP / "public" / "js" / "one_studio" / "studio_control.js").read_text()
 	assert "draw_lists" not in js and "draw_print_lists" not in js
 
 

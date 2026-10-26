@@ -1,6 +1,6 @@
 """A project's invoices are its claims: each takes the next number within
 its project when it is submitted, and its print says where the contract
-stands (one/print_blocks.py, `claim`)."""
+stands (one_studio/print_blocks.py, `claim`)."""
 
 import frappe
 from frappe.utils import flt

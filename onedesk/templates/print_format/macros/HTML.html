@@ -1,5 +1,5 @@
 {#- Derived from frappe/templates/print_format/macros/HTML.html, Copyright (c) Frappe Technologies Pvt. Ltd., MIT.
-    A block a workspace saved is marked, and drawn in One's sandbox (onedesk/one/print_html.py);
+    A block a workspace saved is marked, and drawn in One's sandbox (onedesk/one_studio/print_html.py);
     any other is drawn as frappe draws it. -#}
 <div class="custom-html"{% if df.custom_style %} style="{{ df.custom_style|e }}"{% endif %} {{ field_attributes(df) }}>
 	{%- if df.one_sandboxed %}

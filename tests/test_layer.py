@@ -1,4 +1,4 @@
-"""The workspace layer is held (one/layer.py, one/customize.py, docs/SHELL.md
+"""The workspace layer is held (one/layer.py, one_studio/customize.py, docs/SHELL.md
 decision 6).
 
 These fail when a condition a workspace writes could run rather than compare,
@@ -16,7 +16,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 LAYER = tree.APP / "one" / "layer.py"
-CUSTOMIZE = (tree.APP / "one" / "customize.py").read_text(encoding="utf-8")
+CUSTOMIZE = (tree.APP / "one_studio" / "customize.py").read_text(encoding="utf-8")
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 

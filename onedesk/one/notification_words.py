@@ -1,28 +1,18 @@
-"""Workspace Settings: what is left of it until OneStudio takes numbering,
-printing and approvals, and NotificationCenter the workspace's notification
-words and rules (docs/ONE.md, stage 3). Workspace administrators only.
-Nothing new is stored: each section reads and writes the records that
-already hold it.
-"""
+"""NotificationCenter's Words and Rules (docs/READY.md, mechanism 15): what
+each notification One sends says and which channels it may use, and the
+workspace's own rules (when something happens to a record, tell somebody).
+Workspace administrators only. Nothing new is stored: it reads and writes
+Notification Type and Notification."""
 
 from typing import Annotated
 
 import frappe
-from frappe import _, _lt
+from frappe import _
 
-from onedesk.one import brand, control, roles
+from onedesk.one import brand, roles
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
-
-SECTIONS = [
-	("notification_types", _lt("Workspace Notifications"), "bell-ring", "workspace"),
-	("numbering", _lt("Numbering"), "hash", "workspace"),
-	("printing", _lt("Printing"), "printer", "workspace"),
-	("approvals", _lt("Approvals"), "route", "workspace"),
-]
-
-ON_A_RECORD = ("notification_types",)
 
 NOTIFICATION_TYPE = (
 	"enabled",
@@ -34,106 +24,30 @@ NOTIFICATION_TYPE = (
 
 
 @frappe.whitelist()
-@frappe.read_only()
-def sections() -> dict:
-	"""The sections this person may open, and who they are."""
-	admin = roles.administers()
-	return {
-		"sections": [
-			{"key": key, "label": str(label), "icon": icon, "group": group}
-			for key, label, icon, group in SECTIONS
-			if not _needs_admin(key) or admin
-		],
-		"admin": admin,
-		"user": frappe.session.user,
-	}
-
-
-@frappe.whitelist()
 def load(
-	section: Annotated[str, "Which section."],
-	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
+	section: Annotated[str, "Which section: words."],
+	record: Annotated[str | None, "A type's name, rule:<name> or rule:new, or nothing for the list."] = None,
 ) -> dict:
-	loaders = {
-		"notification_types": _notification_types,
-		"numbering": _numbering,
-		"printing": _printing,
-		"approvals": _approvals,
-	}
-	if section not in loaders:
+	roles.require()
+	if section != "words":
 		frappe.throw(_("There is no such section."))
-	if _group(section) == "workspace":
-		roles.require()
-	return loaders[section](record) if section in ON_A_RECORD else loaders[section]()
+	return _notification_types(record)
 
 
 @frappe.whitelist(methods=["POST"])
 def save(
-	section: Annotated[str, "Which section."],
+	section: Annotated[str, "Which section: words."],
 	values: Annotated[str | dict, "What was changed."],
 	opened: Annotated[str | list | None, "The records as the page loaded them: doctype, name and modified."] = None,
-	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
+	record: Annotated[str | None, "The type or rule it is open on."] = None,
 ) -> dict:
-	values = frappe.parse_json(values) or {}
-	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
-	savers = {"notification_types": _save_notification_type}
-	if section not in savers:
+	roles.require()
+	if section != "words":
 		frappe.throw(_("There is nothing to save here."))
-	if _group(section) == "workspace":
-		roles.require()
-	record = savers[section](record, values) or record
+	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
+	record = _save_notification_type(record, frappe.parse_json(values) or {}) or record
 	frappe.db.commit()
-	said = load(section, record)
-	if isinstance(said, dict):
-		said["record"] = record
-	return said
-
-
-def _group(section: str) -> str:
-	return next((group for key, _label, _icon, group in SECTIONS if key == section), "")
-
-
-def _needs_admin(section: str) -> bool:
-	return _group(section) == "workspace"
-
-
-def _numbering() -> dict:
-	"""Every kind of record the administrator may renumber (one/numbering.py)."""
-	from onedesk.one import numbering
-
-	return {"rows": numbering.doctypes()}
-
-
-def _approvals() -> dict:
-	"""Every approval, and how many steps it has (one/approvals.py)."""
-	from onedesk.one import approvals
-
-	return {"rows": approvals.approvals()}
-
-
-def _printing() -> dict:
-	"""The workspace's letter heads and its own print formats (one/printing.py)."""
-	from onedesk.one import printing
-
-	company = control._company()
-	heads = printing.letter_heads()
-	doc = {"company": company.name if company else None}
-	for one in heads:
-		one["drawn_top"], one["drawn_foot"] = (_drawn(one.get(key), doc) for key in ("content", "footer"))
-	return {
-		"letter_heads": heads,
-		"formats": printing.formats(),
-		"company_logo": company.company_logo if company else None,
-	}
-
-
-def _drawn(template: str | None, doc: dict) -> str:
-	if not template or "{" not in template:
-		return template or ""
-	try:
-		return frappe.utils.jinja.render_template(template, {"doc": frappe._dict(doc)})
-	except Exception:
-		return ""
+	return {**_notification_types(record), "record": record}
 
 
 def _notification_types(record: str | None = None) -> dict:
@@ -446,4 +360,4 @@ def delete_rule(name: Annotated[str, "The rule."]) -> dict:
 		frappe.throw(_("There is no rule {0}.").format(name))
 	frappe.delete_doc("Notification", name, ignore_permissions=True)
 	frappe.db.commit()
-	return load("notification_types")
+	return load("words")

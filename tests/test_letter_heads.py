@@ -1,4 +1,4 @@
-"""A letter head's top is drawn from the company by one/letter_heads.py: one
+"""A letter head's top is drawn from the company by one_studio/letter_heads.py: one
 of its presets, every value escaped, drawn again whenever the company or its
 address changes, and laid out without table cells, which frappe's print
 stylesheet stretches pictures across. These read the code that says so."""
@@ -11,7 +11,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SOURCE = (tree.APP / "one" / "letter_heads.py").read_text()
+SOURCE = (tree.APP / "one_studio" / "letter_heads.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -59,9 +59,9 @@ def test_what_the_company_says_is_escaped():
 
 def test_a_top_is_drawn_again_when_the_company_changes():
 	company = HOOKS.split('\t"Company": {', 1)[1].split("\n\t},", 1)[0]
-	assert '"onedesk.one.letter_heads.redraw"' in company.split('"on_update"', 1)[1]
-	assert '"Address": {"on_update": "onedesk.one.letter_heads.redraw"}' in HOOKS
-	printing = (tree.APP / "one" / "printing.py").read_text()
+	assert '"onedesk.one_studio.letter_heads.redraw"' in company.split('"on_update"', 1)[1]
+	assert '"Address": {"on_update": "onedesk.one_studio.letter_heads.redraw"}' in HOOKS
+	printing = (tree.APP / "one_studio" / "printing.py").read_text()
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
 	assert validate.index("letter_heads.apply(doc)") < validate.index("print_html.letter_head_html")
 
@@ -86,7 +86,7 @@ def test_the_top_is_still_filtered():
 		one["field_name"] == "content" and one["property"] == "ignore_xss_filter"
 		for one in custom["property_setters"]
 	)
-	printing = (tree.APP / "one" / "printing.py").read_text()
+	printing = (tree.APP / "one_studio" / "printing.py").read_text()
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
 	assert "sanitize_html(doc.content)" in validate and "not doc.one_top" in validate
 	assert "print_html.letter_head_html(doc.content" in validate
@@ -122,7 +122,7 @@ def test_the_foot_is_drawn_kept_and_filtered_as_the_top_is():
 	custom = json.loads((tree.APP / "one" / "custom" / "letter_head.json").read_text())
 	assert {one["fieldname"] for one in custom["custom_fields"]} >= {"one_top", "one_foot"}
 	assert {one["field_name"] for one in custom["property_setters"]} >= {"content", "footer"}
-	printing = (tree.APP / "one" / "printing.py").read_text()
+	printing = (tree.APP / "one_studio" / "printing.py").read_text()
 	validate = printing.split("def validate_letter_head(", 1)[1].split("\ndef ", 1)[0]
 	assert "sanitize_html(doc.footer)" in validate and 'not doc.get("one_foot")' in validate
 
@@ -162,7 +162,7 @@ def test_oneai_changes_only_what_it_names():
 
 
 def test_icons_by_name_in_html_written_by_hand():
-	assert "letter_heads.icons_in(html)" in (tree.APP / "one" / "print_html.py").read_text()
+	assert "letter_heads.icons_in(html)" in (tree.APP / "one_studio" / "print_html.py").read_text()
 	assert "_known(name)" in _body("icons_in")
 
 
@@ -192,7 +192,7 @@ def test_one_that_came_with_an_app_is_never_saved():
 	"""Made the default or turned off by frappe's own steps less the save, whose
 	export writes a standard letter head back into its app's files in developer mode."""
 	save = (
-		(tree.APP / "one" / "printing.py")
+		(tree.APP / "one_studio" / "printing.py")
 		.read_text()
 		.split("def save_letter_head(", 1)[1]
 		.split("\ndef ", 1)[0]
@@ -203,8 +203,8 @@ def test_one_that_came_with_an_app_is_never_saved():
 
 def test_the_page_shows_each_as_it_prints():
 	"""The Printing page draws a letter head from its Jinja run, not its code."""
-	settings = (tree.APP / "one" / "settings.py").read_text()
-	assert "render_template" in settings.split("def _drawn(", 1)[1].split("\ndef ", 1)[0]
-	page = (tree.APP / "public" / "js" / "settings.js").read_text()
+	server = (tree.APP / "one_studio" / "control.py").read_text()
+	assert "render_template" in server.split("def _drawn(", 1)[1].split("\ndef ", 1)[0]
+	page = (tree.APP / "public" / "js" / "one_studio" / "studio_control.js").read_text()
 	assert "one.drawn_top" in page and "dts-pf-card" in page
 	assert 'builders["print-format"](panel, doctype)' in page

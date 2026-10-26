@@ -189,10 +189,17 @@ moves its version.
    ControlCenter (`onedesk.control_centers`), and every centre tells OneAI
    which tab is open. Workspace Settings keeps Workspace Notifications,
    Numbering, Printing and Approvals until stage 3.
-3. **OneStudio takes Setup and Automation.** Numbering, printing, approvals,
-   automations, webhooks, reports by mail, saved reports and dashboards,
-   Customize. Mail Templates to OneMail. Workspace Notifications to
-   NotificationCenter.
+3. **OneStudio takes Setup and Automation.** Built. Printing (with
+   `print_*.py` and `letter_heads.py`), numbering, approvals, automations
+   and their steps, saved reports and dashboards (`reports.py`), Customize
+   and OneAI's setup tools moved into `one_studio/`. Numbering, Printing
+   and Approvals are OneStudio's ControlCenter (`one_studio/control.py`,
+   `public/js/one_studio/studio_control.js`), and its rail has Setup and
+   Automation (Automations, Reports by Mail, Webhooks, Webhook Calls).
+   Workspace Notifications is NotificationCenter's Words and Rules
+   (`one/notification_words.py`), Mail Templates OneMail's ControlCenter.
+   The Workspace Settings page and `settings.js` are deleted; the
+   stylesheet the moved sections share is `center_section.css`.
 4. **Privacy and the Audit Log.** Privacy requests into TrustCenter's Your
    Data; the three logs into one Audit Log view in AccessCenter.
 5. **Masters go home.** `LISTS` in each module, Lists in each ControlCenter,

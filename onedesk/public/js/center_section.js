@@ -99,6 +99,7 @@ onedesk.CenterSection = class CenterSection extends onedesk.shell.Editor {
 			this.$content.html(frappe.ui.alert.html({ title: __("Could Not Open This"), theme: "red" }));
 			return;
 		}
+		if (this.loaded) this.loaded(this.data);
 		this.$content.empty();
 		this.hear(this.data.opened);
 		this.links();

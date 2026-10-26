@@ -1,10 +1,12 @@
+// OneStudio's ControlCenter (docs/ONE.md, stage 3): Numbering, Printing and
+// Approvals, how the workspace adapts what One makes (one_studio/control.py).
+// For the workspace's administrators.
+frappe.provide("onedesk.studio_control");
 
-frappe.provide("onedesk");
-
-onedesk.Settings = class Settings extends onedesk.shell.Editor {
-	static API = "onedesk.one.settings.";
-
-	static WIDE = ["numbering", "printing", "approvals"];
+onedesk.StudioSection = class StudioSection extends onedesk.CenterSection {
+	static API = "onedesk.one_studio.control.";
+	static HERE = "onestudio";
+	static LABEL = "ControlCenter";
 	static theirs = (one) => one.standard === "Yes";
 
 	static SHEET = 794;
@@ -22,77 +24,6 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		it.srcdoc = html;
 		return it;
 	};
-
-	constructor(page) {
-		super(page);
-		this.route = "workspace-settings";
-		this.$section = page.$shell;
-		this.kept = {};
-	}
-
-	async show() {
-		if (!this.said) this.said = await frappe.xcall(Settings.API + "sections");
-		const params = frappe.utils.get_query_params();
-		const found = this.said.sections.find((one) => one.key === params.section) || this.said.sections[0];
-		this.for_doctype = params.rule === "new" ? params.for || null : null;
-		if (found) this.open(found.key, { record: params.type || (params.rule ? `rule:${params.rule}` : null) });
-	}
-
-	async open(key, { fresh = false, record = null } = {}) {
-		const slot = (k, r) => (r ? `${k}:${r}` : k);
-		if (this.dirty && this.values) this.kept[slot(this.key, this.record)] = { values: this.values(), opened: this.opened };
-		if (fresh) delete this.kept[slot(key, record)];
-		this.key = key;
-		this.record = record;
-		this.unsaved();
-		const section = this.said.sections.find((one) => one.key === key);
-		onedesk.shell.name(section.label);
-		this.$content = onedesk.shell.body(this.$section, { wide: Settings.WIDE.includes(key) });
-		try {
-			this.data = await frappe.xcall(Settings.API + "load", { section: key, record });
-			if (record === "rule:new" && this.for_doctype && this.data.values) this.data.values.document_type = this.for_doctype;
-		} catch (e) {
-			this.$content.html(frappe.ui.alert.html({ title: __("This section could not be opened."), theme: "red" }));
-			return;
-		}
-		this.$content.empty();
-		this.hear(this.data.opened);
-		this[`draw_${key}`](this.data);
-		if (!this.trailed) onedesk.shell.name(section.label);
-		await this.bring_back(slot(key, record));
-	}
-
-	async bring_back(key) {
-		const kept = this.kept[key];
-		delete this.kept[key];
-		if (!kept || !this.values) return;
-		await this.ready;
-		await this.group.set_values(kept.values);
-		this.check();
-		const moved = kept.opened.some((one) => this.opened.some((now) => now.doctype === one.doctype && now.name === one.name && now.modified !== one.modified));
-		if (moved) this.conflict();
-	}
-
-	saver(values) {
-		return { method: Settings.API + "save", args: { section: this.key, values, record: this.record } };
-	}
-
-	redraw(said) {
-		const [kind, name] = (said.record || "").split(/:(.*)/s);
-		if (said.record && said.record !== this.record && kind === "rule") {
-			frappe.set_route(this.route, { section: this.key, [kind]: name });
-			return;
-		}
-		if (this.trailed) {
-			this.unsaved();
-			this.$content = onedesk.shell.body(this.$section, { wide: Settings.WIDE.includes(this.key) });
-		}
-		this[`draw_${this.key}`](said);
-	}
-
-	refresh({ fresh = false } = {}) {
-		this.open(this.key, { fresh, record: this.record });
-	}
 
 	draw_numbering(data) {
 		const esc = frappe.utils.escape_html;
@@ -193,7 +124,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			<div class="dts-pf-card${one.is_default ? " is-default" : ""}">
 				<div class="dts-pf-preview">
 					<div class="dts-pf-badge one-print-badges">${[
-						Settings.theirs(one) ? frappe.ui.badge.html({ label: __("Standard"), theme: "gray" }) : "",
+						StudioSection.theirs(one) ? frappe.ui.badge.html({ label: __("Standard"), theme: "gray" }) : "",
 						one.disabled ? frappe.ui.badge.html({ label: __("Disabled"), theme: "gray" }) : "",
 					].join("")}</div>
 					<button type="button" class="dts-pf-star" data-selected="${one.is_default ? "true" : "false"}">${frappe.utils.icon("star", "sm")}</button>
@@ -210,20 +141,20 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		} else {
 			$star.attr("title", __("Set as Default")).on("click", async (e) => {
 				e.stopPropagation();
-				await frappe.xcall("onedesk.one.printing.save_letter_head", { values: { name: one.name, modified: one.modified, is_default: 1 } });
+				await frappe.xcall("onedesk.one_studio.printing.save_letter_head", { values: { name: one.name, modified: one.modified, is_default: 1 } });
 				frappe.show_alert({ message: __("Default updated"), indicator: "green" });
 				this.refresh({ fresh: true });
 			});
 		}
 		requestAnimationFrame(() => {
-			const scale = ($thumb.width() || 200) / Settings.SHEET;
-			$thumb.append(Settings.frame(Settings.sheet(one.drawn_top, one.drawn_foot || "", scale, true), "one-print-head-frame"));
+			const scale = ($thumb.width() || 200) / StudioSection.SHEET;
+			$thumb.append(StudioSection.frame(StudioSection.sheet(one.drawn_top, one.drawn_foot || "", scale, true), "one-print-head-frame"));
 		});
 		return $card;
 	}
 
 	letter_head(one = null) {
-		const theirs = !!one && Settings.theirs(one);
+		const theirs = !!one && StudioSection.theirs(one);
 		const esc = frappe.utils.escape_html;
 		const kept = one && one.one_top ? frappe.utils.parse_json(one.one_top) : null;
 		let preset = one ? (kept && kept.preset) || null : "classic";
@@ -239,8 +170,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			["website", __("Website")],
 			["tax_id", __("Tax ID")],
 		];
-		const page = Settings.sheet;
-		const frame = Settings.frame;
+		const page = StudioSection.sheet;
+		const frame = StudioSection.frame;
 		const dialog = new frappe.ui.Dialog({
 			title: one ? one.name : __("New Letter Head"),
 			size: theirs ? "" : "extra-large",
@@ -254,7 +185,7 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 			],
 			primary_action_label: one ? __("Update") : __("Create"),
 			primary_action: async (values) => {
-				await frappe.xcall("onedesk.one.printing.save_letter_head", {
+				await frappe.xcall("onedesk.one_studio.printing.save_letter_head", {
 					values: {
 						letter_head_name: values.letter_head_name,
 						is_default: values.is_default,
@@ -350,10 +281,10 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		};
 		const show_preview = (top, bottom = foot_html()) => {
 			const $stage = theirs ? dialog.get_field("preview").$wrapper : dialog.get_field("preview").$wrapper.find(".one-lh-stage");
-			const scale = Math.min(1, (($stage.width() || 600) - 2) / Settings.SHEET, (window.innerHeight - 320) / Settings.PAGE);
+			const scale = Math.min(1, (($stage.width() || 600) - 2) / StudioSection.SHEET, (window.innerHeight - 320) / StudioSection.PAGE);
 			const sheet = frame(page(top, bottom, scale, true), "one-letter-head-sheet");
-			sheet.style.height = `${Math.ceil(Settings.PAGE * scale) + 2}px`;
-			sheet.style.width = `${Math.ceil(Settings.SHEET * scale) + 2}px`;
+			sheet.style.height = `${Math.ceil(StudioSection.PAGE * scale) + 2}px`;
+			sheet.style.width = `${Math.ceil(StudioSection.SHEET * scale) + 2}px`;
 			$stage.empty().append(sheet);
 		};
 		let drawn_with = [];
@@ -415,8 +346,8 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 		const drawn = frappe.utils.debounce(async () => {
 			if (theirs) return shown();
 			[drawn_with, drawn_feet] = await Promise.all([
-				frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: settings() }),
-				frappe.xcall("onedesk.one.letter_heads.presets", { settings_of: foot_settings(), part: "foot" }),
+				frappe.xcall("onedesk.one_studio.letter_heads.presets", { settings_of: settings() }),
+				frappe.xcall("onedesk.one_studio.letter_heads.presets", { settings_of: foot_settings(), part: "foot" }),
 			]);
 			cards();
 			feet();
@@ -442,280 +373,28 @@ onedesk.Settings = class Settings extends onedesk.shell.Editor {
 	}
 
 	async design_letter_head(name) {
-		const designer = await frappe.xcall("onedesk.one.printing.design_letter_head", { letter_head: name });
+		const designer = await frappe.xcall("onedesk.one_studio.printing.design_letter_head", { letter_head: name });
 		frappe.set_route("print-format-builder", designer);
 	}
-
-	draw_notification_types(data) {
-		if (data.rule) return this.draw_rule(data);
-		if (data.type) return this.draw_notification_type(data);
-		const esc = frappe.utils.escape_html;
-		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
-		const state = (one) =>
-			[
-				one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" }),
-				one.edited ? frappe.ui.badge.html({ label: __("Edited"), theme: "violet" }) : "",
-			].join(" ");
-		const channels = (one) =>
-			!one.ours
-				? `<span class="one-shell-quiet">${esc(__("Each person chooses"))}</span>`
-				: one.mailed_by
-				? frappe.ui.badge.html({ label: __("Sent by {0}", [one.mailed_by]), theme: "gray" })
-				: one.outside
-				? frappe.ui.badge.html({ label: __("External Email"), theme: "gray" })
-				: one.always
-				? frappe.ui.badge.html({ label: __("Always Emailed"), theme: "gray" })
-				: channel(__("Email"), one.email, one.email_default) + " " + channel(__("Push"), one.push, one.push_default);
-		const open_rule = (name) => frappe.set_route("workspace-settings", { section: this.key, rule: name });
-		this.$content.html(
-			`<div class="one-shell-section one-shell-note one-shell-quiet">${esc(
-				__("Blue means on by default.")
-			)}</div>
-			<div class="one-shell-section" data-list="rules"></div>
-			<div class="one-shell-section" data-list="types"></div>`
-		);
-		onedesk.shell.table(this.$content.find('[data-list="rules"]'), {
-			title: __("Rules"),
-			rows: data.rules || [],
-			icon: "bell-plus",
-			empty: __("No rules"),
-			open: (one) => open_rule(one.name),
-			actions:
-				onedesk.oneai.button(
-					__("Ask OneAI"),
-					__("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.")
-				) +
-				onedesk.shell.button(__("New Rule"), { "data-rule-new": "1" }, "subtle", "plus"),
-			columns: [
-				{ label: __("Rule"), fieldname: "name" },
-				{ label: __("Description"), render: (one) => `<span class="one-shell-quiet">${esc(one.said || "")}</span>` },
-				{ label: "", render: (one) => (one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" })) },
-			],
-		});
-		onedesk.shell.table(this.$content.find('[data-list="types"]'), {
-			title: __("Notifications"),
-			rows: data.apps.flatMap((group) => group.types.map((one) => ({ ...one, app: group.app, mark: group.mark }))),
-			page_size: 100,
-			icon: "bell",
-			none: __("No matching notifications"),
-			open: (one) => one.ours && frappe.set_route("workspace-settings", { section: this.key, type: one.name }),
-			columns: [
-				{
-					label: __("Notification"),
-					render: (one) =>
-						`<div class="os-type-name">${esc(one.label)}</div>${
-							one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : ""
-						}${one.to ? `<div class="one-shell-quiet os-to">${frappe.utils.icon("users", "xs")}${esc(one.to)}</div>` : ""}`,
-				},
-				{
-					label: __("App"),
-					render: (one) => onedesk.shell.app(one.app, one.mark),
-				},
-				{ label: __("Channels"), render: channels },
-				{ label: "", render: state },
-			],
-		});
-		this.$content.on("click", "[data-rule-new]", () => open_rule("new"));
-	}
-
-	draw_notification_type(data) {
-		const esc = frappe.utils.escape_html;
-		const type = data.type;
-		const slots = type.slots.map((one) => `<code>{{ ${esc(one)} }}</code>`).join(" ");
-		const preview = `<div class="os-preview">
-			<div class="os-preview-label">${esc(__("Preview"))}</div>
-			<div class="os-preview-subject"></div>
-			<div class="os-preview-message"></div>
-			<div class="os-preview-wrong"></div>
-		</div>`;
-		const rows = [["enabled"]];
-		if (type.mailed_by) {
-			rows.push({
-				html: `<div class="one-shell-quiet">${esc(
-					type.switch
-						? __("{0} sends this email itself. Send This is the same switch as in its settings.", [type.mailed_by])
-						: type.notification
-						? __("{0} sends this email itself. Send This turns it on and off.", [type.mailed_by])
-						: __("{0} sends this email itself. It's listed so you can see everything the workspace sends.", [type.mailed_by])
-				)}</div>`,
-			});
-		} else if (type.upstream) {
-			rows.push(
-				{
-					html: `<div class="one-shell-quiet">${esc(
-						type.rule
-							? __("The text comes from {0}'s rule {1}.", [type.upstream, type.rule])
-							: __("The text comes from {0}.", [type.upstream])
-					)}</div>`,
-				},
-				{ heading: __("Channels"), note: __("In-app notifications are always on.") },
-				["one_allow_email", "one_allow_push"]
-			);
-		} else if (type.ours) {
-			rows.push(
-				{ heading: __("Message"), note: __("Edited text is no longer translated.") },
-				["one_subject"],
-				["one_message"],
-				{ html: `${slots ? `<div class="one-shell-quiet os-slots">${__("Available fields: {0}", [slots])}</div>` : ""}${preview}` }
-			);
-			if (type.always) {
-				rows.push(
-					{ heading: __("Channels"), note: __("Email is always sent so people can reply.") },
-					["one_allow_push"]
-				);
-			} else if (!type.outside) {
-				rows.push(
-					{ heading: __("Channels"), note: __("In-app notifications are always on.") },
-					["one_allow_email", "one_allow_push"]
-				);
-			} else {
-				rows.push({ html: `<div class="one-shell-quiet">${esc(__("Sent to addresses outside the workspace, so there's no channel to choose."))}</div>` });
-			}
-		}
-		const rewrite = () =>
-			onedesk.oneai.open({
-				ask: __(
-					'Rewrite the "{0}" notification to be short, plain and friendly. Keep every field it uses and suggest it as a change I can apply.',
-					[type.label]
-				),
-			});
-		const reset = async () => {
-			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });
-			this.check();
-			this.preview(type.name, $card);
-		};
-		this.as_record({
-			parent: __("Notifications"),
-			route: "/desk/workspace-settings?section=notification_types",
-			title: type.label,
-			status: data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
-			side: onedesk.shell.side({
-				mark: type.mark || "bell",
-				title: type.label,
-				sub: type.app ? esc(type.app) : "",
-				groups: [
-					{ label: __("When"), html: type.about ? `<div>${esc(type.about)}</div>` : "" },
-					{ label: __("Recipients"), html: type.to ? `<div>${esc(type.to)}</div>` : "" },
-				],
-			}),
-			actions:
-				type.ours && !type.upstream
-					? [
-							{ label: __("Rewrite with OneAI"), action: rewrite },
-							{ label: __("Reset to Default"), action: reset, group: __("Actions") },
-					  ]
-					: [],
-		});
-		const $card = this.form(data, { rows });
-		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
-		for (const name of ["one_subject", "one_message"]) {
-			const field = this.group.fields_dict[name];
-			if (!field) continue;
-			const was = field.df.change;
-			field.df.change = (...args) => {
-				was && was(...args);
-				draw();
-			};
-		}
-		if (type.ours && !type.upstream) this.ready.then(() => this.preview(type.name, $card));
-	}
-
-	async preview(name, $card) {
-		if (!this.group) return;
-		const said = await frappe.xcall(Settings.API + "preview_notification", {
-			name,
-			subject: this.group.get_value("one_subject") || "",
-			message: this.group.get_value("one_message") || "",
-		});
-		$card.find(".os-preview-subject").html(said.subject || "");
-		$card.find(".os-preview-message").html(said.message || "");
-		const wrong = [said.subject_wrong, said.message_wrong].filter(Boolean);
-		$card.find(".os-preview-wrong").html(wrong.length ? frappe.ui.alert.html({ title: wrong.join(" "), theme: "red" }) : "");
-	}
-
-	draw_rule(data) {
-		const esc = frappe.utils.escape_html;
-		const rule = data.rule;
-		const remove = () =>
-			frappe.confirm(__("Delete rule {0}? It stops sending notifications.", [rule.name]), async () => {
-				await frappe.xcall(Settings.API + "delete_rule", { name: rule.name });
-				frappe.set_route("workspace-settings", { section: this.key });
-			});
-		this.as_record({
-			parent: __("Notifications"),
-			route: "/desk/workspace-settings?section=notification_types",
-			title: rule.new ? __("New Rule") : rule.name,
-			status: rule.new ? { label: __("Not Saved"), colour: "orange" } : data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
-			side: onedesk.shell.side({
-				mark: "bell-plus",
-				title: rule.new ? __("New Rule") : rule.name,
-				sub: esc(__("Workspace rule")),
-				groups: [{ label: __("Description"), html: rule.said ? `<div>${esc(rule.said)}</div>` : "" }],
-			}),
-			actions: rule.new ? [] : [{ label: __("Delete"), action: remove, group: __("Actions") }],
-		});
-		const rows = [
-			["enabled"],
-			...(rule.new ? [["rule_name"]] : []),
-			{ heading: __("Trigger") },
-			["document_type", "event"],
-			["date_changed", "days_in_advance"],
-			["value_changed"],
-			{ html: `<div class="os-filter-label">${esc(__("Conditions"))}</div><div class="os-filters"></div>` },
-			{ heading: __("Recipients"), note: __("Only people with access to the record are notified.") },
-			["roles"],
-			["person_field", "send_to_all_assignees"],
-			{ heading: __("Message") },
-			["subject"],
-			["message"],
-			{ heading: __("Channels"), note: __("In-app notifications are always on.") },
-			["one_allow_email", "one_allow_push"],
-		];
-		const $card = this.form(data, { rows });
-		const options = (list) => [{ value: "", label: "" }, ...(list || [])];
-		const offer = (said) => {
-			for (const [field, list] of [
-				["date_changed", said && said.dates],
-				["value_changed", said && said.values],
-				["person_field", said && said.people],
-			]) {
-				const control = this.group.fields_dict[field];
-				if (!control) continue;
-				control.df.options = options(list);
-				control.refresh();
-				control.set_input(this.group.get_value(field) || data.values[field] || "");
-			}
-		};
-		const filters = (doctype, value) => {
-			const $filters = $card.find(".os-filters").empty();
-			if (!doctype) return $filters.html(`<div class="one-shell-quiet">${esc(__("Select a record type first."))}</div>`);
-			frappe.model.with_doctype(doctype, () => {
-				const group = new frappe.ui.FilterGroup({
-					parent: $filters,
-					doctype,
-					on_change: () => {
-						this.group.set_value("filters", JSON.stringify(group.get_filters()));
-						this.check();
-					},
-				});
-				group.add_filters_to_filter_group(value && value !== "[]" ? JSON.parse(value) : []);
-			});
-		};
-		offer(data.options);
-		filters(data.values.document_type, data.values.filters);
-		const watched = this.group.fields_dict.document_type;
-		watched.get_query = () => ({ query: "onedesk.one.rules.watchable" });
-		const was = watched.df.change;
-		watched.df.change = async (...args) => {
-			was && was(...args);
-			const doctype = this.group.get_value("document_type");
-			if (doctype === this.rule_watches) return;
-			this.rule_watches = doctype;
-			this.group.set_value("filters", "");
-			offer(doctype ? await frappe.xcall("onedesk.one.rules.fields_of", { doctype }) : null);
-			filters(doctype, "");
-		};
-		this.rule_watches = data.values.document_type;
-		if (!rule.new && this.record === "rule:new") frappe.set_route("workspace-settings", { section: this.key, rule: rule.name });
-	}
 };
+
+onedesk.studio_control.ABOUT = {
+	numbering: __("How each kind of record is numbered."),
+	printing: __("The letter heads and print formats documents are printed and sent on."),
+	approvals: __("Who approves which records, step by step."),
+};
+
+onedesk.studio_control.open = ({ at = null } = {}) => {
+	if (!frappe.boot.one_administers) return onedesk.account_center.open();
+	const tabs = [
+		["numbering", __("Numbering"), "hash"],
+		["printing", __("Printing"), "printer"],
+		["approvals", __("Approvals"), "route"],
+	].map(([id, label, icon]) => onedesk.center_section.tab(onedesk.StudioSection, { id, label, icon, about: onedesk.studio_control.ABOUT[id] }));
+	const dialog = onedesk.module_settings.open({ module: "OneStudio", tabs: [{ group: null, items: tabs }], default_tab: at });
+	dialog.show();
+	return dialog;
+};
+
+frappe.provide("onedesk.control_centers");
+onedesk.control_centers.OneStudio = onedesk.studio_control.open;

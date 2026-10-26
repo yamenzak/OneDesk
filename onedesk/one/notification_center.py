@@ -146,7 +146,7 @@ def workspace(module: str | None = None) -> list[dict]:
 
 @frappe.whitelist(methods=["POST"])
 def set_type(name: str, field: str, value: int) -> None:
-	"""One setting of one type, as Workspace Settings › Notification Types
+	"""One setting of one type, as NotificationCenter › Words and Rules
 	saves it."""
 	roles.require()
 	one = notify.declared().get(name)

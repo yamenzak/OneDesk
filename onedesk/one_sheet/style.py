@@ -10,8 +10,8 @@ import re
 import frappe
 from frappe.utils import cint, strip_html
 
-from onedesk.one import letter_heads
 from onedesk.one_sheet.cells import letters
+from onedesk.one_studio import letter_heads
 
 #: Lines worked out by a formula, and the rows around a header.
 WORKED = "#F5F5F4"

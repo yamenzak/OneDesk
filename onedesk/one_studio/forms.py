@@ -8,7 +8,7 @@ import frappe
 from frappe import _
 
 from onedesk.one import roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 
 def _counts(doctype: str, field: str) -> dict:
@@ -127,8 +127,8 @@ def forms() -> list[dict]:
 def extensions(doctype: str) -> list[dict]:
 	"""The extensions that run on a form, for OneAI: what each
 	does, where and when, and whether it is on. No code."""
-	from onedesk.one.customize import may
 	from onedesk.one_studio import extensions as kept
+	from onedesk.one_studio.customize import may
 
 	may(doctype)
 	return frappe.get_list(

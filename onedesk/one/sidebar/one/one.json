@@ -310,129 +310,13 @@
    "idx": 24
   },
   {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Numbering",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
-   "icon": "hash",
-   "child": 1,
-   "route_options": "{\"section\": \"numbering\"}",
-   "filters": "{\"section\": \"numbering\"}",
-   "idx": 25
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Printing",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
-   "icon": "printer",
-   "child": 1,
-   "route_options": "{\"section\": \"printing\"}",
-   "filters": "{\"section\": \"printing\"}",
-   "idx": 26
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Mail Templates",
-   "link_to": null,
-   "link_type": "URL",
-   "icon": "mails",
-   "child": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 27,
-   "url": "/desk/one?center=settings&module=OneMail&at=templates"
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Approvals",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
-   "icon": "route",
-   "child": 1,
-   "route_options": "{\"section\": \"approvals\"}",
-   "filters": "{\"section\": \"approvals\"}",
-   "idx": 28
-  },
-  {
-   "keep_closed": 1,
-   "type": "Section Break",
-   "label": "Automation",
-   "icon": "workflow",
-   "indent": 1,
-   "collapsible": 1,
-   "idx": 29
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Workspace Notifications",
-   "link_to": "workspace-settings",
-   "link_type": "Page",
-   "icon": "bell-ring",
-   "child": 1,
-   "route_options": "{\"section\": \"notification_types\"}",
-   "idx": 30,
-   "filters": "{\"section\": \"notification_types\"}"
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Automations",
-   "link_to": "Automation Flow",
-   "link_type": "DocType",
-   "icon": "zap",
-   "child": 1,
-   "idx": 31,
-   "is_default_module": 1
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Reports by Mail",
-   "link_to": "Auto Email Report",
-   "link_type": "DocType",
-   "icon": "mail-check",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
-   "idx": 32
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Webhooks",
-   "link_to": "Webhook",
-   "link_type": "DocType",
-   "icon": "webhook",
-   "child": 1,
-   "idx": 33,
-   "is_default_module": 1
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Webhook Calls",
-   "link_to": "Webhook Request Log",
-   "link_type": "DocType",
-   "icon": "send",
-   "child": 1,
-   "idx": 34,
-   "is_default_module": 1
-  },
-  {
    "keep_closed": 1,
    "type": "Section Break",
    "label": "Privacy",
    "icon": "lock",
    "indent": 1,
    "collapsible": 1,
-   "idx": 35
+   "idx": 25
   },
   {
    "keep_closed": 0,
@@ -445,7 +329,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 36
+   "idx": 26
   },
   {
    "keep_closed": 0,
@@ -458,7 +342,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 37
+   "idx": 27
   },
   {
    "keep_closed": 1,
@@ -468,7 +352,7 @@
    "icon": "scroll-text",
    "indent": 1,
    "collapsible": 1,
-   "idx": 38
+   "idx": 28
   },
   {
    "keep_closed": 0,
@@ -481,7 +365,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 39
+   "idx": 29
   },
   {
    "keep_closed": 0,
@@ -494,7 +378,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 40
+   "idx": 30
   },
   {
    "keep_closed": 0,
@@ -507,7 +391,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 41
+   "idx": 31
   },
   {
    "keep_closed": 1,
@@ -517,7 +401,7 @@
    "icon": "oneai",
    "indent": 1,
    "collapsible": 1,
-   "idx": 42
+   "idx": 32
   },
   {
    "keep_closed": 0,
@@ -528,7 +412,7 @@
    "icon": "oneai",
    "child": 1,
    "route_options": null,
-   "idx": 43,
+   "idx": 33,
    "filters": null,
    "url": "/desk/one?center=ai"
   },
@@ -541,7 +425,7 @@
    "link_type": "DocType",
    "icon": "book-open",
    "child": 1,
-   "idx": 44
+   "idx": 34
   },
   {
    "keep_closed": 0,
@@ -552,7 +436,7 @@
    "link_type": "Report",
    "icon": "chart-column",
    "child": 1,
-   "idx": 45
+   "idx": 35
   },
   {
    "keep_closed": 0,
@@ -563,7 +447,7 @@
    "link_type": "DocType",
    "icon": "messages-square",
    "child": 1,
-   "idx": 46
+   "idx": 36
   },
   {
    "keep_closed": 0,
@@ -574,7 +458,7 @@
    "link_type": "DocType",
    "icon": "lightbulb",
    "child": 1,
-   "idx": 47
+   "idx": 37
   },
   {
    "keep_closed": 0,
@@ -585,7 +469,7 @@
    "link_type": "Page",
    "link_to": "intake",
    "icon": "inbox",
-   "idx": 48
+   "idx": 38
   },
   {
    "keep_closed": 0,
@@ -596,7 +480,7 @@
    "link_type": "Report",
    "link_to": "Ready to Submit",
    "icon": "file-check",
-   "idx": 49
+   "idx": 39
   },
   {
    "keep_closed": 0,
@@ -607,7 +491,7 @@
    "link_type": "Report",
    "link_to": "Deadlines",
    "icon": "calendar-clock",
-   "idx": 50
+   "idx": 40
   },
   {
    "keep_closed": 0,
@@ -618,10 +502,10 @@
    "link_type": "Report",
    "link_to": "Spending",
    "icon": "wallet",
-   "idx": 51
+   "idx": 41
   }
  ],
- "modified": "2026-10-26 21:00:00.000000",
+ "modified": "2026-10-27 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

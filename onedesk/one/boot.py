@@ -43,9 +43,8 @@ def boot_session(bootinfo) -> None:
 		if one.get("email_account") in sends and not sends[one["email_account"]]:
 			one["enable_outgoing"] = 0
 	bootinfo["one_mail_domains"] = frappe.get_all("Email Domain", pluck="domain_name")
-	from onedesk.one_mail import addresses
-
 	from onedesk.one import versions
+	from onedesk.one_mail import addresses
 
 	bootinfo["one_versions"] = versions.for_boot()
 	from onedesk.one import setup_steps
@@ -56,9 +55,7 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_tours_unseen"] = tours.unseen()
 	bootinfo["one_administers"] = int(roles.administers())
-	from onedesk.one import access_center, notification_center
-
-	from onedesk.one import apps
+	from onedesk.one import access_center, apps, notification_center
 	from onedesk.one_ai import center as ai_center
 
 	# The modules AccessCenter, NotificationCenter and AICenter have a part
@@ -79,7 +76,7 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_titles"] = titles.for_boot()
 
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	reports.reported(bootinfo.get("module_sidebars"))
 
@@ -91,7 +88,7 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_measure"] = measure.for_boot()
 
-	from onedesk.one import customize
+	from onedesk.one_studio import customize
 
 	bootinfo["one_refused_modules"] = list(customize.REFUSED_MODULES)
 

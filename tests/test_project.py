@@ -618,7 +618,7 @@ def test_oneai_reminds_a_customer_and_adds_people_only_on_approval():
 	assert '"email"' in mail and "sendmail" not in mail and "make(" not in mail
 	approved = ai.split("def approved", 1)[1].split("\ndef ", 1)[0]
 	assert "team.add(" in approved and "contacts.save(" in approved
-	setup = (tree.APP / "one" / "ai_setup.py").read_text()
+	setup = (tree.APP / "one_studio" / "ai_setup.py").read_text()
 	assert 'if what in ("project", "status", "milestone", "time", "budget", "member", "contact"):' in setup
 
 

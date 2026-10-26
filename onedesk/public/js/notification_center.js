@@ -3,12 +3,13 @@
 // ControlCenter, is Yours (Email and Push for each type the reader gets)
 // and, for administrators, Workspace (Send, and whether email and push are
 // allowed). Which channels a new person starts with is the module's to say. The whole, from the bell's
-// gear, Settings › You › Notifications and the arrows, starts with
-// Everything (notifications and their email on or off, push in this
-// browser), then each module, then Across One for what no module sends.
+// gear and the arrows, starts with Everything (notifications and their
+// email on or off, push in this browser), then each module, then, for
+// administrators, Words and Rules: what every notification says and the
+// workspace's own rules.
 frappe.provide("onedesk.notification_center");
 
-onedesk.notification_center.open = async ({ module = null, at = null } = {}) => {
+onedesk.notification_center.open = async ({ module = null, at = null, record = null, for_doctype = null } = {}) => {
 	const N = "onedesk.one.notification_center.";
 	const kit = onedesk.module_settings.kit;
 	const esc = frappe.utils.escape_html;
@@ -107,7 +108,7 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 					kit.button({ variant: "ghost", icon: "pencil", title: __("Edit Words"), attrs: { "aria-label": __("Edit Words") } })
 						.on("click", () => {
 							dialog.hide();
-							frappe.set_route("one", "workspace-settings", { section: "notification_types", type: one.name });
+							onedesk.notification_center.open({ at: "words", record: one.name });
 						})
 						.appendTo($end);
 				} else $end.append(pad);
@@ -187,12 +188,28 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 		}
 	};
 
+	// What each notification says and the workspace's rules, a type or a
+	// rule opening as the tab's record.
+	const words_tab = {
+		...onedesk.center_section.tab(onedesk.WordsSection, {
+			id: "words",
+			label: __("Words and Rules"),
+			icon: "bell-ring",
+			about: __("What each notification says, the channels it may use, and the workspace's own rules."),
+			record: at === "words" ? record : null,
+		}),
+	};
+	const words_render = words_tab.render;
+	words_tab.render = (panel) => {
+		words_render(panel);
+		panel.section.for_doctype = for_doctype;
+	};
 	const tabs = module
 		? [{ items: [yours_tab(module), ...(admin ? [workspace_tab(module)] : [])] }]
 		: [
 				{ items: [everything] },
 				{ group: __("Yours"), items: [...modules.map(yours_tab), yours_tab("")] },
-				...(admin ? [{ group: __("Workspace"), items: modules.map(workspace_tab) }] : []),
+				...(admin ? [{ group: __("Workspace"), items: [...modules.map(workspace_tab), words_tab] }] : []),
 		  ];
 	const ids = tabs.flatMap((group) => group.items.map((item) => item.id));
 	const dialog = new onedesk.module_settings.Dialog({
@@ -211,4 +228,287 @@ onedesk.notification_center.open = async ({ module = null, at = null } = {}) => 
 	dialog.$wrapper.addClass("one-set one-notify");
 	dialog.show();
 	return dialog;
+};
+
+// Words and Rules, for administrators: what each notification says and which
+// channels it may use, and the workspace's own rules (one/notification_words.py).
+// A type or a rule opens as the record the tab is on.
+onedesk.WordsSection = class WordsSection extends onedesk.CenterSection {
+	static API = "onedesk.one.notification_words.";
+	static HERE = "notifications";
+	static LABEL = "NotificationCenter";
+
+	// A new rule opened from a record type's settings starts on that type.
+	loaded(data) {
+		if (this.record === "rule:new" && this.for_doctype && data.values) data.values.document_type = this.for_doctype;
+	}
+
+	draw_words(data) {
+		if (data.rule) return this.draw_rule(data);
+		if (data.type) return this.draw_notification_type(data);
+		const esc = frappe.utils.escape_html;
+		const channel = (label, allowed, on) => (allowed ? frappe.ui.badge.html({ label, theme: on ? "blue" : "gray" }) : "");
+		const state = (one) =>
+			[
+				one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" }),
+				one.edited ? frappe.ui.badge.html({ label: __("Edited"), theme: "violet" }) : "",
+			].join(" ");
+		const channels = (one) =>
+			!one.ours
+				? `<span class="one-shell-quiet">${esc(__("Each person chooses"))}</span>`
+				: one.mailed_by
+				? frappe.ui.badge.html({ label: __("Sent by {0}", [one.mailed_by]), theme: "gray" })
+				: one.outside
+				? frappe.ui.badge.html({ label: __("External Email"), theme: "gray" })
+				: one.always
+				? frappe.ui.badge.html({ label: __("Always Emailed"), theme: "gray" })
+				: channel(__("Email"), one.email, one.email_default) + " " + channel(__("Push"), one.push, one.push_default);
+		const open_rule = (name) => this.open(this.key, { record: `rule:${name}` });
+		this.$content.html(
+			`<div class="one-shell-section one-shell-note one-shell-quiet">${esc(
+				__("Blue means on by default.")
+			)}</div>
+			<div class="one-shell-section" data-list="rules"></div>
+			<div class="one-shell-section" data-list="types"></div>`
+		);
+		onedesk.shell.table(this.$content.find('[data-list="rules"]'), {
+			title: __("Rules"),
+			rows: data.rules || [],
+			icon: "bell-plus",
+			empty: __("No rules"),
+			open: (one) => open_rule(one.name),
+			actions:
+				onedesk.oneai.button(
+					__("Ask OneAI"),
+					__("Help me set up a notification rule. Ask me what should happen and who should be told, then suggest the rule.")
+				) +
+				onedesk.shell.button(__("New Rule"), { "data-rule-new": "1" }, "subtle", "plus"),
+			columns: [
+				{ label: __("Rule"), fieldname: "name" },
+				{ label: __("Description"), render: (one) => `<span class="one-shell-quiet">${esc(one.said || "")}</span>` },
+				{ label: "", render: (one) => (one.enabled ? "" : frappe.ui.badge.html({ label: __("Off"), theme: "gray" })) },
+			],
+		});
+		onedesk.shell.table(this.$content.find('[data-list="types"]'), {
+			title: __("Notifications"),
+			rows: data.apps.flatMap((group) => group.types.map((one) => ({ ...one, app: group.app, mark: group.mark }))),
+			page_size: 100,
+			icon: "bell",
+			none: __("No matching notifications"),
+			open: (one) => one.ours && this.open(this.key, { record: one.name }),
+			columns: [
+				{
+					label: __("Notification"),
+					render: (one) =>
+						`<div class="os-type-name">${esc(one.label)}</div>${
+							one.about ? `<div class="one-shell-quiet">${esc(one.about)}</div>` : ""
+						}${one.to ? `<div class="one-shell-quiet os-to">${frappe.utils.icon("users", "xs")}${esc(one.to)}</div>` : ""}`,
+				},
+				{
+					label: __("App"),
+					render: (one) => onedesk.shell.app(one.app, one.mark),
+				},
+				{ label: __("Channels"), render: channels },
+				{ label: "", render: state },
+			],
+		});
+		this.$content.on("click", "[data-rule-new]", () => open_rule("new"));
+	}
+
+	draw_notification_type(data) {
+		const esc = frappe.utils.escape_html;
+		const type = data.type;
+		const slots = type.slots.map((one) => `<code>{{ ${esc(one)} }}</code>`).join(" ");
+		const preview = `<div class="os-preview">
+			<div class="os-preview-label">${esc(__("Preview"))}</div>
+			<div class="os-preview-subject"></div>
+			<div class="os-preview-message"></div>
+			<div class="os-preview-wrong"></div>
+		</div>`;
+		const rows = [["enabled"]];
+		if (type.mailed_by) {
+			rows.push({
+				html: `<div class="one-shell-quiet">${esc(
+					type.switch
+						? __("{0} sends this email itself. Send This is the same switch as in its settings.", [type.mailed_by])
+						: type.notification
+						? __("{0} sends this email itself. Send This turns it on and off.", [type.mailed_by])
+						: __("{0} sends this email itself. It's listed so you can see everything the workspace sends.", [type.mailed_by])
+				)}</div>`,
+			});
+		} else if (type.upstream) {
+			rows.push(
+				{
+					html: `<div class="one-shell-quiet">${esc(
+						type.rule
+							? __("The text comes from {0}'s rule {1}.", [type.upstream, type.rule])
+							: __("The text comes from {0}.", [type.upstream])
+					)}</div>`,
+				},
+				{ heading: __("Channels"), note: __("In-app notifications are always on.") },
+				["one_allow_email", "one_allow_push"]
+			);
+		} else if (type.ours) {
+			rows.push(
+				{ heading: __("Message"), note: __("Edited text is no longer translated.") },
+				["one_subject"],
+				["one_message"],
+				{ html: `${slots ? `<div class="one-shell-quiet os-slots">${__("Available fields: {0}", [slots])}</div>` : ""}${preview}` }
+			);
+			if (type.always) {
+				rows.push(
+					{ heading: __("Channels"), note: __("Email is always sent so people can reply.") },
+					["one_allow_push"]
+				);
+			} else if (!type.outside) {
+				rows.push(
+					{ heading: __("Channels"), note: __("In-app notifications are always on.") },
+					["one_allow_email", "one_allow_push"]
+				);
+			} else {
+				rows.push({ html: `<div class="one-shell-quiet">${esc(__("Sent to addresses outside the workspace, so there's no channel to choose."))}</div>` });
+			}
+		}
+		const rewrite = () =>
+			onedesk.oneai.open({
+				ask: __(
+					'Rewrite the "{0}" notification to be short, plain and friendly. Keep every field it uses and suggest it as a change I can apply.',
+					[type.label]
+				),
+			});
+		const reset = async () => {
+			await this.group.set_values({ one_subject: type.default_subject, one_message: type.default_message });
+			this.check();
+			this.preview(type.name, $card);
+		};
+		this.as_record({
+			title: type.label,
+			status: data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
+			side: onedesk.shell.side({
+				mark: type.mark || "bell",
+				title: type.label,
+				sub: type.app ? esc(type.app) : "",
+				groups: [
+					{ label: __("When"), html: type.about ? `<div>${esc(type.about)}</div>` : "" },
+					{ label: __("Recipients"), html: type.to ? `<div>${esc(type.to)}</div>` : "" },
+				],
+			}),
+			actions:
+				type.ours && !type.upstream
+					? [
+							{ label: __("Rewrite with OneAI"), action: rewrite },
+							{ label: __("Reset to Default"), action: reset, group: __("Actions") },
+					  ]
+					: [],
+		});
+		const $card = this.form(data, { rows });
+		const draw = frappe.utils.debounce(() => this.preview(type.name, $card), 400);
+		for (const name of ["one_subject", "one_message"]) {
+			const field = this.group.fields_dict[name];
+			if (!field) continue;
+			const was = field.df.change;
+			field.df.change = (...args) => {
+				was && was(...args);
+				draw();
+			};
+		}
+		if (type.ours && !type.upstream) this.ready.then(() => this.preview(type.name, $card));
+	}
+
+	async preview(name, $card) {
+		if (!this.group) return;
+		const said = await frappe.xcall(WordsSection.API + "preview_notification", {
+			name,
+			subject: this.group.get_value("one_subject") || "",
+			message: this.group.get_value("one_message") || "",
+		});
+		$card.find(".os-preview-subject").html(said.subject || "");
+		$card.find(".os-preview-message").html(said.message || "");
+		const wrong = [said.subject_wrong, said.message_wrong].filter(Boolean);
+		$card.find(".os-preview-wrong").html(wrong.length ? frappe.ui.alert.html({ title: wrong.join(" "), theme: "red" }) : "");
+	}
+
+	draw_rule(data) {
+		const esc = frappe.utils.escape_html;
+		const rule = data.rule;
+		const remove = () =>
+			frappe.confirm(__("Delete rule {0}? It stops sending notifications.", [rule.name]), async () => {
+				await frappe.xcall(WordsSection.API + "delete_rule", { name: rule.name });
+				this.open(this.key);
+			});
+		this.as_record({
+			title: rule.new ? __("New Rule") : rule.name,
+			status: rule.new ? { label: __("Not Saved"), colour: "orange" } : data.values.enabled ? { label: __("On"), colour: "green" } : { label: __("Off"), colour: "gray" },
+			side: onedesk.shell.side({
+				mark: "bell-plus",
+				title: rule.new ? __("New Rule") : rule.name,
+				sub: esc(__("Workspace rule")),
+				groups: [{ label: __("Description"), html: rule.said ? `<div>${esc(rule.said)}</div>` : "" }],
+			}),
+			actions: rule.new ? [] : [{ label: __("Delete"), action: remove, group: __("Actions") }],
+		});
+		const rows = [
+			["enabled"],
+			...(rule.new ? [["rule_name"]] : []),
+			{ heading: __("Trigger") },
+			["document_type", "event"],
+			["date_changed", "days_in_advance"],
+			["value_changed"],
+			{ html: `<div class="os-filter-label">${esc(__("Conditions"))}</div><div class="os-filters"></div>` },
+			{ heading: __("Recipients"), note: __("Only people with access to the record are notified.") },
+			["roles"],
+			["person_field", "send_to_all_assignees"],
+			{ heading: __("Message") },
+			["subject"],
+			["message"],
+			{ heading: __("Channels"), note: __("In-app notifications are always on.") },
+			["one_allow_email", "one_allow_push"],
+		];
+		const $card = this.form(data, { rows });
+		const options = (list) => [{ value: "", label: "" }, ...(list || [])];
+		const offer = (said) => {
+			for (const [field, list] of [
+				["date_changed", said && said.dates],
+				["value_changed", said && said.values],
+				["person_field", said && said.people],
+			]) {
+				const control = this.group.fields_dict[field];
+				if (!control) continue;
+				control.df.options = options(list);
+				control.refresh();
+				control.set_input(this.group.get_value(field) || data.values[field] || "");
+			}
+		};
+		const filters = (doctype, value) => {
+			const $filters = $card.find(".os-filters").empty();
+			if (!doctype) return $filters.html(`<div class="one-shell-quiet">${esc(__("Select a record type first."))}</div>`);
+			frappe.model.with_doctype(doctype, () => {
+				const group = new frappe.ui.FilterGroup({
+					parent: $filters,
+					doctype,
+					on_change: () => {
+						this.group.set_value("filters", JSON.stringify(group.get_filters()));
+						this.check();
+					},
+				});
+				group.add_filters_to_filter_group(value && value !== "[]" ? JSON.parse(value) : []);
+			});
+		};
+		offer(data.options);
+		filters(data.values.document_type, data.values.filters);
+		const watched = this.group.fields_dict.document_type;
+		watched.get_query = () => ({ query: "onedesk.one.rules.watchable" });
+		const was = watched.df.change;
+		watched.df.change = async (...args) => {
+			was && was(...args);
+			const doctype = this.group.get_value("document_type");
+			if (doctype === this.rule_watches) return;
+			this.rule_watches = doctype;
+			this.group.set_value("filters", "");
+			offer(doctype ? await frappe.xcall("onedesk.one.rules.fields_of", { doctype }) : null);
+			filters(doctype, "");
+		};
+		this.rule_watches = data.values.document_type;
+		if (!rule.new && this.record === "rule:new") this.record = `rule:${rule.name}`;
+	}
 };

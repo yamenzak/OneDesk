@@ -541,7 +541,7 @@ def changed(name: str) -> str:
 
 @cache
 def _refused_modules() -> tuple:
-	module = ast.parse((tree.APP / "one" / "customize.py").read_text())
+	module = ast.parse((tree.APP / "one_studio" / "customize.py").read_text())
 	for node in module.body:
 		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == "REFUSED_MODULES":
 			return ast.literal_eval(node.value)
@@ -549,7 +549,7 @@ def _refused_modules() -> tuple:
 
 
 def studio(name: str) -> str:
-	"""Whether a workspace's OneStudio may customize it (one/customize.py)."""
+	"""Whether a workspace's OneStudio may customize it (one_studio/customize.py)."""
 	meta = everything()["doctypes"][name]
 	return "no" if meta["single"] or meta["module"] in _refused_modules() else "yes"
 

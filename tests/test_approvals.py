@@ -1,4 +1,4 @@
-"""Approvals (one/approvals.py): what a condition the workspace writes may say,
+"""Approvals (one_studio/approvals.py): what a condition the workspace writes may say,
 an approval laid out for frappe's builder, whoever a step waits on told through
 the hub, OneIntake taking a bill's approval step rather than submitting past it,
 and OneAI's card. These read the code that says so, and the condition check
@@ -13,7 +13,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SOURCE = (tree.APP / "one" / "approvals.py").read_text()
+SOURCE = (tree.APP / "one_studio" / "approvals.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
@@ -67,7 +67,7 @@ def test_nothing_else_is_a_condition():
 def test_every_approval_is_told_through_the_hub_and_laid_out():
 	validate = SOURCE.split("def validate(", 1)[1].split("\ndef ", 1)[0]
 	assert "doc.send_email_alert = 0" in validate and "_laid_out(doc)" in validate
-	assert '"Workflow Action": {"after_insert": "onedesk.one.approvals.waiting"}' in HOOKS
+	assert '"Workflow Action": {"after_insert": "onedesk.one_studio.approvals.waiting"}' in HOOKS
 	assert "Approval Waiting" in tree.notifications()
 
 

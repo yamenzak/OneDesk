@@ -10,7 +10,7 @@ import frappe
 from frappe import _
 from frappe.utils import flt
 
-from onedesk.one import approvals
+from onedesk.one_studio import approvals
 
 DOCTYPES = ("Purchase Invoice", "Purchase Receipt", "Sales Order", "Supplier Quotation", "Payment Entry")
 

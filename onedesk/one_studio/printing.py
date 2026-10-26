@@ -14,9 +14,10 @@ from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT
 from frappe.utils import flt, is_image
 from frappe.utils.html_utils import sanitize_html
 
-from onedesk.one import layer, print_html, roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one import layer, roles
 from onedesk.one_storage import store
+from onedesk.one_studio import print_html
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 UNSAFE_BLOCKS = ("Typst",)
 
@@ -252,7 +253,7 @@ def validate_letter_head(doc, method=None) -> None:
 	"""Letter Head validate: a letter head written by the workspace is a picture
 	or plain HTML, at its top and at its foot; a top drawn from a preset is
 	drawn first (letter_heads.apply) and held like any other."""
-	from onedesk.one import letter_heads
+	from onedesk.one_studio import letter_heads
 
 	letter_heads.apply(doc)
 	_stored_images(doc)
@@ -549,7 +550,7 @@ def format_doc(
 	font = (font or "").strip()
 	if font and not FONT.fullmatch(font):
 		frappe.throw(_("A font is a Google Font's name, such as Playfair Display."))
-	from onedesk.one import print_props
+	from onedesk.one_studio import print_props
 
 	settings = print_props.taken(page or {}, print_props.PAGE, _("The page"))
 	doc = frappe.new_doc("Print Format")

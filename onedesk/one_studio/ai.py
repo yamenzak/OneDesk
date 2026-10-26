@@ -497,7 +497,7 @@ def forms_here(
 		return {"changed_forms": changed, "forms_that_may_be_changed": len(forms.forms())}
 	if not frappe.db.exists("DocType", record):
 		return {"error": f"{record} is not a form here."}
-	from onedesk.one import customize as page
+	from onedesk.one_studio import customize as page
 
 	ledger = frappe.get_all(
 		"Workspace Customization", filters={"record_doctype": record}, fields=["kind", "row"]
@@ -541,7 +541,7 @@ def form_relations(
 	Read it before suggesting a new field."""
 	if not roles.administers():
 		return {"error": "Only a workspace administrator customizes a form."}
-	from onedesk.one import customize as page
+	from onedesk.one_studio import customize as page
 
 	try:
 		page.may(record)

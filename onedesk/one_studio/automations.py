@@ -13,7 +13,7 @@ from frappe import _
 from frappe.utils.translations import N_
 
 from onedesk.one import layer
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 ACTIONS = (
 	"SetFieldValue",

@@ -14,7 +14,7 @@ from frappe import _
 from frappe.model import no_value_fields, table_fields
 
 from onedesk.one import layer, roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 BOOKKEEPING = (
 	"name",
@@ -293,8 +293,8 @@ def roles_offered() -> list[dict]:
 	"""The roles a step may be for, in One's words: each app's user and manager
 	roles (one/settings.py APPS), the levels the workspace made between them
 	(one/access.py), and the workspace's administrators."""
-	from onedesk.one.people import APPS
 	from onedesk.one.access import all_levels
+	from onedesk.one.people import APPS
 
 	own = all_levels()
 	said = [{"role": roles.ADMINISTRATOR, "is": _("Workspace administrators")}]

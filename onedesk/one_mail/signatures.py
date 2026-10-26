@@ -11,7 +11,7 @@ import frappe
 from frappe import _lt
 from frappe.utils import escape_html, strip_html_tags
 
-from onedesk.one import letter_heads
+from onedesk.one_studio import letter_heads
 
 PRESETS = {
 	"simple": _lt("Simple"),

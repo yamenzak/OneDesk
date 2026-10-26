@@ -167,7 +167,7 @@ const settled = computed(() => {
 });
 
 async function see_page() {
-	const html = await frappe.xcall("onedesk.one.printing.proposal_preview", { proposal: props.suggested.name });
+	const html = await frappe.xcall("onedesk.one_studio.printing.proposal_preview", { proposal: props.suggested.name });
 	const dialog = new frappe.ui.Dialog({ title: title.value, size: "extra-large" });
 	const frame = document.createElement("iframe");
 	frame.setAttribute("sandbox", "");
@@ -184,7 +184,7 @@ function open(name) {
 	else if (kind.value === "Reply") frappe.set_route("onemail");
 	else if (kind.value === "Numbering") onedesk.doctype_settings.open(doctype.value, "naming");
 	else if (kind.value === "Printing" && props.record.format) frappe.set_route("print-format-builder", props.record.format);
-	else if (kind.value === "Printing") frappe.set_route("workspace-settings", { section: "printing" });
+	else if (kind.value === "Printing") onedesk.studio_control.open({ at: "printing" });
 	else if (kind.value === "Approval") frappe.set_route("workflow-builder", name);
 	else if (kind.value === "Setup" && props.record.route) frappe.set_route(...props.record.route);
 	else frappe.set_route("Form", doctype.value, name);

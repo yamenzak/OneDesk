@@ -190,7 +190,7 @@ def test_oneai_drafts_a_template_as_a_card_made_by_the_library():
 	draft = ai[ai.index("def draft_template(") : ai.index("def _time(")]
 	assert 'proposals.propose("Setup", "Project Template"' in draft and "library.rows(preset)" in draft
 	assert 'frappe.has_permission("Project Template", "create")' in draft
-	setup = (APP / "one" / "ai_setup.py").read_text()
+	setup = (APP / "one_studio" / "ai_setup.py").read_text()
 	assert 'if what == "template":' in setup and 'library.drafted(changes["preset"])' in setup
 	assert '"onedesk.one_project.ai.draft_template"' in HOOKS and '"onedesk.one_project.ai.project_templates"' in HOOKS
 	assert '"expects": "draft_template"' in ai

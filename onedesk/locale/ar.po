@@ -11895,10 +11895,6 @@ msgstr "صمّم تنسيق طباعة أنيقًا وعصريًا لفاتور�
 msgid "Design a letter head from our details"
 msgstr "صمّم ترويسة من بياناتنا"
 
-#: onedesk/one/ai.py:135
-msgid "Design a letter head in HTML from the company's details in Workspace › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
-msgstr "صمّم ترويسة رسالة بلغة HTML من بيانات الشركة في مساحة العمل › عام: الاسم والشعار في الترويسة، والعنوان والهاتف والبريد في التذييل، كلٌّ بعد أيقونته."
-
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Design and finishes approved by the client"
@@ -40199,10 +40195,6 @@ msgstr "مثل yourcompany.com، ويُعثر على خوادم بريده تل�
 msgid "Suggest a letter head"
 msgstr "اقترح ترويسة رسالة"
 
-#: onedesk/one/ai.py:119
-msgid "Suggest a letter head drawn from our details in Workspace › General: the header and the footer presets that suit us, as the default."
-msgstr "اقترح ترويسة رسالة مرسومة من بياناتنا في مساحة العمل › عام: نمطا الترويسة والتذييل المناسبان لنا، كترويسة افتراضية."
-
 #: onedesk/one/ai.py:183
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr "اقترح موافقة لفواتير الشراء: تبدأ الفاتورة قيد الانتظار، ويعتمدها مستخدم الحسابات حتى 5,000 ومدير الحسابات فوق ذلك، ويمكن للمدير رفضها."
@@ -43329,10 +43321,6 @@ msgstr "نفدت أرصدة OneAI في مساحة العمل. يُقرأ فور 
 msgid "The workspace is being built."
 msgstr "يجري إنشاء مساحة العمل."
 
-#: onedesk/one/privacy.py:114
-msgid "The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first."
-msgstr "تُحتسب فواتير مساحة العمل على هذا الحساب. غيّر من يدفع في مساحة العمل › الخطة والأرصدة أولًا."
-
 #: onedesk/www/welcome.py:22
 msgid "The workspace is ready. We have emailed you a link to choose your password."
 msgstr "مساحة العمل جاهزة. أرسلنا إليك بريدًا فيه رابط لاختيار كلمة المرور."
@@ -44123,10 +44111,6 @@ msgstr "رُفض هذا الطلب في {0}. اعتمده أولاً إن تغي
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
 msgid "This rule can't run while New Mail is set to Not Read in the mailbox's OneAI tab."
 msgstr "لا يمكن تشغيل هذه القاعدة بينما البريد الجديد مضبوط على لا يُقرأ في تبويب OneAI للصندوق."
-
-#: onedesk/public/js/settings.js:69
-msgid "This section could not be opened."
-msgstr "تعذّر فتح هذا القسم."
 
 #: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "This sheet ({0})"
@@ -51081,11 +51065,6 @@ msgstr "نُقلت مساحة العمل إليك"
 msgid "Workspace Name"
 msgstr "اسم مساحة العمل"
 
-#. Label of a Sidebar Item
-#: onedesk/one/settings.py:28 onedesk/one/sidebar/one/one.json
-msgid "Workspace Notifications"
-msgstr "إشعارات مساحة العمل"
-
 #: onedesk/public/js/onemail_settings.js:416
 msgid "Workspace Only"
 msgstr "مساحة العمل فقط"
@@ -51114,10 +51093,6 @@ msgstr "قاعدة مساحة العمل"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "Workspace Server"
 msgstr "خادم مساحات العمل"
-
-#: onedesk/one/page/workspace_settings/workspace_settings.js:3
-msgid "Workspace Settings"
-msgstr "إعدادات مساحة العمل"
 
 #: onedesk/one_ai/jobs.py
 msgid "Workspace Setup"
@@ -57513,3 +57488,27 @@ msgstr "تقويمك في OneCalendar داخل Google Calendar أو Apple Calend
 
 msgid "Your mailboxes and folders that OneAI reads, files and acts on as you."
 msgstr "صناديق بريدك ومجلداتك التي يقرؤها OneAI ويصنّفها ويتصرّف فيها نيابةً عنك."
+
+msgid "Design a letter head in HTML from the company's details in One's ControlCenter › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
+msgstr "صمّم ترويسة بلغة HTML من بيانات الشركة في ControlCenter الخاص بـ One › عام: الاسم والشعار في الأعلى، والعنوان والهاتف والبريد في التذييل، كلٌّ بعد أيقونته."
+
+msgid "How each kind of record is numbered."
+msgstr "كيف يُرقَّم كل نوع من السجلات."
+
+msgid "Suggest a letter head drawn from our details in One's ControlCenter › General: the header and the footer presets that suit us, as the default."
+msgstr "اقترح ترويسة من بياناتنا في ControlCenter الخاص بـ One › عام: قالبَي الرأس والتذييل المناسبين لنا، كترويسة افتراضية."
+
+msgid "The letter heads and print formats documents are printed and sent on."
+msgstr "الترويسات وتنسيقات الطباعة التي تُطبع بها المستندات وتُرسل."
+
+msgid "The workspace is billed to this account. Change who pays in Plan and Credits in AccountCenter first."
+msgstr "تُفوتر مساحة العمل على هذا الحساب. غيّر من يدفع في الخطة والأرصدة في AccountCenter أولًا."
+
+msgid "What each notification says, the channels it may use, and the workspace's own rules."
+msgstr "ما يقوله كل إشعار، والقنوات التي يمكنه استخدامها، وقواعد مساحة العمل الخاصة."
+
+msgid "Who approves which records, step by step."
+msgstr "من يعتمد أي سجلات، خطوة بخطوة."
+
+msgid "Words and Rules"
+msgstr "النصوص والقواعد"

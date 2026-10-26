@@ -57,8 +57,8 @@ class Refused(Exception):
 def _apps() -> dict:
 	"""The apps a record type may belong to, as their rail's module, and the
 	roles that use and manage each."""
-	from onedesk.one import reports
 	from onedesk.one.people import APPS
+	from onedesk.one_studio import reports
 
 	held = {one["label"]: one["module"] for one in reports.places()}
 	out = {"One": {"module": held.get("One"), "users": ("Desk User",), "managers": ()}}
@@ -135,7 +135,7 @@ def groups(app: str) -> list[str]:
 	may sit in: not the ones saved reports and dashboards are listed under."""
 	from frappe.desk.doctype.custom_sidebar.custom_sidebar import layer_arrangement
 
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	module = _apps()[app]["module"]
 	kept = {reports.SECTIONS["Report"][0], reports.SECTIONS["Dashboard"][0]}
@@ -161,7 +161,7 @@ def check_group(app: str, group: str | None) -> None:
 	"""A group a collection may sit in: one the app's rail has, or a new name."""
 	if not group or group == YOUR_RECORDS or group in groups(app):
 		return
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	if group in (reports.SECTIONS["Report"][0], reports.SECTIONS["Dashboard"][0]):
 		raise Refused(
@@ -184,7 +184,7 @@ def series(title: str, doctype: str | None = None) -> str:
 	"""How a collection's records are numbered: its initials, or the first
 	three letters of a one-word name, CV-.##### for Company Van; more of its
 	letters while another kind of record has the prefix."""
-	from onedesk.one import numbering
+	from onedesk.one_studio import numbering
 
 	words = [one for one in re.split(r"\s+", title.strip()) if one]
 	initials = "".join(one[0] for one in words) if len(words) > 1 else words[0][:3]
@@ -305,7 +305,7 @@ def _place(doctype: str, app: str, group: str | None = None) -> None:
 	the app ships. A new group goes at the end of the rail."""
 	from frappe.desk.doctype.custom_sidebar.custom_sidebar import _save_customization, layer_arrangement
 
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	_unplace(doctype)
 	module = _apps()[app]["module"]
@@ -349,7 +349,7 @@ def _place(doctype: str, app: str, group: str | None = None) -> None:
 def _unplace(doctype: str) -> None:
 	"""A collection taken out of every rail it is listed in, and a group of
 	ours left with nothing in it."""
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	for parent in frappe.get_all(
 		"Sidebar Item",

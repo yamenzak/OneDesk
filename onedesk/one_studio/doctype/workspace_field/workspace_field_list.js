@@ -52,7 +52,7 @@ frappe.listview_settings["Workspace Field"] = {
 	},
 	async export(list) {
 		for (const doctype of this.forms(list)) {
-			const said = await frappe.xcall("onedesk.one.customize.export", { doctype });
+			const said = await frappe.xcall("onedesk.one_studio.customize.export", { doctype });
 			const blob = new Blob([JSON.stringify(said, null, 1)], { type: "application/json" });
 			const link = Object.assign(document.createElement("a"), {
 				href: URL.createObjectURL(blob),
@@ -68,7 +68,7 @@ frappe.listview_settings["Workspace Field"] = {
 		frappe.confirm(
 			__("Reset {0}? This removes all custom fields and changes.", [forms.map((one) => __(one)).join(", ")]),
 			async () => {
-				for (const doctype of forms) await frappe.xcall("onedesk.one.customize.reset", { doctype });
+				for (const doctype of forms) await frappe.xcall("onedesk.one_studio.customize.reset", { doctype });
 				frappe.show_alert({ message: __("{0} reset", [forms.map((one) => __(one)).join(", ")]), indicator: "green" });
 				list.clear_checked_items();
 				list.refresh();

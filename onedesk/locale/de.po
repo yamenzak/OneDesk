@@ -11895,10 +11895,6 @@ msgstr "Gestalten Sie ein klares, modernes Druckformat für Ausgangsrechnungen: 
 msgid "Design a letter head from our details"
 msgstr "Einen Briefkopf aus unseren Angaben gestalten"
 
-#: onedesk/one/ai.py:135
-msgid "Design a letter head in HTML from the company's details in Workspace › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
-msgstr "Gestalten Sie einen Briefkopf in HTML aus den Angaben des Unternehmens unter Arbeitsbereich › Allgemein: Name und Logo in der Kopfzeile, Adresse, Telefon und E-Mail in der Fußzeile, jeweils nach ihrem Symbol."
-
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Design and finishes approved by the client"
@@ -40199,10 +40195,6 @@ msgstr "Etwa yourcompany.com; die Mailserver werden für Sie ermittelt."
 msgid "Suggest a letter head"
 msgstr "Einen Briefkopf vorschlagen"
 
-#: onedesk/one/ai.py:119
-msgid "Suggest a letter head drawn from our details in Workspace › General: the header and the footer presets that suit us, as the default."
-msgstr "Schlagen Sie einen Briefkopf aus unseren Angaben unter Arbeitsbereich › Allgemein vor: die passenden Vorlagen für Kopf- und Fußzeile, als Standard."
-
 #: onedesk/one/ai.py:183
 msgid "Suggest an approval for Purchase Invoices: a bill starts Pending, an accounts user approves it up to 5,000 and an accounts manager above that, and a manager may reject it."
 msgstr "Schlage eine Freigabe für Eingangsrechnungen vor: Eine Rechnung beginnt als Ausstehend, ein Buchhaltungsbenutzer gibt sie bis 5.000 frei und ein Buchhaltungsleiter darüber, und ein Leiter kann sie ablehnen."
@@ -43329,10 +43321,6 @@ msgstr "Der Arbeitsbereich hat keine OneAI-Credits mehr. Es wird gelesen, sobald
 msgid "The workspace is being built."
 msgstr "Der Arbeitsbereich wird erstellt."
 
-#: onedesk/one/privacy.py:114
-msgid "The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first."
-msgstr "Der Arbeitsbereich wird über dieses Konto abgerechnet. Ändern Sie zuerst unter Arbeitsbereich › Plan und Guthaben, wer zahlt."
-
 #: onedesk/www/welcome.py:22
 msgid "The workspace is ready. We have emailed you a link to choose your password."
 msgstr "Der Arbeitsbereich ist bereit. Wir haben Ihnen einen Link geschickt, mit dem Sie Ihr Passwort wählen."
@@ -44123,10 +44111,6 @@ msgstr "Dieser Antrag wurde am {0} abgelehnt. Genehmigen Sie ihn zuerst, falls s
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:28
 msgid "This rule can't run while New Mail is set to Not Read in the mailbox's OneAI tab."
 msgstr "Diese Regel kann nicht laufen, solange Neue E-Mails im OneAI-Tab des Postfachs auf Nicht gelesen steht."
-
-#: onedesk/public/js/settings.js:69
-msgid "This section could not be opened."
-msgstr "Dieser Bereich konnte nicht geöffnet werden."
 
 #: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "This sheet ({0})"
@@ -51081,11 +51065,6 @@ msgstr "Arbeitsbereich an Sie übertragen"
 msgid "Workspace Name"
 msgstr "Name des Arbeitsbereichs"
 
-#. Label of a Sidebar Item
-#: onedesk/one/settings.py:28 onedesk/one/sidebar/one/one.json
-msgid "Workspace Notifications"
-msgstr "Benachrichtigungen des Arbeitsbereichs"
-
 #: onedesk/public/js/onemail_settings.js:416
 msgid "Workspace Only"
 msgstr "Nur Arbeitsbereich"
@@ -51114,10 +51093,6 @@ msgstr "Arbeitsbereichsregel"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "Workspace Server"
 msgstr "Arbeitsbereich-Server"
-
-#: onedesk/one/page/workspace_settings/workspace_settings.js:3
-msgid "Workspace Settings"
-msgstr "Arbeitsbereich-Einstellungen"
 
 #: onedesk/one_ai/jobs.py
 msgid "Workspace Setup"
@@ -57513,3 +57488,27 @@ msgstr "Ihr OneCalendar in Google Calendar, Apple Calendar oder Outlook, über e
 
 msgid "Your mailboxes and folders that OneAI reads, files and acts on as you."
 msgstr "Ihre Postfächer und Ordner, die OneAI in Ihrem Namen liest, ablegt und bearbeitet."
+
+msgid "Design a letter head in HTML from the company's details in One's ControlCenter › General: the name and logo in the header, the address, phone and email in the footer, each after its icon."
+msgstr "Entwirf einen Briefkopf in HTML aus den Firmendaten in Ones ControlCenter › Allgemein: Name und Logo im Kopf, Adresse, Telefon und E-Mail in der Fußzeile, jeweils nach ihrem Symbol."
+
+msgid "How each kind of record is numbered."
+msgstr "Wie jede Art von Datensatz nummeriert wird."
+
+msgid "Suggest a letter head drawn from our details in One's ControlCenter › General: the header and the footer presets that suit us, as the default."
+msgstr "Schlage einen Briefkopf aus unseren Daten in Ones ControlCenter › Allgemein vor: die Kopf- und Fußzeilenvorlagen, die zu uns passen, als Standard."
+
+msgid "The letter heads and print formats documents are printed and sent on."
+msgstr "Die Briefköpfe und Druckformate, auf denen Dokumente gedruckt und versendet werden."
+
+msgid "The workspace is billed to this account. Change who pays in Plan and Credits in AccountCenter first."
+msgstr "Der Arbeitsbereich wird diesem Konto in Rechnung gestellt. Ändern Sie zuerst unter Tarif und Guthaben in AccountCenter, wer zahlt."
+
+msgid "What each notification says, the channels it may use, and the workspace's own rules."
+msgstr "Was jede Benachrichtigung sagt, welche Kanäle sie nutzen darf, und die eigenen Regeln des Arbeitsbereichs."
+
+msgid "Who approves which records, step by step."
+msgstr "Wer welche Datensätze genehmigt, Schritt für Schritt."
+
+msgid "Words and Rules"
+msgstr "Texte und Regeln"

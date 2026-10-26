@@ -90,7 +90,7 @@ def apply(proposal: str) -> dict:
 	if entry.get("needs"):
 		changes = kind.resolved(changes, _made_first(entry))
 	if entry.kind == "Customize":
-		from onedesk.one import customize
+		from onedesk.one_studio import customize
 
 		if changes.get("token") != customize.state(entry.for_doctype):
 			entry.db_set("state", "Stale")
@@ -146,7 +146,7 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.record)
 
 	if entry.kind == "Numbering":
-		from onedesk.one import numbering
+		from onedesk.one_studio import numbering
 
 		if changes.get("state") != numbering.state(entry.for_doctype):
 			entry.db_set("state", "Stale")
@@ -170,7 +170,7 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Printing":
-		from onedesk.one import printing
+		from onedesk.one_studio import printing
 
 		made = changes.get("format") or {}
 		kind_of = entry.for_doctype if changes.get("default_format") or made else None
@@ -192,7 +192,7 @@ def apply(proposal: str) -> dict:
 		return _done(entry, entry.for_doctype)
 
 	if entry.kind == "Approval":
-		from onedesk.one import approvals
+		from onedesk.one_studio import approvals
 
 		if changes.get("state") != approvals.state(entry.for_doctype):
 			entry.db_set("state", "Stale")
@@ -205,7 +205,7 @@ def apply(proposal: str) -> dict:
 		return _done(entry, approvals.make(entry.for_doctype, changes["workflow"]))
 
 	if entry.kind == "Setup":
-		from onedesk.one import ai_setup
+		from onedesk.one_studio import ai_setup
 
 		try:
 			made = ai_setup.apply(changes)
@@ -471,7 +471,7 @@ def _allowed(kind: str, doctype: str, record: str | None):
 	is refused here rather than being written and then failing.
 	"""
 	if kind == "Customize":
-		from onedesk.one import customize
+		from onedesk.one_studio import customize
 
 		customize.may(doctype)
 		return None
@@ -481,20 +481,22 @@ def _allowed(kind: str, doctype: str, record: str | None):
 		roles.require()
 		return None
 	if kind == "Numbering":
-		from onedesk.one import numbering
+		from onedesk.one_studio import numbering
 
 		numbering._meta(doctype)
 		return None
 	if kind == "Setup":
 		return None
 	if kind == "Approval":
-		from onedesk.one import approvals, roles
+		from onedesk.one import roles
+		from onedesk.one_studio import approvals
 
 		roles.require()
 		approvals._doctype(doctype)
 		return None
 	if kind == "Printing":
-		from onedesk.one import printing, roles
+		from onedesk.one import roles
+		from onedesk.one_studio import printing
 
 		roles.require()
 		if doctype != "Letter Head":

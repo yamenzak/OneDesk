@@ -195,7 +195,7 @@ def test_a_branded_sheet_is_laid_out_under_the_company():
 
 	room = {"re": re}
 	_lifted(SHEET / "cells.py", ("letters",), room)
-	heads = _lifted(SHEET.parent / "one" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
+	heads = _lifted(SHEET.parent / "one_studio" / "letter_heads.py", ("INK", "_rgb", "_luminance", "_contrast", "on"), {})
 	_lifted(SHEET / "style.py", ("WORKED", "LINE", "MUTED", "TOTALS", "FIRST", "KINDS", "META", "TYPED_FIELD", "WORKED_FIELD", "UNSET_AT_ZERO", "tint", "header", "number_format", "width", "table", "branded"), room)
 	room["frappe"] = None
 	room["letter_heads"] = SimpleNamespace(on=heads["on"])

@@ -17,6 +17,9 @@ Only workspace administrators see OneStudio.
 - **Extensions**: scripts that make a form or page behave the way you need.
 - **Custom Fields**: every field your workspace added or changed.
 - **Custom Collections**: what your workspace keeps that no app came with.
+- **Setup**: Numbering, Printing and Approvals, which open OneStudio's
+  ControlCenter on that tab.
+- **Automation**: Automations, Reports by Mail, Webhooks and Webhook Calls.
 
 ## Extensions
 
@@ -254,7 +257,7 @@ have we changed?** and **How does customizing work?**
 | `review.py` | The second reading, `studio_review`: a separate call shown the code and its explanation, nothing of the chat. |
 | `record_types.py` | A record type's rules, and frappe's custom DocType made, changed and deleted from it. |
 | `doctype/workspace_field` | Custom Fields: a virtual doctype read from the workspace's ledger, frappe's own list. |
-| `forms.py` | Each form's app and counts, and the extensions on one form, for OneAI. What OneAI's card saves is `../one/customize.py`. |
+| `forms.py` | Each form's app and counts, and the extensions on one form, for OneAI. What OneAI's card saves is `../one_studio/customize.py`. |
 | `ai.py` | `write_extension`, `mend_extension`, `extensions_here`, `extension_code`, `extension_places`, `extension_mistakes`, `design_record_type`, `record_types_here`, on the `studio` action. |
 | `mend.py` | An extension's errors, the Errors tab, and mending one from them (`studio_mend`). |
 | `heads.py`, `legal.py` | The record heads, and what the Terms and the AI Addendum say. Extensions Failing and an extension turned on, off or deleted are in `notifications/one_studio/`. |
@@ -352,7 +355,7 @@ take) and tells whoever pressed it when it is done. Errors count from
 
 **Record types are frappe's.** A custom DocType in module One Studio, made as
 Administrator, with permissions written for the app's roles, and a place in
-the app's rail through the sidebar layers `one/reports.py` already uses for
+the app's rail through the sidebar layers `one_studio/reports.py` already uses for
 saved reports. Fields are frappe's own kinds, nothing that runs.
 
 ### The plan

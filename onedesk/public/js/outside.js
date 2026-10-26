@@ -138,10 +138,10 @@ onedesk.outside.instead = (sub_path) => {
 		case "todo":
 			return name ? null : ["my-tasks"];
 		case "print-settings":
-			return ["workspace-settings", { section: "printing" }];
+			return ["one", { center: "settings", module: "OneStudio", at: "printing" }];
 		case "print-format":
 		case "letter-head":
-			return name ? null : ["workspace-settings", { section: "printing" }];
+			return name ? null : ["one", { center: "settings", module: "OneStudio", at: "printing" }];
 		case "communication":
 			return !name || name === "view" ? ["onemail"] : null;
 	}

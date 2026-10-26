@@ -221,8 +221,8 @@ def test_the_frame_is_a_top_bar_a_bottom_bar_and_the_rail():
 		assert gone not in CHROME, gone
 	desk = (tree.APP / "public" / "js" / "desk.js").read_text(encoding="utf-8")
 	assert "onedesk.dock.bar = " not in desk and "onedesk.window.bars()" in desk
-	settings = (tree.APP / "one" / "settings.py").read_text(encoding="utf-8")
-	assert "def place_bar" not in settings
+	control = (tree.APP / "one" / "control.py").read_text(encoding="utf-8")
+	assert "def place_bar" not in control
 	chrome_css = (WINDOW_CSS / "chrome.css").read_text(encoding="utf-8")
 	for token in ("--dock-bg: var(--one-frame);", "--dock-ink: var(--one-frame-ink);", "--dock-tile-active: transparent;"):
 		assert token in chrome_css, token

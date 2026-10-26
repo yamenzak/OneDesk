@@ -12,7 +12,7 @@ from frappe.model.workflow import get_workflow_name
 from frappe.permissions import get_doctypes_with_read
 
 from onedesk.one import layer, roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 
 def settle() -> None:
@@ -75,7 +75,7 @@ SYSTEM = ("Administrator", "Guest")
 MACHINERY = ("Core", "Custom")
 
 RESTORERS = {
-	"Custom Field": "onedesk.one.customize.restored",
+	"Custom Field": "onedesk.one_studio.customize.restored",
 	"Record Type": "onedesk.one_studio.record_types.restored",
 }
 

@@ -116,7 +116,8 @@ HEAD = {
 def _look():
 	"""The company's look and its letter head, set by the owner as a new
 	workspace sets them: General in One's ControlCenter, then Printing."""
-	from onedesk.one import control, printing
+	from onedesk.one import control
+	from onedesk.one_studio import printing
 
 	with _as(OWNER):
 		control.save("general", LOOK)

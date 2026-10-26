@@ -14,8 +14,9 @@ from frappe import _
 from frappe.model import no_value_fields
 from frappe.utils import validate_email_address
 
-from onedesk.one import access, reports, roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one import access, roles
+from onedesk.one_studio import reports
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 STANDARD = ("name", "owner", "creation", "modified", "docstatus")
 

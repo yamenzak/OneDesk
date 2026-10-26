@@ -239,7 +239,7 @@ def letter_head_html(html: str | None, where: str) -> str | None:
 	[icon:name] it asks for drawn (letter_heads.icons_in)."""
 	if not html:
 		return html
-	from onedesk.one import letter_heads
+	from onedesk.one_studio import letter_heads
 
 	html = letter_heads.icons_in(html)
 	if TEMPLATE.search(html):

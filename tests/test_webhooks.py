@@ -49,6 +49,6 @@ def test_the_administrators_hear_when_calls_give_up():
 
 
 def test_the_sidebar_reaches_both():
-	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
+	sidebar = json.loads((tree.APP / "one_studio" / "sidebar" / "onestudio" / "onestudio.json").read_text())
 	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "DocType"}
 	assert links["Webhook"] == "Webhooks" and links["Webhook Request Log"] == "Webhook Calls"

@@ -334,7 +334,7 @@ def dress(doctype: str, name: str) -> str | None:
 		return None
 	frappe.db.set_value(doctype, name, field, image, update_modified=False)
 	if doctype == "Company":
-		from onedesk.one import letter_heads
+		from onedesk.one_studio import letter_heads
 
 		letter_heads.redraw()
 	return image

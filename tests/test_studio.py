@@ -164,7 +164,7 @@ def test_it_is_wired():
 		'"onedesk.one_studio.heads.HEADS"',
 	):
 		assert hook in HOOKS, hook
-	assert 'if what == "extension":' in (tree.APP / "one" / "ai_setup.py").read_text()
+	assert 'if what == "extension":' in (tree.APP / "one_studio" / "ai_setup.py").read_text()
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert [one["link_to"] for one in dock["items"]][-2:] == ["OneStudio", "One Admin"]
 
@@ -194,8 +194,8 @@ def test_a_record_type_with_records_is_never_deleted_and_a_field_with_data_is_ne
 def test_record_types_are_wired():
 	assert '"onedesk.one_studio.ai.design_record_type"' in HOOKS
 	assert '"onedesk.one_studio.ai.record_types_here"' in HOOKS
-	assert 'if what == "record_type":' in (tree.APP / "one" / "ai_setup.py").read_text()
-	assert '"DocType": ("Your Records", "table-2")' in (tree.APP / "one" / "reports.py").read_text()
+	assert 'if what == "record_type":' in (tree.APP / "one_studio" / "ai_setup.py").read_text()
+	assert '"DocType": ("Your Records", "table-2")' in (tree.APP / "one_studio" / "reports.py").read_text()
 	spec = json.loads((STUDIO / "doctype" / "record_type" / "record_type.json").read_text())
 	theirs = [p for p in spec["permissions"] if p["role"] == "Workspace Administrator"]
 	assert theirs and not any(p.get("create") or p.get("write") for p in theirs)
@@ -453,7 +453,7 @@ def test_forms_tell_the_others_and_offer_only_what_fits_the_page():
 	"""A form changed for everybody is told to the other administrators, from
 	Save and Reset alike; the Forms list offers nothing about one form."""
 	assert "Form Customized" in tree.notifications()
-	customize = (tree.APP / "one" / "customize.py").read_text()
+	customize = (tree.APP / "one_studio" / "customize.py").read_text()
 	assert customize.count("\ttell.form_customized(doctype)\n") == 2
 	assert '"Form Customized",\n\t\troles.administrators()' in (tree.APP / "one" / "tell.py").read_text()
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
@@ -468,7 +468,7 @@ def test_a_form_is_changed_only_through_oneai_and_a_field_goes_where_it_belongs(
 	"""OneAI changes a form: its card adds a field with everything about it
 	and carries it to the forms that should have it, filled through their
 	link or copied as one is made from the other."""
-	customize = (tree.APP / "one" / "customize.py").read_text()
+	customize = (tree.APP / "one_studio" / "customize.py").read_text()
 	assert customize.index("carried = _carries(") < customize.index("_fields(doctype, values.get")
 	assert '_note(doctype, "Custom Field", field.name)' in customize.split("def _carry(")[1]
 	assert "may(parent)" in customize.split("def may_carry(")[1].split("def ")[0]
@@ -503,7 +503,7 @@ def test_custom_fields_is_frappes_list_of_what_the_ledger_holds():
 		assert f"def {verb}(" in controller
 	listed = (folder / "workspace_field_list.js").read_text()
 	assert "onedesk.oneai.open(" in listed and "I want to change the field {0} on {1}." in listed
-	assert "onedesk.one.customize.reset" in listed and "onedesk.one.customize.export" in listed
+	assert "onedesk.one_studio.customize.reset" in listed and "onedesk.one_studio.customize.export" in listed
 	assert not (STUDIO / "page" / "customize").exists()
 	assert not (tree.APP / "public" / "js" / "customize.js").exists()
 	assert '"one_customized"' in listed
@@ -547,7 +547,7 @@ def test_a_collections_records_are_numbered_from_its_initials():
 	change = source.split("def change(", 1)[1].split("\ndef ", 1)[0]
 	assert 'if doctype.autoname == "hash":' in change and "series(doctype.name, doctype.name)" in change
 	assert "onedesk.one_studio.patches.number_collections" in (tree.APP / "patches.txt").read_text()
-	numbering = (tree.APP / "one" / "numbering.py").read_text()
+	numbering = (tree.APP / "one_studio" / "numbering.py").read_text()
 	assert 'named |= set(frappe.get_all("Record Type", pluck="record_doctype"))' in numbering
 	ai = (STUDIO / "ai.py").read_text()
 	assert "Int for whole numbers" in ai.split("def design_record_type(", 1)[1].split('"""', 1)[0]

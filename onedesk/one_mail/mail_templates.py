@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 
 from onedesk.one import layer, rules
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 TAG = re.compile(r"\{\{.*?\}\}|\{%.*?%\}", re.S)
 
@@ -457,7 +457,7 @@ def _shown(template, doc: dict) -> dict:
 
 def filled(template_name: str, doc) -> dict:
 	"""A template's subject and message filled in from a record, as the composer
-	fills it in: for one sent by an automation (one/automations.py)."""
+	fills it in: for one sent by an automation (one_studio/automations.py)."""
 	template = frappe.get_doc("Email Template", template_name)
 	return template.get_formatted_email(frappe._dict(_shown(template, doc.as_dict() if doc else {})))
 

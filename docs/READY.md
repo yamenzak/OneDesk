@@ -1182,7 +1182,7 @@ whoever did it, and a notice told during an install, a migrate or an import.
 ship, laid out in frappe's print format builder and checked by
 `tests/guards/test_print.py`. A format is drawn from the builder's own pieces
 (One Sales Invoice is the first), or, until it is redrawn, from the print
-blocks (`one/print_blocks.py`, `templates/one_print/`). What a native format
+blocks (`one_studio/print_blocks.py`, `templates/one_print/`). What a native format
 cannot reach becomes a field on the record, never a block. For OneProject
 that is One Project Status, One Timesheet, OneCRM's One Contract, and the
 hours a time and materials invoice bills on One Sales Invoice. A print
@@ -1203,7 +1203,7 @@ reads a project as its reader sees it on the page, and does what the page
 does as a card the reader approves: a project, its status, a milestone,
 time, a budget, a member, a contact, a reminder, a template
 (`one_project/ai.py`, the `projects` group in `one_ai/groups.py`). Approving
-a card runs the page's own code (`one/ai_setup.py`). Nothing is changed
+a card runs the page's own code (`one_studio/ai_setup.py`). Nothing is changed
 until it is approved.
 
 **14 Intake.** Every mail or file that should make or change the module's

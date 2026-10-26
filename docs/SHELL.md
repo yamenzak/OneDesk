@@ -287,7 +287,7 @@ shell page (column body) on that doctype: fields and their order, the head,
 connections, actions. It is a shell page, not frappe's Customize Form, which
 refuses anybody who is not a System Manager.
 
-As built: the page is `/app/customize/<Doctype>` (`one/customize.py`), the
+As built: the page is `/app/customize/<Doctype>` (`one_studio/customize.py`), the
 shell's Editor on frappe grids, with Export and Reset. A Property Setter or
 Custom Field carries no mark frappe keeps, so each one the page writes is
 noted in a ledger, **Workspace Customization**, and Reset removes what the

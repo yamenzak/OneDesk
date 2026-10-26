@@ -2848,7 +2848,7 @@ def vehicle_log():
 
 
 def _block(name):
-	"""One of One's blocks (one/print_blocks.py): what a paper gathers from
+	"""One of One's blocks (one_studio/print_blocks.py): what a paper gathers from
 	records it doesn't hold. Everything around it is the builder's own."""
 	return {"label": name, "fieldname": name.lower().replace(" ", "_") + "_template", "fieldtype": "Field Template",
 		"field_template": name, "show_label": "hide"}

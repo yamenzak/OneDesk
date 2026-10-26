@@ -747,7 +747,7 @@ order through the format Selling Settings names, so One's is put there
 (`print_blocks.py` `_proforma`): it says the proforma's number and date and,
 for a proforma by amount, leaves out the quantities and rates, as ERPNext's
 does. ERPNext's own are turned off
-(`one/print_blocks.py` `REPLACES`). A sales order names the account to pay
+(`one_studio/print_blocks.py` `REPLACES`). A sales order names the account to pay
 into as an invoice does (**Pay Into**, `one_book/paper.py`). A contract (its
 terms in full, what it requires and by when, both sides to sign), a
 maintenance plan (what's maintained, how often, each visit and who did it)

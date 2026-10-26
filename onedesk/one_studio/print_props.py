@@ -179,7 +179,7 @@ def _value(key: str, value, kind, where: str):
 			wrong(_("a colour such as #0f766e"))
 		return str(value).strip()
 	if kind == "css":
-		from onedesk.one import printing
+		from onedesk.one_studio import printing
 
 		printing._style(str(value), where)
 		return str(value)

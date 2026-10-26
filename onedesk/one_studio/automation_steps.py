@@ -1,4 +1,4 @@
-"""One's own steps for frappe's automation engine (one/automations.py), added
+"""One's own steps for frappe's automation engine (one_studio/automations.py), added
 through its `automation_actions` hook.
 
 Tell People tells people through the hub (one/notify.py), as Automation Notice,

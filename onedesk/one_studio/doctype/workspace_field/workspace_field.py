@@ -5,14 +5,15 @@
 one row a field, as frappe's own list draws it.
 
 A virtual doctype: nothing is stored. Each row is read from the workspace's
-ledger (one/customize.py). A field is changed only through OneAI.
+ledger (one_studio/customize.py). A field is changed only through OneAI.
 """
 
 import frappe
 from frappe import _
 from frappe.model.document import Document
 
-from onedesk.one import customize, roles
+from onedesk.one import roles
+from onedesk.one_studio import customize
 
 
 def rows() -> list[frappe._dict]:

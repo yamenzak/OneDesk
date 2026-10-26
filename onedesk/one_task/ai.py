@@ -335,7 +335,7 @@ def assign_task(
 
 
 def assigned(changes: dict) -> str:
-	"""An assign card approved (one/ai_setup.py): the task given as the page's
+	"""An assign card approved (one_studio/ai_setup.py): the task given as the page's
 	Assign gives it, by whoever pressed Approve, checked again now."""
 	from frappe.desk.form.assign_to import add
 

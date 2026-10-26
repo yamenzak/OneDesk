@@ -85,7 +85,7 @@ LOOKED = {
 	# placed, not redrawn (docs/ONEINTERFACE.md).
 	("tabs", "onedesk/public/css/window/views.css"),
 	("fetching", "frontend/src/cloud/OneCloud.vue"),
-	("icons", "onedesk/one/letter_heads.py"),
+	("icons", "onedesk/one_studio/letter_heads.py"),
 	("icons", "onedesk/public/js/outside.js"),
 }
 

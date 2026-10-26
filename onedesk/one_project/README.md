@@ -1551,7 +1551,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   Report view, Health is blank on a completed or cancelled project, as the
   list's pill is.
 - **One Project Status** (print_format/one_project_status) is the project's
-  print: its name, the customer and its dates from one/print_blocks.py, and
+  print: its name, the customer and its dates from one_studio/print_blocks.py, and
   One's `progress` block (templates/one_print/progress.html). The block reads
   the project as the customer's portal does (portal.py `view`): how much is
   done, the milestones, the next tasks due, the sub-projects, the contract and
@@ -1779,7 +1779,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   `draft_project` checks what it is given (a kind, a customer that exists, a
   template or preset, a contract's item) and proposes a Setup card with the
   values **Add Project** would send. Approving it runs `kinds.make` as
-  whoever approved it (`approved`, through one/ai_setup.py), so the project
+  whoever approved it (`approved`, through one_studio/ai_setup.py), so the project
   has the customer's terms and its contract's sales order.
 - `chain.py` — every money document and its lines name the same project.
   Quotation, Request for Quotation and Material Request get a `project` field
@@ -2275,7 +2275,7 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
   translations), and returns that one after. New Project (kinds.py `make`)
   and Add from Template (templates.py `add`) take a preset as `library`.
   `drafted` makes a template OneAI drafted, once a person approves its card
-  (ai.py `draft_template`, a Setup card applied by one/ai_setup.py), the same
+  (ai.py `draft_template`, a Setup card applied by one_studio/ai_setup.py), the same
   way as a preset and as whoever approved it.
 - `overview.py` — what the band answers, over the tree the reader may see:
   tasks done of all, days to the expected end (`days_left`), the money

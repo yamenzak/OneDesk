@@ -33,12 +33,12 @@ DECLARED = (
 LAYERS = (
 	"onedesk/one/companions.py",
 	"onedesk/one/rules.py",
-	"onedesk/one/customize.py",
-	"onedesk/one/printing.py",
-	"onedesk/one/approvals.py",
+	"onedesk/one_studio/customize.py",
+	"onedesk/one_studio/printing.py",
+	"onedesk/one_studio/approvals.py",
 	"onedesk/one/access.py",
 	"onedesk/one/abilities.py",
-	"onedesk/one/reports.py",
+	"onedesk/one_studio/reports.py",
 	"onedesk/one_studio/record_types.py",
 	"onedesk/one_studio/patches/collection_groups.py",
 )

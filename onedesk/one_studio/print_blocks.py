@@ -407,7 +407,7 @@ def one_print_block(doc, block: str) -> dict:
 	}[block](doc)
 	if not shown:
 		return {}
-	from onedesk.one.letter_heads import readable
+	from onedesk.one_studio.letter_heads import readable
 
 	return {**shown, "colour": colour(doc), "ink": readable(colour(doc))}
 

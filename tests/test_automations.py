@@ -1,4 +1,4 @@
-"""Automations (one/automations.py, one/automation_steps.py): a workspace's flow
+"""Automations (one_studio/automations.py, one_studio/automation_steps.py): a workspace's flow
 tells people through the hub with One's own step, never frappe's mail, and
 fills a template in as the email window does; the list and form keep One's
 rail; OneAI suggests one as a card. These read the code that says so."""
@@ -10,14 +10,14 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SOURCE = (tree.APP / "one" / "automations.py").read_text()
-STEPS = (tree.APP / "one" / "automation_steps.py").read_text()
+SOURCE = (tree.APP / "one_studio" / "automations.py").read_text()
+STEPS = (tree.APP / "one_studio" / "automation_steps.py").read_text()
 TELL = (tree.APP / "one" / "tell.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 
 
 def test_tell_people_is_a_step_of_the_engine_and_goes_through_the_hub():
-	assert 'automation_actions = ["onedesk.one.automation_steps.TellPeople"]' in HOOKS
+	assert 'automation_actions = ["onedesk.one_studio.automation_steps.TellPeople"]' in HOOKS
 	assert "class TellPeople(AutomationAction):" in STEPS
 	assert 'action_type = "TellPeople"' in STEPS
 	execute = STEPS.split("def execute(", 1)[1]
@@ -60,7 +60,7 @@ def test_the_step_editor_offers_what_the_workspace_may_keep():
 	assert '!= "SendNotification"' in steps and "in ACTIONS" in steps
 	assert "_said(one)" in steps
 	settings = (tree.APP / "public" / "js" / "doctype_settings.js").read_text()
-	assert '"onedesk.one.automations.steps"' in settings
+	assert '"onedesk.one_studio.automations.steps"' in settings
 	assert "frappe.automation_engine.api.get_param_options" in settings
 	assert 'frappe.ui.form.on("Automation Action"' in settings
 	assert "new frappe.ui.FieldGroup(" in settings.split("onedesk.automations.draw =", 1)[1]

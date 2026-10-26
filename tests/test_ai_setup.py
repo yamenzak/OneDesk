@@ -1,4 +1,4 @@
-"""OneAI's setup cards (one/ai_setup.py): a saved report, a dashboard, a report
+"""OneAI's setup cards (one_studio/ai_setup.py): a saved report, a dashboard, a report
 by mail, a level, a profile, a group and what a person sees, each written as a
 card that does nothing until a person approves it, and made then by the page's
 own code as that person. These read the code that says so."""
@@ -10,7 +10,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-SOURCE = (tree.APP / "one" / "ai_setup.py").read_text()
+SOURCE = (tree.APP / "one_studio" / "ai_setup.py").read_text()
 HOOKS = (tree.APP / "hooks.py").read_text()
 PROPOSALS = (tree.APP / "one_ai" / "proposals.py").read_text()
 TOOLS = (
@@ -30,7 +30,7 @@ def _body(name: str) -> str:
 
 def test_every_tool_is_offered_on_the_stronger_model():
 	for tool in TOOLS:
-		assert f'"onedesk.one.ai_setup.{tool}"' in HOOKS, tool
+		assert f'"onedesk.one_studio.ai_setup.{tool}"' in HOOKS, tool
 		assert f"\t{tool},\n" in SOURCE.split("for _tool in (", 1)[1], tool
 	assert '_tool.action = "workspace_setup"' in SOURCE
 	sys.path.insert(0, str(tree.ROOT))

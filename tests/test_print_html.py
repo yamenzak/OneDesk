@@ -1,4 +1,4 @@
-"""A workspace's HTML on a printed page is held by one/print_html.py: an HTML
+"""A workspace's HTML on a printed page is held by one_studio/print_html.py: an HTML
 block renders through onedesk's copy of frappe's macro, in a sandbox that
 holds only the record, and a letter head's HTML is stored cleaned and without
 a template. These read the code that says so."""
@@ -11,8 +11,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
 
-HTML = (tree.APP / "one" / "print_html.py").read_text()
-PRINTING = (tree.APP / "one" / "printing.py").read_text()
+HTML = (tree.APP / "one_studio" / "print_html.py").read_text()
+PRINTING = (tree.APP / "one_studio" / "printing.py").read_text()
 MACRO = (tree.APP / "templates" / "print_format" / "macros" / "HTML.html").read_text()
 
 
@@ -31,7 +31,7 @@ def test_the_macro_draws_a_marked_block_in_the_sandbox():
 	assert "df.one_sandboxed" in MACRO and "one_html_block(df.html, doc)" in MACRO
 	assert "Derived from frappe/templates/print_format/macros/HTML.html" in MACRO
 	hooks = (tree.APP / "hooks.py").read_text()
-	assert '"onedesk.one.print_html.one_html_block"' in hooks
+	assert '"onedesk.one_studio.print_html.one_html_block"' in hooks
 	assert ast.literal_eval(_constant(HTML, "MARK")) == "one_sandboxed"
 
 

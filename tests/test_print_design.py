@@ -11,8 +11,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 import tree
 
 AI = (tree.APP / "one" / "ai.py").read_text()
-RECIPES = (tree.APP / "one" / "print_recipes.py").read_text()
-PRINTING = (tree.APP / "one" / "printing.py").read_text()
+RECIPES = (tree.APP / "one_studio" / "print_recipes.py").read_text()
+PRINTING = (tree.APP / "one_studio" / "printing.py").read_text()
 
 
 def _body(source: str, name: str) -> str:
@@ -45,7 +45,7 @@ def test_the_jinja_it_is_told_is_the_jinja_it_may_use():
 	what is not there."""
 	import re
 
-	html = (tree.APP / "one" / "print_html.py").read_text()
+	html = (tree.APP / "one_studio" / "print_html.py").read_text()
 	help_ = AI.split("LAYOUT_HELP = (", 1)[1].split("\n)\n", 1)[0].replace('"\n\t"', "")
 	filters = re.search(r"FILTERS = frozenset\(\s*\(\s*(.*?)\)\.split", html, re.S).group(1)
 	for name in " ".join(re.findall(r'"([^"]*)"', filters)).split():
@@ -162,7 +162,7 @@ def test_a_tool_call_the_provider_could_not_read_is_asked_again():
 	assert "ONE_LINE" in _body(gateway, "_said")
 
 
-PROPS = (tree.APP / "one" / "print_props.py").read_text()
+PROPS = (tree.APP / "one_studio" / "print_props.py").read_text()
 
 
 def test_every_property_the_builder_sets_is_ours_to_set():

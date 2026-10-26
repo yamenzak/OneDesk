@@ -269,7 +269,7 @@ onedesk.reports.lists_too = () => {
 };
 
 onedesk.reports.show_in = async (kind, name) => {
-	const said = await frappe.xcall("onedesk.one.reports.where", { kind, name });
+	const said = await frappe.xcall("onedesk.one_studio.reports.where", { kind, name });
 	const dialog = new frappe.ui.Dialog({
 		title: __("Show In"),
 		fields: [
@@ -296,7 +296,7 @@ onedesk.reports.show_in = async (kind, name) => {
 		],
 		primary_action_label: __("Save"),
 		primary_action: async (values) => {
-			await frappe.xcall("onedesk.one.reports.place", {
+			await frappe.xcall("onedesk.one_studio.reports.place", {
 				kind,
 				name,
 				module: values.module || null,

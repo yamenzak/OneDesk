@@ -14,7 +14,7 @@ from frappe.query_builder.functions import Length, Max
 from frappe.utils import cint
 
 from onedesk.one import roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 SETTINGS = "Document Naming Settings"
 

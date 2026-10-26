@@ -1,7 +1,7 @@
 """Webhooks: tell another system when a record is made or changed, for a
 workspace's administrators.
 
-A webhook is frappe's own Webhook, held as an automation is (one/automations.py),
+A webhook is frappe's own Webhook, held as an automation is (one_studio/automations.py),
 and its address is checked again when it is sent (`install`).
 """
 
@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 
 from onedesk.one import layer, roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 WEBHOOK = "Webhook"
 LOG = "Webhook Request Log"

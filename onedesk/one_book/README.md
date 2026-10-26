@@ -436,7 +436,7 @@ fails a small business on first use or leaves a question unanswered.
   Frappe Books' lists show what is still due beside the total; **Paid
   Amount** a column of the payments, in place of the two accounts; and
   **Posting Date** a column of the journal entries.
-- `one/print_blocks.py`, a tax invoice — where the company's country calls
+- `one_studio/print_blocks.py`, a tax invoice — where the company's country calls
   it one (`one/countries.py` `TAX_INVOICE`), a sales invoice of a company
   with a tax ID prints as a **Tax Invoice** and a return as a **Tax Credit
   Note**, each with the tax ID under its number (the **TRN** in the UAE, as
@@ -465,7 +465,7 @@ fails a small business on first use or leaves a question unanswered.
   **Due Now** below the Total.
 - One's version of each Sales Invoice format ERPNext ships, made the same
   way, and ERPNext's own turned off so the print menu offers each once
-  (`one/print_blocks.py` `REPLACES`): **One Sales Invoice** for Modern, the
+  (`one_studio/print_blocks.py` `REPLACES`): **One Sales Invoice** for Modern, the
   UAE's Tax Invoice and the Return; **Classic**, the details in a shaded
   panel and the lines in a rounded table with their item codes;
   **Bordered**, the heading facts in ruled boxes and from whom and to whom

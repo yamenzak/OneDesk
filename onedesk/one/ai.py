@@ -80,7 +80,7 @@ SUGGESTIONS = {
 			"expects": "recall",
 		},
 	],
-	"page:workspace-settings/numbering": [
+	"page:onestudio/numbering": [
 		{
 			"label": _lt("Is any numbering out of step?"),
 			"ask": _lt(
@@ -98,11 +98,11 @@ SUGGESTIONS = {
 			"expects": "change_numbering",
 		},
 	],
-	"page:workspace-settings/printing": [
+	"page:onestudio/printing": [
 		{
 			"label": _lt("Suggest a letter head"),
 			"ask": _lt(
-				"Suggest a letter head drawn from our details in Workspace › General: the header and the "
+				"Suggest a letter head drawn from our details in One's ControlCenter › General: the header and the "
 				"footer presets that suit us, as the default."
 			),
 			"expects": "change_printing",
@@ -118,7 +118,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Design a letter head from our details"),
 			"ask": _lt(
-				"Design a letter head in HTML from the company's details in Workspace › General: the name "
+				"Design a letter head in HTML from the company's details in One's ControlCenter › General: the name "
 				"and logo in the header, the address, phone and email in the footer, each after its icon."
 			),
 			"expects": "change_printing",
@@ -137,7 +137,7 @@ SUGGESTIONS = {
 			"expects": "workspace_printing",
 		},
 	],
-	"page:workspace-settings/approvals": [
+	"page:onestudio/approvals": [
 		{
 			"label": _lt("Approve bills by amount"),
 			"ask": _lt(
@@ -366,7 +366,7 @@ SUGGESTIONS = {
 			"expects": "how_to",
 		},
 	],
-	"page:workspace-settings/notification_types": [
+	"page:notifications/words": [
 		{
 			"label": _lt("Rewrite this notification"),
 			"ask": _lt(
@@ -406,7 +406,7 @@ from onedesk.one import masters as _masters  # noqa: E402
 
 SUGGESTIONS.update(_masters.SUGGESTIONS)
 
-OPENS_ON = {"workspace-settings": "notification_types", "account": "profile", "one": "general", "notifications": "everything", "ai": "oneai"}
+OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "general", "notifications": "everything", "ai": "oneai"}
 
 
 def page(said: dict) -> str | None:
@@ -422,29 +422,29 @@ def page(said: dict) -> str | None:
 			"person (theirs may be), or mark it Lost or Retired. How it works is in OneAccount's Help "
 			"under People and Devices (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "numbering":
+	if said.get("page") == "onestudio" and said.get("section") == "numbering":
 		return (
-			"The reader administers this workspace and is on Workspace › Numbering: each kind of record named "
+			"The reader administers this workspace and is on Numbering in OneStudio's ControlCenter: each kind of record named "
 			"from a series, the series it may take (the first is the default), the name the next one gets and the "
 			"number its counter has reached, and the naming rules. workspace_numbering reads it, for one kind or "
 			"all; change_numbering suggests a new series, a default or a counter as a card they approve. How is in "
 			"One's documentation under Numbering, for the Workspace (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "printing":
+	if said.get("page") == "onestudio" and said.get("section") == "printing":
 		return (
-			"The reader administers this workspace and is on Workspace › Printing: its letter heads (which is the "
+			"The reader administers this workspace and is on Printing in OneStudio's ControlCenter: its letter heads (which is the "
 			"default and what each header and footer shows), and for each kind of record the formats it may print "
 			"with and the one it prints with by default. workspace_printing reads it; change_printing suggests a "
 			"change as a card they approve. How is in One's documentation under Printing, for the Workspace (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "approvals":
+	if said.get("page") == "onestudio" and said.get("section") == "approvals":
 		return (
-			"The reader administers this workspace and is on Workspace › Approvals: each approval, the kind of "
+			"The reader administers this workspace and is on Approvals in OneStudio's ControlCenter: each approval, the kind of "
 			"record it moves, whether it is on, its states and its steps, who takes each and when. "
 			"workspace_approvals reads them; suggest_approval suggests one as a card they approve. How is in One's "
 			"documentation under Approvals, for the Workspace (how_to)."
 		)
-	if said.get("page") == "workspace-settings" and said.get("section") == "notification_types":
+	if said.get("page") == "notifications" and said.get("section") == "words":
 		return _notifications_page(said.get("record"))
 	if said.get("page") == "account" and said.get("section") == "people":
 		return (
@@ -591,7 +591,7 @@ def _notifications_page(record: str | None) -> str:
 		else " They are looking at the list of every notification type, by app."
 	)
 	return (
-		"The reader is on Notifications in Workspace Settings, where an administrator decides what each "
+		"The reader is on Words and Rules in NotificationCenter, where an administrator decides what each "
 		"notification One sends says and which channels it may use." + open_on + " notification_type reads a "
 		"type's text, slots and channels; rewrite_notification suggests new text as a card they apply; "
 		"draft_notification suggests a new rule (when something happens to a record, tell somebody). How "
@@ -822,7 +822,7 @@ def draft_notification(
 	return {
 		"proposal": proposals.propose("Create", "Notification", changes=changes, why=why),
 		"state": "Proposed",
-		"next": "Tell them it appears under Workspace Settings, Notifications, Rules once they approve it.",
+		"next": "Tell them it appears in NotificationCenter, under Words and Rules, once they approve it.",
 	}
 
 
@@ -923,9 +923,9 @@ def customize(
 	Workspace administrators only. Read forms_here and form_relations first."""
 	from frappe.utils import strip_html
 
-	from onedesk.one import customize as page
 	from onedesk.one import roles as workspace
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import customize as page
 
 	if not workspace.administers():
 		return {"error": "Only a workspace administrator customizes a form."}
@@ -1206,7 +1206,7 @@ def workspace_people() -> dict:
 			for one in said["people"]
 		],
 		"next": "Everybody has One, OneCloud, OneMail, OneTask and OneCalendar anyway. Name people by name. "
-		"The administrator changes a person on Workspace › People by clicking them.",
+		"The administrator changes a person on People in AccountCenter by clicking them.",
 	}
 
 
@@ -1273,7 +1273,7 @@ def workspace_access() -> dict:
 			for one in holds
 		],
 		"next": "Every level, User and Manager too, may be given or have taken away anything on the kinds its app works with. "
-		"The administrator changes all of this on Workspace › Access, "
+		"The administrator changes all of this on AccessCenter › Roles and Profiles, "
 		"and a person's level, profile and what they are held to on their page under People.",
 	}
 
@@ -1640,8 +1640,8 @@ def workspace_holidays() -> dict:
 	when it ends, the list after it if any, the public holidays the country
 	has that it lacks, and how many people are on a list of their own."""
 	from onedesk.one import roles
-	from onedesk.one_hr import holidays
 	from onedesk.one_hr import control as hr_control
+	from onedesk.one_hr import holidays
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the workspace's holidays."}
@@ -1711,9 +1711,9 @@ def change_holidays(
 	from frappe.utils import formatdate, getdate
 
 	from onedesk.one import roles
-	from onedesk.one_hr import holidays
-	from onedesk.one_hr import control as hr_control
 	from onedesk.one_ai import proposals
+	from onedesk.one_hr import control as hr_control
+	from onedesk.one_hr import holidays
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator changes the workspace's holidays."}
@@ -1728,7 +1728,7 @@ def change_holidays(
 		if not found:
 			return {
 				"error": f"No holiday list holds {day}. Next year's list is made with Create Next Year's List on "
-				"Workspace › Holidays; suggest this once it is there."
+				"OneHR's ControlCenter › Holidays; suggest this once it is there."
 			}
 		covering.add(found)
 	if len(covering) > 1:
@@ -1804,7 +1804,7 @@ def change_holidays(
 		),
 		"state": "Proposed",
 		"next": "Tell them leave, attendance, check-ins, the calendar and deadlines count around it once they "
-		"approve it, and that Workspace › Holidays shows the whole list.",
+		"approve it, and that OneHR's ControlCenter › Holidays shows the whole list.",
 	}
 
 
@@ -1916,7 +1916,7 @@ def workspace_plan() -> dict:
 		**_domains(),
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
 		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
-		"are bought from Buy Credits in the page head of Workspace › Plan and Credits.",
+		"are bought from Buy Credits in the page head of Plan and Credits in AccountCenter.",
 	}
 
 
@@ -2010,7 +2010,7 @@ def workspace_sign_in() -> dict:
 		],
 		"next": "Say plainly what is fine and what to change, most important first. Two-factor for everybody, "
 		"or at least administrators, is the usual advice; failed sign-ins from one address are worth naming. "
-		"They change the rules themselves under Workspace › General › Sign-in.",
+		"They change the rules themselves under One's ControlCenter › General › Sign-in.",
 	}
 
 
@@ -2087,7 +2087,8 @@ def workspace_numbering(
 	number records already use (`used`), which a counter may never go below,
 	and its naming rules with what each must match. Empty: every kind of
 	record numbered by a series. Read it before suggesting a change."""
-	from onedesk.one import numbering, roles
+	from onedesk.one import roles
+	from onedesk.one_studio import numbering
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how records are numbered."}
@@ -2152,8 +2153,9 @@ def change_numbering(
 	after records brought in from elsewhere; and its naming rules added, changed or removed. Read
 	workspace_numbering first, and check `used` before moving a counter. Nothing changes until they approve
 	it, and records already made keep their names. Workspace administrators only."""
-	from onedesk.one import numbering, roles
+	from onedesk.one import roles
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import numbering
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator changes how records are numbered."}
@@ -2268,7 +2270,8 @@ def workspace_printing(
 	logo Workspace > General keeps, the print formats the workspace made, and for
 	a kind of record the formats it may print with and the one it prints with
 	unless another is chosen. Read it before suggesting a change."""
-	from onedesk.one import control, letter_heads, printing, roles
+	from onedesk.one import control, roles
+	from onedesk.one_studio import letter_heads, printing
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees how documents are printed."}
@@ -2319,7 +2322,7 @@ def _letter_head_part(one: dict, part: str) -> dict | None:
 	"""A letter head's header or footer as it is now: the preset it is drawn from
 	and its settings, or the HTML or picture it was written as. None for a
 	letter head with no footer."""
-	from onedesk.one import letter_heads
+	from onedesk.one_studio import letter_heads
 
 	top = part == "header"
 	drawn = one.get("one_top" if top else "one_foot")
@@ -2373,8 +2376,9 @@ def change_printing(
 	design_print_format. Read workspace_printing first. The card shows the
 	page before it is approved; nothing changes until they approve it.
 	Workspace administrators only."""
-	from onedesk.one import control, letter_heads, print_html, printing, roles
+	from onedesk.one import control, roles
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import letter_heads, print_html, printing
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator changes how documents are printed."}
@@ -2591,7 +2595,7 @@ def _how() -> str:
 	"""LAYOUT_HELP, with every property of frappe's builder a block, a table, a
 	section or the page may take by its own name, and the house's parts for
 	an html block."""
-	from onedesk.one import print_props, print_recipes
+	from onedesk.one_studio import print_props, print_recipes
 
 	return (
 		f"{LAYOUT_HELP} {print_props.described()} Any of these may be set on the block, section, column or "
@@ -2621,7 +2625,7 @@ def _block(one) -> dict:
 	"""One block as a model writes it, as the builder stores it: the shorter
 	words below, and any of frappe's own properties of that kind of block by
 	their own names (print_props), each checked."""
-	from onedesk.one import print_props
+	from onedesk.one_studio import print_props
 
 	if isinstance(one, str):
 		return {"fieldtype": "Divider"} if one.strip("- ") == "" else {"fieldname": one.strip()}
@@ -2814,7 +2818,7 @@ def _built(sections, heading: str | None, doctype: str | None = None) -> dict:
 	field the kind does not have."""
 	from frappe.printing.doctype.print_format.classic_converter import DEFAULT_PRINT_HEADING
 
-	from onedesk.one import print_props, print_recipes
+	from onedesk.one_studio import print_props, print_recipes
 
 	if isinstance(sections, str):
 		sections = _parsed(sections)
@@ -2926,7 +2930,7 @@ def _written(layout, meta=None) -> dict | None:
 	if not isinstance(layout, dict):
 		return None
 
-	from onedesk.one import print_props
+	from onedesk.one_studio import print_props
 
 	def block(one: dict):
 		kind = one.get("fieldtype")
@@ -3030,7 +3034,7 @@ def _laid_out(doctype: str, sections, heading: str | None, existing) -> dict:
 	"""The layout a design prints: the sections given; without them, a changed
 	format's own layout as the builder left it (a restyle changes only its
 	css), or a new one's starting layout."""
-	from onedesk.one import print_recipes
+	from onedesk.one_studio import print_recipes
 
 	if sections:
 		return _built(sections, heading, doctype)
@@ -3046,7 +3050,7 @@ def _redo(doctype: str, error: str) -> dict:
 	"""A design that did not hold, handed back with what to start again from,
 	so a model that skipped print_layout, or wrote a block wrong, mends it in
 	the next round rather than telling the person what went wrong inside."""
-	from onedesk.one import print_recipes
+	from onedesk.one_studio import print_recipes
 
 	try:
 		start = print_recipes.starting_layout(doctype)
@@ -3069,7 +3073,7 @@ def _styled(css: str | None, house: bool | None, before: str | None) -> str | No
 	"""The css a format prints with: the house style unless a look was asked
 	for, that look alone, or the house style with it over the top. A changed
 	format left without css keeps its own."""
-	from onedesk.one.print_recipes import HOUSE_CSS
+	from onedesk.one_studio.print_recipes import HOUSE_CSS
 
 	css = (css or "").strip()
 	if house:
@@ -3082,7 +3086,7 @@ def _styled(css: str | None, house: bool | None, before: str | None) -> str | No
 def _style_of(css: str | None) -> dict:
 	"""A format's css as print_layout tells it: whether it is the house style,
 	and whatever it carries beyond it."""
-	from onedesk.one.print_recipes import HOUSE_CSS
+	from onedesk.one_studio.print_recipes import HOUSE_CSS
 
 	css = css or ""
 	if css.startswith(HOUSE_CSS):
@@ -3098,8 +3102,9 @@ def print_layout(
 	"""A kind of record's fields, the layout a format of it starts from, and one
 	of its builder formats as sections, the way design_print_format takes them:
 	read it before designing one. Workspace administrators only."""
-	from onedesk.one import print_recipes, printing, roles
+	from onedesk.one import roles
 	from onedesk.one_ai import kind
+	from onedesk.one_studio import print_recipes, printing
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator designs how documents are printed."}
@@ -3192,8 +3197,9 @@ def design_print_format(
 	checked as the builder's own save checks it; the card shows the page on
 	the kind's latest record before it is approved, and the format then opens
 	in the builder like any other. Workspace administrators only."""
-	from onedesk.one import printing, roles
+	from onedesk.one import roles
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import printing
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator designs how documents are printed."}
@@ -3279,7 +3285,8 @@ def workspace_approvals(
 	takes each and when). For a kind of record, whether it is submitted, the
 	roles a step may be for, and the fields a condition or a state may use.
 	Read it before suggesting an approval."""
-	from onedesk.one import approvals, roles
+	from onedesk.one import roles
+	from onedesk.one_studio import approvals
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the approvals."}
@@ -3322,8 +3329,9 @@ def suggest_approval(
 	Workspace administrators only."""
 	from frappe.model import no_value_fields
 
-	from onedesk.one import approvals, roles
+	from onedesk.one import roles
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import approvals
 
 	if not roles.administers():
 		return {"mend": "suggest_approval", "error": "Only a workspace administrator sets approvals."}
@@ -3498,7 +3506,8 @@ def workspace_automations(
 	of record it watches, when it runs, what it narrows to, whether it is on,
 	and its steps. For a kind of record, its fields, its date fields and the
 	mail templates written for it. Read it before suggesting an automation."""
-	from onedesk.one import automations, roles
+	from onedesk.one import roles
+	from onedesk.one_studio import automations
 
 	if not roles.administers():
 		return {"error": "Only a workspace administrator sees the automations."}
@@ -3548,8 +3557,9 @@ def suggest_automation(
 	any mix. Read workspace_automations first, with the kind.
 	Nothing is made until they approve it, and it runs as them. Workspace
 	administrators only."""
-	from onedesk.one import automations, roles
+	from onedesk.one import roles
 	from onedesk.one_ai import proposals
+	from onedesk.one_studio import automations
 
 	mend = {"mend": "suggest_automation"}
 	if not roles.administers():

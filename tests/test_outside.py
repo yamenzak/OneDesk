@@ -20,7 +20,7 @@ def test_the_boot_carries_ones_sidebars_and_workspaces_only():
 	assert "platform()" not in SOURCE and "def platform" not in (tree.APP / "one" / "boot.py").read_text()
 	assert 'page.get("app") in held' in SOURCE and "held = {APP, *private.names()}" in SOURCE and '["has_create_access"] = False' in SOURCE
 	assert "outside.keep(bootinfo)" in (tree.APP / "one" / "boot.py").read_text()
-	assert "outside.kept(said)" in (tree.APP / "one" / "reports.py").read_text()
+	assert "outside.kept(said)" in (tree.APP / "one_studio" / "reports.py").read_text()
 
 
 def test_elsewhere_and_the_apps_screen_go_to_ones_home():
@@ -63,7 +63,7 @@ def test_frappes_screens_open_ones_own():
 		'["one", { center: "account", at: "people" }]',
 		'["onecloud"]',
 		'["my-tasks"]',
-		'["workspace-settings", { section: "printing" }]',
+		'["one", { center: "settings", module: "OneStudio", at: "printing" }]',
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js

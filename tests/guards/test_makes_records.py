@@ -1,6 +1,6 @@
 """Every kind of record One's code makes without a name is declared in
 hooks.py `one_makes_records`, so Numbering never lets it be named by hand
-(one/numbering.py made_by).
+(one_studio/numbering.py made_by).
 
 The kinds are read the way the audit that wrote the list read them: every
 place a module's code builds a record of a frappe, erpnext or hrms kind, by
@@ -39,7 +39,7 @@ def _declared() -> dict:
 
 
 def _refused() -> tuple:
-	tree = ast.parse((ROOT / "one" / "customize.py").read_text())
+	tree = ast.parse((ROOT / "one_studio" / "customize.py").read_text())
 	for node in tree.body:
 		if isinstance(node, ast.Assign) and any(
 			isinstance(one, ast.Name) and one.id == "REFUSED_MODULES" for one in node.targets

@@ -1202,7 +1202,7 @@ a register and a movement form in it would be a rail with five rows.
   receiving. The receipt's head reads its lines: their orders, what they were
   valued at once received (landed costs included), and what was rejected. The
   goods received note is laid out in frappe's builder from One's print blocks
-  (`one/print_blocks.py`). `rate_note.js` writes the rate under every money
+  (`one_studio/print_blocks.py`). `rate_note.js` writes the rate under every money
   document's exchange rate, where ERPNext writes "[?]". `access.py` lets the
   accountant add landed costs.
 - `heads.py` (Delivery Note), `print_format/one_pick_list`,
@@ -1497,7 +1497,7 @@ a register and a movement form in it would be a rail with five rows.
   Packing Slips, Delivery Trips and the asset doctypes are owned here
   (`is_default_module`); Supplier is OneBook's and Sales Order OneCRM's. A
   row shipped after a workspace arranged its rail goes where it is shipped
-  (`one/reports.py` `settle`).
+  (`one_studio/reports.py` `settle`).
 
 ### print_format/
 

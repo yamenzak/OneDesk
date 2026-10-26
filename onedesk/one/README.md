@@ -2388,7 +2388,7 @@ assign, rather than the automation.
 Each tool in ai_setup.py checks what it was asked against the same rules the
 page does, and writes a card (an `AI Proposal` of kind Setup) that does
 nothing until a person approves it. Approving runs the page's own code
-(one/reports.py, one/access.py) as whoever pressed Approve, so a card can do
+(one_studio/reports.py, one/access.py) as whoever pressed Approve, so a card can do
 no more than they could by hand. A card says in plain words what changes: a
 level's card names every right it gives and takes away.
 
@@ -2512,7 +2512,7 @@ let customize (layer.held) is held to this:
 
 Automation Settings stays the operator's.
 
-**Tell People** (`TellPeople`, one/automation_steps.py) is One's own step,
+**Tell People** (`TellPeople`, one_studio/automation_steps.py) is One's own step,
 added through frappe's `automation_actions` hook: it tells people through the
 hub (one/notify.py), on the bell and by mail as each chose, as Automation
 Notice, and fills a mail template in as the composer does
@@ -2763,7 +2763,7 @@ person's two-factor secret, never as it was sent.
 
 A workspace customizes a form with frappe's own records (Custom Field and
 Property Setter, the DocType's Links and Actions) and one of ours (Record
-Head), on the Customize page (one/customize.py). Frappe trusts whoever writes
+Head), on the Customize page (one_studio/customize.py). Frappe trusts whoever writes
 those, because only the people it lets customize can. A workspace
 administrator is not that, so every row written through the Customize page,
 and any written by somebody frappe does not let customize, is **held** in
@@ -2782,7 +2782,7 @@ docs/SHELL.md, decision 6.
   table pointed somewhere else, and no field changed into another kind.
 
 `property_setter` lets through how a kind of record is named when it comes
-from Numbering (one/numbering.py `set_naming_by`), which has checked the kind
+from Numbering (one_studio/numbering.py `set_naming_by`), which has checked the kind
 and the choice, and writes what Customize Form would: the autoname and naming
 rule, the series shown or hidden, and the field a record is named by made
 required and unique.
@@ -3629,7 +3629,7 @@ rail. Zapier, Make, n8n or the customer's own server take it from there.
 
 Frappe trusts whoever writes one, because only its System Managers may. A
 webhook written by somebody frappe does not let customize (layer.held) is
-held to what an automation is held to (one/automations.py):
+held to what an automation is held to (one_studio/automations.py):
 
 - it is on a kind of record they can open, never frappe's own or One's;
 - it sends only fields they may read: a salary above their level is not

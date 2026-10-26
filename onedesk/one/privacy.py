@@ -111,7 +111,7 @@ def _guard(user: str) -> None:
 	billed_to = frappe.db.get_single_value("Workspace Account", "billed_to")
 	if billed_to and billed_to.lower() == user.lower():
 		frappe.throw(
-			_("The workspace is billed to this account. Change who pays in Workspace › Plan and Credits first.")
+			_("The workspace is billed to this account. Change who pays in Plan and Credits in AccountCenter first.")
 		)
 
 

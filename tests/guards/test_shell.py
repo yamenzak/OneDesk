@@ -22,7 +22,6 @@ SHELL_CSS = tree.APP / "public" / "css" / "shell.css"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
 
 ON_THE_SHELL = {
-	"workspace_settings": ("public/js/settings.js", "public/css/settings.css"),
 	"onecalendar": (
 		"one_calendar/page/onecalendar/onecalendar.js",
 		"one_calendar/page/onecalendar/onecalendar.css",
@@ -37,15 +36,16 @@ WERE_ON_THE_SHELL = {"settings", "workspace_settings", "legal", "intake", "ready
 # it is empty, shell.js and shell.css are deleted. A section that moved out
 # of Settings into a centre took its drawing with it (docs/ONE.md, stage 2)
 # until One's screens are drawn again (stage 8): center_section.js and the
-# five files below it.
+# files below it that draw a centre's tabs.
 USE_THE_SHELL = {
-	"one/page/workspace_settings/workspace_settings.js",
 	"public/js/center_section.js",
 	"public/js/access_center.js",
 	"public/js/one_ai/ai_center.js",
 	"public/js/one_calendar/calendar_control.js",
 	"public/js/one_control.js",
 	"public/js/one_hr/hr_control.js",
+	"public/js/one_studio/studio_control.js",
+	"public/js/notification_center.js",
 	"one_calendar/page/onecalendar/onecalendar.js",
 	"public/js/one_account/account_center.js",
 	"public/js/band.js",
@@ -55,7 +55,6 @@ USE_THE_SHELL = {
 	"public/js/extension_errors.js",
 	"public/js/island_page.js",
 	"public/js/one_mail/record_mail.js",
-	"public/js/settings.js",
 	"public/js/window/frame.js",
 }
 

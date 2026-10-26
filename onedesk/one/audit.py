@@ -9,7 +9,7 @@ import frappe
 from frappe.permissions import get_doctypes_with_read
 
 from onedesk.one import roles
-from onedesk.one.customize import REFUSED_MODULES
+from onedesk.one_studio.customize import REFUSED_MODULES
 
 SYSTEM = ("Administrator", "Guest", "oneai@one.invalid")
 

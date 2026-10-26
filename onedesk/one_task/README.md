@@ -485,7 +485,7 @@ is:
   change to the status, due date or priority is the generic `edit_record`,
   saved as the page saves them, so ERPNext's checks hold),
   `assign_task` (a Setup
-  card, `what: assign`; approving runs `assigned` through one/ai_setup.py,
+  card, `what: assign`; approving runs `assigned` through one_studio/ai_setup.py,
   which checks again that the approver may change the task and that each
   colleague is an enabled workspace user, then calls frappe's
   `assign_to.add` as the approver, as the page's Assign does), `task_facts`

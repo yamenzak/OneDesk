@@ -119,7 +119,7 @@ def _cells(sheet: dict) -> dict:
 
 def _picture(url: str | None) -> str | None:
 	"""A picture only from this site's files."""
-	from onedesk.one import printing
+	from onedesk.one_studio import printing
 
 	return url if url and printing.FILE_URL.match(url) else None
 
@@ -279,7 +279,7 @@ def _letter_head(chosen: str | None = None, doc: dict | None = None) -> tuple[st
 	"""A letter head's top and foot: the one chosen, else the default, else
 	one drawn from the company when the workspace has none. `doc` is what
 	its template reads."""
-	from onedesk.one import letter_heads as drawing
+	from onedesk.one_studio import letter_heads as drawing
 
 	if chosen == NO_HEAD:
 		return "", ""

@@ -13,7 +13,7 @@ import pytest
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 APPS = Path("/home/frappe/bench1/apps")
-BLOCKS = APP / "one" / "print_blocks.py"
+BLOCKS = APP / "one_studio" / "print_blocks.py"
 TEMPLATES = APP / "one" / "print_format_field_template"
 
 LEAVES = (
@@ -199,8 +199,8 @@ def test_every_block_is_a_field_template_with_its_template():
 def test_the_blocks_reach_jinja_and_settle_after_migrate():
 	"""A new site gets the blocks and the formats as defaults, and every migrate keeps them."""
 	hooks = (APP / "hooks.py").read_text()
-	assert '"onedesk.one.print_blocks.one_print_block"' in hooks
-	assert hooks.count('"onedesk.one.print_blocks.settle"') == 2, "after_install and after_migrate"
+	assert '"onedesk.one_studio.print_blocks.one_print_block"' in hooks
+	assert hooks.count('"onedesk.one_studio.print_blocks.settle"') == 2, "after_install and after_migrate"
 	assert "def _sync_blocks" in BLOCKS.read_text() and "_sync_blocks()" in BLOCKS.read_text()
 
 

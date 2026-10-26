@@ -599,11 +599,11 @@ def a_folder_reads_for_whoever_turned_it_on():
 def every_notification_file_is_on_the_notifications_page():
 	"""Each file in onedesk/notifications/ is a type the workspace has, with
 	the file's words, and listed for its administrator to change."""
-	from onedesk.one import notify, settings
+	from onedesk.one import notification_words, notify
 
 	declared = notify.declared()
 	with as_user(OWNER):
-		listed = {one["name"] for app in settings._notification_types()["apps"] for one in app["types"]}
+		listed = {one["name"] for app in notification_words._notification_types()["apps"] for one in app["types"]}
 	missing = sorted(set(declared) - listed)
 	assert not missing, missing
 	wrong = [
@@ -674,7 +674,7 @@ def every_paper_prints_in_the_companys_look():
 	as the owner prints it, under the company's letter head and in its colour."""
 	from frappe.utils import escape_html
 
-	from onedesk.one import print_blocks
+	from onedesk.one_studio import print_blocks
 
 	colour = frappe.db.get_value("Company", COMPANY, "one_brand_colour")
 	assert colour, "the demo company has no Brand Colour"
@@ -3449,7 +3449,7 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 @check
 def one_the_frame_wears_the_workspace_colour():
-	"""Frame Colour in Workspace › General › Contact and Branding is the rail and the bars
+	"""Frame Colour in One's ControlCenter › General › Contact and Branding is the rail and the bars
 	around every screen, for everyone; saved empty, the frame is One's own."""
 	from onedesk.one import company, control
 
@@ -3865,17 +3865,17 @@ def settings_open_and_save_for_each_person():
 	Rania's stale save is refused; Layla saves General and Holidays, invites
 	Hana, turns Nadia off and on, and drops a rule OneAI wrote. What OneAI
 	remembers is kept and forgotten."""
-	from onedesk.one import access_center, ai, control, rules, settings
+	from onedesk.one import access_center, ai, control, notification_words, rules
 	from onedesk.one_account import center
 	from onedesk.one_ai import run as runs
 	from onedesk.one_ai import yours
 	from onedesk.one_calendar import control as calendar_control
 	from onedesk.one_hr import control as hr_control
+	from onedesk.one_studio import control as studio_control
 
 	with as_user("rania@one.test"):
-		assert not settings.sections()["admin"] and not settings.sections()["sections"]
 		assert "link" in calendar_control.load("link") and yours.load("reads") is not None
-		for refused in (control.sections_of, lambda: control.load("general"), lambda: hr_control.load("holidays"), lambda: access_center.load("access")):
+		for refused in (control.sections_of, lambda: control.load("general"), lambda: hr_control.load("holidays"), lambda: access_center.load("access"), lambda: studio_control.load("numbering"), lambda: notification_words.load("words")):
 			try:
 				refused()
 				raise AssertionError("Rania opened a workspace setting")
@@ -3907,10 +3907,9 @@ def settings_open_and_save_for_each_person():
 		assert not frappe.db.exists("AI Memory", {"owner": "rania@one.test"})
 		assert center.sign_out_elsewhere() == 1
 	with as_user(OWNER):
-		every = settings.sections()
-		assert every["admin"]
-		for one in every["sections"]:
-			settings.load(one["key"])
+		for key, *_rest in studio_control.SECTIONS:
+			studio_control.load(key)
+		notification_words.load("words")
 		assert [one["key"] for one in control.sections_of()["sections"]] == ["general"]
 		general = control.load("general")
 		control.save("general", {}, general["opened"])
@@ -3934,10 +3933,10 @@ def settings_open_and_save_for_each_person():
 		rule = frappe.db.get_value("Notification", {"one_rule": 1, "document_type": "Sales Invoice", "event": "Submit"})
 		assert rule, "the rule was not made"
 		kind = frappe.db.get_value("Notification Type", {"one_rule": rule})
-		typed = settings.load("notification_types", kind)
-		settings.save("notification_types", typed.get("values") or {}, typed.get("opened"), kind)
-		assert "html" in settings.preview_notification(kind, "Invoice {{ doc.name }}") or settings.preview_notification(kind, "Invoice {{ doc.name }}")
-		settings.delete_rule(rule)
+		typed = notification_words.load("words", kind)
+		notification_words.save("words", typed.get("values") or {}, typed.get("opened"), kind)
+		assert "html" in notification_words.preview_notification(kind, "Invoice {{ doc.name }}") or notification_words.preview_notification(kind, "Invoice {{ doc.name }}")
+		notification_words.delete_rule(rule)
 		assert not frappe.db.exists("Notification", rule)
 
 
@@ -3948,8 +3947,9 @@ def access_is_shaped_by_the_administrator():
 	one; each goes again. OneAI suggests a level, a profile, a group, a hold,
 	a saved report, a dashboard and a report by mail, and each card applied
 	is there afterwards. Omar may do none of it."""
-	from onedesk.one import access, access_center, ai_setup
+	from onedesk.one import access, access_center
 	from onedesk.one_ai import run as runs
+	from onedesk.one_studio import ai_setup
 
 	customers = frappe.get_all("Customer", pluck="name", order_by="name asc")
 	with as_user("omar@one.test"):
@@ -4020,8 +4020,8 @@ def numbering_printing_and_mail_templates_are_the_administrators():
 	format from a sales invoice's own, makes it the default, previews it in
 	the builder and as a PDF, draws a letter head from the company, and
 	sets the template sales orders are mailed with. Omar may do none of it."""
-	from onedesk.one import letter_heads, numbering, printing
 	from onedesk.one_mail import mail_templates
+	from onedesk.one_studio import letter_heads, numbering, printing
 
 	with as_user("omar@one.test"):
 		try:
@@ -4108,7 +4108,7 @@ def printing_holds_what_a_page_may_say():
 	by hand stays as she wrote it. A letter head is kept cleaned of scripts
 	and of pictures from elsewhere, and template tags are refused in it. An
 	HTML block reads the record and nothing else."""
-	from onedesk.one import printing
+	from onedesk.one_studio import printing
 
 	head = frappe.db.get_value("Letter Head", {"one_top": ["is", "set"]})
 	assert head, "the demo's letter head is drawn from the company"
@@ -4758,7 +4758,7 @@ def a_saved_report_is_its_makers_and_runs_no_code():
 	nor put it in an app he does not work in, Rania may not move it, and only
 	an administrator moves a dashboard. He deletes his own, and it leaves the
 	sidebar, but not Layla's."""
-	from onedesk.one import reports
+	from onedesk.one_studio import reports
 
 	def refused(step, error=frappe.ValidationError):
 		try:
@@ -4808,8 +4808,9 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 	the shared lists of values read, added to, renamed and counted, next
 	year's holidays made and put in force with the country's own public
 	holidays, and a deleted project task brought back from the bin."""
-	from onedesk.one import home, masters, recycle, reports
+	from onedesk.one import home, masters, recycle
 	from onedesk.one_hr import holidays
+	from onedesk.one_studio import reports
 
 	with as_user("samir@one.test"):
 		figures = {
@@ -4892,8 +4893,8 @@ def oneai_setup_cards_wait_for_approval_and_stay_within_bounds():
 	was written is not changed again. A report by mail goes as whoever
 	approved it. Omar may suggest no dashboard, show nothing to everybody,
 	and approve no card of an administrator's."""
-	from onedesk.one import ai_setup
 	from onedesk.one_ai import run as runs
+	from onedesk.one_studio import ai_setup
 
 	with as_user(OWNER):
 		card = ai_setup.suggest_group("Night Crew", ["rania@one.test", "tariq@one.test"])
@@ -5949,7 +5950,8 @@ Record Payment changes nothing it has to show, and a head reads a record not yet
 	editor lists what a flow may do."""
 	from frappe.desk.search import get_link_title
 
-	from onedesk.one import automations, customize, head
+	from onedesk.one import head
+	from onedesk.one_studio import automations, customize
 
 	with as_user(OWNER):
 		opened = customize.load("Opportunity")
@@ -6041,10 +6043,11 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 	leads and an approval on purchase orders are suggested and read, not
 	approved, since each adds a column to its table.
 	"""
-	from onedesk.one import ai, printing, privacy_copy
+	from onedesk.one import ai, privacy_copy
 	from onedesk.one_ai import memory, tools
 	from onedesk.one_mail import ai as mail_ai
 	from onedesk.one_mail import holders
+	from onedesk.one_studio import printing
 
 	with as_user("rania@one.test"):
 		for said in (ai.my_day(), mail_ai.my_mailboxes(), memory.recall(), ai.my_notifications(), ai.my_sign_in()):
@@ -6089,7 +6092,7 @@ def oneai_reads_and_sets_up_the_workspace_with_layla():
 		holiday = f"{getdate(today()).year}-12-31"
 		_applied(ai.change_holidays(add=[{"date": holiday, "name": "Year end closure"}]))
 		assert frappe.db.exists("Holiday", {"holiday_date": holiday, "description": ["like", "%Year end closure%"]})
-		series = [one["series"] for one in __import__("onedesk.one.numbering", fromlist=["series"]).series("Quotation")]
+		series = [one["series"] for one in __import__("onedesk.one_studio.numbering", fromlist=["series"]).series("Quotation")]
 		_applied(ai.change_numbering("Quotation", series=[*series, "QTN-SG-.####"]))
 		assert "QTN-SG-.####" in frappe.get_meta("Quotation").get_field("naming_series").options
 		drawn = ai.design_print_format("Sales Invoice", "Sahara Clean", make_default=True)
@@ -6173,9 +6176,9 @@ def oneproject_its_overview_keeps_its_rules_and_tells_its_people():
 	sub-projects and its contract."""
 	from unittest.mock import patch
 
-	from onedesk.one.print_blocks import progress
 	from onedesk.one_ai import proposals
 	from onedesk.one_project import ai, tree, view
+	from onedesk.one_studio.print_blocks import progress
 
 	told = []
 	with as_user("samir@one.test"), patch("onedesk.one.notify.notify", side_effect=lambda name, *args, **kwargs: told.append(name)):
@@ -8705,9 +8708,10 @@ def the_workspace_tells_what_the_second_pass_found():
 	import copy
 	from unittest.mock import patch
 
-	from onedesk.one import approvals, control, tell
+	from onedesk.one import control, tell
 	from onedesk.one.people import told_of_access
 	from onedesk.one_legal import gate
+	from onedesk.one_studio import approvals
 
 	told = []
 

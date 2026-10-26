@@ -28,12 +28,10 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	}
 
 	entity_from_route(route) {
-		if (this.kept(route)) return "workspace-settings";
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
 	}
 
 	link_type_from_route(route) {
-		if (this.kept(route)) return "Page";
 		return route[0] === "print" && route[1] ? "DocType" : super.link_type_from_route(route);
 	}
 
@@ -52,7 +50,7 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 	];
 
 	// A dashboard or a tool's record a rail lists opens in that rail; one no
-	// rail lists opens in One, under Workspace Settings.
+	// rail lists opens in One.
 	kept(route) {
 		if (!OneSidebar.workspace(route)) return false;
 		const entity = super.entity_from_route(route);
@@ -69,7 +67,7 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 
 $(document).on("app_ready", () =>
 	frappe.realtime.on("one_sidebars", async () => {
-		const payload = await frappe.xcall("onedesk.one.reports.sidebars");
+		const payload = await frappe.xcall("onedesk.one_studio.reports.sidebars");
 		frappe.boot.module_sidebars = payload.module_sidebars;
 		frappe.boot.entity_module = payload.entity_module;
 		frappe.boot.canonical_shell = payload.canonical_shell;
