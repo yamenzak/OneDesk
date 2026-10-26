@@ -51,8 +51,14 @@ MODULES = {
 		"folder": "one_legal",
 		"screens": "legal",
 		"names": ("one_legal", "onelegal"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+		},
 		# A module whose screen is a centre other modules open has no window,
 		# so no foot or settings of its own; it says why (docs/READY.md, A
 		# module with no window).
@@ -69,8 +75,14 @@ MODULES = {
 		"folder": "one_ai",
 		"screens": "intake",
 		"names": ("one_ai", "oneai"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-26", "commit": "d375091ca919", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("asking-oneai", "sparkles"),
