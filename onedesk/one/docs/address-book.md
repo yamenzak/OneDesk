@@ -4,15 +4,27 @@
 the workspace deals with: a customer's buyer, a supplier's accountant, a
 site's address. Every app uses the same ones.
 
+The Address Book is one page with two tabs, **Contacts** and **Addresses**.
+Search either, and click one to see it beside the list:
+
+- A contact shows their email and phones, who they belong to (a customer, a
+  supplier or another record), and **Their Addresses**: the addresses of
+  those same records.
+- An address shows the address in full, who it belongs to, and **People
+  There**: the contacts of those same records.
+
+Click an address or a person to go to it. **Edit** opens it in full to
+change it.
+
 **Adding a contact**
 
-1. Open **Contacts** and click **Add Contact**.
+1. Open **Contacts** and click **New Contact**.
 2. Enter their name, email and phone, and save. **Edit Full Form** shows
    every field.
 3. Under **Links**, add the customer, supplier or other record they belong
    to. The contact then shows on that record.
 
-**Addresses** work the same way, with **Add Address**: a title, the type,
+**Addresses** work the same way, with **New Address**: a title, the type,
 the lines, city and country, and under **Links** whose address it is.
 **Preferred Billing Address** and **Preferred Shipping Address** mark the
 one new documents use first.

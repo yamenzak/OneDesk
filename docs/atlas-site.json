@@ -3418,6 +3418,12 @@
 "Writer Document Version"
 ],
 "pages": {
+"address-book": [
+"Desk User"
+],
+"announcements": [
+"Desk User"
+],
 "backups": [
 "System Manager"
 ],
@@ -3434,6 +3440,9 @@
 "System Manager"
 ],
 "dashboard-view": [],
+"dashboards": [
+"Desk User"
+],
 "desktop": [
 "All"
 ],
@@ -3474,6 +3483,9 @@
 "Stock User"
 ],
 "my-tasks": [
+"Desk User"
+],
+"one": [
 "Desk User"
 ],
 "onecalendar": [
@@ -3539,6 +3551,9 @@
 "Purchase User",
 "Stock Manager",
 "Stock User"
+],
+"recycle-bin": [
+"Desk User"
 ],
 "sales-funnel": [
 "Sales Manager"

@@ -33,6 +33,7 @@ NOT_FOR_AI = {
 	"access_center.give": "What a person may do on one record is decided by whoever may share it, never OneAI.",
 	"access_center.save": "A role's access is saved by the administrator changing it, never by OneAI.",
 	"announcements.hide": "Folding the announcements is the reader's own choice on their bar.",
+	"announcements.stop": "Stopping an announcement takes it off everybody's top bar at once, so the administrator does it from the page.",
 	"announcements.show": "Opening the folded announcements is the reader's own choice on their bar.",
 	"control.save": "The workspace's own settings are saved by the administrator changing them, and OneAI suggests a letter head as a card instead.",
 	"notification_center.choose": "How a person hears of something is theirs to choose, never OneAI's.",
@@ -511,12 +512,42 @@ def page(said: dict) -> str | None:
 			"add seats, storage, database or credits from Add; how is in OneAccount's Help under Plan and "
 			"Credits (how_to)."
 		)
-	if said.get("workspace") == "One":
+	if said.get("page") == "one":
 		return (
 			"The reader is on One's Home: today's numbers for them (tasks due or late, meetings today, documents "
 			"waiting in Documents, OneAI suggestions waiting for their approval, leave and expense claims waiting "
-			"on them as approver), each opening its list, and for an administrator what in the workspace needs "
-			"them. my_day reads it all, with the first tasks. How is in One's documentation under Home (how_to)."
+			"on them as approver), each opening its list, then their first tasks due or late, what is on their "
+			"calendar today and what waits for their approval, and for an administrator what in the workspace "
+			"needs them. my_day reads it all. How is in One's Help under Home (how_to)."
+		)
+	if said.get("page") == "announcements":
+		return (
+			"The reader is on Announcements: what the office has said to everybody, each in full with who posted "
+			"it and when, under Showing Now while it runs along the top bar and Earlier once it has stopped. An "
+			"administrator also sees who has seen each, posts a new one with New Announcement, and changes or "
+			"stops one. How is in One's Help under Announcements (how_to)."
+		)
+	if said.get("page") == "address-book":
+		return (
+			"The reader is in the Address Book: the workspace's contacts, or its addresses, the ones they may "
+			"read, and beside the one chosen its email and phones or the address in full, the records it belongs "
+			"to (customers, suppliers, employees and others), and a person's addresses or a place's people. Each "
+			"is edited in its own form from Edit. How is in One's Help under Address Book (how_to)."
+		)
+	if said.get("page") == "dashboards":
+		return (
+			"The reader is on Dashboards: every dashboard they may read, under the app it is about, and the ones "
+			"made in this workspace under Made Here, each opening the dashboard itself. An administrator makes "
+			"one with New Dashboard and shows it in an app's rail from its Show In. How is in One's Help under "
+			"Records, Reports and Dashboards (how_to)."
+		)
+	if said.get("page") == "recycle-bin":
+		return (
+			"The reader is in the Recycle Bin: what they deleted, newest first by day, and, if they hold "
+			"Everyone's Deletions, what anybody deleted of the kinds they may read. Put Back brings one back as "
+			"it was, or every row they ticked; Put Back lists what came back, each opening the record. Nothing "
+			"here is changed by OneAI: putting back is the reader's to do. How is in One's Help under Recycle "
+			"Bin (how_to)."
 		)
 	if said.get("page") == "onehr" and said.get("section") == "holidays":
 		return (

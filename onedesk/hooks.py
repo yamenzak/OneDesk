@@ -719,7 +719,6 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party"]
 
 has_permission = {
-	"Number Card": "onedesk.one.home.card_shown",
 	"Clock Device": "onedesk.one_hr.passkey.has_permission",
 	"Deleted Document": "onedesk.one.recycle.has_permission",
 	"Version": "onedesk.one.audit.has_permission",
@@ -789,7 +788,7 @@ fixtures = [
 	{"dt": "Opportunity Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
-	{"dt": "Custom HTML Block", "filters": [["name", "in", ["One Needs You", "OneAdmin Needs You"]]]},
+	{"dt": "Custom HTML Block", "filters": [["name", "in", ["OneAdmin Needs You"]]]},
 ]
 
 
@@ -848,7 +847,6 @@ doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "publ
 doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
 doctype_list_js = {
-	"Deleted Document": "public/js/deleted_document_list.js",
 	"Project Template": "public/js/project_template_list.js",
 	"Timesheet": "public/js/timesheet_list.js",
 	"Version": "public/js/audit_list.js",

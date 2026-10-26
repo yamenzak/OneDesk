@@ -251,6 +251,7 @@ export const clock = (value) =>
 
 export const shortMonth = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "short" }) : "");
 export const today = () => frappe().datetime.get_today();
+export const yesterday = () => frappe().datetime.add_days(frappe().datetime.get_today(), -1);
 
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
 
@@ -276,6 +277,9 @@ export function setQuery(key, value) {
 	if (value) url.searchParams.set(key, value);
 	else url.searchParams.delete(key);
 	window.history.replaceState(window.history.state, "", url);
+	// A rail row may name the question (the Address Book's Addresses), so the
+	// rail lights its row again for the new address.
+	frappe().app?.sidebar?.highlight_active_item?.();
 	const oneai = window.onedesk && window.onedesk.oneai;
 	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
 }

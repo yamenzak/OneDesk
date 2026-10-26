@@ -123,6 +123,11 @@ that exists.
 | `portal/src/pages/YourData.vue` | Google Account's Data & privacy: download, or delete |
 | `src/check/CheckList.vue` | Shopify's setup guide and Stripe's account checklist: how much is ready, then what is still to do, what is suggested and what is ready, each with what it means and its Fix |
 | `src/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
+| `src/one/Home.vue` | Microsoft 365's Home and Notion's Home: how much waits for the reader in each app, then the first few of each (tasks due, today's calendar, approvals), and for an administrator what in the workspace needs them first |
+| `src/one/AddressBook.vue` | macOS Contacts and Outlook People: the list beside the one chosen, a person's email and phones, who they belong to and their addresses, and a place's people |
+| `src/one/Announcements.vue` | Slack's channel announcements and Microsoft Teams' news posts: each in full with who posted it and when, what is showing now apart from what was said before, and for whoever posts them who has seen each |
+| `src/one/Dashboards.vue` | Power BI's and Looker's dashboard lists: every dashboard the reader may read as a card, under the app it is about, found by typing, each opening the dashboard itself |
+| `src/one/RecycleBin.vue` | The Recycle Bin in Windows and Google Drive's Bin: what was deleted, newest first by day, searched and narrowed by kind, put back one at a time or many ticked, and what was put back beside it |
 | `src/home/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
 | `src/home/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
 | `src/home/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |

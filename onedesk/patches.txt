@@ -86,3 +86,4 @@ onedesk.one_mail.patches.rule_replies_are_sent
 onedesk.one_mail.patches.notifications_send_from_one
 onedesk.one_admin.patches.no_model_catalogue
 onedesk.one_ai.patches.jobs_in_code
+onedesk.one.patches.home_is_a_page

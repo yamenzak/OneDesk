@@ -1,8 +1,9 @@
 """One's Home: what is waiting for the reader today, and for administrators,
 what in the workspace needs them.
 
-Every number on it is a frappe Number Card counted here for whoever is
-reading, asked when Home is drawn and never kept.
+Every number on it is counted here for whoever is reading, when Home is
+drawn, and never kept. The page is the island `onedesk.one_home`
+(frontend/src/one/Home.vue) on the page `one`.
 """
 
 import frappe
@@ -11,97 +12,131 @@ from frappe.utils import add_days, date_diff, flt, getdate, today
 
 from onedesk.one import roles
 
-
-def _card(value: int, route: list, route_options: dict | None = None) -> dict:
-	return {
-		"value": int(value or 0),
-		"fieldtype": "Int",
-		"route": route,
-		"route_options": route_options or {},
-	}
+LISTED = 5
 
 
-NEEDS = {"Documents Waiting": "Reading", "OneAI Suggestions": "OneAI"}
-
-
-def card_shown(doc, ptype=None, user=None, debug=False) -> bool:
-	"""Number Card has_permission: Home's reading and OneAI numbers leave
-	it while the workspace has those turned off (one/apps.py)."""
-	from onedesk.one import apps
-
-	needs = NEEDS.get(doc.name)
-	return not needs or needs not in apps.hidden()
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def tasks_due(filters=None) -> dict:
-	"""Tasks given to the reader that are due today or late (OneTask's My Tasks)."""
+def _tasks() -> list:
 	from onedesk.one_task import mine
 
-	groups = {one["key"]: len(one["tasks"]) for one in mine.tasks()}
-	return _card(groups.get("overdue", 0) + groups.get("today", 0), ["my-tasks"])
+	return [one for group in mine.tasks() if group["key"] in ("overdue", "today") for one in group["tasks"]]
 
 
-@frappe.whitelist()
-@frappe.read_only()
-def meetings_today(filters=None) -> dict:
-	"""What is on the reader's own calendar today (OneCalendar)."""
+def tasks_due() -> int:
+	"""Tasks given to the reader that are due today or late (OneTask's My Tasks)."""
+	return len(_tasks())
+
+
+def _meetings() -> list[dict]:
 	from onedesk.one_calendar import events
 
 	day = getdate(today())
-	return _card(len(events.mine(day, day)), ["onecalendar"])
+	return sorted(events.mine(day, day), key=lambda one: (not one["all_day"], one["start"]))
 
 
-@frappe.whitelist()
-@frappe.read_only()
-def intake_waiting(filters=None) -> dict:
+def meetings_today() -> int:
+	"""What is on the reader's own calendar today (OneCalendar)."""
+	return len(_meetings())
+
+
+def intake_waiting() -> int:
 	"""Documents OneAI read that wait for the reader."""
 	from onedesk.one_ai.reading import inbox
 
-	return _card(inbox.counts()["waiting"], ["intake"], {"box": "waiting"})
+	return inbox.counts()["waiting"]
 
 
-@frappe.whitelist()
-@frappe.read_only()
-def suggestions_waiting(filters=None) -> dict:
+def suggestions_waiting() -> int:
 	"""OneAI's cards the reader has not yet approved or refused."""
-	count = frappe.db.count("AI Proposal", {"asked_by": frappe.session.user, "state": "Proposed"})
-	return _card(count, ["List", "AI Proposal"], {"asked_by": frappe.session.user, "state": "Proposed"})
+	return frappe.db.count("AI Proposal", {"asked_by": frappe.session.user, "state": "Proposed"})
 
 
 APPROVALS = (
-	("Leave Application", lambda user: {"leave_approver": user, "status": "Open", "docstatus": 0}),
-	("Expense Claim", lambda user: {"expense_approver": user, "approval_status": "Draft", "docstatus": 0}),
-	("Workflow Action", lambda user: {"status": "Open"}),
+	(
+		"Leave Application",
+		lambda user: {"leave_approver": user, "status": "Open", "docstatus": 0},
+		"employee_name",
+	),
+	(
+		"Expense Claim",
+		lambda user: {"expense_approver": user, "approval_status": "Draft", "docstatus": 0},
+		"employee_name",
+	),
+	("Workflow Action", lambda user: {"status": "Open"}, "reference_name"),
 )
 
 
-@frappe.whitelist()
-@frappe.read_only()
-def approvals_waiting(filters=None) -> dict:
+def _approvals() -> list[dict]:
 	"""Leave and expense claims waiting on the reader as their approver, and
-	approval steps their roles take. A click opens the list with the most."""
+	approval steps their roles take, oldest first."""
 	user = frappe.session.user
-	counted = []
-	for doctype, wanted in APPROVALS:
+	found = []
+	for doctype, wanted, title in APPROVALS:
 		if not frappe.db.exists("DocType", doctype) or not frappe.has_permission(doctype, "read"):
 			continue
-		counted.append(
-			(
-				len(frappe.get_list(doctype, filters=wanted(user), pluck="name", limit=500)),
-				doctype,
-				wanted(user),
+		for one in frappe.get_list(
+			doctype, filters=wanted(user), fields=["name", "creation", f"{title} as title"], limit=500
+		):
+			found.append(
+				{"doctype": doctype, "name": one.name, "title": one.title or one.name, "since": one.creation}
 			)
-		)
-	if not counted:
-		return _card(0, ["List", "Leave Application"])
-	most = max(counted, key=lambda one: one[0])
-	return _card(sum(one[0] for one in counted), ["List", most[1]], most[2])
+	return sorted(found, key=lambda one: one["since"])
 
 
-@frappe.whitelist()
+def approvals_waiting() -> int:
+	return len(_approvals())
+
+
+@frappe.whitelist(methods=["GET"])
 @frappe.read_only()
+def read() -> dict:
+	"""Home, for whoever is reading: how much waits for them in each app they
+	have, the first few of each, and for an administrator what in the
+	workspace needs them. An app the workspace turned off is left out."""
+	from onedesk.one import apps
+
+	off = set(apps.hidden())
+	tasks = _tasks()
+	meetings = _meetings()
+	approvals = _approvals()
+	counts = {
+		"tasks": None if "OneTask" in off else len(tasks),
+		"meetings": None if "OneCalendar" in off else len(meetings),
+		"documents": intake_waiting() if apps.intake_on() else None,
+		"suggestions": suggestions_waiting() if apps.ai_on() else None,
+		"approvals": len(approvals),
+	}
+	return {
+		"counts": {key: value for key, value in counts.items() if value is not None},
+		"tasks": [
+			{
+				"name": one.name,
+				"subject": one.subject,
+				"due": str(one.due) if one.due else None,
+				"project": one.project_title,
+			}
+			for one in tasks[:LISTED]
+		]
+		if counts["tasks"] is not None
+		else [],
+		"meetings": [
+			{
+				"doctype": one["doctype"],
+				"name": one["name"],
+				"title": one["title"],
+				"start": str(one["start"]),
+				"end": str(one["end"]) if one["end"] else None,
+				"all_day": one["all_day"],
+			}
+			for one in meetings[:LISTED]
+		]
+		if counts["meetings"] is not None
+		else [],
+		"approvals": [{**one, "since": str(one["since"])} for one in approvals[:LISTED]],
+		"needs": attention(),
+		"administers": roles.administers(),
+	}
+
+
 def attention() -> list[dict]:
 	"""What in the workspace needs an administrator now, each with where to
 	fix it. Empty for anybody else, and when nothing does. Read from what the
@@ -212,20 +247,17 @@ def _holidays() -> list[dict]:
 def my_day() -> dict:
 	"""Everything Home counts for the reader, and for an administrator what
 	needs them, with the first few of each where they are listed."""
-	from onedesk.one_task import mine
-
+	tasks = _tasks()
 	late = [
 		{"task": one.subject, "due": str(one.due) if one.due else None, "project": one.project_title}
-		for group in mine.tasks()
-		if group["key"] in ("overdue", "today")
-		for one in group["tasks"][:5]
+		for one in tasks[:LISTED]
 	]
 	return {
-		"tasks_due_or_late": tasks_due()["value"],
+		"tasks_due_or_late": len(tasks),
 		"first_tasks": late,
-		"meetings_today": meetings_today()["value"],
-		"documents_waiting_in_oneintake": intake_waiting()["value"],
-		"oneai_suggestions_waiting": suggestions_waiting()["value"],
-		"approvals_waiting": approvals_waiting()["value"],
+		"meetings_today": meetings_today(),
+		"documents_waiting_in_oneai": intake_waiting(),
+		"oneai_suggestions_waiting": suggestions_waiting(),
+		"approvals_waiting": approvals_waiting(),
 		"workspace_needs_you": [{"what": one["what"], "detail": one["detail"]} for one in attention()],
 	}

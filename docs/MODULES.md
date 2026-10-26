@@ -203,7 +203,7 @@ No doctypes yet.
 
 * **dock** — onedesk
 * **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
-* **workspace** — one, one_admin, onehr_setup
+* **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods
 
@@ -239,9 +239,13 @@ No doctypes yet.
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
 * `onedesk.one.account.wake`
+* `onedesk.one.address_book.one`
+* `onedesk.one.address_book.read`
 * `onedesk.one.announcements.current`
 * `onedesk.one.announcements.hide`
+* `onedesk.one.announcements.read`
 * `onedesk.one.announcements.show`
+* `onedesk.one.announcements.stop`
 * `onedesk.one.apps.read`
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
@@ -249,16 +253,12 @@ No doctypes yet.
 * `onedesk.one.control.load`
 * `onedesk.one.control.save`
 * `onedesk.one.control.sections_of`
+* `onedesk.one.dashboards.read`
 * `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
 * `onedesk.one.head.run`
-* `onedesk.one.home.approvals_waiting`
-* `onedesk.one.home.attention`
-* `onedesk.one.home.intake_waiting`
-* `onedesk.one.home.meetings_today`
-* `onedesk.one.home.suggestions_waiting`
-* `onedesk.one.home.tasks_due`
+* `onedesk.one.home.read`
 * `onedesk.one.lists.kinds`
 * `onedesk.one.notification_center.choose`
 * `onedesk.one.notification_center.set_type`
@@ -319,6 +319,7 @@ No doctypes yet.
 * `onedesk.one.push.test`
 * `onedesk.one.push.worker`
 * `onedesk.one.recycle.bulk_restore`
+* `onedesk.one.recycle.read`
 * `onedesk.one.recycle.restore`
 * `onedesk.one.rules.fields_of`
 * `onedesk.one.rules.watchable`

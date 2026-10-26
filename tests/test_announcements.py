@@ -37,5 +37,5 @@ def test_it_pops_up_for_the_person_not_for_guest():
 
 def test_the_sidebar_reaches_it():
 	sidebar = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
-	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "DocType"}
-	assert links["Note"] == "Announcements"
+	links = {one["link_to"]: one["label"] for one in sidebar["items"] if one.get("link_type") == "Page"}
+	assert links["announcements"] == "Announcements"

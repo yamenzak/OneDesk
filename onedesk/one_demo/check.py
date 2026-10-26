@@ -309,7 +309,7 @@ def every_home_figure_reads_for_its_people():
 	broken = []
 	for user, calls in (
 		("huda@one.test", (books.cash, books.profit_this_month, books.owed_to_us, books.overdue, books.we_owe, books.due_this_week)),
-		*((email, (home.tasks_due, home.meetings_today, home.approvals_waiting, home.attention)) for _f, _l, email, *_r in PEOPLE if email),
+		*((email, (home.read, home.attention)) for _f, _l, email, *_r in PEOPLE if email),
 	):
 		for fn in calls:
 			try:
@@ -4820,16 +4820,14 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 	from onedesk.one_studio import reports
 
 	with as_user("samir@one.test"):
-		figures = {
-			"tasks due": home.tasks_due(),
-			"meetings today": home.meetings_today(),
-			"documents waiting": home.intake_waiting(),
-			"suggestions waiting": home.suggestions_waiting(),
-			"approvals waiting": home.approvals_waiting(),
-		}
-		assert all("value" in said for said in figures.values()), figures
+		said = home.read()
+		assert set(said["counts"]) <= {"tasks", "meetings", "documents", "suggestions", "approvals"}, said["counts"]
+		assert all(isinstance(value, int) for value in said["counts"].values()), said["counts"]
+		assert said["counts"].get("tasks", 0) >= len(said["tasks"]), said
+		assert not said["needs"] and not said["administers"], "Samir is told what the workspace needs"
 	with as_user(OWNER):
 		assert isinstance(home.attention(), list)
+		assert home.read()["administers"]
 		saved = frappe.get_doc({"doctype": "Report", "report_name": "Open Deals Gulf", "ref_doctype": "Opportunity", "report_type": "Report Builder", "is_standard": "No", "json": "{}"}).insert()
 		crm = next(one["module"] for one in reports.where("Report", saved.name)["places"] if one["label"] == "OneCRM")
 		reports.place("Report", saved.name, crm, 1)

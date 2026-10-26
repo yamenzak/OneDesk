@@ -137,6 +137,15 @@ onedesk.outside.instead = (sub_path) => {
 			return name ? null : ["onecloud"];
 		case "todo":
 			return name ? null : ["my-tasks"];
+		// One's own screens for these lists; each record keeps its form.
+		case "contact":
+			return name ? null : ["address-book"];
+		case "address":
+			return name ? null : ["address-book", { view: "addresses" }];
+		case "deleted-document":
+			return name ? null : ["recycle-bin"];
+		case "dashboard":
+			return name ? null : ["dashboards"];
 		case "print-settings":
 			return ["one", { center: "settings", module: "OneStudio", at: "printing" }];
 		case "print-format":

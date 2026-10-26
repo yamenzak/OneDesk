@@ -56,7 +56,8 @@ def test_frappes_furniture_editors_are_not_offered():
 
 def test_frappes_screens_open_ones_own():
 	"""A list or form One has its own screen for opens that screen, replacing
-	the history entry, and an address belongs to OneCRM beside its contact."""
+	the history entry, and the rail's Addresses is the Address Book's other
+	view, beside its Contacts."""
 	js = (tree.APP / "public" / "js" / "outside.js").read_text()
 	for route in (
 		'["one", { center: "account", at: "profile" }]',
@@ -64,13 +65,16 @@ def test_frappes_screens_open_ones_own():
 		'["onecloud"]',
 		'["my-tasks"]',
 		'["one", { center: "settings", module: "OneStudio", at: "printing" }]',
+		'["address-book", { view: "addresses" }]',
+		'["recycle-bin"]',
+		'["dashboards"]',
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
 	assert "onedesk.notification_center.open();" in js
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
-	links = [item.get("link_to") for item in one["items"]]
-	assert links.index("Address") == links.index("Contact") + 1
+	rows = [item.get("link_to") or item.get("url") for item in one["items"]]
+	assert rows.index("/desk/address-book?view=addresses") == rows.index("address-book") + 1
 
 
 def test_help_mail_and_search_are_ones():

@@ -45,5 +45,5 @@
     "typescript": "^5.9.3",
     "vite": "^8.1.5"
   },
-  "description": "OneDesk's frappe-ui islands (src/) and the portal app (portal/). See docs/ISLANDS.md and onedesk/one/README.md."
+  "description": "OneDesk's frappe-ui islands (src/) and the portal app (portal/). See docs/ISLANDS.md and onedesk/one/AGENTS.md."
 }

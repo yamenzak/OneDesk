@@ -38,7 +38,7 @@ def test_an_island_draws_figures_through_the_kit():
 		source = path.read_text(encoding="utf-8")
 		where = path.relative_to(SRC)
 		if "NumberCard" in source:
-			assert where.parts[0] in ("kit", "home"), (
+			assert where.parts[0] in ("kit", "home") or where.name == "Home.vue", (
 				f"{where} draws a figure of its own; use the kit's Figures"
 			)
 		assert not re.search(r"<Figures[^>]*\bboxed\b", source), f"{where} asks for an unframed figure"

@@ -95,7 +95,6 @@ ANSWERS = {
 	("DocType", "Print Style"): (REPLACED, "One's print formats, which carry their own look"),
 	("Page", "print-format-builder"): (INSIDE, "OneStudio's ControlCenter › Printing"),
 	("Page", "print"): (INSIDE, "every record's Print"),
-	("Page", "dashboard-view"): (INSIDE, "One › Dashboards"),
 	("DocType", "Dashboard Settings"): (ENGINE, "a person's own dashboard charts, kept from the dashboard"),
 	("DocType", "ToDo"): (REPLACED, "OneTask"),
 	("Report", "ToDo"): (REPLACED, "OneTask"),

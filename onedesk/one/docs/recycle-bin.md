@@ -6,11 +6,16 @@ restore it as it was, with its original name if that's still free.
 - Everyone sees what they deleted themselves.
 - Administrators, and anybody whose role holds **Everyone's Deletions**, also
   see what other people or OneAI deleted, for record types they can read. System cleanups aren't listed.
-- **Restore** on a deleted record, or **Actions › Restore** on several
-  selected in the list, restores it. You need permission to create that record
-  type. A cancelled record comes back as a draft.
+- **Deleted** lists what is waiting, newest first, a day at a time. Search
+  by its name, or narrow the list to one kind of record.
+- **Put Back** on a row restores it. Tick several and click **Put Back** at
+  the top to restore them together. You need permission to create that
+  record type. A cancelled record comes back as a draft.
+- The **Put Back** tab lists what was restored, each opening the record.
+- Whoever sees other people's deletions switches between **Yours** and
+  **Everyone's**. Click a row to see everything the deleted record held.
 - Only an administrator can delete permanently, with **Delete** on a deleted
-  record. Until then the record is still stored. For personal data, deleting
+  record you opened from the bin. Until then the record is still stored. For personal data, deleting
   it for good means deleting it from the bin too.
 
 A deleted custom field or custom collection is in the bin too, for

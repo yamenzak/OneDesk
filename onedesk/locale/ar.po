@@ -414,11 +414,6 @@ msgstr "<b>عندما</b> {when}<br><b>عندها</b> {then}<br>تعمل بعد 
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr "<span class=\"h4\"><b>الآن</b></span>"
 
-#. Header text in the One Workspace
-#: onedesk/one/workspace/one/one.json
-msgid "<span class=\"h4\"><b>Today</b></span>"
-msgstr "<span class=\"h4\"><b>اليوم</b></span>"
-
 #: onedesk/one_studio/places.py
 msgid "A document is opened in Documents."
 msgstr "يُفتح مستند في المستندات."
@@ -54122,10 +54117,6 @@ msgstr "{0} تكاليف، {1}"
 msgid "{0} could not be registered; each says why on its page."
 msgstr "تعذّر تسجيل {0}؛ كلٌّ منها يذكر السبب في صفحته."
 
-#: onedesk/public/js/deleted_document_list.js:23
-msgid "{0} couldn't be restored."
-msgstr "تعذّرت استعادة {0}."
-
 #: onedesk/one/head.py:167
 msgid "{0} counts nothing."
 msgstr "{0} لا يعدّ شيئًا."
@@ -55653,10 +55644,6 @@ msgstr "{0} طلبات"
 msgid "{0} reset"
 msgstr "أُعيد تعيين {0}"
 
-#: onedesk/public/js/deleted_document_list.js:21
-msgid "{0} restored."
-msgstr "تمت استعادة {0}."
-
 #: frontend/src/project/Overview.vue:192
 msgid "{0} retention"
 msgstr "{0} محتجزات"
@@ -55916,10 +55903,6 @@ msgstr "أخذ شخص آخر {0} بعد التخلي عن هذا التسجيل.
 #: onedesk/one_intake/understand.py:376
 msgid "{0} weeks"
 msgstr "{0} أسابيع"
-
-#: onedesk/public/js/deleted_document_list.js:22
-msgid "{0} were already restored."
-msgstr "{0} مستعادة مسبقًا."
 
 #: onedesk/one/privacy_public.py:89
 msgid "{0} will answer by email within a month."
@@ -57536,3 +57519,223 @@ msgstr "محذوفات الجميع"
 
 msgid "See and put back what anybody deleted, of the kinds of record they may read."
 msgstr "رؤية ما حذفه أي شخص واستعادته، من أنواع السجلات التي يمكنه قراءتها."
+
+msgid "1 chart"
+msgstr "مخطط واحد"
+
+msgid "1 could not be put back. Open it to see why."
+msgstr "تعذّرت إعادة عنصر واحد. افتحه لترى السبب."
+
+msgid "1 number"
+msgstr "رقم واحد"
+
+msgid "1 put back."
+msgstr "أُعيد عنصر واحد."
+
+msgid "An Announcement"
+msgstr "إعلان"
+
+msgid "By App"
+msgstr "حسب التطبيق"
+
+msgid "Choose a contact to see their details and their addresses."
+msgstr "اختر جهة اتصال لترى بياناتها وعناوينها."
+
+msgid "Choose an address to see it in full and who is there."
+msgstr "اختر عنوانًا لتراه كاملًا ومن فيه."
+
+msgid "Contacts and Addresses"
+msgstr "جهات الاتصال والعناوين"
+
+msgid "Deleted and Put Back"
+msgstr "المحذوفة والمُعادة"
+
+msgid "Each one in full, with who posted it and until when it shows."
+msgstr "كل إعلان كاملًا، مع من نشره وحتى متى يظهر."
+
+msgid "Every Kind"
+msgstr "كل الأنواع"
+
+msgid "Find It"
+msgstr "ابحث عنه"
+
+msgid "Find a Dashboard"
+msgstr "ابحث عن لوحة معلومات"
+
+msgid "New Announcement"
+msgstr "إعلان جديد"
+
+msgid "New Contact"
+msgstr "جهة اتصال جديدة"
+
+msgid "New Dashboard"
+msgstr "لوحة معلومات جديدة"
+
+msgid "No addresses yet."
+msgstr "لا عناوين بعد."
+
+msgid "No contacts yet."
+msgstr "لا جهات اتصال بعد."
+
+msgid "No email or phone yet."
+msgstr "لا بريد إلكتروني ولا هاتف بعد."
+
+msgid "Nobody has seen it yet"
+msgstr "لم يره أحد بعد"
+
+msgid "Nobody linked to it has a contact yet."
+msgstr "لا جهة اتصال بعد لأيٍّ ممن يرتبطون به."
+
+msgid "Nobody yet. Add who it belongs to in Edit."
+msgstr "لا أحد بعد. أضف لمن يخص من تعديل."
+
+msgid "None of the records they belong to has an address yet."
+msgstr "لا عنوان بعد لأيٍّ من السجلات التي يخصها."
+
+msgid "Nothing has been deleted."
+msgstr "لم يُحذف شيء."
+
+msgid "Nothing has been put back."
+msgstr "لم يُعَد شيء."
+
+msgid "Nothing is being announced."
+msgstr "لا إعلانات الآن."
+
+msgid "Nothing is due today."
+msgstr "لا شيء مستحق اليوم."
+
+msgid "Nothing is on your calendar today."
+msgstr "لا شيء في تقويمك اليوم."
+
+msgid "Nothing was announced before."
+msgstr "لم يُعلَن شيء من قبل."
+
+msgid "Now and Earlier"
+msgstr "الآن وسابقًا"
+
+msgid "Only an administrator stops an announcement."
+msgstr "لا يوقف الإعلان إلا المسؤول."
+
+msgid "Other Email"
+msgstr "بريد إلكتروني آخر"
+
+msgid "People There"
+msgstr "الأشخاص هناك"
+
+msgid "Put Back"
+msgstr "إعادة"
+
+msgid "Put Back 1"
+msgstr "إعادة عنصر واحد"
+
+msgid "Put Back {0}"
+msgstr "إعادة {0}"
+
+msgid "Put It Back"
+msgstr "أعده"
+
+msgid "Put back {0}"
+msgstr "أُعيد {0}"
+
+msgid "Reach"
+msgstr "التواصل"
+
+msgid "Search by its name, or narrow the list to one kind of record."
+msgstr "ابحث باسمه، أو اقصر القائمة على نوع واحد من السجلات."
+
+msgid "Seen by {0} of {1}"
+msgstr "رآه {0} من {1}"
+
+msgid "Showing Now"
+msgstr "يظهر الآن"
+
+msgid "Showing until {0}"
+msgstr "يظهر حتى {0}"
+
+msgid "Stop Showing"
+msgstr "إيقاف العرض"
+
+msgid "Stop showing {0}? It stays here under Earlier."
+msgstr "إيقاف عرض {0}؟ سيبقى هنا تحت سابقًا."
+
+msgid "Stopped {0}"
+msgstr "توقف {0}"
+
+msgid "Switch between people and places, and search either."
+msgstr "بدّل بين الأشخاص والأماكن، وابحث في أيٍّ منهما."
+
+msgid "That cannot be shown."
+msgstr "لا يمكن عرض ذلك."
+
+msgid "The One You Chose"
+msgstr "ما اخترته"
+
+msgid "The Workspace Needs You"
+msgstr "مساحة العمل تحتاجك"
+
+msgid "Their Addresses"
+msgstr "عناوينهم"
+
+msgid "There are no dashboards you can read."
+msgstr "لا لوحات معلومات يمكنك قراءتها."
+
+msgid "Things only an administrator can put right, such as a mailbox that stopped connecting."
+msgstr "أمور لا يصلحها إلا المسؤول، مثل صندوق بريد توقف عن الاتصال."
+
+msgid "Type part of its name or its app's."
+msgstr "اكتب جزءًا من اسمها أو اسم تطبيقها."
+
+msgid "Waiting for Your Approval"
+msgstr "بانتظار موافقتك"
+
+msgid "What Waits for You"
+msgstr "ما ينتظرك"
+
+msgid "What the Workspace Needs"
+msgstr "ما تحتاجه مساحة العمل"
+
+msgid "Your Tasks"
+msgstr "مهامك"
+
+msgid "{0} charts"
+msgstr "{0} مخططات"
+
+msgid "{0} could not be put back. Open each to see why."
+msgstr "تعذّرت إعادة {0}. افتح كلًّا منها لترى السبب."
+
+msgid "{0} numbers"
+msgstr "{0} أرقام"
+
+msgid "{0} put back."
+msgstr "أُعيد {0}."
+
+msgid "{0} were back already."
+msgstr "{0} كانت قد أُعيدت من قبل."
+
+msgctxt "Recycle Bin"
+msgid "Deleted"
+msgstr "المحذوفة"
+
+msgid "How much waits for you in each app you use, each number opening its list."
+msgstr "ما ينتظرك في كل تطبيق تستخدمه، وكل رقم يفتح قائمته."
+
+msgid "Your tasks due today or late, with the rest in My Tasks."
+msgstr "مهامك المستحقة اليوم أو المتأخرة، والباقي في مهامي."
+
+msgid "What is on your calendar today, with the whole week in OneCalendar."
+msgstr "ما في تقويمك اليوم، والأسبوع كله في OneCalendar."
+
+msgid "Each dashboard is under the app it is about, and opens with a click."
+msgstr "كل لوحة معلومات تحت التطبيق الذي تخصه، وتُفتح بنقرة."
+
+msgid "Showing Now runs along the top bar, and Earlier keeps what has stopped."
+msgstr "ما يظهر الآن يمرّ على الشريط العلوي، وسابقًا يحفظ ما توقف."
+
+msgid "What was deleted waits here, and Put Back lists what came back."
+msgstr "ما حُذف ينتظر هنا، وتعرض إعادة ما أُعيد."
+
+msgid "Put Back on a row brings it back as it was, or tick several to put them back together."
+msgstr "إعادة في صف تعيده كما كان، أو حدّد عدة صفوف لإعادتها معًا."
+
+msgid "Who it belongs to, and a person's addresses or a place's people, with Edit to change it."
+msgstr "لمن يخص، وعناوين الشخص أو الأشخاص في المكان، وتعديل لتغييره."

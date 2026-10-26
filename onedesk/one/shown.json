@@ -14,7 +14,6 @@
   "Activity Log",
   "Activity Type",
   "Additional Salary",
-  "Address",
   "Appointment",
   "Appointment Booking Settings",
   "Appointment Letter",
@@ -81,7 +80,6 @@
   "Customer",
   "Customer Group",
   "Customize Form",
-  "Dashboard",
   "Deleted Document",
   "Delivery Note",
   "Delivery Settings",
@@ -333,7 +331,6 @@
   "Accounts Receivable Summary",
   "Accrued Earnings Report",
   "Address And Contacts",
-  "Addresses And Contacts",
   "Appraisal Overview",
   "Asset Activity",
   "Asset Depreciation Ledger",
@@ -549,8 +546,12 @@
   "Workload"
  ],
  "Page": [
+  "address-book",
+  "announcements",
   "bom-comparison-tool",
   "books",
+  "dashboard-view",
+  "dashboards",
   "document",
   "floor",
   "intake",
@@ -558,6 +559,7 @@
   "legal",
   "lots",
   "my-tasks",
+  "one",
   "onecalendar",
   "onecloud",
   "onecrm",
@@ -567,6 +569,7 @@
   "plant",
   "production-plan-visualizer",
   "quotes",
+  "recycle-bin",
   "sent-out",
   "stock-on-hand",
   "timers",
@@ -584,7 +587,6 @@
   "Recruitment"
  ],
  "Workspace": [
-  "One",
   "One Admin",
   "OneHR Setup"
  ]

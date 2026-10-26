@@ -40,10 +40,12 @@ such as OneBook for invoices or OneCRM for customers.
 One › **Dashboards** holds pages of charts and number cards, such as invoices
 by month or how many are unpaid.
 
-- Administrators create them with **Add Dashboard**, then add charts and
+- Each dashboard is under the app it is about, and you see the ones of the
+  apps you use. Type in the search box to find one, and click it to open it.
+  Dashboards made in the workspace are under **Made Here**.
+- Administrators create them with **New Dashboard**, then add charts and
   cards.
-- Everyone can open them. Each chart and card shows only to people who can
-  read what it counts.
+- Each chart and card shows only to people who can read what it counts.
 - A chart counts, sums or averages records, groups them, or shows a report.
 - **Show In…** on a dashboard's menu also lists it under Dashboards in an
   app's sidebar, for the administrator only or for everyone who uses the app.

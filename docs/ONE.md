@@ -248,8 +248,25 @@ moves its version.
    one point to a sentence, so the agreements were reworded without
    changing what they say. Roles and abilities now settle on every migrate,
    not only on install.
-8. **One's screens, bespoke.** Home, Address Book, Announcements,
-   Dashboards and Recycle Bin, each designed and drawn on OneInterface.
+8. **One's screens, bespoke.** Built. Each is a Vue island on a page of its
+   own, declared in `tiers.SCREENS`, with a tour (`one/tour.py`). Home is
+   the page `one`, so `/desk/one` and every `?center=` link still work; it
+   counts what waits for the reader in each app they have, lists the first
+   tasks due, today's calendar and the approvals waiting, and for an
+   administrator what the workspace needs (`home.read`). The `One`
+   workspace, its five number cards and its block are gone
+   (`patches/home_is_a_page.py`). Dashboards lists frappe's dashboards
+   under the app each is about, for whoever works in it
+   (`one/dashboards.py`), and an administrator makes one with New
+   Dashboard. Announcements shows each in full, Showing Now and Earlier, and
+   for an administrator who has seen each and Stop Showing. The Recycle Bin
+   lists deletions by day, searched and narrowed by kind, put back one at a
+   time or many ticked, with Yours and Everyone's for whoever holds
+   Everyone's Deletions. The Address Book is contacts and addresses as one
+   screen, a person's places and a place's people found through the records
+   both belong to (`one/address_book.py`); the rail's Contacts and Addresses
+   open its two views. Changed from the plan: Dashboards keeps New
+   Dashboard, since OneStudio has no place to make one yet.
 9. **READY for One and AccountCenter.** The fourteen points, the hand
    looks, and both marked ready at 1.0.0.
 

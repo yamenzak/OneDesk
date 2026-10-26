@@ -414,11 +414,6 @@ msgstr "<b>Wenn</b> {when}<br><b>Dann</b> {then}<br>Sie läuft, sobald Sie sie i
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
 
-#. Header text in the One Workspace
-#: onedesk/one/workspace/one/one.json
-msgid "<span class=\"h4\"><b>Today</b></span>"
-msgstr "<span class=\"h4\"><b>Heute</b></span>"
-
 #: onedesk/one_studio/places.py
 msgid "A document is opened in Documents."
 msgstr "Ein Dokument wird in Dokumente geöffnet."
@@ -54122,10 +54117,6 @@ msgstr "{0} Kostenposten, {1}"
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
 
-#: onedesk/public/js/deleted_document_list.js:23
-msgid "{0} couldn't be restored."
-msgstr "{0} konnten nicht wiederhergestellt werden."
-
 #: onedesk/one/head.py:167
 msgid "{0} counts nothing."
 msgstr "{0} zählt nichts."
@@ -55653,10 +55644,6 @@ msgstr "{0} Anfragen"
 msgid "{0} reset"
 msgstr "{0} zurückgesetzt"
 
-#: onedesk/public/js/deleted_document_list.js:21
-msgid "{0} restored."
-msgstr "{0} wiederhergestellt."
-
 #: frontend/src/project/Overview.vue:192
 msgid "{0} retention"
 msgstr "{0} Einbehalt"
@@ -55916,10 +55903,6 @@ msgstr "{0} wurde von jemand anderem belegt, nachdem diese Anmeldung abgebrochen
 #: onedesk/one_intake/understand.py:376
 msgid "{0} weeks"
 msgstr "{0} Wochen"
-
-#: onedesk/public/js/deleted_document_list.js:22
-msgid "{0} were already restored."
-msgstr "{0} waren bereits wiederhergestellt."
 
 #: onedesk/one/privacy_public.py:89
 msgid "{0} will answer by email within a month."
@@ -57536,3 +57519,223 @@ msgstr "Gelöschtes aller"
 
 msgid "See and put back what anybody deleted, of the kinds of record they may read."
 msgstr "Sehen und wiederherstellen, was jemand gelöscht hat, bei den Datensatzarten, die man lesen darf."
+
+msgid "1 chart"
+msgstr "1 Diagramm"
+
+msgid "1 could not be put back. Open it to see why."
+msgstr "1 konnte nicht zurückgelegt werden. Öffnen Sie es, um den Grund zu sehen."
+
+msgid "1 number"
+msgstr "1 Kennzahl"
+
+msgid "1 put back."
+msgstr "1 zurückgelegt."
+
+msgid "An Announcement"
+msgstr "Eine Ankündigung"
+
+msgid "By App"
+msgstr "Nach App"
+
+msgid "Choose a contact to see their details and their addresses."
+msgstr "Wählen Sie einen Kontakt, um seine Angaben und Adressen zu sehen."
+
+msgid "Choose an address to see it in full and who is there."
+msgstr "Wählen Sie eine Adresse, um sie vollständig zu sehen und wer dort ist."
+
+msgid "Contacts and Addresses"
+msgstr "Kontakte und Adressen"
+
+msgid "Deleted and Put Back"
+msgstr "Gelöscht und zurückgelegt"
+
+msgid "Each one in full, with who posted it and until when it shows."
+msgstr "Jede vollständig, mit wer sie veröffentlicht hat und bis wann sie angezeigt wird."
+
+msgid "Every Kind"
+msgstr "Alle Arten"
+
+msgid "Find It"
+msgstr "Finden"
+
+msgid "Find a Dashboard"
+msgstr "Ein Dashboard finden"
+
+msgid "New Announcement"
+msgstr "Neue Ankündigung"
+
+msgid "New Contact"
+msgstr "Neuer Kontakt"
+
+msgid "New Dashboard"
+msgstr "Neues Dashboard"
+
+msgid "No addresses yet."
+msgstr "Noch keine Adressen."
+
+msgid "No contacts yet."
+msgstr "Noch keine Kontakte."
+
+msgid "No email or phone yet."
+msgstr "Noch keine E-Mail und kein Telefon."
+
+msgid "Nobody has seen it yet"
+msgstr "Noch hat es niemand gesehen"
+
+msgid "Nobody linked to it has a contact yet."
+msgstr "Niemand, der damit verknüpft ist, hat bisher einen Kontakt."
+
+msgid "Nobody yet. Add who it belongs to in Edit."
+msgstr "Noch niemand. Fügen Sie unter Bearbeiten hinzu, wem es gehört."
+
+msgid "None of the records they belong to has an address yet."
+msgstr "Keiner der Datensätze, zu denen sie gehören, hat bisher eine Adresse."
+
+msgid "Nothing has been deleted."
+msgstr "Es wurde nichts gelöscht."
+
+msgid "Nothing has been put back."
+msgstr "Es wurde nichts zurückgelegt."
+
+msgid "Nothing is being announced."
+msgstr "Derzeit wird nichts angekündigt."
+
+msgid "Nothing is due today."
+msgstr "Heute ist nichts fällig."
+
+msgid "Nothing is on your calendar today."
+msgstr "Heute steht nichts in Ihrem Kalender."
+
+msgid "Nothing was announced before."
+msgstr "Bisher wurde nichts angekündigt."
+
+msgid "Now and Earlier"
+msgstr "Jetzt und früher"
+
+msgid "Only an administrator stops an announcement."
+msgstr "Nur ein Administrator beendet eine Ankündigung."
+
+msgid "Other Email"
+msgstr "Weitere E-Mail"
+
+msgid "People There"
+msgstr "Personen dort"
+
+msgid "Put Back"
+msgstr "Zurücklegen"
+
+msgid "Put Back 1"
+msgstr "1 zurücklegen"
+
+msgid "Put Back {0}"
+msgstr "{0} zurücklegen"
+
+msgid "Put It Back"
+msgstr "Zurücklegen"
+
+msgid "Put back {0}"
+msgstr "Zurückgelegt {0}"
+
+msgid "Reach"
+msgstr "Erreichbarkeit"
+
+msgid "Search by its name, or narrow the list to one kind of record."
+msgstr "Suchen Sie nach dem Namen oder beschränken Sie die Liste auf eine Art von Datensatz."
+
+msgid "Seen by {0} of {1}"
+msgstr "Gesehen von {0} von {1}"
+
+msgid "Showing Now"
+msgstr "Jetzt angezeigt"
+
+msgid "Showing until {0}"
+msgstr "Angezeigt bis {0}"
+
+msgid "Stop Showing"
+msgstr "Nicht mehr anzeigen"
+
+msgid "Stop showing {0}? It stays here under Earlier."
+msgstr "{0} nicht mehr anzeigen? Es bleibt hier unter Früher."
+
+msgid "Stopped {0}"
+msgstr "Beendet {0}"
+
+msgid "Switch between people and places, and search either."
+msgstr "Wechseln Sie zwischen Personen und Orten und durchsuchen Sie beide."
+
+msgid "That cannot be shown."
+msgstr "Das kann nicht angezeigt werden."
+
+msgid "The One You Chose"
+msgstr "Ihre Auswahl"
+
+msgid "The Workspace Needs You"
+msgstr "Der Workspace braucht Sie"
+
+msgid "Their Addresses"
+msgstr "Ihre Adressen"
+
+msgid "There are no dashboards you can read."
+msgstr "Es gibt keine Dashboards, die Sie lesen können."
+
+msgid "Things only an administrator can put right, such as a mailbox that stopped connecting."
+msgstr "Dinge, die nur ein Administrator beheben kann, etwa ein Postfach, das keine Verbindung mehr hat."
+
+msgid "Type part of its name or its app's."
+msgstr "Geben Sie einen Teil ihres Namens oder des App-Namens ein."
+
+msgid "Waiting for Your Approval"
+msgstr "Wartet auf Ihre Genehmigung"
+
+msgid "What Waits for You"
+msgstr "Was auf Sie wartet"
+
+msgid "What the Workspace Needs"
+msgstr "Was der Workspace braucht"
+
+msgid "Your Tasks"
+msgstr "Ihre Aufgaben"
+
+msgid "{0} charts"
+msgstr "{0} Diagramme"
+
+msgid "{0} could not be put back. Open each to see why."
+msgstr "{0} konnten nicht zurückgelegt werden. Öffnen Sie jedes, um den Grund zu sehen."
+
+msgid "{0} numbers"
+msgstr "{0} Kennzahlen"
+
+msgid "{0} put back."
+msgstr "{0} zurückgelegt."
+
+msgid "{0} were back already."
+msgstr "{0} waren schon zurück."
+
+msgctxt "Recycle Bin"
+msgid "Deleted"
+msgstr "Gelöscht"
+
+msgid "How much waits for you in each app you use, each number opening its list."
+msgstr "Wie viel in jeder App, die Sie nutzen, auf Sie wartet; jede Zahl öffnet ihre Liste."
+
+msgid "Your tasks due today or late, with the rest in My Tasks."
+msgstr "Ihre heute fälligen oder überfälligen Aufgaben, den Rest unter Meine Aufgaben."
+
+msgid "What is on your calendar today, with the whole week in OneCalendar."
+msgstr "Was heute in Ihrem Kalender steht, die ganze Woche in OneCalendar."
+
+msgid "Each dashboard is under the app it is about, and opens with a click."
+msgstr "Jedes Dashboard steht unter der App, um die es geht, und öffnet sich per Klick."
+
+msgid "Showing Now runs along the top bar, and Earlier keeps what has stopped."
+msgstr "Jetzt angezeigt läuft in der oberen Leiste, und Früher bewahrt, was beendet ist."
+
+msgid "What was deleted waits here, and Put Back lists what came back."
+msgstr "Was gelöscht wurde, wartet hier, und Zurückgelegt listet, was zurückkam."
+
+msgid "Put Back on a row brings it back as it was, or tick several to put them back together."
+msgstr "Zurücklegen in einer Zeile stellt es wieder her, wie es war, oder markieren Sie mehrere, um sie zusammen zurückzulegen."
+
+msgid "Who it belongs to, and a person's addresses or a place's people, with Edit to change it."
+msgstr "Wem es gehört, und die Adressen einer Person oder die Personen an einem Ort, mit Bearbeiten zum Ändern."

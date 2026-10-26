@@ -13,32 +13,19 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Home",
-   "link_to": "One",
-   "link_type": "Workspace",
+   "link_to": "one",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 0
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Dashboards",
-   "link_to": "Dashboard",
-   "link_type": "DocType",
-   "icon": "layout-dashboard",
-   "child": 0,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": "[[\"Dashboard\", \"is_standard\", \"=\", 0]]",
    "idx": 1
   },
   {
    "keep_closed": 0,
    "type": "Link",
-   "label": "Announcements",
-   "link_to": "Note",
-   "link_type": "DocType",
-   "icon": "megaphone",
+   "label": "Dashboards",
+   "link_to": "dashboards",
+   "link_type": "Page",
+   "icon": "layout-dashboard",
    "child": 0,
    "is_default_module": 1,
    "route_options": null,
@@ -48,15 +35,28 @@
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Announcements",
+   "link_to": "announcements",
+   "link_type": "Page",
+   "icon": "megaphone",
+   "child": 0,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 3
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Recycle Bin",
-   "link_to": "Deleted Document",
-   "link_type": "DocType",
+   "link_to": "recycle-bin",
+   "link_type": "Page",
    "icon": "trash-2",
    "child": 0,
    "is_default_module": 1,
    "route_options": null,
-   "filters": "[[\"Deleted Document\", \"restored\", \"=\", 0]]",
-   "idx": 3
+   "filters": null,
+   "idx": 4
   },
   {
    "keep_closed": 0,
@@ -65,33 +65,35 @@
    "icon": "book-user",
    "indent": 1,
    "collapsible": 1,
-   "idx": 4
-  },
-  {
-   "keep_closed": 0,
-   "type": "Link",
-   "label": "Contacts",
-   "link_to": "Contact",
-   "link_type": "DocType",
-   "icon": "contact",
-   "child": 1,
-   "is_default_module": 1,
-   "route_options": null,
-   "filters": null,
    "idx": 5
   },
   {
    "keep_closed": 0,
    "type": "Link",
+   "label": "Contacts",
+   "link_to": "address-book",
+   "link_type": "Page",
+   "icon": "contact",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 6,
+   "url": null
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
    "label": "Addresses",
-   "link_to": "Address",
-   "link_type": "DocType",
+   "link_to": null,
+   "link_type": "URL",
    "icon": "map-pin",
    "child": 1,
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 6
+   "idx": 7,
+   "url": "/desk/address-book?view=addresses"
   },
   {
    "keep_closed": 0,
@@ -102,7 +104,7 @@
    "icon": "tags",
    "child": 1,
    "route_options": null,
-   "idx": 7,
+   "idx": 8,
    "filters": null,
    "url": "/desk/one?center=settings&module=One&at=lists"
   },
@@ -113,7 +115,7 @@
    "icon": "user",
    "indent": 1,
    "collapsible": 1,
-   "idx": 8
+   "idx": 9
   },
   {
    "keep_closed": 0,
@@ -124,7 +126,7 @@
    "icon": "user",
    "child": 1,
    "route_options": null,
-   "idx": 9,
+   "idx": 10,
    "filters": null,
    "url": "/desk/one?center=account&at=profile"
   },
@@ -137,7 +139,7 @@
    "icon": "bell",
    "child": 1,
    "route_options": null,
-   "idx": 10,
+   "idx": 11,
    "filters": null,
    "url": "/desk/one?center=notifications"
   },
@@ -150,7 +152,7 @@
    "icon": "mail",
    "child": 1,
    "route_options": null,
-   "idx": 11,
+   "idx": 12,
    "filters": null,
    "url": "/desk/one?center=settings&module=OneMail"
   },
@@ -163,7 +165,7 @@
    "icon": "calendar",
    "child": 1,
    "route_options": null,
-   "idx": 12,
+   "idx": 13,
    "filters": null,
    "url": "/desk/one?center=settings&module=OneCalendar&at=link"
   },
@@ -176,7 +178,7 @@
    "icon": "key-round",
    "child": 1,
    "route_options": null,
-   "idx": 13,
+   "idx": 14,
    "filters": null,
    "url": "/desk/one?center=account&at=signin"
   },
@@ -189,7 +191,7 @@
    "icon": "brain",
    "child": 1,
    "route_options": null,
-   "idx": 14,
+   "idx": 15,
    "filters": null,
    "url": "/desk/one?center=ai&at=yours"
   },
@@ -202,7 +204,7 @@
    "icon": "oneintake",
    "child": 1,
    "route_options": null,
-   "idx": 15,
+   "idx": 16,
    "filters": null,
    "url": "/desk/one?center=ai&at=reads"
   },
@@ -214,7 +216,7 @@
    "link_type": "Page",
    "icon": "scale",
    "child": 1,
-   "idx": 16
+   "idx": 17
   },
   {
    "keep_closed": 0,
@@ -223,7 +225,7 @@
    "icon": "building-2",
    "indent": 1,
    "collapsible": 1,
-   "idx": 17
+   "idx": 18
   },
   {
    "keep_closed": 0,
@@ -234,7 +236,7 @@
    "icon": "building-2",
    "child": 1,
    "route_options": null,
-   "idx": 18,
+   "idx": 19,
    "filters": null,
    "url": "/desk/one?center=settings&module=One&at=general"
   },
@@ -247,7 +249,7 @@
    "icon": "users",
    "child": 1,
    "route_options": null,
-   "idx": 19,
+   "idx": 20,
    "filters": null,
    "url": "/desk/one?center=account&at=people"
   },
@@ -260,7 +262,7 @@
    "icon": "shield-check",
    "child": 1,
    "route_options": null,
-   "idx": 20,
+   "idx": 21,
    "filters": null,
    "url": "/desk/one?center=access&at=access"
   },
@@ -273,7 +275,7 @@
    "icon": "scroll-text",
    "child": 1,
    "route_options": null,
-   "idx": 21,
+   "idx": 22,
    "filters": null,
    "url": "/desk/one?center=access&at=audit"
   },
@@ -286,7 +288,7 @@
    "icon": "monitor-smartphone",
    "child": 1,
    "route_options": null,
-   "idx": 22,
+   "idx": 23,
    "filters": null,
    "url": "/desk/one?center=account&at=devices"
   },
@@ -299,7 +301,7 @@
    "icon": "credit-card",
    "child": 1,
    "route_options": null,
-   "idx": 23,
+   "idx": 24,
    "filters": null,
    "url": "/desk/one?center=account&at=plan"
   },
@@ -312,12 +314,12 @@
    "icon": "globe",
    "child": 1,
    "route_options": null,
-   "idx": 24,
+   "idx": 25,
    "filters": null,
    "url": "/desk/one?center=account&at=domains"
   }
  ],
- "modified": "2026-11-07 09:00:00.000000",
+ "modified": "2026-11-08 09:00:05.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "One",

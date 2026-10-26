@@ -267,7 +267,7 @@ assign, rather than the automation.
 An announcement is frappe's own Note, made public and shown on sign-in:
 frappe pops it up for each person the next time they sign in, once or on
 every sign-in, until the day it expires, and writes down who has seen it.
-One adds four things:
+One adds five things:
 
 - **The administrator may announce.** frappe holds a Note's public and
   sign-in fields at a level only its System Manager writes, so anybody
@@ -277,6 +277,11 @@ One adds four things:
   each chose (Announcement), not only at their next sign-in.
 - **The administrators see who has read it,** frappe's own Seen By, and
   OneAI answers who has not.
+- **It has a page** (`announcements`,
+  `frontend/src/one/Announcements.vue`): `read` gives every public one in
+  full, Showing Now apart from Earlier, and for an administrator who has seen
+  each (Note Seen By) and how many people there are. `stop` ends one at once
+  by setting its Show Until to now.
 - **It runs along the top bar** (`current`, booted as `one_announcements`
   and drawn by `onedesk.dock.news`): public, not expired, newest five. A Note
   with no expiry runs for `FRESH_DAYS` from when it was posted, as frappe's
@@ -424,15 +429,43 @@ does. A tenant who wants the original back enables it.
 
 ### home.py
 
-Home is frappe's `One` workspace, and every number on it is a frappe
-`Number Card` of type Custom: a method in home.py that counts for whoever is
-reading, with where a click goes (`route`, `route_options`). Each counts
-through `frappe.get_list` or the product's own reader, so it is exactly what
-the reader may open. The administrators' part is a `Custom HTML Block`
-limited to their role, filled by `attention`, and it hides itself when
-nothing needs them.
+Home is the page `one` (so `/desk/one`, where every `?center=` link opens a
+centre, is still Home), drawing the island `onedesk.one_home`
+(`frontend/src/one/Home.vue`). `read` gives it everything at once: a
+count for each app the reader has (an app the workspace turned off is left
+out), the first few tasks due or late, today's calendar and what waits for
+their approval, and, for an administrator, `attention`. Each counts through
+`frappe.get_list` or the app's own reader, so it is exactly what the reader
+may open. The island hears the kinds it lists and asks again when one
+changes.
 
-Nothing here is kept: each number is asked when Home is drawn.
+It replaced frappe's `One` workspace, five Number Cards and a Custom HTML
+Block (patches/home_is_a_page.py): a workspace's cards could not say which
+tasks, nor leave an app out that was turned off.
+
+Nothing here is kept: each number is asked when Home is drawn. `my_day` is
+the same for OneAI.
+
+### dashboards.py
+
+The Dashboards page (`dashboards`, `frontend/src/one/Dashboards.vue`) lists
+frappe's own dashboards, each opening frappe's dashboard view. A dashboard
+belongs to the app whose rail lists it, else the app most of its charts count
+records of (OneStudio's `reports._module`, the same rule that places a saved
+report), and the reader sees it only if they work in that app
+(`reports.places`) and may read at least one of its charts. One with nothing
+in it is nobody's. One made in the workspace is under Made Here.
+
+### address_book.py
+
+Contacts and addresses as one screen (`address-book`,
+`frontend/src/one/AddressBook.vue`). Both are frappe's own records, linked to
+whoever they belong to through their Links table (`Dynamic Link`); `one`
+finds the other kind linked to any of the same records, so a person shows
+their places and a place its people, without a link of their own. Everything
+read is through `frappe.get_list`, so it is what the reader may open; Edit is
+frappe's form. The rail's Contacts and Addresses are this page with
+`?view=`, and the island follows the address when the rail changes it.
 
 ### homes.py
 
@@ -833,11 +866,17 @@ puts one back with its own `restore`. Both are its System Manager's, whom no
 workspace has, so nobody here could see or undo a deletion. Now:
 
 - everybody sees what they deleted themselves, and puts it back;
-- a workspace administrator also sees what any person (or OneAI) deleted, of
-  the kinds of record they may read, though not the system's own cleanups;
-  puts it back; and may empty it for good;
+- whoever holds Everyone's Deletions (an administrator always does) also sees
+  what any person (or OneAI) deleted, of the kinds of record they may read,
+  though not the system's own cleanups, and puts it back; only an
+  administrator empties it for good;
 - what is not a record somebody made is never shown: tables, frappe's own
   machinery (permission rows, property setters) and the platform's records.
+
+The page is `recycle-bin` (`frontend/src/one/RecycleBin.vue`): `read` gives a
+page of the reader's (or everyone's) deletions, newest first, with how many
+are deleted and put back and the kinds there are; the island groups them by
+day. Putting one back stamps the time, so Put Back can say when.
 
 Putting one back is frappe's own restore (in recycle.py, from
 frappe/core/doctype/deleted_document/deleted_document.py, MIT), with its
