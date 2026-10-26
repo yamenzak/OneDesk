@@ -590,8 +590,7 @@ deliberately not here.
   a person reads them as anyway.
 - `jobs.py`: every job OneAI does: its label, its module, its kind of work,
   whether it has tools, whether it answers a person in prose, its token caps,
-  and when the model may think first (building always, chat on Full, nothing
-  else), with the room it gets then. Its words are `words/<key>.md`, one file a job, reviewed like code.
+  and when the model may think first (building always, nothing else), with the room it gets then. Its words are `words/<key>.md`, one file a job, reviewed like code.
   `told` puts the voice's parts before them.
 - `voice.py`: what OneAI is told on every call, in parts: who it is, how it
   speaks, what is true, what it may do with tools, where the person is, that

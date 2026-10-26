@@ -212,7 +212,7 @@ other company, so an outage at one does not stop OneAI.
 
 | Kind | Fast | Balanced | Full |
 |---|---|---|---|
-| Talk (chat, titles, replies, summaries, HR, explaining a document) | Gemma 4 → Gemini 3.1 Flash Lite | DeepSeek V4.1 Flash → Gemini 3.5 Flash Lite | Gemini 3.8 Flash → DeepSeek V4.1 Flash; chat thinks |
+| Talk (chat, titles, replies, summaries, HR, explaining a document) | Gemma 4 → Gemini 3.1 Flash Lite | DeepSeek V4.1 Flash → Gemini 3.5 Flash Lite | Gemini 3.8 Flash → DeepSeek V4.1 Flash |
 | Build (extensions, review, mend, print design, workspace setup), always thinks | DeepSeek V4.1 Flash → Gemini 3.5 Flash Lite | Gemini 3.8 Flash → DeepSeek V4.1 Flash | Gemini 3.1 Pro → Gemini 3.8 Flash |
 | Decide | Clef Flash → Gemini 3.5 Flash Lite | same | same |
 | Decide, with a picture or a recording | Clef Omni → Gemini 3.5 Flash Lite | same | same |
@@ -234,8 +234,9 @@ short allowance it thinks until they are gone and writes nothing (Gemini
 3.8 Flash spent 577 of a grievance's 600; every Workers AI model wrote no
 JSON in 2,000 tokens explaining a document, and passed in 5 to 7 seconds
 with thinking off). So a job says when it thinks (`jobs.py`): building
-always, with 4,000 to 8,000 tokens of room; chat on Full, with 4,000; nothing
-else, at any tier. A model not thinking is told so in the way it obeys
+always, with 4,000 to 8,000 tokens of room; nothing else, at any tier. Chat
+on Full thought until the panel's bench said it answers worse for it
+(stage 7). A model not thinking is told so in the way it obeys
 (`models.QUIET`): Gemma and DeepSeek take `enable_thinking: false`, Gemini
 3.8 Flash `thinkingLevel: low`. No person switches it: the tier is the
 switch, and Full is what thinking costs.
@@ -671,9 +672,21 @@ the screen), a commit, and the docs it changes.
    and Exa are named as subprocessors for this service alone. Tried once:
    the gateway answers 402 until AI Gateway credits are loaded (the
    scratchpad).
-7. **The product.** The panel, cards, writing in a field and summaries
-   rebuilt on jobs: the panel with no model to pick, cards and chains as
-   now, summaries switched per record type from AICenter.
+7. **The product.** **Built on 2026-10-26.** The panel has no model to
+   pick, cards and chains run as they did, writing in a field makes the
+   same card any edit does, and summaries are switched per record type
+   from AICenter; all of it on jobs since stages 2 and 3. What was left
+   was measuring it: the panel's bench (`evals.run`, 43 questions as the
+   panel asks them) was run on the admin site with the account's calls
+   answered in place, unbilled. It found Gemini refusing a conversation
+   handed to it by another model, whose calls carry no thought signature
+   (seven of Balanced's cases, all handed to building): such a call now
+   goes back with Google's `skip_thought_signature_validator`, tried live
+   before and after. Then the question stage 2 left: Balanced passed 35
+   of 40 (three more hit the gateway's rate limit), Full with chat
+   thinking 36 of 43 in 1,210 seconds, Full without 40 of 43 in 817, at
+   the same cost (about 3.3 times Balanced's). So chat no longer thinks
+   on Full, and the tier's sentence no longer says it does.
 8. **Guardrails and done.** Prompt-injection checks moved from flag to
    block where measured, the agreements, Help, the demo, and OneAI taken
    through the fourteen points.

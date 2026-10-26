@@ -516,6 +516,12 @@ def _arguments(args) -> list[dict]:
 	return [args if isinstance(args, dict) else {}]
 
 
+# What Gemini 3 is handed back for a call it did not make, such as one a
+# conversation's first model made before it was handed on (run.ask):
+# measured, without it the request is refused, and with it Gemini answers.
+BORROWED = "skip_thought_signature_validator"
+
+
 def _gemini_turn(one: dict) -> dict:
 	"""Google puts a tool result back in the conversation as the user's turn."""
 	if one.get("role") == "tool":
@@ -538,8 +544,8 @@ def _gemini_turn(one: dict) -> dict:
 			parts.append({"inline_data": {"mime_type": file["type"], "data": file["data"]}})
 	for call in one.get("calls") or []:
 		said = {"functionCall": {"name": call["tool"], "args": call.get("args") or {}}}
-		if call.get("signature"):
-			said["thoughtSignature"] = call["signature"]
+		if one.get("role") == "model":
+			said["thoughtSignature"] = call.get("signature") or BORROWED
 		parts.append(said)
 	return {"role": "model" if one.get("role") == "model" else "user", "parts": parts or [{"text": ""}]}
 

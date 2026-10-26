@@ -39,7 +39,7 @@ def readers():
 	body = ast.parse(GATEWAY.read_text(encoding="utf-8"))
 	wanted = [n for n in body.body if isinstance(n, ast.FunctionDef) and n.name in LIFTED]
 	assert len(wanted) == len(LIFTED), "a reader was renamed and this guard was not"
-	room: dict = {"json": json, "re": re, "THINKING": "</think>", "CHANNEL": "<channel|>"}
+	room: dict = {"json": json, "re": re, "THINKING": "</think>", "CHANNEL": "<channel|>", "BORROWED": "skip"}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
 	return room
 
@@ -190,8 +190,8 @@ def test_function_calling_asks_for_the_version_that_has_it():
 def test_gemini_threes_thought_signature_is_carried_back():
 	"""Gemini 3 answers a functionCall with a `thoughtSignature` and refuses the
 	next request without it: "Function call is missing a thought_signature in
-	functionCall parts". 2.5 sends none and needs none, so it is carried when
-	there is one and left off when there is not."""
+	functionCall parts". A call it did not make, such as one the conversation's
+	first model made before it was handed on, goes back with `BORROWED`."""
 	room = readers()
 	body = {
 		"candidates": [
@@ -216,7 +216,8 @@ def test_gemini_threes_thought_signature_is_carried_back():
 	assert back["parts"][0]["thoughtSignature"] == "EuIDCt8D"
 
 	asked[0]["signature"] = None
-	assert "thoughtSignature" not in room["_gemini_turn"]({"role": "model", "calls": asked})["parts"][0]
+	assert room["_gemini_turn"]({"role": "model", "calls": asked})["parts"][0]["thoughtSignature"] == "skip"
+	assert 'BORROWED = "skip_thought_signature_validator"' in GATEWAY.read_text()
 
 
 def test_the_other_sides_exception_type_wins_over_the_status():

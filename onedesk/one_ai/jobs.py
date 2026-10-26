@@ -40,7 +40,7 @@ class Job:
 
 
 JOBS = {
-	"chat": Job(_lt("Chat"), "OneAI", "talk", tools=True, speaks=True, most=800, thinks="full", room=4000),
+	"chat": Job(_lt("Chat"), "OneAI", "talk", tools=True, speaks=True, most=800),
 	"chat_title": Job(_lt("Title a Conversation"), "OneAI", "talk", most=100),
 	"brief": Job(_lt("Summarise a Record"), "OneAI", "talk", speaks=True, most=400),
 	"print_design": Job(_lt("Print Design"), "OneAI", "build", tools=True, speaks=True, most=4000, thinks="always"),

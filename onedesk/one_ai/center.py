@@ -19,7 +19,7 @@ TIER = "one_ai_tier"
 TIERS = {
 	"fast": (_lt("Fast"), _lt("Quick answers for everyday questions, at the lowest cost.")),
 	"balanced": (_lt("Balanced"), _lt("Careful answers at a modest cost. Right for most workspaces.")),
-	"full": (_lt("Full"), _lt("The strongest models, which think before they answer. Slower, and the dearest.")),
+	"full": (_lt("Full"), _lt("The strongest models, for the hardest questions. The dearest.")),
 }
 
 # Modules whose `ai.py` declares `JOBS`: what OneAI does there on its own, as

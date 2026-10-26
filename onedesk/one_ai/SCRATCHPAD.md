@@ -57,6 +57,8 @@ Each says what was done meanwhile, so nothing waited on it.
 - **Fixed on the way:** `brief.py` defined `_off()` twice, so turning a
   record type's summaries off never took; the second is `_mailboxes_off()`.
 
-- **Chat with its tools is not benched.** It needs a workspace connected to
-  an account; `evals.run` asks through the account. Stage 7.
-- **Whether chat on Full answers better thinking** is not measured. Stage 7.
+- **The panel's bench misses on building and on mail rules.** On Full
+  without thinking it passes 40 of 43; the three it misses (changing an
+  extension, a screen with a list, mailing a report) end without the card
+  they were asked for. Balanced misses those and approvals, events and a
+  screen with mail. Not chased yet.

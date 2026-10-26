@@ -40569,8 +40569,8 @@ msgid "The standard reply"
 msgstr "Die Standardantwort"
 
 #: onedesk/one_ai/center.py
-msgid "The strongest models, which think before they answer. Slower, and the dearest."
-msgstr "Die stärksten Modelle, die nachdenken, bevor sie antworten. Langsamer und am teuersten."
+msgid "The strongest models, for the hardest questions. The dearest."
+msgstr "Die stärksten Modelle, für die schwierigsten Fragen. Am teuersten."
 
 #: onedesk/public/js/trust_center.js
 msgid "There is no such service."

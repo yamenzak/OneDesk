@@ -49,7 +49,7 @@ def turns():
 	wanted += [
 		node
 		for node in body.body
-		if isinstance(node, ast.Assign) and any(getattr(t, "id", None) == "OPENAI_ROLES" for t in node.targets)
+		if isinstance(node, ast.Assign) and any(getattr(t, "id", None) in ("OPENAI_ROLES", "BORROWED") for t in node.targets)
 	]
 	room: dict = {"json": json}
 	exec(compile(ast.Module(body=wanted, type_ignores=[]), str(GATEWAY), "exec"), room)
@@ -99,7 +99,7 @@ def test_a_model_asking_for_a_tool_keeps_its_arguments():
 
 	gemini = room["_gemini_turn"](one)
 	assert gemini["role"] == "model"
-	assert gemini["parts"][-1] == {"functionCall": {"name": "list_records", "args": {"doctype": "ToDo"}}}
+	assert gemini["parts"][-1] == {"functionCall": {"name": "list_records", "args": {"doctype": "ToDo"}}, "thoughtSignature": "skip_thought_signature_validator"}
 
 
 def test_a_tool_result_goes_back_where_each_provider_looks_for_it():

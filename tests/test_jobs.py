@@ -103,15 +103,15 @@ def test_a_workspace_holds_no_job_and_no_choice():
 	assert '"AI Action' not in hooks
 
 
-def test_only_building_thinks_and_chat_only_on_full():
+def test_only_building_thinks():
 	"""Thinking shares the allowance with the answer, and a job that thinks
 	on too little writes nothing: measured on every Workers AI model at 2,000
-	tokens. So only building thinks, chat does on Full, and either has room."""
+	tokens. So only building thinks, with room. Chat on Full thought until
+	the panel's bench said otherwise: 36 of 43 thinking, 40 not, at the same
+	cost and a third slower (docs/AICENTER.md, stage 7)."""
 	for key, job in jobs.JOBS.items():
 		if job.kind == "build":
 			assert job.thinks == "always", key
-		elif key == "chat":
-			assert job.thinks == "full" and not jobs.thinking(job, "balanced") and jobs.thinking(job, "full")
 		else:
 			assert not job.thinks, key
 		for tier in models.TIERS:
