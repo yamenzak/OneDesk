@@ -196,7 +196,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		icon: "book-open",
 		title: __("Knowledge"),
 		description: __("Facts, terms and policies OneAI reads with every answer."),
-		actions: [{ label: __("New Knowledge"), icon: "plus", click: () => frappe.new_doc("AI Knowledge") }],
+		actions: [{ label: __("New Knowledge"), icon: "plus", click: (panel) => write_knowledge(null, panel) }],
 		async render(panel) {
 			const rows = await frappe.xcall(C + "knowledge", {}, "GET");
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
@@ -204,10 +204,42 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 			for (const one of rows) {
 				kit.row({ lead: kit.glyph("book-open"), title: one.title, sub: esc(one.applies_to ? __(one.applies_to) : __("Everything")), chevron: true })
 					.toggleClass("one-set-off", !one.enabled)
-					.on("click", () => frappe.set_route("Form", "AI Knowledge", one.name))
+					.on("click", () => write_knowledge(one.name, panel))
 					.appendTo($list);
 			}
 		},
+	};
+
+	// Knowledge is written here, by whoever holds Knowledge, rather than on
+	// its record type's form, which only an administrator may open.
+	const write_knowledge = async (name, panel) => {
+		const one = name ? await frappe.xcall(C + "knowledge_of", { name }, "GET") : { enabled: 1 };
+		const asked = new frappe.ui.Dialog({
+			title: name ? one.title : __("New Knowledge"),
+			size: "large",
+			fields: [
+				{ fieldtype: "Data", fieldname: "title", label: __("Title"), reqd: 1, default: one.title },
+				{ fieldtype: "Link", fieldname: "applies_to", label: __("Applies To"), options: "DocType", default: one.applies_to, description: __("Empty for everything.") },
+				{ fieldtype: "Check", fieldname: "enabled", label: __("Enabled"), default: one.enabled },
+				{ fieldtype: "Text Editor", fieldname: "body", label: __("Knowledge"), reqd: 1, default: one.body },
+			],
+			primary_action_label: name ? __("Save") : __("Add"),
+			primary_action: async (values) => {
+				await frappe.xcall(C + "keep_knowledge", { ...values, name: name || "" });
+				asked.hide();
+				panel && panel.refresh();
+			},
+			secondary_action_label: name ? __("Delete") : null,
+			secondary_action: name
+				? () =>
+						frappe.confirm(__("Delete {0}?", [one.title]), async () => {
+							await frappe.xcall(C + "drop_knowledge", { name });
+							asked.hide();
+							panel && panel.refresh();
+						})
+				: null,
+		});
+		asked.show();
 	};
 
 	// A module's part: what OneAI does there on its own.
@@ -351,7 +383,16 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				{ group: module ? null : __("Modules"), items: [...mine.map(part_tab), ...(module ? [] : [summaries_tab])] },
 				{ group: null, items: module ? [] : [usage_tab, yours_tab] },
 		  ]
-		: [{ group: null, items: [...((frappe.boot.one_ai_may || {}).usage ? [usage_tab] : []), yours_tab] }];
+		: [
+				{
+					group: null,
+					items: [
+						...((frappe.boot.one_ai_may || {}).knowledge ? [knowledge_tab] : []),
+						...((frappe.boot.one_ai_may || {}).usage ? [usage_tab] : []),
+						yours_tab,
+					],
+				},
+		  ];
 	const shown = tabs.filter((group) => group.items.length);
 	const ids = shown.flatMap((group) => group.items.map((item) => item.id));
 	// For the whole workspace AICenter is OneAI's own settings, with its

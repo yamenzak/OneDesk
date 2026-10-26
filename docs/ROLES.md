@@ -73,7 +73,10 @@ never looks at roles itself.
 
 Defaults are written on migrate (`abilities.settle`) only for a role that has
 no row on the doctype yet, so a workspace's own changes are never undone by
-an update, the same rule the record matrix keeps.
+an update, the same rule the record matrix keeps. An ability an update
+brings (its Permission Type is newer than the role's row) is given its
+default once, and remembered as given (`abilities._arrived`), so turning it
+off afterwards sticks: OneAI Manager got Knowledge that way.
 
 ### The role builder
 

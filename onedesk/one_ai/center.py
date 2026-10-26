@@ -29,11 +29,16 @@ PARTS = {"OneHR": "onedesk.one_hr.ai"}
 
 def may() -> dict:
 	"""What the reader may open of AICenter beyond Yours: everything, for a
-	workspace administrator; Usage, for a role that holds it (abilities.py)."""
+	workspace administrator; Usage and Knowledge, for a role that holds them
+	(abilities.py)."""
 	from onedesk.one import abilities
 
 	admin = roles.administers()
-	return {"all": admin, "usage": admin or abilities.may("AI Knowledge", "ai_usage")}
+	return {
+		"all": admin,
+		"usage": admin or abilities.may("AI Knowledge", "ai_usage"),
+		"knowledge": admin or abilities.may("AI Knowledge", "ai_knowledge"),
+	}
 
 
 def modules() -> list[str]:
@@ -238,12 +243,41 @@ def usage() -> dict:
 	return {"reached": True, "jobs": rows}
 
 
+def _writes_knowledge() -> None:
+	if not may()["knowledge"]:
+		frappe.throw(_("Your role doesn't allow writing OneAI's Knowledge."), frappe.PermissionError)
+
+
 @frappe.whitelist()
 def knowledge() -> list[dict]:
-	roles.require()
+	_writes_knowledge()
 	return frappe.get_all(
 		"AI Knowledge", fields=["name", "title", "applies_to", "enabled"], order_by="title asc", limit=200
 	)
+
+
+@frappe.whitelist(methods=["GET"])
+def knowledge_of(name: str) -> dict:
+	"""One piece of Knowledge, to change in AICenter."""
+	_writes_knowledge()
+	return frappe.db.get_value("AI Knowledge", name, ["name", "title", "applies_to", "enabled", "body"], as_dict=True) or {}
+
+
+@frappe.whitelist(methods=["POST"])
+def keep_knowledge(title: str, body: str, applies_to: str = "", enabled: int | str = 1, name: str = "") -> str:
+	"""Knowledge written or changed in AICenter, by whoever may write it,
+	whatever the record type's own permissions say."""
+	_writes_knowledge()
+	doc = frappe.get_doc("AI Knowledge", name) if name else frappe.new_doc("AI Knowledge")
+	doc.update({"title": title, "body": body, "applies_to": applies_to or None, "enabled": frappe.utils.cint(enabled)})
+	doc.save(ignore_permissions=True)
+	return doc.name
+
+
+@frappe.whitelist(methods=["POST"])
+def drop_knowledge(name: str) -> None:
+	_writes_knowledge()
+	frappe.delete_doc("AI Knowledge", name, ignore_permissions=True)
 
 
 @frappe.whitelist()

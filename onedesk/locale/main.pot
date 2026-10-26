@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 05:42+0000\n"
-"PO-Revision-Date: 2026-10-26 05:42+0000\n"
+"POT-Creation-Date: 2026-10-26 06:45+0000\n"
+"PO-Revision-Date: 2026-10-26 06:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -181,7 +181,7 @@ msgstr ""
 msgid "1 Work Order Late"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:292
+#: onedesk/public/js/one_ai/ai_center.js:324
 msgid "1 call"
 msgstr ""
 
@@ -298,7 +298,7 @@ msgstr ""
 msgid "1 project"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:264
+#: onedesk/public/js/one_ai/ai_center.js:296
 msgid "1 record"
 msgstr ""
 
@@ -1614,7 +1614,7 @@ msgstr ""
 msgid "Abandoned"
 msgstr ""
 
-#: onedesk/one/abilities.py:227 onedesk/public/js/role_matrix.js:29
+#: onedesk/one/abilities.py:254 onedesk/public/js/role_matrix.js:29
 msgid "Ability"
 msgstr ""
 
@@ -2166,7 +2166,8 @@ msgstr ""
 #: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:352
 #: onedesk/public/js/doctype_settings.js:926
 #: onedesk/public/js/one_ai/ai_center.js:182
-#: onedesk/public/js/one_ai/ai_center.js:336
+#: onedesk/public/js/one_ai/ai_center.js:226
+#: onedesk/public/js/one_ai/ai_center.js:368
 #: onedesk/public/js/one_mail/onemail_settings.js:609
 #: onedesk/public/js/one_mail/onemail_settings.js:1329
 #: onedesk/public/js/onecloud_dialogs.js:228 onedesk/public/js/settings.js:1087
@@ -2252,8 +2253,8 @@ msgstr ""
 msgid "Add Manufacturer"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:307
-#: onedesk/public/js/one_ai/ai_center.js:330
+#: onedesk/public/js/one_ai/ai_center.js:339
+#: onedesk/public/js/one_ai/ai_center.js:362
 msgid "Add Memory"
 msgstr ""
 
@@ -4027,6 +4028,7 @@ msgstr ""
 
 #. Label of the applies_to (Link) field in DocType 'AI Knowledge'
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
+#: onedesk/public/js/one_ai/ai_center.js:222
 msgid "Applies To"
 msgstr ""
 
@@ -7684,7 +7686,7 @@ msgstr ""
 msgid "Child Tasks"
 msgstr ""
 
-#: onedesk/one_ai/center.py:80
+#: onedesk/one_ai/center.py:85
 msgid "Choose Fast, Balanced or Full."
 msgstr ""
 
@@ -8014,7 +8016,7 @@ msgstr ""
 
 #: frontend/src/cloud/CloudUploads.vue:5 frontend/src/kit/Drawer.vue:9
 #: frontend/src/sheet/components/SheetEditor/index.vue:609
-#: onedesk/public/js/module_docs.js:451
+#: onedesk/public/js/module_docs.js:456
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:122
 msgid "Close"
@@ -9913,7 +9915,7 @@ msgstr ""
 msgid "Credit To"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:282
+#: onedesk/public/js/one_ai/ai_center.js:314
 msgid "Credit Usage"
 msgstr ""
 
@@ -10001,7 +10003,7 @@ msgstr ""
 msgid "Credits can't be zero."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:281
+#: onedesk/public/js/one_ai/ai_center.js:313
 msgid "Credits each job used in the last 30 days."
 msgstr ""
 
@@ -11201,6 +11203,7 @@ msgstr ""
 #: onedesk/public/js/doctype_settings.js:254
 #: onedesk/public/js/doctype_settings.js:432
 #: onedesk/public/js/doctype_settings.js:961
+#: onedesk/public/js/one_ai/ai_center.js:232
 #: onedesk/public/js/one_mail/mail_templates.js:360
 #: onedesk/public/js/one_mail/onemail_settings.js:859
 #: onedesk/public/js/one_mail/onemail_settings.js:1344
@@ -11321,6 +11324,10 @@ msgstr ""
 
 #: onedesk/public/js/privacy_request.js:14
 msgid "Delete {0}'s account? This can't be undone."
+msgstr ""
+
+#: onedesk/public/js/one_ai/ai_center.js:235
+msgid "Delete {0}?"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:331
@@ -12536,7 +12543,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_project/portal.py:13
 #: onedesk/one_task/doctype/task_step/task_step.json
-#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:450
+#: onedesk/public/js/learned.js:31 onedesk/public/js/module_docs.js:455
 #: onedesk/public/js/module_settings.js:116
 #: onedesk/public/js/one_mail/rule_builder.js:248
 #: onedesk/public/js/one_mail/rule_builder.js:318
@@ -13348,7 +13355,7 @@ msgstr ""
 msgid "Edit Full Form"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:330
+#: onedesk/public/js/one_ai/ai_center.js:362
 msgid "Edit Memory"
 msgstr ""
 
@@ -14047,6 +14054,10 @@ msgstr ""
 msgid "Empty for a new record."
 msgstr ""
 
+#: onedesk/public/js/one_ai/ai_center.js:222
+msgid "Empty for everything."
+msgstr ""
+
 #: onedesk/public/js/item_actions.js:275
 msgid "Empty is the item's own unit."
 msgstr ""
@@ -14090,6 +14101,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/public/js/one_ai/ai_center.js:223
 #: onedesk/public/js/one_mail/onemail_settings.js:787
 msgid "Enabled"
 msgstr ""
@@ -14211,7 +14223,7 @@ msgstr ""
 msgid "Enter a whole number."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:372
+#: onedesk/one_admin/setup.py:424
 msgid "Enter the Cloudflare API token first."
 msgstr ""
 
@@ -14783,7 +14795,7 @@ msgstr ""
 #: onedesk/public/js/notification_center.js:121
 #: onedesk/public/js/notification_center.js:123
 #: onedesk/public/js/one_ai/ai_center.js:205
-#: onedesk/public/js/one_ai/ai_center.js:323
+#: onedesk/public/js/one_ai/ai_center.js:355
 msgid "Everything"
 msgstr ""
 
@@ -17057,6 +17069,10 @@ msgstr ""
 msgid "Give OneAI at least two labels to pick from."
 msgstr ""
 
+#: onedesk/one_admin/setup.py:341
+msgid "Give OneAdmin Settings a token that may run the gateway."
+msgstr ""
+
 #. Label of the one_for (Small Text) field in DocType 'Task'
 #: onedesk/one_inventory/heads.py:1311 onedesk/one_task/custom/task.json
 msgid "Give To"
@@ -18326,7 +18342,7 @@ msgstr ""
 msgid "How far OneAI goes with each new message."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:220
+#: onedesk/public/js/one_ai/ai_center.js:252
 msgid "How far OneAI reads each mailbox's new mail."
 msgstr ""
 
@@ -20960,7 +20976,7 @@ msgstr ""
 msgid "Jobs"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:221
+#: onedesk/public/js/one_ai/ai_center.js:253
 msgid "Jobs OneAI runs in {0} by itself, each using credits."
 msgstr ""
 
@@ -21120,7 +21136,7 @@ msgstr ""
 msgid "Kept In"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:259
+#: onedesk/public/js/one_ai/ai_center.js:291
 msgid "Kept at the top of a record and rewritten at most once a day."
 msgstr ""
 
@@ -21258,10 +21274,11 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of the body (Text Editor) field in DocType 'AI Knowledge'
-#: onedesk/one/sidebar/one/one.json
+#: onedesk/one/sidebar/one/one.json onedesk/one_ai/abilities.py:34
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 #: onedesk/public/js/one_ai/ai_center.js:195
 #: onedesk/public/js/one_ai/ai_center.js:197
+#: onedesk/public/js/one_ai/ai_center.js:224
 msgid "Knowledge"
 msgstr ""
 
@@ -23401,7 +23418,7 @@ msgstr ""
 
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
-#: frontend/src/project/Team.vue:32 onedesk/one/abilities.py:226
+#: frontend/src/project/Team.vue:32 onedesk/one/abilities.py:253
 #: onedesk/one/settings.py:941 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/public/js/project_new.js:151 onedesk/public/js/settings.js:828
@@ -23943,7 +23960,7 @@ msgstr ""
 msgid "Members of {0}"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:332
+#: onedesk/public/js/one_ai/ai_center.js:364
 msgid "Memory"
 msgstr ""
 
@@ -24139,7 +24156,7 @@ msgstr ""
 msgid "Modified"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:351
+#: onedesk/public/js/one_ai/ai_center.js:383
 msgid "Modules"
 msgstr ""
 
@@ -24988,6 +25005,7 @@ msgid "New Journal Entry"
 msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:199
+#: onedesk/public/js/one_ai/ai_center.js:218
 msgid "New Knowledge"
 msgstr ""
 
@@ -25304,7 +25322,7 @@ msgstr ""
 #: onedesk/one/print_blocks.py:687
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:199
 #: onedesk/public/js/doctype_settings.js:328 onedesk/public/js/item_new.js:326
-#: onedesk/public/js/module_docs.js:448
+#: onedesk/public/js/module_docs.js:453
 #: onedesk/public/js/project_actions.js:554
 #: onedesk/public/js/project_new.js:263 onedesk/public/js/settings.js:1692
 msgid "Next"
@@ -25946,7 +25964,7 @@ msgid "No mailbox can send as {0}."
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:53 onedesk/public/js/one_ai/ai_center.js:144
-#: onedesk/public/js/one_ai/ai_center.js:225
+#: onedesk/public/js/one_ai/ai_center.js:257
 #: onedesk/public/js/one_mail/onemail_settings.js:64
 #: onedesk/public/js/one_mail/onemail_settings.js:1245
 msgid "No mailboxes"
@@ -25992,7 +26010,7 @@ msgstr ""
 msgid "No matching values"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:312
+#: onedesk/public/js/one_ai/ai_center.js:344
 msgid "No memories"
 msgstr ""
 
@@ -26300,7 +26318,7 @@ msgstr ""
 msgid "No transactions"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:287
+#: onedesk/public/js/one_ai/ai_center.js:319
 msgid "No usage"
 msgstr ""
 
@@ -26447,7 +26465,7 @@ msgstr ""
 
 #: onedesk/one_book/heads.py:233 onedesk/one_book/heads.py:489
 #: onedesk/one_crm/heads.py:231 onedesk/one_inventory/heads.py:1017
-#: onedesk/public/js/one_ai/ai_center.js:264
+#: onedesk/public/js/one_ai/ai_center.js:296
 msgid "None yet"
 msgstr ""
 
@@ -26779,7 +26797,7 @@ msgid "Not reached"
 msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:146
-#: onedesk/public/js/one_ai/ai_center.js:230 onedesk/public/js/settings.js:2301
+#: onedesk/public/js/one_ai/ai_center.js:262 onedesk/public/js/settings.js:2301
 msgid "Not read"
 msgstr ""
 
@@ -27366,7 +27384,7 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/abilities.py:233 onedesk/one/ai.py:2481
+#: onedesk/one/abilities.py:260 onedesk/one/ai.py:2481
 #: onedesk/one/settings.py:785 onedesk/one_ai/chat.py:698
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:180
@@ -27474,7 +27492,7 @@ msgstr ""
 msgid "Old system closed"
 msgstr ""
 
-#: onedesk/one/abilities.py:233 onedesk/one/ai.py:3436 onedesk/one/ai.py:3649
+#: onedesk/one/abilities.py:260 onedesk/one/ai.py:3436 onedesk/one/ai.py:3649
 #: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:136
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
@@ -32093,7 +32111,7 @@ msgstr ""
 
 #: frontend/portal/src/parts/Gallery.vue:9 frontend/src/project/Media.vue:8
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:197
-#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:449
+#: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:454
 #: onedesk/public/js/project_new.js:251
 msgid "Previous"
 msgstr ""
@@ -34062,7 +34080,7 @@ msgstr ""
 #: onedesk/one_studio/ai.py:364
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
-#: onedesk/public/js/one_ai/ai_center.js:334
+#: onedesk/public/js/one_ai/ai_center.js:366
 #: onedesk/public/js/one_mail/mail_templates.js:284
 #: onedesk/public/js/overtime.js:46 onedesk/public/js/settings.js:1078
 #: onedesk/public/js/settings.js:1103
@@ -34164,7 +34182,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/public/js/doctype_settings.js:732
-#: onedesk/public/js/one_ai/ai_center.js:333 onedesk/public/js/settings.js:1077
+#: onedesk/public/js/one_ai/ai_center.js:365 onedesk/public/js/settings.js:1077
 #: onedesk/public/js/settings.js:1102 onedesk/public/js/settings.js:1683
 #: onedesk/public/js/settings.js:1715
 msgid "Record Type"
@@ -36428,7 +36446,8 @@ msgstr ""
 #: onedesk/public/js/access_center.js:116 onedesk/public/js/apps.js:68
 #: onedesk/public/js/crm_record.js:97 onedesk/public/js/item_actions.js:31
 #: onedesk/public/js/lots_actions.js:53 onedesk/public/js/next_step.js:27
-#: onedesk/public/js/one_ai/ai_center.js:336
+#: onedesk/public/js/one_ai/ai_center.js:226
+#: onedesk/public/js/one_ai/ai_center.js:368
 #: onedesk/public/js/one_mail/mail_templates.js:351
 #: onedesk/public/js/one_mail/onemail_settings.js:206
 #: onedesk/public/js/one_mail/onemail_settings.js:318
@@ -40589,8 +40608,8 @@ msgstr ""
 msgid "Sum: {0}"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:256
-#: onedesk/public/js/one_ai/ai_center.js:258
+#: onedesk/public/js/one_ai/ai_center.js:288
+#: onedesk/public/js/one_ai/ai_center.js:290
 msgid "Summaries"
 msgstr ""
 
@@ -42173,7 +42192,7 @@ msgstr ""
 msgid "The account a printed reminder asks to be paid into."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:286
+#: onedesk/public/js/one_ai/ai_center.js:318
 msgid "The account could not be reached."
 msgstr ""
 
@@ -43596,11 +43615,11 @@ msgstr ""
 msgid "The tier sets which models answer and what each answer costs."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:95
+#: onedesk/one_admin/setup.py:105
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:109
+#: onedesk/one_admin/setup.py:119
 msgid "The token has no zone for {0}."
 msgstr ""
 
@@ -44939,6 +44958,7 @@ msgstr ""
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/extension/extension.json
+#: onedesk/public/js/one_ai/ai_center.js:221
 #: onedesk/public/js/onecloud_dialogs.js:339
 msgid "Title"
 msgstr ""
@@ -46665,8 +46685,8 @@ msgstr ""
 
 #. Label of the storage_said (HTML) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_ai/abilities.py:26
-#: onedesk/public/js/one_ai/ai_center.js:278
-#: onedesk/public/js/one_ai/ai_center.js:280
+#: onedesk/public/js/one_ai/ai_center.js:310
+#: onedesk/public/js/one_ai/ai_center.js:312
 msgid "Usage"
 msgstr ""
 
@@ -46806,7 +46826,7 @@ msgstr ""
 #. Option for the 'Party' (Select) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Cloud Drive Password'
-#: frontend/src/project/Team.vue:33 onedesk/one/abilities.py:226
+#: frontend/src/project/Team.vue:33 onedesk/one/abilities.py:253
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
@@ -47753,7 +47773,7 @@ msgstr ""
 msgid "What OneAI remembers about you"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:306
+#: onedesk/public/js/one_ai/ai_center.js:338
 msgid "What OneAI remembers about you, which only you can see."
 msgstr ""
 
@@ -51561,7 +51581,7 @@ msgstr ""
 msgid "Workspace ID"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:321
+#: onedesk/public/js/one_ai/ai_center.js:353
 msgid "Workspace Knowledge"
 msgstr ""
 
@@ -51812,6 +51832,10 @@ msgstr ""
 
 #: onedesk/one_project/ai.py:34
 msgid "Write the customer an update"
+msgstr ""
+
+#: onedesk/one_ai/abilities.py:37
+msgid "Write the facts, terms and policies OneAI reads with every answer."
 msgstr ""
 
 #: onedesk/one_hr/ai.py:170
@@ -52697,7 +52721,7 @@ msgstr ""
 msgid "Your role doesn't allow changing this."
 msgstr ""
 
-#: onedesk/one_ai/center.py:230
+#: onedesk/one_ai/center.py:235
 msgid "Your role doesn't allow seeing OneAI's usage."
 msgstr ""
 
@@ -52715,6 +52739,10 @@ msgstr ""
 
 #: onedesk/one_legal/services.py:109
 msgid "Your role doesn't allow turning services on or off."
+msgstr ""
+
+#: onedesk/one_ai/center.py:248
+msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr ""
 
 #: onedesk/public/js/settings.js:779
@@ -52785,8 +52813,8 @@ msgstr ""
 #: onedesk/public/js/notification_center.js:47
 #: onedesk/public/js/notification_center.js:50
 #: onedesk/public/js/notification_center.js:193
-#: onedesk/public/js/one_ai/ai_center.js:303
-#: onedesk/public/js/one_ai/ai_center.js:305
+#: onedesk/public/js/one_ai/ai_center.js:335
+#: onedesk/public/js/one_ai/ai_center.js:337
 msgid "Yours"
 msgstr ""
 
@@ -52942,7 +52970,7 @@ msgstr ""
 msgid "all of these:"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:147
+#: onedesk/one_admin/setup.py:157
 msgid "already set"
 msgstr ""
 
@@ -53102,7 +53130,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:336
+#: onedesk/one_admin/setup.py:367
 msgid "deployed"
 msgstr ""
 
@@ -53214,7 +53242,7 @@ msgstr ""
 msgid "from it"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:151
+#: onedesk/one_admin/setup.py:161
 msgid "from the token"
 msgstr ""
 
@@ -54069,7 +54097,7 @@ msgstr ""
 msgid "tomorrow"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:347
+#: onedesk/one_admin/setup.py:378
 msgid "unchanged"
 msgstr ""
 
@@ -54480,7 +54508,7 @@ msgstr ""
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:111
+#: onedesk/one_admin/setup.py:121
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
@@ -54570,7 +54598,7 @@ msgstr ""
 msgid "{0} budget"
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:292
+#: onedesk/public/js/one_ai/ai_center.js:324
 msgid "{0} calls"
 msgstr ""
 
@@ -55528,7 +55556,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:275
+#: onedesk/one_admin/setup.py:285
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
@@ -55561,7 +55589,7 @@ msgstr ""
 msgid "{0} is not on this workspace."
 msgstr ""
 
-#: onedesk/one_ai/center.py:134 onedesk/one_ai/center.py:179
+#: onedesk/one_ai/center.py:139 onedesk/one_ai/center.py:184
 msgid "{0} is not one of OneAI's settings."
 msgstr ""
 
@@ -56244,7 +56272,7 @@ msgstr ""
 msgid "{0} received from {1}."
 msgstr ""
 
-#: onedesk/public/js/one_ai/ai_center.js:264
+#: onedesk/public/js/one_ai/ai_center.js:296
 msgid "{0} records"
 msgstr ""
 
@@ -56763,7 +56791,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:272
+#: onedesk/one_admin/setup.py:282
 msgid "{0}, on the mail domain"
 msgstr ""
 
@@ -56771,7 +56799,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:252
+#: onedesk/one_admin/setup.py:262
 msgid "{0}, replacing the previous rule"
 msgstr ""
 
@@ -56808,15 +56836,15 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:187
+#: onedesk/one_admin/setup.py:197
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:202
+#: onedesk/one_admin/setup.py:212
 msgid "{0}. The key needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:234
+#: onedesk/one_admin/setup.py:244
 msgid "{0}. The key needs Zone Settings: Edit."
 msgstr ""
 

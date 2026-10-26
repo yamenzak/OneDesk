@@ -1,7 +1,7 @@
 """What OneAI lets a role do beyond its records (one/abilities.py,
 docs/ROLES.md): each ability is one of frappe's Permission Types on AI
 Knowledge, declared in permission_type/ beside this file. Turning OneAI on
-or off, its tier, reading and Knowledge are a workspace administrator's."""
+or off, its tier and reading are a workspace administrator's."""
 
 from frappe import _lt
 
@@ -28,6 +28,14 @@ ABILITIES = [
 		"all": "ai_usage",
 		"about": _lt("See what OneAI used, job by job, in the last thirty days."),
 	},
+	{
+		"key": "knowledge",
+		"group": WORKSPACE,
+		"label": _lt("Knowledge"),
+		"kind": "switch",
+		"all": "ai_knowledge",
+		"about": _lt("Write the facts, terms and policies OneAI reads with every answer."),
+	},
 ]
 
 # Nothing of OneAI's is given on one record.
@@ -37,5 +45,5 @@ SHARED = ()
 # (abilities.settle), and shown in Help ({roles}).
 DEFAULTS = {
 	"OneAI User": {},
-	"OneAI Manager": {"usage": 1},
+	"OneAI Manager": {"usage": 1, "knowledge": 1},
 }

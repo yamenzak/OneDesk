@@ -12,6 +12,8 @@ NOT_FOR_AI = {
 	"center.set_tier": "The tier sets what every answer costs, so an administrator chooses it in AICenter, never OneAI.",
 	"center.set_reading": "How far OneAI acts on what arrives is decided by an administrator, never by OneAI.",
 	"center.set_reading_on": "Reading is turned on and off by an administrator, never by OneAI itself.",
+	"center.keep_knowledge": "Knowledge is what OneAI is told as fact, so a person writes it, never OneAI.",
+	"center.drop_knowledge": "Knowledge is what OneAI is told as fact, so a person removes it, never OneAI.",
 	"center.set_job": "What OneAI does by itself in a module is decided by an administrator, never by OneAI.",
 	"run.apply_all": "It approves OneAI's cards, which is the person's answer to OneAI and never OneAI's own.",
 }

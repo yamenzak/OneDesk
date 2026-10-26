@@ -36,12 +36,6 @@ Each says what was done meanwhile, so nothing waited on it.
   loaded or added. The provider is Exa, as the plan said: Cloudflare also
   offers Ceramic (its default) and Linkup. Say which way to pay, and
   whether Exa stays.
-- **OneAI's roles hold one thing: Usage.** Taking OneAI through the
-  fourteen points needs roles of its own. A OneAI Manager role now sees
-  AICenter's Usage tab, and everybody holds OneAI User. *Meanwhile:* the
-  tier, reading, Knowledge, module parts and summaries stay with Workspace
-  Administrators, as before. Say if a OneAI Manager should also write
-  Knowledge or choose the tier.
 - **OneAI isn't marked ready yet.** It is in the registry and its guards
   pass: its own folder, Help, roles, notifications, tour, settings and
   version. The points a person signs off (copy in three languages, the demo,

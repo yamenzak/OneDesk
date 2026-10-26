@@ -437,7 +437,10 @@ No doctypes yet.
 * `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.brief.switch`
+* `onedesk.one_ai.center.drop_knowledge`
+* `onedesk.one_ai.center.keep_knowledge`
 * `onedesk.one_ai.center.knowledge`
+* `onedesk.one_ai.center.knowledge_of`
 * `onedesk.one_ai.center.parts`
 * `onedesk.one_ai.center.reading`
 * `onedesk.one_ai.center.set_job`

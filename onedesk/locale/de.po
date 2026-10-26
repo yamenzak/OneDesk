@@ -57462,3 +57462,18 @@ msgstr "Wer zugestimmt hat"
 
 msgid "Your role doesn't allow seeing who agreed."
 msgstr "Ihre Rolle erlaubt nicht, zu sehen, wer zugestimmt hat."
+
+msgid "Delete {0}?"
+msgstr "{0} löschen?"
+
+msgid "Empty for everything."
+msgstr "Leer für alles."
+
+msgid "Give OneAdmin Settings a token that may run the gateway."
+msgstr "Geben Sie in den OneAdmin-Einstellungen ein Token an, das das Gateway nutzen darf."
+
+msgid "Write the facts, terms and policies OneAI reads with every answer."
+msgstr "Die Fakten, Begriffe und Richtlinien schreiben, die OneAI bei jeder Antwort liest."
+
+msgid "Your role doesn't allow writing OneAI's Knowledge."
+msgstr "Ihre Rolle erlaubt nicht, das Wissen von OneAI zu schreiben."

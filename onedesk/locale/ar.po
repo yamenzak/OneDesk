@@ -57462,3 +57462,18 @@ msgstr "من وافق"
 
 msgid "Your role doesn't allow seeing who agreed."
 msgstr "دورك لا يسمح برؤية من وافق."
+
+msgid "Delete {0}?"
+msgstr "حذف {0}؟"
+
+msgid "Empty for everything."
+msgstr "اتركه فارغًا ليشمل كل شيء."
+
+msgid "Give OneAdmin Settings a token that may run the gateway."
+msgstr "أضف إلى إعدادات OneAdmin رمزًا يمكنه تشغيل البوابة."
+
+msgid "Write the facts, terms and policies OneAI reads with every answer."
+msgstr "كتابة الحقائق والشروط والسياسات التي يقرؤها OneAI مع كل إجابة."
+
+msgid "Your role doesn't allow writing OneAI's Knowledge."
+msgstr "دورك لا يسمح بكتابة معرفة OneAI."

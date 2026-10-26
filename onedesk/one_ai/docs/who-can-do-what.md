@@ -9,7 +9,7 @@ who can do everything.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Everyone | Ask OneAI, approve their own cards, and keep their own memories. |
-| **Manager** | People you choose | See what OneAI used, job by job, in AICenter. |
+| **Manager** | People you choose | Write Knowledge, and see what OneAI used, job by job, in AICenter. |
 
 ## What Each Role Starts With
 
@@ -21,7 +21,7 @@ made.
 
 ## What Stays With Administrators
 
-Turning OneAI on or off, its tier, reading what arrives, Knowledge, what
+Turning OneAI on or off, its tier, reading what arrives, what
 OneAI does by itself in each module and which records get a summary are
 always a Workspace Administrator's.
 

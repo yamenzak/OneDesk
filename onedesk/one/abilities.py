@@ -206,8 +206,35 @@ def settle(*_args) -> None:
 						"one_app": declared.APP if role == getattr(declared, "EVERYONE", None) else None,
 					}
 				).insert(ignore_permissions=True)
-			if not _row(declared.DOCTYPE, role):
+			row = _row(declared.DOCTYPE, role)
+			if not row:
 				save(declared.APP, role, values)
+			else:
+				_arrived(declared, role, values, row)
+
+
+SETTLED = "one_abilities_settled_{}_{}"
+
+
+def _arrived(declared, role: str, values: dict, row: dict) -> None:
+	"""An ability an update brings is given to a role with its default, once,
+	when the role's row is older than the ability; what the workspace makes
+	of it afterwards is kept, as everything else is."""
+	import json
+
+	told = SETTLED.format(frappe.scrub(declared.APP), frappe.scrub(role))
+	settled = set(json.loads(frappe.db.get_default(told) or "[]"))
+	given = {}
+	for one in declared.ABILITIES:
+		if one["key"] in settled:
+			continue
+		settled.add(one["key"])
+		since = frappe.db.get_value("Permission Type", {"doc_type": declared.DOCTYPE, "perm_type": one["all"]}, "creation")
+		if since and since > row.creation and values.get(one["key"]) not in (None, 0, "none"):
+			given[one["key"]] = values[one["key"]]
+	if given:
+		save(declared.APP, role, {**of(declared.APP, role), **given})
+	frappe.db.set_default(told, json.dumps(sorted(settled)))
 
 
 def defaults_table(app: str) -> str:

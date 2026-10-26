@@ -83,8 +83,8 @@ yourself.
   them in their own list.
 - A question about how One works is answered from the products' guides, with
   the section named. If the guides don't cover it, OneAI says so.
-- **Knowledge**, under OneAI in the sidebar, holds notes administrators wrote
-  for everyone, such as a policy or a glossary. OneAI reads them too.
+- **Knowledge**, under OneAI in the sidebar, holds notes administrators and OneAI
+  Managers wrote for everyone, such as a policy or a glossary. OneAI reads them too.
 
 #### Cards
 
@@ -205,7 +205,8 @@ day. Only administrators see it.
 #### Who sees what
 
 - Your conversations, memories and cards are yours alone.
-- Everyone can read **Knowledge**. Only administrators change it.
+- Everyone can read **Knowledge**. Administrators and roles holding
+  Knowledge (OneAI Manager, by default) write it, in AICenter.
 - **AICenter** and **Credits** are for administrators.
 - An administrator can turn OneAI off for the whole workspace in **Apps**, at
   the bottom of the rail. Then nobody can ask it anything, nothing calls a
@@ -515,8 +516,8 @@ deliberately not here.
     quietly (it is what they just said), and seen and deleted in the memory
     list. The same fact twice is one memory, and a correction replaces what it
     corrects;
-  - **the workspace's knowledge** (`AI Knowledge`), what an administrator
-    wrote down for everybody: a policy, a glossary, how things are done here.
+  - **the workspace's knowledge** (`AI Knowledge`), what an administrator or a
+    OneAI Manager wrote down for everybody: a policy, a glossary, how things are done here.
 
   And a fourth that is not stored at all: the reader's own past
   conversations, searched rather than summarised into anything. None of it is

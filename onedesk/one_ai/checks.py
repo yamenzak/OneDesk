@@ -95,3 +95,35 @@ def oneai_searches_the_web_only_while_its_service_is_on():
 		finally:
 			services.switch(ai_web.SERVICE, int(was))
 			frappe.local.one_services = {}
+
+
+@check
+def a_oneai_manager_writes_knowledge():
+	"""Knowledge (one_ai/center.py keep_knowledge): Nadia, with no role
+	beyond User, is refused; given OneAI Manager she writes a piece, changes
+	it and removes it in AICenter, though the record type's own form is an
+	administrator's; OneAI may do none of it (ai.py NOT_FOR_AI)."""
+	from onedesk.one_ai import ai, center
+
+	with as_user("nadia@one.test"):
+		assert not center.may()["knowledge"]
+		try:
+			center.keep_knowledge("Refused", "Nobody reads this.")
+			raise AssertionError("Nadia wrote Knowledge")
+		except frappe.PermissionError:
+			pass
+	user = frappe.get_doc("User", "nadia@one.test")
+	user.add_roles("OneAI Manager")
+	try:
+		with as_user("nadia@one.test"):
+			assert center.may()["knowledge"], "OneAI Manager holds Knowledge, given once by the update that brought it"
+			assert not frappe.has_permission("AI Knowledge", "create"), "the record type's own form stays an administrator's"
+			name = center.keep_knowledge("Site visits", "<p>Site visits are booked two days ahead.</p>", enabled=1)
+			assert center.knowledge_of(name)["title"] == "Site visits"
+			center.keep_knowledge("Site visits", "<p>Three days ahead.</p>", enabled=0, name=name)
+			assert {"name": name, "enabled": 0} in [{"name": one["name"], "enabled": one["enabled"]} for one in center.knowledge()]
+			center.drop_knowledge(name)
+			assert not frappe.db.exists("AI Knowledge", name)
+	finally:
+		user.remove_roles("OneAI Manager")
+	assert "center.keep_knowledge" in ai.NOT_FOR_AI and "center.drop_knowledge" in ai.NOT_FOR_AI
