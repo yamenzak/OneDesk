@@ -854,6 +854,14 @@ tools are the run's own (`frappe.flags.one_ai_tools`), never offered to the
 chat. `_worth` leaves history, copies and anything not Ordinary to the
 planners.
 
+Before the loop, `guard.holds` shows Llama Guard what the model would be
+shown (the `guard` job, told nothing, since Llama Guard judges whatever it
+is given). Anything but "safe", or a check that could not run, and OneAI
+does not act: the reading is marked unsure, and its dropped lines say it
+read like instructions to OneAI, so it waits in Documents for a person.
+Measured on the 25 reading samples through the door: the one written to
+instruct OneAI came back unsafe, the other 24 safe.
+
 The model never decides a party, money or an order: the planners do, with
 rules that can be read, and the agent is told not to. What it adds is what
 those rules could not see: the record a sentence is about, the delivery date

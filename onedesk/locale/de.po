@@ -6794,6 +6794,10 @@ msgstr "Änderungen, bei denen OneAI unsicher ist, warten in Dokumente auf Freig
 msgid "Changing on {0}"
 msgstr "Ändert sich am {0}"
 
+#: onedesk/one_ai/jobs.py
+msgid "Check What Arrived Before Acting"
+msgstr "Prüfen, was ankam, bevor gehandelt wird"
+
 #: onedesk/one_ai/center.py
 msgid "Choose Fast, Balanced or Full."
 msgstr "Wählen Sie Schnell, Ausgewogen oder Voll."

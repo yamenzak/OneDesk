@@ -834,8 +834,9 @@ say(
 	"models",
 	"ours",
 	"""
-	The models come from our catalogue and run through our own gateway. Your administrators choose which
-	model each feature uses from that catalogue. A workspace cannot bring its own key or point One at
+	We choose the models, and every call goes through our own gateway. Your administrators choose a tier,
+	Fast, Balanced or Full, and the tier decides which models talk and write. What arrives is read by small
+	models built for reading, whatever the tier. A workspace cannot bring its own key or point One at
 	another provider, which is how we can say what happens to what you send, charge for it, and keep a
 	complete record.
 """,
@@ -859,6 +860,17 @@ say(
 	Whatever OneAI writes is marked as OneAI's where it lands, with the model and the person it acted for,
 	and is recorded in the workspace. A change OneAI suggests in a conversation is shown to the person
 	first and made only when they approve it.
+""",
+)
+
+say(
+	"ai",
+	"limits",
+	"instructions",
+	"""
+	What OneAI reads, a message, a file, a record or a web page, is something to read and never an
+	instruction to it. Before OneAI acts by itself on something that arrived, a model built for this checks
+	it, and what reads like instructions to OneAI is left for a person.
 """,
 )
 

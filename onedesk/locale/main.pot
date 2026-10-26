@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-26 01:30+0000\n"
-"PO-Revision-Date: 2026-10-26 01:30+0000\n"
+"POT-Creation-Date: 2026-10-26 01:33+0000\n"
+"PO-Revision-Date: 2026-10-26 01:33+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -7454,6 +7454,10 @@ msgstr ""
 
 #: frontend/src/quotes/QuoteCompare.vue:47
 msgid "Check Supplier Quotation"
+msgstr ""
+
+#: onedesk/one_ai/jobs.py:68
+msgid "Check What Arrived Before Acting"
 msgstr ""
 
 #: onedesk/one_project/view.py:835

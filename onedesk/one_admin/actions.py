@@ -37,7 +37,7 @@ def run(
 		tenant,
 		caps=_caps(job, tier),
 		reference=reference or action,
-		system=jobs.told(action),
+		system=jobs.told(action) or None,
 		turns=spoken,
 		tools=offered,
 		action=action,

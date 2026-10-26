@@ -36,6 +36,13 @@ Each says what was done meanwhile, so nothing waited on it.
   loaded or added. The provider is Exa, as the plan said: Cloudflare also
   offers Ceramic (its default) and Linkup. Say which way to pay, and
   whether Exa stays.
+- **The gateway's own Guardrails are not set.** The plan had Cloudflare's
+  Guardrails flag prompt injection on every call. Our gateway token cannot
+  read or change the gateway's settings (403), so they are as the
+  dashboard left them. *Meanwhile:* Llama Guard is asked in code before
+  OneAI acts by itself on what arrived, and blocks there. Say if you want
+  the dashboard's Guardrails on too (flag or block), or the token given
+  AI Gateway edit rights so it is set from here.
 - **Three doctypes still say Intake: Intake Settings, Intake Action and
   Intake Lesson**, and two notification names (Intake Waiting, Intake
   Weekly). OneIntake left every screen, Help page and clause; these are

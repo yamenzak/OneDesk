@@ -10,7 +10,7 @@ from typing import Annotated
 import frappe
 from frappe.utils import cint, getdate, strip_html_tags
 
-from onedesk.one_ai.reading import act
+from onedesk.one_ai.reading import act, guard
 
 ACTION = "intake_act"
 
@@ -40,6 +40,9 @@ def think(name: str) -> None:
 	reading = frappe.get_doc("Reading", name)
 	if not _worth(reading) or not apps.intake_on() or not account.configured():
 		return
+	asked = told(reading)
+	if guard.holds(reading, asked):
+		return
 	was = frappe.session.user
 	frappe.flags.one_intake_reading = reading.name
 	frappe.flags.one_ai_tools = {fn.__name__: fn for fn in HANDS}
@@ -47,7 +50,7 @@ def think(name: str) -> None:
 	try:
 		run.ask(
 			ACTION,
-			told(reading),
+			asked,
 			reference=reading.name,
 			only=[*LOOKS, *(fn.__name__ for fn in HANDS)],
 			nudges=False,

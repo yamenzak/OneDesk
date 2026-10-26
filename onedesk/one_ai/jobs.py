@@ -65,6 +65,7 @@ JOBS = {
 	"intake_audit": Job(_lt("Audit What OneAI Did"), "OneAI", "talk", most=1500),
 	"intake_fill": Job(_lt("Fill What a Record Still Needs"), "OneAI", "talk", most=800),
 	"intake_act": Job(_lt("Act on What Arrived"), "OneAI", "talk", tools=True, most=1500),
+	"guard": Job(_lt("Check What Arrived Before Acting"), "OneAI", "guard", most=10, takes=4000),
 }
 
 
@@ -88,9 +89,16 @@ def words(key: str) -> str:
 	return path.read_text(encoding="utf-8").strip() if path.exists() else ""
 
 
+# Kinds told nothing: Llama Guard judges the whole conversation in its own
+# template, so anything it were told would be judged with the text.
+UNTOLD = ("guard",)
+
+
 def told(key: str) -> str:
 	"""Everything a model is told for a job: the voice's parts, then its words."""
 	job = JOBS[key]
+	if job.kind in UNTOLD:
+		return ""
 	return "\n\n".join([*voice.parts(job.speaks, job.tools), *([words(key)] if words(key) else [])])
 
 

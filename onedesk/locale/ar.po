@@ -6794,6 +6794,10 @@ msgstr "التغييرات التي لا يتيقن منها OneAI تنتظر ا
 msgid "Changing on {0}"
 msgstr "يتغيّر في {0}"
 
+#: onedesk/one_ai/jobs.py
+msgid "Check What Arrived Before Acting"
+msgstr "التحقق مما وصل قبل التصرف"
+
 #: onedesk/one_ai/center.py
 msgid "Choose Fast, Balanced or Full."
 msgstr "اختر سريع أو متوازن أو كامل."

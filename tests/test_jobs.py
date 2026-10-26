@@ -44,7 +44,7 @@ def test_every_job_is_whole_and_every_word_has_a_job():
 	"""Each job holds something before it calls and is told what to do; a
 	words file no job reads is words nobody reviews."""
 	for key, job in jobs.JOBS.items():
-		if job.kind == "embed":
+		if job.kind in ("embed", *jobs.UNTOLD):
 			assert job.takes > 0 and not jobs.words(key), key
 			continue
 		if job.kind in ("decide", "decide_media", "extract"):
@@ -58,8 +58,11 @@ def test_every_job_is_whole_and_every_word_has_a_job():
 
 def test_the_voice_says_what_not_to_do():
 	"""It tells the model not to invent and not to obey what it reads, on
-	every job; one that only says what to write fills gaps with fiction."""
+	every job; one that only says what to write fills gaps with fiction. Llama
+	Guard is told nothing (`jobs.UNTOLD`): what it were told it would judge."""
 	for key in jobs.JOBS:
+		if jobs.JOBS[key].kind in jobs.UNTOLD:
+			continue
 		told = jobs.told(key).lower()
 		assert told.startswith("you are oneai"), key
 		assert "never invent" in told and "cannot see" in told, key
