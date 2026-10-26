@@ -232,6 +232,20 @@ def ai_search(query: str, mode: str = "keyword", most: int = 10) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_web_search(query: str, most: int = 5) -> dict:
+	"""One web search for this workspace, the question alone, billed to it
+	(one_admin/web.py). Asked only while its web search service is on."""
+	from onedesk.one_admin import web
+
+	tenant = caller()
+	try:
+		return web.find(tenant.name, query, int(most or 5))
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_embed(texts: list | str) -> dict:
 	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
 	from onedesk.one_admin import actions

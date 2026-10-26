@@ -284,6 +284,15 @@ GROUPS = {
 		),
 		"words": ("tenant", "workspaces", "signup", "console", "price list", "quote"),
 	},
+	"web": {
+		"about": "the web: look up a company, a supplier, a product or a general question, while the workspace has web search on",
+		"tools": ("web_search",),
+		"words": (
+			"web", "internet", "online", "website", "look up", "google", "netz", "webseite", "nachschlagen",
+			"الإنترنت", "الويب", "موقع", "ابحث عن",
+		),
+		"service": "web_search",
+	},
 }
 
 MODULES = {
@@ -304,7 +313,6 @@ MODULES = {
 	"One HR": "hr",
 	"One Mail": "mail",
 	"One Storage": "files",
-	"One Intake": "files",
 	"One Studio": "studio",
 	"One AI": "workspace",
 	"One Legal": "workspace",
@@ -379,11 +387,11 @@ def chosen(text: str | None, page: dict | None = None, turns: list[dict] | None 
 	"""The groups a request is given: `you`, the page's, those the
 	conversation used and those its words name, in that order, so that what
 	a follow-up is sent begins as what the last question was sent and the
-	provider's cache holds. The console only on One's own console."""
+	provider's cache holds. Only the groups offered now (`offered`)."""
 	picked = ["you", page_group(page), *sorted(used(turns)), *sorted(worded(text))]
 	out = []
 	for one in picked:
-		if one and one not in out and (one != "console" or _console()):
+		if one and one not in out and offered(one):
 			out.append(one)
 	return out
 
@@ -394,12 +402,21 @@ def _console() -> bool:
 	return site.is_admin()
 
 
+def offered(name: str) -> bool:
+	"""Whether a group may be given: the console only on One's own console,
+	and a group that needs an optional service only while it is on."""
+	from onedesk.one_legal import services
+
+	needs = GROUPS.get(name, {}).get("service")
+	return (name != "console" or _console()) and (not needs or services.on(needs))
+
+
 def catalogue(given: list[str]) -> str:
 	"""What `more_tools` tells the model: every group it may ask for, and what
 	each is for. The ones it has are said to be there."""
 	lines = []
 	for name, group in GROUPS.items():
-		if name == "console" and not _console():
+		if not offered(name):
 			continue
 		lines.append(f"{name}{' (given)' if name in given else ''}: {group['about']}")
 	return "\n".join(lines)

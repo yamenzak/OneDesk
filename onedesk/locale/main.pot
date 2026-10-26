@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-25 23:45+0000\n"
-"PO-Revision-Date: 2026-10-25 23:45+0000\n"
+"POT-Creation-Date: 2026-10-26 00:04+0000\n"
+"PO-Revision-Date: 2026-10-26 00:04+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -40345,7 +40345,7 @@ msgstr ""
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:699 onedesk/one_hr/ai.py:338
+#: onedesk/one_ai/tools.py:701 onedesk/one_hr/ai.py:338
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -44436,7 +44436,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:484
+#: onedesk/one_admin/proxy.py:522
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -44464,7 +44464,7 @@ msgstr ""
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:481
+#: onedesk/one_admin/proxy.py:519
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -47300,6 +47300,10 @@ msgstr ""
 
 #: onedesk/one/letter_heads.py:354 onedesk/one/letter_heads.py:372
 msgid "Web"
+msgstr ""
+
+#: onedesk/one_ai/ai_web.py:27
+msgid "Web search is off for this workspace."
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Cloud Mount'
@@ -55143,7 +55147,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:671
+#: onedesk/one_ai/tools.py:673
 msgid "{0} is not a tool."
 msgstr ""
 

@@ -1742,6 +1742,15 @@ with its R2 data source on the workspace's prefix and its path filter on
 and a workspace without one is refused with `NoSearch` and searches as it
 did (`proxy.ai_search_state`, `proxy.ai_search`).
 
+### web.py
+
+Web search for a workspace (docs/AICENTER.md, Web search): `find` asks
+Cloudflare's web search through our gateway, with the question alone and
+Exa as the provider, and returns each page's address, title and what it
+says. Billed at Exa's list price for a search of up to ten results; a
+failed search is released. Whether a workspace may ask is its own optional
+service, which the workspace holds (`proxy.ai_web_search`).
+
 ### proxy.py
 
 Everything a workspace is billed for comes through here: a signed URL to put a

@@ -20,10 +20,10 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.88c95250",
 	"aup": "1.cc05bbc3",
-	"privacy": "27.144021fb",
+	"privacy": "27.bd8f1046",
 	"cookies": "2.946a434c",
 	"dpa": "7.0d5532aa",
-	"subprocessors": "5.85264ef9",
+	"subprocessors": "5.fe8adca9",
 	"ai": "25.b4cff227",
 	"licences": "1.c71daf62",
 }
@@ -37,6 +37,7 @@ HOSTS = {
 	"billing.stripe.com": "Stripe, Inc.",
 	"www.gravatar.com": "Automattic Inc.",
 	"t1.gstatic.com": "Google LLC",
+	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

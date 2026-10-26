@@ -392,6 +392,12 @@ deliberately not here.
   carries the record's `modified` from when it was written; if the record has
   moved since, the proposal is stale and says so. Applying it anyway would be
   a model's diff quietly undoing a person's.
+- `ai_web.py`: `web_search`, the one tool that needs an optional service.
+  Given only while the workspace has web search on in TrustCenter
+  (`offered`, which `tools._every` and `groups.offered` ask), and run
+  through `services.call`, so with it off nothing leaves. Only the question
+  goes, to the account (`proxy.ai_web_search`), which asks Cloudflare's web
+  search for Exa's pages.
 - `search.py`: search on the workspace's own AI Search instance, once the
   account says it has one (`proxy.ai_search_state`, believed for an hour).
   Each record `index.py` indexes is also written as Markdown under `search/`

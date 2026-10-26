@@ -3,7 +3,7 @@ they receive. Every model call goes through one_admin/gateway.py, which holds
 no provider key; the keys are in Cloudflare's AI Gateway. See
 one_legal/README.md."""
 
-from onedesk.one_legal.registry import clause, subprocessor
+from onedesk.one_legal.registry import clause, service, subprocessor
 
 M = "OneAI"
 
@@ -40,5 +40,49 @@ clause(
 		you could not open yourself. What it read and what it answered is kept as your conversation, which you
 		can see and delete. What OneAI remembers about how you work is listed in your settings, and you can
 		remove any of it.
+	""",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Web search, which passes each question OneAI looks up to the search provider",
+	data="The question OneAI searches the web for, never a record",
+	where="Cloudflare's network",
+	safeguard=CLOUDFLARE,
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+	service="web_search",
+)
+
+subprocessor(
+	name="Exa Labs, Inc.",
+	module=M,
+	purpose="Web search, which answers the questions OneAI looks up on the web",
+	data="The question OneAI searches the web for, never a record",
+	where="The United States",
+	safeguard="Standard Contractual Clauses",
+	url="https://exa.ai/privacy-policy",
+	service="web_search",
+)
+
+service(
+	key="web_search",
+	module=M,
+	title="Web search",
+	does="Lets OneAI look things up on the web: a new lead's company, a supplier, a product or a general question.",
+	sends="Only the question OneAI searches for, through Cloudflare to Exa. Never a record, a document or a message.",
+	off="OneAI answers from the workspace alone and says when it would need the web.",
+	hosts=("onedesk.one_admin.proxy.ai_web_search",),
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneai-web-search",
+	module=M,
+	body="""
+		Web search is off until your workspace's administrators turn it on. While it is on, OneAI can look
+		something up on the web. Only the question it searches for leaves your workspace, through Cloudflare
+		to Exa, and never a record, a document or a message. Each search is charged to your credits.
 	""",
 )

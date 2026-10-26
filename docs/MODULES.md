@@ -403,6 +403,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_search_state`
 * `onedesk.one_admin.proxy.ai_tiers`
 * `onedesk.one_admin.proxy.ai_usage`
+* `onedesk.one_admin.proxy.ai_web_search`
 * `onedesk.one_admin.proxy.app_claim`
 * `onedesk.one_admin.proxy.billed_to`
 * `onedesk.one_admin.proxy.billing_invoice`

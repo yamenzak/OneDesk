@@ -1297,7 +1297,7 @@ def onelegal_trustcenter_services_changes_and_laws():
 		frappe.local.one_services = {}
 		assert not gate.outstanding()["blocking"], "a new revision stops nobody"
 		said = reading.trust("OneMail")
-		assert said["module"]["documents"] and len(said["services"]) == 2, said["services"]
+		assert said["module"]["documents"] and {"gravatar", "logos", "web_search"} <= {one["key"] for one in said["services"]}, said["services"]
 		gravatar = next(use for row in said["companies"] for use in row["uses"] if use["service"] == "Pictures from Gravatar")
 		assert gravatar["used"]
 		assert bool(said["changes"]) == ready.PRODUCTION, said["changes"]
@@ -9461,3 +9461,34 @@ def _modules() -> None:
 
 
 _modules()
+
+
+@check
+def oneai_searches_the_web_only_while_its_service_is_on():
+	"""Web search (one_ai/ai_web.py): off, OneAI isn't given the tool or its
+	group, and asking it reaches nobody; on, the question alone goes to the
+	account, and the pages come back."""
+	from unittest import mock
+
+	from onedesk.one_ai import ai_web, groups, tools
+	from onedesk.one_legal import services
+
+	with as_user(OWNER):
+		was = services.on(ai_web.SERVICE)
+		try:
+			services.switch(ai_web.SERVICE, 0)
+			frappe.local.one_services = {}
+			assert "web_search" not in tools.names() and "web" not in groups.chosen("look up Gulf Extrusions online")
+			with mock.patch("onedesk.one.account.ask") as asked:
+				assert ai_web.web_search("Gulf Extrusions Dubai")["pages"] == []
+				asked.assert_not_called()
+			services.switch(ai_web.SERVICE, 1)
+			frappe.local.one_services = {}
+			assert "web_search" in tools.names() and "web" in groups.chosen("look up Gulf Extrusions online")
+			page = {"url": "https://gulf.example", "title": "Gulf Extrusions", "about": "Aluminium profiles"}
+			with mock.patch("onedesk.one.account.ask", return_value={"pages": [page]}) as asked:
+				assert ai_web.web_search("Gulf Extrusions Dubai") == {"pages": [page]}
+				assert asked.call_args.kwargs == {"query": "Gulf Extrusions Dubai", "most": ai_web.MOST}, asked.call_args
+		finally:
+			services.switch(ai_web.SERVICE, int(was))
+			frappe.local.one_services = {}

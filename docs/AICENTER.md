@@ -661,7 +661,16 @@ the screen), a commit, and the docs it changes.
    waits for a yes (the scratchpad). Until then nothing changes, so AI
    Chunk, the vectors and the search bar's keyword search stay; they go
    once instances answer.
-6. **Web search.** The optional service, the tool, the subprocessor.
+6. **Web search.** Built, and off until a workspace administrator turns
+   it on in TrustCenter (`web_search`, one_ai/legal.py). On, OneAI is given
+   `web_search` and the `web` group (one_ai/ai_web.py); off, neither is
+   offered, and asking reaches nobody. Only the question leaves: the
+   account asks Cloudflare's web search (`POST /accounts/{a}/ai/websearch`,
+   one_admin/web.py) for Exa's pages, up to ten, each an address, a title
+   and what it says, and bills $0.007 a search, Exa's list price. Cloudflare
+   and Exa are named as subprocessors for this service alone. Tried once:
+   the gateway answers 402 until AI Gateway credits are loaded (the
+   scratchpad).
 7. **The product.** The panel, cards, writing in a field and summaries
    rebuilt on jobs: the panel with no model to pick, cards and chains as
    now, summaries switched per record type from AICenter.

@@ -27013,6 +27013,10 @@ msgstr "القراءة متوقفة في مساحة العمل هذه."
 msgid "Sort What Arrives"
 msgstr "فرز ما يصل"
 
+#: onedesk/one_ai/ai_web.py
+msgid "Web search is off for this workspace."
+msgstr "البحث في الويب متوقف في مساحة العمل هذه."
+
 #: onedesk/one/ai.py
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."
 msgstr "ما الذي يحتاجني اليوم؟ انظر في مهامي واجتماعاتي وما ينتظرني في المستندات واقتراحات OneAI وما عليّ الموافقة عليه، وقل لي بماذا أبدأ."

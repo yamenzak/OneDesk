@@ -99,8 +99,9 @@ def service(*, key: str, module: str, title: str, does: str, sends: str, off: st
 	"""Register something a module sends out only once a workspace
 	administrator turns it on and agrees to it (docs/READY.md, mechanism 13):
 	what it does, what it sends, what happens while it is off, and the hosts
-	it calls, which only `services.call` may reach. Its companies are the
-	subprocessor uses that name it."""
+	it calls, which only `services.call` may reach; a service the account
+	calls for the workspace names the account's endpoint instead. Its
+	companies are the subprocessor uses that name it."""
 	if key in SERVICES:
 		raise ValueError(f"service {key} is declared twice")
 	SERVICES[key] = {

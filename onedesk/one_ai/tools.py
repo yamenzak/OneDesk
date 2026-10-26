@@ -534,7 +534,7 @@ def more_tools(
 	from onedesk.one_ai import groups as grouped
 
 	wanted = [str(one).strip().lower() for one in groups or []]
-	known = [one for one in wanted if one in grouped.GROUPS and (one != "console" or grouped._console())]
+	known = [one for one in wanted if one in grouped.GROUPS and grouped.offered(one)]
 	unknown = [one for one in wanted if one not in known]
 	return {
 		"given": known,
@@ -585,9 +585,11 @@ def hooked() -> tuple[tuple, tuple]:
 def _every() -> tuple[tuple, tuple]:
 	"""What runs now (reads, and keeping a memory, and the tools a run was
 	handed for itself, such as OneAI's) and what becomes a card."""
+	from onedesk.one_ai.ai_web import offered
+
 	reads, suggests = hooked()
 	own = tuple((frappe.flags.get("one_ai_tools") or {}).values())
-	return READS + KEEPS + reads + own, SUGGESTS + suggests
+	return READS + KEEPS + tuple(filter(offered, reads)) + own, SUGGESTS + suggests
 
 
 def declared_only(names: list[str]) -> list[dict]:
