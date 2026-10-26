@@ -874,6 +874,15 @@ The bottom bar has AICenter, and Settings' OneAI sections open it.
 outside OneAI that reaches the gateway. The plan and what is still to come
 are in `docs/AICENTER.md`.
 
+### 17. AccountCenter
+
+**Planned.** A module of its own: for everybody, **Yours** (profile,
+sign-in, your devices); for administrators, **Workspace** (people,
+company devices, plan and credits, domains, apps, closing the workspace).
+It is the first step of cutting One down to the shell, Home and a few
+screens of its own, each drawn on OneInterface. The plan and its stages
+are in `docs/ONE.md`.
+
 ## The fourteen points
 
 A module is checked against these once the mechanisms exist. Each point
