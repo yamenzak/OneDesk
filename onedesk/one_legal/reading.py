@@ -111,7 +111,45 @@ def overview() -> dict:
 				else None,
 			}
 		)
-	return {"party": PARTY, "documents": documents, "admin": roles.administers(), "may_bind": gate._may_bind()}
+	return {
+		"party": PARTY,
+		"documents": documents,
+		"admin": roles.administers(),
+		"may_bind": gate._may_bind(),
+		"sees_acceptances": _sees_acceptances(),
+	}
+
+
+def _sees_acceptances() -> bool:
+	"""A workspace administrator, or a role given Who Agreed (abilities.py)."""
+	from onedesk.one import abilities
+
+	return abilities.may("Legal Acceptance", "legal_acceptances")
+
+
+@frappe.whitelist(methods=["GET"])
+def acceptances(key: str) -> list[dict]:
+	"""Everybody in the workspace who agreed to one agreement, newest first,
+	for whoever may see that."""
+	if not _sees_acceptances():
+		frappe.throw(_("Your role doesn't allow seeing who agreed."), frappe.PermissionError)
+	rows = frappe.get_all(
+		"Legal Acceptance",
+		filters={"document": key},
+		fields=["user", "party", "version", "accepted_on"],
+		order_by="accepted_on desc",
+		limit=500,
+		ignore_permissions=True,
+	)
+	return [
+		{
+			"who": frappe.utils.get_fullname(row.user),
+			"for": "organisation" if row.party == gate.WORKSPACE else "self",
+			"version": row.version,
+			"on": frappe.utils.format_datetime(row.accepted_on),
+		}
+		for row in rows
+	]
 
 
 @frappe.whitelist(methods=["GET"])

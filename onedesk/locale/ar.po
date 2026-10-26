@@ -12957,8 +12957,8 @@ msgid "Each sender gets it once every 4 days, and mailing lists and automatic ma
 msgstr "يصل إلى كل مرسل مرة كل 4 أيام، ولا يصل أبدًا إلى القوائم البريدية أو البريد التلقائي."
 
 #: onedesk/public/js/trust_center.js
-msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
-msgstr "كل منها يرسل شيئًا إلى شركة أخرى، ويبقى متوقفًا ما لم تشغّله. تشغيل أحدها موافقة عليه لمساحة العمل كلها."
+msgid "Each sends something to another company and stays off until you turn it on, which agrees to it for your whole workspace."
+msgstr "كل منها يرسل شيئًا إلى شركة أخرى ويبقى متوقفًا حتى تشغّله، وتشغيله موافقة عليه لمساحة العمل كلها."
 
 #: onedesk/public/js/notification_center.js
 msgid "Edit Words"
@@ -14297,8 +14297,8 @@ msgid "Every administrator, and everybody who holds the mailbox"
 msgstr "كل مسؤول، وكل من يحمل صندوق البريد"
 
 #: onedesk/public/js/trust_center.js
-msgid "Every company that receives data from a workspace, and whether yours uses it."
-msgstr "كل شركة تتلقى بيانات من مساحة عمل، وهل تستخدمها مساحتك."
+msgid "Every company that receives data, and whether yours uses it."
+msgstr "كل شركة تتلقى البيانات، وهل تستخدمها مساحة عملك."
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -14689,8 +14689,6 @@ msgstr "كل من يعمل هنا يحتاج إلى حساب. أضفهم الآ�
 msgid "Everyone's"
 msgstr "للجميع"
 
-msgid "Everyone's Agreements"
-msgstr "موافقات الجميع"
 
 #: frontend/src/home/BooksHome.vue:89 frontend/src/home/CrmHome.vue:89
 #: frontend/src/home/HrHome.vue:107 frontend/src/home/InventoryHome.vue:105
@@ -18509,8 +18507,8 @@ msgid "How urgent an issue is."
 msgstr "مدى إلحاح البلاغ."
 
 #: onedesk/one_legal/gate.py:23
-msgid "How we handle personal data your organisation is responsible for. Part of the Terms of Service."
-msgstr "كيف نتعامل مع البيانات الشخصية التي تتحمل مؤسستك مسؤوليتها. جزء من شروط الخدمة."
+msgid "How we handle personal data your organisation is responsible for, under the Terms of Service."
+msgstr "كيف نتعامل مع البيانات الشخصية التي تتحمل مؤسستك مسؤوليتها، بموجب شروط الخدمة."
 
 #: onedesk/one_ai/proposals.py:154
 msgid "How {0} is numbered has changed since this was suggested, so it no longer applies."
@@ -18529,8 +18527,8 @@ msgid "I have just spoken to them on the phone. Ask me what was said, then write
 msgstr "تحدثت معهم للتو على الهاتف. اسألني عمّا قيل، ثم سجّله كمكالمة على هذه الفرصة واقترح الخطوة التالية التي تؤدي إليها."
 
 #: onedesk/public/js/legal.js:52
-msgid "I have read and agree to these"
-msgstr "قرأت هذه وأوافق عليها"
+msgid "I agree to these"
+msgstr "أوافق على هذه"
 
 #. Label in the One Equipment Handover print format
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
@@ -18674,8 +18672,8 @@ msgid "It could not be delivered to {to}. Open it to see why, and send it again.
 msgstr "تعذّر تسليمها إلى {to}. افتحها لترى السبب، وأرسلها مرة أخرى."
 
 #: onedesk/public/js/trust_center.js
-msgid "It now sends somewhere new, so it is off until an administrator agrees again."
-msgstr "أصبح يرسل إلى جهة جديدة، لذا يبقى متوقفًا حتى يوافق مسؤول من جديد."
+msgid "It sends somewhere new, so it waits for an administrator to agree."
+msgstr "يُرسل إلى جهة جديدة، لذا ينتظر موافقة مسؤول."
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -26670,12 +26668,12 @@ msgid "Nothing"
 msgstr "لا شيء"
 
 #: onedesk/public/js/trust_center.js
-msgid "Nothing has changed yet."
-msgstr "لم يتغيّر شيء بعد."
+msgid "No changes"
+msgstr "لا تغييرات"
 
 #: onedesk/public/js/trust_center.js
-msgid "Nothing is optional yet."
-msgstr "لا يوجد شيء اختياري بعد."
+msgid "No optional services"
+msgstr "لا خدمات اختيارية"
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -27215,12 +27213,12 @@ msgid "No memories"
 msgstr "لا ذكريات"
 
 #: onedesk/public/js/trust_center.js
-msgid "Only a workspace administrator can turn it on."
-msgstr "وحده مسؤول مساحة العمل يمكنه تشغيله."
+msgid "Your role doesn't allow turning it on."
+msgstr "دورك لا يسمح بتشغيله."
 
 #: onedesk/public/js/trust_center.js
-msgid "Only a workspace administrator can turn this on or off."
-msgstr "وحده مسؤول مساحة العمل يمكنه تشغيل هذا أو إيقافه."
+msgid "Your role doesn't allow turning services on or off."
+msgstr "دورك لا يسمح بتشغيل الخدمات أو إيقافها."
 
 #: onedesk/public/js/module_settings.js
 msgid "Open All"
@@ -28322,8 +28320,8 @@ msgid "Only a suggested change can be applied in the form."
 msgstr "لا يمكن تطبيق شيء في النموذج إلا التغيير المقترح."
 
 #: onedesk/one_legal/gate.py:162
-msgid "Only a workspace administrator can agree to this for the organisation."
-msgstr "لا يوافق على هذا نيابةً عن المؤسسة إلا مسؤول مساحة العمل."
+msgid "Your role doesn't allow agreeing for the organisation."
+msgstr "دورك لا يسمح بالموافقة نيابةً عن المؤسسة."
 
 #: onedesk/one/masters.py:71
 msgid "Only administrators and an app's managers see Masters."
@@ -41680,9 +41678,6 @@ msgstr "اشكر العملاء الذين يدفعون"
 msgid "Thank them, say what you understood they need, and say we will reply soon."
 msgstr "اشكرهم، وقل ما فهمته مما يحتاجونه، وقل إننا سنرد قريبًا."
 
-#: onedesk/public/js/legal.js:80
-msgid "Thank you"
-msgstr "شكرًا لك"
 
 #: onedesk/public/js/rule_builder.js:400
 msgid "Thank you for your message. Our office is closed now, and we will reply when we open."
@@ -47365,12 +47360,12 @@ msgid "What It Sends"
 msgstr "ما يرسله"
 
 #: onedesk/public/js/trust_center.js
-msgid "What One can send to another company only once your administrators turn it on."
-msgstr "ما يمكن لـ One إرساله إلى شركة أخرى فقط بعد أن يشغّله مسؤولوك."
+msgid "Sent to another company only once an administrator turns it on."
+msgstr "يُرسل إلى شركة أخرى فقط بعد أن يشغّله مسؤول."
 
 #: onedesk/one_legal/gate.py:17
-msgid "What One may not be used for. It binds your organisation and everybody who signs in."
-msgstr "ما لا يجوز استخدام One له. تُلزم مؤسستك وكل من يسجّل الدخول."
+msgid "What One may not be used for, by your organisation or anyone who signs in."
+msgstr "ما لا يجوز استخدام One له، من قِبل مؤسستك أو أي شخص يسجّل الدخول."
 
 #: onedesk/one_legal/gate.py:21
 msgid "What One stores on your device and why."
@@ -57435,3 +57430,35 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+msgid "Each agreement, the optional services, who receives data and what is changing."
+msgstr "كل اتفاقية، والخدمات الاختيارية، ومن يتلقى البيانات، وما الذي يتغير."
+
+msgid "Everything in One Place"
+msgstr "كل شيء في مكان واحد"
+
+msgid "Find a Clause"
+msgstr "البحث عن بند"
+
+msgid "For the organisation, version {0}"
+msgstr "للمؤسسة، الإصدار {0}"
+
+msgid "For themselves, version {0}"
+msgstr "لنفسه، الإصدار {0}"
+
+msgid "Search every agreement by a word in it."
+msgstr "ابحث في كل اتفاقية بكلمة منها."
+
+msgid "See who in the workspace agreed to each agreement, and when."
+msgstr "معرفة من وافق في مساحة العمل على كل اتفاقية، ومتى."
+
+msgid "Where You Stand"
+msgstr "موقفك"
+
+msgid "Whether you and your organisation agreed, with Agree here when it is owed."
+msgstr "هل وافقت أنت ومؤسستك، مع زر الموافقة هنا عند الحاجة."
+
+msgid "Who Agreed"
+msgstr "من وافق"
+
+msgid "Your role doesn't allow seeing who agreed."
+msgstr "دورك لا يسمح برؤية من وافق."

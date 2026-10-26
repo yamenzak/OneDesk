@@ -1,7 +1,7 @@
 """What OneHR adds to the agreements: what it keeps about the people who work
 for a workspace and those who apply to, clocking in, which is where One
 collects the most about a person at one moment, and what OneAI reads of them.
-See one_legal/README.md and one_hr/README.md."""
+See one_legal/AGENTS.md and one_hr/README.md."""
 
 from onedesk.one_legal.registry import clause
 

@@ -331,6 +331,15 @@ AccountCenter for all your mailboxes, TrustCenter for the workspace
 module that draws its own settings dialog or its own foot. OneMail is on
 both.
 
+**A module with no window.** A module whose only screen is a center other
+modules open, such as OneLegal and TrustCenter, has no rail, so no foot and
+no settings dialog of its own. It says so in one sentence, as `windowless`
+in its registry entry, and the guard skips this point for it; every other
+point still holds. Its tour starts from the center the first time it
+opens, and a tour of a dialog keeps the dialog above driver's overlay and
+outlines each step where it is (`onedesk.tour.run`). Its Help is listed in
+HelpCenter beside every other module's.
+
 **Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
 helpers inside it, opened from Settings at the foot of its rail and from
 Workspace Settings › Access. Tabs showed by ability
@@ -608,7 +617,7 @@ The guards each point names, as they stand:
 
 **Built.** All six parts.
 
-- **The center.** `public/js/trust_center.js`, on the docs dialog
+- **The center.** `public/js/one_legal/trust_center.js`, on the docs dialog
   (`onedesk.CENTERS.trust`), reads `one_legal.reading.trust`, in two
   sizes. **A module's part**, from the shield in its foot: **{Module} and
   Your Data** (its optional services and who it sends data to), its own

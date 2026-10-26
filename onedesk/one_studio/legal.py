@@ -1,7 +1,7 @@
 """What OneStudio adds to the agreements: OneAI writes code that runs in a
 workspace, an administrator decides whether it runs, and a workspace's own
 custom collections are its content. See one_studio/README.md and
-one_legal/README.md."""
+one_legal/AGENTS.md."""
 
 from onedesk.one_legal.registry import clause
 

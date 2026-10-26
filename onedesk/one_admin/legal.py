@@ -1,5 +1,5 @@
 """What running a workspace adds to the agreements: where it runs, how it is
-reached, and who takes the money. See one_legal/README.md."""
+reached, and who takes the money. See one_legal/AGENTS.md."""
 
 from onedesk.one_legal.registry import clause, subprocessor
 

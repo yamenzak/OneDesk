@@ -100,7 +100,7 @@ DOCUMENTS = {
 		"title": "Acceptable Use Policy",
 		"audience": "both",
 		"revision": 1,
-		"summary": "What One may not be used for. It binds your organisation and everybody who signs in.",
+		"summary": "What One may not be used for, by your organisation or anyone who signs in.",
 	},
 	"privacy": {
 		"title": "Privacy Policy",
@@ -118,7 +118,7 @@ DOCUMENTS = {
 		"title": "Data Processing Addendum",
 		"audience": "customer",
 		"revision": 7,
-		"summary": "How we handle personal data your organisation is responsible for. Part of the Terms of Service.",
+		"summary": "How we handle personal data your organisation is responsible for, under the Terms of Service.",
 	},
 	"subprocessors": {
 		"title": "Subprocessors",

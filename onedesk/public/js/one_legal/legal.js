@@ -52,7 +52,7 @@ onedesk.legal.ask = function (said) {
 					: __("Only you can agree to these.")
 			)}</p><ul class="ol-ask">${listed}</ul>`,
 		});
-		fields.push({ fieldtype: "Check", fieldname: "agreed", label: __("I have read and agree to these") });
+		fields.push({ fieldtype: "Check", fieldname: "agreed", label: __("I agree to these") });
 	}
 	if (waiting) {
 		fields.push({
@@ -80,7 +80,7 @@ onedesk.legal.ask = function (said) {
 			if (next.ok) {
 				dialog.hide();
 				onedesk.legal.dialog = null;
-				frappe.show_alert({ message: __("Thank you"), indicator: "green" });
+				frappe.show_alert({ message: __("Agreed"), indicator: "green" });
 				$(document).trigger("legal-agreed");
 				return;
 			}

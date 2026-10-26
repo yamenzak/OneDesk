@@ -166,8 +166,13 @@ def test_a_module_has_one_settings_dialog_and_one_foot():
 	"""Every module's settings are drawn by onedesk.module_settings and its
 	foot by windowModuleFoot (docs/READY.md, mechanism 5), so they look and
 	behave alike: the mark and Help atop the settings, tabs left out by role,
-	and Settings, Help and the version at the foot."""
+	and Settings, Help and the version at the foot. A module with no window,
+	whose screen is a centre the others open, says why instead."""
 	for module, spec in ready.MODULES.items():
+		if spec.get("windowless"):
+			said = spec["windowless"]
+			assert said.endswith(".") and len(re.findall(r"[.!?](?:\s|$)", said)) == 1, f"{module}: why it has no window, in one sentence"
+			continue
 		code = {path: path.read_text(encoding="utf-8") for path in ready.files(module) if path.suffix in (".js", ".vue")}
 		own = [str(path.relative_to(ROOT)) for path, text in code.items() if "new frappe.ui.SettingsDialog" in text]
 		assert not own, f"{module} draws its own settings dialog in {own}; use onedesk.module_settings.open"
@@ -357,14 +362,14 @@ def test_a_module_says_what_setting_it_up_takes():
 				assert "save" in keys, f"{where} has fields and nothing saves them"
 
 
-WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/nav_tree.js")
+WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/nav_tree.js", "onedesk/public/js/module_docs.js")
 
 
 def test_a_module_ships_a_tour_of_its_screen():
 	"""A ready module declares its tours in its own tour.py (docs/READY.md,
 	mechanism 10), one for each area of its screen: each has a key, a mark
 	`at` that says the area is on screen, and steps, each pointing at a
-	`data-tour` mark its screen or the window draws, never a class, saying it
+	`data-tour` mark its screen, the window or the docs dialog draws, never a class, saying it
 	in a heading of five words or fewer and one sentence."""
 	import ast
 

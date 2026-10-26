@@ -17,13 +17,13 @@ SHOWN = (
 	_lt("Terms of Service"),
 	_lt("The agreement between your organisation and Four Degree Labs for the use of One."),
 	_lt("Acceptable Use Policy"),
-	_lt("What One may not be used for. It binds your organisation and everybody who signs in."),
+	_lt("What One may not be used for, by your organisation or anyone who signs in."),
 	_lt("Privacy Policy"),
 	_lt("What we do with personal data: yours, and the personal data your organisation puts into One."),
 	_lt("Cookie Policy"),
 	_lt("What One stores on your device and why."),
 	_lt("Data Processing Addendum"),
-	_lt("How we handle personal data your organisation is responsible for. Part of the Terms of Service."),
+	_lt("How we handle personal data your organisation is responsible for, under the Terms of Service."),
 	_lt("Subprocessors"),
 	_lt("Every third party that receives customer data, what for, and where it is kept."),
 	_lt("AI Addendum"),
@@ -61,7 +61,7 @@ def revision(version: str | None) -> str | None:
 
 def agreed(was: str | None, now: str) -> bool:
 	"""Whether what was accepted is what is published: the same revision. A
-	new hash alone is a clarification or a typo (README.md). Pure."""
+	new hash alone is a clarification or a typo (AGENTS.md). Pure."""
 	return bool(was) and revision(was) == revision(now)
 
 
@@ -173,7 +173,7 @@ def record(key: str, party: str, user: str | None = None) -> dict:
 		frappe.throw(_("There is no such party."))
 	if party == WORKSPACE and not _may_bind():
 		frappe.throw(
-			_("Only a workspace administrator can agree to this for the organisation."),
+			_("Your role doesn't allow agreeing for the organisation."),
 			frappe.PermissionError,
 		)
 
@@ -260,7 +260,7 @@ def told_of_changes() -> None:
 	workspace has agreed to an earlier one; a person's own to everybody in the
 	workspace. Nobody is stopped; the version agreed to holds until the day
 	the new one takes effect."""
-	from onedesk.one import tell
+	from onedesk.one_legal import tell
 
 	for party, told_by in ((WORKSPACE, tell.agreements_changed), (USER, tell.policies_changed)):
 		titles, days = [], []

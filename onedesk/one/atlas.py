@@ -206,6 +206,7 @@ ANSWERS = {
 	("DocType", "Intake Lesson"): (ENGINE, "what OneAI learnt from a correction"),
 	("DocType", "Intake Settings"): (INSIDE, "AICenter › Reading"),
 	("DocType", "Interview Recording"): (INSIDE, "an interview's Recording, on the interview"),
+	("DocType", "Legal Acceptance"): (INSIDE, "TrustCenter, an agreement's Who Agreed"),
 	("DocType", "Legal Document Version"): (ENGINE, "each agreement as it was agreed to"),
 	("DocType", "Portal Link"): (INSIDE, "a submitted sale or purchase's Portal, under Links"),
 	("DocType", "Reading"): (INSIDE, "a document OneAI read's Reading"),

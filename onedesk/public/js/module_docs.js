@@ -100,7 +100,7 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 			});
 		}
 
-		const $search = $(`<label class="one-docs-search"></label>`).appendTo(this.$sidebar);
+		const $search = $(`<label class="one-docs-search" data-tour="docs-search"></label>`).appendTo(this.$sidebar);
 		$search.append(frappe.utils.icon("search", "sm"));
 		this.$search = $(`<input type="search" class="one-docs-search-input">`)
 			.attr({ placeholder: __("Search"), "aria-label": __("Search") })
@@ -113,7 +113,7 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 				this.search("");
 			});
 
-		this.$tree = $(`<nav class="one-docs-tree"></nav>`).appendTo(this.$sidebar);
+		this.$tree = $(`<nav class="one-docs-tree" data-tour="docs-tree"></nav>`).appendTo(this.$sidebar);
 		for (const node of this.tree) this.$tree.append(this.make_node(node, 0));
 	}
 
@@ -432,7 +432,12 @@ onedesk.tour.run = async (module, tour = null) => {
 		frappe.show_alert({ message: __("There is no tour of this screen yet."), indicator: "blue" });
 		return;
 	}
+	// A tour of a dialog keeps the dialog above driver's overlay, and each
+	// step is outlined in it rather than lifted out of it.
+	const in_dialog = shown.some(({ el }) => el.closest(".modal"));
+	document.body.classList.toggle("one-tour-in-dialog", in_dialog);
 	const done = () => {
+		document.body.classList.remove("one-tour-in-dialog");
 		const unseen = frappe.boot.one_tours_unseen || [];
 		const at = unseen.indexOf(`${module}:${tour.key}`);
 		if (at >= 0) unseen.splice(at, 1);
@@ -455,7 +460,10 @@ onedesk.tour.run = async (module, tour = null) => {
 		shown.map(({ step, el }) => ({
 			element: el,
 			popover: { title: step.title, description: step.text, position: step.side },
-			onHighlighted: () => onedesk.tour.lift(el),
+			onHighlighted: () => {
+				onedesk.tour.lift(el);
+				if (in_dialog) $(el).parents(".driver-fix-stacking").removeClass("driver-fix-stacking");
+			},
 		}))
 	);
 	driver.start();
@@ -464,7 +472,9 @@ onedesk.tour.run = async (module, tour = null) => {
 // An island's parts sit in shadow roots of their own, so a mark is looked
 // for in every one, and driver's highlight rules are lent to the root it is in.
 onedesk.tour.find = (target, root = document) => {
-	const el = root.querySelector(`[data-tour="${CSS.escape(target)}"]`);
+	// A dialog closed earlier can still hold the same mark, so a shown one wins.
+	const all = [...root.querySelectorAll(`[data-tour="${CSS.escape(target)}"]`)];
+	const el = all.find((one) => one.getClientRects().length) || all[0];
 	if (el) return onedesk.tour.lend(el);
 	for (const host of root.querySelectorAll("*")) {
 		const found = host.shadowRoot && onedesk.tour.find(target, host.shadowRoot);

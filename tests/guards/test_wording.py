@@ -13,7 +13,7 @@ A label is a sentence when it has an article, a pronoun or a verb in the
 middle of it: "Old App Invoices" and "Net of Retention", not "The Old App
 Has" or "What Was Billed After the Retention". "Is" and "Has" may start a
 checkbox's label, as ERPNext's do ("Is Group", "Has Serial No"), and a
-consent checkbox ("I have read and agree to these") is a sentence on
+consent checkbox ("I agree to these") is a sentence on
 purpose. A Select's options are held to it too, and so are the fields of
 a dialog or a report's columns, in Python and in the desk's scripts.
 """
@@ -168,7 +168,7 @@ def _desk():
 def test_a_label_is_a_name_not_a_sentence():
 	assert sentence("The Old App Has") and sentence("Invoice With the Retention In It")
 	assert not sentence("Net of Retention") and not sentence("Is Group") and not sentence("Has Serial No")
-	assert not sentence("I have read and agree to these")
+	assert not sentence("I agree to these")
 
 
 def test_every_option_and_dialog_field_is_a_name():

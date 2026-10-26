@@ -1,6 +1,6 @@
 """What OneInventory adds to the agreements: who holds which of the company's
 equipment, and what OneAI reads and drafts in it. See one_inventory/custody.py,
-one_inventory/ai.py and one_legal/README.md."""
+one_inventory/ai.py and one_legal/AGENTS.md."""
 
 from onedesk.one_legal.registry import clause
 

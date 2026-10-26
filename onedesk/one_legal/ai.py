@@ -1,6 +1,8 @@
-"""What OneAI can read of the agreements: their text, so a question about what
-was agreed is answered from what the documents say rather than from what such
-documents usually say."""
+"""What OneAI can read of the agreements (docs/READY.md, mechanism 11): their
+text, so a question about what was agreed is answered from what the documents
+say rather than from what such documents usually say. Agreeing and turning a
+service on bind a person or the workspace, so OneAI does neither
+(NOT_FOR_AI)."""
 
 from typing import Annotated
 
@@ -28,19 +30,27 @@ def agreement(
 		"title": DOCUMENTS[key]["title"],
 		"version": assemble.version_of(key),
 		"text": assemble.text_of(key),
-		"read_it_at": f"/app/legal?document={key}",
+		"read_it_at": f"/desk/legal?document={key}",
 		"next": "Answer from this text alone, in the person's language, and name the document. "
 		"It is our own drafting, not legal advice: say so if they ask for advice.",
 	}
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on the Agreements page."""
+	"""The sentence the model is told while TrustCenter is open."""
 	if said.get("page") != "legal":
 		return None
 	return (
-		"The reader is on Agreements: every agreement One runs under, listed with where it stands for them "
-		"and for their organisation, one open beside the list, and who agreed to it and when. agreement "
-		"reads one's current text: terms, aup, privacy, cookies, dpa, subprocessors, ai or licences. Answer "
-		"from what it returns and say which document it is from."
+		"The reader has TrustCenter open: every agreement One runs under, where it stands for them and for "
+		"their organisation, the optional services, the companies that receive data and what is changing. "
+		"agreement reads one's current text: terms, aup, privacy, cookies, dpa, subprocessors, ai or "
+		"licences. Answer from what it returns and say which document it is from."
 	)
+
+
+REACH = {}
+
+NOT_FOR_AI = {
+	"gate.accept": "Agreeing binds the person or the workspace, so they agree themselves, never OneAI.",
+	"services.switch": "Turning a service on agrees for the whole workspace, so an administrator does it, never OneAI.",
+}

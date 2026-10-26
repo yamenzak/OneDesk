@@ -12957,8 +12957,8 @@ msgid "Each sender gets it once every 4 days, and mailing lists and automatic ma
 msgstr "Jeder Absender erhält sie einmal alle 4 Tage, Mailinglisten und automatische E-Mails nie."
 
 #: onedesk/public/js/trust_center.js
-msgid "Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."
-msgstr "Jeder sendet etwas an ein anderes Unternehmen und bleibt aus, bis Sie ihn einschalten. Wer einen einschaltet, stimmt ihm für den ganzen Arbeitsbereich zu."
+msgid "Each sends something to another company and stays off until you turn it on, which agrees to it for your whole workspace."
+msgstr "Jeder sendet etwas an ein anderes Unternehmen und bleibt aus, bis Sie ihn einschalten, womit Sie für den ganzen Arbeitsbereich zustimmen."
 
 #: onedesk/public/js/notification_center.js
 msgid "Edit Words"
@@ -14297,8 +14297,8 @@ msgid "Every administrator, and everybody who holds the mailbox"
 msgstr "Jeder Administrator und jeder, der das Postfach hat"
 
 #: onedesk/public/js/trust_center.js
-msgid "Every company that receives data from a workspace, and whether yours uses it."
-msgstr "Jedes Unternehmen, das Daten aus einem Arbeitsbereich erhält, und ob Ihrer es nutzt."
+msgid "Every company that receives data, and whether yours uses it."
+msgstr "Jedes Unternehmen, das Daten erhält, und ob Ihr Arbeitsbereich es nutzt."
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -14689,8 +14689,6 @@ msgstr "Alle, die hier arbeiten, brauchen ein Konto. Legen Sie sie jetzt an, dan
 msgid "Everyone's"
 msgstr "Alle"
 
-msgid "Everyone's Agreements"
-msgstr "Zustimmungen aller"
 
 #: frontend/src/home/BooksHome.vue:89 frontend/src/home/CrmHome.vue:89
 #: frontend/src/home/HrHome.vue:107 frontend/src/home/InventoryHome.vue:105
@@ -18509,8 +18507,8 @@ msgid "How urgent an issue is."
 msgstr "Wie dringend eine Anfrage ist."
 
 #: onedesk/one_legal/gate.py:23
-msgid "How we handle personal data your organisation is responsible for. Part of the Terms of Service."
-msgstr "Wie wir personenbezogene Daten behandeln, für die deine Organisation verantwortlich ist. Teil der Nutzungsbedingungen."
+msgid "How we handle personal data your organisation is responsible for, under the Terms of Service."
+msgstr "Wie wir mit personenbezogenen Daten umgehen, für die Ihre Organisation verantwortlich ist, gemäß den Nutzungsbedingungen."
 
 #: onedesk/one_ai/proposals.py:154
 msgid "How {0} is numbered has changed since this was suggested, so it no longer applies."
@@ -18529,8 +18527,8 @@ msgid "I have just spoken to them on the phone. Ask me what was said, then write
 msgstr "Ich habe gerade mit ihnen telefoniert. Frag mich, was gesagt wurde, halte es als Anruf zu dieser Chance fest und schlage den nächsten Schritt vor, zu dem er führt."
 
 #: onedesk/public/js/legal.js:52
-msgid "I have read and agree to these"
-msgstr "Ich habe diese gelesen und stimme ihnen zu"
+msgid "I agree to these"
+msgstr "Ich stimme diesen zu"
 
 #. Label in the One Equipment Handover print format
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
@@ -18674,8 +18672,8 @@ msgid "It could not be delivered to {to}. Open it to see why, and send it again.
 msgstr "Sie konnte nicht an {to} zugestellt werden. Öffnen Sie sie, um den Grund zu sehen, und senden Sie sie erneut."
 
 #: onedesk/public/js/trust_center.js
-msgid "It now sends somewhere new, so it is off until an administrator agrees again."
-msgstr "Er sendet jetzt an eine neue Stelle und bleibt daher aus, bis ein Administrator erneut zustimmt."
+msgid "It sends somewhere new, so it waits for an administrator to agree."
+msgstr "Es sendet an eine neue Stelle und wartet deshalb auf die Zustimmung eines Administrators."
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -26670,12 +26668,12 @@ msgid "Nothing"
 msgstr "Nichts"
 
 #: onedesk/public/js/trust_center.js
-msgid "Nothing has changed yet."
-msgstr "Bisher hat sich nichts geändert."
+msgid "No changes"
+msgstr "Keine Änderungen"
 
 #: onedesk/public/js/trust_center.js
-msgid "Nothing is optional yet."
-msgstr "Noch ist nichts optional."
+msgid "No optional services"
+msgstr "Keine optionalen Dienste"
 
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -27215,12 +27213,12 @@ msgid "No memories"
 msgstr "Keine Erinnerungen"
 
 #: onedesk/public/js/trust_center.js
-msgid "Only a workspace administrator can turn it on."
-msgstr "Nur ein Administrator des Arbeitsbereichs kann ihn einschalten."
+msgid "Your role doesn't allow turning it on."
+msgstr "Ihre Rolle erlaubt nicht, es einzuschalten."
 
 #: onedesk/public/js/trust_center.js
-msgid "Only a workspace administrator can turn this on or off."
-msgstr "Nur ein Administrator des Arbeitsbereichs kann dies ein- oder ausschalten."
+msgid "Your role doesn't allow turning services on or off."
+msgstr "Ihre Rolle erlaubt nicht, Dienste ein- oder auszuschalten."
 
 #: onedesk/public/js/module_settings.js
 msgid "Open All"
@@ -28322,8 +28320,8 @@ msgid "Only a suggested change can be applied in the form."
 msgstr "Nur eine vorgeschlagene Änderung kann im Formular übernommen werden."
 
 #: onedesk/one_legal/gate.py:162
-msgid "Only a workspace administrator can agree to this for the organisation."
-msgstr "Nur ein Administrator des Arbeitsbereichs kann dem für die Organisation zustimmen."
+msgid "Your role doesn't allow agreeing for the organisation."
+msgstr "Ihre Rolle erlaubt nicht, für die Organisation zuzustimmen."
 
 #: onedesk/one/masters.py:71
 msgid "Only administrators and an app's managers see Masters."
@@ -41680,9 +41678,6 @@ msgstr "Zahlenden Kunden danken"
 msgid "Thank them, say what you understood they need, and say we will reply soon."
 msgstr "Bedanke dich, sag, was du verstanden hast, das sie brauchen, und sag, dass wir bald antworten."
 
-#: onedesk/public/js/legal.js:80
-msgid "Thank you"
-msgstr "Vielen Dank"
 
 #: onedesk/public/js/rule_builder.js:400
 msgid "Thank you for your message. Our office is closed now, and we will reply when we open."
@@ -47365,12 +47360,12 @@ msgid "What It Sends"
 msgstr "Was er sendet"
 
 #: onedesk/public/js/trust_center.js
-msgid "What One can send to another company only once your administrators turn it on."
-msgstr "Was One erst an ein anderes Unternehmen senden kann, wenn Ihre Administratoren es einschalten."
+msgid "Sent to another company only once an administrator turns it on."
+msgstr "Wird erst an ein anderes Unternehmen gesendet, wenn ein Administrator es einschaltet."
 
 #: onedesk/one_legal/gate.py:17
-msgid "What One may not be used for. It binds your organisation and everybody who signs in."
-msgstr "Wofür One nicht genutzt werden darf. Sie bindet deine Organisation und alle, die sich anmelden."
+msgid "What One may not be used for, by your organisation or anyone who signs in."
+msgstr "Wofür One nicht verwendet werden darf, von Ihrer Organisation oder von allen, die sich anmelden."
 
 #: onedesk/one_legal/gate.py:21
 msgid "What One stores on your device and why."
@@ -57435,3 +57430,35 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+msgid "Each agreement, the optional services, who receives data and what is changing."
+msgstr "Jede Vereinbarung, die optionalen Dienste, wer Daten erhält und was sich ändert."
+
+msgid "Everything in One Place"
+msgstr "Alles an einem Ort"
+
+msgid "Find a Clause"
+msgstr "Eine Klausel finden"
+
+msgid "For the organisation, version {0}"
+msgstr "Für die Organisation, Version {0}"
+
+msgid "For themselves, version {0}"
+msgstr "Für sich selbst, Version {0}"
+
+msgid "Search every agreement by a word in it."
+msgstr "Durchsuchen Sie jede Vereinbarung nach einem Wort darin."
+
+msgid "See who in the workspace agreed to each agreement, and when."
+msgstr "Sehen, wer im Arbeitsbereich jeder Vereinbarung zugestimmt hat und wann."
+
+msgid "Where You Stand"
+msgstr "Ihr Stand"
+
+msgid "Whether you and your organisation agreed, with Agree here when it is owed."
+msgstr "Ob Sie und Ihre Organisation zugestimmt haben, mit Zustimmen hier, wenn es fällig ist."
+
+msgid "Who Agreed"
+msgstr "Wer zugestimmt hat"
+
+msgid "Your role doesn't allow seeing who agreed."
+msgstr "Ihre Rolle erlaubt nicht, zu sehen, wer zugestimmt hat."

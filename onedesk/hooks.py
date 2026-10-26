@@ -927,7 +927,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/window/frame.css",
 	"/assets/onedesk/css/window/views.css",
 	"/assets/onedesk/css/one_ai/oneai.css",
-	"/assets/onedesk/css/legal.css",
+	"/assets/onedesk/css/one_legal/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
 	"/assets/onedesk/css/lost.css",
 ])
@@ -942,7 +942,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/brand.js",
 	"/assets/onedesk/js/module_settings.js",
 	"/assets/onedesk/js/module_docs.js",
-	"/assets/onedesk/js/trust_center.js",
+	"/assets/onedesk/js/one_legal/trust_center.js",
 	"/assets/onedesk/js/access_center.js",
 	"/assets/onedesk/js/one_ai/ai_center.js",
 	"/assets/onedesk/js/notification_center.js",
@@ -1004,7 +1004,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/chart_colors.js",
 	"/assets/onedesk/js/one_ai/oneai.js",
 	"/assets/onedesk/js/one_ai/intake.js",
-	"/assets/onedesk/js/legal.js",
+	"/assets/onedesk/js/one_legal/legal.js",
 	"/assets/onedesk/js/masters.js",
 ])
 
@@ -1345,7 +1345,7 @@ one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities"]
+one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities"]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",

@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "legal_acceptance_legal_acceptances",
+ "doc_type": "Legal Acceptance",
+ "perm_type": "legal_acceptances",
+ "modified": "2026-10-26 08:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-26 08:00:00.000000"
+}

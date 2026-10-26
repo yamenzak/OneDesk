@@ -47,6 +47,24 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+	"OneLegal": {
+		"folder": "one_legal",
+		"screens": "legal",
+		"names": ("one_legal", "onelegal"),
+		"ready": False,
+		"checked": {},
+		# A module whose screen is a centre other modules open has no window,
+		# so no foot or settings of its own; it says why (docs/READY.md, A
+		# module with no window).
+		"windowless": "TrustCenter is a dialog every module's foot opens, so OneLegal has no window, foot or settings of its own.",
+		"help": (
+			("overview", "info"),
+			("agreeing", "file-check"),
+			("optional-services", "toggle-right"),
+			("changes", "history"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"OneAI": {
 		"folder": "one_ai",
 		"screens": "intake",
@@ -181,6 +199,7 @@ SHARED = {
 OUTSIDE = {
 	"OneMail": [],
 	"OneAI": [],
+	"OneLegal": [],
 }
 
 

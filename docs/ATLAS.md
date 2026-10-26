@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 68 | 2 | 35 | 0 |
+| onedesk | 67 | 2 | 36 | 0 |
 | frappe | 23 | 37 | 154 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
@@ -982,7 +982,7 @@ Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Legal Acceptance | opened by our screens | the administrator | untouched | no | general |  | yes |  |  |  |  |
+| Legal Acceptance | inside: TrustCenter, an agreement's Who Agreed | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Legal Document Version | engine: each agreement as it was agreed to | the administrator | untouched | no | general |  | yes |  |  |  |  |
 
 Pages: legal (on a rail or a home).

@@ -68,7 +68,7 @@ subprocessor(
 service(
 	key="web_search",
 	module=M,
-	title="Web search",
+	title="Web Search",
 	does="Lets OneAI look things up on the web: a new lead's company, a supplier, a product or a general question.",
 	sends="Only the question OneAI searches for, through Cloudflare to Exa. Never a record, a document or a message.",
 	off="OneAI answers from the workspace alone and says when it would need the web.",

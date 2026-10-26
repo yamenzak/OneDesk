@@ -91,10 +91,10 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 			label: __("Optional Services"),
 			icon: "toggle-right",
 			title: __("Optional Services"),
-			description: __("What One can send to another company only once your administrators turn it on."),
+			description: __("Sent to another company only once an administrator turns it on."),
 			html: "",
 			after(panel) {
-				if (!said.services.length) panel.body.append(kit.empty(__("Nothing is optional yet.")));
+				if (!said.services.length) panel.body.append(kit.empty(__("No optional services")));
 				else services(panel.body, said.services);
 			},
 		});
@@ -103,7 +103,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 			label: __("Subprocessors"),
 			icon: "building-2",
 			title: __("Subprocessors"),
-			description: __("Every company that receives data from a workspace, and whether yours uses it."),
+			description: __("Every company that receives data, and whether yours uses it."),
 			html: "",
 			after(panel) {
 				table(said.companies).appendTo(panel.body);
@@ -136,7 +136,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		after(panel) {
 			const changes = said.module ? said.changes.filter((one) => keys.has(one.document)) : said.changes;
 			if (!changes.length) {
-				panel.body.append(kit.empty(__("Nothing has changed yet.")));
+				panel.body.append(kit.empty(__("No changes")));
 				return;
 			}
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
@@ -156,7 +156,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	// Where the reader and the workspace stand on an agreement, the change
 	// coming to it, its earlier versions, and Print and Agree.
 	function standing(panel, doc, part = false) {
-		const $box = $(`<div class="one-trust-standing"></div>`).appendTo(panel.body);
+		const $box = $(`<div class="one-trust-standing" data-tour="trust-standing"></div>`).appendTo(panel.body);
 		const $list = $(`<div class="one-set-list"></div>`).appendTo($box);
 		const sides = [
 			[doc.you, __("You")],
@@ -201,11 +201,21 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				.appendTo($buttons);
 		}
 		kit.button({ label: __("Print"), variant: "outline", icon: "printer" }).on("click", () => print(doc.title, doc.html)).appendTo($buttons);
-		if (said.admin && doc.organisation) {
-			kit.button({ label: __("Everyone's Agreements"), variant: "ghost", icon: "users" })
-				.on("click", () => {
-					dialog.hide();
-					frappe.set_route("List", "Legal Acceptance");
+		if (said.sees_acceptances) {
+			kit.button({ label: __("Who Agreed"), variant: "ghost", icon: "users" })
+				.on("click", async () => {
+					const rows = await frappe.xcall("onedesk.one_legal.reading.acceptances", { key: doc.key }, "GET");
+					kit.view(panel, { title: __("Who Agreed"), description: doc.title });
+					const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
+					if (!rows.length) return $list.append(kit.empty(__("No one yet")));
+					for (const one of rows) {
+						kit.row({
+							lead: kit.glyph(one.for === "organisation" ? "building-2" : "user"),
+							title: esc(one.who),
+							sub: esc(one.for === "organisation" ? __("For the organisation, version {0}", [one.version]) : __("For themselves, version {0}", [one.version])),
+							end: `<span class="one-set-value">${esc(one.on)}</span>`,
+						}).appendTo($list);
+					}
 				})
 				.appendTo($buttons);
 		}
@@ -246,9 +256,9 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 			const note = one.on
 				? __("Turned on by {0} on {1}.", [one.agreed_by, one.agreed_on])
 				: one.asks_again
-					? __("It now sends somewhere new, so it is off until an administrator agrees again.")
+					? __("It sends somewhere new, so it waits for an administrator to agree.")
 					: !said.may_bind
-						? __("Only a workspace administrator can turn it on.")
+						? __("Your role doesn't allow turning it on.")
 						: "";
 			if (note) $(`<div class="one-trust-note"></div>`).text(note).appendTo($card);
 		}
@@ -395,5 +405,13 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	};
 	dialog.on_page(dialog.active_tab);
 	dialog.show();
+	// TrustCenter has no foot to start its tour from, so it starts here
+	// the first time the agreements are open.
+	if ((frappe.boot.one_tours_unseen || []).includes("OneLegal:agreements")) {
+		setTimeout(async () => {
+			const tour = await onedesk.tour.here("OneLegal");
+			if (tour && dialog.display) onedesk.tour.run("OneLegal", tour);
+		}, 600);
+	}
 	return dialog;
 };

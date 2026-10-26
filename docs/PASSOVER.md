@@ -128,7 +128,7 @@ on any screen gets a guard first, then the fix.
         Addendum or the AI Addendum;
       - a `subprocessor()` for any company it sends data to.
     - OneLegal assembles them into the documents people agree to
-      (`one_legal/README.md`).
+      (`one_legal/AGENTS.md`).
     - A changed clause fails `tests/guards/test_legal.py` until it is either a new
       revision (material, so everybody agrees again) or a recorded hash (a
       typo).

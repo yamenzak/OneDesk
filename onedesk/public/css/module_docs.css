@@ -451,3 +451,17 @@
 .one-trust .one-trust-standing .one-set-buttons {
 	flex-wrap: wrap;
 }
+
+/* A tour of a dialog (module_docs.js, onedesk.tour.run): the dialog stays
+   above driver's overlay and each step is outlined where it is. */
+body.one-tour-in-dialog .modal.show {
+	z-index: 100003 !important;
+}
+body.one-tour-in-dialog #driver-highlighted-element-stage {
+	display: none !important;
+}
+body.one-tour-in-dialog .modal .driver-highlighted-element {
+	outline: 2px solid var(--outline-gray-3);
+	outline-offset: 4px;
+	border-radius: var(--radius-md);
+}

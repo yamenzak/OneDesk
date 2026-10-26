@@ -1,4 +1,4 @@
-"""What One's own screens add to the agreements. See one_legal/README.md, and
+"""What One's own screens add to the agreements. See one_legal/AGENTS.md, and
 docs/PASSOVER.md point 8: each screen's lines are added as the pass reaches it.
 """
 

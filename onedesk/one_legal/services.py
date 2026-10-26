@@ -1,7 +1,7 @@
 """The optional services (docs/READY.md, mechanism 13): what a module sends
 out only once a workspace administrator turns it on and agrees to it. Off
-by default, and off again once it sends somewhere new (README, Under the
-hood)."""
+by default, and off again once it sends somewhere new (AGENTS.md,
+Optional services)."""
 
 import hashlib
 
@@ -106,7 +106,7 @@ def switch(key: str, on: int) -> list[dict]:
 	workspace (gate._may_bind)."""
 	one = _declared(key)
 	if not gate._may_bind():
-		frappe.throw(_("Only a workspace administrator can turn this on or off."), frappe.PermissionError)
+		frappe.throw(_("Your role doesn't allow turning services on or off."), frappe.PermissionError)
 	_set(key, on)
 	return standing(one["module"])
 
@@ -143,7 +143,7 @@ def for_wizard() -> dict | None:
 	return {
 		"name": "one_services",
 		"title": _("Optional Services"),
-		"help": _("Each sends something to another company, and stays off unless you turn it on. Turning one on agrees to it for your whole workspace."),
+		"help": _("Each sends something to another company and stays off until you turn it on, which agrees to it for your whole workspace."),
 		"fields": [
 			{"fieldtype": "Check", "fieldname": f"one_service_{one['key']}", "label": one["title"], "description": one["sends"], "default": 0}
 			for one in SERVICES.values()
