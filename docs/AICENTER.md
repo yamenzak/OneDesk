@@ -155,7 +155,7 @@ Gemini stays on the gateway's Google route.
 | Retries and timeouts | gateway defaults, plus `cf-aig-request-timeout` per job | `gateway.py` stops doing it itself |
 | Routes | `dynamic/<job>-<tier>`, versioned JSON in `deploy/gateway/routes/`, pushed by a script | Swap a model without a deploy; fall back to the other provider |
 | A ceiling per workspace | a spend limit split by `metadata.tenant` | A backstop behind credits, never the meter |
-| Prompt checks | Llama Guard before OneAI acts by itself on what arrived (`reading/guard.py`); the gateway's own Guardrails not yet set | Mail and files are written by strangers; blocked where measured, on reading's agent |
+| Prompt checks | Llama Guard before OneAI acts by itself on what arrived (`reading/guard.py`), and the gateway's own Guardrails flagging every call, set by Set up Cloudflare | Mail and files are written by strangers; blocked where measured, on reading's agent |
 
 Routes only take the chat shape, so only the jobs that talk use them. Stage
 1 falls back in code (`models.USE` names the second model) so it works with
@@ -692,7 +692,9 @@ the screen), a commit, and the docs it changes.
    tools), Llama Guard reads it first and anything but "safe" waits for a
    person; 24 of the 25 reading samples passed and the one written to
    instruct OneAI did not. The gateway's own Guardrails could not be read
-   or set with the token we hold (the scratchpad). The AI Addendum now
+   or set with the token we hold; Set up Cloudflare now sets them, flagging
+   prompt injection and Llama Guard's hazards on every call
+   (`one_admin/setup.py ai_gateway`). The AI Addendum now
    says the models are ours, by tier, and that what OneAI reads never
    instructs it. *The fourteen points, 2026-10-26:* OneAI is in the
    registry (`one/ready.py`), not yet marked ready. Its files are in its

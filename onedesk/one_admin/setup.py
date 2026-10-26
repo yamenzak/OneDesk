@@ -25,6 +25,15 @@ MAILER = "one-mail"
 NOWHERE = "192.0.2.1"
 DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
+GATEWAY = "one"
+
+# Prompt injection (P1) and Llama Guard's hazards (S1-S13), flagged, never
+# blocked: one_ai/reading/guard.py is what stops OneAI acting by itself.
+FLAGGED = tuple(f"S{n}" for n in range(1, 14))
+GUARDRAILS = {
+	"prompt": {"P1": "FLAG", **dict.fromkeys(FLAGGED, "FLAG")},
+	"response": dict.fromkeys(FLAGGED, "FLAG"),
+}
 
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
 
@@ -74,6 +83,7 @@ class Setup:
 			self.mail_sending,
 			self.sender_sending,
 			self.sender_account,
+			self.ai_gateway,
 		):
 			try:
 				step()
@@ -309,6 +319,27 @@ class Setup:
 			frappe.db.set_value("Email Account", other, "default_outgoing", 0)
 		self.note("sender account", OURS if name else MADE, sender)
 
+	def ai_gateway(self) -> None:
+		"""The AI gateway OneAI calls through, found or made, with Guardrails
+		on. What it already holds (caching, rate limits, spend limits) is kept;
+		only its logs and its Guardrails are set. The token OneAI calls with is
+		the operator's to give, in OneAdmin Settings."""
+		name = self.settings.ai_gateway or GATEWAY
+		base = f"/accounts/{self.account}/ai-gateway/gateways"
+		try:
+			held = self.call("GET", f"{base}/{name}")["result"]
+		except Refused:
+			held = None
+		if not held:
+			self.call("POST", base, json=guarded({"id": name}))
+			self.note("ai gateway", MADE, name)
+		else:
+			self.note("ai gateway", OURS, name)
+		self.call("PUT", f"{base}/{name}", json=guarded(held or {}))
+		self.keep("ai_gateway", name)
+		if not self.settings.get_password("ai_gateway_token", raise_exception=False):
+			self.note("ai gateway token", WAITING, _("Give OneAdmin Settings a token that may run the gateway."))
+
 	def kv_binding(self) -> dict:
 		return {"type": "kv_namespace", "name": "SITES", "namespace_id": self.settings.cloudflare_kv}
 
@@ -358,6 +389,27 @@ class Setup:
 
 class Refused(Exception):
 	pass
+
+
+def guarded(held: dict) -> dict:
+	"""The gateway as One sets it: what it holds, with the fields Cloudflare
+	requires filled where it has none, logs of counts and costs kept, and
+	Guardrails flagging. Pure."""
+	body = {
+		"cache_invalidate_on_update": False,
+		"cache_ttl": 0,
+		"rate_limiting_interval": 0,
+		"rate_limiting_limit": 0,
+		"rate_limiting_technique": "fixed",
+	}
+	body.update({key: value for key, value in held.items() if key in body or key in KEPT})
+	body["collect_logs"] = True
+	body["guardrails"] = GUARDRAILS
+	return body
+
+
+# What a gateway already holds that One leaves as it is.
+KEPT = ("id", "authentication", "spend_limits", "retry_backoff", "retry_delay", "retry_max_attempts", "log_management", "log_management_strategy", "byok_only", "zdr")
 
 
 @frappe.whitelist(methods=["POST"])

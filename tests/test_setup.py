@@ -40,6 +40,7 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 	assert puts == [
 		"/zones/{zone}/custom_hostnames/fallback_origin",
 		"/zones/{zone}/email/routing/rules/catch_all",
+		"{base}/{name}",
 		"/accounts/{self.account}/workers/scripts/{name}",
 	]
 	custom = _method("custom_hostnames")
@@ -72,3 +73,28 @@ def test_the_workspace_certificate_is_ordered_once():
 	assert "'status': 'all'" in certificate and "wanted <= set(" in certificate
 	assert "'type': 'advanced'" in certificate and "f'*.{domain}'" in certificate
 	assert "self.certificate," in SOURCE
+
+
+def _lifted(names: tuple) -> dict:
+	space = {}
+	for node in ast.parse(SOURCE).body:
+		named = getattr(node.targets[0], "id", "") if isinstance(node, ast.Assign) else getattr(node, "name", "")
+		if named in names:
+			exec(ast.unparse(node), space)
+	return space
+
+
+def test_the_ai_gateway_keeps_what_it_holds_and_flags_on_every_call():
+	"""Set up Cloudflare finds or makes the AI gateway and turns its
+	Guardrails on, flagging, never blocking; what the gateway already holds
+	is left as it is."""
+	space = _lifted(("FLAGGED", "GUARDRAILS", "KEPT", "guarded"))
+	made = space["guarded"]({"id": "one"})
+	assert made["id"] == "one" and made["collect_logs"] is True and made["cache_ttl"] == 0
+	assert made["guardrails"]["prompt"]["P1"] == "FLAG" and "P1" not in made["guardrails"]["response"]
+	assert set(made["guardrails"]["prompt"].values()) == set(made["guardrails"]["response"].values()) == {"FLAG"}
+	assert len(made["guardrails"]["response"]) == 13
+	held = space["guarded"]({"id": "one", "cache_ttl": 300, "rate_limiting_limit": 50, "authentication": True, "created_at": "x"})
+	assert held["cache_ttl"] == 300 and held["rate_limiting_limit"] == 50 and held["authentication"] is True
+	assert "created_at" not in held, "only what the update takes is sent back"
+	assert "self.ai_gateway," in SOURCE and "self.keep('ai_gateway', name)" in _method("ai_gateway")

@@ -1894,7 +1894,13 @@ made here:
   which Cloudflare requires of every pack. ACM is a paid add-on and has to be enabled
   on the zone first, and the key needs SSL and Certificates: Edit; without
   either, the step says so and nothing is ordered;
-- mail routing and sending for the mail domain.
+- mail routing and sending for the mail domain;
+- the AI gateway OneAI calls through (`one`, or the one named in settings),
+  with its logs of counts and costs on and Guardrails flagging prompt
+  injection and Llama Guard's thirteen hazards on every call. Flagged, not
+  blocked: OneAI's own guard is what stops it acting on what arrived. What
+  the gateway already holds (caching, rate and spend limits) is kept, and
+  the token OneAI calls with is still the operator's to give.
 
 **It never takes what is somebody else's.** A resource that exists under our
 name is ours and is kept. One that exists but belongs to something else — a
