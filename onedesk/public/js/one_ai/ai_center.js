@@ -279,11 +279,11 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		icon: "chart-column",
 		title: __("Usage"),
 		description: __("Credits each job used in the last thirty days."),
-		actions: [{ label: __("Credit Usage"), icon: "external-link", click: () => frappe.set_route("query-report", "AI Credits", { by: "Job" }) }],
+		actions: admin ? [{ label: __("Credit Usage"), icon: "external-link", click: () => frappe.set_route("query-report", "AI Credits", { by: "Job" }) }] : [],
 		async render(panel) {
 			const said = await frappe.xcall(C + "usage", {}, "GET");
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			if (!said.reached) return $list.append(kit.empty(__("The account could not be reached just now.")));
+			if (!said.reached) return $list.append(kit.empty(__("The account could not be reached.")));
 			if (!said.jobs.length) return $list.append(kit.empty(__("Nothing used yet.")));
 			for (const one of said.jobs) {
 				kit.row({
@@ -303,7 +303,7 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		label: __("Yours"),
 		icon: "user",
 		title: __("Yours"),
-		description: __("What OneAI remembers about you. Only you can see it."),
+		description: __("What OneAI remembers about you, which only you can see."),
 		actions: [{ label: __("Add Memory"), icon: "plus", click: (panel) => remember(panel) }],
 		async render(panel) {
 			const said = await frappe.xcall(C + "yours", {}, "GET");
@@ -351,22 +351,24 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				{ group: module ? null : __("Modules"), items: [...mine.map(part_tab), ...(module ? [] : [summaries_tab])] },
 				{ group: null, items: module ? [] : [usage_tab, yours_tab] },
 		  ]
-		: [{ group: null, items: [yours_tab] }];
+		: [{ group: null, items: [...((frappe.boot.one_ai_may || {}).usage ? [usage_tab] : []), yours_tab] }];
 	const shown = tabs.filter((group) => group.items.length);
 	const ids = shown.flatMap((group) => group.items.map((item) => item.id));
-	const dialog = new onedesk.module_settings.Dialog({
-		title: "AICenter",
-		module,
-		center: "ai",
-		tabs: shown,
-		default_tab: ids.includes(at) ? at : ids[0],
-		expand: module
-			? () => {
+	// For the whole workspace AICenter is OneAI's own settings, with its
+	// mark, Help and the other centres; for one module, that module's part.
+	const dialog = module
+		? new onedesk.module_settings.Dialog({
+				title: "AICenter",
+				module,
+				center: "ai",
+				tabs: shown,
+				default_tab: ids.includes(at) ? at : ids[0],
+				expand: () => {
 					dialog.hide();
 					onedesk.ai_center.open();
-			  }
-			: null,
-	});
+				},
+		  })
+		: onedesk.module_settings.open({ module: "OneAI", tabs: shown, default_tab: at, title: "AICenter", center: "ai" });
 	dialog.$wrapper.addClass("one-set one-ai-center");
 	dialog.show();
 	return dialog;

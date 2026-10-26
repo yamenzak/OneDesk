@@ -158,7 +158,7 @@ def test_the_same_person_is_not_added_twice():
 
 
 def test_a_batch_of_files_is_asked_about_once_they_are_all_in():
-	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
+	panel = (tree.APP / "public" / "js" / "one_ai" / "panel" / "Panel.vue").read_text()
 	attach = panel.split("async function attach(then) {", 1)[1].split("\n}\n", 1)[0]
 	assert "clearTimeout(settle)" in attach and "SETTLE" in attach
 

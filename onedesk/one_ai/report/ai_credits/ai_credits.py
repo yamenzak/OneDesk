@@ -27,7 +27,7 @@ def execute(filters=None):
 	try:
 		said = account.ask("onedesk.one_admin.proxy.ai_usage", start=str(start), end=str(end)) or {}
 	except faults.Again:
-		frappe.throw(frappe._("The account could not be reached just now. Try again in a moment."))
+		frappe.throw(frappe._("The account could not be reached. Try again in a moment."))
 	except faults.Refused as raised:
 		frappe.throw(frappe.utils.strip_html(str(raised)))
 	rows = {"Job": _by_job, "Person": _by_person, "Day": _by_day}[by](said)

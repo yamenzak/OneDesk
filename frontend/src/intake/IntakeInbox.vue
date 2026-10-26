@@ -58,7 +58,7 @@
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Badge, Button, Switch, TabButtons } from "frappe-ui";
 
-import { Loading, WindowPart, __, ago, call, hasRole, listen, setQuery } from "../kit";
+import { Loading, WindowPart, __, ago, call, hasRole, listen, onedesk, setQuery, windowModuleFoot } from "../kit";
 import IntakeReading from "./IntakeReading.vue";
 
 const props = defineProps({
@@ -127,6 +127,8 @@ watch([box, reading, everyone], () => {
 });
 
 props.onTitle?.(__("Documents"));
+// OneAI's foot: its settings are AICenter (public/js/one_ai/ai_center.js).
+windowModuleFoot(props.win, { module: "OneAI", onSettings: () => onedesk().ai_center.open() });
 load();
 onBeforeUnmount(listen("intake_inbox", () => load()));
 </script>

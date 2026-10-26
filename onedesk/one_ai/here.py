@@ -1,6 +1,6 @@
 """Where the reader is, for the places a module does not answer for itself: a
 report, a dashboard, a space's home. And every place the rail opens, as the
-browser tells OneAI it is there (public/js/oneai.js, `where`), with what
+browser tells OneAI it is there (public/js/one_ai/oneai.js, `where`), with what
 OneAI is then told, so a place told only its title is found before somebody
 asks "what am I looking at" on it. README, Where the reader is.
 """
@@ -115,7 +115,7 @@ def _doctype_of(slug: str) -> str | None:
 
 def sent(item: dict) -> dict | None:
 	"""What the browser tells OneAI when the reader has opened this rail entry:
-	the same fields `where` in public/js/oneai.js sends for that route."""
+	the same fields `where` in public/js/one_ai/oneai.js sends for that route."""
 	kind, to = item.get("link_type"), item.get("link_to")
 	label = item.get("label") or to
 	if kind == "DocType":

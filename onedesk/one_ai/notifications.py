@@ -1,0 +1,93 @@
+"""What OneAI tells people, one entry per kind of notification, read by
+onedesk/notifications/__init__.py beside the other modules' files. Each entry
+has the keys of a notification file (notifications/layout.py KEYS), with
+`subject` and `message` for its heading and body, and says its `channels`,
+each on or why not, and its `sender` (docs/READY.md, mechanism 8). Pure."""
+
+ALL = {"bell": True, "email": True, "push": True}
+
+TYPES = [
+	{
+		"name": "Arrived After Closing",
+		"app": "OneAI",
+		"about": "When a document arrives for a task you already closed. The task stays closed.",
+		"to": "Whoever closed the task",
+		"channels": ALL,
+		"sender": "workspace",
+		"subject": "{title} arrived after you closed its task",
+		"message": "The task stays closed. Open it if the document changes anything.",
+	},
+	{
+		"name": "Couldn't Read",
+		"app": "OneAI",
+		"about": "When OneAI cannot read a document for you, or waits for credits to read it.",
+		"to": "The person it reads for",
+		"channels": ALL,
+		"email_default": True,
+		"oneai": True,
+		"sender": "workspace",
+		"subject": "OneAI couldn't read {title}",
+		"message": "{why}",
+	},
+	{
+		"name": "Intake Waiting",
+		"app": "OneAI",
+		"about": "When a document read for you needs review.",
+		"to": "The person it reads for",
+		"channels": ALL,
+		"button": "Review It",
+		"push_default": True,
+		"sender": "workspace",
+		"subject": "{count} items in {title} need review",
+	},
+	{
+		"name": "Intake Waiting, One Thing",
+		"app": "OneAI",
+		"about": "When a document read for you has one item to review.",
+		"to": "The person it reads for",
+		"channels": ALL,
+		"button": "Review It",
+		"push_default": True,
+		"follows": "Intake Waiting",
+		"sender": "workspace",
+		"subject": "1 item in {title} needs review",
+	},
+	{
+		"name": "Intake Weekly",
+		"app": "OneAI",
+		"about": "Once a week, with what arrived, what OneAI handled and what's waiting.",
+		"to": "The person it reads for",
+		"channels": {
+			"bell": True,
+			"email": True,
+			"push": "A week's summary is read at a desk, not glanced at on a phone.",
+		},
+		"button": "Open Deadlines",
+		"email_default": True,
+		"sender": "workspace",
+		"subject": "{arrived} documents this week, {handled} handled, {waiting} waiting",
+		"message": "{week}",
+	},
+	{
+		"name": "Phishing",
+		"app": "OneAI",
+		"about": "When a document looks like phishing.",
+		"to": "The person it reads for, and whoever put the file there",
+		"channels": ALL,
+		"email_default": True,
+		"push_default": True,
+		"sender": "workspace",
+		"subject": "{title} may be phishing. Don't pay, reply or open its links.",
+	},
+	{
+		"name": "Reading Changed",
+		"app": "OneAI",
+		"roles": ("Workspace Administrator",),
+		"about": "When another administrator changes e-invoice submission, household, the auditor or the confidence floor.",
+		"to": "Every other administrator",
+		"channels": ALL,
+		"sender": "workspace",
+		"subject": "{by} changed OneAI: {what}",
+		"message": "{by} changed OneAI settings ({what}). This applies to all new documents.",
+	},
+]

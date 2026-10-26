@@ -43,6 +43,17 @@ Each says what was done meanwhile, so nothing waited on it.
   OneAI acts by itself on what arrived, and blocks there. Say if you want
   the dashboard's Guardrails on too (flag or block), or the token given
   AI Gateway edit rights so it is set from here.
+- **OneAI's roles hold one thing: Usage.** Taking OneAI through the
+  fourteen points needs roles of its own. A OneAI Manager role now sees
+  AICenter's Usage tab, and everybody holds OneAI User. *Meanwhile:* the
+  tier, reading, Knowledge, module parts and summaries stay with Workspace
+  Administrators, as before. Say if a OneAI Manager should also write
+  Knowledge or choose the tier.
+- **OneAI isn't marked ready yet.** It is in the registry and its guards
+  pass: its own folder, Help, roles, notifications, tour, settings and
+  version. The points a person signs off (copy in three languages, the demo,
+  notifications, every screen on a desktop and a phone, legal) are for your
+  look, as OneMail's were. *Meanwhile:* `ready` stays False.
 - **Three doctypes still say Intake: Intake Settings, Intake Action and
   Intake Lesson**, and two notification names (Intake Waiting, Intake
   Weekly). OneIntake left every screen, Help page and clause; these are

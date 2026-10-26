@@ -1,18 +1,13 @@
-"""OneAI knows every page it is opened on.
-
-The panel says where the reader is with every question (one_ai/chat.py,
-_page). A form or a list says it by itself; a page says only its title unless
-a `one_ai_page` hook answers for it, and then "this" means nothing to the
-model. So every desk page One ships is named by one of those hooks, and a new
-page fails here until its module says what the reader sees on it and which
-tools read it.
-"""
+"""OneAI knows every page it is opened on: a form or a list says it by
+itself, a page only its title unless a `one_ai_page` hook answers for it. So
+every desk page One ships is named by one of those hooks, and a new page
+fails here until its module says what the reader sees on it."""
 
 import ast
 import json
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 APP = ROOT / "onedesk"
 
 
@@ -60,7 +55,7 @@ def test_every_answer_is_a_function_that_exists():
 		assert f"\ndef {function}(" in source, f"{path} does not exist"
 
 
-#: Each kind of rail entry, and how `where` in public/js/oneai.js knows it is
+#: Each kind of rail entry, and how `where` in public/js/one_ai/oneai.js knows it is
 #: there: the route it opens and what is sent for it.
 WHERE = {
 	"DocType": 'kind === "list"',
@@ -79,7 +74,7 @@ def test_every_kind_of_rail_entry_is_sent_to_oneai():
 	kinds = set()
 	for path in APP.glob("*/sidebar/*/*.json"):
 		kinds |= {one.get("link_type") for one in json.loads(path.read_text())["items"] if one.get("type") == "Link"}
-	js = (APP / "public" / "js" / "oneai.js").read_text(encoding="utf-8")
+	js = (APP / "public" / "js" / "one_ai" / "oneai.js").read_text(encoding="utf-8")
 	where = js[js.index("where() {") : js.index("home() {")]
 	mirror = (APP / "one_ai" / "here.py").read_text(encoding="utf-8")
 	unknown = kinds - WHERE.keys()

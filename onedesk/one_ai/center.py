@@ -27,6 +27,15 @@ TIERS = {
 PARTS = {"OneHR": "onedesk.one_hr.ai"}
 
 
+def may() -> dict:
+	"""What the reader may open of AICenter beyond Yours: everything, for a
+	workspace administrator; Usage, for a role that holds it (abilities.py)."""
+	from onedesk.one import abilities
+
+	admin = roles.administers()
+	return {"all": admin, "usage": admin or abilities.may("AI Knowledge", "ai_usage")}
+
+
 def modules() -> list[str]:
 	"""The modules AICenter has a part for, for their ControlCenter."""
 	return [*PARTS, "OneMail"]
@@ -217,7 +226,8 @@ def usage() -> dict:
 
 	from onedesk.one_ai.report.ai_credits import ai_credits
 
-	roles.require()
+	if not may()["usage"]:
+		frappe.throw(_("Only a workspace administrator, or a role given Usage, sees what OneAI used."), frappe.PermissionError)
 	if not account.configured():
 		return {"reached": False, "jobs": []}
 	end = getdate()

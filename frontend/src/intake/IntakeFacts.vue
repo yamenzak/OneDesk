@@ -37,7 +37,7 @@
 
 <script setup>
 // What OneAI read from a document: its facts, who and when, what it asks for,
-// its parts and attachments (public/js/intake.js drew this for the desk).
+// its parts and attachments (public/js/one_ai/intake.js drew this for the desk).
 import { computed } from "vue";
 import { Badge } from "frappe-ui";
 

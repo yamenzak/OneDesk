@@ -17,3 +17,14 @@ def extract(fileobj, *args, **kwargs):
 	for key, said in SAID.items():
 		if one.get(key) and not layout.only_slots(one[key]):
 			yield None, "_", one[key], [said]
+
+
+def extract_module(fileobj, *args, **kwargs):
+	"""A module's notifications.py (docs/READY.md, mechanism 8): each of its
+	TYPES' words, as a file's would be."""
+	space = {}
+	exec(compile(fileobj.read().decode("utf-8"), "notifications.py", "exec"), space)
+	for one in space.get("TYPES", []):
+		for key, said in SAID.items():
+			if one.get(key) and not layout.only_slots(one[key]):
+				yield None, "_", one[key], [said]

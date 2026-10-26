@@ -448,7 +448,7 @@ GUARDS = [
 		"oneai-no-page-button",
 		13,
 		"an OneAI button placed on a page",
-		"tests/guards/test_oneai_place.py::test_no_oneai_button_on_a_page",
+		"tests/guards/test_ai_place.py::test_no_oneai_button_on_a_page",
 	),
 	Guard(
 		"no-system-manager-code",

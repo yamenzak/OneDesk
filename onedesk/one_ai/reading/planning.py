@@ -130,7 +130,7 @@ def _words(language: str) -> dict:
 	return {
 		"renew": _("Renew the {0} of {1}", lang=language),
 		"document": _("document", lang=language),
-		"sick_note": _("From a sick note that arrived by mail.", lang=language),
+		"sick_note": _("From a sick note, which arrived by mail.", lang=language),
 		"arrived": _("A document arrived", lang=language),
 		"arrived_for": _("A document arrived for {0}", lang=language),
 		"nudged": _("Reminder: {0}", lang=language),
@@ -532,14 +532,17 @@ def make_task(values: dict):
 
 
 def make_event(values: dict):
-	"""An event, on the calendar of whoever it is for."""
+	"""An event, on the calendar of whoever it is for: one of its
+	participants, as OneCalendar adds anybody (one_calendar/events.invite)."""
+	from onedesk.one_calendar import events
+
 	values = dict(values)
 	who = values.pop("for", None)
 	doc = frappe.get_doc({"doctype": "Event", **values})
+	if who:
+		events.invite(doc, [who])
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	if who:
-		frappe.share.add_docshare("Event", doc.name, who, write=1, share=1, flags={"ignore_share_permission": True})
 	return doc
 
 

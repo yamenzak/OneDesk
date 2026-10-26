@@ -122,13 +122,13 @@ export const oneaiMark = "/assets/onedesk/images/oneai.svg";
 export const oneaiOn = () => Boolean(window.onedesk?.apps?.ai?.());
 
 // What the reader has selected on a page, for the OneAI panel to send with a
-// question (public/js/oneai.js, where): null when nothing is.
+// question (public/js/one_ai/oneai.js, where): null when nothing is.
 export function aiSees(what) {
 	if (window.onedesk?.oneai) window.onedesk.oneai.seen = what || null;
 }
 
 // The text field the reader just left: opening OneAI soon after writes in it
-// (public/js/oneai.js, justLeft).
+// (public/js/one_ai/oneai.js, justLeft).
 export function aiLeft(field) {
 	if (window.onedesk?.oneai) window.onedesk.oneai.left = { at: Date.now(), field };
 }

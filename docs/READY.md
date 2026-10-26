@@ -849,7 +849,7 @@ Types, each one long page for all of One.
 
 ### 16. AICenter
 
-**Built.** `public/js/ai_center.js` and `one_ai/center.py`, on the settings
+**Built.** `public/js/one_ai/ai_center.js` and `one_ai/center.py`, on the settings
 dialog (`onedesk.CENTERS.ai`). For everybody, **Yours**: what OneAI
 remembers about the reader. For administrators, **OneAI** (on or off, the
 tier with what an answer costs at each, credits left), **Knowledge**, each

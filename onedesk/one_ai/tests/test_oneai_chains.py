@@ -1,21 +1,15 @@
 """OneAI makes several things that belong together in one step, mends its own
 calls from what an error says, and marks everything it put into a record.
-
-A card may point at the record another card will make ("@PROP-26-000042"),
-so a new customer and a quotation for them are two cards suggested at once;
-approving the quotation approves the customer first. A readiness check makes
-the record exactly as Approve will, inside a savepoint it always rolls back,
-so a quotation is not refused for a currency the insert would have filled.
-An error is answered with what mends it rather than the code's own message,
-and a card that fails at Approve goes back to OneAI to be corrected.
-"""
+A card may point at the record another card will make, and approving it
+approves that one first; a card that fails at Approve goes back to OneAI to
+be corrected (AGENTS.md, Cards)."""
 
 import ast
 import inspect
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 
 import tree
 
@@ -92,10 +86,10 @@ def test_ready_makes_the_record_as_approve_will_and_rolls_it_back():
 
 
 def test_the_panel_approves_them_all_and_hands_a_failure_back():
-	panel = (JS / "oneai" / "Panel.vue").read_text(encoding="utf-8")
+	panel = (JS / "one_ai" / "panel" / "Panel.vue").read_text(encoding="utf-8")
 	assert "onedesk.one_ai.run.apply_all" in panel and "Approve All" in panel
 	assert '@failed="mend"' in panel and "function mend(" in panel
-	record = (JS / "oneai" / "Record.vue").read_text(encoding="utf-8")
+	record = (JS / "one_ai" / "panel" / "Record.vue").read_text(encoding="utf-8")
 	assert 'emit("failed"' in record
 
 
@@ -136,7 +130,7 @@ def test_every_field_oneai_set_is_marked_and_so_is_a_record_it_made():
 	same = _source(AI / "touch.py", "same")
 	assert "flt(one) == flt(other)" in same, "100 and 100.0 are one value"
 	assert '"ai_made"' in touch
-	oneai = (JS / "oneai.js").read_text(encoding="utf-8")
+	oneai = (JS / "one_ai" / "oneai.js").read_text(encoding="utf-8")
 	assert "onedesk.oneai.made = function" in oneai and "onedesk.oneai.made(frm)" in oneai
 	assert "Made by {0}" in oneai
 

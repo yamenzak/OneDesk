@@ -20,7 +20,7 @@ AI = tree.APP / "one_storage" / "ai.py"
 NAMESPACE = tree.APP / "one_storage" / "namespace.py"
 REQUESTS = tree.APP / "one_storage" / "file_requests.py"
 HOOKS = tree.APP / "hooks.py"
-LAUNCHER = tree.APP / "public" / "js" / "oneai.js"
+LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
 EXPLORER = tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue"
 DIALOGS = tree.APP / "public" / "js" / "onecloud_dialogs.js"
 

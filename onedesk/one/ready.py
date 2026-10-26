@@ -47,6 +47,27 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+	"OneAI": {
+		"folder": "one_ai",
+		"screens": "intake",
+		"names": ("one_ai", "oneai"),
+		"ready": False,
+		"checked": {},
+		"help": (
+			("overview", "info"),
+			("asking-oneai", "sparkles"),
+			("cards", "check-check"),
+			("writing", "pencil"),
+			("summaries", "notebook-text"),
+			("reading", "inbox"),
+			("finding", "search"),
+			("remembers", "brain"),
+			("web-search", "globe"),
+			("tiers-and-credits", "coins"),
+			("who-can-do-what", "shield"),
+			("settings", "settings"),
+		),
+	},
 }
 
 # The fourteen points a module is held to before it is marked ready
@@ -145,10 +166,21 @@ HAND = {
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/templates/emails/one_mail.html": "the frame every mail One sends is laid in, OneMail's or not",
+	"brand/oneai.svg": "every product's mark is drawn in brand/, into one sprite",
+	"onedesk/public/images/oneai.svg": "the mark as an image, for the places that can't use the sprite",
+	"onedesk/one/number_card/oneai_suggestions/__init__.py": "Home's figure of OneAI's suggestions, which Home owns",
+	"onedesk/one/number_card/oneai_suggestions/oneai_suggestions.json": "Home's figure of OneAI's suggestions, which Home owns",
+	"onedesk/one_mail/docs/asking-oneai.md": "OneMail's own Help page on what OneAI does in mail",
+	"onedesk/one_mail/docs/asking-oneai/reading.png": "the picture on OneMail's page on OneAI",
+	"tests/samples/intake/one_ai/ignore-instructions.eml": "reading's samples sit with every module's, under tests/samples",
+	"tests/samples/intake/one_ai/ignore-instructions.json": "reading's samples sit with every module's, under tests/samples",
+	"tests/samples/intake/one_ai/locked-invoice.eml": "reading's samples sit with every module's, under tests/samples",
+	"tests/samples/intake/one_ai/locked-invoice.json": "reading's samples sit with every module's, under tests/samples",
 }
 
 OUTSIDE = {
 	"OneMail": [],
+	"OneAI": [],
 }
 
 

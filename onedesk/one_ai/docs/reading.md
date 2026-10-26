@@ -1,0 +1,62 @@
+# Reading What Arrives
+
+OneAI reads the mail and files that arrive in a mailbox or folder you let it
+read, files each one with the record it belongs to, and makes what it asks
+for: a draft bill from an invoice, a lead from an enquiry, a leave request
+from a sick note.
+
+![Documents, with one open beside the list](reading/documents.png)
+
+## Letting OneAI Read
+
+| What | Where it is switched on |
+| --- | --- |
+| A mailbox | OneMail's **Settings**, the mailbox, then **OneAI** |
+| A folder | **What OneAI Reads**, under You, then **Add Folder** |
+| Every mailbox and folder at once | [AICenter](settings) under **Reading**, for an administrator |
+
+OneAI only does what the person who switched it on may do. Only you can
+switch it on for your own files and your own mailbox. A folder OneAI reads
+shows the OneAI mark.
+
+## What Happens to a Document
+
+1. It is read: its type, who it is from, its number, date, amount and what
+   it asks. Every amount, date and number is checked against its text, and
+   anything not there is left out and the reading marked **Unsure**.
+2. It is filed with the record it is about, or in a folder for its type and
+   year, and renamed so it can be found.
+3. What it asks for is made, as a draft. OneAI never submits, posts or sends
+   anything.
+
+Spam, phishing, advertising and newsletters are recognised from a quick look
+and never read in full. Phishing is reported to the person OneAI reads for.
+
+> **A document that tells OneAI what to do is not obeyed.** What reads like
+> instructions to OneAI waits for a person instead.
+
+## Documents
+
+**Documents**, under OneAI in the sidebar, has two boxes:
+
+| Box | What is in it |
+| --- | --- |
+| **Waiting** | What needs your decision, with **Apply** and **Dismiss** |
+| **Done** | Everything OneAI handled, with what it made and changed, and **Undo** |
+
+Click a line to read it on the right: what OneAI understood, **All Details**,
+**Open Document** and **What OneAI did**.
+
+## Undo
+
+**Undo** reverses everything OneAI did with a document: files go back to
+their old folders and names, and records it made are deleted. Anything
+somebody has since checked, changed or submitted stays, and Undo says why.
+After the same correction three times for a sender, OneAI asks instead of
+acting.
+
+## What Waits for You
+
+Changing a value a record already has, such as a tax number or a bank
+account, waits for you, and so does anything OneAI is unsure of. You are told
+once a document has something waiting.

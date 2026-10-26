@@ -63,7 +63,7 @@ def test_a_settings_page_is_a_record_and_no_field_carries_a_mark():
 	window or page field carries a OneAI button: the field the reader was in
 	when they opened the panel is what it writes, or what the question is
 	about, and an open mail window is what it writes in."""
-	js = (tree.APP / "public" / "js" / "oneai.js").read_text()
+	js = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text()
 	assert "single ? route[1]" in js
 	fields = js[js.index("onedesk.oneai.fields = function"):js.index("onedesk.oneai.made = function")]
 	assert "<button" not in fields and "one-ai-help" not in js, "a button beside a field's label"
@@ -73,7 +73,7 @@ def test_a_settings_page_is_a_record_and_no_field_carries_a_mark():
 	assert "<button\n        v-if=\"writable && long" not in edit and "aiLeft(" in edit, "a OneAI button beside a page's field"
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert "issingle" in suggest and "Help me set this up" in suggest
-	panel = (tree.APP / "public" / "js" / "oneai" / "Panel.vue").read_text()
+	panel = (tree.APP / "public" / "js" / "one_ai" / "panel" / "Panel.vue").read_text()
 	assert "opening && opening.ask" in panel and "opening && opening.about" in panel
 
 

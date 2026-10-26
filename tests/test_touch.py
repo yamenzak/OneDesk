@@ -21,8 +21,8 @@ import tree
 TOUCH = tree.APP / "one_ai" / "touch.py"
 PROPOSALS = tree.APP / "one_ai" / "proposals.py"
 HOOKS = tree.APP / "hooks.py"
-LAUNCHER = tree.APP / "public" / "js" / "oneai.js"
-CARD = tree.APP / "public" / "js" / "oneai" / "Record.vue"
+LAUNCHER = tree.APP / "public" / "js" / "one_ai" / "oneai.js"
+CARD = tree.APP / "public" / "js" / "one_ai" / "panel" / "Record.vue"
 
 
 def spoken(where: Path, name: str) -> str:

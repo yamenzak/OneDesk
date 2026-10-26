@@ -1,5 +1,5 @@
 """Every job OneAI does, and what it is told for it (docs/AICENTER.md, The
-voice). A job's words are `words/<key>.md`, after the parts of `voice.py`
+voice). A job's words are `words/<key>.txt`, after the parts of `voice.py`
 it takes; a workspace adds nothing to either. `models.py` says which model
 does each kind of work at each tier. Pure, so the guards read it without a
 site."""
@@ -85,7 +85,7 @@ def most(job: Job, tier: str | None) -> int:
 @cache
 def words(key: str) -> str:
 	"""A job's own words, empty for one that is told nothing (embed)."""
-	path = WORDS / f"{key}.md"
+	path = WORDS / f"{key}.txt"
 	return path.read_text(encoding="utf-8").strip() if path.exists() else ""
 
 

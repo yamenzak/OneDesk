@@ -405,6 +405,10 @@ msgstr "8 ساعات"
 msgid "91 to 180 Days"
 msgstr "من 91 إلى 180 يومًا"
 
+#: onedesk/one_mail/notifications.py
+msgid "<b>When</b> {when}<br><b>Then</b> {then}<br>It runs once you approve it in OneMail › Settings › {mailbox} › Automation."
+msgstr "<b>عندما</b> {when}<br><b>عندها</b> {then}<br>تعمل بعد أن توافق عليها في OneMail › الإعدادات › {mailbox} › الأتمتة."
+
 #. Header text in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "<span class=\"h4\"><b>Right now</b></span>"
@@ -426,6 +430,10 @@ msgstr "يتكوّن اسم تطبيق Frappe من أحرف صغيرة وأرق�
 #: onedesk/one_mail/rules.py:607 onedesk/one_mail/rules.py:619
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr "يوافق مدير البريد على قواعد هذا الصندوق."
+
+#: onedesk/one_ai/tour.py
+msgid "A New Conversation"
+msgstr "محادثة جديدة"
 
 #: onedesk/one_doc/paper.py:217 onedesk/one_sheet/paper.py:384
 msgid "A PDF can only be saved to OneCloud or attached to the record."
@@ -4519,6 +4527,10 @@ msgstr "كما يسمّيه {0} الآن"
 msgid "Ask"
 msgstr "اطلب"
 
+#: onedesk/one_ai/tour.py
+msgid "Ask about what is on screen, or anything else, in your own words and language."
+msgstr "اسأل عما على الشاشة، أو عن أي شيء آخر، بكلماتك ولغتك."
+
 #: onedesk/one/privacy_public.py:65
 msgid "Ask Again"
 msgstr "اطلب مجددًا"
@@ -5013,6 +5025,10 @@ msgstr "المرفقات"
 #: onedesk/public/js/onemail.js:943
 msgid "Attachments in OneCloud"
 msgstr "المرفقات في OneCloud"
+
+#: onedesk/one_mail/notifications.py
+msgid "Attachments Not Saved"
+msgstr "مرفقات لم تُحفظ"
 
 #. Description of the 'Not Saved' (Small Text) field in DocType 'Communication'
 #: onedesk/one_mail/custom/communication.json
@@ -6805,6 +6821,10 @@ msgstr "اختر سريع أو متوازن أو كامل."
 #: onedesk/one_inventory/home.py:171
 msgid "COGS By Item Group"
 msgstr ""
+
+#: onedesk/one_mail/notifications.py
+msgid "Covering Mail"
+msgstr "تغطية البريد"
 
 #: onedesk/public/js/ai_center.js
 msgid "Credits each job used in the last thirty days."
@@ -12928,6 +12948,10 @@ msgstr "المدة (أيام)"
 msgid "Duration (Minutes)"
 msgstr "المدة (بالدقائق)"
 
+#: onedesk/one_mail/notifications.py
+msgid "Each person given it"
+msgstr "كل شخص أُعطي له"
+
 #: onedesk/public/js/one_mail/onemail_settings.js
 msgid "Each sender gets it once every 4 days, and mailing lists and automatic mail never do."
 msgstr "يصل إلى كل مرسل مرة كل 4 أيام، ولا يصل أبدًا إلى القوائم البريدية أو البريد التلقائي."
@@ -14268,6 +14292,10 @@ msgstr "كل"
 msgid "Every (Months)"
 msgstr "كل (أشهر)"
 
+#: onedesk/one_mail/notifications.py
+msgid "Every administrator, and everybody who holds the mailbox"
+msgstr "كل مسؤول، وكل من يحمل صندوق البريد"
+
 #: onedesk/public/js/trust_center.js
 msgid "Every company that receives data from a workspace, and whether yours uses it."
 msgstr "كل شركة تتلقى بيانات من مساحة عمل، وهل تستخدمها مساحتك."
@@ -14281,6 +14309,10 @@ msgstr "كل يوم"
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Every Hour"
 msgstr "كل ساعة"
+
+#: onedesk/one_mail/notifications.py
+msgid "Every Mail Manager and administrator"
+msgstr "كل مدير بريد ومسؤول"
 
 #: onedesk/one_mail/abilities.py:20
 msgid "Every Mailbox"
@@ -14586,6 +14618,10 @@ msgstr "كل المدعوين، عدا من ألغاه"
 #: onedesk/notifications/one_calendar/event_changed.md
 msgid "Everybody on it, but whoever changed it"
 msgstr "كل المدعوين، عدا من غيّره"
+
+#: onedesk/one_mail/notifications.py
+msgid "Everybody who holds it, or every administrator when nobody does"
+msgstr "كل من يحمله، أو كل مسؤول إن لم يحمله أحد"
 
 #: onedesk/one_hr/home.py:53
 msgid "Everybody who works here, with their contract, pay and papers."
@@ -16640,7 +16676,7 @@ msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
 #: onedesk/one_intake/planning.py:133
-msgid "From a sick note that arrived by mail."
+msgid "From a sick note, which arrived by mail."
 msgstr "من شهادة مرضية وصلت بالبريد."
 
 #. Label of the address (Data) field in DocType 'Legal Acceptance'
@@ -18633,6 +18669,10 @@ msgstr "في المستندات، عند فتح مستند"
 msgid "Inside"
 msgstr "داخل"
 
+#: onedesk/one_mail/notifications.py
+msgid "It could not be delivered to {to}. Open it to see why, and send it again."
+msgstr "تعذّر تسليمها إلى {to}. افتحها لترى السبب، وأرسلها مرة أخرى."
+
 #: onedesk/public/js/trust_center.js
 msgid "It now sends somewhere new, so it is off until an administrator agrees again."
 msgstr "أصبح يرسل إلى جهة جديدة، لذا يبقى متوقفًا حتى يوافق مسؤول من جديد."
@@ -20605,6 +20645,10 @@ msgstr "المُقابِلون فيها"
 #: onedesk/one_mail/ai.py
 msgid "Its Mail"
 msgstr "بريده"
+
+#: onedesk/one_mail/notifications.py
+msgid "Its mail is in OneMail now, beside your own, and you can reply from it."
+msgstr "بريده في OneMail الآن، بجانب بريدك، ويمكنك الرد منه."
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
@@ -22603,6 +22647,46 @@ msgstr "الأصغر يُنفَّذ أولًا."
 msgid "Lowest On"
 msgstr "الأرخص في"
 
+#: onedesk/one_mail/notifications.py
+msgid "Mail Not Sent"
+msgstr "بريد لم يُرسل"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail Rule Approved"
+msgstr "تمت الموافقة على قاعدة البريد"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail Rule Declined"
+msgstr "رُفضت قاعدة البريد"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail Rule Notice"
+msgstr "تنبيه قاعدة البريد"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail Rule Requested"
+msgstr "طُلبت قاعدة بريد"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail to <b>{mailbox}</b> still arrives, but its attachments wait until there is room. Free some space or add storage in Plan and Credits, and they are saved within the hour."
+msgstr "ما زال البريد يصل إلى <b>{mailbox}</b>، لكن مرفقاته تنتظر حتى تتوفر مساحة. أفرغ بعض المساحة أو أضف تخزينًا في الخطة والرصيد، فتُحفظ خلال ساعة."
+
+#: onedesk/one_mail/notifications.py
+msgid "Mail to {mailbox} is in OneMail with your own while they're on leave. You can read it and reply from your own address, but not send from theirs."
+msgstr "البريد المرسل إلى {mailbox} في OneMail مع بريدك أثناء إجازتهم. يمكنك قراءته والرد من عنوانك، لا الإرسال من عنوانهم."
+
+#: onedesk/one_mail/notifications.py
+msgid "Mailbox Not Reachable"
+msgstr "صندوق بريد لا يمكن الوصول إليه"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mailbox OneAI Limit Reached"
+msgstr "بلغ صندوق البريد حد OneAI"
+
+#: onedesk/one_mail/notifications.py
+msgid "Mailbox Shared With You"
+msgstr "صندوق بريد شورك معك"
+
 #: onedesk/one_mail/ai.py
 msgid "May Change"
 msgstr "يمكنه تغيير"
@@ -23992,6 +24076,10 @@ msgstr "مزيد من الإجراءات لـ {0}"
 msgid "More promised than on hand"
 msgstr "الموعود أكثر من المتوفر"
 
+#: onedesk/one_ai/tour.py
+msgid "More Room"
+msgstr "مساحة أكبر"
+
 #: onedesk/one_project/retention.py:434
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنها من كل فاتورة."
@@ -24727,6 +24815,10 @@ msgstr "رابط جديد"
 msgid "New Mail"
 msgstr "البريد الجديد"
 
+#: onedesk/one_mail/notifications.py
+msgid "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in OneMail › Settings › {mailbox} › OneAI."
+msgstr "البريد الجديد في <b>{mailbox}</b> يُقرأ دون OneAI حتى الشهر القادم. ارفع الحد في OneMail › الإعدادات › {mailbox} › OneAI."
+
 #: onedesk/public/js/onemail_settings.js:558
 msgid "New Mail Rule"
 msgstr "قاعدة بريد جديدة"
@@ -25297,6 +25389,10 @@ msgstr "لا يقرأ أي نموذج هنا {0}."
 #: onedesk/public/js/settings.js:3084
 msgid "No More Holidays This Year"
 msgstr "لا عطلات أخرى هذا العام"
+
+#: onedesk/one_mail/notifications.py
+msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
+msgstr "لا يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُوصل من جديد. أعد وصله من OneMail › الإعدادات › صناديق البريد."
 
 #: frontend/src/home/CrmHome.vue:244
 msgid "No Next Step"
@@ -26997,6 +27093,22 @@ msgstr "الرقمية فقط"
 msgid "Off until an administrator turns them on."
 msgstr "متوقفة حتى يشغّلها مسؤول."
 
+#: onedesk/one_ai/center.py
+msgid "Only a workspace administrator, or a role given Usage, sees what OneAI used."
+msgstr "لا يرى ما استخدمه OneAI إلا مسؤول مساحة العمل، أو دور أُعطي الاستخدام."
+
+#: onedesk/one_mail/notifications.py
+msgid "Open Automation"
+msgstr "افتح الأتمتة"
+
+#: onedesk/one_mail/notifications.py
+msgid "Open Mail"
+msgstr "افتح البريد"
+
+#: onedesk/one_mail/notifications.py
+msgid "Open Mail Settings"
+msgstr "افتح إعدادات البريد"
+
 #: onedesk/one_ai/jobs.py
 msgid "Read a Bill Twice"
 msgstr "قراءة الفاتورة مرتين"
@@ -27013,9 +27125,29 @@ msgstr "القراءة متوقفة"
 msgid "Reading is turned off for this workspace."
 msgstr "القراءة متوقفة في مساحة العمل هذه."
 
+#: onedesk/one_ai/abilities.py
+msgid "See what OneAI used, job by job, in the last thirty days."
+msgstr "اطّلع على ما استخدمه OneAI، مهمة بمهمة، في الثلاثين يومًا الأخيرة."
+
 #: onedesk/one_ai/jobs.py
 msgid "Sort What Arrives"
 msgstr "فرز ما يصل"
+
+#: onedesk/one_ai/tour.py
+msgid "Start afresh here; every conversation stays in the list to pick up again."
+msgstr "ابدأ من جديد هنا؛ وتبقى كل محادثة في القائمة لتعود إليها."
+
+#: onedesk/one_mail/notifications.py
+msgid "Storage is full: attachments to {mailbox} are not being saved"
+msgstr "التخزين ممتلئ: مرفقات {mailbox} لا تُحفظ"
+
+#: onedesk/one_mail/notifications.py
+msgid "The covering person"
+msgstr "الشخص المغطّي"
+
+#: onedesk/one_mail/notifications.py
+msgid "The person who asked for it"
+msgstr "الشخص الذي طلبها"
 
 #: onedesk/one_ai/ai_web.py
 msgid "Web search is off for this workspace."
@@ -27024,6 +27156,38 @@ msgstr "البحث في الويب متوقف في مساحة العمل هذه.
 #: onedesk/one/ai.py
 msgid "What needs me today? Look at my tasks, my meetings, what waits for me in Documents, OneAI's suggestions and what I have to approve, and say what to do first."
 msgstr "ما الذي يحتاجني اليوم؟ انظر في مهامي واجتماعاتي وما ينتظرني في المستندات واقتراحات OneAI وما عليّ الموافقة عليه، وقل لي بماذا أبدأ."
+
+#: onedesk/one_mail/notifications.py
+msgid "When a Mail Manager approves a mail rule you asked for."
+msgstr "عندما يوافق مدير البريد على قاعدة بريد طلبتها."
+
+#: onedesk/one_mail/notifications.py
+msgid "When a Mail Manager declines a mail rule you asked for."
+msgstr "عندما يرفض مدير البريد قاعدة بريد طلبتها."
+
+#: onedesk/one_mail/notifications.py
+msgid "When a mail rule says to tell you that mail it watches for arrived."
+msgstr "عندما تقول قاعدة بريد أن تخبرك بوصول بريد تراقبه."
+
+#: onedesk/one_mail/notifications.py
+msgid "When a mailbox uses its OneAI credits for the month. Once a month."
+msgstr "عندما يستنفد صندوق بريد رصيد OneAI للشهر. مرة في الشهر."
+
+#: onedesk/one_mail/notifications.py
+msgid "When a mailbox you hold stops connecting. Once, when it breaks."
+msgstr "عندما يتوقف صندوق بريد تحمله عن الاتصال. مرة واحدة، عند انقطاعه."
+
+#: onedesk/one_mail/notifications.py
+msgid "When an administrator gives you a shared mailbox."
+msgstr "عندما يعطيك مسؤول صندوق بريد مشتركًا."
+
+#: onedesk/one_mail/notifications.py
+msgid "When mail arrives with attachments and the workspace's storage is full. Once a day at most."
+msgstr "عندما يصل بريد بمرفقات وتخزين مساحة العمل ممتلئ. مرة في اليوم على الأكثر."
+
+#: onedesk/one_mail/notifications.py
+msgid "When mail you sent could not be delivered after every retry."
+msgstr "عندما يتعذر تسليم بريد أرسلته بعد كل محاولة."
 
 #: onedesk/public/js/ai_center.js
 msgid "When off, nobody can ask OneAI, and nothing it does on its own runs."
@@ -27778,11 +27942,11 @@ msgid "OneAI cannot answer"
 msgstr "لا يستطيع OneAI الإجابة"
 
 #: onedesk/one_ai/chat.py:188
-msgid "OneAI could not answer just now. Try again in a moment."
+msgid "OneAI could not answer. Try again in a moment."
 msgstr "تعذّر على OneAI الإجابة الآن. حاول مرة أخرى بعد قليل."
 
 #: onedesk/one_ai/chat.py:432
-msgid "OneAI could not be reached just now. The question is still here — try again."
+msgid "OneAI could not be reached. The question is still here — try again."
 msgstr "تعذّر الوصول إلى OneAI الآن. والسؤال ما زال هنا — حاول مرة أخرى."
 
 #: onedesk/one_studio/mend.py:105
@@ -40553,7 +40717,7 @@ msgid "TB"
 msgstr "تيرابايت"
 
 #: onedesk/public/js/ai_center.js
-msgid "The account could not be reached just now."
+msgid "The account could not be reached."
 msgstr "تعذّر الوصول إلى الحساب الآن."
 
 #: onedesk/one_mail/tour.py
@@ -41762,7 +41926,7 @@ msgid "The account a printed reminder asks to be paid into."
 msgstr "الحساب الذي يطلب التذكير المطبوع الدفع إليه."
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:30
-msgid "The account could not be reached just now. Try again in a moment."
+msgid "The account could not be reached. Try again in a moment."
 msgstr "تعذّر الوصول إلى الحساب الآن. حاول مرة أخرى بعد قليل."
 
 #. Who a notification is sent to
@@ -47259,8 +47423,8 @@ msgid "What OneAI remembers about you"
 msgstr "ما يتذكّره OneAI عنك"
 
 #: onedesk/public/js/ai_center.js
-msgid "What OneAI remembers about you. Only you can see it."
-msgstr "ما يتذكره OneAI عنك. لا يراه أحد غيرك."
+msgid "What OneAI remembers about you, which only you can see."
+msgstr "ما يتذكره OneAI عنك، ولا يراه أحد غيرك."
 
 #. Description of the 'Explained' (Long Text) field in DocType 'Reading'
 #: onedesk/one_intake/doctype/reading/reading.json
@@ -48985,6 +49149,10 @@ msgstr "حين يضيفك أحد إلى حدث."
 msgid "When somebody applies for leave."
 msgstr "عندما يتقدّم أحد بطلب إجازة."
 
+#: onedesk/one_mail/notifications.py
+msgid "When somebody asks for a mail rule on the workspace address issued to them."
+msgstr "عندما يطلب أحد قاعدة بريد على عنوان مساحة العمل الممنوح له."
+
 #. When a notification is sent
 #: onedesk/notifications/one/password_reset_link.md
 msgid "When somebody asks for a new password on the sign-in page, or an administrator sends them a reset."
@@ -49391,6 +49559,10 @@ msgstr "متى يمكنك التسليم، وأي شيء يجب أن يعرفه 
 #: onedesk/notifications/one_hr/check_in_closed_for_you.md
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
 msgstr "عندما سجّلت حضورك ولم تسجّل انصرافك، فسجّله One لك في نهاية المناوبة."
+
+#: onedesk/one_mail/notifications.py
+msgid "When you cover for somebody on leave, and their leave says you read their mail."
+msgstr "عندما تغطي عن أحد في إجازة، وتقول إجازته إنك تقرأ بريده."
 
 #. When a notification is sent
 #: onedesk/notifications/one/new_sign_in.md
@@ -50225,6 +50397,10 @@ msgstr "من أنشأ الطلب، أو المشتريات إن تعذّر عل�
 msgid "Whoever made the subcontracting order"
 msgstr "من أنشأ أمر التعاقد من الباطن"
 
+#: onedesk/one_mail/notifications.py
+msgid "Whoever OneAI reads it for and whoever connected it, or every administrator"
+msgstr "من يقرأ له OneAI ومن وصله، أو كل مسؤول"
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_admin/payment_failed.md
 #: onedesk/notifications/one_admin/trial_ending.md
@@ -50241,6 +50417,10 @@ msgstr "من ضغط «أصلح باستخدام OneAI»"
 msgid "Whoever referred them"
 msgstr "من رشّحه"
 
+#: onedesk/one_mail/notifications.py
+msgid "Whoever sent it"
+msgstr "من أرسله"
+
 #. Who a notification is sent to
 #: onedesk/notifications/one/reminder.md
 msgid "Whoever set it"
@@ -50255,6 +50435,10 @@ msgstr "من أعدّ التكرار، والحسابات لفاتورة أو ط
 #: onedesk/notifications/one/portal_link.md
 msgid "Whoever the link is for"
 msgstr "من الرابط موجّه إليه"
+
+#: onedesk/one_mail/notifications.py
+msgid "Whoever the rule names"
+msgstr "من تسمّيه القاعدة"
 
 #. Who a notification is sent to
 #: onedesk/notifications/one_project/hours_over_plan.md
@@ -50385,6 +50569,10 @@ msgstr "لماذا لم تُنشأ مساحة العمل لهذا التسجيل
 #: frontend/portal/src/pages/Record.vue:118
 msgid "Why? (optional)"
 msgstr "لماذا؟ (اختياري)"
+
+#: onedesk/one_ai/tour.py
+msgid "Widen the panel, or give it the whole window, and bring it back from the same button."
+msgstr "وسّع اللوحة، أو امنحها النافذة كلها، وأعدها من الزر نفسه."
 
 #. Label of the one_width (Float) field in DocType 'Asset Capitalization
 #. Service Item'
@@ -51660,6 +51848,10 @@ msgstr "ستتلقى رسالة بريد إلكتروني فيها رابط لل
 msgid "You're all caught up."
 msgstr "لا يوجد ما يتطلب انتباهك."
 
+#: onedesk/one_mail/notifications.py
+msgid "You're covering {who}'s mail until {until}"
+msgstr "أنت تغطي بريد {who} حتى {until}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_hr/interview_scheduled.md
 msgid "You're interviewing {applicant} on {when}"
@@ -51717,6 +51909,18 @@ msgstr "بياناتك جاهزة للتنزيل"
 #: onedesk/public/js/onemail_settings.js:428
 msgid "Your Mail"
 msgstr "بريدك"
+
+#: onedesk/one_mail/notifications.py
+msgid "Your mail \"{subject}\" was not sent"
+msgstr "لم يُرسل بريدك \"{subject}\""
+
+#: onedesk/one_mail/notifications.py
+msgid "Your mail rule on {mailbox} is on"
+msgstr "قاعدة بريدك على {mailbox} تعمل"
+
+#: onedesk/one_mail/notifications.py
+msgid "Your mail rule on {mailbox} was declined"
+msgstr "رُفضت قاعدة بريدك على {mailbox}"
 
 #: onedesk/one_mail/tour.py
 msgid "Your Mailboxes"
@@ -56691,6 +56895,14 @@ msgstr "لا يزال {left} منها في المخزون. استخدمها أو
 msgid "{logged} h logged of the {planned} h planned."
 msgstr "سُجّلت {logged} ساعة من أصل {planned} ساعة مخططة."
 
+#: onedesk/one_mail/notifications.py
+msgid "{mailbox} is not connecting: {reason}"
+msgstr "{mailbox} لا يتصل: {reason}"
+
+#: onedesk/one_mail/notifications.py
+msgid "{mailbox} used its {limit} OneAI credits for this month"
+msgstr "استنفد {mailbox} رصيد OneAI البالغ {limit} لهذا الشهر"
+
 #. Subject of a notification
 #: onedesk/notifications/one_project/milestone_late.md
 msgid "{milestone} on {project} is late"
@@ -56800,6 +57012,10 @@ msgstr "{state}: {event}، {when}"
 #: onedesk/notifications/one_crm/next_step_due.md
 msgid "{step} on {title} is due"
 msgstr "حان موعد {step} في {title}"
+
+#: onedesk/one_mail/notifications.py
+msgid "{subject}<br>The rule {rule} told you."
+msgstr "{subject}<br>أخبرتك القاعدة {rule}."
 
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/back_from_supplier_late.md
@@ -56924,6 +57140,14 @@ msgstr "أضافك {who} إلى {project}"
 msgid "{who} added {collection}"
 msgstr "أضاف {who} المجموعة {collection}"
 
+#: onedesk/one_mail/notifications.py
+msgid "{who} approved it. It runs on each new message from now on."
+msgstr "وافق {who} عليها. تعمل على كل رسالة جديدة من الآن."
+
+#: onedesk/one_mail/notifications.py
+msgid "{who} asked for a mail rule on {mailbox}"
+msgstr "طلب {who} قاعدة بريد على {mailbox}"
+
 #. Subject of a notification
 #: onedesk/notifications/one_inventory/material_request_asked.md
 #: onedesk/notifications/one_inventory/stock_asked.md
@@ -57006,6 +57230,10 @@ msgstr "أنجز {who} {milestone} في {project}"
 msgid "{who} completed {task}"
 msgstr "أكمل {who} {task}"
 
+#: onedesk/one_mail/notifications.py
+msgid "{who} declined it, so it was removed. Ask them if you'd like to know why."
+msgstr "رفضها {who}، فأُزيلت. اسألهم إن أردت معرفة السبب."
+
 #. Subject of a notification
 #: onedesk/notifications/one_studio/collection_deleted.md
 msgid "{who} deleted {collection}"
@@ -57020,6 +57248,10 @@ msgstr "حذف {who} {title}"
 #: onedesk/notifications/one_project/progress_bill_drafted.md
 msgid "{who} drafted a progress bill for {order}"
 msgstr "أعدّ {who} مسودة فاتورة إنجاز لـ {order}"
+
+#: onedesk/one_mail/notifications.py
+msgid "{who} gave you {mailbox}"
+msgstr "أعطاك {who} {mailbox}"
 
 #. Subject of a notification
 #: onedesk/notifications/one_crm/given_to_you.md
@@ -57111,6 +57343,10 @@ msgstr "شغّل {who} {title}"
 #: onedesk/notifications/one_crm/they_replied.md
 msgid "{who} wrote about {title}"
 msgstr "كتب {who} بشأن {title}"
+
+#: onedesk/one_mail/notifications.py
+msgid "{who} wrote to {mailbox}"
+msgstr "كتب {who} إلى {mailbox}"
 
 #. Message of a notification
 #: onedesk/notifications/one_calendar/event_invitation.md

@@ -68,6 +68,7 @@ def boot_session(bootinfo) -> None:
 		"notifications": notification_center.for_boot(),
 		"ai": ai_center.modules() if roles.administers() and apps.ai_on() else [],
 	}
+	bootinfo["one_ai_may"] = ai_center.may() if apps.ai_on() else {}
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}
 	default = holders.sends_from()
 	bootinfo["one_mail_sends_from"] = (

@@ -51,8 +51,8 @@ def test_every_job_is_whole_and_every_word_has_a_job():
 			assert job.takes > 0, f"{key} holds nothing before it calls"
 			continue
 		assert job.most > 0, f"{key} holds nothing before it calls"
-		assert jobs.words(key), f"{key} has no words/{key}.md"
-	orphans = {path.stem for path in jobs.WORDS.glob("*.md")} - set(jobs.JOBS)
+		assert jobs.words(key), f"{key} has no words/{key}.txt"
+	orphans = {path.stem for path in jobs.WORDS.glob("*.txt")} - set(jobs.JOBS)
 	assert not orphans, f"words no job reads: {sorted(orphans)}"
 
 
@@ -86,7 +86,7 @@ def test_a_jobs_words_do_not_repeat_the_voice():
 	for key in jobs.JOBS:
 		said = jobs.words(key).lower()
 		for rule in ("you are oneai", "count rather than list", "never invent a fact"):
-			assert rule not in said, f"words/{key}.md repeats the voice: {rule}"
+			assert rule not in said, f"words/{key}.txt repeats the voice: {rule}"
 
 
 def test_rounds_are_counted_per_question_not_per_conversation():

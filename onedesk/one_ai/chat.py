@@ -183,7 +183,7 @@ def answer(chat: str, text: str, field: dict | None, run_id: str, page: dict | s
 			frappe.log_error(
 				title="OneAI provider refused", message=said, reference_doctype="AI Chat", reference_name=chat
 			)
-			said = frappe._("OneAI could not answer just now. Try again in a moment.")
+			said = frappe._("OneAI could not answer. Try again in a moment.")
 		_tell(run_id, chat, {"failed": said})
 	except Exception:
 		frappe.db.rollback()
@@ -426,7 +426,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 		)
 	except faults.Again:
 		frappe.throw(
-			frappe._("OneAI could not be reached just now. The question is still here — try again."),
+			frappe._("OneAI could not be reached. The question is still here — try again."),
 			title=frappe._("Not answered"),
 		)
 	except faults.Refused as raised:

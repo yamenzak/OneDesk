@@ -203,7 +203,7 @@ its words, its caps and its kind:
 Twenty-three jobs, from the twenty-five actions the fixture held (`find`
 and `summarise` had no caller). Each is a `Job` in `jobs.py` with its label,
 its module, its kind, whether it has tools, whether it answers a person in
-prose, and its caps; its words are `one_ai/words/<key>.md`. HR's screening,
+prose, and its caps; its words are `one_ai/words/<key>.txt`. HR's screening,
 interviews and grievances are talk jobs with their own words.
 
 **Defaults.** In `one_ai/models.py`, settled on 2026-10-26 by the bench
@@ -343,7 +343,7 @@ by workspace. The price is credits that are exact only after the fact.
 ## The voice
 
 What OneAI is told on every call is `one_ai/voice.py`, in parts, and each
-job's own words are `one_ai/words/<key>.md`; `jobs.told(key)` puts the parts
+job's own words are `one_ai/words/<key>.txt`; `jobs.told(key)` puts the parts
 the job takes before its words. Both are code, reviewed like code and
 measured by the bench. The persona on OneAdmin Settings was one paragraph
 that mixed who OneAI is with how to use tools; it is now these parts, and
@@ -581,7 +581,7 @@ the screen), a commit, and the docs it changes.
    Not measured here: chat with its tools, which needs a workspace
    connected to an account, and whether chat on Full answers better with
    thinking, which stage 7 measures with the panel's bench.
-3. **AICenter.** **Built on 2026-10-26.** `public/js/ai_center.js` on
+3. **AICenter.** **Built on 2026-10-26.** `public/js/one_ai/ai_center.js` on
    `one_ai/center.py`: OneAI on or off (as Apps turns it), the tier (a
    default, `one_ai_tier`, read by every call through `center.tier()`)
    with about what an answer costs at each (`proxy.ai_tiers`, priced on a
@@ -694,8 +694,22 @@ the screen), a commit, and the docs it changes.
    instruct OneAI did not. The gateway's own Guardrails could not be read
    or set with the token we hold (the scratchpad). The AI Addendum now
    says the models are ours, by tier, and that what OneAI reads never
-   instructs it. Still to do here: Help, the demo, and the fourteen
-   points. The plan was: Prompt-injection checks moved from flag to
+   instructs it. *The fourteen points, 2026-10-26:* OneAI is in the
+   registry (`one/ready.py`), not yet marked ready. Its files are in its
+   own places (the panel, AICenter and Documents' styles under
+   `public/js/one_ai/` and `public/css/one_ai/`, its tests under
+   `one_ai/tests/`), its README and reading's are one AGENTS.md, and its
+   job words are `.txt`, since only AGENTS.md, SCRATCHPAD.md and `docs/`
+   are Markdown. Help is twelve pages with pictures; 1.0.0 is its first
+   version. Its notifications moved from seven files into its
+   `notifications.py`, and the extractor now reads every module's, which
+   found OneMail's 56 notification strings untranslated since they moved
+   (translated now). It ships two roles (OneAI User, everyone; OneAI
+   Manager, who sees Usage), a tour of the panel, no setup steps, a foot
+   on Documents whose settings are AICenter, and says why OneAI never
+   changes its own settings (`ai.py` NOT_FOR_AI). Reading's events go on a
+   calendar as a participant (OneCalendar's `invite`) rather than a
+   share. What is left is the look a person signs off. The plan was: Prompt-injection checks moved from flag to
    block where measured, the agreements, Help, the demo, and OneAI taken
    through the fourteen points.
 

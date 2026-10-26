@@ -275,14 +275,14 @@ def test_a_card_carries_every_field_it_would_set_and_only_those_that_change():
 	assert 'drawn["was"]' in suggests
 	propose = (tree.APP / "one_ai" / "proposals.py").read_text().split("def propose(", 1)[1].split("\ndef ", 1)[0]
 	assert "not _same_value(held.get(key), value)" in propose
-	card = (tree.APP / "public" / "js" / "oneai" / "Record.vue").read_text()
+	card = (tree.APP / "public" / "js" / "one_ai" / "panel" / "Record.vue").read_text()
 	assert "FOLD = 8" in card and "field.was !== undefined" in card
 
 
 def test_a_big_change_is_said_as_what_it_touches_and_marked_on_the_page():
-	card = (tree.APP / "public" / "js" / "oneai" / "Record.vue").read_text()
+	card = (tree.APP / "public" / "js" / "one_ai" / "panel" / "Record.vue").read_text()
 	assert "MANY = 4" in card and "onedesk.oneai.changed(frm" in card
-	js = (tree.APP / "public" / "js" / "oneai.js").read_text()
+	js = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text()
 	assert "onedesk.oneai.changed = function" in js and "onedesk.oneai.unchanged(frm)" in js
 	chat = (tree.APP / "one_ai" / "chat.py").read_text()
 	assert '"fieldname": field' in chat and 'frappe._("On")' in chat

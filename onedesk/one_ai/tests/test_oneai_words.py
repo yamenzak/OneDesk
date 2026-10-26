@@ -1,21 +1,15 @@
-"""OneAI never names the software One is built on.
-
-The model repeats what it reads, so nothing it reads may say Frappe, ERPNext
-or HRMS, or call a kind of record a DocType: not a tool's description (the
-first paragraph of its docstring and every `Annotated` note), not the help a
-tool hands back, not the persona or an action's instruction, and not the part
-of a guide `how_to` answers from (above `## Under the hood`). Code an action
-writes may still call `frappe.db.get_value`; a sentence about it may not say
-"frappe checks it". docs/READY.md, Speaks.
-"""
+"""OneAI never names the software One is built on. The model repeats what
+it reads, so nothing it reads may say Frappe, ERPNext or HRMS, or call a kind
+of record a DocType: not a tool's description, not the help a tool hands
+back, not a job's words, and not the Help `how_to` answers from. Code may
+still call frappe; a sentence about it may not (docs/READY.md, Speaks)."""
 
 import ast
-import json
 import re
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parents[2] / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 
 import tree
 

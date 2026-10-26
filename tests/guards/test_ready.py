@@ -318,7 +318,7 @@ def test_only_aicenter_draws_oneais_settings_and_only_oneai_reaches_the_gateway(
 	"""OneAI's settings are drawn once, in AICenter, from what each module
 	declares; a module's screens open it, and only one_ai and the operator's
 	door call the gateway (docs/AICENTER.md, stage 3)."""
-	center = ROOT / "onedesk" / "public" / "js" / "ai_center.js"
+	center = ROOT / "onedesk" / "public" / "js" / "one_ai" / "ai_center.js"
 	for path in (ROOT / "onedesk").rglob("*"):
 		if path.suffix not in (".js", ".vue") or path == center or "node_modules" in path.parts:
 			continue

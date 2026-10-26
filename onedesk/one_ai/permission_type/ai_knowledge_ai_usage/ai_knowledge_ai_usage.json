@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "ai_knowledge_ai_usage",
+ "doc_type": "AI Knowledge",
+ "perm_type": "ai_usage",
+ "modified": "2026-10-26 06:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-26 06:00:00.000000"
+}

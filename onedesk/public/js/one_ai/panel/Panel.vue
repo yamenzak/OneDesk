@@ -4,7 +4,7 @@
      shape OneMessaging will want too — its threads join this list rather than
      needing a second panel drawn beside this one. -->
 <template>
-	<div class="one-ai-panel" :class="`one-ai-panel--${size}`">
+	<div class="one-ai-panel" :class="`one-ai-panel--${size}`" data-tour="oneai-panel">
 		<div class="one-ai-head">
 			<button
 				v-if="view === 'chat'"
@@ -29,10 +29,10 @@
 				<span class="one-ai-head__sub">{{ subtitle }}</span>
 			</div>
 
-			<button class="one-ai-icon" :title="__('New conversation')" @click="fresh">
+			<button class="one-ai-icon" :title="__('New conversation')" data-tour="oneai-new" @click="fresh">
 				<Icon name="square-pen" />
 			</button>
-			<button class="one-ai-icon" :title="bigger" @click="grow">
+			<button class="one-ai-icon" :title="bigger" data-tour="oneai-grow" @click="grow">
 				<Icon :name="size === 'full' ? 'minimize-2' : 'maximize-2'" />
 			</button>
 			<button class="one-ai-icon" :title="__('Close')" @click="$emit('closed')">

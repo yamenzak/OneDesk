@@ -1204,7 +1204,7 @@ def test_a_retainer_is_invoiced_by_the_month():
 
 
 def test_the_project_page_tells_oneai_where_it_is():
-	oneai = (tree.APP / "public" / "js" / "oneai.js").read_text()
+	oneai = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text()
 	assert "params.section || params.view" in oneai
 	kit = (tree.ROOT / "frontend" / "src" / "kit" / "desk.js").read_text()
 	assert "oneai.panel.moved(oneai.where())" in kit

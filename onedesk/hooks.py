@@ -855,7 +855,7 @@ doctype_list_js = {
 	"Personal Data Deletion Request": "public/js/privacy_request_list.js",
 	"Personal Data Download Request": "public/js/privacy_copy_list.js",
 	"Credit Ledger Entry": "public/js/credit_ledger_entry_list.js",
-	"AI Proposal": "public/js/ai_proposal_list.js",
+	"AI Proposal": "public/js/one_ai/ai_proposal_list.js",
 	"Attendance": "public/js/attendance_list.js",
 	"Employee Checkin": "public/js/checkin_list.js",
 	"Opportunity": "public/js/opportunity_list.js",
@@ -926,9 +926,9 @@ app_include_css = stamped([
 	"/assets/onedesk/css/window/chrome.css",
 	"/assets/onedesk/css/window/frame.css",
 	"/assets/onedesk/css/window/views.css",
-	"/assets/onedesk/css/oneai.css",
+	"/assets/onedesk/css/one_ai/oneai.css",
 	"/assets/onedesk/css/legal.css",
-	"/assets/onedesk/css/intake.css",
+	"/assets/onedesk/css/one_ai/intake.css",
 	"/assets/onedesk/css/lost.css",
 ])
 
@@ -944,7 +944,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/module_docs.js",
 	"/assets/onedesk/js/trust_center.js",
 	"/assets/onedesk/js/access_center.js",
-	"/assets/onedesk/js/ai_center.js",
+	"/assets/onedesk/js/one_ai/ai_center.js",
 	"/assets/onedesk/js/notification_center.js",
 	"/assets/onedesk/js/check.js",
 	"/assets/onedesk/js/size.js",
@@ -1002,8 +1002,8 @@ app_include_js = stamped([
 	"/assets/onedesk/js/crm_record.js",
 	"/assets/onedesk/js/reports.js",
 	"/assets/onedesk/js/chart_colors.js",
-	"/assets/onedesk/js/oneai.js",
-	"/assets/onedesk/js/intake.js",
+	"/assets/onedesk/js/one_ai/oneai.js",
+	"/assets/onedesk/js/one_ai/intake.js",
 	"/assets/onedesk/js/legal.js",
 	"/assets/onedesk/js/masters.js",
 ])
@@ -1345,7 +1345,7 @@ one_homes = ["onedesk.one.masters.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one_mail.abilities"]
+one_abilities = ["onedesk.one_mail.abilities", "onedesk.one_ai.abilities"]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",

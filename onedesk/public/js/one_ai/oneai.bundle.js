@@ -1,7 +1,7 @@
 
 import { createApp, h, ref } from "vue";
 
-import Panel from "./oneai/Panel.vue";
+import Panel from "./panel/Panel.vue";
 
 frappe.provide("onedesk.oneai");
 
