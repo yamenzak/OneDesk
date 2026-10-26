@@ -374,6 +374,12 @@ def test_a_module_says_what_setting_it_up_takes():
 WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/nav_tree.js", "onedesk/public/js/module_docs.js")
 
 
+def _draws(mark: str, code: str) -> bool:
+	"""A mark is drawn as written, or bound to the one element that carries it
+	(`:data-tour="first ? 'mark' : undefined"`), such as a list's first row."""
+	return f'data-tour="{mark}"' in code or bool(re.search(rf"data-tour=\"[^\"]*'{re.escape(mark)}'", code))
+
+
 def test_a_module_ships_a_tour_of_its_screen():
 	"""A ready module declares its tours in its own tour.py (docs/READY.md,
 	mechanism 10), one for each area of its screen: each has a key, a mark
@@ -396,7 +402,7 @@ def test_a_module_ships_a_tour_of_its_screen():
 			assert {"key", "at", "steps"} <= set(said), f"{module}'s tour lacks {sorted({'key', 'at', 'steps'} - set(said))}"
 			key, at = said["key"].value, said["at"].value
 			keys.append(key)
-			assert f'data-tour="{at}"' in own + marks, f"{module}'s {key} tour: nothing draws data-tour=\"{at}\""
+			assert _draws(at, own + marks), f"{module}'s {key} tour: nothing draws data-tour=\"{at}\""
 			steps = named[said["steps"].id] if isinstance(said["steps"], ast.Name) else said["steps"]
 			assert steps.elts, f"{module}'s {key} tour has no steps"
 			for step in steps.elts:
@@ -404,7 +410,7 @@ def test_a_module_ships_a_tour_of_its_screen():
 				target = one["target"].value
 				title, text = one["title"].args[0].value, one["text"].args[0].value
 				where = f"{module}'s {key} tour at {target}"
-				assert f'data-tour="{target}"' in own + marks, f"{where}: nothing draws data-tour=\"{target}\""
+				assert _draws(target, own + marks), f"{where}: nothing draws data-tour=\"{target}\""
 				assert len(title.split()) <= 5, f"{where}: a heading is five words or fewer"
 				assert len(re.findall(r"[.!?](?:\s|$)", text)) == 1 and text.endswith("."), f"{where}: one sentence"
 		assert len(keys) == len(set(keys)), f"{module} has two tours with one key"

@@ -459,7 +459,7 @@ onedesk.tour.run = async (module, tour = null) => {
 	driver.defineSteps(
 		shown.map(({ step, el }) => ({
 			element: el,
-			popover: { title: step.title, description: step.text, position: step.side },
+			popover: { title: step.title, description: step.text, position: onedesk.tour.side(step.side) },
 			onHighlighted: () => {
 				onedesk.tour.lift(el);
 				if (in_dialog) $(el).parents(".driver-fix-stacking").removeClass("driver-fix-stacking");
@@ -467,6 +467,13 @@ onedesk.tour.run = async (module, tour = null) => {
 		}))
 	);
 	driver.start();
+};
+
+// A step's side is written for a left-to-right page; a right-to-left one
+// mirrors it, so a card set beside the rail stays on the screen.
+onedesk.tour.side = (side) => {
+	if (document.documentElement.dir !== "rtl") return side;
+	return { left: "right", right: "left" }[side] || side;
 };
 
 // An island's parts sit in shadow roots of their own, so a mark is looked

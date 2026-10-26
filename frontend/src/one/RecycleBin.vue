@@ -12,10 +12,10 @@
       </div>
 
       <p v-if="!said.rows.length" class="py-16 text-center text-base text-ink-gray-5">{{ empty }}</p>
-      <List v-else v-model:selection="selection" :selectable="state === 'deleted'" :columns="columns" class="mt-3 list-row-px-3" data-tour="one-bin-list">
+      <List v-else v-model:selection="selection" :selectable="state === 'deleted'" :columns="columns" class="mt-3 list-row-px-3">
         <ListGroup v-for="day in days" :key="day.key" :label="day.label">
           <ListRows :items="day.rows" row-key="name" v-slot="{ item, value }">
-            <ListRow :value="value" class="hover:bg-surface-gray-2">
+            <ListRow :value="value" class="hover:bg-surface-gray-2" :data-tour="item.name === said.rows[0].name ? 'one-bin-list' : undefined">
               <button type="button" class="absolute inset-0 rounded-3" :aria-label="item.title" @click="opened(item)" />
               <ListCell class="min-w-0">
                 <div class="min-w-0">

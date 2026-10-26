@@ -465,3 +465,12 @@ body.one-tour-in-dialog .modal .driver-highlighted-element {
 	outline-offset: 4px;
 	border-radius: var(--radius-md);
 }
+
+/* Driver places its highlight and its card by `left`, and frappe's
+   right-to-left sheet turns driver's `left: 0` into `right: 0`, which a
+   right-to-left page then obeys over `left`: every step drew a rail's width
+   off its mark, and a card could leave the screen. */
+html[dir="rtl"] #driver-highlighted-element-stage,
+html[dir="rtl"] #driver-popover-item {
+	right: auto;
+}

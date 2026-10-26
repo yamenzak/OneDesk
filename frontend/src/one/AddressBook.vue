@@ -1,7 +1,7 @@
 <template>
   <div class="flex min-h-full flex-col text-ink-gray-8 md:flex-row" data-tour="one-book">
-    <section class="flex w-full shrink-0 flex-col border-outline-gray-1 md:w-96 md:border-e" :class="{ 'max-md:hidden': chosen }" data-tour="one-book-list">
-      <div class="px-4 pt-4">
+    <section class="flex w-full shrink-0 flex-col border-outline-gray-1 md:w-96 md:border-e" :class="{ 'max-md:hidden': chosen }">
+      <div class="px-4 pt-4" data-tour="one-book-list">
         <ViewTabs v-model="view" :views="views" />
         <TextInput v-model="search" class="mt-3 w-full" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
@@ -24,7 +24,8 @@
       </ul>
     </section>
 
-    <section class="min-w-0 flex-1 px-6 py-6" :class="{ 'max-md:hidden': !chosen }" data-tour="one-book-chosen">
+    <section class="min-w-0 flex-1 px-6 py-6" :class="{ 'max-md:hidden': !chosen }">
+      <div data-tour="one-book-chosen">
       <p v-if="!chosen" class="py-16 text-center text-base text-ink-gray-5">{{ view === "contacts" ? __("Choose a contact to see their details and their addresses.") : __("Choose an address to see it in full and who is there.") }}</p>
       <Loading v-else-if="!picked" />
       <template v-else>
@@ -74,6 +75,7 @@
           <Rows :rows="picked.people.map((one) => ({ key: one.name, label: one.title, sub: one.sub, avatar: one.title, onClick: () => jump('contacts', one.name) }))" :empty="__('Nobody linked to it has a contact yet.')" />
         </Section>
       </template>
+      </div>
     </section>
   </div>
 </template>
