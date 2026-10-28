@@ -13,7 +13,7 @@ from onedesk.one import roles
 COOKIE = "one_device"
 KEEP_SECONDS = 10 * 365 * 24 * 3600
 
-FORGET_DAYS = 180
+FORGET_DAYS = 30
 
 
 def _hash(token: str) -> str:
@@ -139,7 +139,7 @@ def sign_out(device: str) -> int:
 
 def forget() -> None:
 	"""Daily: a browser nobody sorted, that holds no passkey and has not been
-	seen in half a year, is a private window or cleared data, not a machine."""
+	seen in a month, is a private window or cleared data, not a machine."""
 	held = set(frappe.get_all("Clock Device", filters={"device": ["is", "set"]}, pluck="device"))
 	for name in frappe.get_all(
 		"Device",
@@ -161,6 +161,8 @@ def _sessions(device: str) -> list[str]:
 def for_settings() -> dict:
 	"""Settings → Workspace → Devices: sorted browsers first, then by last
 	seen; and every passkey that works, with the browser it was made on."""
+	from onedesk.one_account.signin import kind
+
 	keys = frappe.get_all(
 		"Clock Device",
 		filters={"status": "Active", "credential_id": ["is", "set"]},
@@ -180,11 +182,12 @@ def for_settings() -> dict:
 			"asset_name": frappe.db.get_value("Asset", one.asset, "asset_name") if one.asset else "",
 			"here": bool(at and at.name == one.name),
 			"passkeys": on.get(one.name, 0),
+			"kind": kind(one.user_agent),
 		}
 		for one in frappe.get_all(
 			"Device",
 			filters={"status": "Active"},
-			fields=["name", "device_name", "use", "user", "asset", "last_user", "last_seen", "last_address"],
+			fields=["name", "device_name", "use", "user", "asset", "last_user", "last_seen", "last_address", "user_agent"],
 			order_by="last_seen desc",
 		)
 	]

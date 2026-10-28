@@ -1,22 +1,22 @@
 # What One Is
 
-One is the workspace itself: the frame every app sits in, Home, the Address Book, Announcements, Dashboards and the Recycle Bin, and the centres that hold the workspace's settings, who may do what, and how people are told. Its rail is the first on the dock.
+One is the workspace itself: the frame every app sits in, Home, the Address Book, Announcements and the Recycle Bin, and the centres that hold the workspace's settings, who may do what, and how people are told. Its rail is the first on the dock.
 
 ## Finding Your Way
 
 One's rail has these groups:
 
-- **Home**, **Dashboards**, **Announcements** and **Recycle Bin**, first.
+- **Home**, **Announcements** and **Recycle Bin**, first.
 - **Address Book**: the workspace's **Contacts** and **Addresses**. Customers,
   suppliers, companies and employees all use them, so they live here rather
-  than in one app. You see the ones your work lets you open. **Lists** opens
-  the salutations, genders and address templates they pick from.
-- **You**: your own settings. Everyone has these.
-- **Workspace**: the workspace itself: its details, people, access, the audit
-  log, devices, plan and domains.
+  than in one app. You see the ones your work lets you open.
+- **Centers**: AccountCenter, ControlCenter, NotificationCenter,
+  AccessCenter, TrustCenter, AICenter, HelpCenter and UpdateCenter. Each
+  opens over the page you are on. AccessCenter is for administrators.
 
-Only administrators see Workspace and the Address Book's Lists. Click a
-group's name to fold it away; the quieter ones start folded.
+Click a group's name to fold it away.
+
+Each app's dashboards are on its own rail, as **Overview** rows.
 
 A link to a page that doesn't exist shows **Page not found**, and a page you
 may not open shows **No access**. **Go Back** and **Go Home** take you on.
@@ -42,7 +42,7 @@ shift has started and you haven't, and *Late* once you are late. On a phone
 there are no bars, and their tools are at the top of the panel instead.
 
 The frame's colour is the workspace's to choose: **Frame Colour** under
-Workspace › General › Contact and Branding. Its writing turns dark on a light
+One's ControlCenter › Branding. Its writing turns dark on a light
 colour, and in a dark theme the colour is deepened. Leave it empty for One's
 own.
 

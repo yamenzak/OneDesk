@@ -166,11 +166,11 @@ onedesk.CenterSection = class CenterSection extends onedesk.shell.Editor {
 
 // A tab of a centre drawn by a CenterSection: `Kind` the class, `about`
 // what it is for, and `record` the one record to open it on.
-onedesk.center_section.tab = (Kind, { id, label, icon, about, record = null, needs = null }) => ({
+onedesk.center_section.tab = (Kind, { id, label, title = null, icon, about, record = null, needs = null }) => ({
 	id,
 	label,
 	icon,
-	title: label,
+	title: title || label,
 	description: about,
 	needs,
 	render(panel) {

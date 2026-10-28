@@ -56,7 +56,13 @@ have. Each answer links to the record it came from.
 **Identity Documents** — passport, national ID, residence permit, work permit,
 visa, driving licence — each with its number, issue and expiry dates and a
 scan. A workspace with a company in the UAE also has Emirates ID, Labour
-Card, Health Insurance and Medical Fitness.
+Card, Health Insurance and Medical Fitness. Each kind says its country (empty
+for every country), so a workspace adds its own country's kinds in Lists ›
+ID Document Types, and a person picks only from their workspace's countries'
+and every country's (`papers.offered`). People add and renew their own from
+AccountCenter's Profile, and HR is told. OneAI, reading a document that
+arrives, adds it to the person's record, or, when it renews a kind they
+already have, puts it in that row's place (undone as one).
 
 **Attendance Standing** is a score out of 100, worked out every night from the
 last 90 days of check-ins. It never refuses anybody; it decides whose check-ins

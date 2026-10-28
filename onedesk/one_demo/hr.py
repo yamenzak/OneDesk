@@ -30,6 +30,7 @@ def run(password=None):
 		_requests()
 		_overtime()
 		_appraisal()
+		_profiles()
 
 
 def _employee(first):
@@ -630,3 +631,43 @@ def _appraisal():
 		make({"doctype": "Appraisal Template", "template_title": template, "goals": [{"key_result_area": "Delivery on Time", "per_weightage": 60}, {"key_result_area": "Site Safety", "per_weightage": 40}]})
 	made = make({"doctype": "Appraisal Cycle", "cycle_name": cycle, "company": COMPANY, "start_date": on(1, 1), "end_date": on(6, 30)})
 	make({"doctype": "Appraisal", "employee": _employee("Rania"), "company": COMPANY, "appraisal_cycle": made.name, "appraisal_template": template})
+
+
+# What three people's profiles carry beyond their job: the documents HR
+# keeps, where they studied and where they worked before
+# (AccountCenter's Profile).
+PROFILES = {
+	"Layla": {
+		"documents": (("Emirates ID", "784-1991-4410392-1", 400), ("Passport", "N4471932", 20)),
+		"education": (("MBA", "INSEAD", "Post Graduate", 2016), ("BEng Civil Engineering", "American University of Sharjah", "Graduate", 2012)),
+		"work": (("Al Futtaim Glass", "Projects Manager", "5 years"),),
+	},
+	"Mariam": {
+		"documents": (("Emirates ID", "784-1988-2093114-7", 700), ("Residence Permit", "201/2019/7731942", -12)),
+		"education": (("BA Human Resource Management", "University of Jordan", "Graduate", 2010),),
+		"work": (("Emaar Hospitality", "HR Officer", "4 years"),),
+	},
+	"Nadia": {
+		"documents": (("Emirates ID", "784-1995-6630218-3", 500), ("Work Permit", "WP-88123", 90)),
+		"education": (("BArch", "Lebanese American University", "Graduate", 2017),),
+		"work": (),
+	},
+}
+
+
+def _profiles():
+	for first, said in PROFILES.items():
+		name = _employee(first)
+		if not name:
+			continue
+		employee = frappe.get_doc("Employee", name)
+		if employee.get("one_documents") or employee.get("education"):
+			continue
+		for kind, number, days in said["documents"]:
+			if frappe.db.exists("Identification Document Type", kind):
+				employee.append("one_documents", {"document_type": kind, "number": number, "expires_on": add_days(today(), days)})
+		for qualification, school, level, year in said["education"]:
+			employee.append("education", {"qualification": qualification, "school_univ": school, "level": level, "year_of_passing": year})
+		for company, title, years in said["work"]:
+			employee.append("external_work_history", {"company_name": company, "designation": title, "total_experience": years})
+		employee.save()

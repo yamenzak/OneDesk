@@ -226,6 +226,13 @@ def portal(tenant: str, back: str) -> str:
 	return stripe.portal(customer, back)
 
 
+def card(tenant: str) -> dict:
+	"""A checkout that takes a new card for the workspace, drawn in its own
+	page (stripe.checkout_for_card)."""
+	site.require_admin()
+	return stripe.checkout_for_card(tenant)
+
+
 def seller() -> dict:
 	"""Who the invoices are from, as a workspace's books name a supplier: the
 	admin site's company, with what OneAI recognises it by."""

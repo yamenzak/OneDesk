@@ -159,7 +159,7 @@ async function load() {
   failed.value = false;
   try {
     if (props.token) {
-      const said = await call("onedesk.one.portal_share.link_view", { token: props.token });
+      const said = await call("onedesk.one_portal.share.link_view", { token: props.token });
       doc.value = said.page;
       answered.value = said.answered;
     } else {
@@ -192,13 +192,13 @@ const by = ref("");
 async function answer(method, args, said) {
   busy.value = true;
   try {
-    if (props.token) await call(`onedesk.one.portal_share.link_${method}`, { token: props.token, by: by.value, ...args });
-    else await call(`${method}_quote`, { kind: props.kind, name: props.name, ...args });
+    if (props.token) await call(`onedesk.one_portal.share.link_${method}`, { token: props.token, by: by.value, ...args });
+    else await call(`onedesk.one_crm.portal.${method}_quote`, { kind: props.kind, name: props.name, ...args });
     toast.success(said);
     accepting.value = declining.value = false;
     await load();
   } catch (error) {
-    toast.error(error?.messages?.[0] || __("Something went wrong. Try again in a moment."));
+    toast.error(error?.messages?.[0] || __("That didn't go through. Try again in a moment."));
   } finally {
     busy.value = false;
   }

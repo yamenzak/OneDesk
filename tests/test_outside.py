@@ -65,16 +65,13 @@ def test_frappes_screens_open_ones_own():
 		'["onecloud"]',
 		'["my-tasks"]',
 		'["one", { center: "settings", module: "OneStudio", at: "printing" }]',
-		'["address-book", { view: "addresses" }]',
-		'["recycle-bin"]',
-		'["dashboards"]',
 	):
 		assert route in js
 	assert "frappe.route_flags.replace_route = true;" in js
 	assert "onedesk.notification_center.open();" in js
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())
 	rows = [item.get("link_to") or item.get("url") for item in one["items"]]
-	assert rows.index("/desk/address-book?view=addresses") == rows.index("address-book") + 1
+	assert rows.index("Address") == rows.index("Contact") + 1
 
 
 def test_help_mail_and_search_are_ones():

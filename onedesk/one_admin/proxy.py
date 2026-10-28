@@ -364,6 +364,15 @@ def billing_portal(back: str) -> dict:
 	return {"url": billing.portal(caller().name, back)}
 
 
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def billing_card() -> dict:
+	"""A checkout that takes a new card, for the workspace to draw."""
+	from onedesk.one_admin import billing
+
+	return {"checkout": billing.card(caller().name)}
+
+
 def _add_ons(tenant: str) -> list[dict]:
 	"""What is on the workspace's plan, as it shows them."""
 	rows = frappe.get_all(

@@ -66,8 +66,8 @@ of Office, OneAI and Automation tabs.
 
 ## TrustCenter
 
-The shield at the foot of OneMail, beside the question mark, opens
-**TrustCenter** on OneMail's part of it. Everyone can open it; only a
+**Your Data**, at the end of OneMail's Settings, opens **TrustCenter** on
+OneMail's part of it. Everyone can open it; only a
 workspace administrator can turn an optional service on or off.
 
 | You see | What it is |
@@ -76,9 +76,9 @@ workspace administrator can turn an optional service on or off.
 | **Agreements** | OneMail's own paragraphs of each agreement, who agreed to it, and any change coming |
 | **Changes** | What changed in those agreements, and from when |
 
-**Read in Full** on an agreement, or the arrows at the top, opens the whole of
+**Read in Full** on an agreement opens the whole of
 TrustCenter: every agreement, every optional service, every company that
-receives data, and what is kept. The shield in the bottom bar opens it from
+receives data, and what is kept. TrustCenter on One's rail opens it from
 anywhere.
 
 > **When an agreement changes**, it's published 30 days before it takes

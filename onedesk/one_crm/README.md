@@ -890,7 +890,7 @@ invoice sent from its order (**Proforma Invoice by Mail**).
 ## Answered on the portal
 
 A customer accepts or declines an open quotation on the portal
-(one/portal.py `accept_quote`, `decline_quote`). Accepting makes the order with
+(one_crm/portal.py `accept_quote`, `decline_quote`). Accepting makes the order with
 erpnext's own `make_sales_order`, which refuses a quotation run out unless
 Selling Settings allows it, with the date they need it by and their reference,
 and keeps it a draft: an order is the team's to confirm. Declining is erpnext's

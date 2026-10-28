@@ -8,6 +8,16 @@ frappe.provide("onedesk.trust");
 
 onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	const said = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
+	// Requests to delete an account or copy its data, for administrators of
+	// the whole: their own page, counted while some wait.
+	const asks = !module && frappe.boot.one_administers ? await frappe.xcall("onedesk.one.privacy.requests", {}, "GET") : null;
+	const WAITING = ["Pending Approval", "Waiting"];
+	const waiting = asks
+		? asks.deletions.filter((one) => WAITING.includes(one.status)).length + asks.copies.filter((one) => WAITING.includes(one.one_status)).length
+		: 0;
+	// A version is `revision.hash`; the reader is told the revision, and the
+	// hash is there on hover for whoever checks it.
+	const short = (version) => String(version || "").split(".")[0];
 	const kit = onedesk.module_settings.kit;
 	const esc = frappe.utils.escape_html;
 	const docs = onedesk.module_docs;
@@ -43,7 +53,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				}
 				const used = said.companies.filter((row) => row.uses.some((use) => use.module === module));
 				if (used.length) {
-					panel.body.append(kit.heading(__("Who It Sends Data To"), __("Struck through where your workspace doesn't use it.")));
+					panel.body.append(kit.heading(__("Who It Sends Data To"), __("Greyed where your workspace doesn't use it.")));
 					table(used, module).appendTo(panel.body);
 				}
 				if (!own.length && !used.length) panel.body.append(kit.empty(__("{0} sends nothing to another company.", [module])));
@@ -62,7 +72,6 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				id: `doc:${doc.key}`,
 				group: "agreements",
 				label: doc.title,
-				icon: "file-text",
 				title: doc.title,
 				description: __("What {0} adds to it.", [module]),
 				html: anchored(doc.key, html),
@@ -77,7 +86,6 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				id: `doc:${doc.key}`,
 				group: "agreements",
 				label: doc.title,
-				icon: "file-text",
 				title: doc.title,
 				description: doc.summary,
 				html: anchored(doc.key, doc.html),
@@ -118,10 +126,11 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	const requests = async (panel) => {
 		const asked = await frappe.xcall("onedesk.one.privacy.requests", {}, "GET");
 		const go = (doctype, name) => (dialog.hide(), frappe.set_route("Form", doctype, name));
-		const status = (one) => frappe.ui.badge.html({ label: __(one.status || "Pending"), theme: one.status === "Deleted" ? "gray" : ["Pending Approval", "Waiting"].includes(one.status) ? "orange" : "blue" });
-		panel.body.append(kit.heading(__("Requests"), __("Requests to delete an account or copy its data, newest first.")));
+		const status = (one) => frappe.ui.badge.html({ label: __(one.status || "Pending"), theme: one.status === "Deleted" ? "gray" : WAITING.includes(one.status) ? "orange" : "blue" });
+		if (!asked.deletions.length && !asked.copies.length) {
+			return $(`<div class="one-shell-quiet"></div>`).text(__("Nobody has asked yet.")).appendTo(panel.body);
+		}
 		const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
-		if (!asked.deletions.length && !asked.copies.length) $list.append(kit.empty(__("Nobody has asked yet.")));
 		for (const one of asked.deletions) {
 			kit.row({ lead: kit.glyph("user-x"), title: __("Delete {0}", [one.email]), sub: esc(frappe.datetime.prettyDate(one.creation)), end: status(one), open: () => go("Personal Data Deletion Request", one.name) }).appendTo($list);
 		}
@@ -141,7 +150,16 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				`<h2>${esc(__("Your Own Data"))}</h2>${paragraphs(said.data.yours)}` +
 				`<h2>${esc(__("Taking It With You"))}</h2>${paragraphs(said.data.leaving)}`,
 		),
-		after: frappe.boot.one_administers ? requests : null,
+	});
+	if (asks) page({
+		id: "requests",
+		label: __("Requests"),
+		icon: "inbox",
+		count: waiting,
+		title: __("Requests"),
+		description: __("Requests to delete an account or copy its data, newest first."),
+		html: "",
+		after: requests,
 	});
 
 	page({
@@ -154,7 +172,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		after(panel) {
 			const changes = said.module ? said.changes.filter((one) => keys.has(one.document)) : said.changes;
 			if (!changes.length) {
-				panel.body.append(kit.empty(__("No changes")));
+				$(`<div class="one-shell-quiet"></div>`).text(__("No changes")).appendTo(panel.body);
 				return;
 			}
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
@@ -230,7 +248,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 						kit.row({
 							lead: kit.glyph(one.for === "organisation" ? "building-2" : "user"),
 							title: esc(one.who),
-							sub: esc(one.for === "organisation" ? __("For the organisation, version {0}", [one.version]) : __("For themselves, version {0}", [one.version])),
+							sub: esc(one.for === "organisation" ? __("For the organisation, version {0}", [short(one.version)]) : __("For themselves, version {0}", [short(one.version)])),
 							end: `<span class="one-set-value">${esc(one.on)}</span>`,
 						}).appendTo($list);
 					}
@@ -238,10 +256,10 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				.appendTo($buttons);
 		}
 		for (const old of doc.history.filter((one) => one.version !== doc.version).slice(0, 2)) {
-			kit.button({ label: __("Version {0}", [old.version]), variant: "ghost", icon: "history" })
+			kit.button({ label: __("Version {0}", [short(old.version)]), variant: "ghost", icon: "history", attrs: { title: old.version } })
 				.on("click", async () => {
 					const read = await frappe.xcall("onedesk.one_legal.reading.document", { key: doc.key, version: old.version }, "GET");
-					kit.view(panel, { title: doc.title, description: __("As agreed, version {0}.", [read.version]) });
+					kit.view(panel, { title: doc.title, description: __("As agreed, version {0}.", [short(read.version)]) });
 					docs.page(panel.body.empty(), read.html.split("</h1>").pop());
 				})
 				.appendTo($buttons);
@@ -284,53 +302,31 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 
 	async function turn(one, control) {
 		const on = control.get_value() ? 1 : 0;
-		if (on) {
-			const yes = await new Promise((resolve) => {
-				let answered = false;
-				const ask = new frappe.ui.Dialog({
-					title: __("Turn On {0}?", [one.title]),
-					fields: [
-						{
-							fieldtype: "HTML",
-							fieldname: "said",
-							options: `<p>${esc(one.sends)}</p><p>${esc(__("Turning it on agrees to this for your whole workspace, and is recorded with your name."))}</p>`,
-						},
-					],
-					primary_action_label: __("Turn On"),
-					primary_action() {
-						answered = true;
-						ask.hide();
-						resolve(true);
-					},
-					secondary_action_label: __("Cancel"),
-					secondary_action: () => ask.hide(),
-				});
-				ask.onhide = () => answered || resolve(false);
-				ask.show();
-			});
-			if (!yes) return control.set_value(0);
-		}
-		said.services = await frappe.xcall("onedesk.one_legal.services.switch", { key: one.key, on });
-		frappe.show_alert({ message: on ? __("Turned on") : __("Turned off"), indicator: "green" });
+		const services = await onedesk.trust.switch(one, on);
+		if (!services) return control.set_value(0);
+		said.services = services;
 		const fresh = await frappe.xcall("onedesk.one_legal.reading.trust", { module: module || "" }, "GET");
 		Object.assign(said, fresh);
 		dialog.get_panel(dialog.active_tab)?.refresh();
 	}
 
-	// The companies, with what each use is for; a use waiting on an optional
-	// service this workspace hasn't turned on is struck through.
+	// The companies, each once with its safeguard, and under it what each use
+	// is for, what it receives and where; a use waiting on an optional
+	// service this workspace hasn't turned on is greyed.
 	function table(rows, only = null) {
-		const $table = $(`<table class="one-trust-companies"><thead><tr></tr></thead><tbody></tbody></table>`);
-		for (const word of [__("Company"), __("What For"), __("What They Receive"), __("Where"), __("Safeguard")]) {
-			$(`<th></th>`).text(word).appendTo($table.find("thead tr"));
-		}
+		const $all = $(`<div class="one-trust-companies"></div>`);
 		for (const row of rows) {
-			for (const use of row.uses.filter((one) => !only || one.module === only)) {
-				const $tr = $(`<tr></tr>`).toggleClass("one-trust-unused", !use.used).appendTo($table.find("tbody"));
-				const $name = $(`<td></td>`).appendTo($tr);
-				if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).text(row.name).appendTo($name);
-				else $name.text(row.name);
-				const $for = $(`<td></td>`).text(use.purpose).appendTo($tr);
+			const uses = row.uses.filter((one) => !only || one.module === only);
+			if (!uses.length) continue;
+			const $card = $(`<div class="one-trust-company"></div>`).appendTo($all);
+			const $head = $(`<div class="one-trust-company-head"></div>`).appendTo($card);
+			const $name = $(`<div class="one-trust-company-name"></div>`).appendTo($head);
+			if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).text(row.name).appendTo($name);
+			else $name.text(row.name);
+			$(`<div class="one-trust-note"></div>`).text(row.safeguard || "").appendTo($head);
+			for (const use of uses) {
+				const $use = $(`<div class="one-trust-use"></div>`).toggleClass("one-trust-unused", !use.used).appendTo($card);
+				const $for = $(`<div class="one-trust-use-for"></div>`).text(use.purpose).appendTo($use);
 				if (use.service) {
 					$for.append(
 						" ",
@@ -342,10 +338,16 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 				}
 				// A company One will need from the day a change takes effect.
 				if (use.starts) $for.append(" ", frappe.ui.badge.html({ label: __("From {0}", [use.starts]), theme: "orange" }));
-				for (const value of [use.data, use.where, row.safeguard]) $(`<td></td>`).text(value).appendTo($tr);
+				const $dl = $(`<dl class="one-trust-facts"></dl>`).appendTo($use);
+				for (const [term, value] of [
+					[__("What They Receive"), use.data],
+					[__("Where"), use.where],
+				]) {
+					$dl.append($(`<dt></dt>`).text(term), $(`<dd></dd>`).text(value || ""));
+				}
 			}
 		}
-		return $(`<div class="one-doc-table"></div>`).append($table);
+		return $all;
 	}
 
 	function print(title, html) {
@@ -378,6 +380,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 	const node = (one) => ({
 		id: one.id,
 		label: one.label,
+		count: one.count,
 		icon: one.icon,
 		icon_html: one.icon_html,
 		children: sections[one.id]
@@ -396,9 +399,9 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		module,
 		center: "trust",
 		tabs: [{ items }],
-		expand: module ? () => onedesk.trust.open() : null,
 		tree,
 		default_tab: (at && items.find((one) => one.id === at) ? at : null) || items[0]?.id,
+		help: ["OneLegal", "overview"],
 	});
 	dialog.$wrapper.addClass("one-set one-trust");
 	dialog.index = Object.values(sections).flat();
@@ -432,4 +435,40 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 		}, 600);
 	}
 	return dialog;
+};
+
+// An optional service turned on or off, wherever its switch is (TrustCenter,
+// One's settings › Pictures): turning one on first says what it sends and
+// that agreeing binds the whole workspace. Null when that is cancelled.
+onedesk.trust.switch = async (one, on) => {
+	const esc = frappe.utils.escape_html;
+	if (on) {
+		const yes = await new Promise((resolve) => {
+			let answered = false;
+			const ask = new frappe.ui.Dialog({
+				title: __("Turn On {0}?", [one.title]),
+				fields: [
+					{
+						fieldtype: "HTML",
+						fieldname: "said",
+						options: `<p>${esc(one.sends)}</p><p>${esc(__("Turning it on agrees to this for your whole workspace, and is recorded with your name."))}</p>`,
+					},
+				],
+				primary_action_label: __("Turn On"),
+				primary_action() {
+					answered = true;
+					ask.hide();
+					resolve(true);
+				},
+				secondary_action_label: __("Cancel"),
+				secondary_action: () => ask.hide(),
+			});
+			ask.onhide = () => answered || resolve(false);
+			ask.show();
+		});
+		if (!yes) return null;
+	}
+	const services = await frappe.xcall("onedesk.one_legal.services.switch", { key: one.key, on: on ? 1 : 0 });
+	frappe.show_alert({ message: on ? __("Turned on") : __("Turned off"), indicator: "green" });
+	return services;
 };

@@ -322,8 +322,9 @@ before a view's title, a Save that shows once something changed; its
 classes are `one-set-*` in `public/css/module_settings.css`, and a module's
 own stylesheet keeps only what is its own. The foot is
 `win.module_foot({ module, settings })`, `windowModuleFoot` in an island:
-a row of icons: Settings (the cog), the tour of the area on screen, Help and
-TrustCenter, then the version at the row's end. Every center's head has an
+a row of icons: Settings (the cog), the tour of the area on screen and Help,
+then the version at the row's end (mechanism 18 for where every other
+centre opens). Every center's head has an
 expand button at its corner that opens the whole of it: HelpCenter and
 UpdateCenter for all of One, ControlCenter for workspace settings,
 AccountCenter for all your mailboxes, TrustCenter for the workspace
@@ -352,8 +353,7 @@ Workspace Settings › Access. Tabs showed by ability
   (rows, views, a header switch, read-only values). Each tab declares the
   ability it needs, and the dialog leaves out what the reader may not use.
 - **The foot of every module's rail** has the same three: **Settings**,
-  **Help** and the **version** (built as icons, with the tour and TrustCenter
-  beside them).
+  **Help** and the **version** (built as icons, with the tour beside them).
 
 ### 6. Legal in the module
 
@@ -623,8 +623,7 @@ The guards each point names, as they stand:
   Your Data** (its optional services and who it sends data to), its own
   paragraphs of each agreement it writes into with where the reader and the
   workspace stand on it, and the changes to those. **The whole**, from the
-  shield in the bottom bar, from Read in Full, from the arrows at the top of
-  a module's part, and from `/desk/legal`: every **Agreement** in full,
+  shield in the bottom bar, from Read in Full, and from `/desk/legal`: every **Agreement** in full,
   **Optional Services**, **Companies** (struck through where unused),
   **Your Data** and **Changes**. The Agreements island and the Legal tab
   are gone.
@@ -814,8 +813,7 @@ It is found, not drawn: the boot names the modules with abilities
 (`one_centers.access`), and ControlCenter ends every such module's sidebar
 with **Roles and Access**, which opens AccessCenter on it
 (`onedesk.module_settings.centers`). The whole, every module with
-abilities, opens from the key in the bottom bar, beside TrustCenter's
-shield, and from the arrows; a role of such a module in Workspace Settings
+abilities, opens from One's rail (mechanism 18); a role of such a module in Workspace Settings
 › Access opens it too (`Settings.access`). OneMail's Roles tab and
 `Settings.ROLES_IN` are gone. Profiles, groups, the record-type levels of
 apps not yet ready, and frappe's per-doctype permissions stay where they
@@ -844,11 +842,11 @@ nobody sets it here; a workspace rule starts everybody on what it allows.
 It is found, not drawn: the boot names the modules whose types the reader
 gets, or every module with types for an administrator
 (`one_centers.notifications`), and ControlCenter ends their sidebars with
-**Notifications**. The whole opens from the bell's gear, Settings › You ›
-Notifications (which now opens it over the page) and the arrows:
+**Notifications**. The whole opens from the bell's gear and One's rail (mechanism 18):
 **Everything** (notifications and their email on or off, and push in this
-browser), each module under **Yours**, **Across One** for frappe's own
-and the workspace's rules, and each module under **Workspace**.
+browser), then one row per module under **Apps**, with **Yours** and, for
+an administrator, **Workspace** in its head, **Other** for the workspace's
+rules, and **Words and Rules**.
 Workspace Settings › Notification Types keeps the words and the rules.
 `test_ready.py` fails on a ready module whose screens draw notification
 choices, and the demo checks
@@ -873,7 +871,8 @@ record (OneMail's mailboxes) is listed and opens that record's tab.
 
 The boot names the modules with a part for administrators while OneAI is
 on (`one_centers.ai`), and ControlCenter ends their sidebars with **OneAI**.
-The bottom bar has AICenter, and so does the end of OneAI's own rail.
+The whole opens from One's rail (mechanism 18), and from the end of
+OneAI's own rail.
 `test_ready.py` fails on a screen that draws OneAI's settings and on code
 outside OneAI that reaches the gateway. The plan and what is still to come
 are in `docs/AICENTER.md`.
@@ -888,6 +887,50 @@ rail and `/desk/one?center=account&at=...`. Each section is a
 `CenterSection` (`public/js/center_section.js`), which every centre with a
 form to save now draws on. It is the first step of cutting One down to
 the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
+
+### 18. The centres, and where each opens
+
+**Built.** There are eight: **AccountCenter**, **ControlCenter**,
+**NotificationCenter**, **AccessCenter**, **TrustCenter**, **AICenter**,
+**HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
+One's, and every module but OneAccount adds its part to them from its own
+files rather than drawing one: its settings and Lists (ControlCenter), its
+`abilities.py` (AccessCenter), `notifications.py` (NotificationCenter),
+`legal.py` (TrustCenter), `ai.py` (AICenter), `docs/` (HelpCenter) and
+`docs/changelog/` (UpdateCenter). AccountCenter is One's alone.
+
+**Two ways in, and no third.**
+
+- **The whole, from One's rail.** One's rail ends with **Centers**, a row
+  for each, opening it over One for every module
+  (`/desk/one?center=...`, `onedesk.centers.open`). A full view groups by
+  module, and One's own part is a group called One like any other. A row a
+  reader can't open is not on their rail: AccessCenter is an
+  administrator's, AICenter goes when OneAI is off (`apps.trim`).
+- **A module's part, from the module.** Its foot has Settings, the tour,
+  Help (HelpCenter on the module) and the version (UpdateCenter on it).
+  ControlCenter, its Settings, ends with a row per centre it has a part in,
+  each opening that centre on the module: Roles and Access, Notifications,
+  OneAI, and Your Data, which every module has
+  (`onedesk.module_settings.centers`).
+
+Nothing else opens a centre: the frame's bars carry what is used every day
+(search, the bell, OneAI, Check In, timers) and no centre, and AccountCenter
+holds its own tabs only.
+
+**One owner, one dialog deep.** A thing lives in one centre, the one of the
+module it belongs to, and anywhere else shows that centre's own control or
+a row that opens it, never a copy: Pictures shows Gravatar's switch, and
+the agreement it makes is TrustCenter's (`onedesk.trust.switch`). A centre
+opened from a centre takes its place (`opens`), so no dialog is ever over
+another. Each centre's head has Help (mechanism 5).
+
+`test_ready.py` fails when One's rail lacks a centre, and when a module's
+Settings leaves one out.
+
+**Before.** The bottom bar had AICenter, AccessCenter and TrustCenter;
+the foot had a TrustCenter shield; One's rail had You and Workspace groups
+of rows that each opened a centre or a module's settings.
 
 ## The fourteen points
 

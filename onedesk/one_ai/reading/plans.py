@@ -194,7 +194,8 @@ def people(reading: dict, ctx: dict) -> list[Action]:
 
 def employee_documents(reading: dict, ctx: dict) -> list[Action]:
 	"""A person's own documents, on their Employee: an identity document as
-	a row with a task before it runs out, a certificate as an education row,
+	a row (taking the place of the one of its kind it renews) with a task
+	before it runs out, a certificate as an education row,
 	a sick note as a leave application, a resignation proposed, and the
 	contract an applicant signed as their Employee, proposed."""
 	employee = ctx.get("employee")
@@ -218,7 +219,13 @@ def employee_documents(reading: dict, ctx: dict) -> list[Action]:
 			"country": reading.get("issuing_country"),
 			"attachment": ctx.get("file_url"),
 		}
-		out.append(Action("Add", "Employee", employee, {"table": "one_documents", "row": {k: v for k, v in row.items() if v}}, key=f"document|{number}", sure=True))
+		values = {"table": "one_documents", "row": {k: v for k, v in row.items() if v}}
+		# A renewal: the kind they already have, with a new number, takes
+		# the old row's place rather than standing beside it.
+		renews = (ctx.get("employee_documents_by_type") or {}).get(reading.get("document_type"))
+		if renews:
+			values["replaces"] = renews
+		out.append(Action("Add", "Employee", employee, values, key=f"document|{number}", sure=True))
 		if reading.get("valid_until"):
 			lead = LEAD_DAYS.get((reading.get("document_type") or "").lower(), LEAD_DEFAULT)
 			due = getdate(reading["valid_until"]) - timedelta(days=lead)

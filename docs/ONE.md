@@ -95,7 +95,7 @@ mailbox's address under it, which is what it already is.
 | You › Calendar | OneCalendar's ControlCenter |
 | You › What OneAI Remembers, What OneAI Reads | AICenter, Yours |
 | You › Agreements | TrustCenter |
-| Workspace › General | One's own ControlCenter (with Start Again) |
+| Workspace › General | One's own ControlCenter: Company (with Start Again), Branding, Region and Formats, Sign-in, Sharing |
 | Workspace › Access | AccessCenter (it already opens it) |
 | Workspace › Holidays | OneHR (`holidays.py`) |
 | Setup › Numbering, Printing, Approvals | OneStudio |
@@ -132,8 +132,6 @@ Managers keep seeing their module's lists, as they do now.
 - **Address Book**: contacts and addresses as one screen, a list beside the
   person or place, not two frappe lists.
 - **Announcements**: what the office has said, and writing a new one.
-- **Dashboards**: the workspace's dashboards to read. Making one is
-  OneStudio's.
 - **Recycle Bin**: what was deleted, and putting it back.
 
 **Centres:** AccessCenter (with the Audit Log), NotificationCenter, and One's
@@ -151,10 +149,10 @@ abilities, notify and push, the record head (`head.py`, `stages.py`,
 (`layer.py`, `babel.py`), boards, and the READY mechanisms themselves
 (`ready.py`, `versions.py`, `tours.py`, `setup_steps.py`, `setup_wizard.py`).
 
-**Not decided here:** the portal (`portal.py`, `portal_invite.py`,
-`portal_share.py`, 1,995 lines) is its own surface with its own frappe-ui
-app, and becomes its own module in a later plan. Until then it stays where
-it is, named in `ready.OUTSIDE`.
+**Decided since:** the portal is OnePortal (`one_portal/`), a module of its
+own: the engine, invitations, links and the Portal dialog there, and what
+each kind of record looks like on the portal in the `portal.py` of the
+module it belongs to (one_portal/AGENTS.md).
 
 ## Stages
 
@@ -178,8 +176,8 @@ moves its version.
    (`public/js/center_section.js`), lifted out of AccountCenter, so each
    moved section kept its drawing and its save. General is One's
    ControlCenter (`one/control.py`, `public/js/one/one_control.js`); Access's
-   roles, profiles and groups are AccessCenter's Roles and Profiles, under
-   Across One; Holidays is OneHR's ControlCenter (`one_hr/control.py`, and
+   roles, profiles and groups are AccessCenter's Roles and Profiles, at the
+   top of its list; Holidays is OneHR's ControlCenter (`one_hr/control.py`, and
    `holidays.py` moved into OneHR); the calendar link is OneCalendar's
    ControlCenter, Your Calendar Link; What OneAI Remembers and What OneAI
    Reads are AICenter's Yours (`one_ai/yours.py`); Notifications is
@@ -203,7 +201,7 @@ moves its version.
 4. **Privacy and the Audit Log.** Built. TrustCenter's Your Data ends,
    for administrators, with Requests: who asked to have their account
    deleted and who asked for a copy of their data, each opening its
-   request (`privacy.requests`). AccessCenter's Across One has the Audit
+   request (`privacy.requests`). AccessCenter's top of the list has the Audit
    Log: changes, sign-ins and exports and prints as one list, newest
    first, filtered by kind, each row opening frappe's record
    (`audit.log`). One's rail loses Privacy and Audit Log, and its
@@ -262,11 +260,12 @@ moves its version.
    for an administrator who has seen each and Stop Showing. The Recycle Bin
    lists deletions by day, searched and narrowed by kind, put back one at a
    time or many ticked, with Yours and Everyone's for whoever holds
-   Everyone's Deletions. The Address Book is contacts and addresses as one
-   screen, a person's places and a place's people found through the records
-   both belong to (`one/address_book.py`); the rail's Contacts and Addresses
-   open its two views. Changed from the plan: Dashboards keeps New
+   Everyone's Deletions. The rail's Contacts and Addresses, under Address
+   Book, are frappe's own Contact and Address lists. Changed from the plan: Dashboards keeps New
    Dashboard, since OneStudio has no place to make one yet.
+   Later it got one: the page is gone (`patches/no_dashboards_page.py`),
+   each app's dashboards are Overview rows on its own rail, and OneStudio ›
+   Dashboards, Charts and Number Cards is where they are made.
 9. **READY for One and AccountCenter.** Built. Both are ready at 1.0.0,
    with their hand looks recorded in `ready.MODULES`. The walk found five
    things and fixed them. Tours were drawn shifted in Arabic, in every

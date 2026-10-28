@@ -35,12 +35,24 @@ def invoices() -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def payment_portal() -> dict:
-	"""Stripe's billing portal, coming back to Plan and Credits."""
+	"""Stripe's billing portal, in a tab of its own, for what cannot be drawn
+	here: the billing address, tax ID and receipts. Stripe has no embedded
+	portal."""
 	roles.require()
 	from onedesk.one import account
 
 	back = frappe.utils.get_url("/desk/one?center=account&at=plan")
 	return account.ask("onedesk.one_admin.proxy.billing_portal", back=back) or {}
+
+
+@frappe.whitelist(methods=["POST"])
+def change_card() -> dict:
+	"""A checkout that takes a new card, drawn in Plan and Credits. The card
+	becomes the one invoices are paid with when Stripe says it was saved."""
+	roles.require()
+	from onedesk.one import account
+
+	return account.ask("onedesk.one_admin.proxy.billing_card") or {}
 
 
 @frappe.whitelist(methods=["POST"])

@@ -125,3 +125,17 @@ def emirate(doc, method=None) -> None:
 	the API — went without."""
 	if doc.meta.has_field("vat_emirate") and not doc.get("vat_emirate") and doc.get("company_address"):
 		doc.vat_emirate = frappe.db.get_value("Address", doc.company_address, "emirate")
+
+
+def emirate_only_in_the_uae() -> None:
+	"""after_migrate: ERPNext's UAE setup adds an Emirate to every address;
+	it is shown only on an address in the UAE. Nothing where the field was
+	never added."""
+	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
+
+	if not frappe.get_meta("Address").has_field("emirate"):
+		return
+	wanted = f"eval:doc.country == '{UAE}'"
+	if frappe.db.get_value("Property Setter", {"doc_type": "Address", "field_name": "emirate", "property": "depends_on"}, "value") == wanted:
+		return
+	make_property_setter("Address", "emirate", "depends_on", wanted, "Data", validate_fields_for_doctype=False)

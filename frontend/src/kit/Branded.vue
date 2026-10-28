@@ -11,7 +11,9 @@
 import { computed } from "vue";
 import { onedesk, symbol } from "./desk";
 
-const props = defineProps({ text: { type: [String, Number], default: "" } });
+// `marked` draws the mark on a name standing alone too, as a heading over
+// what belongs to that app does.
+const props = defineProps({ text: { type: [String, Number], default: "" }, marked: Boolean });
 const NAME = "One";
 const CENTER = "Center";
 const mark = symbol("one");
@@ -31,7 +33,7 @@ const parts = computed(() => {
     if (found.index > at) out.push(...brand.parts(text.slice(at, found.index)));
     if (found[2]) out.push({ center: found[2] });
     else {
-      const id = text.trim() !== found[0] && brand.mark_of?.(found[1]);
+      const id = (props.marked || text.trim() !== found[0]) && brand.mark_of?.(found[1]);
       out.push({ named: found[1], mark: id ? symbol(id) : null });
     }
     at = found.index + found[0].length;

@@ -93,11 +93,11 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 			this.$sidebar,
 			this.module ? { center: this.center, module: this.module } : { center: this.center, label: __("Your Workspace"), icon: "building" },
 		);
-		if (this.expand) {
-			onedesk.module_head_expand($head, () => {
-				this.hide();
-				this.expand();
-			});
+		onedesk.module_head_expand($head, this);
+		if (this.help) {
+			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
+				.on("click", () => onedesk.help.open(...this.help))
+				.prependTo(this.$corner);
 		}
 
 		const $search = $(`<label class="one-docs-search" data-tour="docs-search"></label>`).appendTo(this.$sidebar);
@@ -138,6 +138,8 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		const $label = $(`<span class="settings-dialog-tab-label"></span>`).text(node.label).appendTo($content);
 		if (node.hint) $row.attr("title", node.hint);
 		if (node.unseen) $(`<span class="one-docs-new"></span>`).attr("aria-label", __("New")).appendTo($content);
+		// How many wait there (TrustCenter's Requests).
+		if (node.count) $(frappe.ui.badge.html({ label: String(node.count), theme: "orange" })).addClass("one-docs-waiting").appendTo($content);
 		$(`<span class="one-docs-count"></span>`).appendTo($content);
 		$row.on("click", () => (node.click ? node.click() : this.activate(node.id)));
 		if (children.length) {
@@ -246,7 +248,26 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 // What's New and Help open on a module, or on all of One (`module` null):
 // every module that has versions, each a branch of the tree. A page's id is
 // the module's own then, `OneMail/overview`, `OneMail@1.6.1`.
-onedesk.module_docs.modules = (module) => (module ? [module] : Object.keys(frappe.boot.one_versions || {}));
+// One first, then the apps, then the modules that are centres
+// (AccountCenter, TrustCenter), each kind in the order the boot gives.
+onedesk.module_docs.modules = (module) => {
+	if (module) return [module];
+	const rank = (of) => (of === "One" ? 0 : onedesk.module_settings.AS_CENTER[of] ? 2 : 1);
+	return Object.keys(frappe.boot.one_versions || {})
+		.map((of, at) => [of, at])
+		.sort((a, b) => rank(a[0]) - rank(b[0]) || a[1] - b[1])
+		.map(([of]) => of);
+};
+// A module's branch in the whole of Help or What's New: named and drawn as
+// the rail draws it, and only the first open, so the tree starts short.
+onedesk.module_docs.branch = (of, at, children) => ({
+	id: `module:${of}`,
+	label: onedesk.module_settings.named(of),
+	icon_html: onedesk.module_settings.app_icon(of, of.toLowerCase()),
+	tab: false,
+	open: at === 0,
+	children,
+});
 
 onedesk.whats_new.open = async (module = null, version = null) => {
 	const modules = onedesk.module_docs.modules(module);
@@ -297,7 +318,7 @@ onedesk.whats_new.open = async (module = null, version = null) => {
 			(parent && parent !== nodes[one.version] ? parent.children : roots).push(nodes[one.version]);
 		}
 		branches.push(
-			module ? roots : [{ id: `module:${of}`, label: of, icon_html: frappe.utils.icon(of.toLowerCase(), "sm"), tab: false, open: true, children: roots }],
+			module ? roots : [onedesk.module_docs.branch(of, at, roots)],
 		);
 	});
 
@@ -308,7 +329,6 @@ onedesk.whats_new.open = async (module = null, version = null) => {
 		tabs: [{ items }],
 		tree: branches.flat(),
 		default_tab: (module && version) || items[0]?.id,
-		expand: module ? () => onedesk.whats_new.open() : null,
 	});
 	dialog.index = [];
 	all.forEach((said, at) =>
@@ -364,7 +384,7 @@ onedesk.help.open = async (module = null, page = null, anchor = null) => {
 					})),
 			});
 		}
-		tree.push(...(module ? nodes : [{ id: `module:${of}`, label: of, icon_html: frappe.utils.icon(of.toLowerCase(), "sm"), tab: false, open: true, children: nodes }]));
+		tree.push(...(module ? nodes : [onedesk.module_docs.branch(of, at, nodes)]));
 	});
 	const dialog = new onedesk.module_docs.Dialog({
 		title: module ? __("{0} Help", [module]) : __("Help"),
@@ -373,7 +393,6 @@ onedesk.help.open = async (module = null, page = null, anchor = null) => {
 		tabs: [{ items }],
 		tree,
 		default_tab: (module && page) || items[0]?.id,
-		expand: module ? () => onedesk.help.open() : null,
 	});
 	dialog.index = index;
 	// A link in a page is to another page of the same module.

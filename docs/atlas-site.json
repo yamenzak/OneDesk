@@ -1930,7 +1930,11 @@
 "Manufacturing User",
 "System Manager"
 ],
-"Portal Link": [],
+"Portal Link": [
+"OnePortal Manager",
+"OnePortal User",
+"System Manager"
+],
 "Portal Settings": [
 "Website Manager"
 ],
@@ -3275,6 +3279,7 @@
 "Personal Data Download Request",
 "Pick List",
 "Plant Floor",
+"Portal Link",
 "Price List",
 "Pricing Rule",
 "Print Format",
@@ -3418,12 +3423,6 @@
 "Writer Document Version"
 ],
 "pages": {
-"address-book": [
-"Desk User"
-],
-"announcements": [
-"Desk User"
-],
 "backups": [
 "System Manager"
 ],
@@ -3551,9 +3550,6 @@
 "Purchase User",
 "Stock Manager",
 "Stock User"
-],
-"recycle-bin": [
-"Desk User"
 ],
 "sales-funnel": [
 "Sales Manager"

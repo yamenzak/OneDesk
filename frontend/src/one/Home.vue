@@ -2,10 +2,6 @@
   <Page wide data-tour="one-home">
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-5" data-tour="one-home-counts">
-        <NumberCard v-for="card in cards" :key="card.key" :title="card.title" :value="card.value" :format="count" class="cursor-pointer" role="link" @click="go(card.route)" />
-      </div>
-
       <Section v-if="said.needs.length" :title="__('The Workspace Needs You')" icon="lucide-triangle-alert" :aside="said.needs.length" class="mt-2" data-tour="one-home-needs">
         <div class="flex flex-col gap-2">
           <button v-for="one in said.needs" :key="one.what" type="button" class="block w-full text-start" @click="go(one.route)">
@@ -17,17 +13,31 @@
         </div>
       </Section>
 
-      <div class="grid grid-cols-1 gap-x-10 lg:grid-cols-2">
-        <Section v-if="'tasks' in said.counts" :title="__('Your Tasks')" icon="lucide-circle-check" :aside="said.counts.tasks || null" :action="{ text: true, label: __('My Tasks'), onClick: () => go('/desk/my-tasks') }" data-tour="one-home-tasks">
-          <Rows :rows="tasks" :empty="__('Nothing is due today.')" />
-        </Section>
-        <Section v-if="'meetings' in said.counts" :title="__('Today')" icon="lucide-calendar" :aside="said.counts.meetings || null" :action="{ text: true, label: __('OneCalendar'), onClick: () => go('/desk/onecalendar') }" data-tour="one-home-today">
-          <Rows :rows="meetings" :empty="__('Nothing is on your calendar today.')" />
-        </Section>
-      </div>
+      <Section v-if="said.glance.length" :title="__('The Workspace')" icon="lucide-building-2" data-tour="one-home-glance">
+        <Figures :figures="glance" :columns="glance.length" />
+      </Section>
 
-      <Section v-if="said.approvals.length" :title="__('Waiting for Your Approval')" icon="lucide-inbox" :aside="said.counts.approvals">
+      <Section v-if="said.approvals.length" :title="__('Waiting for Your Approval')" icon="lucide-inbox" :aside="said.waiting" data-tour="one-home-approvals">
         <Rows :rows="approvals" />
+      </Section>
+
+      <Section v-if="asked.length" :title="__('Asked of You')" icon="lucide-inbox" :aside="asked.length" data-tour="one-home-asked">
+        <Rows :rows="asked" />
+      </Section>
+
+      <Section :title="__('Announcements')" icon="lucide-megaphone" :action="{ text: true, label: __('All Announcements'), onClick: () => go('/desk/note') }" data-tour="one-home-announcements">
+        <div v-if="said.announcements.length" class="grid grid-cols-1 gap-3 md:grid-cols-2">
+          <button v-for="one in said.announcements" :key="one.name" type="button" :class="CARD" class="flex flex-col gap-1 text-start" @click="go('/desk/note')">
+            <div class="truncate text-base font-medium text-ink-gray-8">{{ one.title }}</div>
+            <div class="line-clamp-3 text-base text-ink-gray-6">{{ one.text }}</div>
+            <div class="mt-1 text-sm text-ink-gray-5">{{ one.by }} · {{ ago(one.on) }}</div>
+          </button>
+        </div>
+        <div v-else class="py-3 text-base text-ink-gray-5">{{ __("Nothing is being announced.") }}</div>
+      </Section>
+
+      <Section v-if="said.news.length" :title="__('New in Your Apps')" icon="lucide-newspaper" :aside="said.news.length" data-tour="one-home-news">
+        <Rows :rows="news" />
       </Section>
     </template>
   </Page>
@@ -35,22 +45,19 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref } from "vue";
-import { NumberCard } from "frappe-ui/charts";
 
-import { Loading, OneAlert, Page, Rows, Section, __, ago, clock, count, date, followList, get, go, isPast, me, newDoc } from "../kit";
+import { Figures, Loading, OneAlert, Page, Rows, Section, __, ago, followList, get, go, newDoc, onDesk, onedesk, shortDate } from "../kit";
 
 const props = defineProps({ onTitle: Function, onActions: Function });
+
+const CARD = "rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-3";
 
 const said = ref(null);
 
 async function load() {
   said.value = await get("onedesk.one.home.read");
   props.onTitle?.({ title: __("Home") });
-  const counts = said.value.counts;
-  props.onActions?.([
-    ...("tasks" in counts ? [{ label: __("New Task"), primary: true, onClick: () => newDoc("Task") }] : []),
-    ...("meetings" in counts ? [{ label: __("New Event"), primary: !("tasks" in counts), onClick: () => newDoc("Event") }] : []),
-  ]);
+  props.onActions?.(said.value.administers ? [{ label: __("New Announcement"), primary: true, onClick: () => newDoc("Note") }] : []);
 }
 load();
 
@@ -59,7 +66,8 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 800);
 };
-const stop = ["Task", "Event", "Leave Application", "Expense Claim", "Workflow Action", "AI Proposal", "Email Account"].map((one) => followList(one, soon));
+const stop = ["Leave Application", "Expense Claim", "Workflow Action", "Note", "Email Account"].map((one) => followList(one, soon));
+stop.push(onDesk("one-version-seen", soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
@@ -68,42 +76,14 @@ onBeforeUnmount(() => {
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");
 const open = (doctype, name) => `/desk/${slug(doctype)}/${encodeURIComponent(name)}`;
 
-const CARDS = () => ({
-  tasks: { title: __("Tasks Due or Late"), route: "/desk/my-tasks" },
-  meetings: { title: __("Meetings Today"), route: "/desk/onecalendar" },
-  documents: { title: __("Documents Waiting"), route: "/desk/intake?box=waiting" },
-  suggestions: { title: __("OneAI Suggestions"), route: `/desk/ai-proposal?state=Proposed&asked_by=${encodeURIComponent(me())}` },
-  approvals: { title: __("Approvals Waiting"), route: null },
-});
-
-const cards = computed(() => {
-  const named = CARDS();
-  return Object.entries(said.value.counts).map(([key, value]) => {
-    const first = said.value.approvals[0];
-    const route = named[key].route || (first ? `/desk/${slug(first.doctype)}` : "/desk/leave-application");
-    return { key, value, title: named[key].title, route };
-  });
-});
-
-const tasks = computed(() =>
-  said.value.tasks.map((one) => ({
-    key: one.name,
-    label: one.subject,
-    sub: one.project || "",
-    dot: one.due && isPast(one.due) ? "red" : "amber",
-    value: one.due ? date(one.due) : "",
-    under: one.due && isPast(one.due) ? __("Late") : __("Today"),
-    route: open("Task", one.name),
-  }))
-);
-
-const meetings = computed(() =>
-  said.value.meetings.map((one) => ({
-    key: `${one.doctype}-${one.name}-${one.start}`,
-    label: one.title,
-    dot: "blue",
-    value: one.all_day ? __("All Day") : one.end ? `${clock(one.start)} – ${clock(one.end)}` : clock(one.start),
-    route: open(one.doctype, one.name),
+const glance = computed(() =>
+  said.value.glance.map((one) => ({
+    title: one.title,
+    value: one.value,
+    note: one.note || undefined,
+    bar: one.bar,
+    route: one.route,
+    action: one.key === "apps" ? { icon: "lucide-arrow-up-right", label: one.title, onClick: () => onedesk().apps.configure() } : undefined,
   }))
 );
 
@@ -115,6 +95,39 @@ const approvals = computed(() =>
     dot: "amber",
     value: __("Asked {0}", [ago(one.since)]),
     route: open(one.doctype, one.name),
+  }))
+);
+
+// Asked of You: each file still wanted from the reader by an open file
+// request (one_storage/file_requests.asked_of), answered in OneCloud's dialog.
+const asked = computed(() =>
+  said.value.asked.flatMap((request) =>
+    request.items
+      .filter((item) => !item.sent || item.several)
+      .map((item) => ({
+        key: `${request.name}-${item.name}`,
+        label: item.label,
+        sub: `${request.title} · ${request.by}`,
+        dot: request.overdue ? "red" : "amber",
+        value: request.due_date ? __("Due {0}", [shortDate(request.due_date)]) : "",
+        onClick: () => answer(request, item),
+      }))
+  )
+);
+
+async function answer(request, item) {
+  await frappe.require(onedesk().cloud_assets);
+  onedesk().cloud.answer(request, item, load);
+}
+
+const news = computed(() =>
+  said.value.news.map((one) => ({
+    key: one.module,
+    label: one.module,
+    sub: one.title,
+    dot: "blue",
+    value: one.version,
+    onClick: () => onedesk().whats_new.open(one.module),
   }))
 );
 </script>

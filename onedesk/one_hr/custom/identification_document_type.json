@@ -1,0 +1,20 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Identification Document Type",
+   "fieldname": "one_country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country",
+   "module": "One HR",
+   "insert_after": "identification_document_type",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "description": "The country this kind of document belongs to. Empty for a kind every country has, such as a passport."
+  }
+ ],
+ "doctype": "Identification Document Type",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

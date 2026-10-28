@@ -70,7 +70,7 @@ async function act(method, args, said) {
     await load();
     return true;
   } catch (error) {
-    toast.error(error?.messages?.[0] || __("Something went wrong. Try again in a moment."));
+    toast.error(error?.messages?.[0] || __("That didn't go through. Try again in a moment."));
     return false;
   } finally {
     busy.value = false;

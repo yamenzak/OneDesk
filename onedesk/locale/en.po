@@ -18,6 +18,9 @@ msgstr ""
 msgid "One Admin"
 msgstr "OneAdmin"
 
+msgid "One Portal"
+msgstr "OnePortal"
+
 msgid "One Studio"
 msgstr "OneStudio"
 

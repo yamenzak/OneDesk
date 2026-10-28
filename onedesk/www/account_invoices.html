@@ -53,10 +53,14 @@
 		{% for one in cards %}
 		<li>
 			<span><span class="one-held__name">{{ (one.workspace_name or one.name)|e }}</span></span>
-			<span class="one-held__do"><button type="button" class="one-button" data-pay="{{ one.name }}">{{ _("Update card") }}</button></span>
+			<span class="one-held__do"><button type="button" class="one-button" data-card="{{ one.name }}">{{ _("Update card") }}</button></span>
 		</li>
 		{% endfor %}
 	</ul>
+	<div class="one-checkout" id="one-checkout" hidden>
+		<div id="one-checkout-form"></div>
+		<a class="one-checkout__back" id="one-checkout-back" href="/account/invoices">{{ _("Back") }}</a>
+	</div>
 	<div class="one-alert" id="one-said" role="alert" hidden>
 		<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
 		<span></span>

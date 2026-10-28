@@ -1,0 +1,24 @@
+{
+ "custom_fields": [
+  {
+   "doctype": "Custom Field",
+   "dt": "Contact",
+   "fieldname": "one_portal",
+   "fieldtype": "Select",
+   "label": "Portal",
+   "options": "\nInvited\nSigned In\nRevoked",
+   "insert_after": "user",
+   "read_only": 1,
+   "no_copy": 1,
+   "in_standard_filter": 1,
+   "depends_on": "one_portal",
+   "module": "One Portal",
+   "name": "Contact-one_portal",
+   "description": ""
+  }
+ ],
+ "doctype": "Contact",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

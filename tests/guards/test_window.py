@@ -16,7 +16,7 @@ WINDOW_JS = tree.APP / "public" / "js" / "window"
 WINDOW_CSS = tree.APP / "public" / "css" / "window"
 FRAME = (WINDOW_JS / "frame.js").read_text(encoding="utf-8")
 CHROME = (WINDOW_JS / "chrome.js").read_text(encoding="utf-8")
-ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem not in ("frame", "chrome", "nav_tree")}
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in WINDOW_JS.glob("*.js") if path.stem not in ("frame", "chrome", "nav_tree", "json_view")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(WINDOW_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")

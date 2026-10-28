@@ -191,6 +191,16 @@ onedesk.window.nav = {
 		if (!win || !win.$slot) return;
 		const $items = frappe.app && frappe.app.sidebar && frappe.app.sidebar.$sidebar;
 		if (!$items || !$items.length) return;
+		// A tree of its own (a module's lists) is a section of the rail, before
+		// the first section name, not a part of whichever row is lit.
+		if (win.tree_alone) {
+			const $sections = $items.find(".sidebar-items > .sidebar-item-container").filter((_, el) => $(el).find("> .standard-sidebar-item > .section-break").length);
+			if ($sections.length) {
+				if ($sections.first().prev()[0] !== win.$slot[0]) win.$slot.insertBefore($sections.first());
+			} else if (!$.contains($items[0], win.$slot[0])) win.$slot.appendTo($items);
+			win.$slot.removeClass("one-window-nav-whole");
+			return;
+		}
 		const said = frappe.app.sidebar.sidebar_items || [];
 		const one = said.length === 1 && !(said[0].nested_items || []).length;
 		let $at = $items.find(".standard-sidebar-item.active-sidebar").not(".one-window-nav-slot *").first().closest(".sidebar-item-container");

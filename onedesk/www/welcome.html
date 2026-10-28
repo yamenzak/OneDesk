@@ -33,13 +33,17 @@
 			<form id="one-pay">
 				<button type="submit" class="one-go">
 					<span class="one-spin" aria-hidden="true"></span>
-					<span class="one-go__label" data-busy="{{ _('Taking you to Stripe…') }}">{{ _("Continue to payment") }}</span>
+					<span class="one-go__label" data-busy="{{ _('Opening payment…') }}">{{ _("Continue to payment") }}</span>
 				</button>
 				<div class="one-alert" id="one-said" role="alert" hidden>
 					<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
 					<span></span>
 				</div>
 			</form>
+			<div class="one-checkout" id="one-checkout" hidden>
+				<div id="one-checkout-form"></div>
+				<a class="one-checkout__back" id="one-checkout-back" href="#">{{ _("Back") }}</a>
+			</div>
 		{% endif %}
 		{% if signed_in %}
 			<p class="one-signed one-signed--after"><a href="/account">{{ _("Back to your account") }}</a></p>
@@ -78,6 +82,7 @@
 })();
 </script>
 {% elif can_pay %}
+<script src="/assets/onedesk/js/one_pay.js"></script>
 <script>
 (() => {
 	const form = document.getElementById("one-pay");
@@ -100,7 +105,17 @@
 				statusCode: {},
 				error_msg: document.createElement("div"),
 			})
-			.done((r) => (window.location.href = r.message.pay_at))
+			.done(async (r) => {
+				const checkout = r.message.checkout;
+				document.getElementById("one-checkout-back").href = checkout.back;
+				form.hidden = true;
+				document.getElementById("one-checkout").hidden = false;
+				try {
+					await onePay(document.getElementById("one-checkout-form"), checkout, { locale: document.documentElement.lang || "auto" });
+				} catch (e) {
+					window.location.reload();
+				}
+			})
 			.fail((xhr) => {
 				let text = __("That did not work. Try again in a moment.");
 				try {

@@ -44,8 +44,12 @@ def test_what_a_workspace_administers_of_it_is_in_its_rail_not_ones():
 	assert held <= _links(RAIL) and not held & _links(ONE)
 	urls = {i.get("url") for i in json.loads(RAIL.read_text())["items"] if i.get("type") == "Link"}
 	assert "/desk/one?center=ai" in urls, "AICenter is not on OneAI's rail"
-	labels = [i.get("label") for i in json.loads(ONE.read_text())["items"]]
-	assert "OneAI" not in labels and "AICenter" not in labels
+	# One's rail has AICenter only as one of its Centers (docs/READY.md,
+	# mechanism 18), never OneAI's own screens.
+	items = json.loads(ONE.read_text())["items"]
+	labels = [i.get("label") for i in items]
+	assert "OneAI" not in labels
+	assert labels.index("AICenter") > labels.index("Centers")
 
 
 def test_what_the_operator_does_is_in_one_admin():

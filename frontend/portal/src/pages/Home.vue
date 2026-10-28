@@ -81,5 +81,5 @@ import { boot } from "../words";
 
 const first = (boot().me?.name || "").split(" ")[0];
 const party = boot().me?.party || "";
-const said = createResource({ url: "onedesk.one.portal.home", auto: true });
+const said = createResource({ url: "onedesk.one_portal.portal.home", auto: true });
 </script>

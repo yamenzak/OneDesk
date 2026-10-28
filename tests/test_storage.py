@@ -483,7 +483,8 @@ def test_a_field_item_needs_a_record_and_one_person():
 	assert "fills a record field, so the request must be on a record" in people
 	assert "can go to one person only" in people
 	assert "one.several = 0" in people
-	assert 'ATTACH = ("Attach", "Attach Image")' in people
+	assert "targets.check(self.reference_doctype, one.fieldname, one.row_key)" in people
+	assert 'ATTACH = ("Attach", "Attach Image")' in (REQUESTS.parent / "targets.py").read_text(encoding="utf-8")
 
 
 def test_a_request_is_answered_by_anyone_with_the_link_but_not_endlessly():

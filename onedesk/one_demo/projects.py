@@ -775,7 +775,7 @@ def _portal(password=None):
 	there, not its timesheets, since the villa is a fixed price."""
 	from frappe.utils.password import update_password
 
-	from onedesk.one import portal_invite
+	from onedesk.one_portal import invite as portal_invite
 	from onedesk.one_project import team
 
 	contact = frappe.db.get_value("Contact", {"email_id": "khalid@mansour.example"})

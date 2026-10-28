@@ -3,6 +3,7 @@
 Each person asked gets a link of their own (`/r/<token>`, `www/r.py`), a
 checklist with a place to send each file."""
 
+import io
 import os
 
 import frappe
@@ -13,9 +14,9 @@ from werkzeug.exceptions import NotFound
 from werkzeug.utils import redirect
 
 from onedesk.one import roles
-from onedesk.one_storage import api, tell
+from onedesk.one_storage import api, targets, tell
 from onedesk.one_storage import namespace as ns
-from onedesk.one_storage.doctype.cloud_file_request.cloud_file_request import ATTACH, hashed
+from onedesk.one_storage.doctype.cloud_file_request.cloud_file_request import hashed
 
 PREFIX = "@request"
 
@@ -37,14 +38,25 @@ def is_request(node: str | None) -> bool:
 @frappe.whitelist()
 @frappe.read_only()
 def fields(doctype: str) -> list[dict]:
-	"""The attachment fields of a doctype a requested file can fill."""
+	"""Where on a record of this kind a requested file can go, as one list
+	(targets.choices)."""
 	if not frappe.has_permission(doctype, "read"):
 		return []
-	return [
-		{"value": one.fieldname, "label": _(one.label or one.fieldname)}
-		for one in frappe.get_meta(doctype).fields
-		if one.fieldtype in ATTACH and (not one.hidden or one.fieldtype == "Attach Image")
-	]
+	return targets.choices(doctype)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def asked_at(doctype: str, name: str) -> str:
+	"""The address to ask a record for files at: the user it is, else its
+	first email address."""
+	if not frappe.has_permission(doctype, "read", name):
+		return ""
+	doc = frappe.get_doc(doctype, name)
+	user = next((one for one in doc.meta.fields if one.fieldtype == "Link" and one.options == "User" and one.fieldname == "user_id"), None)
+	if user and doc.get(user.fieldname):
+		return doc.get(user.fieldname)
+	return next((doc.get(one.fieldname) for one in doc.meta.fields if one.options == "Email" and doc.get(one.fieldname)), "")
 
 
 @frappe.whitelist(methods=["POST"])
@@ -64,7 +76,7 @@ def make(node: str, values: str | dict) -> dict:
 			"items": [
 				{
 					key: one.get(key)
-					for key in ("label", "description", "required", "several", "accept", "fieldname")
+					for key in ("label", "description", "required", "several", "accept", "fieldname", "row_key")
 				}
 				for one in values.get("items") or []
 				if one.get("label")
@@ -304,25 +316,170 @@ def send(token: str, item: str):
 		return _back(token, "nothing")
 	if not wanted.several:
 		sent = sent[:1]
-	for one in sent:
-		if not accepted(one.filename, wanted.accept):
-			return _back(token, "kind")
-	owner = doc.owner
-	frappe.set_user(owner)
+	if not all(accepted(one.filename, wanted.accept) for one in sent):
+		return _back(token, "kind")
+	given = {key[2:]: value for key, value in frappe.form_dict.items() if key.startswith("v_")}
 	try:
-		was = person.state
-		for one in sent:
-			_land(doc, person, wanted, one.filename, one.stream.read())
-		_settle(doc, person)
-		doc.save(ignore_permissions=True)
-		tell.request_answered(doc, person, wanted, finished=was != "Complete" and person.state == "Complete")
+		_receive(doc, person, wanted, sent, given)
+	except frappe.ValidationError:
+		frappe.clear_messages()
+		return _back(token, "details")
 	finally:
 		frappe.set_user("Guest")
 	return _back(token, "sent")
 
 
-def _land(doc, person, item, filename: str, content: bytes) -> None:
-	"""Put one file where its item says, and write down that it came."""
+@frappe.whitelist(methods=["POST"])
+def send_mine(request: str, item: str, file_url: str, values: str | None = None) -> None:
+	"""A file sent for one item of a request asked of the signed-in person,
+	from One rather than the link (Home's Asked of You). It comes as frappe's
+	own upload does, already a File; it is put in place as a copy and the
+	upload, nobody's yet, goes."""
+	doc, person, wanted = _asked_of_me(request, item)
+	if doc.status != "Open":
+		frappe.throw(_("This request is closed."))
+	upload = _uploaded(file_url)
+	if not accepted(upload.file_name, wanted.accept):
+		frappe.throw(_("{0} takes only {1}.").format(wanted.label, wanted.accept))
+	user = frappe.session.user
+	try:
+		_receive(doc, person, wanted, [_Sent(upload.file_name, upload.get_content())], frappe.parse_json(values) if values else {})
+	finally:
+		frappe.set_user(user)
+	if upload.owner == user and not upload.attached_to_name:
+		frappe.delete_doc("File", upload.name, ignore_permissions=True)
+
+
+class _Sent:
+	"""A file in hand as `_receive` takes it: a name and its bytes."""
+
+	def __init__(self, filename: str, content: bytes):
+		self.filename = filename
+		self.stream = io.BytesIO(content if isinstance(content, bytes) else content.encode())
+
+
+def _uploaded(file_url: str):
+	"""The File the signed-in person just uploaded or picked, by its address."""
+	for name in frappe.get_all("File", filters={"file_url": file_url, "is_folder": 0}, pluck="name", order_by="creation desc"):
+		one = frappe.get_doc("File", name)
+		if one.owner == frappe.session.user or ns.may(one.as_dict()):
+			return one
+	frappe.throw(_("Choose a file to send."))
+
+
+def _asked_of_me(request: str, item: str):
+	from onedesk.one_hr import own
+
+	doc = frappe.get_doc("Cloud File Request", request)
+	mine = own.addresses_of()
+	person = next((one for one in doc.recipients if one.email in mine), None)
+	wanted = next((one for one in doc.items if one.name == item), None)
+	if not person or not wanted:
+		raise NotFound
+	return doc, person, wanted
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=30, seconds=60 * 60)
+def guess(item: str, token: str | None = None, request: str | None = None, file_url: str | None = None) -> dict:
+	"""What OneAI reads off a file about to be sent for the item's asked
+	columns (targets.asked), for the sender to check: by the link's token,
+	or as the signed-in person. Nothing is kept; nothing when reading is off."""
+	from onedesk.one import apps
+
+	if token:
+		doc, _person = live(token)
+		wanted = next((one for one in doc.items if one.name == item), None) if doc else None
+	else:
+		doc, _person, wanted = _asked_of_me(request, item)
+	if not wanted or not apps.intake_on():
+		return {}
+	if file_url and not token:
+		upload = _uploaded(file_url)
+		sent = _Sent(upload.file_name, upload.get_content())
+	else:
+		sent = next((one for one in frappe.request.files.getlist("file") if one and one.filename), None)
+	fields = _asked(doc, wanted)
+	if not sent or not fields:
+		return {}
+	from onedesk.one_ai.reading import fill
+
+	user = frappe.session.user
+	frappe.set_user(doc.owner)
+	try:
+		return fill.from_file(_child(doc, wanted), fields, sent.filename, sent.stream.read(), {"kind": wanted.row_key}, doc.name)
+	finally:
+		frappe.set_user(user)
+
+
+def _receive(doc, person, wanted, sent, given: dict | None = None) -> None:
+	"""Each file sent for an item put where it goes, as the person who asked,
+	and the request brought up to date."""
+	values = targets.clean(_asked(doc, wanted), given)
+	frappe.set_user(doc.owner)
+	was = person.state
+	for one in sent:
+		_land(doc, person, wanted, one.filename, one.stream.read(), values)
+	_settle(doc, person)
+	doc.save(ignore_permissions=True)
+	tell.request_answered(doc, person, wanted, finished=was != "Complete" and person.state == "Complete")
+
+
+def _asked(doc, item) -> list[dict]:
+	"""The columns asked with an item's file (targets.asked)."""
+	return targets.asked(doc.reference_doctype, item.fieldname) if item.fieldname else []
+
+
+def _child(doc, item) -> str:
+	table, _field = targets.split(item.fieldname)
+	return frappe.get_meta(doc.reference_doctype).get_field(table).options
+
+
+def asked_of(addresses: list[str]) -> list[dict]:
+	"""The open requests still waiting on these addresses, each with what it
+	asks for, what it asks with each file, and what has come, soonest due
+	first, for Home's Asked of You."""
+	if not addresses:
+		return []
+	asked = frappe.get_all(
+		"Cloud File Request Recipient",
+		filters={"email": ["in", addresses], "parenttype": "Cloud File Request", "state": ["!=", "Complete"]},
+		fields=["parent", "email"],
+	)
+	out = []
+	for one in asked:
+		doc = frappe.get_doc("Cloud File Request", one.parent)
+		if doc.status != "Open":
+			continue
+		have = {row.item for row in doc.uploads if row.email == one.email}
+		out.append(
+			{
+				"name": doc.name,
+				"title": doc.title,
+				"by": get_fullname(doc.owner),
+				"due_date": doc.due_date,
+				"overdue": overdue(doc),
+				"message": doc.message,
+				"items": [
+					{
+						"name": row.name,
+						"label": row.label,
+						"description": row.description,
+						"required": row.required,
+						"several": row.several,
+						"accept": row.accept,
+						"asked": _asked(doc, row),
+						"sent": row.label in have,
+					}
+					for row in doc.items
+				],
+			}
+		)
+	return sorted(out, key=lambda one: str(one["due_date"] or "9999"))
+
+
+def _land(doc, person, item, filename: str, content: bytes, values: dict) -> None:
+	"""Put one file where its item says and write down that it came."""
 	from onedesk.one_storage import history, upload
 
 	extension = os.path.splitext(filename)[1].lower()
@@ -335,7 +492,7 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 	else:
 		node = ns.record_node(doc.reference_doctype, doc.reference_name)
 	placed = upload._place(node, None, {"file_name": name, "content": content})
-	if item.fieldname:
+	if item.fieldname and "." not in item.fieldname:
 		frappe.db.set_value("File", placed["id"], "attached_to_field", item.fieldname)
 	if before and not item.several and frappe.db.exists("File", before.file):
 		history.replace(ns.row(before.file), placed["id"])
@@ -348,7 +505,7 @@ def _land(doc, person, item, filename: str, content: bytes) -> None:
 		)
 	if item.fieldname:
 		url = frappe.db.get_value("File", kept, "file_url")
-		frappe.db.set_value(doc.reference_doctype, doc.reference_name, item.fieldname, url)
+		targets.put(doc.reference_doctype, doc.reference_name, item.fieldname, item.row_key, url, values)
 
 
 def _their_folder(doc, person) -> str:

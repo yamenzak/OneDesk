@@ -18,6 +18,6 @@ what arrives and searching use the same small models at every tier.
 ## Credits
 
 Every answer uses credits. The plan gives some each month, and more can be
-bought under Workspace, **Plan and Credits**. When none are left, OneAI
+bought in AccountCenter, under **Plan and Credits**. When none are left, OneAI
 can't answer until credits are added. **Usage** in AICenter shows what each
 job used in the last thirty days.

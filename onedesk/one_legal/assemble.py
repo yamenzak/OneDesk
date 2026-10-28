@@ -15,6 +15,7 @@ MODULES = (
 	"one_ai",
 	"one_storage",
 	"one_mail",
+	"one_portal",
 	"one_ai.reading",
 	"one_hr",
 	"one_calendar",

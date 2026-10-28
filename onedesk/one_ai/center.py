@@ -42,7 +42,9 @@ def may() -> dict:
 
 def modules() -> list[str]:
 	"""The modules AICenter has a part for, for their ControlCenter."""
-	return [*PARTS, "OneMail"]
+	from onedesk.one_ai import actions
+
+	return list(dict.fromkeys([*PARTS, "OneMail", *actions.modules()]))
 
 
 def tier() -> str:
@@ -157,13 +159,21 @@ def set_reading_on(on: int | str) -> bool:
 
 @frappe.whitelist()
 def parts() -> list[dict]:
-	"""Each module's part: what OneAI does there on its own."""
+	"""Each module's part: what OneAI does there on its own, and the actions
+	its buttons do (actions.py), each switched on or off."""
+	from onedesk.one_ai import actions
+
 	roles.require()
 	out = []
 	for module, path in PARTS.items():
 		declared = getattr(importlib.import_module(path), "JOBS", [])
 		out.append({"module": module, "jobs": [_job(one) for one in declared]})
 	out.append({"module": "OneMail", "mailboxes": _mailboxes()})
+	for part in out:
+		part["actions"] = actions.of(part["module"])
+	for module in actions.modules():
+		if module not in {part["module"] for part in out}:
+			out.append({"module": module, "jobs": [], "actions": actions.of(module)})
 	return out
 
 

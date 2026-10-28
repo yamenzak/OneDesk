@@ -19,6 +19,7 @@ from frappe import _, _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"avatars.pick": "How every record of a kind looks is an administrator's choice in One's settings, never OneAI's.",
 	"access.change_ability": "What a role may do is an administrator's decision in AccessCenter, never OneAI's.",
 	"access.rename_role": "Naming a role is an administrator's choice in AccessCenter, never OneAI's.",
 	"access.make_level": "Making a role is an administrator's decision in AccessCenter, never OneAI's.",
@@ -135,7 +136,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Suggest a letter head"),
 			"ask": _lt(
-				"Suggest a letter head drawn from our details in One's ControlCenter › General: the header and the "
+				"Suggest a letter head drawn from our details in One's ControlCenter (Company and Branding): the header and the "
 				"footer presets that suit us, as the default."
 			),
 			"expects": "change_printing",
@@ -151,7 +152,7 @@ SUGGESTIONS = {
 		{
 			"label": _lt("Design a letter head from our details"),
 			"ask": _lt(
-				"Design a letter head in HTML from the company's details in One's ControlCenter › General: the name "
+				"Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name "
 				"and logo in the header, the address, phone and email in the footer, each after its icon."
 			),
 			"expects": "change_printing",
@@ -439,7 +440,9 @@ from onedesk.one import lists as _lists  # noqa: E402
 
 SUGGESTIONS.update(_lists.suggestions())
 
-OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "general", "notifications": "everything", "ai": "oneai"}
+ONE_TABS = {"company": "Company", "branding": "Branding", "formats": "Region and Formats", "signin": "Sign-in", "sharing": "Sharing"}
+
+OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "company", "notifications": "everything", "ai": "oneai"}
 
 
 def page(said: dict) -> str | None:
@@ -509,45 +512,16 @@ def page(said: dict) -> str | None:
 			"added to it, its seats, storage and database, and its OneAI credits (what is left, held by calls running now, used in the last thirty "
 			"days, and what expires when). workspace_plan reads it all, with the last thirty days by model and "
 			"by person, and the cheapest ways to have what it uses now. They change the plan from the page head, and "
-			"add seats, storage, database or credits from Add; how is in OneAccount's Help under Plan and "
+			"add seats, storage, database or credits from the button on each one's tile; how is in OneAccount's Help under Plan and "
 			"Credits (how_to)."
 		)
 	if said.get("page") == "one":
 		return (
-			"The reader is on One's Home: today's numbers for them (tasks due or late, meetings today, documents "
-			"waiting in Documents, OneAI suggestions waiting for their approval, leave and expense claims waiting "
-			"on them as approver), each opening its list, then their first tasks due or late, what is on their "
-			"calendar today and what waits for their approval, and for an administrator what in the workspace "
-			"needs them. my_day reads it all. How is in One's Help under Home (how_to)."
-		)
-	if said.get("page") == "announcements":
-		return (
-			"The reader is on Announcements: what the office has said to everybody, each in full with who posted "
-			"it and when, under Showing Now while it runs along the top bar and Earlier once it has stopped. An "
-			"administrator also sees who has seen each, posts a new one with New Announcement, and changes or "
-			"stops one. How is in One's Help under Announcements (how_to)."
-		)
-	if said.get("page") == "address-book":
-		return (
-			"The reader is in the Address Book: the workspace's contacts, or its addresses, the ones they may "
-			"read, and beside the one chosen its email and phones or the address in full, the records it belongs "
-			"to (customers, suppliers, employees and others), and a person's addresses or a place's people. Each "
-			"is edited in its own form from Edit. How is in One's Help under Address Book (how_to)."
-		)
-	if said.get("page") == "dashboards":
-		return (
-			"The reader is on Dashboards: every dashboard they may read, under the app it is about, and the ones "
-			"made in this workspace under Made Here, each opening the dashboard itself. An administrator makes "
-			"one with New Dashboard and shows it in an app's rail from its Show In. How is in One's Help under "
-			"Records, Reports and Dashboards (how_to)."
-		)
-	if said.get("page") == "recycle-bin":
-		return (
-			"The reader is in the Recycle Bin: what they deleted, newest first by day, and, if they hold "
-			"Everyone's Deletions, what anybody deleted of the kinds they may read. Put Back brings one back as "
-			"it was, or every row they ticked; Put Back lists what came back, each opening the record. Nothing "
-			"here is changed by OneAI: putting back is the reader's to do. How is in One's Help under Recycle "
-			"Bin (how_to)."
+			"The reader is on One's Home: what waits for their approval in every app (leave, expense claims and "
+			"approval steps), the announcements running, the apps with a version they have not opened, and for an "
+			"administrator the workspace at a glance (people against seats, apps on, storage, OneAI credits) and what "
+			"in it needs them. Tasks, meetings and documents are on their own apps' homes; my_day reads them all. "
+			"How is in One's Help under Home (how_to)."
 		)
 	if said.get("page") == "onehr" and said.get("section") == "holidays":
 		return (
@@ -580,13 +554,15 @@ def page(said: dict) -> str | None:
 			"domain under domains, with its status and the target. They add one from the page head and make it the main address or "
 			"remove it from its row; how is in OneAccount's Help under Plan and Credits (how_to)."
 		)
-	if said.get("page") == "one" and said.get("section") == "general":
+	if said.get("page") == "one" and said.get("section") in ONE_TABS:
 		return (
-			"The reader administers this workspace and is on General in One's ControlCenter: what it was made with, its "
-			"logo for printed documents, its language, time zone and formats, the rules for signing in "
-			"(two-factor, passkey and email link sign-in, one device at a time, how long a session lasts, "
-			"passwords and their expiry, the lockout after wrong passwords), calendar links and record sharing. workspace_sign_in reads the rules and how people sign in. They change them on "
-			"the page and save; how is in One's documentation under General, for the Workspace (how_to)."
+			f"The reader administers this workspace and is on {ONE_TABS[said['section']]} in One's ControlCenter. Its tabs are "
+			"Company (what it was made with, contact details, the address and the address at the foot of mails), Branding "
+			"(the logo for printed documents, the brand and frame colours), Region and Formats (language, time zone, formats, "
+			"rounded totals and totals in words), Sign-in (two-factor, passkey and email link sign-in, passwords and their "
+			"expiry, how long a session lasts, one device at a time, the lockout after wrong passwords) and Sharing "
+			"(calendar links and record sharing). workspace_sign_in reads the rules and how people sign in. Each tab saves "
+			"its own; how is in One's documentation under the Workspace's Settings (how_to)."
 		)
 	at = (said.get("page"), said.get("section"))
 	if at == ("notifications", "everything"):
@@ -594,7 +570,7 @@ def page(said: dict) -> str | None:
 			"The reader is on Everything in NotificationCenter: whether they get notifications at all, "
 			"whether they also get them by email, whether new mail on a record they were given is mailed "
 			"to them, and push in this browser. Each app's notifications, with an Email and a Push switch "
-			"each, are under Yours. my_notifications reads what they get and how. They change the switches "
+			"each, are under each app's row in Apps. my_notifications reads what they get and how. They change the switches "
 			"themselves; how is in One's Help under NotificationCenter (how_to)."
 		)
 	if at == ("ai", "yours"):
@@ -1448,7 +1424,7 @@ def workspace_reports() -> dict:
 		"dashboards": dashboards,
 		"reports_by_mail": mailed,
 		"next": "A list's Report view is saved from its menu (Save As) and lands under Saved Reports in its app. "
-		"Dashboards are under One › Dashboards; reports by mail under Automation › Reports by Mail, set from a report's "
+		"Dashboards are on each app's rail and made under OneStudio › Dashboards; reports by mail under Automation › Reports by Mail, set from a report's "
 		"menu (Setup Auto Email). How is in One's documentation under Reports and dashboards (how_to).",
 	}
 
@@ -2100,7 +2076,7 @@ def workspace_sign_in() -> dict:
 		],
 		"next": "Say plainly what is fine and what to change, most important first. Two-factor for everybody, "
 		"or at least administrators, is the usual advice; failed sign-ins from one address are worth naming. "
-		"They change the rules themselves under One's ControlCenter › General › Sign-in.",
+		"They change the rules themselves under One's ControlCenter › Sign-in.",
 	}
 
 

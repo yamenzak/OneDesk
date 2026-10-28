@@ -56,6 +56,7 @@ APP_SAID = {
 	"OneMail": _lt("The company's email, each message kept on the customer, supplier or job it's about."),
 	"OneTask": _lt("Everybody's work in one list, with checklists, due dates and timers."),
 	"OneCalendar": _lt("Meetings, leave and deadlines from every app, on one calendar."),
+	"OnePortal": _lt("Let customers and suppliers sign in to see their quotes, orders and invoices, and answer them."),
 	"OneStudio": _lt("Shape One to the way you work with your own fields, record types and forms."),
 	"OneAI": _lt("Ask about anything in the workspace, and have drafts, summaries and answers written for you."),
 	"Reading": _lt("Mail and files read as they arrive, and filed on their record."),

@@ -1,8 +1,8 @@
 // AICenter (docs/AICENTER.md): OneAI for the workspace (one_ai/center.py).
 // For administrators: OneAI on or off and its tier, reading what arrives,
 // Knowledge, what each module has OneAI do on its own, which records get a
-// summary, and what was used. For everybody: Yours, what OneAI keeps about them. From the bottom
-// bar, OneAI in a module's ControlCenter (on that module), and Settings.
+// summary, and what was used. For everybody: Yours, what OneAI keeps about them. From One's
+// Centers, and OneAI in a module's ControlCenter (on that module).
 frappe.provide("onedesk.ai_center");
 
 onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
@@ -121,20 +121,21 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				frappe.set_route("intake", { box, everyone: 1 });
 			};
 			$body.append(kit.heading(__("This Month")));
-			const $month = $(`<div class="one-set-list"></div>`).appendTo($body);
+			await frappe.require(["desk_charts.bundle.js", "desk_charts.bundle.css"]);
+			const $figures = $(`<div class="es-stat-card-grid one-ai-month"></div>`).appendTo($body);
 			for (const [value, label, box] of [
 				[month.arrived, __("Received"), "done"],
-				[month.handled, __("Handled by OneAI"), "done"],
+				[month.handled, __("Handled"), "done"],
 				[month.needed, __("Needed Review"), "waiting"],
 				[month.waiting, __("Waiting"), "waiting"],
 				[month.undone, __("Undone"), "done"],
 			]) {
-				kit.row({ lead: kit.glyph("file-text"), title: label, end: `<span class="one-set-value">${esc(format_number(value || 0, null, 0))}</span>`, open: inbox(box) }).appendTo($month);
+				$figures.append(frappe.ui.stat_card({ label, value: format_number(value || 0, null, 0), onclick: inbox(box) }));
 			}
 			$body.append(kit.heading(__("Settings")));
 			const $settings = $(`<div class="one-set-list"></div>`).appendTo($body);
 			for (const one of said.settings) {
-				const $end = kit.row({ lead: kit.glyph("oneai"), title: one.label, sub: esc(one.about || "") }).appendTo($settings).find(".one-set-end");
+				const $end = kit.row({ lead: "", title: one.label, sub: esc(one.about || "") }).appendTo($settings).find(".one-set-end");
 				const change = (value) => frappe.xcall(C + "set_reading", { key: one.key, value });
 				if (one.kind === "switch") toggle($end, { value: one.value, label: one.label, change });
 				else number($end, { value: one.value, label: one.label, change });
@@ -250,7 +251,9 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		title: part.module,
 		description: part.mailboxes
 			? __("How far OneAI reads each mailbox's new mail.")
-			: __("Jobs OneAI runs in {0} by itself, each using credits.", [part.module]),
+			: part.jobs.length
+			? __("Jobs OneAI runs in {0} by itself, each using credits.", [part.module])
+			: __("What OneAI's buttons in {0} do, each using credits.", [part.module]),
 		render(panel) {
 			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
 			if (part.mailboxes) {
@@ -270,8 +273,23 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				}
 				return;
 			}
+			if (part.actions && part.actions.length) {
+				if (part.jobs.length) panel.body.append(kit.heading(__("Actions")));
+				else $list.remove();
+				const $actions = $(`<div class="one-set-list"></div>`).appendTo(panel.body);
+				for (const one of part.actions) {
+					const $row = kit.row({ lead: "", title: one.label, sub: esc(one.about || "") }).appendTo($actions);
+					toggle($row.find(".one-set-end"), {
+						value: one.on,
+						label: one.label,
+						change: async (on) => {
+							frappe.boot.one_ai_actions = await frappe.xcall("onedesk.one_ai.actions.switch", { key: one.key, on });
+						},
+					});
+				}
+			}
 			for (const job of part.jobs) {
-				const $row = kit.row({ lead: kit.glyph("oneai"), title: job.label, sub: esc(job.about || "") }).appendTo($list);
+				const $row = kit.row({ lead: "", title: job.label, sub: esc(job.about || "") }).appendTo($list);
 				const $end = $row.find(".one-set-end");
 				if (job.kind === "switch") {
 					toggle($end, { value: job.value, label: job.label, change: (on) => frappe.xcall(C + "set_job", { key: job.key, value: on }) });
@@ -314,9 +332,11 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 		actions: admin ? [{ label: __("Credit Usage"), icon: "external-link", click: () => frappe.set_route("query-report", "AI Credits", { by: "Job" }) }] : [],
 		async render(panel) {
 			const said = await frappe.xcall(C + "usage", {}, "GET");
-			const $list = $(`<div class="one-set-list"></div>`).appendTo(panel.body.empty());
-			if (!said.reached) return $list.append(kit.empty(said.linked === false ? __("Not Connected Yet") : __("The account could not be reached.")));
-			if (!said.jobs.length) return $list.append(kit.empty(__("No usage")));
+			const $body = panel.body.empty();
+			const quiet = (words) => $(`<div class="one-shell-quiet"></div>`).text(words).appendTo($body);
+			if (!said.reached) return quiet(said.linked === false ? __("Not Connected Yet") : __("The account could not be reached."));
+			if (!said.jobs.length) return quiet(__("No usage"));
+			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
 			for (const one of said.jobs) {
 				kit.row({
 					lead: kit.glyph("oneai"),
@@ -332,16 +352,16 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	// reads as well. Only the reader sees their memories.
 	const yours_tab = {
 		id: "yours",
-		label: __("Yours"),
-		icon: "user",
-		title: __("Yours"),
+		label: __("Memory"),
+		icon: "brain",
+		title: __("Memory"),
 		description: __("What OneAI remembers about you, which only you can see."),
 		actions: [{ label: __("Add Memory"), icon: "plus", click: (panel) => remember(panel) }],
 		async render(panel) {
 			const said = await frappe.xcall(C + "yours", {}, "GET");
 			const $body = panel.body.empty();
-			const $list = $(`<div class="one-set-list"></div>`).appendTo($body);
-			if (!said.facts.length) $list.append(kit.empty(__("No memories")));
+			if (!said.facts.length) $(`<div class="one-shell-quiet"></div>`).text(__("No memories")).appendTo($body);
+			const $list = said.facts.length ? $(`<div class="one-set-list"></div>`).appendTo($body) : $();
 			for (const one of said.facts) {
 				const $row = kit
 					.row({ lead: kit.glyph("brain"), title: one.fact, sub: esc([one.about_title, frappe.datetime.prettyDate(one.creation)].filter(Boolean).join(" · ")) })
@@ -349,7 +369,8 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				$row.find(".one-set-title").on("click", () => remember(panel, one));
 				kit.remove(() => frappe.xcall("onedesk.one_ai.yours.forget", { name: one.name }).then(() => panel.refresh())).appendTo($row.find(".one-set-end"));
 			}
-			if (said.knowledge.length) {
+			// Who can open Knowledge reads it there.
+			if (said.knowledge.length && !(admin || (frappe.boot.one_ai_may || {}).knowledge)) {
 				$body.append(kit.heading(__("Workspace Knowledge")));
 				const $known = $(`<div class="one-set-list"></div>`).appendTo($body);
 				for (const one of said.knowledge) kit.row({ lead: kit.glyph("book-open"), title: one.title, sub: esc(one.applies_to || __("Everything")) }).appendTo($known);
@@ -361,7 +382,8 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	// to switch (one_ai/yours.py `_reads`).
 	const reads_tab = onedesk.center_section.tab(onedesk.ReadsSection, {
 		id: "reads",
-		label: __("What OneAI Reads"),
+		label: __("What It Reads"),
+		title: __("What OneAI Reads"),
 		icon: "oneintake",
 		about: __("Your mailboxes and folders that OneAI reads, files and acts on as you."),
 	});
@@ -388,9 +410,9 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 	const mine = module ? parts.filter((part) => part.module === module) : parts;
 	const tabs = admin
 		? [
-				{ group: null, items: module ? [] : [oneai_tab, reading_tab, knowledge_tab] },
-				{ group: module ? null : __("Modules"), items: [...mine.map(part_tab), ...(module ? [] : [summaries_tab])] },
-				{ group: null, items: module ? [] : [usage_tab, yours_tab, reads_tab] },
+				{ group: null, items: module ? [] : [oneai_tab, reading_tab, knowledge_tab, summaries_tab, usage_tab] },
+				{ group: module ? null : __("Apps"), items: mine.map(part_tab) },
+				{ group: module ? null : __("Yours"), items: module ? [] : [yours_tab, reads_tab] },
 		  ]
 		: [
 				{
@@ -414,12 +436,8 @@ onedesk.ai_center.open = async ({ module = null, at = null } = {}) => {
 				center: "ai",
 				tabs: shown,
 				default_tab: ids.includes(at) ? at : ids[0],
-				expand: () => {
-					dialog.hide();
-					onedesk.ai_center.open();
-				},
 		  })
-		: onedesk.module_settings.open({ module: "OneAI", tabs: shown, default_tab: at, title: "AICenter", center: "ai" });
+		: onedesk.module_settings.open({ module: "OneAI", tabs: shown, default_tab: at, title: "AICenter", center: "ai", help: ["OneAI", "settings"] });
 	dialog.$wrapper.addClass("one-set one-ai-center");
 	dialog.show();
 	return dialog;

@@ -454,6 +454,20 @@ def givable() -> dict:
 			for label, _code, users, managers in ast.literal_eval(node.value):
 				for role in (*users, *managers):
 					out.setdefault(role, label)
+	# A module everybody uses gives its User role to everybody and its Manager
+	# in AccessCenter (people.with_roles), both read off its abilities.py.
+	for path in sorted(tree.APP.glob("*/abilities.py")):
+		said = {
+			node.targets[0].id: node.value
+			for node in ast.parse(path.read_text()).body
+			if isinstance(node, ast.Assign) and isinstance(node.targets[0], ast.Name)
+		}
+		if "EVERYONE" not in said or "APP" not in said:
+			continue
+		everyone, app = ast.literal_eval(said["EVERYONE"]), ast.literal_eval(said["APP"])
+		out.setdefault(everyone, "everybody")
+		for role in ast.literal_eval(said["DEFAULTS"]) if "DEFAULTS" in said else ():
+			out.setdefault(role, app)
 	return out
 
 

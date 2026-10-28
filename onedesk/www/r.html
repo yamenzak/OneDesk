@@ -44,6 +44,24 @@
 						<input type="hidden" name="token" value="{{ token }}">
 						<input type="hidden" name="item" value="{{ one.name }}">
 						{{ drop(multiple=one.several, accept=one.accept) }}
+						{% if one.asked %}
+						<div class="one-ask__fields" data-asked="{{ one.name }}">
+							{% for f in one.asked %}
+							<label class="one-ask__field">
+								<span>{{ f.label }}{% if f.reqd %} *{% endif %}</span>
+								{% if f.fieldtype == "Select" %}
+								<select name="v_{{ f.fieldname }}" {{ "required" if f.reqd }}>{% for o in (f.options or "").split("\n") %}<option value="{{ o }}">{{ _(o) }}</option>{% endfor %}</select>
+								{% elif f.fieldtype == "Check" %}
+								<input type="checkbox" name="v_{{ f.fieldname }}" value="1">
+								{% elif f.fieldtype in ("Small Text", "Text") %}
+								<textarea name="v_{{ f.fieldname }}" rows="2" {{ "required" if f.reqd }}></textarea>
+								{% else %}
+								<input name="v_{{ f.fieldname }}" type="{{ 'date' if f.fieldtype == 'Date' else 'datetime-local' if f.fieldtype == 'Datetime' else 'number' if f.fieldtype in ('Int', 'Float', 'Currency', 'Percent') else 'text' }}" {{ 'step=any' if f.fieldtype in ('Float', 'Currency', 'Percent') }} {{ "required" if f.reqd }}>
+								{% endif %}
+							</label>
+							{% endfor %}
+						</div>
+						{% endif %}
 						<button class="one-ask__go" type="submit" data-busy="{{ _('Sending…') }}">{{ _("Replace") if one.sent and not one.several else _("Send") }}</button>
 					</form>
 					{% endif %}
@@ -54,4 +72,27 @@
 </div>
 {% endblock %}
 
-{% block script %}{{ super() }}<script src="/assets/onedesk/js/size.js"></script><script src="/assets/onedesk/js/one_drop.js"></script>{% endblock %}
+{% block script %}{{ super() }}<script src="/assets/onedesk/js/size.js"></script><script src="/assets/onedesk/js/one_drop.js"></script>
+<script>
+// OneAI fills what it can read off the chosen file into its empty fields
+// (file_requests.guess); nothing when reading is off. The sender checks it.
+document.querySelectorAll("[data-asked]").forEach((box) => {
+	const form = box.closest("form");
+	form.querySelector("input[type=file]").addEventListener("change", async (e) => {
+		const file = e.target.files[0];
+		if (!file) return;
+		const body = new FormData();
+		body.append("file", file, file.name);
+		body.append("item", box.dataset.asked);
+		body.append("token", form.querySelector("[name=token]").value);
+		try {
+			const answer = await fetch("/api/method/onedesk.one_storage.file_requests.guess", { method: "POST", body, headers: { Accept: "application/json", "X-Frappe-CSRF-Token": form.querySelector("[name=csrf_token]").value } });
+			const read = ((await answer.json()) || {}).message || {};
+			Object.entries(read).forEach(([key, value]) => {
+				const field = form.querySelector(`[name="v_${key}"]`);
+				if (field && !field.value) field.type === "checkbox" ? (field.checked = Boolean(value)) : (field.value = value);
+			});
+		} catch (_) {}
+	});
+});
+</script>{% endblock %}

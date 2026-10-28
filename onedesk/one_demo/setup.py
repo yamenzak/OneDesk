@@ -6,7 +6,7 @@ from frappe.utils import getdate
 
 from onedesk.one_demo.base import ABBR, COMPANY, CURRENCY, today
 
-BUILDER = "admin@example.com"
+BUILDER = "faisal@one.test"
 
 
 def run(password=None):

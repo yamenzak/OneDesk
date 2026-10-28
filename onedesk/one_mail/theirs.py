@@ -1,5 +1,5 @@
 """What OneAI may tell the sender of a message about the workspace's records:
-what the portal shows that person (one/portal.py), and only when the
+what the portal shows that person (one_portal/portal.py), and only when the
 receiving server confirmed the sender's address (`verified`), since a From
 line is free to write. Used by a rule's OneAI reply (rules._drafted)."""
 
@@ -131,7 +131,7 @@ def _rows(sender: str, doctype: str | None = None, filters: dict | None = None, 
 	"""The portal's rows of the sender's records, newest first, a record
 	hidden from their contact left out (portal.mine): what is still open
 	(OPEN), the latest of the rest, and any `text` names."""
-	from onedesk.one import portal
+	from onedesk.one_portal import portal
 
 	contacts = {(t, p): c for t, p, c in parties_of(sender)}
 	named = set(NAMED.findall(text or ""))
@@ -223,7 +223,7 @@ def their_record(
 	it: its state, its steps (ordered, delivered, invoiced, paid), its
 	facts, its items with quantities and prices, and its totals and what is
 	left to pay."""
-	from onedesk.one import portal
+	from onedesk.one_portal import portal
 
 	sender = _sender()
 	contacts = {(t, p): c for t, p, c in parties_of(sender)}

@@ -1,0 +1,77 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Note",
+   "fieldname": "one_status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Showing\nEnded",
+   "insert_after": "public",
+   "depends_on": "public",
+   "read_only": 1,
+   "in_standard_filter": 1,
+   "module": "One"
+  }
+ ],
+ "doctype": "Note",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "notify_on_login",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "notify_on_login",
+   "property": "default",
+   "property_type": "Text",
+   "value": "0"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "notify_on_every_login",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "expire_notification_on",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Show Until"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "seen_by_section",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Seen By"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "expire_notification_on",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "public"
+  },
+  {
+   "doc_type": "Note",
+   "doctype_or_field": "DocField",
+   "field_name": "seen_by_section",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "public"
+  }
+ ],
+ "sync_on_migrate": 1
+}

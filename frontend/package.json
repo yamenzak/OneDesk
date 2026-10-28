@@ -8,6 +8,8 @@
     "dev": "node build-islands.mjs --watch"
   },
   "dependencies": {
+    "@dicebear/collection": "9.4.2",
+    "@dicebear/core": "9.4.2",
     "@framework/ui": "link:../../frappe/ui",
     "@tiptap/extension-collaboration": "3.31.4",
     "@tiptap/extension-collaboration-caret": "3.31.4",

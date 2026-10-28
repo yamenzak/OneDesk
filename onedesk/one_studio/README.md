@@ -338,7 +338,7 @@ heads can be made the default or disabled.
 
 ### Letter head headers
 
-The header uses one of thirteen presets, filled in from Workspace › General:
+The header uses one of thirteen presets, filled in from One's ControlCenter (Company and Branding):
 
 - **Classic**: the logo on the left, the company stacked on the right.
 - **Columns**: the logo on the left; the address and contacts in columns
@@ -420,7 +420,7 @@ workspace chooses another: One Quotation, One Sales Order, One Sales Invoice,
 One Payment Receipt, One Delivery Note, One Purchase Order, One Request for
 Quotation, One Payslip, One Job Offer and One Appointment Letter. Each prints
 under the default letter head, with its title and total in the company's
-Brand Colour (Workspace › General). To change one, open it in the builder and
+Brand Colour (One's ControlCenter › Branding). To change one, open it in the builder and
 save a copy, which the star then makes the default.
 
 Their blocks are in the builder's **Library**, for any format of the
@@ -1343,4 +1343,5 @@ What frappe trusts to whoever may customize it, and a workspace does not get:
 - a report by mail that runs as somebody else.
 
 erpnext's own dashboards are its modules' (Accounts, Stock, CRM), with a
-company on every chart; One > Dashboards lists the workspace's own.
+company on every chart, each on its own app's rail. OneStudio › Dashboards
+is where a workspace makes and changes them.

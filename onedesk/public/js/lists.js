@@ -12,10 +12,12 @@ onedesk.lists.draw = async (win, doctype) => {
 	const kinds = await frappe.xcall("onedesk.one.lists.kinds", { module });
 	win.tree({
 		label: __("{0} Lists", [module]),
+		heading: __("Lists"),
+		alone: true,
 		rows: kinds.map((one) => ({
 			id: one.doctype,
 			label: one.label,
-			icon: "tags",
+			icon: one.icon || "tags",
 			depth: 0,
 			active: one.doctype === doctype,
 			count: cint(one.count) || "0",
@@ -27,8 +29,10 @@ onedesk.lists.draw = async (win, doctype) => {
 
 onedesk.window.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw });
 
-onedesk.lists.counted = (count) => {
+// How many a list holds, in its own word where it has one (lists.py COUNTED).
+onedesk.lists.counted = (count, words = null) => {
 	count = cint(count);
+	if (words) return count === 1 ? words[0] : __(words[1], [count]);
 	if (!count) return __("No values");
 	return count === 1 ? __("1 value") : __("{0} values", [count]);
 };
@@ -49,9 +53,9 @@ onedesk.lists.tab = (module) => {
 			const kinds = await frappe.xcall("onedesk.one.lists.kinds", { module });
 			for (const one of kinds) {
 				kit.row({
-					lead: kit.glyph("tags"),
+					lead: kit.glyph(one.icon || "tags"),
 					title: one.label,
-					sub: frappe.utils.escape_html(onedesk.lists.counted(one.count)),
+					sub: frappe.utils.escape_html(onedesk.lists.counted(one.count, one.counted)),
 					end: kit.chevron(),
 					// In the module's own rail, wherever the centre was opened.
 					open: () => {

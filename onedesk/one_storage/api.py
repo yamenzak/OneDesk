@@ -38,7 +38,7 @@ def _target(node_id: str) -> tuple:
 	if kind[0] == "own":
 		kind = (ns.RECORDS, "Project", kind[1])
 	if kind[0] == ns.RECORDS and len(kind) == 3:
-		if not frappe.has_permission(kind[1], "write", kind[2]):
+		if not ns.may_add(kind[1], kind[2]):
 			frappe.throw(_("You can't add files to {0}.").format(kind[2]), frappe.PermissionError)
 		return ("record", kind[1], kind[2])
 	folder = ns.folder_of(node_id)
@@ -85,7 +85,7 @@ def listing(node: str = ns.ROOT, search: str | None = None, everywhere: int = 0)
 	if kind[0] in (ns.MY, ns.COMPANY, "file"):
 		can_add = ns.may(_item(ns.folder_of(node)), "add")
 	elif kind[0] == ns.RECORDS and len(kind) == 3:
-		can_add = bool(frappe.has_permission(kind[1], "write", kind[2]))
+		can_add = ns.may_add(kind[1], kind[2])
 	elif kind[0] == "own":
 		can_add = bool(frappe.has_permission("Project", "write", kind[1]))
 	elif kind[0] == "featured":

@@ -1248,7 +1248,7 @@ a register and a movement form in it would be a rail with five rows.
   operator's role, and `access.py` gives them to the purchase and sales
   roles. ERPNext ships no scorecard criteria, so a scorecard cannot be made
   until `ready.add_criteria` adds two from its own variables. A quote priced
-  on the portal (`one/portal.send_quote`) takes each line's project from the
+  on the portal (`one_inventory/portal.send_quote`) takes each line's project from the
   request, which ERPNext's own rows leave out and an order from the quote is
   then refused for. A request for quotation's title is its number, where
   ERPNext titles it with the company's name. One Blanket Order prints the

@@ -1,18 +1,60 @@
-"""One's ControlCenter (docs/ONE.md): the workspace's own settings, General.
-Every field is System Settings', Company's or Global Defaults' own, and
-nothing new is stored. Workspace administrators only."""
+"""One's ControlCenter (docs/ONE.md): the workspace's own settings, a tab
+each for the company, its branding, region and formats, sign-in and sharing,
+then Pictures. Every field of the first five is System Settings', Company's
+or Global Defaults' own, and each tab loads and saves only its own; Pictures
+is the style each record type's drawn pictures are in (one/avatars.py).
+Workspace administrators only."""
 
 from typing import Annotated
 
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import roles, tell
+from onedesk.one import avatars, roles, tell
 from onedesk.one.sections import as_opened
 from onedesk.one.sections import fields as fields_of
 from onedesk.one.sections import opened as opened_of
 
-SECTIONS = [("general", _lt("General"), "building-2")]
+SECTIONS = [
+	("company", _lt("Company"), "building-2"),
+	("branding", _lt("Branding"), "palette"),
+	("formats", _lt("Region and Formats"), "globe"),
+	("signin", _lt("Sign-in"), "key-round"),
+	("sharing", _lt("Sharing"), "share-2"),
+	("pictures", _lt("Pictures"), "image"),
+]
+
+
+# What each tab holds. "general" is all of them, as one page, for whoever
+# still asks for it by that name (the demo's build and checks).
+HOLDS = {
+	"company": ("phone_no", "email", "website", "tax_id", "address_line1", "address_line2", "city", "state", "pincode", "email_footer_address"),
+	"branding": ("company_logo", "one_brand_colour", "one_frame_colour"),
+	"formats": (
+		"language",
+		"time_zone",
+		"date_format",
+		"time_format",
+		"number_format",
+		"first_day_of_the_week",
+		"one_currency_symbol",
+		"one_rounded_total",
+		"one_in_words",
+	),
+	"signin": (
+		"one_two_factor",
+		"two_factor_method",
+		"one_password",
+		"force_user_to_reset_password",
+		"one_login_with_passkey",
+		"login_with_email_link",
+		"session_expiry",
+		"deny_multiple_sessions",
+		"allow_consecutive_login_attempts",
+		"allow_login_after_fail",
+	),
+	"sharing": ("one_calendar_links", "one_record_sharing"),
+}
 
 
 @frappe.whitelist()
@@ -29,9 +71,11 @@ def load(
 	record: Annotated[str | None, "Not used: General is one page."] = None,
 ) -> dict:
 	roles.require()
-	if section != "general":
+	if section == "pictures":
+		return _pictures()
+	if section != "general" and section not in HOLDS:
 		frappe.throw(_("There is no such section."))
-	return _general()
+	return _general(section)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -42,12 +86,39 @@ def save(
 	record: Annotated[str | None, "Not used: General is one page."] = None,
 ) -> dict:
 	roles.require()
-	if section != "general":
+	if section != "general" and section not in HOLDS:
 		frappe.throw(_("There is nothing to save here."))
 	_hearing(opened)
-	_save_general(frappe.parse_json(values) or {})
+	values = frappe.parse_json(values) or {}
+	if section in HOLDS:
+		values = {name: value for name, value in values.items() if name in HOLDS[section]}
+	_save_general(values)
 	frappe.db.commit()
-	return _general()
+	return _general(section)
+
+
+def _pictures() -> dict:
+	"""The optional services pictures come from (Gravatar, Google's logos),
+	switched as TrustCenter switches them, then the style drawn for each
+	record type with none of its own (avatars.py)."""
+	from onedesk.one_legal import gate, services
+
+	chosen = avatars.chosen()
+	named = {one["key"]: one for one in avatars.styles()}
+	return {
+		"services": [one for one in services.standing() if one["key"] in PICTURE_SERVICES],
+		"may_bind": gate._may_bind(),
+		"kinds": [
+			{"doctype": kind, "label": _(kind), "style": chosen.get(kind), "title": named.get(chosen.get(kind), {}).get("title")}
+			for kind in avatars.KINDS
+			if frappe.db.exists("DocType", kind)
+		],
+		"styles": avatars.styles(),
+		"opened": [],
+	}
+
+
+PICTURE_SERVICES = ("gravatar", "logos")
 
 
 def _hearing(opened) -> None:
@@ -63,7 +134,7 @@ def _company():
 	return frappe.get_doc("Company", name) if name else None
 
 
-def _general() -> dict:
+def _general(section: str = "general") -> dict:
 	from onedesk.one_calendar import feed
 
 	company = _company()
@@ -77,12 +148,15 @@ def _general() -> dict:
 		+ _zones(_switches(fields_of("System Settings", ("language", "time_zone", *SYSTEM, *SIGNING_IN, *FOOTER))))
 		+ _switches(fields_of("Global Defaults", AMOUNTS))
 	)
-	return {
+	said = {
 		"name": account.workspace_name,
 		"company": company.company_name if company else None,
 		"country": company.country if company else system.country,
 		"currency": company.default_currency if company else None,
-		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields] + _signing_in_fields() + _sharing_fields(),
+		"fields": [{**one, **_said_on_general(one["fieldname"], system)} for one in fields]
+		+ _signing_in_fields()
+		+ _sharing_fields()
+		+ _amount_fields(),
 		"values": {
 			"company_logo": company.company_logo if company else None,
 			**{name: company.get(name) if company else None for name in (*ON_DOCUMENTS, *ON_SCREEN)},
@@ -91,6 +165,9 @@ def _general() -> dict:
 			"time_zone": system.time_zone,
 			**{name: system.get(name) for name in (*SYSTEM, *SIGNING_IN, *FOOTER)},
 			**{name: defaults.get(name) for name in AMOUNTS},
+			"one_rounded_total": 0 if defaults.disable_rounded_total else 1,
+			"one_in_words": 0 if defaults.disable_in_words else 1,
+			"one_currency_symbol": 0 if frappe.utils.cint(defaults.hide_currency_symbol) else 1,
 			"allow_login_after_fail": str(system.allow_login_after_fail or 60),
 			"one_record_sharing": 0 if system.disable_document_sharing else 1,
 			"one_calendar_links": 1 if feed.allowed() else 0,
@@ -99,6 +176,59 @@ def _general() -> dict:
 		},
 		"opened": opened_of(company, system, address, defaults),
 	}
+	if not said["values"].get("email_footer_address"):
+		said["values"]["email_footer_address"] = _mail_address(company, address)
+	if section in HOLDS:
+		held = HOLDS[section]
+		said["fields"] = [one for one in said["fields"] if one["fieldname"] in held]
+		said["values"] = {name: value for name, value in said["values"].items() if name in held}
+	said["logo"] = company.company_logo if company else None
+	said["brand"] = company.get("one_brand_colour") if company else None
+	said["frame"] = company.get("one_frame_colour") if company else None
+	return said
+
+
+def _mail_address(company, address) -> str:
+	"""The address at the foot of the workspace's mails, as the company's own
+	address says it, until somebody writes something else."""
+	if not company or not address:
+		return ""
+	return "\n".join(
+		one
+		for one in (
+			company.company_name,
+			address.address_line1,
+			address.address_line2,
+			" ".join(filter(None, (address.city, address.state, address.pincode))),
+			_(company.country) if company.country else "",
+		)
+		if one
+	)
+
+
+def _amount_fields() -> list:
+	"""Global Defaults' three switches that say what is hidden, said the
+	right way round: on shows it."""
+	return [
+		{
+			"fieldname": "one_currency_symbol",
+			"fieldtype": "Switch",
+			"label": _("Currency Symbol"),
+			"description": _("Amounts show their currency's symbol."),
+		},
+		{
+			"fieldname": "one_rounded_total",
+			"fieldtype": "Switch",
+			"label": _("Rounded Totals"),
+			"description": _("Sales and purchases are rounded to a whole amount."),
+		},
+		{
+			"fieldname": "one_in_words",
+			"fieldtype": "Switch",
+			"label": _("Totals in Words"),
+			"description": _("Sales and purchases say their total in words."),
+		},
+	]
 
 
 AMOUNTS = ("hide_currency_symbol", "disable_rounded_total", "disable_in_words")
@@ -332,7 +462,13 @@ def _save_general(values: dict) -> None:
 				{"colour": company.one_frame_colour or "", "ink": workspace_company.frame_ink(company.one_frame_colour)},
 				after_commit=True,
 			)
+		was = _mail_address(company, _company_address(company))
 		_save_company_address(company, values)
+		# The footer follows the address while it still says what the
+		# address said.
+		footer = values.get("email_footer_address", frappe.db.get_single_value("System Settings", "email_footer_address"))
+		if any(name in values for name in ADDRESS) and (footer or "").strip() in ("", was):
+			values["email_footer_address"] = _mail_address(company, _company_address(company))
 	_save_amounts(values)
 	system = as_opened(frappe.get_single("System Settings"))
 	guarded = (*SIGNING_IN, "enable_two_factor_auth", "enable_password_policy", "minimum_password_score", "disable_document_sharing")
@@ -346,6 +482,12 @@ def _save_general(values: dict) -> None:
 	wanted = values.get("one_two_factor") or "off"
 	if "one_two_factor" in values:
 		system.enable_two_factor_auth = 0 if wanted == "off" else 1
+	if system.enable_two_factor_auth and system.otp_issuer_name in (None, "", "Frappe Framework", "One"):
+		# The name an authenticator app lists the code under: the workspace's,
+		# as the top bar names it.
+		system.otp_issuer_name = (
+			frappe.db.get_single_value("Workspace Account", "workspace_name") or frappe.defaults.get_global_default("company") or "One"
+		)
 	system.save(ignore_permissions=True)
 	changed = [name for name in guarded if str(was[name] or "") != str(system.get(name) or "")]
 	if changed:
@@ -358,9 +500,20 @@ def _save_general(values: dict) -> None:
 
 def _save_amounts(values: dict) -> None:
 	"""Global Defaults' on_update hides or shows the rounded total and the
-	amount in words on every sale and purchase form."""
+	amount in words on every sale and purchase form. The page says them the
+	right way round (Rounded Totals, Totals in Words)."""
+	if "one_rounded_total" in values:
+		values["disable_rounded_total"] = 0 if frappe.utils.cint(values["one_rounded_total"]) else 1
+	if "one_in_words" in values:
+		values["disable_in_words"] = 0 if frappe.utils.cint(values["one_in_words"]) else 1
+	if "one_currency_symbol" in values:
+		values["hide_currency_symbol"] = 0 if frappe.utils.cint(values["one_currency_symbol"]) else 1
 	defaults = frappe.get_single("Global Defaults")
 	wanted = {name: frappe.utils.cint(values[name]) for name in AMOUNTS if name in values}
 	if any(frappe.utils.cint(defaults.get(name)) != value for name, value in wanted.items()):
 		as_opened(defaults).update(wanted)
-		defaults.save(ignore_permissions=True)
+		frappe.flags.one_amounts = True
+		try:
+			defaults.save(ignore_permissions=True)
+		finally:
+			frappe.flags.one_amounts = False

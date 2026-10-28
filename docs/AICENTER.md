@@ -486,7 +486,8 @@ list price.
 
 Opened from **OneAI** in any module's ControlCenter (on that module), from
 the bottom bar, and from Settings. Built on `onedesk.module_settings.Dialog`
-as the other centres are, with the expand arrows opening the whole of it.
+as the other centres are; the arrows by its name enlarge the window, and
+AICenter on One's rail opens the whole of it.
 
 For workspace administrators:
 

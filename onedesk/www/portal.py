@@ -1,4 +1,4 @@
-"""The portal, a frappe-ui app (frontend/portal; one/portal.py). This serves
+"""The portal, a frappe-ui app (frontend/portal; one_portal/portal.py). This serves
 its page with what it starts with, and sends frappe's list of a kind (/orders)
 to its place in it (/portal/orders)."""
 
@@ -8,7 +8,7 @@ from urllib.parse import quote
 import frappe
 from frappe.sessions import get_csrf_token
 
-from onedesk.one import portal
+from onedesk.one_portal import portal
 
 no_cache = 1
 

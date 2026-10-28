@@ -38,6 +38,7 @@ def run(password=None):
 	_scored()
 	_profile()
 	_asking()
+	_linked()
 	from onedesk.one_inventory import tell
 
 	tell.orders_late()
@@ -107,7 +108,8 @@ def _on_the_portal(rfq, password) -> str:
 	there, which makes their quote as a draft for Karim."""
 	from frappe.utils.password import update_password
 
-	from onedesk.one import portal, portal_invite
+	from onedesk.one_inventory import portal as buying_portal
+	from onedesk.one_portal import invite as portal_invite
 
 	contact = frappe.db.get_value(
 		"Dynamic Link", {"link_doctype": "Supplier", "link_name": SEALANTS, "parenttype": "Contact"}, "parent"
@@ -120,10 +122,25 @@ def _on_the_portal(rfq, password) -> str:
 		update_password(user, password)
 	rows = {row.name: {"rate": PRICED[SEALANTS][row.item_code], "qty": row.qty} for row in rfq.items}
 	with as_user(user):
-		quote = portal.send_quote(rfq.name, rows, "Delivered to the villa's site within four days of the order.")
+		quote = buying_portal.send_quote(rfq.name, rows, "Delivered to the villa's site within four days of the order.")
 	frappe.db.set_value("Supplier Quotation", quote, "transaction_date", ago(7))
 	tag(frappe.get_doc("Supplier Quotation", quote))
 	return quote
+
+
+def _linked():
+	"""Al Noor has no portal login, so Karim sent the villa's request to
+	their sales desk as a link (one_portal/share.py), which they have opened
+	once: OnePortal's Links list has something in it."""
+	from onedesk.one_portal import share
+
+	rfq = frappe.db.get_value("Request for Quotation Supplier", {"supplier": ALUMINIUM, "docstatus": 1}, "parent")
+	if not rfq or frappe.db.exists("Portal Link", {"reference_name": rfq}):
+		return
+	with as_user(BUYER):
+		share.make_link("Request for Quotation", rfq, email="sales@alnoor-aluminium.example", party=ALUMINIUM)
+	link = frappe.get_last_doc("Portal Link", filters={"reference_name": rfq})
+	link.db_set({"opened": 1, "last_opened": ago(8)}, update_modified=False)
 
 
 def _received(order, date):

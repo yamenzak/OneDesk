@@ -10,7 +10,7 @@
       <FormControl v-model="old" type="password" :label="__('Current Password')" autocomplete="current-password" required />
       <FormControl v-model="fresh" type="password" :label="__('New Password')" autocomplete="new-password" required :description="strength" />
       <FormControl v-model="again" type="password" :label="__('Confirm Password')" autocomplete="new-password" required :error="again && again !== fresh ? __('The two passwords are not the same.') : ''" />
-      <FormControl v-model="everywhere" type="checkbox" :label="__('Sign out of every other device')" />
+      <FormControl v-model="everywhere" type="checkbox" :label="__('Sign out of other devices')" />
     </form>
     </Card>
   </div>

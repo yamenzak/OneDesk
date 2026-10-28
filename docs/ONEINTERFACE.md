@@ -154,7 +154,7 @@ The frame's colour is `--one-frame`: frappe-ui's darkest grey in a light
 theme, and in a dark one a grey a step lighter than the page (which is
 already the darkest surface), with the inset's edge drawn; there frappe's
 sidebar takes the page's colour, so the inset reads as one surface. A workspace's
-**Frame Colour** (Company `one_frame_colour`, Workspace › General › Contact and
+**Frame Colour** (Company `one_frame_colour`, One's ControlCenter ›
 Branding) replaces it for everyone: `chrome.js` sets `--one-frame-brand`
 and marks the root `data-one-frame="brand"`, with `data-one-frame-ink`
 dark on a light colour, by the rule the letter heads use for text on the

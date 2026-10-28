@@ -7,6 +7,7 @@ tools for everything else are in tools.py, ai_web.py and reading/ai.py."""
 REACH = {}
 
 NOT_FOR_AI = {
+	"actions.switch": "Which OneAI actions a workspace offers is an administrator's choice in AICenter, never OneAI's.",
 	"brief.switch": "Which records get a summary costs credits, so an administrator chooses it in AICenter, never OneAI.",
 	"center.set_on": "OneAI is turned on and off by an administrator, never by OneAI itself.",
 	"center.set_tier": "The tier sets what every answer costs, so an administrator chooses it in AICenter, never OneAI.",

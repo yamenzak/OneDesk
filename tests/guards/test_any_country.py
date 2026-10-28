@@ -43,9 +43,10 @@ REGIONAL = {
 	"one_legal/documents.py": "the operator's own address and law",
 	"one_legal/legal.py": "the operator's own law",
 	"one_legal/laws.py": "the laws the agreements answer, the UAE's among them",
+	"one_portal/checks.py": "the demo company's own customers and suppliers, which its checks sign in as",
 }
 
-SKIP = ("locale", "one_demo", "fixtures", "dist")
+SKIP = ("locale", "one_demo", "fixtures", "dist", "tests")
 
 
 def _ours():

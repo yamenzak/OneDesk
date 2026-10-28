@@ -88,6 +88,10 @@ HEADS = (
 )
 
 COLLECTIONS = {
+	"Address Template": {"List": "no ID box, since a template's name is its country, which the Country filter already finds"},
+	"Contact": {"List": "no ID column, since a contact's name is the person's, already in the title"},
+	"Deleted Document": {"List": "One's Recycle Bin: what was deleted and from where, Restored or Deleted, and Restore on several at once"},
+	"Note": {"List": "One's Announcements: what is showing first, Showing or Ended, and Stop Showing for administrators"},
 	"Item": {"List": "a tab for each kind of item, and how many of each are on hand, with Low once a warehouse is at its reorder level"},
 	"Project Template": {"List": "From Library beside Add, copying a preset in and opening it"},
 	"Timesheet": {"List": "OneProject's Time: the project, the days and the billable hours as columns, the ID on hover"},
@@ -147,10 +151,6 @@ SCREENS = {
 	"item-view": "the page an Item opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"one": "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)",
-	"address-book": "the workspace's contacts and addresses as one screen, the list beside the one chosen, with a person's places and a place's people (Contact, Address)",
-	"dashboards": "every dashboard the reader may read, under the app it is about, each opening frappe's own dashboard (Dashboard)",
-	"announcements": "what the office has said, each in full, what is showing now and what was said before, and for an administrator who has seen each and posting a new one (Note)",
-	"recycle-bin": "what was deleted, a day at a time, and putting it back, one or many (Deleted Document)",
 	"onehr": "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)",
 	"onecrm": "OneCRM's home: how selling is going, what needs the reader today, and everything in it (Lead, Opportunity, Quotation, Sales Order)",
 	"books": "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)",

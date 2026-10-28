@@ -1,0 +1,24 @@
+{
+ "custom_fields": [
+  {
+   "allow_on_submit": 1,
+   "description": "The customer's or supplier's portal contacts who may not see this record.",
+   "doctype": "Custom Field",
+   "dt": "Sales Invoice",
+   "fieldname": "one_portal_hidden",
+   "fieldtype": "Small Text",
+   "hidden": 1,
+   "insert_after": "amended_from",
+   "label": "Hidden From Contacts",
+   "module": "One Portal",
+   "name": "Sales Invoice-one_portal_hidden",
+   "no_copy": 1,
+   "print_hide": 1,
+   "read_only": 1
+  }
+ ],
+ "doctype": "Sales Invoice",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}

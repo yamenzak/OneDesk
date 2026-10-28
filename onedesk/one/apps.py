@@ -2,7 +2,7 @@
 
 An app turned off leaves the rail, search and the pickers for everybody, and
 nothing is deleted or refused. OneAI off refuses every model call and turns
-OneAI off with it. The rest is in One's Help, under Settings (one/docs/settings.md).
+reading off with it; OnePortal off closes the portal (one_portal/gate.py). The rest is in One's Help, under Settings (one/docs/settings.md).
 """
 
 import json
@@ -20,8 +20,11 @@ NEEDS = {INTAKE: AI}
 # with no rail, whose rows leave every rail when it is off.
 SECTIONS = (INTAKE,)
 ICONS = {INTAKE: "oneintake"}
-# One's You row for what OneAI remembers, which goes when OneAI is off.
+# One's rail rows for OneAI's centre, which go when OneAI is off.
 MEMORY = {"url": "/desk/one?center=ai&at=yours"}
+AI_CENTER = {"url": "/desk/one?center=ai"}
+# AccessCenter's row, which only an administrator can open.
+ACCESS_CENTER = {"url": "/desk/one?center=access"}
 # What reading shows in the rails, which goes when reading is off.
 READS = (
 	{"link_to": "intake"},
@@ -135,14 +138,16 @@ def gone(off: set) -> set:
 	"""The rows that leave every rail: what reading shows (Documents, its
 	reports, What OneAI Reads) when reading is off, and What OneAI
 	Remembers when OneAI is. OneAI's own rail goes as any app's does. Pure."""
-	rows = [*(READS if INTAKE in off else ()), *((MEMORY,) if AI in off else ())]
+	rows = [*(READS if INTAKE in off else ()), *((MEMORY, AI_CENTER) if AI in off else ())]
 	return {_where(one) for one in rows}
 
 
 def trim(sidebars: dict) -> None:
-	"""`outside.kept`: what reading shows, and What OneAI Remembers, leave
-	every rail when they are off."""
-	leaving = gone(set(hidden()))
+	"""`outside.kept`: what reading shows, and OneAI's centre, leave every
+	rail when they are off; AccessCenter's row is only an administrator's."""
+	from onedesk.one import roles
+
+	leaving = gone(set(hidden())) | (set() if roles.administers() else {_where(ACCESS_CENTER)})
 	if not leaving or not isinstance(sidebars, dict):
 		return
 	for sidebar in sidebars.values():

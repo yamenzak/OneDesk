@@ -1,5 +1,6 @@
-"""One's Home: what is waiting for the reader today, and for administrators,
-what in the workspace needs them.
+"""One's Home: what only One sees across the apps. The approvals waiting on
+the reader, the announcements, what is new, and for administrators the
+workspace at a glance and what in it needs them.
 
 Every number on it is counted here for whoever is reading, when Home is
 drawn, and never kept. The page is the island `onedesk.one_home`
@@ -89,52 +90,113 @@ def approvals_waiting() -> int:
 @frappe.whitelist(methods=["GET"])
 @frappe.read_only()
 def read() -> dict:
-	"""Home, for whoever is reading: how much waits for them in each app they
-	have, the first few of each, and for an administrator what in the
-	workspace needs them. An app the workspace turned off is left out."""
-	from onedesk.one import apps
-
-	off = set(apps.hidden())
-	tasks = _tasks()
-	meetings = _meetings()
+	"""Home, for whoever is reading: what only One sees across the apps. The
+	approvals waiting on them from every app, the announcements running,
+	the files someone has asked them for (OneCloud's file requests), the
+	apps with a version they have not seen, and for an administrator
+	the workspace at a glance and what in it needs them. A task, a meeting
+	or a document is its own app's, on that app's home."""
 	approvals = _approvals()
-	counts = {
-		"tasks": None if "OneTask" in off else len(tasks),
-		"meetings": None if "OneCalendar" in off else len(meetings),
-		"documents": intake_waiting() if apps.intake_on() else None,
-		"suggestions": suggestions_waiting() if apps.ai_on() else None,
-		"approvals": len(approvals),
-	}
 	return {
-		"counts": {key: value for key, value in counts.items() if value is not None},
-		"tasks": [
-			{
-				"name": one.name,
-				"subject": one.subject,
-				"due": str(one.due) if one.due else None,
-				"project": one.project_title,
-			}
-			for one in tasks[:LISTED]
-		]
-		if counts["tasks"] is not None
-		else [],
-		"meetings": [
-			{
-				"doctype": one["doctype"],
-				"name": one["name"],
-				"title": one["title"],
-				"start": str(one["start"]),
-				"end": str(one["end"]) if one["end"] else None,
-				"all_day": one["all_day"],
-			}
-			for one in meetings[:LISTED]
-		]
-		if counts["meetings"] is not None
-		else [],
 		"approvals": [{**one, "since": str(one["since"])} for one in approvals[:LISTED]],
+		"waiting": len(approvals),
+		"announcements": _announcements(),
+		"asked": _asked(),
+		"news": news(),
+		"glance": glance(),
 		"needs": attention(),
 		"administers": roles.administers(),
 	}
+
+
+def _asked() -> list[dict]:
+	from onedesk.one_hr import own
+	from onedesk.one_storage import file_requests
+
+	return file_requests.asked_of(own.addresses_of())
+
+
+def _announcements() -> list[dict]:
+	from onedesk.one import announcements
+
+	return announcements._running()
+
+
+def news() -> list[dict]:
+	"""The apps the reader has whose newest version they have not opened,
+	each with that version's title (UpdateCenter)."""
+	from onedesk.one import apps, ready, versions
+
+	off = set(apps.hidden())
+	said = []
+	for module, one in versions.for_boot().items():
+		if not one["unseen"] or module in off:
+			continue
+		newest = next(iter(ready.versions(module)), None)
+		said.append(
+			{
+				"module": module,
+				"version": one["version"],
+				"title": _(newest["title"]) if newest and newest.get("title") else "",
+			}
+		)
+	return said
+
+
+def glance() -> list[dict]:
+	"""The workspace in four numbers, for an administrator: people against
+	seats, the apps turned on, storage against its limit and OneAI's credits
+	left. Read from the workspace's copy of its account. Empty for anybody
+	else."""
+	if not roles.administers():
+		return []
+	from onedesk.one import apps, people
+	from onedesk.one_account.heads import size
+
+	held = frappe.get_single("Workspace Account")
+	offered = [one for one in apps.offered() if not one.get("needs")]
+	seats = int(held.seats or 0)
+	used = people.seats_used()
+	said = [
+		{
+			"key": "people",
+			"title": _("People"),
+			"value": str(used),
+			"note": _("of {0} seats").format(seats) if seats else "",
+			"bar": min(100, round(100 * used / seats)) if seats else None,
+			"route": "/desk/one?center=account&at=people",
+		},
+		{
+			"key": "apps",
+			"title": _("Apps"),
+			"value": str(sum(1 for one in offered if one["on"])),
+			"note": _("of {0}").format(len(offered)),
+		},
+	]
+	if flt(held.storage_limit):
+		said.append(
+			{
+				"key": "storage",
+				"title": _("Storage"),
+				"value": size(held.storage_bytes),
+				"note": _("of {0}").format(size(held.storage_limit)),
+				"bar": min(100, round(100 * flt(held.storage_bytes) / flt(held.storage_limit))),
+				"route": "/desk/one?center=account&at=plan",
+			}
+		)
+	if apps.ai_on():
+		said.append(
+			{
+				"key": "credits",
+				"title": _("OneAI Credits"),
+				"value": frappe.utils.fmt_money(flt(held.credits_balance), precision=0).strip(),
+				"note": _("{0} used a month").format(frappe.utils.fmt_money(flt(held.credits_month), precision=0).strip())
+				if flt(held.credits_month)
+				else "",
+				"route": "/desk/one?center=account&at=plan",
+			}
+		)
+	return said
 
 
 def attention() -> list[dict]:
@@ -245,8 +307,9 @@ def _holidays() -> list[dict]:
 
 
 def my_day() -> dict:
-	"""Everything Home counts for the reader, and for an administrator what
-	needs them, with the first few of each where they are listed."""
+	"""The reader's day across the apps (OneAI's my_day): tasks due or late,
+	meetings, documents and suggestions waiting, approvals, and for an
+	administrator what needs them, with the first few tasks."""
 	tasks = _tasks()
 	late = [
 		{"task": one.subject, "due": str(one.due) if one.due else None, "project": one.project_title}

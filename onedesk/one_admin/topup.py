@@ -25,14 +25,14 @@ def packs() -> list[dict]:
 
 
 def buy(tenant: str, pack: str) -> dict:
-	"""Somewhere for this workspace to pay for this pack."""
+	"""A checkout for this workspace to pay for this pack in its own page."""
 	site.require_admin()
 	sold = frappe.db.get_value(
 		"Offering", pack, ["name", "kind", "enabled", "credits"], as_dict=True
 	)
 	if not sold or sold.kind != "Credit Pack" or not sold.enabled:
 		raise Refused(f"{pack} is not a credit pack on sale")
-	return {"pay_at": stripe.checkout_for_credits(tenant, sold.name), "credits": sold.credits}
+	return {"checkout": stripe.checkout_for_credits(tenant, sold.name), "credits": sold.credits}
 
 
 def bought(session: dict) -> str | None:

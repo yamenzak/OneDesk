@@ -5,7 +5,6 @@ export const SCREENS = [
 	{ who: "samir@one.test", path: "/desk/one", page: "one", sees: ["Your Tasks", "Tasks Due or Late", "Meetings Today"] },
 	{ who: "wsadmin@one.test", path: "/desk/address-book", page: "address-book", sees: ["Address Book", "Contacts", "Addresses"] },
 	{ who: "samir@one.test", path: "/desk/announcements", page: "announcements", sees: ["Announcements", "Office closed on National Day"] },
-	{ who: "mariam@one.test", path: "/desk/dashboards", page: "dashboards", sees: ["Dashboards", "OneHR", "Human Resource"] },
 	{ who: "wsadmin@one.test", path: "/desk/recycle-bin", page: "recycle-bin", sees: ["Recycle Bin", "Deleted", "Put Back"] },
 	{ who: "wsadmin@one.test", path: "/desk/legal", page: "legal", sees: ["Terms of Service"] },
 	{ who: "wsadmin@one.test", path: "/desk/intake", page: "intake", sees: ["Taxi back from Bayview"] },

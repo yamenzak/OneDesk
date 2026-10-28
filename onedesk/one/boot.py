@@ -56,6 +56,7 @@ def boot_session(bootinfo) -> None:
 	bootinfo["one_tours_unseen"] = tours.unseen()
 	bootinfo["one_administers"] = int(roles.administers())
 	from onedesk.one import access_center, apps, notification_center
+	from onedesk.one_ai import actions as ai_actions
 	from onedesk.one_ai import center as ai_center
 
 	# The modules AccessCenter, NotificationCenter and AICenter have a part
@@ -67,6 +68,7 @@ def boot_session(bootinfo) -> None:
 		"ai": ai_center.modules() if roles.administers() and apps.ai_on() else [],
 	}
 	bootinfo["one_ai_may"] = ai_center.may() if apps.ai_on() else {}
+	bootinfo["one_ai_actions"] = ai_actions.for_boot() if apps.ai_on() else {}
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}
 	default = holders.sends_from()
 	bootinfo["one_mail_sends_from"] = (

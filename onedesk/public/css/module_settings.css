@@ -33,13 +33,24 @@
 	--icon-stroke: var(--ink-gray-5);
 }
 
+/* Help and the arrows sit in the dialog's top right corner
+   (module_settings.js `module_head_expand`), and a tab's own header keeps
+   clear of them. */
+.one-has-corner .settings-dialog {
+	position: relative;
+}
 
-.one-module-head-tools {
+.one-dialog-corner {
 	position: absolute;
-	top: calc(var(--spacing) * 2);
-	inset-inline-end: 0;
+	top: calc(var(--spacing) * 3);
+	inset-inline-end: calc(var(--spacing) * 3);
+	z-index: 2;
 	display: flex;
 	gap: calc(var(--spacing) * 0.5);
+}
+
+.one-has-corner .settings-dialog-panel-header {
+	padding-inline-end: calc(var(--spacing) * 16);
 }
 
 /* width 0 with min-width 100% keeps a long row from widening the panel:
@@ -363,10 +374,6 @@ the radio, and what it says may run to two lines. */
 	gap: calc(var(--spacing) * 3);
 }
 
-.one-notify .one-notify-wide .one-set-end {
-	padding-inline-end: 0;
-}
-
 /* AccessCenter (public/js/access_center.js): a person's role at their
    row's end. */
 .one-access .one-access-level .frappe-control {
@@ -374,10 +381,22 @@ the radio, and what it says may run to two lines. */
 	min-width: calc(var(--spacing) * 40);
 }
 
-.one-notify .one-notify-columns .one-notify-pad,
-.one-notify .one-notify-list .one-notify-pad {
-	width: calc(var(--spacing) * 7);
-	flex-shrink: 0;
+/* frappe's form-group keeps room under a field; a role at a row's end has
+   none, so the row is a row's height. */
+.one-access .one-access-level .form-group,
+.one-access .one-access-level .control-input-wrapper {
+	margin: 0;
+}
+
+/* An app's Roles: Show Roles and New Role over the matrix, at its end. */
+.one-access .one-access-tools {
+	display: flex;
+	justify-content: flex-end;
+	gap: calc(var(--spacing) * 2);
+}
+
+.one-access .one-access-tools:not(:empty) {
+	margin-bottom: calc(var(--spacing) * 3);
 }
 
 /* frappe's switch keeps room for a label at its start; these have none, so
@@ -415,4 +434,226 @@ the radio, and what it says may run to two lines. */
 	flex-wrap: wrap;
 	gap: calc(var(--spacing) * 2);
 	margin-bottom: calc(var(--spacing) * 4);
+}
+
+/* A heading in a section is spacing, never a line: frappe draws one above
+   every heading but the first, and One's sections draw none (docs/UI-NOTES.md). */
+.one-set .settings-dialog-section-heading,
+.one-set .settings-dialog-panel-body .form-section:not(:first-child):has(> .section-head) {
+	border-top: 0;
+}
+
+/* A centre enlarged from the arrows by its name (module_head_expand): the
+   window takes most of the screen, for reading. */
+.one-set-large .modal-dialog {
+	width: calc(100vw - var(--spacing) * 16);
+	max-width: none;
+}
+
+.one-set-large .modal-content {
+	height: calc(100vh - var(--spacing) * 16);
+}
+
+/* Tiles in a centre's form (onedesk.OneSection draw_signin): each part a
+   bordered card with its icon and name, two to a row, as Sign-in's ways in
+   are drawn in AccountCenter. */
+.one-set .os-tiles .form-page {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--spacing) * 72), 1fr));
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-set .os-tiles .form-section.os-tile {
+	margin: 0;
+	padding: calc(var(--spacing) * 4);
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-md);
+}
+
+.one-set .os-tiles .form-section.os-tile .section-head {
+	margin-bottom: calc(var(--spacing) * 1);
+}
+
+.one-set .os-tiles .one-shell-form .form-section.os-tile.one-shell-part,
+.one-set .os-tiles .one-shell-form .form-section.os-tile.one-shell-part:first-child {
+	margin: 0;
+	padding: calc(var(--spacing) * 4);
+	border: 1px solid var(--outline-gray-1);
+}
+
+/* Inside a tile, Sign-in's standard: the head a grey icon, the name in
+   medium weight and the state badge at the end; labels and controls a size
+   down. */
+.one-set .os-tiles .os-tile .section-head {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 2);
+	font-size: var(--text-base);
+	font-weight: 500;
+	color: var(--ink-gray-8);
+}
+
+.one-set .os-tiles .os-tile .os-tile-state {
+	margin-inline-start: auto;
+}
+
+.one-set .os-tiles .os-tile .control-label {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-6);
+}
+
+.one-set .os-tiles .os-tile .os-unlabelled > .form-group > .control-label,
+.one-set .os-tiles .os-tile .os-unlabelled .clearfix > .control-label,
+.one-set .os-tiles .os-tile .os-unlabelled .switch-text > .label-area {
+	display: none;
+}
+
+.one-set .os-tiles .os-tile .form-control {
+	height: calc(var(--spacing) * 7);
+	font-size: var(--text-sm);
+}
+
+.one-set .os-tiles .os-tile .frappe-control {
+	margin-bottom: calc(var(--spacing) * 3);
+}
+
+.one-set .os-tiles .os-tile .frappe-control:last-child {
+	margin-bottom: 0;
+}
+
+/* A form with tiles may have plain rows around them: those take the whole
+   width. Three tiles sit three to a row. */
+.one-set .os-tiles .form-page > .form-section:not(.os-tile) {
+	grid-column: 1 / -1;
+}
+
+.one-set .os-tiles.os-tiles-three .form-page {
+	grid-template-columns: repeat(auto-fit, minmax(calc(var(--spacing) * 50), 1fr));
+}
+
+/* Region and Formats' sample: the foot of a sale as the switches make it. */
+.one-set .os-sample {
+	padding: calc(var(--spacing) * 4);
+	border-radius: var(--radius-md);
+	background: var(--surface-gray-1);
+}
+
+.one-set .os-sample-label {
+	margin-bottom: calc(var(--spacing) * 2);
+	font-size: var(--text-sm);
+	color: var(--ink-gray-5);
+}
+
+.one-set .os-sample-rows {
+	display: grid;
+	grid-template-columns: 1fr auto;
+	gap: calc(var(--spacing) * 1) calc(var(--spacing) * 6);
+	max-width: calc(var(--spacing) * 90);
+	margin: 0;
+	font-variant-numeric: tabular-nums;
+}
+
+.one-set .os-sample-rows dt {
+	font-weight: 400;
+	color: var(--ink-gray-6);
+}
+
+.one-set .os-sample-rows dd {
+	margin: 0;
+	text-align: end;
+	font-weight: 500;
+	color: var(--ink-gray-9);
+}
+
+.one-set .os-sample-words {
+	margin-top: calc(var(--spacing) * 2);
+	font-size: var(--text-sm);
+	color: var(--ink-gray-6);
+}
+
+/* Company: the facts set apart from Contact under them, a shorter Address
+   in Mails, and Start Again as a red-edged box of its own. */
+.one-set .os-facts-apart {
+	padding-bottom: calc(var(--spacing) * 6);
+}
+
+.one-set .os-danger {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 4);
+	margin-top: calc(var(--spacing) * 4);
+	padding: calc(var(--spacing) * 4);
+	border: 1px solid var(--outline-red-2);
+	border-radius: var(--radius-md);
+}
+
+.one-set .os-danger-text {
+	flex: 1;
+}
+
+.one-set .os-danger-title {
+	font-weight: 500;
+	color: var(--ink-gray-8);
+}
+
+.one-set .os-danger-sub {
+	font-size: var(--text-sm);
+	color: var(--ink-gray-6);
+}
+
+/* Pictures: its headings drawn as a form tab's, and From the Web's two
+   tiles with their switch at the end. */
+.one-set .os-plain-part {
+	margin: 0 0 calc(var(--spacing) * 3);
+	padding: 0;
+	border: 0;
+}
+
+.one-set .os-plain-part:not(:first-child) {
+	margin-top: calc(var(--spacing) * 8);
+}
+
+.one-set .os-ways + .os-plain-part {
+	margin-top: calc(var(--spacing) * 8);
+}
+
+.one-set .os-way .os-way-actions .one-set-switch .frappe-control {
+	margin: 0;
+}
+
+.one-set .os-plain-part .section-head {
+	font-size: var(--text-base);
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+/* A tile's sentence with its switch beside it, as Amounts' tiles have. */
+.one-set .os-way-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 4);
+}
+
+.one-set .os-way-row .os-way-text {
+	flex: 1;
+}
+
+/* Words and Rules: a workspace with no rules yet says so in a line's
+   height, not half the page. */
+.one-notify [data-list="rules"] .min-h-48 {
+	min-height: calc(var(--spacing) * 24);
+}
+
+/* AICenter › Reading's month: its five figures in one row, two to a row on
+   a phone. */
+.one-ai-center .one-ai-month {
+	grid-template-columns: repeat(5, minmax(0, 1fr));
+	gap: calc(var(--spacing) * 3);
+}
+
+@media (max-width: 640px) {
+	.one-ai-center .one-ai-month {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
 }

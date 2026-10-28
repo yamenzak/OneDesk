@@ -26,7 +26,7 @@ def _load(path, names):
 	return space
 
 
-A = _load(CENTER, {"SECTIONS", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "_masked"})
+A = _load(CENTER, {"SECTIONS", "PROFILE", "EMPLOYEE_OWN", "SHARED", "AT_WORK", "BANK", "PROFILE_PARTS", "_masked"})
 P = _load(PEOPLE, {"level_of", "roles_for"})
 
 
@@ -49,7 +49,7 @@ def test_every_section_has_a_loader_a_drawing_and_a_tab():
 	script = SCRIPT.read_text()
 	for key, _label, _icon, group in A["SECTIONS"]:
 		assert group in ("yours", "workspace")
-		assert f'"{key}": _{key}' in source, key
+		assert f'"{key}": _{key}' in source or key in A["PROFILE_PARTS"], key
 		assert f"draw_{key}(" in script, key
 		assert f'id: "{key}"' in script, key
 
@@ -63,7 +63,8 @@ def test_the_workspaces_sections_are_its_administrators():
 	opens = source.split("def _may_open(", 1)[1].split("\n\n\n", 1)[0]
 	assert 'group == "yours" or roles.administers()' in opens and 'section == "plan" and _sees_plan()' in opens
 	saves = source.split("def save(", 1)[1].split("\n\n\n", 1)[0]
-	assert 'if section != "profile":\n\t\troles.require()' in saves
+	assert 'if section not in PROFILE_PARTS:\n\t\troles.require()' in saves
+	assert '**{part: _profile for part in PROFILE_PARTS}' in source and '**{part: _save_profile for part in PROFILE_PARTS}' in saves
 
 
 def test_a_person_changes_how_to_reach_them_and_never_their_job_or_their_pay():
@@ -88,7 +89,7 @@ def test_a_save_is_refused_if_the_record_changed_since_it_was_opened():
 	"""Profile saves the login and the employee against the `modified` the
 	centre loaded, so frappe's own check_if_latest refuses a stale save."""
 	source = CENTER.read_text()
-	body = source[source.index("def _save_profile") :]
+	body = source[source.index("def _save_both") :]
 	body = body[: body.index("\ndef ")]
 	assert body.count("sections.as_opened(") == 2
 	assert '"opened"' in source and "sections.opened(user, employee)" in source
@@ -106,7 +107,7 @@ def test_a_section_is_an_editor_on_its_panel():
 
 def test_hr_hears_of_a_new_address_or_emergency_contact_and_a_contact_is_whole():
 	source = CENTER.read_text()
-	body = source[source.index("def _save_profile") :]
+	body = source[source.index("def _save_both") :]
 	body = body[: body.index("\ndef ")]
 	assert "person_to_be_contacted and employee.emergency_phone_number" in body
 	assert body.index("frappe.throw(") < body.index("employee.save(")

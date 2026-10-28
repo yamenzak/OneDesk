@@ -5,7 +5,7 @@ has Password in the portal (frontend/portal, Password.vue)."""
 import frappe
 from frappe.www.update_password import get_context as frappe_context
 
-from onedesk.one import portal
+from onedesk.one_portal import portal
 
 no_cache = 1
 

@@ -23,6 +23,15 @@ onedesk.CENTERS = {
 	ai: "AI",
 };
 
+// Modules that are a centre rather than a product, named and drawn as the
+// centre wherever a list of apps holds them, as One's rail does.
+onedesk.module_settings.AS_CENTER = { OneAccount: ["AccountCenter", "user"], OneLegal: ["TrustCenter", "shield-check"] };
+onedesk.module_settings.named = (app) => (onedesk.module_settings.AS_CENTER[app] || [app])[0];
+onedesk.module_settings.app_icon = (app, fallback = "bell") => {
+	const centre = onedesk.module_settings.AS_CENTER[app];
+	return frappe.utils.icon(centre ? centre[1] : onedesk.brand.mark_of(app.replace(/^One/, "")) || fallback, "sm");
+};
+
 // The top of a dialog's sidebar: the centre it is, and under it, small,
 // whose it is: a module (its mark and name) or one thing in it (an icon and
 // a label, such as a mailbox's address).
@@ -41,14 +50,31 @@ onedesk.module_head = ($into, { center, module = null, label = null, icon = null
 	return $head;
 };
 
-// The one button at the top of a centre, beside its name: the arrows that
-// open the whole of it. A module's HelpCenter opens all of One's help, its
-// ControlCenter the workspace's settings, an AccountCenter the module's
-// ControlCenter. Help itself is in the module's foot, not here.
-onedesk.module_head_expand = ($head, open) =>
-	$(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2", title: __("Open All"), attrs: { "aria-label": __("Open All") } }))
-		.on("click", open)
-		.appendTo($head.find(".one-module-head-tools"));
+// The arrows in a centre's top right corner make its window larger, for
+// reading, and back. Every centre opens at the size last chosen, in this
+// browser. The corner is the dialog's (`dialog.$corner`), above every tab, so
+// the sidebar's head keeps its width for the centre's name.
+onedesk.module_head_expand = ($head, dialog) => {
+	if (dialog.$corner) dialog.$corner.remove();
+	dialog.$corner = $head
+		.find(".one-module-head-tools")
+		.addClass("one-dialog-corner")
+		.appendTo(dialog.$wrapper.find(".settings-dialog"));
+	dialog.$wrapper.addClass("one-has-corner");
+	let large = !!onedesk.window.kept("centre_large", false);
+	const $button = $(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2" })).appendTo(dialog.$corner);
+	const show = () => {
+		const said = large ? __("Make Smaller") : __("Enlarge");
+		dialog.$wrapper.toggleClass("one-set-large", large);
+		$button.attr({ title: said, "aria-label": said }).find("use").attr("href", `#icon-${large ? "minimize-2" : "maximize-2"}`);
+	};
+	$button.on("click", () => {
+		large = !large;
+		onedesk.window.keep("centre_large", large ? 1 : 0);
+		show();
+	});
+	show();
+};
 
 onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.SettingsDialog {
 	render_sidebar() {
@@ -64,16 +90,18 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 				? { center: this.center || "settings", module: this.module }
 				: { center: this.center, label: __("Your Workspace"), icon: "building" };
 		const $head = onedesk.module_head(this.$sidebar, center);
-		// A centre that is already the whole of itself has nothing to open.
-		if (this.expand === false) return;
-		onedesk.module_head_expand($head, () => {
-			if (this.expand) return this.expand();
-			this.hide();
-			// The whole of a ControlCenter is One's, the workspace's own; for
-			// somebody who doesn't administer it, their own account.
-			if (frappe.boot.one_administers) onedesk.one_control.open();
-			else onedesk.account_center.open();
-		});
+		onedesk.module_head_expand($head, this);
+		// A centre with no module foot to hold Help holds it in its corner,
+		// before the arrows (`help`: an app and its page, or a function of
+		// the open tab returning them).
+		if (this.help) {
+			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
+				.on("click", () => {
+					const tab = (onedesk.centers.here && onedesk.centers.here.section) || "";
+					onedesk.help.open(...(typeof this.help === "function" ? this.help(tab) : this.help));
+				})
+				.prependTo(this.$corner);
+		}
 	}
 
 	// A row that is another centre (`opens`) opens it rather than a tab.
@@ -149,10 +177,10 @@ onedesk.module_settings.getting_started = (module) => ({
 });
 
 // What every module's ControlCenter ends with, found rather than drawn
-// (docs/READY.md, mechanisms 14-16), after its Lists (lists.js): Roles and Access for a module that
-// declares abilities, to its administrators, Notifications for a module
-// that sends any, and OneAI for one OneAI works in, each opening its centre
-// on the module.
+// (docs/READY.md, mechanism 18), after its Lists (lists.js): Roles and Access
+// for a module that declares abilities, to its administrators, Notifications
+// for a module that sends any, OneAI for one OneAI works in, and Your Data
+// for every module, each opening its centre on the module.
 onedesk.module_settings.centers = (module) => {
 	const has = frappe.boot.one_centers || {};
 	const items = [];
@@ -165,6 +193,9 @@ onedesk.module_settings.centers = (module) => {
 	if ((has.ai || []).includes(module)) {
 		items.push({ id: "ai_center", label: "OneAI", icon: "oneai", opens: () => onedesk.ai_center.open({ module }) });
 	}
+	// Every module says what it sends out and to whom, if only that it sends
+	// nothing (mechanism 13).
+	items.push({ id: "trust_center", label: __("Your Data"), icon: "shield-check", opens: () => onedesk.trust.open({ module }) });
 	return items.length ? [{ group: null, items }] : [];
 };
 

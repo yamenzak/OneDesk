@@ -4,23 +4,15 @@
 the workspace deals with: a customer's buyer, a supplier's accountant, a
 site's address. Every app uses the same ones.
 
-The Address Book is one page with two tabs, **Contacts** and **Addresses**.
-Search either, and click one to see it beside the list:
-
-- A contact shows their email and phones, who they belong to (a customer, a
-  supplier or another record), and **Their Addresses**: the addresses of
-  those same records.
-- An address shows the address in full, who it belongs to, and **People
-  There**: the contacts of those same records.
-
-Click an address or a person to go to it. **Edit** opens it in full to
-change it.
+**Contacts** and **Addresses** are lists. Search or filter either, and
+click one to open it: who it belongs to is under **Links**, and a
+customer's or supplier's own page shows its contacts and addresses
+together.
 
 **Adding a contact**
 
 1. Open **Contacts** and click **New Contact**.
-2. Enter their name, email and phone, and save. **Edit Full Form** shows
-   every field.
+2. Enter their name, email and phone, and save.
 3. Under **Links**, add the customer, supplier or other record they belong
    to. The contact then shows on that record.
 
@@ -36,8 +28,8 @@ Portal).
 
 The short lists records pick their values from: a contact's salutation, a
 customer's group, an item's unit, an employee's department. Each app keeps its
-own, at the end of its ControlCenter under **Lists**, and its rail has a
-**Lists** row that opens them.
+own, at the end of its ControlCenter under **Lists**. Every app's rail but
+One's also has a **Lists** row that opens them.
 
 - **One**: Salutations, Genders and Address Templates, the Address Book's.
 - **OneStudio**: Print Headings.
@@ -74,7 +66,7 @@ list.
 ## Address Templates
 
 Print headings are in OneStudio's **Lists**, address templates in One's
-(Address Book › **Lists**).
+(ControlCenter › **Lists**).
 
 **Print Headings**: the title printed above a document, such as **Tax
 Invoice** or **Proforma Invoice**. A print format picks one.

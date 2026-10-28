@@ -6,7 +6,7 @@ you tell it something lasting. The answer then shows **Remembered**, with
 
 ## Your Memories
 
-Only you see them. In [AICenter](settings), **Yours** lists them to change
+Only you see them. In [AICenter](settings), **Memory** lists them to change
 or delete, and **Add Memory** adds one. A memory can be about a record, and
 then OneAI reads it when that record comes up.
 

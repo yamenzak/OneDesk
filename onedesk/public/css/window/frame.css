@@ -795,3 +795,20 @@ body.one-window-dragging * {
 .one-window-tree .standard-sidebar-item:is(:hover, :focus-within, .one-window-menu):has(.one-window-more) .one-window-count {
 	display: none;
 }
+
+/* frappe styles a list's filter count as a pill only inside its filter row
+   (.page-form, list.scss); the window moves Filter out of that row into its
+   own controls, so the same rule, frappe's values, follows it there. */
+.one-window-filters .filter-selector .btn-group .filter-label {
+	display: inline-block;
+	font-weight: 600;
+	color: var(--ink-gray-8);
+	background-color: var(--surface-gray-2);
+	min-width: 21px;
+	border-radius: var(--radius-full);
+	margin-left: 6px;
+}
+
+.one-window-tree .one-window-tree-heading {
+	margin-left: -6px;
+}

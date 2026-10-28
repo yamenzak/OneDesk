@@ -20,7 +20,7 @@ appears in One. Here you choose which ones you also get by **email** and by
 
 ## Push Notifications
 
-On You › Notifications:
+In NotificationCenter:
 
 - **Turn On Push** asks your browser for permission. After that, this browser
   gets the notifications you switch on for push.
@@ -35,7 +35,7 @@ On You › Notifications:
 
 ## Choosing What You Get
 
-On You › Notifications:
+In NotificationCenter:
 
 - **Notifications** is the main switch. When it's off, you get no
   notifications and no emails, except the few that are always mailed.
@@ -44,9 +44,10 @@ On You › Notifications:
 - **Always mailed** are security notices (a new sign-in, a changed password,
   a new administrator), privacy requests, and what the workspace's money and
   storage need from its administrators. Each says so at its foot.
-- Below them is every notification you can get, grouped by app, each with a
-  line on when it's sent. Switch on **Email** or **Push** for the ones you
-  also want that way.
+- Under **Apps**, each app has one row. Open it for every notification it
+  can send you, each with a line on when it's sent. Switch on **Email** or
+  **Push** for the ones you also want that way. **Other** has what the
+  workspace's own rules tell you.
 - You only see notifications that can reach you. For example, HR's
   notifications are only for HR. Notifications from OneAI have the OneAI tag.
 - When an event comes in two versions, such as one document or several, they
@@ -57,7 +58,7 @@ On You › Notifications:
 - **Other Emails** has the two emails that aren't notifications: reminders
   before your events, and emails about records assigned to you.
 
-Click **Save** at the top right. Administrators choose what new people start
+Each switch is saved as you change it. Administrators choose what new people start
 with, and the text of each notification, in NotificationCenter's
 **Words and Rules**.
 
@@ -71,11 +72,15 @@ OneAI offers:
 
 ## The Workspace's Notifications
 
-**Workspace Notifications**, under Automation, lists every notification One
-sends, grouped by app. For example, a file shared with you, a letter requested
-from HR, or a document OneAI flags as phishing. Only administrators see it.
+Administrators see **Yours** and **Workspace** at the top of each app's page
+in NotificationCenter. **Workspace** lists everything the app sends here, with
+three switches each: **Send**, and whether people may have it by **Email** and
+by **Push**. Click a notification to open its words.
 
-Each row shows when it's sent and who gets it, with these badges:
+**Words and Rules** lists every notification One sends, with the app that
+sends it and who gets it. For example, a file shared with you, a letter
+requested from HR, or a document OneAI flags as phishing. Each has these
+badges:
 
 - **Off**: it isn't sent.
 - **Edited**: its text was changed.
@@ -89,8 +94,7 @@ listed at the bottom. Their text is built in, so it can't be changed here.
 
 OneAI offers:
 
-- **Rewrite this notification**, also a button on an open notification. New
-  text as a card, using only the names allowed. Approving saves it, and the
+- **Rewrite this notification**: new text as a card, using only the names allowed. Approving saves it, and the
   open page shows the new text.
 - **Which should be emailed?** Which notifications are worth an email and
   which are better left in One.
@@ -158,10 +162,10 @@ a record type, they notify someone. They're at the top of the page. Click
 4. **Message**: a subject and a message. `{{ doc.field }}` inserts a
    field of the record, such as `{{ doc.customer_name }}`. Nothing else can be
    used.
-5. **Channels**, as for any notification. The rule is then listed under You ›
-   Notifications with the others, so each person can choose how they get it.
+5. **Channels**, as for any notification. The rule is then listed in
+   NotificationCenter with the others, so each person can choose how they get it.
 
-**Delete** removes a rule for good. With **Ask OneAI**, or **Make a rule**
-in the OneAI panel, you describe the rule in your own words ("tell the
+**Delete** removes a rule for good. With **Make a rule** in the OneAI
+panel, you describe the rule in your own words ("tell the
 account manager when an invoice is seven days overdue"). OneAI suggests it as
 a card, and nothing is created until you approve it.

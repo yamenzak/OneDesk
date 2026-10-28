@@ -27,8 +27,18 @@ ENDED = "customer.subscription.deleted"
 REFUNDED = "charge.refunded"
 
 
-def checkout(request: str) -> str:
-	"""A Stripe Checkout URL for this request, and the session recorded on it."""
+def embedded(made: dict) -> dict:
+	"""What a page needs to draw a Checkout session inside itself (ui_mode
+	"embedded"): the session's client secret and the publishable key. The
+	page loads Stripe.js and mounts it (public/js/one_pay.js); nobody leaves
+	One to pay."""
+	return {"client_secret": made.get("client_secret"), "key": _publishable()}
+
+
+def checkout(request: str) -> dict:
+	"""A Checkout session for this request, drawn in the signup page, and the
+	session recorded on it. Paid, Stripe sends the page on to the welcome
+	page; the webhook builds the workspace."""
 	site.require_admin()
 	asked = frappe.get_doc("Account Request", request)
 	sold = frappe.get_cached_doc("Offering", asked.offering)
@@ -40,14 +50,14 @@ def checkout(request: str) -> str:
 		"customer_email": asked.email,
 		"client_reference_id": asked.name,
 		"metadata[request]": asked.name,
-		"success_url": _back_to(asked, "done"),
-		"cancel_url": _back_to(asked, "cancelled"),
+		"ui_mode": "embedded",
+		"return_url": _back_to(asked, "done"),
 	}
 	if sold.recurring and sold.trial_days:
 		form["subscription_data[trial_period_days]"] = int(sold.trial_days)
 	made = _post("checkout/sessions", form)
 	asked.db_set({"status": "Paying", "stripe_session": made.get("id")})
-	return made.get("url")
+	return {**embedded(made), "back": _back_to(asked, "cancelled")}
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
@@ -99,6 +109,15 @@ def webhook():
 		return {"ignored": kind}
 
 	meta = body.get("metadata") or {}
+	if meta.get("card") and body.get("mode") == "setup":
+		try:
+			card_set(body)
+		except Exception as raised:
+			seen.db_set("error", str(raised)[:500])
+			raise
+		seen.db_set({"handled": 1, "error": None})
+		return {"tenant": meta.get("card"), "card": True}
+
 	if meta.get("pack"):
 		from onedesk.one_admin import topup
 
@@ -147,8 +166,9 @@ def _book(what: str, body: dict) -> None:
 		frappe.log_error(title=f"Booking {body.get('id')}")
 
 
-def checkout_for_credits(tenant: str, pack: str) -> str:
-	"""A Stripe Checkout URL for a workspace buying a pack.
+def checkout_for_credits(tenant: str, pack: str) -> dict:
+	"""A Checkout session for a workspace buying a pack, drawn in Plan and
+	Credits; the page hears it is paid and stays where it is.
 
 	A one-off payment rather than a subscription, and the session carries the
 	workspace and the pack in its metadata — which is the only thing the webhook
@@ -163,7 +183,6 @@ def checkout_for_credits(tenant: str, pack: str) -> str:
 		"Tenant", tenant, ["owner_email", "stripe_customer", "domain", "primary_domain"],
 		as_dict=True,
 	)
-	back = f"https://{held.primary_domain or held.domain}/desk/one?center=account&at=plan"
 	made = _post(
 		"checkout/sessions",
 		{
@@ -173,8 +192,8 @@ def checkout_for_credits(tenant: str, pack: str) -> str:
 			"client_reference_id": tenant,
 			"metadata[tenant]": tenant,
 			"metadata[pack]": sold.name,
-			"success_url": f"{back}?bought={sold.name}",
-			"cancel_url": back,
+			"ui_mode": "embedded",
+			"redirect_on_completion": "never",
 			**(
 				{"customer": held.stripe_customer}
 				if held.stripe_customer
@@ -182,7 +201,44 @@ def checkout_for_credits(tenant: str, pack: str) -> str:
 			),
 		},
 	)
-	return made.get("url")
+	return embedded(made)
+
+
+def checkout_for_card(tenant: str) -> dict:
+	"""A Checkout session in setup mode: a new card for the workspace, drawn
+	in Plan and Credits. Nothing is charged; the webhook makes the card the
+	one invoices are paid with (card_set)."""
+	site.require_admin()
+	customer = frappe.db.get_value("Tenant", tenant, "stripe_customer")
+	if not customer:
+		raise faults.Refused(frappe._("This workspace has no billing account yet."))
+	made = _post(
+		"checkout/sessions",
+		{
+			"mode": "setup",
+			"customer": customer,
+			"payment_method_types[0]": "card",
+			"client_reference_id": tenant,
+			"metadata[card]": tenant,
+			"ui_mode": "embedded",
+			"redirect_on_completion": "never",
+		},
+	)
+	return embedded(made)
+
+
+def card_set(session: dict) -> None:
+	"""A completed setup session: its card becomes the customer's default and
+	the subscription's, so the next invoice is paid with it. Setting it twice
+	(a redelivery) sets the same card."""
+	site.require_admin()
+	paid_with = (_get(f"setup_intents/{session.get('setup_intent')}") or {}).get("payment_method")
+	if not paid_with:
+		return
+	_post(f"customers/{session.get('customer')}", {"invoice_settings[default_payment_method]": paid_with})
+	sub = frappe.db.get_value("Tenant", (session.get("metadata") or {}).get("card"), "stripe_subscription")
+	if sub:
+		_post(f"subscriptions/{sub}", {"default_payment_method": paid_with})
 
 
 def _remember_customer(tenant: str, body: dict) -> None:
@@ -455,6 +511,12 @@ def _back_to(asked, outcome: str) -> str:
 
 def _key() -> str:
 	return _from_settings("stripe_key", "stripe_secret_key")
+
+
+def _publishable() -> str:
+	"""Stripe's publishable key, which pages may see: it can only draw a
+	session the secret key made."""
+	return frappe.conf.get("stripe_publishable_key") or frappe.db.get_single_value("One Admin Settings", "stripe_publishable_key") or ""
 
 
 def _secret() -> str:

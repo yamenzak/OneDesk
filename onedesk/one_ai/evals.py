@@ -19,7 +19,7 @@ def _on(doctype: str, view: str | None = None, name: str | None = None) -> dict:
 
 USER = "wsadmin@one.test"
 
-PEOPLE = "admin@example.com"
+PEOPLE = "faisal@one.test"
 
 CASES = [
 	{

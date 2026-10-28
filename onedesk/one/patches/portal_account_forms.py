@@ -1,4 +1,4 @@
-from onedesk.one.portal import settle
+from onedesk.one_portal.portal import settle
 
 
 def execute():

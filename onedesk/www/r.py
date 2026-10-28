@@ -17,6 +17,7 @@ SAID = {
 	"kind": lambda: _("This file type isn't accepted."),
 	"nothing": lambda: _("Choose a file first."),
 	"closed": lambda: _("This request is closed."),
+	"details": lambda: _("Fill in what's marked as needed, then send again."),
 }
 
 
@@ -30,7 +31,7 @@ def get_context(context):
 		return context
 	said = frappe.form_dict.get("said") or ""
 	context.said = SAID[said]() if said in SAID else None
-	context.said_wrong = said in ("kind", "nothing", "closed")
+	context.said_wrong = said in ("kind", "nothing", "closed", "details")
 	context.doc = doc
 	context.by = get_fullname(doc.owner)
 	context.closed = doc.status != "Open"
@@ -49,6 +50,7 @@ def get_context(context):
 			"accept": ",".join(f".{ext.strip()}" for ext in (one.accept or "").split(",") if ext.strip()),
 			"kinds": one.accept,
 			"sent": sent.get(one.label, []),
+			"asked": file_requests._asked(doc, one),
 		}
 		for one in doc.items
 	]

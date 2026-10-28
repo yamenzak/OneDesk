@@ -21,6 +21,7 @@ after_sync = [
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one_studio.print_blocks.settle",
 	"onedesk.one_book.paper.settle",
+	"onedesk.one_book.vat.emirate_only_in_the_uae",
 	"onedesk.one_mail.mail_templates.settle",
 	"onedesk.one.recycle.settle",
 	"onedesk.one_calendar.tell.install",
@@ -29,7 +30,7 @@ after_sync = [
 	"onedesk.one_project.hours.settle",
 	"onedesk.one_ai.reading.search.index",
 	"onedesk.one_storage.store.unlimit",
-	"onedesk.one.portal.settle",
+	"onedesk.one_portal.portal.settle",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
@@ -80,6 +81,7 @@ after_migrate = [
 	"onedesk.one_calendar.feed.settle",
 	"onedesk.one_studio.print_blocks.settle",
 	"onedesk.one_book.paper.settle",
+	"onedesk.one_book.vat.emirate_only_in_the_uae",
 	"onedesk.one_mail.mail_templates.settle",
 	"onedesk.one.recycle.settle",
 	"onedesk.one_calendar.tell.install",
@@ -136,7 +138,11 @@ scheduler_events = {
 			"onedesk.one_mail.sync.sync_all",
 			"onedesk.one_ai.reading.matters.due",
 		],
-		"*/15 * * * *": ["onedesk.one_ai.reading.pipeline.again", "onedesk.one_ai.index.catch_up"],
+		"*/15 * * * *": [
+			"onedesk.one_ai.reading.pipeline.again",
+			"onedesk.one_ai.index.catch_up",
+			"onedesk.one.announcements.ended",
+		],
 		"*/5 * * * *": [
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",
@@ -238,7 +244,7 @@ doc_events = {
 		"validate": "onedesk.one.people.seated",
 		"before_save": "onedesk.one_mail.addresses.for_person",
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user"],
+		"on_update": ["onedesk.one_mail.faces.dress_later", "onedesk.one_hr.everybody.user", "onedesk.one_account.sync.from_user"],
 	},
 	"System Settings": {"on_update": "onedesk.one_calendar.feed.switched"},
 	"Custom Field": {"validate": "onedesk.one.layer.custom_field"},
@@ -303,8 +309,9 @@ doc_events = {
 		"validate": "onedesk.one_project.chain.agree",
 	},
 	"Contact": {
+		"validate": "onedesk.one_portal.gate.contact",
 		"on_update": [
-			"onedesk.one.portal.invited",
+			"onedesk.one_portal.portal.invited",
 			"onedesk.one_mail.faces.dress_later",
 		],
 		"after_insert": "onedesk.one_mail.faces.dress_later",
@@ -450,7 +457,7 @@ doc_events = {
 	"Employee": {
 		"validate": ["onedesk.one_hr.leaving.notice_ends_on", "onedesk.one_hr.everybody.employee"],
 		"after_insert": "onedesk.one_mail.faces.dress_later",
-		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later"],
+		"on_update": ["onedesk.one_hr.leaving.on_employee_update", "onedesk.one_mail.faces.dress_later", "onedesk.one_account.sync.from_employee"],
 	},
 	"Overtime Slip": {
 		"before_validate": "onedesk.one_hr.overtime.before_validate",
@@ -800,7 +807,7 @@ doctype_js = {
 	"Note": "public/js/note.js",
 	"Deleted Document": "public/js/deleted_document.js",
 	"Personal Data Deletion Request": "public/js/privacy_request.js",
-	"Contact": "public/js/contact.js",
+	"Contact": "public/js/one_portal/contact.js",
 	"Personal Data Download Request": "public/js/privacy_copy.js",
 	"Workspace Account": "public/js/one_account/workspace_account.js",
 	"Tenant": "public/js/tenant.js",
@@ -825,14 +832,11 @@ doctype_js = {
 	"Project": ["public/js/project_actions.js", "public/js/project.js"],
 	"Activity Type": "public/js/activity_type.js",
 	"Project Template": "public/js/project_template.js",
-	"Purchase Order": ["public/js/progress.js", "public/js/portal_share.js"],
-	"Quotation": ["public/js/quotation.js", "public/js/portal_share.js"],
-	"Sales Order": ["public/js/progress.js", "public/js/customer_project.js", "public/js/portal_share.js"],
-	"Delivery Note": ["public/js/customer_project.js", "public/js/portal_share.js"],
-	"Sales Invoice": ["public/js/customer_project.js", "public/js/portal_share.js"],
-	"Request for Quotation": "public/js/portal_share.js",
-	"Supplier Quotation": "public/js/portal_share.js",
-	"Purchase Invoice": "public/js/portal_share.js",
+	"Purchase Order": "public/js/progress.js",
+	"Quotation": "public/js/quotation.js",
+	"Sales Order": ["public/js/progress.js", "public/js/customer_project.js"],
+	"Delivery Note": "public/js/customer_project.js",
+	"Sales Invoice": "public/js/customer_project.js",
 	"Task": "public/js/task.js",
 	"Stock Reconciliation": "public/js/stock_count.js",
 }
@@ -847,6 +851,10 @@ doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "publ
 doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
 doctype_list_js = {
+	"Address Template": "public/js/address_template_list.js",
+	"Contact": "public/js/contact_list.js",
+	"Deleted Document": "public/js/deleted_document_list.js",
+	"Note": "public/js/note_list.js",
 	"Project Template": "public/js/project_template_list.js",
 	"Timesheet": "public/js/timesheet_list.js",
 	"Version": "public/js/audit_list.js",
@@ -927,6 +935,8 @@ app_include_css = stamped([
 	"/assets/onedesk/css/shell.css",
 	"/assets/onedesk/css/window/chrome.css",
 	"/assets/onedesk/css/window/frame.css",
+	"/assets/onedesk/css/window/json_view.css",
+	"/assets/onedesk/css/one_portal/button.css",
 	"/assets/onedesk/css/window/views.css",
 	"/assets/onedesk/css/one_ai/oneai.css",
 	"/assets/onedesk/css/one_legal/legal.css",
@@ -934,8 +944,8 @@ app_include_css = stamped([
 	"/assets/onedesk/css/lost.css",
 ])
 
-web_include_css = stamped(["/assets/onedesk/css/portal.css", "/assets/onedesk/css/lost.css"])
-update_website_context = ["onedesk.one.portal.light_or_dark"]
+web_include_css = stamped(["/assets/onedesk/css/one_portal/portal.css", "/assets/onedesk/css/lost.css"])
+update_website_context = ["onedesk.one_portal.portal.light_or_dark"]
 
 page_js = {"print": "public/js/print_documents.js"}
 
@@ -974,6 +984,8 @@ app_include_js = stamped([
 	"/assets/onedesk/js/window/report.js",
 	"/assets/onedesk/js/window/tree.js",
 	"/assets/onedesk/js/window/form.js",
+	"/assets/onedesk/js/window/json_view.js",
+	"/assets/onedesk/js/one_portal/portal.js",
 	"/assets/onedesk/js/window/print.js",
 	"/assets/onedesk/js/window/workspace.js",
 	"/assets/onedesk/js/passkey.js",
@@ -1136,7 +1148,7 @@ one_makes_records = {
 	"Subcontracting Order": ["one_inventory"],
 	"Subcontracting Receipt": ["one_inventory"],
 	"Supplier": ["one_account", "one_book"],
-	"Supplier Quotation": ["one", "one_inventory"],
+	"Supplier Quotation": ["one_inventory"],
 	"Supplier Scorecard Criteria": ["one_inventory"],
 	"Task": ["one_project", "one_task"],
 	"Tax Rule": ["one_book"],
@@ -1244,6 +1256,10 @@ one_ai_reads = [
 one_ai_reader = ["onedesk.one_hr.ai.reader"]
 
 one_ai_workspace = ["onedesk.one_hr.ai.workspace", "onedesk.one_crm.ai.workspace"]
+
+# Each app's OneAI actions, the buttons that do one thing in place, which
+# AICenter lists and an administrator turns off (one_ai/actions.py).
+one_ai_actions = ["onedesk.one_account.ai.ACTIONS"]
 one_ai_suggests = [
 	"onedesk.one_sheet.ai.draft_workbook",
 	"onedesk.one_doc.ai.draft_document",
@@ -1353,7 +1369,17 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities"]
+
+# What each module shows on the portal, in its own portal.py's KINDS, read by
+# OnePortal's engine (one_portal/portal.py `kinds`).
+one_portal = [
+	"onedesk.one.portal",
+	"onedesk.one_crm.portal",
+	"onedesk.one_inventory.portal",
+	"onedesk.one_book.portal",
+	"onedesk.one_project.portal",
+]
 
 one_record_heads = [
 	"onedesk.one_inventory.heads.HEADS",
@@ -1427,7 +1453,7 @@ website_route_rules = [
 ]
 
 has_website_permission = {
-	doctype: "onedesk.one.portal.has_website_permission"
+	doctype: "onedesk.one_portal.portal.has_website_permission"
 	for doctype in (
 		"Quotation",
 		"Sales Order",
@@ -1451,7 +1477,7 @@ website_redirects = [
 	{"source": r"/hrms(/.*)?", "target": "/desk/onehr"},
 ]
 
-before_request = ["onedesk.one_storage.dav.sign_in", "onedesk.one.webhooks.install"]
+before_request = ["onedesk.one_storage.dav.sign_in", "onedesk.one.webhooks.install", "onedesk.one_portal.gate.ending"]
 before_job = ["onedesk.one.webhooks.install"]
 after_request = ["onedesk.one_storage.dav.headers"]
 
@@ -1470,4 +1496,5 @@ user_data_fields = [
 	{"doctype": "Job Applicant", "filter_by": "email_id", "redact_fields": ["applicant_name", "email_id", "phone_number"]},
 ]
 
+on_login = ["onedesk.one_portal.gate.signing_in"]
 on_session_creation = ["onedesk.one_account.signin.arrived", "onedesk.one_account.devices.signed_in"]

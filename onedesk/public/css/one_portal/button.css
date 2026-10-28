@@ -1,0 +1,21 @@
+/* The Portal button, on every record that has one (public/js/one_portal/portal.js):
+   frappe's own button in a teal theme, written as frappe writes its red one
+   (espresso/components/button.css), so rest, hover, pressed, focus and
+   disabled are each a teal step, with OnePortal's mark beside the label. */
+.es-button[data-theme="teal"] {
+	--bt-solid-bg: var(--surface-teal-7);
+	--bt-solid-bg-hover: var(--surface-teal-8);
+	--bt-solid-bg-active: var(--surface-teal-9);
+	--bt-solid-fg: var(--ink-teal-1);
+	--bt-fill-bg: var(--surface-teal-2);
+	--bt-fill-bg-hover: var(--surface-teal-3);
+	--bt-fill-bg-active: var(--surface-teal-4);
+	--bt-fg: var(--ink-teal-8);
+	--bt-border: var(--outline-teal-2);
+	--bt-border-hover: var(--outline-teal-3);
+	--bt-outline-bg-active: var(--surface-teal-3);
+	--bt-disabled-bg: var(--surface-teal-1);
+	--bt-disabled-fg: var(--ink-teal-5);
+	--bt-disabled-border: var(--outline-teal-1);
+	--bt-focus: var(--focus-outline-green);
+}

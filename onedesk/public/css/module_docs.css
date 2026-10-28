@@ -429,24 +429,11 @@
 	font-size: var(--text-sm);
 }
 
-.one-trust .one-trust-companies td {
-	white-space: normal;
-	vertical-align: top;
-}
-
-.one-trust .one-trust-unused td:not(:nth-child(2)) {
-	color: var(--ink-gray-4);
-	text-decoration: line-through;
-}
 
 .one-trust .settings-dialog-panel-body > * {
 	flex-shrink: 0;
 }
 
-.one-trust .one-trust-companies th,
-.one-trust .one-trust-companies td {
-	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
-}
 
 .one-trust .one-trust-standing .one-set-buttons {
 	flex-wrap: wrap;
@@ -473,4 +460,57 @@ body.one-tour-in-dialog .modal .driver-highlighted-element {
 html[dir="rtl"] #driver-highlighted-element-stage,
 html[dir="rtl"] #driver-popover-item {
 	right: auto;
+}
+
+/* TrustCenter's Companies: each company once, its safeguard under its
+   name, and its uses under that; a use this workspace doesn't have is
+   greyed, not struck through. */
+.one-trust .one-trust-companies {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-trust .one-trust-company {
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+}
+
+.one-trust .one-trust-company-head,
+.one-trust .one-trust-use {
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 4);
+}
+
+.one-trust .one-trust-company-head .one-trust-note {
+	margin-top: calc(var(--spacing) * 0.5);
+}
+
+.one-trust .one-trust-company-name {
+	font-size: var(--text-base);
+	font-weight: 600;
+	color: var(--ink-gray-9);
+}
+
+.one-trust .one-trust-use {
+	border-top: 1px solid var(--outline-gray-1);
+}
+
+.one-trust .one-trust-use-for {
+	color: var(--ink-gray-8);
+}
+
+.one-trust .one-trust-unused .one-trust-use-for,
+.one-trust .one-trust-unused .one-trust-facts dd {
+	color: var(--ink-gray-5);
+}
+
+/* A long page's name takes a second line rather than being cut. */
+.one-docs-tree .one-docs-row .settings-dialog-tab-label {
+	white-space: normal;
+	text-align: start;
+}
+
+/* How many wait on a page (TrustCenter's Requests), at the row's end. */
+.one-docs-row .one-docs-waiting {
+	margin-inline-start: auto;
 }

@@ -41,10 +41,28 @@ def device(agent: str | None) -> str:
 	return browser or system or _("An unknown device")
 
 
+def kind(agent: str | None) -> str:
+	"""What a user agent is held in: "phone", "tablet" or "computer". Pure."""
+	agent = agent or ""
+	if "iPad" in agent or "Tablet" in agent or ("Android" in agent and "Mobile" not in agent):
+		return "tablet"
+	if "Mobile" in agent or "iPhone" in agent or "Android" in agent:
+		return "phone"
+	return "computer"
+
+
 def key(sid: str) -> str:
 	"""A session as the page names it. The page never sees a session id: one
 	in the browser is one a script there could read. Pure."""
 	return hashlib.sha256(sid.encode()).hexdigest()[:16]
+
+
+def hash_sid(sid: str) -> str:
+	"""A session id as frappe keeps it in Sessions: hashed, so the table
+	never holds one a browser could use."""
+	from frappe.sessions import hash_sid as hashed
+
+	return hashed(sid)
 
 
 def sessions(user: str | None = None) -> list[dict]:
@@ -60,7 +78,7 @@ def sessions(user: str | None = None) -> list[dict]:
 		(user, get_expired_threshold()),
 		as_dict=True,
 	)
-	return grouped([_place(row) for row in rows], frappe.session.sid)
+	return grouped([_place(row) for row in rows], hash_sid(frappe.session.sid))
 
 
 def _place(row) -> dict:
@@ -71,6 +89,7 @@ def _place(row) -> dict:
 	return {
 		"sid": row.sid,
 		"device": device(data.get("user_agent")),
+		"kind": kind(data.get("user_agent")),
 		"address": data.get("session_ip") or "",
 		"last_used": row.lastupdate,
 	}
@@ -87,6 +106,7 @@ def grouped(places: list[dict], here: str | None) -> list[dict]:
 			{
 				"key": key(f"{one['device']}|{one['address']}"),
 				"device": one["device"],
+				"kind": one.get("kind", "computer"),
 				"address": one["address"],
 				"count": 0,
 				"last_used": one["last_used"],
@@ -120,7 +140,7 @@ def recent(user: str | None = None) -> list[dict]:
 def facts(user: str | None = None) -> dict:
 	"""Everything the Sign-in page shows, and what OneAI reads to answer
 	whether the account is safe."""
-	from frappe.twofactor import two_factor_is_enabled
+	from frappe.twofactor import get_default, two_factor_is_enabled
 
 	from onedesk.one_account import devices
 	from onedesk.one_hr import own, policy
@@ -144,9 +164,65 @@ def facts(user: str | None = None) -> dict:
 		"two_factor_method": frappe.get_system_settings("two_factor_method")
 		if two_factor_is_enabled(user)
 		else None,
+		"two_factor_ready": bool(get_default(user + "_otplogin")),
 		"sessions": sessions(user),
 		"recent": recent(user),
 	}
+
+
+def way_in(user: str) -> str:
+	"""How a person signs in, at its strongest: "passkey", "two_factor" (on and
+	set up), "two_factor_pending" (asked for, not set up yet) or "password"."""
+	from frappe.twofactor import get_default, two_factor_is_enabled
+
+	from onedesk.one_hr import passkey as keys
+
+	if keys.held(user):
+		return "passkey"
+	if two_factor_is_enabled(user):
+		return "two_factor" if get_default(user + "_otplogin") else "two_factor_pending"
+	return "password"
+
+
+def warnings(said: dict) -> list[str]:
+	"""What is weak about how the person signs in, in plain words, worst
+	first: somebody else trying their password, then a password that has
+	never changed with no passkey beside it. Pure."""
+	out = []
+	failed = [one for one in said["recent"] if one["failed"]]
+	if failed:
+		out.append(
+			_("Someone got your password wrong {0} times, last {1}. If it wasn't you, change your password.").format(
+				len(failed), frappe.utils.pretty_date(failed[0]["on"])
+			)
+			if len(failed) > 1
+			else _("Someone got your password wrong {0}. If it wasn't you, change your password.").format(frappe.utils.pretty_date(failed[0]["on"]))
+		)
+	if not said["password_changed"] and not said["passkey"]:
+		out.append(_("Your password has never been changed and you have no passkey."))
+	return out
+
+
+@frappe.whitelist(methods=["POST"])
+def reset_two_factor() -> None:
+	"""The person's own authenticator forgotten, for a new phone."""
+	forget_two_factor(frappe.session.user)
+
+
+def forget_two_factor(user: str) -> None:
+	"""A person's authenticator forgotten: they scan a new code the next time
+	they sign in, and are told it happened. What frappe's reset_otp_secret
+	clears, without its mail, whose job frappe enqueues with an argument rq
+	refuses."""
+	from frappe.twofactor import clear_default
+
+	from onedesk.one import tell
+
+	if not frappe.db.get_single_value("System Settings", "enable_two_factor_auth"):
+		frappe.throw(_("Two-factor sign-in is off for the workspace."))
+	clear_default(user + "_otplogin")
+	clear_default(user + "_otpsecret")
+	tell.two_factor_reset(user)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -163,8 +239,8 @@ def sign_out(key_of: str) -> int:
 	ended = 0
 	for row in mine:
 		one = _place(row)
-		if key(f"{one['device']}|{one['address']}") == key_of and row.sid != frappe.session.sid:
-			delete_session(row.sid, frappe.session.user, reason="Signed out from Settings")
+		if key(f"{one['device']}|{one['address']}") == key_of and row.sid != hash_sid(frappe.session.sid):
+			delete_session(user=frappe.session.user, reason="Signed out from Settings", sid_hash=row.sid)
 			ended += 1
 	return ended
 

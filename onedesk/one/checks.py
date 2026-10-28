@@ -1,5 +1,5 @@
 """One's part of the integration suite (one_demo/check.py runs it): its
-roles, and the Recycle Bin's Everyone's Deletions."""
+roles, the Recycle Bin's Everyone's Deletions, and drawn pictures."""
 
 import frappe
 
@@ -45,110 +45,78 @@ def one_manager_sees_what_anybody_deleted():
 
 
 @check
-def the_bin_shows_what_was_deleted_by_day_and_puts_it_back():
-	"""Nadia deletes a note; the bin's island lists it under Deleted, finds it
-	by its words, and Put Back brings it back under Put Back. She sees only
-	what she deleted, and is offered no Everyone's."""
+def the_bin_lists_what_was_deleted_and_puts_it_back():
+	"""Nadia deletes a to-do; frappe's Deleted Document list, the Recycle Bin,
+	shows it to her and nobody else's, and Restore (recycle.bulk_restore)
+	brings it back, marking the row restored."""
 	from onedesk.one import recycle
 
 	with as_user("nadia@one.test"):
-		note = frappe.get_doc(
-			{"doctype": "ToDo", "description": "Bin check: call the glass supplier"}
-		).insert()
+		note = frappe.get_doc({"doctype": "ToDo", "description": "Bin check: call the glass supplier"}).insert()
 		frappe.delete_doc("ToDo", note.name)
-		ours = lambda rows: next((one for one in rows if one["title"] in (note.name, note.description)), None)  # noqa: E731
-		said = recycle.read(kind="ToDo")
-		assert not said["everyone"], "Nadia is offered everyone's deletions"
-		row = ours(said["rows"])
-		assert row and row["mine"] and row["kind"], said["rows"]
-		assert said["counts"]["deleted"] >= 1 and any(one["doctype"] == "ToDo" for one in said["kinds"])
-		assert all(one["mine"] for one in recycle.read(whose="everyone")["rows"]), (
-			"Nadia sees somebody else's deletion"
+		rows = frappe.get_list(
+			"Deleted Document",
+			filters={"deleted_doctype": "ToDo", "restored": 0},
+			fields=["name", "deleted_name", "owner"],
+			limit=500,
 		)
-		got = recycle.bulk_restore([row["name"]])
-		assert got["restored"] == [row["name"]], got
-		back = ours(recycle.read(state="restored", kind="ToDo")["rows"])
-		assert back and back["new_name"] and back["back_on"] >= back["on"], back
-		frappe.delete_doc("ToDo", back["new_name"])
+		row = next((one for one in rows if one.deleted_name == note.name), None)
+		assert row, rows
+		assert not recycle._everyone("nadia@one.test")
+		assert all(one.owner == "nadia@one.test" for one in rows), "Nadia sees somebody else's deletion"
+		got = recycle.bulk_restore([row.name])
+		assert got["restored"] == [row.name], got
+		back = frappe.db.get_value("Deleted Document", row.name, ["restored", "new_name"], as_dict=True)
+		assert back.restored and back.new_name, back
+		frappe.delete_doc("ToDo", back.new_name)
 
 
 @check
 def announcements_show_now_and_earlier_and_who_saw_them():
-	"""Layla posts an announcement: it is under Showing Now for Samir, who
-	sees no one's name and cannot stop it; Layla sees who has seen it, stops
-	it, and it moves to Earlier."""
+	"""Layla posts an announcement with no end: it is given one a week out, so
+	it is under Showing Now (Note's list, Show Until after now) for Samir, who
+	cannot stop it; Layla stops it and it is under Earlier."""
+	from frappe.utils import now_datetime
+
 	from onedesk.one import announcements
 
 	with as_user(OWNER):
 		note = frappe.get_doc(
-			{
-				"doctype": "Note",
-				"title": "Check: lift out of service",
-				"content": "<p>Use the stairs.</p>",
-				"public": 1,
-				"notify_on_login": 1,
-			}
+			{"doctype": "Note", "title": "Check: lift out of service", "content": "<p>Use the stairs.</p>", "public": 1}
 		).insert()
+		assert note.expire_notification_on and not note.notify_on_login, note.as_dict()
+	shown = lambda op: frappe.get_list(  # noqa: E731
+		"Note", filters={"public": 1, "expire_notification_on": [op, now_datetime()]}, pluck="name"
+	)
 	with as_user("samir@one.test"):
-		said = announcements.read()
-		row = next(one for one in said["rows"] if one["name"] == note.name)
-		assert row["running"] and row["seen"] is None and not said["posts"], row
-		assert "Use the stairs." in row["html"]
+		assert note.name in shown(">") and note.name not in shown("<=")
 		try:
 			announcements.stop(note.name)
 			raise AssertionError("Samir stopped an announcement")
 		except frappe.PermissionError:
 			frappe.clear_last_message()
 	with as_user(OWNER):
-		said = announcements.read()
-		assert said["posts"] and said["people"] > 1
-		assert isinstance(next(one for one in said["rows"] if one["name"] == note.name)["seen"], list)
 		announcements.stop(note.name)
-		row = next(one for one in announcements.read()["rows"] if one["name"] == note.name)
-		assert not row["running"] and row["ended"], row
+		assert note.name in shown("<=") and note.name not in shown(">")
 		frappe.delete_doc("Note", note.name)
 
 
 @check
-def dashboards_are_under_the_app_they_are_about_for_who_works_in_it():
-	"""Mariam, who works in OneHR, reads OneHR's dashboards and no other app's;
-	Layla, who administers, reads every app's, Attendance under OneHR; a
-	dashboard with nothing in it is nobody's to read."""
-	from onedesk.one import dashboards
-
-	with as_user("mariam@one.test"):
-		hers = dashboards.read()["rows"]
-		assert hers and {one["app"] for one in hers} <= {"OneHR", dashboards.HERE}, hers
-		assert any(one["name"] == "Human Resource" for one in hers)
+def the_address_book_is_frappes_contacts_and_addresses():
+	"""The rail's Contacts and Addresses are frappe's Contact and Address
+	lists, and Acme Holdings' billing address and Jordan Blake both belong to
+	Acme under Links."""
+	rail = {one.label: one for one in frappe.get_all("Sidebar Item", filters={"parent": "One", "parenttype": "Sidebar"}, fields=["label", "link_type", "link_to"])}
+	assert (rail["Contacts"].link_type, rail["Contacts"].link_to) == ("DocType", "Contact"), rail["Contacts"]
+	assert (rail["Addresses"].link_type, rail["Addresses"].link_to) == ("DocType", "Address"), rail["Addresses"]
 	with as_user(OWNER):
-		said = dashboards.read()["rows"]
-		apps = {one["app"] for one in said}
-		assert {"OneHR", "OneCRM", "OneBook", "OneInventory"} <= apps, apps
-		assert next(one["app"] for one in said if one["name"] == "Attendance") == "OneHR"
-		assert all(one["charts"] or one["cards"] for one in said)
-
-
-@check
-def the_address_book_shows_a_person_with_their_places_and_a_place_with_its_people():
-	"""Acme Holdings' billing address is in the Address Book with Acme as who
-	it belongs to, and Jordan Blake, Acme's contact, beside it; opened from
-	Jordan, the same address is among their places. A search narrows the
-	list."""
-	from onedesk.one import address_book
-
-	with as_user(OWNER):
-		place = next(one for one in address_book.read("addresses", "Acme")["rows"] if one["links"])
-		assert {"doctype": "Customer", "name": "Acme Holdings", "title": "Acme Holdings"} in place["links"], (
-			place
-		)
-		there = address_book.one("addresses", place["name"])
-		assert "91 Park Avenue" in there["text"] and there["people"], there
-		person = there["people"][0]
-		theirs = address_book.one("contacts", person["name"])
-		assert any(one["name"] == place["name"] for one in theirs["places"]), theirs["places"]
-		assert all(
-			"Acme" in (one["title"] + one["sub"]) for one in address_book.read("addresses", "Acme")["rows"]
-		)
+		for doctype in ("Address", "Contact"):
+			linked = frappe.get_list(
+				doctype,
+				filters=[["Dynamic Link", "link_doctype", "=", "Customer"], ["Dynamic Link", "link_name", "=", "Acme Holdings"]],
+				pluck="name",
+			)
+			assert linked, doctype
 
 
 @check
@@ -171,3 +139,41 @@ def ones_rail_leaves_out_what_the_reader_cannot_open():
 	assert "Workspace" not in mariam and "Lists" not in mariam and "Profile" in mariam, mariam
 	assert huda[huda.index("Workspace") + 1 :] == ["Plan and Credits"], huda
 	assert {"Lists", "General", "People", "Access", "Audit Log", "Devices", "Domains"} <= set(layla), layla
+
+
+@check
+def a_record_with_no_picture_gets_one_drawn_and_keeps_its_own():
+	"""A style picked for contacts in One's settings (avatars.save) draws a
+	picture for a new contact with none, locally; one with its own picture
+	keeps it; changing the style redraws only the drawn one, and None takes
+	it off. The workspace's own choice is put back after."""
+	from onedesk.one import avatars
+	from onedesk.one_mail import faces
+
+	before = frappe.db.get_default(avatars.KEY)
+	keys = {one["key"] for one in avatars.styles()}
+	assert {"lorelei", "shapes", "initials"} <= keys, sorted(keys)
+	assert set(avatars.gallery("Contact")) == keys
+	plain = frappe.get_doc({"doctype": "Contact", "first_name": "Drawn", "last_name": "Check"}).insert(ignore_permissions=True)
+	own = frappe.get_doc(
+		{"doctype": "Contact", "first_name": "Own", "last_name": "Picture", "image": "/files/own-picture.png"}
+	).insert(ignore_permissions=True)
+	try:
+		frappe.db.set_default(avatars.KEY, '{"Contact": "lorelei"}')
+		drawn = faces.dress("Contact", plain.name)
+		assert drawn and avatars.style_of(drawn) == "lorelei", drawn
+		assert "<metadata" in open(frappe.get_site_path("public", drawn.lstrip("/")), encoding="utf-8").read(), "no credit in the picture"
+		assert not faces.dress("Contact", own.name)
+		avatars.pick("Contact", "initials")
+		avatars.fill("Contact")
+		assert avatars.style_of(frappe.db.get_value("Contact", plain.name, "image")) == "initials"
+		assert frappe.db.get_value("Contact", own.name, "image") == "/files/own-picture.png"
+		frappe.db.set_default(avatars.KEY, "{}")
+		avatars.fill("Contact")
+		assert not frappe.db.get_value("Contact", plain.name, "image")
+		assert frappe.db.get_value("Contact", own.name, "image") == "/files/own-picture.png"
+	finally:
+		frappe.db.set_default(avatars.KEY, before or "{}")
+		for name in (plain.name, own.name):
+			frappe.delete_doc("Contact", name, ignore_permissions=True, force=True)
+		avatars.fill("Contact")

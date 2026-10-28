@@ -12,7 +12,7 @@ from a sick note.
 | What | Where it is switched on |
 | --- | --- |
 | A mailbox | OneMail's **Settings**, the mailbox, then **OneAI** |
-| A folder | **What OneAI Reads**, under You, then **Add Folder** |
+| A folder | AICenter's **What It Reads**, then **Add Folder** |
 | Every mailbox and folder at once | [AICenter](settings) under **Reading**, for an administrator |
 
 OneAI only does what the person who switched it on may do. Only you can

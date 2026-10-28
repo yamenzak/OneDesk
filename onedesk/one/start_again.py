@@ -1,4 +1,4 @@
-"""Start Again, in One's ControlCenter › General: ERPNext's Transaction
+"""Start Again, in One's ControlCenter › Company: ERPNext's Transaction
 Deletion Record, for a workspace that tried One with made-up records.
 
 ERPNext asks for its System Manager at every step, the operator's role, so

@@ -231,7 +231,7 @@ def pay(request: str, key: str) -> dict:
 		frappe.throw(frappe._("That plan is no longer on offer. Start again."))
 	from onedesk.one_admin import stripe
 
-	return {"pay_at": stripe.checkout(asked.name)}
+	return {"checkout": stripe.checkout(asked.name)}
 
 
 def let_go(asked) -> None:
@@ -308,4 +308,4 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 	from onedesk.one_admin import sales, stripe
 
 	sales.signed_up(asked.name)
-	return {"request": asked.name, "pay_at": stripe.checkout(asked.name)}
+	return {"request": asked.name, "checkout": stripe.checkout(asked.name)}

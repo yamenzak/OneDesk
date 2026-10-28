@@ -37,6 +37,7 @@
   "r2_key_id",
   "r2_secret",
   "stripe_section",
+  "stripe_publishable_key",
   "stripe_secret_key",
   "column_break_stripe",
   "stripe_webhook_secret",
@@ -214,6 +215,12 @@
    "fieldtype": "Section Break",
    "label": "Stripe",
    "description": "Checkout and webhook credentials. The webhook secret is required; signature checks fail without it."
+  },
+  {
+   "fieldname": "stripe_publishable_key",
+   "fieldtype": "Data",
+   "label": "Publishable Key",
+   "description": "pk_live_… or pk_test_…. Pages see it; it only draws checkouts the secret key made."
   },
   {
    "fieldname": "stripe_secret_key",
@@ -405,7 +412,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-20 02:00:00.000000",
+ "modified": "2026-10-27 20:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

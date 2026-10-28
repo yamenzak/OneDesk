@@ -301,7 +301,9 @@ def dress_later(doc, method=None) -> None:
 		if other and not frappe.db.get_value(*other, DRESSED[other[0]][0]):
 			frappe.db.set_value(*other, DRESSED[other[0]][0], doc.get(field), update_modified=False)
 		return
-	if not sources_of(doc) and not _other_record(doc):
+	from onedesk.one import avatars
+
+	if not sources_of(doc) and not _other_record(doc) and not avatars.style_for(doc.doctype):
 		return
 	frappe.enqueue(
 		"onedesk.one_mail.faces.dress",
@@ -324,14 +326,19 @@ def picture(key: str) -> str | None:
 
 
 def dress(doctype: str, name: str) -> str | None:
-	"""Give a record without a picture the first one its sources have."""
+	"""Give a record without a picture the first one its sources have, or
+one drawn in its record type's style."""
 	doc = frappe.get_doc(doctype, name)
 	field = DRESSED[doctype][0]
 	if doc.get(field):
 		return None
 	image = borrowed(doc) or next((found for key in sources_of(doc) if (found := picture(key))), None)
 	if not image:
-		return None
+		# Nothing of theirs and nothing on Gravatar: a picture drawn here,
+		# when the workspace picked a style for the record type (one/avatars.py).
+		from onedesk.one import avatars
+
+		return avatars.dress(doctype, name)
 	frappe.db.set_value(doctype, name, field, image, update_modified=False)
 	if doctype == "Company":
 		from onedesk.one_studio import letter_heads

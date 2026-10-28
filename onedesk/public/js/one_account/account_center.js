@@ -20,15 +20,24 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		return $(`<div class="one-shell-body one-account-body" data-tour="account-section"></div>`).appendTo(this.panel.body.empty());
 	}
 
+	// Profile's parts (center.PROFILE_PARTS): each draws only its own fields
+	// from one load, so its Save sends only those.
+	part(data, names, rows, opts = {}) {
+		const all = [...data.fields, ...(data.employee ? data.employee.fields : [])];
+		const shown = new Set(names);
+		return this.form({ ...data, fields: all.filter((one) => shown.has(one.fieldname)) }, { rows, ...opts });
+	}
+
+	static facts(list) {
+		const esc = frappe.utils.escape_html;
+		return `<dl class="os-facts">${list.map((one) => `<dt>${esc(one.label)}</dt><dd>${esc(String(one.value))}</dd>`).join("")}</dl>`;
+	}
+
 	draw_profile(data) {
 		const esc = frappe.utils.escape_html;
 		const image = data.values.user_image;
 		const employee = data.employee;
 		const job = employee ? employee.work.filter((one) => ["designation", "department"].includes(one.fieldname)).map((one) => one.value) : [];
-		const check = onedesk.oneai.button(
-			__("Check My Profile"),
-			__("Look at my profile and my employee record, if I have one. What is empty or looks out of date, and what is each of those used for?")
-		);
 		const who = `<div class="os-who os-who-large">
 			<button class="btn-reset os-photo" data-photo="1" title="${esc(__("Change Photo"))}">
 				${frappe.ui.avatar.html({ label: data.full_name, image, size: "3xl" })}
@@ -39,48 +48,21 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				<div class="one-shell-quiet">${[data.email, ...job].map(esc).join(" · ")}</div>
 				<div class="os-who-actions">${onedesk.shell.button(image ? __("Change Photo") : __("Add Photo"), { "data-photo": "1" }, "ghost")}${
 					image ? onedesk.shell.button(__("Remove Photo"), { "data-unphoto": "1" }, "ghost") : ""
-				}${check}</div>
+				}</div>
 			</div>
 		</div>`;
-		const facts = (list) =>
-			`<dl class="os-facts">${list.map((one) => `<dt>${esc(one.label)}</dt><dd>${esc(String(one.value))}</dd>`).join("")}</dl>`;
-		const bio = onedesk.oneai.button(
-			__("Write With OneAI"),
-			__("Write a short bio for my profile from my job, my department and what I work on, and suggest it as a change to my profile I can approve.")
-		);
 		const rows = [
-			["first_name", "last_name"],
+			["first_name", "middle_name", "last_name"],
 			["gender", "birth_date"],
 			["mobile_no", "location"],
 			["bio", ""],
-			{ html: `<div class="one-shell-actions os-under-field">${bio}</div>` },
 			{ heading: __("Language and Time") },
 			["language", "time_zone"],
+			{ heading: __("Your Data") },
+			{ html: this.your_data(data.privacy) },
 		];
-		if (employee) {
-			rows.push(
-				{ heading: __("Employment"), note: __("Managed by HR.") },
-				{ html: facts(employee.work) },
-				{ heading: __("Address") },
-				["current_address", "permanent_address"],
-				["personal_email", ""],
-				{ heading: __("Emergency Contact") },
-				["person_to_be_contacted", "relation", "emergency_phone_number"],
-				{ heading: __("Personal Details"), note: __("Only you and HR see these.") },
-				["marital_status", "blood_group"]
-			);
-			if (employee.bank.length) rows.push({ heading: __("Bank Details"), note: __("Only HR can change this.") }, { html: facts(employee.bank) });
-		}
-		rows.push(
-			{
-				heading: __("Your Data"),
-			},
-			{ html: this.your_data(data.privacy) }
-		);
-		const $card = this.form(
-			{ ...data, fields: [...data.fields.filter((one) => one.fieldname !== "user_image"), ...(employee ? employee.fields : [])] },
-			{ before: who, rows }
-		);
+		const names = ["first_name", "middle_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone"];
+		const $card = this.part(data, names, rows, { before: who });
 		$card.find(".os-photo .es-avatar__fallback").text(frappe.get_abbr(data.full_name || ""));
 		const photo = (user_image) => this.save({ ...this.values(), user_image });
 		$card.find("[data-photo]").on("click", () => {
@@ -94,7 +76,69 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			});
 		});
 		$card.find("[data-unphoto]").on("click", () => photo(""));
+		this.write_bio($card);
 		this.your_data_actions($card, data.privacy);
+	}
+
+	draw_personal(data) {
+		this.part(
+			data,
+			["current_address", "permanent_address", "personal_email", "prefered_contact_email", "person_to_be_contacted", "relation", "emergency_phone_number", "marital_status", "blood_group"],
+			[
+				{ heading: __("Address") },
+				["current_address", "permanent_address"],
+				["personal_email", "prefered_contact_email"],
+				{ heading: __("Emergency Contact") },
+				["person_to_be_contacted", "relation", "emergency_phone_number"],
+				{ heading: __("Private"), note: __("Only you and HR see these.") },
+				["marital_status", "blood_group"],
+			]
+		);
+	}
+
+	draw_work(data) {
+		const employee = data.employee;
+		const rows = [
+			{ heading: __("Employment"), note: __("Managed by HR.") },
+			{ html: AccountSection.facts(employee.work) },
+			{ heading: __("Education") },
+			["education"],
+			{ heading: __("Past Work") },
+			["external_work_history"],
+		];
+		if (employee.bank.length) rows.push({ heading: __("Bank Details"), note: __("Only HR can change this.") }, { html: AccountSection.facts(employee.bank) });
+		this.part(data, ["education", "external_work_history"], rows);
+	}
+
+	// Your Files: the person's Employee room in OneCloud (one_storage), where
+	// a scan on a row lands when Profile saves, and where they may add more.
+	draw_documents(data) {
+		const $card = this.part(data, ["one_documents"], [
+			["one_documents"],
+			{ heading: __("Your Files"), note: __("Scans and papers HR keeps for you. Add any here.") },
+			{ html: `<div class="one-account-files" data-your-files></div>` },
+		]);
+		onedesk.mount_cloud($card.find("[data-your-files]"), { room: `@records/Employee/${data.employee.name}` });
+	}
+
+	// Write My Bio (one_account/ai.py): on Bio's label row, at its end, opening
+	// OneAI's quick panel; Use puts the words in the field, unsaved.
+	write_bio($card) {
+		const html = onedesk.oneai.action("write_bio", __("Write My Bio"), { css_class: "one-ai-field-action" });
+		const field = this.group.fields_dict.bio;
+		if (!html || !field) return;
+		const $label = field.$wrapper.find(".control-label").first();
+		const $button = $(html);
+		$(`<div class="one-field-head"></div>`).insertBefore($label).append($label, $button);
+		onedesk.oneai.quick($button, {
+			title: __("Write My Bio"),
+			ask: __("Say a little about yourself and your work."),
+			run: (told) => frappe.xcall("onedesk.one_account.ai.write_bio", { told }),
+			use: (words) => {
+				this.group.set_value("bio", words);
+				this.check();
+			},
+		});
 	}
 
 	your_data(state) {
@@ -160,58 +204,75 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		});
 	}
 
+	// Sign-in (one_account/signin.py): what is weak, said plainly; then the
+	// ways in, a tile each; then where the person is signed in.
 	draw_signin(data) {
 		const esc = frappe.utils.escape_html;
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
-		const safe = onedesk.oneai.button(
-			__("Is My Account Safe?"),
-			__("Is my account safe? Look at how I sign in and where I am signed in, and tell me what to do.")
-		);
-		const intro = `<div class="one-shell-section"><div class="os-notify-intro">${safe}</div></div>`;
-		const row = (title, quiet, actions = "") => onedesk.shell.row({ title, quiet, actions });
+		const tile = ({ icon, title, state, theme, text, action = "" }) => `<div class="os-way">
+				<div class="os-way-head"><span class="os-way-icon">${frappe.utils.icon(icon, "md")}</span>
+				<span class="os-way-title">${esc(title)}</span>${frappe.ui.badge.html({ label: state, theme })}</div>
+				<div class="os-way-text">${esc(text)}</div>
+				${action ? `<div class="os-way-actions">${action}</div>` : ""}
+			</div>`;
 
-		const password = onedesk.shell.section(
-			__("Password and Two-Factor"),
-			row(
-				esc(__("Password")),
-				esc(data.password_changed ? __("Changed {0}", [when(data.password_changed)]) : __("Never changed")),
-				onedesk.shell.button(__("Change Password"), { "data-password": "1" }, "subtle", "key-round")
-			) +
-				row(
-					esc(__("Two-Factor Authentication")),
-					esc(
-						data.two_factor
-							? __("Uses {0}. Set by your workspace.", [__(data.two_factor_method || "OTP App")])
-							: __("Set by your workspace.")
-					),
-					frappe.ui.badge.html({ label: data.two_factor ? __("On") : __("Off"), theme: data.two_factor ? "green" : "gray" })
-				)
-		);
+		const password = tile({
+			icon: "key-round",
+			title: __("Password"),
+			state: data.password_changed ? __("Changed {0}", [when(data.password_changed)]) : __("Never changed"),
+			theme: data.password_changed ? "gray" : "orange",
+			text: __("Asked for when you sign in without a passkey."),
+			action: onedesk.shell.button(__("Change Password"), { "data-password": "1" }, "subtle"),
+		});
 
-		const passkey =
-			data.passkey || data.passkey_signs_in || data.passkey_clocks
-				? onedesk.shell.section(
-						__("Passkey"),
-						row(
-							frappe.ui.badge.html({ label: data.passkey ? __("Registered") : __("Not registered"), theme: data.passkey ? "green" : "gray" }),
-							esc((data.passkeys || []).map((one) => one.label).join(" · ")),
-							data.add_here || !data.passkey
-								? onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle", "fingerprint")
-								: data.passkey_clocks
-								? ""
-								: onedesk.shell.button(__("Remove"), { "data-passkey-remove": "1" }, "ghost", "trash-2")
-						),
-						data.passkey_clocks
-							? data.passkey_signs_in
-								? __("Signs you in without a password, and checks you in.")
-								: __("Used to check in.")
-							: __("Signs you in with your face, fingerprint or screen lock instead of a password.")
-				  )
-				: "";
+		const by = data.two_factor_method === "Email" ? __("A code sent to your email after your password.") : __("A code from an authenticator app on your phone after your password.");
+		const two_factor = tile({
+			icon: "shield-check",
+			title: __("Two-Factor"),
+			state: data.two_factor ? __("On") : __("Off"),
+			theme: data.two_factor ? "green" : "gray",
+			text: data.two_factor
+				? data.two_factor_ready || data.two_factor_method === "Email"
+					? by
+					: __("You set up your authenticator app the next time you sign in.")
+				: __("Your workspace hasn't turned it on."),
+			action:
+				data.two_factor && data.two_factor_ready && data.two_factor_method !== "Email"
+					? onedesk.shell.button(__("New Phone"), { "data-two-factor-reset": "1" }, "subtle")
+					: !data.two_factor && data.administers
+					? onedesk.shell.button(__("Turn On for the Workspace"), { "data-two-factor-on": "1" }, "subtle")
+					: "",
+		});
+
+		const offered = data.passkey || data.passkey_signs_in || data.passkey_clocks;
+		const passkey = offered
+			? tile({
+					icon: "fingerprint-pattern",
+					title: __("Passkey"),
+					state: data.passkey ? __("Registered") : __("Not registered"),
+					theme: data.passkey ? "green" : "gray",
+					text: data.passkey
+						? __("On {0}.", [(data.passkeys || []).map((one) => one.label).join(", ")])
+						: data.passkey_clocks && !data.passkey_signs_in
+						? __("Checks you in with your face, fingerprint or screen lock.")
+						: __("Signs you in with your face, fingerprint or screen lock instead of a password."),
+					action:
+						data.add_here || !data.passkey
+							? onedesk.shell.button(__("Register This Device"), { "data-passkey": "1" }, "subtle")
+							: data.passkey_clocks
+							? ""
+							: onedesk.shell.button(__("Remove"), { "data-passkey-remove": "1" }, "ghost"),
+			  })
+			: "";
 
 		this.$content.html(
-			intro + password + passkey + `<div class="one-shell-section" data-list="places"></div><div class="one-shell-section" data-list="recent"></div>`
+			`<div class="one-shell-section" data-warnings></div>
+			<div class="one-shell-section"><div class="os-ways">${password}${two_factor}${passkey}</div></div>
+			<div class="one-shell-section" data-list="places"></div><div class="one-shell-section" data-list="recent"></div>`
 		);
+		const $warnings = this.$content.find("[data-warnings]");
+		(data.warnings || []).forEach((text) => $warnings.append(onedesk.alert({ text, colour: "orange" })));
+		if (!(data.warnings || []).length) $warnings.remove();
 		onedesk.shell.table(this.$content.find('[data-list="places"]'), {
 			title: __("Active Sessions"),
 			rows: data.sessions,
@@ -258,6 +319,14 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			});
 			dialog.show();
 		});
+		this.$content.find("[data-two-factor-reset]").on("click", () =>
+			frappe.confirm(__("Set up two-factor again on a new phone? Your old phone's codes stop working, and you scan a new code the next time you sign in."), async () => {
+				await frappe.xcall("onedesk.one_account.signin.reset_two_factor");
+				frappe.show_alert({ message: __("Set it up again the next time you sign in"), indicator: "green" });
+				this.open("signin");
+			})
+		);
+		this.$content.find("[data-two-factor-on]").on("click", () => onedesk.centers.open("settings", { at: "signin" }));
 		this.$content.find("[data-passkey]").on("click", async () => {
 			await onedesk.passkey.register();
 			this.open("signin");
@@ -283,13 +352,20 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		);
 	}
 
+	// A device as a list shows it: what it is (signin.kind) as an icon, then
+	// its name.
+	static device(kind, html) {
+		const icon = { phone: "smartphone", tablet: "tablet", computer: "monitor" }[kind] || "monitor";
+		return `<div class="os-device"><span class="os-device-icon">${frappe.utils.icon(icon, "md")}</span><div>${html}</div></div>`;
+	}
+
 	static session_columns(last = null) {
 		const esc = frappe.utils.escape_html;
 		return [
 			{
 				label: __("Device"),
 				render: (one) =>
-					esc(one.device) +
+					AccountSection.device(one.kind, esc(one.device)) +
 					(one.count > 1 ? ` <span class="one-shell-quiet">${esc(__("{0} sessions", [one.count]))}</span>` : ""),
 			},
 			{ label: __("Address"), fieldname: "address" },
@@ -323,7 +399,6 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		);
 		this.page.set_primary_action(__("Invite People"), () => this.invite_dialog(data), "plus");
 		onedesk.shell.table(this.$content.find('[data-list="people"]'), {
-			title: __("People"),
 			rows: data.people.map((one) => ({ ...one, search: `${one.full_name} ${one.name}` })),
 			icon: "users",
 			empty: __("No people"),
@@ -336,24 +411,8 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 						<div><div class="os-person-name">${esc(one.full_name || one.name)}${one.enabled ? "" : ` ${frappe.ui.badge.html({ label: __("Disabled"), theme: "gray" })}`}</div>
 						<div class="one-shell-quiet">${esc(one.name)}</div></div></div>`,
 				},
-				{
-					label: __("Apps"),
-					render: (one) => {
-						const said = (level) => levels[level] || level;
-						const theme = (level) => (level === "Manager" ? "blue" : level === "User" ? "gray" : "purple");
-						const held = new Set(data.apps.map((app) => one.access[app.name]));
-						if (held.size === 1 && !held.has("None") && levels[[...held][0]]) {
-							const [level] = held;
-							return frappe.ui.badge.html({ label: __("All Apps · {0}", [said(level)]), theme: theme(level) });
-						}
-						return (
-							data.apps
-								.filter((app) => one.access[app.name] && one.access[app.name] !== "None")
-								.map((app) => frappe.ui.badge.html({ label: `${app.name} · ${said(one.access[app.name])}`, theme: theme(one.access[app.name]) }))
-								.join(" ") || `<span class="one-shell-quiet">${esc(__("Standard Apps"))}</span>`
-						);
-					},
-				},
+				{ label: __("Apps"), render: (one) => `<span class="os-people-apps">${esc(AccountSection.apps_said(one.access, data.apps, levels))}</span>` },
+				{ label: __("Sign-in"), render: (one) => AccountSection.way_in(one.way_in) },
 				{ label: __("Administrator"), render: (one) => (one.admin ? frappe.ui.badge.html({ label: __("Administrator"), theme: "orange" }) : "") },
 				{
 					label: __("Last Active"),
@@ -361,6 +420,32 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				},
 			],
 		});
+	}
+
+	// A person's apps in one line: every app at one level, or the highest
+	// level first with the apps at it, and how many more.
+	static apps_said(access, apps, levels) {
+		const held = apps.filter((app) => access[app.name] && access[app.name] !== "None");
+		if (!held.length) return __("Standard apps");
+		const at = [...new Set(held.map((app) => access[app.name]))];
+		const said = (level) => levels[level] || level;
+		if (at.length === 1 && held.length === apps.length) return __("{0} in every app", [said(at[0])]);
+		const top = ["Manager", "User"].find((level) => at.includes(level)) || at[0];
+		const names = held.filter((app) => access[app.name] === top).map((app) => app.name);
+		const more = held.length - Math.min(names.length, 2);
+		const listed = names.slice(0, 2).join(", ");
+		return more > 0 ? __("{0} in {1} +{2}", [said(top), listed, more]) : __("{0} in {1}", [said(top), listed]);
+	}
+
+	// How a person signs in, at its strongest (signin.way_in), as a badge.
+	static way_in(way) {
+		const said = {
+			passkey: [__("Passkey"), "green"],
+			two_factor: [__("Two-Factor"), "green"],
+			two_factor_pending: [__("Two-Factor Not Set Up"), "orange"],
+			password: [__("Password Only"), "gray"],
+		}[way] || [__("Password Only"), "gray"];
+		return frappe.ui.badge.html({ label: said[0], theme: said[1] });
 	}
 
 	draw_person(data) {
@@ -381,6 +466,20 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 							done(__("Signed out everywhere."));
 						}),
 				},
+				...(["two_factor", "two_factor_pending"].includes(one.way_in)
+					? [
+							{
+								label: __("Reset Two-Factor"),
+								group: __("Actions"),
+								action: () =>
+									frappe.confirm(__("Reset two-factor for {0}? Their old phone's codes stop working, and they set it up again the next time they sign in.", [esc(name)]), async () => {
+										await frappe.xcall(AccountSection.API + "reset_two_factor", { user: one.name });
+										this.refresh({ fresh: true });
+										done(__("Two-factor reset"));
+									}),
+							},
+					  ]
+					: []),
 				{
 					label: __("Send Password Reset"),
 					group: __("Actions"),
@@ -439,6 +538,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				title: name,
 				sub: esc(one.name),
 				groups: [
+					{ label: __("Signs In With"), html: AccountSection.way_in(one.way_in) },
 					{
 						label: __("Links"),
 						html: one.employee ? `<a class="one-record-link" href="${frappe.utils.get_form_link("Employee", one.employee)}">${esc(__("Employee Record"))}</a>` : "",
@@ -567,36 +667,20 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		const account = data.account || {};
 		const number = (value) => format_number(value || 0, null, 0);
 		const money = (value) => format_currency(value || 0, account.plan_currency || "USD", 0);
+		// Not connected to its account: what it last said, if anything, and
+		// nothing that has to ask the account (changing, paying, invoices).
+		const known = Boolean(account.last_heard);
+		const called = account.workspace_name || frappe.boot.sysdefaults?.company || __("This Workspace");
 		// Somebody who may only see the plan (OneAccount's Plan and Credits)
 		// reads it; changing it, paying and closing are an administrator's.
-		if (data.admin) this.page.set_primary_action(__("Change Plan"), () => this.change_plan(), "arrow-up-down");
+		if (data.admin && data.linked) this.page.set_primary_action(__("Change Plan"), () => this.change_plan(), "arrow-up-down");
 		this.$content = onedesk.shell.record(this.$content, {
 			page: this.page,
 			status: data.state,
-			side: onedesk.shell.side({
-				initials: frappe.get_abbr(account.workspace_name || "One"),
-				title: account.workspace_name || __("This Workspace"),
-				sub: account.plan ? esc(__("{0} plan", [account.plan])) : "",
-				groups: [
-					{
-						label: __("Links"),
-						html: `<ul class="list-unstyled sidebar-menu">${[
-							data.admin && ["#people", __("People")],
-							["/desk/onecloud", __("OneCloud")],
-							data.admin && ["/desk/query-report/AI Credits", __("Credit Usage")],
-						]
-							.filter(Boolean)
-							.map(([href, label]) => `<li><a class="one-record-link" href="${esc(href)}">${esc(label)}</a></li>`)
-							.join("")}</ul>`,
-					},
-				],
-				meta: [account.last_heard ? __("As of {0}", [frappe.datetime.prettyDate(account.last_heard)]) : __("Not synced yet")],
-			}),
-			actions: data.admin
+			actions: data.admin && data.linked
 				? [
-						{ label: __("Storage, Database or Seats"), action: () => this.add_to_plan(data), group: __("Add") },
-						{ label: __("OneAI Credits"), action: () => this.buy_credits(), group: __("Add") },
-						{ label: __("Payment Method"), action: () => this.payment_portal() },
+						{ label: __("Payment Method"), action: () => this.change_card() },
+						{ label: __("Billing Details"), action: () => this.payment_portal() },
 						{ label: __("Billing Owner"), action: () => this.move_billing(account) },
 						{ label: __("Check Again"), action: () => this.check_again() },
 				  ]
@@ -607,24 +691,97 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				.filter(([, value]) => value)
 				.map(([label, value]) => `<dt>${esc(label)}</dt><dd>${value}</dd>`)
 				.join("")}</dl>`;
-		const seats = account.seats ? __("{0} of {1} used", [data.used, account.seats]) : __("{0} used, no limit", [data.used]);
-		const bar = (label, used, limit, said) => {
-			if (!limit) return "";
-			const share = (100 * (used || 0)) / limit;
-			return frappe.ui.progress.html({
-				label,
-				value: Math.min(100, Math.round(share)),
-				hint: () => __("{0} of {1}", [said.used, said.limit]),
-				size: "md",
-				css_class: share > 100 ? "os-bar-over" : share >= 90 ? "os-bar-near" : "",
-			});
-		};
-		const storage = bar(__("Storage"), account.storage_bytes, account.storage_limit, data.storage);
-		const database = bar(__("Database"), account.database_bytes, account.database_limit, data.database);
+		// What the plan holds, a tile each, with how to get more of it right
+		// there: buying asks the account, so only an administrator of a
+		// connected workspace sees the buttons.
+		const buying = data.admin && data.linked;
 		const add_ons = (data.add_ons || []).length;
-		const expiring = account.credits_expiring
-			? esc(__("{0} on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]))
-			: "";
+		const meter = ({ icon, title, used, of, share, text, href, buy, kind }) => {
+			const over = share > 100, near = share >= 90;
+			return `<div class="os-way os-meter">
+				<div class="os-way-head"><span class="os-way-icon">${frappe.utils.icon(icon, "md")}</span>
+				<span class="os-way-title">${esc(title)}</span>${
+					share == null ? "" : over ? frappe.ui.badge.html({ label: __("Full"), theme: "red" }) : near ? frappe.ui.badge.html({ label: __("Nearly Full"), theme: "orange" }) : ""
+				}</div>
+				<${href ? `a href="${esc(href)}"` : "div"} class="os-meter-figure">${esc(used)}${of ? ` <span>${esc(of)}</span>` : ""}</${href ? "a" : "div"}>
+				${share == null ? "" : frappe.ui.progress.html({ value: Math.min(100, Math.round(share)), size: "md", css_class: over ? "os-bar-over" : near ? "os-bar-near" : "" })}
+				<div class="os-way-text">${esc(text || "")}</div>
+				${buying ? `<div class="os-way-actions">${onedesk.shell.button(buy, { "data-buy": kind }, "subtle")}</div>` : ""}
+			</div>`;
+		};
+		const share = (used, limit) => (Number(limit) ? (100 * (Number(used) || 0)) / Number(limit) : null);
+		const credits_said = [
+			account.credits_month && __("{0} used in the last 30 days", [number(account.credits_month)]),
+			account.credits_held && __("{0} reserved", [number(account.credits_held)]),
+			account.credits_expiring && __("{0} expire on {1}", [number(account.credits_expiring), frappe.datetime.str_to_user(account.credits_expires_on)]),
+		].filter(Boolean);
+		// The plan itself: its name and price, what it holds, who pays.
+		const holds = [
+			account.seats && __("{0} seats", [number(account.seats)]),
+			Number(account.storage_limit) && __("{0} storage", [data.storage.limit]),
+			Number(account.database_limit) && __("{0} database", [data.database.limit]),
+			add_ons && (add_ons === 1 ? __("1 add-on") : __("{0} add-ons", [add_ons])),
+		].filter(Boolean);
+		const plan = `<div class="os-plan">
+			<div class="os-plan-mark">${frappe.utils.icon("gem", "lg")}</div>
+			<div class="os-plan-body">
+				<div class="os-plan-name">${esc(account.plan ? __("{0} Plan", [account.plan]) : called)}</div>
+				${holds.length ? `<div class="os-plan-holds">${esc(holds.join(" · "))}</div>` : ""}
+				<div class="os-plan-meta">${esc(
+					[
+						account.billed_to && __("Billed to {0}", [frappe.user.full_name(account.billed_to)]),
+						account.last_heard ? __("As of {0}", [frappe.datetime.prettyDate(account.last_heard)]) : __("Not synced yet"),
+					]
+						.filter(Boolean)
+						.join(" · ")
+				)}</div>
+			</div>
+			${account.monthly ? `<div class="os-plan-price">${esc(money(account.monthly))}<span>${esc(__("a month"))}</span></div>` : ""}
+		</div>`;
+		const meters = `<div class="os-ways os-meters">${[
+			meter({
+				icon: "users",
+				title: __("Seats"),
+				used: number(data.used),
+				of: account.seats ? __("of {0}", [number(account.seats)]) : __("no limit"),
+				share: share(data.used, account.seats),
+				text: __("People turned on take a seat."),
+				href: data.admin ? "#people" : "",
+				buy: __("Add Seats"),
+				kind: "seats",
+			}),
+			meter({
+				icon: "hard-drive",
+				title: __("Storage"),
+				used: data.storage.used,
+				of: Number(account.storage_limit) ? __("of {0}", [data.storage.limit]) : __("no limit"),
+				share: share(account.storage_bytes, account.storage_limit),
+				text: __("Files in OneCloud and on records."),
+				href: "/desk/onecloud",
+				buy: __("Add Storage"),
+				kind: "storage_gb",
+			}),
+			meter({
+				icon: "database",
+				title: __("Database"),
+				used: data.database.used,
+				of: Number(account.database_limit) ? __("of {0}", [data.database.limit]) : __("no limit"),
+				share: share(account.database_bytes, account.database_limit),
+				text: __("Every record in the workspace."),
+				buy: __("Add Database"),
+				kind: "database_gb",
+			}),
+			meter({
+				icon: "sparkles",
+				title: __("OneAI Credits"),
+				used: number(account.credits_balance),
+				of: __("left"),
+				share: null,
+				text: credits_said.length ? credits_said.join(" · ") : __("Monthly credits are used first. Bought credits never expire."),
+				buy: __("Buy Credits"),
+				kind: "credits",
+			}),
+		].join("")}</div>`;
 		const closing = data.closing || {};
 		const closes = closing.closing_on
 			? __("The workspace closes on {0} and is deleted on {1}.", [
@@ -632,46 +789,50 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					closing.deleted_on ? frappe.datetime.str_to_user(closing.deleted_on) : __("a later date"),
 			  ])
 			: "";
+		const unlinked = data.linked
+			? ""
+			: `<div class="one-record-news">${frappe.ui.alert.html({
+					title: known
+						? __("Not connected to its account. Last heard {0}. Seats, storage and credits can be bought once it's connected.", [frappe.datetime.prettyDate(account.last_heard)])
+						: __("This workspace isn't connected to its account yet, so its plan, invoices and credits can't be shown."),
+					theme: "yellow",
+			  })}</div>`;
+		if (!data.linked && !known) {
+			this.$content.html(unlinked + (data.admin ? this.closing_section(closing) : ""));
+			this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
+			return;
+		}
 		this.$content.html(
+			unlinked +
 			(closes ? `<div class="one-record-news">${frappe.ui.alert.html({ title: closes, theme: "red" })}</div>` : "") +
 			(data.said ? `<div class="one-record-news">${frappe.ui.alert.html({ title: data.said.text, theme: data.said.colour === "red" ? "red" : "yellow" })}</div>` : "") +
 				onedesk.shell.section(
 					__("Plan"),
-					facts([
-						[__("Plan"), esc(account.plan || "")],
-						[__("Monthly"), account.monthly ? esc(money(account.monthly)) : ""],
-						[__("Billed To"), esc(account.billed_to || "")],
-						[__("Seats"), `<a href="#people">${esc(seats)}</a>`],
-					]) +
-						(storage ? `<a class="os-bar" href="/desk/onecloud">${storage}</a>` : "") +
-						(database ? `<div class="os-bar">${database}</div>` : "") +
+					plan +
+						meters +
 						(add_ons ? '<div class="os-add-ons" data-list="add-ons"></div>' : "")
 				) +
-				onedesk.shell.section(
-					__("Invoices"),
-					'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Loading…")) + "</div></div>"
-				) +
-				onedesk.shell.section(
-					__("OneAI Credits"),
-					facts([
-						[__("Balance"), esc(number(account.credits_balance))],
-						[__("Reserved"), account.credits_held ? esc(number(account.credits_held)) : ""],
-						[__("Used (Last 30 Days)"), account.credits_month ? esc(number(account.credits_month)) : ""],
-						[__("Expiring"), expiring],
-					]),
-					__("Monthly credits are used first. Bought credits never expire.")
-				) +
-				onedesk.shell.section(
-					__("Ledger"),
-					data.ledger
-						? '<div data-list="ledger"></div>'
-						: `<div class="one-shell-quiet">${esc(data.linked ? __("Couldn't load the ledger.") : __("Not Connected Yet"))}</div>`,
-					__("Last {0} days.", [data.ledger_days])
-				) +
+				(data.linked
+					? onedesk.shell.section(
+							__("Invoices"),
+							'<div data-list="invoices"><div class="one-shell-quiet">' + esc(__("Loading…")) + "</div></div>"
+					  )
+					: "") +
+				(data.linked
+					? onedesk.shell.section(
+							__("Credits Ledger"),
+							data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("Couldn't load the ledger."))}</div>`,
+							__("Last {0} days. Monthly credits are used first. Bought credits never expire.", [data.ledger_days])
+					  )
+					: "") +
 				(data.admin ? this.closing_section(closing) : "")
 		);
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
-		this.draw_invoices(this.$content.find('[data-list="invoices"]'));
+		this.$content.find("[data-buy]").on("click", (event) => {
+			const kind = $(event.currentTarget).attr("data-buy");
+			kind === "credits" ? this.buy_credits() : this.add_to_plan(data, kind);
+		});
+		if (data.linked) this.draw_invoices(this.$content.find('[data-list="invoices"]'));
 		if (add_ons) {
 			onedesk.shell.table(this.$content.find('[data-list="add-ons"]'), {
 				title: __("Add-ons"),
@@ -683,7 +844,9 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					{
 						label: "",
 						render: (one) =>
-							`<div class="one-shell-row-actions" data-add-on="${esc(one.offering)}">${onedesk.shell.button(
+							!(data.admin && data.linked)
+								? ""
+								: `<div class="one-shell-row-actions" data-add-on="${esc(one.offering)}">${onedesk.shell.button(
 								one.quantity > 1 ? __("Remove One") : __("Remove"),
 								{ "data-drop": "1" },
 								"ghost"
@@ -875,6 +1038,39 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		if (said && said.url) window.open(said.url, "_blank", "noopener");
 	}
 
+	async change_card() {
+		const said = await frappe.xcall("onedesk.one_account.bills.change_card");
+		if (!said || !said.checkout) return;
+		this.pay(said.checkout, __("Payment Method"), () =>
+			frappe.show_alert({ message: __("Card saved. The next invoice is paid with it."), indicator: "green" })
+		);
+	}
+
+	// Stripe's Checkout drawn in a dialog (public/js/one_pay.js): nobody
+	// leaves One to pay. `done` runs once Stripe says it is paid or saved.
+	async pay(checkout, title, done) {
+		await frappe.require("/assets/onedesk/js/one_pay.js");
+		const dialog = new frappe.ui.Dialog({ title, size: "large", fields: [{ fieldtype: "HTML", fieldname: "pay" }] });
+		const $at = dialog.fields_dict.pay.$wrapper.addClass("os-pay");
+		$at.html(`<div class="one-shell-quiet">${frappe.utils.escape_html(__("Loading…"))}</div>`);
+		let drawn = null;
+		dialog.onhide = () => drawn && drawn.destroy();
+		dialog.show();
+		try {
+			const into = $('<div class="os-pay-form"></div>').appendTo($at.empty())[0];
+			drawn = await window.onePay(into, checkout, {
+				locale: frappe.boot.lang || "auto",
+				done: () =>
+					setTimeout(() => {
+						dialog.hide();
+						done && done();
+					}, 1500),
+			});
+		} catch (e) {
+			$at.html(frappe.ui.alert.html({ title: __("Payment Form Not Loaded"), description: __("Check the connection and try again."), theme: "red" }));
+		}
+	}
+
 	move_billing(account) {
 		const dialog = new frappe.ui.Dialog({
 			title: __("Billing Owner"),
@@ -964,12 +1160,14 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		show();
 	}
 
-	async add_to_plan(data) {
+	async add_to_plan(data, kind) {
 		const account = data.account || {};
 		const said = await frappe.xcall("onedesk.one.account.plans_offered");
 		const esc = frappe.utils.escape_html;
 		const money = (value) => format_currency(value || 0, said.currency, 0);
-		const sold = said.add_ons_sold || [];
+		const all = said.add_ons_sold || [];
+		const of_kind = kind ? all.filter((one) => one[kind]) : [];
+		const sold = of_kind.length ? of_kind : all;
 		if (!sold.length) return frappe.msgprint(__("No add-ons available"));
 		const dialog = new frappe.ui.Dialog({
 			title: __("Add to Plan"),
@@ -1057,6 +1255,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					fieldtype: "Select",
 					label: __("Pack"),
 					reqd: 1,
+					default: packs[0].name,
 					options: packs.map((one) => ({
 						value: one.name,
 						label: __("{0} credits · {1}", [format_number(one.credits, null, 0), format_currency(one.amount, one.currency, 0)]),
@@ -1065,66 +1264,73 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			],
 			primary_action_label: __("Continue to Payment"),
 			primary_action: async (values) => {
+				const pack = packs.find((one) => one.name === values.pack);
 				const said = await frappe.xcall("onedesk.one.account.buy_credits", { pack: values.pack });
 				dialog.hide();
-				const url = said && (said.pay_at || said.url);
-				if (!url) return;
-				window.open(url, "_blank");
-				$(window).one("focus", () => this.key === "plan" && this.check_again());
+				if (!said || !said.checkout) return;
+				this.pay(said.checkout, __("Buy {0} Credits", [format_number(pack ? pack.credits : said.credits, null, 0)]), () => {
+					frappe.show_alert({ message: __("Paid. The credits arrive in a moment."), indicator: "green" });
+					this.check_again();
+				});
 			},
 		});
 		dialog.show();
 	}
 
+	// Devices (one_account/devices.py): the company's computers and phones,
+	// then the browsers nobody has named yet, then every passkey. A device
+	// opens to be named, sorted, marked lost or retired.
 	draw_devices(data) {
 		const esc = frappe.utils.escape_html;
 		const when = (value) => (value ? frappe.datetime.prettyDate(value) : "");
 		const rows = data.devices || [];
+		const ours = rows.filter((one) => one.use);
+		const others = rows.filter((one) => !one.use);
 		const uses = { Shared: __("Shared"), Assigned: __("Assigned") };
+		const name = (one) =>
+			AccountSection.device(
+				one.kind,
+				`<div>${esc(one.device_name)} ${one.here ? frappe.ui.badge.html({ label: __("This Browser"), theme: "blue" }) : ""}</div>${
+					one.asset ? `<div class="one-shell-quiet">${esc(one.asset_name || one.asset)}</div>` : ""
+				}`
+			);
+		const seen = (one) => `<div>${esc(one.seen_by)}</div><div class="one-shell-quiet">${esc([when(one.last_seen), one.last_address].filter(Boolean).join(" · "))}</div>`;
+		const keys = (one) => (one.passkeys ? esc(String(one.passkeys)) : "");
 		this.$content.html(
-			onedesk.shell.section(__("Devices"), '<div data-list="devices"></div>') +
+			`<div class="one-shell-section" data-list="ours"></div>` +
+				(others.length
+					? onedesk.shell.section(__("Other Browsers"), '<div data-list="others"></div>', __("Browsers someone signed in on that nobody has named. Unnamed ones are forgotten after a month unseen."))
+					: "") +
 				onedesk.shell.section(__("Passkeys"), '<div data-list="passkeys"></div>')
 		);
-		onedesk.shell.table(this.$content.find('[data-list="devices"]'), {
-			rows,
+		onedesk.shell.table(this.$content.find('[data-list="ours"]'), {
+			rows: ours,
 			icon: "monitor-smartphone",
-			empty: __("Nobody has signed in yet"),
+			empty: __("No company devices yet. Open a browser under Other Browsers to name it."),
+			open: (one) => this.edit_device(one),
 			columns: [
-				{
-					label: __("Name"),
-					render: (one) =>
-						`<div>${esc(one.device_name)} ${one.here ? frappe.ui.badge.html({ label: __("This Browser"), theme: "blue" }) : ""}</div>${
-							one.asset ? `<div class="one-shell-quiet">${esc(one.asset_name || one.asset)}</div>` : ""
-						}`,
-				},
-				{
-					label: __("Used By"),
-					render: (one) =>
-						one.use
-							? `${frappe.ui.badge.html({ label: uses[one.use], theme: one.use === "Shared" ? "orange" : "blue" })} ${esc(one.holder)}`
-							: `<span class="one-shell-quiet">${esc(__("Not set"))}</span>`,
-				},
-				{
-					label: __("Last Seen"),
-					render: (one) => `<div>${esc(one.seen_by)}</div><div class="one-shell-quiet">${esc([when(one.last_seen), one.last_address].filter(Boolean).join(" · "))}</div>`,
-				},
-				{ label: __("Passkeys"), render: (one) => esc(String(one.passkeys || 0)) },
-				{
-					label: "",
-					render: (one) =>
-						`<div class="one-shell-row-actions" data-device="${esc(one.name)}">${onedesk.shell.button(__("Edit"), { "data-edit": "1" }, "ghost", "pencil")}${onedesk.shell.button(
-							__("Lost"),
-							{ "data-lost": "1" },
-							"ghost",
-							null,
-							"red"
-						)}${onedesk.shell.button(__("Retire"), { "data-retire": "1" }, "ghost")}</div>`,
-				},
+				{ label: __("Name"), render: name },
+				{ label: __("Used By"), render: (one) => `${frappe.ui.badge.html({ label: uses[one.use], theme: one.use === "Shared" ? "orange" : "blue" })} ${esc(one.holder)}` },
+				{ label: __("Last Seen"), render: seen },
+				{ label: __("Passkeys"), render: keys },
 			],
 		});
+		if (others.length) {
+			onedesk.shell.table(this.$content.find('[data-list="others"]'), {
+				rows: others,
+				page_size: 10,
+				icon: "monitor-smartphone",
+				open: (one) => this.edit_device(one),
+				columns: [
+					{ label: __("Browser"), render: name },
+					{ label: __("Last Seen"), render: seen },
+					{ label: __("Passkeys"), render: keys },
+				],
+			});
+		}
 		onedesk.shell.table(this.$content.find('[data-list="passkeys"]'), {
 			rows: data.passkeys || [],
-			icon: "fingerprint",
+			icon: "fingerprint-pattern",
 			empty: __("Nobody has a passkey yet"),
 			columns: [
 				{ label: __("Person"), render: (one) => esc(one.person) },
@@ -1145,6 +1351,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			],
 		});
 		this.$content.on("click", "[data-retire-passkey]", (event) => {
+			event.stopPropagation();
 			const passkey = $(event.currentTarget).closest("[data-passkey]").attr("data-passkey");
 			const one = (data.passkeys || []).find((key) => key.name === passkey);
 			frappe.confirm(__("Retire {0}'s passkey?", [esc(one.person)]), async () => {
@@ -1152,28 +1359,14 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				this.refresh();
 			});
 		});
-		const of = (event) => rows.find((one) => one.name === $(event.currentTarget).closest("[data-device]").attr("data-device"));
-		this.$content.on("click", "[data-edit]", (event) => this.edit_device(of(event)));
-		this.$content.on("click", "[data-lost]", (event) => {
-			const one = of(event);
-			frappe.confirm(__("Mark {0} as lost? Everyone on it is signed out.", [esc(one.device_name)]), async () => {
-				await frappe.xcall("onedesk.one_account.devices.lost", { device: one.name });
-				frappe.show_alert({ message: __("Marked as lost"), indicator: "green" });
-				this.refresh();
-			});
-		});
-		this.$content.on("click", "[data-retire]", (event) => {
-			const one = of(event);
-			frappe.confirm(__("Retire {0}?", [esc(one.device_name)]), async () => {
-				await frappe.xcall("onedesk.one_account.devices.retire", { device: one.name });
-				this.refresh();
-			});
-		});
 	}
 
+	// One device: its name, who uses it and the asset it is; and, at the
+	// foot, Lost (everyone on it signed out, its passkeys off) and Retire.
 	edit_device(one) {
+		const esc = frappe.utils.escape_html;
 		const dialog = new frappe.ui.Dialog({
-			title: __("Edit Device"),
+			title: one.use ? __("Edit Device") : __("Make a Company Device"),
 			fields: [
 				{ fieldname: "device_name", fieldtype: "Data", label: __("Name"), reqd: 1, default: one.device_name },
 				{
@@ -1198,6 +1391,24 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				this.refresh();
 			},
 		});
+		dialog.add_custom_action(__("Retire"), () =>
+			frappe.confirm(__("Retire {0}? It leaves the list, and passkeys on it stop working.", [esc(one.device_name)]), async () => {
+				await frappe.xcall("onedesk.one_account.devices.retire", { device: one.name });
+				dialog.hide();
+				this.refresh();
+			})
+		);
+		dialog.add_custom_action(
+			__("Lost"),
+			() =>
+				frappe.confirm(__("Mark {0} as lost? Everyone on it is signed out.", [esc(one.device_name)]), async () => {
+					await frappe.xcall("onedesk.one_account.devices.lost", { device: one.name });
+					dialog.hide();
+					frappe.show_alert({ message: __("Marked as lost"), indicator: "green" });
+					this.refresh();
+				}),
+			"btn-danger"
+		);
 		dialog.show();
 	}
 
@@ -1207,34 +1418,53 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		const rows = data.domains || [];
 		const given = rows.find((one) => one.given);
 		const primary = rows.find((one) => one.primary) || given;
-		this.page.set_primary_action(__("Add Domain"), () => this.add_domain(target), "plus");
-		this.page.add_inner_button(__("Check Again"), async () => {
-			await frappe.xcall("onedesk.one.account.domains_refresh");
-			this.refresh();
-		});
+		// Adding, removing and the main address ask the account, so a
+		// workspace not connected to it shows what it last said and no more.
+		const changing = Boolean(data.linked);
+		if (changing) {
+			this.page.set_primary_action(__("Add Domain"), () => this.add_domain(target), "plus");
+			this.page.add_inner_button(__("Check Again"), async () => {
+				await frappe.xcall("onedesk.one.account.domains_refresh");
+				this.refresh();
+			});
+		}
 		const waiting = rows.filter((one) => !one.given && one.status !== "Active").map((one) => one.domain);
+		const unlinked = changing
+			? ""
+			: `<div class="one-record-news">${frappe.ui.alert.html({
+					title: rows.length
+						? __("This workspace isn't connected to its account. These are the addresses it last said, {0}. Adding or removing one waits until it's connected.", [
+								frappe.datetime.prettyDate(data.last_heard),
+						  ])
+						: __("This workspace isn't connected to its account yet, so its addresses can't be shown."),
+					theme: "yellow",
+			  })}</div>`;
+		if (!rows.length && !changing) return this.$content.html(unlinked);
+		// The main address first, as the plan is on Plan and Credits: where
+		// sign-in, invitations and links in emails send people.
+		const main = primary
+			? `<div class="os-plan">
+				<div class="os-plan-mark">${frappe.utils.icon("globe", "lg")}</div>
+				<div class="os-plan-body">
+					<div class="os-plan-name">${esc(primary.domain)}</div>
+					<div class="os-plan-holds">${esc(__("The main address. Sign-in, invitations and links in emails use it."))}</div>
+					${given && given !== primary ? `<div class="os-plan-meta">${esc(__("{0} always works too.", [given.domain]))}</div>` : ""}
+				</div>
+				${frappe.ui.button.html({ label: __("Open"), variant: "outline", attrs: { "data-open-domain": `https://${primary.domain}` } })}
+			</div>`
+			: "";
 		this.$content.html(
-			onedesk.shell.section(
-				__("Addresses"),
-				`<div data-list="domains"></div>${
-					primary
-						? `<div class="one-shell-quiet one-shell-note">${esc(
-								__("{0} is the main address.", [primary.domain])
-						  )}</div>`
-						: ""
-				}`,
-				__("{0} always works.", [
-					given ? given.domain : "",
-				])
-			) +
-				(target
+			unlinked +
+				onedesk.shell.section(__("Addresses"), main + '<div class="os-domains" data-list="domains"></div>') +
+				(target && waiting.length
 					? onedesk.shell.section(
 							__("DNS Records"),
-							AccountSection.dns_records(waiting.length ? waiting : [null], target) + AccountSection.dns_note(waiting),
-							waiting.length ? __("Takes effect a few minutes after it's added.") : ""
+							AccountSection.dns_records(waiting, target) + AccountSection.dns_note(waiting),
+							__("Add these at your DNS provider. Each address works a few minutes after its records are found.")
 					  )
 					: "")
 		);
+		this.$content.find("[data-open-domain]").on("click", (event) => window.open($(event.currentTarget).attr("data-open-domain"), "_blank", "noopener"));
 		const states = { Active: [__("Working"), "green"], Pending: [__("Waiting"), "orange"] };
 		const said = (one) =>
 			one.status === "Active"
@@ -1242,8 +1472,8 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				: one.problem
 				? one.problem
 				: one.status === "Pending"
-				? __("Waiting for the DNS record below.")
-				: __("Not working. Check the DNS record below, then remove the domain and add it again.");
+				? __("Waiting for the DNS records below.")
+				: __("Not working. Check the DNS records below, then remove the domain and add it again.");
 		onedesk.shell.table(this.$content.find('[data-list="domains"]'), {
 			rows,
 			icon: "globe",
@@ -1266,9 +1496,11 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				{
 					label: "",
 					render: (one) =>
-						`<div class="one-shell-row-actions" data-domain="${esc(one.domain)}">${
-							!one.primary && one.status === "Active" ? onedesk.shell.button(__("Make Main Address"), { "data-primary": "1" }, "ghost") : ""
-						}${!one.given && !one.primary ? onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost", null, "red") : ""}</div>`,
+						!changing
+							? ""
+							: `<div class="one-shell-row-actions" data-domain="${esc(one.domain)}">${
+									!one.primary && one.status === "Active" ? onedesk.shell.button(__("Make Main Address"), { "data-primary": "1" }, "ghost") : ""
+							  }${!one.given && !one.primary ? onedesk.shell.button(__("Remove"), { "data-drop": "1" }, "ghost", null, "red") : ""}</div>`,
 				},
 			],
 		});
@@ -1353,13 +1585,29 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 // The sections, in order, each with what it is for under its title. The
 // server says which the reader may open and what each is called.
 onedesk.account_center.SECTIONS = [
-	{ id: "profile", about: __("Your name, photo and language, and your employee details if you have them.") },
+	{ id: "profile", about: __("Your name, photo, bio and language.") },
+	{ id: "personal", about: __("Where you live, who to call and the details only HR sees.") },
+	{ id: "work", about: __("Your job as HR keeps it, and your education and past work.") },
+	{ id: "documents", about: __("Your ID, passport and permits. HR is told when you add or change one.") },
 	{ id: "signin", about: __("Your password, your passkey and where you are signed in.") },
 	{ id: "people", about: __("Everyone in the workspace, and inviting someone new.") },
 	{ id: "devices", about: __("The company's computers and phones, and the passkeys on people's own.") },
 	{ id: "plan", about: __("The plan, its seats and storage, OneAI credits and invoices.") },
 	{ id: "domains", about: __("The addresses the workspace answers on.") },
 ];
+
+// The help page each tab is explained on (one_account/docs).
+onedesk.account_center.HELP = {
+	profile: "your-account",
+	personal: "your-account",
+	work: "your-account",
+	documents: "your-account",
+	signin: "your-account",
+	people: "people-and-devices",
+	devices: "people-and-devices",
+	plan: "plan-and-credits",
+	domains: "plan-and-credits",
+};
 
 // AccountCenter: Yours for everybody, Workspace for administrators. `at`
 // opens one section, and `record` one record in it, such as a person. It
@@ -1393,7 +1641,8 @@ onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 		center: { center: "account", label: frappe.session.user_fullname, icon: "user" },
 		tabs,
 		default_tab: ids.includes(at) ? at : ids.find((id) => id !== "getting_started"),
-		expand: false,
+		// Help opens at the page for the tab being read.
+		help: (tab) => ["OneAccount", onedesk.account_center.HELP[tab] || "overview"],
 	});
 	dialog.$wrapper.addClass("one-set one-account");
 	dialog.$wrapper.find(".settings-dialog-sidebar").wrapInner('<div class="one-account-tabs" data-tour="account-tabs"></div>');

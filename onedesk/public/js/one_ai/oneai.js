@@ -172,6 +172,61 @@ onedesk.oneai.button = (label, ask, opts = {}) =>
 		css_class: ["one-ai-button", opts.css_class].filter(Boolean).join(" "),
 	});
 
+// OneAI's actions (one_ai/actions.py): a button that does one thing in place,
+// drawn only while its action is on in AICenter.
+onedesk.oneai.on = (key) => onedesk.apps.ai() && !!(frappe.boot.one_ai_actions || {})[key];
+
+onedesk.oneai.action = (key, label, opts = {}) =>
+	!onedesk.oneai.on(key)
+		? ""
+		: $(
+				frappe.ui.button.html({
+					variant: "subtle",
+					size: "sm",
+					...opts,
+					label,
+					icon_left: "oneai",
+					attrs: { ...(opts.attrs || {}), "data-one-ai-action": key },
+					css_class: ["one-ai-action", opts.css_class].filter(Boolean).join(" "),
+				})
+		  ).attr("data-theme", "oneai")[0].outerHTML;
+
+// Its quick panel, beside the button: what to tell OneAI, then what it
+// wrote, to Use or Try Again. `run(told)` returns the words; `use(words)`
+// puts them where they go. Nothing is saved here.
+onedesk.oneai.quick = ($button, { title, ask, placeholder, run, use }) => {
+	const esc = frappe.utils.escape_html;
+	const $panel = $(`<div class="one-ai-quick"></div>`);
+	let told = "";
+	const button = (label, variant, click) => $(frappe.ui.button.html({ label, variant, size: "sm" })).on("click", click);
+	const head = (line) =>
+		`<div class="es-popover__header"><div class="es-popover__title">${esc(title)}</div>${line ? `<p class="es-popover__description">${esc(line)}</p>` : ""}</div>`;
+	const asking = () => {
+		$panel.empty().append(head(ask));
+		const $text = $(`<textarea class="form-control"></textarea>`).attr({ placeholder: placeholder || "", "aria-label": ask }).val(told).appendTo($panel);
+		$(`<div class="one-ai-quick-actions"></div>`).append(button(__("Write"), "solid", () => write($text.val()))).appendTo($panel);
+		setTimeout(() => $text.trigger("focus"));
+	};
+	const write = async (said) => {
+		told = said || "";
+		$panel.empty().append(head(__("Writing…")));
+		let words = "";
+		try {
+			words = await run(told);
+		} catch (e) {
+			return asking();
+		}
+		$panel.empty().append(head(""));
+		$(`<div class="one-ai-quick-said"></div>`).text(words || __("OneAI wrote nothing. Tell it a little more.")).appendTo($panel);
+		$(`<div class="one-ai-quick-actions"></div>`)
+			.append(button(__("Try Again"), "ghost", () => asking()))
+			.append(words ? button(__("Use"), "solid", () => (use(words), popover.close())) : "")
+			.appendTo($panel);
+	};
+	const popover = new frappe.ui.Popover({ trigger: $button, side: "bottom", align: "end", css_class: "one-ai-quick-panel", content: () => $panel, on_open: () => asking() });
+	return popover;
+};
+
 $(document).on("click", "[data-one-ai-ask]", (event) => {
 	event.preventDefault();
 	const $button = $(event.currentTarget);

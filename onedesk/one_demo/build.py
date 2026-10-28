@@ -14,6 +14,7 @@ DONE = "one_demo_done"
 STEPS = (
 	"setup",
 	"people",
+	"plan",
 	"masters",
 	"stock",
 	"buying",

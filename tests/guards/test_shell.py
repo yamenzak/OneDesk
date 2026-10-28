@@ -62,7 +62,7 @@ USE_THE_SHELL = {
 # home's link), or a center over the desk, and draw nothing.
 OPENS_A_VIEW = {"legal"}
 
-ISLAND_PAGES = {"one", "recycle_bin", "announcements", "dashboards", "address_book", "project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "intake", "onemail", "onecloud"}
+ISLAND_PAGES = {"one", "recycle_bin", "announcements", "address_book", "project_view", "project_template_view", "task_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "intake", "onemail", "onecloud"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
@@ -264,7 +264,7 @@ def test_a_dialog_is_frappes():
 
 def test_every_page_outside_the_desk_wears_the_portal():
 	"""The pages a guest sees (/start, /welcome, the share and request pages,
-	/legal) are frappe's web pages in One's portal look (public/css/portal.css),
+	/legal) are frappe's web pages in One's portal look (public/css/one_portal/portal.css),
 	without frappe's footer, which says "Powered by ERPNext". The portal
 	itself is a frappe-ui app (frontend/portal), whose build writes its page."""
 	pages = sorted((tree.APP / "www").glob("*.html"))

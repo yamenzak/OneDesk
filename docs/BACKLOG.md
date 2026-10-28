@@ -87,6 +87,17 @@ Webhooks are the integration One offers today (Workspace › Webhooks).
 
 Checked against ERPNext while passing OneProject's Time tab.
 
+- **An Overview dashboard of OneProject's own** (decided 2026-10-27, for
+  OneProject's READY walk). ERPNext's Project dashboard has one chart, read
+  from Project Summary, which One disables (`one/declutter.py`), so it is
+  empty and its rail row was taken off. Ours: a frappe `Dashboard`
+  "OneProject" shipped as a fixture in `one_project/`, with number cards for
+  open projects, projects past their expected end and hours logged this
+  month, a chart of open projects by status, and a chart of completion per
+  project from our Project Progress report; Employee Boarding projects left
+  out everywhere. It goes on the rail as **Overview** under Project, the
+  way the other apps' dashboards do (`docs/UI-NOTES.md`).
+
 - **Advance recovered by share**: an advance comes off each invoice in full
   until it is used up. Many building contracts take back a share of each
   bill, say 10%. Today the amount is changed by hand on each invoice.

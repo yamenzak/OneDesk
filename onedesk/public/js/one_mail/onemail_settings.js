@@ -890,7 +890,6 @@ onedesk.mail.settings = (tab) => {
 		items.push(rules_tab(box));
 		// One mailbox is OneMail's ControlCenter, its address under the name.
 		dialog.center = { center: "settings", label: box.email, icon: icon_of(box) };
-		dialog.expand = () => home(from);
 		dialog.reset(
 			[{ items: [{ id: "back", label: __("All Mailboxes"), icon: "arrow-left", render() {} }] }, { items }],
 			items.some((one) => one.id === focus) ? focus : items[0].id
@@ -902,7 +901,6 @@ onedesk.mail.settings = (tab) => {
 	};
 	const home = (tab) => {
 		dialog.center = null;
-		dialog.expand = null;
 		dialog.reset(dialog.home, tab);
 	};
 

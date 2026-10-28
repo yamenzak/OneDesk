@@ -28,6 +28,23 @@ domains. AccountCenter shows all of it.
 
 ## Under the hood
 
+**A person is one person** (`sync.py`). Their User and their Employee hold
+the same name, gender, birth date, mobile, photo and bio; saving either
+copies what changed to the other (User and Employee `on_update`), emptied
+too, under one flag so neither save starts the other. ERPNext's
+`Employee.update_user` copies a few of these one way; this covers all of
+them both ways. Profile saves both records itself, each as it was opened,
+under the same flag. Profile also edits the person's own Education and Past
+Work (ERPNext's tables, `center.HISTORY`), tells HR when either changes, and
+shows the identity documents HR keeps (one_hr's Employee Document) masked,
+with when each runs out. A scan on a document row is moved into the
+person's Employee room in OneCloud when Profile saves (`center._file_scans`:
+only files they uploaded and nothing has claimed), and Documents mounts
+that room as Your Files. A person may add to their own Employee's room
+though they cannot change the record (`one_storage/namespace.may_add`).
+A file request HR sends for a document (OneCloud's, `one_storage/targets.py`)
+lands on this same table, by its Type: Documents knows nothing of requests.
+
 **OneAccount has no window.** AccountCenter is a dialog
 (`public/js/one_account/account_center.js`) that opens from the avatar's menu,
 from a link (`/desk/one?center=account&at=plan`, desk.js `onedesk.centers`)

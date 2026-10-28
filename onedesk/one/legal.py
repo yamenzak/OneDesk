@@ -98,7 +98,7 @@ clause(
 	key="privacy-requests",
 	module=M,
 	body="""
-		In a workspace you can do two of these yourself, under You › Profile › Your Data. You can ask for a
+		In a workspace you can do two of these yourself, under Your Data on your profile in AccountCenter. You can ask for a
 		copy of your data: an administrator reviews it and may leave out only what would show other people's
 		or the organisation's confidential information, and you are told what was left out and why. You can
 		ask for your account to be deleted, confirmed with your password or a link mailed to you: the
@@ -153,20 +153,4 @@ clause(
 		announcement and deleted with it.
 	""",
 	order=30,
-)
-
-
-clause(
-	document="dpa",
-	section="modules",
-	key="portal",
-	module=M,
-	body="""
-		Your workspace can let its customers' and suppliers' contacts sign in to its portal, by inviting them
-		as users from their contact. Each sees only the records linked to their own customer or supplier: a
-		customer's quotations, orders, invoices, shipments, addresses, projects and timesheets; a supplier's
-		requests for quotation, quotes, purchase orders and purchase invoices. Your organisation decides whom
-		to invite and is responsible for what those records say.
-	""",
-	order=40,
 )

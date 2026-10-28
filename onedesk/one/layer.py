@@ -220,6 +220,11 @@ def property_setter(doc, method=None) -> None:
 		and doc.property == frappe.flags.one_default
 	):
 		return
+	# Global Defaults hides or shows the rounded total and the amount in
+	# words on every sale and purchase as its own on_update does
+	# (one/control.py _save_amounts).
+	if frappe.flags.one_amounts and doc.property in ("hidden", "print_hide", "read_only"):
+		return
 	if (
 		frappe.flags.one_named_by
 		and doc.doc_type == frappe.flags.one_named_by

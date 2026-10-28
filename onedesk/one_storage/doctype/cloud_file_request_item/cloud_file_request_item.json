@@ -10,7 +10,8 @@
   "required",
   "several",
   "accept",
-  "fieldname"
+  "fieldname",
+  "row_key"
  ],
  "fields": [
   {
@@ -50,14 +51,20 @@
   {
    "fieldname": "fieldname",
    "fieldtype": "Data",
-   "label": "Record Field",
+   "label": "Saved To",
    "in_list_view": 1,
-   "description": "An attachment field on the record, which the file fills."
+   "description": "The file field on the record, or on one of its tables, the file goes in."
+  },
+  {
+   "fieldname": "row_key",
+   "fieldtype": "Data",
+   "label": "Kind",
+   "description": "Which row of the table the file is for, by its kind. It goes on that row, or a new one."
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2026-09-29 09:00:00.000000",
+ "modified": "2026-10-27 15:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Storage",
  "name": "Cloud File Request Item",

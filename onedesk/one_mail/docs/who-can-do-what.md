@@ -2,7 +2,7 @@
 
 What each person may change in OneMail is their OneMail role. A Workspace
 Administrator sets it in **AccessCenter**, opened from **Roles and Access** at
-the end of OneMail's settings, or on the person's page in **Workspace ›
+the end of OneMail's settings, or on the person's page in **AccountCenter ›
 People**. Workspace Administrators can do everything.
 
 ## The Two Roles

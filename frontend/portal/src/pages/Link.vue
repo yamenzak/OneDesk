@@ -22,7 +22,7 @@ const props = defineProps({ token: { type: String, required: true } });
 const said = ref(null);
 const failed = ref("");
 
-call("onedesk.one.portal_share.link_view", { token: props.token })
+call("onedesk.one_portal.share.link_view", { token: props.token })
   .then((page) => (said.value = page))
   .catch((error) => (failed.value = error?.messages?.[0] || __("This link no longer works. Ask whoever sent it for a new one.")));
 </script>

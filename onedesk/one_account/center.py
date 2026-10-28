@@ -29,6 +29,9 @@ from onedesk.one.people import (
 
 SECTIONS = [
 	("profile", _lt("Profile"), "user", "yours"),
+	("personal", _lt("Personal Details"), "contact-round", "yours"),
+	("work", _lt("Work"), "briefcase-business", "yours"),
+	("documents", _lt("Documents"), "id-card", "yours"),
 	("signin", _lt("Sign-in"), "key-round", "yours"),
 	("people", _lt("People"), "users", "workspace"),
 	("devices", _lt("Devices"), "monitor-smartphone", "workspace"),
@@ -37,6 +40,12 @@ SECTIONS = [
 ]
 
 ON_A_RECORD = ("people",)
+
+# Profile's parts, each its own section, drawn from one load and saved
+# through one saver: a part only sends the fields it shows. All but Profile
+# are an employee's.
+PROFILE_PARTS = ("profile", "personal", "work", "documents")
+EMPLOYEE_PARTS = ("personal", "work", "documents")
 
 
 def _sees_plan() -> bool:
@@ -56,11 +65,12 @@ def _may_open(section: str) -> bool:
 @frappe.read_only()
 def sections_of() -> dict:
 	"""The sections this person may open, and who they are."""
+	employee = bool(_employee())
 	return {
 		"sections": [
 			{"key": key, "label": str(label), "icon": icon, "group": group}
 			for key, label, icon, group in SECTIONS
-			if _may_open(key)
+			if _may_open(key) and (employee or key not in EMPLOYEE_PARTS)
 		],
 		"admin": roles.administers(),
 		"user": frappe.session.user,
@@ -73,7 +83,7 @@ def load(
 	record: Annotated[str | None, "The one record the section is open on, where it lists several."] = None,
 ) -> dict:
 	loaders = {
-		"profile": _profile,
+		**{part: _profile for part in PROFILE_PARTS},
 		"signin": _signin,
 		"people": _people,
 		"plan": _plan,
@@ -96,10 +106,10 @@ def save(
 ) -> dict:
 	values = frappe.parse_json(values) or {}
 	frappe.flags.one_opened = {f"{one['doctype']}:{one['name']}": one["modified"] for one in frappe.parse_json(opened) or []}
-	savers = {"profile": _save_profile, "people": _save_person}
+	savers = {**{part: _save_profile for part in PROFILE_PARTS}, "people": _save_person}
 	if section not in savers:
 		frappe.throw(_("There is nothing to save here."))
-	if section != "profile":
+	if section not in PROFILE_PARTS:
 		roles.require()
 	if section in ON_A_RECORD:
 		record = savers[section](record, values) or record
@@ -112,11 +122,12 @@ def save(
 	return said
 
 
-PROFILE = ("first_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone", "user_image")
+PROFILE = ("first_name", "middle_name", "last_name", "gender", "birth_date", "mobile_no", "location", "bio", "language", "time_zone", "user_image")
 
 
 EMPLOYEE_OWN = (
 	"personal_email",
+	"prefered_contact_email",
 	"current_address",
 	"permanent_address",
 	"person_to_be_contacted",
@@ -133,6 +144,20 @@ TOLD_HR = {
 	"person_to_be_contacted": _lt("emergency contact"),
 	"relation": _lt("emergency contact"),
 	"emergency_phone_number": _lt("emergency contact"),
+	"education": _lt("education"),
+	"external_work_history": _lt("past work"),
+	"one_documents": _lt("documents"),
+}
+
+# The identity documents HR keeps on the Employee (one_hr's Employee
+# Document), which the person adds and renews from their profile too.
+DOCUMENTS = ("document_type", "number", "issued_on", "expires_on", "attachment")
+
+# The person's own CV on their Employee, edited as two tables: each table's
+# columns, and the label it is drawn under.
+HISTORY = {
+	"education": ("Employee Education", ("qualification", "school_univ", "level", "year_of_passing")),
+	"external_work_history": ("Employee External Work History", ("company_name", "designation", "total_experience")),
 }
 
 
@@ -142,7 +167,18 @@ EMERGENCY = ("person_to_be_contacted", "relation", "emergency_phone_number")
 SHARED = {"gender": "gender", "birth_date": "date_of_birth", "mobile_no": "cell_number", "user_image": "image"}
 
 
-AT_WORK = ("name", "designation", "department", "reports_to", "branch", "employment_type", "date_of_joining", "company_email")
+AT_WORK = (
+	"name",
+	"designation",
+	"department",
+	"reports_to",
+	"branch",
+	"employment_type",
+	"date_of_joining",
+	"contract_end_date",
+	"notice_number_of_days",
+	"company_email",
+)
 
 
 TITLES = {"Employee": "employee_name", "Department": "department_name"}
@@ -168,12 +204,120 @@ def _profile() -> dict:
 	if employee:
 		said["values"].update({mine: employee.get(theirs) or said["values"].get(mine) for mine, theirs in SHARED.items()})
 		said["values"].update({name: employee.get(name) for name in EMPLOYEE_OWN})
+		said["values"].update({name: _history_rows(employee, name) for name in HISTORY})
+		said["values"]["one_documents"] = _document_rows(employee)
 		said["employee"] = {
-			"fields": sections.fields("Employee", EMPLOYEE_OWN),
+			"name": employee.name,
+			"fields": sections.fields("Employee", EMPLOYEE_OWN)
+			+ [{**_history_field(name), "data": said["values"][name]} for name in HISTORY]
+			+ [{**_documents_field(employee), "data": said["values"]["one_documents"]}],
 			"work": _facts(employee, AT_WORK),
 			"bank": [{**one, "value": _masked(one["value"])} if one["fieldname"] != "bank_name" else one for one in _facts(employee, BANK)],
 		}
 	return said
+
+
+def _history_field(name: str) -> dict:
+	"""One of the CV tables as the page draws it: its own columns, labelled as
+	ERPNext labels them, under the heading the page gives it rather than a
+	label of its own."""
+	child, columns = HISTORY[name]
+	meta = frappe.get_meta(child)
+	width = 10 // len(columns)
+	return {
+		"fieldname": name,
+		"fieldtype": "Table",
+		"label": "",
+		"description": None,
+		"fields": [
+			{
+				"fieldname": one,
+				"fieldtype": "Data" if meta.get_field(one).fieldtype in ("Small Text", "Text") else meta.get_field(one).fieldtype,
+				"label": _(meta.get_field(one).label),
+				"options": meta.get_field(one).options,
+				"in_list_view": 1,
+				"columns": width,
+			}
+			for one in columns
+		],
+	}
+
+
+def _history_rows(employee, name: str) -> list[dict]:
+	columns = HISTORY[name][1]
+	return [{one: row.get(one) for one in columns} for row in employee.get(name) or []]
+
+
+def _document_rows(employee) -> list[dict]:
+	return [{"name": row.name, **{one: row.get(one) for one in DOCUMENTS}} for row in employee.get("one_documents") or []]
+
+
+def _documents_field(employee) -> dict:
+	"""The identity documents as a table the person edits: its kinds those of
+	the workspace's countries and every country's (one_hr/papers.py), and
+	above it which have run out."""
+	from onedesk.one_hr import papers
+
+	meta = frappe.get_meta("Employee Document")
+	today = frappe.utils.getdate()
+	gone = [
+		_("{0} on {1}").format(_(row.document_type), frappe.utils.formatdate(row.expires_on))
+		for row in employee.get("one_documents") or []
+		if row.expires_on and frappe.utils.getdate(row.expires_on) < today
+	]
+	columns = {"document_type": 3, "number": 2, "issued_on": 2, "expires_on": 2, "attachment": 1}
+	return {
+		"fieldname": "one_documents",
+		"fieldtype": "Table",
+		"label": "",
+		"description": _("Expired: {0}.").format(", ".join(gone)) if gone else None,
+		"fields": [
+			{
+				"fieldname": one,
+				"fieldtype": "Select" if one == "document_type" else meta.get_field(one).fieldtype,
+				"label": _(meta.get_field(one).label),
+				"options": "\n".join(["", *papers.offered()]) if one == "document_type" else meta.get_field(one).options,
+				"in_list_view": 1,
+				"columns": width,
+				"reqd": 1 if one in ("document_type", "number") else 0,
+			}
+			for one, width in columns.items()
+		],
+	}
+
+
+def _keep_documents(employee, rows: list) -> None:
+	"""The person's documents as they left them: a row they kept is changed
+	in place, so what HR set on it (where it was issued) stays; a new one is
+	added; one they removed goes."""
+	held = {row.name: row for row in employee.get("one_documents") or []}
+	kept = []
+	for one in rows or []:
+		if not any(one.get(field) for field in DOCUMENTS):
+			continue
+		row = held.get(one.get("name"))
+		if row:
+			row.update({field: one.get(field) for field in DOCUMENTS})
+			kept.append(row)
+		else:
+			kept.append(employee.append("one_documents", {field: one.get(field) for field in DOCUMENTS}))
+	employee.set("one_documents", kept)
+
+
+def _file_scans(employee) -> None:
+	"""Each scan the person put on a document row moved into their Employee's
+	room in OneCloud, beside their other papers, rather than left loose. Only
+	files they uploaded themselves and nothing has claimed yet: a URL typed
+	into the row cannot pull in somebody else's file."""
+	urls = [row.attachment for row in employee.get("one_documents") or [] if row.attachment]
+	if not urls:
+		return
+	for name in frappe.get_all(
+		"File",
+		filters={"file_url": ["in", urls], "owner": frappe.session.user, "attached_to_name": ["is", "not set"], "is_folder": 0},
+		pluck="name",
+	):
+		frappe.db.set_value("File", name, {"attached_to_doctype": "Employee", "attached_to_name": employee.name, "folder": "Home/Attachments"})
 
 
 def _employee():
@@ -212,6 +356,18 @@ def _masked(value: str) -> str:
 
 
 def _save_profile(values: dict) -> None:
+	"""Both records, each as it was opened, saved here rather than one by the
+	other (sync.py), so neither is changed under the other's check."""
+	from onedesk.one_account import sync
+
+	frappe.flags[sync.FLAG] = True
+	try:
+		_save_both(values, sync)
+	finally:
+		frappe.flags[sync.FLAG] = False
+
+
+def _save_both(values: dict, sync) -> None:
 	user = sections.as_opened(frappe.get_doc("User", frappe.session.user))
 	user.update({name: values[name] for name in PROFILE if name in values})
 	user.save(ignore_permissions=True)
@@ -219,14 +375,22 @@ def _save_profile(values: dict) -> None:
 	if not employee:
 		return
 	changes = {name: values[name] for name in EMPLOYEE_OWN if name in values}
-	changes.update({theirs: values[mine] for mine, theirs in SHARED.items() if mine in values})
-	was = {name: employee.get(name) for name in TOLD_HR}
+	was = {name: employee.get(name) for name in TOLD_HR if name not in HISTORY}
+	was.update({name: _history_rows(employee, name) for name in HISTORY})
+	was["one_documents"] = _now(employee, "one_documents")
 	sections.as_opened(employee).update(changes)
+	sync.to_employee(user, employee, [one for one in sync.PAIRS if one in values])
+	for name, (_child, columns) in HISTORY.items():
+		if name in values:
+			employee.set(name, [{one: row.get(one) for one in columns} for row in values[name] or [] if any(row.get(one) for one in columns)])
+	if "one_documents" in values:
+		_keep_documents(employee, values["one_documents"])
 	if any(employee.get(name) for name in EMERGENCY) and not (
 		employee.person_to_be_contacted and employee.emergency_phone_number
 	):
 		frappe.throw(_("An emergency contact needs a name and a phone number, so HR can call them."))
 	employee.save(ignore_permissions=True)
+	_file_scans(employee)
 	_tell_hr(employee, was)
 
 
@@ -235,7 +399,9 @@ def _tell_hr(employee, was: dict) -> None:
 	per save, saying what changed. Not the person themselves, if they are HR."""
 	said = list(
 		dict.fromkeys(
-			str(label) for name, label in TOLD_HR.items() if (was.get(name) or "") != (employee.get(name) or "")
+			str(label)
+			for name, label in TOLD_HR.items()
+			if (was.get(name) or "") != _now(employee, name)
 		)
 	)
 	if not said:
@@ -245,10 +411,19 @@ def _tell_hr(employee, was: dict) -> None:
 	hr.employee_details_changed(employee, said)
 
 
+def _now(employee, name: str):
+	if name in HISTORY:
+		return _history_rows(employee, name) or ""
+	if name == "one_documents":
+		return [{key: str(value) if value else value for key, value in row.items()} for row in _document_rows(employee)] or ""
+	return employee.get(name) or ""
+
+
 def _signin() -> dict:
 	from onedesk.one_account import signin
 
-	return signin.facts()
+	said = signin.facts()
+	return {**said, "warnings": signin.warnings(said), "administers": roles.administers()}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -262,6 +437,8 @@ def sign_out_elsewhere() -> int:
 
 def _people(record: str | None = None) -> dict:
 	"""Everybody on the workspace; or the one person the section is open on."""
+	from onedesk.one_account import signin
+
 	if record:
 		return _person_page(record)
 	users = frappe.get_all(
@@ -286,6 +463,7 @@ def _people(record: str | None = None) -> dict:
 				"admin": roles.ADMINISTRATOR in held.get(one.name, set()),
 				"access": listed(held.get(one.name, set()), own),
 				"employee": employees.get(one.name),
+				"way_in": signin.way_in(one.name),
 			}
 			for one in users
 		],
@@ -340,6 +518,7 @@ def _person_page(user: str) -> dict:
 			"employee": frappe.db.get_value("Employee", {"user_id": doc.name}, "name"),
 			"sessions": [] if me else signin.sessions(doc.name),
 			"recent": signin.recent(doc.name),
+			"way_in": signin.way_in(doc.name),
 			"me": me,
 			"holds": access.record_access(doc.name),
 			"kinds": access.kinds_held(),
@@ -374,6 +553,18 @@ def _save_person(record: str, values: dict) -> None:
 		on = None
 	if (on or None) != (doc.get("one_profile") or None):
 		frappe.db.set_value("User", doc.name, "one_profile", on or None, update_modified=False)
+
+
+@frappe.whitelist(methods=["POST"])
+def reset_two_factor(user: Annotated[str, "The person."]) -> dict:
+	"""A person's authenticator forgotten, for a lost or new phone
+	(signin.forget_two_factor)."""
+	roles.require()
+	from onedesk.one_account import signin
+
+	doc = one_of_the_people(user)
+	signin.forget_two_factor(doc.name)
+	return _person_page(doc.name)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -531,6 +722,7 @@ def _domains() -> dict:
 		],
 		"target": held.dns_target,
 		"last_heard": held.last_heard,
+		"linked": account.configured(),
 	}
 
 

@@ -1,0 +1,300 @@
+# UI notes from the walk
+
+Yamen's points from walking every screen, written as rules for the next
+screen. When the walk ends, each one either moves into the UI contract
+(`docs/ONEINTERFACE.md`, `docs/WORDING.md`) or becomes a guard, and this
+file goes.
+
+## Prefer the desk
+
+- **A screen that only lists records is frappe's list, not an island.**
+  The Recycle Bin was a Vue island over Deleted Document; frappe's own list,
+  with Restore in its Actions, does the job. Build a bespoke screen only
+  where it shows something a list can't.
+- **A view of one kind of record split two ways is a field frappe filters
+  by, not tabs, a page or a control we draw.** Announcements is frappe's
+  Note list with a Status (Showing, Ended) marked as a standard filter, so
+  frappe draws it in the filter row itself, colours it in the list, and the
+  list opens on Showing by `listview_settings.filters`. Tabs, a redirect
+  page, a window mechanism and a hand-drawn picker were all tried first;
+  each was customisation nobody needed, and the drawn picker sat oddly in
+  frappe's row.
+- **As natural as possible.** Before drawing anything on a desk view, look
+  for the frappe property that makes frappe draw it: `in_standard_filter`,
+  `in_list_view`, `listview_settings.filters`, `get_indicator`.
+- **Keep what frappe ships unless it is wrong.** The Note form's Edit mode
+  stays. What we change is what doesn't fit One: the sign-in pop-up's two
+  switches are gone, since announcements run along the top bar.
+- **New records open in the window's create dialog**, not frappe's quick
+  entry; it is ours, built on frappe's dialog.
+- **A row that stands for a record opens that record.** Not an Edit button
+  beside it: the row, its title, the whole card.
+
+## Sections
+
+- **Groups on a page need no separator lines.** Dashboards' groups are
+  spaced, not ruled (`Section bare`).
+- **An app's name heading what belongs to it wears the app's mark.**
+  Dashboards' OneCRM, OneBook... headings draw the mark as a sentence does
+  (`Section marked`, `Branded marked`).
+
+## The window
+
+- **A frappe node the window moves keeps frappe's look.** frappe scopes some
+  styles to where it put the node (the filter count's pill lives under
+  `.page-form`); moved into the window's controls, "Filters 2" read
+  "Filters2". Every move the window makes is checked against the scss that
+  styled the node in its old parent, and the rule follows it in
+  `css/window/frame.css`. A guard can list each node `window.view` moves
+  and the frappe selectors that scope it.
+- **Read-only JSON is a tree** (`js/window/json_view.js`): any Code or JSON
+  field that can't be edited and holds JSON folds by level, inks values by
+  kind, counts what a level holds, finds a key or a value at any depth,
+  copies a row, shows the path under the pointer, unfolds JSON inside a
+  text, and shows the stored text on Show Raw. An editable one keeps
+  frappe's code editor. What only shows data is never branded
+  (`brand.LEAVE`).
+- **No hand-made controls.** Buttons are `frappe.ui.button` (outline on a
+  gray strip, ghost for a row's icon), inputs are frappe's `form-control`.
+  A segmented switch, a drawn search box or a bare `<button>` is a custom
+  primitive.
+
+### Sections are space, not lines
+
+A section ends with space, never a rule. Our two Section components draw
+none (`.one-shell-section`, `kit/Section.vue`), and inside our dialogs
+frappe's line above a settings heading is taken off (`module_settings.css`).
+A list's rows keep their dividers, within the list only.
+
+An empty list is not drawn: a bordered list with no rows is a line across
+the page (AICenter's One, before its jobs list was taken out when it had
+none).
+
+### A choice you can see is a card
+
+When each choice has a picture (a record type's avatar, a style, a mark),
+it is a card in a grid, and clicking it opens its picker, saved as it is
+picked. A list row is for text and a switch.
+
+### A rail row opens a screen
+
+A rail row is a place: a list, a page, a board. What opens a dialog is not a
+rail row, with one exception: One's rail ends with Centers, a row per centre.
+Where each centre opens, and how a module adds to it, is READY's
+(`docs/READY.md`, mechanism 18), not this file's.
+
+A group whose rows each need their own icon is a heading section (`indent`
+0); frappe draws no icons under an indented one. A centre's name on a rail
+row goes without One's mark, since the row's icon stands beside it
+(`brand.CENTER_ICONED`).
+
+### One switch per thing agreed to
+
+Optional services stay separate switches when the code keeps them separate:
+their own key, company and agreement (`one_legal/services.py`). Gravatar and
+Google's logos are two; under one heading, Profile Discovery. Wherever a
+service is switched, it is TrustCenter's own switch (`onedesk.trust.switch`).
+
+### A home holds what only its app sees
+
+An app's home shows what that app alone can gather. One's Home is the
+approvals from every app, the announcements, what is new in each app and,
+for an administrator, the workspace at a glance; tasks, meetings and
+documents stay on their own apps' homes.
+
+### Dashboards are where their app is
+
+Each app's dashboards are Overview rows on its own rail (OneHR's shape: one
+at the top, the rest first in their group). Making and changing them is
+OneStudio's (Dashboards, Charts, Number Cards); no page lists them all.
+
+### OneAI is a button that does one thing
+
+An OneAI button does one thing in place (`onedesk.oneai.action`): violet,
+OneAI's mark, opening a small popover beside it that asks what it needs and
+shows what it wrote, to Use or Try Again. It never opens the panel. Each
+app declares its actions in its `ai.py` (`ACTIONS`, named in hooks.py's
+`one_ai_actions`), and AICenter lists them under the app with a switch.
+A button that only asks the panel a question goes, as we walk each screen.
+
+### Ways in are tiles, not rows
+
+A handful of parallel things a person checks and acts on (Sign-in's
+password, two-factor and passkey) sit side by side as tiles, each with its
+state as a badge and its one action. A list row is for many of a kind
+(sessions, sign-ins).
+
+AccountCenter › Sign-in shows the standard liked: calm borders, no
+separators, one action per thing, badges for state, words a person says,
+and what is weak said plainly on an alert (`onedesk.alert`). Tiles are
+`.os-ways` / `.os-way` in account_center.css. It is a standard of quality,
+not a layout to copy: a page takes tiles only where it has a few parallel
+things.
+
+## Where the walk stands
+
+Paused on One to move the portal into OnePortal, which is done (one_portal/,
+not ready, 1.0.0). Nothing of the walk is committed yet; it all goes in
+with the gates at the end.
+
+- **AccountCenter, Profile**: Check My Profile gone; Write My Bio is the
+  first OneAI action (one_ai/actions.py, one_account/ai.py, job `bio`).
+  Still on `onedesk.oneai.button`: OneCalendar's settings, for when we
+  reach it. Sign-in's Is My Account Safe? is gone:
+  the page says what is weak itself (signin.warnings), above a tile per way
+  in (Password, Two-Factor, Passkey), then the sessions; This Device and
+  Sign Out read frappe's hashed session ids; New Phone resets the
+  authenticator (signin.reset_two_factor); turning two-factor on names the
+  authenticator entry after the workspace (control.py).
+- **AccountCenter, People**: apps in one line (AccountSection.apps_said),
+  a Sign-in column (signin.way_in), no second People heading; a person's
+  side says how they sign in, and Actions has Reset Two-Factor
+  (signin.forget_two_factor, notification Two-Factor Reset: frappe's
+  reset_otp_secret enqueues its mail with `retry=3`, which rq refuses).
+  The demo's builder is faisal@one.test, not admin@example.com.
+- **AccountCenter, Devices**: company devices (sorted ones) as the main
+  list, Other Browsers under it, a device opened by its row with Lost and
+  Retire at the dialog's foot (no buttons on rows), Passkeys blank at none,
+  unnamed browsers forgotten after 30 days (devices.FORGET_DAYS).
+- **ControlCenter**: General split into Company, Branding, Region and
+  Formats, Sign-in and Sharing (one/control.py HOLDS), each loading and
+  saving only its own fields; "general" stays as all of them for the demo.
+  Company's Address in Mails starts as the address and follows it until
+  someone writes their own. Branding is its three plain fields.
+  Region and Formats says Global Defaults' two Disable switches the right way
+  round (Rounded Totals, Totals in Words); turning one off had been refused
+  by layer.py's property-setter guard, which now lets Global Defaults' own
+  print_hide/hidden through (`flags.one_amounts`). Sign-in is six tiles on
+  the form's own sections (`{ row: { stack }, css: "os-tile" }` after a
+  heading with a mark), two to a row, drawn to AccountCenter's Sign-in
+  standard: grey icon, medium-weight name, a state badge at the end (Off,
+  On, Any password, 170 hours, After 10), controls a size down, and no
+  field label that only repeats the tile's name. A tile is a border and the
+  content's own weight; anything heavier reads as a shadow. Switches are
+  tiles too, not a list of rows (Region and Formats' Amounts: three tiles and
+  a sample of a sale's total that follows them); `OneSection.tiled` draws
+  both. A switch on a page always means "on shows it" (Currency Symbol, not
+  Hide Currency Symbol). Liking tiles on one page is not a reason to
+  put them on the next: Branding tried tiles with previews and was worse than
+  its three plain fields. Each page on its own merits.
+  Lists: each list has its icon and its own count word (lists.py ICONS,
+  COUNTED); opened, its siblings are their own Lists section of the nav pane
+  above Centers (the tree's `heading` and `alone`), the crumb is Lists, and
+  Home is not lit for it. Address Template lost its Country column (the name
+  is the country) and its ID filter.
+- **HelpCenter and UpdateCenter**: One first, then the apps, then the
+  centres that are modules (AccountCenter, TrustCenter, as the rail names
+  them: `module_settings.AS_CENTER`, shared with NotificationCenter and
+  AccessCenter); only the first branch open; a long page name wraps.
+- **AICenter**: OneAI, Reading, Knowledge, Summaries and Usage at the top;
+  Apps; Yours (Memory, What It Reads). No OneAI dot on every setting or
+  job; Reading's month is frappe's figures in one row; empty Memory and an
+  unconnected Usage are quiet lines; Workspace Knowledge shows in Memory only
+  to whoever can't open Knowledge; Help in the corner.
+- **TrustCenter**: Companies is a card per company (its safeguard under
+  its name, each use with what it receives and where; an unused one greyed,
+  not struck through); Requests is its own page, counted while some wait;
+  agreements carry no icon and a long name wraps; a version reads as its
+  revision, the hash on hover; an empty Changes is a quiet line; Help in
+  the corner.
+- **AccessCenter**: the same shape. Roles and Profiles and Audit Log at the
+  top with no heading, then one row per app under Apps, Roles, People and
+  (where the app gives access on one record) On One Record chosen in its
+  head; New Role beside the Roles list's search; People rows a row's height
+  with frappe's avatar; an empty On One Record is a quiet line; Help in the
+  corner.
+- **NotificationCenter**: one row per app under Apps (Other for the
+  workspace's own rules), each with frappe's TabButtons in its head, Yours
+  and Workspace, for an administrator; no bell on every row; a Workspace row
+  opens its words, and who it goes to is said there; AccountCenter and
+  TrustCenter are named and drawn as the rail draws them. Words and Rules
+  lost its panel buttons (Ask OneAI, Rewrite with OneAI); "Blue means on by
+  default" is the list's own note. Every centre's and Help's Help and
+  arrows sit in the dialog's top right corner (`dialog.$corner`, `help` on
+  module_settings.Dialog), so the sidebar's head keeps its width for the name.
+- **AccountCenter, Plan and Credits**: not connected to its account, one
+  yellow alert, what was last known (or nothing but the alert), no actions,
+  invoices or ledger; the side names the workspace as the top bar does;
+  seats, storage, database and credits are four tiles (the Sign-in tile,
+  figure first, a bar against the limit, Nearly Full/Full badges), each with
+  its own buy button for an administrator of a connected workspace (Add
+  Seats/Storage/Database open Add to Plan narrowed to that kind); no Links
+  group in the side; a "0" limit says no limit and draws no bar. The demo keeps an account
+  snapshot (one_demo/plan.py, step `plan`).
+  Then: Middle Name, Preferred Contact Email, Education and Past Work
+  (editable), Your Documents (editable; kinds by country, papers.offered;
+  OneAI's reading replaces a renewed one in place), Contract End and
+  Notice in Employment; User and Employee kept in step both ways
+  (one_account/sync.py). Profile then split into Profile, Personal Details,
+  Work and Documents (center.PROFILE_PARTS), and Documents shows Your Files,
+  the person's Employee room, where a row's scan moves on save
+  (center._file_scans, namespace.may_add). A file request can fill any file
+  field on a record or in its tables, by the row's Kind, asking the row's
+  other plain columns with the file, OneAI filling them when reading is on
+  (one_storage/targets.py); what is asked of you is on Home, Asked of You
+  (file_requests.asked_of, send_mine, guess): one load, each part saving only
+  the fields it shows. A field's action sits on its label row
+  (`.one-field-head`), never floated against the field.
+- **Done on One**: Dashboards left One for each app's rail and OneStudio;
+  Home rebuilt (approvals, announcements, New in Your Apps, The Workspace);
+  Centers rows each with their own icon; Announcements as
+  frappe's Note list (Status filter, Stop Showing, Show Until, Seen By);
+  Recycle Bin as frappe's Deleted Document list (Restore); the JSON field
+  viewer (`js/window/json_view.js`); the Address Book as frappe's Contact
+  and Address lists (no ID or Status column on Contacts); one Portal
+  dialog on a document, a customer, a supplier and a contact.
+- **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
+  People (Contact filtered on its Portal column) and Links (the Portal Link
+  list), a foot and settings. Turned off in Apps it closes the portal
+  (`one_portal/gate.py`) and every Portal button goes.
+- **Pictures**: One's settings › Pictures picks a DiceBear style per record
+  type (`one/avatars.py`), drawn locally; records with no picture are filled,
+  drawn ones redrawn on a change, the rest never touched.
+- **Contacts and Addresses, second pass**: Contact's mail-reply Status
+  hidden on the form too (frappe's own field, property setter); the Emirate
+  shown only on a UAE address (`one_book/custom/address.json`).
+- **At the walk's end, legal**: Your Data's clause (one/legal.py) still
+  says "under You › Profile › Your Data", a path gone since AccountCenter.
+- **At the walk's end, legal**: OneAccount's clauses (one_account/legal.py)
+  gain what the walk added: an administrator sees how somebody signs in and
+  can reset their two-factor, and a browser nobody named is forgotten after
+  30 days; a company device can be marked lost or retired. One clause edit
+  moves the revision hash and everybody agrees again, so they go in together,
+  once.
+- **At the walk's end**: pytest, demo checks, `docs.py`, translations into
+  ar and de for every new string, version bumps for One and OneAccount
+  (both ready), and the tests and docs that still name the removed islands
+  and pages (test_tiers, test_shell ISLAND_PAGES, screens.mjs,
+  test_outside, test_announcements, ISLANDS.md, ATLAS, MODULES.md), the
+  tokens in frame.css's filter pill, one/checks.py reading the rail from
+  its JSON, test_tiers for contact_list and test_window for json_view; a fix
+  version for OneMail (theirs.py's import moved), One's version for the
+  portal clause leaving its legal.py, and ar/de for OnePortal's new
+  strings and its name (its picker line, the Portal column and its three
+  states, the link states, People, Links, the closed-portal sentences and
+  the Help pages) and for Pictures (its tab, note, None, the record types,
+  the Help section), and for Home's new words (The Workspace, People, Apps,
+  Storage, OneAI Credits, New in Your Apps, All Announcements, New
+  Announcement, its tour), Write My Bio (its button, ask, Write, Writing…,
+Use, Try Again, the AICenter row under One and its about), Profile's new
+words (Education, Past Work, Your Documents and its note, Expired: {0},
+{0} on {1}, education, past work, documents, Personal Details, Work,
+Documents, Private, Your Files and its note, Plan's words (the tiles: Add Seats, Add Storage, Add Database, Buy Credits, Nearly Full, Full, no limit, of {0}, left, the three tile sentences, {0} used in the last 30 days, {0} reserved, {0} expire on {1}, Credits Ledger and its note; the two not-connected sentences), paying in the page (Billing Details, Buy {0} Credits, Paid. The credits arrive in a moment., Card saved. The next invoice is paid with it., Couldn't load the payment form. Check the connection and try again., Opening payment…, Back, Publishable Key and its description, ControlCenter's tabs (Company, Branding, Region and Formats, Sign-in, Sharing, their abouts, Contact, Address, Amounts, The Frame, A Letter Head, Rounded Totals, Totals in Words and their descriptions, Two-Factor, Passkeys, Email Link, Passwords, Sessions, Lockout, On, Off, Any password, After {0}, Currency Symbol and its description, Shown, Hidden, Lists' 1 country and {0} countries, Pictures' From the Web and its new about (Where pictures of contacts, customers and others come from: the web, or drawn for those with none.), Start Again's sentence (Deletes every sale, purchase, stock move, project, payslip, lead and asset. Customers, items, people and settings stay.), A Sale's Total, Grand Total, Rounded Total, In Words: {0}, {0} One Thousand Two Hundred Thirty-Five Only), the plan card: Billed to {0}, {0} Plan, a month, {0} seats, {0} storage, {0} database, 1 add-on, {0} add-ons), Devices' words (Other Browsers and its note, Browser, Make a Company Device, the empty company list, the Retire confirm), People's words ({0} in every app, {0} in {1}, {0} in {1} +{2}, Standard apps, Passkey, Two-Factor Not Set Up, Password Only, Signs In With, Reset Two-Factor and its confirm, Two-factor reset, the Two-Factor Reset notification, Two-factor sign-in is off for the workspace.), Sign-in's tiles and warnings (Two-Factor, New Phone, Turn On for the Workspace, Asked for when you sign in without a passkey., the two failed-password sentences, Your password has never been changed and you have no passkey., the reset confirm and alert, On {0}.), Home's Asked of You and its tour, NotificationCenter's Apps, Other, Whose, AccessCenter's Show, AICenter's Memory, What It Reads, Handled, TrustCenter's Greyed where your workspace doesn't use it., What the workspace's own rules tell you., Whether you're told at all, by email, and on this device.
+step, Due {0}, {0} asks for this in {1}., OneAI is reading it…, Send, Sent,
+Choose a file to send., This request is closed., {0} takes only {1}., {0} is
+needed., Fill in what's marked as needed, then send again., the request
+dialog's Saved To and the item's Saved To and Kind fields and their
+descriptions, {0} has no file field called {1}., {0} has no kinds to pick
+from., {0} is not one of {1}., {0} has a kind but no place on the record., and the four parts' abouts), the Country field on ID
+Document Types and its description, and the rails' Overview rows and OneStudio's
+  Dashboards, Charts and Number Cards; then this file folds into the UI contract and its
+  guards.
+
+### The arrows in a centre's corner enlarge it
+
+The arrows in a centre's top right corner (module_settings.js `module_head_expand`)
+make the window larger for reading, and back; the choice is remembered in the
+browser and every centre, Help and What's New included, opens at it. They
+used to jump to the whole of the centre, which nobody expected; the whole of a
+centre opens from One's rail. A centre with no module foot (AccountCenter,
+NotificationCenter) keeps a Help button beside them.

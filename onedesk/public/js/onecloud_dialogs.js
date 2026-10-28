@@ -329,15 +329,19 @@ onedesk.cloud.mount = async (item, go) => {
 onedesk.cloud.request = async ({ node, kind, trail }, go) => {
 	const parts = node.split("/");
 	const record = parts[0] === "@records" && parts.length === 3 ? { doctype: parts[1], name: parts[2] } : null;
+	// Where on the record each file can go, as one searchable list
+	// (one_storage/targets.choices): a file field on it, or a row of one of
+	// its tables by kind, such as "Employee Document › Passport".
 	const fields = record ? await frappe.xcall("onedesk.one_storage.file_requests.fields", { doctype: record.doctype }) : [];
-	const by_label = Object.fromEntries(fields.map((one) => [one.label, one.value]));
+	const by_label = Object.fromEntries(fields.map((one) => [one.label, one]));
+	const asked_at = record ? await frappe.xcall("onedesk.one_storage.file_requests.asked_at", record) : "";
 	const here = trail[trail.length - 1];
 	const dialog = new frappe.ui.Dialog({
 		title: __("New file request"),
 		size: "large",
 		fields: [
 			{ fieldtype: "Data", fieldname: "title", label: __("Title"), reqd: 1 },
-			{ fieldtype: "Small Text", fieldname: "recipients", label: __("Recipients"), reqd: 1, description: __("Email addresses, one per line.") },
+			{ fieldtype: "Small Text", fieldname: "recipients", label: __("Recipients"), reqd: 1, default: asked_at || "", description: __("Email addresses, one per line.") },
 			{ fieldtype: "Column Break" },
 			{ fieldtype: "Date", fieldname: "due_date", label: __("Due Date") },
 			{ fieldtype: "Small Text", fieldname: "message", label: __("Message") },
@@ -350,15 +354,15 @@ onedesk.cloud.request = async ({ node, kind, trail }, go) => {
 				in_place_edit: true,
 				data: [{ required: 1 }],
 				fields: [
-					{ fieldtype: "Data", fieldname: "label", label: __("File"), in_list_view: 1, reqd: 1, columns: 3 },
+					{ fieldtype: "Data", fieldname: "label", label: __("File"), in_list_view: 1, reqd: record ? 0 : 1, columns: 3 },
 					{ fieldtype: "Check", fieldname: "required", label: __("Required"), in_list_view: 1, default: 1, columns: 1 },
 					{ fieldtype: "Check", fieldname: "several", label: __("Multiple"), in_list_view: 1, columns: 1 },
 					{ fieldtype: "Data", fieldname: "accept", label: __("File Types"), in_list_view: 1, columns: 2 },
 					{
-						fieldtype: "Select",
+						fieldtype: "Autocomplete",
 						fieldname: "field",
-						label: __("Record Field"),
-						options: ["", ...fields.map((one) => one.label)].join("\n"),
+						label: __("Saved To"),
+						options: fields.map((one) => one.label),
 						in_list_view: record ? 1 : 0,
 						hidden: record ? 0 : 1,
 						columns: 3,
@@ -377,7 +381,10 @@ onedesk.cloud.request = async ({ node, kind, trail }, go) => {
 		],
 		primary_action_label: __("Send request"),
 		primary_action: async (values) => {
-			const items = (values.items || []).map((one) => ({ ...one, fieldname: by_label[one.field] || null }));
+			const items = (values.items || []).map((one) => {
+				const to = by_label[one.field] || {};
+				return { ...one, label: one.label || (to.label || "").split(" › ").pop(), fieldname: to.fieldname || null, row_key: to.row_key || null };
+			});
 			const made = await frappe.xcall("onedesk.one_storage.file_requests.make", {
 				node: kind === "requests" ? "@requests" : node,
 				values: { ...values, items },
@@ -388,6 +395,54 @@ onedesk.cloud.request = async ({ node, kind, trail }, go) => {
 			go(made.node, "@requests");
 		},
 	});
+	dialog.show();
+};
+
+// Answering one file of a request asked of the signed-in person (Home's
+// Asked of You): the file, and the columns its row asks with it
+// (targets.asked), which OneAI fills from the file when reading is on.
+onedesk.cloud.answer = (request, item, done) => {
+	const call = (method, args) => frappe.xcall(`onedesk.one_storage.file_requests.${method}`, { request: request.name, item: item.name, ...args });
+	const accept = (item.accept || "").split(",").filter((one) => one.trim()).map((one) => `.${one.trim()}`);
+	const dialog = new frappe.ui.Dialog({
+		title: item.label,
+		fields: [
+			{
+				fieldtype: "Attach",
+				fieldname: "file_url",
+				label: __("File"),
+				reqd: 1,
+				description: [__("{0} asks for this in {1}.", [request.by, request.title]), item.description].filter(Boolean).join(" "),
+				options: accept.length ? { restrictions: { allowed_file_types: accept } } : undefined,
+				onchange: () => read(),
+			},
+			...(item.asked.length ? [{ fieldtype: "Section Break" }] : []),
+			...item.asked.map((one) => ({ ...one, options: one.options || undefined })),
+		],
+		primary_action_label: __("Send"),
+		primary_action: async ({ file_url, ...values }) => {
+			dialog.disable_primary_action();
+			try {
+				await call("send_mine", { file_url, values });
+				dialog.hide();
+				frappe.show_alert({ message: __("Sent"), indicator: "green" });
+				done && done();
+			} finally {
+				dialog.enable_primary_action();
+			}
+		},
+	});
+	// OneAI fills the row's empty columns from the file (file_requests.guess).
+	// Reading is a help, not a step: the person types what it could not read.
+	const read = async () => {
+		const file_url = dialog.get_value("file_url");
+		if (!file_url || !item.asked.length) return;
+		dialog.set_message(__("OneAI is reading it…"));
+		const said = await call("guess", { file_url }).catch(() => ({}));
+		const empty = Object.fromEntries(Object.entries(said || {}).filter(([key]) => !dialog.get_value(key)));
+		if (Object.keys(empty).length) dialog.set_values(empty);
+		dialog.clear_message();
+	};
 	dialog.show();
 };
 

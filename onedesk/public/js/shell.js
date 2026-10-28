@@ -457,6 +457,8 @@ onedesk.shell.Editor = class Editor {
 		const found = Sidebar.prototype.find_active_item;
 		const list = (path) => onedesk.panel.path(path);
 		const light = (sidebar, $row) => {
+			if (sidebar.active_item) sidebar.active_item.removeClass("active-sidebar");
+			sidebar.active_item = null;
 			if (!$row || !$row.length) return false;
 			sidebar.active_item = $row;
 			return true;
@@ -471,16 +473,22 @@ onedesk.shell.Editor = class Editor {
 			const tail = kept && kept[0].route.replace(/^\/desk/, "");
 			const exact = kept && $(".item-anchor[href]").filter((_i, a) => a.getAttribute("href").endsWith(tail));
 			if (exact && light(this, exact.first().parent())) return true;
-			if (found.call(this)) return true;
+			// A kind with a home that is no row of this rail (One's Lists, in
+			// the nav pane's own tree) lights nothing rather than Home.
+			if (!kept && found.call(this)) return true;
 			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
 			const row = (path) =>
 				$(".item-anchor[href]")
+					.not(".one-window-nav-slot *")
 					.toArray()
 					.filter((a) => list(a.getAttribute("href")) === list(path))
 					.sort((a, b) => narrows(a) - narrows(b))[0];
 			const route = frappe.get_route();
 			const home = ["Form", "List"].includes(route[0]) && homes(route[1]);
 			const path = home ? home[0].route : route[0] === "Form" ? `/desk/${frappe.router.slug(route[1])}` : window.location.pathname;
+			// A home in a centre (/desk/one?center=…) was a row only if it matched
+			// exactly above; by its path alone it is the rail's Home.
+			if (home && path.includes("?")) return light(this, null);
 			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
 			return light(this, found_row && $(found_row).parent());
 		};

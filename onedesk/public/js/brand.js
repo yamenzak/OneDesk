@@ -37,7 +37,7 @@ onedesk.brand.parts = (text) => {
 	return parts;
 };
 
-onedesk.brand.LEAVE = "input, textarea, select, option, script, style, code, pre, [contenteditable], .ql-editor, .CodeMirror, .ace_editor, [data-v-app], .one-name, title, svg";
+onedesk.brand.LEAVE = "input, textarea, select, option, script, style, code, pre, [contenteditable], .ql-editor, .CodeMirror, .ace_editor, .one-json-body, [data-v-app], .one-name, title, svg";
 
 // Where a label that is only a product's name has no icon beside it, so it
 // draws the mark itself: a settings panel's title.
@@ -69,7 +69,7 @@ onedesk.brand.text = (node, inside = false) => {
 	const alone = parent.closest(onedesk.brand.MARK_ALONE) ? null : text.trim();
 	const found = [
 		...[...text.matchAll(onedesk.brand.NAME)].map((match) => ({ at: match.index, length: match[0].length, rest: match[1], marked: alone !== match[0] })),
-		...[...text.matchAll(onedesk.brand.CENTER)].map((match) => ({ at: match.index, length: match[0].length, center: match[1] })),
+		...[...text.matchAll(onedesk.brand.CENTER)].map((match) => ({ at: match.index, length: match[0].length, center: match[1], marked: !parent.closest(onedesk.brand.CENTER_ICONED) })),
 		...onedesk.brand.solo(text).map((at) => ({ at, length: 3, rest: null })),
 	].sort((a, b) => a.at - b.at);
 	if (!found.length) return;
@@ -77,7 +77,7 @@ onedesk.brand.text = (node, inside = false) => {
 	let at = 0;
 	for (const one of found) {
 		if (one.at > at) into.append(text.slice(at, one.at));
-		into.append(one.center ? onedesk.brand.center(one.center) : one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest, one.marked));
+		into.append(one.center ? onedesk.brand.center(one.center, one.marked) : one.rest === null ? onedesk.brand.mark() : onedesk.brand.named(one.rest, one.marked));
 		at = one.at + one.length;
 	}
 	into.append(text.slice(at));
@@ -116,12 +116,16 @@ onedesk.brand.named = (rest, marked = false) => {
 	return name;
 };
 
+// Where a centre's name already has its own icon beside it: a rail row.
+onedesk.brand.CENTER_ICONED = ".sidebar-item-label, .settings-dialog-tab-label";
+
 /** A centre's name, such as HelpCenter: One's mark, the first word light
- * and Center after it, in a sentence and at the top of the centre alike. */
-onedesk.brand.center = (first) => {
+ * and Center after it, in a sentence and at the top of the centre alike;
+ * on a rail row, beside the row's own icon, without the mark. */
+onedesk.brand.center = (first, marked = true) => {
 	const name = document.createElement("span");
-	name.className = "one-name one-solo";
-	name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
+	name.className = marked ? "one-name one-solo" : "one-name";
+	if (marked) name.innerHTML = frappe.utils.icon("one", { width: "1.05em", height: "1.05em" }, "", "", "one-mark");
 	const word = document.createElement("span");
 	const light = document.createElement("span");
 	light.className = "one-light";

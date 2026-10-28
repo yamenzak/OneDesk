@@ -1,7 +1,8 @@
 """Announcements: a message to everybody in the workspace, from its
-administrators, frappe's own Note made public. It runs along the top bar and
-has a page of its own (the island `onedesk.announcements`); how is in One's
-AGENTS.md, under announcements.py."""
+administrators, frappe's own Note made public. It runs along the top bar
+until its Show Until, and is frappe's Note list, filtered by its Status,
+Showing or Ended (one/custom/note.json); how is in One's AGENTS.md, under
+announcements.py."""
 
 import json
 
@@ -17,7 +18,7 @@ SAID = 300
 #: Announcements the top bar runs at once, newest first.
 ON_THE_BAR = 5
 
-#: How long one with no Show Until stays on the bar, as the sign-in pop-up does.
+#: How long one runs when nobody says until when.
 FRESH_DAYS = 7
 
 #: The announcements running when a person folded them to the bar's icon, as a user default.
@@ -31,9 +32,34 @@ def _free(user: str | None = None) -> bool:
 
 def before_validate(doc, method=None) -> None:
 	"""Note before_validate: shown on sign-in means everybody's, which
-	frappe otherwise turns off for a note that is not public."""
+	frappe otherwise turns off for a note that is not public; and an
+	announcement nobody gave an end runs for FRESH_DAYS, so Showing Now and
+	Earlier are a filter on Show Until."""
+	from frappe.utils import add_days, now_datetime
+
 	if doc.notify_on_login:
 		doc.public = 1
+	if doc.public and not doc.expire_notification_on:
+		doc.expire_notification_on = add_days(now_datetime(), FRESH_DAYS)
+	doc.one_status = (
+		("Ended" if frappe.utils.get_datetime(doc.expire_notification_on) <= now_datetime() else "Showing")
+		if doc.public
+		else None
+	)
+
+
+def ended() -> None:
+	"""Every quarter hour: an announcement whose Show Until has passed says
+	Ended, so the list's Status filter is right without a page of its own."""
+	from frappe.utils import now_datetime
+
+	frappe.db.set_value(
+		NOTE,
+		{"public": 1, "one_status": "Showing", "expire_notification_on": ["<=", now_datetime()]},
+		"one_status",
+		"Ended",
+		update_modified=False,
+	)
 
 
 def validate(doc, method=None) -> None:
@@ -116,61 +142,9 @@ def _running() -> list[dict]:
 	return out[:ON_THE_BAR]
 
 
-EARLIER = 50
-
-
-@frappe.whitelist(methods=["GET"])
-@frappe.read_only()
-def read() -> dict:
-	"""The Announcements page (the island `onedesk.announcements`): what is
-	running now and what ran before, newest first, each in full. An
-	administrator also sees who has seen each, and may post, change and stop
-	one."""
-	from frappe.utils import get_fullname, now_datetime
-	from frappe.utils.html_utils import sanitize_html
-
-	running = {one["name"] for one in _running()}
-	posts = _free() or roles.administers()
-	rows = frappe.get_list(
-		NOTE,
-		filters={"public": 1},
-		fields=["name", "title", "content", "owner", "creation", "expire_notification_on"],
-		order_by="creation desc",
-		limit_page_length=EARLIER + ON_THE_BAR * 2,
-	)
-	seen = {}
-	if posts and rows:
-		for one in frappe.get_all(
-			"Note Seen By", filters={"parent": ["in", [row.name for row in rows]]}, fields=["parent", "user"]
-		):
-			seen.setdefault(one.parent, []).append(get_fullname(one.user))
-	people = frappe.db.count(
-		"User", {"enabled": 1, "user_type": "System User", "name": ["not in", ("Administrator", "Guest")]}
-	)
-	now = now_datetime()
-	return {
-		"posts": posts,
-		"people": people,
-		"rows": [
-			{
-				"name": one.name,
-				"title": one.title,
-				"html": sanitize_html(one.content or ""),
-				"by": get_fullname(one.owner),
-				"on": str(one.creation),
-				"until": str(one.expire_notification_on) if one.expire_notification_on else None,
-				"running": one.name in running,
-				"ended": bool(one.expire_notification_on and one.expire_notification_on <= now),
-				"seen": sorted(seen.get(one.name, [])) if posts else None,
-			}
-			for one in rows
-		],
-	}
-
-
 @frappe.whitelist(methods=["POST"])
 def stop(name: str) -> None:
-	"""An announcement stops running now; it stays on the page under Earlier."""
+	"""An announcement stops running now; it moves to Earlier."""
 	doc = frappe.get_doc(NOTE, name)
 	if not doc.public or not (_free() or roles.administers()):
 		frappe.throw(_("Only an administrator stops an announcement."), frappe.PermissionError)

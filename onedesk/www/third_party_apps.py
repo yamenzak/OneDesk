@@ -4,7 +4,7 @@ them in the portal (frontend/portal, Apps.vue), with frappe's revoke call."""
 import frappe
 from frappe.www.third_party_apps import get_context as frappe_context
 
-from onedesk.one import portal
+from onedesk.one_portal import portal
 
 no_cache = 1
 

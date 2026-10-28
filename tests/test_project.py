@@ -361,7 +361,7 @@ def test_an_order_under_a_project_becomes_its_sub_project():
 	]
 	assert "onedesk.one_project.patches.extra_work" in (tree.APP / "patches.txt").read_text()
 	assert "Quote Extra Work" in (tree.APP / "public" / "js" / "project.js").read_text()
-	assert '"Quotation": ["public/js/quotation.js"' in HOOKS
+	assert '"Quotation": "public/js/quotation.js"' in HOOKS
 	page = "".join(
 		(tree.APP / "public" / "js" / name).read_text() for name in ("project.js", "project_actions.js")
 	)
@@ -426,10 +426,10 @@ def test_a_customer_reaches_their_projects_and_nothing_of_the_team():
 		"a customer signing in is not sent to the desk"
 	)
 	assert "is_website_user()" in (tree.APP / "__init__.py").read_text()
-	assert '"onedesk.one.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
+	assert '"onedesk.one_portal.portal.invited"' in HOOKS.split('"Contact": {', 1)[1].split("},", 1)[0]
 	assert (
 		'{"doctype": "Portal User", **where, "user": doc.user}'
-		in (tree.APP / "one" / "portal.py").read_text()
+		in (tree.APP / "one_portal" / "portal.py").read_text()
 	), "the only thing ERPNext's portal reads"
 	portal = (PROJECT / "portal.py").read_text()
 	assert "said = view(project)" in portal, "the portal's page is the customer's view"
@@ -751,7 +751,7 @@ def test_paid_is_read_from_the_invoices_however_they_were_paid():
 	assert '(gl.voucher_type == "Journal Entry")' in money and '(account.root_type == "Expense")' in money
 	chain = (PROJECT / "chain.py").read_text()
 	assert "def paid_for(" in chain and '"onedesk.one_project.chain.paid_for"' in HOOKS
-	assert '"Sales Invoice": ["public/js/customer_project.js"' in HOOKS
+	assert '"Sales Invoice": "public/js/customer_project.js"' in HOOKS
 
 
 def test_an_invoice_says_what_it_is_for_and_what_is_owed_now():
@@ -895,7 +895,7 @@ def test_subcontracts_are_billed_through_erpnexts_own_invoice():
 	assert fields["one_retention_due"]["mandatory_depends_on"] == "one_retention"
 	page = (tree.APP / "public" / "js" / "progress.js").read_text()
 	assert "frappe.model.open_mapped_doc" in page and '__("Bill Progress")' in page
-	assert '"Purchase Order": ["public/js/progress.js"' in HOOKS
+	assert '"Purchase Order": "public/js/progress.js"' in HOOKS
 	money = (PROJECT / "money.py").read_text()
 	assert "def _suppliers(" in money and "retention.held_on(" in money
 
@@ -2102,7 +2102,8 @@ def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budge
 	overview = (src / "project" / "Overview.vue").read_text()
 	assert '<Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />' in overview
 	assert overview.count("data-cards") == 2 and "border-b" not in overview
-	assert "[&:has(+[data-cards])]:border-b-0" in (src / "kit" / "Section.vue").read_text()
+	# A section ends with space, never a rule (docs/UI-NOTES.md).
+	assert "border-b" not in (src / "kit" / "Section.vue").read_text()
 	assert '<Section boxed :title="__(\'Needs You\')"' in overview
 	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview
 	assert "useChartTokens(root)" in overview and not re.search(r"#[0-9a-fA-F]{6}", overview)

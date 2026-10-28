@@ -7,101 +7,44 @@ from frappe import _lt
 
 HOME = [
 	{
-		"target": "one-home-counts",
-		"side": "bottom",
-		"title": _lt("What Waits for You"),
-		"text": _lt("How much waits for you in each app you use, each number opening its list."),
-	},
-	{
 		"target": "one-home-needs",
 		"side": "bottom",
 		"title": _lt("What the Workspace Needs"),
 		"text": _lt("Things only an administrator can put right, such as a mailbox that stopped connecting."),
 	},
 	{
-		"target": "one-home-tasks",
-		"side": "right",
-		"title": _lt("Your Tasks"),
-		"text": _lt("Your tasks due today or late, with the rest in My Tasks."),
-	},
-	{
-		"target": "one-home-today",
-		"side": "left",
-		"title": _lt("Today"),
-		"text": _lt("What is on your calendar today, with the whole week in OneCalendar."),
-	},
-]
-
-DASHBOARDS = [
-	{
-		"target": "one-dashboards-search",
+		"target": "one-home-glance",
 		"side": "bottom",
-		"title": _lt("Find a Dashboard"),
-		"text": _lt("Type part of its name or its app's."),
+		"title": _lt("The Workspace"),
+		"text": _lt("Its people, apps, storage and OneAI credits, each opening where it is managed."),
 	},
 	{
-		"target": "one-dashboards-group",
+		"target": "one-home-approvals",
+		"side": "bottom",
+		"title": _lt("Your Approvals"),
+		"text": _lt("What waits for your approval in every app, oldest first."),
+	},
+	{
+		"target": "one-home-asked",
+		"side": "bottom",
+		"title": _lt("Asked of You"),
+		"text": _lt("Files someone has asked you for, each sent from here."),
+	},
+	{
+		"target": "one-home-announcements",
 		"side": "top",
-		"title": _lt("By App"),
-		"text": _lt("Each dashboard is under the app it is about, and opens with a click."),
-	},
-]
-
-ANNOUNCEMENTS = [
-	{
-		"target": "one-news-views",
-		"side": "bottom",
-		"title": _lt("Now and Earlier"),
-		"text": _lt("Showing Now runs along the top bar, and Earlier keeps what has stopped."),
+		"title": _lt("Announcements"),
+		"text": _lt("What the office is saying now, with every announcement one click away."),
 	},
 	{
-		"target": "one-news-card",
+		"target": "one-home-news",
 		"side": "top",
-		"title": _lt("An Announcement"),
-		"text": _lt("Each one in full, with who posted it and until when it shows."),
+		"title": _lt("New in Your Apps"),
+		"text": _lt("Apps with a version you haven't opened yet, each saying what changed."),
 	},
 ]
 
-BIN = [
-	{
-		"target": "one-bin-states",
-		"side": "bottom",
-		"title": _lt("Deleted and Put Back"),
-		"text": _lt("What was deleted waits here, and Put Back lists what came back."),
-	},
-	{
-		"target": "one-bin-filters",
-		"side": "bottom",
-		"title": _lt("Find It"),
-		"text": _lt("Search by its name, or narrow the list to one kind of record."),
-	},
-	{
-		"target": "one-bin-list",
-		"side": "top",
-		"title": _lt("Put It Back"),
-		"text": _lt("Put Back on a row brings it back as it was, or tick several to put them back together."),
-	},
-]
-
-ADDRESS_BOOK = [
-	{
-		"target": "one-book-list",
-		"side": "right",
-		"title": _lt("Contacts and Addresses"),
-		"text": _lt("Switch between people and places, and search either."),
-	},
-	{
-		"target": "one-book-chosen",
-		"side": "left",
-		"title": _lt("The One You Chose"),
-		"text": _lt("Who it belongs to, and a person's addresses or a place's people, with Edit to change it."),
-	},
-]
 
 TOURS = [
 	{"key": "home", "at": "one-home", "steps": HOME},
-	{"key": "dashboards", "at": "one-dashboards", "steps": DASHBOARDS},
-	{"key": "announcements", "at": "one-news", "steps": ANNOUNCEMENTS},
-	{"key": "recycle-bin", "at": "one-bin", "steps": BIN},
-	{"key": "address-book", "at": "one-book", "steps": ADDRESS_BOOK},
 ]

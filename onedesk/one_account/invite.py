@@ -27,7 +27,7 @@ def send(
 	"""Mail an invitation to somebody just added: who asked, to what, what
 	they may use besides the five everybody has, and the link to join. The
 	owner of a new workspace is invited by One (one_account/owner.py), since nobody
-	on it asked. A customer's or supplier's contact (one/portal_invite.py)
+	on it asked. A customer's or supplier's contact (one_portal/invite.py)
 	gets the Portal Invitation instead, saying `what` they will see."""
 	from onedesk.one import tell
 
@@ -78,6 +78,13 @@ def accept(key: str):
 			indicator_color="orange",
 		)
 	doc = frappe.get_doc("User", user)
+	if doc.user_type == "Website User":
+		from onedesk.one_portal import gate
+
+		if not gate.on():
+			return frappe.respond_as_web_page(
+				_("This invitation can't be used now"), gate.closed(), http_status_code=403, indicator_color="orange"
+			)
 	if not doc.enabled:
 		return frappe.respond_as_web_page(
 			_("This invitation was withdrawn"), _("Ask the person who invited you."), http_status_code=410

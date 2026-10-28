@@ -46,9 +46,9 @@ RULES = (
 
 ALLOWED = {
 	("one/privacy.py", "_turn_off"): "turning somebody off takes no seat",
-	("one/portal_invite.py", "invite_contact"): "a portal login is a Website User and takes no seat",
-	("one/portal_invite.py", "revoke"): "a portal login is a Website User and takes no seat",
-	("one/portal_invite.py", "restore"): "a portal login is a Website User and takes no seat",
+	("one_portal/invite.py", "invite_contact"): "a portal login is a Website User and takes no seat",
+	("one_portal/invite.py", "revoke"): "a portal login is a Website User and takes no seat",
+	("one_portal/invite.py", "restore"): "a portal login is a Website User and takes no seat",
 	("one_ai/reading/switches.py", "set_folder"): "asks what file_switched asks, without a File save",
 	("one_project/budget.py", "sync"): "is the rule itself, run by the Budget's submit and cancel",
 	("one_mail/holders.py", "set_signature"): "sets both fields as signed() does; a save would try the mail server",

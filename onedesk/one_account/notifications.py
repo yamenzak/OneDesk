@@ -234,6 +234,22 @@ TYPES = [
 		"message": "Sign in with your password there, or with the passkey on your phone.",
 	},
 	{
+		"name": "Two-Factor Reset",
+		"app": "OneAccount",
+		"about": "When two-factor sign-in is reset on your account, for a new phone.",
+		"to": "The person whose account it is",
+		"channels": {
+			"bell": True,
+			"email": "It is always mailed, so it reaches the person whether or not they look at the bell.",
+			"push": True,
+		},
+		"button": "Open Sign-in",
+		"always_mailed": True,
+		"sender": "workspace",
+		"subject": "Two-factor sign-in was reset on your account",
+		"message": "On {when}. You set it up again the next time you sign in. If you didn't ask for this, tell your administrator now.",
+	},
+	{
 		"name": "Password Changed",
 		"app": "OneAccount",
 		"about": "When your password is changed, here or through a reset link.",

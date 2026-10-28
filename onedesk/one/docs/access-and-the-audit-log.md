@@ -3,7 +3,7 @@
 ## Access
 
 People gives each person a role in OneCRM, OneBook, OneInventory, OneProject,
-OneHR and OneMail. **Access**, under Workspace, is where roles are made and
+OneHR and OneMail. **AccessCenter**, on One's rail, is where roles are made and
 changed, with profiles, groups and user permissions, each below. Only
 administrators see it.
 
@@ -27,12 +27,13 @@ made, the card says so and makes no change.
 
 ## Roles
 
-Each app has a **User** and a **Manager** role, listed under Workspace ›
-Access with each one's people, and a workspace can add its own between them.
+Each app has a **User** and a **Manager** role, listed in
+AccessCenter with each one's people, and a workspace can add its own between them.
 OneMail has roles too; everyone is at least its User.
 
-**An app's roles are built in AccessCenter**, on the app: a table
-with what the app lets a role do down the side and its roles across the top,
+**An app's roles are built in AccessCenter**: open the app under **Apps**,
+where **Roles**, **People** and **On One Record** are at the top right.
+Roles is a table with what the app lets a role do down the side and its roles across the top,
 each cell a dropdown or a switch that saves as it changes. Signatures and
 sender names, out of office, mail rules and OneAI settings are each **No**,
 **Their Own Address** or **Every Mailbox**; who uses a mailbox,
@@ -76,7 +77,7 @@ read.
 ## Access Profiles
 
 A profile is a job's role in every app at once, such as Accountant with
-OneBook as Manager and OneInventory as User. Make one under Workspace › Access, then
+OneBook as Manager and OneInventory as User. Make one in AccessCenter, then
 choose it under **Profile** on a person's page to set every app at once.
 
 - Changing the profile later updates everyone on it.
@@ -87,7 +88,7 @@ choose it under **Profile** on a person's page to set every app at once.
 ## Groups
 
 A group is a named team, such as Sales Gulf, and its members. Make one under
-Workspace › Access. Assign a record to everyone in it from **Assign To**, or
+AccessCenter. Assign a record to everyone in it from **Assign To**, or
 @mention the group in a comment to notify them all. A group doesn't grant any
 permissions.
 

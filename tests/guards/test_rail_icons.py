@@ -1,7 +1,8 @@
 """Every link and group at the top of a rail carries an icon frappe draws,
 from its lucide set or One's own marks (fixtures/custom_icon.json): a link
 without one shows the bare list mark, as OneCRM's Lead and Opportunity did,
-and a group drawn flat (indent 0) shows none, as One's own groups did."""
+and a group drawn flat (indent 0) shows none, as One's own groups did, unless
+it is a heading over rows that each draw their own (One's Centers)."""
 
 import json
 import re
@@ -24,11 +25,18 @@ def test_a_top_row_has_an_icon_frappe_draws():
 	}
 	wrong = []
 	for path in sorted((ROOT / "onedesk").glob("*/sidebar/*/*.json")):
-		for row in json.loads(path.read_text(encoding="utf-8"))["items"]:
+		items = json.loads(path.read_text(encoding="utf-8"))["items"]
+		for at, row in enumerate(items):
 			if row.get("child") or row.get("type") not in ("Link", "Section Break"):
 				continue
 			if row["type"] == "Section Break" and not row.get("indent"):
-				wrong.append(f"{path.name}: the group {row['label']} is drawn flat, without its icon")
+				under = []
+				for one in items[at + 1 :]:
+					if not one.get("child"):
+						break
+					under.append(one)
+				if not under or not all(one.get("icon") for one in under):
+					wrong.append(f"{path.name}: the group {row['label']} is drawn flat, without its icon")
 			icon = row.get("icon")
 			if not icon:
 				wrong.append(f"{path.name}: {row['label']} has no icon")

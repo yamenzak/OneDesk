@@ -1,0 +1,44 @@
+{
+ "app": "onedesk",
+ "creation": "2026-11-08 09:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "oneportal",
+ "idx": 0,
+ "modified": "2026-11-08 09:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Portal",
+ "name": "OnePortal",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OnePortal",
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "People",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Contact",
+   "icon": "users",
+   "filters": "[[\"Contact\", \"one_portal\", \"is\", \"set\"]]"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Links",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Portal Link",
+   "icon": "link"
+  }
+ ]
+}

@@ -166,6 +166,13 @@ export function followList(doctype, changed) {
 	return () => realtime.off("list_update", heard);
 }
 
+// An event the desk triggers on its document (module_docs.js "one-version-seen"),
+// heard until the returned function is called.
+export function onDesk(event, heard) {
+	window.$(document).on(event, heard);
+	return () => window.$(document).off(event, heard);
+}
+
 export function emailRecord(doctype, name) {
 	const ours = (frm) => frm && frm.doctype === doctype && frm.doc.name === name;
 	const ready = (_event, frm) => {

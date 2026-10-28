@@ -76,7 +76,7 @@
 
 		<button type="submit" class="one-go">
 			<span class="one-spin" aria-hidden="true"></span>
-			<span class="one-go__label" data-busy="{{ _('Taking you to Stripe…') }}">{{ _("Continue to payment") }}</span>
+			<span class="one-go__label" data-busy="{{ _('Opening payment…') }}">{{ _("Continue to payment") }}</span>
 		</button>
 		<div class="one-alert" id="one-said" role="alert" hidden>
 			<svg class="one-alert__icon" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M12 8v4M12 16h.01"/></svg>
@@ -84,9 +84,14 @@
 		</div>
 		<small class="one-note">{{ pay_note }}</small>
 	</form>
+	<div class="one-checkout" id="one-checkout" hidden>
+		<div id="one-checkout-form"></div>
+		<a class="one-checkout__back" id="one-checkout-back" href="#">{{ _("Back") }}</a>
+	</div>
 	{% endif %}
 </div>
 
+<script src="/assets/onedesk/js/one_pay.js"></script>
 <script>
 (() => {
 	const form = document.getElementById("one-start");
@@ -168,8 +173,16 @@
 				offering: form.offering.value,
 				jurisdiction: form.jurisdiction.value,
 			});
-			window.location.href = answer.pay_at;
+			// Stripe's Checkout in place of the form; paid, Stripe takes the
+			// page on to the welcome page, and Back frees the name again.
+			const paying = document.getElementById("one-checkout");
+			document.getElementById("one-checkout-back").href = answer.checkout.back;
+			form.hidden = true;
+			paying.hidden = false;
+			await onePay(document.getElementById("one-checkout-form"), answer.checkout, { locale: document.documentElement.lang || "auto" });
 		} catch (refused) {
+			form.hidden = false;
+			document.getElementById("one-checkout").hidden = true;
 			tell(refused);
 			busy(false);
 		}

@@ -312,12 +312,22 @@ def _update(action: Action, before: dict) -> dict:
 
 def _add(action: Action, before: dict) -> dict:
 	"""A row added to one of a record's tables: an identity document on an
-	Employee, an education row, a link on a Contact."""
+	Employee, an education row, a link on a Contact. With `replaces`, the row
+	it renews is changed in place instead, and what it said is kept so an
+	undo can put it back."""
 	doc = frappe.get_doc(action.doctype, action.name)
-	row = doc.append(action.values["table"], action.values["row"])
+	table = action.values["table"]
+	old = next((one for one in doc.get(table) or [] if one.name == action.values.get("replaces")), None)
+	if old:
+		was = {key: old.get(key) for key in action.values["row"]}
+		old.update(action.values["row"])
+		row = old
+	else:
+		was = None
+		row = doc.append(table, action.values["row"])
 	doc.flags.ignore_permissions = True
 	doc.save()
-	return {"name": action.name, "table": action.values["table"], "row": row.name}
+	return {"name": action.name, "table": table, "row": row.name, **({"was": frappe.as_json(was)} if was else {})}
 
 
 def _link(action: Action, before: dict) -> dict:
@@ -607,6 +617,14 @@ def _undo_add(row, before, after) -> str | None:
 	doc = frappe.get_doc(row.target_doctype, row.target_name)
 	if cint(doc.get("docstatus")) != 0:
 		return _("it has been submitted")
+	if after.get("was"):
+		row = next((one for one in doc.get(after["table"]) or [] if one.name == after.get("row")), None)
+		if not row:
+			return None
+		row.update(json.loads(after["was"]))
+		doc.flags.ignore_permissions = True
+		doc.save()
+		return None
 	kept = [one for one in doc.get(after.get("table")) or [] if one.name != after.get("row")]
 	if len(kept) == len(doc.get(after.get("table")) or []):
 		return None

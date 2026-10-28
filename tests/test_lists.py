@@ -95,7 +95,10 @@ def test_each_rail_with_lists_opens_its_controlcenter_on_them():
 		path = next((tree.APP / folder / "sidebar").glob("*/*.json"))
 		rows = json.loads(path.read_text())["items"]
 		urls = [row.get("url") for row in rows if row.get("label") == "Lists"]
-		assert urls == [f"/desk/one?center=settings&module={module}&at=lists"], (module, urls)
+		# One's rail opens screens only; its Lists are in its settings
+		# (docs/UI-NOTES.md, A rail row opens a screen).
+		wanted = [] if module == "One" else [f"/desk/one?center=settings&module={module}&at=lists"]
+		assert urls == wanted, (module, urls)
 
 
 def test_an_address_template_names_only_fields_of_the_address():
@@ -121,7 +124,7 @@ def test_contacts_and_addresses_are_the_workspaces_not_onecrms():
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())["items"]
 	labels = [item.get("label") for item in one]
 	at = labels.index("Address Book")
-	assert labels[at + 1 : at + 4] == ["Contacts", "Addresses", "Lists"]
+	assert labels[at + 1 : at + 4] == ["Contacts", "Addresses", "Centers"]
 	assert all(item.get("is_default_module") for item in one[at + 1 : at + 3])
 	assert "Masters" not in labels and "Setup" not in labels
 	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]

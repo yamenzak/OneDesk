@@ -17,6 +17,13 @@ LISTS = (
 	("Address Template", _lt("Address Templates"), _lt("Address Template")),
 )
 
+# A list may say how it is drawn in Lists: its icon (`ICONS`), and what its
+# entries are called when they are not values (`COUNTED`: one, then many).
+# Both are optional in any module's lists.py.
+ICONS = {"Salutation": "user-round", "Gender": "users", "Address Template": "map-pin"}
+
+COUNTED = {"Address Template": (_lt("1 country"), _lt("{0} countries"))}
+
 # The modules with lists, each with its folder, in the order a reader who
 # sees several meets them.
 HOMES = {
@@ -41,6 +48,12 @@ WORDS = re.compile(r"""\{\{-?\s*_\(\s*(?:"[^"{}%\\]*"|'[^'{}%\\]*')\s*\)\s*-?\}\
 def declared() -> dict[str, tuple]:
 	"""Every module's `LISTS`, by module."""
 	return {module: importlib.import_module(f"onedesk.{folder}.lists").LISTS for module, folder in HOMES.items()}
+
+
+def drawn(module: str) -> tuple[dict, dict]:
+	"""A module's `ICONS` and `COUNTED`, where its lists.py has them."""
+	held = importlib.import_module(f"onedesk.{HOMES[module]}.lists")
+	return getattr(held, "ICONS", {}), getattr(held, "COUNTED", {})
 
 
 def kinds_of() -> list[tuple]:
@@ -81,8 +94,15 @@ def kinds(module: str) -> list[dict]:
 	its ControlCenter's Lists and the nav pane's tree."""
 	if module not in _modules():
 		frappe.throw(_("Only administrators and the app's managers keep its lists."), frappe.PermissionError)
+	icons, counted = drawn(module)
 	return [
-		{"doctype": doctype, "label": str(label), "count": frappe.db.count(doctype, _below_root(doctype))}
+		{
+			"doctype": doctype,
+			"label": str(label),
+			"count": frappe.db.count(doctype, _below_root(doctype)),
+			"icon": icons.get(doctype) or "tags",
+			"counted": [str(word) for word in counted[doctype]] if doctype in counted else None,
+		}
 		for one, doctype, label, _one in kinds_of()
 		if one == module and _open(doctype)
 	]
@@ -123,7 +143,7 @@ def homes() -> dict[str, list[dict]]:
 	mine = _modules()
 	return {
 		doctype: [
-			{"label": _("{0} Lists").format(module), "route": f"/desk/one?center=settings&module={module}&at=lists"},
+			{"label": _("Lists"), "route": f"/desk/one?center=settings&module={module}&at=lists"},
 			{"label": str(label), "route": f"/desk/{doctype.lower().replace(' ', '-')}"},
 		]
 		for module, doctype, label, _one in kinds_of()

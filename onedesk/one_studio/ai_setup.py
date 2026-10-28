@@ -262,7 +262,7 @@ def suggest_dashboard(
 	why: Annotated[str, "In a sentence, what it is for."] | None = None,
 ) -> dict:
 	"""Suggest a dashboard of charts and number cards, made when a workspace
-	administrator approves it, under One > Dashboards. A chart counts, adds up
+	administrator approves it, under OneStudio > Dashboards. A chart counts, adds up
 	or averages records over time or by a field. Read describe_type for each
 	kind first. Workspace administrators only."""
 	if not roles.administers():

@@ -346,7 +346,9 @@ def _employee(ctx: dict, reading) -> None:
 		return
 	ctx["employee"] = found
 	ctx["employee_name"] = frappe.db.get_value("Employee", found, "employee_name")
-	ctx["employee_document_numbers"] = frappe.get_all("Employee Document", filters={"parent": found, "parenttype": "Employee"}, pluck="number")
+	held = frappe.get_all("Employee Document", filters={"parent": found, "parenttype": "Employee"}, fields=["name", "number", "document_type"])
+	ctx["employee_document_numbers"] = [one.number for one in held]
+	ctx["employee_documents_by_type"] = {one.document_type: one.name for one in held}
 	if reading.kind == "Sick Note":
 		from hrms.hr.doctype.leave_application.leave_application import get_employee_leave_approver
 

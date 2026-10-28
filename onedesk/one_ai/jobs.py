@@ -50,6 +50,7 @@ JOBS = {
 	"studio_mend": Job(_lt("Fix an Extension"), "OneAI", "build", most=8000, thinks="always"),
 	"embed": Job(_lt("Search by Meaning"), "OneAI", "embed", takes=8192),
 	"reply": Job(_lt("Draft a Reply"), "OneMail", "talk", most=600),
+	"bio": Job(_lt("Write a Bio"), "One", "talk", speaks=True, most=300),
 	"screen": Job(_lt("Screen Applicants"), "OneHR", "talk", most=1500),
 	"interview": Job(_lt("Interviews"), "OneHR", "talk", most=2000),
 	"transcribe": Job(_lt("Transcribe Interviews"), "OneHR", "hear", most=4000),

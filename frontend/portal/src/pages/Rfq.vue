@@ -166,8 +166,8 @@ const reckon = debounce(async () => {
   try {
     const rows = JSON.stringify(answer);
     preview.value = props.token
-      ? await call("onedesk.one.portal_share.link_preview", { token: props.token, rows })
-      : await call("quote_preview", { rfq: props.name, rows });
+      ? await call("onedesk.one_portal.share.link_preview", { token: props.token, rows })
+      : await call("onedesk.one_inventory.portal.quote_preview", { rfq: props.name, rows });
   } catch {
     preview.value = null;
   }
@@ -179,12 +179,12 @@ async function send() {
   try {
     const rows = JSON.stringify(answer);
     if (props.token) {
-      await call("onedesk.one.portal_share.link_send", { token: props.token, rows, notes: notes.value, by: by.value });
+      await call("onedesk.one_portal.share.link_send", { token: props.token, rows, notes: notes.value, by: by.value });
       toast.success(__("Quote sent"));
       await load();
       return;
     }
-    const quote = await call("send_quote", { rfq: props.name, rows, notes: notes.value });
+    const quote = await call("onedesk.one_inventory.portal.send_quote", { rfq: props.name, rows, notes: notes.value });
     toast.success(__("Quote sent"));
     router.push(`/supplier-quotations/${quote}`);
   } catch (error) {
@@ -202,11 +202,11 @@ async function load() {
   failed.value = false;
   try {
     if (props.token) {
-      const said = await call("onedesk.one.portal_share.link_view", { token: props.token });
+      const said = await call("onedesk.one_portal.share.link_view", { token: props.token });
       doc.value = said.page;
       answered.value = said.answered;
     } else {
-      doc.value = await call("rfq", { name: props.name });
+      doc.value = await call("onedesk.one_inventory.portal.rfq", { name: props.name });
     }
     fill();
   } catch {

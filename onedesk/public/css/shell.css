@@ -25,13 +25,8 @@
 
 .one-shell-section {
 	padding: calc(var(--spacing) * 6) calc(var(--spacing) * 4);
-	border-bottom: 1px solid var(--outline-gray-1);
 	font-size: var(--text-sm);
 	color: var(--ink-gray-8);
-}
-
-.one-shell-section:last-child {
-	border-bottom: 0;
 }
 
 .one-shell-section-title {
@@ -145,7 +140,6 @@
 .one-shell-form .form-section.one-shell-part {
 	margin: calc(var(--spacing) * 6) 0 0;
 	padding-top: calc(var(--spacing) * 6);
-	border-top: 1px solid var(--outline-gray-1);
 }
 
 .one-shell-form .form-section.one-shell-part:first-child {
@@ -357,6 +351,11 @@ a.one-shell-row:hover {
 	font-size: var(--text-sm);
 }
 
+/* A record page that gives no side has none. */
+.one-record-side:empty {
+	display: none;
+}
+
 .one-record-main > .one-shell-section {
 	padding: 0;
 	border: 0;
@@ -388,7 +387,6 @@ a.one-shell-row:hover {
 .one-record-main .one-shell-form .form-section.one-shell-part {
 	margin: calc(var(--spacing) * 5) 0 0;
 	padding-top: calc(var(--spacing) * 6);
-	border-top: 1px solid var(--outline-gray-1);
 }
 
 .one-record-main .one-shell-form .form-section.one-shell-part:first-child {

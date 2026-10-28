@@ -78,7 +78,7 @@ def _written(doctype: str, prop: str) -> bool:
 
 
 def frame_colour() -> str | None:
-	"""The workspace's Frame Colour (One's ControlCenter › General › Contact and Branding), for the
+	"""The workspace's Frame Colour (One's ControlCenter › Branding), for the
 	rail and the bars around every screen; None is One's own."""
 	company = frappe.defaults.get_global_default("company")
 	return frappe.get_cached_value("Company", company, "one_frame_colour") if company else None

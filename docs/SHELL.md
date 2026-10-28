@@ -132,7 +132,7 @@ composes them rather than drawing its own:
 - **Dialogs** are frappe.ui.Dialog; nothing draws a modal of its own.
 - **Pages outside the desk** (`www/`: /start, /welcome, the share and
   request pages, a customer's project) are frappe's web pages in One's
-  portal look (`public/css/portal.css`), without frappe's footer, and
+  portal look (`public/css/one_portal/portal.css`), without frappe's footer, and
   without styles of their own.
 - **Empty, quiet, loading**: one of each.
 - **Editor**: Settings' save core, lifted out: a FieldGroup from meta, dirty

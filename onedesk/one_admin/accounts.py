@@ -75,7 +75,7 @@ def home_page(user: str) -> str | None:
 
 	On the admin site, its own page rather than frappe's /portal, whose menu is
 	ERPNext's customer portal. On a workspace, a customer's or supplier's
-	contact lands on the portal's home (one/portal.py), not on frappe's /me.
+	contact lands on the portal's home (one_portal/portal.py), not on frappe's /me.
 	For anybody else (frappe asks this hook for desk users too), what it would
 	have been.
 	"""
@@ -191,15 +191,32 @@ def _stands(one) -> dict:
 @frappe.whitelist(methods=["POST"])
 @rate_limit(limit=10, seconds=60)
 def pay(tenant: str) -> dict:
-	"""Stripe's billing portal for a workspace this account holds: its open
-	invoice, its card. Back to /account after."""
+	"""Stripe's billing portal for a workspace this account holds, for its
+	open invoice: Stripe has no embedded way to pay one. Back to /account
+	after."""
+	_held(tenant)
+	from onedesk.one_admin import billing
+
+	return {"url": billing.portal(tenant, frappe.utils.get_url("/account"))}
+
+
+@frappe.whitelist(methods=["POST"])
+@rate_limit(limit=10, seconds=60)
+def card(tenant: str) -> dict:
+	"""A checkout that takes a new card for a workspace this account holds,
+	drawn in the invoices page (stripe.checkout_for_card)."""
+	_held(tenant)
+	from onedesk.one_admin import billing
+
+	return {"checkout": billing.card(tenant)}
+
+
+def _held(tenant: str) -> None:
+	"""Refuse anybody but the signed-in holder of this workspace."""
 	if not site.is_admin() or frappe.session.user == "Guest":
 		frappe.throw(frappe._("Sign in to your One account first."), frappe.PermissionError)
 	if frappe.db.get_value("Tenant", tenant, "account") != frappe.session.user:
 		frappe.throw(frappe._("This workspace is not in your account."), frappe.PermissionError)
-	from onedesk.one_admin import billing
-
-	return {"url": billing.portal(tenant, frappe.utils.get_url("/account"))}
 
 
 INVOICE = {

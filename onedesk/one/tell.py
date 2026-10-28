@@ -261,6 +261,13 @@ def password_changed(user: str) -> None:
 	)
 
 
+def two_factor_reset(user: str) -> None:
+	"""Two-factor was reset on a person's account, by them or an administrator."""
+	notify.notify(
+		"Two-Factor Reset", user, link="/desk/one?center=account&at=signin", sender="Administrator", **_said()
+	)
+
+
 def passkey_added(user: str) -> None:
 	"""A passkey was added to a person's account."""
 	slots = _said()
@@ -629,7 +636,7 @@ def sign_in_rules_changed(said: list[str]) -> None:
 	notify.notify(
 		"Sign-in Rules Changed",
 		admins,
-		link="/desk/one?center=settings&module=One&at=general",
+		link="/desk/one?center=settings&module=One&at=signin",
 		sender="Administrator",
 		by=frappe.utils.get_fullname(),
 		what=", ".join(said),

@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onestudio",
  "idx": 0,
- "modified": "2026-11-06 09:00:00.000000",
+ "modified": "2026-11-08 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Studio",
  "name": "OneStudio",
@@ -131,11 +131,71 @@
   {
    "keep_closed": 0,
    "type": "Section Break",
+   "label": "Dashboards",
+   "icon": "layout-dashboard",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 8
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Dashboards",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Dashboard",
+   "icon": "layout-dashboard",
+   "url": null,
+   "route_options": null,
+   "filters": null,
+   "idx": 9
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Charts",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Dashboard Chart",
+   "icon": "chart-column",
+   "url": null,
+   "route_options": null,
+   "filters": null,
+   "idx": 10
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Number Cards",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Number Card",
+   "icon": "hash",
+   "url": null,
+   "route_options": null,
+   "filters": null,
+   "idx": 11
+  },
+  {
+   "keep_closed": 0,
+   "type": "Section Break",
    "label": "Automation",
    "icon": "workflow",
    "indent": 1,
    "collapsible": 1,
-   "idx": 8
+   "idx": 12
   },
   {
    "child": 1,
@@ -152,7 +212,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 9
+   "idx": 13
   },
   {
    "child": 1,
@@ -169,7 +229,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 10
+   "idx": 14
   },
   {
    "child": 1,
@@ -186,7 +246,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 11
+   "idx": 15
   },
   {
    "child": 1,
@@ -203,7 +263,7 @@
    "url": null,
    "route_options": null,
    "filters": null,
-   "idx": 12
+   "idx": 16
   }
  ]
 }

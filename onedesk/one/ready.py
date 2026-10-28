@@ -92,6 +92,22 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"OnePortal": {
+		"folder": "one_portal",
+		"screens": "portal",
+		# Its own frappe-ui app, built apart from the islands (frontend/portal).
+		"app": "portal",
+		"names": ("one_portal", "oneportal"),
+		"ready": False,
+		"checked": {},
+		"help": (
+			("overview", "globe"),
+			("inviting", "user-plus"),
+			("links", "link"),
+			("what-they-see", "eye"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"One": {
 		"folder": "one",
 		"screens": "one",
@@ -114,7 +130,6 @@ MODULES = {
 			("notifications", "bell"),
 			("access-and-the-audit-log", "shield-check"),
 			("your-data", "folder-lock"),
-			("the-portal", "globe"),
 			("who-can-do-what", "shield"),
 			("settings", "settings"),
 		),
@@ -244,7 +259,7 @@ HAND = {
 # A path ending in / is a whole folder. A module's files leave them out, so
 # its version moves only with what is its own.
 _ENGINE = "an engine every module uses, kept in One's folder"
-_PORTAL = "the portal's, which becomes its own module in a later plan (docs/ONE.md)"
+_RAN = "OnePortal's, a patch that has run, kept at the path frappe recorded it under"
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/templates/emails/one_mail.html": "the frame every mail One sends is laid in, OneMail's or not",
@@ -291,22 +306,10 @@ SHARED = {
 	"onedesk/one/setup_steps.py": _ENGINE + ": the READY mechanisms, setup steps",
 	"onedesk/one/setup_wizard.py": _ENGINE + ": the first run, which sets every module up",
 	# What is in One's folder on its way to the module it belongs to.
-	"onedesk/one/portal.py": _PORTAL,
-	"onedesk/one/portal_invite.py": _PORTAL,
-	"onedesk/one/portal_share.py": _PORTAL,
-	"onedesk/one/doctype/portal_link/": _PORTAL,
-	"onedesk/one/patches/portal_account_forms.py": _PORTAL,
-	"onedesk/one/patches/portal_address_button.py": _PORTAL,
-	"onedesk/one/patches/portal_own_by_record.py": _PORTAL,
-	"onedesk/one/patches/portal_settle.py": _PORTAL,
-	"onedesk/one/custom/delivery_note.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/purchase_invoice.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/purchase_order.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/quotation.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/request_for_quotation.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/sales_invoice.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/sales_order.json": _PORTAL + ": its field on the records it shows",
-	"onedesk/one/custom/supplier_quotation.json": _PORTAL + ": its field on the records it shows",
+	"onedesk/one/patches/portal_account_forms.py": _RAN,
+	"onedesk/one/patches/portal_address_button.py": _RAN,
+	"onedesk/one/patches/portal_own_by_record.py": _RAN,
+	"onedesk/one/patches/portal_settle.py": _RAN,
 	"onedesk/one/privacy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
 	"onedesk/one/privacy_copy.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
 	"onedesk/one/privacy_public.py": "TrustCenter's Your Data, OneLegal's, to move into one_legal",
@@ -328,6 +331,7 @@ OUTSIDE = {
 	"OneAI": [],
 	"OneLegal": [],
 	"OneAccount": [],
+	"OnePortal": [],
 }
 
 
@@ -352,7 +356,7 @@ def places(module: str) -> list[Path]:
 		APP / "public" / "js" / spec["folder"],
 		APP / "public" / "css" / spec["folder"],
 		ROOT / "frontend" / "src" / spec["screens"],
-	]
+	] + ([ROOT / "frontend" / spec["app"]] if spec.get("app") else [])
 
 
 # What a version is taken over: what the module ships and its help pages,

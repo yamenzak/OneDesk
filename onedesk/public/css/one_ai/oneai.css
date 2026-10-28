@@ -1256,3 +1256,74 @@ body.one-ai-composing .one-ai-dial {
 		display: none;
 	}
 }
+
+/* An OneAI action's button (onedesk.oneai.action): frappe's own button in a
+   violet theme, as the Portal button is teal (one_portal/button.css), so
+   rest, hover, pressed, focus and disabled are each a violet step, with
+   OneAI's mark beside the label. */
+.es-button[data-theme="oneai"] {
+	--bt-solid-bg: var(--surface-violet-7);
+	--bt-solid-bg-hover: var(--surface-violet-8);
+	--bt-solid-bg-active: var(--surface-violet-9);
+	--bt-solid-fg: var(--ink-violet-1);
+	--bt-fill-bg: var(--surface-violet-2);
+	--bt-fill-bg-hover: var(--surface-violet-3);
+	--bt-fill-bg-active: var(--surface-violet-4);
+	--bt-fg: var(--ink-violet-8);
+	--bt-border: var(--outline-violet-2);
+	--bt-border-hover: var(--outline-violet-3);
+	--bt-outline-bg-active: var(--surface-violet-3);
+	--bt-disabled-bg: var(--surface-violet-1);
+	--bt-disabled-fg: var(--ink-violet-5);
+	--bt-disabled-border: var(--outline-violet-1);
+	--bt-focus: var(--focus-outline-violet);
+}
+
+/* Its quick panel (onedesk.oneai.quick): frappe's popover, wider, with what
+   to tell OneAI, then what it wrote. */
+.es-popover.one-ai-quick-panel {
+	width: calc(var(--spacing) * 96);
+}
+
+.one-ai-quick {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+}
+
+.one-ai-quick .es-popover__header {
+	margin-bottom: 0;
+}
+
+.one-ai-quick textarea {
+	min-height: calc(var(--spacing) * 24);
+	resize: vertical;
+}
+
+.one-ai-quick-said {
+	white-space: pre-wrap;
+	color: var(--ink-gray-8);
+	background: var(--surface-gray-1);
+	border-radius: var(--radius-md);
+	padding: calc(var(--spacing) * 3);
+}
+
+.one-ai-quick-actions {
+	display: flex;
+	justify-content: flex-end;
+	gap: calc(var(--spacing) * 2);
+}
+
+/* An action that belongs to one field sits on its label's row, at its end,
+   with the field's own gap below the row. */
+.one-field-head {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: calc(var(--spacing) * 2);
+	margin-bottom: calc(var(--spacing) * 1.5);
+}
+
+.one-field-head .control-label {
+	margin-bottom: 0;
+}

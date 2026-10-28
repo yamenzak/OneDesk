@@ -6,9 +6,6 @@ import frappe
 from frappe import _
 from frappe.model.document import Document
 
-ATTACH = ("Attach", "Attach Image")
-
-
 def hashed(token: str) -> str:
 	return hashlib.sha256(token.encode()).hexdigest()
 
@@ -25,10 +22,8 @@ class CloudFileRequest(Document):
 		self._people()
 
 	def _items(self):
-		fields = {}
-		if self.reference_doctype:
-			meta = frappe.get_meta(self.reference_doctype)
-			fields = {one.fieldname: one for one in meta.fields if one.fieldtype in ATTACH}
+		from onedesk.one_storage import targets
+
 		seen = set()
 		for one in self.items:
 			one.label = " ".join((one.label or "").replace("/", " ").split())
@@ -38,11 +33,12 @@ class CloudFileRequest(Document):
 			one.accept = ", ".join(
 				ext.strip().lstrip(".").lower() for ext in (one.accept or "").replace(";", ",").split(",") if ext.strip()
 			)
+			if one.row_key and not one.fieldname:
+				frappe.throw(_("{0} has a kind but no place on the record.").format(one.label))
 			if one.fieldname:
 				if not self.reference_doctype:
 					frappe.throw(_("{0} fills a record field, so the request must be on a record.").format(one.label))
-				if one.fieldname not in fields:
-					frappe.throw(_("{0} has no attachment field called {1}.").format(_(self.reference_doctype), one.fieldname))
+				targets.check(self.reference_doctype, one.fieldname, one.row_key)
 				one.several = 0
 
 	def _people(self):

@@ -25,3 +25,14 @@ def employee_of(user: str | None = None) -> str:
 		ignore_permissions=True,
 	)
 	return found[0] if found else ""
+
+
+def addresses_of(user: str | None = None) -> list[str]:
+	"""Every address this person is reached at: their sign-in, and their
+	Employee's personal, company and preferred ones. Lower case."""
+	user = user or frappe.session.user
+	found = {user, frappe.db.get_value("User", user, "email")}
+	employee = employee_of(user)
+	if employee:
+		found.update(frappe.db.get_value("Employee", employee, ["personal_email", "company_email", "prefered_email"]) or ())
+	return sorted({one.strip().lower() for one in found if one and "@" in one})

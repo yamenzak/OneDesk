@@ -2,7 +2,8 @@
 
 ## A Copy, or Deleting
 
-**Your Data** is in TrustCenter, which the shield at the foot of any app opens:
+**Your Data** is in TrustCenter, on One's rail, and at the end of any app's
+**Settings**:
 
 - **Request My Data** requests a copy of your data. An administrator
   reviews the request (see Privacy Requests). When the copy is ready, you get a
@@ -16,8 +17,8 @@
 
 People ask for a copy of their data, or for their account to be deleted, under
 TrustCenter › **Your Data**. People without an account use the workspace's
-**/your-data** page. Administrators handle requests at the end of Your Data,
-under **Requests**: every request for a copy of someone's data and every
+**/your-data** page. Administrators handle requests under TrustCenter › **Requests**, which
+counts those waiting: every request for a copy of someone's data and every
 request to delete an account, in one list. Open one to answer it.
 
 - Administrators are notified of each new request in One and by email, and

@@ -14,10 +14,12 @@ clause(
 	module=M,
 	body="""
 		Your profile holds your name, photo, gender, birth date, mobile number, location, a short bio, and your
-		language and time zone. If you are an employee, it also shows your employee record: your addresses,
-		personal email, an emergency contact, marital status and blood group, which you keep up to date, and
-		your job and bank details, which HR keeps. Your name and photo are seen by everybody in the workspace;
-		the rest of your employee record, only by you and HR.
+		language and time zone. If you are an employee, it also shows your employee record. You keep your
+		addresses, personal email, emergency contact, marital status, blood group, education and past work up
+		to date. You also keep your identity documents: an ID card, passport or permit, with its number, dates
+		and a copy. HR is told when you change any of these. HR keeps your job, contract and bank details.
+		Your name and photo are seen by everybody in the workspace; the rest of your employee record, only by
+		you and HR.
 	""",
 	order=5,
 )
@@ -45,10 +47,10 @@ clause(
 	module=M,
 	body="""
 		Your workspace's administrators can see which apps you may use and when you were last active. They
-		also see where you are signed in (the device and network address) and your last sign-ins, failed
-		ones included. They can
-		sign you out everywhere, send you a password reset, or turn your account off, and you are told when
-		what you may use changes.
+		also see how you sign in, where you are signed in (the device and network address) and your last
+		sign-ins, failed ones included. They can sign you out everywhere or send you a password reset. They
+		can reset your two-factor sign-in, so you set it up again, or turn your account off. You are told
+		when they do, and when what you may use changes.
 	""",
 	order=8,
 )
@@ -63,7 +65,10 @@ clause(
 		When you sign in, One remembers the browser you used: what kind it is, when you last signed in on it
 		and the network address, and which passkeys you made on it. Your workspace's administrators see this
 		list, can name a browser and say whether it is shared or yours, and can turn off the passkeys on it.
-		A passkey's private key never leaves your device; One keeps only its public half.
+		They can mark a company device lost, which signs out whoever is on it, or retired; either way its
+		passkeys stop working and their owners are told. A browser nobody named, that holds no passkey and has
+		not been seen for 30 days, is forgotten. A passkey's private key never leaves your device; One keeps
+		only its public half.
 	""",
 	order=9,
 )

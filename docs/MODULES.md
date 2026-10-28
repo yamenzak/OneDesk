@@ -7,7 +7,6 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Portal Link | 16 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
 | Record Head Band | 12 | child |
@@ -53,7 +52,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 59 | single |
+| One Admin Settings | 60 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -132,7 +131,7 @@ No doctypes yet.
 |---|--:|---|
 | Cloud Drive Password | 4 | document |
 | Cloud File Request | 15 | document |
-| Cloud File Request Item | 6 | child |
+| Cloud File Request Item | 7 | child |
 | Cloud File Request Recipient | 6 | child |
 | Cloud File Request Upload | 4 | child |
 | Cloud File Version | 7 | document |
@@ -158,6 +157,14 @@ No doctypes yet.
 |---|--:|---|
 | Legal Acceptance | 9 | document |
 | Legal Document Version | 8 | document |
+
+## One Portal
+
+`onedesk/one_portal`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Portal Link | 16 | document |
 
 ## One Studio
 
@@ -202,7 +209,7 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneproject, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods
@@ -239,21 +246,19 @@ No doctypes yet.
 * `onedesk.one.account.plans_quote`
 * `onedesk.one.account.plans_take`
 * `onedesk.one.account.wake`
-* `onedesk.one.address_book.one`
-* `onedesk.one.address_book.read`
 * `onedesk.one.announcements.current`
 * `onedesk.one.announcements.hide`
-* `onedesk.one.announcements.read`
 * `onedesk.one.announcements.show`
 * `onedesk.one.announcements.stop`
 * `onedesk.one.apps.read`
 * `onedesk.one.apps.save`
 * `onedesk.one.apps.search_link`
 * `onedesk.one.audit.log`
+* `onedesk.one.avatars.gallery`
+* `onedesk.one.avatars.pick`
 * `onedesk.one.control.load`
 * `onedesk.one.control.save`
 * `onedesk.one.control.sections_of`
-* `onedesk.one.dashboards.read`
 * `onedesk.one.head.foresee`
 * `onedesk.one.head.offer`
 * `onedesk.one.head.preview`
@@ -273,34 +278,6 @@ No doctypes yet.
 * `onedesk.one.outside.kind_of`
 * `onedesk.one.outside.report_query`
 * `onedesk.one.outside.search`
-* `onedesk.one.portal.accept_quote`
-* `onedesk.one.portal.apps`
-* `onedesk.one.portal.decline_quote`
-* `onedesk.one.portal.form`
-* `onedesk.one.portal.home`
-* `onedesk.one.portal.quote_preview`
-* `onedesk.one.portal.record`
-* `onedesk.one.portal.rfq`
-* `onedesk.one.portal.rows`
-* `onedesk.one.portal.send_quote`
-* `onedesk.one.portal.your_data`
-* `onedesk.one.portal_invite.invite_again`
-* `onedesk.one.portal_invite.invite_contact`
-* `onedesk.one.portal_invite.restore`
-* `onedesk.one.portal_invite.revoke`
-* `onedesk.one.portal_invite.state`
-* `onedesk.one.portal_share.access`
-* `onedesk.one.portal_share.link_accept`
-* `onedesk.one.portal_share.link_decline`
-* `onedesk.one.portal_share.link_pdf`
-* `onedesk.one.portal_share.link_preview`
-* `onedesk.one.portal_share.link_send`
-* `onedesk.one.portal_share.link_view`
-* `onedesk.one.portal_share.mail_link`
-* `onedesk.one.portal_share.make_link`
-* `onedesk.one.portal_share.revoke_link`
-* `onedesk.one.portal_share.rotate_link`
-* `onedesk.one.portal_share.set_access`
 * `onedesk.one.privacy.approve`
 * `onedesk.one.privacy.ask_to_delete`
 * `onedesk.one.privacy.confirm`
@@ -319,7 +296,6 @@ No doctypes yet.
 * `onedesk.one.push.test`
 * `onedesk.one.push.worker`
 * `onedesk.one.recycle.bulk_restore`
-* `onedesk.one.recycle.read`
 * `onedesk.one.recycle.restore`
 * `onedesk.one.rules.fields_of`
 * `onedesk.one.rules.watchable`
@@ -330,12 +306,15 @@ No doctypes yet.
 * `onedesk.one.tours.tour`
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
+* `onedesk.one_account.ai.write_bio`
+* `onedesk.one_account.bills.change_card`
 * `onedesk.one_account.bills.invoices`
 * `onedesk.one_account.bills.payment_portal`
 * `onedesk.one_account.bills.to_books`
 * `onedesk.one_account.center.invite`
 * `onedesk.one_account.center.invite_again`
 * `onedesk.one_account.center.load`
+* `onedesk.one_account.center.reset_two_factor`
 * `onedesk.one_account.center.save`
 * `onedesk.one_account.center.sections_of`
 * `onedesk.one_account.center.send_reset`
@@ -353,9 +332,11 @@ No doctypes yet.
 * `onedesk.one_account.devices.save`
 * `onedesk.one_account.invite.accept`
 * `onedesk.one_account.private.claim`
+* `onedesk.one_account.signin.reset_two_factor`
 * `onedesk.one_account.signin.sign_out`
 * `onedesk.one_account.signin.update_password`
 * `onedesk.one_admin.accounts.ask_email_change`
+* `onedesk.one_admin.accounts.card`
 * `onedesk.one_admin.accounts.confirm_email`
 * `onedesk.one_admin.accounts.pay`
 * `onedesk.one_admin.accounts.save_name`
@@ -388,6 +369,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_web_search`
 * `onedesk.one_admin.proxy.app_claim`
 * `onedesk.one_admin.proxy.billed_to`
+* `onedesk.one_admin.proxy.billing_card`
 * `onedesk.one_admin.proxy.billing_invoice`
 * `onedesk.one_admin.proxy.billing_invoices`
 * `onedesk.one_admin.proxy.billing_portal`
@@ -418,6 +400,7 @@ No doctypes yet.
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.signup.state`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.center.drop_knowledge`
 * `onedesk.one_ai.center.keep_knowledge`
@@ -507,6 +490,8 @@ No doctypes yet.
 * `onedesk.one_crm.capture.take`
 * `onedesk.one_crm.home.read`
 * `onedesk.one_crm.next.done`
+* `onedesk.one_crm.portal.accept_quote`
+* `onedesk.one_crm.portal.decline_quote`
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
 * `onedesk.one_crm.story.read`
@@ -610,6 +595,9 @@ No doctypes yet.
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`
 * `onedesk.one_inventory.plant.read`
+* `onedesk.one_inventory.portal.quote_preview`
+* `onedesk.one_inventory.portal.rfq`
+* `onedesk.one_inventory.portal.send_quote`
 * `onedesk.one_inventory.quotes.ask`
 * `onedesk.one_inventory.quotes.order_cheapest`
 * `onedesk.one_inventory.quotes.read`
@@ -705,6 +693,29 @@ No doctypes yet.
 * `onedesk.one_mail.rules.who_is_away`
 * `onedesk.one_mail.signatures.presets_of`
 * `onedesk.one_mail.signatures.set_preset`
+* `onedesk.one_portal.invite.invite_again`
+* `onedesk.one_portal.invite.invite_contact`
+* `onedesk.one_portal.invite.restore`
+* `onedesk.one_portal.invite.revoke`
+* `onedesk.one_portal.invite.state`
+* `onedesk.one_portal.portal.apps`
+* `onedesk.one_portal.portal.form`
+* `onedesk.one_portal.portal.home`
+* `onedesk.one_portal.portal.record`
+* `onedesk.one_portal.portal.rows`
+* `onedesk.one_portal.portal.your_data`
+* `onedesk.one_portal.share.access`
+* `onedesk.one_portal.share.link_accept`
+* `onedesk.one_portal.share.link_decline`
+* `onedesk.one_portal.share.link_pdf`
+* `onedesk.one_portal.share.link_preview`
+* `onedesk.one_portal.share.link_send`
+* `onedesk.one_portal.share.link_view`
+* `onedesk.one_portal.share.mail_link`
+* `onedesk.one_portal.share.make_link`
+* `onedesk.one_portal.share.revoke_link`
+* `onedesk.one_portal.share.rotate_link`
+* `onedesk.one_portal.share.set_access`
 * `onedesk.one_project.activity.activity`
 * `onedesk.one_project.agreement.draw_up`
 * `onedesk.one_project.agreement.parties`
@@ -815,12 +826,15 @@ No doctypes yet.
 * `onedesk.one_storage.dav.make_password`
 * `onedesk.one_storage.dav.passwords`
 * `onedesk.one_storage.dav.serve`
+* `onedesk.one_storage.file_requests.asked_at`
 * `onedesk.one_storage.file_requests.close`
 * `onedesk.one_storage.file_requests.fields`
+* `onedesk.one_storage.file_requests.guess`
 * `onedesk.one_storage.file_requests.make`
 * `onedesk.one_storage.file_requests.progress`
 * `onedesk.one_storage.file_requests.remind`
 * `onedesk.one_storage.file_requests.send`
+* `onedesk.one_storage.file_requests.send_mine`
 * `onedesk.one_storage.history.activity`
 * `onedesk.one_storage.history.restore`
 * `onedesk.one_storage.history.star`

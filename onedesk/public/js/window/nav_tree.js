@@ -10,6 +10,9 @@
 //          `open` is true or false on a row that holds others and absent
 //          on a leaf; `icon` is a lucide name; with an `href` a row opens in
 //          a new tab, and a plain click is still the screen's.
+//   heading  a name over the rows, drawn as the rail's own section names
+//          (Centers); with `alone` the tree is its own section of the rail,
+//          before the section names, rather than under the view's row.
 //   pick   (id, event) a row was chosen.
 //   twist  (id) a row's twisty was clicked; choosing a row never folds it.
 //   over   (id, event) something is dragged over a row; true takes it, and
@@ -66,7 +69,12 @@ onedesk.window.Tree = class Tree {
 				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span>${label}${warn}${count}${more}</a></div>`;
 			})
 			.join("");
-		this.$host.html(html);
+		const heading = this.spec.heading
+			? `<div class="sidebar-item-container section-item one-window-tree-heading"><div class="standard-sidebar-item"><span class="item-anchor section-break"><span class="sidebar-item-label">${esc(
+					this.spec.heading
+			  )}</span></span></div></div>`
+			: "";
+		this.$host.html(heading + html);
 	}
 
 	bind() {
@@ -137,6 +145,7 @@ onedesk.window.Tree = class Tree {
 
 // This view's tree, in the nav pane under its row.
 onedesk.window.Window.prototype.tree = function (spec) {
+	if (spec.alone !== undefined) this.tree_alone = !!spec.alone;
 	if (!this._tree) this._tree = new onedesk.window.Tree(this.nav_slot(), spec);
 	else this._tree.set(spec);
 	return this._tree;
@@ -206,8 +215,9 @@ onedesk.window.Window.prototype.foot_action = function ({ icon, label, click, ve
 };
 
 // A module's foot, the same in every module (docs/READY.md, mechanisms 5,
-// 10 and 13): Settings, the tour of the screen it is on, Help and
-// TrustCenter, each an icon, then the version at the row's end.
+// 10 and 18): Settings, the tour of the screen it is on and Help, each an
+// icon, then the version at the row's end. Every other centre is a row at the
+// end of Settings, and all of them are One's rail's.
 onedesk.window.Window.prototype.module_foot = function ({ module, settings }) {
 	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
 	this.$foot_action.addClass("one-window-foot-action--icons").find(".item-anchor").attr({ title: __("Settings"), "aria-label": __("{0} Settings", [module]) });
@@ -229,11 +239,6 @@ onedesk.window.Window.prototype.foot_version = function ({ module }) {
 		.attr({ title: __("Help"), "aria-label": __("{0} Help", [module]) })
 		.html(frappe.utils.icon("circle-question-mark", "sm"))
 		.on("click", () => onedesk.help.open(module))
-		.appendTo($row);
-	$(`<button type="button" class="one-window-foot-help"></button>`)
-		.attr({ title: "TrustCenter", "aria-label": __("{0} and Your Data", [module]) })
-		.html(frappe.utils.icon("shield-check", "sm"))
-		.on("click", () => onedesk.trust.open({ module }))
 		.appendTo($row);
 	const $chip = $(`<button type="button" class="one-window-foot-version"></button>`)
 		.attr({ title: __("What's New"), "aria-label": __("What's New in {0}", [module]) })

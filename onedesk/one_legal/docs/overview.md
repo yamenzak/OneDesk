@@ -2,8 +2,8 @@
 
 TrustCenter holds the agreements One runs under, what your workspace has
 agreed to, which other companies receive its data, and what is changing.
-Open it from the shield in the bottom bar. A module's foot opens the part
-of it that is that module's.
+Open it from One's rail. **Your Data** at the end of a module's Settings
+opens the part of it that is that module's.
 
 ![TrustCenter open on the Terms of Service](overview/trust.png)
 

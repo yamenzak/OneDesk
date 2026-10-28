@@ -25,6 +25,19 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Overview",
+   "link_to": "Stock",
+   "link_type": "Dashboard",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "layout-dashboard"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Item",
    "link_type": "DocType",
    "show_arrow": 0,
@@ -127,6 +140,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Buying Overview",
+   "link_to": "Buying",
+   "link_type": "Dashboard",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Reorder",
    "link_type": "Page",
    "show_arrow": 0,
@@ -191,6 +216,18 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Manufacturing Overview",
+   "link_to": "Manufacturing",
+   "link_type": "Dashboard",
+   "show_arrow": 0,
+   "type": "Link"
   },
   {
    "child": 1,
@@ -269,6 +306,18 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
+   "label": "Asset Overview",
+   "link_to": "Asset",
+   "link_type": "Dashboard",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
    "label": "Asset",
    "link_type": "DocType",
    "show_arrow": 0,
@@ -329,7 +378,7 @@
    "url": "/desk/one?center=settings&module=OneInventory&at=lists"
   }
  ],
- "modified": "2026-11-06 09:00:00.000000",
+ "modified": "2026-11-08 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

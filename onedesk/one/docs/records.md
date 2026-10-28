@@ -37,14 +37,12 @@ such as OneBook for invoices or OneCRM for customers.
 
 ## Dashboards
 
-One › **Dashboards** holds pages of charts and number cards, such as invoices
-by month or how many are unpaid.
+A dashboard is a page of charts and number cards, such as invoices by month
+or how many are unpaid.
 
-- Each dashboard is under the app it is about, and you see the ones of the
-  apps you use. Type in the search box to find one, and click it to open it.
-  Dashboards made in the workspace are under **Made Here**.
-- Administrators create them with **New Dashboard**, then add charts and
-  cards.
+- Each app's dashboards are on its own rail, as **Overview** rows.
+- Administrators make and change them in OneStudio › **Dashboards**, with
+  its **Charts** and **Number Cards**.
 - Each chart and card shows only to people who can read what it counts.
 - A chart counts, sums or averages records, groups them, or shows a report.
 - **Show In…** on a dashboard's menu also lists it under Dashboards in an
@@ -157,4 +155,4 @@ record later.
 3. Click **Create**.
 
 When it's due you get a **Reminder** notification that opens the record. It
-comes by email and push too, as you chose under You › Notifications.
+comes by email and push too, as you chose in NotificationCenter.

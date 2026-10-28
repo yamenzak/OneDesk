@@ -376,7 +376,8 @@ def credit_packs() -> list:
 
 @frappe.whitelist()
 def buy_credits(pack: str) -> dict:
-	"""Somewhere to pay for a pack. The credit arrives by webhook, not here."""
+	"""A checkout for a pack, drawn in Plan and Credits. The credit arrives by
+	webhook, not here."""
 	roles.require()
 	return ask("onedesk.one_admin.proxy.buy_credits", pack=pack)
 

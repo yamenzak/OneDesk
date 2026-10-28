@@ -1,36 +1,55 @@
 # One
 
 One is the workspace itself: the frame every app sits in (the rail, the two
-bars, the dock), Home, the Address Book, Announcements, Dashboards and the
-Recycle Bin, and the centres that hold the workspace's settings
-(ControlCenter › General), who may do what (AccessCenter, with the Audit
+bars, the dock), Home, the Address Book, Announcements and the Recycle
+Bin, and the centres that hold the workspace's settings
+(ControlCenter: Company, Branding, Region and Formats, Sign-in, Sharing), who may do what (AccessCenter, with the Audit
 Log) and how people are told (NotificationCenter). docs/ONE.md is how it was
 cut down to that, and docs/READY.md what it is held to.
 
 Its Help pages, docs/ beside this file, are what people read and what OneAI
 answers "how do I…" from. This file is for the people who build One. Files
 in this folder that are not One's own (the engines every module uses, and
-the portal and privacy on their way to their own modules) are named, with
-why, in ready.SHARED.
+privacy on its way to its own module) are named, with why, in
+ready.SHARED. The portal is OnePortal's (one_portal/AGENTS.md).
 
 ## Connections
 
 - **To OneMail**: One's frame and rail; ControlCenter, which OneMail's settings
   are drawn in; AccessCenter and NotificationCenter, which find and draw what
   OneMail declares of its roles and notifications.
-- **From OneAccount**: AccountCenter, opened from the avatar, holds each
-  person's profile and sign-in and the workspace's people, devices, plan and
-  domains. One's Workspace rows open it.
+- **From OneAccount**: AccountCenter, opened from the avatar and One's
+  Centers, holds each person's profile and sign-in and the workspace's
+  people, devices, plan and domains.
 - **From OneLegal**: TrustCenter holds the agreements and Your Data, whose
   Requests an administrator answers.
-- **From OneAI**: the panel on every page; Home counts the suggestions
-  waiting; What OneAI Remembers and Reads, under You, open AICenter.
-- **From OneHR**: Home counts the leave and expense claims waiting for
-  the reader's approval.
+- **From OneAI**: the panel on every page; AICenter is a row of One's
+  Centers.
+- **From OneHR**: Home lists the leave and expense claims waiting for the
+  reader's approval.
 - **To OneStudio**: printing, numbering, approvals and automations, which
-  were One's Setup and Automation, are OneStudio's.
+  were One's Setup and Automation, are OneStudio's, and so is making
+  dashboards, which were One's Dashboards and are now on each app's rail.
 
 ## Under the hood
+
+**Pictures** (`avatars.py`, One's settings › Pictures). The tab also switches
+Gravatar and Google's logos through `onedesk.trust.switch`, TrustCenter's own
+agreement, so a service is agreed to in one way wherever it is turned on; a
+style is picked from the record type's avatar (`avatars.gallery`, `pick`) and
+saved as it is picked. DiceBear
+(`@dicebear/core` and `@dicebear/collection`, MIT, pinned in
+`frontend/package.json`) draws on the server through
+`frontend/avatars/draw.mjs`, one run of node per batch; nothing leaves the
+workspace, so it is no optional service and no clause. The style picked per
+record type is the `one_avatar_styles` default. OneMail's `faces.dress`
+tries the record's own and Gravatar's first and draws only when both have
+nothing. A drawn picture is a File named `drawn-<style>-<hash>.svg` in
+Home/Pictures, unattached so it is no attachment and says nothing in the
+activity; the name is how a change of style finds what it may redraw and
+None what it takes off, and nothing else is ever replaced. Fourteen of the
+31 styles are CC BY 4.0: their credit is the creator in the style's name in
+the settings and DiceBear's own `<metadata>` inside every SVG.
 
 | File | What it does |
 |---|---|
@@ -48,7 +67,6 @@ why, in ready.SHARED.
 | `outside.py`, `boot.py`, `../public/js/desk.js`, `../public/js/outside.js` | One's sidebars and workspaces only, for everyone: frappe's, erpnext's and hrms's are left out of the boot, their addresses and frappe's apps screen go to One's Home. No menu item ends on a screen the reader cannot open (Import, View Audit Trail, Setup Auto Email, System Health), the print page has no Print Settings, and frappe's Edit Sidebar and Manage Dock are not offered. Frappe's own screens for notification settings, people, files, to-dos, mail and printing open One's. Help is Ask OneAI, the theme is in the user menu, and search, pickers of record types and reports, and global search offer only what One shows (`shown.json`); frappe's documentation links are dropped. A page not found or not permitted keeps the rail. Search, Check In, OneAI, Timers and Notifications are frappe's own buttons in the bar across the top of the shell (`desk.js` `bar`, Discord's and Slack's title bar), since a page with a sidebar of its own hides the panel's band they were in; frappe's full-height boxes are each the window less the bar (`desk.css`), beside the bar the band is hidden, the bar and the pinned rail are one frame with the rest inset in it, its first panel's corner rounded, and on a phone there is no bar and the band keeps them |
 | `private.py` | Private apps on this workspace: the installed apps whose hooks.py says `one_private_app` (`names`, `about`), mounted on the rail by `companions.apply` and kept in the boot by `outside.kept`; always-on cards in Apps; `claim` hands a typed code to the control plane (`proxy.app_claim`), `waiting` asks how far each claimed install has got; `after_app_install` relayers the rail at once, and `before_app_uninstall` refuses one |
 | `apps.py`, `companions.py`, `../public/js/apps.js` | Apps a workspace turns off (`one_hidden_apps`, a global default): the site's Dock layer hides their rows (`companions.layer`), `outside.kept` leaves their sidebars out of the boot so their records open in another app that lists them or on Home (`apps.rehome`), and the record types only they list (`apps.doctypes`) leave the awesomebar (`AwesomeBar.build_options`), DocType pickers (`apps.search_link` wraps frappe's) and empty Link fields on forms. Nothing touches permissions, so OneAI's `has_permission` check before it files still passes; frappe's own disabled-app switch would refuse. OneAI and its reading are cards too, not rail rows: `NEEDS` turns Reading off with OneAI, `apps.refuse_ai` in `run.ask` and `run.once` refuses every model call, `apps.intake_on` stops `pipeline.later`, `again`, the scheduled jobs and the switches, and `apps.trim` takes their sections out of One's sidebar and their links out of others |
-| `portal.py`, `../www/portal.py`, `../../frontend/portal/` | The portal a workspace's customers and suppliers sign in to, a frappe-ui app at `/portal`: its tabs (Portal Settings by role), its home, every list, record, quote request and account page, read through frappe's and erpnext's own contexts and answered as JSON. erpnext's and frappe's old portal addresses lead into it. A contact invited as a user becomes a portal user of their customer or supplier |
 | `../www/404.py`, `../www/message.py`, `../www/error.py`, `../www/me.py` | Frappe's web pages for not found, a message, an error and `/me`, in One's portal look. `/me` sends someone with a desk to Profile and an account holder to `/account` |
 
 **A record's head is rows.** The pill beside a form's title, the sentence
@@ -277,11 +295,11 @@ One adds five things:
   each chose (Announcement), not only at their next sign-in.
 - **The administrators see who has read it,** frappe's own Seen By, and
   OneAI answers who has not.
-- **It has a page** (`announcements`,
-  `frontend/src/one/Announcements.vue`): `read` gives every public one in
-  full, Showing Now apart from Earlier, and for an administrator who has seen
-  each (Note Seen By) and how many people there are. `stop` ends one at once
-  by setting its Show Until to now.
+- **It is frappe's Note list** (`public/js/note_list.js`), titled
+  Announcements and opening on what is showing: Status (`one_status`,
+  Showing or Ended) is a standard filter, administrators get Stop Showing
+  in its actions, and `stop` ends one at once by setting its Show Until to
+  now. Who has seen each is frappe's own Seen By on the form.
 - **It runs along the top bar** (`current`, booted as `one_announcements`
   and drawn by `onedesk.dock.news`): public, not expired, newest five. A Note
   with no expiry runs for `FRESH_DAYS` from when it was posted, as frappe's
@@ -431,41 +449,24 @@ does. A tenant who wants the original back enables it.
 
 Home is the page `one` (so `/desk/one`, where every `?center=` link opens a
 centre, is still Home), drawing the island `onedesk.one_home`
-(`frontend/src/one/Home.vue`). `read` gives it everything at once: a
-count for each app the reader has (an app the workspace turned off is left
-out), the first few tasks due or late, today's calendar and what waits for
-their approval, and, for an administrator, `attention`. Each counts through
-`frappe.get_list` or the app's own reader, so it is exactly what the reader
-may open. The island hears the kinds it lists and asks again when one
-changes.
+(`frontend/src/one/Home.vue`). `read` gives it what only One sees across
+the apps, all at once: what waits for the reader's approval in every app,
+the announcements running (`announcements._running`), the apps with a
+version they have not opened (`news`, from `versions.for_boot`), and for an
+administrator the workspace at a glance (`glance`: people against seats,
+apps on, storage against its limit, OneAI credits, from `Workspace
+Account`) and `attention`. A task, a meeting or a document waiting is its
+own app's, on that app's home. Each approval is read through
+`frappe.get_list`, so it is exactly what the reader may open. The island
+hears the kinds it lists, and a version seen, and asks again.
 
 It replaced frappe's `One` workspace, five Number Cards and a Custom HTML
-Block (patches/home_is_a_page.py): a workspace's cards could not say which
-tasks, nor leave an app out that was turned off.
+Block (patches/home_is_a_page.py), then its own first shape, which counted
+tasks, meetings and documents that their apps' homes already show.
 
-Nothing here is kept: each number is asked when Home is drawn. `my_day` is
-the same for OneAI.
-
-### dashboards.py
-
-The Dashboards page (`dashboards`, `frontend/src/one/Dashboards.vue`) lists
-frappe's own dashboards, each opening frappe's dashboard view. A dashboard
-belongs to the app whose rail lists it, else the app most of its charts count
-records of (OneStudio's `reports._module`, the same rule that places a saved
-report), and the reader sees it only if they work in that app
-(`reports.places`) and may read at least one of its charts. One with nothing
-in it is nobody's. One made in the workspace is under Made Here.
-
-### address_book.py
-
-Contacts and addresses as one screen (`address-book`,
-`frontend/src/one/AddressBook.vue`). Both are frappe's own records, linked to
-whoever they belong to through their Links table (`Dynamic Link`); `one`
-finds the other kind linked to any of the same records, so a person shows
-their places and a place its people, without a link of their own. Everything
-read is through `frappe.get_list`, so it is what the reader may open; Edit is
-frappe's form. The rail's Contacts and Addresses are this page with
-`?view=`, and the island follows the address when the rail changes it.
+Nothing here is kept: each number is asked when Home is drawn. `my_day`
+reads the reader's whole day across the apps for OneAI, tasks and meetings
+included.
 
 ### homes.py
 
@@ -511,7 +512,9 @@ required and unique.
 
 Each list is frappe's or erpnext's own doctype, declared by the module whose
 records pick from it, as `LISTS` in its `lists.py` (One's are here, the
-Address Book's); `HOMES` names the modules that have any. An administrator
+Address Book's); `HOMES` names the modules that have any. A module may also
+give a list its own icon (`ICONS`) and say what its entries are when they
+are not values (`COUNTED`, "10 countries" for Address Templates). An administrator
 keeps every module's; an app's managers keep their app's, and are given what
 erpnext keeps for a role of its own (access.py `_lists`). Whether a value can
 be added, renamed or removed is frappe's own permission check, as anywhere
@@ -651,86 +654,6 @@ record that a rail lists opens in that rail; desk.js `kept` sends one to One's
 Workspace Settings only when no rail lists it, where it used to send every
 dashboard there, so OneHR's Recruitment Overview left OneHR.
 
-### portal.py
-
-The portal is a frappe-ui app (frontend/portal), built by frappe-ui's vite
-plugin the way HRMS builds its own, and served at `/portal` by
-www/portal.py with what it starts with (`boot`: the reader, their tabs, their
-language). It draws; what is listed, and for whom, stays erpnext's and
-frappe's. Portal Settings lists what each role sees (`get_portal_sidebar_items`),
-`rows` lists a kind through frappe's `get_list_data_for_context`, which runs
-the kind's own `get_list_context`, `record` and `rfq` read erpnext's own page
-contexts (`templates/pages/order` and `rfq`), which check the reader may see
-the record, and `form` reads a web form through frappe's `get_form_data`. Each
-answers with every value as frappe formats it. A record's steps, the figure
-it leads with and its linked records (`_steps`, `_summary`, `_related`)
-read only the record and the items rows that name it (`CHAIN`), and a linked
-record shows only when it is the same customer's or supplier's (`PARTY`).
-
-The Jinja portal this replaces (a page and a row template for each kind,
-under the site's navbar) is gone; website_redirects in hooks.py send its
-addresses, and erpnext's (/orders/<name>), into the app. ERPNext's project
-page is www/projects.py, which does the same: frappe keeps a redirect by its
-path alone, so a rule can't tell /projects?project=… from /projects.
-
-A record unticked for some contacts keeps only them, as a list of Contact
-names in its `one_portal_hidden` (a hidden custom field on each of the eight
-kinds), so a contact added later sees it with nobody having to tick them.
-`mine` holds a reader to it: the lists, Home and linked records filter by it,
-and `has_website_permission` (hooks.py), beside erpnext's own, refuses the
-rest on the record page, erpnext's own pages and a PDF. erpnext lets every
-portal user of a customer read all of it, and has no narrower rule to build
-on. A quote request has no erpnext rule to sit beside, and adding one would
-open it to every website user, so `rfq` checks `mine` itself.
-
-A link (one/portal_share.py) is a Portal Link: the record, the party, the
-contact or address it is for, its last day, and the sha256 of its token,
-looked up by that hash; the token itself is a Password field, kept only so
-**Copy** can give the link again. `_live` refuses a revoked, expired,
-cancelled or unknown token with the same words, so a guess learns nothing.
-The link's page is the portal's own (pages/Link.vue draws Record.vue or
-Rfq.vue with the token), and its calls are `link_view`, `link_accept`,
-`link_decline`, `link_preview`, `link_send` and `link_pdf`, allowed to a
-guest, which run the signed-in reader's code (`accept`, `decline`, `_rfq`,
-`_quote`, `send`) with the link's party in place of a signed-in one. A link
-is used up by its answer, not by being opened, because mail scanners open
-links before people do. The answerer's name and address go on the record as
-a comment and on the link as `used_by`.
-
-`ACCOUNT` is the reader's own account, under Account in the sidebar: frappe's
-Edit Profile web form, Password on frappe's update_password, One's Your Data
-(one/privacy.py) and frappe's Third Party Apps, shown once an app has been
-let in. frappe's own pages for these send a portal reader to the app (`reads`).
-
-`quote_preview` builds the same quote `send_quote` saves (`_quote`) and
-reckons it with erpnext's own `calculate_taxes_and_totals` without saving it,
-so the page and the saved quote cannot disagree. A row's discount is
-erpnext's `discount_percentage`, off the supplier's rate as its list price,
-and the quote ignores the workspace's pricing rules.
-
-`send_quote`: erpnext's own mapper (`create_supplier_quotation`) cannot finish
-for a portal user, since filling the quote's defaults reads each Item, which a
-supplier may not. So its steps are taken in `send_quote`: the reader is
-checked to be one of the supplier's portal users, the request to be one sent
-to that supplier, and then, as frappe's web form does for a save it has
-already authorized, the quote is made with the session's user switched, owned
-by the supplier's user.
-
-### portal_invite.py
-
-frappe's Invite as User makes the login only for somebody who may create
-users, and nobody on a workspace may (one/roles.py), so the portal could not
-be reached. Here a workspace administrator, or the manager of the contact's
-customer (Sales Manager) or supplier (Purchase Manager), invites the contact
-from their form: a Website User is made for the contact's address, linked to
-the contact (`portal.invited` then makes it a portal user of each customer and
-supplier the contact is for), and One's Portal Invitation is mailed with a
-link that works for a week (one_account/invite.py). An address that is already
-somebody's in the workspace is refused: they sign in to One, not the portal.
-
-Revoke Access turns the login off and signs it out everywhere; Restore Access
-turns it back on.
-
 ### privacy.py
 
 Frappe has both: a `Personal Data Download Request` that gathers what a person
@@ -744,7 +667,7 @@ on a workspace is either. In One:
   administrator reviews first (one/privacy_copy.py); or their account
   deleted, confirmed with their password, or by a link One mails them when
   they sign in without one, because it cannot be undone;
-- a workspace administrator decides on a deletion under Workspace > Privacy
+- a workspace administrator decides on a deletion in TrustCenter's
   Requests: approve it, or hold it with a reason the person is told (an open
   payroll, a dispute: what the law makes the workspace keep);
 - approving runs frappe's own erasure, as frappe runs it, after One deletes
@@ -881,10 +804,10 @@ workspace has, so nobody here could see or undo a deletion. Now:
 - what is not a record somebody made is never shown: tables, frappe's own
   machinery (permission rows, property setters) and the platform's records.
 
-The page is `recycle-bin` (`frontend/src/one/RecycleBin.vue`): `read` gives a
-page of the reader's (or everyone's) deletions, newest first, with how many
-are deleted and put back and the kinds there are; the island groups them by
-day. Putting one back stamps the time, so Put Back can say when.
+It is frappe's Deleted Document list (`public/js/deleted_document_list.js`),
+each row titled by what it was (`one_title`, set as it is deleted) and
+narrowed to what the reader may see by `query` and `has_permission`;
+`restore` and `bulk_restore` put back one or many ticked and stamp the time.
 
 Putting one back is frappe's own restore (in recycle.py, from
 frappe/core/doctype/deleted_document/deleted_document.py, MIT), with its

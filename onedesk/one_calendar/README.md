@@ -182,7 +182,7 @@ day.
 - A Workspace Administrator can switch off anyone's link under **Setup ›
   Calendar Links**, which also shows when each was created and last synced.
 - To turn links off for everyone, switch off **Calendar Links** under
-  Workspace › General. All links are deleted, no one can create one, and
+  One's ControlCenter › Sharing. All links are deleted, no one can create one, and
   Subscribe disappears. Switching it back on doesn't restore old links.
 
 For two-way sync with Google, use the **Google Calendar** connection under

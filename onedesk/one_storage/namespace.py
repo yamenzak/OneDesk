@@ -214,6 +214,21 @@ def inside(folder: str) -> tuple:
 	return space({"name": folder, "is_folder": 1})
 
 
+def may_add(doctype: str, name: str, user: str | None = None) -> bool:
+	"""Whether `user` may put files into a record's room: whoever may change
+	the record, and a person into their own Employee's, which they may read
+	but not change. Their papers are theirs to hand in (Profile › Documents);
+	taking one out again is HR's."""
+	user = user or frappe.session.user
+	if frappe.has_permission(doctype, "write", name, user=user):
+		return True
+	if doctype != "Employee":
+		return False
+	from onedesk.one_hr import own
+
+	return own.employee_of(user) == name
+
+
 def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple | None = None) -> bool:
 	"""Whether `user` may `ptype` ("read", "write" or "add") this File. "add"
 	is putting something into a folder; "write" is renaming, moving and
@@ -230,6 +245,8 @@ def may(item: dict, ptype: str = "read", user: str | None = None, where: tuple |
 		where = ("home", item["one_home_of"])
 	where = where or space(item)
 	if where[0] == "record":
+		if ptype == "add":
+			return may_add(where[1], where[2], user)
 		return frappe.has_permission(where[1], "write" if ptype != "read" else "read", where[2], user=user)
 	if where[0] in ("library", "libraries"):
 		return _library_may(item, ptype, user, where)
@@ -754,8 +771,10 @@ def project_tasks(project: str) -> list[dict]:
 
 
 def _titled(doctype: str, name: str) -> str:
-	"""A record as its trail names it: a project or task by its title."""
-	field = {"Project": "project_name", "Task": "subject"}.get(doctype)
+	"""A record as its trail names it: by its title (a project's name, a
+	person's), not its id."""
+	field = {"Project": "project_name", "Task": "subject"}.get(doctype) or frappe.get_meta(doctype).get_title_field()
+	field = None if field == "name" else field
 	return (frappe.db.get_value(doctype, name, field) if field else None) or name
 
 

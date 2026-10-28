@@ -5,7 +5,7 @@
 // the bottom bar is this window and what is running, as a taskbar is (the
 // window's count and paging, open files, Check In and timers, OneAI, and the
 // date and time at its end). The look is
-// window/chrome.css; the colour is the workspace's (Workspace › General › Contact and
+// window/chrome.css; the colour is the workspace's (One's ControlCenter ›
 // Branding › Frame Colour), and frame() applies it.
 $.extend(onedesk.window, {
 	// The workspace's frame colour, as the frame's own token, and the ink that
@@ -42,7 +42,6 @@ $.extend(onedesk.window, {
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="day"></div>
 				<div class="one-bar-group" data-group="ai"></div>
-				<div class="one-bar-group" data-group="trust"></div>
 				<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>
 			</div>
 		</footer>`).appendTo(document.body);
@@ -134,12 +133,7 @@ $.extend(onedesk.window, {
 				click: () => onedesk.oneai.open(),
 				group: "ai",
 			});
-			add({ label: "AICenter", icon: "oneai", css: "one-aicenter-row", click: () => onedesk.ai_center.open(), group: "ai" });
 		}
-		if ((frappe.boot.one_centers?.access || []).length) {
-			add({ label: "AccessCenter", icon: "key-round", css: "one-access-row", click: () => onedesk.access.open(), group: "trust" });
-		}
-		add({ label: "TrustCenter", icon: "shield-check", css: "one-trust-row", click: () => onedesk.trust.open(), group: "trust" });
 		onedesk.workbooks.place(add);
 		const $now = $bottom.find(".one-bar-now");
 		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
@@ -237,6 +231,9 @@ $.extend(onedesk.window, {
 			`<div class="one-shell-quiet">${esc(one.by || frappe.user.full_name(note.owner))} · ${frappe.datetime.comment_when(note.creation)}</div><div class="msgprint">${note.content || ""}</div>`
 		);
 		dialog.show();
+		// Seen By, frappe's own, which its sign-in pop-up filled before
+		// announcements moved to the bar.
+		frappe.xcall("frappe.desk.doctype.note.note.mark_as_seen", { note: name }).catch(() => {});
 	},
 });
 

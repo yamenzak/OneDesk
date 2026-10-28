@@ -352,7 +352,8 @@ The account has three tabs:
   the date, workspace, number, amount and status (**Paid**, **Due**,
   **Unpaid** or **Cancelled**). Each has **View** and **PDF**, and a due one
   has **Pay**, all Stripe's own pages. **Card and billing details** has
-  **Update card** per workspace, since each workspace is billed separately.
+  **Update card** per workspace, since each workspace is billed separately;
+  it draws Stripe's form in the page rather than leaving it.
 - **Profile** has the account holder's name and email. A new email gets a
   link valid for an hour. The account switches only once it's followed, and
   the old address is notified (**Confirm Your New Email**, **Account Email
@@ -708,8 +709,9 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   against real Stripe events. Until then each workspace keeps its own
   customer, which is why `accounts.invoices` asks Stripe once per workspace
   and merges the answers newest first (one Stripe cannot answer for is named
-  rather than failing the page), and why Update card and **Pay** open
-  Stripe's billing portal per workspace. Pay goes to the portal rather than
+  rather than failing the page), and why Update card and **Pay** are asked
+  per workspace: Update card draws a setup checkout for that workspace's
+  customer in the page, and Pay opens that workspace's billing portal. Pay goes to the portal rather than
   the workspace's Plan screen because a suspended workspace cannot be opened
   to reach it. Where Link is on in our Stripe account, Stripe offers the
   saved card to the same email at checkout anyway.
@@ -727,7 +729,7 @@ For the people who build OneAdmin. OneAI does not read past this heading.
 - **The portal pages** are `www/start`, `www/welcome`, `www/account`,
   `www/account_invoices` and `www/account_profile` (routed from
   `/account/invoices` and `/account/profile`) and `www/legal`, drawn
-  in `public/css/portal.css` to frappe-ui's look (a guest page loads no desk
+  in `public/css/one_portal/portal.css` to frappe-ui's look (a guest page loads no desk
   controls). `signup.available`, `start`, `pay` and `state` are the guest
   calls, each rate-limited; `start` takes the signed-in account's email over
   whatever the form sent. `Account Request.access_key` opens `/welcome`
@@ -2065,6 +2067,26 @@ function is pure and tested.
 No `stripe` package. Two calls are needed — make a checkout session, and read a
 webhook — and one of them is a form-encoded POST. A dependency that exists to
 save writing `requests.post` is a dependency to keep current forever.
+
+**Nobody leaves One to pay, wherever Stripe allows it.** Every Checkout
+session is made with `ui_mode: "embedded"` and handed back as its client
+secret and the publishable key (`embedded`), and the page draws it with
+Stripe.js (`public/js/one_pay.js`): the signup page in place of its form, the
+welcome page's Pay again, credit packs and Payment Method in a dialog in Plan
+and Credits, and Update card in the account's invoices page. It is still
+Stripe's form in Stripe's frame, so the card never touches us and PCI stays
+Stripe's. A signup's session carries a `return_url` to the welcome page,
+since that page is where a signup goes next; the others are
+`redirect_on_completion: "never"` and the page hears `onComplete`. A card is a
+`mode: "setup"` session (`checkout_for_card`); nothing is charged, and the
+webhook makes the card the customer's and the subscription's default
+(`card_set`), so the next invoice is paid with it. Two things stay Stripe's
+own pages, because Stripe has no embedded version of them: the billing
+portal (billing address, tax ID, receipts: **Billing Details**) and paying an
+open invoice (**Pay**). Stripe.js has to load from `js.stripe.com` — Stripe
+allows no copy — so it loads the first time something is paid for and not
+before. The publishable key is `stripe_publishable_key` in OneAdmin Settings
+or site_config; it can only draw a session the secret key made.
 
 The webhook is the dangerous half and it has three guards, in this order:
 

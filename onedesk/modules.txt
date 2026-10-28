@@ -11,6 +11,7 @@ One Inventory
 One Storage
 One Mail
 One Legal
+One Portal
 One Studio
 One Sheet
 One Doc

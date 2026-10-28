@@ -1,7 +1,10 @@
-"""What a customer sees of their projects, on ERPNext's portal."""
+"""What a customer sees of their projects on the portal: a project's own
+page (`page`), and its row in the Projects and Timesheets tabs, which
+OnePortal's engine (one_portal/portal.py) reads through the one_portal hook
+(KINDS, in the keys one_portal/AGENTS.md lists)."""
 
 import frappe
-from frappe import _
+from frappe import _, _lt
 from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_project import overview, tree
@@ -258,3 +261,76 @@ def when(days: int | None) -> str | None:
 	if days == 0:
 		return _("Due today")
 	return _("In {0} days").format(days)
+
+
+def _project_row(doc) -> dict:
+	"""A project in the Projects tab: when it ends, and how far along it is."""
+	from onedesk.one_portal import portal as engine
+
+	project = frappe.get_doc("Project", doc.name)
+	ends = _("Ends {0}").format(engine._date(doc.expected_end_date)) if doc.get("expected_end_date") else ""
+	share = progress(project)[0] if may_see(project) else 0
+	return {
+		"name": doc.name,
+		"title": doc.get("project_name") or doc.name,
+		"line": ends,
+		"tone": "green" if doc.status == "Completed" else "blue",
+		"status": _(doc.status),
+		"figure": f"{share}%",
+		"to": f"projects/{doc.name}",
+	}
+
+
+def _timesheet_row(doc) -> dict:
+	"""A timesheet in the Timesheets tab: the projects it is for, what was
+	done, and its hours, opening its project's page when it has one."""
+	from onedesk.one_portal import portal as engine
+
+	sheet = timesheet(doc.name)
+	tone = {"Billed": "green", "Cancelled": "red", "Submitted": "blue"}.get(doc.status, "gray")
+	return {
+		"name": doc.name,
+		"title": doc.name,
+		"line": " · ".join(one for one in (sheet["projects"], sheet["activities"]) if one),
+		"tone": tone,
+		"status": _(doc.status),
+		"figure": _("{0} h").format(engine.number(sheet["hours"])),
+		"to": f"projects/{sheet['project']}" if sheet["project"] else None,
+	}
+
+
+def timesheet(name: str) -> dict:
+	"""A timesheet as the portal lists it: the projects it is for, what was
+	done, and its hours."""
+	rows = frappe.get_all(
+		"Timesheet Detail",
+		filters={"parent": name, "parenttype": "Timesheet"},
+		fields=["project", "activity_type", "hours", "billing_hours"],
+		order_by="idx",
+	)
+	projects = list(dict.fromkeys(row.project for row in rows if row.project))
+	titles = dict(
+		frappe.get_all(
+			"Project", filters={"name": ("in", projects)}, fields=["name", "project_name"], as_list=True
+		)
+	)
+	return {
+		"projects": ", ".join(titles.get(one) or one for one in projects),
+		"activities": ", ".join(dict.fromkeys(_(row.activity_type) for row in rows if row.activity_type)),
+		"hours": sum(frappe.utils.flt(row.billing_hours or row.hours) for row in rows),
+		"project": projects[0] if len(projects) == 1 else None,
+	}
+
+
+KINDS = {
+	"Project": {
+		"icon": "folder-kanban",
+		"columns": (_lt("Project"), _lt("Status"), _lt("Progress")),
+		"row": _project_row,
+	},
+	"Timesheet": {
+		"icon": "clock",
+		"columns": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
+		"row": _timesheet_row,
+	},
+}

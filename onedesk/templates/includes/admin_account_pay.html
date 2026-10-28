@@ -1,19 +1,41 @@
+<script src="/assets/onedesk/js/one_pay.js"></script>
 <script>
-// Pay and Update card open Stripe's own page for that workspace's invoices and
-// card (accounts.pay), and Stripe sends them back to /account.
-document.querySelectorAll("[data-pay]").forEach((button) => {
+// Pay opens Stripe's own page for that workspace's open invoice
+// (accounts.pay), which sends them back to /account: Stripe has no embedded
+// way to pay an invoice. Update card draws Stripe's Checkout here, in place
+// of the list (accounts.card).
+document.querySelectorAll("[data-pay], [data-card]").forEach((button) => {
 	button.addEventListener("click", () => {
 		const said = document.getElementById("one-said");
+		const card = Boolean(button.dataset.card);
 		said.hidden = true;
 		button.disabled = true;
 		frappe
 			.call({
-				method: "onedesk.one_admin.accounts.pay",
-				args: { tenant: button.dataset.pay },
+				method: card ? "onedesk.one_admin.accounts.card" : "onedesk.one_admin.accounts.pay",
+				args: { tenant: button.dataset.card || button.dataset.pay },
 				statusCode: {},
 				error_msg: document.createElement("div"),
 			})
-			.done((r) => (window.location.href = r.message.url))
+			.done(async (r) => {
+				if (!card) return (window.location.href = r.message.url);
+				const paying = document.getElementById("one-checkout");
+				button.closest("ul").hidden = true;
+				paying.hidden = false;
+				try {
+					await onePay(document.getElementById("one-checkout-form"), r.message.checkout, {
+						locale: document.documentElement.lang || "auto",
+						done: () => {
+							paying.hidden = true;
+							said.classList.add("one-alert--done");
+							said.querySelector("span").textContent = __("Card saved. The next invoice is paid with it.");
+							said.hidden = false;
+						},
+					});
+				} catch (e) {
+					window.location.reload();
+				}
+			})
 			.fail((xhr) => {
 				let text = __("That did not work. Try again in a moment.");
 				try {

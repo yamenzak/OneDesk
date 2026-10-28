@@ -245,9 +245,19 @@ For each file:
 - **Multiple**: whether they can send more than one.
 - **File Types**: allowed types, like `pdf, jpg`. Other types are refused.
   Leave empty to allow any type.
-- **Record Field**: on a record, a field the file fills. For example, asking
-  a new hire for *Photo* with the field *Image* sets the employee's photo
-  when it arrives. A request that fills fields can go to one person only.
+- **Saved To**: on a record, where the file goes, picked from one list you
+  can search: a file field on it, such as an employee's *Image*, or a row of
+  one of its tables by kind, such as *Employee Document › Passport*. The file
+  goes on that row, replacing the old scan when it is a renewal, or on a new
+  row. Leave **File** empty and it is named after what you picked. A request
+  that fills fields can go to one person only.
+
+When the file goes in a table, the sender is also asked for the row's other
+plain columns, such as its number and dates, with the file. When OneAI
+reading is on, it fills them from the file and the sender checks them.
+
+Someone asked who has an account here also sees each file under **Asked of
+You** on One's Home, and sends it from there without the link.
 
 Where files go:
 
@@ -346,6 +356,17 @@ who can see the folder and whether OneAI reads it.
 
 For the people who build OneCloud. OneAI does not read past this heading.
 
+**Where a requested file goes** (`targets.py`). A target is a file field: one
+on the record itself (`image`), or one in a row of one of its tables
+(`one_documents.attachment`). Everything is read from the record's own
+fields, so any kind of record works and no app declares anything. A table's
+row is picked by its kind: the first required Link or Select column of the
+table (an identity document's Type). The person asking sets it; the file goes
+on the row of that kind, or on a new one. The row's other plain columns (a
+number, dates) are asked of whoever sends the file, with it. A table with
+another required Link column is not offered, since the sender could not fill
+it.
+
 ### The bars at the foot of the rail (api.capacity)
 
 A linked workspace's files are what the account measured in R2 last night
@@ -403,7 +424,9 @@ not a second R2 integration.
   (one_project/media.py), `@bin`, and any File by name.
   Record folders are derived from `attached_to_*` each time they are opened,
   so there is nothing to keep in step with the record. **Who may do what is
-  `may` and nothing else**: a record's file answers to the record; its owner
+  `may` and nothing else**: a record's file answers to the record, and
+  adding to a record's room to `may_add` (who may change the record, and a
+  person to their own Employee's, for their papers); its owner
   may do anything; a portal user gets nothing more; a person's own folder is
   theirs; Company is every member of staff's to read and add to, and an item
   in it is its owner's or a Workspace Administrator's to change. `inside`
