@@ -123,8 +123,14 @@ MODULES = {
 		# Its own frappe-ui app, built apart from the islands (frontend/portal).
 		"app": "portal",
 		"names": ("one_portal", "oneportal"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-29", "commit": "112ff8c4b5c4", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-29", "commit": "112ff8c4b5c4", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-29", "commit": "112ff8c4b5c4", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-29", "commit": "112ff8c4b5c4", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-29", "commit": "112ff8c4b5c4", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "globe"),
 			("inviting", "user-plus"),
