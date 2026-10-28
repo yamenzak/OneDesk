@@ -14,7 +14,8 @@
     <div v-if="tabs.length" class="mb-4 overflow-x-auto">
       <TabButtons v-model="state" :options="tabs" />
     </div>
-    <Loading v-if="!page" />
+    <Empty v-if="failed" :title="__('No access')" :line="__('This is not one of yours, or it was taken away.')" />
+    <Loading v-else-if="!page" />
     <Card v-else-if="rows.length" flush>
       <List :columns="columns" :row-height="phone ? undefined : 60" class="list-row-px-4">
         <ListHeader v-if="!phone">
@@ -109,6 +110,7 @@ const rows = ref([]);
 const txt = ref("");
 const state = ref("");
 const loading = ref(false);
+const failed = ref(false);
 
 const dealt = computed(() => rows.value.some((row) => row.date !== undefined));
 const ahead = computed(() => rows.value.some((row) => row.when?.text));
@@ -130,10 +132,13 @@ const itemLine = (item) => [item.item, item.others ? `+${item.others}` : ""].fil
 
 async function load(start = 0) {
   loading.value = true;
+  failed.value = false;
   try {
     const got = await call("rows", { kind: props.kind, txt: txt.value, state: state.value, start });
     page.value = got;
     rows.value = start ? [...rows.value, ...got.rows] : got.rows;
+  } catch {
+    failed.value = true;
   } finally {
     loading.value = false;
   }

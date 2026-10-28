@@ -386,3 +386,33 @@ def a_link_opens_a_record_for_somebody_without_an_account_and_answers_once():
 			pass
 		else:
 			raise AssertionError("a portal reader opened a record's Portal dialog")
+
+
+@check
+def a_customer_sees_each_part_of_a_bill_and_the_addresses_kept_for_them():
+	"""Khalid's invoice paid in three parts says each part still to pay with
+	its own date, not the last part's alone. His Addresses lists the billing
+	address the workspace keeps for Mansour & Sons, which he can read but not
+	open to change, and his timesheets come newest first."""
+	import onedesk.one_project.portal  # noqa: F401
+	from onedesk.one_portal import portal
+
+	khalid = "khalid@mansour.example"
+	parted = next(
+		(
+			one
+			for one in frappe.get_all("Sales Invoice", filters={"customer": "Mansour & Sons", "docstatus": 1, "outstanding_amount": (">", 0)}, pluck="name")
+			if frappe.db.count("Payment Schedule", {"parent": one, "outstanding": (">", 0)}) > 1
+		),
+		None,
+	)
+	kept = frappe.db.get_value("Dynamic Link", {"parenttype": "Address", "link_doctype": "Customer", "link_name": "Mansour & Sons"}, "parent")
+	with as_user(khalid):
+		if parted:
+			facts = [one["label"] for one in portal.record("invoices", parted)["facts"]]
+			parts = frappe.db.count("Payment Schedule", {"parent": parted, "outstanding": (">", 0)})
+			assert sum(1 for one in facts if one.startswith("Due ")) == parts and "Due" not in facts, facts
+		addresses = {one["name"]: one for one in portal.rows("addresses")["rows"]}
+		assert kept in addresses and not addresses[kept]["to"], addresses
+		days = [frappe.db.get_value("Timesheet", one["name"], "start_date") for one in portal.rows("timesheets")["rows"]]
+		assert days == sorted(days, reverse=True), days

@@ -288,9 +288,10 @@ def _timesheet_row(doc) -> dict:
 
 	sheet = timesheet(doc.name)
 	tone = {"Billed": "green", "Cancelled": "red", "Submitted": "blue"}.get(doc.status, "gray")
+	start = frappe.db.get_value("Timesheet", doc.name, "start_date")
 	return {
 		"name": doc.name,
-		"title": doc.name,
+		"title": engine._date(start) if start else doc.name,
 		"line": " · ".join(one for one in (sheet["projects"], sheet["activities"]) if one),
 		"tone": tone,
 		"status": _(doc.status),
@@ -322,6 +323,16 @@ def timesheet(name: str) -> dict:
 	}
 
 
+def _timesheets(txt: str | None, limit: int) -> list:
+	"""The reader's timesheets as erpnext's portal list gives them, newest work
+	first rather than in the order they were last touched."""
+	from frappe.www.list import get_list_data_for_context
+
+	found = get_list_data_for_context(None, "Timesheet", txt=txt, limit=limit)
+	starts = dict(frappe.get_all("Timesheet", filters={"name": ("in", [one.name for one in found] or [""])}, fields=["name", "start_date"], as_list=True))
+	return sorted(found, key=lambda one: (str(starts.get(one.name) or ""), one.name), reverse=True)
+
+
 KINDS = {
 	"Project": {
 		"icon": "folder-kanban",
@@ -330,7 +341,8 @@ KINDS = {
 	},
 	"Timesheet": {
 		"icon": "clock",
-		"columns": (_lt("Timesheet"), _lt("Status"), _lt("Hours")),
+		"columns": (_lt("Day"), _lt("Status"), _lt("Hours")),
 		"row": _timesheet_row,
+		"found": _timesheets,
 	},
 }

@@ -78,6 +78,7 @@ of record (its doctype), and what each declares is optional:
 | `ended` | The states after which nothing is ahead, and its page says the state. |
 | `settled` | `(doc) -> bool`: nothing is ahead either (a quotation already accepted). |
 | `owed` | A bill: what is left to pay and when, in place of `ahead`. |
+| `found` | `(txt, limit) -> records`: the reader's records, where the kind's own portal list leaves some out or orders them badly (an address the workspace keeps for them; timesheets newest first). |
 | `waiting` | `(states, (n) -> str)`: what Home's tile says of how many wait. |
 | `asks` | `((doc) -> bool, label)`: whether it asks something of the reader, under Needs You. |
 | `steps` | `(doc) -> [(label, done)]`: where it is on its way. |

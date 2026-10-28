@@ -7,11 +7,12 @@
     </div>
     <Loading v-if="said.loading && !said.data" />
     <template v-else-if="said.data?.tiles.length">
-      <div class="grid grid-cols-2 gap-3 lg:grid-cols-4">
+      <div class="grid grid-flow-dense grid-cols-2 gap-3 lg:grid-cols-4">
         <RouterLink
           v-for="tile in said.data.tiles"
           :key="tile.path"
           :to="`/${tile.path}`"
+          :class="tile.figure && 'col-span-2 lg:col-span-1'"
           class="flex flex-col gap-2 rounded-5 border border-outline-gray-2 bg-surface-base px-4 py-3 hover:border-outline-gray-3 hover:bg-surface-gray-1"
         >
           <span class="flex items-center gap-2 text-sm text-ink-gray-6">
@@ -32,7 +33,12 @@
           <div v-if="!said.data.asks.length" class="flex items-center gap-3 px-4 py-6 text-base text-ink-gray-6">
             <span class="lucide-circle-check size-5 text-ink-green-6" aria-hidden="true" />{{ __("You're all caught up.") }}
           </div>
-          <div v-for="one in said.data.asks" :key="one.to" class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-3 last:border-b-0">
+          <RouterLink
+            v-for="one in said.data.asks"
+            :key="one.to"
+            :to="`/${one.to}`"
+            class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-3 last:border-b-0 hover:bg-surface-gray-1"
+          >
             <Thumb :icon="one.icon" />
             <div class="min-w-0 flex-1">
               <p class="truncate text-base font-medium text-ink-gray-9">{{ one.title }}</p>
@@ -41,8 +47,8 @@
               </p>
               <p v-if="one.when?.text" :class="['text-sm', one.when.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ one.when.text }}</p>
             </div>
-            <Button :label="one.button" :route="`/${one.to}`" />
-          </div>
+            <Button :label="one.button" class="hidden shrink-0 sm:inline-flex" />
+          </RouterLink>
         </Card>
 
         <Card :title="__('Recent')" icon="lucide-history" flush>

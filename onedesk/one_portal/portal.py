@@ -50,6 +50,10 @@ FACTS = (
 	("bill_no", _lt("Your reference")),
 )
 
+# Words whose upstream translation is wrong, said again so ours wins: erpnext's
+# Arabic for the unit Nos is "لا", the word for no.
+RESAID = (_lt("Nos"),)
+
 _KINDS: dict[str, dict] = {}
 
 
@@ -226,11 +230,23 @@ def number(value) -> str:
 
 
 def _date(value) -> str:
-	return frappe.format(value, {"fieldtype": "Date"}) if value else ""
+	# Isolated, so a date beside right-to-left words keeps its own order.
+	return f"\u2068{frappe.format(value, {'fieldtype': 'Date'})}\u2069" if value else ""
 
 
 def _field(row, field: str):
 	return row.get(field) if isinstance(row, dict) else getattr(row, field, None)
+
+
+def _found(doctype: str, txt: str | None = None, limit: int = 0) -> list:
+	"""A kind's records as the reader may see them: its module's own reading
+	(`found`), or the kind's own portal list context."""
+	from frappe.www.list import get_list_data_for_context
+
+	declared = kind_of(doctype)
+	if declared.get("found"):
+		return declared["found"](txt, limit)
+	return get_list_data_for_context(None, doctype, txt=txt, limit=limit)
 
 
 def _row(path: str, doctype: str, doc) -> dict | None:
@@ -320,11 +336,10 @@ def rows(kind: str, txt: str | None = None, start: int = 0, state: str | None = 
 	to the reader, searched by `txt` and narrowed to one `state`: its column
 	heads, its rows, how many are in each state, whether there are more, and
 	its Add button where it has one."""
-	from frappe.www.list import get_list_data_for_context
 
 	doctype = _kind(kind)
 	start = frappe.utils.cint(start)
-	found = get_list_data_for_context(None, doctype, txt=txt or None, limit=COUNTED)
+	found = _found(doctype, txt=txt or None, limit=COUNTED)
 	found = [one for one in {_field(one, "name"): one for one in found}.values() if mine(doctype, one)]
 	drawn = [row for row in (_row(kind, doctype, one) for one in found) if row]
 	states = {}
@@ -357,13 +372,12 @@ def home() -> dict:
 	pay, a quotation to review, a request to answer), and the latest records,
 	each read the way the tab's own list reads them."""
 	from frappe.utils import flt, fmt_money
-	from frappe.www.list import get_list_data_for_context
 
 	tiles, asks, recent = [], [], []
 	for path, item in _kinds().items():
 		doctype = item["reference_doctype"]
 		try:
-			found = get_list_data_for_context(None, doctype, limit=COUNTED + 1)
+			found = _found(doctype, limit=COUNTED + 1)
 		except frappe.PermissionError:
 			continue
 		found = [one for one in {_field(one, "name"): one for one in found}.values() if mine(doctype, one)]
@@ -439,12 +453,20 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 	doc = context.doc
 	declared = kind_of(doctype)
 	said, facts = set(), []
+	in_parts = declared.get("owed") and len(doc.get("payment_schedule") or []) > 1
+	if in_parts:
+		said.add(str(_("Due")))
 	for field, label in FACTS:
 		value = doc.get(field)
 		if not value or str(label) in said:
 			continue
 		said.add(str(label))
 		facts.append({"label": str(label), "value": doc.get_formatted(field)})
+	if in_parts:
+		# Paid in parts, a bill is due on each part's own date, not its last one.
+		for row in doc.payment_schedule:
+			if (row.outstanding or 0) > 0:
+				facts.append({"label": _("Due {0}").format(_date(row.due_date)), "value": fmt_money(row.outstanding, currency=doc.currency)})
 	address = doc.get("shipping_address") or doc.get("address_display")
 	if address and declared.get("ships"):
 		lines = re.sub(r"\s*<br\s*/?>\s*", "\n", address)
@@ -579,7 +601,7 @@ def _summary(doctype: str, doc, total: str) -> dict:
 	field, label = declared.get("ahead") or (None, None)
 	line = ""
 	if doc.status in declared.get("ended", ()):
-		line = status(doctype, doc.status)[1]
+		pass
 	elif field and doc.get(field):
 		line = str(label).format(_date(doc.get(field)))
 	elif doc.get("delivery_date") or doc.get("schedule_date"):

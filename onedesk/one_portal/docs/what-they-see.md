@@ -48,10 +48,12 @@ Accepted), and the quotation says Accepted until the order is confirmed.
 reason, and tells whoever made it (Quotation Declined); the customer sees it as
 Declined. An open quotation is on Home under Needs You until it is answered.
 
-A customer adds their own addresses (**Add Address**) and changes them, and
-follows their projects: how far along each is, when it ends, its tasks and
-its order and invoices. Timesheets show the hours worked for them, one row
-per timesheet.
+A customer sees the addresses you keep for them, and adds and changes their
+own (**Add Address**). They follow their projects: how far along each is,
+when it ends, its tasks and its order and invoices. Timesheets show the
+hours worked for them, newest first, one row per day's timesheet.
+
+An invoice paid in parts shows each part still to pay with its own due date.
 
 ## Their Own Account
 

@@ -272,6 +272,27 @@ with the gates at the end.
   seven-column week; the grid names days and hours in the reader's
   language (frappe's calendar passes `locale` too), and Mine is translated.
   The tour's step over the grid sits in its middle, not off the top.
+- **OnePortal, walked** as Khalid (customer) and Rami (supplier), on a
+  phone and in Arabic, and from the desk as Layla. An invoice paid in parts
+  said "26 days overdue" beside "Due 10-02-2027", the last part's date: its
+  details now list each part still to pay (portal.py `_record`). Addresses
+  was empty for a customer with a billing address, since frappe's portal
+  list is only what the reader made: a kind may now read its own records
+  (`found`), and One's addresses add those kept for their customer or
+  supplier, read-only. Timesheets came out in the order last touched; they
+  are newest first, titled by their day. An ended record's total no longer
+  repeats its state under it (the head says it). On a phone, a money tile
+  takes the row and the grid packs the rest (`grid-flow-dense`), and a
+  Needs You row is the link, its button only on wider screens. A path that
+  isn't the reader's says No access instead of spinning. In Arabic a date
+  beside words came out backwards; dates are isolated (U+2068/2069), and
+  erpnext's "لا" for the unit Nos is corrected ("قطعة"). On the desk, People
+  shows each contact's sign-in state as frappe's indicator, Links lost its
+  Answered On column so the record fits, and both lists lost the ID filter.
+  The Data Processing Addendum now says what a one-record link does.
+  Seen and left: erpnext's own customer overview counts an invoice as
+  overdue only by its last part's date ("Overdue AED 0" beside OneBook's
+  AED 113,810 in the side panel).
 - **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
   People (Contact filtered on its Portal column) and Links (the Portal Link
   list), a foot and settings. Turned off in Apps it closes the portal
