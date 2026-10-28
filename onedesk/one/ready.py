@@ -27,11 +27,11 @@ MODULES = {
 		# The points a guard can't settle, each as a person last looked at it
 		# (HAND).
 		"checked": {
-			"copy": {"on": "2026-10-25", "commit": "329b635e234a", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-25", "commit": "329b635e234a", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-25", "commit": "329b635e234a", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-25", "commit": "329b635e234a", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-25", "commit": "329b635e234a", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
 		},
 		# Its help pages in reading order, each with its icon (docs/).
 		"help": (
@@ -53,11 +53,11 @@ MODULES = {
 		"names": ("one_legal", "onelegal"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-26", "commit": "c9baa965c6f3", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-26", "commit": "c9baa965c6f3", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-26", "commit": "c9baa965c6f3", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-26", "commit": "c9baa965c6f3", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-26", "commit": "c9baa965c6f3", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
 		},
 		# A module whose screen is a centre other modules open has no window,
 		# so no foot or settings of its own; it says why (docs/READY.md, A
@@ -77,11 +77,11 @@ MODULES = {
 		"names": ("one_account", "oneaccount"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
 		},
 		"windowless": "AccountCenter is a dialog the avatar's menu and links open, so OneAccount has no window, foot or settings of its own.",
 		"help": (
@@ -114,11 +114,11 @@ MODULES = {
 		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-26", "commit": "d20d4c24cf38", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -140,11 +140,11 @@ MODULES = {
 		"names": ("one_ai", "oneai"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-26", "commit": "c6627a83905b", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -262,6 +262,7 @@ _ENGINE = "an engine every module uses, kept in One's folder"
 _RAN = "OnePortal's, a patch that has run, kept at the path frappe recorded it under"
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/oneportal.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/templates/emails/one_mail.html": "the frame every mail One sends is laid in, OneMail's or not",
 	"brand/oneai.svg": "every product's mark is drawn in brand/, into one sprite",
 	"onedesk/public/images/oneai.svg": "the mark as an image, for the places that can't use the sprite",
