@@ -29,9 +29,7 @@ clause(
 	body="""
 		A person can invite somebody outside the workspace to an event by their email address. That address
 		is kept as a contact of the workspace, and the guest is mailed the event, and any change to it or its
-		cancellation, as an invitation for their own calendar. Where the workspace connects a Google account
-		under Google Calendar, the events it syncs are sent to that account and read back from it, both ways,
-		and a video call link is made by Google, under Google's terms with that account's holder.
+		cancellation, as an invitation for their own calendar.
 	""",
 )
 

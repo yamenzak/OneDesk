@@ -1,6 +1,6 @@
 
 frappe.pages["onecalendar"].on_page_load = (wrapper) => {
-	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { hide_sidebar: true, mark: "onecalendar" });
+	const page = onedesk.shell.page(wrapper, __("OneCalendar"), { mark: "onecalendar", fit: true });
 	wrapper.onecalendar = new onedesk.OneCalendar(page);
 };
 
@@ -13,20 +13,16 @@ frappe.provide("onedesk");
 onedesk.CALENDAR_PUBLISHERS = ["Workspace Administrator", "HR Manager"];
 
 onedesk.OneCalendar = class OneCalendar {
+	// The rail stays OneCalendar's: Calendar, Event, Deadlines and Setup are
+	// its rows, and the layers are a section of the nav pane under them
+	// (window.tree). New Event is the page's primary action, and moving
+	// through the days, Today and the views are the window's command row.
 	constructor(page) {
 		this.page = page;
 		this.about = this.narrowed();
-		const panes = onedesk.shell.panes(page.$shell, [{ key: "layers", width: 236 }, { key: "week" }]);
-		const $side = $(`<div class="one-calendar-side"></div>`)
-			.attr({ role: "navigation", "aria-label": __("Layers") })
-			.appendTo(panes.layers);
-		frappe.ui
-			.button({ label: __("New Event"), icon: "plus", variant: "solid", css_class: "one-calendar-new", onclick: () => this.new_event() })
-			.appendTo($side);
-		this.$layers = $(`<div class="one-calendar-layers"></div>`).appendTo($side);
-		this.$foot = $(`<div class="one-calendar-foot"></div>`).appendTo($side);
-		this.$toolbar = onedesk.shell.pane_head(panes.week);
-		this.$grid = $(`<div class="one-calendar one-calendar-grid"></div>`).appendTo(panes.week);
+		page.set_primary_action(__("New Event"), () => this.new_event(), "plus");
+		this.$grid = $(`<div class="one-calendar one-calendar-grid"></div>`).appendTo(page.$shell);
+		onedesk.shell.fit(this.$grid);
 		frappe.require("calendar.bundle.js", () => this.start());
 	}
 
@@ -54,7 +50,6 @@ onedesk.OneCalendar = class OneCalendar {
 		this.layers = (await frappe.xcall("onedesk.one_calendar.layers.layers", this.about || {})) || [];
 		if (!this.about) this.saved.off = this.saved.off || this.layers.filter((one) => !one.on).map((one) => one.key);
 		this.draw_layers();
-		this.draw_foot();
 		if (this.about) {
 			const { doctype, name } = this.about;
 			const title = (await frappe.utils.fetch_link_title(doctype, name)) || name;
@@ -64,27 +59,6 @@ onedesk.OneCalendar = class OneCalendar {
 			this.page.set_title(__("OneCalendar"));
 			onedesk.shell.name(__("OneCalendar"));
 		}
-	}
-
-	draw_foot() {
-		const $foot = this.$foot.empty();
-		const link = (label, icon, onclick) =>
-			frappe.ui.button({ label, icon, variant: "ghost", css_class: "one-calendar-link", onclick }).appendTo($foot);
-		link(__("All Events"), "list", () => frappe.set_route("List", "Event"));
-		if (frappe.user.has_role(["Desk User", "Workspace Administrator"]))
-			link(__("Deadlines"), "alarm-clock", () => frappe.set_route("query-report", "Deadlines"));
-		if (!this.about && frappe.boot.one_calendar_links) link(__("Subscribe"), "rss", () => this.subscribe());
-		const setup = [
-			["Google Calendar", __("Google Calendar")],
-			["Calendar Feed", __("Calendar Links")],
-		].filter(([doctype]) => frappe.model.can_read(doctype));
-		if (!setup.length) return;
-		const $setup = frappe.ui.button({ label: __("Setup"), icon: "settings", icon_right: "chevron-down", variant: "ghost", css_class: "one-calendar-link" }).appendTo($foot);
-		new frappe.ui.Dropdown({
-			trigger: $setup,
-			side: "top",
-			options: setup.map(([doctype, label]) => ({ label, onclick: () => frappe.set_route("List", doctype) })),
-		});
 	}
 
 	off() {
@@ -193,14 +167,13 @@ onedesk.OneCalendar = class OneCalendar {
 			on_change: (view) => this.calendar.changeView(view),
 		});
 		this.$today = frappe.ui.button({ label: __("Today"), onclick: () => this.calendar.today() });
-		this.$toolbar.append(
-			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
-			this.$title,
-			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
-			$('<div class="grow"></div>'),
+		const moves = $(`<span class="one-calendar-moves"></span>`).append(
 			this.$today,
-			this.views.$el,
+			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
+			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
+			this.$title
 		);
+		this.page.window.view({ commands: moves, views: this.views.$el });
 	}
 
 	date_jumper() {
@@ -225,35 +198,29 @@ onedesk.OneCalendar = class OneCalendar {
 	}
 
 	draw_layers() {
-		const $side = this.$layers.empty();
+		const rows = [];
 		for (const group of ["Mine", "Workspace"]) {
 			const mine = this.layers.filter((one) => one.group === group);
 			if (!mine.length) continue;
-			$side.append(`<div class="one-calendar-group">${__(group)}</div>`);
-			for (const one of mine) {
-				const $row = $(`<div class="one-calendar-layer"></div>`).appendTo($side);
-				const control = frappe.ui.form.make_control({
-					df: { fieldtype: "Check", fieldname: one.key, label: one.label },
-					parent: $row,
-					render_input: true,
-				});
-				control.set_input(this.off().includes(one.key) ? 0 : 1);
-				control.$wrapper
-					.find(".label-area")
-					.before(`<span class="one-calendar-dot" style="background: var(--ink-${one.color}-7)"></span>`);
-				control.$input.on("change", (e) => {
-					const off = this.off().filter((key) => key !== one.key);
-					if (!e.target.checked) off.push(one.key);
-					if (this.about) {
-						this.off_here = off;
-					} else {
-						this.saved.off = off;
-						this.save();
-					}
-					this.refetch();
-				});
-			}
+			rows.push({ id: `group:${group}`, label: __(group), section: true });
+			for (const one of mine) rows.push({ id: one.key, label: one.label, color: one.color, check: !this.off().includes(one.key) });
 		}
+		this.page.window.tree({
+			label: __("Calendars"),
+			alone: true,
+			rows,
+			check: (key, on) => {
+				const off = this.off().filter((one) => one !== key);
+				if (!on) off.push(key);
+				if (this.about) {
+					this.off_here = off;
+				} else {
+					this.saved.off = off;
+					this.save();
+				}
+				this.refetch();
+			},
+		});
 	}
 
 	refetch() {
@@ -317,7 +284,6 @@ onedesk.OneCalendar = class OneCalendar {
 				${one.description ? `<div class="one-calendar-card-said">${one.description}</div>` : ""}
 				<div class="one-calendar-card-foot"></div>`);
 			const $foot = $card.find(".one-calendar-card-foot");
-			if (one.join) frappe.ui.button({ label: __("Join"), icon: "video", variant: "solid", onclick: () => window.open(one.join, "_blank", "noopener") }).appendTo($foot);
 			if (one.can_open) frappe.ui.button({ label: __("Open"), icon: "external-link", onclick: () => frappe.set_route("Form", "Event", one.name) }).appendTo($foot);
 			else if (one.about) frappe.ui.button({ label: __("Open {0}", [__(one.about[0])]), icon: "external-link", onclick: () => frappe.set_route("Form", one.about[0], one.about[1]) }).appendTo($foot);
 			if (one.can_edit)
@@ -435,9 +401,5 @@ onedesk.OneCalendar = class OneCalendar {
 			},
 		});
 		dialog.show();
-	}
-
-	subscribe() {
-		return onedesk.calendar_link.dialog();
 	}
 };

@@ -459,6 +459,18 @@ body.one-window-dragging * {
 	height: 16px;
 }
 
+/* A row with a box (OneCalendar's layers): frappe's own checkbox, inked in
+   the row's colour when ticked through frappe's own --checkbox-gradient. */
+.one-window-tree .one-window-check {
+	margin: 0;
+	cursor: pointer;
+}
+
+.one-window-tree .one-window-check:checked {
+	--checkbox-gradient: linear-gradient(var(--one-check), var(--one-check));
+	border-color: var(--one-check);
+}
+
 .one-window-tree .standard-sidebar-item .sidebar-item-label {
 	flex: 1 1 auto;
 	min-width: 0;

@@ -99,10 +99,10 @@ def _rows(start, end, wanted: str, record: tuple | None = None) -> list[dict]:
 				continue
 			side, opens = "about", opens if side else record
 		elif side is None:
-			record = next((pair for pair in records if _can_read(pair, readable)), None)
-			if not record:
+			through = next((pair for pair in records if _can_read(pair, readable)), None)
+			if not through:
 				continue
-			side, opens = "company", record
+			side, opens = "company", through
 		if side != wanted:
 			continue
 		for starts, ends in occurrences(one, start, end):
@@ -239,8 +239,11 @@ def move(event: str, start: str, end: str | None = None, all_day: int | None = N
 
 
 def validate(doc, method=None) -> None:
-	"""Guests typed as addresses become participants; and only a publisher
-	makes an event Public, or keeps editing one."""
+	"""Guests typed as addresses become participants; a maintenance visit is
+	named for what it is; and only a publisher makes an event Public, or
+	keeps editing one."""
+	if doc.is_new():
+		maintenance_visit(doc)
 	if doc.get("one_guests"):
 		invite(doc, None, doc.one_guests)
 		doc.one_guests = None
@@ -259,6 +262,24 @@ def validate(doc, method=None) -> None:
 			),
 			frappe.PermissionError,
 		)
+
+
+def maintenance_visit(doc) -> bool:
+	"""ERPNext books each visit of a maintenance schedule as an event titled
+	"Reference: …, Item Code: … and Customer: …", the same words again as its
+	description. It is titled with the visit and the customer instead, and
+	the schedule stays on it as a participant."""
+	schedule = next((row.reference_docname for row in doc.event_participants if row.reference_doctype == "Maintenance Schedule"), None)
+	if not schedule or doc.subject != doc.description:
+		return False
+	items = frappe.get_all("Maintenance Schedule Item", filters={"parent": schedule}, fields=["item_code", "item_name"])
+	item = next((one for one in items if one.item_code and one.item_code in (doc.subject or "")), items[0] if items else None)
+	customer = frappe.db.get_value("Maintenance Schedule", schedule, "customer_name") or frappe.db.get_value("Maintenance Schedule", schedule, "customer")
+	if not item or not customer:
+		return False
+	doc.subject = frappe._("{0} for {1}").format(item.item_name or item.item_code, customer)
+	doc.description = None
+	return True
 
 
 def booking(doc, method=None) -> None:
@@ -383,7 +404,6 @@ def card(name: str) -> dict:
 		"repeats": doc.repeat_on if doc.repeat_this_event else None,
 		"location": doc.location,
 		"description": frappe.utils.sanitize_html(doc.description or ""),
-		"join": doc.google_meet_link or None,
 		"owner": frappe.utils.get_fullname(doc.owner),
 		"public": doc.event_type == "Public",
 		"people": [

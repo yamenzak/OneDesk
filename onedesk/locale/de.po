@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-28 14:06+0000\n"
+"POT-Creation-Date: 2026-10-28 19:09+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1653,7 +1653,6 @@ msgstr "Fähigkeit"
 #: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
-#: onedesk/one_ai/report/deadlines/deadlines.py:39
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_task/custom/task.json
 msgid "About"
@@ -2824,7 +2823,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/onecloud_dialogs.js:288
 #: onedesk/public/js/onecloud_dialogs.js:527
-#: onedesk/public/js/window/frame.js:330
+#: onedesk/public/js/window/frame.js:332
 msgid "Address"
 msgstr "Adresse"
 
@@ -3176,18 +3175,14 @@ msgstr "Alle"
 msgid "All Announcements"
 msgstr "Alle Ankündigungen"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:105
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:388
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
 msgid "All Day"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:48
 msgid "All Details"
 msgstr "Alle Details"
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:73
-msgid "All Events"
-msgstr "Alle Termine"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:894
 msgid "All Mailboxes"
@@ -5563,7 +5558,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:281
-#: onedesk/public/js/window/frame.js:235 onedesk/www/account_invoices.html:62
+#: onedesk/public/js/window/frame.js:237 onedesk/www/account_invoices.html:62
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr "Zurück"
@@ -6902,7 +6897,7 @@ msgid "By skill"
 msgstr "Nach Fähigkeit"
 
 #: frontend/src/item/ItemStock.vue:93
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:309
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:276
 msgid "By {0}"
 msgstr "Von {0}"
 
@@ -6944,9 +6939,9 @@ msgid "CV, resume, application, vacancy"
 msgstr "Lebenslauf, CV, Bewerbung, Stelle"
 
 #. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:61
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:62
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:178
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:56
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:57
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:152
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/public/js/record_calendar.js:5
 msgid "Calendar"
@@ -6957,26 +6952,25 @@ msgstr ""
 msgid "Calendar Feed"
 msgstr "Kalenderlink"
 
-#: onedesk/public/js/one_calendar/calendar_control.js:18
-msgid "Calendar Link"
-msgstr "Kalenderlink"
-
 #. Label of the one_calendar_links (Check) field in DocType 'System Settings'
 #. Label of a Sidebar Item
 #: onedesk/one/custom/system_settings.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Calendar Links"
 msgstr "Kalenderlinks"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:185
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:159
 msgid "Calendar View"
 msgstr ""
 
 #: onedesk/one_calendar/feed.py:50
-#: onedesk/public/js/one_calendar/calendar_control.js:25
+#: onedesk/public/js/one_calendar/calendar_control.js:15
 msgid "Calendar links are turned off for this workspace."
 msgstr "Kalenderlinks sind für diesen Arbeitsbereich deaktiviert."
+
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:209
+msgid "Calendars"
+msgstr "Kalender"
 
 #: onedesk/public/js/crm_record.js:69
 msgid "Call"
@@ -8405,7 +8399,7 @@ msgstr "An {0} gesendeter Code"
 msgid "Code, name, quantity and unit, one part per row"
 msgstr "Code, Name, Menge und Einheit, ein Teil pro Zeile"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:49
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
 msgid "Collapse"
 msgstr "Einklappen"
 
@@ -9361,8 +9355,8 @@ msgid "Copy Asked"
 msgstr "Kopie angefragt"
 
 #: frontend/src/writer/components/ToC.vue:363
-#: onedesk/public/js/calendar_link.js:17 onedesk/public/js/calendar_link.js:64
-#: onedesk/public/js/one_calendar/calendar_control.js:36
+#: onedesk/public/js/calendar_link.js:17
+#: onedesk/public/js/one_calendar/calendar_control.js:25
 msgid "Copy Link"
 msgstr ""
 
@@ -9868,7 +9862,7 @@ msgstr "Termine anlegen"
 msgid "Create Invoice"
 msgstr "Rechnung erstellen"
 
-#: onedesk/public/js/one_calendar/calendar_control.js:31
+#: onedesk/public/js/one_calendar/calendar_control.js:20
 msgid "Create Link"
 msgstr ""
 
@@ -10770,7 +10764,7 @@ msgstr "Belegte Datenbank"
 #: frontend/src/task/TaskTime.vue:19
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
 #: onedesk/one_ai/reading/bundle.py:74
-#: onedesk/one_ai/report/deadlines/deadlines.py:34
+#: onedesk/one_ai/report/deadlines/deadlines.py:35
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:20
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -10931,7 +10925,7 @@ msgstr "Termine"
 #. Label in the One Employee Separation print format
 #. Label in the One Shift Schedule print format
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:43
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:189
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
@@ -10993,7 +10987,7 @@ msgstr "Tage verspätet"
 
 #. Label of the days_left (Int) field in DocType 'Workspace Account'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
-#: onedesk/one_ai/report/deadlines/deadlines.py:35
+#: onedesk/one_ai/report/deadlines/deadlines.py:36
 msgid "Days Left"
 msgstr "Verbleibende Tage"
 
@@ -11038,7 +11032,7 @@ msgstr "Site wird deaktiviert"
 
 #. Option for the 'Description' (Select) field in DocType 'Reading Date'
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
-#: onedesk/one_ai/report/deadlines/deadlines.py:36
+#: onedesk/one_ai/report/deadlines/deadlines.py:37
 msgid "Deadline"
 msgstr "Frist"
 
@@ -11047,7 +11041,6 @@ msgstr "Frist"
 #: onedesk/one_ai/reading/calendar.py:21
 #: onedesk/one_ai/report/deadlines/deadlines.json
 #: onedesk/one_ai/sidebar/oneai/oneai.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:75
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "Deadlines"
 msgstr "Fristen"
@@ -11383,7 +11376,7 @@ msgstr ""
 #: frontend/src/writer/components/FloatingComments.vue:106
 #: frontend/src/writer/components/ToC.vue:375
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:326
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:27
 #: onedesk/public/js/doctype_settings.js:253
 #: onedesk/public/js/doctype_settings.js:430
@@ -11524,7 +11517,7 @@ msgstr "Konto von {0} löschen? Dies kann nicht rückgängig gemacht werden."
 msgid "Delete {0}?"
 msgstr "{0} löschen?"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:331
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "{0} löschen? Alle Eingeladenen werden über die Absage benachrichtigt."
 
@@ -12079,7 +12072,7 @@ msgstr "Gebuchte Abschreibungen"
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:416
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:382
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -12273,7 +12266,7 @@ msgstr "Einzelheit"
 msgid "Details"
 msgstr "Details"
 
-#: onedesk/public/js/window/frame.js:248
+#: onedesk/public/js/window/frame.js:250
 msgid "Details pane"
 msgstr "Detailbereich"
 
@@ -12614,7 +12607,7 @@ msgstr "Dokumentnummer"
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_ai/reading/panel.py:141
-#: onedesk/one_ai/report/deadlines/deadlines.py:37
+#: onedesk/one_ai/report/deadlines/deadlines.py:38
 #: onedesk/one_studio/automations.py:123
 msgid "Document Type"
 msgstr "Dokumentart"
@@ -13889,7 +13882,7 @@ msgstr "E-Mail-Adressen"
 msgid "Email addresses of people outside the workspace to invite. Each is mailed the event for their own calendar."
 msgstr "E-Mail-Adressen von Personen außerhalb des Arbeitsbereichs, die eingeladen werden. Jede erhält den Termin für den eigenen Kalender."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:413
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:379
 msgid "Email addresses outside the workspace. Each gets an email invitation."
 msgstr "E-Mail-Adressen außerhalb des Arbeitsbereichs. Jede erhält eine Einladung per E-Mail."
 
@@ -14375,7 +14368,7 @@ msgid "Ends"
 msgstr "Endet"
 
 #. Label in the One Contract print format
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:390
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_studio/print_blocks.py:93 onedesk/one_studio/print_blocks.py:96
 msgid "Ends On"
@@ -15152,7 +15145,7 @@ msgstr "Versionsverlauf verlassen"
 msgid "Exit: {0}"
 msgstr "Austritt: {0}"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:49
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
 msgid "Expand"
 msgstr "Ausklappen"
 
@@ -16716,7 +16709,7 @@ msgstr "Formulare und Anbindungen"
 
 #: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:77
 #: onedesk/public/js/one_mail/rule_builder.js:44
-#: onedesk/public/js/window/frame.js:235
+#: onedesk/public/js/window/frame.js:237
 msgid "Forward"
 msgstr "Vorwärts"
 
@@ -16772,6 +16765,10 @@ msgstr "Weiterleitung"
 #: onedesk/one_mail/doctype/face/face.json
 msgid "Found"
 msgstr "Gefunden"
+
+#: onedesk/one_ai/report/deadlines/deadlines.js:7
+msgid "Found In"
+msgstr "Gefunden in"
 
 #. Description of the 'Logo' (Attach Image) field in DocType 'Bank'
 #: onedesk/one_mail/custom/bank.json
@@ -16928,7 +16925,6 @@ msgstr "Freitag"
 #. Label in the One Timesheet print format
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_ai/reading/bundle.py:74 onedesk/one_ai/reading/panel.py:122
-#: onedesk/one_ai/report/deadlines/deadlines.js:7
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
@@ -17513,7 +17509,7 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Go to"
 msgstr "Gehe zu"
 
-#: onedesk/public/js/window/frame.js:330
+#: onedesk/public/js/window/frame.js:332
 msgid "Go to a place, a record or a command"
 msgstr "Zu einem Ort, einem Datensatz oder einem Befehl"
 
@@ -17606,9 +17602,6 @@ msgstr "Von Lieferanten übernommene Waren."
 msgid "Goods {0} sent back."
 msgstr "Ware, die {0} zurückgeschickt hat."
 
-#. Label of a Sidebar Item
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:78
-#: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/public/js/calendar_link.js:14
 msgid "Google Calendar"
 msgstr "Google Kalender"
@@ -17834,7 +17827,7 @@ msgstr "Garantienr."
 
 #. Label of the one_guests (Small Text) field in DocType 'Event'
 #: onedesk/one_calendar/custom/event.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:412
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:378
 msgid "Guests"
 msgstr "Gäste"
 
@@ -18195,7 +18188,7 @@ msgstr "Hallo {0}"
 
 #: onedesk/public/js/module_docs.js:98 onedesk/public/js/module_docs.js:390
 #: onedesk/public/js/module_settings.js:98
-#: onedesk/public/js/window/nav_tree.js:239
+#: onedesk/public/js/window/nav_tree.js:261
 msgid "Help"
 msgstr "Hilfe"
 
@@ -18470,10 +18463,6 @@ msgstr "Gearbeitete Stunden, woran."
 msgid "Household"
 msgstr "Haushalt"
 
-#: onedesk/public/js/one_calendar/calendar_control.js:13
-msgid "How Do I Add It?"
-msgstr "Wie füge ich ihn hinzu?"
-
 #: onedesk/public/js/doctype_settings.js:537
 msgid "How Long"
 msgstr "Wie lange"
@@ -18552,7 +18541,7 @@ msgstr "Wie liefen die Aufrufe der Webhooks diese Woche, und warum haben welche 
 msgid "How do I add it?"
 msgstr "Wie füge ich ihn hinzu?"
 
-#: onedesk/one/ai.py:399 onedesk/public/js/one_calendar/calendar_control.js:14
+#: onedesk/one/ai.py:399
 msgid "How do I add my calendar to Google Calendar, Apple Calendar or Outlook?"
 msgstr "Wie füge ich meinen Kalender zu Google Kalender, Apple Kalender oder Outlook hinzu?"
 
@@ -20137,7 +20126,7 @@ msgid "Invitations and registration"
 msgstr "Einladungen und Anmeldung"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:131
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:397
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:363
 #: onedesk/public/js/one_account/account_center.js:650
 #: onedesk/public/js/one_portal/portal.js:131
 msgid "Invite"
@@ -21235,10 +21224,6 @@ msgstr ""
 msgid "Jobs OneAI runs in {0} by itself, each using credits."
 msgstr "Aufgaben, die OneAI in {0} selbst ausführt und die jeweils Guthaben verbrauchen."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:320
-msgid "Join"
-msgstr "Beitreten"
-
 #. Label in the One Exit Interview print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Payslip print format
@@ -21909,10 +21894,6 @@ msgstr "Start"
 #: onedesk/one_inventory/home.py:142
 msgid "Lay out a product's whole tree of parts at once."
 msgstr "Den ganzen Teilebaum eines Produkts auf einmal anlegen."
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:21
-msgid "Layers"
-msgstr "Ebenen"
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -22762,7 +22743,7 @@ msgstr "Linux"
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: frontend/src/writer/components/CommentEditor.vue:92
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:190
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:164
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "List"
 msgstr ""
@@ -22841,7 +22822,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:13
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:6
 #: frontend/src/writer/shim/FieldDialog.vue:18
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:296
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:263
 #: onedesk/public/js/center_section.js:95
 #: onedesk/public/js/one_account/account_center.js:818
 #: onedesk/public/js/one_account/account_center.js:1055
@@ -22865,7 +22846,7 @@ msgid "Loan Until"
 msgstr "Darlehen bis"
 
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:392
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:358
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_inventory/home.py:216
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:11
@@ -24485,7 +24466,7 @@ msgstr "Geld, das jemand für die Arbeit ausgelegt hat, erstattet."
 msgid "Mono"
 msgstr "Monospace"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:187
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:22
 #: onedesk/public/js/project_actions.js:486
@@ -24568,11 +24549,11 @@ msgstr "Nicht abgerechnete Monate"
 #: frontend/portal/src/App.vue:17 frontend/src/intake/IntakeInbox.vue:42
 #: frontend/src/sheet/components/SheetEditor/index.vue:289
 #: frontend/src/sheet/components/SheetEditor/index.vue:1160
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:415
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
 #: onedesk/one_sheet/ai.py:227 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:316 onedesk/public/js/window/nav_tree.js:57
+#: onedesk/public/js/window/form.js:316 onedesk/public/js/window/nav_tree.js:67
 msgid "More"
 msgstr "Mehr"
 
@@ -24596,7 +24577,7 @@ msgstr "Hier hält mehr als ein Kunde Einbehalte. Gib sie auf jeder Rechnung fre
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "Hier sind Einbehalte von mehr als einem Lieferanten offen. Zahle sie auf jeder Eingangsrechnung."
 
-#: onedesk/public/js/window/frame.js:512
+#: onedesk/public/js/window/frame.js:514
 msgid "More views"
 msgstr "Weitere Ansichten"
 
@@ -25259,8 +25240,8 @@ msgstr "Neue E-Mail"
 msgid "New Employee No"
 msgstr "Neue Personalnummer"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:24
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:383
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:23
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:349
 msgid "New Event"
 msgstr "Neuer Termin"
 
@@ -25331,7 +25312,7 @@ msgstr "Neue Leads"
 msgid "New Letter Head"
 msgstr "Neuer Briefkopf"
 
-#: onedesk/public/js/calendar_link.js:24 onedesk/public/js/calendar_link.js:66
+#: onedesk/public/js/calendar_link.js:24
 msgid "New Link"
 msgstr "Neuer Link"
 
@@ -25630,7 +25611,7 @@ msgstr "Newsletter in einen Ordner"
 
 #: frontend/portal/src/pages/List.vue:25
 #: frontend/portal/src/parts/Gallery.vue:10 frontend/src/project/Media.vue:9
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:199
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
 #: onedesk/one_studio/print_blocks.py:687
 #: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/item_new.js:326
 #: onedesk/public/js/module_docs.js:472
@@ -26042,7 +26023,7 @@ msgstr "Kein Budget"
 msgid "No buying price"
 msgstr "Kein Einkaufspreis"
 
-#: onedesk/public/js/one_calendar/calendar_control.js:30
+#: onedesk/public/js/one_calendar/calendar_control.js:19
 msgid "No calendar link"
 msgstr "Kein Kalender-Link"
 
@@ -26174,7 +26155,7 @@ msgstr "In der Auswahl gibt es keine leeren Zellen zum Ausfüllen."
 msgid "No errors"
 msgstr "Keine Fehler"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:106
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:80
 msgid "No events"
 msgstr "Keine Termine"
 
@@ -27862,7 +27843,7 @@ msgstr "An"
 msgid "On Behalf Of"
 msgstr "Im Namen von"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:420
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:386
 msgid "On Everyone's Calendar"
 msgstr "In allen Kalendern"
 
@@ -28631,8 +28612,8 @@ msgstr "Die Startseite von OneCRM wird geöffnet, und jedes Mal, wenn sich ein L
 
 #. Title of a Sidebar
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:3
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:64
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:65
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:59
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:60
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 msgid "OneCalendar"
 msgstr "OneCalendar"
@@ -28769,7 +28750,7 @@ msgstr "Nur Word-Dateien können als Dokument geöffnet werden."
 msgid "Only a Workspace Administrator can share a server with everyone."
 msgstr "Nur ein Arbeitsbereich-Administrator kann einen Server mit allen teilen."
 
-#: onedesk/one_calendar/events.py:257
+#: onedesk/one_calendar/events.py:260
 msgid "Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
 msgstr "Nur ein Arbeitsbereich-Administrator oder HR-Manager kann einen Termin in alle Kalender eintragen."
 
@@ -29064,7 +29045,7 @@ msgstr "Nur {0}, wer für den Arbeitsbereich bezahlt, kann das tun."
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 #: onedesk/one_ai/doctype/reading/reading.json onedesk/one_book/heads.py:445
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:321
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:287
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:11
 #: onedesk/one_project/status.py:14
@@ -29333,7 +29314,7 @@ msgid "Open your One account"
 msgstr "Ihr One-Konto öffnen"
 
 #: onedesk/one/notify.py:741
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:322
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:288
 #: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
 #: onedesk/www/s.html:120
 msgid "Open {0}"
@@ -32534,7 +32515,7 @@ msgid "Previewing"
 msgstr "Vorschau von"
 
 #: frontend/portal/src/parts/Gallery.vue:9 frontend/src/project/Media.vue:8
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:197
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:172
 #: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:473
 #: onedesk/public/js/project_new.js:251
 msgid "Previous"
@@ -34535,7 +34516,7 @@ msgstr "{0} erneut verbinden"
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_ai/doctype/identifier/identifier.json
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
-#: onedesk/one_ai/report/deadlines/deadlines.py:38
+#: onedesk/one_ai/report/deadlines/deadlines.py:39
 #: onedesk/one_book/heads.py:569
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
@@ -34878,7 +34859,7 @@ msgstr "Reflexionen"
 #: frontend/src/cloud/OneCloud.vue:36 frontend/src/cloud/OneCloud.vue:633
 #: frontend/src/cloud/OneCloud.vue:634 frontend/src/cloud/OneCloud.vue:656
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
-#: onedesk/public/js/head.js:395 onedesk/public/js/window/frame.js:241
+#: onedesk/public/js/head.js:395 onedesk/public/js/window/frame.js:243
 msgid "Refresh"
 msgstr "Aktualisieren"
 
@@ -36933,7 +36914,7 @@ msgstr "Samstag"
 #: frontend/src/task/TaskWaits.vue:15
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:424
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:390
 #: onedesk/public/js/apps.js:68 onedesk/public/js/crm_record.js:97
 #: onedesk/public/js/item_actions.js:31 onedesk/public/js/lots_actions.js:53
 #: onedesk/public/js/next_step.js:27 onedesk/public/js/one/access_center.js:169
@@ -38201,8 +38182,8 @@ msgstr "Adresse wird eingerichtet"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/home.py:66 onedesk/public/js/doctype_settings.js:979
 #: onedesk/public/js/head.js:23 onedesk/public/js/one_ai/ai_center.js:135
-#: onedesk/public/js/window/nav_tree.js:222
-#: onedesk/public/js/window/nav_tree.js:223
+#: onedesk/public/js/window/nav_tree.js:244
+#: onedesk/public/js/window/nav_tree.js:245
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -38242,7 +38223,6 @@ msgstr "Begleicht"
 #: frontend/src/task/MyTasks.vue:17
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_book/home.py:194 onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:82
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json
 #: onedesk/one_crm/home.py:27 onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_hr/home.py:31 onedesk/one_hr/sidebar/onehr/onehr.json
@@ -40153,7 +40133,7 @@ msgstr "Beginnt bei (Sekunden)"
 #. Label in the One Employee Onboarding print format
 #. Label in the One Employee Separation print format
 #. Label in the One Work Order print format
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:387
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
@@ -40977,7 +40957,7 @@ msgstr "Nachunternehmeraufträge"
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one/notification_words.py:227 onedesk/one/notify.py:265
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:385
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:351
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_mail/flow.py:285 onedesk/one_mail/mail_templates.py:316
 #: onedesk/one_studio/automation_steps.py:41
@@ -41038,11 +41018,6 @@ msgstr "Das Buchen zahlt {0} {1} für {2} Tage {3}."
 #: onedesk/one_legal/gate.py:27
 msgid "Subprocessors"
 msgstr "Unterauftragsverarbeiter"
-
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:76
-#: onedesk/public/js/calendar_link.js:58
-msgid "Subscribe"
-msgstr "Abonnieren"
 
 #: onedesk/one_book/home.py:401
 msgid "Subscription Settings"
@@ -41516,7 +41491,7 @@ msgstr "Sperrung von {0} hängt"
 msgid "Swap a part for another in every bill of materials, or bring their costs up to date."
 msgstr "Ein Teil in allen Stücklisten tauschen oder ihre Kosten aktualisieren."
 
-#: onedesk/public/js/calendar_link.js:25 onedesk/public/js/calendar_link.js:67
+#: onedesk/public/js/calendar_link.js:25
 msgid "Switch Off"
 msgstr "Abschalten"
 
@@ -41650,11 +41625,11 @@ msgstr "{0} den Zugriff auf Ihr Konto entziehen?"
 msgid "Take back {0} and record it with Take Back on the asset's page."
 msgstr "{0} zurücknehmen und mit „Zurücknehmen“ auf der Seite des Anlageguts erfassen."
 
-#: onedesk/public/js/window/nav_tree.js:234
+#: onedesk/public/js/window/nav_tree.js:256
 msgid "Take the Tour"
 msgstr "Tour starten"
 
-#: onedesk/public/js/window/nav_tree.js:234
+#: onedesk/public/js/window/nav_tree.js:256
 msgid "Take the Tour of This Screen"
 msgstr "Rundgang durch diesen Bildschirm"
 
@@ -42559,7 +42534,7 @@ msgstr "Das hat nicht funktioniert. Versuchen Sie es gleich noch einmal."
 msgid "That didn't go through. Try again in a moment."
 msgstr "Das hat nicht geklappt. Versuchen Sie es gleich noch einmal."
 
-#: onedesk/one_calendar/events.py:376
+#: onedesk/one_calendar/events.py:397
 msgid "That event is not on your calendar."
 msgstr "Dieser Termin steht nicht in Ihrem Kalender."
 
@@ -45830,7 +45805,7 @@ msgstr "Ihnen zugewiesene Aufgaben"
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:267
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:185
 #: frontend/src/sheet/utils/recency-groups.js:10 onedesk/one_book/heads.py:58
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:195
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:169
 #: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:426
 #: onedesk/one_project/view.py:634 onedesk/one_task/mine.py:16
 #: onedesk/one_task/tell.py:296
@@ -47199,7 +47174,7 @@ msgstr "Unbenannte Arbeitsmappe"
 msgid "Untracked"
 msgstr "Nicht erfasst"
 
-#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:238
+#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:240
 msgid "Up"
 msgstr "Nach oben"
 
@@ -47847,7 +47822,7 @@ msgstr "Video"
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
-#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:504
+#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:506
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr "Ansehen"
@@ -48266,7 +48241,7 @@ msgstr ""
 msgid "Wednesday"
 msgstr "Mittwoch"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:188
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:162
 msgid "Week"
 msgstr ""
 
@@ -49414,12 +49389,12 @@ msgid "What's Maintained"
 msgstr "Was gewartet wird"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:244
+#: onedesk/public/js/window/nav_tree.js:266
 msgid "What's New"
 msgstr "Neuigkeiten"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:244
+#: onedesk/public/js/window/nav_tree.js:266
 msgid "What's New in {0}"
 msgstr "Neuigkeiten in {0}"
 
@@ -53053,7 +53028,7 @@ msgstr "Sie haben alles gesendet. Sie können eine Datei weiterhin ersetzen."
 msgid "Your Approvals"
 msgstr "Ihre Freigaben"
 
-#: onedesk/public/js/one_calendar/calendar_control.js:51
+#: onedesk/public/js/one_calendar/calendar_control.js:40
 msgid "Your Calendar Link"
 msgstr "Ihr Kalender-Link"
 
@@ -53120,7 +53095,7 @@ msgstr "Ihr One-Konto meldet sich jetzt mit {address} an, und Rechnungen gehen d
 msgid "Your One account, the workspace's first administrator, and where the receipt goes."
 msgstr "Ihr One-Konto, der erste Administrator des Arbeitsbereichs und wohin die Quittung geht."
 
-#: onedesk/public/js/one_calendar/calendar_control.js:53
+#: onedesk/public/js/one_calendar/calendar_control.js:42
 msgid "Your OneCalendar in Google Calendar, Apple Calendar or Outlook, through a private link."
 msgstr "Ihr OneCalendar in Google Calendar, Apple Calendar oder Outlook, über einen privaten Link."
 
@@ -55143,7 +55118,7 @@ msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
 
 #: onedesk/public/js/module_docs.js:390
-#: onedesk/public/js/window/nav_tree.js:239
+#: onedesk/public/js/window/nav_tree.js:261
 msgid "{0} Help"
 msgstr "Hilfe zu {0}"
 
@@ -55216,7 +55191,7 @@ msgid "{0} Saves {1}"
 msgstr "{0} spart {1}"
 
 #: onedesk/public/js/module_settings.js:218
-#: onedesk/public/js/window/nav_tree.js:223
+#: onedesk/public/js/window/nav_tree.js:245
 msgid "{0} Settings"
 msgstr "Einstellungen von {0}"
 
@@ -55767,6 +55742,7 @@ msgid "{0} fills a record field, so the request must be on a record."
 msgstr "{0} füllt ein Datensatzfeld, daher muss die Anfrage an einem Datensatz erfolgen."
 
 #: frontend/src/floor/FloorSteps.vue:8 frontend/src/plant/PlantFloor.vue:40
+#: onedesk/one_calendar/events.py:280
 msgid "{0} for {1}"
 msgstr "{0} für {1}"
 
@@ -56797,6 +56773,10 @@ msgstr "{0} nicht eingereicht"
 #: frontend/src/item/ItemPage.vue:249
 msgid "{0} not yet registered"
 msgstr "{0} noch nicht erfasst"
+
+#: onedesk/one_ai/reading/calendar.py:144
+msgid "{0} notice"
+msgstr "{0} Kündigungsfrist"
 
 #: onedesk/one_hr/heads.py:262
 msgid "{0} of it is already covered by an advance."

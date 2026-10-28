@@ -91,3 +91,4 @@ onedesk.one.patches.notes_not_on_sign_in
 onedesk.one.patches.announcements_end #status
 onedesk.one_portal.patches.portal_column
 onedesk.one.patches.no_dashboards_page
+onedesk.one_calendar.patches.maintenance_visits_named

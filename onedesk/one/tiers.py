@@ -92,6 +92,7 @@ COLLECTIONS = {
 	"Contact": {"List": "no ID column, since a contact's name is the person's, already in the title"},
 	"Deleted Document": {"List": "One's Recycle Bin: what was deleted and from where, Restored or Deleted, and Restore on several at once"},
 	"Note": {"List": "One's Announcements: what is showing first, Showing or Ended, and Stop Showing for administrators"},
+	"Event": {"List": "Starts On in place of the ID, and an open event blue rather than red"},
 	"Item": {"List": "a tab for each kind of item, and how many of each are on hand, with Low once a warehouse is at its reorder level"},
 	"Project Template": {"List": "From Library beside Add, copying a preset in and opening it"},
 	"Timesheet": {"List": "OneProject's Time: the project, the days and the billable hours as columns, the ID on hover"},

@@ -1,7 +1,8 @@
 """Deadlines: every date something must be done by, from what was read
 (onedesk/one_ai/reading/README.md §6).
 
-The calendar's three kinds of date, in one list a person can work down.
+The calendar's three kinds of date, in one list a person can work down. What
+a deadline is for is its title, and why it falls when it does is its Rule.
 """
 
 import frappe
@@ -33,11 +34,10 @@ def execute(filters=None):
 	columns = [
 		{"fieldname": "date", "label": _("Date"), "fieldtype": "Date", "width": 110},
 		{"fieldname": "days", "label": _("Days Left"), "fieldtype": "Int", "width": 90},
-		{"fieldname": "title", "label": _("Deadline"), "fieldtype": "Data", "width": 320},
+		{"fieldname": "title", "label": _("Deadline"), "fieldtype": "Data", "width": 400},
 		{"fieldname": "doctype", "label": _("Document Type"), "fieldtype": "Data", "hidden": 1},
 		{"fieldname": "name", "label": _("Record"), "fieldtype": "Data", "hidden": 1},
-		{"fieldname": "about", "label": _("About"), "fieldtype": "Data", "width": 240},
 		{"fieldname": "counted_from", "label": _("Counted From"), "fieldtype": "Date", "width": 130},
-		{"fieldname": "rule", "label": _("Rule"), "fieldtype": "Data", "width": 380},
+		{"fieldname": "rule", "label": _("Rule"), "fieldtype": "Data", "width": 360},
 	]
 	return columns, data

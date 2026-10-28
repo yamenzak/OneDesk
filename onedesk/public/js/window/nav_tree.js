@@ -10,10 +10,15 @@
 //          `open` is true or false on a row that holds others and absent
 //          on a leaf; `icon` is a lucide name; with an `href` a row opens in
 //          a new tab, and a plain click is still the screen's.
+//          `section` makes a row a name over the rows after it, drawn as
+//          the rail's own section names (OneCalendar's Mine and Workspace).
+//          `check` (true or false) puts a box where the icon goes, inked
+//          in `color` (a frappe-ui colour); clicking the row ticks it.
 //   heading  a name over the rows, drawn as the rail's own section names
 //          (Centers); with `alone` the tree is its own section of the rail,
 //          before the section names, rather than under the view's row.
 //   pick   (id, event) a row was chosen.
+//   check  (id, on) a row's box was ticked or cleared.
 //   twist  (id) a row's twisty was clicked; choosing a row never folds it.
 //   over   (id, event) something is dragged over a row; true takes it, and
 //          the row is lit until the drag leaves or drops.
@@ -42,8 +47,13 @@ onedesk.window.Tree = class Tree {
 	draw() {
 		const esc = frappe.utils.escape_html;
 		const icon = (name, size = "sm") => (name ? frappe.utils.icon(name, size) : "");
+		const section = (label) =>
+			`<div class="sidebar-item-container section-item one-window-tree-heading"><div class="standard-sidebar-item"><span class="item-anchor section-break"><span class="sidebar-item-label">${esc(
+				label
+			)}</span></span></div></div>`;
 		const html = (this.spec.rows || [])
 			.map((row) => {
+				if (row.section) return section(row.label);
 				const holds = row.open === true || row.open === false;
 				const twisty = holds
 					? `<span class="one-window-twisty" data-twist role="button" aria-label="${row.open ? __("Collapse") : __("Expand")}">${icon(
@@ -66,14 +76,16 @@ onedesk.window.Tree = class Tree {
 					holds ? ` aria-expanded="${row.open}"` : ""
 				}${row.active ? ` aria-current="page"` : ""}><a class="item-anchor" href="${esc(row.href || "#")}" title="${esc(
 					row.title || row.label
-				)}">${twisty}<span class="sidebar-item-icon">${icon(row.icon)}</span>${label}${warn}${count}${more}</a></div>`;
+				)}">${twisty}<span class="sidebar-item-icon">${
+					row.check === undefined
+						? icon(row.icon)
+						: `<input type="checkbox" class="one-window-check" data-check aria-label="${esc(row.label)}"${row.check ? " checked" : ""}${
+								row.color ? ` style="--one-check: var(--ink-${esc(row.color)}-7)"` : ""
+						  }>`
+				}</span>${label}${warn}${count}${more}</a></div>`;
 			})
 			.join("");
-		const heading = this.spec.heading
-			? `<div class="sidebar-item-container section-item one-window-tree-heading"><div class="standard-sidebar-item"><span class="item-anchor section-break"><span class="sidebar-item-label">${esc(
-					this.spec.heading
-			  )}</span></span></div></div>`
-			: "";
+		const heading = this.spec.heading ? section(this.spec.heading) : "";
 		this.$host.html(heading + html);
 	}
 
@@ -92,9 +104,19 @@ onedesk.window.Tree = class Tree {
 				const box = e.currentTarget.getBoundingClientRect();
 				this.open_menu($(e.currentTarget).closest("[data-id]"), box.left, box.bottom + 4);
 			})
+			.on("click", "[data-check]", (e) => {
+				e.stopPropagation();
+				if (this.spec.check) this.spec.check(id(e), e.currentTarget.checked);
+			})
 			.on("click", ".item-anchor", (e) => {
 				if ($(e.currentTarget).attr("href") !== "#" && (e.ctrlKey || e.metaKey || e.shiftKey)) return;
 				e.preventDefault();
+				const $box = $(e.currentTarget).find("[data-check]");
+				if ($box.length) {
+					$box.prop("checked", !$box.prop("checked"));
+					if (this.spec.check) this.spec.check(id(e), $box.prop("checked"));
+					return;
+				}
 				if (this.spec.pick) this.spec.pick(id(e), e);
 			})
 			.on("dragover", "[data-id]", (e) => {

@@ -141,7 +141,7 @@ def of_contracts(start, end) -> list[dict]:
 			"date": one.one_cancel_by,
 			"what": _("Last Day to Cancel"),
 			"title": f"{_('Last Day to Cancel')} · {one.party_name}",
-			"about": one.one_notice_period,
+			"rule": _("{0} notice").format(one.one_notice_period) if one.one_notice_period else None,
 			"doctype": "Contract",
 			"name": one.name,
 		}
@@ -168,8 +168,7 @@ def of_employees(start, end) -> list[dict]:
 			"id": f"Employee Document:{one.name}",
 			"date": one.expires_on,
 			"what": _("Expires"),
-			"title": f"{_(one.document_type)} · {people[one.parent]}",
-			"about": one.number,
+			"title": f"{_(one.document_type)} {one.number} · {people[one.parent]}" if one.number else f"{_(one.document_type)} · {people[one.parent]}",
 			"doctype": "Employee",
 			"name": one.parent,
 		}

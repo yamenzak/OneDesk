@@ -123,8 +123,7 @@ def the_address_book_is_frappes_contacts_and_addresses():
 def ones_rail_leaves_out_what_the_reader_cannot_open():
 	"""One's rail links the workspace's centres by address, which frappe
 	shows to everyone (reach.unopened): Mariam, who administers nothing, has
-	no Workspace heading, nor the Address Book's Lists; Huda, OneAccount's
-	Manager, has Workspace with Plan and Credits alone; Layla has it all."""
+	AccountCenter and not ControlCenter or AccessCenter; Layla has them all."""
 	from frappe.boot import get_module_sidebars
 
 	from onedesk.one import reach
@@ -135,10 +134,9 @@ def ones_rail_leaves_out_what_the_reader_cannot_open():
 			reach.unopened(sidebars)
 			return [one.get("label") for one in sidebars["One"]["items"]]
 
-	mariam, huda, layla = rail("mariam@one.test"), rail("huda@one.test"), rail(OWNER)
-	assert "Workspace" not in mariam and "Lists" not in mariam and "Profile" in mariam, mariam
-	assert huda[huda.index("Workspace") + 1 :] == ["Plan and Credits"], huda
-	assert {"Lists", "General", "People", "Access", "Audit Log", "Devices", "Domains"} <= set(layla), layla
+	mariam, layla = rail("mariam@one.test"), rail(OWNER)
+	assert "AccountCenter" in mariam and not {"ControlCenter", "AccessCenter"} & set(mariam), mariam
+	assert {"AccountCenter", "ControlCenter", "AccessCenter", "TrustCenter"} <= set(layla), layla
 
 
 @check

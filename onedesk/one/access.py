@@ -965,6 +965,7 @@ def settle() -> None:
 	_own_reports()
 	_everybody("Deleted Document", "read")
 	_no_copies_in_the_sidebar()
+	_no_google()
 
 
 def _note_levels() -> None:
@@ -1031,3 +1032,18 @@ def _no_copies_in_the_sidebar() -> None:
 	for name in frappe.get_all("Custom DocPerm", filters={"parent": download, "role": "All"}, pluck="name"):
 		frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True)
 		frappe.clear_cache(doctype=download)
+
+
+GOOGLE = ("Google Calendar", "Google Contacts")
+
+
+def _no_google() -> None:
+	"""frappe's Google Calendar and Google Contacts sync, which One does not
+	offer: no desk user opens either, and their fields are hidden on Event
+	and Contact. A calendar reaches Google through its own link
+	(one_calendar/feed.py)."""
+	for doctype in GOOGLE:
+		setup_custom_perms(doctype)
+		for name in frappe.get_all("Custom DocPerm", filters={"parent": doctype, "role": DESK}, pluck="name"):
+			frappe.delete_doc("Custom DocPerm", name, ignore_permissions=True)
+			frappe.clear_cache(doctype=doctype)

@@ -854,6 +854,7 @@ doctype_list_js = {
 	"Address Template": "public/js/address_template_list.js",
 	"Contact": "public/js/contact_list.js",
 	"Deleted Document": "public/js/deleted_document_list.js",
+	"Event": "public/js/event_list.js",
 	"Note": "public/js/note_list.js",
 	"Project Template": "public/js/project_template_list.js",
 	"Timesheet": "public/js/timesheet_list.js",

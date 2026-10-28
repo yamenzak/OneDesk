@@ -41,7 +41,6 @@ USE_THE_SHELL = {
 	"public/js/center_section.js",
 	"public/js/one/access_center.js",
 	"public/js/one_ai/ai_center.js",
-	"public/js/one_calendar/calendar_control.js",
 	"public/js/one/one_control.js",
 	"public/js/one_hr/hr_control.js",
 	"public/js/one_studio/studio_control.js",

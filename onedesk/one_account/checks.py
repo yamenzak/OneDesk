@@ -21,7 +21,7 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 	with as_user("wsadmin@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
 		said = center.sections_of()
 		keys = {one["key"] for one in said["sections"]}
-		assert keys == {"profile", "signin", "people", "devices", "plan", "domains"}, keys
+		assert keys == {"profile", "personal", "work", "documents", "signin", "people", "devices", "plan", "domains"}, keys
 		for key in keys:
 			center.load(key)
 		people = center.load("people")
@@ -30,7 +30,7 @@ def account_center_opens_each_section_for_whoever_may_see_it():
 		assert page, "Nadia's page in People is empty"
 	with as_user("huda@one.test"), mock.patch("onedesk.one.account.ask", return_value=[]):
 		keys = {one["key"] for one in center.sections_of()["sections"]}
-		assert keys == {"profile", "signin", "plan"}, keys
+		assert keys == {"profile", "personal", "work", "documents", "signin", "plan"}, keys
 		said = center.load("plan")
 		assert not said["admin"] and set(said["closing"]) == {"closing_on", "deleted_on"}, said["closing"]
 	with as_user("nadia@one.test"):

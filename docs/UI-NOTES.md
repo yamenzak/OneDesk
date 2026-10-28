@@ -117,6 +117,15 @@ app declares its actions in its `ai.py` (`ACTIONS`, named in hooks.py's
 `one_ai_actions`), and AICenter lists them under the app with a switch.
 A button that only asks the panel a question goes, as we walk each screen.
 
+### A page keeps its app's rail
+
+A page of an app (OneCalendar's calendar) keeps the app's rail rather than
+drawing a left column of its own, and what it lets a person pick from (the
+calendar's layers) is a section of that rail, under the rows (`window.tree`,
+with `section` rows and `check` rows inked in their own colour). Its own
+button goes first in the command row, then how to move through it, then its
+views at the right. Nothing the rail already has is repeated on the page.
+
 ### Ways in are tiles, not rows
 
 A handful of parallel things a person checks and acts on (Sign-in's
@@ -243,6 +252,20 @@ with the gates at the end.
   viewer (`js/window/json_view.js`); the Address Book as frappe's Contact
   and Address lists (no ID or Status column on Contacts); one Portal
   dialog on a document, a customer, a supplier and a contact.
+- **OneCalendar**: the calendar keeps OneCalendar's rail, with the layers
+  as Mine and Workspace under it; New Event, Today, the arrows and the date
+  in the command row and the views at the right; All Events, Deadlines,
+  Subscribe and Setup left the page (the rail and ControlCenter have them).
+  Event's list has no ID column or box, Starts On as a column and Open in
+  blue; its Subject is a short box. A maintenance visit is titled with the
+  visit and the customer. Deadlines lost About (the title says what it is,
+  Rule why it falls then) and its filter reads Found In. Calendar Feed reads
+  Calendar Link. How Do I Add It? and the second Calendar Link heading left
+  the settings. The demo's weekly meetings are one repeating event each
+  (and Layla has one). `events._rows` no longer narrows every later event to
+  the first record one was shown through. frappe's Google Calendar and
+  Google Contacts sync is gone: closed to everybody, its fields hidden on
+  Event and Contact, off the rail, and out of the privacy notice.
 - **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
   People (Contact filtered on its Portal column) and Links (the Portal Link
   list), a foot and settings. Turned off in Apps it closes the portal

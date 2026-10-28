@@ -346,12 +346,13 @@ def every_rail_link_opens_for_its_app():
 
 @check
 def everybody_signs_in_to_what_they_were_given():
-	"""Each person holds the roles People gave them, and only the owner is an
-	administrator."""
+	"""Each person holds the roles People gave them, and only the owner and
+	the person who set the workspace up are administrators."""
 	from onedesk.one.roles import ADMINISTRATOR
+	from onedesk.one_demo.setup import BUILDER
 
 	admins = {u for u in frappe.get_all("Has Role", filters={"role": ADMINISTRATOR, "parenttype": "User"}, pluck="parent") if u.endswith("@one.test")}
-	assert admins == {OWNER}, admins
+	assert admins == {OWNER, BUILDER}, admins
 	for _f, _l, email, *_r, access in PEOPLE:
 		if email and access:
 			assert frappe.db.get_value("User", email, "enabled"), email
@@ -1009,7 +1010,9 @@ def onecalendar_shows_each_person_their_week():
 		assert ai.busy_times(["Tariq"], start, end)
 		assert ai.plan_event("Snag walk", f"{add_days(today(), 4)} 09:00:00").get("state") == "Proposed"
 	with as_user("samir@one.test"):
-		mine = next(one for one in layers.entries(start, end) if "Weekly site meeting" in (one.get("title") or "") and one["editable"])
+		made = events.make({"subject": "Supplier call", "starts_on": f"{add_days(today(), 2)} 15:00:00", "team": ["karim@one.test"]})
+		assert frappe.db.exists("Event Participants", {"parent": made, "reference_docname": "karim@one.test"})
+		mine = next(one for one in layers.entries(start, end) if one["name"] == made and one["editable"])
 		layers.move(mine["layer"], mine["name"], f"{add_days(today(), 1)} 09:00:00")
 		assert feed.allowed(), "Calendar Links stay on when System Settings is saved"
 		link = feed.mine()
@@ -1018,8 +1021,6 @@ def onecalendar_shows_each_person_their_week():
 		feed.ics(renewed["https"].split("token=", 1)[1])
 		assert b"BEGIN:VCALENDAR" in frappe.response["filecontent"] and b"Weekly site meeting" in frappe.response["filecontent"]
 		feed.stop()
-		made = events.make({"subject": "Supplier call", "starts_on": f"{add_days(today(), 2)} 15:00:00", "team": ["karim@one.test"]})
-		assert frappe.db.exists("Event Participants", {"parent": made, "reference_docname": "karim@one.test"})
 
 
 @check
@@ -4496,11 +4497,11 @@ def the_one_home_lists_and_the_bin_answer_for_their_people():
 		for module, doctypes in kept.items():
 			kinds = lists.kinds(module)
 			assert [one["doctype"] for one in kinds] == doctypes, (module, kinds)
-			assert all(set(one) == {"doctype", "label", "count"} for one in kinds)
+			assert all(set(one) == {"doctype", "label", "count", "icon", "counted"} for one in kinds)
 		territory = frappe.get_doc({"doctype": "Territory", "territory_name": "Oman"}).insert()
 		assert territory.parent_territory, "a tree's new value goes under its root (lists.place)"
 		assert lists.homes()["Territory"] == [
-			{"label": "OneCRM Lists", "route": "/desk/one?center=settings&module=OneCRM&at=lists"},
+			{"label": "Lists", "route": "/desk/one?center=settings&module=OneCRM&at=lists"},
 			{"label": "Territories", "route": "/desk/territory"},
 		]
 		assert holidays.subdivisions("AE") is not None

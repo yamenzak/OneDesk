@@ -26,7 +26,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
 | onedesk | 66 | 2 | 35 | 0 |
-| frappe | 24 | 35 | 155 | 0 |
+| frappe | 23 | 35 | 156 | 0 |
 | erpnext | 303 | 131 | 51 | 0 |
 | hrms | 102 | 20 | 8 | 0 |
 
@@ -505,7 +505,7 @@ Reports: YouTube Interactions (left out: ERPNext's library of YouTube help video
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Address | on a rail or a home | everybody | events | yes | general |  | yes |  |  |  |  |
 | Address Template | inside: One's ControlCenter › Lists, the Address Book's | the administrator | events, list script, 1 settings | yes | general |  | yes |  |  |  |  |
-| Contact | on a rail or a home | everybody | events, form script, list script, 4 fields, 8 settings | yes | taught | makes it | yes |  |  |  |  |
+| Contact | on a rail or a home | everybody | events, form script, list script, 4 fields, 12 settings | yes | taught | makes it | yes |  |  |  |  |
 | Gender | through a form's link (User: gender) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Salutation | through a form's link (Contact: salutation) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
@@ -583,7 +583,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | User Permission | inside: AccessCenter › Roles and Profiles, holding a person to some records | **nobody** | untouched | no | taught |  | yes |  |  |  |  |
 | User Type | through a form's link (User: user_type) | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Version | opened by our screens | the administrator | events, list script, 1 settings | no | taught |  | yes |  |  |  |  |
-| View Log | engine: who opened a record, for Audit Log | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| View Log | engine: who opened a record, for Audit Log | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
 Reports: Database Storage Usage By Tables (the platform's: the site's own workings, which the platform keeps for every workspace); Document Share Report (inside: a record's Share, which says who it is shared with); Permitted Documents For User (under a list's related reports (User's list)); Prepared Report Analytics (the platform's: the site's own workings, which the platform keeps for every workspace); User Doctype Permissions (under a list's related reports (User's list)).
 
@@ -619,7 +619,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Dock | engine: the rail's apps, kept by One | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
-| Event | on a rail or a home | everybody | events, 1 fields | no | taught | makes it | yes |  |  |  | Event Changed, Invited to an Event, Starting Soon |
+| Event | on a rail or a home | everybody | events, list script, 1 fields, 9 settings | no | taught | makes it | yes |  |  |  | Event Changed, Invited to an Event, Starting Soon |
 | Form Tour | through a form's link (Onboarding Step: form_tour) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Global Search Settings | engine: which kinds of record search finds | everybody | untouched | no | general |  |  |  |  |  |  |
 | Kanban Board | through a form's link (Workspace: kanban_board) | everybody | events | no | general |  | yes |  |  |  |  |
@@ -677,9 +677,9 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Connected App | through a form's link (Email Account: connected_app) | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Geolocation Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Google Calendar | on a rail or a home | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Google Contacts | replaced: One's Address Book | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Google Settings | replaced: OneMail and OneCalendar | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Google Calendar | left out: frappe's sync with a Google account, which One does not offer; a calendar reaches Google through its own link | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Google Contacts | left out: frappe's sync with a Google account, which One does not offer; a calendar reaches Google through its own link | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Google Settings | left out: frappe's sync with a Google account, which One does not offer; a calendar reaches Google through its own link | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Integration Request | engine: a call to an outside service, kept for the platform | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | LDAP Settings | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | OAuth Authorization Code | left out: waits in docs/BACKLOG.md | **nobody** | untouched | no | general |  | **none** |  |  |  |  |

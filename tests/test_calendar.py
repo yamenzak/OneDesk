@@ -124,7 +124,8 @@ def test_an_event_is_mine_public_or_hidden_by_frappes_rule():
 def test_an_event_about_a_record_is_shown_to_whoever_may_read_the_record():
 	source = (CAL / "events.py").read_text()
 	rows = source.split("def _rows(", 1)[1].split("\ndef ", 1)[0]
-	assert "_can_read(pair, readable)" in rows and 'side, opens = "company", record' in rows
+	assert "_can_read(pair, readable)" in rows and 'side, opens = "company", through' in rows
+	assert "record = next(" not in rows, "the record asked for is not overwritten by the first event shown through one"
 	assert 'frappe.has_permission(doctype, "read", doc=name)' in source
 
 

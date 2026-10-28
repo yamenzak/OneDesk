@@ -445,10 +445,37 @@ ONE_TABS = {"company": "Company", "branding": "Branding", "formats": "Region and
 OPENS_ON = {"onestudio": "numbering", "account": "profile", "one": "company", "notifications": "everything", "ai": "oneai"}
 
 
+# What each centre on One's rail is, for the centres a section of their own
+# says nothing more about.
+CENTRES = {
+	"access": (
+		"The reader is in AccessCenter: who may do what in the workspace. Roles and Profiles, then each app's "
+		"roles and people, and who may open one record, and the Audit Log of every change, sign-in and export. "
+		"Administrators change it there; how is in One's Help under Access and the Audit Log (how_to)."
+	),
+	"trust": (
+		"The reader is in TrustCenter: the agreements the workspace agreed to and any change coming, the "
+		"optional services and their switches, the companies that receive data and where, what is kept and "
+		"for how long, and the requests for a copy or a deletion of someone's data. How it works is in "
+		"OneLegal's Help (how_to)."
+	),
+	"help": (
+		"The reader is in HelpCenter: every app's Help pages, One's first, then the apps, then AccountCenter "
+		"and TrustCenter. Answer from those pages (how_to)."
+	),
+	"updates": (
+		"The reader is in UpdateCenter: every app's versions, newest first, each with what changed for the "
+		"people who use it."
+	),
+}
+
+
 def page(said: dict) -> str | None:
 	"""The sentence the model is told about a Settings section: which records
 	it is, and where its documentation is. Only the reader's own records, found
 	on the server rather than taken from the browser."""
+	if said.get("page") in CENTRES and not said.get("section"):
+		return CENTRES[said["page"]]
 	said = {**said, "section": said.get("section") or OPENS_ON.get(said.get("page"), "")}
 	if said.get("section") == "lists":
 		return _lists_page(said.get("page"))
@@ -593,15 +620,15 @@ def page(said: dict) -> str | None:
 		if not feed.allowed():
 			return (
 				"The reader is on Your Calendar Link in OneCalendar's ControlCenter, but this workspace does "
-				"not allow calendar links: its administrators switched them off under General › Sharing in "
+				"not allow calendar links: its administrators switched them off under Sharing in "
 				"One's ControlCenter, so nobody can have one. Say so rather than explaining how to add one."
 			)
 		return (
 			"The reader is on Your Calendar Link in OneCalendar's ControlCenter: a private link to their "
 			"calendar that another calendar app reads, with a button for Google Calendar, Apple Calendar and "
 			"Outlook, what the link carries, and when an app last read it. They make it, copy it, replace it "
-			"or switch it off themselves. How to add it to each app is in OneCalendar's Help under Subscribe "
-			"(how_to)."
+			"or switch it off themselves. How to add it to each app is in OneCalendar's Help under In Google, "
+			"Apple or Outlook (how_to)."
 		)
 	if at == ("ai", "reads"):
 		return (

@@ -34,6 +34,9 @@ OPEN = {
 
 NAMED = re.compile(r"\b[A-Z][A-Z0-9]*(?:[-/.][A-Z0-9]+)+\b")
 
+# What the sender may owe on, said with what is still owed.
+OWED = ("Sales Invoice", "Purchase Invoice")
+
 
 def verified(headers, sender: str) -> bool:
 	"""Whether the server that received a message confirmed its sender: the
@@ -146,7 +149,7 @@ def _rows(sender: str, doctype: str | None = None, filters: dict | None = None, 
 			if contacts[(_party_type(kind), party)] in portal._hidden(kind, doc):
 				continue
 			row = portal._row("", kind, doc)
-			if kind in portal.OWED and 0 < (doc.get("outstanding_amount") or 0) < (doc.get("grand_total") or 0):
+			if kind in OWED and 0 < (doc.get("outstanding_amount") or 0) < (doc.get("grand_total") or 0):
 				row["owed"] = doc.get_formatted("outstanding_amount")
 			said.append({"party": party, "doctype": kind, **row})
 	return said

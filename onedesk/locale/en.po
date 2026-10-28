@@ -72,3 +72,6 @@ msgstr "OneLegal"
 
 msgid "One Account"
 msgstr "OneAccount"
+
+msgid "Calendar Feed"
+msgstr "Calendar Link"

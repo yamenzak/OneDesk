@@ -195,9 +195,11 @@ onedesk.window.nav = {
 		// the first section name, not a part of whichever row is lit.
 		if (win.tree_alone) {
 			const $sections = $items.find(".sidebar-items > .sidebar-item-container").filter((_, el) => $(el).find("> .standard-sidebar-item > .section-break").length);
+			// With no section names (OneCalendar's rail) it follows the rows.
+			const $rows = $items.find(".sidebar-items").first();
 			if ($sections.length) {
 				if ($sections.first().prev()[0] !== win.$slot[0]) win.$slot.insertBefore($sections.first());
-			} else if (!$.contains($items[0], win.$slot[0])) win.$slot.appendTo($items);
+			} else if (!$.contains(($rows[0] || $items[0]), win.$slot[0])) win.$slot.appendTo($rows.length ? $rows : $items);
 			win.$slot.removeClass("one-window-nav-whole");
 			return;
 		}

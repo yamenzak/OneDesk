@@ -4,7 +4,7 @@ frappe.query_reports["Deadlines"] = {
 		{ fieldname: "to_date", label: __("To Date"), fieldtype: "Date", reqd: 1, default: frappe.datetime.add_days(frappe.datetime.get_today(), 90) },
 		{
 			fieldname: "source",
-			label: __("From"),
+			label: __("Found In"),
 			fieldtype: "Select",
 			options: ["", "Documents", "Contracts", "Employees"].map((value) => ({ value, label: value ? __(value) : "" })),
 		},

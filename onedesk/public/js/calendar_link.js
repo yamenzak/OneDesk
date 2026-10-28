@@ -53,20 +53,3 @@ onedesk.calendar_link.bind = ($root, link, { drawn, stopped }) => {
 	$root.find("[data-calendar-renew]").on("click", () => onedesk.calendar_link.renew(drawn));
 	$root.find("[data-calendar-stop]").on("click", () => onedesk.calendar_link.stop(stopped));
 };
-
-onedesk.calendar_link.dialog = async () => {
-	const dialog = new frappe.ui.Dialog({ title: __("Subscribe") });
-	let link = await frappe.xcall("onedesk.one_calendar.feed.mine");
-	const draw = (made) => {
-		link = made;
-		dialog.$body.html(onedesk.calendar_link.html(link, { copy: false, ends: false }));
-	};
-	dialog.set_primary_action(__("Copy Link"), () => onedesk.calendar_link.copy(link));
-	dialog.custom_actions.append(
-		frappe.ui.button({ label: __("New Link"), variant: "ghost", icon: "refresh-cw", onclick: () => onedesk.calendar_link.renew(draw) }),
-		frappe.ui.button({ label: __("Switch Off"), variant: "ghost", theme: "red", icon: "power", onclick: () => onedesk.calendar_link.stop(() => dialog.hide()) })
-	);
-	draw(link);
-	dialog.show();
-	return dialog;
-};

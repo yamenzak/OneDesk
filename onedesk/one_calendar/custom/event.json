@@ -15,6 +15,79 @@
  ],
  "doctype": "Event",
  "links": [],
- "property_setters": [],
+ "property_setters": [
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "subject",
+   "property": "max_height",
+   "property_type": "Data",
+   "value": "4.5rem"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "starts_on",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "sync_with_google_calendar",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "google_calendar",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "add_video_conferencing",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "google_meet_link",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "google_calendar_id",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "google_calendar_event_id",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Event",
+   "doctype_or_field": "DocField",
+   "field_name": "pulled_from_google_calendar",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
  "sync_on_migrate": 1
 }

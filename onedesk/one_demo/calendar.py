@@ -1,16 +1,19 @@
-"""The team's calendar: the weekly site meeting, a handover walk with the
-customer, a supplier visit and the workshop's safety briefing, each made as
-Add Event makes it, with the people it is for."""
+"""The team's calendar: the weekly site meeting and Layla's management
+meeting, each one event that repeats every week from the week before the
+demo was made, so every week shows them; a
+handover walk with the customer, a supplier visit and the workshop's safety
+briefing, each made as Add Event makes it, with the people it is for."""
 
 import frappe
 from frappe.utils import add_days, get_datetime
 
 from onedesk.one_demo.base import ago, as_user
 
+REPEATS = {"Weekly site meeting": "Weekly", "Management meeting": "Weekly"}
+
 EVENTS = (
 	("samir@one.test", "Weekly site meeting", -7, "08:00", 1, ("rania@one.test", "tariq@one.test"), None, None, False),
-	("samir@one.test", "Weekly site meeting", 0, "08:00", 1, ("rania@one.test", "tariq@one.test"), None, None, False),
-	("samir@one.test", "Weekly site meeting", 7, "08:00", 1, ("rania@one.test", "tariq@one.test"), None, None, False),
+	("wsadmin@one.test", "Management meeting", -6, "10:00", 1, ("omar@one.test", "huda@one.test", "karim@one.test"), None, None, False),
 	(
 		"samir@one.test",
 		"Handover walk at the Mansour villa",
@@ -39,7 +42,7 @@ def run(password=None):
 		if about:
 			reference = frappe.db.get_value(about[0], {"project_name": about[1]}) if about[0] == "Project" else about[1]
 		with as_user(user):
-			events.make(
+			made = events.make(
 				{
 					"subject": subject,
 					"starts_on": str(starts),
@@ -51,3 +54,7 @@ def run(password=None):
 					"reference_docname": reference,
 				}
 			)
+			if subject in REPEATS:
+				doc = frappe.get_doc("Event", made)
+				doc.update({"repeat_this_event": 1, "repeat_on": REPEATS[subject], starts.strftime("%A").lower(): 1})
+				doc.save()

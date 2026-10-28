@@ -9,17 +9,14 @@ and moves when the deal changes.
 
 ## Finding your way
 
-**OneCalendar** in the dock opens the calendar. The left column has:
+**OneCalendar** in the dock opens the calendar. Its rail has **Calendar**,
+**Event** (every event as a list), **Deadlines** and **Setup › Calendar
+Links** for those with access, and under them the layers, in **Mine** and
+**Workspace**.
 
-- **New Event** at the top
-- the layers
-- **All Events** (every event as a list), **Deadlines** and **Subscribe** at
-  the bottom
-- **Setup**, with **Google Calendar** and **Calendar Links**, for those with
-  access
-
-Switch between **Month**, **Week**, **Day** and **List**. The arrows move
-back and forward, and **Today** returns to today. The calendar opens on your
+**New Event** is the first button over the calendar. **Today** and the
+arrows move through the days, and **Month**, **Week**, **Day** and **List**
+are at the right. Your calendar link is in OneCalendar's ControlCenter. The calendar opens on your
 last view and layers, on any computer.
 
 The workspace's weekly days off are lightly shaded, and holidays show in red
@@ -28,7 +25,8 @@ appear without reloading.
 
 ## Layers
 
-Tick a layer in the left column to show it, and untick it to hide it.
+Tick a layer in the rail to show it, and untick it to hide it. Each box is
+in the layer's colour.
 
 **Mine:**
 
@@ -160,7 +158,8 @@ there don't affect your own calendar.
 
 ## In Google, Apple or Outlook
 
-**Subscribe** adds your calendar to another app:
+**Your Calendar Link**, in OneCalendar's ControlCenter, adds your calendar
+to another app:
 
 - **Google Calendar**, **Apple Calendar** or **Outlook** opens that app,
   ready to add it.
@@ -182,11 +181,11 @@ day.
 - A Workspace Administrator can switch off anyone's link under **Setup ›
   Calendar Links**, which also shows when each was created and last synced.
 - To turn links off for everyone, switch off **Calendar Links** under
-  One's ControlCenter › Sharing. All links are deleted, no one can create one, and
-  Subscribe disappears. Switching it back on doesn't restore old links.
+  One's ControlCenter › Sharing. All links are deleted and no one can create
+  one. Switching it back on doesn't restore old links.
 
-For two-way sync with Google, use the **Google Calendar** connection under
-Setup. It needs a Google API key in Google Settings first.
+One does not sync with a Google account: your calendar link is how your
+calendar reaches Google.
 
 ## Connections
 
@@ -319,12 +318,19 @@ For the people who build OneCalendar. OneAI does not read past this heading.
 
   It carries the layers that are on before anybody chooses, read as that
   person, so it holds nothing they could not see on the calendar itself. It
-  is one way: an event added in Google stays in Google. frappe's own Google
-  Calendar integration syncs both ways for Events, and needs Google API keys
-  to do it.
+  is one way: an event added in Google stays in Google. frappe's own
+  two-way Google Calendar and Google Contacts sync is not offered: both are
+  closed to everybody (`one/access.py` `_no_google`) and their fields hidden
+  on Event and Contact.
 - `page/onecalendar` — the page, on the FullCalendar frappe already bundles
-  for its own calendar view. The reader's layers and view are frappe user
-  settings under Event.
+  for its own calendar view, in the window: New Event is the page's primary
+  action, the days and views are the command row, and the layers are a tree
+  of check rows in the rail (`window.tree`). The reader's layers and view
+  are frappe user settings under Event.
+- `events.maintenance_visit` — ERPNext titles each visit a maintenance
+  schedule books "Reference: …, Item Code: … and Customer: …"; it is titled
+  with the visit and the customer, and the patch
+  `maintenance_visits_named` titles the ones booked before.
 
 ### The plan
 

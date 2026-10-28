@@ -1173,11 +1173,9 @@
 "System Manager"
 ],
 "Google Calendar": [
-"Desk User",
 "System Manager"
 ],
 "Google Contacts": [
-"Desk User",
 "System Manager"
 ],
 "Google Settings": [
@@ -3403,6 +3401,7 @@
 "Vehicle Log",
 "Vehicle Service Item",
 "Version",
+"View Log",
 "Voice Call Settings",
 "Warehouse",
 "Warehouse Type",
@@ -3439,9 +3438,6 @@
 "System Manager"
 ],
 "dashboard-view": [],
-"dashboards": [
-"Desk User"
-],
 "desktop": [
 "All"
 ],

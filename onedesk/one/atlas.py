@@ -22,6 +22,8 @@ BACKLOG = "waits in docs/BACKLOG.md"
 
 VIDEO = "ERPNext's library of YouTube help videos; One's help is OneAI, on every page"
 
+GOOGLE = "frappe's sync with a Google account, which One does not offer; a calendar reaches Google through its own link"
+
 POS = "the point of sale, until One has a till screen of its own"
 
 ANSWERS = {
@@ -115,8 +117,9 @@ ANSWERS = {
 	("DocType", "Global Search Settings"): (ENGINE, "which kinds of record search finds"),
 	("DocType", "Portal Settings"): (REPLACED, "One's portal, which reads it for its tabs"),
 	("DocType", "Push Notification Settings"): (REPLACED, "One's own push, sent with the site's keys (one/push.py)"),
-	("DocType", "Google Contacts"): (REPLACED, "One's Address Book"),
-	("DocType", "Google Settings"): (REPLACED, "OneMail and OneCalendar"),
+	("DocType", "Google Calendar"): (LEFT_OUT, GOOGLE),
+	("DocType", "Google Contacts"): (LEFT_OUT, GOOGLE),
+	("DocType", "Google Settings"): (LEFT_OUT, GOOGLE),
 	("DocType", "Client Script"): (REPLACED, STUDIO),
 	("DocType", "Server Script"): (REPLACED, STUDIO),
 	("DocType", "Custom Field"): (REPLACED, STUDIO),
