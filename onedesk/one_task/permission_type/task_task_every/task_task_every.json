@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "task_task_every",
+ "doc_type": "Task",
+ "perm_type": "task_every",
+ "modified": "2026-10-28 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-28 12:00:00.000000"
+}

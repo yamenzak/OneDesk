@@ -101,7 +101,7 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 
 def test_a_project_is_its_members():
 	source = (PROJECT / "members.py").read_text()
-	assert 'MANAGERS = ("Projects Manager",)' in source and 'WORKER = "Projects User"' in source
+	assert 'rights.held("Project", "project_every", user)' in source and 'WORKER = "Projects User"' in source
 	assert (
 		'"Project": "onedesk.one_project.members.allowed"' in HOOKS
 		and '"Project": "onedesk.one_project.members.query"' in HOOKS
@@ -643,9 +643,9 @@ def test_oneai_reads_a_project_as_its_page_does():
 	for tool in ("project_facts", "projects_needing_attention", "draft_update", "remind_customer", "add_member", "add_contact", "project_templates", "draft_template"):
 		assert f'"{tool}"' in tools
 	assert '"One Project": "projects"' in groups
-	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
-	for heading in ("## Being told", "## Asking OneAI", "## Who sees a project"):
-		assert heading in readme
+	for page in ("notifications", "asking-oneai", "who-can-do-what"):
+		assert (PROJECT / "docs" / f"{page}.md").exists(), page
+	assert "## Who Sees a Project" in (PROJECT / "docs" / "who-can-do-what.md").read_text()
 	legal = (PROJECT / "legal.py").read_text()
 	assert 'key="oneproject-asks"' in legal
 
@@ -1225,8 +1225,8 @@ def test_a_retainer_tells_whoever_runs_it():
 	assert {"Retainer Month to Invoice", "Retainer Hours Used"} <= set(tree.notifications())
 	assert '"onedesk.one_project.tell.retainer_months"' in HOOKS
 	assert '"on_submit": ["onedesk.one_project.tell.hours_used", "onedesk.one_project.tell.time_over"]' in HOOKS
-	readme = (PROJECT / "README.md").read_text().split("## Under the hood", 1)[0]
-	assert "**Retainer Month to Invoice**" in readme and "**Retainer Hours Used**" in readme
+	told = (PROJECT / "docs" / "notifications.md").read_text()
+	assert "**Retainer Month to Invoice**" in told and "**Retainer Hours Used**" in told
 
 
 def test_the_project_page_fits_a_phone():
@@ -1260,11 +1260,11 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	assert "TabButtons" not in places and "hide_sidebar" not in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
 	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
-	assert "hide_sidebar: !frappe.is_mobile()" in template_js and 'record: "Project Template"' in template_js
+	assert "hide_sidebar" not in template_js and 'record: "Project Template"' in template_js, "a template keeps OneProject's rail"
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Activity Type")' in menu and '__("Project Templates")' not in menu
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
-	assert "hide_sidebar: !frappe.is_mobile()" in view_js and 'record: "Project"' in view_js
+	assert "hide_sidebar" not in view_js and 'record: "Project"' in view_js, "a project keeps OneProject's rail"
 	assert "onedesk.crumbs.suggest.Project = onedesk.project.picker" in places
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
 	assert "one_record: true" in shell and "one_menu: menu" in shell

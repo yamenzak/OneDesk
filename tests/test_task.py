@@ -156,8 +156,8 @@ def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
 	assert any(f["fieldname"] == "auto_repeat" for f in custom["custom_fields"])
 
 
-def test_onetask_is_one_column_that_listens():
-	assert "hide_sidebar: true" in (TASK / "page" / "my_tasks" / "my_tasks.js").read_text(), "the column is the page's only sidebar"
+def test_my_tasks_keeps_its_rail_and_listens():
+	assert "hide_sidebar" not in (TASK / "page" / "my_tasks" / "my_tasks.js").read_text(), "My Tasks keeps OneTask's rail"
 	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
 	assert 'followList("Task"' in page and 'followList("ToDo"' in page
 	assert 'setQuery("section"' in page, "the open view is in the address, where OneAI reads it"

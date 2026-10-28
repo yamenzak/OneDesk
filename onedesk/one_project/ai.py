@@ -11,6 +11,43 @@ from frappe.utils import add_days, date_diff, flt, get_fullname, getdate, nowdat
 
 from onedesk.one_project import agreement, kinds, money, overview, tree
 
+# What OneAI changes in OneProject: each call its cards make once they are
+# approved (approved, below), and the calls it leaves to a person and why.
+REACH = {
+	"kinds.make": "draft_project",
+	"status.change": "set_status",
+	"hours.log": "log_time",
+	"budget.set_budget": "set_cost_budget",
+	"team.add": "add_member",
+	"contacts.save": "add_contact",
+}
+
+NOT_FOR_AI = {
+	"agreement.draw_up": "A contract is the workspace's word to its customer, so a person draws it up from the project.",
+	"billing.invoice_time": "An invoice goes to the customer, so a person makes the draft and checks it before it goes.",
+	"retainer.invoice_month": "An invoice goes to the customer, so a person makes the month's draft and checks it before it goes.",
+	"progress.bill_progress": "A progress bill goes to a customer or comes from a supplier, so a person makes it from the order.",
+	"budget.remove_budget": "Taking a budget away loosens what the project may spend, so a person does it.",
+	"budget.set_time": "What the team's own hours may cost is the manager's to decide, on the project's budget.",
+	"contacts.remove": "Taking a customer's contact off the project is the person's decision, made on its page.",
+	"kinds.add_contract": "A contract's value is what the customer agreed to, so a person enters it from the agreement.",
+	"library.copy": "OneAI starts a template its own way, as a card from draft_template.",
+	"materials.give_back": "Materials going back to a store move stock, so whoever counted them records it.",
+	"media.add": "It takes a file the person uploads on the project's page.",
+	"members.let_in": "It follows a mention in a comment the person writes.",
+	"team.remove": "Taking somebody off a project ends what they see of it, so a person does it.",
+	"team.show": "What a customer's contact sees on the portal is the workspace's decision, made on the Team view.",
+	"template_view.add": "OneAI shapes a template its own way, as a card from draft_template.",
+	"template_view.change": "OneAI shapes a template its own way, as a card from draft_template.",
+	"template_view.nest": "OneAI shapes a template its own way, as a card from draft_template.",
+	"template_view.remove": "OneAI shapes a template its own way, as a card from draft_template.",
+	"template_view.wait": "OneAI shapes a template its own way, as a card from draft_template.",
+	"templates.add": "OneAI starts a project from a template as a card from draft_project.",
+	"templates.save_as": "Making the workspace a template from a project is a person's choice of what to keep.",
+	"tree.group_under": "Moving projects under a new one changes who sees them, so a person does it.",
+	"updates.post": "OneAI drafts the update with draft_update, and the person posts it in their own name.",
+}
+
 HR = "Employee Boarding"
 
 MOST = 15

@@ -1,5 +1,5 @@
 """A Retainer's months: a fee each month for a set number of hours
-(one_project/README.md, kinds.py).
+(one_project/AGENTS.md, kinds.py).
 """
 
 from typing import Annotated

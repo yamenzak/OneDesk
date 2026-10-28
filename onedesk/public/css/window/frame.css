@@ -278,6 +278,15 @@
    view's search, then
    the view's commands, scrolling sideways when they don't fit. */
 @media (max-width: 767px) {
+	/* frappe stacks a phone's filter toggle over the Filter button, and Sort
+	   in a box as tall; on the window's one row they sit side by side. */
+	.one-window .one-window-filters,
+	.one-window .one-window-filters :is(.filter-selector, .sort-selector) {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
 	.one-window-nav,
 	.one-window-switch,
 	.one-window-details-edge {
@@ -823,4 +832,13 @@ body.one-window-dragging * {
 
 .one-window-tree .one-window-tree-heading {
 	margin-left: -6px;
+}
+
+/* A record page beside its rail and its record panel: frappe's two-column
+   layout holds the main column at 80% and never shrinks it, which pushed the
+   panel past the window's edge once the rail was there too. The column takes
+   what the panel leaves. */
+.one-window .layout-main.layout-two-column > .layout-main-section-wrapper {
+	flex: 1 1 0;
+	min-width: 0;
 }

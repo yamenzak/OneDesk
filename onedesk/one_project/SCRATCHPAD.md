@@ -1,0 +1,8 @@
+# OneProject scratchpad
+
+What is known to be wrong and what is planned, kept short.
+
+- **Help pictures.** The pages are words only; the project page, its
+  Overview for each kind and Bill Progress want a picture each.
+- **Help is long.** A Project's Page and Billing the Customer are the README's
+  sections as they were; each could be split by kind of project.

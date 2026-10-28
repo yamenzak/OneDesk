@@ -45,7 +45,7 @@ OneCloud. The tab appears once the record is saved. **Files** in the side
 panel opens the same tab.
 
 A project's folder also has a **Featured Media** folder: the photos and
-videos the project is shown with. See OneProject's README. It has a **Tasks**
+videos the project is shown with. See OneProject's Help, A Project's Page. It has a **Tasks**
 folder too, each of its tasks that holds files as a folder of its own, and a
 folder for each sub-project, which is that sub-project's folder. The files
 stay attached to their own task or sub-project. Inside a record's Files tab,

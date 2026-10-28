@@ -293,6 +293,25 @@ with the gates at the end.
   Seen and left: erpnext's own customer overview counts an invoice as
   overdue only by its last part's date ("Overdue AED 0" beside OneBook's
   AED 113,810 in the side panel).
+- **OneTask and OneProject, walked** as Samir (who runs projects), Mariam
+  (who reads their money) and Layla, on a phone and in Arabic and German.
+  My Tasks drew a column of its own beside OneTask's rail, with the same
+  rows; the column is gone, Add Task is the page's button, and My Tasks,
+  the task page, the project page and a template's page all keep their app's rail;
+  a template's task names, narrower for it, end in an ellipsis and read in
+  full on hover. With the
+  rail and the record panel both there, frappe's form column (held at
+  `flex: 1 0 80%`) pushed the panel past the window's edge; the column now
+  shrinks (frame.css). Needs You on a project cut its rows to "Get the
+  contr…" to keep a column for "20 days late"; how late now rides under the
+  name. A task's Expected Time cut its placeholder to "Set H" (and
+  "Stunden festlege"); the box is as wide as its words until there's a
+  number. On a phone, every list's Filter and Sort stacked frappe's mobile
+  toggle over their buttons and took two rows; they sit in one. A comment
+  button said "Just Comment"; it says Comment Only. Seen and left, both
+  frappe's own Arabic on every record: "2 weeks ago" reads
+  "قبل 2 أسبوع /أسابيع", and the record panel's "Last Edited By" isn't
+  translated at all.
 - **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
   People (Contact filtered on its Portal column) and Links (the Portal Link
   list), a foot and settings. Turned off in Apps it closes the portal

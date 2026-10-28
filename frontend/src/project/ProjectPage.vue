@@ -2,9 +2,9 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Header :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
+      <Header data-tour="oneproject-head" :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
       <PlaceSpot :said="placed" class="mt-4" />
-      <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" />
+      <ViewTabs v-model="tab" :views="VIEWS" class="mt-4" data-tour="oneproject-views" />
       <div ref="views" class="pt-4 transition-[padding] duration-200" :style="{ paddingInlineEnd: `${room}px` }">
       <div v-if="taskView" class="flex flex-wrap items-center gap-2 pb-2">
         <h2 class="me-auto flex items-center gap-2 text-lg font-semibold text-ink-gray-9">

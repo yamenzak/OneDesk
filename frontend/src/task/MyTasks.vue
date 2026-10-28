@@ -1,37 +1,16 @@
 <template>
-  <div class="flex">
-    <div class="sticky top-12 h-[calc(100svh-3rem-var(--one-bar-offset))] shrink-0">
-      <Sidebar :aria-label="__('Views')" width="14rem" class="border-e border-outline-gray-1 px-2 py-3">
-        <Button variant="solid" icon-left="lucide-plus" class="mb-3 w-full" :label="__('Add Task')" @click="newDoc('Task')" />
-        <SidebarItem v-for="one in VIEWS" :key="one.key" :label="one.label" :icon="one.icon" :active="view === one.key" @click="open(one.key)">
-          <template #suffix>
-            <Badge v-if="one.key === 'mine' && counts.late" class="me-1" :label="String(counts.late)" theme="red" size="sm" :title="__('Overdue')" />
-            <span v-if="counts[one.key]" class="pe-2 text-sm tabular-nums text-ink-gray-5">{{ counts[one.key] }}</span>
-          </template>
-        </SidebarItem>
-        <div class="mt-auto border-t border-outline-gray-1 pt-2">
-          <SidebarItem :label="__('All Tasks')" icon="lucide-circle-check" @click="go('/desk/task?is_template=0')" />
-          <SidebarSection v-if="delays" :label="__('Reports')" collapsible>
-            <SidebarItem :label="__('Task Delays')" icon="lucide-chart-line" @click="go(DELAYS)" />
-          </SidebarSection>
-          <SidebarSection v-if="can('read', 'Task Type')" v-model:collapsed="setupClosed" :label="__('Setup')" collapsible>
-            <SidebarItem :label="__('Task Type')" icon="lucide-tag" @click="go('/desk/task-type')" />
-          </SidebarSection>
-        </div>
-      </Sidebar>
-    </div>
-
+  <div>
     <main class="mx-auto w-full min-w-0 max-w-4xl px-4 pb-16 pt-5 sm:px-8">
       <h1 class="text-xl font-semibold text-ink-gray-9">{{ shown.label }}</h1>
-      <div class="mt-4 flex gap-2">
+      <div class="mt-4 flex gap-2" data-tour="onetask-add">
         <TextInput v-model="subject" class="min-w-0 flex-1" :placeholder="__('Add a task')" :maxlength="140" :disabled="adding" :aria-label="__('Add a task')" @keydown.enter.prevent="add" />
-        <DatePicker v-model="due" class="w-32 shrink-0 sm:w-40" :format="dateFormat()" :placeholder="__('Expected End Date')" />
+        <DatePicker v-model="due" class="w-36 shrink-0 sm:w-48" :format="dateFormat()" :placeholder="__('Expected End Date')" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
 
       <Loading v-if="!groups" />
       <p v-else-if="!groups.length" class="py-10 text-center text-base text-ink-gray-5">{{ shown.empty }}</p>
-      <List v-else :columns="columns" divider="full" class="mt-4 list-gap-3">
+      <List v-else :columns="columns" divider="full" class="mt-4 list-gap-3" data-tour="onetask-list">
         <ListHeader>
           <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
           <ListHeaderCell class="max-md:hidden">{{ __("Project or About") }}</ListHeaderCell>
@@ -74,16 +53,17 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref, watch } from "vue";
-import { Badge, Button, Checkbox, DatePicker, Sidebar, SidebarItem, SidebarSection, TextInput } from "frappe-ui";
+import { Badge, Button, Checkbox, DatePicker, TextInput } from "frappe-ui";
 import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "frappe-ui/list";
 
-import { Loading, PlaceSpot, __, ago, call, can, canReport, clock, date, dateFormat, followList, go, insert, listen, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
+import { Loading, PlaceSpot, __, ago, call, can, clock, date, dateFormat, followList, go, insert, listen, newDoc, onedesk, setQuery, setValue, weekday } from "../kit";
 import { TASK_STATUS } from "../project/colors";
 import { usePlace } from "../project/place";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
   query: { type: Object, default: () => ({}) },
+  onActions: { type: Function, default: null },
 });
 
 const VIEWS = [
@@ -96,25 +76,19 @@ const WHEN = ["overdue", "today", "tomorrow", "week", "later", "none"];
 const view = ref(VIEWS.some((one) => one.key === props.query.section) ? props.query.section : "mine");
 const shown = computed(() => VIEWS.find((one) => one.key === view.value));
 const groups = ref(null);
-const counts = ref({});
 const running = ref(null);
-const setupClosed = ref(true);
-const DELAYS = "/desk/query-report/Delayed Tasks Summary";
-const delays = canReport("Delayed Tasks Summary");
 const times = can("create", "Timesheet");
 const columns = computed(() => ({
   base: ["minmax(0,1fr)", "5.5rem", ...(times ? ["2rem"] : [])],
-  md: ["minmax(0,1fr)", "minmax(0,14rem)", "7rem", ...(times ? ["2rem"] : [])],
+  md: ["minmax(0,1fr)", "minmax(0,14rem)", "9rem", ...(times ? ["2rem"] : [])],
 }));
 
 async function load() {
-  const [now, many, timing] = await Promise.all([
+  const [now, timing] = await Promise.all([
     call("onedesk.one_task.mine.tasks", { view: view.value }),
-    call("onedesk.one_task.mine.counts"),
     times ? call("onedesk.one_task.timer.running") : null,
   ]);
   groups.value = kept(now);
-  counts.value = many || {};
   running.value = timing;
 }
 
@@ -233,6 +207,7 @@ const again = () => {
 };
 let stop = [];
 onMounted(() => {
+  props.onActions?.([{ label: __("Add Task"), primary: true, onClick: () => newDoc("Task") }]);
   load();
   const timed = async () => (running.value = times ? await call("onedesk.one_task.timer.running") : null);
   stop = [followList("Task", again), followList("ToDo", again), followList("Timesheet", timed), listen("one_timers", timed)];

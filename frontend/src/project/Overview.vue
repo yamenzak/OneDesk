@@ -263,8 +263,7 @@ const needs = computed(() =>
     key: i,
     dot: one.tone,
     label: one.text,
-    below: one.dim,
-    value: one.today ? __("Today") : one.late === 1 ? __("1 day late") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : "",
+    below: [one.dim, one.today ? __("Today") : one.late === 1 ? __("1 day late") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : ""].filter(Boolean).join(" · "),
     route: one.route,
   }))
 );

@@ -2029,6 +2029,7 @@
 "Accounts User",
 "HR Manager",
 "HR User",
+"OneProject Manager",
 "Projects Manager",
 "Projects User"
 ],
@@ -2678,6 +2679,7 @@
 "Desk User",
 "HR Manager",
 "HR User",
+"OneTask Manager",
 "Projects User"
 ],
 "Task Type": [

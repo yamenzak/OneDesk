@@ -23,7 +23,7 @@
           <div class="flex flex-col gap-1">
             <dt class="text-sm text-ink-gray-5">{{ __("Expected Time") }}</dt>
             <dd class="flex items-center gap-1">
-              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="w-16 tabular-nums" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Expected Time')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
+              <TextInput type="number" size="sm" variant="ghost" min="0" step="0.5" class="tabular-nums" :class="said.expected_time ? 'w-16' : 'w-40'" :model-value="said.expected_time || ''" :disabled="!said.can_write" :aria-label="__('Expected Time')" :placeholder="__('Set Hours')" @change="(e) => set('expected_time', Number(e.target.value) || 0)" />
               <span v-if="said.expected_time" class="text-ink-gray-5">{{ __("h") }}</span>
             </dd>
           </div>

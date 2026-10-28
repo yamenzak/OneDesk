@@ -44,6 +44,7 @@ REGIONAL = {
 	"one_legal/legal.py": "the operator's own law",
 	"one_legal/laws.py": "the laws the agreements answer, the UAE's among them",
 	"one_portal/checks.py": "the demo company's own customers and suppliers, which its checks sign in as",
+	"one_project/checks.py": "the demo company is in the UAE, where tax on retention falls due as it's released",
 }
 
 SKIP = ("locale", "one_demo", "fixtures", "dist", "tests")

@@ -5,15 +5,17 @@ from contextlib import contextmanager
 import frappe
 from frappe import _
 
-MANAGERS = ("Projects Manager",)
-
 BOOKS = ("Accounts User", "Accounts Manager")
 
 WORKER = "Projects User"
 
 
 def manages(user: str) -> bool:
-	return user == "Administrator" or bool(set(MANAGERS) & set(frappe.get_roles(user)))
+	"""Whether this person sees every project: OneProject's See Every Project
+	(abilities.py), a OneProject Manager's."""
+	from onedesk.one import rights
+
+	return rights.held("Project", "project_every", user)
 
 
 def narrowed(user: str) -> bool:

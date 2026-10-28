@@ -169,7 +169,7 @@ async function letIn(body) {
   const said = await call("onedesk.one_project.members.unseen", { project: props.project, content: body });
   if (!said.people.length || !said.can_add) return;
   const names = andList(said.people.map((one) => one.name));
-  if (await ask(__("{0} can't see this project. Add them to it?", [names]), __("Add to Project"), __("Just Comment")))
+  if (await ask(__("{0} can't see this project. Add them to it?", [names]), __("Add to Project"), __("Comment Only")))
     await call("onedesk.one_project.members.let_in", { project: props.project, users: said.people.map((one) => one.user) });
 }
 

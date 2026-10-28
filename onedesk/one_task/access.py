@@ -54,9 +54,17 @@ def assigned(doc, user: str) -> bool:
 	return user in (frappe.parse_json(doc.get("_assign") or "[]") or [])
 
 
+def every(user: str) -> bool:
+	"""Whether this person sees every task: OneTask's See Every Task
+	(abilities.py), a OneTask Manager's."""
+	from onedesk.one import rights
+
+	return rights.held("Task", "task_every", user)
+
+
 def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	user = user or frappe.session.user
-	if user == "Administrator" or doc.is_new():
+	if user == "Administrator" or doc.is_new() or every(user):
 		return True
 	if doc.owner == user:
 		return True
@@ -74,7 +82,7 @@ def in_view(project: str | None, user: str) -> bool:
 
 def query(user=None, doctype=None) -> str:
 	user = user or frappe.session.user
-	if user == "Administrator":
+	if user == "Administrator" or every(user):
 		return ""
 	said = frappe.db.escape
 	mine = f"(`tabTask`.`owner` = {said(user)} or `tabTask`.`_assign` like {said(f'%{json.dumps(user)}%')})"

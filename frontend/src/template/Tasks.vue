@@ -28,9 +28,10 @@
               v-if="canWrite"
               size="sm"
               variant="ghost"
-              class="min-w-0 flex-1"
+              class="min-w-0 flex-1 [&_input]:truncate"
               :class="item.is_group && 'font-semibold'"
               :model-value="item.subject"
+              :title="item.subject"
               :aria-label="__('Task')"
               @change="(e) => rename(item, e.target.value)"
             />
@@ -115,7 +116,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["change", "add", "nest", "wait", "remove", "under"]);
 
-const COLUMNS = ["minmax(16rem,1fr)", "9rem", "minmax(10rem,16rem)", "5rem", "3rem"];
+const COLUMNS = ["minmax(18rem,1fr)", "9rem", "minmax(8rem,14rem)", "5rem", "3rem"];
 const rows = computed(() => props.tasks);
 const names = computed(() => Object.fromEntries(props.tasks.map((one) => [one.name, one.subject])));
 const subject = (name) => names.value[name] || name;
