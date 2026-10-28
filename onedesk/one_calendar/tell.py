@@ -1,4 +1,4 @@
-"""What OneCalendar tells people, and when (the types are in notifications/one_calendar/)."""
+"""What OneCalendar tells people, and when (its kinds are in notifications.py)."""
 
 import time
 from datetime import datetime, timedelta

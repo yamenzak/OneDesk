@@ -148,8 +148,7 @@ with the gates at the end.
 
 - **AccountCenter, Profile**: Check My Profile gone; Write My Bio is the
   first OneAI action (one_ai/actions.py, one_account/ai.py, job `bio`).
-  Still on `onedesk.oneai.button`: OneCalendar's settings, for when we
-  reach it. Sign-in's Is My Account Safe? is gone:
+  Sign-in's Is My Account Safe? is gone:
   the page says what is weak itself (signin.warnings), above a tile per way
   in (Password, Two-Factor, Passkey), then the sessions; This Device and
   Sign Out read frappe's hashed session ids; New Phone resets the
@@ -266,6 +265,13 @@ with the gates at the end.
   the first record one was shown through. frappe's Google Calendar and
   Google Contacts sync is gone: closed to everybody, its fields hidden on
   Event and Contact, off the rail, and out of the privacy notice.
+  Then through READY, 1.0.0: its own Help, tour, foot and settings, its
+  notification kinds in its folder, and one ability, Put Events on
+  Everyone's Calendar, a OneCalendar Manager's (Mariam in the demo) in
+  place of the list of roles in events.py. A phone opens on Day, not a
+  seven-column week; the grid names days and hours in the reader's
+  language (frappe's calendar passes `locale` too), and Mine is translated.
+  The tour's step over the grid sits in its middle, not off the top.
 - **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
   People (Contact filtered on its Portal column) and Links (the Portal Link
   list), a foot and settings. Turned off in Apps it closes the portal

@@ -228,11 +228,14 @@ def test_every_layer_is_declared_whole_and_registered():
 	assert len(keys) == len(set(keys)), "a layer key is used twice"
 
 
-def test_who_may_publish_is_one_list_in_both_halves():
-	py = _load(CAL / "events.py", ("PUBLISHERS",))["PUBLISHERS"]
+def test_who_may_publish_is_one_ability_in_both_halves():
+	"""Putting an event on everyone's calendar is OneCalendar's publish
+	ability (abilities.py): the server asks it, and the page reads it from boot."""
+	source = (CAL / "events.py").read_text()
 	js = (CAL / "page" / "onecalendar" / "onecalendar.js").read_text()
-	listed = json.loads(re.search(r"CALENDAR_PUBLISHERS = (\[.*?\]);", js).group(1))
-	assert tuple(listed) == py
+	assert 'rights.held("Event", "calendar_publish", user)' in source and "if not may_publish():" in source
+	assert "frappe.boot.one_calendar_publish" in js
+	assert '"all": "calendar_publish"' in (CAL / "abilities.py").read_text()
 	assert (
 		'"validate": "onedesk.one_calendar.events.validate"'
 		in HOOKS.split('"Event": {', 1)[1].split("}", 1)[0]

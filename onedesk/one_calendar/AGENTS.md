@@ -1,191 +1,16 @@
 # OneCalendar
 
-OneCalendar shows everything dated in One on one calendar: your meetings,
-tasks, deals' next steps, leave, interviews, the company's holidays and who's
-off. Each kind is a **layer** you can switch on and off.
+The one file for agents, OneAI and us: what OneCalendar is made of, its
+rules, where each file is, and the decisions that cost something. What
+people read is in `docs/`, one page per thing they do, shown in Help and
+searched by OneAI's `how_to`; its versions are `docs/changelog/`. What is
+known to be wrong and what is planned is `SCRATCHPAD.md` (docs/READY.md, A
+module's folder).
 
-Nothing is copied into the calendar. A deal's next step belongs to the deal,
-and moves when the deal changes.
-
-## Finding your way
-
-**OneCalendar** in the dock opens the calendar. Its rail has **Calendar**,
-**Event** (every event as a list), **Deadlines** and **Setup › Calendar
-Links** for those with access, and under them the layers, in **Mine** and
-**Workspace**.
-
-**New Event** is the first button over the calendar. **Today** and the
-arrows move through the days, and **Month**, **Week**, **Day** and **List**
-are at the right. Your calendar link is in OneCalendar's ControlCenter. The calendar opens on your
-last view and layers, on any computer.
-
-The workspace's weekly days off are lightly shaded, and holidays show in red
-with their names. Changes made elsewhere, like a new event or a moved task,
-appear without reloading.
-
-## Layers
-
-Tick a layer in the rail to show it, and untick it to hide it. Each box is
-in the layer's colour.
-
-**Mine:**
-
-- **My Events**: events you created, were invited to or that were shared
-  with you
-- **My Tasks**: tasks assigned to you, on their due date
-- **Assigned to Me**: anything else assigned to you, such as a deal or a
-  leave application, on its due date
-- **Opportunity Next Steps** and **Lead Next Steps**: on your own open deals and
-  leads, at the time due
-- **My Leave**
-- **My Interviews**: interviews where you're on the panel
-- **My Maintenance**: asset maintenance assigned to you, on its due date
-- **Deadlines**: due dates read from bills and letters you can open
-
-**Workspace:**
-
-- **Company Events**
-- **Holidays**: the company's holiday list, without weekly days off
-- **Who's Off**: approved leave, off by default
-- **Last Day to Cancel**: the last day to give notice on a contract
-- **Expiring Documents**: employees' documents that run out, such as an ID
-  or a certificate, off by default
-- **Maintenance Due**: all asset maintenance that's due, off by default
-
-**You only see what you have access to.** Each layer uses your permissions.
-Someone who can't read leave doesn't see Who's Off, and an employee limited
-to their own record only sees their own leave.
-
-Click anything to open it. A next step opens the deal or lead, a task opens
-the task, and an assignment opens its record.
-
-## Events
-
-**New Event**, or dragging across the hours, opens a form with the subject,
-time, location, people and description.
-
-- **Invite** adds people in the workspace.
-- **Guests** takes email addresses of people outside the workspace. Each gets
-  an email invitation for their own calendar, and another if the event moves
-  or is cancelled.
-
-Clicking an event shows its details: time, location, organizer, who's
-invited and their replies, and the description. It has **Join** for a video
-call, **Open** for the event's page, and **Delete** if you're allowed.
-
-**Moving events:**
-
-- Drag an event you created to move it, or drag its bottom edge to change
-  its length.
-- Drag a task to another day to change its due date.
-- A repeating event can only be changed from its own page, for all
-  occurrences.
-
-Invitees, reminders, repeats and video call links are set on the event's
-page.
-
-**Who sees an event:**
-
-- A **private** event is seen by its creator, invitees and anyone it's shared
-  with.
-- An event **about a record**, such as a deal, lead or employee named in its
-  Reference, a link or an invited contact, also shows under Company Events
-  for everyone who can open that record. Clicking it opens the record. Only
-  the creator can edit the event.
-- A **public** event, with **On Everyone's Calendar** ticked, is seen by
-  everyone. Only a Workspace Administrator or HR Manager can create one.
-  Everyone else creates a private event and invites people.
-
-## Seeing every event as a list
-
-**All Events** at the bottom of the left column lists every event you can
-see, with filters and search. **Event** in the rail opens the same list.
-
-## The Deadlines report
-
-**Deadlines**, at the bottom of the left column and in the rail, lists every
-date something must be done by, soonest first: due dates read from bills and
-letters, the last day to cancel a contract, and employees' documents that
-expire. Each row shows the date, the **Days Left**, what it's about and the
-rule the date was counted by, and the days left turn red within a week. It
-starts today and looks 90 days ahead. Change **From Date** and **To Date**,
-or pick **Documents**, **Contracts** or **Employees** under **From**, to
-narrow it. Click a deadline to open its record.
-
-## Notifications
-
-- **Invited to an Event**: someone adds you to an event.
-- **Event Changed**: the time or location of an event you're on changes.
-- **Event Cancelled**: an event you're on is cancelled or deleted.
-- **Taken Off an Event**: someone takes you off an event. A guest outside the
-  workspace is sent its cancellation, so it leaves their calendar. A guest
-  is sent a change as a change, and their reply goes to the organizer's own
-  mailbox, which is where their calendar asks it to go.
-- **Starting Soon**: at the event's reminder times, or 10 minutes before if
-  it has none, with the day when it is not today. An event shared with you
-  counts you as on it; one you said no to does not remind you.
-- **Today's Events**: each morning, your events for the day. Not sent on a
-  day with no events.
-
-The person who made a change isn't notified of it. Each notification
-appears in One, and by email or push as set in Settings › Notifications.
-
-## Asking OneAI
-
-The OneAI panel on the calendar offers:
-
-- **What is on this week?**
-- **Find a time to meet…**: finish the sentence with who to meet.
-- **Plan my day**
-
-OneAI reads your calendar as you see it. When finding a time, it only sees
-when colleagues are busy, not what their events are. It suggests the event
-on a card. **Approve** adds it to your calendar and sends the invitations.
-Nothing is created or sent before that.
-
-## A record's own calendar
-
-**Calendar** on a project, deal, lead or employee opens a calendar for that
-record. It shows every event about the record, including ones you can't
-otherwise open (these open the record instead), and its dated items:
-
-- **Project**: its open tasks, whoever they're assigned to
-- **Deal** or **Lead**: its next step, whoever owns it
-- **Employee**: their leave, if you can see it
-
-**New Event** there creates an event about the record. Layers you switch off
-there don't affect your own calendar.
-
-## In Google, Apple or Outlook
-
-**Your Calendar Link**, in OneCalendar's ControlCenter, adds your calendar
-to another app:
-
-- **Google Calendar**, **Apple Calendar** or **Outlook** opens that app,
-  ready to add it.
-- **Copy Link** is for any other app. In a personal Outlook account, paste it
-  under *Add calendar › Subscribe from web*.
-
-The link includes everything on your calendar with all layers on, from two
-months ago to a year ahead. It only goes one way. An event added in Google
-stays in Google.
-
-How often the other app refreshes is up to the app. Apple Calendar uses its
-own setting, Outlook refreshes every few hours, and Google a few times a
-day.
-
-**Anyone with the link can see your calendar.**
-
-- **New Link** replaces the link and turns off the old one.
-- **Switch Off** turns the link off.
-- A Workspace Administrator can switch off anyone's link under **Setup ›
-  Calendar Links**, which also shows when each was created and last synced.
-- To turn links off for everyone, switch off **Calendar Links** under
-  One's ControlCenter › Sharing. All links are deleted and no one can create
-  one. Switching it back on doesn't restore old links.
-
-One does not sync with a Google account: your calendar link is how your
-calendar reaches Google.
+OneCalendar shows everything dated in One on one calendar: meetings, tasks,
+deals' next steps, leave, interviews, deadlines, the company's holidays and
+who is off. Each kind is a layer a person switches on and off, and nothing
+is copied: a deal's next step belongs to the deal and moves with it.
 
 ## Connections
 
@@ -195,12 +20,10 @@ calendar reaches Google.
 - **From OneHR**: My Leave, My Interviews, Holidays and Who's Off come from OneHR. The holiday list also shades the weekly days off. An employee's own calendar shows their leave.
 - **From OneInventory**: Asset maintenance that's due shows under My Maintenance and Maintenance Due.
 - **From OneAI**: Deadlines read from bills and letters, a contract's last day to cancel and expiring employee documents show as layers. An appointment that arrives by mail or in a file becomes an event.
-- **To One**: Home shows how many events you have today.
+- **To One**: Home shows how many events you have today. Putting an event on everyone's calendar is OneCalendar's one ability, set in AccessCenter, and a OneCalendar Manager holds it (abilities.py).
 - **To OneMail**: Guests outside the workspace get their invitations and cancellations by mail, sent through OneMail.
 
 ## Under the hood
-
-For the people who build OneCalendar. OneAI does not read past this heading.
 
 ### How it is made
 
@@ -244,7 +67,8 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   `get_events`, for two reasons: frappe's permission hooks can only take access
   away, so "readable because of the record it is about" cannot be a hook; and
   `get_events` leaves out events a user is only a participant in.
-  `occurrences` expands repeats; `validate` keeps Public to PUBLISHERS.
+  `occurrences` expands repeats; `validate` keeps Public to whoever holds the
+  publish ability (`may_publish`, abilities.py).
 
   An Event is frappe's: something at a time, with a subject, a place and the
   people it is with. frappe lets a person see a Public event, one they made,
@@ -261,14 +85,17 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   expanded here too (`occurrences`), on the days shown.
 
   **A Public event is on everybody's calendar**, so making one is kept to the
-  people who speak for the workspace (PUBLISHERS). frappe lets any desk user
+  people who speak for the workspace: an administrator, or whoever holds
+  **Put Events on Everyone's Calendar** (`calendar_publish`, a Permission Type
+  on Event, a OneCalendar Manager's; the page reads it as
+  `frappe.boot.one_calendar_publish`). frappe lets any desk user
   do it, and a calendar anybody can write on is a calendar nobody reads.
 - `one_task/calendar.py` — tasks, and assignments on anything but a task.
 - `one_crm/calendar.py`, `one_hr/calendar.py` — each module's own layers.
 - `tell.py` — who is told of an event (invited, changed, cancelled, starting
   soon, and each morning), through the hub; guests mailed an iCalendar
   invitation. frappe's own morning mail is stopped on migrate. The types are
-  in `notifications/one_calendar/`, a file each.
+  in `notifications.py`, with each one's channels and sender.
 
   **On save** (`saved`, Event on_update): whoever was just added is told they
   are invited; if the time or the place changed, everybody already on it is
@@ -331,8 +158,13 @@ For the people who build OneCalendar. OneAI does not read past this heading.
   schedule books "Reference: …, Item Code: … and Customer: …"; it is titled
   with the visit and the customer, and the patch
   `maintenance_visits_named` titles the ones booked before.
+- `abilities.py`, `notifications.py`, `setup.py`, `tour.py` — the READY
+  mechanisms: the publish ability and its two roles, the seven kinds of
+  notification, no setup steps, and the calendar's tour.
+- `public/js/one_calendar/calendar_control.js` — its settings (Your Calendar
+  Link) and its foot, drawn by the window as One's are.
 
-### The plan
+## The plan
 
 1. **The layers.** *Done.* A hook each module fills, and one merged read that
    copies nothing.

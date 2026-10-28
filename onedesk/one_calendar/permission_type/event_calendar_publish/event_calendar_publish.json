@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "event_calendar_publish",
+ "doc_type": "Event",
+ "perm_type": "calendar_publish",
+ "modified": "2026-10-28 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-28 12:00:00.000000"
+}

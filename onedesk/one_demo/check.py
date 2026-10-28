@@ -993,37 +993,6 @@ def onetask_a_task_is_its_peoples_and_ends_as_they_say():
 			raise AssertionError("somebody repeated a task they may not change")
 
 @check
-def onecalendar_shows_each_person_their_week():
-	"""The week's events, days off and layers as the team sees them, an event's
-	card, one moved, a feed link made, renewed, read and stopped, and OneAI's
-	reads and a suggested event."""
-	from onedesk.one_calendar import ai, events, feed, layers
-
-	start, end = str(add_days(today(), -7)), str(add_days(today(), 7))
-	with as_user("rania@one.test"):
-		seen = layers.entries(start, end)
-		meetings = [one for one in seen if "Weekly site meeting" in (one.get("title") or "")]
-		assert len(meetings) >= 2, seen
-		assert layers.layers() and isinstance(layers.days_off(start, end), list)
-		assert events.card(meetings[0]["name"])
-		assert ai.my_calendar(start, end)
-		assert ai.busy_times(["Tariq"], start, end)
-		assert ai.plan_event("Snag walk", f"{add_days(today(), 4)} 09:00:00").get("state") == "Proposed"
-	with as_user("samir@one.test"):
-		made = events.make({"subject": "Supplier call", "starts_on": f"{add_days(today(), 2)} 15:00:00", "team": ["karim@one.test"]})
-		assert frappe.db.exists("Event Participants", {"parent": made, "reference_docname": "karim@one.test"})
-		mine = next(one for one in layers.entries(start, end) if one["name"] == made and one["editable"])
-		layers.move(mine["layer"], mine["name"], f"{add_days(today(), 1)} 09:00:00")
-		assert feed.allowed(), "Calendar Links stay on when System Settings is saved"
-		link = feed.mine()
-		renewed = feed.renew()
-		assert renewed["https"] != link["https"]
-		feed.ics(renewed["https"].split("token=", 1)[1])
-		assert b"BEGIN:VCALENDAR" in frappe.response["filecontent"] and b"Weekly site meeting" in frappe.response["filecontent"]
-		feed.stop()
-
-
-@check
 def onebook_home_and_payments_for_the_accounts_team():
 	"""What Huda's home says, every figure, a payment taken against an invoice
 	in one step, the books locked and unlocked, and a readiness fix."""

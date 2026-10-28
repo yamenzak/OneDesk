@@ -9,6 +9,19 @@ import frappe
 from frappe import _lt
 from frappe.utils import get_datetime, getdate, today
 
+# What OneAI does for every call here that changes something
+# (docs/READY.md, mechanism 11): none is a card of its own, each for the
+# reason given.
+REACH = {}
+
+NOT_FOR_AI = {
+	"events.make": "OneAI makes an event its own way, as a card from plan_event that saves the same event once it is approved.",
+	"feed.mine": "A calendar link is a secret only its owner sees, so they make it themselves.",
+	"feed.renew": "A calendar link is a secret only its owner sees, so they replace it themselves.",
+	"feed.stop": "A calendar link is a secret only its owner sees, so they switch it off themselves.",
+	"layers.move": "It answers a drag on the calendar, and OneAI changes an event's time by suggesting an edit the person approves.",
+}
+
 MOST = 200
 
 LONGEST = 62

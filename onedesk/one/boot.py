@@ -95,9 +95,10 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_refused_modules"] = list(customize.REFUSED_MODULES)
 
-	from onedesk.one_calendar import feed
+	from onedesk.one_calendar import events, feed
 
 	bootinfo["one_calendar_links"] = feed.allowed()
+	bootinfo["one_calendar_publish"] = events.may_publish()
 
 	from onedesk.one import homes
 

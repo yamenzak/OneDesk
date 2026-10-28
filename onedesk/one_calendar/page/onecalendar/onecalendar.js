@@ -10,8 +10,6 @@ frappe.pages["onecalendar"].on_page_show = (wrapper) => {
 
 frappe.provide("onedesk");
 
-onedesk.CALENDAR_PUBLISHERS = ["Workspace Administrator", "HR Manager"];
-
 onedesk.OneCalendar = class OneCalendar {
 	// The rail stays OneCalendar's: Calendar, Event, Deadlines and Setup are
 	// its rows, and the layers are a section of the nav pane under them
@@ -21,7 +19,7 @@ onedesk.OneCalendar = class OneCalendar {
 		this.page = page;
 		this.about = this.narrowed();
 		page.set_primary_action(__("New Event"), () => this.new_event(), "plus");
-		this.$grid = $(`<div class="one-calendar one-calendar-grid"></div>`).appendTo(page.$shell);
+		this.$grid = $(`<div class="one-calendar one-calendar-grid" data-tour="onecalendar-grid"></div>`).appendTo(page.$shell);
 		onedesk.shell.fit(this.$grid);
 		frappe.require("calendar.bundle.js", () => this.start());
 	}
@@ -70,15 +68,18 @@ onedesk.OneCalendar = class OneCalendar {
 		const kept = (settings && settings.OneCalendar) || {};
 		this.saved = { view: kept.view, off: typeof kept.off === "string" ? kept.off.split(",").filter(Boolean) : null };
 		await this.read_layers();
+		const kept_view = this.saved.view || "timeGridWeek";
+		this.first_view = frappe.is_mobile() && kept_view === "timeGridWeek" ? "timeGridDay" : kept_view;
 		this.draw_toolbar();
 		this.calendar = new frappe.FullCalendar(this.$grid[0], {
 			plugins: frappe.FullCalendar.Plugins,
-			initialView: this.saved.view || "timeGridWeek",
+			initialView: this.first_view,
 			initialDate: frappe.utils.get_query_params().date || undefined,
 			headerToolbar: false,
 			allDayText: __("All Day"),
 			noEventsText: __("No events"),
 			firstDay: frappe.datetime.get_first_day_of_the_week_index(),
+			locale: `${frappe.boot.lang}-u-nu-latn`,
 			direction: frappe.utils.is_rtl() ? "rtl" : "ltr",
 			height: "100%",
 			nowIndicator: true,
@@ -113,13 +114,14 @@ onedesk.OneCalendar = class OneCalendar {
 				this.$title.find(".es-button__label").text(info.view.title);
 				const now = new Date();
 				this.$today.prop("disabled", info.view.activeStart <= now && now < info.view.activeEnd);
-				if (this.saved.view !== info.view.type) {
+				if (this.drawn && this.saved.view !== info.view.type) {
 					this.saved.view = info.view.type;
 					this.save();
 				}
 			},
 		});
 		this.calendar.render();
+		this.drawn = true;
 		this.listen();
 	}
 
@@ -163,17 +165,17 @@ onedesk.OneCalendar = class OneCalendar {
 				{ label: __("Day"), value: "timeGridDay" },
 				{ label: __("List"), value: "listWeek" },
 			],
-			value: this.saved.view || "timeGridWeek",
+			value: this.first_view,
 			on_change: (view) => this.calendar.changeView(view),
 		});
 		this.$today = frappe.ui.button({ label: __("Today"), onclick: () => this.calendar.today() });
-		const moves = $(`<span class="one-calendar-moves"></span>`).append(
+		const moves = $(`<span class="one-calendar-moves" data-tour="onecalendar-moves"></span>`).append(
 			this.$today,
 			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
 			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
 			this.$title
 		);
-		this.page.window.view({ commands: moves, views: this.views.$el });
+		this.page.window.view({ commands: moves, views: $(`<span data-tour="onecalendar-views"></span>`).append(this.views.$el) });
 	}
 
 	date_jumper() {
@@ -199,10 +201,10 @@ onedesk.OneCalendar = class OneCalendar {
 
 	draw_layers() {
 		const rows = [];
-		for (const group of ["Mine", "Workspace"]) {
+		for (const [group, label] of [["Mine", __("Mine")], ["Workspace", __("Workspace")]]) {
 			const mine = this.layers.filter((one) => one.group === group);
 			if (!mine.length) continue;
-			rows.push({ id: `group:${group}`, label: __(group), section: true });
+			rows.push({ id: `group:${group}`, label, section: true });
 			for (const one of mine) rows.push({ id: one.key, label: one.label, color: one.color, check: !this.off().includes(one.key) });
 		}
 		this.page.window.tree({
@@ -344,7 +346,7 @@ onedesk.OneCalendar = class OneCalendar {
 		const start = info ? moment(info.start) : moment().add(1, "hour").startOf("hour");
 		let end = info ? moment(info.end) : moment(start).add(1, "hour");
 		if (all_day) end = moment(end).subtract(1, "second");
-		const may_publish = onedesk.CALENDAR_PUBLISHERS.some((role) => frappe.user.has_role(role));
+		const may_publish = !!frappe.boot.one_calendar_publish;
 		const dialog = new frappe.ui.Dialog({
 			title: __("New Event"),
 			fields: [
@@ -376,7 +378,7 @@ onedesk.OneCalendar = class OneCalendar {
 					fieldtype: "Data",
 					fieldname: "guests",
 					label: __("Guests"),
-					description: __("Email addresses outside the workspace. Each gets an email invitation."),
+					description: __("Email addresses outside the workspace, each sent an invitation."),
 				},
 				{ fieldtype: "Section Break", label: __("More"), collapsible: 1 },
 				{ fieldtype: "Small Text", fieldname: "description", label: __("Description") },

@@ -12,7 +12,7 @@ clause(
 	key="calendar-link",
 	module=M,
 	body="""
-		Where a workspace allows it, a person can make a private link to their own calendar and give it to
+		Where a workspace allows it, a person can make a private link to their own calendar. They give it to
 		another calendar app, such as Google Calendar, Apple Calendar or Outlook. Whoever holds the link can
 		read what that person's calendar shows, from two months back to a year ahead, and never more than that
 		person can see in One. That app is the person's choice and keeps what it reads under its own terms. The
@@ -28,8 +28,8 @@ clause(
 	module=M,
 	body="""
 		A person can invite somebody outside the workspace to an event by their email address. That address
-		is kept as a contact of the workspace, and the guest is mailed the event, and any change to it or its
-		cancellation, as an invitation for their own calendar.
+		is kept as a contact of the workspace. The guest is mailed the event as an invitation for their own
+		calendar, and again when it changes or is cancelled.
 	""",
 )
 

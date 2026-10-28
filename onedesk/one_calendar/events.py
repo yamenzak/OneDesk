@@ -12,8 +12,6 @@ from onedesk.one_calendar import layers
 
 WEEKDAYS = ("monday", "tuesday", "wednesday", "thursday", "friday", "saturday", "sunday")
 
-PUBLISHERS = ("Workspace Administrator", "HR Manager")
-
 MOST_REPEATS = 400
 
 LAYERS = [
@@ -255,13 +253,19 @@ def validate(doc, method=None) -> None:
 	before = doc.get_doc_before_save()
 	if before and before.event_type == "Public" and doc.owner == frappe.session.user:
 		return
-	if not set(PUBLISHERS) & set(frappe.get_roles()):
+	if not may_publish():
 		frappe.throw(
-			frappe._(
-				"Only a Workspace Administrator or HR Manager can put an event on everyone's calendar."
-			),
+			frappe._("Only a OneCalendar Manager or an administrator can put an event on everyone's calendar."),
 			frappe.PermissionError,
 		)
+
+
+def may_publish(user: str | None = None) -> bool:
+	"""Whether somebody may put an event on everyone's calendar: OneCalendar's
+	publish ability (abilities.py), which an administrator always has."""
+	from onedesk.one import rights
+
+	return rights.held("Event", "calendar_publish", user)
 
 
 def maintenance_visit(doc) -> bool:

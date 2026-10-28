@@ -52,3 +52,16 @@ onedesk.calendar_control.open = ({ at = null } = {}) => {
 
 frappe.provide("onedesk.control_centers");
 onedesk.control_centers.OneCalendar = onedesk.calendar_control.open;
+
+// Its foot (docs/READY.md, mechanism 5): Settings, the tour, Help and the
+// version at the foot of its rail, on whichever of its screens is open. The
+// calendar is a desk page, so the window draws it (module_foot).
+$(document).on("page-change", () =>
+	setTimeout(() => {
+		const sidebar = frappe.app && frappe.app.sidebar;
+		const win = onedesk.window.current();
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneCalendar") return;
+		win.module_foot({ module: "OneCalendar", settings: () => onedesk.calendar_control.open() });
+		onedesk.window.nav.place();
+	}, 0)
+);
