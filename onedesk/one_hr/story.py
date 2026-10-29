@@ -1,4 +1,4 @@
-"""OneHR's Home, told as a story (page/onehr, frontend/src/home): the headline
+"""OneHR's Home, told as a story (page/onehr, frontend/src/hr): the headline
 figures with their months, then the people, their time and their pay, and
 hiring. For HR only: everybody else's Home is their own day (home.py), since
 how many people the company has and what they cost are not theirs to read.

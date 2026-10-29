@@ -47,6 +47,7 @@ REGIONAL = {
 	"one_project/checks.py": "the demo company is in the UAE, where tax on retention falls due as it's released",
 	"one_book/checks.py": "the demo company is in the UAE: its VAT 201, its TRN on a Tax Invoice, its dirhams",
 	"one_inventory/checks.py": "the demo company keeps its stock in dirhams, and buys in other currencies",
+	"one_hr/checks.py": "the demo company is in the UAE: its papers, its end of service, its dirhams",
 }
 
 SKIP = ("locale", "one_demo", "fixtures", "dist", "tests")

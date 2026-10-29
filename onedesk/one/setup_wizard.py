@@ -170,7 +170,7 @@ def _country_code(company: str) -> str | None:
 
 
 def _shift(starts, ends, holidays: str | None) -> None:
-	"""A shift that reads its check-ins. See `one_hr/setup.py` for why."""
+	"""A shift that reads its check-ins. See `one_hr/shift_setup.py` for why."""
 	existing = frappe.db.exists("Shift Type", SHIFT)
 	doc = frappe.get_doc("Shift Type", SHIFT) if existing else frappe.new_doc("Shift Type")
 

@@ -3,7 +3,7 @@ setup and the next one a month before this one ends.
 
 Nothing in HRMS makes either. Without a Leave Period, Employee Leave Balance
 and the allocation tools have no year; without a Payroll Period a salary slip
-cannot spread a year's tax once an Income Tax Slab exists. README, periods.py.
+cannot spread a year's tax once an Income Tax Slab exists. AGENTS.md, periods.py.
 """
 
 import frappe

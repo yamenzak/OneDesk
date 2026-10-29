@@ -212,13 +212,20 @@ onedesk.module_settings.open = ({ module, may = {}, tabs, default_tab = null, ..
 		.map((group) => ({ ...group, items: (group.items || []).filter((item) => item && onedesk.module_settings.allows(item.needs, may)) }))
 		.filter((group) => group.items.length);
 	const ids = shown.flatMap((group) => group.items.map((item) => item.id));
+	// A row that opens another centre has no body, so the dialog opens on
+	// the first that has one; with none at all, the cog is that first centre.
+	const own = shown.flatMap((group) => group.items).filter((item) => !item.opens);
+	if (!own.length && !ids.includes(default_tab) && shown.length) {
+		const first = shown[0].items[0];
+		return { show: () => first.opens(), hide: () => {}, $wrapper: $() };
+	}
 	const open = onedesk.module_settings._open || {};
 	if (open[module]) open[module].$wrapper.remove();
 	const dialog = new onedesk.module_settings.Dialog({
 		title: __("{0} Settings", [module]),
 		module,
 		tabs: shown,
-		default_tab: ids.includes(default_tab) ? default_tab : ids[0],
+		default_tab: ids.includes(default_tab) ? default_tab : own[0].id,
 		...rest,
 	});
 	dialog.$wrapper.addClass("one-set");

@@ -1,7 +1,7 @@
 """Where an opportunity went: the quotations made from it, the sales orders
 made from those, and the sales invoices made from the orders, followed
 forward since ERPNext links each only to the one before it. How it works is
-in the module's README, under chain.py.
+in the module's AGENTS.md, under chain.py.
 """
 
 import frappe

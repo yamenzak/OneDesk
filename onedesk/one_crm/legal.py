@@ -26,10 +26,10 @@ clause(
 	key="crm-visitors-and-mailings",
 	module=M,
 	body="""
-		The people who fill in a workspace's Get in Touch form, and the leads and contacts its email
-		campaigns mail, are the organisation's to tell and to answer for: the organisation decides what the
-		form asks, says on its own website what it does with what is sent, and has a lawful basis for every
-		campaign it sends, including honouring anybody who asks to stop receiving it.
+		The people who fill in a workspace's Get in Touch form, and those its email campaigns mail, are the
+		organisation's to answer for. It decides what the form asks, and says on its own website what it does
+		with what is sent. It has a lawful basis for every campaign it sends, and stops mailing anybody who
+		asks.
 	""",
 )
 

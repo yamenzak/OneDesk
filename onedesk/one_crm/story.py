@@ -1,8 +1,8 @@
-"""OneCRM's Home, told as a story (page/onecrm, frontend/src/home): the
+"""OneCRM's Home, told as a story (page/onecrm, frontend/src/crm): the
 headline figures with their months, how selling is going, where the open
 opportunities stand, and where leads and sales come from. Frappe CRM's
 dashboard over ERPNext's Lead and Opportunity, as the reader may see them, in
-the company's currency. How it works is in the module's README.
+the company's currency. How it works is in the module's AGENTS.md.
 """
 
 from collections import defaultdict

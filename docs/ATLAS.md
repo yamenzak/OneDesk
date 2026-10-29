@@ -48,8 +48,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
 | home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
 | books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
-| crm (`frontend/src/home/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
-| hr (`frontend/src/home/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |
+| crm (`frontend/src/crm/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
+| hr (`frontend/src/hr/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |
 | lots (`frontend/src/inventory/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/inventory/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/inventory/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |

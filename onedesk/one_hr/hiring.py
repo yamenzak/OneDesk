@@ -1,6 +1,6 @@
 """OneAI on the hiring walk: every applicant read, rated and placed.
 
-What it does for the people using it is `one_hr/README.md`, under Hiring. The short version: a number goes
+What it does for the people using it is `one_hr/docs/hiring.md`. The short version: a number goes
 in a field so it sorts, an opinion goes in a comment so it has an author, and
 nothing here changes an applicant's status or reaches the candidate.
 """
@@ -829,11 +829,14 @@ def purge() -> None:
 
 
 def keep_sound(doc, method=None) -> None:
-	"""A recording's sound is deleted by its retention or by an HR Manager, and by nobody else."""
+	"""A recording's sound is deleted by its retention or by whoever holds
+	OneHR's Delete an Interview's Sound (abilities.py), and by nobody else."""
 	if doc.attached_to_doctype != "Interview Recording" or frappe.flags.get("one_purging_sound"):
 		return
-	if "HR Manager" not in frappe.get_roles():
-		frappe.throw(frappe._("Only an HR Manager can delete the sound of a recorded interview."))
+	from onedesk.one import rights
+
+	if not rights.held("HR Settings", "hr_sound"):
+		frappe.throw(frappe._("You may not delete the sound of a recorded interview."))
 
 
 def _pool(opening: str, but: str | None = None) -> list:

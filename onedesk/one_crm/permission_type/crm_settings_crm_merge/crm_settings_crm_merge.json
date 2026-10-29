@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "crm_settings_crm_merge",
+ "doc_type": "CRM Settings",
+ "perm_type": "crm_merge",
+ "modified": "2026-10-29 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-29 12:00:00.000000"
+}

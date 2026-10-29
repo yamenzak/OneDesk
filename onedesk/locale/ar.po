@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-29 06:22+0000\n"
+"POT-Creation-Date: 2026-10-29 07:00+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -106,24 +106,24 @@ msgstr "1"
 msgid "1 Batch Expiring Soon"
 msgstr "دفعة واحدة تنتهي صلاحيتها قريبًا"
 
-#: frontend/src/home/HrHome.vue:163
+#: frontend/src/hr/HrHome.vue:163
 msgid "1 Check-in Flagged"
 msgstr "تسجيل حضور واحد عليه علامة"
 
-#: frontend/src/home/HrHome.vue:165
+#: frontend/src/hr/HrHome.vue:165
 msgid "1 Contract or Probation Ending"
 msgstr "عقد أو فترة تجربة واحدة تنتهي"
 
-#: frontend/src/home/HrHome.vue:164
+#: frontend/src/hr/HrHome.vue:164
 msgid "1 Document Expiring"
 msgstr "مستند واحد ينتهي"
 
-#: frontend/src/books/BooksHome.vue:139 frontend/src/home/CrmHome.vue:144
+#: frontend/src/books/BooksHome.vue:139 frontend/src/crm/CrmHome.vue:144
 #: frontend/src/inventory/home/InventoryHome.vue:157
 msgid "1 Draft Left"
 msgstr "مسودة واحدة متروكة"
 
-#: frontend/src/home/HrHome.vue:166
+#: frontend/src/hr/HrHome.vue:166
 msgid "1 Interview Today"
 msgstr "مقابلة واحدة اليوم"
 
@@ -139,11 +139,11 @@ msgstr "طلب واحد متأخر"
 msgid "1 Maintenance Due"
 msgstr "صيانة واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:139
+#: frontend/src/crm/CrmHome.vue:139
 msgid "1 Next Step Due"
 msgstr "خطوة تالية واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:141
+#: frontend/src/crm/CrmHome.vue:141
 msgid "1 Opportunity Past Its Closing Date"
 msgstr "فرصة واحدة تجاوزت تاريخ إغلاقها"
 
@@ -159,15 +159,15 @@ msgstr "شخص واحد"
 msgid "1 Purchase Invoice Due"
 msgstr "فاتورة شراء واحدة مستحقة"
 
-#: frontend/src/home/CrmHome.vue:142
+#: frontend/src/crm/CrmHome.vue:142
 msgid "1 Quotation Expiring"
 msgstr "عرض سعر واحد تنتهي صلاحيته"
 
-#: frontend/src/home/HrHome.vue:162
+#: frontend/src/hr/HrHome.vue:162
 msgid "1 Request Waiting for You"
 msgstr "طلب واحد بانتظارك"
 
-#: frontend/src/home/CrmHome.vue:140
+#: frontend/src/crm/CrmHome.vue:140
 msgid "1 Unclaimed Lead"
 msgstr "عميل محتمل واحد لم يتولَّه أحد"
 
@@ -175,7 +175,7 @@ msgstr "عميل محتمل واحد لم يتولَّه أحد"
 msgid "1 Unreconciled Bank Transaction"
 msgstr "معاملة بنكية واحدة غير مسواة"
 
-#: frontend/src/home/CrmHome.vue:143
+#: frontend/src/crm/CrmHome.vue:143
 msgid "1 With No Next Step"
 msgstr "واحد بلا خطوة تالية"
 
@@ -221,11 +221,11 @@ msgstr "يوم واحد"
 msgid "1 day late"
 msgstr "متأخرة يوماً واحداً"
 
-#: onedesk/one_hr/ai.py:890
+#: onedesk/one_hr/ai.py:915
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:894
+#: onedesk/one_hr/ai.py:919
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 
@@ -233,11 +233,11 @@ msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
 msgid "1 day overdue"
 msgstr "متأخر يومًا واحدًا"
 
-#: frontend/src/home/CrmHome.vue:188
+#: frontend/src/crm/CrmHome.vue:188
 msgid "1 day past"
 msgstr "مضى يوم واحد"
 
-#: frontend/src/books/BooksHome.vue:236 frontend/src/home/CrmHome.vue:258
+#: frontend/src/books/BooksHome.vue:236 frontend/src/crm/CrmHome.vue:258
 #: frontend/src/inventory/home/InventoryHome.vue:292
 #: frontend/src/project/Invoices.vue:107
 msgid "1 draft"
@@ -1356,7 +1356,7 @@ msgid "A section is a list of columns, each a list of blocks."
 msgstr "القسم قائمة أعمدة، كل منها قائمة كتل."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/sensitive_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "A sensitive grievance was raised"
 msgstr "رُفعت شكوى حساسة"
 
@@ -1694,7 +1694,7 @@ msgid "Above its level"
 msgstr "فوق مستواه"
 
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
-#: frontend/src/home/HrStory.vue:90
+#: frontend/src/hr/HrStory.vue:90
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/presence.py:207
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:175
@@ -2437,11 +2437,11 @@ msgstr "إضافة عميل"
 msgid "Add a field…"
 msgstr "إضافة حقل…"
 
-#: onedesk/one_crm/ai.py:93
+#: onedesk/one_crm/ai.py:107
 msgid "Add a lead from a signature"
 msgstr "أضف عميلًا محتملًا من توقيع بريد"
 
-#: onedesk/one_crm/ai.py:86 onedesk/one_crm/ai.py:122
+#: onedesk/one_crm/ai.py:100 onedesk/one_crm/ai.py:136
 msgid "Add a lead from each of these business cards."
 msgstr "أضف عميلًا محتملًا من كل بطاقة عمل من هذه البطاقات."
 
@@ -2485,11 +2485,11 @@ msgstr "أضف مستودعًا أولًا."
 msgid "Add an account for costs included in stock value first."
 msgstr "أضف أولاً حساباً للتكاليف المضافة إلى قيمة المخزون."
 
-#: onedesk/one_hr/ai.py:83 onedesk/one_hr/ai.py:115
+#: onedesk/one_hr/ai.py:108 onedesk/one_hr/ai.py:140
 msgid "Add an applicant from each of these CVs, to the open job each one fits best."
 msgstr "أضف متقدمًا من كل سيرة ذاتية من هذه، إلى الوظيفة المفتوحة الأنسب لكل منها."
 
-#: onedesk/one_hr/ai.py:74
+#: onedesk/one_hr/ai.py:99
 msgid "Add an applicant to this opening from each of these CVs."
 msgstr "أضف متقدمًا إلى هذه الوظيفة من كل سيرة ذاتية من هذه."
 
@@ -2507,7 +2507,7 @@ msgstr "أضف صنفًا وكم عاد منه."
 msgid "Add an item and how many to move."
 msgstr "أضف صنفًا والكمية المراد نقلها."
 
-#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:82 onedesk/one_hr/ai.py:114
+#: onedesk/one_hr/ai.py:98 onedesk/one_hr/ai.py:107 onedesk/one_hr/ai.py:139
 msgid "Add applicants from CVs"
 msgstr "إضافة متقدمين من السير الذاتية"
 
@@ -2542,7 +2542,7 @@ msgstr "إضافة من قائمة"
 msgid "Add item"
 msgstr "إضافة عنصر"
 
-#: onedesk/one_crm/ai.py:85 onedesk/one_crm/ai.py:121
+#: onedesk/one_crm/ai.py:99 onedesk/one_crm/ai.py:135
 msgid "Add leads from business cards"
 msgstr "أضف عملاء محتملين من بطاقات العمل"
 
@@ -2647,11 +2647,11 @@ msgid "Add-ons"
 msgstr "الإضافات"
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one/account.py:264
+#: onedesk/one/account.py:264 onedesk/one_studio/ai_setup.py:643
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
 msgid "Added"
-msgstr ""
+msgstr "أُضيف"
 
 #: onedesk/public/js/project_actions.js:79
 msgid "Added 1 task"
@@ -3837,7 +3837,7 @@ msgid "An update on {0}"
 msgstr "تحديث عن {0}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/urgent_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "An urgent grievance was raised"
 msgstr "رُفعت شكوى عاجلة"
 
@@ -4058,7 +4058,7 @@ msgstr "حالة المتقدم"
 msgid "Applicants"
 msgstr "المتقدمون"
 
-#: frontend/src/home/HrStory.vue:44
+#: frontend/src/hr/HrStory.vue:44
 msgid "Applicants of the last 12 months"
 msgstr "متقدّمو آخر 12 شهرًا"
 
@@ -4145,7 +4145,7 @@ msgid "Appointment Booking Settings"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/appointment_confirmation.md
+#: onedesk/one_crm/notifications.py
 msgid "Appointment Confirmation"
 msgstr "تأكيد الموعد"
 
@@ -4187,7 +4187,7 @@ msgid "Appraisal Overview"
 msgstr "نظرة عامة على التقييم"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/appraisal_started.md
+#: onedesk/one_hr/notifications.py
 msgid "Appraisal Started"
 msgstr "بدء التقييم"
 
@@ -4255,7 +4255,7 @@ msgid "Approve bills by amount"
 msgstr "اعتماد الفواتير حسب المبلغ"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/job_requisition_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Approve or reject the requisition."
 msgstr "وافق على الطلب أو ارفضه."
 
@@ -4603,7 +4603,7 @@ msgstr "اطلب مجددًا"
 msgid "Ask For"
 msgstr "اسأل عن"
 
-#: onedesk/one_hr/ai.py:215 onedesk/one_hr/ai.py:261
+#: onedesk/one_hr/ai.py:240 onedesk/one_hr/ai.py:286
 msgid "Ask HR for a letter"
 msgstr "طلب خطاب من الموارد البشرية"
 
@@ -4786,7 +4786,7 @@ msgstr "يُطلب عند تسجيل الانصراف فقط. الخيارات �
 msgid "Asked twice a day"
 msgstr "يُطلب مرتين يوميًا"
 
-#: frontend/src/home/HrHome.vue:204
+#: frontend/src/hr/HrHome.vue:204
 #: frontend/src/inventory/quotes/QuotesPage.vue:145
 #: frontend/src/one/Home.vue:96
 msgid "Asked {0}"
@@ -5152,7 +5152,7 @@ msgstr "الحضور"
 #. Label in the One Attendance print format
 #. Label of a Sidebar Item
 #. Label of the one_attendance (Link) field in DocType 'Timesheet'
-#: frontend/src/home/HrStory.vue:23 onedesk/one_hr/custom/employee.json
+#: frontend/src/hr/HrStory.vue:23 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/heads.py:122
 #: onedesk/one_hr/home.py:72 onedesk/one_hr/home.py:635
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -5181,12 +5181,12 @@ msgid "Attendance Request"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/attendance_request_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Attendance Request Answered"
 msgstr "تم الرد على طلب الحضور"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/attendance_request_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Attendance Request Asked"
 msgstr "طلب حضور جديد"
 
@@ -5480,7 +5480,7 @@ msgstr "الحقول المتاحة: {0}"
 msgid "Average"
 msgstr "المتوسط"
 
-#: frontend/src/home/CrmHome.vue:105
+#: frontend/src/crm/CrmHome.vue:105
 msgid "Average Won Value"
 msgstr "متوسط قيمة الفرص الرابحة"
 
@@ -5575,7 +5575,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:38
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
-#: onedesk/public/js/module_settings.js:281
+#: onedesk/public/js/module_settings.js:288
 #: onedesk/public/js/window/frame.js:239 onedesk/www/account_invoices.html:62
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
@@ -6394,7 +6394,7 @@ msgid "Bio"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/birthday.md
+#: onedesk/one_hr/notifications.py
 msgid "Birthday"
 msgstr "عيد ميلاد"
 
@@ -6474,7 +6474,7 @@ msgstr "غامق"
 msgid "Bold (Ctrl+B)"
 msgstr "غامق (Ctrl+B)"
 
-#: onedesk/one_hr/ai.py:48 onedesk/one_hr/ai.py:267
+#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
 msgid "Book time off"
 msgstr "حجز إجازة"
 
@@ -7589,14 +7589,14 @@ msgid "Check Again"
 msgstr "تحقق مرة أخرى"
 
 #. The button on a notification's mail
-#: frontend/src/home/HrHome.vue:237
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:96
-#: onedesk/public/js/desk.js:188 onedesk/public/js/desk.js:199
-#: onedesk/public/js/desk.js:204 onedesk/public/js/window/chrome.js:109
+#: frontend/src/hr/HrHome.vue:237 onedesk/one_hr/notifications.py
+#: onedesk/public/js/desk.js:96 onedesk/public/js/desk.js:188
+#: onedesk/public/js/desk.js:199 onedesk/public/js/desk.js:204
+#: onedesk/public/js/window/chrome.js:109
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
-#: frontend/src/home/HrHome.vue:236
+#: frontend/src/hr/HrHome.vue:236
 msgid "Check In (late)"
 msgstr "تسجيل الحضور (متأخر)"
 
@@ -7610,7 +7610,7 @@ msgstr "التحقق من الموقع"
 msgid "Check Network"
 msgstr "التحقق من الشبكة"
 
-#: frontend/src/home/HrHome.vue:234 onedesk/public/js/clock.js:60
+#: frontend/src/hr/HrHome.vue:234 onedesk/public/js/clock.js:60
 msgid "Check Out"
 msgstr "تسجيل الانصراف"
 
@@ -7630,7 +7630,7 @@ msgstr "التحقق مما وصل قبل التصرف"
 msgid "Check bill from {0}"
 msgstr "راجع فاتورة {0}"
 
-#: frontend/src/home/HrHome.vue:237 onedesk/public/js/desk.js:197
+#: frontend/src/hr/HrHome.vue:237 onedesk/public/js/desk.js:197
 #: onedesk/public/js/desk.js:204
 msgid "Check in by {0}"
 msgstr "سجّل حضورك قبل {0}"
@@ -7651,11 +7651,11 @@ msgstr "تحقق من الموقع في Frappe Cloud."
 msgid "Check the unordered delivery from {0}"
 msgstr "تحقق من التسليم غير المطلوب من {0}"
 
-#: onedesk/one_hr/ai.py:199
+#: onedesk/one_hr/ai.py:224
 msgid "Check this payroll"
 msgstr "تدقيق هذا الراتب"
 
-#: onedesk/one_hr/ai.py:200
+#: onedesk/one_hr/ai.py:225
 msgid "Check this payroll against last month and tell me what looks unusual, most money first."
 msgstr "قارن كشف الرواتب هذا بالشهر الماضي وأخبرني بما يبدو غير معتاد، بدءًا بالمبالغ الأكبر."
 
@@ -7681,12 +7681,12 @@ msgid "Check-in"
 msgstr "تسجيل الحضور"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/check_in_closed_for_you.md
+#: onedesk/one_hr/notifications.py
 msgid "Check-in Closed for You"
 msgstr "أُغلق تسجيل حضورك نيابة عنك"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/check_in_flagged.md
+#: onedesk/one_hr/notifications.py
 msgid "Check-in Flagged"
 msgstr "تسجيل حضور بحاجة لمراجعة"
 
@@ -7696,12 +7696,12 @@ msgid "Check-in Outcomes"
 msgstr "نتائج تسجيلات الحضور"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/check_in_place_proposed.md
+#: onedesk/one_hr/notifications.py
 msgid "Check-in Place Proposed"
 msgstr "مكان تسجيل حضور مقترح"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/check_in_rejected.md
+#: onedesk/one_hr/notifications.py
 msgid "Check-in Rejected"
 msgstr "رُفض تسجيل الحضور"
 
@@ -7712,7 +7712,7 @@ msgstr "رُفض تسجيل الحضور"
 msgid "Check-ins"
 msgstr "تسجيلات الحضور"
 
-#: frontend/src/home/HrHome.vue:220
+#: frontend/src/hr/HrHome.vue:220
 msgid "Check-ins Flagged"
 msgstr "تسجيلات حضور عليها علامة"
 
@@ -7729,7 +7729,7 @@ msgid "Check-ins on this shift are not becoming attendance."
 msgstr "لا تتحول تسجيلات الحضور على هذه المناوبة إلى سجلات حضور."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/shift_not_reading_check_ins.md
+#: onedesk/one_hr/notifications.py
 msgid "Check-ins on {shift} are not becoming attendance"
 msgstr "تسجيلات الحضور في {shift} لا تتحول إلى حضور"
 
@@ -8023,11 +8023,11 @@ msgstr "المدينة"
 msgid "Claim No"
 msgstr "رقم المطالبة"
 
-#: onedesk/one_hr/ai.py:33 onedesk/one_hr/ai.py:269
+#: onedesk/one_hr/ai.py:58 onedesk/one_hr/ai.py:294
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
-#: frontend/src/home/HrHome.vue:248 onedesk/public/js/employee.js:5
+#: frontend/src/hr/HrHome.vue:248 onedesk/public/js/employee.js:5
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
 
@@ -8037,7 +8037,7 @@ msgstr "المطالبة رقم {0} على العقد"
 
 #. Label in the One Employee Benefit Claim print format
 #. Label in the One Expense Claim print format
-#: frontend/src/home/HrStory.vue:37
+#: frontend/src/hr/HrStory.vue:37
 #: onedesk/one_hr/print_format/one_employee_benefit_claim/one_employee_benefit_claim.json
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 msgid "Claimed"
@@ -8133,7 +8133,7 @@ msgstr "التسجيل"
 #. Name of a DocType
 #. Label of a Sidebar Item
 #. Label of a Link in the OneHR Setup Workspace
-#: frontend/src/home/HrHome.vue:224 onedesk/one_hr/custom/employee_checkin.json
+#: frontend/src/hr/HrHome.vue:224 onedesk/one_hr/custom/employee_checkin.json
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/home.py:87 onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
@@ -8714,7 +8714,7 @@ msgstr "قارن عروض الأسعار"
 msgid "Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."
 msgstr "قارن عروض الأسعار التي أرسلها الموردون لهذا الطلب، بندًا بندًا، وقل من الأرخص في كل بند."
 
-#: onedesk/one_hr/ai.py:208
+#: onedesk/one_hr/ai.py:233
 msgid "Compare this salary slip with this person's last one and tell me what changed."
 msgstr "قارن قسيمة الراتب هذه بآخر قسيمة لهذا الشخص وأخبرني بما تغيّر."
 
@@ -8920,7 +8920,7 @@ msgid "Confirm the candidate's consent to start recording."
 msgstr "أكّد موافقة المرشح لبدء التسجيل."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/probation_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "Confirm them, extend it, or let them go before then."
 msgstr "ثبّته أو مدّدها أو أنهِ خدمته قبل ذلك."
 
@@ -9262,12 +9262,12 @@ msgid "Contract"
 msgstr "عقد"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/contract_ending.md onedesk/one_hr/home.py:793
+#: onedesk/one_hr/home.py:793 onedesk/one_hr/notifications.py
 msgid "Contract Ending"
 msgstr "انتهاء العقد"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/contract_expiring.md
+#: onedesk/one_crm/notifications.py
 msgid "Contract Expiring"
 msgstr "عقد يوشك على الانتهاء"
 
@@ -9334,7 +9334,7 @@ msgstr "الرد على أسئلة المقاول"
 msgid "Contracts"
 msgstr "العقود"
 
-#: frontend/src/home/HrHome.vue:227
+#: frontend/src/hr/HrHome.vue:227
 msgid "Contracts and Probations Ending"
 msgstr "عقود وفترات تجربة تنتهي"
 
@@ -9358,7 +9358,7 @@ msgstr "المحادثة"
 msgid "Conversations"
 msgstr "المحادثات"
 
-#: frontend/src/home/CrmStory.vue:92
+#: frontend/src/crm/CrmStory.vue:92
 msgid "Converted"
 msgstr ""
 
@@ -9562,7 +9562,7 @@ msgid "Costs"
 msgstr "التكاليف"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/could_not_mark_left.md
+#: onedesk/one_hr/notifications.py
 msgid "Could Not Mark Left"
 msgstr "تعذر التعيين كمغادر"
 
@@ -11096,17 +11096,17 @@ msgid "Dear {0},"
 msgstr "عزيزنا {0}،"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Dear {applicant}, this is a reminder of your interview at {when}."
 msgstr "عزيزي {applicant}، نذكّرك بمقابلتك في {when}."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Dear {applicant}, your interview has moved from {was} to {when}."
 msgstr "عزيزي {applicant}، نُقلت مقابلتك من {was} إلى {when}."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Dear {applicant}, your interview is on {when}. Reply to this email if that time does not suit you."
 msgstr "عزيزي {applicant}، موعد مقابلتك في {when}. ردّ على هذه الرسالة إن لم يناسبك هذا الوقت."
 
@@ -11478,6 +11478,10 @@ msgstr "حذف صوت التسجيل بعد (أيام)"
 msgid "Delete all"
 msgstr "حذف الكل"
 
+#: onedesk/one_hr/abilities.py:23
+msgid "Delete an Interview's Sound"
+msgstr "حذف صوت المقابلة"
+
 #: frontend/src/sheet/components/SheetEditor/ChartOverlay.vue:38
 msgid "Delete chart"
 msgstr "حذف المخطط"
@@ -11523,6 +11527,10 @@ msgstr "حذف القاعدة {0}؟ ستتوقف عن إرسال الإشعار�
 #: onedesk/public/js/doctype_settings.js:432
 msgid "Delete series {0}?"
 msgstr "حذف السلسلة {0}؟"
+
+#: onedesk/one_hr/abilities.py:26
+msgid "Delete the sound of a recorded interview before its retention does, keeping what was written from it."
+msgstr "حذف صوت مقابلة مسجلة قبل انتهاء مدة الاحتفاظ به، مع إبقاء ما كُتب منها."
 
 #: onedesk/public/js/doctype_settings.js:961
 #: onedesk/public/js/one_mail/onemail_settings.js:862
@@ -12593,7 +12601,7 @@ msgid "Do Not Pay Yet"
 msgstr "لا تدفع بعد"
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/next_step_due.md
+#: onedesk/one_crm/notifications.py
 msgid "Do it, then press Next Step Done on the {kind} and set what comes next."
 msgstr "أنجزها، ثم اضغط «تمّت الخطوة التالية» في {kind} وحدّد ما يليها."
 
@@ -12635,7 +12643,7 @@ msgid "Document"
 msgstr "مستند"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/document_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "Document Expiring"
 msgstr "وثيقة تنتهي صلاحيتها"
 
@@ -12689,7 +12697,7 @@ msgstr "منشئ السجل"
 msgid "Documents"
 msgstr "المستندات"
 
-#: frontend/src/home/HrHome.vue:226
+#: frontend/src/hr/HrHome.vue:226
 msgid "Documents Expiring"
 msgstr "مستندات تنتهي"
 
@@ -12951,11 +12959,11 @@ msgstr "صياغة رد"
 msgid "Draft a delivery for what is still to go out on this order."
 msgstr "جهّز مسودة تسليم لما تبقى من هذا الأمر."
 
-#: onedesk/one_crm/ai.py:42
+#: onedesk/one_crm/ai.py:56
 msgid "Draft a follow-up"
 msgstr "اكتب مسودة متابعة"
 
-#: onedesk/one_hr/ai.py:123
+#: onedesk/one_hr/ai.py:148
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها ووصفها وما يتمتع به المتقدم القوي، سطرًا قصيرًا لكل بند — واقترح إنشاءها."
 
@@ -12971,7 +12979,7 @@ msgstr "صُغ قالب مشروع لنوع من الأعمال التي نقو�
 msgid "Draft a receipt for what is still to come on this order."
 msgstr "جهّز مسودة استلام لما تبقى من هذا الأمر."
 
-#: onedesk/one_crm/ai.py:64 onedesk/one_mail/ai.py:29
+#: onedesk/one_crm/ai.py:78 onedesk/one_mail/ai.py:29
 msgid "Draft a reply"
 msgstr "اكتب مسودة رد"
 
@@ -12983,11 +12991,11 @@ msgstr "اكتب مسودة ردّ على هذه المحادثة تقول: "
 msgid "Draft a request for quotation for this material request, to the suppliers who sold us these items before."
 msgstr "صِغ طلب عرض أسعار لطلب المواد هذا، إلى الموردين الذين باعونا هذه الأصناف من قبل."
 
-#: onedesk/one_crm/ai.py:65
+#: onedesk/one_crm/ai.py:79
 msgid "Draft a short first reply to this lead that answers what they asked, and proposes one next step. Plain words, no sales talk."
 msgstr "اكتب مسودة رد أول قصير على هذا العميل المحتمل تجيب عمّا سأل عنه وتقترح خطوة تالية واحدة. بكلمات بسيطة، بلا لغة تسويقية."
 
-#: onedesk/one_crm/ai.py:43
+#: onedesk/one_crm/ai.py:57
 msgid "Draft a short follow-up email to them from this opportunity's history: what was said last, what we agreed, and the one thing we are asking for. Plain words, no sales talk."
 msgstr "اكتب لهم مسودة رسالة متابعة قصيرة من سجل هذه الفرصة: ما قيل آخر مرة، وما اتفقنا عليه، والأمر الواحد الذي نطلبه. بكلمات بسيطة، دون لغة تسويقية."
 
@@ -13016,27 +13024,27 @@ msgstr "مسودة القوائم المالية"
 msgid "Draft an order to each supplier for the lines they are cheapest on?"
 msgstr "إعداد مسودة طلب لكل مورد بالبنود التي هو الأرخص فيها؟"
 
-#: onedesk/one_hr/ai.py:140
+#: onedesk/one_hr/ai.py:165
 msgid "Draft my feedback"
 msgstr "صياغة ملاحظاتي"
 
-#: onedesk/one_hr/ai.py:159
+#: onedesk/one_hr/ai.py:184
 msgid "Draft my feedback from the recording"
 msgstr "صياغة ملاحظاتي من التسجيل"
 
-#: onedesk/one_hr/ai.py:141
+#: onedesk/one_hr/ai.py:166
 msgid "Draft my feedback on this appraisal from what happened in the cycle, and suggest it as my feedback."
 msgstr "صِغ ملاحظاتي على هذا التقييم مما حدث خلال الدورة، واقترحها كملاحظاتي."
 
-#: onedesk/one_hr/ai.py:160
+#: onedesk/one_hr/ai.py:185
 msgid "Draft my feedback on this interview from its recording and OneAI's remarks, with a rating for each expected skill, and suggest it as my feedback."
 msgstr "صِغ ملاحظاتي على هذه المقابلة من تسجيلها وتعليقات OneAI، مع تقييم لكل مهارة متوقعة، واقترحها كملاحظاتي."
 
-#: onedesk/one_hr/ai.py:235
+#: onedesk/one_hr/ai.py:260
 msgid "Draft my goals for this appraisal cycle from my role, last cycle's goals and the feedback I was given, and suggest them."
 msgstr "صِغ أهدافي لدورة التقييم هذه من دوري وأهداف الدورة الماضية والملاحظات التي تلقيتها، واقترحها."
 
-#: onedesk/one_hr/ai.py:234
+#: onedesk/one_hr/ai.py:259
 msgid "Draft my goals for this cycle"
 msgstr "صياغة أهدافي لهذه الدورة"
 
@@ -13052,7 +13060,7 @@ msgstr "صِغ تحديثي عن هذا المشروع من أسبوعي: ما �
 msgid "Draft purchase orders for all {0} lines?"
 msgstr "إنشاء مسودات أوامر شراء لكل البنود الـ {0}؟"
 
-#: onedesk/one_hr/ai.py:122
+#: onedesk/one_hr/ai.py:147
 msgid "Draft the opening"
 msgstr "صياغة الوظيفة"
 
@@ -13258,7 +13266,7 @@ msgstr "مستحق خلال {0} أيام"
 msgid "Due on Receipt"
 msgstr "مستحق عند الاستلام"
 
-#: frontend/src/books/BooksHome.vue:205 frontend/src/home/CrmHome.vue:177
+#: frontend/src/books/BooksHome.vue:205 frontend/src/crm/CrmHome.vue:177
 #: frontend/src/project/Overview.vue:377 frontend/src/task/TaskPage.vue:215
 #: onedesk/one_project/portal.py:262 onedesk/one_project/retention.py:239
 msgid "Due today"
@@ -13268,7 +13276,7 @@ msgstr "يستحق اليوم"
 msgid "Due tomorrow"
 msgstr "يستحق غدًا"
 
-#: frontend/src/books/BooksHome.vue:205 frontend/src/home/CrmHome.vue:177
+#: frontend/src/books/BooksHome.vue:205 frontend/src/crm/CrmHome.vue:177
 #: frontend/src/inventory/home/InventoryHome.vue:260
 #: frontend/src/inventory/item/ItemBuying.vue:61
 #: frontend/src/inventory/item/ItemOverview.vue:96
@@ -13391,7 +13399,7 @@ msgid "Each edit must specify its type."
 msgstr "يجب أن يحدد كل تعديل نوعه."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/holidays_coming_up.md
+#: onedesk/one_hr/notifications.py
 msgid "Each employee"
 msgstr "كل موظف"
 
@@ -13401,7 +13409,7 @@ msgid "Each guest, by email, with the event attached for their calendar"
 msgstr "كل ضيف بالبريد، مع الحدث مرفقًا لتقويمه"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/interview_feedback_due.md
+#: onedesk/one_hr/notifications.py
 msgid "Each interviewer who owes it"
 msgstr "كل مُقابِل لم يقدّمه بعد"
 
@@ -13573,7 +13581,7 @@ msgid "Earned"
 msgstr "المكتسب"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/earned_leave_not_allocated.md
+#: onedesk/one_hr/notifications.py
 msgid "Earned Leave Not Allocated"
 msgstr "لم تُخصص الإجازة المكتسبة"
 
@@ -13907,7 +13915,7 @@ msgstr "البريد مسموح"
 
 #. Name of a notification
 #. Label of a Sidebar Item
-#: onedesk/notifications/one_crm/email_campaign.md onedesk/one_crm/home.py:123
+#: onedesk/one_crm/home.py:123 onedesk/one_crm/notifications.py
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Email Campaign"
 msgstr "حملة بريد إلكتروني"
@@ -14052,7 +14060,7 @@ msgstr "الهوية الإماراتية"
 #. Label in the One Travel Request print format
 #. Label of a Sidebar Item
 #. Label in the One Timesheet print format
-#: frontend/src/home/HrStory.vue:9 frontend/src/home/HrStory.vue:12
+#: frontend/src/hr/HrStory.vue:9 frontend/src/hr/HrStory.vue:12
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
 #: onedesk/one_hr/custom/expense_claim.json
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
@@ -14162,7 +14170,7 @@ msgid "Employee Checkin"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/employee_details_changed.md
+#: onedesk/one_hr/notifications.py
 msgid "Employee Details Changed"
 msgstr "تغيّرت بيانات موظف"
 
@@ -14304,6 +14312,10 @@ msgstr "الموظفون"
 #: onedesk/one_hr/home.py:397
 msgid "Employees working on a holiday"
 msgstr "موظفون عملوا في عطلة"
+
+#: onedesk/one_hr/tour.py:13
+msgid "Employees, leave, attendance, payroll, expenses and hiring, each a row of its own."
+msgstr "الموظفون والإجازات والحضور والرواتب والمصروفات والتوظيف، لكلٍّ صف خاص به."
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:69
 #: onedesk/public/js/one_account/account_center.js:102
@@ -14465,6 +14477,10 @@ msgstr "ينتهي غدًا"
 #: onedesk/one_project/tell.py:192
 msgid "Ends {0}"
 msgstr "ينتهي {0}"
+
+#: onedesk/public/js/one_hr/hr_control.js:56
+msgid "Ends {0}, in {1} days"
+msgstr "ينتهي في {0}، بعد {1} يومًا"
 
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
@@ -14770,7 +14786,7 @@ msgid "Every day"
 msgstr "كل يوم"
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_feedback_due.md
+#: onedesk/one_hr/notifications.py
 msgid "Every day after an interview, until your feedback on it is in."
 msgstr "كل يوم بعد المقابلة، حتى تقدّم ملاحظاتك عليها."
 
@@ -14958,7 +14974,7 @@ msgid "Every week"
 msgstr "كل أسبوع"
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/holidays_coming_up.md
+#: onedesk/one_hr/notifications.py
 msgid "Every week or month, as HR Settings says, when you have holidays coming up."
 msgstr "كل أسبوع أو شهر، حسب إعدادات الموارد البشرية، عندما تقترب عطلاتك."
 
@@ -14967,13 +14983,12 @@ msgid "Every year that has ended is closed"
 msgstr "كل سنة انتهت مُقفلة"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/training_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "Everybody attending"
 msgstr "كل الحاضرين"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/birthday.md
-#: onedesk/notifications/one_hr/work_anniversary.md
+#: onedesk/one_hr/notifications.py
 msgid "Everybody else at their company"
 msgstr "جميع الآخرين في شركته"
 
@@ -15051,6 +15066,10 @@ msgstr "إبلاغ الجميع وتوزيع الملصقات"
 msgid "Everyone who manages {0}"
 msgstr "كل من يدير {0}"
 
+#: onedesk/one_crm/tour.py:13
+msgid "Everyone who might buy, what they might buy, the quotes sent them and the orders that came of it."
+msgstr "كل من قد يشتري، وما قد يشتريه، وعروض الأسعار المرسلة إليه، والطلبات التي نتجت عنها."
+
 #: onedesk/public/js/one/access_center.js:411
 msgid "Everyone who uses {0}"
 msgstr "كل من يستخدم {0}"
@@ -15068,8 +15087,8 @@ msgstr "للجميع"
 msgid "Everyone's Deletions"
 msgstr "محذوفات الجميع"
 
-#: frontend/src/books/BooksHome.vue:89 frontend/src/home/CrmHome.vue:89
-#: frontend/src/home/HrHome.vue:108
+#: frontend/src/books/BooksHome.vue:89 frontend/src/crm/CrmHome.vue:89
+#: frontend/src/hr/HrHome.vue:108
 #: frontend/src/inventory/home/InventoryHome.vue:105
 #: onedesk/public/js/one/access_center.js:208
 #: onedesk/public/js/one/notification_center.js:159
@@ -15203,12 +15222,12 @@ msgid "Exit Interview"
 msgstr "مقابلة المغادرة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/exit_interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "Exit Interview Scheduled"
 msgstr "تمت جدولة مقابلة المغادرة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/exit_questionnaire.md
+#: onedesk/one_hr/notifications.py
 msgid "Exit Questionnaire"
 msgstr "استبيان المغادرة"
 
@@ -15295,17 +15314,17 @@ msgid "Expense Claim"
 msgstr "مطالبة مصروفات"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/expense_claim_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Expense Claim Answered"
 msgstr "تم الرد على مطالبة النفقات"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/expense_claim_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Expense Claim Asked"
 msgstr "مطالبة نفقات مقدمة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/expense_claim_paid.md
+#: onedesk/one_hr/notifications.py
 msgid "Expense Claim Paid"
 msgstr "دُفعت مطالبة النفقات"
 
@@ -15319,7 +15338,7 @@ msgstr ""
 msgid "Expense Claims"
 msgstr "مطالبات المصاريف"
 
-#: frontend/src/home/HrStory.vue:37
+#: frontend/src/hr/HrStory.vue:37
 msgid "Expense Claims This Year"
 msgstr "مطالبات النفقات هذا العام"
 
@@ -15394,7 +15413,7 @@ msgstr "تنتهي صلاحيته"
 msgid "Expires On"
 msgstr "ينتهي في"
 
-#: frontend/src/home/CrmHome.vue:189
+#: frontend/src/crm/CrmHome.vue:189
 msgid "Expires in {0} days"
 msgstr "تنتهي خلال {0} أيام"
 
@@ -15404,11 +15423,11 @@ msgstr "تنتهي خلال {0} أيام"
 msgid "Expires on"
 msgstr "ينتهي في"
 
-#: frontend/src/home/CrmHome.vue:189
+#: frontend/src/crm/CrmHome.vue:189
 msgid "Expires today"
 msgstr "تنتهي اليوم"
 
-#: frontend/src/home/CrmHome.vue:189
+#: frontend/src/crm/CrmHome.vue:189
 msgid "Expires tomorrow"
 msgstr "تنتهي غدًا"
 
@@ -16023,7 +16042,7 @@ msgid "Fill in what's marked as needed, then send again."
 msgstr "املأ المطلوب، ثم أرسل مرة أخرى."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/appraisal_started.md
+#: onedesk/one_hr/notifications.py
 msgid "Fill in your self-appraisal by {date}."
 msgstr "املأ تقييمك الذاتي قبل {date}."
 
@@ -16410,6 +16429,10 @@ msgstr "الأرضيات"
 msgid "Flow"
 msgstr "المسار"
 
+#: onedesk/one_crm/abilities.py:26
+msgid "Fold a lead that is somebody already known into the one kept, which deletes it."
+msgstr "دمج عميل محتمل معروف مسبقًا في العميل المُبقى عليه، مما يحذفه."
+
 #: onedesk/public/js/window/json_view.js:166
 msgid "Fold or unfold"
 msgstr "طيّ أو فتح"
@@ -16571,6 +16594,10 @@ msgstr "خط فاصل للتذييل"
 msgid "For"
 msgstr "لـ"
 
+#: onedesk/one_hr/tour.py:19
+msgid "For HR, headcount, who is in and away today, the last payroll and open positions; for everybody, the leave they have left."
+msgstr "للموارد البشرية: عدد الموظفين، ومن حضر ومن غاب اليوم، وآخر رواتب، والوظائف الشاغرة؛ وللجميع: ما تبقّى لهم من إجازات."
+
 #. Label in the One Payroll Correction print format
 #: onedesk/one_hr/print_format/one_payroll_correction/one_payroll_correction.json
 msgid "For Month"
@@ -16683,12 +16710,12 @@ msgid "For {0}, {1} of materials and {2} of steps, {3} in all"
 msgstr "لـ {0}، {1} مواد و{2} خطوات، {3} إجمالًا"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "For {opening}."
 msgstr "لوظيفة {opening}."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/expense_claim_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "For {what}. Approve or reject it."
 msgstr "عن {what}. وافق عليه أو ارفضه."
 
@@ -16714,7 +16741,7 @@ msgstr "رقم التوقع"
 msgid "Forecast over by {0}"
 msgstr "التوقع متجاوز بمقدار {0}"
 
-#: frontend/src/home/CrmStory.vue:18
+#: frontend/src/crm/CrmStory.vue:18
 msgid "Forecasted Revenue"
 msgstr "الإيرادات المتوقعة"
 
@@ -17129,7 +17156,7 @@ msgstr "من المشروع"
 msgid "From Year"
 msgstr "من سنة"
 
-#: onedesk/one_hr/ai.py:332
+#: onedesk/one_hr/ai.py:357
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
 
@@ -17187,23 +17214,23 @@ msgstr "من القالب"
 msgid "From their timesheet."
 msgstr "من سجل وقتهم."
 
-#: onedesk/one_hr/ai.py:108
+#: onedesk/one_hr/ai.py:133
 msgid "From this applicant's CV and OneAI's screening of it, what should I confirm on a first call, and what would a short email asking for the missing pieces say?"
 msgstr "من السيرة الذاتية لهذا المتقدم وفحص OneAI لها، ما الذي يجب أن أتأكد منه في أول مكالمة، وماذا تقول رسالة قصيرة تطلب المعلومات الناقصة؟"
 
-#: onedesk/one_hr/ai.py:134
+#: onedesk/one_hr/ai.py:159
 msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
 msgstr "من هذا التقييم، أين يكون هذا الشخص أضعف، وأي من برامجنا التدريبية أو الفعاليات القادمة سيساعد؟ إن لم يناسب أي منها، قل ما الذي يُبحث عنه."
 
-#: onedesk/one_crm/ai.py:72
+#: onedesk/one_crm/ai.py:86
 msgid "From this lead's history, suggest its next step and the day to do it by."
 msgstr "من سجل هذا العميل المحتمل، اقترح خطوته التالية واليوم الذي تُنجز فيه."
 
-#: onedesk/one_crm/ai.py:29
+#: onedesk/one_crm/ai.py:43
 msgid "From this opportunity's history, suggest its next step and the day to do it by."
 msgstr "من سجل هذه الفرصة، اقترح خطوتها التالية واليوم الذي تُنجز فيه."
 
-#: onedesk/one_hr/ai.py:181
+#: onedesk/one_hr/ai.py:206
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يجب أن تتضمن أسبوعاه الأولان يومًا بيوم، ومن يتولى كل جزء؟"
 
@@ -17239,12 +17266,12 @@ msgid "From {device}, at {address}, on {when}. If it was you, nothing needs doin
 msgstr "من {device}، من العنوان {address}، في {when}. إن كنت أنت، فلا شيء عليك. وإن لم تكن، فغيّر كلمة المرور وسجّل الخروج من كل مكان آخر في تسجيل الدخول في AccountCenter."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/leave_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "From {from_date} to {to_date}. Approve or reject it."
 msgstr "من {from_date} إلى {to_date}. وافق عليه أو ارفضه."
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/new_lead_waiting.md
+#: onedesk/one_crm/notifications.py
 msgid "From {source}. Take it from Home under Unclaimed Leads, or give it to somebody."
 msgstr "المصدر: {source}. خذه من الصفحة الرئيسية تحت العملاء المحتملين غير المُطالب بهم، أو أعطه لأحدهم."
 
@@ -17304,7 +17331,7 @@ msgstr "المخالصة النهائية"
 msgid "Funding"
 msgstr "التمويل"
 
-#: frontend/src/home/CrmStory.vue:11
+#: frontend/src/crm/CrmStory.vue:11
 msgid "Funnel Conversion"
 msgstr "التحويل عبر المسار"
 
@@ -17514,7 +17541,7 @@ msgid "Given to"
 msgstr "مُسندة إلى"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/given_to_you.md
+#: onedesk/one_crm/notifications.py
 msgid "Given to You"
 msgstr "أُسند إليك"
 
@@ -17796,7 +17823,7 @@ msgid "Grievance"
 msgstr "شكوى"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/grievance_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Grievance Answered"
 msgstr "الرد على الشكوى"
 
@@ -17806,7 +17833,7 @@ msgid "Grievance No"
 msgstr "رقم التظلم"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/grievance_raised.md
+#: onedesk/one_hr/notifications.py
 msgid "Grievance Raised"
 msgstr "تظلّم مقدَّم"
 
@@ -17825,7 +17852,7 @@ msgstr "التظلمات"
 #. Label in the One Payslip print format
 #. Label in the One Payslip Compact print format
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:84
+#: frontend/src/hr/HrStory.vue:84
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -17921,11 +17948,7 @@ msgid "HIGHESTMODSEQ"
 msgstr "HIGHESTMODSEQ"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/attendance_request_asked.md
-#: onedesk/notifications/one_hr/could_not_mark_left.md
-#: onedesk/notifications/one_hr/job_requisition_asked.md
-#: onedesk/notifications/one_hr/passkey_reset_asked.md
-#: onedesk/notifications/one_hr/referral_received.md
+#: onedesk/one_hr/notifications.py
 msgid "HR"
 msgstr "الموارد البشرية"
 
@@ -17960,17 +17983,12 @@ msgid "HR User"
 msgstr ""
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/contract_ending.md
-#: onedesk/notifications/one_hr/probation_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "HR and the employee's manager"
 msgstr "الموارد البشرية ومدير الموظف"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/check_in_place_proposed.md
-#: onedesk/notifications/one_hr/earned_leave_not_allocated.md
-#: onedesk/notifications/one_hr/employee_details_changed.md
-#: onedesk/notifications/one_hr/letter_requested.md
-#: onedesk/notifications/one_hr/shift_not_reading_check_ins.md
+#: onedesk/one_hr/notifications.py
 msgid "HR managers"
 msgstr "مديرو الموارد البشرية"
 
@@ -17985,7 +18003,7 @@ msgstr ""
 msgid "Had"
 msgstr "الرصيد السابق"
 
-#: frontend/src/home/HrStory.vue:88 onedesk/one_hr/calendar.py:106
+#: frontend/src/hr/HrStory.vue:88 onedesk/one_hr/calendar.py:106
 msgid "Half Day"
 msgstr ""
 
@@ -18118,11 +18136,11 @@ msgstr "الرأس"
 msgid "Head Office"
 msgstr "المكتب الرئيسي"
 
-#: frontend/src/home/HrHome.vue:119
+#: frontend/src/hr/HrHome.vue:119
 msgid "Headcount"
 msgstr "عدد الموظفين"
 
-#: frontend/src/home/HrStory.vue:12
+#: frontend/src/hr/HrStory.vue:12
 msgid "Headcount by Department"
 msgstr "عدد الموظفين حسب القسم"
 
@@ -18277,7 +18295,7 @@ msgstr "مرحبًا {0}"
 msgid "Help"
 msgstr "مساعدة"
 
-#: onedesk/one_hr/ai.py:48 onedesk/one_hr/ai.py:267
+#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
 msgid "Help me book time off."
 msgstr "ساعدني في حجز إجازة."
 
@@ -18358,13 +18376,13 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
-#: frontend/src/home/HrStory.vue:42 onedesk/one_hr/home.py:27
+#: frontend/src/hr/HrStory.vue:42 onedesk/one_hr/home.py:27
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Hiring"
 msgstr "التوظيف"
 
-#: frontend/src/home/HrStory.vue:44
+#: frontend/src/hr/HrStory.vue:44
 msgid "Hiring Funnel"
 msgstr "مسار التوظيف"
 
@@ -18430,7 +18448,7 @@ msgstr "تذكيرات العطلات"
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_hr/calendar.py:36 onedesk/one_hr/control.py:15
 #: onedesk/public/js/one_hr/hr_control.js:44
-#: onedesk/public/js/one_hr/hr_control.js:140
+#: onedesk/public/js/one_hr/hr_control.js:135
 msgid "Holidays"
 msgstr "العطلات"
 
@@ -18440,7 +18458,7 @@ msgid "Holidays Changed"
 msgstr "تغيّرت العطلات"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/holidays_coming_up.md
+#: onedesk/one_hr/notifications.py
 msgid "Holidays Coming Up"
 msgstr "عطلات قادمة"
 
@@ -18899,11 +18917,11 @@ msgstr "عدد الأشخاص الذين تشملهم النتيجة، محفو�
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr "عدد مساحات العمل التي يتسع لها قبل أن يمتلئ. اتركه 0 بلا حد."
 
-#: onedesk/one_hr/ai.py:51 onedesk/one_hr/ai.py:277
+#: onedesk/one_hr/ai.py:76 onedesk/one_hr/ai.py:302
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr "كم تبقى لي من الإجازات، ومن في فريقي في إجازة خلال الأسبوعين القادمين؟"
 
-#: onedesk/one_hr/ai.py:50 onedesk/one_hr/ai.py:276
+#: onedesk/one_hr/ai.py:75 onedesk/one_hr/ai.py:301
 msgid "How much leave do I have?"
 msgstr "كم لديّ من الإجازات؟"
 
@@ -19015,11 +19033,11 @@ msgstr "تغيّر شكل {0} منذ اقتراح هذا، لذا لم يعد ي
 msgid "I agree to these"
 msgstr "أوافق على هذه"
 
-#: onedesk/one_crm/ai.py:79
+#: onedesk/one_crm/ai.py:93
 msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this lead and suggest the next step it leads to."
 msgstr "تحدثت معهم للتو بالهاتف. اسألني عمّا قيل، ثم سجّله كمكالمة على هذا العميل المحتمل واقترح الخطوة التالية التي تؤدي إليها."
 
-#: onedesk/one_crm/ai.py:36
+#: onedesk/one_crm/ai.py:50
 msgid "I have just spoken to them on the phone. Ask me what was said, then write it up as a call on this opportunity and suggest the next step it leads to."
 msgstr "تحدثت معهم للتو على الهاتف. اسألني عمّا قيل، ثم سجّله كمكالمة على هذه الفرصة واقترح الخطوة التالية التي تؤدي إليها."
 
@@ -19028,7 +19046,7 @@ msgstr "تحدثت معهم للتو على الهاتف. اسألني عمّا 
 msgid "I have received the equipment above in good order. I will look after it, and give it back when I am asked."
 msgstr "استلمت المعدات المذكورة أعلاه بحالة جيدة. سأعتني بها، وأعيدها عندما يُطلب مني ذلك."
 
-#: onedesk/one_hr/ai.py:216 onedesk/one_hr/ai.py:262
+#: onedesk/one_hr/ai.py:241 onedesk/one_hr/ai.py:287
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "أحتاج خطابًا من الموارد البشرية — شهادة راتب أو شهادة خبرة أو خطاب توظيف. اسألني أيها ولمن هو، ثم صِغه."
 
@@ -19068,7 +19086,7 @@ msgstr "أريد تغيير {0}."
 msgid "I will paste a list. Suggest each line as a new value of the list I have open, leaving out any it already has."
 msgstr "سألصق قائمة. اقترح كل سطر قيمةً جديدة في القائمة المفتوحة، واترك ما هو موجود فيها بالفعل."
 
-#: onedesk/one_crm/ai.py:94
+#: onedesk/one_crm/ai.py:108
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr "سألصق توقيع بريد إلكتروني. أضف الشخص الوارد فيه كعميل محتمل."
 
@@ -19600,7 +19618,7 @@ msgstr "ضمن قوالبك"
 msgid "In {0}"
 msgstr "في {0}"
 
-#: frontend/src/home/HrHome.vue:207 frontend/src/project/Milestones.vue:29
+#: frontend/src/hr/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_admin/heads.py:184 onedesk/one_project/heads.py:77
 #: onedesk/one_project/portal.py:263 onedesk/one_project/view.py:428
 #: onedesk/one_project/view.py:636
@@ -20045,17 +20063,17 @@ msgid "Interview"
 msgstr "مقابلة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_feedback_due.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Feedback Due"
 msgstr "تقييم المقابلة مستحق"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_moved.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Moved"
 msgstr "نُقلت المقابلة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Moved, to the Applicant"
 msgstr "نُقلت المقابلة، إلى المتقدم"
 
@@ -20084,22 +20102,22 @@ msgid "Interview Recording Part"
 msgstr "جزء من تسجيل المقابلة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Scheduled"
 msgstr "مقابلة مجدولة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Scheduled, to the Applicant"
 msgstr "تحديد موعد المقابلة، للمتقدّم"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_soon.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Soon"
 msgstr "مقابلة قريبة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview Soon, to the Applicant"
 msgstr "مقابلة قريبة، إلى المتقدم"
 
@@ -20110,7 +20128,7 @@ msgid "Interview Type"
 msgstr "نوع المقابلة"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_soon.md
+#: onedesk/one_hr/notifications.py
 msgid "Interview with {applicant} at {when}"
 msgstr "مقابلة مع {applicant} في {when}"
 
@@ -20139,7 +20157,7 @@ msgstr "المحاورون"
 msgid "Interviews"
 msgstr "المقابلات"
 
-#: frontend/src/home/HrHome.vue:229
+#: frontend/src/hr/HrHome.vue:229
 msgid "Interviews Today"
 msgstr "مقابلات اليوم"
 
@@ -20699,7 +20717,7 @@ msgid "It is saved to OneCloud › Workbook Templates and is available to everyo
 msgstr "يُحفظ في OneCloud › قوالب المصنفات ويكون متاحًا لكل من في الشركة."
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/given_to_you.md
+#: onedesk/one_crm/notifications.py
 msgid "It is yours now: it is on your Home, and its next step is yours to take."
 msgstr "أصبح لك الآن: موجود في صفحتك الرئيسية، وخطوته التالية عليك."
 
@@ -20708,12 +20726,12 @@ msgid "It is yours."
 msgstr "أصبح لك."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/birthday.md
+#: onedesk/one_hr/notifications.py
 msgid "It is {employee}'s birthday today"
 msgstr "اليوم عيد ميلاد {employee}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/work_anniversary.md
+#: onedesk/one_hr/notifications.py
 msgid "It is {employee}'s work anniversary"
 msgstr "اليوم ذكرى انضمام {employee} للعمل"
 
@@ -20740,7 +20758,7 @@ msgid "It needs more work before it is done. {facts}"
 msgstr "تحتاج إلى مزيد من العمل قبل إنجازها. {facts}"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/check_in_rejected.md
+#: onedesk/one_hr/notifications.py
 msgid "It no longer counts toward your attendance. If you were there, ask for the day with an attendance request. {note}"
 msgstr "لم يعد يُحتسب في حضورك. إن كنت هناك، فاطلب اليوم بطلب حضور. {note}"
 
@@ -20760,7 +20778,7 @@ msgid "It sends somewhere new, so it waits for an administrator to agree."
 msgstr "يُرسل إلى جهة جديدة، لذا ينتظر موافقة مسؤول."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_moved.md
+#: onedesk/one_hr/notifications.py
 msgid "It was at {was}."
 msgstr "كانت في {was}."
 
@@ -20793,7 +20811,7 @@ msgid "It was due {due} and is not recorded done. Do it, then record it done on 
 msgstr "كان موعدها {due} ولم تُسجَّل منجزة. أنجزها، ثم سجّلها منجزة في الصيانة."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/leave_cancelled.md
+#: onedesk/one_hr/notifications.py
 msgid "It was from {from_date} to {to_date}. They are working those days now."
 msgstr "كانت من {from_date} إلى {to_date}. سيعمل في تلك الأيام الآن."
 
@@ -21151,7 +21169,7 @@ msgid "Its Mail"
 msgstr "بريده"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/payslip_by_email.md
+#: onedesk/one_hr/notifications.py
 msgid "Its employee"
 msgstr "موظفه"
 
@@ -21161,9 +21179,7 @@ msgid "Its fields are now {fields}."
 msgstr "حقولها الآن: {fields}."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/interview_moved.md
-#: onedesk/notifications/one_hr/interview_scheduled.md
-#: onedesk/notifications/one_hr/interview_soon.md
+#: onedesk/one_hr/notifications.py
 msgid "Its interviewers"
 msgstr "المُقابِلون فيها"
 
@@ -21187,7 +21203,7 @@ msgid "Its name, status and health, with the facts its kind needs; click the nam
 msgstr "اسمه وحالته وسلامته، مع ما يحتاجه نوعه من معلومات؛ انقر الاسم أو الحالة لتغييرها."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/given_to_you.md
+#: onedesk/one_crm/notifications.py
 msgid "Its new owner"
 msgstr "مالكه الجديد"
 
@@ -21201,7 +21217,7 @@ msgid "Its own way"
 msgstr "بطريقته الخاصة"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/they_replied.md
+#: onedesk/one_crm/notifications.py
 msgid "Its owner"
 msgstr "مالكه"
 
@@ -21210,7 +21226,7 @@ msgid "Its people, apps, storage and OneAI credits, each opening where it is man
 msgstr "أشخاصها وتطبيقاتها ومساحتها ورصيد OneAI، وكلٌّ يفتح حيث يُدار."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/check_in_flagged.md
+#: onedesk/one_hr/notifications.py
 msgid "Its reviewers"
 msgstr "مراجعوه"
 
@@ -21301,12 +21317,12 @@ msgid "Job Requisition"
 msgstr "طلب توظيف"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/job_requisition_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Job Requisition Answered"
 msgstr "الرد على طلب التوظيف"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/job_requisition_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Job Requisition Asked"
 msgstr "طلب توظيف جديد"
 
@@ -21329,7 +21345,7 @@ msgstr "مهام يشغّلها OneAI في {0} من تلقاء نفسه، وكل
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Payslip print format
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:83
+#: frontend/src/hr/HrStory.vue:83
 #: onedesk/one_hr/print_format/one_exit_interview/one_exit_interview.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
@@ -21337,11 +21353,11 @@ msgstr "مهام يشغّلها OneAI في {0} من تلقاء نفسه، وكل
 msgid "Joined"
 msgstr "انضموا"
 
-#: frontend/src/home/HrHome.vue:120
+#: frontend/src/hr/HrHome.vue:120
 msgid "Joined This Month"
 msgstr "انضموا هذا الشهر"
 
-#: frontend/src/home/HrStory.vue:15
+#: frontend/src/hr/HrStory.vue:15
 msgid "Joined and Left"
 msgstr "انضموا وغادروا"
 
@@ -21349,10 +21365,6 @@ msgstr "انضموا وغادروا"
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Joinery installed"
 msgstr "تركيب أعمال النجارة"
-
-#: onedesk/one_studio/ai_setup.py:643
-msgid "Joining"
-msgstr "ينضمون"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:29 onedesk/one_hr/sidebar/onehr/onehr.json
@@ -21796,7 +21808,7 @@ msgstr "آخر فتح"
 msgid "Last Ordered"
 msgstr "آخر طلب"
 
-#: frontend/src/home/HrHome.vue:123
+#: frontend/src/hr/HrHome.vue:123
 msgid "Last Payroll"
 msgstr "آخر مسير رواتب"
 
@@ -22000,8 +22012,8 @@ msgstr "المخطط وتوزيع المقاعد"
 
 #. Label of the lead (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:211 frontend/src/home/CrmHome.vue:229
-#: frontend/src/home/CrmStory.vue:78 frontend/src/home/CrmStory.vue:91
+#: frontend/src/crm/CrmHome.vue:211 frontend/src/crm/CrmHome.vue:229
+#: frontend/src/crm/CrmStory.vue:78 frontend/src/crm/CrmStory.vue:91
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_crm/heads.py:125 onedesk/one_crm/home.py:31
 #: onedesk/one_crm/home.py:110 onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -22042,7 +22054,7 @@ msgstr ""
 msgid "Lead Time in Days"
 msgstr "مدة التوريد بالأيام"
 
-#: frontend/src/home/CrmStory.vue:40
+#: frontend/src/crm/CrmStory.vue:40
 msgid "Lead by Source"
 msgstr "العملاء المحتملون حسب المصدر"
 
@@ -22050,11 +22062,11 @@ msgstr "العملاء المحتملون حسب المصدر"
 msgid "Leads"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:207
+#: frontend/src/crm/CrmHome.vue:207
 msgid "Leads Due"
 msgstr "عملاء محتملون مستحقون"
 
-#: frontend/src/home/CrmHome.vue:100
+#: frontend/src/crm/CrmHome.vue:100
 msgid "Leads This Month"
 msgstr "العملاء المحتملون هذا الشهر"
 
@@ -22070,6 +22082,10 @@ msgstr "العملاء المكسوبون (%)"
 #: onedesk/one_crm/home.py:140
 msgid "Leads spoken to often that have not bought."
 msgstr "عملاء محتملون تحدثنا إليهم كثيرًا ولم يشتروا."
+
+#: onedesk/one_crm/tour.py:12
+msgid "Leads, Opportunities and Quotations"
+msgstr "العملاء المحتملون والفرص وعروض الأسعار"
 
 #: onedesk/one/privacy_copy.py:19
 msgid "Leads, deals, customers, suppliers and applications with your address"
@@ -22140,20 +22156,20 @@ msgid "Leave Allocation"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/leave_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Leave Answered"
 msgstr "تم الرد على الإجازة"
 
 #. Label in the One Leave Application print format
 #. Label of a Sidebar Item
-#: frontend/src/home/HrHome.vue:215 onedesk/one_hr/home.py:117
+#: frontend/src/hr/HrHome.vue:215 onedesk/one_hr/home.py:117
 #: onedesk/one_hr/print_format/one_leave_application/one_leave_application.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Leave Application"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/leave_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Leave Asked"
 msgstr "إجازة مطلوبة"
 
@@ -22175,7 +22191,7 @@ msgid "Leave Block List"
 msgstr "قائمة حظر الإجازات"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/leave_cancelled.md
+#: onedesk/one_hr/notifications.py
 msgid "Leave Cancelled"
 msgstr "أُلغيت الإجازة"
 
@@ -22193,7 +22209,7 @@ msgid "Leave Encashment"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/leave_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "Leave Expiring"
 msgstr "إجازة توشك أن تنتهي"
 
@@ -22223,7 +22239,7 @@ msgstr ""
 msgid "Leave Policy Assignment"
 msgstr "تعيين سياسة الإجازات"
 
-#: frontend/src/home/HrStory.vue:26
+#: frontend/src/hr/HrStory.vue:26
 msgid "Leave Taken This Year"
 msgstr "الإجازات المأخوذة هذا العام"
 
@@ -22331,7 +22347,7 @@ msgid "Leaves On"
 msgstr "تاريخ المغادرة"
 
 #. Label of the 'employee_exit_settings_section' field in DocType 'HR Settings'
-#: onedesk/one_hr/custom/hr_settings.json onedesk/one_studio/ai_setup.py:645
+#: onedesk/one_hr/custom/hr_settings.json
 msgid "Leaving"
 msgstr "ترك العمل"
 
@@ -22359,7 +22375,7 @@ msgstr ""
 #. Label in the One Employee Benefit Application print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:83 frontend/src/inventory/lots/LotRows.vue:10
+#: frontend/src/hr/HrStory.vue:83 frontend/src/inventory/lots/LotRows.vue:10
 #: frontend/src/project/Money.vue:37 frontend/src/project/Money.vue:144
 #: frontend/src/project/Overview.vue:213
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:10
@@ -22383,7 +22399,7 @@ msgstr "غادر مبكراً بـ"
 msgid "Left Early Only"
 msgstr "من غادروا مبكراً فقط"
 
-#: frontend/src/books/BooksHome.vue:229 frontend/src/home/CrmHome.vue:251
+#: frontend/src/books/BooksHome.vue:229 frontend/src/crm/CrmHome.vue:251
 #: frontend/src/inventory/home/InventoryHome.vue:285
 msgid "Left as Drafts"
 msgstr "تُركت كمسودات"
@@ -22584,7 +22600,7 @@ msgid "Letter Heads"
 msgstr "ترويسات الرسائل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/letter_issued.md
+#: onedesk/one_hr/notifications.py
 msgid "Letter Issued"
 msgstr "تم إصدار الخطاب"
 
@@ -22595,7 +22611,7 @@ msgid "Letter No"
 msgstr "رقم الخطاب"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/letter_requested.md
+#: onedesk/one_hr/notifications.py
 msgid "Letter Requested"
 msgstr "طلب خطاب"
 
@@ -23148,7 +23164,7 @@ msgstr "الخسارة"
 
 #. Option for the 'Status' (Select) field in DocType 'Device'
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
-#: frontend/src/home/CrmStory.vue:32
+#: frontend/src/crm/CrmStory.vue:32
 #: onedesk/one_account/doctype/device/device.json
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:70
@@ -23169,7 +23185,7 @@ msgstr ""
 msgid "Lost Reason"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:32 onedesk/one_crm/lists.py:11
+#: frontend/src/crm/CrmStory.vue:32 onedesk/one_crm/lists.py:11
 msgid "Lost Reasons"
 msgstr "أسباب الخسارة"
 
@@ -23712,7 +23728,7 @@ msgstr "أنشئ أمر عمل"
 msgid "Make an event everybody in the workspace sees, such as a closure or a training day."
 msgstr "إنشاء حدث يراه كل من في مساحة العمل، مثل إغلاق أو يوم تدريب."
 
-#: onedesk/one_hr/ai.py:34 onedesk/one_hr/ai.py:270
+#: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:295
 msgid "Make an expense claim from this receipt."
 msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
 
@@ -23978,7 +23994,7 @@ msgid "Mark {0} {1}"
 msgstr "تعيين {0} {1}"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/one_hr/notifications.py
 msgid "Marked Absent"
 msgstr "سُجّل غائبًا"
 
@@ -24271,7 +24287,7 @@ msgstr "يمكنه تغيير"
 msgid "May Send"
 msgstr "يمكنه الإرسال"
 
-#: onedesk/one_crm/ai.py:438
+#: onedesk/one_crm/ai.py:452
 msgid "Maybe the same as {0} {1}, by {2}."
 msgstr "ربما هو نفسه {0} {1}، حسب {2}."
 
@@ -24385,6 +24401,10 @@ msgstr "دمج / إلغاء الدمج"
 #: frontend/src/sheet/components/SheetEditor/index.vue:268
 msgid "Merge / unmerge cells"
 msgstr "دمج الخلايا / إلغاء دمجها"
+
+#: onedesk/one_crm/abilities.py:23
+msgid "Merge Duplicate Leads"
+msgstr "دمج العملاء المحتملين المكررين"
 
 #: onedesk/public/js/crm_record.js:45
 msgid "Merge Into {0}"
@@ -24866,7 +24886,7 @@ msgstr "تم نقل عنصر واحد إلى سلة المحذوفات"
 msgid "Moved Back"
 msgstr "أُعيد نقله"
 
-#: onedesk/one_hr/hiring.py:875
+#: onedesk/one_hr/hiring.py:878
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
@@ -24880,7 +24900,7 @@ msgstr "نُقل إلى المهملات"
 msgid "Moved to {0}"
 msgstr "نُقل إلى {0}"
 
-#: onedesk/one_hr/hiring.py:875
+#: onedesk/one_hr/hiring.py:878
 msgid "Moved up from {0}% to {1}%."
 msgstr "ارتفع من {0}% إلى {1}%."
 
@@ -25257,7 +25277,7 @@ msgstr "صافي 45 يومًا"
 #. Label in the One Payslip print format
 #. Label in the One Payslip Compact print format
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:84
+#: frontend/src/hr/HrStory.vue:84
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -25444,12 +25464,12 @@ msgstr "معرفة جديدة"
 msgid "New Label"
 msgstr "تصنيف جديد"
 
-#: frontend/src/home/CrmHome.vue:272
+#: frontend/src/crm/CrmHome.vue:272
 msgid "New Lead"
 msgstr "عميل محتمل جديد"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/new_lead_waiting.md
+#: onedesk/one_crm/notifications.py
 msgid "New Lead Waiting"
 msgstr "عميل محتمل جديد ينتظر"
 
@@ -25493,7 +25513,7 @@ msgstr "البريد الجديد مضبوط على لا يُقرأ في تبو�
 msgid "New Material Request"
 msgstr "طلب مواد جديد"
 
-#: frontend/src/home/CrmHome.vue:273
+#: frontend/src/crm/CrmHome.vue:273
 msgid "New Opportunity"
 msgstr "فرصة جديدة"
 
@@ -25549,7 +25569,7 @@ msgstr "أمر شراء جديد"
 msgid "New Purchase Receipt"
 msgstr "إيصال شراء جديد"
 
-#: frontend/src/home/CrmHome.vue:274
+#: frontend/src/crm/CrmHome.vue:274
 #: frontend/src/inventory/item/ItemCustomers.vue:72
 #: frontend/src/project/Overview.vue:387
 msgid "New Quotation"
@@ -25670,6 +25690,10 @@ msgstr "مجلد جديد"
 #: frontend/src/one/Home.vue:39 onedesk/one/tour.py:42
 msgid "New in Your Apps"
 msgstr "الجديد في تطبيقاتك"
+
+#: onedesk/one_crm/tour.py:19
+msgid "New leads, the pipeline and what it is likely worth, what was won and how often; click one to open it."
+msgstr "العملاء المحتملون الجدد، وخط المبيعات وقيمته المرجحة، وما تم كسبه وبأي نسبة؛ انقر أيًّا منها لفتحه."
 
 #: onedesk/one_studio/ai_setup.py:528
 msgid "New level"
@@ -25820,7 +25844,7 @@ msgstr "الحالة التالية"
 
 #. Label of the one_next_step (Data) field in DocType 'Lead'
 #. Label of the one_next_step (Data) field in DocType 'Opportunity'
-#: frontend/src/home/CrmHome.vue:184 onedesk/one_crm/calendar.py:30
+#: frontend/src/crm/CrmHome.vue:184 onedesk/one_crm/calendar.py:30
 #: onedesk/one_crm/calendar.py:40 onedesk/one_crm/calendar.py:69
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
 #: onedesk/one_crm/heads.py:218 onedesk/one_crm/heads.py:219
@@ -25836,9 +25860,8 @@ msgstr "تمت الخطوة التالية"
 #. Name of a notification
 #. Label of the one_next_on (Datetime) field in DocType 'Lead'
 #. Label of the one_next_on (Datetime) field in DocType 'Opportunity'
-#: onedesk/notifications/one_crm/next_step_due.md
 #: onedesk/one_crm/custom/lead.json onedesk/one_crm/custom/opportunity.json
-#: onedesk/public/js/next_step.js:23
+#: onedesk/one_crm/notifications.py onedesk/public/js/next_step.js:23
 msgid "Next Step Due"
 msgstr "موعد الخطوة التالية"
 
@@ -25965,7 +25988,7 @@ msgstr "التالي: {0}"
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
-#: onedesk/one_calendar/abilities.py:20
+#: onedesk/one_calendar/abilities.py:20 onedesk/one_crm/abilities.py:17
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -25978,6 +26001,7 @@ msgstr "التالي: {0}"
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
+#: onedesk/one_hr/abilities.py:17
 #: onedesk/one_hr/print_format/one_additional_salary/one_additional_salary.json
 #: onedesk/one_hr/print_format/one_arrear/one_arrear.json
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -26081,7 +26105,7 @@ msgstr "لا يوجد موقع"
 msgid "No More Holidays This Year"
 msgstr "لا عطلات أخرى هذا العام"
 
-#: frontend/src/home/CrmHome.vue:243
+#: frontend/src/crm/CrmHome.vue:243
 msgid "No Next Step"
 msgstr "بلا خطوة تالية"
 
@@ -26197,7 +26221,7 @@ msgid "No changes found in timings."
 msgstr "لم يتغير شيء في المواعيد."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/one_hr/notifications.py
 msgid "No check-in was found for that day. If you were working, ask for it with an attendance request."
 msgstr "لم يُعثر على تسجيل حضور لذلك اليوم. إن كنت تعمل، فاطلبه بطلب حضور."
 
@@ -26973,7 +26997,7 @@ msgid "Not Booked"
 msgstr "غير مسجّل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md onedesk/public/js/desk.js:239
+#: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:239
 msgid "Not Checked In"
 msgstr "لم يسجّل الحضور"
 
@@ -27024,7 +27048,7 @@ msgstr "لا يُقرأ"
 msgid "Not Ready to Send"
 msgstr "غير جاهز للإرسال"
 
-#: frontend/src/home/CrmStory.vue:104 frontend/src/home/HrStory.vue:78
+#: frontend/src/crm/CrmStory.vue:104 frontend/src/hr/HrStory.vue:78
 #: onedesk/one_crm/measure.py:90
 msgid "Not Recorded"
 msgstr "غير مسجّل"
@@ -27489,7 +27513,7 @@ msgid "Nothing leaves a warehouse that does not have it."
 msgstr "لا يخرج من المستودع ما ليس فيه."
 
 #: frontend/portal/src/pages/List.vue:85 frontend/src/books/BooksHome.vue:28
-#: frontend/src/home/CrmHome.vue:28 frontend/src/home/HrHome.vue:28
+#: frontend/src/crm/CrmHome.vue:28 frontend/src/hr/HrHome.vue:28
 #: frontend/src/inventory/home/InventoryHome.vue:28
 #: frontend/src/inventory/to_order/ToOrderPage.vue:15
 #: onedesk/public/js/window/json_view.js:107
@@ -27505,8 +27529,8 @@ msgstr "لا شيء يطابق. جرّب كلمات أقل."
 msgid "Nothing more on it will be ordered or moved. Ask them if you still need it."
 msgstr "لن يُطلب أو يُنقل منه شيء بعد الآن. اسأله إن كنت لا تزال تحتاجه."
 
-#: frontend/src/books/BooksHome.vue:17 frontend/src/home/CrmHome.vue:17
-#: frontend/src/home/HrHome.vue:17
+#: frontend/src/books/BooksHome.vue:17 frontend/src/crm/CrmHome.vue:17
+#: frontend/src/hr/HrHome.vue:17
 #: frontend/src/inventory/home/InventoryHome.vue:17
 msgid "Nothing needs you"
 msgstr "لا شيء يحتاجك"
@@ -27799,7 +27823,7 @@ msgid "Number of rows"
 msgstr "عدد الصفوف"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/document_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "Number {number}. Renew it before then, and add the new one to their record."
 msgstr "الرقم {number}. جدّدها قبل ذلك، وأضف الجديدة إلى سجله."
 
@@ -28034,12 +28058,12 @@ msgstr "المتوفر الآن"
 msgid "On Hold"
 msgstr ""
 
-#: frontend/src/home/HrStory.vue:89
+#: frontend/src/hr/HrStory.vue:89
 msgid "On Leave"
 msgstr "في إجازة"
 
 #. Label of a number card
-#: frontend/src/home/HrHome.vue:122
+#: frontend/src/hr/HrHome.vue:122
 #: onedesk/one_hr/number_card/on_leave_today/on_leave_today.json
 msgid "On Leave Today"
 msgstr "في إجازة اليوم"
@@ -28104,7 +28128,7 @@ msgid "On a Holiday"
 msgstr "في عطلة"
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/email_campaign.md
+#: onedesk/one_crm/notifications.py
 msgid "On a campaign's schedule, in the templates it names."
 msgstr "حسب جدول الحملة، بالقوالب التي تحددها."
 
@@ -28181,12 +28205,12 @@ msgid "On the morning after one of your invoices goes past its due date unpaid."
 msgstr "صباح اليوم التالي لتجاوز إحدى فواتيرك موعد استحقاقها دون دفع."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/birthday.md
+#: onedesk/one_hr/notifications.py
 msgid "On the morning of a colleague's birthday."
 msgstr "صباح عيد ميلاد زميل."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/work_anniversary.md
+#: onedesk/one_hr/notifications.py
 msgid "On the morning of a colleague's work anniversary."
 msgstr "صباح ذكرى عمل زميل."
 
@@ -28361,7 +28385,7 @@ msgid "One Task"
 msgstr "OneTask"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/check_in_place_proposed.md
+#: onedesk/one_hr/notifications.py
 msgid "One added it because people kept checking in from it. Reject it if it is wrong."
 msgstr "أضافه One لأن الموظفين ظلوا يسجلون حضورهم منه. ارفضه إن كان خاطئاً."
 
@@ -28778,7 +28802,7 @@ msgstr "تُفتح الصفحة الرئيسية لـ OneBook، وفي كل مر
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/CrmHome.vue:267 onedesk/one_crm/page/onecrm/onecrm.js:5
+#: frontend/src/crm/CrmHome.vue:267 onedesk/one_crm/page/onecrm/onecrm.js:5
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneCRM"
@@ -28808,7 +28832,7 @@ msgstr "OneCloud"
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/home/HrHome.vue:242 onedesk/one_hr/page/onehr/onehr.js:5
+#: frontend/src/hr/HrHome.vue:242 onedesk/one_hr/page/onehr/onehr.js:5
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneHR"
@@ -28956,7 +28980,7 @@ msgstr "الخطوة التالية تكون فقط لعميل محتمل أو �
 msgid "Only a lead or an opportunity has an overview."
 msgstr "النظرة العامة تكون فقط لعميل محتمل أو فرصة."
 
-#: onedesk/one_crm/capture.py:127
+#: onedesk/one_crm/capture.py:136
 msgid "Only a lead or an opportunity has an owner."
 msgstr "المالك يكون فقط لعميل محتمل أو فرصة."
 
@@ -28999,10 +29023,6 @@ msgstr "لا يمكن تطبيق شيء في النموذج إلا التغيي�
 #: onedesk/one/lists.py:96
 msgid "Only administrators and the app's managers keep its lists."
 msgstr "لا يدير قوائم التطبيق إلا المسؤولون ومديرو التطبيق."
-
-#: onedesk/one_hr/hiring.py:836
-msgid "Only an HR Manager can delete the sound of a recorded interview."
-msgstr "لا يمكن حذف صوت مقابلة مسجّلة إلا لمدير الموارد البشرية."
 
 #: onedesk/one_hr/ai_grievance.py:161
 msgid "Only an HR Manager can mark a grievance as not sensitive."
@@ -29170,10 +29190,6 @@ msgstr "لا يمكن نقل التقرير إلا لمن حفظه أو لأحد
 #: onedesk/one_portal/share.py:198
 msgid "Only the record's own contacts can be hidden from."
 msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل نفسه."
-
-#: onedesk/public/js/one_hr/hr_control.js:135
-msgid "Only the workspace's administrators set the holidays."
-msgstr "لا يضبط العطلات إلا مسؤولو مساحة العمل."
 
 #: onedesk/public/js/one/access_center.js:13
 msgid "Only the workspace's administrators set who may do what."
@@ -29361,7 +29377,7 @@ msgstr "فتح الخطة"
 msgid "Open Plan and Credits"
 msgstr "فتح الخطة والرصيد"
 
-#: frontend/src/home/HrHome.vue:124
+#: frontend/src/hr/HrHome.vue:124
 msgid "Open Positions"
 msgstr "الوظائف الشاغرة"
 
@@ -29390,8 +29406,7 @@ msgid "Open Request for Quotation"
 msgstr "فتح طلب عرض الأسعار"
 
 #. The button on a notification's mail
-#: onedesk/notifications/one_hr/passkey_reset_done.md
-#: onedesk/one_account/notifications.py
+#: onedesk/one_account/notifications.py onedesk/one_hr/notifications.py
 msgid "Open Sign-in"
 msgstr "فتح تسجيل الدخول"
 
@@ -29467,7 +29482,7 @@ msgid "Open it"
 msgstr "افتحها"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/grievance_raised.md
+#: onedesk/one_hr/notifications.py
 msgid "Open it to read it and decide what happens next."
 msgstr "افتحه لتقرأه وتقرر الخطوة التالية."
 
@@ -29489,8 +29504,7 @@ msgid "Open record"
 msgstr "فتح السجل"
 
 #. The button on a notification's mail
-#: onedesk/notifications/one_hr/holidays_coming_up.md
-#: onedesk/one_calendar/notifications.py
+#: onedesk/one_calendar/notifications.py onedesk/one_hr/notifications.py
 msgid "Open the Calendar"
 msgstr "فتح التقويم"
 
@@ -29621,7 +29635,7 @@ msgstr "لا يمكن للمشغّلين تعيين {0}."
 msgid "Opportunities"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:198
+#: frontend/src/crm/CrmHome.vue:198
 msgid "Opportunities Due"
 msgstr "فرص مستحقة"
 
@@ -29629,7 +29643,7 @@ msgstr "فرص مستحقة"
 msgid "Opportunities by stage or owner, month by month."
 msgstr "الفرص حسب المرحلة أو المسؤول، شهرًا بشهر."
 
-#: frontend/src/home/CrmStory.vue:11
+#: frontend/src/crm/CrmStory.vue:11
 msgid "Opportunities of the last 12 months"
 msgstr "فرص آخر 12 شهرًا"
 
@@ -29643,8 +29657,8 @@ msgstr "الفرص وعروض الأسعار والطلبات والفواتير
 
 #. Label of the deal (Link) field in DocType 'Account Request'
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:202 frontend/src/home/CrmHome.vue:220
-#: frontend/src/home/CrmStory.vue:79
+#: frontend/src/crm/CrmHome.vue:202 frontend/src/crm/CrmHome.vue:220
+#: frontend/src/crm/CrmStory.vue:79
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_book/heads.py:707 onedesk/one_crm/heads.py:126
 #: onedesk/one_crm/heads.py:341 onedesk/one_crm/home.py:111
@@ -29688,15 +29702,15 @@ msgstr ""
 msgid "Opportunity Type"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:29
+#: frontend/src/crm/CrmStory.vue:29
 msgid "Opportunity by Owner"
 msgstr "الفرص حسب المسؤول"
 
-#: frontend/src/home/CrmStory.vue:26
+#: frontend/src/crm/CrmStory.vue:26
 msgid "Opportunity by Sales Stage"
 msgstr "الفرص حسب مرحلة المبيعات"
 
-#: frontend/src/home/CrmStory.vue:46
+#: frontend/src/crm/CrmStory.vue:46
 msgid "Opportunity by Territory"
 msgstr "الفرص حسب المنطقة"
 
@@ -30377,8 +30391,8 @@ msgid "Overtime recorded by hand: {0} hours, {1}."
 msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 
 #. Label of a Sidebar Item
-#: frontend/src/books/BooksHome.vue:87 frontend/src/home/CrmHome.vue:87
-#: frontend/src/home/HrHome.vue:106
+#: frontend/src/books/BooksHome.vue:87 frontend/src/crm/CrmHome.vue:87
+#: frontend/src/hr/HrHome.vue:106
 #: frontend/src/inventory/home/InventoryHome.vue:103
 #: frontend/src/inventory/item/ItemPage.vue:189
 #: frontend/src/project/ProjectPage.vue:175
@@ -30390,6 +30404,10 @@ msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 #: onedesk/public/js/window/form.js:136
 msgid "Overview"
 msgstr "نظرة عامة"
+
+#: onedesk/one_crm/tour.py:25
+msgid "Overview says how sales are going, Today what needs you, Everything finds any list, and Reports and Setup sit beside them."
+msgstr "نظرة عامة تقول كيف تسير المبيعات، واليوم ما يحتاجك، وكل شيء يجد أي قائمة، والتقارير والإعداد بجانبها."
 
 #: onedesk/one_inventory/tour.py:25
 msgid "Overview says how stock is doing, Today what needs you, Everything finds any list, and Reports and Setup sit beside them."
@@ -30941,12 +30959,12 @@ msgid "Passkey Added"
 msgstr "أُضيف مفتاح مرور"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/passkey_reset_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Passkey Reset Asked"
 msgstr "طلب إعادة تعيين مفتاح المرور"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/passkey_reset_done.md
+#: onedesk/one_hr/notifications.py
 msgid "Passkey Reset Done"
 msgstr "تمت إعادة تعيين مفتاح المرور"
 
@@ -31048,7 +31066,7 @@ msgstr "تنتهي صلاحية كلمات المرور بعد (أيام)"
 msgid "Past Due"
 msgstr "متأخرة"
 
-#: frontend/src/home/CrmHome.vue:216
+#: frontend/src/crm/CrmHome.vue:216
 msgid "Past Expected Closing Date"
 msgstr "تجاوزت تاريخ الإغلاق المتوقع"
 
@@ -31115,7 +31133,7 @@ msgstr "متوقفة مؤقتاً"
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
-#: frontend/src/home/HrStory.vue:31 frontend/src/intake/IntakePanel.vue:24
+#: frontend/src/hr/HrStory.vue:31 frontend/src/intake/IntakePanel.vue:24
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json
 #: onedesk/one_hr/custom/employee_grievance.json onedesk/one_hr/home.py:24
@@ -31554,7 +31572,7 @@ msgstr "مدفوعات تُطابق مع الفواتير لعدة أطراف د
 msgid "Payments matched to the invoices they settle."
 msgstr "مدفوعات مطابقة للفواتير التي تسددها."
 
-#: frontend/src/home/HrStory.vue:34
+#: frontend/src/hr/HrStory.vue:34
 msgid "Payroll"
 msgstr "الرواتب"
 
@@ -31631,7 +31649,7 @@ msgid "Payslip No"
 msgstr "رقم قسيمة الراتب"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/payslip_by_email.md
+#: onedesk/one_hr/notifications.py
 msgid "Payslip by Email"
 msgstr "قسيمة الراتب بالبريد"
 
@@ -31739,6 +31757,10 @@ msgstr "الأشخاص الذين لديهم وصول"
 #: onedesk/one/notifications.py
 msgid "People with the step's role who can open the record"
 msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
+
+#: onedesk/one_hr/tour.py:12
+msgid "People, Time and Pay"
+msgstr "الأشخاص والوقت والرواتب"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:49
 msgid "Per Call"
@@ -32204,8 +32226,8 @@ msgstr "القطع"
 msgid "Pipeline"
 msgstr "مسار المبيعات"
 
-#: frontend/src/home/CrmHome.vue:101 frontend/src/home/CrmStory.vue:46
-#: frontend/src/home/CrmStory.vue:87
+#: frontend/src/crm/CrmHome.vue:101 frontend/src/crm/CrmStory.vue:46
+#: frontend/src/crm/CrmStory.vue:87
 msgid "Pipeline Value"
 msgstr "قيمة خط المبيعات"
 
@@ -32253,7 +32275,7 @@ msgstr "أعدت ترتيب {0} متقدمين بناءً على ما كتبته
 msgid "Placement"
 msgstr "الموضع"
 
-#: onedesk/one_hr/ai.py:62
+#: onedesk/one_hr/ai.py:87
 msgid "Placing everybody again from what I wrote about each. The applicant list updates when I am done."
 msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن كل منهم. ستتحدّث قائمة المتقدمين عند الانتهاء."
 
@@ -32348,7 +32370,7 @@ msgstr "خطة الربع القادم"
 msgid "Plan my day"
 msgstr "خطط يومي"
 
-#: onedesk/one_hr/ai.py:180
+#: onedesk/one_hr/ai.py:205
 msgid "Plan the first two weeks"
 msgstr "تخطيط الأسبوعين الأولين"
 
@@ -32597,7 +32619,7 @@ msgstr "تجهيز المكتب الجديد"
 msgid "Prepare the Team"
 msgstr "تجهيز الفريق"
 
-#: onedesk/one_hr/ai.py:151
+#: onedesk/one_hr/ai.py:176
 msgid "Prepare this interview again"
 msgstr "إعادة تحضير هذه المقابلة"
 
@@ -32660,7 +32682,7 @@ msgstr "أُعدّ لـ"
 msgid "Preparing"
 msgstr "قيد الإعداد"
 
-#: onedesk/one_hr/ai.py:156
+#: onedesk/one_hr/ai.py:181
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr "أحضّرها من جديد. سيتحدّث التحضير للمقابلة عند الانتهاء."
 
@@ -32673,7 +32695,7 @@ msgid "Preparing. You'll be notified when it's ready."
 msgstr "قيد التجهيز. ستُبلَّغ عند جاهزيته."
 
 #. Option for the 'Day Status' (Select) field in DocType 'Attendance Reason'
-#: frontend/src/home/HrStory.vue:86
+#: frontend/src/hr/HrStory.vue:86
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:174
 #: onedesk/public/js/band.js:164
@@ -32681,7 +32703,7 @@ msgid "Present"
 msgstr "حاضر"
 
 #. Label of a number card
-#: frontend/src/home/HrHome.vue:121
+#: frontend/src/hr/HrHome.vue:121
 #: onedesk/one_hr/number_card/present_today/present_today.json
 msgid "Present Today"
 msgstr "الحاضرون اليوم"
@@ -32960,7 +32982,7 @@ msgid "Probability (%)"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/probation_ending.md onedesk/one_hr/home.py:794
+#: onedesk/one_hr/home.py:794 onedesk/one_hr/notifications.py
 msgid "Probation Ending"
 msgstr "انتهاء فترة التجربة"
 
@@ -33098,7 +33120,7 @@ msgid "Proforma Invoice"
 msgstr "فاتورة مبدئية"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+#: onedesk/one_crm/notifications.py
 msgid "Proforma Invoice by Mail"
 msgstr "فاتورة مبدئية بالبريد"
 
@@ -33944,7 +33966,7 @@ msgstr "الحصص"
 #. Label in the One Quotation Classic print format
 #. Label in the One Quotation with Images print format
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmHome.vue:238 onedesk/one_crm/heads.py:127
+#: frontend/src/crm/CrmHome.vue:238 onedesk/one_crm/heads.py:127
 #: onedesk/one_crm/heads.py:300 onedesk/one_crm/home.py:118
 #: onedesk/one_crm/home.py:337
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
@@ -33957,12 +33979,12 @@ msgid "Quotation"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/quotation_accepted.md
+#: onedesk/one_crm/notifications.py
 msgid "Quotation Accepted"
 msgstr "قبول عرض سعر"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/quotation_declined.md
+#: onedesk/one_crm/notifications.py
 msgid "Quotation Declined"
 msgstr "رفض عرض سعر"
 
@@ -33981,7 +34003,7 @@ msgid "Quotation No"
 msgstr "رقم عرض السعر"
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/quotation_running_out.md
+#: onedesk/one_crm/notifications.py
 msgid "Quotation Running Out"
 msgstr "عرض سعر يقترب من الانتهاء"
 
@@ -34005,7 +34027,7 @@ msgstr "انتهت صلاحية عرض السعر {0} في {1}."
 msgid "Quotations"
 msgstr "عروض الأسعار"
 
-#: frontend/src/home/CrmHome.vue:234
+#: frontend/src/crm/CrmHome.vue:234
 msgid "Quotations Expiring"
 msgstr "عروض أسعار تنتهي صلاحيتها"
 
@@ -34117,7 +34139,7 @@ msgstr "النطاق"
 msgid "Rank among applicants for the same Job Opening, out of 100. Updated as new applicants arrive."
 msgstr "الترتيب بين المتقدمين للوظيفة نفسها، من 100. يتحدّث مع وصول متقدمين جدد."
 
-#: onedesk/one_hr/ai.py:57
+#: onedesk/one_hr/ai.py:82
 msgid "Rank the applicants again"
 msgstr "إعادة ترتيب المتقدمين"
 
@@ -34421,7 +34443,7 @@ msgstr "القراءة متوقفة"
 msgid "Reading is turned off for this workspace."
 msgstr "القراءة متوقفة في مساحة العمل هذه."
 
-#: onedesk/one_hr/ai.py:97
+#: onedesk/one_hr/ai.py:122
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
 msgstr "أقرأ السيرة الذاتية من جديد. سيظهر التقييم والترتيب وتعليق على هذا المتقدم عند الانتهاء."
 
@@ -35051,7 +35073,7 @@ msgid "Referral"
 msgstr "الترشيح"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/referral_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Referral Answered"
 msgstr "الرد على الترشيح"
 
@@ -35061,7 +35083,7 @@ msgid "Referral No"
 msgstr "رقم الترشيح"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/referral_received.md
+#: onedesk/one_hr/notifications.py
 msgid "Referral Received"
 msgstr "ترشيح جديد"
 
@@ -35178,7 +35200,7 @@ msgid "Registered On"
 msgstr "تاريخ التسجيل"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/passkey_reset_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Registered on {registered}. Asking from {asking}, at {address}.{why}<br>If that is them, reset their passkey on their employee record."
 msgstr "مسجَّل على {registered}. يطلب من {asking}، على العنوان {address}.{why}<br>إن كان هو فعلاً، فأعد تعيين مفتاح مروره من سجل الموظف."
 
@@ -35390,7 +35412,7 @@ msgstr "الصور الخارجية مخفية."
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
 #: frontend/src/sheet/components/SheetEditor/index.vue:888
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
-#: onedesk/one/ai.py:1857 onedesk/public/js/module_settings.js:275
+#: onedesk/one/ai.py:1857 onedesk/public/js/module_settings.js:282
 #: onedesk/public/js/one_account/account_center.js:264
 #: onedesk/public/js/one_account/account_center.js:629
 #: onedesk/public/js/one_account/account_center.js:850
@@ -35497,7 +35519,7 @@ msgstr "إزالة {0}؟"
 msgid "Remove {0}? Mailboxes already connected at it keep working."
 msgstr "إزالة {0}؟ تبقى صناديق البريد المربوطة عليه تعمل."
 
-#: onedesk/one/ai.py:1101
+#: onedesk/one/ai.py:1101 onedesk/one_studio/ai_setup.py:645
 msgid "Removed"
 msgstr "تمت الإزالة"
 
@@ -35559,12 +35581,12 @@ msgid "Renamed to {0}"
 msgstr "أُعيدت تسميته إلى {0}"
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/contract_expiring.md
+#: onedesk/one_crm/notifications.py
 msgid "Renew it, or let it end."
 msgstr "جدّده، أو دعه ينتهي."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/contract_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "Renew it, or plan their last day."
 msgstr "جدّده، أو خطّط ليومه الأخير."
 
@@ -35877,7 +35899,7 @@ msgstr "طلب الحذف"
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/home/HrHome.vue:247
+#: frontend/src/hr/HrHome.vue:247
 msgid "Request Leave"
 msgstr "طلب إجازة"
 
@@ -36541,7 +36563,7 @@ msgid "Review the quotation"
 msgstr "مراجعة عرض السعر"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/referral_received.md
+#: onedesk/one_hr/notifications.py
 msgid "Review the referral."
 msgstr "راجع الترشيح."
 
@@ -36967,7 +36989,7 @@ msgid "Salary Withholding"
 msgstr "حجز الراتب"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/new_lead_waiting.md
+#: onedesk/one_crm/notifications.py
 msgid "Sales"
 msgstr "المبيعات"
 
@@ -37041,7 +37063,7 @@ msgstr ""
 msgid "Sales Person-wise Transaction Summary"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:23 onedesk/one_crm/home.py:22
+#: frontend/src/crm/CrmStory.vue:23 onedesk/one_crm/home.py:22
 #: onedesk/one_crm/home.py:30
 msgid "Sales Pipeline"
 msgstr ""
@@ -37064,7 +37086,7 @@ msgstr ""
 msgid "Sales Taxes and Charges Template"
 msgstr ""
 
-#: frontend/src/home/CrmStory.vue:15
+#: frontend/src/crm/CrmStory.vue:15
 msgid "Sales Trend"
 msgstr "اتجاه المبيعات"
 
@@ -37092,6 +37114,10 @@ msgstr "تذكر المبيعات والمشتريات إجماليها بالح
 #: onedesk/one_book/ready.py:191
 msgid "Sales are reported under the company's emirate."
 msgstr "تُسجّل المبيعات تحت إمارة الشركة."
+
+#: onedesk/one_crm/tour.py:18
+msgid "Sales at a Glance"
+msgstr "المبيعات في لمحة"
 
 #: onedesk/one_crm/home.py:142
 msgid "Sales by customer, item or territory, month by month."
@@ -37213,7 +37239,7 @@ msgstr "حفظ في ملفاتي"
 #: frontend/src/inventory/item/ItemBarcodes.vue:77
 #: frontend/src/sheet/components/SheetEditor/index.vue:63
 #: frontend/src/writer/DocumentPage.vue:189
-#: onedesk/public/js/module_settings.js:235
+#: onedesk/public/js/module_settings.js:242
 #: onedesk/public/js/one/one_control.js:251
 #: onedesk/public/js/one/role_matrix.js:44
 #: onedesk/public/js/one_mail/mail_templates.js:336
@@ -37412,7 +37438,7 @@ msgstr "فرز المتقدمين"
 msgid "Screen New Applicants"
 msgstr "فرز المتقدمين الجدد"
 
-#: onedesk/one_hr/ai.py:92
+#: onedesk/one_hr/ai.py:117
 msgid "Screen again"
 msgstr "إعادة الفحص"
 
@@ -37444,7 +37470,7 @@ msgstr "الإحكام والعزل ضد الطقس"
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/portal/src/pages/List.vue:4 frontend/portal/src/pages/List.vue:11
 #: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1165
-#: frontend/src/home/CrmHome.vue:25 frontend/src/home/HrHome.vue:25
+#: frontend/src/crm/CrmHome.vue:25 frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/lots/LotsPage.vue:15
 #: frontend/src/inventory/quotes/QuotesPage.vue:10
@@ -37677,8 +37703,7 @@ msgid "Self Rating"
 msgstr "التقييم الذاتي"
 
 #. Label of a Sidebar Item
-#: frontend/src/home/CrmStory.vue:9
-#: frontend/src/inventory/item/ItemPage.vue:192
+#: frontend/src/crm/CrmStory.vue:9 frontend/src/inventory/item/ItemPage.vue:192
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 #: onedesk/one_crm/home.py:23 onedesk/one_crm/home.py:32
 #: onedesk/one_crm/home.py:70 onedesk/one_crm/sidebar/onecrm/onecrm.json
@@ -37860,7 +37885,7 @@ msgid "Sensitive"
 msgstr "حساسة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/sensitive_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "Sensitive Grievance"
 msgstr "شكوى حساسة"
 
@@ -38439,12 +38464,14 @@ msgid "Settings Changed"
 msgstr "تغيّرت الإعدادات"
 
 #: onedesk/one_book/tour.py:30 onedesk/one_calendar/tour.py:36
+#: onedesk/one_crm/tour.py:30 onedesk/one_hr/tour.py:30
 #: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
 #: onedesk/one_project/tour.py:31 onedesk/one_task/tour.py:30
 msgid "Settings and Tours"
 msgstr "الإعدادات والجولات"
 
-#: onedesk/one_book/tour.py:31 onedesk/one_inventory/tour.py:31
+#: onedesk/one_book/tour.py:31 onedesk/one_crm/tour.py:31
+#: onedesk/one_hr/tour.py:31 onedesk/one_inventory/tour.py:31
 #: onedesk/one_project/tour.py:32 onedesk/one_task/tour.py:31
 msgid "Settings is the cog, and the tour runs again from the button beside it."
 msgstr "الإعدادات هي الترس، والجولة تعمل من جديد من الزر المجاور له."
@@ -38698,12 +38725,12 @@ msgid "Shift"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/shift_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Shift Answered"
 msgstr "تم الرد على المناوبة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/shift_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Shift Asked"
 msgstr "مناوبة مطلوبة"
 
@@ -38747,7 +38774,7 @@ msgid "Shift Location Place"
 msgstr "موقع ضمن موقع المناوبة"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/shift_not_reading_check_ins.md
+#: onedesk/one_hr/notifications.py
 msgid "Shift Not Reading Check-ins"
 msgstr "وردية لا تقرأ تسجيلات الحضور"
 
@@ -38850,12 +38877,12 @@ msgid "Short {0}"
 msgstr "ناقص {0}"
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_soon.md
+#: onedesk/one_hr/notifications.py
 msgid "Shortly before an interview you are on, as long before as HR Settings says."
 msgstr "قبيل مقابلة أنت فيها، بالمدة التي تحددها إعدادات الموارد البشرية."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Shortly before an interview, as long before as HR Settings says."
 msgstr "قبيل المقابلة، بالمدة التي تحددها إعدادات الموارد البشرية."
 
@@ -40040,7 +40067,7 @@ msgstr "الفرز"
 
 #. Label of the source (Select) field in DocType 'Credit Ledger Entry'
 #. Label of the source_name (Dynamic Link) field in DocType 'AI Chunk'
-#: frontend/src/home/CrmStory.vue:37
+#: frontend/src/crm/CrmStory.vue:37
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:13
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json onedesk/one_crm/heads.py:302
@@ -40357,7 +40384,7 @@ msgstr "بدأ في"
 msgid "Started by {0} from Workspace Settings."
 msgstr "بدأه {0} من إعدادات مساحة العمل."
 
-#: frontend/src/books/BooksHome.vue:235 frontend/src/home/CrmHome.vue:257
+#: frontend/src/books/BooksHome.vue:235 frontend/src/crm/CrmHome.vue:257
 #: frontend/src/inventory/home/InventoryHome.vue:291
 msgid "Started more than a day ago"
 msgstr "بدأت منذ أكثر من يوم"
@@ -41375,7 +41402,7 @@ msgstr "اقترح موافقة لفواتير الشراء: تبدأ الفات
 msgid "Suggest numbering new Sales Invoices as INV-, the year and a five-digit number that starts again each year, keeping the series already in use."
 msgstr "اقترح ترقيم فواتير المبيعات الجديدة بـ INV- ثم السنة ثم رقم من خمس خانات يبدأ من جديد كل سنة، مع الإبقاء على السلسلة المستخدمة حاليًا."
 
-#: onedesk/one_crm/ai.py:28 onedesk/one_crm/ai.py:71
+#: onedesk/one_crm/ai.py:42 onedesk/one_crm/ai.py:85
 msgid "Suggest the next step"
 msgstr "اقترح الخطوة التالية"
 
@@ -41395,7 +41422,7 @@ msgstr "اقترح تغييراً على {0}"
 msgid "Suggested by {0} and approved by {1}"
 msgstr "اقترحه {0} ووافق عليه {1}"
 
-#: onedesk/one_ai/tools.py:701 onedesk/one_hr/ai.py:338
+#: onedesk/one_ai/tools.py:701 onedesk/one_hr/ai.py:363
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -41914,7 +41941,7 @@ msgid "Take the Tour of This Screen"
 msgstr "جولة في هذه الشاشة"
 
 #. Label in the One Salary Statement print format
-#: frontend/src/home/HrStory.vue:26
+#: frontend/src/hr/HrStory.vue:26
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
 #: onedesk/one_studio/print_blocks.py:943
 msgid "Taken"
@@ -42927,6 +42954,10 @@ msgstr "اختيار الاتحاد الأوروبي يحفظ ملفات مسا�
 msgid "The Field"
 msgstr "الحقل"
 
+#: onedesk/one_hr/tour.py:18
+msgid "The Figures That Matter"
+msgstr "الأرقام المهمة"
+
 #. Description of the 'Press Root Domain' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -42986,7 +43017,8 @@ msgstr "إقرار ضريبة القيمة المضافة في الإمارات�
 msgid "The VAT return knows the VAT accounts"
 msgstr "إقرار ضريبة القيمة المضافة يعرف حساباتها"
 
-#: onedesk/one_book/tour.py:24 onedesk/one_inventory/tour.py:24
+#: onedesk/one_book/tour.py:24 onedesk/one_crm/tour.py:24
+#: onedesk/one_hr/tour.py:24 onedesk/one_inventory/tour.py:24
 msgid "The Views of Home"
 msgstr "عروض الرئيسية"
 
@@ -43078,7 +43110,7 @@ msgid "The address this workspace was given. It cannot be removed."
 msgstr "العنوان الممنوح لمساحة العمل هذه. لا يمكن إزالته."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+#: onedesk/one_crm/notifications.py
 msgid "The addresses it is sent to"
 msgstr "العناوين المرسَل إليها"
 
@@ -43107,9 +43139,7 @@ msgid "The app's name on the bench group, the same as app_name in its hooks.py."
 msgstr "اسم التطبيق في مجموعة الخوادم، وهو نفسه app_name في ملف hooks.py الخاص به."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
-#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
-#: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "The applicant"
 msgstr "المتقدّم"
 
@@ -43145,7 +43175,7 @@ msgid "The browser would not say where it is."
 msgstr "لم يفصح المتصفح عن موقعه."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/email_campaign.md
+#: onedesk/one_crm/notifications.py
 msgid "The campaign's leads and contacts"
 msgstr "العملاء المحتملون وجهات الاتصال في الحملة"
 
@@ -43261,7 +43291,7 @@ msgid "The content's hash, so the same file anywhere is read once."
 msgstr "بصمة المحتوى، حتى يُقرأ الملف نفسه مرة واحدة أينما كان."
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/contract_expiring.md
+#: onedesk/one_crm/notifications.py
 msgid "The contract with {party} ends on {date}"
 msgstr "ينتهي العقد مع {party} في {date}"
 
@@ -43348,7 +43378,7 @@ msgid "The day after subcontracted goods were due back and have not all come bac
 msgstr "في اليوم التالي لموعد إرجاع بضائع التعاقد من الباطن دون أن تعود كلها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/exit_interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "The day before your exit interview."
 msgstr "في اليوم السابق لمقابلة خروجك."
 
@@ -43421,24 +43451,12 @@ msgid "The edits in this save are invalid."
 msgstr "التعديلات في عملية الحفظ هذه غير صالحة."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/appraisal_started.md
-#: onedesk/notifications/one_hr/attendance_request_answered.md
-#: onedesk/notifications/one_hr/check_in_closed_for_you.md
-#: onedesk/notifications/one_hr/check_in_rejected.md
-#: onedesk/notifications/one_hr/expense_claim_answered.md
-#: onedesk/notifications/one_hr/expense_claim_paid.md
-#: onedesk/notifications/one_hr/leave_answered.md
-#: onedesk/notifications/one_hr/leave_expiring.md
-#: onedesk/notifications/one_hr/letter_issued.md
-#: onedesk/notifications/one_hr/marked_absent.md
-#: onedesk/notifications/one_hr/not_checked_in.md
-#: onedesk/notifications/one_hr/passkey_reset_done.md
-#: onedesk/notifications/one_hr/shift_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "The employee"
 msgstr "الموظف"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/document_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "The employee and HR"
 msgstr "الموظف والموارد البشرية"
 
@@ -43448,8 +43466,7 @@ msgid "The employee is not expected back today. A day closed at the shift end is
 msgstr "لا يُتوقع عودة الموظف اليوم. ويُسجَّل اليوم الذي يُغلق عند نهاية المناوبة تحت هذا السبب."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/exit_interview_scheduled.md
-#: onedesk/notifications/one_hr/exit_questionnaire.md
+#: onedesk/one_hr/notifications.py
 msgid "The employee leaving"
 msgstr "الموظف المغادر"
 
@@ -43459,7 +43476,7 @@ msgid "The employee the standing names, and the supplier"
 msgstr "الموظف الذي يسمّيه التصنيف، والمورد"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/grievance_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "The employee who raised it"
 msgstr "الموظف الذي قدّمها"
 
@@ -43621,12 +43638,12 @@ msgid "The industry a lead or a customer is in."
 msgstr "القطاع الذي يعمل فيه العميل المحتمل أو العميل."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/interview_feedback_due.md
+#: onedesk/one_hr/notifications.py
 msgid "The interview was on {when}."
 msgstr "كانت المقابلة في {when}."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_moved.md
+#: onedesk/one_hr/notifications.py
 msgid "The interview with {applicant} moved to {when}"
 msgstr "نُقلت المقابلة مع {applicant} إلى {when}"
 
@@ -43671,7 +43688,7 @@ msgstr "المهمة التي أُجري الطلب من أجلها، ليرى �
 msgid "The kinds of expense somebody may claim."
 msgstr "أنواع النفقات التي يجوز المطالبة بها."
 
-#: frontend/src/home/HrStory.vue:23
+#: frontend/src/hr/HrStory.vue:23
 msgid "The last 30 days"
 msgstr "آخر 30 يومًا"
 
@@ -43701,7 +43718,7 @@ msgid "The layout would print badly: {0}."
 msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/next_step_due.md
+#: onedesk/one_crm/notifications.py
 msgid "The lead's or opportunity's owner"
 msgstr "مالك العميل المحتمل أو الفرصة"
 
@@ -43973,9 +43990,7 @@ msgid "The people the automation names"
 msgstr "الأشخاص الذين تحددهم الأتمتة"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/grievance_raised.md
-#: onedesk/notifications/one_hr/sensitive_grievance.md
-#: onedesk/notifications/one_hr/urgent_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "The people trusted with grievances"
 msgstr "المؤتمنون على الشكاوى"
 
@@ -44200,7 +44215,7 @@ msgstr "فريق المشروع"
 msgid "The project's requests still to order"
 msgstr "طلبات المشروع التي لم تُطلب بعد"
 
-#: onedesk/public/js/one_hr/hr_control.js:142
+#: onedesk/public/js/one_hr/hr_control.js:137
 msgid "The public holidays and weekly days off leave and attendance count around."
 msgstr "العطلات الرسمية وأيام الراحة الأسبوعية التي تُحسب الإجازات والحضور حولها."
 
@@ -44707,7 +44722,7 @@ msgid "Their address is {email}. Approve it, or hold it and say why, under Works
 msgstr "عنوانه {email}. وافق عليه، أو علّقه واذكر السبب، من مساحة العمل › طلبات الخصوصية. يمنح القانون مهلة شهر واحد."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/expense_claim_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Their expense approver, or HR when none is set"
 msgstr "معتمد النفقات، أو الموارد البشرية إن لم يُحدَّد"
 
@@ -44717,13 +44732,12 @@ msgid "Their information gathered"
 msgstr "جمع معلوماتهم"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/leave_asked.md
-#: onedesk/notifications/one_hr/leave_cancelled.md
+#: onedesk/one_hr/notifications.py
 msgid "Their leave approver, or HR when none is set"
 msgstr "معتمد الإجازات، أو الموارد البشرية إن لم يُحدَّد"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/could_not_mark_left.md
+#: onedesk/one_hr/notifications.py
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}<br>Fix that, then set their status to Left."
 msgstr "أُنهي مفتاح مروره وتكليفات الورديات، لكن الحالة لا تزال نشطة: {why}<br>أصلح ذلك، ثم اجعل حالته غادر."
 
@@ -44732,7 +44746,7 @@ msgid "Their role already allows everything here."
 msgstr "دوره يسمح أصلًا بكل شيء هنا."
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/shift_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "Their shift approver, or HR when none is set"
 msgstr "معتمد الورديات، أو الموارد البشرية إن لم يُحدَّد"
 
@@ -44937,7 +44951,7 @@ msgid "These webhooks could not deliver after every try: {webhooks}. Open each c
 msgstr "تعذّر على هذه الويب هوكس التسليم بعد كل المحاولات: {webhooks}. افتح كل استدعاء لترى بماذا ردّ النظام الآخر."
 
 #. Name of a notification
-#: onedesk/notifications/one_crm/they_replied.md
+#: onedesk/one_crm/notifications.py
 msgid "They Replied"
 msgstr "ردّوا"
 
@@ -44970,7 +44984,7 @@ msgid "They claimed {0} and {1} was sanctioned."
 msgstr "طالب بمبلغ {0} واعتُمد {1}."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/leave_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "They do not carry forward. Apply for them before then if you want them."
 msgstr "لا تُرحَّل. قدّم طلبها قبل ذلك إن أردتها."
 
@@ -44992,7 +45006,7 @@ msgid "They have waited more than a week, and the law allows one month to respon
 msgstr "انتظرت أكثر من أسبوع، ويمنح القانون شهراً للرد. قرّر بشأنها في نسخ البيانات وحذف الحسابات."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/work_anniversary.md
+#: onedesk/one_hr/notifications.py
 msgid "They joined on {joined}."
 msgstr "انضم في {joined}."
 
@@ -45285,10 +45299,6 @@ msgstr "هذا الرابط لم يعد يعمل"
 msgid "This link no longer works. Ask whoever sent it for a new one."
 msgstr "لم يعد هذا الرابط يعمل. اطلب رابطاً جديداً ممن أرسله."
 
-#: onedesk/public/js/one_hr/hr_control.js:56
-msgid "This list ends on {0}, in {1} days"
-msgstr "تنتهي هذه القائمة في {0}، بعد {1} يومًا"
-
 #: onedesk/public/js/crm_record.js:37
 msgid "This may be {0} {1}: the same {2}."
 msgstr "قد يكون هذا {0} {1}: نفس {2}."
@@ -45412,7 +45422,7 @@ msgid "This sheet is protected"
 msgstr "هذه الورقة محمية"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/shift_not_reading_check_ins.md
+#: onedesk/one_hr/notifications.py
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr "لهذه المناوبة تسجيلات حضور لكنها لا تقرأها، فلا يُكتب أي سجل حضور وتبقى كل الأرقام التي تعتمد عليه فارغة. افتح المناوبة واضغط قراءة تسجيلات الحضور."
 
@@ -45668,7 +45678,7 @@ msgstr "نقطة البيع"
 #. Settings'
 #. Label in the One Project Update print format
 #. Label in the One Timesheet print format
-#: frontend/portal/src/pages/Project.vue:96 frontend/src/home/HrStory.vue:20
+#: frontend/portal/src/pages/Project.vue:96 frontend/src/hr/HrStory.vue:20
 #: frontend/src/project/Overview.vue:292
 #: frontend/src/sheet/components/SheetEditor/index.vue:1855
 #: frontend/src/sheet/components/SheetEditor/index.vue:2395
@@ -46084,8 +46094,8 @@ msgstr "إلى {0} عملاء"
 msgid "To-dos given to you"
 msgstr "المهام المسندة إليك"
 
-#: frontend/src/books/BooksHome.vue:88 frontend/src/home/CrmHome.vue:88
-#: frontend/src/home/HrHome.vue:107 frontend/src/home/HrHome.vue:207
+#: frontend/src/books/BooksHome.vue:88 frontend/src/crm/CrmHome.vue:88
+#: frontend/src/hr/HrHome.vue:107 frontend/src/hr/HrHome.vue:207
 #: frontend/src/inventory/home/InventoryHome.vue:104
 #: frontend/src/project/MilestoneLanes.vue:16
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:266
@@ -46101,6 +46111,10 @@ msgstr "اليوم"
 #: onedesk/one_book/ready.py:60 onedesk/one_book/ready.py:61
 msgid "Today is in a fiscal year"
 msgstr "اليوم ضمن سنة مالية"
+
+#: onedesk/one_hr/tour.py:25
+msgid "Today is what needs you, from checking in to requests waiting; HR also gets Overview, and Everything finds any list."
+msgstr "اليوم هو ما يحتاجك، من تسجيل الحضور إلى الطلبات المنتظرة؛ وللموارد البشرية نظرة عامة أيضًا، وكل شيء يجد أي قائمة."
 
 #: frontend/src/task/TimerList.vue:14
 msgid "Today on this task"
@@ -46154,7 +46168,7 @@ msgstr "بصمة الرمز"
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
 msgstr "تُقال لـ OneAI كلما كان أحدهم في قائمة هذا النوع أو نموذجه. اتركه فارغًا لملاحظة يجدها عند البحث."
 
-#: frontend/src/home/HrHome.vue:207 frontend/src/project/Milestones.vue:29
+#: frontend/src/hr/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_task/mine.py:17
 msgid "Tomorrow"
 msgstr "غدًا"
@@ -46518,7 +46532,7 @@ msgid "Training Result"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/training_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "Training Scheduled"
 msgstr "تمت جدولة التدريب"
 
@@ -46559,7 +46573,7 @@ msgstr "تفريغ المقابلات"
 msgid "Transcribe Recordings"
 msgstr "تفريغ التسجيلات"
 
-#: onedesk/one_hr/ai.py:189
+#: onedesk/one_hr/ai.py:214
 msgid "Transcribe again"
 msgstr "إعادة التفريغ"
 
@@ -47086,7 +47100,7 @@ msgstr "غير مُسندة"
 msgid "Unchanged"
 msgstr "دون تغيير"
 
-#: frontend/src/home/CrmHome.vue:225
+#: frontend/src/crm/CrmHome.vue:225
 msgid "Unclaimed Leads"
 msgstr "عملاء محتملون بلا مسؤول"
 
@@ -47616,7 +47630,7 @@ msgid "Urgent After Hours"
 msgstr "عاجل بعد ساعات العمل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/urgent_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "Urgent Grievance"
 msgstr "شكوى عاجلة"
 
@@ -48278,7 +48292,7 @@ msgstr "في انتظار Frappe Cloud"
 msgid "Waiting for Prices"
 msgstr "بانتظار الأسعار"
 
-#: frontend/src/home/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
+#: frontend/src/hr/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
 msgid "Waiting for You"
 msgstr "بانتظارك"
@@ -48595,7 +48609,7 @@ msgstr ""
 msgid "Weight UOM"
 msgstr ""
 
-#: frontend/src/home/CrmHome.vue:102 frontend/src/home/CrmStory.vue:84
+#: frontend/src/crm/CrmHome.vue:102 frontend/src/crm/CrmStory.vue:84
 msgid "Weighted Pipeline"
 msgstr "خط المبيعات المرجّح"
 
@@ -48820,11 +48834,11 @@ msgstr "ماذا وصل في هذا الاستلام؟"
 msgid "What came in on this receipt? Say what was accepted and rejected and why, what it cost with freight and duty, which order it was for, and whether it is billed."
 msgstr "ماذا وصل في هذا الاستلام؟ اذكر ما قُبل وما رُفض ولماذا، وكم كلّف مع الشحن والرسوم، ولأي أمر شراء كان، وهل فوتر."
 
-#: onedesk/one_hr/ai.py:28
+#: onedesk/one_hr/ai.py:53
 msgid "What can I claim as an expense here, and who has to approve it?"
 msgstr "ما الذي يمكنني المطالبة به كمصروف هنا، ومن يجب أن يوافق عليه؟"
 
-#: onedesk/one_hr/ai.py:27
+#: onedesk/one_hr/ai.py:52
 msgid "What can I claim?"
 msgstr "ما الذي يمكنني المطالبة به؟"
 
@@ -48832,7 +48846,7 @@ msgstr "ما الذي يمكنني المطالبة به؟"
 msgid "What can One tell me about, and which of those do I also get by email?"
 msgstr "ما الذي يمكن أن يخبرني به One، وأيها يصلني بالبريد أيضاً؟"
 
-#: onedesk/one_hr/ai.py:207
+#: onedesk/one_hr/ai.py:232
 msgid "What changed since last month?"
 msgstr "ما الذي تغيّر منذ الشهر الماضي؟"
 
@@ -48884,7 +48898,7 @@ msgstr "ماذا تعرف عني؟"
 msgid "What do you know about me? Say what you remember from our conversations, and what my workspace told you."
 msgstr "ماذا تعرف عني؟ قل ما تتذكره من محادثاتنا، وما أخبرتك به مساحة عملي."
 
-#: onedesk/one_hr/ai.py:43
+#: onedesk/one_hr/ai.py:68
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr "ماذا تقول سياسة الإجازات لدينا — كم يومًا أحصل عليه من كل نوع، وما الذي يُرحّل، وما أيام العطل؟"
 
@@ -49040,7 +49054,7 @@ msgstr "ما في تقويمي هذا الأسبوع؟ قل ما الأهم وم
 msgid "What is on this week?"
 msgstr "ما في هذا الأسبوع؟"
 
-#: onedesk/one_hr/ai.py:42
+#: onedesk/one_hr/ai.py:67
 msgid "What is our leave policy?"
 msgstr "ما سياسة الإجازات لدينا؟"
 
@@ -49157,7 +49171,7 @@ msgstr "ما الذي يعمل تلقائيًا؟"
 msgid "What runs low, and orders for it."
 msgstr "ما ينفد، والطلبات له."
 
-#: onedesk/one_hr/ai.py:107
+#: onedesk/one_hr/ai.py:132
 msgid "What should I ask first?"
 msgstr "ما الذي يجب أن أسأل عنه أولًا؟"
 
@@ -49507,7 +49521,7 @@ msgstr "ما يجب إرساله، كما سيراه الشخص."
 msgid "What to set up so {0} works the way your company does."
 msgstr "ما يلزم إعداده ليعمل {0} بالطريقة التي تعمل بها شركتك."
 
-#: onedesk/one_hr/ai.py:133
+#: onedesk/one_hr/ai.py:158
 msgid "What training would help?"
 msgstr "ما التدريب الذي سيساعد؟"
 
@@ -49744,27 +49758,27 @@ msgid "When ERPNext makes next year's fiscal year on its own, so somebody checks
 msgstr "عندما ينشئ ERPNext السنة المالية التالية تلقائياً، ليراجعها أحد."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/letter_issued.md
+#: onedesk/one_hr/notifications.py
 msgid "When HR issues a letter you asked for."
 msgstr "عندما تُصدر الموارد البشرية خطاباً طلبته."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/passkey_reset_done.md
+#: onedesk/one_hr/notifications.py
 msgid "When HR resets your passkey after you changed phones."
 msgstr "عندما تعيد الموارد البشرية تعيين مفتاح مرورك بعد تغيير هاتفك."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/grievance_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When HR resolves a grievance you raised, or finds it invalid."
 msgstr "عندما تحلّ الموارد البشرية شكوى قدّمتها، أو تجدها غير صالحة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/check_in_rejected.md
+#: onedesk/one_hr/notifications.py
 msgid "When HR turns down a check-in of yours that was flagged."
 msgstr "عندما ترفض الموارد البشرية تسجيل حضور لك عليه علامة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/check_in_place_proposed.md
+#: onedesk/one_hr/notifications.py
 msgid "When One adds a network or place people check in from, because they keep using it."
 msgstr "عندما يضيف One شبكة أو مكاناً يسجّل منه الناس حضورهم، لأنهم يستخدمونه باستمرار."
 
@@ -49804,12 +49818,12 @@ msgid "When OneAI last wrote it. Errors from before are about other code."
 msgstr "متى كتبها OneAI آخر مرة. الأخطاء السابقة تخص شيفرة أخرى."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/sensitive_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "When OneAI reads a new grievance as sensitive."
 msgstr "عندما يعدّ OneAI شكوى جديدة حساسة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/urgent_grievance.md
+#: onedesk/one_hr/notifications.py
 msgid "When OneAI reads a new grievance as urgent."
 msgstr "عندما يعدّ OneAI شكوى جديدة عاجلة."
 
@@ -49847,12 +49861,12 @@ msgid "When a batch with some still in stock expires within a month."
 msgstr "عندما تنتهي صلاحية دفعة لا يزال منها شيء في المخزون خلال شهر."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/check_in_flagged.md
+#: onedesk/one_hr/notifications.py
 msgid "When a check-in looks wrong and waits for somebody to accept or reject it."
 msgstr "عندما يبدو تسجيل حضور خاطئاً وينتظر من يقبله أو يرفضه."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/contract_expiring.md
+#: onedesk/one_crm/notifications.py
 msgid "When a contract with a customer or supplier ends in two weeks."
 msgstr "عندما ينتهي عقد مع عميل أو مورّد بعد أسبوعين."
 
@@ -49862,12 +49876,12 @@ msgid "When a copy asked for on the Your Data page is ready, with the link to do
 msgstr "عندما تجهز نسخة طُلبت من صفحة «بياناتك»، مع رابط تنزيلها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/quotation_accepted.md
+#: onedesk/one_crm/notifications.py
 msgid "When a customer accepts one of your quotations, on the portal or through a link."
 msgstr "عندما يقبل عميل أحد عروض أسعارك، في البوابة أو عبر رابط."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/quotation_declined.md
+#: onedesk/one_crm/notifications.py
 msgid "When a customer declines one of your quotations, on the portal or through a link."
 msgstr "عندما يرفض عميل أحد عروض أسعارك، في البوابة أو عبر رابط."
 
@@ -49922,7 +49936,7 @@ msgid "When a job to build, suspend, restore, archive or delete a workspace fail
 msgstr "عندما تفشل مهمة لإنشاء مساحة عمل أو إيقافها أو استعادتها أو أرشفتها أو حذفها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/new_lead_waiting.md
+#: onedesk/one_crm/notifications.py
 msgid "When a lead arrives that nobody owns, from the website or the inbox."
 msgstr "عندما يصل عميل محتمل لا يملكه أحد، من الموقع أو البريد الوارد."
 
@@ -49976,7 +49990,7 @@ msgid "When a passkey is added to your account."
 msgstr "عند إضافة مفتاح مرور إلى حسابك."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/document_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "When a passport, visa or permit on an employee's record expires in a month, and again in a week."
 msgstr "عندما تنتهي صلاحية جواز سفر أو تأشيرة أو تصريح في سجل موظف بعد شهر، ومرة أخرى بعد أسبوع."
 
@@ -49996,7 +50010,7 @@ msgid "When a payment request is submitted, with its link to pay, unless it is s
 msgstr "عند اعتماد طلب دفع، مع رابط الدفع، ما لم يُضبط على عدم الإرسال."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/payslip_by_email.md
+#: onedesk/one_hr/notifications.py
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr "عند اعتماد قسيمة راتب، مع القسيمة بصيغة PDF."
 
@@ -50071,7 +50085,7 @@ msgid "When a service on a piece of equipment is past its date and not done."
 msgstr "عندما يفوت موعد صيانة لقطعة من المعدات ولم تُنجز."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/shift_not_reading_check_ins.md
+#: onedesk/one_hr/notifications.py
 msgid "When a shift has check-ins but writes no attendance from them. At most once a week."
 msgstr "عندما تكون لمناوبة تسجيلات حضور لكنها لا تسجّل منها حضوراً. مرة في الأسبوع على الأكثر."
 
@@ -50101,7 +50115,7 @@ msgid "When a task you asked to have reviewed is sent back to you."
 msgstr "عندما تُعاد إليك مهمة طلبت مراجعتها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/training_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "When a training event you attend is scheduled."
 msgstr "عند جدولة فعالية تدريب تحضرها."
 
@@ -50224,7 +50238,7 @@ msgid "When an administrator turns off a passkey of yours on a device."
 msgstr "عندما يوقف مسؤول مفتاح مرور لك على جهاز."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/appraisal_started.md
+#: onedesk/one_hr/notifications.py
 msgid "When an appraisal cycle starts your appraisal."
 msgstr "عندما تبدأ دورة التقييم تقييمك."
 
@@ -50238,42 +50252,42 @@ msgid "When an email is written"
 msgstr "عند كتابة بريد إلكتروني"
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/letter_requested.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee asks HR for a letter."
 msgstr "عندما يطلب موظف خطاباً من الموارد البشرية."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/employee_details_changed.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee changes their address or emergency contact in their profile."
 msgstr "عندما يغيّر موظف عنوانه أو جهة اتصال الطوارئ في ملفه."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/grievance_raised.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee raises a grievance."
 msgstr "عندما يقدّم موظف تظلّماً."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/referral_received.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee refers somebody for a job."
 msgstr "عندما يرشّح موظف أحدًا لوظيفة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/passkey_reset_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee who changed phones asks for their passkey to be reset."
 msgstr "عندما يطلب موظف غيّر هاتفه إعادة تعيين مفتاح مروره."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/contract_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee's contract ends in a month, and again in a week."
 msgstr "عندما ينتهي عقد موظف بعد شهر، ومرة أخرى بعد أسبوع."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/could_not_mark_left.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee's leaving date passes and their status could not be set to Left."
 msgstr "عندما يمر تاريخ مغادرة موظف ولا يمكن تعيين حالته إلى غادر."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/probation_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "When an employee's probation ends in a month, and again in a week."
 msgstr "عندما تنتهي فترة تجربة موظف بعد شهر، ومرة أخرى بعد أسبوع."
 
@@ -50288,17 +50302,17 @@ msgid "When an event you are on starts soon, as its reminders say, or ten minute
 msgstr "حين يقترب موعد حدث أنت مدعو إليه، كما تقول تذكيراته، أو قبله بعشر دقائق."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "When an interview is scheduled with an applicant."
 msgstr "عند تحديد موعد مقابلة مع متقدّم."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "When an interview moves to another time."
 msgstr "عند نقل مقابلة إلى وقت آخر."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_moved.md
+#: onedesk/one_hr/notifications.py
 msgid "When an interview you are on moves to another time."
 msgstr "عند نقل مقابلة أنت فيها إلى وقت آخر."
 
@@ -50322,7 +50336,7 @@ msgid "When an open project's end date is moved."
 msgstr "عند تغيير تاريخ نهاية مشروع مفتوح."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/quotation_running_out.md
+#: onedesk/one_crm/notifications.py
 msgid "When an open quotation has three days left to hold."
 msgstr "عندما يتبقى لعرض سعر مفتوح ثلاثة أيام."
 
@@ -50445,7 +50459,7 @@ msgid "When items fall to their reorder level and a material request is raised f
 msgstr "عندما تنخفض أصناف إلى حد إعادة الطلب ويُنشأ لها طلب مواد."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/leave_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "When leave you have not used lapses in two weeks."
 msgstr "عندما تنتهي إجازة لم تستخدمها بعد أسبوعين."
 
@@ -50455,7 +50469,7 @@ msgid "When mail arrives with attachments and the workspace's storage is full. O
 msgstr "عندما يصل بريد بمرفقات وتخزين مساحة العمل ممتلئ. مرة في اليوم على الأكثر."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/they_replied.md
+#: onedesk/one_crm/notifications.py
 msgid "When mail comes in on a lead or an opportunity you own."
 msgstr "عندما يصل بريد على عميل محتمل أو فرصة تملكها."
 
@@ -50515,7 +50529,7 @@ msgid "When somebody adds you to an event."
 msgstr "حين يضيفك أحد إلى حدث."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/leave_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody applies for leave."
 msgstr "عندما يتقدّم أحد بطلب إجازة."
 
@@ -50530,7 +50544,7 @@ msgid "When somebody asks for a new password on the sign-in page, or an administ
 msgstr "عندما يطلب أحدهم كلمة مرور جديدة في صفحة تسجيل الدخول، أو يرسل له مسؤول رابط إعادة تعيين."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/shift_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody asks for a shift."
 msgstr "عندما يطلب أحد مناوبة."
 
@@ -50545,12 +50559,12 @@ msgid "When somebody asks for items to be moved, issued or made."
 msgstr "عندما يطلب أحدهم نقل أصناف أو صرفها أو تصنيعها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/attendance_request_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody asks to be marked present for days they worked away or from home."
 msgstr "عندما يطلب أحدهم احتسابه حاضراً لأيام عمل فيها خارج المكتب أو من المنزل."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/job_requisition_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody asks to hire for a role."
 msgstr "عندما يطلب أحدهم التوظيف لدور."
 
@@ -50565,7 +50579,7 @@ msgid "When somebody assigns you a task."
 msgstr "عندما يُسند إليك أحدهم مهمة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/appointment_confirmation.md
+#: onedesk/one_crm/notifications.py
 msgid "When somebody books an appointment, and again once it is confirmed, in Appointment Booking Settings' words."
 msgstr "عند حجز موعد، ومرة أخرى عند تأكيده، بكلمات إعدادات حجز المواعيد."
 
@@ -50575,7 +50589,7 @@ msgid "When somebody cancels a task."
 msgstr "عندما يلغي أحدهم مهمة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/leave_cancelled.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody cancels leave that was already decided."
 msgstr "عندما يُلغي أحدهم إجازة تقرّرت."
 
@@ -50585,7 +50599,7 @@ msgid "When somebody changes the due date of a task given to you."
 msgstr "عندما يغيّر أحدهم تاريخ استحقاق مهمة أُسندت إليك."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/expense_claim_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody claims an expense."
 msgstr "عندما يطالب أحد بمصروف."
 
@@ -50610,7 +50624,7 @@ msgid "When somebody flags a customer who is over their credit limit."
 msgstr "عندما ينبّه أحد إلى عميل تجاوز حده الائتماني."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/exit_questionnaire.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody is leaving, in the template HR Settings names."
 msgstr "عندما يغادر أحد، بالقالب المحدد في إعدادات الموارد البشرية."
 
@@ -50620,7 +50634,7 @@ msgid "When somebody makes you a project's manager."
 msgstr "عندما يعيّنك أحد مديراً لمشروع."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/given_to_you.md
+#: onedesk/one_crm/notifications.py
 msgid "When somebody makes you the owner of a lead or an opportunity."
 msgstr "عندما يجعلك أحدهم مالك عميل محتمل أو فرصة."
 
@@ -50655,7 +50669,7 @@ msgid "When somebody saves a bill or invoice for a share of the work done."
 msgstr "عندما يحفظ أحدهم فاتورة لجزء من العمل المنجز."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/proforma_invoice_by_mail.md
+#: onedesk/one_crm/notifications.py
 msgid "When somebody sends a proforma invoice from its order."
 msgstr "عندما يرسل أحدهم فاتورة مبدئية من طلبها."
 
@@ -50685,7 +50699,7 @@ msgid "When somebody takes you off an event you were on."
 msgstr "عندما يُزيلك أحدهم من حدث كنت فيه."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/referral_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When somebody you referred is accepted or rejected."
 msgstr "عندما يُقبل من رشّحته أو يُرفض."
 
@@ -50844,12 +50858,12 @@ msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_crm/next_step_due.md
+#: onedesk/one_crm/notifications.py
 msgid "When the next step on one of your leads or opportunities comes due."
 msgstr "عندما يحين موعد الخطوة التالية على أحد عملائك المحتملين أو فرصك."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/earned_leave_not_allocated.md
+#: onedesk/one_hr/notifications.py
 msgid "When the nightly job cannot allocate earned leave."
 msgstr "عندما تعجز المهمة الليلية عن تخصيص الإجازة المكتسبة."
 
@@ -50919,7 +50933,7 @@ msgid "When what's ordered and spent on a project's cost type passes its budget,
 msgstr "عندما يتجاوز المطلوب والمصروف على نوع تكلفة في مشروع ميزانيته، أو تتجاوز تكلفة وقته ميزانية الوقت."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "When you are put on an interview."
 msgstr "عندما تُضاف إلى مقابلة."
 
@@ -50933,7 +50947,7 @@ msgid "When you can deliver, and anything the buyer should know."
 msgstr "متى يمكنك التسليم، وأي شيء يجب أن يعرفه المشتري."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/check_in_closed_for_you.md
+#: onedesk/one_hr/notifications.py
 msgid "When you checked in, never checked out, and One checked you out at the end of the shift."
 msgstr "عندما سجّلت حضورك ولم تسجّل انصرافك، فسجّله One لك في نهاية المناوبة."
 
@@ -50948,27 +50962,27 @@ msgid "When you sign in from a device or browser you have not used before."
 msgstr "عندما تسجّل الدخول من جهاز أو متصفح لم تستخدمه من قبل."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/attendance_request_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When your attendance request is approved or turned down."
 msgstr "عندما يُوافق على طلب حضورك أو يُرفض."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/expense_claim_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When your expense claim is approved or rejected."
 msgstr "عند اعتماد مطالبة مصروفاتك أو رفضها."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/expense_claim_paid.md
+#: onedesk/one_hr/notifications.py
 msgid "When your expense claim is paid in full."
 msgstr "عندما تُدفع مطالبة نفقاتك بالكامل."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/job_requisition_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When your job requisition is approved or rejected."
 msgstr "عندما يُعتمد طلب التوظيف الذي قدّمته أو يُرفض."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/leave_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When your leave application is approved, rejected or cancelled."
 msgstr "عند اعتماد طلب إجازتك أو رفضه أو إلغائه."
 
@@ -50978,17 +50992,17 @@ msgid "When your password is changed, here or through a reset link."
 msgstr "عند تغيير كلمة مرورك، هنا أو عبر رابط إعادة التعيين."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/not_checked_in.md
+#: onedesk/one_hr/notifications.py
 msgid "When your shift has started and you haven't checked in."
 msgstr "عندما تبدأ مناوبتك ولم تسجّل حضورك بعد."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/one_hr/notifications.py
 msgid "When your shift marks a working day absent because it found no check-in."
 msgstr "عندما تسجّل ورديتك يوم عمل غيابًا لعدم وجود تسجيل حضور."
 
 #. When a notification is sent
-#: onedesk/notifications/one_hr/shift_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "When your shift request is approved or rejected."
 msgstr "عند اعتماد طلب مناوبتك أو رفضه."
 
@@ -51081,11 +51095,11 @@ msgstr "أين وصلت هذه الفاتورة؟"
 msgid "Where does this invoice stand? Say what is still owed, what is late, and which payments and credit notes settled the rest."
 msgstr "أين وصلت هذه الفاتورة؟ قل ما المتبقي، وما المتأخر، وأي الدفعات وإشعارات الدائن سدّدت الباقي."
 
-#: onedesk/one_crm/ai.py:21
+#: onedesk/one_crm/ai.py:35
 msgid "Where does this opportunity stand?"
 msgstr "أين وصلت هذه الفرصة؟"
 
-#: onedesk/one_crm/ai.py:22
+#: onedesk/one_crm/ai.py:36
 msgid "Where does this opportunity stand? Say in a few lines what it is, how far it has got, what was said last and by whom, and what should happen next."
 msgstr "أين وصلت هذه الفرصة؟ قل في بضعة أسطر ما هي، وإلى أين وصلت، وما قيل آخر مرة ومن قاله، وما الذي يجب أن يحدث بعد ذلك."
 
@@ -51255,7 +51269,7 @@ msgstr "أي الأصناف عند مستوى إعادة الطلب أو دون�
 msgid "Which items have more promised to customers than is on hand, by how much, and what is on order for them."
 msgstr "أي الأصناف وُعد العملاء منها بأكثر من المتوفر، وبكم، وما المطلوب منها في أوامر الشراء."
 
-#: onedesk/one_crm/ai.py:99
+#: onedesk/one_crm/ai.py:113
 msgid "Which leads are waiting on us?"
 msgstr "أي العملاء المحتملين ينتظروننا؟"
 
@@ -51295,11 +51309,11 @@ msgstr "أي فواتير هذا المشروع تجاوزت موعدها؟ اك
 msgid "Which of this project's tasks are late, who is on each, and what waits on them?"
 msgstr "أي مهام هذا المشروع متأخرة، ومن يعمل على كل منها، وما الذي ينتظرها؟"
 
-#: onedesk/one_crm/ai.py:100
+#: onedesk/one_crm/ai.py:114
 msgid "Which open leads are waiting on us: nobody has spoken to them for a week and nothing is planned?"
 msgstr "أي العملاء المحتملين المفتوحين ينتظروننا: لم يتحدث إليهم أحد منذ أسبوع ولا شيء مخطط له؟"
 
-#: onedesk/one_crm/ai.py:50 onedesk/one_crm/ai.py:109
+#: onedesk/one_crm/ai.py:64 onedesk/one_crm/ai.py:123
 msgid "Which open opportunities have gone quiet: nobody has spoken to them for two weeks and nothing is planned?"
 msgstr "أي الفرص المفتوحة هدأت: لم يتحدث إليهم أحد منذ أسبوعين ولا شيء مخطط له؟"
 
@@ -51307,7 +51321,7 @@ msgstr "أي الفرص المفتوحة هدأت: لم يتحدث إليهم أ
 msgid "Which open projects need attention: marked at risk or off track, with late tasks, past their end date, or over their estimated cost?"
 msgstr "أي المشاريع المفتوحة تحتاج إلى انتباه: مصنّفة معرّضة للخطر أو خارج المسار، أو فيها مهام متأخرة، أو تجاوزت تاريخ نهايتها أو تكلفتها المقدّرة؟"
 
-#: onedesk/one_crm/ai.py:49 onedesk/one_crm/ai.py:108
+#: onedesk/one_crm/ai.py:63 onedesk/one_crm/ai.py:122
 msgid "Which opportunities have gone quiet?"
 msgstr "أي الفرص هدأت؟"
 
@@ -51673,10 +51687,9 @@ msgid "Whoever OneAI reads it for and whoever connected it, or every administrat
 msgstr "من يقرأ له OneAI ومن وصله، أو كل مسؤول"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/job_requisition_answered.md
 #: onedesk/notifications/one_storage/file_request_answered.md
 #: onedesk/notifications/one_storage/file_request_complete.md
-#: onedesk/one_inventory/notifications.py
+#: onedesk/one_hr/notifications.py onedesk/one_inventory/notifications.py
 msgid "Whoever asked"
 msgstr "من طلب"
 
@@ -51686,7 +51699,7 @@ msgid "Whoever asked for it, and the project's manager"
 msgstr "من طلبه، ومدير المشروع"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/appointment_confirmation.md
+#: onedesk/one_crm/notifications.py
 msgid "Whoever booked it"
 msgstr "من حجزه"
 
@@ -51766,7 +51779,7 @@ msgid "Whoever made it and whoever sent it to the step, but whoever answered"
 msgstr "من أنشأه ومن أرسله إلى الخطوة، عدا من ردّ"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/contract_expiring.md
+#: onedesk/one_crm/notifications.py
 msgid "Whoever made it, and the user it names"
 msgstr "من أنشأه، والمستخدم المذكور فيه"
 
@@ -51791,9 +51804,7 @@ msgid "Whoever made the order, and the stock managers"
 msgstr "من أنشأ الطلب، ومديرو المخزون"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_crm/quotation_accepted.md
-#: onedesk/notifications/one_crm/quotation_declined.md
-#: onedesk/notifications/one_crm/quotation_running_out.md
+#: onedesk/one_crm/notifications.py
 msgid "Whoever made the quotation, and the opportunity's owner"
 msgstr "من أنشأ عرض السعر، ومالك الفرصة"
 
@@ -51824,7 +51835,7 @@ msgid "Whoever pressed Fix With OneAI"
 msgstr "من ضغط «أصلح باستخدام OneAI»"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_hr/referral_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Whoever referred them"
 msgstr "من رشّحه"
 
@@ -51906,11 +51917,11 @@ msgstr "لماذا خُسرت؟"
 msgid "Why an opportunity or a quotation is lost."
 msgstr "سبب خسارة الفرصة أو عرض السعر."
 
-#: onedesk/one_hr/ai.py:244 onedesk/one_hr/ai.py:252
+#: onedesk/one_hr/ai.py:269 onedesk/one_hr/ai.py:277
 msgid "Why are people leaving?"
 msgstr "لماذا يغادر الموظفون؟"
 
-#: onedesk/one_crm/ai.py:56 onedesk/one_crm/ai.py:115
+#: onedesk/one_crm/ai.py:70 onedesk/one_crm/ai.py:129
 msgid "Why are we losing opportunities?"
 msgstr "لماذا نخسر الفرص؟"
 
@@ -51926,11 +51937,11 @@ msgstr "لماذا فشلت هذه المهمة؟"
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr "لماذا فشلت هذه المهمة؟ قل أين توقفت، وما معنى الخطأ بكلمات بسيطة، وهل من المرجح أن ينجح استئنافها."
 
-#: onedesk/one_hr/ai.py:245 onedesk/one_hr/ai.py:253
+#: onedesk/one_hr/ai.py:270 onedesk/one_hr/ai.py:278
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr "لماذا غادر الموظفون خلال الاثني عشر شهرًا الماضية، وكم منهم ذكر كل سبب؟"
 
-#: onedesk/one_crm/ai.py:57 onedesk/one_crm/ai.py:116
+#: onedesk/one_crm/ai.py:71 onedesk/one_crm/ai.py:130
 msgid "Why have we lost opportunities this year?"
 msgstr "لماذا خسرنا فرصًا هذا العام؟"
 
@@ -52061,7 +52072,7 @@ msgstr "العرض"
 msgid "Win Rate (%)"
 msgstr "نسبة الفوز (%)"
 
-#: frontend/src/home/CrmHome.vue:104
+#: frontend/src/crm/CrmHome.vue:104
 msgid "Win Rate (90 Days)"
 msgstr "نسبة الفوز (90 يوماً)"
 
@@ -52084,7 +52095,7 @@ msgid "Windows, doors, curtain walls and glazing, from contract review to the fi
 msgstr "نوافذ وأبواب وواجهات زجاجية وتزجيج، من مراجعة العقد إلى الحساب الختامي."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/birthday.md
+#: onedesk/one_hr/notifications.py
 msgid "Wish them a happy birthday."
 msgstr "تمنّ له عيد ميلاد سعيداً."
 
@@ -52163,8 +52174,8 @@ msgid "Without an account: {0}."
 msgstr "بلا حساب: {0}."
 
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
-#: frontend/src/home/CrmStory.vue:43 frontend/src/home/CrmStory.vue:80
-#: frontend/src/home/CrmStory.vue:83 frontend/src/home/CrmStory.vue:88
+#: frontend/src/crm/CrmStory.vue:43 frontend/src/crm/CrmStory.vue:80
+#: frontend/src/crm/CrmStory.vue:83 frontend/src/crm/CrmStory.vue:88
 #: onedesk/one_crm/custom/sales_stage.json
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:68
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:64
@@ -52172,7 +52183,7 @@ msgstr "بلا حساب: {0}."
 msgid "Won"
 msgstr "مكسوبة"
 
-#: frontend/src/home/CrmHome.vue:103
+#: frontend/src/crm/CrmHome.vue:103
 msgid "Won This Month"
 msgstr "المكسوب هذا الشهر"
 
@@ -52199,7 +52210,7 @@ msgstr "رابحة ومفوترة؛ لا يزال {0} مستحقًا."
 msgid "Won and ordered; nothing is billed yet."
 msgstr "رابحة ومطلوبة؛ لم يُفوتر شيء بعد."
 
-#: frontend/src/home/CrmStory.vue:43
+#: frontend/src/crm/CrmStory.vue:43
 msgid "Won by Source"
 msgstr "الرابحة حسب المصدر"
 
@@ -52235,7 +52246,7 @@ msgid "Work"
 msgstr "العمل"
 
 #. Name of a notification
-#: onedesk/notifications/one_hr/work_anniversary.md
+#: onedesk/one_hr/notifications.py
 msgid "Work Anniversary"
 msgstr "ذكرى العمل"
 
@@ -52264,7 +52275,7 @@ msgid "Work Done"
 msgstr "العمل المنجز"
 
 #. Option for the 'Day Status' (Select) field in DocType 'Attendance Reason'
-#: frontend/src/home/HrStory.vue:87
+#: frontend/src/hr/HrStory.vue:87
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 msgid "Work From Home"
 msgstr ""
@@ -52476,6 +52487,7 @@ msgstr "وقت الورشة محسوب التكلفة"
 #: onedesk/one_ai/abilities.py:18 onedesk/one_book/abilities.py:15
 #: onedesk/one_calendar/abilities.py:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
+#: onedesk/one_crm/abilities.py:15 onedesk/one_hr/abilities.py:15
 #: onedesk/one_inventory/abilities.py:15 onedesk/one_legal/abilities.py:19
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/abilities.py:19 onedesk/one_mail/cloud.py:33
@@ -52753,15 +52765,15 @@ msgstr "اكتب تعليقًا"
 msgid "Write a first draft"
 msgstr "اكتب مسودة أولى"
 
-#: onedesk/one_hr/ai.py:100
+#: onedesk/one_hr/ai.py:125
 msgid "Write a kind decline"
 msgstr "كتابة اعتذار لطيف"
 
-#: onedesk/one_hr/ai.py:225
+#: onedesk/one_hr/ai.py:250
 msgid "Write a letter about this employee — ask me which kind and who it is for, then draft it."
 msgstr "اكتب خطابًا عن هذا الموظف — اسألني عن نوعه ولمن هو، ثم صِغه."
 
-#: onedesk/one_hr/ai.py:224
+#: onedesk/one_hr/ai.py:249
 msgid "Write a letter for this person"
 msgstr "كتابة خطاب لهذا الشخص"
 
@@ -52785,7 +52797,7 @@ msgstr "اكتب نبذة قصيرة لملفي الشخصي من وظيفتي �
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
 msgstr "اكتب تحديثاً قصيراً عن هذا المشروع لعميله: ما الذي أُنجز، وما التالي، ومتى ينبغي أن ينتهي. بكلمات بسيطة. اترك الساعات والتكاليف ومن يفعل ماذا في الفريق."
 
-#: onedesk/one_hr/ai.py:101
+#: onedesk/one_hr/ai.py:126
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr "اكتب رسالة قصيرة ولطيفة تُبلغ هذا المتقدم بأنه لم يُختر، وتشكره على شيء محدد في طلبه. لا تذكر أسبابًا."
 
@@ -52806,7 +52818,7 @@ msgid "Write an update"
 msgstr "اكتب تحديثًا"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/letter_requested.md
+#: onedesk/one_hr/notifications.py
 msgid "Write and issue it from the request."
 msgstr "اكتبه وأصدره من الطلب."
 
@@ -52835,7 +52847,7 @@ msgstr "اكتب للعميل تحديثاً"
 msgid "Write the facts, terms and policies OneAI reads with every answer."
 msgstr "كتابة الحقائق والشروط والسياسات التي يقرؤها OneAI مع كل إجابة."
 
-#: onedesk/one_hr/ai.py:170
+#: onedesk/one_hr/ai.py:195
 msgid "Write the offer terms"
 msgstr "كتابة شروط العرض"
 
@@ -52851,19 +52863,19 @@ msgstr "اكتب الرد."
 msgid "Write the step first."
 msgstr "اكتب الخطوة أولاً."
 
-#: onedesk/one_hr/ai.py:171
+#: onedesk/one_hr/ai.py:196
 msgid "Write this offer's terms from the opening it is for — the role, the salary range and the start — and suggest them as a change to it."
 msgstr "اكتب شروط هذا العرض من الوظيفة التي يخصها — الدور ونطاق الراتب وموعد البدء — واقترحها كتعديل عليه."
 
-#: onedesk/one_hr/ai.py:65
+#: onedesk/one_hr/ai.py:90
 msgid "Write this opening"
 msgstr "كتابة هذه الوظيفة"
 
-#: onedesk/one_hr/ai.py:66
+#: onedesk/one_hr/ai.py:91
 msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
 msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المتقدم القوي سطرًا قصيرًا لكل بند، من مسماها وقسمها وطلبها. اقترح الاثنين كتعديل عليها."
 
-#: onedesk/one_crm/ai.py:35 onedesk/one_crm/ai.py:78
+#: onedesk/one_crm/ai.py:49 onedesk/one_crm/ai.py:92
 msgid "Write up a call"
 msgstr "سجّل مكالمة"
 
@@ -52909,7 +52921,7 @@ msgstr "يكتب نبذة الشخص في ملفه مما يخبره به ومن
 msgid "Writing"
 msgstr "كتابة"
 
-#: onedesk/one_hr/ai.py:194
+#: onedesk/one_hr/ai.py:219
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
 
@@ -53025,6 +53037,7 @@ msgstr "سنوات الخدمة"
 #: onedesk/one/ai.py:3759 onedesk/one_account/abilities.py:19
 #: onedesk/one_ai/abilities.py:20 onedesk/one_ai/chat.py:699
 #: onedesk/one_book/abilities.py:17 onedesk/one_calendar/abilities.py:20
+#: onedesk/one_crm/abilities.py:17 onedesk/one_hr/abilities.py:17
 #: onedesk/one_inventory/abilities.py:17 onedesk/one_legal/abilities.py:21
 #: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1052
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
@@ -53093,7 +53106,7 @@ msgid "You can change this later in your settings."
 msgstr "يمكنك تغيير ذلك لاحقًا من إعداداتك."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/passkey_reset_done.md
+#: onedesk/one_hr/notifications.py
 msgid "You can check in from your new phone"
 msgstr "يمكنك تسجيل الحضور من هاتفك الجديد"
 
@@ -53166,7 +53179,7 @@ msgid "You cannot turn yourself off."
 msgstr "لا يمكنك إيقاف نفسك."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/check_in_closed_for_you.md
+#: onedesk/one_hr/notifications.py
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك سجل انصراف عند نهاية المناوبة. أبلغ الموارد البشرية إذا كان ذلك غير صحيح."
 
@@ -53207,7 +53220,7 @@ msgid "You have a full download."
 msgstr "لديك تنزيل كامل."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/holidays_coming_up.md
+#: onedesk/one_hr/notifications.py
 msgid "You have holidays coming up"
 msgstr "لديك عطلات قادمة"
 
@@ -53220,7 +53233,7 @@ msgid "You have view access. Ask the owner for edit access to make changes."
 msgstr "لديك صلاحية العرض. اطلب من المالك صلاحية التحرير لإجراء تغييرات."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md
+#: onedesk/one_hr/notifications.py
 msgid "You haven't checked in yet."
 msgstr "لم تسجّل حضورك بعد."
 
@@ -53235,6 +53248,10 @@ msgstr "لا يمكنك تغيير توقيع {0}."
 #: onedesk/one_task/ai.py:357
 msgid "You may not change {0}."
 msgstr "لا يمكنك تغيير {0}."
+
+#: onedesk/one_hr/hiring.py:839
+msgid "You may not delete the sound of a recorded interview."
+msgstr "لا يمكنك حذف صوت مقابلة مسجلة."
 
 #: onedesk/one_ai/tools.py:435
 msgid "You may not read {0} {1}."
@@ -53289,7 +53306,7 @@ msgid "You started setting up {workspace} on One but didn't finish paying. The n
 msgstr "بدأت إعداد {workspace} على One لكنك لم تُكمل الدفع. الاسم محجوز لك لمدة أسبوع.<br><br>إن غيّرت رأيك، فلا شيء عليك فعله. وإن حدث خطأ ما، فردّ على هذه الرسالة."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/marked_absent.md
+#: onedesk/one_hr/notifications.py
 msgid "You were marked absent on {date}"
 msgstr "سُجّلت غائبًا في {date}"
 
@@ -53313,7 +53330,7 @@ msgid "You're covering {who}'s mail until {until}"
 msgstr "أنت تغطي بريد {who} حتى {until}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_scheduled.md
+#: onedesk/one_hr/notifications.py
 msgid "You're interviewing {applicant} on {when}"
 msgstr "ستُجري مقابلة مع {applicant} في {when}"
 
@@ -53476,7 +53493,7 @@ msgstr "مرجعكم"
 msgid "Your Request Is On Hold"
 msgstr "طلبك معلّق"
 
-#: frontend/src/home/HrHome.vue:216
+#: frontend/src/hr/HrHome.vue:216
 msgid "Your Requests"
 msgstr "طلباتك"
 
@@ -53520,7 +53537,7 @@ msgid "Your address: {0}"
 msgstr "عنوانك: {0}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/appraisal_started.md
+#: onedesk/one_hr/notifications.py
 msgid "Your appraisal for {cycle} has started"
 msgstr "بدأ تقييمك لـ {cycle}"
 
@@ -53542,12 +53559,12 @@ msgid "Your chart of accounts read in from a spreadsheet."
 msgstr "دليل حساباتك مقروءاً من جدول بيانات."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/check_in_rejected.md
+#: onedesk/one_hr/notifications.py
 msgid "Your check-in at {when} was turned down"
 msgstr "رُفض تسجيل حضورك في {when}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/check_in_closed_for_you.md
+#: onedesk/one_hr/notifications.py
 msgid "Your check-in was closed at the end of your shift"
 msgstr "أُغلق تسجيل حضورك عند نهاية مناوبتك"
 
@@ -53603,17 +53620,17 @@ msgid "Your email address"
 msgstr "عنوان بريدك الإلكتروني"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/expense_claim_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your expense claim for {amount} was {status}"
 msgstr "مطالبة نفقاتك بقيمة {amount}: {status}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/expense_claim_paid.md
+#: onedesk/one_hr/notifications.py
 msgid "Your expense claim was paid"
 msgstr "دُفعت مطالبة نفقاتك"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_feedback_due.md
+#: onedesk/one_hr/notifications.py
 msgid "Your feedback on {applicant}'s interview is due"
 msgstr "تقييمك لمقابلة {applicant} مستحق"
 
@@ -53623,22 +53640,22 @@ msgid "Your free trial of {workspace} ends on {date}"
 msgstr "تنتهي فترتك التجريبية المجانية لـ {workspace} في {date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/grievance_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your grievance \"{subject}\" was {status}"
 msgstr "شكواك \"{subject}\": {status}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_moved_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Your interview has moved to {when}"
 msgstr "نُقلت مقابلتك إلى {when}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_soon_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Your interview is at {when}"
 msgstr "مقابلتك في {when}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/interview_scheduled_to_the_applicant.md
+#: onedesk/one_hr/notifications.py
 msgid "Your interview is on {when}"
 msgstr "مقابلتك في {when}"
 
@@ -53727,7 +53744,7 @@ msgid "Your reference is {0}. Reply to the mail we sent you and quote it."
 msgstr "رقمك المرجعي {0}. ردّ على الرسالة التي أرسلناها واذكره."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/shift_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your request for {shift} from {from_date} was {status}"
 msgstr "طلبك لـ {shift} من {from_date}: {status}"
 
@@ -53756,7 +53773,7 @@ msgid "Your request {request} was {status}"
 msgstr "طلبك {request}: {status}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/job_requisition_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your requisition for {designation} was {status}"
 msgstr "طلب التوظيف لـ {designation}: {status}"
 
@@ -53813,7 +53830,7 @@ msgid "Your shift started at {0}"
 msgstr "بدأت مناوبتك الساعة {0}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/not_checked_in.md
+#: onedesk/one_hr/notifications.py
 msgid "Your shift started at {start}"
 msgstr "بدأت مناوبتك الساعة {start}"
 
@@ -53859,17 +53876,17 @@ msgid "Your workspaces"
 msgstr "مساحات عملك"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/letter_issued.md
+#: onedesk/one_hr/notifications.py
 msgid "Your {kind} is ready"
 msgstr "{kind} الخاص بك جاهز"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/leave_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your {leave_type} from {from_date} to {to_date} was {status}"
 msgstr "{leave_type} من {from_date} إلى {to_date}: {status}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/attendance_request_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "Your {reason} from {from_date} to {to_date} was {status}"
 msgstr "طلب {reason} من {from_date} إلى {to_date}: {status}"
 
@@ -55258,8 +55275,8 @@ msgstr "عاجل, بأسرع وقت"
 msgid "us"
 msgstr "نحن"
 
-#: frontend/src/books/BooksHome.vue:125 frontend/src/home/CrmHome.vue:127
-#: frontend/src/home/HrHome.vue:152
+#: frontend/src/books/BooksHome.vue:125 frontend/src/crm/CrmHome.vue:127
+#: frontend/src/hr/HrHome.vue:152
 #: frontend/src/inventory/home/InventoryHome.vue:141
 msgid "vs last month"
 msgstr "مقارنة بالشهر الماضي"
@@ -55417,19 +55434,19 @@ msgstr "{0} دفعات تنتهي قريبًا"
 msgid "{0} Can Send"
 msgstr "{0} يمكنهم الإرسال"
 
-#: frontend/src/home/HrHome.vue:163
+#: frontend/src/hr/HrHome.vue:163
 msgid "{0} Check-ins Flagged"
 msgstr "{0} تسجيلات حضور عليها علامة"
 
-#: frontend/src/home/HrHome.vue:165
+#: frontend/src/hr/HrHome.vue:165
 msgid "{0} Contracts or Probations Ending"
 msgstr "{0} عقود أو فترات تجربة تنتهي"
 
-#: frontend/src/home/HrHome.vue:164
+#: frontend/src/hr/HrHome.vue:164
 msgid "{0} Documents Expiring"
 msgstr "{0} مستندات تنتهي"
 
-#: frontend/src/books/BooksHome.vue:139 frontend/src/home/CrmHome.vue:144
+#: frontend/src/books/BooksHome.vue:139 frontend/src/crm/CrmHome.vue:144
 #: frontend/src/inventory/home/InventoryHome.vue:157
 msgid "{0} Drafts Left"
 msgstr "{0} مسودات متروكة"
@@ -55453,7 +55470,7 @@ msgstr "{0} غيغابايت تخزين"
 msgid "{0} Help"
 msgstr "مساعدة {0}"
 
-#: frontend/src/home/HrHome.vue:166
+#: frontend/src/hr/HrHome.vue:166
 msgid "{0} Interviews Today"
 msgstr "{0} مقابلات اليوم"
 
@@ -55465,7 +55482,7 @@ msgstr "{0} أصناف توشك أن تنفد"
 msgid "{0} Late Orders"
 msgstr "{0} طلبات متأخرة"
 
-#: frontend/src/home/HrHome.vue:139
+#: frontend/src/hr/HrHome.vue:139
 msgid "{0} Left"
 msgstr "المتبقي من {0}"
 
@@ -55481,7 +55498,7 @@ msgstr "{0} صيانة مستحقة"
 msgid "{0} More"
 msgstr "{0} أخرى"
 
-#: frontend/src/home/CrmHome.vue:139
+#: frontend/src/crm/CrmHome.vue:139
 msgid "{0} Next Steps Due"
 msgstr "{0} خطوات تالية مستحقة"
 
@@ -55489,7 +55506,7 @@ msgstr "{0} خطوات تالية مستحقة"
 msgid "{0} One Thousand Two Hundred Thirty-Five Only"
 msgstr "{0} ألف ومئتان وخمسة وثلاثون فقط"
 
-#: frontend/src/home/CrmHome.vue:141
+#: frontend/src/crm/CrmHome.vue:141
 msgid "{0} Opportunities Past Their Closing Date"
 msgstr "{0} فرص تجاوزت تاريخ إغلاقها"
 
@@ -55509,11 +55526,11 @@ msgstr "خطة {0}"
 msgid "{0} Purchase Invoices Due"
 msgstr "{0} فواتير شراء مستحقة"
 
-#: frontend/src/home/CrmHome.vue:142
+#: frontend/src/crm/CrmHome.vue:142
 msgid "{0} Quotations Expiring"
 msgstr "{0} عروض أسعار تنتهي صلاحيتها"
 
-#: frontend/src/home/HrHome.vue:162
+#: frontend/src/hr/HrHome.vue:162
 msgid "{0} Requests Waiting for You"
 msgstr "{0} طلبات بانتظارك"
 
@@ -55521,7 +55538,7 @@ msgstr "{0} طلبات بانتظارك"
 msgid "{0} Saves {1}"
 msgstr "{0} يوفّر {1}"
 
-#: onedesk/public/js/module_settings.js:218
+#: onedesk/public/js/module_settings.js:225
 #: onedesk/public/js/window/nav_tree.js:245
 msgid "{0} Settings"
 msgstr "إعدادات {0}"
@@ -55534,7 +55551,7 @@ msgstr "{0} النسخة المُصلحة متوقفة حتى تشغّلها."
 msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr "{0} أُبقيت النسخة المُصلحة متوقفة: رفضتها المراجعة. {1}"
 
-#: frontend/src/home/CrmHome.vue:140
+#: frontend/src/crm/CrmHome.vue:140
 msgid "{0} Unclaimed Leads"
 msgstr "{0} عملاء محتملين لم يتولَّهم أحد"
 
@@ -55546,7 +55563,7 @@ msgstr "{0} معاملات بنكية غير مسواة"
 msgid "{0} Users"
 msgstr "{0} مستخدمين"
 
-#: frontend/src/home/CrmHome.vue:143
+#: frontend/src/crm/CrmHome.vue:143
 msgid "{0} With No Next Step"
 msgstr "{0} بلا خطوة تالية"
 
@@ -55597,7 +55614,7 @@ msgstr "وافق {0} في {1}"
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr "يسمح {0} بحد أقصى {1} من ساعات العمل الإضافي يومياً."
 
-#: onedesk/one_crm/capture.py:131
+#: onedesk/one_crm/capture.py:140
 msgid "{0} already belongs to {1}."
 msgstr "{0} يخص {1} بالفعل."
 
@@ -55914,7 +55931,7 @@ msgstr "{0} ي"
 msgid "{0} database"
 msgstr "{0} قاعدة بيانات"
 
-#: frontend/src/home/HrStory.vue:72
+#: frontend/src/hr/HrStory.vue:72
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:67
 #: frontend/src/template/Tasks.vue:126
@@ -55955,11 +55972,11 @@ msgstr "قبل {1} بـ {0} أيام"
 msgid "{0} days late"
 msgstr "متأخرة {0} أيام"
 
-#: onedesk/one_hr/ai.py:892
+#: onedesk/one_hr/ai.py:917
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:896
+#: onedesk/one_hr/ai.py:921
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 
@@ -55967,7 +55984,7 @@ msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
 msgid "{0} days overdue"
 msgstr "متأخر {0} أيام"
 
-#: frontend/src/home/CrmHome.vue:188
+#: frontend/src/crm/CrmHome.vue:188
 msgid "{0} days past"
 msgstr "مضت {0} أيام"
 
@@ -56016,7 +56033,7 @@ msgstr "{0} منجز"
 msgid "{0} draft orders made"
 msgstr "أُنشئت {0} مسودات طلبات"
 
-#: frontend/src/books/BooksHome.vue:236 frontend/src/home/CrmHome.vue:258
+#: frontend/src/books/BooksHome.vue:236 frontend/src/crm/CrmHome.vue:258
 #: frontend/src/inventory/home/InventoryHome.vue:292
 #: frontend/src/project/Invoices.vue:107
 msgid "{0} drafts"
@@ -57012,8 +57029,8 @@ msgstr "{0} دقيقة"
 msgid "{0} months"
 msgstr "{0} أشهر"
 
-#: frontend/src/books/BooksHome.vue:174 frontend/src/home/CrmHome.vue:193
-#: frontend/src/home/HrHome.vue:212
+#: frontend/src/books/BooksHome.vue:174 frontend/src/crm/CrmHome.vue:193
+#: frontend/src/hr/HrHome.vue:212
 #: frontend/src/inventory/home/InventoryHome.vue:193
 #: frontend/src/project/ProjectActivity.vue:40
 #: frontend/src/sheet/components/SheetEditor/index.vue:693
@@ -57175,7 +57192,7 @@ msgstr "متبقٍ {0} من {1} رصيد. بلا انتهاء."
 msgid "{0} of {1} credits used this month."
 msgstr "استُهلك {0} من {1} رصيد هذا الشهر."
 
-#: frontend/src/home/HrHome.vue:139
+#: frontend/src/hr/HrHome.vue:139
 msgid "{0} of {1} days"
 msgstr "{0} من {1} يومًا"
 
@@ -58220,7 +58237,7 @@ msgid "{addon} costs {price} a month, as much as moving from {lower} to {upper}.
 msgstr "{addon} يكلف {price} شهريًا، بقدر الانتقال من {lower} إلى {upper}."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/expense_claim_paid.md
+#: onedesk/one_hr/notifications.py
 msgid "{amount} is on its way to you."
 msgstr "{amount} في طريقه إليك."
 
@@ -58299,7 +58316,7 @@ msgid "{by} gave it to you on {date}. Look after it, and give it back when you a
 msgstr "سلّمه إليك {by} في {date}. حافظ عليه وأعده عندما يُطلب منك."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/letter_issued.md
+#: onedesk/one_hr/notifications.py
 msgid "{by} issued it. Open it to download it."
 msgstr "أصدره {by}. افتحه لتنزيله."
 
@@ -58329,7 +58346,7 @@ msgid "{by} posted {title}"
 msgstr "نشر {by} {title}"
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/passkey_reset_done.md
+#: onedesk/one_hr/notifications.py
 msgid "{by} reset your passkey. Open One on the new phone and check in once to register it."
 msgstr "أعاد {by} تعيين مفتاح مرورك. افتح One على الهاتف الجديد وسجّل حضورك مرة لتسجيله."
 
@@ -58354,7 +58371,7 @@ msgid "{by} was stopped from going ahead with a sale to them. They owe {outstand
 msgstr "أُوقف {by} عن إتمام بيع لهم. عليهم {outstanding} مقابل حدّ قدره {limit}. ارفع الحد في سجل العميل، أو احصل على الدفع أولاً."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/referral_answered.md
+#: onedesk/one_hr/notifications.py
 msgid "{candidate}, whom you referred, was {status}"
 msgstr "{candidate}، الذي رشّحته: {status}"
 
@@ -58399,12 +58416,12 @@ msgid "{credits} OneAI credits expire on {date}"
 msgstr "تنتهي صلاحية {credits} من أرصدة OneAI في {date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/quotation_accepted.md
+#: onedesk/one_crm/notifications.py
 msgid "{customer} accepted {quotation}"
 msgstr "قبل {customer} عرض السعر {quotation}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/quotation_declined.md
+#: onedesk/one_crm/notifications.py
 msgid "{customer} declined {quotation}"
 msgstr "رفض {customer} عرض السعر {quotation}"
 
@@ -58419,7 +58436,7 @@ msgid "{customer} paid {amount} online"
 msgstr "دفع {customer} مبلغ {amount} عبر الإنترنت"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/leave_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "{days} days of your {leave_type} lapse on {date}"
 msgstr "تنتهي {days} أيام من {leave_type} في {date}"
 
@@ -58454,82 +58471,82 @@ msgid "{email} pays from now on, and the workspace's invoices go to them."
 msgstr "يدفع {email} من الآن، وتذهب إليه فواتير مساحة العمل."
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/letter_requested.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} asked for a letter: {kind}"
 msgstr "طلب {employee} خطاباً: {kind}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/leave_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} asked for {days} days of {leave_type}"
 msgstr "طلب {employee} ‏{days} أيام من {leave_type}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/attendance_request_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} asked for {reason} from {from_date} to {to_date}"
 msgstr "طلب {employee} {reason} من {from_date} إلى {to_date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/shift_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} asked for {shift} from {from_date}"
 msgstr "طلب {employee} وردية {shift} من {from_date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/job_requisition_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} asked to hire {positions} {designation}"
 msgstr "طلب {employee} توظيف {positions} {designation}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/passkey_reset_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} can't check in: their phone changed"
 msgstr "لا يستطيع {employee} تسجيل الحضور: تغيّر هاتفه"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/leave_cancelled.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} cancelled their {leave_type}"
 msgstr "ألغى {employee} {leave_type}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/employee_details_changed.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} changed their {what}"
 msgstr "غيّر {employee} {what}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/expense_claim_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} claimed {amount}"
 msgstr "قدّم {employee} مطالبة بقيمة {amount}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/could_not_mark_left.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} could not be marked Left"
 msgstr "تعذر تعيين {employee} كمغادر"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/grievance_raised.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} raised a grievance"
 msgstr "قدّم {employee} تظلّماً"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/referral_received.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee} referred {candidate} for {designation}"
 msgstr "رشّح {employee} {candidate} لـ {designation}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/check_in_flagged.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee}'s check-in needs a look"
 msgstr "تسجيل حضور {employee} يحتاج إلى نظرة"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/contract_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee}'s contract ends on {date}"
 msgstr "ينتهي عقد {employee} في {date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/probation_ending.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee}'s probation ends on {date}"
 msgstr "تنتهي فترة تجربة {employee} في {date}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/document_expiring.md
+#: onedesk/one_hr/notifications.py
 msgid "{employee}'s {document} expires on {date}"
 msgstr "تنتهي صلاحية {document} الخاص بـ {employee} في {date}"
 
@@ -58673,7 +58690,7 @@ msgid "{person} is now an administrator"
 msgstr "{person} أصبح مسؤولًا الآن"
 
 #. Subject of a notification
-#: onedesk/notifications/one_hr/check_in_place_proposed.md
+#: onedesk/one_hr/notifications.py
 msgid "{place} was added to where people check in"
 msgstr "أُضيف {place} إلى أماكن تسجيل الحضور"
 
@@ -58714,12 +58731,12 @@ msgid "{project} · {party} · {amount} · {share}% done. Check it before it is 
 msgstr "{project} · {party} · {amount} · منجز {share}%. راجعها قبل اعتمادها."
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/quotation_running_out.md
+#: onedesk/one_crm/notifications.py
 msgid "{quotation} for {customer} holds until {date}"
 msgstr "عرض السعر {quotation} لـ {customer} سارٍ حتى {date}"
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/quotation_declined.md
+#: onedesk/one_crm/notifications.py
 msgid "{reason}<br>It is marked Lost."
 msgstr "{reason}<br>تم تعليمه خاسراً."
 
@@ -58738,7 +58755,7 @@ msgid "{state}: {event}, {when}"
 msgstr "{state}: {event}، {when}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/next_step_due.md
+#: onedesk/one_crm/notifications.py
 msgid "{step} on {title} is due"
 msgstr "حان موعد {step} في {title}"
 
@@ -58788,7 +58805,7 @@ msgid "{title} arrived after you closed its task"
 msgstr "وصل {title} بعد أن أغلقت مهمته"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/new_lead_waiting.md
+#: onedesk/one_crm/notifications.py
 msgid "{title} is a new lead nobody owns"
 msgstr "{title} عميل محتمل جديد لا يملكه أحد"
 
@@ -58817,17 +58834,17 @@ msgid "{total} spent of a {budget} budget."
 msgstr "أُنفق {total} من ميزانية {budget}."
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/quotation_accepted.md
+#: onedesk/one_crm/notifications.py
 msgid "{total}, wanted by {wanted}. Their order {order} is a draft: check it and submit it."
 msgstr "{total}، مطلوب بحلول {wanted}. طلبهم {order} مسودة: راجعه واعتمده."
 
 #. Message of a notification
-#: onedesk/notifications/one_crm/quotation_running_out.md
+#: onedesk/one_crm/notifications.py
 msgid "{total}. After that day the customer can no longer accept it. Follow up, or give it a later date."
 msgstr "{total}. بعد ذلك اليوم لا يستطيع العميل قبوله. تابع، أو مدّد تاريخه."
 
 #. Message of a notification
-#: onedesk/notifications/one_hr/shift_asked.md
+#: onedesk/one_hr/notifications.py
 msgid "{until}. Approve or reject it."
 msgstr "{until}. وافق عليه أو ارفضه."
 
@@ -58986,7 +59003,7 @@ msgid "{who} gave you {mailbox}"
 msgstr "أعطاك {who} {mailbox}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/given_to_you.md
+#: onedesk/one_crm/notifications.py
 msgid "{who} gave you {title}"
 msgstr "أسند إليك {who} {title}"
 
@@ -59072,7 +59089,7 @@ msgid "{who} turned on {title}"
 msgstr "شغّل {who} {title}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_crm/they_replied.md
+#: onedesk/one_crm/notifications.py
 msgid "{who} wrote about {title}"
 msgstr "كتب {who} بشأن {title}"
 

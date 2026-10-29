@@ -125,8 +125,8 @@ that exists.
 | `src/inventory/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
 | `src/one/Home.vue` | Microsoft 365's Home and Slack's announcements: what waits for the reader's approval in every app, what the office is saying, what is new in their apps, and for an administrator the workspace at a glance and what in it needs them first |
 | `src/books/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
-| `src/home/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
-| `src/home/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
+| `src/crm/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
+| `src/hr/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
 | `src/inventory/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |

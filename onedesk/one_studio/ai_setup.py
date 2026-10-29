@@ -640,9 +640,9 @@ def suggest_group(
 	label = lambda users: ", ".join(frappe.utils.get_fullname(u) for u in users)  # noqa: E731
 	summary = [{"label": _("In it"), "value": label(people)}]
 	if exists and set(people) - was:
-		summary.append({"label": _("Joining"), "value": label(sorted(set(people) - was))})
+		summary.append({"label": _("Added"), "value": label(sorted(set(people) - was))})
 	if exists and was - set(people):
-		summary.append({"label": _("Leaving"), "value": label(sorted(was - set(people)))})
+		summary.append({"label": _("Removed"), "value": label(sorted(was - set(people)))})
 	route = ["one", {"center": "access", "at": "access", "record": f"group:{name}"}]
 	return _card(
 		"group",

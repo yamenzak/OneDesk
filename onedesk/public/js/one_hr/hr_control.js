@@ -53,7 +53,7 @@ onedesk.HRSection = class HRSection extends onedesk.CenterSection {
 			this.$content.append(
 				$(
 					frappe.ui.alert({
-						title: __("This list ends on {0}, in {1} days", [day(list.to_date), list.days_left]),
+						title: __("Ends {0}, in {1} days", [day(list.to_date), list.days_left]),
 						description: __("After that, every day counts as a working day for leave and attendance, until another list starts."),
 						theme: "yellow",
 						footer: $make,
@@ -127,14 +127,9 @@ onedesk.HRSection = class HRSection extends onedesk.CenterSection {
 	}
 };
 
-// Holidays are the administrators'; HR's managers who aren't one keep
-// OneHR's lists alone.
+// Holidays are the administrators'; everybody else has what every module's
+// settings find (its lists, notifications and agreements).
 onedesk.hr_control.open = ({ at = null, record = null } = {}) => {
-	const lists = ((frappe.boot.one_lists || {}).OneHR || []).length;
-	if (!frappe.boot.one_administers && !lists) {
-		frappe.show_alert({ message: __("Only the workspace's administrators set the holidays."), indicator: "orange" });
-		return null;
-	}
 	const holidays = onedesk.center_section.tab(onedesk.HRSection, {
 		id: "holidays",
 		label: __("Holidays"),
@@ -153,3 +148,15 @@ onedesk.hr_control.open = ({ at = null, record = null } = {}) => {
 
 frappe.provide("onedesk.control_centers");
 onedesk.control_centers.OneHR = onedesk.hr_control.open;
+
+// Its foot: Settings, the tour, Help and the version at the foot of its rail,
+// drawn by the window under whichever of its screens is open (module_foot).
+$(document).on("page-change", () =>
+	setTimeout(() => {
+		const sidebar = frappe.app && frappe.app.sidebar;
+		const win = onedesk.window.current();
+		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneHR") return;
+		win.module_foot({ module: "OneHR", settings: () => onedesk.hr_control.open() });
+		onedesk.window.nav.place();
+	}, 0)
+);

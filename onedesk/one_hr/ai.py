@@ -10,6 +10,31 @@ from frappe.utils import add_days, getdate, today
 from onedesk.one_ai import files, proposals
 from onedesk.one_hr import own
 
+# What OneAI changes in OneHR: what it drafts (feedback, goals, letters) is a
+# card of its own, so each call below is left to a person, and why.
+REACH = {}
+
+NOT_FOR_AI = {
+	"clock.punch": "Checking in is the employee's own word that they are at work, given in person.",
+	"control.save": "Holidays are set for the whole workspace by its administrator.",
+	"expense.approve": "Approving an expense owes an employee money, so their approver decides.",
+	"expense.reject": "Turning down an expense is the approver's decision about a person.",
+	"holidays.next_year": "Holidays are set for the whole workspace by its administrator.",
+	"holidays.use": "Holidays are set for the whole workspace by its administrator.",
+	"learned.confirm": "Trusting a place or device to check in from is HR's decision.",
+	"learned.reject": "Refusing a place or device to check in from is HR's decision.",
+	"leave.approve": "Granting leave is the approver's decision about a person.",
+	"leave.reject": "Turning leave down is the approver's decision about a person.",
+	"overtime.record": "Overtime is paid, so whoever saw it worked records it.",
+	"passkey.not_now": "It is a person's own answer to being offered a passkey.",
+	"passkey.remove": "A passkey is somebody's way in, so a person takes it away.",
+	"request.approve": "Approving a request for days at work is the approver's decision about a person.",
+	"request.reject": "Turning down a request for days at work is the approver's decision about a person.",
+	"shift.approve": "Giving somebody a shift is their manager's decision.",
+	"shift.reject": "Turning down a shift request is their manager's decision.",
+	"shift_setup.start_reading": "Turning on a shift's check-ins starts marking people's days, so HR does it.",
+}
+
 # What OneAI does in OneHR on its own, each a field of HR Settings that
 # AICenter draws with its own label and description (one_ai/center.py).
 JOBS = [

@@ -15,6 +15,20 @@ from onedesk.one_crm import capture, measure, record, stages
 from onedesk.one_crm import next as next_step
 from onedesk.one_mail import gate
 
+# What OneAI changes in OneCRM: the next step it suggests is a card of its
+# own (plan_next_step), so each call below is left to a person, and why.
+REACH = {}
+
+NOT_FOR_AI = {
+	"capture.merge": "Merging deletes a lead, so whoever may merge decides it is the same person.",
+	"capture.not_duplicate": "Whether two leads are the same person is for whoever knows them to say.",
+	"capture.take": "Owning a lead is a promise to follow it up, which a person makes for themselves.",
+	"next.done": "OneAI suggests the next step its own way, as a card from plan_next_step.",
+	"portal.accept_quote": "It is the customer's own answer, given on the portal.",
+	"portal.decline_quote": "It is the customer's own answer, given on the portal.",
+	"record.log_call": "A call is logged by whoever made it, since only they heard it.",
+}
+
 SUGGESTIONS = {
 	"Opportunity": [
 		{

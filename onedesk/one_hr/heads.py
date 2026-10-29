@@ -8,7 +8,7 @@ from frappe import _, _lt
 from frappe.utils import escape_html, flt, fmt_money, formatdate
 from frappe.utils.caching import request_cache
 
-from onedesk.one_hr import employee, encashment, expense, payroll, request, review, setup, shift
+from onedesk.one_hr import employee, encashment, expense, payroll, request, review, shift, shift_setup
 from onedesk.one_hr import leave as applications
 
 STANDING_TONE = {"low": "alarm", "watch": "waiting", "good": None}
@@ -582,7 +582,7 @@ VERBS = {
 				),
 			}
 		],
-		"run": lambda doc, **_values: setup.start_reading(doc.name),
+		"run": lambda doc, **_values: shift_setup.start_reading(doc.name),
 	},
 	"attempt.accept": {
 		"doctypes": ["Clock Attempt"],

@@ -207,7 +207,7 @@ scheduler_events = {
 		"onedesk.one_hr.healing.nightly",
 		"onedesk.one_hr.hiring.purge",
 		"onedesk.one_hr.leaving.nightly",
-		"onedesk.one_hr.setup.nightly",
+		"onedesk.one_hr.shift_setup.nightly",
 		"onedesk.one_project.updates.sum_up",
 	],
 	"hourly": [
@@ -991,6 +991,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_project/project_control.js",
 	"/assets/onedesk/js/one_inventory/inventory_control.js",
 	"/assets/onedesk/js/one_book/book_control.js",
+	"/assets/onedesk/js/one_crm/crm_control.js",
 	"/assets/onedesk/js/window/print.js",
 	"/assets/onedesk/js/window/workspace.js",
 	"/assets/onedesk/js/passkey.js",
@@ -1374,7 +1375,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities"]
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).

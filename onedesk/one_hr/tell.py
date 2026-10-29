@@ -2,7 +2,7 @@
 
 HRMS's approvals, reminders and rescheduled interviews, told here instead of
 its own app and mails, and OneHR's own moments besides. More in
-one_hr/README.md, Under the hood.
+one_hr/AGENTS.md, Under the hood.
 """
 
 import datetime

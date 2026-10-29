@@ -79,7 +79,8 @@ def test_every_controlcenter_ends_with_lists():
 	desk = (tree.APP / "public" / "js" / "desk.js").read_text()
 	assert "(module && onedesk.lists.center(module))" in desk
 	hr = (tree.APP / "public" / "js" / "one_hr" / "hr_control.js").read_text()
-	assert "frappe.boot.one_lists" in hr and "frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : []" in hr
+	# Everybody opens OneHR's settings; Holidays is the administrators' alone.
+	assert "frappe.boot.one_administers ? [{ group: null, items: [holidays] }] : []" in hr
 
 
 def test_a_modules_lists_are_a_tree_beside_any_of_them():

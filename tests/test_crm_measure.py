@@ -38,7 +38,7 @@ def test_every_card_on_home_is_worked_out_in_the_story():
 	number cards are gone."""
 	assert not (CRM / "workspace").exists() and not (CRM / "number_card").exists()
 	story = (CRM / "story.py").read_text(encoding="utf-8")
-	page = (tree.ROOT / "frontend" / "src" / "home" / "CrmHome.vue").read_text(encoding="utf-8")
+	page = (tree.ROOT / "frontend" / "src" / "crm" / "CrmHome.vue").read_text(encoding="utf-8")
 	for key in ("leads", "pipeline", "weighted", "won", "rate", "average"):
 		assert f'"{key}"' in story and f'key: "{key}"' in page, key
 

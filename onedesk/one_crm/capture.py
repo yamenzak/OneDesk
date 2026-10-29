@@ -102,12 +102,21 @@ def merge(lead: str, into: Annotated[str, "The lead this one is the same as."]) 
 	it, and it is gone. frappe's own rename with merge."""
 	if lead == into:
 		frappe.throw(_("A lead cannot be merged into itself."))
+	if not merges():
+		raise frappe.PermissionError
 	for name in (lead, into):
 		frappe.get_doc("Lead", name).check_permission("write")
-	frappe.get_doc("Lead", lead).check_permission("delete")
 	from onedesk.one_ai.reading import identity
 
 	return identity.fold("Lead", lead, into)
+
+
+def merges(user: str | None = None) -> bool:
+	"""Whether somebody may fold one lead into another, which deletes it:
+	OneCRM's Merge Duplicate Leads (abilities.py)."""
+	from onedesk.one import rights
+
+	return rights.held("CRM Settings", "crm_merge", user)
 
 
 @frappe.whitelist(methods=["POST"])

@@ -399,3 +399,25 @@ Their screens already sat on the window; what the walk changed:
 - On a phone a record page's tabs sit in the page under its figures, as they
   should: the window's view row belongs to the record panel, which a phone
   doesn't have.
+
+### OneCRM and OneHR, walked
+
+Walked as Omar (a Sales Manager), Mariam (an HR Manager) and Tariq (an
+employee), on a phone, and in Arabic and German. Their Homes and records
+already sat on the window; what the walk changed:
+
+- **A module's settings opened on nothing.** With no Lists of their own, the
+  dialog's first row was Notifications, which opens another centre and has
+  no body, so Tariq saw an empty panel. A dialog now opens on its first row
+  that has a body, and when none does the cog opens that first centre
+  itself (module_settings.js `open`). OneHR's settings had also turned
+  anybody who wasn't an administrator away with an alert; everybody gets
+  them now, and only Holidays stays the administrators'.
+- **HR's tour described HR's figures to everybody.** An employee's Home
+  shows the leave they have left, so the step says both.
+- **German called two employee tabs by the wrong words.** "Joining" and
+  "Exit" read "Kommen hinzu" and "Verlassen", borrowed from a group's
+  members coming and going in OneStudio; they are Eintritt and Austritt as
+  ERPNext says, and OneStudio's group card says Added and Removed.
+- **A heading was a sentence.** The holiday list's warning says "Ends {0},
+  in {1} days".

@@ -566,11 +566,11 @@ No doctypes yet.
 * `onedesk.one_hr.request.reject`
 * `onedesk.one_hr.review.accept`
 * `onedesk.one_hr.review.reject`
-* `onedesk.one_hr.setup.start_reading`
 * `onedesk.one_hr.shift.approve`
 * `onedesk.one_hr.shift.approvers`
 * `onedesk.one_hr.shift.hours`
 * `onedesk.one_hr.shift.reject`
+* `onedesk.one_hr.shift_setup.start_reading`
 * `onedesk.one_hr.signin.begin`
 * `onedesk.one_hr.signin.finish`
 * `onedesk.one_hr.signin.offered`

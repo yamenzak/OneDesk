@@ -100,7 +100,7 @@ a register and a movement form in it would be a rail with five rows.
   by what a chart shows: a kind of move keeps its hue, statuses keep theirs
   (done green, under way blue, late red), and age and busy days run light to
   dark.
-- `home.py`, `page/inventory` and `frontend/src/home` — Home. `needs_you`
+- `home.py`, `page/inventory` and `frontend/src/inventory/home` — Home. `needs_you`
   reads what needs somebody through `ai.late_orders`, `ai.running_low` and
   `ai.services_due` (OneAI reads the first and last through
   `still_to_arrive(late_only=True)` and `upkeep_now(days=...)`) and

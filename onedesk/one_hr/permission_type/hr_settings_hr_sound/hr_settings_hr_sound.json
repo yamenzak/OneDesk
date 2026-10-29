@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "hr_settings_hr_sound",
+ "doc_type": "HR Settings",
+ "perm_type": "hr_sound",
+ "modified": "2026-10-29 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-29 12:00:00.000000"
+}
