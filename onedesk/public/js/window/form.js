@@ -221,7 +221,7 @@ onedesk.window.panel_refresh = (frm) => {
 	onedesk.window.panel_own(frm);
 	const own = (name) => panel.panes[name].children(".one-panel-own").length > 0;
 	const has = {
-		overview: panel.head.children().length > 0 || panel.sections.children(":not(.hide-control)").length > 0,
+		overview: panel.head.children().length > 0 || panel.sections.children(":not(.hide-control)").filter((_, el) => getComputedStyle(el).display !== "none").length > 0,
 		activity: !!(footer && footer.length) || own("activity"),
 		mail: onedesk.record_tabs.applies(frm, "mail"),
 		connections: !!(links && links.length && !links.hasClass("hide-control")),

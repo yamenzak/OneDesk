@@ -1113,11 +1113,6 @@ def schedule_next(doc):
 	}
 
 
-def schedule_done(doc):
-	done = frappe.db.count("Asset Maintenance Log", {"asset_maintenance": doc.name, "maintenance_status": "Completed"})
-	return {"value": str(done), "route": f"/desk/asset-maintenance-log?asset_maintenance={quote(doc.name)}&maintenance_status=Completed"}
-
-
 def repair_asset(doc):
 	return _equipment(doc.asset)
 
@@ -1287,7 +1282,6 @@ MEASURES = {
 	"service.due": service_due,
 	"service.last": service_last,
 	"schedule.next": schedule_next,
-	"schedule.done": schedule_done,
 	"repair.asset": repair_asset,
 	"repair.out": repair_out,
 	"repair.cost": repair_cost,
@@ -1618,7 +1612,6 @@ HEADS = [
 		"band": [
 			{"label": _lt("Asset"), "source": "Measure", "measure": "service.asset"},
 			{"label": _lt("Next Due Date"), "source": "Measure", "measure": "schedule.next"},
-			{"label": _lt("Completed"), "source": "Measure", "measure": "schedule.done"},
 			{"label": _lt("Maintenance Team"), "source": "Field", "field": "maintenance_team"},
 		],
 	},

@@ -503,6 +503,49 @@
 		display: none;
 	}
 
+	/* Its stats are named row by row, so their "Stats" heading names
+	   nothing; its graph stands down where the head draws the record's
+	   own chart, and where it drew nothing; its progress bars where the
+	   head's track already tells how far the record has come. */
+	.one-window .one-panel-pane .form-stats .section-head,
+	.one-window .one-panel-head:has(.one-chart-body) + .one-panel-sections > .form-graph,
+	.one-window .one-panel-sections > .form-graph:not(:has(svg)),
+	.one-window .one-panel-head:has(.one-steps) + .one-panel-sections > .progress-area {
+		display: none;
+	}
+
+	/* A count frappe sets as a link with a badge (an asset's maintenance
+	   log) is one of the panel's rows: its name, then its number. */
+	.one-window .one-panel-pane .form-dashboard-section .row:has(> [class*="col-"] > a > .badge) {
+		margin: 0 !important;
+		padding-block: calc(var(--spacing) * 2);
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .row > [class*="col-"]:has(> a > .badge) {
+		width: 100%;
+		max-width: none;
+		flex: 1 1 auto;
+		padding: 0;
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section a:has(> .badge) {
+		display: flex;
+		align-items: baseline;
+		justify-content: space-between;
+		font-size: var(--text-sm);
+		color: var(--ink-gray-5);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section a > .badge {
+		padding: 0;
+		background: none;
+		color: var(--ink-gray-8);
+		font-size: var(--text-base);
+		font-weight: var(--weight-medium);
+		font-variant-numeric: tabular-nums;
+	}
+
 	/* A table in the panel is set small and fitted to its width, its
 	   headings wrapping; one that still cannot fit scrolls inside its block. */
 	.one-window .one-panel-pane .form-dashboard-section .section-body:has(table) {

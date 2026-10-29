@@ -477,3 +477,12 @@ and on a phone. What it changed in the parts every app shares:
   out as three columns for a full-width form; in the panel each warehouse is
   one ruled line, its name taking the room, then the quantity and the two
   buttons.
+- **Panel blocks said things twice.** A customer's and a supplier's stats
+  carried frappe's "Stats" heading over rows that name themselves; an asset
+  showed an empty "Graph" under the head's own value chart; a work order's
+  progress bars repeated its track; an asset maintenance schedule's log
+  printed each count under its name and repeated the head's Completed. In
+  the panel the stats heading goes, frappe's graph stands down where the
+  head draws a chart or where it drew nothing, its progress bars stand down
+  under a track, the log's counts are rows like the head's, and the head no
+  longer counts what the log does.
