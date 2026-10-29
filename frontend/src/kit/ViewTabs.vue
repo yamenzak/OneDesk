@@ -1,9 +1,9 @@
 <template>
-  <div class="relative min-w-0 border-b border-outline-gray-2">
-    <div ref="row" class="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" @scroll="edges">
+  <div class="relative min-w-0" :class="row ? 'px-1' : 'border-b border-outline-gray-2'">
+    <div ref="strip" class="overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden" @scroll="edges">
       <Tabs :model-value="modelValue" class="w-max" @update:model-value="pick">
         <TabList class="flex-nowrap whitespace-nowrap border-0">
-          <TabTrigger v-for="one in views" :key="one.key" :value="one.key" :label="one.label" :icon-left="one.icon">
+          <TabTrigger v-for="one in views" :key="one.key" :value="one.key" :label="one.label" :icon-left="row ? undefined : one.icon">
             <template v-if="one.count" #suffix><span class="ms-1 text-sm text-ink-gray-5">{{ one.count }}</span></template>
           </TabTrigger>
         </TabList>
@@ -21,10 +21,13 @@ import { TabList, Tabs, TabTrigger } from "frappe-ui";
 const props = defineProps({
   modelValue: { type: String, default: null },
   views: { type: Array, required: true },
+  // In the window's view row, where a form's tabs are, and drawn as they
+  // are: words, no rule of their own under them.
+  row: Boolean,
 });
 const emit = defineEmits(["update:modelValue"]);
 
-const row = ref(null);
+const strip = ref(null);
 const before = ref(false);
 const after = ref(false);
 
@@ -33,7 +36,7 @@ function pick(key) {
 }
 
 function edges() {
-  const el = row.value;
+  const el = strip.value;
   if (!el) return;
   const gone = Math.abs(el.scrollLeft);
   before.value = gone > 1;
@@ -41,7 +44,7 @@ function edges() {
 }
 
 function reveal() {
-  const el = row.value;
+  const el = strip.value;
   const tab = el?.querySelector("[role=tab][aria-selected=true]");
   if (!tab) return edges();
   const box = el.getBoundingClientRect();
@@ -54,7 +57,7 @@ function reveal() {
 let watcher = null;
 onMounted(() => {
   watcher = new ResizeObserver(() => edges());
-  watcher.observe(row.value);
+  watcher.observe(strip.value);
   nextTick(reveal);
 });
 onBeforeUnmount(() => watcher?.disconnect());

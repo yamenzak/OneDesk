@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-x-auto rounded-5 border border-outline-gray-2">
-    <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[52rem] list-gap-3 list-row-px-3">
+    <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[46rem] list-gap-3 list-row-px-3">
       <ListHeader class="bg-surface-gray-1">
         <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
         <ListHeaderCell>{{ __("When") }}</ListHeaderCell>

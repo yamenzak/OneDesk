@@ -324,8 +324,22 @@ export function windowPart(win, part, { key = "page", width } = {}) {
 		details: () => win.details({ key, width }),
 		commands: () => win.group("own"),
 		views: () => win.views_slot(),
+		row: () => (win.record_panel ? win.row() : null),
+		activity: () => (win.record_panel ? win.panel_slot("activity") : null),
 	}[part]?.();
 	return $at && $at[0] ? $at[0] : null;
+}
+
+// Whether a record page's window holds a form's parts for it
+// (docs/ONEINTERFACE.md, A record page): its tabs in the view row, its
+// activity in the record panel and its files behind OneCloud's mark.
+export const windowRecord = (win) => Boolean(win?.record_panel);
+
+// A record's pill for the address row, as frappe draws a form's: frappe's own
+// indicator for the doctype (its list settings where loaded, else its status).
+export function indicator(doctype, doc) {
+	const [label, color] = frappe().get_indicator?.({ doctype, ...doc }, doctype) || [];
+	return label ? { label, color: color || "gray" } : null;
 }
 
 export const copyText = (text) => frappe().utils.copy_to_clipboard(text);

@@ -195,9 +195,9 @@
 		background: var(--surface-gray-2);
 	}
 
-	.one-window[data-one-view="form"] .form-sidebar .modified-by,
-	.one-window[data-one-view="form"] .form-sidebar .created-by,
-	.one-window[data-one-view="form"] .form-sidebar:has(.one-cloud-open) .form-attachments {
+	:is(.one-window[data-one-view="form"], .one-window.one-record-page) .form-sidebar .modified-by,
+	:is(.one-window[data-one-view="form"], .one-window.one-record-page) .form-sidebar .created-by,
+	:is(.one-window[data-one-view="form"], .one-window.one-record-page) .form-sidebar:has(.one-cloud-open) .form-attachments {
 		display: none;
 	}
 

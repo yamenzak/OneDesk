@@ -40,7 +40,8 @@
       </header>
 
       <PlaceSpot :said="placed" class="mt-4" />
-      <ViewTabs v-model="view" :views="VIEWS" class="mt-5" />
+      <WindowPart v-if="onWindow" :win="win" part="row"><ViewTabs v-model="view" :views="VIEWS" row /></WindowPart>
+      <ViewTabs v-else v-model="view" :views="VIEWS" class="mt-5" />
 
       <div class="pt-4">
         <div v-if="view === 'details'" class="grid gap-8 pb-12 lg:grid-cols-[minmax(0,1fr)_20rem]">
@@ -105,6 +106,7 @@
           <Activity :key="said.name" doctype="Task" :name="said.name" />
         </div>
       </div>
+      <WindowPart v-if="onWindow" :win="win" part="activity"><Activity :key="said.name" doctype="Task" :name="said.name" /></WindowPart>
     </template>
   </Page>
 </template>
@@ -113,7 +115,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Badge, Checkbox, TextInput } from "frappe-ui";
 
-import { Facts, FieldEdit, Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, __, call, date, follow, followList, go, hours, insert, isPast, listen, onedesk, setQuery, setValue, useForm, useRecord } from "../kit";
+import { Facts, FieldEdit, Figures, Loading, Page, People, Pill, PlaceSpot, ViewTabs, WindowPart, __, call, date, follow, followList, go, hours, insert, isPast, listen, onedesk, setQuery, setValue, useForm, useRecord, windowRecord, indicator } from "../kit";
 import { DONE, PRIORITY, TASK_STATUS } from "../project/colors";
 import Due from "../project/Due.vue";
 import Title from "../project/Title.vue";
@@ -130,8 +132,10 @@ const props = defineProps({
   onTitle: Function,
   onStatus: Function,
   onActions: Function,
+  win: { type: Object, default: null },
 });
 
+const onWindow = windowRecord(props.win);
 const TONE = { red: "text-ink-red-5", orange: "text-ink-amber-6", blue: "text-ink-blue-6" };
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
 
@@ -191,8 +195,8 @@ const VIEWS = computed(() =>
   [
     { key: "details", label: __("Details"), icon: "lucide-list-checks" },
     said.value?.time && { key: "time", label: __("Timesheet"), icon: "lucide-clock", count: said.value.time.entries.length || null },
-    { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
-    { key: "activity", label: __("Activity"), icon: "lucide-activity" },
+    !onWindow && { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
+    !onWindow && { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean)
 );
 
@@ -306,7 +310,7 @@ function report() {
       ...s.above.map((one) => ({ label: one.subject, route: `/desk/task/${encodeURIComponent(one.name)}` })),
     ].filter(Boolean),
   });
-  props.onStatus?.(null);
+  props.onStatus?.(indicator("Task", { status: s.status }));
   extended(s);
   props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/my-tasks") })]);
 }

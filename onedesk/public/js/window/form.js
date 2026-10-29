@@ -166,6 +166,8 @@ onedesk.window.panel = (frm, $sidebar) => {
 		tabs.position_indicator();
 	});
 	frm.one_panel = { tabs, panes, head, sections, $panel, watch };
+	frm.page.window.panel_frm = frm;
+	onedesk.window.panel_own(frm);
 	return frm.one_panel;
 };
 
@@ -188,9 +190,11 @@ onedesk.window.panel_refresh = (frm) => {
 	if (dashboard && dashboard.parent) panel.sections.append(dashboard.parent.children(".form-dashboard-section"));
 	onedesk.window.indicators(panel.sections, panel.head);
 	panel.watch.observe(panel.sections[0], { childList: true, subtree: true });
+	onedesk.window.panel_own(frm);
+	const own = (name) => panel.panes[name].children(".one-panel-own").length > 0;
 	const has = {
 		overview: panel.head.children().length > 0 || panel.sections.children(":not(.hide-control)").length > 0,
-		activity: !!(footer && footer.length),
+		activity: !!(footer && footer.length) || own("activity"),
 		mail: onedesk.record_tabs.applies(frm, "mail"),
 		connections: !!(links && links.length && !links.hasClass("hide-control")),
 	};
@@ -215,6 +219,18 @@ onedesk.window.panel_refresh = (frm) => {
 	panel.picking = true;
 	panel.tabs.set_active(names.indexOf(want));
 	panel.picking = false;
+};
+
+// What a view on the window drew for the panel itself (frame.js
+// `panel_slot`), moved into its tab; a record page made again for another
+// record takes the same parts into its new panel.
+onedesk.window.panel_own = (frm) => {
+	const panel = frm.one_panel;
+	const parts = (frm.page && frm.page.window && frm.page.window.panel_parts) || {};
+	if (!panel) return;
+	for (const [name, $part] of Object.entries(parts)) {
+		if (panel.panes[name] && !$.contains(panel.panes[name][0], $part[0])) panel.panes[name].append($part);
+	}
 };
 
 onedesk.window.panel_show = (frm, name) => {

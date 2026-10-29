@@ -4,6 +4,18 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar, one_window_fit: fit });
 	if (bare) $(wrapper).addClass(bare);
 	page.one_record = record;
+	// A record page on the window is laid out as a form is (docs/ONEINTERFACE.md,
+	// A record page): its sidebar is the details pane with its switch, its
+	// own buttons are the command row's, and the island is told it may put
+	// its tabs in the view row and its activity in the record panel.
+	const win = page.window;
+	if (win && record) {
+		$(wrapper).addClass("one-record-page");
+		win.record_panel = onedesk.window.panelled({ page });
+		win.view({ commands: page.custom_actions });
+		const $side = page.wrapper.find(".layout-main > .layout-side-section").first();
+		if (win.record_panel && $side.length) win.details({ key: "form", width: 400, pane: $side });
+	}
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 	let framed = null;
 	let unframe = () => {};

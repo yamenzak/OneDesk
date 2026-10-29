@@ -312,6 +312,16 @@ with the gates at the end.
   frappe's own Arabic on every record: "2 weeks ago" reads
   "قبل 2 أسبوع /أسابيع", and the record panel's "Last Edited By" isn't
   translated at all.
+- **Record pages on OneInterface.** A project, a task, an item and a
+  project template are islands, and they had kept the layout from before the
+  window: their tabs inside the page under the head, an Activity and a Files
+  tab of their own, the sidebar with a Files row and Last Edited By / Created
+  By under it, no details switch, and a task's Start Timer at the far right.
+  They are laid out as a form now (docs/ONEINTERFACE.md, A record page): tabs
+  in the view row, the status pill in the address row, buttons in the command
+  row, Activity in the record panel beside Mail, files behind OneCloud's mark,
+  who changed it in the status. The item page keeps OneInventory's rail, and
+  its print, like and OneCloud sit beside its name.
 - **OnePortal is on the rail** with its own mark (`brand/oneportal.svg`):
   People (Contact filtered on its Portal column) and Links (the Portal Link
   list), a foot and settings. Turned off in Apps it closes the portal

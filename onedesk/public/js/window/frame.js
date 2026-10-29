@@ -319,6 +319,18 @@ onedesk.window.Window = class Window {
 		return this.$row;
 	}
 
+	// A part of the record panel a view draws itself (an island's own
+	// activity), kept here until the panel is made and moved into its tab
+	// then (form.js `panel`), so the view may mount before the record loads.
+	panel_slot(name) {
+		this.panel_parts ||= {};
+		if (!this.panel_parts[name]) {
+			this.panel_parts[name] = $(`<div class="one-panel-own" data-own="${name}"></div>`);
+			if (this.panel_frm) requestAnimationFrame(() => onedesk.window.panel_refresh(this.panel_frm));
+		}
+		return this.panel_parts[name];
+	}
+
 	// The address box: frappe's breadcrumbs while at rest; clicked, or Ctrl+K,
 	// a box to type a place, a record or a command in, answered by frappe's
 	// own search bar (`AddressBar`). A view that has paths of its own

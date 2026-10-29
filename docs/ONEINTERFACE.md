@@ -231,6 +231,28 @@ new widget for a record is a figure or a chart in its head (`one/head.py`),
 and it lands in the panel already in this form; nothing is laid out for it
 by hand.
 
+## A record page
+
+A record run from all day has a page of its own (`tiers.PAGES`: a project, a
+task, an item, a project template), drawn by an island, and on the window it
+is laid out as its form would be (`island_page`, with `record`):
+
+- its sidebar is the details pane, with the switch at the command row's end
+  and the edge that drags it;
+- its own buttons are the command row's, after its main one (a task's Start
+  Timer beside Complete Task);
+- its state is the pill in the address row, frappe's own indicator for it
+  (`indicator` in the kit);
+- its views are the view row, where a form's tabs are, drawn as they are:
+  words, the one you are on underlined (`WindowPart` `row`);
+- its activity is the record panel's Activity tab (`WindowPart` `activity`,
+  the window's `panel_slot`), beside Mail, and its files are OneCloud's mark
+  beside print and like, so neither is a view of its own;
+- who made and changed it is the status, not rows in the sidebar.
+
+Only where the record panel is (`windowRecord`); on a phone the page keeps its
+views, files and activity in itself, as it always has.
+
 ## Making a record
 
 Every create opens one dialog (`onedesk.window.create`, in `window/form.js`), in place of frappe's
