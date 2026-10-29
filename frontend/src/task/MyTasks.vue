@@ -1,10 +1,9 @@
 <template>
   <div>
-    <main class="mx-auto w-full min-w-0 max-w-4xl px-4 pb-16 pt-5 sm:px-8">
-      <h1 class="text-xl font-semibold text-ink-gray-9">{{ shown.label }}</h1>
-      <div class="mt-4 flex gap-2" data-tour="onetask-add">
+    <main class="w-full min-w-0 px-4 pb-16 pt-4">
+      <div class="flex flex-wrap gap-2" data-tour="onetask-add">
         <TextInput v-model="subject" class="min-w-0 flex-1" :placeholder="__('Add a task')" :maxlength="140" :disabled="adding" :aria-label="__('Add a task')" @keydown.enter.prevent="add" />
-        <DatePicker v-model="due" class="w-36 shrink-0 sm:w-48" :format="dateFormat()" :placeholder="__('Expected End Date')" />
+        <DatePicker v-model="due" class="w-full shrink-0 sm:w-48" :format="dateFormat()" :placeholder="__('Expected End Date')" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
 
@@ -64,6 +63,7 @@ const props = defineProps({
   route: { type: Array, default: () => [] },
   query: { type: Object, default: () => ({}) },
   onActions: { type: Function, default: null },
+  onTitle: { type: Function, default: null },
 });
 
 const VIEWS = [
@@ -75,6 +75,7 @@ const WHEN = ["overdue", "today", "tomorrow", "week", "later", "none"];
 
 const view = ref(VIEWS.some((one) => one.key === props.query.section) ? props.query.section : "mine");
 const shown = computed(() => VIEWS.find((one) => one.key === view.value));
+watch(() => shown.value?.label, (label) => props.onTitle?.(label), { immediate: true });
 const groups = ref(null);
 const running = ref(null);
 const times = can("create", "Timesheet");

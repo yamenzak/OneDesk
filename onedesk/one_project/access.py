@@ -19,6 +19,7 @@ def settle() -> None:
 	roles.give(GIVEN)
 	_templates()
 	_every()
+	_billing()
 
 
 def _every() -> None:
@@ -49,3 +50,17 @@ def _templates() -> None:
 		update_permission_property("Project Template", MANAGER, 0, ptype, 1, validate=False)
 	if frappe.db.exists("Custom DocPerm", {"parent": "Project Template", "role": USER, "permlevel": 0}):
 		update_permission_property("Project Template", USER, 0, "read", 1, validate=False)
+
+
+def _billing() -> None:
+	"""A Projects Manager reads what time bills (a timesheet's level 1:
+	billing hours, rates and amounts). erpnext keeps those to Accounts User,
+	yet copies each amount into a field anyone may read, so its Timesheet
+	Billing Summary showed a project manager the money and 0 hours; the
+	project page shows them what was billed anyway. Written once, like the
+	templates: a level-1 row for the role is the workspace's to change."""
+	if frappe.db.exists("Custom DocPerm", {"parent": "Timesheet", "role": MANAGER, "permlevel": 1}):
+		return
+	setup_custom_perms("Timesheet")
+	add_permission("Timesheet", MANAGER, 1)
+	update_permission_property("Timesheet", MANAGER, 1, "read", 1, validate=False)

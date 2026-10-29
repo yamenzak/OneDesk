@@ -301,6 +301,11 @@
 		border-bottom: 1px solid var(--outline-gray-1);
 	}
 
+	/* One tab has nothing to choose between: its bar goes, its pane stays. */
+	.one-window .one-panel-tabs > .es-tabs__list:not(:has(> .es-tabs__tab:not([hidden]) ~ .es-tabs__tab:not([hidden]))) {
+		display: none;
+	}
+
 	.one-window .one-panel-tabs .es-tabs__tab {
 		flex: 1 1 0;
 		justify-content: center;

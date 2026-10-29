@@ -486,3 +486,14 @@ and on a phone. What it changed in the parts every app shares:
   head draws a chart or where it drew nothing, its progress bars stand down
   under a track, the log's counts are rows like the head's, and the head no
   longer counts what the log does.
+- **OneTask and OneProject on the window.** Walked again after their record
+  pages moved onto OneInterface. My Tasks and Inbox now name themselves in
+  the address row rather than saying OneTask, drop the heading that repeated
+  it, and fill the window as a list does; on a phone the new task's date
+  takes its own line. A record panel left with one tab (a task's Activity)
+  loses the bar of one icon. Project Progress counted only tasks erpnext's
+  nightly job had marked Overdue, and said 0 beside seventeen late ones; it
+  counts by end date now. Timesheet Billing Summary showed a Projects
+  Manager the billed money and 0 billing hours (erpnext hides the hours and
+  leaves the money's copy readable); a Projects Manager reads timesheet
+  billing now. Workload dropped a stale assignee that is no user.

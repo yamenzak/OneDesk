@@ -25,8 +25,12 @@ def execute(filters=None):
 		limit=0,
 	)
 	people: dict[str, dict] = {}
+	# A task's _assign is frappe's copy of its open assignments, and a copy
+	# can name somebody who is no longer a user (an address renamed since):
+	# only people who can sign in carry work.
+	active = set(frappe.get_all("User", filters={"enabled": 1}, pluck="name"))
 	for task in tasks:
-		assigned = frappe.parse_json(task._assign or "[]") or []
+		assigned = [user for user in frappe.parse_json(task._assign or "[]") or [] if user in active]
 		if not assigned:
 			continue
 		due = task.exp_end_date or task.exp_start_date
