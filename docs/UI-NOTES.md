@@ -463,3 +463,7 @@ and on a phone. What it changed in the parts every app shares:
 - **Check In on a desktop asked to register a passkey "on this phone".** On a
   desktop it says to check in from your phone; on a phone it is a titled
   dialog with Register Passkey.
+- **A dashboard's table was Bootstrap's grid.** hrms's Allocated Leaves (and
+  a job applicant's interviews, the opening invoice tool) drew a bordered
+  table with a line round every cell and raw green; any `.table-bordered`
+  in a form's dashboard is drawn as frappe-ui draws a table (desk.css).

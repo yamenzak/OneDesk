@@ -1697,3 +1697,45 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius-lg);
 }
+
+/* A table an app draws into a form's dashboard (hrms's Allocated Leaves, a
+   job applicant's interviews) the way frappe-ui draws one: one rounded
+   border, rows ruled across and no columns, a quiet header, figures in
+   tabular digits, and the app's own green and red as the theme's. */
+.form-dashboard .table-bordered {
+	border: 1px solid var(--outline-gray-1);
+	border-radius: var(--radius-lg);
+	border-collapse: separate;
+	border-spacing: 0;
+	overflow: hidden;
+	margin-bottom: 0;
+	font-size: var(--text-sm);
+	font-variant-numeric: tabular-nums;
+}
+
+.form-dashboard .table-bordered :is(th, td) {
+	border: 0;
+	border-top: 1px solid var(--outline-gray-1);
+	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 3);
+	vertical-align: middle;
+}
+
+.form-dashboard .table-bordered thead th {
+	border-top: 0;
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-5);
+	font-weight: var(--weight-regular);
+	vertical-align: bottom;
+}
+
+.form-dashboard .table-bordered td {
+	color: var(--ink-gray-8);
+}
+
+.form-dashboard .table-bordered td[style*="color: green"] {
+	color: var(--ink-green-6) !important;
+}
+
+.form-dashboard .table-bordered td[style*="color: red"] {
+	color: var(--ink-red-6) !important;
+}
