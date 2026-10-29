@@ -19,7 +19,7 @@ ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
 	"Task": ROOT / "frontend" / "src" / "task" / "TaskPage.vue",
-	"Item": ROOT / "frontend" / "src" / "item" / "ItemPage.vue",
+	"Item": ROOT / "frontend" / "src" / "inventory" / "item" / "ItemPage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
@@ -170,7 +170,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onetask_task.files": (ROOT / "frontend" / "src" / "task" / "TaskFiles.vue").read_text(),
 		"onetask_task.activity": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
 		**{
-			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "item" / f"{name}.vue").read_text()
+			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "inventory" / "item" / f"{name}.vue").read_text()
 			for view, name in (
 				("item", "ItemPage"),
 				("stock", "ItemStock"),
@@ -181,18 +181,18 @@ def test_each_page_fires_its_events_with_only_its_powers():
 				("activity", "ItemPage"),
 			)
 		},
-		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "stock" / "StockOnHand.vue").read_text(),
-		"oneinventory_floor.shown": (ROOT / "frontend" / "src" / "floor" / "ShopFloor.vue").read_text(),
-		"oneinventory_home.shown": (ROOT / "frontend" / "src" / "home" / "InventoryHome.vue").read_text(),
+		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "inventory" / "stock" / "StockOnHand.vue").read_text(),
+		"oneinventory_floor.shown": (ROOT / "frontend" / "src" / "inventory" / "floor" / "ShopFloor.vue").read_text(),
+		"oneinventory_home.shown": (ROOT / "frontend" / "src" / "inventory" / "home" / "InventoryHome.vue").read_text(),
 		"onecrm_home.shown": (ROOT / "frontend" / "src" / "home" / "CrmHome.vue").read_text(),
 		"onehr_home.shown": (ROOT / "frontend" / "src" / "home" / "HrHome.vue").read_text(),
-		"onebook_home.shown": (ROOT / "frontend" / "src" / "home" / "BooksHome.vue").read_text(),
-		"oneinventory_lots.shown": (ROOT / "frontend" / "src" / "lots" / "LotsPage.vue").read_text(),
-		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "to_order" / "ToOrderPage.vue").read_text(),
-		"oneinventory_quotes.shown": (ROOT / "frontend" / "src" / "quotes" / "QuotesPage.vue").read_text(),
-		"oneinventory_sent_out.shown": (ROOT / "frontend" / "src" / "sent_out" / "SentOutPage.vue").read_text(),
-		"oneinventory_upkeep.shown": (ROOT / "frontend" / "src" / "upkeep" / "UpkeepPage.vue").read_text(),
-		"oneinventory_plant.shown": (ROOT / "frontend" / "src" / "plant" / "PlantFloor.vue").read_text(),
+		"onebook_home.shown": (ROOT / "frontend" / "src" / "books" / "BooksHome.vue").read_text(),
+		"oneinventory_lots.shown": (ROOT / "frontend" / "src" / "inventory" / "lots" / "LotsPage.vue").read_text(),
+		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "inventory" / "to_order" / "ToOrderPage.vue").read_text(),
+		"oneinventory_quotes.shown": (ROOT / "frontend" / "src" / "inventory" / "quotes" / "QuotesPage.vue").read_text(),
+		"oneinventory_sent_out.shown": (ROOT / "frontend" / "src" / "inventory" / "sent_out" / "SentOutPage.vue").read_text(),
+		"oneinventory_upkeep.shown": (ROOT / "frontend" / "src" / "inventory" / "upkeep" / "UpkeepPage.vue").read_text(),
+		"oneinventory_plant.shown": (ROOT / "frontend" / "src" / "inventory" / "plant" / "PlantFloor.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
 	}

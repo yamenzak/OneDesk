@@ -1,4 +1,4 @@
-"""An item's page (page/item_view, frontend/src/item): the item as its reader
+"""An item's page (page/item_view, frontend/src/inventory/item): the item as its reader
 may see it, where it is kept, who it is bought from and sold to, what it is
 made from and what it goes into. The page only reads here; it changes the item
 as desk does (set_value, frappe.client.save) and starts documents from it in

@@ -1,7 +1,7 @@
 """What OneAI does in OneInventory: reads items, the stores, receipts,
 deliveries, movements, counts, buying, the workshop and equipment as the
 reader sees them, and drafts what it suggests there as a card the reader
-approves. The README's Under the hood lists each tool.
+approves. AGENTS.md lists each tool.
 """
 
 from typing import Annotated
@@ -9,6 +9,26 @@ from typing import Annotated
 import frappe
 from frappe import _lt
 from frappe.utils import flt, get_fullname
+
+# What OneAI changes in OneInventory: every change it suggests is a card of
+# its own kind (plan_*), so each call below is left to a person, and why.
+REACH = {}
+
+NOT_FOR_AI = {
+	"barcodes.save": "OneAI changes an item as a card from plan_item_change, and a barcode is read off the label by a person.",
+	"custody.give": "OneAI hands equipment over its own way, as a card from plan_handover.",
+	"custody.take_back": "Taking equipment back is done with the thing in hand, by whoever receives it.",
+	"kinds.make": "OneAI suggests an item's changes with plan_item_change, and a new item's prices and opening stock are a person's to say.",
+	"order.order": "OneAI asks for prices with plan_quote_request, and an order to a supplier is a person's to place.",
+	"parts.add": "It adds the parts a person has checked in the list they gave.",
+	"parts.read": "It reads a list of parts the person gives and changes nothing until they add them.",
+	"portal.send_quote": "It is a supplier's own answer, given on the portal.",
+	"quotes.ask": "OneAI asks suppliers for prices its own way, as a card from plan_quote_request.",
+	"quotes.order_cheapest": "An order to a supplier is a person's to place, from the quotes OneAI compares.",
+	"ready.fix": "What Inventory Check fixes changes how the whole workspace keeps stock, so a manager presses Fix.",
+	"stock.issue": "Stock used is recorded by whoever took it off the shelf, and OneAI moves stock as a card from plan_transfer.",
+	"upkeep.done": "A service is recorded done by whoever did it.",
+}
 
 PAGE = "item-view"
 STOCK = "stock-on-hand"

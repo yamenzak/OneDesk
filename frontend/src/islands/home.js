@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import InventoryHome from "../home/InventoryHome.vue";
+import InventoryHome from "../inventory/home/InventoryHome.vue";
 
 export const mount = screen(InventoryHome);

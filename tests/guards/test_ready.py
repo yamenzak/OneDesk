@@ -262,7 +262,8 @@ def test_a_module_ships_its_roles():
 					keys.add(value.value)
 		assert keys, f"{module} declares no abilities"
 		defaults = said.get("DEFAULTS") or {}
-		assert said.get("EVERYONE") in defaults, f"{module}'s DEFAULTS don't name the role everyone holds"
+		user = said.get("EVERYONE") or said.get("USER")
+		assert user in defaults, f"{module}'s DEFAULTS don't name the role everyone, or every user, holds"
 		for role, values in defaults.items():
 			assert set(values) <= keys, f"{module}'s {role} names abilities it doesn't declare: {set(values) - keys}"
 		pages = [page["body"] for page in ready.help_pages(module)]

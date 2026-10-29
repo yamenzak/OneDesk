@@ -1,7 +1,7 @@
 """What OneAI does in OneBook: reads how the money stands, who owes and is
 owed and how late, one invoice with what settled it, and the bank lines left
 to match, all as the reader may see them. It changes nothing in the books;
-the README's Under the hood lists each tool.
+AGENTS.md lists each tool.
 """
 
 from typing import Annotated
@@ -11,6 +11,16 @@ from frappe import _lt
 from frappe.utils import flt, getdate, nowdate
 
 from onedesk.one_book import home, story
+
+# What OneAI changes in OneBook: nothing. It reads the books as the reader
+# may and leaves every posting to a person, for the reasons below.
+REACH = {}
+
+NOT_FOR_AI = {
+	"closing.lock": "Locking the books is the accountant's word that a period is final.",
+	"paid.settle": "A payment is money that moved, so whoever saw it move records it.",
+	"ready.fix": "What Books Check fixes changes how the whole workspace keeps its books, so a manager presses Fix.",
+}
 
 HOME = "books"
 

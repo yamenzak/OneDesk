@@ -1,4 +1,4 @@
-"""A supplier's Items tab (public/js/supplier_items.js, frontend/src/supplier):
+"""A supplier's Items tab (public/js/supplier_items.js, frontend/src/inventory/supplier):
 what is bought from them, item by item, the way an item's Buying tab says who
 it is bought from (view.py `_buying`), turned round. Each item with their own
 code for it, whether they are its default supplier, the last price paid in

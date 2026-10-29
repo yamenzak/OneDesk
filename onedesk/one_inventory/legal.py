@@ -27,11 +27,10 @@ clause(
 	key="oneinventory-asks",
 	module=M,
 	body="""
-		In OneInventory, when you ask OneAI about an item, the stores, an order, a receipt, a delivery, a
-		movement, a count, a work order or a piece of equipment, it reads them as you see them: what is held
-		and where, what is ordered and from which supplier at what price, what the workshop is making, who
-		holds a piece of equipment, its services and its repairs. A receipt, a delivery, a transfer, a request
-		for quotation, a work order, a handover or a change to an item it suggests is made only when you
-		approve it, and stays a draft until it is submitted.
+		In OneInventory, OneAI reads items, the stores, orders, receipts, deliveries, counts, work orders and
+		equipment as you see them. That covers what is held and where, and what is ordered from which
+		supplier at what price. It also covers what the workshop is making, and who holds each piece of
+		equipment with its services and repairs. Anything it suggests, such as a receipt, a transfer or a
+		change to an item, is made only when you approve it. It stays a draft until it is submitted.
 	""",
 )

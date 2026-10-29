@@ -1,8 +1,8 @@
-"""Quotes (page/quotes, frontend/src/quotes): asking suppliers for prices,
+"""Quotes (page/quotes, frontend/src/inventory/quotes): asking suppliers for prices,
 their answers and the comparison, as one page. Every change is ERPNext's own
 mapper: a request for quotation from a material request, a supplier's quote
 from the request, and a purchase order from a quote. How it works is in the
-module's README, Under the hood.
+module's AGENTS.md.
 """
 
 import erpnext

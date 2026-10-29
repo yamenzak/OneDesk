@@ -1,4 +1,4 @@
-"""Stock on Hand (page/stock_on_hand, frontend/src/stock): what the company
+"""Stock on Hand (page/stock_on_hand, frontend/src/inventory/stock): what the company
 holds now, item by item, in every warehouse or one, read as the reader may see
 it. ERPNext's Stock Balance answers the same over a period and is a report
 prepared in the background, so the rail's first look at the stores was an empty

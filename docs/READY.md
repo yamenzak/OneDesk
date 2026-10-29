@@ -403,7 +403,9 @@ the agreement.
 
 **Built.** A module's roles come from its folder alone. `<module>/abilities.py`,
 named by the `one_abilities` hook, declares its abilities, the role everyone
-holds (EVERYONE) and DEFAULTS: every role it ships and what each starts with.
+holds (EVERYONE), or for a space over ERPNext the role every user of it holds
+(USER, given on People), and DEFAULTS: every role it ships and what each
+starts with.
 `rights.settle`, on migrate, makes a role named there if it isn't there
 and writes its defaults once, so a workspace's own changes survive an update;
 the Role fixture is gone. The module's Help shows the same defaults: `{roles}`

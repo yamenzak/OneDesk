@@ -11,7 +11,7 @@ frappe.query_reports["Inventory Check"] = onedesk.check.report({
 					label: __("Location"),
 					reqd: 1,
 					default: __("Head Office"),
-					description: __("Where the company's equipment is kept. Add more later under Setup › Locations."),
+					description: __("Where the company's equipment is kept, with more added later under Setup › Locations."),
 				},
 				call,
 				__("Add a Location"),

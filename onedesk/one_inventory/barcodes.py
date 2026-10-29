@@ -1,6 +1,6 @@
 """An item's barcodes: ERPNext's own table on Item (Item Barcode). A new item
 is given its code as its first barcode, and its page shows the first two and
-manages the rest in one dialog (frontend/src/item/ItemBarcodes.vue)."""
+manages the rest in one dialog (frontend/src/inventory/item/ItemBarcodes.vue)."""
 
 import frappe
 

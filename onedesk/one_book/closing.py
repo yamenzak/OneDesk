@@ -5,8 +5,6 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, getdate, nowdate
 
-CLOSERS = ("Accounts Manager", "Workspace Administrator")
-
 
 def _company() -> str:
 	from erpnext import get_default_company
@@ -31,7 +29,8 @@ def locked(company: str | None = None):
 @frappe.whitelist(methods=["POST"])
 def lock(until: str | None = None) -> str | None:
 	"""Lock the books up to and including `until`; unlock with none."""
-	frappe.only_for(CLOSERS)
+	if not locks():
+		raise frappe.PermissionError
 	_lock(_company(), getdate(until) if until else None)
 	return until
 
@@ -122,3 +121,11 @@ def close_year(company: str, year: dict) -> str:
 	voucher.insert()
 	voucher.submit()
 	return voucher.name
+
+
+def locks(user: str | None = None) -> bool:
+	"""Whether somebody may lock the books: OneBook's Lock the Books
+	(abilities.py)."""
+	from onedesk.one import rights
+
+	return rights.held("Accounts Settings", "books_lock", user)

@@ -5,8 +5,6 @@ registers an asset.
 import frappe
 from frappe import _
 
-FIXERS = ("Stock Manager", "Manufacturing Manager", "Accounts Manager", "Workspace Administrator")
-
 READY, TO_DO, SUGGESTED = "Ready", "To Do", "Suggested"
 
 STOCK_ACCOUNTS = {
@@ -287,7 +285,8 @@ def _serviced(one) -> dict:
 
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
-	frappe.only_for(FIXERS)
+	if not fixes():
+		raise frappe.PermissionError
 	one = company()
 	if key == "serials":
 		_settle(enable_serial_and_batch_no_for_item=1)
@@ -408,3 +407,11 @@ def add_categories(one) -> list[str]:
 	if not made and not categories(one.name):
 		frappe.throw(_("The chart of accounts has no Fixed Asset ledgers to keep assets in."))
 	return made
+
+
+def fixes(user: str | None = None) -> bool:
+	"""Whether somebody may make what Inventory Check offers: OneInventory's
+	Fix What the Check Finds (abilities.py)."""
+	from onedesk.one import rights
+
+	return rights.held("Stock Settings", "inventory_fix", user)

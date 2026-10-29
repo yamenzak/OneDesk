@@ -140,6 +140,8 @@ onedesk.window.nav = {
 		const kept = onedesk.window.kept(onedesk.window.NAV.key, null);
 		if (kept) onedesk.window.nav.width(kept);
 		const $container = $(".body-sidebar-container");
+		// The whole pane is what a tour's first step points at (window-nav).
+		$container.find(".body-sidebar").first().attr("data-tour", "window-nav");
 		const edge = $container.find(".sidebar-edge")[0];
 		if (!edge || edge.one_window) return;
 		edge.one_window = true;

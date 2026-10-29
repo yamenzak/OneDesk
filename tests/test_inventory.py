@@ -116,10 +116,10 @@ def test_make_several_offers_a_numeric_range_as_erpnext_writes_it():
 
 
 def test_make_several_is_erpnexts_own_multiple_variants():
-	page = (tree.ROOT / "frontend" / "src" / "item" / "ItemVariantsMake.vue").read_text(encoding="utf-8")
+	page = (tree.ROOT / "frontend" / "src" / "inventory" / "item" / "ItemVariantsMake.vue").read_text(encoding="utf-8")
 	assert '"erpnext.controllers.item_variant.enqueue_multiple_variant_creation"' in page
 	assert "MOST = 500" in page and "QUEUED = 10" in page, "ERPNext's own limits"
-	overview = (tree.ROOT / "frontend" / "src" / "item" / "ItemOverview.vue").read_text(encoding="utf-8")
+	overview = (tree.ROOT / "frontend" / "src" / "inventory" / "item" / "ItemOverview.vue").read_text(encoding="utf-8")
 	assert "__('Make Several')" in overview and "said.choices && {" in overview
 	view = (tree.APP / "one_inventory" / "view.py").read_text(encoding="utf-8")
 	assert 'doc.variant_based_on == "Item Attribute"' in view, "only a template by attribute is made several at once, as ERPNext offers it"
@@ -287,11 +287,11 @@ def test_home_tells_its_story_through_frappe():
 	story = (INVENTORY / "story.py").read_text(encoding="utf-8")
 	assert "frappe.db.sql" not in story and "frappe.qb" not in story
 	assert "@frappe.read_only()" in story and "stock_ageing import execute" in story
-	page = (tree.APP.parent / "frontend" / "src" / "home" / "InventoryStory.vue").read_text(encoding="utf-8")
+	page = (tree.APP.parent / "frontend" / "src" / "inventory" / "home" / "InventoryStory.vue").read_text(encoding="utf-8")
 	assert 'from "frappe-ui/charts"' in page
 	for chart in ("AreaChart", "BarChart", "DonutChart", "FunnelChart", "HeatmapChart", "SankeyChart", "ScatterChart"):
 		assert f"<{chart}" in page, chart
-	home = (tree.APP.parent / "frontend" / "src" / "home" / "InventoryHome.vue").read_text(encoding="utf-8")
+	home = (tree.APP.parent / "frontend" / "src" / "inventory" / "home" / "InventoryHome.vue").read_text(encoding="utf-8")
 	assert "<NumberCard" in home and "sparkline" in home
 
 

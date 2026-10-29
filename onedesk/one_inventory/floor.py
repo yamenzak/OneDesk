@@ -1,6 +1,6 @@
-"""Shop Floor (page/floor, frontend/src/floor): the open work orders and each
+"""Shop Floor (page/floor, frontend/src/inventory/floor): the open work orders and each
 step's job card, read through ERPNext's own Shop Floor. How it works is in
-the module's README, Under the hood.
+the module's AGENTS.md.
 """
 
 import erpnext

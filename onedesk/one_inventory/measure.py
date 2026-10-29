@@ -5,7 +5,7 @@ so ERPNext prices, taxes, stocks and costs it as it would any other line. An
 item sold by the Piece has a size that prints and counts nothing: a
 curtain-wall panel is one, however big. Every table that lines up items
 carries the size (custom fields one_measured_by, one_pieces, one_length,
-one_width, one_height, one_size_uom and one_size). README, Sizes."""
+one_width, one_height, one_size_uom and one_size). AGENTS.md."""
 
 import frappe
 from frappe import _

@@ -1,6 +1,6 @@
 """OneInventory's Home (page/inventory, frontend/src/home): what needs
 somebody today, and everything in OneInventory, each with what it is for.
-How it works is in the module's README, Under the hood.
+How it works is in the module's AGENTS.md.
 """
 
 import erpnext

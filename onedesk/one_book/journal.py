@@ -1,7 +1,7 @@
 """What a journal entry is called. ERPNext titles one by its first account
 when nobody types a title, so a month's depreciation, a payroll and the rent
 all read as an account's name in the list ("Accumulated Depreciation - SGA").
-See the module's README, Under the hood."""
+See the module's AGENTS.md."""
 
 import frappe
 from frappe import _

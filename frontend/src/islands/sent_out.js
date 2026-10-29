@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import SentOutPage from "../sent_out/SentOutPage.vue";
+import SentOutPage from "../inventory/sent_out/SentOutPage.vue";
 
 export const mount = screen(SentOutPage);

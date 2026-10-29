@@ -2,7 +2,7 @@
 the headline figures with their months, then where stock is, how it moves,
 how old it is, buying, making and equipment. Each is read through
 frappe.get_list as the reader may see it, for the reader's company, in its
-currency. How it works is in the module's README, Under the hood.
+currency. How it works is in the module's AGENTS.md.
 """
 import calendar
 from collections import defaultdict

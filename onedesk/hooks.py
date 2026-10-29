@@ -989,6 +989,8 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_portal/portal.js",
 	"/assets/onedesk/js/one_task/task_control.js",
 	"/assets/onedesk/js/one_project/project_control.js",
+	"/assets/onedesk/js/one_inventory/inventory_control.js",
+	"/assets/onedesk/js/one_book/book_control.js",
 	"/assets/onedesk/js/window/print.js",
 	"/assets/onedesk/js/window/workspace.js",
 	"/assets/onedesk/js/passkey.js",
@@ -1372,7 +1374,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities"]
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).

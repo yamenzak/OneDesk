@@ -122,27 +122,27 @@ that exists.
 | `portal/src/pages/Rfq.vue` | Ariba's supplier quote: the buyer's message, each row priced in place in one card, with a discount and the tax the workspace charges on it, and the totals; notes; and beside them what the quote comes to and Send Quote (`send_quote`) |
 | `portal/src/pages/YourData.vue` | Google Account's Data & privacy: download, or delete |
 | `src/check/CheckList.vue` | Shopify's setup guide and Stripe's account checklist: how much is ready, then what is still to do, what is suggested and what is ready, each with what it means and its Fix |
-| `src/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
+| `src/inventory/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
 | `src/one/Home.vue` | Microsoft 365's Home and Slack's announcements: what waits for the reader's approval in every app, what the office is saying, what is new in their apps, and for an administrator the workspace at a glance and what in it needs them first |
-| `src/home/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
+| `src/books/BooksHome.vue` | Frappe Books' Dashboard: the figures that matter, then cash flow, profit and the largest expenses, then where the receivables and payables stand; laid out as OneInventory's Home |
 | `src/home/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
 | `src/home/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
-| `src/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
+| `src/inventory/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
-| `src/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
-| `src/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |
-| `src/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |
+| `src/inventory/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
+| `src/inventory/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |
+| `src/inventory/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |
 | `src/project/ProjectPage.vue` | Asana's project and monday's boards: a head with its health, then views that each open in place, as a form's tabs do, across the top under the head |
-| `src/quotes/QuotesPage.vue` | Odoo Purchase: Asked is its list of RFQs, Quotes its vendors' quotations, and Compare its Compare Product Lines, one request's quotes side by side with the cheapest marked |
-| `src/sent_out/SentOutPage.vue` | Katana's outsourced purchase orders and Odoo's subcontracting: one table of what is out, and the orders not ready to send above it |
-| `src/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
-| `src/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
+| `src/inventory/quotes/QuotesPage.vue` | Odoo Purchase: Asked is its list of RFQs, Quotes its vendors' quotations, and Compare its Compare Product Lines, one request's quotes side by side with the cheapest marked |
+| `src/inventory/sent_out/SentOutPage.vue` | Katana's outsourced purchase orders and Odoo's subcontracting: one table of what is out, and the orders not ready to send above it |
+| `src/inventory/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
+| `src/inventory/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
 | `src/task/MyTasks.vue` | Asana's My Tasks and Todoist's Upcoming: Overdue, the next seven days and Later, each task ticked off in place, a timer on it |
 | `src/task/TaskPage.vue` | Linear's issue and Asana's task: where it stands, what it is called, the one thing worth saying, when it runs and how far along it is, then its details, time, files and activity |
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
 | `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
-| `src/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
-| `src/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |
+| `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
+| `src/inventory/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |
 | `src/workload/WorkloadList.vue` | Asana's Workload and Float's capacity view: the team's week in one line with a bar, then a row a person, their load as a bar that turns red past what they have, the hours planned of the hours free, and their tasks, late and not estimated, each opening the tasks it counts |

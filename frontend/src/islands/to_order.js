@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import ToOrderPage from "../to_order/ToOrderPage.vue";
+import ToOrderPage from "../inventory/to_order/ToOrderPage.vue";
 
 export const mount = screen(ToOrderPage);

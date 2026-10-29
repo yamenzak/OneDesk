@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import UpkeepPage from "../upkeep/UpkeepPage.vue";
+import UpkeepPage from "../inventory/upkeep/UpkeepPage.vue";
 
 export const mount = screen(UpkeepPage);

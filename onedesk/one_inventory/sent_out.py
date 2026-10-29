@@ -1,8 +1,8 @@
-"""Sent Out (page/sent_out, frontend/src/sent_out): work a supplier does on
+"""Sent Out (page/sent_out, frontend/src/inventory/sent_out): work a supplier does on
 our own materials, powder coating say, as one page. What is out now, what
 went and what came back, each order as ERPNext's Subcontracting Order keeps
 it. Every change is ERPNext's own call. How it works is in the module's
-README, Under the hood.
+AGENTS.md.
 """
 
 import erpnext

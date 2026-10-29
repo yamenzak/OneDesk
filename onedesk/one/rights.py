@@ -249,8 +249,9 @@ def defaults_table(app: str) -> str:
 	try:
 		roles = list(declared.DEFAULTS)
 		# As the Roles matrix names them: the role everyone holds is User, the
-		# module's other is Manager.
-		named = [str(_("User") if role == getattr(declared, "EVERYONE", None) else _("Manager")) for role in roles]
+		# module's other is Manager; ERPNext's roles go by their own names.
+		everyone = getattr(declared, "EVERYONE", None)
+		named = [str(_(role) if not everyone else _("User") if role == everyone else _("Manager")) for role in roles]
 		rows = [f"| {_('Ability')} | " + " | ".join(named) + " |", "| --- |" + " --- |" * len(roles)]
 		for one in declared.ABILITIES:
 			cells = []

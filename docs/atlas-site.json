@@ -2548,7 +2548,9 @@
 "System Manager"
 ],
 "Stock Settings": [
+"Accounts Manager",
 "Accounts User",
+"Manufacturing Manager",
 "Manufacturing User",
 "Projects User",
 "Purchase User",

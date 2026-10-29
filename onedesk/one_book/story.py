@@ -2,7 +2,7 @@
 headline figures with their months, then cash and profit, what customers owe
 and what is owed to suppliers. Frappe Books' dashboard (Cashflow, Profit and
 Loss, Top expenses) over ERPNext's ledger, for the reader's company, in its
-currency, as the reader may see it. How it works is in the module's README.
+currency, as the reader may see it. How it works is in the module's AGENTS.md.
 """
 
 import calendar

@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "stock_settings_inventory_fix",
+ "doc_type": "Stock Settings",
+ "perm_type": "inventory_fix",
+ "modified": "2026-10-29 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-29 12:00:00.000000"
+}

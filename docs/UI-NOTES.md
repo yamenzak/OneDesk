@@ -377,3 +377,25 @@ browser and every centre, Help and What's New included, opens at it. They
 used to jump to the whole of the centre, which nobody expected; the whole of a
 centre opens from One's rail. A centre with no module foot (AccountCenter,
 NotificationCenter) keeps a Help button beside them.
+
+### OneInventory and OneBook, walked
+
+Both walked as their people (Karim, a Stock Manager; Huda, an Accounts
+Manager; the workspace administrator), on a phone, and in Arabic and German.
+Their screens already sat on the window; what the walk changed:
+
+- **A tour's first step had nothing to point at.** `window-nav` was drawn
+  only by a view's own tree in the nav pane, so on a rail module (OneProject,
+  OneTask, and now these two) the first step was skipped without a word. The
+  pane itself carries the mark now (frame.js `nav.setup`), and every tour
+  starts where it says it does.
+- **Plant Floor's main button opened another page.** Shop Floor was the
+  primary command; it is in the ··· menu now and New Workstation, on this
+  floor, is the button.
+- **Settings' Help said what the dialog doesn't have.** Neither module has an
+  OneAI row in its settings, and both have Lists; the pages say so.
+- **The item's shortage row was a sentence as a heading.** It says "{0}
+  short" now, and opens Selling as before.
+- On a phone a record page's tabs sit in the page under its figures, as they
+  should: the window's view row belongs to the record panel, which a phone
+  doesn't have.

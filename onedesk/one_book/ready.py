@@ -9,8 +9,6 @@ import frappe
 from frappe import _
 from frappe.utils import add_days, add_years, flt, getdate, nowdate
 
-FIXERS = ("Accounts Manager", "Workspace Administrator")
-
 DEFAULTS = {
 	"default_receivable_account": "Default Receivable Account",
 	"default_payable_account": "Default Payable Account",
@@ -246,7 +244,8 @@ def _closed(one) -> dict:
 @frappe.whitelist(methods=["POST"])
 def fix(key: str, **values) -> None:
 	"""The fix beside a check."""
-	frappe.only_for(FIXERS)
+	if not fixes():
+		raise frappe.PermissionError
 	one = company()
 	if key == "year":
 		add_year(one.name)
@@ -415,3 +414,11 @@ def wire(company_name: str, account: str) -> None:
 		row.append("accounts", {"company": company_name, "default_account": account})
 		row.flags.ignore_permissions = True
 		row.save()
+
+
+def fixes(user: str | None = None) -> bool:
+	"""Whether somebody may make what Books Check offers: OneBook's Fix What
+	the Check Finds (abilities.py)."""
+	from onedesk.one import rights
+
+	return rights.held("Accounts Settings", "books_fix", user)

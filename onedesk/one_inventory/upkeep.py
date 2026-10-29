@@ -1,8 +1,8 @@
-"""Upkeep (page/upkeep, frontend/src/upkeep): servicing and mending the
+"""Upkeep (page/upkeep, frontend/src/inventory/upkeep): servicing and mending the
 company's equipment as one page. The services due, the repairs, each
 asset's plan and the log of what was done, each as ERPNext's Asset
 Maintenance, Asset Maintenance Log and Asset Repair keep it. How it works is
-in the module's README, Under the hood.
+in the module's AGENTS.md.
 """
 
 import erpnext

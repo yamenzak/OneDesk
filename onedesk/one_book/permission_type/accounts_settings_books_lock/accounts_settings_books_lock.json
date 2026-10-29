@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "accounts_settings_books_lock",
+ "doc_type": "Accounts Settings",
+ "perm_type": "books_lock",
+ "modified": "2026-10-29 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-10-29 12:00:00.000000"
+}

@@ -1,7 +1,7 @@
-"""Lots (page/lots, frontend/src/lots): batches and serial numbers as one
+"""Lots (page/lots, frontend/src/inventory/lots): batches and serial numbers as one
 tool, what each lot holds and where, which go off soon, and the items kept in
 lots. The item's Stock tab shows the same rows. How it works is in the
-module's README, Under the hood.
+module's AGENTS.md.
 """
 
 import erpnext
@@ -21,7 +21,7 @@ def read(view: str = "batches", search: str | None = None, item: str | None = No
 		"can": {
 			"Batch": bool(frappe.has_permission("Batch", "create")),
 			"Item": bool(frappe.has_permission("Item", "write")),
-			"switch": bool(set(frappe.get_roles()) & set(_fixers())),
+			"switch": _fixes(),
 		},
 		"figures": figures(),
 		"batches": [],
@@ -37,10 +37,10 @@ def read(view: str = "batches", search: str | None = None, item: str | None = No
 	return said
 
 
-def _fixers() -> tuple:
+def _fixes() -> bool:
 	from onedesk.one_inventory import ready
 
-	return ready.FIXERS
+	return ready.fixes()
 
 
 def figures() -> dict:

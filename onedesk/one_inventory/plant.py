@@ -1,7 +1,7 @@
-"""Plant Floor (page/plant, frontend/src/plant): a floor's workstations as
+"""Plant Floor (page/plant, frontend/src/inventory/plant): a floor's workstations as
 cards, what each is doing now, and the stock kept on the floor, read through
 ERPNext's own Plant Floor and Workstation. How it works is in the module's
-README, Under the hood.
+AGENTS.md.
 """
 
 import erpnext
@@ -31,6 +31,7 @@ def read(plant: str | None = None, workstation_type: str | None = None, status: 
 		"can": {
 			"Plant Floor": bool(frappe.has_permission("Plant Floor", "create")),
 			"Workstation": bool(frappe.has_permission("Workstation", "write")),
+			"New Workstation": bool(frappe.has_permission("Workstation", "create")),
 			"Stock Entry": bool(frappe.has_permission("Stock Entry", "create")),
 		},
 		"plant": None,
