@@ -1,0 +1,41 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 23:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "service",
+  "prefix"
+ ],
+ "fields": [
+  {
+   "fieldname": "service",
+   "fieldtype": "Data",
+   "label": "Service",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "prefix",
+   "fieldtype": "Data",
+   "label": "Prefix",
+   "reqd": 1,
+   "length": 3,
+   "in_list_view": 1,
+   "description": "The letter tickets for this service start with, such as A."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-29 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Queue Service",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "istable": 1,
+ "editable_grid": 1
+}

@@ -4651,6 +4651,8 @@ def _modules() -> None:
 
 	for spec in ready.MODULES.values():
 		importlib.import_module(f"onedesk.{spec['folder']}.checks")
+	# not registered yet, and checked all the same (one_display/AGENTS.md)
+	importlib.import_module("onedesk.one_display.checks")
 
 
 _modules()

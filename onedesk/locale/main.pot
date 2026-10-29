@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-29 08:25+0000\n"
-"PO-Revision-Date: 2026-10-29 08:25+0000\n"
+"POT-Creation-Date: 2026-10-29 22:58+0000\n"
+"PO-Revision-Date: 2026-10-29 22:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -33,7 +33,7 @@ msgstr ""
 msgid "% Completed"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1551
+#: onedesk/one_inventory/heads.py:1545
 msgid "% Transferred"
 msgstr ""
 
@@ -206,7 +206,7 @@ msgstr ""
 #: frontend/src/template/Tasks.vue:126
 #: frontend/src/template/TemplatePage.vue:80 onedesk/one/control.py:314
 #: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:29
-#: onedesk/one_inventory/heads.py:1132
+#: onedesk/one_inventory/heads.py:1127
 #: onedesk/public/js/project_template_list.js:4
 msgid "1 day"
 msgstr ""
@@ -215,8 +215,7 @@ msgstr ""
 #: frontend/src/inventory/home/InventoryHome.vue:219
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:266
 #: frontend/src/project/Overview.vue:375 frontend/src/project/Suppliers.vue:202
-#: frontend/src/task/TaskPage.vue:214 onedesk/one_project/retention.py:237
-#: onedesk/one_project/view.py:930
+#: onedesk/one_project/retention.py:237 onedesk/one_project/view.py:930
 msgid "1 day late"
 msgstr ""
 
@@ -436,6 +435,10 @@ msgstr ""
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr ""
 
+#: onedesk/one_task/tour.py:24
+msgid "A Column for Each Status"
+msgstr ""
+
 #: onedesk/one_admin/doctype/private_app/private_app.py:15
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr ""
@@ -466,6 +469,11 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 msgid "A Shift Location, or a single employee. Leave both empty to apply it site-wide."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "A TV, monitor or tablet that shows a channel, paired with the code it shows."
 msgstr ""
 
 #: onedesk/one_book/ready.py:196
@@ -689,7 +697,7 @@ msgstr ""
 msgid "A document as it stood, kept by its version history: named by somebody, or taken while it was being written."
 msgstr ""
 
-#: onedesk/one_studio/places.py:293
+#: onedesk/one_studio/places.py:249
 msgid "A document is opened in Documents."
 msgstr ""
 
@@ -807,7 +815,7 @@ msgstr ""
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr ""
 
-#: onedesk/one_studio/places.py:279
+#: onedesk/one_studio/places.py:235
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr ""
 
@@ -1166,47 +1174,47 @@ msgstr ""
 msgid "A problem or maintenance"
 msgstr ""
 
-#: onedesk/one_studio/places.py:435
+#: onedesk/one_studio/places.py:391
 msgid "A project template's page is opened, and each time the template changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:396
+#: onedesk/one_studio/places.py:352
 msgid "A project's Activity view is opened, and each time it shows more."
 msgstr ""
 
-#: onedesk/one_studio/places.py:391
+#: onedesk/one_studio/places.py:347
 msgid "A project's Files view is opened, and each time its files change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:369
+#: onedesk/one_studio/places.py:325
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:360
+#: onedesk/one_studio/places.py:316
 msgid "A project's Money view is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:338
+#: onedesk/one_studio/places.py:294
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:378
+#: onedesk/one_studio/places.py:334
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:347
+#: onedesk/one_studio/places.py:303
 msgid "A project's Tasks are opened as a table, a board or a timeline, and each time they change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:386
+#: onedesk/one_studio/places.py:342
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:352
+#: onedesk/one_studio/places.py:308
 msgid "A project's Time view is opened, and each time its hours change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:329
+#: onedesk/one_studio/places.py:285
 msgid "A project's page is opened, and each time the project changes."
 msgstr ""
 
@@ -1356,6 +1364,10 @@ msgstr ""
 msgid "A scheduled extension runs at most once an hour."
 msgstr ""
 
+#: onedesk/one_display/screens.py:186
+msgid "A screen cannot be told {0}."
+msgstr ""
+
 #: onedesk/one_book/home.py:377
 msgid "A second set of books, such as for tax depreciation."
 msgstr ""
@@ -1400,7 +1412,7 @@ msgstr ""
 msgid "A signup from the public sign-up page."
 msgstr ""
 
-#: onedesk/one_studio/places.py:318
+#: onedesk/one_studio/places.py:274
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr ""
 
@@ -1457,22 +1469,6 @@ msgstr ""
 msgid "A task prefix is 2 to 10 letters and digits, starting with a letter."
 msgstr ""
 
-#: onedesk/one_studio/places.py:91
-msgid "A task's Activity view is opened."
-msgstr ""
-
-#: onedesk/one_studio/places.py:86
-msgid "A task's Files view is opened."
-msgstr ""
-
-#: onedesk/one_studio/places.py:81
-msgid "A task's Time view is opened, and each time its hours change."
-msgstr ""
-
-#: onedesk/one_studio/places.py:72
-msgid "A task's page is opened, and each time the task changes."
-msgstr ""
-
 #: onedesk/one_book/ready.py:155
 msgid "A tax template brings its taxes"
 msgstr ""
@@ -1488,6 +1484,10 @@ msgstr ""
 
 #: onedesk/one_project/templates.py:61
 msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
+msgstr ""
+
+#: onedesk/one_display/queue.py:146
+msgid "A ticket is finished as Done or No Show."
 msgstr ""
 
 #: onedesk/one_studio/ai_setup.py:223
@@ -1659,7 +1659,7 @@ msgstr ""
 #. Label of the about (Data) field in DocType 'Reading Date'
 #. Label in the One Training Event print format
 #. Label of the one_about (Dynamic Link) field in DocType 'Task'
-#: frontend/src/task/TaskPage.vue:35 onedesk/one/custom/notification_type.json
+#: onedesk/one/custom/notification_type.json
 #: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
@@ -2157,8 +2157,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemPage.vue:195
 #: frontend/src/project/ProjectPage.vue:183
 #: frontend/src/project/TaskPanel.vue:85 frontend/src/project/Time.vue:27
-#: frontend/src/project/Time.vue:90 frontend/src/task/TaskPage.vue:199
-#: frontend/src/task/TaskTime.vue:21 onedesk/one/tabs.py:12
+#: frontend/src/project/Time.vue:90 onedesk/one/tabs.py:12
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -2167,7 +2166,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:714
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:149
+#: onedesk/public/js/window/form.js:149
 msgid "Activity"
 msgstr ""
 
@@ -2193,12 +2192,12 @@ msgstr ""
 
 #: frontend/src/inventory/plant/PlantFloor.vue:63
 #: frontend/src/inventory/stock/StockOnHand.vue:25
-#: onedesk/one_inventory/heads.py:1369
+#: onedesk/one_inventory/heads.py:1363
 msgid "Actual Qty"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:35 frontend/src/project/Time.vue:185
-#: frontend/src/task/TaskPage.vue:224
+#: onedesk/one_task/heads.py:92
 msgid "Actual Time"
 msgstr ""
 
@@ -2278,7 +2277,7 @@ msgid "Add Database"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemOverview.vue:15
-#: frontend/src/project/TaskPanel.vue:56 frontend/src/task/TaskPage.vue:51
+#: frontend/src/project/TaskPanel.vue:56
 msgid "Add Description"
 msgstr ""
 
@@ -2357,7 +2356,7 @@ msgstr ""
 msgid "Add Sheets From a Template"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:62
+#: frontend/src/project/TaskPanel.vue:67
 #: onedesk/public/js/one_mail/rule_builder.js:414
 msgid "Add Step"
 msgstr ""
@@ -2375,7 +2374,7 @@ msgstr ""
 msgid "Add Sub-project"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:81 frontend/src/task/TaskPage.vue:78
+#: frontend/src/project/TaskPanel.vue:81
 msgid "Add Sub-task"
 msgstr ""
 
@@ -2392,8 +2391,7 @@ msgstr ""
 msgid "Add Supplier Quotation from {0}"
 msgstr ""
 
-#: frontend/src/project/Tasks.vue:75 frontend/src/task/MyTasks.vue:210
-#: frontend/src/template/Tasks.vue:98
+#: frontend/src/project/Tasks.vue:75 frontend/src/template/Tasks.vue:98
 #: frontend/src/template/TemplatePage.vue:113 onedesk/public/js/task_new.js:43
 msgid "Add Task"
 msgstr ""
@@ -2478,7 +2476,8 @@ msgstr ""
 msgid "Add a reason."
 msgstr ""
 
-#: frontend/src/task/MyTasks.vue:6
+#: onedesk/public/js/one_task/task_kanban.js:48
+#: onedesk/public/js/one_task/task_kanban.js:56
 msgid "Add a task"
 msgstr ""
 
@@ -2846,7 +2845,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/onecloud_dialogs.js:288
 #: onedesk/public/js/onecloud_dialogs.js:527
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/window/frame.js:354
 msgid "Address"
 msgstr ""
 
@@ -2978,7 +2977,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_project/library/event.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
-#: onedesk/public/js/head.js:198
+#: onedesk/public/js/head.js:209
 msgid "After"
 msgstr ""
 
@@ -3748,7 +3747,7 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
-#: onedesk/one_studio/places.py:446
+#: onedesk/one_studio/places.py:402
 msgid "An event's card is opened in OneCalendar."
 msgstr ""
 
@@ -3798,31 +3797,31 @@ msgstr ""
 msgid "An item can have serial numbers or batches."
 msgstr ""
 
-#: onedesk/one_studio/places.py:136
+#: onedesk/one_studio/places.py:92
 msgid "An item's Activity view is opened."
 msgstr ""
 
-#: onedesk/one_studio/places.py:116
+#: onedesk/one_studio/places.py:72
 msgid "An item's Buying view is opened."
 msgstr ""
 
-#: onedesk/one_studio/places.py:131
+#: onedesk/one_studio/places.py:87
 msgid "An item's Files view is opened."
 msgstr ""
 
-#: onedesk/one_studio/places.py:126
+#: onedesk/one_studio/places.py:82
 msgid "An item's Making view is opened."
 msgstr ""
 
-#: onedesk/one_studio/places.py:121
+#: onedesk/one_studio/places.py:77
 msgid "An item's Selling view is opened."
 msgstr ""
 
-#: onedesk/one_studio/places.py:111
+#: onedesk/one_studio/places.py:67
 msgid "An item's Stock view is opened, and each time its stock changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:102
+#: onedesk/one_studio/places.py:58
 msgid "An item's page is opened, and each time the item or its stock changes."
 msgstr ""
 
@@ -3864,9 +3863,19 @@ msgstr ""
 msgid "Analytics"
 msgstr ""
 
+#. Label of the announce (Check) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Announce Calls Aloud"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Announcement"
+msgstr ""
+
+#. Label of the voice_language (Link) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Announcement Language"
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -4662,7 +4671,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:357 onedesk/public/js/outside.js:273
+#: onedesk/public/js/desk.js:357 onedesk/public/js/outside.js:274
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -4732,7 +4741,7 @@ msgid "Ask {1} for invoice {0}"
 msgstr ""
 
 #: frontend/src/inventory/quotes/RequestRows.vue:9
-#: onedesk/one_studio/doctype/extension/extension.js:116
+#: onedesk/one_studio/doctype/extension/extension.js:115
 msgid "Asked"
 msgstr ""
 
@@ -4849,9 +4858,9 @@ msgstr ""
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:104
 #: onedesk/one_account/doctype/device/device.json
 #: onedesk/one_inventory/custom/asset_maintenance_log.json
-#: onedesk/one_inventory/heads.py:1351 onedesk/one_inventory/heads.py:1610
-#: onedesk/one_inventory/heads.py:1619 onedesk/one_inventory/heads.py:1628
-#: onedesk/one_inventory/heads.py:1637 onedesk/one_inventory/heads.py:1645
+#: onedesk/one_inventory/heads.py:1345 onedesk/one_inventory/heads.py:1604
+#: onedesk/one_inventory/heads.py:1613 onedesk/one_inventory/heads.py:1621
+#: onedesk/one_inventory/heads.py:1630 onedesk/one_inventory/heads.py:1638
 #: onedesk/one_inventory/home.py:154
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
@@ -4933,7 +4942,7 @@ msgid "Asset Overview"
 msgstr ""
 
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:74
-#: onedesk/one_inventory/heads.py:1410 onedesk/one_inventory/home.py:158
+#: onedesk/one_inventory/heads.py:1404 onedesk/one_inventory/home.py:158
 #: onedesk/public/js/page_views.js:35
 msgid "Asset Repair"
 msgstr ""
@@ -4991,7 +5000,7 @@ msgstr ""
 msgid "Assign New Conversations"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1630 onedesk/one_studio/automations.py:125
+#: onedesk/one_inventory/heads.py:1623 onedesk/one_studio/automations.py:125
 msgid "Assign To"
 msgstr ""
 
@@ -5487,7 +5496,7 @@ msgid "Available Hours"
 msgstr ""
 
 #: frontend/src/inventory/stock/StockOnHand.vue:27
-#: onedesk/one_inventory/heads.py:1375
+#: onedesk/one_inventory/heads.py:1369
 msgid "Available Qty"
 msgstr ""
 
@@ -5599,7 +5608,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
-#: onedesk/public/js/window/frame.js:239 onedesk/www/account_invoices.html:62
+#: onedesk/public/js/window/frame.js:247 onedesk/www/account_invoices.html:62
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr ""
@@ -5931,7 +5940,7 @@ msgstr ""
 msgid "Batch Number Series"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1426
+#: onedesk/one_inventory/heads.py:1420
 msgid "Batch Quantity"
 msgstr ""
 
@@ -6113,7 +6122,7 @@ msgstr ""
 msgid "Below"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1453
+#: onedesk/one_inventory/heads.py:1447
 msgid "Below Reorder Level"
 msgstr ""
 
@@ -6267,8 +6276,8 @@ msgid "Bill of Materials"
 msgstr ""
 
 #. Label of the one_bill_share (Percent) field in DocType 'Task'
-#: frontend/src/project/TaskPanel.vue:122 frontend/src/task/TaskPage.vue:244
-#: onedesk/one_project/ai.py:669 onedesk/one_project/custom/task.json
+#: frontend/src/project/TaskPanel.vue:122 onedesk/one_project/ai.py:669
+#: onedesk/one_project/custom/task.json
 #: onedesk/public/js/project_actions.js:581
 msgid "Bill on Completion"
 msgstr ""
@@ -6285,7 +6294,6 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:390
-#: onedesk/public/js/task_actions.js:85
 msgid "Billable"
 msgstr ""
 
@@ -6442,7 +6450,7 @@ msgid "Blank if the workspace still uses the address it was given."
 msgstr ""
 
 #. Label in the One Blanket Order print format
-#: onedesk/one_crm/home.py:117 onedesk/one_inventory/heads.py:1473
+#: onedesk/one_crm/home.py:117 onedesk/one_inventory/heads.py:1467
 #: onedesk/one_inventory/home.py:130
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
 #: onedesk/one_studio/print_blocks.py:25
@@ -6476,8 +6484,16 @@ msgstr ""
 msgid "Blue means on by default."
 msgstr ""
 
-#: frontend/src/project/ProjectPage.vue:169 onedesk/public/js/project.js:9
+#. Option for the 'Shows' (Select) field in DocType 'Display Screen'
+#: frontend/src/project/ProjectPage.vue:169
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/public/js/project.js:9
 msgid "Board"
+msgstr ""
+
+#. Description of the 'Shows' (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Board shows the queue and calls tickets. Kiosk lets people take a ticket."
 msgstr ""
 
 #. Label of the 'boarding_status' field in DocType 'Employee Separation'
@@ -6655,11 +6671,11 @@ msgstr ""
 msgid "Brands"
 msgstr ""
 
-#: onedesk/one_task/ai.py:48 onedesk/one_task/ai.py:97
+#: onedesk/one_task/ai.py:46
 msgid "Break this into steps"
 msgstr ""
 
-#: onedesk/one_task/ai.py:49 onedesk/one_task/ai.py:98
+#: onedesk/one_task/ai.py:47
 msgid "Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."
 msgstr ""
 
@@ -6767,6 +6783,10 @@ msgstr ""
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
 msgid "Building regulations approval"
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:176
+msgid "Building the Demo Company"
 msgstr ""
 
 #: onedesk/one_admin/home.py:26
@@ -7029,8 +7049,16 @@ msgstr ""
 msgid "Call"
 msgstr ""
 
+#: frontend/src/display/Counter.vue:19
+msgid "Call Again"
+msgstr ""
+
 #: onedesk/one_crm/home.py:113
 msgid "Call Log"
+msgstr ""
+
+#: frontend/src/display/Counter.vue:17
+msgid "Call Next"
 msgstr ""
 
 #. Label in the One Telephony Call Type print format
@@ -7044,6 +7072,21 @@ msgstr ""
 
 #: onedesk/public/js/crm_record.js:105
 msgid "Call logged"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "Called"
+msgstr ""
+
+#. Label of the called_at (Datetime) field in DocType 'Queue Ticket'
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "Called At"
+msgstr ""
+
+#. Label of the called_by (Link) field in DocType 'Queue Ticket'
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "Called By"
 msgstr ""
 
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:119
@@ -7213,8 +7256,8 @@ msgstr ""
 msgid "Cannot get file contents of a Folder"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:94
-#: onedesk/one_project/report/workload/workload.py:172
+#: onedesk/one_project/report/workload/workload.py:98
+#: onedesk/one_project/report/workload/workload.py:176
 msgid "Capacity (Hours)"
 msgstr ""
 
@@ -7430,11 +7473,11 @@ msgstr ""
 msgid "Change this one…"
 msgstr ""
 
-#: onedesk/one_task/ai.py:74
+#: onedesk/one_task/ai.py:72
 msgid "Change this task: "
 msgstr ""
 
-#: onedesk/one_task/ai.py:73
+#: onedesk/one_task/ai.py:71
 msgid "Change this task…"
 msgstr ""
 
@@ -7504,6 +7547,17 @@ msgstr ""
 
 #: onedesk/public/js/one_legal/trust_center.js:215
 msgid "Changing on {0}"
+msgstr ""
+
+#. Label of the channel (Link) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:16
+msgid "Channel"
+msgstr ""
+
+#. Label of the channel_name (Data) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Channel Name"
 msgstr ""
 
 #. Label of the one_channels_section (Section Break) field in DocType
@@ -7598,7 +7652,7 @@ msgstr ""
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:50
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:125
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:135
-#: onedesk/one_inventory/heads.py:1493
+#: onedesk/one_inventory/heads.py:1487
 msgid "Cheapest"
 msgstr ""
 
@@ -7858,8 +7912,8 @@ msgid "Checking yourself in is not enabled on this site."
 msgstr ""
 
 #. Label of the one_steps (Table) field in DocType 'Task'
-#: frontend/src/project/TaskPanel.vue:61 frontend/src/task/TaskPage.vue:56
-#: frontend/src/task/TaskPage.vue:231 onedesk/one_task/custom/task.json
+#: frontend/src/project/TaskPanel.vue:61 onedesk/one_task/custom/task.json
+#: onedesk/one_task/heads.py:90
 msgid "Checklist"
 msgstr ""
 
@@ -7890,8 +7944,7 @@ msgstr ""
 msgid "Cheque/Reference No"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:72 frontend/src/task/TaskPage.vue:67
-#: frontend/src/task/TaskPage.vue:232
+#: frontend/src/project/TaskPanel.vue:72
 msgid "Child Tasks"
 msgstr ""
 
@@ -8446,6 +8499,7 @@ msgstr ""
 #. Label of the section_code (Section Break) field in DocType 'Extension'
 #. Label of the code (Code) field in DocType 'Extension'
 #: frontend/src/cloud/cloud.js:18
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:11
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/apps.js:63 onedesk/public/js/item_new.js:38
 msgid "Code"
@@ -8587,6 +8641,11 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:61
 msgid "Comma"
+msgstr ""
+
+#. Label of the command_at (Datetime) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Command Sent"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
@@ -8788,12 +8847,8 @@ msgstr ""
 msgid "Complete"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:328
+#: onedesk/one_task/heads.py:79
 msgid "Complete Task"
-msgstr ""
-
-#: frontend/src/task/MyTasks.vue:27
-msgid "Complete {0}"
 msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
@@ -8801,17 +8856,13 @@ msgstr ""
 #: frontend/src/inventory/sent_out/OutRows.vue:89
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:76
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:186
-#: frontend/src/project/Overview.vue:366 onedesk/one_inventory/heads.py:1621
-#: onedesk/one_project/status.py:16 onedesk/one_task/custom/task.json
+#: frontend/src/project/Overview.vue:366 onedesk/one_project/status.py:16
+#: onedesk/one_task/custom/task.json
 msgid "Completed"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:247
-msgid "Completed By"
-msgstr ""
-
 #. Label of the one_completed_on (Date) field in DocType 'Project'
-#: frontend/src/task/TaskPage.vue:246 onedesk/one_project/custom/project.json
+#: onedesk/one_project/custom/project.json
 msgid "Completed On"
 msgstr ""
 
@@ -9383,6 +9434,12 @@ msgstr ""
 msgid "Contracts, leave, attendance, payroll and hiring for everyone who works with you."
 msgstr ""
 
+#. Label of the section_break_control (Section Break) field in DocType 'Display
+#. Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Control"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one/sidebar/one/one.json
 msgid "ControlCenter"
@@ -9584,7 +9641,7 @@ msgstr ""
 msgid "Cost Types"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1572
+#: onedesk/one_inventory/heads.py:1566
 msgid "Cost per Unit"
 msgstr ""
 
@@ -9831,6 +9888,22 @@ msgstr ""
 msgid "Counted {0}"
 msgstr ""
 
+#. Label of the counter (Data) field in DocType 'Queue Counter'
+#. Label of the counter (Data) field in DocType 'Queue Ticket'
+#. Label of a Sidebar Item
+#: frontend/src/display/Counter.vue:8
+#: onedesk/one_display/doctype/queue_counter/queue_counter.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+#: onedesk/one_display/page/counter/counter.js:2
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json onedesk/www/tv.py:24
+msgid "Counter"
+msgstr ""
+
+#. Label of the counters (Table) field in DocType 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Counters"
+msgstr ""
+
 #. Label of the filters (Code) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "Counting"
@@ -10039,7 +10112,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:322
+#: onedesk/public/js/window/form.js:337
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -10338,7 +10411,7 @@ msgstr ""
 msgid "Currency · {0}"
 msgstr ""
 
-#: frontend/src/cloud/CloudPreview.vue:29 onedesk/public/js/head.js:197
+#: frontend/src/cloud/CloudPreview.vue:29 onedesk/public/js/head.js:208
 #: onedesk/public/js/one_account/account_center.js:1116
 msgid "Current"
 msgstr ""
@@ -10347,7 +10420,7 @@ msgstr ""
 msgid "Current Account"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1646
+#: onedesk/one_inventory/heads.py:1639
 msgid "Current Asset Value"
 msgstr ""
 
@@ -10780,6 +10853,7 @@ msgstr ""
 #. Label in the One Sales Order Classic print format
 #. Label in the One Sales Order with Images print format
 #. Label in the One Service Report print format
+#. Label of the ticket_date (Date) field in DocType 'Queue Ticket'
 #. Label in the One Appointment Letter print format
 #. Label in the One Attendance print format
 #. Label in the One Employee Advance print format
@@ -10839,7 +10913,6 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:133 frontend/src/project/Time.vue:25
 #: frontend/src/sheet/components/SheetEditor/index.vue:1847
 #: frontend/src/sheet/components/SheetEditor/index.vue:2394
-#: frontend/src/task/TaskTime.vue:19
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
 #: onedesk/one_ai/reading/bundle.py:74
 #: onedesk/one_ai/report/deadlines/deadlines.py:35
@@ -10881,6 +10954,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/control.py:89
 #: onedesk/one_hr/print_format/one_appointment_letter/one_appointment_letter.json
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -10955,7 +11029,6 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1009
 #: onedesk/public/js/one_mail/mail_compose.js:179
 #: onedesk/public/js/overtime.js:21 onedesk/public/js/project_actions.js:356
-#: onedesk/public/js/task_actions.js:79
 msgid "Date"
 msgstr ""
 
@@ -11376,7 +11449,7 @@ msgstr ""
 msgid "Default Sales Unit of Measure"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1546
+#: onedesk/one_inventory/heads.py:1540
 msgid "Default Source Warehouse"
 msgstr ""
 
@@ -11385,7 +11458,7 @@ msgstr ""
 msgid "Default Subject"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1547
+#: onedesk/one_inventory/heads.py:1541
 msgid "Default Target Warehouse"
 msgstr ""
 
@@ -11928,7 +12001,7 @@ msgid "Delivery Terms"
 msgstr ""
 
 #. Label in the One Delivery Trip print format
-#: onedesk/one_inventory/heads.py:1537 onedesk/one_inventory/home.py:118
+#: onedesk/one_inventory/heads.py:1531 onedesk/one_inventory/home.py:118
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 msgid "Delivery Trip"
 msgstr ""
@@ -12034,9 +12107,8 @@ msgstr ""
 msgid "Departments"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:46 frontend/src/task/TaskPage.vue:84
-#: frontend/src/template/Tasks.vue:7 onedesk/public/js/task_actions.js:6
-#: onedesk/public/js/task_actions.js:49
+#: frontend/src/project/TaskPanel.vue:46 frontend/src/template/Tasks.vue:7
+#: onedesk/one_task/heads.py:91
 msgid "Depends On"
 msgstr ""
 
@@ -12050,7 +12122,7 @@ msgstr ""
 msgid "Deploying it in Frappe Cloud updates every workspace on it."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1400
+#: onedesk/one_inventory/heads.py:1394
 msgid "Depreciation"
 msgstr ""
 
@@ -12071,7 +12143,7 @@ msgstr ""
 msgid "Depreciation posts itself"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1401
+#: onedesk/one_inventory/heads.py:1395
 msgid "Depreciations Booked"
 msgstr ""
 
@@ -12142,7 +12214,6 @@ msgstr ""
 #: frontend/src/inventory/item/ItemOverview.vue:14
 #: frontend/src/inventory/item/ItemOverview.vue:15
 #: frontend/src/project/TaskPanel.vue:55 frontend/src/project/TaskPanel.vue:56
-#: frontend/src/task/TaskPage.vue:50 frontend/src/task/TaskPage.vue:51
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/doctype/private_app/private_app.json
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
@@ -12213,8 +12284,7 @@ msgstr ""
 #: onedesk/public/js/one/notification_center.js:314
 #: onedesk/public/js/one/notification_center.js:460
 #: onedesk/public/js/one_account/account_center.js:881
-#: onedesk/public/js/project_actions.js:389
-#: onedesk/public/js/task_actions.js:84 onedesk/public/js/task_new.js:41
+#: onedesk/public/js/project_actions.js:389 onedesk/public/js/task_new.js:41
 msgid "Description"
 msgstr ""
 
@@ -12346,18 +12416,17 @@ msgstr ""
 #: frontend/src/inventory/item/ItemOverview.vue:28
 #: frontend/src/inventory/item/ItemSelling.vue:22
 #: frontend/src/inventory/item/ItemStock.vue:20
-#: frontend/src/task/TaskPage.vue:97 frontend/src/task/TaskPage.vue:196
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
 #: onedesk/public/js/project_actions.js:700
-#: onedesk/public/js/project_new.js:193 onedesk/public/js/task_actions.js:4
-#: onedesk/public/js/window/form.js:436 onedesk/public/js/window/form.js:437
+#: onedesk/public/js/project_new.js:193 onedesk/public/js/window/form.js:451
+#: onedesk/public/js/window/form.js:452
 msgid "Details"
 msgstr ""
 
-#: onedesk/public/js/window/frame.js:252
+#: onedesk/public/js/window/frame.js:260
 msgid "Details pane"
 msgstr ""
 
@@ -12384,10 +12453,12 @@ msgstr ""
 
 #. Label of the label (Data) field in DocType 'Push Device'
 #. Name of a DocType
+#. Label of the device (Small Text) field in DocType 'Display Screen'
 #. Label of the label (Data) field in DocType 'Clock Device'
 #. Label of the device (Link) field in DocType 'Clock Device'
 #: onedesk/one/doctype/push_device/push_device.json
 #: onedesk/one_account/doctype/device/device.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/public/js/one_account/account_center.js:366
 #: onedesk/public/js/one_account/account_center.js:1338
@@ -12411,7 +12482,7 @@ msgstr ""
 msgid "Difference"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1648 onedesk/one_inventory/heads.py:1657
+#: onedesk/one_inventory/heads.py:1641 onedesk/one_inventory/heads.py:1650
 msgid "Difference Amount"
 msgstr ""
 
@@ -12584,6 +12655,27 @@ msgstr ""
 #. Label in the One Delivery Trip print format
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 msgid "Dispatched By"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "Display Channel"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "Display Screen"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "Display Settings"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:881
@@ -12812,12 +12904,13 @@ msgstr ""
 #. Option for the 'Outcome' (Select) field in DocType 'Reading Action'
 #. Label in the One Transaction Deletion Record print format
 #. Label in the One Contract print format
+#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
 #. Label in the One Appraisal print format
 #. Label in the One Delivery Trip print format
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
 #. Label of the done (Check) field in DocType 'Task Step'
-#: frontend/src/cloud/CloudUploads.vue:14
+#: frontend/src/cloud/CloudUploads.vue:14 frontend/src/display/Counter.vue:20
 #: frontend/src/intake/IntakeInbox.vue:83
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/project/ProjectPage.vue:22
@@ -12830,6 +12923,7 @@ msgstr ""
 #: onedesk/one_ai/heads.py:15
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:32
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
@@ -12946,7 +13040,7 @@ msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr ""
 
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:49
-#: onedesk/one_inventory/heads.py:1638
+#: onedesk/one_inventory/heads.py:1631
 msgid "Downtime"
 msgstr ""
 
@@ -12962,12 +13056,12 @@ msgstr ""
 #: frontend/src/inventory/quotes/QuoteCompare.vue:72
 #: frontend/src/inventory/quotes/QuoteRows.vue:66
 #: frontend/src/inventory/quotes/RequestRows.vue:63
-#: frontend/src/project/Time.vue:82 frontend/src/task/TaskTime.vue:30
+#: frontend/src/project/Time.vue:82
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:17
 msgid "Draft"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1359
+#: onedesk/one_inventory/heads.py:1353
 msgid "Draft Assets"
 msgstr ""
 
@@ -13115,11 +13209,15 @@ msgstr ""
 msgid "Drafts OneAI read from mail and scans, bills most of all, waiting to be submitted."
 msgstr ""
 
+#: onedesk/one_task/tour.py:25
+msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
+msgstr ""
+
 #: onedesk/one_calendar/tour.py:31
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr ""
 
-#: onedesk/public/js/window/frame.js:163
+#: onedesk/public/js/window/frame.js:171
 msgid "Drag to resize, click to fold"
 msgstr ""
 
@@ -13243,7 +13341,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
-#: onedesk/one_inventory/heads.py:1629
+#: onedesk/one_inventory/heads.py:1622
 #: onedesk/one_inventory/print_format/one_purchase_order/one_purchase_order.json
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
@@ -13259,10 +13357,6 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one_task/notifications.py
 msgid "Due Date Changed"
-msgstr ""
-
-#: onedesk/one_task/tour.py:24
-msgid "Due First"
 msgstr ""
 
 #. Label in the One Detailed Tax Invoice print format
@@ -13304,8 +13398,8 @@ msgid "Due on Receipt"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:217 frontend/src/crm/CrmHome.vue:184
-#: frontend/src/project/Overview.vue:377 frontend/src/task/TaskPage.vue:215
-#: onedesk/one_project/portal.py:262 onedesk/one_project/retention.py:239
+#: frontend/src/project/Overview.vue:377 onedesk/one_project/portal.py:262
+#: onedesk/one_project/retention.py:239
 msgid "Due today"
 msgstr ""
 
@@ -13662,10 +13756,9 @@ msgid "Edit Costs"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemPage.vue:308
-#: frontend/src/task/TaskPage.vue:331 frontend/src/template/TemplatePage.vue:15
+#: frontend/src/template/TemplatePage.vue:15
 #: onedesk/public/js/item_actions.js:28
 #: onedesk/public/js/project_actions.js:707
-#: onedesk/public/js/task_actions.js:22
 msgid "Edit Details"
 msgstr ""
 
@@ -13751,7 +13844,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/window/form.js:324
+#: onedesk/public/js/window/form.js:339
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -13798,7 +13891,7 @@ msgstr ""
 msgid "Education"
 msgstr ""
 
-#: onedesk/public/js/head.js:188
+#: onedesk/public/js/head.js:199
 msgid "Effect"
 msgstr ""
 
@@ -14026,8 +14119,18 @@ msgstr ""
 msgid "Emails you the notifications turned on for email."
 msgstr ""
 
+#. Label of the alert_active (Check) field in DocType 'Display Settings'
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+msgid "Emergency Alert On"
+msgstr ""
+
 #: onedesk/public/js/one_account/account_center.js:91
 msgid "Emergency Contact"
+msgstr ""
+
+#. Label of the alert_message (Small Text) field in DocType 'Display Settings'
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+msgid "Emergency Message"
 msgstr ""
 
 #: onedesk/one_book/report/books_check/books_check.js:31
@@ -14156,8 +14259,8 @@ msgstr ""
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:211
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:63
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.py:136
-#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_inventory/heads.py:1318
-#: onedesk/one_inventory/heads.py:1585
+#: onedesk/one_hr/sidebar/onehr/onehr.json onedesk/one_inventory/heads.py:1312
+#: onedesk/one_inventory/heads.py:1579
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:122
 #: onedesk/one_studio/print_blocks.py:125 onedesk/public/js/floor_actions.js:26
@@ -14426,6 +14529,10 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "End of Service"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:67
+msgid "End the Alert"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Note'
@@ -14948,6 +15055,14 @@ msgstr ""
 msgid "Every sales invoice with its taxes, one line each."
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:39
+msgid "Every screen shows it over everything else, and reads it out, until it is ended."
+msgstr ""
+
+#: onedesk/one_display/screens.py:202
+msgid "Every screen shows the alert."
+msgstr ""
+
 #: onedesk/one_inventory/home.py:176
 msgid "Every serial number in stock, and where."
 msgstr ""
@@ -15049,6 +15164,10 @@ msgstr ""
 
 #: frontend/src/workload/WorkloadList.vue:7
 msgid "Everyone has room"
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:151
+msgid "Everyone in the demo company signs in with it. The owner is {0}."
 msgstr ""
 
 #. Who a notification is sent to
@@ -15270,8 +15389,8 @@ msgstr ""
 #: frontend/src/project/Overview.vue:160 frontend/src/project/Overview.vue:289
 #: frontend/src/project/ProjectPage.vue:196
 #: frontend/src/project/TaskPanel.vue:27 frontend/src/project/Tasks.vue:18
-#: frontend/src/task/MyTasks.vue:7 frontend/src/task/MyTasks.vue:17
-#: frontend/src/task/TaskPage.vue:20 onedesk/one_project/heads.py:258
+#: onedesk/one_project/heads.py:258 onedesk/one_task/heads.py:89
+#: onedesk/public/js/one_task/task_kanban.js:53
 #: onedesk/public/js/project_new.js:156 onedesk/public/js/task_new.js:37
 msgid "Expected End Date"
 msgstr ""
@@ -15280,14 +15399,13 @@ msgstr ""
 msgid "Expected Hrs"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:25 frontend/src/task/TaskPage.vue:16
-#: onedesk/public/js/project_new.js:150 onedesk/public/js/task_new.js:35
+#: frontend/src/project/TaskPanel.vue:25 onedesk/public/js/project_new.js:150
+#: onedesk/public/js/task_new.js:35
 msgid "Expected Start Date"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:29 frontend/src/project/TaskPanel.vue:31
 #: frontend/src/project/Tasks.vue:20 frontend/src/project/Tasks.vue:58
-#: frontend/src/task/TaskPage.vue:24 frontend/src/task/TaskPage.vue:26
 #: frontend/src/template/Tasks.vue:8 frontend/src/template/Tasks.vue:77
 #: onedesk/public/js/task_new.js:39
 msgid "Expected Time"
@@ -15472,7 +15590,7 @@ msgid "Expiring {0}"
 msgstr ""
 
 #: frontend/src/inventory/lots/LotRows.vue:8
-#: onedesk/one_inventory/heads.py:1432 onedesk/public/js/lots_actions.js:101
+#: onedesk/one_inventory/heads.py:1426 onedesk/public/js/lots_actions.js:101
 msgid "Expiry Date"
 msgstr ""
 
@@ -15840,7 +15958,7 @@ msgstr ""
 msgid "Fieldwork"
 msgstr ""
 
-#: onedesk/public/js/head.js:196
+#: onedesk/public/js/head.js:207
 msgid "Figure"
 msgstr ""
 
@@ -15955,7 +16073,6 @@ msgstr ""
 #: frontend/src/inventory/item/ItemFiles.vue:5
 #: frontend/src/inventory/item/ItemPage.vue:194
 #: frontend/src/project/Files.vue:5 frontend/src/project/ProjectPage.vue:182
-#: frontend/src/task/TaskFiles.vue:5 frontend/src/task/TaskPage.vue:198
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_storage/namespace.py:15
@@ -16360,7 +16477,7 @@ msgstr ""
 msgid "Fix subframes and anchors"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:110
+#: onedesk/one_studio/doctype/extension/extension.js:109
 #: onedesk/public/js/check.js:9
 msgid "Fixed"
 msgstr ""
@@ -16829,7 +16946,7 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:77
 #: onedesk/public/js/one_mail/rule_builder.js:44
-#: onedesk/public/js/window/frame.js:239
+#: onedesk/public/js/window/frame.js:247
 msgid "Forward"
 msgstr ""
 
@@ -16943,8 +17060,8 @@ msgstr ""
 msgid "Free"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:97
-#: onedesk/one_project/report/workload/workload.py:174
+#: onedesk/one_project/report/workload/workload.py:101
+#: onedesk/one_project/report/workload/workload.py:178
 msgid "Free (Hours)"
 msgstr ""
 
@@ -17132,7 +17249,7 @@ msgstr ""
 msgid "From Date"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1611
+#: onedesk/one_inventory/heads.py:1605
 msgid "From Employee"
 msgstr ""
 
@@ -17423,7 +17540,7 @@ msgstr ""
 msgid "Getting Started"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1312
+#: onedesk/one_inventory/heads.py:1306
 msgid "Give"
 msgstr ""
 
@@ -17441,11 +17558,11 @@ msgid "Give OneAdmin Settings a token that may run the gateway."
 msgstr ""
 
 #. Label of the one_for (Small Text) field in DocType 'Task'
-#: onedesk/one_inventory/heads.py:1311 onedesk/one_task/custom/task.json
+#: onedesk/one_inventory/heads.py:1305 onedesk/one_task/custom/task.json
 msgid "Give To"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1310
+#: onedesk/one_inventory/heads.py:1304
 msgid "Give To…"
 msgstr ""
 
@@ -17501,11 +17618,11 @@ msgstr ""
 msgid "Give the time a number of hours."
 msgstr ""
 
-#: onedesk/one_task/ai.py:83
+#: onedesk/one_task/ai.py:81
 msgid "Give this task to "
 msgstr ""
 
-#: onedesk/one_task/ai.py:82
+#: onedesk/one_task/ai.py:80
 msgid "Give this task to…"
 msgstr ""
 
@@ -17517,7 +17634,7 @@ msgstr ""
 msgid "Give {0} a customer to invoice."
 msgstr ""
 
-#: onedesk/one_task/ai.py:334
+#: onedesk/one_task/ai.py:292
 msgid "Give {0} to {1}"
 msgstr ""
 
@@ -17544,7 +17661,7 @@ msgstr ""
 msgid "Given by {0}."
 msgstr ""
 
-#: onedesk/one_task/ai.py:339
+#: onedesk/one_task/ai.py:297
 msgid "Given to"
 msgstr ""
 
@@ -17558,7 +17675,7 @@ msgstr ""
 msgid "Given while its person is on leave, and taken away the day after."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1324
+#: onedesk/one_inventory/heads.py:1318
 msgid "Given."
 msgstr ""
 
@@ -17595,13 +17712,13 @@ msgid "Go"
 msgstr ""
 
 #: frontend/src/writer/components/ErrorPage.vue:29
-#: onedesk/public/js/outside.js:252 onedesk/www/404.html:18
+#: onedesk/public/js/outside.js:253 onedesk/www/404.html:18
 #: onedesk/www/error.html:19
 msgid "Go Back"
 msgstr ""
 
 #: frontend/src/writer/components/ErrorPage.vue:39
-#: onedesk/public/js/outside.js:253 onedesk/www/404.html:19
+#: onedesk/public/js/outside.js:254 onedesk/www/404.html:19
 #: onedesk/www/error.html:21 onedesk/www/message.html:21
 #: onedesk/www/message.html:25
 msgid "Go Home"
@@ -17633,7 +17750,7 @@ msgstr ""
 msgid "Go to"
 msgstr ""
 
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/window/frame.js:354
 msgid "Go to a place, a record or a command"
 msgstr ""
 
@@ -17747,8 +17864,8 @@ msgid "Grade"
 msgstr ""
 
 #: frontend/src/books/BooksStory.vue:32 onedesk/one_book/heads.py:586
-#: onedesk/one_inventory/heads.py:1472 onedesk/one_inventory/heads.py:1501
-#: onedesk/one_inventory/heads.py:1536 onedesk/public/js/one/one_control.js:105
+#: onedesk/one_inventory/heads.py:1466 onedesk/one_inventory/heads.py:1495
+#: onedesk/one_inventory/heads.py:1530 onedesk/public/js/one/one_control.js:105
 msgid "Grand Total"
 msgstr ""
 
@@ -18028,11 +18145,11 @@ msgstr ""
 msgid "Half day"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1311
+#: onedesk/one_inventory/heads.py:1305
 msgid "Hand To Somebody Else"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1310
+#: onedesk/one_inventory/heads.py:1304
 msgid "Hand To…"
 msgstr ""
 
@@ -18186,6 +18303,11 @@ msgstr ""
 #: frontend/src/writer/components/core-editor/menu-buttons.js:87
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "Heading"
+msgstr ""
+
+#. Label of the headline (Data) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Headline"
 msgstr ""
 
 #. Label of the one_health (Select) field in DocType 'Project'
@@ -18513,7 +18635,6 @@ msgstr ""
 #. Label in the One Timesheet print format
 #: frontend/src/inventory/home/InventoryStory.vue:76
 #: frontend/src/project/Overview.vue:29 frontend/src/project/Time.vue:29
-#: frontend/src/task/TaskTime.vue:22
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice/one_sales_invoice.json
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
@@ -18527,7 +18648,6 @@ msgstr ""
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:90
 #: onedesk/public/js/project_actions.js:357
-#: onedesk/public/js/task_actions.js:80
 msgid "Hours"
 msgstr ""
 
@@ -19370,7 +19490,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_mail/doctype/face/face.json
-#: onedesk/one_project/report/workload/workload.py:171
+#: onedesk/one_project/report/workload/workload.py:175
 msgid "Image"
 msgstr ""
 
@@ -19421,7 +19541,7 @@ msgstr ""
 msgid "In Company Currency"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:45
+#: onedesk/one_studio/doctype/extension/extension.js:44
 msgid "In Documents, when a document opens"
 msgstr ""
 
@@ -19450,12 +19570,16 @@ msgstr ""
 msgid "In OneBook"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:48
+#: onedesk/one_studio/doctype/extension/extension.js:47
 msgid "In OneCalendar, when an event opens"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:44
+#: onedesk/one_studio/doctype/extension/extension.js:43
 msgid "In OneCloud, when a file preview opens"
+msgstr ""
+
+#: onedesk/www/tv.py:22
+msgid "In OneDisplay, open Display Screen, choose Add Display Screen and enter this code."
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:40
@@ -19594,7 +19718,7 @@ msgstr ""
 msgid "In stock; the bill from {0} is still to come."
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:94
+#: onedesk/one_studio/doctype/extension/extension.js:93
 msgid "In the browser"
 msgstr ""
 
@@ -19662,8 +19786,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
 #. Label of a Sidebar Item
-#: frontend/src/mail/mail.js:9 frontend/src/task/MyTasks.vue:71
-#: onedesk/one_mail/ai.py:293
+#: frontend/src/mail/mail.js:9 onedesk/one_mail/ai.py:293
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "Inbox"
@@ -20639,7 +20762,7 @@ msgstr ""
 #. Letter'
 #: onedesk/one_book/portal.py:23
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
-#: onedesk/one_inventory/heads.py:619 onedesk/one_inventory/heads.py:1435
+#: onedesk/one_inventory/heads.py:619 onedesk/one_inventory/heads.py:1429
 msgid "Issued"
 msgstr ""
 
@@ -21125,7 +21248,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
-#: onedesk/one_inventory/heads.py:1446 onedesk/one_inventory/heads.py:1656
+#: onedesk/one_inventory/heads.py:1440 onedesk/one_inventory/heads.py:1649
 #: onedesk/one_inventory/home.py:68
 #: onedesk/one_inventory/page/item_view/item_view.js:6
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -21486,7 +21609,7 @@ msgstr ""
 
 #. Label in the One Asset Card print format
 #. Label in the One Equipment Handover print format
-#: onedesk/one_inventory/heads.py:1335
+#: onedesk/one_inventory/heads.py:1329
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/one_studio/print_blocks.py:615
@@ -21636,6 +21759,11 @@ msgstr ""
 msgid "Kinds of issue, such as a fault or a question."
 msgstr ""
 
+#. Option for the 'Shows' (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Kiosk"
+msgstr ""
+
 #: onedesk/one/people.py:52
 msgid "Know what's in stock, buy what runs low, and make and track what you sell."
 msgstr ""
@@ -21691,7 +21819,7 @@ msgstr ""
 msgid "Landed Cost"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1524 onedesk/one_inventory/home.py:119
+#: onedesk/one_inventory/heads.py:1518 onedesk/one_inventory/home.py:119
 msgid "Landed Cost Voucher"
 msgstr ""
 
@@ -21768,7 +21896,12 @@ msgstr ""
 msgid "Last Checked"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1631
+#. Label of the command (Data) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Last Command"
+msgstr ""
+
+#: onedesk/one_inventory/heads.py:1624
 msgid "Last Completion Date"
 msgstr ""
 
@@ -21844,7 +21977,7 @@ msgstr ""
 msgid "Last Purchase Invoice"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1386
+#: onedesk/one_inventory/heads.py:1380
 msgid "Last Purchase Rate"
 msgstr ""
 
@@ -21880,9 +22013,11 @@ msgstr ""
 
 #. Label of the seen_section (Section Break) field in DocType 'Device'
 #. Label of the last_seen (Datetime) field in DocType 'Device'
+#. Label of the last_seen (Datetime) field in DocType 'Display Screen'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Network'
 #. Label of the last_seen (Datetime) field in DocType 'Clock Place'
 #: onedesk/one_account/doctype/device/device.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/public/js/one_account/account_center.js:1314
@@ -21906,7 +22041,7 @@ msgstr ""
 msgid "Last Setup"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1459
+#: onedesk/one_inventory/heads.py:1453
 msgid "Last Stock Entry"
 msgstr ""
 
@@ -21968,7 +22103,7 @@ msgstr ""
 #: frontend/src/inventory/sent_out/SentOutPage.vue:85
 #: frontend/src/project/group.js:39
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:178
-#: onedesk/one_project/report/workload/workload.py:177
+#: onedesk/one_project/report/workload/workload.py:181
 #: onedesk/public/js/band.js:166 onedesk/public/js/desk.js:188
 msgid "Late"
 msgstr ""
@@ -22941,11 +23076,16 @@ msgstr ""
 
 #: frontend/src/workload/WorkloadList.vue:18
 #: frontend/src/workload/WorkloadList.vue:44
+#: onedesk/public/js/setup_wizard.js:154
 msgid "Load"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:175
+#: onedesk/one_project/report/workload/workload.py:179
 msgid "Load (%)"
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:133 onedesk/public/js/setup_wizard.js:140
+msgid "Load the Demo Company"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:110
@@ -23041,10 +23181,8 @@ msgstr ""
 msgid "Log No"
 msgstr ""
 
-#: frontend/src/project/Time.vue:15 frontend/src/task/TaskTime.vue:9
-#: onedesk/public/js/project_actions.js:354
+#: frontend/src/project/Time.vue:15 onedesk/public/js/project_actions.js:354
 #: onedesk/public/js/project_actions.js:392
-#: onedesk/public/js/task_actions.js:77 onedesk/public/js/task_actions.js:87
 msgid "Log Time"
 msgstr ""
 
@@ -23231,7 +23369,7 @@ msgstr ""
 msgid "Lots and when they go off."
 msgstr ""
 
-#: onedesk/one_studio/places.py:213
+#: onedesk/one_studio/places.py:169
 msgid "Lots is opened, and each time a lot, a serial number or an item kept in lots changes."
 msgstr ""
 
@@ -23267,7 +23405,7 @@ msgstr ""
 msgid "Lower runs first."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1503
+#: onedesk/one_inventory/heads.py:1497
 msgid "Lowest On"
 msgstr ""
 
@@ -23635,7 +23773,7 @@ msgid "Maintenance Tasks"
 msgstr ""
 
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:78
-#: onedesk/one_inventory/heads.py:1622
+#: onedesk/one_inventory/heads.py:1615
 msgid "Maintenance Team"
 msgstr ""
 
@@ -23921,7 +24059,7 @@ msgid "Manufacturing"
 msgstr ""
 
 #: frontend/src/inventory/lots/LotRows.vue:7
-#: onedesk/one_inventory/heads.py:1431 onedesk/public/js/lots_actions.js:97
+#: onedesk/one_inventory/heads.py:1425 onedesk/public/js/lots_actions.js:97
 msgid "Manufacturing Date"
 msgstr ""
 
@@ -24186,7 +24324,7 @@ msgstr ""
 
 #. Label in the One Material Request print format
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/heads.py:1491 onedesk/one_inventory/home.py:125
+#: onedesk/one_inventory/heads.py:1485 onedesk/one_inventory/home.py:125
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/quotes_actions.js:13
@@ -24456,6 +24594,7 @@ msgstr ""
 #: onedesk/one/notification_words.py:228 onedesk/one/notify.py:265
 #: onedesk/one/rules.py:44 onedesk/one_crm/custom/lead.json
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:37
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
@@ -24515,8 +24654,7 @@ msgid "Middle"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:38 frontend/src/project/TaskPanel.vue:39
-#: frontend/src/sheet/services/versions.js:60 frontend/src/task/MyTasks.vue:34
-#: frontend/src/task/TaskPage.vue:9 frontend/src/task/TaskPage.vue:243
+#: frontend/src/sheet/services/versions.js:60
 #: frontend/src/template/Tasks.vue:22 frontend/src/template/Tasks.vue:26
 #: onedesk/one_project/ai.py:665 onedesk/public/js/project_actions.js:567
 msgid "Milestone"
@@ -24583,6 +24721,10 @@ msgstr ""
 #. Label of a field in the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
 msgid "Mobile No"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:17
+msgid "Mode"
 msgstr ""
 
 #: onedesk/one_book/heads.py:669 onedesk/one_book/home.py:390
@@ -24743,7 +24885,7 @@ msgstr ""
 #: onedesk/one_sheet/ai.py:227 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:345 onedesk/public/js/window/nav_tree.js:67
+#: onedesk/public/js/window/form.js:360 onedesk/public/js/window/nav_tree.js:67
 msgid "More"
 msgstr ""
 
@@ -24767,7 +24909,7 @@ msgstr ""
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
-#: onedesk/public/js/window/frame.js:528
+#: onedesk/public/js/window/frame.js:536
 msgid "More views"
 msgstr ""
 
@@ -24984,6 +25126,15 @@ msgstr ""
 msgid "Multiplied onto provider cost. 2 charges twice the provider's price."
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen.js:4
+msgid "Mute"
+msgstr ""
+
+#. Label of the muted (Check) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Muted"
+msgstr ""
+
 #: onedesk/one_calendar/events.py:20
 msgid "My Events"
 msgstr ""
@@ -25029,7 +25180,7 @@ msgid "My Own Words"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/task/MyTasks.vue:70 onedesk/one_task/calendar.py:15
+#: onedesk/one_task/calendar.py:15
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "My Tasks"
 msgstr ""
@@ -25069,7 +25220,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-#: onedesk/one_project/report/workload/workload.py:170
+#: onedesk/one_project/report/workload/workload.py:174
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
@@ -25090,7 +25241,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:166
 #: onedesk/public/js/one_studio/studio_control.js:180
 #: onedesk/public/js/onecloud_dialogs.js:279
-#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:522
+#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:537
 msgid "Name"
 msgstr ""
 
@@ -25315,7 +25466,7 @@ msgstr ""
 msgid "Net Pay"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1399
+#: onedesk/one_inventory/heads.py:1393
 msgid "Net Purchase Amount"
 msgstr ""
 
@@ -25397,7 +25548,7 @@ msgstr ""
 msgid "New Asset Repair"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1647
+#: onedesk/one_inventory/heads.py:1640
 msgid "New Asset Value"
 msgstr ""
 
@@ -25432,7 +25583,7 @@ msgstr ""
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
 #: frontend/src/mail/OneMail.vue:488
 #: onedesk/public/js/one_mail/record_mail.js:35
-#: onedesk/public/js/window/form.js:218 onedesk/www/account_profile.html:36
+#: onedesk/public/js/window/form.js:233 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr ""
 
@@ -25631,6 +25782,10 @@ msgstr ""
 msgid "New Sales Invoice"
 msgstr ""
 
+#: onedesk/one_display/screens.py:52
+msgid "New Screen"
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:341
 msgid "New Series"
 msgstr ""
@@ -25798,8 +25953,8 @@ msgstr ""
 
 #: frontend/src/kit/desk.js:80 onedesk/one_ai/proposals.py:619
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:390
-#: onedesk/public/js/window/form.js:450
+#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:405
+#: onedesk/public/js/window/form.js:465
 msgid "New {0}"
 msgstr ""
 
@@ -25841,7 +25996,7 @@ msgstr ""
 msgid "Next 7 Days"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1402
+#: onedesk/one_inventory/heads.py:1396
 msgid "Next Depreciation"
 msgstr ""
 
@@ -25850,7 +26005,7 @@ msgid "Next Depreciation · {0}"
 msgstr ""
 
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:79
-#: onedesk/one_inventory/heads.py:1404 onedesk/one_inventory/heads.py:1620
+#: onedesk/one_inventory/heads.py:1398 onedesk/one_inventory/heads.py:1614
 msgid "Next Due Date"
 msgstr ""
 
@@ -26161,10 +26316,16 @@ msgstr ""
 msgid "No Shift"
 msgstr ""
 
+#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
+#: frontend/src/display/Counter.vue:21
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "No Show"
+msgstr ""
+
 #: frontend/portal/src/pages/List.vue:17
 #: frontend/portal/src/pages/Project.vue:5
 #: frontend/portal/src/pages/Record.vue:17 frontend/portal/src/pages/Rfq.vue:5
-#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:272
+#: frontend/portal/src/parts/WebForm.vue:12 onedesk/public/js/outside.js:273
 #: onedesk/www/message.html:16
 msgid "No access"
 msgstr ""
@@ -26331,7 +26492,7 @@ msgid "No deleted items"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemOverview.vue:15
-#: frontend/src/project/TaskPanel.vue:56 frontend/src/task/TaskPage.vue:51
+#: frontend/src/project/TaskPanel.vue:56
 msgid "No description"
 msgstr ""
 
@@ -26614,6 +26775,10 @@ msgstr ""
 msgid "No overtime was recorded on any attendance between {0} and {1}."
 msgstr ""
 
+#: onedesk/one_display/screens.py:40
+msgid "No pairing code is free. Try again."
+msgstr ""
+
 #: onedesk/one_inventory/parts.py:106
 msgid "No parts found. Each row needs a code or a name."
 msgstr ""
@@ -26654,6 +26819,10 @@ msgstr ""
 
 #: onedesk/public/js/one/access_center.js:305
 msgid "No profiles"
+msgstr ""
+
+#: frontend/src/display/Counter.vue:4
+msgid "No queue is set up yet."
 msgstr ""
 
 #: frontend/src/project/Overview.vue:43 frontend/src/project/Overview.vue:84
@@ -26722,6 +26891,10 @@ msgstr ""
 msgid "No schedule"
 msgstr ""
 
+#: onedesk/one_display/screens.py:88
+msgid "No screen is showing {0}. Check the code on the screen."
+msgstr ""
+
 #: frontend/src/inventory/item/ItemSelling.vue:15
 msgid "No selling price"
 msgstr ""
@@ -26787,16 +26960,8 @@ msgstr ""
 msgid "No tasks"
 msgstr ""
 
-#: frontend/src/task/MyTasks.vue:70
-msgid "No tasks assigned to you"
-msgstr ""
-
 #: frontend/src/project/Overview.vue:79
 msgid "No tasks due"
-msgstr ""
-
-#: frontend/src/task/MyTasks.vue:71
-msgid "No tasks in Inbox"
 msgstr ""
 
 #: frontend/src/project/Timeline.vue:3
@@ -26815,7 +26980,7 @@ msgstr ""
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr ""
 
-#: frontend/src/project/Time.vue:21 frontend/src/task/TaskTime.vue:15
+#: frontend/src/project/Time.vue:21
 msgid "No time logged"
 msgstr ""
 
@@ -26933,8 +27098,16 @@ msgstr ""
 msgid "Nobody has work this week"
 msgstr ""
 
+#: onedesk/www/tv.py:26
+msgid "Nobody is being served yet."
+msgstr ""
+
 #: onedesk/one_book/ready.py:173
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
+msgstr ""
+
+#: frontend/src/display/Counter.vue:32
+msgid "Nobody is waiting."
 msgstr ""
 
 #: frontend/src/inventory/floor/FloorSteps.vue:22
@@ -26943,6 +27116,10 @@ msgstr ""
 
 #: onedesk/public/js/attendance_tool.js:40
 msgid "Nobody on this list checked in"
+msgstr ""
+
+#: frontend/src/display/Counter.vue:15
+msgid "Nobody yet."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:151
@@ -27045,7 +27222,7 @@ msgstr ""
 msgid "Not Due"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:178
+#: onedesk/one_project/report/workload/workload.py:182
 msgid "Not Estimated"
 msgstr ""
 
@@ -27109,10 +27286,6 @@ msgstr ""
 
 #: onedesk/public/js/work_order_list.js:8
 msgid "Not Started"
-msgstr ""
-
-#: frontend/src/task/TaskTime.vue:62
-msgid "Not Submitted"
 msgstr ""
 
 #. Option for the 'Time' (Select) field in DocType 'Project'
@@ -27671,7 +27844,7 @@ msgstr ""
 msgid "Nothing will be written to attendance."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1138
+#: onedesk/one_inventory/heads.py:1133
 msgid "Nothing yet"
 msgstr ""
 
@@ -27765,6 +27938,10 @@ msgstr ""
 msgid "Now"
 msgstr ""
 
+#: onedesk/www/tv.py:23
+msgid "Now Serving"
+msgstr ""
+
 #. Label in the One Asset Value Adjustment print format
 #: onedesk/one_inventory/print_format/one_asset_value_adjustment/one_asset_value_adjustment.json
 msgid "Now Worth"
@@ -27794,6 +27971,7 @@ msgstr ""
 #. Label in the One Sales Invoice Classic print format
 #. Label in the One Sales Invoice with Images print format
 #. Label in the One Simplified Tax Invoice print format
+#. Label of the number (Int) field in DocType 'Queue Ticket'
 #. Label of the number (Data) field in DocType 'Employee Document'
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
@@ -27811,6 +27989,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_inventory/portal.py:74
 #: onedesk/one_inventory/print_format/one_serial_and_batch_bundle/one_serial_and_batch_bundle.json
@@ -27942,6 +28121,7 @@ msgstr ""
 
 #: onedesk/one/ai.py:2585 onedesk/one/control.py:388 onedesk/one/rights.py:261
 #: onedesk/one_ai/chat.py:698
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:57
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
 #: onedesk/one_studio/heads.py:22 onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214
@@ -28038,6 +28218,11 @@ msgstr ""
 msgid "Office Move"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:59
+#: onedesk/www/tv.py:30
+msgid "Offline"
+msgstr ""
+
 #. Label in the One Exchange Rate Revaluation print format
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 msgid "Old Rate"
@@ -28122,10 +28307,6 @@ msgstr ""
 msgid "On Monday morning, when supplier bills fall due in the coming week."
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:43
-msgid "On My Tasks"
-msgstr ""
-
 #: onedesk/public/js/one/access_center.js:81
 #: onedesk/public/js/one/access_center.js:83
 #: onedesk/public/js/one/access_center.js:117
@@ -28180,7 +28361,7 @@ msgstr ""
 msgid "On each report's own schedule, as it was set from the report's menu."
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:47
+#: onedesk/one_studio/doctype/extension/extension.js:46
 msgid "On each space's home page"
 msgstr ""
 
@@ -28214,7 +28395,7 @@ msgstr ""
 msgid "On printed and sent invoices, quotes and orders."
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:46
+#: onedesk/one_studio/doctype/extension/extension.js:45
 msgid "On the OneCRM pipeline board"
 msgstr ""
 
@@ -28257,15 +28438,15 @@ msgstr ""
 msgid "On the schedule {0}"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:94
+#: onedesk/one_studio/doctype/extension/extension.js:93
 msgid "On the server"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:79
+#: onedesk/one_studio/doctype/extension/extension.js:78
 msgid "On the {0} form"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:78
+#: onedesk/one_studio/doctype/extension/extension.js:77
 msgid "On the {0} list"
 msgstr ""
 
@@ -28510,6 +28691,11 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:1378
 msgid "One person"
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "One person's place in a queue, from taking it at the kiosk to being served."
 msgstr ""
 
 #: onedesk/public/js/item_new.js:7
@@ -28835,7 +29021,7 @@ msgstr ""
 msgid "OneBook"
 msgstr ""
 
-#: onedesk/one_studio/places.py:202
+#: onedesk/one_studio/places.py:158
 msgid "OneBook's Home is opened, and each time an invoice, a payment or a bank line changes."
 msgstr ""
 
@@ -28847,7 +29033,7 @@ msgstr ""
 msgid "OneCRM"
 msgstr ""
 
-#: onedesk/one_studio/places.py:180
+#: onedesk/one_studio/places.py:136
 msgid "OneCRM's Home is opened, and each time a lead, an opportunity or a quotation changes."
 msgstr ""
 
@@ -28870,6 +29056,26 @@ msgid "OneCloud"
 msgstr ""
 
 #. Title of a Sidebar
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "OneDisplay"
+msgstr ""
+
+#. Name of a role
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+#: onedesk/one_display/doctype/queue/queue.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "OneDisplay Manager"
+msgstr ""
+
+#. Name of a role
+#: onedesk/one_display/doctype/queue/queue.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "OneDisplay User"
+msgstr ""
+
+#. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: frontend/src/hr/HrHome.vue:242 onedesk/one_hr/page/onehr/onehr.js:5
 #: onedesk/one_hr/sidebar/onehr/onehr.json
@@ -28882,7 +29088,7 @@ msgstr ""
 msgid "OneHR Setup"
 msgstr ""
 
-#: onedesk/one_studio/places.py:191
+#: onedesk/one_studio/places.py:147
 msgid "OneHR's Home is opened, and each time a request, a flagged check-in or an interview changes."
 msgstr ""
 
@@ -28895,7 +29101,7 @@ msgstr ""
 msgid "OneInventory"
 msgstr ""
 
-#: onedesk/one_studio/places.py:169
+#: onedesk/one_studio/places.py:125
 msgid "OneInventory's Home is opened, and each time an order, a move, a lot or a service changes."
 msgstr ""
 
@@ -28937,13 +29143,8 @@ msgid "OneStudio"
 msgstr ""
 
 #. Title of a Sidebar
-#: onedesk/one_task/page/my_tasks/my_tasks.js:3
 #: onedesk/one_task/sidebar/onetask/onetask.json
 msgid "OneTask"
-msgstr ""
-
-#: onedesk/one_studio/places.py:58
-msgid "OneTask shows one of its views of the reader's tasks."
 msgstr ""
 
 #: onedesk/one_sheet/page/workbook/workbook.js:4
@@ -28952,6 +29153,10 @@ msgstr ""
 
 #: onedesk/one_doc/page/document/document.js:4
 msgid "OneWriter"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:59
+msgid "Online"
 msgstr ""
 
 #: onedesk/one_sheet/api.py:225
@@ -29376,10 +29581,6 @@ msgstr ""
 msgid "Open My Tasks"
 msgstr ""
 
-#: frontend/src/task/TaskTime.vue:36
-msgid "Open Older Entries"
-msgstr ""
-
 #. The button on a notification's mail
 #: onedesk/one_account/notifications.py
 msgid "Open One"
@@ -29499,7 +29700,7 @@ msgstr ""
 msgid "Open file location"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:293
+#: onedesk/public/js/window/form.js:308
 msgid "Open in OneCloud"
 msgstr ""
 
@@ -29564,6 +29765,10 @@ msgstr ""
 
 #: frontend/src/project/Time.vue:57
 msgid "Open {0} Older Entries"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:13
+msgid "Open {0} on the screen. It shows this code."
 msgstr ""
 
 #. Label of the source_kind (Data) field in DocType 'Writer Document'
@@ -29643,7 +29848,7 @@ msgstr ""
 #: frontend/src/inventory/floor/OrderRows.vue:9
 #: frontend/src/inventory/floor/ShopFloor.vue:25
 #: frontend/src/inventory/plant/PlantFloor.vue:51
-#: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:1573
+#: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:1567
 msgid "Operations"
 msgstr ""
 
@@ -29941,7 +30146,7 @@ msgid "Ordered Already"
 msgstr ""
 
 #: frontend/src/inventory/stock/StockOnHand.vue:28
-#: onedesk/one_inventory/heads.py:1377 onedesk/one_inventory/heads.py:1512
+#: onedesk/one_inventory/heads.py:1371 onedesk/one_inventory/heads.py:1506
 msgid "Ordered Qty"
 msgstr ""
 
@@ -30220,7 +30425,7 @@ msgstr ""
 msgid "Out of Stock {0}"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1207
+#: onedesk/one_inventory/heads.py:1202
 msgid "Out of Stock, Month by Month"
 msgstr ""
 
@@ -30316,7 +30521,7 @@ msgstr ""
 msgid "Over Budget is Warn or Stop."
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:102
+#: onedesk/one_project/report/workload/workload.py:106
 msgid "Over Capacity"
 msgstr ""
 
@@ -30562,7 +30767,7 @@ msgstr ""
 msgid "Page [page] of [topage]"
 msgstr ""
 
-#: onedesk/public/js/outside.js:265 onedesk/www/404.html:15
+#: onedesk/public/js/outside.js:266 onedesk/www/404.html:15
 #: onedesk/www/error.py:17
 msgid "Page not found"
 msgstr ""
@@ -30784,6 +30989,32 @@ msgstr ""
 msgid "Painting"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:19
+msgid "Pair"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:6
+msgid "Pair a Screen"
+msgstr ""
+
+#: onedesk/www/tv.py:21
+msgid "Pair this screen"
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Paired"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:23
+msgid "Paired."
+msgstr ""
+
+#. Label of the pair_code (Data) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Pairing Code"
+msgstr ""
+
 #: frontend/src/inventory/home/InventoryStory.vue:42
 msgid "Papers"
 msgstr ""
@@ -30810,7 +31041,7 @@ msgstr ""
 msgid "Parent Project"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:121 frontend/src/task/TaskPage.vue:242
+#: frontend/src/project/TaskPanel.vue:121
 msgid "Parent Task"
 msgstr ""
 
@@ -30949,7 +31180,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_payment_request/one_payment_request.json
 #: onedesk/one_book/print_format/one_payment_voucher/one_payment_voucher.json
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
-#: onedesk/one_inventory/heads.py:1510
+#: onedesk/one_inventory/heads.py:1504
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 msgid "Party"
 msgstr ""
@@ -31046,7 +31277,8 @@ msgstr ""
 #: onedesk/public/js/one_mail/onemail_settings.js:1013
 #: onedesk/public/js/onecloud_dialogs.js:162
 #: onedesk/public/js/onecloud_dialogs.js:300
-#: onedesk/public/js/onecloud_dialogs.js:547 onedesk/www/s.html:46
+#: onedesk/public/js/onecloud_dialogs.js:547
+#: onedesk/public/js/setup_wizard.js:149 onedesk/www/s.html:46
 msgid "Password"
 msgstr ""
 
@@ -31893,12 +32125,11 @@ msgstr ""
 #. Label of the user (Link) field in DocType 'Push Device'
 #. Option for the 'Kind' (Select) field in DocType 'Face'
 #: frontend/src/project/Team.vue:19 frontend/src/project/Time.vue:26
-#: frontend/src/project/Time.vue:90 frontend/src/task/TaskTime.vue:20
-#: frontend/src/workload/WorkloadList.vue:17
+#: frontend/src/project/Time.vue:90 frontend/src/workload/WorkloadList.vue:17
 #: onedesk/one/doctype/push_device/push_device.json
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:42
 #: onedesk/one_mail/doctype/face/face.json
-#: onedesk/one_project/report/workload/workload.py:169
+#: onedesk/one_project/report/workload/workload.py:173
 #: onedesk/public/js/one_account/account_center.js:409
 #: onedesk/public/js/one_account/account_center.js:1336
 msgid "Person"
@@ -32426,8 +32657,8 @@ msgstr ""
 msgid "Planned"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:95
-#: onedesk/one_project/report/workload/workload.py:173
+#: onedesk/one_project/report/workload/workload.py:99
+#: onedesk/one_project/report/workload/workload.py:177
 msgid "Planned (Hours)"
 msgstr ""
 
@@ -32470,7 +32701,7 @@ msgstr ""
 msgid "Plant Floor"
 msgstr ""
 
-#: onedesk/one_studio/places.py:268
+#: onedesk/one_studio/places.py:224
 msgid "Plant Floor is opened, and each time a workstation's status or a step on it changes."
 msgstr ""
 
@@ -32624,6 +32855,8 @@ msgstr ""
 msgid "Practical completion inspection"
 msgstr ""
 
+#. Label of the prefix (Data) field in DocType 'Queue Service'
+#: onedesk/one_display/doctype/queue_service/queue_service.json
 #: onedesk/public/js/doctype_settings.js:877
 #: onedesk/public/js/doctype_settings.js:901
 msgid "Prefix"
@@ -32747,6 +32980,10 @@ msgstr ""
 
 #: frontend/src/cloud/cloud.js:14
 msgid "Presentation"
+msgstr ""
+
+#: onedesk/www/tv.py:31
+msgid "Press OK to turn on sound"
 msgstr ""
 
 #. Label of the press_domain (Data) field in DocType 'One Admin Settings'
@@ -32949,7 +33186,7 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:291 frontend/src/project/TaskPanel.vue:23
 #: frontend/src/project/TaskPanel.vue:24 frontend/src/project/Tasks.vue:19
-#: frontend/src/project/Tasks.vue:46 frontend/src/task/TaskPage.vue:8
+#: frontend/src/project/Tasks.vue:46
 #: onedesk/one_project/report/project_progress/project_progress.js:12
 #: onedesk/public/js/doctype_settings.js:919 onedesk/public/js/task_new.js:33
 msgid "Priority"
@@ -33174,13 +33411,13 @@ msgstr ""
 #: frontend/portal/src/pages/Project.vue:71
 #: frontend/src/cloud/CloudPreview.vue:95 frontend/src/cloud/OneCloud.vue:225
 #: frontend/src/project/Overview.vue:288 frontend/src/project/Tasks.vue:21
-#: frontend/src/task/TaskPage.vue:233 onedesk/one_book/heads.py:577
-#: onedesk/one_book/heads.py:657 onedesk/one_book/heads.py:667
-#: onedesk/one_crm/heads.py:294 onedesk/one_inventory/heads.py:1470
-#: onedesk/one_inventory/heads.py:1481 onedesk/one_inventory/heads.py:1520
-#: onedesk/one_inventory/heads.py:1533 onedesk/one_inventory/heads.py:1562
-#: onedesk/one_inventory/heads.py:1592 onedesk/one_project/heads.py:272
-#: onedesk/one_project/portal.py:339 onedesk/one_studio/print_blocks.py:681
+#: onedesk/one_book/heads.py:577 onedesk/one_book/heads.py:657
+#: onedesk/one_book/heads.py:667 onedesk/one_crm/heads.py:294
+#: onedesk/one_inventory/heads.py:1464 onedesk/one_inventory/heads.py:1475
+#: onedesk/one_inventory/heads.py:1514 onedesk/one_inventory/heads.py:1527
+#: onedesk/one_inventory/heads.py:1556 onedesk/one_inventory/heads.py:1586
+#: onedesk/one_project/heads.py:272 onedesk/one_project/portal.py:339
+#: onedesk/one_studio/print_blocks.py:681
 #: onedesk/public/js/project_actions.js:669
 msgid "Progress"
 msgstr ""
@@ -33267,11 +33504,11 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.js:24
-#: onedesk/one_inventory/heads.py:1471 onedesk/one_inventory/heads.py:1482
-#: onedesk/one_inventory/heads.py:1490 onedesk/one_inventory/heads.py:1499
-#: onedesk/one_inventory/heads.py:1521 onedesk/one_inventory/heads.py:1534
-#: onedesk/one_inventory/heads.py:1544 onedesk/one_inventory/heads.py:1563
-#: onedesk/one_inventory/heads.py:1593 onedesk/one_inventory/heads.py:1601
+#: onedesk/one_inventory/heads.py:1465 onedesk/one_inventory/heads.py:1476
+#: onedesk/one_inventory/heads.py:1484 onedesk/one_inventory/heads.py:1493
+#: onedesk/one_inventory/heads.py:1515 onedesk/one_inventory/heads.py:1528
+#: onedesk/one_inventory/heads.py:1538 onedesk/one_inventory/heads.py:1557
+#: onedesk/one_inventory/heads.py:1587 onedesk/one_inventory/heads.py:1595
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
@@ -33395,10 +33632,6 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one_project/notifications.py
 msgid "Project Update Asked"
-msgstr ""
-
-#: frontend/src/task/MyTasks.vue:16
-msgid "Project or About"
 msgstr ""
 
 #. Label of the one_projects (Int) field in DocType 'Project Template'
@@ -33652,8 +33885,8 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
-#: onedesk/one_inventory/heads.py:1504 onedesk/one_inventory/heads.py:1513
-#: onedesk/one_inventory/heads.py:1522 onedesk/one_inventory/home.py:129
+#: onedesk/one_inventory/heads.py:1498 onedesk/one_inventory/heads.py:1507
+#: onedesk/one_inventory/heads.py:1516 onedesk/one_inventory/home.py:129
 #: onedesk/one_inventory/print_format/one_purchase_order/one_purchase_order.json
 #: onedesk/one_inventory/print_format/one_purchase_order_bordered/one_purchase_order_bordered.json
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
@@ -33710,7 +33943,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
-#: onedesk/one_inventory/heads.py:1654
+#: onedesk/one_inventory/heads.py:1647
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
 #: onedesk/one_studio/print_blocks.py:58
@@ -33975,6 +34208,39 @@ msgstr ""
 msgid "Questions answered"
 msgstr ""
 
+#. Label of the queue (Link) field in DocType 'Display Channel'
+#. Name of a DocType
+#. Label of the queue (Link) field in DocType 'Queue Ticket'
+#. Label of a Sidebar Item
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+#: onedesk/one_display/doctype/queue/queue.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "Queue"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_display/doctype/queue_counter/queue_counter.json
+msgid "Queue Counter"
+msgstr ""
+
+#. Label of the queue_name (Data) field in DocType 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Queue Name"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_display/doctype/queue_service/queue_service.json
+msgid "Queue Service"
+msgstr ""
+
+#. Name of a DocType
+#. Label of a Sidebar Item
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json
+msgid "Queue Ticket"
+msgstr ""
+
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Queued"
@@ -34105,7 +34371,7 @@ msgstr ""
 
 #: frontend/src/inventory/supplier/SupplierItems.vue:29
 #: frontend/src/project/Overview.vue:158 onedesk/one_inventory/heads.py:601
-#: onedesk/one_inventory/heads.py:1492 onedesk/one_inventory/portal.py:75
+#: onedesk/one_inventory/heads.py:1486 onedesk/one_inventory/portal.py:75
 #: onedesk/one_inventory/portal.py:204 onedesk/one_project/money.py:155
 msgid "Quoted"
 msgstr ""
@@ -34128,7 +34394,7 @@ msgstr ""
 msgid "Quotes"
 msgstr ""
 
-#: onedesk/one_studio/places.py:235
+#: onedesk/one_studio/places.py:191
 msgid "Quotes is opened, and each time a request for prices, a quote or an order changes."
 msgstr ""
 
@@ -35132,7 +35398,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:36 frontend/src/cloud/OneCloud.vue:633
 #: frontend/src/cloud/OneCloud.vue:634 frontend/src/cloud/OneCloud.vue:656
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
-#: onedesk/public/js/head.js:412 onedesk/public/js/window/frame.js:245
+#: onedesk/public/js/head.js:423 onedesk/public/js/window/frame.js:253
 msgid "Refresh"
 msgstr ""
 
@@ -35285,7 +35551,7 @@ msgstr ""
 msgid "Rejected Into"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1525
+#: onedesk/one_inventory/heads.py:1519
 msgid "Rejected Qty"
 msgstr ""
 
@@ -35341,6 +35607,7 @@ msgstr ""
 msgid "Relief Up To"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen.js:3
 #: onedesk/public/js/record.js:161
 msgid "Reload"
 msgstr ""
@@ -35644,10 +35911,6 @@ msgstr ""
 msgid "Reopen"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:329
-msgid "Reopen Task"
-msgstr ""
-
 #. Label of a Sidebar Item
 #: frontend/src/inventory/home/InventoryHome.vue:241
 #: frontend/src/inventory/to_order/ToOrderPage.vue:174
@@ -35657,7 +35920,7 @@ msgstr ""
 msgid "Reorder"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1384
+#: onedesk/one_inventory/heads.py:1378
 msgid "Reorder Level"
 msgstr ""
 
@@ -35702,7 +35965,7 @@ msgid "Repair"
 msgstr ""
 
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:85
-#: onedesk/one_inventory/heads.py:1639
+#: onedesk/one_inventory/heads.py:1632
 msgid "Repair Cost"
 msgstr ""
 
@@ -35721,7 +35984,7 @@ msgstr ""
 msgid "Repaired By"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:174 frontend/src/task/TaskPage.vue:332
+#: frontend/src/project/TaskPanel.vue:174
 msgid "Repeat"
 msgstr ""
 
@@ -35740,7 +36003,7 @@ msgid "Repeated by Mail"
 msgstr ""
 
 #. Label in the One Shift Schedule print format
-#: frontend/src/project/TaskPanel.vue:49 frontend/src/task/TaskPage.vue:31
+#: frontend/src/project/TaskPanel.vue:49
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 msgid "Repeats"
 msgstr ""
@@ -36004,7 +36267,7 @@ msgstr ""
 #: frontend/src/inventory/quotes/QuotesPage.vue:98
 #: frontend/src/inventory/quotes/QuotesPage.vue:152
 #: frontend/src/inventory/quotes/RequestRows.vue:5
-#: onedesk/one_inventory/heads.py:1500 onedesk/one_inventory/home.py:126
+#: onedesk/one_inventory/heads.py:1494 onedesk/one_inventory/home.py:126
 #: onedesk/one_inventory/page/quotes/quotes.js:6
 #: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
@@ -36036,7 +36299,7 @@ msgstr ""
 
 #. Label in the One Material Request print format
 #. Label of the requested_by (Link) field in DocType 'Mail Rule'
-#: onedesk/one_inventory/heads.py:1483
+#: onedesk/one_inventory/heads.py:1477
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Requested By"
@@ -36559,14 +36822,9 @@ msgstr ""
 #: onedesk/one_inventory/home.py:189
 #: onedesk/one_project/library/client_onboarding.json
 #: onedesk/one_studio/ai.py:366
-#: onedesk/one_studio/doctype/extension/extension.js:126
+#: onedesk/one_studio/doctype/extension/extension.js:125
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/public/js/task_actions.js:7
 msgid "Review"
-msgstr ""
-
-#: frontend/src/task/TaskPage.vue:245
-msgid "Review Date"
 msgstr ""
 
 #. The button on a notification's mail
@@ -37071,7 +37329,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
-#: onedesk/one_inventory/heads.py:1535
+#: onedesk/one_inventory/heads.py:1529
 #: onedesk/one_inventory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_studio/print_blocks.py:16
@@ -37086,7 +37344,7 @@ msgstr ""
 msgid "Sales Order Trends"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1564
+#: onedesk/one_inventory/heads.py:1558
 msgid "Sales Order or Material Request"
 msgstr ""
 
@@ -37225,8 +37483,8 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:451
 #: onedesk/public/js/project_actions.js:624
 #: onedesk/public/js/project_actions.js:677 onedesk/public/js/reports.js:297
-#: onedesk/public/js/shell.js:360 onedesk/public/js/task_actions.js:25
-#: onedesk/public/js/window/form.js:399 onedesk/www/account_profile.html:29
+#: onedesk/public/js/shell.js:360 onedesk/public/js/window/form.js:414
+#: onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr ""
 
@@ -37412,7 +37670,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 #: onedesk/one_inventory/print_format/one_asset_shift_allocation/one_asset_shift_allocation.json
 #: onedesk/one_studio/doctype/extension/extension.json
-#: onedesk/public/js/project.js:14 onedesk/public/js/task_actions.js:5
+#: onedesk/public/js/project.js:14
 msgid "Schedule"
 msgstr ""
 
@@ -37459,6 +37717,7 @@ msgstr ""
 
 #. Label of the screen (Data) field in DocType 'Clock Attempt'
 #. Label of the screen (Data) field in DocType 'Clock Device'
+#: onedesk/one_display/doctype/display_screen/display_screen.js:24
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Screen"
@@ -37468,9 +37727,20 @@ msgstr ""
 msgid "Screen Applicants"
 msgstr ""
 
+#. Label of the screen_name (Data) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:15
+msgid "Screen Name"
+msgstr ""
+
 #. Label of the one_ai_screen (Check) field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Screen New Applicants"
+msgstr ""
+
+#. Label of the dark (Check) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Screen Off"
 msgstr ""
 
 #: onedesk/one_hr/ai.py:117
@@ -37590,7 +37860,9 @@ msgid "Second fix and fittings"
 msgstr ""
 
 #. Label of the auth (Data) field in DocType 'Push Device'
+#. Label of the secret_hash (Data) field in DocType 'Display Screen'
 #: onedesk/one/doctype/push_device/push_device.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Secret"
 msgstr ""
 
@@ -37823,6 +38095,11 @@ msgstr ""
 msgid "Send a copy of supplier mail with an attachment to another address."
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:32
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:66
+msgid "Send an Emergency Alert"
+msgstr ""
+
 #: onedesk/one_studio/automations.py:119
 msgid "Send an HTTP request to an external URL."
 msgstr ""
@@ -37869,6 +38146,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/private_app/private_app.js:11
 msgid "Send this to the workspace. It's shown once."
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:42
+msgid "Send to Every Screen"
 msgstr ""
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
@@ -37971,7 +38252,7 @@ msgstr ""
 msgid "Sent On"
 msgstr ""
 
-#: onedesk/one_studio/places.py:246
+#: onedesk/one_studio/places.py:202
 msgid "Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."
 msgstr ""
 
@@ -38019,6 +38300,10 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:66
 msgid "Sent {0} to Subcontractor"
+msgstr ""
+
+#: onedesk/one_display/screens.py:191
+msgid "Sent."
 msgstr ""
 
 #: onedesk/public/js/privacy_copy.js:9
@@ -38201,10 +38486,14 @@ msgid "Servers"
 msgstr ""
 
 #. Option for the 'Description' (Select) field in DocType 'Reading Date'
+#. Label of the service (Data) field in DocType 'Queue Service'
+#. Label of the service (Data) field in DocType 'Queue Ticket'
 #. Label in the One Vehicle Log print format
 #. Label in the One Asset Capitalization print format
 #. Label in the One Shipment print format
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
+#: onedesk/one_display/doctype/queue_service/queue_service.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
@@ -38237,7 +38526,9 @@ msgstr ""
 msgid "Serviced By"
 msgstr ""
 
+#. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
+#: onedesk/one_display/doctype/queue/queue.json
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/public/js/item_list.js:7
 msgid "Services"
@@ -38250,6 +38541,10 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:156
 msgid "Services due, repairs, each asset's plan and what was done, on one page."
+msgstr ""
+
+#: frontend/src/display/Counter.vue:13
+msgid "Serving"
 msgstr ""
 
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
@@ -38281,7 +38576,7 @@ msgstr ""
 msgid "Set Health"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:31 frontend/src/task/TaskPage.vue:26
+#: frontend/src/project/TaskPanel.vue:31
 msgid "Set Hours"
 msgstr ""
 
@@ -38503,6 +38798,11 @@ msgstr ""
 #: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
 #: onedesk/one_project/tour.py:31 onedesk/one_task/tour.py:30
 msgid "Settings and Tours"
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+msgid "Settings for every screen."
 msgstr ""
 
 #: onedesk/one_book/tour.py:31 onedesk/one_crm/tour.py:31
@@ -38877,7 +39177,7 @@ msgstr ""
 msgid "Shop Floor"
 msgstr ""
 
-#: onedesk/one_studio/places.py:158
+#: onedesk/one_studio/places.py:114
 msgid "Shop Floor is opened, and each time a step starts, pauses or closes."
 msgstr ""
 
@@ -39100,7 +39400,7 @@ msgstr ""
 msgid "Show {0} Earlier"
 msgstr ""
 
-#: frontend/src/project/Time.vue:53 frontend/src/task/TaskTime.vue:33
+#: frontend/src/project/Time.vue:53
 msgid "Show {0} More"
 msgstr ""
 
@@ -39141,10 +39441,18 @@ msgstr ""
 msgid "Shown in"
 msgstr ""
 
+#. Description of the 'Emergency Message' (Small Text) field in DocType
+#. 'Display Settings'
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+msgid "Shown on every screen, over everything else, until the alert is turned off."
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:246
 msgid "Shown with the address on every email sent from this mailbox, or the default name if empty."
 msgstr ""
 
+#. Label of the mode (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_hr/hiring.py:331
 msgid "Shows"
 msgstr ""
@@ -39421,7 +39729,7 @@ msgstr ""
 msgid "Simplified Tax Invoice"
 msgstr ""
 
-#: frontend/src/project/Facts.vue:18 frontend/src/task/MyTasks.vue:35
+#: frontend/src/project/Facts.vue:18
 msgid "Since {0}"
 msgstr ""
 
@@ -40048,6 +40356,10 @@ msgstr ""
 msgid "Something went wrong. Try again in a moment."
 msgstr ""
 
+#: onedesk/www/tv.py:32
+msgid "Something went wrong. Try again."
+msgstr ""
+
 #: onedesk/one_inventory/ready.py:237
 msgid "Somewhere for an asset to be"
 msgstr ""
@@ -40133,7 +40445,7 @@ msgstr ""
 msgid "Source"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1433
+#: onedesk/one_inventory/heads.py:1427
 msgid "Source Document"
 msgstr ""
 
@@ -40154,7 +40466,7 @@ msgstr ""
 msgid "Space"
 msgstr ""
 
-#: onedesk/one_studio/places.py:314
+#: onedesk/one_studio/places.py:270
 msgid "Space Home"
 msgstr ""
 
@@ -40243,6 +40555,11 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:131
 msgid "Stacked"
+msgstr ""
+
+#. Label of the user (Link) field in DocType 'Queue Counter'
+#: onedesk/one_display/doctype/queue_counter/queue_counter.json
+msgid "Staffed By"
 msgstr ""
 
 #. Label in the One Staffing Plan print format
@@ -40359,8 +40676,10 @@ msgstr ""
 msgid "Start Here"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:7 frontend/src/task/MyTasks.vue:45
-#: frontend/src/task/TaskPage.vue:330 onedesk/public/js/task.js:8
+#: frontend/src/project/TaskPanel.vue:7
+#: onedesk/public/js/one_task/task_kanban.js:87
+#: onedesk/public/js/one_task/task_kanban.js:101
+#: onedesk/public/js/one_task/task_kanban.js:109 onedesk/public/js/task.js:8
 #: onedesk/public/js/timesheet.js:5 onedesk/public/js/timesheet.js:10
 #: onedesk/public/js/timesheet.js:31
 msgid "Start Timer"
@@ -40563,6 +40882,8 @@ msgstr ""
 #. Label in the One Transaction Deletion Record print format
 #. Label in the One Maintenance Plan print format
 #. Label in the One Service Report print format
+#. Label of the status (Select) field in DocType 'Display Screen'
+#. Label of the status (Select) field in DocType 'Queue Ticket'
 #. Label of the status (Select) field in DocType 'Clock Device'
 #. Label of the status (Select) field in DocType 'Clock Network'
 #. Label of the status (Select) field in DocType 'Clock Place'
@@ -40612,7 +40933,6 @@ msgstr ""
 #: frontend/src/project/Suppliers.vue:82 frontend/src/project/Suppliers.vue:134
 #: frontend/src/project/TaskPanel.vue:4 frontend/src/project/Tasks.vue:17
 #: frontend/src/project/Tasks.vue:40 frontend/src/project/Time.vue:31
-#: frontend/src/task/TaskPage.vue:7 frontend/src/task/TaskTime.vue:23
 #: onedesk/one/custom/note.json onedesk/one_account/doctype/device/device.json
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
 #: onedesk/one_account/doctype/workspace_domain/workspace_domain.json
@@ -40633,6 +40953,8 @@ msgstr ""
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -40760,7 +41082,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:475
+#: onedesk/public/js/window/form.js:490
 msgid "Still needed: {0}"
 msgstr ""
 
@@ -40817,7 +41139,7 @@ msgstr ""
 msgid "Stock Entry"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1545
+#: onedesk/one_inventory/heads.py:1539
 msgid "Stock Entry Type"
 msgstr ""
 
@@ -40888,8 +41210,8 @@ msgstr ""
 #: frontend/src/inventory/item/ItemPage.vue:249
 #: frontend/src/inventory/stock/StockOnHand.vue:29
 #: frontend/src/inventory/stock/StockOnHand.vue:152
-#: onedesk/one_inventory/heads.py:1383 onedesk/one_inventory/heads.py:1451
-#: onedesk/one_inventory/heads.py:1523
+#: onedesk/one_inventory/heads.py:1377 onedesk/one_inventory/heads.py:1445
+#: onedesk/one_inventory/heads.py:1517
 #: onedesk/one_inventory/number_card/stock_worth/stock_worth.json
 msgid "Stock Value"
 msgstr ""
@@ -40980,7 +41302,7 @@ msgstr ""
 msgid "Stock moved between warehouses, used up or added."
 msgstr ""
 
-#: onedesk/one_studio/places.py:147
+#: onedesk/one_studio/places.py:103
 msgid "Stock on Hand is opened, and each time stock moves or another warehouse is chosen."
 msgstr ""
 
@@ -41025,7 +41347,7 @@ msgstr ""
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:175 frontend/src/task/TaskPage.vue:333
+#: frontend/src/project/TaskPanel.vue:175
 msgid "Stop Repeating"
 msgstr ""
 
@@ -41037,9 +41359,11 @@ msgstr ""
 msgid "Stop Showing"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:7 frontend/src/task/MyTasks.vue:45
-#: frontend/src/task/TaskPage.vue:330 frontend/src/task/TimerList.vue:17
+#: frontend/src/project/TaskPanel.vue:7 frontend/src/task/TimerList.vue:17
 #: frontend/src/task/TimerList.vue:28
+#: onedesk/public/js/one_task/task_kanban.js:87
+#: onedesk/public/js/one_task/task_kanban.js:101
+#: onedesk/public/js/one_task/task_kanban.js:109
 msgid "Stop Timer"
 msgstr ""
 
@@ -41073,7 +41397,7 @@ msgstr ""
 
 #: frontend/src/inventory/plant/PlantFloor.vue:178
 #: frontend/src/inventory/quotes/QuoteRows.vue:71
-#: frontend/src/project/TaskPanel.vue:50 frontend/src/task/TaskPage.vue:32
+#: frontend/src/project/TaskPanel.vue:50
 msgid "Stopped"
 msgstr ""
 
@@ -41274,7 +41598,7 @@ msgstr ""
 #. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
 #: frontend/src/inventory/sent_out/SentOutPage.vue:104
-#: onedesk/one_inventory/heads.py:1603 onedesk/one_inventory/home.py:144
+#: onedesk/one_inventory/heads.py:1597 onedesk/one_inventory/home.py:144
 #: onedesk/one_inventory/page/sent_out/sent_out.js:6
 #: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
@@ -41311,7 +41635,7 @@ msgstr ""
 
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #. Label in the One Employee Grievance print format
-#: frontend/src/project/TaskPanel.vue:17 frontend/src/task/TaskPage.vue:12
+#: frontend/src/project/TaskPanel.vue:17
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one/notification_words.py:227 onedesk/one/notify.py:265
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
@@ -41338,7 +41662,7 @@ msgid "Subject: {0}"
 msgstr ""
 
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.js:14
-#: onedesk/public/js/doctype_settings.js:253
+#: onedesk/public/js/doctype_settings.js:253 onedesk/public/js/head.js:114
 msgid "Submit"
 msgstr ""
 
@@ -41623,7 +41947,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_purchase_invoice_with_images/one_purchase_invoice_with_images.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/sidebar/onebook/onebook.json
-#: onedesk/one_inventory/heads.py:1602 onedesk/one_inventory/home.py:131
+#: onedesk/one_inventory/heads.py:1596 onedesk/one_inventory/home.py:131
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
 #: onedesk/one_inventory/print_format/one_landed_cost_voucher/one_landed_cost_voucher.json
 #: onedesk/one_inventory/print_format/one_purchase_order/one_purchase_order.json
@@ -41897,6 +42221,11 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+#: onedesk/one_display/doctype/queue/queue.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
@@ -41959,7 +42288,7 @@ msgstr ""
 msgid "Tagged {0}"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1328 onedesk/one_inventory/heads.py:1329
+#: onedesk/one_inventory/heads.py:1322 onedesk/one_inventory/heads.py:1323
 msgid "Take Back"
 msgstr ""
 
@@ -41973,6 +42302,10 @@ msgstr ""
 
 #: onedesk/one_crm/heads.py:281
 msgid "Take This Opportunity"
+msgstr ""
+
+#: onedesk/www/tv.py:27
+msgid "Take a ticket"
 msgstr ""
 
 #: onedesk/public/js/one/access_center.js:107
@@ -42016,7 +42349,7 @@ msgstr ""
 msgid "Taken Off an Event"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1341
+#: onedesk/one_inventory/heads.py:1335
 msgid "Taken back."
 msgstr ""
 
@@ -42044,18 +42377,16 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/project/Tasks.vue:15 frontend/src/project/Time.vue:28
 #: frontend/src/project/Time.vue:90 frontend/src/project/Timeline.vue:7
-#: frontend/src/task/MyTasks.vue:15 frontend/src/task/TaskWaits.vue:12
-#: frontend/src/template/Tasks.vue:5 frontend/src/template/Tasks.vue:35
+#: frontend/src/task/TaskWaits.vue:12 frontend/src/template/Tasks.vue:5
+#: frontend/src/template/Tasks.vue:35
 #: frontend/src/template/TemplatePage.vue:110
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
 #: onedesk/one_project/ai.py:716
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_task/ai.py:338 onedesk/one_task/page/task_view/task_view.js:5
-#: onedesk/one_task/sidebar/onetask/onetask.json
+#: onedesk/one_task/ai.py:296 onedesk/one_task/sidebar/onetask/onetask.json
 #: onedesk/public/js/one_mail/rule_builder.js:652
-#: onedesk/public/js/project_actions.js:363
-#: onedesk/public/js/task_actions.js:57 onedesk/public/js/task_new.js:10
+#: onedesk/public/js/project_actions.js:363 onedesk/public/js/task_new.js:10
 #: onedesk/public/js/timesheet.js:41
 msgid "Task"
 msgstr ""
@@ -42111,19 +42442,14 @@ msgstr ""
 #: frontend/src/project/ProjectPage.vue:176 onedesk/one_project/ai.py:927
 #: onedesk/one_project/calendar.py:17
 #: onedesk/one_project/custom/project_template.json
-#: onedesk/one_project/report/workload/workload.py:176
+#: onedesk/one_project/report/workload/workload.py:180
 #: onedesk/one_storage/namespace.py:735 onedesk/one_storage/namespace.py:832
-#: onedesk/one_task/page/task_view/task_view.js:6
 msgid "Tasks"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:648
 #: onedesk/public/js/one_mail/rule_builder.js:651
 msgid "Tasks From Mail"
-msgstr ""
-
-#: onedesk/one_task/tour.py:25
-msgid "Tasks come by when they are due; tick one when it is done, or time it with the play button."
 msgstr ""
 
 #. Label of the tax (Float) field in DocType 'Reading'
@@ -42561,11 +42887,11 @@ msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: frontend/src/sheet/components/SheetEditor/index.vue:1941
-#: frontend/src/task/TaskPage.vue:10 onedesk/one_project/ai.py:1019
-#: onedesk/one_task/custom/task.json onedesk/public/js/doctype_settings.js:137
+#: onedesk/one_project/ai.py:1019 onedesk/one_task/custom/task.json
+#: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/project_actions.js:67 onedesk/public/js/project_new.js:86
 #: onedesk/public/js/project_template_list.js:12
-#: onedesk/public/js/table_workbook.js:29 onedesk/public/js/task_actions.js:8
+#: onedesk/public/js/table_workbook.js:29
 msgid "Template"
 msgstr ""
 
@@ -43050,7 +43376,7 @@ msgstr ""
 msgid "The Project at a Glance"
 msgstr ""
 
-#: onedesk/one_studio/places.py:407
+#: onedesk/one_studio/places.py:363
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr ""
 
@@ -43180,6 +43506,10 @@ msgstr ""
 
 #: onedesk/one_legal/gate.py:18
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
+msgstr ""
+
+#: onedesk/one_display/screens.py:202
+msgid "The alert has ended."
 msgstr ""
 
 #. Description of the 'Level Of' (Data) field in DocType 'Role'
@@ -43483,6 +43813,14 @@ msgstr ""
 #. Allocation'
 #: onedesk/one_hr/custom/leave_allocation.json
 msgid "The days this allocation grants, before anything carried forward."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:173
+msgid "The demo company could not be built. The error is in the Error Log."
+msgstr ""
+
+#: onedesk/one_demo/start.py:21
+msgid "The demo company goes only into a workspace that is not set up yet."
 msgstr ""
 
 #. The Events terms and conditions
@@ -43806,7 +44144,17 @@ msgstr ""
 msgid "The letter heads and print formats documents are printed and sent on."
 msgstr ""
 
-#: onedesk/public/js/outside.js:266 onedesk/www/404.html:16
+#. Description of the 'Prefix' (Data) field in DocType 'Queue Service'
+#: onedesk/one_display/doctype/queue_service/queue_service.json
+msgid "The letter tickets for this service start with, such as A."
+msgstr ""
+
+#. Description of the 'Headline' (Data) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "The line across the top, such as a welcome."
+msgstr ""
+
+#: onedesk/public/js/outside.js:267 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
 msgid "The link may be broken, or the page has moved."
 msgstr ""
@@ -44157,7 +44505,7 @@ msgstr ""
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr ""
 
-#: onedesk/one_studio/places.py:307
+#: onedesk/one_studio/places.py:263
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr ""
 
@@ -44287,6 +44635,11 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:214
 msgid "The questions feedback asks."
+msgstr ""
+
+#. Description of the 'Queue' (Link) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "The queue its screens show and announce."
 msgstr ""
 
 #: onedesk/one/control.py:324
@@ -45259,7 +45612,7 @@ msgstr ""
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
-#: onedesk/public/js/head.js:419 onedesk/public/js/shell.js:264
+#: onedesk/public/js/head.js:430 onedesk/public/js/shell.js:264
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
@@ -45475,6 +45828,14 @@ msgstr ""
 msgid "This rule can't run while New Mail is set to Not Read in the mailbox's OneAI tab."
 msgstr ""
 
+#: onedesk/one_display/screens.py:175
+msgid "This screen does not hand out tickets."
+msgstr ""
+
+#: onedesk/one_display/screens.py:178
+msgid "This screen's channel has no queue."
+msgstr ""
+
 #: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "This sheet ({0})"
 msgstr ""
@@ -45600,6 +45961,10 @@ msgstr ""
 msgid "This workbook's saved data is invalid."
 msgstr ""
 
+#: onedesk/public/js/setup_wizard.js:144
+msgid "This workspace becomes the demo company. Set up your own in a new workspace."
+msgstr ""
+
 #: onedesk/one_admin/accounts.py:288
 msgid "This workspace cannot be moved."
 msgstr ""
@@ -45711,6 +46076,20 @@ msgstr ""
 msgid "Ticked {0} of {1}"
 msgstr ""
 
+#. Label of the ticker (Small Text) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Ticker"
+msgstr ""
+
+#. Label of the ticket (Data) field in DocType 'Queue Ticket'
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "Ticket"
+msgstr ""
+
+#: onedesk/one_display/screens.py:147
+msgid "Ticket {0}, counter {1}"
+msgstr ""
+
 #: onedesk/one/ai.py:145
 msgid "Tidy our footer"
 msgstr ""
@@ -45809,7 +46188,6 @@ msgid "Time in Sales Stage"
 msgstr ""
 
 #: onedesk/public/js/project_actions.js:396
-#: onedesk/public/js/task_actions.js:91
 msgid "Time logged"
 msgstr ""
 
@@ -45840,6 +46218,11 @@ msgstr ""
 msgid "Times"
 msgstr ""
 
+#. Label of the calls (Int) field in DocType 'Queue Ticket'
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "Times Called"
+msgstr ""
+
 #. Label of the opened (Int) field in DocType 'Portal Link'
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 msgid "Times Opened"
@@ -45854,7 +46237,6 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label in the One Timesheet print format
 #: frontend/src/project/ProjectPage.vue:177 frontend/src/project/Time.vue:8
-#: frontend/src/task/TaskPage.vue:197 frontend/src/task/TaskTime.vue:6
 #: onedesk/one_ai/doctype/reading/reading.json onedesk/one_hr/home.py:114
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
@@ -46055,7 +46437,7 @@ msgstr ""
 msgid "To Do"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1612
+#: onedesk/one_inventory/heads.py:1606
 msgid "To Employee"
 msgstr ""
 
@@ -46078,7 +46460,7 @@ msgstr ""
 msgid "To No"
 msgstr ""
 
-#: onedesk/one_studio/places.py:224
+#: onedesk/one_studio/places.py:180
 msgid "To Order is opened, and each time a request, a purchase order or stock changes."
 msgstr ""
 
@@ -46169,8 +46551,8 @@ msgstr ""
 #: frontend/src/sheet/utils/recency-groups.js:10 onedesk/one_book/heads.py:58
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
 #: onedesk/one_project/heads.py:77 onedesk/one_project/view.py:426
-#: onedesk/one_project/view.py:634 onedesk/one_task/mine.py:16
-#: onedesk/one_task/tell.py:296
+#: onedesk/one_project/view.py:634 onedesk/one_task/heads.py:20
+#: onedesk/one_task/mine.py:16 onedesk/one_task/tell.py:296
 msgid "Today"
 msgstr ""
 
@@ -46202,11 +46584,13 @@ msgid "Toggle filter"
 msgstr ""
 
 #. Label of the token (Password) field in DocType 'Calendar Feed'
+#. Label of the token_hash (Data) field in DocType 'Display Screen'
 #. Label of the token (Password) field in DocType 'Portal Link'
 #. Label of the token (Password) field in DocType 'Cloud File Request
 #. Recipient'
 #. Label of the token (Password) field in DocType 'Cloud Link'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
@@ -46227,6 +46611,11 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Token Hash"
+msgstr ""
+
+#. Label of the token (Data) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Token Once"
 msgstr ""
 
 #. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
@@ -46383,7 +46772,7 @@ msgstr ""
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:50
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
-#: onedesk/one_inventory/heads.py:1594 onedesk/one_inventory/heads.py:1604
+#: onedesk/one_inventory/heads.py:1588 onedesk/one_inventory/heads.py:1598
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/one_inventory/print_format/one_landed_cost_voucher/one_landed_cost_voucher.json
 #: onedesk/one_inventory/print_format/one_production_plan/one_production_plan.json
@@ -46416,7 +46805,7 @@ msgstr ""
 msgid "Total Charges"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1583
+#: onedesk/one_inventory/heads.py:1577
 msgid "Total Completed Qty"
 msgstr ""
 
@@ -46478,7 +46867,7 @@ msgstr ""
 msgid "Total Minutes"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1549
+#: onedesk/one_inventory/heads.py:1543
 msgid "Total Outgoing Value"
 msgstr ""
 
@@ -46501,11 +46890,11 @@ msgstr ""
 msgid "Total Qty"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1584
+#: onedesk/one_inventory/heads.py:1578
 msgid "Total Time in Mins"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1548
+#: onedesk/one_inventory/heads.py:1542
 msgid "Total Value"
 msgstr ""
 
@@ -46613,7 +47002,7 @@ msgstr ""
 msgid "Training for editors"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1613
+#: onedesk/one_inventory/heads.py:1607
 msgid "Transaction Date"
 msgstr ""
 
@@ -46846,6 +47235,7 @@ msgstr ""
 msgid "Tuesday"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen.js:6
 #: onedesk/one_studio/heads.py:88
 #: onedesk/public/js/one/notification_center.js:219
 msgid "Turn Off"
@@ -46855,7 +47245,9 @@ msgstr ""
 msgid "Turn Off {0}"
 msgstr ""
 
-#: frontend/src/inventory/lots/LotsPage.vue:8 onedesk/one_studio/heads.py:76
+#: frontend/src/inventory/lots/LotsPage.vue:8
+#: onedesk/one_display/doctype/display_screen/display_screen.js:7
+#: onedesk/one_studio/heads.py:76
 #: onedesk/public/js/one_legal/trust_center.js:457
 msgid "Turn On"
 msgstr ""
@@ -47006,7 +47398,7 @@ msgstr ""
 #: frontend/src/inventory/plant/PlantFloor.vue:14
 #: frontend/src/project/TaskPanel.vue:120
 #: frontend/src/sheet/components/SheetEditor/index.vue:899
-#: frontend/src/task/TaskPage.vue:241 onedesk/one/portal.py:58
+#: onedesk/one/portal.py:58
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
 #: onedesk/one_admin/report/price_check/price_check.py:101
 #: onedesk/one_ai/reading/bundle.py:74
@@ -47417,6 +47809,10 @@ msgstr ""
 msgid "Unlock"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen.js:5
+msgid "Unmute"
+msgstr ""
+
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Sales Invoice print format
 #. Label in the One Sales Invoice Bordered print format
@@ -47555,7 +47951,7 @@ msgstr ""
 msgid "Untracked Hours"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:242
+#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:250
 msgid "Up"
 msgstr ""
 
@@ -47637,7 +48033,7 @@ msgstr ""
 msgid "Updates"
 msgstr ""
 
-#: onedesk/one_studio/places.py:257
+#: onedesk/one_studio/places.py:213
 msgid "Upkeep is opened, and each time a service, a plan or a repair changes."
 msgstr ""
 
@@ -47748,6 +48144,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
+msgstr ""
+
+#: onedesk/one_demo/start.py:29
+msgid "Use at least 8 characters."
 msgstr ""
 
 #. The button on a notification's mail
@@ -47944,7 +48344,7 @@ msgid "Valid From"
 msgstr ""
 
 #: frontend/src/inventory/quotes/QuoteRows.vue:8
-#: frontend/src/project/Overview.vue:158 onedesk/one_inventory/heads.py:1502
+#: frontend/src/project/Overview.vue:158 onedesk/one_inventory/heads.py:1496
 msgid "Valid Till"
 msgstr ""
 
@@ -47979,7 +48379,7 @@ msgstr ""
 msgid "Valid until {0}"
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1511
+#: onedesk/one_inventory/heads.py:1505
 msgid "Validity"
 msgstr ""
 
@@ -48010,7 +48410,7 @@ msgid "Value"
 msgstr ""
 
 #: frontend/src/inventory/home/InventoryStory.vue:84
-#: onedesk/one_inventory/heads.py:1208 onedesk/one_inventory/heads.py:1398
+#: onedesk/one_inventory/heads.py:1203 onedesk/one_inventory/heads.py:1392
 msgid "Value After Depreciation"
 msgstr ""
 
@@ -48206,7 +48606,7 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
-#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:520
+#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:528
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr ""
@@ -48239,7 +48639,7 @@ msgstr ""
 msgid "View only"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:334
+#: onedesk/public/js/window/form.js:349
 msgid "Viewing now"
 msgstr ""
 
@@ -48318,26 +48718,27 @@ msgstr ""
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
 #. Option for the 'Status' (Select) field in DocType 'Provisioning Job'
+#. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #. Option for the 'State' (Select) field in DocType 'Cloud File Request
 #. Recipient'
 #: frontend/src/intake/IntakeInbox.vue:82
 #: frontend/src/inventory/quotes/RequestRows.vue:65
-#: frontend/src/task/MyTasks.vue:33
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:8
 #: onedesk/one_admin/heads.py:46
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_studio/print_blocks.py:943
 #: onedesk/public/js/one_ai/ai_center.js:130
-#: onedesk/public/js/onecloud_dialogs.js:475
+#: onedesk/public/js/onecloud_dialogs.js:475 onedesk/www/tv.py:25
 msgid "Waiting"
 msgstr ""
 
-#: frontend/src/intake/IntakeInbox.vue:82
+#: frontend/src/display/Counter.vue:26 frontend/src/intake/IntakeInbox.vue:82
 msgid "Waiting ({0})"
 msgstr ""
 
@@ -48385,10 +48786,6 @@ msgstr ""
 msgid "Waiting for an administrator to review it, being gathered, or ready for the person to download."
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:213
-msgid "Waiting for review"
-msgstr ""
-
 #: onedesk/one_admin/heads.py:420
 msgid "Waiting for the customer's DNS."
 msgstr ""
@@ -48410,20 +48807,22 @@ msgstr ""
 msgid "Waiting on Frappe Cloud"
 msgstr ""
 
-#: frontend/src/task/TaskPage.vue:88
-msgid "Waiting on This"
-msgstr ""
-
-#: frontend/src/project/Tasks.vue:33 frontend/src/task/TaskPage.vue:212
+#: frontend/src/project/Tasks.vue:33 onedesk/one_task/heads.py:44
 msgid "Waiting on {0}"
 msgstr ""
 
-#: frontend/src/task/MyTasks.vue:33
+#: onedesk/one_task/heads.py:44
 msgid "Waiting on {0} other tasks"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:415
 msgid "Waiting since {0}."
+msgstr ""
+
+#. Option for the 'Status' (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:56
+msgid "Waiting to Pair"
 msgstr ""
 
 #: frontend/src/inventory/floor/ShopFloor.vue:134
@@ -48457,7 +48856,7 @@ msgstr ""
 #. Label in the One Sales Forecast print format
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reconciliation print format
-#: onedesk/one_inventory/heads.py:1655 onedesk/one_inventory/home.py:195
+#: onedesk/one_inventory/heads.py:1648 onedesk/one_inventory/home.py:195
 #: onedesk/one_inventory/print_format/one_sales_forecast/one_sales_forecast.json
 #: onedesk/one_inventory/print_format/one_serial_and_batch_bundle/one_serial_and_batch_bundle.json
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
@@ -48637,7 +49036,7 @@ msgstr ""
 msgid "Week Of"
 msgstr ""
 
-#: onedesk/one_project/report/workload/workload.py:67
+#: onedesk/one_project/report/workload/workload.py:71
 msgid "Week of {0} to {1}"
 msgstr ""
 
@@ -48743,7 +49142,7 @@ msgstr ""
 msgid "What Is Kept"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:83
+#: onedesk/one_studio/doctype/extension/extension.js:82
 msgid "What It Does"
 msgstr ""
 
@@ -48865,6 +49264,11 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:116
 msgid "What a sales order is billed with, in OneBook."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "What a screen shows: today, a queue board with its headline and ticker."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:145
@@ -49104,11 +49508,11 @@ msgstr ""
 msgid "What is late?"
 msgstr ""
 
-#: onedesk/one_task/ai.py:55
+#: onedesk/one_task/ai.py:53
 msgid "What is left on this task?"
 msgstr ""
 
-#: onedesk/one_task/ai.py:56
+#: onedesk/one_task/ai.py:54
 msgid "What is left to do on this task: the steps and sub-tasks still open, what it waits on, how its hours compare with the plan, and whether it is late."
 msgstr ""
 
@@ -51127,7 +51531,7 @@ msgstr ""
 msgid "Where It Is"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:91
+#: onedesk/one_studio/doctype/extension/extension.js:90
 msgid "Where It Runs"
 msgstr ""
 
@@ -51220,6 +51624,11 @@ msgstr ""
 #. Description of the 'Servers' (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Where people wait: the services they take a ticket for, and the counters that call them."
 msgstr ""
 
 #: onedesk/one_hr/home.py:545
@@ -51615,7 +52024,7 @@ msgstr ""
 msgid "Who has bought, or is about to."
 msgstr ""
 
-#: onedesk/one_task/ai.py:66
+#: onedesk/one_task/ai.py:64
 msgid "Who has logged time on this task, how much each, and how that compares with the hours planned."
 msgstr ""
 
@@ -51742,7 +52151,7 @@ msgstr ""
 msgid "Who worked a holiday, and may take a day back."
 msgstr ""
 
-#: onedesk/one_task/ai.py:65
+#: onedesk/one_task/ai.py:63
 msgid "Who worked on this?"
 msgstr ""
 
@@ -52325,6 +52734,11 @@ msgstr ""
 msgid "Words and Rules"
 msgstr ""
 
+#. Description of the 'Ticker' (Small Text) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Words that run along the bottom of the screen."
+msgstr ""
+
 #. Label in the One Service Report print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/ProjectActivity.vue:105
@@ -52382,8 +52796,8 @@ msgstr ""
 #. Label in the One Work Order print format
 #. Label of a Sidebar Item
 #: frontend/src/inventory/floor/OrderRows.vue:5
-#: onedesk/one_inventory/heads.py:613 onedesk/one_inventory/heads.py:1574
-#: onedesk/one_inventory/heads.py:1581 onedesk/one_inventory/home.py:135
+#: onedesk/one_inventory/heads.py:613 onedesk/one_inventory/heads.py:1568
+#: onedesk/one_inventory/heads.py:1575 onedesk/one_inventory/home.py:135
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
 #: onedesk/one_inventory/print_format/one_pick_list/one_pick_list.json
@@ -52534,7 +52948,7 @@ msgstr ""
 msgid "Workload"
 msgstr ""
 
-#: onedesk/one_studio/places.py:421
+#: onedesk/one_studio/places.py:377
 msgid "Workload is opened, and each time it is drawn again."
 msgstr ""
 
@@ -52616,6 +53030,11 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_settings/display_settings.json
+#: onedesk/one_display/doctype/queue/queue.json
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_mail/doctype/face/face.json
@@ -52792,7 +53211,7 @@ msgstr ""
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1582 onedesk/one_inventory/home.py:208
+#: onedesk/one_inventory/heads.py:1576 onedesk/one_inventory/home.py:208
 msgid "Workstation"
 msgstr ""
 
@@ -53335,7 +53754,7 @@ msgstr ""
 msgid "You may not change how {0} signs."
 msgstr ""
 
-#: onedesk/one_task/ai.py:357
+#: onedesk/one_task/ai.py:315
 msgid "You may not change {0}."
 msgstr ""
 
@@ -53933,6 +54352,10 @@ msgstr ""
 msgid "Your sign-ins"
 msgstr ""
 
+#: onedesk/www/tv.py:28
+msgid "Your ticket"
+msgstr ""
+
 #: onedesk/www/welcome.py:28 onedesk/www/welcome.py:29
 msgid "Your trial has started. The workspace is being built."
 msgstr ""
@@ -54498,7 +54921,7 @@ msgstr ""
 msgid "green"
 msgstr ""
 
-#: frontend/src/project/TaskPanel.vue:32 frontend/src/task/TaskPage.vue:27
+#: frontend/src/project/TaskPanel.vue:32
 msgid "h"
 msgstr ""
 
@@ -54861,7 +55284,7 @@ msgstr ""
 msgid "of {0} open"
 msgstr ""
 
-#: frontend/src/project/Time.vue:187 frontend/src/task/TaskPage.vue:226
+#: frontend/src/project/Time.vue:187
 msgid "of {0} planned"
 msgstr ""
 
@@ -55756,6 +56179,10 @@ msgstr ""
 msgid "{0} agreed on {1}"
 msgstr ""
 
+#: onedesk/www/tv.py:29
+msgid "{0} ahead of you"
+msgstr ""
+
 #: onedesk/one_hr/overtime.py:76
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
@@ -55857,7 +56284,7 @@ msgstr ""
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr ""
 
-#: onedesk/one_inventory/heads.py:1202
+#: onedesk/one_inventory/heads.py:1197
 msgid "{0} at the end"
 msgstr ""
 
@@ -56088,7 +56515,7 @@ msgstr ""
 #: frontend/src/template/TemplatePage.vue:80 onedesk/one/stages.py:33
 #: onedesk/one_ai/reading/understand.py:520 onedesk/one_crm/heads.py:32
 #: onedesk/one_crm/heads.py:40 onedesk/one_hr/heads.py:29
-#: onedesk/one_inventory/heads.py:1132 onedesk/one_project/ai.py:930
+#: onedesk/one_inventory/heads.py:1127 onedesk/one_project/ai.py:930
 #: onedesk/public/js/project_template_list.js:4
 msgid "{0} days"
 msgstr ""
@@ -56117,9 +56544,9 @@ msgstr ""
 #: frontend/src/inventory/home/InventoryHome.vue:219
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:266
 #: frontend/src/project/Overview.vue:376 frontend/src/project/Suppliers.vue:202
-#: frontend/src/task/TaskPage.vue:214 onedesk/one_project/heads.py:76
-#: onedesk/one_project/portal.py:260 onedesk/one_project/retention.py:237
-#: onedesk/one_project/view.py:632 onedesk/one_project/view.py:930
+#: onedesk/one_project/heads.py:76 onedesk/one_project/portal.py:260
+#: onedesk/one_project/retention.py:237 onedesk/one_project/view.py:632
+#: onedesk/one_project/view.py:930 onedesk/one_task/heads.py:21
 msgid "{0} days late"
 msgstr ""
 
@@ -56470,7 +56897,8 @@ msgid "{0} holidays added. Save to keep them."
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:96 onedesk/one/control.py:366
-#: onedesk/one_crm/heads.py:30 onedesk/public/js/band.js:221
+#: onedesk/one_crm/heads.py:30 onedesk/one_task/heads.py:53
+#: onedesk/public/js/band.js:221
 msgid "{0} hours"
 msgstr ""
 
@@ -56483,7 +56911,7 @@ msgid "{0} hours, {1}"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemCustomers.vue:60
-#: onedesk/one_book/heads.py:267 onedesk/one_inventory/heads.py:1171
+#: onedesk/one_book/heads.py:267 onedesk/one_inventory/heads.py:1166
 msgid "{0} in 12 months"
 msgstr ""
 
@@ -56832,6 +57260,10 @@ msgstr ""
 msgid "{0} is not a series of {1}."
 msgstr ""
 
+#: onedesk/one_display/queue.py:18
+msgid "{0} is not a service of {1}."
+msgstr ""
+
 #: onedesk/one_mail/holders.py:530
 msgid "{0} is not a shared mailbox."
 msgstr ""
@@ -56888,7 +57320,7 @@ msgstr ""
 msgid "{0} is not an app a collection can belong to."
 msgstr ""
 
-#: onedesk/one_task/ai.py:362
+#: onedesk/one_task/ai.py:320
 msgid "{0} is not an enabled user of this workspace."
 msgstr ""
 
@@ -57313,14 +57745,13 @@ msgstr ""
 #: frontend/src/project/Tasks.vue:31
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
-#: frontend/src/task/TaskPage.vue:57 frontend/src/task/TaskPage.vue:68
-#: frontend/src/task/TaskPage.vue:231 frontend/src/task/TaskPage.vue:232
 #: onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:143 onedesk/one_inventory/heads.py:424
 #: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:966
 #: onedesk/one_project/heads.py:35 onedesk/one_project/view.py:618
-#: onedesk/one_storage/api.py:141 onedesk/public/js/work_order_list.js:13
+#: onedesk/one_storage/api.py:141 onedesk/one_task/heads.py:63
+#: onedesk/public/js/work_order_list.js:13
 msgid "{0} of {1}"
 msgstr ""
 
@@ -57365,7 +57796,7 @@ msgid "{0} of {1} delivered"
 msgstr ""
 
 #: frontend/src/inventory/floor/FloorSteps.vue:29
-#: frontend/src/project/Overview.vue:235
+#: frontend/src/project/Overview.vue:235 onedesk/one_task/heads.py:29
 msgid "{0} of {1} done"
 msgstr ""
 
@@ -57405,6 +57836,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:392
 msgid "{0} of {1} seats used."
+msgstr ""
+
+#: onedesk/public/js/setup_wizard.js:176
+msgid "{0} of {1} steps"
 msgstr ""
 
 #: onedesk/public/js/floor_actions.js:62
@@ -58041,7 +58476,7 @@ msgstr ""
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr ""
 
-#: onedesk/public/js/head.js:404
+#: onedesk/public/js/head.js:415
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr ""
 
@@ -59368,43 +59803,3 @@ msgstr ""
 msgid "{workspace}: {state}"
 msgstr ""
 
-#: onedesk/one_task/tour.py
-msgid "A Column for Each Status"
-msgstr ""
-
-#: onedesk/one_task/tour.py
-msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
-msgstr ""
-
-
-#: onedesk/public/js/setup_wizard.js
-msgid "Load the Demo Company"
-msgstr ""
-
-#: onedesk/public/js/setup_wizard.js
-msgid "This workspace becomes the demo company. Set up your own in a new workspace."
-msgstr ""
-
-#: onedesk/public/js/setup_wizard.js
-msgid "Everyone in the demo company signs in with it. The owner is {0}."
-msgstr ""
-
-#: onedesk/public/js/setup_wizard.js
-msgid "Building the Demo Company"
-msgstr ""
-
-#: onedesk/public/js/setup_wizard.js
-msgid "{0} of {1} steps"
-msgstr ""
-
-#: onedesk/public/js/setup_wizard.js
-msgid "The demo company could not be built. The error is in the Error Log."
-msgstr ""
-
-#: onedesk/one_demo/start.py
-msgid "The demo company goes only into a workspace that is not set up yet."
-msgstr ""
-
-#: onedesk/one_demo/start.py
-msgid "Use at least 8 characters."
-msgstr ""

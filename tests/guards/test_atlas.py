@@ -201,6 +201,8 @@ def test_the_screens_are_read():
 
 
 EMPTY = {
+	# a screen comes only from a TV opening /tv (one_display/AGENTS.md)
+	"onedesk / One Display": 1,
 	"erpnext / Regional": 3,
 	"erpnext / Accounts": 23,
 	"erpnext / Assets": 2,

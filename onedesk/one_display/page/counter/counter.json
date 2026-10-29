@@ -1,0 +1,29 @@
+{
+ "content": null,
+ "creation": "2026-10-29 20:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Page",
+ "idx": 0,
+ "modified": "2026-10-29 20:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "counter",
+ "owner": "Administrator",
+ "page_name": "counter",
+ "roles": [
+  {
+   "role": "OneDisplay User"
+  },
+  {
+   "role": "OneDisplay Manager"
+  },
+  {
+   "role": "Workspace Administrator"
+  }
+ ],
+ "script": null,
+ "standard": "Yes",
+ "style": null,
+ "system_page": 0,
+ "title": "Counter"
+}

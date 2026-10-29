@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 65 | 2 | 34 | 0 |
+| onedesk | 71 | 2 | 34 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -60,6 +60,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | floor (`frontend/src/inventory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
 | plant (`frontend/src/inventory/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
+| counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
@@ -947,6 +948,18 @@ Pages: onecrm (on a rail or a home).
 | Calendar Feed | on a rail or a home | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: onecalendar (on a rail or a home).
+
+## onedesk / One Display
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Display Channel | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Display Screen | on a rail or a home | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
+| Display Settings | on a rail or a home | the administrator | untouched | no | general |  |  |  |  |  |  |
+| Queue | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Queue Ticket | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+
+Pages: counter (on a rail or a home).
 
 ## onedesk / One Doc
 

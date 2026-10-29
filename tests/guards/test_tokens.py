@@ -19,7 +19,10 @@ import tree
 
 FRONTEND = tree.ROOT / "frontend" / "src"
 
-NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails")
+# Drawn where frappe-ui's tokens are not loaded: a print, a mail, and the TV
+# player, which loads no stylesheet of frappe's to fit an old TV's memory
+# (one_display/AGENTS.md).
+NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails", "www/tv.html")
 
 SANDBOXED = {
 	"frontend/src/mail/mail.js": "a received mail, in a frame",

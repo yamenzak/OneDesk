@@ -206,10 +206,24 @@ No doctypes yet.
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
+## One Display
+
+`onedesk/one_display`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Display Channel | 7 | document |
+| Display Screen | 17 | document |
+| Display Settings | 2 | single |
+| Queue | 3 | document |
+| Queue Counter | 2 | child |
+| Queue Service | 2 | child |
+| Queue Ticket | 11 | document |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods
@@ -498,6 +512,18 @@ No doctypes yet.
 * `onedesk.one_crm.story.read`
 * `onedesk.one_demo.start.progress`
 * `onedesk.one_demo.start.start`
+* `onedesk.one_display.queue.call_next`
+* `onedesk.one_display.queue.counter_state`
+* `onedesk.one_display.queue.desks`
+* `onedesk.one_display.queue.finish`
+* `onedesk.one_display.queue.recall`
+* `onedesk.one_display.screens.alert`
+* `onedesk.one_display.screens.control`
+* `onedesk.one_display.screens.pair`
+* `onedesk.one_display.screens.start`
+* `onedesk.one_display.screens.state`
+* `onedesk.one_display.screens.status`
+* `onedesk.one_display.screens.take`
 * `onedesk.one_doc.api.add_picture`
 * `onedesk.one_doc.api.download`
 * `onedesk.one_doc.api.drop_pictures`

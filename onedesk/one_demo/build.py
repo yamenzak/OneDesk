@@ -42,12 +42,13 @@ STEPS = (
 	"intake",
 	"mail",
 	"ai",
+	"display",
 )
 
 
 # A step that lives in its module's folder (docs/READY.md, A module's
 # folder), by the name the site already knows it by.
-MOVED = {"mail": "onedesk.one_mail.demo", "ai": "onedesk.one_ai.demo"}
+MOVED = {"mail": "onedesk.one_mail.demo", "ai": "onedesk.one_ai.demo", "display": "onedesk.one_display.demo"}
 
 
 def done() -> list[str]:

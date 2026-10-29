@@ -1,0 +1,149 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 23:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "ticket",
+  "queue",
+  "service",
+  "number",
+  "ticket_date",
+  "column_break_state",
+  "status",
+  "counter",
+  "called_at",
+  "called_by",
+  "calls"
+ ],
+ "fields": [
+  {
+   "fieldname": "ticket",
+   "fieldtype": "Data",
+   "label": "Ticket",
+   "read_only": 1,
+   "in_list_view": 1,
+   "bold": 1
+  },
+  {
+   "fieldname": "queue",
+   "fieldtype": "Link",
+   "label": "Queue",
+   "options": "Queue",
+   "reqd": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "service",
+   "fieldtype": "Data",
+   "label": "Service",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "number",
+   "fieldtype": "Int",
+   "label": "Number",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "ticket_date",
+   "fieldtype": "Date",
+   "label": "Date",
+   "read_only": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_state",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Waiting\nCalled\nDone\nNo Show",
+   "default": "Waiting",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "counter",
+   "fieldtype": "Data",
+   "label": "Counter",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "called_at",
+   "fieldtype": "Datetime",
+   "label": "Called At",
+   "read_only": 1
+  },
+  {
+   "fieldname": "called_by",
+   "fieldtype": "Link",
+   "label": "Called By",
+   "options": "User",
+   "read_only": 1
+  },
+  {
+   "fieldname": "calls",
+   "fieldtype": "Int",
+   "label": "Times Called",
+   "read_only": 1,
+   "hidden": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-29 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Queue Ticket",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay User",
+   "read": 1,
+   "write": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "hash",
+ "title_field": "ticket",
+ "description": "One person's place in a queue, from taking it at the kiosk to being served."
+}

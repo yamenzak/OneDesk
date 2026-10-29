@@ -1,0 +1,182 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 23:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "screen_name",
+  "channel",
+  "mode",
+  "column_break_state",
+  "status",
+  "last_seen",
+  "pair_code",
+  "section_break_control",
+  "muted",
+  "dark",
+  "command",
+  "command_at",
+  "column_break_device",
+  "device",
+  "secret_hash",
+  "token_hash",
+  "token"
+ ],
+ "fields": [
+  {
+   "fieldname": "screen_name",
+   "fieldtype": "Data",
+   "label": "Screen Name",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Link",
+   "label": "Channel",
+   "options": "Display Channel",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "mode",
+   "fieldtype": "Select",
+   "label": "Shows",
+   "options": "Board\nKiosk",
+   "default": "Board",
+   "in_list_view": 1,
+   "description": "Board shows the queue and calls tickets. Kiosk lets people take a ticket."
+  },
+  {
+   "fieldname": "column_break_state",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Waiting to Pair\nPaired",
+   "default": "Waiting to Pair",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "last_seen",
+   "fieldtype": "Datetime",
+   "label": "Last Seen",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pair_code",
+   "fieldtype": "Data",
+   "label": "Pairing Code",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "section_break_control",
+   "fieldtype": "Section Break",
+   "label": "Control"
+  },
+  {
+   "fieldname": "muted",
+   "fieldtype": "Check",
+   "label": "Muted",
+   "read_only": 1
+  },
+  {
+   "fieldname": "dark",
+   "fieldtype": "Check",
+   "label": "Screen Off",
+   "read_only": 1
+  },
+  {
+   "fieldname": "command",
+   "fieldtype": "Data",
+   "label": "Last Command",
+   "read_only": 1
+  },
+  {
+   "fieldname": "command_at",
+   "fieldtype": "Datetime",
+   "label": "Command Sent",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "column_break_device",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "device",
+   "fieldtype": "Small Text",
+   "label": "Device",
+   "read_only": 1
+  },
+  {
+   "fieldname": "secret_hash",
+   "fieldtype": "Data",
+   "label": "Secret",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "token_hash",
+   "fieldtype": "Data",
+   "label": "Token",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "token",
+   "fieldtype": "Data",
+   "label": "Token Once",
+   "hidden": 1,
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-29 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Screen",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "hash",
+ "title_field": "screen_name",
+ "description": "A TV, monitor or tablet that shows a channel, paired with the code it shows."
+}

@@ -66,6 +66,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.floor": None,
 		"onedesk.plant": None,
 		"onedesk.timers": None,
+		"onedesk.counter": None,
 		"onedesk.workbook": None,
 		"onedesk.document": None,
 		"onedesk.intake": None,

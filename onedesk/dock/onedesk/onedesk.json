@@ -88,6 +88,14 @@
   {
    "added": 0,
    "hidden": 0,
+   "icon": "onedisplay",
+   "link_to": "OneDisplay",
+   "link_type": "Sidebar",
+   "title": "OneDisplay"
+  },
+  {
+   "added": 0,
+   "hidden": 0,
    "icon": "oneportal",
    "link_to": "OnePortal",
    "link_type": "Sidebar",
@@ -118,7 +126,7 @@
    "title": "OneAdmin"
   }
  ],
- "modified": "2026-11-08 09:00:00.000000",
+ "modified": "2026-11-09 09:00:00.000000",
  "modified_by": "Administrator",
  "name": "onedesk",
  "owner": "Administrator",

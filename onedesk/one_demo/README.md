@@ -81,6 +81,7 @@ The steps run in the order of the five tables below.
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there, and Huda matches the statement's transport debit in the reconciliation tool |
 | mail | The workspace's own address, which Layla holds, with a customer's request for a price, a supplier's delivery date and a hotel's maintenance call |
 | ai | OneAI's Knowledge, how the company books site visits and quotes glass, and a conversation Layla had with OneAI about booking a visit at Bayview Tower |
+| display | The showroom queue, with three services, three counters and the lobby channel a screen shows once it is paired at /tv; Layla runs OneDisplay and Omar works counter 2 |
 
 ## Who works there, and signing in as them
 

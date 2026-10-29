@@ -61,7 +61,7 @@ USE_THE_SHELL = {
 # home's link), or a center over the desk, and draw nothing.
 OPENS_A_VIEW = {"legal"}
 
-ISLAND_PAGES = {"one", "recycle_bin", "announcements", "address_book", "project_view", "project_template_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "workbook", "document", "intake", "onemail", "onecloud"}
+ISLAND_PAGES = {"one", "recycle_bin", "announcements", "address_book", "project_view", "project_template_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "counter", "workbook", "document", "intake", "onemail", "onecloud"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 
@@ -265,7 +265,9 @@ def test_every_page_outside_the_desk_wears_the_portal():
 	"""The pages a guest sees (/start, /welcome, the share and request pages,
 	/legal) are frappe's web pages in One's portal look (public/css/one_portal/portal.css),
 	without frappe's footer, which says "Powered by ERPNext". The portal
-	itself is a frappe-ui app (frontend/portal), whose build writes its page."""
+	itself is a frappe-ui app (frontend/portal), whose build writes its page;
+	/tv is the TV player, one plain page for an old TV's browser
+	(one_display/AGENTS.md)."""
 	pages = sorted((tree.APP / "www").glob("*.html"))
 	assert pages
 	never_drawn = {"me.html", "projects.html"}
@@ -273,7 +275,7 @@ def test_every_page_outside_the_desk_wears_the_portal():
 		if page.name in never_drawn:
 			assert "frappe.Redirect" in page.with_suffix(".py").read_text(encoding="utf-8")
 			continue
-		if page.name == "portal.html":
+		if page.name in ("portal.html", "tv.html"):
 			continue
 		html = page.read_text(encoding="utf-8")
 		frappes = f'{{% extends "frappe/www/{page.name}" %}}'

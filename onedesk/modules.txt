@@ -16,3 +16,4 @@ One Studio
 One Sheet
 One Doc
 One Account
+One Display

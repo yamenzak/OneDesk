@@ -790,6 +790,21 @@
 "Discussion Topic": [
 "System Manager"
 ],
+"Display Channel": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Display Screen": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Display Settings": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "DocShare": [
 "System Manager"
 ],
@@ -2179,6 +2194,18 @@
 "Stock User",
 "System Manager"
 ],
+"Queue": [
+"OneDisplay Manager",
+"OneDisplay User",
+"System Manager",
+"Workspace Administrator"
+],
+"Queue Ticket": [
+"OneDisplay Manager",
+"OneDisplay User",
+"System Manager",
+"Workspace Administrator"
+],
 "Quick Stock Balance": [
 "Stock Manager",
 "Stock User",
@@ -3129,6 +3156,7 @@
 "Department",
 "Designation",
 "Device",
+"Display Channel",
 "DocShare",
 "DocType",
 "DocType Settings Map",
@@ -3315,6 +3343,8 @@
 "Quality Meeting",
 "Quality Procedure",
 "Quality Review",
+"Queue",
+"Queue Ticket",
 "Quotation",
 "Quotation Lost Reason",
 "Reading",
@@ -3443,6 +3473,11 @@
 "component-explorer": [
 "System Manager"
 ],
+"counter": [
+"OneDisplay Manager",
+"OneDisplay User",
+"Workspace Administrator"
+],
 "dashboard-view": [],
 "desktop": [
 "All"
@@ -3482,9 +3517,6 @@
 "Purchase User",
 "Stock Manager",
 "Stock User"
-],
-"my-tasks": [
-"Desk User"
 ],
 "one": [
 "Desk User"
@@ -3579,9 +3611,6 @@
 "Stock User"
 ],
 "stock-on-hand": [
-"Desk User"
-],
-"task-view": [
 "Desk User"
 ],
 "timers": [

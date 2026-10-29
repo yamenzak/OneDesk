@@ -1,0 +1,68 @@
+{
+ "actions": [],
+ "creation": "2026-10-29 23:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "alert_active",
+  "alert_message"
+ ],
+ "fields": [
+  {
+   "fieldname": "alert_active",
+   "fieldtype": "Check",
+   "label": "Emergency Alert On"
+  },
+  {
+   "fieldname": "alert_message",
+   "fieldtype": "Small Text",
+   "label": "Emergency Message",
+   "depends_on": "alert_active",
+   "description": "Shown on every screen, over everything else, until the alert is turned off."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-29 23:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Settings",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "issingle": 1,
+ "description": "Settings for every screen."
+}
