@@ -114,7 +114,9 @@ watch(picked, () => said.value && report());
 const because = (one) =>
   one.why === "requested"
     ? [one.project_title || one.material_request, one.needed_by && __("needed {0}", [fromToday(one.needed_by)])].filter(Boolean).join(" · ")
-    : __("{0} left, reorder at {1}", [quantity(one.projected), quantity(one.level)]);
+    : one.actual !== undefined && one.actual !== one.projected
+      ? __("{0} on hand, {1} projected, reorder at {2}", [quantity(one.actual), quantity(one.projected), quantity(one.level)])
+      : __("{0} left, reorder at {1}", [quantity(one.projected), quantity(one.level)]);
 
 const reasons = computed(() => {
   const f = said.value.figures;

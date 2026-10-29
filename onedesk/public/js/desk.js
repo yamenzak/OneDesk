@@ -228,10 +228,28 @@ onedesk.dock.punch = async () => {
 };
 
 onedesk.dock.told = (done, ready) => {
+	// A check-in needs a passkey, made on a phone (HR Settings). On a phone
+	// it is made here; elsewhere the person is told to check in from theirs.
+	if (done.register && !frappe.is_mobile()) {
+		frappe.msgprint({
+			title: __("Check In From Your Phone"),
+			message: __("Checking in needs a passkey on your phone. Check in from One on your phone, and it asks you to register one the first time."),
+		});
+		return;
+	}
 	if (done.register) {
-		frappe.confirm(__("Register a passkey on this phone first?"), () =>
-			onedesk.passkey.register().then(() => onedesk.dock.refresh())
-		);
+		const dialog = new frappe.ui.Dialog({
+			title: __("Register a Passkey"),
+			fields: [{ fieldtype: "HTML", fieldname: "said", options: `<p>${__("Checking in needs a passkey on this phone. It takes a few seconds, and after that you check in the way you unlock your phone.")}</p>` }],
+			primary_action_label: __("Register Passkey"),
+			primary_action: () => {
+				dialog.hide();
+				onedesk.passkey.register().then(() => onedesk.dock.refresh());
+			},
+			secondary_action_label: __("Not Now"),
+			secondary_action: () => dialog.hide(),
+		});
+		dialog.show();
 		return;
 	}
 	if (!done.ok) {

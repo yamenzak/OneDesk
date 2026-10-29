@@ -329,13 +329,15 @@ def query(user: str | None = None) -> str:
 	return mine
 
 
-def has_permission(doc, ptype=None, user=None) -> bool | None:
+def has_permission(doc, ptype=None, user=None) -> bool:
+	"""True rather than None where the role's own rules decide: frappe reads
+	any falsy answer from this hook as a refusal (ai_grievance.allowed)."""
 	user = user or frappe.session.user
 	roles = frappe.get_roles(user)
 	if ADMINISTRATOR in roles or user == "Administrator" or doc.user == user:
-		return None
+		return True
 	if {"HR User", "HR Manager"} & set(roles) and doc.employee:
-		return None
+		return True
 	return False
 
 

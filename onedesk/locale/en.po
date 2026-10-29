@@ -75,3 +75,33 @@ msgstr "OneAccount"
 
 msgid "Calendar Feed"
 msgstr "Calendar Link"
+
+msgid "Closing Balance as per ERP"
+msgstr "Closing Balance in the Books"
+
+msgid "UTM Source"
+msgstr "Lead Source"
+
+msgid "utm_campaign"
+msgstr "Campaign"
+
+msgid "Opp Count"
+msgstr "Opportunities"
+
+msgid "Quot Count"
+msgstr "Quotations"
+
+msgid "Order Count"
+msgstr "Orders"
+
+msgid "Opp/Lead %"
+msgstr "Opportunities per Lead (%)"
+
+msgid "Quot/Lead %"
+msgstr "Quotations per Lead (%)"
+
+msgid "Total Incentive Given(Last month)"
+msgstr "Incentives Paid (Last Month)"
+
+msgid "Total Outgoing Salary(Last month)"
+msgstr "Salaries Paid (Last Month)"

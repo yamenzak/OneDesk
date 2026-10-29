@@ -50,6 +50,30 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "carry_forward_communication_and_comments",
+   "property": "description",
+   "property_type": "Text",
+   "value": "A lead's comments and mail go with it to the opportunity made from it, and on to the quotation."
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "update_timestamp_on_new_communication",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Mail that comes in on a lead or an opportunity counts as a change to it, so it rises to the top of its list."
+  },
+  {
+   "doc_type": "CRM Settings",
+   "doctype_or_field": "DocField",
+   "field_name": "auto_creation_of_contact",
+   "property": "description",
+   "property_type": "Text",
+   "value": "Make a contact for the person on a lead as soon as the lead is added."
   }
  ],
  "sync_on_migrate": 1

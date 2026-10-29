@@ -1,7 +1,8 @@
 """What the open deals will bring in, month by month, and what already came.
 
-A deal counts in the month it is expected to close. An overdue or undated deal
-is its own row, and Won is by the day the deal was won (`measure.closed`).
+A deal counts in the month it is expected to close. One whose closing date has
+passed is Overdue, even inside this month, as Home's Today has it; an undated
+one is its own row. Won is by the day the deal was won (`measure.closed`).
 """
 
 import frappe
@@ -19,7 +20,7 @@ def execute(filters: dict | None = None) -> tuple:
 
 	rows = {key: _row(label) for key, label in _keys(months)}
 	for deal in measure.deals({**measure.alive(), **owner}):
-		key = _key(deal.expected_closing, first, months)
+		key = _key(deal.expected_closing, max(first, getdate(nowdate())), months)
 		if key:
 			rows[key]["deals"] += 1
 			rows[key]["value"] += measure.value(deal)
@@ -42,12 +43,12 @@ def _keys(months):
 	yield "undated", _("No Closing Date")
 
 
-def _key(expected, first, months):
+def _key(expected, cutoff, months):
 	if not expected:
 		return "undated"
-	month = get_first_day(getdate(expected))
-	if month < first:
+	if getdate(expected) < cutoff:
 		return "overdue"
+	month = get_first_day(getdate(expected))
 	return month if month in months else None
 
 

@@ -8,7 +8,7 @@ from frappe import _, _lt
 from frappe.utils import escape_html, flt, fmt_money, formatdate
 from frappe.utils.caching import request_cache
 
-from onedesk.one_hr import employee, encashment, expense, payroll, request, review, shift, shift_setup
+from onedesk.one_hr import decision, employee, encashment, expense, payroll, request, review, shift, shift_setup
 from onedesk.one_hr import leave as applications
 
 STANDING_TONE = {"low": "alarm", "watch": "waiting", "good": None}
@@ -23,6 +23,21 @@ def _number(value) -> str:
 	"""A count as a person writes it: 21, not 21.0; 7.5 stays 7.5."""
 	value = float(value or 0)
 	return str(int(value)) if value.is_integer() else str(value)
+
+
+def _days(value) -> str:
+	return _("1 day") if flt(value) == 1 else _("{0} days").format(_number(value))
+
+
+def _people(value) -> str:
+	return _("1 person") if int(value or 0) == 1 else _("{0} people").format(value)
+
+
+def _listed(parts: list) -> str:
+	"""goals, feedback and the self appraisal."""
+	if len(parts) < 2:
+		return "".join(parts)
+	return _("{0} and {1}").format(", ".join(parts[:-1]), parts[-1])
 
 
 def _slug(doctype: str) -> str:
@@ -55,7 +70,7 @@ def checked(doc):
 	if not found:
 		return None
 	return {
-		"label": _("Out") if found.log_type == "OUT" else _("In"),
+		"label": _("Last Check-out") if found.log_type == "OUT" else _("Last Check-in"),
 		"value": "{when}",
 		"when": str(found.time),
 		"short": 1,
@@ -128,6 +143,7 @@ def _may_answer(doc) -> bool:
 		not doc.is_new()
 		and doc.docstatus == 0
 		and bool(frappe.has_permission(doc.doctype, "submit", doc=doc))
+		and not decision.own(doc)
 	)
 
 
@@ -203,8 +219,8 @@ def leave_about(doc):
 		else _("{0} to {1}").format(_on(doc.from_date), _on(doc.to_date))
 	)
 	return {
-		"text": _("Approving this books {0} days of {1} for {2}, {3}, leaving them {4}.").format(
-			_number(days), doc.leave_type, doc.employee_name or doc.employee, when, _number(after)
+		"text": _("Approving this books {0} of {1} for {2}, {3}, leaving them {4}.").format(
+			_days(days), doc.leave_type, doc.employee_name or doc.employee, when, _number(after)
 		),
 		"colour": "blue",
 	}
@@ -302,13 +318,16 @@ def payroll_run(doc):
 	period = _period(doc.start_date, doc.end_date)
 	if run["drafts"]:
 		return {
-			"text": _("{0}: {1} people, {2}, in {3} slips still in draft.").format(
-				period, run["people"], money, run["drafts"]
+			"text": _("{0}: {1}, {2}, {3} still in draft.").format(
+				period,
+				_people(run["people"]),
+				money,
+				_("1 slip") if run["drafts"] == 1 else _("{0} slips").format(run["drafts"]),
 			),
 			"colour": "blue",
 		}
 	return {
-		"text": _("{0}: {1} people, {2}, all submitted.").format(period, run["people"], money),
+		"text": _("{0}: {1}, {2}, all submitted.").format(period, _people(run["people"]), money),
 		"colour": "green",
 	}
 
@@ -343,7 +362,7 @@ def appraisal_stands(doc):
 	if missing:
 		return {
 			"text": _("{0}, {1} — {2}, still waiting on {3}.").format(
-				doc.employee_name, period, score, ", ".join(missing)
+				doc.employee_name, period, score, _listed(missing)
 			),
 			"colour": "orange",
 		}
@@ -368,7 +387,7 @@ def encashment_pays(doc):
 	structure = encashment.rate(doc.employee, str(doc.encashment_date))["structure"]
 	return {
 		"text": _(
-			"Nothing to pay yet: {0} has no Leave Encashment Amount Per Day, so a day is worth nought. Set it on the salary structure or on this person's assignment."
+			"Nothing to pay yet: {0} has no Leave Encashment Amount Per Day. Set it on the salary structure or on this person's assignment."
 		).format(structure)
 		if structure
 		else _("Nothing to pay yet: this person has no salary structure on {0}.").format(
@@ -390,7 +409,7 @@ def vehicle_went(doc):
 		return {"text": _("{0} on the odometer since the last log.").format(far), "colour": "blue"}
 	unit = frappe.db.get_value("Vehicle", doc.license_plate, "uom") or _("units")
 	return {
-		"text": _("{0} on the odometer since the last log, on {1} {2} costing {3} — {4} per {2}.").format(
+		"text": _("{0} on the odometer since the last log, on {1} {2} costing {3}: {4} on the odometer per {2}.").format(
 			far,
 			fmt_money(litres, precision=2),
 			unit,
@@ -492,6 +511,50 @@ ATTEMPT_COLOUR = {
 def attempt_state(doc):
 	said = doc.get("verdict") or doc.get("outcome")
 	return {"label": _(said), "colour": ATTEMPT_COLOUR.get(said, "gray")} if said else None
+
+
+SEEN = {
+	"no-passkey": _lt("no passkey"),
+	"passkey-unverified": _lt("a passkey nobody unlocked"),
+	"passkey-elsewhere": _lt("a passkey from another browser"),
+	"device-shared": _lt("a browser another employee used today"),
+	"network-unknown": _lt("a network nobody may check in from"),
+	"network-personal": _lt("their own network"),
+	"place-outside": _lt("outside every location"),
+	"place-vague": _lt("a position vaguer than the location"),
+	"place-refused": _lt("location refused"),
+	"place-absent": _lt("no position"),
+	"travel-impossible": _lt("too far from the last check-in"),
+	"session-elsewhere": _lt("a desk session at another address"),
+	"same-second": _lt("another check-in in the same second"),
+	"reset-recent": _lt("a passkey reset twice this month"),
+}
+
+
+def attempt_seen(doc) -> str:
+	"""What the clock saw, the worst first: what HR decides on. Home's flagged
+	row says the same."""
+	if doc.get("note"):
+		return doc.note
+	rows = sorted(doc.get("signals") or [], key=lambda row: -(row.weight or 0))
+	seen = []
+	for row in rows:
+		said = str(SEEN.get(row.signal) or row.says or row.signal)
+		if row.signal == "place-outside" and flt(doc.get("metres_out")):
+			metres = flt(doc.metres_out)
+			far = _("{0} km").format(_number(round(metres / 1000, 1))) if metres >= 1000 else _("{0} m").format(int(metres))
+			said = _("{0} outside every location").format(far)
+		seen.append(said)
+	if not seen:
+		return ""
+	return _("Scored {0}: {1}.").format(doc.score or 0, _listed(seen))
+
+
+def attempt_why(doc):
+	if doc.is_new() or doc.get("outcome") == "Allowed":
+		return None
+	said = attempt_seen(doc)
+	return {"text": said, "colour": "orange" if not doc.get("verdict") else "gray"} if said else None
 
 
 def _unsettled(doc) -> bool:
@@ -626,6 +689,7 @@ MEASURES = {
 	"overtime.pays": overtime_pays,
 	"shift_type.deaf": shift_deaf,
 	"attempt.state": attempt_state,
+	"attempt.why": attempt_why,
 }
 
 HEADS = [
@@ -634,7 +698,7 @@ HEADS = [
 		"indicators": [{"label": _lt("Where"), "measure": "employee.state"}],
 		"band": [
 			{"label": _lt("Standing"), "source": "Measure", "measure": "employee.standing"},
-			{"label": _lt("In"), "source": "Measure", "measure": "employee.checked"},
+			{"label": _lt("Last Check-in"), "source": "Measure", "measure": "employee.checked"},
 			{"label": _lt("Leave"), "source": "Measure", "measure": "employee.leave"},
 			{"label": _lt("Awaiting"), "source": "Measure", "measure": "employee.awaiting"},
 			{"label": _lt("Equipment"), "source": "Measure", "measure": "employee.equipment"},
@@ -645,24 +709,24 @@ HEADS = [
 	{
 		"doctype": "Leave Application",
 		"sentences": [{"measure": "leave.about"}],
-		"verbs": [{"verb": "leave.approve"}, {"verb": "leave.reject"}],
+		"verbs": [{"verb": "leave.approve", "primary": 1}, {"verb": "leave.reject"}],
 	},
 	{
 		"doctype": "Attendance Request",
 		"sentences": [{"measure": "request.turned_down"}],
-		"verbs": [{"verb": "request.approve"}, {"verb": "request.reject"}],
+		"verbs": [{"verb": "request.approve", "primary": 1}, {"verb": "request.reject"}],
 	},
 	{
 		"doctype": "Shift Request",
 		"sentences": [{"measure": "shift.about"}],
 		"redraw_on": ["employee", "shift_type", "from_date", "to_date"],
-		"verbs": [{"verb": "shift.approve"}, {"verb": "shift.reject"}],
+		"verbs": [{"verb": "shift.approve", "primary": 1}, {"verb": "shift.reject"}],
 	},
 	{
 		"doctype": "Expense Claim",
 		"band": [{"label": _lt("Project"), "source": "Measure", "measure": "project.of"}],
 		"sentences": [{"measure": "expense.about"}],
-		"verbs": [{"verb": "expense.approve"}, {"verb": "expense.reject"}],
+		"verbs": [{"verb": "expense.approve", "primary": 1}, {"verb": "expense.reject"}],
 	},
 	{
 		"doctype": "Salary Slip",
@@ -715,6 +779,7 @@ HEADS = [
 	{
 		"doctype": "Clock Attempt",
 		"indicators": [{"label": _lt("State"), "measure": "attempt.state"}],
+		"sentences": [{"measure": "attempt.why"}],
 		"verbs": [{"verb": "attempt.reject"}, {"verb": "attempt.accept", "primary": 1}],
 	},
 ]

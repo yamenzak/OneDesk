@@ -86,6 +86,10 @@ def run(password=None):
 		)
 		doc.insert()
 		made[first] = tag(doc).name
+	if frappe.db.exists("Employment Type", "Full-time"):
+		for name in made.values():
+			if not frappe.db.get_value("Employee", name, "employment_type"):
+				frappe.db.set_value("Employee", name, "employment_type", "Full-time", update_modified=False)
 	for first, *_rest, boss, _access in PEOPLE:
 		if boss:
 			manager = frappe.db.get_value("Employee", made[boss], "user_id")

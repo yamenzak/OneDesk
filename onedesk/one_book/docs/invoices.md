@@ -73,7 +73,8 @@ A supplier's bill that arrives by mail, or is scanned in, is read by OneAI
 and made into a draft purchase invoice, matched to its purchase order when
 there is one. **Ready to Submit** in the rail lists the drafts whose facts
 checked out and that you may submit; tick them and **Submit** submits them
-as you. Drafts that failed a check, such as a total that does not match or a
+as you. It lists every draft OneAI read, so an order, a quotation or a
+receipt it read is there beside the bills. Drafts that failed a check, such as a total that does not match or a
 bank account that is not on file for the supplier, are marked **Needs
 Review** with the reason. Open one, correct it, and submit it as any
 bill.

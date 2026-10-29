@@ -90,6 +90,8 @@ def run(password=None):
 	for territory, parent in (("Dubai", "United Arab Emirates"), ("Abu Dhabi", "United Arab Emirates"), ("Sharjah", "United Arab Emirates"), ("Rest Of The World", "All Territories")):
 		if not frappe.db.exists("Territory", parent):
 			make({"doctype": "Territory", "territory_name": parent, "parent_territory": "All Territories", "is_group": 1})
+		elif not frappe.db.get_value("Territory", parent, "is_group"):
+			frappe.db.set_value("Territory", parent, "is_group", 1)
 		if not frappe.db.exists("Territory", territory):
 			make({"doctype": "Territory", "territory_name": territory, "parent_territory": parent})
 	for group in ("Raw Material", "Hardware", "Services", "Local"):

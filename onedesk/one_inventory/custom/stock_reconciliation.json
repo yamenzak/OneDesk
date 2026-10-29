@@ -33,7 +33,7 @@
    "field_name": "set_warehouse",
    "property": "in_list_view",
    "property_type": "Check",
-   "value": "1"
+   "value": "0"
   },
   {
    "doc_type": "Stock Reconciliation",

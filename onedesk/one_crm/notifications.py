@@ -24,7 +24,7 @@ TYPES = [
 	{
 		"name": "Contract Expiring",
 		"app": "OneCRM",
-		"roles": ("Sales User", "Sales Manager"),
+		"roles": ("Sales Manager", "Purchase Manager"),
 		"about": "When a contract with a customer or supplier ends in two weeks.",
 		"to": "Whoever made it, and the user it names",
 		"channels": ALL,

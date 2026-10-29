@@ -4,6 +4,7 @@
 	const COLOUR = { Open: "blue", Replied: "orange", Quotation: "purple", Converted: "green", Lost: "gray", Closed: "gray" };
 	settings.get_indicator = (doc) => [__(doc.status), COLOUR[doc.status] || "gray", `status,=,${doc.status}`];
 	settings.filters = [["status", "in", ["Open", "Quotation", "Replied"]]];
+	settings.hide_name_column = true;
 
 	if (frappe.one_pipeline_worth) return;
 	frappe.one_pipeline_worth = true;

@@ -20,6 +20,7 @@ HIDE_REPORTS = (
 	"Sales Pipeline Analytics",
 	"Opportunity Summary by Sales Stage",
 	"Lost Opportunity",
+	"Lead Details",
 )
 
 HIDE_ONBOARDING = ("erpnext", "hrms")

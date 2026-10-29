@@ -12,9 +12,11 @@ import frappe
 from frappe import _
 from frappe.utils import now_datetime
 
+from onedesk.one.notify import ONEAI
+
 WEBSITE = "Website"
 
-NOBODY = ("Guest",)
+NOBODY = ("Guest", ONEAI)
 
 DIGITS = 8
 

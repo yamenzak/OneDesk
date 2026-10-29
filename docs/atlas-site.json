@@ -54,6 +54,7 @@
 ],
 "Accounting Dimension": [
 "Accounts Manager",
+"Accounts User",
 "System Manager"
 ],
 "Accounting Dimension Filter": [
@@ -3507,9 +3508,9 @@
 "Desk User"
 ],
 "organizational-chart": [
-"Employee",
 "HR Manager",
-"HR User"
+"HR User",
+"Workspace Administrator"
 ],
 "permission-manager": [
 "System Manager"
@@ -3949,14 +3950,14 @@
 "Expense Approver"
 ],
 "Employee Analytics": [
-"Employee",
 "HR Manager",
-"HR User"
+"HR User",
+"Workspace Administrator"
 ],
 "Employee Birthday": [
-"Employee",
 "HR Manager",
-"HR User"
+"HR User",
+"Workspace Administrator"
 ],
 "Employee CTC Break-up": [
 "Employee",
@@ -4824,7 +4825,10 @@
 ],
 "VAT Audit Report": [],
 "Vehicle Expenses": [
-"Fleet Manager"
+"Fleet Manager",
+"HR Manager",
+"HR User",
+"Workspace Administrator"
 ],
 "Voucher-wise Balance": [
 "Accounts Manager",

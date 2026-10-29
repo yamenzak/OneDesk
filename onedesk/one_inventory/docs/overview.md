@@ -67,7 +67,7 @@ The rail keeps what people use every day:
   dimensions and stock closings, item groups, brands, units and attributes
   (from OneInventory's **Lists**) with variant settings, supplier groups and
   scorecard variables, price lists, workstations, plant floors, operations,
-  routings, Replace in Bills of Materials, subcontracted items, asset
+  routings, BOM Update Tool, subcontracted items, asset
   categories, locations, maintenance teams, shift factors, delivery
   settings, and the stock, buying and manufacturing settings.
 

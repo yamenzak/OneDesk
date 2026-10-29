@@ -90,11 +90,14 @@ none edits erpnext.
    makes a lead, mail to an inbox that makes a lead, duplicates caught on email,
    phone and business name, leads shared out by an Assignment Rule, and the
    first reply on a lead measured.
-6. **Measured.** *Done* — `measure.py`, `report/`, `number_card/`. A
+6. **Measured.** *Done* — `measure.py`, `report/`, `story.py`. A
    forecast by expected month weighted by stage, won and lost with one list of
    reasons, which sources turn into sales, and number cards counting what they
-   say they count. ERPNext's two wrong cards stay wrong on its own CRM
-   dashboard, which OneCRM does not link to; Home has its own four.
+   say they count. ERPNext's CRM dashboard counts "last month" as the
+   calendar month before and won by when a deal was made, so its cards
+   contradicted Home; the rail's Overview is `Sales Overview`
+   (`one_crm_dashboard/`), ERPNext's charts without cards, and the figures
+   are Home's alone.
 7. **Screen by screen.** *Done* — `custom/*.json`, `crm_record.js`, `access.py`.
    Every group in the rail opened with data in it and fixed: fields nobody
    fills, Company off every filter, names not IDs, and who may see and change

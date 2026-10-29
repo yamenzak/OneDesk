@@ -93,3 +93,7 @@ onedesk.one_portal.patches.portal_column
 onedesk.one.patches.no_dashboards_page
 onedesk.one_calendar.patches.maintenance_visits_named
 onedesk.one_calendar.patches.no_google_updates
+onedesk.one_book.patches.bills_reclaim_their_vat
+onedesk.one_crm.patches.oneai_leads_unclaimed
+onedesk.one_hr.patches.nobody_answers_their_own
+onedesk.one_hr.patches.shift_hours_written

@@ -110,6 +110,9 @@ def set_the_working_day(args):
 
 	hours = time_diff_in_hours(f"{nowdate()} {get_time(ends)}", f"{nowdate()} {get_time(starts)}")
 	frappe.db.set_single_value("HR Settings", "standard_working_hours", abs(hours))
+	# Nobody answers their own leave or claim; hrms writes these off at install.
+	for switch in ("prevent_self_leave_approval", "prevent_self_expense_approval"):
+		frappe.db.set_single_value("HR Settings", switch, 1)
 
 	_shift(starts, ends, holidays)
 	if company:

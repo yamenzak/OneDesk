@@ -26,6 +26,20 @@
    "property": "depends_on",
    "property_type": "Data",
    "value": ""
+  },
+  {
+   "doc_type": "Attendance",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "attendance_date"
+  },
+  {
+   "doc_type": "Attendance",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "DESC"
   }
  ],
  "sync_on_migrate": 1

@@ -296,7 +296,7 @@ def test_the_main_action_is_always_first_on_the_left():
 	forms = (WINDOW_JS / "form.js").read_text(encoding="utf-8")
 	views = (WINDOW_CSS / "views.css").read_text(encoding="utf-8")
 	assert "primary: this.page.btn_primary" in lists and "primary: this.page.btn_primary" in forms
-	assert '.custom-actions > [data-variant="solid"] {\n\t\torder: -1;' in views
+	assert '.custom-actions > :is([data-variant="solid"], .btn-primary),' in views
 
 
 def test_a_forms_sidebar_is_the_details_pane_and_holds_the_record_panel():

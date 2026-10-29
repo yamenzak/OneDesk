@@ -10,6 +10,22 @@
    "property": "in_list_view",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Leave Policy Assignment",
+   "doctype_or_field": "DocField",
+   "field_name": "employee_name",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Employee Name"
+  },
+  {
+   "doc_type": "Leave Policy Assignment",
+   "doctype_or_field": "DocField",
+   "field_name": "assignment_based_on",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Assignment Based On"
   }
  ],
  "sync_on_migrate": 1

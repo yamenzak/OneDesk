@@ -58,7 +58,7 @@ TYPES = [
 		"name": "New Fiscal Year",
 		"app": "OneBook",
 		"roles": ("Accounts Manager", "Accounts User"),
-		"about": "When ERPNext makes next year's fiscal year on its own, so somebody checks it.",
+		"about": "When next year's fiscal year is made on its own, so somebody checks it.",
 		"to": "Accounts",
 		"channels": ALL,
 		"email_default": True,

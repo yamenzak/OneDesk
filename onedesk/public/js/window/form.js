@@ -30,6 +30,19 @@ onedesk.window.adapt("form", () => {
 		return said;
 	};
 
+	// frappe's Create group, what a record leads on to, marked so the command
+	// row can lead with it where nothing is solid (window/views.css).
+	const Page = frappe.ui.Page;
+	const grouped = Page && Page.prototype.get_or_add_inner_group_button;
+	if (grouped && !grouped.one_window) {
+		Page.prototype.get_or_add_inner_group_button = function (label, ...rest) {
+			const $group = grouped.call(this, label, ...rest);
+			if (label === "Create" || label === __("Create")) $group.addClass("one-onward");
+			return $group;
+		};
+		Page.prototype.get_or_add_inner_group_button.one_window = true;
+	}
+
 	// A form's Check fields are frappe's own Switch, which is Check with a
 	// switch's markup: the same 0/1, the same df, so every script that reads a
 	// checkbox still reads it. Only a form's own fields; a table's rows and a

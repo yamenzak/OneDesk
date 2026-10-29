@@ -521,6 +521,10 @@ def _grievance():
 			"description": "The extraction over the cutting bay has been off for two weeks and the fumes stay in.",
 			"status": "Investigated",
 			"cause_of_grievance": "The extractor's motor burnt out and no repair was booked.",
+			"one_ai_category": "Safety",
+			"one_ai_urgency": "High",
+			"one_ai_sensitive": 1,
+			"one_ai_summary": "Arun says the cutting bay's extraction has been off for two weeks and the fumes stay in. He wants the extractor repaired.",
 		}
 	)
 
@@ -755,7 +759,30 @@ def _leaving():
 			}
 		)
 		statement.get_outstanding_statements()
+		_gratuity_settled(statement)
 		save(statement)
+
+
+def _gratuity_settled(statement) -> None:
+	"""The end of service the books already paid him (hr.py `_leaving`), named
+	on its row as settled. The amount stays nought: the statement's journal
+	entry pays every row with one, settled or not, and this one is paid."""
+	gratuity = frappe.db.get_value(
+		"Gratuity", {"employee": statement.employee, "docstatus": 1}, ["name", "amount", "payable_account"], as_dict=True
+	)
+	if not gratuity:
+		return
+	for row in statement.payables:
+		if row.component == "Gratuity" and not row.reference_document:
+			row.update(
+				{
+					"reference_document_type": "Gratuity",
+					"reference_document": gratuity.name,
+					"account": gratuity.payable_account,
+					"status": "Settled",
+					"remark": f"Paid on its own: {frappe.format_value(gratuity.amount, {'fieldtype': 'Currency'})}.",
+				}
+			)
 
 
 def _clock():
@@ -837,9 +864,17 @@ def _clocked():
 				"employee": employee,
 				"direction": "IN",
 				"outcome": "Flagged",
-				"score": 45,
-				"note": "Clocked in from a network the workshop has never used, 9 km from the site.",
+				"score": 50,
 				"platform": "Android",
+				"address": "176.205.44.12",
+				"position_state": "Given",
+				"latitude": 25.3463,
+				"longitude": 55.4209,
+				"accuracy": 12,
+				"signals": [
+					{"signal": "travel-impossible", "weight": 45, "says": "Too far from your last check-in for the time in between."},
+					{"signal": "network-personal", "weight": 5, "says": "This network belongs to you rather than to a workplace."},
+				],
 			}
 		)
 

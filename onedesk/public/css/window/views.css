@@ -137,8 +137,15 @@
 	}
 
 	/* Where frappe has no Save or Submit to lead with, the record's own solid
-	   button is the main action, and leads its run. */
-	.one-window .one-window-commands .custom-actions > [data-variant="solid"] {
+	   button is the main action, and leads its run: a solid button or group,
+	   or one an app marked btn-primary. Where none is solid, Create, what the
+	   record leads on to, leads. */
+	.one-window .one-window-commands .custom-actions > :is([data-variant="solid"], .btn-primary),
+	.one-window .one-window-commands .custom-actions > .inner-group-button:has(> :is([data-variant="solid"], .btn-primary)) {
+		order: -2;
+	}
+
+	.one-window .one-window-commands .custom-actions > .one-onward {
 		order: -1;
 	}
 

@@ -50,10 +50,14 @@ def _standard() -> float:
 
 
 def _people(filters) -> dict[str, frappe._dict]:
-	"""Everybody the period is about, whether or not they wrote anything down."""
+	"""Everybody who keeps timesheets, whether or not they wrote anything down
+	this period. Somebody who has never kept one, an accountant say, is not
+	somebody whose hours went untracked."""
 	where = {"status": "Active"}
 	if filters.employee:
 		where["name"] = filters.employee
+	else:
+		where["name"] = ["in", frappe.get_all("Timesheet", filters={"docstatus": ["<", 2]}, pluck="employee", distinct=True) or [""]]
 	if filters.department:
 		where["department"] = filters.department
 
@@ -177,20 +181,25 @@ def _totals(rows: list, drafted: dict) -> list[dict] | None:
 			"indicator": "Red" if used < WATCH else "Green",
 			"datatype": "Data",
 		},
-		{"label": _("Billed"), "value": flt(billed, 2), "indicator": "Green", "datatype": "Float"},
-		{"label": _("Not Billed"), "value": flt(not_billed, 2), "indicator": "Blue", "datatype": "Float"},
+		{"label": _("Billed"), "value": _hours(billed), "indicator": "Green", "datatype": "Data"},
+		{"label": _("Not Billed"), "value": _hours(not_billed), "indicator": "Blue", "datatype": "Data"},
 		{
 			"label": _("Untracked"),
-			"value": flt(sum(row.untracked for row in rows), 2),
+			"value": _hours(sum(row.untracked for row in rows)),
 			"indicator": "Grey",
-			"datatype": "Float",
+			"datatype": "Data",
 		},
 	]
 	if draft:
 		tiles.append(
-			{"label": _("Still in Draft"), "value": flt(draft, 2), "indicator": "Orange", "datatype": "Float"}
+			{"label": _("Still in Draft"), "value": _hours(draft), "indicator": "Orange", "datatype": "Data"}
 		)
 	return tiles
+
+
+def _hours(value: float) -> str:
+	"""38 h, 163.3 h: hours as a person writes them."""
+	return _("{0} h").format(f"{flt(value, 1):g}")
 
 
 def _percent(part: float, whole: float) -> float:
@@ -208,10 +217,10 @@ def _columns() -> list[dict]:
 			"width": 150,
 		},
 		{"label": _("Working Days"), "fieldname": "working_days", "fieldtype": "Int", "width": 120},
-		{"label": _("Available"), "fieldname": "available", "fieldtype": "Float", "width": 110},
-		{"label": _("Billed"), "fieldname": "billed", "fieldtype": "Float", "width": 100},
-		{"label": _("Not Billed"), "fieldname": "not_billed", "fieldtype": "Float", "width": 110},
-		{"label": _("Untracked"), "fieldname": "untracked", "fieldtype": "Float", "width": 110},
-		{"label": _("Utilization"), "fieldname": "per_util", "fieldtype": "Percent", "width": 120},
-		{"label": _("Billed %"), "fieldname": "per_billed", "fieldtype": "Percent", "width": 110},
+		{"label": _("Available Hours"), "fieldname": "available", "fieldtype": "Float", "precision": 1, "width": 130},
+		{"label": _("Billed Hours"), "fieldname": "billed", "fieldtype": "Float", "precision": 1, "width": 120},
+		{"label": _("Not Billed Hours"), "fieldname": "not_billed", "fieldtype": "Float", "precision": 1, "width": 140},
+		{"label": _("Untracked Hours"), "fieldname": "untracked", "fieldtype": "Float", "precision": 1, "width": 140},
+		{"label": _("Utilization"), "fieldname": "per_util", "fieldtype": "Percent", "precision": 1, "width": 110},
+		{"label": _("Billed %"), "fieldname": "per_billed", "fieldtype": "Percent", "precision": 1, "width": 100},
 	]

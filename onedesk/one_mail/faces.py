@@ -155,6 +155,11 @@ def service_of(key: str) -> str:
 	return "gravatar" if is_person(key) else "logos"
 
 
+#: The icon a website builder serves for a site that set none of its own:
+#: the builder's mark, not the business's, so it is no picture of them.
+BUILDERS = {"2c5afe10de3355423ed2a1eefb0d80e58feb862e980487890c869bafa544cc07"}
+
+
 def fetch(key: str) -> str | None:
 	"""Look for one face or logo, keep what is found, and say where: only
 	while its service is on (one_legal/services.py)."""
@@ -168,7 +173,12 @@ def fetch(key: str) -> str | None:
 		return None
 	image = None
 	kind = answer.headers.get("Content-Type", "")
-	if answer.status_code == 200 and kind.startswith("image/") and 0 < len(answer.content) <= LARGEST:
+	if (
+		answer.status_code == 200
+		and kind.startswith("image/")
+		and 0 < len(answer.content) <= LARGEST
+		and hashlib.sha256(answer.content).hexdigest() not in BUILDERS
+	):
 		image = _keep(key, answer.content, kind)
 	values = {
 		"kind": "Person" if is_person(key) else "Organisation",

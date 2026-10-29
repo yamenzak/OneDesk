@@ -300,6 +300,29 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "all_activities_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocField",
+   "field_name": "all_activities_html",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Lead",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "lead_name"
   }
  ],
  "sync_on_migrate": 1

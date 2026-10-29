@@ -56,6 +56,7 @@ after_sync = [
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_book.access.settle",
 	"onedesk.one_inventory.access.settle",
+	"onedesk.one_inventory.boards.settle",
 	"onedesk.one_project.access.settle",
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
@@ -110,6 +111,7 @@ after_migrate = [
 	"onedesk.one_crm.access.settle",
 	"onedesk.one_book.access.settle",
 	"onedesk.one_inventory.access.settle",
+	"onedesk.one_inventory.boards.settle",
 	"onedesk.one_project.access.settle",
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
@@ -726,6 +728,8 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party"]
 
 has_permission = {
+	"Dashboard": "onedesk.one_hr.access.dashboard_allowed",
+	"Interview": "onedesk.one_hr.access.interview_allowed",
 	"Clock Device": "onedesk.one_hr.passkey.has_permission",
 	"Deleted Document": "onedesk.one.recycle.has_permission",
 	"Version": "onedesk.one.audit.has_permission",
@@ -740,6 +744,16 @@ has_permission = {
 	"Communication": "onedesk.one_mail.access.allowed",
 	"Mail Rule": "onedesk.one_mail.rules.rule_allowed",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.allowed",
+	"Salary Slip": "onedesk.one_hr.everybody.pay_allowed",
+	"Salary Structure Assignment": "onedesk.one_hr.everybody.pay_allowed",
+	"Additional Salary": "onedesk.one_hr.everybody.pay_allowed",
+	"Employee Incentive": "onedesk.one_hr.everybody.pay_allowed",
+	"Retention Bonus": "onedesk.one_hr.everybody.pay_allowed",
+	"Overtime Slip": "onedesk.one_hr.everybody.pay_allowed",
+	"Arrear": "onedesk.one_hr.everybody.pay_allowed",
+	"Payroll Correction": "onedesk.one_hr.everybody.pay_allowed",
+	"Gratuity": "onedesk.one_hr.everybody.pay_allowed",
+	"Full and Final Statement": "onedesk.one_hr.everybody.pay_allowed",
 	"Task": "onedesk.one_task.access.allowed",
 	"Project": "onedesk.one_project.members.allowed",
 	"Credit Ledger Entry": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -756,6 +770,8 @@ has_permission = {
 }
 
 permission_query_conditions = {
+	"Dashboard": "onedesk.one_hr.access.dashboard_query",
+	"Interview": "onedesk.one_hr.access.interview_query",
 	"Clock Device": "onedesk.one_hr.passkey.query",
 	"Deleted Document": "onedesk.one.recycle.query",
 	"Version": "onedesk.one.audit.version_query",
@@ -769,6 +785,16 @@ permission_query_conditions = {
 	"Reading Action": "onedesk.one_ai.reading.act.query",
 	"Mail Rule": "onedesk.one_mail.rules.rule_query",
 	"Employee Grievance": "onedesk.one_hr.ai_grievance.query",
+	"Salary Slip": "onedesk.one_hr.everybody.pay_query",
+	"Salary Structure Assignment": "onedesk.one_hr.everybody.pay_query",
+	"Additional Salary": "onedesk.one_hr.everybody.pay_query",
+	"Employee Incentive": "onedesk.one_hr.everybody.pay_query",
+	"Retention Bonus": "onedesk.one_hr.everybody.pay_query",
+	"Overtime Slip": "onedesk.one_hr.everybody.pay_query",
+	"Arrear": "onedesk.one_hr.everybody.pay_query",
+	"Payroll Correction": "onedesk.one_hr.everybody.pay_query",
+	"Gratuity": "onedesk.one_hr.everybody.pay_query",
+	"Full and Final Statement": "onedesk.one_hr.everybody.pay_query",
 	"Task": "onedesk.one_task.access.query",
 	"Project": "onedesk.one_project.members.query",
 	"Credit Ledger Entry": "onedesk.one_admin.site.nothing_on_a_tenant",
@@ -800,6 +826,8 @@ fixtures = [
 
 
 doctype_js = {
+	"Shift Location": "public/js/one_hr/shift_location.js",
+	"Appointment": "public/js/one_crm/appointment.js",
 	"Bank Reconciliation Tool": "public/js/bank.js",
 	"Bank Statement Import": "public/js/bank.js",
 	"Delivery Trip": "public/js/delivery_trip.js",
@@ -851,6 +879,7 @@ doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "publ
 doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
 
 doctype_list_js = {
+	"Sales Stage": "public/js/one_crm/sales_stage_list.js",
 	"Address Template": "public/js/address_template_list.js",
 	"Contact": "public/js/contact_list.js",
 	"Deleted Document": "public/js/deleted_document_list.js",
@@ -885,6 +914,7 @@ doctype_list_js = {
 }
 
 override_doctype_dashboards = {
+	"Employee": ["onedesk.one_hr.employee.dashboard"],
 	"Attendance": ["onedesk.one_hr.attendance.dashboard"],
 	"Task": ["onedesk.one_task.task.dashboard"],
 	"Project": ["onedesk.one_project.tree.dashboard"],
@@ -1070,6 +1100,18 @@ one_module_heirs = {
 	"ERPNext Integrations": ["OneBook"],
 	"One Sheet": ["OneCloud"],
 	"One Doc": ["OneCloud"],
+	"Regional": ["OneBook"],
+	"HR Setup": ["OneHR"],
+	"Tenure": ["OneHR"],
+	"Recruitment": ["OneHR"],
+	"Shift and Attendance": ["OneHR"],
+	"Leaves": ["OneHR"],
+	"Expenses": ["OneHR"],
+	"Performance": ["OneHR"],
+	"Payroll": ["OneHR"],
+	"Tax and Benefits": ["OneHR"],
+	"HR": ["OneHR"],
+	"One HR": ["OneHR"],
 }
 
 one_makes_records = {

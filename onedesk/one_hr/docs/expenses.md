@@ -30,8 +30,9 @@ AED 420.00*, including any advance that covers part of it. Nobody approves
 their own claim. The cost centre is filled in.
 
 **Employee Advance** is money given ahead, such as for a trip: the
-**Purpose** and the **Advance Amount**. Once it is submitted, **Create ›
-Payment** pays it. What was not spent comes back with **Create › Return**,
+**Purpose** and the **Advance Amount**. Once it is submitted, whoever
+makes payments in OneBook pays it with **Create › Payment**; HR does not see
+that button. What was not spent comes back with **Create › Return**,
 or is taken from salary with **Create › Deduction from Salary**. A later
 expense claim takes the advance off what it pays back. The advance account
 is set up out of the box.

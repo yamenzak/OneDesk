@@ -142,7 +142,7 @@ def test_an_employees_receipt_is_their_expense_claim():
 	receipt = {"kind": "Receipt", "verdict": "Action", "gross": 23.5, "currency": "EUR", "issued_on": "2026-09-21", "title": "Taxi to the airport"}
 	ctx = {**CTX, "sender_employee": "HR-EMP-1", "expense_type": "Travel", "company_currency": "EUR"}
 	made = PLANS["receipt"](receipt, ctx)
-	assert made[0].values["expenses"][0] == {"expense_date": "2026-09-21", "expense_type": "Travel", "description": "Taxi to the airport", "amount": 23.5}
+	assert made[0].values["expenses"][0] == {"expense_date": "2026-09-21", "expense_type": "Travel", "description": "Taxi to the airport", "amount": 23.5, "sanctioned_amount": 23.5}
 	assert PLANS["receipt"]({**receipt, "currency": "USD"}, ctx) == [], "never a rate OneAI made up"
 
 

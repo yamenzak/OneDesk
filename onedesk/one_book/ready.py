@@ -29,9 +29,10 @@ def company():
 
 
 def checks() -> list[dict]:
-	"""Every check, in the order a first invoice meets them."""
+	"""Every check, in the order a first invoice meets them; the fix only to
+	somebody who may make it."""
 	one = company()
-	return [
+	rows = [
 		_year(one),
 		_defaults(one),
 		_bank(one),
@@ -45,6 +46,10 @@ def checks() -> list[dict]:
 		_opening(one),
 		_closed(one),
 	]
+	if not fixes():
+		for row in rows:
+			row["fix"] = None
+	return rows
 
 
 def _row(key, check, state, says, fix=None) -> dict:
@@ -180,6 +185,12 @@ def _uae(one) -> list[dict]:
 		rows.append(_row("uae_vat", check, READY, _("UAE VAT Settings name the accounts VAT is charged and paid to.")))
 	else:
 		rows.append(_row("uae_vat", check, TO_DO, _("UAE VAT Settings are empty, so the return's reverse-charge boxes read nought."), "uae_vat"))
+	check = _("Bills claim their VAT back")
+	left = vat.unreclaimed(one.name) if vat.settled_accounts(one.name) else []
+	if left:
+		rows.append(_row("reclaim", check, TO_DO, _("{0} bills carry VAT the return does not claim back in box 9.").format(len(left)), "reclaim"))
+	else:
+		rows.append(_row("reclaim", check, READY, _("The VAT on every bill is claimed back in box 9.")))
 	check = _("Invoices carry the company's TRN")
 	if one.tax_id:
 		rows.append(_row("trn", check, READY, _("A UAE tax invoice must show the supplier's TRN.")))
@@ -266,6 +277,10 @@ def fix(key: str, **values) -> None:
 		from onedesk.one_book import vat
 
 		vat.uae_accounts(one.name)
+	elif key == "reclaim":
+		from onedesk.one_book import vat
+
+		vat.reclaim(one.name)
 	elif key == "trn":
 		trn = (values.get("trn") or "").strip()
 		if not trn:

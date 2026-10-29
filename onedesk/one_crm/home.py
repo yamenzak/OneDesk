@@ -37,12 +37,8 @@ REPORT_TOPICS = {
 	"Opportunity Forecast": "pipeline",
 	"Won and Lost": "pipeline",
 	"Time in Sales Stage": "pipeline",
-	"Sales Pipeline Analytics": "pipeline",
-	"Opportunity Summary by Sales Stage": "pipeline",
-	"Lost Opportunity": "pipeline",
 	"First Response Time for Opportunity": "pipeline",
 	"Lead Sources": "leads",
-	"Lead Details": "leads",
 	"Lead Owner Efficiency": "leads",
 	"Lead Conversion Time": "leads",
 	"Prospects Engaged But Not Converted": "leads",
@@ -129,17 +125,13 @@ EVERYTHING = (
 	("reports", _lt("Opportunity Forecast"), "Report", "Opportunity Forecast", _lt("What the open opportunities will bring in, month by month.")),
 	("reports", _lt("Won and Lost"), "Report", "Won and Lost", _lt("Opportunities won and lost, and the win rate.")),
 	("reports", _lt("Time in Sales Stage"), "Report", "Time in Sales Stage", _lt("How long opportunities stay in each stage, and take to win.")),
-	("reports", _lt("Sales Pipeline Analytics"), "Report", "Sales Pipeline Analytics", _lt("Opportunities by stage or owner, month by month.")),
-	("reports", _lt("Opportunity Summary by Sales Stage"), "Report", "Opportunity Summary by Sales Stage", _lt("How many opportunities are in each stage, and what they are worth.")),
-	("reports", _lt("Lost Opportunity"), "Report", "Lost Opportunity", _lt("Each lost opportunity, and why.")),
 	("reports", _lt("First Response Time for Opportunity"), "Report", "First Response Time for Opportunity", _lt("How fast opportunities were first answered.")),
 	("reports", _lt("Lead Sources"), "Report", "Lead Sources", _lt("Which sources bring leads that turn into sales.")),
-	("reports", _lt("Lead Details"), "Report", "Lead Details", _lt("Every lead with its business, contact and status.")),
 	("reports", _lt("Lead Owner Efficiency"), "Report", "Lead Owner Efficiency", _lt("What each lead owner turned into opportunities and sales.")),
 	("reports", _lt("Lead Conversion Time"), "Report", "Lead Conversion Time", _lt("How long a lead took to become a customer.")),
 	("reports", _lt("Prospects Engaged But Not Converted"), "Report", "Prospects Engaged But Not Converted", _lt("Leads spoken to often that have not bought.")),
 	("reports", _lt("Campaign Efficiency"), "Report", "Campaign Efficiency", _lt("What each campaign brought in leads, opportunities and sales.")),
-	("reports", _lt("Sales Analytics"), "Report", "Sales Analytics", _lt("Sales by customer, item or territory, month by month.")),
+	("reports", _lt("Sales Analytics"), "Report", "Sales Analytics", _lt("Orders by customer, item or territory, month by month."), {"doc_type": "Sales Order"}),
 	("reports", _lt("Quotation Trends"), "Report", "Quotation Trends", _lt("What was quoted, period against period.")),
 	("reports", _lt("Lost Quotations"), "Report", "Lost Quotations", _lt("Quotations lost, and why.")),
 	("reports", _lt("Sales Order Analysis"), "Report", "Sales Order Analysis", _lt("Each order line: delivered, billed, and what is late.")),
@@ -147,7 +139,7 @@ EVERYTHING = (
 	("reports", _lt("Sales Person-wise Transaction Summary"), "Report", "Sales Person-wise Transaction Summary", _lt("What each salesperson sold.")),
 	("reports", _lt("Territory-wise Sales"), "Report", "Territory-wise Sales", _lt("Opportunities, quotations, orders and invoices by territory.")),
 	("reports", _lt("Item-wise Sales History"), "Report", "Item-wise Sales History", _lt("Every item sold, to whom and when.")),
-	("reports", _lt("Customer Addresses And Contacts"), "Report", "Address And Contacts", _lt("Every customer's addresses and people.")),
+	("reports", _lt("Address And Contacts"), "Report", "Address And Contacts", _lt("Every customer's addresses and people.")),
 	("reports", _lt("Inactive Customers"), "Report", "Inactive Customers", _lt("Customers who have not ordered for a while.")),
 	("reports", _lt("Customer Acquisition and Loyalty"), "Report", "Customer Acquisition and Loyalty", _lt("New customers against returning ones, month by month.")),
 	("reports", _lt("Customers Without Any Sales Transactions"), "Report", "Customers Without Any Sales Transactions", _lt("Customers who have never been billed.")),
@@ -364,11 +356,31 @@ def drafts() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
+	"""Whether the reader may open it. A report declutter switched off, or one
+	over records the reader may not read, refuses when opened, so neither is
+	offered."""
 	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False
-	return bool(frappe.get_cached_doc(kind, target).is_permitted())
+	doc = frappe.get_cached_doc(kind, target)
+	if kind == "Report":
+		if doc.disabled or (doc.ref_doctype and not frappe.has_permission(doc.ref_doctype, "report")):
+			return False
+	return bool(doc.is_permitted())
+
+
+LAST_MONTH = ("Issue Summary", "Issue Analytics", "Support Hour Distribution")
+
+
+def _filters(target: str, filters: list) -> dict | None:
+	"""A row's own filters, and the last thirty days for the support reports:
+	two of them start from a year default erpnext no longer writes, so they
+	opened asking for dates, and the third opened on today alone."""
+	said = dict(filters[0]) if filters else {}
+	if target in LAST_MONTH:
+		said.update(from_date=add_days(nowdate(), -30), to_date=nowdate())
+	return said or None
 
 
 def directory() -> list[dict]:
@@ -379,7 +391,7 @@ def directory() -> list[dict]:
 			"label": str(label),
 			"kind": kind,
 			"target": target,
-			"filters": filters[0] if filters else None,
+			"filters": _filters(target, filters),
 			"about": str(about),
 			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
 		}

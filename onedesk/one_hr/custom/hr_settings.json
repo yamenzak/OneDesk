@@ -97,7 +97,7 @@
    "module": "One HR",
    "insert_after": "one_gate_network",
    "default": "1",
-   "description": "Match the browser's position against Clock Place and the Shift Location radius. Requires Allow Geolocation Tracking."
+   "description": "Match the browser's position against Clock Place and the Shift Location radius."
   },
   {
    "dt": "HR Settings",

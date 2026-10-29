@@ -197,7 +197,7 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 			if (place >= 0 && !done.has(place)) onedesk.crumbs.places($crumbs.eq(place).addClass("one-places"), here);
 			if (doctype && name && at >= 0 && !done.has(at)) {
 				const list = place >= 0 ? items[place].label : null;
-				const record = { doctype, name: decodeURIComponent(name), list };
+				const record = { doctype, name, list };
 				onedesk.crumbs.records($crumbs.eq(at), record);
 				below(at, "one-head-record", ($b) => onedesk.crumbs.records($b, { ...record, button: true }));
 			}

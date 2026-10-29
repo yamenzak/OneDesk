@@ -87,10 +87,11 @@ def _format(rows: list, filters) -> None:
 		else:
 			row.shift_hours = ""
 
-		row.working_hours = upstream.format_float_precision(row.working_hours)
+		row.working_hours = upstream.format_float_precision(row.working_hours) if row.working_hours else ""
 		row.in_time, row.out_time = upstream.format_in_out_time(
 			row.in_time, row.out_time, row.attendance_date
 		)
+		row.marked = row.status
 		row.status = _said(row)
 
 
@@ -146,13 +147,6 @@ def _columns() -> list[dict]:
 			"options": "Department",
 			"width": 150,
 		},
-		{
-			"label": _("Attendance"),
-			"fieldname": "name",
-			"fieldtype": "Link",
-			"options": "Attendance",
-			"width": 150,
-		},
 	]
 
 
@@ -164,7 +158,7 @@ def _totals(rows: list) -> list[dict] | None:
 	counted = {}
 	late = early = no_shift = 0
 	for row in rows:
-		counted[row.status] = counted.get(row.status, 0) + 1
+		counted[row.marked] = counted.get(row.marked, 0) + 1
 		late += bool(row.late_entry)
 		early += bool(row.early_exit)
 		no_shift += not row.shift

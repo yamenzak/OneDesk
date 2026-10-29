@@ -8,10 +8,14 @@ drawn small under it:
   part of it past its due date.
 - **Accounts Payable** — what is still to pay suppliers, and **Due This
   Week** — the part due in the next seven days, including any already late.
+  Overdue is drawn by the month each part fell due, and Due This Week by the
+  day.
 - **Profit This Month** — income less expenses since the first of the month,
   against last month.
 
-Click a figure to open the report or list it came from. Under them are five
+Click a figure to open the report or list it came from: Due This Week opens
+the bills due by the week's end. A change against last month is not shown on
+a loss, where a percentage would read the wrong way. Under them are five
 tabs:
 
 - **Overview** — what needs doing as a row of buttons, then the money told in

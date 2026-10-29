@@ -6,10 +6,10 @@ The rail's **Attendance Settings** opens HR Settings on its Attendance tab:
 
 - **Allow Employees to Check In Themselves** — the main switch, off until a
   workspace turns it on.
-- **Auto Close Open Check-ins at Shift End**, **Ask for a Reason on Check
+- **Auto Close Open Check-ins at Shift End**, **Require Reason on Check
   Out**.
 - **Late Arrivals per Absent Day**: 0, which is off, or how
-  many lates in a pay period cost one day's pay. At 4, five lates cost a
+  many lates in a pay period cost one day's pay. At 4, four lates cost a
   day and eight cost two.
 - **Require Passkey**, **Refuse Check-in Without Passkey**, **Check the
   Network**, **Check Location**, and **Network and Location**: Either or
@@ -18,8 +18,9 @@ The rail's **Attendance Settings** opens HR Settings on its Attendance tab:
 - **Require Photo**, **Delete Photos After (Days)**.
 - **Learn New Networks**, **Learn New Locations**, **Include Personal Networks
   and Locations**, **Confirmation Threshold**.
-- **Standard Working Hours (Per Day)** and **Allow Geolocation Tracking**,
-  which the location check needs.
+- **Standard Working Hours (Per Day)** and **Allow Geolocation Tracking**.
+  The second asks for a position on check-ins made anywhere but the Check In
+  button; **Check Location** works with it off.
 
 ## Before Attendance Works
 

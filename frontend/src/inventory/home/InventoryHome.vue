@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" ref="cardsRoot" data-tour="oneinventory-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div v-if="cards.length" ref="cardsRoot" data-tour="oneinventory-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
@@ -60,7 +60,14 @@ const props = defineProps({
 });
 
 const said = ref(null);
-const shown = ref(props.route[0] || props.query.view || "overview");
+const wanted = () => props.query.view || props.route[0] || "overview";
+const shown = ref(wanted());
+// The rail's Reports and Setup rows open this page again with a route, so
+// the shown view follows the address rather than only the first one.
+watch(
+  () => [props.route[0], props.query.view],
+  () => wanted() !== shown.value && (shown.value = wanted())
+);
 const search = ref("");
 const story = ref(null);
 
@@ -97,7 +104,8 @@ onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
 });
-watch(shown, (now) => setQuery("view", now === "overview" ? null : now));
+// The address's own view (Reports, Setup or none) needs no ?view=.
+watch(shown, (now) => setQuery("view", now === (props.route[0] || "overview") ? null : now));
 
 const views = computed(() => [
   { key: "overview", label: __("Overview") },
@@ -118,7 +126,7 @@ const CARDS = () => [
   { key: "sent_out", title: __("Delivered This Month"), money: true, type: "bar", hue: 6, route: "/desk/delivery-note" },
   { key: "made", title: __("Manufactured This Month"), money: true, type: "line", hue: 4, route: "/desk/work-order" },
   { key: "on_order", title: __("To Receive"), money: true, type: "area", hue: 5, alone: true, route: "/desk/purchase-order?status=To Receive and Bill" },
-  { key: "papers", title: __("Stock Ledger Entries This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
+  { key: "papers", title: __("Stock Transactions This Month"), type: "bar", hue: 1, route: "/desk/query-report/Stock Ledger" },
 ];
 const cardsRoot = ref();
 const { tokens } = useChartTokens(cardsRoot);
@@ -165,7 +173,11 @@ function slug(doctype) {
 }
 
 function route(one) {
-  if (one.kind === "Report") return `/desk/query-report/${encodeURIComponent(one.target)}`;
+  if (one.kind === "Report" && one.builder) return `/desk/${slug(one.builder)}/view/report/${encodeURIComponent(one.target)}`;
+  if (one.kind === "Report") {
+    const filters = one.filters ? `?${new URLSearchParams(one.filters)}` : "";
+    return `/desk/query-report/${encodeURIComponent(one.target)}${filters}`;
+  }
   if (one.kind === "Page") return `/desk/${one.target}`;
   return `/desk/${slug(one.target)}`;
 }
@@ -219,7 +231,7 @@ const parts = computed(() => {
       rows: n.low.rows.map((one) => ({
         key: `${one.item}:${one.warehouse}`,
         label: one.name,
-        sub: one.warehouse,
+        sub: one.place || one.warehouse,
         dot: "amber",
         below: one.on_order ? __("{0} on order", [quantity(one.on_order)]) : __("Nothing on order"),
         value: quantity(one.on_hand),
@@ -300,15 +312,15 @@ function report() {
   const s = said.value;
   props.onTitle?.({ title: __("OneInventory") });
   extended(s);
-  const can = (doctype) => s.everything.some((one) => one.kind === "DocType" && one.target === doctype);
-  props.onActions?.(
-    [
-      can("Item") && { label: __("New Item"), primary: true, onClick: () => newDoc("Item") },
-      can("Purchase Receipt") && { label: __("New Purchase Receipt"), onClick: () => newDoc("Purchase Receipt") },
-      can("Stock Entry") && { label: __("New Stock Entry"), onClick: () => newDoc("Stock Entry") },
-      can("Material Request") && { label: __("New Material Request"), onClick: () => newDoc("Material Request") },
-    ].filter(Boolean)
-  );
+  const can = (doctype) => (s.may_make || []).includes(doctype);
+  const made = [
+    can("Item") && { label: __("New Item"), onClick: () => newDoc("Item") },
+    can("Purchase Receipt") && { label: __("New Purchase Receipt"), onClick: () => newDoc("Purchase Receipt") },
+    can("Stock Entry") && { label: __("New Stock Entry"), onClick: () => newDoc("Stock Entry") },
+    can("Material Request") && { label: __("New Material Request"), onClick: () => newDoc("Material Request") },
+  ].filter(Boolean);
+  if (made.length) made[0].primary = true;
+  props.onActions?.(made);
 }
 
 const placed = reactive({ notes: [], actions: [] });

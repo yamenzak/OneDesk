@@ -60,8 +60,9 @@ def figures() -> dict:
 		live = frappe.get_list(
 			"Supplier Quotation",
 			filters={"docstatus": 1, "status": "Submitted", "company": company},
-			fields=["valid_till"],
+			fields=["valid_till", "status"],
 		)
+		live = [one for one in live if not _expired(one)]
 		soon = add_days(today(), SOON)
 		out.update(
 			to_decide=len(live),
@@ -228,7 +229,8 @@ def quotes(search: str | None = None) -> list[dict]:
 			"base_grand_total": flt(one.base_grand_total),
 			"valid_till": str(one.valid_till) if one.valid_till else None,
 			"transaction_date": str(one.transaction_date) if one.transaction_date else None,
-			"expiring": one.status == "Submitted" and bool(one.valid_till) and getdate(one.valid_till) <= soon,
+			"status": "Expired" if _expired(one) else one.status,
+			"expiring": one.status == "Submitted" and not _expired(one) and bool(one.valid_till) and getdate(one.valid_till) <= soon,
 			"request": requests.get(one.name),
 			"orders": orders.get(one.name, []),
 		}
@@ -281,7 +283,7 @@ def compare(request: str) -> dict | None:
 				"valid_till": str(quote.valid_till) if quote and quote.valid_till else None,
 				"status": quote.status if quote else None,
 				"draft": bool(quote) and quote.docstatus == 0,
-				"expired": bool(quote) and quote.status == "Expired",
+				"expired": bool(quote) and _expired(quote),
 				"cheapest_on": 0,
 			}
 		)
@@ -395,3 +397,13 @@ def order_cheapest(request: str) -> list[str]:
 def _project(name: str | None) -> str | None:
 	"""A project by its own name, as its page says it."""
 	return (frappe.db.get_value("Project", name, "project_name") or name) if name else None
+
+
+def _expired(quote) -> bool:
+	"""ERPNext marks a quote Expired overnight; one whose day passed since is
+	expired already."""
+	return quote.status == "Expired" or (
+		quote.status in ("Submitted", "Partially Ordered")
+		and bool(quote.valid_till)
+		and getdate(quote.valid_till) < getdate(today())
+	)

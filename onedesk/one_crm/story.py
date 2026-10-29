@@ -154,11 +154,11 @@ def _forecast(closed) -> list[dict]:
 	closing date has passed is late, not forecast (Opportunity Forecast has it
 	as Overdue)."""
 	months = _months(back=MONTHS - AHEAD, ahead=AHEAD)
-	this = get_first_day(today())
+	day = getdate(today())
 	won = dict(zip((one.isoformat() for one in months), _won(closed, months), strict=True))
 	ahead = defaultdict(float)
 	for one in measure.deals(measure.alive()):
-		if one.expected_closing and get_first_day(getdate(one.expected_closing)) >= this:
+		if one.expected_closing and getdate(one.expected_closing) >= day:
 			ahead[_month(one.expected_closing)] += measure.value(one) * flt(one.probability) / 100
 	return [
 		{"month": key, "won": won[key], "forecast": ahead[key]} for key in (one.isoformat() for one in months)
@@ -172,7 +172,7 @@ def _funnel(opportunities) -> list[dict]:
 	for one in chain.follow([row.name for row in opportunities]).values():
 		for step in chain.reached(one):
 			reached[step] += 1
-	shown = [step for step in FUNNEL if step == "Paid" or _may(step)]
+	shown = [step for step in FUNNEL if _may("Sales Invoice" if step == "Paid" else step)]
 	return [{"step": step, "count": reached[step]} for step in shown]
 
 
@@ -265,3 +265,4 @@ def _territories() -> list[dict]:
 		({"territory": name, "value": value} for name, value in by.items() if value),
 		key=lambda one: -one["value"],
 	)[:FEW]
+

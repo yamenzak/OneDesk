@@ -42,7 +42,9 @@ how many were **Closed Today**. **New Work Order** starts one.
 - **Open** is a table of the work orders still on the floor: the item with
   its number and project, its status, the step it is at and where, how
   many are made with a bar, how many of its steps are done, and when it is
-  wanted, red once that is past. **Completed** lists the finished ones.
+  wanted, red once that is past. A work order whose steps are all closed
+  stays here until its goods are made, so someone presses **Finish**.
+  **Completed** lists the finished ones.
   Each workstation has a tab of its own with its steps, the oldest first.
 - **A work order** shows its steps as cards, each a job card: the operation
   and its workstation, its status, who is on it and the clock while it

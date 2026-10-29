@@ -67,7 +67,7 @@ it.
 ## Requisitions, Offers and Referrals
 
 **Job Requisition** is a manager asking to hire: the **Designation**, how
-many (**No of. Positions**), the **Expected Compensation** and why. HR is
+many (**Number of Positions**), the **Expected Compensation** and why. HR is
 told and answers it, and whoever asked is told the answer. Once it is **Open
 & Approved**, **Actions › Create Job Opening** starts the opening from it.
 

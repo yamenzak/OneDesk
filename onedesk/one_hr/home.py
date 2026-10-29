@@ -346,31 +346,31 @@ EVERYTHING = (
 	),
 	(
 		"reports",
-		_lt("Monthly Attendance Sheet"),
+		_lt("Monthly Attendance"),
 		"Report",
-		"Monthly Attendance Sheet",
+		"Monthly Attendance",
 		_lt("Each person's month, day by day."),
 		"time",
 	),
 	(
 		"reports",
-		_lt("Shift Attendance"),
+		_lt("Attendance by Shift"),
 		"Report",
-		"Shift Attendance",
+		"Attendance by Shift",
 		_lt("Who came on each shift, late or early."),
 		"time",
 	),
 	(
 		"reports",
-		_lt("Employee Hours Utilization Based On Timesheet"),
+		_lt("Hours Utilization"),
 		"Report",
-		"Employee Hours Utilization Based On Timesheet",
+		"Hours Utilization",
 		_lt("How much of each person's time was billed."),
 		"time",
 	),
 	(
 		"reports",
-		_lt("Employee Leave Balance"),
+		_lt("Leave Balance"),
 		"Report",
 		"Employee Leave Balance",
 		_lt("The leave each person has left, kind by kind."),
@@ -378,7 +378,7 @@ EVERYTHING = (
 	),
 	(
 		"reports",
-		_lt("Employee Leave Balance Summary"),
+		_lt("Leave Balance Summary"),
 		"Report",
 		"Employee Leave Balance Summary",
 		_lt("Leave given, taken and left, for everybody."),
@@ -394,7 +394,7 @@ EVERYTHING = (
 	),
 	(
 		"reports",
-		_lt("Employees working on a holiday"),
+		_lt("Working on a Holiday"),
 		"Report",
 		"Employees working on a holiday",
 		_lt("Who worked a holiday, and may take a day back."),
@@ -410,7 +410,7 @@ EVERYTHING = (
 	),
 	(
 		"reports",
-		_lt("Employee CTC Break-up"),
+		_lt("CTC Break-up"),
 		"Report",
 		"Employee CTC Break-up",
 		_lt("What each person costs, part by part."),
@@ -728,18 +728,20 @@ def _flagged() -> list[dict]:
 	"""Check-ins the clock flagged and nobody has settled."""
 	if not frappe.has_permission("Clock Attempt", "read"):
 		return []
+	from onedesk.one_hr.heads import attempt_seen
+
 	return [
 		{
 			"doctype": "Clock Attempt",
 			"name": one.name,
 			"who": one.employee_name,
-			"about": one.note or "",
+			"about": attempt_seen(frappe.get_doc("Clock Attempt", one.name)),
 			"since": str(one.creation),
 		}
 		for one in frappe.get_list(
 			"Clock Attempt",
 			filters={"outcome": "Flagged", "verdict": ["is", "not set"]},
-			fields=["name", "employee_name", "note", "creation"],
+			fields=["name", "employee_name", "creation"],
 			order_by="creation desc",
 			limit_page_length=0,
 		)
@@ -850,15 +852,30 @@ def _interviews() -> list[dict]:
 
 
 def _may(kind: str, target: str) -> bool:
+	"""Only what the reader can open: a report one/declutter.py turned off, or
+	one over records they may not read, is not offered."""
 	if kind in ("DocType", "List"):
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False
+	if kind == "Report":
+		from frappe.desk.desk_views import DeskViews
+
+		doc = frappe.get_cached_doc(kind, target)
+		return (
+			target in DeskViews.get_allowed_report_names(cache=True)
+			and not doc.disabled
+			and (not doc.ref_doctype or bool(frappe.has_permission(doc.ref_doctype, "report")))
+		)
 	return bool(frappe.get_cached_doc(kind, target).is_permitted())
 
 
 def directory() -> list[dict]:
-	"""Everything in OneHR the reader may open, with what it is for."""
+	"""Everything in OneHR the reader may open, with what it is for, less a
+	country's own where no company is in it (one/countries.py), as the rail."""
+	from onedesk.one import countries
+
+	here = countries.ours()
 	return [
 		{
 			"group": group,
@@ -870,5 +887,5 @@ def directory() -> list[dict]:
 			"topic": topic[0] if topic else None,
 		}
 		for group, label, kind, target, about, *topic in EVERYTHING
-		if _may(kind, target)
+		if countries.shown(target, here) and _may(kind, target)
 	]

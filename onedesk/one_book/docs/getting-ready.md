@@ -2,7 +2,8 @@
 
 **Setup › Books Check** lists what would stop the first invoice, payment or
 bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
-**Fix** button where there is one:
+**Fix** button where there is one for somebody who may make the fix (Who Can
+Do What):
 
 - **A bank account is set up.** **Fix** asks for the bank's name and the
   account's, and makes the account in the chart, the company's bank account,
@@ -17,9 +18,10 @@ bill, and says **Ready**, **To Do** or **Suggested** beside each, with a
   an accountant moves what it holds to capital with a Journal Entry. Until
   then the Balance Sheet carries it, and the check says how much.
 - **Every year that has ended is closed.** **Fix** closes the year (below).
-- In the UAE: **the VAT return knows the VAT accounts**, **invoices carry
-  the company's TRN** and **the company's emirate is known**. **Fix** fills
-  the first from the chart and asks for the other two.
+- In the UAE: **the VAT return knows the VAT accounts**, **bills claim
+  their VAT back**, **invoices carry the company's TRN** and **the company's
+  emirate is known**. **Fix** fills the first from the chart, the second
+  from each bill's own VAT, and asks for the other two.
 - **A supplier's bill cannot be entered twice.** **Fix** turns on the check
   that refuses the same supplier invoice number a second time.
 - **Today is in a fiscal year** and **the company's default accounts are

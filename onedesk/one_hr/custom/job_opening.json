@@ -20,6 +20,14 @@
    "property": "in_list_view",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Job Opening",
+   "doctype_or_field": "DocField",
+   "field_name": "employment_type",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
   }
  ],
  "sync_on_migrate": 1

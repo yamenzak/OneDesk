@@ -80,6 +80,7 @@ def placed(said: dict) -> None:
 	said["canonical_shell"], said["home_shell"] = build_canonical_shells(
 		said["module_sidebars"], said.get("entity_module") or {}, DeskViews(), default_workspace=default
 	)
+	homeless(said)
 	inherited(said)
 
 
@@ -95,7 +96,7 @@ def inherited(said: dict) -> None:
 		return
 	sidebars = said["module_sidebars"]
 	listed = {entity for sidebar in sidebars.values() for item in sidebar.get("items") or [] for entity in linked_entities(item)}
-	for kind, filters in (("DocType", {"istable": 0}), ("Report", {})):
+	for kind, filters in (("DocType", {"istable": 0}), ("Report", {}), ("Page", {})):
 		placed = shells.get(kind)
 		if not isinstance(placed, dict):
 			continue
@@ -105,6 +106,28 @@ def inherited(said: dict) -> None:
 			shell = next((one for one in heirs[module] if one in sidebars), None)
 			if shell and name in placed and name not in listed:
 				placed[name] = shell
+
+
+def homeless(said: dict) -> None:
+	"""What no rail lists and no module claims opens in One's own rail.
+	frappe's ladder sends it to the reader's home, which it counts as the
+	sidebar with the most entries: for anybody with an employee record that
+	is OneHR, so an Email Digest opened from a bookmark came up under it."""
+	from frappe.desk.doctype.sidebar.sidebar import linked_entities
+
+	sidebars = said["module_sidebars"]
+	home = said.get("home_shell")
+	if "One" not in sidebars or not home or home == "One":
+		return
+	listed = {entity for item in sidebars[home].get("items") or [] for entity in linked_entities(item)}
+	owned = said.get("entity_module") or {}
+	for placed in (said.get("canonical_shell") or {}).values():
+		if not isinstance(placed, dict):
+			continue
+		for name, shell in placed.items():
+			if shell == home and name not in listed and owned.get(name) != home:
+				placed[name] = "One"
+	said["home_shell"] = "One"
 
 
 @frappe.whitelist()

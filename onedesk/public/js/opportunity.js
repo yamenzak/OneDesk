@@ -10,8 +10,10 @@ frappe.ui.form.on("Opportunity", {
 	refresh(frm) {
 		frm.one_stage = frm.doc.sales_stage;
 		frm.remove_custom_button(__("Close"));
+		if (!["Closed", "Lost"].includes(frm.doc.status)) frm.remove_custom_button(__("Reopen"));
 		frm.remove_custom_button(__("Supplier Quotation"), __("Create"));
 		frm.remove_custom_button(__("Request For Quotation"), __("Create"));
+		frm.toggle_display(["total", "base_total"], (frm.doc.items || []).length > 0);
 		onedesk.next_step.button(frm);
 		onedesk.record_calendar(frm);
 		onedesk.crm_record.refresh(frm);

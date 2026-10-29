@@ -25,7 +25,8 @@ returned.
 
 ## Grievances and Letters
 
-**Grievance.** Each new grievance is read by OneAI: a neutral summary, a
+**Grievance.** An employee sees only the grievances they raised; HR sees
+them all. Each new grievance is read by OneAI: a neutral summary, a
 category and an urgency. One about harassment, discrimination or safety is
 marked **Sensitive**, and from then on only HR Managers and the person who
 raised it can see it, anywhere. HR Managers are told at once about a sensitive

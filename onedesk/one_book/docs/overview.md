@@ -13,19 +13,26 @@ opens, which is also the name **Ctrl+K** finds it by. The rail has:
 
 - **Home** — how the money is doing, what needs doing, and everything else
   (below).
+- **Overview** — the accounts dashboard: income, expenses and what is owed,
+  month by month.
 - **Sales Invoice** — what you have billed customers. **Purchase Invoice** —
   what suppliers have billed you.
 - **Payment Entry** — money received and money paid. **Journal Entry** —
   anything that is not an invoice or a payment: corrections, accruals,
   opening balances.
 - **Bank Reconciliation Tool** — matching your bank statement to the books.
-- **Ready to Submit** — bills read from mail and scans, waiting for you.
+- **Ready to Submit** — drafts OneAI read from mail and scans, waiting for
+  you: bills most of all, and any order, quotation or receipt it read.
 - **Customer** and **Supplier**.
 - **Receivables** — **Credit Note** (money given back), **Accounts
-  Receivable** (who owes you, and how late) and **Process Statement Of
-  Accounts** (customer statements by mail).
-- **Payables** — **Debit Note** and **Accounts Payable** (whom you owe).
-- **Banking** — **Bank Transaction** (each line of a bank statement, to
+  Receivable** (who owes you, and how late, each part of an invoice by the
+  date its payment terms set, as Home counts it) and **Process Statement Of
+  Accounts** (customer statements by mail). **Sales Invoice** above lists
+  invoices only; credit notes are here.
+- **Payables** — **Debit Note** and **Accounts Payable** (which suppliers you
+  owe; what employees are owed is in OneHR).
+- **Banking** — **Payments Overview** (what came in and went out, and
+  from whom), **Bank Transaction** (each line of a bank statement, to
   match), **Bank Statement Import** (bringing a statement file in) and
   **Bank Account** (each of the company's bank accounts: the bank, the IBAN
   and account number, and the account in the chart it posts to). Tick **Is
@@ -39,7 +46,9 @@ opens, which is also the name **Ctrl+K** finds it by. The rail has:
 - **Reports** and **Setup** open those parts of Home: every accounting report
   by what it is about, and the chart of accounts, cost centers, taxes,
   payment terms, modes of payment, fiscal years and settings, with the
-  **Books Check** first.
+  **Books Check** first. A report that can show nothing yet is left out
+  until it can: the consolidated statements until there is a second company,
+  Tax Withholding until a withholding category is set up, and the like.
 
 Everything here is for whoever People gives OneBook. An **Accounts User**
 matches the bank and imports a statement; an **Accounts Manager** also

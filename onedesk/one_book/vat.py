@@ -118,6 +118,40 @@ def reclaimed(doc, method=None) -> None:
 	)
 
 
+def unreclaimed(company: str) -> list[str]:
+	"""Submitted bills that carry VAT on the return's accounts but claim none
+	of it back in box 9: bills from before `reclaimed` filled the figure."""
+	accounts = settled_accounts(company)
+	if not accounts or not frappe.get_meta("Purchase Invoice").has_field("recoverable_standard_rated_expenses"):
+		return []
+	return frappe.get_all(
+		"Purchase Invoice",
+		filters={
+			"company": company,
+			"docstatus": 1,
+			"reverse_charge": ["!=", "Y"],
+			"recoverable_standard_rated_expenses": 0,
+			"name": ["in", frappe.get_all(
+				"Purchase Taxes and Charges",
+				filters={"parenttype": "Purchase Invoice", "account_head": ["in", accounts], "base_tax_amount_after_discount_amount": ["!=", 0]},
+				pluck="parent",
+				distinct=True,
+			) or [""]],
+		},
+		pluck="name",
+	)
+
+
+def reclaim(company: str) -> int:
+	"""Box 9's figure on every bill `unreclaimed` finds, from its own VAT."""
+	accounts = set(settled_accounts(company))
+	names = unreclaimed(company)
+	for name in names:
+		doc = frappe.get_doc("Purchase Invoice", name)
+		doc.db_set("recoverable_standard_rated_expenses", vat_on(doc, accounts), update_modified=False)
+	return len(names)
+
+
 def emirate(doc, method=None) -> None:
 	"""Sales Invoice validate: the emirate a sale is reported under, from the
 	company's address. Frappe fetches it only when the address is picked on

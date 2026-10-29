@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Training Feedback",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Training Feedback",
+   "doctype_or_field": "DocField",
+   "field_name": "trainer_name",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -82,6 +82,12 @@ onBeforeUnmount(() => {
   clearTimeout(timer);
 });
 watch(shown, (now) => setQuery("view", now === "overview" ? null : now));
+// The rail's Reports and Setup rows lead here with the view in the path, onto
+// a Home already open.
+watch(
+  () => [props.route, props.query],
+  () => (shown.value = props.route[0] || props.query.view || "overview"),
+);
 
 const views = computed(() => [
   { key: "overview", label: __("Overview") },
@@ -98,18 +104,23 @@ const needed = computed(() => {
 
 const CARDS = () => [
   { key: "cash", title: __("Cash"), type: "area", hue: 0, route: "/desk/query-report/Cash Flow" },
-  { key: "receivable", title: __("Accounts Receivable"), type: "bar", hue: 2, alone: true, route: "/desk/query-report/Accounts Receivable" },
-  { key: "overdue", title: __("Overdue"), route: "/desk/sales-invoice?status=Overdue" },
-  { key: "payable", title: __("Accounts Payable"), type: "bar", hue: 6, alone: true, route: "/desk/query-report/Accounts Payable" },
-  { key: "due_this_week", title: __("Due This Week"), route: '/desk/purchase-invoice?status=["in",["Unpaid","Overdue","Partly Paid"]]' },
+  { key: "receivable", title: __("Accounts Receivable"), type: "bar", hue: 2, alone: true, route: "/desk/query-report/Accounts Receivable?based_on_payment_terms=1" },
+  { key: "overdue", title: __("Overdue"), type: "bar", hue: 3, alone: true, route: "/desk/sales-invoice?status=Overdue" },
+  { key: "payable", title: __("Accounts Payable"), type: "bar", hue: 6, alone: true, route: "/desk/query-report/Accounts Payable?party_type=Supplier" },
+  { key: "due_this_week", title: __("Due This Week"), type: "bar", hue: 7, alone: true, route: dueThisWeek },
   { key: "profit", title: __("Profit This Month"), type: "bar", hue: 4, route: "/desk/query-report/Profit and Loss Statement" },
 ];
 const cardsRoot = ref();
 const { tokens } = useChartTokens(cardsRoot);
+// A loss, or a month that started from one, has no share to grow by.
 const change = (series) => {
   const [before, now] = (series || []).slice(-2);
-  return before ? Math.round(((now - before) / Math.abs(before)) * 100) : null;
+  return before > 0 && now >= 0 ? Math.round(((now - before) / before) * 100) : null;
 };
+function dueThisWeek(card) {
+  const filters = { docstatus: 1, outstanding_amount: JSON.stringify([">", 0]), due_date: JSON.stringify(["<=", card.until]) };
+  return `/desk/purchase-invoice?${Object.entries(filters).map(([key, value]) => `${key}=${encodeURIComponent(value)}`).join("&")}`;
+}
 const cards = computed(() => {
   const got = story.value?.cards || {};
   const hues = tokens.value.categorical;
@@ -117,7 +128,7 @@ const cards = computed(() => {
     .filter((one) => got[one.key])
     .map((one) => ({
       key: one.key,
-      route: one.route,
+      route: typeof one.route === "function" ? one.route(got[one.key]) : one.route,
       props: {
         title: one.title,
         value: got[one.key].value ?? 0,
@@ -147,10 +158,11 @@ function slug(doctype) {
 }
 
 function route(one) {
-  if (one.kind === "Report") return `/desk/query-report/${encodeURIComponent(one.target)}`;
   if (one.kind === "Page") return `/desk/${one.target}`;
   const filters = Object.entries(one.filters || {}).map(([key, value]) => `${key}=${encodeURIComponent(typeof value === "object" ? JSON.stringify(value) : value)}`);
-  return `/desk/${slug(one.target)}${filters.length ? `?${filters.join("&")}` : ""}`;
+  const query = filters.length ? `?${filters.join("&")}` : "";
+  if (one.kind === "Report") return `/desk/query-report/${encodeURIComponent(one.target)}${query}`;
+  return `/desk/${slug(one.target)}${query}`;
 }
 
 const groups = computed(() => {
@@ -205,7 +217,7 @@ const parts = computed(() => {
         under: one.late > 0 ? late(one.late) : one.late === 0 ? __("Due today") : __("Due {0}", [date(one.due_date)]),
         route: `/desk/purchase-invoice/${encodeURIComponent(one.name)}`,
       })),
-      more: more(n.bills, __("Purchase Invoice"), '/desk/purchase-invoice?status=["in",["Unpaid","Overdue","Partly Paid"]]'),
+      more: more(n.bills, __("Purchase Invoice"), dueThisWeek(n.bills)),
     });
   if (n.bank.count)
     out.push({

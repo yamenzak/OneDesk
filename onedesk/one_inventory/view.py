@@ -677,12 +677,16 @@ def _selling(doc) -> dict | None:
 			"`tabSales Order Item`.billed_amt as billed",
 		],
 		doc.name,
+		# A service is never delivered, only billed: what is left of it is
+		# what is still to bill.
+		done=None if doc.is_stock_item else lambda row: flt(row.qty) * min(flt(row.billed) / flt(row.amount), 1) if flt(row.amount) else 0,
 	)
 	party_images = _images("Customer", {row.party for row in orders})
 	for row in orders:
 		row["image"] = party_images.get(row.party)
 		row["project_name"] = _project_name(row.project)
 		row["to_bill"] = flt(row.billed) < flt(row.amount)
+		row["billed_only"] = not doc.is_stock_item
 	if doc.is_stock_item:
 		ready(
 			orders,
@@ -773,8 +777,9 @@ def _quotations(item: str) -> list:
 	return rows
 
 
-def _open(doctype: str, child: str, fields: list, item: str, status=OPEN_ORDER) -> list:
-	"""Its lines on submitted documents still to be done, soonest first."""
+def _open(doctype: str, child: str, fields: list, item: str, status=OPEN_ORDER, done=None) -> list:
+	"""Its lines on submitted documents still to be done, soonest first.
+	`done` says how much of a line is done where it is not `row.done`."""
 	if not _readable(doctype):
 		return []
 	rows = frappe.get_list(
@@ -791,7 +796,7 @@ def _open(doctype: str, child: str, fields: list, item: str, status=OPEN_ORDER) 
 	)
 	today = getdate(nowdate())
 	for row in rows:
-		row["left"] = max(flt(row.qty) - flt(row.done), 0)
+		row["left"] = max(flt(row.qty) - flt(done(row) if done else row.done), 0)
 		row["late"] = bool(row.get("due") and getdate(row.due) < today and row["left"])
 	return [row for row in rows if row["left"]]
 

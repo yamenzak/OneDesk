@@ -70,8 +70,8 @@ watch(search, () => {
 });
 
 const views = computed(() => [
-  { key: "due", label: __("Planned"), count: (said.value?.figures.late || 0) + (said.value?.figures.this_week || 0) || null },
-  { key: "repairs", label: __("Asset Repair"), count: said.value?.figures.broken || null },
+  { key: "due", label: __("Planned") },
+  { key: "repairs", label: __("Asset Repair") },
   { key: "plans", label: __("Asset Maintenance") },
   { key: "log", label: __("Completed") },
 ]);

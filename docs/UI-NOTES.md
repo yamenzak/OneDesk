@@ -421,3 +421,45 @@ already sat on the window; what the walk changed:
   ERPNext says, and OneStudio's group card says Added and Removed.
 - **A heading was a sentence.** The holiday list's warning says "Ends {0},
   in {1} days".
+
+### The full walk of OneCRM, OneBook, OneInventory and OneHR
+
+Every rail entry, its list, a record and the reports, as each module's roles
+and on a phone. What it changed in the parts every app shares:
+
+- **A name with a % in it opened on nothing.** The address row decoded a
+  record's name a second time, and "UAE VAT 5% - SGA" threw before the form
+  drew (crumb_switch.js).
+- **The command row led with the wrong button.** A button an app marks
+  `btn-primary` and a solid group now lead as a solid button does, and where
+  nothing is solid frappe's Create group leads (window/views.css, form.js).
+  A draft whose main verb is One's (Approve on a leave application) is
+  finished by it, so frappe's Submit and its "Submit this … to confirm" line
+  are not offered beside it (head.js).
+- **A phone's head took four rows.** It takes three: where you are and
+  search; the record's name and pill; then Refresh, the view's search and its
+  commands in one row, a submitted record's Cancel at the end of it.
+- **Figures stood one to a row on a phone**, and a record's figures ran off
+  the right edge. Two to a row, the number a size smaller; a record's grid
+  stacks over its figures below 900px.
+- **A report's status row carried frappe's filter hint and the query time.**
+  It says how many rows there are, the total row aside. A tree's Expand All
+  and Collapse All sit in it as the bar's own small buttons rather than
+  floating over the rail's foot. Money columns are wide enough for an amount
+  in the millions, dates for a date, and the row number for the count of rows.
+- **A page reached by its address came up under OneHR.** frappe sends what no
+  rail lists to the sidebar with the most entries, which for anybody with an
+  employee record is OneHR. It opens under One's own rail now, and a page or
+  record of an erpnext or hrms module opens under the app One keeps that
+  module in (`one_module_heirs`, now with hrms's modules and Regional).
+- **The rail lit Home for pages that weren't Home.** A row whose page moves
+  its address (Mark Attendance), and a list opened from Home's Setup, lit
+  Home because every address in the rail begins with it. The row clicked
+  stays lit, and a page opened from another keeps that page's row. A page
+  that changes its address in place (Home's tabs) relights the rail.
+- **Lists took you out of the app.** Its row opened One's Home to show the
+  dialog; it opens over the page you are on, and isn't drawn for somebody
+  with no lists in that app.
+- **Check In on a desktop asked to register a passkey "on this phone".** On a
+  desktop it says to check in from your phone; on a phone it is a titled
+  dialog with Register Passkey.

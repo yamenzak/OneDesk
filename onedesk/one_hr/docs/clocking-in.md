@@ -3,7 +3,7 @@
 Employees clock in and out themselves from any phone or computer. There is no
 machine to buy.
 
-**Check In, in the bar at the top.** It sits at the bar's right end, with
+**Check In, in the bar at the bottom.** It sits at the bar's right end, with
 OneAI, Timers and Notifications, and has a dot: green while you are
 clocked in, grey while you are not, and amber once your shift has started
 without you or you checked in after it. Until you check in it shows when your

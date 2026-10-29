@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-1 gap-3 sm:grid-cols-2" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
+  <div class="grid grid-cols-2 gap-3 max-sm:[&_.text-3xl-semibold]:text-xl-semibold" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
     <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: !one.sparkline }">
       <Tooltip :text="one.other ? `${one.other.label}: ${one.other.value}` : ''" :disabled="!one.other" :hover-delay="150">
       <NumberCard
@@ -40,3 +40,4 @@ const CARD = "rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4
 const TAXED = "cursor-help [&_.tabular-nums>span:first-child]:underline [&_.tabular-nums>span:first-child]:decoration-dashed [&_.tabular-nums>span:first-child]:decoration-[var(--ink-gray-4)] [&_.tabular-nums>span:first-child]:decoration-1 [&_.tabular-nums>span:first-child]:underline-offset-4";
 const COLUMNS = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 5: "lg:grid-cols-3", 6: "lg:grid-cols-3" };
 </script>
+

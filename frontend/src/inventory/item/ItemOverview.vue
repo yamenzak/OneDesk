@@ -97,7 +97,7 @@ const needs = computed(() => {
   }
   for (const one of s.selling?.orders || []) {
     if (!one.late) continue;
-    rows.push({ key: one.name, dot: "red", label: __("Late to {0}", [one.party]), sub: one.name, below: __("{0} still to send", [quantity(one.left, uom)]), value: __("Due {0}", [date(one.due)]), route: `/desk/sales-order/${encodeURIComponent(one.name)}` });
+    rows.push({ key: one.name, dot: "red", label: __("Late to {0}", [one.party]), sub: one.name, below: one.billed_only ? __("{0} still to bill", [quantity(one.left, uom)]) : __("{0} still to send", [quantity(one.left, uom)]), value: __("Due {0}", [date(one.due)]), route: `/desk/sales-order/${encodeURIComponent(one.name)}` });
   }
   for (const one of s.buying?.requests || []) {
     rows.push({ key: one.name, dot: "amber", label: __("Asked For, Not Yet Ordered"), sub: one.name, below: quantity(one.left, uom), value: __("Due {0}", [date(one.due)]), route: `/desk/material-request/${encodeURIComponent(one.name)}` });

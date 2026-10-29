@@ -12,6 +12,16 @@ def may_decide(doc) -> None:
 		frappe.throw(
 			_("Only somebody who can approve these may answer this one."), frappe.PermissionError
 		)
+	if own(doc):
+		frappe.throw(_("Somebody else has to answer your own request."), frappe.PermissionError)
+
+
+def own(doc) -> bool:
+	"""Whether the request is the reader's own. Nobody answers their own: HR
+	Settings' two prevent_self switches say so for leave and claims, and One
+	holds every other request to the same rule."""
+	employee = doc.get("employee")
+	return bool(employee) and frappe.db.get_value("Employee", employee, "user_id") == frappe.session.user
 
 
 def carry(doc, field: str, verdict: str) -> None:

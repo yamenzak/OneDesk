@@ -11,6 +11,8 @@ The rail on the left has the whole of OneCRM in it:
 
 - **Home** — how selling is going, what needs you today, and everything in
   OneCRM with what it is for.
+- **Overview** — charts of leads and opportunities coming in, won, and by
+  territory and source. The figures are on Home.
 - **Lead** — somebody who got in touch, or somebody you want to reach.
 - **Opportunity** — a sale you are working on, with what it is worth and how far it
   has got.

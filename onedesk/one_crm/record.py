@@ -138,12 +138,12 @@ def deals(lead: str) -> dict:
 	rows = frappe.get_all(
 		"Opportunity",
 		filters={"opportunity_from": "Lead", "party_name": lead},
-		fields=["opportunity_amount", "status"],
+		fields=["base_opportunity_amount", "status"],
 	)
 	return {
 		"count": len(rows),
 		"open": sum(1 for row in rows if row.status in next_step.OPEN["Opportunity"]),
-		"value": sum(flt(row.opportunity_amount) for row in rows),
+		"value": sum(flt(row.base_opportunity_amount) for row in rows),
 	}
 
 

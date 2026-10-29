@@ -1,0 +1,16 @@
+{
+ "custom_fields": [],
+ "doctype": "Job Requisition",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Job Requisition",
+   "doctype_or_field": "DocField",
+   "field_name": "no_of_positions",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Number of Positions"
+  }
+ ],
+ "sync_on_migrate": 1
+}

@@ -17,6 +17,46 @@
    "property": "show_title_field_in_link",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "field_name": "all_activities_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "field_name": "all_activities_html",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "field_name": "notes_section",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "field_name": "notes_html",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Prospect",
+   "doctype_or_field": "DocField",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "field_name": "annual_revenue"
   }
  ],
  "sync_on_migrate": 1

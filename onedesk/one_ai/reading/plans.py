@@ -289,6 +289,7 @@ def receipt(reading: dict, ctx: dict) -> list[Action]:
 				"expense_type": ctx["expense_type"],
 				"description": (reading.get("title") or "")[:140],
 				"amount": reading["gross"],
+				"sanctioned_amount": reading["gross"],
 			}
 		],
 	}

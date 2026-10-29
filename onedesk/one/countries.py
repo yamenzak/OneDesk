@@ -14,6 +14,26 @@ ONLY_IN = {
 	"One Simplified Tax Invoice": "United Arab Emirates",
 }
 
+#: Countries with no personal income tax, where the income tax screens have
+#: nothing to hold.
+NO_INCOME_TAX = ("Bahrain", "Kuwait", "Oman", "Qatar", "Saudi Arabia", "United Arab Emirates")
+
+#: Screens for a country that taxes income, hidden where every company is in
+#: one that does not.
+NOT_IN = {
+	name: NO_INCOME_TAX
+	for name in (
+		"Income Tax Computation",
+		"Income Tax Deductions",
+		"Income Tax Slab",
+		"Employee Tax Exemption Declaration",
+		"Employee Tax Exemption Proof Submission",
+		"Employee Other Income",
+		"Employee Tax Exemption Category",
+		"Employee Tax Exemption Sub Category",
+	)
+}
+
 TAX_INVOICE = (
 	"Australia",
 	"Bahrain",
@@ -35,8 +55,12 @@ def ours() -> set[str]:
 
 def shown(target: str, here: set[str] | None = None) -> bool:
 	"""Whether a screen is for everybody or for a country one of the companies is in."""
+	here = ours() if here is None else here
 	country = ONLY_IN.get(target)
-	return not country or country in (ours() if here is None else here)
+	if country and country not in here:
+		return False
+	away = NOT_IN.get(target)
+	return not (away and here and here <= set(away))
 
 
 def tax_invoice(company: str | None) -> bool:

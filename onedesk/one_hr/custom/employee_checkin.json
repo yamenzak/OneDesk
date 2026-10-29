@@ -57,7 +57,7 @@
    "read_only": 1,
    "fetch_from": "one_attempt.score",
    "fetch_if_empty": 0,
-   "description": "Out of 100. Below the confirmation threshold the log is flagged for review."
+   "description": "Out of 100. Below Flag Below Score the log is flagged for review."
   }
  ],
  "doctype": "Employee Checkin",
@@ -78,6 +78,20 @@
    "property": "depends_on",
    "property_type": "Data",
    "value": "eval:doc.__islocal"
+  },
+  {
+   "doc_type": "Employee Checkin",
+   "doctype_or_field": "DocType",
+   "property": "sort_field",
+   "property_type": "Data",
+   "value": "time"
+  },
+  {
+   "doc_type": "Employee Checkin",
+   "doctype_or_field": "DocType",
+   "property": "sort_order",
+   "property_type": "Data",
+   "value": "DESC"
   }
  ],
  "sync_on_migrate": 1

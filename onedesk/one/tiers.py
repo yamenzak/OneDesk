@@ -88,6 +88,7 @@ HEADS = (
 )
 
 COLLECTIONS = {
+	"Sales Stage": {"List": "Open in blue rather than the red frappe guesses for a status it does not know"},
 	"Address Template": {"List": "no ID box, since a template's name is its country, which the Country filter already finds"},
 	"Contact": {"List": "no ID column, since a contact's name is the person's, already in the title"},
 	"Deleted Document": {"List": "One's Recycle Bin: what was deleted and from where, Restored or Deleted, and Restore on several at once"},

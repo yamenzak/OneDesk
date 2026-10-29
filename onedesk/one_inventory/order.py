@@ -118,7 +118,7 @@ def rows() -> list[dict]:
 	low = frappe.db.sql(
 		"""select level.parent as item_code, item.item_name, level.warehouse, item.stock_uom as uom,
 			level.warehouse_reorder_level as level, level.warehouse_reorder_qty as reorder_qty,
-			coalesce(bin.projected_qty, 0) as projected
+			coalesce(bin.projected_qty, 0) as projected, coalesce(bin.actual_qty, 0) as actual
 		from `tabItem Reorder` level join `tabItem` item on item.name = level.parent
 		join `tabWarehouse` warehouse on warehouse.name = level.warehouse and warehouse.company = %(company)s
 		left join `tabBin` bin on bin.item_code = level.parent and bin.warehouse = level.warehouse

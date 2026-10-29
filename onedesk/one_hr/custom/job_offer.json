@@ -19,6 +19,13 @@
    "property": "reqd",
    "property_type": "Check",
    "value": "0"
+  },
+  {
+   "doc_type": "Job Offer",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
   }
  ],
  "sync_on_migrate": 1

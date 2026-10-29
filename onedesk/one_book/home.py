@@ -157,7 +157,7 @@ def outstanding(rows: list, until=None) -> float:
 @frappe.read_only()
 def owed_to_us(filters: str | None = None) -> dict:
 	"""What customers still owe on invoices."""
-	return _card(outstanding(_unpaid("Sales Invoice")), ["query-report", "Accounts Receivable"])
+	return _card(outstanding(_unpaid("Sales Invoice")), ["query-report", "Accounts Receivable"], {"based_on_payment_terms": 1})
 
 
 @frappe.whitelist()
@@ -172,7 +172,7 @@ def overdue(filters: str | None = None) -> dict:
 @frappe.read_only()
 def we_owe(filters: str | None = None) -> dict:
 	"""What the company still owes on bills."""
-	return _card(outstanding(_unpaid("Purchase Invoice")), ["query-report", "Accounts Payable"])
+	return _card(outstanding(_unpaid("Purchase Invoice")), ["query-report", "Accounts Payable"], {"party_type": "Supplier"})
 
 
 @frappe.whitelist()
@@ -180,7 +180,12 @@ def we_owe(filters: str | None = None) -> dict:
 def due_this_week(filters: str | None = None) -> dict:
 	"""What falls due on bills in the next seven days, and any already late."""
 	amount = outstanding(_due("Purchase Invoice"), until=this_week())
-	return _card(amount, ["List", "Purchase Invoice"], {"status": ["in", ["Unpaid", "Overdue", "Partly Paid"]]})
+	return _card(amount, ["List", "Purchase Invoice"], DUE_THIS_WEEK())
+
+
+def DUE_THIS_WEEK() -> dict:
+	"""The bills behind Due This Week: unpaid, and due by the week's end."""
+	return {"docstatus": 1, "outstanding_amount": [">", 0], "due_date": ["<=", this_week()]}
 
 
 FEW = 5
@@ -233,7 +238,6 @@ REPORT_TOPICS = {
 	"Item-wise Purchase Register": "registers",
 	"Payment Period Based On Invoice Date": "registers",
 	"Customer Credit Balance": "registers",
-	"Spending": "registers",
 	"Gross Profit": "profit",
 	"Profitability Analysis": "profit",
 	"Sales Invoice Trends": "profit",
@@ -303,16 +307,16 @@ SETUP_TOPICS = {
 }
 
 EVERYTHING = (
-	("receivables", _lt("Sales Invoice"), "DocType", "Sales Invoice", _lt("What you have billed customers.")),
+	("receivables", _lt("Sales Invoice"), "DocType", "Sales Invoice", _lt("What you have billed customers."), {"is_return": 0}),
 	("receivables", _lt("Credit Note"), "DocType", "Sales Invoice", _lt("Money given back to a customer, against an invoice."), {"is_return": 1}),
 	("receivables", _lt("Customer"), "DocType", "Customer", _lt("Who you sell to, and what each owes.")),
 	("receivables", _lt("Dunning"), "DocType", "Dunning", _lt("A reminder to a customer who is late paying, with any fee.")),
 	("receivables", _lt("Process Statement Of Accounts"), "DocType", "Process Statement Of Accounts", _lt("Each customer's statement, mailed on a schedule.")),
 	("receivables", _lt("Auto Repeat"), "DocType", "Auto Repeat", _lt("Invoices and bills made again every month, quarter or year."), {"reference_doctype": ["in", ["Sales Invoice", "Purchase Invoice"]]}),
-	("payables", _lt("Purchase Invoice"), "DocType", "Purchase Invoice", _lt("What suppliers have billed you.")),
+	("payables", _lt("Purchase Invoice"), "DocType", "Purchase Invoice", _lt("What suppliers have billed you."), {"is_return": 0}),
 	("payables", _lt("Debit Note"), "DocType", "Purchase Invoice", _lt("Money a supplier gives back, against their invoice."), {"is_return": 1}),
 	("payables", _lt("Supplier"), "DocType", "Supplier", _lt("Who you buy from, and what you owe each.")),
-	("payables", _lt("Ready to Submit"), "Report", "Ready to Submit", _lt("Bills read from mail and scans, waiting to be submitted.")),
+	("payables", _lt("Ready to Submit"), "Report", "Ready to Submit", _lt("Drafts OneAI read from mail and scans, bills most of all, waiting to be submitted.")),
 	("payables", _lt("Import Supplier Invoice"), "DocType", "Import Supplier Invoice", _lt("Suppliers' electronic invoices read in from a zip file.")),
 	("payments", _lt("Payment Entry"), "DocType", "Payment Entry", _lt("Money received from customers and paid to suppliers.")),
 	("payments", _lt("Journal Entry"), "DocType", "Journal Entry", _lt("Anything that is not an invoice or a payment: corrections, accruals, opening balances.")),
@@ -335,17 +339,16 @@ EVERYTHING = (
 	("reports", _lt("Supplier Ledger Summary"), "Report", "Supplier Ledger Summary", _lt("Each supplier's bills, payments and balance.")),
 	("reports", _lt("Trial Balance for Party"), "Report", "Trial Balance for Party", _lt("Each customer's or supplier's opening, movement and closing.")),
 	("reports", _lt("Bank Reconciliation Statement"), "Report", "Bank Reconciliation Statement", _lt("The books' bank balance against the statement's.")),
-	("reports", _lt("Accounts Receivable"), "Report", "Accounts Receivable", _lt("Who owes you, and how late.")),
-	("reports", _lt("Accounts Receivable Summary"), "Report", "Accounts Receivable Summary", _lt("What each customer owes, by how late.")),
-	("reports", _lt("Accounts Payable"), "Report", "Accounts Payable", _lt("Whom you owe, and when it falls due.")),
-	("reports", _lt("Accounts Payable Summary"), "Report", "Accounts Payable Summary", _lt("What you owe each supplier, by how late.")),
+	("reports", _lt("Accounts Receivable"), "Report", "Accounts Receivable", _lt("Who owes you, and how late."), {"based_on_payment_terms": 1}),
+	("reports", _lt("Accounts Receivable Summary"), "Report", "Accounts Receivable Summary", _lt("What each customer owes, by how late."), {"based_on_payment_terms": 1}),
+	("reports", _lt("Accounts Payable"), "Report", "Accounts Payable", _lt("Whom you owe, and when it falls due."), {"party_type": "Supplier"}),
+	("reports", _lt("Accounts Payable Summary"), "Report", "Accounts Payable Summary", _lt("What you owe each supplier, by how late."), {"party_type": "Supplier"}),
 	("reports", _lt("Sales Register"), "Report", "Sales Register", _lt("Every sales invoice with its taxes, one line each.")),
 	("reports", _lt("Purchase Register"), "Report", "Purchase Register", _lt("Every purchase invoice with its taxes, one line each.")),
 	("reports", _lt("Item-wise Sales Register"), "Report", "Item-wise Sales Register", _lt("Every line of every sales invoice.")),
 	("reports", _lt("Item-wise Purchase Register"), "Report", "Item-wise Purchase Register", _lt("Every line of every purchase invoice.")),
 	("reports", _lt("Payment Period Based On Invoice Date"), "Report", "Payment Period Based On Invoice Date", _lt("How long each invoice took to be paid.")),
 	("reports", _lt("Customer Credit Balance"), "Report", "Customer Credit Balance", _lt("Each customer's credit limit, and what is left of it.")),
-	("reports", _lt("Spending"), "Report", "Spending", _lt("What the company spent, by supplier and kind.")),
 	("reports", _lt("Gross Profit"), "Report", "Gross Profit", _lt("What each sale made over what it cost.")),
 	("reports", _lt("Profitability Analysis"), "Report", "Profitability Analysis", _lt("Income and expenses by cost center or project.")),
 	("reports", _lt("Sales Invoice Trends"), "Report", "Sales Invoice Trends", _lt("What was invoiced, period against period.")),
@@ -354,11 +357,11 @@ EVERYTHING = (
 	("reports", _lt("UAE VAT 201"), "Report", "UAE VAT 201", _lt("The UAE's VAT return, box by box.")),
 	("reports", _lt("Tax Withholding Details"), "Report", "Tax Withholding Details", _lt("Tax withheld from suppliers, payment by payment.")),
 	("reports", _lt("Consolidated Trial Balance"), "Report", "Consolidated Trial Balance", _lt("The trial balances of several companies as one.")),
-	("reports", _lt("Trial Balance (Simple)"), "Report", "Trial Balance (Simple)", _lt("Every account's balance, without opening and closing columns.")),
+	("reports", _lt("Trial Balance (Simple)"), "Report", "Trial Balance (Simple)", _lt("Each account's debits and credits, day by day.")),
 	("reports", _lt("Custom Financial Statement"), "Report", "Custom Financial Statement", _lt("A statement laid out by a financial report template.")),
 	("reports", _lt("Deferred Revenue and Expense"), "Report", "Deferred Revenue and Expense", _lt("Income and costs spread over the months they belong to.")),
 	("reports", _lt("Dimension-wise Accounts Balance Report"), "Report", "Dimension-wise Accounts Balance Report", _lt("Each account's balance by accounting dimension.")),
-	("reports", _lt("Voucher-wise Balance"), "Report", "Voucher-wise Balance", _lt("Each voucher's debits and credits.")),
+	("reports", _lt("Voucher-wise Balance"), "Report", "Voucher-wise Balance", _lt("Vouchers whose debits and credits do not agree.")),
 	("reports", _lt("Payment Ledger"), "Report", "Payment Ledger", _lt("Every payment and what it settled.")),
 	("reports", _lt("Share Balance"), "Report", "Share Balance", _lt("Each shareholder's shares on a day.")),
 	("reports", _lt("Share Ledger"), "Report", "Share Ledger", _lt("Every share issued, moved and bought back.")),
@@ -438,7 +441,7 @@ def needs_you() -> dict:
 	day = getdate(nowdate())
 	return {
 		"overdue": _kept(_late("Sales Invoice", "customer", yesterday(), day)),
-		"bills": _kept(_late("Purchase Invoice", "supplier", this_week(), day)),
+		"bills": {**_kept(_late("Purchase Invoice", "supplier", this_week(), day)), "until": str(this_week())},
 		"bank": _bank(),
 		"drafts": drafts(),
 	}
@@ -522,12 +525,51 @@ def _may(kind: str, target: str) -> bool:
 		return bool(frappe.has_permission(target, "read"))
 	if not frappe.db.exists(kind, target):
 		return False
-	return bool(frappe.get_cached_doc(kind, target).is_permitted())
+	doc = frappe.get_cached_doc(kind, target)
+	if kind == "Report":
+		if doc.disabled or (doc.ref_doctype and not frappe.has_permission(doc.ref_doctype, "read")):
+			return False
+	return bool(doc.is_permitted())
+
+
+def _companies() -> bool:
+	return frappe.db.count("Company") > 1
+
+
+def _template() -> str | None:
+	"""The financial report template a Custom Financial Statement opens on:
+	one made for it, or else the first there is."""
+	for filters in ({"report_type": "Custom Financial Statement", "disabled": 0}, {"disabled": 0}):
+		if name := frappe.db.get_value("Financial Report Template", filters, "name", order_by="name asc"):
+			return name
+	return None
+
+
+#: Reports that can show nothing until the workspace has what they read, and
+#: are left out until then: several companies, a withholding category, an
+#: account counted in gross profit, an item billed over months, a credit limit.
+WHEN = {
+	"Consolidated Financial Statement": _companies,
+	"Consolidated Trial Balance": _companies,
+	"Tax Withholding Details": lambda: bool(frappe.db.exists("Tax Withholding Category")),
+	"Gross and Net Profit Report": lambda: bool(frappe.db.exists("Account", {"include_in_gross": 1})),
+	"Deferred Revenue and Expense": lambda: bool(
+		frappe.db.exists("Item", {"enable_deferred_revenue": 1}) or frappe.db.exists("Item", {"enable_deferred_expense": 1})
+	),
+	"Customer Credit Balance": lambda: bool(frappe.db.exists("Customer Credit Limit")),
+	"Custom Financial Statement": lambda: bool(_template()),
+}
+
+#: Filters worked out when Home is read, for a report that needs one to show anything.
+OPENS_WITH = {
+	"Custom Financial Statement": lambda: {"report_template": _template()},
+}
 
 
 def directory() -> list[dict]:
 	"""Everything in OneBook the reader may open, with what it is for: a
-	country's own only where a company is in it (one/countries.py)."""
+	country's own only where a company is in it (one/countries.py), and a
+	report only once there is something for it to show (WHEN)."""
 	from onedesk.one import countries
 
 	here = countries.ours()
@@ -537,10 +579,10 @@ def directory() -> list[dict]:
 			"label": str(label),
 			"kind": kind,
 			"target": target,
-			"filters": filters[0] if filters else None,
+			"filters": OPENS_WITH[target]() if target in OPENS_WITH else (filters[0] if filters else None),
 			"about": str(about),
 			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
 		}
 		for group, label, kind, target, about, *filters in EVERYTHING
-		if _may(kind, target) and countries.shown(target, here)
+		if _may(kind, target) and countries.shown(target, here) and (kind != "Report" or target not in WHEN or WHEN[target]())
 	]

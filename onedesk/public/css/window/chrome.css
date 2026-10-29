@@ -529,6 +529,8 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 }
 
 .one-bar-status .one-window-more,
+.one-bar-status .report-footer,
+.one-bar-status .tree-footer,
 .one-bar-status .list-paging-area,
 .one-bar-status .list-paging-area .level-left,
 .one-bar-status .list-paging-area .level-right {
@@ -545,16 +547,27 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	background: transparent;
 }
 
+.one-bar-status .tree-footer {
+	width: auto;
+	max-width: none;
+	flex: none;
+}
+
 .one-bar-status .es-pill,
-.one-bar-status .es-button {
+.one-bar-status .es-button,
+.one-bar-status .tree-footer .btn {
 	height: 20px;
+	padding-block: 0;
+	border: 0;
+	line-height: 20px;
 	background: transparent;
 	color: var(--one-frame-ink);
 	font-size: var(--text-xs);
 }
 
 .one-bar-status .es-pill:hover,
-.one-bar-status .es-button:hover {
+.one-bar-status .es-button:hover,
+.one-bar-status .tree-footer .btn:hover {
 	background: var(--one-frame-hover);
 	color: var(--one-frame-ink-strong);
 }

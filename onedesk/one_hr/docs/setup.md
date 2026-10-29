@@ -25,7 +25,8 @@ the settings and suggests changes.
 
 **Holidays**, under Workspace, shows the holiday list in effect today, with
 the days no one works. Leave, attendance, check-ins, OneCalendar and
-OneAI's deadlines all use it. Only administrators see and change it.
+OneAI's deadlines all use it. This page is the administrators'; HR
+Managers change the list itself from Setup › **Holiday List**.
 OneCalendar's **Holidays** also opens it.
 
 - The top shows how many public holidays and weekly days off the list has, the

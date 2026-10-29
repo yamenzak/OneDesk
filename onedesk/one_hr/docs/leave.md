@@ -24,8 +24,9 @@ before it lapses unused (**Leave Expiring**).
 **Leave Application.** The approver presses **Approve** or **Reject** and can
 add a note. The page says what approving does: *Approving this books 3 days of
 Annual Leave for Rania Sabbagh, 01-10-2026 to 03-10-2026, leaving them 18.* The
-employee is emailed the answer, with the note. Requests waiting for you are
-under **Waiting for You** on Home's Today.
+employee is emailed the answer, with the note. Nobody answers their own
+request, leave or otherwise: somebody else who approves them has to. Requests
+waiting for you are under **Waiting for You** on Home's Today.
 
 While an approved leave runs, the person's workspace address answers new
 mail on its own with the **Away Message** they wrote on the request, or a

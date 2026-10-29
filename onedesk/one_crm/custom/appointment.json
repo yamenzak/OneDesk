@@ -10,6 +10,28 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Appointment",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "customer_name"
+  },
+  {
+   "doc_type": "Appointment",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Appointment",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "calendar_event"
   }
  ],
  "sync_on_migrate": 1

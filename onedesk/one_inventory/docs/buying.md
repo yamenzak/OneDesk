@@ -44,12 +44,13 @@ Order** starts one with them.
    in its own money, with **All**, **To Decide**, **Draft** and **Expiring**
    above it. **Comparison** sets one request's quotes side by side: each
    supplier's rate on each line, in their own money and in the company's
-   currency for one in another money, with the cheapest live rate marked **Cheapest** and a
+   currency for one in another money, with the cheapest live rate marked **Cheapest** (a quote past its
+   Valid Till never is) and a
    line ordered already said as ordered. Under each supplier, **Add
    Supplier Quotation** types in the quote of a supplier who answered by
    mail, **Check Supplier Quotation** opens one still a draft, and
    **Order** drafts an order from a quote while a line it prices is left to
-   order. **Order the Cheapest** drafts one order to each supplier for the
+   order. **Order the Cheapest**, the main button on a comparison, drafts one order to each supplier for the
    lines they are cheapest on. The figures say how many suppliers are still
    to answer (**Waiting for Prices**), how many quotes wait for a decision
    or are still drafts, and how many run out within a week (**Expiring**).

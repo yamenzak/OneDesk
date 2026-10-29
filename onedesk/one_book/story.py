@@ -184,13 +184,42 @@ def _cards(months, cash, profit, sales, bills) -> dict:
 		cards["cash"] = {"value": cash["balances"][-1], "series": cash["balances"]}
 	if sales is not None:
 		cards["receivable"] = {"value": home.outstanding(sales), "series": _billed("Sales Invoice", months)}
-		cards["overdue"] = {"value": home.outstanding(sales, until=home.yesterday())}
+		cards["overdue"] = {"value": home.outstanding(sales, until=home.yesterday()), "series": fell_due(sales, months)}
 	if bills is not None:
 		cards["payable"] = {"value": home.outstanding(bills), "series": _billed("Purchase Invoice", months)}
-		cards["due_this_week"] = {"value": home.outstanding(bills, until=home.this_week())}
+		cards["due_this_week"] = {"value": home.outstanding(bills, until=home.this_week()), "series": falls_due(bills), "until": str(home.this_week())}
 	if profit:
 		cards["profit"] = {"value": profit["values"][-1], "series": profit["values"]}
 	return cards
+
+
+def fell_due(rows: list, months: list[date], day=None) -> list[float]:
+	"""What is late, by the month it fell due; anything older in the first.
+	Pure over rows of outstanding_amount and due_date."""
+	day = getdate(day or today())
+	by = [0.0] * len(months)
+	for row in rows:
+		due = row.get("due_date") and getdate(row.get("due_date"))
+		if not due or due >= day:
+			continue
+		at = next((i for i in range(len(months) - 1, -1, -1) if due >= months[i]), 0)
+		by[at] += flt(row.get("outstanding_amount"))
+	return by
+
+
+def falls_due(rows: list, day=None) -> list[float]:
+	"""What falls due each day of the coming week; anything late on the first.
+	Pure over rows of outstanding_amount and due_date."""
+	day = getdate(day or today())
+	by = [0.0] * home.WEEK
+	for row in rows:
+		due = row.get("due_date") and getdate(row.get("due_date"))
+		if not due:
+			continue
+		ahead = max(date_diff(due, day), 0)
+		if ahead < home.WEEK:
+			by[ahead] += flt(row.get("outstanding_amount"))
+	return by
 
 
 def ageing(rows: list, day=None) -> list[dict]:

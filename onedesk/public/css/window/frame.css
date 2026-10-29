@@ -274,9 +274,10 @@
 }
 
 /* Below a tablet frappe's own phone head stays, laid in three rows: the
-   sidebar toggle, where you are and frappe's search, then Refresh and the
-   view's search, then
-   the view's commands, scrolling sideways when they don't fit. */
+   sidebar toggle, where you are and frappe's search; a record's name and
+   pill; then Refresh, the view's search and its commands in one row,
+   scrolling sideways when they don't fit, frappe's own buttons (a
+   submitted record's Cancel) at its end. */
 @media (max-width: 767px) {
 	/* frappe stacks a phone's filter toggle over the Filter button, and Sort
 	   in a box as tall; on the window's one row they sit side by side. */
@@ -309,20 +310,39 @@
 
 	.one-window .page-head-content > .page-title {
 		order: 1;
-		flex: 1 1 auto;
+		flex: 1 1 0;
 		min-width: 72px;
 		margin: 0;
 	}
 
-	/* frappe's own phone search, and a record's name and status, beside
-	   where you are; the name gives way first. */
+	/* frappe's phone head keeps its search, its Cancel and a record's name
+	   in one box; each goes to its own row. */
 	.one-window .page-head-content > .standard-items-section {
+		display: contents;
+	}
+
+	.one-window .standard-items-section > .navbar-modal-search-mobile {
 		order: 1;
-		flex: 0 1 auto;
+	}
+
+	.one-window .standard-items-section > .page-actions {
+		order: 1;
 		min-width: 0;
-		display: flex;
+	}
+
+	.one-window .standard-items-section > .page-actions:has(> .one-head-record, > .page-indicator-pill:not(.hide)) {
+		order: 2;
+		flex: 1 1 100%;
+		flex-direction: row;
 		align-items: center;
+		justify-content: flex-start !important;
+		gap: calc(var(--spacing) * 2);
 		overflow: hidden;
+	}
+
+	.one-window .standard-items-section > .standard-actions {
+		order: 3;
+		margin-inline-start: auto;
 	}
 
 	/* A view's row across the window (a form's tabs), last, scrolling
@@ -345,8 +365,8 @@
 	}
 
 	.one-window .page-head-content > .one-window-tools {
-		order: 2;
-		flex: 1 1 100%;
+		order: 3;
+		flex: 0 0 auto;
 		display: flex;
 		align-items: center;
 		gap: calc(var(--spacing) * 1);
@@ -362,9 +382,13 @@
 		display: none;
 	}
 
+	.one-window .page-head-content > .one-window-tools:has(> .one-window-search:not(:empty)) {
+		flex: 1 1 0;
+	}
+
 	.one-window .page-head-content > .one-window-commands {
 		order: 3;
-		flex: 1 1 100%;
+		flex: 0 1 auto;
 		display: flex;
 		align-items: center;
 		gap: calc(var(--spacing) * 1);

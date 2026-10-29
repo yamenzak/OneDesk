@@ -461,6 +461,7 @@ No doctypes yet.
 * `onedesk.one_ai.yours.forget_all`
 * `onedesk.one_ai.yours.keep`
 * `onedesk.one_ai.yours.load`
+* `onedesk.one_book.bank.reconciling`
 * `onedesk.one_book.closing.lock`
 * `onedesk.one_book.home.cash`
 * `onedesk.one_book.home.due_this_week`

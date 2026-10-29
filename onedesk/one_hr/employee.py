@@ -353,3 +353,12 @@ def get_assignable_masters(company: str) -> dict[str, bool]:
 		)
 		for doctype, filters in MASTERS.items()
 	}
+
+
+def dashboard(data):
+	"""override_doctype_dashboards, after HRMS's: the record's own quarter
+	(heads.quarter) is the attendance, so frappe's second heat map, a year
+	of the same days drawn again, is left off."""
+	data["heatmap"] = False
+	data.pop("heatmap_message", None)
+	return data

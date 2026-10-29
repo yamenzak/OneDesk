@@ -25,8 +25,7 @@
           <div class="mb-4 flex flex-wrap items-center gap-2">
             <Select v-model="request" class="w-full max-w-md" :options="said.requests.map((one) => ({ value: one.name, label: `${one.label} · ${one.name}` }))" :aria-label="__('Request for Quotation')" />
             <span class="text-sm text-ink-gray-5">{{ asking }}</span>
-            <Button v-if="cheapestOrder" class="ms-auto" variant="solid" :label="__('Order the Cheapest')" @click="onedesk().quotes.order_cheapest(said.compare.name, load)" />
-            <Button :class="{ 'ms-auto': !cheapestOrder }" variant="ghost" icon-right="lucide-arrow-up-right" :label="__('Open Request for Quotation')" @click="go(`/desk/request-for-quotation/${encodeURIComponent(said.compare.name)}`)" />
+            <Button class="ms-auto" variant="ghost" icon-right="lucide-arrow-up-right" :label="__('Open Request for Quotation')" @click="go(`/desk/request-for-quotation/${encodeURIComponent(said.compare.name)}`)" />
           </div>
           <QuoteCompare :said="said.compare" :can="said.can" />
         </template>
@@ -96,8 +95,8 @@ watch(search, () => {
 });
 
 const views = computed(() => [
-  { key: "asked", label: __("Request for Quotation"), count: said.value?.figures.waiting || null },
-  { key: "quotes", label: __("Supplier Quotations"), count: said.value?.figures.to_decide || null },
+  { key: "asked", label: __("Request for Quotation") },
+  { key: "quotes", label: __("Supplier Quotations") },
   { key: "compare", label: __("Comparison") },
 ]);
 
@@ -152,7 +151,15 @@ function report() {
   const s = said.value;
   props.onTitle?.({ title: __("Request for Quotation") });
   extended(s);
-  props.onActions?.([s.can.ask && { label: __("Ask for Prices"), primary: true, onClick: () => onedesk().quotes.ask(load) }].filter(Boolean));
+  // On a comparison the thing to do is order the cheapest; asking for
+  // prices again waits beside it.
+  const ordering = shown.value === "compare" && s.compare && cheapestOrder.value;
+  props.onActions?.(
+    [
+      ordering && { label: __("Order the Cheapest"), primary: true, onClick: () => onedesk().quotes.order_cheapest(s.compare.name, load) },
+      s.can.ask && { label: __("Ask for Prices"), primary: !ordering, button: ordering, onClick: () => onedesk().quotes.ask(load) },
+    ].filter(Boolean)
+  );
 }
 
 const placed = reactive({ notes: [], actions: [] });

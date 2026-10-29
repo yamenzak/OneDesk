@@ -1,0 +1,22 @@
+{
+ "custom_fields": [],
+ "doctype": "Email Campaign",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Email Campaign",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "campaign_name"
+  },
+  {
+   "doc_type": "Email Campaign",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

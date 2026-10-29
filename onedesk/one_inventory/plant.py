@@ -43,6 +43,7 @@ def read(plant: str | None = None, workstation_type: str | None = None, status: 
 	if not chosen:
 		return said
 	said["plant"] = chosen
+	chosen["place"] = chosen.warehouse and (frappe.get_cached_value("Warehouse", chosen.warehouse, "warehouse_name") or chosen.warehouse)
 	everything = workstations.get_workstations(plant_floor=chosen.name)
 	said["types"] = sorted(
 		{one for one in frappe.get_all("Workstation", filters={"plant_floor": chosen.name}, pluck="workstation_type") if one}

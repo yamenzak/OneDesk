@@ -84,10 +84,16 @@ a register and a movement form in it would be a rail with five rows.
   millimetres on every line that had a size before units.
 - `number_card/` — the six figures over Home as frappe Number Cards (Stock
   Worth, Taken In This Month, Sent Out This Month, Made This Month, Still on
-  Order, Moves This Month), each counted by its method in `story.py`
+  Order, Moves This Month — labelled Stock Transactions This Month, since it
+  counts papers, not ledger rows), each counted by its method in `story.py`
   (`stock_worth`, `taken_in_this_month` and so on). Any frappe dashboard or
   workspace can show them, and frappe shows each only to somebody who may read
   the record type it names.
+- `boards.py` — ERPNext's Stock, Buying, Manufacturing and Asset dashboards
+  (the rail's Overview rows) corrected after every sync and migrate: the
+  three monthly counts filtered to this month rather than to 2020, no
+  growth shown on a count of what exists, sums of money in the company's
+  currency, and Asset Value Analytics over every asset, like its card.
 - `story.py` and `frontend/src/inventory/home/InventoryStory.vue` — Home's Overview.
   `read` gives the six figures, each its Number Card's own value, with their
   months, and each part of the story,

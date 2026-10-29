@@ -323,6 +323,22 @@
    "property": "show_title_field_in_link",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "branch",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
+  },
+  {
+   "doc_type": "Employee",
+   "doctype_or_field": "DocField",
+   "field_name": "ctc",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:doc.ctc"
   }
  ],
  "sync_on_migrate": 1

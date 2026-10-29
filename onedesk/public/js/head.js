@@ -88,7 +88,35 @@ onedesk.head.draw = (frm, drawn = null) => {
 			frm.one_primary_verb = verb.label;
 		}
 	}
+	// A draft whose main verb is One's (Approve on a leave application)
+	// is finished by it, so frappe's Submit is not offered beside it.
+	if (frm.one_primary_verb && frm.doc.docstatus === 0 && !frm.is_dirty()) frm.page.clear_primary_action();
 };
+
+// ... nor frappe's line asking for the Submit that is not offered, nor an
+// app's own (hrms's "Submit this Leave Application to confirm.").
+{
+	const Form = frappe.ui.form.Form;
+	const answered = (frm) =>
+		frm.doc.docstatus === 0 &&
+		((frm.doc.__onload && frm.doc.__onload.one_head && frm.doc.__onload.one_head.verbs) || []).some((verb) => verb.primary && !verb.group);
+	const asks = Form && Form.prototype.show_submit_message;
+	if (asks && !asks.one_head) {
+		Form.prototype.show_submit_message = function (...args) {
+			if (answered(this)) return;
+			return asks.apply(this, args);
+		};
+		Form.prototype.show_submit_message.one_head = true;
+	}
+	const intro = Form && Form.prototype.set_intro;
+	if (intro && !intro.one_head) {
+		Form.prototype.set_intro = function (txt, ...rest) {
+			if (txt && answered(this) && String(txt).includes(__("Submit"))) return intro.call(this, "");
+			return intro.call(this, txt, ...rest);
+		};
+		Form.prototype.set_intro.one_head = true;
+	}
+}
 
 onedesk.head.notice = (frm, notice) => {
 	const $notice = $(`<div class="form-message one-notice ${notice.colour}">${onedesk.head.marked(notice.colour)}<div class="one-notice-text"></div><div class="one-notice-verbs"></div></div>`);

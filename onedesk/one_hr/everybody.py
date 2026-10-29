@@ -39,3 +39,54 @@ def user(doc, method=None) -> None:
 		one.create_user_permission = int(not now)
 		one.flags.ignore_permissions = True
 		one.save()
+
+
+
+#: What a person is paid: kept to their own, though their hold on Employee
+#: reaches everyone who reports to them, as a foreman's crew's job cards need.
+PAY = (
+	"Salary Slip",
+	"Salary Structure Assignment",
+	"Additional Salary",
+	"Employee Incentive",
+	"Retention Bonus",
+	"Overtime Slip",
+	"Arrear",
+	"Payroll Correction",
+	"Gratuity",
+	"Full and Final Statement",
+)
+
+#: Roles that read pay as its employee and nobody else's.
+SELF = {"Employee", "Employee Self Service"}
+
+
+def _own_pay_only(doctype: str, user: str) -> bool:
+	"""Whether this person reads these only as an employee, and so only their own."""
+	if user == "Administrator":
+		return False
+	roles = {
+		perm.get("role")
+		for perm in frappe.permissions.get_valid_perms(doctype, user)
+		if perm.get("read") and not perm.get("permlevel")
+	}
+	return bool(roles) and roles <= SELF
+
+
+def pay_query(user: str | None = None, doctype: str | None = None) -> str:
+	from onedesk.one_hr import own
+
+	user = user or frappe.session.user
+	if not doctype or not _own_pay_only(doctype, user):
+		return ""
+	return f"`tab{doctype}`.employee = {frappe.db.escape(own.employee_of(user) or '-')}"
+
+
+def pay_allowed(doc, ptype=None, user=None, debug=False) -> bool:
+	"""True leaves frappe's own rules to decide; a hook can only take away."""
+	from onedesk.one_hr import own
+
+	user = user or frappe.session.user
+	if not _own_pay_only(doc.doctype, user):
+		return True
+	return bool(doc.get("employee")) and doc.get("employee") == own.employee_of(user)

@@ -12,4 +12,7 @@ The Books Check makes sure it has what it reads: the VAT accounts, the
 company's **TRN** (printed on every tax invoice) and its **emirate** (sales
 are reported under it). The VAT on each bill is filled into the bill's
 **Recoverable Standard Rated Expenses** as you enter it; type your own figure
-there when not all of it can be reclaimed, and it is left alone.
+there when not all of it can be reclaimed, and it is left alone. A bill
+entered before that figure was filled in claims nothing; the Books Check
+counts them under **Bills claim their VAT back**, and its fix fills each from
+the bill's own VAT.

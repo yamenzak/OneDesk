@@ -169,6 +169,7 @@ def _maintenance():
 				{
 					"doctype": "Maintenance Schedule",
 					"customer": "Bayview Developments",
+					"customer_name": "Bayview Developments",
 					"transaction_date": start,
 					"company": COMPANY,
 					"items": [

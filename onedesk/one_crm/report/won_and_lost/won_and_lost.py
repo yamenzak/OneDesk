@@ -7,7 +7,7 @@ rows add up to more than the lost deals; the other groupings do not.
 
 import frappe
 from frappe import _
-from frappe.utils import getdate
+from frappe.utils import get_fullname, getdate
 
 from onedesk.one_crm import measure
 
@@ -36,14 +36,18 @@ def execute(filters: dict | None = None) -> tuple:
 			row[f"{side}_value"] += measure.value(deal)
 	for row in rows.values():
 		row["rate"] = measure.rate(row["won"], row["lost"])
-	return _columns(by), sorted(rows.values(), key=lambda row: str(row["group"]))
+	out = sorted(rows.values(), key=lambda row: str(row["group"]))
+	if by == "Month":
+		for row in out:
+			row["group"] = getdate(f"{row['group']}-01").strftime("%b %Y")
+	return _columns(by), out
 
 
 def _groups(by, deal, one, reasons) -> list[str]:
 	if by == "Month":
 		return [one.on.strftime("%Y-%m")]
 	if by == "Opportunity Owner":
-		return [deal.opportunity_owner or measure.not_recorded()]
+		return [get_fullname(deal.opportunity_owner) if deal.opportunity_owner else measure.not_recorded()]
 	if by == "Source":
 		return [deal.utm_source or measure.not_recorded()]
 	if one.outcome == "Won":

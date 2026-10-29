@@ -1,7 +1,15 @@
 frappe.provide("onedesk.panel");
 
+onedesk.panel.decoded = (text) => {
+	try {
+		return decodeURIComponent(text);
+	} catch {
+		return text;
+	}
+};
+
 onedesk.panel.bare = (href) => {
-	const path = decodeURIComponent(String(href || "").split("?")[0].split("#")[0])
+	const path = onedesk.panel.decoded(String(href || "").split("?")[0].split("#")[0])
 		.replace(/^\/app\//, "/desk/")
 		.replace(/\/$/, "");
 	const parts = path.split("/");

@@ -6,7 +6,7 @@ How it works is in the module's AGENTS.md.
 import erpnext
 import frappe
 from frappe import _lt
-from frappe.utils import add_days, flt, getdate, today
+from frappe.utils import add_days, add_months, flt, getdate, today
 
 FEW = 5
 
@@ -179,7 +179,7 @@ EVERYTHING = (
 	("reports", _lt("Purchase Order Analysis"), "Report", "Purchase Order Analysis", _lt("How far each purchase order has come.")),
 	("reports", _lt("Procurement Tracker"), "Report", "Procurement Tracker", _lt("From the request to the supplier's bill.")),
 	("reports", _lt("Purchase Analytics"), "Report", "Purchase Analytics", _lt("What was bought, month by month.")),
-	("reports", _lt("Delayed Order Report"), "Report", "Delayed Order Report", _lt("Customer orders that went out late.")),
+	("reports", _lt("Delayed Order Report"), "Report", "Delayed Order Report", _lt("When each customer order went out against the day it was promised; below nought is early.")),
 	("reports", _lt("Stock and Account Value Comparison"), "Report", "Stock and Account Value Comparison", _lt("Stock's worth against the accounts.")),
 	("reports", _lt("Work Order Summary"), "Report", "Work Order Summary", _lt("How far each work order has come.")),
 	("reports", _lt("Material Requirements Planning Report"), "Report", "Material Requirements Planning Report", _lt("What the production schedule needs, against what is on hand and coming.")),
@@ -243,6 +243,11 @@ def read() -> dict:
 			"setup": [{"key": key, "label": str(label)} for key, label in SETUP_SECTIONS],
 		},
 		"everything": directory(),
+		"may_make": [
+			doctype
+			for doctype in ("Item", "Purchase Receipt", "Stock Entry", "Material Request")
+			if frappe.has_permission(doctype, "create")
+		],
 	}
 
 
@@ -306,12 +311,17 @@ def needs_you() -> dict:
 	)
 	return {
 		"late": _kept(late.get("orders") or []),
-		"low": _kept(low.get("low") or []),
+		"low": _kept([{**one, "place": _place(one.get("warehouse"))} for one in low.get("low") or []]),
 		"lots": _kept(lots),
 		"services": _kept([one for one in services.get("services") or [] if getdate(one["due"]) <= add_days(day, 7)]),
 		"work": _kept([{**one, "expected_delivery_date": str(one.expected_delivery_date)} for one in work]),
 		"drafts": drafts(),
 	}
+
+
+def _place(warehouse: str | None) -> str | None:
+	"""A warehouse by its own name, Stores rather than Stores - SGA."""
+	return warehouse and (frappe.get_cached_value("Warehouse", warehouse, "warehouse_name") or warehouse)
 
 
 DRAFTS = (
@@ -359,7 +369,34 @@ def directory() -> list[dict]:
 			"target": target,
 			"about": str(about),
 			"topic": {"reports": REPORT_TOPICS, "setup": SETUP_TOPICS}.get(group, {}).get(target),
+			"filters": _filters(target) if kind == "Report" else None,
+			"builder": _builder(target) if kind == "Report" else None,
 		}
 		for group, label, kind, target, about in EVERYTHING
 		if _may(kind, target)
 	]
+
+
+def _builder(report: str) -> str | None:
+	"""The record type a Report Builder report is read over, which opens as
+	that list's report view rather than as a query report."""
+	kind, doctype = frappe.get_cached_value("Report", report, ["report_type", "ref_doctype"]) or (None, None)
+	return doctype if kind == "Report Builder" else None
+
+
+def _filters(report: str) -> dict | None:
+	"""What a report opens on where its own defaults show nothing: a year of
+	serial numbers rather than a month, a serial number's item, and the
+	schedule and warehouse that planning asks for before it shows a row."""
+	if report == "Available Serial No":
+		return {"from_date": add_months(today(), -12), "to_date": today()}
+	if report == "Serial No Ledger":
+		item = frappe.db.get_value("Serial No", {}, "item_code", order_by="creation desc")
+		return {"item_code": item} if item else None
+	if report == "Material Requirements Planning Report":
+		said = {
+			"warehouse": frappe.db.get_value("Warehouse", {"is_group": 0, "disabled": 0, "warehouse_name": "Stores"}),
+			"mps": frappe.db.get_value("Master Production Schedule", {"docstatus": ["<", 2]}, "name", order_by="creation desc"),
+		}
+		return {key: value for key, value in said.items() if value} or None
+	return None

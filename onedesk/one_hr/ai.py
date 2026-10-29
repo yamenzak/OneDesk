@@ -351,6 +351,7 @@ def claim_expense(
 					"expense_type": chosen,
 					"description": (description or "").strip()[:140],
 					"amount": float(amount or 0),
+					"sanctioned_amount": float(amount or 0),
 				}
 			],
 		},

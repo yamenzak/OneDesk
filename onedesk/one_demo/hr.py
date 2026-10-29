@@ -323,7 +323,7 @@ def _attendance():
 			if first in ON_SITE and status != "Absent" and not _logged(employee, day):
 				make({"doctype": "Employee Checkin", "employee": employee, "log_type": "IN", "time": f"{day} 07:30:00", "latitude": SITE[1], "longitude": SITE[2]})
 			try:
-				make({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": status, "company": COMPANY}, submit=True)
+				make({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": status, "company": COMPANY, "shift": frappe.db.get_value("Employee", employee, "default_shift")}, submit=True)
 			except frappe.ValidationError:
 				frappe.clear_last_message()
 	for first, at in (("Samir", "07:52"), ("Rania", "08:04"), ("Tariq", "07:31"), ("Arun", "07:40"), ("Ravi", "08:17")):

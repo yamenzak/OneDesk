@@ -45,7 +45,8 @@
    "type": "Link",
    "link_to": "Sales Invoice",
    "icon": "file-text",
-   "idx": 2
+   "idx": 2,
+   "filters": "[[\"Sales Invoice\", \"is_return\", \"=\", 0]]"
   },
   {
    "child": 0,
@@ -59,7 +60,8 @@
    "type": "Link",
    "link_to": "Purchase Invoice",
    "icon": "receipt",
-   "idx": 3
+   "idx": 3,
+   "filters": "[[\"Purchase Invoice\", \"is_return\", \"=\", 0]]"
   },
   {
    "child": 0,
@@ -183,7 +185,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Accounts Receivable",
-   "idx": 12
+   "idx": 12,
+   "filters": "[[\"Accounts Receivable\", \"based_on_payment_terms\", \"=\", 1]]"
   },
   {
    "child": 1,
@@ -236,7 +239,8 @@
    "show_arrow": 0,
    "type": "Link",
    "link_to": "Accounts Payable",
-   "idx": 16
+   "idx": 16,
+   "filters": "[[\"Accounts Payable\", \"party_type\", \"=\", \"Supplier\"]]"
   },
   {
    "child": 0,

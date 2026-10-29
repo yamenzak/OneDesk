@@ -129,6 +129,9 @@ def onebook_home_tells_how_the_money_is_doing():
 		assert abs(cards["profit"]["value"] - home.profit_this_month()["value"]) < 0.01
 		assert abs(cards["receivable"]["value"] - home.owed_to_us()["value"]) < 0.01
 		assert len(cards["cash"]["series"]) == story.MONTHS
+		assert abs(sum(cards["overdue"]["series"]) - cards["overdue"]["value"]) < 0.01, cards["overdue"]
+		assert len(cards["due_this_week"]["series"]) == home.WEEK, cards["due_this_week"]
+		assert abs(sum(cards["due_this_week"]["series"]) - cards["due_this_week"]["value"]) < 0.01, cards["due_this_week"]
 		aged = sum(one["owed"] for one in told["receivable"]["ages"])
 		assert abs(aged - cards["receivable"]["value"]) < 0.01, (aged, cards["receivable"])
 		overdue = frappe.get_all("Sales Invoice", filters={"docstatus": 1, "status": "Overdue"}, pluck="name")
@@ -304,7 +307,8 @@ def onebook_a_journal_entry_says_what_it_is_for():
 def onebook_the_bank_says_what_is_left_to_match():
 	"""Huda's bank account says what the books hold and how many statement
 	lines are unmatched; a line says what came in or went out and points at
-	the payment with its reference, the draft OneAI made for Marina Hotels."""
+	the payment with its reference, the draft OneAI made for Marina Hotels;
+	the reconciliation tool opens on that account, back to its oldest line."""
 	from onedesk.one import head
 
 	with as_user("huda@one.test"):
@@ -321,6 +325,11 @@ def onebook_the_bank_says_what_is_left_to_match():
 		assert paid, lines
 		said = head.said(frappe.get_doc("Bank Transaction", paid[0].name), record)
 		assert any((one.get("route") or "").startswith("/desk/payment-entry/") for one in said["band"]), said["band"]
+		from onedesk.one_book import bank
+
+		opens = bank.reconciling()
+		oldest = min(frappe.get_all("Bank Transaction", filters={"bank_account": opens["bank_account"], "docstatus": 1, "status": "Unreconciled"}, pluck="date"))
+		assert opens["bank_account"] == account and opens["from_date"] == str(oldest), (opens, account, oldest)
 
 
 @check
@@ -408,6 +417,9 @@ def onebook_vat_is_charged_and_returned():
 	said = {line["line"]: flt(line.get("tax")) for line in lines if line.get("bold")}
 	assert abs(said["Total charged"] - output) <= 1, (said, output)
 	assert abs(said["Total paid"] - (input_ + flt(claims))) <= 1, (said, input_, claims)
+	from onedesk.one_book import vat
+
+	assert not vat.unreclaimed(COMPANY), ("box 9 claims nothing back on", vat.unreclaimed(COMPANY)[:5])
 
 
 @check

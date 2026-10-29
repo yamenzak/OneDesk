@@ -9,6 +9,7 @@ from onedesk.one import roles
 USER, MANAGER = "Accounts User", "Accounts Manager"
 
 GIVEN = {
+	"Accounting Dimension": {USER: ("read",)},
 	"Bank": {USER: roles.USE, MANAGER: (*roles.USE, "write", "create")},
 	"Bank Reconciliation Tool": {USER: ("read", "write"), MANAGER: ("read", "write")},
 	"Bank Statement Import": {USER: roles.WORK, MANAGER: roles.MANAGE},

@@ -19,7 +19,7 @@
    "doctype_or_field": "DocType",
    "property": "title_field",
    "property_type": "Data",
-   "value": "task_name"
+   "value": "one_asset_title"
   },
   {
    "doc_type": "Asset Maintenance Log",
@@ -68,6 +68,14 @@
    "property_type": "Check",
    "value": "1",
    "field_name": "task_assignee_email"
+  },
+  {
+   "doc_type": "Asset Maintenance Log",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "asset_name"
   }
  ],
  "sync_on_migrate": 1

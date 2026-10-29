@@ -270,8 +270,10 @@ a.one-day:hover {
 }
 
 @media (max-width: 900px) {
+	/* A narrow record stacks its grid over its figures rather than pushing
+	   the figures off the edge. */
 	.one-band {
-		flex-wrap: wrap;
+		grid-template-columns: minmax(0, 1fr);
 	}
 
 	.one-stats {

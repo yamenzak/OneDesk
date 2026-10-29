@@ -16,7 +16,7 @@ BOARD = "Pipeline"
 
 INDICATOR = {"Won": "Green", "On Hold": "Orange"}
 
-CARD = {"opportunity_amount": "banknote", "one_next_step": "footprints", "one_next_on": "calendar-clock"}
+CARD = {"base_opportunity_amount": "banknote", "one_next_step": "footprints", "one_next_on": "calendar-clock"}
 
 
 STATUS_BOARD = "Opportunity Pipeline"

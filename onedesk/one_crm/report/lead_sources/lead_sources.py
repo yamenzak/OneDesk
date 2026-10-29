@@ -44,14 +44,26 @@ def execute(filters: dict | None = None) -> tuple:
 				row["won"] += 1
 				row["won_value"] += measure.value(deal)
 
-	out = []
-	for row in rows.values():
-		replies = row.pop("replies")
-		row["replied"] = round(100 * len(replies) / row["leads"], 1)
-		row["first_reply"] = round(median(replies), 1) if replies else None
-		row["conversion"] = round(100 * row["won"] / row["leads"], 1)
-		out.append(row)
-	return _columns(), sorted(out, key=lambda row: -row["leads"])
+	every = [hours for row in rows.values() for hours in row["replies"]]
+	out = sorted((_shares(row) for row in rows.values()), key=lambda row: -row["leads"])
+	if out:
+		total = _row(_("Total"))
+		for row in out:
+			for key in ("leads", "deals", "won", "won_value"):
+				total[key] += row[key]
+		total["replies"] = every
+		out.append({**_shares(total), "bold": 1})
+	return _columns(), out
+
+
+def _shares(row: dict) -> dict:
+	"""A row's counts with its shares and median worked out from them, so the
+	Total row is the whole's share rather than the average of the sources'."""
+	replies = row.pop("replies")
+	row["replied"] = round(100 * len(replies) / row["leads"], 1) if row["leads"] else 0.0
+	row["first_reply"] = round(median(replies), 1) if replies else None
+	row["conversion"] = round(100 * row["won"] / row["leads"], 1) if row["leads"] else 0.0
+	return row
 
 
 def _row(source) -> dict:
@@ -63,7 +75,7 @@ def _columns() -> list[dict]:
 		{"fieldname": "source", "label": _("Source"), "fieldtype": "Data", "width": 160},
 		{"fieldname": "leads", "label": _("Leads"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "replied", "label": _("Replied (%)"), "fieldtype": "Percent", "width": 110},
-		{"fieldname": "first_reply", "label": _("Median First Reply (Hours)"), "fieldtype": "Float", "width": 190},
+		{"fieldname": "first_reply", "label": _("Median First Reply (Hours)"), "fieldtype": "Float", "precision": 1, "width": 190},
 		{"fieldname": "deals", "label": _("Opportunities"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "won", "label": _("Won"), "fieldtype": "Int", "width": 80},
 		{"fieldname": "won_value", "label": _("Won Value"), "fieldtype": "Currency", "width": 140},

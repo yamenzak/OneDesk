@@ -31,7 +31,9 @@ Each answer that comes from another record opens it.
 answered, no answer or busy, how long, and what was said. It goes on the
 timeline beside the mail and the comments, and counts as the last contact.
 
-**Everything said is on one timeline**, under Activities: comments, calls, mail
-sent and received, stage changes and every edit. Write a note in the comment
-box there; notes are comments. An opportunity made from a lead brings the
-lead's comments and mail with it (CRM Settings).
+**Everything said is on one timeline**, under Activity in the panel beside the
+record: comments, calls, mail sent and received, stage changes and every edit.
+Write a note in the comment box there; notes are comments. The record's own
+Activities tab keeps the open tasks and events, with New Task and New Event.
+An opportunity made from a lead brings the lead's comments and mail with it
+(CRM Settings).

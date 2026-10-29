@@ -130,8 +130,8 @@ def onecrm_an_opportunity_says_where_its_sale_went():
 @check
 def onecrm_campaigns_prospects_and_meetings():
 	"""What Omar's Campaign and Selling groups list: each campaign counts the
-	leads it brought in Campaign Efficiency, the mail campaign is under way
-	to its email group, the prospect holds its lead, and the meeting booked
+	leads it brought in Campaign Efficiency, the mail campaign says where it
+	is by its dates (a week's mailing made with the demo has ended since), the prospect holds its lead, and the meeting booked
 	with Marcus is on Omar's own calendar, not everyone's."""
 	from frappe.desk.query_report import run
 
@@ -139,8 +139,9 @@ def onecrm_campaigns_prospects_and_meetings():
 		rows = run("Campaign Efficiency", {"from_date": str(add_days(today(), -400)), "to_date": today()})["result"]
 		counted = {row["utm_campaign"]: row["lead_count"] for row in rows}
 		assert counted.get("Dubai Design Week 2026") == 2 and counted.get("Hotel Refit Mailer") == 2, rows
-		mailing = frappe.get_all("Email Campaign", filters={"recipient": "Hotel Owners"}, fields=["status"])
-		assert mailing and mailing[0].status in ("Scheduled", "In Progress"), mailing
+		mailing = frappe.get_all("Email Campaign", filters={"recipient": "Hotel Owners"}, fields=["status", "end_date"])
+		ended = mailing and getdate(mailing[0].end_date) < getdate(today())
+		assert mailing and mailing[0].status in (("Completed",) if ended else ("Scheduled", "In Progress")), mailing
 		assert frappe.get_all("Prospect Lead", filters={"parent": "Erdem Towers"}, pluck="lead_name")
 		meeting = frappe.get_all("Appointment", filters={"customer_email": "marcus@webbhosp.example"}, fields=["calendar_event"])
 		assert meeting and meeting[0].calendar_event, meeting

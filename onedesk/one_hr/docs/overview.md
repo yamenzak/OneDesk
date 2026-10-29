@@ -16,8 +16,9 @@ The rail on the left has the whole of OneHR in it:
   the last payroll and the open positions, and an **Overview** of the people,
   their time, their pay and hiring. **Everything**, **Reports** and **Setup**
   list the whole of OneHR with what each is for.
-- **Overview** — who is in, who is absent, who is on leave, and flagged
-  check-ins waiting for a look.
+- **Overview** — the people at a glance: headcount, who joined and who left,
+  and the company by department, age and gender. Who is in, absent and on
+  leave today is **Attendance Overview**, under Time.
 - **Employee**, **Org Chart** (who reports to whom, drawn from each
   employee's **Reports To**) and **Setup** (see Setup below).
 - **Time**, **Leave**, **Pay**, **Tax & Benefits**, **Expenses**, **Hiring**,

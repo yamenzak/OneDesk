@@ -13,7 +13,7 @@ group under it, one status (In Stock, Low, Short or Out of Stock, the worst
 that is true), then **Actual Qty** (on hand), **Reserved Qty** (promised to
 customers), **Available Qty** (on hand, less what is promised), **Ordered
 Qty** (on order) and its **Stock Value**. A quantity carries its unit, and
-nothing is a dash. On a phone a line keeps the picture, the name, the status
+none at all is a dash, so the figures that matter stand out. On a phone a line keeps the picture, the name, the status
 and Available Qty. An item opens on its own page. The page changes as stock
 moves.
 

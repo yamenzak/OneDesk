@@ -68,6 +68,7 @@ def run(password=None):
 			from onedesk.one_crm.record import log_call
 
 			log_call("Lead", lead.name, "Outgoing", "Answered" if len(first) % 2 else "No Answer", 4, f"First call with {first}.")
+			_answered_after(lead.name, hours=1 + len(first) % 6)
 
 		from erpnext.crm.doctype.opportunity.mapper import make_quotation
 
@@ -313,6 +314,13 @@ def _dated_moves(deal: str, opened, closed):
 	for i, name in enumerate(moves):
 		day = add_days(opened, round(span * i / max(len(moves) - 1, 1)))
 		_back("Milestone", name, day)
+
+
+def _answered_after(lead: str, hours: int) -> None:
+	"""The demo makes a lead and calls it in the same second; a real first
+	call comes some hours later, and Lead Sources measures that wait."""
+	made = frappe.db.get_value("Lead", lead, "creation")
+	frappe.db.set_value("Lead", lead, "one_first_reply_at", add_to_date(made, hours=hours), update_modified=False)
 
 
 def _back(doctype: str, name: str, day):

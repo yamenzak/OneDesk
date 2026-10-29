@@ -14,7 +14,8 @@ Campaign Efficiency is under Reports.
 The workspace's mailboxes are in OneMail › Settings.
 
 A Sales Manager runs Email Campaign, Email Group, Lead Source and Assignment
-Rule, and a Sales User reads them.
+Rule, and a Sales User reads them. The **Get in Touch Form** is a web form,
+which the workspace's administrators change; others do not see the row.
 
 ## Forms
 

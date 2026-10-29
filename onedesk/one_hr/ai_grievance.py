@@ -120,21 +120,28 @@ def trusted_users() -> list[str]:
 	)
 
 
+def _hr(user: str) -> bool:
+	return bool({"HR User", TRUSTED} & set(frappe.get_roles(user)))
+
+
 def _trusted(user: str) -> bool:
 	return user == "Administrator" or TRUSTED in frappe.get_roles(user)
 
 
 def query(user: str | None = None) -> str:
-	"""A sensitive grievance is left out of every list but its raiser's and HR Managers'."""
+	"""Somebody outside HR sees the grievances they raised and nobody else's;
+	HR sees the rest, and a sensitive one is left to its raiser and HR Managers."""
 	user = user or frappe.session.user
 	if _trusted(user):
 		return ""
 	mine = own.employee_of(user)
-	return (
-		"(ifnull(`tabEmployee Grievance`.one_ai_sensitive, 0) = 0"
-		f" or `tabEmployee Grievance`.raised_by = {frappe.db.escape(mine or '-')}"
-		f" or `tabEmployee Grievance`.owner = {frappe.db.escape(user)})"
+	theirs = (
+		f"`tabEmployee Grievance`.raised_by = {frappe.db.escape(mine or '-')}"
+		f" or `tabEmployee Grievance`.owner = {frappe.db.escape(user)}"
 	)
+	if not _hr(user):
+		return f"({theirs})"
+	return f"(ifnull(`tabEmployee Grievance`.one_ai_sensitive, 0) = 0 or {theirs})"
 
 
 def allowed(doc, ptype=None, user=None, debug=False) -> bool:
@@ -146,7 +153,7 @@ def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	can only take permission away; True leaves HRMS's own rules to decide.
 	"""
 	user = user or frappe.session.user
-	if not cint(doc.get("one_ai_sensitive")) or _trusted(user):
+	if _trusted(user) or (_hr(user) and not cint(doc.get("one_ai_sensitive"))):
 		return True
 	if doc.get("owner") == user or (doc.get("raised_by") and doc.get("raised_by") == own.employee_of(user)):
 		return True

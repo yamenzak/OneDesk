@@ -55,7 +55,7 @@
         </li>
       </ul>
 
-      <Section v-if="said.plant.warehouse" :title="__('Stock Here')" icon="lucide-package" :aside="said.plant.warehouse" class="mt-6">
+      <Section v-if="said.plant.warehouse" :title="__('Stock Here')" icon="lucide-package" :aside="said.plant.place || said.plant.warehouse" class="mt-6">
         <p v-if="!said.stock.length" class="py-3 text-base text-ink-gray-5">{{ __("Nothing kept here") }}</p>
         <List v-else :columns="stockColumns" divider="full" :row-height="52" class="-mx-3 list-gap-4 list-row-px-3">
           <ListHeader>

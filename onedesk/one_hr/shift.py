@@ -2,7 +2,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import format_timedelta
+from frappe.utils import format_time
 
 from onedesk.one_hr import decision
 
@@ -85,7 +85,7 @@ def hours(shift_type: str) -> str:
 	)
 	if starts is None or ends is None:
 		return ""
-	return f"{format_timedelta(starts)[:5]} – {format_timedelta(ends)[:5]}"
+	return f"{format_time(str(starts))} – {format_time(str(ends))}"
 
 
 def _answer(name: str, verdict: str, note) -> None:

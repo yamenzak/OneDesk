@@ -467,7 +467,7 @@ onedesk.shell.Editor = class Editor {
 			// A kind whose home is a row of this rail lights that row, before
 			// frappe's own match, which would light the rail's Home for any
 			// list under it (/desk/onehr/department).
-			const asked = frappe.get_route();
+			const asked = frappe.get_route() || [];
 			const kept = ["Form", "List"].includes(asked[0]) && homes(asked[1]);
 			// A rail's own rows carry its name (/desk/onehr/one?center=…).
 			const tail = kept && kept[0].route.replace(/^\/desk/, "");
@@ -475,7 +475,15 @@ onedesk.shell.Editor = class Editor {
 			if (exact && light(this, exact.first().parent())) return true;
 			// A kind with a home that is no row of this rail (One's Lists, in
 			// the nav pane's own tree) lights nothing rather than Home.
-			if (!kept && found.call(this)) return true;
+			// frappe decodes the address, and cannot decode a name with a
+			// bare % in it.
+			let matched = false;
+			try {
+				matched = !kept && found.call(this);
+			} catch {
+				matched = false;
+			}
+			if (matched) return true;
 			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
 			const row = (path) =>
 				$(".item-anchor[href]")
@@ -483,7 +491,7 @@ onedesk.shell.Editor = class Editor {
 					.toArray()
 					.filter((a) => list(a.getAttribute("href")) === list(path))
 					.sort((a, b) => narrows(a) - narrows(b))[0];
-			const route = frappe.get_route();
+			const route = frappe.get_route() || [];
 			const home = ["Form", "List"].includes(route[0]) && homes(route[1]);
 			const path = home ? home[0].route : route[0] === "Form" ? `/desk/${frappe.router.slug(route[1])}` : window.location.pathname;
 			// A home in a centre (/desk/one?center=…) was a row only if it matched
@@ -492,6 +500,88 @@ onedesk.shell.Editor = class Editor {
 			const found_row = row(path) || (route[0] === "Form" ? null : row(window.location.pathname));
 			return light(this, found_row && $(found_row).parent());
 		};
+
+		// The row a page was reached from stays lit where the page is no row
+		// of its own. A rail row whose page moves its address (Mark
+		// Attendance) lit Home, whose address every page of the rail begins
+		// with, and so did a list opened from Home's Setup; now the row clicked
+		// stays lit, and a page opened from another keeps that page's row.
+		const own = Sidebar.prototype.find_active_item;
+		const href = ($row) => $row && $row.find(".item-anchor[href]").first().attr("href");
+		const here = () => window.location.pathname + window.location.search;
+		let at = null;
+		let held = null;
+		$(document).on("click", ".body-sidebar .sidebar-items .item-anchor[href]", (e) => {
+			onedesk.shell.clicked = e.currentTarget.getAttribute("href");
+		});
+		Sidebar.prototype.find_active_item = function () {
+			const was = href(this.active_item);
+			const found = own.call(this);
+			const now = here();
+			if (now !== at) {
+				const clicked = onedesk.shell.clicked;
+				onedesk.shell.clicked = null;
+				const lit = href(this.active_item);
+				const own_row = lit && list(lit) === list(window.location.pathname);
+				const home = $(".body-sidebar .sidebar-items .item-anchor[href]").first().attr("href");
+				const weak = !lit || lit === home;
+				held = own_row ? null : clicked || (weak && was && was !== lit ? was : null);
+				at = now;
+			}
+			if (!held) return found;
+			const $held = $(".body-sidebar .sidebar-items .item-anchor[href]")
+				.filter((_i, a) => a.getAttribute("href") === held)
+				.first();
+			return $held.length ? light(this, $held.parent()) : found;
+		};
+	}
+
+	// A rail's row into a centre (Lists, /desk/one?center=settings&module=…)
+	// opens it over the page the reader is on, rather than taking them to
+	// One's Home to open it there; a Lists row for a reader with no lists of
+	// that app is not drawn.
+	const centre = (a) => {
+		const url = new URL(a.getAttribute("href"), window.location.origin);
+		const asked = Object.fromEntries(url.searchParams);
+		return url.pathname === "/desk/one" && asked.center ? asked : null;
+	};
+	document.addEventListener(
+		"click",
+		(e) => {
+			const a = e.target.closest && e.target.closest(".body-sidebar .sidebar-items .item-anchor[href]");
+			const asked = a && !e.metaKey && !e.ctrlKey && centre(a);
+			if (!asked) return;
+			e.preventDefault();
+			e.stopImmediatePropagation();
+			onedesk.centers.open(asked.center, asked);
+		},
+		true
+	);
+	if (Sidebar && !Sidebar.prototype.__one_centre_rows) {
+		Sidebar.prototype.__one_centre_rows = true;
+		const made = Sidebar.prototype.make_sidebar;
+		Sidebar.prototype.make_sidebar = function (...args) {
+			const said = made.apply(this, args);
+			this.wrapper.find(".item-anchor[href*='at=lists']").each((_i, a) => {
+				const asked = centre(a);
+				const none = asked && asked.module && !((frappe.boot.one_lists || {})[asked.module] || []).length;
+				$(a).closest(".sidebar-item-container").toggle(!none);
+			});
+			return said;
+		};
+	}
+
+	// A page that changes its own address in place (Home's tabs) asks the
+	// rail to light the row for it.
+	for (const method of ["pushState", "replaceState"]) {
+		const said = history[method];
+		if (said.one_rail) continue;
+		history[method] = function (...args) {
+			const out = said.apply(this, args);
+			setTimeout(() => frappe.get_route() && frappe.app && frappe.app.sidebar && frappe.app.sidebar.highlight_active_item && frappe.app.sidebar.highlight_active_item(), 0);
+			return out;
+		};
+		history[method].one_rail = true;
 	}
 
 	// The sidebar's header names the space and opens nothing: frappe's menu on

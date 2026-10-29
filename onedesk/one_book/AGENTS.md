@@ -54,6 +54,18 @@ fails a small business on first use or leaves a question unanswered.
   named as ERPNext names what it opens; its single-figure functions stay for
   the demo's checks and OneAI. The `OneBook` workspace and its six number
   cards were Home until the page replaced them (`patches/home_is_a_page`).
+  A report reaches Home's directory only when the reader may read its
+  `ref_doctype`, it is not disabled, and (`WHEN`) the workspace has what it
+  reads: the consolidated statements wait for a second company, Tax
+  Withholding for a category, and so on. Accounts Receivable opens on
+  payment terms, as Home counts what is late, and Accounts Payable on
+  suppliers, since employees' payables are OneHR's; the rail rows carry the
+  same filters, and the two invoice rows `is_return=0` so a credit note's
+  filter never stays on the list.
+- `custom/journal_entry_account.json` — Party Type leaves the journal
+  grid, which holds ten column units; with it the Credit column fell off.
+- `bank.py` — where the Bank Reconciliation Tool opens: the account with
+  lines still to match, back to the oldest of them (book_control.js).
 - `custom/` — **Outstanding Amount** is a column of both invoice lists, as
   Frappe Books' lists show what is still due beside the total; **Paid
   Amount** a column of the payments, in place of the two accounts; and
@@ -214,7 +226,10 @@ of its own, and frappe's builder can't add one up. ERPNext's six
   expenses) sums a field on each bill that somebody is meant to type, so an
   untouched bill reclaims nothing and the VAT is paid twice: `reclaimed`
   (Purchase Invoice validate) keeps it at the bill's VAT until somebody types
-  their own figure (`recoverable`, pure). `emirate` (Sales Invoice validate)
+  their own figure (`recoverable`, pure). A bill submitted before that hook
+  existed claims nothing; `unreclaimed` finds them, the Books Check counts
+  them, and `reclaim` (its fix, and `patches/bills_reclaim_their_vat`) fills
+  each from its own VAT. `emirate` (Sales Invoice validate)
   copies the address's emirate onto an invoice not made on its page, since
   Frappe only fetches it there. The Tax Return reads tax rows of submitted
   invoices, bills and expense claims, grouped by account and rate (`lines`,

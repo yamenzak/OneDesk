@@ -10,7 +10,7 @@
           </button>
           <Badge v-if="one.default" :label="__('Default')" theme="blue" size="sm" />
         </div>
-        <div v-for="(line, i) in one.lines" :key="i" class="truncate text-sm text-ink-gray-5">{{ line }}</div>
+        <div v-for="(line, i) in one.lines" :key="i" class="text-sm text-ink-gray-5 [overflow-wrap:anywhere]">{{ line }}</div>
         <div v-if="one.row" class="mt-1 flex items-center gap-1.5 whitespace-nowrap text-sm text-ink-gray-5">
           {{ __("Part Number") }}
           <FieldEdit :form="form" table="supplier_items" :row="one.row" field="supplier_part_no" :label="__('Part Number')" :hold="one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" />

@@ -30,6 +30,7 @@ REGIONAL = {
 	"one_book/report/books_check/books_check.js": "the UAE company's TRN and emirate",
 	"one_book/patches/invoices_say_their_vat.py": "an old patch, by its name",
 	"one_book/patches/tax_return.py": "removes the old VAT Return report",
+	"one_book/patches/bills_reclaim_their_vat.py": "box 9 of the UAE return, filled on old bills",
 	"one_hr/papers.py": "the employee documents each country asks for",
 	"one_project/retention.py": "the countries where retention is taxed when released",
 	"one_ai/reading/identifiers.py": "the EU VAT number on a supplier's invoice",

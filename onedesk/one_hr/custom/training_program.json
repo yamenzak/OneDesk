@@ -17,6 +17,14 @@
    "property": "title_field",
    "property_type": "Data",
    "value": ""
+  },
+  {
+   "doc_type": "Training Program",
+   "doctype_or_field": "DocField",
+   "field_name": "training_program",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0"
   }
  ],
  "sync_on_migrate": 1

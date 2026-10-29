@@ -58,10 +58,12 @@ const orders = computed(() =>
     dim: one.due ? (one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)])) : "",
     below: [one.name, one.project_name].filter(Boolean).join(" · "),
     badge: one.short === undefined ? null : one.short > 0 ? { label: __("{0} short", [quantity(one.short)]), theme: "amber" } : { label: __("Can Go Now"), theme: "green" },
-    value: __("{0} of {1} delivered", [quantity(one.done), quantity(one.qty, uom.value)]),
+    value: one.billed_only
+      ? __("{0} of {1} billed", [quantity(one.qty - one.left), quantity(one.qty, uom.value)])
+      : __("{0} of {1} delivered", [quantity(one.done), quantity(one.qty, uom.value)]),
     route: `/desk/sales-order/${encodeURIComponent(one.name)}`,
     actions: [
-      selling.value.can["Delivery Note"] && one.left > 0 && { label: __("Deliver"), icon: "lucide-truck", onClick: () => mapped("deliver", one.name) },
+      selling.value.can["Delivery Note"] && !one.billed_only && one.left > 0 && { label: __("Deliver"), icon: "lucide-truck", onClick: () => mapped("deliver", one.name) },
       selling.value.can["Sales Invoice"] && one.to_bill && { label: __("Invoice"), icon: "lucide-receipt", onClick: () => mapped("invoice", one.name) },
     ].filter(Boolean),
   }))

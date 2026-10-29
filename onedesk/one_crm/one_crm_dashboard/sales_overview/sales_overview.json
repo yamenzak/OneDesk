@@ -1,0 +1,37 @@
+{
+ "creation": "2026-10-29 12:00:00.000000",
+ "modified": "2026-10-29 12:00:00.000000",
+ "modified_by": "Administrator",
+ "owner": "Administrator",
+ "docstatus": 0,
+ "idx": 0,
+ "doctype": "Dashboard",
+ "name": "Sales Overview",
+ "dashboard_name": "Sales Overview",
+ "module": "One CRM",
+ "is_standard": 1,
+ "is_default": 0,
+ "cards": [],
+ "charts": [
+  {
+   "chart": "Incoming Leads",
+   "width": "Full"
+  },
+  {
+   "chart": "Opportunity Trends",
+   "width": "Full"
+  },
+  {
+   "chart": "Won Opportunities",
+   "width": "Full"
+  },
+  {
+   "chart": "Territory Wise Opportunity Count",
+   "width": "Half"
+  },
+  {
+   "chart": "Lead Source",
+   "width": "Half"
+  }
+ ]
+}
