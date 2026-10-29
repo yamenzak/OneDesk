@@ -1010,6 +1010,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_studio/studio_control.js",
 	"/assets/onedesk/js/window/frame.js",
 	"/assets/onedesk/js/window/chrome.js",
+	"/assets/onedesk/js/switching.js",
 	"/assets/onedesk/js/window/nav_tree.js",
 	"/assets/onedesk/js/window/page.js",
 	"/assets/onedesk/js/window/list.js",

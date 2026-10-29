@@ -521,3 +521,12 @@ date and lateness, checklist, what it waits on and hours against plan in the
 panel's Overview, and Complete Task is the head's primary verb. Weight and
 Color are hidden; Issue and Is Template show only when set. On a phone the
 form's buttons are in ⋯, as on every form.
+
+## 2026-10-29 — Switching screens holds, then fades
+
+Opening an app's home for the first time showed the old screen vanish, then
+about 0.4s of empty window and 0.5s of Loading before it drew; the rail never
+moved and nothing reloaded. public/js/switching.js wraps frappe's router in a
+view transition: the old screen stays until the new one has drawn (an
+island's shadow root holds no `.one-loading`, at most 900ms), then fades in
+140ms. The rail and the two bars are named so they stay put.

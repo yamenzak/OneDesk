@@ -866,3 +866,22 @@ body.one-window-dragging * {
 	flex: 1 1 0;
 	min-width: 0;
 }
+
+/* Going to another screen fades across once the next has drawn
+   (switching.js); the rail and the top bar stay where they are. */
+::view-transition-old(root),
+::view-transition-new(root) {
+	animation-duration: 140ms;
+}
+
+#desk-dock {
+	view-transition-name: one-dock;
+}
+
+header.one-bar {
+	view-transition-name: one-bar;
+}
+
+footer.one-bar {
+	view-transition-name: one-foot;
+}
