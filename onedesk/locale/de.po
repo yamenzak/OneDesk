@@ -59310,3 +59310,10 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+#: onedesk/one_task/tour.py
+msgid "A Column for Each Status"
+msgstr "Eine Spalte je Status"
+
+#: onedesk/one_task/tour.py
+msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
+msgstr "Ziehen Sie eine Aufgabe nach Abgeschlossen, wenn sie erledigt ist, oder messen Sie ihre Zeit mit der Play-Taste auf ihrer Karte."

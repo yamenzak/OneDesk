@@ -2754,6 +2754,13 @@ OVERRIDES = [
 		"get_effective_filters(extra) {",
 	),
 	(
+		"My Tasks and the Inbox are boards of the reader's own tasks",
+		"task_kanban.js wraps KanbanV2Page.get_effective_filters to add the reader's assignment (and no project for the Inbox), and setup_meta to name the two boards in the reader's language and put the add bar over them",
+		"onedesk/public/js/one_task/task_kanban.js",
+		"frappe/frappe/public/js/frappe/views/kanban_v2/kanban_page.js",
+		"setup_meta() {",
+	),
+	(
 		"The Projects Report view reads each project's name in the Project column",
 		"project_list.js adds project_name to ReportView.get_fields and records each row's title in prepare_data, so the name column (a Link to Project) draws the name and not the ID",
 		"onedesk/public/js/project_list.js",

@@ -50,20 +50,6 @@ PLACES = {
 			},
 		},
 	},
-	"onetask": {
-		"label": "OneTask",
-		"record": "Task",
-		"events": {
-			"listed": {
-				"about": _lt("OneTask shows one of its views of the reader's tasks."),
-				"gives": (
-					"tasks.view (mine or inbox); tasks.groups, each with key (overdue, today, week, later, someday), "
-					"label and tasks, each with name, subject, priority, due, project, project_title, is_milestone"
-				),
-				"may": ("note", "action"),
-			},
-		},
-	},
 	"onetask_task": {
 		"label": "OneTask",
 		"record": "Task",

@@ -312,7 +312,7 @@ function report() {
   });
   props.onStatus?.(indicator("Task", { status: s.status }));
   extended(s);
-  props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/my-tasks") })]);
+  props.onActions?.([...actions(s), ...verbs, ...record.menu({ gone: () => go("/desk/task/view/kanban/My Tasks") })]);
 }
 const timed = async () => {
   running.value = name.value && said.value?.can_time !== false ? await call("onedesk.one_task.timer.running") : null;

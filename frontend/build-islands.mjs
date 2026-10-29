@@ -30,7 +30,6 @@ export const ISLANDS = {
 	"onedesk.upkeep": "src/islands/upkeep.js",
 	"onedesk.floor": "src/islands/floor.js",
 	"onedesk.plant": "src/islands/plant.js",
-	"onedesk.my_tasks": "src/islands/my_tasks.js",
 	"onedesk.timers": "src/islands/timers.js",
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",

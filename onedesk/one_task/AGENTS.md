@@ -235,23 +235,18 @@ is:
   colleague is an enabled workspace user, then calls frappe's
   `assign_to.add` as the approver, as the page's Assign does), `task_facts`
   (a task as its page shows it), and the suggestions. `legal.py` is its line in the AI Addendum. The tasks are read
-  as the reader, through the page's own read (`mine.tasks`), so OneAI sees
-  exactly the list they do. A task is only ever suggested; approving the card
+  as the reader (`mine.tasks`), with the same filters as the boards. A task is only ever suggested; approving the card
   makes it, and gives it to whoever the card names then (capture.py), which
   tells them (tell.py). Steps are suggested the same way, as a change to the
   task's checklist the reader approves.
-- `mine.py`, `page/my_tasks` and `frontend/src/task/MyTasks.vue` — OneTask's
-  page, the `onedesk.my_tasks` island: frappe-ui's Sidebar for the column,
-  the two views (`?section=inbox`) and their counts, then one frappe-ui List
-  grouped by when each task is due, and `frappe.realtime` on Task and ToDo.
-  The server only reads, as the reader, and groups (`when` is pure). Two
-  views: **My Tasks**, everything assigned to the reader, and the **Inbox**,
-  their work in no project, made by them or given to them (`_filters`). Each
-  task says how many open tasks it waits on (`_waiting`), leaving out a
-  parent's own sub-tasks, which ERPNext lists in its Depends On. Adding and
-  ticking are frappe's own insert and set_value from the page, so every rule
-  a task has on its own page holds here, and ERPNext closes a completed
-  task's assignments.
+- `board.py` and `public/js/one_task/task_kanban.js` — **My Tasks** and the **Inbox**
+  are two Kanban Boards on Task by status, made once (`settle`) and shaped
+  as every task board is (one_project/board.py). The script narrows each to
+  its reader (`_assign`, and for the Inbox no project), names it in the
+  reader's language, puts an add bar over it and a timer on every task
+  card. Everything else is frappe's board. `mine.py` reads the same two for
+  OneAI and the reminders, grouped by when each is due (`when` is pure),
+  with how many open tasks each waits on (`_waiting`).
 
   Where a task opens is `place`: its project's page, or for a step of an
   onboarding or a separation (HRMS's checklist project, one_hr/lifecycle.py)
@@ -264,12 +259,11 @@ is:
 - **Its one ability**, See Every Task, is `abilities.py` with its Permission
   Type in `permission_type/`, a OneTask Manager's; `access.py` reads it in
   both `allowed` and `query` (`every`).
-- **Setup** needs nothing (`setup.py`), **its tour** is `tour.py` over My
-  Tasks' marks, and **OneAI's reach** is `ai.py`'s REACH and NOT_FOR_AI.
+- **Setup** needs nothing (`setup.py`), **its tour** is `tour.py` over the
+  board's marks, and **OneAI's reach** is `ai.py`'s REACH and NOT_FOR_AI.
 - **Its foot and settings** are `public/js/one_task/task_control.js`.
-- **My Tasks** sits on OneTask's rail: the island (`frontend/src/task/
-  MyTasks.vue`) draws no column of its own, and Add Task is the page's
-  primary action. The task page keeps the rail too.
+- **My Tasks** sits on OneTask's rail as a board, and Add Task is the
+  board's own. The task page keeps the rail too.
 
 ## The plan
 

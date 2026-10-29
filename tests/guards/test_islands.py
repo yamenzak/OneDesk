@@ -130,7 +130,7 @@ def test_what_an_island_says_is_translated():
 			assert not re.search(r"[A-Za-z]{2,}", words), f"{path.name} says {words!r} untranslated"
 
 
-TICKED = {"task/TaskPage.vue", "task/MyTasks.vue", "project/TaskPanel.vue"}
+TICKED = {"task/TaskPage.vue", "project/TaskPanel.vue"}
 # Rows picked to act on together, as frappe's list view picks them.
 PICKS = {"mail/MailList.vue"}
 

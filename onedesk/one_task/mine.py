@@ -42,13 +42,13 @@ VIEWS = ("mine", "inbox")
 
 
 def _filters(view: str, user: str) -> tuple[list, list | None]:
-	"""What a view lists, as `filters` and `or_filters`. The Inbox is the work
-	outside any project that is the reader's: made by them, or given to them
-	(a task OneAI made about a supplier, say)."""
+	"""What a view lists, as `filters` and `or_filters`. The Inbox is what is
+	given to the reader outside any project, as its board shows it
+	(one_task/task_kanban.js): a task they made is theirs (capture.py)."""
 	if view == "inbox":
 		return (
-			[["project", "is", "not set"], ["is_template", "=", 0], ["status", "not in", DONE]],
-			[["owner", "=", user], ["_assign", "like", f'%"{user}"%']],
+			[["_assign", "like", f'%"{user}"%'], ["project", "is", "not set"], ["is_template", "=", 0], ["status", "not in", DONE]],
+			None,
 		)
 	return [["_assign", "like", f'%"{user}"%'], ["status", "not in", DONE]], None
 

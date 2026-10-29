@@ -394,9 +394,14 @@ WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/n
 
 
 def _draws(mark: str, code: str) -> bool:
-	"""A mark is drawn as written, or bound to the one element that carries it
-	(`:data-tour="first ? 'mark' : undefined"`), such as a list's first row."""
-	return f'data-tour="{mark}"' in code or bool(re.search(rf"data-tour=\"[^\"]*'{re.escape(mark)}'", code))
+	"""A mark is drawn as written, bound to the one element that carries it
+	(`:data-tour="first ? 'mark' : undefined"`), such as a list's first row, or
+	set on an element frappe draws (`.attr("data-tour", "mark")`)."""
+	return (
+		f'data-tour="{mark}"' in code
+		or f'.attr("data-tour", "{mark}")' in code
+		or bool(re.search(rf"data-tour=\"[^\"]*'{re.escape(mark)}'", code))
+	)
 
 
 def test_a_module_ships_a_tour_of_its_screen():

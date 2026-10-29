@@ -61,6 +61,7 @@ after_sync = [
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
+	"onedesk.one_task.board.settle",
 	"onedesk.one_project.progress.settle",
 	"onedesk.one_project.retention.ready",
 	"onedesk.one_project.kinds.settle",
@@ -116,6 +117,7 @@ after_migrate = [
 	"onedesk.one_hr.access.settle",
 	"onedesk.one_task.access.settle",
 	"onedesk.one_project.board.settle",
+	"onedesk.one_task.board.settle",
 	"onedesk.one_project.progress.settle",
 	"onedesk.one_project.retention.ready",
 	"onedesk.one_project.kinds.settle",
@@ -876,7 +878,7 @@ doctype_tree_js = {
 	"Warehouse": "public/js/warehouse_tree.js",
 }
 doctype_calendar_js = {"Project": "public/js/project_calendar.js", "Task": "public/js/task_calendar.js"}
-doctype_kanban_js = {"Project": "public/js/project_kanban.js"}
+doctype_kanban_js = {"Project": "public/js/project_kanban.js", "Task": "public/js/one_task/task_kanban.js"}
 
 doctype_list_js = {
 	"Sales Stage": "public/js/one_crm/sales_stage_list.js",

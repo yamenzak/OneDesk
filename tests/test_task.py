@@ -47,10 +47,10 @@ def test_the_calendar_does_not_show_a_task_twice():
 def test_the_inbox_is_the_tasks_in_no_project():
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
 	inbox = next(item for item in rail["items"] if item["label"] == "Inbox")
-	assert inbox["url"] == "/desk/my-tasks?section=inbox"
+	assert inbox["url"] == "/desk/task/view/kanban/Inbox"
 	assert [item["label"] for item in rail["items"] if item["type"] == "Link"] == ["My Tasks", "Inbox", "Task", "Delayed Tasks Summary", "Task Type"]
-	inbox = _body((TASK / "mine.py").read_text(), "_filters")
-	assert '["project", "is", "not set"]' in inbox and '["owner", "=", user], ["_assign", "like"' in inbox
+	board = (tree.APP / "public" / "js" / "one_task" / "task_kanban.js").read_text()
+	assert '["Task", "project", "is", "not set"]' in board and '["Task", "_assign", "like", `%"${frappe.session.user}"%`]' in board
 	dock = json.loads((tree.APP / "dock" / "onedesk" / "onedesk.json").read_text())
 	assert any(item["link_to"] == "OneTask" for item in dock["items"])
 
@@ -73,13 +73,16 @@ def test_my_tasks_are_grouped_by_when_they_are_due():
 	assert said == ["none", "overdue", "today", "tomorrow", "week", "later"]
 
 
-def test_my_tasks_writes_through_frappe_and_reads_as_the_reader():
-	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
-	assert 'setValue("Task", task.name, "status"' in page and 'insert({ doctype: "Task"' in page
+def test_my_tasks_is_frappes_kanban_with_a_bar_and_a_timer():
+	board = (tree.APP / "public" / "js" / "one_task" / "task_kanban.js").read_text()
+	assert 'frappe.db.insert({ doctype: "Task"' in board and "frappe.kanban_v2.extend_settings(\"Task\"" in board
+	assert '"Task": "public/js/one_task/task_kanban.js"' in HOOKS and '"onedesk.one_task.board.settle"' in HOOKS
+	made = (TASK / "board.py").read_text()
+	assert 'BOARDS = ("My Tasks", "Inbox")' in made and "ignore_permissions=True" in made
 	source = (TASK / "mine.py").read_text()
 	assert 'frappe.get_list(\n\t\t"Task"' in source and "ignore_permissions" not in source
 	rail = json.loads((TASK / "sidebar" / "onetask" / "onetask.json").read_text())
-	assert rail["items"][0]["link_to"] == "my-tasks", "OneTask opens on My Tasks"
+	assert rail["items"][0]["url"] == "/desk/task/view/kanban/My Tasks", "OneTask opens on My Tasks"
 
 
 def _load(path, names, **space):
@@ -145,8 +148,8 @@ def test_the_timer_writes_the_persons_timesheet_through_its_own_save():
 	assert "now_datetime()" in source and "pause()" in source.split("def start(", 1)[1].split("\ndef ", 1)[0]
 	assert '"one_timers"' in source and "set_user_default" in source, "the paused are the person's own, and every screen hears"
 	assert '"/assets/onedesk/js/task_timer.js"' in HOOKS and '"Task": "public/js/task.js"' in HOOKS
-	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
-	assert 'can("create", "Timesheet")' in page
+	board = (tree.APP / "public" / "js" / "one_task" / "task_kanban.js").read_text()
+	assert 'frappe.model.can_create("Timesheet")' in board and '"onedesk.one_task.timer.start"' in board
 
 
 def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
@@ -154,14 +157,6 @@ def test_a_repeat_is_due_when_it_repeats_and_given_to_the_same_people():
 	custom = json.loads((TASK / "custom" / "task.json").read_text())
 	assert any(p["property"] == "allow_auto_repeat" and p["value"] == "1" for p in custom["property_setters"])
 	assert any(f["fieldname"] == "auto_repeat" for f in custom["custom_fields"])
-
-
-def test_my_tasks_keeps_its_rail_and_listens():
-	assert "hide_sidebar" not in (TASK / "page" / "my_tasks" / "my_tasks.js").read_text(), "My Tasks keeps OneTask's rail"
-	page = (tree.ROOT / "frontend" / "src" / "task" / "MyTasks.vue").read_text()
-	assert 'followList("Task"' in page and 'followList("ToDo"' in page
-	assert 'setQuery("section"' in page, "the open view is in the address, where OneAI reads it"
-	assert '"one_about_doctype"' in (TASK / "mine.py").read_text(), "what OneIntake's task is about is shown"
 
 
 def test_a_task_given_is_said_in_ours_and_a_task_done_is_told():

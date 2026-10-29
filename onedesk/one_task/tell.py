@@ -298,7 +298,7 @@ def today() -> None:
 		notify.notify(
 			"Today's Tasks",
 			person.name,
-			link="/desk/my-tasks",
+			link="/desk/task/view/kanban/My Tasks",
 			sender="Administrator",
 			count=len(listed),
 			tasks=_lines([f"{said[group]} · {one.subject}" for group, one in listed]),

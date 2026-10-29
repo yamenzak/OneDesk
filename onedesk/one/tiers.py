@@ -164,7 +164,6 @@ SCREENS = {
 	"quotes": "asking suppliers for prices, their answers and the comparison (Request for Quotation, Supplier Quotation)",
 	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",
 	"plant": "a floor's workstations, their status and the stock kept on the floor (Plant Floor, Workstation)",
-	"my-tasks": "the reader's own tasks, grouped, drawn with frappe-ui (Task)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",

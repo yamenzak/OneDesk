@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 66 | 2 | 35 | 0 |
+| onedesk | 65 | 2 | 35 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -60,7 +60,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | upkeep (`frontend/src/inventory/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | – | – | – |
 | floor (`frontend/src/inventory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
 | plant (`frontend/src/inventory/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
-| my_tasks (`frontend/src/task/MyTasks.vue`) | Task, Task Depends On, Timesheet, Timesheet Detail | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
@@ -1048,4 +1047,4 @@ Pages: onecloud (on a rail or a home).
 ## onedesk / One Task
 
 
-Pages: my-tasks (on a rail or a home); task-view (inside: a Task opens on it); timers (opened by our screens).
+Pages: task-view (inside: a Task opens on it); timers (opened by our screens).

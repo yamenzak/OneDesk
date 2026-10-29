@@ -1,7 +1,7 @@
 """OneTask's tours (one/tours.py, docs/READY.md mechanism 10), one for each
 area of its screens, found by the mark at `at`; each step points at a
-`data-tour` mark, the window's own (window-*) or OneTask's. My Tasks has one
-area, the list of what is yours, with OneTask's rail beside it."""
+`data-tour` mark, the window's own (window-*) or OneTask's. My Tasks is a
+board (task_kanban.js marks it), with OneTask's rail beside it."""
 
 from frappe import _lt
 
@@ -21,8 +21,8 @@ MY_TASKS = [
 	{
 		"target": "onetask-list",
 		"side": "top",
-		"title": _lt("Due First"),
-		"text": _lt("Tasks come by when they are due; tick one when it is done, or time it with the play button."),
+		"title": _lt("A Column for Each Status"),
+		"text": _lt("Drag a task to Completed when it is done, or time it with the play button on its card."),
 	},
 	{
 		"target": "window-tour",

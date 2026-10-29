@@ -20,11 +20,11 @@
    "is_default_module": 1,
    "keep_closed": 0,
    "label": "My Tasks",
-   "link_type": "Page",
+   "link_type": "URL",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "my-tasks",
-   "icon": "list-checks"
+   "icon": "list-checks",
+   "url": "/desk/task/view/kanban/My Tasks"
   },
   {
    "child": 0,
@@ -37,7 +37,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "inbox",
-   "url": "/desk/my-tasks?section=inbox"
+   "url": "/desk/task/view/kanban/Inbox"
   },
   {
    "child": 0,

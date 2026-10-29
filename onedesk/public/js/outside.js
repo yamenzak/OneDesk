@@ -136,7 +136,8 @@ onedesk.outside.instead = (sub_path) => {
 		case "file":
 			return name ? null : ["onecloud"];
 		case "todo":
-			return name ? null : ["my-tasks"];
+		case "my-tasks":
+			return name && doctype === "todo" ? null : ["List", "Task", "Kanban", "My Tasks"];
 		case "print-settings":
 			return ["one", { center: "settings", module: "OneStudio", at: "printing" }];
 		case "print-format":

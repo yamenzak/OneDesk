@@ -247,9 +247,9 @@ def onetask_all_tasks_and_its_views_leave_templates_out():
 
 @check
 def onetask_my_tasks_and_the_inbox_are_the_readers_own():
-	"""My Tasks is what is given to the reader, the Inbox their work in no
-	project, made by them or given to them (a task Intake made about a
-	supplier's bill), each read as the reader. A task waiting on open work
+	"""My Tasks is what is given to the reader, the Inbox what is given to them
+	in no project (a to-do of their own, a task Intake made about a supplier's
+	bill), each read as the reader and each a board of frappe's. A task waiting on open work
 	says so, a phase is not waiting on its own sub-tasks, and the late count
 	is the Overdue group."""
 	from onedesk.one_task import ai, mine
@@ -263,7 +263,8 @@ def onetask_my_tasks_and_the_inbox_are_the_readers_own():
 		assert own and own <= names(inbox) <= names(groups), "his own to-dos are on both"
 		late = next((group for group in groups if group["key"] == "overdue"), {"tasks": []})
 		assert counts["late"] == len(late["tasks"]) > 0 and counts["inbox"] == len(names(inbox))
-		assert "made by them or given to them" in ai.page({"page": "my-tasks", "section": "inbox"})
+		assert frappe.db.exists("Kanban Board", "My Tasks") and frappe.db.exists("Kanban Board", "Inbox")
+		assert ai.page({"page": "my-tasks"}) is None, "the boards are frappe's, OneAI reads them as Task"
 	with as_user("rania@one.test"):
 		assert not own & names(mine.tasks("inbox")), "Samir's to-dos are his"
 	with as_user(OWNER):

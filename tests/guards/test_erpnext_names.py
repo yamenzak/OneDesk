@@ -20,7 +20,7 @@ RAILS = {
 	"one_crm": "onecrm",
 }
 
-HOMES = ("inventory", "my-tasks", "books", "onecrm")
+HOMES = ("inventory", "books", "onecrm")
 
 CUSTOM = [APP / module / "custom" for module in RAILS] + [APP / "one_hr" / "custom" / "timesheet.json"]
 

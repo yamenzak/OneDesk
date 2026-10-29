@@ -1,6 +1,6 @@
 # Asking OneAI
 
-On My Tasks, OneAI offers **What should I do first?** and **Add a task…**. It
+On My Tasks and the Task list, OneAI offers **What should I do first?** and **Add a task…**. It
 reads your tasks as you see them. A task it suggests comes on a card, with a
 due date, project, checklist and, if you asked, a colleague to assign it to.
 Nothing is added until you approve the card, and the colleague is told then.

@@ -497,3 +497,9 @@ and on a phone. What it changed in the parts every app shares:
   Manager the billed money and 0 billing hours (erpnext hides the hours and
   leaves the money's copy readable); a Projects Manager reads timesheet
   billing now. Workload dropped a stale assignee that is no user.
+- **My Tasks is frappe's board.** OneTask's own page (an island grouping
+  the reader's tasks by when they were due) is gone; My Tasks and the Inbox
+  are two Kanban Boards on Task by status (one_task/board.py), each narrowed
+  to its reader, the Inbox to what has no project. One adds an add bar over
+  them and a play button on every task card; filters, grouping, settings,
+  the per-column + and dragging a card to Completed are the board's own.

@@ -1,11 +1,11 @@
 # Timing a Task
 
-**Start Timer** on a task's page, or the play button beside it on My Tasks,
+**Start Timer** on a task's page, or the play button on its card on a board,
 starts timing it. **Stop Timer** stops it and shows how much time was added
 to your timesheet.
 
 - Only one timer runs at a time. Starting another pauses the first.
-- My Tasks shows when the running timer started.
+- The running task's card shows a stop button instead of play.
 - A timer stopped within a minute adds nothing.
 
 ## Your Timers

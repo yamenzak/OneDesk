@@ -59310,3 +59310,10 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
 
+#: onedesk/one_task/tour.py
+msgid "A Column for Each Status"
+msgstr "عمود لكل حالة"
+
+#: onedesk/one_task/tour.py
+msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
+msgstr "اسحب المهمة إلى «مكتمل» عند إنجازها، أو احسب وقتها بزر التشغيل على بطاقتها."

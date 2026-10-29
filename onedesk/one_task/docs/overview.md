@@ -13,8 +13,8 @@ else you have to do is here.
 
 | You see | What it is |
 | --- | --- |
-| **My Tasks** | Everything assigned to you that's still open, by due date. See [My Tasks and Inbox](my-tasks). |
-| **Inbox** | Your open tasks with no project yet. |
+| **My Tasks** | A board of everything assigned to you, a column for each status. See [My Tasks and Inbox](my-tasks). |
+| **Inbox** | The same board for what's assigned to you with no project yet. |
 | **Task** | Every task you can see, as a list with its other views. See [Every Task You See](all-tasks). |
 | **Reports** | **Delayed Tasks Summary**, for those who work on projects. See [Repeats, Kinds and Delays](repeats-kinds-delays). |
 | **Setup** | **Task Type**, the kinds of task, for those with access. |
@@ -26,4 +26,4 @@ reloading.
 
 Projects, with their boards, calendars and budgets, are in **OneProject** and
 use the same tasks. A project task assigned to you shows on My Tasks like any
-other, and its project name opens the project.
+other.

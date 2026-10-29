@@ -59368,3 +59368,10 @@ msgstr ""
 msgid "{workspace}: {state}"
 msgstr ""
 
+#: onedesk/one_task/tour.py
+msgid "A Column for Each Status"
+msgstr ""
+
+#: onedesk/one_task/tour.py
+msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
+msgstr ""

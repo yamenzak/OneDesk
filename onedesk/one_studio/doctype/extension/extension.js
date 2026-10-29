@@ -40,7 +40,6 @@ const PLACES = {
 	"onemail.conversation": () => __("In OneMail, when a conversation opens"),
 	"onemail.compose": () => __("When an email is written"),
 	"record_head.drawn": (kind) => __("In the header of each {0}", [kind]),
-	"onetask.listed": () => __("On My Tasks"),
 	"onecloud.file": () => __("In OneCloud, when a file preview opens"),
 	"intake.reading": () => __("In Documents, when a document opens"),
 	"onecrm.board": () => __("On the OneCRM pipeline board"),

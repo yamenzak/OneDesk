@@ -63,7 +63,7 @@ def test_frappes_screens_open_ones_own():
 		'["one", { center: "account", at: "profile" }]',
 		'["one", { center: "account", at: "people" }]',
 		'["onecloud"]',
-		'["my-tasks"]',
+		'["List", "Task", "Kanban", "My Tasks"]',
 		'["one", { center: "settings", module: "OneStudio", at: "printing" }]',
 	):
 		assert route in js

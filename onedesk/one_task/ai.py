@@ -90,9 +90,9 @@ _GIVE = {
 SUGGESTIONS = {
 	f"page:{PAGE}": [_LEFT, _STEPS, _CHANGE, _GIVE],
 	f"page:{PAGE}/time": [_WHO, _LEFT],
-	"page:my-tasks": [_FIRST, _ADD],
-	"page:my-tasks/inbox": [_FIRST, _ADD],
 	"Task": [
+		{**_FIRST, "view": "List"},
+		{**_ADD, "view": "List"},
 		{
 			"label": _lt("Break this into steps"),
 			"ask": _lt(
@@ -130,27 +130,12 @@ def page(said: dict) -> str | None:
 			"my_tasks reads their tasks and task_facts one task with the time logged on it. How timers work is "
 			"in OneTask's documentation (how_to)."
 		)
-	if said.get("page") != "my-tasks":
-		return None
-	where = (
-		"The reader is in OneTask, on the Inbox: their tasks in no project, made by them or given to them"
-		if said.get("section") == "inbox"
-		else "The reader is in OneTask, on My Tasks: everything assigned to them and still to do"
-	)
-	return (
-		where + ". my_tasks reads the list as they see it, grouped by when each is due; plan_task suggests "
-		"a task as a card that adds it when the reader approves, and can give it to a colleague; "
-		"plan_steps suggests the steps of a task's checklist; edit_record on the Task (status, "
-		"exp_end_date or priority) suggests a task done, due another day or more pressing; assign_task "
-		"gives a task to a colleague. Nothing is added or "
-		"changed until the "
-		"reader approves. How OneTask works is in its documentation (how_to)."
-	)
+	return None
 
 
 def my_tasks(
 	view: Annotated[
-		str, "mine for everything assigned to the reader, inbox for their tasks in no project, made by them or given to them."
+		str, "mine for everything assigned to the reader, inbox for what is assigned to them in no project."
 	] = "mine",
 ) -> dict:
 	"""The reader's tasks still to do, in the groups My Tasks shows (Overdue,
