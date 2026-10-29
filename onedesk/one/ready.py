@@ -177,8 +177,14 @@ MODULES = {
 		"folder": "one_inventory",
 		"screens": "inventory",
 		"names": ("one_inventory", "oneinventory"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("getting-ready", "list-checks"),
@@ -200,8 +206,14 @@ MODULES = {
 		"folder": "one_book",
 		"screens": "books",
 		"names": ("one_book", "onebook"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-29", "commit": "25867d017361", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("home", "layout-dashboard"),
