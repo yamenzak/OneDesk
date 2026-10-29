@@ -527,6 +527,48 @@
 		max-width: none;
 	}
 
+	/* A batch's stock levels (erpnext's three columns for a full-width form)
+	   as the panel's other rows: the warehouse, its quantity, then Move and
+	   Split, on one ruled line. */
+	.one-window .one-panel-pane .row:has(> [class*="col-"] > .btn-move) {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 2);
+		margin: 0 !important;
+		padding-block: calc(var(--spacing) * 1.5);
+		border-bottom: 1px solid var(--outline-gray-1);
+		font-size: var(--text-sm);
+	}
+
+	.one-window .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"] {
+		flex: none;
+		width: auto;
+		max-width: none;
+		padding: 0 !important;
+		font-size: inherit;
+	}
+
+	.one-window .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:first-child {
+		flex: 1 1 auto;
+		min-width: 0;
+		color: var(--ink-gray-6);
+	}
+
+	.one-window .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:nth-child(2) {
+		margin-inline-end: calc(var(--spacing) * 2);
+		color: var(--ink-gray-8);
+		font-variant-numeric: tabular-nums;
+	}
+
+	.one-window .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:last-child {
+		display: flex;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-window .one-panel-pane .row > [class*="col-"] > :is(.btn-move, .btn-split) {
+		margin: 0 !important;
+	}
+
 	.one-window .one-panel-pane .form-stats .row {
 		margin: 0;
 	}

@@ -473,3 +473,7 @@ and on a phone. What it changed in the parts every app shares:
   their own and were left above the form. The panel now watches the
   dashboard and takes each block as it lands, and a table in it is set small
   and fitted to the panel's width.
+- **A batch's Move and Split were cramped.** erpnext lays its stock levels
+  out as three columns for a full-width form; in the panel each warehouse is
+  one ruled line, its name taking the room, then the quantity and the two
+  buttons.
