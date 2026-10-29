@@ -179,6 +179,21 @@ onedesk.window.panel = (frm, $sidebar) => {
 		tabs.position_indicator();
 	});
 	frm.one_panel = { tabs, panes, head, sections, $panel, watch };
+	// And the blocks a doctype adds to frappe's dashboard after a call of its
+	// own (hrms's Allocated Leaves, a batch's stock levels): they come into
+	// the panel as they land, not only the ones there when it drew.
+	const dashboard = frm.dashboard && frm.dashboard.parent && frm.dashboard.parent[0];
+	if (dashboard) {
+		let due = false;
+		new MutationObserver(() => {
+			if (due || !dashboard.querySelector(":scope > .form-dashboard-section")) return;
+			due = true;
+			requestAnimationFrame(() => {
+				due = false;
+				onedesk.window.panel_refresh(frm);
+			});
+		}).observe(dashboard, { childList: true });
+	}
 	frm.page.window.panel_frm = frm;
 	onedesk.window.panel_own(frm);
 	return frm.one_panel;

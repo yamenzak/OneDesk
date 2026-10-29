@@ -467,3 +467,9 @@ and on a phone. What it changed in the parts every app shares:
   a job applicant's interviews, the opening invoice tool) drew a bordered
   table with a line round every cell and raw green; any `.table-bordered`
   in a form's dashboard is drawn as frappe-ui draws a table (desk.css).
+- **A dashboard block that came late stayed in the body.** The panel took
+  frappe's dashboard blocks when the form drew; hrms's Allocated Leaves, a
+  batch's Stock Levels and an asset's Maintenance Log arrive after a call of
+  their own and were left above the form. The panel now watches the
+  dashboard and takes each block as it lands, and a table in it is set small
+  and fitted to the panel's width.

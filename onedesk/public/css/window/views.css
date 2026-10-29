@@ -503,6 +503,30 @@
 		display: none;
 	}
 
+	/* A table in the panel is set small and fitted to its width, its
+	   headings wrapping; one that still cannot fit scrolls inside its block. */
+	.one-window .one-panel-pane .form-dashboard-section .section-body:has(table) {
+		overflow-x: auto;
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .table-bordered {
+		width: 100%;
+		table-layout: fixed;
+		font-size: var(--text-xs);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .table-bordered :is(th, td) {
+		width: auto !important;
+		padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+	}
+
+	.one-window .one-panel-pane .form-dashboard-section .section-body > :is(.row, [class*="col-"]) {
+		margin: 0;
+		padding: 0;
+		width: auto;
+		max-width: none;
+	}
+
 	.one-window .one-panel-pane .form-stats .row {
 		margin: 0;
 	}
