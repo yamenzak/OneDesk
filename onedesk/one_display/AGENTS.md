@@ -98,16 +98,60 @@ works on its own.
    server's time in every answer, so screens on one channel agree to a tenth
    of a second, which is what playing the same slide and the same song at once
    needs.
-4. **Slides, playlists and schedules.** `Slide` (image, video, or an HTML
-   sandbox in an iframe), `Slide Playlist`, `Widget` and `Widget Collection`
-   over the slides, `Music Playlist`, and one `Display Schedule` that says
-   what plays when, including screensaver and mute hours.
+4. **Slides, widgets, sources and schedules.** `Slide` (image, video, or an
+   HTML sandbox in an iframe), `Slide Playlist`, `Widget` and `Widget
+   Collection` over the slides, `Display Source` for what a widget shows
+   (below), `Music Playlist`, and one `Display Schedule` that says what
+   plays when, including screensaver and mute hours. The queue board, the
+   kiosk and the ticker are the first three widgets: today's Board and Kiosk
+   modes and the channel's `queue` field become a collection holding them.
 5. **The editor.** A slide is designed on a canvas. The study of Frappe
    Builder (below) says how.
 6. **OneAI and voice.** Gemini TTS voice packs per language for the queue, so
    the board speaks with a real voice rather than the TV's; voice ads with a
    tone and a schedule; images, video and music generated through the AI
    gateway; a layout or a custom widget written from a sentence.
+
+### Sources: what a widget shows, for stage 4
+
+A widget never reads data itself. It declares **slots**, the things it
+draws, and a `Display Source` fills them. That way one list widget can show
+open tickets, today's deliveries or a sales leaderboard, and one ticker can
+run news, announcements or overdue invoices, with no new code.
+
+- **A widget declares its slots.** A ticker has `text`. A list has `title`,
+  `subtitle`, `value` and `image`. A counter has `value` and `label`. A
+  premade widget can ask for exactly what it needs instead: weather takes a
+  place, a clock takes a time zone, the queue board takes a queue.
+- **A source says where rows come from.** Its kinds:
+  - **Records**: a doctype with filters, order and a limit. The filters are
+    frappe's own filter JSON, edited with frappe's filter control, as a list
+    view saves them.
+  - **One record**: a doctype and a name.
+  - **Report**: a saved report's rows.
+  - **Queue**: today's board, so the queue widget is a source like any other.
+  - **Feed**: an RSS or Atom address, for news.
+  - **Provider**: a named outside service with its own settings. Weather
+    (Open-Meteo, no key) and exchange rates come first.
+- **A binding maps slots to fields.** Each slot gets a field, or a small
+  template such as `{customer} · {grand_total}`. Values are formatted on
+  the server in the channel's language and the company's number format, so
+  the TV only draws text.
+
+Three rules keep this safe, because a screen is a guest:
+
+- **Only mapped fields leave the server.** The screen gets the slots, never
+  the record, so the mapping is the list of what may be shown.
+- **A source reads as the person who made it.** It is saved with them, and
+  their permissions are checked again each time it is read. A source whose
+  maker lost access goes blank instead of leaking.
+- **Every source is read once on the server and cached** for its own
+  interval: seconds for a queue, minutes for records, half an hour for
+  weather and news. A hundred screens on one channel cost one query.
+
+A feed or provider calls out of the workspace, so each one is an optional
+service in TrustCenter, off until a workspace turns it on, with the
+provider named as a subprocessor where it receives anything.
 
 ### Frappe Builder, read for stage 5
 
