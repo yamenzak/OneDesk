@@ -870,13 +870,19 @@
 	overflow-y: auto;
 }
 
-/* OneTask's add bar over My Tasks and the Inbox (one_task/task_kanban.js): the
-   subject takes the row, the date sits beside it, and under it on a phone. */
+/* OneTask's add field on My Tasks and the Inbox (task_kanban.js): in the
+   window's command row after Add Task, or over the board without a window. */
 .one-task-add {
 	display: flex;
 	flex-wrap: wrap;
+	align-items: center;
 	gap: calc(var(--spacing) * 2);
 	padding: 0 calc(var(--spacing) * 4) calc(var(--spacing) * 3);
+}
+
+.one-window-commands .one-task-add {
+	flex-wrap: nowrap;
+	padding: 0;
 }
 
 .one-task-add .one-task-subject {
@@ -884,8 +890,12 @@
 	min-width: 0;
 }
 
+.one-window-commands .one-task-add .one-task-subject {
+	flex: 0 1 18rem;
+}
+
 .one-task-add .one-task-due {
-	flex: 0 0 12rem;
+	flex: 0 0 10rem;
 }
 
 .one-task-add :is(.frappe-control, .form-group) {
@@ -899,5 +909,20 @@
 @media (max-width: 640px) {
 	.one-task-add .one-task-due {
 		flex-basis: 100%;
+	}
+
+	/* A phone's command row has room for the subject only; the date is set
+	   on the task. */
+	.one-window-commands .one-task-add {
+		flex: 1 1 auto;
+		min-width: 0;
+	}
+
+	.one-window-commands .one-task-add .one-task-subject {
+		flex: 1 1 auto;
+	}
+
+	.one-window-commands .one-task-add .one-task-due {
+		display: none;
 	}
 }

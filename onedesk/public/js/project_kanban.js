@@ -9,17 +9,7 @@
 			return [...filters, ["Project", "project_type", "!=", "Employee Boarding"]];
 		};
 	};
-	if (frappe.views.KanbanV2Page) return quiet(frappe.views.KanbanV2Page);
-	let Page;
-	Object.defineProperty(frappe.views, "KanbanV2Page", {
-		configurable: true,
-		enumerable: true,
-		get: () => Page,
-		set: (value) => {
-			Page = value;
-			quiet(value);
-		},
-	});
+	onedesk.window.when(frappe.views, "KanbanV2Page", quiet);
 })();
 
 frappe.kanban_v2.extend_settings("Project", {

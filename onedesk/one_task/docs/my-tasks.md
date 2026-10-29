@@ -11,7 +11,7 @@ as on any board.
 
 ## Adding and Finishing
 
-**To add a task**, type it in **Add a task** above the board and press Enter,
+**To add a task**, type it in **Add a task**, beside Add Task, and press Enter,
 with an **Expected End Date** if it has one. It's assigned to you, has no
 project, and lands in **Open** on both boards. The **+** at the top of a
 column adds one there too.

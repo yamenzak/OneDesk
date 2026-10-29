@@ -51,16 +51,24 @@ $.extend(onedesk.window, {
 	},
 
 	// frappe defines some views only when their bundle loads (Kanban v2):
-	// `then` is given the class as soon as frappe assigns it.
+	// `then` is given the class as soon as frappe assigns it. Everybody who
+	// waits on one class waits here, so no one's hook takes another's place.
 	when(owner, name, then) {
 		if (owner[name]) return then(owner[name]);
+		const waiting = (onedesk.window.waiting ||= new WeakMap());
+		const names = waiting.get(owner) || {};
+		waiting.set(owner, names);
+		if (names[name]) return names[name].push(then);
+		names[name] = [then];
 		Object.defineProperty(owner, name, {
 			configurable: true,
 			enumerable: true,
 			get: () => undefined,
 			set: (value) => {
 				Object.defineProperty(owner, name, { value, writable: true, configurable: true, enumerable: true });
-				then(value);
+				const all = names[name];
+				delete names[name];
+				all.forEach((one) => one(value));
 			},
 		});
 	},

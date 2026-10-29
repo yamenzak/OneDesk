@@ -186,7 +186,13 @@ def test_a_view_frappe_loads_late_is_waited_for():
 	assert 'onedesk.window.when(frappe.views, "KanbanV2Page"' in ADAPTERS["board"]
 	assert 'onedesk.window.when(frappe.ui.form, "PrintView"' in ADAPTERS["print"]
 	when = FRAME.split("\twhen(owner, name, then) {", 1)[1].split("\n\t},", 1)[0]
-	assert "Object.defineProperty(owner, name" in when and "then(value)" in when
+	assert "Object.defineProperty(owner, name" in when and "all.forEach((one) => one(value))" in when
+	# Everybody waits through when: a second hook of one's own on the class
+	# took the window's place, and the board lost its command row.
+	public = tree.APP / "public" / "js"
+	for path in public.rglob("*.js"):
+		if path.name != "frame.js":
+			assert 'defineProperty(frappe.views, "KanbanV2Page"' not in path.read_text(), path.name
 
 
 def test_only_views_of_pages_show_a_count_and_paging():

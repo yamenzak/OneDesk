@@ -31,25 +31,18 @@ onedesk.task_board.mine = (page) => page.doctype === "Task" && onedesk.task_boar
 			return said;
 		};
 	};
-	if (frappe.views.KanbanV2Page) return shape(frappe.views.KanbanV2Page);
-	let Page;
-	Object.defineProperty(frappe.views, "KanbanV2Page", {
-		configurable: true,
-		enumerable: true,
-		get: () => Page,
-		set: (value) => {
-			Page = value;
-			shape(value);
-		},
-	});
+	onedesk.window.when(frappe.views, "KanbanV2Page", shape);
 })();
 
-// The bar over My Tasks and the Inbox: a task's subject and when it is due,
-// added on Enter. A task in no project is its maker's (one_task/capture.py),
-// so it lands on both boards.
+// A task's subject and when it is due, added on Enter, as the window's own
+// command after Add Task (or over the board where there is no window). A task
+// in no project is its maker's (one_task/capture.py), so it lands on both.
 onedesk.task_board.adder = (page) => {
 	if (!page.$one_add) {
-		page.$one_add = $(`<div class="one-task-add" data-tour="onetask-add"></div>`).insertBefore(page.$container);
+		page.$one_add = $(`<div class="one-task-add" data-tour="onetask-add"></div>`);
+		const win = page.page && page.page.window;
+		if (win) win.view({ commands: page.$one_add });
+		else page.$one_add.insertBefore(page.$container);
 		const subject = frappe.ui.form.make_control({
 			parent: $(`<div class="one-task-subject"></div>`).appendTo(page.$one_add),
 			df: { fieldtype: "Data", fieldname: "subject", placeholder: __("Add a task"), length: 140 },

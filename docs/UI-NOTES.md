@@ -503,3 +503,12 @@ and on a phone. What it changed in the parts every app shares:
   to its reader, the Inbox to what has no project. One adds an add bar over
   them and a play button on every task card; filters, grouping, settings,
   the per-column + and dragging a card to Completed are the board's own.
+- **A board lost the window's command row.** Its Add and menu sat on the
+  right with frappe's own layout: the window waits for frappe's Kanban
+  class with a setter on frappe.views, and the board scripts (OneTask's and
+  OneProject's) each put a setter of their own on the same name, the last
+  one replacing the window's. onedesk.window.when now keeps every waiter
+  and calls them all; the board scripts wait through it, and a guard
+  refuses another setter of their own. OneTask's add field goes in the
+  command row through the window's `commands`, beside Add Task, instead of
+  a bar of its own.
