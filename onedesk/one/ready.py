@@ -236,8 +236,14 @@ MODULES = {
 		"folder": "one_crm",
 		"screens": "crm",
 		"names": ("one_crm", "onecrm"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("leads", "user-plus"),
@@ -261,8 +267,14 @@ MODULES = {
 		"folder": "one_hr",
 		"screens": "hr",
 		"names": ("one_hr", "onehr"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-29", "commit": "5feedf558d56", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("employees", "id-card"),
