@@ -59317,3 +59317,36 @@ msgstr "Eine Spalte je Status"
 #: onedesk/one_task/tour.py
 msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
 msgstr "Ziehen Sie eine Aufgabe nach Abgeschlossen, wenn sie erledigt ist, oder messen Sie ihre Zeit mit der Play-Taste auf ihrer Karte."
+
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Load the Demo Company"
+msgstr "Demounternehmen laden"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "This workspace becomes the demo company. Set up your own in a new workspace."
+msgstr "Dieser Arbeitsbereich wird zum Demounternehmen. Richten Sie Ihr eigenes in einem neuen Arbeitsbereich ein."
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Everyone in the demo company signs in with it. The owner is {0}."
+msgstr "Alle im Demounternehmen melden sich damit an. Inhaber ist {0}."
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Building the Demo Company"
+msgstr "Demounternehmen wird aufgebaut"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "{0} of {1} steps"
+msgstr "{0} von {1} Schritten"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "The demo company could not be built. The error is in the Error Log."
+msgstr "Das Demounternehmen konnte nicht aufgebaut werden. Der Fehler steht im Fehlerprotokoll."
+
+#: onedesk/one_demo/start.py
+msgid "The demo company goes only into a workspace that is not set up yet."
+msgstr "Das Demounternehmen kommt nur in einen Arbeitsbereich, der noch nicht eingerichtet ist."
+
+#: onedesk/one_demo/start.py
+msgid "Use at least 8 characters."
+msgstr "Verwenden Sie mindestens 8 Zeichen."

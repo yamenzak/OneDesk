@@ -12,7 +12,7 @@ from onedesk.one import stamp
 
 APP = Path(__file__).resolve().parent.parent / "onedesk"
 
-INCLUDES = ("app_include_js", "app_include_css", "web_include_js", "web_include_css", "setup_wizard_requires")
+INCLUDES = ("app_include_js", "app_include_css", "web_include_js", "web_include_css")
 
 
 def test_every_include_is_stamped():
@@ -40,3 +40,9 @@ def test_what_is_required_later_is_stamped_too():
 	theme = (APP / "public" / "js" / "theme.js").read_text()
 	assert "frappe.assets.load_asset = " in theme and "bundled_asset" not in theme and "frappe.boot.one_assets" in theme
 	assert 'bootinfo["one_assets"] = stamp.versions()' in (APP / "one" / "boot.py").read_text()
+
+
+def test_the_wizards_script_is_required_plain():
+	"""frappe.require reads a file's kind from after its "?", so a stamped
+	address never loads; theme.js stamps it on the way."""
+	assert 'setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"' in (APP / "hooks.py").read_text()

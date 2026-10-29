@@ -1641,6 +1641,13 @@ OVERRIDES = [
 		"erpnext.setup.fiscal_years = {",
 	),
 	(
+		"The setup wizard's first screen offers the demo company",
+		"Load the Demo Company sits under Get Started; frappe's intro has no place for a second action",
+		"onedesk/public/js/setup_wizard.js",
+		"frappe/frappe/desk/page/setup_wizard/setup_wizard.js",
+		"make_intro() {",
+	),
+	(
 		"The setup wizard's persona slide is replaced",
 		"its four required questions were read only by `capture_user_persona`",
 		"onedesk/public/js/setup_wizard.js",

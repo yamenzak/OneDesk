@@ -58,12 +58,10 @@ def _cleared():
 
 def _kept():
 	"""What Setup and the stores keep beside the stock: hinges put away in the
-	Stores up to a thousand, the two silicones standing in for each other,
-	how long profile takes to come, and the shims' standard cost."""
+	Stores up to a thousand, how long profile takes to come, and the shims'
+	standard cost. The two silicones stand in for each other once the
+	weatherproof one is made (lots.py)."""
 	once("Putaway Rule", {"item_code": "HW-HINGE"}, {"item_code": "HW-HINGE", "warehouse": wh("Stores"), "capacity": 1000, "stock_capacity": 1000, "uom": "Nos", "conversion_factor": 1, "priority": 1, "company": COMPANY})
-	for code in ("SIL-CLR", "SIL-WP"):
-		frappe.db.set_value("Item", code, "allow_alternative_item", 1)
-	once("Item Alternative", {"item_code": "SIL-CLR"}, {"item_code": "SIL-CLR", "alternative_item_code": "SIL-WP", "two_way": 1})
 	once("Item Lead Time", {"item_code": "ALU-6063"}, {"item_code": "ALU-6063", "purchase_time": 14, "buffer_time": 2})
 	once(
 		"Item",

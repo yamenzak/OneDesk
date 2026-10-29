@@ -955,7 +955,7 @@ get_website_user_home_page = "onedesk.one_admin.accounts.home_page"
 
 web_include_js = stamped(["/assets/onedesk/js/login.js"])
 
-setup_wizard_requires = stamped("/assets/onedesk/js/setup_wizard.js")
+setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
 
 app_include_css = stamped([

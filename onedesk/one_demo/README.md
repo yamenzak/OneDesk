@@ -11,6 +11,10 @@ On a new site with every app One needs installed:
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
 
+Or in one click: a workspace not set up yet offers **Load the Demo Company**
+under Get Started on the setup wizard's first screen. It asks for the password, builds the same
+steps in the background (start.py) and opens One when they are done.
+
 The password is everybody's. The build runs in steps, in order. Each
 step that finishes is remembered, so a run that stops starts again from the
 step that stopped it. One step alone runs with `'only': 'crm'`.

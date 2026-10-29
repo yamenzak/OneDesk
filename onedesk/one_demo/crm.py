@@ -151,6 +151,13 @@ def _ordered(quotation):
 	save(order, submit=True)
 
 
+def _customer(name):
+	"""A customer of last year's who is not among the masters, made as the
+	deal that won them would have."""
+	if not frappe.db.exists("Customer", name):
+		make({"doctype": "Customer", "customer_name": name, "customer_group": "Commercial", "territory": "Dubai"})
+
+
 def _convert(first):
 	"""A lead who became a customer, through ERPNext's own Create Customer."""
 	from erpnext.crm.doctype.lead.mapper import make_customer
@@ -243,6 +250,7 @@ def _last_year():
 	for title, customer, owner, source, months, took, outcome, amount, reason, got in LAST_YEAR:
 		if frappe.db.exists("Opportunity", {"title": title}):
 			continue
+		_customer(customer)
 		opened = ago(months * 30)
 		closed = add_days(opened, took)
 		deal = make(

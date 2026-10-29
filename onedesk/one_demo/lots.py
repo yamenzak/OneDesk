@@ -9,7 +9,7 @@ with its own serial number and a two-year warranty."""
 import frappe
 from frappe.utils import add_days
 
-from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, save, today, wh
+from onedesk.one_demo.base import COMPANY, ago, ahead, as_user, dated, on, once, save, today, wh
 
 ITEM = "SIL-WP"
 SUPPLIER = "Emirates Sealants & Fixings"
@@ -32,10 +32,18 @@ def run(password=None):
 		settings.enable_serial_and_batch_no_for_item = 1
 		settings.save()
 	_item()
+	_alternative()
 	for lot in LOTS:
 		_lot(*lot)
 	_sent()
 	_locks()
+
+
+def _alternative():
+	"""The structural silicone and this one stand in for each other."""
+	for code in ("SIL-CLR", ITEM):
+		frappe.db.set_value("Item", code, "allow_alternative_item", 1)
+	once("Item Alternative", {"item_code": "SIL-CLR"}, {"item_code": "SIL-CLR", "alternative_item_code": ITEM, "two_way": 1})
 
 
 def _item():

@@ -64,6 +64,7 @@ def load(password: str | None = None, only: str | None = None) -> None:
 	frappe.flags.mute_emails = True
 	frappe.flags.in_demo = True
 	frappe.set_user("Administrator")
+	_named()
 	for step in STEPS:
 		if only and step != only:
 			continue
@@ -81,6 +82,16 @@ def load(password: str | None = None, only: str | None = None) -> None:
 	history.settle()
 	frappe.db.commit()
 	print("demo: built")
+
+
+def _named() -> None:
+	"""A workspace the platform made has its mail name; a bare site gets the
+	demo's, so the mail steps have addresses to give."""
+	if not frappe.conf.get("one_tenant"):
+		from frappe.installer import update_site_config
+
+		update_site_config("one_tenant", "sahara")
+		frappe.local.conf.one_tenant = "sahara"
 
 
 def _reposted() -> None:

@@ -59317,3 +59317,36 @@ msgstr "عمود لكل حالة"
 #: onedesk/one_task/tour.py
 msgid "Drag a task to Completed when it is done, or time it with the play button on its card."
 msgstr "اسحب المهمة إلى «مكتمل» عند إنجازها، أو احسب وقتها بزر التشغيل على بطاقتها."
+
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Load the Demo Company"
+msgstr "تحميل الشركة التجريبية"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "This workspace becomes the demo company. Set up your own in a new workspace."
+msgstr "تصبح مساحة العمل هذه الشركة التجريبية. أعدّ شركتك في مساحة عمل جديدة."
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Everyone in the demo company signs in with it. The owner is {0}."
+msgstr "يسجّل بها الجميع في الشركة التجريبية. المالك هو {0}."
+
+#: onedesk/public/js/setup_wizard.js
+msgid "Building the Demo Company"
+msgstr "جارٍ بناء الشركة التجريبية"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "{0} of {1} steps"
+msgstr "{0} من {1} خطوات"
+
+#: onedesk/public/js/setup_wizard.js
+msgid "The demo company could not be built. The error is in the Error Log."
+msgstr "تعذّر بناء الشركة التجريبية. الخطأ في سجل الأخطاء."
+
+#: onedesk/one_demo/start.py
+msgid "The demo company goes only into a workspace that is not set up yet."
+msgstr "لا تُحمَّل الشركة التجريبية إلا في مساحة عمل لم تُعدّ بعد."
+
+#: onedesk/one_demo/start.py
+msgid "Use at least 8 characters."
+msgstr "استخدم 8 أحرف على الأقل."

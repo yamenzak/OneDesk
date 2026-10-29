@@ -58,7 +58,8 @@ def rules():
 
 def _samples():
 	"""Every sample arrives, in turn, and what Intake did with it is kept. One
-	that does not make what it says stops the demo."""
+	that does not make what it says stops the demo, or is logged when the
+	demo is loaded in one click (start.py)."""
 	from onedesk.one_demo import samples
 
 	for path in samples.samples():
@@ -67,7 +68,9 @@ def _samples():
 		handled = samples.handle(path, kept=True)
 		frappe.set_user("Administrator")
 		missing = samples.unmet(path, handled)
-		if missing:
+		if missing and frappe.flags.one_demo_lenient:
+			frappe.log_error(f"Demo sample {path.parent.name}/{path.stem}", str(missing))
+		elif missing:
 			raise AssertionError(f"{path.parent.name}/{path.stem}: {missing}")
 		frappe.db.commit()
 

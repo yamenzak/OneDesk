@@ -120,3 +120,59 @@ onedesk.setup.slides = [
 		],
 	},
 ];
+
+// The wizard's first screen offers the demo company beside Get Started
+// (one_demo/start.py): it is built in the background, and One opens when it
+// is done.
+if (frappe.setup.SetupWizard && !frappe.setup.SetupWizard.prototype.one_demo_offered) {
+	const make_intro = frappe.setup.SetupWizard.prototype.make_intro;
+	frappe.setup.SetupWizard.prototype.one_demo_offered = true;
+	frappe.setup.SetupWizard.prototype.make_intro = function () {
+		make_intro.call(this);
+		frappe.ui
+			.button({ label: __("Load the Demo Company"), variant: "ghost", css_class: "mt-2", onclick: onedesk.setup.load_demo })
+			.appendTo(this.$intro);
+	};
+}
+
+onedesk.setup.load_demo = function () {
+	const dialog = new frappe.ui.Dialog({
+		title: __("Load the Demo Company"),
+		fields: [
+			{
+				fieldtype: "HTML",
+				options: `<p>${__("This workspace becomes the demo company. Set up your own in a new workspace.")}</p>`,
+			},
+			{
+				fieldname: "password",
+				fieldtype: "Password",
+				label: __("Password"),
+				reqd: 1,
+				description: __("Everyone in the demo company signs in with it. The owner is {0}.", ["wsadmin@one.test"]),
+			},
+		],
+		primary_action_label: __("Load"),
+		primary_action: async ({ password }) => {
+			await frappe.xcall("onedesk.one_demo.start.start", { password });
+			dialog.hide();
+			onedesk.setup.follow_demo();
+		},
+	});
+	dialog.show();
+};
+
+onedesk.setup.follow_demo = async function () {
+	const said = await frappe.xcall("onedesk.one_demo.start.progress");
+	if (said.built) {
+		frappe.hide_progress();
+		window.location.href = "/desk";
+		return;
+	}
+	if (said.failed) {
+		frappe.hide_progress();
+		frappe.msgprint(__("The demo company could not be built. The error is in the Error Log."));
+		return;
+	}
+	frappe.show_progress(__("Building the Demo Company"), said.done, said.of, __("{0} of {1} steps", [said.done, said.of]));
+	setTimeout(onedesk.setup.follow_demo, 3000);
+};

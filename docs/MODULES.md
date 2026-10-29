@@ -496,6 +496,8 @@ No doctypes yet.
 * `onedesk.one_crm.record.log_call`
 * `onedesk.one_crm.record.overview`
 * `onedesk.one_crm.story.read`
+* `onedesk.one_demo.start.progress`
+* `onedesk.one_demo.start.start`
 * `onedesk.one_doc.api.add_picture`
 * `onedesk.one_doc.api.download`
 * `onedesk.one_doc.api.drop_pictures`
