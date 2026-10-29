@@ -146,3 +146,22 @@ that exists.
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
 | `src/inventory/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |
 | `src/workload/WorkloadList.vue` | Asana's Workload and Float's capacity view: the team's week in one line with a bar, then a row a person, their load as a bar that turns red past what they have, the hours planned of the hours free, and their tasks, late and not estimated, each opening the tasks it counts |
+
+## Measured against `@framework/ui`
+
+Read on 2026-10-29 against frappe `19e5f0fa2b`. Of the islands' 57,000
+lines, 42,000 are the sheet and writer editors, which it has nothing like;
+the module screens are frappe-ui already, and use its `ActivityTimeline`,
+`Composer` and island mount. Three places overlap, and each stays ours for
+now:
+
+- `kit/FieldEdit.vue` against `FormLayout` and its fields: ours lends the
+  desk's own control and form, so erpnext's and hrms's form scripts still
+  run when a field is changed on an island record page. `FormLayout` would
+  go round them.
+- The conditions in `one_mail/rule_builder.js` against `ConditionBuilder`:
+  about a hundred lines of a jQuery dialog. Worth taking only when the rule
+  builder is rewritten as an island.
+- `cloud/CloudUploads.vue` against `UploadTray`: the tray's words are
+  English in its source with no `__()`, and it sets a shadow. Take it when
+  frappe translates it; it would bring cancel and retry per file.
