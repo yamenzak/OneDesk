@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 65 | 2 | 35 | 0 |
+| onedesk | 65 | 2 | 34 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -42,7 +42,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 |---|---|---|---|---|
 | project (`frontend/src/project/ProjectPage.vue`) | Cloud File Version, Comment, Contact, DocShare, Employee, File, Payment Schedule, Project, Quotation, Reading, Reading Action, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Cloud File Version, Comment, DocShare, Reading, Reading Action, Record Head | – | Employee, Project, Task, Timesheet |
 | template (`frontend/src/template/TemplatePage.vue`) | – | – | – | – |
-| task (`frontend/src/task/TaskPage.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action, Task, Task Depends On, Timesheet, Timesheet Detail, User | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | Task, Timesheet |
 | item (`frontend/src/inventory/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Cloud File Version, Comment, DocShare, Employee, File, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Reading, Reading Action, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | stock (`frontend/src/inventory/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
@@ -300,7 +299,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | opened by our screens | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
 | Projects Settings | opened by our screens | OneProject | events, 6 fields, 3 settings | no | general |  |  |  |  |  |  |
-| Task | on a rail or a home | everybody | a page of our own | yes | taught | makes it | yes |  |  |  | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
+| Task | on a rail or a home | everybody | a head, events, form script, list script, tree script, 6 fields, 21 settings | yes | taught | makes it | yes |  |  |  | Arrived After Closing, Comment on Your Task, Due Date Changed, Hours Over Plan, Milestone Late, Pending Review, Sent Back, Task Cancelled, Task Done, Task Ready, Task Reopened |
 | Task Type | on a rail or a home | OneHR, OneProject | 1 settings | yes | general |  | **none** |  |  |  |  |
 | Timesheet | on a rail or a home | everybody | a head, class, events, form script, list script, 2 fields, 34 settings | yes | taught |  | yes | ours |  |  |  |
 
@@ -1047,4 +1046,4 @@ Pages: onecloud (on a rail or a home).
 ## onedesk / One Task
 
 
-Pages: task-view (inside: a Task opens on it); timers (opened by our screens).
+Pages: timers (opened by our screens).

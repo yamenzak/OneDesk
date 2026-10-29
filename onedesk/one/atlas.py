@@ -218,7 +218,6 @@ ANSWERS = {
 	("Page", "item-view"): (INSIDE, "an Item opens on it"),
 	("Page", "project-view"): (INSIDE, "a Project opens on it"),
 	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
-	("Page", "task-view"): (INSIDE, "a Task opens on it"),
 	("DocType", "GL Entry"): (ENGINE, "one line per posting; the General Ledger report shows them"),
 	("DocType", "Payment Ledger Entry"): (ENGINE, "one line per payment against an invoice; the Payment Ledger report shows them"),
 	("DocType", "Advance Payment Ledger Entry"): (ENGINE, "advances against orders, kept as they are paid"),

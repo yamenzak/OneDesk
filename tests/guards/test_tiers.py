@@ -48,7 +48,6 @@ def test_every_page_of_its_own_is_declared():
 	islands = {
 		"onedesk.project": "Project",
 		"onedesk.template": "Project Template",
-		"onedesk.task": "Task",
 		"onedesk.item": "Item",
 		"onedesk.stock": None,
 		"onedesk.one_home": None,

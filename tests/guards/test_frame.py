@@ -18,17 +18,15 @@ FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
-	"Task": ROOT / "frontend" / "src" / "task" / "TaskPage.vue",
 	"Item": ROOT / "frontend" / "src" / "inventory" / "item" / "ItemPage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
 	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
-	"Task": APP / "one_task" / "page" / "task_view" / "task_view.js",
 	"Item": APP / "one_inventory" / "page" / "item_view" / "item_view.js",
 }
 
-PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Task": "onetask_task", "Item": "oneinventory_item"}
+PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Item": "oneinventory_item"}
 
 SIDEBAR = (
 	"form/sidebar/form_sidebar.js",
@@ -164,10 +162,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			)
 		},
 		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
-		"onetask_task.task": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
-		"onetask_task.time": (ROOT / "frontend" / "src" / "task" / "TaskTime.vue").read_text(),
-		"onetask_task.files": (ROOT / "frontend" / "src" / "task" / "TaskFiles.vue").read_text(),
-		"onetask_task.activity": (ROOT / "frontend" / "src" / "task" / "TaskPage.vue").read_text(),
 		**{
 			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "inventory" / "item" / f"{name}.vue").read_text()
 			for view, name in (
@@ -207,7 +201,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 EDITS = {
 	"Project": ("project_actions.js", "ABOUT_GROUPS", "ELSEWHERE"),
 	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
-	"Task": ("task_actions.js", "GROUPS", "ELSEWHERE"),
 	"Item": ("item_actions.js", "GROUPS", "ELSEWHERE"),
 }
 ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")

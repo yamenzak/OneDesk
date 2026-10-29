@@ -139,7 +139,6 @@ that exists.
 | `src/inventory/sent_out/SentOutPage.vue` | Katana's outsourced purchase orders and Odoo's subcontracting: one table of what is out, and the orders not ready to send above it |
 | `src/inventory/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
 | `src/inventory/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
-| `src/task/TaskPage.vue` | Linear's issue and Asana's task: where it stands, what it is called, the one thing worth saying, when it runs and how far along it is, then its details, time, files and activity |
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
 | `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |

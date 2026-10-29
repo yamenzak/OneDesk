@@ -210,21 +210,14 @@ is:
 
   **The morning.** `today` tells each person what is due that day and what is
   late, from the tasks given to them, as My Tasks groups them (mine.py).
-- `view.py`, `page/task_view` and `frontend/src/task` — a task's page. Task
-  is a page of its own (one/tiers.py PAGES): a person works their tasks all
-  day, and a form showed Weight, Color and Issue ahead of what the task waits
-  on. `read` is the task as the reader may see it: what it waits on (its own
-  sub-tasks left out, as they are its sub-tasks), what waits on it (its
-  parent left out, as ERPNext lists a sub-task in its parent's Depends On),
-  its checklist, its sub-tasks, the time on it as the reader may read
-  timesheets, and the one thing worth saying (`headline`, pure). The page
-  changes the task as desk does (set_value, insert, task.py), saves Edit
-  Details against `modified` (public/js/task_actions.js, every field the form
-  has), and follows the task, Task and Timesheet. It fires
-  `onetask_task.task`, `.time`, `.files` and `.activity` for OneStudio's
-  extensions (one_studio/places.py). The form is the same address with
-  `?edit=1`.
-- `ai.py` — the page sentence, `my_tasks`, `plan_task` (a Create card; the
+- `heads.py` — a task opens on its form, as every record does. The head
+  says when it is due and how late, the checklist, what it still waits on
+  (its own sub-tasks left out) and the hours logged, and offers Complete Task.
+  The form hides Weight, Color, Issue and the template fields (custom/task.json).
+- `view.py` — the task as the reader may see it, for OneAI's `task_facts`:
+  what it waits on and what waits on it, its checklist, its sub-tasks, the
+  time on it and the one thing worth saying (`headline`, pure).
+- `ai.py` — the timers page sentence, `my_tasks`, `plan_task` (a Create card; the
   colleagues it names ride on the hidden `one_for` and are given the task by
   `capture.task_made`), `plan_steps` (an Edit card on the checklist; a
   change to the status, due date or priority is the generic `edit_record`,

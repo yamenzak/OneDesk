@@ -157,10 +157,9 @@ UNHEARD = {
 	# (one_storage/live.py), sent for every change to a file, its versions and
 	# its shares; what its preview reads beside a file (versions, comments,
 	# shares, what OneAI read and did) is read again each time a file is
-	# chosen. A project's, a task's and an item's Files are OneCloud.
+	# chosen. A project's and an item's Files are OneCloud.
 	"onecloud": 5,
 	"project": 6,
-	"task": 5,
 	"item": 5,
 	# OneMail hears its own event, onemail_change (one_mail/live.py), which
 	# names the mailbox a sync or an action changed; a list follow on
@@ -172,7 +171,6 @@ BARE = {}
 
 NOT_THE_COMPANYS = {
 	"project": 4,
-	"task": 2,
 }
 
 

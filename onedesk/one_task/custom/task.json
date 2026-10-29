@@ -186,6 +186,38 @@
    "property_type": "Data",
    "value": "140",
    "field_name": "exp_end_date"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "task_weight"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1",
+   "field_name": "color"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "depends_on",
+   "property_type": "Code",
+   "value": "eval:doc.issue",
+   "field_name": "issue"
+  },
+  {
+   "doc_type": "Task",
+   "doctype_or_field": "DocField",
+   "property": "depends_on",
+   "property_type": "Code",
+   "value": "eval:doc.is_template",
+   "field_name": "is_template"
   }
  ],
  "sync_on_migrate": 1

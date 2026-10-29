@@ -301,7 +301,6 @@ def onetask_a_task_opens_on_its_own_page():
 		assert view.files(glass) == 0
 		facts = ai.task_facts(glass)
 		assert facts["late_by_days"] > 0 and facts["hours_by_person"], facts
-		assert "task_facts" in (ai.page({"page": "task-view", "record": glass}) or "")
 	elsewhere = frappe.db.get_value("Task", {"project": SHOWROOM, "is_group": 0})
 	with as_user("rania@one.test"):
 		try:

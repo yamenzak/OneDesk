@@ -42,8 +42,6 @@ _ADD = {
 	"expects": "plan_task",
 }
 
-PAGE = "task-view"
-
 _STEPS = {
 	"label": _lt("Break this into steps"),
 	"ask": _lt("Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."),
@@ -88,41 +86,16 @@ _GIVE = {
 }
 
 SUGGESTIONS = {
-	f"page:{PAGE}": [_LEFT, _STEPS, _CHANGE, _GIVE],
-	f"page:{PAGE}/time": [_WHO, _LEFT],
 	"Task": [
 		{**_FIRST, "view": "List"},
 		{**_ADD, "view": "List"},
-		{
-			"label": _lt("Break this into steps"),
-			"ask": _lt(
-				"Break this task into the steps it takes to finish it, as its checklist. Keep the steps it has."
-			),
-			"can": "write",
-			"view": "Form",
-			"expects": "plan_steps",
-		},
+		*({**one, "view": "Form"} for one in (_LEFT, _STEPS, _CHANGE, _GIVE, _WHO)),
 	],
 }
 
 
 def page(said: dict) -> str | None:
 	"""The sentence the model is told on OneTask's pages."""
-	if said.get("page") == PAGE:
-		name = (said.get("record") or "").strip()
-		if not name or not frappe.db.exists("Task", name) or not frappe.has_permission("Task", "read", doc=name):
-			return "The reader is on a task's page."
-		subject = frappe.db.get_value("Task", name, "subject")
-		return (
-			f"The reader is on the page of task {name} (“{subject}”). task_facts reads it as its page shows "
-			"it: its dates, what it waits on and what waits on it, its checklist, its sub-tasks and the time "
-			"logged on it; plan_steps suggests the steps of its checklist as a card, edit_record "
-			f"(Task, {name}, changing status to Open, Working, Pending Review, Completed or Cancelled, "
-			"exp_end_date as YYYY-MM-DD, or priority to Low, Medium, High or Urgent) its status, due date or "
-			"priority, as the page sets them, and assign_task gives it to a colleague "
-			"as the page's Assign does. Nothing is changed until "
-			"the reader approves. How a task's page works is in OneTask's documentation (how_to)."
-		)
 	if said.get("page") == "timers":
 		return (
 			"The reader is on Timers, the phone's page for their task timers: the one running with its time "
@@ -323,7 +296,7 @@ def assign_task(
 			{"label": _("Task"), "value": f"{subject} ({task})"},
 			{"label": _("Given to"), "value": ", ".join(f"{get_fullname(one)} ({one})" for one in new)},
 		],
-		"route": [PAGE, task],
+		"route": ["Form", "Task", task],
 	}
 	return {
 		"proposal": proposals.propose("Setup", "Task", changes=changes, record=task, why=why),

@@ -1,36 +1,18 @@
-# A Task's Page
+# A Task
 
-A task opens on a page of its own, wherever you open it from: My Tasks, the
-list, a project's Tasks, the calendar or a notification. OneTask's rail stays
-beside it.
+A task opens on its form, wherever you open it from: My Tasks, the list, a
+project's Tasks, the calendar or a notification. OneTask's rail stays beside
+it.
 
-At the top are its **status** and **priority**, which you change by clicking
-them, and its name, which you change by clicking it. Under the name is the
-one thing worth knowing, if there is one: what it is **waiting on**, that it
-is **late** or **due today**, or that it is **Pending Review**. Then come when
-it starts, when it is due and the hours planned, each changed in place, and
-how far along it is: the hours logged against the plan.
+Above the fields is what is worth knowing at a glance: when it is due, and how
+many days **late** if it is; how far the **Checklist** has got; what it still
+**Depends On**; and the hours logged against the plan. The address bar names
+its project. The panel beside it has who it is assigned to, its files, tags,
+who it is shared with and its activity.
 
-The address bar names its project and the task it is part of, each opening
-its page. On the right is what every record has: who it is assigned to, its
-files, tags, who it is shared with and who changed it last.
-
-## Its Tabs
-
-- **Details** has the description, the **Checklist**, the **Child Tasks**,
-  what it **Depends On**, what is waiting on it, and the rest of the task.
-  Tick a step or add one, and add a sub-task, right there.
-- **Timesheet** lists the hours logged on it: the day, who, the activity and
-  the hours, with drafts said as such. **Log Time** adds an entry to your
-  timesheet for the week.
-- **Files** is the task's folder in OneCloud.
-- **Activity** is its comments, emails and changes, with a comment box on
-  top.
-
-**Complete Task** at the top completes it, and **Reopen Task** opens it
-again. **Start Timer** times it. The **⋯** menu has **Edit Details**, where
-every other field of the task is, **Repeat**, and Print, Email, Duplicate,
-Delete and the rest.
+**Complete Task** at the top completes it, and **Start Timer** times it. On
+a phone both are in the **⋯** menu, with Print, Email, Duplicate, Delete and
+the rest. What it depends on is under **Dependencies**.
 
 ## Making a Task
 

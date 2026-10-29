@@ -98,3 +98,4 @@ onedesk.one_crm.patches.oneai_leads_unclaimed
 onedesk.one_hr.patches.nobody_answers_their_own
 onedesk.one_hr.patches.shift_hours_written
 onedesk.one_task.patches.no_my_tasks_page
+onedesk.one_task.patches.no_task_page

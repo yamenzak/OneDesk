@@ -512,3 +512,12 @@ and on a phone. What it changed in the parts every app shares:
   refuses another setter of their own. OneTask's add field goes in the
   command row through the window's `commands`, beside Add Task, instead of
   a bar of its own.
+
+## 2026-10-29 — A task opens on its form
+
+The task page (TaskPage, TaskTime, TaskFiles, page task_view, task_actions.js)
+is gone. A task opens on frappe's Task form: one_task/heads.py puts its due
+date and lateness, checklist, what it waits on and hours against plan in the
+panel's Overview, and Complete Task is the head's primary verb. Weight and
+Color are hidden; Issue and Is Template show only when set. On a phone the
+form's buttons are in ⋯, as on every form.

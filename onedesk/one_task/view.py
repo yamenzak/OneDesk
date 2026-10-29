@@ -1,7 +1,6 @@
-"""A task's page (page/task_view, frontend/src/task): the task as its reader
-may see it, what it waits on and what waits on it, its checklist, its
-sub-tasks and the time logged on it. The page only reads here; it changes the
-task as desk does (set_value, insert, assign) and through task.py."""
+"""A task as its reader may see it, what it waits on and what waits on it,
+its checklist, its sub-tasks and the time logged on it: what OneAI's
+task_facts reads. Only reads."""
 
 from datetime import date
 from typing import Annotated
@@ -61,10 +60,9 @@ def headline(status: str, due: date | None, waiting: list[str], today: date) -> 
 	return None
 
 
-@frappe.whitelist()
 @frappe.read_only()
 def read(task: Annotated[str, "The task."]) -> dict:
-	"""The task as its page shows it, read as the reader."""
+	"""The task, read as the reader."""
 	frappe.has_permission("Task", "read", doc=task, throw=True)
 	doc = frappe.get_doc("Task", task)
 	said = {field: doc.get(field) for field in FIELDS if field != "_assign"}
@@ -127,7 +125,6 @@ def read(task: Annotated[str, "The task."]) -> dict:
 	return said
 
 
-@frappe.whitelist()
 @frappe.read_only()
 def files(task: Annotated[str, "The task."]) -> int:
 	"""How many files are attached to the task, as the reader may see them."""
