@@ -45,6 +45,7 @@ import PresentButton from "../components/PresentButton.vue";
 import { initPresentationDoc, presentationDoc, screen, updatePresentationTitle } from "../stores/presentation";
 import { addWidget } from "./screen.js";
 import { frame, sizes } from "./frame.js";
+import { addMarginGuides, clearGuides, guides, rulersShown, toggleRulers } from "./guides.js";
 import { addMediaElement } from "../stores/element";
 import { changeSlide, currentSlide, getNewSlide, insertSlide, slideIndex, slides } from "../stores/slide";
 import { commandHistory } from "../stores/historyMeta";
@@ -119,6 +120,14 @@ const fileMenu = computed(() => [
 			...(inReadonlyMode.value ? [] : [{ label: __("Slide Size"), icon: "lucide-ratio", onClick: slideSize }]),
 		],
 	},
+	...(screen.value ? [] : [{
+		group: __("Guides"),
+		options: [
+			{ label: rulersShown.value ? __("Hide Rulers and Guides") : __("Show Rulers and Guides"), icon: "lucide-ruler", onClick: toggleRulers },
+			...(inReadonlyMode.value ? [] : [{ label: __("Add Margin Guides"), icon: "lucide-frame", onClick: addMarginGuides }]),
+			...(inReadonlyMode.value || !guides.value.length ? [] : [{ label: __("Clear Guides"), icon: "lucide-eraser", onClick: clearGuides }]),
+		],
+	}]),
 ]);
 
 // Every slide made another size, its contents redrawn to fit (one_slide/resize.py).

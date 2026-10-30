@@ -65,7 +65,17 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			assert api.frame(a4) == (794, 1123) and resize.size(10, 99999) == (200, 4000)
 			title = json.loads(api.get(a4)["slides"][0]["elements"])[0]
 			assert round(title["left"]) == 397 and "font-size: 49.62px" in title["content"], title
+			# guides: kept clean, moved with the size, and never an edit to the slides
+			from onedesk.one_slide import guides
+
+			odd = [{"axis": "x", "at": 397}, {"axis": "y", "at": 2000}, {"axis": "z", "at": 1}, {"id": "m", "axis": "y", "at": "40"}]
+			kept_at = frappe.db.get_value("Presentation", a4, "modified")
+			assert [(one["axis"], one["at"]) for one in guides.keep(a4, json.dumps(odd))] == [("x", 397.0), ("y", 40.0)]
+			assert str(frappe.db.get_value("Presentation", a4, "modified")) == str(kept_at), "a guide is not an edit"
+			assert len(guides.cleaned([{"axis": "x", "at": 1}] * 99, (960, 540))) == guides.MOST
 			assert resize.resize(a4, 960, 720) == {"width": 960, "height": 720} and api.frame(a4) == (960, 720)
+			moved = json.loads(frappe.db.get_value("Presentation", a4, "guides"))
+			assert [one["at"] for one in moved] == [480.0, 25.6], moved
 			before = [one for one in versions.listed(a4) if one["title"] == "Before changing the size"]
 			assert before, versions.listed(a4)
 			versions.restore(a4, before[0]["name"])

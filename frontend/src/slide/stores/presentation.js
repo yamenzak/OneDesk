@@ -2,6 +2,7 @@
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { slideBody } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
 import { frameOf, setFrame } from '../shim/frame.js' // One: the presentation's own size, or a screen's shape, VENDORED.md
+import { loadGuides } from '../shim/guides.js' // One: VENDORED.md
 import { ref, computed } from 'vue'
 import { createResource, call, frappeRequest, toast, dialog } from 'frappe-ui'
 
@@ -313,6 +314,7 @@ const fetchPresentation = async (name, load) => {
 const showPresentation = (id, { doc, content, dirty }) => {
 	const drawn = frameOf(doc) // One: before the canvas mounts
 	setFrame(drawn.w, drawn.h)
+	loadGuides(doc) // One: the presentation's guides, shim/guides.js
 	presentationId.value = id
 	presentationDoc.value = doc
 	slides.value = content

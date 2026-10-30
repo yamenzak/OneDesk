@@ -82,7 +82,7 @@ def resize(
 	"""Make every slide another size, its contents redrawn to fit. What it
 	was is kept as a version first, so it can be undone from Version
 	History."""
-	from onedesk.one_slide import api, versions
+	from onedesk.one_slide import api, guides, versions
 
 	api._may(name, "write")
 	doc = frappe.get_doc(api.PRESENTATION, name)
@@ -96,5 +96,6 @@ def resize(
 	for row, drawn in zip(doc.slides, rows, strict=True):
 		row.elements = drawn["elements"]
 	doc.width, doc.height = after
+	doc.guides = json.dumps(guides.scaled(doc.guides, before, after))
 	doc.save(ignore_permissions=True)
 	return {"width": after[0], "height": after[1]}

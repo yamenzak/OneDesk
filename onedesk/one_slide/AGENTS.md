@@ -162,6 +162,29 @@ network, and only between windows of one browser.
 number and its notes, escaped) and prints them through frappe's own
 `get_pdf` on A4, so the notes are words a PDF reader finds.
 
+### Rulers and guides
+
+A presentation's `guides` (Long Text, hidden) are a JSON list, each an `id`,
+an `axis` (`x` a line down the slide, `y` one across it) and `at`, a place in
+slide pixels. `guides.cleaned` keeps at most `MOST` and drops anything off
+the slide; `guides.keep` writes them without touching `modified`, since a
+guide is not an edit to a slide, and `resize.resize` moves them with the
+slides (`guides.scaled`). Versions do not keep them.
+
+The editor's side is `shim/guides.js` (the list, the person's choice to see
+them, kept in their user settings on Presentation, and a write 600ms after
+the last change) and `shim/Rulers.vue`, drawn over the canvas in screen space
+from `slideBounds`, so they follow pan and zoom without being scaled. A guide
+is made by dragging out of a ruler and removed by dropping it off the slide.
+Hidden, they snap nothing: `useSnapping.getGuideAlignments` (a One: edit)
+adds each shown guide as one more line to snap to, and the guide itself is
+the line, so `SnapGuides.vue` draws nothing for it.
+
+The canvas fits the room between the slides rail and the panel when it
+mounts (`fitted` in `SlideContainer.vue`, a One: edit), no larger than
+Suite's 900 by 700, so the rulers and the slide's edges are never under a
+panel.
+
 ### The Builder half
 
 A fade, a blur, free CSS, a name and whether an element is hidden are kept

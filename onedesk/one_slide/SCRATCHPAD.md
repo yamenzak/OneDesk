@@ -30,15 +30,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   embedded movies. What has no PowerPoint equivalent (blur, free CSS) is
   left out, and the dialog says which slides lost something. Kept beside the
   presentation in OneCloud, like the PDF.
-- **Rulers and guides.** The editor has smart guides only: while dragging,
-  a line appears when the selection lines up with the slide's edges or
-  centre, or with another element, and it snaps there (`useSnapping.js`).
-  There are no rulers and no guides of your own. Plan: rulers along the top
-  and left of the canvas (toggled from the head, remembered per person);
-  drag from a ruler to drop a guide, drag it off to remove it; guides kept
-  on the presentation (`guides`, a list of x and y in frame pixels), drawn
-  only in the editor, and fed to `useSnapping.js` as one more thing to snap
-  to. A margin preset (for example 40px all round) adds four at once.
 - **Slide masters.** Not today. A theme or template gives each new slide a
   layout, but it is copied in: change the template afterwards and no slide
   follows. Plan, in two steps:

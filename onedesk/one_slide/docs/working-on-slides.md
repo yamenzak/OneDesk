@@ -19,6 +19,18 @@ paragraph, its fill, border and shadow, the crop of a picture, and how a video
 plays. With nothing chosen, the panel is the slide's own: its background, how
 it moves to the next slide, and when.
 
+## Rulers and Guides
+
+**File › Show Rulers and Guides** puts a ruler along the top and the side of
+the slide. Drag down from the top ruler, or across from the side one, to lay
+a guide; anything you move or resize near it snaps to it. Drag a guide to
+move it, or off the slide to remove it. **Add Margin Guides** lays four, 40
+pixels in from each edge, and **Clear Guides** removes them all. Guides are
+kept with the presentation for everyone who works on it, and never show when
+it is presented or printed.
+
+![Rulers along the slide, with a guide across it and one down it](working-on-slides/guides.png)
+
 ## Speaker Notes
 
 **Speaker Notes**, under the slide, is what you will say over it. Click the

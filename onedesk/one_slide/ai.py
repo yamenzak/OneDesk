@@ -37,6 +37,7 @@ NOT_FOR_AI = {
 	"templates.save_as": "A template is kept from the editor's File menu by whoever made the presentation.",
 	"versions.keep": "A version is named from the editor's Version History by the person working on it.",
 	"versions.restore": "Going back to a version is the person's call, from the editor's Version History.",
+	"guides.keep": "A guide is dragged out of the editor's rulers to line things up by eye.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }
 

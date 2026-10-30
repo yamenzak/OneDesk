@@ -2390,6 +2390,10 @@ msgstr ""
 msgid "Add Manufacturer"
 msgstr "Hersteller hinzufügen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:127
+msgid "Add Margin Guides"
+msgstr "Randhilfslinien hinzufügen"
+
 #: onedesk/public/js/one_ai/ai_center.js:359
 #: onedesk/public/js/one_ai/ai_center.js:393
 msgid "Add Memory"
@@ -8491,6 +8495,10 @@ msgstr "Klassisch"
 msgid "Clear"
 msgstr "Löschen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:128
+msgid "Clear Guides"
+msgstr "Hilfslinien entfernen"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:148
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:149
 msgid "Clear cell"
@@ -13651,6 +13659,10 @@ msgstr "Ziehen Sie eine Aufgabe nach Abgeschlossen, wenn sie erledigt ist, oder 
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr "Ziehen Sie über den Kalender, um zu dieser Zeit einen Termin anzulegen, klicken Sie auf einen, um zu sehen, wer dabei ist, oder ziehen Sie ihn auf eine andere Zeit."
 
+#: frontend/src/slide/shim/Rulers.vue:39
+msgid "Drag off the slide to remove"
+msgstr "Zum Entfernen von der Folie ziehen"
+
 #: onedesk/public/js/window/frame.js:163
 msgid "Drag to resize, click to fold"
 msgstr "Zum Ändern der Größe ziehen, zum Einklappen klicken"
@@ -18748,6 +18760,11 @@ msgstr "Garantienr."
 msgid "Guests"
 msgstr "Gäste"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:124
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Guides"
+msgstr "Hilfslinien"
+
 #. Label of the modseq (Data) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "HIGHESTMODSEQ"
@@ -19161,6 +19178,10 @@ msgstr "Ausblenden"
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
 msgstr "Dateien ausblenden"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:126
+msgid "Hide Rulers and Guides"
+msgstr "Lineale und Hilfslinien ausblenden"
 
 #: frontend/src/project/Team.vue:157
 msgid "Hide Timesheets"
@@ -40589,6 +40610,10 @@ msgstr "Angebotsanfragen anzeigen"
 msgid "Show Roles"
 msgstr "Rollen anzeigen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:126
+msgid "Show Rulers and Guides"
+msgstr "Lineale und Hilfslinien einblenden"
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:144
 msgid "Show Running Low"
 msgstr "Knappes anzeigen"
@@ -45539,6 +45564,10 @@ msgstr "Die Briefköpfe und Druckformate, auf denen Dokumente gedruckt und verse
 #: onedesk/one_display/doctype/queue_service/queue_service.json
 msgid "The letter tickets for this service start with, such as A."
 msgstr "Der Buchstabe, mit dem die Tickets dieses Dienstes beginnen, etwa A."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
+msgstr "Die aus den Linealen gezogenen Linien, an denen Elemente ausgerichtet werden. Nur im Editor sichtbar."
 
 #: onedesk/public/js/outside.js:266 onedesk/www/404.html:16
 #: onedesk/www/error.py:18

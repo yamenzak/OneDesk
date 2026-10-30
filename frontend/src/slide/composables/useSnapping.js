@@ -4,6 +4,7 @@ import { selectionBounds, currentSlide, slideBounds } from '../stores/slide'
 import { activeElementIds, pairElementId } from '../stores/element'
 import { getElementDiv } from '../stores/elementRegistry'
 import { getBoundTargetIds } from '../utils/connectors'
+import { guides, rulersShown } from '../shim/guides.js' // One: guides snap too, VENDORED.md
 
 export const useSnapping = (selectionRef, currentResizer, hasOngoingInteraction) => {
 	const RELEASE_FACTOR = 1.25
@@ -266,10 +267,34 @@ export const useSnapping = (selectionRef, currentResizer, hasOngoingInteraction)
 		}
 	}
 
+	// One: the presentation's guides, while they are shown; the guide itself is
+	// the line, so SnapGuides draws nothing more for one (shim/guides.js)
+	const getGuideAlignments = (selectionScreenRect, mode) => {
+		const out = { x: [], y: [] }
+		if (!rulersShown.value) return out
+		const lines = {
+			x: mode === 'resize' ? [getMovingLine('x')].filter(Boolean) : X_LINES,
+			y: mode === 'resize' ? [getMovingLine('y')].filter(Boolean) : Y_LINES,
+		}
+		for (const guide of guides.value) {
+			const screenAt =
+				guide.axis === 'x'
+					? slideBounds.left + guide.at * slideBounds.scale
+					: slideBounds.top + guide.at * slideBounds.scale
+			for (const line of lines[guide.axis])
+				out[guide.axis].push(
+					createAlignment('guide', line, `guide-${guide.id}`, screenAt, selectionScreenRect[line]),
+				)
+		}
+		return out
+	}
+
 	const getSnapCandidates = (selectionScreenRect, mode) => {
 		const slide = getSlideAlignments(selectionScreenRect, mode)
 		const neighbour = getNeighbourAlignments(selectionScreenRect, mode)
-		return mergeCandidates(slide, neighbour)
+		const merged = mergeCandidates(slide, neighbour)
+		const guided = getGuideAlignments(selectionScreenRect, mode) // One
+		return { x: [...merged.x, ...guided.x], y: [...merged.y, ...guided.y] }
 	}
 
 	const snapForDrag = (rect) => {

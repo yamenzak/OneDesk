@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 14:06:24.968830",
+ "modified": "2026-10-30 15:09:39.190765",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -70,6 +70,13 @@
    "description": "The slides' height in pixels."
   },
   {
+   "fieldname": "guides",
+   "fieldtype": "Long Text",
+   "label": "Guides",
+   "description": "The lines dragged out of the rulers to line things up against. Shown only in the editor.",
+   "hidden": 1
+  },
+  {
    "fieldname": "slug",
    "fieldtype": "Data",
    "label": "Slug"
@@ -103,6 +110,7 @@
   "theme",
   "width",
   "height",
+  "guides",
   "slug",
   "thumbnail",
   "is_template",

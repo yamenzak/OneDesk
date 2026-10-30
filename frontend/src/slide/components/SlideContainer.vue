@@ -44,12 +44,15 @@
 			<OverflowContentOverlay />
 		</div>
 		<DropTargetOverlay v-show="mediaDragOver" @hideOverlay="hideOverlay" />
+		<!-- One: rulers and guides over the canvas, unscaled (shim/Rulers.vue, VENDORED.md) -->
+		<Rulers v-if="!screen" />
 	</div>
 </template>
 
 <script setup>
 import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { screen } from '@/apps/slides/stores/presentation' // One: a screen has no slides rail
+import Rulers from '@/apps/slides/shim/Rulers.vue' // One: rulers and guides, VENDORED.md
 import {
 	ref,
 	computed,
@@ -185,12 +188,26 @@ const { activeGuides, snapForDrag, snapForResize } = useSnapping(
 // shrinking the authored width instead would shift every existing element.
 const DISPLAY_WIDTH = 900
 const DISPLAY_HEIGHT = 700
-const displayScale = Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / frame.h)
+// One: no larger than the room between the side panels, with a ruler's
+// width and a little air around it, measured when the canvas mounts (VENDORED.md)
+const NAV_WIDTH = 224
+const PANEL_WIDTH = 288
+const AIR = 44
+const displayScale = ref(Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / frame.h))
+const fitted = () => {
+	const box = slideContainerRef.value
+	if (box?.clientWidth) {
+		const sides = (screen.value ? 0 : NAV_WIDTH) + (inReadonlyMode.value ? 0 : PANEL_WIDTH)
+		const room = Math.min((box.clientWidth - sides - AIR * 2) / frame.w, (box.clientHeight - AIR * 4) / frame.h)
+		displayScale.value = Math.max(0.3, Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / frame.h, room))
+	}
+	return displayScale.value
+}
 
 const { allowPanAndZoom, transform, transformOrigin } = usePanAndZoom(
 	slideContainerRef,
 	slideRef,
-	displayScale,
+	fitted, // One: measured, not a constant
 )
 
 const slideClasses = computed(() => {
@@ -232,8 +249,8 @@ const slidePlace = computed(() => {
 	const shift = screen.value ? (inReadonlyMode.value ? 0 : 144) : inReadonlyMode.value ? -95.5 : 32
 	return {
 		...frameSize(),
-		left: `calc(50% - ${(frame.w * displayScale) / 2 + shift}px)`,
-		top: `calc(50% - ${(frame.h * displayScale) / 2}px)`,
+		left: `calc(50% - ${(frame.w * displayScale.value) / 2 + shift}px)`,
+		top: `calc(50% - ${(frame.h * displayScale.value) / 2}px)`,
 	}
 })
 

@@ -1,5 +1,5 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/composables/usePanAndZoom.ts. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
-import { ref, watch, onBeforeUnmount, onMounted } from 'vue'
+import { ref, watch, onBeforeUnmount, onMounted, nextTick } from 'vue'
 
 type Origin = {
 	x: number
@@ -15,7 +15,12 @@ type Transform = {
 	}
 }
 
-export const usePanAndZoom = (containerElement: any, targetElement: any, initialScale = 1) => {
+export const usePanAndZoom = (
+	containerElement: any,
+	targetElement: any,
+	initialScale: number | (() => number) = 1, // One: or a measure taken when it mounts, VENDORED.md
+) => {
+	const startScale = () => (typeof initialScale === 'function' ? initialScale() : initialScale)
 	const allowPanAndZoom = ref(true)
 
 	const SCALE_SPEED = 0.8
@@ -29,7 +34,7 @@ export const usePanAndZoom = (containerElement: any, targetElement: any, initial
 
 	let wheelTimeout: ReturnType<typeof setTimeout>
 
-	const transform = ref(`matrix(${initialScale}, 0, 0, ${initialScale}, 0, 0)`)
+	const transform = ref(`matrix(${startScale()}, 0, 0, ${startScale()}, 0, 0)`)
 	const transformOrigin = ref('0 0')
 
 	const isPanningOrZooming = ref(false)
@@ -171,11 +176,17 @@ export const usePanAndZoom = (containerElement: any, targetElement: any, initial
 
 	const addPanAndZoom = () => {
 		if (!containerElement.value || !targetElement.value) return
-		initialMatrix = new DOMMatrix().scale(initialScale)
+		const scale = startScale() // One
+		initialMatrix = new DOMMatrix().scale(scale)
 		gestureMatrix = new DOMMatrix()
-		let rect = targetElement.value.getBoundingClientRect()
-		initialX = rect.x
-		initialY = rect.y
+		transform.value = `matrix(${scale}, 0, 0, ${scale}, 0, 0)` // One
+		// One: measured once the slide is drawn where the new scale places it
+		nextTick(() => {
+			let rect = targetElement.value?.getBoundingClientRect()
+			if (!rect) return
+			initialX = rect.x
+			initialY = rect.y
+		})
 		containerElement.value.addEventListener('wheel', handlePanAndZoom, {
 			passive: false,
 		})
@@ -184,7 +195,7 @@ export const usePanAndZoom = (containerElement: any, targetElement: any, initial
 	const removePanAndZoom = () => {
 		if (!containerElement.value) return
 		if (wheelTimeout) window.clearTimeout(wheelTimeout)
-		transform.value = `matrix(${initialScale}, 0, 0, ${initialScale}, 0, 0)`
+		transform.value = `matrix(${startScale()}, 0, 0, ${startScale()}, 0, 0)` // One
 		transformOrigin.value = '0 0'
 		containerElement.value.removeEventListener('wheel', handlePanAndZoom)
 	}

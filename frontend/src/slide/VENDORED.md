@@ -71,6 +71,13 @@ Each is marked `One:` where it is.
   `pages/Slideshow.vue` plays in the audience's window without filling the
   screen until asked, tells the presenter view where it is, and goes where
   it is told.
+- Rulers and guides (`shim/Rulers.vue`, `shim/guides.js`):
+  `components/SlideContainer.vue` mounts the rulers over the canvas and fits
+  the slide to the room between the rail and the panel when it mounts rather
+  than to a fixed 900 pixels, `composables/usePanAndZoom.ts` takes that
+  measure as its starting scale, `composables/useSnapping.js` snaps to the
+  guides that are shown, and `stores/presentation.js` hands the guides over
+  when a presentation loads.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

@@ -2390,6 +2390,10 @@ msgstr ""
 msgid "Add Manufacturer"
 msgstr "إضافة شركة مصنّعة"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:127
+msgid "Add Margin Guides"
+msgstr "إضافة أدلة الهوامش"
+
 #: onedesk/public/js/one_ai/ai_center.js:359
 #: onedesk/public/js/one_ai/ai_center.js:393
 msgid "Add Memory"
@@ -8491,6 +8495,10 @@ msgstr "كلاسيكي"
 msgid "Clear"
 msgstr "مسح"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:128
+msgid "Clear Guides"
+msgstr "مسح الأدلة"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:148
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:149
 msgid "Clear cell"
@@ -13651,6 +13659,10 @@ msgstr "اسحب المهمة إلى «مكتمل» عند إنجازها، أو
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr "اسحب على التقويم لإنشاء حدث في ذلك الوقت، أو انقر على حدث لترى من فيه، أو اسحبه إلى وقت آخر."
 
+#: frontend/src/slide/shim/Rulers.vue:39
+msgid "Drag off the slide to remove"
+msgstr "اسحبه خارج الشريحة لإزالته"
+
 #: onedesk/public/js/window/frame.js:163
 msgid "Drag to resize, click to fold"
 msgstr "اسحب لتغيير الحجم، وانقر للطي"
@@ -18748,6 +18760,11 @@ msgstr "رقم الضمان"
 msgid "Guests"
 msgstr "الضيوف"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:124
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Guides"
+msgstr "الأدلة"
+
 #. Label of the modseq (Data) field in DocType 'Mail Folder'
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "HIGHESTMODSEQ"
@@ -19161,6 +19178,10 @@ msgstr "إخفاء"
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
 msgstr "إخفاء الملفات"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:126
+msgid "Hide Rulers and Guides"
+msgstr "إخفاء المساطر والأدلة"
 
 #: frontend/src/project/Team.vue:157
 msgid "Hide Timesheets"
@@ -40589,6 +40610,10 @@ msgstr "عرض طلبات عروض الأسعار"
 msgid "Show Roles"
 msgstr "عرض الأدوار"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:126
+msgid "Show Rulers and Guides"
+msgstr "إظهار المساطر والأدلة"
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:144
 msgid "Show Running Low"
 msgstr "اعرض ما على وشك النفاد"
@@ -45539,6 +45564,10 @@ msgstr "الترويسات وتنسيقات الطباعة التي تُطبع �
 #: onedesk/one_display/doctype/queue_service/queue_service.json
 msgid "The letter tickets for this service start with, such as A."
 msgstr "الحرف الذي تبدأ به تذاكر هذه الخدمة، مثل A."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
+msgstr "الخطوط المسحوبة من المساطر لمحاذاة العناصر عليها. تظهر في المحرر فقط."
 
 #: onedesk/public/js/outside.js:266 onedesk/www/404.html:16
 #: onedesk/www/error.py:18
