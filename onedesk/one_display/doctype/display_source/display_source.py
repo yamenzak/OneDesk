@@ -26,6 +26,16 @@ class DisplaySource(Document):
 			frappe.throw(_("A feed's address starts with https://."))
 		if self.kind == "Weather" and not (-90 <= flt(self.latitude) <= 90 and -180 <= flt(self.longitude) <= 180):
 			frappe.throw(_("A latitude is between -90 and 90, and a longitude between -180 and 180."))
+		if self.kind == "Exchange Rates":
+			from onedesk.one_display.sources import currencies_in
+
+			named = currencies_in(self.currencies)
+			if not named:
+				frappe.throw(_("Name at least one currency, such as USD."))
+			unknown = [one for one in named if not frappe.db.exists("Currency", one)]
+			if unknown:
+				frappe.throw(_("There is no currency {0}.").format(", ".join(unknown)))
+			self.currencies = ", ".join(named)
 
 
 def _json(text, kind, wrong: str) -> str:

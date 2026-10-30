@@ -5,6 +5,7 @@
  "engine": "InnoDB",
  "field_order": [
   "queue_name",
+  "wait_alert",
   "services",
   "counters"
  ],
@@ -15,6 +16,13 @@
    "label": "Queue Name",
    "reqd": 1,
    "unique": 1
+  },
+  {
+   "fieldname": "wait_alert",
+   "fieldtype": "Int",
+   "label": "Tell Counters After (Minutes)",
+   "description": "When somebody has waited this long, whoever staffs a counter is told. Empty tells nobody.",
+   "non_negative": 1
   },
   {
    "fieldname": "services",
@@ -32,7 +40,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-30 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue",

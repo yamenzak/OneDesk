@@ -25,8 +25,10 @@ def read(model: str, body: dict, asked: list[Use] | None = None) -> tuple[list[U
 	"""
 	found = _gemini(body) if model.startswith("google/") else _workers_ai(body)
 	if found:
-		reported = {use.at for use in found}
-		found += [use for use in (asked or []) if use.at not in reported]
+		# A provider that reported any output reported all of it, whatever it
+		# was made of: a voice's output is audio tokens, not the text asked for.
+		reported = {(use.kind, use.unit) for use in found}
+		found += [use for use in (asked or []) if (use.kind, use.unit) not in reported]
 		return found, ""
 	if asked:
 		return list(asked), "the provider reported no usage; metered from what was asked for"

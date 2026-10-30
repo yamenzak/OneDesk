@@ -246,8 +246,8 @@ Deepgram's Aura, in English and Spanish, and MeloTTS, without Arabic.
 MeloTTS stands behind Fast for the languages it has. Both Gemini voices
 double in price on 2027-01-01.
 
-**Making pictures, music and video.** For the module that will need them,
-`models.py` already names them, though nothing uses them yet:
+**Making pictures, music and video.** OneDisplay makes all three for its
+slides and playlists:
 
 | Kind | Fast | Balanced | Full |
 |---|---|---|---|
@@ -260,6 +260,18 @@ left out of Google's list of models: the discovery script asks for Veo by
 name. Until Google prices it, a Veo call is charged its hold. Veo answers
 through the gateway's Google route, which passes Google's own request
 shape; it is not on Cloudflare's chat endpoint.
+
+A video takes Veo minutes, longer than any request may stay open, so it is
+the one thing made in two calls: `gateway.begin` holds the credits and starts
+Google's operation, and `gateway.collect`, asked by the workspace's
+background job every ten seconds, settles the hold once the video is there,
+fetching it on the gateway's route rather than Google's address, which would
+need a key. `models.LONG` names the models made this way. A song is one call,
+held at one song. Making is billed by what was made: a voice's output is
+audio tokens at the model's output price, and a cap asked for in text is not
+billed on top of output the provider reported (measured on a real voice,
+2026-10-30). A voice, a picture, a song or a video is told only its job's
+words, never OneAI's voice, which a voice model would read aloud.
 
 **Building and OneStudio.** Build is mostly OneStudio's extensions, and
 OneStudio is to be rewritten around a drag-and-drop builder that may use AI

@@ -239,3 +239,17 @@ def test_the_usage_report_is_the_operators_and_groups_only_by_its_own_columns():
 	said = ledger[ledger.index("def usage("):]
 	assert "site.require_admin()" in said
 	assert "if key in USAGE_BY" in said, "a grouping column comes from the request"
+
+
+def test_a_voice_is_billed_for_the_sound_it_made():
+	"""Recorded from a real call on 2026-10-30: a voice model answers in audio
+	tokens, priced as its output, and the text cap we asked for is not billed
+	on top of them."""
+	sys.path.insert(0, str(tree.ROOT))
+	from onedesk.one_ai import models
+
+	model = "google/gemini-3.8-flash-lite-tts"
+	used, _ = meter.read(model, _sample("gemini-speech.json"), pricing.asked({"output_tokens": 4096}))
+	assert {(u.kind, u.modality, u.count) for u in used} == {("input", "text", 24.0), ("output", "audio", 144.0)}
+	made = pricing.bill(models.rates(model, on="2026-10-30"), used, 1.0, 1000)
+	assert made.whole and made.usd == round((24 * 0.50 + 144 * 6.00) / 1_000_000, 6)

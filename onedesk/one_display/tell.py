@@ -1,7 +1,7 @@
 """What OneDisplay tells people, and when (its kinds are in notifications.py)."""
 
 import frappe
-from frappe.utils import add_to_date, format_datetime, now_datetime
+from frappe.utils import add_to_date, format_datetime, now_datetime, today
 
 from onedesk.one import notify, rights
 
@@ -36,6 +36,37 @@ def offline() -> None:
 		)
 
 
+def long_waits() -> None:
+	"""Every two minutes: a ticket waiting longer than its queue allows is
+	told once to whoever staffs the queue's counters, or to whoever runs
+	OneDisplay if nobody does."""
+	for queue in frappe.get_all("Queue", filters={"wait_alert": [">", 0]}, fields=["name", "wait_alert"]):
+		since = add_to_date(now_datetime(), minutes=-queue.wait_alert)
+		tickets = frappe.get_all(
+			"Queue Ticket",
+			filters={"queue": queue.name, "ticket_date": today(), "status": "Waiting", "creation": ["<", since]},
+			fields=["name", "ticket", "service", "creation"],
+		)
+		if not tickets:
+			continue
+		staff = [row.user for row in frappe.get_cached_doc("Queue", queue.name).counters if row.user] or _runners()
+		for ticket in tickets:
+			key = TOLD.format(f"wait:{ticket.name}")
+			if frappe.cache.get_value(key):
+				continue
+			frappe.cache.set_value(key, 1, expires_in_sec=86400)
+			notify.notify(
+				"Long Wait",
+				list(dict.fromkeys(staff)),
+				record=("Queue Ticket", ticket.name),
+				link="/desk/counter",
+				ticket=ticket.ticket,
+				minutes=int((now_datetime() - ticket.creation).total_seconds() // 60),
+				service=ticket.service,
+				queue=queue.name,
+			)
+
+
 def _runners() -> list[str]:
 	"""Everybody turned on whose role may change a screen: who runs OneDisplay."""
 	from frappe.permissions import get_doctype_roles
@@ -59,4 +90,18 @@ def alert_sent(message: str) -> None:
 		link="/desk/display-screen",
 		who=frappe.utils.get_fullname(frappe.session.user),
 		message=message,
+	)
+
+
+def made(asker: str, doctype: str, playlist: str, what: str, failed: bool = False) -> None:
+	"""A video or a song OneAI made in the background is in its playlist, or
+	could not be made: whoever asked hears which. Sent as the workspace, since
+	the bell does not tell a person of their own doing."""
+	notify.notify(
+		"Not Made by OneAI" if failed else "Made by OneAI",
+		[asker],
+		record=(doctype, playlist),
+		sender="Administrator",
+		what=what,
+		playlist=playlist,
 	)

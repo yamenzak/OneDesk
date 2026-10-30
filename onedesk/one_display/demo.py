@@ -28,12 +28,6 @@ SERVICES = (("Showroom Visit", "A"), ("Collections", "B"), ("Payments", "C"))
 COUNTERS = (("1", OWNER), ("2", "omar@one.test"), ("3", None))
 ROLES = {OWNER: "OneDisplay Manager", "omar@one.test": "OneDisplay User"}
 
-SLIDE = """<div style="position:absolute;inset:0;background:{ground};color:#fff;font-family:Inter,Arial,sans-serif;
-display:flex;flex-direction:column;justify-content:center;padding:0 120px">
-<div style="font-size:34px;letter-spacing:6px;text-transform:uppercase;opacity:.75">{eyebrow}</div>
-<div style="font-size:112px;font-weight:700;line-height:1.05;margin:24px 0 32px;max-width:1100px">{title}</div>
-<div style="font-size:40px;opacity:.85;max-width:1000px">{line}</div></div>"""
-
 SLIDES = (
 	("#0E6E8C", "New this season", "Frameless glass entrances", "Twelve metres of clear glass, two sliding doors, fitted in a week."),
 	("#1f2937", "Made in our workshop", "Aluminium cut to the millimetre", "Every frame is cut, drilled and anodised in Al Quoz."),
@@ -52,6 +46,7 @@ def run(password=None):
 			{
 				"doctype": "Queue",
 				"queue_name": QUEUE,
+				"wait_alert": 15,
 				"services": [{"service": name, "prefix": prefix} for name, prefix in SERVICES],
 				"counters": [{"counter": counter, "user": user} for counter, user in COUNTERS],
 			}
@@ -91,18 +86,18 @@ def _screens():
 		"Late Tasks",
 		{"source_name": "Late Tasks", "kind": "Report", "report": "Delayed Tasks Summary", "refresh": 300},
 	)
+	rates = _make(
+		"Display Source",
+		"Exchange Rates",
+		{"source_name": "Exchange Rates", "kind": "Exchange Rates", "currencies": "USD, EUR, GBP"},
+	)
 	_make(
 		"Slide Playlist",
 		"Showroom",
 		{
 			"playlist_name": "Showroom",
 			"slides": [
-				{
-					"kind": "Design",
-					"title": title,
-					"duration": 12,
-					"html": SLIDE.format(ground=ground, eyebrow=eyebrow, title=title, line=line),
-				}
+				{"kind": "Design", "title": title, "duration": 12, "design": json.dumps(_design(ground, eyebrow, title, line))}
 				for ground, eyebrow, title, line in SLIDES
 			],
 		},
@@ -140,9 +135,10 @@ def _screens():
 			"widgets": [
 				_widget("Text", 3, 4, 60, 12, settings={"text": "Workshop", "size": 7}),
 				_widget("Clock", 76, 4, 22, 16),
-				_widget("List", 3, 22, 58, 72, source=late, settings={"heading": "Late tasks", "rows": 8}, mapping={"title": "{subject}", "subtitle": "Due {exp_end_date}"}),
-				_widget("Weather", 66, 26, 32, 44, source="Dubai Weather"),
-				_widget("QR Code", 76, 72, 16, 26, settings={"link": frappe.utils.get_url("/desk/task"), "caption": "Open your tasks"}),
+				_widget("List", 3, 22, 58, 66, source=late, settings={"heading": "Late tasks", "rows": 8}, mapping={"title": "{subject}", "subtitle": "Due {exp_end_date}"}),
+				_widget("Weather", 66, 26, 32, 34, source="Dubai Weather"),
+				_widget("QR Code", 76, 64, 16, 26, settings={"link": frappe.utils.get_url("/desk/task"), "caption": "Open your tasks"}),
+				_widget("Ticker", 0, 92, 100, 8, source=rates, mapping={"text": "{line}"}),
 			],
 		},
 	)
@@ -231,6 +227,21 @@ def _paired():
 				"device": "Paired in the demo",
 			}
 		).insert(ignore_permissions=True)
+
+
+def _design(ground: str, eyebrow: str, title: str, line: str) -> dict:
+	"""A showroom slide as blocks on the canvas, as the designer makes one."""
+	text = {"kind": "text", "colour": "#ffffff", "align": "start", "x": 6, "w": 62}
+	return {
+		"orientation": "Landscape",
+		"background": ground,
+		"blocks": [
+			{"kind": "shape", "x": 6, "y": 27, "w": 5, "h": 0.8, "fill": "#ffffff", "radius": 4, "opacity": 0.8},
+			{**text, "y": 30, "h": 6, "text": eyebrow, "size": 34, "weight": 600, "upper": 1, "spacing": 0.18},
+			{**text, "y": 38, "h": 28, "text": title, "size": 112, "weight": 700, "line": 1.05},
+			{**text, "y": 68, "h": 14, "text": line, "size": 40, "weight": 400, "line": 1.3},
+		],
+	}
 
 
 def _widget(kind, x, y, w, h, source=None, settings=None, mapping=None) -> dict:

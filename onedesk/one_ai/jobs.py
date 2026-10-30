@@ -69,8 +69,10 @@ JOBS = {
 	"guard": Job(_lt("Check What Arrived Before Acting"), "OneAI", "guard", most=10, takes=4000),
 	"display_voice": Job(_lt("Speak Calls and Ads"), "OneDisplay", "speak"),
 	"display_picture": Job(_lt("Make a Picture for a Slide"), "OneDisplay", "picture"),
-	"display_design": Job(_lt("Design a Slide"), "OneDisplay", "build", speaks=False, most=6000),
-	"display_widget": Job(_lt("Write a Widget"), "OneDisplay", "build", speaks=False, most=6000),
+	"display_video": Job(_lt("Make a Video for a Slide"), "OneDisplay", "video"),
+	"display_music": Job(_lt("Make Music for a Screen"), "OneDisplay", "music"),
+	"display_design": Job(_lt("Design a Slide"), "OneDisplay", "build", most=6000, thinks="always"),
+	"display_widget": Job(_lt("Write a Widget"), "OneDisplay", "build", most=6000, thinks="always"),
 }
 
 
@@ -98,12 +100,19 @@ def words(key: str) -> str:
 # template, so anything it were told would be judged with the text.
 UNTOLD = ("guard",)
 
+# Kinds that make a sound, a picture or a video rather than words. Each is
+# held by what it makes, not by tokens, and told only its own words: a voice
+# model would read OneAI's voice aloud with the rest.
+MAKES = ("speak", "picture", "music", "video")
+
 
 def told(key: str) -> str:
 	"""Everything a model is told for a job: the voice's parts, then its words."""
 	job = JOBS[key]
 	if job.kind in UNTOLD:
 		return ""
+	if job.kind in MAKES:
+		return words(key)
 	return "\n\n".join([*voice.parts(job.speaks, job.tools), *([words(key)] if words(key) else [])])
 
 

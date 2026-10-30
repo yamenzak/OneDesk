@@ -21,3 +21,25 @@ frappe.ui.form.on("Display Track", {
 		});
 	},
 });
+
+// OneAI writes a piece of music in the background; it arrives paused at the
+// end of the playlist, with a notification.
+frappe.ui.form.on("Music Playlist", {
+	refresh(frm) {
+		if (frm.is_new() || !onedesk.apps?.ai?.()) return;
+		frm.add_custom_button(
+			__("Make Music"),
+			() =>
+				frappe.prompt(
+					[{ fieldname: "description", fieldtype: "Small Text", label: __("Description"), reqd: 1 }],
+					({ description }) =>
+						frappe
+							.xcall("onedesk.one_display.make.music", { playlist: frm.doc.name, description })
+							.then(() => frappe.show_alert({ message: __("OneAI is making the music. You will be told when it is in the playlist."), indicator: "blue" })),
+					__("Make Music"),
+					__("Make")
+				),
+			__("OneAI")
+		);
+	},
+});

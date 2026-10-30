@@ -18,13 +18,13 @@ channel plays the same thing at the same moment.
 | `Display Channel` | What plays: a slide playlist, a widget collection, a music playlist, whether calls are read aloud and in which voice, a `programme` (schedule rows) and `ads`. |
 | `Channel Programme` | A schedule row: Slides, Widgets, Music, Screensaver, Screen Off or Muted, on some days, between two times. A later row wins over an earlier one. |
 | `Channel Ad` | A voice ad on a channel, every few minutes or at times of day. |
-| `Slide Playlist`, `Display Slide` | Slides in order: Image, Video, Web Page (https only) or Design (HTML drawn at 1920 × 1080), each with seconds and optional dates. |
+| `Slide Playlist`, `Display Slide` | Slides in order: Image, Video, Web Page (https only) or Design (blocks drawn at 1920 × 1080), each with seconds, optional dates and Paused. |
 | `Widget Collection`, `Display Widget` | A layout: widgets in percent of the screen, each with a source, a mapping, settings, a layer and optional hours. |
-| `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed or Weather. |
-| `Music Playlist`, `Display Track` | Tracks and a volume. |
+| `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed, Weather or Exchange Rates. |
+| `Music Playlist`, `Display Track` | Tracks, each with its length and Paused, and a volume. |
 | `Voice Ad` | A script, a tone, a language, a voice, a chime, and its recording. |
 | `Display Voice` | A phrase recorded once in OneAI's voice, by language, voice and tone, with its public WAV. |
-| `Queue`, `Queue Service`, `Queue Counter`, `Queue Ticket` | A place where people wait, its services (with a prefix), its counters (with who staffs them), and each ticket. |
+| `Queue`, `Queue Service`, `Queue Counter`, `Queue Ticket` | A place where people wait, its services (with a prefix), its counters (with who staffs them), how long is too long, and each ticket. |
 | `Display Settings` | The emergency alert, on every screen. |
 
 ## How a screen plays
@@ -46,9 +46,14 @@ channel plays the same thing at the same moment.
   when it matches, `programme.light` sends only the mode, the ads and each
   widget's rows. A slide playlist goes over the wire once, not every two
   seconds.
-- **Why polling.** An old TV's browser drops a WebSocket on every hiccup and
-  some never reconnect; a plain request recovers by itself, and two seconds is
-  what a person at a board expects.
+- **Woken, and polling behind it.** A screen also joins its own room on
+  Frappe's socket (`live.py`, `realtime/handlers.js`, admitted by its
+  token): any change to what it plays, a command, a call at a counter, sends
+  `onedesk_display_wake` after commit, and the screen asks at once, within
+  half a second of jitter. While the socket is up it polls every fifteen
+  seconds instead of two. An old TV's browser drops a WebSocket on every
+  hiccup and some never reconnect, so polling is never switched off: the
+  socket only makes things arrive sooner.
 
 ### Playing in step
 
@@ -103,6 +108,9 @@ instead.
   a subprocessor and not an optional service.
 - **Weather** is Open-Meteo through TrustCenter's optional service
   `display_weather`, off until a workspace turns it on.
+- **Exchange Rates** are ERPNext's own (`get_exchange_rate`, from the
+  workspace's Currency Exchange records), for the listed currencies in the
+  source's currency or the company's; a currency with no rate is left out.
 
 ## Voices
 
@@ -113,11 +121,33 @@ A board's call is made on demand: the first answer that needs "Ticket A 7,
 counter 2" enqueues it and sends no audio; the screen waits four seconds for
 it and then says it in its own voice. Nothing is recorded while OneAI is off.
 
+## Designed slides
+
+`slides.py`. A Design slide made in the designer (`frontend/src/display/
+Slides.vue`, the `display-slides` page) is kept as **blocks** in `design`:
+text, picture, shape and QR code, placed in percent of the frame. `clean`
+keeps only those four kinds, clamps every box, allows only `#` colours and
+`/files/` pictures; `render` draws the HTML the screen plays from them,
+escaped, with no `inset` (Chromium 53). A slide whose `design` is empty is
+the older hand-written HTML, shown in the designer but not editable block by
+block. The designer saves the whole playlist, and keeps any slide added since
+it loaded, such as a video OneAI made meanwhile.
+
 ## What OneAI does
 
-`make.py` makes a picture for a slide, a designed slide, and a Custom widget's
-code; `voices.record` records a voice ad. Each comes back as something a
-person keeps or not; nothing goes on a screen by itself. `ai.py` gives the
+`make.py` makes a picture for a slide, a designed slide (as blocks), a
+Custom widget's code, a video and a piece of music; `voices.record` records a
+voice ad. Each comes back as something a person keeps or not; nothing goes on
+a screen by itself.
+
+A video (Veo) takes minutes, longer than a request may stay open, so the
+gateway **begins** it and the workspace **collects** it (`gateway.begin`,
+`gateway.collect`, `run.begin`, `run.collect`), asking every ten seconds for
+up to fifteen minutes in a `long` job. Music (Lyria) is one call, made in the
+same kind of job. Either arrives at the end of its playlist **Paused**, its
+length read from the file, and whoever asked is told (**Made by OneAI**, or
+**Not Made by OneAI**). A voice model is told only its own words, never
+OneAI's voice, which it would read aloud (`jobs.MAKES`). `ai.py` gives the
 chat `queue_now`, `screens_now` and `plan_voice_ad` (a card), and says in
 `NOT_FOR_AI` why every other change is a person's.
 
@@ -133,7 +163,11 @@ widget, take tickets.
 
 `notifications.py`, sent by `tell.py`: **Screen Offline** (every five
 minutes, a paired screen silent ten minutes and not turned off, once per
-silence) and **Emergency Alert Sent** (to the others who may send one).
+silence), **Long Wait** (every two minutes, a ticket waiting longer than its
+queue's **Tell Counters After**, to whoever staffs its counters, once per
+ticket), **Made by OneAI** and **Not Made by OneAI** (to whoever asked for a
+video or music), and **Emergency Alert Sent** (to the others who may send
+one).
 
 ## Decisions that cost something
 
@@ -158,14 +192,17 @@ silence) and **Emergency Alert Sent** (to the others who may send one).
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it |
 | `layout.py` | The layout editor's server |
+| `slides.py` | The slide designer's server: blocks, cleaning, drawing |
+| `live.py` | Waking screens over the socket |
 | `queue.py` | Tickets, the board, the counter's actions |
 | `voices.py`, `make.py` | What OneAI records and makes |
 | `worker.py` | Serves the TV's service worker |
 | `tell.py`, `notifications.py` | What it tells people |
 | `abilities.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py` | The READY pieces |
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
-| `page/counter/`, `page/display_layout/` | The counter, and the layout editor's island |
+| `page/counter/`, `page/display_layout/`, `page/display_slides/` | The counter, the layout editor's and the slide designer's islands |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
 | `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
-| `../../frontend/src/display/` | The counter and the layout editor |
+| `../../frontend/src/display/` | The counter, the layout editor and the slide designer |
+| `../../realtime/handlers.js` | A screen joining its room, admitted by `live.admit` |

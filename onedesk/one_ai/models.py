@@ -46,7 +46,7 @@ USE = {
 	},
 	"embed": {tier: ("@cf/baai/bge-m3", "@cf/qwen/qwen3-embedding-0.6b") for tier in TIERS},
 	"guard": {tier: ("@cf/meta/llama-guard-3-8b", None) for tier in TIERS},
-	# For the module that makes pictures, music and video; nothing uses them yet.
+	# What OneDisplay makes for its slides and playlists.
 	"picture": {
 		"fast": ("google/gemini-3.1-flash-lite-image", "google/gemini-3.1-flash-image"),
 		"balanced": ("google/gemini-3.1-flash-image", "google/gemini-3.1-flash-lite-image"),
@@ -63,6 +63,10 @@ USE = {
 		"full": ("google/veo-3.1-generate-preview", "google/veo-3.1-fast-generate-preview"),
 	},
 }
+
+# Models that make in a long operation, begun and then asked after, rather
+# than answering the request that asked (one_admin/gateway.py, `begin`).
+LONG = ("google/veo-3.1-generate-preview", "google/veo-3.1-fast-generate-preview")
 
 # A preview may be withdrawn without notice, so one is used only where there
 # is nothing stable that does the job, and says why.
@@ -226,7 +230,9 @@ def rates(model: str, on: str | None = None) -> list[Rate]:
 		found = [Rate("input", modality, "tokens", MILLION, price["in"]) for modality in ("text", "image", "video", "audio", "other")]
 		found.append(Rate("cached", "text", "tokens", MILLION, round(price["in"] / 10, 6)))
 		if price.get("out"):
-			found.append(Rate("output", "text", "tokens", MILLION, price["out"]))
+			# Google prices a model's output once, in whatever it answers in:
+			# a voice model's output is audio tokens at the same price.
+			found += [Rate("output", modality, "tokens", MILLION, price["out"]) for modality in ("text", "audio", "image")]
 		return found
 	found = []
 	for one in (listed().get(model) or {}).get("price") or []:

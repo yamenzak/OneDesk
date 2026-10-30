@@ -80,6 +80,25 @@ function onedesk_handlers(socket) {
 		socket.leave(room);
 	});
 
+	// A OneDisplay screen joins by its token, never by a cookie: it is
+	// nobody. It only hears; the rooms are the ones live.admit names.
+	socket.on("onedesk_display_join", async (screen, token, ack) => {
+		const reply = typeof ack === "function" ? ack : () => {};
+		if (!screen || !token) return reply({ ok: false });
+		try {
+			const res = await socket.frappe_request("/api/method/onedesk.one_display.live.admit", { screen, token });
+			const { message } = await res.json();
+			if (!message || !message.ok) return reply({ ok: false });
+			for (const room of message.rooms || []) {
+				if (room.startsWith("onedesk:display/")) socket.join(room);
+			}
+			reply({ ok: true });
+		} catch (err) {
+			console.warn("onedesk_display_join failed", err);
+			reply({ ok: false });
+		}
+	});
+
 	socket.on("disconnect", () => joined.clear());
 }
 

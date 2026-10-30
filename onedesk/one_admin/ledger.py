@@ -300,6 +300,13 @@ def last_gift(tenant: str) -> dict | None:
 	}
 
 
+def holding(reservation: str) -> dict | None:
+	"""Whose a hold is, whether it still holds, and since when: what a call
+	that is collected later checks before it is settled."""
+	found = frappe.db.get_value("Credit Reservation", reservation, ["tenant", "state", "creation"], as_dict=True)
+	return {"tenant": found.tenant, "held": found.state == "Held", "since": found.creation} if found else None
+
+
 def release(reservation: str) -> None:
 	"""A call that never happened. The hold goes and nothing is charged."""
 	site.require_admin()

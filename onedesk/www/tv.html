@@ -91,7 +91,7 @@
 	<div id="status"><span id="hint" class="hidden"></span> <span id="offline" class="dot hidden"></span></div>
 	<audio id="music" preload="auto"></audio>
 	<script>
-		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }}, preview: {{ preview_json }} };
+		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }}, preview: {{ preview_json }}, socket: {{ socket_json }} };
 	</script>
 	<script src="/assets/onedesk/js/one_display/tv.js"></script>
 </body>

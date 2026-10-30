@@ -90,7 +90,7 @@ def test_oneai_off_refuses_every_model_call_and_oneintake_needs_it():
 	source = APPS.read_text()
 	assert "NEEDS = {INTAKE: AI}" in source
 	run = (tree.APP / "one_ai" / "run.py").read_text()
-	assert run.count("apps.refuse_ai()") == 4, "run.ask, run.once, run.read and run.search, the only four that ask a model"
+	assert run.count("apps.refuse_ai()") == 6, "run.ask, run.once, run.read, run.search, run.make and run.begin, the only six that ask a model"
 	assert run.count('"onedesk.one_admin.proxy.ai_run"') == 2
 	pipeline = (tree.APP / "one_ai" / "reading" / "pipeline.py").read_text()
 	assert pipeline.count("apps.intake_on()") == 2, "pipeline.later and again"

@@ -36,7 +36,7 @@ TYPES = {
 	"Ticker": {
 		"label": _lt("Ticker"),
 		"about": _lt("Words that run along the screen: headlines, notices, figures."),
-		"sources": ("Records", "Record", "Report", "Feed"),
+		"sources": ("Records", "Record", "Report", "Feed", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
 			("text", LONG, _lt("Words"), ""),
@@ -47,7 +47,7 @@ TYPES = {
 	"Text": {
 		"label": _lt("Text"),
 		"about": _lt("A heading or a line of words, written here or taken from a record."),
-		"sources": ("Record", "Records", "Report"),
+		"sources": ("Record", "Records", "Report", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
 			("text", LONG, _lt("Words"), ""),
@@ -79,7 +79,7 @@ TYPES = {
 	"List": {
 		"label": _lt("List"),
 		"about": _lt("Rows from records or a report: a line, a smaller line, a figure and a picture each."),
-		"sources": ("Records", "Report", "Feed"),
+		"sources": ("Records", "Report", "Feed", "Exchange Rates"),
 		"slots": ("title", "subtitle", "value", "image"),
 		"settings": (
 			("heading", TEXT, _lt("Heading"), ""),
@@ -90,7 +90,7 @@ TYPES = {
 	"Number": {
 		"label": _lt("Number"),
 		"about": _lt("One figure, large, with what it counts under it."),
-		"sources": ("Records", "Record", "Report"),
+		"sources": ("Records", "Record", "Report", "Exchange Rates"),
 		"slots": ("value", "label"),
 		"settings": (("label", TEXT, _lt("Label"), ""),),
 		"size": (20, 20),
@@ -120,7 +120,7 @@ TYPES = {
 	"Custom": {
 		"label": _lt("Custom"),
 		"about": _lt("HTML, CSS and JavaScript of your own or OneAI's, in a sandbox. Its rows arrive as one_display_rows."),
-		"sources": ("Records", "Record", "Report", "Feed", "Weather"),
+		"sources": ("Records", "Record", "Report", "Feed", "Weather", "Exchange Rates"),
 		"slots": (),
 		"settings": (("html", CODE, _lt("Code"), ""),),
 		"size": (30, 30),

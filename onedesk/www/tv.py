@@ -27,6 +27,11 @@ def get_context(context):
 		if (preview or collection) and frappe.session.user != "Guest"
 		else None
 	).replace("<", "\\u003c")
+	# Where the socket that wakes a screen is: the site's own address, or the
+	# socket server's port on a development bench (frappe's socketio_client).
+	context.socket_json = json.dumps(
+		{"port": frappe.conf.socketio_port if frappe._dev_server else None, "site": frappe.local.site}
+	)
 	context.words_json = json.dumps(
 		{
 			"pair": _("Pair this screen"),

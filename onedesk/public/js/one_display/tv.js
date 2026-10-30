@@ -17,9 +17,16 @@
 	var KEY = "one_tv";
 	var KEPT = "one_tv_state";
 	var EVERY = 2000;
+	// While the socket is live a screen is woken by every change, so it asks
+	// on its own only to catch what changes without one: a source's records.
+	var EVERY_LIVE = 15000;
 
 	var saved = PREVIEW ? {} : load(KEY);
 	var timer = null;
+	var live = false;
+	var asking = false;
+	var woken = false;
+	var listening = false;
 	var skew = 0;
 	var zone = 0;
 	var screen = { rotate: 0, muted: 0, dark: 0 };
@@ -176,7 +183,10 @@
 	   says so, and is sent only what changed: the rows, the ads, the mode. */
 
 	function poll() {
+		asking = true;
+		woken = false;
 		call("state", { screen: saved.screen, token: saved.token, have: channel && channel.revision }, function (m) {
+			asking = false;
 			offline(false);
 			if (m.gone) {
 				saved = {};
@@ -185,11 +195,48 @@
 				return begin();
 			}
 			apply(m);
-			later(poll, EVERY);
+			listen();
+			later(poll, woken ? 0 : live ? EVERY_LIVE : EVERY);
 		}, function () {
+			asking = false;
 			offline(true);
 			later(poll, EVERY * 3);
 		});
+	}
+
+	/* The socket only wakes a screen to ask now (one_display/live.py). A
+	   hundred screens woken at once spread their asking over half a second. */
+
+	function wake() {
+		if (!saved.token) return;
+		if (asking) {
+			woken = true;
+			return;
+		}
+		later(poll, Math.floor(Math.random() * 500));
+	}
+
+	function listen() {
+		var where = TV.socket;
+		if (listening || PREVIEW || !where || !where.site) return;
+		listening = true;
+		var base = where.port ? location.protocol + "//" + location.hostname + ":" + where.port : location.origin;
+		var script = document.createElement("script");
+		script.src = base + "/socket.io/socket.io.js";
+		script.onload = function () {
+			if (!window.io) return;
+			var socket = window.io(base + "/" + where.site, { withCredentials: true });
+			socket.on("connect", function () {
+				socket.emit("onedesk_display_join", saved.screen, saved.token, function (said) {
+					live = !!(said && said.ok);
+				});
+			});
+			socket.on("disconnect", function () {
+				live = false;
+			});
+			socket.on("onedesk_display_wake", wake);
+		};
+		document.head.appendChild(script);
 	}
 
 	function preview() {

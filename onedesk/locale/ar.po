@@ -1450,6 +1450,10 @@ msgstr "رسالة منطوقة قصيرة تبثها الشاشات في أوق
 msgid "A signup from the public sign-up page."
 msgstr "تسجيل من صفحة التسجيل العامة."
 
+#: onedesk/one_display/slides.py:176
+msgid "A slide is a picture, a video, a page or a design."
+msgstr "الشريحة صورة أو فيديو أو صفحة أو تصميم."
+
 #: onedesk/one_display/doctype/display_source/display_source.py:17
 msgid "A source reads records, not the rows of a table."
 msgstr "المصدر يقرأ السجلات، لا صفوف جدول."
@@ -5732,6 +5736,10 @@ msgstr "الخادم والبيانات"
 msgid "Background"
 msgstr "الخلفية"
 
+#: frontend/src/display/Slides.vue:152
+msgid "Background Picture"
+msgstr "صورة الخلفية"
+
 #: onedesk/public/js/window/chrome.js:102
 msgid "Background Tasks"
 msgstr "المهام في الخلفية"
@@ -6556,6 +6564,10 @@ msgstr "محظور"
 msgid "Blocked in this browser"
 msgstr "محظور في هذا المتصفح"
 
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "Blocks"
+msgstr "الكتل"
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Blockwork and columns"
@@ -6767,6 +6779,10 @@ msgstr "نبذة"
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Brief and goals"
 msgstr "المتطلبات والأهداف"
+
+#: frontend/src/display/Slides.vue:82
+msgid "Bring Forward"
+msgstr "إلى الأمام"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -7339,6 +7355,10 @@ msgstr "السعة (ساعات)"
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Capitalization No"
 msgstr "رقم الرسملة"
+
+#: frontend/src/display/Slides.vue:105
+msgid "Capitals"
+msgstr "أحرف كبيرة"
 
 #: onedesk/one_display/widgets.py:116
 msgid "Caption"
@@ -8084,6 +8104,10 @@ msgstr "اختر صورة أو فيديو من جهازك."
 #: onedesk/one_sheet/paper.py:356
 msgid "Choose a sheet to print."
 msgstr "اختر ورقة لطباعتها."
+
+#: frontend/src/display/Slides.vue:40
+msgid "Choose a slide, or add one."
+msgstr "اختر شريحة، أو أضف واحدة."
 
 #: frontend/src/display/Layout.vue:59
 msgid "Choose a widget on the screen, or add one."
@@ -9668,6 +9692,10 @@ msgstr "كتابة النصوص"
 #: onedesk/one_studio/letter_heads.py:36
 msgid "Corner"
 msgstr "الزاوية"
+
+#: frontend/src/display/Slides.vue:115 frontend/src/display/Slides.vue:124
+msgid "Corners"
+msgstr "الزوايا"
 
 #. Label of the what (Select) field in DocType 'Reading Lesson'
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
@@ -12417,6 +12445,11 @@ msgstr "تصميم"
 msgid "Design Services"
 msgstr "خدمات التصميم"
 
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:21
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:22
+msgid "Design Slides"
+msgstr "تصميم الشرائح"
+
 #: onedesk/one_ai/jobs.py:72
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:35
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:37
@@ -12448,6 +12481,10 @@ msgstr "اعتماد العميل للتصميم والتشطيبات"
 #: onedesk/one_project/library/architectural_design.json
 msgid "Design signed off by the client"
 msgstr "اعتماد العميل للتصميم"
+
+#: frontend/src/display/Slides.vue:6
+msgid "Design with OneAI"
+msgstr "صمّم مع OneAI"
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Grievance print format
@@ -15463,6 +15500,10 @@ msgstr "سعر الصرف"
 msgid "Exchange Rate Revaluation"
 msgstr "إعادة تقييم سعر الصرف"
 
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Exchange Rates"
+msgstr "أسعار الصرف"
+
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json
 msgid "Excited"
 msgstr "متحمّس"
@@ -16337,6 +16378,10 @@ msgstr "تستخدم الملفات {0} غيغابايت والخطة تسمح �
 msgid "Filing"
 msgstr "الأرشفة"
 
+#: frontend/src/display/Slides.vue:225 frontend/src/display/Slides.vue:229
+msgid "Fill"
+msgstr "ملء"
+
 #: onedesk/one_ai/jobs.py:67
 msgid "Fill What a Record Still Needs"
 msgstr "استكمال ما ينقص السجل"
@@ -16628,6 +16673,10 @@ msgstr "الخطوات الأولى"
 #: onedesk/one_book/print_format/one_period_closing_voucher/one_period_closing_voucher.json
 msgid "Fiscal Year"
 msgstr ""
+
+#: frontend/src/display/Slides.vue:226 frontend/src/display/Slides.vue:230
+msgid "Fit Inside"
+msgstr "احتواء"
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -18326,8 +18375,8 @@ msgid "HTML"
 msgstr ""
 
 #: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "HTML and CSS drawn at 1920 by 1080, in a sandbox."
-msgstr "HTML وCSS يُرسمان بمقاس 1920 في 1080، في بيئة معزولة."
+msgid "HTML and CSS drawn at 1920 by 1080, in a sandbox. A slide made in the designer is drawn from its blocks instead."
+msgstr "HTML وCSS يُرسمان بمقاس 1920 × 1080 في بيئة معزولة. أما الشريحة المصممة في المصمم فتُرسم من كتلها."
 
 #: onedesk/one_display/widgets.py:122
 msgid "HTML, CSS and JavaScript of your own or OneAI's, in a sandbox. Its rows arrive as one_display_rows."
@@ -18527,6 +18576,10 @@ msgstr "الحالة الصحية"
 #: onedesk/one_hr/papers.py:12
 msgid "Health Insurance"
 msgstr "التأمين الصحي"
+
+#: frontend/src/display/Slides.vue:217
+msgid "Heavy"
+msgstr "عريض جداً"
 
 #. Label of the one_height (Float) field in DocType 'Asset Capitalization
 #. Service Item'
@@ -19765,6 +19818,11 @@ msgstr "الإجمالي"
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 msgid "In Company Currency"
 msgstr "بعملة الشركة"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+#: onedesk/one_display/layout.py:51
+msgid "In Currency"
+msgstr "بعملة"
 
 #: onedesk/one_studio/doctype/extension/extension.js:45
 msgid "In Documents, when a document opens"
@@ -21076,6 +21134,10 @@ msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
 #: onedesk/notifications/one_studio/collection_deleted.md
 msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
+
+#: onedesk/one_display/notifications.py
+msgid "It is paused until you play it. Look at it first, then clear Paused."
+msgstr "يبقى متوقفاً حتى تشغّله. اطّلع عليه أولاً، ثم ألغِ «متوقف»."
 
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:9
 msgid "It is saved to OneCloud › Document Templates and is available to everyone in the company."
@@ -23023,6 +23085,10 @@ msgstr "رقم الخطاب"
 msgid "Letter Requested"
 msgstr "طلب خطاب"
 
+#: frontend/src/display/Slides.vue:103
+msgid "Letter Spacing"
+msgstr "تباعد الأحرف"
+
 #. Label of the kind (Select) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Letter Type"
@@ -23101,6 +23167,10 @@ msgstr "الحدود"
 #: onedesk/one_book/report/tax_return/tax_return.py:35
 msgid "Line"
 msgstr "البند"
+
+#: frontend/src/display/Slides.vue:102
+msgid "Line Height"
+msgstr "ارتفاع السطر"
 
 #: frontend/src/writer/components/SpacingDialog.vue:23
 #: frontend/src/writer/components/WriterSettings.vue:32
@@ -23509,6 +23579,10 @@ msgstr "ارتفاع الشعار"
 #: onedesk/one_studio/letter_heads.py:27
 msgid "Logo Only"
 msgstr "الشعار فقط"
+
+#: onedesk/one_display/notifications.py
+msgid "Long Wait"
+msgstr "انتظار طويل"
 
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:85
 msgid "Longer Than Usual"
@@ -24082,6 +24156,15 @@ msgstr "اجعله العنوان الرئيسي"
 msgid "Make More"
 msgstr "تصنيع المزيد"
 
+#: onedesk/one_display/doctype/music_playlist/music_playlist.js:31
+#: onedesk/one_display/doctype/music_playlist/music_playlist.js:39
+msgid "Make Music"
+msgstr "صنع موسيقى"
+
+#: onedesk/one_ai/jobs.py:73
+msgid "Make Music for a Screen"
+msgstr "صنع موسيقى لشاشة"
+
 #: frontend/src/inventory/item/ItemBuying.vue:106
 #: frontend/src/inventory/item/ItemSelling.vue:85
 #: frontend/src/project/ProjectPage.vue:345
@@ -24121,6 +24204,19 @@ msgstr "صنع صورة"
 #: onedesk/one_ai/jobs.py:71
 msgid "Make a Picture for a Slide"
 msgstr "صنع صورة لشريحة"
+
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:59
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:61
+msgid "Make a Video"
+msgstr "صنع فيديو"
+
+#: onedesk/one_ai/jobs.py:72
+msgid "Make a Video for a Slide"
+msgstr "صنع فيديو لشريحة"
+
+#: frontend/src/display/Slides.vue:163 frontend/src/display/Slides.vue:481
+msgid "Make a Video with OneAI"
+msgstr "صنع فيديو مع OneAI"
 
 #. Description of the 'Workspaces' (Table) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
@@ -24217,6 +24313,10 @@ msgstr "إجراء التغييرات التي يقترحها فحص الدفا�
 #: onedesk/one_inventory/abilities.py:26
 msgid "Make the changes Inventory Check offers, such as turning on batches or naming the home warehouse."
 msgstr "إجراء التغييرات التي يقترحها فحص المخزون، مثل تفعيل الدفعات أو تحديد المستودع الرئيسي."
+
+#: frontend/src/display/Slides.vue:112
+msgid "Make with OneAI"
+msgstr "اصنع مع OneAI"
 
 #: onedesk/one_hr/passkey.py:82
 msgid "Make your passkey on your phone."
@@ -25533,6 +25633,10 @@ msgstr "الاسم"
 msgid "Name and occupation of parent, spouse and children."
 msgstr "أسماء ومهن الوالدين والزوج والأبناء."
 
+#: onedesk/one_display/doctype/display_source/display_source.py:34
+msgid "Name at least one currency, such as USD."
+msgstr "اذكر عملة واحدة على الأقل، مثل USD."
+
 #: onedesk/public/js/doctype_settings.js:753
 msgid "Name each new {0} by"
 msgstr "سمِّ كل {0} جديد حسب"
@@ -26082,6 +26186,10 @@ msgstr "تسجيل دخول جديد"
 #: onedesk/notifications/one_admin/new_signup.md
 msgid "New Signup"
 msgstr "اشتراك جديد"
+
+#: frontend/src/display/Slides.vue:7
+msgid "New Slide"
+msgstr "شريحة جديدة"
 
 #: frontend/src/display/Layout.vue:72
 msgid "New Source"
@@ -27201,6 +27309,10 @@ msgstr "بدون تسجيل دخول"
 msgid "No signature"
 msgstr "لا يوجد توقيع"
 
+#: frontend/src/display/Slides.vue:23
+msgid "No slides yet. Add one with the plus."
+msgstr "لا توجد شرائح بعد. أضف واحدة بعلامة الزائد."
+
 #: onedesk/public/js/hiring.js:168
 msgid "No sound. Check the microphone."
 msgstr "لا يوجد صوت. تحقّق من الميكروفون."
@@ -27522,6 +27634,10 @@ msgstr "غير موجود"
 msgid "Not Invoiced Yet"
 msgstr "لم تُفوتر بعد"
 
+#: onedesk/one_display/notifications.py
+msgid "Not Made by OneAI"
+msgstr "لم يصنعه OneAI"
+
 #. Label in the One Bank Transaction print format
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
 msgid "Not Matched"
@@ -27780,6 +27896,10 @@ msgstr "غير مدفوع"
 msgid "Not paid within {0} days, so its name is free again."
 msgstr "لم يُدفع خلال {0} أيام، فأصبح اسمه متاحًا من جديد."
 
+#: onedesk/one_display/doctype/display_track/display_track.json
+msgid "Not played until this is cleared. What OneAI makes arrives paused."
+msgstr "لا يُشغَّل حتى يُلغى هذا. ما يصنعه OneAI يصل متوقفاً."
+
 #: onedesk/one/notification_center.py:47
 msgid "Not pushed in this workspace."
 msgstr "لا يُرسل كإشعار فوري في مساحة العمل هذه."
@@ -27830,6 +27950,10 @@ msgstr "لم يُعدّ بعد"
 #: onedesk/one_hr/hiring.py:332
 msgid "Not shown"
 msgstr "غير ظاهر"
+
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "Not shown until this is cleared. What OneAI makes arrives paused."
+msgstr "لا تُعرض حتى يُلغى هذا. ما يصنعه OneAI يصل متوقفاً."
 
 #. Description of the 'Hide When Empty' (Check) field in DocType 'Record Head
 #. Band'
@@ -28113,10 +28237,18 @@ msgstr "لا شيء لضبطه هنا."
 msgid "Nothing to show"
 msgstr "لا شيء لعرضه"
 
+#: frontend/src/display/Slides.vue:73
+msgid "Nothing to show yet."
+msgstr "لا شيء لعرضه بعد."
+
 #: frontend/src/intake/IntakeInbox.vue:15
 #: frontend/src/inventory/plant/PlantFloor.vue:49
 msgid "Nothing waiting"
 msgstr "لا شيء بانتظارك"
+
+#: onedesk/one_display/notifications.py
+msgid "Nothing was added to {playlist}. Try again, or describe it differently."
+msgstr "لم يُضف شيء إلى {playlist}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
 #: onedesk/one_ai/chat.py:121
 msgid "Nothing was asked."
@@ -29166,6 +29298,10 @@ msgstr "تعذّر على OneAI صنع الصورة. حاول مرة أخرى."
 msgid "OneAI could not make the recording. Try again."
 msgstr "تعذّر على OneAI صنع التسجيل. حاول مرة أخرى."
 
+#: onedesk/one_display/notifications.py
+msgid "OneAI could not make “{what}”"
+msgstr "تعذّر على OneAI صنع «{what}»"
+
 #: onedesk/one_studio/mend.py:102
 msgid "OneAI could not work out what went wrong with {0}. Try again later."
 msgstr "لم يتمكن OneAI من معرفة ما الخطأ في {0}. حاول لاحقًا."
@@ -29232,6 +29368,15 @@ msgstr "نفدت أرصدة OneAI"
 #: onedesk/one_studio/mend.py:150
 msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr "يصلحها OneAI الآن. يستغرق ذلك بضع دقائق، وستُبلَّغ عند الانتهاء."
+
+#: onedesk/one_display/doctype/music_playlist/music_playlist.js:38
+msgid "OneAI is making the music. You will be told when it is in the playlist."
+msgstr "يصنع OneAI الموسيقى. ستُبلَّغ حين تصبح في قائمة التشغيل."
+
+#: frontend/src/display/Slides.vue:476
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:64
+msgid "OneAI is making the video. You will be told when it is in the playlist."
+msgstr "يصنع OneAI الفيديو. ستُبلَّغ حين يصبح في قائمة التشغيل."
 
 #: onedesk/one_ai/chat.py:116
 msgid "OneAI is off"
@@ -29787,6 +29932,10 @@ msgstr "يمكن لـ {0} أو لمسؤول فقط اتخاذ هذا القرا�
 #: onedesk/one_account/closing.py:54
 msgid "Only {0}, who pays for the workspace, can do this."
 msgstr "لا يستطيع ذلك إلا {0}، الذي يدفع لمساحة العمل."
+
+#: frontend/src/display/Slides.vue:125
+msgid "Opacity"
+msgstr "العتامة"
 
 #. The button on a notification's mail
 #. Label of the open (Check) field in DocType 'Workspace Server'
@@ -37971,6 +38120,10 @@ msgstr "أرفض هذا؟"
 msgid "Say what OneAI should keep in mind."
 msgstr "قل ما يجب أن يتذكره OneAI."
 
+#: onedesk/one_display/make.py:110
+msgid "Say what OneAI should make."
+msgstr "قل ما الذي ينبغي أن يصنعه OneAI."
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:60
 msgid "Say what to write in {0}, or pick one of these."
 msgstr "قل ماذا تريد أن يُكتب في {0}، أو اختر أحد هذه."
@@ -38232,6 +38385,12 @@ msgstr "المقاعد"
 msgid "Second fix and fittings"
 msgstr "التمديدات النهائية والتركيبات"
 
+#: frontend/src/display/Slides.vue:143
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+#: onedesk/one_display/doctype/display_track/display_track.json
+msgid "Seconds"
+msgstr "ثوانٍ"
+
 #: onedesk/one_display/widgets.py:43
 msgid "Seconds Across"
 msgstr "ثواني العبور"
@@ -38416,6 +38575,10 @@ msgstr ""
 msgid "Selling, buying and stock set up"
 msgstr "إعداد المبيعات والمشتريات والمخزون"
 
+#: frontend/src/display/Slides.vue:215
+msgid "Semibold"
+msgstr "شبه عريض"
+
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:62
 msgid "Semicolon"
 msgstr "فاصلة منقوطة"
@@ -38433,6 +38596,10 @@ msgstr "فاصلة منقوطة"
 #: onedesk/www/s.html:107
 msgid "Send"
 msgstr "إرسال"
+
+#: frontend/src/display/Slides.vue:83
+msgid "Send Back"
+msgstr "إلى الخلف"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1232
 msgid "Send From New Addresses"
@@ -39238,6 +39405,10 @@ msgstr "عدة ملفات"
 #: onedesk/public/js/one_account/account_center.js:1379
 msgid "Several people"
 msgstr "عدة أشخاص"
+
+#: frontend/src/display/Slides.vue:32 frontend/src/display/Slides.vue:207
+msgid "Shape"
+msgstr "شكل"
 
 #: onedesk/one/people.py:60
 msgid "Shape One to the way you work with your own fields, record types and forms."
@@ -40450,6 +40621,10 @@ msgstr "المهارات"
 msgid "Slab"
 msgstr "الشريحة"
 
+#: frontend/src/display/Slides.vue:136
+msgid "Slide"
+msgstr "شريحة"
+
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
@@ -41052,6 +41227,10 @@ msgstr ""
 #: onedesk/public/js/one/one_control.js:43
 msgid "Start Again"
 msgstr "البدء من جديد"
+
+#: frontend/src/display/Slides.vue:158
+msgid "Start Again on the Canvas"
+msgstr "ابدأ من جديد على اللوحة"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:49
 msgid "Start Date"
@@ -43246,6 +43425,10 @@ msgstr "نوع المكالمة"
 msgid "Tell"
 msgstr "أبلغ"
 
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Tell Counters After (Minutes)"
+msgstr "إبلاغ الشبابيك بعد (دقائق)"
+
 #: onedesk/one_account/ai.py:94
 msgid "Tell OneAI a little less, in a few sentences."
 msgstr "أخبر OneAI بأقل قليلًا، في بضع جمل."
@@ -44097,6 +44280,10 @@ msgstr "البلد الذي ينتمي إليه هذا النوع من الوث�
 #: onedesk/one_mail/notifications.py
 msgid "The covering person"
 msgstr "الشخص المغطّي"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "The currencies shown, such as USD, EUR, GBP, separated by commas."
+msgstr "العملات المعروضة، مثل USD وEUR وGBP، تفصل بينها فواصل."
 
 #: onedesk/public/js/one/one_control.js:29
 msgid "The currency can't change once there are transactions."
@@ -45622,6 +45809,10 @@ msgstr "لا يوجد حساب بنكي للشركة، لذا لا تعرف ال
 msgid "There is no company to start again."
 msgstr "لا توجد شركة للبدء من جديد."
 
+#: onedesk/one_display/doctype/display_source/display_source.py:37
+msgid "There is no currency {0}."
+msgstr "لا توجد عملة {0}."
+
 #: onedesk/one_hr/overtime.py:82
 msgid "There is no day to record this against."
 msgstr "لا يوجد يوم يمكن تسجيل هذا عليه."
@@ -46264,6 +46455,10 @@ msgstr "هذا الموقع لا يدير مساحة العمل هذه."
 #: onedesk/one_admin/site.py:29
 msgid "This site doesn't manage workspaces."
 msgstr "هذا الموقع لا يدير مساحات العمل."
+
+#: frontend/src/display/Slides.vue:157
+msgid "This slide was written as code, so it is shown here but can't be moved block by block."
+msgstr "كُتبت هذه الشريحة كرمز، لذا تُعرض هنا لكن لا يمكن تحريكها كتلةً كتلة."
 
 #: onedesk/one_display/sources.py:50
 msgid "This source has nobody to read as."
@@ -49883,6 +50078,10 @@ msgstr "ما يقوله كل إشعار، والقنوات التي يمكنه �
 msgid "What each person costs, part by part."
 msgstr "تكلفة كل شخص، جزءًا جزءًا."
 
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "What each rate is given in. Empty is the company's own currency."
+msgstr "العملة التي يُعطى بها كل سعر. الفراغ يعني عملة الشركة."
+
 #: onedesk/public/js/one/access_center.js:33
 #: onedesk/public/js/one/access_center.js:119
 msgid "What each role can do in {0}."
@@ -50741,6 +50940,10 @@ msgstr "عندما تنشر One إصدارًا جديدًا من اتفاقية 
 msgid "When OneAI cannot read a document for you, or waits for credits to read it."
 msgstr "عندما يتعذّر على OneAI قراءة مستند لك، أو ينتظر أرصدة لقراءته."
 
+#: onedesk/one_display/notifications.py
+msgid "When OneAI could not make a video or a piece of music somebody asked for."
+msgstr "حين يتعذّر على OneAI صنع فيديو أو مقطوعة موسيقية طلبها أحد."
+
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "When OneAI credits are added, from a pack, the monthly plan or One."
@@ -51066,6 +51269,10 @@ msgstr "عندما تُعاد إليك مهمة طلبت مراجعتها."
 #: onedesk/one_hr/notifications.py
 msgid "When a training event you attend is scheduled."
 msgstr "عند جدولة فعالية تدريب تحضرها."
+
+#: onedesk/one_display/notifications.py
+msgid "When a video or a piece of music somebody asked OneAI for is ready in its playlist."
+msgstr "حين يصبح فيديو أو مقطوعة موسيقية طُلبت من OneAI جاهزة في قائمة تشغيلها."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -51579,6 +51786,14 @@ msgstr "عندما يُنجز شخص آخر مهمة أسندتها إليه أ�
 #: onedesk/one_book/notifications.py
 msgid "When somebody flags a customer who is over their credit limit."
 msgstr "عندما ينبّه أحد إلى عميل تجاوز حده الائتماني."
+
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "When somebody has waited this long, whoever staffs a counter is told. Empty tells nobody."
+msgstr "حين ينتظر أحد هذه المدة، يُبلَّغ من يعمل على الشباك. الفراغ لا يُبلغ أحداً."
+
+#: onedesk/one_display/notifications.py
+msgid "When somebody in a queue has waited longer than the queue allows."
+msgstr "حين ينتظر أحد في الطابور أطول مما يسمح به الطابور."
 
 #. When a notification is sent
 #: onedesk/one_hr/notifications.py
@@ -52686,6 +52901,10 @@ msgstr "من يقرأ له OneAI ومن وصله، أو كل مسؤول"
 msgid "Whoever asked"
 msgstr "من طلب"
 
+#: onedesk/one_display/notifications.py
+msgid "Whoever asked for it"
+msgstr "من طلبه"
+
 #. Who a notification is sent to
 #: onedesk/one_inventory/notifications.py
 msgid "Whoever asked for it, and the project's manager"
@@ -52846,6 +53065,10 @@ msgstr "من ضبطه"
 #: onedesk/one/notifications.py
 msgid "Whoever set up the repeat, and accounts for an invoice, bill, order or entry"
 msgstr "من أعدّ التكرار، والحسابات لفاتورة أو طلب أو قيد"
+
+#: onedesk/one_display/notifications.py
+msgid "Whoever staffs one of the queue's counters"
+msgstr "من يعمل على أحد شبابيك الطابور"
 
 #. Who a notification is sent to
 #: onedesk/one_portal/notifications.py
@@ -54909,6 +55132,10 @@ msgstr "تحديثك الآن في المشروع."
 #: onedesk/public/js/project.js:57
 msgid "Your update on this project is asked for today."
 msgstr "مطلوب منك اليوم تحديث عن هذا المشروع."
+
+#: frontend/src/display/Slides.vue:345
+msgid "Your words here"
+msgstr "كلماتك هنا"
 
 #: onedesk/www/welcome.html:2
 msgid "Your workspace"
@@ -59907,6 +60134,10 @@ msgstr "{screen} غير متصلة"
 msgid "{sender_name} and {subject} fill in from the message."
 msgstr "يُملأ {sender_name} و{subject} من الرسالة."
 
+#: onedesk/one_display/notifications.py
+msgid "{service}, in {queue}. Call it from Counter."
+msgstr "{service}، في {queue}. نادِه من الشباك."
+
 #. Subject of a notification
 #: onedesk/one_calendar/notifications.py
 msgid "{state}: {event}, {when}"
@@ -59956,6 +60187,10 @@ msgstr "{task} على {asset} مستحقة في {due}"
 #: onedesk/one_inventory/notifications.py
 msgid "{task} on {asset} is late"
 msgstr "{task} على {asset} متأخرة"
+
+#: onedesk/one_display/notifications.py
+msgid "{ticket} has waited {minutes} minutes"
+msgstr "{ticket} ينتظر منذ {minutes} دقيقة"
 
 #. Subject of a notification
 #: onedesk/one_ai/notifications.py
@@ -60349,4 +60584,8 @@ msgstr "أُوقفت {workspace} ولم تُدفع، لذا أصبحت غير م
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
+
+#: onedesk/one_display/notifications.py
+msgid "“{what}” is ready in {playlist}"
+msgstr "«{what}» جاهز في {playlist}"
 

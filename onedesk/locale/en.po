@@ -39,6 +39,9 @@ msgstr "OneAI"
 msgid "One Calendar"
 msgstr "OneCalendar"
 
+msgid "One Display"
+msgstr "OneDisplay"
+
 msgid "One Task"
 msgstr "OneTask"
 

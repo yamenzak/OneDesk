@@ -7,6 +7,8 @@ such as a queue board, a clock or the weather, music, and spoken ads, on a
 schedule you set. Every screen showing the same channel shows the same slide
 at the same moment.
 
+![A workshop's screen: late tasks, the time, a QR code and exchange rates running along the bottom](overview/channel.png)
+
 ## Finding Your Way
 
 | You see | What it is |

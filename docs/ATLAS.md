@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 76 | 2 | 36 | 0 |
+| onedesk | 76 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -62,6 +62,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | display_layout (`frontend/src/display/Layout.vue`) | – | – | – | – |
+| display_slides (`frontend/src/display/Slides.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
@@ -954,19 +955,19 @@ Pages: onecalendar (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Display Channel | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Display Screen | on a rail or a home | the administrator | untouched | yes | taught |  | yes |  |  |  | Screen Offline |
-| Display Settings | on a rail or a home | the administrator | untouched | no | general |  |  |  |  |  |  |
-| Display Source | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Display Channel | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Screen | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  | Screen Offline |
+| Display Settings | on a rail or a home | the administrator | events | no | general |  |  |  |  |  |  |
+| Display Source | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 | Display Voice | engine: a phrase OneDisplay's screens say in OneAI's voice, recorded once and kept | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Music Playlist | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Queue | on a rail or a home | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
-| Queue Ticket | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Slide Playlist | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Voice Ad | on a rail or a home | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
-| Widget Collection | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Music Playlist | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Queue | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Queue Ticket | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  | Long Wait |
+| Slide Playlist | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 
-Pages: counter (on a rail or a home); display-layout (inside: a widget collection's Edit Layout opens it).
+Pages: counter (on a rail or a home); display-layout (inside: a widget collection's Edit Layout opens it); display-slides (inside: a slide playlist's Design Slides opens it).
 
 ## onedesk / One Doc
 

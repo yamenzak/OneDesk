@@ -42,6 +42,8 @@ HOSTS = {
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,
+	# Google's address for a made video, rewritten onto the gateway and never called.
+	"generativelanguage.googleapis.com": None,
 }
 
 

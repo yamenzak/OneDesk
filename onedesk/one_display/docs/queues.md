@@ -13,6 +13,8 @@ each morning.
 
 **Counter** opens on the queue and counter you staff.
 
+![Counter, serving a ticket](queues/counter.png)
+
 | Button | What it does |
 | --- | --- |
 | **Call Next** | Closes the ticket you were serving and calls whoever has waited longest. |
@@ -24,4 +26,11 @@ Who waits, and for which service, is listed under the buttons.
 ## On the Board
 
 A **Queue Board** widget shows the tickets called, newest first, and how many
-wait for each service. A new call shows large for a moment and is read aloud.
+wait for each service. A new call shows large for a moment and is read aloud, on every screen within
+a second or so.
+
+## Nobody Left Waiting
+
+Set **Tell Counters After (Minutes)** on a queue, and whoever staffs its
+counters is told when somebody has waited longer than that. Each ticket is
+told once.

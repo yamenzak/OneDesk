@@ -192,6 +192,14 @@ GROUPS = {
 			"training", "mitarbeiter", "urlaub", "gehalt", "bewerb", "موظف", "إجازة", "راتب", "رواتب", "توظيف",
 		),
 	},
+	"display": {
+		"about": "OneDisplay: the screens and whether they are online, the queues and who is waiting, and spoken ads for the screens",
+		"tools": ("queue_now", "screens_now", "plan_voice_ad"),
+		"words": (
+			"screen", "display", "tv", "signage", "channel", "slide", "playlist", "queue", "ticket", "waiting", "counter",
+			"kiosk", "voice ad", "announcement", "bildschirm", "warteschlange", "شاشة", "طابور", "تذكرة", "إعلان",
+		),
+	},
 	"studio": {
 		"about": "OneStudio: extensions (code that runs on a record, a list, one of One's pages or a record's head, or on its own on a schedule), changing or fixing one, their errors, the workspace's own record types, changing a form",
 		"tools": (
@@ -311,6 +319,7 @@ MODULES = {
 	"HR": "hr",
 	"Payroll": "hr",
 	"One HR": "hr",
+	"One Display": "display",
 	"One Mail": "mail",
 	"One Storage": "files",
 	"One Studio": "studio",
@@ -340,6 +349,9 @@ PAGES = {
 	"books": "books",
 	"onecrm": "crm",
 	"onehr": "hr",
+	"counter": "display",
+	"display-layout": "display",
+	"display-slides": "display",
 }
 
 

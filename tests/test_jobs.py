@@ -37,7 +37,7 @@ def test_the_door_takes_a_tier_and_never_a_model_or_words():
 def test_every_job_is_a_kind_of_work_models_knows():
 	for key, job in jobs.JOBS.items():
 		assert job.kind in models.USE, f"{key} is {job.kind}, which models.USE does not name"
-		assert job.module in ("OneAI", "OneMail", "OneHR", "OneIntake", "One"), key
+		assert job.module in ("OneAI", "OneMail", "OneHR", "OneIntake", "One", "OneDisplay"), key
 
 
 def test_every_job_is_whole_and_every_word_has_a_job():
@@ -50,6 +50,9 @@ def test_every_job_is_whole_and_every_word_has_a_job():
 		if job.kind in ("decide", "decide_media", "extract"):
 			assert job.takes > 0, f"{key} holds nothing before it calls"
 			continue
+		if job.kind in jobs.MAKES:
+			assert jobs.words(key) and not job.most, f"{key} is held by what it makes, and told what to make"
+			continue
 		assert job.most > 0, f"{key} holds nothing before it calls"
 		assert jobs.words(key), f"{key} has no words/{key}.txt"
 	orphans = {path.stem for path in jobs.WORDS.glob("*.txt")} - set(jobs.JOBS)
@@ -61,7 +64,7 @@ def test_the_voice_says_what_not_to_do():
 	every job; one that only says what to write fills gaps with fiction. Llama
 	Guard is told nothing (`jobs.UNTOLD`): what it were told it would judge."""
 	for key in jobs.JOBS:
-		if jobs.JOBS[key].kind in jobs.UNTOLD:
+		if jobs.JOBS[key].kind in (*jobs.UNTOLD, *jobs.MAKES):
 			continue
 		told = jobs.told(key).lower()
 		assert told.startswith("you are oneai"), key

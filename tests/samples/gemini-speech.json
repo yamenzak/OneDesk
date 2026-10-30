@@ -1,0 +1,38 @@
+{
+ "candidates": [
+  {
+   "content": {
+    "parts": [
+     {
+      "inlineData": {
+       "mimeType": "audio/wav",
+       "data": "UklGRg=="
+      }
+     }
+    ],
+    "role": "model"
+   },
+   "finishReason": "STOP",
+   "index": 0
+  }
+ ],
+ "usageMetadata": {
+  "promptTokenCount": 24,
+  "candidatesTokenCount": 144,
+  "totalTokenCount": 168,
+  "promptTokensDetails": [
+   {
+    "modality": "TEXT",
+    "tokenCount": 24
+   }
+  ],
+  "candidatesTokensDetails": [
+   {
+    "modality": "AUDIO",
+    "tokenCount": 144
+   }
+  ],
+  "serviceTier": "standard"
+ },
+ "modelVersion": "gemini-3.8-flash-lite-tts"
+}

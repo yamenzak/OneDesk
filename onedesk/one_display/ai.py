@@ -29,6 +29,9 @@ NOT_FOR_AI = {
 	"make.picture": "It is OneAI making a picture for a slide, which the person then keeps or not.",
 	"make.design": "It is OneAI designing a slide, which the person then keeps or not.",
 	"make.widget": "It is OneAI writing a widget's code, which the person then keeps or not.",
+	"make.video": "It is OneAI making a video for a slide, which arrives paused for the person to play or not.",
+	"make.music": "It is OneAI writing music for a playlist, which arrives paused for the person to play or not.",
+	"slides.save": "Slides are arranged by eye in the designer, where OneAI already designs a slide when asked.",
 	"voices.record": "It is OneAI recording a voice ad, which the person listens to before it plays.",
 }
 
@@ -59,7 +62,14 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on the counter and the layout editor."""
+	"""The sentence the model is told on the counter, the layout editor and
+	the slide designer."""
+	if said.get("page") == "display-slides":
+		return (
+			"The reader is designing a slide playlist: each slide in order, a designed one as text, pictures, "
+			"shapes and QR codes placed on a picture of the screen. OneAI designs a slide, makes a picture or "
+			"makes a video from the designer's own buttons; how slides work is in OneDisplay's documentation (how_to)."
+		)
 	if said.get("page") == "display-layout":
 		return (
 			"The reader is laying out a widget collection: widgets placed on a live picture of the screen, each "

@@ -217,13 +217,13 @@ No doctypes yet.
 | Display Channel | 18 | document |
 | Display Screen | 17 | document |
 | Display Settings | 2 | single |
-| Display Slide | 9 | child |
-| Display Source | 28 | document |
-| Display Track | 3 | child |
+| Display Slide | 11 | child |
+| Display Source | 32 | document |
+| Display Track | 4 | child |
 | Display Voice | 5 | document |
 | Display Widget | 13 | child |
 | Music Playlist | 3 | document |
-| Queue | 3 | document |
+| Queue | 4 | document |
 | Queue Counter | 2 | child |
 | Queue Service | 2 | child |
 | Queue Ticket | 11 | document |
@@ -384,6 +384,8 @@ No doctypes yet.
 * `onedesk.one_admin.operator.try_the_gateway`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
+* `onedesk.one_admin.proxy.ai_begin`
+* `onedesk.one_admin.proxy.ai_collect`
 * `onedesk.one_admin.proxy.ai_embed`
 * `onedesk.one_admin.proxy.ai_make`
 * `onedesk.one_admin.proxy.ai_read`
@@ -527,8 +529,11 @@ No doctypes yet.
 * `onedesk.one_display.layout.fields`
 * `onedesk.one_display.layout.get`
 * `onedesk.one_display.layout.save`
+* `onedesk.one_display.live.admit`
 * `onedesk.one_display.make.design`
+* `onedesk.one_display.make.music`
 * `onedesk.one_display.make.picture`
+* `onedesk.one_display.make.video`
 * `onedesk.one_display.make.widget`
 * `onedesk.one_display.queue.call_next`
 * `onedesk.one_display.queue.counter_state`
@@ -543,6 +548,9 @@ No doctypes yet.
 * `onedesk.one_display.screens.state`
 * `onedesk.one_display.screens.status`
 * `onedesk.one_display.screens.take`
+* `onedesk.one_display.slides.get`
+* `onedesk.one_display.slides.qr`
+* `onedesk.one_display.slides.save`
 * `onedesk.one_display.sources.fields_of`
 * `onedesk.one_display.sources.peek`
 * `onedesk.one_display.sources.report_fields`

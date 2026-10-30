@@ -64,6 +64,18 @@ def make(tenant: str, action: str, text: str, tier: str | None = None, reference
 	return gateway.make(job.kind, tier, prompt, tenant, voice=voice, reference=reference or action, action=action)
 
 
+def begin(tenant: str, action: str, text: str, tier: str | None = None, reference: str | None = None, orientation: str | None = None) -> dict:
+	"""A job that makes a video, begun for one workspace: the ticket its
+	`collect` takes. Billed when it is collected."""
+	job = _job(action)
+	if job.kind != "video":
+		raise Refused(f"{action} does not make a video")
+	tier = tier if tier in models.TIERS else None
+	told = jobs.told(action)
+	prompt = f"{told}\n\n{text}" if told else text
+	return gateway.begin(tier, prompt, tenant, orientation=orientation or "Landscape", reference=reference or action, action=action)
+
+
 # The kinds a model answers in its own shape rather than in words, and what
 # each is sent besides the text (docs/AICENTER.md, Reading what arrives).
 READERS = {"decide": "questions", "decide_media": "questions", "extract": "fields"}

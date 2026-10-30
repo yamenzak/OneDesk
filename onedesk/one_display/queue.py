@@ -8,6 +8,8 @@ import frappe
 from frappe import _
 from frappe.utils import cint, now_datetime, today
 
+from onedesk.one_display import live
+
 DOCTYPE = "Queue Ticket"
 BOARD = 8
 
@@ -103,6 +105,7 @@ def call_next(
 	serving = _serving(queue, counter)
 	if serving:
 		frappe.db.set_value(DOCTYPE, serving, "status", "Done")
+		live.wake()
 	filters = {"queue": queue, "ticket_date": today(), "status": "Waiting"}
 	if service:
 		filters["service"] = service
@@ -147,6 +150,7 @@ def finish(
 	doc = frappe.get_doc(DOCTYPE, ticket)
 	_may(doc.queue)
 	frappe.db.set_value(DOCTYPE, ticket, "status", status)
+	live.wake()
 	return counter_state(doc.queue, doc.counter)
 
 

@@ -87,6 +87,16 @@ LOOKED = {
 	("fetching", "frontend/src/cloud/OneCloud.vue"),
 	("icons", "onedesk/one_studio/letter_heads.py"),
 	("icons", "onedesk/public/js/outside.js"),
+	# The TV player loads no frappe at all: ES5 for a 2017 TV, its own requests,
+	# its last answer kept for a restart with no network, and its own glyphs.
+	("fetching", "onedesk/public/js/one_display/tv.js"),
+	("fetching", "onedesk/public/js/one_display/worker.js"),
+	("per-user state", "onedesk/public/js/one_display/tv.js"),
+	("icons", "onedesk/public/js/one_display/tv.js"),
+	# A QR code is drawn as SVG; it is not an icon.
+	("icons", "onedesk/one_display/programme.py"),
+	("icons", "onedesk/one_display/slides.py"),
+	("icons", "onedesk/one_display/checks.py"),
 }
 
 

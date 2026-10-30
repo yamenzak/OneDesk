@@ -15,6 +15,8 @@ CAPS = {
 	"input_tokens": ("input", "text", "tokens"),
 	"cached_tokens": ("cached", "text", "tokens"),
 	"output_tokens": ("output", "text", "tokens"),
+	"songs": ("output", "audio", "songs"),
+	"video_seconds": ("output", "video", "seconds"),
 }
 
 

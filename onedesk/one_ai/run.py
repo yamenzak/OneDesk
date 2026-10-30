@@ -410,8 +410,8 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 
 
 def make(action: str, text: str, reference: str | None = None, voice: str | None = None) -> dict:
-	"""A voice or a picture made by a job: `{"data": base64, "mime": ...}`,
-	billed like `once`."""
+	"""A voice, a picture or a song made by a job: `{"data": base64,
+	"mime": ...}`, billed like `once`."""
 	from onedesk.one import apps
 
 	apps.refuse_ai()
@@ -425,6 +425,33 @@ def make(action: str, text: str, reference: str | None = None, voice: str | None
 	)
 	_counted(reference, (out or {}).get("credits"))
 	return {"data": (out or {}).get("data") or "", "mime": (out or {}).get("mime") or ""}
+
+
+def begin(action: str, text: str, reference: str | None = None, orientation: str | None = None) -> str:
+	"""Begin a video made by a job: the ticket `collect` takes. Nothing is
+	billed until it is collected."""
+	from onedesk.one import apps
+
+	apps.refuse_ai()
+	out = account.ask(
+		"onedesk.one_admin.proxy.ai_begin",
+		action=action,
+		text=text,
+		tier=center.tier(),
+		reference=reference,
+		orientation=orientation,
+	)
+	return (out or {}).get("ticket") or ""
+
+
+def collect(ticket: str, reference: str | None = None) -> dict:
+	"""A begun video: `{"done": False}` until it is made, then its bytes,
+	billed like `once`."""
+	out = account.ask("onedesk.one_admin.proxy.ai_collect", ticket=ticket) or {}
+	if not out.get("done"):
+		return {"done": False}
+	_counted(reference, out.get("credits"))
+	return {"done": True, "data": out.get("data") or "", "mime": out.get("mime") or ""}
 
 
 def read(action: str, state: str, asked: dict, reference: str | None = None, on: str | None = None) -> dict:

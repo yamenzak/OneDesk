@@ -31,7 +31,11 @@
   "latitude",
   "column_break_weather",
   "longitude",
-  "units"
+  "units",
+  "section_rates",
+  "base_currency",
+  "column_break_rates",
+  "currencies"
  ],
  "fields": [
   {
@@ -45,7 +49,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather",
+   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather\nExchange Rates",
    "reqd": 1,
    "default": "Records",
    "description": "Where its rows come from, such as records, a report, a queue, a news feed or the weather."
@@ -218,10 +222,33 @@
    "label": "Units",
    "options": "Metric\nImperial",
    "default": "Metric"
+  },
+  {
+   "fieldname": "section_rates",
+   "fieldtype": "Section Break",
+   "label": "Exchange Rates",
+   "depends_on": "eval:doc.kind=='Exchange Rates'"
+  },
+  {
+   "fieldname": "base_currency",
+   "fieldtype": "Link",
+   "options": "Currency",
+   "label": "In Currency",
+   "description": "What each rate is given in. Empty is the company's own currency."
+  },
+  {
+   "fieldname": "column_break_rates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "currencies",
+   "fieldtype": "Small Text",
+   "label": "Currencies",
+   "description": "The currencies shown, such as USD, EUR, GBP, separated by commas."
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Source",

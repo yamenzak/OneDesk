@@ -137,6 +137,68 @@ def onedisplay_reports_a_silent_screen_once():
 
 
 @check
+def onedisplay_tells_the_counters_of_a_long_wait():
+	"""A ticket waiting past the showroom's fifteen minutes is told once to
+	whoever staffs its counters; the socket admits a screen only by its
+	token."""
+	from onedesk.one_display import live, queue, screens, tell
+
+	ticket = queue.take(QUEUE, "Payments")
+	name = frappe.db.get_value("Queue Ticket", {"queue": QUEUE, "ticket": ticket["ticket"], "ticket_date": frappe.utils.today()})
+	try:
+		frappe.db.set_value("Queue Ticket", name, "creation", add_to_date(now_datetime(), minutes=-20), update_modified=False)
+
+		def told() -> list:
+			with _told() as said:
+				tell.long_waits()
+			return [one for one in said if one[2].get("record") == ("Queue Ticket", name)]
+
+		first = told()
+		staff = {row.user for row in frappe.get_doc("Queue", QUEUE).counters if row.user}
+		assert first and set(first[0][1]) == staff and first[0][2]["minutes"] >= 20, first
+		assert not told(), "a long wait is told once"
+	finally:
+		frappe.delete_doc("Queue Ticket", name, ignore_permissions=True, force=True)
+		frappe.cache.delete_value(tell.TOLD.format(f"wait:{name}"))
+	with as_user("Guest"):
+		started = screens.start("check")
+	with as_user(OWNER):
+		screen = screens.pair(started["code"], "Socket Check", CHANNEL)
+	try:
+		with as_user("Guest"):
+			token = screens.status(started["screen"], started["secret"])["token"]
+			assert live.admit(screen, "a guess") == {"ok": False}
+			assert live.ROOM.format(screen) in live.admit(screen, token)["rooms"]
+	finally:
+		frappe.delete_doc("Display Screen", screen, ignore_permissions=True, force=True)
+
+
+@check
+def onedisplay_designs_a_slide_on_its_canvas():
+	"""The showroom's slides open in the designer as blocks; a block changed
+	and saved is drawn into the HTML a screen plays, with what was typed
+	escaped; a QR code draws while it is edited."""
+	from onedesk.one_display import slides
+
+	with as_user(OWNER):
+		held = slides.get("Showroom")
+		first = held["slides"][0]
+		title = next(one for one in first["design"]["blocks"] if one["kind"] == "text" and one["size"] >= 100)
+		was = title["text"]
+		title["text"] = "Glass <script>alert(1)</script> entrances"
+		try:
+			saved = slides.save("Showroom", json.dumps(held["slides"]))
+			html = frappe.db.get_value("Display Slide", saved["slides"][0]["id"], "html")
+			assert "Glass &lt;script&gt;" in html and "<script>" not in html, html[:400]
+		finally:
+			title["text"] = was
+			slides.save("Showroom", json.dumps(held["slides"]))
+		assert slides.qr("https://example.com/visit").startswith("<svg")
+		cleaned = slides.clean({"background": "red; x", "blocks": [{"kind": "image", "src": "https://example.com/a.png"}, {"kind": "script"}]})
+		assert cleaned["background"] == slides.GROUND and cleaned["blocks"][0]["src"] == "" and len(cleaned["blocks"]) == 1, cleaned
+
+
+@check
 def onedisplay_fills_the_lobby_from_its_sources():
 	"""The lobby plays its slides and widgets, the projects figure reads as
 	the person who saved it, the night plays the screensaver, and OneAI reads
@@ -152,6 +214,8 @@ def onedisplay_fills_the_lobby_from_its_sources():
 		channel = frappe.get_doc("Display Channel", CHANNEL)
 		night = now_datetime().replace(hour=23, minute=15)
 		assert programme.plays(channel, night)["mode"] == "screensaver", "the lobby sleeps at night"
+		rates = {row["currency"]: row for row in sources.read("Exchange Rates")}
+		assert set(rates) == {"USD", "EUR", "GBP"} and rates["USD"]["base"] == frappe.get_cached_value("Company", frappe.db.get_default("company"), "default_currency"), rates
 		assert ai.queue_now(QUEUE)["queues"][0]["waiting"]
 		assert isinstance(ai.screens_now()["screens"], list)
 		assert ai.plan_voice_ad("Summer Sale", "Ask us about our summer prices.")["state"] == "Proposed"
@@ -167,6 +231,7 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 	from onedesk.one_display.demo import WORKSHOP
 
 	pcm = base64.b64encode(b"\x00\x01" * 1600).decode()
+	designed = "```json\n" + json.dumps({"background": "#0e6e8c", "blocks": [{"kind": "text", "x": 6, "y": 30, "w": 60, "h": 20, "text": "Fitted in a week", "size": 96}]}) + "\n```"
 	pixel = base64.b64encode(base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==")).decode()
 	with as_user(OWNER):
 		held = layout.get(WORKSHOP)
@@ -186,10 +251,64 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 			side_effect=lambda job, text, reference=None, voice=None: {"data": pcm, "mime": "audio/L16;rate=16000"}
 			if job == "display_voice"
 			else {"data": pixel, "mime": "image/png"},
-		), mock.patch("onedesk.one_ai.run.once", side_effect=lambda job, text, reference=None: "```html\n<div>Fitted in a week</div>\n```"):
+		), mock.patch("onedesk.one_ai.run.once", side_effect=lambda job, text, reference=None: designed if job == "display_design" else "```html\n<div>Fitted in a week</div>\n```"):
 			picture = make.picture("A glass shopfront at dusk")
 			assert picture.startswith("/files/") and not frappe.db.get_value("File", {"file_url": picture}, "is_private")
-			assert make.design("Our frameless glass, fitted in a week") == "<div>Fitted in a week</div>"
+			made = make.design("Our frameless glass, fitted in a week")
+			assert made["design"]["blocks"][0]["text"] == "Fitted in a week" and "Fitted in a week" in made["html"], made
 			assert make.widget("The late tasks as cards", rows=json.dumps([{"subject": "Snag list"}])) == "<div>Fitted in a week</div>"
 			recording = voices.record("Frameless Glass")
 			assert recording.endswith(".wav") and frappe.db.get_value("Voice Ad", "Frameless Glass", "audio") == recording
+
+
+@check
+def onedisplay_makes_a_video_and_music_in_the_background():
+	"""A video is begun and collected, a song made, each kept as a public
+	file and added to its playlist paused, with the song's length read from
+	the file, and whoever asked is told; a failure adds nothing and says so."""
+	import io
+	import wave
+
+	from onedesk.one_display import make
+
+	sound = io.BytesIO()
+	with wave.open(sound, "wb") as written:
+		written.setnchannels(1)
+		written.setsampwidth(2)
+		written.setframerate(8000)
+		written.writeframes(b"\x00\x00" * 8000 * 3)
+	song = base64.b64encode(sound.getvalue()).decode()
+	film = base64.b64encode(b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 64).decode()
+	channel = frappe.get_doc("Display Channel", CHANNEL)
+	slides, tracks = channel.slide_playlist, channel.music_playlist
+	assert slides and tracks, "the showroom channel has slides and music"
+	asked = []
+	told = []
+	with as_user(OWNER), mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch("onedesk.one_display.make.time.sleep"), mock.patch(
+		"onedesk.one_ai.run.begin", side_effect=lambda job, text, reference=None, orientation=None: asked.append((job, orientation)) or "ticket-1"
+	), mock.patch(
+		"onedesk.one_ai.run.collect", side_effect=[{"done": False}, {"done": True, "data": film, "mime": "video/mp4"}]
+	), mock.patch(
+		"onedesk.one_ai.run.make", side_effect=lambda job, text, reference=None, voice=None: {"data": song, "mime": "audio/wav"}
+	), mock.patch("onedesk.one_display.tell.notify.notify", lambda name, users, **context: told.append((name, list(users)))):
+		with mock.patch("frappe.enqueue") as queued:
+			assert make.video(slides, "Sunlight through a frameless glass door")["begun"]
+			assert queued.call_args.kwargs["what"] == "video" and queued.call_args.kwargs["asker"] == OWNER
+			assert make.music(tracks, "Calm piano for a showroom")["begun"] and queued.call_args.kwargs["what"] == "music"
+		before = len(frappe.get_doc("Slide Playlist", slides).slides)
+		make.made_later("video", slides, "Sunlight through a frameless glass door", OWNER)
+		made = frappe.get_doc("Slide Playlist", slides).slides
+		assert len(made) == before + 1 and made[-1].kind == "Video" and made[-1].paused and made[-1].file.endswith(".mp4"), made[-1].as_dict()
+		assert asked == [("display_video", "Landscape")] and told[-1] == ("Made by OneAI", [OWNER]), (asked, told)
+		make.made_later("music", tracks, "Calm piano for a showroom", OWNER)
+		track = frappe.get_doc("Music Playlist", tracks).tracks[-1]
+		assert track.paused and track.duration == 3.0 and track.file.endswith(".wav"), track.as_dict()
+		with mock.patch("onedesk.one_ai.run.make", side_effect=frappe.ValidationError("no")):
+			make.made_later("music", tracks, "Something that fails", OWNER)
+		assert told[-1] == ("Not Made by OneAI", [OWNER]) and frappe.get_doc("Music Playlist", tracks).tracks[-1].name == track.name
+		playlist = frappe.get_doc("Slide Playlist", slides)
+		playlist.set("slides", playlist.slides[:-1])
+		playlist.save()
+		music = frappe.get_doc("Music Playlist", tracks)
+		music.set("tracks", music.tracks[:-1])
+		music.save()

@@ -142,7 +142,7 @@ that exists.
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
 | `src/display/Counter.vue` | Qmatic's and Qminder's service point: the ticket being served large, Call Next, Recall and No Show under it, and who waits beside it |
 | `src/display/Layout.vue` | Yodeck's and ScreenCloud's layout editors: the screen at its shape with the real thing playing behind, widgets as boxes to drag and size, a palette on one side and the chosen widget's source, fields and settings on the other |
-| `src/display/Layout.vue` | Yodeck's and ScreenCloud's layout editors: the screen at its shape with the real thing playing behind, widgets as boxes to drag and size, a palette on one side and the chosen widget's source, fields and settings on the other |
+| `src/display/Slides.vue` | Canva's and Yodeck's slide editors: the slides down one side, the slide at its shape in the middle with its blocks to drag and size, and the chosen block's or slide's settings on the other |
 | `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
 | `src/inventory/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |

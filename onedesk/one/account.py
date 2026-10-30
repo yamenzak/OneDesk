@@ -26,7 +26,11 @@ def configured() -> bool:
 	return all(frappe.conf.get(key) for key in NEEDED)
 
 
-PATIENCE_FOR = {"onedesk.one_admin.proxy.ai_run": 120}
+PATIENCE_FOR = {
+	"onedesk.one_admin.proxy.ai_run": 120,
+	"onedesk.one_admin.proxy.ai_make": 120,
+	"onedesk.one_admin.proxy.ai_collect": 150,
+}
 
 
 def ask(endpoint: str, **params):

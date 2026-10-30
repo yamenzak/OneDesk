@@ -18,7 +18,9 @@ from onedesk.one_display import queue as queues
 from onedesk.one_legal import services
 
 DOCTYPE = "Display Source"
-KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Feed": 900, "Weather": 1800}
+KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Feed": 900, "Weather": 1800, "Exchange Rates": 3600}
+# What a row of an Exchange Rates source carries, for mapping.
+RATE_FIELDS = ("currency", "rate", "base", "line")
 MOST_ROWS = 50
 FIELD = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
 WEATHER = "display_weather"
@@ -108,6 +110,8 @@ def _read(source, fields: set[str], lang: str) -> list[dict]:
 			return [queues.board(source.queue)]
 		if source.kind == "Feed":
 			return _feed(source.feed_url)
+		if source.kind == "Exchange Rates":
+			return _rates(source)
 		if source.kind == "Weather":
 			said = services.call(WEATHER, _weather, source.latitude, source.longitude, source.units)
 			return [said] if said else []
@@ -204,6 +208,34 @@ def _public(url: str) -> str:
 		if not ipaddress.ip_address(address[0]).is_global:
 			raise ValueError("a feed is read from the public internet")
 	return url
+
+
+def currencies_in(said: str | None) -> list[str]:
+	"""USD, eur gbp → ["USD", "EUR", "GBP"], each once, in the order given."""
+	return list(dict.fromkeys(one.strip().upper() for one in re.split(r"[,\s]+", said or "") if one.strip()))
+
+
+def _rates(source) -> list[dict]:
+	"""What one of each currency is worth in the base currency, by ERPNext's
+	own rates: the workspace's Currency Exchange records first, then the
+	provider its Accounts Settings name, so a screen shows what the books
+	use."""
+	from erpnext.setup.utils import get_exchange_rate
+
+	company = frappe.db.get_default("company")
+	base = source.base_currency or (frappe.get_cached_value("Company", company, "default_currency") if company else None)
+	if not base:
+		return []
+	rows = []
+	for currency in currencies_in(source.currencies):
+		if currency == base:
+			continue
+		rate = get_exchange_rate(currency, base)
+		if not rate:
+			continue
+		shown = frappe.format_value(flt(rate, 4), {"fieldtype": "Float", "precision": 4})
+		rows.append({"currency": currency, "rate": shown, "base": base, "line": f"{currency} {shown} {base}"})
+	return rows
 
 
 def _feed(url: str) -> list[dict]:

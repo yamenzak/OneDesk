@@ -98,7 +98,7 @@ def slides(name: str | None, today=None) -> dict | None:
 	today = getdate(today)
 	shown = []
 	for row in playlist.slides:
-		if (row.from_date and getdate(row.from_date) > today) or (row.to_date and getdate(row.to_date) < today):
+		if row.paused or (row.from_date and getdate(row.from_date) > today) or (row.to_date and getdate(row.to_date) < today):
 			continue
 		one = {"id": row.name, "kind": row.kind, "fit": (row.fit or "Cover").lower(), "ms": max(cint(row.duration) or SLIDE, 2) * 1000}
 		if row.kind in ("Image", "Video"):
@@ -201,7 +201,7 @@ def music(name: str | None) -> dict | None:
 	tracks = [
 		{"id": row.name, "src": _url(row.file), "ms": int(flt(row.duration) * 1000), "title": row.title or ""}
 		for row in playlist.tracks
-		if _url(row.file) and flt(row.duration) > 0
+		if _url(row.file) and flt(row.duration) > 0 and not row.paused
 	]
 	return {"name": name, "volume": cint(playlist.volume if playlist.volume is not None else 60), "tracks": tracks}
 

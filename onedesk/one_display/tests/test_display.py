@@ -147,3 +147,24 @@ def test_the_player_runs_on_an_old_tvs_browser():
 			text=True,
 		)
 		assert parsed.returncode == 0, f"{path} is not ES5: {parsed.stderr[-400:]}"
+
+
+def test_a_songs_length_is_read_from_its_file():
+	"""A track nobody's browser measured still plays, so the server reads its
+	length: a WAV from its header, an MP3 from its bitrate."""
+	import base64
+	import io
+	import wave
+
+	seconds = _load(HERE / "make.py", ("BITRATES", "RATES", "seconds"), base64=base64)["seconds"]
+
+	sound = io.BytesIO()
+	with wave.open(sound, "wb") as written:
+		written.setnchannels(1)
+		written.setsampwidth(2)
+		written.setframerate(8000)
+		written.writeframes(b"\x00\x00" * 8000 * 2)
+	assert seconds({"data": base64.b64encode(sound.getvalue()).decode()}) == 2.0
+	frame = bytes([0xFF, 0xFB, 0x90, 0x64]) + b"\x00" * 413
+	assert seconds({"data": base64.b64encode(b"ID3\x03\x00\x00\x00\x00\x00\x00" + frame * 300).decode()}) == round(417 * 300 * 8 / 128000, 1)
+	assert seconds({"data": base64.b64encode(b"nothing to hear").decode()}) == 0.0

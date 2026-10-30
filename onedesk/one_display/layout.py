@@ -47,6 +47,9 @@ def fields(source: Annotated[str, "A source."]) -> list[dict]:
 		return sources.fields_of(row.ref_doctype)
 	if row.kind == "Report":
 		return sources.report_fields(row.report, row.report_filters)
+	if row.kind == "Exchange Rates":
+		labels = {"currency": _("Currency"), "rate": _("Rate"), "base": _("In Currency"), "line": _("Line")}
+		return [{"fieldname": one, "label": labels[one]} for one in sources.RATE_FIELDS]
 	if row.kind == "Feed":
 		return [{"fieldname": one, "label": str(label)} for one, label in FEED.items()]
 	return []

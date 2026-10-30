@@ -185,13 +185,40 @@ def ai_run(
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_make(action: str, text: str, tier: str | None = None, reference: str | None = None, voice: str | None = None) -> dict:
-	"""One job that makes a voice or a picture for this workspace, billed to
-	it: the bytes, base64'd, and what they are."""
+	"""One job that makes a voice, a picture or a song for this workspace,
+	billed to it: the bytes, base64'd, and what they are."""
 	from onedesk.one_admin import actions
 
 	tenant = caller()
 	try:
 		return actions.make(tenant.name, action, text, tier=tier, reference=reference, voice=voice)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_begin(action: str, text: str, tier: str | None = None, reference: str | None = None, orientation: str | None = None) -> dict:
+	"""Begin a video for this workspace: a ticket to collect it with."""
+	from onedesk.one_admin import actions
+
+	tenant = caller()
+	try:
+		return actions.begin(tenant.name, action, text, tier=tier, reference=reference, orientation=orientation)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_collect(ticket: str) -> dict:
+	"""A begun video, once it is made, billed to this workspace; until then,
+	that it is not done."""
+	from onedesk.one_admin import gateway
+
+	tenant = caller()
+	try:
+		return gateway.collect(ticket, tenant.name)
 	except faults.Refused as raised:
 		frappe.throw(str(raised), exc=type(raised))
 

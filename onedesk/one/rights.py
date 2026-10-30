@@ -196,21 +196,23 @@ def settle(*_args) -> None:
 	keeps what the workspace made of it."""
 	for declared in modules():
 		for role, values in declared.DEFAULTS.items():
-			if not frappe.db.exists("Role", role):
-				frappe.get_doc(
-					{
-						"doctype": "Role",
-						"role_name": role,
-						"desk_access": 1,
-						"is_custom": 0,
-						"one_app": declared.APP if role == getattr(declared, "EVERYONE", None) else None,
-					}
-				).insert(ignore_permissions=True)
+			made(role, declared.APP if role == getattr(declared, "EVERYONE", None) else None)
 			row = _row(declared.DOCTYPE, role)
 			if not row:
 				save(declared.APP, role, values)
 			else:
 				_arrived(declared, role, values, row)
+
+
+def made(role: str, app: str | None = None) -> None:
+	"""A module's role, made once. Also before a module's doctypes are synced,
+	when their permissions name a role that has to be there first."""
+	if frappe.db.exists("Role", role):
+		return
+	values = {"doctype": "Role", "role_name": role, "desk_access": 1, "is_custom": 0}
+	if app and frappe.db.has_column("Role", "one_app"):
+		values["one_app"] = app
+	frappe.get_doc(values).insert(ignore_permissions=True)
 
 
 SETTLED = "one_abilities_settled_{}_{}"

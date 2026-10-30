@@ -146,3 +146,10 @@ def test_a_small_budget_is_not_spent_thinking():
 	assert "THINKS" not in code()
 	assert models.quiet("@cf/google/gemma-4-26b-a4b-it") == {"chat_template_kwargs": {"enable_thinking": False}}
 	assert set(models.QUIET) <= models.used(), "a switch for a model nothing uses"
+
+
+def test_a_made_video_is_fetched_through_the_gateway():
+	"""Veo answers with Google's own address for the video, which would need
+	a provider key; it is fetched on the gateway's route instead, and nothing
+	outside that route is followed."""
+	assert "GOOGLE_AT" in code() and "pointed outside the gateway" in source()

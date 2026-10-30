@@ -6,6 +6,7 @@ is `one_ai/models.py`'s, by kind of work and tier; `call`, `run` and `embed`
 hold, call, and settle what it cost.
 """
 
+import base64
 import json
 import re
 from datetime import date
@@ -207,7 +208,14 @@ def embed(texts: list[str], tenant: str, reference: str | None = None, action: s
 
 
 # What a model that makes something answers in (docs/AICENTER.md, Models).
-MADE = {"speak": "AUDIO", "picture": "IMAGE"}
+MADE = {"speak": "AUDIO", "picture": "IMAGE", "music": "AUDIO"}
+
+# What one round may make, priced on its model's own unit: a song is one,
+# whatever its length, and a token cap prices nothing on a per-song model.
+MAKES = {"music": {"songs": 1}}
+
+# Lyria writes a song in about a minute; the account's own request ends at two.
+MAKING = {"music": 110}
 
 
 def make(
@@ -219,9 +227,9 @@ def make(
 	reference: str | None = None,
 	action: str | None = None,
 ) -> dict:
-	"""A voice or a picture from Gemini, billed like `call`: the bytes,
-	base64'd, and what they are. A voice is Gemini's raw sound, which the
-	workspace wraps (one_display/voice.py)."""
+	"""A voice, a picture or a song from Gemini, billed like `call`: the
+	bytes, base64'd, and what they are. A voice is Gemini's raw sound, which
+	the workspace wraps (one_display/voice.py)."""
 	site.require_admin()
 	if kind not in MADE:
 		raise Refused(f"nothing is made of kind {kind}")
@@ -229,7 +237,7 @@ def make(
 	if not asked:
 		raise Refused(f"no Gemini model does {kind}")
 	money = _money()
-	caps = {"output_tokens": 4096}
+	caps = MAKES.get(kind) or {"output_tokens": 4096}
 	most = _ceiling(asked, caps, money)
 	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
 	tags = {"job": action or kind, "tier": tier or models.USUAL}
@@ -244,12 +252,12 @@ def make(
 def _made(model: str, kind: str, prompt: str, voice: str | None, tenant: str, tags: dict) -> tuple[dict, dict]:
 	settings = _settings()
 	name = model.removeprefix("google/")
-	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio/v1beta/models/{name}:generateContent"
+	where = f"{_google(settings)}/v1beta/models/{name}:generateContent"
 	config = {"responseModalities": [MADE[kind]]}
 	if kind == "speak" and voice:
 		config["speechConfig"] = {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}}
 	body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": config}
-	answer = _post(model, where, _headers(settings, True, tenant, tags), body)
+	answer = _post(model, where, _headers(settings, True, tenant, tags), body, timeout=MAKING.get(kind, TIMEOUT))
 	if answer.status_code != 200:
 		raise faults.raised(model, answer.status_code, _detail(answer))
 	said = answer.json()
@@ -259,6 +267,121 @@ def _made(model: str, kind: str, prompt: str, voice: str | None, tenant: str, ta
 			if inline and inline.get("data"):
 				return {"data": inline["data"], "mime": inline.get("mimeType") or inline.get("mime_type") or ""}, said
 	raise faults.Blank(f"{model} made nothing", 200, json.dumps(said)[: faults.KEPT])
+
+
+def _google(settings: dict) -> str:
+	"""The gateway's route to Google, in place of Google's own address."""
+	return f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio"
+
+
+# A video takes minutes, longer than a request may stay open: `begin` holds
+# and starts it, `collect` asks after it (models.LONG names who can).
+SECONDS = 8
+ASPECTS = {"Landscape": "16:9", "Portrait": "9:16"}
+BEGUN = "one_admin:video:{}"
+# How long an operation is asked after before its hold is let go.
+GIVE_UP = 15 * 60
+
+
+def begin(
+	tier: str | None,
+	prompt: str,
+	tenant: str,
+	orientation: str = "Landscape",
+	reference: str | None = None,
+	action: str | None = None,
+) -> dict:
+	"""Start a video for a workspace: the ticket `collect` takes."""
+	site.require_admin()
+	asked = [one for one in models.pick("video", tier) if one in models.LONG]
+	if not asked:
+		raise Refused("no model makes a video in the background")
+	money = _money()
+	caps = {"video_seconds": SECONDS}
+	most = _ceiling(asked, caps, money)
+	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
+	tags = {"job": action or "video", "tier": tier or models.USUAL}
+	try:
+		model, operation = _first_that_answers(asked, lambda model: _begun(model, prompt, ASPECTS.get(orientation, "16:9"), tenant, tags))
+	except Exception:
+		ledger.release(holding)
+		raise
+	frappe.cache.set_value(
+		BEGUN.format(holding),
+		{"tenant": tenant, "model": model, "operation": operation, "most": most, "tags": tags},
+		expires_in_sec=GIVE_UP + 3600,
+	)
+	return {"ticket": holding, "model": model}
+
+
+def _begun(model: str, prompt: str, aspect: str, tenant: str, tags: dict) -> str:
+	settings = _settings()
+	where = f"{_google(settings)}/v1beta/models/{model.removeprefix('google/')}:predictLongRunning"
+	body = {"instances": [{"prompt": prompt}], "parameters": {"aspectRatio": aspect, "durationSeconds": SECONDS}}
+	answer = _post(model, where, _headers(settings, True, tenant, tags), body)
+	if answer.status_code != 200:
+		raise faults.raised(model, answer.status_code, _detail(answer))
+	operation = (answer.json() or {}).get("name")
+	if not operation:
+		raise faults.Blank(f"{model} began nothing", 200, answer.text[: faults.KEPT])
+	return operation
+
+
+def collect(ticket: str, tenant: str) -> dict:
+	"""A begun video: `{"done": False}` while Google is making it, then the
+	bytes, billed. A ticket is only ever its own workspace's."""
+	site.require_admin()
+	begun = frappe.cache.get_value(BEGUN.format(ticket))
+	held = ledger.holding(ticket)
+	if not begun or not held or begun["tenant"] != tenant or held["tenant"] != tenant:
+		raise Refused("no such video is being made")
+	if not held["held"]:
+		raise Refused("this video was already collected")
+	model, settings = begun["model"], _settings()
+	headers = _headers(settings, True, tenant, begun["tags"])
+	try:
+		said = _got(model, f"{_google(settings)}/v1beta/{begun['operation']}", headers).json()
+		if not said.get("done"):
+			if frappe.utils.time_diff_in_seconds(frappe.utils.now_datetime(), held["since"]) > GIVE_UP:
+				raise Again(f"{model} did not finish the video in time")
+			return {"done": False}
+		if said.get("error"):
+			raise Refused(f"{model} could not make the video: {(said['error'] or {}).get('message') or ''}", 200, json.dumps(said)[: faults.KEPT])
+		samples = ((said.get("response") or {}).get("generateVideoResponse") or {}).get("generatedSamples") or []
+		uri = ((samples[0] if samples else {}).get("video") or {}).get("uri")
+		if not uri:
+			raise faults.Blank(f"{model} made no video", 200, json.dumps(said)[: faults.KEPT])
+		video = _got(model, uri.replace(GOOGLE_AT, _google(settings) + "/", 1), headers, timeout=120)
+	except Exception:
+		ledger.release(ticket)
+		frappe.cache.delete_value(BEGUN.format(ticket))
+		raise
+	frappe.cache.delete_value(BEGUN.format(ticket))
+	out = {
+		"done": True,
+		"data": base64.b64encode(video.content).decode(),
+		"mime": (video.headers.get("Content-Type") or "video/mp4").split(";")[0],
+		"model": model,
+	}
+	return _settled(ticket, model, said, {"video_seconds": SECONDS}, _money(), begun["most"], out)
+
+
+GOOGLE_AT = "https://generativelanguage.googleapis.com/"
+
+
+def _got(model: str, where: str, headers: dict, timeout: int = TIMEOUT):
+	"""A GET through the gateway, refused the way a POST is."""
+	if not where.startswith(_google(_settings())):
+		raise Refused(f"{model} pointed outside the gateway")
+	try:
+		answer = requests.get(where, headers={k: v for k, v in headers.items() if k != "Content-Type"}, timeout=timeout)
+	except requests.Timeout as raised:
+		raise Again(f"{model} timed out") from raised
+	except requests.RequestException as raised:
+		raise Again(f"{model} could not be reached: {raised}") from raised
+	if answer.status_code != 200:
+		raise faults.raised(model, answer.status_code, _detail(answer))
+	return answer
 
 
 def _first_that_answers(asked: list[str], ask):

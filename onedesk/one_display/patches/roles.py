@@ -2,14 +2,11 @@
 resolve: the manager pairs screens and builds channels, the user works a
 counter."""
 
-import frappe
+from onedesk.one import rights
 
 ROLES = ("OneDisplay Manager", "OneDisplay User")
 
 
 def execute():
 	for name in ROLES:
-		if not frappe.db.exists("Role", name):
-			frappe.get_doc({"doctype": "Role", "role_name": name, "desk_access": 1, "is_custom": 1}).insert(
-				ignore_permissions=True
-			)
+		rights.made(name)

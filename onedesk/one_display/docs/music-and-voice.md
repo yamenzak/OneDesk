@@ -6,6 +6,10 @@ A music playlist is a list of tracks, played one after the other, over and
 over, at the volume you set. Every screen on the channel plays the same part
 of the same track. The music goes quiet while a call or an ad is read out.
 
+**Make Music** has OneAI write a piece of instrumental music from a sentence.
+It arrives at the end of the playlist, paused, and you are told when it is
+there; clear **Paused** once you have listened to it.
+
 ## Voice Ads
 
 A voice ad is a few sentences read aloud, in the tone and the voice you

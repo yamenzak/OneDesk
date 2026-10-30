@@ -1,6 +1,6 @@
 <template>
-  <div class="flex h-full min-h-0 w-full">
-    <aside class="w-56 shrink-0 overflow-y-auto border-e border-outline-gray-1 p-3">
+  <div class="flex h-full min-h-0 w-full flex-col overflow-y-auto md:flex-row md:overflow-hidden">
+    <aside class="max-h-56 w-full md:max-h-none md:w-56 shrink-0 overflow-y-auto border-b md:border-b-0 md:border-e border-outline-gray-1 p-3">
       <h3 class="mb-2 text-sm font-medium text-ink-gray-5">{{ __("Add a Widget") }}</h3>
       <button
         v-for="one in said?.types || []"
@@ -15,7 +15,7 @@
       </button>
     </aside>
 
-    <main class="flex min-w-0 flex-1 flex-col">
+    <main class="flex h-96 min-w-0 shrink-0 flex-col md:h-auto md:flex-1 md:shrink">
       <div class="flex items-center gap-2 border-b border-outline-gray-1 px-4 py-2">
         <span class="min-w-0 flex-1 truncate text-base font-medium text-ink-gray-8">{{ said?.name }}</span>
         <div v-if="said" class="w-36 shrink-0">
@@ -55,7 +55,7 @@
       </div>
     </main>
 
-    <aside class="w-80 shrink-0 overflow-y-auto border-s border-outline-gray-1 p-4">
+    <aside class="w-full shrink-0 border-t border-outline-gray-1 p-4 md:w-80 md:overflow-y-auto md:border-s md:border-t-0">
       <p v-if="!current" class="text-sm text-ink-gray-5">{{ __("Choose a widget on the screen, or add one.") }}</p>
       <div v-else class="flex flex-col gap-3">
         <div class="flex items-center gap-2">

@@ -11,8 +11,10 @@
   "duration",
   "fit",
   "title",
+  "paused",
   "from_date",
-  "to_date"
+  "to_date",
+  "design"
  ],
  "fields": [
   {
@@ -43,8 +45,8 @@
    "fieldtype": "Code",
    "label": "Design",
    "options": "HTML",
-   "depends_on": "eval:doc.kind=='Design'",
-   "description": "HTML and CSS drawn at 1920 by 1080, in a sandbox."
+   "depends_on": "eval:doc.kind=='Design' && !doc.design",
+   "description": "HTML and CSS drawn at 1920 by 1080, in a sandbox. A slide made in the designer is drawn from its blocks instead."
   },
   {
    "fieldname": "duration",
@@ -68,6 +70,15 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "paused",
+   "fieldtype": "Check",
+   "label": "Paused",
+   "default": "0",
+   "in_list_view": 1,
+   "columns": 1,
+   "description": "Not shown until this is cleared. What OneAI makes arrives paused."
+  },
+  {
    "fieldname": "from_date",
    "fieldtype": "Date",
    "label": "Shown From"
@@ -76,10 +87,17 @@
    "fieldname": "to_date",
    "fieldtype": "Date",
    "label": "Shown Until"
+  },
+  {
+   "fieldname": "design",
+   "fieldtype": "Code",
+   "label": "Blocks",
+   "options": "JSON",
+   "hidden": 1
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 09:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Slide",
