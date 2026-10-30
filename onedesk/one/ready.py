@@ -328,11 +328,11 @@ MODULES = {
 		"names": ("one_slide", "oneslide"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "840bb5083686", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-30", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
 		},
 		"windowless": "A presentation opens from OneCloud in an editor that fills the window, so OneSlide's foot and settings are OneCloud's.",
 		"help": (
@@ -402,11 +402,11 @@ MODULES = {
 		"names": ("one_portal", "oneportal"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "840bb5083686", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "840bb5083686", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-28", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-28", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-28", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-28", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-28", "commit": "e8fa7e139bec", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "globe"),
