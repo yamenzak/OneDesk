@@ -44,6 +44,7 @@ after_sync = [
 	"onedesk.one.brand.apply",
 	"onedesk.one.declutter.apply",
 	"onedesk.one.companions.apply",
+	"onedesk.one_slide.setup.themes",
 	"onedesk.one_admin.site.apply",
 	"onedesk.one_admin.offerings.install",
 	"onedesk.one_admin.books.ensure",
@@ -93,6 +94,7 @@ after_migrate = [
 	"onedesk.one_ai.reading.search.index",
 	"onedesk.one_storage.store.unlimit",
 	"onedesk.one.companions.apply",
+	"onedesk.one_slide.setup.themes",
 	"onedesk.one.company.hide",
 	"onedesk.one_hr.names.hide",
 	"onedesk.one_hr.money.hide",
@@ -522,11 +524,12 @@ doc_events = {
 		"on_update": "onedesk.one_hr.tell.grievance_answered",
 	},
 	"File": {
-		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied"],
+		"before_insert": ["onedesk.one_sheet.api.copied", "onedesk.one_doc.api.copied", "onedesk.one_slide.api.copied"],
 		"validate": ["onedesk.one_ai.reading.switches.file_switched", "onedesk.one_project.media.kept_shown"],
 		"after_insert": [
 			"onedesk.one_sheet.api.placed",
 			"onedesk.one_doc.api.placed",
+			"onedesk.one_slide.api.placed",
 			"onedesk.one_ai.reading.pipeline.file_added",
 			"onedesk.one_project.media.changed",
 		],
@@ -543,6 +546,7 @@ doc_events = {
 			"onedesk.one_project.media.changed",
 			"onedesk.one_sheet.api.file_gone",
 			"onedesk.one_doc.api.file_gone",
+			"onedesk.one_slide.api.file_gone",
 		]
 	},
 	"Employee Onboarding": {

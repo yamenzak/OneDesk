@@ -867,6 +867,11 @@
   resolved "https://registry.yarnpkg.com/@tiptap/extension-collaboration/-/extension-collaboration-3.31.4.tgz#7399fd0d0ee652d7a5ae476786923b1c670bf8d3"
   integrity sha512-vIGuBU2oV1jIr0zGPdWc1qFo4NrzObktC06s8Z0zYCb59hm3lfnYzw0w4R2i/BYjjoKRgpiDVYweGAQHuLT7Vw==
 
+"@tiptap/extension-color@3.31.4":
+  version "3.31.4"
+  resolved "https://registry.yarnpkg.com/@tiptap/extension-color/-/extension-color-3.31.4.tgz#07aa7569ec2cd9500b64119b4ec9a1fa6389db52"
+  integrity sha512-rObqUayV7madgaUq1gnQvZFnzgmvvLztze3UURv/3VUfaMimRG0V+SkjFupDuGoe0T2KFOTZBKDCn7y6vT+b5g==
+
 "@tiptap/extension-document@3.31.4", "@tiptap/extension-document@^3.26.0":
   version "3.31.4"
   resolved "https://registry.yarnpkg.com/@tiptap/extension-document/-/extension-document-3.31.4.tgz#49c53a2c2b1b2a319b7d20f28cb7413dc3bd834d"
@@ -2012,6 +2017,11 @@ local-pkg@^1.1.1, local-pkg@^1.1.2, local-pkg@^1.2.0:
     pkg-types "^2.3.0"
     quansync "^0.2.11"
 
+lodash@^4.17.21:
+  version "4.18.1"
+  resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.18.1.tgz#ff2b66c1f6326d59513de2407bf881439812771c"
+  integrity sha512-dMInicTPVE8d1e5otfwmmjlxkZoUpiVLwyeTdUsi/Caj/gfzzblBcCE5sRHV/AsjuCmxWrte2TNGSYuCeCq+0Q==
+
 lop@^0.4.2:
   version "0.4.2"
   resolved "https://registry.yarnpkg.com/lop/-/lop-0.4.2.tgz#c9c2f958a39b9da1c2f36ca9ad66891a9fe84640"
@@ -2034,6 +2044,11 @@ lucide-static@^1.31.0:
   version "1.52.0"
   resolved "https://registry.yarnpkg.com/lucide-static/-/lucide-static-1.52.0.tgz#ed1a4f3e64f06e30a50d7898fa1f7a4c33545218"
   integrity sha512-0zZYihAze4ZmUCcyNa9OkWYqn/Y5f9AdTh02AZIxMtP5ravcTTfoSIAnUPBH6ZvKxt+ZW28JB0ldzLRyD82fcw==
+
+lucide-vue-next@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/lucide-vue-next/-/lucide-vue-next-1.0.0.tgz#663ad26b7bfa327c7662b75bb0b843ebe749a31b"
+  integrity sha512-V6SPvx1IHTj/UY+FrIYWV5faISsPSb8BnWSFDxAtezWKvWc9ZZ40PDrdu1/Qb5vg4lHWr1hs1BAMGVGm6V1Xdg==
 
 magic-string@^0.30.17, magic-string@^0.30.21:
   version "0.30.21"
@@ -2150,6 +2165,11 @@ mlly@^1.7.4, mlly@^1.8.2:
     pathe "^2.0.3"
     pkg-types "^1.3.1"
     ufo "^1.6.3"
+
+modern-screenshot@^4.7.0:
+  version "4.7.0"
+  resolved "https://registry.yarnpkg.com/modern-screenshot/-/modern-screenshot-4.7.0.tgz#22f6831de41df5717235a119bcd0cc309dacf7a9"
+  integrity sha512-9YxN+ddPSMMlhylOv25VHzXrl9u67QRxoh7+SEewGtgUw7t6hHTrjptSDJUSne9oG4Xk/h2cwG15nIt4Hc9ujg==
 
 ms@^2.1.3:
   version "2.1.3"
@@ -2722,6 +2742,11 @@ thenify-all@^1.0.0:
   integrity sha512-RVZSIV5IG10Hk3enotrhvz0T9em6cyHBLkH/YAZuKqd8hRkKhSfCGIcP2KUY0EPxndzANBmNllzWPwak+bheSw==
   dependencies:
     any-promise "^1.0.0"
+
+tinycolor2@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.yarnpkg.com/tinycolor2/-/tinycolor2-1.6.0.tgz#f98007460169b0263b97072c5ae92484ce02d09e"
+  integrity sha512-XPaBkWQJdsf3pLKJV9p4qN/S+fm2Oj8AIPo1BTUhg5oxkvm9+SVEGFdhyOz7tTdUTfvxMiAs4sp6/eZO2Ew+pw==
 
 tinyexec@^1.0.1, tinyexec@^1.3.1:
   version "1.3.1"

@@ -1563,7 +1563,8 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 }
 
 .one-workbook-page .page-head,
-.one-document-page .page-head {
+.one-document-page .page-head,
+.one-presentation-page .page-head {
 	display: none;
 }
 
@@ -1572,14 +1573,18 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
 .one-workbook-page .layout-main-section,
 .one-document-page .page-body,
 .one-document-page .layout-main-section-wrapper,
-.one-document-page .layout-main-section {
+.one-document-page .layout-main-section,
+.one-presentation-page .page-body,
+.one-presentation-page .layout-main-section-wrapper,
+.one-presentation-page .layout-main-section {
 	max-width: none;
 	margin: 0;
 	padding: 0;
 }
 
 .one-workbook-page .one-island,
-.one-document-page .one-island {
+.one-document-page .one-island,
+.one-presentation-page .one-island {
 	height: calc(100dvh - var(--one-bar-offset, 0px));
 }
 

@@ -3190,6 +3190,94 @@ DOT_PNG = (
 
 
 @check
+def oneslide_keeps_a_presentation_in_onecloud():
+	"""Karim makes a presentation in his files from the Light theme's title
+	slide, opens it, saves slides built on what he loaded and is refused one
+	built on something older, and the script he pastes into a text box is
+	gone. He renames it, changes its theme, puts a poster and a thumbnail on
+	it, and a slide pasted from the demo deck brings its picture with it. A
+	copy of its File is a presentation of its own; somebody who may not open
+	it learns nothing of it. All undone afterwards."""
+	import base64
+	import io
+
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one_demo.slide import NAME as DEMO
+	from onedesk.one_slide import api
+
+	dot = "data:image/png;base64," + base64.b64encode(DOT_PNG).decode()
+	was = getattr(frappe.local, "request", None)
+	frappe.db.savepoint("slide_check")
+	try:
+		with as_user("karim@one.test"):
+			assert any(one["name"] for one in api.get_templates()), "the themes"
+			assert api.listed() == [] or all(one["title"] for one in api.listed())
+			made = api.make("@my", "Quarterly review check")
+			name = made["presentation"]
+			assert api.presentation_of(made["url"]) == name
+			deck = api.get(name)
+			assert deck["can_write"] and len(deck["slides"]) == 1 and deck["theme"] == api.LIGHT, deck
+			assert api.get_editor_access(name) == "edit"
+			row = {key: deck["slides"][0][key] for key in api.SLIDE_FIELDS if key in deck["slides"][0]}
+			bad = [{"id": "x1", "type": "text", "content": "<p>Hello<script>alert(1)</script></p>"}]
+			api.save_slides(name, json.dumps([{**row, "elements": json.dumps(bad)}]), deck["modified"])
+			kept = json.loads(api.get(name)["slides"][0]["elements"])
+			assert "script" not in kept[0]["content"] and "Hello" in kept[0]["content"], kept
+			try:
+				api.save_slides(name, json.dumps([row]), deck["modified"])
+				raise AssertionError("a save built on an older version is refused")
+			except frappe.TimestampMismatchError:
+				frappe.clear_messages()
+			assert api.update_title(name, "Quarterly review")["base_modified"]
+			assert api.rename_presentation(name, "Quarterly review final")["title"] == "Quarterly review final"
+			dark = next(one["name"] for one in api.get_templates() if one["title"] == "Dark")
+			assert api.update_theme(name, dark)["modified"] and api.get(name)["theme"] == dark
+			poster = api.save_base64_image(dot, name, "poster")
+			assert poster.startswith(api.MEDIA), poster
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.media", method="GET").get_environ())
+			api.media(poster[len(api.MEDIA):])
+			assert frappe.local.response.status_code == 200
+			frappe.local.response = frappe._dict()
+			assert api.save_presentation_thumbnail(name, "data:image/webp;base64," + base64.b64encode(b"RIFF....WEBP").decode()).startswith(api.MEDIA)
+			sent = EnvironBuilder(path="/api/method/onedesk.one_slide.api.upload", method="POST", data={"file": (io.BytesIO(DOT_PNG), "dot.png"), "docname": name})
+			frappe.local.request = Request(sent.get_environ())
+			frappe.form_dict.docname = name
+			upload = api.upload()
+			assert upload["file_url"] == api.MEDIA + upload["name"]
+			assert api.get_webp_doc(name, json.dumps(upload))["name"] == upload["name"]
+			slide = api.update_slide_attachments(name, json.dumps({"elements": json.dumps([{"id": "a", "type": "text", "content": "<p>Hi</p>"}])}))
+			assert json.loads(slide["elements"])[0]["id"] != "a", "a pasted slide's elements get new ids"
+			api.visited("Presentation", name)
+			api.download(name)
+			assert frappe.local.response["location"] == f"/desk/presentation/{name}"
+		with as_user(OWNER):
+			theirs = api.save_base64_image(dot, DEMO, "poster")
+		with as_user("karim@one.test"):
+			pasted = api.get_updated_json(name, json.dumps([{"id": "p", "type": "image", "src": theirs}]))
+			assert pasted[0]["src"].startswith(api.MEDIA) and pasted[0]["src"] != theirs, "the picture is copied onto this presentation"
+			file = api.get(name)["file"]
+			copy = frappe.get_doc({"doctype": "File", "file_url": api.URL + name, "folder": frappe.db.get_value("File", file, "folder"), "file_name": "Quarterly copy"})
+			copy.flags.ignore_permissions = True
+			copy.insert()
+			held = api.presentation_of(copy.file_url)
+			assert held and held != name and frappe.db.get_value(api.PRESENTATION, held, "file") == copy.name, "a copy is a presentation of its own"
+		with as_user("omar@one.test"):
+			assert api.get_editor_access(name) == "none"
+			try:
+				api.get(name)
+				raise AssertionError("somebody who may not open it reads it")
+			except frappe.PermissionError:
+				frappe.clear_messages()
+		frappe.delete_doc("File", file, ignore_permissions=True)
+		assert not frappe.db.exists(api.PRESENTATION, name), "the presentation goes with its File"
+	finally:
+		frappe.local.request = was
+		frappe.db.rollback(save_point="slide_check")
+
+
+@check
 def a_document_is_written_in_onecloud():
 	"""Layla writes a scope of works in her files. It opens with what she
 	saved and keeps its page setup, takes a new name, carries a picture only

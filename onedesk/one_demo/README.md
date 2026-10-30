@@ -78,6 +78,7 @@ The steps run in the order of the five tables below.
 | storage | A Projects library Samir runs with the site team in it, the villa's elevations there with a link for the customer and a second version, Samir's site visit notes shared with Rania, a request to Al Noor for its papers, and a drive password |
 | workbook | A costing workbook in the company's files: the rates behind the Bayview tower quotation, and a second sheet for labour that the first one reads |
 | document | The Bayview tower scope of works in the company's files, written as HTML so it also opens the way a document made outside the editor does, and a quotation covering letter template whose fields fill from the quotation it is filed on |
+| slide | The Bayview tower facade tender presentation in the company's files, four slides on the Light theme's own layouts, shared with Karim |
 | intake | The owner's own address and the accounts team's Bank Statements folder, both read by OneAI. The samples in tests/samples/intake arrive there, and Huda matches the statement's transport debit in the reconciliation tool |
 | mail | The workspace's own address, which Layla holds, with a customer's request for a price, a supplier's delivery date and a hotel's maintenance call |
 | ai | OneAI's Knowledge, how the company books site visits and quotes glass, and a conversation Layla had with OneAI about booking a visit at Bayview Tower |

@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-30 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Slide",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "istable": 1,
+ "name": "Presentation Slide",
+ "description": "One slide of a Presentation: its background, its elements as Suite's editor writes them, and how it leaves.",
+ "permissions": [],
+ "fields": [
+  {
+   "fieldname": "client_id",
+   "fieldtype": "Data",
+   "label": "Client ID"
+  },
+  {
+   "fieldname": "background",
+   "fieldtype": "Data",
+   "label": "Background"
+  },
+  {
+   "fieldname": "elements",
+   "fieldtype": "JSON",
+   "label": "Elements"
+  },
+  {
+   "fieldname": "thumbnail",
+   "fieldtype": "Long Text",
+   "label": "Thumbnail"
+  },
+  {
+   "fieldname": "transition",
+   "fieldtype": "Data",
+   "label": "Transition"
+  },
+  {
+   "fieldname": "transition_duration",
+   "fieldtype": "Data",
+   "label": "Transition Duration"
+  },
+  {
+   "fieldname": "fade_unmatched_elements",
+   "fieldtype": "Check",
+   "label": "Fade Unmatched Elements"
+  },
+  {
+   "fieldname": "advance_after",
+   "fieldtype": "Data",
+   "label": "Advance After"
+  },
+  {
+   "fieldname": "played",
+   "fieldtype": "Long Text",
+   "label": "Played"
+  }
+ ],
+ "field_order": [
+  "client_id",
+  "background",
+  "elements",
+  "thumbnail",
+  "transition",
+  "transition_duration",
+  "fade_unmatched_elements",
+  "advance_after",
+  "played"
+ ]
+}

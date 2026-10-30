@@ -1,0 +1,16 @@
+<!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/icons/LineElbow.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
+<template>
+	<svg
+		xmlns="http://www.w3.org/2000/svg"
+		width="16"
+		height="16"
+		viewBox="0 0 16 16"
+		fill="none"
+		stroke="currentColor"
+		stroke-width="1.5"
+		stroke-linecap="round"
+		stroke-linejoin="round"
+	>
+		<path d="M2.5 13.5H8V2.5H13.5" />
+	</svg>
+</template>

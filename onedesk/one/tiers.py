@@ -147,6 +147,7 @@ COLLECTIONS = {
 SCREENS = {
 	"workbook": "a workbook from OneCloud, in OneWorkbook's editor (Workbook)",
 	"document": "a document from OneCloud, in OneWriter's editor (Writer Document)",
+	"presentation": "a presentation from OneCloud, in OneSlide's editor (Presentation)",
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",
 	"item-view": "the page an Item opens on (PAGES)",

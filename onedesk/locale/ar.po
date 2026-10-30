@@ -1188,6 +1188,10 @@ msgstr "جزء من مستند أو رسالة أو سجل، واتجاه معن
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
+msgstr "شرائح العرض التقديمي، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_slide/api.py، الذي يسأل OneCloud إن كان القارئ يملك الإذن."
+
 #: onedesk/one_crm/home.py:117
 msgid "A price agreed for a year of orders."
 msgstr "سعر متفق عليه لطلبات سنة كاملة."
@@ -2420,6 +2424,10 @@ msgstr "إضافة سلسلة"
 msgid "Add Sheets From a Template"
 msgstr "إضافة أوراق من قالب"
 
+#: frontend/src/slide/components/NavigationPanel.vue:46
+msgid "Add Slide"
+msgstr "إضافة شريحة"
+
 #: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:62
 #: onedesk/public/js/one_mail/rule_builder.js:414
 msgid "Add Step"
@@ -2623,6 +2631,10 @@ msgstr "أضف عنوان بريد إلكتروني واحدًا على الأق
 msgid "Add at least one person to the group."
 msgstr "أضف شخصًا واحدًا على الأقل إلى المجموعة."
 
+#: frontend/src/slide/composables/useShortcuts.js:307
+msgid "Add connector"
+msgstr "إضافة موصل"
+
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:55
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:75
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:106
@@ -2646,6 +2658,10 @@ msgstr "إضافة عنصر"
 msgid "Add leads from business cards"
 msgstr "أضف عملاء محتملين من بطاقات العمل"
 
+#: frontend/src/slide/composables/useShortcuts.js:300
+msgid "Add line"
+msgstr "إضافة خط"
+
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:8
 msgid "Add named range"
 msgstr "إضافة نطاق مسمّى"
@@ -2653,6 +2669,10 @@ msgstr "إضافة نطاق مسمّى"
 #: frontend/src/sheet/components/SheetEditor/index.vue:407
 msgid "Add note to {0}"
 msgstr "إضافة ملاحظة إلى {0}"
+
+#: frontend/src/slide/composables/useShortcuts.js:293
+msgid "Add oval"
+msgstr "إضافة شكل بيضاوي"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:63
 #: onedesk/public/js/onecloud_dialogs.js:29
@@ -2664,6 +2684,10 @@ msgstr "إضافة أشخاص"
 msgid "Add people…"
 msgstr "إضافة أشخاص…"
 
+#: frontend/src/slide/composables/useShortcuts.js:286
+msgid "Add rectangle"
+msgstr "إضافة مستطيل"
+
 #: onedesk/one/lists.py:121
 msgid "Add several at once"
 msgstr "أضف عدة قيم دفعة واحدة"
@@ -2671,6 +2695,14 @@ msgstr "أضف عدة قيم دفعة واحدة"
 #: frontend/src/sheet/components/SheetEditor/index.vue:632
 msgid "Add sheet"
 msgstr "إضافة ورقة"
+
+#: frontend/src/slide/composables/useShortcuts.js:271
+msgid "Add slide below"
+msgstr "إضافة شريحة أسفلها"
+
+#: frontend/src/slide/composables/useShortcuts.js:279
+msgid "Add text box"
+msgstr "إضافة مربع نص"
 
 #: onedesk/one_inventory/ready.py:326
 msgid "Add the Work In Progress and Finished Goods warehouses first."
@@ -3039,6 +3071,10 @@ msgstr "إعداد الإعلانات"
 msgid "Advance"
 msgstr "الدفعة المقدمة"
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Advance After"
+msgstr "الانتقال بعد"
+
 #. Label in the One Employee Advance print format
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 msgid "Advance No"
@@ -3126,6 +3162,10 @@ msgstr "بعد حفظ {0}"
 #: onedesk/one_studio/doctype/extension/extension.js:23
 msgid "After a {0} is submitted"
 msgstr "بعد اعتماد {0}"
+
+#: frontend/src/slide/components/SlidePlaybackSection.vue:59
+msgid "After delay"
+msgstr "بعد مهلة"
 
 #: onedesk/public/js/one_hr/hr_control.js:57
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
@@ -3267,6 +3307,10 @@ msgstr "محاذاة للأسفل"
 msgid "Align Centre"
 msgstr "محاذاة للوسط"
 
+#: frontend/src/slide/components/ArrangeSection.vue:6
+msgid "Align Horizontal"
+msgstr "محاذاة أفقية"
+
 #: frontend/src/display/designer/Inspector.vue:187
 msgid "Align Left"
 msgstr "محاذاة لليسار"
@@ -3277,6 +3321,37 @@ msgstr "محاذاة للمنتصف عمودياً"
 
 #: frontend/src/display/designer/Inspector.vue:190
 msgid "Align Top"
+msgstr "محاذاة للأعلى"
+
+#: frontend/src/slide/components/ArrangeSection.vue:13
+msgid "Align Vertical"
+msgstr "محاذاة عمودية"
+
+#: frontend/src/slide/components/ArrangeSection.vue:74
+msgid "Align bottom"
+msgstr "محاذاة للأسفل"
+
+#: frontend/src/slide/components/ArrangeSection.vue:67
+#: frontend/src/slide/components/ParagraphSection.vue:57
+msgid "Align center"
+msgstr "محاذاة للوسط"
+
+#: frontend/src/slide/components/ArrangeSection.vue:66
+#: frontend/src/slide/components/ParagraphSection.vue:56
+msgid "Align left"
+msgstr "محاذاة لليسار"
+
+#: frontend/src/slide/components/ArrangeSection.vue:73
+msgid "Align middle"
+msgstr "محاذاة للمنتصف"
+
+#: frontend/src/slide/components/ArrangeSection.vue:68
+#: frontend/src/slide/components/ParagraphSection.vue:58
+msgid "Align right"
+msgstr "محاذاة لليمين"
+
+#: frontend/src/slide/components/ArrangeSection.vue:72
+msgid "Align top"
 msgstr "محاذاة للأعلى"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:211
@@ -3424,6 +3499,14 @@ msgstr "جميع الإعدادات مكتملة."
 #: frontend/src/sheet/shim/PrintDialog.vue:54
 msgid "All sheets"
 msgstr "كل الأوراق"
+
+#: frontend/src/slide/components/SlidePlaybackSection.vue:94
+msgid "All slides advance after {0} seconds"
+msgstr "تنتقل كل الشرائح بعد {0} ثانية"
+
+#: frontend/src/slide/components/SlidePlaybackSection.vue:94
+msgid "All slides advance on click"
+msgstr "تنتقل كل الشرائح عند النقر"
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:90
 msgid "All versions"
@@ -3975,6 +4058,10 @@ msgstr "رُفعت شكوى عاجلة"
 msgid "Analytics"
 msgstr ""
 
+#: frontend/src/slide/components/ShadowSection.vue:50
+msgid "Angle"
+msgstr "الزاوية"
+
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 msgid "Announce Calls Aloud"
 msgstr "إعلان النداءات بصوت مسموع"
@@ -4255,9 +4342,18 @@ msgstr "يسري على الجميع من اليوم أو من تاريخ بدئ
 msgid "Apply"
 msgstr ""
 
+#: frontend/src/slide/composables/useShortcuts.js:337
+msgid "Apply crop"
+msgstr "تطبيق القص"
+
 #: onedesk/public/js/employee.js:4
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
+
+#: frontend/src/slide/components/SlidePlaybackSection.vue:32
+#: frontend/src/slide/components/TransitionSection.vue:43
+msgid "Apply to all slides"
+msgstr "تطبيق على كل الشرائح"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1178
 #: frontend/src/sheet/components/SheetEditor/index.vue:1205
@@ -4738,6 +4834,10 @@ msgstr "كما عُرض"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "As the workspace last measured it."
 msgstr "كما قاسته مساحة العمل آخر مرة."
+
+#: frontend/src/slide/components/FontSection.vue:93
+msgid "As typed"
+msgstr "كما كُتب"
 
 #: onedesk/one_studio/numbering.py:426
 msgid "As {0} names it now"
@@ -5618,6 +5718,10 @@ msgstr "أتمتة تفشل"
 msgid "Automations failed yesterday"
 msgstr "فشلت عمليات أتمتة أمس"
 
+#: frontend/src/slide/components/PlaybackSection.vue:9
+msgid "Autoplay"
+msgstr "تشغيل تلقائي"
+
 #: onedesk/one_inventory/home.py:174
 msgid "Available Batch Report"
 msgstr ""
@@ -5853,9 +5957,17 @@ msgstr "متوازن"
 msgid "Band"
 msgstr "الشريط"
 
+#: frontend/src/slide/components/TableSection.vue:43
+msgid "Band Color"
+msgstr "لون الشريط"
+
 #: onedesk/one/head.py:150
 msgid "Band row {0}"
 msgstr "صف الشريط {0}"
+
+#: frontend/src/slide/components/TableSection.vue:37
+msgid "Banded Rows"
+msgstr "صفوف مخططة"
 
 #. Label in the One Income Tax Slab print format
 #: onedesk/one_hr/print_format/one_income_tax_slab/one_income_tax_slab.json
@@ -6581,6 +6693,10 @@ msgstr "فارغ"
 msgid "Blank Document"
 msgstr "مستند فارغ"
 
+#: frontend/src/cloud/OneCloud.vue:712
+msgid "Blank Presentation"
+msgstr "عرض تقديمي فارغ"
+
 #: frontend/src/cloud/OneCloud.vue:706
 msgid "Blank Workbook"
 msgstr "مصنف فارغ"
@@ -6844,8 +6960,18 @@ msgstr "المتطلبات والأهداف"
 msgid "Bring Forward"
 msgstr "إلى الأمام"
 
+#: frontend/src/slide/components/ArrangeSection.vue:61
+#: frontend/src/slide/components/ElementContextMenu.vue:122
+msgid "Bring forward"
+msgstr "تقديم للأمام"
+
 #: frontend/src/display/designer/Toolbar.vue:63
 msgid "Bring to Front"
+msgstr "إلى المقدمة"
+
+#: frontend/src/slide/components/ArrangeSection.vue:59
+#: frontend/src/slide/components/ElementContextMenu.vue:121
+msgid "Bring to front"
 msgstr "إلى المقدمة"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
@@ -6967,6 +7093,10 @@ msgstr "أُنشئت"
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Bulk Salary Structure Assignment"
 msgstr "تعيين هيكل الرواتب بالجملة"
+
+#: frontend/src/slide/components/ParagraphSection.vue:64
+msgid "Bulleted"
+msgstr "نقطية"
 
 #. Label in the One Product Bundle print format
 #: onedesk/one_inventory/print_format/one_product_bundle/one_product_bundle.json
@@ -7344,6 +7474,7 @@ msgstr "يمكنه العرض"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1008
 #: frontend/src/sheet/components/SheetEditor/index.vue:1036
 #: frontend/src/sheet/components/SheetEditor/index.vue:1234
+#: frontend/src/slide/stores/presentation.js:474
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:253
@@ -7535,6 +7666,10 @@ msgstr "نسخة"
 msgid "Ceilings and wall boards"
 msgstr "الأسقف وألواح الجدران"
 
+#: frontend/src/slide/components/TableCellSection.vue:3
+msgid "Cell"
+msgstr "الخلية"
+
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:104
 msgid "Cell is protected"
 msgstr "الخلية محمية"
@@ -7615,6 +7750,15 @@ msgstr "تغيير الحالة"
 msgid "Change a collection…"
 msgstr "تغيير مجموعة…"
 
+#: frontend/src/slide/pages/PresentationEditor.vue:205
+msgid "Change presentation theme"
+msgstr "تغيير سمة العرض التقديمي"
+
+#: frontend/src/slide/composables/useShortcuts.js:436
+#: frontend/src/slide/composables/useShortcuts.js:442
+msgid "Change slide"
+msgstr "تغيير الشريحة"
+
 #: onedesk/public/js/attendance.js:7
 msgid "Change the Overtime"
 msgstr "تعديل العمل الإضافي"
@@ -7676,6 +7820,10 @@ msgstr "التعديل"
 msgid "Changed Format"
 msgstr "تنسيق معدّل"
 
+#: frontend/src/slide/pages/PresentationEditor.vue:44
+msgid "Changed elsewhere. Reloading discards your unsaved edits."
+msgstr "تغيّر في مكان آخر. إعادة التحميل تتجاهل تعديلاتك غير المحفوظة."
+
 #: onedesk/one_ai/reading/panel.py:207
 #: onedesk/public/js/one_account/account_center.js:222
 msgid "Changed {0}"
@@ -7706,6 +7854,10 @@ msgstr "التغييرات التي لا يتيقن منها OneAI تنتظر ا
 #: onedesk/one_admin/heads.py:444
 msgid "Changes apply only to packs sold from now on."
 msgstr "تنطبق التغييرات فقط على الحزم المبيعة من الآن."
+
+#: frontend/src/slide/stores/presentation.js:294
+msgid "Changes that never reached the server were discarded."
+msgstr "تم تجاهل التغييرات التي لم تصل إلى الخادم."
 
 #: onedesk/public/js/one_legal/trust_center.js:215
 msgid "Changing on {0}"
@@ -8801,6 +8953,14 @@ msgstr ""
 msgid "Colour scale"
 msgstr "مقياس ألوان"
 
+#: frontend/src/slide/utils/tableMenu.js:23
+msgid "Column left"
+msgstr "عمود إلى اليسار"
+
+#: frontend/src/slide/utils/tableMenu.js:28
+msgid "Column right"
+msgstr "عمود إلى اليمين"
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:328
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:404
 #: frontend/src/sheet/components/SheetEditor/index.vue:521
@@ -9314,6 +9474,10 @@ msgstr "الروابط: لا يحتوي {0} على الحقل {1}."
 msgid "Connections: {0} is not a form you can read."
 msgstr "الروابط: {0} ليس نموذجًا يمكنك قراءته."
 
+#: frontend/src/slide/utils/toolbarTools.js:73
+msgid "Connector"
+msgstr "موصل"
+
 #. Label of the failures (Int) field in DocType 'Push Device'
 #: onedesk/one/doctype/push_device/push_device.json
 msgid "Consecutive Failures"
@@ -9692,6 +9856,10 @@ msgstr "نسخ"
 msgid "Copy Asked"
 msgstr "طُلبت نسخة"
 
+#: frontend/src/slide/components/controls/ColorPicker.vue:75
+msgid "Copy Color"
+msgstr "نسخ اللون"
+
 #: frontend/src/writer/components/ToC.vue:363
 #: onedesk/public/js/calendar_link.js:17
 #: onedesk/public/js/one_calendar/calendar_control.js:25
@@ -9760,6 +9928,10 @@ msgstr "كتابة النصوص"
 #: onedesk/one_studio/letter_heads.py:36
 msgid "Corner"
 msgstr "الزاوية"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:42
+msgid "Corner Radius"
+msgstr "نصف قطر الزاوية"
 
 #: frontend/src/display/Slides.vue:115 frontend/src/display/Slides.vue:124
 msgid "Corners"
@@ -9877,6 +10049,10 @@ msgstr "تعذرت إضافة الأوراق."
 msgid "Could not create the record."
 msgstr "تعذر إنشاء السجل."
 
+#: frontend/src/slide/pages/Slideshow.vue:310
+msgid "Could not enter fullscreen mode"
+msgstr "تعذّر الدخول إلى وضع ملء الشاشة"
+
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:38
 msgid "Could not load the templates."
 msgstr "تعذر تحميل القوالب."
@@ -9926,6 +10102,10 @@ msgstr "تعذّر حفظ المستند."
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
 msgstr "تعذر حفظ القالب."
+
+#: frontend/src/slide/pages/PresentationEditor.vue:525
+msgid "Could not update the theme. Please try again."
+msgstr "تعذّر تحديث السمة. يرجى المحاولة مرة أخرى."
 
 #: frontend/src/writer/DocumentPage.vue:379
 msgid "Could not write {0} back: {1}"
@@ -10551,6 +10731,10 @@ msgstr "الرصيد لكل دولار"
 #: onedesk/one_hr/print_format/one_employee_performance_feedback/one_employee_performance_feedback.json
 msgid "Criterion"
 msgstr "المعيار"
+
+#: frontend/src/slide/components/ImageSection.vue:39
+msgid "Crop image"
+msgstr "قص الصورة"
 
 #: onedesk/public/js/item_new.js:74
 msgid "Cubic Metres in One Unit"
@@ -11806,6 +11990,11 @@ msgstr "حذف المخطط"
 msgid "Delete column"
 msgstr "حذف العمود"
 
+#: frontend/src/slide/composables/useShortcuts.js:355
+#: frontend/src/slide/composables/useShortcuts.js:362
+msgid "Delete element / slide"
+msgstr "حذف العنصر / الشريحة"
+
 #: onedesk/public/js/one_studio/studio_control.js:364
 msgid "Delete letter head {0}?"
 msgstr "حذف ترويسة الرسائل {0}؟"
@@ -11821,6 +12010,10 @@ msgstr "حذف نهائيًا"
 #: frontend/src/sheet/components/SheetEditor/usePivotIntegration.js:173
 msgid "Delete pivot"
 msgstr "حذف الجدول المحوري"
+
+#: frontend/src/slide/stores/presentation.js:471
+msgid "Delete presentation"
+msgstr "حذف العرض التقديمي"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:777
 #: frontend/src/sheet/components/SheetEditor/index.vue:795
@@ -12500,6 +12693,10 @@ msgstr "الاستهلاكات المسجلة"
 msgid "Description"
 msgstr "الوصف"
 
+#: frontend/src/slide/composables/useShortcuts.js:321
+msgid "Deselect"
+msgstr "إلغاء التحديد"
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:448
 msgid "Deselect all"
 msgstr "إلغاء تحديد الكل"
@@ -12962,6 +13159,10 @@ msgstr "عدد الموظفين المختلفين، وقد تم التحقق م
 msgid "Distinct employees, each verified another way, who have checked in from this address."
 msgstr "عدد الموظفين المختلفين، وقد تم التحقق من كل منهم بطريقة أخرى، الذين سجّلوا حضورهم من هذا العنوان."
 
+#: frontend/src/slide/utils/tableMenu.js:48
+msgid "Distribute columns"
+msgstr "توزيع الأعمدة"
+
 #: onedesk/public/js/one_mail/rule_builder.js:419
 msgid "Do"
 msgstr "نفّذ"
@@ -13225,6 +13426,10 @@ msgstr "تم: {0}"
 #: onedesk/one_display/blocks.py:52
 msgid "Dotted"
 msgstr "منقّط"
+
+#: frontend/src/slide/utils/toolbarTools.js:68
+msgid "Double arrow"
+msgstr "سهم مزدوج"
 
 #: onedesk/one_display/blocks.py:56
 msgid "Down"
@@ -13691,6 +13896,10 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
+#: frontend/src/slide/composables/useShortcuts.js:345
+msgid "Duplicate element / slide"
+msgstr "تكرار العنصر / الشريحة"
+
 #: frontend/src/template/Tasks.vue:48
 msgid "Duration (Days)"
 msgstr "المدة (أيام)"
@@ -14069,6 +14278,10 @@ msgstr "تحرير المخطط"
 msgid "Edit connection…"
 msgstr "تعديل الاتصال…"
 
+#: frontend/src/slide/pages/PresentationEditor.vue:34
+msgid "Edit here"
+msgstr "التعديل هنا"
+
 #: frontend/src/sheet/components/SheetEditor/CellHistoryPopover.vue:3
 msgid "Edit history for {0}"
 msgstr "سجل التعديلات لـ {0}"
@@ -14092,6 +14305,10 @@ msgstr "تحرير الجدول المحوري"
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:5
 msgid "Edit pivot table"
 msgstr "تحرير الجدول المحوري"
+
+#: frontend/src/slide/composables/useShortcuts.js:264
+msgid "Edit text of selected element"
+msgstr "تعديل نص العنصر المحدد"
 
 #: onedesk/public/js/item_actions.js:28 onedesk/public/js/one/role_matrix.js:36
 #: onedesk/public/js/onecloud_dialogs.js:277
@@ -14140,6 +14357,10 @@ msgstr "عدّله {1} {0}"
 msgid "Editing"
 msgstr "التحرير"
 
+#: frontend/src/slide/pages/PresentationEditor.vue:31
+msgid "Editing in another tab"
+msgstr "يجري التعديل في علامة تبويب أخرى"
+
 #: frontend/src/writer/components/VersionsSidebar.vue:17
 msgid "Editing is disabled until you exit."
 msgstr "التحرير معطّل حتى تخرج."
@@ -14176,6 +14397,18 @@ msgstr "أحدهما"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
 msgstr "«أحدهما» يقبل تسجيل الحضور الذي يجتاز أحد التحققين. «كلاهما» يشترط اجتيازهما معاً."
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:120
+msgid "Elbow"
+msgstr "مرفقي"
+
+#: frontend/src/slide/utils/toolbarTools.js:82
+msgid "Elbow connector"
+msgstr "موصل مرفقي"
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Elements"
+msgstr "العناصر"
 
 #: onedesk/one_display/blocks.py:43
 msgid "Ellipse"
@@ -15665,6 +15898,10 @@ msgstr "تمت جدولة مقابلة المغادرة"
 msgid "Exit Questionnaire"
 msgstr "استبيان المغادرة"
 
+#: frontend/src/slide/composables/useShortcuts.js:329
+msgid "Exit crop mode"
+msgstr "الخروج من وضع القص"
+
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:6
 msgid "Exit version history"
 msgstr "الخروج من سجل الإصدارات"
@@ -15944,6 +16181,10 @@ msgstr ""
 msgid "Export as CSV"
 msgstr "تصدير بتنسيق CSV"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:18
+msgid "Export as PDF"
+msgstr "تصدير كملف PDF"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1933
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
@@ -16074,6 +16315,14 @@ msgstr "تلاشٍ"
 msgid "Fade Angle"
 msgstr "زاوية التدرج"
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Fade Unmatched Elements"
+msgstr "تلاشي العناصر غير المتطابقة"
+
+#: frontend/src/slide/components/TransitionSection.vue:33
+msgid "Fade unmatched elements"
+msgstr "تلاشي العناصر غير المتطابقة"
+
 #: onedesk/one_display/blocks.py:48 onedesk/one_display/blocks.py:125
 msgid "Fades To"
 msgstr "يتدرج إلى"
@@ -16130,6 +16379,10 @@ msgstr "فشل في الخطوة {number} من {steps}، {step}.<br>{error}"
 msgid "Failed to load cell history"
 msgstr "فشل تحميل سجل الخلية"
 
+#: frontend/src/slide/stores/imageCrop.js:34
+msgid "Failed to load the image."
+msgstr "تعذّر تحميل الصورة."
+
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:177
 msgid "Failed to load version"
 msgstr "فشل تحميل الإصدار"
@@ -16167,6 +16420,10 @@ msgstr ""
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "Failure Reason"
 msgstr "سبب الفشل"
+
+#: frontend/src/slide/components/FontSection.vue:4
+msgid "Family"
+msgstr "العائلة"
 
 #: onedesk/one_ai/center.py:19
 msgid "Fast"
@@ -16489,6 +16746,10 @@ msgstr "الأرشفة"
 #: frontend/src/display/Slides.vue:225 frontend/src/display/Slides.vue:229
 msgid "Fill"
 msgstr "ملء"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:31
+msgid "Fill Color"
+msgstr "لون التعبئة"
 
 #: onedesk/one_ai/jobs.py:67
 msgid "Fill What a Record Still Needs"
@@ -16895,6 +17156,20 @@ msgstr "مُشار إليه"
 msgid "Flags Waiting"
 msgstr "تنبيهات بانتظار المراجعة"
 
+#: frontend/src/slide/components/ArrangeSection.vue:21
+msgid "Flip"
+msgstr "قلب"
+
+#: frontend/src/slide/components/ArrangeSection.vue:81
+#: frontend/src/slide/components/ElementContextMenu.vue:167
+msgid "Flip horizontal"
+msgstr "قلب أفقي"
+
+#: frontend/src/slide/components/ArrangeSection.vue:82
+#: frontend/src/slide/components/ElementContextMenu.vue:171
+msgid "Flip vertical"
+msgstr "قلب عمودي"
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Flooring"
@@ -17249,6 +17524,12 @@ msgstr "نموذج مخصّص"
 msgid "Format"
 msgstr "تنسيق"
 
+#: frontend/src/slide/composables/useShortcuts.js:450
+#: frontend/src/slide/composables/useShortcuts.js:457
+#: frontend/src/slide/composables/useShortcuts.js:466
+msgid "Format Text"
+msgstr "تنسيق النص"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:163
 msgid "Format as currency"
 msgstr "تنسيق كعملة"
@@ -17380,6 +17661,10 @@ msgstr "الأساسات"
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
 msgstr "مساحة العمل الخاصة بـFour Degree Labs. لا يُفوترها أحد، ولا يُرفض OneAI فيها بسبب الأرصدة، واستخدامها للذكاء الاصطناعي كلفة لا بيع."
+
+#: frontend/src/slide/components/FrameSection.vue:3
+msgid "Frame"
+msgstr "الإطار"
 
 #. Label of the one_frame_colour (Color) field in DocType 'Company'
 #: onedesk/one/custom/company.json
@@ -17689,6 +17974,10 @@ msgstr "من يوم الاستلام"
 #: onedesk/one_inventory/home.py:180
 msgid "From the request to the supplier's bill."
 msgstr "من الطلب إلى فاتورة المورد."
+
+#: frontend/src/slide/components/PresentButton.vue:32
+msgid "From the start"
+msgstr "من البداية"
 
 #: onedesk/one_doc/ai.py:137
 msgid "From the template"
@@ -18295,6 +18584,10 @@ msgstr "أكبر من أو يساوي"
 msgid "Greyed where your workspace doesn't use it."
 msgstr "رمادي حيث لا تستخدمه مساحة عملك."
 
+#: frontend/src/slide/components/TableGridSection.vue:3
+msgid "Grid"
+msgstr "الشبكة"
+
 #: frontend/src/sheet/shim/PrintDialog.vue:9
 msgid "Gridlines"
 msgstr "خطوط الشبكة"
@@ -18407,6 +18700,10 @@ msgstr "مجموعات"
 #: onedesk/one_book/home.py:384
 msgid "Groups of customers and suppliers taxed alike."
 msgstr "مجموعات من العملاء والموردين تُفرض عليهم الضريبة نفسها."
+
+#: frontend/src/slide/components/FrameSection.vue:165
+msgid "Grows with the text"
+msgstr "يتسع مع النص"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -23284,9 +23581,21 @@ msgstr "الحدود"
 msgid "Line"
 msgstr "البند"
 
+#: frontend/src/slide/components/ShapeStyleSection.vue:67
+msgid "Line End"
+msgstr "نهاية الخط"
+
 #: frontend/src/display/Slides.vue:102
 msgid "Line Height"
 msgstr "ارتفاع السطر"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:60
+msgid "Line Start"
+msgstr "بداية الخط"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:53
+msgid "Line Type"
+msgstr "نوع الخط"
 
 #: frontend/src/writer/components/SpacingDialog.vue:23
 #: frontend/src/writer/components/WriterSettings.vue:32
@@ -23471,6 +23780,10 @@ msgstr "عرض كل من لم يُسجَّل"
 msgid "List Starts"
 msgstr "بداية القائمة"
 
+#: frontend/src/slide/components/ParagraphSection.vue:11
+msgid "List Style"
+msgstr "نمط القائمة"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:902
 msgid "List of items"
 msgstr "قائمة عناصر"
@@ -23587,6 +23900,14 @@ msgstr "قفل"
 #: onedesk/one_book/report/tax_return/tax_return.js:43
 msgid "Lock Books"
 msgstr "قفل الدفاتر"
+
+#: frontend/src/slide/components/ElementContextMenu.vue:95
+msgid "Lock all"
+msgstr "قفل الكل"
+
+#: frontend/src/slide/composables/useShortcuts.js:369
+msgid "Lock or unlock element"
+msgstr "قفل العنصر أو فتحه"
 
 #: onedesk/one_book/abilities.py:23
 msgid "Lock the Books"
@@ -23764,6 +24085,10 @@ msgstr "اطّلع على {0}"
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
+#: frontend/src/slide/components/PlaybackSection.vue:12
+msgid "Loop"
+msgstr "تكرار"
+
 #: frontend/src/books/BooksStory.vue:69
 msgid "Loss"
 msgstr "الخسارة"
@@ -23847,6 +24172,10 @@ msgstr "شهادة الاقتطاع المخفض"
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Lower runs first."
 msgstr "الأصغر يُنفَّذ أولًا."
+
+#: frontend/src/slide/components/FontSection.vue:95
+msgid "Lowercase"
+msgstr "أحرف صغيرة"
 
 #: onedesk/one_inventory/heads.py:1503
 msgid "Lowest On"
@@ -23982,6 +24311,10 @@ msgstr "المصنوع، آخر 12 شهرًا"
 #: onedesk/one_inventory/heads.py:650
 msgid "Made."
 msgstr "تم التصنيع."
+
+#: frontend/src/slide/components/TransitionSection.vue:74
+msgid "Magic Move"
+msgstr "الحركة السحرية"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
@@ -25071,6 +25404,10 @@ msgstr "دمج العملاء المحتملين المكررين"
 msgid "Merge Into {0}"
 msgstr "دمج في {0}"
 
+#: frontend/src/slide/utils/tableMenu.js:36
+msgid "Merge cells"
+msgstr "دمج الخلايا"
+
 #. Label of the one_message (Code) field in DocType 'Notification Type'
 #. Label of the one_message (Small Text) field in DocType 'Lead'
 #. Label of a field in the get-in-touch Web Form
@@ -25246,6 +25583,10 @@ msgstr "النماذج"
 #: frontend/src/cloud/CloudPreview.vue:93
 msgid "Modified"
 msgstr "آخر تعديل"
+
+#: frontend/src/slide/utils/tableMenu.js:71
+msgid "Modify"
+msgstr "تعديل"
 
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Monday"
@@ -25474,6 +25815,20 @@ msgstr "نقل العمود إلى اليمين"
 #: onedesk/one_project/library/office_move.json
 msgid "Move date agreed"
 msgstr "الاتفاق على موعد الانتقال"
+
+#: frontend/src/slide/composables/useShortcuts.js:380
+#: frontend/src/slide/composables/useShortcuts.js:387
+#: frontend/src/slide/composables/useShortcuts.js:394
+#: frontend/src/slide/composables/useShortcuts.js:401
+msgid "Move element"
+msgstr "تحريك العنصر"
+
+#: frontend/src/slide/composables/useShortcuts.js:408
+#: frontend/src/slide/composables/useShortcuts.js:415
+#: frontend/src/slide/composables/useShortcuts.js:422
+#: frontend/src/slide/composables/useShortcuts.js:429
+msgid "Move element by 10px"
+msgstr "تحريك العنصر 10 بكسل"
 
 #: onedesk/public/js/one_mail/rule_builder.js:267
 msgid "Move it to"
@@ -26228,6 +26583,10 @@ msgstr "الخطة الجديدة"
 msgid "New Plant Floor"
 msgstr "أرضية إنتاج جديدة"
 
+#: frontend/src/cloud/OneCloud.vue:641
+msgid "New Presentation"
+msgstr "عرض تقديمي جديد"
+
 #: onedesk/public/js/doctype_settings.js:703
 msgid "New Print Format"
 msgstr "تنسيق طباعة جديد"
@@ -26573,6 +26932,16 @@ msgstr "التغيير التالي"
 #: onedesk/one_book/heads.py:148
 msgid "Next on {0}"
 msgstr "التالي في {0}"
+
+#: frontend/src/slide/composables/useShortcuts.js:504
+#: frontend/src/slide/composables/useShortcuts.js:511
+#: frontend/src/slide/composables/useShortcuts.js:517
+#: frontend/src/slide/pages/Slideshow.vue:387
+#: frontend/src/slide/pages/Slideshow.vue:388
+#: frontend/src/slide/pages/Slideshow.vue:389
+#: frontend/src/slide/pages/Slideshow.vue:390
+msgid "Next step"
+msgstr "الخطوة التالية"
 
 #: onedesk/public/js/passkey.js:124
 msgid "Next time, sign in with your face, fingerprint or screen lock instead of typing your password. It takes a few seconds to set up."
@@ -26921,6 +27290,10 @@ msgstr "لا تغييرات"
 #: onedesk/one_hr/tell.py:209
 msgid "No changes found in timings."
 msgstr "لم يتغير شيء في المواعيد."
+
+#: frontend/src/slide/stores/slide.js:122
+msgid "No changes to save"
+msgstr "لا توجد تغييرات للحفظ"
 
 #. Message of a notification
 #: onedesk/one_hr/notifications.py
@@ -28585,6 +28958,10 @@ msgstr "عدد الصفوف"
 msgid "Number {number}. Renew it before then, and add the new one to their record."
 msgstr "الرقم {number}. جدّدها قبل ذلك، وأضف الجديدة إلى سجله."
 
+#: frontend/src/slide/components/ParagraphSection.vue:65
+msgid "Numbered"
+msgstr "مرقّمة"
+
 #: frontend/src/inventory/lots/LotsPage.vue:132
 msgid "Numbered automatically"
 msgstr "مرقمة تلقائيًا"
@@ -28766,6 +29143,10 @@ msgstr "انتقال المكتب"
 msgid "Offline"
 msgstr "غير متصل"
 
+#: frontend/src/slide/components/ShadowSection.vue:38
+msgid "Offset"
+msgstr "الإزاحة"
+
 #. Label in the One Exchange Rate Revaluation print format
 #: onedesk/one_book/print_format/one_exchange_rate_revaluation/one_exchange_rate_revaluation.json
 msgid "Old Rate"
@@ -28899,6 +29280,10 @@ msgstr "حسب جدول الحملة، بالقوالب التي تحددها."
 msgid "On a schedule"
 msgstr "حسب جدول"
 
+#: frontend/src/slide/components/SlidePlaybackSection.vue:58
+msgid "On click"
+msgstr "عند النقر"
+
 #. When a notification is sent
 #: onedesk/one/notifications.py
 msgid "On each report's own schedule, as it was set from the report's menu."
@@ -28933,6 +29318,10 @@ msgstr "يعمل في هذا المتصفح"
 #: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:168
 msgid "On leave"
 msgstr "في إجازة"
+
+#: frontend/src/slide/components/PresentButton.vue:37
+msgid "On loop"
+msgstr "بتكرار"
 
 #: onedesk/one/control.py:322
 msgid "On printed and sent invoices, quotes and orders."
@@ -29261,6 +29650,10 @@ msgstr "جملة واحدة تقول الغرض من التطبيق، تظهر �
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
 msgid "One short fact, in a sentence. OneAI reads the newest ones in every conversation."
 msgstr "معلومة قصيرة في جملة واحدة. يقرأ OneAI أحدثها في كل محادثة."
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "One slide of a Presentation: its background, its elements as Suite's editor writes them, and how it leaves."
+msgstr "شريحة واحدة من عرض تقديمي: خلفيتها، وعناصرها كما يكتبها محرر Suite، وطريقة انتقالها."
 
 #. Description of a DocType
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
@@ -29719,6 +30112,10 @@ msgstr "مستخدم OnePortal"
 #: onedesk/one_studio/doctype/record_type/record_type.json
 msgid "OneProject"
 msgstr "OneProject"
+
+#: onedesk/one_slide/page/presentation/presentation.js:4
+msgid "OneSlide"
+msgstr "OneSlide"
 
 #. Title of a Sidebar
 #: onedesk/one_ai/jobs.py:48
@@ -31097,6 +31494,10 @@ msgstr "المستحق حسب العميل"
 msgid "Outstanding by Supplier"
 msgstr "المستحق حسب المورد"
 
+#: frontend/src/slide/utils/toolbarTools.js:33
+msgid "Oval"
+msgstr "بيضاوي"
+
 #: onedesk/one_studio/print_blocks.py:752
 msgid "Over 90 Days"
 msgstr "أكثر من 90 يومًا"
@@ -31614,6 +32015,10 @@ msgstr "المستندات"
 #: frontend/src/inventory/home/InventoryStory.vue:42
 msgid "Papers by Kind"
 msgstr "المستندات حسب النوع"
+
+#: frontend/src/slide/components/ParagraphSection.vue:3
+msgid "Paragraph"
+msgstr "الفقرة"
 
 #: frontend/src/writer/components/SpacingDialog.vue:26
 msgid "Paragraph Spacing"
@@ -32539,6 +32944,10 @@ msgstr "قيد الانتظار"
 msgid "Pending Review"
 msgstr "في انتظار المراجعة"
 
+#: frontend/src/slide/utils/toolbarTools.js:48
+msgid "Pentagon"
+msgstr "خماسي"
+
 #. Label of the one_people (Int) field in DocType 'Training Result'
 #. Label in the One Payroll Run print format
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -32914,6 +33323,10 @@ msgstr "اختر مقاسًا أو لونًا واحدًا على الأقل."
 #: frontend/src/inventory/item/ItemVariantsMake.vue:121
 msgid "Pick at least one value."
 msgstr "اختر قيمة واحدة على الأقل."
+
+#: frontend/src/slide/components/controls/ColorPicker.vue:86
+msgid "Pick color from screen"
+msgstr "التقاط لون من الشاشة"
 
 #: onedesk/one_project/agreement.py:39
 msgid "Pick one of the suppliers on {0}."
@@ -33309,6 +33722,15 @@ msgstr "عند فتح أرضية الإنتاج، وكلما تغيّرت حال
 msgid "Platform"
 msgstr "المنصة"
 
+#: frontend/src/slide/components/PlaybackSection.vue:3
+#: frontend/src/slide/components/SlidePlaybackSection.vue:3
+msgid "Playback"
+msgstr "التشغيل"
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Played"
+msgstr "ما يُعرض"
+
 #: onedesk/one_display/doctype/music_playlist/music_playlist.json
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Playlist Name"
@@ -33591,6 +34013,18 @@ msgstr "الحاضرون اليوم"
 msgid "Presentation"
 msgstr "عرض تقديمي"
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Presentation Slide"
+msgstr "شريحة عرض تقديمي"
+
+#: frontend/src/slide/components/PresentButton.vue:15
+msgid "Presentation options"
+msgstr "خيارات العرض"
+
+#: onedesk/one_slide/api.py:95
+msgid "Presentations cannot be created in a mounted drive."
+msgstr "لا يمكن إنشاء عروض تقديمية في محرك مُركّب."
+
 #: onedesk/www/tv.py:31
 msgid "Press OK to turn on sound"
 msgstr "اضغط OK لتشغيل الصوت"
@@ -33653,6 +34087,14 @@ msgstr "القيمة السابقة"
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:22
 msgid "Previous change"
 msgstr "التغيير السابق"
+
+#: frontend/src/slide/composables/useShortcuts.js:490
+#: frontend/src/slide/composables/useShortcuts.js:496
+#: frontend/src/slide/pages/Slideshow.vue:391
+#: frontend/src/slide/pages/Slideshow.vue:392
+#: frontend/src/slide/pages/Slideshow.vue:393
+msgid "Previous step"
+msgstr "الخطوة السابقة"
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
 #: frontend/src/inventory/item/ItemPriceRow.vue:15
@@ -35028,6 +35470,10 @@ msgstr "لم يُضبط R2. اضبطه في إعدادات OneAdmin."
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json
 msgid "Radio Ad"
 msgstr "إعلان إذاعي"
+
+#: frontend/src/slide/components/BorderSection.vue:33
+msgid "Radius"
+msgstr "نصف القطر"
 
 #. Label of the radius (Int) field in DocType 'Clock Place'
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
@@ -36673,6 +37119,10 @@ msgstr "استُبدلت {0} خلية (خلايا)"
 msgid "Replaced {0} cell(s), skipped {1} protected"
 msgstr "استُبدلت {0} خلية (خلايا)، وتُخطّيت {1} محمية"
 
+#: frontend/src/slide/components/SlideshowEndScreen.vue:15
+msgid "Replay"
+msgstr "إعادة التشغيل"
+
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:77
 msgid "Replied (%)"
 msgstr "تم الرد (%)"
@@ -37076,6 +37526,10 @@ msgstr "إعادة تعيين مفتاح المرور"
 #: onedesk/public/js/one_account/account_center.js:472
 msgid "Reset Two-Factor"
 msgstr "إعادة تعيين التحقق بخطوتين"
+
+#: frontend/src/slide/components/ImageSection.vue:42
+msgid "Reset crop"
+msgstr "إعادة ضبط القص"
 
 #: onedesk/public/js/one/notification_center.js:416
 msgid "Reset to Default"
@@ -37668,6 +38122,14 @@ msgstr ""
 #: onedesk/one_sheet/table.py:145
 msgid "Row #{0}"
 msgstr "الصف #{0}"
+
+#: frontend/src/slide/utils/tableMenu.js:13
+msgid "Row above"
+msgstr "صف أعلاه"
+
+#: frontend/src/slide/utils/tableMenu.js:18
+msgid "Row below"
+msgstr "صف أسفله"
 
 #: onedesk/one_sheet/table.py:145 onedesk/one_sheet/table.py:150
 #: onedesk/one_sheet/table.py:160
@@ -38617,6 +39079,10 @@ msgstr "اختر المستخدم"
 msgid "Select a cell and press"
 msgstr "حدّد خلية واضغط"
 
+#: frontend/src/slide/components/LayoutDialog.vue:3
+msgid "Select a layout"
+msgstr "اختر تخطيطاً"
+
 #: onedesk/public/js/one/notification_center.js:498
 msgid "Select a record type first."
 msgstr "اختر نوع السجل أولًا."
@@ -38631,6 +39097,10 @@ msgstr "اختر قيمة من القائمة."
 #: frontend/src/sheet/components/SheetEditor/index.vue:1061
 msgid "Select all"
 msgstr "تحديد الكل"
+
+#: frontend/src/slide/composables/useShortcuts.js:314
+msgid "Select all elements"
+msgstr "تحديد كل العناصر"
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:142
 msgid "Select column"
@@ -38786,6 +39256,11 @@ msgstr "إرسال تنبيه طوارئ"
 msgid "Send an HTTP request to an external URL."
 msgstr "يرسل طلب HTTP إلى عنوان خارجي."
 
+#: frontend/src/slide/components/ArrangeSection.vue:62
+#: frontend/src/slide/components/ElementContextMenu.vue:123
+msgid "Send backward"
+msgstr "إرجاع للخلف"
+
 #: onedesk/www/s.html:65
 msgid "Send code"
 msgstr "إرسال الرمز"
@@ -38837,6 +39312,11 @@ msgstr "إلى الخلفية"
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:42
 msgid "Send to Every Screen"
 msgstr "إرسال إلى كل الشاشات"
+
+#: frontend/src/slide/components/ArrangeSection.vue:60
+#: frontend/src/slide/components/ElementContextMenu.vue:124
+msgid "Send to back"
+msgstr "إلى الخلف"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
@@ -39244,6 +39724,10 @@ msgstr ""
 msgid "Set"
 msgstr ""
 
+#: frontend/src/slide/components/controls/ColorPicker.vue:58
+msgid "Set Color"
+msgstr "تعيين اللون"
+
 #: frontend/src/inventory/item/ItemCustomers.vue:75
 msgid "Set Customer's Code"
 msgstr "تعيين رمز العميل"
@@ -39561,6 +40045,10 @@ msgstr "شكل"
 #: onedesk/one/people.py:60
 msgid "Shape One to the way you work with your own fields, record types and forms."
 msgstr "طوّع One لطريقة عملك بحقولك وأنواع سجلاتك ونماذجك الخاصة."
+
+#: frontend/src/slide/components/Toolbar.vue:18
+msgid "Shapes"
+msgstr "الأشكال"
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
@@ -40077,6 +40565,10 @@ msgstr "إظهار الصيغ"
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:129
 msgid "Show grid lines"
 msgstr "إظهار خطوط الشبكة"
+
+#: frontend/src/slide/composables/useShortcuts.js:219
+msgid "Show keyboard shortcuts"
+msgstr "عرض اختصارات لوحة المفاتيح"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:127
 msgid "Show legend"
@@ -40780,6 +41272,22 @@ msgstr "شريحة"
 msgid "Slide Playlist"
 msgstr "قائمة شرائح"
 
+#: frontend/src/slide/stores/copyPaste.js:53
+msgid "Slide copied to clipboard"
+msgstr "نُسخت الشريحة إلى الحافظة"
+
+#: onedesk/one_slide/api.py:226
+msgid "Slide fields not accepted: {0}"
+msgstr "حقول شريحة غير مقبولة: {0}"
+
+#: frontend/src/slide/components/TransitionSection.vue:73
+msgid "Slide in"
+msgstr "انزلاق"
+
+#: onedesk/one_slide/doctype/presentation/presentation.py:24
+msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
+msgstr "الشريحة {0}: يجب أن يكون الانتقال بعد ما بين 1 و3600 ثانية، وليس {1}"
+
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Slides"
@@ -41217,6 +41725,10 @@ msgstr "المتحدثون والبرنامج"
 msgid "Specifications"
 msgstr "المواصفات"
 
+#: frontend/src/slide/components/PlaybackSection.vue:17
+msgid "Speed"
+msgstr "السرعة"
+
 #. Option for the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "Spend"
@@ -41247,6 +41759,10 @@ msgstr "تم الإنفاق بما يتجاوز الرصيد، لذا هو مس�
 #: onedesk/one_inventory/heads.py:434
 msgid "Split between {0}"
 msgstr "مقسّم بين {0}"
+
+#: frontend/src/slide/utils/tableMenu.js:42
+msgid "Split cell"
+msgstr "تقسيم الخلية"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:811
 msgid "Split text to columns"
@@ -41731,6 +42247,10 @@ msgstr "الحالة منذ"
 msgid "Stay"
 msgstr "البقاء"
 
+#: frontend/src/slide/components/FrameSection.vue:166
+msgid "Stays the width you set"
+msgstr "يبقى بالعرض الذي حددته"
+
 #. Label of the step (Data) field in DocType 'Provisioning Job'
 #. Label in the One Employee Onboarding print format
 #. Label in the One Employee Separation print format
@@ -42187,6 +42707,10 @@ msgstr "التخزين شبه ممتلئ"
 msgid "Store listings and screenshots"
 msgstr "صفحات المتجر ولقطات الشاشة"
 
+#: frontend/src/slide/components/ShapeStyleSection.vue:119
+msgid "Straight"
+msgstr "مستقيم"
+
 #: onedesk/one_book/report/books_check/books_check.js:35
 msgid "Street Address"
 msgstr "عنوان الشارع"
@@ -42269,6 +42793,18 @@ msgstr "المفتاح السري لـStripe"
 #: onedesk/one_admin/heads.py:362
 msgid "Stripe's webhook secret"
 msgstr "سر Webhook لـStripe"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:23
+msgid "Stroke Color"
+msgstr "لون الحد"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:4
+msgid "Stroke Style"
+msgstr "نمط الحد"
+
+#: frontend/src/slide/components/ShapeStyleSection.vue:13
+msgid "Stroke Width"
+msgstr "عرض الحد"
 
 #: frontend/portal/src/pages/Password.vue:44
 msgid "Strong enough"
@@ -44021,6 +44557,10 @@ msgstr "هذه القاعدة ليست في صندوق البريد هذا."
 #: onedesk/public/js/hiring.js:80
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr "لم تشارك علامة التبويب أي صوت، لذا يُسجَّل الميكروفون فقط."
+
+#: onedesk/one_slide/api.py:274
+msgid "That theme does not exist."
+msgstr "هذه السمة غير موجودة."
 
 #: frontend/src/inventory/item/ItemVariantsMake.vue:123
 msgid "That variant already exists."
@@ -46343,6 +46883,10 @@ msgstr "لا يمكن فتح هذا الملف."
 msgid "This file is too large to put into a document."
 msgstr "هذا الملف أكبر من أن يوضع في مستند."
 
+#: onedesk/one_slide/api.py:391
+msgid "This file is too large to put on a slide."
+msgstr "هذا الملف أكبر من أن يوضع على شريحة."
+
 #: onedesk/www/r.py:17
 msgid "This file type isn't accepted."
 msgstr "نوع الملف هذا غير مقبول."
@@ -46394,6 +46938,11 @@ msgstr "هذا قرار يتخذه شخص."
 #: onedesk/one_ai/proposals.py:230
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr "هذا لبريد قيد الكتابة. طبّقه ونافذة البريد مفتوحة."
+
+#: onedesk/one_slide/api.py:424 onedesk/one_slide/api.py:428
+#: onedesk/one_slide/api.py:441
+msgid "This is not a picture."
+msgstr "هذه ليست صورة."
 
 #: frontend/portal/src/pages/List.vue:17
 #: frontend/portal/src/pages/Project.vue:5
@@ -46509,6 +47058,22 @@ msgstr "لم يتم بناء هذه الصفحة"
 #: onedesk/one_hr/rules.py:18
 msgid "This passkey was registered on a different browser."
 msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف."
+
+#: onedesk/one_slide/api.py:430 onedesk/one_slide/api.py:444
+msgid "This picture is too large."
+msgstr "هذه الصورة كبيرة جداً."
+
+#: onedesk/one_slide/api.py:205
+msgid "This presentation is too large to save."
+msgstr "هذا العرض التقديمي أكبر من أن يُحفظ."
+
+#: onedesk/one_slide/api.py:69
+msgid "This presentation no longer exists."
+msgstr "هذا العرض التقديمي لم يعد موجوداً."
+
+#: onedesk/one_slide/api.py:209
+msgid "This presentation was changed elsewhere. Reload to get the latest version."
+msgstr "تغيّر هذا العرض التقديمي في مكان آخر. أعد التحميل للحصول على أحدث نسخة."
 
 #: onedesk/one_crm/portal.py:108 onedesk/one_portal/share.py:440
 #: onedesk/one_portal/share.py:451
@@ -47341,6 +47906,10 @@ msgstr "مهام اليوم"
 msgid "Toggle filter"
 msgstr "تبديل التصفية"
 
+#: frontend/src/slide/composables/useShortcuts.js:226
+msgid "Toggle navigation panel"
+msgstr "إظهار لوحة التنقل أو إخفاؤها"
+
 #. Label of the token (Password) field in DocType 'Calendar Feed'
 #. Label of the token (Password) field in DocType 'Portal Link'
 #. Label of the token (Password) field in DocType 'Cloud File Request
@@ -47882,6 +48451,10 @@ msgstr "الناقل"
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Transition"
 msgstr "الانتقال"
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Transition Duration"
+msgstr "مدة الانتقال"
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:300
 msgid "Translate it into "
@@ -48586,6 +49159,10 @@ msgstr "إلغاء الربط"
 msgid "Unlock"
 msgstr "فتح القفل"
 
+#: frontend/src/slide/components/ElementContextMenu.vue:101
+msgid "Unlock all"
+msgstr "فتح الكل"
+
 #: onedesk/one_display/doctype/display_screen/display_screen.js:5
 msgid "Unmute"
 msgstr "إلغاء كتم الصوت"
@@ -48704,6 +49281,10 @@ msgstr "بلا عنوان"
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
 msgstr "مستند بلا عنوان"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:77 onedesk/one_slide/api.py:96
+msgid "Untitled Presentation"
+msgstr "عرض تقديمي بلا عنوان"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1370
 #: frontend/src/sheet/components/SheetEditor/index.vue:1705
@@ -48828,6 +49409,10 @@ msgstr "رفع الملفات"
 msgid "Upload a list or paste one."
 msgstr "ارفع قائمة أو الصقها."
 
+#: frontend/src/slide/utils/mediaUploads.js:99
+msgid "Upload failed. Please try again."
+msgstr "فشل الرفع. يرجى المحاولة مرة أخرى."
+
 #: frontend/src/cloud/OneCloud.vue:579 frontend/src/cloud/OneCloud.vue:640
 msgid "Upload files"
 msgstr "رفع ملفات"
@@ -48849,9 +49434,21 @@ msgstr "ارفعها بالزر أدناه.{note}{due}"
 msgid "Upload up to {0} files at a time."
 msgstr "ارفع حتى {0} ملفات في المرة الواحدة."
 
+#: frontend/src/slide/utils/mediaUploads.js:98
+msgid "Uploaded {0} of {1}"
+msgstr "تم رفع {0} من {1}"
+
 #: frontend/src/cloud/CloudUploads.vue:38
 msgid "Uploading {0} of {1}"
 msgstr "جارٍ رفع {0} من {1}"
+
+#: frontend/src/slide/utils/mediaUploads.js:97
+msgid "Uploading {0} of {1}…"
+msgstr "جارٍ رفع {0} من {1}…"
+
+#: frontend/src/slide/components/FontSection.vue:94
+msgid "Uppercase"
+msgstr "أحرف كبيرة"
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:21
 msgid "Upright"
@@ -53468,6 +54065,10 @@ msgstr "أدوات موزّعة فوق الشرائح: لوحة طابور وش�
 msgid "Width"
 msgstr "العرض"
 
+#: frontend/src/slide/components/FrameSection.vue:32
+msgid "Width Mode"
+msgstr "وضع العرض"
+
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.py:76
 msgid "Win Rate (%)"
 msgstr "نسبة الفوز (%)"
@@ -54612,6 +55213,10 @@ msgstr "سجّلت حضورك ولم تسجّل انصرافك، فكُتب لك
 #: onedesk/one_doc/api.py:67
 msgid "You do not have permission to open this document."
 msgstr "ليس لديك إذن بفتح هذا المستند."
+
+#: frontend/src/slide/PresentationPage.vue:52 onedesk/one_slide/api.py:78
+msgid "You do not have permission to open this presentation."
+msgstr "ليس لديك إذن بفتح هذا العرض التقديمي."
 
 #: onedesk/one_sheet/api.py:46
 msgid "You do not have permission to open this workbook."

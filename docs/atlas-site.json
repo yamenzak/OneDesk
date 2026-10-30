@@ -1972,6 +1972,9 @@
 "Prepared Report User",
 "System Manager"
 ],
+"Presentation": [
+"System Manager"
+],
 "Price List": [
 "Manufacturing User",
 "Purchase Master Manager",
@@ -3345,6 +3348,7 @@
 "Pick List",
 "Plant Floor",
 "Portal Link",
+"Presentation",
 "Price List",
 "Pricing Rule",
 "Print Format",
@@ -3603,6 +3607,9 @@
 "Accounts User",
 "Sales Manager",
 "Sales User"
+],
+"presentation": [
+"Desk User"
 ],
 "print": [],
 "print-format-builder": [

@@ -1,0 +1,96 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "creation": "2026-10-30 12:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-30 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Slide",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "hash",
+ "naming_rule": "Random",
+ "name": "Presentation",
+ "description": "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may.",
+ "title_field": "title",
+ "permissions": [
+  {
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "role": "System Manager",
+   "report": 1,
+   "email": 0,
+   "print": 0,
+   "export": 0,
+   "share": 0
+  }
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Link",
+   "label": "File",
+   "options": "File",
+   "search_index": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "theme",
+   "fieldtype": "Data",
+   "label": "Theme"
+  },
+  {
+   "fieldname": "slug",
+   "fieldtype": "Data",
+   "label": "Slug"
+  },
+  {
+   "fieldname": "thumbnail",
+   "fieldtype": "Data",
+   "label": "Thumbnail"
+  },
+  {
+   "fieldname": "is_template",
+   "fieldtype": "Check",
+   "label": "Is Template",
+   "default": "0"
+  },
+  {
+   "fieldname": "byte_size",
+   "fieldtype": "Int",
+   "label": "Size"
+  },
+  {
+   "fieldname": "slides",
+   "fieldtype": "Table",
+   "label": "Slides",
+   "options": "Presentation Slide"
+  }
+ ],
+ "field_order": [
+  "title",
+  "file",
+  "theme",
+  "slug",
+  "thumbnail",
+  "is_template",
+  "byte_size",
+  "slides"
+ ]
+}

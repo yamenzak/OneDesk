@@ -100,6 +100,7 @@ NOBODY = {
 	"hrms / HR": 0,
 	"onedesk / One": 0,
 	"onedesk / One Sheet": 1,
+	"onedesk / One Slide": 1,
 	"onedesk / One AI": 0,
 	"onedesk / One Mail": 0,
 }

@@ -3,6 +3,7 @@ import { buildIslands } from "@framework/ui/vite/island";
 import { lucideIconsPlugin } from "frappe-ui/vite/lucideIconsPlugin";
 import { sheetSeams } from "./src/sheet/seams.mjs";
 import { writerSeams } from "./src/writer/seams.mjs";
+import { slideSeams } from "./src/slide/seams.mjs";
 
 const COMPOSER = fileURLToPath(import.meta.resolve("@framework/ui/ActivityTimeline")).replace(
 	/ActivityTimeline\/index\.ts$/,
@@ -35,6 +36,7 @@ export const ISLANDS = {
 	"onedesk.display_slides": "src/islands/display_slides.js",
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",
+	"onedesk.presentation": "src/islands/presentation.js",
 	"onedesk.intake": "src/islands/intake.js",
 	"onedesk.onemail": "src/mail/island.js",
 	"onedesk.onecloud": "src/islands/onecloud.js",
@@ -44,7 +46,7 @@ await buildIslands({
 	app: "onedesk",
 	root: import.meta.dirname,
 	entries: ISLANDS,
-	plugins: [sheetSeams, writerSeams, lucideIconsPlugin(), { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
+	plugins: [slideSeams, sheetSeams, writerSeams, lucideIconsPlugin(), { name: "framework-ui-composer", enforce: "pre", resolveId: (source) => (source === "@framework/ui/Composer" ? COMPOSER : null) }],
 	production: process.argv.includes("--production"),
 	watch: process.argv.includes("--watch"),
 });

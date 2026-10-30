@@ -42,6 +42,9 @@ msgstr "OneCalendar"
 msgid "One Display"
 msgstr "OneDisplay"
 
+msgid "One Slide"
+msgstr "OneSlide"
+
 msgid "One Task"
 msgstr "OneTask"
 

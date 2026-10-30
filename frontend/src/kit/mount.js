@@ -17,10 +17,11 @@ const provided = (component) => ({
 	},
 });
 
-export const screen = (component) => (el, context) => {
+export const screen = (component, routes) => (el, context) => {
 	const { socket } = deskSession();
 	return mountVueIsland(el, {
 		...context,
+		...(routes ? { routes } : {}),
 		component: provided(component),
 		configure: (app) => {
 			app.config.globalProperties.__ = __;

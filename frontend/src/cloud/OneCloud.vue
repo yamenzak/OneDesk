@@ -574,6 +574,7 @@ const newMenu = computed(() => {
       ["new-folder", "lucide-folder-plus", __("Folder"), can.folder],
       ["new-workbook", "lucide-file-spreadsheet", __("Workbook"), can.add && local],
       ["new-document", "lucide-file-text", __("Document"), can.add && local],
+      ["new-presentation", "lucide-presentation", __("Presentation"), can.add && local],
     ],
     [
       ["upload-files", "lucide-upload", __("Upload files"), can.add],
@@ -637,6 +638,7 @@ function spaceMenu() {
       ["new-folder", "lucide-folder-plus", __("New folder"), can.folder],
       ["new-workbook", "lucide-file-spreadsheet", __("New Workbook"), can.add && local],
       ["new-document", "lucide-file-text", __("New Document"), can.add && local],
+      ["new-presentation", "lucide-presentation", __("New Presentation"), can.add && local],
       ["upload-files", "lucide-upload", __("Upload files"), can.add],
       ["upload-folder", "lucide-folder-up", __("Upload folder"), can.add && kind.value !== "record"],
       ["paste", "lucide-clipboard-paste", __("Paste"), can.add && !!clipboard.value],
@@ -706,6 +708,8 @@ async function act(name) {
       return newFrom("onedesk.one_sheet.templates.listed", __("Blank Workbook"), "onedesk.one_sheet.api.make", "workbook");
     case "new-document":
       return newFrom("onedesk.one_doc.templates.listed", __("Blank Document"), "onedesk.one_doc.api.make", "document");
+    case "new-presentation":
+      return newFrom("onedesk.one_slide.api.listed", __("Blank Presentation"), "onedesk.one_slide.api.make", "presentation");
     case "new-library":
       return cloud().new_library(dialogsGo);
     case "new-mount":
@@ -821,6 +825,7 @@ function openItems(list) {
   const one = list.length === 1 ? list[0] : null;
   if (one?.workbook) return goTo("workbook", one.workbook);
   if (one?.document) return goTo("document", one.document);
+  if (one?.presentation) return goTo("presentation", one.presentation);
   // An Excel or CSV file opens in OneWorkbook and a Word file in OneWriter,
   // each saved back into itself.
   if (one && !one.folder && SHEETS.includes(extension(one))) return call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook));

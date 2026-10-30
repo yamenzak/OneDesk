@@ -350,6 +350,7 @@ def node(item: dict) -> dict:
 		**({"intake": True} if item.get("one_intake") else {}),
 		**({"workbook": book} if (book := _workbook(item)) else {}),
 		**({"document": doc} if (doc := _document(item)) else {}),
+		**({"presentation": deck} if (deck := _presentation(item)) else {}),
 	}
 
 
@@ -363,6 +364,12 @@ def _document(item: dict) -> str | None:
 	from onedesk.one_doc.api import document_of
 
 	return None if item.get("is_folder") else document_of(item.get("file_url"))
+
+
+def _presentation(item: dict) -> str | None:
+	from onedesk.one_slide.api import presentation_of
+
+	return None if item.get("is_folder") else presentation_of(item.get("file_url"))
 
 
 def virtual(node_id: str, name: str, **more) -> dict:

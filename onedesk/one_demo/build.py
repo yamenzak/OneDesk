@@ -39,6 +39,7 @@ STEPS = (
 	"storage",
 	"workbook",
 	"document",
+	"slide",
 	"intake",
 	"mail",
 	"ai",

@@ -71,6 +71,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.display_slides": None,
 		"onedesk.workbook": None,
 		"onedesk.document": None,
+		"onedesk.presentation": None,
 		"onedesk.intake": None,
 		"onedesk.onemail": None,
 		"onedesk.onecloud": None,

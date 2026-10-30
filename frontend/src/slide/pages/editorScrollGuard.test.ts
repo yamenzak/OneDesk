@@ -1,0 +1,20 @@
+// Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/pages/editorScrollGuard.test.ts. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
+import { describe, expect, it } from 'vitest'
+
+import source from './PresentationEditor.vue?raw'
+
+describe('editor root overflow', () => {
+	// a hidden root is still a scroll container, so a caret past its edge drags the chrome
+	it('clips the editor root instead of only hiding it', () => {
+		const rootClass = source.match(/class="isolate[^"]*"/)?.[0]
+
+		expect(rootClass).toContain('overflow-clip')
+	})
+})
+
+describe('editor browser zoom', () => {
+	// without the guard, pinch over a panel or popover zooms the whole page
+	it('installs the browser zoom guard', () => {
+		expect(source).toContain('useBrowserZoomGuard()')
+	})
+})

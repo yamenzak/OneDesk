@@ -1,0 +1,714 @@
+<!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/SlideContainer.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
+<template>
+	<div ref="slideContainer" class="flex size-full" @dragenter="showOverlay">
+		<!-- when mounting place slide directly in the center of the visible container -->
+		<!-- 1/2 width of viewport + 1/2 width of offset caused due to thinner navigation panel -->
+		<div
+			ref="slideRef"
+			:style="slideStyles"
+			:class="slideClasses"
+			@contextmenu.capture="(e) => elementContextMenuRef?.handleContextMenu(e)"
+		>
+			<ElementContextMenu ref="elementContextMenu">
+				<SelectionBox
+					ref="selectionBox"
+					v-if="!inReadonlyMode"
+					:isDragging
+					@mousedown="(e) => handleMouseDown(e)"
+				/>
+
+				<MarqueeOverlay v-if="!inReadonlyMode" @setIsSelecting="(val) => (isSelecting = val)" />
+
+				<ShapeDrawOverlay v-if="!inReadonlyMode" />
+
+				<CropOverlay v-if="!inReadonlyMode" />
+
+				<ConnectorPorts v-if="!inReadonlyMode" />
+
+				<SnapGuides :ongoingInteraction="hasOngoingInteraction" :activeGuides="activeGuides" />
+
+				<SlideElement
+					v-for="element in currentSlide?.elements"
+					:key="`editor-${element.id}`"
+					:ref="(comp) => registerElementDiv(element.id, comp?.$el)"
+					mode="editor"
+					:element
+					:data-index="element.id"
+					:highlight="highlightElement(element)"
+					@mousedown="(e) => handleMouseDown(e, element)"
+					@mouseenter="hoveredElementId = element.id"
+					@mouseleave="hoveredElementId = null"
+				/>
+			</ElementContextMenu>
+
+			<OverflowContentOverlay />
+		</div>
+		<DropTargetOverlay v-show="mediaDragOver" @hideOverlay="hideOverlay" />
+	</div>
+</template>
+
+<script setup>
+import {
+	ref,
+	computed,
+	watch,
+	useTemplateRef,
+	nextTick,
+	onMounted,
+	onBeforeUnmount,
+	provide,
+	onActivated,
+	onDeactivated,
+	inject,
+} from 'vue'
+import { useResizeObserver } from '@vueuse/core'
+
+import SnapGuides from '@/apps/slides/components/SnapGuides.vue'
+import SelectionBox from '@/apps/slides/components/SelectionBox.vue'
+import MarqueeOverlay from '@/apps/slides/components/MarqueeOverlay.vue'
+import ShapeDrawOverlay from '@/apps/slides/components/ShapeDrawOverlay.vue'
+import CropOverlay from '@/apps/slides/components/CropOverlay.vue'
+import ConnectorPorts from '@/apps/slides/components/ConnectorPorts.vue'
+import SlideElement from '@/apps/slides/components/SlideElement.vue'
+import DropTargetOverlay from '@/apps/slides/components/DropTargetOverlay.vue'
+import OverflowContentOverlay from '@/apps/slides/components/OverflowContentOverlay.vue'
+import ElementContextMenu from '@/apps/slides/components/ElementContextMenu.vue'
+
+import {
+	currentSlide,
+	slideBounds,
+	selectionBounds,
+	updateSelectionBounds,
+	slideIndex,
+} from '@/apps/slides/stores/slide'
+
+import {
+	activeElementIds,
+	activeElement,
+	focusElementId,
+	pairElementId,
+	dragOccurred,
+	addFixedWidthToElement,
+	ensureExplicitHeight,
+	setEditableState,
+	duplicateElements,
+	activeElements,
+	cropSelectionToFitContent,
+	findSlideElement,
+	isSelectionLocked,
+} from '@/apps/slides/stores/element'
+
+import {
+	interactionOffset,
+	commitInteraction,
+	resetInteractionOffset,
+	bindPreview,
+	pendingConnector,
+	pendingPoints,
+	getTargetBox,
+	getBindableAt,
+} from '@/apps/slides/stores/interaction'
+
+import { handleCopy, handleCut, handlePaste } from '@/apps/slides/stores/copyPaste'
+
+import { registerElementDiv, getElementDiv } from '@/apps/slides/stores/elementRegistry'
+
+import { useDragAndDrop } from '@/apps/slides/composables/useDragAndDrop'
+import { useResizer } from '@/apps/slides/composables/useResizer'
+import { useRotator } from '@/apps/slides/composables/useRotator'
+import { useCornerRadius } from '@/apps/slides/composables/useCornerRadius'
+import { usePanAndZoom } from '@/apps/slides/composables/usePanAndZoom'
+import { useSnapping } from '@/apps/slides/composables/useSnapping'
+import { isCmdOrCtrl } from '@/apps/slides/utils/helpers'
+import { selectionColor } from '@/apps/slides/utils/constants'
+import {
+	getResizedBox,
+	getResizedLine,
+	getResizedTextBox,
+	getRotatedBoundingBox,
+	getMinSizeForElement,
+	isAspectLocked,
+} from '@/apps/slides/utils/resize'
+import { getMinTableWidth } from '@/apps/slides/utils/tableWidths'
+import {
+	getBoundTargetIds,
+	getConnectorEndpoints,
+	getLineEndpoints,
+	routeConnector,
+	snapToPort,
+} from '@/apps/slides/utils/connectors'
+
+const emit = defineEmits(['update:hasOngoingInteraction'])
+
+const inReadonlyMode = inject('inReadonlyMode', ref(false))
+
+const slideContainerRef = useTemplateRef('slideContainer')
+const slideRef = useTemplateRef('slideRef')
+const selectionBoxRef = useTemplateRef('selectionBox')
+const elementContextMenuRef = useTemplateRef('elementContextMenu')
+
+const { isDragging, positionDelta, startDragging } = useDragAndDrop()
+
+const {
+	isResizing,
+	isShiftHeld,
+	isAltHeld,
+	isMetaHeld,
+	pointerDelta,
+	currentResizer,
+	resizeCursor,
+	startResize,
+} = useResizer()
+
+const { isRotating, rotationDelta, startRotate } = useRotator()
+
+const { isRounding, maxRadius, startRound } = useCornerRadius()
+
+const hoveredElementId = ref(null)
+const isHovered = computed(() => hoveredElementId.value === activeElement.value?.id)
+const setHovered = (id) => (hoveredElementId.value = id)
+
+const hasOngoingInteraction = computed(
+	() => isDragging.value || isResizing.value || isRotating.value,
+)
+
+const { activeGuides, snapForDrag, snapForResize } = useSnapping(
+	selectionBoxRef,
+	currentResizer,
+	hasOngoingInteraction,
+)
+
+// Elements are stored in a fixed 960x540 coordinate space, so the slide keeps
+// that authored size and is only scaled down to DISPLAY_WIDTH for display —
+// shrinking the authored width instead would shift every existing element.
+const SLIDE_WIDTH = 960
+const DISPLAY_WIDTH = 900
+
+const { allowPanAndZoom, transform, transformOrigin } = usePanAndZoom(
+	slideContainerRef,
+	slideRef,
+	DISPLAY_WIDTH / SLIDE_WIDTH,
+)
+
+const slideClasses = computed(() => {
+	const classes = [
+		'absolute',
+		'h-[540px]',
+		'w-[960px]',
+		'rounded-4',
+		'border',
+		'border-outline-gray-1',
+		'shadow-sm',
+	]
+
+	const outlineClasses = mediaDragOver.value ? ['outline', 'outline-2'] : []
+
+	// Offsets center the scaled slide (900x506.25), shifted for the side panels
+	// (edit: nav + properties; readonly: nav only). Recompute if widths change.
+	const positionClasses = inReadonlyMode.value
+		? ['left-[calc(50%-354.5px)]', 'top-[calc(50%-253.125px)]']
+		: ['left-[calc(50%-482px)]', 'top-[calc(50%-253.125px)]']
+
+	return [...classes, outlineClasses, positionClasses]
+})
+
+const isSelecting = ref(false)
+
+const getSlideCursor = () => {
+	if (isDragging.value) return 'move'
+	if (isSelecting.value) return 'crosshair'
+	if (resizeCursor.value) return resizeCursor.value
+
+	return 'default'
+}
+
+const highlightElement = (element) => {
+	const toHighlight =
+		activeElementIds.value.length > 1 && activeElementIds.value.includes(element.id)
+	const isAutoBindTarget =
+		bindPreview.value?.anchor === 'auto' && bindPreview.value.elementId === element.id
+	return toHighlight || pairElementId.value == element.id || isAutoBindTarget
+}
+
+const slideStyles = computed(() => ({
+	transformOrigin: transformOrigin.value,
+	transform: transform.value,
+	backgroundColor: currentSlide.value?.background || '#ffffff',
+	outlineColor: selectionColor,
+	cursor: getSlideCursor(),
+	zIndex: 0,
+}))
+
+const mediaDragOver = ref(false)
+
+const showOverlay = (e) => {
+	e.preventDefault()
+	if (inReadonlyMode.value) return
+	mediaDragOver.value = true
+}
+
+const hideOverlay = () => {
+	mediaDragOver.value = false
+}
+
+const triggerSelection = (e, id) => {
+	if (!id) return
+
+	if (activeElementIds.value.includes(id)) {
+		if (['text', 'table'].includes(activeElement.value?.type) && !activeElement.value.locked) {
+			focusElementId.value = id
+			setEditableState()
+		}
+		return
+	}
+
+	if (isCmdOrCtrl(e) || e.shiftKey) {
+		if (activeElementIds.value.length && !!findSlideElement(id)?.locked !== isSelectionLocked.value)
+			return
+		activeElementIds.value = [...activeElementIds.value, id]
+	} else {
+		activeElementIds.value = [id]
+	}
+
+	focusElementId.value = null
+}
+
+const handleMouseUp = (e, id) => {
+	pairElementId.value = null
+
+	if (!isDragging.value) triggerSelection(e, id)
+}
+
+const triggerDrag = (e, id) => {
+	if (id ? findSlideElement(id)?.locked : isSelectionLocked.value) return
+
+	const notEditable = id && focusElementId.value !== id
+	const isMultiSelect = activeElementIds.value.length > 1
+	const isNotInSelection = id && !activeElementIds.value.includes(id)
+
+	// prevent drag if multiple are selected and id isn't in the selection
+	if (isMultiSelect && isNotInSelection) return
+
+	if (notEditable || isMultiSelect) {
+		dragOccurred.value = true
+		startDragging(e)
+
+		if (id && !isMultiSelect && activeElementIds.value[0] !== id) {
+			activeElementIds.value = [id]
+			focusElementId.value = null
+
+			// the selection watcher will crop async — too late for the drag
+			// anchor below, so fit the bounds to this element now
+			cropSelectionToFitContent([id])
+		}
+
+		// anchor synchronously: the drag math must never depend on watcher
+		// flush order or on a previous gesture's state
+		dragStartBounds = {
+			left: selectionBounds.left,
+			top: selectionBounds.top,
+		}
+	}
+}
+
+const DRAG_START_THRESHOLD = 4
+
+const watchForDragIntent = (downEvent, id) => {
+	const cancelDragIntent = () => {
+		window.removeEventListener('mousemove', detectDrag)
+		window.removeEventListener('mouseup', cancelDragIntent)
+	}
+
+	const detectDrag = (moveEvent) => {
+		// button already released (e.g. mouseup outside the window)
+		if (!moveEvent.buttons) return cancelDragIntent()
+
+		const dx = moveEvent.clientX - downEvent.clientX
+		const dy = moveEvent.clientY - downEvent.clientY
+		if (Math.hypot(dx, dy) < DRAG_START_THRESHOLD) return
+
+		cancelDragIntent()
+
+		// pass the original mousedown event so the drag measures
+		// from the press position and no movement is lost
+		triggerDrag(downEvent, id)
+	}
+
+	window.addEventListener('mousemove', detectDrag)
+	window.addEventListener('mouseup', cancelDragIntent)
+}
+
+const duplicateAndDrag = (e, id) => {
+	if (isSelectionLocked.value) return
+
+	duplicateElements(e, activeElements.value, slideIndex.value, false).then(() => {
+		watchForDragIntent(e, id)
+	})
+}
+
+// the multi-selection box covers its whole bounding rect, so an unselected
+// element inside it never receives the press
+const findElementUnderPointer = (e) => {
+	if (!e.target?.matches?.('[data-selection-box]')) return null
+
+	for (const node of document.elementsFromPoint(e.clientX, e.clientY)) {
+		if (!slideRef.value?.contains(node)) continue
+
+		const id = node.closest('[data-index]')?.getAttribute('data-index')
+		if (!id) continue
+
+		return activeElementIds.value.includes(id) ? null : id
+	}
+	return null
+}
+
+const handleMouseDown = (e, element) => {
+	if (inReadonlyMode.value || e.button == 2) return
+
+	e.stopPropagation()
+	e.preventDefault()
+
+	dragOccurred.value = false
+
+	// alt-drag duplicates the whole selection, so it ignores what is under the pointer
+	if (e.altKey) return duplicateAndDrag(e, element?.id)
+
+	const id = element?.id ?? findElementUnderPointer(e)
+
+	// start dragging once the pointer moves past a small threshold
+	watchForDragIntent(e, id)
+
+	// if mouseup happens before the threshold is crossed
+	// then consider it a selection instead of dragging
+	window.addEventListener('mouseup', () => handleMouseUp(e, id), { once: true })
+}
+
+const scale = computed(() => {
+	const matrix = transform.value?.match(/matrix\((.+)\)/)
+	if (!matrix) return 1
+	return parseFloat(matrix[1].split(', ')[0])
+})
+
+const activeDiv = computed(() => {
+	if (activeElementIds.value.length != 1) return null
+	return getElementDiv(activeElementIds.value[0])
+})
+
+useResizeObserver(activeDiv, (entries) => {
+	if (!activeElement.value) return
+
+	const entry = entries[0]
+	const { width, height } = entry.contentRect
+
+	// fires on any size change: resize gestures, and property updates like
+	// font size / line height / letter spacing. every element type is
+	// layout-anchored — left/top derive from element state, so no
+	// forced-layout read is needed
+	updateSelectionBounds({
+		width: width,
+		height: height,
+		left: activeElement.value.left + interactionOffset.left,
+		top: activeElement.value.top + interactionOffset.top,
+	})
+})
+
+const togglePanZoom = () => {
+	allowPanAndZoom.value = !allowPanAndZoom.value
+}
+
+// selection bounds at drag start — captured synchronously in triggerDrag
+let dragStartBounds = null
+
+const snapRotatedPosition = (target, rotation) => {
+	const boundingBox = getRotatedBoundingBox(target, rotation)
+	const snapped = snapForDrag(boundingBox)
+	return {
+		left: target.left + (snapped.left - boundingBox.left),
+		top: target.top + (snapped.top - boundingBox.top),
+	}
+}
+
+const handlePositionChange = (total) => {
+	if (!dragStartBounds) return
+
+	const target = {
+		left: dragStartBounds.left + total.left / slideBounds.scale,
+		top: dragStartBounds.top + total.top / slideBounds.scale,
+		width: selectionBounds.width,
+		height: selectionBounds.height,
+	}
+	const rotation = activeElement.value?.rotation
+	const desired = rotation ? snapRotatedPosition(target, rotation) : snapForDrag(target)
+
+	interactionOffset.left = desired.left - dragStartBounds.left
+	interactionOffset.top = desired.top - dragStartBounds.top
+	updateSelectionBounds({ left: desired.left, top: desired.top })
+}
+
+// the element's box + type when the resize began, captured synchronously like dragStartBounds
+let resizeStartBounds = null
+
+const startElementResize = (e, resizer) => {
+	ensureExplicitHeight(activeElement.value)
+
+	resizeStartBounds = {
+		left: selectionBounds.left,
+		top: selectionBounds.top,
+		width: selectionBounds.width,
+		height: selectionBounds.height,
+		rotation: activeElement.value?.rotation || 0,
+		type: activeElement.value?.type,
+		// a table's columns have minimums of their own, which the static size map
+		// has no way to express
+		minWidth: Math.max(
+			getMinSizeForElement(activeElement.value?.type).width,
+			getMinTableWidth(activeElement.value?.content),
+		),
+	}
+
+	startResize(e, resizer)
+}
+
+const setOffsetFromBox = (box) => {
+	interactionOffset.left = box.left - resizeStartBounds.left
+	interactionOffset.top = box.top - resizeStartBounds.top
+	interactionOffset.width = box.width - resizeStartBounds.width
+	interactionOffset.height = box.height - resizeStartBounds.height
+
+	updateSelectionBounds({ left: box.left, top: box.top, width: box.width, height: box.height })
+}
+
+const resizeBox = (cursorMovement) => {
+	const keepAspect = isShiftHeld.value
+	const fromCenter = isAltHeld.value
+	const box = getResizedBox(resizeStartBounds, currentResizer.value, cursorMovement, {
+		keepAspect,
+		fromCenter,
+	})
+	if (!box) return
+
+	const axes = isAspectLocked(resizeStartBounds.type) ? ['x'] : ['x', 'y']
+	// resize runs in the element's rotated local frame; the snap engine works on
+	// screen-axis-aligned boxes, so snapping a rotated resize isn't supported yet.
+	// snapping moves one edge, which would break a modifier-constrained resize
+	const skipSnap = resizeStartBounds.rotation || keepAspect || fromCenter
+	const snappedBox = skipSnap ? box : snapForResize(box, { axes })
+	setOffsetFromBox(snappedBox)
+}
+
+const PORT_SNAP_RADIUS = 14
+
+const boxFor = (bound) => bound && getTargetBox(bound.elementId)
+
+// ⌘ keeps the end free; the other end's target is out, both ends on it would collapse the line
+const bindDraggedEnd = (line, end, cursor) => {
+	const other = line.connector[end === 'start' ? 'end' : 'start']
+	const target = isMetaHeld.value ? null : getBindableAt(cursor, [line.id, other?.elementId])
+	const anchor =
+		target && (snapToPort(target.box, cursor, PORT_SNAP_RADIUS / slideBounds.scale) || 'auto')
+	bindPreview.value = target ? { elementId: target.elementId, anchor } : null
+
+	const connector = {
+		...line.connector,
+		[end]: target ? { elementId: target.elementId, anchor } : null,
+	}
+	pendingConnector.value = connector
+	return connector
+}
+
+const draggedEnd = () => (currentResizer.value === 'line-left' ? 'start' : 'end')
+
+const routeDraggedEnd = (box, cursorMovement) => {
+	const line = activeElement.value
+	const end = draggedEnd()
+	const grabbed = getLineEndpoints(line)[end]
+	const cursor = { x: grabbed.x + cursorMovement.x, y: grabbed.y + cursorMovement.y }
+
+	const connector = bindDraggedEnd(line, end, cursor)
+	if (!getBoundTargetIds(connector).length) return box
+
+	return routeConnector(
+		{ ...line, ...box, connector },
+		boxFor(connector.start),
+		boxFor(connector.end),
+	)
+}
+
+// an elbow end moves as a point and the path re-routes around it
+const resizeElbowEnd = (cursorMovement) => {
+	const line = activeElement.value
+	const end = draggedEnd()
+	const grabbed = getConnectorEndpoints(line)[end]
+	const cursor = { x: grabbed.x + cursorMovement.x, y: grabbed.y + cursorMovement.y }
+
+	const connector = bindDraggedEnd(line, end, cursor)
+	const points = [...line.points]
+	points[end === 'start' ? 0 : points.length - 1] = {
+		x: cursor.x - line.left,
+		y: cursor.y - line.top,
+	}
+	const box = routeConnector(
+		{ ...line, connector, points },
+		boxFor(connector.start),
+		boxFor(connector.end),
+	)
+	setOffsetFromBox(box)
+	pendingPoints.value = box.points
+}
+
+const resizeLine = (cursorMovement) => {
+	if (activeElement.value.points) return resizeElbowEnd(cursorMovement)
+
+	const resized = getResizedLine(resizeStartBounds, currentResizer.value, cursorMovement, {
+		snapAngle: isShiftHeld.value,
+	})
+	const box = activeElement.value.connector ? routeDraggedEnd(resized, cursorMovement) : resized
+
+	setOffsetFromBox(box)
+	rotationDelta.value = box.rotation - resizeStartBounds.rotation
+}
+
+const setOffsetFromTextBox = (box) => {
+	interactionOffset.width = box.width - resizeStartBounds.width
+	interactionOffset.left = box.left - resizeStartBounds.left
+}
+
+const resizeText = (cursorMovement) => {
+	if (!activeElement.value.width) addFixedWidthToElement()
+
+	const box = getResizedTextBox(resizeStartBounds, currentResizer.value, cursorMovement)
+	const snappedBox = snapForResize(box, { axes: ['x'] })
+
+	const minWidth = resizeStartBounds.minWidth
+	if (snappedBox.width < minWidth) {
+		if (currentResizer.value === 'text-left') {
+			snappedBox.left = snappedBox.left + snappedBox.width - minWidth
+		}
+		snappedBox.width = minWidth
+	}
+
+	setOffsetFromTextBox(snappedBox)
+}
+
+const handleResize = () => {
+	if (!resizeStartBounds) return
+
+	const cursorMovement = {
+		x: pointerDelta.value.x / slideBounds.scale,
+		y: pointerDelta.value.y / slideBounds.scale,
+	}
+	const handle = currentResizer.value
+	if (handle === 'text-left' || handle === 'text-right') return resizeText(cursorMovement)
+	if (handle === 'line-left' || handle === 'line-right') return resizeLine(cursorMovement)
+	resizeBox(cursorMovement)
+}
+
+const updateSlideBounds = () => {
+	const slideRect = slideRef.value.getBoundingClientRect()
+
+	slideBounds.width = slideRect.width
+	slideBounds.height = slideRect.height
+	slideBounds.left = slideRect.left
+	slideBounds.top = slideRect.top
+	slideBounds.scale = scale.value
+}
+
+const handleSlideTransform = () => {
+	// wait for the new transform to render before updating dimensions
+	nextTick(() => {
+		updateSlideBounds()
+	})
+}
+
+watch(
+	() => activeElementIds.value,
+	(newVal, oldVal) => {
+		selectionBoxRef.value?.handleSelectionChange(newVal, oldVal)
+	},
+)
+
+watch(
+	() => transform.value,
+	() => {
+		if (!transform.value) return
+		handleSlideTransform()
+	},
+)
+
+watch(
+	() => positionDelta.value,
+	(total) => {
+		handlePositionChange(total)
+	},
+)
+
+watch(
+	() => pointerDelta.value,
+	() => handleResize(),
+)
+
+const initSlideAndListeners = () => {
+	if (!slideRef.value) return
+
+	updateSlideBounds()
+
+	document.addEventListener('copy', handleCopy)
+	document.addEventListener('cut', handleCut)
+	document.addEventListener('paste', handlePaste)
+	window.addEventListener('resize', updateSlideBounds)
+}
+
+const clearListeners = () => {
+	document.removeEventListener('copy', handleCopy)
+	document.removeEventListener('cut', handleCut)
+	document.removeEventListener('paste', handlePaste)
+	window.removeEventListener('resize', updateSlideBounds)
+}
+
+onMounted(() => initSlideAndListeners())
+
+onActivated(() => initSlideAndListeners())
+
+onDeactivated(() => clearListeners())
+
+onBeforeUnmount(() => clearListeners())
+
+provide('slideDiv', slideRef)
+provide('slideContainerDiv', slideContainerRef)
+provide('resizer', {
+	currentResizer,
+	startResize: startElementResize,
+})
+provide('rotator', {
+	startRotate,
+})
+provide('cornerRadius', {
+	startRound,
+	maxRadius,
+	isRounding,
+	isHovered,
+	setHovered,
+})
+
+defineExpose({
+	togglePanZoom,
+})
+
+const applyInteractionOffsets = () => {
+	pairElementId.value = null
+	requestAnimationFrame(() => {
+		commitInteraction()
+	})
+}
+
+watch(
+	() => hasOngoingInteraction.value,
+	(newVal, oldVal) => {
+		// a gesture torn down before it commits leaves its offsets and its
+		// auto-to-fixed mark behind, and the next commit would record them as its own
+		if (!oldVal && newVal) resetInteractionOffset()
+		if (oldVal && !newVal) applyInteractionOffsets()
+		emit('update:hasOngoingInteraction', newVal)
+	},
+)
+</script>

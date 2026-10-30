@@ -231,6 +231,15 @@ No doctypes yet.
 | Voice Ad | 8 | document |
 | Widget Collection | 4 | document |
 
+## One Slide
+
+`onedesk/one_slide`
+
+| Doctype | Fields | Kind |
+|---|--:|---|
+| Presentation | 8 | document |
+| Presentation Slide | 9 | child |
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
@@ -868,6 +877,24 @@ No doctypes yet.
 * `onedesk.one_sheet.versions.restore`
 * `onedesk.one_sheet.versions.state_at`
 * `onedesk.one_sheet.versions.timeline`
+* `onedesk.one_slide.api.download`
+* `onedesk.one_slide.api.get`
+* `onedesk.one_slide.api.get_editor_access`
+* `onedesk.one_slide.api.get_templates`
+* `onedesk.one_slide.api.get_updated_json`
+* `onedesk.one_slide.api.get_webp_doc`
+* `onedesk.one_slide.api.listed`
+* `onedesk.one_slide.api.make`
+* `onedesk.one_slide.api.media`
+* `onedesk.one_slide.api.rename_presentation`
+* `onedesk.one_slide.api.save_base64_image`
+* `onedesk.one_slide.api.save_presentation_thumbnail`
+* `onedesk.one_slide.api.save_slides`
+* `onedesk.one_slide.api.update_slide_attachments`
+* `onedesk.one_slide.api.update_theme`
+* `onedesk.one_slide.api.update_title`
+* `onedesk.one_slide.api.upload`
+* `onedesk.one_slide.api.visited`
 * `onedesk.one_storage.api.attach`
 * `onedesk.one_storage.api.capacity`
 * `onedesk.one_storage.api.copy`

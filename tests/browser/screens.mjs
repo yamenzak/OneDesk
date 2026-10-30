@@ -26,6 +26,7 @@ export const SCREENS = [
 	{ who: "wsadmin@one.test", path: "/desk/display-slides/Showroom", page: "display-slides", sees: ["Slides", "Frameless glass entrances"] },
 	{ who: "wsadmin@one.test", path: "/desk/workbook/bayview-costing", page: "workbook", sees: ["Bayview tower costing"] },
 	{ who: "wsadmin@one.test", path: "/desk/document/bayview-scope", page: "document", sees: ["Bayview tower scope of works", "Curtain wall"] },
+	{ who: "wsadmin@one.test", path: "/desk/presentation/bayview-pitch", page: "presentation", sees: ["Bayview tower facade", "Present"] },
 	{ who: "samir@one.test", path: "/desk/onecalendar", page: "onecalendar", sees: ["Weekly site meeting"] },
 	{ who: "karim@one.test", path: "/desk/stock-on-hand", page: "stock-on-hand", sees: ["Stock on Hand", "Structural Silicone", "All Warehouses"], panel: true },
 	{ who: "karim@one.test", path: "/desk/item/ALU-6063", page: "item-view", sees: ["Aluminium Profile 6063", "On Hand", "Al Noor Aluminium", "Assign", "Files"], panel: false },

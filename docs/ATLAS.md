@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 76 | 2 | 37 | 0 |
+| onedesk | 77 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -65,6 +65,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | display_slides (`frontend/src/display/designer/Designer.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
+| presentation (`frontend/src/slide/PresentationPage.vue`) | – | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
@@ -541,7 +542,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1, de 1 |  |
-| File | through a form's link (Workbook: file) | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
+| File | through a form's link (Presentation: file) | everybody | class, events, 10 fields | no | taught |  | yes |  |  |  | Added to a Library, Shared With You |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Log Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
@@ -1043,6 +1044,14 @@ Pages: project-template-view (inside: a Project Template opens on it); project-v
 | Workbook Version | engine: a workbook as it stood; its Version History lists them | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 
 Pages: workbook (inside: a workbook opens on it from OneCloud).
+
+## onedesk / One Slide
+
+| Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
+|---|---|---|---|---|---|---|---|---|---|---|---|
+| Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+
+Pages: presentation (inside: a presentation opens on it from OneCloud).
 
 ## onedesk / One Storage
 
