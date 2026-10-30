@@ -18,6 +18,7 @@ SAFE = ("/api/method/onedesk.one_slide.api.media?id=", "/assets/", "/files/", "/
 
 #: The free CSS rules, shared with the editor (`frontend/src/slide/shim/looks.js`).
 RULES = json.loads((Path(__file__).parent / "css.json").read_text())
+MOTION = json.loads((Path(__file__).parent / "motion.json").read_text())
 
 COLOUR = re.compile(r"^(#[0-9a-fA-F]{3,8}|transparent|rgba?\([\d\s.,%]+\))$")
 FADE = re.compile(r"^linear-gradient\((-?\d+)deg, ([^,]+), ([^,]+)\)$")
@@ -81,8 +82,32 @@ def _looks(one: dict) -> None:
 		one["name"] = strip_html(str(one["name"] or "")).strip()[:140] or None
 	if "hidden" in one:
 		one["hidden"] = True if one["hidden"] else None
-	for key in [key for key in ("css", "blur", "fade", "name", "hidden") if one.get(key) is None]:
+	if "motion" in one:
+		one["motion"] = motion(one["motion"])
+	for key in [key for key in ("css", "blur", "fade", "name", "hidden", "motion") if one.get(key) is None]:
 		one.pop(key, None)
+
+
+def motion(said) -> dict | None:
+	"""How an element comes and goes, with only what motion.json names. Pure."""
+	if not isinstance(said, dict):
+		return None
+
+	def seconds(key, otherwise=0.0):
+		value = said.get(key)
+		return round(max(0.0, min(float(value), MOTION["longest"])), 2) if isinstance(value, int | float) else otherwise
+
+	kept = {
+		"in": said.get("in") if said.get("in") in MOTION["in"] else None,
+		"out": said.get("out") if said.get("out") in MOTION["out"] else None,
+		"from": said.get("from") if said.get("from") in MOTION["from"] else "Left",
+		"start": said.get("start") if said.get("start") in MOTION["start"] else MOTION["start"][0],
+		"wait": seconds("wait"),
+		"stay": seconds("stay"),
+		"speed": seconds("speed", MOTION["speed"]) or MOTION["speed"],
+		"again": bool(said.get("again")),
+	}
+	return kept if kept["in"] or kept["out"] else None
 
 
 def _angle(value) -> int:

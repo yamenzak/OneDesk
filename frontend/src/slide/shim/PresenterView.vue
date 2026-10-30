@@ -42,7 +42,7 @@
 				</div>
 				<div class="mt-auto flex items-center justify-center gap-2">
 					<Button :label="__('Back')" :disabled="at <= 0" @click="go(at - 1)" />
-					<Button variant="solid" :label="__('Next')" :disabled="at >= slides.length" @click="go(at + 1)" />
+					<Button variant="solid" :label="__('Next')" :disabled="at >= slides.length" @click="forward" />
 				</div>
 			</div>
 			<div class="flex min-w-0 flex-[2] flex-col gap-2">
@@ -118,6 +118,11 @@ function go(index) {
 	say({ go: index });
 }
 
+// the audience's window takes the next step: what comes on a click, else the next slide
+function forward() {
+	if (at.value < slides.value.length) say({ step: 1 });
+}
+
 // the mouse held on the slide points at it in the audience's window, as the phone does
 const pointed = ref(null);
 let pointedAt = 0;
@@ -157,7 +162,8 @@ async function showPhone() {
 	phoneOpen.value = true;
 	await pairPhone(presentationDoc.value.name, (event, payload) => {
 		if (event === "hello") tellPhoneNow();
-		else if (event === "go") go(at.value + (payload.step > 0 ? 1 : -1));
+		else if (event === "go" && payload.step > 0) forward();
+		else if (event === "go") go(at.value - 1);
 		else if (event === "point") say({ point: { x: +payload.x || 0, y: +payload.y || 0, on: !!payload.on } });
 	});
 }
@@ -167,7 +173,7 @@ async function showPhone() {
 // of these, since an arrow would move what is chosen there
 function keyed(event) {
 	if (event.target?.closest?.("input, textarea, [contenteditable='true']")) return;
-	if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) go(at.value + 1);
+	if (["ArrowRight", "ArrowDown", "PageDown", " "].includes(event.key)) forward();
 	else if (["ArrowLeft", "ArrowUp", "PageUp"].includes(event.key)) go(at.value - 1);
 	else if (event.key === "Escape") end();
 	else return;

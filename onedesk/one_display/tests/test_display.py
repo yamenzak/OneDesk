@@ -236,3 +236,20 @@ def test_a_slide_is_drawn_safely_for_an_old_tv():
 	assert "<polygon" in drawn and "linearGradient" in drawn and "onload" not in drawn
 	assert "javascript" not in drawn and 'src="/files/a.png"' in drawn and "width:200%" in drawn
 	assert "rotate(5deg)" in drawn and "never drawn" not in drawn
+
+
+MOTION_TABLE = json.loads((ROOT / "onedesk/one_slide/motion.json").read_text())
+CLEANED = _load(ROOT / "onedesk/one_slide/play.py", ("motion",), MOTION=MOTION_TABLE)
+
+
+def test_the_player_moves_things_as_the_editor_does():
+	"""play.js carries a copy of one_slide/motion.json, which the editor and
+	the server read; the copy is the table, and a motion keeps only what the
+	table names."""
+	player = (ROOT / "onedesk/public/js/one_slide/play.js").read_text()
+	copied = re.search(r"/\* motion \*/ (.*?) /\* end motion \*/", player).group(1)
+	assert json.loads(copied) == MOTION_TABLE
+	motion = CLEANED["motion"]
+	assert motion({"wait": 2}) is None, "a motion that neither comes nor goes is none"
+	kept = motion({"in": "Fly In", "from": "Up", "start": "Somehow", "wait": -3, "stay": 10_000, "speed": "fast", "again": 1, "colour": "red"})
+	assert kept == {"in": "Fly In", "out": None, "from": "Left", "start": "With the Slide", "wait": 0.0, "stay": MOTION_TABLE["longest"], "speed": MOTION_TABLE["speed"], "again": True}

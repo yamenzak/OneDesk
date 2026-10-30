@@ -54,7 +54,7 @@
 		at = Math.max(0, Math.min(slides.length - 1, index));
 		var shown = slides[at];
 		var fades = shown.transition && shown.transition !== "none";
-		window.onedesk.play.draw(shown.slide, stage);
+		window.onedesk.play.draw(shown.slide, stage, following && live !== null);
 		var drawn = stage.firstChild;
 		if (fades && drawn) {
 			drawn.style.opacity = "0";
@@ -73,6 +73,8 @@
 	}
 
 	function go(step) {
+		// what comes on a click comes before the next slide does
+		if (step > 0 && window.onedesk.play.step(stage)) return;
 		following = false;
 		show(at + step);
 	}

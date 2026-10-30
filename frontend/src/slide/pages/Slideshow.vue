@@ -63,15 +63,16 @@
 					<div
 						:key="slideIndex"
 						:style="slideStyles"
-						@click="changeSlideInSlideshow(slideIndex + 1)"
+						@click="clickNext"
 					>
-						<SlideElement
-							v-for="element in shownElements"
-							:key="`slideshow-${getElementKey(element)}`"
-							mode="slideshow"
-							:element="element"
-							:data-index="element.id"
-						/>
+						<!-- One: an element that comes and goes, on a box as large as the slide (shim/motion.js, VENDORED.md) -->
+						<component :is="'style'" v-if="motionKeys">{{ motionKeys }}</component>
+						<template v-for="{ element, moves } in shownTracks" :key="`slideshow-${getElementKey(element)}`">
+							<div v-if="moves" class="one-motion" :style="moves.look">
+								<SlideElement mode="slideshow" :element="element" :data-index="element.id" class="pointer-events-auto" />
+							</div>
+							<SlideElement v-else mode="slideshow" :element="element" :data-index="element.id" />
+						</template>
 					</div>
 				</Transition>
 			</div>
@@ -82,6 +83,7 @@
 <script setup>
 import { audience, link, say, unlink } from '@/apps/slides/shim/presenter.js' // One: the presenter view, VENDORED.md
 import { at as liveAt } from '@/apps/slides/shim/live.js' // One: Present Live, VENDORED.md
+import { clicked, clickWaiting, tracks } from '@/apps/slides/shim/motion.js' // One: an element comes and goes, VENDORED.md
 import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { computed, onActivated, onDeactivated, ref, watch, provide } from 'vue'
@@ -126,6 +128,10 @@ import { getTransitionKey } from '@/apps/slides/stores/transition'
 
 // One: the master underneath the slide's own (shim/master.js, VENDORED.md)
 const shownElements = computed(() => [...underneath(currentSlide.value, slideIndex.value), ...(currentSlide.value?.elements || [])])
+const shownTracks = computed(() => tracks(shownElements.value)) // One: shim/motion.js
+const motionKeys = computed(() => shownTracks.value.map(({ moves }) => moves?.keys || '').join(''))
+// One: a click brings in what waits for one before it moves to the next slide
+const clickNext = () => (clickWaiting(shownElements.value) ? clicked.value++ : changeSlideInSlideshow(slideIndex.value + 1))
 
 const props = defineProps({
 	presentationId: {
@@ -376,6 +382,7 @@ onActivated(() => {
 	if (audience.value) {
 		link(props.presentationId, (heard) => {
 			if (heard.go != null) changeSlideInSlideshow(heard.go)
+			if (heard.step) performNextStep()
 			if (heard.hello) tellPresenter()
 			if (heard.end) endSlideShow()
 			if (heard.point) pointer.value = heard.point.on ? heard.point : null

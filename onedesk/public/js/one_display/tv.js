@@ -520,7 +520,7 @@
 		var said = backdrop ? JSON.stringify(backdrop.elements) : "";
 		if (behind && said !== drawnBackdrop) {
 			drawnBackdrop = said;
-			onedesk.play.draw(backdrop, behind);
+			onedesk.play.draw(backdrop, behind, true);
 		}
 		var list = (channel.layout && channel.layout.widgets) || [];
 		for (var i = 0; i < list.length; i++) {
@@ -600,7 +600,7 @@
 			// cleaned (public/js/one_slide/play.js); its videos join the
 			// shared clock where the slide is.
 			holder.appendChild(node);
-			onedesk.play.draw(item.slide, node);
+			onedesk.play.draw(item.slide, node, true);
 			// a slide of another shape: whole with bands, or filling the screen when its row says so
 			if (item.fill) onedesk.play.fit(node, true);
 			var videos = node.getElementsByTagName("video");

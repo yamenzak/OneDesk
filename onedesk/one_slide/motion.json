@@ -1,0 +1,18 @@
+{
+	"in": {
+		"Fade": { "opacity": 0 },
+		"Fly In": { "fly": 1 },
+		"Zoom": { "opacity": 0, "scale": 0.5 },
+		"Rise": { "opacity": 0, "y": 8 }
+	},
+	"out": {
+		"Fade": { "opacity": 0 },
+		"Fly Out": { "fly": 1 },
+		"Zoom": { "opacity": 0, "scale": 0.5 },
+		"Sink": { "opacity": 0, "y": 8 }
+	},
+	"from": { "Left": [-100, 0], "Right": [100, 0], "Top": [0, -100], "Bottom": [0, 100] },
+	"start": ["With the Slide", "On Click"],
+	"speed": 0.6,
+	"longest": 600
+}

@@ -23,6 +23,8 @@
 	var FADE = /^linear-gradient\((-?\d+)deg, ([^,]+), ([^,]+)\)$/;
 	var SAFE = /^(\/files\/|\/assets\/|\/api\/method\/onedesk\.one_slide\.api\.shown\?|https:\/\/|data:image\/)/;
 	var counter = 0;
+	// one_slide/motion.json, which the editor reads too (a test keeps them one)
+	var MOTION = /* motion */ {"in":{"Fade":{"opacity":0},"Fly In":{"fly":1},"Zoom":{"opacity":0,"scale":0.5},"Rise":{"opacity":0,"y":8}},"out":{"Fade":{"opacity":0},"Fly Out":{"fly":1},"Zoom":{"opacity":0,"scale":0.5},"Sink":{"opacity":0,"y":8}},"from":{"Left":[-100,0],"Right":[100,0],"Top":[0,-100],"Bottom":[0,100]},"start":["With the Slide","On Click"],"speed":0.6,"longest":600} /* end motion */;
 
 	function esc(text) {
 		return String(text == null ? "" : text)
@@ -257,14 +259,75 @@
 
 	var DRAW = { text: text, shape: shape, image: picture, video: video, table: table };
 
-	function slide(said) {
+	/* How an element comes and goes (docs/ONESLIDE.md, an object comes and
+	   goes): one keyframe track per element, on a box as large as the slide
+	   that holds it, moved by transform and opacity only so a TV keeps up.
+	   It waits, comes in, stays, goes, and with `again` starts over. */
+	function state(effect, from) {
+		if (!effect) return { o: 1, t: "none" };
+		var at = effect.fly ? MOTION.from[from] || MOTION.from.Left : [0, effect.y || 0];
+		var turn = "translate(" + at[0] + "%," + at[1] + "%)" + (effect.scale ? " scale(" + effect.scale + ")" : "");
+		return { o: effect.opacity == null ? 1 : effect.opacity, t: turn };
+	}
+
+	function frame(at, look, ease) {
+		return num(at) + "%{opacity:" + look.o + ";-webkit-transform:" + look.t + ";transform:" + look.t + (ease ? ";-webkit-animation-timing-function:" + ease + ";animation-timing-function:" + ease : "") + "}";
+	}
+
+	function motion(element, later, clicked) {
+		var m = element.motion || {};
+		var enter = MOTION["in"][m["in"]];
+		var leave = num(m.stay) > 0 ? MOTION.out[m.out] : null;
+		if (!enter && !leave) return null;
+		var speed = num(m.speed, MOTION.speed) || MOTION.speed;
+		var wait = num(m.wait);
+		var shown = state(null);
+		var inEnds = wait + (enter ? speed : 0);
+		var outStarts = inEnds + num(m.stay);
+		var total = Math.max(leave ? outStarts + speed : inEnds, 0.01);
+		var pct = function (t) { return (t / total) * 100; };
+		var first = state(enter, m.from);
+		var name = "one-motion-" + counter++;
+		var frames = [frame(0, first), frame(pct(wait), first, "ease-out"), frame(pct(inEnds), shown)];
+		if (leave) frames.push(frame(pct(outStarts), shown, "ease-in"), frame(100, state(leave, m.from)));
+		else frames.push(frame(100, shown));
+		var run = name + " " + num(total) + "s linear " + num(later || 0) + "s " + (m.again && leave ? "infinite" : "1") + " both";
+		var middle = num(num(element.left) + num(element.width) / 2) + "px " + num(num(element.top) + num(element.height) / 2) + "px";
+		var look = [
+			"position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none",
+			"z-index:" + Math.max(1, Math.round(num(element.zIndex, 1))),
+			"-webkit-transform-origin:" + middle + ";transform-origin:" + middle,
+			"-webkit-animation:" + run + ";animation:" + run
+		];
+		if (clicked) look.push("-webkit-animation-play-state:paused;animation-play-state:paused");
+		return {
+			keys: "@-webkit-keyframes " + name + "{" + frames.join("") + "}@keyframes " + name + "{" + frames.join("") + "}",
+			look: look.join(";"),
+			speed: wait + speed
+		};
+	}
+
+	// `auto`: nobody clicks (a screen, or a guest following the presenter),
+	// so what comes on a click comes after the one before it
+	function slide(said, auto) {
 		var elements = (said && said.elements) || [];
 		var drawn = [];
+		var keys = [];
+		var later = 0;
 		for (var i = 0; i < elements.length; i++) {
 			var element = elements[i];
 			if (!element || element.hidden || !DRAW[element.type]) continue;
-			drawn.push(DRAW[element.type](element));
+			var onClick = element.motion && element.motion.start === "On Click";
+			var moves = motion(element, onClick && auto ? later + 1 : 0, onClick && !auto);
+			if (!moves) {
+				drawn.push(DRAW[element.type](element));
+				continue;
+			}
+			if (onClick && auto) later += 1 + moves.speed;
+			keys.push(moves.keys);
+			drawn.push('<div class="one-motion"' + (onClick && !auto ? " data-click=\"1\"" : "") + ' style="' + esc(moves.look) + '">' + DRAW[element.type](element) + "</div>");
 		}
+		if (keys.length) drawn.unshift("<style>" + keys.join("") + "</style>");
 		// a screen's backdrop gives its own frame and lets the screen's colour through
 		var wide = (said && said.width) || WIDE;
 		var high = (said && said.height) || HIGH;
@@ -299,7 +362,7 @@
 			".one-play .one-text{font-family:Inter,sans-serif;font-variant-ligatures:none}" +
 			".one-play .one-shape-text{position:absolute;left:0;top:0;width:100%;height:100%;display:-webkit-flex;display:flex;" +
 			"-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:center;justify-content:center;padding:8px;box-sizing:border-box;overflow:hidden}" +
-			".one-play table{border-collapse:collapse;width:100%}.one-play td,.one-play th{border:1px solid rgba(128,128,128,0.5);padding:4px 8px}";
+			".one-play .one-motion>*{pointer-events:auto}.one-play table{border-collapse:collapse;width:100%}.one-play td,.one-play th{border:1px solid rgba(128,128,128,0.5);padding:4px 8px}";
 		document.head.appendChild(style);
 	}
 
@@ -316,13 +379,23 @@
 		}
 	}
 
-	function draw(said, holder) {
+	function draw(said, holder, auto) {
 		if (holder.firstChild) release(holder);
 		styled(holder.ownerDocument);
-		holder.innerHTML = slide(said);
+		holder.innerHTML = slide(said, auto);
 		fit(holder);
 	}
 
+	// the next thing that comes on a click, if one is still waiting
+	function step(holder) {
+		var waiting = holder.querySelectorAll(".one-motion[data-click]");
+		if (!waiting.length) return false;
+		waiting[0].removeAttribute("data-click");
+		waiting[0].style.webkitAnimationPlayState = "running";
+		waiting[0].style.animationPlayState = "running";
+		return true;
+	}
+
 	root.onedesk = root.onedesk || {};
-	root.onedesk.play = { slide: slide, draw: draw, fit: fit, release: release, colour: colour, background: background };
+	root.onedesk.play = { slide: slide, draw: draw, step: step, fit: fit, release: release, colour: colour, background: background };
 })(typeof window !== "undefined" ? window : this);

@@ -2,6 +2,7 @@
 import { slideRoot } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
 import { audience, say, startPresenter } from '../shim/presenter.js' // One: the presenter view, VENDORED.md
 import { beginLive, followSlideshow } from '../shim/live.js' // One: Present Live, VENDORED.md
+import { clicked, clickWaiting } from '../shim/motion.js' // One: an element comes and goes, VENDORED.md
 import { closeThisWindow } from '../../kit/desk' // One
 import { ref, computed, nextTick } from 'vue'
 import { applyReverseTransition } from '@/apps/slides/stores/presentation'
@@ -198,6 +199,8 @@ const performPreviousStep = () => {
 }
 
 const performNextStep = () => {
+	// One: what comes on a click comes before the next slide (shim/motion.js)
+	if (clickWaiting(currentSlide.value?.elements)) return clicked.value++
 	const videoEls = slideRoot().querySelectorAll('video')
 
 	for (const videoEl of videoEls) {

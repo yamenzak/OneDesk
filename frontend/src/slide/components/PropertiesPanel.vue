@@ -79,6 +79,9 @@
 					<AppearanceSection />
 					<hr class="border-t" />
 					<EffectsSection />
+					<!-- One: how it comes and goes (shim/MotionSection.vue) -->
+					<hr class="border-t" />
+					<MotionSection />
 				</template>
 			</div>
 			<div v-else-if="currentSlide">
@@ -109,6 +112,7 @@ import WidgetSection from '@/apps/slides/shim/WidgetSection.vue' // One: a widge
 import WidgetLookSection from '@/apps/slides/shim/WidgetLookSection.vue' // One: a widget's look, VENDORED.md
 import { screen } from '@/apps/slides/stores/presentation' // One
 import MasterSection from '@/apps/slides/shim/MasterSection.vue' // One: VENDORED.md
+import MotionSection from '@/apps/slides/shim/MotionSection.vue' // One: an element comes and goes, VENDORED.md
 import { master, masterOf } from '@/apps/slides/shim/master.js' // One
 
 import {
