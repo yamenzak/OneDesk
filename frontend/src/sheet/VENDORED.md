@@ -33,13 +33,17 @@ Each is marked `One:` in the file.
 
 | File | Edit |
 |---|---|
-| `components/SheetEditor/index.vue` | Suite's brand menu replaced by the OneWorkbook mark, back to OneCloud; the breadcrumb starts at OneCloud; the Share button and dialog are off (OneCloud shares); Ask calls `onedesk.one_sheet.assist.ai_assist`, and AI settings never show (nothing sets `ai_assist_can_configure`); `tableNotice` says why the record refused its table |
+| `components/SheetEditor/index.vue` | Suite's brand menu replaced by the OneWorkbook mark, back to OneCloud; the breadcrumb starts at OneCloud; the Share button and dialog are off (OneCloud shares); OneAI is asked from its own panel, told the selection (`aiSees`), and AI settings never show (nothing sets `ai_assist_can_configure`); `tableNotice` says why the record refused its table |
 | `components/SheetEditor/usePersistence.js` | calls `onedesk.one_sheet.api`; Drive's `track_visit` dropped; a workbook bound to a record's table sends that sheet's values and takes back what the record answers (`shim/table.js`) |
 | `components/SheetEditor/useCollaboration.js` | starts only when `frappe.boot.one_sheet_live` is set (`one_sheet/live.py`) |
 | `components/SheetEditor/useVersionHistory.js` | a copy opens at `/desk/workbook/…` |
-| `services/versions.js` | calls `onedesk.one_sheet.versions`; Make a copy is `make_copy` |
+| `services/versions.js` | calls `onedesk.one_sheet.versions`; Make a copy is `make_copy`; a version and a cell's change are by the person's name (`actor_name`), not their address |
 | `services/linkPreview.js` | calls `onedesk.one_sheet.api.get_link_preview` |
-| `components/SheetEditor/index.vue` (again) | File › Save as Template, opening `shim/TemplateDialog.vue` |
+| `components/SheetEditor/index.vue`, `ChartDialog.vue`, `SplitTextPopover.vue` (words) | Automatic, Duplicate, Series, Count and Period are asked for in a context, since frappe's own words mean something else in Arabic |
+| `components/SheetEditor/VersionHistory.vue`, `VersionPreviewBanner.vue`, `CellHistoryPopover.vue` | dates and times in the reader's language (`frappe.boot.lang`), not the browser's |
+| `components/SheetEditor/index.vue` (copy) | a reply's time says Now, not "just now", and its date is in the reader's language; the three-colour scale is named in five words or fewer |
+| `components/SheetEditor/ShareDialog.vue` | its failure says what failed without "Something went wrong", by the copy rules |
+| `components/SheetEditor/index.vue` (again) | File › Save as Template, opening `shim/TemplateDialog.vue`, offered only to whoever keeps company templates (`usePersistence.js` reads `can_template`); `data-tour` marks on the editor, the head, the toolbar, the formula bar and the tabs, for OneWorkbook's tour (`one_sheet/tour.py`) |
 | `engine/formula.js` | `=` and `<>` compare as Excel does (`_equal`): text with text, numbers with numbers, empty with "" and 0; `Sheet!$A4` reads; `A4:A` runs to the end of the column, not to A4; operators and the one-value functions (`_BY_CELL`: `IF`, `ROUND`, `LEN`…) work a range cell by cell (`_each`) |
 | `engine/sheet.js` | a cell is a number only when all of it is one (`Number`, not `parseFloat`); an empty cell reads as `""`, so `=A7` shows blank; a formula that works out to a range spills into the empty cells below and right, `#SPILL!` when one holds something (`_spill`, `_settle`, `getExtent`, `isSpilled`); a range to the end of a column stops at the sheet's last line in use |
 | `components/SheetEditor/index.vue` (menus), `PivotFieldPicker.vue` | a click outside a menu is told from the event's path (`composedPath`): in the shadow root `document` finds no menu and the target is the host, so every mousedown closed the tab and right-click menus before their items' clicks landed |

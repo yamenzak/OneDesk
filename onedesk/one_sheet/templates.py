@@ -1,8 +1,9 @@
 """Workbook templates: a workbook kept in OneCloud's Workbook Templates folder
-to start others from. Anyone in the company opens them; whoever made one, or
-an administrator, changes it, as with any company file. A template is its
-own sheets and nothing else: made from a record's table workbook, it keeps
-the sheets beside the table, not the table. README, Templates.
+to start others from. Anyone in the company opens them; a role with the
+template ability (abilities.py) keeps one; whoever made one, or an
+administrator, changes it, as with any company file. A template is its own
+sheets and nothing else: made from a record's table workbook, it keeps the
+sheets beside the table, not the table. AGENTS.md, Templates.
 """
 
 import json
@@ -115,9 +116,12 @@ def make(title: str, data: dict) -> str:
 def save_as(name: str, title: str) -> dict:
 	"""This workbook as a template. A record's table workbook gives its
 	other sheets: the table is the record's, not the template's."""
+	from onedesk.one import rights
 	from onedesk.one_sheet import table
 
 	api._may(name, "read")
+	if not rights.held(api.WORKBOOK, "sheet_template"):
+		frappe.throw(_("Your role doesn't keep company templates. Ask a workspace administrator."), frappe.PermissionError)
 	held = frappe.db.get_value(api.WORKBOOK, name, ["sheets_data", "bound_doctype", "bound_sheet"], as_dict=True)
 	data = json.loads(storage.decode_sheets_data(held.sheets_data) or "{}")
 	if held.bound_doctype:

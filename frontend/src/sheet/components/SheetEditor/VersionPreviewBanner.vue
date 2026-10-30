@@ -60,7 +60,7 @@ const canStep = computed(() => !!(props.diff && props.diff.total_changed_cells >
 function formatTimestamp(ts) {
 	if (!ts) return ''
 	const d = new Date(String(ts).replace(' ', 'T'))
-	return d.toLocaleString(undefined, {
+	return d.toLocaleString(window.frappe?.boot?.lang || undefined, /* One: the reader's language */ {
 		month: 'short', day: 'numeric',
 		hour: 'numeric', minute: '2-digit',
 	})

@@ -391,9 +391,9 @@ msgstr "لونان (منخفض ← مرتفع)"
 msgid "3"
 msgstr "3"
 
-#: frontend/src/sheet/components/SheetEditor/index.vue:4870
-msgid "3-colour (low → mid → high)"
-msgstr "ثلاثة ألوان (منخفض ← متوسط ← مرتفع)"
+#: frontend/src/sheet/components/SheetEditor/index.vue:4873
+msgid "3-colour (low, mid, high)"
+msgstr "ثلاثة ألوان (منخفض، متوسط، مرتفع)"
 
 #: onedesk/one/control.py:317
 msgid "30 days"
@@ -2560,6 +2560,10 @@ msgstr "أضف سعرًا لعنصر واحد على الأقل."
 #: onedesk/one_admin/ledger.py:259
 msgid "Add a reason."
 msgstr "أضف سببًا."
+
+#: onedesk/one_sheet/tour.py:24
+msgid "Add a sheet with the plus, and right-click a sheet's name to rename, copy, colour or hide it."
+msgstr "أضف ورقة بعلامة الزائد، وانقر بزر الفأرة الأيمن على اسم الورقة لإعادة تسميتها أو نسخها أو تلوينها أو إخفائها."
 
 #: frontend/src/task/MyTasks.vue:6
 msgid "Add a task"
@@ -5645,6 +5649,11 @@ msgstr "آلي"
 #: frontend/src/writer/components/WriterSettings.vue:189
 msgid "Automatic"
 msgstr ""
+
+#: frontend/src/sheet/components/SheetEditor/index.vue:1165
+msgctxt "A colour chosen for you"
+msgid "Automatic"
+msgstr "تلقائي"
 
 #: frontend/src/writer/components/VersionsSidebar.vue:43
 msgctxt "Versions taken while writing"
@@ -10164,6 +10173,11 @@ msgstr "تعذّر حفظ {0} في الملف: {1}"
 msgid "Count"
 msgstr ""
 
+#: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:212
+msgctxt "How many"
+msgid "Count"
+msgstr "العدد"
+
 #. Label in the One Stock Reconciliation print format
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 msgid "Count No"
@@ -13842,6 +13856,11 @@ msgstr ""
 msgid "Duplicate"
 msgstr ""
 
+#: frontend/src/sheet/components/SheetEditor/index.vue:711
+msgctxt "Copy a sheet"
+msgid "Duplicate"
+msgstr "تكرار الورقة"
+
 #: frontend/src/slide/composables/useShortcuts.js:345
 msgid "Duplicate element / slide"
 msgstr "تكرار العنصر / الشريحة"
@@ -16579,6 +16598,10 @@ msgstr "الملف غير موجود"
 msgid "File on {0}"
 msgstr "حفظ في {0}"
 
+#: onedesk/one_sheet/tour.py:30
+msgid "File prints, exports and keeps templates, and beside it are the notes, the version history and the shortcuts."
+msgstr "من الملف تطبع وتصدّر وتحفظ القوالب، وبجانبه الملاحظات وسجل النسخ والاختصارات."
+
 #: onedesk/www/r.py:16
 msgid "File received. Thank you."
 msgstr "تم استلام الملف. شكرًا لك."
@@ -16599,6 +16622,10 @@ msgstr "الملف {0} غير موجود"
 #: frontend/src/cloud/OneCloud.vue:225
 msgid "File · From"
 msgstr "الملف · من"
+
+#: onedesk/one_sheet/tour.py:29
+msgid "File, Notes and History"
+msgstr "الملف والملاحظات والسجل"
 
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
@@ -17508,6 +17535,10 @@ msgstr "رمز التنسيق"
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:62
 msgid "Format painter"
 msgstr "نسخ التنسيق"
+
+#: onedesk/one_sheet/tour.py:11
+msgid "Format the Cells"
+msgstr "نسّق الخلايا"
 
 #: onedesk/one_sheet/ai.py:228
 msgid "Formatted"
@@ -28879,6 +28910,10 @@ msgstr "رقّم كل صفحة أسفل اليمين عند الطباعة."
 msgid "Number format"
 msgstr "تنسيق الأرقام"
 
+#: onedesk/one_sheet/tour.py:12
+msgid "Number formats, fonts, colours, borders, filters, charts and pivot tables are here."
+msgstr "هنا تنسيقات الأرقام والخطوط والألوان والحدود والفلاتر والمخططات والجداول المحورية."
+
 #: onedesk/one/ai.py:127
 msgid "Number invoices by year"
 msgstr "رقّم الفواتير حسب السنة"
@@ -33060,6 +33095,11 @@ msgstr "ملاحظات الأداء"
 #: onedesk/one_studio/print_blocks.py:814
 msgid "Period"
 msgstr ""
+
+#: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:63
+msgctxt "The full stop"
+msgid "Period"
+msgstr "نقطة"
 
 #. Label in the One Period Closing Voucher print format
 #: onedesk/one_book/print_format/one_period_closing_voucher/one_period_closing_voucher.json
@@ -38594,6 +38634,10 @@ msgstr "حفظ مستند كقالب يمكن لكل من في مساحة الع
 msgid "Save a presentation as a template everybody in the workspace can start from."
 msgstr "حفظ عرض تقديمي كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
 
+#: onedesk/one_sheet/abilities.py:31
+msgid "Save a workbook as a template everybody in the workspace can start from."
+msgstr "حفظ مصنف كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
+
 #: frontend/src/project/ProjectPage.vue:252
 #: frontend/src/sheet/components/SheetEditor/index.vue:1942
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
@@ -39565,6 +39609,11 @@ msgstr "يمكن استخدام الأرقام التسلسلية والدفعا
 #: onedesk/public/js/one_studio/studio_control.js:46
 msgid "Series"
 msgstr ""
+
+#: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:78
+msgctxt "Lines of a chart"
+msgid "Series"
+msgstr "السلاسل"
 
 #: onedesk/public/js/doctype_settings.js:347
 #: onedesk/public/js/doctype_settings.js:410
@@ -44824,6 +44873,10 @@ msgstr "العملاء المحتملون وجهات الاتصال في الح�
 msgid "The cards this one points at, approved before it."
 msgstr "البطاقات التي تشير إليها هذه البطاقة، وتُعتمد قبلها."
 
+#: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:206
+msgid "The change could not be saved. Try again."
+msgstr "تعذّر حفظ التغيير. حاول مرة أخرى."
+
 #: onedesk/one_inventory/ready.py:408
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr "لا يحتوي دليل الحسابات على حسابات أصول ثابتة لحفظ الأصول فيها."
@@ -48782,6 +48835,10 @@ msgstr "النوع"
 msgid "Type / to insert a field of the record."
 msgstr "اكتب / لإدراج حقل من السجل."
 
+#: onedesk/one_sheet/tour.py:18
+msgid "Type into a cell or here, and start with an equals sign for a formula."
+msgstr "اكتب في خلية أو هنا، وابدأ بعلامة يساوي لكتابة صيغة."
+
 #: onedesk/one_task/tour.py:19
 msgid "Type it and press Enter, with a due date if it has one, and it is yours."
 msgstr "اكتبها واضغط Enter، مع موعدها إن كان لها موعد، فتصبح لك."
@@ -49824,6 +49881,10 @@ msgstr "مقيّم بطريقة {0}"
 #: frontend/src/sheet/components/SheetEditor/index.vue:537
 msgid "Values"
 msgstr "القيم"
+
+#: onedesk/one_sheet/tour.py:17
+msgid "Values and Formulas"
+msgstr "القيم والصيغ"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1226
 msgid "Values are split into three equal buckets across the range."
@@ -55546,6 +55607,10 @@ msgstr "طلبك معلّق"
 msgid "Your Requests"
 msgstr "طلباتك"
 
+#: onedesk/one_sheet/tour.py:23
+msgid "Your Sheets"
+msgstr "أوراقك"
+
 #: onedesk/one_slide/tour.py:11
 msgid "Your Slides"
 msgstr "شرائحك"
@@ -56614,10 +56679,6 @@ msgstr "من يدفع لها"
 #: onedesk/www/your_data.html:27
 msgid "jane@example.com"
 msgstr ""
-
-#: frontend/src/sheet/components/SheetEditor/index.vue:4586
-msgid "just now"
-msgstr "الآن"
 
 #: onedesk/one_studio/ai_setup.py:235 onedesk/one_studio/ai_setup.py:360
 msgid "just you"

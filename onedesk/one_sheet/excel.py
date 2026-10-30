@@ -1,7 +1,7 @@
 """A OneWorkbook workbook as an Excel file, for what cannot run the editor:
 the network drive and a public link. Written from what the editor saved,
 formulas with the values it last worked out, and read back into the
-workbook when Excel saves over it. README, excel.py.
+workbook when Excel saves over it. AGENTS.md, excel.py.
 """
 
 import io

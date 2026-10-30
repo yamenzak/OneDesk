@@ -1,8 +1,7 @@
 # OneWorkbook
 
-Written by hand. What OneWorkbook does and how to use it. Everything above
-**Under the hood** is written for the people who use it, and OneAI reads it to
-answer "how do I…" questions. Under the hood is for the people who build it.
+What OneWorkbook is, how it works and why; for agents, OneAI and us. What is
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
 
 OneWorkbook is One's spreadsheet: sheets, formulas, formatting, charts, pivot
 tables and notes, in a workbook that lives in OneCloud with the rest of your
@@ -211,7 +210,10 @@ lines into a record's table, type the formula in the table, such as
 
 **File › Save as Template** keeps a copy of the workbook in OneCloud ›
 Workbook Templates, where everyone in the company can start from it; you,
-and administrators, can change it there like any workbook. **New ›
+and administrators, can change it there like any workbook. Keeping one is
+OneWorkbook's one ability, `template` (`abilities.py`, the Permission Type
+`sheet_template` on Workbook): a Manager has it, a User does not, and the
+item is left out of **File** for whoever lacks it. **New ›
 Workbook** in OneCloud then asks which template to start from, or a blank
 one.
 
@@ -288,20 +290,6 @@ The same people who can open the file in OneCloud. Your own files are yours
 until you share them; a workbook in a company folder or a library is open to
 whoever can open that folder. Somebody who may read it but not change it sees
 **View only** at the top.
-
-## What is not built yet
-
-- An Excel file's charts, pictures, colours and column widths aren't read
-  in, and aren't written back: its values, formulas, number formats and
-  merged cells are.
-
-- A picture column shows the picture's address, not the picture.
-- Frozen rows are meant to head every printed page, as Excel's print titles
-  do; the wkhtmltopdf on the dev bench prints them once, at the top.
-- A print has no page numbers, and the letter head's foot comes after the
-  last sheet rather than at the foot of every page.
-- A link column searches every record of its type, not only the ones the
-  form would offer for that field.
 
 ## Connections
 

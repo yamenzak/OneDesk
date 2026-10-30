@@ -1,6 +1,6 @@
 """What the workbook editor calls: make one in a folder, open it, save it,
 rename it. Whether the reader may is OneCloud's answer for the File the
-workbook sits behind, never the Workbook's own permissions. README, api.py.
+workbook sits behind, never the Workbook's own permissions. AGENTS.md, api.py.
 """
 
 import json
@@ -87,6 +87,7 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 	"""The workbook as the editor loads it, whether the reader may change it,
 	and the OneCloud folders above it for its breadcrumb. A workbook bound to a
 	record's table is brought up to the table first."""
+	from onedesk.one import rights
 	from onedesk.one_sheet import style, table
 	from onedesk.one_storage import namespace as ns
 
@@ -100,6 +101,7 @@ def get_sheet(name: str, compressed: int = 0) -> dict:
 		"file": item["name"],
 		"folder": item.get("folder"),
 		"can_write": ns.may(item, "write"),
+		"can_template": rights.held(WORKBOOK, "sheet_template"),
 		"sheets_data": raw if frappe.utils.cint(compressed) else storage.decode_sheets_data(raw),
 		"owner": item.get("owner"),
 		"table": table.bound(name),

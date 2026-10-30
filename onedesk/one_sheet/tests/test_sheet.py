@@ -7,7 +7,7 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
+sys.path.insert(0, str(Path(__file__).resolve().parents[3] / "scripts"))
 
 import tree
 
@@ -290,7 +290,7 @@ def test_a_sheet_prints_as_it_is_drawn():
 			[1, 0, "<b>x</b>", {}],
 			[1, 2, "under the merge", {}],
 			[2, 0, "", {}, "/files/logo.png"],
-			[2, 1, "", {}, "https://elsewhere.example/p.png"],
+			[2, 1, "", {}, "https://elsewhere.example.com/p.png"],
 		],
 		"merges": [[1, 1, 1, 2]],
 		"widths": {"0": 100},

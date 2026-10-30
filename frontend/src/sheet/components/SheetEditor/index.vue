@@ -1,6 +1,7 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/sheets)/components/SheetEditor/index.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-  <div class="sn-root">
+  <!-- One: data-tour marks the tour's steps, one_sheet/tour.py; VENDORED.md -->
+  <div class="sn-root" data-tour="oneworkbook-editor">
 
     <!-- Load-time error state: the sheet doesn't exist, the caller lacks
          access to it, or the request failed for some other reason. We
@@ -86,7 +87,7 @@
           </Badge>
         </Tooltip>
       </div>
-      <div class="sn-topbar-right">
+      <div class="sn-topbar-right" data-tour="oneworkbook-head">
         <!-- One: OneAI is asked from its own panel, which is told the selection (aiSees) -->
         <Dropdown :options="fileDropdownOptions" align="end">
           <template #default="{ open }">
@@ -160,7 +161,7 @@
     <!-- Read-only viewers: dim the whole bar and swallow pointer events so no
          formatting/insert/chart action is reachable. Undo/Redo and dropdowns
          come along for free without touching each button. -->
-    <div class="sn-toolbar" :class="{ 'sn-toolbar--readonly': readOnly }"
+    <div class="sn-toolbar" data-tour="oneworkbook-toolbar" :class="{ 'sn-toolbar--readonly': readOnly }"
          :aria-disabled="readOnly || undefined">
 
       <!-- Number format -->
@@ -293,7 +294,7 @@
     </div>
 
     <!-- Bar 3 · Formula bar -->
-    <div class="sn-formula-bar">
+    <div class="sn-formula-bar" data-tour="oneworkbook-formula">
       <Tooltip :text="__('Active cell {0}', [activeCell])">
         <span class="sn-cell-ref">{{ activeCell }}</span>
       </Tooltip>
@@ -620,7 +621,7 @@
     </div>
 
     <!-- Bottom · sheet tabs + selection stats -->
-    <div class="sn-bottom">
+    <div class="sn-bottom" data-tour="oneworkbook-tabs">
       <!-- Pinned outside the scroll track so it stays reachable no matter
            how many tabs there are. The wrapper owns the divider + margins so
            the Button itself stays a clean square pill (frappe-ui puts our
@@ -706,7 +707,8 @@
     <!-- Sheet-tab context menu (rename / duplicate / delete) -->
     <div v-if="tabMenu.open" class="sn-ctx-menu" :style="{ left: tabMenu.x + 'px', bottom: tabMenu.bottom + 'px' }">
       <Button variant="ghost" size="sm" iconLeft="lucide-edit-2"  :label="__('Rename')"    @click="openRenameDialog(tabMenu.name)" />
-      <Button variant="ghost" size="sm" iconLeft="lucide-copy"    :label="__('Duplicate')" @click="doDuplicateSheet(tabMenu.name)" />
+      <!-- One: frappe's Duplicate is an adjective in Arabic -->
+      <Button variant="ghost" size="sm" iconLeft="lucide-copy"    :label="__('Duplicate', null, 'Copy a sheet')" @click="doDuplicateSheet(tabMenu.name)" />
       <!-- One: the tab's colour -->
       <div class="sn-tab-colours" role="group" :aria-label="__('Tab colour')">
         <button
@@ -1159,7 +1161,8 @@
             <FormControl v-if="cfDialog.condType === 'between'"
                          v-model="cfDialog.condValue2" :label="__('More')" :placeholder="__('e.g. {0}', ['100'])" />
             <div class="sn-cf-fmt">
-              <ColorPicker v-model="cfDialog.fmtColor" allow-default :default-label="__('Automatic')" :title="__('Text colour')" fallback="#171717">
+              <!-- One: words frappe translates with another meaning are asked for in a context -->
+              <ColorPicker v-model="cfDialog.fmtColor" allow-default :default-label="__('Automatic', null, 'A colour chosen for you')" :title="__('Text colour')" fallback="#171717">
                 <template #trigger="{ toggle, open }">
                   <button type="button" class="sn-swatch-btn" :class="{ 'is-open': open }" :title="__('Text colour')" @click="toggle()">
                     <FeatherIcon name="type" class="sn-swatch-glyph" />
@@ -1937,11 +1940,11 @@ const fileDropdownOptions = computed(() => [
     { label: __('Import CSV'),  icon: 'lucide-upload', onClick: () => csvInputRef.value?.click() },
     { label: __('Import XLSX'), icon: 'lucide-upload', onClick: () => xlsxInputRef.value?.click() },
   ]}]),
-  // One: start others from this workbook.
-  { group: __('Template'), options: [
-    { label: __('Save as Template'), icon: 'lucide-layout-template', onClick: () => { templateOpen.value = true } },
+  // One: start others from this workbook, for whoever keeps company templates.
+  ...(canTemplate.value || !readOnly.value ? [{ group: __('Template'), options: [
+    ...(canTemplate.value ? [{ label: __('Save as Template'), icon: 'lucide-layout-template', onClick: () => { templateOpen.value = true } }] : []),
     ...(!readOnly.value ? [{ label: __('Add Sheets From a Template'), icon: 'lucide-copy-plus', onClick: () => { addSheetsOpen.value = true } }] : []),
-  ]},
+  ]}] : []),
 ])
 
 // One: templates, and adding a template's sheets to this workbook, each
@@ -2485,7 +2488,7 @@ const textWrapDropdownOptions = computed(() => [
 // fallbacks only cover the impossible window where someone saves before
 // useSheetTabs has finished initializing.
 let _sheetTabs = null
-const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency: homeCurrency, source } =
+const { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency: homeCurrency, source, canTemplate } =
   usePersistence({
     sheet, formats, merge, comments, validation, protection, condFormat, sortFilter, slicers, pivot,
     charts, namedRanges,
@@ -4583,10 +4586,10 @@ function deleteComment() {
 function commentTime(ts) {
   if (!ts) return ''
   const s = Math.max(0, Math.round((Date.now() - ts) / 1000))
-  if (s < 60)    return __('just now')
+  if (s < 60)    return __('Now') // One: the copy rules, VENDORED.md
   const m = Math.round(s / 60);   if (m < 60) return __('{0}m ago', [m])
   const h = Math.round(m / 60);   if (h < 24) return __('{0}h ago', [h])
-  return new Date(ts).toLocaleDateString()
+  return new Date(ts).toLocaleDateString(window.frappe?.boot?.lang || undefined) // One: the reader's language
 }
 
 // ── Notes side panel ──────────────────────────────────────────────────────────
@@ -4867,7 +4870,7 @@ const CF_KIND_OPTIONS = [
 
 const CF_SCALE_VARIANT_OPTIONS = [
   { label: __('2-colour (low → high)'),         value: '2color' },
-  { label: __('3-colour (low → mid → high)'),   value: '3color' },
+  { label: __('3-colour (low, mid, high)'),     value: '3color' }, // One: a heading is five words or fewer
 ]
 
 const CF_ICON_SET_OPTIONS = [

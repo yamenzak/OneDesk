@@ -60,7 +60,7 @@ const OPTIONS = [
 	{ value: 'auto',      label: __('Detect automatically') },
 	{ value: 'comma',     label: __('Comma') },
 	{ value: 'semicolon', label: __('Semicolon') },
-	{ value: 'period',    label: __('Period') },
+	{ value: 'period',    label: __('Period', null, 'The full stop') }, // One: frappe's Period is a span of time
 	{ value: 'space',     label: __('Space') },
 	{ value: 'tab',       label: __('Tab') },
 ]

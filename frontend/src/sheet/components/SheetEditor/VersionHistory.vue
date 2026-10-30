@@ -185,7 +185,7 @@ function dayLabel(dateStr) {
 	if (dateStr === today) return __('Today')
 	if (dateStr === yest)  return __('Yesterday')
 	const d = new Date(dateStr)
-	return d.toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' })
+	return d.toLocaleDateString(window.frappe?.boot?.lang || undefined, /* One: the reader's language */ { month: 'short', day: 'numeric', year: 'numeric' })
 }
 
 function formatTime(ts) {
@@ -194,9 +194,9 @@ function formatTime(ts) {
 	const dayKey   = _dayKey(d.toISOString())
 	const todayKey = _dayKey(new Date().toISOString())
 	const yestKey  = _dayKey(new Date(Date.now() - 86_400_000).toISOString())
-	const time = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' })
+	const time = d.toLocaleTimeString(window.frappe?.boot?.lang || undefined, /* One: the reader's language */ { hour: 'numeric', minute: '2-digit' })
 	if (dayKey === todayKey || dayKey === yestKey) return time
-	const date = d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })
+	const date = d.toLocaleDateString(window.frappe?.boot?.lang || undefined, /* One: the reader's language */ { month: 'short', day: 'numeric' })
 	return `${date}, ${time}`
 }
 

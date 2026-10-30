@@ -1,7 +1,7 @@
 """A workbook's history: every edit in the order it was saved (Workbook
 Change), and the workbook whole at points along the way (Workbook Version).
 After Frappe Suite's sheets/versioning: the log is the record, a version is a
-checkpoint, and the workbook row is the head. README, versions.py.
+checkpoint, and the workbook row is the head. AGENTS.md, versions.py.
 """
 
 import json
@@ -159,6 +159,7 @@ def _said(row) -> dict:
 		"pinned": bool(row.pinned),
 		"op_count": cint(row.op_count),
 		"actor": row.actor,
+		"actor_name": frappe.utils.get_fullname(row.actor) if row.actor else "",
 		"creation": row.creation.isoformat() if row.creation else None,
 	}
 
@@ -230,6 +231,7 @@ def ops_for_cell(sheet: str, cell_id: str, sub_sheet: str | None = None, limit: 
 				"op_type": row.op_type,
 				"summary": row.summary,
 				"actor": row.actor,
+				"actor_name": frappe.utils.get_fullname(row.actor) if row.actor else "",
 				"creation": row.creation.isoformat() if row.creation else None,
 				"before": before.get(cell_id) if isinstance(before, dict) else None,
 				"after": after.get(cell_id) if isinstance(after, dict) else None,

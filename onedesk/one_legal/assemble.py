@@ -28,6 +28,7 @@ MODULES = (
 	"one_display",
 	"one_slide",
 	"one_doc",
+	"one_sheet",
 )
 
 _loaded = False

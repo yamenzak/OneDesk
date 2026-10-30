@@ -2,7 +2,7 @@
 BRAND() reads, a record's fields that RECORD() reads, and the formats of a
 record's table sheet and a template's sheets, in the editor's own shapes
 (engine/formats.js: cells, cols and rows; numberFormat grammar of
-utils/format-number.js). README, Branded sheets.
+utils/format-number.js). AGENTS.md, Branded sheets.
 """
 
 import re
@@ -172,7 +172,7 @@ def branded(title: str, head: list, line: dict, totals: dict, kinds: dict, colou
 	beside it (label, formula, doctype, how), `totals` over the header, and
 	`line`'s formulas as the rule each line takes once its first column is
 	filled; `kinds` names the columns holding money, counts, sizes, areas,
-	kilos, the key figures and wide text. README, Under the hood. Pure."""
+	kilos, the key figures and wide text. AGENTS.md, Under the hood. Pure."""
 	wide = len(head)
 	rows, cells, masters, slaves, rules = {}, {}, {}, {}, {}
 	col = {letters(at): at for at in range(max(wide, META + 8, 26))}

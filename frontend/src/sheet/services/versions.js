@@ -46,7 +46,7 @@ function _toVersionRow(item) {
 	return {
 		name:           item.id,
 		seq:            item.seq,
-		user:           item.actor,
+		user:           item.actor_name || item.actor, // One: the person's name, not their address
 		timestamp:      item.creation,
 		version_name:   item.label || '',
 		pinned:         !!item.pinned,
@@ -114,7 +114,7 @@ export async function cellHistory(sheet, cellRef, sheetName = 'Sheet1', limit = 
 	return (ops || []).map(o => ({
 		version:   o.id,
 		timestamp: o.creation,
-		user:      o.actor,
+		user:      o.actor_name || o.actor, // One
 		before:    o.before,
 		after:     o.after,
 	}))

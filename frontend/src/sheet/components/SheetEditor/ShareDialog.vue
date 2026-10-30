@@ -203,7 +203,7 @@ watch(() => props.ownerId, () => {
 // the user has read it.
 const errorMessage = ref('')
 function _flashError(err) {
-  const msg = (err && err.message) ? String(err.message) : __('Something went wrong')
+  const msg = (err && err.message) ? String(err.message) : __('The change could not be saved. Try again.') // One: the copy rules, VENDORED.md
   errorMessage.value = msg
   setTimeout(() => { if (errorMessage.value === msg) errorMessage.value = '' }, 5000)
 }

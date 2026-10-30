@@ -1,7 +1,7 @@
 """A record's table as the first sheet of a workbook. The table's button on
 the form opens it, made the first time; what is typed in that sheet becomes
 the table through the record's own save, so every rule the record has
-applies. README, table.py.
+applies. AGENTS.md, table.py.
 """
 
 import hashlib

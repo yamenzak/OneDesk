@@ -1,6 +1,6 @@
 """Live co-editing's one question to the server: may this person into this
 workbook's or document's room, and may they write? Asked by
-realtime/handlers.js as the socket's own session, once a room. README,
+realtime/handlers.js as the socket's own session, once a room. AGENTS.md,
 live.py.
 """
 

@@ -72,9 +72,10 @@
             {{ chartType === 'pie' ? __('Rows sharing the same label are grouped and summarised.') : __('Rows sharing the same X value are grouped and summarised.') }}
           </p>
 
+          <!-- One: frappe's Series is a naming series -->
           <div class="cd-series-head" style="margin-top:14px">
             <p class="cd-label" style="margin:0">
-              {{ chartType === 'pie' ? __('Values') : __('Series') }}
+              {{ chartType === 'pie' ? __('Values') : __('Series', null, 'Lines of a chart') }}
               <span class="cd-series-count">{{ yCols.length }} / {{ columns.length - 1 }}</span>
             </p>
             <Button size="sm" variant="ghost" :label="__('Numeric only')" @click="selectNumericSeries" />
@@ -208,7 +209,7 @@ const AGGREGATION_LABELS = {
   none:  __('None (plot each row)'),
   sum:   __('Sum'),
   avg:   __('Average'),
-  count: __('Count'),
+  count: __('Count', null, 'How many'), // One: frappe's Count is a verb in Arabic
   min:   __('Min'),
   max:   __('Max'),
 }

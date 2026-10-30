@@ -2,7 +2,7 @@
 run, and make one, write cells and formats, or leave a note on a cell as a
 card the reader approves (one_ai/proposals.py, Setup). Every one runs as the
 person asking, with OneCloud's answer for the File behind the workbook.
-README, Asking OneAI.
+AGENTS.md, Asking OneAI.
 """
 
 import json
@@ -13,6 +13,26 @@ from frappe import _
 
 from onedesk.one_sheet import api, storage
 from onedesk.one_sheet.cells import CELL, letters
+
+# The calls that change something OneAI reaches as a card, by the tool whose
+# card makes the call when it is approved (docs/READY.md, mechanism 11).
+REACH = {"api.make": "draft_workbook", "api.save_sheet": "write_cells"}
+
+# Why OneAI's chat does not do these itself: each is the editor's own, or
+# the person's call, made in the editor.
+NOT_FOR_AI = {
+	"api.rename_sheet": "A workbook is named from its title in the editor, by the person working on it.",
+	"api.open_file": "It answers an Excel or CSV file opened from OneCloud.",
+	"api.write_back": "It writes the Excel or CSV file back as the person works on it in the editor.",
+	"paper.pdf": "Printing is the person's choice of sheets, letter head and page, made in the editor's Print dialog.",
+	"table.open_table": "A record's table opens in a workbook from the record's form, by the person reading it.",
+	"table.redrawn": "It draws a record's table again in the open editor after the record changed on its form.",
+	"table.make_missing": "It makes the records a sheet names that do not exist yet, asked from the cell by the person.",
+	"templates.save_as": "A template is kept from the editor's File menu by whoever may keep company templates.",
+	"versions.label_snapshot": "A version is named in Version History by the person working on it.",
+	"versions.make_copy": "A copy of a version is made from Version History by the person working on it.",
+	"versions.restore": "Going back to a version is the person's call, from the editor's Version History.",
+}
 
 #: The most cells a read answers with, and a card writes.
 MOST_CELLS = 2000

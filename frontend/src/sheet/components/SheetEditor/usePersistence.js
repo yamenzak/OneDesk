@@ -34,6 +34,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
   const tableFaults = ref({}) // One: { cell: { message, doctype?, value? } } the record refused
   const currency = ref('') // One: the workspace's currency, the $ button's first
   const source = ref(null) // One: the Excel or CSV File this workbook edits in place
+  const canTemplate = ref(false) // One: whether the reader keeps company templates (one_sheet/abilities.py)
 
   async function loadSheet(name) {
     loadError.value = null
@@ -71,6 +72,7 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
       canWrite.value = doc.can_write !== false
       sheetOwner.value = doc.owner || ''
       bound.value = doc.table || null // One
+      canTemplate.value = !!doc.can_template // One
       trail.value = doc.trail || [] // One
     } catch (err) {
       console.error('Load failed:', err)
@@ -246,5 +248,5 @@ export function usePersistence({ sheet, formats, merge, comments, validation, pr
     if (said.ok !== false && takeBack(sheet, bound.value, said.cells)) onTable?.()
   }
 
-  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency, source }
+  return { isSaving, saveError, canWrite, sheetOwner, loadError, loadSheet, autoCreate, saveExisting, retrySave, tableNotice, tableFaults, bound, trail, currency, source, canTemplate }
 }

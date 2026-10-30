@@ -1,6 +1,6 @@
 """A sheet or a whole workbook on paper: drawn as the editor shows it, under
 the company's letter head, as a PDF to print, keep beside the workbook, or
-attach to the record the workbook belongs to. README, paper.py.
+attach to the record the workbook belongs to. AGENTS.md, paper.py.
 
 The editor sends what it draws (the text each cell shows, its format, the
 merges, widths and heights), never HTML: the page is written here, and only

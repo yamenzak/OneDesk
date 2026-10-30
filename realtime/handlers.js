@@ -5,7 +5,7 @@
  * once a connection (frappe/realtime/index.js), so this needs no second
  * service. A message goes browser → node → browsers and never touches Python;
  * Python is asked once a room a socket, `admit`: who this is, and whether they
- * may write. After OneApp's realtime/handlers.js. onedesk/one_sheet/README.md.
+ * may write. After OneApp's realtime/handlers.js. onedesk/one_sheet/AGENTS.md.
  */
 
 // What a client may ask to join; what each means is one_sheet/live.py's.

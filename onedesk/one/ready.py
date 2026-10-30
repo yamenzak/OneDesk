@@ -369,6 +369,25 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"OneWorkbook": {
+		"folder": "one_sheet",
+		"screens": "sheet",
+		"names": ("one_sheet", "onesheet"),
+		"ready": False,
+		"checked": {},
+		"windowless": "A workbook opens from OneCloud in an editor that fills the window, so OneWorkbook's foot and settings are OneCloud's.",
+		"help": (
+			("overview", "info"),
+			("working-in-a-workbook", "sheet"),
+			("excel-and-csv", "file-spreadsheet"),
+			("history-and-templates", "history"),
+			("printing", "printer"),
+			("a-records-table", "table"),
+			("branded-sheets", "palette"),
+			("asking-oneai", "sparkles"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"OnePortal": {
 		"folder": "one_portal",
 		"screens": "portal",
@@ -591,6 +610,7 @@ SHARED = {
 	"brand/oneslide.svg": "every product's mark is drawn in brand/, into one sprite",
 	"docs/ONESLIDE.md": "the plan that made OneSlide and moved OneDisplay's slides into it, across both modules",
 	"brand/onedoc.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/onesheet.svg": "every product's mark is drawn in brand/, into one sprite",
 	"tests/samples/intake/one_calendar/site-meeting.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_calendar/site-meeting.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/onetask.svg": "every product's mark is drawn in brand/, into one sprite",
@@ -682,6 +702,7 @@ OUTSIDE = {
 	"OneDisplay": [],
 	"OneSlide": [],
 	"OneWriter": [],
+	"OneWorkbook": [],
 }
 
 

@@ -1,5 +1,5 @@
 """A workbook's cells as Python reads them: column letters, a cell's name,
-and the cells a sheet holds. README, Under the hood.
+and the cells a sheet holds. AGENTS.md, Under the hood.
 """
 
 import re
