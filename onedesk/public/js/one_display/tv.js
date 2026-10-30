@@ -784,7 +784,131 @@
 		return (one.data && one.data.rows) || [];
 	}
 
+	// how long an item has been as it is, from when it became so (boards.py)
+	function lasted(since) {
+		if (!since) return "";
+		var minutes = Math.max(0, Math.floor((now() - since) / 60000));
+		if (minutes < 60) return (W.minutes || "{0} min").replace("{0}", minutes);
+		return (W.hours || "{0} h {1}").replace("{0}", Math.floor(minutes / 60)).replace("{1}", pad(minutes % 60));
+	}
+
+	// a board's items in a grid, each in its state's colour (the colour is the content)
+	function boardTiles(box, one, w, h) {
+		var grid = el("div", "tiles");
+		box.appendChild(grid);
+		var last = one;
+		function draw() {
+			var s = last.settings || {};
+			var list = rows(last);
+			var count = Math.max(list.length, 1);
+			var columns = s.columns > 0 ? s.columns : Math.max(1, Math.round(Math.sqrt((count * w) / Math.max(h, 1))));
+			var lines = Math.ceil(count / columns);
+			sized(box, Math.min(w / columns / 9, h / lines / 4.4));
+			grid.innerHTML = "";
+			for (var i = 0; i < list.length; i++) {
+				var item = list[i];
+				var tile = el("div", "tile");
+				tile.style.width = 100 / columns + "%";
+				tile.style.height = 100 / lines + "%";
+				var inside = el("div", "tile-in" + (item.over ? " fresh" : ""));
+				if (item.colour) inside.style.background = item.colour;
+				inside.appendChild(el("div", "t", item.item));
+				inside.appendChild(el("div", "big", item.state || item.value || ""));
+				var under = [];
+				if (s.value && item.state && item.value) under.push(item.value);
+				if (s.time && item.since) under.push(lasted(item.since));
+				inside.appendChild(el("div", "c", under.join(" · ")));
+				tile.appendChild(inside);
+				grid.appendChild(tile);
+			}
+		}
+		var timer = setInterval(draw, 20000);
+		return {
+			update: function (fresh) {
+				last = fresh;
+				draw();
+			},
+			drop: function () {
+				clearInterval(timer);
+			}
+		};
+	}
+
+	// one item large: a board's, or what a queue's counter serves, flashing when it changes
+	function boardItem(box, one, w, h) {
+		var base = Math.min(h / 4.4, w / 6);
+		sized(box, base);
+		// the big word as large as the box takes it, by how many letters it has
+		function fitted(words) {
+			var letters = Math.max(String(words || "").length, 3);
+			big.style.fontSize = Math.min(2, (w * 0.92) / (letters * 0.6 * base)) + "em";
+		}
+		var holder = el("div", "single");
+		var name = el("div", "eyebrow");
+		var big = el("div", "big");
+		var under = el("div", "c");
+		holder.appendChild(name);
+		holder.appendChild(big);
+		holder.appendChild(under);
+		box.appendChild(holder);
+		var last = one;
+		var shown = null;
+		function draw() {
+			var s = last.settings || {};
+			var whole = last.data && last.data.whole;
+			var key = "";
+			big.style.color = "";
+			if (whole && whole.called) {
+				var at = null;
+				for (var c = 0; c < whole.called.length; c++) {
+					if (String(whole.called[c].counter) === String(s.item)) {
+						at = whole.called[c];
+						break;
+					}
+				}
+				text(name, word("counter") + " " + (s.item || ""));
+				text(big, at ? at.ticket : s.idle || "");
+				fitted(at ? at.ticket : s.idle);
+				text(under, "");
+				key = at ? at.id : "";
+			} else {
+				var list = rows(last);
+				var item = list[0] || null;
+				for (var i = 0; i < list.length; i++) if (list[i].item === s.item) item = list[i];
+				if (!item) return;
+				text(name, item.item);
+				text(big, item.state || item.value || "");
+				fitted(item.state || item.value);
+				if (item.colour) big.style.color = item.colour;
+				var said = [];
+				if (item.state && item.value) said.push(item.value);
+				if (s.time && item.since) said.push(lasted(item.since));
+				text(under, said.join(" · "));
+				key = item.state + "|" + item.value;
+			}
+			if (shown !== null && key !== shown) {
+				big.className = "big fresh";
+				setTimeout(function () {
+					big.className = "big";
+				}, 3200);
+			}
+			shown = key;
+		}
+		var timer = setInterval(draw, 20000);
+		return {
+			update: function (fresh) {
+				last = fresh;
+				draw();
+			},
+			drop: function () {
+				clearInterval(timer);
+			}
+		};
+	}
+
 	var KINDS = {
+		Board: boardTiles,
+		"Board Item": boardItem,
 		"Queue Board": function (box, one, w, h) {
 			var r = Math.max((one.settings || {}).rows || 6, 1);
 			sized(box, h / (9 + r * 1.9 + ((one.settings || {}).waiting ? 6 : 0)));

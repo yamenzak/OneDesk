@@ -214,11 +214,16 @@ No doctypes yet.
 |---|--:|---|
 | Channel Ad | 4 | child |
 | Channel Programme | 7 | child |
+| Display Board | 11 | document |
+| Display Board Change | 9 | document |
+| Display Board Item | 5 | child |
+| Display Board Person | 1 | child |
+| Display Board State | 3 | child |
 | Display Channel | 21 | document |
 | Display Screen | 32 | document |
 | Display Settings | 2 | single |
 | Display Slide | 9 | child |
-| Display Source | 32 | document |
+| Display Source | 33 | document |
 | Display Track | 4 | child |
 | Display Voice | 5 | document |
 | Display Widget | 13 | child |
@@ -537,6 +542,10 @@ No doctypes yet.
 * `onedesk.one_crm.story.read`
 * `onedesk.one_demo.start.progress`
 * `onedesk.one_demo.start.start`
+* `onedesk.one_display.boards.change`
+* `onedesk.one_display.boards.codes`
+* `onedesk.one_display.boards.get`
+* `onedesk.one_display.boards.mine`
 * `onedesk.one_display.layout.fields`
 * `onedesk.one_display.layout.get`
 * `onedesk.one_display.layout.save`

@@ -140,7 +140,7 @@ extend_bootinfo = [
 
 scheduler_events = {
 	"cron": {
-		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_display.tell.long_waits"],
+		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_display.tell.long_waits", "onedesk.one_display.tell.past_limits"],
 		"* * * * *": [
 			"onedesk.one_mail.inbound.sweep",
 			"onedesk.one_mail.sync.sync_all",
@@ -247,6 +247,7 @@ doc_events = {
 	"Music Playlist": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Voice Ad": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Display Source": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
+	"Display Board": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Display Settings": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Queue": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},
 	"Queue Ticket": {"on_update": "onedesk.one_display.live.changed", "on_trash": "onedesk.one_display.live.changed"},

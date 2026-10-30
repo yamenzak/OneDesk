@@ -9,6 +9,7 @@
   "read_as",
   "column_break_kind",
   "refresh",
+  "board",
   "section_records",
   "ref_doctype",
   "record_name",
@@ -49,7 +50,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather\nExchange Rates",
+   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather\nExchange Rates\nBoard",
    "reqd": 1,
    "default": "Records",
    "description": "Where its rows come from, such as records, a report, a queue, a news feed or the weather."
@@ -72,6 +73,14 @@
    "label": "Refresh Every (Seconds)",
    "default": "0",
    "description": "How long screens keep what it said before it is read again. Empty is the kind's usual."
+  },
+  {
+   "fieldname": "board",
+   "fieldtype": "Link",
+   "label": "Board",
+   "options": "Display Board",
+   "depends_on": "eval:doc.kind=='Board'",
+   "mandatory_depends_on": "eval:doc.kind=='Board'"
   },
   {
    "fieldname": "section_records",
@@ -248,7 +257,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 09:00:00.000000",
+ "modified": "2026-10-30 21:34:32.161906",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Source",

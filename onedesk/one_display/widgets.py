@@ -75,6 +75,30 @@ TYPES = {
 		"settings": (("days", NUMBER, _lt("Days Ahead"), 3),),
 		"size": (25, 30),
 	},
+	"Board": {
+		"label": _lt("Board"),
+		"about": _lt("Every item on a board: its state in its colour, how long it has been so, and its value."),
+		"sources": ("Board",),
+		"slots": (),
+		"settings": (
+			("columns", NUMBER, _lt("Columns"), 0),
+			("time", CHECK, _lt("Show Time in State"), 1),
+			("value", CHECK, _lt("Show the Value"), 1),
+		),
+		"size": (60, 60),
+	},
+	"Board Item": {
+		"label": _lt("Board Item"),
+		"about": _lt("One item, large: a board's item, or what a queue's counter is serving, flashing when it is called."),
+		"sources": ("Board", "Queue"),
+		"slots": (),
+		"settings": (
+			("item", TEXT, _lt("Item or Counter"), ""),
+			("time", CHECK, _lt("Show Time in State"), 1),
+			("idle", TEXT, _lt("When Idle"), _lt("Closed")),
+		),
+		"size": (30, 30),
+	},
 	"Image": {
 		"label": _lt("Image"),
 		"about": _lt("A picture or a logo, uploaded or from a record."),
@@ -136,7 +160,7 @@ LOOK_LABELS = {
 
 # The look a widget is given when it is put on a screen, which is how each
 # was drawn before widgets were bare.
-FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid"}
+FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid", "Board Item": "Card"}
 
 
 def look(settings: dict | None) -> dict:

@@ -18,7 +18,7 @@ from onedesk.one_display import queue as queues
 from onedesk.one_legal import services
 
 DOCTYPE = "Display Source"
-KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Feed": 900, "Weather": 1800, "Exchange Rates": 3600}
+KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Board": 0, "Feed": 900, "Weather": 1800, "Exchange Rates": 3600}
 # What a row of an Exchange Rates source carries, for mapping.
 RATE_FIELDS = ("currency", "rate", "base", "line")
 MOST_ROWS = 50
@@ -117,6 +117,10 @@ def _read(source, fields: set[str], lang: str) -> list[dict]:
 	try:
 		if source.kind == "Queue":
 			return [queues.board(source.queue)]
+		if source.kind == "Board":
+			from onedesk.one_display import boards
+
+			return boards.rows(source.board)
 		if source.kind == "Feed":
 			return _feed(source.feed_url)
 		if source.kind == "Exchange Rates":
@@ -374,6 +378,8 @@ def fill(widget, lang: str) -> dict:
 	mapping = json.loads(widget.mapping or "{}")
 	if not spec.get("slots"):
 		rows = read(widget.source, set(), lang)
+		if kind == "Board":
+			return {"rows": rows}
 		return {"rows": rows if widget.widget_type == "Custom" and kind != "Queue" else [], "whole": rows[0] if rows else None}
 	if kind in ("Feed",):
 		rows = read(widget.source, set(), lang)

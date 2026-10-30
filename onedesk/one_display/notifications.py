@@ -33,6 +33,18 @@ TYPES = [
 		"message": "{service}, in {queue}. Call it from Counter.",
 	},
 	{
+		"name": "Past Its Time",
+		"app": "OneDisplay",
+		"about": "When an item on a board has stayed in a state longer than the state allows.",
+		"to": "The board's people, or everybody who runs OneDisplay when it names nobody",
+		"channels": ALL,
+		"email_default": False,
+		"push_default": True,
+		"sender": "workspace",
+		"subject": "{item} has been {state} for {minutes} minutes",
+		"message": "On {board}. Change it from Boards.",
+	},
+	{
 		"name": "Made by OneAI",
 		"app": "OneDisplay",
 		"about": "When a piece of music somebody asked OneAI for is ready in its playlist.",

@@ -1,0 +1,138 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 02:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "board_name",
+  "description",
+  "column_break_name",
+  "value_label",
+  "value_kind",
+  "section_states",
+  "states",
+  "section_items",
+  "items",
+  "section_people",
+  "people"
+ ],
+ "fields": [
+  {
+   "fieldname": "board_name",
+   "fieldtype": "Data",
+   "label": "Board Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Description",
+   "description": "What it keeps track of, and where."
+  },
+  {
+   "fieldname": "column_break_name",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "value_label",
+   "fieldtype": "Data",
+   "label": "Value Name",
+   "description": "Such as Score, Count or Price. Empty when items have only a state."
+  },
+  {
+   "fieldname": "value_kind",
+   "fieldtype": "Select",
+   "label": "Value Type",
+   "options": "Number\nWords",
+   "default": "Number",
+   "depends_on": "eval:doc.value_label"
+  },
+  {
+   "fieldname": "section_states",
+   "fieldtype": "Section Break",
+   "label": "States"
+  },
+  {
+   "fieldname": "states",
+   "fieldtype": "Table",
+   "label": "States",
+   "options": "Display Board State",
+   "description": "What an item can be, in order. Empty when items have only a value."
+  },
+  {
+   "fieldname": "section_items",
+   "fieldtype": "Section Break",
+   "label": "Items"
+  },
+  {
+   "fieldname": "items",
+   "fieldtype": "Table",
+   "label": "Items",
+   "options": "Display Board Item",
+   "description": "The things on the board. They are changed from Boards, on a phone or a tablet."
+  },
+  {
+   "fieldname": "section_people",
+   "fieldtype": "Section Break",
+   "label": "People"
+  },
+  {
+   "fieldname": "people",
+   "fieldtype": "Table MultiSelect",
+   "label": "People",
+   "options": "Display Board Person",
+   "description": "Empty lets everyone with OneDisplay change it. They are also told when an item passes its time limit."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 21:34:32.107819",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Board",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay User",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:board_name",
+ "title_field": "board_name",
+ "description": "Things whose state or value people change by hand, shown on screens."
+}

@@ -353,6 +353,8 @@ def words() -> dict:
 		"your": _("Your ticket"),
 		"ahead": _("{0} ahead of you"),
 		"busy": _("The ticket could not be taken. Try again."),
+		"minutes": _("{0} min"),
+		"hours": _("{0} h {1}"),
 	}
 
 

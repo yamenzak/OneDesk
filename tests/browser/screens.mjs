@@ -22,6 +22,7 @@ export const SCREENS = [
 	{ who: "rania@one.test", path: "/desk/task/view/kanban/My%20Tasks", sees: ["My Tasks"], panel: true },
 	{ who: "rania@one.test", path: "/desk/timers", page: "timers", sees: ["Timers"] },
 	{ who: "omar@one.test", path: "/desk/counter", page: "counter", sees: ["Call Next", "Waiting"] },
+	{ who: "omar@one.test", path: "/desk/boards", page: "boards", sees: ["Bay 1", "Free"] },
 	{ who: "wsadmin@one.test", path: "/desk/workbook/bayview-costing", page: "workbook", sees: ["Bayview tower costing"] },
 	{ who: "wsadmin@one.test", path: "/desk/document/bayview-scope", page: "document", sees: ["Bayview tower scope of works", "Curtain wall"] },
 	{ who: "wsadmin@one.test", path: "/desk/presentation/bayview-pitch", page: "presentation", sees: ["Bayview tower facade", "Present"] },

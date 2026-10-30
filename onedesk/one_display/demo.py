@@ -24,6 +24,7 @@ CHANNEL = "Showroom Lobby"
 KIOSK = "Showroom Kiosk"
 WORKSHOP = "Workshop"
 MUSIC = "Showroom Calm"
+BOARD = "Workshop Bays"
 SCREENS = (("Lobby TV", CHANNEL, "0"), ("Door Kiosk", KIOSK, "0"), ("Workshop TV", WORKSHOP, "0"))
 SERVICES = (("Showroom Visit", "A"), ("Collections", "B"), ("Payments", "C"))
 COUNTERS = (("1", OWNER), ("2", "omar@one.test"), ("3", None))
@@ -92,6 +93,23 @@ def _screens():
 		"Exchange Rates",
 		{"source_name": "Exchange Rates", "kind": "Exchange Rates", "currencies": "USD, EUR, GBP"},
 	)
+	# a board, set up the way any business sets one up: things, their states, how long each may last
+	_make(
+		"Display Board",
+		BOARD,
+		{
+			"board_name": BOARD,
+			"description": "The workshop's bays, set from a phone at each bay.",
+			"states": [
+				{"state": "Free", "colour": "#15803D"},
+				{"state": "Cutting", "colour": "#B45309", "limit_minutes": 90},
+				{"state": "Assembly", "colour": "#1D4ED8"},
+				{"state": "Cleaning", "colour": "#6B7280", "limit_minutes": 20},
+			],
+			"items": [{"item_name": f"Bay {n}", "state": "Free", "since": frappe.utils.now_datetime()} for n in range(1, 5)],
+		},
+	)
+	_make("Display Source", BOARD, {"source_name": BOARD, "kind": "Board", "board": BOARD})
 	if not frappe.db.exists("Slide Playlist", "Showroom"):
 		_make("Slide Playlist", "Showroom", {"playlist_name": "Showroom"})
 		_showroom()

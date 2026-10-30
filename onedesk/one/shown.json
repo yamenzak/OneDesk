@@ -89,6 +89,8 @@
   "Delivery Trip",
   "Department",
   "Designation",
+  "Display Board",
+  "Display Board Change",
   "Display Channel",
   "Display Screen",
   "Display Settings",
@@ -562,6 +564,7 @@
   "Workload"
  ],
  "Page": [
+  "boards",
   "bom-comparison-tool",
   "books",
   "counter",

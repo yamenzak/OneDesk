@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 02:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "state",
+  "colour",
+  "limit_minutes"
+ ],
+ "fields": [
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "colour",
+   "fieldtype": "Color",
+   "label": "Colour",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "limit_minutes",
+   "fieldtype": "Int",
+   "label": "Time Limit",
+   "in_list_view": 1,
+   "description": "Minutes an item may stay in this state before someone is told. Empty for none."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-31 02:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Board State",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "istable": 1,
+ "editable_grid": 1
+}

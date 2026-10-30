@@ -790,6 +790,18 @@
 "Discussion Topic": [
 "System Manager"
 ],
+"Display Board": [
+"OneDisplay Manager",
+"OneDisplay User",
+"System Manager",
+"Workspace Administrator"
+],
+"Display Board Change": [
+"OneDisplay Manager",
+"OneDisplay User",
+"System Manager",
+"Workspace Administrator"
+],
 "Display Channel": [
 "OneDisplay Manager",
 "System Manager",
@@ -1976,6 +1988,9 @@
 "System Manager"
 ],
 "Presentation Version": [
+"System Manager"
+],
+"Presentation View": [
 "System Manager"
 ],
 "Price List": [
@@ -3192,6 +3207,8 @@
 "Department",
 "Designation",
 "Device",
+"Display Board",
+"Display Board Change",
 "Display Channel",
 "Display Screen",
 "Display Source",
@@ -3504,6 +3521,11 @@
 "pages": {
 "backups": [
 "System Manager"
+],
+"boards": [
+"OneDisplay Manager",
+"OneDisplay User",
+"Workspace Administrator"
 ],
 "bom-comparison-tool": [
 "Manufacturing Manager",

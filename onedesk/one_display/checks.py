@@ -323,6 +323,64 @@ def onedisplay_shows_data_and_media_without_the_editor():
 
 
 @check
+def onedisplay_keeps_a_board():
+	"""A board of the business's own items and states: an item set to a state
+	and its value stepped, each change kept with how long the item was as it
+	was; a screen reads it as a source; a state kept past its limit is told
+	once; a board that names its people lets nobody else change it."""
+	from onedesk.one_display import boards, sources, tell
+	from onedesk.one_display import widgets as kinds
+
+	frappe.db.savepoint("onedisplay_board")
+	try:
+		frappe.get_doc(
+			{
+				"doctype": "Display Board",
+				"board_name": "Check Board",
+				"value_label": "Count",
+				"states": [{"state": "Ready", "colour": "#15803D"}, {"state": "Busy", "colour": "#B45309", "limit_minutes": 5}],
+				"items": [{"item_name": "One"}, {"item_name": "Two"}],
+			}
+		).insert(ignore_permissions=True)
+		with as_user(OWNER), mock.patch("onedesk.one_display.live.wake") as woken:
+			assert "Check Board" in [one["board"] for one in boards.mine()]
+			assert [one["item"] for one in boards.get("Check Board")["items"]] == ["One", "Two"]
+			said = boards.change("Check Board", "One", state="Busy")
+			one = next(row for row in said["items"] if row["item"] == "One")
+			assert one["state"] == "Busy" and one["colour"] == "#B45309" and one["limit"] == 5 and woken.called, one
+			boards.change("Check Board", "One", step=1)
+			said = boards.change("Check Board", "One", step=1)
+			assert next(row for row in said["items"] if row["item"] == "One")["value"] == "2", said
+			try:
+				boards.change("Check Board", "One", state="Nowhere")
+				raise AssertionError("a state the board does not have")
+			except frappe.ValidationError:
+				frappe.clear_messages()
+		kept = boards.history("Check Board", "One")
+		assert [row.state for row in kept][-1] == "Busy" and kept[-1].was_state == "" and len(kept) == 3, kept
+		frappe.get_doc({"doctype": "Display Source", "source_name": "Check Board", "kind": "Board", "board": "Check Board"}).insert(ignore_permissions=True)
+		assert [row["item"] for row in sources.read("Check Board")] == ["One", "Two"]
+		assert {"Board", "Board Item"} <= set(kinds.TYPES)
+		row = next(row for row in frappe.get_doc("Display Board", "Check Board").items if row.item_name == "One")
+		frappe.db.set_value("Display Board Item", row.name, "since", add_to_date(now_datetime(), minutes=-9))
+		with _told() as said:
+			tell.past_limits()
+			tell.past_limits()
+		told = [one for one in said if one[0] == "Past Its Time" and one[2]["item"] == "One"]
+		assert len(told) == 1 and told[0][2]["minutes"] >= 9, said
+		board = frappe.get_doc("Display Board", "Check Board")
+		board.append("people", {"user": "Administrator"})
+		board.save(ignore_permissions=True)
+		frappe.clear_document_cache("Display Board", "Check Board")
+		with as_user("Guest"):
+			assert not boards.may("Check Board"), "a board that names its people lets nobody else change it"
+		assert boards.codes("Check Board")[0]["svg"].startswith("<svg")
+	finally:
+		frappe.db.rollback(save_point="onedisplay_board")
+		frappe.clear_document_cache("Display Board", "Check Board")
+
+
+@check
 def onedisplay_plays_a_presentation():
 	"""The showroom's playlist plays a presentation from OneCloud: each of its
 	slides reaches a screen as the editor's elements, its own time or the

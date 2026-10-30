@@ -292,6 +292,9 @@ export function timeZone() {
   return frappe()?.boot?.time_zone || {};
 }
 
+// One value of the page's own address, such as ?board= on a QR code's link.
+export const getQuery = (key) => new URL(window.location.href).searchParams.get(key);
+
 export function setQuery(key, value) {
 	const url = new URL(window.location.href);
 	if (value) url.searchParams.set(key, value);

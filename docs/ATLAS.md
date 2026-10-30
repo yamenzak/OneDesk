@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 77 | 2 | 38 | 0 |
+| onedesk | 80 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -61,6 +61,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | plant (`frontend/src/inventory/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
+| boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | presentation (`frontend/src/slide/PresentationPage.vue`) | File | File | – | – |
@@ -954,6 +955,8 @@ Pages: onecalendar (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| Display Board | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
+| Display Board Change | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Display Channel | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 | Display Screen | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  | Screen Offline |
 | Display Settings | on a rail or a home | the administrator | events | no | general |  |  |  |  |  |  |
@@ -966,7 +969,7 @@ Pages: onecalendar (on a rail or a home).
 | Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 
-Pages: counter (on a rail or a home).
+Pages: boards (on a rail or a home); counter (on a rail or a home).
 
 ## onedesk / One Doc
 
@@ -1049,7 +1052,7 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | not read | untouched | yes | general |  | **none** |  |  |  |  |
+| Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: presentation (inside: a presentation opens on it from OneCloud).
 

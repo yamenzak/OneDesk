@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 02:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "board",
+  "item",
+  "state",
+  "was_state",
+  "minutes",
+  "column_break_value",
+  "value",
+  "was_value",
+  "changed_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "board",
+   "fieldtype": "Link",
+   "label": "Board",
+   "options": "Display Board",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "item",
+   "fieldtype": "Data",
+   "label": "Item",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Data",
+   "label": "State",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "was_state",
+   "fieldtype": "Data",
+   "label": "Previous State",
+   "read_only": 1
+  },
+  {
+   "fieldname": "minutes",
+   "fieldtype": "Float",
+   "label": "Minutes in Previous State",
+   "in_list_view": 1,
+   "read_only": 1,
+   "precision": "1"
+  },
+  {
+   "fieldname": "column_break_value",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "value",
+   "fieldtype": "Data",
+   "label": "Value",
+   "read_only": 1
+  },
+  {
+   "fieldname": "was_value",
+   "fieldtype": "Data",
+   "label": "Previous Value",
+   "read_only": 1
+  },
+  {
+   "fieldname": "changed_by",
+   "fieldtype": "Link",
+   "label": "Changed By",
+   "options": "User",
+   "in_list_view": 1,
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 21:34:32.138555",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Board Change",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1,
+   "delete": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "report": 1,
+   "export": 1
+  },
+  {
+   "role": "OneDisplay User",
+   "read": 1,
+   "report": 1
+  }
+ ],
+ "sort_field": "creation",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 0,
+ "autoname": "hash",
+ "title_field": "item",
+ "in_create": 1,
+ "description": "Every change made on a board, so how long things take can be read back."
+}

@@ -32,6 +32,7 @@ export const ISLANDS = {
 	"onedesk.plant": "src/islands/plant.js",
 	"onedesk.timers": "src/islands/timers.js",
 	"onedesk.counter": "src/islands/counter.js",
+	"onedesk.boards": "src/islands/boards.js",
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",
 	"onedesk.presentation": "src/islands/presentation.js",

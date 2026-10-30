@@ -67,6 +67,25 @@ def long_waits() -> None:
 			)
 
 
+def past_limits() -> None:
+	"""Every two minutes: an item kept on a board in a state past its limit
+	is told once, to the board's people, or to whoever runs OneDisplay."""
+	from onedesk.one_display import boards
+
+	for doc, row, minutes in boards.overdue():
+		people = [one.user for one in doc.people] or _runners()
+		notify.notify(
+			"Past Its Time",
+			list(dict.fromkeys(people)),
+			record=(boards.DOCTYPE, doc.name),
+			link=f"/desk/boards?board={doc.name}",
+			item=row.item_name,
+			state=row.state,
+			minutes=int(minutes),
+			board=doc.board_name,
+		)
+
+
 def _runners() -> list[str]:
 	"""Everybody turned on whose role may change a screen: who runs OneDisplay."""
 	from frappe.permissions import get_doctype_roles

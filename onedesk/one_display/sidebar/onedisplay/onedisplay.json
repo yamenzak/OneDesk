@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onedisplay",
  "idx": 0,
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-31 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "OneDisplay",
@@ -58,6 +58,20 @@
   {
    "child": 0,
    "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Boards",
+   "link_type": "Page",
+   "link_to": "boards",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "layout-grid",
+   "idx": 4
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
    "icon": "layout-template",
    "indent": 1,
    "keep_closed": 0,
@@ -65,7 +79,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 4
+   "idx": 5
   },
   {
    "child": 1,
@@ -79,7 +93,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "images",
-   "idx": 5
+   "idx": 6
   },
   {
    "child": 1,
@@ -93,7 +107,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "layout-dashboard",
-   "idx": 6
+   "idx": 7
   },
   {
    "child": 1,
@@ -107,7 +121,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "music",
-   "idx": 7
+   "idx": 8
   },
   {
    "child": 1,
@@ -121,7 +135,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "megaphone",
-   "idx": 8
+   "idx": 9
   },
   {
    "child": 1,
@@ -135,7 +149,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "database",
-   "idx": 9
+   "idx": 10
   },
   {
    "child": 0,
@@ -147,7 +161,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 10
+   "idx": 11
   },
   {
    "child": 1,
@@ -161,7 +175,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "users",
-   "idx": 11
+   "idx": 12
   },
   {
    "child": 1,
@@ -175,7 +189,35 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "ticket",
-   "idx": 12
+   "idx": 13
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Display Board",
+   "link_type": "DocType",
+   "link_to": "Display Board",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "ticket",
+   "idx": 14
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Display Board Change",
+   "link_type": "DocType",
+   "link_to": "Display Board Change",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "ticket",
+   "idx": 15
   },
   {
    "child": 0,
@@ -187,7 +229,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 13
+   "idx": 16
   },
   {
    "child": 1,
@@ -201,7 +243,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "settings",
-   "idx": 14
+   "idx": 17
   }
  ]
 }
