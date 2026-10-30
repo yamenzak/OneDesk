@@ -72,4 +72,16 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   the picture or video filling the slide, filed on the playlist, as
   `patches/presentations_on_screens.py` already did for the old rows; it
   opens in OneSlide later if words are wanted on it.
+- **Sound in step.** Slides agree to a fraction of a second; sound is
+  looser. `tv.js` takes the server's clock from each answer alone
+  (`skew = now - (sent + received) / 2`, the last one wins), and moves a
+  track only when it is more than 0.6 s off, so two screens in one room can
+  sound an echo. Plan: keep the answers that came back quickest and take
+  their offset (tens of milliseconds becomes about ten on a network);
+  correct music and video by `playbackRate` a few percent either way rather
+  than jumps; have the server say when a call's recording is ready and give
+  every screen one moment to start it, so no screen falls back to its own
+  voice while another speaks OneAI's; and a **Plays Sound** switch on each
+  Display Screen, so one screen in a room carries the sound, as signage
+  usually does.
 
