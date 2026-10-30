@@ -27,15 +27,32 @@ own: its background, how it moves to the next one, and when.
 **Theme** changes the theme the layouts come from. **Present** plays the
 presentation from this slide or from the start, and can loop.
 
+## History, templates and paper
+
+**File › Version History** lists what the presentation was, a version every
+ten minutes of work, newest first. Name one to keep it by name; **Go Back to
+This** puts the slides back as they were, and keeps what they were just
+before, so going back can itself be undone.
+
+**File › Save as Template** keeps a copy in OneCloud › Presentation Templates.
+Everyone in the company may start from it: **New › Presentation** offers it,
+and **Theme** lists it beside Light and Dark, so its slides become layouts.
+
+**File › Export as PDF** draws every slide as it looks on the screen, a page
+each, and keeps the PDF in OneCloud beside the presentation, or on its record,
+and opens it.
+
+A record's **Files** tab is OneCloud, so **New › Presentation** there files a
+presentation on the record: whoever may open the record may open it.
+
 If the same presentation is open in another tab, only one of them may change
 it; the other says so and offers **Edit here**. If somebody else saved it in
 the meantime, the editor says so and offers **Reload**.
 
 ## What is not built yet
 
-History, templates of your own, printing to PDF from the server and
-presentations filed on a record come in the next stage (docs/ONESLIDE.md).
-Two people cannot work on one presentation at the same moment.
+Two people cannot work on one presentation at the same moment. A PDF is
+pictures of the slides, so its words cannot be selected.
 
 ## Connections
 
@@ -70,6 +87,23 @@ editor's **Reload** answers.
 
 The Light and Dark themes are Suite's fixtures, kept in
 `templates/system.json` and put in place on every migrate (`setup.themes`).
+
+### History, templates and paper
+
+`versions.py`. Before `save_slides` writes, what the slides were is kept as a
+**Presentation Version** unless the last unnamed one is under ten minutes old;
+a hundred unnamed ones are kept, and every named one. `restore` keeps the
+current slides as "Before going back" and writes the version's in; the
+editor then opens the presentation again (`shim/EditorNavbar.vue`, `reload`).
+
+`templates.py`. A template is a Presentation with `is_template` and a public
+File in Presentation Templates, its pictures copied onto it. `get_templates`
+lists Suite's two themes and every template the reader may open.
+
+`paper.py`. The editor photographs each slide in Suite's own preview at twice
+its size (`shim/SlideCamera.vue`, modern-screenshot), and Pillow makes the
+pictures a PDF a page each. The same pictures are what a screen plays
+(stage 5 of docs/ONESLIDE.md).
 
 ### The editor
 

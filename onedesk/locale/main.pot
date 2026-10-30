@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 09:23+0000\n"
-"PO-Revision-Date: 2026-10-30 09:23+0000\n"
+"POT-Creation-Date: 2026-10-30 09:47+0000\n"
+"PO-Revision-Date: 2026-10-30 09:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1557,6 +1557,10 @@ msgstr ""
 #. Description of the 'Verb' (Data) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json
 msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
+msgstr ""
+
+#: onedesk/one_slide/versions.py:61
+msgid "A version needs a name."
 msgstr ""
 
 #: onedesk/one_crm/home.py:124
@@ -6351,6 +6355,10 @@ msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:22
 msgid "Before a {0} is submitted"
+msgstr ""
+
+#: onedesk/one_slide/versions.py:91
+msgid "Before going back"
 msgstr ""
 
 #. When a notification is sent
@@ -13870,6 +13878,10 @@ msgstr ""
 msgid "Draw Up Contract"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:115
+msgid "Drawing slide {0} of {1}…"
+msgstr ""
+
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Drawings and samples approved by the consultant"
@@ -16412,7 +16424,7 @@ msgstr ""
 msgid "Export as CSV"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:18
+#: frontend/src/slide/shim/EditorNavbar.vue:101
 msgid "Export as PDF"
 msgstr ""
 
@@ -16816,6 +16828,7 @@ msgstr ""
 #: frontend/src/cloud/cloud.js:76
 #: frontend/src/display/designer/Inspector.vue:71
 #: frontend/src/sheet/components/SheetEditor/index.vue:93
+#: frontend/src/slide/shim/EditorNavbar.vue:19
 #: frontend/src/writer/DocumentPage.vue:21
 #: onedesk/one_ai/doctype/file_link/file_link.json
 #: onedesk/one_ai/reading/bundle.py:74
@@ -18648,6 +18661,10 @@ msgstr ""
 #: onedesk/public/js/outside.js:253 onedesk/www/404.html:18
 #: onedesk/www/error.html:19
 msgid "Go Back"
+msgstr ""
+
+#: frontend/src/slide/shim/VersionsDialog.vue:16
+msgid "Go Back to This"
 msgstr ""
 
 #: frontend/src/writer/components/ErrorPage.vue:39
@@ -22607,6 +22624,7 @@ msgid "Kanban Board"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:35
+#: frontend/src/slide/shim/VersionsDialog.vue:7
 msgid "Keep"
 msgstr ""
 
@@ -26584,6 +26602,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:72
 #: frontend/src/sheet/components/SheetEditor/useVersionHistory.js:241
+#: frontend/src/slide/shim/VersionsDialog.vue:6
 msgid "Name this version"
 msgstr ""
 
@@ -27857,7 +27876,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:388
+#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:400
 msgid "No file was sent."
 msgstr ""
 
@@ -28336,6 +28355,10 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemOverview.vue:19
 msgid "No variants"
+msgstr ""
+
+#: frontend/src/slide/shim/VersionsDialog.vue:9
+msgid "No versions yet. One is kept as you work, at most every ten minutes."
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:653
@@ -28862,7 +28885,7 @@ msgid "Not registered by itself: {0}"
 msgstr ""
 
 #: frontend/src/sheet/shim/CellProblem.vue:4
-#: frontend/src/slide/shim/EditorNavbar.vue:53
+#: frontend/src/slide/shim/EditorNavbar.vue:61
 msgid "Not saved"
 msgstr ""
 
@@ -34511,6 +34534,10 @@ msgstr ""
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:113
+msgid "Preparing the PDF…"
+msgstr ""
+
 #: onedesk/public/js/privacy_copy.js:52
 msgid "Preparing the copy for {0}."
 msgstr ""
@@ -34536,14 +34563,21 @@ msgid "Present Today"
 msgstr ""
 
 #. Name of a DocType
+#. Label of the presentation (Link) field in DocType 'Presentation Version'
 #: frontend/src/cloud/OneCloud.vue:577 frontend/src/cloud/cloud.js:14
 #: onedesk/one_slide/doctype/presentation/presentation.json
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
 msgid "Presentation"
 msgstr ""
 
 #. Name of a DocType
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Presentation Slide"
+msgstr ""
+
+#. Name of a DocType
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
+msgid "Presentation Version"
 msgstr ""
 
 #: frontend/src/slide/components/PresentButton.vue:15
@@ -36272,7 +36306,7 @@ msgstr ""
 msgid "Read on behalf of {0}"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:52
+#: frontend/src/slide/shim/EditorNavbar.vue:60
 #: frontend/src/writer/DocumentPage.vue:187
 msgid "Read only"
 msgstr ""
@@ -37517,6 +37551,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:708
 #: frontend/src/sheet/components/SheetEditor/index.vue:742
 #: frontend/src/slide/components/PresentationPreview.vue:131
+#: frontend/src/slide/shim/EditorNavbar.vue:104
 #: frontend/src/writer/DocumentPage.vue:287
 #: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1843
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
@@ -39197,6 +39232,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/slide/composables/useShortcuts.js:232
+#: frontend/src/slide/shim/EditorNavbar.vue:132
 #: frontend/src/task/TaskWaits.vue:15
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
@@ -39241,6 +39277,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1942
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
+#: frontend/src/slide/shim/EditorNavbar.vue:103
+#: frontend/src/slide/shim/EditorNavbar.vue:131
 #: frontend/src/writer/DocumentPage.vue:294
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:3
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:15
@@ -39267,7 +39305,7 @@ msgstr ""
 #: frontend/portal/src/parts/WebForm.vue:118
 #: frontend/src/inventory/item/ItemBarcodes.vue:77
 #: frontend/src/sheet/components/SheetEditor/index.vue:63
-#: frontend/src/slide/shim/EditorNavbar.vue:55
+#: frontend/src/slide/shim/EditorNavbar.vue:63
 #: frontend/src/writer/DocumentPage.vue:189
 #: onedesk/public/js/module_settings.js:242
 #: onedesk/public/js/one/one_control.js:251
@@ -39319,6 +39357,10 @@ msgstr ""
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:117
+msgid "Saved {0} to OneCloud."
+msgstr ""
+
 #: onedesk/www/account_profile.html:78
 msgid "Saved."
 msgstr ""
@@ -39332,7 +39374,7 @@ msgid "Saving updates everyone with this profile."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:59
-#: frontend/src/slide/shim/EditorNavbar.vue:54
+#: frontend/src/slide/shim/EditorNavbar.vue:62
 #: frontend/src/writer/DocumentPage.vue:188 onedesk/public/js/hiring.js:215
 msgid "Saving…"
 msgstr ""
@@ -41976,7 +42018,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:226
+#: onedesk/one_slide/api.py:229
 msgid "Slide fields not accepted: {0}"
 msgstr ""
 
@@ -41991,11 +42033,13 @@ msgstr ""
 #. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
 #. Label of the slides (Table) field in DocType 'Slide Playlist'
 #. Label of the slides (Table) field in DocType 'Presentation'
+#. Label of the slides (JSON) field in DocType 'Presentation Version'
 #: frontend/src/display/designer/Designer.vue:86
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 #: onedesk/one_display/page/display_slides/display_slides.js:2
 #: onedesk/one_slide/doctype/presentation/presentation.json
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
 msgid "Slides"
 msgstr ""
 
@@ -44271,6 +44315,7 @@ msgstr ""
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 #: onedesk/one_slide/doctype/presentation/presentation.json
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/one_studio/doctype/record_type/record_type.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
@@ -44940,6 +44985,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:126
 #: onedesk/public/js/project_actions.js:49
 msgid "Template Name"
 msgstr ""
@@ -45343,12 +45389,16 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:274
+#: onedesk/one_slide/api.py:277
 msgid "That theme does not exist."
 msgstr ""
 
 #: frontend/src/inventory/item/ItemVariantsMake.vue:123
 msgid "That variant already exists."
+msgstr ""
+
+#: onedesk/one_slide/versions.py:90
+msgid "That version is not of this presentation."
 msgstr ""
 
 #: onedesk/one_admin/accounts.py:333
@@ -47262,6 +47312,10 @@ msgstr ""
 msgid "Then sign-in stops and the subscription ends. This month is not refunded."
 msgstr ""
 
+#: onedesk/one_slide/paper.py:36
+msgid "There are no slides to print."
+msgstr ""
+
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:7
 msgid "There are no templates yet. Save one from File › Save as Template."
 msgstr ""
@@ -47681,7 +47735,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:391
+#: onedesk/one_slide/api.py:403
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -47737,8 +47791,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:424 onedesk/one_slide/api.py:428
-#: onedesk/one_slide/api.py:441
+#: onedesk/one_slide/api.py:436 onedesk/one_slide/api.py:440
+#: onedesk/one_slide/api.py:453 onedesk/one_slide/paper.py:30
 msgid "This is not a picture."
 msgstr ""
 
@@ -47857,8 +47911,17 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_slide/api.py:430 onedesk/one_slide/api.py:444
+#: onedesk/one_slide/api.py:442 onedesk/one_slide/api.py:456
+#: onedesk/one_slide/paper.py:33
 msgid "This picture is too large."
+msgstr ""
+
+#: frontend/src/slide/shim/EditorNavbar.vue:99
+msgid "This presentation"
+msgstr ""
+
+#: onedesk/one_slide/paper.py:51
+msgid "This presentation has too many slides to print at once."
 msgstr ""
 
 #: onedesk/one_slide/api.py:205
@@ -48419,6 +48482,7 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'Legal Document Version'
 #. Label of the title (Data) field in DocType 'Workbook'
 #. Label of the title (Data) field in DocType 'Presentation'
+#. Label of the title (Data) field in DocType 'Presentation Version'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
 #: frontend/src/display/designer/Inspector.vue:42
@@ -48438,6 +48502,7 @@ msgstr ""
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/one_slide/doctype/presentation/presentation.json
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/one_ai/ai_center.js:222
@@ -50141,7 +50206,7 @@ msgstr ""
 msgid "Untitled Document"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:77 onedesk/one_slide/api.py:96
+#: frontend/src/slide/shim/EditorNavbar.vue:85 onedesk/one_slide/api.py:96
 msgid "Untitled Presentation"
 msgstr ""
 
@@ -50153,6 +50218,7 @@ msgid "Untitled Sheet"
 msgstr ""
 
 #: onedesk/one_doc/templates.py:63 onedesk/one_sheet/templates.py:88
+#: onedesk/one_slide/templates.py:39
 msgid "Untitled Template"
 msgstr ""
 
@@ -50799,6 +50865,8 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:102
+#: frontend/src/slide/shim/VersionsDialog.vue:3
 #: frontend/src/writer/DocumentPage.vue:293
 msgid "Version History"
 msgstr ""
@@ -51568,6 +51636,11 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:204
 msgid "What a new version of an item copies from its template."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
+msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:137
@@ -59643,6 +59716,10 @@ msgstr ""
 msgid "{0} is filling up"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:129
+msgid "{0} is in Presentation Templates."
+msgstr ""
+
 #: onedesk/one_storage/api.py:250
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr ""
@@ -61025,6 +61102,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:1180
 msgid "{0} · {1} a month"
+msgstr ""
+
+#: frontend/src/slide/shim/VersionsDialog.vue:14
+msgid "{0} · {1} slides"
 msgstr ""
 
 #: onedesk/public/js/opportunity_list.js:32

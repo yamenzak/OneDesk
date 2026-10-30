@@ -41,6 +41,8 @@ const getContext = async (node, options) => {
 		_captureContext = await createContext(node, { ...options, autoDestruct: false })
 	} else {
 		_captureContext.node = node
+		// One: the scale this capture asked for, not the first one's (VENDORED.md)
+		_captureContext.scale = options.scale
 		// Reset per-capture font state so only fonts used by this node are embedded.
 		_captureContext.fontFamilies = new Map()
 		_captureContext.fontCssTexts = new Map()
@@ -54,14 +56,15 @@ const getContext = async (node, options) => {
 	return _captureContext
 }
 
-export const captureDOM = async (node) => {
+// One: a scale may be asked for, for the pictures a screen and a PDF are made of (VENDORED.md)
+export const captureDOM = async (node, { scale = 1 } = {}) => {
 	await waitForFonts()
 	await waitForImages(node)
 
 	const options = {
 		width: CAPTURE_WIDTH,
 		height: CAPTURE_HEIGHT,
-		scale: 1,
+		scale,
 		backgroundColor: '#ffffff',
 		timeout: CAPTURE_TIMEOUT,
 		quality: 0.86,

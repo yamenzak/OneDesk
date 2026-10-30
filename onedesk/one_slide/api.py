@@ -208,6 +208,9 @@ def save_slides(name: str, slides: list[dict] | str, base_modified: str) -> dict
 		frappe.throw(
 			_("This presentation was changed elsewhere. Reload to get the latest version."), frappe.TimestampMismatchError
 		)
+	from onedesk.one_slide import versions
+
+	versions.before_saving(name)
 	doc.set("slides", _merged(doc.slides, slides or []))
 	doc.byte_size = size
 	doc.save(ignore_permissions=True)
@@ -295,7 +298,11 @@ def get_templates() -> list[dict]:
 		fields=["name", "parent", "idx", "client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after"],
 		order_by="parent asc, idx asc",
 	)
+	from onedesk.one_storage import namespace as ns
+
 	system = _system()
+	files = dict(frappe.get_all(PRESENTATION, filters={"is_template": 1}, fields=["name", "file"], as_list=True))
+	templates = [one for one in templates if one.name in system or (files.get(one.name) and _readable(ns, files[one.name]))]
 	by_template = {}
 	for row in rows:
 		row["doctype"] = SLIDE
@@ -309,6 +316,11 @@ def get_templates() -> list[dict]:
 				else ""
 			)
 	return templates
+
+
+def _readable(ns, file: str) -> bool:
+	item = ns.row(file)
+	return bool(item and not item.get("one_deleted_on") and ns.may(item, "read"))
 
 
 def _new_ids(elements: list) -> None:
@@ -515,6 +527,9 @@ def file_gone(doc, method=None) -> None:
 	name = presentation_of(doc.file_url)
 	if not name or not frappe.db.exists(PRESENTATION, name):
 		return
+	from onedesk.one_slide import versions
+
 	for held in frappe.get_all("File", filters={"attached_to_doctype": PRESENTATION, "attached_to_name": name}, pluck="name"):
 		frappe.delete_doc("File", held, ignore_permissions=True)
+	versions.forget(name)
 	frappe.delete_doc(PRESENTATION, name, ignore_permissions=True, force=True)

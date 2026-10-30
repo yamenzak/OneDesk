@@ -1557,6 +1557,10 @@ msgstr "جولة توصيل لشاحنة."
 msgid "A verb a module registered by name. It says itself when it can be done and what it asks."
 msgstr "إجراء سجّلته وحدة باسمه. يحدد بنفسه متى يمكن تنفيذه وما يطلبه."
 
+#: onedesk/one_slide/versions.py:61
+msgid "A version needs a name."
+msgstr "تحتاج النسخة إلى اسم."
+
 #: onedesk/one_crm/home.py:124
 msgid "A visit to a customer, and the work done."
 msgstr "زيارة لعميل، والعمل المنجز."
@@ -6304,6 +6308,10 @@ msgstr "قبل حذف {0}"
 #: onedesk/one_studio/doctype/extension/extension.js:22
 msgid "Before a {0} is submitted"
 msgstr "قبل اعتماد {0}"
+
+#: onedesk/one_slide/versions.py:91
+msgid "Before going back"
+msgstr "قبل الرجوع"
 
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
@@ -13683,6 +13691,10 @@ msgstr "اسحب لتغيير الحجم، وانقر للطي"
 msgid "Draw Up Contract"
 msgstr "إعداد العقد"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:115
+msgid "Drawing slide {0} of {1}…"
+msgstr "جارٍ رسم الشريحة {0} من {1}…"
+
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
 msgid "Drawings and samples approved by the consultant"
@@ -18364,6 +18376,10 @@ msgstr "انتقال"
 #: onedesk/www/error.html:19
 msgid "Go Back"
 msgstr "رجوع"
+
+#: frontend/src/slide/shim/VersionsDialog.vue:16
+msgid "Go Back to This"
+msgstr "الرجوع إلى هذه"
 
 #: frontend/src/writer/components/ErrorPage.vue:39
 #: onedesk/public/js/outside.js:253 onedesk/www/404.html:19
@@ -27908,6 +27924,10 @@ msgstr "لا توجد قيم"
 msgid "No variants"
 msgstr "لا متغيرات"
 
+#: frontend/src/slide/shim/VersionsDialog.vue:9
+msgid "No versions yet. One is kept as you work, at most every ten minutes."
+msgstr "لا توجد نسخ بعد. تُحفظ نسخة أثناء عملك، مرة كل عشر دقائق على الأكثر."
+
 #: onedesk/one_inventory/heads.py:653
 msgid "No work order yet. Make one to start."
 msgstr "لا يوجد أمر عمل بعد. أنشئ واحدًا للبدء."
@@ -33987,6 +34007,10 @@ msgstr "قيد الإعداد"
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr "أحضّرها من جديد. سيتحدّث التحضير للمقابلة عند الانتهاء."
 
+#: frontend/src/slide/shim/EditorNavbar.vue:113
+msgid "Preparing the PDF…"
+msgstr "جارٍ تجهيز ملف PDF…"
+
 #: onedesk/public/js/privacy_copy.js:52
 msgid "Preparing the copy for {0}."
 msgstr "جارٍ تجهيز النسخة لـ {0}."
@@ -34016,6 +34040,10 @@ msgstr "عرض تقديمي"
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Presentation Slide"
 msgstr "شريحة عرض تقديمي"
+
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
+msgid "Presentation Version"
+msgstr "نسخة عرض تقديمي"
 
 #: frontend/src/slide/components/PresentButton.vue:15
 msgid "Presentation options"
@@ -44566,6 +44594,10 @@ msgstr "هذه السمة غير موجودة."
 msgid "That variant already exists."
 msgstr "هذا المتغيّر موجود بالفعل."
 
+#: onedesk/one_slide/versions.py:90
+msgid "That version is not of this presentation."
+msgstr "هذه النسخة ليست من هذا العرض التقديمي."
+
 #: onedesk/one_admin/accounts.py:333
 msgid "That's already your account's email."
 msgstr "هذا هو البريد الإلكتروني لحسابك بالفعل."
@@ -46464,6 +46496,10 @@ msgstr "بعدها تُطلب كلمة مرور جديدة عند تسجيل ا�
 msgid "Then sign-in stops and the subscription ends. This month is not refunded."
 msgstr "ثم يتوقف تسجيل الدخول وينتهي الاشتراك. لا يُسترد مبلغ هذا الشهر."
 
+#: onedesk/one_slide/paper.py:36
+msgid "There are no slides to print."
+msgstr "لا توجد شرائح للطباعة."
+
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:7
 msgid "There are no templates yet. Save one from File › Save as Template."
 msgstr "لا توجد قوالب بعد. احفظ واحدًا من ملف › حفظ كقالب."
@@ -47062,6 +47098,14 @@ msgstr "سُجِّل مفتاح المرور هذا على متصفح مختلف
 #: onedesk/one_slide/api.py:430 onedesk/one_slide/api.py:444
 msgid "This picture is too large."
 msgstr "هذه الصورة كبيرة جداً."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:99
+msgid "This presentation"
+msgstr "هذا العرض التقديمي"
+
+#: onedesk/one_slide/paper.py:51
+msgid "This presentation has too many slides to print at once."
+msgstr "يحتوي هذا العرض التقديمي على شرائح أكثر من أن تُطبع دفعة واحدة."
 
 #: onedesk/one_slide/api.py:205
 msgid "This presentation is too large to save."
@@ -50661,6 +50705,10 @@ msgstr "ما يمر به المنضم الجديد."
 #: onedesk/one_inventory/home.py:204
 msgid "What a new version of an item copies from its template."
 msgstr "ما تنسخه النسخة الجديدة من الصنف عن قالبه."
+
+#: onedesk/one_slide/doctype/presentation_version/presentation_version.json
+msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
+msgstr "ما كانت عليه شرائح العرض التقديمي في لحظة ما، محفوظة للرجوع إليها من سجل النسخ."
 
 #: onedesk/one_inventory/home.py:137
 msgid "What a product is made from, and its steps."
@@ -58662,6 +58710,14 @@ msgstr "أُنجز {0}"
 msgid "{0} is filling up"
 msgstr "{0} يمتلئ"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:117
+msgid "Saved {0} to OneCloud."
+msgstr "تم حفظ {0} في OneCloud."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:129
+msgid "{0} is in Presentation Templates."
+msgstr "{0} موجود في قوالب العروض التقديمية."
+
 #: onedesk/one_storage/api.py:250
 msgid "{0} is in someone else's files. Copy it instead."
 msgstr "{0} ضمن ملفات شخص آخر. انسخه بدلًا من ذلك."
@@ -60046,6 +60102,10 @@ msgstr "{0} · {1}"
 #: onedesk/public/js/one_account/account_center.js:1180
 msgid "{0} · {1} a month"
 msgstr "{0} · {1} شهريًا"
+
+#: frontend/src/slide/shim/VersionsDialog.vue:14
+msgid "{0} · {1} slides"
+msgstr "{0} · {1} شرائح"
 
 #: onedesk/public/js/opportunity_list.js:32
 msgid "{0} · {1} weighted"

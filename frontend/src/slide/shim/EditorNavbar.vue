@@ -15,22 +15,30 @@
 		<span class="text-sm text-ink-gray-5">{{ status }}</span>
 		<div class="ml-auto flex items-center gap-2">
 			<Button v-if="!inReadonlyMode && presentationDoc" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
-			<Button v-if="presentationDoc" variant="ghost" icon="lucide-download" :tooltip="__('Export as PDF')" :aria-label="__('Export as PDF')" @click="emit('performDropdownAction', 'export')" />
+			<Dropdown v-if="presentationDoc" :options="fileMenu" align="end">
+				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
+			</Dropdown>
 			<PresentButton v-if="presentationDoc" @start="(options) => emit('startSlideShow', options)" />
 		</div>
+		<SlideCamera ref="camera" />
+		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
 	</div>
 </template>
 
 <script setup>
 import { computed, inject, ref, watch } from "vue";
-import { Breadcrumbs, Button } from "frappe-ui";
+import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, goTo, goToUrl } from "../../kit/desk";
+import { __, alert, call, goTo, goToUrl, openTab, prompt } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
-import { presentationDoc, updatePresentationTitle } from "../stores/presentation";
-import { dirty, isSaving, saveFailed } from "../stores/saving";
+import { initPresentationDoc, presentationDoc, updatePresentationTitle } from "../stores/presentation";
+import { slides } from "../stores/slide";
+import { commandHistory } from "../stores/historyMeta";
+import { dirty, isSaving, saveFailed, saveWithoutDelay } from "../stores/saving";
+import SlideCamera from "./SlideCamera.vue";
+import VersionsDialog from "./VersionsDialog.vue";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
@@ -80,6 +88,57 @@ const crumbs = computed(() => [
 function goBack() {
 	const steps = parents.value;
 	steps[steps.length - 1]?.onClick();
+}
+
+const camera = ref(null);
+const showVersions = ref(false);
+const printing = ref("");
+
+const fileMenu = computed(() => [
+	{
+		group: __("This presentation"),
+		options: [
+			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: exportPdf },
+			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
+			{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate },
+			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
+		],
+	},
+]);
+
+// Every slide photographed as the editor draws it, then made a PDF beside
+// the presentation in OneCloud, and opened.
+async function exportPdf() {
+	if (printing.value) return;
+	printing.value = __("Preparing the PDF…");
+	try {
+		const pictures = await camera.value.shoot(slides.value, (done, all) => (printing.value = __("Drawing slide {0} of {1}…", [done, all])));
+		const made = await call("onedesk.one_slide.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures) });
+		alert(__("Saved {0} to OneCloud.", [made.file_name]));
+		openTab(made.url);
+	} finally {
+		printing.value = "";
+	}
+}
+
+function saveAsTemplate() {
+	prompt(
+		[{ fieldname: "title", fieldtype: "Data", label: __("Template Name"), reqd: 1, default: presentationDoc.value.title }],
+		async ({ title }) => {
+			const made = await call("onedesk.one_slide.templates.save_as", { name: presentationDoc.value.name, title });
+			alert(__("{0} is in Presentation Templates.", [made.title]));
+		},
+		__("Save as Template"),
+		__("Save")
+	);
+}
+
+// Going back to a version: what is unsaved goes first, then the presentation
+// is opened again as the server now has it.
+async function reload() {
+	await saveWithoutDelay();
+	await initPresentationDoc(presentationDoc.value.name, false);
+	commandHistory.clearHistory();
 }
 
 async function rename(value) {

@@ -49,5 +49,8 @@ Each is marked `One:` where it is.
 - `pages/PresentationEditor.vue`: the island's height, not the screen's, and
   the body clipped, so the dimming Suite draws around the slide stays under
   the head.
+- `utils/domToWebp.js`: `captureDOM` takes a scale, and a reused capture
+  context takes the scale its capture asked for, so a slide can be
+  photographed at twice its size for a PDF or a screen.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).

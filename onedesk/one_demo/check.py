@@ -3191,13 +3191,10 @@ DOT_PNG = (
 
 @check
 def oneslide_keeps_a_presentation_in_onecloud():
-	"""Karim makes a presentation in his files from the Light theme's title
-	slide, opens it, saves slides built on what he loaded and is refused one
-	built on something older, and the script he pastes into a text box is
-	gone. He renames it, changes its theme, puts a poster and a thumbnail on
-	it, and a slide pasted from the demo deck brings its picture with it. A
-	copy of its File is a presentation of its own; somebody who may not open
-	it learns nothing of it. All undone afterwards."""
+	"""Karim makes, saves, renames, re-themes, versions, templates and prints a
+	presentation; a stale save is refused, a pasted script is gone, a pasted
+	slide brings its picture, a copy is its own, one is filed on a quotation,
+	and somebody who may not open it learns nothing (one_slide/README.md)."""
 	import base64
 	import io
 
@@ -3205,7 +3202,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo.slide import NAME as DEMO
-	from onedesk.one_slide import api
+	from onedesk.one_slide import api, paper, templates, versions
 
 	dot = "data:image/png;base64," + base64.b64encode(DOT_PNG).decode()
 	was = getattr(frappe.local, "request", None)
@@ -3249,11 +3246,31 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			assert api.get_webp_doc(name, json.dumps(upload))["name"] == upload["name"]
 			slide = api.update_slide_attachments(name, json.dumps({"elements": json.dumps([{"id": "a", "type": "text", "content": "<p>Hi</p>"}])}))
 			assert json.loads(slide["elements"])[0]["id"] != "a", "a pasted slide's elements get new ids"
+			kept = versions.keep(name, "Before the review")["name"]
+			assert [one["title"] for one in versions.listed(name) if one["name"] == kept] == ["Before the review"]
+			api.update_title(name, "Changed after keeping")
+			versions.restore(name, kept)
+			assert any(one["title"] == "Before going back" for one in versions.listed(name)), "going back is kept first, so it can be undone"
+			template = templates.save_as(name, "Review template")
+			assert any(one["name"] == template["name"] for one in api.listed()), "a template OneCloud offers"
+			assert any(one["name"] == template["name"] for one in api.get_templates()), "a template the editor takes layouts from"
+			started = api.make("@my", "From the template", template["name"])["presentation"]
+			assert len(api.get(started)["slides"]) == len(api.get(name)["slides"]), "a template is copied whole"
+			from PIL import Image
+
+			drawn = io.BytesIO()
+			Image.new("RGB", (16, 9), "white").save(drawn, "PNG")
+			page = "data:image/png;base64," + base64.b64encode(drawn.getvalue()).decode()
+			made = paper.pdf(name, json.dumps([page, page]))
+			assert made["file_name"].endswith(".pdf") and frappe.get_doc("File", made["name"]).get_content().startswith(b"%PDF"), made
 			api.visited("Presentation", name)
 			api.download(name)
 			assert frappe.local.response["location"] == f"/desk/presentation/{name}"
 		with as_user(OWNER):
 			theirs = api.save_base64_image(dot, DEMO, "poster")
+			quote = frappe.get_all("Quotation", pluck="name", limit=1)[0]
+			on_record = api.make(f"@records/Quotation/{quote}", "Quotation slides")["presentation"]
+			assert api.get(on_record)["record"] == {"doctype": "Quotation", "name": quote}, "filed on the record"
 		with as_user("karim@one.test"):
 			pasted = api.get_updated_json(name, json.dumps([{"id": "p", "type": "image", "src": theirs}]))
 			assert pasted[0]["src"].startswith(api.MEDIA) and pasted[0]["src"] != theirs, "the picture is copied onto this presentation"
