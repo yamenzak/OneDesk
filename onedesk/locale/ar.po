@@ -9551,6 +9551,14 @@ msgstr "متصل بـ OneMail"
 msgid "Connected without outgoing mail."
 msgstr "مربوط دون بريد صادر."
 
+#: onedesk/www/slide_remote.py:30
+msgid "Connected. Waiting for the presenter view…"
+msgstr "متصل. بانتظار عرض المقدّم…"
+
+#: onedesk/www/slide-remote.html:18 onedesk/www/slide_remote.py:31
+msgid "Connecting…"
+msgstr "جارٍ الاتصال…"
+
 #: onedesk/one/ai.py:1211 onedesk/one_mail/abilities.py:70
 #: onedesk/public/js/one_mail/onemail_settings.js:689
 #: onedesk/public/js/one_mail/onemail_settings.js:691
@@ -10159,6 +10167,10 @@ msgstr "تعذرت إضافة الأوراق."
 #: onedesk/one_slide/ai.py:424
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr "تعذّر تغيير الشريحة: لم تعد موجودة في العرض."
+
+#: onedesk/www/slide_remote.py:33
+msgid "Could not connect. Check the phone's connection."
+msgstr "تعذّر الاتصال. تحقّق من اتصال الهاتف."
 
 #: frontend/src/sheet/shim/CellProblem.vue:61 onedesk/one_sheet/table.py:644
 msgid "Could not create the record."
@@ -13801,6 +13813,10 @@ msgstr "اسحب المهمة إلى «مكتمل» عند إنجازها، أو
 #: onedesk/one_calendar/tour.py:31
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr "اسحب على التقويم لإنشاء حدث في ذلك الوقت، أو انقر على حدث لترى من فيه، أو اسحبه إلى وقت آخر."
+
+#: onedesk/www/slide-remote.html:20
+msgid "Drag here to move the pointer"
+msgstr "اسحب هنا لتحريك المؤشر"
 
 #: frontend/src/slide/shim/Rulers.vue:39
 msgid "Drag off the slide to remove"
@@ -19433,6 +19449,10 @@ msgstr "تعليق الطلب"
 #: onedesk/one_project/custom/projects_settings.json
 msgid "Hold Retention"
 msgstr "احتجاز نسبة من الفواتير"
+
+#: onedesk/www/slide-remote.html:21
+msgid "Hold to Point"
+msgstr "اضغط مطوّلاً للإشارة"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
@@ -33669,6 +33689,16 @@ msgstr "التصيد ينبّه أيضًا مستخدمي الصندوق."
 msgid "Phone"
 msgstr "الهاتف"
 
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Phone Connected"
+msgstr "الهاتف متصل"
+
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:57
+msgid "Phone Remote"
+msgstr "الهاتف كجهاز تحكم"
+
 #. Label of the photo_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the photo (Attach Image) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -37254,6 +37284,10 @@ msgstr "تذكير: {said}"
 msgid "Reminder: {who} requested files for {request}"
 msgstr "تذكير: طلب {who} ملفات لـ {request}"
 
+#: onedesk/www/slide-remote.html:2
+msgid "Remote"
+msgstr "جهاز التحكم"
+
 #: frontend/src/mail/MailBody.vue:5
 msgid "Remote pictures are hidden."
 msgstr "الصور الخارجية مخفية."
@@ -39278,6 +39312,14 @@ msgstr "اذكر السبب ليعرفوه."
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Scan"
 msgstr ""
+
+#: onedesk/www/slide-remote.html:12
+msgid "Scan the code in the presenter view again."
+msgstr "امسح الرمز في عرض المقدّم مرة أخرى."
+
+#: frontend/src/slide/shim/PresenterView.vue:59
+msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
+msgstr "امسح هذا الرمز بكاميرا هاتفك. ينقل الهاتف الشرائح ويعرض ملاحظات هذه الشريحة. للإشارة إلى الشريحة، أبقِ إصبعك على «اضغط مطوّلاً للإشارة» وأدِر الهاتف."
 
 #: frontend/src/intake/IntakePay.vue:16
 msgid "Scan with your banking app"
@@ -41851,6 +41893,10 @@ msgstr "انزلاق"
 msgid "Slide {0}"
 msgstr "الشريحة {0}"
 
+#: onedesk/www/slide_remote.py:28
+msgid "Slide {0} of {1}"
+msgstr "الشريحة {0} من {1}"
+
 #: onedesk/one_slide/doctype/presentation/presentation.py:24
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
 msgstr "الشريحة {0}: يجب أن يكون الانتقال بعد ما بين 1 و3600 ثانية، وليس {1}"
@@ -43164,6 +43210,10 @@ msgstr "هل توقف قراءة OneAI للملفات الجديدة في {0} و
 #: onedesk/public/js/one_ai/ai_center.js:515
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr "هل توقف قراءة OneAI للبريد الجديد في {0}؟"
+
+#: frontend/src/slide/shim/PresenterView.vue:14
+msgid "Stop Presenting Live"
+msgstr "إيقاف العرض المباشر"
 
 #: frontend/src/project/TaskPanel.vue:175 frontend/src/task/TaskPage.vue:333
 msgid "Stop Repeating"
@@ -47839,6 +47889,10 @@ msgstr "لا يمكن تفريغ هذا التسجيل مرة أخرى."
 msgid "This recording has already ended."
 msgstr "انتهى هذا التسجيل بالفعل."
 
+#: onedesk/www/slide-remote.html:11 onedesk/www/slide_remote.py:32
+msgid "This remote has ended"
+msgstr "انتهى جهاز التحكم هذا"
+
 #: onedesk/one_mail/rules.py:299
 msgid "This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."
 msgstr "ربما كتب OneAI، وهو وكيل ذكاء اصطناعي، هذا الرد بالكامل وتلقائيًا، وقد يكون خاطئًا أو غير دقيق."
@@ -50974,6 +51028,10 @@ msgstr "بانتظار مراجعة مسؤول، أو قيد الجمع، أو �
 #: onedesk/one_admin/heads.py:420
 msgid "Waiting for the customer's DNS."
 msgstr "بانتظار DNS الخاص بالعميل."
+
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Waiting for the phone…"
+msgstr "بانتظار الهاتف…"
 
 #: onedesk/one_ai/heads.py:14 onedesk/one_ai/reading/digest.py:89
 msgid "Waiting for you"

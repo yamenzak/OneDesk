@@ -17,6 +17,9 @@ const KINDS = new Set(["workbook", "document"]);
 const READERS_MAY = new Set(["yjs_state_request", "yjs_awareness", "yjs_awareness_bye", "yjs_comments"]);
 
 const MAX_BYTES = 2 * 1024 * 1024;
+
+// What a phone remote and the presenter view it drives may say to each other.
+const REMOTE_SAYS = new Set(["hello", "go", "point", "state"]);
 const BURST = 300;
 const WINDOW_MS = 5000;
 
@@ -117,6 +120,38 @@ function onedesk_handlers(socket) {
 			console.warn("onedesk_slide_join failed", err);
 			reply({ ok: false });
 		}
+	});
+
+	// A phone driving a presenter view, and the presenter view, meet in the
+	// room of the phone's token (one_slide/remote.py admit). Only what a remote
+	// says passes, small, and never back to whoever said it.
+	socket.on("onedesk_remote_join", async (token, ack) => {
+		const reply = typeof ack === "function" ? ack : () => {};
+		if (!token) return reply({ ok: false });
+		try {
+			const res = await socket.frappe_request("/api/method/onedesk.one_slide.remote.admit", { token });
+			const { message } = await res.json();
+			if (!message || !message.ok || !String(message.room).startsWith("onedesk:remote/")) return reply({ ok: false });
+			socket.onedesk_remote = message.room;
+			socket.join(message.room);
+			reply({ ok: true });
+		} catch (err) {
+			console.warn("onedesk_remote_join failed", err);
+			reply({ ok: false });
+		}
+	});
+
+	socket.on("onedesk_remote_say", (event, payload) => {
+		const room = socket.onedesk_remote;
+		if (!room || !REMOTE_SAYS.has(event) || !allowed()) return;
+		let body;
+		try {
+			body = JSON.stringify(payload ?? null);
+		} catch {
+			return;
+		}
+		if (body.length > 4096) return;
+		socket.to(room).emit("onedesk_remote", { event, payload });
 	});
 
 	socket.on("disconnect", () => joined.clear());

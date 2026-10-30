@@ -11,6 +11,8 @@
 				<span class="font-mono text-lg tabular-nums">{{ elapsed }}</span>
 				<Button variant="ghost" :label="running ? __('Pause') : __('Resume')" @click="toggle" />
 				<Button variant="ghost" :label="__('Restart the Clock')" @click="restart" />
+				<Button variant="ghost" icon-left="lucide-radio" :label="liveOn ? __('Stop Presenting Live') : __('Present Live')" @click="toggleLive" />
+				<Button variant="ghost" icon-left="lucide-smartphone" :label="connected ? __('Phone Connected') : __('Phone Remote')" @click="showPhone" />
 				<Button variant="solid" :label="__('End the Presentation')" @click="end" />
 			</div>
 		</div>
@@ -52,18 +54,28 @@
 				</div>
 			</div>
 		</div>
+		<Dialog v-model:open="phoneOpen" :title="__('Phone Remote')" size="sm">
+			<div class="flex flex-col items-center gap-3">
+				<p class="text-base text-ink-gray-7">{{ __("Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone.") }}</p>
+				<div v-if="paired" class="w-48 rounded-3 bg-surface-base p-2" v-html="paired.qr" />
+				<a v-if="paired" class="break-all text-sm text-ink-gray-5" :href="paired.url" target="_blank" rel="noopener">{{ paired.url }}</a>
+				<Badge :theme="connected ? 'green' : 'gray'" :label="connected ? __('Phone Connected') : __('Waiting for the phone…')" />
+			</div>
+		</Dialog>
 	</div>
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, ref } from "vue";
-import { Button } from "frappe-ui";
+import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from "vue";
+import { Badge, Button, Dialog } from "frappe-ui";
 
 import SlidePreview from "../components/SlidePreview.vue";
 import { resetFocus } from "../stores/element";
 import { presentationDoc } from "../stores/presentation";
 import { slideIndex, slides } from "../stores/slide";
 import { frame } from "./frame.js";
+import { at as liveAt, beginLive, endLive, liveOn } from "./live.js";
+import { connected, paired, pairPhone, tellPhone, unpairPhone } from "./phone.js";
 import { link, presenting, say, unlink } from "./presenter.js";
 import { __ } from "./words.js";
 import { clock as clockOf, now as rightNow } from "../../kit/desk";
@@ -92,6 +104,24 @@ function go(index) {
 	if (index < 0 || index > slides.value.length) return;
 	at.value = index;
 	say({ go: index });
+}
+
+// the phone: where it says to go, where it points, and what it is told back
+const phoneOpen = ref(false);
+const tellPhoneNow = () => tellPhone({ at: at.value, of: slides.value.length, notes: now.value?.notes || "", clock: clock.value, elapsed: elapsed.value });
+watch(connected, (on) => on && (phoneOpen.value = false));
+
+// everyone on the presentation's links follows this view too (shim/live.js)
+watch(at, (index) => liveAt(index));
+const toggleLive = () => (liveOn.value ? endLive() : beginLive(presentationDoc.value.name, at.value));
+
+async function showPhone() {
+	phoneOpen.value = true;
+	await pairPhone(presentationDoc.value.name, (event, payload) => {
+		if (event === "hello") tellPhoneNow();
+		else if (event === "go") go(at.value + (payload.step > 0 ? 1 : -1));
+		else if (event === "point") say({ point: { x: +payload.x || 0, y: +payload.y || 0, on: !!payload.on } });
+	});
 }
 
 // heard before anything else on the page, wherever the focus is (the
@@ -123,6 +153,8 @@ const elapsed = computed(() => {
 });
 // the wall clock as the reader's desk writes a time; tick only makes it read again
 const clock = computed(() => tick.value && clockOf(rightNow()));
+// the phone hears each change, and the time as it goes
+watch([at, () => now.value?.notes, elapsed], () => connected.value && tellPhoneNow());
 
 function toggle() {
 	if (pausedAt.value) {
@@ -139,6 +171,8 @@ function restart() {
 
 function end() {
 	say({ end: true });
+	endLive();
+	unpairPhone();
 	unlink();
 	presenting.value = false;
 }
@@ -165,6 +199,8 @@ onBeforeUnmount(() => {
 	clearInterval(ticker);
 	document.removeEventListener("keydown", keyed, true);
 	watcher?.disconnect();
+	endLive();
+	unpairPhone();
 	unlink();
 });
 </script>

@@ -1,0 +1,31 @@
+{% extends "templates/web.html" %}
+{% block title %}{{ title if not gone else _("Remote") }}{% endblock %}
+
+{%- block navbar -%}{%- endblock -%}
+{%- block footer -%}{%- endblock -%}
+{% block breadcrumbs %}{% endblock %}
+
+{% block page_content %}
+<div class="one-remote" data-one-remote>
+	{% if gone %}
+		<h1>{{ _("This remote has ended") }}</h1>
+		<p class="one-portal__lede">{{ _("Scan the code in the presenter view again.") }}</p>
+	{% else %}
+		<div class="one-remote__head">
+			<span class="one-remote__title">{{ title }}</span>
+			<span data-one-clock></span>
+		</div>
+		<p class="one-remote__state" data-one-state>{{ _("Connecting…") }}</p>
+		<div class="one-remote__notes" data-one-notes dir="auto"></div>
+		<div class="one-remote__pad" data-one-pad hidden>{{ _("Drag here to move the pointer") }}</div>
+		<button type="button" class="one-remote__point" data-one-point>{{ _("Hold to Point") }}</button>
+		<div class="one-remote__moves">
+			<button type="button" data-one-back>{{ _("Back") }}</button>
+			<button type="button" class="is-next" data-one-next>{{ _("Next") }}</button>
+		</div>
+		<script type="application/json" id="one-remote-data">{{ remote }}</script>
+	{% endif %}
+</div>
+{% endblock %}
+
+{% block script %}{{ super() }}{% if not gone %}<script src="/assets/onedesk/js/one_slide/remote.js"></script>{% endif %}{% endblock %}

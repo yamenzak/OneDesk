@@ -117,6 +117,26 @@ to the projector and click **Fill the Screen**. The arrow keys, the space bar
 or **Next** and **Back** move both together, with no network needed between
 them; **End the Presentation** closes the slides' window.
 
+## Your Phone as the Remote
+
+In the presenter view, **Phone Remote** shows a code: scan it with your
+phone's camera and the phone becomes the remote, with no app and no signing
+in. It has big **Next** and **Back** buttons, the slide you are on, its notes
+and the time.
+
+![The code in the presenter view, and the phone it pairs](working-on-slides/remote.png)
+
+To point at something, keep a finger on **Hold to Point** and turn the
+phone: a red dot appears in the middle of the slide and follows the way the
+phone turns. Let go and it disappears; press again and it starts from the
+middle again. The phone knows how it turns, not where the screen is, so aim
+at the middle of the screen when you press. If the phone has no motion
+sensor, or you say no when it asks, drag a finger on the pad that appears
+instead.
+
+The phone works only while the presenter view is open: ending the
+presentation ends the remote, and its code then opens nothing.
+
 ## Two People at Once
 
 If the same presentation is open in another tab, only one of them can change

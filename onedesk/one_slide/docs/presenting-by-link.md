@@ -19,6 +19,10 @@ it open through a link follows your slides as you move. Someone who goes
 their own way gets **Follow the Presenter** to come back. It ends when your
 slideshow ends.
 
+In the presenter view, **Present Live** does the same for the slides you
+move there, from the keyboard or from your phone, and **Stop Presenting
+Live** or ending the presentation stops it.
+
 ## Views
 
 **File › Views** shows each time someone opened the presentation through a

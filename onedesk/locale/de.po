@@ -9551,6 +9551,14 @@ msgstr "Mit OneMail verbunden"
 msgid "Connected without outgoing mail."
 msgstr "Ohne ausgehende E-Mails verbunden."
 
+#: onedesk/www/slide_remote.py:30
+msgid "Connected. Waiting for the presenter view…"
+msgstr "Verbunden. Warten auf die Referentenansicht…"
+
+#: onedesk/www/slide-remote.html:18 onedesk/www/slide_remote.py:31
+msgid "Connecting…"
+msgstr "Verbindung wird hergestellt…"
+
 #: onedesk/one/ai.py:1211 onedesk/one_mail/abilities.py:70
 #: onedesk/public/js/one_mail/onemail_settings.js:689
 #: onedesk/public/js/one_mail/onemail_settings.js:691
@@ -10159,6 +10167,10 @@ msgstr "Die Blätter konnten nicht hinzugefügt werden."
 #: onedesk/one_slide/ai.py:424
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr "Die Folie konnte nicht geändert werden: Sie ist nicht mehr in der Präsentation."
+
+#: onedesk/www/slide_remote.py:33
+msgid "Could not connect. Check the phone's connection."
+msgstr "Keine Verbindung möglich. Prüfen Sie die Verbindung des Telefons."
 
 #: frontend/src/sheet/shim/CellProblem.vue:61 onedesk/one_sheet/table.py:644
 msgid "Could not create the record."
@@ -13801,6 +13813,10 @@ msgstr "Ziehen Sie eine Aufgabe nach Abgeschlossen, wenn sie erledigt ist, oder 
 #: onedesk/one_calendar/tour.py:31
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr "Ziehen Sie über den Kalender, um zu dieser Zeit einen Termin anzulegen, klicken Sie auf einen, um zu sehen, wer dabei ist, oder ziehen Sie ihn auf eine andere Zeit."
+
+#: onedesk/www/slide-remote.html:20
+msgid "Drag here to move the pointer"
+msgstr "Hier ziehen, um den Zeiger zu bewegen"
 
 #: frontend/src/slide/shim/Rulers.vue:39
 msgid "Drag off the slide to remove"
@@ -19433,6 +19449,10 @@ msgstr "Anfrage zurückstellen"
 #: onedesk/one_project/custom/projects_settings.json
 msgid "Hold Retention"
 msgstr "Einbehalt nutzen"
+
+#: onedesk/www/slide-remote.html:21
+msgid "Hold to Point"
+msgstr "Gedrückt halten zum Zeigen"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
@@ -33669,6 +33689,16 @@ msgstr "Bei Phishing werden auch die Nutzer des Postfachs gewarnt."
 msgid "Phone"
 msgstr "Telefon"
 
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Phone Connected"
+msgstr "Telefon verbunden"
+
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:57
+msgid "Phone Remote"
+msgstr "Telefon als Fernbedienung"
+
 #. Label of the photo_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the photo (Attach Image) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -37254,6 +37284,10 @@ msgstr "Erinnerung: {said}"
 msgid "Reminder: {who} requested files for {request}"
 msgstr "Erinnerung: {who} hat Dateien für {request} angefordert"
 
+#: onedesk/www/slide-remote.html:2
+msgid "Remote"
+msgstr "Fernbedienung"
+
 #: frontend/src/mail/MailBody.vue:5
 msgid "Remote pictures are hidden."
 msgstr "Externe Bilder werden ausgeblendet."
@@ -39278,6 +39312,14 @@ msgstr "Sagen Sie warum, damit die Person es weiß."
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Scan"
 msgstr ""
+
+#: onedesk/www/slide-remote.html:12
+msgid "Scan the code in the presenter view again."
+msgstr "Scannen Sie den Code in der Referentenansicht erneut."
+
+#: frontend/src/slide/shim/PresenterView.vue:59
+msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
+msgstr "Scannen Sie dies mit der Kamera Ihres Telefons. Das Telefon wechselt die Folien und zeigt die Notizen dieser Folie. Um auf die Folie zu zeigen, halten Sie einen Finger auf „Gedrückt halten zum Zeigen“ und drehen Sie das Telefon."
 
 #: frontend/src/intake/IntakePay.vue:16
 msgid "Scan with your banking app"
@@ -41851,6 +41893,10 @@ msgstr "Einschieben"
 msgid "Slide {0}"
 msgstr "Folie {0}"
 
+#: onedesk/www/slide_remote.py:28
+msgid "Slide {0} of {1}"
+msgstr "Folie {0} von {1}"
+
 #: onedesk/one_slide/doctype/presentation/presentation.py:24
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
 msgstr "Folie {0}: „Weiter nach“ muss zwischen 1 und 3600 Sekunden liegen, nicht {1}"
@@ -43164,6 +43210,10 @@ msgstr "Soll OneAI keine neuen Dateien in {0} und den Ordnern darin mehr lesen?"
 #: onedesk/public/js/one_ai/ai_center.js:515
 msgid "Stop OneAI reading new mail in {0}?"
 msgstr "Soll OneAI keine neuen Mails in {0} mehr lesen?"
+
+#: frontend/src/slide/shim/PresenterView.vue:14
+msgid "Stop Presenting Live"
+msgstr "Live-Präsentation beenden"
 
 #: frontend/src/project/TaskPanel.vue:175 frontend/src/task/TaskPage.vue:333
 msgid "Stop Repeating"
@@ -47839,6 +47889,10 @@ msgstr "Diese Aufnahme kann nicht erneut transkribiert werden."
 msgid "This recording has already ended."
 msgstr "Diese Aufnahme ist bereits beendet."
 
+#: onedesk/www/slide-remote.html:11 onedesk/www/slide_remote.py:32
+msgid "This remote has ended"
+msgstr "Diese Fernbedienung ist beendet"
+
 #: onedesk/one_mail/rules.py:299
 msgid "This reply may have been written entirely and automatically by OneAI, an AI agent, and may be wrong or inaccurate."
 msgstr "Diese Antwort wurde möglicherweise vollständig und automatisch von OneAI, einem KI-Agenten, geschrieben und kann falsch oder ungenau sein."
@@ -50974,6 +51028,10 @@ msgstr "Wartet auf die Prüfung durch einen Administrator, wird erstellt oder is
 #: onedesk/one_admin/heads.py:420
 msgid "Waiting for the customer's DNS."
 msgstr "Wartet auf das DNS des Kunden."
+
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Waiting for the phone…"
+msgstr "Warten auf das Telefon…"
 
 #: onedesk/one_ai/heads.py:14 onedesk/one_ai/reading/digest.py:89
 msgid "Waiting for you"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 17:24+0000\n"
-"PO-Revision-Date: 2026-10-30 17:24+0000\n"
+"POT-Creation-Date: 2026-10-30 17:44+0000\n"
+"PO-Revision-Date: 2026-10-30 17:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5971,12 +5971,13 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:39
 #: frontend/src/slide/components/SlideshowEndScreen.vue:5
 #: frontend/src/slide/shim/EditorNavbar.vue:4
-#: frontend/src/slide/shim/PresenterView.vue:31
+#: frontend/src/slide/shim/PresenterView.vue:33
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
 #: onedesk/public/js/window/frame.js:247 onedesk/www/account_invoices.html:62
-#: onedesk/www/s.html:117 onedesk/www/start.html:89 onedesk/www/welcome.html:45
+#: onedesk/www/s.html:117 onedesk/www/slide-remote.html:23
+#: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr ""
 
@@ -6394,7 +6395,7 @@ msgstr ""
 msgid "Before Insert"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:416
+#: onedesk/one_slide/ai.py:418
 msgid "Before OneAI wrote slides"
 msgstr ""
 
@@ -9662,6 +9663,14 @@ msgstr ""
 msgid "Connected without outgoing mail."
 msgstr ""
 
+#: onedesk/www/slide_remote.py:30
+msgid "Connected. Waiting for the presenter view…"
+msgstr ""
+
+#: onedesk/www/slide-remote.html:18 onedesk/www/slide_remote.py:31
+msgid "Connecting…"
+msgstr ""
+
 #: onedesk/one/ai.py:1211 onedesk/one_mail/abilities.py:70
 #: onedesk/public/js/one_mail/onemail_settings.js:689
 #: onedesk/public/js/one_mail/onemail_settings.js:691
@@ -10280,15 +10289,19 @@ msgstr ""
 msgid "Could not add the sheets."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:427
+#: onedesk/one_slide/ai.py:429
 msgid "Could not change the slide: it is no longer in the presentation."
+msgstr ""
+
+#: onedesk/www/slide_remote.py:33
+msgid "Could not connect. Check the phone's connection."
 msgstr ""
 
 #: frontend/src/sheet/shim/CellProblem.vue:61 onedesk/one_sheet/table.py:644
 msgid "Could not create the record."
 msgstr ""
 
-#: frontend/src/slide/pages/Slideshow.vue:340
+#: frontend/src/slide/pages/Slideshow.vue:346
 msgid "Could not enter fullscreen mode"
 msgstr ""
 
@@ -13988,6 +14001,10 @@ msgstr ""
 msgid "Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."
 msgstr ""
 
+#: onedesk/www/slide-remote.html:20
+msgid "Drag here to move the pointer"
+msgstr ""
+
 #: frontend/src/slide/shim/Rulers.vue:39
 msgid "Drag off the slide to remove"
 msgstr ""
@@ -15397,8 +15414,8 @@ msgstr ""
 msgid "End of Service"
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:27
-#: frontend/src/slide/shim/PresenterView.vue:40
+#: frontend/src/slide/shim/PresenterView.vue:29
+#: frontend/src/slide/shim/PresenterView.vue:42 onedesk/www/slide_remote.py:29
 msgid "End of the presentation"
 msgstr ""
 
@@ -15406,7 +15423,7 @@ msgstr ""
 msgid "End the Alert"
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:14
+#: frontend/src/slide/shim/PresenterView.vue:16
 msgid "End the Presentation"
 msgstr ""
 
@@ -19721,6 +19738,10 @@ msgstr ""
 msgid "Hold Retention"
 msgstr ""
 
+#: onedesk/www/slide-remote.html:21
+msgid "Hold to Point"
+msgstr ""
+
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
 msgid "Holder"
@@ -23152,7 +23173,7 @@ msgstr ""
 msgid "Language, time zone, how dates and numbers read, and amounts."
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:47
+#: frontend/src/slide/shim/PresenterView.vue:49
 msgid "Larger"
 msgstr ""
 
@@ -25425,7 +25446,7 @@ msgstr ""
 msgid "Make its subcontracting order to send the materials"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:380
+#: onedesk/one_slide/ai.py:382
 msgid "Make slide {0} a {1}"
 msgstr ""
 
@@ -27579,8 +27600,8 @@ msgstr ""
 
 #: frontend/portal/src/pages/List.vue:26
 #: frontend/portal/src/parts/Gallery.vue:10 frontend/src/project/Media.vue:9
-#: frontend/src/slide/shim/PresenterView.vue:32
-#: frontend/src/slide/shim/PresenterView.vue:36
+#: frontend/src/slide/shim/PresenterView.vue:34
+#: frontend/src/slide/shim/PresenterView.vue:38
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
 #: onedesk/one_slide/decks.py:64 onedesk/one_studio/print_blocks.py:687
 #: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/item_new.js:326
@@ -27588,6 +27609,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:52
 #: onedesk/public/js/project_actions.js:554
 #: onedesk/public/js/project_new.js:263 onedesk/www/s.html:119
+#: onedesk/www/slide-remote.html:24
 msgid "Next"
 msgstr ""
 
@@ -27673,10 +27695,10 @@ msgstr ""
 #: frontend/src/slide/composables/useShortcuts.js:504
 #: frontend/src/slide/composables/useShortcuts.js:511
 #: frontend/src/slide/composables/useShortcuts.js:517
-#: frontend/src/slide/pages/Slideshow.vue:431
-#: frontend/src/slide/pages/Slideshow.vue:432
-#: frontend/src/slide/pages/Slideshow.vue:433
-#: frontend/src/slide/pages/Slideshow.vue:434
+#: frontend/src/slide/pages/Slideshow.vue:439
+#: frontend/src/slide/pages/Slideshow.vue:440
+#: frontend/src/slide/pages/Slideshow.vue:441
+#: frontend/src/slide/pages/Slideshow.vue:442
 msgid "Next step"
 msgstr ""
 
@@ -28343,7 +28365,7 @@ msgstr ""
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:51
+#: frontend/src/slide/shim/PresenterView.vue:53
 msgid "No notes for this slide."
 msgstr ""
 
@@ -29628,7 +29650,7 @@ msgstr ""
 #. Label in the One Staffing Plan print format
 #. Label in the One Transfer Letter print format
 #: frontend/src/sheet/components/SheetEditor/index.vue:4593
-#: frontend/src/slide/shim/PresenterView.vue:23
+#: frontend/src/slide/shim/PresenterView.vue:25
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:178
 #: onedesk/one_hr/print_format/one_promotion_letter/one_promotion_letter.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
@@ -30612,7 +30634,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:99
+#: onedesk/one_slide/ai.py:101
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -30620,7 +30642,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:109
+#: onedesk/one_slide/ai.py:111
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -34167,6 +34189,16 @@ msgstr ""
 msgid "Phone"
 msgstr ""
 
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Phone Connected"
+msgstr ""
+
+#: frontend/src/slide/shim/PresenterView.vue:15
+#: frontend/src/slide/shim/PresenterView.vue:57
+msgid "Phone Remote"
+msgstr ""
+
 #. Label of the photo_section (Section Break) field in DocType 'Clock Attempt'
 #. Label of the photo (Attach Image) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -34948,6 +34980,7 @@ msgid "Present"
 msgstr ""
 
 #: frontend/src/slide/components/PresentButton.vue:49
+#: frontend/src/slide/shim/PresenterView.vue:14
 msgid "Present Live"
 msgstr ""
 
@@ -35070,9 +35103,9 @@ msgstr ""
 
 #: frontend/src/slide/composables/useShortcuts.js:490
 #: frontend/src/slide/composables/useShortcuts.js:496
-#: frontend/src/slide/pages/Slideshow.vue:435
-#: frontend/src/slide/pages/Slideshow.vue:436
-#: frontend/src/slide/pages/Slideshow.vue:437
+#: frontend/src/slide/pages/Slideshow.vue:443
+#: frontend/src/slide/pages/Slideshow.vue:444
+#: frontend/src/slide/pages/Slideshow.vue:445
 msgid "Previous step"
 msgstr ""
 
@@ -37850,6 +37883,10 @@ msgstr ""
 msgid "Reminder: {who} requested files for {request}"
 msgstr ""
 
+#: onedesk/www/slide-remote.html:2
+msgid "Remote"
+msgstr ""
+
 #: frontend/src/mail/MailBody.vue:5
 msgid "Remote pictures are hidden."
 msgstr ""
@@ -38671,7 +38708,7 @@ msgid "Resolved On"
 msgstr ""
 
 #: frontend/src/slide/composables/useShortcuts.js:483
-#: frontend/src/slide/pages/Slideshow.vue:438
+#: frontend/src/slide/pages/Slideshow.vue:446
 msgid "Restart"
 msgstr ""
 
@@ -39117,7 +39154,7 @@ msgstr ""
 msgid "Rewrite in {0}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:339
+#: onedesk/one_slide/ai.py:341
 msgid "Rewrite slide {0} in {1}"
 msgstr ""
 
@@ -39880,7 +39917,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:69
+#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:71
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -39911,6 +39948,14 @@ msgstr ""
 #. Label of the attachment (Attach) field in DocType 'Employee Document'
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 msgid "Scan"
+msgstr ""
+
+#: onedesk/www/slide-remote.html:12
+msgid "Scan the code in the presenter view again."
+msgstr ""
+
+#: frontend/src/slide/shim/PresenterView.vue:59
+msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
 msgstr ""
 
 #: frontend/src/intake/IntakePay.vue:16
@@ -42551,8 +42596,12 @@ msgstr ""
 msgid "Slide in"
 msgstr ""
 
-#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:384
+#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:386
 msgid "Slide {0}"
+msgstr ""
+
+#: onedesk/www/slide_remote.py:28
+msgid "Slide {0} of {1}"
 msgstr ""
 
 #: onedesk/one_slide/doctype/presentation/presentation.py:24
@@ -42577,14 +42626,14 @@ msgstr ""
 #: frontend/src/slide/composables/useShortcuts.js:505
 #: frontend/src/slide/composables/useShortcuts.js:512
 #: frontend/src/slide/composables/useShortcuts.js:518
-#: frontend/src/slide/pages/Slideshow.vue:431
-#: frontend/src/slide/pages/Slideshow.vue:432
-#: frontend/src/slide/pages/Slideshow.vue:433
-#: frontend/src/slide/pages/Slideshow.vue:434
-#: frontend/src/slide/pages/Slideshow.vue:435
-#: frontend/src/slide/pages/Slideshow.vue:436
-#: frontend/src/slide/pages/Slideshow.vue:437
-#: frontend/src/slide/pages/Slideshow.vue:438
+#: frontend/src/slide/pages/Slideshow.vue:439
+#: frontend/src/slide/pages/Slideshow.vue:440
+#: frontend/src/slide/pages/Slideshow.vue:441
+#: frontend/src/slide/pages/Slideshow.vue:442
+#: frontend/src/slide/pages/Slideshow.vue:443
+#: frontend/src/slide/pages/Slideshow.vue:444
+#: frontend/src/slide/pages/Slideshow.vue:445
+#: frontend/src/slide/pages/Slideshow.vue:446
 msgid "Slideshow"
 msgstr ""
 
@@ -42612,7 +42661,7 @@ msgstr ""
 msgid "Small Building Works"
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:46
+#: frontend/src/slide/shim/PresenterView.vue:48
 msgid "Smaller"
 msgstr ""
 
@@ -43033,7 +43082,7 @@ msgstr ""
 
 #. Label of the notes (Long Text) field in DocType 'Presentation Slide'
 #: frontend/src/slide/shim/NotesDrawer.vue:17
-#: frontend/src/slide/shim/PresenterView.vue:44
+#: frontend/src/slide/shim/PresenterView.vue:46
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Speaker Notes"
 msgstr ""
@@ -43927,6 +43976,10 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:515
 msgid "Stop OneAI reading new mail in {0}?"
+msgstr ""
+
+#: frontend/src/slide/shim/PresenterView.vue:14
+msgid "Stop Presenting Live"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:175
@@ -46216,7 +46269,7 @@ msgstr ""
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr ""
 
-#: frontend/src/slide/shim/PresenterView.vue:19
+#: frontend/src/slide/shim/PresenterView.vue:21
 msgid "The audience's window was closed."
 msgstr ""
 
@@ -48657,6 +48710,10 @@ msgstr ""
 
 #: onedesk/one_hr/hiring.py:560
 msgid "This recording has already ended."
+msgstr ""
+
+#: onedesk/www/slide-remote.html:11 onedesk/www/slide_remote.py:32
+msgid "This remote has ended"
 msgstr ""
 
 #: onedesk/one_mail/rules.py:299
@@ -51889,6 +51946,10 @@ msgstr ""
 
 #: onedesk/one_admin/heads.py:420
 msgid "Waiting for the customer's DNS."
+msgstr ""
+
+#: frontend/src/slide/shim/PresenterView.vue:62
+msgid "Waiting for the phone…"
 msgstr ""
 
 #: onedesk/one_ai/heads.py:14 onedesk/one_ai/reading/digest.py:89
@@ -56826,7 +56887,7 @@ msgstr ""
 msgid "Write {0} on a new {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:300
+#: onedesk/one_slide/ai.py:302
 msgid "Write {0} slides in {1}"
 msgstr ""
 
@@ -61234,7 +61295,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
 #: frontend/src/slide/components/NavigationPanel.vue:16
-#: frontend/src/slide/shim/PresenterView.vue:80 onedesk/one_account/heads.py:69
+#: frontend/src/slide/shim/PresenterView.vue:92 onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:143 onedesk/one_inventory/heads.py:424
 #: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:966

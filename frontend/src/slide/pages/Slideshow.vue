@@ -16,6 +16,12 @@
 			class="flex h-screen w-full items-center justify-center"
 			:style="slideContainerStyles"
 		>
+			<!-- One: the phone remote's pointer, over the slide (shim/phone.js, VENDORED.md) -->
+			<div v-if="pointer" class="pointer-events-none absolute inset-0 z-10 flex items-center justify-center">
+				<div class="relative" :style="{ width: `${frame.w * fitScale()}px`, height: `${frame.h * fitScale()}px` }">
+					<span class="slideshow-pointer absolute size-5 -translate-x-1/2 -translate-y-1/2 rounded-full border-2 border-outline-white bg-surface-red-7" :style="{ left: `${pointer.x * 100}%`, top: `${pointer.y * 100}%` }" />
+				</div>
+			</div>
 			<div
 				v-if="showSlideshowEndScreen"
 				class="flex h-full w-full items-center justify-center bg-black"
@@ -360,6 +366,7 @@ usePageMeta(() => appPageMeta(pageTitle(), 'Slides'))
 useBrowserZoomGuard()
 
 // One: the audience's window tells the presenter view where it is, and goes where it is told (shim/presenter.js, VENDORED.md)
+const pointer = ref(null) // One: where the phone remote points, as parts of the slide (shim/phone.js)
 const tellPresenter = () => say({ at: slideIndex.value, of: slides.value.length })
 watch(slideIndex, () => audience.value && tellPresenter())
 watch(slideIndex, (index) => liveAt(index)) // One: Present Live, shim/live.js
@@ -370,6 +377,7 @@ onActivated(() => {
 			if (heard.go != null) changeSlideInSlideshow(heard.go)
 			if (heard.hello) tellPresenter()
 			if (heard.end) endSlideShow()
+			if (heard.point) pointer.value = heard.point.on ? heard.point : null
 		})
 		tellPresenter()
 	}
@@ -444,6 +452,11 @@ useKeyboardShortcut([
 .slideshow-hide-cursor,
 .slideshow-hide-cursor * {
 	cursor: none !important;
+}
+
+/* One: the phone's pointer glides between the phone's few readings a second */
+.slideshow-pointer {
+	transition: left 60ms linear, top 60ms linear;
 }
 
 .forward-transition .textElement span,

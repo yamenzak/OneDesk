@@ -21,8 +21,9 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - OneAI's deck recipes are One's five decks; a company's own templates are
   not offered as recipes yet. A deck OneAI writes is not linked to a layout,
   so Restyle from Layouts leaves it alone.
-- Present Live follows the slideshow in the editor's own window; with the
-  Presenter View, guests on the link are not told where it is.
+- The phone remote's pointer turns with the phone and does not know where
+  the screen is: it starts from the middle each time it is pressed. It
+  reaches the audience's window only, not the guests on a link.
 - A guest on a link sees the slides only; the speaker notes, the layout of a
   screen and anything hidden stay out.
 - On a phone the editor shows the slide, the bar and the head; the slides
@@ -31,30 +32,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
 ## Planned, from the walkthrough (30 October)
 
-
-## Planned: the phone as a remote (30 October)
-
-- **The phone as a remote.** Not today. Plan: the presenter view shows a QR
-  code; it carries a short-lived pairing token for this one session, the
-  way a OneDisplay screen pairs. The phone opens a small page (no desk, no
-  sign-in needed beyond the token, which dies when presenting ends): big
-  next and back, the notes, the clock, the thumbnails to jump. Phone and
-  presenter meet in a socketio room for the session, over the site's own
-  realtime, the same room ShareCenter's Present Live uses, so viewers on a
-  link follow a phone-driven talk too.
-- **The laser pointer.** Possible, with one honest limit: a phone knows how
-  it turns, not where the screen is. So it works like a presentation clicker
-  with a gyroscope, not like a real laser. Hold the pointer button, the
-  phone takes where it points now as the middle of the slide, and from then
-  on turning it left, right, up and down moves a red dot by how far it
-  turned (`DeviceOrientationEvent`, sent about 30 times a second, smoothed
-  on the slide's side). Letting go hides the dot; pressing again
-  re-centres, which is the calibration, and it takes a second. iPhones ask
-  once for permission to use motion. If a phone has no gyroscope or says
-  no, the same button becomes a touchpad: drag a finger to move the dot.
-  Delay is the site's socketio round trip, tens of milliseconds on the same
-  network, fine for pointing; it is not fine for drawing, so drawing on a
-  slide stays on the laptop.
 
 ## Found, answering how a screen plays a presentation (30 October)
 

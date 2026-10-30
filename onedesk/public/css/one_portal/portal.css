@@ -1057,3 +1057,95 @@ body {
 	padding: 0 0.75rem;
 	font-size: 0.85rem;
 }
+
+/* A presenter's phone as a remote (www/slide-remote.html, public/js/one_slide/remote.js). */
+.one-remote {
+	display: flex;
+	flex-direction: column;
+	gap: 0.75rem;
+	min-height: 100dvh;
+	padding: 1rem;
+	box-sizing: border-box;
+	user-select: none;
+	-webkit-user-select: none;
+}
+
+.one-remote__head {
+	display: flex;
+	align-items: baseline;
+	gap: 0.5rem;
+	color: var(--ink-gray-6);
+	font-size: 0.9rem;
+}
+
+.one-remote__title {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	color: var(--ink-gray-9);
+	font-weight: 600;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-remote__state {
+	margin: 0;
+	color: var(--ink-gray-9);
+	font-size: 1.5rem;
+	font-weight: 600;
+}
+
+.one-remote__notes {
+	flex: 1;
+	min-height: 6rem;
+	overflow: auto;
+	padding: 0.75rem;
+	border-radius: var(--radius-md);
+	background: var(--surface-gray-1);
+	color: var(--ink-gray-8);
+	font-size: 1.05rem;
+	line-height: 1.45;
+	white-space: pre-wrap;
+}
+
+.one-remote__pad {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 9rem;
+	border: 1px dashed var(--outline-gray-3);
+	border-radius: var(--radius-md);
+	color: var(--ink-gray-5);
+	touch-action: none;
+}
+
+.one-remote button {
+	min-height: 3.5rem;
+	border: 0;
+	border-radius: var(--radius-md);
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-9);
+	font-size: 1.1rem;
+	font-weight: 600;
+	touch-action: manipulation;
+}
+
+.one-remote__point.is-on {
+	background: var(--surface-red-2);
+	color: var(--ink-red-7);
+}
+
+.one-remote__moves {
+	display: grid;
+	grid-template-columns: 1fr 2fr;
+	gap: 0.75rem;
+}
+
+.one-remote__moves button {
+	min-height: 6rem;
+}
+
+.one-remote__moves .is-next {
+	background: var(--ink-gray-9);
+	color: var(--surface-base);
+}

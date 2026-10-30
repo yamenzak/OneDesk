@@ -158,6 +158,28 @@ named for the presentation (`shim/presenter.js`): the presenter says `go`,
 `ended` when it closes. Nothing goes through the server, so it works with no
 network, and only between windows of one browser.
 
+A phone is the remote through `remote.py`: **Phone Remote** in the presenter
+view asks `pair` for a token kept in the cache for this presentation and
+person (eight hours at most) and shows the QR code of `/slide-remote?t=…`
+(`www/slide-remote.html`, `www/slide_remote.py`,
+`public/js/one_slide/remote.js`). Phone and presenter view both join the
+token's room through `realtime/handlers.js` (`onedesk_remote_join`, which
+asks `admit`; the room is a hash of the token, never the token) and say
+`hello`, `go`, `point` and `state` to each other with `onedesk_remote_say`,
+which relays only those, small and rate-limited, and never to the sender.
+Nothing the phone says reaches the server. The presenter view (`shim/phone.js`)
+turns `go` into its own Next and Back, sends `state` (the slide, the count,
+the notes) on every change, and passes `point` on to the audience's window,
+whose slideshow draws the dot over the slide (a One: edit). The pointer is
+the phone's `deviceorientation` turned into a place: pressing takes the
+phone's aim as the middle, and 40 degrees across or 30 down is the whole
+slide; a phone that gives no reading in 600 ms, or refuses, gets a pad
+instead. Closing the presenter view `unpair`s, and only the person who
+paired may.
+
+The presenter view also offers Present Live (`shim/live.js`), told every
+change of slide however it was made.
+
 `paper.notes_pages` writes the notes pages as HTML (each slide's picture, its
 number and its notes, escaped) and prints them through frappe's own
 `get_pdf` on A4, so the notes are words a PDF reader finds.

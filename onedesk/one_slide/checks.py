@@ -486,3 +486,38 @@ def oneslide_is_presented_through_a_link():
 	finally:
 		frappe.local.request = was
 		frappe.db.rollback(save_point="slide_link_check")
+
+
+@check
+def oneslide_is_driven_from_a_phone():
+	"""The presenter view pairs a phone: the QR code carries a token the
+	socket server admits to one room, the phone's page opens with it, only the
+	presenter who paired may end it, and once ended nothing is admitted."""
+	from onedesk.one_slide import api, remote
+	from onedesk.www import slide_remote
+
+	frappe.db.savepoint("slide_remote_check")
+	try:
+		with as_user(OWNER):
+			name = api.make("@my", "Remote check")["presentation"]
+			said = remote.pair(name)
+			token = said["token"]
+			assert said["url"].endswith(f"/slide-remote?t={token}") and "<rect" in said["qr"], said
+		with as_user("Guest"):
+			admitted = remote.admit(token)
+			assert admitted["ok"] and admitted["room"] == remote.room(token) and token not in admitted["room"], admitted
+			assert not remote.admit("not-a-token")["ok"], "a made-up token is admitted"
+			frappe.form_dict.t = token
+			page = slide_remote.get_context(frappe._dict())
+			assert not page.gone and json.loads(page.remote)["token"] == token and page.title == "Remote check", page
+		with as_user("omar@one.test"):
+			remote.unpair(token)
+			assert remote.admit(token)["ok"], "somebody else ended the presenter's remote"
+		with as_user(OWNER):
+			remote.unpair(token)
+		with as_user("Guest"):
+			assert not remote.admit(token)["ok"], "an ended remote is still admitted"
+			assert slide_remote.get_context(frappe._dict()).gone
+	finally:
+		frappe.form_dict.pop("t", None)
+		frappe.db.rollback(save_point="slide_remote_check")
