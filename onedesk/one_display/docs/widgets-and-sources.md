@@ -43,7 +43,7 @@ Light Card, Outline, Band or Solid, which you can change afterwards.
 
 ![A queue board with the Card look](widgets-and-sources/looks.png)
 
-## A Figure or a List From Your Records
+## Data From Your Records
 
 Text and tables on a screen can carry data from your records, as on any
 slide: **Data** in the editor's **File** menu adds a source, and a figure or
