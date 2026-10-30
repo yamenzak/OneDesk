@@ -62,7 +62,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | display_layout (`frontend/src/display/Layout.vue`) | – | – | – | – |
-| display_slides (`frontend/src/display/Slides.vue`) | – | – | – | – |
+| display_slides (`frontend/src/display/designer/Designer.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |

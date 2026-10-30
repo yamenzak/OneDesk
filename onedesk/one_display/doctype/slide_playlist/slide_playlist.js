@@ -44,7 +44,6 @@ frappe.ui.form.on("Slide Playlist", {
 						frm.add_child("slides", {
 							kind: "Design",
 							design: JSON.stringify(made.design),
-							html: made.html,
 							title: description.slice(0, 140),
 							duration: 12,
 						});

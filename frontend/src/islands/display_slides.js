@@ -1,4 +1,4 @@
 import { screen } from "../kit";
-import Slides from "../display/Slides.vue";
+import Designer from "../display/designer/Designer.vue";
 
-export const mount = screen(Slides);
+export const mount = screen(Designer);

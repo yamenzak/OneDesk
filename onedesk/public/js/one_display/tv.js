@@ -421,6 +421,10 @@
 				} catch (e) {}
 			});
 			node.appendChild(video);
+		} else if (item.design && window.onedesk && onedesk.blocks) {
+			// A designed slide is drawn from its blocks, in the page itself:
+			// every value was checked by the server and its text is escaped.
+			node.innerHTML = onedesk.blocks.slide(item.design, item.qrs);
 		} else {
 			var frame = el("iframe");
 			frame.setAttribute("sandbox", "allow-scripts");

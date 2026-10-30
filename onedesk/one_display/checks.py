@@ -175,27 +175,51 @@ def onedisplay_tells_the_counters_of_a_long_wait():
 
 @check
 def onedisplay_designs_a_slide_on_its_canvas():
-	"""The showroom's slides open in the designer as blocks; a block changed
-	and saved is drawn into the HTML a screen plays, with what was typed
-	escaped; a QR code draws while it is edited."""
-	from onedesk.one_display import slides
+	"""The showroom's slides open in the designer as blocks with every
+	property the schema declares; one changed and saved is kept as typed and
+	reaches a screen as blocks, never as HTML; what the server will not keep
+	(an outside picture, a colour that is not one, CSS that loads something,
+	a kind it does not know) is dropped; a QR code is drawn by the server."""
+	from onedesk.one_display import blocks, programme, slides
 
 	with as_user(OWNER):
 		held = slides.get("Showroom")
+		assert set(held["schema"]["kinds"]) == set(blocks.KINDS) and held["schema"]["properties"]["rotate"]["label"]
 		first = held["slides"][0]
 		title = next(one for one in first["design"]["blocks"] if one["kind"] == "text" and one["size"] >= 100)
-		was = title["text"]
-		title["text"] = "Glass <script>alert(1)</script> entrances"
+		assert {"rotate", "shadow_colour", "font", "valign", "css"} <= set(title), title
+		was = dict(title)
+		title.update(text="Glass <script>alert(1)</script> entrances", rotate=-4, shadow_colour="#00000080", css="text-shadow: 0 4px 24px black; background: url(https://example.com/x.png)")
+		first["design"]["blocks"].append({"kind": "qr", "id": "visit", "x": 80, "y": 70, "w": 12, "h": 20, "link": "https://example.com/visit"})
 		try:
 			saved = slides.save("Showroom", json.dumps(held["slides"]))
-			html = frappe.db.get_value("Display Slide", saved["slides"][0]["id"], "html")
-			assert "Glass &lt;script&gt;" in html and "<script>" not in html, html[:400]
+			row = saved["slides"][0]
+			kept = next(one for one in row["design"]["blocks"] if one["id"] == title["id"])
+			assert kept["text"].startswith("Glass <script>") and kept["rotate"] == -4 and kept["css"] == "text-shadow: 0 4px 24px black", kept
+			assert not frappe.db.get_value("Display Slide", row["id"], "html"), "a designed slide keeps no HTML of its own"
+			channel = frappe.get_doc("Display Channel", CHANNEL)
+			shown = programme.slides(channel.slide_playlist)["slides"][0]
+			assert shown["design"]["blocks"] and "html" not in shown and shown["qrs"]["https://example.com/visit"].startswith("<svg"), shown.keys()
 		finally:
-			title["text"] = was
+			title.clear()
+			title.update(was)
+			first["design"]["blocks"].pop()
 			slides.save("Showroom", json.dumps(held["slides"]))
 		assert slides.qr("https://example.com/visit").startswith("<svg")
-		cleaned = slides.clean({"background": "red; x", "blocks": [{"kind": "image", "src": "https://example.com/a.png"}, {"kind": "script"}]})
-		assert cleaned["background"] == slides.GROUND and cleaned["blocks"][0]["src"] == "" and len(cleaned["blocks"]) == 1, cleaned
+		cleaned = slides.clean(
+			{
+				"background": "red; x",
+				"blocks": [
+					{"kind": "image", "src": "https://example.com/a.png", "stroke_colour": "blue", "rotate": 9000},
+					{"kind": "shape", "shape": "hexagon", "fill": "#12345678"},
+					{"kind": "script"},
+				],
+			}
+		)
+		image, shape = cleaned["blocks"]
+		assert cleaned["background"] == blocks.GROUND and len(cleaned["blocks"]) == 2, cleaned
+		assert image["src"] == "" and image["stroke_colour"] == "#ffffff" and image["rotate"] == 360, image
+		assert shape["shape"] == "rectangle" and shape["fill"] == "#12345678", shape
 
 
 @check
@@ -255,7 +279,7 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 			picture = make.picture("A glass shopfront at dusk")
 			assert picture.startswith("/files/") and not frappe.db.get_value("File", {"file_url": picture}, "is_private")
 			made = make.design("Our frameless glass, fitted in a week")
-			assert made["design"]["blocks"][0]["text"] == "Fitted in a week" and "Fitted in a week" in made["html"], made
+			assert made["design"]["blocks"][0]["text"] == "Fitted in a week" and made["design"]["blocks"][0]["font"] == "sans", made
 			assert make.widget("The late tasks as cards", rows=json.dumps([{"subject": "Snag list"}])) == "<div>Fitted in a week</div>"
 			recording = voices.record("Frameless Glass")
 			assert recording.endswith(".wav") and frappe.db.get_value("Voice Ad", "Frameless Glass", "audio") == recording

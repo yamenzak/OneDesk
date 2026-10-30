@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 06:29+0000\n"
-"PO-Revision-Date: 2026-10-30 06:29+0000\n"
+"POT-Creation-Date: 2026-10-30 07:30+0000\n"
+"PO-Revision-Date: 2026-10-30 07:30+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1451,7 +1451,7 @@ msgstr ""
 msgid "A signup from the public sign-up page."
 msgstr ""
 
-#: onedesk/one_display/slides.py:176
+#: onedesk/one_display/slides.py:78
 msgid "A slide is a picture, a video, a page or a design."
 msgstr ""
 
@@ -2115,6 +2115,10 @@ msgstr ""
 msgid "Acknowledge New Mail"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:55
+msgid "Across"
+msgstr ""
+
 #. Label of the act_after (Datetime) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Act After"
@@ -2466,6 +2470,10 @@ msgstr ""
 msgid "Add Tasks"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:8
+msgid "Add Text"
+msgstr ""
+
 #: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:405
 #: onedesk/public/js/project_actions.js:416
 #: onedesk/public/js/project_actions.js:742
@@ -2491,8 +2499,20 @@ msgstr ""
 msgid "Add a Location"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:9
+msgid "Add a Picture"
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:15
+msgid "Add a QR Code"
+msgstr ""
+
 #: onedesk/one_display/tour.py:24
 msgid "Add a Screen"
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:12
+msgid "Add a Shape"
 msgstr ""
 
 #: onedesk/one_task/tour.py:18
@@ -2852,8 +2872,8 @@ msgstr ""
 #. Label in the One Subcontracting Receipt print format
 #. Label in the One Supplier Quotation print format
 #. Label of the url (Data) field in DocType 'Cloud Mount'
-#: frontend/src/display/Layout.vue:182 frontend/src/display/Slides.vue:130
-#: frontend/src/display/Slides.vue:165
+#: frontend/src/display/Layout.vue:182
+#: frontend/src/display/designer/Inspector.vue:77
 #: onedesk/one/custom/personal_data_download_request.json
 #: onedesk/one/portal.py:58 onedesk/one_account/doctype/device/device.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
@@ -2883,6 +2903,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
+#: onedesk/one_display/blocks.py:46
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_display/widgets.py:115
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -3241,10 +3262,33 @@ msgstr ""
 msgid "Agreements Changed"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:100
 #: frontend/src/writer/components/core-editor/menu-buttons.js:105
-#: onedesk/one_display/widgets.py:55
+#: onedesk/one_display/blocks.py:35 onedesk/one_display/widgets.py:55
 msgid "Align"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:192
+msgid "Align Bottom"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:188
+msgid "Align Centre"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:187
+msgid "Align Left"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:191
+msgid "Align Middle"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:189
+msgid "Align Right"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:190
+msgid "Align Top"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:211
@@ -4071,6 +4115,10 @@ msgstr ""
 msgid "Any odd sign-ins?"
 msgstr ""
 
+#: frontend/src/display/designer/Inspector.vue:30
+msgid "Any of the usual CSS properties, one per line, such as text-shadow or transform. Addresses are not allowed."
+msgstr ""
+
 #: onedesk/one/control.py:399 onedesk/public/js/one/one_control.js:173
 msgid "Any password"
 msgstr ""
@@ -4618,6 +4666,10 @@ msgstr ""
 msgid "Area"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:21
+msgid "Arrange"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:174 onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Arrear"
@@ -4651,6 +4703,10 @@ msgstr ""
 #. Label in the One Travel Request print format
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Arrives"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:43
+msgid "Arrow"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:4874
@@ -5757,13 +5813,14 @@ msgstr ""
 
 #. Label of the background (Color) field in DocType 'Widget Collection'
 #. Label of the 'profile_tab' field in DocType 'Employee'
-#: frontend/src/display/Slides.vue:148
+#: frontend/src/display/designer/Inspector.vue:52
+#: onedesk/one_display/blocks.py:124
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 #: onedesk/one_hr/custom/employee.json
 msgid "Background"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:152
+#: onedesk/one_display/blocks.py:127
 msgid "Background Picture"
 msgstr ""
 
@@ -6605,6 +6662,10 @@ msgstr ""
 msgid "Blue means on by default."
 msgstr ""
 
+#: onedesk/one_display/blocks.py:57 onedesk/one_display/blocks.py:59
+msgid "Blur"
+msgstr ""
+
 #: frontend/src/project/ProjectPage.vue:169 onedesk/public/js/project.js:9
 msgid "Board"
 msgstr ""
@@ -6621,8 +6682,8 @@ msgstr ""
 msgid "Body"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:216
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:117
+#: onedesk/one_display/blocks.py:33
 msgid "Bold"
 msgstr ""
 
@@ -6673,6 +6734,10 @@ msgstr ""
 msgid "Books unlocked."
 msgstr ""
 
+#: onedesk/one_display/blocks.py:73
+msgid "Border"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:263
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:76
 msgid "Borders"
@@ -6685,6 +6750,7 @@ msgid "Both"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:17
+#: onedesk/one_display/blocks.py:36
 msgid "Bottom"
 msgstr ""
 
@@ -6809,8 +6875,12 @@ msgstr ""
 msgid "Brief and goals"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:82
+#: frontend/src/display/designer/Toolbar.vue:64
 msgid "Bring Forward"
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:63
+msgid "Bring to Front"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
@@ -7115,6 +7185,10 @@ msgstr ""
 msgid "CRM Settings"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:60 onedesk/one_display/blocks.py:76
+msgid "CSS"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:413 onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "CTC Break-up"
@@ -7393,7 +7467,7 @@ msgstr ""
 msgid "Capitalization No"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:105
+#: onedesk/one_display/blocks.py:41
 msgid "Capitals"
 msgstr ""
 
@@ -7528,7 +7602,7 @@ msgstr ""
 msgid "Centers"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:221
+#: onedesk/one_display/blocks.py:35
 #: onedesk/public/js/one_studio/studio_control.js:225
 msgid "Centre"
 msgstr ""
@@ -8154,7 +8228,7 @@ msgstr ""
 msgid "Choose a sheet to print."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:40
+#: frontend/src/display/designer/Designer.vue:43
 msgid "Choose a slide, or add one."
 msgstr ""
 
@@ -8782,10 +8856,11 @@ msgstr ""
 
 #. Label of the colour (Select) field in DocType 'Record Head Indicator'
 #. Label of the colour (Select) field in DocType 'Record Head Sentence'
-#: frontend/src/display/Slides.vue:97 frontend/src/display/Slides.vue:120
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:85
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json
+#: onedesk/one_display/blocks.py:34 onedesk/one_display/blocks.py:47
+#: onedesk/one_display/blocks.py:51 onedesk/one_display/blocks.py:54
 #: onedesk/one_display/widgets.py:56
 msgid "Colour"
 msgstr ""
@@ -9104,6 +9179,10 @@ msgstr ""
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
 msgid "Concept presented to the client"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:31
+msgid "Condensed"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:544
@@ -9760,7 +9839,7 @@ msgstr ""
 msgid "Corner"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:115 frontend/src/display/Slides.vue:124
+#: onedesk/one_display/blocks.py:53
 msgid "Corners"
 msgstr ""
 
@@ -10102,7 +10181,7 @@ msgstr ""
 #: onedesk/one_display/doctype/queue_counter/queue_counter.json
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 #: onedesk/one_display/page/counter/counter.js:2
-#: onedesk/one_display/programme.py:324
+#: onedesk/one_display/programme.py:329
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json onedesk/www/tv.py:39
 msgid "Counter"
 msgstr ""
@@ -10958,6 +11037,10 @@ msgstr ""
 msgid "Daily support for the first two weeks"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:128
+msgid "Darken Picture"
+msgstr ""
+
 #: onedesk/one_studio/ai_setup.py:368
 msgid "Dashboard {0}"
 msgstr ""
@@ -10966,6 +11049,10 @@ msgstr ""
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json
 #: onedesk/public/js/reports.js:282
 msgid "Dashboards"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:52
+msgid "Dashed"
 msgstr ""
 
 #. Label of the structured (JSON) field in DocType 'Reading'
@@ -11743,6 +11830,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/cloud/OneCloud.vue:541 frontend/src/cloud/OneCloud.vue:626
+#: frontend/src/display/designer/Toolbar.vue:24
 #: frontend/src/mail/OneMail.vue:149 frontend/src/mail/OneMail.vue:181
 #: frontend/src/mail/OneMail.vue:288
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
@@ -12437,7 +12525,7 @@ msgstr ""
 #. Label in the One Subcontracting Receipt print format
 #. Label in the One Supplier Quotation print format
 #. Label of the description (Small Text) field in DocType 'Record Type'
-#: frontend/src/display/Slides.vue:431
+#: frontend/src/display/designer/Designer.vue:164
 #: frontend/src/inventory/item/ItemOverview.vue:14
 #: frontend/src/inventory/item/ItemOverview.vue:15
 #: frontend/src/project/TaskPanel.vue:55 frontend/src/project/TaskPanel.vue:56
@@ -12529,7 +12617,10 @@ msgstr ""
 #. Label of the html (Code) field in DocType 'Display Slide'
 #. Task in the Mobile App project template
 #. Task in the Website project template
-#: frontend/src/display/Slides.vue:205 frontend/src/display/Slides.vue:446
+#: frontend/src/display/designer/Designer.vue:84
+#: frontend/src/display/designer/Designer.vue:178
+#: frontend/src/display/designer/Inspector.vue:65
+#: frontend/src/display/designer/Inspector.vue:103
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_project/library/mobile_app.json
 #: onedesk/one_project/library/website.json
@@ -12546,7 +12637,7 @@ msgstr ""
 msgid "Design Slides"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:445 onedesk/one_ai/jobs.py:74
+#: frontend/src/display/designer/Designer.vue:177 onedesk/one_ai/jobs.py:74
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:42
 msgid "Design a Slide"
@@ -12578,7 +12669,7 @@ msgstr ""
 msgid "Design signed off by the client"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:6
+#: frontend/src/display/designer/Designer.vue:11
 msgid "Design with OneAI"
 msgstr ""
 
@@ -12719,6 +12810,10 @@ msgstr ""
 
 #: onedesk/one_account/center.py:37
 msgid "Devices"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:43
+msgid "Diamond"
 msgstr ""
 
 #. Label in the One Asset Value Adjustment print format
@@ -13253,6 +13348,14 @@ msgstr ""
 msgid "Done: {0}"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:52
+msgid "Dotted"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:56
+msgid "Down"
+msgstr ""
+
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
 msgid "Down For"
@@ -13709,6 +13812,7 @@ msgstr ""
 msgid "Dunning"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:18
 #: frontend/src/sheet/components/SheetEditor/index.vue:709
 #: onedesk/public/js/crm_record.js:38 onedesk/public/js/record.js:155
 msgid "Duplicate"
@@ -14183,6 +14287,10 @@ msgstr ""
 msgid "Effect"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:75
+msgid "Effects"
+msgstr ""
+
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -14193,6 +14301,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
+msgstr ""
+
+#: onedesk/one_display/blocks.py:43
+msgid "Ellipse"
 msgstr ""
 
 #. Label of the email (Data) field in DocType 'Account Request'
@@ -14811,7 +14923,7 @@ msgstr ""
 msgid "Enabled"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:222
+#: onedesk/one_display/blocks.py:35
 msgid "End"
 msgstr ""
 
@@ -16050,6 +16162,10 @@ msgstr ""
 msgid "External plaster"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:33
+msgid "Extra Bold"
+msgstr ""
+
 #. Label of the one_extra_work (Check) field in DocType 'Quotation'
 #. Label of the one_extra_work (Check) field in DocType 'Sales Order'
 #: frontend/src/project/Overview.vue:361 frontend/src/project/Overview.vue:394
@@ -16095,6 +16211,14 @@ msgstr ""
 #. Option for the 'Transition' (Select) field in DocType 'Slide Playlist'
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Fade"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:49 onedesk/one_display/blocks.py:126
+msgid "Fade Angle"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:48 onedesk/one_display/blocks.py:125
+msgid "Fades To"
 msgstr ""
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
@@ -16340,6 +16464,7 @@ msgstr ""
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
 #: frontend/src/cloud/cloud.js:76
+#: frontend/src/display/designer/Inspector.vue:71
 #: frontend/src/sheet/components/SheetEditor/index.vue:93
 #: frontend/src/writer/DocumentPage.vue:21
 #: onedesk/one_ai/doctype/file_link/file_link.json
@@ -16514,7 +16639,8 @@ msgstr ""
 msgid "Filing"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:225 frontend/src/display/Slides.vue:229
+#: frontend/src/display/designer/Inspector.vue:105
+#: onedesk/one_display/blocks.py:45 onedesk/one_display/blocks.py:72
 msgid "Fill"
 msgstr ""
 
@@ -16815,13 +16941,17 @@ msgid "Fiscal Year"
 msgstr ""
 
 #. Label of the fit (Select) field in DocType 'Display Slide'
-#: frontend/src/display/Slides.vue:114 frontend/src/display/Slides.vue:162
+#: frontend/src/display/designer/Inspector.vue:105
+#: frontend/src/display/designer/Toolbar.vue:70
+#: frontend/src/display/designer/Toolbar.vue:73
+#: onedesk/one_display/blocks.py:45
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_display/widgets.py:105
 msgid "Fit"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:226 frontend/src/display/Slides.vue:230
+#: frontend/src/display/designer/Inspector.vue:105
+#: onedesk/one_display/blocks.py:45
 msgid "Fit Inside"
 msgstr ""
 
@@ -17014,6 +17144,10 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Followed Records"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:31
+msgid "Font"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:189
@@ -18735,7 +18869,7 @@ msgstr ""
 msgid "Health Insurance"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:217
+#: onedesk/one_display/blocks.py:33
 msgid "Heavy"
 msgstr ""
 
@@ -18778,7 +18912,7 @@ msgstr ""
 #. Label of the one_height (Float) field in DocType 'Work Order Additional
 #. Item'
 #. Label in the One Shipment print format
-#: frontend/src/display/Layout.vue:181 frontend/src/display/Slides.vue:212
+#: frontend/src/display/Layout.vue:181 onedesk/one_display/blocks.py:28
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -18865,7 +18999,7 @@ msgstr ""
 msgid "HelpCenter"
 msgstr ""
 
-#: onedesk/public/js/one/one_control.js:88
+#: onedesk/one_display/blocks.py:62 onedesk/public/js/one/one_control.js:88
 #: onedesk/public/js/one_portal/portal.js:125
 msgid "Hidden"
 msgstr ""
@@ -18893,6 +19027,8 @@ msgstr ""
 msgid "Hidden From Contacts"
 msgstr ""
 
+#: frontend/src/display/designer/Layers.vue:26
+#: frontend/src/display/designer/Layers.vue:27
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
 #: onedesk/public/js/window/chrome.js:200
@@ -19925,7 +20061,8 @@ msgstr ""
 #. Label in the One Purchase Order with Images print format
 #. Label in the One Request for Quotation with Images print format
 #. Label of the image (Attach Image) field in DocType 'Face'
-#: frontend/src/cloud/cloud.js:9 frontend/src/display/Slides.vue:205
+#: frontend/src/cloud/cloud.js:9 frontend/src/display/designer/Designer.vue:84
+#: frontend/src/display/designer/Inspector.vue:103
 #: onedesk/one_book/print_format/one_purchase_invoice_with_images/one_purchase_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_quotation_with_images/one_quotation_with_images.json
@@ -21441,6 +21578,7 @@ msgid "It would overwrite {0}."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
+#: onedesk/one_display/blocks.py:39
 msgid "Italic"
 msgstr ""
 
@@ -22039,6 +22177,10 @@ msgstr ""
 msgid "Jurisdiction"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:35
+msgid "Justify"
+msgstr ""
+
 #: onedesk/public/js/size.js:6
 msgid "KB"
 msgstr ""
@@ -22191,7 +22333,7 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Workbook Version'
 #. Label of the row_key (Data) field in DocType 'Cloud File Request Item'
 #. Label of the protocol (Select) field in DocType 'Cloud Mount'
-#: frontend/src/display/Slides.vue:142
+#: frontend/src/display/designer/Inspector.vue:104
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:105
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -22327,9 +22469,10 @@ msgstr ""
 
 #. Option for the 'Orientation' (Select) field in DocType 'Display Channel'
 #. Option for the 'Orientation' (Select) field in DocType 'Widget Collection'
-#: frontend/src/display/Layout.vue:174 frontend/src/display/Slides.vue:209
+#: frontend/src/display/Layout.vue:174
 #: frontend/src/sheet/shim/PrintDialog.vue:65
 #: frontend/src/writer/shim/PrintDialog.vue:52
+#: onedesk/one_display/blocks.py:123
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Landscape"
@@ -22676,6 +22819,10 @@ msgstr ""
 #. Label of the layer (Int) field in DocType 'Display Widget'
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 msgid "Layer"
+msgstr ""
+
+#: frontend/src/display/designer/Designer.vue:87
+msgid "Layers"
 msgstr ""
 
 #: onedesk/one_display/page/display_layout/display_layout.js:2
@@ -23057,11 +23204,11 @@ msgstr ""
 #. Label in the One Employee Benefit Application print format
 #. Label in the One Full and Final Settlement print format
 #. Label in the One Salary Statement print format
-#: frontend/src/display/Layout.vue:181 frontend/src/display/Slides.vue:212
-#: frontend/src/hr/HrStory.vue:83 frontend/src/inventory/lots/LotRows.vue:10
-#: frontend/src/project/Money.vue:37 frontend/src/project/Money.vue:144
-#: frontend/src/project/Overview.vue:213
+#: frontend/src/display/Layout.vue:181 frontend/src/hr/HrStory.vue:83
+#: frontend/src/inventory/lots/LotRows.vue:10 frontend/src/project/Money.vue:37
+#: frontend/src/project/Money.vue:144 frontend/src/project/Overview.vue:213
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:10
+#: onedesk/one_display/blocks.py:25
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_hr/print_format/one_employee_benefit_application/one_employee_benefit_application.json
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -23303,7 +23450,7 @@ msgstr ""
 msgid "Letter Requested"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:103
+#: onedesk/one_display/blocks.py:38
 msgid "Letter Spacing"
 msgstr ""
 
@@ -23367,6 +23514,10 @@ msgstr ""
 msgid "Lifecycle Overview"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:33
+msgid "Light"
+msgstr ""
+
 #. Label of the storage_limit (Long Int) field in DocType 'Workspace Account'
 #. Label of the storage_limit (Long Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
@@ -23384,11 +23535,11 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:217
 #: onedesk/one_ai/doctype/reading_line/reading_line.json
 #: onedesk/one_book/report/tax_return/tax_return.py:35
-#: onedesk/one_display/layout.py:51
+#: onedesk/one_display/blocks.py:43 onedesk/one_display/layout.py:51
 msgid "Line"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:102
+#: onedesk/one_display/blocks.py:37
 msgid "Line Height"
 msgstr ""
 
@@ -23689,6 +23840,8 @@ msgstr ""
 msgid "Locations employees may check in from, each with a radius."
 msgstr ""
 
+#: frontend/src/display/designer/Layers.vue:36
+#: frontend/src/display/designer/Layers.vue:37
 #: frontend/src/writer/DocumentPage.vue:290
 #: onedesk/one_book/report/tax_return/tax_return.js:54
 msgid "Lock"
@@ -23705,6 +23858,10 @@ msgstr ""
 
 #: onedesk/one_book/abilities.py:26
 msgid "Lock the accounts up to a day, so nothing on or before it can change."
+msgstr ""
+
+#: onedesk/one_display/blocks.py:63
+msgid "Locked"
 msgstr ""
 
 #: onedesk/one/control.py:348
@@ -24354,7 +24511,8 @@ msgstr ""
 #. Label in the One Vehicle Log print format
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
-#: frontend/src/display/Slides.vue:463 frontend/src/display/Slides.vue:482
+#: frontend/src/display/designer/Designer.vue:192
+#: frontend/src/display/designer/Inspector.vue:161
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:26
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
@@ -24430,7 +24588,7 @@ msgstr ""
 msgid "Make a Company Device"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:462
+#: frontend/src/display/designer/Inspector.vue:160
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:28
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:30
 msgid "Make a Picture"
@@ -24440,8 +24598,8 @@ msgstr ""
 msgid "Make a Picture for a Slide"
 msgstr ""
 
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:59
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:61
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:58
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:60
 msgid "Make a Video"
 msgstr ""
 
@@ -24449,7 +24607,8 @@ msgstr ""
 msgid "Make a Video for a Slide"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:163 frontend/src/display/Slides.vue:481
+#: frontend/src/display/designer/Designer.vue:191
+#: frontend/src/display/designer/Inspector.vue:73
 msgid "Make a Video with OneAI"
 msgstr ""
 
@@ -24549,7 +24708,7 @@ msgstr ""
 msgid "Make the changes Inventory Check offers, such as turning on batches or naming the home warehouse."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:112
+#: frontend/src/display/designer/Inspector.vue:29
 msgid "Make with OneAI"
 msgstr ""
 
@@ -25127,6 +25286,7 @@ msgid "Medical Report"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1880
+#: onedesk/one_display/blocks.py:33
 msgid "Medium"
 msgstr ""
 
@@ -25263,6 +25423,7 @@ msgid "Mid-campaign review"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:16
+#: onedesk/one_display/blocks.py:36
 msgid "Middle"
 msgstr ""
 
@@ -25405,6 +25566,7 @@ msgid "Money somebody spent for work, paid back."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1816
+#: onedesk/one_display/blocks.py:31
 msgid "Mono"
 msgstr ""
 
@@ -25555,7 +25717,7 @@ msgstr ""
 msgid "Move"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:138
+#: frontend/src/display/designer/Inspector.vue:38
 #: onedesk/public/js/one_mail/rule_builder.js:105
 msgid "Move Down"
 msgstr ""
@@ -25581,7 +25743,7 @@ msgstr ""
 msgid "Move To"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:137
+#: frontend/src/display/designer/Inspector.vue:37
 #: onedesk/public/js/one_mail/rule_builder.js:104
 msgid "Move Up"
 msgstr ""
@@ -25852,6 +26014,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_statement_of_account/one_statement_of_account.json
 #: onedesk/one_book/print_format/one_supplier_statement/one_supplier_statement.json
 #: onedesk/one_crm/print_format/one_telephony_call_type/one_telephony_call_type.json
+#: onedesk/one_display/blocks.py:61
 #: onedesk/one_hr/doctype/clock_network/clock_network.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
@@ -26440,7 +26603,7 @@ msgstr ""
 msgid "New Signup"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:7
+#: frontend/src/display/designer/Designer.vue:12
 msgid "New Slide"
 msgstr ""
 
@@ -27563,7 +27726,7 @@ msgstr ""
 msgid "No signature"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:23
+#: frontend/src/display/designer/Designer.vue:35
 msgid "No slides yet. Add one with the plus."
 msgstr ""
 
@@ -27750,7 +27913,7 @@ msgstr ""
 msgid "Nobody has work this week"
 msgstr ""
 
-#: onedesk/one_display/programme.py:326 onedesk/www/tv.py:41
+#: onedesk/one_display/programme.py:331 onedesk/www/tv.py:41
 msgid "Nobody is being served yet."
 msgstr ""
 
@@ -27779,6 +27942,9 @@ msgid "Non Conformance"
 msgstr ""
 
 #. Option for the 'Transition' (Select) field in DocType 'Slide Playlist'
+#: frontend/src/display/designer/Field.vue:19
+#: frontend/src/display/designer/Field.vue:20
+#: frontend/src/display/designer/Field.vue:42
 #: frontend/src/inventory/item/ItemVariantsMake.vue:11
 #: frontend/src/project/Time.vue:90 frontend/src/sheet/shim/PrintDialog.vue:60
 #: frontend/src/writer/shim/PrintDialog.vue:48 onedesk/one/ai.py:2567
@@ -28425,6 +28591,10 @@ msgstr ""
 msgid "Nothing on the floor"
 msgstr ""
 
+#: frontend/src/display/designer/Layers.vue:3
+msgid "Nothing on this slide yet. Add text, a picture or a shape from the bar above."
+msgstr ""
+
 #: frontend/src/inventory/sent_out/SentOutPage.vue:19
 msgid "Nothing open now"
 msgstr ""
@@ -28497,7 +28667,7 @@ msgstr ""
 msgid "Nothing to show"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:73
+#: frontend/src/display/designer/Designer.vue:49
 msgid "Nothing to show yet."
 msgstr ""
 
@@ -29459,8 +29629,8 @@ msgstr ""
 #: onedesk/one_ai/sidebar/oneai/oneai.json
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:42
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:37
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:55
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:66
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:54
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:65
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:14
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
@@ -29582,7 +29752,7 @@ msgstr ""
 msgid "OneAI could not work out what went wrong with {0}. Try again later."
 msgstr ""
 
-#: onedesk/one_display/make.py:219
+#: onedesk/one_display/make.py:218
 msgid "OneAI could not write the widget. Try again."
 msgstr ""
 
@@ -29649,8 +29819,8 @@ msgstr ""
 msgid "OneAI is making the music. You will be told when it is in the playlist."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:476
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:64
+#: frontend/src/display/designer/Designer.vue:189
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:63
 msgid "OneAI is making the video. You will be told when it is in the playlist."
 msgstr ""
 
@@ -30218,7 +30388,7 @@ msgstr ""
 msgid "Only {0}, who pays for the workspace, can do this."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:125
+#: onedesk/one_display/blocks.py:58
 msgid "Opacity"
 msgstr ""
 
@@ -30988,9 +31158,8 @@ msgstr ""
 
 #. Label of the orientation (Select) field in DocType 'Display Channel'
 #. Label of the orientation (Select) field in DocType 'Widget Collection'
-#: frontend/src/display/Slides.vue:146
 #: frontend/src/sheet/shim/PrintDialog.vue:7
-#: frontend/src/writer/shim/PrintDialog.vue:7
+#: frontend/src/writer/shim/PrintDialog.vue:7 onedesk/one_display/blocks.py:123
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Orientation"
@@ -31517,6 +31686,10 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_packing_slip/one_packing_slip.json
 #: onedesk/one_studio/print_blocks.py:21
 msgid "Packing Slip"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:42
+msgid "Padding"
 msgstr ""
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
@@ -32166,7 +32339,7 @@ msgstr ""
 
 #. Label of the paused (Check) field in DocType 'Display Slide'
 #. Label of the paused (Check) field in DocType 'Display Track'
-#: frontend/src/display/Slides.vue:167
+#: frontend/src/display/designer/Inspector.vue:45
 #: frontend/src/inventory/floor/FloorSteps.vue:11
 #: frontend/src/task/TimerList.vue:21
 #: onedesk/one_display/doctype/display_slide/display_slide.json
@@ -33169,8 +33342,10 @@ msgstr ""
 msgid "Picked By"
 msgstr ""
 
-#: frontend/src/display/Layout.vue:182 frontend/src/display/Slides.vue:31
-#: frontend/src/display/Slides.vue:55 frontend/src/display/Slides.vue:207
+#: frontend/src/display/Layout.vue:182
+#: frontend/src/display/designer/Canvas.vue:24
+#: frontend/src/display/designer/Toolbar.vue:9 onedesk/one_display/blocks.py:44
+#: onedesk/one_display/blocks.py:70 onedesk/one_display/blocks.py:99
 #: onedesk/one_display/widgets.py:104 onedesk/public/js/item_new.js:79
 msgid "Picture"
 msgstr ""
@@ -33585,9 +33760,10 @@ msgstr ""
 
 #. Option for the 'Orientation' (Select) field in DocType 'Display Channel'
 #. Option for the 'Orientation' (Select) field in DocType 'Widget Collection'
-#: frontend/src/display/Layout.vue:175 frontend/src/display/Slides.vue:210
+#: frontend/src/display/Layout.vue:175
 #: frontend/src/sheet/shim/PrintDialog.vue:64
 #: frontend/src/writer/shim/PrintDialog.vue:51
+#: onedesk/one_display/blocks.py:123
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Portrait"
@@ -33602,6 +33778,10 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 #: onedesk/one_studio/print_blocks.py:88
 msgid "Position"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:67
+msgid "Position and Size"
 msgstr ""
 
 #. Description of the 'Credits' (Float) field in DocType 'Credit Ledger Entry'
@@ -34835,7 +35015,9 @@ msgid "Putaway Rule"
 msgstr ""
 
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
-#: frontend/src/display/Slides.vue:33 frontend/src/display/Slides.vue:207
+#: frontend/src/display/designer/Canvas.vue:24
+#: frontend/src/display/designer/Toolbar.vue:15
+#: onedesk/one_display/blocks.py:71 onedesk/one_display/blocks.py:113
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_display/widgets.py:110
 msgid "QR Code"
@@ -36153,6 +36335,10 @@ msgstr ""
 msgid "Recruitment Overview"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:43
+msgid "Rectangle"
+msgstr ""
+
 #. Label of the recurring (Check) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Recurring"
@@ -36164,6 +36350,7 @@ msgstr ""
 msgid "Recycle Bin"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:4
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:104
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:105
 msgid "Redo"
@@ -36388,7 +36575,7 @@ msgstr ""
 msgid "Registers"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:214
+#: onedesk/one_display/blocks.py:33
 msgid "Regular"
 msgstr ""
 
@@ -36594,8 +36781,7 @@ msgid "Remote pictures are hidden."
 msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:27 frontend/src/display/Layout.vue:63
-#: frontend/src/display/Slides.vue:84 frontend/src/display/Slides.vue:139
-#: frontend/src/display/Slides.vue:153
+#: frontend/src/display/designer/Field.vue:44
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:54
 #: frontend/src/sheet/components/SheetEditor/index.vue:888
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
@@ -36623,6 +36809,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:50
 msgid "Remove Photo"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:39
+msgid "Remove Slide"
 msgstr ""
 
 #: onedesk/one_mail/ai.py:651
@@ -37892,6 +38082,7 @@ msgstr ""
 msgid "Roof waterproofing"
 msgstr ""
 
+#: frontend/src/display/designer/Canvas.vue:40 onedesk/one_display/blocks.py:29
 #: onedesk/public/js/one_portal/portal.js:158
 msgid "Rotate"
 msgstr ""
@@ -38357,6 +38548,10 @@ msgstr ""
 msgid "Samples and shop drawings approved"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:31
+msgid "Sans"
+msgstr ""
+
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
 #: frontend/src/inventory/home/InventoryStory.vue:132
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
@@ -38364,7 +38559,7 @@ msgid "Saturday"
 msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:6 frontend/src/display/Layout.vue:25
-#: frontend/src/display/Slides.vue:36
+#: frontend/src/display/designer/Toolbar.vue:33
 #: frontend/src/inventory/item/ItemBarcodes.vue:72
 #: frontend/src/inventory/item/ItemCustomers.vue:17
 #: frontend/src/inventory/item/ItemPlaces.vue:21
@@ -38807,7 +39002,7 @@ msgstr ""
 
 #. Label of the duration (Int) field in DocType 'Display Slide'
 #. Label of the duration (Float) field in DocType 'Display Track'
-#: frontend/src/display/Slides.vue:143
+#: frontend/src/display/designer/Inspector.vue:44
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_display/doctype/display_track/display_track.json
 msgid "Seconds"
@@ -38999,7 +39194,7 @@ msgstr ""
 msgid "Selling, buying and stock set up"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:215
+#: onedesk/one_display/blocks.py:33
 msgid "Semibold"
 msgstr ""
 
@@ -39021,7 +39216,7 @@ msgstr ""
 msgid "Send"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:83
+#: frontend/src/display/designer/Toolbar.vue:65
 msgid "Send Back"
 msgstr ""
 
@@ -39113,6 +39308,10 @@ msgstr ""
 
 #: onedesk/one_admin/doctype/private_app/private_app.js:11
 msgid "Send this to the workspace. It's shown once."
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:66
+msgid "Send to Back"
 msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:54
@@ -39404,6 +39603,7 @@ msgid "Series {0} already used in {1}"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1815
+#: onedesk/one_display/blocks.py:31
 msgid "Serif"
 msgstr ""
 
@@ -39844,7 +40044,13 @@ msgstr ""
 msgid "Several people"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:32 frontend/src/display/Slides.vue:207
+#: onedesk/one_display/blocks.py:74
+msgid "Shadow"
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:12
+#: onedesk/one_display/blocks.py:43 onedesk/one_display/blocks.py:69
+#: onedesk/one_display/blocks.py:106
 msgid "Shape"
 msgstr ""
 
@@ -40212,6 +40418,8 @@ msgstr ""
 msgid "Should I order more?"
 msgstr ""
 
+#: frontend/src/display/designer/Layers.vue:26
+#: frontend/src/display/designer/Layers.vue:27
 #: frontend/src/project/ProjectPage.vue:271
 #: onedesk/public/js/one/access_center.js:147
 #: onedesk/public/js/one/role_matrix.js:105
@@ -40419,13 +40627,13 @@ msgid "Shown"
 msgstr ""
 
 #. Label of the from_date (Date) field in DocType 'Display Slide'
-#: frontend/src/display/Slides.vue:169
+#: frontend/src/display/designer/Inspector.vue:47
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "Shown From"
 msgstr ""
 
 #. Label of the to_date (Date) field in DocType 'Display Slide'
-#: frontend/src/display/Slides.vue:170
+#: frontend/src/display/designer/Inspector.vue:48
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "Shown Until"
 msgstr ""
@@ -40896,7 +41104,7 @@ msgstr ""
 #. Label of the byte_size (Int) field in DocType 'Workbook Version'
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: frontend/src/cloud/CloudItems.vue:138 frontend/src/cloud/CloudPreview.vue:92
-#: frontend/src/cloud/CloudPreview.vue:108 frontend/src/display/Slides.vue:93
+#: frontend/src/cloud/CloudPreview.vue:108
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -40917,7 +41125,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
-#: onedesk/one_display/widgets.py:54
+#: onedesk/one_display/blocks.py:32 onedesk/one_display/widgets.py:54
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -41081,7 +41289,8 @@ msgstr ""
 msgid "Slab"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:136
+#: frontend/src/display/designer/Inspector.vue:36
+#: frontend/src/display/designer/Inspector.vue:41
 msgid "Slide"
 msgstr ""
 
@@ -41098,7 +41307,7 @@ msgstr ""
 
 #. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
 #. Label of the slides (Table) field in DocType 'Slide Playlist'
-#: frontend/src/display/Slides.vue:5
+#: frontend/src/display/designer/Designer.vue:86
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 #: onedesk/one_display/page/display_slides/display_slides.js:2
@@ -41289,6 +41498,10 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:73
 msgid "Sold {0}"
+msgstr ""
+
+#: onedesk/one_display/blocks.py:52
+msgid "Solid"
 msgstr ""
 
 #: onedesk/public/js/overtime_slip.js:72
@@ -41513,6 +41726,14 @@ msgstr ""
 msgid "Space"
 msgstr ""
 
+#: frontend/src/display/designer/Inspector.vue:201
+msgid "Space Evenly Across"
+msgstr ""
+
+#: frontend/src/display/designer/Inspector.vue:202
+msgid "Space Evenly Down"
+msgstr ""
+
 #: onedesk/one_studio/places.py:270
 msgid "Space Home"
 msgstr ""
@@ -41680,8 +41901,8 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:64
 #: frontend/src/mail/OneMail.vue:146 frontend/src/mail/OneMail.vue:177
-#: onedesk/one_mail/ai.py:650 onedesk/one_mail/flow.py:329
-#: onedesk/public/js/one_mail/rule_builder.js:41
+#: onedesk/one_display/blocks.py:43 onedesk/one_mail/ai.py:650
+#: onedesk/one_mail/flow.py:329 onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
 msgstr ""
 
@@ -41704,9 +41925,9 @@ msgstr ""
 msgid "Starred"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:220
 #: frontend/src/inventory/floor/FloorSteps.vue:97
-#: onedesk/public/js/floor_actions.js:29 onedesk/public/js/timesheet.js:66
+#: onedesk/one_display/blocks.py:35 onedesk/public/js/floor_actions.js:29
+#: onedesk/public/js/timesheet.js:66
 msgid "Start"
 msgstr ""
 
@@ -41714,7 +41935,7 @@ msgstr ""
 msgid "Start Again"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:158
+#: frontend/src/display/designer/Inspector.vue:67
 msgid "Start Again on the Canvas"
 msgstr ""
 
@@ -42622,7 +42843,8 @@ msgstr ""
 msgid "Structure"
 msgstr ""
 
-#: onedesk/one_studio/printing.py:87 onedesk/one_studio/printing.py:301
+#: onedesk/one_display/blocks.py:52 onedesk/one_studio/printing.py:87
+#: onedesk/one_studio/printing.py:301
 #: onedesk/public/js/one_mail/onemail_settings.js:148
 msgid "Style"
 msgstr ""
@@ -44206,11 +44428,11 @@ msgstr ""
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
-#: frontend/src/display/Slides.vue:30 frontend/src/display/Slides.vue:53
-#: frontend/src/display/Slides.vue:207
+#: frontend/src/display/designer/Toolbar.vue:8
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
-#: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_ai/doctype/reading/reading.json onedesk/one_display/blocks.py:68
+#: onedesk/one_display/blocks.py:88
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_display/widgets.py:48 onedesk/one_mail/flow.py:286
 msgid "Text"
@@ -45982,7 +46204,7 @@ msgstr ""
 msgid "The text comes from {0}."
 msgstr ""
 
-#: onedesk/one_display/programme.py:329 onedesk/www/tv.py:45
+#: onedesk/one_display/programme.py:334 onedesk/www/tv.py:45
 msgid "The ticket could not be taken. Try again."
 msgstr ""
 
@@ -46979,7 +47201,7 @@ msgstr ""
 msgid "This site doesn't manage workspaces."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:157
+#: frontend/src/display/designer/Inspector.vue:66
 msgid "This slide was written as code, so it is shown here but can't be moved block by block."
 msgstr ""
 
@@ -47211,7 +47433,7 @@ msgstr ""
 msgid "Ticket"
 msgstr ""
 
-#: onedesk/one_display/programme.py:152
+#: onedesk/one_display/programme.py:157
 msgid "Ticket {0}, counter {1}"
 msgstr ""
 
@@ -47417,7 +47639,7 @@ msgstr ""
 #. Label of the title (Data) field in DocType 'Workbook'
 #. Label of the title (Data) field in DocType 'Cloud File Request'
 #. Label of the title (Data) field in DocType 'Extension'
-#: frontend/src/display/Slides.vue:141
+#: frontend/src/display/designer/Inspector.vue:42
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:50
 #: onedesk/one/custom/deleted_document.json
 #: onedesk/one_admin/doctype/private_app/private_app.json
@@ -47816,8 +48038,9 @@ msgid "Tools"
 msgstr ""
 
 #. Label of the y (Float) field in DocType 'Display Widget'
-#: frontend/src/display/Layout.vue:181 frontend/src/display/Slides.vue:212
+#: frontend/src/display/Layout.vue:181
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:15
+#: onedesk/one_display/blocks.py:26 onedesk/one_display/blocks.py:36
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 msgid "Top"
 msgstr ""
@@ -48350,6 +48573,10 @@ msgstr ""
 msgid "Trial balance ready"
 msgstr ""
 
+#: onedesk/one_display/blocks.py:43
+msgid "Triangle"
+msgstr ""
+
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.js:25
 #: onedesk/one_admin/heads.py:233
 msgid "Tried {0} times"
@@ -48748,6 +48975,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:119
 #: frontend/src/writer/components/core-editor/menu-buttons.js:44
+#: onedesk/one_display/blocks.py:40
 msgid "Underline"
 msgstr ""
 
@@ -48766,6 +48994,7 @@ msgstr ""
 msgid "Understood On"
 msgstr ""
 
+#: frontend/src/display/designer/Toolbar.vue:3
 #: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:480
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:11
@@ -48976,6 +49205,9 @@ msgstr ""
 msgid "Unlink"
 msgstr ""
 
+#: frontend/src/display/designer/Inspector.vue:16
+#: frontend/src/display/designer/Layers.vue:36
+#: frontend/src/display/designer/Layers.vue:37
 #: frontend/src/writer/DocumentPage.vue:19
 #: frontend/src/writer/DocumentPage.vue:289
 #: onedesk/one_book/report/tax_return/tax_return.js:56
@@ -49090,6 +49322,7 @@ msgstr ""
 msgid "Until {0}"
 msgstr ""
 
+#: frontend/src/display/designer/Designer.vue:31
 #: frontend/src/writer/components/ToC.vue:96
 #: onedesk/public/js/one_ai/panel/Panel.vue:46
 msgid "Untitled"
@@ -49211,7 +49444,7 @@ msgid "Upkeep is opened, and each time a service, a plan or a repair changes."
 msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:24 frontend/src/display/Layout.vue:124
-#: frontend/src/display/Slides.vue:111 frontend/src/display/Slides.vue:161
+#: frontend/src/display/designer/Field.vue:43
 msgid "Upload"
 msgstr ""
 
@@ -49763,6 +49996,7 @@ msgid "Versions"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:14
+#: onedesk/one_display/blocks.py:36
 msgid "Vertical"
 msgstr ""
 
@@ -49772,7 +50006,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Display Slide'
 #. Task in the Marketing Campaign project template
-#: frontend/src/cloud/cloud.js:15 frontend/src/display/Slides.vue:205
+#: frontend/src/cloud/cloud.js:15 frontend/src/display/designer/Designer.vue:84
+#: frontend/src/display/designer/Inspector.vue:103
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Video"
@@ -49942,7 +50177,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:8
 #: onedesk/one_admin/heads.py:46
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
-#: onedesk/one_display/programme.py:325
+#: onedesk/one_display/programme.py:330
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
@@ -50203,7 +50438,8 @@ msgid "Web"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Display Slide'
-#: frontend/src/display/Slides.vue:205
+#: frontend/src/display/designer/Designer.vue:84
+#: frontend/src/display/designer/Inspector.vue:103
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "Web Page"
 msgstr ""
@@ -50309,7 +50545,7 @@ msgstr ""
 #. Label in the One Employee Performance Feedback print format
 #. Label in the One Shipment print format
 #. Label in the One Supplier Scorecard Period print format
-#: frontend/src/display/Slides.vue:94
+#: onedesk/one_display/blocks.py:33
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_hr/print_format/one_employee_performance_feedback/one_employee_performance_feedback.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
@@ -50861,9 +51097,10 @@ msgstr ""
 msgid "What it says and how it looks"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:452 frontend/src/display/Slides.vue:471
+#: frontend/src/display/designer/Designer.vue:186
+#: frontend/src/display/designer/Inspector.vue:151
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:30
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:61
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:60
 msgid "What it shows"
 msgstr ""
 
@@ -53922,7 +54159,8 @@ msgstr ""
 #. Label of the one_width (Float) field in DocType 'Supplier Quotation Item'
 #. Label of the one_width (Float) field in DocType 'Work Order Additional Item'
 #. Label in the One Shipment print format
-#: frontend/src/display/Layout.vue:181 frontend/src/display/Slides.vue:212
+#: frontend/src/display/Layout.vue:181 onedesk/one_display/blocks.py:27
+#: onedesk/one_display/blocks.py:50
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -54122,7 +54360,7 @@ msgid "Wordmark"
 msgstr ""
 
 #. Label of the text (Small Text) field in DocType 'Display Voice'
-#: frontend/src/display/Layout.vue:182 frontend/src/display/Slides.vue:91
+#: frontend/src/display/Layout.vue:182 onedesk/one_display/blocks.py:30
 #: onedesk/one_display/doctype/display_voice/display_voice.json
 #: onedesk/one_display/widgets.py:42 onedesk/one_display/widgets.py:53
 msgid "Words"
@@ -55773,7 +56011,7 @@ msgstr ""
 msgid "Your sign-ins"
 msgstr ""
 
-#: onedesk/one_display/programme.py:327 onedesk/www/tv.py:42
+#: onedesk/one_display/programme.py:332 onedesk/www/tv.py:42
 msgid "Your ticket"
 msgstr ""
 
@@ -55797,7 +56035,7 @@ msgstr ""
 msgid "Your update on this project is asked for today."
 msgstr ""
 
-#: frontend/src/display/Slides.vue:345
+#: frontend/src/display/designer/Toolbar.vue:75
 msgid "Your words here"
 msgstr ""
 
@@ -55872,6 +56110,10 @@ msgstr ""
 #. Label of the cloudflare_zone (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Zone ID"
+msgstr ""
+
+#: frontend/src/display/designer/Toolbar.vue:30
+msgid "Zoom"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:82
@@ -57433,6 +57675,10 @@ msgstr ""
 msgid "{0} Batches Expiring Soon"
 msgstr ""
 
+#: frontend/src/display/designer/Inspector.vue:5
+msgid "{0} Blocks"
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1189
 msgid "{0} Can Send"
 msgstr ""
@@ -57613,7 +57859,7 @@ msgstr ""
 msgid "{0} agreed on {1}"
 msgstr ""
 
-#: onedesk/one_display/programme.py:328 onedesk/www/tv.py:43
+#: onedesk/one_display/programme.py:333 onedesk/www/tv.py:43
 msgid "{0} ahead of you"
 msgstr ""
 
@@ -59569,7 +59815,7 @@ msgstr ""
 msgid "{0} seats"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:20 onedesk/one/control.py:361
+#: frontend/src/display/designer/Designer.vue:32 onedesk/one/control.py:361
 msgid "{0} seconds"
 msgstr ""
 

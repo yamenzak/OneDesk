@@ -186,8 +186,8 @@ def design(
 	description: Annotated[str, "What the slide says and looks like."],
 	orientation: Annotated[str, "Landscape or Portrait."] = "Landscape",
 ) -> dict:
-	"""A slide as blocks on the canvas, and the HTML they draw, so it opens
-	in the designer like any slide made there."""
+	"""A slide as blocks on the canvas, so it opens in the designer like any
+	slide made there."""
 	_may("Slide Playlist")
 	from onedesk.one_ai import run
 	from onedesk.one_display import slides
@@ -199,8 +199,7 @@ def design(
 		blocks = None
 	if not isinstance(blocks, dict) or not blocks.get("blocks"):
 		frappe.throw(_("OneAI could not design the slide. Try again."))
-	made = slides.clean({**blocks, "orientation": orientation})
-	return {"design": made, "html": slides.render(made)}
+	return {"design": slides.clean({**blocks, "orientation": orientation})}
 
 
 @frappe.whitelist(methods=["POST"])

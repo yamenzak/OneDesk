@@ -140,7 +140,7 @@ def test_the_player_runs_on_an_old_tvs_browser():
 	acorn = ROOT / "frontend" / "node_modules" / "acorn"
 	if not acorn.exists():
 		pytest.skip("acorn is not installed")
-	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js"):
+	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js", "onedesk/public/js/one_display/blocks.js"):
 		parsed = subprocess.run(
 			["node", "-e", f"require({json.dumps(str(acorn))}).parse(require('fs').readFileSync({json.dumps(str(ROOT / path))}, 'utf8'), {{ecmaVersion: 5}})"],
 			capture_output=True,
@@ -168,3 +168,34 @@ def test_a_songs_length_is_read_from_its_file():
 	frame = bytes([0xFF, 0xFB, 0x90, 0x64]) + b"\x00" * 413
 	assert seconds({"data": base64.b64encode(b"ID3\x03\x00\x00\x00\x00\x00\x00" + frame * 300).decode()}) == round(417 * 300 * 8 / 128000, 1)
 	assert seconds({"data": base64.b64encode(b"nothing to hear").decode()}) == 0.0
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="no node to run the renderer with")
+def test_a_designed_slide_is_drawn_safely_for_an_old_tv():
+	"""The one renderer the screen and the designer share: what a person typed
+	is escaped, a see-through colour becomes rgba() for Chromium 53, nothing
+	uses `inset`, a star is drawn as a shape, and CSS that loads something is
+	dropped even if it reached the renderer."""
+	renderer = ROOT / "onedesk/public/js/one_display/blocks.js"
+	design = {
+		"background": "#0e6e8c",
+		"background2": "#00000080",
+		"blocks": [
+			{"id": "t", "kind": "text", "x": 5, "y": 5, "w": 50, "h": 20, "text": "<script>alert(1)</script>", "rotate": 10, "valign": "middle", "fill": "#ffffff33", "shadow_colour": "#000", "css": "color: red; background: url(x)"},
+			{"id": "s", "kind": "shape", "shape": "star", "x": 60, "y": 5, "w": 20, "h": 20, "fill": "#ff0000", "fill2": "#0000ff", "stroke": 4, "stroke_colour": "#fff"},
+			{"id": "h", "kind": "text", "hidden": 1, "text": "never drawn"},
+		],
+	}
+	script = (
+		"var window = {}; eval(require('fs').readFileSync(process.argv[1], 'utf8'));"
+		"process.stdout.write(window.onedesk.blocks.slide(JSON.parse(process.argv[2]), {}));"
+	)
+	ran = subprocess.run(["node", "-e", script, str(renderer), json.dumps(design)], capture_output=True, text=True)
+	assert ran.returncode == 0, ran.stderr[-400:]
+	drawn = ran.stdout
+	assert "<script>" not in drawn and "&lt;script&gt;" in drawn
+	assert "rgba(0,0,0,0.502)" in drawn and "rgba(255,255,255,0.2)" in drawn and "#00000080" not in drawn
+	assert "inset" not in drawn and "rotate(10deg)" in drawn and "justify-content:center" in drawn
+	assert "<polygon" in drawn and "linearGradient" in drawn
+	assert "color:red" in drawn and "url(x)" not in drawn
+	assert "never drawn" not in drawn

@@ -123,15 +123,30 @@ it and then says it in its own voice. Nothing is recorded while OneAI is off.
 
 ## Designed slides
 
-`slides.py`. A Design slide made in the designer (`frontend/src/display/
-Slides.vue`, the `display-slides` page) is kept as **blocks** in `design`:
-text, picture, shape and QR code, placed in percent of the frame. `clean`
-keeps only those four kinds, clamps every box, allows only `#` colours and
-`/files/` pictures; `render` draws the HTML the screen plays from them,
-escaped, with no `inset` (Chromium 53). A slide whose `design` is empty is
-the older hand-written HTML, shown in the designer but not editable block by
-block. The designer saves the whole playlist, and keeps any slide added since
-it loaded, such as a video OneAI made meanwhile.
+A Design slide is kept as **blocks** in `design`: text, picture, shape and QR
+code, placed in percent of the frame, each with the properties `blocks.py`
+declares. That one table is three things at once: `blocks.clean` keeps only
+what it names, each value in its range (colours as colours, pictures from
+`/files/`, CSS of one's own only for properties it allows and never with
+`url()`); the designer draws its inspector from `blocks.described()`; and
+`public/js/one_display/blocks.js` draws only those names. A property added
+to the table is one a person can set, the server keeps and a screen draws.
+
+**One renderer.** `blocks.js` is ES5 and draws a slide from its blocks; the
+screen loads it beside `tv.js`, the designer loads it with `frappe.require`,
+so the canvas is the screen. A screen gets the blocks and the QR codes the
+server drew (`programme.slides`), never HTML; a designed slide keeps no
+`html` of its own. A slide written as HTML before the designer still plays
+in its sandboxed frame.
+
+**The designer** (`frontend/src/display/designer/`, the `display-slides`
+page) is `Designer.vue` holding a store (`store.js`: the slides, what is
+chosen, the undo history), with the bar (`Toolbar.vue`), the canvas
+(`Canvas.vue`: choosing, dragging with snapping guides, sizing from eight
+handles in the block's own turned axes, turning, box-select, typing onto
+the slide), the layers (`Layers.vue`) and the inspector (`Inspector.vue`,
+one `Field.vue` per property). Saving keeps any slide added since it loaded,
+such as a video OneAI made meanwhile.
 
 ## What OneAI does
 
@@ -192,7 +207,8 @@ one).
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it |
 | `layout.py` | The layout editor's server |
-| `slides.py` | The slide designer's server: blocks, cleaning, drawing |
+| `blocks.py` | What a designed slide's blocks may hold, and keeping only that |
+| `slides.py` | The slide designer's server |
 | `live.py` | Waking screens over the socket |
 | `queue.py` | Tickets, the board, the counter's actions |
 | `voices.py`, `make.py` | What OneAI records and makes |
@@ -202,7 +218,7 @@ one).
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
 | `page/counter/`, `page/display_layout/`, `page/display_slides/` | The counter, the layout editor's and the slide designer's islands |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
-| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker |
+| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player, its worker, and `blocks.js`, the drawing of a designed slide |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
 | `../../frontend/src/display/` | The counter, the layout editor and the slide designer |
 | `../../realtime/handlers.js` | A screen joining its room, admitted by `live.admit` |

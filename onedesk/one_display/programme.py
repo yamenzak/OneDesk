@@ -109,6 +109,11 @@ def slides(name: str | None, today=None) -> dict | None:
 			one["src"] = row.url if (row.url or "").startswith("https://") else ""
 			if not one["src"]:
 				continue
+		elif row.kind == "Design" and row.get("design"):
+			from onedesk.one_display import slides as designed
+
+			one["design"] = designed.clean(row.design)
+			one["qrs"] = designed.qrs(one["design"])
 		elif row.kind == "Design":
 			one["html"] = row.html or ""
 		shown.append(one)

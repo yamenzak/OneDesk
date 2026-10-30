@@ -2114,6 +2114,10 @@ msgstr "Auf etwa {0} Meter genau."
 msgid "Acknowledge New Mail"
 msgstr "Neue E-Mails bestätigen"
 
+#: onedesk/one_display/blocks.py:55
+msgid "Across"
+msgstr "Seitlich"
+
 #. Label of the act_after (Datetime) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Act After"
@@ -2466,6 +2470,10 @@ msgstr "Aufgabe darunter hinzufügen"
 msgid "Add Tasks"
 msgstr "Aufgaben hinzufügen"
 
+#: frontend/src/display/designer/Toolbar.vue:8
+msgid "Add Text"
+msgstr "Text hinzufügen"
+
 #: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:405
 #: onedesk/public/js/project_actions.js:416
 #: onedesk/public/js/project_actions.js:742
@@ -2491,9 +2499,21 @@ msgstr "Lager hinzufügen"
 msgid "Add a Location"
 msgstr "Standort hinzufügen"
 
+#: frontend/src/display/designer/Toolbar.vue:9
+msgid "Add a Picture"
+msgstr "Bild hinzufügen"
+
+#: frontend/src/display/designer/Toolbar.vue:15
+msgid "Add a QR Code"
+msgstr "QR-Code hinzufügen"
+
 #: onedesk/one_display/tour.py:24
 msgid "Add a Screen"
 msgstr "Bildschirm hinzufügen"
+
+#: frontend/src/display/designer/Toolbar.vue:12
+msgid "Add a Shape"
+msgstr "Form hinzufügen"
 
 #: onedesk/one_task/tour.py:18
 msgid "Add a Task"
@@ -3238,6 +3258,26 @@ msgstr "Vereinbarungen geändert"
 #: frontend/src/writer/components/core-editor/menu-buttons.js:105
 msgid "Align"
 msgstr "Ausrichten"
+
+#: frontend/src/display/designer/Inspector.vue:192
+msgid "Align Bottom"
+msgstr "Unten ausrichten"
+
+#: frontend/src/display/designer/Inspector.vue:188
+msgid "Align Centre"
+msgstr "Mittig ausrichten"
+
+#: frontend/src/display/designer/Inspector.vue:187
+msgid "Align Left"
+msgstr "Links ausrichten"
+
+#: frontend/src/display/designer/Inspector.vue:191
+msgid "Align Middle"
+msgstr "Vertikal mittig ausrichten"
+
+#: frontend/src/display/designer/Inspector.vue:190
+msgid "Align Top"
+msgstr "Oben ausrichten"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:211
 msgid "Alignment"
@@ -4055,6 +4095,10 @@ msgstr "Jede Domain"
 msgid "Any odd sign-ins?"
 msgstr "Auffällige Anmeldungen?"
 
+#: frontend/src/display/designer/Inspector.vue:30
+msgid "Any of the usual CSS properties, one per line, such as text-shadow or transform. Addresses are not allowed."
+msgstr "Beliebige übliche CSS-Eigenschaften, eine pro Zeile, etwa text-shadow oder transform. Adressen sind nicht erlaubt."
+
 #: onedesk/one/control.py:399 onedesk/public/js/one/one_control.js:173
 msgid "Any password"
 msgstr "Jedes Passwort"
@@ -4600,6 +4644,10 @@ msgstr "Sind wir im günstigsten Tarif?"
 msgid "Area"
 msgstr "Fläche"
 
+#: frontend/src/display/designer/Toolbar.vue:21
+msgid "Arrange"
+msgstr "Anordnen"
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:174 onedesk/one_hr/sidebar/onehr/onehr.json
 msgid "Arrear"
@@ -4634,6 +4682,10 @@ msgstr "Über einen Link angekommen, eine Datei"
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Arrives"
 msgstr "Ankunft"
+
+#: onedesk/one_display/blocks.py:43
+msgid "Arrow"
+msgstr "Pfeil"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:4874
 msgid "Arrows (red/grey/green)"
@@ -6577,6 +6629,10 @@ msgstr "Mauerwerk und Stützen"
 msgid "Blue means on by default."
 msgstr "Blau bedeutet standardmäßig an."
 
+#: onedesk/one_display/blocks.py:57 onedesk/one_display/blocks.py:59
+msgid "Blur"
+msgstr "Unschärfe"
+
 #: frontend/src/project/ProjectPage.vue:169 onedesk/public/js/project.js:9
 msgid "Board"
 msgstr "Board"
@@ -6643,6 +6699,10 @@ msgstr "Bücher gesperrt."
 #: onedesk/one_book/report/tax_return/tax_return.js:39
 msgid "Books unlocked."
 msgstr "Bücher entsperrt."
+
+#: onedesk/one_display/blocks.py:73
+msgid "Border"
+msgstr "Rahmen"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:263
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:76
@@ -6783,6 +6843,10 @@ msgstr "Briefing und Ziele"
 #: frontend/src/display/Slides.vue:82
 msgid "Bring Forward"
 msgstr "Nach vorne"
+
+#: frontend/src/display/designer/Toolbar.vue:63
+msgid "Bring to Front"
+msgstr "In den Vordergrund"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
@@ -9047,6 +9111,10 @@ msgstr "Konzeptentwurf"
 msgid "Concept presented to the client"
 msgstr "Konzept dem Kunden präsentiert"
 
+#: onedesk/one_display/blocks.py:31
+msgid "Condensed"
+msgstr "Schmal"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:544
 #: frontend/src/sheet/components/SheetEditor/index.vue:939
 #: frontend/src/sheet/components/SheetEditor/index.vue:1156
@@ -10868,6 +10936,10 @@ msgstr ""
 msgid "Daily support for the first two weeks"
 msgstr "Tägliche Betreuung in den ersten zwei Wochen"
 
+#: onedesk/one_display/blocks.py:128
+msgid "Darken Picture"
+msgstr "Bild abdunkeln"
+
 #: onedesk/one_studio/ai_setup.py:368
 msgid "Dashboard {0}"
 msgstr "Dashboard {0}"
@@ -10877,6 +10949,10 @@ msgstr "Dashboard {0}"
 #: onedesk/public/js/reports.js:282
 msgid "Dashboards"
 msgstr "Dashboards"
+
+#: onedesk/one_display/blocks.py:52
+msgid "Dashed"
+msgstr "Gestrichelt"
 
 #. Label of the structured (JSON) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -12624,6 +12700,10 @@ msgstr "Geräte-ID"
 msgid "Devices"
 msgstr "Geräte"
 
+#: onedesk/one_display/blocks.py:43
+msgid "Diamond"
+msgstr "Raute"
+
 #. Label in the One Asset Value Adjustment print format
 #. Label in the One Stock Reconciliation print format
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:175
@@ -13141,6 +13221,14 @@ msgstr "Erledigt. Es wurde {0} geschrieben."
 #: onedesk/one_crm/next.py:49
 msgid "Done: {0}"
 msgstr "Erledigt: {0}"
+
+#: onedesk/one_display/blocks.py:52
+msgid "Dotted"
+msgstr "Gepunktet"
+
+#: onedesk/one_display/blocks.py:56
+msgid "Down"
+msgstr "Nach unten"
 
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
@@ -14073,6 +14161,10 @@ msgstr ""
 msgid "Effect"
 msgstr "Auswirkung"
 
+#: onedesk/one_display/blocks.py:75
+msgid "Effects"
+msgstr "Effekte"
+
 #. Option for the 'Network and Location' (Select) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -14084,6 +14176,10 @@ msgstr "Eines von beiden"
 #: onedesk/one_hr/custom/hr_settings.json
 msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
 msgstr "„Eines von beiden“ akzeptiert ein Einchecken, das eine der beiden Prüfungen besteht. „Beide“ verlangt beide."
+
+#: onedesk/one_display/blocks.py:43
+msgid "Ellipse"
+msgstr "Ellipse"
 
 #. Label of the email (Data) field in DocType 'Account Request'
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
@@ -15924,6 +16020,10 @@ msgstr "Externe E-Mail"
 msgid "External plaster"
 msgstr "Außenputz"
 
+#: onedesk/one_display/blocks.py:33
+msgid "Extra Bold"
+msgstr "Extrafett"
+
 #. Label of the one_extra_work (Check) field in DocType 'Quotation'
 #. Label of the one_extra_work (Check) field in DocType 'Sales Order'
 #: frontend/src/project/Overview.vue:361 frontend/src/project/Overview.vue:394
@@ -15969,6 +16069,14 @@ msgstr "Fakten, Begriffe und Richtlinien, die OneAI bei jeder Antwort liest."
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Fade"
 msgstr "Überblenden"
+
+#: onedesk/one_display/blocks.py:49 onedesk/one_display/blocks.py:126
+msgid "Fade Angle"
+msgstr "Verlaufswinkel"
+
+#: onedesk/one_display/blocks.py:48 onedesk/one_display/blocks.py:125
+msgid "Fades To"
+msgstr "Verläuft zu"
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
@@ -21862,6 +21970,10 @@ msgstr "Spam"
 msgid "Jurisdiction"
 msgstr "Rechtsraum"
 
+#: onedesk/one_display/blocks.py:35
+msgid "Justify"
+msgstr "Blocksatz"
+
 #: onedesk/public/js/size.js:6
 msgid "KB"
 msgstr "KB"
@@ -22468,6 +22580,10 @@ msgstr "Den ganzen Teilebaum eines Produkts auf einmal anlegen."
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 msgid "Layer"
 msgstr "Ebene"
+
+#: frontend/src/display/designer/Designer.vue:87
+msgid "Layers"
+msgstr "Ebenen"
 
 #: onedesk/one_display/page/display_layout/display_layout.js:2
 msgid "Layout"
@@ -28165,6 +28281,10 @@ msgstr "Nichts bestellt"
 msgid "Nothing on the floor"
 msgstr "Nichts in der Werkstatt"
 
+#: frontend/src/display/designer/Layers.vue:3
+msgid "Nothing on this slide yet. Add text, a picture or a shape from the bar above."
+msgstr "Auf dieser Folie ist noch nichts. Fügen Sie Text, ein Bild oder eine Form über die Leiste oben hinzu."
+
 #: frontend/src/inventory/sent_out/SentOutPage.vue:19
 msgid "Nothing open now"
 msgstr "Derzeit nichts offen"
@@ -31222,6 +31342,10 @@ msgstr "Packen"
 msgid "Packing Slip"
 msgstr "Packschein"
 
+#: onedesk/one_display/blocks.py:42
+msgid "Padding"
+msgstr "Innenabstand"
+
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Page"
@@ -33278,6 +33402,10 @@ msgstr "Hochformat"
 #: onedesk/one_studio/print_blocks.py:88
 msgid "Position"
 msgstr ""
+
+#: onedesk/one_display/blocks.py:67
+msgid "Position and Size"
+msgstr "Position und Größe"
 
 #. Description of the 'Credits' (Float) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -35771,6 +35899,10 @@ msgstr "Datensätze, die Sie geändert haben, ohne die Werte"
 msgid "Recruitment Overview"
 msgstr "Übersicht Personalgewinnung"
 
+#: onedesk/one_display/blocks.py:43
+msgid "Rectangle"
+msgstr "Rechteck"
+
 #. Label of the recurring (Check) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Recurring"
@@ -36234,6 +36366,10 @@ msgstr "Eines entfernen"
 #: onedesk/public/js/one_account/account_center.js:50
 msgid "Remove Photo"
 msgstr "Foto entfernen"
+
+#: frontend/src/display/designer/Inspector.vue:39
+msgid "Remove Slide"
+msgstr "Folie entfernen"
 
 #: onedesk/one_mail/ai.py:651
 msgid "Remove Star"
@@ -37953,6 +38089,10 @@ msgstr "Stichprobengröße"
 msgid "Samples and shop drawings approved"
 msgstr "Muster und Werkpläne freigegeben"
 
+#: onedesk/one_display/blocks.py:31
+msgid "Sans"
+msgstr "Serifenlos"
+
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Saturday"
 msgstr "Samstag"
@@ -38690,6 +38830,10 @@ msgstr "Dies wieder senden"
 msgid "Send this to the workspace. It's shown once."
 msgstr "Senden Sie dies an den Arbeitsbereich. Er wird nur einmal angezeigt."
 
+#: frontend/src/display/designer/Toolbar.vue:66
+msgid "Send to Back"
+msgstr "In den Hintergrund"
+
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:42
 msgid "Send to Every Screen"
 msgstr "An jeden Bildschirm senden"
@@ -39405,6 +39549,10 @@ msgstr "Mehrere Dateien"
 #: onedesk/public/js/one_account/account_center.js:1379
 msgid "Several people"
 msgstr "Mehrere Personen"
+
+#: onedesk/one_display/blocks.py:74
+msgid "Shadow"
+msgstr "Schatten"
 
 #: frontend/src/display/Slides.vue:32 frontend/src/display/Slides.vue:207
 msgid "Shape"
@@ -41028,6 +41176,14 @@ msgstr "Umsatzsteuer-Einstellungen Südafrika"
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:64
 msgid "Space"
 msgstr "Leerzeichen"
+
+#: frontend/src/display/designer/Inspector.vue:201
+msgid "Space Evenly Across"
+msgstr "Waagerecht gleichmäßig verteilen"
+
+#: frontend/src/display/designer/Inspector.vue:202
+msgid "Space Evenly Down"
+msgstr "Senkrecht gleichmäßig verteilen"
 
 #: onedesk/one_studio/places.py:314
 msgid "Space Home"
@@ -47801,6 +47957,10 @@ msgstr "Testphase endet"
 #: onedesk/one_project/library/year_end_audit.json
 msgid "Trial balance ready"
 msgstr "Summen- und Saldenliste fertig"
+
+#: onedesk/one_display/blocks.py:43
+msgid "Triangle"
+msgstr "Dreieck"
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.js:25
 #: onedesk/one_admin/heads.py:233
@@ -55208,6 +55368,10 @@ msgstr "Null heißt unbegrenzt. Frappe setzt es aus der Site-Konfiguration durch
 msgid "Zone ID"
 msgstr "Zonen-ID"
 
+#: frontend/src/display/designer/Toolbar.vue:30
+msgid "Zoom"
+msgstr "Zoom"
+
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:82
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:97
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:98
@@ -56764,6 +56928,10 @@ msgstr "Freigabe {0}"
 #: frontend/src/inventory/home/InventoryHome.vue:162
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} Chargen laufen bald ab"
+
+#: frontend/src/display/designer/Inspector.vue:5
+msgid "{0} Blocks"
+msgstr "{0} Blöcke"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1189
 msgid "{0} Can Send"
