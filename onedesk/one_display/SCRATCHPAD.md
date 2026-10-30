@@ -84,4 +84,31 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   voice while another speaks OneAI's; and a **Plays Sound** switch on each
   Display Screen, so one screen in a room carries the sound, as signage
   usually does.
+- **What is seen and what is heard, apart: Sound Zones.** A channel now
+  carries both its pictures and its sound (music, voice ads, calls), which
+  does not fit a business with many screens and one set of speakers. Plan:
+  - A **Display Channel** is only what is seen: slides, layout, widgets,
+    its schedule. Its music, ads and calls move out.
+  - A **Sound Zone** is what is heard where one set of speakers is
+    ("Showroom", "Workshop"): the music playlist and its schedule, voice
+    ads, the queues that call into it, and alerts.
+  - A zone is played by whatever feeds its amplifier: a `/radio` page on a
+    stick, an old phone or a PC on the PA's input, paired with a code as a
+    TV is, on the same clock. Where there is no PA, a screen plays its zone
+    itself (a switch on the Display Screen).
+  - A **Queue** names the zone its calls are spoken in, so a call comes
+    from the ceiling once, not from five TVs. The queue board stays a
+    widget on any channel; the kiosk stays its own channel.
+  - An **emergency alert** shows on every screen and is spoken in every
+    zone.
+  - **Content sound stays with its picture.** A video's own soundtrack
+    plays from the screen showing it, when the video's **Plays Sound** is on
+    (a switch on the element in OneSlide; every video on a screen is muted
+    today) and the screen's **Plays Sound** is on (one TV of a row of five
+    carries it). The zone turns its music down while such a video plays and
+    back up after, knowing when without being told, since a playlist's
+    timing is fixed in advance. A TV playing its own zone does the same.
+  - A browser plays no sound until OK is pressed once; the TV already asks.
+  This also ends most of "Sound in step" above: one place per zone makes
+  the sound, so there is no echo to correct.
 
