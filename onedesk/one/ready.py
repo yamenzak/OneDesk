@@ -373,8 +373,14 @@ MODULES = {
 		"folder": "one_sheet",
 		"screens": "sheet",
 		"names": ("one_sheet", "onesheet"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "d4446016e786", "by": "Claude, for Yamen"},
+		},
 		"windowless": "A workbook opens from OneCloud in an editor that fills the window, so OneWorkbook's foot and settings are OneCloud's.",
 		"help": (
 			("overview", "info"),
