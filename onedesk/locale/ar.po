@@ -47211,6 +47211,10 @@ msgstr "هذه الشاشة لا توزع تذاكر."
 msgid "This sheet ({0})"
 msgstr "هذه الورقة ({0})"
 
+#: frontend/src/sheet/components/SheetEditor/index.vue:22
+msgid "This sheet doesn’t exist"
+msgstr "هذا الجدول غير موجود"
+
 #: onedesk/one_sheet/paper.py:332
 msgid "This sheet is empty."
 msgstr "هذه الورقة فارغة."
@@ -57363,10 +57367,6 @@ msgstr "هذا الشهر"
 #: onedesk/one_hr/hiring.py:697
 msgid "this part could not be transcribed"
 msgstr "تعذّر تفريغ هذا الجزء"
-
-#: frontend/src/sheet/components/SheetEditor/index.vue:21
-msgid "this sheet doesn’t exist"
-msgstr "هذا الجدول غير موجود"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1027
 msgid "thousands"

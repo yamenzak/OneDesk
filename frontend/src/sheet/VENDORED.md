@@ -42,6 +42,8 @@ Each is marked `One:` in the file.
 | `components/SheetEditor/index.vue`, `ChartDialog.vue`, `SplitTextPopover.vue` (words) | Automatic, Duplicate, Series, Count and Period are asked for in a context, since frappe's own words mean something else in Arabic |
 | `components/SheetEditor/VersionHistory.vue`, `VersionPreviewBanner.vue`, `CellHistoryPopover.vue` | dates and times in the reader's language (`frappe.boot.lang`), not the browser's |
 | `components/SheetEditor/index.vue` (copy) | a reply's time says Now, not "just now", and its date is in the reader's language; the three-colour scale is named in five words or fewer |
+| `components/SheetEditor/index.vue` (direction) | the formula bar is `dir="auto"`, so a formula reads left to right for a right-to-left reader |
+| `components/SheetEditor/index.vue` (phone) | below md the path is the workbook's name alone, and the save status and the shortcuts button are left out |
 | `components/SheetEditor/ShareDialog.vue` | its failure says what failed without "Something went wrong", by the copy rules |
 | `components/SheetEditor/index.vue` (again) | File › Save as Template, opening `shim/TemplateDialog.vue`, offered only to whoever keeps company templates (`usePersistence.js` reads `can_template`); `data-tour` marks on the editor, the head, the toolbar, the formula bar and the tabs, for OneWorkbook's tour (`one_sheet/tour.py`) |
 | `engine/formula.js` | `=` and `<>` compare as Excel does (`_equal`): text with text, numbers with numbers, empty with "" and 0; `Sheet!$A4` reads; `A4:A` runs to the end of the column, not to A4; operators and the one-value functions (`_BY_CELL`: `IF`, `ROUND`, `LEN`…) work a range cell by cell (`_each`) |

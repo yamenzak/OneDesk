@@ -16,3 +16,8 @@
 .one-workbook .sn-table-notice {
 	max-width: 420px;
 }
+
+/* A path longer than the head has room for is cut, never drawn under File. */
+.one-workbook .sn-identity {
+	overflow: hidden;
+}

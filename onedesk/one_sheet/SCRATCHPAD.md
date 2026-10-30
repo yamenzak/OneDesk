@@ -12,3 +12,7 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   last sheet rather than at the foot of every page.
 - A link column searches every record of its type, not only the ones the
   form would offer for that field.
+- On a phone the head shows the workbook's name alone and the bar scrolls:
+  it is for reading and small changes, not for building a costing.
+- For a right-to-left reader the grid still runs A to Z left to right, as
+  Suite draws it, and a tab's menu opens to the right of the tab.

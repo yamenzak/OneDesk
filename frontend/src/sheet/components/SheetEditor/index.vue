@@ -19,7 +19,7 @@
       </div>
       <h2 class="sn-load-error-title">
         <template v-if="loadError.kind === 'denied'">{{ __('You don’t have access to this sheet') }}</template>
-        <template v-else-if="loadError.kind === 'missing'">{{ __('this sheet doesn’t exist') }}</template>
+        <template v-else-if="loadError.kind === 'missing'">{{ __('This sheet doesn’t exist') }}<!-- One: a sentence starts with a capital --></template>
         <template v-else>{{ __('Couldn’t open this sheet') }}</template>
       </h2>
       <p class="sn-load-error-sub">
@@ -37,7 +37,8 @@
         <div class="sn-identity">
           <!-- One: the OneWorkbook mark, one step back (Suite's app menu is the desk's here). -->
           <a class="sn-app-menu-trigger" href="#" :title="__('Back')" @click.prevent="goBack" v-html="oneMark" />
-          <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
+          <!-- One: on a phone the path is the workbook's name alone; the mark still goes back -->
+          <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] max-md:[&>:not(:last-child)]:hidden max-md:[&>div:last-child>:not(:last-child)]:hidden" v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
           <template v-else>
             <div class="flex min-w-0 items-center">
               <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] sn-parent-breadcrumb" :items="sheetHomeBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
@@ -55,11 +56,11 @@
           </template>
         </div>
         <!-- Save status — muted inline text; never competes with the title -->
-        <span v-if="isSaving" class="sn-save-status">
+        <span v-if="isSaving" class="sn-save-status max-md:hidden">
           <FeatherIcon name="loader" class="sn-save-icon sn-save-spin" />
           {{ __('Saving…') }}
         </span>
-        <span v-else-if="justSaved" class="sn-save-status">
+        <span v-else-if="justSaved" class="sn-save-status max-md:hidden">
           <FeatherIcon name="check" class="sn-save-icon" />
           {{ __('Saved') }}
         </span>
@@ -112,8 +113,9 @@
                 size="sm" icon="lucide-clock"
                 :tooltip="__('Version history')"
                 @click="vhOpen ? closeVersionHistory() : (notesPanel.open = false, openVersionHistory())" />
-        <Button variant="ghost" size="sm" icon="lucide-help-circle" :tooltip="__('Keyboard shortcuts')" @click="showShortcutsHelp = true" />
-        <span class="sn-topbar-divider" aria-hidden="true" />
+        <!-- One: a phone has no keyboard shortcuts -->
+        <Button class="max-md:hidden" variant="ghost" size="sm" icon="lucide-help-circle" :tooltip="__('Keyboard shortcuts')" @click="showShortcutsHelp = true" />
+        <span class="sn-topbar-divider max-md:hidden" aria-hidden="true" />
         <!-- Presence avatars — other users currently in the workbook.
              Outline = their cursor color; tooltip says which sub-sheet
              they're on so cross-sheet collaborators are discoverable. -->
@@ -300,9 +302,11 @@
       </Tooltip>
       <span class="sn-fx-label" aria-hidden="true">{{ __('fx') }}</span>
       <div class="sn-formula-wrap">
+        <!-- One: dir="auto", a value or formula reads in its own direction, whatever the reader's language -->
         <input
           ref="formulaInputRef"
           name="formula-bar"
+          dir="auto"
           class="sn-formula-input"
           :value="formulaValue"
           :readonly="readOnly"
