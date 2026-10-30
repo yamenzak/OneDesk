@@ -110,19 +110,20 @@ def seal(file_id: str) -> str:
 	return hmac.new(get_encryption_key().encode(), f"one_slide:{file_id}".encode(), hashlib.sha256).hexdigest()[:32]
 
 
-def _shown(src) -> str:
+def _shown(src, edge: int | None = None) -> str:
 	if not isinstance(src, str) or not src:
 		return ""
 	if src.startswith(MEDIA):
 		file_id = src[len(MEDIA) :].split("&")[0]
-		return f"{SHOWN}{file_id}&sig={seal(file_id)}"
+		return f"{SHOWN}{file_id}&sig={seal(file_id)}" + (f"&edge={edge}" if edge else "")
 	return src if src.startswith(OPEN) else ""
 
 
-def for_screen(name: str, seconds: int, reader: str | None = None) -> list[dict]:
+def for_screen(name: str, seconds: int, reader: str | None = None, edge: int | None = None) -> list[dict]:
 	"""A presentation's slides as a screen plays them: each for as long as
 	`length` says, its own transition, its media at sealed addresses, a table
-	drawn to HTML, and nothing hidden. Records are read as `reader`."""
+	drawn to HTML, and nothing hidden. Records are read as `reader`; pictures
+	are asked for at most `edge` pixels along their longest side (sized.py)."""
 	import frappe
 
 	doc = frappe.get_cached_doc("Presentation", name)
@@ -140,7 +141,7 @@ def for_screen(name: str, seconds: int, reader: str | None = None) -> list[dict]
 				continue
 			for key in ("src", "poster"):
 				if key in one:
-					one[key] = _shown(one[key])
+					one[key] = _shown(one[key], edge if key == "poster" or one.get("type") == "image" else None)
 			if one.get("type") == "table":
 				one = {**one, "html": _table(one.get("content")), "content": None}
 			elements.append(one)

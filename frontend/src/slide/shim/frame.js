@@ -6,7 +6,6 @@ import { reactive } from "vue";
 import { __ } from "./words.js";
 
 export const WIDE = { w: 960, h: 540 };
-export const TALL = { w: 540, h: 960 };
 export const frame = reactive({ ...WIDE });
 
 // the sizes New Presentation and Slide Size offer, in the reader's language;
@@ -26,7 +25,7 @@ export function setFrame(w, h) {
 
 // what a loaded presentation is drawn on: a screen's shape, else its own size
 export function frameOf(doc) {
-	if (doc?.screen) return doc.screen.orientation === "Portrait" ? TALL : WIDE;
+	if (doc?.screen) return doc.screen.frame?.w > 0 ? { ...doc.screen.frame } : WIDE;
 	return { w: Number(doc?.width) || WIDE.w, h: Number(doc?.height) || WIDE.h };
 }
 

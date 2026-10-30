@@ -5,7 +5,9 @@
  "engine": "InnoDB",
  "field_order": [
   "collection_name",
-  "orientation",
+  "screen_size",
+  "width",
+  "height",
   "background",
   "backdrop",
   "widgets"
@@ -19,12 +21,27 @@
    "unique": 1
   },
   {
-   "fieldname": "orientation",
+   "fieldname": "screen_size",
    "fieldtype": "Select",
-   "label": "Orientation",
-   "options": "Landscape\nPortrait",
+   "label": "Screen Size",
+   "options": "Landscape\nPortrait\nBar\nSquare\nWall\nCustom",
    "default": "Landscape",
-   "description": "Landscape is 1920 by 1080; portrait is 1080 by 1920."
+   "description": "Bar is 1920 × 540, a strip over a counter. Wall is 3840 × 1080, two screens side by side."
+  },
+  {
+   "fieldname": "width",
+   "fieldtype": "Int",
+   "label": "Width",
+   "default": "1920",
+   "read_only_depends_on": "eval:doc.screen_size!=='Custom'",
+   "description": "In pixels, as the layout is drawn; a screen of another size scales it."
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Int",
+   "label": "Height",
+   "default": "1080",
+   "read_only_depends_on": "eval:doc.screen_size!=='Custom'"
   },
   {
    "fieldname": "background",
@@ -50,7 +67,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 17:00:00.000000",
+ "modified": "2026-10-30 21:01:31.914368",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Widget Collection",

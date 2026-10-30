@@ -204,6 +204,65 @@ def onedisplay_hears_what_a_screen_is():
 
 
 @check
+def onedisplay_draws_any_size_and_pictures_as_sharp_as_the_screen():
+	"""A screen of any shape: a bar over a counter is drawn on its own frame,
+	and Custom keeps its width and height in bounds. A picture larger than
+	the largest screen showing it is copied once at that size, the original
+	kept, and the copy goes when the picture does."""
+	import base64
+	import io
+	import os
+
+	from PIL import Image
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one_display import programme, sizes
+	from onedesk.one_slide import api, play, sized
+
+	assert sizes.pixels({"screen_size": "Bar"}) == (1920, 540) and sizes.editor({"screen_size": "Wall"}) == (1920, 540)
+	assert sizes.pixels({"screen_size": "Custom", "width": 99999, "height": 10}) == (sizes.LARGEST, sizes.SMALLEST)
+	assert sized.bucket(1281) == 1920 and sized.bucket(9000) == 7680 and programme._longest("1920 × 1080 · 2x") == 3840
+	channel = frappe.get_doc("Display Channel", CHANNEL)
+	frappe.db.savepoint("onedisplay_sizes")
+	picture = None
+	was = getattr(frappe.local, "request", None)
+	try:
+		channel.screen_size = "Bar"
+		channel.save(ignore_permissions=True)
+		said = programme.compose(CHANNEL)
+		assert (said["width"], said["height"]) == (1920, 540) and channel.width == 1920 and channel.height == 540, said
+		buffer = io.BytesIO()
+		Image.new("RGB", (3000, 2000), "#0e6e8c").save(buffer, "PNG")
+		row = frappe.get_doc("Slide Playlist", channel.slide_playlist).slides[0]
+		held = api.presentation_of(frappe.db.get_value("File", row.presentation, "file_url"))
+		with as_user(OWNER):
+			src = api.save_base64_image("data:image/png;base64," + base64.b64encode(buffer.getvalue()).decode(), held, "large")
+		picture = src[len(play.MEDIA) :].split("&")[0]
+		assert f"&edge={1920}" in play._shown(src, 1920) and "&edge" not in play._shown(src), "a screen asks for its size"
+		sized.make(picture, 1920)
+		copy = sized.served(picture, 1920)
+		path = frappe.get_site_path(copy["path"])
+		assert Image.open(path).size == (1920, 1280), Image.open(path).size
+		assert os.path.exists(frappe.get_doc("File", picture).get_full_path()), "the original is kept"
+		sized.make(picture, 3840)
+		assert sized.served(picture, 3840) is None, "a picture never grows"
+		with as_user("Guest"):
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
+			sent = api.shown(picture, play.seal(picture), edge=1920)
+			assert sent.status_code == 200 and Image.open(io.BytesIO(b"".join(sent.response))).size == (1920, 1280)
+		frappe.delete_doc("File", picture, ignore_permissions=True, force=True)
+		picture = None
+		assert not os.path.exists(path), "the copy goes with the picture"
+	finally:
+		frappe.local.request = was
+		if picture:
+			frappe.delete_doc("File", picture, ignore_permissions=True, force=True)
+		frappe.db.rollback(save_point="onedisplay_sizes")
+		frappe.clear_document_cache("Display Channel", CHANNEL)
+
+
+@check
 def onedisplay_plays_a_presentation():
 	"""The showroom's playlist plays a presentation from OneCloud: each of its
 	slides reaches a screen as the editor's elements, its own time or the

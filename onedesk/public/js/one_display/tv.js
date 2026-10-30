@@ -3,8 +3,8 @@
    functions, no fetch and no let. Nothing here is bundled, so nothing may
    need to be.
 
-   The channel is drawn on a frame of 1920 by 1080 (or 1080 by 1920) that is
-   scaled and turned to fit the screen whole. Slides, music and ads follow one
+   The channel is drawn on its own frame (1920 by 1080 unless its Screen
+   Size says otherwise) that is scaled and turned to fit the screen whole. Slides, music and ads follow one
    clock, the server's, so every screen on a channel plays the same thing at
    the same moment without talking to the others. */
 (function () {
@@ -380,6 +380,8 @@
 	}
 
 	function size() {
+		if (channel && channel.width > 0 && channel.height > 0) return { w: channel.width, h: channel.height };
+		// a channel kept from before screens had sizes
 		var portrait = channel && channel.orientation === "portrait";
 		return portrait ? { w: 1080, h: 1920 } : { w: 1920, h: 1080 };
 	}
@@ -517,6 +519,8 @@
 			// shared clock where the slide is.
 			holder.appendChild(node);
 			onedesk.play.draw(item.slide, node);
+			// a slide of another shape: whole with bands, or filling the screen when its row says so
+			if (item.fill) onedesk.play.fit(node, true);
 			var videos = node.getElementsByTagName("video");
 			for (var v = 0; v < videos.length; v++) joined(videos[v], at.into);
 		} else {

@@ -12,7 +12,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt
 
-from onedesk.one_display import layout
+from onedesk.one_display import layout, sizes
 
 DOCTYPE = "Widget Collection"
 WIDGET = "widget"
@@ -21,7 +21,7 @@ ROW = ("widget_type", "label", "source", "mapping", "settings", "shown", "from_t
 
 
 def frame(collection) -> tuple[int, int]:
-	return (540, 960) if collection.orientation == "Portrait" else (960, 540)
+	return sizes.editor(collection)
 
 
 @frappe.whitelist(methods=["POST"])
@@ -52,7 +52,9 @@ def loaded(doc: dict, item: dict) -> None:
 		return
 	said = layout.get(collection.name)
 	wide, high = frame(collection)
-	doc["screen"] = {key: said[key] for key in ("name", "orientation", "writable", "types", "sources")}
+	doc["screen"] = {key: said[key] for key in ("name", "screen_size", "writable", "types", "sources")}
+	# the frame the editor lays the screen out on (frontend/src/slide/shim/frame.js)
+	doc["screen"]["frame"] = {"w": wide, "h": high}
 	slides = (doc.get("slides") or [])[:1]
 	if not slides:
 		return
@@ -131,7 +133,7 @@ def _parsed(value) -> list:
 	return [one for one in said if isinstance(one, dict)] if isinstance(said, list) else []
 
 
-def drawn(collection) -> dict | None:
+def drawn(collection, edge: int | None = None) -> dict | None:
 	"""The backdrop as a screen draws it under the widgets: its one slide's
 	elements, media sealed and nothing hidden, on the screen's own frame."""
 	from onedesk.one_slide import api, play
@@ -140,7 +142,7 @@ def drawn(collection) -> dict | None:
 	name = url and api.presentation_of(url)
 	if not name or not frappe.db.exists(api.PRESENTATION, name):
 		return None
-	slides = play.for_screen(name, 10)
+	slides = play.for_screen(name, 10, edge=edge)
 	elements = slides[0]["slide"]["elements"] if slides else []
 	if not elements:
 		return None

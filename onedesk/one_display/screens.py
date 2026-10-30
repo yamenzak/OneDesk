@@ -15,7 +15,7 @@ from frappe import _
 from frappe.rate_limiter import rate_limit
 from frappe.utils import add_to_date, cint, flt, get_datetime, getdate, now_datetime, today
 
-from onedesk.one_display import programme
+from onedesk.one_display import programme, sizes
 from onedesk.one_display import queue as queues
 
 DOCTYPE = "Display Screen"
@@ -248,7 +248,8 @@ def preview(
 	else:
 		said = {
 			"name": "",
-			"orientation": "landscape",
+			"width": 1920,
+			"height": 1080,
 			"mode": "show",
 			"muted": True,
 			"language": frappe.local.lang,
@@ -263,7 +264,7 @@ def preview(
 		frappe.has_permission("Widget Collection", "read", doc=collection, throw=True)
 		said["layout"] = programme.layout(collection, said["language"])
 		if not channel:
-			said["orientation"] = (frappe.db.get_value("Widget Collection", collection, "orientation") or "Landscape").lower()
+			said["width"], said["height"] = sizes.pixels(frappe.get_cached_doc("Widget Collection", collection))
 	said["mode"] = "show"
 	said["revision"] = programme._revision(said)
 	return {

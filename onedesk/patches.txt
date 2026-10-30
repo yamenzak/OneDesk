@@ -7,6 +7,7 @@ onedesk.one_display.patches.roles
 [post_model_sync]
 onedesk.one_display.patches.widgets_from_queue
 onedesk.one_display.patches.presentations_on_screens
+onedesk.one_display.patches.sizes_from_orientation
 
 [post_fixture_sync]
 onedesk.one_crm.patches.add_on_hold

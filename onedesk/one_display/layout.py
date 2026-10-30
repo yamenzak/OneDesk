@@ -23,7 +23,9 @@ def get(collection: Annotated[str, "The widget collection."]) -> dict:
 	doc.check_permission("read")
 	return {
 		"name": doc.name,
-		"orientation": doc.orientation or "Landscape",
+		"screen_size": doc.screen_size or "Landscape",
+		"width": doc.width,
+		"height": doc.height,
 		"background": doc.background or "",
 		"writable": doc.has_permission("write"),
 		"widgets": [{"id": row.name, **{key: row.get(key) for key in KEPT}} for row in doc.widgets],
@@ -59,7 +61,6 @@ def fields(source: Annotated[str, "A source."]) -> list[dict]:
 def save(
 	collection: Annotated[str, "The widget collection."],
 	widgets: Annotated[str | list, "Its widgets, in the shape get() gives."],
-	orientation: Annotated[str | None, "Landscape or Portrait."] = None,
 	background: Annotated[str | None, "A colour, or empty for the brand's."] = None,
 ) -> dict:
 	"""Write the editor's widgets over the collection's, keeping each row
@@ -81,8 +82,6 @@ def save(
 		else:
 			rows.append(doc.append("widgets", values))
 	doc.set("widgets", rows)
-	if orientation in ("Landscape", "Portrait"):
-		doc.orientation = orientation
 	if background is not None:
 		doc.background = background or None
 	doc.save()

@@ -214,10 +214,10 @@ No doctypes yet.
 |---|--:|---|
 | Channel Ad | 4 | child |
 | Channel Programme | 7 | child |
-| Display Channel | 19 | document |
+| Display Channel | 21 | document |
 | Display Screen | 32 | document |
 | Display Settings | 2 | single |
-| Display Slide | 8 | child |
+| Display Slide | 9 | child |
 | Display Source | 32 | document |
 | Display Track | 4 | child |
 | Display Voice | 5 | document |
@@ -229,7 +229,7 @@ No doctypes yet.
 | Queue Ticket | 11 | document |
 | Slide Playlist | 3 | document |
 | Voice Ad | 8 | document |
-| Widget Collection | 5 | document |
+| Widget Collection | 7 | document |
 
 ## One Slide
 

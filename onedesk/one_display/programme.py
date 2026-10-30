@@ -14,7 +14,7 @@ import frappe
 from frappe import _
 from frappe.utils import cint, flt, get_system_timezone, get_time, getdate, now_datetime
 
-from onedesk.one_display import sources, widgets
+from onedesk.one_display import sizes, sources, widgets
 
 DAYS = {
 	"Every Day": range(7),
@@ -91,7 +91,7 @@ def _url(path: str) -> str:
 	return path if path.startswith(("/files/", "https://", "http://")) else ""
 
 
-def slides(name: str | None, today=None) -> dict | None:
+def slides(name: str | None, today=None, edge: int | None = None) -> dict | None:
 	if not name:
 		return None
 	playlist = frappe.get_cached_doc("Slide Playlist", name)
@@ -101,13 +101,13 @@ def slides(name: str | None, today=None) -> dict | None:
 		if row.paused or (row.from_date and getdate(row.from_date) > today) or (row.to_date and getdate(row.to_date) < today):
 			continue
 		if row.kind == "Presentation":
-			shown += [{**one, "id": f"{row.name}-{one['id']}", "kind": "Slide"} for one in _presented(row)]
+			shown += [{**one, "id": f"{row.name}-{one['id']}", "kind": "Slide", "fill": cint(row.fill)} for one in _presented(row, edge)]
 		elif row.kind == "Web Page" and (row.url or "").startswith("https://"):
 			shown.append({"id": row.name, "kind": "Web Page", "src": row.url, "ms": max(cint(row.duration) or SLIDE, 2) * 1000})
 	return {"name": name, "transition": (playlist.transition or "Fade").lower(), "slides": shown}
 
 
-def _presented(row) -> list[dict]:
+def _presented(row, edge: int | None = None) -> list[dict]:
 	"""A presentation row's slides, as one_slide/play.py gives them to a screen."""
 	from onedesk.one_slide import api, play
 
@@ -115,7 +115,7 @@ def _presented(row) -> list[dict]:
 	name = api.presentation_of(url)
 	if not name or not frappe.db.exists("Presentation", name):
 		return []
-	return play.for_screen(name, cint(row.duration) or SLIDE)
+	return play.for_screen(name, cint(row.duration) or SLIDE, edge=edge)
 
 
 def _spoken(ticket: str) -> str:
@@ -130,7 +130,7 @@ def _shown_now(row, at: datetime) -> bool:
 	return _within(frappe._dict(days="Every Day", from_time=row.from_time, to_time=row.to_time), at)
 
 
-def layout(name: str | None, lang: str, at: datetime | None = None, voice: str | None = None) -> dict | None:
+def layout(name: str | None, lang: str, at: datetime | None = None, voice: str | None = None, edge: int | None = None) -> dict | None:
 	"""A collection's widgets where they sit, each with what it shows now."""
 	if not name:
 		return None
@@ -169,7 +169,7 @@ def layout(name: str | None, lang: str, at: datetime | None = None, voice: str |
 		)
 	from onedesk.one_display import screen
 
-	return {"name": name, "background": collection.background or "", "widgets": placed, "backdrop": screen.drawn(collection)}
+	return {"name": name, "background": collection.background or "", "widgets": placed, "backdrop": screen.drawn(collection, edge)}
 
 
 def _qr(link: str) -> str:
@@ -290,15 +290,17 @@ def compose(channel_name: str, lang: str | None = None) -> dict:
 	try:
 		at = now_datetime()
 		now = plays(channel, at)
+		edge = longest(channel.name)
 		said = {
 			"name": channel.channel_name,
-			"orientation": (channel.orientation or "Landscape").lower(),
+			# the frame in pixels the screen draws on and scales to fit (sizes.py)
+			**dict(zip(("width", "height"), sizes.pixels(channel))),
 			"mode": now["mode"],
 			"muted": now["muted"],
 			"language": lang,
 			"announce": cint(channel.announce),
-			"slides": slides(now["slides"]),
-			"layout": layout(now["widgets"], lang, at, channel.voice),
+			"slides": slides(now["slides"], edge=edge),
+			"layout": layout(now["widgets"], lang, at, channel.voice, edge),
 			"music": music(now["music"]),
 			"ads": ads(channel, lang),
 			"words": words(),
@@ -309,6 +311,27 @@ def compose(channel_name: str, lang: str | None = None) -> dict:
 		frappe.local.lang = previous
 	said["revision"] = _revision(said)
 	return said
+
+
+# a 4K screen's, until a screen on the channel says what it is
+LONGEST = 3840
+PIXELS = re.compile(r"(\d+)\D+(\d+)\D+([\d.]+)x")
+
+
+def longest(channel: str) -> int:
+	"""How large a channel's pictures are asked for: the longest edge, in the
+	device's own pixels, of the largest screen showing it (screens._heard),
+	as one of the sizes pictures are copied at (one_slide/sized.py)."""
+	from onedesk.one_slide import sized
+
+	reported = frappe.get_all("Display Screen", filters={"channel": channel, "pixels": ["is", "set"]}, pluck="pixels")
+	return sized.bucket(max((_longest(one) for one in reported), default=0) or LONGEST)
+
+
+def _longest(pixels: str) -> int:
+	"""'1920 × 1080 · 2x' as 3840. Pure."""
+	found = PIXELS.search(pixels or "")
+	return int(max(int(found.group(1)), int(found.group(2))) * float(found.group(3))) if found else 0
 
 
 def _minutes(value) -> int | None:
@@ -335,7 +358,7 @@ def _revision(said: dict) -> str:
 	"""Changes when what is drawn changes shape, not when a widget's rows do,
 	so a screen rebuilds only when it has to."""
 	shape = {
-		"orientation": said["orientation"],
+		"frame": [said["width"], said["height"]],
 		"slides": said["slides"],
 		"music": said["music"],
 		"layout": [

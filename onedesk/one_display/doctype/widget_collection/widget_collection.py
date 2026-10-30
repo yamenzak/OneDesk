@@ -5,11 +5,12 @@ from frappe import _
 from frappe.model.document import Document
 from frappe.utils import flt
 
-from onedesk.one_display import widgets
+from onedesk.one_display import sizes, widgets
 
 
 class WidgetCollection(Document):
 	def validate(self):
+		sizes.settle(self)
 		for row in self.widgets:
 			spec = widgets.TYPES.get(row.widget_type)
 			if not spec:

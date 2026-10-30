@@ -16,6 +16,11 @@ from werkzeug.utils import redirect
 
 FETCH = "/api/method/onedesk.one_storage.store.fetch"
 
+#: the sizes a picture on a slide is copied at for screens (one_slide/sized.py);
+#: the copies sit beside it and go with it
+SCREEN_EDGES = (1280, 1920, 2560, 3840, 7680)
+SCREEN_COPIED = (".jpg", ".jpeg", ".png", ".webp")
+
 PATIENCE = 120
 
 LARGEST = 5 * 1024**3
@@ -116,15 +121,33 @@ def write(doc):
 	return {"file_name": doc.file_name, "file_url": doc.file_url}
 
 
+def screen_copy(name: str, edge: int) -> str:
+	"""Where a picture's copy for screens sits: its key or path with the edge. Pure."""
+	base, extension = os.path.splitext(name)
+	return f"{base}_screen{edge}{extension}"
+
+
+def screen_copies(name: str) -> list[str]:
+	"""Every copy a picture may have for screens. Pure."""
+	if os.path.splitext(name or "")[1].lower() not in SCREEN_COPIED:
+		return []
+	return [screen_copy(name, edge) for edge in SCREEN_EDGES]
+
+
 def delete(doc, only_thumbnail=False) -> None:
 	"""delete_file_data_content: drop the object once nothing names it, and
 	only once the delete is committed — a rolled-back delete keeps its file."""
 	if not is_stored(doc.file_url):
+		if not only_thumbnail and doc.file_url and not doc.is_folder and not _named_elsewhere(doc.name, doc.file_url):
+			for path in screen_copies(doc.get_full_path()):
+				if os.path.exists(path):
+					os.remove(path)
 		doc.delete_file_from_filesystem(only_thumbnail=only_thumbnail)
 		return
 	gone = []
 	if not only_thumbnail and not _named_elsewhere(doc.name, doc.file_url):
 		gone.append(key_of(doc.file_url))
+		gone += screen_copies(key_of(doc.file_url))
 	if is_stored(doc.thumbnail_url) and not _named_elsewhere(doc.name, doc.thumbnail_url, "thumbnail_url"):
 		gone.append(key_of(doc.thumbnail_url))
 	if gone:

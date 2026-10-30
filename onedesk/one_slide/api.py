@@ -595,31 +595,36 @@ def media(id: str):
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
-def shown(id: str, sig: str):
+def shown(id: str, sig: str, edge: int | None = None):
 	"""A picture or video on a slide, to a screen: the address carries a seal
 	only the site can make for that one file (play.seal), since a screen signs
-	in as nobody."""
+	in as nobody. With `edge`, a picture larger than the screen shows comes as
+	a copy at that size (sized.py), once one is made."""
 	import hmac
 
-	from onedesk.one_slide import play
+	from onedesk.one_slide import play, sized
 
 	held = _media_row(id)
 	if not held or held.attached_to_doctype != PRESENTATION or not hmac.compare_digest(play.seal(id), str(sig or "")):
 		raise frappe.DoesNotExistError
-	return _sent(id, held.file_name, "public, max-age=604800, immutable")
+	copy = sized.served(id, edge) if edge else None
+	return _sent(id, held.file_name, "public, max-age=604800, immutable", copy)
 
 
-def _sent(id: str, file_name: str | None, cache: str):
+def _sent(id: str, file_name: str | None, cache: str, copy: dict | None = None):
 	"""A File's bytes as the response: from this server's disk with ranges, or,
-	once the workspace keeps its files in R2, a redirect to the object there."""
+	once the workspace keeps its files in R2, a redirect to the object there.
+	`copy` is a smaller copy of a picture to send instead (sized.py)."""
 	from werkzeug.utils import redirect, send_file
 
 	from onedesk.one_storage import store
 
+	if copy and copy.get("key"):
+		return redirect(store.signed(copy["key"], filename=file_name), 302)
 	url = frappe.db.get_value("File", id, "file_url")
 	if store.is_stored(url):
 		return redirect(store.signed(store.key_of(url), filename=file_name), 302)
-	path = frappe.get_doc("File", id).get_full_path()
+	path = frappe.get_site_path(copy["path"]) if copy and copy.get("path") else frappe.get_doc("File", id).get_full_path()
 	kind = mimetypes.guess_type(file_name or path)[0] or "application/octet-stream"
 	response = send_file(path, environ=frappe.local.request.environ, conditional=True, mimetype=kind)
 	response.headers["Accept-Ranges"] = "bytes"

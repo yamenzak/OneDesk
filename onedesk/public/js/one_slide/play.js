@@ -270,13 +270,14 @@
 		return '<div class="one-play" style="position:relative;overflow:hidden;width:' + wide + "px;height:" + high + "px;background:" + esc(ground) + '">' + drawn.join("") + "</div>";
 	}
 
-	// the stage scaled to fill its holder, as large as fits and centred
-	function fit(holder) {
+	// the stage scaled to its holder and centred: as large as fits whole, or
+	// covering the holder and trimmed when `cover` (a screen's Fill the Screen)
+	function fit(holder, cover) {
 		var stage = holder.firstChild;
 		if (!stage) return;
 		var wide = stage.offsetWidth || WIDE;
 		var high = stage.offsetHeight || HIGH;
-		var scale = Math.min(holder.clientWidth / wide, holder.clientHeight / high) || 1;
+		var scale = (cover ? Math.max : Math.min)(holder.clientWidth / wide, holder.clientHeight / high) || 1;
 		stage.style.position = "absolute";
 		stage.style.left = (holder.clientWidth - wide * scale) / 2 + "px";
 		stage.style.top = (holder.clientHeight - high * scale) / 2 + "px";

@@ -9,6 +9,9 @@ NEEDS = {"Slides": "slide_playlist", "Widgets": "widget_collection", "Music": "m
 
 class DisplayChannel(Document):
 	def validate(self):
+		from onedesk.one_display import sizes
+
+		sizes.settle(self)
 		for row in self.programme:
 			needed = NEEDS.get(row.plays)
 			if needed and not row.get(needed):
