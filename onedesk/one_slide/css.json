@@ -1,0 +1,15 @@
+{
+	"properties": [
+		"backdrop-filter", "background", "background-color", "background-image",
+		"border", "border-bottom", "border-color", "border-left", "border-radius",
+		"border-right", "border-style", "border-top", "border-width", "box-shadow",
+		"clip-path", "color", "filter", "font-style", "font-weight", "letter-spacing",
+		"line-height", "mix-blend-mode", "opacity", "outline", "overflow", "padding",
+		"text-align", "text-decoration", "text-shadow", "text-transform", "white-space",
+		"word-spacing"
+	],
+	"refused": ["url(", "image-set(", "attr(", "expression", "javascript:", "\\", "<", ">", "@", "{", "}"],
+	"longest": 2000,
+	"longestValue": 300,
+	"mostBlur": 100
+}

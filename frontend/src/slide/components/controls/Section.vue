@@ -21,6 +21,7 @@
 </template>
 
 <script setup>
+import LucideChevronDown from '~icons/lucide/chevron-down' // One: the island resolves icons only by import, VENDORED.md
 import { inject, ref } from 'vue'
 
 const sectionInert = inject('sectionInert', false)

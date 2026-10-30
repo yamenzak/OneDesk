@@ -90,7 +90,7 @@ const getThumbnailClasses = () => {
 
 const getThumbnailStyles = (s) => {
 	return {
-		backgroundColor: s.background || '#ffffff',
+		background: s.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 		height: `${props.height}px`,
 	}
 }

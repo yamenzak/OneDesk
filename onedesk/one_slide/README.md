@@ -24,6 +24,17 @@ has: frame, arrangement, font and paragraph, fill, border and shadow, crop for
 a picture, playback for a video. With nothing chosen, the panel is the slide's
 own: its background, how it moves to the next one, and when.
 
+Besides Suite's shapes there are a star and a block arrow. Any fill, and a
+slide's background, can **Fade** into a second colour at an angle. **Effects**
+blurs anything, and its **CSS** box takes CSS for the rest: corners, blend
+modes, text shadows, clip paths. What the box cannot use is listed under it
+as **Not used**; position, size and turn stay with the panel above.
+
+**Layers**, beside **Design** at the top of the panel, lists what is on the
+slide, the top first. Click one to choose it, double-click to name it, drag
+to restack, and use its eye and lock to hide it or keep it from being moved.
+A hidden element is not drawn in the editor, the slideshow or a PDF.
+
 **Theme** changes the theme the layouts come from. **Present** plays the
 presentation from this slide or from the start, and can loop.
 
@@ -87,6 +98,18 @@ editor's **Reload** answers.
 
 The Light and Dark themes are Suite's fixtures, kept in
 `templates/system.json` and put in place on every migrate (`setup.themes`).
+
+### The Builder half
+
+A fade, a blur, free CSS, a name and whether an element is hidden are kept
+on the element as Suite keeps everything else (`fade`, `blur`, `css`, `name`,
+`hidden`), and a fade on a slide's background is the background itself, a
+`linear-gradient`. `css.json` is the one list of what free CSS may say: the
+editor reads it to draw (`shim/looks.js`) and `play.cleaned` reads it again
+on every save, so a declaration that is not on it, or a value that loads
+anything (`url(`, `@import`, `expression`), never reaches a screen. The
+editor's half is in `frontend/src/slide/shim/`; `VENDORED.md` lists where it
+joins Suite's files.
 
 ### History, templates and paper
 

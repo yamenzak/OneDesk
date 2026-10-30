@@ -280,8 +280,10 @@ const getShapeDefaults = (shapeType) => {
 		case 'diamond':
 		case 'triangle':
 		case 'pentagon':
+		case 'star': // One: our two shapes, utils/shapeGeometry.js; VENDORED.md
+		case 'blockArrow':
 			width = 300
-			height = 300
+			height = shapeType === 'blockArrow' ? 160 : 300
 			strokeColor = defaultStrokeColor
 			strokeWidth = 2
 			borderRadius = 0

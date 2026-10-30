@@ -32,6 +32,7 @@
 </template>
 
 <script setup>
+import LucideMoveHorizontal from '~icons/lucide/move-horizontal' // One: the island resolves icons only by import, VENDORED.md
 import { computed, ref } from 'vue'
 import { useDragScrub } from '@/apps/slides/composables/useDragScrub'
 import { labelClasses } from '@/apps/slides/utils/constants'

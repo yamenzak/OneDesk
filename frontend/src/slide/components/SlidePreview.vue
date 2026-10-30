@@ -36,7 +36,7 @@ const elements = computed(() => {
 })
 
 const previewStyles = computed(() => ({
-	backgroundColor: props.slide?.background || '#ffffff',
+	background: props.slide?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 }))
 
 const slideStyles = computed(() => ({

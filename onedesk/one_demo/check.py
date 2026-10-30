@@ -3202,7 +3202,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo.slide import NAME as DEMO
-	from onedesk.one_slide import api, paper, templates, versions
+	from onedesk.one_slide import api, paper, play, templates, versions
 
 	dot = "data:image/png;base64," + base64.b64encode(DOT_PNG).decode()
 	was = getattr(frappe.local, "request", None)
@@ -3218,10 +3218,22 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			assert deck["can_write"] and len(deck["slides"]) == 1 and deck["theme"] == api.LIGHT, deck
 			assert api.get_editor_access(name) == "edit"
 			row = {key: deck["slides"][0][key] for key in api.SLIDE_FIELDS if key in deck["slides"][0]}
-			bad = [{"id": "x1", "type": "text", "content": "<p>Hello<script>alert(1)</script></p>"}]
-			api.save_slides(name, json.dumps([{**row, "elements": json.dumps(bad)}]), deck["modified"])
-			kept = json.loads(api.get(name)["slides"][0]["elements"])
+			bad = [
+				{"id": "x1", "type": "text", "content": "<p>Hello<script>alert(1)</script></p>"},
+				{"id": "x2", "type": "shape", "shapeType": "star", "css": "color: red; background: url(x); position: fixed",
+				 "blur": 500, "fade": {"to": "#00ff00ff", "angle": 450}, "name": "<b>Badge</b>", "hidden": 1},
+				{"id": "x3", "type": "shape", "shapeType": "blockArrow", "fade": {"to": "javascript:x"}, "css": "a{"},
+			]
+			fade = "linear-gradient(90deg, #ffffffff, #000000ff)"
+			api.save_slides(name, json.dumps([{**row, "background": fade, "elements": json.dumps(bad)}]), deck["modified"])
+			slide = api.get(name)["slides"][0]
+			kept = json.loads(slide["elements"])
 			assert "script" not in kept[0]["content"] and "Hello" in kept[0]["content"], kept
+			assert kept[1]["css"] == "color: red" and kept[1]["blur"] == 100 and kept[1]["fade"]["angle"] == 90, kept
+			assert kept[1]["name"] == "Badge" and kept[1]["hidden"] is True, kept
+			assert not {"fade", "css", "blur", "name", "hidden"} & set(kept[2]), kept
+			assert slide["background"] == fade, slide["background"]
+			assert play.background("url(x)") == "" and play.background("linear-gradient(9deg, red, url(x))") == ""
 			try:
 				api.save_slides(name, json.dumps([row]), deck["modified"])
 				raise AssertionError("a save built on an older version is refused")

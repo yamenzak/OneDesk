@@ -26,6 +26,7 @@ import { getTransitionKey } from '@/apps/slides/stores/transition'
 import { slideBounds } from '@/apps/slides/stores/slide'
 import { interactionOffset, followerGeometry, rotationDelta } from '@/apps/slides/stores/interaction'
 import { selectionColor } from '@/apps/slides/utils/constants'
+import { looksOf } from '@/apps/slides/shim/looks.js' // One: blur, free CSS and hiding, VENDORED.md
 
 const props = defineProps({
 	mode: {
@@ -98,6 +99,7 @@ const elementStyle = computed(() => {
 	const transform = [offsetTransform, getTransform(rotation)].filter(Boolean).join(' ')
 
 	return {
+		...looksOf(element.value),
 		position: 'absolute',
 		width: elementWidth,
 		height: elementHeight,

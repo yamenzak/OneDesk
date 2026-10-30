@@ -36,6 +36,16 @@
 				@colorup="fillColor.commit"
 			/>
 		</PropertyRow>
+		<!-- One: a fill may fade into a second colour, shim/FadeRows.vue; VENDORED.md -->
+		<FadeRows
+			v-if="!hasLine"
+			:fade="firstEditableElement.fade"
+			:from="firstEditableElement.fillColor"
+			@toggle="(value) => setElementProperty('fade', value)"
+			@begin="fade.begin"
+			@set="fade.set"
+			@commit="fade.commit"
+		/>
 		<NumberControl
 			v-if="isRectangleSelection"
 			:modelValue="firstEditableElement.borderRadius ?? 0"
@@ -85,6 +95,7 @@ import NumberControl from '@/apps/slides/components/controls/NumberControl.vue'
 import Section from '@/apps/slides/components/controls/Section.vue'
 import LineStyleSelect from '@/apps/slides/components/controls/LineStyleSelect.vue'
 import ArrowheadSelect from '@/apps/slides/components/controls/ArrowheadSelect.vue'
+import FadeRows from '@/apps/slides/shim/FadeRows.vue'
 import LineStraight from '@/apps/slides/icons/LineStraight.vue'
 import LineElbow from '@/apps/slides/icons/LineElbow.vue'
 import { MAX_BORDER_RADIUS } from '@/apps/slides/utils/constants'
@@ -165,5 +176,6 @@ const strokeWidth = {
 }
 
 const fillColor = useElementProperty('fillColor')
+const fade = useElementProperty('fade')
 const strokeColor = useElementProperty('strokeColor')
 </script>

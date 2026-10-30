@@ -6726,6 +6726,11 @@ msgstr "أمر شراء إطاري"
 msgid "Block"
 msgstr "حظر"
 
+#: frontend/src/slide/shim/LayersPanel.vue:100
+#: frontend/src/slide/utils/toolbarTools.js:59
+msgid "Block Arrow"
+msgstr "سهم عريض"
+
 #: onedesk/public/js/one_mail/rule_builder.js:602
 #: onedesk/public/js/one_mail/rule_builder.js:604
 msgid "Block a Sender"
@@ -16327,6 +16332,10 @@ msgstr "تلاشٍ"
 msgid "Fade Angle"
 msgstr "زاوية التدرج"
 
+#: frontend/src/slide/shim/FadeRows.vue:7
+msgid "Fade To"
+msgstr "التدرج إلى"
+
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Fade Unmatched Elements"
 msgstr "تلاشي العناصر غير المتطابقة"
@@ -17411,6 +17420,10 @@ msgstr "مثلًا: مبيعات أول."
 #: onedesk/public/js/one_studio/studio_control.js:242
 msgid "For example, a thank-you line."
 msgstr "مثلًا: سطر شكر."
+
+#: frontend/src/slide/shim/EffectsSection.vue:22
+msgid "For example: border-radius: 24px; mix-blend-mode: multiply"
+msgstr "مثال: border-radius: 24px; mix-blend-mode: multiply"
 
 #. Description of the 'Count Time By' (Select) field in DocType 'Projects
 #. Settings'
@@ -28494,6 +28507,10 @@ msgstr "لم تتم المزامنة بعد."
 msgid "Not used yet"
 msgstr "لم يُستخدم بعد"
 
+#: frontend/src/slide/shim/EffectsSection.vue:29
+msgid "Not used: {0}"
+msgstr "غير مستخدم: {0}"
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
 #: onedesk/one_admin/heads.py:48 onedesk/one_admin/home.py:429
 msgid "Not working"
@@ -28673,6 +28690,10 @@ msgstr "لا شيء قيد الطلب"
 #: frontend/src/inventory/floor/ShopFloor.vue:40
 msgid "Nothing on the floor"
 msgstr "لا شيء في المصنع"
+
+#: frontend/src/slide/shim/LayersPanel.vue:5
+msgid "Nothing on this slide yet."
+msgstr "لا شيء على هذه الشريحة بعد."
 
 #: frontend/src/display/designer/Layers.vue:3
 msgid "Nothing on this slide yet. Add text, a picture or a shape from the bar above."
@@ -38716,6 +38737,10 @@ msgstr "تم الحفظ في ملفاتي"
 #: onedesk/public/js/reports.js:346
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr "حُفظ تحت «التقارير المحفوظة» في الشريط الجانبي لهذا التطبيق."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:117
+msgid "Saved {0} to OneCloud."
+msgstr "تم حفظ {0} في OneCloud."
 
 #: onedesk/www/account_profile.html:78
 msgid "Saved."
@@ -58208,6 +58233,10 @@ msgstr "{0} مسودات"
 msgid "{0} edits"
 msgstr "{0} تعديلات"
 
+#: frontend/src/slide/components/PropertiesPanel.vue:143
+msgid "{0} elements"
+msgstr "{0} عناصر"
+
 #: frontend/src/inventory/item/ItemOverview.vue:92
 msgid "{0} expected"
 msgstr "{0} متوقعة"
@@ -58709,10 +58738,6 @@ msgstr "أُنجز {0}"
 #: onedesk/one_admin/home.py:324
 msgid "{0} is filling up"
 msgstr "{0} يمتلئ"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:117
-msgid "Saved {0} to OneCloud."
-msgstr "تم حفظ {0} في OneCloud."
 
 #: frontend/src/slide/shim/EditorNavbar.vue:129
 msgid "{0} is in Presentation Templates."

@@ -233,7 +233,7 @@ const highlightElement = (element) => {
 const slideStyles = computed(() => ({
 	transformOrigin: transformOrigin.value,
 	transform: transform.value,
-	backgroundColor: currentSlide.value?.background || '#ffffff',
+	background: currentSlide.value?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 	outlineColor: selectionColor,
 	cursor: getSlideCursor(),
 	zIndex: 0,

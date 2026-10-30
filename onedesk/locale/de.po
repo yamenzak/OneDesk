@@ -6726,6 +6726,11 @@ msgstr "Rahmenauftrag"
 msgid "Block"
 msgstr "Sperren"
 
+#: frontend/src/slide/shim/LayersPanel.vue:100
+#: frontend/src/slide/utils/toolbarTools.js:59
+msgid "Block Arrow"
+msgstr "Blockpfeil"
+
 #: onedesk/public/js/one_mail/rule_builder.js:602
 #: onedesk/public/js/one_mail/rule_builder.js:604
 msgid "Block a Sender"
@@ -16327,6 +16332,10 @@ msgstr "Überblenden"
 msgid "Fade Angle"
 msgstr "Verlaufswinkel"
 
+#: frontend/src/slide/shim/FadeRows.vue:7
+msgid "Fade To"
+msgstr "Verlauf zu"
+
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Fade Unmatched Elements"
 msgstr "Nicht passende Elemente ausblenden"
@@ -17411,6 +17420,10 @@ msgstr "Zum Beispiel Senior Sales."
 #: onedesk/public/js/one_studio/studio_control.js:242
 msgid "For example, a thank-you line."
 msgstr "Zum Beispiel eine Dankeszeile."
+
+#: frontend/src/slide/shim/EffectsSection.vue:22
+msgid "For example: border-radius: 24px; mix-blend-mode: multiply"
+msgstr "Zum Beispiel: border-radius: 24px; mix-blend-mode: multiply"
 
 #. Description of the 'Count Time By' (Select) field in DocType 'Projects
 #. Settings'
@@ -28494,6 +28507,10 @@ msgstr "Noch nicht synchronisiert."
 msgid "Not used yet"
 msgstr "Noch nicht verwendet"
 
+#: frontend/src/slide/shim/EffectsSection.vue:29
+msgid "Not used: {0}"
+msgstr "Nicht verwendet: {0}"
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
 #: onedesk/one_admin/heads.py:48 onedesk/one_admin/home.py:429
 msgid "Not working"
@@ -28673,6 +28690,10 @@ msgstr "Nichts bestellt"
 #: frontend/src/inventory/floor/ShopFloor.vue:40
 msgid "Nothing on the floor"
 msgstr "Nichts in der Werkstatt"
+
+#: frontend/src/slide/shim/LayersPanel.vue:5
+msgid "Nothing on this slide yet."
+msgstr "Auf dieser Folie ist noch nichts."
 
 #: frontend/src/display/designer/Layers.vue:3
 msgid "Nothing on this slide yet. Add text, a picture or a shape from the bar above."
@@ -38716,6 +38737,10 @@ msgstr "In Meine Dateien gespeichert"
 #: onedesk/public/js/reports.js:346
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr "Unter „Gespeicherte Berichte“ in der Seitenleiste dieser App gespeichert."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:117
+msgid "Saved {0} to OneCloud."
+msgstr "{0} wurde in OneCloud gespeichert."
 
 #: onedesk/www/account_profile.html:78
 msgid "Saved."
@@ -58208,6 +58233,10 @@ msgstr "{0} Entwürfe"
 msgid "{0} edits"
 msgstr "{0} Bearbeitungen"
 
+#: frontend/src/slide/components/PropertiesPanel.vue:143
+msgid "{0} elements"
+msgstr "{0} Elemente"
+
 #: frontend/src/inventory/item/ItemOverview.vue:92
 msgid "{0} expected"
 msgstr "{0} erwartet"
@@ -58709,10 +58738,6 @@ msgstr "{0} ist erledigt"
 #: onedesk/one_admin/home.py:324
 msgid "{0} is filling up"
 msgstr "{0} wird voll"
-
-#: frontend/src/slide/shim/EditorNavbar.vue:117
-msgid "Saved {0} to OneCloud."
-msgstr "{0} wurde in OneCloud gespeichert."
 
 #: frontend/src/slide/shim/EditorNavbar.vue:129
 msgid "{0} is in Presentation Templates."

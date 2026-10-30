@@ -12,7 +12,7 @@ const findElement = (state, slideId, elementId) =>
 	findSlide(state, slideId)?.elements.find((el) => el.id === elementId)
 
 // lock protects the element, not the editor's cross-slide bookkeeping
-const LOCK_EXEMPT_PROPERTIES = ['locked', 'zIndex', 'refId']
+const LOCK_EXEMPT_PROPERTIES = ['locked', 'zIndex', 'refId', 'hidden', 'name'] // One: hiding and naming from Layers, VENDORED.md
 
 const isBlockedByLock = (command, state) => {
 	if (command.key === 'batch') return command.commands.some((c) => isBlockedByLock(c, state))

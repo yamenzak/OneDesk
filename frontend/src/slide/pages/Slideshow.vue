@@ -141,7 +141,7 @@ const slideStyles = computed(() => {
 		width: '960px',
 		height: '540px',
 		overflow: 'hidden',
-		backgroundColor: currentSlide.value?.background || '#ffffff',
+		background: currentSlide.value?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 	}
 
 	if (prevSlide.value?.transition == 'Magic Move') {
@@ -295,7 +295,7 @@ const handleVisibilityChange = () => {
 const slideContainerStyles = computed(() => {
 	return {
 		clipPath: clipPath.value,
-		backgroundColor: currentSlide.value?.background || '#ffffff',
+		background: currentSlide.value?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 	}
 })
 

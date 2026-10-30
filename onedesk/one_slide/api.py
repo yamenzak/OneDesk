@@ -228,6 +228,8 @@ def _merged(existing, incoming):
 		if unknown:
 			frappe.throw(_("Slide fields not accepted: {0}").format(", ".join(sorted(unknown))))
 		slide = {**slide, "elements": play.cleaned(slide.get("elements"))}
+		if "background" in slide:
+			slide["background"] = play.background(slide["background"])
 		row = by_client_id.pop(slide.get("client_id"), None)
 		if row:
 			row.update(slide)

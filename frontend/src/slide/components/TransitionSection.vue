@@ -49,6 +49,7 @@
 </template>
 
 <script setup>
+import LucideCheckCheck from '~icons/lucide/check-check' // One: the island resolves icons only by import, VENDORED.md
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { computed } from 'vue'
 

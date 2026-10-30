@@ -1,13 +1,20 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/PropertiesPanel.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
 	<div class="flex h-full w-72 flex-col border-l border-outline-elevation-1 bg-surface-elevation-1" @mousedown="keepEditorFocus">
+		<!-- One: the panel and Builder's Layers, shim/LayersPanel.vue; VENDORED.md -->
+		<div class="shrink-0 px-4 pt-3">
+			<TabButtons v-model="panel" :options="panels" class="w-full [&_button]:flex-1" />
+		</div>
+		<div v-if="panel === 'layers'" class="no-scrollbar flex-1 overflow-y-auto px-2">
+			<LayersPanel />
+		</div>
 		<!-- outside every Section, so locking can never disable the way back out -->
-		<template v-if="activeElementIds.length">
+		<template v-else-if="activeElementIds.length">
 			<div class="flex shrink-0 items-center justify-between px-4 py-3">
 				<span :class="labelClasses">{{ selectionLabel }}</span>
 				<button
 					type="button"
-					:title="isSelectionLocked ? 'Unlock' : 'Lock'"
+					:title="isSelectionLocked ? __('Unlock') : __('Lock')"
 					:class="lockClasses"
 					@click="toggleLock()"
 				>
@@ -17,7 +24,7 @@
 			</div>
 			<hr class="border-t" />
 		</template>
-		<div class="no-scrollbar flex-1 overflow-y-auto px-4">
+		<div v-if="panel !== 'layers'" class="no-scrollbar flex-1 overflow-y-auto px-4">
 			<div v-if="activeElementIds.length">
 				<FrameSection />
 				<hr class="border-t" />
@@ -58,6 +65,8 @@
 				</template>
 				<hr class="border-t" />
 				<AppearanceSection />
+				<hr class="border-t" />
+				<EffectsSection />
 			</div>
 			<div v-else-if="currentSlide">
 				<BackgroundSection />
@@ -71,7 +80,10 @@
 </template>
 
 <script setup>
-import { computed, provide } from 'vue'
+import LucideLock from '~icons/lucide/lock' // One: the island resolves icons only by import, VENDORED.md
+import LucideLockOpen from '~icons/lucide/lock-open' // One: the island resolves icons only by import, VENDORED.md
+import { computed, provide, ref } from 'vue'
+import { TabButtons } from 'frappe-ui'
 
 import {
 	activeElement,
@@ -102,6 +114,15 @@ import ShadowSection from './ShadowSection.vue'
 import BackgroundSection from './BackgroundSection.vue'
 import TransitionSection from './TransitionSection.vue'
 import SlidePlaybackSection from './SlidePlaybackSection.vue'
+import EffectsSection from '../shim/EffectsSection.vue'
+import LayersPanel from '../shim/LayersPanel.vue'
+import { __ } from '../shim/words.js'
+
+const panel = ref('design')
+const panels = [
+	{ label: __('Design'), value: 'design' },
+	{ label: __('Layers'), value: 'layers' },
+]
 
 provide('sectionInert', isSelectionLocked)
 
@@ -119,9 +140,11 @@ const showShadow = computed(() => isSelectionOf('image', 'video', 'shape'))
 
 const selectionLabel = computed(() => {
 	const count = activeElementIds.value.length
-	if (count > 1) return `${count} elements`
-	const type = activeElement.value?.type
-	return type ? type[0].toUpperCase() + type.slice(1) : ''
+	if (count > 1) return __('{0} elements', [count])
+	// One: a named element is called by its name, and a kind in the reader's words; VENDORED.md
+	if (activeElement.value?.name) return activeElement.value.name
+	const kinds = { text: __('Text'), image: __('Image'), video: __('Video'), shape: __('Shape'), table: __('Table') }
+	return kinds[activeElement.value?.type] || ''
 })
 
 // size-6 keeps the hit area equal to the p-1 icon buttons in ButtonGroup
@@ -131,7 +154,7 @@ const lockClasses = computed(() => [
 ])
 
 const keepEditorFocus = (e) => {
-	if (e.target.closest('input, textarea')) return
+	if (e.target.closest('input, textarea, [draggable="true"]')) return // One: a layer row must be free to drag, VENDORED.md
 	e.preventDefault()
 }
 </script>

@@ -49,6 +49,17 @@ export const shapeTools = [
 		icon: makeIcon([h('polygon', { points: '12,2 21.5,8.9 17.9,20.1 6.1,20.1 2.5,8.9' })]),
 		onClick: () => armTool('pentagon'),
 	},
+	// One: the star and the block arrow, utils/shapeGeometry.js; VENDORED.md
+	{
+		label: __('Star'),
+		icon: makeIcon([h('polygon', { points: '12,2 14.4,8.8 21.5,8.9 15.8,13.2 17.9,20.1 12,16 6.1,20.1 8.2,13.2 2.5,8.9 9.6,8.8' })]),
+		onClick: () => armTool('star'),
+	},
+	{
+		label: __('Block Arrow'),
+		icon: makeIcon([h('polygon', { points: '2,9 14,9 14,4 22,12 14,20 14,15 2,15' })]),
+		onClick: () => armTool('blockArrow'),
+	},
 ]
 
 const round = { 'stroke-linecap': 'round', 'stroke-linejoin': 'round' }

@@ -54,3 +54,28 @@ Each is marked `One:` where it is.
   photographed at twice its size for a PDF or a screen.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
+- The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in
+  `shim/` and joined to Suite's files in these places:
+  - `utils/shapeGeometry.js`, `utils/toolbarTools.js`, `stores/element.js`: a
+    star and a block arrow, drawn as polygons on a unit box beside Suite's
+    regular ones, so connectors find their outline as they do a triangle's.
+  - `components/ShapeElement.vue`, `components/ShapeStyleSection.vue`: a
+    shape's fill may fade into a second colour (`element.fade`, an SVG
+    gradient; `shim/FadeRows.vue`).
+  - `components/BackgroundSection.vue`, `SlideContainer.vue`,
+    `SlidePreview.vue`, `ThumbnailContainer.vue`, `pages/Slideshow.vue`,
+    `utils/color.js`: a slide's background is a colour or a
+    `linear-gradient(…)` fade, drawn as `background` rather than
+    `backgroundColor`, and read as its first colour where Suite asks whether
+    it is dark.
+  - `components/SlideElement.vue`: every element's box takes its blur, its
+    free CSS and whether it is hidden (`shim/looks.js`), before Suite's own
+    position, size and turn, which nothing in the free CSS can reach.
+  - `components/PropertiesPanel.vue`: a **Design** and **Layers** tab
+    (`shim/LayersPanel.vue`), the **Effects** section (`shim/EffectsSection.vue`),
+    a named element called by its name, and a layer row free to drag.
+  - `stores/commands.js`: hiding and naming are, like locking, allowed on a
+    locked element.
+- Icons: Suite writes `<lucide-…>` tags that its own build resolves by name.
+  The island's build resolves an icon only by import, so each file that draws
+  one imports it from `~icons/lucide/…`.

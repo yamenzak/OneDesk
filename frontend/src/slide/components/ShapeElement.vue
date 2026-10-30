@@ -2,7 +2,12 @@
 <template>
 	<div :style="wrapperStyles" @dblclick="handleDoubleClick">
 		<svg :style="shapeStyles">
-			<defs v-if="hasMarkers || shadow.hasShadow">
+			<defs v-if="hasMarkers || shadow.hasShadow || fade">
+				<!-- One: a fill that fades into a second colour, shim/looks.js; VENDORED.md -->
+				<linearGradient v-if="fade" :id="fadeId" v-bind="fadeEnds(fade.angle)">
+					<stop offset="0" :stop-color="element.fillColor" />
+					<stop offset="1" :stop-color="fade.to" />
+				</linearGradient>
 				<filter
 					v-if="shadow.hasShadow"
 					:id="shadowFilterId"
@@ -52,7 +57,7 @@
 				:y="element.strokeWidth / 2"
 				:width="`calc(100% - ${element.strokeWidth}px)`"
 				:height="`calc(100% - ${element.strokeWidth}px)`"
-				:fill="element.fillColor"
+				:fill="fill"
 				:stroke="element.strokeColor"
 				:stroke-width="`${element.strokeWidth}px`"
 				:stroke-dasharray="strokeDashArray"
@@ -68,7 +73,7 @@
 				cy="50%"
 				:rx="'calc(50% - ' + element.strokeWidth / 2 + 'px)'"
 				:ry="'calc(50% - ' + element.strokeWidth / 2 + 'px)'"
-				:fill="element.fillColor"
+				:fill="fill"
 				:stroke="element.strokeColor"
 				:stroke-width="`${element.strokeWidth}px`"
 				:stroke-dasharray="strokeDashArray"
@@ -79,7 +84,7 @@
 			<polygon
 				v-else-if="isPolygon"
 				:points="polygonPoints"
-				:fill="element.fillColor"
+				:fill="fill"
 				:stroke="element.strokeColor"
 				:stroke-width="`${element.strokeWidth}px`"
 				:stroke-dasharray="strokeDashArray"
@@ -159,6 +164,7 @@ import {
 } from '@/apps/slides/stores/interaction'
 import { normalizeMarker, getMarkerShape, getMarkerSize } from '@/apps/slides/utils/lineMarkers'
 import { getElbowPathData } from '@/apps/slides/utils/connectors'
+import { fadeEnds } from '@/apps/slides/shim/looks.js'
 
 const props = defineProps({
 	transitionStyles: {
@@ -289,6 +295,10 @@ const elbowPath = computed(() => {
 
 const markerStartId = computed(() => `line-marker-start-${element.value?.id || ''}`)
 const markerEndId = computed(() => `line-marker-end-${element.value?.id || ''}`)
+
+const fade = computed(() => (element.value?.fade?.to && !isLine.value ? element.value.fade : null))
+const fadeId = computed(() => `shape-fade-${element.value?.id || ''}`)
+const fill = computed(() => (fade.value ? `url(#${fadeId.value})` : element.value?.fillColor))
 
 const shadowFilterId = computed(() => `shape-shadow-${element.value?.id || ''}`)
 const shadow = useSvgShadow(element)

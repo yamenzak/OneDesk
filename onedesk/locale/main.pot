@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 09:47+0000\n"
-"PO-Revision-Date: 2026-10-30 09:47+0000\n"
+"POT-Creation-Date: 2026-10-30 10:12+0000\n"
+"PO-Revision-Date: 2026-10-30 10:12+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3177,7 +3177,7 @@ msgstr ""
 msgid "After a {0} is submitted"
 msgstr ""
 
-#: frontend/src/slide/components/SlidePlaybackSection.vue:59
+#: frontend/src/slide/components/SlidePlaybackSection.vue:60
 msgid "After delay"
 msgstr ""
 
@@ -3521,11 +3521,11 @@ msgstr ""
 msgid "All sheets"
 msgstr ""
 
-#: frontend/src/slide/components/SlidePlaybackSection.vue:94
+#: frontend/src/slide/components/SlidePlaybackSection.vue:95
 msgid "All slides advance after {0} seconds"
 msgstr ""
 
-#: frontend/src/slide/components/SlidePlaybackSection.vue:94
+#: frontend/src/slide/components/SlidePlaybackSection.vue:95
 msgid "All slides advance on click"
 msgstr ""
 
@@ -4812,7 +4812,7 @@ msgstr ""
 msgid "Arrives"
 msgstr ""
 
-#: frontend/src/slide/utils/toolbarTools.js:63 onedesk/one_display/blocks.py:43
+#: frontend/src/slide/utils/toolbarTools.js:74 onedesk/one_display/blocks.py:43
 msgid "Arrow"
 msgstr ""
 
@@ -6774,6 +6774,11 @@ msgstr ""
 msgid "Block"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:100
+#: frontend/src/slide/utils/toolbarTools.js:59
+msgid "Block Arrow"
+msgstr ""
+
 #: onedesk/public/js/one_mail/rule_builder.js:602
 #: onedesk/public/js/one_mail/rule_builder.js:604
 msgid "Block a Sender"
@@ -6803,6 +6808,7 @@ msgid "Blue means on by default."
 msgstr ""
 
 #: frontend/src/slide/components/ShadowSection.vue:14
+#: frontend/src/slide/shim/EffectsSection.vue:6
 #: onedesk/one_display/blocks.py:57 onedesk/one_display/blocks.py:59
 msgid "Blur"
 msgstr ""
@@ -7345,6 +7351,7 @@ msgstr ""
 msgid "CRM Settings"
 msgstr ""
 
+#: frontend/src/slide/shim/EffectsSection.vue:16
 #: onedesk/one_display/blocks.py:60 onedesk/one_display/blocks.py:76
 msgid "CSS"
 msgstr ""
@@ -9593,7 +9600,8 @@ msgstr ""
 msgid "Connections: {0} is not a form you can read."
 msgstr ""
 
-#: frontend/src/slide/utils/toolbarTools.js:73
+#: frontend/src/slide/shim/LayersPanel.vue:115
+#: frontend/src/slide/utils/toolbarTools.js:84
 msgid "Connector"
 msgstr ""
 
@@ -10061,7 +10069,7 @@ msgstr ""
 msgid "Corner"
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:42
+#: frontend/src/slide/components/ShapeStyleSection.vue:52
 msgid "Corner Radius"
 msgstr ""
 
@@ -11295,7 +11303,7 @@ msgid "Dashboards"
 msgstr ""
 
 #: frontend/src/slide/components/BorderSection.vue:65
-#: frontend/src/slide/components/ShapeStyleSection.vue:110
+#: frontend/src/slide/components/ShapeStyleSection.vue:121
 #: onedesk/one_display/blocks.py:52
 msgid "Dashed"
 msgstr ""
@@ -12884,6 +12892,7 @@ msgstr ""
 #: frontend/src/display/designer/Designer.vue:178
 #: frontend/src/display/designer/Inspector.vue:65
 #: frontend/src/display/designer/Inspector.vue:103
+#: frontend/src/slide/components/PropertiesPanel.vue:123
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_project/library/mobile_app.json
 #: onedesk/one_project/library/website.json
@@ -13075,6 +13084,7 @@ msgstr ""
 msgid "Devices"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:96
 #: frontend/src/slide/utils/toolbarTools.js:38 onedesk/one_display/blocks.py:43
 msgid "Diamond"
 msgstr ""
@@ -13617,12 +13627,12 @@ msgid "Done: {0}"
 msgstr ""
 
 #: frontend/src/slide/components/BorderSection.vue:66
-#: frontend/src/slide/components/ShapeStyleSection.vue:111
+#: frontend/src/slide/components/ShapeStyleSection.vue:122
 #: onedesk/one_display/blocks.py:52
 msgid "Dotted"
 msgstr ""
 
-#: frontend/src/slide/utils/toolbarTools.js:68
+#: frontend/src/slide/utils/toolbarTools.js:79
 msgid "Double arrow"
 msgstr ""
 
@@ -14608,6 +14618,7 @@ msgstr ""
 msgid "Effect"
 msgstr ""
 
+#: frontend/src/slide/shim/EffectsSection.vue:3
 #: onedesk/one_display/blocks.py:75
 msgid "Effects"
 msgstr ""
@@ -14624,11 +14635,11 @@ msgstr ""
 msgid "Either accepts a check-in that passes one of the two. Both requires each of them."
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:120
+#: frontend/src/slide/components/ShapeStyleSection.vue:131
 msgid "Elbow"
 msgstr ""
 
-#: frontend/src/slide/utils/toolbarTools.js:82
+#: frontend/src/slide/utils/toolbarTools.js:93
 msgid "Elbow connector"
 msgstr ""
 
@@ -16551,13 +16562,19 @@ msgid "Facts, terms and policies OneAI reads with every answer."
 msgstr ""
 
 #. Option for the 'Transition' (Select) field in DocType 'Slide Playlist'
-#: frontend/src/slide/components/TransitionSection.vue:72
+#: frontend/src/slide/components/TransitionSection.vue:73
+#: frontend/src/slide/shim/FadeRows.vue:3
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
 msgid "Fade"
 msgstr ""
 
-#: onedesk/one_display/blocks.py:49 onedesk/one_display/blocks.py:126
+#: frontend/src/slide/shim/FadeRows.vue:17 onedesk/one_display/blocks.py:49
+#: onedesk/one_display/blocks.py:126
 msgid "Fade Angle"
+msgstr ""
+
+#: frontend/src/slide/shim/FadeRows.vue:7
+msgid "Fade To"
 msgstr ""
 
 #. Label of the fade_unmatched_elements (Check) field in DocType 'Presentation
@@ -17682,6 +17699,10 @@ msgstr ""
 
 #: onedesk/public/js/one_studio/studio_control.js:242
 msgid "For example, a thank-you line."
+msgstr ""
+
+#: frontend/src/slide/shim/EffectsSection.vue:22
+msgid "For example: border-radius: 24px; mix-blend-mode: multiply"
 msgstr ""
 
 #. Description of the 'Count Time By' (Select) field in DocType 'Projects
@@ -19450,6 +19471,7 @@ msgstr ""
 
 #: frontend/src/display/designer/Layers.vue:26
 #: frontend/src/display/designer/Layers.vue:27
+#: frontend/src/slide/shim/LayersPanel.vue:46
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
 #: onedesk/public/js/window/chrome.js:200
@@ -20485,6 +20507,7 @@ msgstr ""
 #: frontend/src/cloud/cloud.js:9 frontend/src/display/designer/Designer.vue:84
 #: frontend/src/display/designer/Inspector.vue:103
 #: frontend/src/slide/components/ImageSection.vue:3
+#: frontend/src/slide/components/PropertiesPanel.vue:146
 #: onedesk/one_book/print_format/one_purchase_invoice_with_images/one_purchase_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_quotation_with_images/one_quotation_with_images.json
@@ -23257,6 +23280,7 @@ msgid "Layer"
 msgstr ""
 
 #: frontend/src/display/designer/Designer.vue:87
+#: frontend/src/slide/components/PropertiesPanel.vue:124
 msgid "Layers"
 msgstr ""
 
@@ -23971,14 +23995,15 @@ msgstr ""
 #. Label of the text (Data) field in DocType 'Reading Line'
 #: frontend/src/display/Layout.vue:182
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:217
-#: frontend/src/slide/utils/toolbarTools.js:58
+#: frontend/src/slide/shim/LayersPanel.vue:115
+#: frontend/src/slide/utils/toolbarTools.js:69
 #: onedesk/one_ai/doctype/reading_line/reading_line.json
 #: onedesk/one_book/report/tax_return/tax_return.py:35
 #: onedesk/one_display/blocks.py:43 onedesk/one_display/layout.py:51
 msgid "Line"
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:67
+#: frontend/src/slide/components/ShapeStyleSection.vue:77
 msgid "Line End"
 msgstr ""
 
@@ -23987,11 +24012,11 @@ msgstr ""
 msgid "Line Height"
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:60
+#: frontend/src/slide/components/ShapeStyleSection.vue:70
 msgid "Line Start"
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:53
+#: frontend/src/slide/components/ShapeStyleSection.vue:63
 msgid "Line Type"
 msgstr ""
 
@@ -24300,6 +24325,8 @@ msgstr ""
 #: frontend/src/display/designer/Layers.vue:36
 #: frontend/src/display/designer/Layers.vue:37
 #: frontend/src/slide/components/ElementContextMenu.vue:183
+#: frontend/src/slide/components/PropertiesPanel.vue:17
+#: frontend/src/slide/shim/LayersPanel.vue:56
 #: frontend/src/writer/DocumentPage.vue:290
 #: onedesk/one_book/report/tax_return/tax_return.js:54
 msgid "Lock"
@@ -24729,7 +24756,7 @@ msgstr ""
 msgid "Made."
 msgstr ""
 
-#: frontend/src/slide/components/TransitionSection.vue:74
+#: frontend/src/slide/components/TransitionSection.vue:75
 msgid "Magic Move"
 msgstr ""
 
@@ -27876,7 +27903,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:400
+#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:402
 msgid "No file was sent."
 msgstr ""
 
@@ -28475,7 +28502,7 @@ msgstr ""
 #: frontend/src/slide/components/BorderSection.vue:63
 #: frontend/src/slide/components/ParagraphSection.vue:63
 #: frontend/src/slide/components/TableSection.vue:75
-#: frontend/src/slide/components/TransitionSection.vue:71
+#: frontend/src/slide/components/TransitionSection.vue:72
 #: frontend/src/slide/components/controls/ArrowheadSelect.vue:11
 #: frontend/src/slide/components/controls/ArrowheadSelect.vue:16
 #: frontend/src/slide/components/controls/LineStyleSelect.vue:11
@@ -28945,6 +28972,10 @@ msgstr ""
 msgid "Not used yet"
 msgstr ""
 
+#: frontend/src/slide/shim/EffectsSection.vue:29
+msgid "Not used: {0}"
+msgstr ""
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
 #: onedesk/one_admin/heads.py:48 onedesk/one_admin/home.py:429
 msgid "Not working"
@@ -29123,6 +29154,10 @@ msgstr ""
 
 #: frontend/src/inventory/floor/ShopFloor.vue:40
 msgid "Nothing on the floor"
+msgstr ""
+
+#: frontend/src/slide/shim/LayersPanel.vue:5
+msgid "Nothing on this slide yet."
 msgstr ""
 
 #: frontend/src/display/designer/Layers.vue:3
@@ -29758,7 +29793,7 @@ msgstr ""
 msgid "On a schedule"
 msgstr ""
 
-#: frontend/src/slide/components/SlidePlaybackSection.vue:58
+#: frontend/src/slide/components/SlidePlaybackSection.vue:59
 msgid "On click"
 msgstr ""
 
@@ -32007,6 +32042,7 @@ msgstr ""
 msgid "Outstanding by Supplier"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:95
 #: frontend/src/slide/utils/toolbarTools.js:33
 msgid "Oval"
 msgstr ""
@@ -33469,6 +33505,7 @@ msgstr ""
 msgid "Pending Review"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:98
 #: frontend/src/slide/utils/toolbarTools.js:48
 msgid "Pentagon"
 msgstr ""
@@ -33924,7 +33961,8 @@ msgstr ""
 
 #: frontend/src/display/Layout.vue:182
 #: frontend/src/display/designer/Canvas.vue:24
-#: frontend/src/display/designer/Toolbar.vue:9 onedesk/one_display/blocks.py:44
+#: frontend/src/display/designer/Toolbar.vue:9
+#: frontend/src/slide/shim/LayersPanel.vue:112 onedesk/one_display/blocks.py:44
 #: onedesk/one_display/blocks.py:70 onedesk/one_display/blocks.py:99
 #: onedesk/one_display/widgets.py:104 onedesk/public/js/item_new.js:79
 msgid "Picture"
@@ -36966,6 +37004,7 @@ msgstr ""
 msgid "Recruitment Overview"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:94
 #: frontend/src/slide/utils/toolbarTools.js:28 onedesk/one_display/blocks.py:43
 msgid "Rectangle"
 msgstr ""
@@ -40746,8 +40785,9 @@ msgid "Shadow"
 msgstr ""
 
 #: frontend/src/display/designer/Toolbar.vue:12
-#: onedesk/one_display/blocks.py:43 onedesk/one_display/blocks.py:69
-#: onedesk/one_display/blocks.py:106
+#: frontend/src/slide/components/PropertiesPanel.vue:146
+#: frontend/src/slide/shim/LayersPanel.vue:116 onedesk/one_display/blocks.py:43
+#: onedesk/one_display/blocks.py:69 onedesk/one_display/blocks.py:106
 msgid "Shape"
 msgstr ""
 
@@ -41122,6 +41162,7 @@ msgstr ""
 #: frontend/src/display/designer/Layers.vue:26
 #: frontend/src/display/designer/Layers.vue:27
 #: frontend/src/project/ProjectPage.vue:271
+#: frontend/src/slide/shim/LayersPanel.vue:46
 #: onedesk/public/js/one/access_center.js:147
 #: onedesk/public/js/one/role_matrix.js:105
 #: onedesk/public/js/one_mail/onemail_settings.js:191
@@ -42022,7 +42063,7 @@ msgstr ""
 msgid "Slide fields not accepted: {0}"
 msgstr ""
 
-#: frontend/src/slide/components/TransitionSection.vue:73
+#: frontend/src/slide/components/TransitionSection.vue:74
 msgid "Slide in"
 msgstr ""
 
@@ -42250,7 +42291,7 @@ msgid "Sold {0}"
 msgstr ""
 
 #: frontend/src/slide/components/BorderSection.vue:64
-#: frontend/src/slide/components/ShapeStyleSection.vue:109
+#: frontend/src/slide/components/ShapeStyleSection.vue:120
 #: onedesk/one_display/blocks.py:52
 msgid "Solid"
 msgstr ""
@@ -42660,8 +42701,10 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:622 frontend/src/mail/MailList.vue:64
 #: frontend/src/mail/OneMail.vue:146 frontend/src/mail/OneMail.vue:177
-#: onedesk/one_display/blocks.py:43 onedesk/one_mail/ai.py:650
-#: onedesk/one_mail/flow.py:329 onedesk/public/js/one_mail/rule_builder.js:41
+#: frontend/src/slide/shim/LayersPanel.vue:99
+#: frontend/src/slide/utils/toolbarTools.js:54 onedesk/one_display/blocks.py:43
+#: onedesk/one_mail/ai.py:650 onedesk/one_mail/flow.py:329
+#: onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
 msgstr ""
 
@@ -43509,7 +43552,7 @@ msgstr ""
 msgid "Store listings and screenshots"
 msgstr ""
 
-#: frontend/src/slide/components/ShapeStyleSection.vue:119
+#: frontend/src/slide/components/ShapeStyleSection.vue:130
 msgid "Straight"
 msgstr ""
 
@@ -44350,7 +44393,9 @@ msgstr ""
 
 #. Label of the bound_field (Data) field in DocType 'Workbook'
 #: frontend/src/project/ProjectPage.vue:168
+#: frontend/src/slide/components/PropertiesPanel.vue:146
 #: frontend/src/slide/components/TableSection.vue:3
+#: frontend/src/slide/shim/LayersPanel.vue:114
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 #: onedesk/public/js/one_mail/mail_templates.js:130
 msgid "Table"
@@ -45217,6 +45262,8 @@ msgstr ""
 #. Label of the text (Long Text) field in DocType 'Reading'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
 #: frontend/src/display/designer/Toolbar.vue:8
+#: frontend/src/slide/components/PropertiesPanel.vue:146
+#: frontend/src/slide/shim/LayersPanel.vue:111
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_ai/doctype/reading/reading.json onedesk/one_display/blocks.py:68
@@ -45389,7 +45436,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:277
+#: onedesk/one_slide/api.py:279
 msgid "That theme does not exist."
 msgstr ""
 
@@ -47735,7 +47782,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:403
+#: onedesk/one_slide/api.py:405
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -47791,8 +47838,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:436 onedesk/one_slide/api.py:440
-#: onedesk/one_slide/api.py:453 onedesk/one_slide/paper.py:30
+#: onedesk/one_slide/api.py:438 onedesk/one_slide/api.py:442
+#: onedesk/one_slide/api.py:455 onedesk/one_slide/paper.py:30
 msgid "This is not a picture."
 msgstr ""
 
@@ -47911,7 +47958,7 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_slide/api.py:442 onedesk/one_slide/api.py:456
+#: onedesk/one_slide/api.py:444 onedesk/one_slide/api.py:458
 #: onedesk/one_slide/paper.py:33
 msgid "This picture is too large."
 msgstr ""
@@ -49436,6 +49483,7 @@ msgstr ""
 msgid "Trial balance ready"
 msgstr ""
 
+#: frontend/src/slide/shim/LayersPanel.vue:97
 #: frontend/src/slide/utils/toolbarTools.js:43 onedesk/one_display/blocks.py:43
 msgid "Triangle"
 msgstr ""
@@ -50076,6 +50124,8 @@ msgstr ""
 #: frontend/src/display/designer/Layers.vue:37
 #: frontend/src/slide/components/ElementContextMenu.vue:182
 #: frontend/src/slide/components/LockBadge.vue:7
+#: frontend/src/slide/components/PropertiesPanel.vue:17
+#: frontend/src/slide/shim/LayersPanel.vue:56
 #: frontend/src/writer/DocumentPage.vue:19
 #: frontend/src/writer/DocumentPage.vue:289
 #: onedesk/one_book/report/tax_return/tax_return.js:56
@@ -50903,6 +50953,8 @@ msgstr ""
 #. Task in the Marketing Campaign project template
 #: frontend/src/cloud/cloud.js:15 frontend/src/display/designer/Designer.vue:84
 #: frontend/src/display/designer/Inspector.vue:103
+#: frontend/src/slide/components/PropertiesPanel.vue:146
+#: frontend/src/slide/shim/LayersPanel.vue:113
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Video"
@@ -59210,6 +59262,10 @@ msgstr ""
 
 #: frontend/src/sheet/services/versions.js:62
 msgid "{0} edits"
+msgstr ""
+
+#: frontend/src/slide/components/PropertiesPanel.vue:143
+msgid "{0} elements"
 msgstr ""
 
 #: frontend/src/inventory/item/ItemOverview.vue:92

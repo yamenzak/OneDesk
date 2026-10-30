@@ -1,5 +1,6 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/utils/color.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import tinycolor from 'tinycolor2'
+import { fadeOf } from '../shim/looks.js' // One: VENDORED.md
 
 // colors saved before hex normalization lack the leading '#' and render as invalid CSS
 export const normalizeColor = (colorString) => {
@@ -11,6 +12,7 @@ export const normalizeColor = (colorString) => {
 
 export const isBackgroundColorDark = (colorString = '#ffffff') => {
 	if (!colorString) colorString = '#ffffff'
+	colorString = fadeOf(colorString)?.from || colorString // One: a fade reads as where it starts, VENDORED.md
 	const rgb = colorString.replace('#', '')
 
 	const r = parseInt(rgb.slice(0, 2), 16)
