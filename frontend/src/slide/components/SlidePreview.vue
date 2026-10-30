@@ -18,13 +18,15 @@ import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame
 import { computed } from 'vue'
 
 import SlideElement from '@/apps/slides/components/SlideElement.vue'
+import { underneath } from '@/apps/slides/shim/master.js' // One: the master, VENDORED.md
+import { slides } from '@/apps/slides/stores/slide' // One
 
 const props = defineProps({
 	slide: { type: Object, required: true },
 	scale: { type: Number, default: () => 160 / frame.w },
 })
 
-const elements = computed(() => {
+const own = computed(() => {
 	const value = props.slide?.elements
 	if (!value) return []
 	if (Array.isArray(value)) return value
@@ -34,6 +36,12 @@ const elements = computed(() => {
 	} catch {
 		return []
 	}
+})
+
+// One: the master underneath, numbered by where the slide stands (VENDORED.md)
+const elements = computed(() => {
+	const index = slides.value.findIndex((one) => one === props.slide || (one.clientId && one.clientId === props.slide?.clientId))
+	return [...underneath(props.slide, index), ...own.value]
 })
 
 const previewStyles = computed(() => ({

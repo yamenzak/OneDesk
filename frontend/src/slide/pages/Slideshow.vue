@@ -34,7 +34,7 @@
 					:skip="!prevSlide?.fadeUnmatchedElements"
 				>
 					<SlideElement
-						v-for="element in currentSlide?.elements"
+						v-for="element in shownElements"
 						:key="`slideshow-${getElementKey(element)}`"
 						mode="slideshow"
 						:element="element"
@@ -59,7 +59,7 @@
 						@click="changeSlideInSlideshow(slideIndex + 1)"
 					>
 						<SlideElement
-							v-for="element in currentSlide?.elements"
+							v-for="element in shownElements"
 							:key="`slideshow-${getElementKey(element)}`"
 							mode="slideshow"
 							:element="element"
@@ -112,8 +112,12 @@ import {
 	pageTitle,
 } from '@/apps/slides/stores/presentation'
 import { currentSlide, setSlideIndex, slideIndex, slides } from '@/apps/slides/stores/slide'
+import { underneath } from '@/apps/slides/shim/master.js' // One: the master, VENDORED.md
 import { resetFocus } from '@/apps/slides/stores/element'
 import { getTransitionKey } from '@/apps/slides/stores/transition'
+
+// One: the master underneath the slide's own (shim/master.js, VENDORED.md)
+const shownElements = computed(() => [...underneath(currentSlide.value, slideIndex.value), ...(currentSlide.value?.elements || [])])
 
 const props = defineProps({
 	presentationId: {

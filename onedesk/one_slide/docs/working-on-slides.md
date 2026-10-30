@@ -31,6 +31,24 @@ it is presented or printed.
 
 ![Rulers along the slide, with a guide across it and one down it](working-on-slides/guides.png)
 
+## The Master
+
+**File › Edit Master** opens what every slide draws underneath its own: a
+logo, a footer, a line. **Add Slide Number** and **Add Date** put a small
+text on it that becomes each slide's number and today's date. Click
+**Done** to go back. A slide that should stand alone turns off **Show the
+Master** in the panel, with nothing chosen on it.
+
+![The master's date and slide number at the foot of every slide](working-on-slides/master.png)
+
+## Layouts
+
+A slide added from a template remembers which layout it came from. When
+the template's look changes, **File › Restyle from Layouts** brings it into
+every such slide: the title and text boxes move and take the new look, and
+keep your words. Its background follows the layout too. What the slides
+were is kept in **Version History**.
+
 ## Speaker Notes
 
 **Speaker Notes**, under the slide, is what you will say over it. Click the

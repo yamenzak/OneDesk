@@ -3,6 +3,7 @@ import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through t
 import { slideBody } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
 import { frameOf, setFrame } from '../shim/frame.js' // One: the presentation's own size, or a screen's shape, VENDORED.md
 import { loadGuides } from '../shim/guides.js' // One: VENDORED.md
+import { loadMaster } from '../shim/master.js' // One: VENDORED.md
 import { ref, computed } from 'vue'
 import { createResource, call, frappeRequest, toast, dialog } from 'frappe-ui'
 
@@ -235,6 +236,8 @@ const normalizeSlideDoc = (doc) => {
 		slide.transitionDuration = slide.transition_duration
 		slide.fadeUnmatchedElements = slide.fade_unmatched_elements
 		slide.advanceAfter = slide.advance_after
+		slide.hideMaster = slide.hide_master ? 1 : 0 // One: the master, VENDORED.md
+		delete slide.hide_master
 		delete slide.thumbnail
 		// remove the transition_duration field to avoid confusion
 		delete slide.transition_duration
@@ -315,6 +318,7 @@ const showPresentation = (id, { doc, content, dirty }) => {
 	const drawn = frameOf(doc) // One: before the canvas mounts
 	setFrame(drawn.w, drawn.h)
 	loadGuides(doc) // One: the presentation's guides, shim/guides.js
+	loadMaster(doc) // One: the master, shim/master.js
 	presentationId.value = id
 	presentationDoc.value = doc
 	slides.value = content
@@ -340,6 +344,8 @@ const toSlideRow = (slide) => ({
 	fade_unmatched_elements: slide.fadeUnmatchedElements,
 	advance_after: slide.advanceAfter,
 	notes: slide.notes || '', // One: speaker notes (VENDORED.md)
+	hide_master: slide.hideMaster ? 1 : 0, // One: the master
+	layout: slide.layout || '', // One: the layout it came from, one_slide/layouts.py
 })
 
 // what a push sends, as the server stores and returns it: Data comes back as strings, Check as 0/1
@@ -353,6 +359,8 @@ const rowKey = (row) =>
 		Number(row.fade_unmatched_elements ?? 0),
 		String(row.advance_after ?? ''),
 		row.notes || '', // One: speaker notes
+		Number(row.hide_master ?? 0), // One
+		row.layout || '', // One
 	])
 
 const rowKeys = (rows) => rows.map(rowKey).join('\n')

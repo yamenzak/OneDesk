@@ -127,10 +127,13 @@ def for_screen(name: str, seconds: int) -> list[dict]:
 
 	doc = frappe.get_cached_doc("Presentation", name)
 	width, height = int(doc.get("width") or 960), int(doc.get("height") or 540)
+	from onedesk.one_slide import master
+
+	drawn = master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides])
 	played = []
-	for row in doc.slides:
+	for row, kept in zip(doc.slides, drawn, strict=True):
 		elements = []
-		for one in json.loads(row.elements or "[]"):
+		for one in json.loads(kept["elements"] or "[]"):
 			if not isinstance(one, dict) or one.get("hidden"):
 				continue
 			for key in ("src", "poster"):

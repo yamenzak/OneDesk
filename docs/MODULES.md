@@ -237,8 +237,8 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Presentation | 11 | document |
-| Presentation Slide | 10 | child |
+| Presentation | 12 | document |
+| Presentation Slide | 12 | child |
 | Presentation Version | 5 | document |
 
 ## Desk records shipped as fixtures
@@ -898,6 +898,8 @@ No doctypes yet.
 * `onedesk.one_slide.api.upload`
 * `onedesk.one_slide.api.visited`
 * `onedesk.one_slide.guides.keep`
+* `onedesk.one_slide.layouts.restyle`
+* `onedesk.one_slide.master.edit`
 * `onedesk.one_slide.paper.pdf`
 * `onedesk.one_slide.resize.resize`
 * `onedesk.one_slide.templates.save_as`

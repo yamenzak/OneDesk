@@ -30,17 +30,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   embedded movies. What has no PowerPoint equivalent (blur, free CSS) is
   left out, and the dialog says which slides lost something. Kept beside the
   presentation in OneCloud, like the PDF.
-- **Slide masters.** Not today. A theme or template gives each new slide a
-  layout, but it is copied in: change the template afterwards and no slide
-  follows. Plan, in two steps:
-  1. A master: elements every slide draws underneath its own (a logo, a
-     footer, the slide number, the date), edited in **Edit Master** on the
-     same canvas, kept on the presentation (`master`), and drawn by the
-     slideshow, the PDF, the .pptx export and the TV alike. A slide can hide
-     it. Slide number and date are new text fields filled when drawn.
-  2. Linked layouts: each slide remembers its layout, the layout's title
-     and body boxes are placeholders, and changing a layout's look restyles
-     every slide on it while keeping their words.
 - **Templates shipped with One.** Today there are two themes, Light and
   Dark (Suite's), and the company's own templates (**Save as Template**,
   Managers only, kept in OneCloud › Presentation Templates). **New ›

@@ -615,7 +615,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Dashboard Chart Source | through a form's link (Dashboard Chart: source) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
+| Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Dock | engine: the rail's apps, kept by One | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |

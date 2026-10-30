@@ -2356,6 +2356,10 @@ msgstr "Guthaben aufladen"
 msgid "Add Database"
 msgstr "Datenbank hinzufügen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:122
+msgid "Add Date"
+msgstr "Datum hinzufügen"
+
 #: frontend/src/inventory/item/ItemOverview.vue:15
 #: frontend/src/project/TaskPanel.vue:56 frontend/src/task/TaskPage.vue:51
 msgid "Add Description"
@@ -2443,6 +2447,10 @@ msgstr "Blätter aus einer Vorlage hinzufügen"
 #: frontend/src/slide/components/NavigationPanel.vue:46
 msgid "Add Slide"
 msgstr "Folie hinzufügen"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:121
+msgid "Add Slide Number"
+msgstr "Foliennummer hinzufügen"
 
 #: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:62
 #: onedesk/public/js/one_mail/rule_builder.js:414
@@ -6316,6 +6324,10 @@ msgstr "Vor der Größenänderung"
 msgid "Before going back"
 msgstr "Vor dem Zurückgehen"
 
+#: onedesk/one_slide/layouts.py:114
+msgid "Before restyling from layouts"
+msgstr "Vor dem Neugestalten nach Layouts"
+
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "Before some of the workspace's OneAI credits expire, a week ahead."
@@ -10049,6 +10061,10 @@ msgstr "Vollbildmodus konnte nicht gestartet werden"
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:38
 msgid "Could not load the templates."
 msgstr "Die Vorlagen konnten nicht geladen werden."
+
+#: onedesk/one_slide/master.py:91
+msgid "Could not open a master: this presentation is already one."
+msgstr "Master konnte nicht geöffnet werden: Diese Präsentation ist bereits einer."
 
 #: frontend/src/sheet/components/SheetEditor/usePersistence.js:82
 msgid "Could not open this sheet"
@@ -14245,6 +14261,10 @@ msgstr ""
 msgid "Edit Layout"
 msgstr "Layout bearbeiten"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:137
+msgid "Edit Master"
+msgstr "Master bearbeiten"
+
 #: onedesk/public/js/one_ai/ai_center.js:393
 msgid "Edit Memory"
 msgstr "Erinnerung bearbeiten"
@@ -15604,6 +15624,10 @@ msgstr "Jede Seriennummer im Bestand, und wo."
 #: onedesk/one_book/home.py:367
 msgid "Every share issued, moved and bought back."
 msgstr "Jede ausgegebene, übertragene und zurückgekaufte Aktie."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:176
+msgid "Every slide already looks like its layout."
+msgstr "Jede Folie sieht bereits wie ihr Layout aus."
 
 #: onedesk/one_project/status.py:101
 msgid "Every task on {0} is done. Add a task to open it again."
@@ -19178,6 +19202,10 @@ msgstr "Ausblenden"
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
 msgstr "Dateien ausblenden"
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Hide Master"
+msgstr "Master ausblenden"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:126
 msgid "Hide Rulers and Guides"
@@ -22936,6 +22964,10 @@ msgstr "Ebene"
 msgid "Layers"
 msgstr "Ebenen"
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Layout"
+msgstr "Layout"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Layout and seating plan"
@@ -23273,6 +23305,10 @@ msgstr "Abfahrt"
 #: onedesk/one_hr/print_format/one_salary_withholding/one_salary_withholding.json
 msgid "Leaves On"
 msgstr "Austritt am"
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Leaves out what the presentation's master draws under every slide."
+msgstr "Lässt weg, was der Master der Präsentation unter jede Folie legt."
 
 #. Label of the 'employee_exit_settings_section' field in DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -25106,9 +25142,17 @@ msgstr "Aufschlag auf Kosten"
 msgid "Massing and plans"
 msgstr "Baukörper und Grundrisse"
 
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Master Of"
+msgstr "Master von"
+
 #: onedesk/one_inventory/home.py:140
 msgid "Master Production Schedule"
 msgstr ""
+
+#: onedesk/one_slide/api.py:261
+msgid "Master of {0}"
+msgstr "Master von {0}"
 
 #: onedesk/one_studio/letter_heads.py:19
 msgid "Masthead"
@@ -37741,6 +37785,10 @@ msgstr "Wiederherstellung von {0} hängt"
 msgid "Restricted"
 msgstr "Eingeschränkt"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:138
+msgid "Restyle from Layouts"
+msgstr "Nach Layouts neu gestalten"
+
 #. Label in the One Quality Inspection print format
 #: onedesk/one_admin/report/price_check/price_check.py:100
 #: onedesk/one_inventory/print_format/one_quality_inspection/one_quality_inspection.json
@@ -40693,6 +40741,10 @@ msgstr "Bilder anzeigen"
 #: onedesk/one_display/widgets.py:66
 msgid "Show the Date"
 msgstr "Datum zeigen"
+
+#: frontend/src/slide/shim/MasterSection.vue:6
+msgid "Show the Master"
+msgstr "Master anzeigen"
 
 #: frontend/src/project/Updates.vue:24
 msgid "Show {0} Earlier"
@@ -45976,6 +46028,10 @@ msgstr "Die Position war ungenauer als der Ort, dem sie zugeordnet wurde."
 msgid "The presentation could not be saved. Try again."
 msgstr "Die Präsentation konnte nicht gespeichert werden. Versuchen Sie es erneut."
 
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The presentation this one is the master of. A master has no File of its own."
+msgstr "Die Präsentation, deren Master dies ist. Ein Master hat keine eigene Datei."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "The previous account holder"
@@ -46301,6 +46357,10 @@ msgstr "Die Vorlage enthält alle Blätter außer {0}, das zum Datensatz gehört
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:8
 msgid "The template includes the whole document as it is now."
 msgstr "Die Vorlage enthält das ganze Dokument, wie es jetzt ist."
+
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "The template slide this one was laid out from, so a change to its look can be brought in later."
+msgstr "Die Vorlagenfolie, nach der diese Folie angelegt wurde, damit eine Änderung ihres Aussehens später übernommen werden kann."
 
 #: onedesk/one_crm/home.py:169
 msgid "The terms a quotation and an order carry."

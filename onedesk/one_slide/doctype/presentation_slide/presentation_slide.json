@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 14:53:42.564962",
+ "modified": "2026-10-30 15:28:21.392238",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -70,6 +70,20 @@
    "fieldtype": "Long Text",
    "label": "Speaker Notes",
    "description": "What the presenter says over this slide. Only they see it, never the audience."
+  },
+  {
+   "fieldname": "hide_master",
+   "fieldtype": "Check",
+   "label": "Hide Master",
+   "default": "0",
+   "description": "Leaves out what the presentation's master draws under every slide."
+  },
+  {
+   "fieldname": "layout",
+   "fieldtype": "Data",
+   "label": "Layout",
+   "hidden": 1,
+   "description": "The template slide this one was laid out from, so a change to its look can be brought in later."
   }
  ],
  "field_order": [
@@ -82,6 +96,8 @@
   "fade_unmatched_elements",
   "advance_after",
   "played",
-  "notes"
+  "notes",
+  "hide_master",
+  "layout"
  ]
 }

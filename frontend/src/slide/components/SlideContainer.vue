@@ -9,6 +9,8 @@
 			:class="slideClasses"
 			@contextmenu.capture="(e) => elementContextMenuRef?.handleContextMenu(e)"
 		>
+			<!-- One: the master, under the slide's own (shim/MasterLayer.vue, VENDORED.md) -->
+			<MasterLayer v-if="!screen" :slide="currentSlide" :index="slideIndex" />
 			<ElementContextMenu ref="elementContextMenu">
 				<SelectionBox
 					ref="selectionBox"
@@ -53,6 +55,8 @@
 import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { screen } from '@/apps/slides/stores/presentation' // One: a screen has no slides rail
 import Rulers from '@/apps/slides/shim/Rulers.vue' // One: rulers and guides, VENDORED.md
+import MasterLayer from '@/apps/slides/shim/MasterLayer.vue' // One: the master, VENDORED.md
+import { masterOf } from '@/apps/slides/shim/master.js' // One: a master has no slides rail
 import {
 	ref,
 	computed,
@@ -197,7 +201,7 @@ const displayScale = ref(Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / fram
 const fitted = () => {
 	const box = slideContainerRef.value
 	if (box?.clientWidth) {
-		const sides = (screen.value ? 0 : NAV_WIDTH) + (inReadonlyMode.value ? 0 : PANEL_WIDTH)
+		const sides = (screen.value || masterOf.value ? 0 : NAV_WIDTH) + (inReadonlyMode.value ? 0 : PANEL_WIDTH)
 		const room = Math.min((box.clientWidth - sides - AIR * 2) / frame.w, (box.clientHeight - AIR * 4) / frame.h)
 		displayScale.value = Math.max(0.3, Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / frame.h, room))
 	}
@@ -246,7 +250,7 @@ const highlightElement = (element) => {
 // properties; readonly: nav only). Recompute if widths change.
 const slidePlace = computed(() => {
 	// a screen has no slides rail (stage 7 of docs/ONESLIDE.md)
-	const shift = screen.value ? (inReadonlyMode.value ? 0 : 144) : inReadonlyMode.value ? -95.5 : 32
+	const shift = screen.value || masterOf.value ? (inReadonlyMode.value ? 0 : 144) : inReadonlyMode.value ? -95.5 : 32
 	return {
 		...frameSize(),
 		left: `calc(50% - ${(frame.w * displayScale.value) / 2 + shift}px)`,

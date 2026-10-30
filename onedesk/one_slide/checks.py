@@ -120,11 +120,41 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			karim.add_roles("OneSlide Manager")
 			assert api.get(name)["can_template"], "a Manager keeps them"
 			assert not frappe.has_permission(api.PRESENTATION, "read"), "keeping templates opens no presentation the File doesn't"
+			# a master: made once, opened with the presentation's own access, drawn under every slide
+			from onedesk.one_slide import layouts, master
+
+			mine = master.edit(name)
+			assert master.edit(name) == mine and api.get(mine)["master_of"] == name, "one master, opened as the presentation is"
+			number = {"id": "n1", "type": "text", "field": "number", "content": "<p><span style=\"font-size: 14px\">#</span></p>"}
+			plate = api.get(mine)
+			api.save_slides(mine, json.dumps([{"client_id": plate["slides"][0]["client_id"], "elements": json.dumps([number])}]), str(plate["modified"]))
+			assert [one["id"] for one in api.get(name)["master"]] == ["n1"], api.get(name)["master"]
+			played = play.for_screen(name, 10)
+			assert played[0]["slide"]["elements"][0]["id"] == "master-n1" and ">1<" in played[0]["slide"]["elements"][0]["content"], played[0]
+			assert master._worded("<p><b>a</b> <i>b</i></p>", "7") == "<p><b>7</b><i></i></p>", master._worded("<p><b>a</b> <i>b</i></p>", "7")
 			template = templates.save_as(name, "Review template")
 			assert any(one["name"] == template["name"] for one in api.listed()), "a template OneCloud offers"
 			assert any(one["name"] == template["name"] for one in api.get_templates()), "a template the editor takes layouts from"
 			started = api.make("@my", "From the template", template["name"])["presentation"]
 			assert len(api.get(started)["slides"]) == len(api.get(name)["slides"]), "a template is copied whole"
+			assert [one["id"] for one in api.get(started)["master"]] == ["n1"], "a template's master comes with it"
+			# linked layouts: the template's new look comes into the slide, its words stay
+			first = api.get(started)["slides"][0]
+			assert first["layout"] == f"{template['name']}:{frappe.db.get_value(api.SLIDE, {'parent': template['name'], 'idx': 1}, 'client_id')}", first["layout"]
+			own = json.loads(first["elements"])
+			said = next(one for one in own if one.get("type") == "text")
+			said["content"] = "<p>Our words</p>"
+			api.save_slides(started, json.dumps([{"client_id": first["client_id"], "layout": first["layout"], "elements": json.dumps(own)}]), str(api.get(started)["modified"]))
+			look = frappe.get_doc(api.PRESENTATION, template["name"])
+			drawn = json.loads(look.slides[0].elements)
+			source = next(one for one in drawn if one["id"] == said["from"])
+			source.update(left=7, content='<p style="text-align: right"><span style="font-size: 50px">Old</span></p>')
+			look.slides[0].elements = json.dumps(drawn)
+			look.save(ignore_permissions=True)
+			assert layouts.restyle(started) == {"restyled": 1}
+			now = next(one for one in json.loads(api.get(started)["slides"][0]["elements"]) if one["id"] == said["id"])
+			assert now["left"] == 7 and now["content"] == '<p style="text-align: right"><span style="font-size: 50px">Our words</span></p>', now
+			assert layouts.restyle(started) == {"restyled": 0}, "a slide that looks like its layout is left alone"
 			from PIL import Image
 
 			drawn = io.BytesIO()

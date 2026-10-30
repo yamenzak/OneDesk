@@ -82,6 +82,12 @@ const getNewSlide = (toDuplicate = false, layoutObject, source = currentSlide.va
 		slide = { ...layout }
 		// the same layout is inserted more than once, so its stored ids can't carry over
 		slide.elements = remapElementIds(layout.elements.map(cloneObj))
+		// One: a slide remembers its layout and each element where it came from,
+		// so the layout's look can be brought in again (one_slide/layouts.py, VENDORED.md)
+		if (!toDuplicate && layout.parent && layout.client_id) {
+			slide.layout = `${layout.parent}:${layout.client_id}`
+			slide.elements.forEach((one, i) => (one.from = layout.elements[i]?.id))
+		}
 	}
 
 	// override metadata and generate unique IDs for elements

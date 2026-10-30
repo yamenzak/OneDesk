@@ -78,6 +78,15 @@ Each is marked `One:` where it is.
   measure as its starting scale, `composables/useSnapping.js` snaps to the
   guides that are shown, and `stores/presentation.js` hands the guides over
   when a presentation loads.
+- The master and linked layouts (`shim/master.js`, `shim/MasterLayer.vue`,
+  `shim/MasterSection.vue`): `components/SlideContainer.vue` draws the master
+  under the canvas and, open on a master, lays the slide out with no rail;
+  `components/SlidePreview.vue` and `pages/Slideshow.vue` draw it under the
+  slide's own; `components/PropertiesPanel.vue` offers Show the Master;
+  `pages/PresentationEditor.vue` has no rail or notes on a master;
+  `stores/presentation.js` sends and compares a slide's `hide_master` and
+  `layout`; and `stores/slide.js` has a slide inserted from a layout keep
+  the layout and where each element came from.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

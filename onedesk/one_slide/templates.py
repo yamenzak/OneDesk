@@ -65,6 +65,9 @@ def save_as(name: str, title: str) -> dict:
 			},
 		)
 	made.save(ignore_permissions=True)
+	from onedesk.one_slide import master
+
+	master.copy(name, made.name)
 	where = folder()
 	file = frappe.get_doc(
 		{"doctype": "File", "file_url": api.URL + made.name, "is_private": 0, "folder": where, "file_name": ns.unique_name(title, cloud._taken(where))}

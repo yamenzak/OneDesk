@@ -38,6 +38,8 @@ NOT_FOR_AI = {
 	"versions.keep": "A version is named from the editor's Version History by the person working on it.",
 	"versions.restore": "Going back to a version is the person's call, from the editor's Version History.",
 	"guides.keep": "A guide is dragged out of the editor's rulers to line things up by eye.",
+	"master.edit": "The master is opened from the editor's File menu by the person laying out the slides.",
+	"layouts.restyle": "Bringing a template's new look into every slide is the person's call, from the editor's File menu.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }
 

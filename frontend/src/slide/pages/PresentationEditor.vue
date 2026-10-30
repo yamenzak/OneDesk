@@ -20,7 +20,7 @@
 
 			<!-- One: on a phone the slide gets the screen; the rail and the panel are a desktop's. A screen has one slide, so no rail. -->
 			<!-- One: the rail measures the frame when it mounts, so it mounts again at another size (VENDORED.md) -->
-			<NavigationPanel v-if="!screen" :key="`${frame.w}x${frame.h}`" class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
+			<NavigationPanel v-if="!screen && !masterOf" :key="`${frame.w}x${frame.h}`" class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
 
 			<Toolbar v-if="!inReadonlyMode && presentationDoc" />
 
@@ -28,7 +28,7 @@
 			<PresenterView v-if="presenting && presentationDoc" />
 
 			<!-- One: the slide's speaker notes, under it (shim/NotesDrawer.vue, VENDORED.md) -->
-			<NotesDrawer v-if="presentationDoc && !screen" />
+			<NotesDrawer v-if="presentationDoc && !screen && !masterOf" />
 
 			<div
 				v-if="lockedElsewhere"
@@ -111,6 +111,7 @@ import ExportView from '@/apps/slides/pages/ExportView.vue'
 import EditorNavbar from '@/apps/slides/components/EditorNavbar.vue'
 import NavigationPanel from '@/apps/slides/components/NavigationPanel.vue'
 import NotesDrawer from '@/apps/slides/shim/NotesDrawer.vue' // One: speaker notes, VENDORED.md
+import { masterOf } from '@/apps/slides/shim/master.js' // One: a master has one slide, so no rail, VENDORED.md
 import PresenterView from '@/apps/slides/shim/PresenterView.vue' // One: the presenter view, VENDORED.md
 import { presenting } from '@/apps/slides/shim/presenter.js' // One
 import { frame } from '@/apps/slides/shim/frame.js' // One: the rail's key, VENDORED.md

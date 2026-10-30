@@ -91,11 +91,27 @@ def resize(
 	if before == after:
 		return {"width": after[0], "height": after[1]}
 	versions.keep_now(doc, _("Before changing the size"))
+	doc.guides = json.dumps(guides.scaled(doc.guides, before, after))
+	_redrawn(doc, before, after)
+	from onedesk.one_slide import master
+
+	if master.of(name):
+		redrawn(master.of(name), before, after)
+	return {"width": after[0], "height": after[1]}
+
+
+def redrawn(name: str, before: tuple[int, int], after: tuple[int, int]) -> None:
+	"""A presentation's slides redrawn at another size and kept, with no
+	version: a master, whose presentation keeps the version."""
+	from onedesk.one_slide import api
+
+	_redrawn(frappe.get_doc(api.PRESENTATION, name), before, after)
+
+
+def _redrawn(doc, before: tuple[int, int], after: tuple[int, int]) -> None:
 	rows = [row.as_dict() for row in doc.slides]
 	refit(rows, before, after)
 	for row, drawn in zip(doc.slides, rows, strict=True):
 		row.elements = drawn["elements"]
 	doc.width, doc.height = after
-	doc.guides = json.dumps(guides.scaled(doc.guides, before, after))
 	doc.save(ignore_permissions=True)
-	return {"width": after[0], "height": after[1]}

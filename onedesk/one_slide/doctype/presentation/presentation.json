@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 15:09:39.190765",
+ "modified": "2026-10-30 15:28:21.375390",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -77,6 +77,15 @@
    "hidden": 1
   },
   {
+   "fieldname": "master_of",
+   "fieldtype": "Link",
+   "options": "Presentation",
+   "label": "Master Of",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "The presentation this one is the master of. A master has no File of its own."
+  },
+  {
    "fieldname": "slug",
    "fieldtype": "Data",
    "label": "Slug"
@@ -111,6 +120,7 @@
   "width",
   "height",
   "guides",
+  "master_of",
   "slug",
   "thumbnail",
   "is_template",

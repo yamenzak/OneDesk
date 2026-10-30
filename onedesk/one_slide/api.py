@@ -50,7 +50,7 @@ MOST_NOTES = 20000
 
 #: The only fields the editor may set on a slide (Suite's SLIDE_FIELDS).
 SLIDE_FIELDS = frozenset(
-	{"client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after", "notes"}
+	{"client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after", "notes", "hide_master", "layout"}
 )
 
 PICTURES = {"png", "jpg", "jpeg", "gif", "webp"}
@@ -66,7 +66,10 @@ def presentation_of(url: str | None) -> str | None:
 def _file(name: str) -> dict:
 	from onedesk.one_storage import namespace as ns
 
-	held = frappe.db.get_value(PRESENTATION, name, ["file", "is_template"], as_dict=True)
+	held = frappe.db.get_value(PRESENTATION, name, ["file", "is_template", "master_of"], as_dict=True)
+	if held and held.master_of:
+		# a master is opened, and kept, with the presentation it is the master of
+		held = frappe.db.get_value(PRESENTATION, held.master_of, ["file", "is_template"], as_dict=True)
 	item = ns.row(held.file) if held and held.file else None
 	if not item or item.get("one_deleted_on"):
 		frappe.throw(_("This presentation no longer exists."), frappe.DoesNotExistError)
@@ -115,6 +118,13 @@ def make(parent: str, title: str | None = None, template: str | None = None, wid
 	resize.refit(first, drawn, size)
 	doc.set("slides", first)
 	doc.save(ignore_permissions=True)
+	if source != LIGHT:
+		from onedesk.one_slide import master
+
+		# a template's master comes with it, at the size asked
+		master.copy(source, doc.name)
+		if drawn != size and master.of(doc.name):
+			resize.redrawn(master.of(doc.name), drawn, size)
 	file = {"doctype": "File", "file_url": URL + doc.name, "is_private": 1}
 	if where[0] == "folder":
 		file.update(folder=where[1], file_name=ns.unique_name(title, cloud._taken(where[1])))
@@ -151,11 +161,17 @@ def _first_slides(template: str) -> list[dict]:
 	source = frappe.get_doc(PRESENTATION, template)
 	rows = source.slides[2:3] if source.name in _system() and len(source.slides) > 2 else source.slides
 	out = []
+	from onedesk.one_slide import layouts
+
 	for row in rows or source.slides[:1]:
 		elements = json.loads(row.elements or "[]")
+		for one in elements:
+			# where each came from, so the layout's look can be brought in again (layouts.py)
+			one["from"] = one.get("id")
 		_new_ids(elements)
 		out.append(
 			{
+				"layout": layouts.ref(source.name, row.client_id) if row.client_id else None,
 				"client_id": str(uuid.uuid4()),
 				"background": row.background,
 				"elements": json.dumps(elements),
@@ -237,6 +253,12 @@ def _loaded(name: str, item: dict) -> dict:
 	doc["trail"] = ns.trail(item["folder"]) if item.get("folder") and not item.get("attached_to_doctype") else []
 	for row in doc.get("slides") or []:
 		row.pop("played", None)
+	from onedesk.one_slide import master
+
+	# what every slide draws underneath; a master's own title is the presentation's
+	doc["master"] = [] if doc.get("master_of") else master.elements(name)
+	if doc.get("master_of"):
+		doc["title"] = _("Master of {0}").format(item["file_name"])
 	for hook in frappe.get_hooks("one_slide_loaded"):
 		frappe.get_attr(hook)(doc, item)
 	return doc
@@ -277,7 +299,8 @@ def save_slides(name: str, slides: list[dict] | str, base_modified: str) -> dict
 	doc.set("slides", _merged(doc.slides, slides or []))
 	doc.byte_size = size
 	doc.save(ignore_permissions=True)
-	frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
+	if not doc.master_of:
+		frappe.db.set_value("File", item["name"], "file_size", size, update_modified=True)
 	return {"modified": doc.modified}
 
 
@@ -608,6 +631,9 @@ def copied(doc, method=None) -> None:
 			_adopted(made.name, one)
 		row.elements = json.dumps(elements)
 	made.save(ignore_permissions=True)
+	from onedesk.one_slide import master
+
+	master.copy(name, made.name)
 	doc.file_url = URL + made.name
 	doc.content_hash = None
 	doc.flags.one_presentation = made.name
@@ -628,5 +654,8 @@ def file_gone(doc, method=None) -> None:
 
 	for held in frappe.get_all("File", filters={"attached_to_doctype": PRESENTATION, "attached_to_name": name}, pluck="name"):
 		frappe.delete_doc("File", held, ignore_permissions=True)
+	from onedesk.one_slide import master
+
+	master.forget(name)
 	versions.forget(name)
 	frappe.delete_doc(PRESENTATION, name, ignore_permissions=True, force=True)

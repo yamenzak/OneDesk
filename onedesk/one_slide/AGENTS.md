@@ -185,6 +185,32 @@ mounts (`fitted` in `SlideContainer.vue`, a One: edit), no larger than
 Suite's 900 by 700, so the rulers and the slide's edges are never under a
 panel.
 
+### Master and layouts
+
+A master is a second Presentation of one slide, `master_of` the one it
+belongs to and no File of its own; `api._file` answers for it with its
+presentation's File, so the editor opens it at `/desk/presentation/<master>`
+like any other and Suite's whole save path works on it unchanged
+(`master.edit` makes it blank the first time). `api.get` hands the editor
+`master`, its elements; `shim/master.js` puts them under every slide that
+does not set `hide_master`, with ids of their own (`master-<id>`) and each
+`field` text (`number`, `date`) filled for that slide: `MasterLayer.vue`
+under the canvas, `SlidePreview.vue` (rail, camera, PDF, presenter) and
+`Slideshow.vue`. The TV gets it from `master.under` in `play.for_screen`,
+and PowerPoint will from the same. A master goes with its presentation
+(`file_gone`), comes with a copy or a template (`master.copy`), and is
+resized with it.
+
+A slide inserted from a layout keeps `layout` (`<template>:<client_id>`)
+and each element `from`, the layout element's id: `getNewSlide` in
+`stores/slide.js` (a One: edit) and `api._first_slides` for a new
+presentation. `layouts.restyle` puts every such element back where its
+layout has it, in its look, with the slide's own words poured into the
+layout's first paragraph (`layouts.poured`; a list keeps its own markup)
+and its own picture kept, and the slide takes the layout's background. A
+version is kept first. Elements added to a slide since are left alone, and
+one the slide deleted does not come back.
+
 ### The Builder half
 
 A fade, a blur, free CSS, a name and whether an element is hidden are kept

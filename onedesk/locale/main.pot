@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 15:21+0000\n"
-"PO-Revision-Date: 2026-10-30 15:21+0000\n"
+"POT-Creation-Date: 2026-10-30 15:37+0000\n"
+"PO-Revision-Date: 2026-10-30 15:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2359,6 +2359,10 @@ msgstr ""
 msgid "Add Database"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:122
+msgid "Add Date"
+msgstr ""
+
 #: frontend/src/inventory/item/ItemOverview.vue:15
 #: frontend/src/project/TaskPanel.vue:56
 msgid "Add Description"
@@ -2393,7 +2397,7 @@ msgstr ""
 msgid "Add Manufacturer"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:127
+#: frontend/src/slide/shim/EditorNavbar.vue:145
 msgid "Add Margin Guides"
 msgstr ""
 
@@ -2445,6 +2449,10 @@ msgstr ""
 
 #: frontend/src/slide/components/NavigationPanel.vue:49
 msgid "Add Slide"
+msgstr ""
+
+#: frontend/src/slide/shim/EditorNavbar.vue:121
+msgid "Add Slide Number"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:67
@@ -6355,6 +6363,10 @@ msgstr ""
 msgid "Before going back"
 msgstr ""
 
+#: onedesk/one_slide/layouts.py:108
+msgid "Before restyling from layouts"
+msgstr ""
+
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "Before some of the workspace's OneAI credits expire, a week ahead."
@@ -7534,7 +7546,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1014
 #: frontend/src/sheet/components/SheetEditor/index.vue:1042
 #: frontend/src/sheet/components/SheetEditor/index.vue:1241
-#: frontend/src/slide/stores/presentation.js:481
+#: frontend/src/slide/stores/presentation.js:489
 #: frontend/src/task/TaskWaits.vue:14
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json
 #: onedesk/public/js/doctype_settings.js:253
@@ -7763,7 +7775,7 @@ msgstr ""
 
 #. Label of the change (Select) field in DocType 'Reading'
 #: frontend/portal/src/parts/WebForm.vue:24
-#: frontend/src/slide/shim/EditorNavbar.vue:157
+#: frontend/src/slide/shim/EditorNavbar.vue:204
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:22
 #: onedesk/public/js/one_account/account_center.js:1088
@@ -7809,7 +7821,7 @@ msgstr ""
 msgid "Change a collection…"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:218
+#: frontend/src/slide/pages/PresentationEditor.vue:219
 msgid "Change presentation theme"
 msgstr ""
 
@@ -7914,7 +7926,7 @@ msgstr ""
 msgid "Changes apply only to packs sold from now on."
 msgstr ""
 
-#: frontend/src/slide/stores/presentation.js:296
+#: frontend/src/slide/stores/presentation.js:299
 msgid "Changes that never reached the server were discarded."
 msgstr ""
 
@@ -8566,7 +8578,7 @@ msgstr ""
 msgid "Clear"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:128
+#: frontend/src/slide/shim/EditorNavbar.vue:146
 msgid "Clear Guides"
 msgstr ""
 
@@ -10150,12 +10162,16 @@ msgstr ""
 msgid "Could not create the record."
 msgstr ""
 
-#: frontend/src/slide/pages/Slideshow.vue:335
+#: frontend/src/slide/pages/Slideshow.vue:339
 msgid "Could not enter fullscreen mode"
 msgstr ""
 
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:38
 msgid "Could not load the templates."
+msgstr ""
+
+#: onedesk/one_slide/master.py:91
+msgid "Could not open a master: this presentation is already one."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/usePersistence.js:84
@@ -10957,7 +10973,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:28
 #: frontend/src/sheet/components/SheetEditor/index.vue:2404
 #: frontend/src/sheet/components/SheetEditor/index.vue:2416
-#: frontend/src/slide/shim/EditorNavbar.vue:144
+#: frontend/src/slide/shim/EditorNavbar.vue:191
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_display/widgets.py:121 onedesk/public/js/doctype_settings.js:272
 #: onedesk/public/js/one/access_center.js:349
@@ -12047,7 +12063,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1240
 #: frontend/src/slide/components/ElementContextMenu.vue:188
 #: frontend/src/slide/components/PresentationPreview.vue:141
-#: frontend/src/slide/stores/presentation.js:483
+#: frontend/src/slide/stores/presentation.js:491
 #: frontend/src/slide/utils/slideMenu.js:17 frontend/src/template/Tasks.vue:160
 #: frontend/src/writer/components/FloatingComments.vue:54
 #: frontend/src/writer/components/FloatingComments.vue:106
@@ -12144,7 +12160,7 @@ msgstr ""
 msgid "Delete pivot"
 msgstr ""
 
-#: frontend/src/slide/stores/presentation.js:478
+#: frontend/src/slide/stores/presentation.js:486
 msgid "Delete presentation"
 msgstr ""
 
@@ -12683,7 +12699,7 @@ msgstr ""
 msgid "Depreciations Booked"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:207
+#: frontend/src/slide/shim/EditorNavbar.vue:254
 #: frontend/src/writer/components/CoreEditor.vue:279
 msgid "Describe It"
 msgstr ""
@@ -12845,8 +12861,8 @@ msgstr ""
 
 #. Task in the Mobile App project template
 #. Task in the Website project template
-#: frontend/src/slide/components/PropertiesPanel.vue:135
-#: frontend/src/slide/shim/EditorNavbar.vue:220
+#: frontend/src/slide/components/PropertiesPanel.vue:142
+#: frontend/src/slide/shim/EditorNavbar.vue:267
 #: onedesk/one_project/library/mobile_app.json
 #: onedesk/one_project/library/website.json
 msgid "Design"
@@ -12857,8 +12873,8 @@ msgstr ""
 msgid "Design Services"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:198
-#: frontend/src/slide/shim/EditorNavbar.vue:220 onedesk/one_ai/jobs.py:73
+#: frontend/src/slide/shim/EditorNavbar.vue:245
+#: frontend/src/slide/shim/EditorNavbar.vue:267 onedesk/one_ai/jobs.py:73
 msgid "Design a Slide"
 msgstr ""
 
@@ -13509,6 +13525,7 @@ msgstr ""
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/project/ProjectPage.vue:22
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
+#: frontend/src/slide/shim/EditorNavbar.vue:30
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:25
@@ -13834,7 +13851,7 @@ msgstr ""
 msgid "Draw Up Contract"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:168
+#: frontend/src/slide/shim/EditorNavbar.vue:215
 msgid "Drawing slide {0} of {1}…"
 msgstr ""
 
@@ -14427,6 +14444,10 @@ msgstr ""
 #: onedesk/one_display/doctype/widget_collection/widget_collection.js:7
 #: onedesk/one_display/doctype/widget_collection/widget_collection.js:8
 msgid "Edit Layout"
+msgstr ""
+
+#: frontend/src/slide/shim/EditorNavbar.vue:137
+msgid "Edit Master"
 msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:393
@@ -15799,6 +15820,10 @@ msgstr ""
 msgid "Every share issued, moved and bought back."
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:176
+msgid "Every slide already looks like its layout."
+msgstr ""
+
 #: onedesk/one_project/status.py:101
 msgid "Every task on {0} is done. Add a task to open it again."
 msgstr ""
@@ -16392,11 +16417,11 @@ msgstr ""
 msgid "Export as CSV"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:115
+#: frontend/src/slide/shim/EditorNavbar.vue:131
 msgid "Export as PDF"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:116
+#: frontend/src/slide/shim/EditorNavbar.vue:132
 msgid "Export as PDF with Notes"
 msgstr ""
 
@@ -19002,7 +19027,7 @@ msgid "Guests"
 msgstr ""
 
 #. Label of the guides (Long Text) field in DocType 'Presentation'
-#: frontend/src/slide/shim/EditorNavbar.vue:124
+#: frontend/src/slide/shim/EditorNavbar.vue:142
 #: onedesk/one_slide/doctype/presentation/presentation.json
 msgid "Guides"
 msgstr ""
@@ -19311,7 +19336,7 @@ msgstr ""
 #. Label of the height (Int) field in DocType 'Presentation'
 #. Label of the height (Int) field in DocType 'Presentation Version'
 #: frontend/src/slide/components/FrameSection.vue:161
-#: frontend/src/slide/shim/EditorNavbar.vue:148
+#: frontend/src/slide/shim/EditorNavbar.vue:195
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -19440,7 +19465,12 @@ msgstr ""
 msgid "Hide Files"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:126
+#. Label of the hide_master (Check) field in DocType 'Presentation Slide'
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Hide Master"
+msgstr ""
+
+#: frontend/src/slide/shim/EditorNavbar.vue:144
 msgid "Hide Rulers and Guides"
 msgstr ""
 
@@ -20462,7 +20492,7 @@ msgstr ""
 #. Label of the image (Attach Image) field in DocType 'Face'
 #: frontend/src/cloud/cloud.js:9
 #: frontend/src/slide/components/ImageSection.vue:3
-#: frontend/src/slide/components/PropertiesPanel.vue:158
+#: frontend/src/slide/components/PropertiesPanel.vue:165
 #: onedesk/one_book/print_format/one_purchase_invoice_with_images/one_purchase_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_crm/print_format/one_quotation_with_images/one_quotation_with_images.json
@@ -23246,8 +23276,13 @@ msgstr ""
 msgid "Layer"
 msgstr ""
 
-#: frontend/src/slide/components/PropertiesPanel.vue:136
+#: frontend/src/slide/components/PropertiesPanel.vue:143
 msgid "Layers"
+msgstr ""
+
+#. Label of the layout (Data) field in DocType 'Presentation Slide'
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Layout"
 msgstr ""
 
 #. Task in the Office Move project template
@@ -23586,6 +23621,12 @@ msgstr ""
 #. Label in the One Salary Withholding print format
 #: onedesk/one_hr/print_format/one_salary_withholding/one_salary_withholding.json
 msgid "Leaves On"
+msgstr ""
+
+#. Description of the 'Hide Master' (Check) field in DocType 'Presentation
+#. Slide'
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Leaves out what the presentation's master draws under every slide."
 msgstr ""
 
 #. Label of the 'employee_exit_settings_section' field in DocType 'HR Settings'
@@ -24965,8 +25006,8 @@ msgstr ""
 #. Label in the One Vehicle Log print format
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
-#: frontend/src/slide/shim/EditorNavbar.vue:230
-#: frontend/src/slide/shim/EditorNavbar.vue:237
+#: frontend/src/slide/shim/EditorNavbar.vue:277
+#: frontend/src/slide/shim/EditorNavbar.vue:284
 #: frontend/src/writer/components/CoreEditor.vue:282
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:20
@@ -25043,8 +25084,8 @@ msgstr ""
 msgid "Make a Company Device"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:199
-#: frontend/src/slide/shim/EditorNavbar.vue:230
+#: frontend/src/slide/shim/EditorNavbar.vue:246
+#: frontend/src/slide/shim/EditorNavbar.vue:277
 #: frontend/src/writer/components/CoreEditor.vue:282
 msgid "Make a Picture"
 msgstr ""
@@ -25057,8 +25098,8 @@ msgstr ""
 msgid "Make a Picture with OneAI"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:200
-#: frontend/src/slide/shim/EditorNavbar.vue:237
+#: frontend/src/slide/shim/EditorNavbar.vue:247
+#: frontend/src/slide/shim/EditorNavbar.vue:284
 msgid "Make a Video"
 msgstr ""
 
@@ -25455,8 +25496,22 @@ msgstr ""
 msgid "Massing and plans"
 msgstr ""
 
+#: frontend/src/slide/shim/EditorNavbar.vue:119
+#: frontend/src/slide/shim/MasterSection.vue:4 onedesk/one_slide/master.py:99
+msgid "Master"
+msgstr ""
+
+#. Label of the master_of (Link) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Master Of"
+msgstr ""
+
 #: onedesk/one_inventory/home.py:140
 msgid "Master Production Schedule"
+msgstr ""
+
+#: onedesk/one_slide/api.py:261
+msgid "Master of {0}"
 msgstr ""
 
 #: onedesk/one_studio/letter_heads.py:19
@@ -27351,10 +27406,10 @@ msgstr ""
 #: frontend/src/slide/composables/useShortcuts.js:504
 #: frontend/src/slide/composables/useShortcuts.js:511
 #: frontend/src/slide/composables/useShortcuts.js:517
-#: frontend/src/slide/pages/Slideshow.vue:425
-#: frontend/src/slide/pages/Slideshow.vue:426
-#: frontend/src/slide/pages/Slideshow.vue:427
-#: frontend/src/slide/pages/Slideshow.vue:428
+#: frontend/src/slide/pages/Slideshow.vue:429
+#: frontend/src/slide/pages/Slideshow.vue:430
+#: frontend/src/slide/pages/Slideshow.vue:431
+#: frontend/src/slide/pages/Slideshow.vue:432
 msgid "Next step"
 msgstr ""
 
@@ -27709,7 +27764,7 @@ msgstr ""
 msgid "No changes found in timings."
 msgstr ""
 
-#: frontend/src/slide/stores/slide.js:125
+#: frontend/src/slide/stores/slide.js:131
 msgid "No changes to save"
 msgstr ""
 
@@ -27845,7 +27900,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:474
+#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:497
 msgid "No file was sent."
 msgstr ""
 
@@ -28851,7 +28906,7 @@ msgid "Not registered by itself: {0}"
 msgstr ""
 
 #: frontend/src/sheet/shim/CellProblem.vue:4
-#: frontend/src/slide/shim/EditorNavbar.vue:75
+#: frontend/src/slide/shim/EditorNavbar.vue:78
 msgid "Not saved"
 msgstr ""
 
@@ -30261,7 +30316,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:86
+#: onedesk/one_slide/ai.py:88
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -30269,7 +30324,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:96
+#: onedesk/one_slide/ai.py:98
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -30345,7 +30400,7 @@ msgstr ""
 msgid "OneAI has run out of credits"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:221
+#: frontend/src/slide/shim/EditorNavbar.vue:268
 msgid "OneAI is designing the slide…"
 msgstr ""
 
@@ -30357,11 +30412,11 @@ msgstr ""
 msgid "OneAI is making the music. You will be told when it is in the playlist."
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:231
+#: frontend/src/slide/shim/EditorNavbar.vue:278
 msgid "OneAI is making the picture…"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:240
+#: frontend/src/slide/shim/EditorNavbar.vue:287
 msgid "OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."
 msgstr ""
 
@@ -30381,7 +30436,7 @@ msgstr ""
 msgid "OneAI is recording the ad"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:239
+#: frontend/src/slide/shim/EditorNavbar.vue:286
 msgid "OneAI is starting the video…"
 msgstr ""
 
@@ -34525,7 +34580,7 @@ msgstr ""
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:166
+#: frontend/src/slide/shim/EditorNavbar.vue:213
 msgid "Preparing the PDF…"
 msgstr ""
 
@@ -34582,7 +34637,7 @@ msgstr ""
 msgid "Presentation options"
 msgstr ""
 
-#: onedesk/one_slide/api.py:106
+#: onedesk/one_slide/api.py:109
 msgid "Presentations cannot be created in a mounted drive."
 msgstr ""
 
@@ -34606,7 +34661,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:175
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:116
-#: frontend/src/slide/shim/EditorNavbar.vue:30
+#: frontend/src/slide/shim/EditorNavbar.vue:31
 #: onedesk/one_display/doctype/display_channel/display_channel.js:5
 #: onedesk/one_display/doctype/display_source/display_source.js:7
 #: onedesk/one_display/screens.py:190
@@ -34659,9 +34714,9 @@ msgstr ""
 
 #: frontend/src/slide/composables/useShortcuts.js:490
 #: frontend/src/slide/composables/useShortcuts.js:496
-#: frontend/src/slide/pages/Slideshow.vue:429
-#: frontend/src/slide/pages/Slideshow.vue:430
-#: frontend/src/slide/pages/Slideshow.vue:431
+#: frontend/src/slide/pages/Slideshow.vue:433
+#: frontend/src/slide/pages/Slideshow.vue:434
+#: frontend/src/slide/pages/Slideshow.vue:435
 msgid "Previous step"
 msgstr ""
 
@@ -36305,7 +36360,7 @@ msgstr ""
 msgid "Read on behalf of {0}"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:74
+#: frontend/src/slide/shim/EditorNavbar.vue:77
 #: frontend/src/writer/DocumentPage.vue:187
 msgid "Read only"
 msgstr ""
@@ -37542,7 +37597,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:713
 #: frontend/src/sheet/components/SheetEditor/index.vue:748
 #: frontend/src/slide/components/PresentationPreview.vue:131
-#: frontend/src/slide/shim/EditorNavbar.vue:119
+#: frontend/src/slide/shim/EditorNavbar.vue:135
 #: frontend/src/writer/DocumentPage.vue:287
 #: frontend/src/writer/components/ToC.vue:358 onedesk/one/ai.py:1843
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
@@ -38225,7 +38280,7 @@ msgid "Resolved On"
 msgstr ""
 
 #: frontend/src/slide/composables/useShortcuts.js:483
-#: frontend/src/slide/pages/Slideshow.vue:432
+#: frontend/src/slide/pages/Slideshow.vue:436
 msgid "Restart"
 msgstr ""
 
@@ -38294,6 +38349,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:263
 msgid "Restricted"
+msgstr ""
+
+#: frontend/src/slide/shim/EditorNavbar.vue:138
+msgid "Restyle from Layouts"
 msgstr ""
 
 #. Label in the One Quality Inspection print format
@@ -39225,7 +39284,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/slide/composables/useShortcuts.js:232
-#: frontend/src/slide/shim/EditorNavbar.vue:186
+#: frontend/src/slide/shim/EditorNavbar.vue:233
 #: frontend/src/task/TaskWaits.vue:15
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
@@ -39282,8 +39341,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1949
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
 #: frontend/src/sheet/shim/TemplateDialog.vue:15
-#: frontend/src/slide/shim/EditorNavbar.vue:118
-#: frontend/src/slide/shim/EditorNavbar.vue:185
+#: frontend/src/slide/shim/EditorNavbar.vue:134
+#: frontend/src/slide/shim/EditorNavbar.vue:232
 #: frontend/src/writer/DocumentPage.vue:294
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:3
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:15
@@ -39310,7 +39369,7 @@ msgstr ""
 #: frontend/portal/src/parts/WebForm.vue:118
 #: frontend/src/inventory/item/ItemBarcodes.vue:77
 #: frontend/src/sheet/components/SheetEditor/index.vue:65
-#: frontend/src/slide/shim/EditorNavbar.vue:77
+#: frontend/src/slide/shim/EditorNavbar.vue:80
 #: frontend/src/writer/DocumentPage.vue:189
 #: onedesk/public/js/module_settings.js:242
 #: onedesk/public/js/one/one_control.js:251
@@ -39362,7 +39421,7 @@ msgstr ""
 msgid "Saved under Saved Reports in this app's sidebar."
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:171
+#: frontend/src/slide/shim/EditorNavbar.vue:218
 msgid "Saved {0} to OneCloud."
 msgstr ""
 
@@ -39379,7 +39438,7 @@ msgid "Saving updates everyone with this profile."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:61
-#: frontend/src/slide/shim/EditorNavbar.vue:76
+#: frontend/src/slide/shim/EditorNavbar.vue:79
 #: frontend/src/writer/DocumentPage.vue:188 onedesk/public/js/hiring.js:215
 msgid "Saving…"
 msgstr ""
@@ -39400,7 +39459,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:56
+#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:58
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -40743,7 +40802,7 @@ msgstr ""
 msgid "Shadow"
 msgstr ""
 
-#: frontend/src/slide/components/PropertiesPanel.vue:158
+#: frontend/src/slide/components/PropertiesPanel.vue:165
 #: frontend/src/slide/shim/LayersPanel.vue:116
 msgid "Shape"
 msgstr ""
@@ -41214,7 +41273,7 @@ msgstr ""
 msgid "Show Roles"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:126
+#: frontend/src/slide/shim/EditorNavbar.vue:144
 msgid "Show Rulers and Guides"
 msgstr ""
 
@@ -41296,6 +41355,10 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:66
 msgid "Show the Date"
+msgstr ""
+
+#: frontend/src/slide/shim/MasterSection.vue:6
+msgid "Show the Master"
 msgstr ""
 
 #: frontend/src/project/Updates.vue:24
@@ -41810,7 +41873,7 @@ msgstr ""
 #: frontend/src/cloud/CloudItems.vue:138 frontend/src/cloud/CloudPreview.vue:92
 #: frontend/src/cloud/CloudPreview.vue:108
 #: frontend/src/slide/components/FontSection.vue:18
-#: frontend/src/slide/shim/EditorNavbar.vue:143
+#: frontend/src/slide/shim/EditorNavbar.vue:190
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
 #: onedesk/one_book/print_format/one_purchase_invoice/one_purchase_invoice.json
@@ -42012,8 +42075,8 @@ msgstr ""
 msgid "Slide Playlist"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:120
-#: frontend/src/slide/shim/EditorNavbar.vue:156
+#: frontend/src/slide/shim/EditorNavbar.vue:136
+#: frontend/src/slide/shim/EditorNavbar.vue:203
 msgid "Slide Size"
 msgstr ""
 
@@ -42021,7 +42084,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:292
+#: onedesk/one_slide/api.py:315
 msgid "Slide fields not accepted: {0}"
 msgstr ""
 
@@ -42051,14 +42114,14 @@ msgstr ""
 #: frontend/src/slide/composables/useShortcuts.js:505
 #: frontend/src/slide/composables/useShortcuts.js:512
 #: frontend/src/slide/composables/useShortcuts.js:518
-#: frontend/src/slide/pages/Slideshow.vue:425
-#: frontend/src/slide/pages/Slideshow.vue:426
-#: frontend/src/slide/pages/Slideshow.vue:427
-#: frontend/src/slide/pages/Slideshow.vue:428
 #: frontend/src/slide/pages/Slideshow.vue:429
 #: frontend/src/slide/pages/Slideshow.vue:430
 #: frontend/src/slide/pages/Slideshow.vue:431
 #: frontend/src/slide/pages/Slideshow.vue:432
+#: frontend/src/slide/pages/Slideshow.vue:433
+#: frontend/src/slide/pages/Slideshow.vue:434
+#: frontend/src/slide/pages/Slideshow.vue:435
+#: frontend/src/slide/pages/Slideshow.vue:436
 msgid "Slideshow"
 msgstr ""
 
@@ -44356,7 +44419,7 @@ msgstr ""
 
 #. Label of the bound_field (Data) field in DocType 'Workbook'
 #: frontend/src/project/ProjectPage.vue:168
-#: frontend/src/slide/components/PropertiesPanel.vue:158
+#: frontend/src/slide/components/PropertiesPanel.vue:165
 #: frontend/src/slide/components/TableSection.vue:3
 #: frontend/src/slide/shim/LayersPanel.vue:114
 #: onedesk/one_sheet/doctype/workbook/workbook.json
@@ -44993,7 +45056,7 @@ msgstr ""
 msgid "Template"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:180
+#: frontend/src/slide/shim/EditorNavbar.vue:227
 #: onedesk/public/js/project_actions.js:49
 msgid "Template Name"
 msgstr ""
@@ -45224,7 +45287,7 @@ msgstr ""
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
-#: frontend/src/slide/components/PropertiesPanel.vue:158
+#: frontend/src/slide/components/PropertiesPanel.vue:165
 #: frontend/src/slide/shim/LayersPanel.vue:111
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
@@ -45401,7 +45464,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:345
+#: onedesk/one_slide/api.py:368
 msgid "That theme does not exist."
 msgstr ""
 
@@ -46703,8 +46766,13 @@ msgstr ""
 msgid "The position was less accurate than the location it matched."
 msgstr ""
 
-#: frontend/src/slide/stores/slide.js:131
+#: frontend/src/slide/stores/slide.js:137
 msgid "The presentation could not be saved. Try again."
+msgstr ""
+
+#. Description of the 'Master Of' (Link) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The presentation this one is the master of. A master has no File of its own."
 msgstr ""
 
 #. Who a notification is sent to
@@ -47035,6 +47103,11 @@ msgstr ""
 msgid "The template includes the whole document as it is now."
 msgstr ""
 
+#. Description of the 'Layout' (Data) field in DocType 'Presentation Slide'
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "The template slide this one was laid out from, so a change to its look can be brought in later."
+msgstr ""
+
 #: onedesk/one_crm/home.py:169
 msgid "The terms a quotation and an order carry."
 msgstr ""
@@ -47051,7 +47124,7 @@ msgstr ""
 msgid "The text comes from {0}."
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:538
+#: frontend/src/slide/pages/PresentationEditor.vue:539
 msgid "The theme could not be changed. Try again."
 msgstr ""
 
@@ -47799,7 +47872,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:477
+#: onedesk/one_slide/api.py:500
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -47855,8 +47928,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:510 onedesk/one_slide/api.py:514
-#: onedesk/one_slide/api.py:527 onedesk/one_slide/paper.py:32
+#: onedesk/one_slide/api.py:533 onedesk/one_slide/api.py:537
+#: onedesk/one_slide/api.py:550 onedesk/one_slide/paper.py:32
 msgid "This is not a picture."
 msgstr ""
 
@@ -47975,12 +48048,12 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_slide/api.py:516 onedesk/one_slide/api.py:530
+#: onedesk/one_slide/api.py:539 onedesk/one_slide/api.py:553
 #: onedesk/one_slide/paper.py:35
 msgid "This picture is too large."
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:113
+#: frontend/src/slide/shim/EditorNavbar.vue:129
 msgid "This presentation"
 msgstr ""
 
@@ -47988,15 +48061,15 @@ msgstr ""
 msgid "This presentation has too many slides to print at once."
 msgstr ""
 
-#: onedesk/one_slide/api.py:266
+#: onedesk/one_slide/api.py:288
 msgid "This presentation is too large to save."
 msgstr ""
 
-#: onedesk/one_slide/api.py:72
+#: onedesk/one_slide/api.py:75
 msgid "This presentation no longer exists."
 msgstr ""
 
-#: onedesk/one_slide/api.py:270
+#: onedesk/one_slide/api.py:292
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr ""
 
@@ -50270,7 +50343,7 @@ msgstr ""
 msgid "Untitled Document"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:99 onedesk/one_slide/api.py:107
+#: frontend/src/slide/shim/EditorNavbar.vue:102 onedesk/one_slide/api.py:110
 msgid "Untitled Presentation"
 msgstr ""
 
@@ -50929,7 +51002,8 @@ msgstr ""
 msgid "Version"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:117
+#: frontend/src/slide/shim/EditorNavbar.vue:123
+#: frontend/src/slide/shim/EditorNavbar.vue:133
 #: frontend/src/slide/shim/VersionsDialog.vue:3
 #: frontend/src/writer/DocumentPage.vue:293
 msgid "Version History"
@@ -50964,7 +51038,7 @@ msgstr ""
 
 #. Task in the Marketing Campaign project template
 #: frontend/src/cloud/cloud.js:15
-#: frontend/src/slide/components/PropertiesPanel.vue:158
+#: frontend/src/slide/components/PropertiesPanel.vue:165
 #: frontend/src/slide/shim/LayersPanel.vue:113
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Video"
@@ -55097,7 +55171,7 @@ msgstr ""
 
 #. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
 #. Label of the widgets (Table) field in DocType 'Widget Collection'
-#: frontend/src/slide/shim/EditorNavbar.vue:204
+#: frontend/src/slide/shim/EditorNavbar.vue:251
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Widgets"
@@ -55148,7 +55222,7 @@ msgstr ""
 #. Label of the width (Int) field in DocType 'Presentation'
 #. Label of the width (Int) field in DocType 'Presentation Version'
 #: frontend/src/slide/components/FrameSection.vue:160
-#: frontend/src/slide/shim/EditorNavbar.vue:147
+#: frontend/src/slide/shim/EditorNavbar.vue:194
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json
 #: onedesk/one_inventory/custom/blanket_order_item.json
@@ -56357,7 +56431,7 @@ msgstr ""
 msgid "You do not have permission to open this document."
 msgstr ""
 
-#: frontend/src/slide/PresentationPage.vue:53 onedesk/one_slide/api.py:81
+#: frontend/src/slide/PresentationPage.vue:53 onedesk/one_slide/api.py:84
 msgid "You do not have permission to open this presentation."
 msgstr ""
 
@@ -59304,7 +59378,7 @@ msgstr ""
 msgid "{0} edits"
 msgstr ""
 
-#: frontend/src/slide/components/PropertiesPanel.vue:155
+#: frontend/src/slide/components/PropertiesPanel.vue:162
 msgid "{0} elements"
 msgstr ""
 
@@ -59812,7 +59886,7 @@ msgstr ""
 msgid "{0} is filling up"
 msgstr ""
 
-#: frontend/src/slide/shim/EditorNavbar.vue:183
+#: frontend/src/slide/shim/EditorNavbar.vue:230
 msgid "{0} is in Presentation Templates."
 msgstr ""
 

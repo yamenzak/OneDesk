@@ -78,11 +78,16 @@
 			<div v-else-if="currentSlide">
 				<BackgroundSection />
 				<!-- One: a screen has one slide, so nothing moves to another -->
-				<template v-if="!screen">
+				<template v-if="!screen && !masterOf">
 					<hr class="border-t" />
 					<TransitionSection />
 					<hr class="border-t" />
 					<SlidePlaybackSection />
+					<!-- One: whether this slide shows the master (shim/MasterSection.vue) -->
+					<template v-if="master.length">
+						<hr class="border-t" />
+						<MasterSection />
+					</template>
 				</template>
 			</div>
 		</div>
@@ -96,6 +101,8 @@ import { computed, provide, ref } from 'vue'
 import { TabButtons } from 'frappe-ui'
 import WidgetSection from '@/apps/slides/shim/WidgetSection.vue' // One: a widget's settings, VENDORED.md
 import { screen } from '@/apps/slides/stores/presentation' // One
+import MasterSection from '@/apps/slides/shim/MasterSection.vue' // One: VENDORED.md
+import { master, masterOf } from '@/apps/slides/shim/master.js' // One
 
 import {
 	activeElement,

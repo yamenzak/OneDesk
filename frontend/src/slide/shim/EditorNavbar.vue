@@ -17,16 +17,17 @@
 			<Dropdown v-if="!inReadonlyMode && screen" :options="widgetMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-layout-dashboard" :label="__('Add a Widget')" icon-right="lucide-chevron-down" />
 			</Dropdown>
-			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn()" :options="aiMenu" align="end">
+			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn() && !masterOf" :options="aiMenu" align="end">
 				<Button variant="ghost" :label="ONEAI" icon-right="lucide-chevron-down" :loading="!!making">
 					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
 				</Button>
 			</Dropdown>
-			<Button v-if="!inReadonlyMode && presentationDoc && !screen" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
+			<Button v-if="!inReadonlyMode && presentationDoc && !screen && !masterOf" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
 			<Dropdown v-if="presentationDoc && !screen" :options="fileMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
 			</Dropdown>
-			<PresentButton v-if="presentationDoc && !screen" @start="(options) => emit('startSlideShow', options)" />
+			<PresentButton v-if="presentationDoc && !screen && !masterOf" @start="(options) => emit('startSlideShow', options)" />
+			<Button v-if="masterOf" variant="solid" icon-left="lucide-check" :label="__('Done')" @click="leaveMaster" />
 			<Button v-if="screen" variant="solid" icon-left="lucide-monitor-play" :label="__('Preview')" @click="openTab(`/tv?collection=${encodeURIComponent(screen.name)}`)" />
 		</div>
 		<SlideCamera ref="camera" />
@@ -46,6 +47,8 @@ import { initPresentationDoc, presentationDoc, screen, updatePresentationTitle }
 import { addWidget } from "./screen.js";
 import { frame, sizes } from "./frame.js";
 import { addMarginGuides, clearGuides, guides, rulersShown, toggleRulers } from "./guides.js";
+import { fieldElement, masterOf } from "./master.js";
+import { addElementCommand, batchCommand } from "../stores/commands";
 import { addMediaElement } from "../stores/element";
 import { changeSlide, currentSlide, getNewSlide, insertSlide, slideIndex, slides } from "../stores/slide";
 import { commandHistory } from "../stores/historyMeta";
@@ -96,7 +99,7 @@ const parents = computed(() => {
 });
 const crumbs = computed(() => [
 	...parents.value,
-	{ label: title.value || __("Untitled Presentation"), onClick: () => !inReadonlyMode.value && (renaming.value = true) },
+	{ label: title.value || __("Untitled Presentation"), onClick: () => !inReadonlyMode.value && !masterOf.value && (renaming.value = true) },
 ]);
 
 function goBack() {
@@ -109,7 +112,20 @@ const showVersions = ref(false);
 const printing = ref("");
 
 const fileMenu = computed(() => [
-	{
+	// the master: its fields to put on, and the way back
+	...(masterOf.value
+		? [
+				{
+					group: __("Master"),
+					options: [
+						...(inReadonlyMode.value ? [] : [{ label: __("Add Slide Number"), icon: "lucide-hash", onClick: () => addField("number") }]),
+						...(inReadonlyMode.value ? [] : [{ label: __("Add Date"), icon: "lucide-calendar", onClick: () => addField("date") }]),
+						{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
+					],
+				},
+			]
+		: []),
+	...(masterOf.value ? [] : [{
 		group: __("This presentation"),
 		options: [
 			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: () => exportPdf(false) },
@@ -118,8 +134,10 @@ const fileMenu = computed(() => [
 			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
 			...(inReadonlyMode.value ? [] : [{ label: __("Slide Size"), icon: "lucide-ratio", onClick: slideSize }]),
+			...(inReadonlyMode.value || screen.value ? [] : [{ label: __("Edit Master"), icon: "lucide-layers", onClick: openMaster }]),
+			...(inReadonlyMode.value || !slides.value.some((one) => one.layout) ? [] : [{ label: __("Restyle from Layouts"), icon: "lucide-paintbrush", onClick: restyle }]),
 		],
-	},
+	}]),
 	...(screen.value ? [] : [{
 		group: __("Guides"),
 		options: [
@@ -129,6 +147,35 @@ const fileMenu = computed(() => [
 		],
 	}]),
 ]);
+
+// The master opens in this same editor, on a presentation of its own
+// (one_slide/master.py); Done comes back.
+async function openMaster() {
+	await saveWithoutDelay();
+	const name = await call("onedesk.one_slide.master.edit", { name: presentationDoc.value.name });
+	goToUrl(`/desk/presentation/${name}`);
+}
+
+async function leaveMaster() {
+	await saveWithoutDelay();
+	goToUrl(`/desk/presentation/${masterOf.value}`);
+}
+
+function addField(field) {
+	const slide = currentSlide.value;
+	if (!slide) return;
+	const element = { ...fieldElement(field, frame), zIndex: Math.max(0, ...slide.elements.map((one) => one.zIndex || 0)) + 1 };
+	commandHistory.execute(batchCommand({ slideId: slide.clientId, elementIds: [element.id], commands: [addElementCommand({ slideId: slide.clientId, element })] }));
+}
+
+// Every slide that came from a layout takes its layout's look again, keeping
+// its words (one_slide/layouts.py); what it was is a version.
+async function restyle() {
+	await saveWithoutDelay();
+	const { restyled } = await call("onedesk.one_slide.layouts.restyle", { name: presentationDoc.value.name });
+	if (!restyled) return alert(__("Every slide already looks like its layout."));
+	reloadPage();
+}
 
 // Every slide made another size, its contents redrawn to fit (one_slide/resize.py).
 // The editor's canvas is laid out for one size, so it opens again at the new one.
