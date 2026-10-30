@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 17:44+0000\n"
-"PO-Revision-Date: 2026-10-30 17:44+0000\n"
+"POT-Creation-Date: 2026-10-30 19:00+0000\n"
+"PO-Revision-Date: 2026-10-30 19:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4178,6 +4178,10 @@ msgstr ""
 msgid "Another employee has already checked in from this browser today."
 msgstr ""
 
+#: onedesk/www/slide_remote.py:33
+msgid "Another phone is already the remote for this screen."
+msgstr ""
+
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_inventory/portal.py:77
@@ -5976,7 +5980,7 @@ msgstr ""
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
 #: onedesk/public/js/window/frame.js:247 onedesk/www/account_invoices.html:62
-#: onedesk/www/s.html:117 onedesk/www/slide-remote.html:23
+#: onedesk/www/s.html:125 onedesk/www/slide-remote.html:23
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr ""
@@ -6395,7 +6399,7 @@ msgstr ""
 msgid "Before Insert"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:418
+#: onedesk/one_slide/ai.py:419
 msgid "Before OneAI wrote slides"
 msgstr ""
 
@@ -8821,6 +8825,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:475
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/opportunity.js:12 onedesk/public/js/workbooks.js:122
+#: onedesk/www/s.html:122
 msgid "Close"
 msgstr ""
 
@@ -10289,11 +10294,11 @@ msgstr ""
 msgid "Could not add the sheets."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:429
+#: onedesk/one_slide/ai.py:430
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr ""
 
-#: onedesk/www/slide_remote.py:33
+#: onedesk/www/slide_remote.py:34
 msgid "Could not connect. Check the phone's connection."
 msgstr ""
 
@@ -13766,7 +13771,7 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:541 frontend/src/cloud/OneCloud.vue:609
 #: onedesk/public/js/one_account/account_center.js:908 onedesk/www/s.html:91
-#: onedesk/www/s.html:140
+#: onedesk/www/s.html:150
 msgid "Download"
 msgstr ""
 
@@ -13815,7 +13820,7 @@ msgstr ""
 msgid "Download as Markdown"
 msgstr ""
 
-#: onedesk/www/s.html:125
+#: onedesk/www/s.html:135
 msgid "Download as PowerPoint"
 msgstr ""
 
@@ -17692,7 +17697,7 @@ msgstr ""
 msgid "Follow my system"
 msgstr ""
 
-#: onedesk/www/s.html:121
+#: onedesk/www/s.html:129
 msgid "Follow the Presenter"
 msgstr ""
 
@@ -18574,7 +18579,7 @@ msgstr ""
 msgid "Full Download Ready"
 msgstr ""
 
-#: onedesk/www/s.html:122
+#: onedesk/www/s.html:132
 msgid "Full Screen"
 msgstr ""
 
@@ -24478,7 +24483,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:11
 #: onedesk/one_admin/heads.py:20 onedesk/one_admin/home.py:57
 #: onedesk/one_admin/number_card/workspaces_live/workspaces_live.json
-#: onedesk/one_admin/workspace/one_admin/one_admin.json onedesk/www/s.html:120
+#: onedesk/one_admin/workspace/one_admin/one_admin.json onedesk/www/s.html:128
 msgid "Live"
 msgstr ""
 
@@ -25446,7 +25451,7 @@ msgstr ""
 msgid "Make its subcontracting order to send the materials"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:382
+#: onedesk/one_slide/ai.py:383
 msgid "Make slide {0} a {1}"
 msgstr ""
 
@@ -27608,7 +27613,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:472
 #: onedesk/public/js/one_studio/studio_control.js:52
 #: onedesk/public/js/project_actions.js:554
-#: onedesk/public/js/project_new.js:263 onedesk/www/s.html:119
+#: onedesk/public/js/project_new.js:263 onedesk/www/s.html:127
 #: onedesk/www/slide-remote.html:24
 msgid "Next"
 msgstr ""
@@ -30634,7 +30639,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:101
+#: onedesk/one_slide/ai.py:102
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -30642,7 +30647,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:111
+#: onedesk/one_slide/ai.py:112
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -31623,7 +31628,7 @@ msgstr ""
 #: onedesk/one/notify.py:741
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
 #: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
-#: onedesk/www/s.html:137
+#: onedesk/www/s.html:147
 msgid "Open {0}"
 msgstr ""
 
@@ -34190,12 +34195,12 @@ msgid "Phone"
 msgstr ""
 
 #: frontend/src/slide/shim/PresenterView.vue:15
-#: frontend/src/slide/shim/PresenterView.vue:62
+#: frontend/src/slide/shim/PresenterView.vue:62 onedesk/www/s.html:130
 msgid "Phone Connected"
 msgstr ""
 
 #: frontend/src/slide/shim/PresenterView.vue:15
-#: frontend/src/slide/shim/PresenterView.vue:57
+#: frontend/src/slide/shim/PresenterView.vue:57 onedesk/www/s.html:131
 msgid "Phone Remote"
 msgstr ""
 
@@ -39154,7 +39159,7 @@ msgstr ""
 msgid "Rewrite in {0}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:341
+#: onedesk/one_slide/ai.py:342
 msgid "Rewrite slide {0} in {1}"
 msgstr ""
 
@@ -39917,7 +39922,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:71
+#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:72
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -39952,6 +39957,10 @@ msgstr ""
 
 #: onedesk/www/slide-remote.html:12
 msgid "Scan the code in the presenter view again."
+msgstr ""
+
+#: onedesk/www/s.html:121
+msgid "Scan the code with your phone's camera. The first phone to open it moves these slides and can point at them; nobody signs in."
 msgstr ""
 
 #: frontend/src/slide/shim/PresenterView.vue:59
@@ -42596,7 +42605,7 @@ msgstr ""
 msgid "Slide in"
 msgstr ""
 
-#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:386
+#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:387
 msgid "Slide {0}"
 msgstr ""
 
@@ -51220,6 +51229,10 @@ msgstr ""
 msgid "Use Another List"
 msgstr ""
 
+#: frontend/src/slide/shim/PresenterView.vue:63
+msgid "Use Another Phone"
+msgstr ""
+
 #: onedesk/one_crm/stages.py:118
 msgid "Use Declare Lost to say why it was lost."
 msgstr ""
@@ -51243,6 +51256,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
+msgstr ""
+
+#: onedesk/www/s.html:118
+msgid "Use Your Phone as the Remote"
 msgstr ""
 
 #: onedesk/one_demo/start.py:29
@@ -56887,7 +56904,7 @@ msgstr ""
 msgid "Write {0} on a new {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:302
+#: onedesk/one_slide/ai.py:303
 msgid "Write {0} slides in {1}"
 msgstr ""
 
@@ -61295,7 +61312,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
 #: frontend/src/slide/components/NavigationPanel.vue:16
-#: frontend/src/slide/shim/PresenterView.vue:92 onedesk/one_account/heads.py:69
+#: frontend/src/slide/shim/PresenterView.vue:93 onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:143 onedesk/one_inventory/heads.py:424
 #: onedesk/one_inventory/heads.py:764 onedesk/one_inventory/heads.py:966
@@ -61720,7 +61737,7 @@ msgstr ""
 msgid "{0} shared this folder with you."
 msgstr ""
 
-#: onedesk/www/s.html:40 onedesk/www/s.html:113 onedesk/www/s.html:130
+#: onedesk/www/s.html:40 onedesk/www/s.html:113 onedesk/www/s.html:140
 msgid "{0} shared this with you."
 msgstr ""
 

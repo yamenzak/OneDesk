@@ -17,7 +17,7 @@ let socket = null;
 let heard = () => {};
 
 function join() {
-	socket?.emit("onedesk_remote_join", paired.value?.token, () => {});
+	if (paired.value) socket?.emit("onedesk_remote_join", paired.value.token, paired.value.screen, () => {});
 }
 
 function received(message) {
@@ -45,7 +45,7 @@ export function unpairPhone() {
 		socket.off("onedesk_remote", received);
 		socket.off("connect", join);
 	}
-	if (paired.value) call("onedesk.one_slide.remote.unpair", { token: paired.value.token });
+	if (paired.value) call("onedesk.one_slide.remote.unpair", { token: paired.value.token, screen: paired.value.screen });
 	socket = null;
 	paired.value = null;
 	connected.value = false;

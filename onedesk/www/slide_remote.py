@@ -22,6 +22,7 @@ def get_context(context):
 		context.remote = json.dumps(
 			{
 				"token": token,
+				"key": remote.phone_key(token),
 				"socket": {"port": frappe.conf.socketio_port if frappe._dev_server else None, "site": frappe.local.site},
 				# what remote.js says, in the reader's language
 				"words": {
@@ -30,6 +31,7 @@ def get_context(context):
 					"connected": _("Connected. Waiting for the presenter view…"),
 					"connecting": _("Connecting…"),
 					"ended": _("This remote has ended"),
+					"taken": _("Another phone is already the remote for this screen."),
 					"failed": _("Could not connect. Check the phone's connection."),
 				},
 			}

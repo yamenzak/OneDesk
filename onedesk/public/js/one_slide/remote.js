@@ -24,6 +24,11 @@
 		});
 	};
 
+	// this phone's own key, from the page: the first phone in keeps the remote
+	var key = data.key;
+	// each slide's notes, when the person holding the phone may read them
+	var kept = [];
+
 	var state = document.querySelector("[data-one-state]");
 	var notes = document.querySelector("[data-one-notes]");
 	var clock = document.querySelector("[data-one-clock]");
@@ -39,7 +44,7 @@
 		if (!message || message.event !== "state") return;
 		var shown = message.payload || {};
 		state.textContent = shown.at < shown.of ? t("slide", [shown.at + 1, shown.of]) : t("end");
-		notes.textContent = shown.notes || "";
+		notes.textContent = (shown.notes != null ? shown.notes : kept[shown.at]) || "";
 		// the presenter's clock, as their workspace writes a time, and how long they have been going
 		clock.textContent = [shown.clock, shown.elapsed].filter(Boolean).join(" · ");
 	}
@@ -53,9 +58,9 @@
 			if (!window.io) return;
 			var socket = window.io(base + "/" + where.site, { withCredentials: true });
 			socket.on("connect", function () {
-				socket.emit("onedesk_remote_join", data.token, function (answer) {
+				socket.emit("onedesk_remote_join", data.token, key, function (answer) {
 					if (!answer || !answer.ok) {
-						state.textContent = t("ended");
+						state.textContent = t(answer && answer.taken ? "taken" : "ended");
 						return;
 					}
 					state.textContent = t("connected");
@@ -63,6 +68,10 @@
 						socket.emit("onedesk_remote_say", event, payload);
 					};
 					say("hello", {});
+					// the notes, if whoever holds this phone is signed in and may read them
+					frappe.call({ method: "onedesk.one_slide.remote.notes", type: "GET", args: { token: data.token, key: key }, freeze: false, callback: function (r) {
+						kept = r.message || [];
+					} });
 				});
 			});
 			socket.on("disconnect", function () {

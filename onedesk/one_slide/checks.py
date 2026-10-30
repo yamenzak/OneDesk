@@ -490,34 +490,68 @@ def oneslide_is_presented_through_a_link():
 
 @check
 def oneslide_is_driven_from_a_phone():
-	"""The presenter view pairs a phone: the QR code carries a token the
-	socket server admits to one room, the phone's page opens with it, only the
-	presenter who paired may end it, and once ended nothing is admitted."""
-	from onedesk.one_slide import api, remote
+	"""A phone pairs with a screen by a QR code: the presenter view for its
+	presenter, or a page showing the presentation through a link for whoever
+	is in front of it. The first phone in keeps the remote, only a signed-in
+	reader is given the notes, and once the screen ends nothing is admitted."""
+	from onedesk.one_slide import api, remote, shared
+	from onedesk.one_storage import links
 	from onedesk.www import slide_remote
 
 	frappe.db.savepoint("slide_remote_check")
+	was = getattr(frappe.local, "request", None)
+	phone, other = "p" * 24, "o" * 24
 	try:
+		frappe.local.request = None
 		with as_user(OWNER):
 			name = api.make("@my", "Remote check")["presentation"]
+			file = api.get(name)["file"]
+			frappe.db.set_value(api.PRESENTATION, name, "title", "Remote check")
 			said = remote.pair(name)
 			token = said["token"]
-			assert said["url"].endswith(f"/slide-remote?t={token}") and "<rect" in said["qr"], said
+			assert said["url"].endswith(f"/slide-remote?t={token}") and "<rect" in said["qr"] and said["screen"], said
+			made = links.make(file)
+			link_token = made["url"].rsplit("/", 1)[-1]
 		with as_user("Guest"):
-			admitted = remote.admit(token)
-			assert admitted["ok"] and admitted["room"] == remote.room(token) and token not in admitted["room"], admitted
-			assert not remote.admit("not-a-token")["ok"], "a made-up token is admitted"
+			assert remote.admit(token, said["screen"])["room"] == remote.room(token) and token not in remote.room(token)
+			assert remote.admit(token, phone)["ok"], "the first phone is turned away"
+			assert remote.admit(token, phone)["ok"], "the first phone, back again, is turned away"
+			assert remote.admit(token, other) == {"ok": False, "taken": True}, "a second phone takes the remote"
+			assert not remote.admit(token, "short")["ok"] and not remote.admit("not-a-token", phone)["ok"]
+			assert remote.notes(token, phone) == [], "a phone nobody signed in to is given the notes"
 			frappe.form_dict.t = token
 			page = slide_remote.get_context(frappe._dict())
 			assert not page.gone and json.loads(page.remote)["token"] == token and page.title == "Remote check", page
+		with as_user(OWNER):
+			assert len(remote.notes(token, phone)) == len(api.get(name)["slides"]), "the presenter's phone has no notes"
+			assert remote.notes(token, other) == []
 		with as_user("omar@one.test"):
 			remote.unpair(token)
-			assert remote.admit(token)["ok"], "somebody else ended the presenter's remote"
+			assert remote.admit(token, phone)["ok"], "somebody else ended the presenter's remote"
 		with as_user(OWNER):
 			remote.unpair(token)
 		with as_user("Guest"):
-			assert not remote.admit(token)["ok"], "an ended remote is still admitted"
+			assert not remote.admit(token, phone)["ok"], "an ended remote is still admitted"
 			assert slide_remote.get_context(frappe._dict()).gone
+			# a room's laptop, through the link, with nobody signed in
+			link, held = shared.opened(link_token)
+			ticket = shared.page(link, frappe.get_doc("File", file), held)["ticket"]
+			try:
+				remote.pair_link(link_token, "1.nothing")
+				raise AssertionError("a page that never passed the link's gates pairs a phone")
+			except frappe.PermissionError:
+				frappe.clear_messages()
+			room = remote.pair_link(link_token, ticket)
+			assert remote.admit(room["token"], room["screen"])["ok"] and remote.admit(room["token"], phone)["ok"]
+			assert remote.admit(room["token"], other)["taken"]
+			remote.unpair(room["token"], screen="wrong")
+			assert remote.admit(room["token"], phone)["ok"], "a wrong key ended the room's remote"
+		frappe.db.set_value("Cloud Link", made["name"], "disabled", 1)
+		with as_user("Guest"):
+			assert not remote.admit(room["token"], phone)["ok"], "a turned-off link still drives its screen"
+			remote.unpair(room["token"], screen=room["screen"])
+			assert not remote.paired(room["token"])
 	finally:
+		frappe.local.request = was
 		frappe.form_dict.pop("t", None)
 		frappe.db.rollback(save_point="slide_remote_check")

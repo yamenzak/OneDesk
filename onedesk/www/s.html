@@ -113,12 +113,22 @@
 		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}</p>
 		<div class="one-deck" data-one-deck tabindex="0">
 			<div class="one-deck__stage" data-one-stage aria-live="polite"></div>
+			<span class="one-deck__pointer" data-one-pointer hidden></span>
+			<div class="one-deck__pair" data-one-pair hidden>
+				<p class="one-deck__pair-title">{{ _("Use Your Phone as the Remote") }}</p>
+				<div class="one-deck__qr" data-one-qr></div>
+				<p class="one-deck__url" data-one-url></p>
+				<p>{{ _("Scan the code with your phone's camera. The first phone to open it moves these slides and can point at them; nobody signs in.") }}</p>
+				<button type="button" data-one-pair-close>{{ _("Close") }}</button>
+			</div>
 			<div class="one-deck__bar">
 				<button type="button" data-one-back aria-label="{{ _('Back') }}">‹</button>
 				<span data-one-count></span>
 				<button type="button" data-one-next aria-label="{{ _('Next') }}">›</button>
 				<span class="one-deck__live" data-one-live hidden>{{ _("Live") }}</span>
 				<button type="button" class="one-deck__follow" data-one-follow hidden>{{ _("Follow the Presenter") }}</button>
+				<span class="one-deck__live one-deck__live--phone" data-one-phoned hidden>{{ _("Phone Connected") }}</span>
+				<button type="button" class="one-deck__phone" data-one-phone hidden>{{ _("Phone Remote") }}</button>
 				<button type="button" data-one-full aria-label="{{ _('Full Screen') }}">⤢</button>
 			</div>
 		</div>

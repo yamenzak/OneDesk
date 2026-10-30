@@ -52,7 +52,8 @@ NOT_FOR_AI = {
 	"shared.stop_live": "Presenting live ends when the presenter's slideshow ends.",
 	"shared.viewed": "It is a guest's page saying how long each slide was on screen.",
 	"remote.pair": "A phone is paired by the presenter scanning a code in the presenter view.",
-	"remote.unpair": "A phone remote ends when the presenter view closes.",
+	"remote.pair_link": "A phone is paired by somebody in front of a page showing the presentation through a link.",
+	"remote.unpair": "A phone remote ends when the screen it drives closes.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }
 

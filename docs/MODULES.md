@@ -918,7 +918,9 @@ No doctypes yet.
 * `onedesk.one_slide.paper.pdf`
 * `onedesk.one_slide.powerpoint.export`
 * `onedesk.one_slide.remote.admit`
+* `onedesk.one_slide.remote.notes`
 * `onedesk.one_slide.remote.pair`
+* `onedesk.one_slide.remote.pair_link`
 * `onedesk.one_slide.remote.unpair`
 * `onedesk.one_slide.resize.resize`
 * `onedesk.one_slide.shared.admit`

@@ -4151,6 +4151,10 @@ msgstr "سُجّل تسجيل حضور آخر في الثانية نفسها."
 msgid "Another employee has already checked in from this browser today."
 msgstr "سجّل موظف آخر حضوره من هذا المتصفح اليوم."
 
+#: onedesk/www/slide_remote.py:33
+msgid "Another phone is already the remote for this screen."
+msgstr "هناك هاتف آخر يتحكم بهذه الشاشة بالفعل."
+
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_inventory/portal.py:77
@@ -39317,6 +39321,10 @@ msgstr ""
 msgid "Scan the code in the presenter view again."
 msgstr "امسح الرمز في عرض المقدّم مرة أخرى."
 
+#: onedesk/www/s.html:121
+msgid "Scan the code with your phone's camera. The first phone to open it moves these slides and can point at them; nobody signs in."
+msgstr "امسح الرمز بكاميرا هاتفك. أول هاتف يفتحه ينقل هذه الشرائح ويمكنه الإشارة إليها، دون أن يسجّل أحد الدخول."
+
 #: frontend/src/slide/shim/PresenterView.vue:59
 msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
 msgstr "امسح هذا الرمز بكاميرا هاتفك. ينقل الهاتف الشرائح ويعرض ملاحظات هذه الشريحة. للإشارة إلى الشريحة، أبقِ إصبعك على «اضغط مطوّلاً للإشارة» وأدِر الهاتف."
@@ -50335,6 +50343,10 @@ msgstr "الاستخدام"
 msgid "Use Another List"
 msgstr "استخدام قائمة أخرى"
 
+#: frontend/src/slide/shim/PresenterView.vue:63
+msgid "Use Another Phone"
+msgstr "استخدام هاتف آخر"
+
 #: onedesk/one_crm/stages.py:118
 msgid "Use Declare Lost to say why it was lost."
 msgstr "استخدم \"إعلان الخسارة\" لذكر سبب خسارتها."
@@ -50359,6 +50371,10 @@ msgstr "استخدام موقعي"
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
 msgstr "استخدام SSL"
+
+#: onedesk/www/s.html:118
+msgid "Use Your Phone as the Remote"
+msgstr "استخدم هاتفك كجهاز تحكم"
 
 #: onedesk/one_demo/start.py
 msgid "Use at least 8 characters."

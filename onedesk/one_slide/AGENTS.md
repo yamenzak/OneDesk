@@ -167,7 +167,13 @@ token's room through `realtime/handlers.js` (`onedesk_remote_join`, which
 asks `admit`; the room is a hash of the token, never the token) and say
 `hello`, `go`, `point` and `state` to each other with `onedesk_remote_say`,
 which relays only those, small and rate-limited, and never to the sender.
-Nothing the phone says reaches the server. The presenter view (`shim/phone.js`)
+Nothing the phone says reaches the server. Each side joins with a key:
+the screen's own (`screen`, returned by `pair` and never in the QR code), or
+the phone's, which `phone_key` gives its page and keeps in a cookie; the first phone's key
+is written to the token and every other phone is turned away (`taken`), so
+somebody else who scans a code on a projector drives nothing. `notes` gives
+the paired phone each slide's notes only if whoever holds it is signed in
+and may read the presentation. The presenter view (`shim/phone.js`)
 turns `go` into its own Next and Back, sends `state` (the slide, the count,
 the notes) on every change, and passes `point` on to the audience's window,
 whose slideshow draws the dot over the slide (a One: edit). The pointer is
@@ -179,6 +185,15 @@ paired may.
 
 The presenter view also offers Present Live (`shim/live.js`), told every
 change of slide however it was made.
+
+A page showing the presentation through a link pairs a phone too
+(`pair_link`, **Phone Remote** in `viewer.js`), so a meeting room's
+computer needs nobody signed in: the page's sealed ticket proves it passed
+the link's gates, and the phone drives that page alone, which is why being
+in front of it is the right to it. The token remembers the link, and
+`admit` refuses it once the link is turned off or runs out. The page fills
+the screen on the click that shows the code, draws the pointer over the
+slide, and ends the pairing with a beacon when it is closed.
 
 `paper.notes_pages` writes the notes pages as HTML (each slide's picture, its
 number and its notes, escaped) and prints them through frappe's own

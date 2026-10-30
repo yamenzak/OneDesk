@@ -21,8 +21,8 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   not offered as recipes yet. A deck OneAI writes is not linked to a layout,
   so Restyle from Layouts leaves it alone.
 - The phone remote's pointer turns with the phone and does not know where
-  the screen is: it starts from the middle each time it is pressed. It
-  reaches the audience's window only, not the guests on a link.
+  the screen is: it starts from the middle each time it is pressed. It is
+  drawn on the screen the phone drives only, not for other guests on a link.
 - A guest on a link sees the slides only; the speaker notes, the layout of a
   screen and anything hidden stay out.
 - On a phone the editor shows the slide, the bar and the head; the slides

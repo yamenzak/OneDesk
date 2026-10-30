@@ -5,7 +5,9 @@
    presents live, the page follows them: the socket says where they are
    (realtime/handlers.js, onedesk_slide_join), and a page without one asks
    every few seconds. How long each slide was on screen is sent as the guest
-   goes, so the presenter can see it as Views. */
+   goes, so the presenter can see it as Views. Phone Remote pairs a phone
+   with this page alone (one_slide/remote.py, pair_link): whoever is in front
+   of the screen drives it, with no signing in. */
 (function () {
 	"use strict";
 
@@ -20,6 +22,14 @@
 	var count = deck.querySelector("[data-one-count]");
 	var badge = deck.querySelector("[data-one-live]");
 	var follow = deck.querySelector("[data-one-follow]");
+	var phone = deck.querySelector("[data-one-phone]");
+	var phoned = deck.querySelector("[data-one-phoned]");
+	var pair = deck.querySelector("[data-one-pair]");
+	var pointer = deck.querySelector("[data-one-pointer]");
+	var socket = null;
+	// the phone paired with this page: its token, and this page's own key
+	var remote = null;
+	var connected = false;
 	var at = 0;
 	var live = data.live ? data.live.slide || 0 : null;
 	var following = true;
@@ -54,6 +64,7 @@
 		}
 		count.textContent = at + 1 + " / " + slides.length;
 		paint();
+		tellPhone();
 	}
 
 	function paint() {
@@ -90,8 +101,10 @@
 		script.src = base + "/socket.io/socket.io.js";
 		script.onload = function () {
 			if (!window.io) return;
-			var socket = window.io(base + "/" + where.site, { withCredentials: true });
+			socket = window.io(base + "/" + where.site, { withCredentials: true });
+			phone.hidden = false;
 			socket.on("connect", function () {
+				if (remote) joinRemote();
 				socket.emit("onedesk_slide_join", data.token, data.item || "", data.ticket, function (answer) {
 					socketed = !!(answer && answer.ok);
 					if (socketed) ask();
@@ -101,8 +114,79 @@
 				socketed = false;
 			});
 			socket.on("onedesk_slide_at", heard);
+			socket.on("onedesk_remote", heardPhone);
 		};
 		document.head.appendChild(script);
+	}
+
+	// the phone remote: this page joins the token's room with its own key, the
+	// phone with the key it made, and the first phone in keeps it
+	function joinRemote() {
+		if (socket && remote) socket.emit("onedesk_remote_join", remote.token, remote.screen, function () {});
+	}
+
+	function tellPhone() {
+		if (socket && remote && connected) socket.emit("onedesk_remote_say", "state", { at: at, of: slides.length });
+	}
+
+	function heardPhone(message) {
+		var said = (message && message.payload) || {};
+		if (!message) return;
+		if (message.event === "hello") {
+			connected = true;
+			pair.hidden = true;
+			phoned.hidden = false;
+			tellPhone();
+		} else if (message.event === "go") go(said.step > 0 ? 1 : -1);
+		else if (message.event === "point") pointAt(said);
+	}
+
+	// where the phone points, as parts of the slide drawn on the stage
+	function pointAt(said) {
+		if (!said.on) {
+			pointer.hidden = true;
+			return;
+		}
+		var box = (stage.firstChild || stage).getBoundingClientRect();
+		var within = deck.getBoundingClientRect();
+		var x = Math.max(0, Math.min(1, +said.x || 0));
+		var y = Math.max(0, Math.min(1, +said.y || 0));
+		pointer.style.left = box.left - within.left + x * box.width + "px";
+		pointer.style.top = box.top - within.top + y * box.height + "px";
+		pointer.hidden = false;
+	}
+
+	function unpairPhone(leaving) {
+		if (!remote) return;
+		var form = new FormData();
+		form.append("token", remote.token);
+		form.append("screen", remote.screen);
+		if (data.csrf) form.append("csrf_token", data.csrf);
+		if (leaving && navigator.sendBeacon) navigator.sendBeacon("/api/method/onedesk.one_slide.remote.unpair", form);
+		else frappe.call({ method: "onedesk.one_slide.remote.unpair", args: { token: remote.token, screen: remote.screen }, freeze: false });
+		remote = null;
+		connected = false;
+		phoned.hidden = true;
+		pointer.hidden = true;
+	}
+
+	// a fresh code each time, filling the screen on the same click
+	function pairPhone() {
+		if (!document.fullscreenElement && deck.requestFullscreen) deck.requestFullscreen();
+		unpairPhone(false);
+		frappe.call({
+			method: "onedesk.one_slide.remote.pair_link",
+			args: { token: data.token, ticket: data.ticket, item: data.item || undefined },
+			freeze: false,
+			callback: function (r) {
+				if (!r.message) return;
+				remote = r.message;
+				deck.querySelector("[data-one-qr]").innerHTML = remote.qr;
+				deck.querySelector("[data-one-url]").textContent = remote.url;
+				pair.hidden = false;
+				joinRemote();
+			},
+		});
 	}
 
 	function tell(leaving) {
@@ -153,6 +237,11 @@
 	});
 	window.addEventListener("pagehide", function () {
 		tell(true);
+		unpairPhone(true);
+	});
+	phone.addEventListener("click", pairPhone);
+	deck.querySelector("[data-one-pair-close]").addEventListener("click", function () {
+		pair.hidden = true;
 	});
 
 	show(live !== null ? live : 0);

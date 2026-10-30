@@ -4151,6 +4151,10 @@ msgstr "In derselben Sekunde wurde ein weiteres Einchecken erfasst."
 msgid "Another employee has already checked in from this browser today."
 msgstr "Ein anderer Mitarbeiter hat sich heute bereits von diesem Browser aus eingecheckt."
 
+#: onedesk/www/slide_remote.py:33
+msgid "Another phone is already the remote for this screen."
+msgstr "Ein anderes Telefon ist bereits die Fernbedienung für diesen Bildschirm."
+
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_inventory/portal.py:77
@@ -39317,6 +39321,10 @@ msgstr ""
 msgid "Scan the code in the presenter view again."
 msgstr "Scannen Sie den Code in der Referentenansicht erneut."
 
+#: onedesk/www/s.html:121
+msgid "Scan the code with your phone's camera. The first phone to open it moves these slides and can point at them; nobody signs in."
+msgstr "Scannen Sie den Code mit der Kamera Ihres Telefons. Das erste Telefon, das ihn öffnet, wechselt diese Folien und kann auf sie zeigen; niemand muss sich anmelden."
+
 #: frontend/src/slide/shim/PresenterView.vue:59
 msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
 msgstr "Scannen Sie dies mit der Kamera Ihres Telefons. Das Telefon wechselt die Folien und zeigt die Notizen dieser Folie. Um auf die Folie zu zeigen, halten Sie einen Finger auf „Gedrückt halten zum Zeigen“ und drehen Sie das Telefon."
@@ -50335,6 +50343,10 @@ msgstr "Nutzung"
 msgid "Use Another List"
 msgstr "Andere Liste verwenden"
 
+#: frontend/src/slide/shim/PresenterView.vue:63
+msgid "Use Another Phone"
+msgstr "Anderes Telefon verwenden"
+
 #: onedesk/one_crm/stages.py:118
 msgid "Use Declare Lost to say why it was lost."
 msgstr "Mit „Für verloren erklären“ angeben, warum sie verloren wurde."
@@ -50359,6 +50371,10 @@ msgstr "Meinen Standort verwenden"
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
 msgstr "SSL verwenden"
+
+#: onedesk/www/s.html:118
+msgid "Use Your Phone as the Remote"
+msgstr "Ihr Telefon als Fernbedienung"
 
 #: onedesk/one_demo/start.py
 msgid "Use at least 8 characters."

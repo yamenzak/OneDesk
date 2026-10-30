@@ -60,6 +60,7 @@
 				<div v-if="paired" class="w-48 rounded-3 bg-surface-base p-2" v-html="paired.qr" />
 				<a v-if="paired" class="break-all text-sm text-ink-gray-5" :href="paired.url" target="_blank" rel="noopener">{{ paired.url }}</a>
 				<Badge :theme="connected ? 'green' : 'gray'" :label="connected ? __('Phone Connected') : __('Waiting for the phone…')" />
+				<Button v-if="connected" variant="ghost" :label="__('Use Another Phone')" @click="anotherPhone" />
 			</div>
 		</Dialog>
 	</div>
@@ -114,6 +115,12 @@ watch(connected, (on) => on && (phoneOpen.value = false));
 // everyone on the presentation's links follows this view too (shim/live.js)
 watch(at, (index) => liveAt(index));
 const toggleLive = () => (liveOn.value ? endLive() : beginLive(presentationDoc.value.name, at.value));
+
+// the first phone keeps the remote, so another one needs a code of its own
+function anotherPhone() {
+	unpairPhone();
+	showPhone();
+}
 
 async function showPhone() {
 	phoneOpen.value = true;

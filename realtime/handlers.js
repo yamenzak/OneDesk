@@ -122,16 +122,17 @@ function onedesk_handlers(socket) {
 		}
 	});
 
-	// A phone driving a presenter view, and the presenter view, meet in the
-	// room of the phone's token (one_slide/remote.py admit). Only what a remote
+	// A phone and the screen it drives (the presenter view, or a page showing
+	// a presentation through a link) meet in the room of the phone's token,
+	// each with its own key (one_slide/remote.py admit). Only what a remote
 	// says passes, small, and never back to whoever said it.
-	socket.on("onedesk_remote_join", async (token, ack) => {
+	socket.on("onedesk_remote_join", async (token, key, ack) => {
 		const reply = typeof ack === "function" ? ack : () => {};
-		if (!token) return reply({ ok: false });
+		if (!token || !key) return reply({ ok: false });
 		try {
-			const res = await socket.frappe_request("/api/method/onedesk.one_slide.remote.admit", { token });
+			const res = await socket.frappe_request("/api/method/onedesk.one_slide.remote.admit", { token, key });
 			const { message } = await res.json();
-			if (!message || !message.ok || !String(message.room).startsWith("onedesk:remote/")) return reply({ ok: false });
+			if (!message || !message.ok || !String(message.room).startsWith("onedesk:remote/")) return reply({ ok: false, taken: !!(message && message.taken) });
 			socket.onedesk_remote = message.room;
 			socket.join(message.room);
 			reply({ ok: true });
