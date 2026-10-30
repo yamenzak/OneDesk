@@ -1,11 +1,11 @@
 /* The TV's service worker (one_display/worker.py serves it at /tv-worker.js).
    The page and its script come from the network when there is one and from
-   here when there isn't; pictures, videos and music are kept the first time
-   they are played, so a screen that restarts offline plays what it had.
+   here when there isn't; pictures, videos, music and fonts are kept the
+   first time they are played, so a screen that restarts offline plays what it had.
    What a screen asks the server is never kept: its last answer is in the
    page's own storage (tv.js). */
-var CACHE = "one-tv-1";
-var SHELL = ["/tv", "/assets/onedesk/js/one_slide/play.js", "/assets/onedesk/slide/fonts.css", "/assets/onedesk/js/one_display/tv.js"];
+var CACHE = "one-tv-2";
+var SHELL = ["/tv", "/assets/onedesk/js/one_slide/play.js", "/assets/onedesk/slide/fonts.css", "/api/method/onedesk.one_slide.fonts.css", "/assets/onedesk/js/one_display/tv.js"];
 
 self.addEventListener("install", function (event) {
 	event.waitUntil(
@@ -31,8 +31,13 @@ self.addEventListener("activate", function (event) {
 	self.clients.claim();
 });
 
+// what never changes at its address: files, a slide's pictures and videos, and font faces
+var KEPT = ["/files/", "/assets/onedesk/slide/fonts/", "/api/method/onedesk.one_slide.api.shown", "/api/method/onedesk.one_slide.fonts.face"];
+
 function media(url) {
-	return url.pathname.indexOf("/files/") === 0;
+	return KEPT.some(function (start) {
+		return url.pathname.indexOf(start) === 0;
+	});
 }
 
 self.addEventListener("fetch", function (event) {

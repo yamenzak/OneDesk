@@ -897,6 +897,12 @@ No doctypes yet.
 * `onedesk.one_slide.api.update_title`
 * `onedesk.one_slide.api.upload`
 * `onedesk.one_slide.api.visited`
+* `onedesk.one_slide.fonts.css`
+* `onedesk.one_slide.fonts.face`
+* `onedesk.one_slide.fonts.google_add`
+* `onedesk.one_slide.fonts.google_search`
+* `onedesk.one_slide.fonts.library`
+* `onedesk.one_slide.fonts.upload`
 * `onedesk.one_slide.guides.keep`
 * `onedesk.one_slide.layouts.restyle`
 * `onedesk.one_slide.master.edit`

@@ -24,10 +24,10 @@ import { __, aiSees, call } from "../kit/desk";
 import { allow, holdRouter } from "./shim/router.js";
 import { audience } from "./shim/presenter.js";
 import { setSlideRoot } from "./shim/root.js";
+import { pageFonts } from "./shim/fonts.js";
 
 const props = defineProps({ route: { type: Array, default: () => [] }, query: { type: Object, default: () => ({}) } });
 
-const FONTS = "/assets/onedesk/slide/fonts.css";
 const router = useRouter();
 holdRouter(router);
 const pageEl = ref(null);
@@ -35,14 +35,10 @@ const shelfEl = ref(null);
 const rooted = ref(false);
 const failed = ref("");
 
-// Anton and Courier Prime are faces a slide may be written in; a face is the
-// page's, not the island's, so it is declared once in the page.
+// The workspace's fonts are faces a slide may be written in (shim/fonts.js);
+// a face is the page's, not the island's, so it is declared once in the page.
 function fonts() {
-	if (document.head.querySelector(`link[href="${FONTS}"]`)) return;
-	const link = document.createElement("link");
-	link.rel = "stylesheet";
-	link.href = FONTS;
-	document.head.appendChild(link);
+	pageFonts(document);
 }
 
 async function open(name) {

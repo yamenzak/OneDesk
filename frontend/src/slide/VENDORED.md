@@ -87,6 +87,13 @@ Each is marked `One:` where it is.
   `stores/presentation.js` sends and compares a slide's `hide_master` and
   `layout`; and `stores/slide.js` has a slide inserted from a layout keep
   the layout and where each element came from.
+- Fonts and direction (`shim/fonts.js`, `shim/FontsDialog.vue`):
+  `components/FontSection.vue` offers the workspace's fonts by group, each
+  in its own face, and Add a Font; `components/ParagraphSection.vue` has
+  Direction; `components/TextElement.vue` gives a box its `dir`, runs each
+  paragraph the way its first letter does, and puts a list's markers on the
+  side its words start. The seven Arabic families One ships are OFL faces in
+  `onedesk/public/slide/fonts/`, each with its licence.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

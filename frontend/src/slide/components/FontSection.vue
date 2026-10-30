@@ -11,7 +11,16 @@
 				:modelValue="displayFont"
 				class="-me-1"
 				@update:modelValue="(value) => updateProperty('fontFamily', value)"
-			/>
+			>
+				<!-- One: each name in its own face, an Arabic one with a few Arabic letters (VENDORED.md) -->
+				<template #item-label="{ item }">
+					<span class="flex w-full items-center gap-2" :style="{ fontFamily: `'${item.value}'` }">
+						<span class="truncate">{{ item.label }}</span>
+						<span v-if="item.arabic" class="ms-auto text-ink-gray-5" dir="rtl">{{ ARABIC_SAMPLE }}</span>
+					</span>
+				</template>
+			</Combobox>
+			<FontsDialog v-model="addingFont" />
 		</PropertyRow>
 		<NumberControl
 			:modelValue="editorStyles.fontSize"
@@ -47,11 +56,13 @@
 
 <script setup>
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 
 import { Combobox, TabButtons } from 'frappe-ui'
 import { Bold, Italic, Underline, Strikethrough } from 'lucide-vue-next'
 
+import FontsDialog from '@/apps/slides/shim/FontsDialog.vue' // One: VENDORED.md
+import { ARABIC_SAMPLE, fontOptions, library, loadFonts } from '@/apps/slides/shim/fonts.js' // One
 import ColorPicker from '@/apps/slides/components/controls/ColorPicker.vue'
 import PropertyRow from '@/apps/slides/components/controls/PropertyRow.vue'
 import NumberControl from '@/apps/slides/components/controls/NumberControl.vue'
@@ -62,25 +73,15 @@ import { useTextEditor } from '@/apps/slides/composables/useTextEditor'
 
 const { editorStyles, updateProperty, toggleMark } = useTextEditor()
 
-const textFonts = [
-	'Anton',
-	'Arial',
-	'Arial Black',
-	'Comic Sans MS',
-	'Courier New',
-	'Courier Prime',
-	'Georgia',
-	'Helvetica',
-	'Impact',
-	'Lucida Console',
-	'Lucida Sans Unicode',
-	'Palatino Linotype',
-	'Tahoma',
-	'Times New Roman',
-	'Trebuchet MS',
-	'Verdana',
-	'Inter',
-]
+// One: the workspace's fonts, Arabic among them, by group, and a way to add one (shim/fonts.js, VENDORED.md)
+const addingFont = ref(false)
+const textFonts = computed(() => [
+	...fontOptions.value,
+	...(library.value.may_add
+		? [{ group: '', hideLabel: true, options: [{ type: 'custom', key: 'add-font', label: __('Add a Font…'), icon: 'lucide-plus', onClick: () => (addingFont.value = true) }] }]
+		: []),
+])
+if (!library.value.shipped.length) loadFonts()
 
 const decorOptions = [
 	{ value: 'bold', label: __('Bold'), icon: Bold },

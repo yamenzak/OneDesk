@@ -112,7 +112,9 @@
 		var turn = /^[\w\s(),.%-]*$/.test(transform) && transform !== "none" ? "transform:" + transform + ";-webkit-transform:" + transform + ";transform-origin:" + origin : "";
 		var wrap = element.width != null ? "white-space:pre-wrap;word-wrap:break-word" : "white-space:pre";
 		var line = num(element.lineHeight, 1.5);
-		return '<div class="one-text" style="' + esc(box(element, turn)) + ";opacity:" + num(element.opacity, 100) / 100 + '"><div style="' + wrap + ";line-height:" + line + '">' + old(element.content) + "</div></div>";
+		// a box set one way runs that way; else each paragraph runs the way its first letter does
+		var dir = element.dir === "rtl" || element.dir === "ltr" ? ' dir="' + element.dir + '"' : "";
+		return '<div class="one-text" style="' + esc(box(element, turn)) + ";opacity:" + num(element.opacity, 100) / 100 + '"' + dir + '><div style="' + wrap + ";line-height:" + line + '">' + old(element.content) + "</div></div>";
 	}
 
 	// Suite's regular polygons, and our star and block arrow, on the box
@@ -289,7 +291,8 @@
 		var style = document.createElement("style");
 		style.id = STYLE;
 		style.textContent =
-			".one-play p{margin:0}.one-play ul,.one-play ol{margin:0;padding-left:1.2em}" +
+			".one-play p{margin:0}.one-play ul,.one-play ol{margin:0;padding-left:1.2em;padding-inline-start:1.2em}" +
+			".one-play .one-text p,.one-play .one-text li{unicode-bidi:plaintext}.one-play .one-text[dir] p,.one-play .one-text[dir] li{unicode-bidi:normal}" +
 			".one-play .one-text{font-family:Inter,sans-serif;font-variant-ligatures:none}" +
 			".one-play .one-shape-text{position:absolute;left:0;top:0;width:100%;height:100%;display:-webkit-flex;display:flex;" +
 			"-webkit-flex-direction:column;flex-direction:column;-webkit-justify-content:center;justify-content:center;padding:8px;box-sizing:border-box;overflow:hidden}" +

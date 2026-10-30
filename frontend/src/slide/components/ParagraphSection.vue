@@ -8,6 +8,14 @@
 				@update:modelValue="(value) => updateProperty('textAlign', value)"
 			/>
 		</PropertyRow>
+		<!-- One: which way the words run; Auto takes each paragraph's first letter (VENDORED.md) -->
+		<PropertyRow :label="__('Direction')">
+			<TabButtons
+				:modelValue="activeElement?.dir || 'auto'"
+				:options="directionOptions"
+				@update:modelValue="(value) => setElementProperty('dir', value === 'auto' ? undefined : value)"
+			/>
+		</PropertyRow>
 		<PropertyRow v-if="showListStyle" :label="__('List Style')">
 			<TabButtons
 				:modelValue="listStyle"
@@ -48,6 +56,7 @@ import NumberControl from '@/apps/slides/components/controls/NumberControl.vue'
 import Section from '@/apps/slides/components/controls/Section.vue'
 
 import { useTextEditor } from '@/apps/slides/composables/useTextEditor'
+import { setElementProperty } from '@/apps/slides/composables/editProperty' // One
 import { activeElement, activeElements, focusElementId } from '@/apps/slides/stores/element'
 
 const { editorStyles, updateProperty } = useTextEditor()
@@ -57,6 +66,13 @@ const alignOptions = [
 	{ value: 'center', tooltip: __('Align center'), icon: 'lucide-align-center' },
 	{ value: 'right', tooltip: __('Align right'), icon: 'lucide-align-right' },
 	{ value: 'justify', tooltip: __('Justify'), icon: 'lucide-align-justify' },
+]
+
+// One: a text box's direction, VENDORED.md
+const directionOptions = [
+	{ value: 'auto', label: __('Auto') },
+	{ value: 'rtl', tooltip: __('Right to left'), icon: 'lucide-pilcrow-left' },
+	{ value: 'ltr', tooltip: __('Left to right'), icon: 'lucide-pilcrow-right' },
 ]
 
 const listStyleOptions = [

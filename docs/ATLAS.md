@@ -63,7 +63,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
-| presentation (`frontend/src/slide/PresentationPage.vue`) | – | – | – | – |
+| presentation (`frontend/src/slide/PresentationPage.vue`) | File | File | – | – |
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |

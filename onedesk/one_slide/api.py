@@ -116,6 +116,10 @@ def make(parent: str, title: str | None = None, template: str | None = None, wid
 	doc.insert()
 	first = _first_slides(source)
 	resize.refit(first, drawn, size)
+	if (frappe.db.get_single_value("System Settings", "language") or "").startswith("ar"):
+		from onedesk.one_slide import fonts
+
+		fonts.arabic(first)
 	doc.set("slides", first)
 	doc.save(ignore_permissions=True)
 	if source != LIGHT:
@@ -560,45 +564,47 @@ def save_presentation_thumbnail(presentation_name: str, base64_data: str) -> str
 
 
 @frappe.whitelist()
-def media(id: str) -> None:
+def media(id: str):
 	"""A picture or video on a slide, to whoever may open its presentation,
 	with ranges so a video can be played from anywhere in it."""
-	from werkzeug.utils import send_file
-
 	held = _media_row(id)
 	if not held or held.attached_to_doctype != PRESENTATION:
 		raise frappe.DoesNotExistError
 	_may(held.attached_to_name, "read")
-	path = frappe.get_doc("File", id).get_full_path()
-	kind = mimetypes.guess_type(held.file_name or path)[0] or "application/octet-stream"
-	response = send_file(path, environ=frappe.local.request.environ, conditional=True, mimetype=kind)
-	response.headers["Accept-Ranges"] = "bytes"
-	response.headers["Cache-Control"] = "private, max-age=86400"
-	frappe.local.response = response
-	frappe.local.response_type = "raw"
+	return _sent(id, held.file_name, "private, max-age=86400")
 
 
 @frappe.whitelist(allow_guest=True, methods=["GET"])
-def shown(id: str, sig: str) -> None:
+def shown(id: str, sig: str):
 	"""A picture or video on a slide, to a screen: the address carries a seal
 	only the site can make for that one file (play.seal), since a screen signs
 	in as nobody."""
 	import hmac
-
-	from werkzeug.utils import send_file
 
 	from onedesk.one_slide import play
 
 	held = _media_row(id)
 	if not held or held.attached_to_doctype != PRESENTATION or not hmac.compare_digest(play.seal(id), str(sig or "")):
 		raise frappe.DoesNotExistError
+	return _sent(id, held.file_name, "public, max-age=604800, immutable")
+
+
+def _sent(id: str, file_name: str | None, cache: str):
+	"""A File's bytes as the response: from this server's disk with ranges, or,
+	once the workspace keeps its files in R2, a redirect to the object there."""
+	from werkzeug.utils import redirect, send_file
+
+	from onedesk.one_storage import store
+
+	url = frappe.db.get_value("File", id, "file_url")
+	if store.is_stored(url):
+		return redirect(store.signed(store.key_of(url), filename=file_name), 302)
 	path = frappe.get_doc("File", id).get_full_path()
-	kind = mimetypes.guess_type(held.file_name or path)[0] or "application/octet-stream"
+	kind = mimetypes.guess_type(file_name or path)[0] or "application/octet-stream"
 	response = send_file(path, environ=frappe.local.request.environ, conditional=True, mimetype=kind)
 	response.headers["Accept-Ranges"] = "bytes"
-	response.headers["Cache-Control"] = "public, max-age=604800, immutable"
-	frappe.local.response = response
-	frappe.local.response_type = "raw"
+	response.headers["Cache-Control"] = cache
+	return response
 
 
 @frappe.whitelist()

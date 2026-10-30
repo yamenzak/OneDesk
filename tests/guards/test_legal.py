@@ -20,10 +20,10 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.4511ee03",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.5e4adf59",
+	"privacy": "27.3b010119",
 	"cookies": "2.946a434c",
 	"dpa": "7.619281d4",
-	"subprocessors": "5.6397a7d0",
+	"subprocessors": "5.537a08fe",
 	"ai": "25.b173a315",
 	"licences": "1.c71daf62",
 }
@@ -37,6 +37,9 @@ HOSTS = {
 	"billing.stripe.com": "Stripe, Inc.",
 	"www.gravatar.com": "Automattic Inc.",
 	"t1.gstatic.com": "Google LLC",
+	"fonts.google.com": "Google LLC",
+	"fonts.googleapis.com": "Google LLC",
+	"fonts.gstatic.com": "Google LLC",
 	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
 	"api.open-meteo.com": "Open-Meteo",
 	"fcm.googleapis.com": None,

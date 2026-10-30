@@ -212,9 +212,7 @@ def onedisplay_plays_a_presentation():
 		file_id, sig = sealed[len(play.SHOWN) :].split("&sig=")
 		with as_user("Guest"):
 			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
-			api.shown(file_id, sig)
-			assert frappe.local.response.status_code == 200, "a screen fetches the picture as nobody"
-			frappe.local.response = frappe._dict()
+			assert api.shown(file_id, sig).status_code == 200, "a screen fetches the picture as nobody"
 			try:
 				api.shown(file_id, "0" * 32)
 				raise AssertionError("a guessed seal fetches a picture")

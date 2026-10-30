@@ -2523,6 +2523,14 @@ msgstr "Variante hinzufügen"
 msgid "Add Warehouse"
 msgstr "Lager hinzufügen"
 
+#: frontend/src/slide/shim/FontsDialog.vue:5
+msgid "Add a Font"
+msgstr "Schrift hinzufügen"
+
+#: frontend/src/slide/components/FontSection.vue:81
+msgid "Add a Font…"
+msgstr "Schrift hinzufügen…"
+
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:17
 msgid "Add a Location"
 msgstr "Standort hinzufügen"
@@ -4661,6 +4669,11 @@ msgstr "Hier stehen die Apps, denen Sie Zugriff auf Ihr Konto geben."
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:28
 msgid "Apr"
 msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:22
+#: frontend/src/slide/shim/fonts.js:14
+msgid "Arabic"
+msgstr "Arabisch"
 
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
@@ -10045,6 +10058,26 @@ msgstr "Konnte nicht als ausgeschieden markiert werden"
 #: onedesk/public/js/center_section.js:99
 msgid "Could Not Open This"
 msgstr "Konnte nicht geöffnet werden"
+
+#: frontend/src/slide/shim/FontsDialog.vue:90
+msgid "Could not add the font."
+msgstr "Die Schrift konnte nicht hinzugefügt werden."
+
+#: onedesk/one_slide/fonts.py:306
+msgid "Could not add the font: Google Fonts is off for this workspace."
+msgstr "Die Schrift konnte nicht hinzugefügt werden: Google Fonts ist für diesen Arbeitsbereich ausgeschaltet."
+
+#: onedesk/one_slide/fonts.py:248
+msgid "Could not add the font: choose a .ttf, .otf, .woff or .woff2 file."
+msgstr "Die Schrift konnte nicht hinzugefügt werden: Wählen Sie eine .ttf-, .otf-, .woff- oder .woff2-Datei."
+
+#: onedesk/one_slide/fonts.py:251
+msgid "Could not add the font: it is larger than 8 MB."
+msgstr "Die Schrift konnte nicht hinzugefügt werden: Sie ist größer als 8 MB."
+
+#: onedesk/one_slide/fonts.py:302
+msgid "Could not add the font: {0} is not in Google's catalogue."
+msgstr "Die Schrift konnte nicht hinzugefügt werden: {0} ist nicht im Katalog von Google."
 
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:51
 msgid "Could not add the sheets."
@@ -23399,6 +23432,10 @@ msgstr "Leer gelassen, aus der Haltbarkeit des Artikels berechnet."
 msgid "Left to Bill"
 msgstr "Noch abzurechnen"
 
+#: frontend/src/slide/components/ParagraphSection.vue:75
+msgid "Left to right"
+msgstr "Von links nach rechts"
+
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_studio/letter_heads.py:34
@@ -27505,6 +27542,10 @@ msgstr "Keine Fehler"
 msgid "No events"
 msgstr "Keine Termine"
 
+#: frontend/src/slide/shim/FontsDialog.vue:25
+msgid "No family by that name."
+msgstr "Keine Schriftfamilie mit diesem Namen."
+
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr "Kein Feld passt."
@@ -31101,6 +31142,10 @@ msgstr "Oder Liste einfügen"
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 msgid "Or Role"
 msgstr "Oder Rolle"
+
+#: frontend/src/slide/shim/FontsDialog.vue:17
+msgid "Or add a family from Google Fonts. It is kept in the workspace from then on."
+msgstr "Oder fügen Sie eine Schriftfamilie aus Google Fonts hinzu. Sie bleibt danach im Arbeitsbereich."
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
@@ -38174,6 +38219,10 @@ msgstr "Richtig"
 msgid "Right border"
 msgstr "Rahmenlinie rechts"
 
+#: frontend/src/slide/components/ParagraphSection.vue:74
+msgid "Right to left"
+msgstr "Von rechts nach links"
+
 #. Label of the role (Select) field in DocType 'Reading Party'
 #. Label in the One Staffing Plan print format
 #. Label of the role (Select) field in DocType 'Project Contact'
@@ -38694,6 +38743,10 @@ msgstr "Stichprobengröße"
 msgid "Samples and shop drawings approved"
 msgstr "Muster und Werkpläne freigegeben"
 
+#: frontend/src/slide/shim/fonts.js:15
+msgid "Sans Serif"
+msgstr "Serifenlos"
+
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Saturday"
 msgstr "Samstag"
@@ -39072,6 +39125,10 @@ msgstr "Abdichten und wetterfest machen"
 #: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
 msgid "Search"
 msgstr "Suchen"
+
+#: frontend/src/slide/shim/FontsDialog.vue:18
+msgid "Search Google Fonts"
+msgstr "Google Fonts durchsuchen"
 
 #: frontend/src/inventory/stock/StockOnHand.vue:14
 #: frontend/src/inventory/supplier/SupplierItems.vue:6
@@ -48079,6 +48136,10 @@ msgstr "Bis zum Gewinn"
 msgid "To Year"
 msgstr "Bis Jahr"
 
+#: frontend/src/slide/shim/FontsDialog.vue:28
+msgid "To add fonts from Google's catalogue, turn on Fonts from Google in TrustCenter."
+msgstr "Um Schriften aus dem Katalog von Google hinzuzufügen, schalten Sie im TrustCenter „Schriften von Google“ ein."
+
 #: onedesk/one_inventory/portal.py:97 onedesk/one_inventory/portal.py:98
 msgid "To deliver"
 msgstr "Zu liefern"
@@ -49533,6 +49594,10 @@ msgstr "Ohne Titel"
 msgid "Untitled Document"
 msgstr "Unbenanntes Dokument"
 
+#: onedesk/one_slide/fonts.py:111
+msgid "Untitled Font"
+msgstr "Unbenannte Schrift"
+
 #: frontend/src/slide/shim/EditorNavbar.vue:77 onedesk/one_slide/api.py:96
 msgid "Untitled Presentation"
 msgstr "Unbenannte Präsentation"
@@ -49655,6 +49720,14 @@ msgstr "Hochladen"
 #: onedesk/notifications/one_storage/file_request_reminder.md
 msgid "Upload Files"
 msgstr "Dateien hochladen"
+
+#: frontend/src/slide/shim/FontsDialog.vue:11
+msgid "Upload a Font"
+msgstr "Schrift hochladen"
+
+#: frontend/src/slide/shim/FontsDialog.vue:9
+msgid "Upload a font file of your own. Everyone in the workspace can use it."
+msgstr "Laden Sie eine eigene Schriftdatei hoch. Alle im Arbeitsbereich können sie verwenden."
 
 #: onedesk/public/js/item_new.js:257
 msgid "Upload a list or paste one."
@@ -55716,6 +55789,10 @@ msgstr "Ihre Termine"
 msgid "Your Files"
 msgstr "Ihre Dateien"
 
+#: frontend/src/slide/shim/fonts.js:55
+msgid "Your Fonts"
+msgstr "Ihre Schriften"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1423
 msgid "Your Mail"
 msgstr "Ihre E-Mails"
@@ -56098,6 +56175,10 @@ msgstr "Ihre Anforderung für {designation} wurde {status}"
 #: frontend/src/cloud/OneCloud.vue:225
 msgid "Your role"
 msgstr "Ihre Rolle"
+
+#: onedesk/one_slide/fonts.py:239
+msgid "Your role doesn't add fonts to the workspace. Ask a workspace administrator."
+msgstr "Ihre Rolle fügt dem Arbeitsbereich keine Schriften hinzu. Fragen Sie eine Person mit Administrationsrechten für den Arbeitsbereich."
 
 #: onedesk/one_legal/gate.py:176
 msgid "Your role doesn't allow agreeing for the organisation."
@@ -57984,6 +58065,11 @@ msgstr "{0} Zusätze"
 #: onedesk/public/js/item_new.js:385 onedesk/public/js/task_new.js:49
 msgid "{0} added"
 msgstr "{0} hinzugefügt"
+
+#: frontend/src/slide/shim/FontsDialog.vue:69
+#: frontend/src/slide/shim/FontsDialog.vue:88
+msgid "{0} added to the workspace's fonts."
+msgstr "{0} wurde zu den Schriften des Arbeitsbereichs hinzugefügt."
 
 #: onedesk/public/js/task_timer.js:6
 msgid "{0} added to your timesheet."

@@ -5,6 +5,7 @@
 		:editor="activeEditor"
 		:style="editorStyles"
 		class="textElement"
+		:dir="element.dir || undefined"
 		:class="isAutoWidth ? 'text-auto-width' : 'text-fixed-width'"
 		@mousedown="handleMouseDown"
 		@dblclick="handleDoubleClick"
@@ -12,6 +13,7 @@
 	<SlideshowText
 		v-else-if="showMagicMoveText"
 		:content="element.content"
+		:dir="element.dir || undefined"
 		class="textElement select-none"
 		:class="isAutoWidth ? 'text-auto-width' : 'text-fixed-width'"
 		:style="elementLineHeightStyle"
@@ -19,6 +21,7 @@
 	<div
 		v-else
 		v-html="sanitizedContent"
+		:dir="element.dir || undefined"
 		class="textElement select-none"
 		:class="isAutoWidth ? 'text-auto-width' : 'text-fixed-width'"
 		:style="elementLineHeightStyle"
@@ -160,7 +163,7 @@ onBeforeMount(() => normalizeContent())
 .tiptap ul > li,
 .textElement ul > li,
 .tableElement ul > li {
-	padding-left: 0.8em;
+	padding-inline-start: 0.8em; /* One: the bullet stands on the side the words start, VENDORED.md */
 }
 
 /* inline on the first line, so the marker keeps that line's baseline and alignment */
@@ -170,8 +173,8 @@ onBeforeMount(() => normalizeContent())
 	content: '\2022';
 	display: inline-block;
 	width: 0.8em;
-	margin-left: -0.8em;
-	text-align: left;
+	margin-inline-start: -0.8em; /* One */
+	text-align: start;
 	opacity: var(--marker-opacity, 1);
 }
 
@@ -201,7 +204,7 @@ onBeforeMount(() => normalizeContent())
 .textElement ol > li,
 .tableElement ol > li {
 	counter-increment: step;
-	padding-left: calc(var(--marker-width) + 0.2em);
+	padding-inline-start: calc(var(--marker-width) + 0.2em); /* One */
 }
 
 .tiptap ol > li > p:first-child::before,
@@ -210,9 +213,9 @@ onBeforeMount(() => normalizeContent())
 	content: counter(step) '.';
 	display: inline-block;
 	width: var(--marker-width);
-	margin-left: calc(-1 * var(--marker-width) - 0.2em);
-	margin-right: 0.2em;
-	text-align: right;
+	margin-inline-start: calc(-1 * var(--marker-width) - 0.2em); /* One */
+	margin-inline-end: 0.2em;
+	text-align: end;
 	opacity: var(--marker-opacity, 1);
 }
 
@@ -238,5 +241,22 @@ onBeforeMount(() => normalizeContent())
 .textElement p,
 .textElement li {
 	line-height: var(--el-line-height, 1.5);
+}
+
+/* One: a paragraph runs the way its first letter does, so Arabic reads from
+   the right and English from the left in the same box, unless the box is set
+   one way (element.dir, the panel's Direction); VENDORED.md */
+.textElement p,
+.textElement li,
+.tiptap p,
+.tiptap li {
+	unicode-bidi: plaintext;
+}
+
+.textElement[dir] p,
+.textElement[dir] li,
+.textElement[dir] .tiptap p,
+.textElement[dir] .tiptap li {
+	unicode-bidi: normal;
 }
 </style>

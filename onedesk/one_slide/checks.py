@@ -21,6 +21,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 	may not open it learns nothing (one_slide/AGENTS.md)."""
 	import base64
 	import io
+	import struct
 
 	from werkzeug.test import EnvironBuilder
 	from werkzeug.wrappers import Request
@@ -92,9 +93,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			poster = api.save_base64_image(dot, name, "poster")
 			assert poster.startswith(api.MEDIA), poster
 			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.media", method="GET").get_environ())
-			api.media(poster[len(api.MEDIA):])
-			assert frappe.local.response.status_code == 200
-			frappe.local.response = frappe._dict()
+			assert api.media(poster[len(api.MEDIA):]).status_code == 200
 			assert api.save_presentation_thumbnail(name, "data:image/webp;base64," + base64.b64encode(b"RIFF....WEBP").decode()).startswith(api.MEDIA)
 			sent = EnvironBuilder(path="/api/method/onedesk.one_slide.api.upload", method="POST", data={"file": (io.BytesIO(DOT_PNG), "dot.png"), "docname": name})
 			frappe.local.request = Request(sent.get_environ())
@@ -119,6 +118,29 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			karim.flags.ignore_permissions = True
 			karim.add_roles("OneSlide Manager")
 			assert api.get(name)["can_template"], "a Manager keeps them"
+			# fonts: a file of the company's own, read by its own name, offered and served at our address
+			from onedesk.one_slide import fonts
+
+			assert fonts.named("Cairo Bold.ttf") == ("Cairo", 700, "normal") and fonts.named("MyBrand-BoldItalic.woff2") == ("MyBrand", 700, "italic")
+			said = "Brand Sans".encode("utf-16-be")
+			table = struct.pack(">HHH", 0, 1, 18) + struct.pack(">HHHHHH", 3, 1, 0x409, 1, len(said), 0) + said
+			sfnt = struct.pack(">IHHHH", 0x00010000, 1, 16, 0, 0) + struct.pack(">4sIII", b"name", 0, 28, len(table)) + table
+			assert fonts._family_in(sfnt) == "Brand Sans"
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.fonts.upload", method="POST", data={"file": (io.BytesIO(sfnt), "brand.ttf")}).get_environ())
+			offered = fonts.upload()
+			assert {"family": "Brand Sans", "faces": [{"weight": 400, "style": "normal"}]} in offered["yours"], offered["yours"]
+			assert any(one["group"] == "arabic" and one["family"] == "Cairo" for one in offered["shipped"])
+			face = next(one for one in fonts.faces() if one["family"] == "Brand Sans")
+			assert f"font-family: 'Brand Sans'; src: url('/api/method/onedesk.one_slide.fonts.face?id={face['file']}" in fonts.stylesheet()
+			served = fonts.face(face["file"])
+			assert served.get_data() == sfnt and "immutable" in served.headers["Cache-Control"]
+			assert not offered["google"] and fonts.google_search("cairo") == [], "Google is not asked while the service is off"
+			assert fonts.library()["yours"] == offered["yours"] and "Brand Sans" in fonts.css().get_data(as_text=True)
+			try:
+				fonts.google_add("Cairo")
+				raise AssertionError("a family is added from Google while the service is off")
+			except frappe.ValidationError:
+				frappe.clear_messages()
 			assert not frappe.has_permission(api.PRESENTATION, "read"), "keeping templates opens no presentation the File doesn't"
 			# a master: made once, opened with the presentation's own access, drawn under every slide
 			from onedesk.one_slide import layouts, master

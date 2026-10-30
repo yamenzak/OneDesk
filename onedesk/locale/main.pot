@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 15:37+0000\n"
-"PO-Revision-Date: 2026-10-30 15:37+0000\n"
+"POT-Creation-Date: 2026-10-30 15:55+0000\n"
+"PO-Revision-Date: 2026-10-30 15:55+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2289,6 +2289,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/index.vue:621
 #: frontend/src/sheet/components/SheetEditor/index.vue:624
+#: frontend/src/slide/shim/FontsDialog.vue:23
 #: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1843
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
@@ -2523,6 +2524,14 @@ msgstr ""
 
 #: frontend/src/inventory/stock/StockOnHand.vue:168
 msgid "Add Warehouse"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:5
+msgid "Add a Font"
+msgstr ""
+
+#: frontend/src/slide/components/FontSection.vue:81
+msgid "Add a Font…"
 msgstr ""
 
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:17
@@ -2798,7 +2807,8 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: onedesk/one/account.py:268 onedesk/one_studio/ai_setup.py:643
+#: frontend/src/slide/shim/FontsDialog.vue:23 onedesk/one/account.py:268
+#: onedesk/one_studio/ai_setup.py:643
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
 msgid "Added"
@@ -3340,12 +3350,12 @@ msgid "Align bottom"
 msgstr ""
 
 #: frontend/src/slide/components/ArrangeSection.vue:67
-#: frontend/src/slide/components/ParagraphSection.vue:57
+#: frontend/src/slide/components/ParagraphSection.vue:66
 msgid "Align center"
 msgstr ""
 
 #: frontend/src/slide/components/ArrangeSection.vue:66
-#: frontend/src/slide/components/ParagraphSection.vue:56
+#: frontend/src/slide/components/ParagraphSection.vue:65
 msgid "Align left"
 msgstr ""
 
@@ -3354,7 +3364,7 @@ msgid "Align middle"
 msgstr ""
 
 #: frontend/src/slide/components/ArrangeSection.vue:68
-#: frontend/src/slide/components/ParagraphSection.vue:58
+#: frontend/src/slide/components/ParagraphSection.vue:67
 msgid "Align right"
 msgstr ""
 
@@ -4685,6 +4695,11 @@ msgstr ""
 msgid "Apr"
 msgstr ""
 
+#: frontend/src/slide/shim/FontsDialog.vue:22
+#: frontend/src/slide/shim/fonts.js:14
+msgid "Arabic"
+msgstr ""
+
 #. Option for the 'Role' (Select) field in DocType 'Project Contact'
 #: onedesk/one_project/doctype/project_contact/project_contact.json
 msgid "Architect"
@@ -4854,7 +4869,7 @@ msgstr ""
 msgid "As the workspace last measured it."
 msgstr ""
 
-#: frontend/src/slide/components/FontSection.vue:93
+#: frontend/src/slide/components/FontSection.vue:94
 msgid "As typed"
 msgstr ""
 
@@ -5646,6 +5661,7 @@ msgid "Authority inspection"
 msgstr ""
 
 #: frontend/src/slide/components/FrameSection.vue:165
+#: frontend/src/slide/components/ParagraphSection.vue:73
 msgid "Auto"
 msgstr ""
 
@@ -6830,7 +6846,7 @@ msgid "Body"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:117
-#: frontend/src/slide/components/FontSection.vue:86
+#: frontend/src/slide/components/FontSection.vue:87
 #: frontend/src/slide/composables/useShortcuts.js:449
 msgid "Bold"
 msgstr ""
@@ -7154,7 +7170,7 @@ msgstr ""
 msgid "Bulk Salary Structure Assignment"
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:64
+#: frontend/src/slide/components/ParagraphSection.vue:80
 msgid "Bulleted"
 msgstr ""
 
@@ -7665,7 +7681,7 @@ msgid "Carry On Later"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Reference'
-#: frontend/src/slide/components/FontSection.vue:38
+#: frontend/src/slide/components/FontSection.vue:47
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json
 msgid "Case"
 msgstr ""
@@ -9035,7 +9051,7 @@ msgid "Collection Name"
 msgstr ""
 
 #: frontend/src/slide/components/BorderSection.vue:11
-#: frontend/src/slide/components/FontSection.vue:26
+#: frontend/src/slide/components/FontSection.vue:35
 #: frontend/src/slide/components/ShadowSection.vue:4
 #: frontend/src/slide/components/TableGridSection.vue:16
 msgid "Color"
@@ -10152,6 +10168,26 @@ msgstr ""
 
 #: onedesk/public/js/center_section.js:99
 msgid "Could Not Open This"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:90
+msgid "Could not add the font."
+msgstr ""
+
+#: onedesk/one_slide/fonts.py:306
+msgid "Could not add the font: Google Fonts is off for this workspace."
+msgstr ""
+
+#: onedesk/one_slide/fonts.py:248
+msgid "Could not add the font: choose a .ttf, .otf, .woff or .woff2 file."
+msgstr ""
+
+#: onedesk/one_slide/fonts.py:251
+msgid "Could not add the font: it is larger than 8 MB."
+msgstr ""
+
+#: onedesk/one_slide/fonts.py:302
+msgid "Could not add the font: {0} is not in Google's catalogue."
 msgstr ""
 
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:51
@@ -13083,6 +13119,7 @@ msgid "Direct Debit"
 msgstr ""
 
 #. Label in the One Serial and Batch Bundle print format
+#: frontend/src/slide/components/ParagraphSection.vue:12
 #: onedesk/one_inventory/print_format/one_serial_and_batch_bundle/one_serial_and_batch_bundle.json
 msgid "Direction"
 msgstr ""
@@ -13234,6 +13271,10 @@ msgstr ""
 #. Label in the One Delivery Trip print format
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
 msgid "Dispatched By"
+msgstr ""
+
+#: frontend/src/slide/shim/fonts.js:17
+msgid "Display"
 msgstr ""
 
 #. Name of a DocType
@@ -22025,7 +22066,7 @@ msgid "It would overwrite {0}."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:118
-#: frontend/src/slide/components/FontSection.vue:87
+#: frontend/src/slide/components/FontSection.vue:88
 #: frontend/src/slide/composables/useShortcuts.js:456
 msgid "Italic"
 msgstr ""
@@ -22625,7 +22666,7 @@ msgstr ""
 msgid "Jurisdiction"
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:59
+#: frontend/src/slide/components/ParagraphSection.vue:68
 msgid "Justify"
 msgstr ""
 
@@ -23724,6 +23765,10 @@ msgstr ""
 msgid "Left to Bill"
 msgstr ""
 
+#: frontend/src/slide/components/ParagraphSection.vue:75
+msgid "Left to right"
+msgstr ""
+
 #. Option for the 'Sensitivity' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_studio/letter_heads.py:34
@@ -23913,7 +23958,7 @@ msgstr ""
 msgid "Letter Requested"
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:29
+#: frontend/src/slide/components/ParagraphSection.vue:37
 msgid "Letter Spacing"
 msgstr ""
 
@@ -24004,7 +24049,7 @@ msgstr ""
 msgid "Line End"
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:20
+#: frontend/src/slide/components/ParagraphSection.vue:28
 msgid "Line Height"
 msgstr ""
 
@@ -24204,7 +24249,7 @@ msgstr ""
 msgid "List Starts"
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:11
+#: frontend/src/slide/components/ParagraphSection.vue:19
 msgid "List Style"
 msgstr ""
 
@@ -24604,7 +24649,7 @@ msgstr ""
 msgid "Lower runs first."
 msgstr ""
 
-#: frontend/src/slide/components/FontSection.vue:95
+#: frontend/src/slide/components/FontSection.vue:96
 msgid "Lowercase"
 msgstr ""
 
@@ -25510,7 +25555,7 @@ msgstr ""
 msgid "Master Production Schedule"
 msgstr ""
 
-#: onedesk/one_slide/api.py:261
+#: onedesk/one_slide/api.py:265
 msgid "Master of {0}"
 msgstr ""
 
@@ -26079,6 +26124,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1823
 msgid "Mono"
+msgstr ""
+
+#: frontend/src/slide/shim/fonts.js:18
+msgid "Monospace"
 msgstr ""
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
@@ -27892,6 +27941,10 @@ msgstr ""
 msgid "No events"
 msgstr ""
 
+#: frontend/src/slide/shim/FontsDialog.vue:25
+msgid "No family by that name."
+msgstr ""
+
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr ""
@@ -27900,7 +27953,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:497
+#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:501
 msgid "No file was sent."
 msgstr ""
 
@@ -28494,7 +28547,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemVariantsMake.vue:11
 #: frontend/src/project/Time.vue:90 frontend/src/sheet/shim/PrintDialog.vue:60
 #: frontend/src/slide/components/BorderSection.vue:63
-#: frontend/src/slide/components/ParagraphSection.vue:63
+#: frontend/src/slide/components/ParagraphSection.vue:79
 #: frontend/src/slide/components/TableSection.vue:75
 #: frontend/src/slide/components/TransitionSection.vue:72
 #: frontend/src/slide/components/controls/ArrowheadSelect.vue:11
@@ -29467,7 +29520,7 @@ msgstr ""
 msgid "Number {number}. Renew it before then, and add the new one to their record."
 msgstr ""
 
-#: frontend/src/slide/components/ParagraphSection.vue:65
+#: frontend/src/slide/components/ParagraphSection.vue:81
 msgid "Numbered"
 msgstr ""
 
@@ -30316,7 +30369,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:88
+#: onedesk/one_slide/ai.py:90
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -30324,7 +30377,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:98
+#: onedesk/one_slide/ai.py:100
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -31531,6 +31584,10 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 msgid "Or Role"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:17
+msgid "Or add a family from Google Fonts. It is kept in the workspace from then on."
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
@@ -38742,6 +38799,10 @@ msgstr ""
 msgid "Right border"
 msgstr ""
 
+#: frontend/src/slide/components/ParagraphSection.vue:74
+msgid "Right to left"
+msgstr ""
+
 #. Label of the role (Select) field in DocType 'Reading Party'
 #. Label in the One Staffing Plan print format
 #. Label of the role (Select) field in DocType 'Project Contact'
@@ -39268,6 +39329,10 @@ msgstr ""
 msgid "Samples and shop drawings approved"
 msgstr ""
 
+#: frontend/src/slide/shim/fonts.js:15
+msgid "Sans Serif"
+msgstr ""
+
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
 #: frontend/src/inventory/home/InventoryStory.vue:132
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
@@ -39459,7 +39524,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:58
+#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:60
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -39666,6 +39731,10 @@ msgstr ""
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 #: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
 msgid "Search"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:18
+msgid "Search Google Fonts"
 msgstr ""
 
 #: frontend/src/inventory/stock/StockOnHand.vue:14
@@ -40355,6 +40424,7 @@ msgid "Series {0} already used in {1}"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1822
+#: frontend/src/slide/shim/fonts.js:16
 msgid "Serif"
 msgstr ""
 
@@ -41872,7 +41942,7 @@ msgstr ""
 #. Label of the file_size (Int) field in DocType 'Cloud File Version'
 #: frontend/src/cloud/CloudItems.vue:138 frontend/src/cloud/CloudPreview.vue:92
 #: frontend/src/cloud/CloudPreview.vue:108
-#: frontend/src/slide/components/FontSection.vue:18
+#: frontend/src/slide/components/FontSection.vue:27
 #: frontend/src/slide/shim/EditorNavbar.vue:190
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_pos_invoice/one_pos_invoice.json
@@ -42084,7 +42154,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:315
+#: onedesk/one_slide/api.py:319
 msgid "Slide fields not accepted: {0}"
 msgstr ""
 
@@ -43589,7 +43659,7 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:60
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:120
-#: frontend/src/slide/components/FontSection.vue:89
+#: frontend/src/slide/components/FontSection.vue:90
 msgid "Strikethrough"
 msgstr ""
 
@@ -43695,7 +43765,7 @@ msgid "Structure"
 msgstr ""
 
 #: frontend/src/slide/components/BorderSection.vue:4
-#: frontend/src/slide/components/FontSection.vue:33
+#: frontend/src/slide/components/FontSection.vue:42
 #: frontend/src/slide/components/ShapeStyleSection.vue:3
 #: onedesk/one_studio/printing.py:87 onedesk/one_studio/printing.py:301
 #: onedesk/public/js/one_mail/onemail_settings.js:148
@@ -45464,7 +45534,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:368
+#: onedesk/one_slide/api.py:372
 msgid "That theme does not exist."
 msgstr ""
 
@@ -47872,7 +47942,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:500
+#: onedesk/one_slide/api.py:504
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -47928,8 +47998,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:533 onedesk/one_slide/api.py:537
-#: onedesk/one_slide/api.py:550 onedesk/one_slide/paper.py:32
+#: onedesk/one_slide/api.py:537 onedesk/one_slide/api.py:541
+#: onedesk/one_slide/api.py:554 onedesk/one_slide/paper.py:32
 msgid "This is not a picture."
 msgstr ""
 
@@ -48048,7 +48118,7 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_slide/api.py:539 onedesk/one_slide/api.py:553
+#: onedesk/one_slide/api.py:543 onedesk/one_slide/api.py:557
 #: onedesk/one_slide/paper.py:35
 msgid "This picture is too large."
 msgstr ""
@@ -48061,7 +48131,7 @@ msgstr ""
 msgid "This presentation has too many slides to print at once."
 msgstr ""
 
-#: onedesk/one_slide/api.py:288
+#: onedesk/one_slide/api.py:292
 msgid "This presentation is too large to save."
 msgstr ""
 
@@ -48069,7 +48139,7 @@ msgstr ""
 msgid "This presentation no longer exists."
 msgstr ""
 
-#: onedesk/one_slide/api.py:292
+#: onedesk/one_slide/api.py:296
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr ""
 
@@ -48855,6 +48925,10 @@ msgstr ""
 #. Label in the One Budget print format
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 msgid "To Year"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:28
+msgid "To add fonts from Google's catalogue, turn on Fonts from Google in TrustCenter."
 msgstr ""
 
 #: onedesk/one_inventory/portal.py:97 onedesk/one_inventory/portal.py:98
@@ -49978,7 +50052,7 @@ msgid "Under the title"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:119
-#: frontend/src/slide/components/FontSection.vue:88
+#: frontend/src/slide/components/FontSection.vue:89
 #: frontend/src/slide/composables/useShortcuts.js:465
 #: frontend/src/writer/components/core-editor/menu-buttons.js:45
 msgid "Underline"
@@ -50343,6 +50417,10 @@ msgstr ""
 msgid "Untitled Document"
 msgstr ""
 
+#: onedesk/one_slide/fonts.py:111
+msgid "Untitled Font"
+msgstr ""
+
 #: frontend/src/slide/shim/EditorNavbar.vue:102 onedesk/one_slide/api.py:110
 msgid "Untitled Presentation"
 msgstr ""
@@ -50468,6 +50546,14 @@ msgstr ""
 msgid "Upload Files"
 msgstr ""
 
+#: frontend/src/slide/shim/FontsDialog.vue:11
+msgid "Upload a Font"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:9
+msgid "Upload a font file of your own. Everyone in the workspace can use it."
+msgstr ""
+
 #: onedesk/public/js/item_new.js:257
 msgid "Upload a list or paste one."
 msgstr ""
@@ -50505,7 +50591,7 @@ msgstr ""
 msgid "Uploading {0} of {1}…"
 msgstr ""
 
-#: frontend/src/slide/components/FontSection.vue:94
+#: frontend/src/slide/components/FontSection.vue:95
 msgid "Uppercase"
 msgstr ""
 
@@ -56431,7 +56517,7 @@ msgstr ""
 msgid "You do not have permission to open this document."
 msgstr ""
 
-#: frontend/src/slide/PresentationPage.vue:53 onedesk/one_slide/api.py:84
+#: frontend/src/slide/PresentationPage.vue:49 onedesk/one_slide/api.py:84
 msgid "You do not have permission to open this presentation."
 msgstr ""
 
@@ -56652,6 +56738,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:118
 msgid "Your Files"
+msgstr ""
+
+#: frontend/src/slide/shim/fonts.js:55
+msgid "Your Fonts"
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1423
@@ -57035,6 +57125,10 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:226
 msgid "Your role"
+msgstr ""
+
+#: onedesk/one_slide/fonts.py:239
+msgid "Your role doesn't add fonts to the workspace. Ask a workspace administrator."
 msgstr ""
 
 #: onedesk/one_legal/gate.py:176
@@ -58926,6 +59020,11 @@ msgstr ""
 
 #: onedesk/public/js/item_new.js:385 onedesk/public/js/task_new.js:49
 msgid "{0} added"
+msgstr ""
+
+#: frontend/src/slide/shim/FontsDialog.vue:69
+#: frontend/src/slide/shim/FontsDialog.vue:88
+msgid "{0} added to the workspace's fonts."
 msgstr ""
 
 #: onedesk/public/js/task_timer.js:6

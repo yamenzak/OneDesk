@@ -166,6 +166,9 @@ UNHEARD = {
 	# names the mailbox a sync or an action changed; a list follow on
 	# Communication would wake it for every mail in the workspace.
 	"onemail": 6,
+	# The presentation editor reads the workspace's fonts, Files in OneCloud ›
+	# Fonts, once when it opens and again after it adds one (one_slide/fonts.py).
+	"presentation": 1,
 }
 
 BARE = {}

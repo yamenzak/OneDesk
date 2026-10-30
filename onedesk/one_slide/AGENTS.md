@@ -185,6 +185,39 @@ mounts (`fitted` in `SlideContainer.vue`, a One: edit), no larger than
 Suite's 900 by 700, so the rulers and the slide's edges are never under a
 panel.
 
+### Fonts
+
+`fonts.py` is the workspace's font library, which every editor and the TV
+read. One ships seven Arabic families (IBM Plex Sans Arabic, Noto Naskh
+Arabic, Noto Kufi Arabic, Cairo, Tajawal, Almarai, Amiri, all OFL, licences
+beside them) as app assets in `public/slide/fonts/`, declared with their
+Arabic and Latin subsets in `public/slide/fonts.css`; `SHIPPED` is the list
+the picker groups, the faces every computer has included. A workspace's own
+fonts are Files in OneCloud › Fonts, so their bytes are wherever its other
+files are (R2 once linked). Each File is named `<Family> <weight>[ Italic]`
+when it is added, read from a TrueType or OpenType file's name table where
+it can be; `fonts.css` declares them at `fonts.face`, our own address, which
+streams the bytes with an immutable cache because a browser loads a font
+from another site only with CORS, and the address carries the content's
+hash. Both are guest-readable: fonts are no secret, and a screen signs in as
+nobody. The TV's worker keeps the files.
+
+Adding is for whoever keeps company templates (`slide_template`):
+`fonts.upload`, or `google_search` and `google_add` through
+`services.call("google_fonts", …)`. Google's catalogue is asked once a day
+and a family's TTF files once, by our server; nothing is fetched from Google
+when anyone reads. The service, its Google use and the privacy clause are in
+`legal.py`.
+
+A text paragraph takes its direction from its first letter
+(`unicode-bidi: plaintext` in `TextElement.vue` and `play.js`); a box's `dir`
+(the panel's Direction) sets it one way. `api.make` in a workspace whose
+language is Arabic starts the words right to left in IBM Plex Sans Arabic
+(`fonts.arabic`).
+
+`api.media` and `api.shown` return their response (frappe sends one only
+when the method returns it) and redirect to R2 for a file kept there.
+
 ### Master and layouts
 
 A master is a second Presentation of one slide, `master_of` the one it

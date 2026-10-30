@@ -31,6 +31,23 @@ it is presented or printed.
 
 ![Rulers along the slide, with a guide across it and one down it](working-on-slides/guides.png)
 
+## Fonts and Arabic
+
+**Family**, in the panel for words, lists the workspace's fonts: seven
+Arabic ones, each shown with a few Arabic letters, then the rest by kind.
+Fonts your company adds come first, under **Your Fonts**. A manager adds one
+with **Add a Font…** at the foot of the list: upload a .ttf, .otf, .woff or
+.woff2 file, or, once **Fonts from Google** is on in TrustCenter, search
+Google's catalogue and add a family. Every font is kept in the workspace, in
+OneCloud › Fonts, and nobody's browser asks Google for it.
+
+Each paragraph runs the way its first letter does, so Arabic reads from the
+right and English from the left in the same box. **Direction**, under
+Paragraph, sets a box to one way. In a workspace that reads Arabic, a new
+presentation starts in an Arabic font.
+
+![The font list with the Arabic fonts, each shown in its own letters](working-on-slides/fonts.png)
+
 ## The Master
 
 **File › Edit Master** opens what every slide draws underneath its own: a
