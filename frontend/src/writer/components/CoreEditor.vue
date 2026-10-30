@@ -19,12 +19,14 @@
                 <EditorBubbleMenu :editor :items="bubbleMenuButtons" :options="bubbleMenuOpts" />
                 <EditorTableMenu :editor />
                 <EditorDropZone :editor :disabled="!editable" class="grow flex flex-col">
+                  <!-- One: dir="auto", a document reads in its own direction, whatever the reader's language -->
                   <EditorContent
                     :editor
+                    dir="auto"
                     role="textbox"
                     aria-label="Document editor"
                     aria-multiline="true"
-                    class="grow w-full bg-surface-base overflow-x-auto pt-10 pb-24 px-5 prose prose-sm prose-v3 prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:relative prose-th:relative prose-th:bg-surface-gray-2"
+                    class="grow w-full bg-surface-base text-start overflow-x-auto pt-10 pb-24 px-5 prose prose-sm prose-v3 prose-table:table-fixed prose-td:p-2 prose-th:p-2 prose-td:border prose-th:border prose-td:relative prose-th:relative prose-th:bg-surface-gray-2"
                     :class="isPainting && 'cursor-crosshair'" :style="editorStyle" />
                 </EditorDropZone>
               </template>

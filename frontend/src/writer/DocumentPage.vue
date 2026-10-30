@@ -3,7 +3,7 @@
 	<div ref="pageEl" data-tour="onewriter-editor" class="one-document flex h-full flex-col bg-surface-base">
 		<div data-tour="onewriter-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
 			<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
-			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="state && !renaming" :items="crumbs">
+			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] max-md:[&>div:last-child>:not(:last-child)]:hidden" v-if="state && !renaming" :items="crumbs">
 				<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
 			</Breadcrumbs>
 			<div v-else-if="state" class="flex min-w-0 items-center">
@@ -13,8 +13,8 @@
 				<span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
 				<InlineRenameInput v-model="title" editing @submit="rename" @cancel="renaming = false" @blur="rename" />
 			</div>
-			<span class="text-sm text-ink-gray-5">{{ status }}</span>
-			<div class="ml-auto flex items-center gap-2">
+			<span class="shrink-0 text-sm text-ink-gray-5 max-md:hidden">{{ status }}</span>
+			<div class="ml-auto flex shrink-0 items-center gap-2">
 				<UsersBar v-if="collaborators.length" :users="collaborators" />
 				<Button v-if="state?.can_write && settingsDoc.doc.settings.lock" icon="lucide-lock" variant="ghost" :tooltip="__('Unlock')" @click="lock(null)" />
 				<Dropdown v-if="state" :options="fileMenu" align="end">

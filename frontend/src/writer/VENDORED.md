@@ -65,4 +65,8 @@ Each is marked `One:` where it is.
   and the page, for OneWriter's tour (`one_doc/tour.py`).
 - `components/CoreEditor.vue`: a version that could not be kept says so
   without "please", by the copy rules.
+- `components/CoreEditor.vue`, `VersionsSidebar.vue`: the page and the
+  version preview are `dir="auto"` and start-aligned, so a document reads in
+  its own direction whatever the reader's language; the history's corner
+  buttons sit at the end, not the right.
 - Every word a template shows goes through `__()`.

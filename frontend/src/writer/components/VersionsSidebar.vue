@@ -47,7 +47,7 @@
         <Button
           :icon="LucideX"
           variant="ghost"
-          class="absolute right-1 top-2"
+          class="absolute end-1 top-2"
           @click="showVersions = false"
         />
       </div>
@@ -55,7 +55,7 @@
         <Button
           v-if="tab === 'manual'"
           :icon="LucidePlus"
-          class="absolute right-3 bottom-3"
+          class="absolute end-3 bottom-3"
           variant="outline"
           @click="
             () =>
@@ -109,7 +109,8 @@
       </div>
       <!-- One: this frappe-ui's Editor draws no element of its own, so its classes go on a div -->
       <div class="h-full overflow-y-auto">
-      <div class="diff-view prose prose-sm md:min-w-[48rem] md:max-w-[48rem] mx-auto py-8 px-10">
+      <!-- One: the corner buttons sit at the end and the preview reads in its own direction, for a right-to-left reader -->
+      <div dir="auto" class="diff-view prose prose-sm md:min-w-[48rem] md:max-w-[48rem] mx-auto py-8 px-10 text-start">
       <Editor
         v-if="editor?.getHTML"
         :extensions="[RichTextKit, ...COMMON_EXTENSIONS, DiffTag]"

@@ -10,3 +10,7 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   approver's open copy; with the document closed, nothing is written.
 - Page setup's header, footer and lines on paper need the patched-Qt build
   of wkhtmltopdf, as frappe's repeated headers do.
+- On a phone the head shows the document's name alone, and the outline and
+  the comments are left out: it is for reading and small changes.
+- In a right-to-left language a list's bullets in a right-to-left document
+  sit where frappe-ui's prose puts them, which is drawn for left to right.
