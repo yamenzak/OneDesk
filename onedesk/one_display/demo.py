@@ -198,6 +198,10 @@ def _screens():
 	)
 	if not frappe.db.get_value("Queue", QUEUE, "sound_zone"):
 		frappe.db.set_value("Queue", QUEUE, "sound_zone", ZONE)
+	# an empty voice pack: the zone has no voice, so the demo asks OneAI for nothing (D7)
+	from onedesk.one_display import packs
+
+	packs.pack(frappe.db.get_default("lang") or "en", "Kore")
 	_make(
 		"Display Channel",
 		KIOSK,

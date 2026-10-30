@@ -762,7 +762,9 @@
 			var done = function () {
 				setTimeout(next, 600);
 			};
-			if (item.audio) {
+			if (item.pieces && item.pieces.length) {
+				strung(item.pieces, done);
+			} else if (item.audio) {
 				var voice = new Audio(item.audio);
 				voice.onended = voice.onerror = done;
 				var playing = voice.play();
@@ -777,6 +779,110 @@
 				done();
 			}
 		});
+	}
+
+	/* A voice pack's clips said end to end (packs.py). Each clip is fetched
+	   and decoded once and kept, its silence at either end cut, so A, 1, 8
+	   run on as one sentence; without Web Audio they play one after another. */
+	var clips = {};
+	var clipsHeld = 0;
+
+	function clip(url, then) {
+		var held = clips[url];
+		if (held && held.buffer) return then && then(held.buffer);
+		if (held) {
+			if (then) held.waiting.push(then);
+			return;
+		}
+		// a long day's clips are let go rather than kept in a TV's memory
+		if (++clipsHeld > 300) {
+			clips = {};
+			clipsHeld = 1;
+		}
+		held = clips[url] = { waiting: then ? [then] : [] };
+		var ctx = context();
+		var settle = function (buffer) {
+			held.buffer = buffer || "none";
+			var waiting = held.waiting;
+			held.waiting = [];
+			for (var i = 0; i < waiting.length; i++) waiting[i](held.buffer);
+		};
+		if (!ctx || !window.XMLHttpRequest) return settle(null);
+		var xhr = new XMLHttpRequest();
+		xhr.open("GET", url, true);
+		xhr.responseType = "arraybuffer";
+		xhr.onload = function () {
+			if (xhr.status !== 200) return settle(null);
+			try {
+				var decoding = ctx.decodeAudioData(xhr.response, function (buffer) {
+					settle(trimmed(ctx, buffer));
+				}, function () {
+					settle(null);
+				});
+				if (decoding && decoding.catch) decoding.catch(function () {});
+			} catch (e) {
+				settle(null);
+			}
+		};
+		xhr.onerror = function () {
+			settle(null);
+		};
+		xhr.send();
+	}
+
+	function trimmed(ctx, buffer) {
+		var data = buffer.getChannelData(0);
+		var start = 0;
+		var end = data.length - 1;
+		while (start < end && Math.abs(data[start]) < 0.01) start++;
+		while (end > start && Math.abs(data[end]) < 0.01) end--;
+		var margin = Math.floor(buffer.sampleRate * 0.04);
+		start = Math.max(0, start - margin);
+		end = Math.min(data.length - 1, end + margin);
+		var out = ctx.createBuffer(1, end - start + 1, buffer.sampleRate);
+		out.getChannelData(0).set(data.subarray(start, end + 1));
+		return out;
+	}
+
+	// whether every clip of a call is decoded, starting any that are not
+	function strungReady(urls) {
+		var ready = true;
+		for (var i = 0; i < urls.length; i++) {
+			clip(urls[i]);
+			if (!clips[urls[i]].buffer) ready = false;
+		}
+		return ready;
+	}
+
+	function strung(urls, done) {
+		var ctx = context();
+		var buffers = [];
+		for (var i = 0; i < urls.length; i++) {
+			var held = clips[urls[i]];
+			if (!ctx || !held || !held.buffer || held.buffer === "none") return oneByOne(urls, 0, done);
+			buffers.push(held.buffer);
+		}
+		var t = ctx.currentTime + 0.05;
+		for (var j = 0; j < buffers.length; j++) {
+			var source = ctx.createBufferSource();
+			source.buffer = buffers[j];
+			source.connect(ctx.destination);
+			source.start(t);
+			t += buffers[j].duration;
+		}
+		setTimeout(done, (t - ctx.currentTime) * 1000);
+	}
+
+	function oneByOne(urls, at, done) {
+		if (at >= urls.length) return done();
+		var voice = new Audio(urls[at]);
+		var on = function () {
+			voice.onended = voice.onerror = null;
+			oneByOne(urls, at + 1, done);
+		};
+		voice.onended = voice.onerror = on;
+		var playing = voice.play();
+		if (playing && playing.catch) playing.catch(on);
 	}
 
 	/* The workspace's own time: the server's clock in its time zone. */
@@ -1240,7 +1346,10 @@
 			pending = {};
 			return;
 		}
-		for (i = 0; i < fresh.length; i++) pending[fresh[i].id] = fresh[i].start || now();
+		for (i = 0; i < fresh.length; i++) {
+			pending[fresh[i].id] = fresh[i].start || now();
+			if (fresh[i].pieces && fresh[i].pieces.length) strungReady(fresh[i].pieces);
+		}
 		calling(called);
 	}
 
@@ -1255,9 +1364,10 @@
 				waits = true;
 				continue;
 			}
-			if (one.audio || now() > pending[one.id] + 4000) {
+			var joined = one.pieces && one.pieces.length && strungReady(one.pieces);
+			if (one.audio || joined || now() > pending[one.id] + 4000) {
 				delete pending[one.id];
-				sound({ chime: 1, audio: one.audio, text: one.say || one.ticket, lang: soundZone.language });
+				sound({ chime: 1, audio: one.audio, pieces: joined ? one.pieces : null, text: one.say || one.ticket, lang: soundZone.language });
 			} else {
 				waits = true;
 			}

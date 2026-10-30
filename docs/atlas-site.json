@@ -2979,6 +2979,11 @@
 "All",
 "System Manager"
 ],
+"Voice Pack": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Warehouse": [
 "Accounts User",
 "Item Manager",
@@ -3505,6 +3510,7 @@
 "View Log",
 "Voice Ad",
 "Voice Call Settings",
+"Voice Pack",
 "Warehouse",
 "Warehouse Type",
 "Warranty Claim",

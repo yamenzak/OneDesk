@@ -1,0 +1,55 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 04:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "editable_grid": 0,
+ "istable": 1,
+ "field_order": [
+  "piece",
+  "kind",
+  "said",
+  "audio"
+ ],
+ "fields": [
+  {
+   "fieldname": "piece",
+   "fieldtype": "Data",
+   "label": "Piece",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Letter\nNumber\nWord\nCounter",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "said",
+   "fieldtype": "Data",
+   "label": "Said",
+   "in_list_view": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "audio",
+   "fieldtype": "Attach",
+   "label": "Recording",
+   "in_list_view": 1,
+   "read_only": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 22:07:24.746117",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Voice Pack Clip",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

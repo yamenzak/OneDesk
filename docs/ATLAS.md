@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 81 | 2 | 38 | 0 |
+| onedesk | 82 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -968,6 +968,7 @@ Pages: onecalendar (on a rail or a home).
 | Slide Playlist | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 | Sound Zone | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Voice Pack | on a rail or a home | the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 
 Pages: boards (on a rail or a home); counter (on a rail or a home).

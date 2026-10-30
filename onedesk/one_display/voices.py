@@ -46,38 +46,57 @@ def _wav(data: str, mime: str) -> bytes:
 	return out.getvalue()
 
 
-def make(text: str, lang: str, voice: str, tone: str = "Announcement") -> str:
-	"""The recording of `text`, made now if it isn't kept yet."""
-	name = key(text, lang, voice, tone)
-	kept = frappe.db.get_value(DOCTYPE, name, "audio")
-	if kept:
-		return kept
+def say(text: str, lang: str, voice: str, tone: str = "Announcement", reference: str = "") -> bytes | None:
+	"""`text` said by OneAI in that voice and tone, as a WAV, or None."""
 	from onedesk.one_ai import run
 
 	said = run.make(
 		JOB,
 		f"Tone: {TONES.get(tone, TONES['Announcement'])}.\nLanguage: {lang}.\n\n{text}",
-		reference=f"OneDisplay voice {name}",
+		reference=reference or f"OneDisplay voice {key(text, lang, voice, tone)}",
 		voice=voice or "Kore",
 	)
-	if not said.get("data"):
+	return _wav(said["data"], said.get("mime") or "") if said.get("data") else None
+
+
+def kept(text: str, lang: str, voice: str, tone: str = "Announcement") -> str | None:
+	"""The recording of the whole of `text`, where one was made."""
+	return frappe.db.get_value(DOCTYPE, key(text, lang, voice, tone), "audio")
+
+
+def make(text: str, lang: str, voice: str, tone: str = "Announcement") -> str:
+	"""The recording of `text`, made now if it isn't kept yet."""
+	name = key(text, lang, voice, tone)
+	found = kept(text, lang, voice, tone)
+	if found:
+		return found
+	sound = say(text, lang, voice, tone)
+	if not sound:
 		return ""
 	doc = frappe.get_doc({"doctype": DOCTYPE, "key": name, "text": text, "language": lang, "voice": voice}).insert(
 		ignore_permissions=True
 	)
-	saved = frappe.get_doc(
-		{
-			"doctype": "File",
-			"file_name": f"voice-{name}.wav",
-			"content": _wav(said["data"], said.get("mime") or ""),
-			"is_private": 0,
-			"attached_to_doctype": DOCTYPE,
-			"attached_to_name": doc.name,
-			"attached_to_field": "audio",
-		}
-	).insert(ignore_permissions=True)
+	saved = attach(DOCTYPE, doc.name, f"voice-{name}.wav", sound, "audio")
 	doc.db_set("audio", saved.file_url)
 	return saved.file_url
+
+
+def attach(doctype: str, name: str, file_name: str, sound: bytes, field: str | None = None, quiet: bool = False):
+	"""A recording kept as a file on a record, which OneCloud shows under it.
+	Quiet leaves the record's timeline alone, for a pack's thousand clips."""
+	on = {"attached_to_doctype": doctype, "attached_to_name": name, "attached_to_field": field}
+	saved = frappe.get_doc({"doctype": "File", "file_name": file_name, "content": sound, "is_private": 0, **({} if quiet else on)})
+	saved.insert(ignore_permissions=True)
+	if quiet:
+		saved.db_set(on, update_modified=False)
+	return saved
+
+
+def replace(url: str | None, doctype: str, name: str, keep: str) -> None:
+	"""Drop the file a record kept at `url`, once `keep` takes its place."""
+	filters = {"file_url": url, "attached_to_doctype": doctype, "attached_to_name": name, "name": ["!=", keep]}
+	for old in frappe.get_all("File", filters=filters, pluck="name") if url else []:
+		frappe.delete_doc("File", old, ignore_permissions=True, force=True)
 
 
 def spoken(text: str, lang: str, voice: str | None, tone: str = "Announcement") -> str:
@@ -118,8 +137,11 @@ def record(ad: Annotated[str, "The voice ad."]) -> str:
 	doc = frappe.get_doc("Voice Ad", ad)
 	doc.check_permission("write")
 	apps.refuse_ai()
-	url = make(doc.script, doc.language or frappe.db.get_default("lang") or "en", doc.voice or "Kore", doc.tone or "Announcement")
-	if not url:
+	sound = say(doc.script, doc.language or frappe.db.get_default("lang") or "en", doc.voice or "Kore", doc.tone or "Announcement", f"OneDisplay ad {doc.name}")
+	if not sound:
 		frappe.throw(_("OneAI could not make the recording. Try again."))
-	doc.db_set("audio", url)
-	return url
+	was = doc.audio
+	saved = attach("Voice Ad", doc.name, f"{doc.name}.wav", sound, "audio")
+	replace(was, "Voice Ad", doc.name, saved.name)
+	doc.db_set("audio", saved.file_url)
+	return saved.file_url

@@ -77,6 +77,22 @@ def test_a_ticket_is_said_without_its_noughts():
 	assert spoken("17") == "17"
 
 
+PACKS = _load(HERE / "packs.py", ("SEPARATORS", "THOUSANDS", "NUMBERS", "DIGITS_FROM", "_number", "pieces", "call"), re=re)
+
+
+def test_a_ticket_is_said_from_pieces():
+	pieces = PACKS["pieces"]
+	assert pieces("A1828") == ["l:A", "n:1", "n:8", "n:2", "n:8"], "four digits are said one by one"
+	assert pieces("A007") == ["l:A", "n:7"], "noughts in front are not said"
+	assert pieces("b120") == ["l:B", "n:120"], "fewer are said whole"
+	assert pieces("1828-3", "Whole Number") == ["n:1", "w:thousand", "n:828", "w:dash", "n:3"]
+	assert pieces("2000", "Whole Number") == ["n:2", "w:thousand"]
+	assert pieces("12", "Digit by Digit") == ["n:1", "n:2"]
+	assert pieces("1828", "Whole Number", "ar") is None, "where thousands change the words, the sentence is recorded whole"
+	assert pieces("ب12", lang="ar") == ["l:ب", "n:12"]
+	assert PACKS["call"]("A1", "3") == ["w:ticket", "l:A", "n:1", "w:go_to", "c:3"]
+
+
 SOURCES = _load(HERE / "sources.py", ("FIELD", "fields_in", "_line"), re=re)
 
 

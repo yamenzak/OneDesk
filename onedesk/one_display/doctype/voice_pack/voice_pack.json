@@ -1,0 +1,121 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 04:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2026-10-30 22:07:24.730252",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Voice Pack",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "description": "What a call is said from in one language, voice and tone: kept once, joined for every ticket.",
+ "field_order": [
+  "language",
+  "voice",
+  "tone",
+  "column_break_made",
+  "made",
+  "covers",
+  "section_clips",
+  "clips"
+ ],
+ "fields": [
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "Language",
+   "reqd": 1,
+   "in_list_view": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "voice",
+   "fieldtype": "Select",
+   "label": "Voice",
+   "options": "\nKore\nPuck\nCharon\nAoede\nFenrir\nLeda\nOrus\nZephyr",
+   "default": "Kore",
+   "reqd": 1,
+   "in_list_view": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "tone",
+   "fieldtype": "Select",
+   "label": "Tone",
+   "options": "Announcement\nCalm\nFriendly\nExcited",
+   "default": "Announcement",
+   "in_list_view": 1,
+   "set_only_once": 1
+  },
+  {
+   "fieldname": "column_break_made",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "made",
+   "fieldtype": "Int",
+   "label": "Clips",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "Each a letter, a number, a word or a counter's name, said once."
+  },
+  {
+   "fieldname": "covers",
+   "fieldtype": "HTML",
+   "label": "Covers"
+  },
+  {
+   "fieldname": "section_clips",
+   "fieldtype": "Section Break",
+   "label": "Clips",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "clips",
+   "fieldtype": "Table",
+   "label": "Clips",
+   "options": "Voice Pack Clip",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "make_attachments_public": 1
+}

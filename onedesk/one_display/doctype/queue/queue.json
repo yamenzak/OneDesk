@@ -7,6 +7,7 @@
   "queue_name",
   "wait_alert",
   "sound_zone",
+  "number_reading",
   "services",
   "counters"
  ],
@@ -33,6 +34,14 @@
    "description": "Where its calls are said."
   },
   {
+   "fieldname": "number_reading",
+   "fieldtype": "Select",
+   "label": "Numbers Said",
+   "options": "Auto\nDigit by Digit\nWhole Number",
+   "default": "Auto",
+   "description": "Auto says a number of four digits or more digit by digit, and a shorter one whole."
+  },
+  {
    "fieldname": "services",
    "fieldtype": "Table",
    "label": "Services",
@@ -48,7 +57,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:47:43.630888",
+ "modified": "2026-10-30 22:07:24.761929",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue",

@@ -430,6 +430,54 @@ def onedisplay_plays_sound_by_zone():
 
 
 @check
+def onedisplay_says_calls_from_a_voice_pack():
+	"""The showroom's calls are said from a voice pack: the first call asks
+	OneAI for the pieces it lacks and is said in the screen's own voice; once
+	they are kept, a ticket is joined from them. Make the Rest asks for the
+	rest, Make Again says a piece once more in its place, and deleting the
+	pack deletes its clips."""
+	from onedesk.one_display import packs, programme, queue
+
+	zone = frappe.get_doc("Sound Zone", frappe.db.get_value("Queue", QUEUE, "sound_zone"))
+	lang = zone.voice_language or "en"
+	sounds = iter(base64.b64encode(n.to_bytes(2, "little") * 1600).decode() for n in range(10000))
+	said = mock.patch("onedesk.one_ai.run.make", side_effect=lambda job, text, reference=None, voice=None: {"data": next(sounds), "mime": "audio/L16;rate=16000"})
+	called = {"called": [{"id": "check", "ticket": "A12", "counter": "1", "at": str(now_datetime())}]}
+	name = None
+	kept = packs.pack(lang, "Kore", make=False)
+	if kept:
+		frappe.delete_doc("Voice Pack", kept, ignore_permissions=True, force=True)
+	try:
+		with mock.patch("onedesk.one.apps.ai_on", return_value=True), said, mock.patch("frappe.enqueue") as queued:
+			zone.voice = "Kore"
+			with mock.patch.object(queue, "board", return_value=called):
+				first = programme.calls(zone, lang)[0]
+			name = packs.pack(lang, "Kore")
+			assert not first["pieces"] and not first["audio"] and queued.call_args.kwargs["name"] == name, "a missing piece is asked for"
+			packs.fill(name)
+			with mock.patch.object(queue, "board", return_value=called):
+				joined = programme.calls(zone, lang)[0]["pieces"]
+			assert len(joined) == len(packs.call("A12", "1", lang=lang)) and all(joined), joined
+			with as_user(OWNER):
+				assert packs.of_zone(zone.name) == name
+				assert packs.make(name) > packs.NUMBERS, "the rest is every number below a thousand and more"
+				assert packs.again(name) == frappe.db.get_value("Voice Pack", name, "made")
+			was = packs.clips(name)["n:12"]
+			packs.redo(name, ["n:12"])
+			now = packs.clips(name)["n:12"]
+			assert now != was and not frappe.db.exists("File", {"file_url": was, "attached_to_name": name}), "Make Again says a piece in its place"
+			assert frappe.db.get_value("Voice Pack", name, "made") == len(packs.clips(name))
+	finally:
+		frappe.cache.delete_value(f"one_display_pack_wanted:{name}")
+		if name:
+			frappe.delete_doc("Voice Pack", name, ignore_permissions=True, force=True)
+			assert not frappe.db.exists("File", {"attached_to_doctype": "Voice Pack", "attached_to_name": name}), "a pack's clips go with it"
+		if kept:
+			packs.pack(lang, "Kore")
+		frappe.clear_document_cache("Sound Zone", zone.name)
+
+
+@check
 def onedisplay_plays_a_presentation():
 	"""The showroom's playlist plays a presentation from OneCloud: each of its
 	slides reaches a screen as the editor's elements, its own time or the

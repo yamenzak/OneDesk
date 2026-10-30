@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onedisplay",
  "idx": 0,
- "modified": "2026-10-31 03:00:00.000000",
+ "modified": "2026-10-31 04:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "OneDisplay",
@@ -157,13 +157,27 @@
    "indent": 0,
    "is_default_module": 0,
    "keep_closed": 0,
+   "label": "Voice Pack",
+   "link_type": "DocType",
+   "link_to": "Voice Pack",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "audio-lines",
+   "idx": 11
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
    "label": "Display Source",
    "link_type": "DocType",
    "link_to": "Display Source",
    "show_arrow": 0,
    "type": "Link",
    "icon": "database",
-   "idx": 11
+   "idx": 12
   },
   {
    "child": 0,
@@ -175,7 +189,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 12
+   "idx": 13
   },
   {
    "child": 1,
@@ -189,7 +203,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "users",
-   "idx": 13
+   "idx": 14
   },
   {
    "child": 1,
@@ -203,7 +217,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "ticket",
-   "idx": 14
+   "idx": 15
   },
   {
    "child": 1,
@@ -217,7 +231,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "ticket",
-   "idx": 15
+   "idx": 16
   },
   {
    "child": 1,
@@ -231,7 +245,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "ticket",
-   "idx": 16
+   "idx": 17
   },
   {
    "child": 0,
@@ -243,7 +257,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 17
+   "idx": 18
   },
   {
    "child": 1,
@@ -257,7 +271,7 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "settings",
-   "idx": 18
+   "idx": 19
   }
  ]
 }

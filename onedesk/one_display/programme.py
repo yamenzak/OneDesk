@@ -334,16 +334,21 @@ def heard(zone_name: str | None, lang: str | None = None) -> dict | None:
 
 def calls(zone, lang: str) -> list[dict]:
 	"""Today's calls of the queues that name the zone, newest first, each
-	with what is said, its recording, and the moment every player in the
-	zone starts it: a few seconds after the call, so all have it by then."""
+	with what is said, how (a whole recording, or a voice pack's pieces to
+	join), and the moment every player in the zone starts it: a few seconds
+	after the call, so all have it by then."""
+	from onedesk.one_display import packs, voices
 	from onedesk.one_display import queue as queues
-	from onedesk.one_display import voices
 
 	out = []
-	for name in frappe.get_all("Queue", filters={"sound_zone": zone.name}, pluck="name"):
+	for name, reading in frappe.get_all("Queue", filters={"sound_zone": zone.name}, fields=["name", "number_reading"], as_list=True):
 		for call in queues.board(name).get("called") or []:
 			say = _("Ticket {0}, counter {1}", lang=lang).format(_spoken(call["ticket"]), call["counter"] or "")
-			out.append({**call, "say": say, "audio": voices.spoken(say, lang, zone.voice), "start": _epoch(get_datetime(call["at"])) + CALL_DELAY})
+			whole = voices.kept(say, lang, zone.voice) if zone.voice else None
+			joined = None if whole else packs.voiced(call["ticket"], call["counter"], lang, zone.voice, reading)
+			if joined is None and not whole:
+				whole = voices.spoken(say, lang, zone.voice)
+			out.append({**call, "say": say, "audio": whole or "", "pieces": joined or [], "start": _epoch(get_datetime(call["at"])) + CALL_DELAY})
 	return sorted(out, key=lambda one: one["start"], reverse=True)
 
 

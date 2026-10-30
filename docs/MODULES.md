@@ -228,13 +228,15 @@ No doctypes yet.
 | Display Voice | 5 | document |
 | Display Widget | 13 | child |
 | Music Playlist | 3 | document |
-| Queue | 5 | document |
+| Queue | 6 | document |
 | Queue Counter | 2 | child |
 | Queue Service | 2 | child |
 | Queue Ticket | 11 | document |
 | Slide Playlist | 3 | document |
 | Sound Zone | 11 | document |
 | Voice Ad | 8 | document |
+| Voice Pack | 8 | document |
+| Voice Pack Clip | 4 | child |
 | Widget Collection | 7 | document |
 
 ## One Slide
@@ -553,6 +555,9 @@ No doctypes yet.
 * `onedesk.one_display.live.admit`
 * `onedesk.one_display.make.music`
 * `onedesk.one_display.make.widget`
+* `onedesk.one_display.packs.again`
+* `onedesk.one_display.packs.make`
+* `onedesk.one_display.packs.of_zone`
 * `onedesk.one_display.playlist.add_media`
 * `onedesk.one_display.queue.call_next`
 * `onedesk.one_display.queue.counter_state`
