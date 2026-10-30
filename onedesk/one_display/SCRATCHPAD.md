@@ -142,4 +142,29 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
     a pack's folder deletes the pack, and calls go back to whole sentences
     until it is made again. The Voice Packs screen links to each folder.
     Music tracks and voice ads are files in OneCloud too.
+- **Boards: things that change state, shown live.** Queues move people
+  through counters; many businesses also need *things* moving through
+  states, set by hand, on screens: operating rooms (Ready, In Surgery,
+  Cleaning), beds, bays, meeting rooms, a match's score, today's special,
+  a wait time. Build none of these; build one generic **Board** that each
+  of them is set up as:
+  - A Board has **items** (OR 1, OR 2; Home, Away; Today) and the business's
+    own **states** (each with a colour, and an optional time limit) and/or
+    **values** (a number, a word).
+  - People change them from a **control page** made for a phone or tablet,
+    like Counter: tap the item, tap the state, or +1 / −1 / type a value;
+    a QR code on a door can open one item's buttons. Who may is set per
+    board.
+  - Screens show them through widgets: a **grid** of items (colour, state,
+    time in state, "Cleaning · 12 min") and **one item** big (above a
+    door), and any value through data chips in a designed layout, so a
+    scoreboard is designed like a slide. Changes reach screens at once
+    over the screens' socket.
+  - A state past its time limit tells someone (like Long Wait), and every
+    change is kept, so turnaround times can be read back.
+  - The queue's own screen above a counter is the same **one item** widget
+    pointed at a counter: what it is serving, large, flashing on a call,
+    "Closed" when nobody is.
+  Generic first: no doctype, field or word in it may name a hospital, a
+  sport or a restaurant; the examples live in Help and the demo.
 
