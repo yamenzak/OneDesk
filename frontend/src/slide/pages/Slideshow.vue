@@ -1,7 +1,8 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/pages/Slideshow.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
+	<!-- One: over the whole window, so a full screen shows the slide and not the desk's rail and bars around it (VENDORED.md) -->
 	<div
-		class="absolute left-0 top-0 h-full w-full overflow-clip bg-black"
+		class="fixed inset-0 z-[1040] overflow-clip bg-black"
 		:class="{ 'slideshow-hide-cursor': cursorHidden }"
 	>
 		<!-- One: the audience's window fills its screen when asked (shim/presenter.js, VENDORED.md) -->

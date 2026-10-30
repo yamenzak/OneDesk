@@ -106,6 +106,9 @@ Each is marked `One:` where it is.
   `components/PresentButton.vue` offers Present Live, `stores/slideshow.js`
   starts it and ends it with the slideshow, and `pages/Slideshow.vue` tells
   it each slide.
+- `pages/Slideshow.vue` covers the whole window (`fixed`, over the desk's
+  frame) rather than the island's box, so Present and the audience's window
+  show only the slide when they fill the screen.
 - The phone remote (`shim/phone.js`, in `shim/PresenterView.vue`):
   `pages/Slideshow.vue` draws the pointer the phone moves over the slide, as
   the presenter view tells it through `shim/presenter.js`.
