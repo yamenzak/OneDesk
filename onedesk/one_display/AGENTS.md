@@ -6,25 +6,35 @@ be missing is `SCRATCHPAD.md`; what people read is `docs/`.
 
 OneDisplay is digital signage that runs on any screen with a browser: a TV in
 a lobby, a kiosk at a door, a stick behind a meeting room's display. A screen
-shows a **channel**: slides, a layout of widgets over them, music, voice ads
-and a schedule that changes what plays through the day. Every screen on one
-channel plays the same thing at the same moment.
+shows a **channel**: slides, a layout of widgets over them, and a schedule
+that changes what shows through the day. What is heard is a **sound zone**:
+music, voice ads and the calls of its queues, where one set of speakers is.
+Every screen on one channel, and every player in one zone, plays the same
+thing at the same moment.
+
+Nothing here names a trade. A board is items, states and values, never beds
+or bays; a zone is speakers, never a waiting room. The examples live in Help
+and the demo.
 
 ## The records
 
 | Record | What it is |
 | --- | --- |
-| `Display Screen` | One paired screen: its channel, how it is turned (`rotate`), muted, dark, the last command and when it was last seen. Only ever made by a TV asking for a code. |
-| `Display Channel` | What plays: a slide playlist, a widget collection, a music playlist, whether calls are read aloud and in which voice, a `programme` (schedule rows) and `ads`. |
-| `Channel Programme` | A schedule row: Slides, Widgets, Music, Screensaver, Screen Off or Muted, on some days, between two times. A later row wins over an earlier one. |
-| `Channel Ad` | A voice ad on a channel, every few minutes or at times of day. |
+| `Display Screen` | One paired screen or radio (`kind`): its channel, its sound zone and whether it plays sound, how it is turned (`rotate`), muted, dark, the last command, when it was last seen, and what it reports of itself (Device). Only ever made by a TV asking for a code. |
+| `Display Channel` | What is seen: a slide playlist, a widget collection, its size (`screen_size`, `width`, `height`, `sizes.py`), its language, a `programme` and the nightly `reload_at`. |
+| `Sound Zone` | What is heard where one set of speakers is: a music playlist, a `programme` of Music or Muted rows, `ads`, whether calls are said (`announce`), and their language and voice. |
+| `Channel Programme` | A schedule row: Slides, Widgets, Music, Screensaver, Screen Off or Muted, on some days, between two times. A later row wins. A channel takes only what is seen, a zone only Music and Muted. |
+| `Channel Ad` | A voice ad in a sound zone, every few minutes or at times of day. |
+| `Voice Pack`, `Voice Pack Clip` | One language, voice and tone, and each piece a call is joined from (a letter, a number, a word, a counter), with its recording as a file on the pack. |
+| `Display Board`, `Display Board State`, `Display Board Item`, `Display Board Person` | Things people change by hand: the board's states (colour, time limit), its items (state, value, since when), and who may change it. |
+| `Display Board Change` | Every change to a board, with the minutes the item spent in its state before. |
 | `Slide Playlist`, `Display Slide` | What plays in order: a Presentation from OneCloud (every slide of it) or a Web Page (https only), each with seconds, optional dates and Paused. |
 | `Widget Collection`, `Display Widget` | A layout: widgets in percent of the screen, each with a source, a mapping, settings, a layer and optional hours. |
 | `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed, Weather or Exchange Rates. |
 | `Music Playlist`, `Display Track` | Tracks, each with its length and Paused, and a volume. |
 | `Voice Ad` | A script, a tone, a language, a voice, a chime, and its recording. |
-| `Display Voice` | A phrase recorded once in OneAI's voice, by language, voice and tone, with its public WAV. |
-| `Queue`, `Queue Service`, `Queue Counter`, `Queue Ticket` | A place where people wait, its services (with a prefix), its counters (with who staffs them), how long is too long, and each ticket. |
+| `Display Voice` | A whole sentence recorded once in OneAI's voice, by language, voice and tone, with its public WAV: what a pack cannot join. |
+| `Queue`, `Queue Service`, `Queue Counter`, `Queue Ticket` | A place where people wait, its services (with a prefix), its counters (with who staffs them), how long is too long, the zone its calls are said in, how its numbers are said, and each ticket. |
 | `Display Settings` | The emergency alert, on every screen. |
 
 ## How a screen plays
@@ -40,7 +50,10 @@ channel plays the same thing at the same moment.
   the token over once, then keeps only its hash.
 - `screens.state` (guest, with the token) answers every two seconds with the
   server's time, the screen's turn, mute and dark, the last command, the
-  alert, the brand, the zone, today's date in words, and the channel.
+  alert, the brand, today's date in words, the channel (none for a radio)
+  and its sound zone (`programme.heard`).
+- **`/radio`** is the same page and script with nothing drawn (`TV.radio`):
+  it pairs to a zone and shows the zone's name and what is playing.
 - **Full and light answers.** `programme.compose` builds the whole channel
   and a `revision` hash of it. A screen sends the revision it has as `have`;
   when it matches, `programme.light` sends only the mode, the ads and each
@@ -59,19 +72,55 @@ channel plays the same thing at the same moment.
 
 Every playlist runs on one clock that started at the Unix epoch, so where it
 is now is the time mod its length. A screen keeps its offset from the
-server's `now` and needs nothing else, so two screens agree to well under a
-second without talking. Music does the same per track and nudges the player
-when it drifts. Ads "every few minutes" pick their minute from a hash of the
-slot (`programme.ads`), so they sound random and still play together.
+server's `now`, taken from the quickest answers rather than the last
+(`bestTrip`, aged after ten minutes), and needs nothing else, so two screens
+agree to well under a second without talking. Music and a video with its own
+sound are kept in step by `playbackRate`, at most 5% either way, and jump
+only when more than two seconds out (`steer`). Ads "every few minutes" pick
+their minute from a hash of the slot (`programme.ads`), so they sound random
+and still play together. A call carries one `start`, three seconds after it
+was made, so every player in a zone says it together.
 
 ### The frame
 
-The player draws on a 1920 × 1080 frame (1080 × 1920 for a portrait
-channel), scaled to the screen and turned by the screen's `rotate`. Widgets
-are positioned in percent and sized in `em` from their own box, so a layout
-looks the same on any screen. Each kind is a renderer `KINDS[type](box, one,
-w, h)` returning `{update, drop}`; a Custom widget runs in a sandboxed iframe
-and is posted its rows.
+The player draws on the channel's frame, any size (`sizes.SIZES`: Landscape,
+Portrait, Bar 1920 × 540, Square, Wall 3840 × 1080, or Custom), scaled to the
+screen and turned by its `rotate`; a slide of another shape is letterboxed,
+or fills the screen when its row says **Fill Screen**. Widgets are
+positioned in percent and sized in `em` from their own box, so a layout looks
+the same on any screen. Each kind is a renderer `KINDS[type](box, one, w, h)`
+returning `{update, drop}`; a Custom widget runs in a sandboxed iframe and is
+posted its rows.
+
+**The bare widget, as a rule.** A renderer draws its content and behaviour
+and nothing else: a ticker is text moving with its spacing, separator, speed
+and direction, and has no background. Fill, words' colour, font, padding,
+border, corners and shadow are the element's, set in the editor like any
+object's and applied by `dress(box, look, unit)`. A **look**
+(`widgets.LOOKS`) is a saved set of those offered per widget; a variation is
+a look, never a new widget. `tests/test_display.py` holds that no renderer
+sets a background, border or font of its own. A widget that only showed
+data (Number, List) is now text and a table with data chips
+(`chips.py`, `patches/number_and_list_are_words.py`).
+
+### What a screen says about itself, and brakes
+
+Every minute a screen reports its pixels, browser, memory where the browser
+tells it (`deviceMemory`, `performance.memory`), how much its pictures take
+decoded, its largest video, and why it last restarted (`report`, kept by
+`screens._heard`). `screens._risks` sets **At Risk** with the reason before
+anything fails. A browser gives no warning before it runs out of memory, so
+the page reloads itself calmly between slides past about 80% of its heap,
+and every night at the channel's `reload_at` (04:00 unless changed). A
+frozen page cannot save itself; that is a native wrapper's job.
+
+### Pictures as sharp as the screen
+
+A picture is resized only when it is larger than the largest screen it is
+shown on (`one_slide/sized.py`, at the edges in `store.SCREEN_EDGES`, quality
+92), never made larger, the original kept, the copy served through
+`one_slide.api.shown` with the edge. Videos are not re-encoded; one larger
+than a screen says it shows is flagged on that screen.
 
 ### Offline
 
@@ -83,9 +132,14 @@ no network plays what it had.
 
 ### Sound
 
-One queue for calls, ads and alerts, so two never talk over each other; the
-music goes quiet under them. Browsers keep sound off until a key is pressed,
-so a new screen says so until OK is pressed once.
+A screen plays sound only from its sound zone (`programme.heard`): music,
+ads and calls, in one queue so two never talk over each other, the music
+going quiet under them. An emergency alert is spoken in every zone. A video
+plays its own sound only when its element says **Plays Sound** and the
+screen's **Plays Sound** is on; the zone's music ducks to a quarter while
+any screen in it plays such a video, known from the playlists' fixed timing
+(`programme.duck`). Browsers keep sound off until a key is pressed, so a new
+screen says so until OK is pressed once.
 
 ## Sources
 
@@ -114,12 +168,44 @@ instead.
 
 ## Voices
 
-`voices.py`. A phrase is recorded once per language, voice and tone through
-OneAI's `display_voice` job (Gemini speech through the gateway's `make`),
-wrapped as a WAV every TV plays, kept as a `Display Voice` with a public file.
-A board's call is made on demand: the first answer that needs "Ticket A 7,
-counter 2" enqueues it and sends no audio; the screen waits four seconds for
-it and then says it in its own voice. Nothing is recorded while OneAI is off.
+`voices.py` says text through OneAI's `display_voice` job (Gemini speech
+through the gateway's `make`) and wraps it as a WAV every TV plays.
+
+**Calls are joined from a voice pack** (`packs.py`). `packs.pieces` splits
+whatever a ticket's format makes it into letters, numbers and separators:
+A1828 is A, 1, 8, 2, 8; with **Whole Number**, 1828-3 is 1 thousand 828,
+dash, 3, where the language joins thousands simply (`THOUSANDS`; elsewhere
+the whole sentence is recorded). A queue's **Numbers Said** is Auto (digit by
+digit from four digits), Digit by Digit or Whole Number. `programme.calls`
+plays a whole sentence already kept as a `Display Voice`, else the pack's
+clips, else asks for the whole sentence. A clip the pack lacks is recorded by
+one background job per pack (`packs.ask`, `fill`), the call meanwhile said
+in the screen's own voice. Clips are files on the `Voice Pack` (OneCloud's
+Records › Voice Pack), attached quietly so a thousand of them leave no
+timeline lines; **Make Again** replaces each in place, and deleting the pack
+deletes them. `tv.js` decodes each clip once with Web Audio, cuts the
+silence at either end and plays them end to end, holding at most 300.
+Nothing is recorded while OneAI is off.
+
+## Boards
+
+`boards.py`. A `Display Board` is items, the business's own states (colour,
+optional time limit) and/or a named value. `boards.change` is the only way
+an item changes: it checks `may` (the board's people, or everyone with
+OneDisplay when it names none), keeps a `Display Board Change` with the
+minutes in the previous state, and wakes the screens. The **Boards** page
+(`frontend/src/display/Boards.vue`) is the control on a phone; a board's QR
+codes open one item's buttons. The **Board** and **Board Item** widgets draw
+them; Board Item pointed at a counter shows what it serves. `tell.past_limits`
+tells the board's people when an item passes its state's limit.
+
+## Data on screens
+
+A screen's editor offers OneSlide's data chips (`one_slide/data.py`) with a
+Display Source as one more kind (`rows`, through the `one_slide_rows`
+hook). A source is read again on its own clock (`sources.KEPT`); a saved
+record a source reads (`live.record_saved`, on every doctype's save) drops
+its cache and wakes the screens showing it, once a request.
 
 ## Slides
 
@@ -129,6 +215,14 @@ and web pages (docs/ONESLIDE.md, stage 5). A row links a presentation's
 person picking may open; the playlist's `validate` checks the same, so a
 playlist is never a way to show somebody's private slides. **New
 Presentation** on the playlist makes one filed on the playlist and opens it.
+
+Pictures and videos dropped on a playlist (`playlist.add_media`) become one
+presentation each, the file filling its slide, filed on the playlist.
+
+An element can come and go (OneSlide's Motion): `play.js` draws it on a box as
+large as the slide moved by one keyframe track of `transform` and `opacity`;
+a screen has nobody clicking, so what waits for a click comes a second after
+the one before it.
 
 `programme.slides` gives a screen each of a presentation's slides in turn
 (`one_slide/play.py`, `for_screen`): the editor's own elements, cleaned
@@ -178,7 +272,9 @@ widget, take tickets.
 
 ## What it tells people
 
-`notifications.py`, sent by `tell.py`: **Screen Offline** (every five
+`notifications.py`, sent by `tell.py`: **Past Its Time** (every two minutes,
+an item past its state's limit, to the board's people, once each time),
+**Screen Offline** (every five
 minutes, a paired screen silent ten minutes and not turned off, once per
 silence), **Long Wait** (every two minutes, a ticket waiting longer than its
 queue's **Tell Counters After**, to whoever staffs its counters, once per
@@ -205,8 +301,12 @@ one).
 
 | File | What it is |
 | --- | --- |
-| `screens.py` | Pairing, a screen's answer, kiosk tickets, commands, the alert, previews |
-| `programme.py` | What a channel plays now: the schedule, slides, layout, music, ads |
+| `screens.py` | Pairing screens and radios, a screen's answer and report, at risk, kiosk tickets, commands, the alert, previews |
+| `programme.py` | What a channel shows and a zone plays now: the schedule, slides, layout, music, ads, calls, ducking |
+| `sizes.py` | Screen sizes and the editor's frame for them |
+| `packs.py` | Voice packs: splitting a ticket, the pieces a call needs, recording them |
+| `boards.py`, `chips.py` | Boards, and data chips for what were Number and List |
+| `playlist.py` | Pictures and videos dropped on a playlist |
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it |
 | `layout.py` | A collection's widgets, read and saved back |
@@ -221,7 +321,9 @@ one).
 | `page/counter/` | The counter's island |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
 | `patches/presentations_on_screens.py` | Pictures, videos and designed slides, made presentations |
+| `patches/sizes_from_orientation.py`, `number_and_list_are_words.py`, `sound_in_zones.py`, `ads_on_their_record.py` | Orientation to sizes; Number and List to words; each channel's sound into a zone; ad recordings onto their ads |
+| `page/boards/` | The Boards island |
 | `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_slide/play.js` draws a slide |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
-| `../../frontend/src/display/` | The counter and the layout editor |
+| `../../frontend/src/display/` | The counter and Boards |
 | `../../realtime/handlers.js` | A screen joining its room, admitted by `live.admit` |

@@ -23,6 +23,14 @@ open are offered.
 
 ![A slide playlist, with its presentations](slides/playlist.png)
 
+To show a photo or a video, drop the files on the playlist, or use **Add
+Pictures and Videos**. Each becomes a presentation of one slide that it
+fills, filed on the playlist, without opening the editor.
+
+A row whose presentation is another shape than the screen is shown whole,
+with bands at its sides. **Fill Screen** on the row fills the screen instead
+and trims the edges.
+
 Text, pictures, videos, shapes, fades, blur, CSS of your own and tables all
 play on the screen as they look in the editor. Whatever you change in the
 presentation is on the screens at their next look, without touching the
@@ -37,6 +45,18 @@ row's **Seconds** when it has none. A video that does not loop is watched to
 its end first, then the slide waits its Advance. A slide changes with its own
 transition: a fade, a slide in from the side, or a cut; Magic Move fades on a
 screen.
+
+A picture is sent to each screen as sharp as that screen can show and no
+sharper, so a 4K screen gets the detail and a small one is not slowed down by
+it. Your original is kept as it was.
+
+## Things That Come and Go
+
+Something on a slide can come in after the slide does, and go again: fade
+in, fly in from a side, zoom or rise, stay a while, and leave. Set it under
+**Motion** in the editor; with **Repeat** it comes and goes for as long as
+the slide is up. On a screen, something set to come **On Click** comes a
+moment after the one before it, since nobody clicks a screen.
 
 ## Made With OneAI
 

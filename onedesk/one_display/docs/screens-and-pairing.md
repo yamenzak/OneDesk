@@ -10,7 +10,8 @@ on a TV remote.
 
 2. In OneDisplay, open **Display Screen** and press **Add Display Screen**.
 3. Type the code, name the screen, choose its channel and say how it is hung.
-   The screen starts playing within a few seconds.
+   Choose its sound zone too if its own speakers play the zone. The screen
+   starts playing within a few seconds.
 
 The screen remembers it was added, through power cuts and restarts. Deleting
 it here sends it back to showing a code.
@@ -34,6 +35,20 @@ Open a screen to see when it was last seen. Under **Screen** you can:
 The screen hears it within a second or so. A change to its channel, its
 slides or its widgets reaches it just as fast; a screen whose connection
 cannot keep that up asks every few seconds instead.
+
+## A Screen's Own Report
+
+Under **Device**, a screen tells you its size in pixels, its memory where its
+browser says, how much its pictures take, its largest video, and how many
+times it has restarted today and why. When what it plays comes close to what
+it can hold, it is marked **At Risk** before anything fails, and the reason
+is given. A screen also reloads by itself between slides when its memory is
+nearly full, rather than stop in the middle of one.
+
+![What a screen says about itself](screens-and-pairing/device.png)
+
+A radio, which plays a sound zone and shows nothing, is added the same way
+from `/radio`. See [Sound](sound).
 
 ## Sound on a New Screen
 

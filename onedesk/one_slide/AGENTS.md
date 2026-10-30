@@ -389,6 +389,27 @@ anything (`url(`, `@import`, `expression`), never reaches a screen. The
 editor's half is in `frontend/src/slide/shim/`; `VENDORED.md` lists where it
 joins Suite's files.
 
+### Things that come and go
+
+An element's `motion` says how it comes in and goes out: `in` (Fade, Fly In,
+Zoom, Rise), `out` (Fade, Fly Out, Zoom, Sink), `from` (the side it flies),
+`start` (With the Slide, On Click), `wait`, `speed`, `stay` and `again`.
+`motion.json` is the one table: `play.motion` keeps only what it names on
+every save, the editor's **Motion** section (`shim/MotionSection.vue`) and
+its slideshow (`shim/motion.js`) read it, and `play.js` carries a copy that a
+test holds equal. A moving element sits on a box as large as the slide and
+is moved by one keyframe track of `transform` and `opacity` only, named by
+the element so a click that only unpauses it does not restart it; a zoom
+grows from the element's middle.
+
+In the slideshow a click, a key, the presenter view's **Next** (which sends
+`step` to the audience's window) and the phone remote bring in the next
+element waiting for a click before the slide moves on (`clicked`,
+`clickWaiting`). A shared link steps through `play.step`. A guest following
+Present Live, and a screen in OneDisplay, draw with `auto`: nobody clicks, so
+each waiting element comes a second after the one before it. A slide entered
+by Magic Move keeps its own fade and does not move its elements.
+
 ### OneAI
 
 `ai.py`. The jobs are OneSlide's own (`slide_design`, `slide_picture`,

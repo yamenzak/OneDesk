@@ -28,11 +28,28 @@ next time they look.
 | **Ticker** | A line of text running across the screen, or the titles from a source. |
 | **Text** and **Clock** | Words you write, and the time and date. |
 | **Weather** | Today's weather and the days ahead, for a place you choose. |
-| **List** and **Number** | Rows, or one figure, from a source. |
+| **Board** and **Board Item** | Every item on a board, or one item large. See [Boards](boards). |
 | **Image** and **QR Code** | A picture, or a code that opens an address on a phone. |
 | **Custom** | A widget of your own, written by OneAI from a sentence. |
 
 A widget can show always, or only between two times of day.
+
+## How a Widget Looks
+
+A widget draws only what it shows. Its fill, its words' colour, its font,
+padding, border, corners and shadow are set in the panel like anything
+else on the screen. **Look** gives a set of these in one go, Plain, Card,
+Light Card, Outline, Band or Solid, which you can change afterwards.
+
+![A queue board with the Card look](widgets-and-sources/looks.png)
+
+## A Figure or a List From Your Records
+
+Text and tables on a screen can carry data from your records, as on any
+slide: **Data** in the editor's **File** menu adds a source, and a figure or
+a row's fields go into the words. On a screen, a display source can be used
+as well. When a record it reads is saved, the screens showing it hear at
+once.
 
 ## Sources
 

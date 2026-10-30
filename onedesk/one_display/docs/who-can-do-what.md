@@ -8,7 +8,11 @@ counter is for whoever serves the queue.
 | Role | Who has it | What they may do |
 | --- | --- | --- |
 | **User** | Whoever works a counter | Call, call again and close tickets, and see the queues. |
-| **Manager** | Whoever runs the screens | Also add screens, make channels, slides, layouts, music, voice ads and queues, and send an emergency alert. |
+| **Manager** | Whoever runs the screens | Also add screens and radios, make channels, sound zones, voice packs, slides, layouts, music, voice ads, queues and boards, and send an emergency alert. |
+
+A board can name its own **People**, who change it from **Boards** whatever
+their role; a board that names nobody may be changed by everyone with
+OneDisplay.
 
 ## What Each Role Starts With
 
