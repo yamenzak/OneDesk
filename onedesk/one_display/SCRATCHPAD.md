@@ -167,4 +167,42 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
     "Closed" when nobody is.
   Generic first: no doctype, field or word in it may name a hospital, a
   sport or a restaurant; the examples live in Help and the demo.
+- **Data that changes reaches screens at once.** What a channel plays, a
+  command, a call and an alert wake its screens; a widget's data does not:
+  a source is read again on its own clock (`sources.KEPT`: a minute for
+  Records and Record, five for a Report, longer for feeds and weather). A
+  record saved that a source reads should wake the screens showing it, as
+  a call does, the cache for that source dropped first.
+- **The bare widget, as a rule.** A widget draws its content and its
+  behaviour and nothing else: a ticker is text moving, with its spacing,
+  separator, speed, direction and data; it has no background. Background,
+  border, corners, padding and font are the element's, set in the editor
+  like any object's. A **look** (a preset) is a saved set of those, offered
+  per widget; variations are looks, not new widgets. Every widget scales
+  from its own box (`em`), so one look works at any size and shape. Write
+  the rule into AGENTS.md and a test that a widget's renderer sets no
+  background, border or font of its own.
+- **A screen says what it is.** It never reports its size. At pairing and
+  in every `state` call it sends its pixels (`innerWidth`, `innerHeight`,
+  `devicePixelRatio`), its browser, and its memory where the browser tells
+  it (`navigator.deviceMemory`, `performance.memory`); kept on the Display
+  Screen. Drawing stays on the channel's frame scaled to the screen: text
+  and shapes are sharp at 4K; a picture is as sharp as its file.
+- **Pictures as sharp as the screen, no sharper.** (Replaces "Pictures at
+  the screen's size" above.) No compression for its own sake: a picture is
+  resized only when it is larger than the largest screen it is shown on
+  (from what screens report: 3840 across for a 4K screen), at high
+  quality, never made larger, the original kept. Videos are not re-encoded;
+  a video beyond what a screen says it decodes is flagged on the playlist.
+- **What a channel weighs, and screens at risk.** For each channel: its
+  media's size, the memory its pictures take decoded (width × height × 4),
+  its videos, its widgets. Set against what each screen reports, the
+  Display Screen shows **At risk** before anything fails.
+- **Brakes before a crash.** A browser gives no warning before it runs out
+  of memory, so: where `performance.memory` exists, reload calmly between
+  slides past about 80% of the limit; reload every night at a quiet hour
+  (a channel setting, default 04:00); count restarts and why, and show them
+  on the Display Screen ("restarted 3 times today"). A frozen page cannot
+  save itself; restarting one is the native wrapper's job (Tizen, webOS,
+  Android TV), which is also what starts the player when a TV powers on.
 
