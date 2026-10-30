@@ -171,3 +171,9 @@ channel's schedule, slide playlist and music stay on the channel's form.
 
 Stage 6's registry work is done for OneWriter and OneWorkbook in the same
 pass, since neither is registered yet and all three share the same pieces.
+
+All seven are built. What came after them (any size, speaker notes and the
+presenter view, rulers, the master, fonts, PowerPoint, decks, data from
+records, OneAI's whole decks, sharing by link and the phone remote) was
+planned in the module's own scratchpad and is described in
+`onedesk/one_slide/AGENTS.md`; each step is a version in its changelog.
