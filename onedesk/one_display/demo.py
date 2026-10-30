@@ -24,8 +24,10 @@ CHANNEL = "Showroom Lobby"
 KIOSK = "Showroom Kiosk"
 WORKSHOP = "Workshop"
 MUSIC = "Showroom Calm"
+ZONE = "Showroom"
 BOARD = "Workshop Bays"
-SCREENS = (("Lobby TV", CHANNEL, "0"), ("Door Kiosk", KIOSK, "0"), ("Workshop TV", WORKSHOP, "0"))
+# the lobby's screen plays the showroom's sound itself; nothing else has speakers
+SCREENS = (("Lobby TV", CHANNEL, "0", ZONE), ("Door Kiosk", KIOSK, "0", None), ("Workshop TV", WORKSHOP, "0", None))
 SERVICES = (("Showroom Visit", "A"), ("Collections", "B"), ("Payments", "C"))
 COUNTERS = (("1", OWNER), ("2", "omar@one.test"), ("3", None))
 ROLES = {OWNER: "OneDisplay Manager", "omar@one.test": "OneDisplay User"}
@@ -178,16 +180,28 @@ def _screens():
 			"description": "The screen in the showroom's lobby",
 			"slide_playlist": "Showroom",
 			"widget_collection": CHANNEL,
+			"programme": [{"plays": "Screensaver", "days": "Every Day", "from_time": "22:00:00", "to_time": "07:00:00"}],
+		},
+	)
+	# what the showroom hears: its music, an ad, and the queue's calls (D6)
+	_make(
+		"Sound Zone",
+		ZONE,
+		{
+			"zone_name": ZONE,
+			"description": "The lobby's speakers",
 			"music_playlist": MUSIC,
 			"announce": 1,
-			"programme": [{"plays": "Screensaver", "days": "Every Day", "from_time": "22:00:00", "to_time": "07:00:00"}],
+			"programme": [{"plays": "Muted", "days": "Every Day", "from_time": "22:00:00", "to_time": "07:00:00"}],
 			"ads": [{"voice_ad": "Frameless Glass", "plays": "Every Few Minutes", "every": 20}],
 		},
 	)
+	if not frappe.db.get_value("Queue", QUEUE, "sound_zone"):
+		frappe.db.set_value("Queue", QUEUE, "sound_zone", ZONE)
 	_make(
 		"Display Channel",
 		KIOSK,
-		{"channel_name": KIOSK, "description": "The kiosk at the showroom's door", "widget_collection": KIOSK, "announce": 0},
+		{"channel_name": KIOSK, "description": "The kiosk at the showroom's door", "widget_collection": KIOSK},
 	)
 	_make(
 		"Display Channel",
@@ -196,7 +210,6 @@ def _screens():
 			"channel_name": WORKSHOP,
 			"description": "The screen over the workshop's benches",
 			"widget_collection": WORKSHOP,
-			"announce": 0,
 			"programme": [{"plays": "Screen Off", "days": "Every Day", "from_time": "20:00:00", "to_time": "06:00:00"}],
 		},
 	)
@@ -228,7 +241,7 @@ def _paired():
 	them on yet: each keeps a token nobody holds, so none can be played."""
 	from onedesk.one_display.screens import _hash
 
-	for screen_name, channel, rotate in SCREENS:
+	for screen_name, channel, rotate, zone in SCREENS:
 		if frappe.db.exists("Display Screen", {"screen_name": screen_name}):
 			continue
 		frappe.get_doc(
@@ -237,6 +250,7 @@ def _paired():
 				"screen_name": screen_name,
 				"channel": channel,
 				"rotate": rotate,
+				"sound_zone": zone,
 				"status": "Paired",
 				"token_hash": _hash(secrets.token_urlsafe(32)),
 				"device": "Paired in the demo",

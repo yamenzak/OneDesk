@@ -1,6 +1,10 @@
 // Preview plays the channel as a paired screen would, now.
 frappe.ui.form.on("Display Channel", {
 	refresh(frm) {
+		const grid = frm.fields_dict.programme.grid;
+		grid.update_docfield_property("plays", "options", "Slides\nWidgets\nScreensaver\nScreen Off");
+		grid.update_docfield_property("music_playlist", "hidden", 1);
+		grid.reset_grid();
 		if (frm.is_new()) return;
 		frm.add_custom_button(__("Preview"), () => window.open(`/tv?preview=${encodeURIComponent(frm.doc.name)}`, "_blank"));
 		if (frm.doc.widget_collection) {

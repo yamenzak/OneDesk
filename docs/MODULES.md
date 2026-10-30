@@ -219,8 +219,8 @@ No doctypes yet.
 | Display Board Item | 5 | child |
 | Display Board Person | 1 | child |
 | Display Board State | 3 | child |
-| Display Channel | 21 | document |
-| Display Screen | 32 | document |
+| Display Channel | 13 | document |
+| Display Screen | 35 | document |
 | Display Settings | 2 | single |
 | Display Slide | 9 | child |
 | Display Source | 33 | document |
@@ -228,11 +228,12 @@ No doctypes yet.
 | Display Voice | 5 | document |
 | Display Widget | 13 | child |
 | Music Playlist | 3 | document |
-| Queue | 4 | document |
+| Queue | 5 | document |
 | Queue Counter | 2 | child |
 | Queue Service | 2 | child |
 | Queue Ticket | 11 | document |
 | Slide Playlist | 3 | document |
+| Sound Zone | 11 | document |
 | Voice Ad | 8 | document |
 | Widget Collection | 7 | document |
 

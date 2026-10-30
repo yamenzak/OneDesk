@@ -244,8 +244,10 @@
 		// a video that does not loop holds the slide for its length (play.py),
 		// so it plays once; one whose length the editor never saw loops as before
 		var loop = element.loop || !(num(element.length) > 0);
+		// a video plays its own sound only when it says so and the page lets it (a screen's Plays Sound)
+		var loud = element.sound && root.onedesk && root.onedesk.play && root.onedesk.play.loud;
 		return '<div style="' + esc(box(element, rotated(element))) + '"><video src="' + esc(src) + '"' + (poster ? ' poster="' + esc(poster) + '"' : "") +
-			' muted autoplay' + (loop ? " loop" : "") + ' playsinline style="width:100%;height:100%;object-fit:cover;opacity:' + num(element.opacity, 100) / 100 + ";border-radius:" + num(element.borderRadius) + 'px"></video></div>';
+			(element.sound ? ' data-sound="1"' : "") + (loud ? "" : " muted") + ' autoplay' + (loop ? " loop" : "") + ' playsinline style="width:100%;height:100%;object-fit:cover;opacity:' + num(element.opacity, 100) / 100 + ";border-radius:" + num(element.borderRadius) + 'px"></video></div>';
 	}
 
 	function table(element) {

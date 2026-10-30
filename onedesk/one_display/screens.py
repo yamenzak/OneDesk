@@ -42,7 +42,10 @@ def _code() -> str:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=30, seconds=600)
-def start(device: Annotated[str | None, "What the screen says it is."] = None) -> dict:
+def start(
+	device: Annotated[str | None, "What the screen says it is."] = None,
+	kind: Annotated[str | None, "Screen, or Radio for /radio, which plays a zone's sound and shows nothing."] = None,
+) -> dict:
 	"""A new screen asks to be paired: it is given a code to show and a secret
 	only it holds."""
 	secret = secrets.token_urlsafe(24)
@@ -54,6 +57,7 @@ def start(device: Annotated[str | None, "What the screen says it is."] = None) -
 			"pair_code": _code(),
 			"secret_hash": _hash(secret),
 			"device": (device or "")[:500],
+			"kind": "Radio" if kind == "Radio" else "Screen",
 			"last_seen": now_datetime(),
 		}
 	).insert(ignore_permissions=True)
@@ -78,20 +82,26 @@ def status(screen: str, secret: str) -> dict:
 def pair(
 	code: Annotated[str, "The code the screen shows."],
 	screen_name: Annotated[str, "What to call the screen."],
-	channel: Annotated[str, "The channel it shows."],
+	channel: Annotated[str | None, "The channel it shows; a radio shows none."] = None,
 	rotate: Annotated[int, "Degrees to turn the picture: 0, 90, 180 or 270."] = 0,
+	sound_zone: Annotated[str | None, "The sound zone it plays, if any."] = None,
 ) -> str:
-	"""Pair the screen showing this code."""
+	"""Pair the screen or radio showing this code."""
 	frappe.has_permission(DOCTYPE, "write", throw=True)
 	name = frappe.db.get_value(DOCTYPE, {"pair_code": (code or "").strip(), "status": "Waiting to Pair"})
 	if not name:
 		frappe.throw(_("No screen is showing {0}. Check the code on the screen.").format(code))
 	token = secrets.token_urlsafe(32)
 	doc = frappe.get_doc(DOCTYPE, name)
+	if doc.kind == "Radio" and not sound_zone:
+		frappe.throw(_("A radio plays a sound zone. Choose which."))
+	if doc.kind != "Radio" and not channel:
+		frappe.throw(_("Choose the channel the screen shows."))
 	doc.update(
 		{
 			"screen_name": screen_name,
-			"channel": channel,
+			"channel": channel if doc.kind != "Radio" else None,
+			"sound_zone": sound_zone or None,
 			"rotate": str(cint(rotate)) if cint(rotate) in (0, 90, 180, 270) else "0",
 			"status": "Paired",
 			"pair_code": None,
@@ -109,6 +119,7 @@ def _screen(screen: str, token: str):
 		screen,
 		[
 			"name", "screen_name", "channel", "rotate", "muted", "dark", "command", "command_at", "token_hash", "last_seen",
+			"kind", "sound_zone", "plays_sound",
 			"boot", "restarts_today", "last_restart", "device",
 		],
 		as_dict=True,
@@ -212,13 +223,18 @@ def state(screen: str, token: str, have: str | None = None, report: str | None =
 		frappe.db.set_value(DOCTYPE, screen, "last_seen", now_datetime(), update_modified=False)
 	return {
 		"now": programme.now_ms(),
-		"screen": {"name": row.screen_name, "rotate": cint(row.rotate), "muted": row.muted, "dark": row.dark},
+		"screen": {
+			"name": row.screen_name, "rotate": cint(row.rotate), "muted": row.muted, "dark": row.dark,
+			"kind": row.kind or "Screen", "plays_sound": cint(row.plays_sound),
+		},
 		"command": {"name": row.command, "at": str(row.command_at or "")},
 		"alert": _alert(),
 		"brand": _brand(),
 		"zone": programme.zone_minutes(),
 		"today": programme.today_line(_language(row.channel)),
-		"channel": _channel(row.channel, have),
+		"channel": _channel(row.channel, have) if row.kind != "Radio" else None,
+		# what it plays for the speakers it is wired to, if any (programme.heard)
+		"sounds": programme.heard(row.sound_zone, _language(row.channel)),
 	}
 
 
@@ -253,10 +269,7 @@ def preview(
 			"mode": "show",
 			"muted": True,
 			"language": frappe.local.lang,
-			"announce": 0,
 			"slides": None,
-			"music": None,
-			"ads": [],
 			"layout": None,
 			"words": programme.words(),
 		}
@@ -269,7 +282,7 @@ def preview(
 	said["revision"] = programme._revision(said)
 	return {
 		"now": programme.now_ms(),
-		"screen": {"name": _("Preview"), "rotate": 0, "muted": 1, "dark": 0},
+		"screen": {"name": _("Preview"), "rotate": 0, "muted": 1, "dark": 0, "kind": "Screen", "plays_sound": 0},
 		"command": {"name": None, "at": ""},
 		"alert": _alert(),
 		"brand": _brand(),

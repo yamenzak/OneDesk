@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 
 import frappe
 from frappe import _
-from frappe.utils import cint, flt, get_system_timezone, get_time, getdate, now_datetime
+from frappe.utils import cint, flt, get_datetime, get_system_timezone, get_time, getdate, now_datetime
 
 from onedesk.one_display import sizes, sources, widgets
 
@@ -58,13 +58,13 @@ def _within(row, at: datetime) -> bool:
 
 
 def plays(channel, at: datetime | None = None) -> dict:
-	"""What the channel's schedule says now: its playlists, and whether it
-	sleeps, is off or is muted. A later row wins over an earlier one."""
+	"""What a channel's or a sound zone's schedule says now: its playlists, and
+	whether it sleeps, is off or is muted. A later row wins over an earlier one."""
 	at = at or now_datetime()
 	said = {
-		"slides": channel.slide_playlist,
-		"widgets": channel.widget_collection,
-		"music": channel.music_playlist,
+		"slides": channel.get("slide_playlist"),
+		"widgets": channel.get("widget_collection"),
+		"music": channel.get("music_playlist"),
 		"mode": "show",
 		"muted": False,
 	}
@@ -130,7 +130,7 @@ def _shown_now(row, at: datetime) -> bool:
 	return _within(frappe._dict(days="Every Day", from_time=row.from_time, to_time=row.to_time), at)
 
 
-def layout(name: str | None, lang: str, at: datetime | None = None, voice: str | None = None, edge: int | None = None) -> dict | None:
+def layout(name: str | None, lang: str, at: datetime | None = None, edge: int | None = None) -> dict | None:
 	"""A collection's widgets where they sit, each with what it shows now."""
 	if not name:
 		return None
@@ -148,12 +148,6 @@ def layout(name: str | None, lang: str, at: datetime | None = None, voice: str |
 		if row.widget_type == "Weather" and data.get("whole"):
 			for day in data["whole"].get("days") or []:
 				day["label"] = _babel(day.get("date"), "EEE", lang)
-		if row.widget_type == "Queue Board" and data.get("whole"):
-			from onedesk.one_display import voices
-
-			for call in data["whole"].get("called") or []:
-				call["say"] = _("Ticket {0}, counter {1}", lang=lang).format(_spoken(call["ticket"]), call["counter"] or "")
-				call["audio"] = voices.spoken(call["say"], lang, voice)
 		placed.append(
 			{
 				"id": row.name,
@@ -235,7 +229,7 @@ def ads(channel, lang: str, now: int | None = None) -> list[dict]:
 					{
 						"key": f"{row.name}:{at}",
 						"at": at,
-						"audio": _url(ad.audio) or voices.spoken(ad.script, ad.language or lang, ad.voice or channel.voice, ad.tone),
+						"audio": _url(ad.audio) or voices.spoken(ad.script, ad.language or lang, ad.voice or channel.get("voice"), ad.tone),
 						"text": ad.script,
 						"lang": ad.language or lang,
 						"chime": cint(ad.chime),
@@ -253,7 +247,6 @@ def light(said: dict) -> dict:
 		"light": 1,
 		"mode": said["mode"],
 		"muted": said["muted"],
-		"ads": said["ads"],
 		"data": {one["id"]: one["data"] for one in ((said.get("layout") or {}).get("widgets") or [])},
 		# a backdrop with chips, refilled each time its sources are read
 		**({"backdrop": backdrop} if (backdrop := (said.get("layout") or {}).get("backdrop") or {}).get("live") else {}),
@@ -300,11 +293,8 @@ def compose(channel_name: str, lang: str | None = None) -> dict:
 			"mode": now["mode"],
 			"muted": now["muted"],
 			"language": lang,
-			"announce": cint(channel.announce),
 			"slides": slides(now["slides"], edge=edge),
-			"layout": layout(now["widgets"], lang, at, channel.voice, edge),
-			"music": music(now["music"]),
-			"ads": ads(channel, lang),
+			"layout": layout(now["widgets"], lang, at, edge=edge),
 			"words": words(),
 			# the minute of the day screens reload at (screens.py, the brakes), or None
 			"reload_at": _minutes(channel.get("reload_at")),
@@ -313,6 +303,72 @@ def compose(channel_name: str, lang: str | None = None) -> dict:
 		frappe.local.lang = previous
 	said["revision"] = _revision(said)
 	return said
+
+
+def heard(zone_name: str | None, lang: str | None = None) -> dict | None:
+	"""What a sound zone plays now (D6 of SCRATCHPAD.md): its music, its voice
+	ads, the calls of the queues that name it, and when to play its music
+	quietly because a screen in it is playing a video's own sound. Played by
+	a radio, or by a screen with no speakers of its own."""
+	if not zone_name or not frappe.db.exists("Sound Zone", zone_name):
+		return None
+	zone = frappe.get_cached_doc("Sound Zone", zone_name)
+	lang = zone.voice_language or lang or frappe.db.get_default("lang") or "en"
+	previous = frappe.local.lang
+	frappe.local.lang = lang
+	try:
+		now = plays(zone)
+		return {
+			"name": zone.zone_name,
+			"language": lang,
+			"muted": now["muted"],
+			"announce": cint(zone.announce),
+			"music": music(now["music"]),
+			"ads": ads(zone, lang),
+			"calls": calls(zone, lang) if cint(zone.announce) else [],
+			"duck": duck(zone.name),
+		}
+	finally:
+		frappe.local.lang = previous
+
+
+def calls(zone, lang: str) -> list[dict]:
+	"""Today's calls of the queues that name the zone, newest first, each
+	with what is said, its recording, and the moment every player in the
+	zone starts it: a few seconds after the call, so all have it by then."""
+	from onedesk.one_display import queue as queues
+	from onedesk.one_display import voices
+
+	out = []
+	for name in frappe.get_all("Queue", filters={"sound_zone": zone.name}, pluck="name"):
+		for call in queues.board(name).get("called") or []:
+			say = _("Ticket {0}, counter {1}", lang=lang).format(_spoken(call["ticket"]), call["counter"] or "")
+			out.append({**call, "say": say, "audio": voices.spoken(say, lang, zone.voice), "start": _epoch(get_datetime(call["at"])) + CALL_DELAY})
+	return sorted(out, key=lambda one: one["start"], reverse=True)
+
+
+# how long after a call every player in the zone starts saying it
+CALL_DELAY = 3000
+
+
+def duck(zone: str) -> list[list[dict]]:
+	"""For each channel a screen in the zone shows with its sound on, the
+	length of each slide and whether it plays a video's sound: from the fixed
+	timing of the playlists, any player in the zone knows when to play its
+	music quietly."""
+	out = []
+	names = frappe.get_all("Display Screen", filters={"sound_zone": zone, "plays_sound": 1, "kind": "Screen", "channel": ["is", "set"]}, pluck="channel", distinct=True)
+	for name in names:
+		playing = slides(plays(frappe.get_cached_doc("Display Channel", name))["slides"])
+		items = (playing or {}).get("slides") or []
+		if any(_sounds(one) for one in items):
+			out.append([{"ms": one["ms"], "sound": 1 if _sounds(one) else 0} for one in items])
+	return out
+
+
+def _sounds(item: dict) -> bool:
+	"""Whether a slide plays a video's own sound. Pure."""
+	return any(one.get("type") == "video" and one.get("sound") for one in ((item.get("slide") or {}).get("elements") or []))
 
 
 # a 4K screen's, until a screen on the channel says what it is
@@ -364,7 +420,6 @@ def _revision(said: dict) -> str:
 	shape = {
 		"frame": [said["width"], said["height"]],
 		"slides": said["slides"],
-		"music": said["music"],
 		"layout": [
 			{k: v for k, v in one.items() if k != "data"} for one in ((said["layout"] or {}).get("widgets") or [])
 		],

@@ -36,7 +36,7 @@ def onedisplay_pairs_a_screen_and_runs_the_queue():
 	token once; its kiosk widget hands out a ticket, which Omar calls, calls
 	again and closes while the lobby's board shows it; Layla mutes the kiosk
 	and sends every screen an alert, which Omar is told of, then ends it."""
-	from onedesk.one_display import queue, screens
+	from onedesk.one_display import programme, queue, screens
 
 	with as_user("Guest"):
 		started = screens.start("check")
@@ -75,7 +75,11 @@ def onedisplay_pairs_a_screen_and_runs_the_queue():
 			lobby = screens.preview(channel=CHANNEL)["channel"]
 			called = _widget(lobby, "Queue Board")["data"]["whole"]["called"]
 			mine = next(one for one in called if one["ticket"] == ticket["ticket"])
-			assert mine["counter"] == "2" and mine["say"], mine
+			assert mine["counter"] == "2", mine
+			# the call is said in the queue's sound zone (D6), not by the board
+			said = programme.heard(frappe.db.get_value("Queue", QUEUE, "sound_zone"))["calls"]
+			mine = next(one for one in said if one["ticket"] == ticket["ticket"])
+			assert mine["say"] and mine["start"] > programme.now_ms() - 600000, mine
 		with as_user("omar@one.test"):
 			assert queue.finish(served["name"], "No Show")["serving"] is None
 			assert queue.counter_state(QUEUE, "2")["serving"] is None
@@ -290,7 +294,7 @@ def onedisplay_shows_data_and_media_without_the_editor():
 			assert shown.get("projects.value"), shown
 			drawn = play.for_screen(name, 10)[0]["slide"]["elements"][0]["content"]
 			assert "{projects" not in drawn and "underway" in drawn, drawn
-		assert programme.light({"revision": "r", "mode": "show", "muted": 0, "ads": [], "layout": {"widgets": [], "backdrop": {"live": 1, "elements": []}}})["backdrop"], "a backdrop with chips is sent with every answer"
+		assert programme.light({"revision": "r", "mode": "show", "muted": 0, "layout": {"widgets": [], "backdrop": {"live": 1, "elements": []}}})["backdrop"], "a backdrop with chips is sent with every answer"
 		before = frappe.cache.get_value(sources.FRESH.format("Projects Underway"))
 		frappe.cache.delete_value(live.READ)
 		frappe.flags.one_display_woken = False
@@ -378,6 +382,51 @@ def onedisplay_keeps_a_board():
 	finally:
 		frappe.db.rollback(save_point="onedisplay_board")
 		frappe.clear_document_cache("Display Board", "Check Board")
+
+
+@check
+def onedisplay_plays_sound_by_zone():
+	"""A channel is only what is seen; the showroom's zone plays its music, ad
+	and calls. A radio pairs to a zone and shows nothing; a radio without a
+	zone is refused. A screen's video plays its own sound only when it says
+	so, and the zone's music is quieter while it does. A zone's schedule may
+	only change what is heard, and a channel's no longer plays music."""
+	from onedesk.one_display import programme, screens
+
+	zone = frappe.db.get_value("Queue", QUEUE, "sound_zone")
+	heard = programme.heard(zone)
+	assert heard["music"]["tracks"] and heard["announce"] and isinstance(heard["calls"], list), heard
+	lobby = programme.compose(CHANNEL)
+	assert not {"music", "ads", "announce"} & set(lobby), "a channel is only what is seen"
+	with as_user("Guest"):
+		started = screens.start("check", kind="Radio")
+	with as_user(OWNER):
+		try:
+			screens.pair(started["code"], "Check Radio")
+			raise AssertionError("a radio plays a zone")
+		except frappe.ValidationError:
+			frappe.clear_messages()
+		radio = screens.pair(started["code"], "Check Radio", sound_zone=zone)
+	try:
+		with as_user("Guest"):
+			token = screens.status(started["screen"], started["secret"])["token"]
+			said = screens.state(radio, token)
+			assert said["channel"] is None and said["sounds"]["name"] == heard["name"] and said["screen"]["kind"] == "Radio", said
+	finally:
+		frappe.delete_doc("Display Screen", radio, ignore_permissions=True, force=True)
+	video = {"slide": {"elements": [{"type": "video", "sound": True}]}}
+	assert programme._sounds(video) and not programme._sounds({"slide": {"elements": [{"type": "video"}]}})
+	with mock.patch("onedesk.one_display.programme.slides", return_value={"slides": [{**video, "ms": 8000}, {"slide": {"elements": []}, "ms": 4000}]}):
+		assert programme.duck(zone) == [[{"ms": 8000, "sound": 1}, {"ms": 4000, "sound": 0}]], "a zone knows when a screen in it plays a video's sound"
+	for doctype, row in (("Sound Zone", {"plays": "Slides", "slide_playlist": "Showroom"}), ("Display Channel", {"plays": "Music", "music_playlist": heard["music"]["name"]})):
+		doc = frappe.get_doc(doctype, zone if doctype == "Sound Zone" else CHANNEL)
+		doc.append("programme", {**row, "days": "Every Day", "from_time": "09:00:00", "to_time": "10:00:00"})
+		try:
+			doc.save(ignore_permissions=True)
+			raise AssertionError(f"a {doctype} plays {row['plays']}")
+		except frappe.ValidationError:
+			frappe.clear_messages()
+			frappe.clear_document_cache(doctype, doc.name)
 
 
 @check
@@ -567,8 +616,8 @@ def onedisplay_makes_music_in_the_background():
 		written.setframerate(8000)
 		written.writeframes(b"\x00\x00" * 8000 * 3)
 	song = base64.b64encode(sound.getvalue()).decode()
-	tracks = frappe.get_doc("Display Channel", CHANNEL).music_playlist
-	assert tracks, "the showroom channel has music"
+	tracks = frappe.db.get_value("Sound Zone", frappe.db.get_value("Queue", QUEUE, "sound_zone"), "music_playlist")
+	assert tracks, "the showroom's zone has music"
 	told = []
 	with as_user(OWNER), mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch(
 		"onedesk.one_ai.run.make", side_effect=lambda job, text, reference=None, voice=None: {"data": song, "mime": "audio/wav"}

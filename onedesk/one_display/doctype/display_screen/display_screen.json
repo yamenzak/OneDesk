@@ -6,6 +6,9 @@
  "field_order": [
   "screen_name",
   "channel",
+  "kind",
+  "sound_zone",
+  "plays_sound",
   "rotate",
   "column_break_state",
   "status",
@@ -50,7 +53,33 @@
    "fieldtype": "Link",
    "label": "Channel",
    "options": "Display Channel",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "depends_on": "eval:doc.kind!='Radio'"
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Screen\nRadio",
+   "default": "Screen",
+   "read_only": 1,
+   "in_list_view": 1,
+   "description": "A radio plays a zone's sound and shows nothing; it opened /radio."
+  },
+  {
+   "fieldname": "sound_zone",
+   "fieldtype": "Link",
+   "label": "Sound Zone",
+   "options": "Sound Zone",
+   "description": "The zone whose music, ads and calls it plays. Empty when speakers elsewhere play them."
+  },
+  {
+   "fieldname": "plays_sound",
+   "fieldtype": "Check",
+   "label": "Plays Sound",
+   "default": "1",
+   "depends_on": "eval:doc.kind!='Radio'",
+   "description": "Plays the sound of videos whose own Plays Sound is on."
   },
   {
    "fieldname": "rotate",
@@ -242,7 +271,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 20:50:54.668379",
+ "modified": "2026-10-30 21:47:43.613381",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Screen",

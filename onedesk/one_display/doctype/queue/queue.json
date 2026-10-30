@@ -6,6 +6,7 @@
  "field_order": [
   "queue_name",
   "wait_alert",
+  "sound_zone",
   "services",
   "counters"
  ],
@@ -25,6 +26,13 @@
    "non_negative": 1
   },
   {
+   "fieldname": "sound_zone",
+   "fieldtype": "Link",
+   "label": "Sound Zone",
+   "options": "Sound Zone",
+   "description": "Where its calls are said."
+  },
+  {
    "fieldname": "services",
    "fieldtype": "Table",
    "label": "Services",
@@ -40,7 +48,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 09:00:00.000000",
+ "modified": "2026-10-30 21:47:43.630888",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue",

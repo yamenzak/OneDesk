@@ -12,6 +12,10 @@
 		<PropertyRow :label="__('Loop')" class="cursor-pointer" @click="toggleFromRow($event, 'loop')">
 			<Switch :modelValue="activeElement.loop" @update:modelValue="setLoop" />
 		</PropertyRow>
+		<!-- One: its own sound on a screen whose Plays Sound is on; every other video plays silent (VENDORED.md) -->
+		<PropertyRow :label="__('Plays Sound')" class="cursor-pointer" @click="toggleFromRow($event, 'sound')">
+			<Switch :modelValue="Boolean(activeElement.sound)" @update:modelValue="(value) => setElementProperty('sound', value)" />
+		</PropertyRow>
 		<NumberControl
 			:modelValue="activeElement.playbackRate ?? 1"
 			:label="__('Speed')"

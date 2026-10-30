@@ -14,8 +14,10 @@
 	var W = TV.words || {};
 	var PREVIEW = TV.preview;
 	var API = "/api/method/onedesk.one_display.screens.";
-	var KEY = "one_tv";
-	var KEPT = "one_tv_state";
+	// /radio plays a sound zone and shows nothing (programme.heard); it pairs as a screen does
+	var RADIO = !!TV.radio;
+	var KEY = RADIO ? "one_radio" : "one_tv";
+	var KEPT = RADIO ? "one_radio_state" : "one_tv_state";
 	var EVERY = 2000;
 	// While the socket is live a screen is woken by every change, so it asks
 	// on its own only to catch what changes without one: a source's records.
@@ -28,6 +30,11 @@
 	var woken = false;
 	var listening = false;
 	var skew = 0;
+	// the round trip the clock was last set from: the quickest answer says the time best
+	var bestTrip = Infinity;
+	var bestAt = 0;
+	// what this player plays for its speakers, if any: a zone's music, ads and calls
+	var soundZone = null;
 	var zone = 0;
 	var screen = { rotate: 0, muted: 0, dark: 0 };
 	var brand = {};
@@ -134,7 +141,13 @@
 			} catch (e) {}
 			if (xhr.status === 200 && reply) {
 				var m = reply.message;
-				if (m && m.now) skew = m.now - (sent + Date.now()) / 2;
+				var trip = Date.now() - sent;
+				// keep the quickest answer's clock; let it age so a changed network is learnt again
+				if (m && m.now && (trip <= bestTrip * 1.25 || Date.now() - bestAt > 600000)) {
+					skew = m.now - (sent + Date.now()) / 2;
+					bestTrip = Math.min(trip, Date.now() - bestAt > 600000 ? trip : bestTrip);
+					bestAt = Date.now();
+				}
 				return done(m);
 			}
 			if (fail) fail(xhr.status, reply);
@@ -157,7 +170,7 @@
 		if (PREVIEW) return preview();
 		if (saved.token) return poll();
 		if (saved.screen && saved.secret) return waitForPair();
-		call("start", { device: navigator.userAgent }, function (m) {
+		call("start", { device: navigator.userAgent, kind: RADIO ? "Radio" : "Screen" }, function (m) {
 			saved = { screen: m.screen, secret: m.secret };
 			store(KEY, saved);
 			showCode(m.code);
@@ -339,6 +352,11 @@
 		lastCommand = command.at || "";
 		zone = m.zone || 0;
 		screen = m.screen || screen;
+		soundZone = PREVIEW ? null : m.sounds || null;
+		// a video's own sound plays where the screen and the slide both say so (play.js)
+		if (window.onedesk && onedesk.play) onedesk.play.loud = !!(screen.plays_sound && !screen.muted && unlocked);
+		announce((soundZone && soundZone.calls) || []);
+		if (RADIO) drawRadio();
 		brand = m.brand || {};
 		today = m.today || today;
 		var next = m.channel;
@@ -417,8 +435,9 @@
 	function drawAlert(message) {
 		show("alert", !!message);
 		text("alert", message || "");
-		if (message && message !== lastAlert && !screen.muted) {
-			sound({ chime: 3, text: message, lang: channel && channel.language });
+		// shown on every screen; said by whatever plays a zone, so once in every zone
+		if (message && message !== lastAlert && !screen.muted && soundZone) {
+			sound({ chime: 3, text: message, lang: soundZone.language });
 		}
 		lastAlert = message || null;
 	}
@@ -527,13 +546,36 @@
 		return null;
 	}
 
-	function joined(video, into) {
-		video.muted = true;
+	function joined(video, into, started) {
+		video.muted = !(video.getAttribute("data-sound") && onedesk.play.loud);
 		video.addEventListener("loadedmetadata", function () {
 			try {
 				video.currentTime = (into / 1000) % (video.duration || 1);
 			} catch (e) {}
 		});
+		// kept to the shared clock by speed rather than jumps, so its sound runs on
+		var keeping = setInterval(function () {
+			if (!video.parentNode) return clearInterval(keeping);
+			if (video.readyState < 2 || !video.duration) return;
+			steer(video, ((now() - started) / 1000) % video.duration);
+		}, 2000);
+	}
+
+	/* In step: a player a little off its place catches up or waits by
+	   playing a few percent faster or slower; only one far off jumps. */
+
+	function steer(media, want) {
+		var off = want - media.currentTime;
+		if (Math.abs(off) > 2) {
+			try {
+				media.currentTime = want;
+			} catch (e) {}
+			media.playbackRate = 1;
+		} else if (Math.abs(off) > 0.05) {
+			media.playbackRate = 1 + Math.max(-0.05, Math.min(0.05, off * 0.1));
+		} else if (media.playbackRate !== 1) {
+			media.playbackRate = 1;
+		}
 	}
 
 	function playSlides() {
@@ -562,7 +604,7 @@
 			// a slide of another shape: whole with bands, or filling the screen when its row says so
 			if (item.fill) onedesk.play.fit(node, true);
 			var videos = node.getElementsByTagName("video");
-			for (var v = 0; v < videos.length; v++) joined(videos[v], at.into);
+			for (var v = 0; v < videos.length; v++) joined(videos[v], at.into, now() - at.into);
 		} else {
 			var frame = el("iframe");
 			frame.setAttribute("sandbox", "allow-scripts");
@@ -595,8 +637,8 @@
 
 	function playMusic() {
 		var audio = $("music");
-		var list = channel && channel.mode === "show" && channel.music ? channel.music.tracks : [];
-		var quiet = !channel || screen.muted || channel.muted || !list.length;
+		var list = soundZone && soundZone.music ? soundZone.music.tracks : [];
+		var quiet = !soundZone || screen.muted || soundZone.muted || !list.length;
 		if (quiet) {
 			if (!audio.paused) audio.pause();
 			music.index = -1;
@@ -615,12 +657,11 @@
 					if (at) audio.currentTime = at.into / 1000;
 				} catch (e) {}
 			});
-		} else if (Math.abs(audio.currentTime - want) > 0.6 && audio.readyState > 0) {
-			try {
-				audio.currentTime = want;
-			} catch (e) {}
+		} else if (audio.readyState > 0) {
+			steer(audio, want);
 		}
-		audio.volume = (channel.music.volume / 100) * (speaking ? 0.2 : 1);
+		// lower under a call or an ad, and under a video playing its own sound in the zone
+		audio.volume = (soundZone.music.volume / 100) * (speaking ? 0.2 : ducked() ? 0.25 : 1);
 		if (audio.paused) {
 			var playing = audio.play();
 			if (playing && playing.catch) playing.catch(function () {});
@@ -632,10 +673,10 @@
 	var played = {};
 
 	function playAds() {
-		if (!channel || !channel.ads || screen.muted || channel.muted || channel.mode !== "show") return;
+		if (!soundZone || !soundZone.ads || screen.muted || soundZone.muted) return;
 		var t = now();
-		for (var i = 0; i < channel.ads.length; i++) {
-			var ad = channel.ads[i];
+		for (var i = 0; i < soundZone.ads.length; i++) {
+			var ad = soundZone.ads[i];
 			if (played[ad.key] || t < ad.at || t - ad.at > 20000) continue;
 			played[ad.key] = 1;
 			sound({ chime: ad.chime ? 1 : 0, audio: ad.audio, text: ad.text, lang: ad.lang });
@@ -661,7 +702,11 @@
 		return audioContext;
 	}
 
+	var unlocked = false;
+
 	function unlock() {
+		unlocked = true;
+		if (window.onedesk && onedesk.play) onedesk.play.loud = !!(screen.plays_sound && !screen.muted);
 		var ctx = context();
 		if (ctx && ctx.state === "suspended" && ctx.resume) ctx.resume();
 		if (window.speechSynthesis) {
@@ -968,7 +1013,6 @@
 						line.appendChild(el("div", "c big", services[j].waiting));
 						waiting.appendChild(line);
 					}
-					announce(board.called || []);
 				},
 			};
 		},
@@ -1192,18 +1236,37 @@
 			if (heard && !heard[called[i].id]) fresh.unshift(called[i]);
 		}
 		heard = seen;
-		if (!channel || !channel.announce || screen.muted || channel.muted || PREVIEW) {
+		if (!soundZone || !soundZone.announce || screen.muted || soundZone.muted || PREVIEW) {
 			pending = {};
 			return;
 		}
-		for (i = 0; i < fresh.length; i++) pending[fresh[i].id] = Date.now() + 4000;
-		for (i = 0; i < called.length; i++) {
-			var call = called[i];
-			if (!pending[call.id]) continue;
-			if (call.audio || Date.now() > pending[call.id]) {
-				delete pending[call.id];
-				sound({ chime: 1, audio: call.audio, text: call.say || call.ticket, lang: channel.language });
+		for (i = 0; i < fresh.length; i++) pending[fresh[i].id] = fresh[i].start || now();
+		calling(called);
+	}
+
+	// every player in a zone starts a call at the one moment the server set,
+	// with its recording if it has come, else in the player's own voice
+	function calling(called) {
+		var waits = false;
+		for (var i = 0; i < called.length; i++) {
+			var one = called[i];
+			if (!pending[one.id]) continue;
+			if (now() < pending[one.id]) {
+				waits = true;
+				continue;
 			}
+			if (one.audio || now() > pending[one.id] + 4000) {
+				delete pending[one.id];
+				sound({ chime: 1, audio: one.audio, text: one.say || one.ticket, lang: soundZone.language });
+			} else {
+				waits = true;
+			}
+		}
+		if (waits) {
+			clearTimeout(callTimer);
+			callTimer = setTimeout(function () {
+				calling((soundZone && soundZone.calls) || []);
+			}, 250);
 		}
 	}
 
@@ -1211,6 +1274,28 @@
 	   the first time a screen shows the call, before the screen's own voice
 	   says it instead. */
 	var pending = {};
+	var callTimer = null;
+
+	// whether a screen in this zone is playing a video's own sound now, from
+	// its playlist's fixed timing (programme.duck)
+	function ducked() {
+		var lists = (soundZone && soundZone.duck) || [];
+		for (var i = 0; i < lists.length; i++) {
+			var at = where(lists[i], now());
+			if (at && lists[i][at.index].sound) return true;
+		}
+		return false;
+	}
+
+	// a radio shows only what it plays and where
+	function drawRadio() {
+		show("frame", false);
+		show("radio", true);
+		text("radio-zone", soundZone ? soundZone.name : "");
+		var tracks = soundZone && soundZone.music ? soundZone.music.tracks : [];
+		var at = tracks.length ? where(tracks, now()) : null;
+		text("radio-now", at ? tracks[at.index].title || "" : W.silent || "");
+	}
 
 	var taking = false;
 

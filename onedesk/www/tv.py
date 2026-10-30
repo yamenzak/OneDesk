@@ -22,6 +22,8 @@ def get_context(context):
 	context.rtl = context.lang in ("ar", "he", "fa", "ur")
 	preview = frappe.form_dict.get("preview")
 	collection = frappe.form_dict.get("collection")
+	# /radio is this page playing a sound zone and showing nothing (hooks.py website_route_rules)
+	context.radio = frappe.local.request.path.rstrip("/").endswith("/radio") if getattr(frappe.local, "request", None) else False
 	context.preview_json = json.dumps(
 		{"channel": preview or None, "collection": collection, "embed": bool(frappe.form_dict.get("embed"))}
 		if (preview or collection) and frappe.session.user != "Guest"
@@ -34,8 +36,11 @@ def get_context(context):
 	)
 	context.words_json = json.dumps(
 		{
-			"pair": _("Pair this screen"),
-			"how": _("In OneDisplay, open Display Screen, choose Add Display Screen and enter this code."),
+			"pair": _("Pair this radio") if context.radio else _("Pair this screen"),
+			"how": _("In OneDisplay, open Display Screen, choose Add Display Screen, enter this code and choose its sound zone.")
+			if context.radio
+			else _("In OneDisplay, open Display Screen, choose Add Display Screen and enter this code."),
+			"silent": _("Nothing is playing now."),
 			"counter": _("Counter"),
 			"waiting": _("Waiting"),
 			"nobody": _("Nobody is being served yet."),

@@ -1,0 +1,133 @@
+{
+ "actions": [],
+ "creation": "2026-10-31 03:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "links": [],
+ "modified": "2026-10-30 21:47:43.578750",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Sound Zone",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:zone_name",
+ "title_field": "zone_name",
+ "description": "What is heard where one set of speakers is: its music, voice ads and the calls of its queues.",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "fields": [
+  {
+   "fieldname": "zone_name",
+   "fieldtype": "Data",
+   "label": "Zone Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Location",
+   "description": "Such as the lobby and the waiting area."
+  },
+  {
+   "fieldname": "column_break_name",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "announce",
+   "fieldtype": "Check",
+   "label": "Says Calls",
+   "default": "1",
+   "description": "Says each call of the queues that name this zone."
+  },
+  {
+   "fieldname": "voice_language",
+   "fieldtype": "Link",
+   "label": "Announcement Language",
+   "options": "Language"
+  },
+  {
+   "fieldname": "voice",
+   "fieldtype": "Select",
+   "label": "Voice",
+   "options": "\nKore\nPuck\nCharon\nAoede\nFenrir\nLeda\nOrus\nZephyr",
+   "default": "Kore",
+   "description": "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
+  },
+  {
+   "fieldname": "section_music",
+   "fieldtype": "Section Break",
+   "label": "Music"
+  },
+  {
+   "fieldname": "music_playlist",
+   "fieldtype": "Link",
+   "label": "Music Playlist",
+   "options": "Music Playlist"
+  },
+  {
+   "fieldname": "programme",
+   "fieldtype": "Table",
+   "label": "Schedule",
+   "options": "Channel Programme",
+   "description": "Other music, or none, at certain times. A later row wins."
+  },
+  {
+   "fieldname": "section_ads",
+   "fieldtype": "Section Break",
+   "label": "Voice Ads"
+  },
+  {
+   "fieldname": "ads",
+   "fieldtype": "Table",
+   "label": "Voice Ads",
+   "options": "Channel Ad"
+  }
+ ],
+ "field_order": [
+  "zone_name",
+  "description",
+  "column_break_name",
+  "announce",
+  "voice_language",
+  "voice",
+  "section_music",
+  "music_playlist",
+  "programme",
+  "section_ads",
+  "ads"
+ ]
+}

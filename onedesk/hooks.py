@@ -1546,6 +1546,8 @@ website_route_rules = [
 	{"from_route": "/account/invoices", "to_route": "account_invoices"},
 	{"from_route": "/account/profile", "to_route": "account_profile"},
 	{"from_route": "/your-data", "to_route": "your_data"},
+	# a radio is the TV page playing a sound zone (www/tv.py)
+	{"from_route": "/radio", "to_route": "tv"},
 ]
 
 has_website_permission = {

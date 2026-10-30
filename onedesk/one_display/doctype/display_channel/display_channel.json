@@ -14,17 +14,10 @@
   "section_plays",
   "slide_playlist",
   "widget_collection",
-  "column_break_plays",
-  "music_playlist",
-  "section_voice",
-  "announce",
   "voice_language",
-  "column_break_voice",
-  "voice",
+  "voice_language",
   "section_programme",
-  "programme",
-  "section_ads",
-  "ads"
+  "programme"
  ],
  "fields": [
   {
@@ -92,43 +85,11 @@
    "options": "Widget Collection"
   },
   {
-   "fieldname": "column_break_plays",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "music_playlist",
-   "fieldtype": "Link",
-   "label": "Music Playlist",
-   "options": "Music Playlist"
-  },
-  {
-   "fieldname": "section_voice",
-   "fieldtype": "Section Break",
-   "label": "Voice"
-  },
-  {
-   "fieldname": "announce",
-   "fieldtype": "Check",
-   "label": "Announce Calls Aloud",
-   "default": "1"
-  },
-  {
    "fieldname": "voice_language",
    "fieldtype": "Link",
-   "label": "Announcement Language",
-   "options": "Language"
-  },
-  {
-   "fieldname": "column_break_voice",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "voice",
-   "fieldtype": "Select",
-   "label": "Voice",
-   "options": "\nKore\nPuck\nCharon\nAoede\nFenrir\nLeda\nOrus\nZephyr",
-   "default": "Kore",
-   "description": "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
+   "label": "Language",
+   "options": "Language",
+   "description": "The language of the words on its screens. Empty is the workspace's."
   },
   {
    "fieldname": "section_programme",
@@ -141,21 +102,10 @@
    "fieldtype": "Table",
    "label": "Schedule",
    "options": "Channel Programme"
-  },
-  {
-   "fieldname": "section_ads",
-   "fieldtype": "Section Break",
-   "label": "Voice Ads"
-  },
-  {
-   "fieldname": "ads",
-   "fieldtype": "Table",
-   "label": "Voice Ads",
-   "options": "Channel Ad"
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:01:31.930399",
+ "modified": "2026-10-30 21:47:43.595499",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Channel",

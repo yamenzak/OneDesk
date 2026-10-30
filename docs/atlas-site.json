@@ -2567,6 +2567,11 @@
 "Social Login Key": [
 "System Manager"
 ],
+"Sound Zone": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "South Africa VAT Settings": [
 "Accounts Manager",
 "Accounts User",
@@ -3450,6 +3455,7 @@
 "Sidebar",
 "Skill",
 "Slide Playlist",
+"Sound Zone",
 "Staffing Plan",
 "Stock Entry",
 "Stock Entry Type",

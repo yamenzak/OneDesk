@@ -63,7 +63,8 @@
 		.single { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
 		.single .big { font-size: 2em; margin: 0.15em 0; white-space: nowrap; }
 
-		/* Over the frame: pairing, sleep, dark, the alert, a kiosk's ticket. */
+		/* Over the frame: pairing, sleep, dark, the alert, a kiosk's ticket, a radio. */
+		#radio { background: #0b0d10; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; text-align: center; font-size: 5vmin; }
 		.over { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
 		#pair, #ticket { background: #0b0d10; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
 		#pair .label { font-size: 2.4vmin; letter-spacing: 0.3vmin; text-transform: uppercase; color: #9ca3af; }
@@ -90,6 +91,7 @@
 		<div class="code" id="code">······</div>
 		<p id="pair-how"></p>
 	</div>
+	<div id="radio" class="over hidden"><div class="radio-in"><div id="radio-zone" class="eyebrow"></div><div id="radio-now"></div></div></div>
 	<div id="saver" class="over hidden"><div class="drift" id="drift"><div id="saver-clock"></div><img id="saver-logo" class="hidden" alt=""></div></div>
 	<div id="ticket" class="over hidden">
 		<div class="a" id="ticket-label"></div>
@@ -101,7 +103,7 @@
 	<div id="status"><span id="hint" class="hidden"></span> <span id="offline" class="dot hidden"></span></div>
 	<audio id="music" preload="auto"></audio>
 	<script>
-		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }}, preview: {{ preview_json }}, socket: {{ socket_json }} };
+		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }}, preview: {{ preview_json }}, socket: {{ socket_json }}, radio: {{ 1 if radio else 0 }} };
 	</script>
 	<link rel="stylesheet" href="/assets/frappe/css/fonts/inter/inter.css">
 	<link rel="stylesheet" href="/assets/onedesk/slide/fonts.css">

@@ -1,4 +1,4 @@
-// Screens: a TV opens /tv and shows a code; Pair a Screen takes the code here.
+// Screens: a TV opens /tv, or a radio /radio, and shows a code; Pair a Screen takes the code here.
 frappe.provide("onedesk.display");
 
 onedesk.display.pair = (listview) => {
@@ -10,10 +10,17 @@ onedesk.display.pair = (listview) => {
 				fieldtype: "Data",
 				label: __("Code"),
 				reqd: 1,
-				description: __("The code the screen shows once {0} is open on it.", [`${location.origin}/tv`]),
+				description: __("The code a screen shows once {0} is open on it, or a radio once {1} is.", [`${location.origin}/tv`, `${location.origin}/radio`]),
 			},
 			{ fieldname: "screen_name", fieldtype: "Data", label: __("Screen Name"), reqd: 1 },
-			{ fieldname: "channel", fieldtype: "Link", options: "Display Channel", label: __("Channel"), reqd: 1 },
+			{ fieldname: "channel", fieldtype: "Link", options: "Display Channel", label: __("Channel"), description: __("What a screen shows; a radio leaves it empty.") },
+			{
+				fieldname: "sound_zone",
+				fieldtype: "Link",
+				options: "Sound Zone",
+				label: __("Sound Zone"),
+				description: __("The music, ads and calls it plays; a radio needs one."),
+			},
 			{
 				fieldname: "rotate",
 				fieldtype: "Select",

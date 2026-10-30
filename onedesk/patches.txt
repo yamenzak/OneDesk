@@ -9,6 +9,7 @@ onedesk.one_display.patches.widgets_from_queue
 onedesk.one_display.patches.presentations_on_screens
 onedesk.one_display.patches.sizes_from_orientation
 onedesk.one_display.patches.number_and_list_are_words
+onedesk.one_display.patches.sound_in_zones
 
 [post_fixture_sync]
 onedesk.one_crm.patches.add_on_hold
