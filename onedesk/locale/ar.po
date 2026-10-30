@@ -6333,6 +6333,10 @@ msgstr ""
 msgid "Before Insert"
 msgstr ""
 
+#: onedesk/one_slide/ai.py:413
+msgid "Before OneAI wrote slides"
+msgstr "قبل أن يكتب OneAI الشرائح"
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Before Save"
@@ -10143,6 +10147,10 @@ msgstr "تعذّرت إضافة الخط: {0} ليس في فهرس Google."
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:51
 msgid "Could not add the sheets."
 msgstr "تعذرت إضافة الأوراق."
+
+#: onedesk/one_slide/ai.py:424
+msgid "Could not change the slide: it is no longer in the presentation."
+msgstr "تعذّر تغيير الشريحة: لم تعد موجودة في العرض."
 
 #: frontend/src/sheet/shim/CellProblem.vue:61 onedesk/one_sheet/table.py:644
 msgid "Could not create the record."
@@ -20611,6 +20619,10 @@ msgstr "في المخزون ومفوتر."
 msgid "In stock; the bill from {0} is still to come."
 msgstr "في المخزون؛ فاتورة {0} لم تصل بعد."
 
+#: frontend/src/slide/shim/EditorNavbar.vue:318
+msgid "In the OneAI Panel"
+msgstr "في لوحة OneAI"
+
 #: onedesk/one_studio/doctype/extension/extension.js:94
 msgid "In the browser"
 msgstr "في المتصفح"
@@ -24882,6 +24894,10 @@ msgstr "تصغير"
 msgid "Make Subcontracting Order"
 msgstr "أنشئ أمر التصنيع لدى الغير"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:324
+msgid "Make This Slide a Timeline"
+msgstr "تحويل هذه الشريحة إلى خط زمني"
+
 #: frontend/src/inventory/item/ItemVariantsMake.vue:127
 msgid "Make Variants"
 msgstr "إنشاء المتغيّرات"
@@ -24996,6 +25012,10 @@ msgstr "تصغير اللوحة"
 msgid "Make its subcontracting order to send the materials"
 msgstr "أنشئ أمر التصنيع لدى الغير لإرسال المواد"
 
+#: onedesk/one_slide/ai.py:377
+msgid "Make slide {0} a {1}"
+msgstr "تحويل الشريحة {0} إلى {1}"
+
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:9
 msgid "Make the Recording"
 msgstr "صنع التسجيل"
@@ -25007,6 +25027,10 @@ msgstr "إجراء التغييرات التي يقترحها فحص الدفا�
 #: onedesk/one_inventory/abilities.py:26
 msgid "Make the changes Inventory Check offers, such as turning on batches or naming the home warehouse."
 msgstr "إجراء التغييرات التي يقترحها فحص المخزون، مثل تفعيل الدفعات أو تحديد المستودع الرئيسي."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:324
+msgid "Make this slide a timeline."
+msgstr "حوّل هذه الشريحة إلى خط زمني."
 
 #: onedesk/one_hr/passkey.py:82
 msgid "Make your passkey on your phone."
@@ -38419,9 +38443,17 @@ msgstr "مسحوب"
 msgid "Revoked by {0}: {1}"
 msgstr "سحبها {0}: {1}"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:321
+msgid "Rewrite This Slide"
+msgstr "إعادة صياغة هذه الشريحة"
+
 #: onedesk/one_doc/ai.py:195
 msgid "Rewrite in {0}"
 msgstr "إعادة صياغة في {0}"
+
+#: onedesk/one_slide/ai.py:336
+msgid "Rewrite slide {0} in {1}"
+msgstr "إعادة صياغة الشريحة {0} في {1}"
 
 #: onedesk/one/ai.py:406
 msgid "Rewrite the text of the notification I have open so it is short, plain and friendly, and keeps every slot it uses. Suggest it as a change I can apply."
@@ -38430,6 +38462,10 @@ msgstr "أعد كتابة نص الإشعار المفتوح لدي ليكون �
 #: onedesk/one/ai.py:405
 msgid "Rewrite this notification"
 msgstr "أعد كتابة هذا الإشعار"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:321
+msgid "Rewrite this slide so it reads better."
+msgstr "أعد صياغة هذه الشريحة لتصبح أوضح."
 
 #. Option for the 'Audit' (Select) field in DocType 'Reading Action'
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:12
@@ -40823,6 +40859,14 @@ msgstr "نقص في {0}، يلزم {1} إضافية"
 msgid "Short {0}"
 msgstr "ناقص {0}"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:322
+msgid "Shorten This Slide"
+msgstr "اختصار هذه الشريحة"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:322
+msgid "Shorten this slide's words."
+msgstr "اختصر كلمات هذه الشريحة."
+
 #. When a notification is sent
 #: onedesk/one_hr/notifications.py
 msgid "Shortly before an interview you are on, as long before as HR Settings says."
@@ -41746,6 +41790,10 @@ msgstr "حقول شريحة غير مقبولة: {0}"
 #: frontend/src/slide/components/TransitionSection.vue:73
 msgid "Slide in"
 msgstr "انزلاق"
+
+#: onedesk/one_slide/ai.py:381
+msgid "Slide {0}"
+msgstr "الشريحة {0}"
 
 #: onedesk/one_slide/doctype/presentation/presentation.py:24
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
@@ -49093,9 +49141,18 @@ msgstr "الانتقال"
 msgid "Transition Duration"
 msgstr "مدة الانتقال"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:323
+#: frontend/src/slide/shim/EditorNavbar.vue:334
+msgid "Translate This Slide"
+msgstr "ترجمة هذه الشريحة"
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:300
 msgid "Translate it into "
 msgstr "ترجمه إلى "
+
+#: frontend/src/slide/shim/EditorNavbar.vue:334
+msgid "Translate this slide into {0}."
+msgstr "ترجم هذه الشريحة إلى {0}."
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:300
 msgid "Translate…"
@@ -55512,6 +55569,11 @@ msgstr "اكتب نبذتي"
 msgid "Write a Bio"
 msgstr "اكتب نبذة"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:320
+#: frontend/src/slide/shim/EditorNavbar.vue:330
+msgid "Write a Whole Deck"
+msgstr "كتابة عرض كامل"
+
 #: frontend/src/display/Layout.vue:357 onedesk/one_ai/jobs.py:73
 msgid "Write a Widget"
 msgstr "كتابة أداة"
@@ -55568,6 +55630,10 @@ msgstr "اكتب رسالة قصيرة ولطيفة تُبلغ هذا المتق
 #: onedesk/one_display/ai.py:45
 msgid "Write a spoken ad…"
 msgstr "اكتب إعلانًا منطوقًا…"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:330
+msgid "Write a whole deck in this presentation: {0}"
+msgstr "اكتب عرضاً كاملاً في هذا العرض التقديمي: {0}"
 
 #: onedesk/one_mail/tour.py:18
 msgid "Write an Email"
@@ -55678,6 +55744,10 @@ msgstr "اكتب تحديثك أولًا."
 #: onedesk/one_ai/proposals.py:645
 msgid "Write {0} on a new {1}"
 msgstr "كتابة {0} في {1} جديد"
+
+#: onedesk/one_slide/ai.py:297
+msgid "Write {0} slides in {1}"
+msgstr "كتابة {0} شرائح في {1}"
 
 #. Name of a DocType
 #: onedesk/one_doc/doctype/writer_document/writer_document.json

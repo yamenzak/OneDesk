@@ -1,7 +1,7 @@
-"""What OneAI makes in a presentation (AGENTS.md, OneAI): a slide designed
-from a sentence, a picture, and a video that arrives on a new slide. The jobs
-are OneSlide's own (`slide_design`, `slide_picture`, `slide_video`). A
-picture is also offered in OneWriter (`one_doc`)."""
+"""What OneAI makes in a presentation (AGENTS.md, OneAI): from the editor's
+menu, a slide designed from a sentence, a picture, and a video that arrives on
+a new slide (OneSlide's own jobs); from OneAI's panel, a whole deck, a slide's
+words or a slide made again, each as a card the reader approves."""
 
 import base64
 import json
@@ -187,3 +187,286 @@ def _video(description: str, orientation: str) -> dict:
 				raise frappe.ValidationError("the video came back empty")
 			return said
 	raise frappe.ValidationError("the video took too long")
+
+
+# What OneAI's panel does with a presentation: reads it, and writes a deck,
+# a slide's words or a slide made again as cards the reader approves
+# (one_ai/proposals.py, Setup; approved below). AGENTS.md, OneAI.
+
+#: How much of the open presentation the panel is told up front, and the
+#: most slides one card writes.
+MOST_SEEN = 3000
+MOST_SLIDES = 30
+
+
+def _readable(presentation: str) -> dict | None:
+	try:
+		return api._may(presentation, "read")
+	except (frappe.PermissionError, frappe.DoesNotExistError):
+		return None
+
+
+def _plain(html) -> str:
+	from frappe.utils import strip_html
+
+	html = re.sub(r"</(p|h[1-6]|li)>", "\n", str(html or ""))
+	return "\n".join(line.strip() for line in strip_html(html).splitlines() if line.strip())
+
+
+def _said_on(elements: str | list) -> list[dict]:
+	"""A slide's words, element by element."""
+	drawn = json.loads(elements or "[]") if isinstance(elements, str) else elements or []
+	return [{"id": one["id"], "text": _plain(one["content"])} for one in drawn if isinstance(one, dict) and one.get("id") and isinstance(one.get("content"), str) and _plain(one["content"])]
+
+
+def _row(doc, slide: str):
+	return next((row for row in doc.slides if row.client_id == slide or str(row.idx) == str(slide)), None)
+
+
+def read_presentation(presentation: Annotated[str, "The presentation's id, from the page the reader is on."]) -> dict:
+	"""What a presentation says: each slide's id, number, kind, words by
+	element and speaker notes, and the records its words come from."""
+	from onedesk.one_slide import data
+
+	item = _readable(presentation)
+	if not item:
+		return {"error": f"No presentation the reader may open is {presentation}."}
+	doc = frappe.get_doc(api.PRESENTATION, presentation)
+	return {
+		"title": item["file_name"],
+		"size": list(api.frame(presentation)),
+		"slides": [{"id": row.client_id, "number": row.idx, "kind": row.get("kind") or "", "texts": _said_on(row.elements), "notes": row.notes or ""} for row in doc.slides],
+		"sources": data.cleaned(doc.get("sources")),
+	}
+
+
+def _cleaned_slides(slides) -> list[dict] | str:
+	from onedesk.one_slide import decks
+
+	if isinstance(slides, str):
+		try:
+			slides = json.loads(slides)
+		except ValueError:
+			return "slides is a JSON list."
+	if not isinstance(slides, list) or not slides:
+		return "slides is a list of {kind, words, notes}."
+	out = []
+	for one in slides[:MOST_SLIDES]:
+		if not isinstance(one, dict) or one.get("kind") not in decks.KINDS:
+			return f"Each slide's kind is one of {', '.join(decks.KINDS)}."
+		words = one.get("words") if isinstance(one.get("words"), dict) else {}
+		out.append({"kind": one["kind"], "words": json.loads(json.dumps(words, default=str)[:20_000]), "notes": str(one.get("notes") or "")[:4000]})
+	return out
+
+
+def _headline(one: dict) -> str:
+	words = one["words"]
+	return str(words.get("title") or words.get("quote") or words.get("left") or "")[:120]
+
+
+def draft_deck(
+	presentation: Annotated[str, "The presentation's id."],
+	slides: Annotated[
+		str | list,
+		"The slides in order, each {kind, words, notes}. kind is one of the kinds the page lists; words are the "
+		"kind's words (the page says which); notes are what the speaker says. A value that comes from a record is "
+		"written as its chip, such as {this.grand_total}, never typed.",
+	],
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a whole deck as a card the reader approves: each slide built
+	in the business's colour from One's kinds of slide, added after the
+	slides there are (or in place of a blank first one). Read the records
+	it is about first, and put chips where a value comes from a record."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_slide import decks
+
+	item = _readable(presentation)
+	if not item:
+		return {"error": f"No presentation the reader may open is {presentation}."}
+	try:
+		api._may(presentation, "write")
+	except frappe.PermissionError:
+		return {"error": "The reader may not change this presentation."}
+	cleaned = _cleaned_slides(slides)
+	if isinstance(cleaned, str):
+		return {"mend": "draft_deck", "error": cleaned}
+	kinds = decks.kind_labels()
+	changes = {
+		"what": "deck",
+		"title": _("Write {0} slides in {1}").format(len(cleaned), item["file_name"]),
+		"presentation": presentation,
+		"slides": cleaned,
+		"summary": [{"label": f"{at}. {kinds.get(one['kind'], one['kind'])}", "value": _headline(one)} for at, one in enumerate(cleaned, start=1)],
+	}
+	return {
+		"proposal": proposals.propose("Setup", api.PRESENTATION, changes=changes, record=presentation, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it writes. Nothing changes until they approve it.",
+	}
+
+
+def write_slide(
+	presentation: Annotated[str, "The presentation's id."],
+	slide: Annotated[str, "The slide's id (or its number), from read_presentation or the page."],
+	texts: Annotated[str | dict, "New words for the slide's texts, by element id: {id: words}, lines split by \\n."],
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest new words for a slide, keeping each text's look: to rewrite,
+	shorten, translate or fix it. Read it first."""
+	from onedesk.one_ai import proposals
+
+	item = _readable(presentation)
+	if not item:
+		return {"error": f"No presentation the reader may open is {presentation}."}
+	try:
+		api._may(presentation, "write")
+	except frappe.PermissionError:
+		return {"error": "The reader may not change this presentation."}
+	row = _row(frappe.get_doc(api.PRESENTATION, presentation), slide)
+	if not row:
+		return {"mend": "write_slide", "error": f"No slide {slide} in that presentation; read_presentation lists them."}
+	texts = frappe.parse_json(texts) if isinstance(texts, str) else texts
+	held = {one["id"]: one["text"] for one in _said_on(row.elements)}
+	if not isinstance(texts, dict) or not texts or set(texts) - set(held):
+		return {"mend": "write_slide", "error": f"texts is {{id: words}} for the slide's texts, whose ids are {', '.join(held)}."}
+	texts = {key: str(value)[:4000] for key, value in texts.items()}
+	changes = {
+		"what": "slide",
+		"title": _("Rewrite slide {0} in {1}").format(row.idx, item["file_name"]),
+		"presentation": presentation,
+		"slide": row.client_id,
+		"texts": texts,
+		"summary": [{"label": held[key][:80], "value": value[:200]} for key, value in texts.items()],
+	}
+	return {
+		"proposal": proposals.propose("Setup", api.PRESENTATION, changes=changes, record=presentation, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it changes. Nothing changes until they approve it.",
+	}
+
+
+def remake_slide(
+	presentation: Annotated[str, "The presentation's id."],
+	slide: Annotated[str, "The slide's id (or its number)."],
+	kind: Annotated[str, "The kind of slide to make it, such as timeline or figures."],
+	words: Annotated[str | dict, "The kind's words, from what the slide says now."],
+	notes: Annotated[str, "What the speaker says, if it changes."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest a slide made again as another kind of slide, with its words
+	carried over: a list into a timeline, numbers into figures."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_slide import decks
+
+	item = _readable(presentation)
+	if not item:
+		return {"error": f"No presentation the reader may open is {presentation}."}
+	try:
+		api._may(presentation, "write")
+	except frappe.PermissionError:
+		return {"error": "The reader may not change this presentation."}
+	row = _row(frappe.get_doc(api.PRESENTATION, presentation), slide)
+	if not row:
+		return {"mend": "remake_slide", "error": f"No slide {slide} in that presentation; read_presentation lists them."}
+	cleaned = _cleaned_slides([{"kind": kind, "words": frappe.parse_json(words) if isinstance(words, str) else words, "notes": notes or row.notes or ""}])
+	if isinstance(cleaned, str):
+		return {"mend": "remake_slide", "error": cleaned}
+	changes = {
+		"what": "remake",
+		"title": _("Make slide {0} a {1}").format(row.idx, decks.kind_labels().get(kind, kind)),
+		"presentation": presentation,
+		"slide": row.client_id,
+		**cleaned[0],
+		"summary": [{"label": _("Slide {0}").format(row.idx), "value": _headline(cleaned[0])}],
+	}
+	return {
+		"proposal": proposals.propose("Setup", api.PRESENTATION, changes=changes, record=presentation, why=why),
+		"state": "Proposed",
+		"next": "Say in one sentence what approving it changes. Nothing changes until they approve it.",
+	}
+
+
+def _built(presentation: str, one: dict) -> tuple[str, str]:
+	"""A kind of slide built in the business's colour at the presentation's
+	size: its background and elements, as kept."""
+	from onedesk.one_slide import decks, resize
+
+	drawn = decks.build(one["kind"], one["words"], decks.brand())
+	elements = drawn["elements"]
+	width, height = api.frame(presentation)
+	if (width, height) != (decks.WIDE, decks.HIGH):
+		elements = resize.scaled(elements, width / decks.WIDE, height / decks.HIGH)
+	return drawn["background"], play.cleaned(elements)
+
+
+def approved(changes: dict) -> str:
+	"""A presentation card approved, as the person who pressed Approve. What
+	the slides were is kept as a version first; an open editor reloads."""
+	from frappe.utils import escape_html
+
+	from onedesk.one_slide import layouts, versions
+
+	name = changes["presentation"]
+	api._may(name, "write")
+	doc = frappe.get_doc(api.PRESENTATION, name)
+	versions.keep_now(doc, _("Before OneAI wrote slides"))
+	if changes["what"] == "deck":
+		blank = len(doc.slides) == 1 and not _said_on(doc.slides[0].elements)
+		if blank:
+			doc.slides = []
+		for one in changes["slides"]:
+			background, elements = _built(name, one)
+			doc.append("slides", {"client_id": uuid.uuid4().hex[:10], "background": background, "elements": elements, "notes": one.get("notes") or "", "kind": one["kind"], "transition": "Fade", "transition_duration": 0.6})
+	else:
+		row = _row(doc, changes["slide"])
+		if not row:
+			frappe.throw(_("Could not change the slide: it is no longer in the presentation."))
+		if changes["what"] == "slide":
+			drawn = json.loads(row.elements or "[]")
+			for one in drawn:
+				said = changes["texts"].get(one.get("id")) if isinstance(one, dict) else None
+				if said is not None:
+					one["content"] = layouts.poured(one["content"], "".join(f"<p>{escape_html(line)}</p>" for line in said.split("\n")))
+			row.elements = json.dumps(drawn)
+		else:
+			row.background, row.elements = _built(name, changes)
+			row.kind, row.notes = changes["kind"], changes.get("notes") or row.notes
+	doc.save(ignore_permissions=True)
+	frappe.publish_realtime("one_slide_written", {"presentation": name}, user=frappe.session.user, after_commit=True)
+	return name
+
+
+def page(said: dict) -> str | None:
+	"""The sentence the model is told on a presentation's page: which one,
+	its slides, the record it is on and its chips, the kinds of slide and
+	deck it can follow, and the slide the reader has open."""
+	from onedesk.one_slide import data, decks
+
+	if said.get("page") != "presentation":
+		return None
+	name = (said.get("record") or "").strip()
+	item = _readable(name) if name else None
+	if not item:
+		return "The reader is on a presentation's page in OneSlide."
+	read = read_presentation(name)
+	shown = "; ".join(f'{one["number"]}. {(one["texts"][0]["text"] if one["texts"] else "(blank)")[:80]}' for one in read["slides"])
+	where = f'The reader has the presentation "{item["file_name"]}" open in OneSlide (its id is {name}); its slides are: {shown[:MOST_SEEN]}'
+	if item.get("attached_to_doctype") and item.get("attached_to_name"):
+		where += f'. It is filed on {item["attached_to_doctype"]} {item["attached_to_name"]}; read that record and what it links to before writing about it'
+	sources = data.cleaned(frappe.db.get_value(api.PRESENTATION, name, "sources"))
+	if sources:
+		where += ". Its words can come from records as chips, filled as whoever looks: " + "; ".join(
+			f'{{{one["key"]}.field}} is {"a list of " if one["kind"] == "list" else ""}{one.get("doctype") or "the record it is filed on"}' for one in sources
+		) + ' (a list also has {key.count}, {key.sum.field} and {key.1.field}); put a chip wherever a value comes from one'
+	where += ". Kinds of slide and their words: " + "; ".join(f"{kind}: {words}" for kind, words in decks.WORDS.items())
+	where += ". Decks One knows, as kinds in order: " + "; ".join(f'{key}: {", ".join(kind for kind, _w in held)}' for key, held in decks.DECKS.items())
+	selected = said.get("selection") if isinstance(said.get("selection"), dict) else {}
+	if selected.get("presentation") == name and selected.get("slide"):
+		row = next((one for one in read["slides"] if one["id"] == selected["slide"]), None)
+		if row:
+			where += f'.\nThe reader has slide {row["number"]} open (its id is {row["id"]}), whose texts are {json.dumps(row["texts"])[:MOST_SEEN]}. A request about "this slide" means it'
+	return where + (
+		".\ndraft_deck writes a whole deck as a card; write_slide rewrites, shortens or translates a slide's words; "
+		"remake_slide makes a slide another kind, such as a timeline."
+	)

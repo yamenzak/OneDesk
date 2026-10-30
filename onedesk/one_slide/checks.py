@@ -376,3 +376,50 @@ def oneai_makes_slides_and_pictures():
 				frappe.clear_messages()
 	finally:
 		frappe.db.rollback(save_point="oneai_slide_check")
+
+
+@check
+def oneai_writes_a_deck():
+	"""From OneAI's panel: the page says which presentation and slide are
+	open and the kinds of slide; a deck, a slide's new words and a slide
+	made a timeline come as cards, and approving each changes the slides
+	after keeping a version. Nobody who may not open it is told of it."""
+	from unittest import mock
+
+	from onedesk.one_ai import proposals, tools
+	from onedesk.one_slide import ai, api, versions
+
+	frappe.db.savepoint("slide_deck_check")
+	try:
+		with mock.patch("onedesk.one.apps.ai_on", return_value=True), as_user(OWNER):
+			name = api.make("@my", "Deck check")["presentation"]
+			first = api.get(name)["slides"][0]["client_id"]
+			told = ai.page({"page": "presentation", "record": name, "selection": {"presentation": name, "slide": first}})
+			assert "timeline: title, steps" in told and "slide 1 open" in told and "pitch: title, agenda" in told, told
+			assert "kind is one of" in ai.draft_deck(name, [{"kind": "poster"}])["error"]
+			deck = [
+				{"kind": "title", "words": {"title": "Glass for Bayview", "line": "Our offer"}},
+				{"kind": "timeline", "words": {"title": "Programme", "steps": [{"step": "Survey", "when": "May"}, {"step": "Fit", "when": "June"}, {"step": "Hand over", "when": "July"}]}, "notes": "Three steps."},
+			]
+			said = tools.run("draft_deck", {"presentation": name, "slides": deck})
+			assert not said["ran"] and said["answer"]["state"] == "Proposed", said
+			proposals.apply(said["answer"]["proposal"])
+			slides = ai.read_presentation(name)["slides"]
+			plan = slides[-1]
+			assert slides[-2]["texts"][0]["text"] == "Glass for Bayview" and plan["kind"] == "timeline" and plan["notes"] == "Three steps.", slides
+			assert [one["text"] for one in plan["texts"]][:3] == ["Programme", "Survey", "May"], plan
+			said = tools.run("write_slide", {"presentation": name, "slide": plan["id"], "texts": {plan["texts"][0]["id"]: "The plan"}})
+			proposals.apply(said["answer"]["proposal"])
+			assert ai.read_presentation(name)["slides"][-1]["texts"][0]["text"] == "The plan"
+			assert "texts is" in ai.write_slide(name, plan["id"], {"nothing": "x"})["error"]
+			assert "kind is one of" in ai.remake_slide(name, plan["id"], "poster", {})["error"]
+			said = tools.run("remake_slide", {"presentation": name, "slide": plan["id"], "kind": "figures", "words": {"figures": [{"figure": "3", "label": "Steps"}]}})
+			proposals.apply(said["answer"]["proposal"])
+			remade = ai.read_presentation(name)["slides"][-1]
+			assert remade["kind"] == "figures" and "3" in [one["text"] for one in remade["texts"]], remade
+			assert "Before OneAI wrote slides" in [one["title"] for one in versions.listed(name)]
+		with as_user("omar@one.test"):
+			assert ai.page({"page": "presentation", "record": name}) == "The reader is on a presentation's page in OneSlide."
+			assert "error" in ai.read_presentation(name)
+	finally:
+		frappe.db.rollback(save_point="slide_deck_check")

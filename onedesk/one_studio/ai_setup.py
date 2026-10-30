@@ -743,6 +743,10 @@ def apply(changes: dict) -> str:
 		from onedesk.one_doc import ai as doc_ai
 
 		return doc_ai.approved(changes)
+	if what in ("deck", "slide", "remake"):
+		from onedesk.one_slide import ai as slide_ai
+
+		return slide_ai.approved(changes)
 	if what == "assign":
 		from onedesk.one_task import ai as task_ai
 

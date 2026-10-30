@@ -130,6 +130,9 @@ export function aiSees(what) {
 	if (window.onedesk?.oneai) window.onedesk.oneai.seen = what || null;
 }
 
+// OneAI's panel opened on a question, as if the reader had typed it there.
+export const askOneAI = (ask) => window.onedesk?.oneai?.open({ ask });
+
 // The text field the reader just left: opening OneAI soon after writes in it
 // (public/js/one_ai/oneai.js, justLeft).
 export function aiLeft(field) {

@@ -18,25 +18,15 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - A picture cannot be bound to a record's image field, and a slide does not
   repeat once per row of a list; a table of a list's rows does that job.
   Freeze Data has no "as of" mark, and an export is live, not frozen.
+- OneAI's deck recipes are One's five decks; a company's own templates are
+  not offered as recipes yet. A deck OneAI writes is not linked to a layout,
+  so Restyle from Layouts leaves it alone.
 - On a phone the editor shows the slide, the bar and the head; the slides
   rail, the panel and **Theme** are left out. It is for looking and small
   changes, not for building a presentation.
 
 ## Planned, from the walkthrough (30 October)
 
-- **OneAI writes a whole deck.** Today OneAI makes one slide from a
-  sentence, reads no records, and the OneAI panel does not see the open
-  presentation. Plan: a deck job. "Write a pitch for project X for client
-  Y" reads what it needs with OneAI's existing tools (the project, the
-  customer, their quotations, tasks, files and mail), shows an outline as a
-  card (each slide's title, what it says, which data it binds), and once
-  approved builds the deck from the slide library in the business's brand,
-  putting live chips wherever a value comes from a record instead of typing
-  the number. Kinds of deck are recipes (pitch, project update, monthly
-  review, tender response), each an outline and the library slides it
-  prefers; a company can add its own. Per slide: rewrite, shorten,
-  translate, turn into a timeline. The panel gets the open presentation and
-  its selection, as it has the open document and workbook.
 - **Presenting by link.** Not today. OneCloud's share link already has
   everything the access side needs (a public link with an optional password
   and an expiry, or invited people who each get a mail and come in with a

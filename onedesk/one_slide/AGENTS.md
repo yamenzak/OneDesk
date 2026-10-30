@@ -336,6 +336,20 @@ in `notifications/one_storage` until OneSlide is a module of its own).
 OneWriter's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
 
+In OneAI's panel (the `presentations` group in `one_ai/groups.py`), `page`
+tells the model which presentation and slide are open (the editor's
+`aiSees`), the record it is filed on, its chips, the kinds of slide and the
+words each takes (`decks.WORDS`) and One's decks as recipes. Its tools are
+`read_presentation`, and three cards: `draft_deck` (slides built by
+`decks.build` from the words given, at the presentation's size, after the
+slides there are or in place of a blank first one), `write_slide` (new
+words poured into each text's look, `layouts.poured`) and `remake_slide`
+(a slide built again as another kind). `approved` (from
+`one_studio/ai_setup.apply`) keeps a version first and tells an open
+editor to reload (`one_slide_written`). The OneAI menu's panel requests
+open the panel with a question (kit `askOneAI`). The model reads records
+with OneAI's own tools; nothing here reads for it.
+
 ### Drawn without the editor
 
 `public/js/one_slide/play.js` draws a saved slide again in ES5, for a

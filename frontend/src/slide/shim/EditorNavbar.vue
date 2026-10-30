@@ -40,7 +40,7 @@
 import { computed, inject, onBeforeUnmount, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, alert, call, confirm, goTo, goToUrl, listen, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
+import { __, aiSees, alert, askOneAI, call, confirm, goTo, goToUrl, listen, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
@@ -313,7 +313,38 @@ const aiMenu = computed(() => [
 			...(screen.value ? [] : [{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo }]),
 		],
 	},
+	// in OneAI's panel, as cards to approve (one_slide/ai.py draft_deck, write_slide, remake_slide)
+	...(screen.value ? [] : [{
+		group: __("In the OneAI Panel"),
+		options: [
+			{ label: __("Write a Whole Deck"), icon: "lucide-presentation", onClick: writeDeck },
+			{ label: __("Rewrite This Slide"), icon: "lucide-pencil-line", onClick: () => askOneAI(__("Rewrite this slide so it reads better.")) },
+			{ label: __("Shorten This Slide"), icon: "lucide-scissors", onClick: () => askOneAI(__("Shorten this slide's words.")) },
+			{ label: __("Translate This Slide"), icon: "lucide-languages", onClick: translateSlide },
+			{ label: __("Make This Slide a Timeline"), icon: "lucide-milestone", onClick: () => askOneAI(__("Make this slide a timeline.")) },
+		],
+	}]),
 ]);
+
+function writeDeck() {
+	described(__("Write a Whole Deck"), __("Ask OneAI"), (description) => askOneAI(__("Write a whole deck in this presentation: {0}", [description])));
+}
+
+function translateSlide() {
+	prompt([{ fieldname: "language", fieldtype: "Link", options: "Language", label: __("Into"), reqd: 1 }], ({ language }) => askOneAI(__("Translate this slide into {0}.", [language])), __("Translate This Slide"), __("Ask OneAI"));
+}
+
+// the slide that is open, so "this slide" in OneAI's panel means it
+watch(
+	() => [presentationDoc.value?.name, currentSlide.value?.clientId],
+	([presentation, slide]) => aiSees(presentation ? { page: "presentation", presentation, slide } : null),
+	{ immediate: true },
+);
+onBeforeUnmount(() => aiSees(null));
+
+// a card approved in OneAI's panel changed the slides: open them as they are now
+const unwritten = listen("one_slide_written", (said) => said?.presentation === presentationDoc.value?.name && reload());
+onBeforeUnmount(unwritten);
 const widgetMenu = computed(() => [{ group: __("Widgets"), options: (screen.value?.types || []).map((one) => ({ label: one.label, onClick: () => addWidget(one) })) }]);
 
 function described(title, label, done) {

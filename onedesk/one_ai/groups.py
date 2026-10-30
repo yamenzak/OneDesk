@@ -105,6 +105,14 @@ GROUPS = {
 			"مستند", "خطاب", "رسالة", "اكتب", "تقرير",
 		),
 	},
+	"presentations": {
+		"about": "presentations in OneSlide: read one, write a whole deck, rewrite, shorten or translate a slide, make a slide a timeline or figures",
+		"tools": ("read_presentation", "draft_deck", "write_slide", "remake_slide"),
+		"words": (
+			"presentation", "deck", "slide", "pitch", "timeline", "präsentation", "folie", "vortrag",
+			"عرض", "شريحة", "شرائح", "تقديمي",
+		),
+	},
 	"crm": {
 		"about": "sales: deals and leads, what has gone quiet, why deals are lost, next steps, writing up a call",
 		"tools": ("crm_facts", "gone_quiet", "why_we_lose", "add_lead", "plan_next_step", "write_up_call"),
@@ -335,6 +343,7 @@ PAGES = {
 	"onecloud": "files",
 	"workbook": "workbooks",
 	"document": "documents",
+	"presentation": "presentations",
 	"one-admin": "console",
 	"item-view": "inventory",
 	"stock-on-hand": "inventory",

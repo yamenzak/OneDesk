@@ -145,9 +145,23 @@ def _logo(id, left, top, width, height, logo) -> list:
 	return [{"id": id, "type": "image", "src": logo, "left": left, "top": top, "width": width, "height": height, "zIndex": 3, "opacity": 100}]
 
 
+def _many(words: dict, key: str, most: int, fields: tuple) -> list | None:
+	"""A list of a slide's parts given in `words`, each a dict of `fields`, or
+	None when none is given. Pure."""
+	given = words.get(key)
+	if not isinstance(given, list) or not given:
+		return None
+	out = []
+	for one in given[:most]:
+		one = one if isinstance(one, dict) else {fields[0]: one}
+		out.append(tuple(str(one.get(field) or "") for field in fields))
+	return out
+
+
 def build(kind: str, words: dict, look: dict) -> dict:
 	"""One slide of a kind, in the business's colour, its words translated
-	unless given. Pure but for the translations."""
+	unless given (WORDS says which each kind takes). Pure but for the
+	translations."""
 	c = look["colour"]
 	say = lambda key, default: str(words[key]) if words.get(key) else default  # noqa: E731
 	background = WHITE
@@ -160,10 +174,12 @@ def build(kind: str, words: dict, look: dict) -> dict:
 		]
 	elif kind == "agenda":
 		drawn = [_text("title", 80, 50, 800, say("title", _("Agenda")), 44, INK, True)]
-		for at, item in enumerate((_("Where we are"), _("What we propose"), _("How we will do it"), _("What it costs"))):
+		items = [one[0] for one in _many(words, "items", 6, ("item",)) or []] or [_("Where we are"), _("What we propose"), _("How we will do it"), _("What it costs")]
+		gap = min(80, 340 // len(items))
+		for at, item in enumerate(items):
 			drawn += [
-				_box(f"n{at}", 80, 150 + at * 80, 48, 48, c, "oval", words=str(at + 1), size=20),
-				_text(f"i{at}", 150, 158 + at * 80, 700, item, 26),
+				_box(f"n{at}", 80, 150 + at * gap, 48, 48, c, "oval", words=str(at + 1), size=20),
+				_text(f"i{at}", 150, 158 + at * gap, 700, item, 26),
 			]
 	elif kind == "section":
 		background = c
@@ -177,44 +193,48 @@ def build(kind: str, words: dict, look: dict) -> dict:
 			drawn += [
 				_box(f"rule{at}", left, 130, 380, 6, c),
 				_text(f"head{at}", left, 150, 380, say(key, _("A heading")), 28, INK, True),
-				_text(f"body{at}", left, 205, 380, _("A few words on this side.\nKeep it to three lines."), 20, MUTED),
+				_text(f"body{at}", left, 205, 380, say(f"{key}_body", _("A few words on this side.\nKeep it to three lines.")), 20, MUTED),
 			]
 	elif kind == "picture_text":
 		drawn = [
 			_box("picture", 0, 0, 440, HIGH, PALE, words=_("Put a picture here"), size=20, colour=MUTED),
 			_text("title", 500, 140, 400, say("title", _("What the picture shows")), 36, INK, True),
-			_text("body", 500, 230, 400, _("Two or three lines that say why it matters."), 22, MUTED),
+			_text("body", 500, 230, 400, say("body", _("Two or three lines that say why it matters.")), 22, MUTED),
 		]
 	elif kind == "quote":
 		drawn = [
 			_text("mark", 80, 40, 120, "“", 160, c, True),
 			_text("quote", 120, 180, 720, say("quote", _("What a client said about working with us.")), 36, INK, italic=True),
-			_text("who", 120, 330, 720, _("Name, Company"), 22, MUTED),
+			_text("who", 120, 330, 720, say("who", _("Name, Company")), 22, MUTED),
 		]
 	elif kind == "team":
 		drawn = [_text("title", 80, 50, 800, say("title", _("The team")), 40, INK, True)]
-		for at in range(3):
-			left = 110 + at * 270
+		people = _many(words, "people", 3, ("name", "role")) or [(_("Name"), _("Role"))] * 3
+		for at, (name, role) in enumerate(people):
+			left = 110 + (3 - len(people)) * 135 + at * 270
 			drawn += [
 				_box(f"face{at}", left + 35, 150, 150, 150, PALE, "oval", stroke=c),
-				_text(f"name{at}", left, 320, 220, _("Name"), 24, INK, True, "center"),
-				_text(f"role{at}", left, 360, 220, _("Role"), 20, MUTED, align="center"),
+				_text(f"name{at}", left, 320, 220, name, 24, INK, True, "center"),
+				_text(f"role{at}", left, 360, 220, role, 20, MUTED, align="center"),
 			]
 	elif kind == "timeline":
 		drawn = [
 			_text("title", 80, 50, 800, say("title", _("The plan")), 40, INK, True),
 			_box("line", 100, 268, 760, 4, c),
 		]
-		for at, step in enumerate((_("Start"), _("Design"), _("Build"), _("Hand over"))):
-			left = 100 + at * 240
+		steps = _many(words, "steps", 5, ("step", "when")) or [(step, _("Week {0}").format(at * 4 + 1)) for at, step in enumerate((_("Start"), _("Design"), _("Build"), _("Hand over")))]
+		apart = 760 // max(1, len(steps) - 1) if len(steps) > 1 else 0
+		for at, (step, when) in enumerate(steps):
+			left = 100 + at * apart if len(steps) > 1 else 480
 			drawn += [
 				_box(f"dot{at}", left - 14, 256, 28, 28, c, "oval"),
 				_text(f"step{at}", left - 80, 300, 160, step, 22, INK, True, "center"),
-				_text(f"when{at}", left - 80, 335, 160, _("Week {0}").format(at * 4 + 1), 18, MUTED, align="center"),
+				_text(f"when{at}", left - 80, 335, 160, when, 18, MUTED, align="center"),
 			]
 	elif kind == "figures":
 		drawn = [_text("title", 80, 50, 800, say("title", _("In figures")), 40, INK, True)]
-		for at, (figure, label) in enumerate((("85%", _("Done")), ("12", _("Weeks")), ("3", _("Sites")))):
+		figures = _many(words, "figures", 3, ("figure", "label")) or [("85%", _("Done")), ("12", _("Weeks")), ("3", _("Sites"))]
+		for at, (figure, label) in enumerate(figures):
 			left = 80 + at * 280
 			drawn += [
 				_text(f"figure{at}", left, 170, 260, figure, 72, c, True),
@@ -222,24 +242,41 @@ def build(kind: str, words: dict, look: dict) -> dict:
 			]
 	elif kind == "pricing":
 		drawn = [_text("title", 80, 40, 800, say("title", _("Pricing")), 40, INK, True)]
-		for at, plan in enumerate((_("Basic"), _("Standard"), _("Complete"))):
+		plans = _many(words, "plans", 3, ("plan", "price", "what")) or [(plan, "—", _("What is included")) for plan in (_("Basic"), _("Standard"), _("Complete"))]
+		for at, (plan, price, what) in enumerate(plans):
 			left = 80 + at * 280
 			drawn += [
 				_box(f"card{at}", left, 120, 250, 360, WHITE if at != 1 else PALE, corner=16, stroke=c),
 				_text(f"plan{at}", left + 20, 145, 210, plan, 26, INK, True, "center"),
-				_text(f"price{at}", left + 20, 200, 210, "—", 40, c, True, "center"),
-				_text(f"what{at}", left + 20, 280, 210, _("What is included"), 18, MUTED, align="center"),
+				_text(f"price{at}", left + 20, 200, 210, price or "—", 40, c, True, "center"),
+				_text(f"what{at}", left + 20, 280, 210, what, 18, MUTED, align="center"),
 			]
 	elif kind == "thank_you":
 		background = c
 		drawn = [
 			_text("title", 80, 200, 800, say("title", _("Thank you")), 64, WHITE, True, "center"),
-			_text("line", 80, 310, 800, _("Your name · your email · your phone"), 22, WHITE, align="center"),
+			_text("line", 80, 310, 800, say("line", _("Your name · your email · your phone")), 22, WHITE, align="center"),
 			*_logo("logo", 400, 410, 160, 70, look["logo"]),
 		]
 	else:
 		frappe.throw(_("There is no slide of that kind."))
 	return {"background": background, "elements": drawn, "kind": kind}
+
+
+#: The words each kind takes, for OneAI to fill (one_slide/ai.py draft_deck).
+WORDS = {
+	"title": "title, line",
+	"agenda": "title, items (up to 6 strings)",
+	"section": "title",
+	"two_columns": "title, left, left_body, right, right_body",
+	"picture_text": "title, body",
+	"quote": "quote, who",
+	"team": "title, people (up to 3 of {name, role})",
+	"timeline": "title, steps (up to 5 of {step, when})",
+	"figures": "title, figures (up to 3 of {figure, label})",
+	"pricing": "title, plans (up to 3 of {plan, price, what})",
+	"thank_you": "title, line",
+}
 
 
 def slides(deck: str, look: dict | None = None) -> list[dict]:
