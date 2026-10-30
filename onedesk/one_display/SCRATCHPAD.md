@@ -41,4 +41,18 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   Custom on the Widget Collection and the channel; `screen.py` gives the
   editor that frame; `tv.js` draws it instead of its two; a slide of
   another shape is letterboxed, or filled when the playlist row says so.
+- **Rulers and guides in the screen's editor.** The layout is edited in
+  OneSlide's editor, but its Guides menu is left out when the presentation
+  is a screen's backdrop (`EditorNavbar.vue`, the `screen` check). Nothing
+  stops them working there; offer them.
+- **An object comes and goes.** Neither a slide nor a layout can bring one
+  object in or take it out with an animation (fly in, fade, wipe; on a
+  click on a slide, after a delay on a screen); only whole slides change
+  with a transition. Plan it once in OneSlide, saved on the element, drawn
+  by `play.js` with `transform` and `opacity` only, so a TV keeps up.
+- **A widget styled like everything else.** A widget's look is its kind's
+  few settings (size, colour, heading), so a queue board always looks the
+  same. Give every widget the editor's own properties (font, size, colours,
+  background, corners, padding), saved on the element and applied by the
+  widget's renderer in `tv.js`, which keeps its layout and takes the rest.
 
