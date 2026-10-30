@@ -41,6 +41,7 @@ NOT_FOR_AI = {
 	"master.edit": "The master is opened from the editor's File menu by the person laying out the slides.",
 	"fonts.upload": "A font file is chosen from a person's own computer in the editor's font picker.",
 	"fonts.google_add": "Adding a font to the workspace is the person's call, from the font picker.",
+	"powerpoint.export": "A PowerPoint file is made from the editor's File menu by the person who will take it elsewhere.",
 	"layouts.restyle": "Bringing a template's new look into every slide is the person's call, from the editor's File menu.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }

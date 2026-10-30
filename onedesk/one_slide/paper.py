@@ -85,9 +85,6 @@ def pages(pictures: list[str]) -> bytes:
 def pdf(name: str, pictures: str | list, notes: int = 0) -> dict:
 	"""The presentation as a PDF beside it in OneCloud, or on its record:
 	the slides alone, or with `notes`, each slide above its speaker notes."""
-	from onedesk.one_storage import api as cloud
-	from onedesk.one_storage import namespace as ns
-
 	item = api._may(name, "read")
 	pictures = frappe.parse_json(pictures) if isinstance(pictures, str) else pictures
 	if len(pictures or []) > MOST_SLIDES:
@@ -99,6 +96,14 @@ def pdf(name: str, pictures: str | list, notes: int = 0) -> dict:
 	else:
 		content = pages(pictures)
 		title = f"{item['file_name']}.pdf"
+	return beside(item, title, content)
+
+
+def beside(item: dict, title: str, content: bytes) -> dict:
+	"""A file made from a presentation, kept beside it in OneCloud or on its record."""
+	from onedesk.one_storage import api as cloud
+	from onedesk.one_storage import namespace as ns
+
 	file = {"doctype": "File", "content": content, "is_private": 1}
 	if item.get("attached_to_doctype") and item.get("attached_to_name"):
 		file.update(attached_to_doctype=item["attached_to_doctype"], attached_to_name=item["attached_to_name"], file_name=title)

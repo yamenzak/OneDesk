@@ -196,6 +196,33 @@ def oneslide_keeps_a_presentation_in_onecloud():
 
 			words = " ".join(PdfReader(io.BytesIO(frappe.get_doc("File", noted["name"]).get_content())).pages[0].extract_text().split())
 			assert noted["file_name"].endswith("with notes.pdf") and "Thank the client first." in words, (noted, words)
+			# PowerPoint: PowerPoint's own pieces, read back, and the slide that lost an effect named
+			from pptx import Presentation as Deck
+
+			from onedesk.one_slide import powerpoint
+
+			assert powerpoint.rgb("#FF000000") is None and powerpoint.rgb("rgb(1, 2, 3)") == (1, 2, 3)
+			drawn = [
+				{"id": "t", "type": "text", "left": 10, "top": 10, "width": 400, "zIndex": 1, "content": '<p style="text-align: right"><span style="font-size: 40px; color: #FF0000FF"><strong>Bold</strong> words</span></p><ul><li><p>one</p></li></ul>'},
+				{"id": "s", "type": "shape", "shapeType": "star", "left": 500, "top": 10, "width": 100, "height": 100, "zIndex": 2, "fillColor": "#3366FFFF", "fade": {"to": "#00FF00FF", "angle": 90}},
+				{"id": "l", "type": "shape", "shapeType": "line", "left": 10, "top": 300, "width": 200, "height": 2, "strokeWidth": 2, "strokeColor": "#000000FF", "zIndex": 3},
+				{"id": "p", "type": "image", "src": dot, "left": 10, "top": 400, "width": 40, "height": 40, "zIndex": 4},
+				{"id": "h", "type": "text", "hidden": True, "content": "<p>Hidden</p>"},
+			]
+			effects = [{"id": "b", "type": "shape", "shapeType": "rectangle", "left": 0, "top": 0, "width": 50, "height": 50, "blur": 4}]
+			deck = api.get(name)
+			plain = {key: deck["slides"][0][key] for key in api.SLIDE_FIELDS if key in deck["slides"][0]}
+			api.save_slides(name, json.dumps([{**plain, "elements": json.dumps(drawn), "notes": "Say this."}, {"client_id": "pp-2", "elements": json.dumps(effects)}]), str(deck["modified"]))
+			made = powerpoint.export(name)
+			assert made["file_name"].endswith(".pptx") and made["lost"] == [2], made
+			opened = Deck(io.BytesIO(frappe.get_doc("File", made["name"]).get_content()))
+			shapes = list(opened.slides[0].shapes)
+			names = [shape.shape_type for shape in shapes]
+			said = next(shape.text_frame for shape in shapes if shape.has_text_frame and "Bold" in shape.text_frame.text)
+			assert len(shapes) == 4 + len(api.get(name)["master"]), names
+			assert said.paragraphs[0].runs[0].text == "Bold" and said.paragraphs[0].runs[0].font.bold and said.paragraphs[1].runs[0].text.endswith("one"), said.text
+			assert opened.slides[0].notes_slide.notes_text_frame.text == "Say this."
+			assert opened.slide_width == api.frame(name)[0] * powerpoint.EMU
 			api.visited("Presentation", name)
 			api.download(name)
 			assert frappe.local.response["location"] == f"/desk/presentation/{name}"

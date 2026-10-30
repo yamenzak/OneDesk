@@ -185,6 +185,24 @@ mounts (`fitted` in `SlideContainer.vue`, a One: edit), no larger than
 Suite's 900 by 700, so the rulers and the slide's edges are never under a
 panel.
 
+### PowerPoint
+
+`powerpoint.build` writes a .pptx with python-pptx (MIT) from PowerPoint's
+own pieces, so the file can be edited there: a slide is the presentation's
+size at 96 pixels to the inch, on the blank layout, with its background (a
+colour or a two-colour fade), the master underneath (`master.under`), and
+its notes. A text becomes a text box whose paragraphs keep their alignment,
+bullets and right-to-left, and whose runs keep font, size, colour, bold,
+italic and underline (`paragraphs`, a small HTML reader). A shape becomes
+PowerPoint's own (rectangle, rounded when it has corners, oval, triangle,
+diamond, pentagon, star, right arrow) with its fill, fade, outline and
+words; a line a straight connector between its ends; a picture or video
+the bytes it points at; a table PowerPoint's table of its words. What has no
+PowerPoint equivalent (blur, free CSS, a widget, a picture from another
+site) is left out, and `export` names the slides that lost something. The
+file is kept beside the presentation like the PDF (`paper.beside`). Fades
+turn from a CSS angle into PowerPoint's.
+
 ### Fonts
 
 `fonts.py` is the workspace's font library, which every editor and the TV

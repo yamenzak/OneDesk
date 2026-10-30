@@ -16259,6 +16259,10 @@ msgstr "Als PDF exportieren"
 msgid "Export as PDF with Notes"
 msgstr "Als PDF mit Notizen exportieren"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:133
+msgid "Export as PowerPoint"
+msgstr "Als PowerPoint exportieren"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1933
 msgid "Export as XLSX"
 msgstr "Als XLSX exportieren"
@@ -34154,6 +34158,10 @@ msgstr "Ich bereite es erneut vor. Die Gesprächsvorbereitung aktualisiert sich,
 msgid "Preparing the PDF…"
 msgstr "PDF wird vorbereitet…"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:230
+msgid "Preparing the PowerPoint file…"
+msgstr "PowerPoint-Datei wird vorbereitet…"
+
 #: onedesk/public/js/privacy_copy.js:52
 msgid "Preparing the copy for {0}."
 msgstr "Die Kopie für {0} wird vorbereitet."
@@ -38896,6 +38904,10 @@ msgstr "Unter „Gespeicherte Berichte“ in der Seitenleiste dieser App gespeic
 #: frontend/src/slide/shim/EditorNavbar.vue:117
 msgid "Saved {0} to OneCloud."
 msgstr "{0} wurde in OneCloud gespeichert."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:234
+msgid "Saved {0} to OneCloud. Slides {1} lost an effect PowerPoint does not have."
+msgstr "{0} wurde in OneCloud gespeichert. Die Folien {1} haben einen Effekt verloren, den PowerPoint nicht kennt."
 
 #: onedesk/www/account_profile.html:78
 msgid "Saved."

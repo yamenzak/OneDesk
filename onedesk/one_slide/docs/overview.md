@@ -27,7 +27,7 @@ way back. Click its name there to rename it.
 | **The slides** | Down the left. See [Working on Slides](working-on-slides). |
 | **The bar under the slide** | Text, pictures and videos, shapes, lines and tables. |
 | **The panel** | On the right: whatever you chose, or the slide itself. See [Design and Layers](design-and-layers). |
-| **File** | Version History, Save as Template, Export as PDF and Slide Size. See [History, Templates and PDF](history-and-pdf). |
+| **File** | Version History, Save as Template, Export as PDF or PowerPoint, Slide Size, Edit Master, and the rulers. See [History, Templates and Files](history-and-pdf). |
 | **OneAI** | Designs a slide, or makes a picture or a video. See [Asking OneAI](asking-oneai). |
 | **Present** | Plays the presentation from this slide or from the start. |
 

@@ -16259,6 +16259,10 @@ msgstr "تصدير كملف PDF"
 msgid "Export as PDF with Notes"
 msgstr "تصدير PDF مع الملاحظات"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:133
+msgid "Export as PowerPoint"
+msgstr "تصدير بصيغة PowerPoint"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1933
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
@@ -34154,6 +34158,10 @@ msgstr "أحضّرها من جديد. سيتحدّث التحضير للمقاب
 msgid "Preparing the PDF…"
 msgstr "جارٍ تجهيز ملف PDF…"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:230
+msgid "Preparing the PowerPoint file…"
+msgstr "جارٍ تجهيز ملف PowerPoint…"
+
 #: onedesk/public/js/privacy_copy.js:52
 msgid "Preparing the copy for {0}."
 msgstr "جارٍ تجهيز النسخة لـ {0}."
@@ -38896,6 +38904,10 @@ msgstr "حُفظ تحت «التقارير المحفوظة» في الشريط 
 #: frontend/src/slide/shim/EditorNavbar.vue:117
 msgid "Saved {0} to OneCloud."
 msgstr "تم حفظ {0} في OneCloud."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:234
+msgid "Saved {0} to OneCloud. Slides {1} lost an effect PowerPoint does not have."
+msgstr "حُفظ {0} في OneCloud. فقدت الشرائح {1} تأثيراً لا يملكه PowerPoint."
 
 #: onedesk/www/account_profile.html:78
 msgid "Saved."

@@ -31,6 +31,10 @@ dependencies = [
     # Word files read back as HTML (one_doc/word.py). BSD-2; the same
     # converter Suite's writer runs in the browser.
     "mammoth>=1.8,<2",
+    # PowerPoint files, for a presentation exported to be edited elsewhere
+    # (one_slide/powerpoint.py). MIT; writing PresentationML by hand is a
+    # solved problem we would only be re-solving.
+    "python-pptx>=1.0,<2",
     # XML read safely, for a news feed on a screen (one_display/sources.py).
     # PSF; entity expansion is a solved problem we would only be re-solving.
     "defusedxml>=0.7,<1",

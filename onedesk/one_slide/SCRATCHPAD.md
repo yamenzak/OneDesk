@@ -21,15 +21,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
 ## Planned, from the walkthrough (30 October)
 
-- **Export as PowerPoint (.pptx).** Today the only export is PDF, as
-  pictures. Plan: python-pptx (MIT, not installed yet) on the server, turning
-  each element into a real PowerPoint one, so the file can be edited:
-  text with its font, size, colour and weight; shapes as PowerPoint's own
-  (rectangle, oval, triangle, diamond, star, right arrow, line); pictures;
-  tables; a colour or two-colour fade for backgrounds and fills; videos as
-  embedded movies. What has no PowerPoint equivalent (blur, free CSS) is
-  left out, and the dialog says which slides lost something. Kept beside the
-  presentation in OneCloud, like the PDF.
 - **Templates shipped with One.** Today there are two themes, Light and
   Dark (Suite's), and the company's own templates (**Save as Template**,
   Managers only, kept in OneCloud › Presentation Templates). **New ›

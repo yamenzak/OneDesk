@@ -130,6 +130,7 @@ const fileMenu = computed(() => [
 		options: [
 			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: () => exportPdf(false) },
 			...(printing.value ? [] : [{ label: __("Export as PDF with Notes"), icon: "lucide-notebook-text", onClick: () => exportPdf(true) }]),
+			...(printing.value ? [] : [{ label: __("Export as PowerPoint"), icon: "lucide-presentation", onClick: exportPowerPoint }]),
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
 			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
@@ -216,6 +217,21 @@ async function exportPdf(notes) {
 		await saveWithoutDelay();
 		const made = await call("onedesk.one_slide.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures), notes: notes ? 1 : 0 });
 		alert(__("Saved {0} to OneCloud.", [made.file_name]));
+		openTab(made.url);
+	} finally {
+		printing.value = "";
+	}
+}
+
+// The presentation as a .pptx beside it, made of PowerPoint's own pieces
+// (one_slide/powerpoint.py); a slide with something PowerPoint has nothing like is named.
+async function exportPowerPoint() {
+	if (printing.value) return;
+	printing.value = __("Preparing the PowerPoint file…");
+	try {
+		await saveWithoutDelay();
+		const made = await call("onedesk.one_slide.powerpoint.export", { name: presentationDoc.value.name });
+		alert(made.lost.length ? __("Saved {0} to OneCloud. Slides {1} lost an effect PowerPoint does not have.", [made.file_name, made.lost.join(", ")]) : __("Saved {0} to OneCloud.", [made.file_name]), made.lost.length ? "yellow" : "green");
 		openTab(made.url);
 	} finally {
 		printing.value = "";

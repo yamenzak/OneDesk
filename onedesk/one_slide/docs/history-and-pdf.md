@@ -1,4 +1,4 @@
-# History, Templates and PDF
+# History, Templates and Files
 
 Everything here is under **File** in the head.
 
@@ -26,6 +26,15 @@ keeps the PDF in OneCloud beside the presentation, and opens it.
 
 **Export as PDF with Notes** prints an A4 page for each slide, the slide above
 and its speaker notes below as real words, which can be found and copied.
+
+## Export as PowerPoint
+
+**Export as PowerPoint** makes a .pptx beside the presentation that can be
+edited in PowerPoint, Keynote or Google Slides: words keep their font, size,
+colour and weight, shapes stay shapes, and pictures, videos, tables,
+backgrounds, the master and speaker notes come along. A blur, free CSS or a
+widget has no PowerPoint equivalent, so it is left out, and you are told
+which slides lost one.
 
 ## On a Record
 
