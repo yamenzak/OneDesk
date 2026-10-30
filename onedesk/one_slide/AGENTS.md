@@ -1,5 +1,8 @@
 # OneSlide
 
+What OneSlide is, how it works and why; for agents, OneAI and us. What is
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
+
 Presentations in OneCloud: a tender pitch, a monthly review, the slides a
 screen in the showroom plays. Made in the desk, kept beside everything else in
 the company's files, and opened by anybody the file is shared with.
@@ -55,6 +58,9 @@ before, so going back can itself be undone.
 **File › Save as Template** keeps a copy in OneCloud › Presentation Templates.
 Everyone in the company may start from it: **New › Presentation** offers it,
 and **Theme** lists it beside Light and Dark, so its slides become layouts.
+Keeping one is OneSlide's one ability, `template` (`abilities.py`, the
+Permission Type `slide_template` on Presentation): a Manager has it, a User
+does not, and the item is left out of **File** for whoever lacks it.
 
 **File › Export as PDF** draws every slide as it looks on the screen, a page
 each, and keeps the PDF in OneCloud beside the presentation, or on its record,
@@ -74,11 +80,6 @@ slide of it plays on the screens in turn, each for its own **Advance** time
 or the row's seconds. **New Presentation** on a playlist makes one filed on
 the playlist and opens it here. What you change is on the screens at their
 next look.
-
-## What is not built yet
-
-Two people cannot work on one presentation at the same moment. A PDF is
-pictures of the slides, so its words cannot be selected.
 
 ## Connections
 

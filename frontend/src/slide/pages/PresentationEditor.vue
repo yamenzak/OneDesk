@@ -522,7 +522,7 @@ const updatePresentationTheme = async (theme) => {
 		await adoptServerVersion(id, doc)
 	} catch (error) {
 		console.error('Failed to update theme: ', error)
-		toast.error(__('Could not update the theme. Please try again.'))
+		toast.error(__('The theme could not be changed. Try again.'))
 	}
 }
 

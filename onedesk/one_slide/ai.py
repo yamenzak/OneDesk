@@ -17,6 +17,29 @@ from frappe import _
 from onedesk.one import apps
 from onedesk.one_slide import api, convert, play
 
+# Why OneAI's chat does not do these itself (docs/READY.md, mechanism 11):
+# each is the editor's own, or is OneAI already, asked from the editor.
+NOT_FOR_AI = {
+	"ai.design": "It is OneAI designing a slide, asked from the presentation's own OneAI menu.",
+	"ai.picture": "It is OneAI making a picture, asked from the presentation's own OneAI menu.",
+	"ai.video": "It is OneAI making a video, asked from the presentation's own OneAI menu.",
+	"api.make": "A presentation is made in OneCloud where it is to be kept, by the person who will work on it.",
+	"api.save_slides": "Slides are laid out by eye in the editor, which saves them as it goes.",
+	"api.update_slide_attachments": "It answers a slide pasted in the editor.",
+	"api.get_updated_json": "It answers a slide pasted from another presentation in the editor.",
+	"api.get_webp_doc": "It answers a picture put on a slide in the editor.",
+	"api.save_base64_image": "It keeps a video's first frame, taken in the editor.",
+	"api.save_presentation_thumbnail": "It keeps the picture OneCloud shows, taken in the editor.",
+	"api.upload": "It answers a picture or a video put on a slide in the editor.",
+	"api.update_title": "A presentation is named from its title in the editor.",
+	"api.rename_presentation": "A presentation is named from its title in the editor.",
+	"api.update_theme": "A theme is chosen by eye in the editor, where its layouts are shown.",
+	"paper.pdf": "A PDF is drawn from the slides as the editor shows them, so only the editor can make one.",
+	"templates.save_as": "A template is kept from the editor's File menu by whoever made the presentation.",
+	"versions.keep": "A version is named from the editor's Version History by the person working on it.",
+	"versions.restore": "Going back to a version is the person's call, from the editor's Version History.",
+}
+
 FENCE = re.compile(r"^```[a-zA-Z]*\s*|\s*```$")
 PICTURES = {"image/png": "png", "image/jpeg": "jpg", "image/webp": "webp"}
 VIDEOS = {"video/mp4": "mp4", "video/webm": "webm"}

@@ -125,7 +125,7 @@ const resetAndSave = async () => {
 	const toastProps = {
 		loading: `Saving ...`,
 		success: () => `Saved`,
-		error: () => 'Could not save presentation. Please try again.',
+		error: () => __('The presentation could not be saved. Try again.'), // One: the copy rules, VENDORED.md
 	}
 	toast.promise(
 		saveWithoutDelay().then(() => {

@@ -1,6 +1,8 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/Toolbar.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
+	<!-- One: data-tour marks the tour's step, one_slide/tour.py; VENDORED.md -->
 	<div
+		data-tour="oneslide-tools"
 		class="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center gap-1 rounded-4 bg-surface-elevation-1 p-0.5 shadow-md"
 	>
 		<Tooltip text="Text" :hover-delay="700">

@@ -2720,6 +2720,10 @@ msgstr "إضافة إلى المشروع"
 msgid "Add to Users"
 msgstr "إضافة إلى المستخدمين"
 
+#: onedesk/one_slide/tour.py:17
+msgid "Add to the Slide"
+msgstr "أضف إلى الشريحة"
+
 #: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:195
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
@@ -4829,6 +4833,10 @@ msgstr "اطلب من شؤون الموظفين إعادة تعيين مفتاح
 #: onedesk/public/js/one_mail/rule_builder.js:413
 msgid "Ask OneAI"
 msgstr "اسأل OneAI"
+
+#: onedesk/one_slide/tour.py:30
+msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
+msgstr "اطلب من OneAI شريحة أو صورة أو فيديو، واحفظ النسخ واطبع من الملف، وشغّل العرض التقديمي."
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:139
 msgid "Ask OneAI to add a field."
@@ -8478,6 +8486,10 @@ msgstr "مسح المعروض"
 msgid "Cleared On"
 msgstr "تاريخ التسوية"
 
+#: onedesk/one_slide/tour.py:12
+msgid "Click a slide to work on it, drag to reorder, and add one from the theme's layouts."
+msgstr "انقر شريحة للعمل عليها، واسحبها لتغيير ترتيبها، وأضف شريحة من تخطيطات السمة."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:881
 msgid "Click here"
 msgstr "انقر هنا"
@@ -10035,10 +10047,6 @@ msgstr "تعذّر حفظ المستند."
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
 msgstr "تعذر حفظ القالب."
-
-#: frontend/src/slide/pages/PresentationEditor.vue:525
-msgid "Could not update the theme. Please try again."
-msgstr "تعذّر تحديث السمة. يرجى المحاولة مرة أخرى."
 
 #: frontend/src/writer/DocumentPage.vue:379
 msgid "Could not write {0} back: {1}"
@@ -12673,6 +12681,10 @@ msgstr "صمّم ترويسة من بياناتنا"
 #: onedesk/one/ai.py:154
 msgid "Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr "صمّم ترويسة بلغة HTML من بيانات الشركة في ControlCenter الخاص بـ One (الشركة والهوية): الاسم والشعار في الرأس، والعنوان والهاتف والبريد الإلكتروني في التذييل، كل منها بعد أيقونته."
+
+#: onedesk/one_slide/tour.py:23
+msgid "Design and Layers"
+msgstr "التصميم والطبقات"
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -15677,6 +15689,10 @@ msgstr "محذوفات الجميع"
 #: onedesk/public/js/one_ai/ai_center.js:376
 msgid "Everything"
 msgstr "كل شيء"
+
+#: onedesk/one_slide/tour.py:24
+msgid "Everything about what you chose is here, and Layers lists what is on the slide to name, hide or lock."
+msgstr "كل ما يخص ما اخترته هنا، وتعرض الطبقات ما على الشريحة لتسميته أو إخفائه أو قفله."
 
 #. Task in the Marketing Campaign project template
 #: onedesk/one_project/library/marketing_campaign.json
@@ -22195,6 +22211,10 @@ msgstr ""
 #: frontend/src/intake/IntakeReading.vue:35
 msgid "Keep"
 msgstr "أبقِه"
+
+#: onedesk/one_slide/abilities.py:28
+msgid "Keep Company Templates"
+msgstr "حفظ قوالب الشركة"
 
 #. Label of the keep_until (Date) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -29903,6 +29923,10 @@ msgstr "لم تُحفظ النسخة التي أصلحها OneAI: {0}"
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 msgid "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
 msgstr "صوت OneAI للنداءات والإعلانات. وبدون OneAI تتكلم الشاشة بصوتها."
+
+#: onedesk/one_slide/tour.py:29
+msgid "OneAI, File and Present"
+msgstr "OneAI والملف والعرض"
 
 #: onedesk/one_mail/flow.py:267
 msgid "OneAI: {0}"
@@ -38532,6 +38556,10 @@ msgstr "حفظ العنوان"
 msgid "Save PDF to OneCloud"
 msgstr "حفظ PDF في OneCloud"
 
+#: onedesk/one_slide/abilities.py:31
+msgid "Save a presentation as a template everybody in the workspace can start from."
+msgstr "حفظ عرض تقديمي كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
+
 #: frontend/src/project/ProjectPage.vue:252
 #: frontend/src/sheet/components/SheetEditor/index.vue:1942
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
@@ -44327,6 +44355,10 @@ msgstr "طول النص"
 msgid "Text wrapping"
 msgstr "التفاف النص"
 
+#: onedesk/one_slide/tour.py:18
+msgid "Text, pictures and videos, shapes, lines and tables go on the slide from here."
+msgstr "من هنا تضع على الشريحة النصوص والصور ومقاطع الفيديو والأشكال والخطوط والجداول."
+
 #: onedesk/one/ai.py:191
 msgid "Thank customers who pay"
 msgstr "اشكر العملاء الذين يدفعون"
@@ -45733,6 +45765,10 @@ msgstr "البوابة متوقفة في مساحة العمل هذه."
 msgid "The position was less accurate than the location it matched."
 msgstr "كان الموقع أقل دقة من الموقع الذي طابقه."
 
+#: frontend/src/slide/stores/slide.js:128
+msgid "The presentation could not be saved. Try again."
+msgstr "تعذّر حفظ العرض التقديمي. حاول مرة أخرى."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "The previous account holder"
@@ -46067,6 +46103,10 @@ msgstr "يأتي النص من قاعدة {0} {1}."
 msgid "The text comes from {0}."
 msgstr "يأتي النص من {0}."
 
+#: frontend/src/slide/pages/PresentationEditor.vue:525
+msgid "The theme could not be changed. Try again."
+msgstr "تعذّر تغيير السمة. حاول مرة أخرى."
+
 #: onedesk/one_display/programme.py:329 onedesk/www/tv.py:40
 msgid "The ticket could not be taken. Try again."
 msgstr "تعذّر أخذ التذكرة. حاول مرة أخرى."
@@ -46098,6 +46138,10 @@ msgstr "موازين مراجعة عدة شركات كميزان واحد."
 #: frontend/portal/src/pages/Password.vue:12
 msgid "The two passwords are not the same."
 msgstr "كلمتا المرور غير متطابقتين."
+
+#: frontend/src/slide/utils/mediaUploads.js:99
+msgid "The upload failed. Try again."
+msgstr "فشل الرفع. حاول مرة أخرى."
 
 #: onedesk/public/js/lists.js:50
 msgid "The values {0}'s records pick from. Each opens as its own list."
@@ -49328,10 +49372,6 @@ msgstr "رفع الملفات"
 #: onedesk/public/js/item_new.js:257
 msgid "Upload a list or paste one."
 msgstr "ارفع قائمة أو الصقها."
-
-#: frontend/src/slide/utils/mediaUploads.js:99
-msgid "Upload failed. Please try again."
-msgstr "فشل الرفع. يرجى المحاولة مرة أخرى."
 
 #: frontend/src/cloud/OneCloud.vue:579 frontend/src/cloud/OneCloud.vue:640
 msgid "Upload files"
@@ -55460,6 +55500,10 @@ msgstr "طلبك معلّق"
 msgid "Your Requests"
 msgstr "طلباتك"
 
+#: onedesk/one_slide/tour.py:11
+msgid "Your Slides"
+msgstr "شرائحك"
+
 #: onedesk/one_task/tour.py:12
 msgid "Your Tasks and Inbox"
 msgstr "مهامك والوارد"
@@ -55783,6 +55827,10 @@ msgstr "دورك لا يسمح بتشغيل الخدمات أو إيقافها."
 #: onedesk/one_ai/center.py:261
 msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr "دورك لا يسمح بكتابة معرفة OneAI."
+
+#: onedesk/one_slide/templates.py:43
+msgid "Your role doesn't keep company templates. Ask a workspace administrator."
+msgstr "دورك لا يتيح حفظ قوالب الشركة. اطلب ذلك من مسؤول مساحة العمل."
 
 #: onedesk/public/js/one_account/account_center.js:564
 msgid "Your sessions are on the Sign-in page."

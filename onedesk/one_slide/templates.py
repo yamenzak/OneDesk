@@ -1,7 +1,8 @@
 """Presentation templates: a presentation kept in OneCloud's Presentation
 Templates folder to start others from, and to take slides from, as the
-themes' layouts are taken. Anyone in the company opens them; whoever made one,
-or an administrator, changes it, as with any company file. README, Templates.
+themes' layouts are taken. Anyone in the company opens them; a role with
+the template ability (abilities.py) keeps one; whoever made one, or an
+administrator, changes it, as with any company file. AGENTS.md, Templates.
 """
 
 import json
@@ -35,7 +36,11 @@ def save_as(name: str, title: str) -> dict:
 	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import namespace as ns
 
+	from onedesk.one import rights
+
 	api._may(name, "read")
+	if not rights.held(api.PRESENTATION, "slide_template"):
+		frappe.throw(_("Your role doesn't keep company templates. Ask a workspace administrator."), frappe.PermissionError)
 	title = api._titled(title) or _("Untitled Template")
 	source = frappe.get_doc(api.PRESENTATION, name)
 	made = frappe.get_doc({"doctype": api.PRESENTATION, "title": title, "theme": source.theme, "is_template": 1})

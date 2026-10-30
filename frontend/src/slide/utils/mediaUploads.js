@@ -96,7 +96,7 @@ const getToastProps = (file, index, length) => {
 	return {
 		loading: __('Uploading {0} of {1}…', [index + 1, length]),
 		success: __('Uploaded {0} of {1}', [index + 1, length]),
-		error: __('Upload failed. Please try again.'),
+		error: __('The upload failed. Try again.'),
 	}
 }
 

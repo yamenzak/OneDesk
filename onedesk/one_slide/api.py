@@ -3,7 +3,7 @@
 """What the presentation editor calls: make one in a folder, open it, save its
 slides, rename it, and keep the pictures and videos put on it. Whether the
 reader may is OneCloud's answer for the File the presentation sits behind,
-never the Presentation's own permissions. README, api.py.
+never the Presentation's own permissions. AGENTS.md, api.py.
 
 Suite's editor calls these by Suite's names (`shim/frappe-ui.js` points them
 here), so the names and what they answer are Suite's.
@@ -205,12 +205,14 @@ def get(name: str, doctype: str | None = None) -> dict:
 
 
 def _loaded(name: str, item: dict) -> dict:
+	from onedesk.one import rights
 	from onedesk.one_storage import namespace as ns
 
 	doc = frappe.get_doc(PRESENTATION, name).as_dict(no_default_fields=False)
 	doc["title"] = item["file_name"]
 	doc["file"] = item["name"]
 	doc["can_write"] = ns.may(item, "write")
+	doc["can_template"] = rights.held(PRESENTATION, "slide_template")
 	doc["record"] = (
 		{"doctype": item["attached_to_doctype"], "name": item["attached_to_name"]}
 		if item.get("attached_to_doctype") and item.get("attached_to_name")

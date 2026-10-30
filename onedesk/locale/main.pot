@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 10:53+0000\n"
-"PO-Revision-Date: 2026-10-30 10:53+0000\n"
+"POT-Creation-Date: 2026-10-30 11:08+0000\n"
+"PO-Revision-Date: 2026-10-30 11:08+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2427,7 +2427,7 @@ msgstr ""
 msgid "Add Sheets From a Template"
 msgstr ""
 
-#: frontend/src/slide/components/NavigationPanel.vue:46
+#: frontend/src/slide/components/NavigationPanel.vue:48
 msgid "Add Slide"
 msgstr ""
 
@@ -2721,6 +2721,10 @@ msgstr ""
 
 #: frontend/src/project/Team.vue:166
 msgid "Add to Users"
+msgstr ""
+
+#: onedesk/one_slide/tour.py:17
+msgid "Add to the Slide"
 msgstr ""
 
 #: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:195
@@ -4851,6 +4855,10 @@ msgstr ""
 #: onedesk/public/js/one_mail/rule_builder.js:359
 #: onedesk/public/js/one_mail/rule_builder.js:413
 msgid "Ask OneAI"
+msgstr ""
+
+#: onedesk/one_slide/tour.py:30
+msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
 msgstr ""
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:139
@@ -8549,6 +8557,10 @@ msgstr ""
 msgid "Cleared On"
 msgstr ""
 
+#: onedesk/one_slide/tour.py:12
+msgid "Click a slide to work on it, drag to reorder, and add one from the theme's layouts."
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:881
 msgid "Click here"
 msgstr ""
@@ -10143,10 +10155,6 @@ msgstr ""
 #: frontend/src/sheet/shim/TemplateDialog.vue:49
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
-msgstr ""
-
-#: frontend/src/slide/pages/PresentationEditor.vue:525
-msgid "Could not update the theme. Please try again."
 msgstr ""
 
 #: frontend/src/writer/DocumentPage.vue:379
@@ -12815,6 +12823,10 @@ msgstr ""
 
 #: onedesk/one/ai.py:154
 msgid "Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name and logo in the header, the address, phone and email in the footer, each after its icon."
+msgstr ""
+
+#: onedesk/one_slide/tour.py:23
+msgid "Design and Layers"
 msgstr ""
 
 #. Task in the Interior Fit-Out project template
@@ -15874,6 +15886,10 @@ msgstr ""
 #: onedesk/public/js/one_ai/ai_center.js:206
 #: onedesk/public/js/one_ai/ai_center.js:376
 msgid "Everything"
+msgstr ""
+
+#: onedesk/one_slide/tour.py:24
+msgid "Everything about what you chose is here, and Layers lists what is on the slide to name, hide or lock."
 msgstr ""
 
 #. Task in the Marketing Campaign project template
@@ -21723,7 +21739,7 @@ msgid "It is no longer in {app}."
 msgstr ""
 
 #. Message of a notification
-#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "It is on a new slide at the end. Look at it before you show it."
 msgstr ""
 
@@ -22473,6 +22489,10 @@ msgstr ""
 #: frontend/src/intake/IntakeReading.vue:35
 #: frontend/src/slide/shim/VersionsDialog.vue:7
 msgid "Keep"
+msgstr ""
+
+#: onedesk/one_slide/abilities.py:28
+msgid "Keep Company Templates"
 msgstr ""
 
 #. Label of the keep_until (Date) field in DocType 'Reading'
@@ -23840,7 +23860,7 @@ msgid "Line spacing"
 msgstr ""
 
 #. Label of the lines (Table) field in DocType 'Reading'
-#: frontend/src/slide/components/Toolbar.vue:20
+#: frontend/src/slide/components/Toolbar.vue:22
 #: onedesk/one_ai/doctype/reading/reading.json onedesk/public/js/progress.js:66
 msgid "Lines"
 msgstr ""
@@ -27400,8 +27420,8 @@ msgstr ""
 #: onedesk/one_legal/abilities.py:21 onedesk/one_mail/abilities.py:23
 #: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1052
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
-#: onedesk/one_studio/print_blocks.py:427 onedesk/one_task/abilities.py:20
-#: onedesk/public/js/item_new.js:49
+#: onedesk/one_slide/abilities.py:22 onedesk/one_studio/print_blocks.py:427
+#: onedesk/one_task/abilities.py:20 onedesk/public/js/item_new.js:49
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "No"
 msgstr ""
@@ -27700,7 +27720,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:443
+#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:445
 msgid "No file was sent."
 msgstr ""
 
@@ -29033,7 +29053,7 @@ msgid "Nothing was added to {playlist}. Try again, or describe it differently."
 msgstr ""
 
 #. Message of a notification
-#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "Nothing was added to {presentation}. Try again, or describe it differently."
 msgstr ""
 
@@ -30106,7 +30126,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:61
+#: onedesk/one_slide/ai.py:84
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -30114,7 +30134,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:71
+#: onedesk/one_slide/ai.py:94
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -30123,8 +30143,7 @@ msgid "OneAI could not make the recording. Try again."
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
-#: onedesk/one_display/notifications.py
+#: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 msgid "OneAI could not make “{what}”"
 msgstr ""
 
@@ -30303,6 +30322,10 @@ msgstr ""
 #. Description of the 'Voice' (Select) field in DocType 'Display Channel'
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 msgid "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
+msgstr ""
+
+#: onedesk/one_slide/tour.py:29
+msgid "OneAI, File and Present"
 msgstr ""
 
 #: onedesk/one_mail/flow.py:267
@@ -39091,6 +39114,10 @@ msgstr ""
 msgid "Save PDF to OneCloud"
 msgstr ""
 
+#: onedesk/one_slide/abilities.py:31
+msgid "Save a presentation as a template everybody in the workspace can start from."
+msgstr ""
+
 #: frontend/src/project/ProjectPage.vue:252
 #: frontend/src/sheet/components/SheetEditor/index.vue:1942
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
@@ -39213,7 +39240,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:32
+#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:55
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -40562,7 +40589,7 @@ msgstr ""
 msgid "Shape One to the way you work with your own fields, record types and forms."
 msgstr ""
 
-#: frontend/src/slide/components/Toolbar.vue:18
+#: frontend/src/slide/components/Toolbar.vue:20
 msgid "Shapes"
 msgstr ""
 
@@ -41801,7 +41828,7 @@ msgstr ""
 msgid "Slab"
 msgstr ""
 
-#: frontend/src/slide/components/NavigationPanel.vue:12
+#: frontend/src/slide/components/NavigationPanel.vue:14
 msgid "Slide"
 msgstr ""
 
@@ -41820,7 +41847,7 @@ msgstr ""
 msgid "Slide copied to clipboard"
 msgstr ""
 
-#: onedesk/one_slide/api.py:270
+#: onedesk/one_slide/api.py:272
 msgid "Slide fields not accepted: {0}"
 msgstr ""
 
@@ -45038,6 +45065,10 @@ msgstr ""
 msgid "Text wrapping"
 msgstr ""
 
+#: onedesk/one_slide/tour.py:18
+msgid "Text, pictures and videos, shapes, lines and tables go on the slide from here."
+msgstr ""
+
 #: onedesk/one/ai.py:191
 msgid "Thank customers who pay"
 msgstr ""
@@ -45177,7 +45208,7 @@ msgstr ""
 msgid "That tab shared no sound, so only the microphone is recorded."
 msgstr ""
 
-#: onedesk/one_slide/api.py:320
+#: onedesk/one_slide/api.py:322
 msgid "That theme does not exist."
 msgstr ""
 
@@ -46454,6 +46485,10 @@ msgstr ""
 msgid "The position was less accurate than the location it matched."
 msgstr ""
 
+#: frontend/src/slide/stores/slide.js:128
+msgid "The presentation could not be saved. Try again."
+msgstr ""
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "The previous account holder"
@@ -46788,6 +46823,10 @@ msgstr ""
 msgid "The text comes from {0}."
 msgstr ""
 
+#: frontend/src/slide/pages/PresentationEditor.vue:525
+msgid "The theme could not be changed. Try again."
+msgstr ""
+
 #: onedesk/one_display/programme.py:332 onedesk/www/tv.py:45
 msgid "The ticket could not be taken. Try again."
 msgstr ""
@@ -46818,6 +46857,10 @@ msgstr ""
 
 #: frontend/portal/src/pages/Password.vue:12
 msgid "The two passwords are not the same."
+msgstr ""
+
+#: frontend/src/slide/utils/mediaUploads.js:99
+msgid "The upload failed. Try again."
 msgstr ""
 
 #: onedesk/public/js/lists.js:50
@@ -47523,7 +47566,7 @@ msgstr ""
 msgid "This file is too large to put into a document."
 msgstr ""
 
-#: onedesk/one_slide/api.py:446
+#: onedesk/one_slide/api.py:448
 msgid "This file is too large to put on a slide."
 msgstr ""
 
@@ -47579,8 +47622,8 @@ msgstr ""
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
-#: onedesk/one_slide/api.py:479 onedesk/one_slide/api.py:483
-#: onedesk/one_slide/api.py:496 onedesk/one_slide/paper.py:30
+#: onedesk/one_slide/api.py:481 onedesk/one_slide/api.py:485
+#: onedesk/one_slide/api.py:498 onedesk/one_slide/paper.py:30
 msgid "This is not a picture."
 msgstr ""
 
@@ -47699,7 +47742,7 @@ msgstr ""
 msgid "This passkey was registered on a different browser."
 msgstr ""
 
-#: onedesk/one_slide/api.py:485 onedesk/one_slide/api.py:499
+#: onedesk/one_slide/api.py:487 onedesk/one_slide/api.py:501
 #: onedesk/one_slide/paper.py:33
 msgid "This picture is too large."
 msgstr ""
@@ -47712,7 +47755,7 @@ msgstr ""
 msgid "This presentation has too many slides to print at once."
 msgstr ""
 
-#: onedesk/one_slide/api.py:246
+#: onedesk/one_slide/api.py:248
 msgid "This presentation is too large to save."
 msgstr ""
 
@@ -47720,7 +47763,7 @@ msgstr ""
 msgid "This presentation no longer exists."
 msgstr ""
 
-#: onedesk/one_slide/api.py:250
+#: onedesk/one_slide/api.py:252
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr ""
 
@@ -49998,7 +50041,7 @@ msgid "Untitled Sheet"
 msgstr ""
 
 #: onedesk/one_doc/templates.py:63 onedesk/one_sheet/templates.py:88
-#: onedesk/one_slide/templates.py:39
+#: onedesk/one_slide/templates.py:44
 msgid "Untitled Template"
 msgstr ""
 
@@ -50112,10 +50155,6 @@ msgstr ""
 
 #: onedesk/public/js/item_new.js:257
 msgid "Upload a list or paste one."
-msgstr ""
-
-#: frontend/src/slide/utils/mediaUploads.js:99
-msgid "Upload failed. Please try again."
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:580 frontend/src/cloud/OneCloud.vue:642
@@ -50686,12 +50725,12 @@ msgid "Video"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "Video Made for a Presentation"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "Video Not Made for a Presentation"
 msgstr ""
 
@@ -52477,7 +52516,7 @@ msgid "When OneAI could not make a piece of music somebody asked for."
 msgstr ""
 
 #. When a notification is sent
-#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "When OneAI could not make a video somebody asked for in a presentation."
 msgstr ""
 
@@ -52815,7 +52854,7 @@ msgid "When a training event you attend is scheduled."
 msgstr ""
 
 #. When a notification is sent
-#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "When a video somebody asked OneAI for is ready, on a new slide of their presentation."
 msgstr ""
 
@@ -54456,9 +54495,7 @@ msgid "Whoever asked"
 msgstr ""
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
-#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
-#: onedesk/one_display/notifications.py
+#: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 msgid "Whoever asked for it"
 msgstr ""
 
@@ -55324,7 +55361,7 @@ msgstr ""
 #: onedesk/one_mail/abilities.py:19 onedesk/one_mail/cloud.py:33
 #: onedesk/one_mail/custom/email_account.json
 #: onedesk/one_portal/abilities.py:19 onedesk/one_project/abilities.py:18
-#: onedesk/one_task/abilities.py:18
+#: onedesk/one_slide/abilities.py:20 onedesk/one_task/abilities.py:18
 #: onedesk/public/js/one/notification_center.js:108
 #: onedesk/public/js/one/notification_center.js:110
 #: onedesk/public/js/one/notification_center.js:141
@@ -55899,8 +55936,8 @@ msgstr ""
 #: onedesk/one_hr/abilities.py:17 onedesk/one_inventory/abilities.py:17
 #: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1002
 #: onedesk/one_mail/ai.py:1052 onedesk/one_portal/abilities.py:21
-#: onedesk/one_project/abilities.py:20 onedesk/one_task/abilities.py:20
-#: onedesk/public/js/bom_list.js:5
+#: onedesk/one_project/abilities.py:20 onedesk/one_slide/abilities.py:22
+#: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "Yes"
 msgstr ""
@@ -56360,6 +56397,10 @@ msgstr ""
 msgid "Your Requests"
 msgstr ""
 
+#: onedesk/one_slide/tour.py:11
+msgid "Your Slides"
+msgstr ""
+
 #: onedesk/one_task/tour.py:12
 msgid "Your Tasks and Inbox"
 msgstr ""
@@ -56682,6 +56723,10 @@ msgstr ""
 
 #: onedesk/one_ai/center.py:261
 msgid "Your role doesn't allow writing OneAI's Knowledge."
+msgstr ""
+
+#: onedesk/one_slide/templates.py:43
+msgid "Your role doesn't keep company templates. Ask a workspace administrator."
 msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:564
@@ -62205,7 +62250,7 @@ msgid "“{what}” is ready in {playlist}"
 msgstr ""
 
 #. Subject of a notification
-#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+#: onedesk/one_slide/notifications.py
 msgid "“{what}” is ready in {presentation}"
 msgstr ""
 

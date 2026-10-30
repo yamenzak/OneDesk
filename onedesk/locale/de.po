@@ -2720,6 +2720,10 @@ msgstr "Zum Projekt hinzufügen"
 msgid "Add to Users"
 msgstr "Zu Benutzern hinzufügen"
 
+#: onedesk/one_slide/tour.py:17
+msgid "Add to the Slide"
+msgstr "Zur Folie hinzufügen"
+
 #: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:195
 msgid "Add to {0}"
 msgstr "Zu {0} hinzufügen"
@@ -4829,6 +4833,10 @@ msgstr "Bitten Sie die Personalabteilung, Ihren Passkey zurückzusetzen."
 #: onedesk/public/js/one_mail/rule_builder.js:413
 msgid "Ask OneAI"
 msgstr "OneAI fragen"
+
+#: onedesk/one_slide/tour.py:30
+msgid "Ask OneAI for a slide, a picture or a video, keep versions and print from File, and play the presentation."
+msgstr "Bitten Sie OneAI um eine Folie, ein Bild oder ein Video, bewahren Sie Versionen auf und drucken Sie über Datei, und spielen Sie die Präsentation ab."
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:139
 msgid "Ask OneAI to add a field."
@@ -8478,6 +8486,10 @@ msgstr "Angezeigte abwählen"
 msgid "Cleared On"
 msgstr "Verrechnet am"
 
+#: onedesk/one_slide/tour.py:12
+msgid "Click a slide to work on it, drag to reorder, and add one from the theme's layouts."
+msgstr "Klicken Sie auf eine Folie, um daran zu arbeiten, ziehen Sie sie, um die Reihenfolge zu ändern, und fügen Sie eine aus den Layouts des Designs hinzu."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:881
 msgid "Click here"
 msgstr "Hier klicken"
@@ -10035,10 +10047,6 @@ msgstr "Das Dokument konnte nicht gespeichert werden."
 #: frontend/src/writer/shim/SaveTemplateDialog.vue:49
 msgid "Could not save the template."
 msgstr "Die Vorlage konnte nicht gespeichert werden."
-
-#: frontend/src/slide/pages/PresentationEditor.vue:525
-msgid "Could not update the theme. Please try again."
-msgstr "Das Design konnte nicht geändert werden. Bitte versuchen Sie es erneut."
 
 #: frontend/src/writer/DocumentPage.vue:379
 msgid "Could not write {0} back: {1}"
@@ -12673,6 +12681,10 @@ msgstr "Einen Briefkopf aus unseren Angaben gestalten"
 #: onedesk/one/ai.py:154
 msgid "Design a letter head in HTML from the company's details in One's ControlCenter (Company and Branding): the name and logo in the header, the address, phone and email in the footer, each after its icon."
 msgstr "Gestalte einen Briefkopf in HTML aus den Firmendaten im ControlCenter von One (Firma und Markenauftritt): Name und Logo in der Kopfzeile, Adresse, Telefon und E-Mail in der Fußzeile, jeweils nach seinem Symbol."
+
+#: onedesk/one_slide/tour.py:23
+msgid "Design and Layers"
+msgstr "Design und Ebenen"
 
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
@@ -15677,6 +15689,10 @@ msgstr "Gelöschtes aller"
 #: onedesk/public/js/one_ai/ai_center.js:376
 msgid "Everything"
 msgstr "Alles"
+
+#: onedesk/one_slide/tour.py:24
+msgid "Everything about what you chose is here, and Layers lists what is on the slide to name, hide or lock."
+msgstr "Hier steht alles zu dem, was Sie ausgewählt haben, und Ebenen listet auf, was auf der Folie ist, um es zu benennen, auszublenden oder zu sperren."
 
 #. Task in the Marketing Campaign project template
 #: onedesk/one_project/library/marketing_campaign.json
@@ -22195,6 +22211,10 @@ msgstr ""
 #: frontend/src/intake/IntakeReading.vue:35
 msgid "Keep"
 msgstr "Behalten"
+
+#: onedesk/one_slide/abilities.py:28
+msgid "Keep Company Templates"
+msgstr "Firmenvorlagen anlegen"
 
 #. Label of the keep_until (Date) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -29903,6 +29923,10 @@ msgstr "Die von OneAI behobene Fassung wurde nicht übernommen: {0}"
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 msgid "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
 msgstr "OneAIs Stimme für Aufrufe und Ansagen. Ohne OneAI spricht der Bildschirm mit seiner eigenen Stimme."
+
+#: onedesk/one_slide/tour.py:29
+msgid "OneAI, File and Present"
+msgstr "OneAI, Datei und Präsentieren"
 
 #: onedesk/one_mail/flow.py:267
 msgid "OneAI: {0}"
@@ -38532,6 +38556,10 @@ msgstr "Adresse speichern"
 msgid "Save PDF to OneCloud"
 msgstr "PDF in OneCloud speichern"
 
+#: onedesk/one_slide/abilities.py:31
+msgid "Save a presentation as a template everybody in the workspace can start from."
+msgstr "Eine Präsentation als Vorlage speichern, von der alle im Arbeitsbereich ausgehen können."
+
 #: frontend/src/project/ProjectPage.vue:252
 #: frontend/src/sheet/components/SheetEditor/index.vue:1942
 #: frontend/src/sheet/shim/TemplateDialog.vue:3
@@ -44327,6 +44355,10 @@ msgstr "Textlänge"
 msgid "Text wrapping"
 msgstr "Textumbruch"
 
+#: onedesk/one_slide/tour.py:18
+msgid "Text, pictures and videos, shapes, lines and tables go on the slide from here."
+msgstr "Text, Bilder und Videos, Formen, Linien und Tabellen kommen von hier auf die Folie."
+
 #: onedesk/one/ai.py:191
 msgid "Thank customers who pay"
 msgstr "Zahlenden Kunden danken"
@@ -45733,6 +45765,10 @@ msgstr "Das Portal ist für diesen Arbeitsbereich ausgeschaltet."
 msgid "The position was less accurate than the location it matched."
 msgstr "Die Position war ungenauer als der Ort, dem sie zugeordnet wurde."
 
+#: frontend/src/slide/stores/slide.js:128
+msgid "The presentation could not be saved. Try again."
+msgstr "Die Präsentation konnte nicht gespeichert werden. Versuchen Sie es erneut."
+
 #. Who a notification is sent to
 #: onedesk/notifications/one_admin/workspace_moved_away.md
 msgid "The previous account holder"
@@ -46067,6 +46103,10 @@ msgstr "Der Text stammt aus der Regel {1} von {0}."
 msgid "The text comes from {0}."
 msgstr "Der Text stammt von {0}."
 
+#: frontend/src/slide/pages/PresentationEditor.vue:525
+msgid "The theme could not be changed. Try again."
+msgstr "Das Design konnte nicht geändert werden. Versuchen Sie es erneut."
+
 #: onedesk/one_display/programme.py:329 onedesk/www/tv.py:40
 msgid "The ticket could not be taken. Try again."
 msgstr "Die Nummer konnte nicht gezogen werden. Versuchen Sie es erneut."
@@ -46098,6 +46138,10 @@ msgstr "Die Summen- und Saldenlisten mehrerer Unternehmen als eine."
 #: frontend/portal/src/pages/Password.vue:12
 msgid "The two passwords are not the same."
 msgstr "Die beiden Passwörter stimmen nicht überein."
+
+#: frontend/src/slide/utils/mediaUploads.js:99
+msgid "The upload failed. Try again."
+msgstr "Das Hochladen ist fehlgeschlagen. Versuchen Sie es erneut."
 
 #: onedesk/public/js/lists.js:50
 msgid "The values {0}'s records pick from. Each opens as its own list."
@@ -49328,10 +49372,6 @@ msgstr "Dateien hochladen"
 #: onedesk/public/js/item_new.js:257
 msgid "Upload a list or paste one."
 msgstr "Lade eine Liste hoch oder füge eine ein."
-
-#: frontend/src/slide/utils/mediaUploads.js:99
-msgid "Upload failed. Please try again."
-msgstr "Hochladen fehlgeschlagen. Bitte versuchen Sie es erneut."
 
 #: frontend/src/cloud/OneCloud.vue:579 frontend/src/cloud/OneCloud.vue:640
 msgid "Upload files"
@@ -55460,6 +55500,10 @@ msgstr "Ihre Anfrage ist zurückgestellt"
 msgid "Your Requests"
 msgstr "Ihre Anträge"
 
+#: onedesk/one_slide/tour.py:11
+msgid "Your Slides"
+msgstr "Ihre Folien"
+
 #: onedesk/one_task/tour.py:12
 msgid "Your Tasks and Inbox"
 msgstr "Ihre Aufgaben und Posteingang"
@@ -55783,6 +55827,10 @@ msgstr "Ihre Rolle erlaubt nicht, Dienste ein- oder auszuschalten."
 #: onedesk/one_ai/center.py:261
 msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr "Ihre Rolle erlaubt nicht, das Wissen von OneAI zu schreiben."
+
+#: onedesk/one_slide/templates.py:43
+msgid "Your role doesn't keep company templates. Ask a workspace administrator."
+msgstr "Ihre Rolle legt keine Firmenvorlagen an. Wenden Sie sich an eine Administration des Arbeitsbereichs."
 
 #: onedesk/public/js/one_account/account_center.js:564
 msgid "Your sessions are on the Sign-in page."

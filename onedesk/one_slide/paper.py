@@ -1,6 +1,6 @@
 """A presentation as a PDF: one page a slide, each the picture the editor
 drew of it, so the paper is what the screen showed. Kept in OneCloud beside
-the presentation, or on its record, and opened from there. README, Paper.
+the presentation, or on its record, and opened from there. AGENTS.md, Paper.
 """
 
 import base64

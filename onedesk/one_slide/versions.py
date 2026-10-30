@@ -1,6 +1,6 @@
 """A presentation's history. Before a save writes over slides, what they were
 is kept, at most every ten minutes; a version can also be kept by name, and
-going back to one is itself kept first, so it can be undone. README, History.
+going back to one is itself kept first, so it can be undone. AGENTS.md, History.
 """
 
 import json

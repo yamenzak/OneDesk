@@ -1,6 +1,6 @@
 <!-- Suite's editor head, drawn as One's: the way back to where the presentation belongs, its title, whether it is saved, and Theme, Export and Present (Suite's EditorNavbar.vue, which this stands in for). -->
 <template>
-	<div class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 bg-surface-base px-4">
+	<div data-tour="oneslide-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 bg-surface-base px-4">
 		<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
 		<Breadcrumbs v-if="!renaming" :items="crumbs">
 			<template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template>
@@ -107,7 +107,7 @@ const fileMenu = computed(() => [
 		options: [
 			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: exportPdf },
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
-			{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate },
+			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
 		],
 	},

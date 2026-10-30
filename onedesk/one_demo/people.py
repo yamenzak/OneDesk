@@ -18,7 +18,7 @@ PEOPLE = (
 	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneBook": "User", "OneProject": "User"}),
 	("Mariam", "Saleh", "mariam@one.test", "Human Resources", "HR Officer", "Female", (2022, 5, 3), 15000, "Layla", {"OneHR": "Manager", "OneMail": "Manager", "One": "Manager", "OneCalendar": "Manager"}),
 	("Rania", "Sabbagh", "rania@one.test", "Projects", "Site Engineer", "Female", (2022, 8, 15), 16000, "Samir", {"OneProject": "User", "OneInventory": "User"}),
-	("Nadia", "Khoury", "nadia@one.test", "Design", "Designer", "Female", (2023, 3, 1), 14000, "Samir", {"OneProject": "User"}),
+	("Nadia", "Khoury", "nadia@one.test", "Design", "Designer", "Female", (2023, 3, 1), 14000, "Samir", {"OneProject": "User", "OneSlide": "Manager"}),
 	("Tariq", "Haidar", "tariq@one.test", "Workshop", "Workshop Supervisor", "Male", (2020, 11, 2), 12000, "Samir", {"OneProject": "User", "OneInventory": "User"}),
 	("Yousef", "Bakr", "yousef@one.test", "Workshop", "Installer", "Male", (2023, 7, 9), 6500, "Tariq", {"OneInventory": "User"}),
 	("Arun", "Kumar", None, "Workshop", "Fabricator", "Male", (2021, 4, 12), 4800, "Tariq", None),

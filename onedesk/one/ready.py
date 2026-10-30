@@ -322,6 +322,23 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+	"OneSlide": {
+		"folder": "one_slide",
+		"screens": "slide",
+		"names": ("one_slide", "oneslide"),
+		"ready": False,
+		"checked": {},
+		"windowless": "A presentation opens from OneCloud in an editor that fills the window, so OneSlide's foot and settings are OneCloud's.",
+		"help": (
+			("overview", "info"),
+			("working-on-slides", "presentation"),
+			("design-and-layers", "layers"),
+			("history-and-pdf", "history"),
+			("asking-oneai", "sparkles"),
+			("on-screens", "tv"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"OnePortal": {
 		"folder": "one_portal",
 		"screens": "portal",
@@ -541,6 +558,8 @@ SHARED = {
 	"brand/oneportal.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onecalendar.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onedisplay.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/oneslide.svg": "every product's mark is drawn in brand/, into one sprite",
+	"docs/ONESLIDE.md": "the plan that made OneSlide and moved OneDisplay's slides into it, across both modules",
 	"tests/samples/intake/one_calendar/site-meeting.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_calendar/site-meeting.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/onetask.svg": "every product's mark is drawn in brand/, into one sprite",
@@ -630,6 +649,7 @@ OUTSIDE = {
 	"OneInventory": [],
 	"OneBook": [],
 	"OneDisplay": [],
+	"OneSlide": [],
 }
 
 

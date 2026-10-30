@@ -1,6 +1,4 @@
-"""What OneSlide tells people, and when (its kinds are in
-notifications/one_storage, beside OneCloud's own, until OneSlide is a module
-of its own)."""
+"""What OneSlide tells people, and when (its kinds are in notifications.py)."""
 
 import frappe
 

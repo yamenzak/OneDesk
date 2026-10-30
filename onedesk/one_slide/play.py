@@ -2,7 +2,7 @@
 element through `cleaned`: a text element's HTML is sanitised as any HTML
 from a browser is, an address that is not a page's, a file's or ours is
 dropped, and the Builder half (free CSS, blur, a fade, a name) is held to
-`css.json`, the rules the editor reads too. README, api.py.
+`css.json`, the rules the editor reads too. AGENTS.md, api.py.
 """
 
 import html

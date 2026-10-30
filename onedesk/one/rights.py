@@ -69,7 +69,8 @@ def of(app: str, role: str) -> dict:
 def save(app: str, role: str, values: dict) -> bool:
 	"""A role given exactly `values` of an app's abilities, on its Custom
 	DocPerm row for the doctype they live on. Frappe wants a basic right on
-	every row, so a new row carries Select. True when anything changed."""
+	every row, so a new row carries Select, and not Read, which Custom DocPerm
+	would otherwise default to. True when anything changed."""
 	from frappe.core.doctype.doctype.doctype import validate_permissions_for_doctype
 	from frappe.permissions import setup_custom_perms
 
@@ -96,7 +97,7 @@ def save(app: str, role: str, values: dict) -> bool:
 	doc = (
 		frappe.get_doc("Custom DocPerm", row.name)
 		if row
-		else frappe.get_doc({"doctype": "Custom DocPerm", "parenttype": "DocType", "parentfield": "permissions", **where, "select": 1})
+		else frappe.get_doc({"doctype": "Custom DocPerm", "parenttype": "DocType", "parentfield": "permissions", **where, "select": 1, "read": 0})
 	)
 	doc.update(wanted)
 	doc.save(ignore_permissions=True)

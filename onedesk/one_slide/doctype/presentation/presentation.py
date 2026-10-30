@@ -1,6 +1,6 @@
 # Derived from frappe/suite@2831a5d (suite/slides/doctype/presentation/presentation.py). Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0.
 """A presentation's slides. The File in OneCloud is what people see, move,
-share and delete; this is only what it holds. README, api.py.
+share and delete; this is only what it holds. AGENTS.md, api.py.
 """
 
 import re

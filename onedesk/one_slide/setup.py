@@ -1,5 +1,6 @@
 """The two themes every presentation starts from, Light and Dark, taken from
-Suite's fixtures (templates/system.json) and kept as they ship. README.
+Suite's fixtures (templates/system.json) and kept as they ship. AGENTS.md.
+OneSlide needs nothing set up: a presentation is made in OneCloud.
 """
 
 import json
@@ -9,6 +10,8 @@ from pathlib import Path
 import frappe
 
 HERE = Path(__file__).parent / "templates" / "system.json"
+
+STEPS = []
 
 
 @cache
