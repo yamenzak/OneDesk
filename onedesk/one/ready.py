@@ -269,11 +269,11 @@ MODULES = {
 		"names": ("one_display", "onedisplay"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "acee8ae9ffdd", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "acee8ae9ffdd", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "acee8ae9ffdd", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "acee8ae9ffdd", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "acee8ae9ffdd", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-30", "commit": "dc18e714276a", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "dc18e714276a", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "dc18e714276a", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "dc18e714276a", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "dc18e714276a", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
