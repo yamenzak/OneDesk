@@ -111,4 +111,28 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   - A browser plays no sound until OK is pressed once; the TV already asks.
   This also ends most of "Sound in step" above: one place per zone makes
   the sound, so there is no echo to correct.
+- **Voice packs for calls.** Today a call is recorded as a whole sentence,
+  once per language, voice and tone (`voices.spoken`), so the first call of
+  every new ticket and counter is said in the TV's own voice while it is
+  made, and a busy queue grows thousands of recordings. They sit in the
+  workspace's storage on `Display Voice` records, seen nowhere. Plan:
+  - A **pack** per language and tone, made once in the background through
+    the same job (Gemini speech): every letter, the digits 0 to 9, the whole
+    numbers 0 to 999, "thousand", "and" where the language joins numbers
+    with one (Arabic و), the separators (dash, slash, point), "Ticket",
+    "please go to", and the name of each counter and room.
+  - A ticket is whatever the queue's format makes it (A1828, 2828,
+    1828-3): the TV splits it into letters, numbers and separators and plays
+    the pieces end to end with Web Audio, so every call is in OneAI's voice
+    from the first ticket.
+  - The queue says how a number is read: digit by digit (the default from
+    four digits up, as counters say them) or whole, built up to 999,999
+    from 0 to 999 and "thousand". Arabic numbers keep one form by following
+    "رقم".
+  - A whole sentence still recorded is played when it is kept, since pieces
+    joined sound joined; anything a pack cannot say is recorded whole as
+    today.
+  - **Voice Packs** in OneDisplay: each pack's language, tone and voice,
+    what it covers, its size, and Make Again after a change of voice or
+    names.
 
