@@ -114,7 +114,12 @@ def make(parent: str, title: str | None = None, template: str | None = None, wid
 	doc = frappe.get_doc({"doctype": PRESENTATION, "title": title, "theme": source, "width": size[0], "height": size[1]})
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	first = _first_slides(source)
+	from onedesk.one_slide import decks
+
+	# a deck One ships is built afresh, in the reader's language and the business's brand
+	first = decks.slides(decks.deck_of(source)) if decks.deck_of(source) else _first_slides(source)
+	for row in first:
+		row.pop("kind", None)
 	resize.refit(first, drawn, size)
 	if (frappe.db.get_single_value("System Settings", "language") or "").startswith("ar"):
 		from onedesk.one_slide import fonts
@@ -122,7 +127,7 @@ def make(parent: str, title: str | None = None, template: str | None = None, wid
 		fonts.arabic(first)
 	doc.set("slides", first)
 	doc.save(ignore_permissions=True)
-	if source != LIGHT:
+	if source != LIGHT and not decks.deck_of(source):
 		from onedesk.one_slide import master
 
 		# a template's master comes with it, at the size asked
@@ -190,9 +195,10 @@ def _first_slides(template: str) -> list[dict]:
 
 
 def _system() -> set:
-	from onedesk.one_slide import setup
+	"""The themes and decks One ships, which every workspace has and nobody owns."""
+	from onedesk.one_slide import decks, setup
 
-	return {one["name"] for one in setup.system()}
+	return {one["name"] for one in setup.system()} | set(decks.NAMES.values())
 
 
 @frappe.whitelist()
@@ -201,7 +207,10 @@ def listed() -> list[dict]:
 	"""The presentations kept as templates that the reader may use, by title."""
 	from onedesk.one_storage import namespace as ns
 
-	out = []
+	from onedesk.one_slide import decks
+
+	# the decks One ships first, by their names in the reader's language
+	out = [{"name": decks.NAMES[key], "title": title} for key, title in decks.deck_titles().items()]
 	for one in frappe.get_all(PRESENTATION, filters={"is_template": 1, "file": ["is", "set"]}, fields=["name", "file"], order_by="title asc"):
 		item = ns.row(one.file)
 		if item and not item.get("one_deleted_on") and ns.may(item, "read"):
@@ -401,7 +410,14 @@ def get_templates() -> list[dict]:
 		one.name: (one.width or 960, one.height or 540)
 		for one in frappe.get_all(PRESENTATION, filters={"is_template": 1}, fields=["name", "width", "height"])
 	}
-	templates = [one for one in templates if one.name in system or (files.get(one.name) and _readable(ns, files[one.name]))]
+	from onedesk.one_slide import library
+
+	# the company's slide library is a shelf, not a theme
+	templates = [
+		one
+		for one in templates
+		if one.name != library.held() and (one.name in system or (files.get(one.name) and _readable(ns, files[one.name])))
+	]
 	by_template = {}
 	for row in rows:
 		row["doctype"] = SLIDE

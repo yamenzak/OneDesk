@@ -11,6 +11,20 @@ The bar under the slide adds text, a picture or a video, a shape, a line or
 a connector, and a table. Besides the usual shapes there is a star and a
 block arrow. Paste a picture, or drop one on the slide, and it is added too.
 
+## Decks and the Slide Library
+
+**New › Presentation** offers five decks ready to fill in: a pitch, a
+project update, a tender response, a monthly review and a training session.
+Each comes in your language and your business's colour and logo.
+
+**Add Slide** has two tabs. **Layouts** are the theme's. **Slide Library**
+has a finished slide of every kind (title, agenda, section, two columns,
+picture and text, quote, team, timeline, figures, pricing, thank you), and
+your company's own. A manager adds one with **Save to Library** on a
+slide's menu in the rail, and takes it off with the cross on it.
+
+![The slide library, by kind](working-on-slides/library.png)
+
 ## The Panel
 
 Click anything on the slide and the panel on the right shows all it has:

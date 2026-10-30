@@ -21,21 +21,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
 ## Planned, from the walkthrough (30 October)
 
-- **Templates shipped with One.** Today there are two themes, Light and
-  Dark (Suite's), and the company's own templates (**Save as Template**,
-  Managers only, kept in OneCloud › Presentation Templates). **New ›
-  Presentation** offers them all, and a template's slides become the layouts
-  **Add Slide** offers. Nothing designed ships with One. Plan: a handful of
-  finished decks (a pitch, a project update, a tender, a monthly review, a
-  training session), each laid out in the business's colour and logo when
-  it is chosen, with their words in ar and de as well.
-- **A slide library.** Today a slide can be copied from one presentation
-  and pasted into another (its pictures come with it), and that is all.
-  Plan: **Insert Slide** opens a library by kind (title, agenda, section,
-  two columns, picture and text, quote, team, timeline, figures, pricing,
-  thank you), from two shelves: the slides One ships, and the company's own,
-  where a Manager puts a slide with **Save to Library** on its right-click
-  menu. An inserted slide takes the deck's colours and fonts.
 - **Data from records.** Not today: a presentation can be filed on a record
   but reads nothing from it. OneWriter already does this for one record
   (**Insert a Field**, a grey block that shows what the record says now),

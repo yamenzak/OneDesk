@@ -196,6 +196,21 @@ def oneslide_keeps_a_presentation_in_onecloud():
 
 			words = " ".join(PdfReader(io.BytesIO(frappe.get_doc("File", noted["name"]).get_content())).pages[0].extract_text().split())
 			assert noted["file_name"].endswith("with notes.pdf") and "Thank the client first." in words, (noted, words)
+			# the decks One ships and the slide library: built in the business's colour, kept by a manager
+			from onedesk.one_slide import decks, library
+
+			assert [one["name"] for one in api.listed()][:5] == list(decks.NAMES.values())
+			pitch = api.make("@my", "Pitch check", decks.NAMES["pitch"])["presentation"]
+			opened = api.get(pitch)
+			assert len(opened["slides"]) == len(decks.DECKS["pitch"]) and opened["slides"][2]["background"] == decks.brand()["colour"], opened["slides"][2]
+			assert opened["slides"][0]["layout"] == f"{decks.NAMES['pitch']}:{decks.NAMES['pitch']}-1"
+			assert layouts.restyle(pitch) == {"restyled": 0}, "a fresh deck already looks like its layouts"
+			shelves = library.shelves()
+			assert [one["kind"] for one in shelves["one"]] == list(decks.KINDS) and shelves["may_keep"]
+			kept = library.keep(pitch, opened["slides"][1]["client_id"], "agenda")
+			assert [one["kind"] for one in kept["yours"]] == ["agenda"], kept["yours"]
+			assert library.held() not in [one["name"] for one in api.get_templates()], "the shelf is no theme"
+			assert library.forget(kept["yours"][0]["client_id"])["yours"] == []
 			# PowerPoint: PowerPoint's own pieces, read back, and the slide that lost an effect named
 			from pptx import Presentation as Deck
 

@@ -185,6 +185,26 @@ mounts (`fitted` in `SlideContainer.vue`, a One: edit), no larger than
 Suite's 900 by 700, so the rulers and the slide's edges are never under a
 panel.
 
+### Decks and the library
+
+`decks.py` builds the five decks One ships (a pitch, a project update, a
+tender response, a monthly review, a training session) from eleven kinds of
+slide (`KINDS`), in code, so a deck comes in the reader's language and the
+business's colour and logo (`brand`, the Company's). `sync` keeps each as a
+template presentation (`one-deck-<key>`, English, One's blue) so it is
+listed beside the themes and Add Slide reads its slides; `api.make` builds a
+deck afresh rather than copying that row, and `layouts._layouts` reads a
+deck as built now, so Restyle from Layouts keeps the business's colour.
+
+`library.py` is the slide library in Add Slide (`shim/SlideLibrary.vue`
+inside `LayoutDialog.vue`, a One: edit): One's shelf is a slide of every
+kind from the decks; the company's is a template presentation no theme list
+shows (its name in the `one_slide_library` default), filled with Save to
+Library on a slide's menu (`utils/slideMenu.js`, a One: edit) by whoever
+keeps company templates. A kept slide is fitted to the shelf's size and its
+pictures copied. An inserted slide remembers where it came from like any
+layout.
+
 ### PowerPoint
 
 `powerpoint.build` writes a .pptx with python-pptx (MIT) from PowerPoint's

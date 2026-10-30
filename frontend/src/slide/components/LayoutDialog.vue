@@ -1,7 +1,10 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/LayoutDialog.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-	<Dialog v-model:open="showLayoutDialog" size="4xl" :title="__('Select a layout')">
-		<div class="no-scrollbar grid max-h-[32rem] grid-cols-3 gap-6 overflow-y-auto">
+	<Dialog v-model:open="showLayoutDialog" size="4xl" :title="__('Add a Slide')">
+		<!-- One: the theme's layouts, or the slide library (shim/SlideLibrary.vue, VENDORED.md) -->
+		<TabButtons v-model="shelf" class="mb-4 self-start" :options="[{ label: __('Layouts'), value: 'layouts' }, { label: __('Slide Library'), value: 'library' }]" />
+		<SlideLibrary v-if="shelf === 'library'" @insert="insertSlideWithLayout" />
+		<div v-else class="no-scrollbar grid max-h-[32rem] grid-cols-3 gap-6 overflow-y-auto">
 			<div
 				v-for="layout in layouts"
 				:key="layout.idx"
@@ -20,8 +23,9 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
-import { Dialog } from 'frappe-ui'
+import { computed, ref } from 'vue'
+import { Dialog, TabButtons } from 'frappe-ui'
+import SlideLibrary from '@/apps/slides/shim/SlideLibrary.vue' // One: VENDORED.md
 
 import SlidePreview from '@/apps/slides/components/SlidePreview.vue'
 import { presentationTheme, templateList } from '@/apps/slides/stores/presentation'
@@ -38,6 +42,7 @@ const layouts = computed(() => {
 })
 
 const showLayoutDialog = defineModel('open', { required: true })
+const shelf = ref('layouts') // One
 
 const insertSlideWithLayout = (layout) => {
 	showLayoutDialog.value = false

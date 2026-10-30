@@ -94,6 +94,9 @@ Each is marked `One:` where it is.
   paragraph the way its first letter does, and puts a list's markers on the
   side its words start. The seven Arabic families One ships are OFL faces in
   `onedesk/public/slide/fonts/`, each with its licence.
+- The slide library (`shim/SlideLibrary.vue`, `shim/libraryKeep.js`):
+  `components/LayoutDialog.vue` has a Slide Library tab beside the layouts,
+  and `utils/slideMenu.js` offers Save to Library to whoever keeps templates.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

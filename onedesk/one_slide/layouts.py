@@ -116,8 +116,12 @@ def restyle(name: Annotated[str, "The presentation whose slides take their layou
 
 def _layouts(template: str) -> dict:
 	"""A template's slides by client_id, if the reader may use it."""
-	from onedesk.one_slide import api
+	from onedesk.one_slide import api, decks
 
+	if decks.deck_of(template):
+		# a deck One ships is read as it is built now, in the business's brand
+		rows = decks.slides(decks.deck_of(template))
+		return {row["client_id"]: {**row, "width": decks.WIDE, "height": decks.HIGH} for row in rows}
 	held = frappe.db.get_value(api.PRESENTATION, template, ["is_template", "width", "height"], as_dict=True)
 	if not held or not held.is_template:
 		return {}
