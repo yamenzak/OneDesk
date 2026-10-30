@@ -109,7 +109,7 @@ def _widgets() -> dict:
 	return _load(
 		HERE / "widgets.py",
 		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES"),
-		_lt=str,
+		_lt=lambda text, context=None: text,
 	)
 
 

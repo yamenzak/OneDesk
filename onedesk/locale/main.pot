@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 12:51+0000\n"
-"PO-Revision-Date: 2026-10-30 12:51+0000\n"
+"POT-Creation-Date: 2026-10-30 12:58+0000\n"
+"PO-Revision-Date: 2026-10-30 12:58+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -8608,10 +8608,14 @@ msgstr ""
 
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
 #: onedesk/one_display/doctype/display_widget/display_widget.json
-#: onedesk/one_display/widgets.py:61
 #: onedesk/one_hr/doctype/clock_device/clock_device_dashboard.py:7
 #: onedesk/one_hr/doctype/clock_network/clock_network_dashboard.py:7
 #: onedesk/one_hr/doctype/clock_place/clock_place_dashboard.py:7
+msgid "Clock"
+msgstr ""
+
+#: onedesk/one_display/widgets.py:61
+msgctxt "A widget that shows the time"
 msgid "Clock"
 msgstr ""
 

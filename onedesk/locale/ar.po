@@ -5651,6 +5651,7 @@ msgid "Automatic"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1165
+#: frontend/src/sheet/components/SheetEditor/index.vue:1169
 msgctxt "A colour chosen for you"
 msgid "Automatic"
 msgstr "تلقائي"
@@ -8536,6 +8537,11 @@ msgstr "قص"
 #: onedesk/one_hr/doctype/clock_place/clock_place_dashboard.py:7
 msgid "Clock"
 msgstr "التسجيل"
+
+#: onedesk/one_display/widgets.py:61
+msgctxt "A widget that shows the time"
+msgid "Clock"
+msgstr "ساعة"
 
 #. Label of the one_attempt (Link) field in DocType 'Employee Checkin'
 #. Name of a DocType
@@ -13857,6 +13863,7 @@ msgid "Duplicate"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:711
+#: frontend/src/sheet/components/SheetEditor/index.vue:715
 msgctxt "Copy a sheet"
 msgid "Duplicate"
 msgstr "تكرار الورقة"

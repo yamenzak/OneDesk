@@ -58,7 +58,7 @@ TYPES = {
 		"size": (40, 12),
 	},
 	"Clock": {
-		"label": _lt("Clock"),
+		"label": _lt("Clock", context="A widget that shows the time"),
 		"about": _lt("The time, and the date if you want it."),
 		"sources": (),
 		"slots": (),
