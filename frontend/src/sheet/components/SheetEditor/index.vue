@@ -36,10 +36,10 @@
         <div class="sn-identity">
           <!-- One: the OneWorkbook mark, one step back (Suite's app menu is the desk's here). -->
           <a class="sn-app-menu-trigger" href="#" :title="__('Back')" @click.prevent="goBack" v-html="oneMark" />
-          <Breadcrumbs v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template></Breadcrumbs>
+          <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="!isTitleEditing" :items="sheetBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
           <template v-else>
             <div class="flex min-w-0 items-center">
-              <Breadcrumbs class="sn-parent-breadcrumb" :items="sheetHomeBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template></Breadcrumbs>
+              <Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr] sn-parent-breadcrumb" :items="sheetHomeBreadcrumbs"><template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template></Breadcrumbs>
               <span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
               <InlineRenameInput
                 v-model="currentTitle"

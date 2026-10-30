@@ -18,7 +18,8 @@
 				v-model:hasOngoingInteraction="isSlideInteractionActive"
 			/>
 
-			<NavigationPanel class="absolute bottom-0 top-0" @changeSlide="changeEditorSlide" />
+			<!-- One: on a phone the slide gets the screen; the rail and the panel are a desktop's -->
+			<NavigationPanel class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
 
 			<Toolbar v-if="!inReadonlyMode && presentationDoc" />
 
@@ -48,7 +49,7 @@
 				<Button variant="ghost" @click="reloadPresentation()">{{ __('Reload') }}</Button>
 			</div>
 
-			<PropertiesPanel v-if="!inReadonlyMode" class="absolute bottom-0 right-0 top-0" />
+			<PropertiesPanel v-if="!inReadonlyMode" class="absolute bottom-0 right-0 top-0 max-md:hidden" />
 		</div>
 	</div>
 

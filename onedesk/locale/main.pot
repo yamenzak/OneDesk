@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 11:08+0000\n"
-"PO-Revision-Date: 2026-10-30 11:08+0000\n"
+"POT-Creation-Date: 2026-10-30 11:23+0000\n"
+"PO-Revision-Date: 2026-10-30 11:23+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1715,7 +1715,7 @@ msgstr ""
 msgid "Abandoned"
 msgstr ""
 
-#: onedesk/one/rights.py:257 onedesk/public/js/one/role_matrix.js:29
+#: onedesk/one/rights.py:258 onedesk/public/js/one/role_matrix.js:29
 msgid "Ability"
 msgstr ""
 
@@ -2427,7 +2427,7 @@ msgstr ""
 msgid "Add Sheets From a Template"
 msgstr ""
 
-#: frontend/src/slide/components/NavigationPanel.vue:48
+#: frontend/src/slide/components/NavigationPanel.vue:49
 msgid "Add Slide"
 msgstr ""
 
@@ -25108,7 +25108,7 @@ msgstr ""
 #. Label of the 'reports_to' field in DocType 'Employee'
 #. Option for the 'Category' (Select) field in DocType 'Employee Grievance'
 #: frontend/src/project/Team.vue:32 onedesk/one/people.py:117
-#: onedesk/one/rights.py:256 onedesk/one_hr/custom/employee.json
+#: onedesk/one/rights.py:257 onedesk/one_hr/custom/employee.json
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/public/js/one/access_center.js:300
 #: onedesk/public/js/one/access_center.js:361
@@ -29360,7 +29360,7 @@ msgstr ""
 msgid "Of Whom"
 msgstr ""
 
-#: onedesk/one/ai.py:2585 onedesk/one/control.py:388 onedesk/one/rights.py:263
+#: onedesk/one/ai.py:2585 onedesk/one/control.py:388 onedesk/one/rights.py:264
 #: onedesk/one_ai/chat.py:698
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:69
 #: onedesk/one_studio/doctype/extension/extension_list.js:10
@@ -29482,7 +29482,7 @@ msgstr ""
 msgid "Old system closed"
 msgstr ""
 
-#: onedesk/one/ai.py:3544 onedesk/one/ai.py:3759 onedesk/one/rights.py:263
+#: onedesk/one/ai.py:3544 onedesk/one/ai.py:3759 onedesk/one/rights.py:264
 #: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:136
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
@@ -34400,11 +34400,15 @@ msgstr ""
 
 #. Option for the 'Day Status' (Select) field in DocType 'Attendance Reason'
 #: frontend/src/hr/HrStory.vue:86
-#: frontend/src/slide/components/PresentButton.vue:8
 #: frontend/src/slide/components/PresentationPreview.vue:126
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:168
 #: onedesk/public/js/band.js:164
+msgid "Present"
+msgstr ""
+
+#: frontend/src/slide/components/PresentButton.vue:8
+msgctxt "Play a presentation"
 msgid "Present"
 msgstr ""
 
@@ -45109,7 +45113,7 @@ msgstr ""
 #: onedesk/one/access.py:748 onedesk/one/access.py:807
 #: onedesk/one/notification_center.py:90 onedesk/one/notification_center.py:102
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:130
-#: onedesk/one/people.py:140 onedesk/one/rights.py:86 onedesk/one/rights.py:177
+#: onedesk/one/people.py:140 onedesk/one/rights.py:87 onedesk/one/rights.py:178
 #: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1230
 #: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:818
 #: onedesk/one_studio/ai_setup.py:821 onedesk/one_studio/reports.py:210
@@ -50373,7 +50377,7 @@ msgstr ""
 #. Option for the 'Party' (Select) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Legal Acceptance'
 #. Label of the user (Link) field in DocType 'Cloud Drive Password'
-#: frontend/src/project/Team.vue:33 onedesk/one/rights.py:256
+#: frontend/src/project/Team.vue:33 onedesk/one/rights.py:257
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
@@ -60162,6 +60166,7 @@ msgstr ""
 #: frontend/src/project/Tasks.vue:31
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
+#: frontend/src/slide/components/NavigationPanel.vue:16
 #: onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:143 onedesk/one_inventory/heads.py:424

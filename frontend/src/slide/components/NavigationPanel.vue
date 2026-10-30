@@ -12,7 +12,8 @@
 			class="flex items-center justify-between px-4 pt-3"
 		>
 			<span :class="labelClasses">{{ __('Slide') }}</span>
-			<span :class="labelClasses">{{ (slideIndex ?? 0) + 1 }} of {{ slidesLength }}</span>
+			<!-- One: the count through the desk's translations -->
+			<span :class="labelClasses">{{ __('{0} of {1}', [(slideIndex ?? 0) + 1, slidesLength]) }}</span>
 		</div>
 		<div
 			ref="scrollableArea"

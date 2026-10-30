@@ -2,24 +2,24 @@
 <template>
 	<div data-tour="oneslide-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 bg-surface-base px-4">
 		<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
-		<Breadcrumbs v-if="!renaming" :items="crumbs">
-			<template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template>
+		<Breadcrumbs class="min-w-0 overflow-hidden [&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="!renaming" :items="crumbs">
+			<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
 		</Breadcrumbs>
 		<div v-else class="flex min-w-0 items-center">
-			<Breadcrumbs :items="parents">
-				<template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template>
+			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" :items="parents">
+				<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
 			</Breadcrumbs>
 			<span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
 			<InlineRenameInput v-model="title" editing @submit="rename" @cancel="renaming = false" @blur="rename" />
 		</div>
-		<span class="text-sm text-ink-gray-5">{{ making || status }}</span>
-		<div class="ml-auto flex items-center gap-2">
+		<span class="text-sm text-ink-gray-5 max-md:hidden">{{ making || status }}</span>
+		<div class="ml-auto flex shrink-0 items-center gap-2">
 			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn()" :options="aiMenu" align="end">
 				<Button variant="ghost" :label="ONEAI" icon-right="lucide-chevron-down" :loading="!!making">
 					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
 				</Button>
 			</Dropdown>
-			<Button v-if="!inReadonlyMode && presentationDoc" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
+			<Button v-if="!inReadonlyMode && presentationDoc" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
 			<Dropdown v-if="presentationDoc" :options="fileMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
 			</Dropdown>

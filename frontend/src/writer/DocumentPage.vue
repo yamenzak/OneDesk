@@ -3,12 +3,12 @@
 	<div ref="pageEl" class="one-document flex h-full flex-col bg-surface-base">
 		<div class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
 			<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
-			<Breadcrumbs v-if="state && !renaming" :items="crumbs">
-				<template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template>
+			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="state && !renaming" :items="crumbs">
+				<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
 			</Breadcrumbs>
 			<div v-else-if="state" class="flex min-w-0 items-center">
-				<Breadcrumbs :items="parents">
-					<template #prefix="{ item }"><span v-if="item.one" class="font-light">{{ ONE }}</span></template>
+				<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" :items="parents">
+					<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
 				</Breadcrumbs>
 				<span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
 				<InlineRenameInput v-model="title" editing @submit="rename" @cancel="renaming = false" @blur="rename" />

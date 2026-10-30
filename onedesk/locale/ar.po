@@ -33951,6 +33951,11 @@ msgstr "قيد التجهيز. ستُبلَّغ عند جاهزيته."
 msgid "Present"
 msgstr "حاضر"
 
+#: frontend/src/slide/components/PresentButton.vue:8
+msgctxt "Play a presentation"
+msgid "Present"
+msgstr "اعرض"
+
 #. Label of a number card
 #: frontend/src/hr/HrHome.vue:121
 #: onedesk/one_hr/number_card/present_today/present_today.json

@@ -5,7 +5,7 @@
 			variant="solid"
 			class="rounded-r-none focus-visible:outline-none"
 			:iconLeft="Play"
-			:label="__('Present')"
+			:label="__('Present', null, 'Play a presentation')"
 			@click="emit('start')"
 		/>
 		<Dropdown :options="options" align="end">
