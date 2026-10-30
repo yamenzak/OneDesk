@@ -135,9 +135,11 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   - **Voice Packs** in OneDisplay: each pack's language, tone and voice,
     what it covers, its size, and Make Again after a change of voice or
     names.
-  - Packs stay **out of OneCloud's folders**: a thousand small clips nobody
-    opens would bury people's files. They are counted in the workspace's
-    storage bar, so the space is never hidden. Music tracks and voice ads
-    are the other way round: people choose, replace and reuse them, so they
-    are files in OneCloud like any other.
+  - Packs are **in OneCloud**, out of the way: OneDisplay › Voice Packs ›
+    one folder per pack ("Arabic · Kore · Announcement") holding its clips,
+    in R2 like every file and counted in the storage bar. Make Again
+    replaces the clips in place, same names, never a second copy; deleting
+    a pack's folder deletes the pack, and calls go back to whole sentences
+    until it is made again. The Voice Packs screen links to each folder.
+    Music tracks and voice ads are files in OneCloud too.
 
