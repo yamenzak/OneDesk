@@ -6,7 +6,9 @@
 		class="isolate flex h-full w-full select-none flex-col overflow-hidden overflow-clip"
 		@click="focusedSlide = null"
 	>
+		<!-- One: the presenter view has its own head; the editor's (Theme, File, Present, OneAI) steps aside while it is up (VENDORED.md) -->
 		<EditorNavbar
+			v-show="!presenting"
 			@startSlideShow="startSlideShow"
 			@performDropdownAction="performNavbarDropdownAction"
 		/>

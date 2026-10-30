@@ -106,6 +106,9 @@ Each is marked `One:` where it is.
   `components/PresentButton.vue` offers Present Live, `stores/slideshow.js`
   starts it and ends it with the slideshow, and `pages/Slideshow.vue` tells
   it each slide.
+- `pages/PresentationEditor.vue` hides the editor's head while the presenter
+  view is up, so its Present, Theme, File and OneAI are not offered over a
+  presentation already being given.
 - `pages/Slideshow.vue` covers the whole window (`fixed`, over the desk's
   frame) rather than the island's box, so Present and the audience's window
   show only the slide when they fill the screen.
