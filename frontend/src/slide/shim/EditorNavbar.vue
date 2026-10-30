@@ -41,7 +41,7 @@
 import { computed, inject, onBeforeUnmount, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, aiSees, alert, askOneAI, call, confirm, goTo, goToUrl, listen, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
+import { __, aiSees, alert, askOneAI, call, confirm, goTo, goToUrl, listen, onedesk, oneaiMark, oneaiOn, openTab, prompt, reloadPage, requires } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
@@ -116,6 +116,12 @@ const camera = ref(null);
 const showVersions = ref(false);
 const showData = ref(false);
 const showViews = ref(false);
+
+async function share() {
+	const doc = presentationDoc.value;
+	await requires(onedesk().cloud_assets);
+	onedesk().cloud.share({ id: doc.file, name: doc.title, record: doc.record });
+}
 const printing = ref("");
 
 const fileMenu = computed(() => [
@@ -135,6 +141,8 @@ const fileMenu = computed(() => [
 	...(masterOf.value ? [] : [{
 		group: __("This presentation"),
 		options: [
+			// OneCloud's own: people who may view or edit it, and links for anyone else
+			...(presentationDoc.value?.file ? [{ label: __("Share…"), icon: "lucide-user-plus", onClick: share }] : []),
 			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: () => exportPdf(false) },
 			...(printing.value ? [] : [{ label: __("Export as PDF with Notes"), icon: "lucide-notebook-text", onClick: () => exportPdf(true) }]),
 			...(printing.value ? [] : [{ label: __("Export as PowerPoint"), icon: "lucide-presentation", onClick: exportPowerPoint }]),

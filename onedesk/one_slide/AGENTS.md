@@ -274,6 +274,10 @@ built: a table of `{key.N.field}` chips covers the list case.
 
 ### Shared by link
 
+**File › Share…** opens OneCloud's own sharing dialog (`onecloud_dialogs.js`,
+`onedesk.cloud.share`) on the presentation's file: people inside the
+workspace by *Can view* or *Can edit*, and links for anyone else.
+
 `shared.py`, with OneCloud's links (`one_storage/links.py`) deciding who
 gets in. A presentation opened through `/s/<token>` is played on the page
 (`www/s.py`, `www/s.html`, `public/js/one_slide/viewer.js`) by `play.js`, as

@@ -5,6 +5,9 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - Two people cannot work on one presentation at the same moment: a second
   tab is told it is open elsewhere and offered **Edit here**. Suite's slides
   have no co-editing; the workbook's and the document's relay could carry it.
+  When it comes, **Share…** already says the two things apart: people added
+  with *Can edit* work on it together in the editor, and a link is for
+  watching it, at their own pace or following Present Live.
 - A PDF is pictures of the slides, so its words cannot be selected or found.
 - `play.js` has not run on a real TV, only in desktop Chromium and parsed as
   ES5. Line heads other than the arrow are drawn as a filled triangle.
