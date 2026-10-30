@@ -1,8 +1,7 @@
-"""What OneAI makes in a presentation (docs/ONESLIDE.md, OneAI): a slide
-designed from a sentence, a picture, and a video that arrives on a new slide.
-The jobs are OneDisplay's (`display_design`, `display_picture`,
-`display_video`), so their credits and history carry on; only where they are
-offered moved. A picture is also offered in OneWriter (`one_doc`)."""
+"""What OneAI makes in a presentation (AGENTS.md, OneAI): a slide designed
+from a sentence, a picture, and a video that arrives on a new slide. The jobs
+are OneSlide's own (`slide_design`, `slide_picture`, `slide_video`). A
+picture is also offered in OneWriter (`one_doc`)."""
 
 import base64
 import json
@@ -75,21 +74,22 @@ def design(
 	description = asked(description, 4000)
 	from onedesk.one_ai import run
 
-	said = run.once("display_design", f"{brand()}\nOrientation: Landscape.\n\n{description}", reference="OneSlide design")
+	width, height = api.frame(name)
+	said = run.once("slide_design", f"{brand()}\nThe slide is {width} by {height} pixels.\n\n{description}", reference="OneSlide design")
 	try:
 		designed = json.loads(FENCE.sub("", (said or "").strip()).strip())
 	except ValueError:
 		designed = None
 	if not isinstance(designed, dict) or not designed.get("blocks"):
 		frappe.throw(_("OneAI could not design the slide. Try again."))
-	drawn = convert.slide({**designed, "orientation": "Landscape"})
+	drawn = convert.slide(designed, width, height)
 	return {"background": play.background(drawn["background"]), "elements": json.loads(play.cleaned(drawn["elements"]))}
 
 
 def made_picture(description: str) -> tuple[bytes, str]:
 	from onedesk.one_ai import run
 
-	said = run.make("display_picture", description, reference="OneSlide picture")
+	said = run.make("slide_picture", description, reference="OneSlide picture")
 	if not said.get("data"):
 		frappe.throw(_("OneAI could not make the picture. Try again."))
 	return base64.b64decode(said["data"]), PICTURES.get((said.get("mime") or "").split(";")[0].strip(), "png")
@@ -135,11 +135,12 @@ def made_later(name: str, description: str, asker: str) -> None:
 	what = description if len(description) <= TITLE else description[: TITLE - 1].rstrip() + "…"
 	frappe.db.savepoint("one_slide_video")
 	try:
-		said = _video(description)
+		width, height = api.frame(name)
+		said = _video(description, "Portrait" if height > width else "Landscape")
 		extension = VIDEOS.get((said.get("mime") or "").split(";")[0].strip(), "mp4")
 		kept = api._kept(name, f"video-{uuid.uuid4().hex[:6]}.{extension}", base64.b64decode(said["data"]))
 		doc = frappe.get_doc(api.PRESENTATION, name)
-		doc.append("slides", added(kept["file_url"], what, doc.slides[-1].background if doc.slides else ""))
+		doc.append("slides", added(kept["file_url"], what, doc.slides[-1].background if doc.slides else "", width, height))
 		doc.save(ignore_permissions=True)
 		tell.video(asker, name, what)
 	except Exception:
@@ -148,20 +149,20 @@ def made_later(name: str, description: str, asker: str) -> None:
 		tell.video(asker, name, what, failed=True)
 
 
-def added(src: str, what: str, background: str) -> dict:
+def added(src: str, what: str, background: str, width: float = convert.WIDE, height: float = convert.HIGH) -> dict:
 	"""A slide holding one video across the whole of it. Pure."""
 	element = {
 		"id": uuid.uuid4().hex[:9], "type": "video", "src": src, "name": what, "left": 0, "top": 0,
-		"width": convert.WIDE, "height": convert.HIGH, "zIndex": 1, "opacity": 100,
+		"width": width, "height": height, "zIndex": 1, "opacity": 100,
 		"autoplay": True, "loop": True, "muted": True,
 	}
 	return {"client_id": str(uuid.uuid4()), "background": background or "#000000FF", "elements": play.cleaned([element])}
 
 
-def _video(description: str) -> dict:
+def _video(description: str, orientation: str) -> dict:
 	from onedesk.one_ai import run
 
-	ticket = run.begin("display_video", description, reference="OneSlide video", orientation="Landscape")
+	ticket = run.begin("slide_video", description, reference="OneSlide video", orientation=orientation)
 	if not ticket:
 		raise frappe.ValidationError("no video was begun")
 	waited = 0

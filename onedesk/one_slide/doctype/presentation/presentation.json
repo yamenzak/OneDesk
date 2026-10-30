@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 12:00:00.000000",
+ "modified": "2026-10-30 14:06:24.968830",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -56,6 +56,20 @@
    "label": "Theme"
   },
   {
+   "fieldname": "width",
+   "fieldtype": "Int",
+   "label": "Width",
+   "default": "960",
+   "description": "The slides' width in pixels."
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Int",
+   "label": "Height",
+   "default": "540",
+   "description": "The slides' height in pixels."
+  },
+  {
    "fieldname": "slug",
    "fieldtype": "Data",
    "label": "Slug"
@@ -87,6 +101,8 @@
   "title",
   "file",
   "theme",
+  "width",
+  "height",
   "slug",
   "thumbnail",
   "is_template",

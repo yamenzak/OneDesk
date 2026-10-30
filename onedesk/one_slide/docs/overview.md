@@ -1,7 +1,7 @@
 # What OneSlide Is
 
-OneSlide makes presentations: a tender pitch, a monthly review, the slides a
-screen in the showroom plays. A presentation is a file in OneCloud, kept
+OneSlide makes presentations: a tender pitch, a monthly review, a training
+session. A presentation is a file in OneCloud, kept
 beside everything else the business has, and opened by anybody it is shared
 with.
 
@@ -28,4 +28,4 @@ way back. Click its name there to rename it.
 | **OneAI** | Designs a slide, or makes a picture or a video. See [Asking OneAI](asking-oneai). |
 | **Present** | Plays the presentation from this slide or from the start. |
 
-A presentation also plays on a screen: see [On a Screen](on-screens).
+OneDisplay can play a presentation on a TV too; its own Help says how.

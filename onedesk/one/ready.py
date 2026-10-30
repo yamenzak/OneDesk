@@ -341,7 +341,6 @@ MODULES = {
 			("design-and-layers", "layers"),
 			("history-and-pdf", "history"),
 			("asking-oneai", "sparkles"),
-			("on-screens", "tv"),
 			("who-can-do-what", "shield"),
 		),
 	},

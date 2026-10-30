@@ -239,8 +239,11 @@
 		var src = source(element.src);
 		if (!src) return "";
 		var poster = source(element.poster);
+		// a video that does not loop holds the slide for its length (play.py),
+		// so it plays once; one whose length the editor never saw loops as before
+		var loop = element.loop || !(num(element.length) > 0);
 		return '<div style="' + esc(box(element, rotated(element))) + '"><video src="' + esc(src) + '"' + (poster ? ' poster="' + esc(poster) + '"' : "") +
-			' muted autoplay loop playsinline style="width:100%;height:100%;object-fit:cover;opacity:' + num(element.opacity, 100) / 100 + ";border-radius:" + num(element.borderRadius) + 'px"></video></div>';
+			' muted autoplay' + (loop ? " loop" : "") + ' playsinline style="width:100%;height:100%;object-fit:cover;opacity:' + num(element.opacity, 100) / 100 + ";border-radius:" + num(element.borderRadius) + 'px"></video></div>';
 	}
 
 	function table(element) {
@@ -294,12 +297,26 @@
 		document.head.appendChild(style);
 	}
 
+	// a slide taken off: an old TV keeps a video's decoder until the video
+	// is emptied, not merely removed
+	function release(node) {
+		var videos = node.getElementsByTagName("video");
+		for (var i = videos.length - 1; i >= 0; i--) {
+			try {
+				videos[i].pause();
+				videos[i].removeAttribute("src");
+				videos[i].load();
+			} catch (e) {}
+		}
+	}
+
 	function draw(said, holder) {
+		if (holder.firstChild) release(holder);
 		styled(holder.ownerDocument);
 		holder.innerHTML = slide(said);
 		fit(holder);
 	}
 
 	root.onedesk = root.onedesk || {};
-	root.onedesk.play = { slide: slide, draw: draw, fit: fit, colour: colour, background: background };
+	root.onedesk.play = { slide: slide, draw: draw, fit: fit, release: release, colour: colour, background: background };
 })(typeof window !== "undefined" ? window : this);

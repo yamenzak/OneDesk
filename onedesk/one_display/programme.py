@@ -173,22 +173,9 @@ def layout(name: str | None, lang: str, at: datetime | None = None, voice: str |
 
 
 def _qr(link: str) -> str:
-	"""The code as SVG, drawn here so a TV needs no library for it."""
-	import pyqrcode
+	from onedesk.one import qr
 
-	return _svg(pyqrcode.create(str(link)[:1000], error="M"))
-
-
-def _svg(code) -> str:
-	rows = code.code
-	size = len(rows) + 2
-	cells = "".join(
-		f'<rect x="{x + 1}" y="{y + 1}" width="1" height="1"/>' for y, row in enumerate(rows) for x, cell in enumerate(row) if cell
-	)
-	return (
-		f'<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 {size} {size}" shape-rendering="crispEdges">'
-		f'<rect width="{size}" height="{size}" fill="#fff"/><g fill="#000">{cells}</g></svg>'
-	)
+	return qr.svg(link)
 
 
 def _json(text) -> dict:

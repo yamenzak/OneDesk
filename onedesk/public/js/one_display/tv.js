@@ -374,6 +374,7 @@
 			boxes[one.id] = make(box, one, (one.w * s.w) / 100, (one.h * s.h) / 100) || {};
 		}
 		slide = { index: -1, total: 0 };
+		if (window.onedesk && onedesk.play) onedesk.play.release($("slides"));
 		$("slides").innerHTML = "";
 		music.index = -1;
 	}
@@ -420,7 +421,14 @@
 		slide.index = at.index;
 		var holder = $("slides");
 		var item = items[at.index];
-		var node = el("div", channel.slides.transition === "fade" ? "out" : "");
+		// a presentation's slide brings its own transition; a web page takes the playlist's
+		var how = item.transition || channel.slides.transition || "fade";
+		var ms = item.transition_ms || 800;
+		var node = el("div", how === "fade" ? "out" : how === "slide" ? "ahead" : "");
+		if (how !== "none") {
+			node.style.webkitTransitionDuration = ms + "ms";
+			node.style.transitionDuration = ms + "ms";
+		}
 		if (item.kind === "Slide" && window.onedesk && onedesk.play) {
 			// A presentation's slide, drawn in the page from what the server
 			// cleaned (public/js/one_slide/play.js); its videos join the
@@ -436,12 +444,20 @@
 			node.appendChild(frame);
 			holder.appendChild(node);
 		}
-		setTimeout(function () {
-			node.className = "";
-		}, 30);
-		setTimeout(function () {
-			while (holder.firstChild && holder.firstChild !== node) holder.removeChild(holder.firstChild);
-		}, 1000);
+		function gone() {
+			while (holder.firstChild && holder.firstChild !== node) {
+				if (window.onedesk && onedesk.play) onedesk.play.release(holder.firstChild);
+				holder.removeChild(holder.firstChild);
+			}
+		}
+		if (how === "none") {
+			gone();
+		} else {
+			setTimeout(function () {
+				node.className = "";
+			}, 30);
+			setTimeout(gone, ms + 200);
+		}
 		var next = items[(at.index + 1) % items.length];
 		var ahead = next && next.slide ? next.slide.elements || [] : [];
 		for (var p = 0; p < ahead.length; p++) if (ahead[p].type === "image" && ahead[p].src) new Image().src = ahead[p].src;

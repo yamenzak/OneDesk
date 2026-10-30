@@ -96,7 +96,7 @@ LOOKED = {
 	# A QR code, and a slide's star or arrow on a screen, are drawn as SVG; neither is an icon.
 	("icons", "onedesk/public/js/one_slide/play.js"),
 	("fetching", "onedesk/public/js/one_slide/play.js"),
-	("icons", "onedesk/one_display/programme.py"),
+	("icons", "onedesk/one/qr.py"),
 	("icons", "onedesk/one_display/checks.py"),
 }
 

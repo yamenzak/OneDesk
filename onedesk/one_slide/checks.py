@@ -199,6 +199,15 @@ def oneai_makes_slides_and_pictures():
 			portrait = convert.slide({"orientation": "Portrait", "blocks": [{"kind": "shape", "x": 0, "y": 0, "w": 100, "h": 100}]})
 			box = portrait["elements"][0]
 			assert box["width"] == 303.75 and box["left"] == 328.12, "a portrait design stands in the middle"
+			tall = convert.slide({"blocks": [{"kind": "shape", "x": 0, "y": 0, "w": 100, "h": 50}]}, 540, 960)["elements"][0]
+			assert (tall["width"], tall["height"]) == (540, 480), "a design fills a presentation standing up"
+		from onedesk.one_slide import play
+
+		still, held = [{"type": "text"}], [{"type": "video", "length": 12.5}, {"type": "video", "length": 30, "loop": True}]
+		assert play.length(still, "", 8) == 8 and play.length(still, "5", 8) == 5, "a still slide waits its Advance, else the row's"
+		assert play.length(held, "", 8) == 12.5 and play.length(held, "3", 8) == 15.5, "a video that does not loop is watched first"
+		assert play.length(still, "0.5", 0) == 2, "no slide is shorter than two seconds"
+		assert play._transition("Magic Move") == "fade" and play._transition("Slide In") == "slide"
 		with mock.patch("onedesk.one.apps.ai_on", return_value=False):
 			try:
 				ai.design(name, "Anything")

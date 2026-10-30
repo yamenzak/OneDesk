@@ -3,9 +3,9 @@
 What OneSlide is, how it works and why; for agents, OneAI and us. What is
 known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
 
-Presentations in OneCloud: a tender pitch, a monthly review, the slides a
-screen in the showroom plays. Made in the desk, kept beside everything else in
-the company's files, and opened by anybody the file is shared with.
+Presentations in OneCloud: a tender pitch, a monthly review, a training
+session. Made in the desk, kept beside everything else in the company's
+files, and opened by anybody the file is shared with.
 
 ## Making and opening one
 
@@ -73,23 +73,14 @@ If the same presentation is open in another tab, only one of them may change
 it; the other says so and offers **Edit here**. If somebody else saved it in
 the meantime, the editor says so and offers **Reload**.
 
-## On a screen
+## Played elsewhere
 
-A OneDisplay slide playlist plays presentations: a row links one, and every
-slide of it plays on the screens in turn, each for its own **Advance** time
-or the row's seconds. **New Presentation** on a playlist makes one filed on
-the playlist and opens it here. What you change is on the screens at their
-next look.
-
-## A screen's layout
-
-A OneDisplay widget collection is edited here too: **Edit Layout** opens its
-backdrop, a one-slide presentation filed on the collection, at the screen's
-shape. Its widgets are elements on the slide, **Add a Widget** adds one, and
-the panel shows a chosen widget's source and settings. The slides rail,
-Theme, File and Present are left out. How it works is docs/ONESLIDE.md, The
-channel builder; this module only calls the `one_slide_loaded` and
-`one_slide_saving` hooks, and draws the frame `shim/frame.js` gives.
+Another app may play a presentation or edit in this editor; OneSlide knows
+nothing about it beyond two doors. `play.for_screen` and
+`public/js/one_slide/play.js` draw saved slides anywhere the editor cannot
+run, and the hooks `one_slide_loaded` and `one_slide_saving` let an app add
+to what the editor opens and take back what it saves. OneDisplay uses both;
+its AGENTS.md says how.
 
 ## Connections
 
@@ -139,32 +130,32 @@ joins Suite's files.
 
 ### OneAI
 
-`ai.py`. The jobs are OneDisplay's (`display_design`, `display_picture`,
-`display_video` in `one_ai/jobs.py`), so their credits and history carry on.
-A design comes back as OneDisplay's blocks, in percent of a 1920 by 1080
-screen, and `convert.py` redraws them as Suite's elements on its 960 by 540
-slide: text as Suite's paragraphs, OneDisplay's shapes as Suite's or ours,
-a fade as a fade, a QR code as a picture of one. Stage 5 of docs/ONESLIDE.md
-turns every designed slide a playlist holds into a presentation with the
-same function. A picture is kept on the presentation as an upload is; a
+`ai.py`. The jobs are OneSlide's own (`slide_design`, `slide_picture`,
+`slide_video` in `one_ai/jobs.py`). A design comes back as blocks placed in
+percent of the slide, told the presentation's size, and `convert.py`
+redraws them as Suite's elements on that frame: text as Suite's paragraphs,
+shapes as Suite's or ours, a fade as a fade, a QR code as a picture of one
+(`one/qr.py`). A picture is kept on the presentation as an upload is; a
 video is made in the background, put on a slide of its own across the whole
 of it, and whoever asked is told (`tell.py`; the kinds are with OneCloud's
 in `notifications/one_storage` until OneSlide is a module of its own).
 OneWriter's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
 
-### On a screen
+### Drawn without the editor
 
-A screen is a 2017 TV that cannot run this editor, so `public/js/one_slide/
-play.js` draws a saved slide again in ES5: text as its sanitised HTML,
-shapes as SVG with Suite's geometry and ours, fades, blur, free CSS, crops,
-videos; eight-digit colours as `rgba()`, and every number, colour and address
-checked again. `play.for_screen` gives a screen a presentation's slides with
-hidden elements left out, tables drawn to HTML, and pictures and videos at
-`api.shown` addresses sealed with the site's key (`play.seal`), since a
-screen signs in as nobody. A playlist row links the presentation's File,
-offered by `api.search` only to who may open it and checked again when the
-playlist is saved. OneDisplay's AGENTS.md has the rest.
+`public/js/one_slide/play.js` draws a saved slide again in ES5, for a
+browser too old to run the editor: text as its sanitised HTML, shapes as SVG
+with Suite's geometry and ours, fades, blur, free CSS, crops, videos;
+eight-digit colours as `rgba()`, and every number, colour and address
+checked again. It empties a slide's videos when the slide is taken off
+(`release`), since an old browser holds a decoder until then.
+`play.for_screen` gives a presentation's slides in that shape: hidden
+elements left out, tables drawn to HTML, pictures and videos at `api.shown`
+addresses sealed with the site's key (`play.seal`) for a reader signed in as
+nobody, each slide's own transition, and how long it stays (`play.length`):
+a video that does not loop is watched to its end first, since the editor
+keeps a video's `length` when it loads it, then the slide's Advance.
 
 ### History, templates and paper
 
@@ -180,8 +171,7 @@ lists Suite's two themes and every template the reader may open.
 
 `paper.py`. The editor photographs each slide in Suite's own preview at twice
 its size (`shim/SlideCamera.vue`, modern-screenshot), and Pillow makes the
-pictures a PDF a page each. The same pictures are what a screen plays
-(stage 5 of docs/ONESLIDE.md).
+pictures a PDF a page each.
 
 ### The editor
 

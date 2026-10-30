@@ -79,6 +79,12 @@ def _may(name: str, ptype: str = "read") -> dict:
 	return item
 
 
+def frame(name: str) -> tuple[int, int]:
+	"""The presentation's size in pixels: every slide of it is this size."""
+	width, height = frappe.db.get_value(PRESENTATION, name, ["width", "height"]) or (0, 0)
+	return (int(width or 960), int(height or 540))
+
+
 def _titled(title: str | None) -> str:
 	return " ".join((title or "").replace("/", " ").split())[:MOST_TITLE]
 

@@ -28,6 +28,16 @@ play on the screen as they look in the editor. Whatever you change in the
 presentation is on the screens at their next look, without touching the
 playlist.
 
+![A presentation's slide on the showroom screen, beside the queue](slides/screen.png)
+
+## How Long Each Slide Stays
+
+Each slide stays up for its own **Advance** time in OneSlide, or for the
+row's **Seconds** when it has none. A video that does not loop is watched to
+its end first, then the slide waits its Advance. A slide changes with its own
+transition: a fade, a slide in from the side, or a cut; Magic Move fades on a
+screen.
+
 ## Made With OneAI
 
 In a presentation, **OneAI** designs a slide from a sentence in your brand's

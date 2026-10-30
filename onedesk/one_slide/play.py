@@ -120,12 +120,13 @@ def _shown(src) -> str:
 
 
 def for_screen(name: str, seconds: int) -> list[dict]:
-	"""A presentation's slides as a screen plays them: each for its own
-	advance-after, else `seconds`, its media at sealed addresses, a table
+	"""A presentation's slides as a screen plays them: each for as long as
+	`length` says, its own transition, its media at sealed addresses, a table
 	drawn to HTML, and nothing hidden."""
 	import frappe
 
 	doc = frappe.get_cached_doc("Presentation", name)
+	width, height = int(doc.get("width") or 960), int(doc.get("height") or 540)
 	played = []
 	for row in doc.slides:
 		elements = []
@@ -141,11 +142,41 @@ def for_screen(name: str, seconds: int) -> list[dict]:
 		played.append(
 			{
 				"id": f"{name}-{row.idx}",
-				"ms": max(int(row.advance_after or 0) or int(seconds or 0) or 10, 2) * 1000,
-				"slide": {"background": background(row.background), "elements": elements},
+				"ms": int(length(elements, row.advance_after, seconds) * 1000),
+				"transition": _transition(row.transition),
+				"transition_ms": int(min(max(_seconds(row.transition_duration) or 0.8, 0), 3) * 1000),
+				"slide": {"background": background(row.background), "elements": elements, "width": width, "height": height},
 			}
 		)
 	return played
+
+
+#: Suite's transitions as a screen draws them: Magic Move needs the editor,
+#: so a screen fades instead.
+TRANSITIONS = {"None": "none", "Fade": "fade", "Slide In": "slide", "Magic Move": "fade"}
+
+
+def _transition(value) -> str:
+	return TRANSITIONS.get(value or "", "fade")
+
+
+def _seconds(value) -> float:
+	try:
+		said = float(value)
+	except (TypeError, ValueError):
+		return 0
+	return said if said == said and said > 0 else 0
+
+
+def length(elements: list, advance_after, seconds) -> float:
+	"""How long a slide stays on a screen, in seconds, as the slideshow
+	keeps it: a video that does not loop is watched to its end first, then
+	the slide waits its own Advance; with neither, the row's seconds. The
+	editor keeps a video's `length` when it loads it. Pure."""
+	held = max([_seconds(one.get("length")) for one in elements if one.get("type") == "video" and not one.get("loop")] or [0])
+	advance = _seconds(advance_after)
+	stays = held + advance if held else advance or _seconds(seconds) or 10
+	return max(round(stays, 1), 2)
 
 
 def _table(content) -> str:

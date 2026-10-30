@@ -46,7 +46,7 @@ USE = {
 	},
 	"embed": {tier: ("@cf/baai/bge-m3", "@cf/qwen/qwen3-embedding-0.6b") for tier in TIERS},
 	"guard": {tier: ("@cf/meta/llama-guard-3-8b", None) for tier in TIERS},
-	# What OneDisplay makes for its slides and playlists.
+	# What OneSlide makes for a slide and OneDisplay for a playlist.
 	"picture": {
 		"fast": ("google/gemini-3.1-flash-lite-image", "google/gemini-3.1-flash-image"),
 		"balanced": ("google/gemini-3.1-flash-image", "google/gemini-3.1-flash-lite-image"),

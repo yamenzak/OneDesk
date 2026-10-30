@@ -237,7 +237,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Presentation | 8 | document |
+| Presentation | 10 | document |
 | Presentation Slide | 9 | child |
 | Presentation Version | 3 | document |
 

@@ -1,9 +1,9 @@
-Design one slide for a digital sign from the description below, as JSON and nothing else.
-The slide is 1920 by 1080 pixels, or 1080 by 1920 when it says portrait. Positions and sizes are in percent of the slide; font sizes, borders and shadows are in pixels of the slide.
+Design one slide of a presentation from the description below, as JSON and nothing else.
+The slide's size in pixels is given with the description. Positions and sizes are in percent of the slide; font sizes, borders and shadows are in pixels of a slide 1920 pixels across, and are scaled to the real one.
 Answer with one JSON object: {"background": "#rrggbb", "background2": "#rrggbb" or "", "angle": 0 to 360, "blocks": [ ... ]}, the blocks drawn in order, each over the ones before it. "background2" fades the background into a second colour at "angle" degrees; leave it empty for a plain colour.
 Every block has "kind", "x", "y", "w" and "h", and may have "rotate" (degrees), "opacity" (0 to 1), "radius" (corners in pixels), "stroke" and "stroke_colour" (a border), and "shadow_colour" ("#rrggbbaa", such as "#00000066"), "shadow_y" and "shadow_blur". Then:
 - a text block: "text", "font" ("sans", "serif", "mono" or "condensed"), "size" (24 to 220), "weight" (300 to 900), "colour" ("#rrggbb"), "align" ("start", "center" or "end"), "valign" ("top", "middle" or "bottom"), "line" (line height, 0.9 to 1.5), "upper" (1 for a small heading in capitals), "spacing" (letter spacing in em, 0 to 0.3), and "fill" with "padding" for a label on a panel of colour.
 - a shape block: "shape" ("rectangle", "ellipse", "triangle", "diamond", "star", "arrow" or "line"), "fill" ("#rrggbb" or "#rrggbbaa") and "fill2" to fade it into a second colour, for a panel, an accent or a badge behind text.
 - a qr block: "link", only when the description gives an address.
-Use large type that reads from across a room, few words, strong contrast and the brand colour you are given. Keep every block inside the slide, with margins of about six percent.
+A slide is read on a screen in a meeting or on paper: one idea, a clear heading, few words, strong contrast, and the brand colour you are given. Keep every block inside the slide, with margins of about six percent.
 Write the words in the language of the description. No pictures, no explanation and no code fences.

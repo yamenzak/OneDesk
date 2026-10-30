@@ -1,8 +1,8 @@
-"""A designed slide, as OneDisplay's designer and OneAI's `display_design`
-wrote it (blocks placed in percent of a 1920 by 1080 screen), redrawn as a
-slide of Suite's elements on its 960 by 540 canvas. OneAI designs a slide
-this way (`ai.design`), and stage 5 of docs/ONESLIDE.md turns every designed
-slide a playlist holds into a presentation with it. Pure but for the QR code.
+"""A designed slide, as OneAI's `slide_design` writes it (blocks placed in
+percent of the slide, type in pixels of a slide 1920 across), redrawn as
+Suite's elements on the presentation's own frame (`ai.design`). OneDisplay
+turned its old designed slides into presentations the same way (its patch
+`presentations_on_screens` and its demo). Pure but for the QR code.
 """
 
 import html
@@ -18,12 +18,12 @@ SHAPES = {"ellipse": "oval", "arrow": "blockArrow"}
 ALIGN = {"start": "left", "center": "center", "end": "right", "justify": "justify"}
 
 
-def slide(design: dict) -> dict:
-	"""`{"background", "elements"}` for one Suite slide. A portrait design
-	stands in the middle of the wide slide at its own shape."""
+def slide(design: dict, width: float = WIDE, height: float = HIGH) -> dict:
+	"""`{"background", "elements"}` for one Suite slide on a frame of
+	`width` by `height`. A design that says Portrait, drawn on a wide frame,
+	stands in the middle of it at its own shape."""
 	design = design if isinstance(design, dict) else {}
-	portrait = design.get("orientation") == "Portrait"
-	box = _box(portrait)
+	box = _box(design.get("orientation") == "Portrait", width, height)
 	elements = []
 	if _file(design.get("image")):
 		elements.append(_picture({"src": design["image"], "x": 0, "y": 0, "w": 100, "h": 100}, box))
@@ -41,11 +41,11 @@ def slide(design: dict) -> dict:
 	return {"background": _background(design), "elements": elements}
 
 
-def _box(portrait: bool) -> dict:
-	if not portrait:
-		return {"left": 0, "top": 0, "width": WIDE, "height": HIGH, "scale": WIDE / SCREEN}
-	width = HIGH * 9 / 16
-	return {"left": (WIDE - width) / 2, "top": 0, "width": width, "height": HIGH, "scale": width / 1080}
+def _box(portrait: bool, width: float, height: float) -> dict:
+	if portrait and width > height:
+		standing = height * 9 / 16
+		return {"left": (width - standing) / 2, "top": 0, "width": standing, "height": height, "scale": height / SCREEN}
+	return {"left": 0, "top": 0, "width": width, "height": height, "scale": max(width, height) / SCREEN}
 
 
 def _number(value, default, least, most):
@@ -228,7 +228,7 @@ def _qr(one: dict, box: dict) -> dict:
 	"""A QR code is a picture of one, drawn now: Suite has no QR element."""
 	import base64
 
-	from onedesk.one_display.programme import _qr as drawn
+	from onedesk.one.qr import svg as drawn
 
 	element = _picture({**one, "src": ""}, box)
 	link = str(one.get("link") or "")[:1000]

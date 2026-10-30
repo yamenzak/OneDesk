@@ -10,8 +10,8 @@ The panel has two tabs at the top: **Design**, for whatever you chose, and
 **Layers** lists what is on the slide, the top first. Click one to choose
 it, double-click it to give it a name, and drag it up or down to put it in
 front of or behind the others. Its eye hides it and its lock keeps it from
-being moved. A hidden element is not shown in the editor, the slideshow, a
-PDF or on a screen.
+being moved. A hidden element is not shown in the editor, the slideshow or a
+PDF.
 
 ## Fades
 

@@ -89,7 +89,7 @@ links it. `blocks.py`, `blocks.js`, `slides.py`'s designer endpoints and
 
 | Job | Moves to | Also in |
 |---|---|---|
-| Design a slide from a sentence (`display_design`) | OneSlide, writing Suite's element JSON | |
+| Design a slide from a sentence (`slide_design`) | OneSlide, writing Suite's element JSON | |
 | Make a picture | OneSlide's Image section | OneWriter's insert menu |
 | Make a video (Veo, minutes, in the background) | OneSlide; the video arrives as an element on a new slide | |
 | Make music | stays in OneDisplay: it is a playlist's soundtrack, not a slide | |

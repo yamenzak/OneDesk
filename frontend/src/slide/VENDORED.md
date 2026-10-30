@@ -52,6 +52,9 @@ Each is marked `One:` where it is.
 - `utils/domToWebp.js`: `captureDOM` takes a scale, and a reused capture
   context takes the scale its capture asked for, so a slide can be
   photographed at twice its size for a PDF or a screen.
+- `components/VideoElement.vue`: a video keeps its `length` on the element
+  when it loads, so a screen can hold its slide while it plays
+  (`one_slide/play.py`, `length`).
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

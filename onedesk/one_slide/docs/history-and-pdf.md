@@ -20,7 +20,7 @@ everyone in the business to start from: **New › Presentation** offers it, and
 
 ## Export as PDF
 
-**Export as PDF** draws every slide as it looks on the screen, a page each,
+**Export as PDF** draws every slide as it looks in the editor, a page each,
 keeps the PDF in OneCloud beside the presentation, and opens it.
 
 ## On a Record

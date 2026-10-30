@@ -132,17 +132,21 @@ Presentation** on the playlist makes one filed on the playlist and opens it.
 
 `programme.slides` gives a screen each of a presentation's slides in turn
 (`one_slide/play.py`, `for_screen`): the editor's own elements, cleaned
-when they were saved, each slide for its own advance-after or the row's
-seconds, hidden elements left out, a table drawn to HTML, and its pictures
+when they were saved, each slide as long as `play.length` says (a video that
+does not loop watched to its end, then the slide's Advance, else the row's
+seconds) and changing with its own transition (Magic Move fades), hidden
+elements left out, a table drawn to HTML, and its pictures
 and videos at addresses sealed with the site's key (`play.seal`,
 `one_slide.api.shown`), since a screen signs in as nobody.
 
 **One renderer.** `public/js/one_slide/play.js` is ES5 and draws a slide
-from its elements on a 960 by 540 stage scaled to the screen: text as the
+from its elements on the presentation's frame scaled to the screen: text as the
 sanitised HTML it is, shapes as SVG (Suite's and our star and block arrow),
 fades, blur, free CSS, pictures with their crop, videos joining the shared
 clock. Eight-digit colours become `rgba()` for Chromium 53, and every
-number, colour and address is checked again before it is drawn.
+number, colour and address is checked again before it is drawn. A slide
+taken off has its videos paused and emptied (`play.release`), since an old
+TV keeps a video's decoder until then.
 
 The pictures, videos and designed slides playlists held before stage 5
 were turned into one-slide presentations filed on their playlist by
@@ -154,8 +158,8 @@ were turned into one-slide presentations filed on their playlist by
 `make.py` makes a Custom widget's code and a piece of music;
 `voices.record` records a voice ad. Each comes back as something a person
 keeps or not; nothing goes on a screen by itself. Pictures, videos and
-designed slides are made in a presentation (`one_slide/ai.py`), with the
-same jobs.
+designed slides are made in a presentation, with OneSlide's own jobs
+(`one_slide/ai.py`).
 
 Music (Lyria) is one call, made in a `long` job. It arrives at the end of its
 playlist **Paused**, its length read from the file, and whoever asked is told
