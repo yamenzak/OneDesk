@@ -275,6 +275,29 @@ def add_picture(file_id: str) -> dict:
 	return {"name": made.name, "file_name": made.file_name, "file_url": PICTURE + made.name}
 
 
+@frappe.whitelist(methods=["POST"])
+def make_picture(file_id: str, description: str) -> dict:
+	"""A picture OneAI makes from a sentence, kept on the document as an
+	uploaded one is (OneSlide's job, one_slide/ai.py)."""
+	from onedesk.one_slide import ai
+
+	_may(file_id, "write")
+	content, extension = ai.made_picture(ai.asked(description, 2000))
+	made = frappe.get_doc(
+		{
+			"doctype": "File",
+			"file_name": f"picture-{frappe.generate_hash(length=6)}.{extension}",
+			"content": content,
+			"is_private": 1,
+			"attached_to_doctype": DOCUMENT,
+			"attached_to_name": file_id,
+		}
+	)
+	made.flags.ignore_permissions = True
+	made.insert()
+	return {"name": made.name, "file_name": made.file_name, "file_url": PICTURE + made.name}
+
+
 @frappe.whitelist()
 def picture(id: str) -> None:
 	"""A picture in a document, to whoever may open the document."""

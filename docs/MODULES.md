@@ -570,6 +570,7 @@ No doctypes yet.
 * `onedesk.one_doc.api.drop_pictures`
 * `onedesk.one_doc.api.get_document`
 * `onedesk.one_doc.api.make`
+* `onedesk.one_doc.api.make_picture`
 * `onedesk.one_doc.api.people`
 * `onedesk.one_doc.api.picture`
 * `onedesk.one_doc.api.picture_extension`
@@ -878,6 +879,9 @@ No doctypes yet.
 * `onedesk.one_sheet.versions.restore`
 * `onedesk.one_sheet.versions.state_at`
 * `onedesk.one_sheet.versions.timeline`
+* `onedesk.one_slide.ai.design`
+* `onedesk.one_slide.ai.picture`
+* `onedesk.one_slide.ai.video`
 * `onedesk.one_slide.api.download`
 * `onedesk.one_slide.api.get`
 * `onedesk.one_slide.api.get_editor_access`

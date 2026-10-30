@@ -35,6 +35,7 @@ import LucideForm from '~icons/lucide/sticky-note'
 import LucideAlignVerticalSpacingAround from '~icons/lucide/align-vertical-space-around'
 import LucideHeading from '~icons/lucide/heading'
 import LucideAlignLeft from '~icons/lucide/align-left'
+import LucideImagePlay from '~icons/lucide/image-plus'
 
 const SpacingDialogAsync = defineAsyncComponent(() =>
   import('@/apps/writer/components/SpacingDialog.vue'),
@@ -80,7 +81,7 @@ const IndentList = {
 const headingItems = [Paragraph, H1, H2, H3, H4]
 const alignItems = [AlignLeft, AlignCenter, AlignRight]
 
-export function buildMenuButtons({ editor, settings, isPainting, openSettings }) {
+export function buildMenuButtons({ editor, settings, isPainting, openSettings, makePicture }) {
   return [
     // Heading type selector — dropdown group
     {
@@ -148,6 +149,8 @@ export function buildMenuButtons({ editor, settings, isPainting, openSettings })
     InlineCode,
     Separator,
     InsertImage,
+    // One: a picture OneAI makes, beside the one you upload (onedesk/one_doc/api.py, make_picture)
+    ...(makePicture ? [{ label: __('Make a Picture with OneAI'), icon: LucideImagePlay, action: makePicture }] : []),
     InsertVideo,
     InsertIframe,
     Separator,

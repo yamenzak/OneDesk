@@ -46,7 +46,7 @@
 </template>
 
 <script setup>
-import { __ } from '../../kit/desk' // One: the desk's translations
+import { __, call, oneaiOn, prompt } from '../../kit/desk' // One: the desk's translations, calls and OneAI
 import { writerRoot } from '../shim/root.js' // One: the island's shadow root, not document
 import {
   computed,
@@ -266,8 +266,18 @@ const menuButtons = computed(() =>
     settings: props.settings,
     isPainting,
     openSettings: () => (showSettings.value = true),
+    makePicture: oneaiOn() ? makePicture : null, // One: OneAI's picture, VENDORED.md
   }),
 )
+
+// One: OneAI makes a picture from a sentence, kept on the document as an
+// uploaded one is, and put where the cursor is
+function makePicture(e) {
+  prompt([{ fieldname: 'description', fieldtype: 'Small Text', label: __('Describe It'), reqd: 1 }], async ({ description }) => {
+    const made = await call('onedesk.one_doc.api.make_picture', { file_id: props.file.doc.name, description })
+    e.chain().focus().setImage({ src: made.file_url, alt: description.slice(0, 120) }).run()
+  }, __('Make a Picture'), __('Make'))
+}
 
 const bubbleMenuButtons = [
   {

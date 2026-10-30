@@ -31,6 +31,11 @@ OneCloud is the list), `router.ts` and `routes.ts`, `components/Navbar.vue`
 
 Each is marked `One:` where it is.
 
+- `components/CoreEditor.vue`, `components/core-editor/menu-buttons.js`:
+  **Make a Picture with OneAI** after the picture button, when OneAI is on;
+  it asks for a sentence, calls `one_doc.api.make_picture` and puts the
+  picture at the cursor with the image extension's own `setImage`.
+
 - `components/CoreEditor.vue`: `styleClipboard: {}` in `RichTextKit.configure`,
   because Suite's frappe-ui turned the format painter on by default and ours
   does not; the upload endpoint is `onedesk.one_doc.api.add_picture`.

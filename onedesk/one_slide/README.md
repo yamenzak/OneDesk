@@ -35,6 +35,13 @@ slide, the top first. Click one to choose it, double-click to name it, drag
 to restack, and use its eye and lock to hide it or keep it from being moved.
 A hidden element is not drawn in the editor, the slideshow or a PDF.
 
+**OneAI** in the head, when OneAI is on, makes three things from a sentence.
+**Design a Slide** puts a new slide after the one you are on, laid out with
+the business's colour; everything on it is an ordinary element to change.
+**Make a Picture** puts a picture on this slide. **Make a Video** takes a few
+minutes: it arrives on a new slide at the end, and you are told when it is
+there or that it could not be made. Each costs credits like any OneAI request.
+
 **Theme** changes the theme the layouts come from. **Present** plays the
 presentation from this slide or from the start, and can loop.
 
@@ -110,6 +117,22 @@ on every save, so a declaration that is not on it, or a value that loads
 anything (`url(`, `@import`, `expression`), never reaches a screen. The
 editor's half is in `frontend/src/slide/shim/`; `VENDORED.md` lists where it
 joins Suite's files.
+
+### OneAI
+
+`ai.py`. The jobs are OneDisplay's (`display_design`, `display_picture`,
+`display_video` in `one_ai/jobs.py`), so their credits and history carry on.
+A design comes back as OneDisplay's blocks, in percent of a 1920 by 1080
+screen, and `convert.py` redraws them as Suite's elements on its 960 by 540
+slide: text as Suite's paragraphs, OneDisplay's shapes as Suite's or ours,
+a fade as a fade, a QR code as a picture of one. Stage 5 of docs/ONESLIDE.md
+turns every designed slide a playlist holds into a presentation with the
+same function. A picture is kept on the presentation as an upload is; a
+video is made in the background, put on a slide of its own across the whole
+of it, and whoever asked is told (`tell.py`; the kinds are with OneCloud's
+in `notifications/one_storage` until OneSlide is a module of its own).
+OneWriter's **Make a Picture with OneAI** is the same picture job
+(`one_doc/api.py`, `make_picture`).
 
 ### History, templates and paper
 

@@ -12,8 +12,13 @@
 			<span class="mx-0.5 text-base text-ink-gray-4" aria-hidden="true">/</span>
 			<InlineRenameInput v-model="title" editing @submit="rename" @cancel="renaming = false" @blur="rename" />
 		</div>
-		<span class="text-sm text-ink-gray-5">{{ status }}</span>
+		<span class="text-sm text-ink-gray-5">{{ making || status }}</span>
 		<div class="ml-auto flex items-center gap-2">
+			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn()" :options="aiMenu" align="end">
+				<Button variant="ghost" :label="ONEAI" icon-right="lucide-chevron-down" :loading="!!making">
+					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
+				</Button>
+			</Dropdown>
 			<Button v-if="!inReadonlyMode && presentationDoc" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
 			<Dropdown v-if="presentationDoc" :options="fileMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
@@ -29,12 +34,13 @@
 import { computed, inject, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, alert, call, goTo, goToUrl, openTab, prompt } from "../../kit/desk";
+import { __, alert, call, goTo, goToUrl, oneaiMark, oneaiOn, openTab, prompt } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
 import { initPresentationDoc, presentationDoc, updatePresentationTitle } from "../stores/presentation";
-import { slides } from "../stores/slide";
+import { addMediaElement } from "../stores/element";
+import { changeSlide, currentSlide, getNewSlide, insertSlide, slideIndex, slides } from "../stores/slide";
 import { commandHistory } from "../stores/historyMeta";
 import { dirty, isSaving, saveFailed, saveWithoutDelay } from "../stores/saving";
 import SlideCamera from "./SlideCamera.vue";
@@ -42,6 +48,7 @@ import VersionsDialog from "./VersionsDialog.vue";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
+const ONEAI = "OneAI"; // a name too
 const oneMark = mark("oneslide");
 const inReadonlyMode = inject("inReadonlyMode", ref(false));
 const renaming = ref(false);
@@ -131,6 +138,58 @@ function saveAsTemplate() {
 		__("Save as Template"),
 		__("Save")
 	);
+}
+
+// What OneAI makes here (onedesk/one_slide/ai.py): a slide after this one, a
+// picture on this one, or a video that arrives later on a slide of its own.
+const making = ref("");
+const aiMenu = computed(() => [
+	{
+		group: ONEAI,
+		options: [
+			{ label: __("Design a Slide"), icon: "lucide-layout-template", onClick: designSlide },
+			{ label: __("Make a Picture"), icon: "lucide-image", onClick: makePicture },
+			{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo },
+		],
+	},
+]);
+
+function described(title, label, done) {
+	prompt([{ fieldname: "description", fieldtype: "Small Text", label: __("Describe It"), reqd: 1 }], ({ description }) => done(description), title, label);
+}
+
+async function asking(saying, method, description) {
+	making.value = saying;
+	try {
+		return await call(method, { name: presentationDoc.value.name, description });
+	} finally {
+		making.value = "";
+	}
+}
+
+function designSlide() {
+	described(__("Design a Slide"), __("Design"), async (description) => {
+		const made = await asking(__("OneAI is designing the slide…"), "onedesk.one_slide.ai.design", description);
+		const at = slideIndex.value;
+		insertSlide(getNewSlide(false, { background: made.background, elements: made.elements }), at);
+		changeSlide(at + 1);
+	});
+}
+
+function makePicture() {
+	const slide = currentSlide.value;
+	described(__("Make a Picture"), __("Make"), async (description) => {
+		const made = await asking(__("OneAI is making the picture…"), "onedesk.one_slide.ai.picture", description);
+		await addMediaElement(made, "image", slide);
+	});
+}
+
+function makeVideo() {
+	described(__("Make a Video"), __("Make"), async (description) => {
+		await saveWithoutDelay();
+		await asking(__("OneAI is starting the video…"), "onedesk.one_slide.ai.video", description);
+		alert(__("OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."));
+	});
 }
 
 // Going back to a version: what is unsaved goes first, then the presentation

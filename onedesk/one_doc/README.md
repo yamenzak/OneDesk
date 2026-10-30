@@ -140,6 +140,11 @@ folder or on a record, from a template or not. "Make a covering letter on
 this quotation from the template" makes one whose fields print what the
 quotation says. Each question costs credits like any other OneAI request.
 
+**Make a Picture with OneAI**, beside the picture button in the bar, asks
+for a sentence and puts the picture OneAI makes where the cursor is. It is
+kept on the document as an uploaded picture is (`api.make_picture`, with
+OneSlide's picture job, `one_slide/ai.py`).
+
 ## What is not built yet
 
 A Word file's comments and tracked changes do not come into OneWriter, and

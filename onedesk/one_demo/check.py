@@ -3307,6 +3307,75 @@ def oneslide_keeps_a_presentation_in_onecloud():
 
 
 @check
+def oneai_makes_slides_and_pictures():
+	"""Karim asks OneAI for a designed slide, a picture on it and a video,
+	and a picture in a document. The design comes back as the editor's own
+	elements, the pictures are kept on what they were made for, the video
+	arrives on a slide of its own and he is told. OneAI is pretended."""
+	import base64
+	from unittest import mock
+
+	from onedesk.one_doc import api as doc_api
+	from onedesk.one_slide import ai, api, convert
+
+	designed = json.dumps({
+		"background": "#102030", "background2": "#405060", "angle": 90,
+		"blocks": [
+			{"kind": "text", "text": "Open\nhouse", "x": 6, "y": 8, "w": 60, "h": 20, "size": 120, "upper": 1, "fill": "#ffffff22", "padding": 20},
+			{"kind": "shape", "shape": "arrow", "x": 6, "y": 60, "w": 30, "h": 20, "fill": "#ff8800", "fill2": "#ffcc00", "shadow_colour": "#00000066"},
+			{"kind": "qr", "link": "https://example.com/visit", "x": 80, "y": 70, "w": 14, "h": 25},
+			{"kind": "image", "src": "javascript:alert(1)", "x": 0, "y": 0, "w": 10, "h": 10},
+		],
+	})
+	png = base64.b64encode(DOT_PNG).decode()
+	told = []
+	frappe.db.savepoint("oneai_slide_check")
+	try:
+		with mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch(
+			"onedesk.one_ai.run.once", return_value=f"```json\n{designed}\n```"
+		), mock.patch("onedesk.one_ai.run.make", return_value={"data": png, "mime": "image/png"}), mock.patch(
+			"onedesk.one_ai.run.begin", return_value="ticket"
+		), mock.patch("onedesk.one_ai.run.collect", return_value={"done": True, "data": base64.b64encode(b"video").decode(), "mime": "video/mp4"}), mock.patch(
+			"onedesk.one_slide.ai.time.sleep"
+		), mock.patch("onedesk.one.notify.notify", side_effect=lambda kind, to, **said: told.append((kind, to, said["what"]))):
+			with as_user("karim@one.test"):
+				name = api.make("@my", "OneAI check")["presentation"]
+				slide = ai.design(name, "An open house on Saturday")
+				kinds = [(one["type"], one.get("shapeType")) for one in slide["elements"]]
+				assert kinds == [("text", None), ("shape", "blockArrow"), ("image", None), ("image", None)], kinds
+				assert slide["background"] == "linear-gradient(90deg, #102030FF, #405060FF)", slide["background"]
+				words = slide["elements"][0]
+				assert "OPEN" in words["content"] and "HOUSE" in words["content"] and "background" in words["css"], words
+				assert slide["elements"][1]["fade"]["to"] == "#FFCC00FF" and slide["elements"][1]["shadowOpacity"] == 40
+				assert slide["elements"][2]["src"].startswith("data:image/svg+xml;base64,"), "a QR code is a picture of one"
+				assert slide["elements"][3]["src"] == "", "an address that is not ours is dropped"
+				made = ai.picture(name, "A tower at dusk")
+				assert made["file_url"].startswith(api.MEDIA) and frappe.db.get_value("File", made["name"], "attached_to_name") == name
+				before = len(api.get(name)["slides"])
+				assert ai.video(name, "Waves on a glass facade")["begun"]
+				ai.made_later(name, "Waves on a glass facade", "karim@one.test")
+				slides = api.get(name)["slides"]
+				video = json.loads(slides[-1]["elements"])[0]
+				assert len(slides) == before + 1 and video["type"] == "video" and video["src"].startswith(api.MEDIA), video
+				assert told == [("Video Made for a Presentation", "karim@one.test", "Waves on a glass facade")], told
+				document = doc_api.make("@my", "Picture check")["document"]
+				picture = doc_api.make_picture(document, "A floor plan")
+				assert picture["file_url"].startswith(doc_api.PICTURE), picture
+			portrait = convert.slide({"orientation": "Portrait", "blocks": [{"kind": "shape", "x": 0, "y": 0, "w": 100, "h": 100}]})
+			box = portrait["elements"][0]
+			assert box["width"] == 303.75 and box["left"] == 328.12, "a portrait design stands in the middle"
+		with mock.patch("onedesk.one.apps.ai_on", return_value=False):
+			try:
+				ai.design(name, "Anything")
+				raise AssertionError("OneAI turned off still designs")
+			except Exception as refused:
+				assert "turned off" in str(refused), refused
+				frappe.clear_messages()
+	finally:
+		frappe.db.rollback(save_point="oneai_slide_check")
+
+
+@check
 def a_document_is_written_in_onecloud():
 	"""Layla writes a scope of works in her files. It opens with what she
 	saved and keeps its page setup, takes a new name, carries a picture only

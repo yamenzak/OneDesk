@@ -12563,6 +12563,11 @@ msgstr "الإهلاك يُرحَّل تلقائيًا"
 msgid "Depreciations Booked"
 msgstr "الاستهلاكات المسجلة"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:158
+#: frontend/src/writer/components/CoreEditor.vue:276
+msgid "Describe It"
+msgstr "صِفه"
+
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the said (Small Text) field in DocType 'Private App'
 #. Label in the One Credit Ledger Entry print format
@@ -21569,6 +21574,10 @@ msgstr "وهي أيضًا في حسابك في One، مع فواتيرك."
 msgid "It is no longer in {app}."
 msgstr "لم تعد موجودة في {app}."
 
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "It is on a new slide at the end. Look at it before you show it."
+msgstr "إنه على شريحة جديدة في النهاية. ألقِ نظرة عليه قبل عرضه."
+
 #: onedesk/one_display/notifications.py
 msgid "It is paused until you play it. Look at it first, then clear Paused."
 msgstr "يبقى متوقفاً حتى تشغّله. اطّلع عليه أولاً، ثم ألغِ «متوقف»."
@@ -24682,6 +24691,10 @@ msgstr "صنع صورة"
 #: onedesk/one_ai/jobs.py:71
 msgid "Make a Picture for a Slide"
 msgstr "صنع صورة لشريحة"
+
+#: frontend/src/writer/components/core-editor/menu-buttons.js:153
+msgid "Make a Picture with OneAI"
+msgstr "إنشاء صورة باستخدام OneAI"
 
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:59
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:61
@@ -28784,6 +28797,10 @@ msgstr "لا شيء بانتظارك"
 msgid "Nothing was added to {playlist}. Try again, or describe it differently."
 msgstr "لم يُضف شيء إلى {playlist}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "Nothing was added to {presentation}. Try again, or describe it differently."
+msgstr "لم يُضف شيء إلى {presentation}. حاول مرة أخرى، أو صِفه بطريقة مختلفة."
+
 #: onedesk/one_ai/chat.py:121
 msgid "Nothing was asked."
 msgstr "لم يُسأل شيء."
@@ -29919,6 +29936,10 @@ msgstr "لا يملك OneAI صلاحية الوصول إلى أي من مجلد�
 msgid "OneAI has run out of credits"
 msgstr "نفدت أرصدة OneAI"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:172
+msgid "OneAI is designing the slide…"
+msgstr "يصمم OneAI الشريحة…"
+
 #: onedesk/one_studio/mend.py:150
 msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr "يصلحها OneAI الآن. يستغرق ذلك بضع دقائق، وستُبلَّغ عند الانتهاء."
@@ -29926,6 +29947,14 @@ msgstr "يصلحها OneAI الآن. يستغرق ذلك بضع دقائق، و�
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:38
 msgid "OneAI is making the music. You will be told when it is in the playlist."
 msgstr "يصنع OneAI الموسيقى. ستُبلَّغ حين تصبح في قائمة التشغيل."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:182
+msgid "OneAI is making the picture…"
+msgstr "يُنشئ OneAI الصورة…"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:191
+msgid "OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."
+msgstr "يُنشئ OneAI الفيديو. يستغرق ذلك بضع دقائق؛ سيكون على شريحة جديدة في النهاية، وسيتم إبلاغك."
 
 #: frontend/src/display/Slides.vue:476
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:64
@@ -29947,6 +29976,10 @@ msgstr "يقرأ OneAI الآن {0}."
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:12
 msgid "OneAI is recording the ad"
 msgstr "يسجّل OneAI الإعلان"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:190
+msgid "OneAI is starting the video…"
+msgstr "يبدأ OneAI الفيديو…"
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:26
 msgid "OneAI is turned off for this mailbox."
@@ -50044,6 +50077,14 @@ msgstr "صعبة التخمين جدًا"
 msgid "Video"
 msgstr "فيديو"
 
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "Video Made for a Presentation"
+msgstr "تم إنشاء فيديو لعرض تقديمي"
+
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "Video Not Made for a Presentation"
+msgstr "تعذّر إنشاء فيديو لعرض تقديمي"
+
 #. Label of the view (Select) field in DocType 'Extension'
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:81
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
@@ -51774,6 +51815,10 @@ msgstr "عندما يتعذّر على OneAI قراءة مستند لك، أو �
 msgid "When OneAI could not make a video or a piece of music somebody asked for."
 msgstr "حين يتعذّر على OneAI صنع فيديو أو مقطوعة موسيقية طلبها أحد."
 
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "When OneAI could not make a video somebody asked for in a presentation."
+msgstr "عندما يتعذّر على OneAI إنشاء فيديو طلبه أحدهم في عرض تقديمي."
+
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "When OneAI credits are added, from a pack, the monthly plan or One."
@@ -52103,6 +52148,10 @@ msgstr "عند جدولة فعالية تدريب تحضرها."
 #: onedesk/one_display/notifications.py
 msgid "When a video or a piece of music somebody asked OneAI for is ready in its playlist."
 msgstr "حين يصبح فيديو أو مقطوعة موسيقية طُلبت من OneAI جاهزة في قائمة تشغيلها."
+
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "When a video somebody asked OneAI for is ready, on a new slide of their presentation."
+msgstr "عندما يكون الفيديو الذي طلبه أحدهم من OneAI جاهزًا، على شريحة جديدة في عرضه التقديمي."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -61446,4 +61495,8 @@ msgstr "{workspace}: {state}"
 #: onedesk/one_display/notifications.py
 msgid "“{what}” is ready in {playlist}"
 msgstr "«{what}» جاهز في {playlist}"
+
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "“{what}” is ready in {presentation}"
+msgstr "«{what}» جاهز في {presentation}"
 

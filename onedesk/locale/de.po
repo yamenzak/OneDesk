@@ -12563,6 +12563,11 @@ msgstr "Abschreibungen buchen sich selbst"
 msgid "Depreciations Booked"
 msgstr "Gebuchte Abschreibungen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:158
+#: frontend/src/writer/components/CoreEditor.vue:276
+msgid "Describe It"
+msgstr "Beschreiben"
+
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the said (Small Text) field in DocType 'Private App'
 #. Label in the One Credit Ledger Entry print format
@@ -21569,6 +21574,10 @@ msgstr "Er ist auch in Ihrem One-Konto, zusammen mit Ihren Rechnungen."
 msgid "It is no longer in {app}."
 msgstr "Sie ist nicht mehr in {app}."
 
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "It is on a new slide at the end. Look at it before you show it."
+msgstr "Es ist auf einer neuen Folie am Ende. Sehen Sie es sich an, bevor Sie es zeigen."
+
 #: onedesk/one_display/notifications.py
 msgid "It is paused until you play it. Look at it first, then clear Paused."
 msgstr "Es bleibt pausiert, bis Sie es abspielen. Sehen Sie es sich zuerst an und entfernen Sie dann „Pausiert“."
@@ -24682,6 +24691,10 @@ msgstr "Bild erstellen"
 #: onedesk/one_ai/jobs.py:71
 msgid "Make a Picture for a Slide"
 msgstr "Bild für eine Folie erstellen"
+
+#: frontend/src/writer/components/core-editor/menu-buttons.js:153
+msgid "Make a Picture with OneAI"
+msgstr "Bild mit OneAI erstellen"
 
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:59
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:61
@@ -28784,6 +28797,10 @@ msgstr "Nichts wartet"
 msgid "Nothing was added to {playlist}. Try again, or describe it differently."
 msgstr "Zu {playlist} wurde nichts hinzugefügt. Versuchen Sie es erneut oder beschreiben Sie es anders."
 
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "Nothing was added to {presentation}. Try again, or describe it differently."
+msgstr "Zu {presentation} wurde nichts hinzugefügt. Versuchen Sie es erneut oder beschreiben Sie es anders."
+
 #: onedesk/one_ai/chat.py:121
 msgid "Nothing was asked."
 msgstr "Es wurde nichts gefragt."
@@ -29919,6 +29936,10 @@ msgstr "OneAI hat keinen Zugriff auf Ihre Ordner."
 msgid "OneAI has run out of credits"
 msgstr "OneAI hat keine Credits mehr"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:172
+msgid "OneAI is designing the slide…"
+msgstr "OneAI gestaltet die Folie…"
+
 #: onedesk/one_studio/mend.py:150
 msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr "OneAI behebt den Fehler. Das dauert ein paar Minuten; du wirst benachrichtigt, wenn es fertig ist."
@@ -29926,6 +29947,14 @@ msgstr "OneAI behebt den Fehler. Das dauert ein paar Minuten; du wirst benachric
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:38
 msgid "OneAI is making the music. You will be told when it is in the playlist."
 msgstr "OneAI erstellt die Musik. Sie erfahren es, sobald sie in der Playlist ist."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:182
+msgid "OneAI is making the picture…"
+msgstr "OneAI erstellt das Bild…"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:191
+msgid "OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."
+msgstr "OneAI erstellt das Video. Das dauert ein paar Minuten; es kommt auf eine neue Folie am Ende, und Sie werden benachrichtigt."
 
 #: frontend/src/display/Slides.vue:476
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:64
@@ -29947,6 +29976,10 @@ msgstr "OneAI liest {0}."
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:12
 msgid "OneAI is recording the ad"
 msgstr "OneAI nimmt die Ansage auf"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:190
+msgid "OneAI is starting the video…"
+msgstr "OneAI startet das Video…"
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:26
 msgid "OneAI is turned off for this mailbox."
@@ -50044,6 +50077,14 @@ msgstr "Sehr schwer zu erraten"
 msgid "Video"
 msgstr "Video"
 
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "Video Made for a Presentation"
+msgstr "Video für eine Präsentation erstellt"
+
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "Video Not Made for a Presentation"
+msgstr "Video für eine Präsentation nicht erstellt"
+
 #. Label of the view (Select) field in DocType 'Extension'
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:81
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
@@ -51774,6 +51815,10 @@ msgstr "Wenn OneAI ein Dokument für Sie nicht lesen kann oder auf Credits warte
 msgid "When OneAI could not make a video or a piece of music somebody asked for."
 msgstr "Wenn OneAI ein angefragtes Video oder Musikstück nicht erstellen konnte."
 
+#: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
+msgid "When OneAI could not make a video somebody asked for in a presentation."
+msgstr "Wenn OneAI ein in einer Präsentation angefordertes Video nicht erstellen konnte."
+
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "When OneAI credits are added, from a pack, the monthly plan or One."
@@ -52103,6 +52148,10 @@ msgstr "Wenn eine Schulung geplant wird, an der du teilnimmst."
 #: onedesk/one_display/notifications.py
 msgid "When a video or a piece of music somebody asked OneAI for is ready in its playlist."
 msgstr "Wenn ein bei OneAI angefragtes Video oder Musikstück in seiner Playlist bereitsteht."
+
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "When a video somebody asked OneAI for is ready, on a new slide of their presentation."
+msgstr "Wenn ein bei OneAI angefordertes Video fertig ist, auf einer neuen Folie der Präsentation."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -61446,4 +61495,8 @@ msgstr "{workspace}: {state}"
 #: onedesk/one_display/notifications.py
 msgid "“{what}” is ready in {playlist}"
 msgstr "„{what}“ ist in {playlist} bereit"
+
+#: onedesk/notifications/one_storage/video_made_for_a_presentation.md
+msgid "“{what}” is ready in {presentation}"
+msgstr "„{what}“ ist in {presentation} bereit"
 
