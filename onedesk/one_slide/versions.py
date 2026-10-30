@@ -30,7 +30,8 @@ def _snapshot(name: str) -> str:
 
 
 def _keep(name: str, title: str | None = None) -> str:
-	made = frappe.get_doc({"doctype": VERSION, "presentation": name, "title": title or "", "slides": _snapshot(name)})
+	width, height = api.frame(name)
+	made = frappe.get_doc({"doctype": VERSION, "presentation": name, "title": title or "", "slides": _snapshot(name), "width": width, "height": height})
 	made.flags.ignore_permissions = True
 	made.insert()
 	_trim(name)
@@ -85,14 +86,22 @@ def listed(name: str) -> list[dict]:
 def restore(name: str, version: str) -> dict:
 	"""Back to a version. What the slides were just before is kept first."""
 	api._may(name, "write")
-	held = frappe.db.get_value(VERSION, version, ["presentation", "slides"], as_dict=True)
+	held = frappe.db.get_value(VERSION, version, ["presentation", "slides", "width", "height"], as_dict=True)
 	if not held or held.presentation != name:
 		frappe.throw(_("That version is not of this presentation."), frappe.DoesNotExistError)
 	_keep(name, _("Before going back"))
 	doc = frappe.get_doc(api.PRESENTATION, name)
 	doc.set("slides", json.loads(held.slides or "[]"))
+	# a version is the size it was kept at; one from before sizes is 960 by 540
+	doc.width, doc.height = held.width or 960, held.height or 540
 	doc.save(ignore_permissions=True)
 	return {"modified": str(doc.modified)}
+
+
+def keep_now(doc, title: str) -> str:
+	"""The slides as they are, kept under a name before something changes
+	all of them at once (`resize.resize`)."""
+	return _keep(doc.name, title)
 
 
 def forget(name: str) -> None:

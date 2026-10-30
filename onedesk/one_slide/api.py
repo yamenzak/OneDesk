@@ -90,9 +90,11 @@ def _titled(title: str | None) -> str:
 
 
 @frappe.whitelist(methods=["POST"])
-def make(parent: str, title: str | None = None, template: str | None = None) -> dict:
+def make(parent: str, title: str | None = None, template: str | None = None, width: int | None = None, height: int | None = None) -> dict:
 	"""A new presentation in a OneCloud folder or on a record, from a theme's
-	title slide or a copy of a saved template, and the node the explorer draws."""
+	title slide or a copy of a saved template, at the size asked (the
+	template's own when none is), and the node the explorer draws."""
+	from onedesk.one_slide import resize
 	from onedesk.one_storage import api as cloud
 	from onedesk.one_storage import namespace as ns
 
@@ -101,10 +103,14 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 		frappe.throw(_("Presentations cannot be created in a mounted drive."))
 	title = _titled(title) or _("Untitled Presentation")
 	source = template if template and frappe.db.get_value(PRESENTATION, template, "is_template") else LIGHT
-	doc = frappe.get_doc({"doctype": PRESENTATION, "title": title, "theme": source})
+	drawn = frame(source)
+	size = resize.size(width, height) if width and height else drawn
+	doc = frappe.get_doc({"doctype": PRESENTATION, "title": title, "theme": source, "width": size[0], "height": size[1]})
 	doc.flags.ignore_permissions = True
 	doc.insert()
-	doc.set("slides", _first_slides(source))
+	first = _first_slides(source)
+	resize.refit(first, drawn, size)
+	doc.set("slides", first)
 	doc.save(ignore_permissions=True)
 	file = {"doctype": "File", "file_url": URL + doc.name, "is_private": 1}
 	if where[0] == "folder":
@@ -357,6 +363,10 @@ def get_templates() -> list[dict]:
 
 	system = _system()
 	files = dict(frappe.get_all(PRESENTATION, filters={"is_template": 1}, fields=["name", "file"], as_list=True))
+	sizes = {
+		one.name: (one.width or 960, one.height or 540)
+		for one in frappe.get_all(PRESENTATION, filters={"is_template": 1}, fields=["name", "width", "height"])
+	}
 	templates = [one for one in templates if one.name in system or (files.get(one.name) and _readable(ns, files[one.name]))]
 	by_template = {}
 	for row in rows:
@@ -365,6 +375,8 @@ def get_templates() -> list[dict]:
 	for one in templates:
 		one["layouts"] = by_template.get(one.name, [])
 		for layout in one["layouts"]:
+			# the size it was drawn at, so the editor fits it to the presentation's (shim/resize.js)
+			layout["width"], layout["height"] = sizes.get(one.name) or (960, 540)
 			layout["thumbnail"] = (
 				f"/assets/onedesk/slide/frontend/images/layouts/{one.title.lower()}/thumbnail-{layout['idx']}.webp"
 				if one.name in system

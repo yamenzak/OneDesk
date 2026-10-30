@@ -10,8 +10,12 @@ files, and opened by anybody the file is shared with.
 ## Making and opening one
 
 **New › Presentation** in OneCloud makes one in the folder you are in and opens
-it, on its title slide in the Light theme. A presentation opens wherever its
-file is clicked.
+it, on its title slide in the Light theme. It asks which template to start
+from and what size the slides are: Wide (16:9), Standard (4:3), A4 either
+way, Square, Standing (9:16), or a size of your own; a template keeps the size
+it was made at unless another is chosen. **File › Slide Size** changes it
+later, redrawing everything on every slide to fit, and keeps a version first.
+A presentation opens wherever its file is clicked.
 
 The path at the top says where the presentation belongs, and each step is a
 way back. Click its name there to rename it. It saves itself as you work; the
@@ -115,6 +119,22 @@ editor's **Reload** answers.
 
 The Light and Dark themes are Suite's fixtures, kept in
 `templates/system.json` and put in place on every migrate (`setup.themes`).
+
+### Size
+
+A presentation's `width` and `height` are its slides' size in pixels, 960 by
+540 unless it was made otherwise (`api.frame`). `shim/frame.js` sets the
+editor's frame from them before the canvas mounts, and everything that draws
+a slide reads the frame: the canvas, the rail, thumbnails, the camera, the
+slideshow (which fits both ways), the PDF and `play.js`. `resize.py` redraws
+slides drawn for one size on another: positions and sizes on their own axis,
+type, borders and corners by the smaller of the two, so words never grow past
+their box. `make` fits a template's first slides to the size asked,
+`resize.resize` fits a whole presentation (File › Slide Size), and
+`shim/resize.js`, the same rule, fits a layout from a template of another
+size as it is inserted. A version keeps the size it was taken at, and going
+back to it puts that size back. A PDF page is the slide at 96 pixels to the
+inch, so an A4 presentation prints on A4.
 
 ### The Builder half
 

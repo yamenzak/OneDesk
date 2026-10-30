@@ -10,7 +10,10 @@ with.
 ## A New Presentation
 
 **New › Presentation** in OneCloud makes one in the folder you are in and
-opens it on its title slide. Click a presentation in OneCloud to open it
+opens it on its title slide. It asks which template to start from and how
+big the slides are: wide like a screen, 4:3, A4 standing or lying down,
+square, standing like a phone, or a size of your own. **File › Slide Size**
+changes it later, and everything on every slide is redrawn to fit. Click a presentation in OneCloud to open it
 again. It saves itself as you work: the head says **Saving…** and then
 **Saved**.
 
@@ -24,7 +27,7 @@ way back. Click its name there to rename it.
 | **The slides** | Down the left. See [Working on Slides](working-on-slides). |
 | **The bar under the slide** | Text, pictures and videos, shapes, lines and tables. |
 | **The panel** | On the right: whatever you chose, or the slide itself. See [Design and Layers](design-and-layers). |
-| **File** | Version History, Save as Template and Export as PDF. See [History, Templates and PDF](history-and-pdf). |
+| **File** | Version History, Save as Template, Export as PDF and Slide Size. See [History, Templates and PDF](history-and-pdf). |
 | **OneAI** | Designs a slide, or makes a picture or a video. See [Asking OneAI](asking-oneai). |
 | **Present** | Plays the presentation from this slide or from the start. |
 

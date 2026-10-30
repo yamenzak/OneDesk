@@ -1644,6 +1644,14 @@ msgstr "لا بد أن يسمّي {0} سجلاً."
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "طلب {kind}، {request}، مطلوب بحلول {wanted}."
 
+#: frontend/src/slide/shim/frame.js:17
+msgid "A4, Landscape"
+msgstr "A4 أفقي"
+
+#: frontend/src/slide/shim/frame.js:18
+msgid "A4, Portrait"
+msgstr "A4 عمودي"
+
 #: onedesk/one_legal/gate.py:29
 msgid "AI Addendum"
 msgstr "ملحق الذكاء الاصطناعي"
@@ -4770,6 +4778,10 @@ msgstr "بصفة"
 msgid "As Cloudflare reports it, checked each night until it works."
 msgstr "كما تبلغ عنه Cloudflare، ويُفحص كل ليلة حتى يعمل."
 
+#: onedesk/public/js/table_workbook.js:42
+msgid "As It Was Made"
+msgstr "كما صُنع"
+
 #. Label of the found (Check) field in DocType 'Reading Date'
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
 msgid "As Written"
@@ -6291,6 +6303,10 @@ msgstr "قبل حذف {0}"
 #: onedesk/one_studio/doctype/extension/extension.js:22
 msgid "Before a {0} is submitted"
 msgstr "قبل اعتماد {0}"
+
+#: onedesk/one_slide/resize.py:93
+msgid "Before changing the size"
+msgstr "قبل تغيير الحجم"
 
 #: onedesk/one_slide/versions.py:91
 msgid "Before going back"
@@ -41306,6 +41322,11 @@ msgstr "شريحة"
 msgid "Slide Playlist"
 msgstr "قائمة شرائح"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:118
+#: frontend/src/slide/shim/EditorNavbar.vue:146
+msgid "Slide Size"
+msgstr "حجم الشرائح"
+
 #: frontend/src/slide/stores/copyPaste.js:53
 msgid "Slide copied to clipboard"
 msgstr "نُسخت الشريحة إلى الحافظة"
@@ -41810,6 +41831,10 @@ msgstr "موزّع"
 msgid "Spreadsheet"
 msgstr "جدول بيانات"
 
+#: frontend/src/slide/shim/frame.js:19
+msgid "Square"
+msgstr "مربع"
+
 #: onedesk/public/js/item_new.js:67
 msgid "Square Metres in One Unit"
 msgstr "عدد الأمتار المربعة في الوحدة"
@@ -41853,6 +41878,10 @@ msgstr "متوقف"
 msgid "Standard"
 msgstr ""
 
+#: frontend/src/slide/shim/frame.js:16
+msgid "Standard (4:3)"
+msgstr "قياسي (4:3)"
+
 #: onedesk/public/js/one/access_center.js:316
 msgid "Standard Apps"
 msgstr "التطبيقات القياسية"
@@ -41886,6 +41915,10 @@ msgstr "الدليل القياسي يصلح للرواتب في كل بلد. ا
 #: onedesk/one_hr/custom/job_applicant.json onedesk/one_hr/heads.py:700
 msgid "Standing"
 msgstr "التقييم"
+
+#: frontend/src/slide/shim/frame.js:20
+msgid "Standing (9:16)"
+msgstr "عمودي (9:16)"
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:64
 #: frontend/src/mail/OneMail.vue:146 frontend/src/mail/OneMail.vue:177
@@ -46101,6 +46134,14 @@ msgstr "قاعدة بيانات الموقع ونسخها الاحتياطية. 
 #: onedesk/one_book/notifications.py
 msgid "The site's operators, so nobody in the workspace"
 msgstr "مشغّلو الموقع، أي لا أحد في مساحة العمل"
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The slides' height in pixels."
+msgstr "ارتفاع الشرائح بالبكسل."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The slides' width in pixels."
+msgstr "عرض الشرائح بالبكسل."
 
 #: onedesk/one_legal/gate.py:32
 msgid "The software One is built from, and the licences it carries."
@@ -54060,6 +54101,10 @@ msgstr "لماذا لم تُنشأ مساحة العمل لهذا التسجيل
 #: frontend/portal/src/pages/Record.vue:118
 msgid "Why? (optional)"
 msgstr "لماذا؟ (اختياري)"
+
+#: frontend/src/slide/shim/frame.js:15
+msgid "Wide (16:9)"
+msgstr "عريض (16:9)"
 
 #: onedesk/one_ai/tour.py:25
 msgid "Widen the panel, or give it the whole window, and bring it back from the same button."

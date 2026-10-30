@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 14:00:00.000000",
+ "modified": "2026-10-30 14:20:12.286344",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -51,6 +51,16 @@
    "in_list_view": 1
   },
   {
+   "fieldname": "width",
+   "fieldtype": "Int",
+   "label": "Width"
+  },
+  {
+   "fieldname": "height",
+   "fieldtype": "Int",
+   "label": "Height"
+  },
+  {
    "fieldname": "slides",
    "fieldtype": "JSON",
    "label": "Slides"
@@ -59,6 +69,8 @@
  "field_order": [
   "presentation",
   "title",
+  "width",
+  "height",
   "slides"
  ]
 }

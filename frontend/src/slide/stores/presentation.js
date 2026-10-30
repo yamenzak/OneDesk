@@ -1,7 +1,7 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/stores/presentation.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { slideBody } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
-import { setFrame } from '../shim/frame.js' // One: a screen's frame may stand on its side, VENDORED.md
+import { frameOf, setFrame } from '../shim/frame.js' // One: the presentation's own size, or a screen's shape, VENDORED.md
 import { ref, computed } from 'vue'
 import { createResource, call, frappeRequest, toast, dialog } from 'frappe-ui'
 
@@ -311,7 +311,8 @@ const fetchPresentation = async (name, load) => {
 }
 
 const showPresentation = (id, { doc, content, dirty }) => {
-	setFrame(doc?.screen?.orientation === 'Portrait') // One: before the canvas mounts
+	const drawn = frameOf(doc) // One: before the canvas mounts
+	setFrame(drawn.w, drawn.h)
 	presentationId.value = id
 	presentationDoc.value = doc
 	slides.value = content
@@ -504,7 +505,7 @@ const resetEditorState = () => {
 	// a load in flight would commit over the blank editor
 	startLoad()
 	presentationDoc.value = null
-	setFrame(false) // One
+	setFrame() // One
 	slides.value = []
 	slidesLength.value = 0
 	commandHistory.clearHistory()

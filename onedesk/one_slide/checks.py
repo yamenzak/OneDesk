@@ -58,6 +58,18 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			assert not {"fade", "css", "blur", "name", "hidden"} & set(kept[2]), kept
 			assert slide["background"] == fade, slide["background"]
 			assert play.background("url(x)") == "" and play.background("linear-gradient(9deg, red, url(x))") == ""
+			# a presentation of its own size: made A4, then 4:3, then back by its version
+			from onedesk.one_slide import resize
+
+			a4 = api.make("@my", "A4 check", width=794, height=1123)["presentation"]
+			assert api.frame(a4) == (794, 1123) and resize.size(10, 99999) == (200, 4000)
+			title = json.loads(api.get(a4)["slides"][0]["elements"])[0]
+			assert round(title["left"]) == 397 and "font-size: 49.62px" in title["content"], title
+			assert resize.resize(a4, 960, 720) == {"width": 960, "height": 720} and api.frame(a4) == (960, 720)
+			before = [one for one in versions.listed(a4) if one["title"] == "Before changing the size"]
+			assert before, versions.listed(a4)
+			versions.restore(a4, before[0]["name"])
+			assert api.frame(a4) == (794, 1123), "going back puts the size back"
 			try:
 				api.save_slides(name, json.dumps([row]), deck["modified"])
 				raise AssertionError("a save built on an older version is refused")

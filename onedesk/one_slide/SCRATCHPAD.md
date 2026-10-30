@@ -21,14 +21,6 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 
 ## Planned, from the walkthrough (30 October)
 
-- **A presentation of any size.** Today every presentation is 960×540 (16:9);
-  only a OneDisplay screen gets 540×960. The frame is already one setting
-  (`shim/frame.js`), and the PDF, thumbnails and the TV's `play.js` already
-  draw whatever frame they are given. What is left: `width` and `height` on
-  Presentation; **New › Presentation** asks for a size (16:9, 4:3, A4 either
-  way, a screen standing up, or custom); `setFrame(w, h)` in place of the
-  portrait flag; the theme's layouts scaled to the frame; Slideshow fitting
-  both ways instead of by width.
 - **Export as PowerPoint (.pptx).** Today the only export is PDF, as
   pictures. Plan: python-pptx (MIT, not installed yet) on the server, turning
   each element into a real PowerPoint one, so the file can be edited:

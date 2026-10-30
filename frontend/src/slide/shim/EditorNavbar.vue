@@ -38,12 +38,13 @@
 import { computed, inject, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, alert, call, goTo, goToUrl, oneaiMark, oneaiOn, openTab, prompt } from "../../kit/desk";
+import { __, alert, call, goTo, goToUrl, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
 import { initPresentationDoc, presentationDoc, screen, updatePresentationTitle } from "../stores/presentation";
 import { addWidget } from "./screen.js";
+import { frame, sizes } from "./frame.js";
 import { addMediaElement } from "../stores/element";
 import { changeSlide, currentSlide, getNewSlide, insertSlide, slideIndex, slides } from "../stores/slide";
 import { commandHistory } from "../stores/historyMeta";
@@ -114,9 +115,38 @@ const fileMenu = computed(() => [
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
 			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
+			...(inReadonlyMode.value ? [] : [{ label: __("Slide Size"), icon: "lucide-ratio", onClick: slideSize }]),
 		],
 	},
 ]);
+
+// Every slide made another size, its contents redrawn to fit (one_slide/resize.py).
+// The editor's canvas is laid out for one size, so it opens again at the new one.
+function slideSize() {
+	const offered = sizes();
+	const now = offered.find((one) => one.w === frame.w && one.h === frame.h);
+	prompt(
+		[
+			{
+				fieldname: "size",
+				fieldtype: "Select",
+				label: __("Size"),
+				options: [...offered.map((one) => ({ label: one.label, value: one.key })), { label: __("Custom"), value: "custom" }],
+				default: now ? now.key : "custom",
+			},
+			{ fieldname: "width", fieldtype: "Int", label: __("Width"), default: frame.w, depends_on: "eval:doc.size=='custom'" },
+			{ fieldname: "height", fieldtype: "Int", label: __("Height"), default: frame.h, depends_on: "eval:doc.size=='custom'" },
+		],
+		async ({ size, width, height }) => {
+			const preset = offered.find((one) => one.key === size);
+			await saveWithoutDelay();
+			await call("onedesk.one_slide.resize.resize", { name: presentationDoc.value.name, width: preset ? preset.w : width, height: preset ? preset.h : height });
+			reloadPage();
+		},
+		__("Slide Size"),
+		__("Change")
+	);
+}
 
 // Every slide photographed as the editor draws it, then made a PDF beside
 // the presentation in OneCloud, and opened.

@@ -1,6 +1,6 @@
 <!-- Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/components/SlidePreview.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
-	<div class="relative aspect-video overflow-hidden" :style="previewStyles">
+	<div class="relative overflow-hidden" :style="previewStyles">
 		<div :style="slideStyles">
 			<SlideElement
 				v-for="element in elements"
@@ -38,6 +38,7 @@ const elements = computed(() => {
 
 const previewStyles = computed(() => ({
 	background: props.slide?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
+	aspectRatio: `${frame.w} / ${frame.h}`, // One: the presentation's own shape, not 16:9 (VENDORED.md)
 }))
 
 const slideStyles = computed(() => ({

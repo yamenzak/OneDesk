@@ -35,7 +35,9 @@ def pages(pictures: list[str]) -> bytes:
 	if not drawn:
 		frappe.throw(_("There are no slides to print."))
 	out = io.BytesIO()
-	drawn[0].save(out, "PDF", save_all=True, append_images=drawn[1:], resolution=144)
+	# photographed at twice the slide's size, so a page is the slide at 96 to the
+	# inch: an A4 presentation prints on A4
+	drawn[0].save(out, "PDF", save_all=True, append_images=drawn[1:], resolution=192)
 	return out.getvalue()
 
 

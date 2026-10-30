@@ -155,6 +155,7 @@ import {
   windowStatus,
   windowTree,
 } from "../kit";
+import { sizes as slideSizes } from "../slide/shim/frame.js";
 import { API, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
@@ -709,7 +710,7 @@ async function act(name) {
     case "new-document":
       return newFrom("onedesk.one_doc.templates.listed", __("Blank Document"), "onedesk.one_doc.api.make", "document");
     case "new-presentation":
-      return newFrom("onedesk.one_slide.api.listed", __("Blank Presentation"), "onedesk.one_slide.api.make", "presentation");
+      return newPresentation();
     case "new-library":
       return cloud().new_library(dialogsGo);
     case "new-mount":
@@ -852,6 +853,21 @@ async function newFrom(templates, blank, make, route) {
   const made = await call(make, { parent: node.value, template: template || null });
   forget(node.value);
   goTo(route, made[route]);
+}
+
+// a presentation is asked its size as well as its template (one_slide/resize.py)
+async function newPresentation() {
+  const sizes = slideSizes();
+  const said = await onedesk().table_workbook.pick(await call("onedesk.one_slide.api.listed"), __("Blank Presentation"), sizes);
+  if (!said) return;
+  const made = await call("onedesk.one_slide.api.make", {
+    parent: node.value,
+    template: said.template || null,
+    width: said.width || null,
+    height: said.height || null,
+  });
+  forget(node.value);
+  goTo("presentation", made.presentation);
 }
 
 async function newFolder() {

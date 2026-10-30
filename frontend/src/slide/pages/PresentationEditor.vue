@@ -19,7 +19,8 @@
 			/>
 
 			<!-- One: on a phone the slide gets the screen; the rail and the panel are a desktop's. A screen has one slide, so no rail. -->
-			<NavigationPanel v-if="!screen" class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
+			<!-- One: the rail measures the frame when it mounts, so it mounts again at another size (VENDORED.md) -->
+			<NavigationPanel v-if="!screen" :key="`${frame.w}x${frame.h}`" class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
 
 			<Toolbar v-if="!inReadonlyMode && presentationDoc" />
 
@@ -103,6 +104,7 @@ import { confirmLeave } from '@/utils/confirmLeave'
 import ExportView from '@/apps/slides/pages/ExportView.vue'
 import EditorNavbar from '@/apps/slides/components/EditorNavbar.vue'
 import NavigationPanel from '@/apps/slides/components/NavigationPanel.vue'
+import { frame } from '@/apps/slides/shim/frame.js' // One: the rail's key, VENDORED.md
 import PropertiesPanel from '@/apps/slides/components/PropertiesPanel.vue'
 
 import SlideContainer from '@/apps/slides/components/SlideContainer.vue'

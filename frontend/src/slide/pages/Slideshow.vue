@@ -125,18 +125,22 @@ const windowHeight = ref(window.innerHeight)
 
 const clipPath = computed(() => {
 	if (!inSlideShowMode.value) return 'none'
-	const slideHeight = frame.h * (windowWidth.value / frame.w)
-	const inset = Math.max(0, (windowHeight.value - slideHeight) / 2)
-	return `inset(${inset}px 0px ${inset}px 0px)`
+	// One: a slide of any size fits both ways, so it may leave room at the sides too (VENDORED.md)
+	const scale = fitScale()
+	const across = Math.max(0, (windowWidth.value - frame.w * scale) / 2)
+	const down = Math.max(0, (windowHeight.value - frame.h * scale) / 2)
+	return `inset(${down}px ${across}px ${down}px ${across}px)`
 })
+
+const fitScale = () => Math.min(windowWidth.value / frame.w, windowHeight.value / frame.h)
 
 const getElementKey = (element) => getTransitionKey(element)
 
 const cursorHidden = ref(true)
 
 const slideStyles = computed(() => {
-	// scale slide to fit screen width while maintaining 16:9 aspect ratio
-	const widthScale = windowWidth.value / frame.w
+	// One: as large as fits the screen both ways, at the presentation's own shape (VENDORED.md)
+	const widthScale = fitScale()
 
 	const baseStyles = {
 		...frameSize(),

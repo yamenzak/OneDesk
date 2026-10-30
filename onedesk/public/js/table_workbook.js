@@ -15,25 +15,56 @@ if (frappe.router?.setup) {
 }
 
 // Which template to start from, when there are any: the name, "" for none,
-// or null when the person closed the dialog.
-onedesk.table_workbook.pick = (templates, plain) =>
+// or null when the person closed the dialog. With `sizes` (a presentation's),
+// the dialog always shows and also asks the size: `{template, width, height}`.
+onedesk.table_workbook.pick = (templates, plain, sizes) =>
 	new Promise((resolve) => {
-		if (!templates?.length) return resolve("");
+		if (!templates?.length && !sizes) return resolve("");
 		let chosen = null;
-		const dialog = new frappe.ui.Dialog({
-			title: __("Start From"),
-			fields: [
+		const fields = [];
+		if (templates?.length) {
+			fields.push({
+				fieldtype: "Select",
+				fieldname: "template",
+				label: __("Template"),
+				options: [{ label: plain, value: "" }, ...templates.map((one) => ({ label: one.title, value: one.name }))],
+				default: templates.length === 1 ? templates[0].name : "",
+			});
+		}
+		if (sizes) {
+			fields.push(
 				{
 					fieldtype: "Select",
-					fieldname: "template",
-					label: __("Template"),
-					options: [{ label: plain, value: "" }, ...templates.map((one) => ({ label: one.title, value: one.name }))],
-					default: templates.length === 1 ? templates[0].name : "",
+					fieldname: "size",
+					label: __("Size"),
+					// a template keeps the size it was made at unless another is chosen
+					options: [
+						...(templates?.length ? [{ label: __("As It Was Made"), value: "own" }] : []),
+						...sizes.map((one) => ({ label: one.label, value: one.key })),
+						{ label: __("Custom"), value: "custom" },
+					],
+					default: templates?.length ? "own" : sizes[0].key,
 				},
-			],
+				{ fieldtype: "Int", fieldname: "width", label: __("Width"), default: 960, depends_on: "eval:doc.size=='custom'" },
+				{ fieldtype: "Int", fieldname: "height", label: __("Height"), default: 540, depends_on: "eval:doc.size=='custom'" }
+			);
+		}
+		const dialog = new frappe.ui.Dialog({
+			title: __("Start From"),
+			fields,
 			primary_action_label: __("Open"),
-			primary_action: ({ template }) => {
-				chosen = template || "";
+			primary_action: (values) => {
+				if (!sizes) {
+					chosen = values.template || "";
+				} else {
+					const preset = sizes.find((one) => one.key === values.size);
+					const own = values.size === "own";
+					chosen = {
+						template: values.template || "",
+						width: own ? null : preset ? preset.w : values.width,
+						height: own ? null : preset ? preset.h : values.height,
+					};
+				}
 				dialog.hide();
 			},
 			on_hide: () => resolve(chosen),

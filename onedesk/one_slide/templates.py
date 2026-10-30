@@ -43,7 +43,9 @@ def save_as(name: str, title: str) -> dict:
 		frappe.throw(_("Your role doesn't keep company templates. Ask a workspace administrator."), frappe.PermissionError)
 	title = api._titled(title) or _("Untitled Template")
 	source = frappe.get_doc(api.PRESENTATION, name)
-	made = frappe.get_doc({"doctype": api.PRESENTATION, "title": title, "theme": source.theme, "is_template": 1})
+	made = frappe.get_doc(
+		{"doctype": api.PRESENTATION, "title": title, "theme": source.theme, "is_template": 1, "width": source.width, "height": source.height}
+	)
 	made.flags.ignore_permissions = True
 	made.insert()
 	for row in source.slides:

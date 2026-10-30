@@ -55,6 +55,13 @@ Each is marked `One:` where it is.
 - `components/VideoElement.vue`: a video keeps its `length` on the element
   when it loads, so a screen can hold its slide while it plays
   (`one_slide/play.py`, `length`).
+- A presentation of any size (`shim/frame.js`, `shim/resize.js`):
+  `stores/presentation.js` sets the frame from the presentation before the
+  canvas mounts, `stores/slide.js` fits a layout drawn for another size to it,
+  `pages/Slideshow.vue` fits a slide to the screen both ways rather than by
+  width alone, `components/SlidePreview.vue` takes the presentation's shape
+  rather than 16:9, and `pages/PresentationEditor.vue` mounts the slide rail again
+  when the frame changes, since the rail measures it once.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

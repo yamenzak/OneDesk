@@ -1644,6 +1644,14 @@ msgstr "Ein {0} muss einen Datensatz nennen."
 msgid "A {kind} request, {request}, wanted by {wanted}."
 msgstr "Eine Anforderung ({kind}), {request}, benötigt bis {wanted}."
 
+#: frontend/src/slide/shim/frame.js:17
+msgid "A4, Landscape"
+msgstr "A4 quer"
+
+#: frontend/src/slide/shim/frame.js:18
+msgid "A4, Portrait"
+msgstr "A4 hoch"
+
 #: onedesk/one_legal/gate.py:29
 msgid "AI Addendum"
 msgstr "KI-Zusatz"
@@ -4770,6 +4778,10 @@ msgstr "Als"
 msgid "As Cloudflare reports it, checked each night until it works."
 msgstr "Wie Cloudflare es meldet, jede Nacht geprüft, bis es funktioniert."
 
+#: onedesk/public/js/table_workbook.js:42
+msgid "As It Was Made"
+msgstr "Wie angelegt"
+
 #. Label of the found (Check) field in DocType 'Reading Date'
 #: onedesk/one_ai/doctype/reading_date/reading_date.json
 msgid "As Written"
@@ -6291,6 +6303,10 @@ msgstr "Bevor ein Datensatz vom Typ {0} gelöscht wird"
 #: onedesk/one_studio/doctype/extension/extension.js:22
 msgid "Before a {0} is submitted"
 msgstr "Bevor ein Datensatz vom Typ {0} gebucht wird"
+
+#: onedesk/one_slide/resize.py:93
+msgid "Before changing the size"
+msgstr "Vor der Größenänderung"
 
 #: onedesk/one_slide/versions.py:91
 msgid "Before going back"
@@ -41306,6 +41322,11 @@ msgstr "Folie"
 msgid "Slide Playlist"
 msgstr "Folienliste"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:118
+#: frontend/src/slide/shim/EditorNavbar.vue:146
+msgid "Slide Size"
+msgstr "Foliengröße"
+
 #: frontend/src/slide/stores/copyPaste.js:53
 msgid "Slide copied to clipboard"
 msgstr "Folie in die Zwischenablage kopiert"
@@ -41810,6 +41831,10 @@ msgstr "Verteilt"
 msgid "Spreadsheet"
 msgstr "Tabelle"
 
+#: frontend/src/slide/shim/frame.js:19
+msgid "Square"
+msgstr "Quadratisch"
+
 #: onedesk/public/js/item_new.js:67
 msgid "Square Metres in One Unit"
 msgstr "Quadratmeter pro Einheit"
@@ -41853,6 +41878,10 @@ msgstr "Hängt"
 msgid "Standard"
 msgstr ""
 
+#: frontend/src/slide/shim/frame.js:16
+msgid "Standard (4:3)"
+msgstr "Standard (4:3)"
+
 #: onedesk/public/js/one/access_center.js:316
 msgid "Standard Apps"
 msgstr "Standard-Apps"
@@ -41886,6 +41915,10 @@ msgstr "Standard funktioniert für die Lohnabrechnung in jedem Land. Wählen Sie
 #: onedesk/one_hr/custom/job_applicant.json onedesk/one_hr/heads.py:700
 msgid "Standing"
 msgstr "Bewertung"
+
+#: frontend/src/slide/shim/frame.js:20
+msgid "Standing (9:16)"
+msgstr "Hochformat (9:16)"
 
 #: frontend/src/cloud/OneCloud.vue:621 frontend/src/mail/MailList.vue:64
 #: frontend/src/mail/OneMail.vue:146 frontend/src/mail/OneMail.vue:177
@@ -46101,6 +46134,14 @@ msgstr "Die Datenbank der Site und ihre Sicherungen. Null heißt bei einem Tarif
 #: onedesk/one_book/notifications.py
 msgid "The site's operators, so nobody in the workspace"
 msgstr "Die Betreiber der Website, also niemand im Arbeitsbereich"
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The slides' height in pixels."
+msgstr "Die Höhe der Folien in Pixeln."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The slides' width in pixels."
+msgstr "Die Breite der Folien in Pixeln."
 
 #: onedesk/one_legal/gate.py:32
 msgid "The software One is built from, and the licences it carries."
@@ -54060,6 +54101,10 @@ msgstr "Warum wurde der Arbeitsbereich dieser Anmeldung nicht erstellt? Sagen Si
 #: frontend/portal/src/pages/Record.vue:118
 msgid "Why? (optional)"
 msgstr "Warum? (optional)"
+
+#: frontend/src/slide/shim/frame.js:15
+msgid "Wide (16:9)"
+msgstr "Breitbild (16:9)"
 
 #: onedesk/one_ai/tour.py:25
 msgid "Widen the panel, or give it the whole window, and bring it back from the same button."

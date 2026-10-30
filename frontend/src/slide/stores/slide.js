@@ -1,4 +1,5 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/stores/slide.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
+import { fitted } from '../shim/resize.js' // One: layouts fitted to the presentation's size, VENDORED.md
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { ref, computed, reactive } from 'vue'
 import { v4 as uuid4 } from 'uuid'
@@ -72,6 +73,8 @@ const getNewSlide = (toDuplicate = false, layoutObject, source = currentSlide.va
 		layout = layoutObject || null
 		layout.elements =
 			typeof layout?.elements === 'string' ? JSON.parse(layout.elements) : layout?.elements || []
+		// One: a layout drawn for another size is fitted to this presentation's (VENDORED.md)
+		if (layout) layout.elements = fitted(layout.elements, layout)
 	}
 
 	let slide = {}
