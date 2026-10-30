@@ -32,14 +32,15 @@
 		</div>
 		<SlideCamera ref="camera" />
 		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
+		<DataDialog v-if="presentationDoc" v-model="showData" :record="presentationDoc.record" :readonly="inReadonlyMode" />
 	</div>
 </template>
 
 <script setup>
-import { computed, inject, ref, watch } from "vue";
+import { computed, inject, onBeforeUnmount, ref, watch } from "vue";
 import { Breadcrumbs, Button, Dropdown } from "frappe-ui";
 
-import { __, alert, call, goTo, goToUrl, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
+import { __, alert, call, confirm, goTo, goToUrl, listen, oneaiMark, oneaiOn, openTab, prompt, reloadPage } from "../../kit/desk";
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
@@ -55,6 +56,8 @@ import { commandHistory } from "../stores/historyMeta";
 import { dirty, isSaving, saveFailed, saveWithoutDelay } from "../stores/saving";
 import SlideCamera from "./SlideCamera.vue";
 import VersionsDialog from "./VersionsDialog.vue";
+import DataDialog from "./DataDialog.vue";
+import { sources } from "./data.js";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
@@ -109,6 +112,7 @@ function goBack() {
 
 const camera = ref(null);
 const showVersions = ref(false);
+const showData = ref(false);
 const printing = ref("");
 
 const fileMenu = computed(() => [
@@ -137,6 +141,14 @@ const fileMenu = computed(() => [
 			...(inReadonlyMode.value ? [] : [{ label: __("Slide Size"), icon: "lucide-ratio", onClick: slideSize }]),
 			...(inReadonlyMode.value || screen.value ? [] : [{ label: __("Edit Master"), icon: "lucide-layers", onClick: openMaster }]),
 			...(inReadonlyMode.value || !slides.value.some((one) => one.layout) ? [] : [{ label: __("Restyle from Layouts"), icon: "lucide-paintbrush", onClick: restyle }]),
+		],
+	}]),
+	...(screen.value || masterOf.value ? [] : [{
+		group: __("Data"),
+		options: [
+			{ label: __("Data from Records"), icon: "lucide-database", onClick: () => (showData.value = true) },
+			...(inReadonlyMode.value || !sources.value.length ? [] : [{ label: __("Freeze Data"), icon: "lucide-snowflake", onClick: freezeData }]),
+			...(sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make One for Each…"), icon: "lucide-copy", onClick: makeForEach }] : []),
 		],
 	}]),
 	...(screen.value ? [] : [{
@@ -237,6 +249,44 @@ async function exportPowerPoint() {
 		printing.value = "";
 	}
 }
+
+// Every chip written in as it reads now, for good (one_slide/data.py freeze);
+// what it was is kept as a version.
+function freezeData() {
+	confirm(__("Write in what the data says now? The slides stop following the records. What they were is kept in Version History."), async () => {
+		await saveWithoutDelay();
+		await call("onedesk.one_slide.data.freeze", { name: presentationDoc.value.name });
+		await reload();
+		alert(__("The data is written in."));
+	});
+}
+
+// A copy of this presentation filed on each record picked, made in the
+// background; each reads its own record as `this` (one_slide/data.py for_each).
+function makeForEach() {
+	const doctype = sources.value.find((one) => one.kind === "this").doctype;
+	prompt(
+		[
+			{
+				fieldname: "names",
+				fieldtype: "MultiSelectList",
+				label: __("Records"),
+				reqd: 1,
+				get_data: (txt) => call("frappe.desk.search.search_link", { doctype, txt, page_length: 20 }),
+			},
+		],
+		async ({ names }) => {
+			await saveWithoutDelay();
+			const { queued } = await call("onedesk.one_slide.data.for_each", { name: presentationDoc.value.name, names });
+			alert(__("Making {0} presentations. You will be told when they are filed.", [queued]));
+		},
+		__("Make One for Each {0}", [__(doctype)]),
+		__("Make")
+	);
+}
+
+const unheard = listen("one_slide_for_each", ({ made, doctype }) => alert(__("{0} presentations filed, one on each {1}.", [made, __(doctype)]), "green"));
+onBeforeUnmount(unheard);
 
 function saveAsTemplate() {
 	prompt(

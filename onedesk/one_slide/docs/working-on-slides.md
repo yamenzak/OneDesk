@@ -80,6 +80,25 @@ every such slide: the title and text boxes move and take the new look, and
 keep your words. Its background follows the layout too. What the slides
 were is kept in **Version History**.
 
+## Data from Records
+
+**File › Data from Records** puts words from your records on a slide that
+stay up to date. Add a source: the record the presentation is filed on, any
+record, a record linked from another (the customer of this quotation), or a
+list (this customer's quotations, at most 50). Then pick a field in **Put In a Field** to put it
+on the slide. It shows as `{this.customer_name}` while you edit the text, and
+as what the record says everywhere else: in the editor, when you present, on
+a screen, and in PowerPoint. A list goes in as a table, or as its count or a
+total. Each person sees only what they may read; for anyone else the field
+is empty. When a record is saved, an open presentation shows the change.
+
+![Data from Records](working-on-slides/data.png)
+
+**File › Freeze Data** writes in what the fields say now, for good; what the
+slides were is kept in **Version History**. **File › Make One for Each…**
+makes a copy filed on each record you pick, in the background, and each copy
+reads its own record.
+
 ## Speaker Notes
 
 **Speaker Notes**, under the slide, is what you will say over it. Click the

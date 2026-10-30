@@ -237,7 +237,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Presentation | 12 | document |
+| Presentation | 13 | document |
 | Presentation Slide | 13 | child |
 | Presentation Version | 5 | document |
 
@@ -897,6 +897,11 @@ No doctypes yet.
 * `onedesk.one_slide.api.update_title`
 * `onedesk.one_slide.api.upload`
 * `onedesk.one_slide.api.visited`
+* `onedesk.one_slide.data.fields`
+* `onedesk.one_slide.data.for_each`
+* `onedesk.one_slide.data.freeze`
+* `onedesk.one_slide.data.save_sources`
+* `onedesk.one_slide.data.values`
 * `onedesk.one_slide.fonts.css`
 * `onedesk.one_slide.fonts.face`
 * `onedesk.one_slide.fonts.google_add`

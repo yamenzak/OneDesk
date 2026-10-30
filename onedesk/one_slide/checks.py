@@ -246,6 +246,37 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			quote = frappe.get_all("Quotation", pluck="name", limit=1)[0]
 			on_record = api.make(f"@records/Quotation/{quote}", "Quotation slides")["presentation"]
 			assert api.get(on_record)["record"] == {"doctype": "Quotation", "name": quote}, "filed on the record"
+			# data from records: chips filled as the reader may see them, on the TV and in PowerPoint too, frozen, and one for each
+			from onedesk.one_slide import data, play
+
+			assert data.chips(["<p>{this.name} {theirs.1.name}</p>", None]) == {("this", "name"), ("theirs", "1.name")}
+			assert data.fill("<p>{a.b} {c.d}</p>", {"a.b": "<x>"}) == "<p>&lt;x&gt; {c.d}</p>"
+			assert data.tabled("<tr><th>Head</th></tr><tr><td>{l.1.name}</td></tr><tr><td>{l.2.name}</td></tr>", {"l.1.name": "A", "l.2.name": ""}) == "<tr><th>Head</th></tr><tr><td>A</td></tr>"
+			assert [one["key"] for one in data.cleaned([{"kind": "this", "key": "this"}, {"kind": "odd", "key": "x"}, {"kind": "list", "key": "this"}])] == ["this"]
+			assert any(one["fieldname"] == "party_name" for one in data.fields("Quotation"))
+			party = frappe.db.get_value("Quotation", quote, "party_name")
+			data.save_sources(on_record, [{"kind": "this", "key": "this", "doctype": "Quotation"}, {"kind": "list", "key": "theirs", "doctype": "Quotation", "filters": [["party_name", "=", "{this.party_name}"]], "limit": 5}])
+			deck = api.get(on_record)
+			words = "<p>{this.name} for {this.party_name}: {theirs.count}</p>"
+			plain = {key: deck["slides"][0][key] for key in api.SLIDE_FIELDS if key in deck["slides"][0]}
+			api.save_slides(on_record, json.dumps([{**plain, "elements": json.dumps([{"id": "d", "type": "text", "left": 10, "top": 10, "width": 600, "content": words}])}]), str(deck["modified"]))
+			count = str(min(frappe.db.count("Quotation", {"party_name": party}), 5))
+			said = data.values(on_record)
+			assert said["values"]["this.name"] == quote and said["values"]["theirs.count"] == count and ["Quotation", quote] in said["watch"], said
+			assert api.get(on_record)["data"]["values"] == said["values"], "the first paint is filled"
+			shown = next(one["content"] for one in play.for_screen(on_record, 8)[0]["slide"]["elements"] if one.get("id") == "d")
+			assert quote in shown and "{" not in shown, shown
+			made = powerpoint.export(on_record)
+			assert quote in Deck(io.BytesIO(frappe.get_doc("File", made["name"]).get_content())).slides[0].shapes[-1].text_frame.text
+			other = frappe.get_all("Quotation", filters={"name": ["!=", quote]}, pluck="name", limit=1)[0]
+			assert data.for_each(on_record, [other]) == {"queued": 1}
+			data.made_for_each(on_record, "Quotation slides", "Quotation", [other], OWNER)
+			filed = frappe.get_all("File", filters={"attached_to_doctype": "Quotation", "attached_to_name": other, "file_name": ["like", "Quotation slides%"]}, pluck="file_url")
+			copied = api.presentation_of(filed[0]) if filed else None
+			assert copied and copied != on_record and data.values(copied)["values"]["this.name"] == other, "a copy reads its own record"
+			assert data.freeze(on_record) == {"frozen": len(said["values"])}
+			kept = json.loads(api.get(on_record)["slides"][0]["elements"])[0]["content"]
+			assert quote in kept and "{this." not in kept, kept
 		with as_user("karim@one.test"):
 			pasted = api.get_updated_json(name, json.dumps([{"id": "p", "type": "image", "src": theirs}]))
 			assert pasted[0]["src"].startswith(api.MEDIA) and pasted[0]["src"] != theirs, "the picture is copied onto this presentation"

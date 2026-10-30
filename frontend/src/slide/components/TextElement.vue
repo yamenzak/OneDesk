@@ -12,7 +12,7 @@
 	/>
 	<SlideshowText
 		v-else-if="showMagicMoveText"
-		:content="element.content"
+		:content="fill(element.content)"
 		:dir="element.dir || undefined"
 		class="textElement select-none"
 		:class="isAutoWidth ? 'text-auto-width' : 'text-fixed-width'"
@@ -35,6 +35,7 @@ import { computed, onBeforeMount, inject, ref } from 'vue'
 import SlideshowText from '@/apps/slides/components/SlideshowText.vue'
 
 import { sanitizeSlideHTML } from '@/apps/slides/utils/helpers'
+import { fill } from '../shim/data.js' // One: chips filled from records, VENDORED.md
 
 import { EditorContent, generateHTML } from '@tiptap/vue-3'
 
@@ -119,7 +120,9 @@ const normalizeContent = () => {
 	}
 }
 
-const sanitizedContent = computed(() => sanitizeSlideHTML(element.value.content || ''))
+const sanitizedContent = computed(() =>
+	sanitizeSlideHTML(fill(element.value.content || '', !inSlideShowMode.value && !inReadonlyMode.value)),
+)
 
 const isAutoWidth = computed(() => {
 	return !element.value.width || element.value.width == 'auto'

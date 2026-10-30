@@ -827,6 +827,10 @@ msgstr "حقل كتبه OneAI وما كتبه. تظهر الشارة ما دام
 msgid "A field and asc or desc, such as modified desc."
 msgstr "حقل ثم asc أو desc، مثل modified desc."
 
+#: frontend/src/slide/shim/DataDialog.vue:103
+msgid "A field of the list's records, such as customer."
+msgstr "حقل من حقول سجلات القائمة، مثل العميل."
+
 #. Description of the 'Field' (Data) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "A field of the record, of the record it links to, or the one summed."
@@ -997,6 +1001,10 @@ msgstr "رابط يُرسل إلى العميل للدفع عبر الإنترن
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "رابط إلى ملف أو مجلد في OneCloud لأشخاص من خارج الفريق."
+
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "A list"
+msgstr "قائمة"
 
 #: onedesk/one_crm/home.py:120
 msgid "A list of addresses a newsletter goes to."
@@ -1301,9 +1309,17 @@ msgstr "عرض سعر وافق عليه العميل."
 msgid "A rate for items taxed differently."
 msgstr "نسبة للأصناف التي تُفرض عليها ضريبة مختلفة."
 
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "A record"
+msgstr "سجل"
+
 #: onedesk/one_ai/reading/identity.py:303
 msgid "A record can't be merged into itself."
 msgstr "لا يمكن دمج سجل في نفسه."
+
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "A record linked from another"
+msgstr "سجل مرتبط بسجل آخر"
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -1563,6 +1579,10 @@ msgstr "من أ إلى ي"
 #: onedesk/one_hr/home.py:222
 msgid "A trip asked for, with what it will cost."
 msgstr "رحلة مطلوبة، مع تكلفتها."
+
+#: frontend/src/slide/shim/DataDialog.vue:104
+msgid "A value, or a field of another source, such as {this.name}."
+msgstr "قيمة، أو حقل من مصدر آخر، مثل {this.name}."
 
 #: onedesk/one_inventory/home.py:118
 msgid "A van's round of deliveries."
@@ -2559,6 +2579,11 @@ msgstr "إضافة شاشة"
 msgid "Add a Slide"
 msgstr "إضافة شريحة"
 
+#: frontend/src/slide/shim/DataDialog.vue:27
+#: frontend/src/slide/shim/DataDialog.vue:122
+msgid "Add a Source"
+msgstr "إضافة مصدر"
+
 #: onedesk/one_task/tour.py:18
 msgid "Add a Task"
 msgstr "أضف مهمة"
@@ -2612,6 +2637,10 @@ msgstr "أضف سببًا."
 #: onedesk/one_sheet/tour.py:24
 msgid "Add a sheet with the plus, and right-click a sheet's name to rename, copy, colour or hide it."
 msgstr "أضف ورقة بعلامة الزائد، وانقر بزر الفأرة الأيمن على اسم الورقة لإعادة تسميتها أو نسخها أو تلوينها أو إخفائها."
+
+#: onedesk/one_slide/data.py:272
+msgid "Add a source for the record this is for first."
+msgstr "أضف أولاً مصدراً للسجل الذي يخصه هذا العرض."
 
 #: frontend/src/task/MyTasks.vue:6
 msgid "Add a task"
@@ -5332,6 +5361,10 @@ msgstr ""
 msgid "At"
 msgstr "في"
 
+#: frontend/src/slide/shim/DataDialog.vue:105
+msgid "At Most"
+msgstr "بحد أقصى"
+
 #. Option for the 'Health' (Select) field in DocType 'Project'
 #. Option for the 'Health' (Select) field in DocType 'Project User'
 #: onedesk/one_project/custom/project.json
@@ -6356,6 +6389,10 @@ msgstr "قبل اعتماد {0}"
 #: onedesk/one_slide/resize.py:93
 msgid "Before changing the size"
 msgstr "قبل تغيير الحجم"
+
+#: onedesk/one_slide/data.py:250
+msgid "Before freezing the data"
+msgstr "قبل تثبيت البيانات"
 
 #: onedesk/one_slide/versions.py:91
 msgid "Before going back"
@@ -10123,6 +10160,10 @@ msgstr "تعذّر حفظ الشريحة: احفظ العرض أولاً."
 msgid "Could not load the templates."
 msgstr "تعذر تحميل القوالب."
 
+#: onedesk/one_slide/data.py:276
+msgid "Could not make presentations: there are no records you may file one on."
+msgstr "تعذّر إنشاء العروض: لا توجد سجلات يمكنك حفظ عرض عليها."
+
 #: onedesk/one_slide/master.py:91
 msgid "Could not open a master: this presentation is already one."
 msgstr "تعذّر فتح قالب رئيسي: هذا العرض قالب رئيسي بالفعل."
@@ -11226,6 +11267,11 @@ msgstr "ملحق معالجة البيانات"
 #: frontend/src/sheet/components/SheetEditor/index.vue:5004
 msgid "Data bars"
 msgstr "أشرطة البيانات"
+
+#: frontend/src/slide/shim/DataDialog.vue:5
+#: frontend/src/slide/shim/EditorNavbar.vue:149
+msgid "Data from Records"
+msgstr "بيانات من السجلات"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:895
 msgid "Data validation"
@@ -17562,6 +17608,10 @@ msgstr "للمرسل ولكل من في إلى ونسخة."
 msgid "For themselves, version {0}"
 msgstr "لنفسه، الإصدار {0}"
 
+#: frontend/src/slide/shim/DataDialog.vue:101
+msgid "For this, a record to show while you work."
+msgstr "لهذا الخيار، سجل يُعرض أثناء العمل."
+
 #: onedesk/public/js/hiring.js:45
 msgid "For video calls. The browser asks which tab to share."
 msgstr "لمكالمات الفيديو. يسأل المتصفح عن علامة التبويب المراد مشاركتها."
@@ -17847,6 +17897,10 @@ msgstr "متاح للبيع"
 #: onedesk/www/welcome.html:26
 msgid "Free until {0}."
 msgstr "مجانًا حتى {0}."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:150
+msgid "Freeze Data"
+msgstr "تثبيت البيانات"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:803
 msgid "Freeze cols to here"
@@ -23861,6 +23915,10 @@ msgstr "رُبطت عبر"
 msgid "Linked Field"
 msgstr "حقل مرتبط"
 
+#: frontend/src/slide/shim/DataDialog.vue:102
+msgid "Linked From"
+msgstr "مرتبط من"
+
 #. Label of the linked_section (Section Break) field in DocType 'Record Head'
 #. Label of the linked (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
@@ -24793,6 +24851,14 @@ msgstr "صنع موسيقى"
 msgid "Make Music for a Screen"
 msgstr "صنع موسيقى لشاشة"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:283
+msgid "Make One for Each {0}"
+msgstr "إنشاء عرض لكل {0}"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:151
+msgid "Make One for Each…"
+msgstr "إنشاء عرض لكل سجل…"
+
 #: frontend/src/inventory/item/ItemBuying.vue:106
 #: frontend/src/inventory/item/ItemSelling.vue:85
 #: frontend/src/project/ProjectPage.vue:345
@@ -24984,6 +25050,10 @@ msgstr "التصنيع"
 #: onedesk/one_inventory/ready.py:191
 msgid "Making goods that take workshop time fails until the company names an account for it. Fix uses {0}."
 msgstr "يفشل صنع البضائع التي تأخذ وقتاً في الورشة حتى تحدد الشركة حساباً له. الإصلاح يستخدم {0}."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:281
+msgid "Making {0} presentations. You will be told when they are filed."
+msgstr "جارٍ إنشاء {0} عروض. سنخبرك عند حفظها."
 
 #: frontend/src/inventory/item/ItemVariantsMake.vue:134
 msgid "Making {0} variants in the background"
@@ -28009,6 +28079,10 @@ msgstr "لا توجد شرائح من هذا النوع بعد. يضيف الم�
 msgid "No sound. Check the microphone."
 msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 
+#: frontend/src/slide/shim/DataDialog.vue:8
+msgid "No sources yet. Add the record this presentation is about, or a list of records."
+msgstr "لا مصادر بعد. أضف السجل الذي يدور حوله هذا العرض، أو قائمة من السجلات."
+
 #: frontend/src/cloud/cloud.js:116
 msgid "No starred items"
 msgstr "لا توجد عناصر مميزة بنجمة"
@@ -30411,6 +30485,10 @@ msgstr "مراجعة تسجيل الحضور من صلاحية الموارد ا
 #: onedesk/one_studio/extensions.py:260
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "OneAI وحده يكتب الإضافات. اطلب منه تغيير هذه؛ أما تشغيلها أو إيقافها فهو قرارك."
+
+#: frontend/src/slide/shim/DataDialog.vue:103
+msgid "Only Those Whose"
+msgstr "فقط التي يكون فيها"
 
 #: onedesk/one_doc/word.py:263
 msgid "Only Word files can be opened as a document."
@@ -35354,6 +35432,23 @@ msgstr "الإشعار الفوري يعمل"
 #: onedesk/one_calendar/abilities.py:26
 msgid "Put Events on Everyone's Calendar"
 msgstr "وضع الأحداث في تقويم الجميع"
+
+#: frontend/src/slide/shim/DataDialog.vue:150
+msgid "Put In"
+msgstr "إدراج"
+
+#: frontend/src/slide/shim/DataDialog.vue:17
+msgid "Put In a Field"
+msgstr "إدراج حقل"
+
+#: frontend/src/slide/shim/DataDialog.vue:17
+msgid "Put In a Figure"
+msgstr "إدراج رقم"
+
+#: frontend/src/slide/shim/DataDialog.vue:19
+#: frontend/src/slide/shim/DataDialog.vue:149
+msgid "Put In as a Table"
+msgstr "إدراج كجدول"
 
 #: frontend/src/template/Tasks.vue:158
 msgid "Put Under"
@@ -42045,6 +42140,10 @@ msgstr "نوع المصدر"
 msgid "Source range"
 msgstr "نطاق المصدر"
 
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Sources"
+msgstr "المصادر"
+
 #: onedesk/one_book/home.py:402
 msgid "South Africa VAT Settings"
 msgstr "إعدادات ضريبة القيمة المضافة لجنوب أفريقيا"
@@ -45442,6 +45541,10 @@ msgstr "جهة اتصال العميل على الفاتورة"
 msgid "The customer's or supplier's portal contacts who may not see this record."
 msgstr "جهات اتصال العميل أو المورد في البوابة التي لا يحق لها رؤية هذا السجل."
 
+#: frontend/src/slide/shim/EditorNavbar.vue:260
+msgid "The data is written in."
+msgstr "تم تثبيت البيانات."
+
 #. Subject of a notification
 #: onedesk/one/home.py:255 onedesk/one_account/notifications.py
 msgid "The database is nearly full"
@@ -46377,6 +46480,10 @@ msgstr "أكد الخادم المستلم عنوان المرسل، لأن DMAR
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
 
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "The record each copy is filed on"
+msgstr "السجل الذي تُحفظ عليه كل نسخة"
+
 #: onedesk/one/rules.py:212
 msgid "The record has no field {0}."
 msgstr "لا يحتوي السجل على الحقل {0}."
@@ -46407,6 +46514,10 @@ msgstr "رابط السجل نفسه إلى السجل الذي يُعرض حق�
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "The record's own link to the one whose fields are shown."
 msgstr "رابط السجل نفسه إلى السجل الذي تُعرض حقوله."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The records whose words this presentation shows, filled each time it is drawn."
+msgstr "السجلات التي يعرض هذا العرض كلماتها، وتُملأ في كل مرة يُرسم فيها."
 
 #. Subject of a notification
 #: onedesk/one/notifications.py
@@ -47585,6 +47696,14 @@ msgstr "لم يعد بالإمكان الرد على عرض السعر هذا."
 #: frontend/src/sheet/components/SheetEditor/index.vue:3760
 msgid "This range is protected and can’t be edited"
 msgstr "هذا النطاق محمي ولا يمكن تحريره"
+
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "This record"
+msgstr "هذا السجل"
+
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "This record ({0})"
+msgstr "هذا السجل ({0})"
 
 #: onedesk/one_portal/share.py:235
 msgid "This record has no customer or supplier to send it to."
@@ -54864,6 +54983,10 @@ msgstr "الكلمات"
 msgid "Words and Rules"
 msgstr "النصوص والقواعد"
 
+#: frontend/src/slide/shim/DataDialog.vue:7
+msgid "Words from a record stay up to date: they are read again each time the slide is shown, and show only what the person looking may see."
+msgstr "تبقى الكلمات المأخوذة من سجل محدّثة: تُقرأ من جديد في كل مرة تُعرض فيها الشريحة، ولا تُظهر إلا ما يحق للناظر رؤيته."
+
 #: onedesk/one_display/widgets.py:38
 msgid "Words that run along the screen: headlines, notices, figures."
 msgstr "كلمات تجري على الشاشة: عناوين وإشعارات وأرقام."
@@ -55480,6 +55603,10 @@ msgstr "اكتب الحضور في العطل الواقعة ضمن هذه ال�
 msgid "Write in HTML"
 msgstr "الكتابة بلغة HTML"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:256
+msgid "Write in what the data says now? The slides stop following the records. What they were is kept in Version History."
+msgstr "تثبيت ما تقوله البيانات الآن؟ ستتوقف الشرائح عن متابعة السجلات. وتُحفظ حالتها السابقة في سجل الإصدارات."
+
 #: onedesk/one/ai.py:61
 msgid "Write my bio"
 msgstr "اكتب نبذتي"
@@ -55910,6 +56037,10 @@ msgstr "لا يمكنك تغيير {0}."
 msgid "You may not delete the sound of a recorded interview."
 msgstr "لا يمكنك حذف صوت مقابلة مسجلة."
 
+#: frontend/src/slide/shim/DataDialog.vue:15
+msgid "You may not read these records, so their fields are not offered."
+msgstr "لا يحق لك قراءة هذه السجلات، لذا لا تُعرض حقولها."
+
 #: onedesk/one_ai/tools.py:435
 msgid "You may not read {0} {1}."
 msgstr "لا يُسمح لك بقراءة {0} {1}."
@@ -55917,6 +56048,10 @@ msgstr "لا يُسمح لك بقراءة {0} {1}."
 #: onedesk/one/webhooks.py:99
 msgid "You may not read {0}, so a webhook of yours cannot send it."
 msgstr "لا يمكنك قراءة {0}، لذا لا يستطيع ويب هوك خاص بك إرساله."
+
+#: onedesk/one_slide/data.py:222
+msgid "You may not read {0}, so it can't be a source."
+msgstr "لا يحق لك قراءة {0}، لذا لا يمكن أن يكون مصدراً."
 
 #: onedesk/one_ai/tools.py:178 onedesk/one_ai/tools.py:411
 msgid "You may not read {0}."
@@ -60242,6 +60377,10 @@ msgstr "{0} أماكن"
 #: onedesk/one_project/updates.py:209
 msgid "{0} posted an update"
 msgstr "نشر {0} تحديثًا"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:288
+msgid "{0} presentations filed, one on each {1}."
+msgstr "تم حفظ {0} عروض، واحد على كل {1}."
 
 #: onedesk/public/js/audit_list.js:36
 msgid "{0} printed {1}"

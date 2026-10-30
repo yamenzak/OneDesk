@@ -827,6 +827,10 @@ msgstr "Ein Feld, das OneAI geschrieben hat, und was es geschrieben hat. Das Abz
 msgid "A field and asc or desc, such as modified desc."
 msgstr "Ein Feld und asc oder desc, etwa modified desc."
 
+#: frontend/src/slide/shim/DataDialog.vue:103
+msgid "A field of the list's records, such as customer."
+msgstr "Ein Feld der Datensätze der Liste, etwa Kunde."
+
 #. Description of the 'Field' (Data) field in DocType 'Record Head Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "A field of the record, of the record it links to, or the one summed."
@@ -997,6 +1001,10 @@ msgstr "Ein Link, mit dem ein Kunde online bezahlt."
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "A link to a file or folder in OneCloud for people outside the team."
 msgstr "Ein Link zu einer Datei oder einem Ordner in OneCloud für Personen außerhalb des Teams."
+
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "A list"
+msgstr "Eine Liste"
 
 #: onedesk/one_crm/home.py:120
 msgid "A list of addresses a newsletter goes to."
@@ -1301,9 +1309,17 @@ msgstr "Ein Angebot, dem der Kunde zugestimmt hat."
 msgid "A rate for items taxed differently."
 msgstr "Ein Satz für Artikel, die anders besteuert werden."
 
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "A record"
+msgstr "Ein Datensatz"
+
 #: onedesk/one_ai/reading/identity.py:303
 msgid "A record can't be merged into itself."
 msgstr "Ein Datensatz kann nicht mit sich selbst zusammengeführt werden."
+
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "A record linked from another"
+msgstr "Ein Datensatz, auf den ein anderer verweist"
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -1563,6 +1579,10 @@ msgstr "A bis Z"
 #: onedesk/one_hr/home.py:222
 msgid "A trip asked for, with what it will cost."
 msgstr "Eine beantragte Reise, mit ihren Kosten."
+
+#: frontend/src/slide/shim/DataDialog.vue:104
+msgid "A value, or a field of another source, such as {this.name}."
+msgstr "Ein Wert oder ein Feld einer anderen Quelle, etwa {this.name}."
 
 #: onedesk/one_inventory/home.py:118
 msgid "A van's round of deliveries."
@@ -2559,6 +2579,11 @@ msgstr "Bildschirm hinzufügen"
 msgid "Add a Slide"
 msgstr "Folie hinzufügen"
 
+#: frontend/src/slide/shim/DataDialog.vue:27
+#: frontend/src/slide/shim/DataDialog.vue:122
+msgid "Add a Source"
+msgstr "Quelle hinzufügen"
+
 #: onedesk/one_task/tour.py:18
 msgid "Add a Task"
 msgstr "Eine Aufgabe hinzufügen"
@@ -2612,6 +2637,10 @@ msgstr "Geben Sie einen Grund an."
 #: onedesk/one_sheet/tour.py:24
 msgid "Add a sheet with the plus, and right-click a sheet's name to rename, copy, colour or hide it."
 msgstr "Fügen Sie mit dem Plus ein Blatt hinzu, und klicken Sie mit der rechten Maustaste auf seinen Namen, um es umzubenennen, zu kopieren, einzufärben oder auszublenden."
+
+#: onedesk/one_slide/data.py:272
+msgid "Add a source for the record this is for first."
+msgstr "Fügen Sie zuerst eine Quelle für den Datensatz hinzu, zu dem dies gehört."
 
 #: frontend/src/task/MyTasks.vue:6
 msgid "Add a task"
@@ -5332,6 +5361,10 @@ msgstr ""
 msgid "At"
 msgstr "Bei"
 
+#: frontend/src/slide/shim/DataDialog.vue:105
+msgid "At Most"
+msgstr "Höchstens"
+
 #. Option for the 'Health' (Select) field in DocType 'Project'
 #. Option for the 'Health' (Select) field in DocType 'Project User'
 #: onedesk/one_project/custom/project.json
@@ -6356,6 +6389,10 @@ msgstr "Bevor ein Datensatz vom Typ {0} gebucht wird"
 #: onedesk/one_slide/resize.py:93
 msgid "Before changing the size"
 msgstr "Vor der Größenänderung"
+
+#: onedesk/one_slide/data.py:250
+msgid "Before freezing the data"
+msgstr "Vor dem Festschreiben der Daten"
 
 #: onedesk/one_slide/versions.py:91
 msgid "Before going back"
@@ -10123,6 +10160,10 @@ msgstr "Die Folie konnte nicht behalten werden: Speichern Sie zuerst die Präsen
 msgid "Could not load the templates."
 msgstr "Die Vorlagen konnten nicht geladen werden."
 
+#: onedesk/one_slide/data.py:276
+msgid "Could not make presentations: there are no records you may file one on."
+msgstr "Präsentationen konnten nicht erstellt werden: Es gibt keine Datensätze, an denen Sie eine ablegen dürfen."
+
 #: onedesk/one_slide/master.py:91
 msgid "Could not open a master: this presentation is already one."
 msgstr "Master konnte nicht geöffnet werden: Diese Präsentation ist bereits einer."
@@ -11226,6 +11267,11 @@ msgstr "Auftragsverarbeitungsvertrag"
 #: frontend/src/sheet/components/SheetEditor/index.vue:5004
 msgid "Data bars"
 msgstr "Datenbalken"
+
+#: frontend/src/slide/shim/DataDialog.vue:5
+#: frontend/src/slide/shim/EditorNavbar.vue:149
+msgid "Data from Records"
+msgstr "Daten aus Datensätzen"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:895
 msgid "Data validation"
@@ -17562,6 +17608,10 @@ msgstr "Für den Absender und alle in An und Cc."
 msgid "For themselves, version {0}"
 msgstr "Für sich selbst, Version {0}"
 
+#: frontend/src/slide/shim/DataDialog.vue:101
+msgid "For this, a record to show while you work."
+msgstr "Hierfür ein Datensatz, der beim Bearbeiten angezeigt wird."
+
 #: onedesk/public/js/hiring.js:45
 msgid "For video calls. The browser asks which tab to share."
 msgstr "Für Videoanrufe. Der Browser fragt, welcher Tab geteilt wird."
@@ -17847,6 +17897,10 @@ msgstr "Frei verkäuflich"
 #: onedesk/www/welcome.html:26
 msgid "Free until {0}."
 msgstr "Kostenlos bis {0}."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:150
+msgid "Freeze Data"
+msgstr "Daten festschreiben"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:803
 msgid "Freeze cols to here"
@@ -23861,6 +23915,10 @@ msgstr "Verknüpft durch"
 msgid "Linked Field"
 msgstr "Verknüpftes Feld"
 
+#: frontend/src/slide/shim/DataDialog.vue:102
+msgid "Linked From"
+msgstr "Verknüpft von"
+
 #. Label of the linked_section (Section Break) field in DocType 'Record Head'
 #. Label of the linked (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json
@@ -24793,6 +24851,14 @@ msgstr "Musik erstellen"
 msgid "Make Music for a Screen"
 msgstr "Musik für einen Bildschirm erstellen"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:283
+msgid "Make One for Each {0}"
+msgstr "Eine für jeden Datensatz vom Typ {0} erstellen"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:151
+msgid "Make One for Each…"
+msgstr "Eine für jeden erstellen…"
+
 #: frontend/src/inventory/item/ItemBuying.vue:106
 #: frontend/src/inventory/item/ItemSelling.vue:85
 #: frontend/src/project/ProjectPage.vue:345
@@ -24984,6 +25050,10 @@ msgstr "Fertigung"
 #: onedesk/one_inventory/ready.py:191
 msgid "Making goods that take workshop time fails until the company names an account for it. Fix uses {0}."
 msgstr "Die Fertigung mit Werkstattzeit schlägt fehl, bis das Unternehmen ein Konto dafür nennt. Die Korrektur nimmt {0}."
+
+#: frontend/src/slide/shim/EditorNavbar.vue:281
+msgid "Making {0} presentations. You will be told when they are filed."
+msgstr "{0} Präsentationen werden erstellt. Sie erhalten eine Nachricht, sobald sie abgelegt sind."
 
 #: frontend/src/inventory/item/ItemVariantsMake.vue:134
 msgid "Making {0} variants in the background"
@@ -28009,6 +28079,10 @@ msgstr "Noch keine Folien dieser Art. Eine Person mit Verwaltungsrechten fügt e
 msgid "No sound. Check the microphone."
 msgstr "Kein Ton. Mikrofon prüfen."
 
+#: frontend/src/slide/shim/DataDialog.vue:8
+msgid "No sources yet. Add the record this presentation is about, or a list of records."
+msgstr "Noch keine Quellen. Fügen Sie den Datensatz hinzu, um den es in dieser Präsentation geht, oder eine Liste von Datensätzen."
+
 #: frontend/src/cloud/cloud.js:116
 msgid "No starred items"
 msgstr "Keine markierten Elemente"
@@ -30411,6 +30485,10 @@ msgstr "Nur die Personalabteilung kann ein Einchecken prüfen."
 #: onedesk/one_studio/extensions.py:260
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr "Nur OneAI schreibt Erweiterungen. Bitte OneAI, diese zu ändern; ein- und ausschalten kannst du sie selbst."
+
+#: frontend/src/slide/shim/DataDialog.vue:103
+msgid "Only Those Whose"
+msgstr "Nur die, deren"
 
 #: onedesk/one_doc/word.py:263
 msgid "Only Word files can be opened as a document."
@@ -35354,6 +35432,23 @@ msgstr "Push funktioniert"
 #: onedesk/one_calendar/abilities.py:26
 msgid "Put Events on Everyone's Calendar"
 msgstr "Termine in den Kalender aller eintragen"
+
+#: frontend/src/slide/shim/DataDialog.vue:150
+msgid "Put In"
+msgstr "Einfügen"
+
+#: frontend/src/slide/shim/DataDialog.vue:17
+msgid "Put In a Field"
+msgstr "Feld einfügen"
+
+#: frontend/src/slide/shim/DataDialog.vue:17
+msgid "Put In a Figure"
+msgstr "Zahl einfügen"
+
+#: frontend/src/slide/shim/DataDialog.vue:19
+#: frontend/src/slide/shim/DataDialog.vue:149
+msgid "Put In as a Table"
+msgstr "Als Tabelle einfügen"
 
 #: frontend/src/template/Tasks.vue:158
 msgid "Put Under"
@@ -42045,6 +42140,10 @@ msgstr "Quelltyp"
 msgid "Source range"
 msgstr "Quellbereich"
 
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "Sources"
+msgstr "Quellen"
+
 #: onedesk/one_book/home.py:402
 msgid "South Africa VAT Settings"
 msgstr "Umsatzsteuer-Einstellungen Südafrika"
@@ -45442,6 +45541,10 @@ msgstr "Der Kontakt des Kunden auf der Rechnung"
 msgid "The customer's or supplier's portal contacts who may not see this record."
 msgstr "Die Portal-Kontakte des Kunden oder Lieferanten, die diesen Datensatz nicht sehen dürfen."
 
+#: frontend/src/slide/shim/EditorNavbar.vue:260
+msgid "The data is written in."
+msgstr "Die Daten sind festgeschrieben."
+
 #. Subject of a notification
 #: onedesk/one/home.py:255 onedesk/one_account/notifications.py
 msgid "The database is nearly full"
@@ -46377,6 +46480,10 @@ msgstr "Der empfangende Server hat die Adresse des Absenders bestätigt, weil DM
 msgid "The record changed after this was suggested."
 msgstr "Der Datensatz hat sich nach diesem Vorschlag geändert."
 
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "The record each copy is filed on"
+msgstr "Der Datensatz, an dem jede Kopie abgelegt ist"
+
 #: onedesk/one/rules.py:212
 msgid "The record has no field {0}."
 msgstr "Der Datensatz hat kein Feld {0}."
@@ -46407,6 +46514,10 @@ msgstr "Die eigene Verknüpfung des Datensatzes zu dem, dessen Feld gezeigt wird
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "The record's own link to the one whose fields are shown."
 msgstr "Die eigene Verknüpfung des Datensatzes zu dem, dessen Felder gezeigt werden."
+
+#: onedesk/one_slide/doctype/presentation/presentation.json
+msgid "The records whose words this presentation shows, filled each time it is drawn."
+msgstr "Die Datensätze, deren Inhalte diese Präsentation zeigt, bei jeder Anzeige neu eingesetzt."
 
 #. Subject of a notification
 #: onedesk/one/notifications.py
@@ -47585,6 +47696,14 @@ msgstr "Auf dieses Angebot kann nicht mehr geantwortet werden."
 #: frontend/src/sheet/components/SheetEditor/index.vue:3760
 msgid "This range is protected and can’t be edited"
 msgstr "Dieser Bereich ist geschützt und kann nicht bearbeitet werden"
+
+#: frontend/src/slide/shim/DataDialog.vue:44
+msgid "This record"
+msgstr "Dieser Datensatz"
+
+#: frontend/src/slide/shim/DataDialog.vue:96
+msgid "This record ({0})"
+msgstr "Dieser Datensatz ({0})"
 
 #: onedesk/one_portal/share.py:235
 msgid "This record has no customer or supplier to send it to."
@@ -54864,6 +54983,10 @@ msgstr "Text"
 msgid "Words and Rules"
 msgstr "Texte und Regeln"
 
+#: frontend/src/slide/shim/DataDialog.vue:7
+msgid "Words from a record stay up to date: they are read again each time the slide is shown, and show only what the person looking may see."
+msgstr "Inhalte aus einem Datensatz bleiben aktuell: Sie werden bei jeder Anzeige der Folie neu gelesen und zeigen nur, was die betrachtende Person sehen darf."
+
 #: onedesk/one_display/widgets.py:38
 msgid "Words that run along the screen: headlines, notices, figures."
 msgstr "Text, der über den Bildschirm läuft: Schlagzeilen, Hinweise, Zahlen."
@@ -55480,6 +55603,10 @@ msgstr "Auch an den Feiertagen innerhalb dieser Daten Anwesenheit erfassen. Ohne
 msgid "Write in HTML"
 msgstr "In HTML schreiben"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:256
+msgid "Write in what the data says now? The slides stop following the records. What they were is kept in Version History."
+msgstr "Den aktuellen Stand der Daten festschreiben? Die Folien folgen den Datensätzen dann nicht mehr. Der vorherige Stand bleibt im Versionsverlauf."
+
 #: onedesk/one/ai.py:61
 msgid "Write my bio"
 msgstr "Meine Biografie schreiben"
@@ -55910,6 +56037,10 @@ msgstr "Sie dürfen {0} nicht ändern."
 msgid "You may not delete the sound of a recorded interview."
 msgstr "Sie dürfen den Ton eines aufgezeichneten Gesprächs nicht löschen."
 
+#: frontend/src/slide/shim/DataDialog.vue:15
+msgid "You may not read these records, so their fields are not offered."
+msgstr "Sie dürfen diese Datensätze nicht lesen, daher werden ihre Felder nicht angeboten."
+
 #: onedesk/one_ai/tools.py:435
 msgid "You may not read {0} {1}."
 msgstr "Sie dürfen {0} {1} nicht lesen."
@@ -55917,6 +56048,10 @@ msgstr "Sie dürfen {0} {1} nicht lesen."
 #: onedesk/one/webhooks.py:99
 msgid "You may not read {0}, so a webhook of yours cannot send it."
 msgstr "Sie dürfen {0} nicht lesen, also kann ein Webhook von Ihnen es nicht senden."
+
+#: onedesk/one_slide/data.py:222
+msgid "You may not read {0}, so it can't be a source."
+msgstr "Sie dürfen {0} nicht lesen, daher kann es keine Quelle sein."
 
 #: onedesk/one_ai/tools.py:178 onedesk/one_ai/tools.py:411
 msgid "You may not read {0}."
@@ -60242,6 +60377,10 @@ msgstr "{0} Orte"
 #: onedesk/one_project/updates.py:209
 msgid "{0} posted an update"
 msgstr "{0} hat ein Update gepostet"
+
+#: frontend/src/slide/shim/EditorNavbar.vue:288
+msgid "{0} presentations filed, one on each {1}."
+msgstr "{0} Präsentationen abgelegt, je eine an jedem Datensatz vom Typ {1}."
 
 #: onedesk/public/js/audit_list.js:36
 msgid "{0} printed {1}"

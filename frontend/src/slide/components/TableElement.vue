@@ -24,6 +24,7 @@ import { computed, inject, ref, watch } from 'vue'
 import { EditorContent } from '@tiptap/vue-3'
 
 import { sanitizeSlideHTML } from '@/apps/slides/utils/helpers'
+import { fillTable } from '../shim/data.js' // One: chips filled from records, VENDORED.md
 import {
 	getDefaultBandColor,
 	getDefaultGridColor,
@@ -96,7 +97,9 @@ const elementStyles = computed(() => ({
 	'--table-resize-color': `${selectionColor}80`,
 }))
 
-const sanitizedContent = computed(() => sanitizeSlideHTML(element.value.content || ''))
+const sanitizedContent = computed(() =>
+	sanitizeSlideHTML(fillTable(element.value.content || '', !inSlideShowMode.value && !inReadonlyMode.value)),
+)
 
 // dragging a column border widens the table without touching the frame, and every
 // consumer of element.width - handles, snapping, alignment, export - would drift

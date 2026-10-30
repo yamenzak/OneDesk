@@ -272,6 +272,10 @@ def _loaded(name: str, item: dict) -> dict:
 	doc["master"] = [] if doc.get("master_of") else master.elements(name)
 	if doc.get("master_of"):
 		doc["title"] = _("Master of {0}").format(item["file_name"])
+	from onedesk.one_slide import data
+
+	# what the chips say, as this reader may see it, so the first paint is filled
+	doc["data"] = data.evaluate(name) if doc.get("sources") else {"values": {}, "watch": []}
 	for hook in frappe.get_hooks("one_slide_loaded"):
 		frappe.get_attr(hook)(doc, item)
 	return doc

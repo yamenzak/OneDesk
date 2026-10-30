@@ -205,6 +205,34 @@ keeps company templates. A kept slide is fitted to the shelf's size and its
 pictures copied. An inserted slide remembers where it came from like any
 layout.
 
+### Data from records
+
+`data.py`. A presentation's `sources` (JSON, `cleaned`) name records: `this`
+(the record its File is attached to, else a sample while it is a
+template), `record`, `linked` (a Link field of another source), or `list`
+(a doctype, filters whose value may be another source's chip, an order, at
+most 50 rows). A text holds chips, `{key.field}`, a list's `{key.N.field}`,
+`{key.count}` and `{key.sum.field}`; they stay in the stored words and are
+filled each time the slide is drawn (`evaluate`), as the reader, with
+`frappe.has_permission` on each record and permlevel on each field, so a
+value nobody may read is never stored and never sent. Values are formatted
+by `frappe.format`, as a print formats them.
+
+The editor gets the values with the presentation (`api._loaded` adds
+`data`), asks again for chips put on since the last save (`values` with
+`asked`), and follows each record it read (kit `follow`), so a saved record
+redraws the slide. `shim/data.js` fills chips in `TextElement` and
+`TableElement` (One: edits); a chip with no value stays visible in the
+editor and is empty when presenting. Without the editor, `poured` fills the
+rows `master.under` returns: the TV as the presentation's owner (a screen
+has no reader), PowerPoint as whoever exports. `freeze` writes the values in
+after a version; `for_each` enqueues `made_for_each`, which inserts a File
+naming the presentation on each record, so the `copied` hook makes each its
+own copy whose `this` is that record.
+
+A picture bound to an image field and a slide repeated per row are not
+built: a table of `{key.N.field}` chips covers the list case.
+
 ### PowerPoint
 
 `powerpoint.build` writes a .pptx with python-pptx (MIT) from PowerPoint's

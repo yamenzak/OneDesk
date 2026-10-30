@@ -15,43 +15,15 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - The channel builder on this engine is stage 7 of docs/ONESLIDE.md.
 - The Light and Dark layouts say "Title" and "Subtitle" in English whatever
   the reader's language: they are Suite's fixture text, kept as it ships.
+- A picture cannot be bound to a record's image field, and a slide does not
+  repeat once per row of a list; a table of a list's rows does that job.
+  Freeze Data has no "as of" mark, and an export is live, not frozen.
 - On a phone the editor shows the slide, the bar and the head; the slides
   rail, the panel and **Theme** are left out. It is for looking and small
   changes, not for building a presentation.
 
 ## Planned, from the walkthrough (30 October)
 
-- **Data from records.** Not today: a presentation can be filed on a record
-  but reads nothing from it. OneWriter already does this for one record
-  (**Insert a Field**, a grey block that shows what the record says now),
-  and OneDisplay's sources (`one_display/sources.py`) already read records,
-  a filtered list or a report as the person who saved them. Plan: one data
-  layer for all three. A presentation declares its sources by name:
-  - a record, fixed, or "the record this is for";
-  - records reached through a link from another source (the project, then
-    its customer, then the customer's contacts);
-  - a filtered list (the project's open tasks), a report, or one figure
-    (a count or a sum).
-  On the slide, a text holds field chips (`{project.project_name}`,
-  `{client.customer_name}`), a table is bound to a list with chosen
-  columns, a picture to an image field, a figure to a figure. A slide can
-  repeat once per row (a slide per task). Values are formatted as a print
-  formats them, in the reader's language. A slide may draw from several
-  unrelated records at once; nothing ties a deck to one doctype.
-- **Batch: one deck per record.** Not today. Plan: a template whose main
-  source is "the record this is for", of one doctype. From that doctype's
-  list, filtered or with rows ticked, **Make Presentations** runs in the
-  background, makes one deck per record from the template, files each on its
-  record (or in a chosen folder) with a name pattern, and says when it is
-  done. Optional in the same run: a PDF or .pptx of each, attached or mailed.
-- **Live or frozen.** Plan: live by default. Chips are filled each time the
-  deck is opened, presented, exported or played, and an open editor redraws
-  when a record it shows is saved (the realtime event the workbook already
-  listens to). A chip is filled as the person looking at it, so someone who
-  may not read the project sees it empty, never its value. **Freeze Data**
-  keeps every value as it is now, marked "as of" with the date, takes a
-  version, and can be undone; an export and anything sent outside the
-  workspace is frozen by default.
 - **OneAI writes a whole deck.** Today OneAI makes one slide from a
   sentence, reads no records, and the OneAI panel does not see the open
   presentation. Plan: a deck job. "Write a pitch for project X for client

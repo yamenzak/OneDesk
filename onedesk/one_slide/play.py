@@ -127,9 +127,11 @@ def for_screen(name: str, seconds: int) -> list[dict]:
 
 	doc = frappe.get_cached_doc("Presentation", name)
 	width, height = int(doc.get("width") or 960), int(doc.get("height") or 540)
-	from onedesk.one_slide import master
+	from onedesk.one_slide import data, master
 
 	drawn = master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides])
+	# a screen has no reader: it shows what whoever made the presentation may read
+	drawn = data.poured(name, drawn, doc.owner)
 	played = []
 	for row, kept in zip(doc.slides, drawn, strict=True):
 		elements = []

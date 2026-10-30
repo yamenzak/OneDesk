@@ -45,6 +45,9 @@ NOT_FOR_AI = {
 	"library.keep": "A slide is put in the company's library from its menu by a manager who chose it.",
 	"library.forget": "A slide is taken off the company's library by a manager, in Add Slide.",
 	"layouts.restyle": "Bringing a template's new look into every slide is the person's call, from the editor's File menu.",
+	"data.save_sources": "A presentation's sources are picked in the editor's Data from Records, beside the slides they fill.",
+	"data.freeze": "Writing the data in for good is the person's call, from the editor's File menu.",
+	"data.for_each": "Making a copy on each record is the person's call, from the editor's File menu, with the records picked.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }
 

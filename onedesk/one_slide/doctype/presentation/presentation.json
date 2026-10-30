@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 15:28:21.375390",
+ "modified": "2026-10-30 16:20:28.631969",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -77,6 +77,13 @@
    "hidden": 1
   },
   {
+   "fieldname": "sources",
+   "fieldtype": "Long Text",
+   "label": "Sources",
+   "description": "The records whose words this presentation shows, filled each time it is drawn.",
+   "hidden": 1
+  },
+  {
    "fieldname": "master_of",
    "fieldtype": "Link",
    "options": "Presentation",
@@ -120,6 +127,7 @@
   "width",
   "height",
   "guides",
+  "sources",
   "master_of",
   "slug",
   "thumbnail",

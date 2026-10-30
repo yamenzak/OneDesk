@@ -97,6 +97,11 @@ Each is marked `One:` where it is.
 - The slide library (`shim/SlideLibrary.vue`, `shim/libraryKeep.js`):
   `components/LayoutDialog.vue` has a Slide Library tab beside the layouts,
   and `utils/slideMenu.js` offers Save to Library to whoever keeps templates.
+- Data from records (`shim/data.js`, `shim/DataDialog.vue`):
+  `components/TextElement.vue` and `components/TableElement.vue` fill a
+  text's chips with what the records say before drawing it, and
+  `stores/presentation.js` hands the sources and their values over when a
+  presentation loads.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

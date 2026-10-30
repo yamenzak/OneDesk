@@ -4,6 +4,7 @@ import { slideBody } from '../shim/root.js' // One: the island's shadow root, VE
 import { frameOf, setFrame } from '../shim/frame.js' // One: the presentation's own size, or a screen's shape, VENDORED.md
 import { loadGuides } from '../shim/guides.js' // One: VENDORED.md
 import { loadMaster } from '../shim/master.js' // One: VENDORED.md
+import { loadData } from '../shim/data.js' // One: VENDORED.md
 import { ref, computed } from 'vue'
 import { createResource, call, frappeRequest, toast, dialog } from 'frappe-ui'
 
@@ -319,6 +320,7 @@ const showPresentation = (id, { doc, content, dirty }) => {
 	setFrame(drawn.w, drawn.h)
 	loadGuides(doc) // One: the presentation's guides, shim/guides.js
 	loadMaster(doc) // One: the master, shim/master.js
+	loadData(doc) // One: words from records, shim/data.js
 	presentationId.value = id
 	presentationDoc.value = doc
 	slides.value = content

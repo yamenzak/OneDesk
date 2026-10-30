@@ -297,14 +297,14 @@ def build(name: str) -> tuple[bytes, list[int]]:
 	from pptx import Presentation as Deck
 	from pptx.util import Emu
 
-	from onedesk.one_slide import api, master
+	from onedesk.one_slide import api, data, master
 
 	doc = frappe.get_doc(api.PRESENTATION, name)
 	width, height = api.frame(name)
 	deck = Deck()
 	deck.slide_width, deck.slide_height = Emu(width * EMU), Emu(height * EMU)
 	blank = deck.slide_layouts[6]
-	rows = master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides])
+	rows = data.poured(name, master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides]))
 	lost = []
 	for number, (row, kept) in enumerate(zip(doc.slides, rows, strict=True), start=1):
 		slide = deck.slides.add_slide(blank)
