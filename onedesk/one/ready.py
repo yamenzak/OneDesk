@@ -267,7 +267,14 @@ MODULES = {
 		"folder": "one_display",
 		"screens": "display",
 		"names": ("one_display", "onedisplay"),
-		"ready": False,
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+		},
 		"help": (
 			("overview", "info"),
 			("screens-and-pairing", "tv"),
@@ -369,11 +376,11 @@ MODULES = {
 		"names": ("one_ai", "oneai"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "ad9aac27388c", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "ad9aac27388c", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "ad9aac27388c", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "ad9aac27388c", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "ad9aac27388c", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "4f6c1b01ef60", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
