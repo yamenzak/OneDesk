@@ -115,7 +115,9 @@ from this slide or from the start, and can loop.
 this screen and opens the slides in a window of their own: drag that window
 to the projector and click **Fill the Screen**. The arrow keys, the space bar
 or **Next** and **Back** move both together, with no network needed between
-them; **End the Presentation** closes the slides' window.
+them; **End the Presentation** closes the slides' window. Hold the mouse
+down on the slide under **Now** and a red dot points at the same place on
+the slides' window.
 
 ## Your Phone as the Remote
 

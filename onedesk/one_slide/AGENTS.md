@@ -184,7 +184,9 @@ instead. Closing the presenter view `unpair`s, and only the person who
 paired may.
 
 The presenter view also offers Present Live (`shim/live.js`), told every
-change of slide however it was made.
+change of slide however it was made. The mouse held on its **Now** slide
+points too: it sends the same `point` over the BroadcastChannel, at most
+thirty times a second, and lifting it hides the dot.
 
 A page showing the presentation through a link pairs a phone too
 (`pair_link`, **Phone Remote** in `viewer.js`), so a meeting room's

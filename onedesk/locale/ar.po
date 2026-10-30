@@ -19454,6 +19454,10 @@ msgstr "تعليق الطلب"
 msgid "Hold Retention"
 msgstr "احتجاز نسبة من الفواتير"
 
+#: frontend/src/slide/shim/PresenterView.vue:27
+msgid "Hold the mouse on the slide to point at it"
+msgstr "اضغط بالفأرة مطوّلاً على الشريحة للإشارة إليها"
+
 #: onedesk/www/slide-remote.html:21
 msgid "Hold to Point"
 msgstr "اضغط مطوّلاً للإشارة"

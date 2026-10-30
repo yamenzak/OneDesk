@@ -19454,6 +19454,10 @@ msgstr "Anfrage zurückstellen"
 msgid "Hold Retention"
 msgstr "Einbehalt nutzen"
 
+#: frontend/src/slide/shim/PresenterView.vue:27
+msgid "Hold the mouse on the slide to point at it"
+msgstr "Maustaste auf der Folie gedrückt halten, um darauf zu zeigen"
+
 #: onedesk/www/slide-remote.html:21
 msgid "Hold to Point"
 msgstr "Gedrückt halten zum Zeigen"

@@ -22,8 +22,19 @@
 		</div>
 		<div v-else class="flex min-h-0 flex-1 gap-4 p-4">
 			<div class="flex min-w-0 flex-[3] flex-col gap-2">
-				<div class="text-sm text-ink-gray-5">{{ __("Now") }}</div>
-				<div ref="nowBox" class="overflow-hidden rounded-6 border border-outline-gray-1">
+				<div class="flex items-center text-sm text-ink-gray-5">
+					{{ __("Now") }}
+					<span class="ms-auto">{{ __("Hold the mouse on the slide to point at it") }}</span>
+				</div>
+				<div
+					ref="nowBox"
+					class="relative cursor-crosshair select-none overflow-hidden rounded-6 border border-outline-gray-1"
+					@pointerdown="pointFrom"
+					@pointermove="pointFrom"
+					@pointerup="pointOff"
+					@pointerleave="pointOff"
+				>
+					<span v-if="pointed" class="pointer-events-none absolute z-10 size-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-surface-red-7" :style="{ left: `${pointed.x * 100}%`, top: `${pointed.y * 100}%` }" />
 					<SlidePreview v-if="now" :slide="now" :scale="nowScale" />
 					<div v-else class="flex aspect-video items-center justify-center bg-surface-gray-2 text-base text-ink-gray-6">
 						{{ __("End of the presentation") }}
@@ -105,6 +116,26 @@ function go(index) {
 	if (index < 0 || index > slides.value.length) return;
 	at.value = index;
 	say({ go: index });
+}
+
+// the mouse held on the slide points at it in the audience's window, as the phone does
+const pointed = ref(null);
+let pointedAt = 0;
+function pointFrom(event) {
+	if (!(event.buttons & 1) || !now.value) return;
+	event.preventDefault();
+	const box = event.currentTarget.getBoundingClientRect();
+	const x = Math.max(0, Math.min(1, (event.clientX - box.left) / box.width));
+	const y = Math.max(0, Math.min(1, (event.clientY - box.top) / box.height));
+	pointed.value = { x, y };
+	if (Date.now() - pointedAt < 33) return;
+	pointedAt = Date.now();
+	say({ point: { x, y, on: true } });
+}
+function pointOff() {
+	if (!pointed.value) return;
+	pointed.value = null;
+	say({ point: { x: 0, y: 0, on: false } });
 }
 
 // the phone: where it says to go, where it points, and what it is told back
