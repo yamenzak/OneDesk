@@ -6,7 +6,7 @@
  "field_order": [
   "screen_name",
   "channel",
-  "mode",
+  "rotate",
   "column_break_state",
   "status",
   "last_seen",
@@ -38,13 +38,12 @@
    "in_list_view": 1
   },
   {
-   "fieldname": "mode",
+   "fieldname": "rotate",
    "fieldtype": "Select",
-   "label": "Shows",
-   "options": "Board\nKiosk",
-   "default": "Board",
-   "in_list_view": 1,
-   "description": "Board shows the queue and calls tickets. Kiosk lets people take a ticket."
+   "label": "Turn",
+   "options": "0\n90\n180\n270",
+   "default": "0",
+   "description": "Degrees to turn the picture, for a screen mounted on its side."
   },
   {
    "fieldname": "column_break_state",
@@ -135,7 +134,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-30 01:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Screen",

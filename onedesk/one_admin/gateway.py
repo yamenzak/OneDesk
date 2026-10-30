@@ -206,6 +206,61 @@ def embed(texts: list[str], tenant: str, reference: str | None = None, action: s
 	return {"vectors": vectors, "model": asked[0], "credits": settled["credits"], "metered": settled["metered"]}
 
 
+# What a model that makes something answers in (docs/AICENTER.md, Models).
+MADE = {"speak": "AUDIO", "picture": "IMAGE"}
+
+
+def make(
+	kind: str,
+	tier: str | None,
+	prompt: str,
+	tenant: str,
+	voice: str | None = None,
+	reference: str | None = None,
+	action: str | None = None,
+) -> dict:
+	"""A voice or a picture from Gemini, billed like `call`: the bytes,
+	base64'd, and what they are. A voice is Gemini's raw sound, which the
+	workspace wraps (one_display/voice.py)."""
+	site.require_admin()
+	if kind not in MADE:
+		raise Refused(f"nothing is made of kind {kind}")
+	asked = [one for one in models.pick(kind, tier) if one.startswith("google/")]
+	if not asked:
+		raise Refused(f"no Gemini model does {kind}")
+	money = _money()
+	caps = {"output_tokens": 4096}
+	most = _ceiling(asked, caps, money)
+	holding = ledger.reserve(tenant, max(most, _LEAST), why=asked[0], reference=reference, action=action)
+	tags = {"job": action or kind, "tier": tier or models.USUAL}
+	try:
+		answered, (part, body) = _first_that_answers(asked, lambda model: _made(model, kind, prompt, voice, tenant, tags))
+	except Exception:
+		ledger.release(holding)
+		raise
+	return _settled(holding, answered, body, caps, money, most, {"data": part["data"], "mime": part["mime"], "model": answered})
+
+
+def _made(model: str, kind: str, prompt: str, voice: str | None, tenant: str, tags: dict) -> tuple[dict, dict]:
+	settings = _settings()
+	name = model.removeprefix("google/")
+	where = f"{settings['url'].rstrip('/')}/{settings['account']}/{settings['gateway']}/google-ai-studio/v1beta/models/{name}:generateContent"
+	config = {"responseModalities": [MADE[kind]]}
+	if kind == "speak" and voice:
+		config["speechConfig"] = {"voiceConfig": {"prebuiltVoiceConfig": {"voiceName": voice}}}
+	body = {"contents": [{"role": "user", "parts": [{"text": prompt}]}], "generationConfig": config}
+	answer = _post(model, where, _headers(settings, True, tenant, tags), body)
+	if answer.status_code != 200:
+		raise faults.raised(model, answer.status_code, _detail(answer))
+	said = answer.json()
+	for candidate in said.get("candidates") or []:
+		for one in (candidate.get("content") or {}).get("parts") or []:
+			inline = one.get("inlineData") or one.get("inline_data")
+			if inline and inline.get("data"):
+				return {"data": inline["data"], "mime": inline.get("mimeType") or inline.get("mime_type") or ""}, said
+	raise faults.Blank(f"{model} made nothing", 200, json.dumps(said)[: faults.KEPT])
+
+
 def _first_that_answers(asked: list[str], ask):
 	"""The first model's answer, or its fallback's when the first cannot
 	answer now or no longer exists. A refusal of what was asked is not tried

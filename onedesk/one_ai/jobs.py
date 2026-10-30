@@ -67,6 +67,10 @@ JOBS = {
 	"intake_fill": Job(_lt("Fill What a Record Still Needs"), "OneAI", "talk", most=800),
 	"intake_act": Job(_lt("Act on What Arrived"), "OneAI", "talk", tools=True, most=1500),
 	"guard": Job(_lt("Check What Arrived Before Acting"), "OneAI", "guard", most=10, takes=4000),
+	"display_voice": Job(_lt("Speak Calls and Ads"), "OneDisplay", "speak"),
+	"display_picture": Job(_lt("Make a Picture for a Slide"), "OneDisplay", "picture"),
+	"display_design": Job(_lt("Design a Slide"), "OneDisplay", "build", speaks=False, most=6000),
+	"display_widget": Job(_lt("Write a Widget"), "OneDisplay", "build", speaks=False, most=6000),
 }
 
 

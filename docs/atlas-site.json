@@ -805,6 +805,16 @@
 "System Manager",
 "Workspace Administrator"
 ],
+"Display Source": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"Display Voice": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "DocShare": [
 "System Manager"
 ],
@@ -1669,6 +1679,11 @@
 "Monthly Distribution": [
 "Accounts Manager"
 ],
+"Music Playlist": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Navbar Settings": [
 "System Manager"
 ],
@@ -2523,6 +2538,11 @@
 "Slack Webhook URL": [
 "System Manager"
 ],
+"Slide Playlist": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Social Login Key": [
 "System Manager"
 ],
@@ -2924,6 +2944,11 @@
 "View Log": [
 "System Manager"
 ],
+"Voice Ad": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Voice Call Settings": [
 "All",
 "System Manager"
@@ -2993,6 +3018,11 @@
 "Website Theme": [
 "Administrator",
 "Website Manager"
+],
+"Widget Collection": [
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
 ],
 "Work Order": [
 "Manufacturing User",
@@ -3157,6 +3187,8 @@
 "Designation",
 "Device",
 "Display Channel",
+"Display Screen",
+"Display Source",
 "DocShare",
 "DocType",
 "DocType Settings Map",
@@ -3278,6 +3310,7 @@
 "Mode of Payment",
 "Module Def",
 "Module Onboarding",
+"Music Playlist",
 "Non Conformance",
 "Note",
 "Notification",
@@ -3391,6 +3424,7 @@
 "Shipment Parcel Template",
 "Sidebar",
 "Skill",
+"Slide Playlist",
 "Staffing Plan",
 "Stock Entry",
 "Stock Entry Type",
@@ -3438,6 +3472,7 @@
 "Vehicle Service Item",
 "Version",
 "View Log",
+"Voice Ad",
 "Voice Call Settings",
 "Warehouse",
 "Warehouse Type",
@@ -3445,6 +3480,7 @@
 "Web Form",
 "Web Template",
 "Website Theme",
+"Widget Collection",
 "Work Order",
 "Workbook",
 "Workbook Change",
@@ -3481,6 +3517,10 @@
 "dashboard-view": [],
 "desktop": [
 "All"
+],
+"display-layout": [
+"OneDisplay Manager",
+"Workspace Administrator"
 ],
 "document": [
 "Desk User"

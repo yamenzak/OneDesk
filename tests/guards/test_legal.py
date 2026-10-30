@@ -20,11 +20,11 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.4511ee03",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.520f1a34",
+	"privacy": "27.5e4adf59",
 	"cookies": "2.946a434c",
 	"dpa": "7.619281d4",
-	"subprocessors": "5.06653ee9",
-	"ai": "25.f37be86c",
+	"subprocessors": "5.6397a7d0",
+	"ai": "25.3f9b6997",
 	"licences": "1.c71daf62",
 }
 
@@ -38,6 +38,7 @@ HOSTS = {
 	"www.gravatar.com": "Automattic Inc.",
 	"t1.gstatic.com": "Google LLC",
 	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
+	"api.open-meteo.com": "Open-Meteo",
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

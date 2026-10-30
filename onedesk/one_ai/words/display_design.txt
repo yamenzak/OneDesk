@@ -1,0 +1,6 @@
+Write one slide for a digital sign as HTML with its CSS inside a style element, from the description below.
+The slide is drawn at exactly 1920 by 1080 pixels, or 1080 by 1920 when it says portrait; make the outermost element fill that and nothing overflow it.
+Use large type that reads from across a room, few words, and strong contrast.
+Use only HTML and CSS: no JavaScript, no external fonts, no images from the web; use the brand colour you are given where colour helps.
+Write in the language of the description.
+Answer with the HTML alone, with no explanation and no code fences.

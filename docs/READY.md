@@ -1323,6 +1323,22 @@ to watch for:
   frappe's sidebar, bugs included, such as "Repeats Weekly" without its
   words. Fix them for the form too, and record the override.
 
+## Learned registering OneDisplay
+
+OneDisplay was the first module whose main screen is not the desk but a TV,
+a guest page any browser opens. It added these to watch for:
+
+- **A guest page is still a screen.** The player's colours and dates fell
+  under the same guards as the desk's. A TV's browser is too old to format a
+  date, so the server sends it in words, and the page's colours live in its
+  own stylesheet as variables.
+- **An address the workspace types is not a subprocessor.** A news feed is
+  read from whatever address a manager gives, so it is no optional service
+  and names no company; what it may reach is the public internet only, which
+  the code checks rather than the agreements.
+- **Notifications are written in the background.** A check reads what
+  `tell.py` hands `notify`, not the bell, or it races the worker.
+
 ## After ready
 
 A ready module stays ready. Any change to it:

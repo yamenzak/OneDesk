@@ -212,13 +212,24 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Display Channel | 7 | document |
+| Channel Ad | 4 | child |
+| Channel Programme | 7 | child |
+| Display Channel | 18 | document |
 | Display Screen | 17 | document |
 | Display Settings | 2 | single |
+| Display Slide | 9 | child |
+| Display Source | 28 | document |
+| Display Track | 3 | child |
+| Display Voice | 5 | document |
+| Display Widget | 13 | child |
+| Music Playlist | 3 | document |
 | Queue | 3 | document |
 | Queue Counter | 2 | child |
 | Queue Service | 2 | child |
 | Queue Ticket | 11 | document |
+| Slide Playlist | 3 | document |
+| Voice Ad | 8 | document |
+| Widget Collection | 4 | document |
 
 ## Desk records shipped as fixtures
 
@@ -374,6 +385,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_embed`
+* `onedesk.one_admin.proxy.ai_make`
 * `onedesk.one_admin.proxy.ai_read`
 * `onedesk.one_admin.proxy.ai_run`
 * `onedesk.one_admin.proxy.ai_search`
@@ -512,6 +524,12 @@ No doctypes yet.
 * `onedesk.one_crm.story.read`
 * `onedesk.one_demo.start.progress`
 * `onedesk.one_demo.start.start`
+* `onedesk.one_display.layout.fields`
+* `onedesk.one_display.layout.get`
+* `onedesk.one_display.layout.save`
+* `onedesk.one_display.make.design`
+* `onedesk.one_display.make.picture`
+* `onedesk.one_display.make.widget`
 * `onedesk.one_display.queue.call_next`
 * `onedesk.one_display.queue.counter_state`
 * `onedesk.one_display.queue.desks`
@@ -520,10 +538,15 @@ No doctypes yet.
 * `onedesk.one_display.screens.alert`
 * `onedesk.one_display.screens.control`
 * `onedesk.one_display.screens.pair`
+* `onedesk.one_display.screens.preview`
 * `onedesk.one_display.screens.start`
 * `onedesk.one_display.screens.state`
 * `onedesk.one_display.screens.status`
 * `onedesk.one_display.screens.take`
+* `onedesk.one_display.sources.fields_of`
+* `onedesk.one_display.sources.peek`
+* `onedesk.one_display.sources.report_fields`
+* `onedesk.one_display.voices.record`
 * `onedesk.one_doc.api.add_picture`
 * `onedesk.one_doc.api.download`
 * `onedesk.one_doc.api.drop_pictures`

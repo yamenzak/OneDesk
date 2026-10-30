@@ -4512,7 +4512,7 @@ def setup_steps_are_slides_then_to_dos():
 	with patch("frappe.is_setup_complete", return_value=False):
 		slides = setup_steps.for_wizard()
 	names = [field["fieldname"] for slide in slides for field in slide["fields"]]
-	assert names == ["one_mail_domains_domain", "one_mail_private_allowed", "one_service_web_search", "one_service_gravatar", "one_service_logos"], names
+	assert names == ["one_mail_domains_domain", "one_mail_private_allowed", "one_service_web_search", "one_service_gravatar", "one_service_logos", "one_service_display_weather"], names
 	assert slides[-1]["name"] == "one_services" and not any(field["default"] for field in slides[-1]["fields"]), "the optional services start off"
 	was = frappe.db.get_default(addresses.EXTERNAL)
 	flags = {key: frappe.db.get_default(setup_steps.FLAG.format("one_mail", key)) for key in ("private", "templates")}
@@ -4651,8 +4651,6 @@ def _modules() -> None:
 
 	for spec in ready.MODULES.values():
 		importlib.import_module(f"onedesk.{spec['folder']}.checks")
-	# not registered yet, and checked all the same (one_display/AGENTS.md)
-	importlib.import_module("onedesk.one_display.checks")
 
 
 _modules()

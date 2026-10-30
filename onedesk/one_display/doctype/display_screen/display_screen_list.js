@@ -10,11 +10,23 @@ onedesk.display.pair = (listview) => {
 				fieldtype: "Data",
 				label: __("Code"),
 				reqd: 1,
-				description: __("Open {0} on the screen. It shows this code.", [`${location.origin}/tv`]),
+				description: __("The code the screen shows once {0} is open on it.", [`${location.origin}/tv`]),
 			},
 			{ fieldname: "screen_name", fieldtype: "Data", label: __("Screen Name"), reqd: 1 },
 			{ fieldname: "channel", fieldtype: "Link", options: "Display Channel", label: __("Channel"), reqd: 1 },
-			{ fieldname: "mode", fieldtype: "Select", options: "Board\nKiosk", default: "Board", label: __("Mode") },
+			{
+				fieldname: "rotate",
+				fieldtype: "Select",
+				options: [
+					{ value: "0", label: __("Upright") },
+					{ value: "90", label: __("Turned Right") },
+					{ value: "180", label: __("Upside Down") },
+					{ value: "270", label: __("Turned Left") },
+				],
+				default: "0",
+				label: __("Turn"),
+				description: __("How the screen is hung, so its picture stands upright."),
+			},
 		],
 		primary_action_label: __("Pair"),
 		primary_action: (values) =>
@@ -63,6 +75,9 @@ frappe.listview_settings["Display Screen"] = {
 		onedesk.display.pair(cur_list);
 	},
 	onload(listview) {
+		// The tour's marks (tour.py): the list, and how a screen is added.
+		listview.$result.attr("data-tour", "onedisplay-screens");
+		listview.page.btn_primary.attr("data-tour", "onedisplay-pair");
 		listview.page.add_menu_item(__("Send an Emergency Alert"), () => onedesk.display.alert());
 		listview.page.add_menu_item(__("End the Alert"), () =>
 			frappe.xcall("onedesk.one_display.screens.alert", { message: "" }).then((said) =>

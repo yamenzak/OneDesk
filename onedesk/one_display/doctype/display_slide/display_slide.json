@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "kind",
+  "file",
+  "url",
+  "html",
+  "duration",
+  "fit",
+  "title",
+  "from_date",
+  "to_date"
+ ],
+ "fields": [
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Image\nVideo\nWeb Page\nDesign",
+   "reqd": 1,
+   "default": "Image",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File",
+   "in_list_view": 1,
+   "depends_on": "eval:['Image','Video'].includes(doc.kind)"
+  },
+  {
+   "fieldname": "url",
+   "fieldtype": "Data",
+   "label": "Address",
+   "options": "URL",
+   "depends_on": "eval:doc.kind=='Web Page'"
+  },
+  {
+   "fieldname": "html",
+   "fieldtype": "Code",
+   "label": "Design",
+   "options": "HTML",
+   "depends_on": "eval:doc.kind=='Design'",
+   "description": "HTML and CSS drawn at 1920 by 1080, in a sandbox."
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Int",
+   "label": "Seconds",
+   "default": "10",
+   "in_list_view": 1,
+   "description": "How long it shows. A video plays for its own length when this is empty."
+  },
+  {
+   "fieldname": "fit",
+   "fieldtype": "Select",
+   "label": "Fit",
+   "options": "Cover\nContain",
+   "default": "Cover"
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "from_date",
+   "fieldtype": "Date",
+   "label": "Shown From"
+  },
+  {
+   "fieldname": "to_date",
+   "fieldtype": "Date",
+   "label": "Shown Until"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Slide",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

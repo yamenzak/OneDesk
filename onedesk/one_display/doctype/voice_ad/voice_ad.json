@@ -1,0 +1,115 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "ad_name",
+  "script",
+  "tone",
+  "language",
+  "column_break_voice",
+  "voice",
+  "chime",
+  "audio"
+ ],
+ "fields": [
+  {
+   "fieldname": "ad_name",
+   "fieldtype": "Data",
+   "label": "Ad Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "script",
+   "fieldtype": "Small Text",
+   "label": "Script",
+   "reqd": 1,
+   "description": "What the voice says."
+  },
+  {
+   "fieldname": "tone",
+   "fieldtype": "Select",
+   "label": "Tone",
+   "options": "Announcement\nRadio Ad\nExcited\nCalm\nFriendly",
+   "default": "Announcement"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "Language"
+  },
+  {
+   "fieldname": "column_break_voice",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "voice",
+   "fieldtype": "Select",
+   "label": "Voice",
+   "options": "\nKore\nPuck\nCharon\nAoede\nFenrir\nLeda\nOrus\nZephyr",
+   "default": "Kore"
+  },
+  {
+   "fieldname": "chime",
+   "fieldtype": "Check",
+   "label": "Chime First",
+   "default": "1"
+  },
+  {
+   "fieldname": "audio",
+   "fieldtype": "Attach",
+   "label": "Recording",
+   "description": "Made by OneAI from the script, or a recording of your own. Without one the screen's own voice reads it."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Voice Ad",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:ad_name",
+ "naming_rule": "By fieldname",
+ "title_field": "ad_name",
+ "description": "A short spoken message screens play at times or now and then.",
+ "make_attachments_public": 1
+}

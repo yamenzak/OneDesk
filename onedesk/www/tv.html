@@ -7,97 +7,91 @@
 	<title>OneDisplay</title>
 	<link rel="icon" href="/assets/onedesk/images/one.svg">
 	<style>
-		html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #0b0d10; color: #fff; }
-		body { font-family: "Inter", "Noto Sans", "Noto Sans Arabic", Tahoma, Arial, sans-serif; font-size: 1.6vw; cursor: none; }
-		.tv { position: absolute; top: 0; left: 0; right: 0; bottom: 0; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; }
+		html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; color: #fff; }
+		:root { --accent: #2563eb; }
+		body { font-family: "Inter", "Noto Sans", "Noto Sans Arabic", Tahoma, Arial, sans-serif; cursor: none; -webkit-font-smoothing: antialiased; }
 		.hidden { display: none !important; }
-		.head { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; height: 9vh; padding: 0 2.5vw; background: #1f2937; }
-		.head img { height: 5.5vh; -webkit-margin-end: 1.2vw; margin-inline-end: 1.2vw; background: #fff; border-radius: 0.6vh; padding: 0.5vh; }
-		.head .name { font-size: 1.9vw; font-weight: 600; -webkit-flex: 1; flex: 1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-		.head .clock { font-size: 2.2vw; font-variant-numeric: tabular-nums; }
-		.head .dot { width: 1vw; height: 1vw; border-radius: 50%; background: #f59e0b; -webkit-margin-start: 1vw; margin-inline-start: 1vw; }
-		.body { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; min-height: 0; }
-		.foot { height: 7vh; background: #111827; overflow: hidden; white-space: nowrap; position: relative; }
-		.foot span { position: absolute; top: 0; line-height: 7vh; font-size: 1.8vw; padding-left: 100%; -webkit-animation: tick 30s linear infinite; animation: tick 30s linear infinite; }
-		@-webkit-keyframes tick { from { -webkit-transform: translateX(0); } to { -webkit-transform: translateX(-100%); } }
-		@keyframes tick { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+		.fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
 
-		.serving { -webkit-flex: 62; flex: 62; padding: 3vh 2.5vw; }
-		.waiting { -webkit-flex: 38; flex: 38; padding: 3vh 2.5vw; background: #111827; }
-		.label { font-size: 1.4vw; text-transform: uppercase; letter-spacing: 0.15vw; color: #9ca3af; margin-bottom: 2vh; }
-		.now { display: -webkit-flex; display: flex; -webkit-align-items: baseline; align-items: baseline; padding: 3vh 2vw; border-radius: 1.2vh; background: #2563eb; margin-bottom: 3vh; }
-		.now .t { font-size: 9vw; font-weight: 700; line-height: 1; -webkit-flex: 1; flex: 1; }
-		.now .c { font-size: 3vw; }
-		.now.fresh { -webkit-animation: flash 1s ease-in-out 3; animation: flash 1s ease-in-out 3; }
+		/* The frame is drawn at 1920 by 1080 (or 1080 by 1920) and scaled to the screen whole. */
+		#frame { position: absolute; top: 0; left: 0; overflow: hidden; background: #0b0d10; -webkit-transform-origin: 0 0; transform-origin: 0 0; }
+		#slides > div { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 1; -webkit-transition: opacity 0.8s ease; transition: opacity 0.8s ease; }
+		#slides > div.out { opacity: 0; }
+		#slides img, #slides video { width: 100%; height: 100%; display: block; }
+		#slides iframe { width: 100%; height: 100%; border: 0; display: block; background: transparent; }
+		.cover { object-fit: cover; }
+		.contain { object-fit: contain; }
+		#widgets > .w { position: absolute; overflow: hidden; box-sizing: border-box; }
+
+		/* Widgets size their words in em from their own height (tv.js). */
+		.panel { background: rgba(11, 13, 16, 0.86); border-radius: 0.5em; height: 100%; box-sizing: border-box; padding: 0.8em 1em; }
+		.eyebrow { font-size: 0.7em; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.6em; }
+		.now { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-items: baseline; align-items: baseline; padding: 0.5em 0.7em; border-radius: 0.3em; margin-bottom: 0.5em; }
+		.now .t { font-size: 3em; font-weight: 700; line-height: 1.05; -webkit-flex: 1 0 auto; flex: 1 0 auto; }
+		.now .c { font-size: 1.3em; white-space: nowrap; }
+		.fresh { -webkit-animation: flash 1s ease-in-out 3; animation: flash 1s ease-in-out 3; }
 		@-webkit-keyframes flash { 50% { opacity: 0.35; } }
 		@keyframes flash { 50% { opacity: 0.35; } }
-		.row { display: -webkit-flex; display: flex; padding: 1.6vh 2vw; border-bottom: 1px solid #1f2937; font-size: 3vw; }
-		.row .t { -webkit-flex: 1; flex: 1; font-weight: 600; }
-		.row .c { color: #d1d5db; }
-		.svc { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 2vh 0; border-bottom: 1px solid #1f2937; }
-		.svc .p { width: 4.5vw; height: 4.5vw; line-height: 4.5vw; text-align: center; border-radius: 0.8vh; background: #374151; font-weight: 700; font-size: 2.2vw; -webkit-margin-end: 1.5vw; margin-inline-end: 1.5vw; }
-		.svc .n { -webkit-flex: 1; flex: 1; font-size: 2.2vw; }
-		.svc .w { font-size: 3vw; font-weight: 700; }
-		.empty { color: #9ca3af; font-size: 2vw; padding: 2vh 0; }
+		.row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 0.35em 0.2em; border-bottom: 0.04em solid rgba(255, 255, 255, 0.12); }
+		.row .t { -webkit-flex: 1; flex: 1; font-weight: 600; min-width: 0; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+		.row .c { opacity: 0.8; -webkit-margin-start: 0.6em; margin-inline-start: 0.6em; white-space: nowrap; }
+		.row img { width: 2em; height: 2em; object-fit: cover; border-radius: 0.2em; -webkit-margin-end: 0.6em; margin-inline-end: 0.6em; }
+		.row .sub { display: block; font-size: 0.7em; font-weight: 400; opacity: 0.75; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+		.pill { display: inline-block; min-width: 1.6em; text-align: center; padding: 0.15em 0.3em; border-radius: 0.25em; background: rgba(255, 255, 255, 0.14); font-weight: 700; -webkit-margin-end: 0.6em; margin-inline-end: 0.6em; }
+		.big { font-weight: 700; line-height: 1; }
+		.ticker { height: 100%; white-space: nowrap; overflow: hidden; position: relative; background: rgba(17, 24, 39, 0.92); }
+		.ticker span { position: absolute; top: 0; height: 100%; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; font-size: 0.55em; }
+		.kiosk { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; background: #0b0d10; }
+		.kiosk h1 { font-size: 0.9em; font-weight: 600; margin: 0 0 0.8em; }
+		.kiosk button { display: inline-block; width: 40%; margin: 0.25em 2%; padding: 0.7em 0.5em; font: inherit; font-size: 0.55em; font-weight: 600; color: #fff; border: 0; border-radius: 0.3em; cursor: pointer; }
+		.weather .temp { font-size: 2.4em; font-weight: 700; line-height: 1; }
+		.weather svg, .icon svg { width: 2.2em; height: 2.2em; vertical-align: middle; }
+		.days { display: -webkit-flex; display: flex; margin-top: 0.6em; }
+		.days > div { -webkit-flex: 1; flex: 1; text-align: center; font-size: 0.7em; }
+		.days svg { width: 1.6em; height: 1.6em; }
+		.qr { height: 100%; text-align: center; }
+		.qr svg { height: 80%; width: auto; background: #fff; border-radius: 0.2em; }
+		.custom iframe { width: 100%; height: 100%; border: 0; background: transparent; }
 
-		.kiosk { -webkit-flex: 1; flex: 1; padding: 5vh 5vw; text-align: center; }
-		.kiosk h1 { font-size: 3.5vw; font-weight: 600; margin: 2vh 0 5vh; }
-		.kiosk button { display: inline-block; width: 40%; margin: 1.5vh 2%; padding: 5vh 2vw; font: inherit; font-size: 3vw; font-weight: 600; color: #fff; background: #2563eb; border: 0; border-radius: 1.5vh; cursor: pointer; }
-		.kiosk button span { display: block; font-size: 1.6vw; font-weight: 400; opacity: 0.8; margin-top: 1vh; }
-		.ticket { position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: #0b0d10; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
-		.ticket .t { font-size: 16vw; font-weight: 700; line-height: 1.1; }
-		.ticket .a { font-size: 2.6vw; color: #d1d5db; }
-
-		.pair { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
-		.pair .code { font-size: 12vw; font-weight: 700; letter-spacing: 2vw; margin: 4vh 0; font-variant-numeric: tabular-nums; }
-		.pair p { font-size: 2vw; color: #d1d5db; margin: 0 10vw; }
-
-		.over { position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
-		.dark { background: #000; cursor: none; }
-		.alert { background: #b91c1c; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; text-align: center; padding: 0 6vw; font-size: 5vw; font-weight: 700; line-height: 1.25; -webkit-animation: flash 1.6s ease-in-out infinite; animation: flash 1.6s ease-in-out infinite; }
-		.hint { font-size: 1.2vw; opacity: 0.75; -webkit-margin-end: 2vw; margin-inline-end: 2vw; }
+		/* Over the frame: pairing, sleep, dark, the alert, a kiosk's ticket. */
+		.over { position: fixed; top: 0; left: 0; right: 0; bottom: 0; z-index: 10; }
+		#pair, #ticket { background: #0b0d10; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
+		#pair .label { font-size: 2.4vmin; letter-spacing: 0.3vmin; text-transform: uppercase; color: #9ca3af; }
+		#pair .code { font-size: 18vmin; font-weight: 700; letter-spacing: 3vmin; margin: 4vmin 0; }
+		#pair p, #ticket .a { font-size: 3vmin; color: #d1d5db; margin: 0 8vmin; }
+		#ticket .t { font-size: 26vmin; font-weight: 700; line-height: 1.1; }
+		#saver { background: #000; }
+		#saver .drift { position: absolute; text-align: center; -webkit-transition: top 3s ease, left 3s ease; transition: top 3s ease, left 3s ease; }
+		#saver .drift div { font-size: 10vmin; font-weight: 200; color: #6b7280; }
+		#saver img { max-height: 8vmin; max-width: 30vmin; opacity: 0.5; }
+		#dark { background: #000; z-index: 20; }
+		#alert { background: #b91c1c; z-index: 30; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; text-align: center; padding: 0 8vmin; font-size: 7vmin; font-weight: 700; line-height: 1.25; -webkit-animation: flash 1.6s ease-in-out infinite; animation: flash 1.6s ease-in-out infinite; }
+		#status { position: fixed; z-index: 40; bottom: 1.5vmin; right: 1.5vmin; font-size: 1.6vmin; color: #9ca3af; }
+		#status .dot { display: inline-block; width: 1.4vmin; height: 1.4vmin; border-radius: 50%; background: #f59e0b; vertical-align: middle; }
 	</style>
 </head>
 <body>
-	<div class="tv">
-		<div class="head" id="head">
-			<img id="logo" class="hidden" alt="">
-			<div class="name" id="name">OneDisplay</div>
-			<div class="hint hidden" id="hint"></div>
-			<div class="clock" id="clock"></div>
-			<div class="dot hidden" id="offline"></div>
-		</div>
-		<div class="pair hidden" id="pair">
-			<div class="label" id="pair-title"></div>
-			<div class="code" id="code">······</div>
-			<p id="pair-how"></p>
-		</div>
-		<div class="body hidden" id="board">
-			<div class="serving">
-				<div class="label" id="serving-label"></div>
-				<div id="now"></div>
-				<div id="called"></div>
-			</div>
-			<div class="waiting">
-				<div class="label" id="waiting-label"></div>
-				<div id="services"></div>
-			</div>
-		</div>
-		<div class="kiosk hidden" id="kiosk">
-			<h1 id="kiosk-title"></h1>
-			<div id="buttons"></div>
-		</div>
-		<div class="foot hidden" id="foot"><span id="ticker"></span></div>
+	<div id="frame">
+		<div id="slides" class="fill"></div>
+		<div id="widgets" class="fill"></div>
 	</div>
-	<div class="ticket over hidden" id="ticket">
+	<div id="pair" class="over hidden">
+		<div class="label" id="pair-title"></div>
+		<div class="code" id="code">······</div>
+		<p id="pair-how"></p>
+	</div>
+	<div id="saver" class="over hidden"><div class="drift" id="drift"><div id="saver-clock"></div><img id="saver-logo" class="hidden" alt=""></div></div>
+	<div id="ticket" class="over hidden">
 		<div class="a" id="ticket-label"></div>
 		<div class="t" id="ticket-number"></div>
 		<div class="a" id="ticket-ahead"></div>
 	</div>
-	<div class="over alert hidden" id="alert"></div>
-	<div class="over dark hidden" id="dark"></div>
+	<div id="alert" class="over hidden"></div>
+	<div id="dark" class="over hidden"></div>
+	<div id="status"><span id="hint" class="hidden"></span> <span id="offline" class="dot hidden"></span></div>
+	<audio id="music" preload="auto"></audio>
 	<script>
-		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }} };
+		window.ONE_TV = { csrf: "{{ csrf_token or '' }}", words: {{ words_json }}, preview: {{ preview_json }} };
 	</script>
 	<script src="/assets/onedesk/js/one_display/tv.js"></script>
 </body>

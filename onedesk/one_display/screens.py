@@ -7,15 +7,15 @@ changes (its token taken, when it was last seen) is written when it ends."""
 
 import hashlib
 import hmac
-import re
 import secrets
 from typing import Annotated
 
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_to_date, get_datetime, now_datetime
+from frappe.utils import add_to_date, cint, get_datetime, now_datetime
 
+from onedesk.one_display import programme
 from onedesk.one_display import queue as queues
 
 DOCTYPE = "Display Screen"
@@ -79,7 +79,7 @@ def pair(
 	code: Annotated[str, "The code the screen shows."],
 	screen_name: Annotated[str, "What to call the screen."],
 	channel: Annotated[str, "The channel it shows."],
-	mode: Annotated[str, "Board or Kiosk."] = "Board",
+	rotate: Annotated[int, "Degrees to turn the picture: 0, 90, 180 or 270."] = 0,
 ) -> str:
 	"""Pair the screen showing this code."""
 	frappe.has_permission(DOCTYPE, "write", throw=True)
@@ -92,7 +92,7 @@ def pair(
 		{
 			"screen_name": screen_name,
 			"channel": channel,
-			"mode": mode if mode in ("Board", "Kiosk") else "Board",
+			"rotate": str(cint(rotate)) if cint(rotate) in (0, 90, 180, 270) else "0",
 			"status": "Paired",
 			"pair_code": None,
 			"token": token,
@@ -107,7 +107,7 @@ def _screen(screen: str, token: str):
 	row = frappe.db.get_value(
 		DOCTYPE,
 		screen,
-		["name", "screen_name", "channel", "mode", "muted", "dark", "command", "command_at", "token_hash", "last_seen"],
+		["name", "screen_name", "channel", "rotate", "muted", "dark", "command", "command_at", "token_hash", "last_seen"],
 		as_dict=True,
 	)
 	if not row or not row.token_hash or not hmac.compare_digest(row.token_hash, _hash(token)):
@@ -115,45 +115,86 @@ def _screen(screen: str, token: str):
 	return row
 
 
+def _alert() -> str | None:
+	settings = frappe.get_cached_doc("Display Settings")
+	return settings.alert_message if settings.alert_active else None
+
+
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def state(screen: str, token: str) -> dict:
-	"""Everything a paired screen shows now."""
+def state(screen: str, token: str, have: str | None = None) -> dict:
+	"""Everything a paired screen shows now, and the server's time, which the
+	screen keeps its clock to."""
 	row = _screen(screen, token)
 	if not row:
 		return {"gone": 1}
 	if not row.last_seen or get_datetime(row.last_seen) < add_to_date(now_datetime(), seconds=-30):
 		frappe.db.set_value(DOCTYPE, screen, "last_seen", now_datetime(), update_modified=False)
-	channel = frappe.get_cached_doc("Display Channel", row.channel) if row.channel else None
-	settings = frappe.get_cached_doc("Display Settings")
-	said = {
-		"screen": {"name": row.screen_name, "mode": row.mode, "muted": row.muted, "dark": row.dark},
+	return {
+		"now": programme.now_ms(),
+		"screen": {"name": row.screen_name, "rotate": cint(row.rotate), "muted": row.muted, "dark": row.dark},
 		"command": {"name": row.command, "at": str(row.command_at or "")},
-		"alert": settings.alert_message if settings.alert_active else None,
+		"alert": _alert(),
 		"brand": _brand(),
-		"channel": None,
-		"board": None,
+		"zone": programme.zone_minutes(),
+		"today": programme.today_line(_language(row.channel)),
+		"channel": _channel(row.channel, have),
 	}
+
+
+def _language(channel: str | None) -> str:
+	said = frappe.db.get_value("Display Channel", channel, "voice_language") if channel else None
+	return said or frappe.db.get_default("lang") or "en"
+
+
+def _channel(name: str | None, have: str | None):
+	if not name:
+		return None
+	said = programme.compose(name)
+	return programme.light(said) if have and have == said["revision"] else said
+
+
+@frappe.whitelist(methods=["POST"])
+def preview(
+	channel: Annotated[str | None, "The channel."] = None,
+	collection: Annotated[str | None, "A widget collection to show instead, or alone."] = None,
+) -> dict:
+	"""What a screen on this channel shows now, for somebody in the desk: the
+	channel's Preview, and the layout editor's, which may have a collection
+	and no channel."""
 	if channel:
-		said["channel"] = {
-			"name": channel.channel_name,
-			"headline": channel.headline,
-			"ticker": channel.ticker,
-			"announce": channel.announce,
-			"language": channel.voice_language or frappe.db.get_default("lang") or "en",
+		frappe.has_permission("Display Channel", "read", doc=channel, throw=True)
+		said = programme.compose(channel)
+	else:
+		said = {
+			"name": "",
+			"orientation": "landscape",
+			"mode": "show",
+			"muted": True,
+			"language": frappe.local.lang,
+			"announce": 0,
+			"slides": None,
+			"music": None,
+			"ads": [],
+			"layout": None,
+			"words": programme.words(),
 		}
-		if channel.queue:
-			said["board"] = queues.board(channel.queue)
-			for row in said["board"]["called"]:
-				row["say"] = _("Ticket {0}, counter {1}", lang=said["channel"]["language"]).format(
-					_spoken(row["ticket"]), row["counter"] or ""
-				)
-	return said
-
-
-def _spoken(ticket: str) -> str:
-	"""A001 as a voice says it: A 1."""
-	found = re.match(r"^(\D*)0*(\d+)$", ticket or "")
-	return f"{found.group(1)} {found.group(2)}".strip() if found else ticket
+	if collection:
+		frappe.has_permission("Widget Collection", "read", doc=collection, throw=True)
+		said["layout"] = programme.layout(collection, said["language"])
+		if not channel:
+			said["orientation"] = (frappe.db.get_value("Widget Collection", collection, "orientation") or "Landscape").lower()
+	said["mode"] = "show"
+	said["revision"] = programme._revision(said)
+	return {
+		"now": programme.now_ms(),
+		"screen": {"name": _("Preview"), "rotate": 0, "muted": 1, "dark": 0},
+		"command": {"name": None, "at": ""},
+		"alert": _alert(),
+		"brand": _brand(),
+		"zone": programme.zone_minutes(),
+		"today": programme.today_line(said["language"]),
+		"channel": said,
+	}
 
 
 def _brand() -> dict:
@@ -168,14 +209,20 @@ def _brand() -> dict:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=60, seconds=60)
-def take(screen: str, token: str, service: str) -> dict:
-	"""A kiosk screen hands out a ticket."""
+def take(screen: str, token: str, widget: str, service: str) -> dict:
+	"""A kiosk widget on this screen's channel hands out a ticket."""
 	row = _screen(screen, token)
-	if not row or row.mode != "Kiosk" or not row.channel:
+	if not row or not row.channel:
 		frappe.throw(_("This screen does not hand out tickets."), frappe.PermissionError)
-	queue = frappe.db.get_value("Display Channel", row.channel, "queue")
+	collection = programme.plays(frappe.get_cached_doc("Display Channel", row.channel))["widgets"]
+	kiosk = frappe.db.get_value(
+		"Display Widget",
+		{"name": widget, "parent": collection, "parenttype": "Widget Collection", "widget_type": "Kiosk"},
+		"source",
+	)
+	queue = frappe.db.get_value("Display Source", {"name": kiosk, "kind": "Queue"}, "queue") if kiosk else None
 	if not queue:
-		frappe.throw(_("This screen's channel has no queue."))
+		frappe.throw(_("This screen does not hand out tickets."), frappe.PermissionError)
 	return queues.take(queue, service)
 
 
@@ -193,10 +240,19 @@ def control(screen: Annotated[str, "The screen."], command: Annotated[str, "relo
 
 @frappe.whitelist(methods=["POST"])
 def alert(message: Annotated[str, "What every screen shows; empty ends the alert."] = "") -> str:
-	"""Show a message on every screen, over everything, or end it."""
-	frappe.has_permission("Display Settings", "write", throw=True)
+	"""Show a message on every screen, over everything, or end it: whoever
+	holds OneDisplay's Send an Emergency Alert (abilities.py)."""
+	from onedesk.one import rights
+
+	if not rights.held("Display Settings", "display_alert"):
+		frappe.throw(_("Sending an emergency alert is not yours to do."), frappe.PermissionError)
 	settings = frappe.get_doc("Display Settings")
 	settings.alert_active = 1 if (message or "").strip() else 0
 	settings.alert_message = (message or "").strip() or settings.alert_message
+	settings.flags.ignore_permissions = True
 	settings.save()
+	if settings.alert_active:
+		from onedesk.one_display import tell
+
+		tell.alert_sent(settings.alert_message)
 	return _("Every screen shows the alert.") if settings.alert_active else _("The alert has ended.")

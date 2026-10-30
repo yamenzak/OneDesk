@@ -153,6 +153,7 @@ scheduler_events = {
 			"onedesk.one_calendar.tell.soon",
 			"onedesk.one_crm.tell.due",
 			"onedesk.one_mail.tell.not_sent",
+			"onedesk.one_display.tell.offline",
 		],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
@@ -1025,6 +1026,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_inventory/inventory_control.js",
 	"/assets/onedesk/js/one_book/book_control.js",
 	"/assets/onedesk/js/one_crm/crm_control.js",
+	"/assets/onedesk/js/one_display/display_control.js",
 	"/assets/onedesk/js/window/print.js",
 	"/assets/onedesk/js/window/workspace.js",
 	"/assets/onedesk/js/passkey.js",
@@ -1240,6 +1242,8 @@ one_ai_reads = [
 	"onedesk.one_mail.ai.open_conversation",
 	"onedesk.one_mail.ai.waiting_for_answer",
 	"onedesk.one_calendar.ai.my_calendar",
+	"onedesk.one_display.ai.queue_now",
+	"onedesk.one_display.ai.screens_now",
 	"onedesk.one_task.ai.my_tasks",
 	"onedesk.one_task.ai.task_facts",
 	"onedesk.one_inventory.ai.item_facts",
@@ -1367,6 +1371,7 @@ one_ai_suggests = [
 	"onedesk.one_mail.ai.company_domain",
 	"onedesk.one_mail.ai.default_mail_template",
 	"onedesk.one_calendar.ai.plan_event",
+	"onedesk.one_display.ai.plan_voice_ad",
 	"onedesk.one_task.ai.plan_task",
 	"onedesk.one_task.ai.plan_steps",
 	"onedesk.one_task.ai.assign_task",
@@ -1390,6 +1395,7 @@ one_ai_suggestions = [
 	"onedesk.one_mail.ai.SUGGESTIONS",
 	"onedesk.one_storage.ai.SUGGESTIONS",
 	"onedesk.one_calendar.ai.SUGGESTIONS",
+	"onedesk.one_display.ai.SUGGESTIONS",
 	"onedesk.one_task.ai.SUGGESTIONS",
 	"onedesk.one_inventory.ai.SUGGESTIONS",
 	"onedesk.one_book.ai.SUGGESTIONS",
@@ -1403,6 +1409,7 @@ one_ai_page = [
 	"onedesk.one_mail.ai.page",
 	"onedesk.one_storage.ai.page",
 	"onedesk.one_calendar.ai.page",
+	"onedesk.one_display.ai.page",
 	"onedesk.one_task.ai.page",
 	"onedesk.one_inventory.ai.page",
 	"onedesk.one_admin.ai.page",
@@ -1420,7 +1427,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities"]
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).
@@ -1495,6 +1502,9 @@ additional_timeline_content = {
 	"Project": ["onedesk.one_project.updates.timeline"],
 	"Tenant": ["onedesk.one_admin.log.timeline"],
 }
+
+# /tv-worker.js, the TV's service worker (one_display/worker.py).
+page_renderer = ["onedesk.one_display.worker.Worker"]
 
 website_route_rules = [
 	{"from_route": "/portal/<path:app_path>", "to_route": "portal"},

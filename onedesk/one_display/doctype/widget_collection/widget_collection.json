@@ -1,0 +1,89 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "collection_name",
+  "orientation",
+  "background",
+  "widgets"
+ ],
+ "fields": [
+  {
+   "fieldname": "collection_name",
+   "fieldtype": "Data",
+   "label": "Collection Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "orientation",
+   "fieldtype": "Select",
+   "label": "Orientation",
+   "options": "Landscape\nPortrait",
+   "default": "Landscape",
+   "description": "Landscape is 1920 by 1080; portrait is 1080 by 1920."
+  },
+  {
+   "fieldname": "background",
+   "fieldtype": "Color",
+   "label": "Background",
+   "description": "Shown where no slide plays. Empty is the brand's."
+  },
+  {
+   "fieldname": "widgets",
+   "fieldtype": "Table",
+   "label": "Widgets",
+   "options": "Display Widget",
+   "description": "Where each widget sits, in percent of the screen."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Widget Collection",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:collection_name",
+ "naming_rule": "By fieldname",
+ "title_field": "collection_name",
+ "description": "Widgets laid out over the slides: a queue board, a ticker, a clock, the weather, a list of records.",
+ "make_attachments_public": 1
+}

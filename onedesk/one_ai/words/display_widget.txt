@@ -1,0 +1,6 @@
+Write one widget for a digital sign as HTML, CSS and JavaScript, from the description below.
+It runs in a sandboxed frame that fills its box on the screen; size everything to the frame with percentages or viewport units.
+Its data, when it has any, is in window.one_display_rows, a list of rows of text, and window.one_display_whole, one object; when they change, window.one_display_changed() is called if you define it.
+Use no network requests, no external scripts or fonts, and no storage; draw with the DOM and CSS only.
+Write the visible words in the language of the description, large enough to read from across a room.
+Answer with the code alone, with no explanation and no code fences.

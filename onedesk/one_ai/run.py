@@ -409,6 +409,24 @@ def once(action: str, text: str, files: list[dict] | None = None, reference: str
 	return (out or {}).get("said") or ""
 
 
+def make(action: str, text: str, reference: str | None = None, voice: str | None = None) -> dict:
+	"""A voice or a picture made by a job: `{"data": base64, "mime": ...}`,
+	billed like `once`."""
+	from onedesk.one import apps
+
+	apps.refuse_ai()
+	out = account.ask(
+		"onedesk.one_admin.proxy.ai_make",
+		action=action,
+		text=text,
+		tier=center.tier(),
+		reference=reference,
+		voice=voice,
+	)
+	_counted(reference, (out or {}).get("credits"))
+	return {"data": (out or {}).get("data") or "", "mime": (out or {}).get("mime") or ""}
+
+
 def read(action: str, state: str, asked: dict, reference: str | None = None, on: str | None = None) -> dict:
 	"""A reading job's answers (Clef's to questions, Clairic's fields), each
 	with how sure the model is: one call, billed like `once`."""

@@ -1,0 +1,46 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "file",
+  "title",
+  "duration"
+ ],
+ "fields": [
+  {
+   "fieldname": "file",
+   "fieldtype": "Attach",
+   "label": "File",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "duration",
+   "fieldtype": "Float",
+   "label": "Seconds",
+   "in_list_view": 1,
+   "read_only": 1,
+   "description": "Read from the file when it is attached."
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Track",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

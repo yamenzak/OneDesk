@@ -184,6 +184,20 @@ def ai_run(
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def ai_make(action: str, text: str, tier: str | None = None, reference: str | None = None, voice: str | None = None) -> dict:
+	"""One job that makes a voice or a picture for this workspace, billed to
+	it: the bytes, base64'd, and what they are."""
+	from onedesk.one_admin import actions
+
+	tenant = caller()
+	try:
+		return actions.make(tenant.name, action, text, tier=tier, reference=reference, voice=voice)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_read(
 	action: str,
 	state: str,

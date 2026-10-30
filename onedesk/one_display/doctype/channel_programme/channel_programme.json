@@ -1,0 +1,83 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "plays",
+  "slide_playlist",
+  "widget_collection",
+  "music_playlist",
+  "days",
+  "from_time",
+  "to_time"
+ ],
+ "fields": [
+  {
+   "fieldname": "plays",
+   "fieldtype": "Select",
+   "label": "Plays",
+   "options": "Slides\nWidgets\nMusic\nScreensaver\nScreen Off\nMuted",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "slide_playlist",
+   "fieldtype": "Link",
+   "label": "Slide Playlist",
+   "options": "Slide Playlist",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.plays=='Slides'"
+  },
+  {
+   "fieldname": "widget_collection",
+   "fieldtype": "Link",
+   "label": "Widget Collection",
+   "options": "Widget Collection",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.plays=='Widgets'"
+  },
+  {
+   "fieldname": "music_playlist",
+   "fieldtype": "Link",
+   "label": "Music Playlist",
+   "options": "Music Playlist",
+   "in_list_view": 1,
+   "depends_on": "eval:doc.plays=='Music'"
+  },
+  {
+   "fieldname": "days",
+   "fieldtype": "Select",
+   "label": "Days",
+   "options": "Every Day\nWeekdays\nWeekend\nMonday\nTuesday\nWednesday\nThursday\nFriday\nSaturday\nSunday",
+   "default": "Every Day",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From",
+   "in_list_view": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To",
+   "in_list_view": 1,
+   "reqd": 1
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Channel Programme",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

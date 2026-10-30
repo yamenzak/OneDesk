@@ -263,6 +263,26 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+	"OneDisplay": {
+		"folder": "one_display",
+		"screens": "display",
+		"names": ("one_display", "onedisplay"),
+		"ready": False,
+		"help": (
+			("overview", "info"),
+			("screens-and-pairing", "tv"),
+			("channels", "radio"),
+			("slides", "images"),
+			("widgets-and-sources", "layout-dashboard"),
+			("music-and-voice", "music"),
+			("queues", "list-ordered"),
+			("alerts", "siren"),
+			("notifications", "bell"),
+			("asking-oneai", "sparkles"),
+			("who-can-do-what", "shield"),
+			("settings", "settings"),
+		),
+	},
 	"OneHR": {
 		"folder": "one_hr",
 		"screens": "hr",
@@ -513,6 +533,7 @@ SHARED = {
 	"tests/samples/intake/one_book/transport-contract.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/oneportal.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onecalendar.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/onedisplay.svg": "every product's mark is drawn in brand/, into one sprite",
 	"tests/samples/intake/one_calendar/site-meeting.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_calendar/site-meeting.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/onetask.svg": "every product's mark is drawn in brand/, into one sprite",
@@ -601,6 +622,7 @@ OUTSIDE = {
 	"OnePortal": [],
 	"OneInventory": [],
 	"OneBook": [],
+	"OneDisplay": [],
 }
 
 

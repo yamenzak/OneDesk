@@ -1,204 +1,171 @@
 # OneDisplay
 
 The one file for agents, OneAI and us: what OneDisplay is made of, its rules,
-where each file is, and the decisions that cost something. What is not built
-yet, in the order it will be, is `SCRATCHPAD.md`.
+where each file is, and the decisions that cost something. What is known to
+be missing is `SCRATCHPAD.md`; what people read is `docs/`.
 
 OneDisplay is digital signage that runs on any screen with a browser: a TV in
 a lobby, a kiosk at a door, a stick behind a meeting room's display. A screen
-shows a **channel**. Tonight a channel is a queue board; the plan below makes
-it slides, widgets, music and voice as well.
+shows a **channel**: slides, a layout of widgets over them, music, voice ads
+and a schedule that changes what plays through the day. Every screen on one
+channel plays the same thing at the same moment.
 
-OneDisplay is **not registered** in `one/ready.py` yet: it has no Help, tour,
-legal, notifications or abilities, and the guards that read those do not read
-it. It is registered when stage 2 below is done.
+## The records
 
-## What is built
+| Record | What it is |
+| --- | --- |
+| `Display Screen` | One paired screen: its channel, how it is turned (`rotate`), muted, dark, the last command and when it was last seen. Only ever made by a TV asking for a code. |
+| `Display Channel` | What plays: a slide playlist, a widget collection, a music playlist, whether calls are read aloud and in which voice, a `programme` (schedule rows) and `ads`. |
+| `Channel Programme` | A schedule row: Slides, Widgets, Music, Screensaver, Screen Off or Muted, on some days, between two times. A later row wins over an earlier one. |
+| `Channel Ad` | A voice ad on a channel, every few minutes or at times of day. |
+| `Slide Playlist`, `Display Slide` | Slides in order: Image, Video, Web Page (https only) or Design (HTML drawn at 1920 × 1080), each with seconds and optional dates. |
+| `Widget Collection`, `Display Widget` | A layout: widgets in percent of the screen, each with a source, a mapping, settings, a layer and optional hours. |
+| `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed or Weather. |
+| `Music Playlist`, `Display Track` | Tracks and a volume. |
+| `Voice Ad` | A script, a tone, a language, a voice, a chime, and its recording. |
+| `Display Voice` | A phrase recorded once in OneAI's voice, by language, voice and tone, with its public WAV. |
+| `Queue`, `Queue Service`, `Queue Counter`, `Queue Ticket` | A place where people wait, its services (with a prefix), its counters (with who staffs them), and each ticket. |
+| `Display Settings` | The emergency alert, on every screen. |
 
-### A screen pairs, then asks
+## How a screen plays
 
-- `www/tv.html` and `www/tv.py` — the page a TV opens, `/tv`. One HTML file
-  with its CSS inline and one script, `public/js/one_display/tv.js`, which is
-  ES5 on purpose: a TV from 2017 runs Chromium 53 (Tizen 4, webOS 4), which
-  has no arrow functions, no `fetch` and no `let`. Nothing on the page is
-  bundled, so nothing may need to be. `acorn --ecma5` parses it.
-- `screens.py` — the screen's side.
-  - `start` (guest): a new screen is given a six-digit code to show and a
-    secret only it keeps. Only the secret's hash is stored.
-  - `status` (guest, with the secret): has somebody paired me? The first time
-    the answer is yes, the screen is given its token, once; the stored copy is
-    then cleared and only its hash is kept.
-  - `pair` (desk): somebody types the code, names the screen and picks its
-    channel and mode. **Add Display Screen** on the list opens this dialog;
-    a screen record only ever comes from a TV.
-  - `state` (guest, with the token): everything the screen shows now — its
-    mode, muted and dark flags, the last command, the alert, the brand and the
-    channel's board. `last_seen` is written at most every thirty seconds.
-  - `take` (guest, with the token, kiosk only): hands out a ticket.
-  - `control` (desk): reload, mute, unmute, off, on. The screen notices a new
-    `command_at` and acts.
-  - `alert` (desk): one message on every screen, over everything, read out,
-    until it is ended. Kept on the single `Display Settings`.
-- The screen keeps `{screen, secret}` and then `{screen, token}` in
-  localStorage, so a power cut does not unpair it. Removing the record, or a
-  token that no longer matches, sends it back to the pairing code.
+### Pairing and answers
 
-**Why polling and not the socket.** Every two seconds the screen asks for its
-state. An old TV's browser drops a WebSocket on every network hiccup and some
-never reconnect; a plain request each time recovers by itself. Two seconds is
-also what a person standing at a board expects. The socket comes in stage 3,
-for the commands only, with polling kept as the fallback.
+- `/tv` (`www/tv.html`, `www/tv.py`) is one HTML file with its CSS inline and
+  `public/js/one_display/tv.js`, which is **ES5 on purpose**: a 2017 TV runs
+  Chromium 53. `tests/test_display.py` parses it with acorn at `ecmaVersion:
+  5`. Nothing is bundled.
+- `screens.start` (guest) gives a six-digit code and a secret; only the
+  secret's hash is kept. `screens.pair` (desk) takes the code. `status` hands
+  the token over once, then keeps only its hash.
+- `screens.state` (guest, with the token) answers every two seconds with the
+  server's time, the screen's turn, mute and dark, the last command, the
+  alert, the brand, the zone, today's date in words, and the channel.
+- **Full and light answers.** `programme.compose` builds the whole channel
+  and a `revision` hash of it. A screen sends the revision it has as `have`;
+  when it matches, `programme.light` sends only the mode, the ads and each
+  widget's rows. A slide playlist goes over the wire once, not every two
+  seconds.
+- **Why polling.** An old TV's browser drops a WebSocket on every hiccup and
+  some never reconnect; a plain request recovers by itself, and two seconds is
+  what a person at a board expects.
 
-### The queue
+### Playing in step
 
-- `Queue` — a place with `services` (each with a prefix: A, B, C) and
-  `counters` (each with who staffs it).
-- `Queue Ticket` — one ticket: `A007`, Waiting, then Called to a counter, then
-  Done or No Show. Numbers start again each day per prefix; the next number
-  comes from a cache counter (`incrby`) so two kiosks never hand out the same
-  one, started from the records if the cache was emptied.
-- `queue.py` — `take`, `board` (the last eight called today, newest first,
-  and how many wait per service), and the counter's actions: `call_next`
-  closes what the counter was serving and calls the longest waiting ticket,
-  `recall` calls the same one again (the board announces it again because its
-  `calls` went up), `finish` closes it as Done or No Show.
-- `page/counter` — the counter's screen in the desk: pick the queue and the
-  counter (it remembers, and starts on the counter you staff), Call Next, Call
-  Again, Done, No Show, and who waits.
-- The board announces a call it has not seen: a two-note chime through Web
-  Audio, then `speechSynthesis` saying "Ticket A 7, counter 2" in the
-  channel's language (the words are translated on the server). The first
-  answer after a reload only fills what has been heard, so a reload says
-  nothing. Browsers keep sound off until somebody presses a key, so the board
-  says "Press OK to turn on sound" until the remote's OK is pressed once.
+Every playlist runs on one clock that started at the Unix epoch, so where it
+is now is the time mod its length. A screen keeps its offset from the
+server's `now` and needs nothing else, so two screens agree to well under a
+second without talking. Music does the same per track and nudges the player
+when it drifts. Ads "every few minutes" pick their minute from a hash of the
+slot (`programme.ads`), so they sound random and still play together.
 
-### Who may do what
+### The frame
 
-- **OneDisplay Manager** — pairs screens, builds channels and queues, sends
-  alerts. Made by `patches/roles.py` before the doctypes sync.
-- **OneDisplay User** — works a counter: reads queues, reads and writes
-  tickets.
-- A screen is nobody. It holds a token that lets it read its own channel and,
-  as a kiosk, take tickets; it can do nothing else.
+The player draws on a 1920 × 1080 frame (1080 × 1920 for a portrait
+channel), scaled to the screen and turned by the screen's `rotate`. Widgets
+are positioned in percent and sized in `em` from their own box, so a layout
+looks the same on any screen. Each kind is a renderer `KINDS[type](box, one,
+w, h)` returning `{update, drop}`; a Custom widget runs in a sandboxed iframe
+and is posted its rows.
 
-## The plan, and the decisions behind it
+### Offline
 
-The full concept is seventeen features. They fall into six stages; each one
-works on its own.
+A service worker at `/tv-worker.js` (`worker.py`, a page renderer, because
+`www/` cannot serve a script) keeps the page, the script and every `/files/`
+media first-fetched. The last answer is kept in localStorage, whenever the
+channel changes shape and its rows once a minute, so a screen restarted with
+no network plays what it had.
 
-1. **Queue slice** (built). Pairing, the board, the kiosk, the counter, remote
-   commands, the emergency alert, the brand from the company.
-2. **Register the module.** Help pages, tour, notifications (a ticket waiting
-   longer than a threshold; a screen offline for ten minutes), abilities,
-   legal (what a guest screen stores), setup steps, AI reach. Then
-   `ready.MODULES`.
-3. **Live and offline.** The socket for commands and alerts, polling kept as
-   the fallback. A service worker that keeps the last channel and its media,
-   so a screen with no network keeps playing what it had. One clock: the
-   server's time in every answer, so screens on one channel agree to a tenth
-   of a second, which is what playing the same slide and the same song at once
-   needs.
-4. **Slides, widgets, sources and schedules.** `Slide` (image, video, or an
-   HTML sandbox in an iframe), `Slide Playlist`, `Widget` and `Widget
-   Collection` over the slides, `Display Source` for what a widget shows
-   (below), `Music Playlist`, and one `Display Schedule` that says what
-   plays when, including screensaver and mute hours. The queue board, the
-   kiosk and the ticker are the first three widgets: today's Board and Kiosk
-   modes and the channel's `queue` field become a collection holding them.
-5. **The editor.** A slide is designed on a canvas. The study of Frappe
-   Builder (below) says how.
-6. **OneAI and voice.** Gemini TTS voice packs per language for the queue, so
-   the board speaks with a real voice rather than the TV's; voice ads with a
-   tone and a schedule; images, video and music generated through the AI
-   gateway; a layout or a custom widget written from a sentence.
+### Sound
 
-### Sources: what a widget shows, for stage 4
+One queue for calls, ads and alerts, so two never talk over each other; the
+music goes quiet under them. Browsers keep sound off until a key is pressed,
+so a new screen says so until OK is pressed once.
 
-A widget never reads data itself. It declares **slots**, the things it
-draws, and a `Display Source` fills them. That way one list widget can show
-open tickets, today's deliveries or a sales leaderboard, and one ticker can
-run news, announcements or overdue invoices, with no new code.
+## Sources
 
-- **A widget declares its slots.** A ticker has `text`. A list has `title`,
-  `subtitle`, `value` and `image`. A counter has `value` and `label`. A
-  premade widget can ask for exactly what it needs instead: weather takes a
-  place, a clock takes a time zone, the queue board takes a queue.
-- **A source says where rows come from.** Its kinds:
-  - **Records**: a doctype with filters, order and a limit. The filters are
-    frappe's own filter JSON, edited with frappe's filter control, as a list
-    view saves them.
-  - **One record**: a doctype and a name.
-  - **Report**: a saved report's rows.
-  - **Queue**: today's board, so the queue widget is a source like any other.
-  - **Feed**: an RSS or Atom address, for news.
-  - **Provider**: a named outside service with its own settings. Weather
-    (Open-Meteo, no key) and exchange rates come first.
-- **A binding maps slots to fields.** Each slot gets a field, or a small
-  template such as `{customer} · {grand_total}`. Values are formatted on
-  the server in the channel's language and the company's number format, so
-  the TV only draws text.
+A widget never reads data. It declares **slots** (`widgets.TYPES`), and a
+`Display Source` fills them through a **mapping**, `{"title": "{customer}"}`.
+A premade widget (queue board, kiosk, weather, clock) takes its source whole
+instead.
 
-Three rules keep this safe, because a screen is a guest:
+- **Only mapped fields leave the server** (`sources.fill`), each formatted
+  there in the channel's language.
+- **A source reads as whoever saved it** (`read_as`, set on save), with their
+  permissions checked on every read (`sources._as`), and only fields they
+  may read (`get_permitted_fields`). A source whose maker lost access goes
+  blank.
+- **Read once, cached** per source for its `refresh` or its kind's default
+  (`sources.KEPT`); the last good answer stands when a read fails.
+- **Feeds** are read only over https from addresses that resolve to the public
+  internet (`sources._public`), without redirects, at most 1 MB, with
+  `defusedxml`. A feed is the workspace's own choice of address, so it is not
+  a subprocessor and not an optional service.
+- **Weather** is Open-Meteo through TrustCenter's optional service
+  `display_weather`, off until a workspace turns it on.
 
-- **Only mapped fields leave the server.** The screen gets the slots, never
-  the record, so the mapping is the list of what may be shown.
-- **A source reads as the person who made it.** It is saved with them, and
-  their permissions are checked again each time it is read. A source whose
-  maker lost access goes blank instead of leaking.
-- **Every source is read once on the server and cached** for its own
-  interval: seconds for a queue, minutes for records, half an hour for
-  weather and news. A hundred screens on one channel cost one query.
+## Voices
 
-A feed or provider calls out of the workspace, so each one is an optional
-service in TrustCenter, off until a workspace turns it on, with the
-provider named as a subprocessor where it receives anything.
+`voices.py`. A phrase is recorded once per language, voice and tone through
+OneAI's `display_voice` job (Gemini speech through the gateway's `make`),
+wrapped as a WAV every TV plays, kept as a `Display Voice` with a public file.
+A board's call is made on demand: the first answer that needs "Ticket A 7,
+counter 2" enqueues it and sends no audio; the screen waits four seconds for
+it and then says it in its own voice. Nothing is recorded while OneAI is off.
 
-### Frappe Builder, read for stage 5
+## What OneAI does
 
-Builder (MIT, so it may be taken into this AGPL repo with Frappe's notice
-kept) renders a page on the server as plain HTML and one generated
-stylesheet. Its editor is a Vue 3 app of about 49,000 lines whose canvas is a
-scaled div, not an iframe, with breakpoints fixed at 1400, 800 and 420. A
-block tree is saved as JSON on `Builder Page`.
+`make.py` makes a picture for a slide, a designed slide, and a Custom widget's
+code; `voices.record` records a voice ad. Each comes back as something a
+person keeps or not; nothing goes on a screen by itself. `ai.py` gives the
+chat `queue_now`, `screens_now` and `plan_voice_ad` (a card), and says in
+`NOT_FOR_AI` why every other change is a person's.
 
-- **What to take.** The block model and the canvas, as a Builder plugin that
-  edits a slide through `canvasStore.editOnCanvas(block, type, saveAction)`
-  with our own save, and a fixed 1920 × 1080 artboard passed through
-  `canvasStyles`. `User Font` for fonts that work offline, `Builder Component`
-  as the model for premade widgets, repeaters and `dataKey` for boards bound
-  to data, `Builder Snapshot` for versions, and the screenshot thumbnails.
-- **What not to ship to a TV.** Builder's own page. Its templates use flex
-  `gap`, which Chromium before 84 ignores without a word, and `:has()`; its
-  fonts come from Google; and an iframe narrower than 1024 CSS pixels gets
-  the tablet layout. So OneDisplay publishes a slide itself: Builder's
-  `get_block_html` into a lean template with no tracking, local fonts, `gap`
-  rewritten to margins, saved as a file the screen can keep offline, and
-  drawn at 1920 × 1080 and scaled as a whole.
-- **Depending, not copying.** Installing Builder costs pandas, duckdb and
-  litellm, and site-wide website hooks. Copying costs a 49,000-line fork.
-  Neither is decided; the plugin route is cheaper to try first.
+## Who may do what
 
-### LightningJS, read and not chosen
+`abilities.py`. **OneDisplay User** works a counter. **OneDisplay Manager**
+runs the screens and what they show, and holds **Send an Emergency Alert**
+(`display_alert`, a permission type on Display Settings). A screen itself is
+nobody: its token lets it read its own channel and, from its own kiosk
+widget, take tickets.
 
-Lightning (Apache-2.0) draws everything in WebGL. It is fast for tiles and
-tickers on a weak CPU, and wrong as the base here: video on a TV is a native
-overlay plane under the canvas anyway, HTML from the editor or a custom widget
-cannot be drawn in WebGL at all, its SDF text does not shape Arabic, every
-full-screen texture is 8 MB of the TV's memory, and WebGL is unreliable on
-cheap sticks. The player stays plain DOM: absolute positioning, `transform`
-and `opacity` for movement, one `<video>`, premade widgets as DOM and only
-custom code in a sandboxed iframe. Lightning is worth a trial for one thing,
-a dense board of many changing tiles, and only if DOM proves too slow there.
+## What it tells people
+
+`notifications.py`, sent by `tell.py`: **Screen Offline** (every five
+minutes, a paired screen silent ten minutes and not turned off, once per
+silence) and **Emergency Alert Sent** (to the others who may send one).
+
+## Decisions that cost something
+
+- **No Frappe Builder.** Builder's pages use flex `gap` and `:has()`, which a
+  TV's Chromium ignores, its fonts come from Google, and installing it brings
+  pandas, duckdb and litellm. A Design slide is plain HTML at 1920 × 1080,
+  written by hand or by OneAI, and widgets are placed in our own editor
+  (`frontend/src/display/Layout.vue`) over a live preview of the screen.
+- **No LightningJS.** WebGL cannot draw HTML from a design or a custom
+  widget, its text does not shape Arabic, and cheap sticks have unreliable
+  WebGL. The player is plain DOM with `transform` and `opacity`.
+- **Dates on the screen come from the server.** A TV's `Intl` is too old to
+  trust, so today's date and the weather's day names are formatted with
+  babel in the channel's language.
 
 ## Files
 
 | File | What it is |
 | --- | --- |
-| `screens.py` | Pairing, a screen's state, kiosk tickets, commands, the alert |
+| `screens.py` | Pairing, a screen's answer, kiosk tickets, commands, the alert, previews |
+| `programme.py` | What a channel plays now: the schedule, slides, layout, music, ads |
+| `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
+| `widgets.py` | Every widget kind: slots, settings, which sources fill it |
+| `layout.py` | The layout editor's server |
 | `queue.py` | Tickets, the board, the counter's actions |
-| `demo.py` | The demo company's showroom queue and lobby channel |
-| `page/counter/` | The counter's desk page |
-| `doctype/display_screen/` | The screen record, its list (pair, alert) and form (commands) |
-| `patches/roles.py` | OneDisplay Manager and OneDisplay User |
-| `../www/tv.html`, `../www/tv.py` | The player |
-| `../public/js/one_display/tv.js` | The player's script, ES5 |
+| `voices.py`, `make.py` | What OneAI records and makes |
+| `worker.py` | Serves the TV's service worker |
+| `tell.py`, `notifications.py` | What it tells people |
+| `abilities.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py` | The READY pieces |
+| `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
+| `page/counter/`, `page/display_layout/` | The counter, and the layout editor's island |
+| `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
+| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker |
+| `../public/js/one_display/display_control.js` | Settings and the foot |
+| `../../frontend/src/display/` | The counter and the layout editor |

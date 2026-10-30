@@ -1,0 +1,269 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "source_name",
+  "kind",
+  "read_as",
+  "column_break_kind",
+  "refresh",
+  "section_records",
+  "ref_doctype",
+  "record_name",
+  "filters",
+  "filter_area",
+  "column_break_records",
+  "order_by",
+  "row_limit",
+  "aggregate",
+  "aggregate_field",
+  "section_report",
+  "report",
+  "report_filters",
+  "section_queue",
+  "queue",
+  "section_feed",
+  "feed_url",
+  "section_weather",
+  "place",
+  "latitude",
+  "column_break_weather",
+  "longitude",
+  "units"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_name",
+   "fieldtype": "Data",
+   "label": "Source Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Kind",
+   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather",
+   "reqd": 1,
+   "default": "Records",
+   "description": "Where its rows come from, such as records, a report, a queue, a news feed or the weather."
+  },
+  {
+   "fieldname": "read_as",
+   "fieldtype": "Link",
+   "label": "Read As",
+   "options": "User",
+   "read_only": 1,
+   "description": "Whose access it reads with. It is whoever saved it last."
+  },
+  {
+   "fieldname": "column_break_kind",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "refresh",
+   "fieldtype": "Int",
+   "label": "Refresh Every (Seconds)",
+   "default": "0",
+   "description": "How long screens keep what it said before it is read again. Empty is the kind's usual."
+  },
+  {
+   "fieldname": "section_records",
+   "fieldtype": "Section Break",
+   "label": "Records",
+   "depends_on": "eval:['Records','Record'].includes(doc.kind)"
+  },
+  {
+   "fieldname": "ref_doctype",
+   "fieldtype": "Link",
+   "label": "Record Type",
+   "options": "DocType",
+   "mandatory_depends_on": "eval:['Records','Record'].includes(doc.kind)"
+  },
+  {
+   "fieldname": "record_name",
+   "fieldtype": "Dynamic Link",
+   "label": "Record",
+   "options": "ref_doctype",
+   "depends_on": "eval:doc.kind=='Record'",
+   "mandatory_depends_on": "eval:doc.kind=='Record'"
+  },
+  {
+   "fieldname": "filters",
+   "fieldtype": "Code",
+   "label": "Filters",
+   "options": "JSON",
+   "depends_on": "eval:doc.kind=='Records'",
+   "hidden": 1
+  },
+  {
+   "fieldname": "filter_area",
+   "fieldtype": "HTML",
+   "label": "Filters",
+   "depends_on": "eval:doc.kind=='Records' && doc.ref_doctype"
+  },
+  {
+   "fieldname": "column_break_records",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "order_by",
+   "fieldtype": "Data",
+   "label": "Order By",
+   "depends_on": "eval:doc.kind=='Records'",
+   "description": "A field and asc or desc, such as modified desc."
+  },
+  {
+   "fieldname": "row_limit",
+   "fieldtype": "Int",
+   "label": "Rows",
+   "default": "10",
+   "depends_on": "eval:doc.kind=='Records'"
+  },
+  {
+   "fieldname": "aggregate",
+   "fieldtype": "Select",
+   "label": "Count or Total",
+   "options": "\nCount\nSum\nAverage",
+   "depends_on": "eval:doc.kind=='Records'",
+   "description": "One figure instead of rows, such as how many there are, or the sum or average of a field."
+  },
+  {
+   "fieldname": "aggregate_field",
+   "fieldtype": "Data",
+   "label": "Of Field",
+   "depends_on": "eval:doc.kind=='Records' && ['Sum','Average'].includes(doc.aggregate)"
+  },
+  {
+   "fieldname": "section_report",
+   "fieldtype": "Section Break",
+   "label": "Report",
+   "depends_on": "eval:doc.kind=='Report'"
+  },
+  {
+   "fieldname": "report",
+   "fieldtype": "Link",
+   "label": "Report",
+   "options": "Report",
+   "mandatory_depends_on": "eval:doc.kind=='Report'"
+  },
+  {
+   "fieldname": "report_filters",
+   "fieldtype": "Code",
+   "label": "Report Filters",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "section_queue",
+   "fieldtype": "Section Break",
+   "label": "Queue",
+   "depends_on": "eval:doc.kind=='Queue'"
+  },
+  {
+   "fieldname": "queue",
+   "fieldtype": "Link",
+   "label": "Queue",
+   "options": "Queue",
+   "mandatory_depends_on": "eval:doc.kind=='Queue'"
+  },
+  {
+   "fieldname": "section_feed",
+   "fieldtype": "Section Break",
+   "label": "Feed",
+   "depends_on": "eval:doc.kind=='Feed'"
+  },
+  {
+   "fieldname": "feed_url",
+   "fieldtype": "Data",
+   "label": "Feed Address",
+   "options": "URL",
+   "mandatory_depends_on": "eval:doc.kind=='Feed'",
+   "description": "An RSS or Atom address, such as a news site's headlines."
+  },
+  {
+   "fieldname": "section_weather",
+   "fieldtype": "Section Break",
+   "label": "Weather",
+   "depends_on": "eval:doc.kind=='Weather'"
+  },
+  {
+   "fieldname": "place",
+   "fieldtype": "Data",
+   "label": "Place",
+   "description": "What the screen calls it, such as Dubai."
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "6",
+   "mandatory_depends_on": "eval:doc.kind=='Weather'"
+  },
+  {
+   "fieldname": "column_break_weather",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "6",
+   "mandatory_depends_on": "eval:doc.kind=='Weather'"
+  },
+  {
+   "fieldname": "units",
+   "fieldtype": "Select",
+   "label": "Units",
+   "options": "Metric\nImperial",
+   "default": "Metric"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Source",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:source_name",
+ "naming_rule": "By fieldname",
+ "title_field": "source_name",
+ "description": "Where a widget's words, numbers and pictures come from. A screen is shown only the fields a widget maps."
+}

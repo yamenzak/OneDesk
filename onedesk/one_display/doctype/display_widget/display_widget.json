@@ -1,0 +1,122 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "widget_type",
+  "label",
+  "source",
+  "x",
+  "y",
+  "w",
+  "h",
+  "layer",
+  "mapping",
+  "settings",
+  "shown",
+  "from_time",
+  "to_time"
+ ],
+ "fields": [
+  {
+   "fieldname": "widget_type",
+   "fieldtype": "Select",
+   "label": "Widget",
+   "options": "Queue Board\nKiosk\nTicker\nText\nClock\nWeather\nList\nNumber\nImage\nQR Code\nCustom",
+   "reqd": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "label",
+   "fieldtype": "Data",
+   "label": "Label",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "label": "Source",
+   "options": "Display Source",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "x",
+   "fieldtype": "Float",
+   "label": "Left",
+   "default": "0",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "y",
+   "fieldtype": "Float",
+   "label": "Top",
+   "default": "0",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "w",
+   "fieldtype": "Float",
+   "label": "Width",
+   "default": "25",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "h",
+   "fieldtype": "Float",
+   "label": "Height",
+   "default": "25",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "layer",
+   "fieldtype": "Int",
+   "label": "Layer",
+   "default": "1"
+  },
+  {
+   "fieldname": "mapping",
+   "fieldtype": "Code",
+   "label": "Fields Shown",
+   "options": "JSON",
+   "description": "Which field fills each part the widget draws."
+  },
+  {
+   "fieldname": "settings",
+   "fieldtype": "Code",
+   "label": "Settings",
+   "options": "JSON"
+  },
+  {
+   "fieldname": "shown",
+   "fieldtype": "Select",
+   "label": "Shown",
+   "options": "Always\nBetween Times",
+   "default": "Always"
+  },
+  {
+   "fieldname": "from_time",
+   "fieldtype": "Time",
+   "label": "From",
+   "depends_on": "eval:doc.shown=='Between Times'"
+  },
+  {
+   "fieldname": "to_time",
+   "fieldtype": "Time",
+   "label": "To",
+   "depends_on": "eval:doc.shown=='Between Times'"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Display Widget",
+ "owner": "Administrator",
+ "permissions": [],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "istable": 1,
+ "editable_grid": 1
+}

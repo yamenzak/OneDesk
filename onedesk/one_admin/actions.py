@@ -53,6 +53,17 @@ def run(
 	}
 
 
+def make(tenant: str, action: str, text: str, tier: str | None = None, reference: str | None = None, voice: str | None = None) -> dict:
+	"""A job that makes a voice or a picture rather than words, run for one
+	workspace and billed to it. What the model is asked is the job's words
+	followed by the workspace's text."""
+	job = _job(action)
+	tier = tier if tier in models.TIERS else None
+	told = jobs.told(action)
+	prompt = f"{told}\n\n{text}" if told else text
+	return gateway.make(job.kind, tier, prompt, tenant, voice=voice, reference=reference or action, action=action)
+
+
 # The kinds a model answers in its own shape rather than in words, and what
 # each is sent besides the text (docs/AICENTER.md, Reading what arrives).
 READERS = {"decide": "questions", "decide_media": "questions", "extract": "fields"}

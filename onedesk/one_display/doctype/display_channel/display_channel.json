@@ -1,16 +1,27 @@
 {
  "actions": [],
- "creation": "2026-10-29 23:00:00.000000",
+ "creation": "2026-10-30 01:00:00.000000",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
   "channel_name",
-  "queue",
-  "headline",
-  "column_break_voice",
+  "orientation",
+  "column_break_name",
+  "description",
+  "section_plays",
+  "slide_playlist",
+  "widget_collection",
+  "column_break_plays",
+  "music_playlist",
+  "section_voice",
   "announce",
   "voice_language",
-  "ticker"
+  "column_break_voice",
+  "voice",
+  "section_programme",
+  "programme",
+  "section_ads",
+  "ads"
  ],
  "fields": [
   {
@@ -21,21 +32,53 @@
    "unique": 1
   },
   {
-   "fieldname": "queue",
-   "fieldtype": "Link",
-   "label": "Queue",
-   "options": "Queue",
-   "description": "The queue its screens show and announce."
+   "fieldname": "orientation",
+   "fieldtype": "Select",
+   "label": "Orientation",
+   "options": "Landscape\nPortrait",
+   "default": "Landscape"
   },
   {
-   "fieldname": "headline",
-   "fieldtype": "Data",
-   "label": "Headline",
-   "description": "The line across the top, such as a welcome."
-  },
-  {
-   "fieldname": "column_break_voice",
+   "fieldname": "column_break_name",
    "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "description",
+   "fieldtype": "Small Text",
+   "label": "Location",
+   "description": "Such as the showroom's lobby."
+  },
+  {
+   "fieldname": "section_plays",
+   "fieldtype": "Section Break",
+   "label": "Content"
+  },
+  {
+   "fieldname": "slide_playlist",
+   "fieldtype": "Link",
+   "label": "Slide Playlist",
+   "options": "Slide Playlist"
+  },
+  {
+   "fieldname": "widget_collection",
+   "fieldtype": "Link",
+   "label": "Widget Collection",
+   "options": "Widget Collection"
+  },
+  {
+   "fieldname": "column_break_plays",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "music_playlist",
+   "fieldtype": "Link",
+   "label": "Music Playlist",
+   "options": "Music Playlist"
+  },
+  {
+   "fieldname": "section_voice",
+   "fieldtype": "Section Break",
+   "label": "Voice"
   },
   {
    "fieldname": "announce",
@@ -47,18 +90,46 @@
    "fieldname": "voice_language",
    "fieldtype": "Link",
    "label": "Announcement Language",
-   "options": "Language",
-   "depends_on": "announce"
+   "options": "Language"
   },
   {
-   "fieldname": "ticker",
-   "fieldtype": "Small Text",
-   "label": "Ticker",
-   "description": "Words that run along the bottom of the screen."
+   "fieldname": "column_break_voice",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "voice",
+   "fieldtype": "Select",
+   "label": "Voice",
+   "options": "\nKore\nPuck\nCharon\nAoede\nFenrir\nLeda\nOrus\nZephyr",
+   "default": "Kore",
+   "description": "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
+  },
+  {
+   "fieldname": "section_programme",
+   "fieldtype": "Section Break",
+   "label": "Schedule",
+   "description": "What plays instead at some times, such as a screensaver at night or no music during prayers."
+  },
+  {
+   "fieldname": "programme",
+   "fieldtype": "Table",
+   "label": "Schedule",
+   "options": "Channel Programme"
+  },
+  {
+   "fieldname": "section_ads",
+   "fieldtype": "Section Break",
+   "label": "Voice Ads"
+  },
+  {
+   "fieldname": "ads",
+   "fieldtype": "Table",
+   "label": "Voice Ads",
+   "options": "Channel Ad"
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-30 01:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Channel",
@@ -102,5 +173,5 @@
  "autoname": "field:channel_name",
  "naming_rule": "By fieldname",
  "title_field": "channel_name",
- "description": "What a screen shows: today, a queue board with its headline and ticker."
+ "description": "What a screen shows: slides, widgets over them, music and voice, and when each plays."
 }

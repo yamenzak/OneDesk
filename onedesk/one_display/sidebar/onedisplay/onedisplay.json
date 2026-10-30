@@ -5,7 +5,7 @@
  "doctype": "Sidebar",
  "header_icon": "onedisplay",
  "idx": 0,
- "modified": "2026-10-29 20:00:00.000000",
+ "modified": "2026-10-29 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "OneDisplay",
@@ -19,27 +19,13 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Counter",
-   "link_type": "Page",
-   "link_to": "counter",
-   "show_arrow": 0,
-   "type": "Link",
-   "icon": "concierge-bell",
-   "idx": 1
-  },
-  {
-   "child": 0,
-   "collapsible": 1,
-   "indent": 0,
-   "is_default_module": 0,
-   "keep_closed": 0,
    "label": "Display Screen",
    "link_type": "DocType",
    "link_to": "Display Screen",
    "show_arrow": 0,
    "type": "Link",
    "icon": "tv",
-   "idx": 2
+   "idx": 1
   },
   {
    "child": 0,
@@ -52,11 +38,119 @@
    "link_to": "Display Channel",
    "show_arrow": 0,
    "type": "Link",
-   "icon": "radio-tower",
+   "icon": "radio",
+   "idx": 2
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Counter",
+   "link_type": "Page",
+   "link_to": "counter",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "concierge-bell",
    "idx": 3
   },
   {
    "child": 0,
+   "collapsible": 1,
+   "icon": "layout-template",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "Content",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break",
+   "idx": 4
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Slide Playlist",
+   "link_type": "DocType",
+   "link_to": "Slide Playlist",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "images",
+   "idx": 5
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Widget Collection",
+   "link_type": "DocType",
+   "link_to": "Widget Collection",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "layout-dashboard",
+   "idx": 6
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Music Playlist",
+   "link_type": "DocType",
+   "link_to": "Music Playlist",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "music",
+   "idx": 7
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Voice Ad",
+   "link_type": "DocType",
+   "link_to": "Voice Ad",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "megaphone",
+   "idx": 8
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 0,
+   "keep_closed": 0,
+   "label": "Display Source",
+   "link_type": "DocType",
+   "link_to": "Display Source",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "database",
+   "idx": 9
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "icon": "list-ordered",
+   "indent": 1,
+   "keep_closed": 0,
+   "label": "Queues",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break",
+   "idx": 10
+  },
+  {
+   "child": 1,
    "collapsible": 1,
    "indent": 0,
    "is_default_module": 0,
@@ -66,11 +160,11 @@
    "link_to": "Queue",
    "show_arrow": 0,
    "type": "Link",
-   "icon": "list-ordered",
-   "idx": 4
+   "icon": "users",
+   "idx": 11
   },
   {
-   "child": 0,
+   "child": 1,
    "collapsible": 1,
    "indent": 0,
    "is_default_module": 0,
@@ -81,10 +175,22 @@
    "show_arrow": 0,
    "type": "Link",
    "icon": "ticket",
-   "idx": 5
+   "idx": 12
   },
   {
    "child": 0,
+   "collapsible": 1,
+   "icon": "settings",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Setup",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Section Break",
+   "idx": 13
+  },
+  {
+   "child": 1,
    "collapsible": 1,
    "indent": 0,
    "is_default_module": 0,
@@ -94,8 +200,8 @@
    "link_to": "Display Settings",
    "show_arrow": 0,
    "type": "Link",
-   "icon": "siren",
-   "idx": 6
+   "icon": "settings",
+   "idx": 14
   }
  ]
 }

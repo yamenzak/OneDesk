@@ -32,6 +32,8 @@ ANSWERS = {
 	("DocType", "Workbook Change"): (ENGINE, "a workbook's history, edit by edit; its Version History shows them"),
 	("DocType", "Workbook Version"): (ENGINE, "a workbook as it stood; its Version History lists them"),
 	("Page", "workbook"): (INSIDE, "a workbook opens on it from OneCloud"),
+	("DocType", "Display Voice"): (ENGINE, "a phrase OneDisplay's screens say in OneAI's voice, recorded once and kept"),
+	("Page", "display-layout"): (INSIDE, "a widget collection's Edit Layout opens it"),
 	("DocType", "Writer Document"): (ENGINE, "a document's content, behind its File in OneCloud; it opens on the document page"),
 	("DocType", "Writer Document Version"): (ENGINE, "what a document said at a moment, listed and restored from its history panel"),
 	("DocType", "AI Touch"): (ENGINE, "what OneAI wrote into a record, read back as the AI badge on it"),

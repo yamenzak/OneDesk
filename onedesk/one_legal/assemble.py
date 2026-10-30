@@ -25,6 +25,7 @@ MODULES = (
 	"one_crm",
 	"one_book",
 	"one_studio",
+	"one_display",
 )
 
 _loaded = False

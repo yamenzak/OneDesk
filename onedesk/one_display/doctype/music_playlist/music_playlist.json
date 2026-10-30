@@ -1,0 +1,79 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "playlist_name",
+  "volume",
+  "tracks"
+ ],
+ "fields": [
+  {
+   "fieldname": "playlist_name",
+   "fieldtype": "Data",
+   "label": "Playlist Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "volume",
+   "fieldtype": "Percent",
+   "label": "Volume",
+   "default": "60"
+  },
+  {
+   "fieldname": "tracks",
+   "fieldtype": "Table",
+   "label": "Tracks",
+   "options": "Display Track"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Music Playlist",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:playlist_name",
+ "naming_rule": "By fieldname",
+ "title_field": "playlist_name",
+ "description": "Music every screen of a channel plays together.",
+ "make_attachments_public": 1
+}

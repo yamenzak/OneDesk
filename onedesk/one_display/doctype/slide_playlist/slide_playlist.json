@@ -1,0 +1,80 @@
+{
+ "actions": [],
+ "creation": "2026-10-30 01:00:00.000000",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "playlist_name",
+  "transition",
+  "slides"
+ ],
+ "fields": [
+  {
+   "fieldname": "playlist_name",
+   "fieldtype": "Data",
+   "label": "Playlist Name",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "transition",
+   "fieldtype": "Select",
+   "label": "Transition",
+   "options": "Fade\nNone",
+   "default": "Fade"
+  },
+  {
+   "fieldname": "slides",
+   "fieldtype": "Table",
+   "label": "Slides",
+   "options": "Display Slide"
+  }
+ ],
+ "links": [],
+ "modified": "2026-10-30 01:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Display",
+ "name": "Slide Playlist",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "role": "System Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "Workspace Administrator",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  },
+  {
+   "role": "OneDisplay Manager",
+   "read": 1,
+   "write": 1,
+   "create": 1,
+   "delete": 1,
+   "report": 1,
+   "export": 1,
+   "share": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "track_changes": 1,
+ "autoname": "field:playlist_name",
+ "naming_rule": "By fieldname",
+ "title_field": "playlist_name",
+ "description": "Pictures, videos and pages shown one after another behind the widgets.",
+ "make_attachments_public": 1
+}
