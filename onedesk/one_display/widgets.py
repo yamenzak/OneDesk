@@ -4,8 +4,8 @@ it can be told (its settings), and which kinds of source may fill it.
 A slot is filled through a widget's mapping, `{"title": "{customer}"}`: a
 field's name in braces, as many as the line needs. A premade widget takes
 its source whole instead (the queue board takes a queue, the weather takes
-the weather), and its `slots` are empty. Pure, so the editor and the guards
-read it without a site."""
+the weather), and its `slots` are empty. A widget is bare: what surrounds
+its content is its element's `look` (LOOK, below). Pure."""
 
 from frappe import _lt
 
@@ -53,7 +53,6 @@ TYPES = {
 			("text", LONG, _lt("Words"), ""),
 			("size", NUMBER, _lt("Size"), 5),
 			("align", SELECT, _lt("Align"), "start", ("start", "center", "end")),
-			("colour", COLOUR, _lt("Colour"), ""),
 		),
 		"size": (40, 12),
 	},
@@ -75,25 +74,6 @@ TYPES = {
 		"slots": (),
 		"settings": (("days", NUMBER, _lt("Days Ahead"), 3),),
 		"size": (25, 30),
-	},
-	"List": {
-		"label": _lt("List"),
-		"about": _lt("Rows from records or a report: a line, a smaller line, a figure and a picture each."),
-		"sources": ("Records", "Report", "Feed", "Exchange Rates"),
-		"slots": ("title", "subtitle", "value", "image"),
-		"settings": (
-			("heading", TEXT, _lt("Heading"), ""),
-			("rows", NUMBER, _lt("Rows"), 6),
-		),
-		"size": (35, 60),
-	},
-	"Number": {
-		"label": _lt("Number"),
-		"about": _lt("One figure, large, with what it counts under it."),
-		"sources": ("Records", "Record", "Report", "Exchange Rates"),
-		"slots": ("value", "label"),
-		"settings": (("label", TEXT, _lt("Label"), ""),),
-		"size": (20, 20),
 	},
 	"Image": {
 		"label": _lt("Image"),
@@ -126,6 +106,44 @@ TYPES = {
 		"size": (30, 30),
 	},
 }
+
+# What an element's look may set, in the editor's own names (BorderSection,
+# ShadowSection, shim/WidgetLookSection.vue); lengths are in the editor's
+# units, half a screen's pixels.
+LOOK = (
+	"fillColor", "color", "fontFamily", "padding",
+	"borderStyle", "borderColor", "borderWidth", "borderRadius",
+	"shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle",
+)
+
+# Looks offered for every widget. Plain is no look at all.
+LOOKS = {
+	"Plain": {},
+	"Card": {"fillColor": "#0B0D10DB", "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
+	"Light Card": {"fillColor": "#FFFFFFF2", "color": "#111827FF", "borderRadius": 8, "padding": 10},
+	"Outline": {"color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": "#FFFFFF66", "borderWidth": 1, "borderRadius": 8, "padding": 10},
+	"Band": {"fillColor": "#111827EB", "color": "#FFFFFFFF"},
+	"Solid": {"fillColor": "#0B0D10FF", "color": "#FFFFFFFF"},
+}
+LOOK_LABELS = {
+	"Plain": _lt("Plain"),
+	"Card": _lt("Card"),
+	"Light Card": _lt("Light Card"),
+	"Outline": _lt("Outline"),
+	"Band": _lt("Band"),
+	"Solid": _lt("Solid"),
+}
+
+# The look a widget is given when it is put on a screen, which is how each
+# was drawn before widgets were bare.
+FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid"}
+
+
+def look(settings: dict | None) -> dict:
+	"""Only the look's own keys, from a widget's settings. Pure."""
+	said = (settings or {}).get("look")
+	return {key: said[key] for key in LOOK if key in said and said[key] not in (None, "")} if isinstance(said, dict) else {}
+
 
 # The slot a ticker joins its rows into, and the separator between them.
 JOINED = {"Ticker": ("text", "   •   ")}
@@ -160,6 +178,12 @@ def described() -> list[dict]:
 				for key, kind_, label, default, *rest in spec["settings"]
 			],
 			"size": list(spec["size"]),
+			"look": LOOKS.get(FIRST_LOOK.get(kind, "Plain"), {}),
 		}
 		for kind, spec in TYPES.items()
 	]
+
+
+def looks() -> list[dict]:
+	"""The looks as the editor offers them, named in the reader's language."""
+	return [{"name": name, "label": str(LOOK_LABELS[name]), "look": said} for name, said in LOOKS.items()]

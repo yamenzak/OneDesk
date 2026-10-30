@@ -396,8 +396,9 @@ def onedisplay_fills_the_lobby_from_its_sources():
 	with as_user(OWNER):
 		lobby = programme.compose(CHANNEL)
 		assert len(lobby["slides"]["slides"]) == 3, lobby["slides"]
-		number = _widget(lobby, "Number")["data"]["rows"]
-		assert number and int(number[0]["value"]) > 0, number
+		# the projects figure is words on the screen, a chip its source fills (chips.py)
+		said = " ".join(one.get("content") or "" for one in lobby["layout"]["backdrop"]["elements"])
+		assert "Projects underway" in said and "{projects" not in said, said
 		assert sources.peek("Projects Underway")
 		channel = frappe.get_doc("Display Channel", CHANNEL)
 		night = now_datetime().replace(hour=23, minute=15)
@@ -467,6 +468,11 @@ def onedisplay_builds_a_screen_in_oneslide():
 			clock = next(one for one in placed if one["widget"]["widget_type"] == "Clock")
 			was = next(row["x"] for row in rows if row["id"] == clock["widget"]["id"])
 			clock["left"] -= 96
+			# the words it already has, such as a list a source fills (chips.py)
+			words = [one["id"] for one in elements if one["type"] != "widget"]
+			weather = next(one for one in placed if one["widget"]["widget_type"] == "Weather")
+			assert weather.get("fillColor"), "a widget's look is its element's"
+			weather["fillColor"] = "#FFFFFFF2"
 			elements.append({"id": "heading", "type": "text", "left": 40, "top": 400, "width": 400, "zIndex": 1, "content": "<p>Fitted in a week</p>"})
 			kept = {key: slide.get(key) for key in api.SLIDE_FIELDS if key in slide}
 			api.save_slides(made, json.dumps([{**kept, "elements": json.dumps(elements)}]), doc["modified"])
@@ -475,10 +481,12 @@ def onedisplay_builds_a_screen_in_oneslide():
 			moved = next(row for row in after if row["id"] == clock["widget"]["id"])
 			assert abs(moved["x"] - (was - 10)) < 0.01, (was, moved["x"])
 			stored = json.loads(frappe.get_doc(api.PRESENTATION, made).slides[0].elements)
-			assert [one["id"] for one in stored] == ["heading"], "the backdrop keeps no widget of its own"
+			assert [one["id"] for one in stored] == words + ["heading"], "the backdrop keeps no widget of its own"
+			looked = next(row for row in after if row["widget_type"] == "Weather")
+			assert json.loads(looked["settings"])["look"]["fillColor"] == "#FFFFFFF2", looked["settings"]
 			frappe.clear_document_cache("Widget Collection", WORKSHOP)
 			drawn = programme.layout(WORKSHOP, "en")["backdrop"]
-			assert drawn["bare"] and [one["id"] for one in drawn["elements"]] == ["heading"], drawn
+			assert drawn["bare"] and [one["id"] for one in drawn["elements"]] == words + ["heading"], drawn
 	finally:
 		frappe.db.rollback(save_point="screen_check")
 

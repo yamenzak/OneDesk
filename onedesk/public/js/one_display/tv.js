@@ -459,12 +459,41 @@
 			holder.appendChild(box);
 			var make = KINDS[one.type];
 			if (!make) continue;
-			boxes[one.id] = make(box, one, (one.w * s.w) / 100, (one.h * s.h) / 100) || {};
+			var inset = dress(box, (one.settings || {}).look, s.w / Math.round(s.w / 2));
+			boxes[one.id] = make(box, one, (one.w * s.w) / 100 - inset, (one.h * s.h) / 100 - inset) || {};
 		}
 		slide = { index: -1, total: 0 };
 		if (window.onedesk && onedesk.play) onedesk.play.release($("slides"));
 		$("slides").innerHTML = "";
 		music.index = -1;
+	}
+
+	/* A widget is bare: what surrounds its content is its element's look, set
+	   in the screen's editor (one_display/widgets.py LOOK) in the editor's
+	   units, `unit` of this frame's pixels each. Says how much of the box the
+	   padding and border take, which the widget sizes itself without. */
+
+	function dress(box, look, unit) {
+		if (!look) return 0;
+		var px = function (value) {
+			return Math.max(0, Number(value) || 0) * unit;
+		};
+		var colour = window.onedesk && onedesk.play ? onedesk.play.colour : function (value) { return value; };
+		if (look.fillColor) box.style.background = colour(look.fillColor);
+		if (look.color) box.style.color = colour(look.color);
+		if (look.fontFamily) box.style.fontFamily = '"' + String(look.fontFamily).replace(/"/g, "") + '", Inter, sans-serif';
+		if (look.padding) box.style.padding = px(look.padding) + "px";
+		if (look.borderRadius) box.style.borderRadius = px(look.borderRadius) + "px";
+		var line = look.borderStyle && look.borderStyle !== "none" ? px(look.borderWidth || 1) : 0;
+		if (line) box.style.border = line + "px " + look.borderStyle + " " + (look.borderColor ? colour(look.borderColor) : "currentColor");
+		if (look.shadowColor && (Number(look.shadowBlur) || Number(look.shadowOffset))) {
+			var size = box.offsetWidth || 100;
+			var away = (Number(look.shadowOffset) / 100) * size;
+			var angle = ((Number(look.shadowAngle) || 45) * Math.PI) / 180;
+			box.style.boxShadow = Math.round(away * Math.cos(angle)) + "px " + Math.round(away * Math.sin(angle)) + "px " + Math.round((Number(look.shadowBlur) / 100) * size) + "px " + colour(look.shadowColor);
+			box.style.overflow = "visible";
+		}
+		return 2 * (px(look.padding) + line);
 	}
 
 	function update() {
@@ -899,7 +928,6 @@
 					sized(box, ((s.size || 5) / 100) * (size().h));
 					node.style.justifyContent = s.align === "center" ? "center" : s.align === "end" ? "flex-end" : "flex-start";
 					node.style.textAlign = s.align || "start";
-					node.style.color = s.colour || "";
 					text(node, (rows(one)[0] || {}).text || s.text || "");
 				},
 			};
@@ -962,66 +990,6 @@
 						days.appendChild(day);
 					}
 					panel.appendChild(days);
-				},
-			};
-		},
-
-		List: function (box, one, w, h) {
-			var s = one.settings || {};
-			sized(box, h / ((s.rows || 6) * 1.9 + 3));
-			var panel = el("div", "panel");
-			var heading = el("div", "eyebrow");
-			var list = el("div");
-			panel.appendChild(heading);
-			panel.appendChild(list);
-			box.appendChild(panel);
-			return {
-				update: function (one) {
-					var s = one.settings || {};
-					text(heading, s.heading || "");
-					show(heading, !!s.heading);
-					list.innerHTML = "";
-					var all = rows(one).slice(0, s.rows || 6);
-					for (var i = 0; i < all.length; i++) {
-						var row = el("div", "row");
-						if (all[i].image) {
-							var img = el("img");
-							img.src = all[i].image;
-							row.appendChild(img);
-						}
-						var t = el("div", "t", all[i].title || "");
-						if (all[i].subtitle) t.appendChild(el("span", "sub", all[i].subtitle));
-						row.appendChild(t);
-						if (all[i].value) row.appendChild(el("div", "c big", all[i].value));
-						list.appendChild(row);
-					}
-					// A row is shown whole or not at all: rows with a second line are
-					// taller than the size was worked out for.
-					var room = box.clientHeight - (parseFloat(window.getComputedStyle(panel).paddingBottom) || 0);
-					while (list.childNodes.length > 1 && list.lastChild.offsetTop + list.lastChild.offsetHeight > room) {
-						list.removeChild(list.lastChild);
-					}
-				},
-			};
-		},
-
-		Number: function (box, one, w, h) {
-			sized(box, Math.min(h / 4, w / 6));
-			var panel = el("div", "panel");
-			var value = el("div", "big");
-			value.style.fontSize = "1.8em";
-			var label = el("div");
-			label.style.fontSize = "0.5em";
-			label.style.opacity = "0.8";
-			label.style.marginTop = "0.3em";
-			panel.appendChild(value);
-			panel.appendChild(label);
-			box.appendChild(panel);
-			return {
-				update: function (one) {
-					var first = rows(one)[0] || {};
-					text(value, first.value || "0");
-					text(label, first.label || (one.settings || {}).label || "");
 				},
 			};
 		},

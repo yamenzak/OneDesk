@@ -108,7 +108,7 @@ def test_a_recording_is_wrapped_as_a_wav():
 def _widgets() -> dict:
 	return _load(
 		HERE / "widgets.py",
-		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES"),
+		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES", "LOOK", "LOOKS", "LOOK_LABELS", "FIRST_LOOK"),
 		_lt=lambda text, context=None: text,
 	)
 
@@ -132,6 +132,27 @@ def test_every_widget_is_declared_soundly():
 				assert setting[3] in setting[4], f"{name}'s {setting[0]} starts on a choice it doesn't offer"
 		width, height = one["size"]
 		assert 0 < width <= 100 and 0 < height <= 100, name
+
+
+def test_a_widget_draws_nothing_around_its_content():
+	"""A widget is bare: its renderer in tv.js, and the styles it is drawn
+	with, set no background, border, corners or font of their own. Those are
+	its element's look, set in the editor and put on by tv.js `dress`; a look
+	names only what an element may set, and every widget starts in one."""
+	said = _widgets()
+	tv = (ROOT / "onedesk/public/js/one_display/tv.js").read_text()
+	renderers = tv[tv.index("var KINDS = {") : tv.index("function dayName")]
+	found = re.findall(r"\bbox\.style\.(background|border\w*|fontFamily|padding|boxShadow)\b", renderers)
+	assert not found, f"a renderer styles its own box: {found}"
+	page = (ROOT / "onedesk/www/tv.html").read_text()
+	for kind in (".panel", ".ticker", ".kiosk", ".weather", ".qr", ".custom"):
+		for rule in re.findall(re.escape(kind) + r"\s*\{([^}]*)\}", page):
+			assert not re.search(r"(^|;)\s*(background|border|border-radius|font-family|box-shadow)\s*:", rule), f"{kind} draws around its content: {rule}"
+	for name, look in said["LOOKS"].items():
+		assert set(look) <= set(said["LOOK"]), f"the {name} look sets what an element may not"
+		assert name in said["LOOK_LABELS"], name
+	assert set(said["FIRST_LOOK"]) <= set(said["TYPES"]) and set(said["FIRST_LOOK"].values()) <= set(said["LOOKS"])
+	assert not {"Number", "List"} & set(said["TYPES"]), "a figure or a list is words with chips, not a widget"
 
 
 @pytest.mark.skipif(not shutil.which("node"), reason="no node to parse the player with")

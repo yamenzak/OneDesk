@@ -435,5 +435,5 @@ def peek(
 	frappe.has_permission(DOCTYPE, "read", doc=source, throw=True)
 	if isinstance(mapping, str):
 		mapping = json.loads(mapping or "{}")
-	widget = frappe._dict(source=source, mapping=json.dumps(mapping or {}), widget_type=widget_type or "List")
+	widget = frappe._dict(source=source, mapping=json.dumps(mapping or {}), widget_type=widget_type or "Ticker")
 	return fill(widget, frappe.local.lang)

@@ -23,6 +23,8 @@ export function addWidget(kind) {
 		width,
 		height,
 		zIndex: Math.max(0, ...slide.elements.map((one) => one.zIndex || 0)) + 1,
+		// the look its kind starts in (one_display/widgets.py FIRST_LOOK)
+		...(kind.look || {}),
 		widget: { id: null, widget_type: kind.type, label: "", source: "", mapping: {}, settings: {}, shown: "Always" },
 	};
 	commandHistory.execute(batchCommand({ slideId: slide.clientId, elementIds: [element.id], commands: [addElementCommand({ slideId: slide.clientId, element })] }));

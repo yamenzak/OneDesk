@@ -13,6 +13,7 @@ from frappe import _
 from frappe.utils import cint, flt
 
 from onedesk.one_display import layout, sizes
+from onedesk.one_display import widgets as kinds
 
 DOCTYPE = "Widget Collection"
 WIDGET = "widget"
@@ -52,7 +53,7 @@ def loaded(doc: dict, item: dict) -> None:
 		return
 	said = layout.get(collection.name)
 	wide, high = frame(collection)
-	doc["screen"] = {key: said[key] for key in ("name", "screen_size", "writable", "types", "sources")}
+	doc["screen"] = {key: said[key] for key in ("name", "screen_size", "writable", "types", "sources", "looks")}
 	# the frame the editor lays the screen out on (frontend/src/slide/shim/frame.js)
 	doc["screen"]["frame"] = {"w": wide, "h": high}
 	slides = (doc.get("slides") or [])[:1]
@@ -72,6 +73,8 @@ def loaded(doc: dict, item: dict) -> None:
 				"height": round(flt(row["h"]) / 100 * high, 2),
 				"zIndex": ABOVE + cint(row.get("layer")),
 				"widget": {"id": row["id"], **{key: row.get(key) for key in ROW}},
+				# its look is the element's own, edited as any object's is (widgets.LOOK)
+				**kinds.look(_settings(row.get("settings"))),
 			}
 		)
 	first["elements"] = json.dumps(elements)
@@ -92,9 +95,12 @@ def saving(name: str, item: dict, slides: list) -> list:
 	widgets = []
 	for layer, one in enumerate(placed, start=1):
 		kept = one.get("widget") or {}
+		settings = {key: value for key, value in _settings(kept.get("settings")).items() if key != "look"}
+		dressed = kinds.look({"look": one})
 		widgets.append(
 			{
 				**{key: kept.get(key) for key in ROW},
+				"settings": {**settings, **({"look": dressed} if dressed else {})},
 				"id": kept.get("id"),
 				"label": one.get("name") or kept.get("label") or "",
 				"x": _percent(one.get("left"), wide),
@@ -121,6 +127,16 @@ def _brand() -> str:
 
 def _percent(value, of: int, least: float = -50) -> float:
 	return round(min(max(flt(value) / of * 100, least), 150), 3)
+
+
+def _settings(value) -> dict:
+	if isinstance(value, dict):
+		return value
+	try:
+		said = json.loads(value or "{}")
+	except ValueError:
+		return {}
+	return said if isinstance(said, dict) else {}
 
 
 def _parsed(value) -> list:

@@ -30,6 +30,7 @@ def get(collection: Annotated[str, "The widget collection."]) -> dict:
 		"writable": doc.has_permission("write"),
 		"widgets": [{"id": row.name, **{key: row.get(key) for key in KEPT}} for row in doc.widgets],
 		"types": kinds.described(),
+		"looks": kinds.looks(),
 		"sources": frappe.get_list(
 			"Display Source", fields=["name", "kind", "ref_doctype", "report"], order_by="name asc", limit=500
 		),

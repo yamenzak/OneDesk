@@ -23,7 +23,7 @@
    "fieldname": "widget_type",
    "fieldtype": "Select",
    "label": "Widget",
-   "options": "Queue Board\nKiosk\nTicker\nText\nClock\nWeather\nList\nNumber\nImage\nQR Code\nCustom",
+   "options": "Queue Board\nKiosk\nTicker\nText\nClock\nWeather\nImage\nQR Code\nCustom",
    "reqd": 1,
    "in_list_view": 1
   },
@@ -108,7 +108,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 21:14:59.070933",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Widget",

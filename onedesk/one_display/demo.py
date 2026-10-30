@@ -17,6 +17,7 @@ import frappe
 
 from onedesk.one_demo.base import as_user
 from onedesk.one_demo.people import OWNER
+from onedesk.one_display import chips
 
 QUEUE = "Showroom"
 CHANNEL = "Showroom Lobby"
@@ -94,6 +95,8 @@ def _screens():
 	if not frappe.db.exists("Slide Playlist", "Showroom"):
 		_make("Slide Playlist", "Showroom", {"playlist_name": "Showroom"})
 		_showroom()
+	# a figure and a list from a source are words with chips on the screen (chips.py)
+	words = {name: not frappe.db.exists("Widget Collection", name) for name in (CHANNEL, WORKSHOP)}
 	_make(
 		"Widget Collection",
 		CHANNEL,
@@ -102,7 +105,6 @@ def _screens():
 			"widgets": [
 				_widget("Queue Board", 64, 0, 36, 92, source=queue, settings={"rows": 5}),
 				_widget("Clock", 2, 3, 22, 16),
-				_widget("Number", 26, 3, 14, 16, source=projects, settings={"label": "Projects underway"}, mapping={"value": "{value}"}),
 				_widget(
 					"Ticker",
 					0,
@@ -127,13 +129,16 @@ def _screens():
 			"widgets": [
 				_widget("Text", 3, 4, 60, 12, settings={"text": "Workshop", "size": 7}),
 				_widget("Clock", 76, 4, 22, 16),
-				_widget("List", 3, 22, 58, 66, source=late, settings={"heading": "Late tasks", "rows": 8}, mapping={"title": "{subject}", "subtitle": "Due {exp_end_date}"}),
 				_widget("Weather", 66, 26, 32, 34, source="Dubai Weather"),
 				_widget("QR Code", 76, 64, 16, 26, settings={"link": frappe.utils.get_url("/desk/task"), "caption": "Open your tasks"}),
 				_widget("Ticker", 0, 92, 100, 8, source=rates, mapping={"text": "{line}"}),
 			],
 		},
 	)
+	if words[CHANNEL]:
+		chips.onto(CHANNEL, chips.number("projects", {"value": "{value}"}, "Projects underway", (26, 3, 14, 16)), [{"key": "projects", "kind": "rows", "source": projects}])
+	if words[WORKSHOP]:
+		chips.onto(WORKSHOP, chips.listed("late", {"title": "{subject}", "subtitle": "Due {exp_end_date}"}, "Late tasks", 8, (3, 22, 58, 66)), [{"key": "late", "kind": "rows", "source": late, "limit": 12}])
 	if not frappe.db.exists("Music Playlist", MUSIC):
 		frappe.get_doc(
 			{"doctype": "Music Playlist", "playlist_name": MUSIC, "volume": 30, "tracks": [{"title": "Morning Glass", "file": _track(), "duration": 24}]}

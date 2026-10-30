@@ -63,8 +63,14 @@
 					<hr class="border-t" />
 					<ShadowSection :key="activeElementIds.join()" />
 				</template>
-				<!-- One: a widget's own settings; a screen draws it, so it has no looks of its own -->
+				<!-- One: a widget is bare; its look is its element's, as any object's is (shim/WidgetLookSection.vue) -->
 				<template v-if="activeElement?.type === 'widget'">
+					<hr class="border-t" />
+					<WidgetLookSection />
+					<hr class="border-t" />
+					<BorderSection :key="activeElementIds.join()" />
+					<hr class="border-t" />
+					<ShadowSection :key="activeElementIds.join()" />
 					<hr class="border-t" />
 					<WidgetSection />
 				</template>
@@ -100,6 +106,7 @@ import LucideLockOpen from '~icons/lucide/lock-open' // One: the island resolves
 import { computed, provide, ref } from 'vue'
 import { TabButtons } from 'frappe-ui'
 import WidgetSection from '@/apps/slides/shim/WidgetSection.vue' // One: a widget's settings, VENDORED.md
+import WidgetLookSection from '@/apps/slides/shim/WidgetLookSection.vue' // One: a widget's look, VENDORED.md
 import { screen } from '@/apps/slides/stores/presentation' // One
 import MasterSection from '@/apps/slides/shim/MasterSection.vue' // One: VENDORED.md
 import { master, masterOf } from '@/apps/slides/shim/master.js' // One

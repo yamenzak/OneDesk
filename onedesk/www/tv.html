@@ -24,8 +24,9 @@
 		.contain { object-fit: contain; }
 		#widgets > .w { position: absolute; overflow: hidden; box-sizing: border-box; }
 
-		/* Widgets size their words in em from their own height (tv.js). */
-		.panel { background: rgba(11, 13, 16, 0.86); border-radius: 0.5em; height: 100%; box-sizing: border-box; padding: 0.8em 1em; }
+		/* Widgets size their words in em from their own height and draw nothing
+		   around them: a box's fill, border, corners and padding are its look (tv.js dress). */
+		.panel { height: 100%; box-sizing: border-box; }
 		.eyebrow { font-size: 0.7em; letter-spacing: 0.15em; text-transform: uppercase; opacity: 0.7; margin-bottom: 0.6em; }
 		.now { display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-items: baseline; align-items: baseline; padding: 0.5em 0.7em; border-radius: 0.3em; margin-bottom: 0.5em; }
 		.now .t { font-size: 3em; font-weight: 700; line-height: 1.05; -webkit-flex: 1 0 auto; flex: 1 0 auto; }
@@ -40,9 +41,9 @@
 		.row .sub { display: block; font-size: 0.7em; font-weight: 400; opacity: 0.75; overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 		.pill { display: inline-block; min-width: 1.6em; text-align: center; padding: 0.15em 0.3em; border-radius: 0.25em; background: rgba(255, 255, 255, 0.14); font-weight: 700; -webkit-margin-end: 0.6em; margin-inline-end: 0.6em; }
 		.big { font-weight: 700; line-height: 1; }
-		.ticker { height: 100%; white-space: nowrap; overflow: hidden; position: relative; background: rgba(17, 24, 39, 0.92); }
+		.ticker { height: 100%; white-space: nowrap; overflow: hidden; position: relative; }
 		.ticker span { position: absolute; top: 0; height: 100%; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; font-size: 0.55em; }
-		.kiosk { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; background: #0b0d10; }
+		.kiosk { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
 		.kiosk h1 { font-size: 0.9em; font-weight: 600; margin: 0 0 0.8em; }
 		.kiosk button { display: inline-block; width: 40%; margin: 0.25em 2%; padding: 0.7em 0.5em; font: inherit; font-size: 0.55em; font-weight: 600; color: #fff; border: 0; border-radius: 0.3em; cursor: pointer; }
 		.weather .temp { font-size: 2.4em; font-weight: 700; line-height: 1; }
