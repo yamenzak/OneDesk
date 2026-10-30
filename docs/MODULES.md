@@ -214,8 +214,8 @@ No doctypes yet.
 |---|--:|---|
 | Channel Ad | 4 | child |
 | Channel Programme | 7 | child |
-| Display Channel | 18 | document |
-| Display Screen | 17 | document |
+| Display Channel | 19 | document |
+| Display Screen | 32 | document |
 | Display Settings | 2 | single |
 | Display Slide | 8 | child |
 | Display Source | 32 | document |

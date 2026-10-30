@@ -174,6 +174,36 @@ def onedisplay_tells_the_counters_of_a_long_wait():
 
 
 @check
+def onedisplay_hears_what_a_screen_is():
+	"""A paired screen says its pixels and memory once a minute; a page past
+	most of its memory, or one restarted three times today for no reason it
+	gave, is shown at risk, and a nightly fresh start is not counted."""
+	from onedesk.one_display import programme, screens
+
+	with as_user("Guest"):
+		started = screens.start("check")
+	with as_user(OWNER):
+		screen = screens.pair(started["code"], "Report Check", CHANNEL)
+	try:
+		with as_user("Guest"):
+			token = screens.status(started["screen"], started["secret"])["token"]
+			said = {"boot": "a", "why": "start", "w": 1920, "h": 1080, "dpr": 2, "mem": 4, "heap": 50 * screens.MB, "limit": 1000 * screens.MB, "ua": "TV"}
+			assert screens.state(screen, token, report=json.dumps(said))["channel"]["reload_at"] == 4 * 60
+			row = frappe.db.get_value("Display Screen", screen, ["pixels", "memory_gb", "at_risk", "restarts_today", "device"], as_dict=True)
+			assert row.pixels == "1920 × 1080 · 2x" and row.memory_gb == 4 and not row.at_risk and row.device == "TV", row
+			for boot, why in (("b", "nightly"), ("c", "unexpected"), ("d", "unexpected")):
+				screens.state(screen, token, report=json.dumps({**said, "boot": boot, "why": why}))
+			row = frappe.db.get_value("Display Screen", screen, ["at_risk", "restarts_today", "risk"], as_dict=True)
+			assert row.restarts_today == 3 and row.at_risk and "3" in row.risk, row
+			screens.state(screen, token, report=json.dumps({**said, "boot": "d", "heap": 900 * screens.MB}))
+			risk = frappe.db.get_value("Display Screen", screen, "risk")
+			assert "90%" in risk, risk
+		assert programme._minutes("23:30:00") == 23 * 60 + 30 and programme._minutes(None) is None
+	finally:
+		frappe.delete_doc("Display Screen", screen, ignore_permissions=True, force=True)
+
+
+@check
 def onedisplay_plays_a_presentation():
 	"""The showroom's playlist plays a presentation from OneCloud: each of its
 	slides reaches a screen as the editor's elements, its own time or the

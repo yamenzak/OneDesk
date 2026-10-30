@@ -302,11 +302,20 @@ def compose(channel_name: str, lang: str | None = None) -> dict:
 			"music": music(now["music"]),
 			"ads": ads(channel, lang),
 			"words": words(),
+			# the minute of the day screens reload at (screens.py, the brakes), or None
+			"reload_at": _minutes(channel.get("reload_at")),
 		}
 	finally:
 		frappe.local.lang = previous
 	said["revision"] = _revision(said)
 	return said
+
+
+def _minutes(value) -> int | None:
+	if not value:
+		return None
+	hours, minutes = (str(value).split(":") + ["0"])[:2]
+	return cint(hours) * 60 + cint(minutes)
 
 
 def words() -> dict:

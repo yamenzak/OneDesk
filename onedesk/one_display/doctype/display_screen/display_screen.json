@@ -11,6 +11,21 @@
   "status",
   "last_seen",
   "pair_code",
+  "section_break_device",
+  "at_risk",
+  "risk",
+  "pixels",
+  "memory_gb",
+  "column_break_load",
+  "heap_mb",
+  "heap_limit_mb",
+  "pictures_mb",
+  "largest_video",
+  "column_break_restarts",
+  "restarts_today",
+  "last_restart",
+  "last_restart_reason",
+  "boot",
   "section_break_control",
   "muted",
   "dark",
@@ -68,6 +83,99 @@
    "fieldname": "pair_code",
    "fieldtype": "Data",
    "label": "Pairing Code",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "section_break_device",
+   "fieldtype": "Section Break",
+   "label": "Device",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "at_risk",
+   "fieldtype": "Check",
+   "label": "At Risk",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "risk",
+   "fieldtype": "Small Text",
+   "label": "Why",
+   "read_only": 1,
+   "depends_on": "at_risk"
+  },
+  {
+   "fieldname": "pixels",
+   "fieldtype": "Data",
+   "label": "Pixels",
+   "read_only": 1,
+   "description": "What the screen's browser draws on, across by down, and its pixel ratio."
+  },
+  {
+   "fieldname": "memory_gb",
+   "fieldtype": "Float",
+   "label": "Memory (GB)",
+   "read_only": 1,
+   "description": "What the browser says the device has; some do not say."
+  },
+  {
+   "fieldname": "column_break_load",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "heap_mb",
+   "fieldtype": "Int",
+   "label": "Page Memory (MB)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "heap_limit_mb",
+   "fieldtype": "Int",
+   "label": "Page Memory Limit (MB)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "pictures_mb",
+   "fieldtype": "Int",
+   "label": "Pictures in Memory (MB)",
+   "read_only": 1,
+   "description": "The most the pictures on screen and the next one took at once, decoded, in the last half hour."
+  },
+  {
+   "fieldname": "largest_video",
+   "fieldtype": "Data",
+   "label": "Largest Video",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_restarts",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "restarts_today",
+   "fieldtype": "Int",
+   "label": "Restarts Today",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_restart",
+   "fieldtype": "Datetime",
+   "label": "Last Restart",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_restart_reason",
+   "fieldtype": "Data",
+   "label": "Restart Reason",
+   "read_only": 1
+  },
+  {
+   "fieldname": "boot",
+   "fieldtype": "Data",
+   "label": "Page",
    "read_only": 1,
    "hidden": 1
   },
@@ -134,7 +242,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 20:50:54.668379",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Screen",

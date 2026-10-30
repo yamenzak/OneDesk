@@ -8,6 +8,7 @@
   "orientation",
   "column_break_name",
   "description",
+  "reload_at",
   "section_plays",
   "slide_playlist",
   "widget_collection",
@@ -47,6 +48,13 @@
    "fieldtype": "Small Text",
    "label": "Location",
    "description": "Such as the showroom's lobby."
+  },
+  {
+   "fieldname": "reload_at",
+   "fieldtype": "Time",
+   "label": "Fresh Start Every Night At",
+   "default": "04:00:00",
+   "description": "Screens on this channel reload at this time each night, which frees what an old TV's browser holds on to. Empty never."
   },
   {
    "fieldname": "section_plays",
@@ -129,7 +137,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 20:40:31.385651",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Channel",

@@ -40,6 +40,22 @@
 	var boxes = {};
 	var heard = null;
 
+	/* What this page is, and why the last one ended: a reason it gave itself
+	   just before reloading, or else a page reloaded inside one browser
+	   session (a crash) or a new session (the set turned on). */
+	var WHY = "one_tv_why";
+	var BOOT = Math.random().toString(16).slice(2, 10) + Date.now().toString(16);
+	var bornAt = Date.now();
+	var why = "start";
+	try {
+		why = window.localStorage.getItem(WHY) || (window.sessionStorage.getItem(WHY) ? "unexpected" : "start");
+		window.localStorage.removeItem(WHY);
+		window.sessionStorage.setItem(WHY, "1");
+	} catch (e) {}
+	// what the page holds, sampled every half minute (weigh)
+	var weight = { pictures: 0, peakAt: 0, video: null, heavy: false };
+	var reportedAt = 0;
+
 	function $(id) {
 		return document.getElementById(id);
 	}
@@ -185,7 +201,7 @@
 	function poll() {
 		asking = true;
 		woken = false;
-		call("state", { screen: saved.screen, token: saved.token, have: channel && channel.revision }, function (m) {
+		call("state", { screen: saved.screen, token: saved.token, have: channel && channel.revision, report: report() }, function (m) {
 			asking = false;
 			offline(false);
 			if (m.gone) {
@@ -202,6 +218,69 @@
 			offline(true);
 			later(poll, EVERY * 3);
 		});
+	}
+
+	/* Once a minute a screen says what it is and what it holds, which the
+	   Display Screen keeps and judges (screens._heard). */
+
+	function report() {
+		if (Date.now() - reportedAt < 60000) return null;
+		reportedAt = Date.now();
+		var memory = window.performance && performance.memory;
+		var said = {
+			boot: BOOT,
+			why: why,
+			w: window.innerWidth,
+			h: window.innerHeight,
+			dpr: window.devicePixelRatio || 1,
+			mem: navigator.deviceMemory || 0,
+			pictures: weight.pictures,
+			video: weight.video,
+			ua: navigator.userAgent
+		};
+		if (memory && memory.jsHeapSizeLimit) {
+			said.heap = memory.usedJSHeapSize;
+			said.limit = memory.jsHeapSizeLimit;
+		}
+		return JSON.stringify(said);
+	}
+
+	/* Brakes. A browser gives no warning before it runs out of memory, so a
+	   page past most of its limit reloads at the next change of slide, and
+	   every page reloads once a night at the channel's quiet hour. */
+
+	function restart(reason) {
+		try {
+			window.localStorage.setItem(WHY, reason);
+		} catch (e) {}
+		window.location.reload();
+	}
+
+	function weigh() {
+		var bytes = 0;
+		var i;
+		var pictures = document.getElementsByTagName("img");
+		for (i = 0; i < pictures.length; i++) bytes += (pictures[i].naturalWidth || 0) * (pictures[i].naturalHeight || 0) * 4;
+		// the most at once in the last half hour, so a light slide does not hide a heavy one
+		if (bytes >= weight.pictures || Date.now() - weight.peakAt > 1800000) {
+			weight.pictures = bytes;
+			weight.peakAt = Date.now();
+		}
+		var videos = document.getElementsByTagName("video");
+		for (i = 0; i < videos.length; i++) {
+			var v = videos[i];
+			if (v.videoWidth && (!weight.video || v.videoWidth * v.videoHeight > weight.video[0] * weight.video[1])) weight.video = [v.videoWidth, v.videoHeight];
+		}
+		if (PREVIEW || Date.now() - bornAt < 600000) return;
+		var memory = window.performance && performance.memory;
+		weight.heavy = !!(memory && memory.jsHeapSizeLimit && memory.usedJSHeapSize > memory.jsHeapSizeLimit * 0.8);
+		var slides = channel && channel.slides && channel.slides.slides;
+		// with no change of slide coming, now is as calm as it gets
+		if (weight.heavy && !(slides && slides.length > 1 && channel.mode === "show")) return restart("memory");
+		var at = channel && channel.reload_at;
+		if (at == null || Date.now() - bornAt < 3600000) return;
+		var minute = (((Math.floor(now() / 60000) + zone) % 1440) + 1440) % 1440;
+		if (minute >= at && minute < at + 5) restart("nightly");
 	}
 
 	/* The socket only wakes a screen to ask now (one_display/live.py). A
@@ -251,7 +330,7 @@
 	function apply(m) {
 		var command = m.command || {};
 		if (lastCommand !== null && command.at && command.at !== lastCommand && command.name === "reload") {
-			window.location.reload();
+			restart("command");
 			return;
 		}
 		lastCommand = command.at || "";
@@ -292,6 +371,8 @@
 			return;
 		}
 		var sleeping = channel.mode === "screensaver";
+		// the clock in the workspace's time as soon as the zone is known, not at the next drift
+		if (sleeping) text("saver-clock", hhmm(local(), false));
 		show("saver", sleeping);
 		show("frame", !sleeping);
 		if (channel.revision !== built) build();
@@ -418,6 +499,7 @@
 		var items = channel.slides.slides || [];
 		var at = where(items, now());
 		if (!at || at.index === slide.index) return;
+		if (weight.heavy) return restart("memory");
 		slide.index = at.index;
 		var holder = $("slides");
 		var item = items[at.index];
@@ -1103,6 +1185,7 @@
 	if (!PREVIEW && saved.token) offlineStart();
 	setInterval(tick, 250);
 	setInterval(saver, 30000);
+	setInterval(weigh, 30000);
 	saver();
 	begin();
 })();

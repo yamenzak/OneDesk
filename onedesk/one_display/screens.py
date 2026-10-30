@@ -13,7 +13,7 @@ from typing import Annotated
 import frappe
 from frappe import _
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_to_date, cint, get_datetime, now_datetime
+from frappe.utils import add_to_date, cint, flt, get_datetime, getdate, now_datetime, today
 
 from onedesk.one_display import programme
 from onedesk.one_display import queue as queues
@@ -107,7 +107,10 @@ def _screen(screen: str, token: str):
 	row = frappe.db.get_value(
 		DOCTYPE,
 		screen,
-		["name", "screen_name", "channel", "rotate", "muted", "dark", "command", "command_at", "token_hash", "last_seen"],
+		[
+			"name", "screen_name", "channel", "rotate", "muted", "dark", "command", "command_at", "token_hash", "last_seen",
+			"boot", "restarts_today", "last_restart", "device",
+		],
 		as_dict=True,
 	)
 	if not row or not row.token_hash or not hmac.compare_digest(row.token_hash, _hash(token)):
@@ -120,13 +123,91 @@ def _alert() -> str | None:
 	return settings.alert_message if settings.alert_active else None
 
 
+# How far a screen may go before it is shown as at risk: of its page's
+# memory limit, and of the device's memory taken by decoded pictures.
+HEAP_SHARE = 0.8
+PICTURE_SHARE = 0.25
+PICTURES_UNKNOWN_MB = 400
+RESTARTS = 3
+MB = 1024 * 1024
+
+
+def _why(said: str) -> str:
+	return {
+		"memory": _("Its page memory was nearly full."),
+		"nightly": _("The nightly fresh start."),
+		"command": _("Reload was sent from OneDisplay."),
+		"start": _("It was turned on or opened."),
+	}.get(said) or _("Unexpected: the device or its browser restarted.")
+
+
+def _risks(seen: dict) -> list[str]:
+	"""Why a screen may fail soon, from what it last said about itself."""
+	said = []
+	heap, limit = cint(seen.get("heap_mb")), cint(seen.get("heap_limit_mb"))
+	if limit and heap > limit * HEAP_SHARE:
+		said.append(_("Its page memory is {0}% full.").format(round(heap * 100 / limit)))
+	pictures, memory = cint(seen.get("pictures_mb")), flt(seen.get("memory_gb"))
+	if memory and pictures > memory * 1024 * PICTURE_SHARE:
+		said.append(_("Pictures take {0} MB, a quarter or more of the device's memory.").format(pictures))
+	elif not memory and pictures > PICTURES_UNKNOWN_MB:
+		said.append(_("Pictures take {0} MB.").format(pictures))
+	if cint(seen.get("restarts_today")) >= RESTARTS:
+		said.append(_("It restarted {0} times today.").format(cint(seen["restarts_today"])))
+	if seen.get("video_too_big"):
+		said.append(_("A video is {0}, larger than this screen shows.").format(seen["largest_video"]))
+	return said
+
+
+def _heard(row, report: str | dict | None) -> None:
+	"""What a screen says about itself, at most once a minute: its pixels, its
+	memory and what its pictures and videos take, and a new page with why
+	the last one ended. Kept on the Display Screen, with whether it is at risk."""
+	said = frappe.parse_json(report) if isinstance(report, str) else report
+	if not isinstance(said, dict):
+		return
+	values = {}
+	w, h, dpr = cint(said.get("w")), cint(said.get("h")), flt(said.get("dpr")) or 1
+	if w and h:
+		values["pixels"] = f"{w} × {h} · {dpr:g}x"
+	if flt(said.get("mem")):
+		values["memory_gb"] = flt(said["mem"])
+	for key, field in (("heap", "heap_mb"), ("limit", "heap_limit_mb"), ("pictures", "pictures_mb")):
+		if said.get(key) is not None:
+			values[field] = round(flt(said[key]) / MB)
+	video = said.get("video") or []
+	if isinstance(video, list) and len(video) == 2 and cint(video[0]) and cint(video[1]):
+		vw, vh = cint(video[0]), cint(video[1])
+		values["largest_video"] = f"{vw} × {vh}"
+		shown = max(w * dpr, h * dpr) if w and h else 1920
+		values["video_too_big"] = max(vw, vh) > max(shown * 2, 3840)
+	if said.get("ua") and said["ua"] != row.device:
+		values["device"] = str(said["ua"])[:500]
+	boot = str(said.get("boot") or "")[:32]
+	if boot and boot != row.boot:
+		values["boot"] = boot
+		if row.boot:
+			same_day = row.last_restart and getdate(row.last_restart) == getdate(today())
+			values["restarts_today"] = (cint(row.restarts_today) if same_day else 0) + (0 if said.get("why") == "start" else 1)
+			values["last_restart"] = now_datetime()
+			values["last_restart_reason"] = _why(said.get("why") or "")
+	seen = {**row, **values}
+	risks = _risks(seen)
+	values.pop("video_too_big", None)
+	values["at_risk"] = 1 if risks else 0
+	values["risk"] = "\n".join(risks)
+	frappe.db.set_value(DOCTYPE, row.name, values, update_modified=False)
+
+
 @frappe.whitelist(allow_guest=True, methods=["POST"])
-def state(screen: str, token: str, have: str | None = None) -> dict:
+def state(screen: str, token: str, have: str | None = None, report: str | None = None) -> dict:
 	"""Everything a paired screen shows now, and the server's time, which the
-	screen keeps its clock to."""
+	screen keeps its clock to. Once a minute it also says what it is (_heard)."""
 	row = _screen(screen, token)
 	if not row:
 		return {"gone": 1}
+	if report:
+		_heard(row, report)
 	if not row.last_seen or get_datetime(row.last_seen) < add_to_date(now_datetime(), seconds=-30):
 		frappe.db.set_value(DOCTYPE, screen, "last_seen", now_datetime(), update_modified=False)
 	return {

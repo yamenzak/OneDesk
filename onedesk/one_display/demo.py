@@ -236,7 +236,7 @@ def _showroom() -> None:
 def _design(ground: str, eyebrow: str, title: str, line: str) -> dict:
 	"""A showroom slide as OneDisplay's blocks, as OneAI designs one, for
 	one_slide/convert.py to draw as a presentation's slide."""
-	text = {"kind": "text", "colour": "#ffffff", "align": "start", "x": 6, "w": 62}
+	text = {"kind": "text", "colour": "#ffffff", "align": "start", "x": 6, "w": 54}
 	return {
 		"orientation": "Landscape",
 		"background": ground,
