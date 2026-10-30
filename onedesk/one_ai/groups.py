@@ -350,7 +350,6 @@ PAGES = {
 	"onecrm": "crm",
 	"onehr": "hr",
 	"counter": "display",
-	"display-layout": "display",
 }
 
 

@@ -14,16 +14,20 @@
 		</div>
 		<span class="text-sm text-ink-gray-5 max-md:hidden">{{ making || status }}</span>
 		<div class="ml-auto flex shrink-0 items-center gap-2">
+			<Dropdown v-if="!inReadonlyMode && screen" :options="widgetMenu" align="end">
+				<Button variant="ghost" icon-left="lucide-layout-dashboard" :label="__('Add a Widget')" icon-right="lucide-chevron-down" />
+			</Dropdown>
 			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn()" :options="aiMenu" align="end">
 				<Button variant="ghost" :label="ONEAI" icon-right="lucide-chevron-down" :loading="!!making">
 					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
 				</Button>
 			</Dropdown>
-			<Button v-if="!inReadonlyMode && presentationDoc" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
-			<Dropdown v-if="presentationDoc" :options="fileMenu" align="end">
+			<Button v-if="!inReadonlyMode && presentationDoc && !screen" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
+			<Dropdown v-if="presentationDoc && !screen" :options="fileMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
 			</Dropdown>
-			<PresentButton v-if="presentationDoc" @start="(options) => emit('startSlideShow', options)" />
+			<PresentButton v-if="presentationDoc && !screen" @start="(options) => emit('startSlideShow', options)" />
+			<Button v-if="screen" variant="solid" icon-left="lucide-monitor-play" :label="__('Preview')" @click="openTab(`/tv?collection=${encodeURIComponent(screen.name)}`)" />
 		</div>
 		<SlideCamera ref="camera" />
 		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
@@ -38,7 +42,8 @@ import { __, alert, call, goTo, goToUrl, oneaiMark, oneaiOn, openTab, prompt } f
 import InlineRenameInput from "../../sheet/shim/InlineRenameInput.vue";
 import { mark } from "../../sheet/shim/mark.js";
 import PresentButton from "../components/PresentButton.vue";
-import { initPresentationDoc, presentationDoc, updatePresentationTitle } from "../stores/presentation";
+import { initPresentationDoc, presentationDoc, screen, updatePresentationTitle } from "../stores/presentation";
+import { addWidget } from "./screen.js";
 import { addMediaElement } from "../stores/element";
 import { changeSlide, currentSlide, getNewSlide, insertSlide, slideIndex, slides } from "../stores/slide";
 import { commandHistory } from "../stores/historyMeta";
@@ -147,12 +152,14 @@ const aiMenu = computed(() => [
 	{
 		group: ONEAI,
 		options: [
-			{ label: __("Design a Slide"), icon: "lucide-layout-template", onClick: designSlide },
+			// a screen has one slide: OneAI adds to it, never a slide after it
+			...(screen.value ? [] : [{ label: __("Design a Slide"), icon: "lucide-layout-template", onClick: designSlide }]),
 			{ label: __("Make a Picture"), icon: "lucide-image", onClick: makePicture },
-			{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo },
+			...(screen.value ? [] : [{ label: __("Make a Video"), icon: "lucide-film", onClick: makeVideo }]),
 		],
 	},
 ]);
+const widgetMenu = computed(() => [{ group: __("Widgets"), options: (screen.value?.types || []).map((one) => ({ label: one.label, onClick: () => addWidget(one) })) }]);
 
 function described(title, label, done) {
 	prompt([{ fieldname: "description", fieldtype: "Small Text", label: __("Describe It"), reqd: 1 }], ({ description }) => done(description), title, label);

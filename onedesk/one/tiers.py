@@ -166,7 +166,6 @@ SCREENS = {
 	"plant": "a floor's workstations, their status and the stock kept on the floor (Plant Floor, Workstation)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"counter": "a queue counter: the ticket it serves, call the next, and who waits (Queue Ticket)",
-	"display-layout": "where a widget collection's widgets sit on the screen, and what each shows (Widget Collection)",
 	"onemail": "mail, read and written (Communication)",
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",

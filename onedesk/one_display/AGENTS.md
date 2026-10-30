@@ -188,8 +188,8 @@ one).
   TV's Chromium ignores, its fonts come from Google, and installing it brings
   pandas, duckdb and litellm. Slides are made in OneSlide, Suite's editor
   with our Builder half, and drawn on the screen by an ES5 renderer of what
-  it saves; widgets are placed in our own editor
-  (`frontend/src/display/Layout.vue`) over a live preview of the screen.
+  it saves; widgets are placed in the same editor, as elements on a screen's
+  backdrop presentation (`screen.py`, stage 7 of docs/ONESLIDE.md).
 - **No LightningJS.** WebGL cannot draw HTML from a design or a custom
   widget, its text does not shape Arabic, and cheap sticks have unreliable
   WebGL. The player is plain DOM with `transform` and `opacity`.
@@ -205,7 +205,8 @@ one).
 | `programme.py` | What a channel plays now: the schedule, slides, layout, music, ads |
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it |
-| `layout.py` | The layout editor's server |
+| `layout.py` | A collection's widgets, read and saved back |
+| `screen.py` | A collection edited in OneSlide's editor: its backdrop presentation, widgets on and off its slide, what the TV draws behind them |
 | `live.py` | Waking screens over the socket |
 | `queue.py` | Tickets, the board, the counter's actions |
 | `voices.py`, `make.py` | What OneAI records and makes |
@@ -213,7 +214,7 @@ one).
 | `tell.py`, `notifications.py` | What it tells people |
 | `abilities.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py` | The READY pieces |
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
-| `page/counter/`, `page/display_layout/` | The counter's and the layout editor's islands |
+| `page/counter/` | The counter's island |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
 | `patches/presentations_on_screens.py` | Pictures, videos and designed slides, made presentations |
 | `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_slide/play.js` draws a slide |

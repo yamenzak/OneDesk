@@ -103,62 +103,50 @@ unbroken; only where they are offered moves.
 A channel's widget layout is a **Widget Collection**: rows of **Display
 Widget**, each a kind (queue board, clock, ticker, list, number, QR code,
 custom…), a box in percent of the screen, a layer, a source, the fields it
-shows and its settings. `frontend/src/display/Layout.vue` edits it today:
-a list to add from, dashed boxes dragged and resized over a live preview of
-the screen, and a panel drawn from each kind's schema (`widgets.py`). It has
-no snapping, no layers, no undo, no multiple selection, no alignment, and
-nothing on the screen but widgets.
+shows and its settings. Until stage 7 it had an editor of its own,
+`frontend/src/display/Layout.vue`: dashed boxes dragged over a live preview,
+with no snapping, layers, undo, alignment or anything but widgets on the
+screen. Stage 7 opens a Widget Collection in OneSlide's editor instead.
 
-Stage 7 opens a Widget Collection in OneSlide's editor instead, so the
-screen gets everything the slide got in stages 1 and 3, and the two
-editors stop being two.
+**A screen is a presentation.** Each collection links a one-slide
+presentation, its **backdrop**, made the first time **Edit Layout** is
+pressed (`one_display/screen.backdrop`) and filed on the collection. The
+editor opens it like any presentation, so loading, saving, the edit lock,
+undo, Layers and the panel are the editor's own. OneSlide learns of screens
+only through two hooks, `one_slide_loaded` and `one_slide_saving`
+(`one_slide/api.py`), which `one_display/screen.py` answers.
 
-**What a widget is on the canvas.** A new element kind, `widget`, which
-Suite's stores move, size, snap, align, group, stack, lock, hide, name and
-undo like any other. It carries the row's own fields (`widget_type`,
-`source`, `mapping`, `settings`, `shown`, `from_time`, `to_time`). The
-canvas draws it as a framed box with its label; what it shows is drawn by
-the screen itself, in one preview frame under the canvas
-(`/tv?preview=<collection>&bare=1`, widgets only), as Layout.vue does now,
-so there is still one renderer of a widget and it is the TV's.
+**Widgets join the slide as it loads, and leave it as it saves.** On load,
+each row becomes an element of the kind `widget` on the one slide, its box
+turned from percent into the frame's pixels and its fields carried on the
+element. On save, every `widget` element is written back to its row by id,
+in percent, its layer its place among the widgets, and the slide is stored
+without them. The slide's background is the collection's background: the
+brand's colour shows when it has none, and saving that colour stores none.
 
-**The panel.** With a widget chosen, the panel's Design tab is Frame and
-Arrange (Suite's) and a **Widget** section: Layout.vue's source, fields
-shown, the live "Shows now" peek and the kind's settings, moved as they
-are. With nothing chosen it is the screen's: orientation and background.
+**What the canvas shows.** A widget is drawn as a framed box with its name,
+its kind and its source; what it shows is drawn by the screen itself, which
+**Preview** opens. A live frame behind the canvas was planned, and left out:
+it doubled every box and fought the canvas for the pointer.
 
-**What else goes on the screen.** Text, shapes, pictures and video from the
-bar, as on a slide, for the backdrop a screen has around its widgets: a
-heading, a brand band, a logo. They are kept as a one-slide presentation
-the collection links (`backdrop`, a File in OneCloud filed on the
-collection), which the TV already draws with `play.js`. Widgets keep their
-rows. The editor holds both on one canvas and saving splits them: every
-`widget` element writes its row (box back to percent, `layer` from its
-place in Layers), everything else writes the backdrop's one slide. On the
-TV the backdrop's elements and the widgets share one stacking context, so
-a heading can sit above a widget as Layers says.
+**The panel.** With a widget chosen it is Frame and Arrange and a section
+named for its kind (`shim/WidgetSection.vue`): the source, the fields shown,
+a peek at what it shows now, the kind's settings and when it is shown,
+moved from Layout.vue. Each change is one undoable step on the element.
 
-**The frame.** Suite's frame is 960×540 in ten places. It becomes one
-`frame` in the editor's store, 960×540 or 540×960, set from the
-collection's orientation; a presentation always asks for 960×540, so
-nothing about a presentation changes.
+**Words and pictures** from the bar are the backdrop's own elements. The TV
+draws them with `play.js` on the screen's frame, transparent, under every
+widget (`programme.layout` sends them as `backdrop`), so a heading sits
+behind a widget whatever Layers says; in the editor they can be stacked
+anywhere, and the screen lifts the widgets above them.
 
-**What it is not.** A channel's schedule, its slide playlist and its music
-stay on the channel's form: they are lists and times, not a layout.
+**The frame.** Suite's frame was 960×540 in ten places. It is now one
+`frame` (`shim/frame.js`), 960×540 or 540×960, set from the collection's
+orientation before the canvas mounts; a presentation always gets 960×540.
 
-### Its stages
-
-7a. **The frame.** One `frame` in the store in place of the ten constants;
-    portrait draws, snaps, thumbnails and presents. Nothing else changes.
-7b. **The widget element.** The `widget` kind, its box on the canvas over
-    the preview frame, **Add a Widget** in the bar, and the Widget section
-    in the panel, moved from Layout.vue.
-7c. **Load and save.** `one_display/layout.py` turns a collection into
-    the editor's one slide and back, with the backdrop presentation; the
-    TV draws the backdrop under and among the widgets; a check proves a
-    round trip changes nothing and a backdrop heading shows on the screen.
-7d. **One editor.** The Widget Collection form opens the builder;
-    Layout.vue and its island are deleted; Help, versions, translations.
+**What it is not.** A screen has one slide, so the slides rail, Theme, File,
+Present, a designed slide and a video are left out of its editor. A
+channel's schedule, slide playlist and music stay on the channel's form.
 
 ## Stages
 
@@ -178,7 +166,8 @@ stay on the channel's form: they are lists and times, not a layout.
 6. **OneSlide as a product.** Its mark and name in `gen_brand.py`, the
    registry next to OneWriter and OneWorkbook, READY's fourteen points,
    translations into ar and de, Help with pictures, the demo.
-7. **The channel builder** on the same engine: 7a to 7d above.
+7. **The channel builder** on the same engine: one frame, the widget element,
+   load and save through the backdrop, and one editor.
 
 Stage 6's registry work is done for OneWriter and OneWorkbook in the same
 pass, since neither is registered yet and all three share the same pieces.

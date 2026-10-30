@@ -349,7 +349,16 @@
 		boxes = {};
 		var s = size();
 		var layout = channel.layout || { widgets: [] };
-		$("frame").style.background = layout.background || brand.colour || "";
+		$("frame").style.background = layout.background ? onedesk.play.background(layout.background) : brand.colour || "";
+		// the words and pictures a screen's editor put behind the widgets (stage 7 of docs/ONESLIDE.md)
+		if (layout.backdrop) {
+			var behind = el("div", "w");
+			behind.style.left = behind.style.top = "0";
+			behind.style.width = behind.style.height = "100%";
+			behind.style.zIndex = 0;
+			holder.appendChild(behind);
+			onedesk.play.draw(layout.backdrop, behind);
+		}
 		var list = layout.widgets || [];
 		for (var i = 0; i < list.length; i++) {
 			var one = list[i];

@@ -142,7 +142,7 @@ that exists.
 | `src/inventory/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
 | `src/display/Counter.vue` | Qmatic's and Qminder's service point: the ticket being served large, Call Next, Recall and No Show under it, and who waits beside it |
-| `src/display/Layout.vue` | Yodeck's and ScreenCloud's layout editors: the screen at its shape with the real thing playing behind, widgets as boxes to drag and size, a palette on one side and the chosen widget's source, fields and settings on the other |
+| `src/slide/shim/WidgetSection.vue` | Yodeck's and ScreenCloud's layout editors: widgets as boxes on the screen at its shape, in OneSlide's editor, and the chosen widget's source, fields and settings in the panel |
 | `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
 | `src/inventory/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |

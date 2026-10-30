@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 77 | 2 | 38 | 0 |
+| onedesk | 77 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -61,7 +61,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | plant (`frontend/src/inventory/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
-| display_layout (`frontend/src/display/Layout.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | presentation (`frontend/src/slide/PresentationPage.vue`) | – | – | – | – |
@@ -616,7 +615,7 @@ Reports: Audit System Hooks (the platform's: the site's own workings, which the 
 | Dashboard Chart Source | through a form's link (Dashboard Chart: source) | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Dashboard Settings | engine: a person's own dashboard charts, kept from the dashboard | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Desktop Icon | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
-| Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  |  |  |
+| Desktop Layout | replaced: One's dock | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
 | Desktop Settings | replaced: One's dock | **nobody** | untouched | no | general |  |  |  |  | ar 1, de 1 |  |
 | Dock | engine: the rail's apps, kept by One | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Document Template | left out: waits in docs/BACKLOG.md | everybody | untouched | no | general |  | **none** |  |  | ar 1 |  |
@@ -967,7 +966,7 @@ Pages: onecalendar (on a rail or a home).
 | Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 
-Pages: counter (on a rail or a home); display-layout (inside: a widget collection's Edit Layout opens it).
+Pages: counter (on a rail or a home).
 
 ## onedesk / One Doc
 
@@ -1049,7 +1048,7 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
-| Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
+| Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 
 Pages: presentation (inside: a presentation opens on it from OneCloud).
 

@@ -48,6 +48,8 @@
 </template>
 
 <script setup>
+import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
+import { screen } from '@/apps/slides/stores/presentation' // One: a screen has no slides rail
 import {
 	ref,
 	computed,
@@ -181,20 +183,19 @@ const { activeGuides, snapForDrag, snapForResize } = useSnapping(
 // Elements are stored in a fixed 960x540 coordinate space, so the slide keeps
 // that authored size and is only scaled down to DISPLAY_WIDTH for display —
 // shrinking the authored width instead would shift every existing element.
-const SLIDE_WIDTH = 960
 const DISPLAY_WIDTH = 900
+const DISPLAY_HEIGHT = 700
+const displayScale = Math.min(DISPLAY_WIDTH / frame.w, DISPLAY_HEIGHT / frame.h)
 
 const { allowPanAndZoom, transform, transformOrigin } = usePanAndZoom(
 	slideContainerRef,
 	slideRef,
-	DISPLAY_WIDTH / SLIDE_WIDTH,
+	displayScale,
 )
 
 const slideClasses = computed(() => {
 	const classes = [
 		'absolute',
-		'h-[540px]',
-		'w-[960px]',
 		'rounded-4',
 		'border',
 		'border-outline-gray-1',
@@ -203,13 +204,7 @@ const slideClasses = computed(() => {
 
 	const outlineClasses = mediaDragOver.value ? ['outline', 'outline-2'] : []
 
-	// Offsets center the scaled slide (900x506.25), shifted for the side panels
-	// (edit: nav + properties; readonly: nav only). Recompute if widths change.
-	const positionClasses = inReadonlyMode.value
-		? ['left-[calc(50%-354.5px)]', 'top-[calc(50%-253.125px)]']
-		: ['left-[calc(50%-482px)]', 'top-[calc(50%-253.125px)]']
-
-	return [...classes, outlineClasses, positionClasses]
+	return [...classes, outlineClasses]
 })
 
 const isSelecting = ref(false)
@@ -230,7 +225,20 @@ const highlightElement = (element) => {
 	return toHighlight || pairElementId.value == element.id || isAutoBindTarget
 }
 
+// Offsets center the scaled slide, shifted for the side panels (edit: nav +
+// properties; readonly: nav only). Recompute if widths change.
+const slidePlace = computed(() => {
+	// a screen has no slides rail (stage 7 of docs/ONESLIDE.md)
+	const shift = screen.value ? (inReadonlyMode.value ? 0 : 144) : inReadonlyMode.value ? -95.5 : 32
+	return {
+		...frameSize(),
+		left: `calc(50% - ${(frame.w * displayScale) / 2 + shift}px)`,
+		top: `calc(50% - ${(frame.h * displayScale) / 2}px)`,
+	}
+})
+
 const slideStyles = computed(() => ({
+	...slidePlace.value,
 	transformOrigin: transformOrigin.value,
 	transform: transform.value,
 	background: currentSlide.value?.background || '#ffffff', // One: a fade is a background too, VENDORED.md

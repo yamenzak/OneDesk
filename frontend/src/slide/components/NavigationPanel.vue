@@ -58,6 +58,7 @@
 </template>
 
 <script setup>
+import { frame } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { ref, computed, watch, useTemplateRef, useAttrs, inject, onActivated, nextTick } from 'vue'
 
 import { ContextMenu } from 'frappe-ui'
@@ -96,8 +97,8 @@ const handleSlideContextMenu = (index) => {
 	activeOptions.value = buildSlideContextOptions({ index, openLayoutDialog })
 }
 
-const SLIDE_WIDTH = 960
-const SLIDE_ASPECT = 540 / 960
+const SLIDE_WIDTH = frame.w
+const SLIDE_ASPECT = frame.h / frame.w
 const ROW_GAP = 8
 
 // keep in sync with the panel's w-56 width and its p-4 horizontal padding

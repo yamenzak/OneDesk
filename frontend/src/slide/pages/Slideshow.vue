@@ -65,6 +65,7 @@
 </template>
 
 <script setup>
+import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { computed, onActivated, onDeactivated, ref, watch, provide } from 'vue'
 import { toast, useKeyboardShortcut, usePageMeta } from 'frappe-ui'
@@ -124,7 +125,7 @@ const windowHeight = ref(window.innerHeight)
 
 const clipPath = computed(() => {
 	if (!inSlideShowMode.value) return 'none'
-	const slideHeight = 540 * (windowWidth.value / 960)
+	const slideHeight = frame.h * (windowWidth.value / frame.w)
 	const inset = Math.max(0, (windowHeight.value - slideHeight) / 2)
 	return `inset(${inset}px 0px ${inset}px 0px)`
 })
@@ -135,11 +136,10 @@ const cursorHidden = ref(true)
 
 const slideStyles = computed(() => {
 	// scale slide to fit screen width while maintaining 16:9 aspect ratio
-	const widthScale = windowWidth.value / 960
+	const widthScale = windowWidth.value / frame.w
 
 	const baseStyles = {
-		width: '960px',
-		height: '540px',
+		...frameSize(),
 		overflow: 'hidden',
 		background: currentSlide.value?.background || '#ffffff', // One: a fade is a background too, VENDORED.md
 	}

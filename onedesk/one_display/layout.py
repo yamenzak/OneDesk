@@ -1,6 +1,6 @@
-"""The layout editor's server (frontend/src/display/Layout.vue): a widget
-collection as the editor draws it, the widgets and sources it may use, and
-saving it back. The editor never writes a field the collection's own
+"""A widget collection for the channel builder (screen.py, which OneSlide's
+editor reaches through its hooks): its widgets, the kinds and sources it may
+use, and saving them back. Nothing is written that the collection's own
 validation would refuse (doctype/widget_collection)."""
 
 import json

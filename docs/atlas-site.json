@@ -3352,6 +3352,7 @@
 "Plant Floor",
 "Portal Link",
 "Presentation",
+"Presentation Version",
 "Price List",
 "Pricing Rule",
 "Print Format",
@@ -3524,10 +3525,6 @@
 "dashboard-view": [],
 "desktop": [
 "All"
-],
-"display-layout": [
-"OneDisplay Manager",
-"Workspace Administrator"
 ],
 "document": [
 "Desk User"

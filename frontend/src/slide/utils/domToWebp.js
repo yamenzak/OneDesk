@@ -1,8 +1,7 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/utils/domToWebp.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { createContext, domToWebp } from 'modern-screenshot'
+import { frame } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 
-const CAPTURE_WIDTH = 960
-const CAPTURE_HEIGHT = 540
 const CAPTURE_TIMEOUT = 5000
 
 const waitForFonts = async () => {
@@ -62,8 +61,8 @@ export const captureDOM = async (node, { scale = 1 } = {}) => {
 	await waitForImages(node)
 
 	const options = {
-		width: CAPTURE_WIDTH,
-		height: CAPTURE_HEIGHT,
+		width: frame.w,
+		height: frame.h,
 		scale,
 		backgroundColor: '#ffffff',
 		timeout: CAPTURE_TIMEOUT,

@@ -5863,6 +5863,10 @@ msgstr "العودة إلى حسابك"
 msgid "Back to {0}"
 msgstr "العودة إلى {0}"
 
+#: onedesk/one_display/doctype/widget_collection/widget_collection.json
+msgid "Backdrop"
+msgstr "الخلفية المرسومة"
+
 #. Label of the backed_up (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "Backed Up"
@@ -8295,10 +8299,6 @@ msgstr "اختر صورة أو فيديو من جهازك."
 #: onedesk/one_sheet/paper.py:356
 msgid "Choose a sheet to print."
 msgstr "اختر ورقة لطباعتها."
-
-#: frontend/src/display/Layout.vue:59
-msgid "Choose a widget on the screen, or add one."
-msgstr "اختر أداة على الشاشة، أو أضف واحدة."
 
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
@@ -22870,10 +22870,6 @@ msgstr "الطبقة"
 #: frontend/src/display/designer/Designer.vue:87
 msgid "Layers"
 msgstr "الطبقات"
-
-#: onedesk/one_display/page/display_layout/display_layout.js:2
-msgid "Layout"
-msgstr "التخطيط"
 
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
@@ -40675,8 +40671,8 @@ msgid "Shown on every screen, over everything else, until the alert is turned of
 msgstr "تظهر على كل الشاشات فوق كل شيء آخر إلى أن يُطفأ التنبيه."
 
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "Shown where no slide plays. Empty is the brand's."
-msgstr "يظهر حيث لا تُعرض شريحة. الفراغ يعني لون العلامة."
+msgid "Shown where no slide plays, as the screen's editor sets it. Empty is the brand's."
+msgstr "يظهر حيث لا تُعرض شريحة، كما يضبطه محرّر الشاشة. إن تُرك فارغًا فهو لون العلامة."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:246
 msgid "Shown with the address on every email sent from this mailbox, or the default name if empty."
@@ -46258,6 +46254,10 @@ msgstr "نموذج الموقع الذي ينشئ عميلًا محتملًا."
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
 msgstr "المحادثة كاملة، بالشكل الذي تتحدث به البوابة. تقرأها اللوحة لا الشخص."
+
+#: onedesk/one_display/doctype/widget_collection/widget_collection.json
+msgid "The words, shapes and pictures drawn behind the widgets, kept as a one-slide presentation on this collection."
+msgstr "النصوص والأشكال والصور المرسومة خلف الأدوات، محفوظة عرضًا تقديميًا من شريحة واحدة مع هذه المجموعة."
 
 #: onedesk/one_inventory/home.py:133
 msgid "The work on the floor, step by step."
@@ -57720,6 +57720,10 @@ msgstr "{0} طلبات بانتظارك"
 #: onedesk/public/js/one_account/account_center.js:1219
 msgid "{0} Saves {1}"
 msgstr "{0} يوفّر {1}"
+
+#: onedesk/one_display/screen.py:38
+msgid "{0} Screen"
+msgstr "شاشة {0}"
 
 #: onedesk/public/js/module_settings.js:225
 #: onedesk/public/js/window/nav_tree.js:245

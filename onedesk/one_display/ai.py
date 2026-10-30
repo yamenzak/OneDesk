@@ -14,6 +14,7 @@ from frappe.utils import add_to_date, now_datetime, today
 REACH = {}
 
 NOT_FOR_AI = {
+	"screen.backdrop": "Only Edit Layout asks for it, to open a screen's layout in the editor.",
 	"screens.start": "Only a screen asks for its pairing code, from the TV address.",
 	"screens.status": "Only a screen asks whether it was paired, with the secret it keeps.",
 	"screens.state": "Only a paired screen asks what to show, with its own token.",
@@ -58,13 +59,7 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on the counter and the layout editor."""
-	if said.get("page") == "display-layout":
-		return (
-			"The reader is laying out a widget collection: widgets placed on a live picture of the screen, each "
-			"filled from a source through the fields it maps. OneAI writes a custom widget's code from the editor's "
-			"Write with OneAI; how widgets and sources work is in OneDisplay's documentation (how_to)."
-		)
+	"""The sentence the model is told at the counter."""
 	if said.get("page") != "counter":
 		return None
 	return (

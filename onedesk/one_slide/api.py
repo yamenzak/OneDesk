@@ -221,6 +221,8 @@ def _loaded(name: str, item: dict) -> dict:
 	doc["trail"] = ns.trail(item["folder"]) if item.get("folder") and not item.get("attached_to_doctype") else []
 	for row in doc.get("slides") or []:
 		row.pop("played", None)
+	for hook in frappe.get_hooks("one_slide_loaded"):
+		frappe.get_attr(hook)(doc, item)
 	return doc
 
 
@@ -251,6 +253,8 @@ def save_slides(name: str, slides: list[dict] | str, base_modified: str) -> dict
 		frappe.throw(
 			_("This presentation was changed elsewhere. Reload to get the latest version."), frappe.TimestampMismatchError
 		)
+	for hook in frappe.get_hooks("one_slide_saving"):
+		slides = frappe.get_attr(hook)(name, item, slides or [])
 	from onedesk.one_slide import versions
 
 	versions.before_saving(name)

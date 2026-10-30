@@ -81,6 +81,16 @@ or the row's seconds. **New Presentation** on a playlist makes one filed on
 the playlist and opens it here. What you change is on the screens at their
 next look.
 
+## A screen's layout
+
+A OneDisplay widget collection is edited here too: **Edit Layout** opens its
+backdrop, a one-slide presentation filed on the collection, at the screen's
+shape. Its widgets are elements on the slide, **Add a Widget** adds one, and
+the panel shows a chosen widget's source and settings. The slides rail,
+Theme, File and Present are left out. How it works is docs/ONESLIDE.md, The
+channel builder; this module only calls the `one_slide_loaded` and
+`one_slide_saving` hooks, and draws the frame `shim/frame.js` gives.
+
 ## Connections
 
 - **From OneCloud**: A presentation is made, kept, moved, copied, shared and deleted in OneCloud, and opens from it.

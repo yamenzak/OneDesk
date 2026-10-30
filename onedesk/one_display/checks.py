@@ -295,6 +295,48 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 
 
 @check
+def onedisplay_builds_a_screen_in_oneslide():
+	"""The workshop's screen opens in OneSlide's editor as its backdrop, made
+	once: its widgets are on the one slide as widget elements at their
+	places. Saving a moved clock and a heading keeps the clock's row, by its
+	id, ten percent further left, and the heading in the backdrop, which the
+	screen draws under the widgets (stage 7 of docs/ONESLIDE.md)."""
+	from onedesk.one_display import layout, programme, screen
+	from onedesk.one_display.demo import WORKSHOP
+	from onedesk.one_slide import api
+
+	frappe.db.savepoint("screen_check")
+	try:
+		with as_user(OWNER):
+			made = screen.backdrop(WORKSHOP)["presentation"]
+			assert screen.backdrop(WORKSHOP)["presentation"] == made, "a collection has one backdrop"
+			rows = layout.get(WORKSHOP)["widgets"]
+			doc = api.get(made)
+			assert doc["screen"]["name"] == WORKSHOP and len(doc["slides"]) == 1
+			slide = doc["slides"][0]
+			elements = json.loads(slide["elements"])
+			placed = [one for one in elements if one["type"] == "widget"]
+			assert len(placed) == len(rows), (len(placed), len(rows))
+			clock = next(one for one in placed if one["widget"]["widget_type"] == "Clock")
+			was = next(row["x"] for row in rows if row["id"] == clock["widget"]["id"])
+			clock["left"] -= 96
+			elements.append({"id": "heading", "type": "text", "left": 40, "top": 400, "width": 400, "zIndex": 1, "content": "<p>Fitted in a week</p>"})
+			kept = {key: slide.get(key) for key in api.SLIDE_FIELDS if key in slide}
+			api.save_slides(made, json.dumps([{**kept, "elements": json.dumps(elements)}]), doc["modified"])
+			after = layout.get(WORKSHOP)["widgets"]
+			assert len(after) == len(rows), "no widget is lost or doubled"
+			moved = next(row for row in after if row["id"] == clock["widget"]["id"])
+			assert abs(moved["x"] - (was - 10)) < 0.01, (was, moved["x"])
+			stored = json.loads(frappe.get_doc(api.PRESENTATION, made).slides[0].elements)
+			assert [one["id"] for one in stored] == ["heading"], "the backdrop keeps no widget of its own"
+			frappe.clear_document_cache("Widget Collection", WORKSHOP)
+			drawn = programme.layout(WORKSHOP, "en")["backdrop"]
+			assert drawn["bare"] and [one["id"] for one in drawn["elements"]] == ["heading"], drawn
+	finally:
+		frappe.db.rollback(save_point="screen_check")
+
+
+@check
 def onedisplay_makes_music_in_the_background():
 	"""A song is made, kept as a public file and added to its playlist paused,
 	with its length read from the file, and whoever asked is told; a failure

@@ -14,13 +14,14 @@
 </template>
 
 <script setup>
+import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { computed } from 'vue'
 
 import SlideElement from '@/apps/slides/components/SlideElement.vue'
 
 const props = defineProps({
 	slide: { type: Object, required: true },
-	scale: { type: Number, default: 160 / 960 },
+	scale: { type: Number, default: () => 160 / frame.w },
 })
 
 const elements = computed(() => {
@@ -40,8 +41,7 @@ const previewStyles = computed(() => ({
 }))
 
 const slideStyles = computed(() => ({
-	width: '960px',
-	height: '540px',
+	...frameSize(),
 	transformOrigin: 'top left',
 	transform: `scale(${props.scale})`,
 	position: 'absolute',

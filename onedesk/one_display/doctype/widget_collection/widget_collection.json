@@ -7,6 +7,7 @@
   "collection_name",
   "orientation",
   "background",
+  "backdrop",
   "widgets"
  ],
  "fields": [
@@ -27,9 +28,18 @@
   },
   {
    "fieldname": "background",
-   "fieldtype": "Color",
+   "fieldtype": "Data",
    "label": "Background",
-   "description": "Shown where no slide plays. Empty is the brand's."
+   "description": "Shown where no slide plays, as the screen's editor sets it. Empty is the brand's."
+  },
+  {
+   "fieldname": "backdrop",
+   "fieldtype": "Link",
+   "options": "File",
+   "label": "Backdrop",
+   "read_only": 1,
+   "no_copy": 1,
+   "description": "The words, shapes and pictures drawn behind the widgets, kept as a one-slide presentation on this collection."
   },
   {
    "fieldname": "widgets",
@@ -40,7 +50,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-30 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Widget Collection",

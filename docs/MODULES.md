@@ -229,7 +229,7 @@ No doctypes yet.
 | Queue Ticket | 11 | document |
 | Slide Playlist | 3 | document |
 | Voice Ad | 8 | document |
-| Widget Collection | 4 | document |
+| Widget Collection | 5 | document |
 
 ## One Slide
 
@@ -547,6 +547,7 @@ No doctypes yet.
 * `onedesk.one_display.queue.desks`
 * `onedesk.one_display.queue.finish`
 * `onedesk.one_display.queue.recall`
+* `onedesk.one_display.screen.backdrop`
 * `onedesk.one_display.screens.alert`
 * `onedesk.one_display.screens.control`
 * `onedesk.one_display.screens.pair`

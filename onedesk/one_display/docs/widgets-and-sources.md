@@ -1,10 +1,23 @@
 # Widgets and Sources
 
 A widget collection is a layout of widgets on the screen. **Edit Layout** on a
-collection opens the editor: pick a widget on the left, drag it into place
-and pull its corner to size it, and see the screen live beside it.
+collection opens it in OneSlide's editor, at the screen's own shape. **Add a
+Widget** puts one in the middle; drag it into place, pull its handles to size
+it, and line it up with the others as you would anything on a slide. Click a
+widget and the panel shows where it reads from and its settings.
+**Preview** opens the screen as it plays.
 
-![The layout editor, with the workshop's widgets](widgets-and-sources/layout.png)
+![The lobby's screen in the editor, the clock chosen](widgets-and-sources/layout.png)
+
+## Words and Pictures
+
+Text, pictures, shapes and lines from the bar under the screen go behind the
+widgets: a heading, a band in your colour, your logo. **Layers** lists them
+with the widgets, and **Background** in the panel, with nothing chosen, is the
+screen's colour. Everything is kept as you work, and the screens show it the
+next time they look.
+
+![The lobby's screen, its heading behind the widgets](widgets-and-sources/screen.png)
 
 ## The Widgets
 

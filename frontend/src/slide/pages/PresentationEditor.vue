@@ -18,8 +18,8 @@
 				v-model:hasOngoingInteraction="isSlideInteractionActive"
 			/>
 
-			<!-- One: on a phone the slide gets the screen; the rail and the panel are a desktop's -->
-			<NavigationPanel class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
+			<!-- One: on a phone the slide gets the screen; the rail and the panel are a desktop's. A screen has one slide, so no rail. -->
+			<NavigationPanel v-if="!screen" class="absolute bottom-0 top-0 max-md:hidden" @changeSlide="changeEditorSlide" />
 
 			<Toolbar v-if="!inReadonlyMode && presentationDoc" />
 
@@ -128,6 +128,7 @@ import {
 	adoptServerVersion,
 	resetEditorState,
 	pageTitle,
+	screen,
 } from '@/apps/slides/stores/presentation'
 import {
 	slides,

@@ -3,7 +3,8 @@
    The screen is a 2017 TV running Chromium 53, which cannot run the editor,
    so this draws Suite's stored slide again in ES5: no let, no arrow
    functions, no template strings, no 8-digit colours. `slide` answers the
-   slide as HTML on a 960 by 540 stage; the caller scales it to the screen.
+   slide as HTML on a 960 by 540 stage, or the frame a screen's backdrop
+   gives (stage 7); the caller scales it to the screen.
 
    What arrives was cleaned by the server (one_slide/play.py): text is
    sanitised HTML and free CSS holds only what css.json allows. Everything
@@ -257,17 +258,23 @@
 			if (!element || element.hidden || !DRAW[element.type]) continue;
 			drawn.push(DRAW[element.type](element));
 		}
-		return '<div class="one-play" style="position:relative;overflow:hidden;width:' + WIDE + "px;height:" + HIGH + "px;background:" + esc(background(said && said.background)) + '">' + drawn.join("") + "</div>";
+		// a screen's backdrop gives its own frame and lets the screen's colour through
+		var wide = (said && said.width) || WIDE;
+		var high = (said && said.height) || HIGH;
+		var ground = said && said.bare ? "transparent" : background(said && said.background);
+		return '<div class="one-play" style="position:relative;overflow:hidden;width:' + wide + "px;height:" + high + "px;background:" + esc(ground) + '">' + drawn.join("") + "</div>";
 	}
 
 	// the stage scaled to fill its holder, as large as fits and centred
 	function fit(holder) {
 		var stage = holder.firstChild;
 		if (!stage) return;
-		var scale = Math.min(holder.clientWidth / WIDE, holder.clientHeight / HIGH) || 1;
+		var wide = stage.offsetWidth || WIDE;
+		var high = stage.offsetHeight || HIGH;
+		var scale = Math.min(holder.clientWidth / wide, holder.clientHeight / high) || 1;
 		stage.style.position = "absolute";
-		stage.style.left = (holder.clientWidth - WIDE * scale) / 2 + "px";
-		stage.style.top = (holder.clientHeight - HIGH * scale) / 2 + "px";
+		stage.style.left = (holder.clientWidth - wide * scale) / 2 + "px";
+		stage.style.top = (holder.clientHeight - high * scale) / 2 + "px";
 		stage.style.transformOrigin = "0 0";
 		stage.style.webkitTransformOrigin = "0 0";
 		stage.style.transform = "scale(" + scale + ")";
@@ -294,5 +301,5 @@
 	}
 
 	root.onedesk = root.onedesk || {};
-	root.onedesk.play = { slide: slide, draw: draw, fit: fit, colour: colour };
+	root.onedesk.play = { slide: slide, draw: draw, fit: fit, colour: colour, background: background };
 })(typeof window !== "undefined" ? window : this);

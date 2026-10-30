@@ -63,17 +63,27 @@
 					<hr class="border-t" />
 					<ShadowSection :key="activeElementIds.join()" />
 				</template>
-				<hr class="border-t" />
-				<AppearanceSection />
-				<hr class="border-t" />
-				<EffectsSection />
+				<!-- One: a widget's own settings; a screen draws it, so it has no looks of its own -->
+				<template v-if="activeElement?.type === 'widget'">
+					<hr class="border-t" />
+					<WidgetSection />
+				</template>
+				<template v-else>
+					<hr class="border-t" />
+					<AppearanceSection />
+					<hr class="border-t" />
+					<EffectsSection />
+				</template>
 			</div>
 			<div v-else-if="currentSlide">
 				<BackgroundSection />
-				<hr class="border-t" />
-				<TransitionSection />
-				<hr class="border-t" />
-				<SlidePlaybackSection />
+				<!-- One: a screen has one slide, so nothing moves to another -->
+				<template v-if="!screen">
+					<hr class="border-t" />
+					<TransitionSection />
+					<hr class="border-t" />
+					<SlidePlaybackSection />
+				</template>
 			</div>
 		</div>
 	</div>
@@ -84,6 +94,8 @@ import LucideLock from '~icons/lucide/lock' // One: the island resolves icons on
 import LucideLockOpen from '~icons/lucide/lock-open' // One: the island resolves icons only by import, VENDORED.md
 import { computed, provide, ref } from 'vue'
 import { TabButtons } from 'frappe-ui'
+import WidgetSection from '@/apps/slides/shim/WidgetSection.vue' // One: a widget's settings, VENDORED.md
+import { screen } from '@/apps/slides/stores/presentation' // One
 
 import {
 	activeElement,

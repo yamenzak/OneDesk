@@ -13,6 +13,7 @@
 </template>
 
 <script setup>
+import { frame } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { computed } from 'vue'
 
 import { focusedSlide, slides } from '@/apps/slides/stores/slide'
@@ -27,7 +28,7 @@ import { isBackgroundColorDark } from '@/apps/slides/utils/color'
 const props = defineProps({
 	slide: { type: Object, required: true },
 	isActive: { type: Boolean, default: false },
-	scale: { type: Number, default: 160 / 960 },
+	scale: { type: Number, default: () => 160 / frame.w },
 	height: { type: Number, default: 90 },
 })
 

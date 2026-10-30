@@ -167,7 +167,9 @@ def layout(name: str | None, lang: str, at: datetime | None = None, voice: str |
 				"data": data,
 			}
 		)
-	return {"name": name, "background": collection.background or "", "widgets": placed}
+	from onedesk.one_display import screen
+
+	return {"name": name, "background": collection.background or "", "widgets": placed, "backdrop": screen.drawn(collection)}
 
 
 def _qr(link: str) -> str:
@@ -344,5 +346,6 @@ def _revision(said: dict) -> str:
 			{k: v for k, v in one.items() if k != "data"} for one in ((said["layout"] or {}).get("widgets") or [])
 		],
 		"background": (said["layout"] or {}).get("background"),
+		"backdrop": (said["layout"] or {}).get("backdrop"),
 	}
 	return hashlib.sha1(json.dumps(shape, sort_keys=True, default=str).encode()).hexdigest()[:12]

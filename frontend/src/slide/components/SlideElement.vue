@@ -19,6 +19,7 @@ import ImageElement from '@/apps/slides/components/ImageElement.vue'
 import VideoElement from '@/apps/slides/components/VideoElement.vue'
 import ShapeElement from '@/apps/slides/components/ShapeElement.vue'
 import TableElement from '@/apps/slides/components/TableElement.vue'
+import WidgetElement from '@/apps/slides/shim/WidgetElement.vue' // One: a widget on a screen, VENDORED.md
 
 import { activeElementIds } from '@/apps/slides/stores/element'
 
@@ -148,6 +149,8 @@ const getDynamicComponent = (type) => {
 			return ShapeElement
 		case 'table':
 			return TableElement
+		case 'widget':
+			return WidgetElement
 		default:
 			return TextElement
 	}

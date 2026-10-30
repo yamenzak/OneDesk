@@ -1,13 +1,14 @@
 <!-- Pictures of slides as the editor draws them: each is put on a hidden stage at its own size, in Suite's own preview, and photographed at twice that, so a page of the PDF, or a screen, shows exactly what was made. -->
 <template>
 	<div class="pointer-events-none fixed left-[-10000px] top-0 overflow-hidden" aria-hidden="true">
-		<div ref="stageEl" class="relative h-[540px] w-[960px] overflow-hidden">
+		<div ref="stageEl" class="relative overflow-hidden" :style="frameSize()">
 			<SlidePreview v-if="slide" :key="slide.clientId || slide.client_id" :slide="slide" :scale="1" />
 		</div>
 	</div>
 </template>
 
 <script setup>
+import { frameSize } from "./frame.js";
 import { nextTick, ref } from "vue";
 
 import SlidePreview from "../components/SlidePreview.vue";
