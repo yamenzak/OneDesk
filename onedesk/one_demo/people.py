@@ -13,7 +13,7 @@ APPS = ("OneCRM", "OneBook", "OneInventory", "OneProject", "OneHR", "OneMail")
 PEOPLE = (
 	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
 	("Samir", "Aoun", "samir@one.test", "Projects", "Projects Manager", "Male", (2020, 6, 14), 28000, "Layla", {"OneProject": "Manager", "OneCRM": "User", "OneInventory": "User"}),
-	("Omar", "Farouk", "omar@one.test", "Sales", "Sales Manager", "Male", (2021, 1, 10), 24000, "Layla", {"OneCRM": "Manager", "OneProject": "User", "OneBook": "User"}),
+	("Omar", "Farouk", "omar@one.test", "Sales", "Sales Manager", "Male", (2021, 1, 10), 24000, "Layla", {"OneCRM": "Manager", "OneProject": "User", "OneBook": "User", "OneWriter": "Manager"}),
 	("Huda", "Nasser", "huda@one.test", "Accounts", "Accountant", "Female", (2021, 9, 1), 18000, "Layla", {"OneBook": "Manager", "OneInventory": "User", "OneProject": "User", "OneAccount": "Manager"}),
 	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneBook": "User", "OneProject": "User"}),
 	("Mariam", "Saleh", "mariam@one.test", "Human Resources", "HR Officer", "Female", (2022, 5, 3), 15000, "Layla", {"OneHR": "Manager", "OneMail": "Manager", "One": "Manager", "OneCalendar": "Manager"}),

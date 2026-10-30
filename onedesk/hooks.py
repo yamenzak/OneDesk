@@ -1442,7 +1442,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities", "onedesk.one_slide.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities", "onedesk.one_slide.abilities", "onedesk.one_doc.abilities"]
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).

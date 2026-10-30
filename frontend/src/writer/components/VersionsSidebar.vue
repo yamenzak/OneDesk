@@ -34,12 +34,13 @@
   <div class="flex h-full overflow-hidden">
     <div class="self-stretch w-72 border-e h-full relative flex flex-col">
       <div class="flex flex-col items-center w-full shrink-0">
+        <!-- One: Automatic in a context, since frappe's Automatic is another word in Arabic -->
         <Tabs
           v-model="tab"
           class="w-full"
           as="div"
           :tabs="[
-            { value: 'automatic', label: __('Automatic') },
+            { value: 'automatic', label: __('Automatic', null, 'Versions taken while writing') },
             { value: 'manual', label: __('Manual') },
           ]"
         />

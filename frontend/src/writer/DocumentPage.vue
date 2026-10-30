@@ -1,7 +1,7 @@
 <!-- A document in the desk: Suite's writer, opened on the document the route names, under a head that leads back to where the document belongs. -->
 <template>
-	<div ref="pageEl" class="one-document flex h-full flex-col bg-surface-base">
-		<div class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
+	<div ref="pageEl" data-tour="onewriter-editor" class="one-document flex h-full flex-col bg-surface-base">
+		<div data-tour="onewriter-head" class="flex h-12 shrink-0 items-center gap-2 border-b border-outline-gray-2 px-4">
 			<button class="flex size-6 shrink-0 items-center justify-center [&_svg]:size-full" :title="__('Back')" @click="goBack" v-html="oneMark" />
 			<Breadcrumbs class="[&_:is(a,button):has(>.one-crumb-mark)]:[direction:ltr]" v-if="state && !renaming" :items="crumbs">
 				<template #prefix="{ item }"><span v-if="item.one" class="one-crumb-mark font-light">{{ ONE }}</span></template>
@@ -291,7 +291,7 @@ const fileMenu = computed(() => [
 					]
 				: []),
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
-			{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: () => (savingTemplate.value = true) },
+			...(state.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: () => (savingTemplate.value = true) }] : []),
 		],
 	},
 ]);

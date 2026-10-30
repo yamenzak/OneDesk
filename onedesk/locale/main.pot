@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 11:23+0000\n"
-"PO-Revision-Date: 2026-10-30 11:23+0000\n"
+"POT-Creation-Date: 2026-10-30 11:54+0000\n"
+"PO-Revision-Date: 2026-10-30 11:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1564,6 +1564,10 @@ msgstr ""
 msgid "A version needs a name."
 msgstr ""
 
+#: frontend/src/writer/components/CoreEditor.vue:340
+msgid "A version of this document could not be kept. Try again later."
+msgstr ""
+
 #: onedesk/one_crm/home.py:124
 msgid "A visit to a customer, and the work done."
 msgstr ""
@@ -2727,7 +2731,7 @@ msgstr ""
 msgid "Add to the Slide"
 msgstr ""
 
-#: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:195
+#: onedesk/one_ai/reading/panel.py:209 onedesk/one_doc/ai.py:217
 msgid "Add to {0}"
 msgstr ""
 
@@ -5666,10 +5670,14 @@ msgid "Automated"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1162
-#: frontend/src/writer/components/VersionsSidebar.vue:42
 #: frontend/src/writer/components/WriterSettings.vue:26
 #: frontend/src/writer/components/WriterSettings.vue:36
 #: frontend/src/writer/components/WriterSettings.vue:189
+msgid "Automatic"
+msgstr ""
+
+#: frontend/src/writer/components/VersionsSidebar.vue:43
+msgctxt "Versions taken while writing"
 msgid "Automatic"
 msgstr ""
 
@@ -7766,7 +7774,7 @@ msgstr ""
 msgid "Change a collection…"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:205
+#: frontend/src/slide/pages/PresentationEditor.vue:206
 msgid "Change presentation theme"
 msgstr ""
 
@@ -7836,7 +7844,7 @@ msgstr ""
 msgid "Changed Format"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:44
+#: frontend/src/slide/pages/PresentationEditor.vue:45
 msgid "Changed elsewhere. Reloading discards your unsaved edits."
 msgstr ""
 
@@ -9057,7 +9065,7 @@ msgstr ""
 #: frontend/src/kit/ActivityComposer.vue:10
 #: frontend/src/sheet/components/SheetEditor/index.vue:1078
 #: frontend/src/sheet/components/SheetEditor/index.vue:1107
-#: frontend/src/writer/components/CoreEditor.vue:284
+#: frontend/src/writer/components/CoreEditor.vue:285
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Comment"
@@ -9089,7 +9097,7 @@ msgstr ""
 #. Label in the One Training Result print format
 #. Label in the One Travel Request print format
 #: frontend/src/project/ProjectActivity.vue:106
-#: frontend/src/writer/components/CoreEditor.vue:177
+#: frontend/src/writer/components/CoreEditor.vue:178
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
 #: onedesk/one_hr/print_format/one_training_result/one_training_result.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
@@ -10444,7 +10452,7 @@ msgstr ""
 msgid "Create Document"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:129
+#: onedesk/one_doc/ai.py:151
 msgid "Create Document {0}"
 msgstr ""
 
@@ -10481,7 +10489,7 @@ msgstr ""
 msgid "Create Tasks"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:62
+#: frontend/src/writer/components/VersionsSidebar.vue:63
 msgid "Create Version"
 msgstr ""
 
@@ -12631,7 +12639,7 @@ msgid "Depreciations Booked"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:158
-#: frontend/src/writer/components/CoreEditor.vue:276
+#: frontend/src/writer/components/CoreEditor.vue:277
 msgid "Describe It"
 msgstr ""
 
@@ -14401,7 +14409,7 @@ msgstr ""
 msgid "Edit connection…"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:34
+#: frontend/src/slide/pages/PresentationEditor.vue:35
 msgid "Edit here"
 msgstr ""
 
@@ -14480,7 +14488,7 @@ msgstr ""
 msgid "Editing"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:31
+#: frontend/src/slide/pages/PresentationEditor.vue:32
 msgid "Editing in another tab"
 msgstr ""
 
@@ -15576,6 +15584,10 @@ msgstr ""
 
 #: onedesk/public/js/doctype_settings.js:701
 msgid "Every field of {0}"
+msgstr ""
+
+#: onedesk/one_doc/tour.py:18
+msgid "Every heading is listed here, and clicking one takes you to it."
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:32
@@ -17692,6 +17704,10 @@ msgstr ""
 msgid "Format Text"
 msgstr ""
 
+#: onedesk/one_doc/tour.py:11
+msgid "Format Your Words"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:163
 msgid "Format as currency"
 msgstr ""
@@ -18149,7 +18165,7 @@ msgstr ""
 msgid "From the start"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:137
+#: onedesk/one_doc/ai.py:159
 msgid "From the template"
 msgstr ""
 
@@ -19146,6 +19162,10 @@ msgstr ""
 #: onedesk/one_display/widgets.py:22 onedesk/one_display/widgets.py:33
 #: onedesk/one_display/widgets.py:85
 msgid "Heading"
+msgstr ""
+
+#: onedesk/one_doc/tour.py:12
+msgid "Headings, lists, links, pictures, tables and page breaks go in from here."
 msgstr ""
 
 #. Label of the one_health (Select) field in DocType 'Project'
@@ -20580,7 +20600,7 @@ msgstr ""
 msgid "In pixels."
 msgstr ""
 
-#: onedesk/one_doc/ai.py:205
+#: onedesk/one_doc/ai.py:227
 msgid "In place of"
 msgstr ""
 
@@ -21813,6 +21833,10 @@ msgstr ""
 msgid "It now costs {monthly} a month."
 msgstr ""
 
+#: onedesk/one_doc/tour.py:24
+msgid "It saves itself as you write, and selected words can be commented on in the margin."
+msgstr ""
+
 #: onedesk/public/js/one_legal/trust_center.js:295
 msgid "It sends somewhere new, so it waits for an administrator to agree."
 msgstr ""
@@ -22491,7 +22515,7 @@ msgstr ""
 msgid "Keep"
 msgstr ""
 
-#: onedesk/one_slide/abilities.py:28
+#: onedesk/one_doc/abilities.py:28 onedesk/one_slide/abilities.py:28
 msgid "Keep Company Templates"
 msgstr ""
 
@@ -24846,7 +24870,7 @@ msgstr ""
 #. Label in the One Work Order print format
 #: frontend/src/slide/shim/EditorNavbar.vue:181
 #: frontend/src/slide/shim/EditorNavbar.vue:188
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/writer/components/CoreEditor.vue:280
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:20
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
@@ -24924,7 +24948,7 @@ msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:151
 #: frontend/src/slide/shim/EditorNavbar.vue:181
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/writer/components/CoreEditor.vue:280
 msgid "Make a Picture"
 msgstr ""
 
@@ -25116,7 +25140,7 @@ msgstr ""
 msgid "Manager"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:43
+#: frontend/src/writer/components/VersionsSidebar.vue:44
 msgid "Manual"
 msgstr ""
 
@@ -27359,7 +27383,8 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
-#: onedesk/one_display/abilities.py:16 onedesk/one_hr/abilities.py:17
+#: onedesk/one_display/abilities.py:16 onedesk/one_doc/abilities.py:22
+#: onedesk/one_hr/abilities.py:17
 #: onedesk/one_hr/print_format/one_additional_salary/one_additional_salary.json
 #: onedesk/one_hr/print_format/one_arrear/one_arrear.json
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -27720,7 +27745,7 @@ msgstr ""
 msgid "No file requests"
 msgstr ""
 
-#: onedesk/one_doc/api.py:259 onedesk/one_slide/api.py:445
+#: onedesk/one_doc/api.py:261 onedesk/one_slide/api.py:445
 msgid "No file was sent."
 msgstr ""
 
@@ -28351,7 +28376,7 @@ msgstr ""
 msgid "None yet"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:77
+#: frontend/src/writer/components/VersionsSidebar.vue:78
 msgid "None yet."
 msgstr ""
 
@@ -29483,7 +29508,7 @@ msgid "Old system closed"
 msgstr ""
 
 #: onedesk/one/ai.py:3544 onedesk/one/ai.py:3759 onedesk/one/rights.py:264
-#: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:136
+#: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:158
 #: onedesk/one_studio/doctype/extension/extension_list.js:6
 #: onedesk/one_studio/heads.py:17 onedesk/public/js/doctype_settings.js:180
 #: onedesk/public/js/doctype_settings.js:214
@@ -31185,7 +31210,7 @@ msgstr ""
 msgid "Opens the welcome page for this signup."
 msgstr ""
 
-#: onedesk/one_doc/ai.py:126
+#: onedesk/one_doc/ai.py:148
 msgid "Opens with"
 msgstr ""
 
@@ -31822,7 +31847,7 @@ msgstr ""
 msgid "Outcome"
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:191
+#: frontend/src/writer/components/CoreEditor.vue:192
 #: onedesk/public/js/one_ai/ai_proposal_list.js:10
 msgid "Outdated"
 msgstr ""
@@ -37161,7 +37186,7 @@ msgstr ""
 msgid "Relief Up To"
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:48
+#: frontend/src/slide/pages/PresentationEditor.vue:49
 #: onedesk/one_display/doctype/display_screen/display_screen.js:3
 #: onedesk/public/js/record.js:161
 msgid "Reload"
@@ -38066,7 +38091,7 @@ msgid "Resolve"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1079
-#: frontend/src/writer/components/CoreEditor.vue:184
+#: frontend/src/writer/components/CoreEditor.vue:185
 msgid "Resolved"
 msgstr ""
 
@@ -38089,7 +38114,7 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:544
 #: frontend/src/cloud/OneCloud.vue:602
 #: frontend/src/writer/components/VersionsSidebar.vue:29
-#: frontend/src/writer/components/VersionsSidebar.vue:298
+#: frontend/src/writer/components/VersionsSidebar.vue:299
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 #: onedesk/one_admin/heads.py:498 onedesk/public/js/deleted_document.js:3
 #: onedesk/public/js/deleted_document.js:5
@@ -38109,7 +38134,7 @@ msgstr ""
 msgid "Restore this version"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:291
+#: frontend/src/writer/components/VersionsSidebar.vue:292
 msgid "Restore this version?"
 msgstr ""
 
@@ -38128,7 +38153,7 @@ msgstr ""
 msgid "Restored 1 item"
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:303
+#: frontend/src/writer/components/VersionsSidebar.vue:304
 msgid "Restored {0}"
 msgstr ""
 
@@ -38511,7 +38536,7 @@ msgstr ""
 msgid "Revoked by {0}: {1}"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:195
+#: onedesk/one_doc/ai.py:217
 msgid "Rewrite in {0}"
 msgstr ""
 
@@ -39118,6 +39143,10 @@ msgstr ""
 msgid "Save PDF to OneCloud"
 msgstr ""
 
+#: onedesk/one_doc/abilities.py:31
+msgid "Save a document as a template everybody in the workspace can start from."
+msgstr ""
+
 #: onedesk/one_slide/abilities.py:31
 msgid "Save a presentation as a template everybody in the workspace can start from."
 msgstr ""
@@ -39190,7 +39219,7 @@ msgstr ""
 msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:429
+#: frontend/src/writer/components/CoreEditor.vue:430
 msgid "Saved document"
 msgstr ""
 
@@ -42177,10 +42206,6 @@ msgstr ""
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:339
-msgid "Something has gone wrong - please contact support."
-msgstr ""
-
 #: onedesk/one_crm/home.py:122
 msgid "Something sold that broke, and whether the warranty covers it."
 msgstr ""
@@ -42588,7 +42613,7 @@ msgstr ""
 msgid "Start recording"
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:15
+#: frontend/src/writer/components/CoreEditor.vue:16
 msgid "Start thinking..."
 msgstr ""
 
@@ -45295,6 +45320,14 @@ msgstr ""
 msgid "The One account that holds this workspace, gets its invoices and hears about paying."
 msgstr ""
 
+#: onedesk/one_doc/tour.py:17
+msgid "The Outline"
+msgstr ""
+
+#: onedesk/one_doc/tour.py:29
+msgid "The Path and File"
+msgstr ""
+
 #: onedesk/one/notification_words.py:274
 msgid "The Person on the Record"
 msgstr ""
@@ -46317,6 +46350,10 @@ msgstr ""
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr ""
 
+#: onedesk/one_doc/tour.py:30
+msgid "The path leads back to where the document is kept, and File prints it, keeps versions and sets up the page."
+msgstr ""
+
 #: onedesk/one_book/home.py:413
 msgid "The payment ledger rebuilt, so what is owed is right again."
 msgstr ""
@@ -46827,7 +46864,7 @@ msgstr ""
 msgid "The text comes from {0}."
 msgstr ""
 
-#: frontend/src/slide/pages/PresentationEditor.vue:525
+#: frontend/src/slide/pages/PresentationEditor.vue:526
 msgid "The theme could not be changed. Try again."
 msgstr ""
 
@@ -47525,7 +47562,7 @@ msgstr ""
 msgid "This document could not be opened."
 msgstr ""
 
-#: onedesk/one_doc/templates.py:52
+#: onedesk/one_doc/templates.py:53
 msgid "This document is not a template."
 msgstr ""
 
@@ -47541,7 +47578,7 @@ msgstr ""
 msgid "This document is not on a record."
 msgstr ""
 
-#: onedesk/one_doc/api.py:157 onedesk/one_doc/api.py:180
+#: onedesk/one_doc/api.py:159 onedesk/one_doc/api.py:182
 msgid "This document is too large to save."
 msgstr ""
 
@@ -47566,7 +47603,7 @@ msgstr ""
 msgid "This file cannot be opened."
 msgstr ""
 
-#: onedesk/one_doc/api.py:262
+#: onedesk/one_doc/api.py:264
 msgid "This file is too large to put into a document."
 msgstr ""
 
@@ -47646,7 +47683,7 @@ msgstr ""
 msgid "This is taking longer than usual. We will mail {0} when it is ready."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:107
+#: frontend/src/writer/components/VersionsSidebar.vue:108
 msgid "This is the current version."
 msgstr ""
 
@@ -50028,7 +50065,7 @@ msgid "Untitled"
 msgstr ""
 
 #: frontend/src/writer/DocumentPage.vue:250
-#: frontend/src/writer/components/CoreEditor.vue:356 onedesk/one_doc/api.py:81
+#: frontend/src/writer/components/CoreEditor.vue:357 onedesk/one_doc/api.py:81
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
 msgstr ""
@@ -50044,7 +50081,7 @@ msgstr ""
 msgid "Untitled Sheet"
 msgstr ""
 
-#: onedesk/one_doc/templates.py:63 onedesk/one_sheet/templates.py:88
+#: onedesk/one_doc/templates.py:64 onedesk/one_sheet/templates.py:88
 #: onedesk/one_slide/templates.py:44
 msgid "Untitled Template"
 msgstr ""
@@ -55359,8 +55396,8 @@ msgstr ""
 #: onedesk/one_calendar/abilities.py:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
 #: onedesk/one_crm/abilities.py:15 onedesk/one_display/abilities.py:14
-#: onedesk/one_hr/abilities.py:15 onedesk/one_inventory/abilities.py:15
-#: onedesk/one_legal/abilities.py:19
+#: onedesk/one_doc/abilities.py:20 onedesk/one_hr/abilities.py:15
+#: onedesk/one_inventory/abilities.py:15 onedesk/one_legal/abilities.py:19
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 #: onedesk/one_mail/abilities.py:19 onedesk/one_mail/cloud.py:33
 #: onedesk/one_mail/custom/email_account.json
@@ -55712,6 +55749,10 @@ msgstr ""
 msgid "Write an update"
 msgstr ""
 
+#: onedesk/one_doc/tour.py:23
+msgid "Write and Comment"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/one_hr/notifications.py
 msgid "Write and issue it from the request."
@@ -55808,7 +55849,7 @@ msgstr ""
 msgid "Writer Document Version"
 msgstr ""
 
-#: onedesk/one_doc/ai.py:206
+#: onedesk/one_doc/ai.py:228
 msgid "Writes"
 msgstr ""
 
@@ -55937,11 +55978,12 @@ msgstr ""
 #: onedesk/one_ai/abilities.py:20 onedesk/one_ai/chat.py:699
 #: onedesk/one_book/abilities.py:17 onedesk/one_calendar/abilities.py:20
 #: onedesk/one_crm/abilities.py:17 onedesk/one_display/abilities.py:16
-#: onedesk/one_hr/abilities.py:17 onedesk/one_inventory/abilities.py:17
-#: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1002
-#: onedesk/one_mail/ai.py:1052 onedesk/one_portal/abilities.py:21
-#: onedesk/one_project/abilities.py:20 onedesk/one_slide/abilities.py:22
-#: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
+#: onedesk/one_doc/abilities.py:22 onedesk/one_hr/abilities.py:17
+#: onedesk/one_inventory/abilities.py:17 onedesk/one_legal/abilities.py:21
+#: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1052
+#: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
+#: onedesk/one_slide/abilities.py:22 onedesk/one_task/abilities.py:20
+#: onedesk/public/js/bom_list.js:5
 #: onedesk/public/js/one_mail/onemail_settings.js:486
 msgid "Yes"
 msgstr ""
@@ -55975,11 +56017,11 @@ msgstr ""
 msgid "You are outside every location this shift may check in from."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:295
+#: frontend/src/writer/components/VersionsSidebar.vue:296
 msgid "You are restoring the document to how it was at {0}."
 msgstr ""
 
-#: frontend/src/writer/components/VersionsSidebar.vue:294
+#: frontend/src/writer/components/VersionsSidebar.vue:295
 msgid "You are restoring to a previous version: {0}."
 msgstr ""
 
@@ -56729,7 +56771,7 @@ msgstr ""
 msgid "Your role doesn't allow writing OneAI's Knowledge."
 msgstr ""
 
-#: onedesk/one_slide/templates.py:43
+#: onedesk/one_doc/templates.py:90 onedesk/one_slide/templates.py:43
 msgid "Your role doesn't keep company templates. Ask a workspace administrator."
 msgstr ""
 

@@ -27,6 +27,7 @@ MODULES = (
 	"one_studio",
 	"one_display",
 	"one_slide",
+	"one_doc",
 )
 
 _loaded = False

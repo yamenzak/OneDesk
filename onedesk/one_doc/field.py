@@ -1,6 +1,6 @@
 """A record's long text written in OneWriter: a Text Editor field opens as a
 document filed on the record, and what is written goes back into the field
-through the record's own save, as the workbook does for a table. README,
+through the record's own save, as the workbook does for a table. AGENTS.md,
 On a record.
 """
 

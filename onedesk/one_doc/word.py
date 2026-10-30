@@ -1,6 +1,6 @@
 """A document as a Word file, and a Word file as a document: "Name.docx" on
 the network drive, through a link and attached to mail; Word's save read back
-in with a version kept; and a .docx in OneCloud edited in place. README, Word.
+in with a version kept; and a .docx in OneCloud edited in place. AGENTS.md, Word.
 """
 
 import io

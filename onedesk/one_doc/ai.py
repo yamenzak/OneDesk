@@ -1,7 +1,7 @@
 """What OneAI can do with documents: find them and read what they say, and
 write a new one or add to one as a card the reader approves
 (one_ai/proposals.py, Setup). Every one runs as the person asking, with
-OneCloud's answer for the File behind the document. README, Asking OneAI.
+OneCloud's answer for the File behind the document. AGENTS.md, Asking OneAI.
 """
 
 from typing import Annotated
@@ -10,6 +10,28 @@ import frappe
 from frappe import _
 
 from onedesk.one_doc import api
+
+# The calls that change something OneAI reaches as a card, by the tool whose
+# card makes the call when it is approved (docs/READY.md, mechanism 11).
+REACH = {"api.make": "draft_document"}
+
+# Why OneAI's chat does not do these itself: each is the editor's own, or is
+# OneAI already, asked from the editor.
+NOT_FOR_AI = {
+	"api.save_document": "The editor saves what is written as it goes, and OneAI writes through a card instead.",
+	"api.save_settings": "Page setup is chosen by eye in the editor, where the page shows it.",
+	"api.save_comments": "A comment is somebody's own words, written in the document's margin.",
+	"api.rename_document": "A document is named from its path in the editor, by the person working on it.",
+	"api.add_picture": "It answers a picture put into the document in the editor.",
+	"api.make_picture": "It is OneAI making a picture, asked from the editor's picture button.",
+	"api.drop_pictures": "It answers pictures taken out of the document in the editor.",
+	"field.open_field": "A record's text opens in OneWriter from the record's form, by the person reading it.",
+	"paper.pdf": "Printing is the person's choice of letter head and page, made in the editor's Print dialog.",
+	"templates.save_as": "A template is kept from the editor's File menu by whoever may keep company templates.",
+	"versions.new_version": "A version is taken while somebody writes, or named by them in Version History.",
+	"word.open_file": "It answers a Word file opened from OneCloud.",
+	"word.write_back": "It writes the Word file back when the person leaves it in the editor.",
+}
 
 #: The most characters of a document a read answers with.
 MOST_TEXT = 20_000

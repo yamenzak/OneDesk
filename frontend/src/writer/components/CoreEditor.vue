@@ -1,12 +1,13 @@
 <!-- Derived from frappe/suite@df7f341 (frontend/src/apps/writer)/components/CoreEditor.vue. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md. -->
 <template>
   <div class="flex flex-col w-full bg-surface-base" @keydown.capture="openCommandPalette">
-    <TextEditorFixedMenu v-if="editable"
+    <!-- One: data-tour marks the tour's steps, one_doc/tour.py; VENDORED.md -->
+    <TextEditorFixedMenu v-if="editable" data-tour="onewriter-toolbar"
       class="w-full max-w-[100vw] py-1.5 !px-4 md:px-0 overflow-x-auto flex shrink-0 border-b border-outline-elevation-2"
       :editor="editor" :items="menuButtons" />
     <div class="relative flex flex-1 overflow-hidden">
-      <ToC v-if="editor" :editor :anchors />
-      <div id="editor-scroll-container"
+      <ToC v-if="editor" data-tour="onewriter-outline" :editor :anchors />
+      <div id="editor-scroll-container" data-tour="onewriter-page"
         class="relative flex-1 min-w-0 overflow-y-auto overflow-x-hidden md:border-l border-outline-gray-2">
         <div class="min-h-full flex flex-col md:grid md:grid-rows-[1fr]" :style="gridStyle" @click="onBackgroundClick">
           <div class="hidden md:block" />
@@ -336,7 +337,7 @@ const autoversion = async () => {
   await props.document.newVersion.submit({ data: html })
   const err = props.document.newVersion.error
   if (err && err !== 'Client is offline') {
-    toast.error(__('Something has gone wrong - please contact support.'))
+    toast.error(__('A version of this document could not be kept. Try again later.')) // One: the copy rules, VENDORED.md
   }
 }
 const autoversionInterval = setInterval(autoversion, AUTOVERSION_INTERVAL_MS)

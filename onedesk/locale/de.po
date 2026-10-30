@@ -1561,6 +1561,10 @@ msgstr "Eine Aktion, die ein Modul unter ihrem Namen registriert hat. Sie sagt s
 msgid "A version needs a name."
 msgstr "Eine Version braucht einen Namen."
 
+#: frontend/src/writer/components/CoreEditor.vue:340
+msgid "A version of this document could not be kept. Try again later."
+msgstr "Eine Version dieses Dokuments konnte nicht aufbewahrt werden. Versuchen Sie es später erneut."
+
 #: onedesk/one_crm/home.py:124
 msgid "A visit to a customer, and the work done."
 msgstr "Ein Besuch bei einem Kunden, und die erledigte Arbeit."
@@ -5641,6 +5645,11 @@ msgstr "Automatisiert"
 #: frontend/src/writer/components/WriterSettings.vue:189
 msgid "Automatic"
 msgstr ""
+
+#: frontend/src/writer/components/VersionsSidebar.vue:43
+msgctxt "Versions taken while writing"
+msgid "Automatic"
+msgstr "Automatisch"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:915
 msgid "Automatic colour"
@@ -15383,6 +15392,10 @@ msgstr "Jedes Feld braucht eine Bezeichnung."
 msgid "Every field of {0}"
 msgstr "Alle Felder von {0}"
 
+#: onedesk/one_doc/tour.py:18
+msgid "Every heading is listed here, and clicking one takes you to it."
+msgstr "Hier steht jede Überschrift, und ein Klick darauf bringt Sie dorthin."
+
 #: onedesk/one_studio/doctype/extension/extension.js:32
 msgid "Every hour"
 msgstr "Stündlich"
@@ -17463,6 +17476,10 @@ msgstr "Format"
 msgid "Format Text"
 msgstr "Text formatieren"
 
+#: onedesk/one_doc/tour.py:11
+msgid "Format Your Words"
+msgstr "Text formatieren"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:163
 msgid "Format as currency"
 msgstr "Als Währung formatieren"
@@ -18901,6 +18918,10 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "Heading"
 msgstr ""
+
+#: onedesk/one_doc/tour.py:12
+msgid "Headings, lists, links, pictures, tables and page breaks go in from here."
+msgstr "Überschriften, Listen, Links, Bilder, Tabellen und Seitenumbrüche fügen Sie von hier ein."
 
 #. Label of the one_health (Select) field in DocType 'Project'
 #. Label of the one_health (Select) field in DocType 'Project User'
@@ -21537,6 +21558,10 @@ msgstr "Sie läuft nicht mehr auf {kind}. {explanation}"
 #: onedesk/one_account/notifications.py
 msgid "It now costs {monthly} a month."
 msgstr "Er kostet jetzt {monthly} im Monat."
+
+#: onedesk/one_doc/tour.py:24
+msgid "It saves itself as you write, and selected words can be commented on in the margin."
+msgstr "Es speichert sich beim Schreiben, und markierte Wörter lassen sich am Rand kommentieren."
 
 #: onedesk/public/js/one_legal/trust_center.js:295
 msgid "It sends somewhere new, so it waits for an administrator to agree."
@@ -38561,6 +38586,10 @@ msgstr "Adresse speichern"
 msgid "Save PDF to OneCloud"
 msgstr "PDF in OneCloud speichern"
 
+#: onedesk/one_doc/abilities.py:31
+msgid "Save a document as a template everybody in the workspace can start from."
+msgstr "Ein Dokument als Vorlage speichern, von der alle im Arbeitsbereich ausgehen können."
+
 #: onedesk/one_slide/abilities.py:31
 msgid "Save a presentation as a template everybody in the workspace can start from."
 msgstr "Eine Präsentation als Vorlage speichern, von der alle im Arbeitsbereich ausgehen können."
@@ -41514,10 +41543,6 @@ msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine P
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "Etwas, das eine Person zurückgenommen oder abgelehnt hat, gemerkt für das nächste Dokument derselben Partei."
-
-#: frontend/src/writer/components/CoreEditor.vue:329
-msgid "Something has gone wrong - please contact support."
-msgstr "Etwas ist schiefgelaufen, bitte wenden Sie sich an den Support."
 
 #: onedesk/one_crm/home.py:122
 msgid "Something sold that broke, and whether the warranty covers it."
@@ -44586,6 +44611,14 @@ msgstr "Das Angebot"
 msgid "The One account that holds this workspace, gets its invoices and hears about paying."
 msgstr "Das One-Konto, das diesen Arbeitsbereich hält, seine Rechnungen erhält und über Zahlungen informiert wird."
 
+#: onedesk/one_doc/tour.py:17
+msgid "The Outline"
+msgstr "Die Gliederung"
+
+#: onedesk/one_doc/tour.py:29
+msgid "The Path and File"
+msgstr "Pfad und Datei"
+
 #: onedesk/one/notification_words.py:274
 msgid "The Person on the Record"
 msgstr "Die Person im Datensatz"
@@ -45597,6 +45630,10 @@ msgstr "Die Teile des Unternehmens, nach denen Kosten und Erträge geführt werd
 #: onedesk/one_hr/rules.py:17
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "Der Passkey wurde nicht per Gesicht, Fingerabdruck oder PIN entsperrt."
+
+#: onedesk/one_doc/tour.py:30
+msgid "The path leads back to where the document is kept, and File prints it, keeps versions and sets up the page."
+msgstr "Der Pfad führt dorthin zurück, wo das Dokument liegt, und über Datei drucken Sie es, bewahren Versionen auf und richten die Seite ein."
 
 #: onedesk/one_book/home.py:413
 msgid "The payment ledger rebuilt, so what is owed is right again."
@@ -54816,6 +54853,10 @@ msgstr "Erweiterung schreiben…"
 #: frontend/src/project/Updates.vue:21
 msgid "Write an update"
 msgstr "Update schreiben"
+
+#: onedesk/one_doc/tour.py:23
+msgid "Write and Comment"
+msgstr "Schreiben und kommentieren"
 
 #. Message of a notification
 #: onedesk/one_hr/notifications.py

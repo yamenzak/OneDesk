@@ -21,7 +21,7 @@ export const allUsers = reactive({
 	data: null,
 	fetch() {
 		return call("onedesk.one_doc.api.people").then((found) => {
-			allUsers.data = (found || []).map((one) => ({ ...one, value: one.email, label: (one.full_name || "").trimEnd() }));
+			allUsers.data = (found || []).map((one) => ({ ...one, name: one.email, value: one.email, label: (one.full_name || "").trimEnd() }));
 			return allUsers.data;
 		});
 	},

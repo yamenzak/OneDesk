@@ -1,6 +1,6 @@
 """A document on paper: its HTML under the company's letter head, with the
 record's fields filled in where it names them, as a PDF to print, keep beside
-the document, or attach to its record. README, Paper.
+the document, or attach to its record. AGENTS.md, Paper.
 """
 
 import re

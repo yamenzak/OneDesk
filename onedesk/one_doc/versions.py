@@ -1,7 +1,7 @@
 """A document's version history: what it said at a moment, named by somebody
 or taken while it was being written, and put back from the history panel.
 Suite's policy: the editor offers a version every ten minutes of writing,
-and one is kept if the last taken was ten minutes ago or more. README,
+and one is kept if the last taken was ten minutes ago or more. AGENTS.md,
 Version history.
 """
 

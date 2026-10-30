@@ -1,5 +1,8 @@
 # OneWriter
 
+What OneWriter is, how it works and why; for agents, OneAI and us. What is
+known to be wrong is `SCRATCHPAD.md`, and the Help people read is `docs/`.
+
 Documents in OneCloud: a scope of works, a covering letter, a method
 statement, minutes. Written in the desk, kept beside everything else in the
 company's files, and opened by anybody the file is shared with.
@@ -43,6 +46,9 @@ typing until somebody unlocks it.
 Templates, where everyone in the company can start from it. **File › Insert
 a Template** puts a template's content where the cursor is; **New › Document**
 offers them too. A template is its own content and nothing else.
+Keeping one is OneWriter's one ability, `template` (`abilities.py`, the
+Permission Type `doc_template` on Writer Document): a Manager has it, a User
+does not, and the item is left out of **File** for whoever lacks it.
 
 ## On a record
 
@@ -144,11 +150,6 @@ quotation says. Each question costs credits like any other OneAI request.
 for a sentence and puts the picture OneAI makes where the cursor is. It is
 kept on the document as an uploaded picture is (`api.make_picture`, with
 OneSlide's picture job, `one_slide/ai.py`).
-
-## What is not built yet
-
-A Word file's comments and tracked changes do not come into OneWriter, and
-older `.doc`, `.odt` and `.rtf` files do not open in it; they open as files.
 
 ## Connections
 

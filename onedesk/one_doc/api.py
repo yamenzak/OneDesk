@@ -1,6 +1,6 @@
 """What the document editor calls: make one in a folder, open it, save it,
 rename it. Whether the reader may is OneCloud's answer for the File the
-document sits behind, never the Writer Document's own permissions. README,
+document sits behind, never the Writer Document's own permissions. AGENTS.md,
 api.py.
 """
 
@@ -105,6 +105,7 @@ def get_document(name: str) -> dict:
 	and the OneCloud folders above it for its breadcrumb."""
 	from onedesk.one_storage import namespace as ns
 
+	from onedesk.one import rights
 	from onedesk.one_doc import field
 
 	item = _may(name, "read")
@@ -121,6 +122,7 @@ def get_document(name: str) -> dict:
 		"file": item["name"],
 		"folder": item.get("folder"),
 		"can_write": ns.may(item, "write") and (not bound or bound["writable"]),
+		"can_template": rights.held(DOCUMENT, "doc_template"),
 		"bound": bound,
 		"word": doc.source_kind == "docx",
 		"owner": item.get("owner"),

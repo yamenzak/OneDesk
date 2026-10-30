@@ -345,6 +345,24 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"OneWriter": {
+		"folder": "one_doc",
+		"screens": "writer",
+		"names": ("one_doc", "onedoc"),
+		"ready": False,
+		"checked": {},
+		"windowless": "A document opens from OneCloud in an editor that fills the window, so OneWriter's foot and settings are OneCloud's.",
+		"help": (
+			("overview", "info"),
+			("writing", "pencil"),
+			("writing-together", "users"),
+			("history-and-templates", "history"),
+			("printing-and-word", "printer"),
+			("on-a-record", "link"),
+			("asking-oneai", "sparkles"),
+			("who-can-do-what", "shield"),
+		),
+	},
 	"OnePortal": {
 		"folder": "one_portal",
 		"screens": "portal",
@@ -566,6 +584,7 @@ SHARED = {
 	"brand/onedisplay.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/oneslide.svg": "every product's mark is drawn in brand/, into one sprite",
 	"docs/ONESLIDE.md": "the plan that made OneSlide and moved OneDisplay's slides into it, across both modules",
+	"brand/onedoc.svg": "every product's mark is drawn in brand/, into one sprite",
 	"tests/samples/intake/one_calendar/site-meeting.eml": "reading's samples sit with every module's, under tests/samples",
 	"tests/samples/intake/one_calendar/site-meeting.json": "reading's samples sit with every module's, under tests/samples",
 	"brand/onetask.svg": "every product's mark is drawn in brand/, into one sprite",
@@ -656,6 +675,7 @@ OUTSIDE = {
 	"OneBook": [],
 	"OneDisplay": [],
 	"OneSlide": [],
+	"OneWriter": [],
 }
 
 

@@ -48,6 +48,8 @@ Each is marked `One:` where it is.
   `onedesk.one_doc.versions.listed`, named ones sort by when they were made and
   take a row each, the preview's classes sit on a div because this
   frappe-ui's `Editor` draws no element, and its words in script go through the kit's `__`.
+- `components/VersionsSidebar.vue`: **Automatic** is asked for in a context,
+  since frappe's own Automatic means something else in Arabic.
 - `components/NewVersionDialog.vue`: the made version isn't pushed onto a
   list; the page draws the panel again.
 - `components/FloatingComments.vue`: `$store` is null; Suite's global store
@@ -59,4 +61,8 @@ Each is marked `One:` where it is.
   editor's extensions.
 - `components/CoreEditor.vue`: Ctrl+P's `print-file` no longer prints
   through the browser; the page's Print dialog answers it.
+- `components/CoreEditor.vue`: `data-tour` marks on the toolbar, the outline
+  and the page, for OneWriter's tour (`one_doc/tour.py`).
+- `components/CoreEditor.vue`: a version that could not be kept says so
+  without "please", by the copy rules.
 - Every word a template shows goes through `__()`.

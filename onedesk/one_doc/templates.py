@@ -1,7 +1,8 @@
 """Document templates: a document kept in OneCloud's Document Templates
-folder to start others from. Anyone in the company opens them; whoever made
-one, or an administrator, changes it, as with any company file. A template
-is its own content and nothing else. README, Templates.
+folder to start others from. Anyone in the company opens them; a role with
+the template ability (abilities.py) keeps one; whoever made one, or an
+administrator, changes it, as with any company file. A template is its own
+content and nothing else. AGENTS.md, Templates.
 """
 
 import frappe
@@ -82,7 +83,11 @@ def make(title: str, values: dict) -> str:
 @frappe.whitelist(methods=["POST"])
 def save_as(name: str, title: str) -> dict:
 	"""This document as a template."""
+	from onedesk.one import rights
+
 	api._may(name, "read")
+	if not rights.held(api.DOCUMENT, "doc_template"):
+		frappe.throw(_("Your role doesn't keep company templates. Ask a workspace administrator."), frappe.PermissionError)
 	held = frappe.db.get_value(api.DOCUMENT, name, list(KEPT), as_dict=True)
 	made = make(title, {key: held.get(key) for key in KEPT})
 	return {"name": made, "title": frappe.db.get_value(api.DOCUMENT, made, "title")}

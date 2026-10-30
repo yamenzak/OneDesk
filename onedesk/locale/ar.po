@@ -1561,6 +1561,10 @@ msgstr "إجراء سجّلته وحدة باسمه. يحدد بنفسه متى 
 msgid "A version needs a name."
 msgstr "تحتاج النسخة إلى اسم."
 
+#: frontend/src/writer/components/CoreEditor.vue:340
+msgid "A version of this document could not be kept. Try again later."
+msgstr "تعذّر حفظ نسخة من هذا المستند. حاول مرة أخرى لاحقًا."
+
 #: onedesk/one_crm/home.py:124
 msgid "A visit to a customer, and the work done."
 msgstr "زيارة لعميل، والعمل المنجز."
@@ -5641,6 +5645,11 @@ msgstr "آلي"
 #: frontend/src/writer/components/WriterSettings.vue:189
 msgid "Automatic"
 msgstr ""
+
+#: frontend/src/writer/components/VersionsSidebar.vue:43
+msgctxt "Versions taken while writing"
+msgid "Automatic"
+msgstr "تلقائية"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:915
 msgid "Automatic colour"
@@ -15383,6 +15392,10 @@ msgstr "يحتاج كل حقل إلى تسمية."
 msgid "Every field of {0}"
 msgstr "كل حقول {0}"
 
+#: onedesk/one_doc/tour.py:18
+msgid "Every heading is listed here, and clicking one takes you to it."
+msgstr "كل عنوان مُدرج هنا، والنقر عليه ينقلك إليه."
+
 #: onedesk/one_studio/doctype/extension/extension.js:32
 msgid "Every hour"
 msgstr "كل ساعة"
@@ -17463,6 +17476,10 @@ msgstr "تنسيق"
 msgid "Format Text"
 msgstr "تنسيق النص"
 
+#: onedesk/one_doc/tour.py:11
+msgid "Format Your Words"
+msgstr "نسّق كلماتك"
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:163
 msgid "Format as currency"
 msgstr "تنسيق كعملة"
@@ -18901,6 +18918,10 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json
 msgid "Heading"
 msgstr ""
+
+#: onedesk/one_doc/tour.py:12
+msgid "Headings, lists, links, pictures, tables and page breaks go in from here."
+msgstr "من هنا تضيف العناوين والقوائم والروابط والصور والجداول وفواصل الصفحات."
 
 #. Label of the one_health (Select) field in DocType 'Project'
 #. Label of the one_health (Select) field in DocType 'Project User'
@@ -21537,6 +21558,10 @@ msgstr "لم تعد تعمل على {kind}. {explanation}"
 #: onedesk/one_account/notifications.py
 msgid "It now costs {monthly} a month."
 msgstr "أصبحت تكلفته {monthly} شهريًا."
+
+#: onedesk/one_doc/tour.py:24
+msgid "It saves itself as you write, and selected words can be commented on in the margin."
+msgstr "يُحفظ تلقائيًا أثناء الكتابة، ويمكن التعليق على الكلمات المحددة في الهامش."
 
 #: onedesk/public/js/one_legal/trust_center.js:295
 msgid "It sends somewhere new, so it waits for an administrator to agree."
@@ -38561,6 +38586,10 @@ msgstr "حفظ العنوان"
 msgid "Save PDF to OneCloud"
 msgstr "حفظ PDF في OneCloud"
 
+#: onedesk/one_doc/abilities.py:31
+msgid "Save a document as a template everybody in the workspace can start from."
+msgstr "حفظ مستند كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
+
 #: onedesk/one_slide/abilities.py:31
 msgid "Save a presentation as a template everybody in the workspace can start from."
 msgstr "حفظ عرض تقديمي كقالب يمكن لكل من في مساحة العمل أن يبدأ منه."
@@ -41514,10 +41543,6 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للمستند التالي من الطرف نفسه."
-
-#: frontend/src/writer/components/CoreEditor.vue:329
-msgid "Something has gone wrong - please contact support."
-msgstr "حدث خطأ، يرجى التواصل مع الدعم."
 
 #: onedesk/one_crm/home.py:122
 msgid "Something sold that broke, and whether the warranty covers it."
@@ -44586,6 +44611,14 @@ msgstr "العرض"
 msgid "The One account that holds this workspace, gets its invoices and hears about paying."
 msgstr "حساب One الذي يضم مساحة العمل هذه ويتلقى فواتيرها وإشعارات الدفع."
 
+#: onedesk/one_doc/tour.py:17
+msgid "The Outline"
+msgstr "المخطط"
+
+#: onedesk/one_doc/tour.py:29
+msgid "The Path and File"
+msgstr "المسار والملف"
+
 #: onedesk/one/notification_words.py:274
 msgid "The Person on the Record"
 msgstr "الشخص المذكور في السجل"
@@ -45597,6 +45630,10 @@ msgstr "أقسام العمل التي تُسجل بها التكاليف وال
 #: onedesk/one_hr/rules.py:17
 msgid "The passkey was not unlocked with a face, fingerprint or PIN."
 msgstr "لم يُفتح مفتاح المرور ببصمة الوجه أو بصمة الإصبع أو رمز PIN."
+
+#: onedesk/one_doc/tour.py:30
+msgid "The path leads back to where the document is kept, and File prints it, keeps versions and sets up the page."
+msgstr "يعود بك المسار إلى مكان حفظ المستند، ومن الملف تطبعه وتحفظ نسخه وتضبط الصفحة."
 
 #: onedesk/one_book/home.py:413
 msgid "The payment ledger rebuilt, so what is owed is right again."
@@ -54816,6 +54853,10 @@ msgstr "اكتب إضافة…"
 #: frontend/src/project/Updates.vue:21
 msgid "Write an update"
 msgstr "اكتب تحديثًا"
+
+#: onedesk/one_doc/tour.py:23
+msgid "Write and Comment"
+msgstr "اكتب وعلّق"
 
 #. Message of a notification
 #: onedesk/one_hr/notifications.py
