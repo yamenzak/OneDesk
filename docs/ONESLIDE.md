@@ -98,13 +98,67 @@ links it. `blocks.py`, `blocks.js`, `slides.py`'s designer endpoints and
 The jobs keep their names in `one_ai/jobs.py` so credits and history are
 unbroken; only where they are offered moves.
 
-## The channel builder, afterwards
+## The channel builder
 
-Once the editor is ours, the same canvas, selection, snapping, layers and
-property panel draw OneDisplay's channel layout: the zones, the widgets
-(clock, weather, queue, rates, ticker) and their bindings, edited as
-elements on a frame the size of the screen. That is stage 7 and is planned
-when stage 6 is done; nothing before it depends on it.
+A channel's widget layout is a **Widget Collection**: rows of **Display
+Widget**, each a kind (queue board, clock, ticker, list, number, QR code,
+custom…), a box in percent of the screen, a layer, a source, the fields it
+shows and its settings. `frontend/src/display/Layout.vue` edits it today:
+a list to add from, dashed boxes dragged and resized over a live preview of
+the screen, and a panel drawn from each kind's schema (`widgets.py`). It has
+no snapping, no layers, no undo, no multiple selection, no alignment, and
+nothing on the screen but widgets.
+
+Stage 7 opens a Widget Collection in OneSlide's editor instead, so the
+screen gets everything the slide got in stages 1 and 3, and the two
+editors stop being two.
+
+**What a widget is on the canvas.** A new element kind, `widget`, which
+Suite's stores move, size, snap, align, group, stack, lock, hide, name and
+undo like any other. It carries the row's own fields (`widget_type`,
+`source`, `mapping`, `settings`, `shown`, `from_time`, `to_time`). The
+canvas draws it as a framed box with its label; what it shows is drawn by
+the screen itself, in one preview frame under the canvas
+(`/tv?preview=<collection>&bare=1`, widgets only), as Layout.vue does now,
+so there is still one renderer of a widget and it is the TV's.
+
+**The panel.** With a widget chosen, the panel's Design tab is Frame and
+Arrange (Suite's) and a **Widget** section: Layout.vue's source, fields
+shown, the live "Shows now" peek and the kind's settings, moved as they
+are. With nothing chosen it is the screen's: orientation and background.
+
+**What else goes on the screen.** Text, shapes, pictures and video from the
+bar, as on a slide, for the backdrop a screen has around its widgets: a
+heading, a brand band, a logo. They are kept as a one-slide presentation
+the collection links (`backdrop`, a File in OneCloud filed on the
+collection), which the TV already draws with `play.js`. Widgets keep their
+rows. The editor holds both on one canvas and saving splits them: every
+`widget` element writes its row (box back to percent, `layer` from its
+place in Layers), everything else writes the backdrop's one slide. On the
+TV the backdrop's elements and the widgets share one stacking context, so
+a heading can sit above a widget as Layers says.
+
+**The frame.** Suite's frame is 960×540 in ten places. It becomes one
+`frame` in the editor's store, 960×540 or 540×960, set from the
+collection's orientation; a presentation always asks for 960×540, so
+nothing about a presentation changes.
+
+**What it is not.** A channel's schedule, its slide playlist and its music
+stay on the channel's form: they are lists and times, not a layout.
+
+### Its stages
+
+7a. **The frame.** One `frame` in the store in place of the ten constants;
+    portrait draws, snaps, thumbnails and presents. Nothing else changes.
+7b. **The widget element.** The `widget` kind, its box on the canvas over
+    the preview frame, **Add a Widget** in the bar, and the Widget section
+    in the panel, moved from Layout.vue.
+7c. **Load and save.** `one_display/layout.py` turns a collection into
+    the editor's one slide and back, with the backdrop presentation; the
+    TV draws the backdrop under and among the widgets; a check proves a
+    round trip changes nothing and a backdrop heading shows on the screen.
+7d. **One editor.** The Widget Collection form opens the builder;
+    Layout.vue and its island are deleted; Help, versions, translations.
 
 ## Stages
 
@@ -124,7 +178,7 @@ when stage 6 is done; nothing before it depends on it.
 6. **OneSlide as a product.** Its mark and name in `gen_brand.py`, the
    registry next to OneWriter and OneWorkbook, READY's fourteen points,
    translations into ar and de, Help with pictures, the demo.
-7. **The channel builder** on the same engine (planned separately).
+7. **The channel builder** on the same engine: 7a to 7d above.
 
 Stage 6's registry work is done for OneWriter and OneWorkbook in the same
 pass, since neither is registered yet and all three share the same pieces.
