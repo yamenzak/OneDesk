@@ -55,4 +55,21 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   same. Give every widget the editor's own properties (font, size, colours,
   background, corners, padding), saved on the element and applied by the
   widget's renderer in `tv.js`, which keeps its layout and takes the rest.
+- **Widgets in three kinds, no widget builder.** The editor is the builder;
+  a second, smaller one would only copy it. (1) Widgets with behaviour stay
+  premade (Queue Board, Kiosk, Clock, Ticker, Weather) and get preset looks
+  and the style properties above. (2) A widget that only shows data becomes
+  ordinary editor objects: OneSlide's data chips (`one_slide/data.py`, S9)
+  pointed at a Display Source, a text or a table designed like any slide.
+  This takes the place of Number and List. It needs the Data menu offered
+  in a screen's editor (now hidden by the `screen` check) with Display
+  Sources as its sources, and the TV refilling the chips on the source's
+  refresh. (3) Custom code stays, in its sandbox, for what nothing else does.
+- **Pictures and videos dropped on a playlist.** Media reaches a screen only
+  inside a presentation, which is right: one store, one renderer, one
+  history, one way to share. But nobody should open an editor to show a
+  photo. Dropping files on a Slide Playlist makes one presentation per file,
+  the picture or video filling the slide, filed on the playlist, as
+  `patches/presentations_on_screens.py` already did for the old rows; it
+  opens in OneSlide later if words are wanted on it.
 
