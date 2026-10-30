@@ -447,8 +447,9 @@ doc_events = {
 			"onedesk.one_ai.index.changed",
 			"onedesk.one_ai.brief.touched",
 			"onedesk.one_sheet.table.changed",
+			"onedesk.one_display.live.record_saved",
 		],
-		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one_studio.approvals.answered", "onedesk.one_ai.index.changed"],
+		"on_update_after_submit": ["onedesk.one.linked.save", "onedesk.one_studio.approvals.answered", "onedesk.one_ai.index.changed", "onedesk.one_display.live.record_saved"],
 		"on_cancel": [
 			"onedesk.one_studio.approvals.answered",
 			"onedesk.one_ai.reading.mark.looked_at",
@@ -466,6 +467,7 @@ doc_events = {
 			"onedesk.one_ai.reading.identity.forget",
 			"onedesk.one_ai.reading.filing.forget",
 			"onedesk.one_ai.index.removed",
+			"onedesk.one_display.live.record_saved",
 		],
 	},
 	"Budget": {
@@ -1455,6 +1457,8 @@ one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk
 # (one_slide/api.py): OneDisplay's widgets on a screen's backdrop.
 one_slide_loaded = ["onedesk.one_display.screen.loaded"]
 one_slide_saving = ["onedesk.one_display.screen.saving"]
+# a presentation's `rows` source: a Display Source's rows, for chips on a screen (one_slide/data.py)
+one_slide_rows = ["onedesk.one_display.screen.rows"]
 
 # What each module shows on the portal, in its own portal.py's KINDS, read by
 # OnePortal's engine (one_portal/portal.py `kinds`).

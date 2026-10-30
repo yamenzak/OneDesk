@@ -30,6 +30,7 @@ NOT_FOR_AI = {
 	"make.widget": "It is OneAI writing a widget's code, which the person then keeps or not.",
 	"make.music": "It is OneAI writing music for a playlist, which arrives paused for the person to play or not.",
 	"voices.record": "It is OneAI recording a voice ad, which the person listens to before it plays.",
+	"playlist.add_media": "The pictures and videos are files a person uploads from their own device.",
 }
 
 ONLINE = 90

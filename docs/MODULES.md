@@ -543,6 +543,7 @@ No doctypes yet.
 * `onedesk.one_display.live.admit`
 * `onedesk.one_display.make.music`
 * `onedesk.one_display.make.widget`
+* `onedesk.one_display.playlist.add_media`
 * `onedesk.one_display.queue.call_next`
 * `onedesk.one_display.queue.counter_state`
 * `onedesk.one_display.queue.desks`

@@ -133,6 +133,20 @@ def _parsed(value) -> list:
 	return [one for one in said if isinstance(one, dict)] if isinstance(said, list) else []
 
 
+def rows(one: dict) -> list | None:
+	"""one_slide_rows: a presentation's `rows` source, a Display Source's rows
+	as words, for chips on a screen's backdrop; None for a source not ours."""
+	from onedesk.one_display import sources
+
+	name = one.get("source")
+	if one.get("kind") != "rows" or not name:
+		return None
+	if not frappe.db.exists(sources.DOCTYPE, name) or not frappe.has_permission(sources.DOCTYPE, "read", doc=name):
+		return []
+	fields = {field["fieldname"] for field in layout.fields(name)}
+	return [row for row in sources.read(name, fields) if isinstance(row, dict)]
+
+
 def drawn(collection, edge: int | None = None) -> dict | None:
 	"""The backdrop as a screen draws it under the widgets: its one slide's
 	elements, media sealed and nothing hidden, on the screen's own frame."""
@@ -147,4 +161,9 @@ def drawn(collection, edge: int | None = None) -> dict | None:
 	if not elements:
 		return None
 	wide, high = frame(collection)
-	return {"width": wide, "height": high, "bare": 1, "elements": elements}
+	said = {"width": wide, "height": high, "bare": 1, "elements": elements}
+	# what it is, apart from the words its chips are filled with: a screen
+	# rebuilds when this changes, and only redraws the backdrop when a chip does
+	said["shape"] = f"{name}:{frappe.db.get_value(api.PRESENTATION, name, 'modified')}:{edge or ''}"
+	said["live"] = 1 if frappe.db.get_value(api.PRESENTATION, name, "sources") not in (None, "", "[]") else 0
+	return said

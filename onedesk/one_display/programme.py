@@ -255,6 +255,8 @@ def light(said: dict) -> dict:
 		"muted": said["muted"],
 		"ads": said["ads"],
 		"data": {one["id"]: one["data"] for one in ((said.get("layout") or {}).get("widgets") or [])},
+		# a backdrop with chips, refilled each time its sources are read
+		**({"backdrop": backdrop} if (backdrop := (said.get("layout") or {}).get("backdrop") or {}).get("live") else {}),
 	}
 
 
@@ -365,6 +367,6 @@ def _revision(said: dict) -> str:
 			{k: v for k, v in one.items() if k != "data"} for one in ((said["layout"] or {}).get("widgets") or [])
 		],
 		"background": (said["layout"] or {}).get("background"),
-		"backdrop": (said["layout"] or {}).get("backdrop"),
+		"backdrop": ((said["layout"] or {}).get("backdrop") or {}).get("shape"),
 	}
 	return hashlib.sha1(json.dumps(shape, sort_keys=True, default=str).encode()).hexdigest()[:12]

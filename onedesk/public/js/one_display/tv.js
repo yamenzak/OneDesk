@@ -39,6 +39,9 @@
 	var built = null;
 	var boxes = {};
 	var heard = null;
+	// the backdrop as last drawn, so one with chips is drawn again only when they change
+	var behind = null;
+	var drawnBackdrop = "";
 
 	/* What this page is, and why the last one ended: a reason it gave itself
 	   just before reloading, or else a page reloaded inside one browser
@@ -347,6 +350,7 @@
 			for (var i = 0; i < list.length; i++) {
 				if (next.data.hasOwnProperty(list[i].id)) list[i].data = next.data[list[i].id];
 			}
+			if (next.backdrop && channel.layout) channel.layout.backdrop = next.backdrop;
 		} else {
 			channel = next || null;
 			speaks(channel);
@@ -434,13 +438,14 @@
 		var layout = channel.layout || { widgets: [] };
 		$("frame").style.background = layout.background ? onedesk.play.background(layout.background) : brand.colour || "";
 		// the words and pictures a screen's editor put behind the widgets (stage 7 of docs/ONESLIDE.md)
+		behind = null;
+		drawnBackdrop = "";
 		if (layout.backdrop) {
-			var behind = el("div", "w");
+			behind = el("div", "w");
 			behind.style.left = behind.style.top = "0";
 			behind.style.width = behind.style.height = "100%";
 			behind.style.zIndex = 0;
 			holder.appendChild(behind);
-			onedesk.play.draw(layout.backdrop, behind);
 		}
 		var list = layout.widgets || [];
 		for (var i = 0; i < list.length; i++) {
@@ -463,6 +468,12 @@
 	}
 
 	function update() {
+		var backdrop = channel.layout && channel.layout.backdrop;
+		var said = backdrop ? JSON.stringify(backdrop.elements) : "";
+		if (behind && said !== drawnBackdrop) {
+			drawnBackdrop = said;
+			onedesk.play.draw(backdrop, behind);
+		}
 		var list = (channel.layout && channel.layout.widgets) || [];
 		for (var i = 0; i < list.length; i++) {
 			var box = boxes[list[i].id];

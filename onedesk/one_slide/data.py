@@ -13,7 +13,8 @@ from typing import Annotated
 import frappe
 from frappe import _
 
-KINDS = ("this", "record", "linked", "list")
+# `rows` is a source another module answers through the one_slide_rows hook (a screen's Display Source)
+KINDS = ("this", "record", "linked", "list", "rows")
 KEY = re.compile(r"^[a-z][a-z0-9_]{0,29}$")
 CHIP = re.compile(r"\{([a-z][a-z0-9_]{0,29})\.([a-z0-9_.]{1,80})\}")
 MOST_SOURCES = 12
@@ -36,10 +37,10 @@ def cleaned(sources) -> list[dict]:
 			continue
 		keys.add(one["key"])
 		out = {"key": one["key"], "kind": one["kind"]}
-		for field in ("doctype", "name", "from", "field", "order_by", "sample"):
+		for field in ("doctype", "name", "from", "field", "order_by", "sample", "source"):
 			if one.get(field):
 				out[field] = str(one[field])[:140]
-		if one["kind"] == "list":
+		if one["kind"] in ("list", "rows"):
 			out["limit"] = max(1, min(int(one.get("limit") or 10), MOST_ROWS))
 			out["filters"] = [
 				[str(f[0])[:80], f[1] if f[1] in OPERATORS else "=", str(f[2])[:140]]
@@ -114,14 +115,22 @@ def _readable(doctype: str, name: str):
 	return frappe.get_doc(doctype, name)
 
 
-def _resolve(name: str, sources: list[dict]) -> tuple[dict, dict]:
-	"""Each source as the reader may see it: a record, or a list's rows."""
+def _resolve(name: str, sources: list[dict]) -> tuple[dict, dict, dict]:
+	"""Each source as the reader may see it: a record, a list's records, or
+	rows of words another module answers for (one_slide_rows)."""
 	from onedesk.one_slide import api
 
 	item = api._file(name)
-	records, lists = {}, {}
+	records, lists, plain = {}, {}, {}
 	for one in sources:
 		kind = one["kind"]
+		if kind == "rows":
+			for path in frappe.get_hooks("one_slide_rows"):
+				got = frappe.get_attr(path)(one)
+				if got is not None:
+					plain[one["key"]] = list(got)[: one.get("limit") or 10]
+					break
+			continue
 		if kind == "this":
 			if item.get("attached_to_doctype") and item.get("attached_to_name"):
 				records[one["key"]] = _readable(item["attached_to_doctype"], item["attached_to_name"])
@@ -153,7 +162,7 @@ def _resolve(name: str, sources: list[dict]) -> tuple[dict, dict]:
 			except (frappe.PermissionError, frappe.ValidationError):
 				names = []
 			lists[one["key"]] = [frappe.get_doc(one["doctype"], row) for row in names]
-	return records, lists
+	return records, lists, plain
 
 
 def evaluate(name: str, wanted: set | None = None) -> dict:
@@ -165,7 +174,7 @@ def evaluate(name: str, wanted: set | None = None) -> dict:
 	sources = cleaned(frappe.db.get_value("Presentation", name, "sources"))
 	if not sources:
 		return {"values": {}, "watch": []}
-	records, lists = _resolve(name, sources)
+	records, lists, plain = _resolve(name, sources)
 	values, watch = {}, []
 	for key, rest in chips(_texts(name)) | (wanted or set()):
 		chip = f"{key}.{rest}"
@@ -184,6 +193,16 @@ def evaluate(name: str, wanted: set | None = None) -> dict:
 			elif len(parts) == 2 and parts[0].isdigit():
 				at = int(parts[0]) - 1
 				values[chip] = _shown(rows[at], parts[1]) if 0 <= at < len(rows) else ""
+		elif key in plain:
+			rows = plain[key]
+			if parts == ["count"]:
+				values[chip] = str(len(rows))
+			elif len(parts) == 2 and parts[0].isdigit():
+				at = int(parts[0]) - 1
+				values[chip] = str((rows[at] or {}).get(parts[1]) or "") if 0 <= at < len(rows) else ""
+			elif len(parts) == 1:
+				# a source of one row, such as a count of records: {key.value}
+				values[chip] = str((rows[0] or {}).get(parts[0]) or "") if rows else ""
 	return {"values": values, "watch": [list(one) for one in {tuple(one) for one in watch}]}
 
 

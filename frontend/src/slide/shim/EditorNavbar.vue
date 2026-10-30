@@ -23,7 +23,8 @@
 				</Button>
 			</Dropdown>
 			<Button v-if="!inReadonlyMode && presentationDoc && !screen && !masterOf" class="max-md:hidden" variant="ghost" icon-left="lucide-palette" :label="__('Theme')" @click="emit('performDropdownAction', 'updateTheme')" />
-			<Dropdown v-if="presentationDoc && !screen" :options="fileMenu" align="end">
+			<!-- a screen's: its data and guides, since it is one slide and no presentation of its own -->
+			<Dropdown v-if="presentationDoc" :options="fileMenu" align="end">
 				<Button variant="ghost" icon-left="lucide-file" :label="__('File')" icon-right="lucide-chevron-down" />
 			</Dropdown>
 			<PresentButton v-if="presentationDoc && !screen && !masterOf" @start="(options) => emit('startSlideShow', options)" />
@@ -33,7 +34,7 @@
 		<SlideCamera ref="camera" />
 		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
 		<ViewsDialog v-if="presentationDoc" v-model="showViews" :name="presentationDoc.name" />
-		<DataDialog v-if="presentationDoc" v-model="showData" :record="presentationDoc.record" :readonly="inReadonlyMode" />
+		<DataDialog v-if="presentationDoc" v-model="showData" :record="presentationDoc.record" :readonly="inReadonlyMode" :screen="!!screen" />
 	</div>
 </template>
 
@@ -138,7 +139,7 @@ const fileMenu = computed(() => [
 				},
 			]
 		: []),
-	...(masterOf.value ? [] : [{
+	...(masterOf.value || screen.value ? [] : [{
 		group: __("This presentation"),
 		options: [
 			// OneCloud's own: people who may view or edit it, and links for anyone else
@@ -155,22 +156,22 @@ const fileMenu = computed(() => [
 			...(inReadonlyMode.value || !slides.value.some((one) => one.layout) ? [] : [{ label: __("Restyle from Layouts"), icon: "lucide-paintbrush", onClick: restyle }]),
 		],
 	}]),
-	...(screen.value || masterOf.value ? [] : [{
+	...(masterOf.value ? [] : [{
 		group: __("Data"),
 		options: [
 			{ label: __("Data from Records"), icon: "lucide-database", onClick: () => (showData.value = true) },
-			...(inReadonlyMode.value || !sources.value.length ? [] : [{ label: __("Freeze Data"), icon: "lucide-snowflake", onClick: freezeData }]),
-			...(sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make One for Each…"), icon: "lucide-copy", onClick: makeForEach }] : []),
+			...(inReadonlyMode.value || !sources.value.length || screen.value ? [] : [{ label: __("Freeze Data"), icon: "lucide-snowflake", onClick: freezeData }]),
+			...(!screen.value && sources.value.some((one) => one.kind === "this" && one.doctype) ? [{ label: __("Make One for Each…"), icon: "lucide-copy", onClick: makeForEach }] : []),
 		],
 	}]),
-	...(screen.value ? [] : [{
+	{
 		group: __("Guides"),
 		options: [
 			{ label: rulersShown.value ? __("Hide Rulers and Guides") : __("Show Rulers and Guides"), icon: "lucide-ruler", onClick: toggleRulers },
 			...(inReadonlyMode.value ? [] : [{ label: __("Add Margin Guides"), icon: "lucide-frame", onClick: addMarginGuides }]),
 			...(inReadonlyMode.value || !guides.value.length ? [] : [{ label: __("Clear Guides"), icon: "lucide-eraser", onClick: clearGuides }]),
 		],
-	}]),
+	},
 ]);
 
 // The master opens in this same editor, on a presentation of its own

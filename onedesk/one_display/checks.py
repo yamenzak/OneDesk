@@ -263,6 +263,66 @@ def onedisplay_draws_any_size_and_pictures_as_sharp_as_the_screen():
 
 
 @check
+def onedisplay_shows_data_and_media_without_the_editor():
+	"""A screen's words can come from a Display Source and are refilled with
+	it; a saved project makes the source that counts projects read again and
+	wakes the screens; pictures dropped on a playlist each become a
+	presentation of one slide."""
+	import base64
+	import io
+
+	from PIL import Image
+
+	from onedesk.one_display import live, playlist, programme, sources
+	from onedesk.one_slide import api, data, play
+
+	frappe.db.savepoint("onedisplay_data")
+	made = []
+	try:
+		with as_user(OWNER):
+			name = api.presentation_of(frappe.db.get_value("File", api.make_with("@records/Slide Playlist/Showroom", "Data Check", [{"elements": []}]), "file_url"))
+			made.append(frappe.db.get_value(api.PRESENTATION, name, "file"))
+			data.save_sources(name, [{"key": "projects", "kind": "rows", "source": "Projects Underway"}])
+			doc = frappe.get_doc(api.PRESENTATION, name)
+			doc.slides[0].elements = json.dumps([{"id": "t", "type": "text", "content": "<p>{projects.value} underway</p>", "left": 0, "top": 0, "width": 400}])
+			doc.save(ignore_permissions=True)
+			shown = data.evaluate(name)["values"]
+			assert shown.get("projects.value"), shown
+			drawn = play.for_screen(name, 10)[0]["slide"]["elements"][0]["content"]
+			assert "{projects" not in drawn and "underway" in drawn, drawn
+		assert programme.light({"revision": "r", "mode": "show", "muted": 0, "ads": [], "layout": {"widgets": [], "backdrop": {"live": 1, "elements": []}}})["backdrop"], "a backdrop with chips is sent with every answer"
+		before = frappe.cache.get_value(sources.FRESH.format("Projects Underway"))
+		frappe.cache.delete_value(live.READ)
+		frappe.flags.one_display_woken = False
+		with mock.patch("onedesk.one_display.live.wake") as woken:
+			live.record_saved(frappe.get_doc("Project", frappe.get_all("Project", limit=1, pluck="name")[0]))
+			live.record_saved(frappe.get_doc("Project", frappe.get_all("Project", limit=1, pluck="name")[0]))
+		assert frappe.cache.get_value(sources.FRESH.format("Projects Underway")) != before and woken.call_count == 1, "one wake a request"
+		buffer = io.BytesIO()
+		Image.new("RGB", (64, 36), "#7c2d12").save(buffer, "PNG")
+		with as_user(OWNER):
+			upload = frappe.get_doc({"doctype": "File", "file_name": "lobby-photo.png", "content": buffer.getvalue(), "is_private": 1, "attached_to_doctype": "Slide Playlist", "attached_to_name": "Showroom"})
+			upload.insert(ignore_permissions=True)
+			added = playlist.add_media("Showroom", [upload.name])
+			made += added
+			row = frappe.get_doc("Slide Playlist", "Showroom").slides[-1]
+			assert row.presentation == added[0] and row.title == "lobby-photo", row.as_dict()
+			element = json.loads(frappe.get_doc(api.PRESENTATION, api.presentation_of(frappe.db.get_value("File", added[0], "file_url"))).slides[0].elements)[0]
+			assert element["type"] == "image" and element["src"].startswith(play.MEDIA) and element["width"] > 900, element
+			assert not frappe.db.exists("File", upload.name), "the upload is kept only inside its presentation"
+	finally:
+		frappe.flags.one_display_woken = False
+		for file in made:
+			held = api.presentation_of(frappe.db.get_value("File", file, "file_url") or "")
+			if held and frappe.db.exists(api.PRESENTATION, held):
+				frappe.delete_doc(api.PRESENTATION, held, ignore_permissions=True, force=True)
+			if frappe.db.exists("File", file):
+				frappe.delete_doc("File", file, ignore_permissions=True, force=True)
+		frappe.db.rollback(save_point="onedisplay_data")
+		frappe.clear_document_cache("Slide Playlist", "Showroom")
+
+
+@check
 def onedisplay_plays_a_presentation():
 	"""The showroom's playlist plays a presentation from OneCloud: each of its
 	slides reaches a screen as the editor's elements, its own time or the

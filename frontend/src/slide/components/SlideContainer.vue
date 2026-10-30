@@ -47,7 +47,7 @@
 		</div>
 		<DropTargetOverlay v-show="mediaDragOver" @hideOverlay="hideOverlay" />
 		<!-- One: rulers and guides over the canvas, unscaled (shim/Rulers.vue, VENDORED.md) -->
-		<Rulers v-if="!screen" />
+		<Rulers />
 	</div>
 </template>
 

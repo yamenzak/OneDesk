@@ -73,8 +73,17 @@ def _picture(value) -> str:
 
 
 def _key(source, fields: set[str], lang: str) -> str:
-	said = json.dumps([source.name, str(source.modified), sorted(fields), lang])
+	said = json.dumps([source.name, str(source.modified), sorted(fields), lang, frappe.cache.get_value(FRESH.format(source.name))])
 	return "one_display:source:" + hashlib.sha1(said.encode()).hexdigest()
+
+
+# changed when a record the source reads is saved (live.record_saved), so every kept answer is passed over
+FRESH = "one_display:source_fresh:{}"
+
+
+def forget(name: str) -> None:
+	"""The source is read again the next time it is asked."""
+	frappe.cache.set_value(FRESH.format(name), frappe.generate_hash(length=8))
 
 
 def read(name: str, fields: set[str] | None = None, lang: str | None = None) -> list[dict]:

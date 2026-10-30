@@ -14,8 +14,8 @@
 				</div>
 				<p v-if="fieldsOf[one.key] && !fieldsOf[one.key].length" class="text-sm text-ink-gray-5">{{ __("You may not read these records, so their fields are not offered.") }}</p>
 				<div v-if="fieldsOf[one.key]?.length" class="flex flex-wrap items-center gap-2">
-					<Combobox trigger="button" size="sm" :model-value="null" :options="offered(one)" :placeholder="one.kind === 'list' ? __('Put In a Figure') : __('Put In a Field')" @update:model-value="(value) => value && put(chip(one.key, value))" />
-					<Button v-if="one.kind === 'list'" size="sm" icon-left="lucide-table" :label="__('Put In as a Table')" @click="asTable(one)" />
+					<Combobox trigger="button" size="sm" :model-value="null" :options="offered(one)" :placeholder="one.kind === 'record' || one.kind === 'this' || one.kind === 'linked' ? __('Put In a Field') : __('Put In a Figure')" @update:model-value="(value) => value && put(chip(one.key, value))" />
+					<Button v-if="['list', 'rows'].includes(one.kind)" size="sm" icon-left="lucide-table" :label="__('Put In as a Table')" @click="asTable(one)" />
 				</div>
 			</div>
 			<div v-if="!readonly" class="flex gap-2">
@@ -34,9 +34,10 @@ import { chip, saveSources, sources } from "./data.js";
 import { __ } from "./words.js";
 
 const open = defineModel({ type: Boolean, default: false });
-const props = defineProps({ record: { type: Object, default: null }, readonly: Boolean });
+// a screen also reads OneDisplay's own sources, read again on their own clock (one_display/screen.rows)
+const props = defineProps({ record: { type: Object, default: null }, readonly: Boolean, screen: Boolean });
 
-const kinds = { this: __("This record"), record: __("A record"), linked: __("Linked"), list: __("A list") };
+const kinds = { this: __("This record"), record: __("A record"), linked: __("Linked"), list: __("A list"), rows: __("A display source") };
 const NUMBERS = ["Currency", "Float", "Int", "Percent"];
 const fieldsOf = reactive({});
 let placed = false;
@@ -45,6 +46,10 @@ const doctypeOf = (one) => (one.kind === "this" && props.record ? props.record.d
 
 async function learn() {
 	for (const one of sources.value) {
+		if (one.kind === "rows") {
+			if (!fieldsOf[one.key]) fieldsOf[one.key] = await call("onedesk.one_display.layout.fields", { source: one.source });
+			continue;
+		}
 		const doctype = doctypeOf(one);
 		if (doctype && !fieldsOf[one.key]) fieldsOf[one.key] = await call("onedesk.one_slide.data.fields", { doctype });
 	}
@@ -52,6 +57,7 @@ async function learn() {
 watch([open, sources], () => open.value && learn(), { immediate: true });
 
 const said = (one) => {
+	if (one.kind === "rows") return one.source;
 	const doctype = __(doctypeOf(one) || "");
 	if (one.kind === "record") return `${doctype}: ${one.name}`;
 	if (one.kind === "linked") return `${doctype} (${one.from}.${one.field})`;
@@ -59,9 +65,12 @@ const said = (one) => {
 	return doctype;
 };
 
-// a record's fields, or a list's count and the total of each of its numbers
+// a record's fields, a list's count and the total of each of its numbers, or a
+// display source's count and its first row's words
 const offered = (one) =>
-	one.kind === "list"
+	one.kind === "rows"
+		? [{ label: __("Count"), value: "count" }, ...(fieldsOf[one.key] || []).map((field) => ({ label: field.label, value: `1.${field.fieldname}` }))]
+		: one.kind === "list"
 		? [{ label: __("Count"), value: "count" }, ...(fieldsOf[one.key] || []).filter((field) => NUMBERS.includes(field.fieldtype)).map((field) => ({ label: __("Total of {0}", [field.label]), value: `sum.${field.fieldname}` }))]
 		: (fieldsOf[one.key] || []).map((field) => ({ label: field.label, value: field.fieldname }));
 
@@ -92,16 +101,17 @@ function ask(fields, done, title, label) {
 function add() {
 	const hasThis = sources.value.some((one) => one.kind === "this");
 	const links = linksFrom();
-	const offered = [...(hasThis ? [] : [{ value: "this", label: props.record ? __("This record ({0})", [__(props.record.doctype)]) : __("The record each copy is filed on") }]), { value: "record", label: kinds.record }, ...(links.length ? [{ value: "linked", label: __("A record linked from another") }] : []), { value: "list", label: kinds.list }];
+	const offered = [...(props.screen ? [{ value: "rows", label: kinds.rows }] : []), ...(hasThis || props.screen ? [] : [{ value: "this", label: props.record ? __("This record ({0})", [__(props.record.doctype)]) : __("The record each copy is filed on") }]), { value: "record", label: kinds.record }, ...(links.length ? [{ value: "linked", label: __("A record linked from another") }] : []), { value: "list", label: kinds.list }];
 	ask(
 		[
 			{ fieldname: "kind", fieldtype: "Select", label: __("Source"), options: offered, default: offered[0].value, reqd: 1 },
-			{ fieldname: "doctype", fieldtype: "Link", options: "DocType", label: __("Record Type"), depends_on: props.record ? "eval:['record','list'].includes(doc.kind)" : "eval:doc.kind!='linked'", get_query: () => ({ filters: { istable: 0, issingle: 0 } }) },
+			{ fieldname: "source", fieldtype: "Link", options: "Display Source", label: kinds.rows, depends_on: "eval:doc.kind=='rows'" },
+			{ fieldname: "doctype", fieldtype: "Link", options: "DocType", label: __("Record Type"), depends_on: props.record ? "eval:['record','list'].includes(doc.kind)" : "eval:!['linked','rows'].includes(doc.kind)", get_query: () => ({ filters: { istable: 0, issingle: 0 } }) },
 			{ fieldname: "name", fieldtype: "Dynamic Link", options: "doctype", label: __("Record"), depends_on: props.record ? "eval:doc.kind=='record'" : "eval:['record','this'].includes(doc.kind)", description: props.record ? "" : __("For this, a record to show while you work.") },
 			{ fieldname: "link", fieldtype: "Select", label: __("Linked From"), options: links, depends_on: "eval:doc.kind=='linked'" },
 			{ fieldname: "where", fieldtype: "Data", label: __("Only Those Whose"), description: __("A field of the list's records, such as customer."), depends_on: "eval:doc.kind=='list'" },
 			{ fieldname: "equals", fieldtype: "Data", label: __("Is"), description: __("A value, or a field of another source, such as {this.name}."), depends_on: "eval:doc.kind=='list'" },
-			{ fieldname: "limit", fieldtype: "Int", label: __("At Most"), default: 10, depends_on: "eval:doc.kind=='list'" },
+			{ fieldname: "limit", fieldtype: "Int", label: __("At Most"), default: 10, depends_on: "eval:['list','rows'].includes(doc.kind)" },
 		],
 		async (values) => {
 			const one = { kind: values.kind };
@@ -114,6 +124,13 @@ function add() {
 				Object.assign(one, { from, field, doctype: link.doctype });
 			}
 			if (values.kind === "list") Object.assign(one, { doctype: values.doctype, limit: values.limit || 10, filters: values.where && values.equals ? [[values.where, "=", values.equals]] : [] });
+			if (values.kind === "rows") {
+				if (!values.source) return;
+				Object.assign(one, { source: values.source, limit: values.limit || 10 });
+				one.key = keyFor(values.source);
+				await saveSources([...sources.value, one]);
+				return;
+			}
 			if (!one.doctype) return;
 			one.key = values.kind === "this" ? "this" : keyFor(one.doctype);
 			await saveSources([...sources.value, one]);
@@ -138,7 +155,7 @@ function asTable(one) {
 	const offered = (fieldsOf[one.key] || []).map((field) => ({ label: field.label, value: field.fieldname }));
 	// the columns its list shows, else the first few after its ID
 	const shown = (fieldsOf[one.key] || []).filter((field) => field.in_list_view).map((field) => field.fieldname);
-	const listed = (shown.length ? shown : offered.slice(1, 4).map((field) => field.value)).slice(0, 4);
+	const listed = (shown.length ? shown : offered.slice(one.kind === "rows" ? 0 : 1, 4).map((field) => field.value)).slice(0, 4);
 	ask(
 		[{ fieldname: "columns", fieldtype: "MultiCheck", label: __("Columns"), options: offered.map((field) => ({ ...field, checked: listed.includes(field.value) })), columns: 2, reqd: 1 }],
 		({ columns }) => {
