@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 77 | 2 | 39 | 0 |
+| onedesk | 77 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -62,7 +62,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | display_layout (`frontend/src/display/Layout.vue`) | – | – | – | – |
-| display_slides (`frontend/src/display/designer/Designer.vue`) | – | – | – | – |
 | workbook (`frontend/src/sheet/WorkbookPage.vue`) | Letter Head | – | – | – |
 | document (`frontend/src/writer/DocumentPage.vue`) | Letter Head | – | – | – |
 | presentation (`frontend/src/slide/PresentationPage.vue`) | – | – | – | – |
@@ -968,7 +967,7 @@ Pages: onecalendar (on a rail or a home).
 | Voice Ad | on a rail or a home | the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Widget Collection | on a rail or a home | the administrator | events | yes | general |  | yes |  |  |  |  |
 
-Pages: counter (on a rail or a home); display-layout (inside: a widget collection's Edit Layout opens it); display-slides (inside: a slide playlist's Design Slides opens it).
+Pages: counter (on a rail or a home); display-layout (inside: a widget collection's Edit Layout opens it).
 
 ## onedesk / One Doc
 

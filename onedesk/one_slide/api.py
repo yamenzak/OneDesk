@@ -112,6 +112,25 @@ def make(parent: str, title: str | None = None, template: str | None = None) -> 
 	return {**ns.node(ns.row(made.name)), "presentation": doc.name}
 
 
+def make_with(parent: str, title: str, slides: list[dict]) -> str:
+	"""A presentation of slides drawn elsewhere (`convert.slide`, a picture or
+	a video), made where `make` makes one: its File's name. Not whitelisted:
+	OneDisplay's patch and demo call it."""
+	from onedesk.one_slide import play
+
+	made = make(parent, title)
+	doc = frappe.get_doc(PRESENTATION, made["presentation"])
+	doc.set(
+		"slides",
+		[
+			{"client_id": str(uuid.uuid4()), "background": play.background(one.get("background")), "elements": play.cleaned(one.get("elements"))}
+			for one in slides
+		],
+	)
+	doc.save(ignore_permissions=True)
+	return doc.file
+
+
 def _first_slides(template: str) -> list[dict]:
 	"""A theme starts from its title slide; a saved template is copied whole."""
 	source = frappe.get_doc(PRESENTATION, template)
@@ -152,6 +171,28 @@ def listed() -> list[dict]:
 		if item and not item.get("one_deleted_on") and ns.may(item, "read"):
 			out.append({"name": one.name, "title": item["file_name"]})
 	return out
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def search(doctype: str, txt: str, searchfield: str, start: int, page_len: int, filters=None, **kwargs) -> list:
+	"""Presentations the person picking may open, for a field that links a
+	presentation's File (a slide playlist's row): its name and its title."""
+	from onedesk.one_storage import namespace as ns
+
+	found = []
+	for one in frappe.get_all(
+		"File",
+		filters={"file_url": ["like", f"{URL}%"], "file_name": ["like", f"%{txt or ''}%"]},
+		fields=["name", "file_name"],
+		order_by="modified desc",
+		limit=200,
+	):
+		item = ns.row(one.name)
+		if item and not item.get("one_deleted_on") and ns.may(item, "read"):
+			found.append([one.name, one.file_name])
+	start = int(start or 0)
+	return found[start : start + int(page_len or 20)]
 
 
 @frappe.whitelist()
@@ -479,6 +520,29 @@ def media(id: str) -> None:
 	response = send_file(path, environ=frappe.local.request.environ, conditional=True, mimetype=kind)
 	response.headers["Accept-Ranges"] = "bytes"
 	response.headers["Cache-Control"] = "private, max-age=86400"
+	frappe.local.response = response
+	frappe.local.response_type = "raw"
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+def shown(id: str, sig: str) -> None:
+	"""A picture or video on a slide, to a screen: the address carries a seal
+	only the site can make for that one file (play.seal), since a screen signs
+	in as nobody."""
+	import hmac
+
+	from werkzeug.utils import send_file
+
+	from onedesk.one_slide import play
+
+	held = _media_row(id)
+	if not held or held.attached_to_doctype != PRESENTATION or not hmac.compare_digest(play.seal(id), str(sig or "")):
+		raise frappe.DoesNotExistError
+	path = frappe.get_doc("File", id).get_full_path()
+	kind = mimetypes.guess_type(held.file_name or path)[0] or "application/octet-stream"
+	response = send_file(path, environ=frappe.local.request.environ, conditional=True, mimetype=kind)
+	response.headers["Accept-Ranges"] = "bytes"
+	response.headers["Cache-Control"] = "public, max-age=604800, immutable"
 	frappe.local.response = response
 	frappe.local.response_type = "raw"
 

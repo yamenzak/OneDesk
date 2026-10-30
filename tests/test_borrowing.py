@@ -93,10 +93,10 @@ LOOKED = {
 	("fetching", "onedesk/public/js/one_display/worker.js"),
 	("per-user state", "onedesk/public/js/one_display/tv.js"),
 	("icons", "onedesk/public/js/one_display/tv.js"),
-	# A QR code, and a designed slide's star or arrow, are drawn as SVG; neither is an icon.
-	("icons", "onedesk/public/js/one_display/blocks.js"),
+	# A QR code, and a slide's star or arrow on a screen, are drawn as SVG; neither is an icon.
+	("icons", "onedesk/public/js/one_slide/play.js"),
+	("fetching", "onedesk/public/js/one_slide/play.js"),
 	("icons", "onedesk/one_display/programme.py"),
-	("icons", "onedesk/one_display/slides.py"),
 	("icons", "onedesk/one_display/checks.py"),
 }
 

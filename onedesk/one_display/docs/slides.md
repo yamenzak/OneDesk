@@ -1,66 +1,35 @@
 # Slides
 
-A slide playlist is a list of slides, each shown for its own number of
-seconds, one after the other, over and over.
+A slide playlist is a list of what a screen shows, one after the other, over
+and over.
 
-| A slide can be | What it is |
+| A row can be | What it is |
 | --- | --- |
-| **Image** | A picture, filling the screen or fitted inside it. |
-| **Video** | A video, shown for as long as it runs. |
+| **Presentation** | A presentation from OneCloud. Every slide of it plays, each for its own time, or the row's seconds when it has none. |
 | **Web Page** | Any page that allows being shown inside another. |
-| **Design** | A slide drawn for the screen, with your words and colours. |
 
-A slide can be given dates to show between, so a promotion leaves the screen
-on the day it ends without anybody remembering to take it off. A slide marked
+A row can be given dates to show between, so a promotion leaves the screen
+on the day it ends without anybody remembering to take it off. A row marked
 **Paused** stays in the playlist and is not shown until you clear it.
 
-## Designing a Slide
+## Making the Slides
 
-**Design Slides** on a playlist opens the designer: what to add across the
-top, the slides (or the layers of the one you are on) down the left, the
-slide at the screen's shape in the middle, and everything about what you
-chose on the right.
+Slides are made in OneSlide, the same editor as any presentation in OneCloud.
+**New Presentation** on a playlist makes one filed on the playlist, adds it
+as a row, and opens it. **Open Presentation** goes back to any of the
+playlist's presentations. A row can also play a presentation you already
+have: choose it in the row's **Presentation**. Only presentations you may
+open are offered.
 
-![The designer, with a heading chosen](slides/designer.png)
+![A slide playlist, with its presentations](slides/playlist.png)
 
-Add **Text**, a **Picture**, a **Shape** (a rectangle, an ellipse, a
-triangle, a diamond, a star, an arrow or a line) or a **QR Code**. Drag a
-block to move it and it settles against the edges and middles of the slide
-and the other blocks; pull a corner or a side to size it, with Shift to keep
-its shape; turn it with the round handle above it. Double-click text to type
-straight onto the slide.
-
-On the right, every block has its position and size, how it is turned, its
-fill (one colour, or one fading into another), its border and corners, its
-shadow, its opacity and blur, and room for CSS of your own. Text adds its
-font, size, weight, colour, alignment across and down, line height, letter
-spacing, italic, underline and capitals.
-
-Drag across the empty slide to choose several blocks, or Shift-click them;
-then line them up or space them evenly. **Arrange** in the bar brings a block
-forward or sends it back. **Layers** lists every block, top
-first: drag to reorder, double-click to rename, and hide or lock one.
-
-| Keys | What they do |
-| --- | --- |
-| Ctrl+Z, Ctrl+Shift+Z | Undo and redo |
-| Ctrl+C, Ctrl+V, Ctrl+D | Copy, paste and duplicate |
-| Arrows, Shift+Arrows | Move a little, or more |
-| Delete | Remove what is chosen |
-| Ctrl+S | Save |
-
-With nothing chosen, the right side is the slide itself: its title, how long
-it shows, its dates, and its background, a colour, a fade or a picture.
+Text, pictures, videos, shapes, fades, blur, CSS of your own and tables all
+play on the screen as they look in the editor. Whatever you change in the
+presentation is on the screens at their next look, without touching the
+playlist.
 
 ## Made With OneAI
 
-![A slide playlist, with OneAI's menu open](slides/oneai.png)
-
-**Make a Picture** describes a picture in a sentence and makes it, and
-**Design a Slide** turns a sentence into a designed slide in your brand's
-colour, which opens in the designer like any other. Each comes back as a slide
-you look at, change or remove before any screen shows it.
-
-**Make a Video** describes a short video. It takes OneAI a few minutes, so you
-can carry on: the video arrives at the end of the playlist, paused, and you
-are told when it is there. See [Asking OneAI](asking-oneai).
+In a presentation, **OneAI** designs a slide from a sentence in your brand's
+colour, makes a picture, or makes a short video, which arrives on a new slide
+a few minutes later. See [Asking OneAI](asking-oneai).

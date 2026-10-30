@@ -5,48 +5,40 @@
  "engine": "InnoDB",
  "field_order": [
   "kind",
-  "file",
+  "presentation",
   "url",
-  "html",
   "duration",
-  "fit",
   "title",
   "paused",
   "from_date",
-  "to_date",
-  "design"
+  "to_date"
  ],
  "fields": [
   {
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Image\nVideo\nWeb Page\nDesign",
+   "options": "Presentation\nWeb Page",
    "reqd": 1,
-   "default": "Image",
+   "default": "Presentation",
    "in_list_view": 1
   },
   {
-   "fieldname": "file",
-   "fieldtype": "Attach",
-   "label": "File",
-   "in_list_view": 1,
-   "depends_on": "eval:['Image','Video'].includes(doc.kind)"
+   "fieldname": "presentation",
+   "fieldtype": "Link",
+   "options": "File",
+   "label": "Presentation",
+   "depends_on": "eval:doc.kind=='Presentation'",
+   "mandatory_depends_on": "eval:doc.kind=='Presentation'",
+   "description": "A presentation in OneCloud. It plays whole, each slide for its own time."
   },
   {
    "fieldname": "url",
    "fieldtype": "Data",
    "label": "Address",
    "options": "URL",
-   "depends_on": "eval:doc.kind=='Web Page'"
-  },
-  {
-   "fieldname": "html",
-   "fieldtype": "Code",
-   "label": "Design",
-   "options": "HTML",
-   "depends_on": "eval:doc.kind=='Design' && !doc.design",
-   "description": "HTML and CSS drawn at 1920 by 1080, in a sandbox. A slide made in the designer is drawn from its blocks instead."
+   "depends_on": "eval:doc.kind=='Web Page'",
+   "mandatory_depends_on": "eval:doc.kind=='Web Page'"
   },
   {
    "fieldname": "duration",
@@ -54,20 +46,16 @@
    "label": "Seconds",
    "default": "10",
    "in_list_view": 1,
-   "description": "How long it shows. A video plays for its own length when this is empty."
-  },
-  {
-   "fieldname": "fit",
-   "fieldtype": "Select",
-   "label": "Fit",
-   "options": "Cover\nContain",
-   "default": "Cover"
+   "description": "Seconds for each slide that has no time of its own, and for a web page."
   },
   {
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Title",
-   "in_list_view": 1
+   "in_list_view": 1,
+   "fetch_from": "presentation.file_name",
+   "fetch_if_empty": 1,
+   "columns": 4
   },
   {
    "fieldname": "paused",
@@ -76,7 +64,7 @@
    "default": "0",
    "in_list_view": 1,
    "columns": 1,
-   "description": "Not shown until this is cleared. What OneAI makes arrives paused."
+   "description": "Not shown until this is cleared."
   },
   {
    "fieldname": "from_date",
@@ -87,17 +75,10 @@
    "fieldname": "to_date",
    "fieldtype": "Date",
    "label": "Shown Until"
-  },
-  {
-   "fieldname": "design",
-   "fieldtype": "Code",
-   "label": "Blocks",
-   "options": "JSON",
-   "hidden": 1
   }
  ],
  "links": [],
- "modified": "2026-10-30 09:00:00.000000",
+ "modified": "2026-10-30 10:39:45.983585",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Slide",
@@ -107,5 +88,6 @@
  "sort_order": "DESC",
  "states": [],
  "istable": 1,
- "editable_grid": 1
+ "editable_grid": 1,
+ "description": "One row of a slide playlist: a presentation from OneCloud, played whole, or a web page."
 }

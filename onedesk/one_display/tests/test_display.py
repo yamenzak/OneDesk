@@ -140,7 +140,7 @@ def test_the_player_runs_on_an_old_tvs_browser():
 	acorn = ROOT / "frontend" / "node_modules" / "acorn"
 	if not acorn.exists():
 		pytest.skip("acorn is not installed")
-	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js", "onedesk/public/js/one_display/blocks.js"):
+	for path in ("onedesk/public/js/one_display/tv.js", "onedesk/public/js/one_display/worker.js", "onedesk/public/js/one_slide/play.js"):
 		parsed = subprocess.run(
 			["node", "-e", f"require({json.dumps(str(acorn))}).parse(require('fs').readFileSync({json.dumps(str(ROOT / path))}, 'utf8'), {{ecmaVersion: 5}})"],
 			capture_output=True,
@@ -171,31 +171,31 @@ def test_a_songs_length_is_read_from_its_file():
 
 
 @pytest.mark.skipif(not shutil.which("node"), reason="no node to run the renderer with")
-def test_a_designed_slide_is_drawn_safely_for_an_old_tv():
-	"""The one renderer the screen and the designer share: what a person typed
-	is escaped, a see-through colour becomes rgba() for Chromium 53, nothing
-	uses `inset`, a star is drawn as a shape, and CSS that loads something is
-	dropped even if it reached the renderer."""
-	renderer = ROOT / "onedesk/public/js/one_display/blocks.js"
-	design = {
-		"background": "#0e6e8c",
-		"background2": "#00000080",
-		"blocks": [
-			{"id": "t", "kind": "text", "x": 5, "y": 5, "w": 50, "h": 20, "text": "<script>alert(1)</script>", "rotate": 10, "valign": "middle", "fill": "#ffffff33", "shadow_colour": "#000", "css": "color: red; background: url(x)"},
-			{"id": "s", "kind": "shape", "shape": "star", "x": 60, "y": 5, "w": 20, "h": 20, "fill": "#ff0000", "fill2": "#0000ff", "stroke": 4, "stroke_colour": "#fff"},
-			{"id": "h", "kind": "text", "hidden": 1, "text": "never drawn"},
+def test_a_slide_is_drawn_safely_for_an_old_tv():
+	"""The screen's renderer of a presentation's slide (public/js/one_slide/
+	play.js): an 8-digit colour becomes rgba() for Chromium 53, a fade and a
+	star are drawn as SVG, an attribute cannot be broken out of, an address
+	that is not ours is dropped, and a hidden element is not drawn."""
+	renderer = ROOT / "onedesk/public/js/one_slide/play.js"
+	slide = {
+		"background": "linear-gradient(90deg, #102030FF, #405060FF)",
+		"elements": [
+			{"id": "t", "type": "text", "left": 10, "top": 10, "width": 400, "content": '<p><span style="color: #FF000080">Hi</span></p>', "css": "text-shadow: 0 0 4px #000000FF", "transform": "rotate(5deg)"},
+			{"id": "s", "type": "shape", "shapeType": "star", "left": 500, "top": 10, "width": 100, "height": 100, "fillColor": '#FF0000FF" onload="x', "fade": {"to": "#0000FFFF", "angle": 90}, "strokeColor": "#FFFFFFFF", "strokeWidth": 2},
+			{"id": "i", "type": "image", "left": 0, "top": 0, "width": 50, "height": 50, "src": "javascript:alert(1)"},
+			{"id": "p", "type": "image", "left": 0, "top": 0, "width": 50, "height": 50, "src": "/files/a.png", "crop": {"x": 0.1, "y": 0.1, "width": 0.5, "height": 0.5}},
+			{"id": "h", "type": "text", "hidden": True, "content": "never drawn"},
 		],
 	}
 	script = (
 		"var window = {}; eval(require('fs').readFileSync(process.argv[1], 'utf8'));"
-		"process.stdout.write(window.onedesk.blocks.slide(JSON.parse(process.argv[2]), {}));"
+		"process.stdout.write(window.onedesk.play.slide(JSON.parse(process.argv[2])));"
 	)
-	ran = subprocess.run(["node", "-e", script, str(renderer), json.dumps(design)], capture_output=True, text=True)
+	ran = subprocess.run(["node", "-e", script, str(renderer), json.dumps(slide)], capture_output=True, text=True)
 	assert ran.returncode == 0, ran.stderr[-400:]
 	drawn = ran.stdout
-	assert "<script>" not in drawn and "&lt;script&gt;" in drawn
-	assert "rgba(0,0,0,0.502)" in drawn and "rgba(255,255,255,0.2)" in drawn and "#00000080" not in drawn
-	assert "inset" not in drawn and "rotate(10deg)" in drawn and "justify-content:center" in drawn
-	assert "<polygon" in drawn and "linearGradient" in drawn
-	assert "color:red" in drawn and "url(x)" not in drawn
-	assert "never drawn" not in drawn
+	assert "rgba(255,0,0,0.502)" in drawn and "#FF000080" not in drawn and "rgba(0,0,0,1)" in drawn
+	assert "linear-gradient(90deg, rgba(16,32,48,1), rgba(64,80,96,1))" in drawn
+	assert "<polygon" in drawn and "linearGradient" in drawn and "onload" not in drawn
+	assert "javascript" not in drawn and 'src="/files/a.png"' in drawn and "width:200%" in drawn
+	assert "rotate(5deg)" in drawn and "never drawn" not in drawn

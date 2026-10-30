@@ -3357,7 +3357,7 @@ def oneai_makes_slides_and_pictures():
 				slides = api.get(name)["slides"]
 				video = json.loads(slides[-1]["elements"])[0]
 				assert len(slides) == before + 1 and video["type"] == "video" and video["src"].startswith(api.MEDIA), video
-				assert told == [("Video Made for a Presentation", "karim@one.test", "Waves on a glass facade")], told
+				assert told == [("Video Made for a Presentation", ["karim@one.test"], "Waves on a glass facade")], told
 				document = doc_api.make("@my", "Picture check")["document"]
 				picture = doc_api.make_picture(document, "A floor plan")
 				assert picture["file_url"].startswith(doc_api.PICTURE), picture

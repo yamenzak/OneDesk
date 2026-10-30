@@ -100,24 +100,22 @@ def slides(name: str | None, today=None) -> dict | None:
 	for row in playlist.slides:
 		if row.paused or (row.from_date and getdate(row.from_date) > today) or (row.to_date and getdate(row.to_date) < today):
 			continue
-		one = {"id": row.name, "kind": row.kind, "fit": (row.fit or "Cover").lower(), "ms": max(cint(row.duration) or SLIDE, 2) * 1000}
-		if row.kind in ("Image", "Video"):
-			one["src"] = _url(row.file)
-			if not one["src"]:
-				continue
-		elif row.kind == "Web Page":
-			one["src"] = row.url if (row.url or "").startswith("https://") else ""
-			if not one["src"]:
-				continue
-		elif row.kind == "Design" and row.get("design"):
-			from onedesk.one_display import slides as designed
-
-			one["design"] = designed.clean(row.design)
-			one["qrs"] = designed.qrs(one["design"])
-		elif row.kind == "Design":
-			one["html"] = row.html or ""
-		shown.append(one)
+		if row.kind == "Presentation":
+			shown += [{**one, "id": f"{row.name}-{one['id']}", "kind": "Slide"} for one in _presented(row)]
+		elif row.kind == "Web Page" and (row.url or "").startswith("https://"):
+			shown.append({"id": row.name, "kind": "Web Page", "src": row.url, "ms": max(cint(row.duration) or SLIDE, 2) * 1000})
 	return {"name": name, "transition": (playlist.transition or "Fade").lower(), "slides": shown}
+
+
+def _presented(row) -> list[dict]:
+	"""A presentation row's slides, as one_slide/play.py gives them to a screen."""
+	from onedesk.one_slide import api, play
+
+	url = frappe.db.get_value("File", row.presentation, "file_url") if row.presentation else None
+	name = api.presentation_of(url)
+	if not name or not frappe.db.exists("Presentation", name):
+		return []
+	return play.for_screen(name, cint(row.duration) or SLIDE)
 
 
 def _spoken(ticket: str) -> str:

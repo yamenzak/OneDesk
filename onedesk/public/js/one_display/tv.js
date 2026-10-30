@@ -394,6 +394,15 @@
 		return null;
 	}
 
+	function joined(video, into) {
+		video.muted = true;
+		video.addEventListener("loadedmetadata", function () {
+			try {
+				video.currentTime = (into / 1000) % (video.duration || 1);
+			} catch (e) {}
+		});
+	}
+
 	function playSlides() {
 		if (!channel || !channel.slides || channel.mode !== "show") return;
 		var items = channel.slides.slides || [];
@@ -403,36 +412,21 @@
 		var holder = $("slides");
 		var item = items[at.index];
 		var node = el("div", channel.slides.transition === "fade" ? "out" : "");
-		if (item.kind === "Image") {
-			var img = el("img", item.fit === "contain" ? "contain" : "cover");
-			img.src = item.src;
-			node.appendChild(img);
-		} else if (item.kind === "Video") {
-			var video = el("video", item.fit === "contain" ? "contain" : "cover");
-			video.muted = true;
-			video.setAttribute("muted", "");
-			video.setAttribute("playsinline", "");
-			video.autoplay = true;
-			video.loop = true;
-			video.src = item.src;
-			video.addEventListener("loadedmetadata", function () {
-				try {
-					video.currentTime = (at.into / 1000) % (video.duration || 1);
-				} catch (e) {}
-			});
-			node.appendChild(video);
-		} else if (item.design && window.onedesk && onedesk.blocks) {
-			// A designed slide is drawn from its blocks, in the page itself:
-			// every value was checked by the server and its text is escaped.
-			node.innerHTML = onedesk.blocks.slide(item.design, item.qrs);
+		if (item.kind === "Slide" && window.onedesk && onedesk.play) {
+			// A presentation's slide, drawn in the page from what the server
+			// cleaned (public/js/one_slide/play.js); its videos join the
+			// shared clock where the slide is.
+			holder.appendChild(node);
+			onedesk.play.draw(item.slide, node);
+			var videos = node.getElementsByTagName("video");
+			for (var v = 0; v < videos.length; v++) joined(videos[v], at.into);
 		} else {
 			var frame = el("iframe");
 			frame.setAttribute("sandbox", "allow-scripts");
-			if (item.kind === "Web Page") frame.src = item.src;
-			else frame.setAttribute("srcdoc", item.html || "");
+			frame.src = item.src;
 			node.appendChild(frame);
+			holder.appendChild(node);
 		}
-		holder.appendChild(node);
 		setTimeout(function () {
 			node.className = "";
 		}, 30);
@@ -440,7 +434,8 @@
 			while (holder.firstChild && holder.firstChild !== node) holder.removeChild(holder.firstChild);
 		}, 1000);
 		var next = items[(at.index + 1) % items.length];
-		if (next && next.kind === "Image") new Image().src = next.src;
+		var ahead = next && next.slide ? next.slide.elements || [] : [];
+		for (var p = 0; p < ahead.length; p++) if (ahead[p].type === "image" && ahead[p].src) new Image().src = ahead[p].src;
 	}
 
 	/* Music: the same clock, so a lobby's two screens play the same bar. */

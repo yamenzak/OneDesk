@@ -94,7 +94,7 @@ def alert_sent(message: str) -> None:
 
 
 def made(asker: str, doctype: str, playlist: str, what: str, failed: bool = False) -> None:
-	"""A video or a song OneAI made in the background is in its playlist, or
+	"""A song OneAI made in the background is in its playlist, or
 	could not be made: whoever asked hears which. Sent as the workspace, since
 	the bell does not tell a person of their own doing."""
 	notify.notify(

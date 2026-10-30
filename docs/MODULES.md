@@ -217,7 +217,7 @@ No doctypes yet.
 | Display Channel | 18 | document |
 | Display Screen | 17 | document |
 | Display Settings | 2 | single |
-| Display Slide | 11 | child |
+| Display Slide | 8 | child |
 | Display Source | 32 | document |
 | Display Track | 4 | child |
 | Display Voice | 5 | document |
@@ -540,10 +540,7 @@ No doctypes yet.
 * `onedesk.one_display.layout.get`
 * `onedesk.one_display.layout.save`
 * `onedesk.one_display.live.admit`
-* `onedesk.one_display.make.design`
 * `onedesk.one_display.make.music`
-* `onedesk.one_display.make.picture`
-* `onedesk.one_display.make.video`
 * `onedesk.one_display.make.widget`
 * `onedesk.one_display.queue.call_next`
 * `onedesk.one_display.queue.counter_state`
@@ -558,9 +555,6 @@ No doctypes yet.
 * `onedesk.one_display.screens.state`
 * `onedesk.one_display.screens.status`
 * `onedesk.one_display.screens.take`
-* `onedesk.one_display.slides.get`
-* `onedesk.one_display.slides.qr`
-* `onedesk.one_display.slides.save`
 * `onedesk.one_display.sources.fields_of`
 * `onedesk.one_display.sources.peek`
 * `onedesk.one_display.sources.report_fields`
@@ -895,6 +889,8 @@ No doctypes yet.
 * `onedesk.one_slide.api.save_base64_image`
 * `onedesk.one_slide.api.save_presentation_thumbnail`
 * `onedesk.one_slide.api.save_slides`
+* `onedesk.one_slide.api.search`
+* `onedesk.one_slide.api.shown`
 * `onedesk.one_slide.api.update_slide_attachments`
 * `onedesk.one_slide.api.update_theme`
 * `onedesk.one_slide.api.update_title`

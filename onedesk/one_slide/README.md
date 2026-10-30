@@ -67,6 +67,14 @@ If the same presentation is open in another tab, only one of them may change
 it; the other says so and offers **Edit here**. If somebody else saved it in
 the meantime, the editor says so and offers **Reload**.
 
+## On a screen
+
+A OneDisplay slide playlist plays presentations: a row links one, and every
+slide of it plays on the screens in turn, each for its own **Advance** time
+or the row's seconds. **New Presentation** on a playlist makes one filed on
+the playlist and opens it here. What you change is on the screens at their
+next look.
+
 ## What is not built yet
 
 Two people cannot work on one presentation at the same moment. A PDF is
@@ -133,6 +141,19 @@ of it, and whoever asked is told (`tell.py`; the kinds are with OneCloud's
 in `notifications/one_storage` until OneSlide is a module of its own).
 OneWriter's **Make a Picture with OneAI** is the same picture job
 (`one_doc/api.py`, `make_picture`).
+
+### On a screen
+
+A screen is a 2017 TV that cannot run this editor, so `public/js/one_slide/
+play.js` draws a saved slide again in ES5: text as its sanitised HTML,
+shapes as SVG with Suite's geometry and ours, fades, blur, free CSS, crops,
+videos; eight-digit colours as `rgba()`, and every number, colour and address
+checked again. `play.for_screen` gives a screen a presentation's slides with
+hidden elements left out, tables drawn to HTML, and pictures and videos at
+`api.shown` addresses sealed with the site's key (`play.seal`), since a
+screen signs in as nobody. A playlist row links the presentation's File,
+offered by `api.search` only to who may open it and checked again when the
+playlist is saved. OneDisplay's AGENTS.md has the rest.
 
 ### History, templates and paper
 

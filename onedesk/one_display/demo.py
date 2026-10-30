@@ -1,4 +1,4 @@
-"""The showroom's screens. The lobby channel plays three designed slides
+"""The showroom's screens. The lobby channel plays a presentation of three slides
 with the queue board, a clock, how many projects are underway, a ticker,
 quiet music and now and then a spoken ad, and sleeps at night. The kiosk
 channel is a kiosk at the door, and the workshop's shows the weather and the
@@ -91,17 +91,9 @@ def _screens():
 		"Exchange Rates",
 		{"source_name": "Exchange Rates", "kind": "Exchange Rates", "currencies": "USD, EUR, GBP"},
 	)
-	_make(
-		"Slide Playlist",
-		"Showroom",
-		{
-			"playlist_name": "Showroom",
-			"slides": [
-				{"kind": "Design", "title": title, "duration": 12, "design": json.dumps(_design(ground, eyebrow, title, line))}
-				for ground, eyebrow, title, line in SLIDES
-			],
-		},
-	)
+	if not frappe.db.exists("Slide Playlist", "Showroom"):
+		_make("Slide Playlist", "Showroom", {"playlist_name": "Showroom"})
+		_showroom()
 	_make(
 		"Widget Collection",
 		CHANNEL,
@@ -229,8 +221,21 @@ def _paired():
 		).insert(ignore_permissions=True)
 
 
+def _showroom() -> None:
+	"""The lobby's slides, a presentation of three filed on the playlist."""
+	from onedesk.one_slide import api, convert
+
+	file = api.make_with(
+		"@records/Slide Playlist/Showroom", "Showroom slides", [convert.slide(_design(*one)) for one in SLIDES]
+	)
+	playlist = frappe.get_doc("Slide Playlist", "Showroom")
+	playlist.append("slides", {"kind": "Presentation", "presentation": file, "title": "Showroom slides", "duration": 12})
+	playlist.save()
+
+
 def _design(ground: str, eyebrow: str, title: str, line: str) -> dict:
-	"""A showroom slide as blocks on the canvas, as the designer makes one."""
+	"""A showroom slide as OneDisplay's blocks, as OneAI designs one, for
+	one_slide/convert.py to draw as a presentation's slide."""
 	text = {"kind": "text", "colour": "#ffffff", "align": "start", "x": 6, "w": 62}
 	return {
 		"orientation": "Landscape",

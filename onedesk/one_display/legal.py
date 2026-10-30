@@ -39,7 +39,7 @@ clause(
 	key="onedisplay-makes",
 	module=M,
 	body="""
-		In OneDisplay, OneAI can say a call or an ad in a natural voice, make a picture for a slide, or write
+		In OneDisplay, OneAI can say a call or an ad in a natural voice, make music for a playlist, or write
 		a widget from what you describe. It is sent only the words to say or the description you give, and
 		what it makes is kept in the workspace as a file you can replace.
 	""",

@@ -174,52 +174,69 @@ def onedisplay_tells_the_counters_of_a_long_wait():
 
 
 @check
-def onedisplay_designs_a_slide_on_its_canvas():
-	"""The showroom's slides open in the designer as blocks with every
-	property the schema declares; one changed and saved is kept as typed and
-	reaches a screen as blocks, never as HTML; what the server will not keep
-	(an outside picture, a colour that is not one, CSS that loads something,
-	a kind it does not know) is dropped; a QR code is drawn by the server."""
-	from onedesk.one_display import blocks, programme, slides
+def onedisplay_plays_a_presentation():
+	"""The showroom's playlist plays a presentation from OneCloud: each of its
+	slides reaches a screen as the editor's elements, its own time or the
+	row's, and a picture on it at an address only the site can seal. A row
+	that was a picture, a video or a designed slide becomes a presentation
+	(the patch), and a row may only play what its maker may open."""
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
 
-	with as_user(OWNER):
-		held = slides.get("Showroom")
-		assert set(held["schema"]["kinds"]) == set(blocks.KINDS) and held["schema"]["properties"]["rotate"]["label"]
-		first = held["slides"][0]
-		title = next(one for one in first["design"]["blocks"] if one["kind"] == "text" and one["size"] >= 100)
-		assert {"rotate", "shadow_colour", "font", "valign", "css"} <= set(title), title
-		was = dict(title)
-		title.update(text="Glass <script>alert(1)</script> entrances", rotate=-4, shadow_colour="#00000080", css="text-shadow: 0 4px 24px black; background: url(https://example.com/x.png)")
-		first["design"]["blocks"].append({"kind": "qr", "id": "visit", "x": 80, "y": 70, "w": 12, "h": 20, "link": "https://example.com/visit"})
-		try:
-			saved = slides.save("Showroom", json.dumps(held["slides"]))
-			row = saved["slides"][0]
-			kept = next(one for one in row["design"]["blocks"] if one["id"] == title["id"])
-			assert kept["text"].startswith("Glass <script>") and kept["rotate"] == -4 and kept["css"] == "text-shadow: 0 4px 24px black", kept
-			assert not frappe.db.get_value("Display Slide", row["id"], "html"), "a designed slide keeps no HTML of its own"
-			channel = frappe.get_doc("Display Channel", CHANNEL)
-			shown = programme.slides(channel.slide_playlist)["slides"][0]
-			assert shown["design"]["blocks"] and "html" not in shown and shown["qrs"]["https://example.com/visit"].startswith("<svg"), shown.keys()
-		finally:
-			title.clear()
-			title.update(was)
-			first["design"]["blocks"].pop()
-			slides.save("Showroom", json.dumps(held["slides"]))
-		assert slides.qr("https://example.com/visit").startswith("<svg")
-		cleaned = slides.clean(
-			{
-				"background": "red; x",
-				"blocks": [
-					{"kind": "image", "src": "https://example.com/a.png", "stroke_colour": "blue", "rotate": 9000},
-					{"kind": "shape", "shape": "hexagon", "fill": "#12345678"},
-					{"kind": "script"},
-				],
-			}
-		)
-		image, shape = cleaned["blocks"]
-		assert cleaned["background"] == blocks.GROUND and len(cleaned["blocks"]) == 2, cleaned
-		assert image["src"] == "" and image["stroke_colour"] == "#ffffff" and image["rotate"] == 360, image
-		assert shape["shape"] == "rectangle" and shape["fill"] == "#12345678", shape
+	from onedesk.one_display import programme
+	from onedesk.one_display.patches import presentations_on_screens as patch
+	from onedesk.one_slide import api, play
+
+	dot = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg=="
+	channel = frappe.get_doc("Display Channel", CHANNEL)
+	row = frappe.get_doc("Slide Playlist", channel.slide_playlist).slides[0]
+	held = api.presentation_of(frappe.db.get_value("File", row.presentation, "file_url"))
+	was = getattr(frappe.local, "request", None)
+	frappe.db.savepoint("onedisplay_presentation")
+	try:
+		with as_user(OWNER):
+			assert any(found[0] == row.presentation for found in api.search("File", frappe.db.get_value("File", row.presentation, "file_name")[:6], "name", 0, 20)), "the playlist's presentation is offered"
+			picture = api.save_base64_image(dot, held, "picture")
+			doc = frappe.get_doc("Presentation", held)
+			elements = json.loads(doc.slides[0].elements)
+			elements.append({"id": "pic", "type": "image", "src": picture, "left": 700, "top": 40, "width": 200, "height": 120, "zIndex": 9})
+			elements.append({"id": "gone", "type": "text", "content": "<p>Hidden</p>", "hidden": True, "left": 0, "top": 0})
+			doc.slides[0].elements = json.dumps(elements)
+			doc.save(ignore_permissions=True)
+		shown = programme.slides(channel.slide_playlist)["slides"]
+		assert len(shown) == 3 and all(one["kind"] == "Slide" and one["ms"] == 12000 for one in shown), shown
+		first = shown[0]["slide"]["elements"]
+		sealed = next(one["src"] for one in first if one["id"] == "pic")
+		assert sealed.startswith(play.SHOWN) and "&sig=" in sealed and not any(one["id"] == "gone" for one in first), first
+		assert any(one["type"] == "text" and "Frameless" in one["content"] for one in first), "the slide's words reach the screen"
+		file_id, sig = sealed[len(play.SHOWN) :].split("&sig=")
+		with as_user("Guest"):
+			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
+			api.shown(file_id, sig)
+			assert frappe.local.response.status_code == 200, "a screen fetches the picture as nobody"
+			frappe.local.response = frappe._dict()
+			try:
+				api.shown(file_id, "0" * 32)
+				raise AssertionError("a guessed seal fetches a picture")
+			except frappe.DoesNotExistError:
+				frappe.clear_messages()
+		old = frappe._dict(parent=channel.slide_playlist, kind="Image", file="/files/lobby.jpg", title="Lobby")
+		assert [one["type"] for one in patch.slide(old)["elements"]] == ["image"]
+		assert patch.slide(frappe._dict(old, kind="Video", file="/files/lobby.mp4"))["elements"][0]["type"] == "video"
+		designed = patch.slide(frappe._dict(old, kind="Design", design=json.dumps({"background": "#0e6e8c", "blocks": [{"kind": "text", "text": "Fitted", "x": 6, "y": 6, "w": 50, "h": 20}]})))
+		assert designed["background"] == "#0E6E8CFF" and "Fitted" in designed["elements"][0]["content"], designed
+		assert "script" not in patch.slide(frappe._dict(old, kind="Design", design=None, html="<p>Hi<script>x</script></p>"))["elements"][0]["content"]
+		with as_user(OWNER):
+			playlist = frappe.get_doc("Slide Playlist", channel.slide_playlist)
+			playlist.append("slides", {"kind": "Presentation", "presentation": frappe.db.get_value("File", {"is_folder": 0, "file_url": ["not like", f"{api.URL}%"]})})
+			try:
+				playlist.save()
+				raise AssertionError("a row plays a file that is not a presentation")
+			except frappe.ValidationError:
+				frappe.clear_messages()
+	finally:
+		frappe.local.request = was
+		frappe.db.rollback(save_point="onedisplay_presentation")
 
 
 @check
@@ -248,15 +265,13 @@ def onedisplay_fills_the_lobby_from_its_sources():
 @check
 def onedisplay_lays_out_a_collection_and_asks_oneai():
 	"""The workshop's layout is read and saved back by the editor with one
-	widget moved, its sources offer their fields, and OneAI's picture, slide,
-	widget and recording come back as things to keep: a public picture, the
-	slide's code without its fences, and a recording on the ad."""
+	widget moved, its sources offer their fields, and OneAI's widget and
+	recording come back as things to keep: the widget's code without its
+	fences, and a recording on the ad."""
 	from onedesk.one_display import layout, make, sources, voices
 	from onedesk.one_display.demo import WORKSHOP
 
 	pcm = base64.b64encode(b"\x00\x01" * 1600).decode()
-	designed = "```json\n" + json.dumps({"background": "#0e6e8c", "blocks": [{"kind": "text", "x": 6, "y": 30, "w": 60, "h": 20, "text": "Fitted in a week", "size": 96}]}) + "\n```"
-	pixel = base64.b64encode(base64.b64decode("iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mP8z8BQDwAEhQGAhKmMIQAAAABJRU5ErkJggg==")).decode()
 	with as_user(OWNER):
 		held = layout.get(WORKSHOP)
 		assert held["writable"] and {one["type"] for one in held["types"]} >= {"Queue Board", "Weather", "Custom"}
@@ -272,24 +287,19 @@ def onedisplay_lays_out_a_collection_and_asks_oneai():
 		assert any(one["fieldname"] == "subject" for one in sources.report_fields("Delayed Tasks Summary"))
 		with mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch(
 			"onedesk.one_ai.run.make",
-			side_effect=lambda job, text, reference=None, voice=None: {"data": pcm, "mime": "audio/L16;rate=16000"}
-			if job == "display_voice"
-			else {"data": pixel, "mime": "image/png"},
-		), mock.patch("onedesk.one_ai.run.once", side_effect=lambda job, text, reference=None: designed if job == "display_design" else "```html\n<div>Fitted in a week</div>\n```"):
-			picture = make.picture("A glass shopfront at dusk")
-			assert picture.startswith("/files/") and not frappe.db.get_value("File", {"file_url": picture}, "is_private")
-			made = make.design("Our frameless glass, fitted in a week")
-			assert made["design"]["blocks"][0]["text"] == "Fitted in a week" and made["design"]["blocks"][0]["font"] == "sans", made
+			side_effect=lambda job, text, reference=None, voice=None: {"data": pcm, "mime": "audio/L16;rate=16000"},
+		), mock.patch("onedesk.one_ai.run.once", return_value="```html\n<div>Fitted in a week</div>\n```"):
 			assert make.widget("The late tasks as cards", rows=json.dumps([{"subject": "Snag list"}])) == "<div>Fitted in a week</div>"
 			recording = voices.record("Frameless Glass")
 			assert recording.endswith(".wav") and frappe.db.get_value("Voice Ad", "Frameless Glass", "audio") == recording
 
 
 @check
-def onedisplay_makes_a_video_and_music_in_the_background():
-	"""A video is begun and collected, a song made, each kept as a public
-	file and added to its playlist paused, with the song's length read from
-	the file, and whoever asked is told; a failure adds nothing and says so."""
+def onedisplay_makes_music_in_the_background():
+	"""A song is made, kept as a public file and added to its playlist paused,
+	with its length read from the file, and whoever asked is told; a failure
+	adds nothing and says so. Videos are made in a presentation now
+	(oneai_makes_slides_and_pictures)."""
 	import io
 	import wave
 
@@ -302,37 +312,22 @@ def onedisplay_makes_a_video_and_music_in_the_background():
 		written.setframerate(8000)
 		written.writeframes(b"\x00\x00" * 8000 * 3)
 	song = base64.b64encode(sound.getvalue()).decode()
-	film = base64.b64encode(b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 64).decode()
-	channel = frappe.get_doc("Display Channel", CHANNEL)
-	slides, tracks = channel.slide_playlist, channel.music_playlist
-	assert slides and tracks, "the showroom channel has slides and music"
-	asked = []
+	tracks = frappe.get_doc("Display Channel", CHANNEL).music_playlist
+	assert tracks, "the showroom channel has music"
 	told = []
-	with as_user(OWNER), mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch("onedesk.one_display.make.time.sleep"), mock.patch(
-		"onedesk.one_ai.run.begin", side_effect=lambda job, text, reference=None, orientation=None: asked.append((job, orientation)) or "ticket-1"
-	), mock.patch(
-		"onedesk.one_ai.run.collect", side_effect=[{"done": False}, {"done": True, "data": film, "mime": "video/mp4"}]
-	), mock.patch(
+	with as_user(OWNER), mock.patch("onedesk.one.apps.ai_on", return_value=True), mock.patch(
 		"onedesk.one_ai.run.make", side_effect=lambda job, text, reference=None, voice=None: {"data": song, "mime": "audio/wav"}
 	), mock.patch("onedesk.one_display.tell.notify.notify", lambda name, users, **context: told.append((name, list(users)))):
 		with mock.patch("frappe.enqueue") as queued:
-			assert make.video(slides, "Sunlight through a frameless glass door")["begun"]
-			assert queued.call_args.kwargs["what"] == "video" and queued.call_args.kwargs["asker"] == OWNER
 			assert make.music(tracks, "Calm piano for a showroom")["begun"] and queued.call_args.kwargs["what"] == "music"
-		before = len(frappe.get_doc("Slide Playlist", slides).slides)
-		make.made_later("video", slides, "Sunlight through a frameless glass door", OWNER)
-		made = frappe.get_doc("Slide Playlist", slides).slides
-		assert len(made) == before + 1 and made[-1].kind == "Video" and made[-1].paused and made[-1].file.endswith(".mp4"), made[-1].as_dict()
-		assert asked == [("display_video", "Landscape")] and told[-1] == ("Made by OneAI", [OWNER]), (asked, told)
+			assert queued.call_args.kwargs["asker"] == OWNER
 		make.made_later("music", tracks, "Calm piano for a showroom", OWNER)
 		track = frappe.get_doc("Music Playlist", tracks).tracks[-1]
 		assert track.paused and track.duration == 3.0 and track.file.endswith(".wav"), track.as_dict()
+		assert told[-1] == ("Made by OneAI", [OWNER]), told
 		with mock.patch("onedesk.one_ai.run.make", side_effect=frappe.ValidationError("no")):
 			make.made_later("music", tracks, "Something that fails", OWNER)
 		assert told[-1] == ("Not Made by OneAI", [OWNER]) and frappe.get_doc("Music Playlist", tracks).tracks[-1].name == track.name
-		playlist = frappe.get_doc("Slide Playlist", slides)
-		playlist.set("slides", playlist.slides[:-1])
-		playlist.save()
 		music = frappe.get_doc("Music Playlist", tracks)
 		music.set("tracks", music.tracks[:-1])
 		music.save()

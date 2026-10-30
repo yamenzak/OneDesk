@@ -35,7 +35,7 @@ TYPES = [
 	{
 		"name": "Made by OneAI",
 		"app": "OneDisplay",
-		"about": "When a video or a piece of music somebody asked OneAI for is ready in its playlist.",
+		"about": "When a piece of music somebody asked OneAI for is ready in its playlist.",
 		"to": "Whoever asked for it",
 		"channels": ALL,
 		"email_default": False,
@@ -47,7 +47,7 @@ TYPES = [
 	{
 		"name": "Not Made by OneAI",
 		"app": "OneDisplay",
-		"about": "When OneAI could not make a video or a piece of music somebody asked for.",
+		"about": "When OneAI could not make a piece of music somebody asked for.",
 		"to": "Whoever asked for it",
 		"channels": ALL,
 		"email_default": False,

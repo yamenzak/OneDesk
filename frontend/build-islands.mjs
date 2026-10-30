@@ -33,7 +33,6 @@ export const ISLANDS = {
 	"onedesk.timers": "src/islands/timers.js",
 	"onedesk.counter": "src/islands/counter.js",
 	"onedesk.display_layout": "src/islands/display_layout.js",
-	"onedesk.display_slides": "src/islands/display_slides.js",
 	"onedesk.workbook": "src/islands/workbook.js",
 	"onedesk.document": "src/islands/document.js",
 	"onedesk.presentation": "src/islands/presentation.js",

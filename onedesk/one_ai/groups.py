@@ -351,7 +351,6 @@ PAGES = {
 	"onehr": "hr",
 	"counter": "display",
 	"display-layout": "display",
-	"display-slides": "display",
 }
 
 

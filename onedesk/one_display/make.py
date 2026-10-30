@@ -1,13 +1,10 @@
 """What OneAI makes for OneDisplay from a sentence (one_display/AGENTS.md,
-stage 6): a picture or a video for a slide, a designed slide, music for a
-playlist, a widget of your own. Each is something to look at and change
-before it is used: a video or a song is added to its playlist turned off, and
-whoever asked is told."""
+stage 6): music for a playlist and a widget of your own. A song is added to
+its playlist turned off, and whoever asked is told. Pictures, videos and
+designed slides are made in a presentation now (one_slide/ai.py)."""
 
 import base64
-import json
 import re
-import time
 from typing import Annotated
 
 import frappe
@@ -29,8 +26,7 @@ EXTENSIONS = {
 	"audio/ogg": "ogg",
 }
 
-# How often a begun video is asked after, and for how long.
-ASK_EVERY = 10
+# How long a song may take to make.
 ASK_FOR = 15 * 60
 
 
@@ -46,18 +42,6 @@ def _brand() -> str:
 	return f"The business is {name or 'the workspace'}; its brand colour is {colour or '#2563eb'}."
 
 
-@frappe.whitelist(methods=["POST"])
-def picture(description: Annotated[str, "What the picture shows."]) -> str:
-	"""A picture for a slide, kept as a public file: its address."""
-	_may("Slide Playlist")
-	from onedesk.one_ai import run
-
-	said = run.make("display_picture", description.strip()[:2000], reference="OneDisplay picture")
-	if not said.get("data"):
-		frappe.throw(_("OneAI could not make the picture. Try again."))
-	return _kept(said, "slide", "png")
-
-
 def _kept(said: dict, stem: str, usual: str) -> str:
 	"""What OneAI made, as a public file a screen may fetch: its address."""
 	extension = EXTENSIONS.get((said.get("mime") or "").split(";")[0].strip(), usual)
@@ -71,20 +55,6 @@ def _kept(said: dict, stem: str, usual: str) -> str:
 		}
 	).insert(ignore_permissions=True)
 	return saved.file_url
-
-
-@frappe.whitelist(methods=["POST"])
-def video(
-	playlist: Annotated[str, "The slide playlist the video is added to."],
-	description: Annotated[str, "What the video shows."],
-	orientation: Annotated[str, "Landscape or Portrait."] = "Landscape",
-) -> dict:
-	"""Begin an eight-second video for a slide. It is made in the background,
-	added to the playlist as a slide that is not shown yet, and whoever asked
-	is told."""
-	_may_change("Slide Playlist", playlist)
-	_later("video", playlist, description, orientation=orientation if orientation in ("Landscape", "Portrait") else "Landscape")
-	return {"begun": True}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -121,51 +91,29 @@ def _later(what: str, playlist: str, description: str, **more) -> None:
 
 
 TITLE = 60
-SECONDS = 8
 MADE = "one_display_made"
 
 
-def made_later(what: str, playlist: str, description: str, asker: str, orientation: str = "Landscape") -> None:
+def made_later(what: str, playlist: str, description: str, asker: str) -> None:
 	"""Make it, keep it, add it to its playlist, and tell whoever asked:
 	that it is there, or that it could not be made."""
 	from onedesk.one_display import tell
 
-	doctype = "Slide Playlist" if what == "video" else "Music Playlist"
+	doctype = "Music Playlist"
 	frappe.set_user(asker)
 	title = description if len(description) <= TITLE else description[: TITLE - 1].rstrip() + "…"
 	frappe.db.savepoint(MADE)
 	try:
-		said = _video(description, orientation) if what == "video" else _music(description)
-		url = _kept(said, what, "mp4" if what == "video" else "mp3")
+		said = _music(description)
+		url = _kept(said, what, "mp3")
 		doc = frappe.get_doc(doctype, playlist)
-		if what == "video":
-			doc.append("slides", {"kind": "Video", "file": url, "title": title, "duration": SECONDS, "fit": "Cover", "paused": 1})
-		else:
-			doc.append("tracks", {"file": url, "title": title, "duration": seconds(said), "paused": 1})
+		doc.append("tracks", {"file": url, "title": title, "duration": seconds(said), "paused": 1})
 		doc.save()
 		tell.made(asker, doctype, playlist, title)
 	except Exception:
 		frappe.db.rollback(save_point=MADE)
 		frappe.log_error(title=f"OneDisplay {what}")
 		tell.made(asker, doctype, playlist, title, failed=True)
-
-
-def _video(description: str, orientation: str) -> dict:
-	from onedesk.one_ai import run
-
-	ticket = run.begin("display_video", description, reference="OneDisplay video", orientation=orientation)
-	if not ticket:
-		raise frappe.ValidationError("no video was begun")
-	waited = 0
-	while waited < ASK_FOR:
-		time.sleep(ASK_EVERY)
-		waited += ASK_EVERY
-		said = run.collect(ticket, reference="OneDisplay video")
-		if said.get("done"):
-			if not said.get("data"):
-				raise frappe.ValidationError("the video came back empty")
-			return said
-	raise frappe.ValidationError("the video took too long")
 
 
 def _music(description: str) -> dict:
@@ -179,27 +127,6 @@ def _music(description: str) -> dict:
 
 def _code(said: str) -> str:
 	return FENCE.sub("", (said or "").strip()).strip()
-
-
-@frappe.whitelist(methods=["POST"])
-def design(
-	description: Annotated[str, "What the slide says and looks like."],
-	orientation: Annotated[str, "Landscape or Portrait."] = "Landscape",
-) -> dict:
-	"""A slide as blocks on the canvas, so it opens in the designer like any
-	slide made there."""
-	_may("Slide Playlist")
-	from onedesk.one_ai import run
-	from onedesk.one_display import slides
-
-	said = run.once("display_design", f"{_brand()}\nOrientation: {orientation}.\n\n{description.strip()[:4000]}", reference="OneDisplay design")
-	try:
-		blocks = json.loads(_code(said))
-	except ValueError:
-		blocks = None
-	if not isinstance(blocks, dict) or not blocks.get("blocks"):
-		frappe.throw(_("OneAI could not design the slide. Try again."))
-	return {"design": slides.clean({**blocks, "orientation": orientation})}
 
 
 @frappe.whitelist(methods=["POST"])

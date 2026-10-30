@@ -5,7 +5,7 @@
    What a screen asks the server is never kept: its last answer is in the
    page's own storage (tv.js). */
 var CACHE = "one-tv-1";
-var SHELL = ["/tv", "/assets/onedesk/js/one_display/blocks.js", "/assets/onedesk/js/one_display/tv.js"];
+var SHELL = ["/tv", "/assets/onedesk/js/one_slide/play.js", "/assets/onedesk/slide/fonts.css", "/assets/onedesk/js/one_display/tv.js"];
 
 self.addEventListener("install", function (event) {
 	event.waitUntil(

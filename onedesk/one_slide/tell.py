@@ -9,10 +9,12 @@ from onedesk.one import notify
 
 def video(asker: str, name: str, what: str, failed: bool = False) -> None:
 	"""A video OneAI made for a presentation is on its last slide, or could
-	not be made."""
+	not be made. Sent as the workspace, since the bell does not tell a person
+	of their own doing."""
 	notify.notify(
 		"Video Not Made for a Presentation" if failed else "Video Made for a Presentation",
-		asker,
+		[asker],
+		sender="Administrator",
 		record=("Presentation", name),
 		link=f"/desk/presentation/{name}",
 		what=what,

@@ -18,7 +18,7 @@ channel plays the same thing at the same moment.
 | `Display Channel` | What plays: a slide playlist, a widget collection, a music playlist, whether calls are read aloud and in which voice, a `programme` (schedule rows) and `ads`. |
 | `Channel Programme` | A schedule row: Slides, Widgets, Music, Screensaver, Screen Off or Muted, on some days, between two times. A later row wins over an earlier one. |
 | `Channel Ad` | A voice ad on a channel, every few minutes or at times of day. |
-| `Slide Playlist`, `Display Slide` | Slides in order: Image, Video, Web Page (https only) or Design (blocks drawn at 1920 × 1080), each with seconds, optional dates and Paused. |
+| `Slide Playlist`, `Display Slide` | What plays in order: a Presentation from OneCloud (every slide of it) or a Web Page (https only), each with seconds, optional dates and Paused. |
 | `Widget Collection`, `Display Widget` | A layout: widgets in percent of the screen, each with a source, a mapping, settings, a layer and optional hours. |
 | `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed, Weather or Exchange Rates. |
 | `Music Playlist`, `Display Track` | Tracks, each with its length and Paused, and a volume. |
@@ -121,47 +121,45 @@ A board's call is made on demand: the first answer that needs "Ticket A 7,
 counter 2" enqueues it and sends no audio; the screen waits four seconds for
 it and then says it in its own voice. Nothing is recorded while OneAI is off.
 
-## Designed slides
+## Slides
 
-A Design slide is kept as **blocks** in `design`: text, picture, shape and QR
-code, placed in percent of the frame, each with the properties `blocks.py`
-declares. That one table is three things at once: `blocks.clean` keeps only
-what it names, each value in its range (colours as colours, pictures from
-`/files/`, CSS of one's own only for properties it allows and never with
-`url()`); the designer draws its inspector from `blocks.described()`; and
-`public/js/one_display/blocks.js` draws only those names. A property added
-to the table is one a person can set, the server keeps and a screen draws.
+A slide playlist plays **presentations** from OneCloud, made in OneSlide,
+and web pages (docs/ONESLIDE.md, stage 5). A row links a presentation's
+**File**, picked through `one_slide.api.search`, which offers only what the
+person picking may open; the playlist's `validate` checks the same, so a
+playlist is never a way to show somebody's private slides. **New
+Presentation** on the playlist makes one filed on the playlist and opens it.
 
-**One renderer.** `blocks.js` is ES5 and draws a slide from its blocks; the
-screen loads it beside `tv.js`, the designer loads it with `frappe.require`,
-so the canvas is the screen. A screen gets the blocks and the QR codes the
-server drew (`programme.slides`), never HTML; a designed slide keeps no
-`html` of its own. A slide written as HTML before the designer still plays
-in its sandboxed frame.
+`programme.slides` gives a screen each of a presentation's slides in turn
+(`one_slide/play.py`, `for_screen`): the editor's own elements, cleaned
+when they were saved, each slide for its own advance-after or the row's
+seconds, hidden elements left out, a table drawn to HTML, and its pictures
+and videos at addresses sealed with the site's key (`play.seal`,
+`one_slide.api.shown`), since a screen signs in as nobody.
 
-**The designer** (`frontend/src/display/designer/`, the `display-slides`
-page) is `Designer.vue` holding a store (`store.js`: the slides, what is
-chosen, the undo history), with the bar (`Toolbar.vue`), the canvas
-(`Canvas.vue`: choosing, dragging with snapping guides, sizing from eight
-handles in the block's own turned axes, turning, box-select, typing onto
-the slide), the layers (`Layers.vue`) and the inspector (`Inspector.vue`,
-one `Field.vue` per property). Saving keeps any slide added since it loaded,
-such as a video OneAI made meanwhile.
+**One renderer.** `public/js/one_slide/play.js` is ES5 and draws a slide
+from its elements on a 960 by 540 stage scaled to the screen: text as the
+sanitised HTML it is, shapes as SVG (Suite's and our star and block arrow),
+fades, blur, free CSS, pictures with their crop, videos joining the shared
+clock. Eight-digit colours become `rgba()` for Chromium 53, and every
+number, colour and address is checked again before it is drawn.
+
+The pictures, videos and designed slides playlists held before stage 5
+were turned into one-slide presentations filed on their playlist by
+`patches/presentations_on_screens.py`, a designed slide through
+`one_slide/convert.py`.
 
 ## What OneAI does
 
-`make.py` makes a picture for a slide, a designed slide (as blocks), a
-Custom widget's code, a video and a piece of music; `voices.record` records a
-voice ad. Each comes back as something a person keeps or not; nothing goes on
-a screen by itself.
+`make.py` makes a Custom widget's code and a piece of music;
+`voices.record` records a voice ad. Each comes back as something a person
+keeps or not; nothing goes on a screen by itself. Pictures, videos and
+designed slides are made in a presentation (`one_slide/ai.py`), with the
+same jobs.
 
-A video (Veo) takes minutes, longer than a request may stay open, so the
-gateway **begins** it and the workspace **collects** it (`gateway.begin`,
-`gateway.collect`, `run.begin`, `run.collect`), asking every ten seconds for
-up to fifteen minutes in a `long` job. Music (Lyria) is one call, made in the
-same kind of job. Either arrives at the end of its playlist **Paused**, its
-length read from the file, and whoever asked is told (**Made by OneAI**, or
-**Not Made by OneAI**). A voice model is told only its own words, never
+Music (Lyria) is one call, made in a `long` job. It arrives at the end of its
+playlist **Paused**, its length read from the file, and whoever asked is told
+(**Made by OneAI**, or **Not Made by OneAI**). A voice model is told only its own words, never
 OneAI's voice, which it would read aloud (`jobs.MAKES`). `ai.py` gives the
 chat `queue_now`, `screens_now` and `plan_voice_ad` (a card), and says in
 `NOT_FOR_AI` why every other change is a person's.
@@ -188,8 +186,9 @@ one).
 
 - **No Frappe Builder.** Builder's pages use flex `gap` and `:has()`, which a
   TV's Chromium ignores, its fonts come from Google, and installing it brings
-  pandas, duckdb and litellm. A Design slide is plain HTML at 1920 × 1080,
-  written by hand or by OneAI, and widgets are placed in our own editor
+  pandas, duckdb and litellm. Slides are made in OneSlide, Suite's editor
+  with our Builder half, and drawn on the screen by an ES5 renderer of what
+  it saves; widgets are placed in our own editor
   (`frontend/src/display/Layout.vue`) over a live preview of the screen.
 - **No LightningJS.** WebGL cannot draw HTML from a design or a custom
   widget, its text does not shape Arabic, and cheap sticks have unreliable
@@ -207,8 +206,6 @@ one).
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it |
 | `layout.py` | The layout editor's server |
-| `blocks.py` | What a designed slide's blocks may hold, and keeping only that |
-| `slides.py` | The slide designer's server |
 | `live.py` | Waking screens over the socket |
 | `queue.py` | Tickets, the board, the counter's actions |
 | `voices.py`, `make.py` | What OneAI records and makes |
@@ -216,9 +213,10 @@ one).
 | `tell.py`, `notifications.py` | What it tells people |
 | `abilities.py`, `legal.py`, `setup.py`, `tour.py`, `ai.py` | The READY pieces |
 | `demo.py`, `checks.py`, `tests/` | The showroom, its checks, the pure tests |
-| `page/counter/`, `page/display_layout/`, `page/display_slides/` | The counter, the layout editor's and the slide designer's islands |
+| `page/counter/`, `page/display_layout/` | The counter's and the layout editor's islands |
 | `patches/widgets_from_queue.py` | The first slice's queue channels, moved onto widgets |
-| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player, its worker, and `blocks.js`, the drawing of a designed slide |
+| `patches/presentations_on_screens.py` | Pictures, videos and designed slides, made presentations |
+| `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_slide/play.js` draws a slide |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
-| `../../frontend/src/display/` | The counter, the layout editor and the slide designer |
+| `../../frontend/src/display/` | The counter and the layout editor |
 | `../../realtime/handlers.js` | A screen joining its room, admitted by `live.admit` |

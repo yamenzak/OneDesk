@@ -61,7 +61,7 @@ USE_THE_SHELL = {
 # home's link), or a center over the desk, and draw nothing.
 OPENS_A_VIEW = {"legal"}
 
-ISLAND_PAGES = {"one", "recycle_bin", "announcements", "address_book", "project_view", "project_template_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "counter", "display_layout", "display_slides", "workbook", "document", "presentation", "intake", "onemail", "onecloud"}
+ISLAND_PAGES = {"one", "recycle_bin", "announcements", "address_book", "project_view", "project_template_view", "item_view", "stock_on_hand", "inventory", "books", "onecrm", "onehr", "lots", "to_order", "quotes", "sent_out", "upkeep", "floor", "plant", "my_tasks", "timers", "counter", "display_layout", "workbook", "document", "presentation", "intake", "onemail", "onecloud"}
 
 PARTS = re.compile(r"\.[a-z]+-(row|empty|quiet|card|content|section|chevron)(-[a-z]+)?\b(?![-\w])")
 

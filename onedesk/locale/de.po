@@ -1188,6 +1188,10 @@ msgstr "Ein Teil eines Dokuments, einer Nachricht oder eines Datensatzes und woh
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "Ein Ort gehört zu einem Standort der Schicht oder zu einem einzelnen Mitarbeiter, nicht zu beiden."
 
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "A presentation in OneCloud. It plays whole, each slide for its own time."
+msgstr "Eine Präsentation in OneCloud. Sie läuft vollständig, jede Folie für ihre eigene Dauer."
+
 #: onedesk/one_slide/doctype/presentation/presentation.json
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
 msgstr "Die Folien einer Präsentation, hinter der Datei, die sie in OneCloud ablegt. Geöffnet und gespeichert nur über one_slide/api.py, das OneCloud fragt, ob der Leser darf."
@@ -1453,10 +1457,6 @@ msgstr "Eine kurze gesprochene Ansage, die Bildschirme zu festen Zeiten oder ab 
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "A signup from the public sign-up page."
 msgstr "Eine Anmeldung von der öffentlichen Anmeldeseite."
-
-#: onedesk/one_display/slides.py:176
-msgid "A slide is a picture, a video, a page or a design."
-msgstr "Eine Folie ist ein Bild, ein Video, eine Seite oder ein Entwurf."
 
 #: onedesk/one_display/doctype/display_source/display_source.py:17
 msgid "A source reads records, not the rows of a table."
@@ -2122,10 +2122,6 @@ msgstr "Auf etwa {0} Meter genau."
 msgid "Acknowledge New Mail"
 msgstr "Neue E-Mails bestätigen"
 
-#: onedesk/one_display/blocks.py:55
-msgid "Across"
-msgstr "Seitlich"
-
 #. Label of the act_after (Datetime) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Act After"
@@ -2482,10 +2478,6 @@ msgstr "Aufgabe darunter hinzufügen"
 msgid "Add Tasks"
 msgstr "Aufgaben hinzufügen"
 
-#: frontend/src/display/designer/Toolbar.vue:8
-msgid "Add Text"
-msgstr "Text hinzufügen"
-
 #: frontend/src/project/Team.vue:10 onedesk/public/js/project_actions.js:405
 #: onedesk/public/js/project_actions.js:416
 #: onedesk/public/js/project_actions.js:742
@@ -2511,21 +2503,9 @@ msgstr "Lager hinzufügen"
 msgid "Add a Location"
 msgstr "Standort hinzufügen"
 
-#: frontend/src/display/designer/Toolbar.vue:9
-msgid "Add a Picture"
-msgstr "Bild hinzufügen"
-
-#: frontend/src/display/designer/Toolbar.vue:15
-msgid "Add a QR Code"
-msgstr "QR-Code hinzufügen"
-
 #: onedesk/one_display/tour.py:24
 msgid "Add a Screen"
 msgstr "Bildschirm hinzufügen"
-
-#: frontend/src/display/designer/Toolbar.vue:12
-msgid "Add a Shape"
-msgstr "Form hinzufügen"
 
 #: onedesk/one_task/tour.py:18
 msgid "Add a Task"
@@ -3303,29 +3283,9 @@ msgstr "Vereinbarungen geändert"
 msgid "Align"
 msgstr "Ausrichten"
 
-#: frontend/src/display/designer/Inspector.vue:192
-msgid "Align Bottom"
-msgstr "Unten ausrichten"
-
-#: frontend/src/display/designer/Inspector.vue:188
-msgid "Align Centre"
-msgstr "Mittig ausrichten"
-
 #: frontend/src/slide/components/ArrangeSection.vue:6
 msgid "Align Horizontal"
 msgstr "Horizontal ausrichten"
-
-#: frontend/src/display/designer/Inspector.vue:187
-msgid "Align Left"
-msgstr "Links ausrichten"
-
-#: frontend/src/display/designer/Inspector.vue:191
-msgid "Align Middle"
-msgstr "Vertikal mittig ausrichten"
-
-#: frontend/src/display/designer/Inspector.vue:190
-msgid "Align Top"
-msgstr "Oben ausrichten"
 
 #: frontend/src/slide/components/ArrangeSection.vue:13
 msgid "Align Vertical"
@@ -4185,10 +4145,6 @@ msgstr "Jede Domain"
 #: onedesk/one/ai.py:266
 msgid "Any odd sign-ins?"
 msgstr "Auffällige Anmeldungen?"
-
-#: frontend/src/display/designer/Inspector.vue:30
-msgid "Any of the usual CSS properties, one per line, such as text-shadow or transform. Addresses are not allowed."
-msgstr "Beliebige übliche CSS-Eigenschaften, eine pro Zeile, etwa text-shadow oder transform. Adressen sind nicht erlaubt."
 
 #: onedesk/one/control.py:399 onedesk/public/js/one/one_control.js:173
 msgid "Any password"
@@ -5896,10 +5852,6 @@ msgstr "Backend und Daten"
 msgid "Background"
 msgstr ""
 
-#: frontend/src/display/Slides.vue:152
-msgid "Background Picture"
-msgstr "Hintergrundbild"
-
 #: onedesk/public/js/window/chrome.js:102
 msgid "Background Tasks"
 msgstr "Hintergrundaufgaben"
@@ -6745,10 +6697,6 @@ msgstr "Gesperrt"
 msgid "Blocked in this browser"
 msgstr "In diesem Browser blockiert"
 
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Blocks"
-msgstr "Blöcke"
-
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Blockwork and columns"
@@ -6969,18 +6917,10 @@ msgstr "Kurzbeschreibung"
 msgid "Brief and goals"
 msgstr "Briefing und Ziele"
 
-#: frontend/src/display/Slides.vue:82
-msgid "Bring Forward"
-msgstr "Nach vorne"
-
 #: frontend/src/slide/components/ArrangeSection.vue:61
 #: frontend/src/slide/components/ElementContextMenu.vue:122
 msgid "Bring forward"
 msgstr "Eine Ebene nach vorne"
-
-#: frontend/src/display/designer/Toolbar.vue:63
-msgid "Bring to Front"
-msgstr "In den Vordergrund"
 
 #: frontend/src/slide/components/ArrangeSection.vue:59
 #: frontend/src/slide/components/ElementContextMenu.vue:121
@@ -7563,10 +7503,6 @@ msgstr "Kapazität (Stunden)"
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Capitalization No"
 msgstr "Aktivierungs-Nr."
-
-#: frontend/src/display/Slides.vue:105
-msgid "Capitals"
-msgstr "Großbuchstaben"
 
 #: onedesk/one_display/widgets.py:116
 msgid "Caption"
@@ -8333,10 +8269,6 @@ msgstr "Wählen Sie ein Foto oder Video von Ihrem Computer."
 #: onedesk/one_sheet/paper.py:356
 msgid "Choose a sheet to print."
 msgstr "Wählen Sie ein Blatt zum Drucken."
-
-#: frontend/src/display/Slides.vue:40
-msgid "Choose a slide, or add one."
-msgstr "Wählen Sie eine Folie, oder fügen Sie eine hinzu."
 
 #: frontend/src/display/Layout.vue:59
 msgid "Choose a widget on the screen, or add one."
@@ -9284,10 +9216,6 @@ msgstr "Konzeptentwurf"
 msgid "Concept presented to the client"
 msgstr "Konzept dem Kunden präsentiert"
 
-#: onedesk/one_display/blocks.py:31
-msgid "Condensed"
-msgstr "Schmal"
-
 #: frontend/src/sheet/components/SheetEditor/index.vue:544
 #: frontend/src/sheet/components/SheetEditor/index.vue:939
 #: frontend/src/sheet/components/SheetEditor/index.vue:1156
@@ -9655,10 +9583,6 @@ msgstr "Kontakte"
 msgid "Contacts and addresses with your address"
 msgstr "Kontakte und Adressen mit Ihrer Adresse"
 
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Contain"
-msgstr "Einpassen"
-
 #. Label in the One Product Bundle print format
 #: frontend/src/sheet/components/SheetEditor/index.vue:1918
 #: frontend/src/sheet/components/SheetEditor/index.vue:4855
@@ -9945,10 +9869,6 @@ msgstr "Ecke"
 #: frontend/src/slide/components/ShapeStyleSection.vue:42
 msgid "Corner Radius"
 msgstr "Eckenradius"
-
-#: frontend/src/display/Slides.vue:115 frontend/src/display/Slides.vue:124
-msgid "Corners"
-msgstr "Ecken"
 
 #. Label of the what (Select) field in DocType 'Reading Lesson'
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
@@ -11132,10 +11052,6 @@ msgstr ""
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Daily support for the first two weeks"
 msgstr "Tägliche Betreuung in den ersten zwei Wochen"
-
-#: onedesk/one_display/blocks.py:128
-msgid "Darken Picture"
-msgstr "Bild abdunkeln"
 
 #: onedesk/one_studio/ai_setup.py:368
 msgid "Dashboard {0}"
@@ -12736,11 +12652,6 @@ msgstr "Gestalten"
 msgid "Design Services"
 msgstr "Planungsleistungen"
 
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:21
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:22
-msgid "Design Slides"
-msgstr "Folien gestalten"
-
 #: onedesk/one_ai/jobs.py:72
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:35
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:37
@@ -12772,10 +12683,6 @@ msgstr "Entwurf und Oberflächen vom Kunden freigegeben"
 #: onedesk/one_project/library/architectural_design.json
 msgid "Design signed off by the client"
 msgstr "Entwurf vom Kunden abgenommen"
-
-#: frontend/src/display/Slides.vue:6
-msgid "Design with OneAI"
-msgstr "Mit OneAI gestalten"
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Grievance print format
@@ -13448,10 +13355,6 @@ msgstr "Gepunktet"
 #: frontend/src/slide/utils/toolbarTools.js:68
 msgid "Double arrow"
 msgstr "Doppelpfeil"
-
-#: onedesk/one_display/blocks.py:56
-msgid "Down"
-msgstr "Nach unten"
 
 #. Label in the One Repair Record print format
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
@@ -14431,10 +14334,6 @@ msgstr "Gewinkelter Verbinder"
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Elements"
 msgstr "Elemente"
-
-#: onedesk/one_display/blocks.py:43
-msgid "Ellipse"
-msgstr "Ellipse"
 
 #. Label of the email (Data) field in DocType 'Account Request'
 #. Option for the 'Kind' (Select) field in DocType 'Identifier'
@@ -16283,10 +16182,6 @@ msgstr "Externe E-Mail"
 msgid "External plaster"
 msgstr "Außenputz"
 
-#: onedesk/one_display/blocks.py:33
-msgid "Extra Bold"
-msgstr "Extrafett"
-
 #. Label of the one_extra_work (Check) field in DocType 'Quotation'
 #. Label of the one_extra_work (Check) field in DocType 'Sales Order'
 #: frontend/src/project/Overview.vue:361 frontend/src/project/Overview.vue:394
@@ -16348,10 +16243,6 @@ msgstr "Nicht passende Elemente ausblenden"
 #: frontend/src/slide/components/TransitionSection.vue:33
 msgid "Fade unmatched elements"
 msgstr "Nicht passende Elemente ausblenden"
-
-#: onedesk/one_display/blocks.py:48 onedesk/one_display/blocks.py:125
-msgid "Fades To"
-msgstr "Verläuft zu"
 
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
@@ -17068,10 +16959,6 @@ msgstr "Erste Schritte"
 #: onedesk/one_book/print_format/one_period_closing_voucher/one_period_closing_voucher.json
 msgid "Fiscal Year"
 msgstr ""
-
-#: frontend/src/display/Slides.vue:226 frontend/src/display/Slides.vue:230
-msgid "Fit Inside"
-msgstr "Einpassen"
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -18813,10 +18700,6 @@ msgstr "HR-Manager"
 msgid "HTML"
 msgstr ""
 
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "HTML and CSS drawn at 1920 by 1080, in a sandbox. A slide made in the designer is drawn from its blocks instead."
-msgstr "HTML und CSS, gezeichnet in 1920 × 1080, in einer Sandbox. Eine im Designer gestaltete Folie wird stattdessen aus ihren Blöcken gezeichnet."
-
 #: onedesk/one_display/widgets.py:122
 msgid "HTML, CSS and JavaScript of your own or OneAI's, in a sandbox. Its rows arrive as one_display_rows."
 msgstr "HTML, CSS und JavaScript von Ihnen oder von OneAI, in einer Sandbox. Die Zeilen kommen als one_display_rows an."
@@ -19015,10 +18898,6 @@ msgstr "Zustand"
 #: onedesk/one_hr/papers.py:12
 msgid "Health Insurance"
 msgstr "Krankenversicherung"
-
-#: frontend/src/display/Slides.vue:217
-msgid "Heavy"
-msgstr "Extrafett"
 
 #. Label of the one_height (Float) field in DocType 'Asset Capitalization
 #. Service Item'
@@ -19664,10 +19543,6 @@ msgstr "Wie lange vor dem Ende gekündigt werden muss, laut Vertrag."
 #: onedesk/one_book/home.py:350
 msgid "How long each invoice took to be paid."
 msgstr "Wie lange es dauerte, bis jede Rechnung bezahlt war."
-
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "How long it shows. A video plays for its own length when this is empty."
-msgstr "Wie lange sie erscheint. Ist das leer, läuft ein Video in voller Länge."
 
 #: onedesk/one_crm/home.py:127
 msgid "How long opportunities stay in each stage, and take to win."
@@ -24705,10 +24580,6 @@ msgstr "Video erstellen"
 msgid "Make a Video for a Slide"
 msgstr "Video für eine Folie erstellen"
 
-#: frontend/src/display/Slides.vue:163 frontend/src/display/Slides.vue:481
-msgid "Make a Video with OneAI"
-msgstr "Video mit OneAI erstellen"
-
 #. Description of the 'Workspaces' (Table) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "Make a code for a workspace with New Code. A code works for that workspace only."
@@ -24804,10 +24675,6 @@ msgstr "Die Änderungen vornehmen, die die Buchhaltungsprüfung anbietet, etwa d
 #: onedesk/one_inventory/abilities.py:26
 msgid "Make the changes Inventory Check offers, such as turning on batches or naming the home warehouse."
 msgstr "Die Änderungen vornehmen, die die Bestandsprüfung anbietet, etwa Chargen einschalten oder das Hauptlager festlegen."
-
-#: frontend/src/display/Slides.vue:112
-msgid "Make with OneAI"
-msgstr "Mit OneAI erstellen"
 
 #: onedesk/one_hr/passkey.py:82
 msgid "Make your passkey on your phone."
@@ -26704,10 +26571,6 @@ msgstr "Neue Anmeldung"
 msgid "New Signup"
 msgstr "Neue Anmeldung"
 
-#: frontend/src/display/Slides.vue:7
-msgid "New Slide"
-msgstr "Neue Folie"
-
 #: frontend/src/display/Layout.vue:72
 msgid "New Source"
 msgstr "Neue Quelle"
@@ -27840,10 +27703,6 @@ msgstr "Keine Anmeldung"
 msgid "No signature"
 msgstr "Keine Signatur"
 
-#: frontend/src/display/Slides.vue:23
-msgid "No slides yet. Add one with the plus."
-msgstr "Noch keine Folien. Fügen Sie eine mit dem Plus hinzu."
-
 #: onedesk/public/js/hiring.js:168
 msgid "No sound. Check the microphone."
 msgstr "Kein Ton. Mikrofon prüfen."
@@ -28487,8 +28346,8 @@ msgid "Not shown"
 msgstr "Nicht belegt"
 
 #: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Not shown until this is cleared. What OneAI makes arrives paused."
-msgstr "Wird erst gezeigt, wenn dies entfernt ist. Was OneAI erstellt, kommt pausiert an."
+msgid "Not shown until this is cleared."
+msgstr "Wird nicht gezeigt, bis dies aufgehoben wird."
 
 #. Description of the 'Hide When Empty' (Check) field in DocType 'Record Head
 #. Band'
@@ -28708,10 +28567,6 @@ msgstr "Nichts in der Werkstatt"
 msgid "Nothing on this slide yet."
 msgstr "Auf dieser Folie ist noch nichts."
 
-#: frontend/src/display/designer/Layers.vue:3
-msgid "Nothing on this slide yet. Add text, a picture or a shape from the bar above."
-msgstr "Auf dieser Folie ist noch nichts. Fügen Sie Text, ein Bild oder eine Form über die Leiste oben hinzu."
-
 #: frontend/src/inventory/sent_out/SentOutPage.vue:19
 msgid "Nothing open now"
 msgstr "Derzeit nichts offen"
@@ -28783,10 +28638,6 @@ msgstr "Hier gibt es nichts einzustellen."
 #: onedesk/public/js/shell.js:91
 msgid "Nothing to show"
 msgstr "Nichts anzuzeigen"
-
-#: frontend/src/display/Slides.vue:73
-msgid "Nothing to show yet."
-msgstr "Noch nichts anzuzeigen."
 
 #: frontend/src/intake/IntakeInbox.vue:15
 #: frontend/src/inventory/plant/PlantFloor.vue:49
@@ -29699,6 +29550,10 @@ msgstr "Der Platz einer Person in der Warteschlange, vom Ziehen am Kiosk bis zur
 msgid "One product in several versions."
 msgstr "Ein Produkt in mehreren Varianten."
 
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "One row of a slide playlist: a presentation from OneCloud, played whole, or a web page."
+msgstr "Eine Zeile einer Folien-Wiedergabeliste: eine Präsentation aus OneCloud, vollständig abgespielt, oder eine Webseite."
+
 #. Description of the 'Description' (Small Text) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
 msgid "One sentence that says what the app is for, shown to the workspace when its code is typed."
@@ -29955,11 +29810,6 @@ msgstr "OneAI erstellt das Bild…"
 #: frontend/src/slide/shim/EditorNavbar.vue:191
 msgid "OneAI is making the video. It takes a few minutes; it will be on a new slide at the end, and you will be told."
 msgstr "OneAI erstellt das Video. Das dauert ein paar Minuten; es kommt auf eine neue Folie am Ende, und Sie werden benachrichtigt."
-
-#: frontend/src/display/Slides.vue:476
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:64
-msgid "OneAI is making the video. You will be told when it is in the playlist."
-msgstr "OneAI erstellt das Video. Sie erfahren es, sobald es in der Playlist ist."
 
 #: onedesk/one_ai/chat.py:116
 msgid "OneAI is off"
@@ -30680,6 +30530,10 @@ msgstr "Tarif und Guthaben öffnen"
 #: frontend/src/hr/HrHome.vue:124
 msgid "Open Positions"
 msgstr "Offene Stellen"
+
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:32
+msgid "Open Presentation"
+msgstr "Präsentation öffnen"
 
 #. The button on a notification's mail
 #: onedesk/one/notifications.py
@@ -31816,10 +31670,6 @@ msgstr "Packen"
 #: onedesk/one_studio/print_blocks.py:21
 msgid "Packing Slip"
 msgstr "Packschein"
-
-#: onedesk/one_display/blocks.py:42
-msgid "Padding"
-msgstr "Innenabstand"
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -33898,10 +33748,6 @@ msgstr "Hochformat"
 #: onedesk/one_studio/print_blocks.py:88
 msgid "Position"
 msgstr ""
-
-#: onedesk/one_display/blocks.py:67
-msgid "Position and Size"
-msgstr "Position und Größe"
 
 #. Description of the 'Credits' (Float) field in DocType 'Credit Ledger Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -36895,10 +36741,6 @@ msgstr "Eines entfernen"
 msgid "Remove Photo"
 msgstr "Foto entfernen"
 
-#: frontend/src/display/designer/Inspector.vue:39
-msgid "Remove Slide"
-msgstr "Folie entfernen"
-
 #: onedesk/one_mail/ai.py:651
 msgid "Remove Star"
 msgstr "Stern entfernen"
@@ -38238,6 +38080,10 @@ msgstr "Zeile {0}: {1}"
 msgid "Row {0}: {1} expires before it was issued."
 msgstr "Zeile {0}: {1} läuft vor dem Ausstellungsdatum ab."
 
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.py:21
+msgid "Row {0}: {1} is not a presentation."
+msgstr "Zeile {0}: {1} ist keine Präsentation."
+
 #: onedesk/one_project/hours.py:87
 msgid "Row {0}: {1} is not a task on {2}."
 msgstr "Zeile {0}: {1} ist keine Aufgabe in {2}."
@@ -38632,10 +38478,6 @@ msgstr "Stichprobengröße"
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Samples and shop drawings approved"
 msgstr "Muster und Werkpläne freigegeben"
-
-#: onedesk/one_display/blocks.py:31
-msgid "Sans"
-msgstr "Serifenlos"
 
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Saturday"
@@ -39083,6 +38925,10 @@ msgstr "Sekunden"
 msgid "Seconds Across"
 msgstr "Sekunden für den Durchlauf"
 
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "Seconds for each slide that has no time of its own, and for a web page."
+msgstr "Sekunden für jede Folie ohne eigene Dauer und für eine Webseite."
+
 #. Label of the auth (Data) field in DocType 'Push Device'
 #: onedesk/one/doctype/push_device/push_device.json
 msgid "Secret"
@@ -39271,10 +39117,6 @@ msgstr ""
 msgid "Selling, buying and stock set up"
 msgstr "Verkauf, Einkauf und Lager eingerichtet"
 
-#: frontend/src/display/Slides.vue:215
-msgid "Semibold"
-msgstr "Halbfett"
-
 #: frontend/src/sheet/components/SheetEditor/SplitTextPopover.vue:62
 msgid "Semicolon"
 msgstr "Semikolon"
@@ -39292,10 +39134,6 @@ msgstr "Semikolon"
 #: onedesk/www/s.html:107
 msgid "Send"
 msgstr "Senden"
-
-#: frontend/src/display/Slides.vue:83
-msgid "Send Back"
-msgstr "Nach hinten"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1232
 msgid "Send From New Addresses"
@@ -39390,10 +39228,6 @@ msgstr "Dies wieder senden"
 #: onedesk/one_admin/doctype/private_app/private_app.js:11
 msgid "Send this to the workspace. It's shown once."
 msgstr "Senden Sie dies an den Arbeitsbereich. Er wird nur einmal angezeigt."
-
-#: frontend/src/display/designer/Toolbar.vue:66
-msgid "Send to Back"
-msgstr "In den Hintergrund"
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:42
 msgid "Send to Every Screen"
@@ -41771,14 +41605,6 @@ msgstr "Umsatzsteuer-Einstellungen Südafrika"
 msgid "Space"
 msgstr "Leerzeichen"
 
-#: frontend/src/display/designer/Inspector.vue:201
-msgid "Space Evenly Across"
-msgstr "Waagerecht gleichmäßig verteilen"
-
-#: frontend/src/display/designer/Inspector.vue:202
-msgid "Space Evenly Down"
-msgstr "Senkrecht gleichmäßig verteilen"
-
 #: onedesk/one_studio/places.py:314
 msgid "Space Home"
 msgstr "Startseite des Bereichs"
@@ -41985,10 +41811,6 @@ msgstr ""
 #: onedesk/public/js/one/one_control.js:43
 msgid "Start Again"
 msgstr "Neu beginnen"
-
-#: frontend/src/display/Slides.vue:158
-msgid "Start Again on the Canvas"
-msgstr "Auf der Leinwand neu beginnen"
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:49
 msgid "Start Date"
@@ -47279,10 +47101,6 @@ msgstr "Diese Site verwaltet diesen Arbeitsbereich nicht."
 msgid "This site doesn't manage workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
-#: frontend/src/display/Slides.vue:157
-msgid "This slide was written as code, so it is shown here but can't be moved block by block."
-msgstr "Diese Folie wurde als Code geschrieben. Sie wird hier gezeigt, lässt sich aber nicht Block für Block verschieben."
-
 #: onedesk/one_display/sources.py:50
 msgid "This source has nobody to read as."
 msgstr "Diese Quelle hat niemanden, als den sie lesen kann."
@@ -51126,14 +50944,6 @@ msgstr "Was ist dieses Lager wert?"
 msgid "What it gives, in one line, written when it is saved."
 msgstr "Was es bietet, in einer Zeile, beim Speichern geschrieben."
 
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:37
-msgid "What it says and how it looks"
-msgstr "Was sie sagt und wie sie aussieht"
-
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:25
-msgid "What it shows"
-msgstr "Was es zeigt"
-
 #: frontend/src/display/Layout.vue:344
 msgid "What it shows and does"
 msgstr "Was es zeigt und tut"
@@ -51812,8 +51622,8 @@ msgid "When OneAI cannot read a document for you, or waits for credits to read i
 msgstr "Wenn OneAI ein Dokument für Sie nicht lesen kann oder auf Credits wartet, um es zu lesen."
 
 #: onedesk/one_display/notifications.py
-msgid "When OneAI could not make a video or a piece of music somebody asked for."
-msgstr "Wenn OneAI ein angefragtes Video oder Musikstück nicht erstellen konnte."
+msgid "When OneAI could not make a piece of music somebody asked for."
+msgstr "Wenn OneAI ein angefordertes Musikstück nicht erstellen konnte."
 
 #: onedesk/notifications/one_storage/video_not_made_for_a_presentation.md
 msgid "When OneAI could not make a video somebody asked for in a presentation."
@@ -52040,6 +51850,10 @@ msgstr "Wenn eine Zahlungsanforderung gebucht wird, mit ihrem Zahlungslink, sofe
 msgid "When a payslip is submitted, with the payslip as a PDF."
 msgstr "Wenn eine Gehaltsabrechnung gebucht wird, mit der Abrechnung als PDF."
 
+#: onedesk/one_display/notifications.py
+msgid "When a piece of music somebody asked OneAI for is ready in its playlist."
+msgstr "Wenn ein bei OneAI angefordertes Musikstück in seiner Wiedergabeliste bereit ist."
+
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
 msgid "When a piece of the company's equipment is given to somebody."
@@ -52144,10 +51958,6 @@ msgstr "Wenn eine Aufgabe, die Sie zur Prüfung gegeben haben, an Sie zurückgeh
 #: onedesk/one_hr/notifications.py
 msgid "When a training event you attend is scheduled."
 msgstr "Wenn eine Schulung geplant wird, an der du teilnimmst."
-
-#: onedesk/one_display/notifications.py
-msgid "When a video or a piece of music somebody asked OneAI for is ready in its playlist."
-msgstr "Wenn ein bei OneAI angefragtes Video oder Musikstück in seiner Playlist bereitsteht."
 
 #: onedesk/notifications/one_storage/video_made_for_a_presentation.md
 msgid "When a video somebody asked OneAI for is ready, on a new slide of their presentation."
@@ -56020,10 +55830,6 @@ msgstr "Ihr Update steht jetzt im Projekt."
 msgid "Your update on this project is asked for today."
 msgstr "Ihr Update zu diesem Projekt ist heute gefragt."
 
-#: frontend/src/display/Slides.vue:345
-msgid "Your words here"
-msgstr "Ihr Text hier"
-
 #: onedesk/www/welcome.html:2
 msgid "Your workspace"
 msgstr "Ihr Arbeitsbereich"
@@ -56094,10 +55900,6 @@ msgstr "Null heißt unbegrenzt. Frappe setzt es aus der Site-Konfiguration durch
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Zone ID"
 msgstr "Zonen-ID"
-
-#: frontend/src/display/designer/Toolbar.vue:30
-msgid "Zoom"
-msgstr "Zoom"
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:82
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:97
@@ -57655,10 +57457,6 @@ msgstr "Freigabe {0}"
 #: frontend/src/inventory/home/InventoryHome.vue:162
 msgid "{0} Batches Expiring Soon"
 msgstr "{0} Chargen laufen bald ab"
-
-#: frontend/src/display/designer/Inspector.vue:5
-msgid "{0} Blocks"
-msgstr "{0} Blöcke"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1189
 msgid "{0} Can Send"
