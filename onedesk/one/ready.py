@@ -349,8 +349,14 @@ MODULES = {
 		"folder": "one_doc",
 		"screens": "writer",
 		"names": ("one_doc", "onedoc"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "0abc825c1f8d", "by": "Claude, for Yamen"},
+		},
 		"windowless": "A document opens from OneCloud in an editor that fills the window, so OneWriter's foot and settings are OneCloud's.",
 		"help": (
 			("overview", "info"),
