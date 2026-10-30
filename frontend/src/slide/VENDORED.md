@@ -62,6 +62,15 @@ Each is marked `One:` where it is.
   width alone, `components/SlidePreview.vue` takes the presentation's shape
   rather than 16:9, and `pages/PresentationEditor.vue` mounts the slide rail again
   when the frame changes, since the rail measures it once.
+- Speaker notes and the presenter view (`shim/NotesDrawer.vue`,
+  `shim/PresenterView.vue`, `shim/presenter.js`): `stores/presentation.js`
+  sends a slide's `notes` with the rest of it, `components/Toolbar.vue`
+  stands above the notes drawer, `components/PresentButton.vue` offers
+  Presenter View, `stores/slideshow.js` opens it instead of the slideshow and
+  closes the audience's window when its slideshow ends, and
+  `pages/Slideshow.vue` plays in the audience's window without filling the
+  screen until asked, tells the presenter view where it is, and goes where
+  it is told.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

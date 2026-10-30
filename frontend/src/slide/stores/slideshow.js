@@ -1,5 +1,7 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/stores/slideshow.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { slideRoot } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
+import { audience, say, startPresenter } from '../shim/presenter.js' // One: the presenter view, VENDORED.md
+import { closeThisWindow } from '../../kit/desk' // One
 import { ref, computed, nextTick } from 'vue'
 import { applyReverseTransition } from '@/apps/slides/stores/presentation'
 import {
@@ -66,7 +68,9 @@ const releaseWakeLock = () => {
 	wakeLock = null
 }
 
-const startSlideShow = ({ loop = false, fromStart = false } = {}) => {
+const startSlideShow = ({ loop = false, fromStart = false, presenter = false } = {}) => {
+	// One: the presenter view stays here and the slideshow opens beside it (shim/presenter.js, VENDORED.md)
+	if (presenter) return startPresenter(router.currentRoute.value.params.presentationId, slideIndex.value)
 	onLoop.value = loop
 	requestFullscreen()
 	router.replace({
@@ -83,6 +87,11 @@ const resetSlideShowState = () => {
 }
 
 const endSlideShow = () => {
+	// One: the audience's window was opened to play this and nothing else (shim/presenter.js)
+	if (audience.value) {
+		say({ ended: true })
+		return closeThisWindow()
+	}
 	exitFullscreen()
 	releaseWakeLock()
 	releaseVideoWarmers()

@@ -111,7 +111,8 @@ const fileMenu = computed(() => [
 	{
 		group: __("This presentation"),
 		options: [
-			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: exportPdf },
+			{ label: printing.value || __("Export as PDF"), icon: "lucide-file-down", onClick: () => exportPdf(false) },
+			...(printing.value ? [] : [{ label: __("Export as PDF with Notes"), icon: "lucide-notebook-text", onClick: () => exportPdf(true) }]),
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
 			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
@@ -149,13 +150,15 @@ function slideSize() {
 }
 
 // Every slide photographed as the editor draws it, then made a PDF beside
-// the presentation in OneCloud, and opened.
-async function exportPdf() {
+// the presentation in OneCloud, and opened: the slides alone, or each above
+// its speaker notes (one_slide/paper.py).
+async function exportPdf(notes) {
 	if (printing.value) return;
 	printing.value = __("Preparing the PDF…");
 	try {
 		const pictures = await camera.value.shoot(slides.value, (done, all) => (printing.value = __("Drawing slide {0} of {1}…", [done, all])));
-		const made = await call("onedesk.one_slide.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures) });
+		await saveWithoutDelay();
+		const made = await call("onedesk.one_slide.paper.pdf", { name: presentationDoc.value.name, pictures: JSON.stringify(pictures), notes: notes ? 1 : 0 });
 		alert(__("Saved {0} to OneCloud.", [made.file_name]));
 		openTab(made.url);
 	} finally {

@@ -49,8 +49,11 @@ the business's colour; everything on it is an ordinary element to change.
 minutes: it arrives on a new slide at the end, and you are told when it is
 there or that it could not be made. Each costs credits like any OneAI request.
 
-**Theme** changes the theme the layouts come from. **Present** plays the
-presentation from this slide or from the start, and can loop.
+**Speaker Notes**, a drawer under the slide, holds what the presenter says
+over it. **Theme** changes the theme the layouts come from. **Present** plays
+the presentation from this slide or from the start, and can loop; **Present ›
+Presenter View** keeps the notes, the next slide and the clock in this tab
+and plays the slides in a window of their own for the projector.
 
 ## History, templates and paper
 
@@ -68,7 +71,8 @@ does not, and the item is left out of **File** for whoever lacks it.
 
 **File › Export as PDF** draws every slide as it looks on the screen, a page
 each, and keeps the PDF in OneCloud beside the presentation, or on its record,
-and opens it.
+and opens it. **Export as PDF with Notes** puts each slide on an A4 page above
+its speaker notes.
 
 A record's **Files** tab is OneCloud, so **New › Presentation** there files a
 presentation on the record: whoever may open the record may open it.
@@ -135,6 +139,28 @@ their box. `make` fits a template's first slides to the size asked,
 size as it is inserted. A version keeps the size it was taken at, and going
 back to it puts that size back. A PDF page is the slide at 96 pixels to the
 inch, so an A4 presentation prints on A4.
+
+### Notes and presenting
+
+A slide's `notes` (Presentation Slide, Long Text) are plain words, kept as
+typed and drawn as text wherever they show, so nothing in them can run;
+`save_slides` caps them at `MOST_NOTES`. The editor's drawer is
+`shim/NotesDrawer.vue`; the toolbar stands above it (`shim/notes.js`).
+
+The presenter view is `shim/PresenterView.vue` over the editor, and the
+slides play in a window `startPresenter` opens on the island's own page with
+`?audience=1`, which `PresentationPage.vue` sends straight to the slideshow.
+That window plays without filling the screen until **Fill the Screen** is
+clicked, since a window opened by a script has no click to ask with, and it
+closes itself when the slideshow ends. The two talk over a BroadcastChannel
+named for the presentation (`shim/presenter.js`): the presenter says `go`,
+`hello` and `end`; the slideshow answers `at` on every change of slide and
+`ended` when it closes. Nothing goes through the server, so it works with no
+network, and only between windows of one browser.
+
+`paper.notes_pages` writes the notes pages as HTML (each slide's picture, its
+number and its notes, escaped) and prints them through frappe's own
+`get_pdf` on A4, so the notes are words a PDF reader finds.
 
 ### The Builder half
 

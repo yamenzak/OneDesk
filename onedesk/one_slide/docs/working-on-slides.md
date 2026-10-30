@@ -19,11 +19,23 @@ paragraph, its fill, border and shadow, the crop of a picture, and how a video
 plays. With nothing chosen, the panel is the slide's own: its background, how
 it moves to the next slide, and when.
 
+## Speaker Notes
+
+**Speaker Notes**, under the slide, is what you will say over it. Click the
+bar to open it and type; it is kept with the slide, in its versions, and
+never shown to the audience.
+
 ## Themes and Presenting
 
 **Theme** changes the theme the slide layouts come from: Light, Dark, or a
 template your business keeps. **Present** plays the presentation full screen
 from this slide or from the start, and can loop.
+
+**Present › Presenter View** keeps your notes, the next slide and the time on
+this screen and opens the slides in a window of their own: drag that window
+to the projector and click **Fill the Screen**. The arrow keys, the space bar
+or **Next** and **Back** move both together, with no network needed between
+them; **End the Presentation** closes the slides' window.
 
 ## Two People at Once
 

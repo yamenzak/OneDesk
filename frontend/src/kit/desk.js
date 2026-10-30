@@ -207,6 +207,12 @@ export const csrf = () => window.csrf_token || frappe().csrf_token || "";
 
 export const openTab = (url = "") => window.open(url, "_blank");
 
+// a window of its own, to drag onto another screen (OneSlide's audience)
+export const openPopup = (url, name) => window.open(url, name, "popup,width=1280,height=760");
+
+// this window closed, when it was opened to be closed again
+export const closeThisWindow = () => window.close();
+
 export const jq = (el) => window.$(el);
 
 export const viewWidth = () => window.innerWidth;
@@ -261,6 +267,7 @@ export const clock = (value) =>
 
 export const shortMonth = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { month: "short" }) : "");
 export const today = () => frappe().datetime.get_today();
+export const now = () => frappe().datetime.now_datetime();
 export const yesterday = () => frappe().datetime.add_days(frappe().datetime.get_today(), -1);
 
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");

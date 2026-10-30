@@ -15024,9 +15024,18 @@ msgstr "نهاية العمر"
 msgid "End of Service"
 msgstr "نهاية الخدمة"
 
+#: frontend/src/slide/shim/PresenterView.vue:27
+#: frontend/src/slide/shim/PresenterView.vue:40
+msgid "End of the presentation"
+msgstr "نهاية العرض"
+
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:67
 msgid "End the Alert"
 msgstr "إنهاء التنبيه"
+
+#: frontend/src/slide/shim/PresenterView.vue:14
+msgid "End the Presentation"
+msgstr "إنهاء العرض"
 
 #. Option for the 'Status' (Select) field in DocType 'Note'
 #: frontend/src/inventory/lots/SerialRows.vue:29
@@ -16177,6 +16186,10 @@ msgstr "تصدير بتنسيق CSV"
 msgid "Export as PDF"
 msgstr "تصدير كملف PDF"
 
+#: frontend/src/slide/shim/EditorNavbar.vue:115
+msgid "Export as PDF with Notes"
+msgstr "تصدير PDF مع الملاحظات"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1933
 msgid "Export as XLSX"
 msgstr "تصدير بتنسيق XLSX"
@@ -16782,6 +16795,10 @@ msgstr "املأ {0}"
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:108
 msgid "Fill right"
 msgstr "تعبئة لليمين"
+
+#: frontend/src/slide/pages/Slideshow.vue:12
+msgid "Fill the Screen"
+msgstr "ملء الشاشة"
 
 #. Label in the One Vehicle Log print format
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
@@ -22576,6 +22593,10 @@ msgstr "اللغة والوقت"
 msgid "Language, time zone, how dates and numbers read, and amounts."
 msgstr "اللغة والمنطقة الزمنية وكيف تُقرأ التواريخ والأرقام والمبالغ."
 
+#: frontend/src/slide/shim/PresenterView.vue:47
+msgid "Larger"
+msgstr "أكبر"
+
 #: onedesk/public/js/extension_errors.js:9
 msgid "Last 14 days"
 msgstr "آخر 14 يومًا"
@@ -27598,6 +27619,10 @@ msgstr "لا توجد إصدارات مسمّاة بعد."
 #: onedesk/one_mail/notifications.py
 msgid "No new mail is read from <b>{mailbox}</b> until it is connected again. Reconnect it from OneMail › Settings › Mailboxes."
 msgstr "لا يُقرأ بريد جديد من <b>{mailbox}</b> حتى يُوصل من جديد. أعد وصله من OneMail › الإعدادات › صناديق البريد."
+
+#: frontend/src/slide/shim/PresenterView.vue:51
+msgid "No notes for this slide."
+msgstr "لا ملاحظات لهذه الشريحة."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:410
 msgid "No notes yet."
@@ -34066,6 +34091,10 @@ msgstr "خيارات العرض"
 msgid "Presentations cannot be created in a mounted drive."
 msgstr "لا يمكن إنشاء عروض تقديمية في محرك مُركّب."
 
+#: frontend/src/slide/components/PresentButton.vue:43
+msgid "Presenter View"
+msgstr "عرض المقدّم"
+
 #: onedesk/www/tv.py:31
 msgid "Press OK to turn on sound"
 msgstr "اضغط OK لتشغيل الصوت"
@@ -37623,6 +37652,10 @@ msgstr "حلّه"
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 msgid "Resolved On"
 msgstr "تاريخ الحل"
+
+#: frontend/src/slide/shim/PresenterView.vue:13
+msgid "Restart the Clock"
+msgstr "إعادة تشغيل المؤقت"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:544
@@ -41370,6 +41403,10 @@ msgstr ""
 msgid "Small Building Works"
 msgstr "أعمال البناء الصغيرة"
 
+#: frontend/src/slide/shim/PresenterView.vue:46
+msgid "Smaller"
+msgstr "أصغر"
+
 #: frontend/src/display/Layout.vue:182
 msgid "Smaller Line"
 msgstr "سطر أصغر"
@@ -41757,6 +41794,12 @@ msgstr "تحدّث"
 #: onedesk/one_ai/jobs.py:70
 msgid "Speak Calls and Ads"
 msgstr "نطق النداءات والإعلانات"
+
+#: frontend/src/slide/shim/NotesDrawer.vue:17
+#: frontend/src/slide/shim/PresenterView.vue:44
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Speaker Notes"
+msgstr "ملاحظات المتحدث"
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -44871,6 +44914,10 @@ msgstr "المتقدّم"
 #: onedesk/one_ai/proposals.py:201
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr "تغيّرت الموافقات على {0} منذ اقتراح هذا، فلم يعد ساريًا."
+
+#: frontend/src/slide/shim/PresenterView.vue:19
+msgid "The audience's window was closed."
+msgstr "أُغلقت نافذة الجمهور."
 
 #. Description of the 'Sign Count' (Int) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
@@ -51417,6 +51464,10 @@ msgstr "ما ستجلبه الفرص المفتوحة، شهرًا بشهر."
 msgid "What the person deciding wrote, if anything."
 msgstr "ما كتبه من بتَّ في الطلب، إن كتب شيئاً."
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "What the presenter says over this slide. Only they see it, never the audience."
+msgstr "ما يقوله المقدّم على هذه الشريحة. لا يراه إلا المقدّم، ولا يراه الجمهور أبدًا."
+
 #: onedesk/one_inventory/home.py:185
 msgid "What the production schedule needs, against what is on hand and coming."
 msgstr "ما يحتاجه جدول الإنتاج مقابل المتوفر والقادم."
@@ -51700,6 +51751,10 @@ msgstr "ما عليك لكل مورد، حسب مدة التأخير."
 #: onedesk/one_inventory/home.py:163
 msgid "What you will have once orders come and go."
 msgstr "ما سيكون لديك بعد أن تأتي الطلبات وتذهب."
+
+#: frontend/src/slide/shim/NotesDrawer.vue:24
+msgid "What you will say over this slide"
+msgstr "ما ستقوله على هذه الشريحة"
 
 #: onedesk/public/js/one_legal/trust_center.js:76
 msgid "What {0} adds to it."
@@ -60104,6 +60159,10 @@ msgstr "لن يتمكن {0} من تسجيل الحضور أو تسجيل مفت�
 #: onedesk/public/js/employee.js:13
 msgid "{0} will register a new passkey on their next check-in. The old one is retired, not deleted."
 msgstr "سيسجّل {0} مفتاح مرور جديداً عند تسجيل حضوره التالي. ويُسحب المفتاح القديم من الخدمة ولا يُحذف."
+
+#: onedesk/one_slide/paper.py:98
+msgid "{0} with notes"
+msgstr "{0} مع الملاحظات"
 
 #: onedesk/one/ai.py:2207
 msgid "{0} with {1} digits"

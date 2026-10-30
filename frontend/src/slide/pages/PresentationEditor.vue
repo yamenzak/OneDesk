@@ -24,6 +24,12 @@
 
 			<Toolbar v-if="!inReadonlyMode && presentationDoc" />
 
+			<!-- One: the presenter's own screen while the slides play in a window of their own (shim/PresenterView.vue, VENDORED.md) -->
+			<PresenterView v-if="presenting && presentationDoc" />
+
+			<!-- One: the slide's speaker notes, under it (shim/NotesDrawer.vue, VENDORED.md) -->
+			<NotesDrawer v-if="presentationDoc && !screen" />
+
 			<div
 				v-if="lockedElsewhere"
 				class="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center gap-1 rounded-4 bg-surface-elevation-1 p-0.5 shadow-md"
@@ -104,6 +110,9 @@ import { confirmLeave } from '@/utils/confirmLeave'
 import ExportView from '@/apps/slides/pages/ExportView.vue'
 import EditorNavbar from '@/apps/slides/components/EditorNavbar.vue'
 import NavigationPanel from '@/apps/slides/components/NavigationPanel.vue'
+import NotesDrawer from '@/apps/slides/shim/NotesDrawer.vue' // One: speaker notes, VENDORED.md
+import PresenterView from '@/apps/slides/shim/PresenterView.vue' // One: the presenter view, VENDORED.md
+import { presenting } from '@/apps/slides/shim/presenter.js' // One
 import { frame } from '@/apps/slides/shim/frame.js' // One: the rail's key, VENDORED.md
 import PropertiesPanel from '@/apps/slides/components/PropertiesPanel.vue'
 

@@ -38,6 +38,12 @@ const options = [
 		icon: 'lucide-repeat-2',
 		onClick: () => emit('start', { loop: true }),
 	},
+	// One: notes, the next slide and the time here, the slides in a window of their own (shim/presenter.js, VENDORED.md)
+	{
+		label: __('Presenter View'),
+		icon: 'lucide-projector',
+		onClick: () => emit('start', { presenter: true }),
+	},
 ]
 </script>
 

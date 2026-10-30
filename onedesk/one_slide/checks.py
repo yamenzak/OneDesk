@@ -122,6 +122,18 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			page = "data:image/png;base64," + base64.b64encode(drawn.getvalue()).decode()
 			made = paper.pdf(name, json.dumps([page, page]))
 			assert made["file_name"].endswith(".pdf") and frappe.get_doc("File", made["name"]).get_content().startswith(b"%PDF"), made
+			# speaker notes: kept with the slide and its versions, and printed as words under it
+			deck = api.get(name)
+			first = {key: deck["slides"][0][key] for key in api.SLIDE_FIELDS if key in deck["slides"][0]}
+			said = "Thank the client first.\nاشكر العميل أولاً."
+			api.save_slides(name, json.dumps([{**first, "notes": said}]), str(deck["modified"]))
+			assert api.get(name)["slides"][0]["notes"] == said
+			assert '"notes": "Thank the client first.' in json.dumps(json.loads(versions._snapshot(name)), ensure_ascii=False)
+			noted = paper.pdf(name, json.dumps([page]), notes=1)
+			from pypdf import PdfReader
+
+			words = " ".join(PdfReader(io.BytesIO(frappe.get_doc("File", noted["name"]).get_content())).pages[0].extract_text().split())
+			assert noted["file_name"].endswith("with notes.pdf") and "Thank the client first." in words, (noted, words)
 			api.visited("Presentation", name)
 			api.download(name)
 			assert frappe.local.response["location"] == f"/desk/presentation/{name}"

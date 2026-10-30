@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 12:00:00.000000",
+ "modified": "2026-10-30 14:53:42.564962",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -64,6 +64,12 @@
    "fieldname": "played",
    "fieldtype": "Long Text",
    "label": "Played"
+  },
+  {
+   "fieldname": "notes",
+   "fieldtype": "Long Text",
+   "label": "Speaker Notes",
+   "description": "What the presenter says over this slide. Only they see it, never the audience."
   }
  ],
  "field_order": [
@@ -75,6 +81,7 @@
   "transition_duration",
   "fade_unmatched_elements",
   "advance_after",
-  "played"
+  "played",
+  "notes"
  ]
 }

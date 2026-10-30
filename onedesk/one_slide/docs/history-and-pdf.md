@@ -24,6 +24,9 @@ everyone in the business to start from: **New › Presentation** offers it, and
 at the presentation's own size, so an A4 presentation prints on A4,
 keeps the PDF in OneCloud beside the presentation, and opens it.
 
+**Export as PDF with Notes** prints an A4 page for each slide, the slide above
+and its speaker notes below as real words, which can be found and copied.
+
 ## On a Record
 
 A record's **Files** tab is OneCloud, so **New › Presentation** there files

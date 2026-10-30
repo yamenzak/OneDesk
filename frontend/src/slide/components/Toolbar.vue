@@ -3,6 +3,7 @@
 	<!-- One: data-tour marks the tour's step, one_slide/tour.py; VENDORED.md -->
 	<div
 		data-tour="oneslide-tools"
+		:style="{ bottom: screen ? undefined : toolbarLift }"
 		class="absolute bottom-10 left-1/2 z-10 flex -translate-x-1/2 items-center justify-center gap-1 rounded-4 bg-surface-elevation-1 p-0.5 shadow-md"
 	>
 		<Tooltip text="Text" :hover-delay="700">
@@ -34,6 +35,8 @@
 </template>
 
 <script setup>
+import { toolbarLift } from '@/apps/slides/shim/notes.js' // One: above the speaker notes, VENDORED.md
+import { screen } from '@/apps/slides/stores/presentation' // One
 import { useTemplateRef } from 'vue'
 
 import { Type, ImagePlus, Shapes } from 'lucide-vue-next'

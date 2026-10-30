@@ -337,6 +337,7 @@ const toSlideRow = (slide) => ({
 	transition_duration: slide.transitionDuration,
 	fade_unmatched_elements: slide.fadeUnmatchedElements,
 	advance_after: slide.advanceAfter,
+	notes: slide.notes || '', // One: speaker notes (VENDORED.md)
 })
 
 // what a push sends, as the server stores and returns it: Data comes back as strings, Check as 0/1
@@ -349,6 +350,7 @@ const rowKey = (row) =>
 		String(row.transition_duration ?? ''),
 		Number(row.fade_unmatched_elements ?? 0),
 		String(row.advance_after ?? ''),
+		row.notes || '', // One: speaker notes
 	])
 
 const rowKeys = (rows) => rows.map(rowKey).join('\n')

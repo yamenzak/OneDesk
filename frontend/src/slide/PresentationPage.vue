@@ -22,6 +22,7 @@ import { useRouter } from "vue-router";
 
 import { __, aiSees, call } from "../kit/desk";
 import { allow, holdRouter } from "./shim/router.js";
+import { audience } from "./shim/presenter.js";
 import { setSlideRoot } from "./shim/root.js";
 
 const props = defineProps({ route: { type: Array, default: () => [] }, query: { type: Object, default: () => ({}) } });
@@ -53,7 +54,10 @@ async function open(name) {
 		return;
 	}
 	allow(said);
-	await router.replace({ name: "slides-editor", params: { presentationId: name }, query: { slide: props.query.slide || 1 } });
+	// the audience's window, opened from the presenter view, plays the slides and nothing else
+	audience.value = Boolean(props.query.audience);
+	const page = audience.value ? "slides-slideshow" : "slides-editor";
+	await router.replace({ name: page, params: { presentationId: name }, query: { slide: props.query.slide || 1 } });
 }
 
 onMounted(() => {

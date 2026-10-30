@@ -179,21 +179,8 @@ that every module uses instead of writing its own.
   viewers (presentation, document, workbook); forms and the code editor
   arrive already using it.
 
-## Planned: notes, presenter view, the phone as a remote (30 October)
+## Planned: the phone as a remote (30 October)
 
-- **Speaker notes.** Not today: a slide has no notes field. Plan: `notes`
-  (Text Editor) on Presentation Slide, a notes pane under the canvas that
-  can be dragged taller or hidden, kept in the version history and the
-  co-editing like any other slide change. OneAI's deck job writes them, and
-  per slide "write notes for this slide" reads what is on it.
-- **PDF with notes.** Today's PDF is the slides only, as pictures. Plan: the
-  export asks Slides or Slides and Notes; with notes, one page per slide,
-  the slide above and its notes below as real text, under the letter head's
-  fonts. The .pptx export carries them as PowerPoint's own notes.
-- **Presenter view.** Not today. Plan: Present opens the slides on the big
-  screen and a presenter window on the laptop: current slide, next slide,
-  notes, a clock and the time since starting. The two windows talk through
-  the browser's BroadcastChannel, so it works with no network at all.
 - **The phone as a remote.** Not today. Plan: the presenter view shows a QR
   code; it carries a short-lived pairing token for this one session, the
   way a OneDisplay screen pairs. The phone opens a small page (no desk, no

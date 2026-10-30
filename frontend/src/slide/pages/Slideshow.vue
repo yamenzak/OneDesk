@@ -4,6 +4,14 @@
 		class="absolute left-0 top-0 h-full w-full overflow-clip bg-black"
 		:class="{ 'slideshow-hide-cursor': cursorHidden }"
 	>
+		<!-- One: the audience's window fills its screen when asked (shim/presenter.js, VENDORED.md) -->
+		<Button
+			v-if="audience && !filling"
+			variant="solid"
+			class="absolute end-4 top-4 z-10"
+			:label="__('Fill the Screen')"
+			@click.stop="fillScreen"
+		/>
 		<div
 			class="flex h-screen w-full items-center justify-center"
 			:style="slideContainerStyles"
@@ -65,10 +73,11 @@
 </template>
 
 <script setup>
+import { audience, link, say, unlink } from '@/apps/slides/shim/presenter.js' // One: the presenter view, VENDORED.md
 import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { computed, onActivated, onDeactivated, ref, watch, provide } from 'vue'
-import { toast, useKeyboardShortcut, usePageMeta } from 'frappe-ui'
+import { Button, toast, useKeyboardShortcut, usePageMeta } from 'frappe-ui'
 import { appPageMeta } from '@/utils/documentTitle'
 
 import SlideElement from '@/apps/slides/components/SlideElement.vue'
@@ -282,14 +291,20 @@ const stopCursorTracking = () => {
 }
 
 const handleFullScreenChange = () => {
+	filling.value = Boolean(document.fullscreenElement)
 	if (document.fullscreenElement) {
 		inSlideShowMode.value = true
 		requestWakeLock()
 	} else {
 		stopCursorTracking()
-		if (inSlideShowMode.value) endSlideShow()
+		// One: the audience's window plays on whether it fills the screen or not (shim/presenter.js, VENDORED.md)
+		if (inSlideShowMode.value && !audience.value) endSlideShow()
 	}
 }
+
+// One: whether the audience's window fills its screen, and the button that makes it
+const filling = ref(false)
+const fillScreen = () => requestFullscreen()
 
 // the lock is dropped when the tab is hidden
 const handleVisibilityChange = () => {
@@ -306,6 +321,12 @@ const slideContainerStyles = computed(() => {
 let active = false
 
 const initFullscreenMode = async () => {
+	// One: the audience's window opens without a click to fill the screen with, so it starts in the window (shim/presenter.js, VENDORED.md)
+	if (audience.value) {
+		inSlideShowMode.value = true
+		requestWakeLock()
+		return
+	}
 	// fullscreen is requested on the click that starts the slideshow, so the
 	// change event fires before this component is around to hear it
 	const inFullscreen = Boolean(document.fullscreenElement) || (await requestFullscreen())
@@ -333,7 +354,19 @@ const updateWindowSize = () => {
 usePageMeta(() => appPageMeta(pageTitle(), 'Slides'))
 useBrowserZoomGuard()
 
+// One: the audience's window tells the presenter view where it is, and goes where it is told (shim/presenter.js, VENDORED.md)
+const tellPresenter = () => say({ at: slideIndex.value, of: slides.value.length })
+watch(slideIndex, () => audience.value && tellPresenter())
+
 onActivated(() => {
+	if (audience.value) {
+		link(props.presentationId, (heard) => {
+			if (heard.go != null) changeSlideInSlideshow(heard.go)
+			if (heard.hello) tellPresenter()
+			if (heard.end) endSlideShow()
+		})
+		tellPresenter()
+	}
 	active = true
 	document.title = pageTitle()
 	resetFocus()
@@ -351,6 +384,7 @@ onActivated(() => {
 })
 
 onDeactivated(() => {
+	unlink() // One
 	active = false
 	document.removeEventListener('fullscreenchange', handleFullScreenChange)
 	document.removeEventListener('visibilitychange', handleVisibilityChange)

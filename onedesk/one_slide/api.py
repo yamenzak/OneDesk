@@ -45,9 +45,12 @@ MOST_MEDIA = 200 * 1024 * 1024
 
 MOST_THUMBNAIL = 6 * 1024 * 1024
 
+#: The longest a slide's speaker notes may be.
+MOST_NOTES = 20000
+
 #: The only fields the editor may set on a slide (Suite's SLIDE_FIELDS).
 SLIDE_FIELDS = frozenset(
-	{"client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after"}
+	{"client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after", "notes"}
 )
 
 PICTURES = {"png", "jpg", "jpeg", "gif", "webp"}
@@ -160,6 +163,7 @@ def _first_slides(template: str) -> list[dict]:
 				"transition_duration": row.transition_duration,
 				"fade_unmatched_elements": row.fade_unmatched_elements,
 				"advance_after": row.advance_after,
+				"notes": row.notes,
 			}
 		)
 	return out
@@ -289,6 +293,9 @@ def _merged(existing, incoming):
 		slide = {**slide, "elements": play.cleaned(slide.get("elements"))}
 		if "background" in slide:
 			slide["background"] = play.background(slide["background"])
+		if "notes" in slide:
+			# plain words, drawn as text wherever they are shown, so kept as typed
+			slide["notes"] = str(slide["notes"] or "")[:MOST_NOTES]
 		row = by_client_id.pop(slide.get("client_id"), None)
 		if row:
 			row.update(slide)

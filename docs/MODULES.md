@@ -238,7 +238,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Presentation | 10 | document |
-| Presentation Slide | 9 | child |
+| Presentation Slide | 10 | child |
 | Presentation Version | 5 | document |
 
 ## Desk records shipped as fixtures

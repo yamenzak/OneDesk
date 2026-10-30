@@ -21,7 +21,7 @@ EVERY = timedelta(minutes=10)
 KEPT = 100
 
 #: What a version holds of each slide.
-SLIDE = ("client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after")
+SLIDE = ("client_id", "background", "elements", "transition", "transition_duration", "fade_unmatched_elements", "advance_after", "notes")
 
 
 def _snapshot(name: str) -> str:
