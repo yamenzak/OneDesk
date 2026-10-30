@@ -326,8 +326,14 @@ MODULES = {
 		"folder": "one_slide",
 		"screens": "slide",
 		"names": ("one_slide", "oneslide"),
-		"ready": False,
-		"checked": {},
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-10-30", "commit": "a4b2cdc6dce3", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "a4b2cdc6dce3", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "a4b2cdc6dce3", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "a4b2cdc6dce3", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "a4b2cdc6dce3", "by": "Claude, for Yamen"},
+		},
 		"windowless": "A presentation opens from OneCloud in an editor that fills the window, so OneSlide's foot and settings are OneCloud's.",
 		"help": (
 			("overview", "info"),
