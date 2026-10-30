@@ -233,6 +233,30 @@ own copy whose `this` is that record.
 A picture bound to an image field and a slide repeated per row are not
 built: a table of `{key.N.field}` chips covers the list case.
 
+### Shared by link
+
+`shared.py`, with OneCloud's links (`one_storage/links.py`) deciding who
+gets in. A presentation opened through `/s/<token>` is played on the page
+(`www/s.py`, `www/s.html`, `public/js/one_slide/viewer.js`) by `play.js`, as
+a screen plays it: `play.for_screen` with the records read as the link's
+owner, so a guest gets words, never records. `links.get` redirects a
+presentation's open to that page and downloads it as PowerPoint, filled the
+same way.
+
+Present Live (`shim/live.js`, from the Present menu) keeps the presenter's
+slide in the cache (`present_live`, `stop_live`, six hours at most) and tells
+the room `onedesk:slide/<name>`. A guest page joins it through
+`realtime/handlers.js` (`onedesk_slide_join`) with a ticket `page` sealed when
+the page passed the link's gates, because the socket server forwards only
+the session cookie; `admit` checks the ticket. A page without a socket asks
+`where` every four seconds. The slideshow's own page tells `live.at` each
+slide (a One: edit), and the slideshow ending ends it.
+
+Every look is a Presentation View: the link, the invited address if any,
+and the seconds each slide was on screen, sent as the guest goes
+(`viewed`) and read back by **File › Views** (`views`, for those who may
+write). They go with the presentation (`api.file_gone`).
+
 ### PowerPoint
 
 `powerpoint.build` writes a .pptx with python-pptx (MIT) from PowerPoint's

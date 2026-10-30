@@ -423,3 +423,66 @@ def oneai_writes_a_deck():
 			assert "error" in ai.read_presentation(name)
 	finally:
 		frappe.db.rollback(save_point="slide_deck_check")
+
+
+@check
+def oneslide_is_presented_through_a_link():
+	"""A presentation shared by a OneCloud link: the guest sees its slides,
+	filled as whoever shared it, downloads it as PowerPoint, follows a live
+	presenter, and each look is a View only the presenter reads."""
+	import io
+
+	from pptx import Presentation as Deck
+	from werkzeug.exceptions import NotFound
+
+	from onedesk.one_slide import api, shared
+	from onedesk.one_storage import links
+
+	frappe.db.savepoint("slide_link_check")
+	was = getattr(frappe.local, "request", None)
+	try:
+		frappe.local.request = None
+		with as_user(OWNER):
+			name = api.make("@my", "Link check")["presentation"]
+			file = api.get(name)["file"]
+			made = links.make(file)
+			token = made["url"].rsplit("/", 1)[-1]
+		with as_user("Guest"):
+			link, held = shared.opened(token)
+			assert held == name
+			page = shared.page(link, frappe.get_doc("File", file), name)
+			assert page["slides"] and not page["live"] and page["ticket"], page
+			links.get(token, download=1)
+			assert frappe.local.response.filename.endswith(".pptx") and Deck(io.BytesIO(frappe.local.response.filecontent)).slides
+			assert shared.where(token) == {"live": False, "slide": 0}
+			assert shared.admit(token, ticket=page["ticket"])["rooms"] == [shared.ROOM.format(name)]
+			assert not shared.admit(token, ticket="1.nothing")["ok"], "a ticket is sealed"
+		with as_user(OWNER):
+			assert shared.present_live(name, 2)["slide"] == 2
+		with as_user("Guest"):
+			assert shared.where(token) == {"live": True, "slide": 2}
+			shared.viewed(token, "look-1", {"0": 5, "1": 7})
+			shared.viewed(token, "look-1", json.dumps({"0": 5, "1": 9, "2": 0}))
+		with as_user(OWNER):
+			said = shared.views(name)
+			assert [one["total"] for one in said["looks"]] == [14] and said["slides"] == [{"number": 1, "seconds": 5}, {"number": 2, "seconds": 9}], said
+			shared.stop_live(name)
+			assert not shared.live(name)
+		with as_user("omar@one.test"):
+			try:
+				shared.views(name)
+				raise AssertionError("somebody who may not change it reads its views")
+			except frappe.PermissionError:
+				frappe.clear_messages()
+		frappe.db.set_value("Cloud Link", made["name"], "disabled", 1)
+		with as_user("Guest"):
+			try:
+				shared.opened(token)
+				raise AssertionError("a turned-off link still opens")
+			except NotFound:
+				pass
+		frappe.delete_doc("File", file, ignore_permissions=True)
+		assert not frappe.db.exists("Presentation View", {"presentation": name}), "views go with the presentation"
+	finally:
+		frappe.local.request = was
+		frappe.db.rollback(save_point="slide_link_check")

@@ -102,6 +102,10 @@ Each is marked `One:` where it is.
   text's chips with what the records say before drawing it, and
   `stores/presentation.js` hands the sources and their values over when a
   presentation loads.
+- Present Live and Views (`shim/live.js`, `shim/ViewsDialog.vue`):
+  `components/PresentButton.vue` offers Present Live, `stores/slideshow.js`
+  starts it and ends it with the slideshow, and `pages/Slideshow.vue` tells
+  it each slide.
 - Every word a template shows, and the labels, descriptions and messages its
   scripts give, go through `__()` (`shim/words.js`, the desk's translations).
 - The Builder half (stage 3 of `docs/ONESLIDE.md`), every piece of it ours in

@@ -108,6 +108,23 @@
 			</form>
 		{% endif %}
 
+	{% elif presentation %}
+		<h1>{{ here.file_name }}</h1>
+		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}</p>
+		<div class="one-deck" data-one-deck tabindex="0">
+			<div class="one-deck__stage" data-one-stage aria-live="polite"></div>
+			<div class="one-deck__bar">
+				<button type="button" data-one-back aria-label="{{ _('Back') }}">‹</button>
+				<span data-one-count></span>
+				<button type="button" data-one-next aria-label="{{ _('Next') }}">›</button>
+				<span class="one-deck__live" data-one-live hidden>{{ _("Live") }}</span>
+				<button type="button" class="one-deck__follow" data-one-follow hidden>{{ _("Follow the Presenter") }}</button>
+				<button type="button" data-one-full aria-label="{{ _('Full Screen') }}">⤢</button>
+			</div>
+		</div>
+		{% if link.allow_download %}<a class="one-done" href="{{ here_urls.save }}">{{ _("Download as PowerPoint") }}</a>{% endif %}
+		<script type="application/json" id="one-deck-data">{{ presentation }}</script>
+
 	{% else %}
 		<h1>{{ here.file_name }}</h1>
 		<p class="one-portal__lede">{{ _("{0} shared this with you.").format(by) }}{% if here.file_size %} · {{ size(here.file_size) }}{% endif %}</p>
@@ -125,4 +142,5 @@
 </div>
 {% endblock %}
 
-{% block script %}{{ super() }}<script src="/assets/onedesk/js/size.js"></script><script src="/assets/onedesk/js/one_drop.js"></script>{% endblock %}
+{% block script %}{{ super() }}<script src="/assets/onedesk/js/size.js"></script><script src="/assets/onedesk/js/one_drop.js"></script>
+{% if presentation %}<link rel="stylesheet" href="/assets/frappe/css/fonts/inter/inter.css"><link rel="stylesheet" href="/assets/onedesk/slide/fonts.css"><link rel="stylesheet" href="/api/method/onedesk.one_slide.fonts.css"><script src="/assets/onedesk/js/one_slide/play.js"></script><script src="/assets/onedesk/js/one_slide/viewer.js"></script>{% endif %}{% endblock %}

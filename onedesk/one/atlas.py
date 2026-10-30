@@ -36,6 +36,7 @@ ANSWERS = {
 	("DocType", "Writer Document"): (ENGINE, "a document's content, behind its File in OneCloud; it opens on the document page"),
 	("DocType", "Writer Document Version"): (ENGINE, "what a document said at a moment, listed and restored from its history panel"),
 	("Page", "presentation"): (INSIDE, "a presentation opens on it from OneCloud"),
+	("DocType", "Presentation View"): (ENGINE, "one look at a presentation through a OneCloud link, read back as its Views in the editor"),
 	("DocType", "Presentation Version"): (ENGINE, "what a presentation's slides were at a moment, listed and restored from its Version History"),
 	("DocType", "AI Touch"): (ENGINE, "what OneAI wrote into a record, read back as the AI badge on it"),
 	("DocType", "Cloud Mount"): (ENGINE, "a mounted folder, which OneCloud keeps and shows as a folder"),

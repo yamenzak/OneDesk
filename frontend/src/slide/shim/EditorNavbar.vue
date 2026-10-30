@@ -32,6 +32,7 @@
 		</div>
 		<SlideCamera ref="camera" />
 		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
+		<ViewsDialog v-if="presentationDoc" v-model="showViews" :name="presentationDoc.name" />
 		<DataDialog v-if="presentationDoc" v-model="showData" :record="presentationDoc.record" :readonly="inReadonlyMode" />
 	</div>
 </template>
@@ -57,6 +58,7 @@ import { dirty, isSaving, saveFailed, saveWithoutDelay } from "../stores/saving"
 import SlideCamera from "./SlideCamera.vue";
 import VersionsDialog from "./VersionsDialog.vue";
 import DataDialog from "./DataDialog.vue";
+import ViewsDialog from "./ViewsDialog.vue";
 import { sources } from "./data.js";
 
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
@@ -113,6 +115,7 @@ function goBack() {
 const camera = ref(null);
 const showVersions = ref(false);
 const showData = ref(false);
+const showViews = ref(false);
 const printing = ref("");
 
 const fileMenu = computed(() => [
@@ -136,6 +139,7 @@ const fileMenu = computed(() => [
 			...(printing.value ? [] : [{ label: __("Export as PDF with Notes"), icon: "lucide-notebook-text", onClick: () => exportPdf(true) }]),
 			...(printing.value ? [] : [{ label: __("Export as PowerPoint"), icon: "lucide-presentation", onClick: exportPowerPoint }]),
 			{ label: __("Version History"), icon: "lucide-history", onClick: () => (showVersions.value = true) },
+			...(inReadonlyMode.value ? [] : [{ label: __("Views"), icon: "lucide-eye", onClick: () => (showViews.value = true) }]),
 			...(presentationDoc.value?.can_template ? [{ label: __("Save as Template"), icon: "lucide-copy-plus", onClick: saveAsTemplate }] : []),
 			...(inReadonlyMode.value ? [] : [{ label: __("Rename"), icon: "lucide-pencil", onClick: () => (renaming.value = true) }]),
 			...(inReadonlyMode.value ? [] : [{ label: __("Slide Size"), icon: "lucide-ratio", onClick: slideSize }]),

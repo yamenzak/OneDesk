@@ -1146,6 +1146,10 @@ msgstr "Eine Notiz an die Angefragten."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "Eine Nummer, auf die ein Dokument verweist: eine Rechnung, ein Auftrag, ein Vorgang."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "A number the page made when it opened, so one look is one row."
+msgstr "Eine Nummer, die die Seite beim Öffnen erzeugt, damit jeder Aufruf eine Zeile ist."
+
 #: onedesk/one_hr/home.py:158
 msgid "A one-off earning or deduction in a month's pay."
 msgstr "Ein einmaliger Bezug oder Abzug im Monatsgehalt."
@@ -4249,6 +4253,10 @@ msgstr "Jeder mit Link"
 #: onedesk/public/js/onecloud_dialogs.js:67
 msgid "Anyone who can open the record can open this file."
 msgstr "Jeder, der den Datensatz öffnen kann, kann diese Datei öffnen."
+
+#: onedesk/one_slide/shared.py:175
+msgid "Anyone with the link"
+msgstr "Alle mit dem Link"
 
 #: frontend/src/cloud/CloudItems.vue:128
 msgid "Anyone with the link can open this file"
@@ -13608,6 +13616,10 @@ msgstr "Als HTML herunterladen"
 msgid "Download as Markdown"
 msgstr "Als Markdown herunterladen"
 
+#: onedesk/www/s.html:125
+msgid "Download as PowerPoint"
+msgstr "Als PowerPoint herunterladen"
+
 #: onedesk/public/js/one_account/account_center.js:961
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "Zuerst herunterladen. Nach dem Schließen des Arbeitsbereichs kann nichts mehr exportiert werden."
@@ -17415,6 +17427,10 @@ msgstr "Begleiten Sie jeden Lead vom ersten Anruf bis zum unterschriebenen Angeb
 msgid "Follow my system"
 msgstr "Systemeinstellung folgen"
 
+#: onedesk/www/s.html:121
+msgid "Follow the Presenter"
+msgstr "Der vortragenden Person folgen"
+
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Followed Records"
@@ -18280,6 +18296,10 @@ msgstr "Vollständiger Download"
 #: onedesk/one/notifications.py
 msgid "Full Download Ready"
 msgstr "Vollständiger Download bereit"
+
+#: onedesk/www/s.html:122
+msgid "Full Screen"
+msgstr "Vollbild"
 
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -24334,6 +24354,10 @@ msgstr "Hat {0} nachgeschlagen"
 msgid "Looked something up"
 msgstr "Hat etwas nachgeschlagen"
 
+#: frontend/src/slide/shim/ViewsDialog.vue:10
+msgid "Looks"
+msgstr "Aufrufe"
+
 #: frontend/src/slide/components/PlaybackSection.vue:12
 msgid "Loop"
 msgstr "Endlosschleife"
@@ -28282,6 +28306,10 @@ msgstr "Niemand hat mehr erhalten, als seine Rolle erlaubt."
 msgid "Nobody has it."
 msgstr "Niemand hat es."
 
+#: frontend/src/slide/shim/ViewsDialog.vue:7
+msgid "Nobody has opened this presentation through a link yet. Share it from OneCloud with a link, and each look shows here."
+msgstr "Noch niemand hat diese Präsentation über einen Link geöffnet. Teilen Sie sie in OneCloud per Link, dann erscheint hier jeder Aufruf."
+
 #: onedesk/public/js/one_legal/trust_center.js:201
 msgid "Nobody has to agree to this."
 msgstr "Niemand muss dem zustimmen."
@@ -29917,6 +29945,10 @@ msgstr "Eine Zeile. Ein Name in {{ }} wird beim Senden eingesetzt und fett angez
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "Eine Zeile. {{ doc.field }} setzt ein Feld des Datensatzes ein."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "One look at a presentation through a OneCloud link: when, by whom if they were invited, and how long each slide was on screen. Shown on the presentation as Views."
+msgstr "Ein Aufruf einer Präsentation über einen OneCloud-Link: wann, von wem, falls eingeladen, und wie lange jede Folie zu sehen war. In der Präsentation unter Aufrufe zu sehen."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "One movement of credit. Submitted on insert and never edited in place."
@@ -31111,6 +31143,10 @@ msgstr "{0} ältere Einträge öffnen"
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Opened From"
 msgstr "Geöffnet aus"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Opened On"
+msgstr "Geöffnet am"
 
 #. Label of the opened_on (Datetime) field in DocType 'Cloud Link Invitee'
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
@@ -34393,6 +34429,10 @@ msgctxt "Play a presentation"
 msgid "Present"
 msgstr "Präsentieren"
 
+#: frontend/src/slide/components/PresentButton.vue:49
+msgid "Present Live"
+msgstr "Live präsentieren"
+
 #. Label of a number card
 #: frontend/src/hr/HrHome.vue:121
 #: onedesk/one_hr/number_card/present_today/present_today.json
@@ -34411,6 +34451,10 @@ msgstr "Präsentationsfolie"
 msgid "Presentation Version"
 msgstr "Präsentationsversion"
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Presentation View"
+msgstr "Präsentationsaufruf"
+
 #: frontend/src/slide/components/PresentButton.vue:15
 msgid "Presentation options"
 msgstr "Präsentationsoptionen"
@@ -34422,6 +34466,10 @@ msgstr "In einem eingebundenen Laufwerk können keine Präsentationen erstellt w
 #: frontend/src/slide/components/PresentButton.vue:43
 msgid "Presenter View"
 msgstr "Referentenansicht"
+
+#: frontend/src/slide/shim/live.js:17
+msgid "Presenting live: everyone with a link to this presentation follows your slides."
+msgstr "Live-Präsentation: Alle mit einem Link zu dieser Präsentation folgen Ihren Folien."
 
 #: onedesk/www/tv.py:31
 msgid "Press OK to turn on sound"
@@ -39481,6 +39529,10 @@ msgstr "Sekunden für den Durchlauf"
 msgid "Seconds for each slide that has no time of its own, and for a web page."
 msgstr "Sekunden für jede Folie ohne eigene Dauer und für eine Webseite."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Seconds on Each Slide"
+msgstr "Sekunden pro Folie"
+
 #. Label of the auth (Data) field in DocType 'Push Device'
 #: onedesk/one/doctype/push_device/push_device.json
 msgid "Secret"
@@ -40183,6 +40235,10 @@ msgstr "Fällige Wartungen, Reparaturen, der Plan jeder Anlage und was erledigt 
 #: frontend/src/display/Counter.vue:13
 msgid "Serving"
 msgstr "Wird bedient"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Session"
+msgstr "Sitzung"
 
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -45903,6 +45959,10 @@ msgstr "Das Vorstellungsgespräch mit {applicant} wurde auf {when} verschoben"
 msgid "The invited address"
 msgstr "Die eingeladene Adresse"
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "The invited address it was opened with; empty for anyone with the link."
+msgstr "Die eingeladene Adresse, mit der geöffnet wurde; leer bei allen mit dem Link."
+
 #: onedesk/one_ai/reading/drafts.py:76
 msgid "The invoice IBAN isn't on file for {0}."
 msgstr "Die IBAN der Rechnung ist für {0} nicht hinterlegt."
@@ -48178,6 +48238,10 @@ msgstr "Zeit in der Verkaufsphase"
 #: onedesk/public/js/task_actions.js:91
 msgid "Time logged"
 msgstr "Zeit erfasst"
+
+#: frontend/src/slide/shim/ViewsDialog.vue:18
+msgid "Time on Each Slide"
+msgstr "Zeit pro Folie"
 
 #: onedesk/one_inventory/ready.py:186
 msgid "Time on a job card is added to what was made, against {0}."
@@ -50746,6 +50810,10 @@ msgstr "Ansehen und bezahlen"
 #: frontend/src/sheet/components/SheetEditor/index.vue:84
 msgid "View only"
 msgstr "Nur Ansicht"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Viewer"
+msgstr "Betrachtende Person"
 
 #: onedesk/public/js/window/form.js:334
 msgid "Viewing now"

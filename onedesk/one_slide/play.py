@@ -119,10 +119,10 @@ def _shown(src) -> str:
 	return src if src.startswith(OPEN) else ""
 
 
-def for_screen(name: str, seconds: int) -> list[dict]:
+def for_screen(name: str, seconds: int, reader: str | None = None) -> list[dict]:
 	"""A presentation's slides as a screen plays them: each for as long as
 	`length` says, its own transition, its media at sealed addresses, a table
-	drawn to HTML, and nothing hidden."""
+	drawn to HTML, and nothing hidden. Records are read as `reader`."""
 	import frappe
 
 	doc = frappe.get_cached_doc("Presentation", name)
@@ -131,7 +131,7 @@ def for_screen(name: str, seconds: int) -> list[dict]:
 
 	drawn = master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides])
 	# a screen has no reader: it shows what whoever made the presentation may read
-	drawn = data.poured(name, drawn, doc.owner)
+	drawn = data.poured(name, drawn, reader or doc.owner)
 	played = []
 	for row, kept in zip(doc.slides, drawn, strict=True):
 		elements = []
@@ -185,7 +185,12 @@ def length(elements: list, advance_after, seconds) -> float:
 
 
 def _table(content) -> str:
-	"""Suite's table, a TipTap document, as a plain HTML table of its words."""
+	"""Suite's table as a plain HTML table of its words: kept as HTML now, as a
+	TipTap document before."""
+	if isinstance(content, str) and content.lstrip().startswith("<"):
+		from frappe.utils.html_utils import sanitize_html
+
+		return sanitize_html(content, always_sanitize=True)
 	if isinstance(content, str):
 		try:
 			content = json.loads(content)

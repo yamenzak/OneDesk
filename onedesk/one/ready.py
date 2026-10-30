@@ -340,6 +340,7 @@ MODULES = {
 			("working-on-slides", "presentation"),
 			("design-and-layers", "layers"),
 			("history-and-pdf", "history"),
+			("presenting-by-link", "link"),
 			("asking-oneai", "sparkles"),
 			("who-can-do-what", "shield"),
 		),

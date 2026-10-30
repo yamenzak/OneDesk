@@ -240,6 +240,7 @@ No doctypes yet.
 | Presentation | 13 | document |
 | Presentation Slide | 13 | child |
 | Presentation Version | 5 | document |
+| Presentation View | 8 | document |
 
 ## Desk records shipped as fixtures
 
@@ -917,6 +918,12 @@ No doctypes yet.
 * `onedesk.one_slide.paper.pdf`
 * `onedesk.one_slide.powerpoint.export`
 * `onedesk.one_slide.resize.resize`
+* `onedesk.one_slide.shared.admit`
+* `onedesk.one_slide.shared.present_live`
+* `onedesk.one_slide.shared.stop_live`
+* `onedesk.one_slide.shared.viewed`
+* `onedesk.one_slide.shared.views`
+* `onedesk.one_slide.shared.where`
 * `onedesk.one_slide.templates.save_as`
 * `onedesk.one_slide.versions.keep`
 * `onedesk.one_slide.versions.listed`

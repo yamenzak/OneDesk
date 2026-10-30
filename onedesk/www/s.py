@@ -5,6 +5,7 @@ code sent to it), then shows the file or the folder. Everything a guest may
 do goes through one_storage/links.py, which decides; this only draws.
 """
 
+import json
 from urllib.parse import quote, unquote
 
 import frappe
@@ -50,6 +51,24 @@ def get_context(context):
 	if here.is_folder:
 		context.items = [{**one, **_urls(token, one["id"])} for one in links.contents(link, here.name)]
 		context.trail = _trail(link, here)
+		return context
+	from onedesk.one_slide import api as slides
+	from onedesk.one_slide import shared
+
+	if held := slides.presentation_of(here.file_url):
+		# a presentation is played here, as the TV draws it (one_slide/shared.py)
+		shown = shared.page(link, here, held)
+		context.presentation = json.dumps(
+			{
+				**shown,
+				"token": token,
+				"item": frappe.form_dict.get("in") or "",
+				"save": context.here_urls["save"],
+				"csrf": frappe.session.csrf_token or "",
+				"socket": {"port": frappe.conf.socketio_port if frappe._dev_server else None, "site": frappe.local.site},
+			},
+			default=str,
+		)
 	return context
 
 

@@ -291,7 +291,7 @@ def _drawn(slide, element: dict) -> bool:
 	return not (element.get("css") or element.get("blur"))
 
 
-def build(name: str) -> tuple[bytes, list[int]]:
+def build(name: str, reader: str | None = None) -> tuple[bytes, list[int]]:
 	"""The presentation as a .pptx, and the numbers of the slides that lost
 	something PowerPoint has nothing like."""
 	from pptx import Presentation as Deck
@@ -304,7 +304,7 @@ def build(name: str) -> tuple[bytes, list[int]]:
 	deck = Deck()
 	deck.slide_width, deck.slide_height = Emu(width * EMU), Emu(height * EMU)
 	blank = deck.slide_layouts[6]
-	rows = data.poured(name, master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides]))
+	rows = data.poured(name, master.under(name, [{"elements": row.elements, "hide_master": row.get("hide_master")} for row in doc.slides]), reader)
 	lost = []
 	for number, (row, kept) in enumerate(zip(doc.slides, rows, strict=True), start=1):
 		slide = deck.slides.add_slide(blank)

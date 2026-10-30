@@ -31,6 +31,10 @@ def elements(name: str) -> list[dict]:
 	return [one for one in drawn if isinstance(one, dict) and not one.get("hidden")]
 
 
+#: How wide a date field is drawn at least.
+DATE_WIDE = 140
+
+
 def filled(drawn: list[dict], number: int, today: str) -> list[dict]:
 	"""The master's elements for one slide: its own ids, so they never meet the
 	slide's, and each field's words put in. Pure."""
@@ -39,6 +43,9 @@ def filled(drawn: list[dict], number: int, today: str) -> list[dict]:
 		one = {**one, "id": f"master-{one.get('id')}"}
 		if one.get("field") in FIELDS and isinstance(one.get("content"), str):
 			one["content"] = _worded(one["content"], str(number) if one["field"] == "number" else today)
+		if one.get("field") == "date" and (one.get("width") or 0) < DATE_WIDE:
+			# a date is wider than the box it was first given, in some formats and faces
+			one["width"] = DATE_WIDE
 		out.append(one)
 	return out
 

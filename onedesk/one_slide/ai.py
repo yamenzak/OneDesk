@@ -48,6 +48,9 @@ NOT_FOR_AI = {
 	"data.save_sources": "A presentation's sources are picked in the editor's Data from Records, beside the slides they fill.",
 	"data.freeze": "Writing the data in for good is the person's call, from the editor's File menu.",
 	"data.for_each": "Making a copy on each record is the person's call, from the editor's File menu, with the records picked.",
+	"shared.present_live": "Presenting live is the presenter's own act, from the editor's Present menu.",
+	"shared.stop_live": "Presenting live ends when the presenter's slideshow ends.",
+	"shared.viewed": "It is a guest's page saying how long each slide was on screen.",
 	"resize.resize": "A presentation's size is chosen in the editor, where every slide is redrawn in front of the person who asked.",
 }
 

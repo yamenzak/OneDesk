@@ -1146,6 +1146,10 @@ msgstr "ملاحظة للأشخاص المطلوب منهم."
 msgid "A number a document refers to: an invoice, an order, a case."
 msgstr "رقم يشير إليه مستند: فاتورة أو طلب أو قضية."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "A number the page made when it opened, so one look is one row."
+msgstr "رقم أنشأته الصفحة عند فتحها، لتكون كل مشاهدة صفاً واحداً."
+
 #: onedesk/one_hr/home.py:158
 msgid "A one-off earning or deduction in a month's pay."
 msgstr "استحقاق أو استقطاع لمرة واحدة في راتب شهر."
@@ -4249,6 +4253,10 @@ msgstr "أي شخص لديه الرابط"
 #: onedesk/public/js/onecloud_dialogs.js:67
 msgid "Anyone who can open the record can open this file."
 msgstr "يمكن لكل من يستطيع فتح السجل فتح هذا الملف."
+
+#: onedesk/one_slide/shared.py:175
+msgid "Anyone with the link"
+msgstr "أي شخص لديه الرابط"
 
 #: frontend/src/cloud/CloudItems.vue:128
 msgid "Anyone with the link can open this file"
@@ -13608,6 +13616,10 @@ msgstr "تنزيل بصيغة HTML"
 msgid "Download as Markdown"
 msgstr "تنزيل بصيغة Markdown"
 
+#: onedesk/www/s.html:125
+msgid "Download as PowerPoint"
+msgstr "تنزيل بصيغة PowerPoint"
+
 #: onedesk/public/js/one_account/account_center.js:961
 msgid "Download it first. Nothing can be exported after the workspace closes."
 msgstr "نزّله أولًا. لا يمكن تصدير أي شيء بعد إغلاق مساحة العمل."
@@ -17415,6 +17427,10 @@ msgstr "تابع كل عميل محتمل من أول اتصال حتى عرض �
 msgid "Follow my system"
 msgstr "اتّباع إعدادات نظامي"
 
+#: onedesk/www/s.html:121
+msgid "Follow the Presenter"
+msgstr "متابعة المقدّم"
+
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Followed Records"
@@ -18280,6 +18296,10 @@ msgstr "التنزيل الكامل"
 #: onedesk/one/notifications.py
 msgid "Full Download Ready"
 msgstr "التنزيل الكامل جاهز"
+
+#: onedesk/www/s.html:122
+msgid "Full Screen"
+msgstr "ملء الشاشة"
 
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -24334,6 +24354,10 @@ msgstr "اطّلع على {0}"
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
 
+#: frontend/src/slide/shim/ViewsDialog.vue:10
+msgid "Looks"
+msgstr "المشاهدات"
+
 #: frontend/src/slide/components/PlaybackSection.vue:12
 msgid "Loop"
 msgstr "تكرار"
@@ -28282,6 +28306,10 @@ msgstr "لم يُمنح أحد أكثر مما يتيحه دوره."
 msgid "Nobody has it."
 msgstr "لا أحد لديه."
 
+#: frontend/src/slide/shim/ViewsDialog.vue:7
+msgid "Nobody has opened this presentation through a link yet. Share it from OneCloud with a link, and each look shows here."
+msgstr "لم يفتح أحد هذا العرض عبر رابط بعد. شاركه من OneCloud برابط، وستظهر كل مشاهدة هنا."
+
 #: onedesk/public/js/one_legal/trust_center.js:201
 msgid "Nobody has to agree to this."
 msgstr "لا يلزم أحد بالموافقة على هذا."
@@ -29917,6 +29945,10 @@ msgstr "سطر واحد. الاسم بين {{ }} يُملأ عند الإرسا�
 msgid "One line. {{ doc.field }} puts a field of the record in."
 msgstr "سطر واحد. {{ doc.field }} يضع حقلاً من السجل."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "One look at a presentation through a OneCloud link: when, by whom if they were invited, and how long each slide was on screen. Shown on the presentation as Views."
+msgstr "مشاهدة واحدة لعرض عبر رابط OneCloud: متى، ومن شاهده إن كان مدعواً، وكم بقيت كل شريحة على الشاشة. تظهر في العرض ضمن المشاهدات."
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
 msgid "One movement of credit. Submitted on insert and never edited in place."
@@ -31111,6 +31143,10 @@ msgstr "فتح {0} من الإدخالات الأقدم"
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "Opened From"
 msgstr "فُتح من"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Opened On"
+msgstr "فُتح في"
 
 #. Label of the opened_on (Datetime) field in DocType 'Cloud Link Invitee'
 #: onedesk/one_storage/doctype/cloud_link_invitee/cloud_link_invitee.json
@@ -34393,6 +34429,10 @@ msgctxt "Play a presentation"
 msgid "Present"
 msgstr "اعرض"
 
+#: frontend/src/slide/components/PresentButton.vue:49
+msgid "Present Live"
+msgstr "تقديم مباشر"
+
 #. Label of a number card
 #: frontend/src/hr/HrHome.vue:121
 #: onedesk/one_hr/number_card/present_today/present_today.json
@@ -34411,6 +34451,10 @@ msgstr "شريحة عرض تقديمي"
 msgid "Presentation Version"
 msgstr "نسخة عرض تقديمي"
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Presentation View"
+msgstr "مشاهدة عرض"
+
 #: frontend/src/slide/components/PresentButton.vue:15
 msgid "Presentation options"
 msgstr "خيارات العرض"
@@ -34422,6 +34466,10 @@ msgstr "لا يمكن إنشاء عروض تقديمية في محرك مُرك�
 #: frontend/src/slide/components/PresentButton.vue:43
 msgid "Presenter View"
 msgstr "عرض المقدّم"
+
+#: frontend/src/slide/shim/live.js:17
+msgid "Presenting live: everyone with a link to this presentation follows your slides."
+msgstr "تقديم مباشر: كل من لديه رابط هذا العرض يتابع شرائحك."
 
 #: onedesk/www/tv.py:31
 msgid "Press OK to turn on sound"
@@ -39481,6 +39529,10 @@ msgstr "ثواني العبور"
 msgid "Seconds for each slide that has no time of its own, and for a web page."
 msgstr "الثواني لكل شريحة ليس لها مدة خاصة، ولصفحة الويب."
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Seconds on Each Slide"
+msgstr "الثواني على كل شريحة"
+
 #. Label of the auth (Data) field in DocType 'Push Device'
 #: onedesk/one/doctype/push_device/push_device.json
 msgid "Secret"
@@ -40183,6 +40235,10 @@ msgstr "الصيانات المستحقة والإصلاحات وخطة كل أ�
 #: frontend/src/display/Counter.vue:13
 msgid "Serving"
 msgstr "قيد الخدمة"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Session"
+msgstr "الجلسة"
 
 #. Label of the session_address (Data) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -45903,6 +45959,10 @@ msgstr "نُقلت المقابلة مع {applicant} إلى {when}"
 msgid "The invited address"
 msgstr "العنوان المدعو"
 
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "The invited address it was opened with; empty for anyone with the link."
+msgstr "العنوان المدعو الذي فُتح به؛ فارغ لمن لديه الرابط."
+
 #: onedesk/one_ai/reading/drafts.py:76
 msgid "The invoice IBAN isn't on file for {0}."
 msgstr "رقم IBAN في الفاتورة غير مسجل لـ {0}."
@@ -48178,6 +48238,10 @@ msgstr "المدة في مرحلة المبيعات"
 #: onedesk/public/js/task_actions.js:91
 msgid "Time logged"
 msgstr "تم تسجيل الوقت"
+
+#: frontend/src/slide/shim/ViewsDialog.vue:18
+msgid "Time on Each Slide"
+msgstr "الوقت على كل شريحة"
 
 #: onedesk/one_inventory/ready.py:186
 msgid "Time on a job card is added to what was made, against {0}."
@@ -50746,6 +50810,10 @@ msgstr "عرض ودفع"
 #: frontend/src/sheet/components/SheetEditor/index.vue:84
 msgid "View only"
 msgstr "عرض فقط"
+
+#: onedesk/one_slide/doctype/presentation_view/presentation_view.json
+msgid "Viewer"
+msgstr "المشاهد"
 
 #: onedesk/public/js/window/form.js:334
 msgid "Viewing now"

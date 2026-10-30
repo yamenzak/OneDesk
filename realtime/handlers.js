@@ -99,6 +99,26 @@ function onedesk_handlers(socket) {
 		}
 	});
 
+	// A guest on a presentation's link joins by the ticket its page was given
+	// once it passed the link's gates (only the session's cookie reaches
+	// frappe_request); it only hears where the presenter is (one_slide/shared.py).
+	socket.on("onedesk_slide_join", async (token, item, ticket, ack) => {
+		const reply = typeof ack === "function" ? ack : () => {};
+		if (!token || !ticket) return reply({ ok: false });
+		try {
+			const res = await socket.frappe_request("/api/method/onedesk.one_slide.shared.admit", { token, item: item || "", ticket });
+			const { message } = await res.json();
+			if (!message || !message.ok) return reply({ ok: false });
+			for (const room of message.rooms || []) {
+				if (room.startsWith("onedesk:slide/")) socket.join(room);
+			}
+			reply({ ok: true });
+		} catch (err) {
+			console.warn("onedesk_slide_join failed", err);
+			reply({ ok: false });
+		}
+	});
+
 	socket.on("disconnect", () => joined.clear());
 }
 

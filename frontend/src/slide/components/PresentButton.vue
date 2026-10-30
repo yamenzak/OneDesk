@@ -44,6 +44,12 @@ const options = [
 		icon: 'lucide-projector',
 		onClick: () => emit('start', { presenter: true }),
 	},
+	// One: everyone on the presentation's OneCloud links follows the slides (shim/live.js, VENDORED.md)
+	{
+		label: __('Present Live'),
+		icon: 'lucide-radio',
+		onClick: () => emit('start', { live: true }),
+	},
 ]
 </script>
 

@@ -74,6 +74,7 @@
 
 <script setup>
 import { audience, link, say, unlink } from '@/apps/slides/shim/presenter.js' // One: the presenter view, VENDORED.md
+import { at as liveAt } from '@/apps/slides/shim/live.js' // One: Present Live, VENDORED.md
 import { frame, frameSize } from '@/apps/slides/shim/frame.js' // One: the frame is one setting, a screen's may stand on its side (VENDORED.md)
 import { __ } from '@/apps/slides/shim/words.js' // One: Suite's words through the desk's translations, VENDORED.md
 import { computed, onActivated, onDeactivated, ref, watch, provide } from 'vue'
@@ -361,6 +362,7 @@ useBrowserZoomGuard()
 // One: the audience's window tells the presenter view where it is, and goes where it is told (shim/presenter.js, VENDORED.md)
 const tellPresenter = () => say({ at: slideIndex.value, of: slides.value.length })
 watch(slideIndex, () => audience.value && tellPresenter())
+watch(slideIndex, (index) => liveAt(index)) // One: Present Live, shim/live.js
 
 onActivated(() => {
 	if (audience.value) {

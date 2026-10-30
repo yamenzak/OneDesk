@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 77 | 2 | 37 | 0 |
+| onedesk | 77 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -1049,6 +1049,7 @@ Pages: workbook (inside: a workbook opens on it from OneCloud).
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Presentation | opened by our screens | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
 | Presentation Version | engine: what a presentation's slides were at a moment, listed and restored from its Version History | **nobody** | untouched | yes | general |  | yes |  |  |  |  |
+| Presentation View | engine: one look at a presentation through a OneCloud link, read back as its Views in the editor | not read | untouched | yes | general |  | **none** |  |  |  |  |
 
 Pages: presentation (inside: a presentation opens on it from OneCloud).
 

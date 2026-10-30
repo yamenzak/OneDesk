@@ -6,6 +6,8 @@ import { ref } from "vue";
 import { date, today } from "../../kit/desk";
 
 export const master = ref([]);
+// a date is wider than the box it was first given, in some formats and faces (one_slide/master.py)
+const DATE_WIDE = 140;
 // the presentation this one is the master of, when the editor is open on a master
 export const masterOf = ref("");
 
@@ -33,7 +35,7 @@ export function underneath(slide, index) {
 	return master.value.map((one) => {
 		const drawn = { ...one, id: `master-${one.id}`, locked: true };
 		if (one.field === "number") drawn.content = worded(one.content, number);
-		if (one.field === "date") drawn.content = worded(one.content, date(today()));
+		if (one.field === "date") Object.assign(drawn, { content: worded(one.content, date(today())), width: Math.max(one.width || 0, DATE_WIDE) });
 		return drawn;
 	});
 }
@@ -47,7 +49,7 @@ export function fieldElement(field, frameSize) {
 		field,
 		left: field === "number" ? frameSize.w - 120 : 40,
 		top: frameSize.h - 48,
-		width: 80,
+		width: field === "date" ? DATE_WIDE : 80,
 		zIndex: 1,
 		content: `<p style="text-align: ${field === "number" ? "right" : "left"}"><span style="font-size: 14px">${word}</span></p>`,
 	};

@@ -684,4 +684,7 @@ def file_gone(doc, method=None) -> None:
 
 	master.forget(name)
 	versions.forget(name)
+	from onedesk.one_slide import shared
+
+	shared.forget(name)
 	frappe.delete_doc(PRESENTATION, name, ignore_permissions=True, force=True)

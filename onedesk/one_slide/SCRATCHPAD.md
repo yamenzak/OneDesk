@@ -21,81 +21,16 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
 - OneAI's deck recipes are One's five decks; a company's own templates are
   not offered as recipes yet. A deck OneAI writes is not linked to a layout,
   so Restyle from Layouts leaves it alone.
+- Present Live follows the slideshow in the editor's own window; with the
+  Presenter View, guests on the link are not told where it is.
+- A guest on a link sees the slides only; the speaker notes, the layout of a
+  screen and anything hidden stay out.
 - On a phone the editor shows the slide, the bar and the head; the slides
   rail, the panel and **Theme** are left out. It is for looking and small
   changes, not for building a presentation.
 
 ## Planned, from the walkthrough (30 October)
 
-- **Presenting by link.** Not today. OneCloud's share link already has
-  everything the access side needs (a public link with an optional password
-  and an expiry, or invited people who each get a mail and come in with a
-  one-time code, an opened count, revoke at any time), but what a guest gets
-  through it is a download: a OneWriter document as .docx, a workbook as
-  .xlsx. A presentation has no branch in `links.get` at all; its file opens
-  `one_slide.api.download`, which wants read permission and sends the guest
-  to the desk editor. Plan: the presentation viewer on ShareCenter (below),
-  at `/s/<token>` instead of a download: the deck full screen,
-  arrows, a slide counter, the transitions, drawn by `play.js` the way the
-  TV draws a screen. Same Share dialog, same audiences, password, expiry
-  and mailed code; nothing new to learn. Data chips are frozen at the
-  moment the guest opens it, filled as the person who shared it, so a
-  stranger never reaches the records themselves. "Allow download" offers
-  PDF (and .pptx once export exists). Optional **Present Live**: the
-  presenter's current slide is pushed over the site's socketio, and
-  everyone on the link follows it, with a "you are ahead" catch-up button.
-  The link records who opened it and when, and per slide how long it was
-  looked at, shown on the presentation as Views. The same viewer is what
-  OneWriter needs too: a document read in the browser, not downloaded.
-
-## Planned: ShareCenter, one way to share anything (30 October)
-
-Not OneSlide's alone; it goes to its own document when this is committed.
-Today there are three ways to share, each built for one module:
-
-- **Inside the team:** frappe's `DocShare`, drawn by OneCloud's Share dialog
-  (`one_storage/share.py`) for files and folders, and read by AccessCenter
-  as "what one person was given on one record".
-- **Files to outsiders:** OneCloud's `Cloud Link` (`one_storage/links.py`,
-  `/s/<token>`): anyone with the link, optional password and expiry, or
-  invited people with a mailed one-time code; download, upload, opened count.
-- **Records to a customer or supplier:** OnePortal's `Portal Link`
-  (`one_portal/share.py`, `/portal/l/<token>`): a quotation or a quote request
-  sent to a party's contact, used up by the answer, not by being opened.
-
-Forms will need a fourth (a token per recipient), and a code editor a fifth.
-Plan: one ShareCenter, a service in `one` beside AccessCenter and AICenter,
-that every module uses instead of writing its own.
-
-- **One link doctype.** `Share Link` replaces Cloud Link and Portal Link:
-  what (a file, a folder or any record), who (anyone with the link, invited
-  people by mail, a party's contacts, or signed-in people only), the gates
-  (password, last day, one-time mailed code, used up by an answer), and what
-  the guest may do (view, comment, download and in which formats, upload,
-  answer, edit). Token stored hashed, as both are now. Old rows move over and
-  `/s/` and `/portal/l/` keep working.
-- **One dialog.** The same Share dialog on every file, document, workbook,
-  presentation, record and form: People (inside the team, `DocShare` as now),
-  Link, and Invite. A module only says which of these it allows and what a
-  guest may do.
-- **One guest page, viewers per kind.** `/s/<token>` checks the gates once,
-  then hands the guest to the viewer the module registered in a hook
-  (`one_share_viewers`): the presentation player, a document reader, a
-  read-only workbook, a folder listing, the portal's record page, a form, and
-  later the code editor. Anything with live data is filled as the person who
-  shared it and frozen for the guest.
-- **One place to see it all.** Shared by Me for each person (every link and
-  invite, opened when and by whom, revoke, extend), and for a workspace
-  administrator every outside link in the workspace, with a switch per module
-  (no public links, password always, longest life) and Revoke All for a person
-  who leaves.
-- **One log.** Every open, code asked, download and answer is a row the owner
-  can read and AccessCenter can show; the Views count on a presentation is
-  this log read back.
-- **Order.** Build the doctype and guest page under OneCloud's links first,
-  since its rules are the most complete; move OnePortal onto it; then add the
-  viewers (presentation, document, workbook); forms and the code editor
-  arrive already using it.
 
 ## Planned: the phone as a remote (30 October)
 

@@ -54,3 +54,16 @@ clause(
 		a slide, a document or a screen is shown.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneslide-views",
+	module=M,
+	body="""
+		When somebody opens a presentation through a OneCloud link, we record when, how long each slide was on
+		their screen, and the address they were invited with, if any. Only the people who may change the
+		presentation can see this, as its Views. It is deleted with the presentation. A guest is shown the slides
+		as the person who shared them, so they never reach the records behind them.
+	""",
+)

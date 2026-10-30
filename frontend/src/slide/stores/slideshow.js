@@ -1,6 +1,7 @@
 // Derived from frappe/suite@2831a5d (frontend/src/apps/slides)/stores/slideshow.js. Copyright (c) Frappe Technologies Pvt. Ltd. AGPL-3.0; see VENDORED.md.
 import { slideRoot } from '../shim/root.js' // One: the island's shadow root, VENDORED.md
 import { audience, say, startPresenter } from '../shim/presenter.js' // One: the presenter view, VENDORED.md
+import { beginLive, followSlideshow } from '../shim/live.js' // One: Present Live, VENDORED.md
 import { closeThisWindow } from '../../kit/desk' // One
 import { ref, computed, nextTick } from 'vue'
 import { applyReverseTransition } from '@/apps/slides/stores/presentation'
@@ -68,7 +69,9 @@ const releaseWakeLock = () => {
 	wakeLock = null
 }
 
-const startSlideShow = ({ loop = false, fromStart = false, presenter = false } = {}) => {
+const startSlideShow = ({ loop = false, fromStart = false, presenter = false, live = false } = {}) => {
+	// One: everyone on the presentation's links follows (shim/live.js, VENDORED.md)
+	if (live) beginLive(router.currentRoute.value.params.presentationId, slideIndex.value)
 	// One: the presenter view stays here and the slideshow opens beside it (shim/presenter.js, VENDORED.md)
 	if (presenter) return startPresenter(router.currentRoute.value.params.presentationId, slideIndex.value)
 	onLoop.value = loop
@@ -80,6 +83,8 @@ const startSlideShow = ({ loop = false, fromStart = false, presenter = false } =
 		query: { slide: fromStart || loop ? 1 : slideIndex.value + 1 },
 	})
 }
+
+followSlideshow(inSlideShowMode) // One: Present Live ends with the slideshow, shim/live.js
 
 const resetSlideShowState = () => {
 	inSlideShowMode.value = false
