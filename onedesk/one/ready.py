@@ -328,11 +328,11 @@ MODULES = {
 		"names": ("one_slide", "oneslide"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "c94c1eae2f05", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "c94c1eae2f05", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "c94c1eae2f05", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "c94c1eae2f05", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "c94c1eae2f05", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-30", "commit": "650b9cbe7d4e", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-30", "commit": "650b9cbe7d4e", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-30", "commit": "650b9cbe7d4e", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-30", "commit": "650b9cbe7d4e", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-30", "commit": "650b9cbe7d4e", "by": "Claude, for Yamen"},
 		},
 		"windowless": "A presentation opens from OneCloud in an editor that fills the window, so OneSlide's foot and settings are OneCloud's.",
 		"help": (
