@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 14:22+0000\n"
-"PO-Revision-Date: 2026-10-31 14:22+0000\n"
+"POT-Creation-Date: 2026-10-31 16:44+0000\n"
+"PO-Revision-Date: 2026-10-31 16:44+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -10717,7 +10717,7 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:743 frontend/src/cloud/OneCloud.vue:932
+#: frontend/src/cloud/OneCloud.vue:743 frontend/src/cloud/OneCloud.vue:929
 msgid "Copied 1 item"
 msgstr ""
 
@@ -10725,7 +10725,7 @@ msgstr ""
 msgid "Copied to clipboard"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:743 frontend/src/cloud/OneCloud.vue:932
+#: frontend/src/cloud/OneCloud.vue:743 frontend/src/cloud/OneCloud.vue:929
 msgid "Copied {0} items"
 msgstr ""
 
@@ -13101,11 +13101,11 @@ msgstr ""
 msgid "Delete {0} and the tasks under it?"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:911
+#: frontend/src/cloud/OneCloud.vue:908
 msgid "Delete {0} from the server? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:911
+#: frontend/src/cloud/OneCloud.vue:908
 msgid "Delete {0} items from the server? This can't be undone."
 msgstr ""
 
@@ -16416,7 +16416,7 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:629
+#: onedesk/one_admin/setup.py:645
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
@@ -19251,8 +19251,12 @@ msgstr ""
 msgid "Frappe Cloud Plan"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:52
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:55
 msgid "Frappe Cloud has no server {0} on this account."
+msgstr ""
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
+msgid "Frappe Cloud refused to say whether {0} is on this account: {1}"
 msgstr ""
 
 #: onedesk/one_admin/log.py:18
@@ -28317,11 +28321,11 @@ msgstr ""
 msgid "Moved"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:932
+#: frontend/src/cloud/OneCloud.vue:929
 msgid "Moved 1 item"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:904
+#: frontend/src/cloud/OneCloud.vue:901
 msgid "Moved 1 item to the Recycle Bin"
 msgstr ""
 
@@ -28356,11 +28360,11 @@ msgstr ""
 msgid "Moved {0} in"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:932
+#: frontend/src/cloud/OneCloud.vue:929
 msgid "Moved {0} items"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:904
+#: frontend/src/cloud/OneCloud.vue:901
 msgid "Moved {0} items to the Recycle Bin"
 msgstr ""
 
@@ -29208,7 +29212,7 @@ msgstr ""
 msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:639 frontend/src/cloud/OneCloud.vue:874
+#: frontend/src/cloud/OneCloud.vue:639 frontend/src/cloud/OneCloud.vue:871
 #: onedesk/one_storage/api.py:176 onedesk/one_storage/api.py:180
 msgid "New folder"
 msgstr ""
@@ -32830,7 +32834,7 @@ msgid "OneCalendar"
 msgstr ""
 
 #. Title of a Sidebar
-#: frontend/src/cloud/OneCloud.vue:371 frontend/src/cloud/OneCloud.vue:1209
+#: frontend/src/cloud/OneCloud.vue:371 frontend/src/cloud/OneCloud.vue:1206
 #: onedesk/one_mail/cloud.py:65 onedesk/one_storage/file_requests.py:196
 #: onedesk/one_storage/mounts.py:326 onedesk/one_storage/namespace.py:819
 #: onedesk/one_storage/page/onecloud/onecloud.js:4
@@ -40344,11 +40348,11 @@ msgstr ""
 msgid "Remove {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:916
+#: frontend/src/cloud/OneCloud.vue:913
 msgid "Remove {0} files from their records? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:916
+#: frontend/src/cloud/OneCloud.vue:913
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
 
@@ -42734,7 +42738,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/portal/src/pages/List.vue:4 frontend/portal/src/pages/List.vue:11
-#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1186
+#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1183
 #: frontend/src/crm/CrmHome.vue:25 frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/lots/LotsPage.vue:15
@@ -43531,7 +43535,7 @@ msgstr ""
 
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:80
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:84
 #: onedesk/public/js/one_mail/onemail_settings.js:1105
 msgid "Servers"
 msgstr ""
@@ -49078,7 +49082,7 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:240
+#: onedesk/one_admin/setup.py:245
 msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -50799,11 +50803,11 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:256
+#: onedesk/one_admin/setup.py:261
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:270
+#: onedesk/one_admin/setup.py:278
 msgid "The token has no zone for {0}."
 msgstr ""
 
@@ -53509,7 +53513,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:326
+#: onedesk/one_admin/setup.py:334
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
 
@@ -61855,7 +61859,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:516
+#: onedesk/one_admin/setup.py:524
 msgid "deployed"
 msgstr ""
 
@@ -62242,7 +62246,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:211
+#: onedesk/one_admin/setup.py:216
 msgid "missing permissions: {0}"
 msgstr ""
 
@@ -62898,7 +62902,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:527
+#: onedesk/one_admin/setup.py:535
 msgid "unchanged"
 msgstr ""
 
@@ -63018,7 +63022,7 @@ msgstr ""
 msgid "{0} (and {1} more)"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:82
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:86
 msgid "{0} (changed)"
 msgstr ""
 
@@ -63343,7 +63347,7 @@ msgstr ""
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:272
+#: onedesk/one_admin/setup.py:280
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
@@ -64273,7 +64277,7 @@ msgstr ""
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:43
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:45
 msgid "{0} is listed twice under Servers."
 msgstr ""
 
@@ -64477,7 +64481,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:436
+#: onedesk/one_admin/setup.py:444
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
@@ -65831,7 +65835,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:433
+#: onedesk/one_admin/setup.py:441
 msgid "{0}, on the mail domain"
 msgstr ""
 
@@ -65839,7 +65843,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:413
+#: onedesk/one_admin/setup.py:421
 msgid "{0}, replacing the previous rule"
 msgstr ""
 
@@ -65876,15 +65880,15 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:342
+#: onedesk/one_admin/setup.py:350
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:363
+#: onedesk/one_admin/setup.py:371
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:395
+#: onedesk/one_admin/setup.py:403
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""
 

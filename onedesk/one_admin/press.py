@@ -18,7 +18,7 @@ READ_TIMEOUT = 10
 CACHED_FOR = 60
 
 
-def call(endpoint: str, timeout: int = TIMEOUT, **params):
+def call(endpoint: str, timeout: int = TIMEOUT, as_typed: dict | None = None, **params):
 	"""Invoke one whitelisted press method and return its `message`.
 
 	The first argument is `endpoint` rather than `method` on purpose:
@@ -27,7 +27,7 @@ def call(endpoint: str, timeout: int = TIMEOUT, **params):
 	ever left the process.
 	"""
 	site.require_admin()
-	settings = _settings()
+	settings = _settings(as_typed)
 	url = f"{settings['url'].rstrip('/')}/api/method/{endpoint}"
 
 	try:
@@ -71,17 +71,19 @@ def _detail(answer) -> str:
 	return faults.detail(body, answer.text)
 
 
-def _settings() -> dict:
+def _settings(as_typed: dict | None = None) -> dict:
 	"""Where to call and as whom.
 
 	`site_config` wins over the doctype so a developer can point a laptop at a
 	staging press without editing a record that a migrate would then ship.
+	`as_typed` is Settings being saved: what was typed, not yet stored.
 	"""
 	stored = frappe.get_cached_doc("One Admin Settings")
+	typed = as_typed or {}
 	found = {
-		"url": frappe.conf.get("press_url") or stored.press_url,
-		"team": frappe.conf.get("press_team") or stored.press_team,
-		"token": frappe.conf.get("press_token") or stored.get_password("press_token", raise_exception=False),
+		"url": frappe.conf.get("press_url") or typed.get("url") or stored.press_url,
+		"team": frappe.conf.get("press_team") or typed.get("team") or stored.press_team,
+		"token": frappe.conf.get("press_token") or typed.get("token") or stored.get_password("press_token", raise_exception=False),
 	}
 	missing = [key for key, value in found.items() if not value]
 	if missing:

@@ -18807,6 +18807,10 @@ msgstr "خطة Frappe Cloud"
 msgid "Frappe Cloud has no server {0} on this account."
 msgstr "لا يوجد في Frappe Cloud خادم باسم {0} على هذا الحساب."
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
+msgid "Frappe Cloud refused to say whether {0} is on this account: {1}"
+msgstr "رفض Frappe Cloud الإفصاح عمّا إذا كان {0} على هذا الحساب: {1}"
+
 #: onedesk/one_admin/log.py:18
 msgid "Frappe Cloud stopped serving the site"
 msgstr "أوقفت Frappe Cloud تشغيل الموقع"

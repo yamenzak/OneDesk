@@ -36,6 +36,8 @@ class OneAdminSettings(Document):
 
 		before = self.get_doc_before_save()
 		known = {one.server: one.region for one in (before.get("servers") if before else None) or []}
+		token = self.press_token if self.press_token and set(self.press_token) != {"*"} else None
+		typed = {"url": self.press_url, "team": self.press_team, "token": token}
 		seen = set()
 		for row in self.get("servers") or []:
 			row.server = (row.server or "").strip()
@@ -45,11 +47,13 @@ class OneAdminSettings(Document):
 			if row.region and known.get(row.server) == row.region:
 				continue
 			try:
-				found = press.call("press.api.server.get", timeout=press.READ_TIMEOUT, name=row.server) or {}
+				found = press.call("press.api.server.get", timeout=press.READ_TIMEOUT, as_typed=typed, name=row.server) or {}
 			except faults.Again:
 				continue
-			except faults.Refused:
-				frappe.throw(frappe._("Frappe Cloud has no server {0} on this account.").format(row.server))
+			except faults.Refused as refused:
+				if refused.status == 404:
+					frappe.throw(frappe._("Frappe Cloud has no server {0} on this account.").format(row.server))
+				frappe.throw(frappe._("Frappe Cloud refused to say whether {0} is on this account: {1}").format(row.server, refused.detail or refused))
 			row.region = (found.get("region_info") or {}).get("name")
 
 	def on_update(self) -> None:

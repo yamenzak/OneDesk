@@ -18807,6 +18807,10 @@ msgstr "Frappe-Cloud-Tarif"
 msgid "Frappe Cloud has no server {0} on this account."
 msgstr "Frappe Cloud hat keinen Server {0} in diesem Konto."
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
+msgid "Frappe Cloud refused to say whether {0} is on this account: {1}"
+msgstr "Frappe Cloud hat nicht beantwortet, ob {0} zu diesem Konto gehört: {1}"
+
 #: onedesk/one_admin/log.py:18
 msgid "Frappe Cloud stopped serving the site"
 msgstr "Frappe Cloud stellt die Website nicht mehr bereit"
