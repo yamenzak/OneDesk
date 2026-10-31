@@ -8,8 +8,9 @@ and beside the clock. It comes from OpenWeather, through One's account.
 - Add a place under One › **Weather Places**. Choose **Find a Place**, type a
   town or city, and pick it from the list. Its coordinates are filled in for
   you. Choose **Metric** or **Imperial** for each place.
-- Tick **Default Place** on the one to show beside the clock. Only one place
-  is the default.
+- Tick **Default Place** on the one to show beside the clock, at the end of
+  the bottom bar. Point at it for the day's high and low; click it to open
+  the place. Only one place is the default.
 - A weather source in OneDisplay names one of these places. Every screen and
   widget that shows the same place shares its weather.
 - The next hours are fetched again every two hours, and the next days twice

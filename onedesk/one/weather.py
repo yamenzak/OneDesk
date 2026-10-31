@@ -152,6 +152,12 @@ def reading(place: str, lang: str | None = None) -> dict | None:
 	return shaped(said, units, lang or frappe.local.lang or "en")
 
 
+def shown() -> str | None:
+	"""The default place, when the bar should ask for its weather. Asks no one."""
+	place = frappe.db.get_value(DOCTYPE, {"is_default": 1}, "name")
+	return place if place and services.on(SERVICE) and frappe.has_permission(DOCTYPE, "read", place) else None
+
+
 @frappe.whitelist()
 @frappe.read_only()
 def here() -> dict | None:
@@ -161,7 +167,7 @@ def here() -> dict | None:
 		return None
 	frappe.has_permission(DOCTYPE, "read", place, throw=True)
 	said = reading(place)
-	return {"place": place, **said} if said else None
+	return {"place": place, "route": ["Form", DOCTYPE, place], **said} if said else None
 
 
 @frappe.whitelist()

@@ -53462,6 +53462,10 @@ msgstr "Wetter ist aus"
 msgid "Weather Place"
 msgstr "Wetterort"
 
+#: onedesk/one/sidebar/one/one.json
+msgid "Weather Places"
+msgstr "Wetterorte"
+
 #: onedesk/one_display/widgets.py:283
 msgid "Weather by the Hour"
 msgstr "Wetter stündlich"
@@ -63596,6 +63600,10 @@ msgstr "{0}, ab {1}. Es ist noch keine Änderung eingetragen."
 #: onedesk/one_hr/heads.py:467
 msgid "{0}, from {1}: {2}."
 msgstr "{0}, ab {1}: {2}."
+
+#: onedesk/public/js/window/chrome.js:175
+msgid "{0}, high {1}, low {2}"
+msgstr "{0}, Höchstwert {1}, Tiefstwert {2}"
 
 #: onedesk/one_ai/reading/understand.py:525
 msgid "{0}, moved to the next working day"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 08:23+0000\n"
-"PO-Revision-Date: 2026-10-31 08:23+0000\n"
+"POT-Creation-Date: 2026-10-31 08:43+0000\n"
+"PO-Revision-Date: 2026-10-31 08:43+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3581,7 +3581,7 @@ msgstr ""
 msgid "All"
 msgstr ""
 
-#: frontend/src/one/Home.vue:28 onedesk/public/js/window/chrome.js:224
+#: frontend/src/one/Home.vue:28 onedesk/public/js/window/chrome.js:249
 msgid "All Announcements"
 msgstr ""
 
@@ -4319,7 +4319,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json
 #: onedesk/one/tour.py:36 onedesk/public/js/note_list.js:12
-#: onedesk/public/js/window/chrome.js:31 onedesk/public/js/window/chrome.js:179
+#: onedesk/public/js/window/chrome.js:31 onedesk/public/js/window/chrome.js:204
 msgid "Announcements"
 msgstr ""
 
@@ -20628,7 +20628,7 @@ msgstr ""
 #: frontend/src/slide/shim/LayersPanel.vue:46
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
-#: onedesk/public/js/window/chrome.js:200
+#: onedesk/public/js/window/chrome.js:225
 msgid "Hide"
 msgstr ""
 
@@ -52801,7 +52801,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one/weather.py:173
+#: onedesk/one/weather.py:179
 msgid "Turn on Weather in TrustCenter to search for a place."
 msgstr ""
 
@@ -54783,13 +54783,18 @@ msgstr ""
 msgid "Weather Card"
 msgstr ""
 
-#: onedesk/one/weather.py:173
+#: onedesk/one/weather.py:179
 msgid "Weather Is Off"
 msgstr ""
 
 #. Name of a DocType
 #: onedesk/one/doctype/weather_place/weather_place.json
 msgid "Weather Place"
+msgstr ""
+
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "Weather Places"
 msgstr ""
 
 #: onedesk/one_display/widgets.py:319
@@ -65049,6 +65054,10 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:467
 msgid "{0}, from {1}: {2}."
+msgstr ""
+
+#: onedesk/public/js/window/chrome.js:175
+msgid "{0}, high {1}, low {2}"
 msgstr ""
 
 #: onedesk/one_ai/reading/understand.py:525

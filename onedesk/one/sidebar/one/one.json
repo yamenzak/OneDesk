@@ -47,12 +47,25 @@
   },
   {
    "keep_closed": 0,
+   "type": "Link",
+   "label": "Weather Places",
+   "link_to": "Weather Place",
+   "link_type": "DocType",
+   "icon": "cloud-sun",
+   "child": 0,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 4
+  },
+  {
+   "keep_closed": 0,
    "type": "Section Break",
    "label": "Address Book",
    "icon": "book-user",
    "indent": 1,
    "collapsible": 1,
-   "idx": 4
+   "idx": 5
   },
   {
    "keep_closed": 0,
@@ -65,7 +78,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 5,
+   "idx": 6,
    "url": null
   },
   {
@@ -79,7 +92,7 @@
    "is_default_module": 1,
    "route_options": null,
    "filters": null,
-   "idx": 6,
+   "idx": 7,
    "url": null
   },
   {
@@ -92,7 +105,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 7
+   "idx": 8
   },
   {
    "child": 1,
@@ -106,7 +119,7 @@
    "label": "AccountCenter",
    "icon": "user",
    "url": "/desk/one?center=account",
-   "idx": 8
+   "idx": 9
   },
   {
    "child": 1,
@@ -120,7 +133,7 @@
    "label": "ControlCenter",
    "icon": "settings",
    "url": "/desk/one?center=settings&module=One",
-   "idx": 9
+   "idx": 10
   },
   {
    "child": 1,
@@ -134,7 +147,7 @@
    "label": "NotificationCenter",
    "icon": "bell",
    "url": "/desk/one?center=notifications",
-   "idx": 10
+   "idx": 11
   },
   {
    "child": 1,
@@ -148,7 +161,7 @@
    "label": "AccessCenter",
    "icon": "key-round",
    "url": "/desk/one?center=access",
-   "idx": 11
+   "idx": 12
   },
   {
    "child": 1,
@@ -162,7 +175,7 @@
    "label": "TrustCenter",
    "icon": "shield-check",
    "url": "/desk/one?center=trust",
-   "idx": 12
+   "idx": 13
   },
   {
    "child": 1,
@@ -176,7 +189,7 @@
    "label": "AICenter",
    "icon": "oneai",
    "url": "/desk/one?center=ai",
-   "idx": 13
+   "idx": 14
   },
   {
    "child": 1,
@@ -190,7 +203,7 @@
    "label": "HelpCenter",
    "icon": "circle-question-mark",
    "url": "/desk/one?center=help",
-   "idx": 14
+   "idx": 15
   },
   {
    "child": 1,
@@ -204,7 +217,7 @@
    "label": "UpdateCenter",
    "icon": "newspaper",
    "url": "/desk/one?center=updates",
-   "idx": 15
+   "idx": 16
   }
  ],
  "modified": "2026-11-08 10:00:01.000000",

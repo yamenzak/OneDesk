@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 82 | 3 | 38 | 0 |
+| onedesk | 83 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -879,7 +879,7 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
-| Weather Place | through a form's link (Display Source: weather_place) | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Workspace Customization | engine: OneStudio's ledger of what a workspace changed | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 
 Pages: one (on a rail or a home).

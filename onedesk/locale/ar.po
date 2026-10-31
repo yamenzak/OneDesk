@@ -53462,6 +53462,10 @@ msgstr "الطقس متوقف"
 msgid "Weather Place"
 msgstr "مكان الطقس"
 
+#: onedesk/one/sidebar/one/one.json
+msgid "Weather Places"
+msgstr "أماكن الطقس"
+
 #: onedesk/one_display/widgets.py:283
 msgid "Weather by the Hour"
 msgstr "الطقس بالساعة"
@@ -63596,6 +63600,10 @@ msgstr "{0}، اعتباراً من {1}. لم يُدرج أي تغيير بعد.
 #: onedesk/one_hr/heads.py:467
 msgid "{0}, from {1}: {2}."
 msgstr "{0}، اعتباراً من {1}: {2}."
+
+#: onedesk/public/js/window/chrome.js:175
+msgid "{0}, high {1}, low {2}"
+msgstr "{0}، العظمى {1}، الصغرى {2}"
 
 #: onedesk/one_ai/reading/understand.py:525
 msgid "{0}, moved to the next working day"

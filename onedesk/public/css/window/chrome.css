@@ -206,6 +206,11 @@
 	height: 18px;
 }
 
+.one-bar-weather.hide {
+	display: none;
+}
+
+.one-bar-weather,
 .one-bar-now {
 	flex: none;
 	white-space: nowrap;

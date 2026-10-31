@@ -42,6 +42,7 @@ $.extend(onedesk.window, {
 			<div class="one-bar-tools">
 				<div class="one-bar-group" data-group="day"></div>
 				<div class="one-bar-group" data-group="ai"></div>
+				<div class="one-bar-group" data-group="weather"><button class="one-bar-tool one-bar-weather hide"></button></div>
 				<div class="one-bar-group" data-group="when"><button class="one-bar-tool one-bar-now"></button></div>
 			</div>
 		</footer>`).appendTo(document.body);
@@ -139,6 +140,7 @@ $.extend(onedesk.window, {
 		if (!(frappe.boot.one_hidden?.apps || []).includes("OneCalendar")) $now.on("click", () => frappe.set_route("onecalendar"));
 		onedesk.window.now($now);
 		$now.data("one-tip", tip($now[0]));
+		onedesk.window.weather($bottom.find(".one-bar-weather"), tip);
 		onedesk.window.news(frappe.boot.one_announcements);
 		onedesk.window.place_status();
 		clearInterval(onedesk.window._ticking);
@@ -153,6 +155,31 @@ $.extend(onedesk.window, {
 			`<span class="one-bar-date">${frappe.utils.escape_html(now.format("ddd D MMM"))}</span><span class="one-bar-time">${frappe.utils.escape_html(time)}</span>`
 		);
 		onedesk.dock.name($now, now.format("dddd D MMMM YYYY"));
+	},
+
+	/** The workspace's Default Place beside the clock (one/weather.py), asked
+	 * for only when there is one and the Weather service is on, and again
+	 * every quarter of an hour. One click opens the place. */
+	weather($weather, tip) {
+		const place = frappe.boot.one_weather;
+		if (!place || !$weather.length) return;
+		$weather.on("click", () => $weather.data("one-route") && frappe.set_route(...$weather.data("one-route")));
+		const draw = () =>
+			frappe.xcall("onedesk.one.weather.here").then((said) => {
+				$weather.toggleClass("hide", !said?.temperature);
+				if (!said?.temperature) return;
+				$weather.data("one-route", said.route);
+				const esc = frappe.utils.escape_html;
+				$weather.html(
+					`<span class="one-bar-icon">${frappe.utils.icon(said.icon, "sm")}</span><span class="one-bar-weather-temp">${esc(said.temperature)}</span>`
+				);
+				if (!$weather.data("one-tip")) $weather.data("one-tip", tip($weather[0]));
+				const today = said.high ? __("{0}, high {1}, low {2}", [said.condition, said.high, said.low]) : said.condition;
+				onedesk.dock.name($weather, `${said.place}: ${today}`);
+			});
+		draw();
+		clearInterval(onedesk.window._weathering);
+		onedesk.window._weathering = setInterval(draw, 15 * 60 * 1000);
 	},
 
 	/** Announcements run along the top bar until they expire, and one click
