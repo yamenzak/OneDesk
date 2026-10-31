@@ -592,14 +592,21 @@ onedesk.shell.Editor = class Editor {
 		Header.prototype.setup_menu = function () {};
 	}
 
-	// The rail's mark goes to One's Home, not frappe's apps screen.
+	// The rail's mark opens One as One's own rail button does. Followed as a
+	// link, the router keeps the app on screen and lands on /desk/<app>/one.
 	const Dock = frappe.ui.Dock;
 	if (Dock && !Dock.prototype.__one_home) {
 		Dock.prototype.__one_home = true;
 		const made = Dock.prototype.make;
 		Dock.prototype.make = function (...args) {
 			made.apply(this, args);
-			this.$header && this.$header.attr("href", "/desk/one");
+			if (!this.$header) return;
+			this.$header.attr("href", "/desk/one").on("click", (e) => {
+				if (e.ctrlKey || e.metaKey || e.shiftKey) return;
+				e.preventDefault();
+				e.stopPropagation();
+				this.sidebar.open_module("One");
+			});
 		};
 	}
 }

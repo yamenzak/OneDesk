@@ -860,12 +860,9 @@ async function newPresentation() {
   const sizes = slideSizes();
   const said = await onedesk().table_workbook.pick(await call("onedesk.one_slide.api.listed"), __("Blank Presentation"), sizes);
   if (!said) return;
-  const made = await call("onedesk.one_slide.api.make", {
-    parent: node.value,
-    template: said.template || null,
-    width: said.width || null,
-    height: said.height || null,
-  });
+  // "As It Was Made" has no size: sent empty, the server refuses it as a number
+  const size = said.width && said.height ? { width: said.width, height: said.height } : {};
+  const made = await call("onedesk.one_slide.api.make", { parent: node.value, template: said.template || null, ...size });
   forget(node.value);
   goTo("presentation", made.presentation);
 }

@@ -629,3 +629,12 @@ what frappe already draws for it.
 - **An autocomplete's rows need distinct values.** frappe's Autocomplete finds
   a row by its value, so five towns called Dubai drew as one and filled in
   Uganda's.
+
+## 2026-10-31 — Switching screens no longer holds
+
+The hold above froze the window on every app switch: measured from a rail
+click to a window that takes clicks again, 0.9 to 1.8s with it and 30 to 140ms
+without, because its readiness check rarely matched and it ran to its 900ms
+cap, and a view transition takes no input while it runs. The next screen now
+draws in 40 to 170ms on its own, so switching.js and its view-transition
+names are gone.
