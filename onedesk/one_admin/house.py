@@ -54,5 +54,26 @@ def ensure() -> str:
 	update_site_config("one_tenant", held)
 	update_site_config("one_token", token)
 	if not frappe.conf.get("one_admin_url"):
-		update_site_config("one_admin_url", frappe.utils.get_url())
+		update_site_config("one_admin_url", own_url())
 	return held
+
+
+def link() -> None:
+	"""Link the admin site to our own workspace when it is not linked yet.
+	The patch runs once, and on a new admin site that is at install, before
+	the site is flagged as the admin site; this runs after every migrate."""
+	held = slug()
+	if held and frappe.conf.get("one_tenant") == held and frappe.conf.get("one_token") and frappe.conf.get("one_admin_url"):
+		return
+	ensure()
+
+
+def own_url() -> str:
+	"""The admin site's own address, which it calls itself on. Outside a
+	request the framework says http unless the site holds a certificate, and
+	a hosted site redirects http to https, which turns the call into a GET."""
+	url = frappe.utils.get_url()
+	host = urlparse(url).hostname or ""
+	if url.startswith("http://") and host != "127.0.0.1" and host != "localhost" and not host.endswith(".localhost"):
+		url = "https://" + url[len("http://") :]
+	return url

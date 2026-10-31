@@ -32,8 +32,11 @@ def require_admin() -> None:
 def apply(*_args) -> None:
 	"""Make the operator role match what kind of site this is."""
 	if is_admin():
+		from onedesk.one_admin import house
+
 		_ensure_role()
 		first_operators()
+		house.link()
 		return
 	_withdraw_role()
 

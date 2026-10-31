@@ -582,3 +582,15 @@ def test_our_own_workspace_is_never_billed_or_refused_or_sold():
 	assert '"live": ("Tenant", {"status": "Live", "is_house": 0})' in (ADMIN / "home.py").read_text()
 	assert "_ours(start, end, by, filters)" in (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
 	assert "## Our own workspace" in (ADMIN / "README.md").read_text()
+
+
+def test_the_admin_site_links_itself_after_every_migrate():
+	"""The house patch runs once, at install, before the site is flagged as
+	the admin site; site.apply runs after every migrate and links it then,
+	once, and on https so the call to itself is not redirected."""
+	apply = (ADMIN / "site.py").read_text().split("def apply(")[1].split("\ndef ")[0]
+	assert "house.link()" in apply
+	house = (ADMIN / "house.py").read_text()
+	link = house.split("def link(")[1].split("\ndef ")[0]
+	assert 'frappe.conf.get("one_tenant") == held' in link and "ensure()" in link
+	assert 'update_site_config("one_admin_url", own_url())' in house and '"https://"' in house

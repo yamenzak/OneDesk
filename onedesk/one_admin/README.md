@@ -31,7 +31,10 @@ It differs from a customer's workspace in three ways:
   **Internal Use** and charges nothing for it, and Home doesn't count it as a
   live customer.
 
-It was created once, and the admin site linked to it, by `house.ensure`.
+It is created, and the admin site linked to it, by `house.link` after every
+migrate, whenever the admin site isn't linked yet. A new admin site is only
+flagged as one after its first migrate, so a patch that ran once at install
+would have found nothing to do.
 
 ## Home
 
