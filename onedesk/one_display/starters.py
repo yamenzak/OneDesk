@@ -203,7 +203,7 @@ def lobby(c: Canvas) -> str:
 def now_serving(c: Canvas) -> str:
 	c.logo(4, 5, 30, 8)
 	c.widget("clock_and_date", 76, 4, 20, 14, look="Dark Glass")
-	c.widget("now_serving", 4, 22, 58, 64, look="Floating")
+	c.widget("Queue Board", 4, 22, 58, 64, look="Floating")
 	c.box(66, 22, 30, 64, "#FFFFFF14", corner=16)
 	c.text(69, 27, 24, _("How it works"), 18, "#FFFFFFA6", bold=True)
 	c.text(69, 34, 24, _("Take a ticket, watch for your number, and go to the counter shown."), 20, "#FFFFFFD9")
@@ -213,7 +213,7 @@ def now_serving(c: Canvas) -> str:
 
 
 def queue_full(c: Canvas) -> str:
-	c.widget("full_queue", 0, 0, 100, 90, look="Solid")
+	c.widget("Queue Board", 0, 0, 100, 90, look="Solid", settings={"rows": 8})
 	c.widget("accent_ticker", 0, 90, 100, 10, settings={"text": _("Your number will be called and shown here")})
 	return NIGHT
 
@@ -222,7 +222,7 @@ def queue_tall(c: Canvas) -> str:
 	c.box(0, 0, 100, 10, c.brand)
 	c.logo(6, 2.5, 50, 5)
 	c.widget("corner_clock", 66, 2.5, 28, 5, look="Dark Glass")
-	c.widget("now_serving", 5, 14, 90, 70, look="Card")
+	c.widget("Queue Board", 5, 14, 90, 70, look="Card")
 	c.widget("accent_ticker", 0, 94, 100, 6, settings={"text": _("Your number will be called and shown here")})
 	return NIGHT
 
@@ -237,8 +237,7 @@ def kiosk_tall(c: Canvas) -> str:
 
 
 def counter(c: Canvas) -> str:
-	c.text(5, 8, 60, _("Counter {0}").format(1), 40, "#FFFFFFA6", bold=True)
-	c.widget("counter_tile", 5, 26, 58, 64, settings={"item": "1"}, source=_first("Queue"))
+	c.widget("one_counter", 5, 10, 58, 80, settings={"counter": "1"})
 	c.widget("clock_and_date", 68, 8, 27, 22, look="Dark Glass")
 	c.text(68, 40, 27, _("Now serving the number shown"), 22, "#FFFFFFD9")
 	c.widget("recent_calls", 68, 58, 27, 32, look="Dark Glass", settings={"rows": 3, "heading": ""})

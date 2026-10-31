@@ -1445,6 +1445,37 @@
 		};
 	}
 
+	// one counter: its name and the ticket it is serving, for above its desk
+	function queueCounter(box, one, w, h) {
+		var base = Math.min(h / 5.6, w / 6.5);
+		sized(box, base);
+		var holder = el("div", "wl-center");
+		var name = el("div", "eyebrow");
+		var ticket = el("div", "wl-huge");
+		var said = el("div", "wl-sub");
+		holder.appendChild(name);
+		holder.appendChild(ticket);
+		holder.appendChild(said);
+		box.appendChild(holder);
+		var shown = null;
+		return {
+			update: function (one) {
+				var s = settingsOf(one);
+				var counter = String(s.counter || "");
+				var list = byCounter(whole(one) || { called: [] });
+				var call = null;
+				for (var i = 0; i < list.length; i++) if (String(list[i].counter) === counter) call = list[i].call;
+				text(name, word("counter") + " " + counter);
+				text(said, call ? s.heading || "" : word("nobody"));
+				if ((call ? call.id : "") === shown) return;
+				shown = call ? call.id : "";
+				text(ticket, call ? call.ticket : "—");
+				fitWord(ticket, ticket.textContent, w, base, 3.2);
+				holder.className = "wl-center" + (call && heard && !heard[call.id] ? " fresh" : "");
+			},
+		};
+	}
+
 	function queueCounters(box, one, w, h) {
 		var grid = el("div", "wl-grid");
 		box.appendChild(grid);
@@ -1933,7 +1964,7 @@
 	}
 
 	var LAYOUTS = {
-		"Queue Board": { latest: queueLatest, counters: queueCounters, list: queueList, waiting: queueWaiting },
+		"Queue Board": { latest: queueLatest, counter: queueCounter, counters: queueCounters, list: queueList, waiting: queueWaiting },
 		Weather: { today: weatherToday, hours: weatherHours, list: weatherList, compact: weatherCompact, big: weatherBig },
 		Clock: { analog: clockAnalog, date: clockDate, stacked: clockStacked, minimal: clockMinimal },
 		Ticker: { fade: tickerFade, labelled: tickerLabelled },

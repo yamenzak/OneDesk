@@ -9388,10 +9388,6 @@ msgstr "وسيلة التواصل"
 msgid "Compact"
 msgstr "مضغوط"
 
-#: onedesk/one_display/widgets.py:264
-msgid "Compact Queue"
-msgstr "طابور مضغوط"
-
 #: onedesk/one_display/widgets.py:286
 msgid "Compact Weather"
 msgstr "طقس مختصر"
@@ -10653,10 +10649,6 @@ msgstr "يُعدّ في مستودع."
 #: frontend/src/inventory/item/ItemStock.vue:77
 msgid "Counted {0}"
 msgstr "جُرد {0}"
-
-#: onedesk/one_display/widgets.py:277
-msgid "Counter Tile"
-msgstr "بطاقة الكاونتر"
 
 #: frontend/src/slide/shim/WidgetMock.vue:16
 #: frontend/src/slide/shim/WidgetMock.vue:18
@@ -18732,10 +18724,6 @@ msgstr "ملء الشاشة"
 #: onedesk/one_display/widgets.py:279
 msgid "Full Screen Picture"
 msgstr "صورة بملء الشاشة"
-
-#: onedesk/one_display/widgets.py:265
-msgid "Full Screen Queue"
-msgstr "طابور بملء الشاشة"
 
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
@@ -30492,6 +30480,10 @@ msgstr "OneCRM"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "One Calendar"
 msgstr "OneCalendar"
+
+#: onedesk/one_display/widgets.py:25 onedesk/one_display/widgets.py:274
+msgid "One Counter"
+msgstr "شباك واحد"
 
 #: onedesk/one/control.py:346
 msgid "One Device at a Time"

@@ -58,6 +58,11 @@
 				<span class="flex-1 truncate font-semibold" :style="em(0.9)">{{ one[0] }}</span><span class="font-bold" :style="em(1.4)">{{ one[1] }}</span>
 			</div>
 		</div>
+		<template v-else-if="type === 'Queue Board' && layout === 'counter'">
+			<span class="uppercase opacity-75" :style="{ ...em(0.8), letterSpacing: '0.1em' }">{{ __("Counter {0}", [settings.counter || 1]) }}</span>
+			<span class="font-bold leading-none" :style="em(3)">A012</span>
+			<span class="opacity-75" :style="{ ...em(0.8), marginTop: '0.3em' }">{{ settings.heading || __("Now Serving") }}</span>
+		</template>
 		<div v-else-if="type === 'Queue Board'" class="flex w-full flex-col text-start" :style="{ gap: '0.3em', padding: '0.4em' }">
 			<span class="uppercase opacity-70" :style="em(0.7)">{{ settings.heading || __("Now Serving") }}</span>
 			<div class="flex items-baseline justify-between" :style="{ ...chip, borderRadius: '0.3em', padding: '0.2em 0.5em' }">

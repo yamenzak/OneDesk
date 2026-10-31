@@ -55,6 +55,8 @@ const shown = computed(() =>
 
 // how large a kind's words are for its box: the ones with many lines smaller
 const DENSE = { "Queue Board": 0.075, Kiosk: 0.09, Board: 0.11, Weather: 0.13 };
+// except a layout that shows one thing large
+const LARGE = ["latest", "counter", "big", "minimal", "analog", "date"];
 
 // where a widget sits on its card: centred, large enough to read, a whole
 // screen's widget filling it
@@ -62,7 +64,7 @@ function placed(one) {
 	const [w, h] = one.size || [30, 30];
 	const wide = w >= 100 ? 100 : Math.min(Math.max(w, 40), 86);
 	const high = h >= 100 ? 100 : Math.min(Math.max(h, 26), 80);
-	return { left: `${(100 - wide) / 2}%`, top: `${(100 - high) / 2}%`, width: `${wide}%`, height: `${high}%`, fontSize: `${high * (DENSE[one.type] || 0.16)}cqh` };
+	return { left: `${(100 - wide) / 2}%`, top: `${(100 - high) / 2}%`, width: `${wide}%`, height: `${high}%`, fontSize: `${high * (LARGE.includes(one.settings?.layout) ? 0.16 : DENSE[one.type] || 0.16)}cqh` };
 }
 
 function choose(one) {

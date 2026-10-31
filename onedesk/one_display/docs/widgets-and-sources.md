@@ -43,7 +43,7 @@ Most widgets can show the same thing in more than one way. Choose one under
 
 | Widget | Layouts |
 | --- | --- |
-| **Queue Board** | Now Serving, Latest Call (one ticket, large), Every Counter (a tile for each counter), Recent Calls, Waiting by Service. |
+| **Queue Board** | Now Serving, Latest Call (one ticket, large), One Counter (the ticket one counter is serving, for above its desk; say which under **Counter**), Every Counter (a tile for each counter), Recent Calls, Waiting by Service. |
 | **Weather** | Week Ahead, Today (with the high, low, wind and humidity), By the Hour, Week as a List (each day's low to high drawn to scale), Compact, Large Temperature. |
 | **Clock** | Digital, Analog, Date Card, Time and Day, Time Only. |
 | **Ticker** | Scrolling, One at a Time, With a Label. |
