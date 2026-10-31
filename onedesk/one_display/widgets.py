@@ -151,7 +151,7 @@ TYPES = {
 # ShadowSection, shim/WidgetLookSection.vue); lengths are in the editor's
 # units, half a screen's pixels.
 LOOK = (
-	"fillColor", "color", "fontFamily", "padding",
+	"fillColor", "color", "accentColor", "fontFamily", "padding",
 	"borderStyle", "borderColor", "borderWidth", "borderRadius",
 	"shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle",
 )
@@ -173,9 +173,9 @@ LOOKS = {
 	"Band": {"fillColor": "#111827EB", "color": "#FFFFFFFF"},
 	"Light Band": {"fillColor": "#FFFFFFF2", "color": "#111827FF"},
 	"Solid": {"fillColor": "#0B0D10FF", "color": "#FFFFFFFF", "padding": 12},
-	"Accent": {"fillColor": BRAND, "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
-	"Accent Band": {"fillColor": BRAND, "color": "#FFFFFFFF"},
-	"Accent Pill": {"fillColor": BRAND, "color": "#FFFFFFFF", "borderRadius": 999, "padding": 8},
+	"Accent": {"fillColor": BRAND, "color": "#FFFFFFFF", "accentColor": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
+	"Accent Band": {"fillColor": BRAND, "color": "#FFFFFFFF", "accentColor": "#FFFFFFFF"},
+	"Accent Pill": {"fillColor": BRAND, "color": "#FFFFFFFF", "accentColor": "#FFFFFFFF", "borderRadius": 999, "padding": 8},
 	"Accent Outline": {"color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": BRAND, "borderWidth": 2, "borderRadius": 8, "padding": 10},
 	"Alert": {"fillColor": "#DC2626FF", "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
 	"Highlight": {"fillColor": "#FEF3C7FF", "color": "#78350FFF", "borderRadius": 8, "padding": 10},

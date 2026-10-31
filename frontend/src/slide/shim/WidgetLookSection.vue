@@ -1,4 +1,4 @@
-<!-- A widget's look (one_display/widgets.py LOOK): a widget draws only its content, and its fill, text colour, font and padding are its element's, set here; its border and shadow are set in Border and Shadow as any object's. A look is a named set of them. One's own; VENDORED.md. -->
+<!-- A widget's look (one_display/widgets.py LOOK): a widget draws only its content, and its fill, text colour, highlight, font and padding are its element's, set here; its border and shadow are set in Border and Shadow as any object's. A look is a named set of them. One's own; VENDORED.md. -->
 <template>
 	<Section :label="__('Look')">
 		<PropertyRow :label="__('Look')">
@@ -9,6 +9,9 @@
 		</PropertyRow>
 		<PropertyRow :label="__('Words')">
 			<ColorPicker :modelValue="element.color || ''" @update:modelValue="ink.set" @colordown="ink.begin" @colorup="ink.commit" />
+		</PropertyRow>
+		<PropertyRow :label="__('Highlight')">
+			<ColorPicker :modelValue="element.accentColor || ''" @update:modelValue="hi.set" @colordown="hi.begin" @colorup="hi.commit" />
 		</PropertyRow>
 		<PropertyRow :label="__('Font')">
 			<Combobox trigger="button" variant="ghost" size="sm" align="end" class="-me-1" :options="fonts" :model-value="element.fontFamily || ''" @update:model-value="(value) => setElementProperty('fontFamily', value || null)" />
@@ -31,11 +34,12 @@ import { fontOptions, loadFonts } from "./fonts.js";
 import { __ } from "./words.js";
 
 // what a look may set: widgets.LOOK, the same names Border and Shadow write
-const KEYS = ["fillColor", "color", "fontFamily", "padding", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
+const KEYS = ["fillColor", "color", "accentColor", "fontFamily", "padding", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
 
 const element = computed(() => firstEditableElement.value || {});
 const fill = useElementProperty("fillColor");
 const ink = useElementProperty("color");
+const hi = useElementProperty("accentColor");
 const padding = useElementProperty("padding");
 const fonts = computed(() => [{ group: "", options: [{ label: __("The Screen's"), value: "" }] }, ...fontOptions.value]);
 const lookOptions = computed(() => (screen.value?.looks || []).map((one) => ({ label: one.label, value: one.name })));

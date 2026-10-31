@@ -108,7 +108,10 @@ renderer sizes its words from its box so nothing spills, and
 and nothing else: a ticker is text moving with its spacing, separator, speed
 and direction, and has no background. Fill, words' colour, font, padding,
 border, corners and shadow are the element's, set in the editor like any
-object's and applied by `dress(box, look, unit)`. A **look**
+object's and applied by `dress(box, look, unit)`. The look's `accentColor`
+is the widget's highlight (`accent(one)`, falling back to the brand), and
+`highlight(node, one)` gives what sits on it dark or white words by its
+lightness; the Accent looks set it to white, as their fill is the brand. A **look**
 (`widgets.LOOKS`) is a saved set of those offered per widget; a variation is
 a look, never a new widget. `tests/test_display.py` holds that no renderer
 sets a background, border or font of its own. A widget that only showed

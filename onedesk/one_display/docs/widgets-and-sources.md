@@ -55,7 +55,10 @@ Most widgets can show the same thing in more than one way. Choose one under
 
 A widget draws only what it shows. Its fill, its words' colour, its font,
 padding, border, corners and shadow are set in the panel like anything
-else on the screen. **Look** gives a set of these in one go, which you can
+else on the screen. **Highlight** is the colour of what stands out inside
+it: the newest call, the kiosk's buttons, a ticker's label, the second
+hand. It is your business's colour until you choose another, and the words
+on it turn dark on a light colour by themselves. **Look** gives a set of these in one go, which you can
 change afterwards: Card, Light Card, Soft, Floating, Glass, Dark Glass, Pill,
 Rounded, Outline, Band, Light Band, Solid, Highlight, Alert and Contrast, and
 four in your own colour, Accent, Accent Band, Accent Pill and Accent Outline.

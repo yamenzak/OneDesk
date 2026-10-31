@@ -953,8 +953,29 @@
 		box.style.fontSize = Math.max(Math.round(px), 8) + "px";
 	}
 
-	function accent() {
-		return brand.colour || "var(--accent)";
+	// a widget's highlight: its look's, or the business's colour
+	function accentOf(one) {
+		return (((one || {}).settings || {}).look || {}).accentColor || brand.colour || "";
+	}
+
+	function accent(one) {
+		var value = accentOf(one);
+		if (!value) return "var(--accent)";
+		return window.onedesk && onedesk.play ? onedesk.play.colour(value) : value;
+	}
+
+	// words on the highlight: dark on a light one, white on a dark one
+	function inkOn(one) {
+		var hex = /^#?([0-9a-f]{6})/i.exec(accentOf(one));
+		if (!hex) return "var(--on-dark)";
+		var n = parseInt(hex[1], 16);
+		var light = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+		return light > 0.62 ? "var(--on-light)" : "var(--on-dark)";
+	}
+
+	function highlight(node, one) {
+		node.style.background = accent(one);
+		node.style.color = inkOn(one);
 	}
 
 	var ICONS = {
@@ -1129,7 +1150,7 @@
 						current.setAttribute("data-id", first ? first.id : "");
 						if (first) {
 							var card = el("div", "now" + (heard && !heard[first.id] ? " fresh" : ""));
-							card.style.background = accent();
+							highlight(card, one);
 							card.appendChild(el("div", "t", first.ticket));
 							card.appendChild(el("div", "c", word("counter") + " " + (first.counter || "")));
 							current.appendChild(card);
@@ -1193,7 +1214,7 @@
 						cell.style.width = 100 / columns + "%";
 						cell.style.height = 100 / lines + "%";
 						var b = el("button", "wl-k-tile");
-						b.style.background = accent();
+						highlight(b, one);
 						b.appendChild(el("span", "wl-k-letter", services[i].prefix || services[i].service.charAt(0)));
 						b.appendChild(el("span", "wl-k-name", services[i].service));
 						b.setAttribute("data-service", services[i].service);
@@ -1494,7 +1515,7 @@
 					cell.style.width = 100 / columns + "%";
 					cell.style.height = 100 / lines + "%";
 					var inside = el("div", "wl-cell-in");
-					if (newest && list[i].call && list[i].call.id === newest.id) inside.style.background = accent();
+					if (newest && list[i].call && list[i].call.id === newest.id) highlight(inside, one);
 					inside.appendChild(el("div", "eyebrow", word("counter") + " " + list[i].counter));
 					inside.appendChild(el("div", "wl-big", list[i].call ? list[i].call.ticket : "—"));
 					cell.appendChild(inside);
@@ -1521,7 +1542,7 @@
 				for (var i = 0; i < called.length; i++) {
 					var row = el("div", "wl-row" + (i === 0 ? " first" : ""));
 					var ticket = el("div", "wl-tk", called[i].ticket);
-					if (i === 0) ticket.style.color = accent();
+					if (i === 0) ticket.style.color = accent(one);
 					row.appendChild(ticket);
 					row.appendChild(el("div", "wl-arrow", "→"));
 					row.appendChild(el("div", "wl-at", word("counter") + " " + (called[i].counter || "")));
@@ -1716,7 +1737,7 @@
 		holder.appendChild(face);
 		box.appendChild(holder);
 		var hands = { h: face.querySelector(".h"), m: face.querySelector(".m"), s: face.querySelector(".s") };
-		hands.s.setAttribute("stroke", accent());
+		hands.s.setAttribute("stroke", accent(one));
 		function turn(node, degrees) {
 			node.setAttribute("transform", "rotate(" + degrees + " 50 50)");
 		}
@@ -1731,8 +1752,8 @@
 		tick();
 		var every = setInterval(tick, 1000);
 		return {
-			update: function () {
-				hands.s.setAttribute("stroke", accent());
+			update: function (fresh) {
+				hands.s.setAttribute("stroke", accent(fresh));
 			},
 			drop: function () {
 				clearInterval(every);
@@ -1846,7 +1867,7 @@
 		return {
 			update: function (one) {
 				text(label, settingsOf(one).label || "");
-				label.style.background = accent();
+				highlight(label, one);
 				inner = inner || KINDS.Ticker(rest, one, rest.offsetWidth || w * 0.8, h);
 				inner.update(one);
 			},
@@ -1866,7 +1887,7 @@
 			for (var i = 0; i < items.length; i++) {
 				var row = el("div", "wl-row");
 				var dot = el("span", "wl-dot");
-				dot.style.background = items[i].colour || accent();
+				dot.style.background = items[i].colour || accent(last);
 				row.appendChild(dot);
 				row.appendChild(el("div", "wl-name", items[i].item));
 				row.appendChild(el("div", "wl-state", items[i].state || items[i].value || ""));
@@ -1902,7 +1923,7 @@
 					cell.style.height = "100%";
 					var inside = el("div", "wl-cell-in");
 					var figure = el("div", "wl-huge", counts[states[s]]);
-					figure.style.color = colours[states[s]] || accent();
+					figure.style.color = colours[states[s]] || accent(one);
 					inside.appendChild(figure);
 					inside.appendChild(el("div", "wl-sub", states[s]));
 					cell.appendChild(inside);
@@ -1948,7 +1969,7 @@
 				for (var i = 0; i < services.length; i++) {
 					var row = el("button", "wl-k-row");
 					var letter = el("span", "wl-k-pre", services[i].prefix || services[i].service.charAt(0));
-					letter.style.background = accent();
+					highlight(letter, one);
 					row.appendChild(letter);
 					row.appendChild(el("span", "wl-name", services[i].service));
 					row.appendChild(el("span", "wl-k-wait", services[i].waiting ? word("queued").replace("{0}", services[i].waiting) : ""));

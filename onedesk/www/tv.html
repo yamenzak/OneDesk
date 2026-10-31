@@ -8,7 +8,7 @@
 	<link rel="icon" href="/assets/onedesk/images/one.svg">
 	<style>
 		html, body { margin: 0; padding: 0; height: 100%; overflow: hidden; background: #000; color: #fff; }
-		:root { --accent: {{ accent }}; }
+		:root { --accent: {{ accent }}; --on-light: #111827; --on-dark: #fff; }
 		body { font-family: "Inter", "Noto Sans", "Noto Sans Arabic", Tahoma, Arial, sans-serif; cursor: none; -webkit-font-smoothing: antialiased; }
 		.hidden { display: none !important; }
 		.fill { position: absolute; top: 0; left: 0; right: 0; bottom: 0; }
@@ -122,7 +122,7 @@
 		.wl-thin { font-size: 1em; font-weight: 200; line-height: 1; letter-spacing: -0.05em; font-variant-numeric: tabular-nums; }
 		.wl-fade { height: 100%; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; -webkit-justify-content: center; justify-content: center; text-align: center; font-size: 0.75em; white-space: nowrap; overflow: hidden; -webkit-transition: opacity 0.5s ease; transition: opacity 0.5s ease; }
 		.wl-labelled { height: 100%; display: -webkit-flex; display: flex; -webkit-align-items: stretch; align-items: stretch; }
-		.wl-label { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 0 0.6em; font-size: 0.6em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; color: #fff; }
+		.wl-label { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 0 0.6em; font-size: 0.6em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; white-space: nowrap; }
 		.wl-rest { position: relative; -webkit-flex: 1; flex: 1; overflow: hidden; }
 		.wl-side { height: 100%; display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; }
 		.wl-code svg { width: 100%; height: 100%; display: block; border-radius: 0.15em; }
@@ -130,12 +130,12 @@
 		.wl-k-head { font-size: 1.3em; font-weight: 600; letter-spacing: -0.01em; margin: 0.2em 0.15em 0.7em; text-align: center; }
 		.wl-k-head:empty { display: none; }
 		.wl-k-grid { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-flex-wrap: wrap; flex-wrap: wrap; -webkit-align-content: stretch; align-content: stretch; }
-		.wl-k-tile { width: 100%; height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; align-items: flex-start; -webkit-justify-content: space-between; justify-content: space-between; padding: 0.7em 0.8em; box-sizing: border-box; border: 0; border-radius: 0.45em; color: #fff; font: inherit; text-align: start; cursor: pointer; }
+		.wl-k-tile { width: 100%; height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-align-items: flex-start; align-items: flex-start; -webkit-justify-content: space-between; justify-content: space-between; padding: 0.7em 0.8em; box-sizing: border-box; border: 0; border-radius: 0.45em; font: inherit; text-align: start; cursor: pointer; }
 		.wl-k-letter { font-size: 2.2em; font-weight: 700; line-height: 1; opacity: 0.9; }
 		.wl-k-name { font-size: 1em; font-weight: 600; line-height: 1.15; }
 		.wl-k-rows { -webkit-flex: 1; flex: 1; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; }
 		.wl-k-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; width: 100%; margin: 0.2em 0; padding: 0.55em 0.7em; box-sizing: border-box; border: 0; border-radius: 0.4em; background: rgba(127, 127, 127, 0.14); color: inherit; font: inherit; text-align: start; cursor: pointer; }
-		.wl-k-pre { -webkit-flex: none; flex: none; width: 1.9em; height: 1.9em; line-height: 1.9em; border-radius: 0.35em; text-align: center; font-weight: 700; color: #fff; -webkit-margin-end: 0.7em; margin-inline-end: 0.7em; }
+		.wl-k-pre { -webkit-flex: none; flex: none; width: 1.9em; height: 1.9em; line-height: 1.9em; border-radius: 0.35em; text-align: center; font-weight: 700; -webkit-margin-end: 0.7em; margin-inline-end: 0.7em; }
 		.wl-k-wait { font-size: 0.75em; opacity: 0.6; white-space: nowrap; -webkit-margin-start: 0.8em; margin-inline-start: 0.8em; }
 		.wl-k-go { font-size: 1.4em; opacity: 0.45; line-height: 1; -webkit-margin-start: 0.6em; margin-inline-start: 0.6em; }
 		.wl-caption { -webkit-margin-start: 0.8em; margin-inline-start: 0.8em; font-size: 1.2em; font-weight: 600; line-height: 1.2; }

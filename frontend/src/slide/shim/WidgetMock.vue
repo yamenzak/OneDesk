@@ -9,7 +9,7 @@
 				<line v-for="i in 60" :key="i" x1="50" :y1="i % 5 ? 5 : 4" x2="50" :y2="i % 5 ? 7.5 : 11" stroke="currentColor" :stroke-width="i % 5 ? 0.8 : 2.2" stroke-linecap="round" :opacity="i % 5 ? 0.45 : 1" :transform="`rotate(${i * 6} 50 50)`" />
 				<line x1="50" y1="54" x2="50" y2="27" stroke="currentColor" stroke-width="4.4" stroke-linecap="round" transform="rotate(290 50 50)" />
 				<line x1="50" y1="56" x2="50" y2="15" stroke="currentColor" stroke-width="3" stroke-linecap="round" transform="rotate(246 50 50)" />
-				<line x1="50" y1="60" x2="50" y2="12" :stroke="brand" stroke-width="1.2" stroke-linecap="round" transform="rotate(130 50 50)" />
+				<line x1="50" y1="60" x2="50" y2="12" :stroke="hi" stroke-width="1.2" stroke-linecap="round" transform="rotate(130 50 50)" />
 				<circle cx="50" cy="50" r="2.6" fill="currentColor" />
 			</svg>
 		</template>
@@ -41,14 +41,14 @@
 			<span class="opacity-80" :style="{ ...em(0.9), marginTop: '0.3em' }">{{ __("Counter {0}", [2]) }}</span>
 		</template>
 		<div v-else-if="type === 'Queue Board' && layout === 'counters'" class="grid size-full grid-cols-2" :style="{ gap: '0.3em', padding: '0.3em' }">
-			<div v-for="(one, at) in ['A012', 'B007', 'A011', 'C004']" :key="one" class="flex flex-col items-center justify-center" :style="{ borderRadius: '0.3em', background: at === 0 ? brand : 'color-mix(in srgb, currentColor 14%, transparent)', color: at === 0 ? onBrand || undefined : undefined }">
+			<div v-for="(one, at) in ['A012', 'B007', 'A011', 'C004']" :key="one" class="flex flex-col items-center justify-center" :style="{ borderRadius: '0.3em', background: at === 0 ? hi : 'color-mix(in srgb, currentColor 14%, transparent)', color: at === 0 ? chip.color : undefined }">
 				<span class="uppercase opacity-70" :style="em(0.55)">{{ __("Counter {0}", [at + 1]) }}</span>
 				<span class="font-bold" :style="em(1.3)">{{ one }}</span>
 			</div>
 		</div>
 		<div v-else-if="type === 'Queue Board' && layout === 'list'" class="flex w-full flex-col text-start" :style="{ padding: '0.4em' }">
 			<div v-for="(one, at) in ['A012', 'B007', 'A011', 'C004']" :key="one" class="flex items-center whitespace-nowrap" :style="{ ...em(at ? 0.9 : 1.15), padding: '0.25em 0', borderBottom: '0.04em solid color-mix(in srgb, currentColor 30%, transparent)' }">
-				<span class="font-bold" :style="{ minWidth: '3.4em', color: at ? undefined : brand }">{{ one }}</span><span class="opacity-40">→</span><span class="ms-auto opacity-80">{{ __("Counter {0}", [(at % 3) + 1]) }}</span>
+				<span class="font-bold" :style="{ minWidth: '3.4em', color: at ? undefined : hi }">{{ one }}</span><span class="opacity-40">→</span><span class="ms-auto opacity-80">{{ __("Counter {0}", [(at % 3) + 1]) }}</span>
 			</div>
 		</div>
 		<div v-else-if="type === 'Queue Board' && layout === 'waiting'" class="flex w-full flex-col text-start" :style="{ padding: '0.4em' }">
@@ -138,13 +138,13 @@
 		</div>
 		<div v-else-if="type === 'Board' && layout === 'list'" class="flex w-full flex-col text-start" :style="{ padding: '0.3em 0.5em' }">
 			<div v-for="(one, at) in boardRows" :key="at" class="flex items-center" :style="{ ...em(0.85), padding: '0.22em 0', borderBottom: '0.04em solid color-mix(in srgb, currentColor 25%, transparent)' }">
-				<span class="rounded-full" :style="{ width: '0.7em', height: '0.7em', marginInlineEnd: '0.6em', background: brand, opacity: one[2] }" />
+				<span class="rounded-full" :style="{ width: '0.7em', height: '0.7em', marginInlineEnd: '0.6em', background: hi, opacity: one[2] }" />
 				<span class="flex-1 truncate font-semibold">{{ one[0] }}</span><span class="opacity-80">{{ one[1] }}</span>
 			</div>
 		</div>
 		<div v-else-if="type === 'Board' && layout === 'summary'" class="flex size-full items-center justify-around">
 			<div v-for="(one, at) in [[6, __('Free'), 1], [3, __('In Use'), 0.6], [1, __('Cleaning'), 0.35]]" :key="at" class="flex flex-col items-center">
-				<span class="font-bold leading-none" :style="{ ...em(2.6), color: brand, opacity: one[2] }">{{ one[0] }}</span>
+				<span class="font-bold leading-none" :style="{ ...em(2.6), color: hi, opacity: one[2] }">{{ one[0] }}</span>
 				<span class="opacity-80" :style="em(0.8)">{{ one[1] }}</span>
 			</div>
 		</div>
@@ -211,7 +211,16 @@ const weekRows = [[__("Today"), 23, 31, 20, 60, "lucide-sun"], [nextDay(1), 24, 
 const services = [["A", __("Enquiries"), 4], ["B", __("Payments"), 2], ["C", __("Collections"), 7]];
 const boardRows = [[__("Room {0}", [1]), __("Free"), 1], [__("Room {0}", [2]), __("In Use"), 0.55], [__("Room {0}", [3]), __("Cleaning"), 0.35], [__("Room {0}", [4]), __("Free"), 1]];
 const square = (size) => ({ width: `${size}em`, height: `${size}em` });
-const chip = computed(() => ({ background: props.brand || undefined, color: props.onBrand || undefined }));
+// the widget's highlight: its look's, or the business's colour; words on
+// it dark when it is light
+const hi = computed(() => props.look?.accentColor || props.brand || "");
+const light = computed(() => {
+	const hex = /^#?([0-9a-f]{6})/i.exec(props.look?.accentColor || "");
+	if (!hex) return false;
+	const n = parseInt(hex[1], 16);
+	return (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255 > 0.62;
+});
+const chip = computed(() => ({ background: hi.value || undefined, color: light.value ? "var(--ink-gray-9)" : props.onBrand || undefined }));
 
 // which ready-made Custom widget this is, from its code when it is on a screen
 const custom = computed(() => {

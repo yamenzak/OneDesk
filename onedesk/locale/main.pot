@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 06:29+0000\n"
-"PO-Revision-Date: 2026-10-31 06:29+0000\n"
+"POT-Creation-Date: 2026-10-31 06:37+0000\n"
+"PO-Revision-Date: 2026-10-31 06:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -18180,7 +18180,7 @@ msgid "Followed Records"
 msgstr ""
 
 #: frontend/src/slide/components/FontSection.vue:3
-#: frontend/src/slide/shim/WidgetLookSection.vue:13
+#: frontend/src/slide/shim/WidgetLookSection.vue:16
 msgid "Font"
 msgstr ""
 
@@ -20255,6 +20255,7 @@ msgstr ""
 msgid "High"
 msgstr ""
 
+#: frontend/src/slide/shim/WidgetLookSection.vue:13
 #: onedesk/one_display/widgets.py:203
 msgid "Highlight"
 msgstr ""
@@ -33532,7 +33533,7 @@ msgstr ""
 msgid "Packing Slip"
 msgstr ""
 
-#: frontend/src/slide/shim/WidgetLookSection.vue:16
+#: frontend/src/slide/shim/WidgetLookSection.vue:19
 msgid "Padding"
 msgstr ""
 
@@ -47440,7 +47441,7 @@ msgstr ""
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr ""
 
-#: frontend/src/slide/shim/WidgetLookSection.vue:40
+#: frontend/src/slide/shim/WidgetLookSection.vue:44
 msgid "The Screen's"
 msgstr ""
 
