@@ -127,8 +127,8 @@ class Setup:
 
 	def run(self) -> list[dict]:
 		for step in (
-			self.admin_token,
 			self.find_account,
+			self.admin_token,
 			self.find_zone,
 			self.kv,
 			self.buckets,
@@ -148,7 +148,7 @@ class Setup:
 				step()
 			except Refused as reason:
 				self.note(step.__name__, FAILED, str(reason))
-				if step in (self.admin_token, self.find_account, self.find_zone):
+				if step in (self.find_account, self.admin_token, self.find_zone):
 					break
 			except requests.RequestException as reason:
 				self.note(step.__name__, FAILED, _("Cloudflare did not answer: {0}. Set up again.").format(reason))
@@ -157,15 +157,22 @@ class Setup:
 
 	# One's tokens
 
+	@property
+	def tokens_at(self) -> str:
+		"""One's tokens are the account's, not a person's: Cloudflare refuses
+		a person's token some of the permissions they need (its Workers
+		roles), and they outlive whoever set them up."""
+		return f"/accounts/{self.account}/tokens"
+
 	def permission_groups(self) -> list[dict]:
 		if self.groups is None:
-			self.groups = self.call("GET", "/user/tokens/permission_groups", token=self.master)["result"]
+			self.groups = self.call("GET", f"{self.tokens_at}/permission_groups", token=self.master)["result"]
 		return self.groups
 
 	def held_tokens(self) -> list[dict]:
 		found, page = [], 1
 		while True:
-			body = self.call("GET", "/user/tokens", token=self.master, params={"per_page": 50, "page": page})
+			body = self.call("GET", self.tokens_at, token=self.master, params={"per_page": 50, "page": page})
 			found += body["result"] or []
 			info = body.get("result_info") or {}
 			if page >= (info.get("total_pages") or 1):
@@ -178,7 +185,7 @@ class Setup:
 		if not value:
 			return None
 		try:
-			return self.call("GET", "/user/tokens/verify", token=value)["result"].get("id")
+			return self.call("GET", f"{self.tokens_at}/verify", token=value)["result"].get("id")
 		except Refused:
 			return None
 
@@ -198,7 +205,7 @@ class Setup:
 		state = OURS
 		if not held:
 			try:
-				made = self.call("POST", "/user/tokens", token=self.master, json={"name": name, "policies": wanted})["result"]
+				made = self.call("POST", self.tokens_at, token=self.master, json={"name": name, "policies": wanted})["result"]
 			except Refused as refused:
 				asked = {one["id"] for policy in wanted for one in policy["permission_groups"]}
 				raise Refused(f"{refused} ({', '.join(one['name'] for one in groups if one['id'] in asked)})") from refused
@@ -208,11 +215,11 @@ class Setup:
 			if name != "OneAdmin Storage" and self.verified(value) != held["id"]:
 				value = None
 			if not value:
-				value = self.call("PUT", f"/user/tokens/{held['id']}/value", token=self.master, json={})["result"]
+				value = self.call("PUT", f"{self.tokens_at}/{held['id']}/value", token=self.master, json={})["result"]
 				self.store(name, held["id"], value)
 				state = MADE
 			if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
-				self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": name, "policies": wanted, "status": "active"})
+				self.call("PUT", f"{self.tokens_at}/{held['id']}", token=self.master, json={"name": name, "policies": wanted, "status": "active"})
 		detail = _("missing permissions: {0}").format(", ".join(missing)) if missing else ""
 		self.note(f"token {name}", WAITING if missing else state, detail)
 		return value
@@ -234,9 +241,9 @@ class Setup:
 		]
 
 	def admin_token(self) -> None:
-		"""The token every other step runs with. Before the account and the
-		zone are known it may reach any of them; tokens() narrows it once
-		they are."""
+		"""The token every other step runs with, made once the account is
+		found. Before the zone is known it may reach any of the account's;
+		tokens() narrows it once it is."""
 		self.token = self.ensure_token("OneAdmin")
 		for _try in range(5):
 			if self.verified(self.token):
@@ -253,7 +260,7 @@ class Setup:
 		self.ensure_token("OneAI")
 
 	def find_account(self) -> None:
-		accounts = self.call("GET", "/accounts")["result"]
+		accounts = self.call("GET", "/accounts", token=self.token or self.master)["result"]
 		wanted = self.settings.cloudflare_account
 		found = next((one for one in accounts if one["id"] == wanted), None) if wanted else None
 		if not found:
@@ -576,7 +583,7 @@ def policies(groups: list[dict], needs: tuple, account: str | None, zone: str | 
 	Cloudflare has no permission for, by their first name. Pure."""
 	where = {
 		ACCOUNT: {f"{ACCOUNT}.{account}" if account else f"{ACCOUNT}.*": "*"},
-		ZONE: {f"{ZONE}.{zone}" if zone else f"{ZONE}.*": "*"},
+		ZONE: {f"{ZONE}.{zone}": "*"} if zone else {f"{ACCOUNT}.{account}": {f"{ZONE}.*": "*"}} if account else {f"{ZONE}.*": "*"},
 		BUCKET: {f"{BUCKET}.{account}_{jurisdiction}_{name}": "*" for jurisdiction, name in buckets} if account else {},
 	}
 	granted: dict[str, list[str]] = {}

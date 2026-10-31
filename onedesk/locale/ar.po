@@ -446,6 +446,10 @@ msgstr "<b>عندما</b> {when}<br><b>عندها</b> {then}<br>تعمل بعد 
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr "<span class=\"h4\"><b>الآن</b></span>"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "A Cloudflare token allowed only to edit the account's API tokens. Setup uses it to make One's own tokens."
+msgstr "رمز Cloudflare لا يُسمح له إلا بتعديل رموز API الخاصة بالحساب. يستخدمه الإعداد لإنشاء رموز One الخاصة."
+
 #: onedesk/one_task/tour.py
 msgid "A Column for Each Status"
 msgstr "عمود لكل حالة"
@@ -25875,10 +25879,6 @@ msgstr "أنشأه {0}"
 #: onedesk/one_ai/reading/planning.py:109
 msgid "Made from {0}."
 msgstr "أُنشئ من {0}."
-
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
-msgstr "يُنشأ في Cloudflare من قالب Create Additional Tokens. يستخدمه إعداد Cloudflare فقط لإنشاء رموز One الخاصة."
 
 #: onedesk/public/js/item_new.js:99
 msgid "Made in Our Workshop"
