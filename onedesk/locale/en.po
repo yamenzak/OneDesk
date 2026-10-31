@@ -4,9 +4,13 @@
 # desk draws its name through __() wherever it shows it: a module in a list's
 # filters, "One Admin Settings" as its form's title. The names people read
 # are the products', written as one word ("OneAdmin"), so English carries
-# them here as it would a translation. Nothing else belongs in this file;
-# every other English string is its own msgid. ar.po and de.po say the same
-# names in theirs. See docs/WORDING.md.
+# them here as it would a translation. ar.po and de.po say the same names in
+# theirs. See docs/WORDING.md.
+#
+# The other thing here: frappe's own strings that call the product Frappe,
+# said as One says them. Only those; frappe's strings naming other things
+# (Frappe Cloud, Frappe Mail, "Login with Frappe", its support) stay.
+# Nothing else belongs in this file.
 msgid ""
 msgstr ""
 "Project-Id-Version: OneDesk\n"
@@ -111,3 +115,18 @@ msgstr "Incentives Paid (Last Month)"
 
 msgid "Total Outgoing Salary(Last month)"
 msgstr "Salaries Paid (Last Month)"
+
+msgid "Frappe Framework Version"
+msgstr "Framework Version"
+
+msgid "A Frappe Framework instance can function as an OAuth Client, Resource, or Authorization server. This DocType contains settings related to all three."
+msgstr "A workspace can act as an OAuth client, resource server or authorization server. These are the settings for all three."
+
+msgid "Frappe no longer uses Gravatar because it can disclose hashed email addresses to a third-party service. To fully stop this behavior, existing Gravatar image URLs must be deleted."
+msgstr "One no longer uses Gravatar, because it can disclose hashed email addresses to a third party. To stop it entirely, delete the Gravatar picture addresses already saved."
+
+msgid "Frappe page builder using components"
+msgstr "Page builder using components"
+
+msgid "If enabled, Frappe exports the form to the module folder."
+msgstr "If enabled, the form is exported to the module folder."

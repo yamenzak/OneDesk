@@ -34,6 +34,13 @@ def apply() -> None:
 		settings.save(ignore_permissions=True)
 
 
+def quiet_errors() -> None:
+	"""after_sync and after_migrate: an error answers with its message only,
+	never frappe's traceback or exception line, on every site and every run."""
+	if frappe.db.get_single_value("System Settings", "allow_error_traceback"):
+		frappe.db.set_single_value("System Settings", "allow_error_traceback", 0)
+
+
 MARK_OF = {"OneCloud": "onestorage", "OneWriter": "onedoc", "OneWorkbook": "onesheet"}
 
 
