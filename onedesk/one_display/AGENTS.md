@@ -233,9 +233,14 @@ decks are, so each comes in the reader's language, the business's colour
 its group, and is drawn by one function. A widget it puts down is a
 ready-made one (`widgets.PRESETS`) reading the first source of the kind it
 takes (`TAKES`); a QR code gets the site's address, a picture one of the
-four abstract pictures in `public/images/one_display/pictures/`, a ticker
-with no feed a line of words, so a screen shows something from the first
-minute. `made` returns the slide for the editor, which puts it on the canvas
+ten abstract pictures in `public/images/one_display/pictures/` (`PICTURE`),
+a ticker with no feed a line of words, so a screen shows something from the
+first minute. A picture words sit on is `Canvas.picture`, an image on the
+slide: the player draws the slide under every widget (`tv.js`, ABOVE in
+`screen.py`), so a picture widget would hide them. `_top` puts the logo and
+the time on a pill that reads on the screen's ground; `_bare` is a widget
+with nothing around it, in one colour. The groups after the first five are
+places (`GROUPS`): shops, food and drink, clinics, offices, events, schools. `made` returns the slide for the editor, which puts it on the canvas
 as one command that undoes (`shim/ScreenTemplates.vue`); `apply` saves it
 as the editor would, through `api.save_slides` and the `one_slide_saving`
 hook. The editor opens an empty screen on its templates; `for_channel`
@@ -245,6 +250,14 @@ Each template's picture is `public/images/one_display/starters/<key>.jpg`,
 taken from the player (`/tv?collection=`) with a queue called and the
 weather filled. Over-slides templates are shot on a keyed background with an
 abstract picture laid in, as slides would be.
+
+**Schedule** and **Opening Hours** take no source: their rows are a long
+setting, a line each with its parts joined by a bar (`widgets.Lines`, so the
+default is in the reader's language). `tv.js` marks the session on now from
+the screen's own clock (`onNow`), and an opening day by its place in the
+week, Monday first, so the days may be named in any language. The **Wi-Fi**
+way of a QR code makes its own link from the network and password
+(`programme.wifi`, the `WIFI:` form a phone's camera reads).
 
 `widgets.PRESETS` are ready-made widgets: a kind, settings it has, a look and
 a size. Three are Custom code (`COUNTDOWN`, `ROTATING`, `PROGRESS`), ES5

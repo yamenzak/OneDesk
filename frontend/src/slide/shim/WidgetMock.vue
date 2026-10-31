@@ -165,6 +165,40 @@
 			<Icon icon="lucide-qr-code" :style="square(3)" />
 			<span v-if="settings.caption" :style="{ ...em(0.7), marginTop: '0.2em' }">{{ settings.caption }}</span>
 		</template>
+		<div v-else-if="type === 'Schedule' && layout === 'next'" class="flex size-full flex-col justify-center text-start" :style="{ padding: '0 0.6em' }">
+			<span class="uppercase opacity-70" :style="em(0.7)">{{ __("Now") }}</span>
+			<span class="font-bold leading-tight" :style="em(1.8)">{{ sessions[1]?.[1] }}</span>
+			<span class="opacity-75" :style="em(0.8)">{{ sessions[1]?.[0] }}</span>
+			<span class="uppercase opacity-70" :style="{ ...em(0.7), marginTop: '0.8em' }">{{ __("Next") }}</span>
+			<span class="font-semibold" :style="em(1)">{{ sessions[2]?.[1] }}</span>
+		</div>
+		<div v-else-if="type === 'Schedule'" class="flex size-full flex-col justify-around text-start" :style="{ padding: '0.3em 0.4em' }">
+			<div v-for="(one, at) in sessions" :key="at" class="flex items-center" :style="{ padding: '0.25em 0.4em', borderRadius: '0.4em', opacity: at === 0 ? 0.45 : 1, background: at === 1 ? 'color-mix(in srgb, currentColor 14%, transparent)' : undefined }">
+				<span class="font-bold tabular-nums" :style="{ ...em(0.8), width: '4.4em', color: hi }">{{ one[0] }}</span>
+				<span class="flex-1 truncate font-bold" :style="em(0.95)">{{ one[1] }}</span>
+				<span v-if="at === 1" class="rounded-full font-bold uppercase" :style="{ ...chip, ...em(0.55), padding: '0.2em 0.6em' }">{{ __("Now") }}</span>
+				<span v-else-if="at === 2" class="rounded-full font-bold uppercase" :style="{ ...em(0.55), padding: '0.2em 0.6em', boxShadow: 'inset 0 0 0 0.08em currentColor' }">{{ __("Next") }}</span>
+			</div>
+		</div>
+		<template v-else-if="type === 'Opening Hours' && layout === 'today'">
+			<span data-fit class="font-bold leading-none" :style="{ ...em(2.2), color: hi }">{{ __("Open now") }}</span>
+			<span class="opacity-75" :style="{ ...em(0.85), marginTop: '0.3em' }">{{ openRows[todayAt]?.join("  ·  ") }}</span>
+		</template>
+		<div v-else-if="type === 'Opening Hours'" class="flex size-full flex-col justify-center text-start" :style="{ padding: '0.3em 0.6em' }">
+			<span class="self-start rounded-full font-bold" :style="{ ...chip, ...em(0.7), padding: '0.2em 0.7em', marginBottom: '0.4em' }">{{ __("Open now") }}</span>
+			<div v-for="(one, at) in openRows" :key="at" class="flex" :style="{ ...em(0.75), padding: '0.12em 0.4em', opacity: at === todayAt ? 1 : 0.7, fontWeight: at === todayAt ? 700 : 400, borderInlineStart: `0.2em solid ${at === todayAt ? hi : 'transparent'}` }">
+				<span class="flex-1">{{ one[0] }}</span><span class="tabular-nums">{{ one[1] }}</span>
+			</div>
+		</div>
+		<div v-else-if="type === 'QR Code' && layout === 'wifi'" class="flex size-full items-center" :style="{ gap: '0.6em', padding: '0 0.4em' }">
+			<Icon icon="lucide-qr-code" :style="square(2.6)" />
+			<div class="flex flex-col text-start">
+				<span class="uppercase opacity-70" :style="em(0.6)">{{ __("Network") }}</span>
+				<span class="font-bold" :style="em(1.1)">{{ settings.network || __("Guest") }}</span>
+				<span class="uppercase opacity-70" :style="{ ...em(0.6), marginTop: '0.3em' }">{{ __("Password") }}</span>
+				<span class="font-bold" :style="em(1.1)">{{ settings.password }}</span>
+			</div>
+		</div>
 		<template v-else-if="type === 'Custom'">
 			<span v-if="custom === 'countdown'" class="font-semibold tabular-nums" :style="em(1.8)">12 : 04 : 37</span>
 			<div v-else-if="custom === 'progress'" class="w-full" :style="{ padding: '0 0.6em' }">
@@ -235,6 +269,15 @@ const dayOfMonth = dayWords(0, "D");
 const hourRow = [[__("Now"), "lucide-sun", "24°"], ["15:00", "lucide-sun", "26°"], ["16:00", "lucide-cloud-sun", "25°"], ["17:00", "lucide-cloud-sun", "23°"], ["18:00", "lucide-cloud", "21°"], ["19:00", "lucide-moon", "20°"]];
 const nextDay = (days) => dayWords(days, "ddd");
 const weekRows = [[__("Today"), 23, 31, 20, 60, "lucide-sun"], [nextDay(1), 24, 32, 30, 62, "lucide-cloud-sun"], [nextDay(2), 22, 29, 10, 55, "lucide-sun"], [nextDay(3), 21, 28, 0, 58, "lucide-cloud"]];
+// a Schedule's or Opening Hours' rows, one a line, parts split by "|"
+const rowsOf = (words) =>
+	String(words || "")
+		.split("\n")
+		.filter((one) => one.trim())
+		.map((one) => one.split("|").map((part) => part.trim()));
+const sessions = computed(() => rowsOf(props.settings.rows).slice(0, 5));
+const openRows = computed(() => rowsOf(props.settings.rows).slice(0, 7));
+const todayAt = (new Date().getDay() + 6) % 7;
 const services = [["A", __("Enquiries"), 4], ["B", __("Payments"), 2], ["C", __("Collections"), 7]];
 const boardRows = [[__("Room {0}", [1]), __("Free"), 1], [__("Room {0}", [2]), __("In Use"), 0.55], [__("Room {0}", [3]), __("Cleaning"), 0.35], [__("Room {0}", [4]), __("Free"), 1]];
 const square = (size) => ({ width: `${size}em`, height: `${size}em` });

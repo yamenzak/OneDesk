@@ -126,7 +126,15 @@ def _widgets() -> dict:
 		HERE / "widgets.py",
 		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES", "LOOK", "BRAND", "LOOKS", "LOOK_LABELS", "FIRST_LOOK", "COUNTDOWN", "ROTATING", "PROGRESS", "PRESETS"),
 		_lt=lambda text, context=None: text,
+		Lines=lambda *rows: "\n".join(" | ".join(row) for row in rows),
 	)
+
+
+def test_a_wifi_code_is_what_a_phones_camera_joins():
+	wifi = _load(HERE / "programme.py", ("wifi",))["wifi"]
+	assert wifi("Guest", "welcome2025") == "WIFI:T:WPA;S:Guest;P:welcome2025;;"
+	assert wifi("Café;1", "") == "WIFI:T:nopass;S:Café\\;1;P:;;"
+	assert wifi("", "secret") == "", "no network, no code"
 
 
 def test_every_widget_is_declared_soundly():

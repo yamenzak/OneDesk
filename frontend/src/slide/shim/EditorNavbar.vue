@@ -68,7 +68,8 @@ import { sources } from "./data.js";
 const emit = defineEmits(["startSlideShow", "performDropdownAction"]);
 const ONE = "One"; // a name, not a word to translate
 const ONEAI = "OneAI"; // a name too
-const oneMark = mark("oneslide");
+// a screen's editor belongs to OneDisplay, a presentation's to OneSlide
+const oneMark = computed(() => mark(screen.value ? "onedisplay" : "oneslide"));
 const inReadonlyMode = inject("inReadonlyMode", ref(false));
 const renaming = ref(false);
 const title = ref("");

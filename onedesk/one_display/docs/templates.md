@@ -13,10 +13,13 @@ screen's shape come first, and the rest are under **Other Shapes**. A
 channel with no layout yet has **Choose a Layout**, which makes one and opens
 it on the templates.
 
-Templates are grouped by what they are for: **Welcome**, **Queues**,
-**Boards and Rooms**, **Information**, **Promotion** and **Over Slides**.
-The ones over slides leave the middle of the screen clear, so the channel's
-slides show through.
+There are eighty, grouped by what they are for: **Welcome**, **Queues**,
+**Boards and Rooms**, **Information** and **Promotion**, then one group for
+each kind of place: **Shops**, **Food and Drink**, **Clinics and Care**,
+**Offices**, **Events** and **Schools and Training**. Each group has
+templates for a wide screen, a tall one and a strip. The ones under **Over
+Slides** leave the middle of the screen clear, so the channel's slides show
+through.
 
 A template's widgets read from your first source of the kind they need, so a
 queue template shows your queue at once. A picture shows a placeholder until

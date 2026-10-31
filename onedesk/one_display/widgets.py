@@ -15,6 +15,18 @@ from frappe.utils import escape_html
 # A setting is (key, kind, label, default); kinds are what the editor draws.
 TEXT, LONG, NUMBER, CHECK, COLOUR, SELECT, IMAGE, CODE = ("text", "long", "number", "check", "colour", "select", "image", "code")
 
+
+class Lines:
+	"""A long setting's default written as rows, a line each and its parts
+	joined with a bar, each part translated when it is read."""
+
+	def __init__(self, *rows):
+		self.rows = rows
+
+	def __str__(self):
+		return "\n".join(" | ".join(str(part) for part in row) for row in self.rows)
+
+
 TYPES = {
 	"Queue Board": {
 		"label": _lt("Queue Board"),
@@ -131,11 +143,35 @@ TYPES = {
 		"sources": ("Record",),
 		"slots": ("link",),
 		"settings": (
-			("layout", SELECT, _lt("Layout"), "card", (("card", _lt("Code and Caption")), ("side", _lt("Caption Beside")))),
+			("layout", SELECT, _lt("Layout"), "card", (("card", _lt("Code and Caption")), ("side", _lt("Caption Beside")), ("wifi", _lt("Wi-Fi")))),
 			("link", TEXT, _lt("Address"), ""),
 			("caption", TEXT, _lt("Caption"), ""),
+			("network", TEXT, _lt("Network Name"), ""),
+			("password", TEXT, _lt("Password"), ""),
 		),
 		"size": (15, 25),
+	},
+	"Schedule": {
+		"label": _lt("Schedule"),
+		"about": _lt("Sessions of the day, one a line: time, what, where. The one on now is marked."),
+		"sources": (),
+		"slots": (),
+		"settings": (
+			("layout", SELECT, _lt("Layout"), "list", (("list", _lt("The Day")), ("next", _lt("Now and Next")))),
+			("rows", LONG, _lt("Sessions"), Lines(("09:00", _lt("Welcome and coffee"), _lt("Lobby")), ("10:00", _lt("Morning session"), _lt("Main Hall")), ("12:30", _lt("Lunch"), _lt("Restaurant")), ("14:00", _lt("Workshops"), _lt("Rooms 1 to 3")), ("16:30", _lt("Closing talk"), _lt("Main Hall")))),
+		),
+		"size": (40, 60),
+	},
+	"Opening Hours": {
+		"label": _lt("Opening Hours"),
+		"about": _lt("Hours for each day of the week, with today marked and whether you are open now."),
+		"sources": (),
+		"slots": (),
+		"settings": (
+			("layout", SELECT, _lt("Layout"), "week", (("week", _lt("The Week")), ("today", _lt("Today Only")))),
+			("rows", LONG, _lt("Hours"), Lines((_lt("Monday"), "09:00 – 18:00"), (_lt("Tuesday"), "09:00 – 18:00"), (_lt("Wednesday"), "09:00 – 18:00"), (_lt("Thursday"), "09:00 – 20:00"), (_lt("Friday"), "09:00 – 20:00"), (_lt("Saturday"), "10:00 – 16:00"), (_lt("Sunday"), _lt("Closed")))),
+		),
+		"size": (34, 56),
 	},
 	"Custom": {
 		"label": _lt("Custom"),
@@ -301,6 +337,11 @@ PRESETS = (
 	("see_menu", "QR Code", _lt("See the Menu"), {"caption": _lt("Scan for the menu")}, "Light Card", (15, 25)),
 	("give_feedback", "QR Code", _lt("Give Feedback"), {"caption": _lt("Tell us how we did")}, "Floating", (15, 25)),
 	("follow_us", "QR Code", _lt("Follow Us"), {"caption": _lt("Follow us")}, "Accent", (15, 25)),
+	("wifi_code", "QR Code", _lt("Wi-Fi Code"), {"layout": "wifi", "network": "Guest", "caption": _lt("Scan to join the Wi-Fi")}, "Light Card", (40, 22)),
+	("day_schedule", "Schedule", _lt("Schedule for the Day"), {}, "Card", (40, 60)),
+	("now_and_next", "Schedule", _lt("Now and Next"), {"layout": "next"}, "Accent", (40, 30)),
+	("opening_hours", "Opening Hours", _lt("Opening Hours"), {}, "Card", (34, 56)),
+	("open_today", "Opening Hours", _lt("Open Today"), {"layout": "today"}, "Pill", (30, 14)),
 	("countdown", "Custom", _lt("Countdown"), {"html": (COUNTDOWN, _lt("days, hours and minutes to go"))}, "Card", (50, 30)),
 	("rotating_messages", "Custom", _lt("Rotating Messages"), {"html": (ROTATING, (_lt("Welcome"), _lt("Thank you for visiting"), _lt("Ask us anything")))}, "Plain", (80, 20)),
 	("progress", "Custom", _lt("Progress to a Goal"), {"html": (PROGRESS, _lt("Progress"))}, "Card", (50, 16)),

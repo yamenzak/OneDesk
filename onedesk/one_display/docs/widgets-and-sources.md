@@ -32,6 +32,8 @@ next time they look.
 | **Weather** | Today's weather and the days ahead, for a place you choose. |
 | **Board** and **Board Item** | Every item on a board, or one item large. See [Boards](boards). |
 | **Image** and **QR Code** | A picture, or a code that opens an address on a phone. |
+| **Schedule** | The day's sessions, a line each: time, what and where. The one on now is marked and the ones over fade. |
+| **Opening Hours** | Your hours for each day, with today marked and whether you are open now. |
 | **Custom** | A widget of your own, written by OneAI from a sentence. |
 
 A widget can show always, or only between two times of day.
@@ -48,7 +50,9 @@ Most widgets can show the same thing in more than one way. Choose one under
 | **Clock** | Digital, Analog, Date Card, Time and Day, Time Only. |
 | **Ticker** | Scrolling, One at a Time, With a Label. |
 | **Board** | Tiles, List, Count by State. |
-| **QR Code** | Code and Caption, Caption Beside. |
+| **QR Code** | Code and Caption, Caption Beside, Wi-Fi (a code a phone joins your network from, with the network's name and password beside it). |
+| **Schedule** | The Day, every session with the one on now marked, or Now and Next, the session on now and the one after it, large. |
+| **Opening Hours** | The Week, a line for each day with today marked, or Today Only, open or closed and today's hours. |
 | **Kiosk** | Grid, a tile for each service, or List, a row for each with how many are waiting. |
 
 ## How a Widget Looks

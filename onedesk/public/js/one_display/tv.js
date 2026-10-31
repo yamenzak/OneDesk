@@ -1493,7 +1493,7 @@
 
 	// one counter: its name and the ticket it is serving, for above its desk
 	function queueCounter(box, one, w, h) {
-		var base = Math.min(h / 5.6, w / 6.5);
+		var base = Math.min(h / 6.2, w / 6.5);
 		sized(box, base);
 		var holder = el("div", "wl-center");
 		var name = el("div", "eyebrow");
@@ -2009,13 +2009,196 @@
 		};
 	}
 
+	// rows typed one a line, their parts split by "|"
+	function lines(words) {
+		var out = [];
+		var all = String(words || "").split("\n");
+		for (var i = 0; i < all.length; i++) {
+			if (!all[i].replace(/\s/g, "")) continue;
+			out.push(all[i].split("|").map(function (part) { return part.replace(/^\s+|\s+$/g, ""); }));
+		}
+		return out;
+	}
+
+	function minutesOf(words) {
+		var found = /(\d{1,2})[:.](\d{2})/.exec(words || "");
+		return found ? Number(found[1]) * 60 + Number(found[2]) : null;
+	}
+
+	function minutesNow() {
+		var d = local();
+		return d.getUTCHours() * 60 + d.getUTCMinutes();
+	}
+
+	// the session on now: the last that has started
+	function onNow(rows) {
+		var at = minutesNow();
+		var current = -1;
+		for (var i = 0; i < rows.length; i++) {
+			var start = minutesOf(rows[i][0]);
+			if (start !== null && start <= at) current = i;
+		}
+		return current;
+	}
+
+	// a day's sessions: what is on now marked, what is over faded, what is next said
+	function scheduleList(box, one, w, h) {
+		var list = el("div", "wl-sched");
+		box.appendChild(list);
+		var s = settingsOf(one);
+		function draw() {
+			var rows = lines(s.rows);
+			sized(box, Math.min(h / (Math.max(rows.length, 1) * 2.4 + 0.4), w / 15));
+			var current = onNow(rows);
+			list.innerHTML = "";
+			for (var i = 0; i < rows.length; i++) {
+				var row = el("div", "wl-s-row" + (i < current ? " past" : ""));
+				var time = el("div", "wl-s-time", rows[i][0]);
+				time.style.color = accent(one);
+				row.appendChild(time);
+				var body = el("div", "wl-s-body");
+				body.appendChild(el("div", "wl-s-what", rows[i][1] || ""));
+				if (rows[i][2]) body.appendChild(el("div", "wl-s-where", rows[i][2]));
+				row.appendChild(body);
+				if (i === current || i === current + 1) {
+					var tag = el("span", "wl-s-tag", word(i === current ? "now" : "next"));
+					if (i === current) highlight(tag, one);
+					row.appendChild(tag);
+				}
+				if (i === current) row.className += " now";
+				list.appendChild(row);
+			}
+		}
+		draw();
+		var timer = setInterval(draw, 30000);
+		return { update: function (fresh) { s = settingsOf(fresh); draw(); }, drop: function () { clearInterval(timer); } };
+	}
+
+	// only what is on now, large, and what comes after it
+	function scheduleNext(box, one, w, h) {
+		sized(box, Math.min(h / 7.6, w / 12));
+		var holder = el("div", "wl-stack");
+		box.appendChild(holder);
+		var s = settingsOf(one);
+		function part(label, row, large) {
+			holder.appendChild(el("div", "eyebrow", label));
+			holder.appendChild(el("div", large ? "wl-s-big" : "wl-s-what", row ? row[1] || "" : "—"));
+			if (row) holder.appendChild(el("div", "wl-sub", [row[0], row[2]].filter(function (one) { return one; }).join("  ·  ")));
+		}
+		function draw() {
+			var rows = lines(s.rows);
+			var current = onNow(rows);
+			holder.innerHTML = "";
+			part(word("now"), rows[current] || null, true);
+			var gap = el("div", "wl-s-gap");
+			holder.appendChild(gap);
+			part(word("next"), rows[current + 1] || null, false);
+		}
+		draw();
+		var timer = setInterval(draw, 30000);
+		return { update: function (fresh) { s = settingsOf(fresh); draw(); }, drop: function () { clearInterval(timer); } };
+	}
+
+	// whether a day's hours, such as "09:00 – 18:00", hold this minute
+	function openAt(hours, at) {
+		var times = String(hours || "").match(/\d{1,2}[:.]\d{2}/g) || [];
+		if (times.length < 2) return false;
+		var from = minutesOf(times[0]);
+		var to = minutesOf(times[1]);
+		return to > from ? at >= from && at < to : at >= from || at < to;
+	}
+
+	// the week's hours, Monday first, today marked, and whether it is open now
+	function openingWeek(box, one, w, h) {
+		var holder = el("div", "wl-open");
+		box.appendChild(holder);
+		var s = settingsOf(one);
+		function draw() {
+			var rows = lines(s.rows);
+			sized(box, Math.min(h / (Math.max(rows.length, 1) * 1.7 + 2.6), w / 14));
+			var today = (local().getUTCDay() + 6) % 7;
+			var open = rows[today] && openAt(rows[today][1], minutesNow());
+			holder.innerHTML = "";
+			var state = el("span", "wl-o-state", word(open ? "open" : "closed"));
+			if (open) highlight(state, one);
+			holder.appendChild(state);
+			for (var i = 0; i < rows.length; i++) {
+				var row = el("div", "wl-o-row" + (i === today ? " today" : ""));
+				row.appendChild(el("div", "wl-o-day", rows[i][0]));
+				row.appendChild(el("div", "wl-o-time", rows[i][1] || ""));
+				if (i === today) row.style.borderColor = accent(one);
+				holder.appendChild(row);
+			}
+		}
+		draw();
+		var timer = setInterval(draw, 60000);
+		return { update: function (fresh) { s = settingsOf(fresh); draw(); }, drop: function () { clearInterval(timer); } };
+	}
+
+	// only today: open or closed, large, and today's hours
+	function openingToday(box, one, w, h) {
+		sized(box, Math.min(h / 5, w / 8));
+		var holder = el("div", "wl-center");
+		box.appendChild(holder);
+		var s = settingsOf(one);
+		function draw() {
+			var rows = lines(s.rows);
+			var today = (local().getUTCDay() + 6) % 7;
+			var row = rows[today] || [];
+			var open = openAt(row[1], minutesNow());
+			holder.innerHTML = "";
+			var state = el("div", "wl-big", word(open ? "open" : "closed"));
+			state.style.color = open ? accent(one) : "";
+			holder.appendChild(state);
+			holder.appendChild(el("div", "wl-sub", [row[0], row[1]].filter(function (one) { return one; }).join("  ·  ")));
+		}
+		draw();
+		var timer = setInterval(draw, 60000);
+		return { update: function (fresh) { s = settingsOf(fresh); draw(); }, drop: function () { clearInterval(timer); } };
+	}
+
+	// a code that joins the Wi-Fi, beside the network and its password
+	// a code a phone joins the network from, the network and password beside it,
+	// or under it in a box taller than it is wide
+	function qrWifi(box, one, w, h) {
+		var stacked = w < h * 1.3;
+		var side = stacked ? Math.min(w * 0.8, h * 0.55) : Math.min(h, w * 0.42);
+		sized(box, stacked ? Math.min((h - side) / 5.4, w / 10) : Math.min(h / 6.4, (w - side) / 13));
+		var holder = el("div", stacked ? "wl-center" : "wl-side");
+		var code = el("div", "wl-code");
+		code.style.width = code.style.height = side + "px";
+		code.style.webkitFlexShrink = code.style.flexShrink = "0";
+		var words = el("div", stacked ? "wl-wifi top" : "wl-wifi");
+		holder.appendChild(code);
+		holder.appendChild(words);
+		box.appendChild(holder);
+		return {
+			update: function (one) {
+				var s = settingsOf(one);
+				code.innerHTML = (one.data && one.data.svg) || "";
+				words.innerHTML = "";
+				words.appendChild(el("div", "eyebrow", word("network")));
+				words.appendChild(el("div", "wl-w-value", s.network || ""));
+				if (s.password) {
+					words.appendChild(el("div", "eyebrow", word("password")));
+					words.appendChild(el("div", "wl-w-value", s.password));
+				}
+			},
+		};
+	}
+
+	KINDS.Schedule = scheduleList;
+	KINDS["Opening Hours"] = openingWeek;
+
 	var LAYOUTS = {
 		"Queue Board": { latest: queueLatest, counter: queueCounter, counters: queueCounters, list: queueList, waiting: queueWaiting },
 		Weather: { today: weatherToday, hours: weatherHours, list: weatherList, compact: weatherCompact, big: weatherBig },
 		Clock: { analog: clockAnalog, date: clockDate, stacked: clockStacked, minimal: clockMinimal },
 		Ticker: { fade: tickerFade, labelled: tickerLabelled },
 		Board: { list: boardList, summary: boardSummary },
-		"QR Code": { side: qrSide },
+		"QR Code": { side: qrSide, wifi: qrWifi },
+		Schedule: { next: scheduleNext },
+		"Opening Hours": { today: openingToday },
 		Kiosk: { list: kioskList },
 	};
 

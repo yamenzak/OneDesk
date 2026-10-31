@@ -139,6 +139,27 @@
 		.wl-k-pre { -webkit-flex: none; flex: none; width: 1.9em; height: 1.9em; line-height: 1.9em; border-radius: 0.35em; text-align: center; font-weight: 700; -webkit-margin-end: 0.7em; margin-inline-end: 0.7em; }
 		.wl-k-wait { font-size: calc(0.75em * var(--fs-detail, 1)); opacity: 0.6; white-space: nowrap; -webkit-margin-start: 0.8em; margin-inline-start: 0.8em; }
 		.wl-k-go { font-size: 1.4em; opacity: 0.45; line-height: 1; -webkit-margin-start: 0.6em; margin-inline-start: 0.6em; }
+		.wl-sched { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: space-around; justify-content: space-around; }
+		.wl-s-row { display: -webkit-flex; display: flex; -webkit-align-items: center; align-items: center; padding: 0.35em 0.6em; border-radius: 0.4em; }
+		.wl-s-row.past { opacity: 0.45; }
+		.wl-s-row.now { background: rgba(127, 127, 127, 0.16); }
+		.wl-s-time { width: 4.2em; -webkit-flex: none; flex: none; font-weight: 700; font-variant-numeric: tabular-nums; font-size: calc(1em * var(--fs-label, 1)); }
+		.wl-s-body { -webkit-flex: 1; flex: 1; min-width: 0; }
+		.wl-s-what { font-weight: 700; font-size: calc(1.15em * var(--fs-main, 1)); line-height: 1.2; }
+		.wl-s-where { opacity: 0.65; font-size: calc(0.8em * var(--fs-detail, 1)); }
+		.wl-s-tag { -webkit-flex: none; flex: none; padding: 0.2em 0.6em; border-radius: 1em; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; box-shadow: inset 0 0 0 0.08em currentColor; font-size: calc(0.6em * var(--fs-label, 1)); }
+		.wl-s-big { font-weight: 700; line-height: 1.1; font-size: calc(2.2em * var(--fs-main, 1)); }
+		.wl-s-gap { height: 0.9em; }
+		.wl-open { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; }
+		.wl-o-state { -webkit-align-self: flex-start; align-self: flex-start; padding: 0.25em 0.8em; border-radius: 1em; margin-bottom: 0.6em; font-weight: 700; box-shadow: inset 0 0 0 0.08em currentColor; font-size: calc(0.85em * var(--fs-label, 1)); }
+		.wl-o-row { display: -webkit-flex; display: flex; padding: 0.3em 0.5em; border: 0 solid transparent; -webkit-border-start-width: 0.2em; border-inline-start-width: 0.2em; opacity: 0.75; }
+		.wl-o-row.today { opacity: 1; font-weight: 700; }
+		.wl-o-day { -webkit-flex: 1; flex: 1; font-size: calc(1em * var(--fs-main, 1)); }
+		.wl-o-time { font-variant-numeric: tabular-nums; font-size: calc(1em * var(--fs-detail, 1)); }
+		.wl-wifi { -webkit-margin-start: 0.9em; margin-inline-start: 0.9em; }
+		.wl-wifi.top { margin: 0.6em 0 0; text-align: center; }
+		.wl-wifi .eyebrow { margin-bottom: 0.15em; }
+		.wl-w-value { font-weight: 700; margin-bottom: 0.5em; font-size: calc(1.5em * var(--fs-main, 1)); }
 		.wl-caption { -webkit-margin-start: 0.8em; margin-inline-start: 0.8em; font-size: calc(1.2em * var(--fs-detail, 1)); font-weight: 600; line-height: 1.2; }
 		.single { height: 100%; display: -webkit-flex; display: flex; -webkit-flex-direction: column; flex-direction: column; -webkit-justify-content: center; justify-content: center; text-align: center; }
 		.single .big { font-size: calc(2em * var(--fs-main, 1)); margin: 0.15em 0; white-space: nowrap; }

@@ -144,6 +144,8 @@ def layout(name: str | None, lang: str, at: datetime | None = None, edge: int | 
 		data = sources.fill(row, lang)
 		if row.widget_type == "QR Code":
 			link = ((data.get("rows") or [{}])[0] or {}).get("link") or settings.get("link")
+			if settings.get("layout") == "wifi":
+				link = wifi(settings.get("network"), settings.get("password"))
 			data["svg"] = _qr(link) if link else ""
 		placed.append(
 			{
@@ -161,6 +163,18 @@ def layout(name: str | None, lang: str, at: datetime | None = None, edge: int | 
 	from onedesk.one_display import screen
 
 	return {"name": name, "background": collection.background or "", "widgets": placed, "backdrop": screen.drawn(collection, edge)}
+
+
+def wifi(network, password) -> str:
+	"""The link a phone's camera reads as join this network. Pure."""
+	if not network:
+		return ""
+
+	def quote(word) -> str:
+		return "".join("\\" + c if c in "\\;,:\"" else c for c in str(word or ""))
+
+	kind = "WPA" if password else "nopass"
+	return f"WIFI:T:{kind};S:{quote(network)};P:{quote(password)};;"
 
 
 def _qr(link: str) -> str:
