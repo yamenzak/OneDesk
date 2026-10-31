@@ -526,10 +526,9 @@ next to its changes, and a job lists the rows it wrote.
   Includes the **Bench Group** every workspace runs on, the **Site Plan** for
   each site (one of the provider's free Unlimited plans, which only sets daily
   CPU time), and **Servers** (below).
-- **Cloudflare**: one **Master Token**, a custom token made in Cloudflare
-  with one permission, **Account API Tokens: Edit**, on the account.
-  **Set Up Cloudflare** uses it only to find the account and to make One's
-  own three tokens, which belong to the account rather than to a person, each allowed only its own work: **OneAdmin** for
+- **Cloudflare**: one **Master Token**, made in Cloudflare from the **Create
+  Additional Tokens** template. **Set Up Cloudflare** uses it only to make
+  One's own three tokens, each allowed only its own work: **OneAdmin** for
   OneAdmin's calls, **OneAdmin Storage** for the two R2 buckets, and **OneAI** to
   run the AI Gateway. It then finds or creates everything else and shows each
   step under **Last Setup** as it ends. It runs in the background, so leaving
@@ -541,7 +540,7 @@ next to its changes, and a job lists the rows it wrote.
 - The certificate for every workspace's address needs **Advanced Certificate
   Manager**, a paid add-on, turned on for the zone in Cloudflare. Setup
   checks for it and says so; until it is on, workspaces don't open.
-- The master token can make any of the account's tokens. You can delete it in
+- The master token can make any token on the account. You can delete it in
   Cloudflare once setup is done; setup then asks for it again only when a
   token needs mending.
 - The R2 buckets, Stripe's keys and the AI Gateway.
@@ -1905,9 +1904,9 @@ taken, and a missing lead is a thing to fix, not a reason to refuse.
 
 ### setup.py
 
-The operator gives One Admin Settings one master token, a custom token
-allowed only **Account API Tokens: Edit** on the account, and presses **Set
-up Cloudflare**. Everything a workspace needs from Cloudflare is then found or
+The operator gives One Admin Settings one master token, made from
+Cloudflare's **Create Additional Tokens** template, and presses **Set up
+Cloudflare**. Everything a workspace needs from Cloudflare is then found or
 made here:
 
 - One's own three tokens (`TOKENS`, `ensure_token`): **OneAdmin**, which
@@ -1916,12 +1915,9 @@ made here:
   buckets; and **OneAI**, which may run the gateway and nothing else. The
   master token makes and mends them and is used for nothing else. Each is
   found by its name before one is made, and its permissions are set again
-  whenever they differ from `TOKENS`. They are the account's tokens
-  (`tokens_at`, `/accounts/{id}/tokens`), not a person's: Cloudflare refuses
-  a person's token its Workers roles ("User tokens cannot reference roles
-  with granular resource scopes"). So the account is found first, with the
-  master token; OneAdmin starts allowed any of its zones and is narrowed to
-  the one found in the same run. A permission is looked up by the names Cloudflare may give
+  whenever they differ from `TOKENS`. OneAdmin starts allowed any account
+  and zone, since neither is known yet, and is narrowed to the two found in
+  the same run. A permission is looked up by the names Cloudflare may give
   it (the API says Write where the dashboard says Edit); Email Sending and AI
   Search are named nowhere in Cloudflare's documentation, so whichever
   permission starts so is taken, and none is no complaint;

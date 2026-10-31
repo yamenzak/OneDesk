@@ -4047,25 +4047,21 @@ class FakeCloudflare:
 		return said
 
 	def handle(self, method, path, bearer, body, headers):
-		if path == "/accounts":
-			assert bearer == "MASTER" or bearer in {one["value"] for one in self.tokens.values()}, "the account is found before any token is made"
-			return self.answer([{"id": "acc1", "name": "One"}])
-		if path.startswith("/accounts/acc1/tokens"):
-			path = path.removeprefix("/accounts/acc1")
-			if path == "/tokens/verify":
+		if path.startswith("/user/tokens"):
+			if path == "/user/tokens/verify":
 				found = next((one for one in self.tokens.values() if one["value"] == bearer and one["status"] == "active"), None)
 				return self.answer({"id": found["id"], "status": "active"}) if found else self.answer(ok=False, status=401)
 			assert bearer == "MASTER", f"only the master token makes tokens: {path}"
-			if path == "/tokens/permission_groups":
+			if path == "/user/tokens/permission_groups":
 				return self.answer(list(self.GROUPS))
-			if path == "/tokens" and method == "GET":
+			if path == "/user/tokens" and method == "GET":
 				return self.answer([{key: value for key, value in one.items() if key != "value"} for one in self.tokens.values()])
-			if path == "/tokens" and method == "POST":
+			if path == "/user/tokens" and method == "POST":
 				ident = f"t{len(self.tokens)}"
 				self.tokens[ident] = {"id": ident, "name": body["name"], "policies": body["policies"], "status": "active", "value": f"secret-{ident}-1"}
 				self.made.append(body["name"])
 				return self.answer(self.tokens[ident])
-			ident = path.split("/")[2]
+			ident = path.split("/")[3]
 			if path.endswith("/value"):
 				one = self.tokens[ident]
 				one["value"] = f"secret-{ident}-{int(one['value'].rsplit('-', 1)[1]) + 1}"
@@ -4074,6 +4070,8 @@ class FakeCloudflare:
 			return self.answer(self.tokens[ident])
 		known = {one["value"] for one in self.tokens.values() if one["name"] == "OneAdmin"}
 		assert bearer in known, f"everything else runs with the OneAdmin token: {path}"
+		if path == "/accounts":
+			return self.answer([{"id": "acc1", "name": "One"}])
 		if path == "/zones":
 			return self.answer([{"id": "zone1", "name": "4dl.app"}])
 		if path.endswith("/storage/kv/namespaces"):
@@ -4113,7 +4111,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		frappe.db.set_single_value("One Admin Settings", field, None)
 	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"):
 		# Cut off right after Cloudflare made the OneAI token: its secret was never seen.
-		fake.drop_after = lambda method, path, body: method == "POST" and path == "/accounts/acc1/tokens" and body.get("name") == "OneAI"
+		fake.drop_after = lambda method, path, body: method == "POST" and path == "/user/tokens" and body.get("name") == "OneAI"
 		first = setup.run()
 		assert first[-1]["state"] == setup.FAILED and "did not answer" in first[-1]["detail"], first[-1]
 		kv = frappe.db.get_single_value("One Admin Settings", "cloudflare_kv")

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 16:53+0000\n"
-"PO-Revision-Date: 2026-10-31 16:53+0000\n"
+"POT-Creation-Date: 2026-10-31 17:03+0000\n"
+"PO-Revision-Date: 2026-10-31 17:03+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -443,12 +443,6 @@ msgstr ""
 #. Header text in the One Admin Workspace
 #: onedesk/one_admin/workspace/one_admin/one_admin.json
 msgid "<span class=\"h4\"><b>Right now</b></span>"
-msgstr ""
-
-#. Description of the 'Master Token' (Password) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "A Cloudflare token allowed only to edit the account's API tokens. Setup uses it to make One's own tokens."
 msgstr ""
 
 #: onedesk/one_task/tour.py:24
@@ -9581,7 +9575,7 @@ msgstr ""
 msgid "Cloudflare"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:154
+#: onedesk/one_admin/setup.py:166
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
 
@@ -16422,7 +16416,7 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:652
+#: onedesk/one_admin/setup.py:661
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
@@ -26579,6 +26573,12 @@ msgstr ""
 msgid "Made from {0}."
 msgstr ""
 
+#. Description of the 'Master Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
+msgstr ""
+
 #: onedesk/public/js/item_new.js:99
 msgid "Made in Our Workshop"
 msgstr ""
@@ -28746,6 +28746,10 @@ msgstr ""
 
 #: frontend/src/inventory/floor/FloorSteps.vue:85
 msgid "Needs a quality check before it closes"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:326 onedesk/one_admin/setup.py:402
+msgid "Needs the KV namespace first."
 msgstr ""
 
 #: onedesk/public/js/apps.js:40
@@ -49082,7 +49086,7 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:252
+#: onedesk/one_admin/setup.py:257
 msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -50803,11 +50807,11 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:268
+#: onedesk/one_admin/setup.py:273
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:285
+#: onedesk/one_admin/setup.py:290
 msgid "The token has no zone for {0}."
 msgstr ""
 
@@ -53513,7 +53517,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:341
+#: onedesk/one_admin/setup.py:348
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
 
@@ -61859,7 +61863,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:531
+#: onedesk/one_admin/setup.py:540
 msgid "deployed"
 msgstr ""
 
@@ -62246,7 +62250,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:223
+#: onedesk/one_admin/setup.py:228
 msgid "missing permissions: {0}"
 msgstr ""
 
@@ -62902,7 +62906,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:542
+#: onedesk/one_admin/setup.py:551
 msgid "unchanged"
 msgstr ""
 
@@ -63347,7 +63351,7 @@ msgstr ""
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:287
+#: onedesk/one_admin/setup.py:292
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
@@ -64481,7 +64485,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:451
+#: onedesk/one_admin/setup.py:460
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
@@ -65835,7 +65839,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:448
+#: onedesk/one_admin/setup.py:457
 msgid "{0}, on the mail domain"
 msgstr ""
 
@@ -65843,7 +65847,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:428
+#: onedesk/one_admin/setup.py:437
 msgid "{0}, replacing the previous rule"
 msgstr ""
 
@@ -65880,15 +65884,15 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:357
+#: onedesk/one_admin/setup.py:364
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:378
+#: onedesk/one_admin/setup.py:385
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:410
+#: onedesk/one_admin/setup.py:419
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""
 

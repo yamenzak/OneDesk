@@ -38,8 +38,8 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 	assert "THEIRS" in _method("dns") and "THEIRS" in _method("route")
 	puts = re.findall(r'self\.call\(\s*"PUT",\s*f"([^"]+)"', SOURCE)
 	assert puts == [
-		"{self.tokens_at}/{held['id']}/value",
-		"{self.tokens_at}/{held['id']}",
+		"/user/tokens/{held['id']}/value",
+		"/user/tokens/{held['id']}",
 		"/zones/{zone}/custom_hostnames/fallback_origin",
 		"/zones/{zone}/email/routing/rules/catch_all",
 		"{base}/{name}",
@@ -126,21 +126,6 @@ def test_one_s_tokens_are_allowed_only_what_was_found():
 	assert storage == [{"effect": "allow", "permission_groups": [{"id": "b"}], "resources": {"com.cloudflare.edge.r2.bucket.acc_default_one-global": "*", "com.cloudflare.edge.r2.bucket.acc_eu_one-eu": "*"}}]
 
 
-def test_one_s_tokens_are_the_accounts_not_a_persons():
-	"""Cloudflare refuses a person's token its Workers roles ("User tokens
-	cannot reference roles with granular resource scopes"); an account's
-	token takes them. So the account is found first, with the master token,
-	and every token call is under it."""
-	assert "/user/tokens" not in SOURCE
-	assert 'f"/accounts/{self.account}/tokens"' in SOURCE
-	assert SOURCE.index("self.find_account,") < SOURCE.index("self.admin_token,")
-	assert "self.token or self.master" in _method("find_account")
-	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "named", "plain", "policies"))
-	groups = [{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]}]
-	made, _ = space["policies"](groups, (("DNS Write",),), "acc", None, [])
-	assert made[0]["resources"] == {"com.cloudflare.api.account.acc": {"com.cloudflare.api.account.zone.*": "*"}}, "every zone of the account, before the zone is known"
-
-
 def test_a_role_scoped_to_single_resources_is_never_asked_for():
 	"""Cloudflare lists roles scoped to single resources beside its
 	permissions, some under the same name, and refuses a user token that
@@ -159,7 +144,7 @@ def test_a_role_scoped_to_single_resources_is_never_asked_for():
 
 def test_a_token_whose_secret_was_lost_is_rolled_not_made_again():
 	ensure = _method("ensure_token")
-	assert ensure.index("held_tokens()") < ensure.index("'POST', self.tokens_at"), "looked for by name before anything is made"
+	assert ensure.index("held_tokens()") < ensure.index("'POST', '/user/tokens'"), "looked for by name before anything is made"
 	assert "/value" in ensure and "self.verified(value) != held['id']" in ensure
 	assert ensure.index("self.store(") < ensure.index("self.note("), "a secret is saved before the step is said done"
 	assert "token=self.master" in _method("permission_groups") and "token=self.master" in _method("held_tokens")
@@ -176,3 +161,15 @@ def test_advanced_certificate_manager_is_checked_before_ordering():
 	assert not space["acm"]({"advanced": {"allocated": 0}})
 	certificate = _method("certificate")
 	assert certificate.index("acm(") < certificate.index("certificate_packs/order")
+
+
+def test_a_new_token_is_waited_for_and_the_workers_wait_for_kv():
+	"""Cloudflare answers Authentication error for a few seconds after a
+	token is made, and a Worker bound to no KV namespace is refused; so the
+	first account call is retried and the Workers wait for the namespace."""
+	patiently = _method("patiently")
+	assert "Authentication error" in patiently and "time.sleep(wait)" in patiently
+	assert "self.patiently(" in _method("kv")
+	for step in ("router", "mailer"):
+		body = _method(step)
+		assert body.index("if not self.settings.cloudflare_kv") < body.index("self.deploy(")

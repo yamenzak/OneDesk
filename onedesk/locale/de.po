@@ -446,10 +446,6 @@ msgstr "<b>Wenn</b> {when}<br><b>Dann</b> {then}<br>Sie läuft, sobald Sie sie i
 msgid "<span class=\"h4\"><b>Right now</b></span>"
 msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "A Cloudflare token allowed only to edit the account's API tokens. Setup uses it to make One's own tokens."
-msgstr "Ein Cloudflare-Token, das nur die API-Tokens des Kontos bearbeiten darf. Die Einrichtung erstellt damit Ones eigene Tokens."
-
 #: onedesk/one_task/tour.py
 msgid "A Column for Each Status"
 msgstr "Eine Spalte je Status"
@@ -25880,6 +25876,10 @@ msgstr "Erstellt von {0}"
 msgid "Made from {0}."
 msgstr "Angelegt aus {0}."
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
+msgstr "In Cloudflare aus der Vorlage „Create Additional Tokens“ erstellt. „Cloudflare einrichten“ nutzt ihn nur, um die eigenen Tokens von One zu erstellen."
+
 #: onedesk/public/js/item_new.js:99
 msgid "Made in Our Workshop"
 msgstr "In unserer Werkstatt gefertigt"
@@ -27997,6 +27997,10 @@ msgstr "Braucht Sie"
 #: frontend/src/inventory/floor/FloorSteps.vue:85
 msgid "Needs a quality check before it closes"
 msgstr "Braucht vor dem Abschluss eine Qualitätsprüfung"
+
+#: onedesk/one_admin/setup.py:326 onedesk/one_admin/setup.py:402
+msgid "Needs the KV namespace first."
+msgstr "Braucht zuerst den KV-Namespace."
 
 #: onedesk/public/js/apps.js:40
 msgid "Needs {0}"

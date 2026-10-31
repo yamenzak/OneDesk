@@ -135,7 +135,7 @@
    "fieldname": "cloudflare_master_token",
    "fieldtype": "Password",
    "label": "Master Token",
-   "description": "A Cloudflare token allowed only to edit the account's API tokens. Setup uses it to make One's own tokens."
+   "description": "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
   },
   {
    "fieldname": "cloudflare_token",
