@@ -530,3 +530,83 @@ moved and nothing reloaded. public/js/switching.js wraps frappe's router in a
 view transition: the old screen stays until the new one has drawn (an
 island's shadow root holds no `.one-loading`, at most 900ms), then fades in
 140ms. The rail and the two bars are named so they stay put.
+
+## 2026-10-31 — Adding a news source, as it shipped
+
+News went out with its guards green and the job of adding a source never
+done in a browser by someone allowed to do it. The screenshots were taken
+as Karim, who can't add a source, so neither button below was on screen
+until Yamen asked to see it. The copy was telegraphic as well (see
+WORDING.md, What is out). That much was missed with every guard passing.
+This is what a person adding a source sees, and none of it is acceptable.
+
+**New News Source** (the window's create dialog over the News Source form):
+
+- A rail on the left holding one tab, Details, and the title "New News
+  Source" in small grey type above it. A third of the dialog explains
+  nothing, and the heading says "Details" when it should say what is being
+  made.
+- The question that decides everything, what kind of source this is, is
+  the second field, a dropdown defaulting to Feed. Picking Google News
+  swaps half the form underneath. Four kinds that each work differently
+  are four cards with a line each, asked first.
+- Source is required before the address, although a feed names itself.
+  Paste the address first and fill the name from the feed's title.
+- Only a feed's exact RSS address works. People have the site's address
+  (thenationalnews.com), not `/arc/outboundfeeds/rss/...`, and nothing
+  finds the feed from the site.
+- Nothing shows what the feed contains before saving. Read it once and
+  show its newest three headlines under the address, or the error.
+- Enabled, Website, Fetch and Items to Keep all show on a record nobody has
+  saved yet. Enabled is always on, Website fills itself in, and the other two
+  have sensible defaults. They belong on the saved record, not in the way of
+  making one.
+- The Feed section's note is indented away from its own heading, and the
+  right column is empty under Website, so the form is a narrow strip
+  down the left of a wide dialog.
+- The library is a separate button on the list, so someone who opened
+  New never learns it exists.
+
+**From Library**:
+
+- It runs off the bottom of the screen: 60 rows, no scrolling inside the
+  dialog.
+- It opens on the first 60 business feeds alphabetically, from a US
+  list: Hacker News, a venture blog, and podcasts (EconTalk, HBR IdeaCast,
+  How I Built This), which are not news. A workspace in Dubai sees nothing
+  near it until it searches. Open on the workspace's country and language.
+- Duplicates (Feld Thoughts twice, same site) and raw feed titles
+  ("Fortune | FORTUNE", "Blog on Feld Thoughts"). The library needs
+  cleaning, not just copying.
+- Text rows with no logo, in a product whose News is built around logos.
+- Category and Country are empty dropdowns with no "All" in them.
+- No way to see a feed's headlines before adding it, and one Add at a time
+  for something people pick five of.
+- The ownership notice sits first, above Search, with a rule under it,
+  before anyone has done anything.
+
+**The Sources list**: a Status column reading Enabled on every row, an ID
+column repeating the name, and the Google News name cut off. On an
+administrator's list there is a primary Add and a From Library button side
+by side, two ways to do one thing.
+
+### The rules this leaves
+
+- **Walk the job as the person who does it, before calling it done.** Sign
+  in as someone with the role, click the button they would click, and finish
+  the task. A screenshot of a record that already exists says nothing about
+  making one.
+- **A create dialog asks the deciding question first**, as cards when the
+  answer changes what follows, and shows only what is needed to make the
+  record. The rest is on the saved record.
+- **A dialog with one section draws no section rail.** Its heading says
+  what is being made.
+- **Take what the person has.** A site's address, not the feed's; a name
+  read from the source, not typed.
+- **Show what you'll get before it's added**: a few headlines, a preview,
+  the error.
+- **A picker opens on what is near the person** (their country, their
+  language), scrolls inside itself, shows each choice's face, and lets
+  several be picked.
+- **Shipped lists are curated, not imported.** No podcasts in a news
+  library, no duplicates, names cleaned.
