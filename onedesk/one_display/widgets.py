@@ -56,15 +56,35 @@ TYPES = {
 	"Ticker": {
 		"label": _lt("Ticker"),
 		"about": _lt("Scrolling text, written here or from a source."),
-		"sources": ("Records", "Record", "Report", "Feed", "Exchange Rates"),
+		"sources": ("Records", "Record", "Report", "News", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
-			("layout", SELECT, _lt("Layout"), "scroll", (("scroll", _lt("Scrolling")), ("fade", _lt("One at a Time")), ("labelled", _lt("With a Label")))),
+			("layout", SELECT, _lt("Layout"), "scroll", (("scroll", _lt("Scrolling")), ("fade", _lt("One at a Time")), ("labelled", _lt("With a Label")), ("vertical", _lt("Rolling Up")))),
 			("text", LONG, _lt("Words"), ""),
 			("speed", NUMBER, _lt("Scroll Duration (Seconds)"), 30),
 			("label", TEXT, _lt("Label"), _lt("News")),
+			("separator", SELECT, _lt("Between Items"), "dot", (("dot", _lt("Dot")), ("diamond", _lt("Diamond")), ("bar", _lt("Bar")), ("slash", _lt("Slash")), ("dash", _lt("Dash")), ("star", _lt("Star")), ("space", _lt("Space Only")), ("logo", _lt("Company Logo")), ("icon", _lt("Company Icon")), ("custom", _lt("Your Own")))),
+			("separator_text", TEXT, _lt("Your Own Separator"), "|"),
+			("categories", SELECT, _lt("Categories"), "none", (("none", _lt("Not Shown")), ("inline", _lt("Before Each Group")), ("label", _lt("In the Label")))),
+			("logos", SELECT, _lt("Publisher Logos"), "none", (("none", _lt("Not Shown")), ("before", _lt("Before the Headline")), ("after", _lt("After the Headline")))),
 		),
 		"size": (100, 8),
+	},
+	"News": {
+		"label": _lt("News"),
+		"about": _lt("The latest headlines from News Sources, with their pictures, what they say and where they are from."),
+		"sources": ("News",),
+		"slots": (),
+		"settings": (
+			("layout", SELECT, _lt("Layout"), "feature", (("feature", _lt("One Story at a Time")), ("list", _lt("Headlines")), ("cards", _lt("Cards")))),
+			("heading", TEXT, _lt("Heading"), _lt("Latest News")),
+			("rows", NUMBER, _lt("Stories"), 5),
+			("every", NUMBER, _lt("Seconds Each"), 12),
+			("summary", CHECK, _lt("Show Summary"), 1),
+			("logos", CHECK, _lt("Show Publisher"), 1),
+			("time", CHECK, _lt("Show When"), 1),
+		),
+		"size": (60, 60),
 	},
 	"Text": {
 		"label": _lt("Text"),
@@ -176,7 +196,7 @@ TYPES = {
 	"Custom": {
 		"label": _lt("Custom"),
 		"about": _lt("HTML, CSS and JavaScript run in a sandbox. Rows are available as one_display_rows."),
-		"sources": ("Records", "Record", "Report", "Feed", "Weather", "Exchange Rates"),
+		"sources": ("Records", "Record", "Report", "News", "Weather", "Exchange Rates"),
 		"slots": (),
 		"settings": (("html", CODE, _lt("Code"), ""),),
 		"size": (30, 30),
@@ -243,7 +263,7 @@ LOOK_LABELS = {
 
 # The look a widget is given when it is put on a screen, which is how each
 # was drawn before widgets were bare.
-FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid", "Board Item": "Card"}
+FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid", "Board Item": "Card", "News": "Card"}
 
 
 # Ready-made widgets, a kind with settings, a look and a size (AGENTS.md,
@@ -307,6 +327,13 @@ PRESETS = (
 	("labelled_ticker", "Ticker", _lt("Ticker with a Label"), {"layout": "labelled", "label": _lt("News")}, "Band", (100, 8)),
 	("one_at_a_time", "Ticker", _lt("One Message at a Time"), {"layout": "fade"}, "Accent Band", (100, 8)),
 	("alert_ticker", "Ticker", _lt("Alert Ticker"), {"layout": "labelled", "label": _lt("Notice")}, "Alert", (100, 8)),
+	("category_ticker", "Ticker", _lt("Ticker by Category"), {"categories": "inline", "logos": "before", "separator": "diamond"}, "Band", (100, 8)),
+	("labelled_categories", "Ticker", _lt("Category in the Label"), {"layout": "labelled", "categories": "label", "logos": "before"}, "Band", (100, 8)),
+	("branded_ticker", "Ticker", _lt("Ticker with Your Logo Between"), {"separator": "icon", "logos": "after"}, "Band", (100, 8)),
+	("rolling_headlines", "Ticker", _lt("Rolling Headlines"), {"layout": "vertical", "categories": "inline", "logos": "before"}, "Card", (34, 60)),
+	("latest_news", "News", _lt("Latest News"), {"layout": "feature"}, "Card", (60, 60)),
+	("headline_list", "News", _lt("Headlines"), {"layout": "list", "rows": 6}, "Card", (40, 70)),
+	("news_cards", "News", _lt("News Cards"), {"layout": "cards", "rows": 4}, "Plain", (90, 60)),
 	("latest_call", "Queue Board", _lt("Latest Call"), {"layout": "latest"}, "Accent", (40, 40)),
 	("one_counter", "Queue Board", _lt("One Counter"), {"layout": "counter"}, "Accent", (40, 40)),
 	("every_counter", "Queue Board", _lt("Every Counter"), {"layout": "counters"}, "Plain", (70, 60)),

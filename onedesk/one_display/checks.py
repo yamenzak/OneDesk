@@ -724,3 +724,29 @@ def onedisplay_makes_music_in_the_background():
 		music = frappe.get_doc("Music Playlist", tracks)
 		music.set("tracks", music.tracks[:-1])
 		music.save()
+
+
+@check
+def onedisplay_runs_the_news():
+	"""A News source reads One's News Sources (one/news): a ticker gets each
+	headline with its category, colour and logo beside its words, and the
+	News widget takes the headlines whole, pictures and all."""
+	from onedesk.one import news
+	from onedesk.one_display import sources
+
+	with as_user(OWNER):
+		try:
+			frappe.get_doc({"doctype": news.SOURCE, "source_name": "Check Screen News", "kind": "Written", "category": "Check Screens", "keep": 0}).insert()
+			frappe.get_doc({"doctype": news.ITEM, "source": "Check Screen News", "title": "Open day on Saturday", "summary": "Families welcome."}).insert()
+			frappe.get_doc(
+				{"doctype": "Display Source", "source_name": "Check Screen Headlines", "kind": "News", "news_sources": [{"news_source": "Check Screen News"}]}
+			).insert()
+			ticker = frappe._dict(source="Check Screen Headlines", widget_type="Ticker", mapping=json.dumps({"text": "{title}"}))
+			rows = sources.fill(ticker, "en")["rows"]
+			assert rows[0]["text"] == "Open day on Saturday" and rows[0]["category"] == "Check Screens" and "logo" in rows[0], rows
+			whole = sources.fill(frappe._dict(source="Check Screen Headlines", widget_type="News", mapping="{}"), "en")["rows"]
+			assert whole[0]["summary"] == "Families welcome." and whole[0]["ago"], "the News widget takes a headline whole"
+		finally:
+			for doctype, name in (("Display Source", "Check Screen Headlines"), (news.SOURCE, "Check Screen News")):
+				if frappe.db.exists(doctype, name):
+					frappe.delete_doc(doctype, name, force=True)

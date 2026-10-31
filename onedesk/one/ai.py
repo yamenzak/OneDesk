@@ -36,6 +36,7 @@ NOT_FOR_AI = {
 	"announcements.hide": "Folding the announcements is the reader's own choice on their bar.",
 	"announcements.stop": "Stopping an announcement takes it off everybody's top bar at once, so the administrator does it from the page.",
 	"announcements.show": "Opening the folded announcements is the reader's own choice on their bar.",
+	"announcements.shows": "Whether the bar runs news or announcements is the reader's own choice on their bar.",
 	"control.save": "The workspace's own settings are saved by the administrator changing them, and OneAI suggests a letter head as a card instead.",
 	"notification_center.choose": "How a person hears of something is theirs to choose, never OneAI's.",
 	"notification_center.switch": "Turning a person's notifications off or on is theirs to do, never OneAI's.",

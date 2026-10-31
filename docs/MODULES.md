@@ -7,6 +7,9 @@
 
 | Doctype | Fields | Kind |
 |---|--:|---|
+| News Category | 2 | document |
+| News Item | 16 | document |
+| News Source | 32 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
 | Record Head Band | 12 | child |
@@ -221,10 +224,11 @@ No doctypes yet.
 | Display Board Person | 1 | child |
 | Display Board State | 3 | child |
 | Display Channel | 13 | document |
+| Display News Source | 1 | child |
 | Display Screen | 35 | document |
 | Display Settings | 2 | single |
 | Display Slide | 9 | child |
-| Display Source | 29 | document |
+| Display Source | 32 | document |
 | Display Track | 4 | child |
 | Display Voice | 5 | document |
 | Display Widget | 13 | child |
@@ -294,6 +298,7 @@ No doctypes yet.
 * `onedesk.one.announcements.current`
 * `onedesk.one.announcements.hide`
 * `onedesk.one.announcements.show`
+* `onedesk.one.announcements.shows`
 * `onedesk.one.announcements.stop`
 * `onedesk.one.apps.read`
 * `onedesk.one.apps.save`
@@ -310,6 +315,11 @@ No doctypes yet.
 * `onedesk.one.head.run`
 * `onedesk.one.home.read`
 * `onedesk.one.lists.kinds`
+* `onedesk.one.news.desk.follow`
+* `onedesk.one.news.desk.following`
+* `onedesk.one.news.fetching.fetch_now`
+* `onedesk.one.news.library.add`
+* `onedesk.one.news.library.search`
 * `onedesk.one.notification_center.choose`
 * `onedesk.one.notification_center.set_type`
 * `onedesk.one.notification_center.switch`
@@ -435,6 +445,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.mail_names`
 * `onedesk.one_admin.proxy.mail_send`
 * `onedesk.one_admin.proxy.mail_waiting`
+* `onedesk.one_admin.proxy.news_brief`
 * `onedesk.one_admin.proxy.plans_offered`
 * `onedesk.one_admin.proxy.plans_quote`
 * `onedesk.one_admin.proxy.plans_take`

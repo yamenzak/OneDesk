@@ -1,0 +1,179 @@
+{
+ "actions": [],
+ "autoname": "hash",
+ "creation": "2026-10-31 15:00:00.000000",
+ "description": "One headline from a News Source. Items from a feed arrive on their own; a Written source's items are the ones you write.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "title",
+  "source",
+  "category",
+  "column_break_item",
+  "published",
+  "image",
+  "link",
+  "about_section",
+  "summary",
+  "body",
+  "publisher_section",
+  "publisher",
+  "column_break_publisher",
+  "publisher_site",
+  "written",
+  "guid"
+ ],
+ "fields": [
+  {
+   "fieldname": "title",
+   "fieldtype": "Data",
+   "label": "Title",
+   "reqd": 1,
+   "in_list_view": 1,
+   "length": 500
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Link",
+   "label": "Source",
+   "options": "News Source",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "News Category",
+   "fetch_from": "source.category",
+   "fetch_if_empty": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_item",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "published",
+   "fieldtype": "Datetime",
+   "label": "Published",
+   "default": "Now",
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "image",
+   "fieldtype": "Attach Image",
+   "label": "Picture"
+  },
+  {
+   "fieldname": "link",
+   "fieldtype": "Data",
+   "label": "Link",
+   "options": "URL",
+   "length": 1000
+  },
+  {
+   "fieldname": "about_section",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "summary",
+   "fieldtype": "Small Text",
+   "label": "Summary"
+  },
+  {
+   "fieldname": "body",
+   "fieldtype": "Text Editor",
+   "label": "Story",
+   "depends_on": "eval:doc.written"
+  },
+  {
+   "fieldname": "publisher_section",
+   "fieldtype": "Section Break",
+   "label": "Publisher",
+   "collapsible": 1
+  },
+  {
+   "fieldname": "publisher",
+   "fieldtype": "Data",
+   "label": "Publisher",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_publisher",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "publisher_site",
+   "fieldtype": "Data",
+   "label": "Publisher Website",
+   "read_only": 1
+  },
+  {
+   "fieldname": "written",
+   "fieldtype": "Check",
+   "label": "Written",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "guid",
+   "fieldtype": "Data",
+   "label": "Feed ID",
+   "hidden": 1,
+   "read_only": 1,
+   "length": 500
+  }
+ ],
+ "image_field": "image",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-31 16:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "News Item",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "System Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Workspace Administrator"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "One Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "OneDisplay Manager"
+  },
+  {
+   "read": 1,
+   "role": "Desk User"
+  }
+ ],
+ "show_title_field_in_link": 1,
+ "sort_field": "published",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "title"
+}

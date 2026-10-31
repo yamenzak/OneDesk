@@ -158,6 +158,7 @@ scheduler_events = {
 			"onedesk.one_crm.tell.due",
 			"onedesk.one_mail.tell.not_sent",
 			"onedesk.one_display.tell.offline",
+			"onedesk.one.news.fetching.due",
 		],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
@@ -398,6 +399,10 @@ doc_events = {
 		"validate": "onedesk.one_inventory.measure.size_unit_is_a_length",
 	},
 	"Brand": {
+		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"on_update": "onedesk.one_mail.faces.dress_later",
+	},
+	"News Source": {
 		"after_insert": "onedesk.one_mail.faces.dress_later",
 		"on_update": "onedesk.one_mail.faces.dress_later",
 	},

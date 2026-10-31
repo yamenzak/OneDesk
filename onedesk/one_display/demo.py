@@ -90,6 +90,16 @@ def _screens():
 		"Dubai Weather",
 		{"source_name": "Dubai Weather", "kind": "Weather", "weather_place": "Dubai"},
 	)
+	_make(
+		"Display Source",
+		"Headlines",
+		{
+			"source_name": "Headlines",
+			"kind": "News",
+			"news_order": "By Category",
+			"news_sources": [{"news_source": one} for one in frappe.get_all("News Source", pluck="name", order_by="creation asc")],
+		},
+	)
 	late = _make(
 		"Display Source",
 		"Late Tasks",

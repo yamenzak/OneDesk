@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 83 | 2 | 38 | 0 |
+| onedesk | 86 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 156 | 0 |
 | erpnext | 299 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -363,7 +363,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
 | Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
-| Company | opened by our screens | everybody | events, 2 fields | yes | taught |  | yes |  |  |  |  |
+| Company | opened by our screens | everybody | events, 3 fields | yes | taught |  | yes |  |  |  |  |
 | Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Department | on a rail or a home | OneHR, the administrator | events | yes | general |  | yes |  |  |  |  |
@@ -877,6 +877,9 @@ Reports: Accrued Earnings Report (on a rail or a home); Bank Remittance (under a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
+| News Category | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
+| News Item | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |
+| News Source | on a rail or a home | everybody | events | no | general |  | yes |  |  |  |  |
 | Push Device | engine: a browser that asked for notifications, kept by the bell | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Record Head | inside: OneStudio's record head, which writes it | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 | Weather Place | on a rail or a home | everybody | untouched | no | general |  | yes |  |  |  |  |

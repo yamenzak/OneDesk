@@ -1,0 +1,299 @@
+{
+ "actions": [],
+ "autoname": "field:source_name",
+ "creation": "2026-10-31 15:00:00.000000",
+ "description": "Where news comes from: a feed, Google News, OneAI or what you write. Its newest items are kept as News Items for the desk and for screens.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "source_name",
+  "kind",
+  "category",
+  "column_break_source",
+  "enabled",
+  "website",
+  "logo",
+  "feed_section",
+  "feed_url",
+  "google_section",
+  "google_topic",
+  "column_break_google",
+  "google_query",
+  "ai_section",
+  "ai_brief",
+  "column_break_ai",
+  "ai_most",
+  "where_section",
+  "country",
+  "column_break_where",
+  "language",
+  "fetching_section",
+  "fetch_every",
+  "fetch_at",
+  "keep",
+  "column_break_fetching",
+  "last_fetched",
+  "next_fetch",
+  "last_error",
+  "failures",
+  "etag",
+  "last_modified"
+ ],
+ "fields": [
+  {
+   "fieldname": "source_name",
+   "fieldtype": "Data",
+   "label": "Source",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "kind",
+   "fieldtype": "Select",
+   "label": "Type",
+   "options": "Feed\nGoogle News\nOneAI\nWritten",
+   "default": "Feed",
+   "reqd": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "category",
+   "fieldtype": "Link",
+   "label": "Category",
+   "options": "News Category",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_source",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "enabled",
+   "fieldtype": "Check",
+   "label": "Enabled",
+   "default": "1"
+  },
+  {
+   "fieldname": "website",
+   "fieldtype": "Data",
+   "label": "Website",
+   "options": "URL",
+   "description": "Its logo comes from here. A feed fills it in.",
+   "length": 1000
+  },
+  {
+   "fieldname": "logo",
+   "fieldtype": "Attach Image",
+   "label": "Logo",
+   "read_only": 1
+  },
+  {
+   "fieldname": "feed_section",
+   "fieldtype": "Section Break",
+   "label": "Feed",
+   "depends_on": "eval:doc.kind=='Feed'",
+   "description": "Whoever publishes a feed owns what it says. You are responsible for having the right to show it."
+  },
+  {
+   "fieldname": "feed_url",
+   "fieldtype": "Data",
+   "label": "Feed Address",
+   "options": "URL",
+   "mandatory_depends_on": "eval:doc.kind=='Feed'",
+   "length": 1000
+  },
+  {
+   "fieldname": "google_section",
+   "fieldtype": "Section Break",
+   "label": "Google News",
+   "depends_on": "eval:doc.kind=='Google News'",
+   "description": "For previewing only. Google News gathers other publishers' articles, and showing them may need a licence from each publisher."
+  },
+  {
+   "fieldname": "google_topic",
+   "fieldtype": "Select",
+   "label": "Topic",
+   "options": "Top Stories\nWorld\nBusiness\nTechnology\nScience\nHealth\nSports\nEntertainment",
+   "default": "Top Stories"
+  },
+  {
+   "fieldname": "column_break_google",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "google_query",
+   "fieldtype": "Data",
+   "label": "Search For",
+   "description": "Headlines matching these words, in place of the topic."
+  },
+  {
+   "fieldname": "ai_section",
+   "fieldtype": "Section Break",
+   "label": "OneAI",
+   "depends_on": "eval:doc.kind=='OneAI'",
+   "description": "OneAI searches the web with Google and writes the headlines it finds. Each run costs credits, so it runs at the times you set."
+  },
+  {
+   "fieldname": "ai_brief",
+   "fieldtype": "Small Text",
+   "label": "Look For",
+   "mandatory_depends_on": "eval:doc.kind=='OneAI'",
+   "description": "For example, business news that a building company would care about."
+  },
+  {
+   "fieldname": "column_break_ai",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "ai_most",
+   "fieldtype": "Int",
+   "label": "Headlines Each Run",
+   "default": "8"
+  },
+  {
+   "fieldname": "where_section",
+   "fieldtype": "Section Break",
+   "label": "Where",
+   "depends_on": "eval:['Google News','OneAI'].includes(doc.kind)"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Link",
+   "label": "Country",
+   "options": "Country"
+  },
+  {
+   "fieldname": "column_break_where",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "language",
+   "fieldtype": "Link",
+   "label": "Language",
+   "options": "Language"
+  },
+  {
+   "fieldname": "fetching_section",
+   "fieldtype": "Section Break",
+   "label": "Fetching",
+   "depends_on": "eval:doc.kind!='Written'"
+  },
+  {
+   "fieldname": "fetch_every",
+   "fieldtype": "Select",
+   "label": "Fetch",
+   "options": "15 Minutes\n30 Minutes\nHourly\nEvery 3 Hours\nEvery 6 Hours\nEvery 12 Hours\nDaily\nAt Set Times",
+   "default": "Hourly"
+  },
+  {
+   "fieldname": "fetch_at",
+   "fieldtype": "Data",
+   "label": "Times",
+   "depends_on": "eval:doc.fetch_every=='At Set Times'",
+   "mandatory_depends_on": "eval:doc.fetch_every=='At Set Times'",
+   "description": "Times of day in the workspace's time zone, with commas between them.",
+   "placeholder": "07:00, 13:00"
+  },
+  {
+   "fieldname": "keep",
+   "fieldtype": "Int",
+   "label": "Keep",
+   "default": "60",
+   "description": "How many of its newest items are kept. Older ones are deleted as new ones arrive; 0 keeps them all."
+  },
+  {
+   "fieldname": "column_break_fetching",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "last_fetched",
+   "fieldtype": "Datetime",
+   "label": "Last Fetched",
+   "read_only": 1
+  },
+  {
+   "fieldname": "next_fetch",
+   "fieldtype": "Datetime",
+   "label": "Next Fetch",
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_error",
+   "fieldtype": "Small Text",
+   "label": "Last Problem",
+   "read_only": 1
+  },
+  {
+   "fieldname": "failures",
+   "fieldtype": "Int",
+   "label": "Failures",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "etag",
+   "fieldtype": "Data",
+   "label": "ETag",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "last_modified",
+   "fieldtype": "Data",
+   "label": "Last Modified",
+   "hidden": 1,
+   "read_only": 1
+  }
+ ],
+ "image_field": "logo",
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-31 16:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "News Source",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "System Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Workspace Administrator"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "One Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "OneDisplay Manager"
+  },
+  {
+   "read": 1,
+   "role": "Desk User"
+  }
+ ],
+ "sort_field": "source_name",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "source_name",
+ "track_changes": 1
+}

@@ -96,6 +96,57 @@
    "url": null
   },
   {
+   "keep_closed": 0,
+   "type": "Section Break",
+   "label": "News",
+   "icon": "newspaper",
+   "indent": 1,
+   "collapsible": 1,
+   "idx": 8
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Headlines",
+   "link_to": "News Item",
+   "link_type": "DocType",
+   "icon": "newspaper",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 9,
+   "url": null
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Sources",
+   "link_to": "News Source",
+   "link_type": "DocType",
+   "icon": "rss",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 10,
+   "url": null
+  },
+  {
+   "keep_closed": 0,
+   "type": "Link",
+   "label": "Categories",
+   "link_to": "News Category",
+   "link_type": "DocType",
+   "icon": "tags",
+   "child": 1,
+   "is_default_module": 1,
+   "route_options": null,
+   "filters": null,
+   "idx": 11,
+   "url": null
+  },
+  {
    "child": 0,
    "collapsible": 1,
    "icon": "layout-grid",
@@ -105,7 +156,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 8
+   "idx": 12
   },
   {
    "child": 1,
@@ -119,7 +170,7 @@
    "label": "AccountCenter",
    "icon": "user",
    "url": "/desk/one?center=account",
-   "idx": 9
+   "idx": 13
   },
   {
    "child": 1,
@@ -133,7 +184,7 @@
    "label": "ControlCenter",
    "icon": "settings",
    "url": "/desk/one?center=settings&module=One",
-   "idx": 10
+   "idx": 14
   },
   {
    "child": 1,
@@ -147,7 +198,7 @@
    "label": "NotificationCenter",
    "icon": "bell",
    "url": "/desk/one?center=notifications",
-   "idx": 11
+   "idx": 15
   },
   {
    "child": 1,
@@ -161,7 +212,7 @@
    "label": "AccessCenter",
    "icon": "key-round",
    "url": "/desk/one?center=access",
-   "idx": 12
+   "idx": 16
   },
   {
    "child": 1,
@@ -175,7 +226,7 @@
    "label": "TrustCenter",
    "icon": "shield-check",
    "url": "/desk/one?center=trust",
-   "idx": 13
+   "idx": 17
   },
   {
    "child": 1,
@@ -189,7 +240,7 @@
    "label": "AICenter",
    "icon": "oneai",
    "url": "/desk/one?center=ai",
-   "idx": 14
+   "idx": 18
   },
   {
    "child": 1,
@@ -203,7 +254,7 @@
    "label": "HelpCenter",
    "icon": "circle-question-mark",
    "url": "/desk/one?center=help",
-   "idx": 15
+   "idx": 19
   },
   {
    "child": 1,
@@ -217,7 +268,7 @@
    "label": "UpdateCenter",
    "icon": "newspaper",
    "url": "/desk/one?center=updates",
-   "idx": 16
+   "idx": 20
   }
  ],
  "modified": "2026-11-08 10:00:01.000000",

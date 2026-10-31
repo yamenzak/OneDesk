@@ -34,6 +34,32 @@
 			<span class="flex items-center font-bold uppercase" :style="{ ...chip, ...em(1.6), padding: '0 0.6em', letterSpacing: '0.08em' }">{{ settings.label || __("News") }}</span>
 			<span class="flex items-center truncate whitespace-nowrap" :style="{ ...em(2.2), padding: '0 0.4em' }">{{ [__("Latest news"), __("Opening hours")].join("\u2003•\u2003") }}</span>
 		</div>
+		<div v-else-if="type === 'Ticker' && layout === 'vertical'" class="flex w-full flex-col text-start" :style="{ padding: '0.4em' }">
+			<span v-if="settings.categories !== 'none'" class="flex items-center font-bold uppercase opacity-85" :style="{ ...em(0.6), letterSpacing: '0.1em' }"><span :style="{ width: '1.4em', height: '0.25em', borderRadius: '0.2em', background: hi, marginInlineEnd: '0.5em' }" />{{ __("Business") }}</span>
+			<span v-for="one in [__('Markets open higher'), __('New project awarded'), __('Rates hold steady')]" :key="one" class="truncate" :style="{ ...em(0.9), padding: '0.3em 0', borderBottom: '0.04em solid color-mix(in srgb, currentColor 25%, transparent)' }">{{ one }}</span>
+		</div>
+		<div v-else-if="type === 'Ticker' && settings.categories === 'inline'" class="flex w-full items-center truncate whitespace-nowrap text-start" :style="{ ...em(2.2), padding: '0 0.3em' }">
+			<span class="font-bold uppercase" :style="{ ...chip, ...em(1.2), padding: '0.1em 0.5em', borderRadius: '0.25em', marginInlineEnd: '0.5em', letterSpacing: '0.06em' }">{{ __("Business") }}</span>{{ [__("Latest news"), __("Opening hours")].join("\u2003\u25C6\u2003") }}
+		</div>
+		<div v-else-if="type === 'News' && layout === 'list'" class="flex w-full flex-col text-start" :style="{ padding: '0.4em' }">
+			<span class="uppercase opacity-70" :style="em(0.7)">{{ settings.heading || __("Latest News") }}</span>
+			<div v-for="one in [__('Markets open higher'), __('New project awarded'), __('Rates hold steady')]" :key="one" class="flex items-center" :style="{ padding: '0.3em 0', borderBottom: '0.04em solid color-mix(in srgb, currentColor 25%, transparent)' }">
+				<span :style="{ ...square(1.8), borderRadius: '0.25em', background: 'color-mix(in srgb, currentColor 18%, transparent)', marginInlineEnd: '0.5em', flex: 'none' }" />
+				<span class="truncate font-semibold" :style="em(0.85)">{{ one }}</span>
+			</div>
+		</div>
+		<div v-else-if="type === 'News' && layout === 'cards'" class="grid size-full grid-cols-2" :style="{ gap: '0.4em', padding: '0.4em' }">
+			<div v-for="one in [__('Markets open higher'), __('New project awarded'), __('Rates hold steady'), __('Team news')]" :key="one" class="flex flex-col text-start">
+				<span class="flex-1" :style="{ borderRadius: '0.3em', background: 'color-mix(in srgb, currentColor 18%, transparent)' }" />
+				<span class="truncate font-semibold" :style="{ ...em(0.7), marginTop: '0.25em' }">{{ one }}</span>
+			</div>
+		</div>
+		<div v-else-if="type === 'News'" class="flex size-full flex-col text-start" :style="{ padding: '0.4em' }">
+			<span class="flex-1" :style="{ borderRadius: '0.35em', background: 'color-mix(in srgb, currentColor 18%, transparent)' }" />
+			<span class="uppercase" :style="{ ...em(0.6), color: hi, marginTop: '0.4em', letterSpacing: '0.1em' }">{{ __("Business") }}</span>
+			<span class="font-bold" :style="em(1.2)">{{ __("Markets open higher") }}</span>
+			<span v-if="settings.summary !== 0" class="truncate opacity-75" :style="em(0.7)">{{ __("What the story says, in a line.") }}</span>
+		</div>
 		<div v-else-if="type === 'Ticker'" class="w-full truncate whitespace-nowrap text-start" :style="{ ...em(2.6), padding: '0 0.3em' }">{{ [__("Latest news"), __("Opening hours"), __("Welcome")].join("\u2003•\u2003") }}</div>
 		<template v-else-if="type === 'Queue Board' && layout === 'latest'">
 			<span class="uppercase opacity-70" :style="em(0.7)">{{ settings.heading || __("Now Serving") }}</span>

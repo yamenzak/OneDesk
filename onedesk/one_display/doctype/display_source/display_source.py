@@ -21,8 +21,8 @@ class DisplaySource(Document):
 		if self.kind == "Report":
 			frappe.has_permission("Report", "read", doc=self.report, throw=True)
 			self.report_filters = _json(self.report_filters, dict, _("Report filters are not valid."))
-		if self.kind == "Feed" and not (self.feed_url or "").startswith("https://"):
-			frappe.throw(_("A feed's address starts with https://."))
+		if self.kind == "News" and not self.news_sources:
+			frappe.throw(_("Choose the News Sources whose headlines to show."))
 		if self.kind == "Weather" and not self.weather_place:
 			frappe.throw(_("Choose the place whose weather to show."))
 		if self.kind == "Exchange Rates":

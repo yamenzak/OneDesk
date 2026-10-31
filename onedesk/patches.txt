@@ -107,3 +107,4 @@ onedesk.one_hr.patches.shift_hours_written
 onedesk.one_task.patches.no_my_tasks_page
 onedesk.one_task.patches.no_task_page
 onedesk.one_display.patches.weather_on_places
+onedesk.one_display.patches.news_from_feeds

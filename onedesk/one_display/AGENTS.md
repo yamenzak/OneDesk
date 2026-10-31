@@ -30,7 +30,7 @@ and the demo.
 | `Display Board Change` | Every change to a board, with the minutes the item spent in its state before. |
 | `Slide Playlist`, `Display Slide` | What plays in order: a Presentation from OneCloud (every slide of it) or a Web Page (https only), each with seconds, optional dates and Paused. |
 | `Widget Collection`, `Display Widget` | A layout: widgets in percent of the screen, each with a source, a mapping, settings, a layer and optional hours. |
-| `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, Feed, Weather or Exchange Rates. |
+| `Display Source` | Where a widget's rows come from: Records, Record, Report, Queue, News, Weather or Exchange Rates. |
 | `Music Playlist`, `Display Track` | Tracks, each with its length and Paused, and a volume. |
 | `Voice Ad` | A script, a tone, a language, a voice, a chime, and its recording. |
 | `Display Voice` | A whole sentence recorded once in OneAI's voice, by language, voice and tone, with its public WAV: what a pack cannot join. |
@@ -177,10 +177,17 @@ instead.
   blank.
 - **Read once, cached** per source for its `refresh` or its kind's default
   (`sources.KEPT`); the last good answer stands when a read fails.
-- **Feeds** are read only over https from addresses that resolve to the public
-  internet (`sources._public`), without redirects, at most 1 MB, with
-  `defusedxml`. A feed is the workspace's own choice of address, so it is not
-  a subprocessor and not an optional service.
+- **News** is One's (`one/news`): a source names News Sources and reads
+  their newest items with `news.items`, each with its category, colour and a
+  logo, the publisher's where the item names one. A screen never fetches a
+  feed; One does, on each source's schedule. A ticker's row carries
+  `sources.NEWS_EXTRAS` beside its slots, which is what draws a category's
+  chip, the label that follows the category passing it, and the publisher's
+  logo before or after a headline. The **News** widget takes the rows whole:
+  one story at a time with its picture, a list of headlines, or cards.
+- **Between a ticker's items** goes a mark, the company's logo or its Icon
+  (Company › `one_brand_icon`, ControlCenter › Branding), words of the
+  workspace's own, or space (the Ticker's `separator` setting).
 - **Weather** is One's (`one/weather.py`): a source names a `Weather Place`,
   and `weather.reading` turns the account's answer into now, today's high
   and low, thirteen `hours` and the `days`, each named in the reader's
@@ -378,7 +385,7 @@ one).
 | `packs.py` | Voice packs: splitting a ticket, the pieces a call needs, recording them |
 | `boards.py`, `chips.py` | Boards, and data chips for what were Number and List |
 | `playlist.py` | Pictures and videos dropped on a playlist |
-| `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
+| `sources.py` | Reading a source, filling a widget's slots, news and weather |
 | `widgets.py` | Every widget kind: slots, settings, which sources fill it; the looks and the ready-made widgets |
 | `starters.py` | The templates: whole screens built in code, offered in the editor and put on a layout |
 | `layout.py` | A collection's widgets, read and saved back |

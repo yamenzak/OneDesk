@@ -24,6 +24,10 @@ FRESH_DAYS = 7
 #: The announcements running when a person folded them to the bar's icon, as a user default.
 HIDDEN = "one_news_hidden"
 
+#: What the bar runs for a person, Announcements or News (one/news/desk.py), and whether they folded the news.
+SHOWS = "one_bar_shows"
+NEWS_FOLDED = "one_bar_news_folded"
+
 
 def _free(user: str | None = None) -> bool:
 	user = user or frappe.session.user
@@ -91,24 +95,45 @@ def _rerun() -> None:
 
 @frappe.whitelist()
 def current() -> dict:
-	"""What this person's top bar shows: every announcement running, and
-	whether they folded it to its icon. Folding holds until one is posted
-	that was not there when they folded."""
+	"""What this person's top bar shows: every announcement running and the
+	headlines of the news they follow, which of the two they chose, and
+	whether they folded it to its icon. Folding announcements holds until
+	one is posted that was not there when they folded."""
+	from onedesk.one.news import desk
+
 	running = _running()
 	folded = set(json.loads(frappe.defaults.get_user_default(HIDDEN) or "[]"))
-	return {"running": running, "folded": bool(running) and all(one["name"] in folded for one in running)}
+	return {
+		"running": running,
+		"folded": bool(running) and all(one["name"] in folded for one in running),
+		"news": desk.headlines(),
+		"news_folded": bool(frappe.defaults.get_user_default(NEWS_FOLDED)),
+		"shows": frappe.defaults.get_user_default(SHOWS) or "Announcements",
+	}
 
 
 @frappe.whitelist(methods=["POST"])
-def hide() -> None:
-	"""Fold the announcements to the bar's icon; the next one posted opens them again."""
+def hide(what: str = "Announcements") -> None:
+	"""Fold the announcements, or the news, to the bar's icon; the next
+	announcement posted opens them again."""
+	if what == "News":
+		frappe.defaults.set_user_default(NEWS_FOLDED, "1")
+		return
 	frappe.defaults.set_user_default(HIDDEN, json.dumps([one["name"] for one in _running()]))
 
 
 @frappe.whitelist(methods=["POST"])
-def show() -> None:
-	"""Open the folded announcements again."""
-	frappe.defaults.clear_user_default(HIDDEN)
+def show(what: str = "Announcements") -> None:
+	"""Open the folded announcements, or news, again."""
+	frappe.defaults.clear_user_default(NEWS_FOLDED if what == "News" else HIDDEN)
+
+
+@frappe.whitelist(methods=["POST"])
+def shows(what: str) -> None:
+	"""Run announcements or news along this person's top bar."""
+	if what not in ("Announcements", "News"):
+		frappe.throw(_("The bar runs announcements or news."))
+	frappe.defaults.set_user_default(SHOWS, what)
 
 
 def _running() -> list[dict]:

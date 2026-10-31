@@ -1,11 +1,20 @@
 {
  "custom_fields": [
   {
+   "description": "A square mark, the logo without its words. Screens show it between headlines and where the logo is too wide.",
+   "dt": "Company",
+   "fieldname": "one_brand_icon",
+   "fieldtype": "Attach Image",
+   "insert_after": "company_logo",
+   "label": "Icon",
+   "module": "One"
+  },
+  {
    "description": "The colour a letter head carries, in the company's name, its lines and a banner's band.",
    "dt": "Company",
    "fieldname": "one_brand_colour",
    "fieldtype": "Color",
-   "insert_after": "company_logo",
+   "insert_after": "one_brand_icon",
    "label": "Brand Colour",
    "module": "One"
   },

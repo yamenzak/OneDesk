@@ -188,42 +188,70 @@ $.extend(onedesk.window, {
 	news(said) {
 		const esc = frappe.utils.escape_html;
 		const $news = $(".one-bar-news");
-		const all = (said && said.running) || [];
-		onedesk.window._news = all;
+		said = said || {};
+		onedesk.window._said = said;
+		const announced = said.running || [];
+		const headlines = said.news || [];
+		onedesk.window._news = announced;
 		if (!onedesk.window._listening_news) {
 			onedesk.window._listening_news = true;
-			const listen = () =>
-				frappe.realtime.on("one_announcements", () =>
-					frappe.xcall("onedesk.one.announcements.current").then((now) => onedesk.window.news(now))
-				);
+			const again = frappe.utils.debounce(
+				() => frappe.xcall("onedesk.one.announcements.current").then((now) => onedesk.window.news(now)),
+				2000
+			);
+			const listen = () => {
+				frappe.realtime.on("one_announcements", again);
+				frappe.realtime.on("one_news", again);
+			};
 			frappe.realtime.socket ? listen() : $(document).one("app_ready", listen);
 		}
-		$news.toggleClass("hide", !all.length).removeClass("one-bar-news-moving one-bar-news-folded").empty();
-		if (!all.length) return;
-		const icon = `<span class="one-bar-icon">${frappe.utils.icon("megaphone", "sm")}</span>`;
-		if (said.folded) {
+		let shows = said.shows === "News" ? "News" : "Announcements";
+		if (shows === "News" && !headlines.length) shows = "Announcements";
+		if (shows === "Announcements" && !announced.length && headlines.length) shows = "News";
+		const news = shows === "News";
+		const rows = news ? headlines : announced;
+		const other = news ? "Announcements" : "News";
+		const both = announced.length && headlines.length;
+		const redraw = (change) => onedesk.window.news({ ...said, ...change });
+		$news.toggleClass("hide", !rows.length).removeClass("one-bar-news-moving one-bar-news-folded").empty();
+		if (!rows.length) return;
+		const mark = news ? "newspaper" : "megaphone";
+		if (news ? said.news_folded : said.folded) {
 			$news.addClass("one-bar-news-folded").html(
-				`<button class="one-bar-tool one-bar-news-open" aria-label="${esc(__("Announcements"))}">${icon.replace(
-					"</span>",
-					`<span class="one-bar-badge">${all.length}</span></span>`
-				)}</button>`
+				`<button class="one-bar-tool one-bar-news-open" aria-label="${esc(news ? __("News") : __("Announcements"))}"><span class="one-bar-icon">${frappe.utils.icon(
+					mark,
+					"sm"
+				)}<span class="one-bar-badge">${rows.length}</span></span></button>`
 			);
 			$news.find(".one-bar-news-open").on("click", () => {
-				frappe.xcall("onedesk.one.announcements.show");
-				onedesk.window.news({ running: all, folded: false });
+				frappe.xcall("onedesk.one.announcements.show", { what: shows });
+				redraw(news ? { news_folded: false } : { folded: false });
 			});
 			return;
 		}
-		const items = all
-			.map(
-				(one) =>
-					`<button class="one-bar-news-item" data-note="${esc(one.name)}"><span class="one-bar-news-title">${esc(one.title)}</span>${
-						one.text ? `<span class="one-bar-news-text">${esc(one.text)}</span>` : ""
-					}</button>`
+		const items = rows
+			.map((one, i) =>
+				news
+					? `<button class="one-bar-news-item" data-at="${i}">${
+							one.logo ? `<img class="one-bar-news-logo" src="${esc(one.logo)}" alt="">` : ""
+					  }<span class="one-bar-news-title">${esc(one.title)}</span>${
+							one.publisher ? `<span class="one-bar-news-text">${esc(one.publisher)}</span>` : ""
+					  }</button>`
+					: `<button class="one-bar-news-item" data-note="${esc(one.name)}"><span class="one-bar-news-title">${esc(one.title)}</span>${
+							one.text ? `<span class="one-bar-news-text">${esc(one.text)}</span>` : ""
+					  }</button>`
 			)
 			.join("");
+		const lead = both
+			? `<button class="one-bar-tool one-bar-news-switch" aria-label="${esc(
+					news ? __("Show Announcements") : __("Show News")
+			  )}">${frappe.utils.icon(mark, "sm")}</button>`
+			: `<span class="one-bar-news-icon">${frappe.utils.icon(mark, "sm")}</span>`;
+		const choose = news
+			? `<button class="one-bar-tool one-bar-news-choose" aria-label="${esc(__("Choose Sources"))}">${frappe.utils.icon("list-filter", "xs")}</button>`
+			: "";
 		$news.html(
-			`<span class="one-bar-news-icon">${frappe.utils.icon("megaphone", "sm")}</span><div class="one-bar-news-window"><div class="one-bar-news-track"><div class="one-bar-news-run">${items}</div></div></div><button class="one-bar-tool one-bar-news-hide" aria-label="${esc(
+			`${lead}<div class="one-bar-news-window"><div class="one-bar-news-track"><div class="one-bar-news-run">${items}</div></div></div>${choose}<button class="one-bar-tool one-bar-news-hide" aria-label="${esc(
 				__("Hide")
 			)}">${frappe.utils.icon("x", "xs")}</button>`
 		);
@@ -235,10 +263,49 @@ $.extend(onedesk.window, {
 			$track.css("animation-duration", `${Math.max(12, Math.round($run[0].scrollWidth / 40))}s`);
 		}
 		$news.find("[data-note]").on("click", (event) => onedesk.window.announcement($(event.currentTarget).attr("data-note")));
-		$news.find(".one-bar-news-hide").on("click", () => {
-			frappe.xcall("onedesk.one.announcements.hide");
-			onedesk.window.news({ running: all, folded: true });
+		$news.find("[data-at]").on("click", (event) => {
+			const one = headlines[Number($(event.currentTarget).attr("data-at"))] || {};
+			if (one.link) window.open(one.link, "_blank", "noopener");
+			else if (one.route && one.route.length) frappe.set_route(...one.route);
 		});
+		$news.find(".one-bar-news-switch").on("click", () => {
+			frappe.xcall("onedesk.one.announcements.shows", { what: other });
+			redraw({ shows: other });
+		});
+		$news.find(".one-bar-news-choose").on("click", () => onedesk.window.choose_news());
+		$news.find(".one-bar-news-hide").on("click", () => {
+			frappe.xcall("onedesk.one.announcements.hide", { what: shows });
+			redraw(news ? { news_folded: true } : { folded: true });
+		});
+	},
+
+	/** Which News Sources run along this person's bar (one/news/desk.py):
+	 * every one ticked is everything, and so is none. */
+	async choose_news() {
+		const said = await frappe.xcall("onedesk.one.news.desk.following");
+		const dialog = new frappe.ui.Dialog({
+			title: __("Choose Sources"),
+			fields: [
+				{
+					fieldtype: "MultiCheck",
+					fieldname: "sources",
+					label: __("Sources"),
+					columns: 2,
+					options: said.sources.map((one) => ({
+						label: one.name,
+						value: one.name,
+						checked: one.followed ? 1 : 0,
+					})),
+				},
+			],
+			primary_action_label: __("Save"),
+			primary_action: async ({ sources }) => {
+				dialog.hide();
+				await frappe.xcall("onedesk.one.news.desk.follow", { sources });
+				onedesk.window.news(await frappe.xcall("onedesk.one.announcements.current"));
+			},
+		});
+		dialog.show();
 	},
 
 	async announcement(name) {

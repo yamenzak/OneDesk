@@ -178,6 +178,99 @@ def a_record_with_no_picture_gets_one_drawn_and_keeps_its_own():
 
 
 @check
+def one_follows_the_news():
+	"""News Sources fetch on their own (one/news): a feed's new items are
+	kept and its oldest let go, Google News asks nothing while it is off,
+	OneAI's headlines come through the account, a Written source takes the
+	items written for it, and each person's bar and each screen read them.
+	Nothing leaves: the feed and the account are stood in for."""
+	from unittest import mock
+
+	from onedesk.one import announcements, news
+	from onedesk.one.news import desk, feeds, fetching
+	from onedesk.one.news import library as news_library
+	from onedesk.one_legal import services
+
+	rss = (
+		b'<rss version="2.0"><channel><title>Check</title><link>https://check.example.com/</link>'
+		b"<item><title>First headline</title><guid>1</guid><link>https://check.example.com/1</link><pubDate>Sat, 31 Oct 2026 06:00:00 GMT</pubDate></item>"
+		b"<item><title>Second headline</title><guid>2</guid><link>https://check.example.com/2</link><pubDate>Sat, 31 Oct 2026 07:00:00 GMT</pubDate></item>"
+		b"</channel></rss>"
+	)
+	names = ("Check Feed", "Check Google", "Check OneAI", "Check Written")
+	with as_user(OWNER):
+		was = services.on(fetching.GOOGLE_SERVICE)
+		try:
+			kinds = (("Feed", {"feed_url": "https://check.example.com/rss"}), ("Google News", {"google_topic": "Business"}), ("OneAI", {"ai_brief": "news for a glazing company", "fetch_every": "At Set Times", "fetch_at": "07:00"}), ("Written", {}))
+			for name, (kind, extra) in zip(names, kinds, strict=True):
+				frappe.get_doc({"doctype": news.SOURCE, "source_name": name, "kind": kind, "category": "Check News", "keep": 1 if kind == "Feed" else 0, **extra}).insert()
+			assert frappe.db.exists(news.CATEGORY, "Check News"), "a category is made when it is first named"
+
+			with mock.patch.object(feeds, "get", return_value=(200, rss, '"e1"', "Sat, 31 Oct 2026 07:00:00 GMT")) as got:
+				assert fetching.fetch("Check Feed") == 2
+			kept = frappe.get_all(news.ITEM, filters={"source": "Check Feed"}, pluck="title")
+			assert kept == ["Second headline"], f"Keep 1 holds only the newest: {kept}"
+			source = frappe.db.get_value(news.SOURCE, "Check Feed", ["etag", "website", "next_fetch", "last_error"], as_dict=True)
+			assert source.etag == '"e1"' and source.website == "https://check.example.com/" and source.next_fetch and not source.last_error
+			with mock.patch.object(feeds, "get", return_value=(304, b"", '"e1"', None)) as got:
+				assert fetching.fetch("Check Feed") == 0
+				assert got.call_args.args[1] == '"e1"', "the feed is asked whether it changed"
+
+			services.switch(fetching.GOOGLE_SERVICE, 0)
+			frappe.local.one_services = {}
+			with mock.patch.object(feeds, "get") as got:
+				fetching.fetch("Check Google")
+				got.assert_not_called()
+			assert "TrustCenter" in frappe.db.get_value(news.SOURCE, "Check Google", "last_error"), "off, Google News is not asked"
+
+			said = {"items": [{"title": "Towers rise", "summary": "Output rose.", "publisher": "thenationalnews.com", "publisher_site": "thenationalnews.com"}]}
+			with mock.patch("onedesk.one.account.ask", return_value=said) as asked:
+				assert fetching.fetch("Check OneAI") == 1
+				assert asked.call_args.args[0] == fetching.AI and asked.call_args.kwargs["brief"] == "news for a glazing company"
+			assert frappe.db.get_value(news.ITEM, {"source": "Check OneAI"}, "publisher_site") == "thenationalnews.com"
+
+			frappe.get_doc({"doctype": news.ITEM, "source": "Check Written", "title": "Our own news"}).insert()
+			try:
+				frappe.get_doc({"doctype": news.ITEM, "source": "Check Feed", "title": "Typed in"}).insert()
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("a feed's items are only fetched")
+
+			desk.follow(["Check Written"])
+			assert {one["title"] for one in desk.headlines()} == {"Our own news"}, "the bar reads the sources this person follows"
+			assert desk.headlines()[0]["route"][1] == news.ITEM, "a written headline opens here"
+			announcements.shows("News")
+			now = announcements.current()
+			assert now["shows"] == "News" and now["news"][0]["title"] == "Our own news"
+
+			found = news_library.search("khaleej", "", "AE")
+			assert [one["name"] for one in found["feeds"]] == ["Khaleej Times"] and "World" in found["categories"]
+			url = found["feeds"][0]["url"]
+			had = frappe.db.get_value(news.SOURCE, {"feed_url": url}, "name")
+			added = news_library.add(url)
+			assert frappe.db.get_value(news.SOURCE, added, "kind") == "Feed" and news_library.search("khaleej", "", "AE")["feeds"][0]["added"]
+			assert not had or added == had, "a feed already added is not added twice"
+			added = None if had else added
+			following = desk.following()
+			assert "Check Written" in {one["name"] for one in following["sources"] if one["followed"]}
+			with mock.patch("frappe.enqueue") as queued:
+				fetching.fetch_now("Check Feed")
+				assert queued.call_args.kwargs["name"] == "Check Feed", "Fetch Now asks in the background"
+
+			rows = news.items(list(names), most=10, order="By Category")
+			assert {"category", "colour", "logo", "publisher"} <= set(rows[0]), "a ticker gets each headline's category and logo"
+		finally:
+			desk.follow([])
+			frappe.defaults.clear_user_default(announcements.SHOWS)
+			for name in (*names, locals().get("added")):
+				if name and frappe.db.exists(news.SOURCE, name):
+					frappe.delete_doc(news.SOURCE, name, force=True)
+			services.switch(fetching.GOOGLE_SERVICE, int(was))
+			frappe.local.one_services = {}
+
+
+@check
 def one_shows_the_weather_for_its_places():
 	"""A place is found by its name and its weather comes through the account,
 	once for every workspace near it (one/weather.py, one_admin/weather.py).

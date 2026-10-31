@@ -327,8 +327,19 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	font-weight: 600;
 }
 
-.one-bar-news-hide {
+.one-bar-news-hide,
+.one-bar-news-choose,
+.one-bar-news-switch {
 	flex: none;
+}
+
+.one-bar-news-logo {
+	flex: none;
+	width: 14px;
+	height: 14px;
+	border-radius: var(--radius-sm);
+	object-fit: contain;
+	background: var(--surface-base);
 }
 
 @media (prefers-reduced-motion: reduce) {

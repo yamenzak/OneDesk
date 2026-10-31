@@ -1,0 +1,75 @@
+{
+ "actions": [],
+ "autoname": "field:category_name",
+ "creation": "2026-10-31 15:00:00.000000",
+ "description": "A kind of news, such as Business or Sports. A ticker can show it beside its headlines, in its colour.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "category_name",
+  "colour"
+ ],
+ "fields": [
+  {
+   "fieldname": "category_name",
+   "fieldtype": "Data",
+   "label": "Category",
+   "reqd": 1,
+   "unique": 1,
+   "in_list_view": 1,
+   "translatable": 1
+  },
+  {
+   "fieldname": "colour",
+   "fieldtype": "Color",
+   "label": "Colour",
+   "in_list_view": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-31 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "News Category",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "System Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Workspace Administrator"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "One Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "OneDisplay Manager"
+  },
+  {
+   "read": 1,
+   "role": "Desk User"
+  }
+ ],
+ "sort_field": "category_name",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "category_name"
+}

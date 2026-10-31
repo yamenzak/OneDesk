@@ -13,7 +13,15 @@ from onedesk.one_display import widgets as kinds
 
 DOCTYPE = "Widget Collection"
 KEPT = ("widget_type", "label", "source", "x", "y", "w", "h", "layer", "mapping", "settings", "shown", "from_time", "to_time")
-FEED = {"title": _lt("Title"), "summary": _lt("Summary"), "date": _lt("Date"), "link": _lt("Link"), "image": _lt("Image")}
+NEWS = {
+	"title": _lt("Title"),
+	"summary": _lt("Summary"),
+	"publisher": _lt("Publisher"),
+	"category": _lt("Category"),
+	"ago": _lt("Published"),
+	"link": _lt("Link"),
+	"image": _lt("Image"),
+}
 
 
 @frappe.whitelist()
@@ -61,8 +69,8 @@ def fields(source: Annotated[str, "A source."]) -> list[dict]:
 	if row.kind == "Board":
 		labels = {"item": _("Item"), "state": _("State"), "value": _("Value"), "minutes": _("Minutes")}
 		return [{"fieldname": one, "label": label} for one, label in labels.items()]
-	if row.kind == "Feed":
-		return [{"fieldname": one, "label": str(label)} for one, label in FEED.items()]
+	if row.kind == "News":
+		return [{"fieldname": one, "label": str(label)} for one, label in NEWS.items()]
 	return []
 
 

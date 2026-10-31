@@ -301,7 +301,7 @@ One adds five things:
   in its actions, and `stop` ends one at once by setting its Show Until to
   now. Who has seen each is frappe's own Seen By on the form.
 - **It runs along the top bar** (`current`, booted as `one_announcements`
-  and drawn by `onedesk.dock.news`): public, not expired, newest five. A Note
+  and drawn by `onedesk.window.news`): public, not expired, newest five. A Note
   with no expiry runs for `FRESH_DAYS` from when it was posted, as frappe's
   pop-up does. Saving or deleting a public one sends `one_announcements`, and
   every open bar asks again. The text scrolls only when it is wider than the
@@ -537,6 +537,40 @@ one the workspace writes (layer.held) is held to what a mail template is held
 to: every tag it adds names a field of the address, bare, or is an `if` on one
 and its `endif`, or a plain label in the reader's language. Every tag it
 already had stays, so frappe's own per-country templates can be reworded.
+
+### news/
+
+News Sources and their News Items (one/docs/news.md is the Help).
+
+- **Two record types and a third for colour.** `News Source` says where and
+  how often; `News Item` is one headline, its own record because items are
+  listed, filtered, read by screens and the bar, and deleted one by one as a
+  source keeps only its newest `keep`. A child table would have made every
+  fetch rewrite the source. `News Category` is a name and a colour, made the
+  first time a source names it (`news.category`, called before frappe checks
+  links, which is before any hook).
+- **Four kinds.** Feed: `feeds.get` asks once over https, only public
+  addresses, at most three redirects each checked again, 2 MB, with the
+  etag and date it gave last time; `feeds.read` parses with lxml, entities
+  off and nothing fetched. Google News: its own RSS (`fetching.google_url`), never
+  its pages, behind the `google_news` service, at most hourly per source and
+  one request every `GOOGLE_GAP` seconds from the whole site; a 429 or 503 is
+  a failure like any other and waits longer each time. OneAI: the account's
+  `news_brief` (one_admin/news.py), one grounded Gemini call, billed per run,
+  at the source's set times. Written: items are written by hand.
+- **The schedule** is `next_fetch`, worked out by `fetching.next_at` and read by
+  `fetching.due` every five minutes, which enqueues one job per source.
+- **Reading** is `news.items`: the newest items of enabled sources, each with
+  its category's colour and a logo, the publisher's (a `Face` by its site)
+  or the source's (dressed by `faces` from its website, `DRESSED`).
+- **The desk** (`news/desk.py`): who follows what is a user default; the top
+  bar's news is `announcements.current()["news"]`, switched with
+  `announcements.shows`. `one_news` is published when items arrive.
+- **The library** is `news/library.json`, searched and added by
+  `news/library.py`: plenaryapp/awesome-rss-feeds
+  (CC0) plus a few Gulf, Arabic and German feeds of ours, built by a script
+  outside the repo from its OPML. Its feeds are other people's; the clause
+  `news-content` says so.
 
 ### notify.py
 

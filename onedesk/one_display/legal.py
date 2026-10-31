@@ -1,7 +1,7 @@
 """What OneDisplay adds to the agreements: a paired screen is a guest that
 shows the workspace's channel to whoever stands in front of it, a ticket
-names nobody, and a news feed is read from the address the workspace
-gives. The weather is One's (one/legal.py). See one_display/AGENTS.md and
+names nobody. News and the weather are One's (one/legal.py): a screen
+shows the headlines One's News Sources keep. See one_display/AGENTS.md and
 one_legal/AGENTS.md."""
 
 from onedesk.one_legal.registry import clause
@@ -17,8 +17,8 @@ clause(
 		A screen paired with OneDisplay keeps two things in its browser: which screen it is and a key that
 		lets it show its channel. It cannot open anything else in the workspace. What it shows can be seen
 		by anybody in front of it, so the workspace decides what goes on a channel. A widget shows only the
-		fields it is set to show, read with the access of whoever set up its source. A news feed is read
-		from the address the workspace gives, and nothing about the workspace is sent with the request.
+		fields it is set to show, read with the access of whoever set up its source. Headlines come from
+		the workspace's News Sources, which One fetches; a screen sends nothing to their publishers.
 	""",
 )
 

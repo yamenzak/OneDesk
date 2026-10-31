@@ -18,12 +18,12 @@ from onedesk.one import ready  # noqa: E402
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
-	"terms": "12.6acabf25",
+	"terms": "12.75f55b53",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.53d559f5",
+	"privacy": "27.cf0b9056",
 	"cookies": "2.946a434c",
 	"dpa": "7.619281d4",
-	"subprocessors": "5.f9341143",
+	"subprocessors": "5.8a640a22",
 	"ai": "25.b173a315",
 	"licences": "1.c71daf62",
 }
@@ -42,6 +42,7 @@ HOSTS = {
 	"fonts.gstatic.com": "Google LLC",
 	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
 	"api.openweathermap.org": "OpenWeather Ltd",
+	"news.google.com": "Google LLC",
 	"onedesk.one_admin.proxy.weather_reading": "OpenWeather Ltd",
 	"onedesk.one_admin.proxy.weather_places": "OpenWeather Ltd",
 	"fcm.googleapis.com": None,
@@ -49,6 +50,10 @@ HOSTS = {
 	"ai.google.dev": None,
 	# Google's address for a made video, rewritten onto the gateway and never called.
 	"generativelanguage.googleapis.com": None,
+	# Feeds the demo workspace adds: read for it, so the publisher is not ours to declare.
+	"www.thenationalnews.com": None,
+	"www.khaleejtimes.com": None,
+	"feeds.bbci.co.uk": None,
 }
 
 

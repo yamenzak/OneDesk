@@ -1703,6 +1703,27 @@
 "Desk User",
 "System Manager"
 ],
+"News Category": [
+"Desk User",
+"One Manager",
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"News Item": [
+"Desk User",
+"One Manager",
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
+"News Source": [
+"Desk User",
+"One Manager",
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Non Conformance": [
 "Employee",
 "Quality Manager",
@@ -3351,6 +3372,9 @@
 "Module Def",
 "Module Onboarding",
 "Music Playlist",
+"News Category",
+"News Item",
+"News Source",
 "Non Conformance",
 "Note",
 "Notification",

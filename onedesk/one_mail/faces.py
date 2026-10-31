@@ -229,6 +229,7 @@ DRESSED = {
 	"Company": ("company_logo", "organisation"),
 	"Bank": ("one_logo", "bank"),
 	"Brand": ("image", "bank"),
+	"News Source": ("logo", "bank"),
 }
 
 NOBODY = ("Administrator", "Guest")

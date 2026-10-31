@@ -1014,6 +1014,86 @@
 		return '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">' + (ICONS[name] || ICONS.cloud) + "</svg>";
 	}
 
+	/* A ticker's items: its own words first, then each row, with where a
+	   headline is from and its category (sources.py NEWS_EXTRAS). */
+	var SEPARATORS = { dot: "•", diamond: "◆", bar: "|", slash: "/", dash: "—", star: "★", space: "" };
+
+	function tickerParts(one) {
+		var s = settingsOf(one);
+		var list = rows(one);
+		var out = [];
+		if (s.text) out.push({ text: s.text });
+		for (var i = 0; i < list.length; i++) {
+			if (list[i].text) out.push({ text: list[i].text, category: list[i].category || "", colour: list[i].colour || "", logo: list[i].logo || "", publisher: list[i].publisher || "" });
+		}
+		return out;
+	}
+
+	// what stands between two items: a mark, the business's logo or icon, words of its own, or space
+	function separatorNode(s) {
+		var kind = s.separator || "dot";
+		var node = el("span", "tk-sep");
+		var picture = kind === "logo" ? brand.logo : kind === "icon" ? brand.icon || brand.logo : "";
+		if (picture) {
+			var img = el("img");
+			img.src = picture;
+			img.alt = "";
+			node.appendChild(img);
+			node.className += " tk-sep-img";
+		} else if (kind === "custom") {
+			node.textContent = s.separator_text || "";
+		} else {
+			node.textContent = SEPARATORS.hasOwnProperty(kind) ? SEPARATORS[kind] : SEPARATORS.dot;
+		}
+		if (!node.textContent && !picture) node.className += " tk-sep-space";
+		return node;
+	}
+
+	// a category's name, in its colour, where its items begin
+	function categoryNode(part, one) {
+		var chip = el("span", "tk-cat", part.category);
+		chip.style.background = part.colour || accent(one);
+		chip.style.color = inkFor(part.colour) || inkOn(one);
+		return chip;
+	}
+
+	function inkFor(colour) {
+		var hex = /^#?([0-9a-f]{6})/i.exec(colour || "");
+		if (!hex) return "";
+		var n = parseInt(hex[1], 16);
+		var light = (0.299 * (n >> 16) + 0.587 * ((n >> 8) & 255) + 0.114 * (n & 255)) / 255;
+		return light > 0.62 ? "var(--on-light)" : "var(--on-dark)";
+	}
+
+	// one headline, its publisher's logo before or after it
+	function itemNode(part, s, tag) {
+		var node = el(tag || "span", "tk-item");
+		node.setAttribute("data-cat", part.category || "");
+		node.setAttribute("data-colour", part.colour || "");
+		var logo = null;
+		if (part.logo && (s.logos === "before" || s.logos === "after")) {
+			logo = el("img", "tk-logo");
+			logo.src = part.logo;
+			logo.alt = "";
+		}
+		if (logo && s.logos === "before") node.appendChild(logo);
+		node.appendChild(el("span", "tk-text", part.text));
+		if (logo && s.logos === "after") node.appendChild(logo);
+		return node;
+	}
+
+	// the items in a line: a category's chip where it changes, else a separator
+	function tickerLine(line, parts, s, one, chips) {
+		var last = null;
+		for (var i = 0; i < parts.length; i++) {
+			var changed = chips && s.categories === "inline" && parts[i].category && parts[i].category !== last;
+			if (changed) line.appendChild(categoryNode(parts[i], one));
+			else if (i > 0) line.appendChild(separatorNode(s));
+			line.appendChild(itemNode(parts[i], s));
+			if (parts[i].category) last = parts[i].category;
+		}
+	}
+
 	function rows(one) {
 		return (one.data && one.data.rows) || [];
 	}
@@ -1253,22 +1333,20 @@
 		Ticker: function (box, one, w, h) {
 			sized(box, h);
 			var band = el("div", "ticker");
-			var line = el("span");
+			var line = el("span", "tk-line");
 			band.appendChild(line);
 			box.appendChild(band);
 			var said = null;
 			var rtl = document.documentElement.dir === "rtl";
 			return {
 				update: function (one) {
-					var s = one.settings || {};
-					var words = rows(one).map(function (r) {
-						return r.text;
-					}).filter(Boolean);
-					if (s.text) words.unshift(s.text);
-					var joined = words.join("     •     ");
-					if (joined === said) return;
-					said = joined;
-					line.textContent = joined;
+					var s = settingsOf(one);
+					var parts = tickerParts(one);
+					var key = JSON.stringify([parts, s.separator, s.separator_text, s.categories, s.logos, brand.logo, brand.icon, s.speed]);
+					if (key === said) return;
+					said = key;
+					line.innerHTML = "";
+					tickerLine(line, parts, s, one, s.categories && s.categories !== "none");
 					var across = (line.offsetWidth + w) / Math.max(w / Math.max(s.speed || 30, 5), 20);
 					var name = "tick" + one.id.replace(/\W/g, "");
 					var from = rtl ? -line.offsetWidth : w;
@@ -1852,13 +1930,17 @@
 		sized(box, h / 2.2);
 		var line = el("div", "wl-fade");
 		box.appendChild(line);
-		var words = [];
+		var parts = [];
+		var s = settingsOf(one);
 		var at = 0;
 		function next() {
-			if (!words.length) return;
+			if (!parts.length) return;
 			line.style.opacity = 0;
 			setTimeout(function () {
-				text(line, words[at % words.length]);
+				var part = parts[at % parts.length];
+				line.innerHTML = "";
+				if (part.category && s.categories === "inline") line.appendChild(categoryNode(part, one));
+				line.appendChild(itemNode(part, s));
 				line.style.fontSize = "";
 				if (line.scrollWidth > line.clientWidth) line.style.fontSize = (parseFloat(window.getComputedStyle(line).fontSize) * line.clientWidth) / line.scrollWidth + "px";
 				line.style.opacity = 1;
@@ -1867,12 +1949,12 @@
 		}
 		var every = setInterval(next, 6000);
 		return {
-			update: function (one) {
-				var s = settingsOf(one);
-				var fresh = rows(one).map(function (r) { return r.text; }).filter(Boolean);
-				if (s.text) fresh.unshift(s.text);
-				var changed = fresh.join("|") !== words.join("|");
-				words = fresh;
+			update: function (fresh) {
+				one = fresh;
+				s = settingsOf(fresh);
+				var now = tickerParts(fresh);
+				var changed = JSON.stringify(now) !== JSON.stringify(parts);
+				parts = now;
 				if (changed) { at = 0; next(); }
 			},
 			drop: function () { clearInterval(every); },
@@ -1889,12 +1971,219 @@
 		band.appendChild(rest);
 		box.appendChild(band);
 		var inner = null;
+		var last = one;
+		var watch = null;
+		var rtl = document.documentElement.dir === "rtl";
+		// the label says the category of the headline passing its edge
+		function follow() {
+			var s = settingsOf(last);
+			if (s.categories !== "label") return;
+			var edge = rest.getBoundingClientRect();
+			var items = rest.querySelectorAll(".tk-item");
+			for (var i = 0; i < items.length; i++) {
+				var r = items[i].getBoundingClientRect();
+				var past = rtl ? r.left < edge.right - 2 : r.right > edge.left + 2;
+				if (past) {
+					var cat = items[i].getAttribute("data-cat");
+					text(label, cat || s.label || "");
+					var colour = items[i].getAttribute("data-colour");
+					if (cat && colour) {
+						label.style.background = colour;
+						label.style.color = inkFor(colour);
+					} else highlight(label, last);
+					return;
+				}
+			}
+		}
 		return {
-			update: function (one) {
-				text(label, settingsOf(one).label || "");
-				highlight(label, one);
-				inner = inner || KINDS.Ticker(rest, one, rest.offsetWidth || w * 0.8, h);
-				inner.update(one);
+			update: function (fresh) {
+				last = fresh;
+				text(label, settingsOf(fresh).label || "");
+				highlight(label, fresh);
+				inner = inner || KINDS.Ticker(rest, fresh, rest.offsetWidth || w * 0.8, h);
+				inner.update(fresh);
+				if (!watch && settingsOf(fresh).categories === "label") watch = setInterval(follow, 400);
+			},
+			drop: function () { if (watch) clearInterval(watch); },
+		};
+	}
+
+	// headlines rolling up, a line naming each category where its own begin
+	function tickerVertical(box, one, w, h) {
+		sized(box, Math.min(h / 14, w / 16));
+		var frame = el("div", "tk-roll");
+		var column = el("div", "tk-column");
+		frame.appendChild(column);
+		box.appendChild(frame);
+		var said = null;
+		return {
+			update: function (fresh) {
+				var s = settingsOf(fresh);
+				var parts = tickerParts(fresh);
+				var key = JSON.stringify([parts, s.categories, s.logos, s.speed]);
+				if (key === said) return;
+				said = key;
+				column.innerHTML = "";
+				function draw(into) {
+					var last = null;
+					for (var i = 0; i < parts.length; i++) {
+						if (s.categories !== "none" && parts[i].category && parts[i].category !== last) {
+							var head = el("div", "tk-head");
+							var bar = el("span", "tk-head-bar");
+							bar.style.background = parts[i].colour || accent(fresh);
+							head.appendChild(bar);
+							head.appendChild(el("span", "", parts[i].category));
+							into.appendChild(head);
+						}
+						into.appendChild(itemNode(parts[i], s, "div"));
+						if (parts[i].category) last = parts[i].category;
+					}
+				}
+				var first = el("div");
+				draw(first);
+				column.appendChild(first);
+				if (first.offsetHeight <= frame.offsetHeight) return;
+				var second = first.cloneNode(true);
+				second.setAttribute("aria-hidden", "true");
+				column.appendChild(second);
+				var tall = first.offsetHeight;
+				var seconds = Math.max(tall / Math.max(frame.offsetHeight / Math.max(s.speed || 30, 5), 8), 10);
+				var name = "roll" + fresh.id.replace(/\W/g, "");
+				var style = el("style");
+				style.textContent = "@keyframes " + name + "{from{transform:translateY(0)}to{transform:translateY(-" + tall + "px)}}" +
+					"@-webkit-keyframes " + name + "{from{-webkit-transform:translateY(0)}to{-webkit-transform:translateY(-" + tall + "px)}}";
+				column.appendChild(style);
+				column.style.webkitAnimation = name + " " + seconds + "s linear infinite";
+				column.style.animation = name + " " + seconds + "s linear infinite";
+			},
+		};
+	}
+
+	/* News: headlines from News Sources with their pictures (one/news). One
+	   story at a time, a list of headlines, or cards. */
+	function newsFoot(story, s) {
+		var foot = el("div", "nw-foot");
+		if (s.logos && story.logo) {
+			var logo = el("img", "nw-logo");
+			logo.src = story.logo;
+			logo.alt = "";
+			foot.appendChild(logo);
+		}
+		var said = [];
+		if (s.logos && story.publisher) said.push(story.publisher);
+		if (s.time && story.ago) said.push(story.ago);
+		foot.appendChild(el("span", "", said.join(" · ")));
+		return foot;
+	}
+
+	function newsStories(one) {
+		var s = settingsOf(one);
+		return rows(one).slice(0, Math.max(s.rows || 5, 1));
+	}
+
+	function newsFeature(box, one, w, h) {
+		sized(box, Math.min(h / 14, w / 22));
+		var card = el("div", "nw-feature");
+		box.appendChild(card);
+		var at = 0;
+		var stories = [];
+		var last = one;
+		var timer = null;
+		function draw() {
+			var s = settingsOf(last);
+			card.innerHTML = "";
+			if (!stories.length) {
+				card.appendChild(el("div", "eyebrow", s.heading || ""));
+				card.appendChild(el("div", "nw-empty", word("no_news")));
+				return;
+			}
+			var story = stories[at % stories.length];
+			if (story.image) {
+				var picture = el("div", "nw-picture");
+				picture.style.backgroundImage = "url(\"" + story.image.replace(/"/g, "%22") + "\")";
+				card.appendChild(picture);
+			}
+			var words = el("div", "nw-words");
+			var top = el("div", "eyebrow", story.category || s.heading || "");
+			if (story.colour) top.style.color = story.colour;
+			words.appendChild(top);
+			words.appendChild(el("div", "nw-title", story.title));
+			if (s.summary && story.summary) words.appendChild(el("div", "nw-summary", story.summary));
+			words.appendChild(newsFoot(story, s));
+			if (stories.length > 1) {
+				var dots = el("div", "nw-dots");
+				for (var i = 0; i < stories.length; i++) dots.appendChild(el("span", i === at % stories.length ? "on" : ""));
+				words.appendChild(dots);
+			}
+			card.appendChild(words);
+			card.className = "nw-feature" + (story.image ? "" : " nw-bare");
+		}
+		function restart() {
+			if (timer) clearInterval(timer);
+			timer = setInterval(function () { at++; draw(); }, Math.max(settingsOf(last).every || 12, 4) * 1000);
+		}
+		return {
+			update: function (fresh) {
+				last = fresh;
+				var now = newsStories(fresh);
+				if (JSON.stringify(now) !== JSON.stringify(stories)) { stories = now; at = 0; draw(); restart(); }
+			},
+			drop: function () { if (timer) clearInterval(timer); },
+		};
+	}
+
+	function newsList(box, one, w, h) {
+		var many = Math.max(settingsOf(one).rows || 5, 1);
+		sized(box, h / (many * 2.6 + 2));
+		var head = el("div", "eyebrow");
+		var list = el("div", "nw-list");
+		box.appendChild(head);
+		box.appendChild(list);
+		return {
+			update: function (fresh) {
+				var s = settingsOf(fresh);
+				var stories = newsStories(fresh);
+				text(head, s.heading || "");
+				list.innerHTML = "";
+				if (!stories.length) list.appendChild(el("div", "nw-empty", word("no_news")));
+				for (var i = 0; i < stories.length; i++) {
+					var row = el("div", "nw-row");
+					var thumb = stories[i].image || stories[i].logo;
+					if (thumb) {
+						var pic = el("div", "nw-thumb" + (stories[i].image ? "" : " nw-thumb-logo"));
+						pic.style.backgroundImage = "url(\"" + thumb.replace(/"/g, "%22") + "\")";
+						row.appendChild(pic);
+					}
+					var words = el("div", "nw-row-words");
+					words.appendChild(el("div", "nw-row-title", stories[i].title));
+					words.appendChild(newsFoot(stories[i], s));
+					row.appendChild(words);
+					list.appendChild(row);
+				}
+			},
+		};
+	}
+
+	function newsCards(box, one, w, h) {
+		sized(box, Math.min(h / 16, w / 34));
+		var grid = el("div", "nw-cards");
+		box.appendChild(grid);
+		return {
+			update: function (fresh) {
+				var s = settingsOf(fresh);
+				var stories = newsStories(fresh);
+				grid.innerHTML = "";
+				if (!stories.length) grid.appendChild(el("div", "nw-empty", word("no_news")));
+				for (var i = 0; i < stories.length; i++) {
+					var card = el("div", "nw-card");
+					var pic = el("div", "nw-card-picture");
+					if (stories[i].image) pic.style.backgroundImage = "url(\"" + stories[i].image.replace(/"/g, "%22") + "\")";
+					else pic.style.background = stories[i].colour || accent(fresh);
+					card.appendChild(pic);
+					card.appendChild(el("div", "nw-card-title", stories[i].title));
+					card.appendChild(newsFoot(stories[i], s));
+					grid.appendChild(card);
+				}
 			},
 		};
 	}
@@ -2187,6 +2476,7 @@
 		};
 	}
 
+	KINDS.News = newsFeature;
 	KINDS.Schedule = scheduleList;
 	KINDS["Opening Hours"] = openingWeek;
 
@@ -2194,7 +2484,8 @@
 		"Queue Board": { latest: queueLatest, counter: queueCounter, counters: queueCounters, list: queueList, waiting: queueWaiting },
 		Weather: { today: weatherToday, hours: weatherHours, list: weatherList, compact: weatherCompact, big: weatherBig },
 		Clock: { analog: clockAnalog, date: clockDate, stacked: clockStacked, minimal: clockMinimal },
-		Ticker: { fade: tickerFade, labelled: tickerLabelled },
+		Ticker: { fade: tickerFade, labelled: tickerLabelled, vertical: tickerVertical },
+		News: { list: newsList, cards: newsCards },
 		Board: { list: boardList, summary: boardSummary },
 		"QR Code": { side: qrSide, wifi: qrWifi },
 		Schedule: { next: scheduleNext },

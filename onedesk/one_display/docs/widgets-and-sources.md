@@ -28,6 +28,7 @@ next time they look.
 | **Queue Board** | The tickets just called and to which counter, and how many wait. |
 | **Kiosk** | Buttons that hand out a ticket for each service. |
 | **Ticker** | A line of text running across the screen, or the titles from a source. |
+| **News** | The latest headlines from your News Sources, with their pictures and where they are from. |
 | **Text** and **Clock** | Words you write, and the time and date. |
 | **Weather** | Today's weather and the days ahead, for a place you choose. |
 | **Board** and **Board Item** | Every item on a board, or one item large. See [Boards](boards). |
@@ -48,7 +49,8 @@ Most widgets can show the same thing in more than one way. Choose one under
 | **Queue Board** | Now Serving, Latest Call (one ticket, large), One Counter (the ticket one counter is serving, for above its desk; say which under **Counter**), Every Counter (a tile for each counter), Recent Calls, Waiting by Service. |
 | **Weather** | Week Ahead, Today (with the high, low, wind and humidity), By the Hour, Week as a List (each day's low to high drawn to scale), Compact, Large Temperature. |
 | **Clock** | Digital, Analog, Date Card, Time and Day, Time Only. |
-| **Ticker** | Scrolling, One at a Time, With a Label. |
+| **Ticker** | Scrolling, One at a Time, With a Label, Rolling Up. |
+| **News** | One Story at a Time, Headlines, Cards. |
 | **Board** | Tiles, List, Count by State. |
 | **QR Code** | Code and Caption, Caption Beside, Wi-Fi (a code a phone joins your network from, with the network's name and password beside it). |
 | **Schedule** | The Day, every session with the one on now marked, or Now and Next, the session on now and the one after it, large. |
@@ -86,12 +88,21 @@ once.
 ## Sources
 
 A source is where a widget's rows come from: your records, filtered as you
-like, one record, a report, a queue, a news feed, the weather, or exchange
+like, one record, a report, a queue, news, the weather, or exchange
 rates. A widget's
 slots are filled from a source's fields, such as a list's line saying a
 project's name and its status. A source reads as the person who saved it, so
 a screen never shows what that person could not see, and only the fields a
 widget uses leave the workspace.
+
+**News** reads the headlines of the News Sources you choose, which One
+fetches on each source's own schedule (see One's Help, under News). Choose
+**By Category** to keep a category's headlines together. A ticker can show
+each category where its headlines begin, or in its label as they pass; put a
+publisher's logo before or after each headline; and put a mark, your
+company's logo or icon, words of your own, or only space between them.
+**Rolling Up** runs the headlines up the screen with a line for each
+category.
 
 **Exchange Rates** reads the rates already in your workspace, for the
 currencies you list, in your company's currency or another you choose. A

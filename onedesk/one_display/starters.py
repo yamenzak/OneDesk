@@ -185,7 +185,7 @@ class Canvas:
 
 # Where a widget reads from when a starter puts it down: the first source
 # of the kind it takes, so a screen with one queue shows it at once.
-TAKES = {"Queue Board": "Queue", "Kiosk": "Queue", "Weather": "Weather", "Board": "Board", "Board Item": "Board", "Ticker": "Feed"}
+TAKES = {"Queue Board": "Queue", "Kiosk": "Queue", "Weather": "Weather", "Board": "Board", "Board Item": "Board", "Ticker": "News", "News": "News"}
 
 
 def _source(kind: str) -> str:
@@ -588,15 +588,12 @@ def hours(c: Canvas) -> str:
 
 
 def news(c: Canvas) -> str:
+	"""The workspace's News Sources: one story at a time with its picture,
+	the next headlines beside it, and the rest running along the bottom."""
 	_top(c)
-	c.widget("full_picture", 5, 20, 46, 64, picture=PICTURE["violet"], look="Rounded")
-	c.eyebrow(55, 21, 40, _("Latest"))
-	c.text(55, 26, 40, _("Our new branch opens next month"), 34, bold=True)
-	c.text(55, 46, 40, _("Write two or three lines about the news here."), 20, SOFT)
-	for at, story in enumerate((_("Team wins regional award"), _("New services from June"))):
-		c.card(55, 62 + at * 12, 40, 10)
-		c.text(58, 64.6 + at * 12, 34, story, 20, bold=True)
-	c.widget("news_ticker", 0, 90, 100, 10, look="Dark Glass")
+	c.widget("latest_news", 5, 18, 56, 68, look="Rounded")
+	c.widget("headline_list", 64, 18, 31, 68, look="Dark Glass")
+	c.widget("category_ticker", 0, 90, 100, 10, look="Dark Glass")
 	return _fade(c.deep, NIGHT, 160)
 
 

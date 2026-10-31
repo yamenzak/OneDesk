@@ -433,6 +433,7 @@ def words() -> dict:
 		"busy": _("The ticket could not be taken. Try again."),
 		"minutes": _("{0} min"),
 		"hours": _("{0} h {1}"),
+		"no_news": _("No headlines yet."),
 	}
 
 

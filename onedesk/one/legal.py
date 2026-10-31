@@ -189,3 +189,53 @@ clause(
 		costs five credits for each day it is shown.
 	""",
 )
+
+
+service(
+	key="google_news",
+	module=M,
+	title="Google News",
+	does="Fetches Google News headlines for a topic or a search, for News Sources of that type. It is for previewing only.",
+	sends="The topic or the words searched for, and the country and language asked for, to Google.",
+	off="Google News sources fetch nothing; feeds, OneAI and written sources go on as before.",
+	hosts=("news.google.com",),
+)
+
+subprocessor(
+	name="Google LLC",
+	module=M,
+	purpose="Google News headlines for a topic or a search, for a News Source of that type",
+	data="The topic or the words searched for, and a country and language, never anything about a person",
+	where="The United States and Google's regional endpoints",
+	safeguard="Standard Contractual Clauses and Google's data processing terms",
+	url="https://policies.google.com/privacy",
+	service="google_news",
+)
+
+clause(
+	document="terms",
+	section="modules",
+	key="news-content",
+	module=M,
+	body="""
+		News you show comes from its publishers, not from us. Whoever publishes a feed owns what it says. You are
+		responsible for having the right to show what your News Sources fetch, on the desk and on screens. The feeds in
+		our library were gathered by others; we list them for convenience and vouch for none of them. Google News
+		gathers other publishers' articles, so its headlines are for previewing only. Showing them to others may need a
+		licence from each publisher. OneAI's headlines are written by a model from a web search, and may be wrong or out
+		of date.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="news",
+	module=M,
+	body="""
+		A News Source fetches a feed from the address your workspace gives it. Nothing about a person is sent with the
+		request. While Google News is on, Google receives the topic or the words searched for, and the country and
+		language. A OneAI source sends what it should look for through One's account to the model, and each run costs
+		credits. Each source keeps only its newest items and deletes the rest as new ones arrive.
+	""",
+)

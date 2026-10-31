@@ -308,11 +308,16 @@ def preview(
 def _brand() -> dict:
 	company = frappe.db.get_default("company")
 	row = (
-		frappe.db.get_value("Company", company, ["company_name", "company_logo", "one_brand_colour"], as_dict=True)
+		frappe.db.get_value("Company", company, ["company_name", "company_logo", "one_brand_icon", "one_brand_colour"], as_dict=True)
 		if company
 		else None
 	) or {}
-	return {"name": row.get("company_name") or "", "logo": row.get("company_logo"), "colour": row.get("one_brand_colour")}
+	return {
+		"name": row.get("company_name") or "",
+		"logo": row.get("company_logo"),
+		"icon": row.get("one_brand_icon") or row.get("company_logo"),
+		"colour": row.get("one_brand_colour"),
+	}
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

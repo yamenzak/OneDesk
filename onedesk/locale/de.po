@@ -369,6 +369,10 @@ msgstr "1-30 Tage"
 msgid "10 days"
 msgstr "10 Tage"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "15 Minutes"
+msgstr "15 Minuten"
+
 #: onedesk/one/control.py:309
 msgid "15 minutes"
 msgstr "15 Minuten"
@@ -394,6 +398,10 @@ msgstr "3"
 #: frontend/src/sheet/components/SheetEditor/index.vue:4873
 msgid "3-colour (low, mid, high)"
 msgstr "3 Farben (niedrig, mittel, hoch)"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "30 Minutes"
+msgstr "30 Minuten"
 
 #: onedesk/one/control.py:317
 msgid "30 days"
@@ -810,9 +818,9 @@ msgstr "Ein Laufwerk"
 msgid "A fact somebody asked OneAI to keep. Theirs alone, like their conversations."
 msgstr "Eine Tatsache, die jemand OneAI zu behalten gebeten hat. Nur für diese Person sichtbar, wie ihre Unterhaltungen."
 
-#: onedesk/one_display/doctype/display_source/display_source.py:26
-msgid "A feed's address starts with https://."
-msgstr "Die Adresse eines Feeds beginnt mit https://."
+#: onedesk/one/doctype/news_source/news_source.py:20
+msgid "A feed is read over https. Use its https address."
+msgstr "Ein Feed wird über https gelesen. Verwenden Sie seine https-Adresse."
 
 #: onedesk/one_slide/decks.py:180
 msgid ""
@@ -940,6 +948,10 @@ msgstr "Eine Überschrift oder ein Text, hier geschrieben oder aus einem Datensa
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
 msgid "A job needs a workspace."
 msgstr "Ein Job braucht einen Arbeitsbereich."
+
+#: onedesk/one/doctype/news_category/news_category.json
+msgid "A kind of news, such as Business or Sports. A ticker can show it beside its headlines, in its colour."
+msgstr "Eine Art von Nachrichten, etwa Wirtschaft oder Sport. Ein Laufband kann sie neben ihren Schlagzeilen in ihrer Farbe zeigen."
 
 #: onedesk/one_display/starters.py:451
 msgid "A large picture beside today's news and the weather."
@@ -1554,6 +1566,10 @@ msgstr "Eine kurze gesprochene Nachricht, die in einer Klangzone abgespielt wird
 msgid "A signup from the public sign-up page."
 msgstr "Eine Anmeldung von der öffentlichen Anmeldeseite."
 
+#: onedesk/one/news/__init__.py:450
+msgid "A source is fetched at most {0} times a day."
+msgstr "Eine Quelle wird höchstens {0}-mal am Tag abgerufen."
+
 #: onedesk/one_studio/places.py:318
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr "Die Startseite eines Bereichs wird geöffnet: One, OneCRM, OneHR, OneBook und jeder andere."
@@ -1566,6 +1582,10 @@ msgstr "Eine Tabelle oder CSV-Datei"
 #: onedesk/one_sheet/doctype/workbook/workbook.json
 msgid "A spreadsheet's content, behind the File that puts it in OneCloud. Opened and saved only through one_sheet/api.py, which asks OneCloud whether the reader may. A workbook bound to a record's table (one_sheet/table.py) names it in the bound fields."
 msgstr "Der Inhalt einer Tabellenkalkulation, hinter der Datei, die ihn in OneCloud ablegt. Geöffnet und gespeichert nur über one_sheet/api.py, das OneCloud fragt, ob der Leser darf. Eine Arbeitsmappe, die an die Tabelle eines Datensatzes gebunden ist (one_sheet/table.py), nennt sie in den gebundenen Feldern."
+
+#: onedesk/one/custom/company.json
+msgid "A square mark, the logo without its words. Screens show it between headlines and where the logo is too wide."
+msgstr "Ein quadratisches Zeichen, das Logo ohne Schriftzug. Bildschirme zeigen es zwischen Schlagzeilen und dort, wo das Logo zu breit ist."
 
 #: onedesk/public/js/overtime.js:100
 msgid "A standard day is {0} hours. Time beyond that is overtime."
@@ -3346,6 +3366,10 @@ msgstr "Nach Verzögerung"
 #: onedesk/public/js/one_hr/hr_control.js:57
 msgid "After that, every day counts as a working day for leave and attendance, until another list starts."
 msgstr "Danach zählt jeder Tag für Urlaub und Anwesenheit als Arbeitstag, bis eine andere Liste beginnt."
+
+#: onedesk/one_display/widgets.py:84
+msgid "After the Headline"
+msgstr "Nach der Schlagzeile"
 
 #: onedesk/one_hr/hiring.py:739
 msgid "After the interview: {0}"
@@ -5564,6 +5588,10 @@ msgstr "Gefährdet"
 msgid "At Risk or Off Track"
 msgstr "Gefährdet oder nicht auf Kurs"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "At Set Times"
+msgstr "Zu festen Zeiten"
+
 #. Label in the One Bill of Materials print format
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 msgid "At Step"
@@ -6527,6 +6555,10 @@ msgstr ""
 msgid "Before Delete"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:83
+msgid "Before Each Group"
+msgstr "Vor jeder Gruppe"
+
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
 msgid "Before Insert"
@@ -6618,6 +6650,10 @@ msgstr "Vor Steuern"
 #: frontend/src/inventory/to_order/ToOrderPage.vue:145
 msgid "Before tax, at the last prices paid"
 msgstr "Vor Steuern, zu den zuletzt gezahlten Preisen"
+
+#: onedesk/one_display/widgets.py:84
+msgid "Before the Headline"
+msgstr "Vor der Schlagzeile"
 
 #: onedesk/one_display/starters.py:1074
 msgid "Before you come"
@@ -6745,6 +6781,10 @@ msgstr "Beta mit echten Nutzern"
 #: frontend/src/sheet/components/SheetEditor/index.vue:4854
 msgid "Between"
 msgstr "Zwischen"
+
+#: onedesk/one_display/widgets.py:81
+msgid "Between Items"
+msgstr "Zwischen Einträgen"
 
 #: frontend/src/display/Layout.vue:179
 #: onedesk/one_display/doctype/display_widget/display_widget.json
@@ -7475,6 +7515,13 @@ msgstr "Paket"
 msgid "Bundle No"
 msgstr "Paket-Nr."
 
+#: frontend/src/slide/shim/WidgetMock.vue:38
+#: frontend/src/slide/shim/WidgetMock.vue:42
+#: frontend/src/slide/shim/WidgetMock.vue:59
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Business"
+msgstr "Wirtschaft"
+
 #: onedesk/public/js/crm_record.js:83
 msgid "Busy"
 msgstr ""
@@ -7601,6 +7648,14 @@ msgstr "Nach Tätigkeit"
 #: onedesk/public/js/lots_actions.js:22
 msgid "By Batch"
 msgstr "Nach Charge"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "By Category"
+msgstr "Nach Kategorie"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "By Category keeps a category's headlines together, for a ticker that shows its categories."
+msgstr "Nach Kategorie hält die Schlagzeilen einer Kategorie zusammen, für ein Laufband, das seine Kategorien zeigt."
 
 #: frontend/src/inventory/home/InventoryStory.vue:15
 msgid "By Item Group"
@@ -8030,6 +8085,10 @@ msgstr "Bar, Karte, Überweisung, und das Konto, auf das jedes geht."
 msgid "Cash, what customers owe and you owe, and how profit is going; click one to open it."
 msgstr "Bargeld, was Kunden Ihnen und Sie anderen schulden, und wie sich der Gewinn entwickelt; klicken Sie auf eine Zahl, um sie zu öffnen."
 
+#: onedesk/one/sidebar/one/one.json onedesk/one_display/widgets.py:83
+msgid "Categories"
+msgstr "Kategorien"
+
 #. Label of the category (Data) field in DocType 'Reading Line'
 #. Label of the one_ai_category (Select) field in DocType 'Employee Grievance'
 #. Label in the One Employee Tax Exemption Declaration print format
@@ -8045,6 +8104,10 @@ msgstr "Bargeld, was Kunden Ihnen und Sie anderen schulden, und wie sich der Gew
 #: onedesk/one_inventory/print_format/one_asset_value_adjustment/one_asset_value_adjustment.json
 msgid "Category"
 msgstr "Kategorie"
+
+#: onedesk/one_display/widgets.py:346
+msgid "Category in the Label"
+msgstr "Kategorie im Etikett"
 
 #. Task in the Event project template
 #: onedesk/one_project/library/event.json
@@ -8700,6 +8763,11 @@ msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle zu wiederholen."
 msgid "Choose For to show a table's rows."
 msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle anzuzeigen."
 
+#: onedesk/public/js/window/chrome.js:251
+#: onedesk/public/js/window/chrome.js:287
+msgid "Choose Sources"
+msgstr "Quellen wählen"
+
 #: onedesk/one_display/doctype/display_channel/display_channel.js:11
 msgid "Choose a Layout"
 msgstr "Layout wählen"
@@ -8767,6 +8835,10 @@ msgstr "Wählen Sie, wie viel Sie sehen, und der Kalender öffnet sich beim näc
 #: onedesk/one_mail/gate.py:340
 msgid "Choose one of {0}."
 msgstr "Wählen Sie eines von {0}."
+
+#: onedesk/one_display/doctype/display_source/display_source.py:25
+msgid "Choose the News Sources whose headlines to show."
+msgstr "Wählen Sie die Nachrichtenquellen, deren Schlagzeilen gezeigt werden."
 
 #: onedesk/one_book/report/books_check/books_check.js:47
 msgid "Choose the Tax Charged by Default"
@@ -9653,6 +9725,10 @@ msgstr "Unternehmensdomains"
 #: onedesk/one_calendar/events.py:29
 msgid "Company Events"
 msgstr "Firmentermine"
+
+#: onedesk/one_display/widgets.py:41
+msgid "Company Icon"
+msgstr "Firmensymbol"
 
 #: onedesk/one_mail/signatures.py:26
 msgid "Company Name"
@@ -11728,6 +11804,10 @@ msgstr "Tägliche Betreuung in den ersten zwei Wochen"
 msgid "Dark Glass"
 msgstr "Dunkles Glas"
 
+#: onedesk/one_display/widgets.py:37
+msgid "Dash"
+msgstr "Gedankenstrich"
+
 #: onedesk/one_studio/ai_setup.py:368
 msgid "Dashboard {0}"
 msgstr "Dashboard {0}"
@@ -13349,7 +13429,7 @@ msgstr "Sichtbare abwählen"
 #: onedesk/one_project/library/mobile_app.json
 #: onedesk/one_project/library/website.json
 msgid "Design"
-msgstr "Gestalten"
+msgstr "Design"
 
 #. Name of terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -13768,6 +13848,10 @@ msgstr "Zustand der Anzeigetafel"
 msgid "Display Channel"
 msgstr "Anzeigekanal"
 
+#: onedesk/one_display/doctype/display_news_source/display_news_source.json
+msgid "Display News Source"
+msgstr "Nachrichtenquelle für Anzeige"
+
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json
 msgid "Display Screen"
@@ -14105,6 +14189,10 @@ msgstr "Erledigt: {0}"
 #: onedesk/one_display/widgets.py:276
 msgid "Door Sign"
 msgstr "Türschild"
+
+#: onedesk/one_display/widgets.py:33
+msgid "Dot"
+msgstr "Punkt"
 
 #: onedesk/one_display/blocks.py:52
 msgid "Dotted"
@@ -14638,6 +14726,10 @@ msgstr "Dauer (Sekunden)"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "ERP Rollout"
 msgstr "ERP-Einführung"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "ETag"
+msgstr "ETag"
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
@@ -15941,6 +16033,10 @@ msgstr "Geben Sie die Straßenadresse ein."
 msgid "Enter value or formula"
 msgstr "Wert oder Formel eingeben"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Entertainment"
+msgstr "Unterhaltung"
+
 #: onedesk/one_book/home.py:416
 msgid "Entries that don't match their documents."
 msgstr "Buchungen, die nicht zu ihren Belegen passen."
@@ -16098,6 +16194,18 @@ msgstr "Alle (Minuten)"
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Every (Months)"
 msgstr "Alle (Monate)"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Every 12 Hours"
+msgstr "Alle 12 Stunden"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Every 3 Hours"
+msgstr "Alle 3 Stunden"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Every 6 Hours"
+msgstr "Alle 6 Stunden"
 
 #: onedesk/one_display/starters.py:485 onedesk/one_display/widgets.py:25
 #: onedesk/one_display/widgets.py:274
@@ -17249,6 +17357,10 @@ msgstr ""
 msgid "Failure Reason"
 msgstr "Fehlergrund"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Failures"
+msgstr "Fehlschläge"
+
 #: onedesk/one_display/starters.py:1060
 msgid "Families welcome from ten"
 msgstr "Familien willkommen ab zehn Uhr"
@@ -17289,9 +17401,13 @@ msgstr "Honorar und Auftrag unterschrieben"
 msgid "Feed"
 msgstr "Feed"
 
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Feed URL"
-msgstr "Feed-URL"
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Feed Address"
+msgstr "Feed-Adresse"
+
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Feed ID"
+msgstr "Feed-ID"
 
 #. Label in the One Service Report print format
 #. Label in the One Appraisal print format
@@ -17330,9 +17446,25 @@ msgstr "Das Honorar umfasst die beschriebene Arbeit. Arbeiten darüber hinaus we
 msgid "Fenrir"
 msgstr "Fenrir"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Fetch"
+msgstr "Abrufen"
+
+#: onedesk/one/doctype/news_source/news_source.js:9
+msgid "Fetch Now"
+msgstr "Jetzt abrufen"
+
 #: onedesk/public/js/overtime_slip.js:7
 msgid "Fetch Overtime Details"
 msgstr "Überstundendetails abrufen"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Fetching"
+msgstr "Abruf"
+
+#: onedesk/one/doctype/news_source/news_source.js:11
+msgid "Fetching. Its items arrive in a moment."
+msgstr "Wird abgerufen. Die Einträge kommen gleich."
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the field (Data) field in DocType 'Record Head Band'
@@ -18298,6 +18430,10 @@ msgstr "Zum Beispiel Senior Sales."
 msgid "For example, a thank-you line."
 msgstr "Zum Beispiel eine Dankeszeile."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "For example, business news that a building company would care about."
+msgstr "Zum Beispiel Wirtschaftsnachrichten, die für ein Bauunternehmen wichtig sind."
+
 #: frontend/src/slide/shim/EffectsSection.vue:22
 msgid "For example: border-radius: 24px; mix-blend-mode: multiply"
 msgstr "Zum Beispiel: border-radius: 24px; mix-blend-mode: multiply"
@@ -18307,6 +18443,10 @@ msgstr "Zum Beispiel: border-radius: 24px; mix-blend-mode: multiply"
 #: onedesk/one_project/custom/projects_settings.json
 msgid "For new projects"
 msgstr "Für neue Projekte"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "For previewing only. Google News gathers other publishers' articles, and showing them may need a licence from each publisher."
+msgstr "Nur zur Vorschau. Google News sammelt Artikel anderer Verlage, und sie zu zeigen kann eine Lizenz jedes Verlags erfordern."
 
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:35
@@ -19514,6 +19654,10 @@ msgstr "Ware, die {0} zurückgeschickt hat."
 msgid "Google Calendar"
 msgstr "Google Kalender"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Google News"
+msgstr "Google News"
+
 #. Label of the ladder_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -20038,6 +20182,24 @@ msgstr "Überschriften, Listen, Links, Bilder, Tabellen und Seitenumbrüche füg
 msgid "Headline"
 msgstr "Schlagzeile"
 
+#: onedesk/one/sidebar/one/one.json
+#: onedesk/one_display/doctype/display_source/display_source.json
+#: onedesk/one_display/widgets.py:94 onedesk/one_display/widgets.py:350
+msgid "Headlines"
+msgstr "Schlagzeilen"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Headlines Each Run"
+msgstr "Schlagzeilen je Durchlauf"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Headlines from the workspace's News Sources, newest first. A source is added under One › News."
+msgstr "Schlagzeilen aus den Nachrichtenquellen des Arbeitsbereichs, die neuesten zuerst. Eine Quelle wird unter One › Nachrichten hinzugefügt."
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Headlines matching these words, in place of the topic."
+msgstr "Schlagzeilen zu diesen Wörtern, anstelle des Themas."
+
 #. Label of the one_health (Select) field in DocType 'Project'
 #. Label of the one_health (Select) field in DocType 'Project User'
 #: frontend/src/project/Facts.vue:5 frontend/src/project/Updates.vue:9
@@ -20045,7 +20207,7 @@ msgstr "Schlagzeile"
 #: onedesk/one_project/custom/project_user.json
 #: onedesk/one_project/heads.py:255
 msgid "Health"
-msgstr "Zustand"
+msgstr "Gesundheit"
 
 #: onedesk/one_hr/papers.py:12
 msgid "Health Insurance"
@@ -20805,6 +20967,10 @@ msgstr "Wie viele Einträge in jedem Status sind, darunter jeder Eintrag."
 msgid "How many of each bundle the stock can make up."
 msgstr "Wie viele Bündel jeder Art der Bestand ergibt."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "How many of its newest items are kept. Older ones are deleted as new ones arrive; 0 keeps them all."
+msgstr "Wie viele der neuesten Einträge behalten werden. Ältere werden gelöscht, wenn neue kommen; 0 behält alle."
+
 #: onedesk/one_inventory/home.py:202
 msgid "How many of one unit make another."
 msgstr "Wie viele einer Einheit eine andere ergeben."
@@ -21555,6 +21721,10 @@ msgstr "Eingelagert und berechnet."
 #: onedesk/one_inventory/heads.py:715
 msgid "In stock; the bill from {0} is still to come."
 msgstr "Eingelagert; die Rechnung von {0} steht noch aus."
+
+#: onedesk/one_display/widgets.py:83
+msgid "In the Label"
+msgstr "Im Etikett"
 
 #: frontend/src/slide/shim/EditorNavbar.vue:318
 msgid "In the OneAI Panel"
@@ -23156,6 +23326,10 @@ msgstr "Artikel"
 msgid "Items and prices with a code to see more."
 msgstr "Artikel und Preise mit einem Code für mehr."
 
+#: onedesk/one/doctype/news_item/news_item.py:12
+msgid "Items are written only for a Written source. The others fetch their own."
+msgstr "Einträge werden nur für eine geschriebene Quelle verfasst. Die anderen rufen ihre eigenen ab."
+
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
 msgid "Items below their reorder level have no request to buy them. Check their reorder settings and default supplier."
@@ -23182,6 +23356,10 @@ msgstr "Artikel, Kunden und Lieferanten importiert"
 msgid "Items, warehouses, what is ordered and received, the workshop and the company's equipment."
 msgstr "Artikel, Lager, was bestellt und erhalten wurde, die Werkstatt und die Ausstattung des Unternehmens."
 
+#: onedesk/one/doctype/news_source/news_source.js:15
+msgid "Its Items"
+msgstr "Ihre Einträge"
+
 #: onedesk/one_mail/ai.py:776
 msgid "Its Mail"
 msgstr "Seine E-Mails"
@@ -23200,6 +23378,10 @@ msgstr "Ihre Felder sind jetzt {fields}."
 #: onedesk/one_hr/notifications.py
 msgid "Its interviewers"
 msgstr "Die Interviewer"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Its logo comes from here. A feed fills it in."
+msgstr "Das Logo kommt von hier. Ein Feed trägt es selbst ein."
 
 #. Message of a notification
 #: onedesk/one_mail/notifications.py
@@ -23866,6 +24048,10 @@ msgstr "Letzte E-Mail"
 msgid "Last Error"
 msgstr "Letzter Fehler"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Last Fetched"
+msgstr "Zuletzt abgerufen"
+
 #. Label of the last_heard (Datetime) field in DocType 'Workspace Account'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
 msgid "Last Heard"
@@ -23878,6 +24064,10 @@ msgstr "Letztes Gespräch"
 #: frontend/src/inventory/item/ItemPage.vue:256
 msgid "Last Manufactured"
 msgstr "Zuletzt gefertigt"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Last Modified"
+msgstr "Zuletzt geändert"
 
 #: frontend/src/inventory/item/ItemStock.vue:15
 msgid "Last Moves"
@@ -23906,6 +24096,10 @@ msgstr "Letzte Lohnabrechnung"
 #: frontend/src/inventory/supplier/SupplierItems.vue:16
 msgid "Last Price"
 msgstr "Letzter Preis"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Last Problem"
+msgstr "Letztes Problem"
 
 #: onedesk/one_book/heads.py:235 onedesk/one_book/heads.py:715
 msgid "Last Purchase Invoice"
@@ -24081,6 +24275,11 @@ msgstr "Später"
 #: onedesk/one_display/widgets.py:25 onedesk/one_display/widgets.py:273
 msgid "Latest Call"
 msgstr "Letzter Aufruf"
+
+#: frontend/src/slide/shim/WidgetMock.vue:45 onedesk/one_display/widgets.py:95
+#: onedesk/one_display/widgets.py:349
+msgid "Latest News"
+msgstr "Neueste Nachrichten"
 
 #: frontend/src/slide/shim/WidgetMock.vue:12
 msgid "Latest news"
@@ -25343,6 +25542,10 @@ msgstr "Länge"
 msgid "Look"
 msgstr "Aussehen"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Look For"
+msgstr "Suchen nach"
+
 #: onedesk/one/ai.py:120
 msgid "Look at how each kind of record is numbered. Is any counter behind the records already made, or any series that looks mistyped?"
 msgstr "Sehen Sie sich an, wie jede Datensatzart nummeriert wird. Liegt ein Zähler hinter den bereits erstellten Datensätzen, oder sieht eine Serie vertippt aus?"
@@ -26377,6 +26580,13 @@ msgstr ""
 #: onedesk/one_project/library/marketing_campaign.json
 msgid "Marketing Campaign"
 msgstr "Marketingkampagne"
+
+#: frontend/src/slide/shim/WidgetMock.vue:39
+#: frontend/src/slide/shim/WidgetMock.vue:46
+#: frontend/src/slide/shim/WidgetMock.vue:52
+#: frontend/src/slide/shim/WidgetMock.vue:60
+msgid "Markets open higher"
+msgstr "Märkte eröffnen höher"
 
 #: onedesk/one_admin/steps.py:58
 msgid "Marking it archived"
@@ -27549,6 +27759,10 @@ msgstr "Name ist erforderlich."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhielt."
 
+#: onedesk/one/doctype/news_source/news_source_list.js:26
+msgid "Name or address"
+msgstr "Name oder Adresse"
+
 #: onedesk/one_book/ready.py:370
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
@@ -28239,13 +28453,15 @@ msgstr "Neue Parkregeln ab nächstem Monat"
 msgid "New premises chosen"
 msgstr "Neue Räume ausgewählt"
 
+#: frontend/src/slide/shim/WidgetMock.vue:39
+#: frontend/src/slide/shim/WidgetMock.vue:46
+#: frontend/src/slide/shim/WidgetMock.vue:52
+msgid "New project awarded"
+msgstr "Neues Projekt vergeben"
+
 #: onedesk/one_display/starters.py:717
 msgid "New season styles are here. Take a look around."
 msgstr "Die neue Saison ist da. Schauen Sie sich um."
-
-#: onedesk/one_display/starters.py:598
-msgid "New services from June"
-msgstr "Neue Leistungen ab Juni"
 
 #. Message of a notification
 #: onedesk/one_legal/notifications.py
@@ -28276,10 +28492,35 @@ msgstr "Neu: {0}"
 msgid "New {0}: {1}"
 msgstr "Neu: {0} {1}"
 
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Newest"
+msgstr "Neueste"
+
 #: frontend/src/slide/shim/WidgetMock.vue:34 onedesk/one_display/widgets.py:52
 #: onedesk/one_display/widgets.py:269
 msgid "News"
 msgstr "News"
+
+#: onedesk/one_display/widgets.py:351
+msgid "News Cards"
+msgstr "Nachrichtenkarten"
+
+#: onedesk/one/doctype/news_category/news_category.json
+msgid "News Category"
+msgstr "Nachrichtenkategorie"
+
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "News Item"
+msgstr "Nachricht"
+
+#: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/one_display/doctype/display_news_source/display_news_source.json
+msgid "News Source"
+msgstr "Nachrichtenquelle"
+
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "News Sources"
+msgstr "Nachrichtenquellen"
 
 #: onedesk/one_display/widgets.py:257
 msgid "News Ticker"
@@ -28335,6 +28576,10 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:135 onedesk/one_inventory/heads.py:1109
 msgid "Next Due Date · {0}"
 msgstr "Nächstes Fälligkeitsdatum · {0}"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Next Fetch"
+msgstr "Nächster Abruf"
 
 #: onedesk/one_project/heads.py:264
 msgid "Next Milestone"
@@ -28892,6 +29137,10 @@ msgstr "Keine Termine"
 msgid "No family by that name."
 msgstr "Keine Schriftfamilie mit diesem Namen."
 
+#: onedesk/one/doctype/news_source/news_source_list.js:50
+msgid "No feed matches."
+msgstr "Kein Feed passt."
+
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
 msgstr "Kein Feld passt."
@@ -28928,6 +29177,10 @@ msgstr "Keine Ordner"
 #: onedesk/public/js/one/access_center.js:325
 msgid "No groups"
 msgstr "Keine Gruppen"
+
+#: onedesk/one_display/programme.py:436
+msgid "No headlines yet."
+msgstr "Noch keine Schlagzeilen."
 
 #: onedesk/public/js/one_hr/hr_control.js:44
 msgid "No holiday list"
@@ -31108,6 +31361,10 @@ msgstr "Eine Reihe von Ansichten"
 msgid "One Storage"
 msgstr "OneCloud"
 
+#: onedesk/one_display/widgets.py:94
+msgid "One Story at a Time"
+msgstr "Eine Meldung nach der anderen"
+
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "One Task"
@@ -31167,6 +31424,10 @@ msgstr "Eine Datei mit der Datenbank, jedem Datensatz als Tabelle und allen Date
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "One folder of a mailbox, and how far it has been read."
 msgstr "Ein Ordner eines Postfachs und wie weit er gelesen wurde."
+
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "One headline from a News Source. Items from a feed arrive on their own; a Written source's items are the ones you write."
+msgstr "Eine Schlagzeile aus einer Nachrichtenquelle. Einträge eines Feeds kommen von selbst; die einer geschriebenen Quelle sind die, die Sie schreiben."
 
 #: onedesk/one_slide/decks.py:158
 msgid "One line on what it is about"
@@ -31561,6 +31822,10 @@ msgstr "OneAI liest jede Nachricht und wählt ein Label, und jedes Label hat eig
 #: onedesk/public/js/one_mail/rule_builder.js:782
 msgid "OneAI says whether the sender is upset or in a hurry, and someone is told."
 msgstr "OneAI sagt, ob der Absender verärgert oder in Eile ist, und jemand wird benachrichtigt."
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "OneAI searches the web with Google and writes the headlines it finds. Each run costs credits, so it runs at the times you set."
+msgstr "OneAI durchsucht das Web mit Google und schreibt die gefundenen Schlagzeilen. Jeder Durchlauf kostet Credits, daher läuft er zu den Zeiten, die Sie festlegen."
 
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
@@ -33070,10 +33335,6 @@ msgstr "Unsere Rechnung {0} vom {1} über {2} war am {3} fällig, und {4} davon 
 #: frontend/src/inventory/sent_out/SentOutPage.vue:86
 msgid "Our materials, at cost"
 msgstr "Unser Material, zu Kosten"
-
-#: onedesk/one_display/starters.py:596
-msgid "Our new branch opens next month"
-msgstr "Unsere neue Filiale eröffnet nächsten Monat"
 
 #: onedesk/one_slide/decks.py:74
 msgid "Our offer"
@@ -36799,6 +37060,14 @@ msgstr "Veröffentlichbarer Schlüssel"
 msgid "Published {0} · Takes effect {1}"
 msgstr "Veröffentlicht {0} · Gilt ab {1}"
 
+#: onedesk/one_display/widgets.py:84
+msgid "Publisher Logos"
+msgstr "Logos der Verlage"
+
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Publisher Website"
+msgstr "Website des Verlags"
+
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json
 msgid "Puck"
@@ -37423,10 +37692,6 @@ msgstr "R2-Buckets. Ein Arbeitsbereich ist ein Präfix in einem davon, festgeleg
 msgid "R2 is not configured. Set it in OneAdmin Settings."
 msgstr "R2 ist nicht eingerichtet. Richten Sie es in den OneAdmin-Einstellungen ein."
 
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "RSS or Atom feed."
-msgstr "RSS- oder Atom-Feed."
-
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Radio"
 msgstr "Radio"
@@ -37515,6 +37780,12 @@ msgstr "Die Kurse dienen der Orientierung und können sich im Laufe des Tages ä
 #: onedesk/one_display/starters.py:468
 msgid "Rates from an Exchange Rates source, with the time."
 msgstr "Kurse aus einer Wechselkursquelle, mit Uhrzeit."
+
+#: frontend/src/slide/shim/WidgetMock.vue:39
+#: frontend/src/slide/shim/WidgetMock.vue:46
+#: frontend/src/slide/shim/WidgetMock.vue:52
+msgid "Rates hold steady"
+msgstr "Zinsen bleiben stabil"
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Performance Feedback print format
@@ -40171,6 +40442,14 @@ msgstr "Rollen und Zugriff"
 msgid "Roles and Profiles"
 msgstr "Rollen und Profile"
 
+#: onedesk/one_display/widgets.py:348
+msgid "Rolling Headlines"
+msgstr "Rollende Schlagzeilen"
+
+#: onedesk/one_display/widgets.py:77
+msgid "Rolling Up"
+msgstr "Nach oben rollend"
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Roof slab"
@@ -41061,7 +41340,7 @@ msgstr "Schulen und Weiterbildung"
 
 #: onedesk/one_display/starters.py:1048
 msgid "Science"
-msgstr "Naturwissenschaften"
+msgstr "Wissenschaft"
 
 #: onedesk/one_display/starters.py:1060
 msgid "Science fair winners"
@@ -41207,6 +41486,10 @@ msgstr "Abdichten und wetterfest machen"
 msgid "Search"
 msgstr "Suchen"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Search For"
+msgstr "Suchen nach"
+
 #: frontend/src/slide/shim/FontsDialog.vue:18
 msgid "Search Google Fonts"
 msgstr "Google Fonts durchsuchen"
@@ -41289,6 +41572,10 @@ msgstr "Fertiginstallation und Ausstattung"
 #: onedesk/one_display/doctype/display_track/display_track.json
 msgid "Seconds"
 msgstr "Sekunden"
+
+#: onedesk/one_display/widgets.py:97
+msgid "Seconds Each"
+msgstr "Sekunden je Meldung"
 
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json
 msgid "Seconds on Each Slide"
@@ -42765,6 +43052,10 @@ msgstr ""
 msgid "Show All"
 msgstr "Alle anzeigen"
 
+#: onedesk/public/js/window/chrome.js:247
+msgid "Show Announcements"
+msgstr "Ankündigungen zeigen"
+
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:84
 msgid "Show Asset Repairs"
 msgstr "Anlagenreparaturen anzeigen"
@@ -42830,9 +43121,17 @@ msgstr "Knappe Artikel zeigen"
 msgid "Show More"
 msgstr "Mehr anzeigen"
 
+#: onedesk/public/js/window/chrome.js:247
+msgid "Show News"
+msgstr "Nachrichten zeigen"
+
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:83
 msgid "Show Planned"
 msgstr "Geplante anzeigen"
+
+#: onedesk/one_display/widgets.py:99
+msgid "Show Publisher"
+msgstr "Verlag zeigen"
 
 #: onedesk/public/js/window/json_view.js:82
 #: onedesk/public/js/window/json_view.js:99
@@ -42870,6 +43169,10 @@ msgstr "Fehlmengen anzeigen"
 msgid "Show Sign in with a Passkey on the login page."
 msgstr "Mit einem Passkey anmelden auf der Anmeldeseite anzeigen."
 
+#: onedesk/one_display/widgets.py:98
+msgid "Show Summary"
+msgstr "Zusammenfassung zeigen"
+
 #: frontend/src/inventory/quotes/QuotesPage.vue:111
 msgid "Show Supplier Quotations to Decide"
 msgstr "Zu entscheidende Lieferantenangebote anzeigen"
@@ -42898,6 +43201,10 @@ msgstr "Wert anzeigen"
 #: onedesk/one_display/widgets.py:24
 msgid "Show Waiting Count"
 msgstr "Anzahl Wartender anzeigen"
+
+#: onedesk/one_display/widgets.py:100
+msgid "Show When"
+msgstr "Zeitpunkt zeigen"
 
 #: frontend/src/inventory/plant/PlantFloor.vue:177
 msgid "Show Workstations in Production"
@@ -43663,6 +43970,10 @@ msgstr "Fähigkeiten"
 msgid "Slab"
 msgstr "Stufe"
 
+#: onedesk/one_display/widgets.py:36
+msgid "Slash"
+msgstr "Schrägstrich"
+
 #: frontend/src/display/Slides.vue:136
 msgid "Slide"
 msgstr "Folie"
@@ -44145,6 +44456,10 @@ msgstr "Leerzeichen"
 msgid "Space Home"
 msgstr "Startseite des Bereichs"
 
+#: onedesk/one_display/widgets.py:39
+msgid "Space Only"
+msgstr "Nur Abstand"
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Space plan"
@@ -44242,6 +44557,10 @@ msgstr "Sponsoren"
 
 #: onedesk/one_display/starters.py:1048
 msgid "Sport"
+msgstr "Sport"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Sports"
 msgstr "Sport"
 
 #. Label in the One Budget print format
@@ -45208,6 +45527,14 @@ msgstr "Der Speicher ist fast voll"
 #: onedesk/one_project/library/mobile_app.json
 msgid "Store listings and screenshots"
 msgstr "Store-Einträge und Screenshots"
+
+#: onedesk/one_display/widgets.py:96
+msgid "Stories"
+msgstr "Meldungen"
+
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Story"
+msgstr "Meldung"
 
 #: frontend/src/slide/components/ShapeStyleSection.vue:119
 msgid "Straight"
@@ -46621,13 +46948,13 @@ msgstr "Team im Fokus"
 msgid "Team meeting at 10:00 in Room 2"
 msgstr "Teambesprechung um 10:00 in Raum 2"
 
+#: frontend/src/slide/shim/WidgetMock.vue:52
+msgid "Team news"
+msgstr "Neues aus dem Team"
+
 #: onedesk/one_display/starters.py:609
 msgid "Team stand-up"
 msgstr "Team-Stand-up"
-
-#: onedesk/one_display/starters.py:598
-msgid "Team wins regional award"
-msgstr "Team gewinnt regionalen Preis"
 
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
@@ -46638,6 +46965,10 @@ msgstr "Ausführungsplanung"
 #: onedesk/one_project/library/mobile_app.json
 msgid "Technical plan"
 msgstr "Technisches Konzept"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Technology"
+msgstr "Technologie"
 
 #: onedesk/one_crm/home.py:70
 msgid "Telephony"
@@ -47064,6 +47395,10 @@ msgstr "Das hat nicht geklappt. Versuchen Sie es gleich noch einmal."
 msgid "That event is not on your calendar."
 msgstr "Dieser Termin steht nicht in Ihrem Kalender."
 
+#: onedesk/one/news/__init__.py:353
+msgid "That feed is not in the library."
+msgstr "Dieser Feed ist nicht in der Bibliothek."
+
 #: onedesk/one_mail/api.py:94
 msgid "That folder is not in this mailbox."
 msgstr "Dieser Ordner ist nicht in diesem Postfach."
@@ -47415,6 +47750,10 @@ msgstr "Das Fenster für das Publikum wurde geschlossen."
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "Der eigene Zähler des Authenticators. Ein niedrigerer Wert als der gespeicherte bedeutet, dass der Passkey geklont wurde."
+
+#: onedesk/one/announcements.py:135
+msgid "The bar runs announcements or news."
+msgstr "Die Leiste zeigt Ankündigungen oder Nachrichten."
 
 #. Description of the 'Channels' (Section Break) field in DocType 'Notification
 #. Type'
@@ -47796,6 +48135,10 @@ msgstr "Name der Veranstaltung, die Uhrzeit und ein Code zum Programm."
 msgid "The expense is booked and the money is owed to them."
 msgstr "Die Ausgabe wird gebucht und das Geld ist ihnen geschuldet."
 
+#: onedesk/one/news/fetching.py:166
+msgid "The fetch failed. It is tried again later."
+msgstr "Der Abruf ist fehlgeschlagen. Er wird später erneut versucht."
+
 #: frontend/src/writer/shim/PrintDialog.vue:8
 msgid "The fields in this document are filled from {0}."
 msgstr "Die Felder in diesem Dokument werden aus {0} gefüllt."
@@ -48035,6 +48378,10 @@ msgstr "Der letzte Aufruf und jeder Schalter über einen langen Bildschirm."
 #: onedesk/one_display/starters.py:1140
 msgid "The latest call large and the calls before it."
 msgstr "Der letzte Aufruf groß und die Aufrufe davor."
+
+#: onedesk/one_display/widgets.py:90
+msgid "The latest headlines from News Sources, with their pictures, what they say and where they are from."
+msgstr "Die neuesten Schlagzeilen aus Nachrichtenquellen, mit Bildern, Inhalt und Herkunft."
 
 #. Description of the 'Keep Until' (Date) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -49409,6 +49756,10 @@ msgstr "Diese Tage werden als gearbeitet erfasst."
 msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off."
 msgstr "Bei diesen Erweiterungen sind Fehler aufgetreten, die Arbeit ging weiter: {extensions}. Öffne eine und klicke auf „Mit OneAI beheben“, oder schalte sie aus."
 
+#: onedesk/one/doctype/news_source/news_source_list.js:21
+msgid "These feeds were gathered by others and belong to their publishers. You are responsible for having the right to show what you add."
+msgstr "Diese Feeds wurden von anderen gesammelt und gehören ihren Verlagen. Sie sind dafür verantwortlich, das Recht zu haben, das Hinzugefügte zu zeigen."
+
 #: onedesk/one_inventory/ready.py:135
 msgid "These post to an account that is not a stock account, so stock and the books disagree: {0}. Set a stock account on each warehouse."
 msgstr "Diese buchen auf ein Konto, das kein Bestandskonto ist, daher weichen Bestand und Buchhaltung ab: {0}. Hinterlege an jedem Lager ein Bestandskonto."
@@ -50210,9 +50561,17 @@ msgstr "Laufband"
 msgid "Ticker Strip"
 msgstr "Laufbandstreifen"
 
+#: onedesk/one_display/widgets.py:345
+msgid "Ticker by Category"
+msgstr "Laufband nach Kategorie"
+
 #: onedesk/one_display/widgets.py:268
 msgid "Ticker in Your Colour"
 msgstr "Laufband in Ihrer Farbe"
+
+#: onedesk/one_display/widgets.py:347
+msgid "Ticker with Your Logo Between"
+msgstr "Laufband mit Ihrem Logo dazwischen"
 
 #: onedesk/one_display/widgets.py:269
 msgid "Ticker with a Label"
@@ -50399,6 +50758,10 @@ msgstr "Anzahl Aufrufe"
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 msgid "Times Opened"
 msgstr "Mal geöffnet"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Times of day in the workspace's time zone, with commas between them."
+msgstr "Uhrzeiten in der Zeitzone des Arbeitsbereichs, durch Kommas getrennt."
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
@@ -50907,6 +51270,10 @@ msgstr "Größte Aufwendungen"
 #: onedesk/one/custom/letter_head.json
 msgid "Top Preset"
 msgstr "Kopfvorlage"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Top Stories"
+msgstr "Top-Meldungen"
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:30
 msgid "Top border"
@@ -51419,7 +51786,7 @@ msgstr "Papierkorb"
 #. Label in the One Travel Request print format
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 msgid "Travel"
-msgstr "Reise"
+msgstr "Reisen"
 
 #. Label in the One Travel Request print format
 #. Label of a Sidebar Item
@@ -51552,6 +51919,10 @@ msgstr "Ihr Konto deaktivieren und Ihren Namen und Ihre Adresse aus den Unterlag
 #: onedesk/public/js/one_portal/portal.js:198
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "Portalzugang von {0} deaktivieren? Die Person wird sofort abgemeldet."
+
+#: onedesk/one/news/__init__.py:210
+msgid "Turn on Google News in TrustCenter to fetch it."
+msgstr "Schalten Sie Google News im TrustCenter ein, um es abzurufen."
 
 #: onedesk/one/weather.py:173
 msgid "Turn on Weather in TrustCenter to search for a place."
@@ -54489,6 +54860,10 @@ msgstr "Was die Regel prüft und tut, von oben nach unten, wie der Regel-Builder
 msgid "What the rule is for, such as Quotes from customers."
 msgstr "Wofür die Regel ist, z. B. Angebote von Kunden."
 
+#: frontend/src/slide/shim/WidgetMock.vue:61
+msgid "What the story says, in a line."
+msgstr "Worum es in der Meldung geht, in einer Zeile."
+
 #. Description of the 'Files' (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What the suggestion was made from. Attached to the record it makes."
@@ -56274,6 +56649,10 @@ msgstr "Wohin fließt das Geld dieses Projekts? Sag, was dem Kunden in Rechnung 
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
 msgstr "Wo neue Arbeitsbereiche aufgebaut werden. Jeder kommt auf den leersten offenen Server, der ihn aufnehmen darf."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Where news comes from: a feed, Google News, OneAI or what you write. Its newest items are kept as News Items for the desk and for screens."
+msgstr "Woher Nachrichten kommen: ein Feed, Google News, OneAI oder was Sie schreiben. Die neuesten Einträge werden als Nachrichten für den Desk und für Bildschirme behalten."
+
 #: onedesk/one_hr/home.py:545
 msgid "Where people work."
 msgstr "Wo Personen arbeiten."
@@ -57015,6 +57394,10 @@ msgstr "Wer für den Arbeitsbereich bezahlt"
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "Whoever pressed Fix With OneAI"
 msgstr "Wer auf Mit OneAI reparieren gedrückt hat"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Whoever publishes a feed owns what it says. You are responsible for having the right to show it."
+msgstr "Wer einen Feed veröffentlicht, besitzt seinen Inhalt. Sie sind dafür verantwortlich, das Recht zu haben, ihn zu zeigen."
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
@@ -57969,6 +58352,10 @@ msgstr ""
 msgid "Workstations"
 msgstr "Arbeitsplätze"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "World"
+msgstr "Welt"
+
 #. Label in the One Asset Card print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Worth Now"
@@ -58083,6 +58470,10 @@ msgstr "Schreibe eine ganze Präsentation in diese Datei: {0}"
 msgid "Write an Email"
 msgstr "E-Mail schreiben"
 
+#: onedesk/one/doctype/news_source/news_source.js:7
+msgid "Write an Item"
+msgstr "Eintrag schreiben"
+
 #: onedesk/one_studio/ai.py:54
 msgid "Write an extension that "
 msgstr "Schreibe eine Erweiterung, die "
@@ -58161,10 +58552,6 @@ msgstr "Diese Stelle schreiben"
 msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
 msgstr "Schreibe die Beschreibung dieser Stelle und was eine starke Bewerbung mitbringt, je eine kurze Zeile, aus Position, Abteilung und Anforderung. Schlage beides als Änderung vor."
 
-#: onedesk/one_display/starters.py:597
-msgid "Write two or three lines about the news here."
-msgstr "Schreiben Sie hier zwei, drei Zeilen zur Neuigkeit."
-
 #: onedesk/one_crm/ai.py:49 onedesk/one_crm/ai.py:92
 msgid "Write up a call"
 msgstr "Anruf festhalten"
@@ -58231,6 +58618,11 @@ msgstr "Ich schreibe es erneut auf. Transkript und Anmerkungen folgen, sobald ic
 #: onedesk/public/js/one_ai/oneai.js:212
 msgid "Writing…"
 msgstr "Wird geschrieben…"
+
+#: onedesk/one/doctype/news_item/news_item.json
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Written"
+msgstr "Geschrieben"
 
 #: onedesk/public/js/one_mail/rule_builder.js:208
 msgid "Written By"
@@ -58767,9 +59159,17 @@ msgstr "Ihr OneCalendar in Google Calendar, Apple Calendar oder Outlook, über e
 msgid "Your Organisation"
 msgstr "Ihre Organisation"
 
+#: onedesk/one_display/widgets.py:42
+msgid "Your Own"
+msgstr "Eigenes"
+
 #: onedesk/public/js/one_legal/trust_center.js:150
 msgid "Your Own Data"
 msgstr "Ihre eigenen Daten"
+
+#: onedesk/one_display/widgets.py:82
+msgid "Your Own Separator"
+msgstr "Eigenes Trennzeichen"
 
 #: frontend/portal/src/pages/YourData.vue:32
 #: onedesk/public/js/one_account/account_center.js:189
@@ -59575,6 +59975,10 @@ msgstr "kann ansehen"
 #: onedesk/one_calendar/tell.py:169 onedesk/one_project/tell.py:13
 msgid "cancelled"
 msgstr "hat abgesagt"
+
+#: onedesk/one/news/__init__.py:362
+msgid "category"
+msgstr "Kategorie"
 
 #: onedesk/one_calendar/tell.py:169
 msgid "changed"
@@ -62039,6 +62443,10 @@ msgstr "{0} vertritt."
 msgid "{0} is done"
 msgstr "{0} ist erledigt"
 
+#: onedesk/one/doctype/news_source/news_source.py:27
+msgid "{0} is fetched at most every {1} minutes, so this source is fetched {2}."
+msgstr "{0} wird höchstens alle {1} Minuten abgerufen, daher wird diese Quelle {2} abgerufen."
+
 #: onedesk/one_admin/home.py:324
 msgid "{0} is filling up"
 msgstr "{0} wird voll"
@@ -62218,6 +62626,10 @@ msgstr "{0} ist keine Aufgabe dieses Projekts."
 #: onedesk/one_mail/mail_templates.py:345
 msgid "{0} is not a template for {1}."
 msgstr "{0} ist keine Vorlage für {1}."
+
+#: onedesk/one/news/__init__.py:448
+msgid "{0} is not a time of day. Write times like 07:00, 13:30."
+msgstr "{0} ist keine Uhrzeit. Schreiben Sie Zeiten wie 07:00, 13:30."
 
 #: onedesk/one_ai/tools.py:673
 msgid "{0} is not a tool."
@@ -62591,6 +63003,10 @@ msgstr "{0} weitere Personen"
 #: frontend/src/inventory/item/ItemPage.vue:209
 msgid "{0} more promised than on hand"
 msgstr "{0} mehr zugesagt als auf Lager"
+
+#: onedesk/one/doctype/news_source/news_source_list.js:72
+msgid "{0} more. Search to narrow them."
+msgstr "{0} weitere. Suchen Sie, um sie einzugrenzen."
 
 #: onedesk/one_book/heads.py:307
 msgid "{0} moved from {1} to {2}."

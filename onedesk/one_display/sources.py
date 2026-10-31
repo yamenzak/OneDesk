@@ -17,12 +17,14 @@ from frappe.utils import cint, flt, strip_html
 from onedesk.one_display import queue as queues
 
 DOCTYPE = "Display Source"
-KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Board": 0, "Feed": 900, "Weather": 1800, "Exchange Rates": 3600}
+# What a news headline brings along to a ticker beside its slots.
+NEWS_EXTRAS = ("category", "colour", "logo", "publisher")
+
+KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Board": 0, "News": 60, "Weather": 1800, "Exchange Rates": 3600}
 # What a row of an Exchange Rates source carries, for mapping.
 RATE_FIELDS = ("currency", "rate", "base", "line")
 MOST_ROWS = 50
 FIELD = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
-FETCHED = 1024 * 1024
 
 
 def fields_in(mapping: dict) -> set[str]:
@@ -119,8 +121,10 @@ def _read(source, fields: set[str], lang: str) -> list[dict]:
 			from onedesk.one_display import boards
 
 			return boards.rows(source.board)
-		if source.kind == "Feed":
-			return _feed(source.feed_url)
+		if source.kind == "News":
+			from onedesk.one import news
+
+			return news.items([row.news_source for row in source.news_sources], source.news_most or 20, source.news_order or "Newest")
 		if source.kind == "Exchange Rates":
 			return _rates(source)
 		if source.kind == "Weather":
@@ -207,22 +211,6 @@ def _report(source, fields: set[str]) -> list[dict]:
 	return rows
 
 
-def _public(url: str) -> str:
-	"""The feed's address, if it is https and every address its host names is
-	on the public internet: a feed never reaches the workspace's own network."""
-	import ipaddress
-	import socket
-	from urllib.parse import urlparse
-
-	parsed = urlparse(url or "")
-	if parsed.scheme != "https" or not parsed.hostname:
-		raise ValueError("a feed is read over https")
-	for *_rest, address in socket.getaddrinfo(parsed.hostname, parsed.port or 443, proto=socket.IPPROTO_TCP):
-		if not ipaddress.ip_address(address[0]).is_global:
-			raise ValueError("a feed is read from the public internet")
-	return url
-
-
 def currencies_in(said: str | None) -> list[str]:
 	"""USD, eur gbp → ["USD", "EUR", "GBP"], each once, in the order given."""
 	return list(dict.fromkeys(one.strip().upper() for one in re.split(r"[,\s]+", said or "") if one.strip()))
@@ -251,49 +239,6 @@ def _rates(source) -> list[dict]:
 	return rows
 
 
-def _feed(url: str) -> list[dict]:
-	"""An RSS or Atom feed's newest items, as text: a title, a line of what
-	it says, when, and a picture where the feed gives one."""
-	import requests
-	from defusedxml import ElementTree as ET
-
-	answer = requests.get(_public(url), timeout=8, headers={"User-Agent": "OneDisplay"}, stream=True, allow_redirects=False)
-	answer.raise_for_status()
-	body = answer.raw.read(FETCHED + 1, decode_content=True)
-	if len(body) > FETCHED:
-		raise ValueError("feed too large")
-	root = ET.fromstring(body)
-	items = root.findall(".//item") or root.findall(".//{http://www.w3.org/2005/Atom}entry")
-	rows = []
-	for item in items[:MOST_ROWS]:
-		def text(*names):
-			for name in names:
-				found = item.find(name)
-				if found is not None and (found.text or "").strip():
-					return found.text.strip()
-			return ""
-
-		atom = "{http://www.w3.org/2005/Atom}"
-		media = item.find("{http://search.yahoo.com/mrss/}content")
-		if media is None:
-			media = item.find("{http://search.yahoo.com/mrss/}thumbnail")
-		enclosure = item.find("enclosure")
-		image = (media.get("url") if media is not None else "") or (
-			enclosure.get("url") if enclosure is not None and (enclosure.get("type") or "").startswith("image") else ""
-		)
-		link = text("link") or (item.find(f"{atom}link").get("href") if item.find(f"{atom}link") is not None else "")
-		rows.append(
-			{
-				"title": strip_html(text("title", f"{atom}title")),
-				"summary": strip_html(text("description", f"{atom}summary", f"{atom}content"))[:280],
-				"date": text("pubDate", f"{atom}updated", f"{atom}published"),
-				"link": link if link.startswith("http") else "",
-				"image": image if image.startswith("https://") else "",
-			}
-		)
-	return rows
-
-
 def fill(widget, lang: str) -> dict:
 	"""What one widget draws: a premade widget's whole source, or its rows
 	with only the slots its mapping fills."""
@@ -308,15 +253,15 @@ def fill(widget, lang: str) -> dict:
 	mapping = json.loads(widget.mapping or "{}")
 	if not spec.get("slots"):
 		rows = read(widget.source, set(), lang)
-		if kind == "Board":
+		if kind in ("Board", "News"):
 			return {"rows": rows}
 		return {"rows": rows if widget.widget_type == "Custom" and kind != "Queue" else [], "whole": rows[0] if rows else None}
-	if kind in ("Feed",):
+	if kind == "News":
 		rows = read(widget.source, set(), lang)
 	else:
 		rows = read(widget.source, fields_in(mapping), lang)
 	slots = {slot: mapping.get(slot) for slot in spec["slots"] if mapping.get(slot)}
-	if kind == "Feed" and not slots:
+	if kind == "News" and not slots:
 		slots = {"text": "{title}", "title": "{title}", "subtitle": "{summary}", "image": "{image}"}
 		slots = {slot: line for slot, line in slots.items() if slot in spec["slots"]}
 	filled = []
@@ -324,6 +269,9 @@ def fill(widget, lang: str) -> dict:
 		one = {slot: _line(line, row) for slot, line in slots.items()}
 		if "image" in one:
 			one["image"] = _picture(one["image"])
+		if kind == "News":
+			# what a ticker shows beside a headline: where it is from, and its category
+			one.update({key: row.get(key) or "" for key in NEWS_EXTRAS})
 		filled.append(one)
 	return {"rows": filled}
 

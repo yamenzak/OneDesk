@@ -25,8 +25,11 @@
   "report_filters",
   "section_queue",
   "queue",
-  "section_feed",
-  "feed_url",
+  "section_news",
+  "news_sources",
+  "column_break_news",
+  "news_most",
+  "news_order",
   "section_weather",
   "weather_place",
   "section_rates",
@@ -46,7 +49,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Type",
-   "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather\nExchange Rates\nBoard",
+   "options": "Records\nRecord\nReport\nQueue\nNews\nWeather\nExchange Rates\nBoard",
    "reqd": 1,
    "default": "Records"
   },
@@ -177,18 +180,36 @@
    "mandatory_depends_on": "eval:doc.kind=='Queue'"
   },
   {
-   "fieldname": "section_feed",
+   "fieldname": "section_news",
    "fieldtype": "Section Break",
-   "label": "Feed",
-   "depends_on": "eval:doc.kind=='Feed'"
+   "label": "News",
+   "depends_on": "eval:doc.kind=='News'",
+   "description": "Headlines from the workspace's News Sources, newest first. A source is added under One › News."
   },
   {
-   "fieldname": "feed_url",
-   "fieldtype": "Data",
-   "label": "Feed URL",
-   "options": "URL",
-   "mandatory_depends_on": "eval:doc.kind=='Feed'",
-   "description": "RSS or Atom feed."
+   "fieldname": "news_sources",
+   "fieldtype": "Table MultiSelect",
+   "label": "News Sources",
+   "options": "Display News Source",
+   "mandatory_depends_on": "eval:doc.kind=='News'"
+  },
+  {
+   "fieldname": "column_break_news",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "news_most",
+   "fieldtype": "Int",
+   "label": "Headlines",
+   "default": "20"
+  },
+  {
+   "fieldname": "news_order",
+   "fieldtype": "Select",
+   "label": "Order",
+   "options": "Newest\nBy Category",
+   "default": "Newest",
+   "description": "By Category keeps a category's headlines together, for a ticker that shows its categories."
   },
   {
    "fieldname": "section_weather",
@@ -228,7 +249,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-31 08:14:53.396593",
+ "modified": "2026-10-31 17:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Source",

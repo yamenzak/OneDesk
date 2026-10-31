@@ -34,6 +34,7 @@ STEPS = (
 	"career",
 	"calendar",
 	"announcements",
+	"news",
 	"privacy",
 	"studio",
 	"storage",

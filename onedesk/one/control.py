@@ -29,7 +29,7 @@ SECTIONS = [
 # still asks for it by that name (the demo's build and checks).
 HOLDS = {
 	"company": ("phone_no", "email", "website", "tax_id", "address_line1", "address_line2", "city", "state", "pincode", "email_footer_address"),
-	"branding": ("company_logo", "one_brand_colour", "one_frame_colour"),
+	"branding": ("company_logo", "one_brand_icon", "one_brand_colour", "one_frame_colour"),
 	"formats": (
 		"language",
 		"time_zone",

@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.1.2
+## OneMail 1.1.3
 
 Ready.
 
@@ -264,7 +264,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDisplay 2.5.0
+## OneDisplay 2.6.0
 
 Ready.
 
@@ -322,7 +322,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneSlide 1.15.6
+## OneSlide 1.15.7
 
 Ready.
 
@@ -438,7 +438,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## One 2.5.0
+## One 2.6.0
 
 Ready.
 
@@ -448,16 +448,16 @@ Ready.
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-10-31, `b638e6d` |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-10-31, `3e6e2d4` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-10-31, `b638e6d` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-10-31, `b638e6d` |
-| OneInterface pass | — | 2026-10-31, `b638e6d` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-10-31, `3e6e2d4` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-10-31, `3e6e2d4` |
+| OneInterface pass | — | 2026-10-31, `3e6e2d4` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-10-31, `b638e6d` |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-10-31, `3e6e2d4` |
 
 What a person looks at:
 

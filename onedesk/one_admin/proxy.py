@@ -287,6 +287,20 @@ def ai_web_search(query: str, most: int = 5) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def news_brief(brief: str, country: str = "", language: str = "en", most: int = 8) -> dict:
+	"""Headlines OneAI finds with Google Search for a workspace's News Source,
+	billed to it for each run (one_admin/news.py)."""
+	from onedesk.one_admin import news
+
+	tenant = caller()
+	try:
+		return news.brief(tenant.name, brief, country, language, int(most or 8))
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def weather_reading(latitude: float, longitude: float) -> dict:
 	"""A place's next hours and days, shared with every workspace near it and
 	charged to this one past its free place a day (one_admin/weather.py)."""
