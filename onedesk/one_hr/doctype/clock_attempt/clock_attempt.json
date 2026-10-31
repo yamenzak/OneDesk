@@ -99,7 +99,7 @@
    "description": "Out of 100."
   },
   {
-   "description": "The log this attempt wrote. Empty when the attempt was refused.",
+   "description": "The check-in created by this attempt. Not set if the attempt was rejected.",
    "fieldname": "checkin",
    "fieldtype": "Link",
    "label": "Employee Checkin",
@@ -132,7 +132,7 @@
    "options": "\nAccepted\nRejected",
    "read_only": 1,
    "in_standard_filter": 1,
-   "description": "Rejected sets Skip Auto Attendance on the check-in, so it stops counting. Nothing is deleted."
+   "description": "Rejected sets Skip Auto Attendance on the check-in and excludes it from attendance. Nothing is deleted."
   },
   {
    "fieldname": "reviewed_by",

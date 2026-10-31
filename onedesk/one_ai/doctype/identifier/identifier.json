@@ -3,7 +3,7 @@
  "allow_rename": 0,
  "autoname": "hash",
  "creation": "2026-09-26 12:00:00.000000",
- "description": "One way of telling who somebody is, and the record it belongs to.",
+ "description": "An identifier for a person or organisation, for example an email, phone number or IBAN, and the record it belongs to.",
  "doctype": "DocType",
  "editable_grid": 0,
  "engine": "InnoDB",
@@ -34,7 +34,7 @@
    "in_list_view": 1,
    "search_index": 1,
    "read_only": 1,
-   "description": "Written one way however it was typed, such as an IBAN without spaces or a phone number with its country."
+   "description": "Stored in a standard format. Example: an IBAN without spaces, or a phone number with its country code."
   },
   {
    "fieldname": "column_break_whose",

@@ -2,7 +2,7 @@
  "actions": [],
  "autoname": "field:source_name",
  "creation": "2026-10-31 15:00:00.000000",
- "description": "Where news comes from: a feed, Google News, OneAI or what you write. Its newest items are kept as News Items for the desk and for screens.",
+ "description": "A feed, Google News, OneAI or news you write yourself. Items appear on the top bar and on screens.",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -81,7 +81,7 @@
    "fieldtype": "Data",
    "label": "Website",
    "options": "URL",
-   "description": "Its logo comes from here. A feed fills it in.",
+   "description": "Used to find the source's logo. Filled in automatically for feeds.",
    "length": 1000
   },
   {
@@ -95,7 +95,7 @@
    "fieldtype": "Section Break",
    "label": "Feed",
    "depends_on": "eval:doc.kind=='Feed'",
-   "description": "Whoever publishes a feed owns what it says. You are responsible for having the right to show it."
+   "description": "You need the publisher's permission to show their content."
   },
   {
    "fieldname": "feed_url",
@@ -110,7 +110,7 @@
    "fieldtype": "Section Break",
    "label": "Google News",
    "depends_on": "eval:doc.kind=='Google News'",
-   "description": "For previewing only, since showing other publishers' articles may need their licence. One fetches it a few times a day."
+   "description": "For preview only. Showing these headlines publicly may require each publisher's permission."
   },
   {
    "fieldname": "google_topic",
@@ -127,21 +127,21 @@
    "fieldname": "google_query",
    "fieldtype": "Data",
    "label": "Search For",
-   "description": "Headlines matching these words, in place of the topic."
+   "description": "If set, shows headlines matching these words instead of the topic."
   },
   {
    "fieldname": "ai_section",
    "fieldtype": "Section Break",
    "label": "OneAI",
    "depends_on": "eval:doc.kind=='OneAI'",
-   "description": "OneAI searches the web with Google and writes the headlines it finds. Each run costs credits, so it runs at the times you set."
+   "description": "OneAI searches the web and writes headlines from what it finds. Each run uses credits."
   },
   {
    "fieldname": "ai_brief",
    "fieldtype": "Small Text",
    "label": "Look For",
    "mandatory_depends_on": "eval:doc.kind=='OneAI'",
-   "description": "For example, business news that a building company would care about."
+   "description": "Example: construction and building materials news."
   },
   {
    "fieldname": "column_break_ai",
@@ -195,15 +195,15 @@
    "label": "Times",
    "depends_on": "eval:doc.fetch_every=='At Set Times' && doc.kind!='Google News'",
    "mandatory_depends_on": "eval:doc.fetch_every=='At Set Times' && doc.kind!='Google News'",
-   "description": "Times of day in the workspace's time zone, with commas between them.",
+   "description": "Comma-separated, in the workspace's time zone.",
    "placeholder": "07:00, 13:00"
   },
   {
    "fieldname": "keep",
    "fieldtype": "Int",
-   "label": "Keep",
+   "label": "Items to Keep",
    "default": "60",
-   "description": "How many of its newest items are kept. Older ones are deleted as new ones arrive; 0 keeps them all."
+   "description": "Older items are deleted when new ones arrive. Set to 0 to keep all items."
   },
   {
    "fieldname": "column_break_fetching",
@@ -224,7 +224,7 @@
   {
    "fieldname": "last_error",
    "fieldtype": "Small Text",
-   "label": "Last Problem",
+   "label": "Last Error",
    "read_only": 1
   },
   {

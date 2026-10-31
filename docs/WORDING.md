@@ -82,6 +82,14 @@ this app and are gone:
     A system that locks a plumber out at a customer's door is a system they stop using.
     A live frame from the camera, never a file. Says who, not where.
 
+No clipped, telegraphic register either: a pronoun with nothing before it to
+point at ("Its logo comes from here", a button called `Its Items`), two
+thoughts glued with a semicolon ("…as new ones arrive; 0 keeps them all"),
+and the product explaining its own workings ("One fetches it a few times a
+day"). Name the thing, and use frappe's openers: `View Items`, "Set to 0 to
+keep all items.", "Used to find the source's logo." `test_wording.py` holds
+every module's field help and every desk and doctype script to it.
+
 No second person plural about the workforce ("Employees may clock themselves
 in"), no wink at the reader, no sentence that is there because it reads well.
 The test is whether the line would look out of place two rows above

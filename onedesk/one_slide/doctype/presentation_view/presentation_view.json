@@ -57,7 +57,7 @@
    "label": "Viewer",
    "options": "Email",
    "in_list_view": 1,
-   "description": "The invited address it was opened with; empty for anyone with the link."
+   "description": "The invited email address used to open the presentation. Not set for link access."
   },
   {
    "fieldname": "session",

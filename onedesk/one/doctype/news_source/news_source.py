@@ -29,7 +29,7 @@ class NewsSource(Document):
 
 	def validate(self):
 		if self.kind == "Feed" and self.feed_url and not self.feed_url.startswith("https://"):
-			frappe.throw(_("A feed is read over https. Use its https address."))
+			frappe.throw(_("Feed Address must start with https://."))
 		if self.kind == "Google News":
 			# OneAdmin fetches Google News on its own schedule; the source only asks it
 			self.fetch_every, self.fetch_at = "Hourly", ""
@@ -39,7 +39,7 @@ class NewsSource(Document):
 			least = next(label for label, minutes in fetching.EVERY.items() if minutes >= fetching.LEAST[self.kind])
 			self.fetch_every = least
 			frappe.msgprint(
-				_("{0} is fetched at most every {1} minutes, so this source is fetched {2}.").format(
+				_("{0} sources are fetched at most every {1} minutes. Fetch was changed to {2}.").format(
 					_(self.kind), fetching.LEAST[self.kind], _(least).lower()
 				),
 				alert=True,

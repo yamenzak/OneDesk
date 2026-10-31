@@ -70,7 +70,7 @@
    "label": "Can upload",
    "default": "0",
    "depends_on": "is_folder",
-   "description": "Into a folder, for somebody sending you files."
+   "description": "If enabled, people with the link can upload files to the folder."
   },
   {
    "fieldname": "column_break_when",

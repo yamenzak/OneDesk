@@ -2,7 +2,7 @@
  "actions": [],
  "autoname": "hash",
  "creation": "2026-10-31 15:00:00.000000",
- "description": "One headline from a News Source. Items from a feed arrive on their own; a Written source's items are the ones you write.",
+ "description": "A headline from a News Source. Feed items are added automatically. Items for a Written source are added by hand.",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -66,7 +66,7 @@
   {
    "fieldname": "image",
    "fieldtype": "Attach Image",
-   "label": "Picture"
+   "label": "Image"
   },
   {
    "fieldname": "link",
@@ -87,7 +87,7 @@
   {
    "fieldname": "body",
    "fieldtype": "Text Editor",
-   "label": "Story",
+   "label": "Content",
    "depends_on": "eval:doc.written"
   },
   {

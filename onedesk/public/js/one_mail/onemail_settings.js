@@ -300,8 +300,8 @@ onedesk.mail.settings = (tab) => {
 		};
 		const note = (away) => {
 			if (away.leave_until) {
-				const words = [__("You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}.", [frappe.datetime.str_to_user(away.leave_until), frappe.datetime.str_to_user(away.leave_back)])];
-				if (away.covering) words.push(__("They name {0} for anything urgent.", [away.covering.name]));
+				const words = [__("You're on approved leave until {0}. Automatic replies say you're back on {1}.", [frappe.datetime.str_to_user(away.leave_until), frappe.datetime.str_to_user(away.leave_back)])];
+				if (away.covering) words.push(__("Urgent requests are referred to {0}.", [away.covering.name]));
 				return words.join(" ");
 			}
 			return __("While you're on approved leave, replies go out on their own until you're back, with the Away Message from your leave request.");
@@ -631,7 +631,7 @@ onedesk.mail.settings = (tab) => {
 							fieldtype: "HTML",
 							options: `<p class="text-muted small">${esc(
 								covered.length
-									? __("Only in {0}. Their role already allows {1}.", [box.email, covered.map((ability) => ability.label).join(", ")])
+									? __("Only in {0}. This user's role already allows {1}.", [box.email, covered.map((ability) => ability.label).join(", ")])
 									: __("Only in {0}.", [box.email])
 							)}</p>`,
 						},
@@ -658,7 +658,7 @@ onedesk.mail.settings = (tab) => {
 				const $end = $row.find(".one-set-end");
 				const everything = (said.abilities || []).every((ability) => one.covered.includes(ability.key));
 				const $access = button({ label: __("Edit Access"), variant: "outline", size: "sm" }).appendTo($end);
-				if (everything) $access.prop("disabled", true).attr("title", __("Their role already allows everything here."));
+				if (everything) $access.prop("disabled", true).attr("title", __("This user's role already allows everything here."));
 				else $access.on("click", () => choose(one, $row));
 				const send = frappe.ui.form.make_control({
 					df: { fieldtype: "Switch", fieldname: "sends", label: __("Send"), read_only: !one_box.enable_outgoing },
@@ -973,7 +973,7 @@ onedesk.mail.settings = (tab) => {
 		let form = null;
 		view(panel, {
 			title: __("Connect Organization Mailbox"),
-			description: __("It appears in their mailboxes once connected."),
+			description: __("Users with access see this mailbox once it is connected."),
 			actions: [
 				{
 					label: __("Connect"),

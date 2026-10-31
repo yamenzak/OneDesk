@@ -209,7 +209,7 @@
    "label": "Order",
    "options": "Newest\nBy Category",
    "default": "Newest",
-   "description": "By Category keeps a category's headlines together, for a ticker that shows its categories."
+   "description": "By Category keeps each category's headlines together."
   },
   {
    "fieldname": "section_weather",
@@ -222,7 +222,7 @@
    "fieldtype": "Link",
    "label": "Place",
    "options": "Weather Place",
-   "description": "The first place a day is free; each other costs five credits a day it is shown."
+   "description": "One place is free. Each extra place uses 5 credits a day."
   },
   {
    "fieldname": "section_rates",

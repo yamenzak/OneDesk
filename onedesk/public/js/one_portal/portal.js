@@ -91,7 +91,7 @@ function portal_dialog(doctype, name, first, after) {
 						said.groups.map((group) => `<option value="${esc(group.party)}">${esc(group.said)}</option>`).join("")
 				  )
 				: "";
-		const can = said.answers ? __("They can answer through it once.") : "";
+		const can = said.answers ? __("The recipient can reply through this link once.") : "";
 		return `<div class="ps-send">
 				${select("ps-to", `${options}<option value="">${__("Someone else…")}</option>`)}
 				${frappe.ui.button.html({ variant: "solid", icon: "send", label: __("Send Link"), attrs: { "data-send": 1 } })}

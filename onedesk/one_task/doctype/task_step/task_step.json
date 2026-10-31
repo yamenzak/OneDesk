@@ -33,7 +33,7 @@
    "label": "Done When",
    "read_only": 1,
    "hidden": 1,
-   "description": "What ticks this step by itself, written by OneAI. Empty for a step a person ticks."
+   "description": "Condition, written by OneAI, that completes this step automatically. Leave empty to complete it by hand."
   }
  ],
  "index_web_pages_for_search": 0,

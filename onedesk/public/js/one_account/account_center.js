@@ -1082,7 +1082,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					label: __("Email"),
 					reqd: 1,
 					default: account.billed_to || "",
-					description: __("Their One account becomes the owner and receives invoices and payment notices."),
+					description: __("The One account with this email becomes the owner and receives invoices and payment notices."),
 				},
 			],
 			primary_action_label: __("Change"),

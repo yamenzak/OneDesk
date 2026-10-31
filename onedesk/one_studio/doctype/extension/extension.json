@@ -57,7 +57,7 @@
    "reqd": 1,
    "read_only": 1,
    "in_standard_filter": 1,
-   "description": "On Screen runs in the browser of whoever opens the record. On Server runs when the record is saved, whoever saves it."
+   "description": "On Screen runs in the browser of the user who opens the record. On Server runs when the record is saved."
   },
   {
    "fieldname": "record_doctype",
@@ -83,7 +83,7 @@
    "label": "Place",
    "read_only": 1,
    "depends_on": "eval:doc.view=='Page'",
-   "description": "The page it runs on and what it waits for there, such as OneMail when a conversation is opened."
+   "description": "The page the extension runs on and the event it waits for. Example: OneMail, when a conversation is opened."
   },
   {
    "depends_on": "eval:doc.runs=='On Server'",
@@ -100,7 +100,7 @@
    "label": "Schedule",
    "read_only": 1,
    "depends_on": "eval:doc.event=='Scheduled'",
-   "description": "When it runs, as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
+   "description": "Schedule as a cron expression. Example: 0 8 * * 1-5 for 8 AM on weekdays."
   },
   {
    "fieldname": "explanation",

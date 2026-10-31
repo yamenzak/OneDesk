@@ -7,7 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "naming_rule": "Random",
- "description": "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it.",
+ "description": "A full copy of a workbook at a point in time. Older versions are thinned out, and named versions are kept permanently.",
  "field_order": [
   "workbook",
   "seq",

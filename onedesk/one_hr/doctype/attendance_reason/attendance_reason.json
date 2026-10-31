@@ -43,7 +43,7 @@
   },
   {
    "default": "1",
-   "description": "Offered when somebody raises an Attendance Request.",
+   "description": "If enabled, this reason is offered on Attendance Requests.",
    "fieldname": "enabled",
    "fieldtype": "Check",
    "in_standard_filter": 1,

@@ -7,7 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "naming_rule": "Random",
- "description": "A piece of a document, a message or a record, and where it points in meaning, so a search finds what is meant.",
+ "description": "A part of a document, message or record with its embedding, used by search to find matches by meaning.",
  "field_order": [
   "source_doctype",
   "source_name",

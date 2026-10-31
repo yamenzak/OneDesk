@@ -2,7 +2,7 @@
  "actions": [],
  "autoname": "field:category_name",
  "creation": "2026-10-31 15:00:00.000000",
- "description": "A kind of news, such as Business or Sports. A ticker can show it beside its headlines, in its colour.",
+ "description": "Groups news by topic, for example Business or Sports. Tickers can show the category name and colour next to each headline.",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [

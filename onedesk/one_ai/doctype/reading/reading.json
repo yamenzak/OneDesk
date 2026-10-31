@@ -88,7 +88,7 @@
    "reqd": 1,
    "unique": 1,
    "read_only": 1,
-   "description": "The content's hash, so the same file anywhere is read once."
+   "description": "Hash of the content. The same file is read only once."
   },
   {
    "fieldname": "title",
@@ -177,7 +177,7 @@
    "fieldtype": "Check",
    "label": "History",
    "read_only": 1,
-   "description": "There before OneAI was switched on, so it is only filed and searchable."
+   "description": "Added before OneAI was turned on. Filed and searchable, but not acted on."
   },
   {
    "fieldname": "column_break_reading",
@@ -543,7 +543,7 @@
    "fieldtype": "JSON",
    "label": "Data",
    "read_only": 1,
-   "description": "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
+   "description": "Data extracted from the file. Example: e-invoice lines, bank statement rows or email headers."
   },
   {
    "fieldname": "explained",

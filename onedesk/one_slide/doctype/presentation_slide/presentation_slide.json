@@ -83,14 +83,14 @@
    "fieldtype": "Data",
    "label": "Layout",
    "hidden": 1,
-   "description": "The template slide this one was laid out from, so a change to its look can be brought in later."
+   "description": "The template slide this slide is based on. Used to apply later changes to the template."
   },
   {
    "fieldname": "kind",
    "fieldtype": "Data",
    "label": "Kind",
    "hidden": 1,
-   "description": "Which kind of slide this is in the slide library, such as Title or Timeline."
+   "description": "Slide type in the slide library. Example: Title or Timeline."
   }
  ],
  "field_order": [

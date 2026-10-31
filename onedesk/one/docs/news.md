@@ -1,52 +1,50 @@
 # News
 
-News Sources bring headlines into the workspace: for the top bar, and for
-OneDisplay's tickers and news widgets. Add them under One › News › Sources.
+News Sources add headlines to the top bar and to OneDisplay tickers and news
+widgets. Go to One › News › Sources to add one.
 
-- **Feed** reads an RSS or Atom feed from its address. **From Library** on
-  the list of sources adds a feed gathered by others with one click: search
-  it by name, or narrow it to a category or a country.
-- **Google News** reads Google's headlines for a topic, or for words you
-  search for, in a country and language. It is for previewing only: Google
-  News gathers other publishers' articles, and showing them to others may
-  need a licence from each publisher. It is off until an administrator turns
-  it on in **TrustCenter**. Your workspace never asks Google itself: One
-  fetches each topic or search a few times a day for every workspace that
-  follows it, so how often is not set on the source, and a new one can take a
-  little while to show its first headlines.
-- **OneAI** searches the web with Google for what you write in **Look For**
-  and writes the headlines it finds. Each run costs credits, so it runs at
-  the **Times** you set, such as 07:00, 13:00. A headline it could not find
-  in a search is not kept.
-- **Written** is your own news. Its items are the ones you write, with a
-  picture, a summary and the story itself.
+There are four types of source:
 
-Each other source is fetched as often as you set under **Fetch**, and keeps only
-its newest items: with **Keep** at 60, the 61st oldest is deleted as each new
-one arrives. **Fetch Now** asks at once. When a fetch fails, the problem is
-shown on the source and it is tried again later, waiting longer each time.
+- **Feed** reads an RSS or Atom feed. To pick from ready-made feeds, click
+  **From Library** on the Sources list and search by name, category or
+  country.
+- **Google News** shows Google's headlines for a topic, or for words you
+  search for, in a country and language. Use it for preview only. Showing
+  these headlines publicly may require each publisher's permission. An
+  administrator must turn it on in **TrustCenter** first. One updates
+  Google News every two hours, so a new source can take a few minutes to
+  show its first headlines.
+- **OneAI** searches the web for what you enter in **Look For** and writes
+  headlines from what it finds. Each run uses credits, so it runs only at the
+  **Times** you set, for example 07:00, 13:00. Headlines that OneAI could not
+  find in a search are dropped.
+- **Written** is news you write yourself, with an image, a summary and the
+  full story.
 
-A source's **Category**, such as Business or Sports, goes with each of its
-headlines. Give a category a colour under **Categories**: a ticker shows it
-in that colour.
+Set how often a source is fetched in **Fetch**, and how many items it keeps
+in **Items to Keep**. For example, with 60, the oldest item is deleted each
+time a new one arrives after the 60th. Click **Fetch Now** to fetch right
+away. If a fetch fails, the error is shown on the source and the fetch is
+retried later.
 
-## On the top bar
+Each source has a **Category**, such as Business or Sports. Set a category's
+colour under **Categories**, and tickers show the category in that colour.
 
-The top bar runs announcements, or the news. When there are both, click the
-icon at the start of the bar to switch between them. **Choose Sources**, the
-filter beside it, picks the sources whose headlines you follow; everybody
-chooses their own. A headline opens its story; one written here opens in the
-workspace.
+## On the Top Bar
+
+The top bar shows announcements or news. When there are both, click the icon
+at the start of the bar to switch. Click **Choose Sources** next to it to pick
+which sources you see. Each person chooses their own. Clicking a headline
+opens the article, or the item itself if it was written in the workspace.
 
 ## Logos
 
-A source's logo comes from its website, and a Google News headline's from
-its publisher's, while **Logos** is on in TrustCenter. Screens can show them
-before or after each headline.
+Each source's logo is taken from its website. Google News headlines show the
+publisher's logo. Logos only appear while **Logos** is on in TrustCenter.
+Screens can show a logo before or after each headline.
 
-## Whose news it is
+## Content Ownership
 
-Whoever publishes a feed owns what it says, and you are responsible for
-having the right to show what your sources fetch. The feeds in the library
-were gathered by others; they are listed for convenience. OneAI's headlines
-are written by a model and can be wrong or out of date.
+Feeds belong to their publishers, and you need their permission to show their
+content. Feeds in the library are listed for convenience only. OneAI writes
+its headlines with a model, so they can be wrong or out of date.

@@ -275,7 +275,7 @@
    "fieldtype": "Date",
    "label": "Closing On",
    "read_only": 1,
-   "description": "The day the workspace closes, because the person who pays for it asked. Empty when nobody has."
+   "description": "The date the workspace closes, set when the account owner asks to close it."
   },
   {
    "fieldname": "closing_asked_by",

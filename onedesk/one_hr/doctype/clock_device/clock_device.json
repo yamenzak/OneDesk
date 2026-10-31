@@ -136,7 +136,7 @@
   },
   {
    "default": "0",
-   "description": "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices.",
+   "description": "Synced through iCloud Keychain or Google Password Manager and available on the employee's other devices.",
    "fieldname": "backed_up",
    "fieldtype": "Check",
    "label": "Backed Up",

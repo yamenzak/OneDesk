@@ -129,7 +129,7 @@ def fetch(name: str) -> int:
 		values.update(last_error=str(raised), failures=failures)
 	except Exception:
 		failures = cint(source.failures) + 1
-		values.update(last_error=_("The fetch failed. It is tried again later."), failures=failures)
+		values.update(last_error=_("Fetch failed. It will be retried automatically."), failures=failures)
 		frappe.log_error(title=f"News from {name}")
 	values["next_fetch"] = (
 		now + timedelta(minutes=GOOGLE_WAITING)
@@ -173,7 +173,7 @@ def _google(source, values: dict) -> dict:
 	from onedesk.one import account
 
 	if not services.on(GOOGLE_SERVICE):
-		raise feeds.Unreadable(_("Turn on Google News in TrustCenter to fetch it."))
+		raise feeds.Unreadable(_("Google News is turned off. Turn it on in TrustCenter."))
 	country, language = _codes(source)
 	said = services.call(
 		GOOGLE_SERVICE,
@@ -293,9 +293,9 @@ def check_times(said: str | None) -> list[tuple[int, int]]:
 	try:
 		times = times_in(said)
 	except ValueError as raised:
-		frappe.throw(_("{0} is not a time of day. Write times like 07:00, 13:30.").format(str(raised)))
+		frappe.throw(_("{0} is not a valid time. Use a format like 07:00, 13:30.").format(str(raised)))
 	if len(times) > MOST_TIMES:
-		frappe.throw(_("A source is fetched at most {0} times a day.").format(MOST_TIMES))
+		frappe.throw(_("A source can be fetched at most {0} times a day.").format(MOST_TIMES))
 	return times
 
 

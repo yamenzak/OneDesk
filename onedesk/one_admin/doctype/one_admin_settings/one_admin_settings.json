@@ -141,7 +141,7 @@
   },
   {
    "default": "t.4dl.app",
-   "description": "Workspaces are reached at &lt;slug&gt;.&lt;this&gt;, for example t.4dl.app.",
+   "description": "Base domain for workspace addresses. Example: t.4dl.app",
    "fieldname": "tenant_domain",
    "fieldtype": "Data",
    "label": "Workspace Domain"
@@ -216,13 +216,13 @@
    "fieldname": "stripe_section",
    "fieldtype": "Section Break",
    "label": "Stripe",
-   "description": "Checkout and webhook credentials. The webhook secret is required; signature checks fail without it."
+   "description": "Checkout and webhook credentials. Webhook signature checks fail without the webhook secret."
   },
   {
    "fieldname": "stripe_publishable_key",
    "fieldtype": "Data",
    "label": "Publishable Key",
-   "description": "pk_live_… or pk_test_…. Pages see it; it only draws checkouts the secret key made."
+   "description": "Starts with pk_live_ or pk_test_. Used by checkout pages and safe to expose."
   },
   {
    "fieldname": "stripe_secret_key",
@@ -309,7 +309,7 @@
    "fieldname": "cost_workspace",
    "fieldtype": "Currency",
    "label": "Per Workspace",
-   "description": "Its site on Frappe Cloud at the smallest size, and its mail."
+   "description": "Monthly cost of one workspace's Frappe Cloud site at the smallest size, including mail."
   },
   {
    "fieldname": "cost_seat",

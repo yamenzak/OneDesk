@@ -7,7 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "naming_rule": "Random",
- "description": "One edit to a workbook, in the order it was saved: what it touched, and what each cell was before and after. History reads it; nobody opens one.",
+ "description": "A single saved edit to a workbook, with each changed cell's value before and after. Used by version history.",
  "field_order": [
   "workbook",
   "seq",

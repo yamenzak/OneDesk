@@ -29,7 +29,7 @@
    "fieldname": "shown_when",
    "fieldtype": "Small Text",
    "label": "Shown When",
-   "description": "Conditions on the record, as frappe filters. Empty is always."
+   "description": "Show the chart only when the record matches these filters. Leave empty to always show it."
   },
   {
    "fieldname": "custom",

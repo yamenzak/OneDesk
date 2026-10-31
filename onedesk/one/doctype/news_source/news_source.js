@@ -8,11 +8,11 @@ frappe.ui.form.on("News Source", {
 		} else if (frm.perm[0]?.write) {
 			frm.add_custom_button(__("Fetch Now"), () =>
 				frappe.xcall("onedesk.one.news.fetching.fetch_now", { name: frm.doc.name }).then(() =>
-					frappe.show_alert({ message: __("Fetching. Its items arrive in a moment."), indicator: "blue" })
+					frappe.show_alert({ message: __("Fetching news. New items will appear shortly."), indicator: "blue" })
 				)
 			);
 		}
-		frm.add_custom_button(__("Its Items"), () => frappe.set_route("List", "News Item", { source: frm.doc.name }));
+		frm.add_custom_button(__("View Items"), () => frappe.set_route("List", "News Item", { source: frm.doc.name }));
 		if (frm.doc.last_error) frm.dashboard.set_headline_alert(frappe.utils.escape_html(frm.doc.last_error), "orange");
 	},
 });

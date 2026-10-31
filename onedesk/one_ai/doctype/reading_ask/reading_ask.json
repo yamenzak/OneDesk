@@ -1,7 +1,7 @@
 {
  "actions": [],
  "creation": "2026-09-26 15:00:00.000000",
- "description": "Something a document asks somebody to do.",
+ "description": "A request in a document for a person to do something.",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -46,7 +46,7 @@
    "fieldtype": "Check",
    "label": "Promised",
    "in_list_view": 1,
-   "description": "The writer promises to do this, rather than asking somebody else."
+   "description": "If checked, the writer commits to doing this, rather than asking someone else."
   }
  ],
  "istable": 1,

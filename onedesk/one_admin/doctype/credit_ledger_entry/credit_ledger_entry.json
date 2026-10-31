@@ -62,7 +62,7 @@
    "fieldtype": "Date",
    "label": "Expires On",
    "depends_on": "eval:doc.kind=='Grant'",
-   "description": "The last day this grant counts. Empty never expires.",
+   "description": "Last day this grant can be used. Leave empty for no expiry.",
    "in_list_view": 1
   },
   {
@@ -76,7 +76,7 @@
    "label": "Drawn From",
    "options": "Credit Ledger Entry",
    "depends_on": "eval:doc.kind!='Grant'",
-   "description": "Empty on a spend that overdrew and belongs to no grant."
+   "description": "The grant this spend is charged to. Not set when the spend exceeded all grants."
   },
   {
    "fieldname": "column_break_against",
@@ -121,7 +121,7 @@
    "unique": 1,
    "read_only": 1,
    "hidden": 1,
-   "description": "A retried webhook meets this index rather than a check somebody remembered to write."
+   "description": "Unique key that stops a retried webhook from creating a duplicate entry."
   },
   {
    "fieldname": "amended_from",

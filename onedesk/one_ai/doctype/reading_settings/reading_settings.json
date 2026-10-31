@@ -21,7 +21,7 @@
    "fieldtype": "Check",
    "label": "Read Files Attached to Records",
    "default": "0",
-   "description": "Scans and photos attached on a form are read too, on behalf of whoever attached them."
+   "description": "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
   },
   {
    "fieldname": "most_pages",

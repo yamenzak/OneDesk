@@ -17,7 +17,7 @@
  ],
  "fields": [
   {
-   "description": "Stripe's event id. Unique, so a repeated delivery is ignored.",
+   "description": "Stripe's event ID. Repeated deliveries of the same event are ignored.",
    "fieldname": "event_id",
    "fieldtype": "Data",
    "label": "Event ID",

@@ -2,7 +2,7 @@
  "actions": [],
  "autoname": "field:place_name",
  "creation": "2026-10-31 12:00:00.000000",
- "description": "A place whose weather One shows: on screens and beside the clock. The first a day is free; each other costs five credits a day it is shown.",
+ "description": "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day.",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [

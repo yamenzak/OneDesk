@@ -59,7 +59,7 @@ def add(url: str) -> str:
 	frappe.has_permission(SOURCE, "create", throw=True)
 	one = next((row for row in _library() if row["url"] == url), None)
 	if not one:
-		frappe.throw(_("That feed is not in the library."))
+		frappe.throw(_("This feed is not in the library."))
 	there = frappe.db.get_value(SOURCE, {"feed_url": url}, "name")
 	if there:
 		return there

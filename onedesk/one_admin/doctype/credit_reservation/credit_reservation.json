@@ -92,7 +92,7 @@
    "label": "Action",
    "read_only": 1,
    "search_index": 1,
-   "description": "The job the call was made for, so a workspace can see what each costs."
+   "description": "The job these credits were reserved for. Shown to the workspace in its usage."
   }
  ],
  "index_web_pages_for_search": 0,

@@ -54,7 +54,7 @@
    "fieldtype": "Data",
    "label": "Record",
    "read_only": 1,
-   "description": "Empty for a new record."
+   "description": "Not set for a new record."
   },
   {
    "fieldname": "column_break_what",

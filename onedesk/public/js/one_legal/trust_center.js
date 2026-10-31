@@ -292,7 +292,7 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 			const note = one.on
 				? __("Turned on by {0} on {1}.", [one.agreed_by, one.agreed_on])
 				: one.asks_again
-					? __("It sends somewhere new, so it waits for an administrator to agree.")
+					? __("This service sends data to a new company and needs an administrator's approval.")
 					: !said.may_bind
 						? __("Your role doesn't allow turning it on.")
 						: "";

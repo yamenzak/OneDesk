@@ -19,7 +19,7 @@ onedesk.news.library = (listview) => {
 				fieldtype: "HTML",
 				fieldname: "owned",
 				options: `<p class="text-muted small">${__(
-					"These feeds were gathered by others and belong to their publishers. You are responsible for having the right to show what you add."
+					"These feeds belong to their publishers. You need each publisher's permission to show their content."
 				)}</p>`,
 			},
 			{ fieldtype: "Section Break" },
@@ -47,7 +47,7 @@ onedesk.news.library = (listview) => {
 			dialog.set_df_property("country", "options", ["", ...said.countries]);
 		}
 		$found.empty();
-		if (!said.feeds.length) return $found.html(`<p class="text-muted">${__("No feed matches.")}</p>`);
+		if (!said.feeds.length) return $found.html(`<p class="text-muted">${__("No feeds found.")}</p>`);
 		const esc = frappe.utils.escape_html;
 		for (const one of said.feeds) {
 			const host = (one.url.match(/^https?:\/\/([^/]+)/) || [])[1] || "";
@@ -69,7 +69,7 @@ onedesk.news.library = (listview) => {
 				  });
 			$row.append(add);
 		}
-		if (said.more) $found.append(`<p class="text-muted small">${__("{0} more. Search to narrow them.", [said.more])}</p>`);
+		if (said.more) $found.append(`<p class="text-muted small">${__("{0} more feeds match. Refine your search to see them.", [said.more])}</p>`);
 	};
 	const again = frappe.utils.debounce(draw, 300);
 	dialog.fields_dict.query.$input.on("input", again);

@@ -764,7 +764,7 @@ onedesk.numbering.named_by = async ($wrapper, doctype, shown = () => {}) => {
 				label: __("Field"),
 				options: said.fields,
 				depends_on: `eval:doc.by === "${FIELD}"`,
-				description: __("It becomes required and unique."),
+				description: __("The selected field becomes required and unique."),
 				change: () => apply(),
 			},
 			{

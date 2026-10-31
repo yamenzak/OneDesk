@@ -7,7 +7,7 @@
  "editable_grid": 0,
  "engine": "InnoDB",
  "naming_rule": "Random",
- "description": "A document as it stood, kept by its version history: named by somebody, or taken while it was being written.",
+ "description": "A saved version of a document, either named by a user or created automatically while editing.",
  "field_order": [
   "document",
   "title",

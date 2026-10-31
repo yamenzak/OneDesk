@@ -239,7 +239,7 @@ onedesk.rules.builder = ($into, rule, context) => {
 				{
 					fieldname: "records",
 					fieldtype: "Check",
-					label: __("Their Records"),
+					label: __("Sender's Records"),
 					default: step.records ? 1 : 0,
 					hidden: !ai,
 					description: __("OneAI may read the orders, invoices and deliveries the sender sees on the portal, once their address is verified."),

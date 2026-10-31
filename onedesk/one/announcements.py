@@ -132,7 +132,7 @@ def show(what: str = "Announcements") -> None:
 def shows(what: str) -> None:
 	"""Run announcements or news along this person's top bar."""
 	if what not in ("Announcements", "News"):
-		frappe.throw(_("The bar runs announcements or news."))
+		frappe.throw(_("Choose announcements or news."))
 	frappe.defaults.set_user_default(SHOWS, what)
 
 

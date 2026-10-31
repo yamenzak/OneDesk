@@ -18,7 +18,7 @@
  ],
  "fields": [
   {
-   "description": "The document's key, such as terms or privacy.",
+   "description": "The document's key. Example: terms or privacy.",
    "fieldname": "document",
    "fieldtype": "Data",
    "label": "Document",

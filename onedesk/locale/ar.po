@@ -718,19 +718,9 @@ msgstr "وصل مستند"
 msgid "A document arrived for {0}"
 msgstr "وصل مستند لـ {0}"
 
-#. Description of a DocType
-#: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json
-msgid "A document as it stood, kept by its version history: named by somebody, or taken while it was being written."
-msgstr "مستند كما كان، يحفظه سجل نسخه: سمّاه أحدهم أو أُخذ أثناء كتابته."
-
 #: onedesk/one_studio/places.py:293
 msgid "A document is opened in Documents."
 msgstr "يُفتح مستند في المستندات."
-
-#. Description of the 'Expires On' (Date) field in DocType 'Employee Document'
-#: onedesk/one_hr/doctype/employee_document/employee_document.json
-msgid "A document that does not expire, such as a birth certificate, leaves this empty."
-msgstr "الوثيقة التي لا تنتهي صلاحيتها، مثل شهادة الميلاد، تُترك فارغة هنا."
 
 #: onedesk/one_doc/word.py:240
 msgid "A document with a record's fields in it can only be edited in OneWriter."
@@ -813,14 +803,13 @@ msgstr "مسودة. أرسلها لإخراج هذه من المخزون إلى 
 msgid "A drive"
 msgstr "محرك أقراص"
 
-#. Description of a DocType
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json
-msgid "A fact somebody asked OneAI to keep. Theirs alone, like their conversations."
-msgstr "معلومة طلب أحدهم من OneAI الاحتفاظ بها. تخصّه وحده، مثل محادثاته."
+msgid "A fact a user asked OneAI to remember. Only visible to that user, like their conversations."
+msgstr "معلومة طلب مستخدم من OneAI تذكّرها. لا يراها إلا ذلك المستخدم، مثل محادثاته."
 
-#: onedesk/one/doctype/news_source/news_source.py:20
-msgid "A feed is read over https. Use its https address."
-msgstr "تُقرأ الخلاصة عبر https. استخدم عنوانها الذي يبدأ بـ https."
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "A feed, Google News, OneAI or news you write yourself. Items appear on the top bar and on screens."
+msgstr "خلاصة أو أخبار Google أو OneAI أو أخبار تكتبها بنفسك. تظهر العناصر في الشريط العلوي وعلى الشاشات."
 
 #: onedesk/one_slide/decks.py:180
 msgid ""
@@ -887,14 +876,13 @@ msgstr "يوجد مجلد باسم {0} بالفعل."
 msgid "A folder people are members of, the way a team's document library is."
 msgstr "مجلد يكون الأشخاص أعضاء فيه، كمكتبة مستندات الفريق."
 
-#. Description of the 'Not Shown' (Check) field in DocType 'Mail Folder'
-#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-msgid "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
-msgstr "مجلد يكرر مجلدات أخرى فقط، مثل «كل البريد» في Gmail، أو مجلد لا يحتوي على بريد بنفسه."
-
 #: onedesk/one_studio/printing.py:552
 msgid "A font is a Google Font's name, such as Playfair Display."
 msgstr "الخط هو اسم خط من Google Fonts، مثل Playfair Display."
+
+#: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
+msgid "A full copy of a workbook at a point in time. Older versions are thinned out, and named versions are kept permanently."
+msgstr "نسخة كاملة من مصنف في لحظة معينة. تُخفَّف النسخ الأقدم، وتُحفظ النسخ المسماة بشكل دائم."
 
 #: onedesk/one_display/starters.py:1176
 msgid "A full picture with the new collection and its price."
@@ -945,13 +933,13 @@ msgstr "عنوان"
 msgid "A heading or text, written here or from a record."
 msgstr "عنوان أو نص، يُكتب هنا أو يُؤخذ من سجل."
 
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "A headline from a News Source. Feed items are added automatically. Items for a Written source are added by hand."
+msgstr "عنوان من مصدر أخبار. تُضاف عناصر الخلاصات تلقائياً، وتُضاف عناصر المصدر المكتوب يدوياً."
+
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
 msgid "A job needs a workspace."
 msgstr "تحتاج المهمة إلى مساحة عمل."
-
-#: onedesk/one/doctype/news_category/news_category.json
-msgid "A kind of news, such as Business or Sports. A ticker can show it beside its headlines, in its colour."
-msgstr "نوع من الأخبار، مثل الأعمال أو الرياضة. يمكن للشريط الإخباري عرضه بجانب عناوينه بلونه."
 
 #: onedesk/one_display/starters.py:451
 msgid "A large picture beside today's news and the weather."
@@ -1202,6 +1190,10 @@ msgstr "رقم أنشأته الصفحة عند فتحها، لتكون كل م�
 msgid "A one-off earning or deduction in a month's pay."
 msgstr "استحقاق أو استقطاع لمرة واحدة في راتب شهر."
 
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
+msgid "A part of a document, message or record with its embedding, used by search to find matches by meaning."
+msgstr "جزء من مستند أو رسالة أو سجل مع تمثيله الدلالي، يستخدمه البحث لإيجاد النتائج حسب المعنى."
+
 #. Subject of a notification
 #: onedesk/one_account/notifications.py
 msgid "A passkey was added to your account"
@@ -1267,18 +1259,13 @@ msgstr "صورة وعرض ورمز على شاشة عمودية."
 msgid "A picture, an offer, its price and a code."
 msgstr "صورة وعرض وسعره ورمز."
 
-#. Description of a DocType
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
-msgid "A piece of a document, a message or a record, and where it points in meaning, so a search finds what is meant."
-msgstr "جزء من مستند أو رسالة أو سجل، واتجاه معناه، حتى يجد البحث ما يُقصد."
-
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:12
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
 #: onedesk/one/doctype/weather_place/weather_place.json
-msgid "A place whose weather One shows: on screens and beside the clock. The first a day is free; each other costs five credits a day it is shown."
-msgstr "مكان يعرض One طقسه: على الشاشات وبجانب الساعة. أول مكان في اليوم مجاني، وكل مكان آخر يكلّف خمس أرصدة عن كل يوم يُعرض فيه."
+msgid "A place to show weather for, on screens and next to the clock. One place is free, each extra place uses 5 credits a day."
+msgstr "مكان يُعرض طقسه على الشاشات وبجانب الساعة. مكان واحد مجاني، وكل مكان إضافي يستهلك 5 أرصدة يومياً."
 
 #: onedesk/one_slide/doctype/presentation/presentation.json
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
@@ -1423,15 +1410,17 @@ msgstr "ردّ على {0}"
 msgid "A report saved here is a list's Report view, saved under a name."
 msgstr "التقرير المحفوظ هنا هو عرض «تقرير» لقائمة، محفوظ باسم."
 
+#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
+msgid "A request for files from a person. Uploaded files go to a folder or a record."
+msgstr "طلب ملفات من شخص. تُحفظ الملفات المرفوعة في مجلد أو سجل."
+
+#: onedesk/one_ai/doctype/reading_ask/reading_ask.json
+msgid "A request in a document for a person to do something."
+msgstr "طلب في مستند من شخص للقيام بأمر ما."
+
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:53
 msgid "A request that fills record fields can go to one person only."
 msgstr "الطلب الذي يملأ حقول السجل يُرسَل إلى شخص واحد فقط."
-
-#. Description of the 'Idempotency Key' (Data) field in DocType 'Credit Ledger
-#. Entry'
-#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-msgid "A retried webhook meets this index rather than a check somebody remembered to write."
-msgstr "يصطدم الويب هوك المُعاد بهذا الفهرس بدل فحص تذكّر أحدهم كتابته."
 
 #: onedesk/one/access.py:627 onedesk/public/js/one/access_center.js:448
 #: onedesk/public/js/one/role_matrix.js:70
@@ -1514,6 +1503,10 @@ msgstr "تخفيضات بأحرف كبيرة مع رمز."
 msgid "A sale you are working on, what it is worth and how far it has got."
 msgstr "صفقة تعمل عليها، وقيمتها وإلى أين وصلت."
 
+#: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json
+msgid "A saved version of a document, either named by a user or created automatically while editing."
+msgstr "نسخة محفوظة من مستند، إما سمّاها مستخدم أو أُنشئت تلقائياً أثناء التحرير."
+
 #: onedesk/one_studio/extensions.py:139
 msgid "A scheduled extension runs at most once an hour."
 msgstr "الإضافة المجدولة تعمل مرة واحدة في الساعة على الأكثر."
@@ -1566,9 +1559,13 @@ msgstr "رسالة صوتية قصيرة تُشغَّل في منطقة صوت."
 msgid "A signup from the public sign-up page."
 msgstr "تسجيل من صفحة التسجيل العامة."
 
-#: onedesk/one/news/__init__.py:450
-msgid "A source is fetched at most {0} times a day."
-msgstr "يُجلب المصدر {0} مرات في اليوم على الأكثر."
+#: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
+msgid "A single saved edit to a workbook, with each changed cell's value before and after. Used by version history."
+msgstr "تعديل واحد محفوظ على مصنف، مع قيمة كل خلية متغيرة قبله وبعده. يستخدمه سجل النسخ."
+
+#: onedesk/one/news/fetching.py:298
+msgid "A source can be fetched at most {0} times a day."
+msgstr "يمكن جلب المصدر {0} مرات في اليوم كحد أقصى."
 
 #: onedesk/one_studio/places.py:318
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
@@ -1732,11 +1729,6 @@ msgstr "يُرسل الويب هوك عبر https."
 #: onedesk/one_display/starters.py:1193
 msgid "A welcome for visitors, in large letters."
 msgstr "ترحيب بالزوار بأحرف كبيرة."
-
-#. Description of a DocType
-#: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
-msgid "A workbook as it stood at one point in its history, whole: taken as it is saved, kept thinner as it ages, and kept for ever once somebody names it."
-msgstr "المصنف كاملًا كما كان في لحظة من تاريخه: يُلتقط عند الحفظ، ويُخفَّف كلما تقادم، ويُحفظ إلى الأبد متى أطلق عليه أحد اسمًا."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:921
 msgid "A workspace address such as sales@, whose users you add once it's connected."
@@ -2990,6 +2982,10 @@ msgstr "تمت إضافة مهمة واحدة"
 msgid "Added Since"
 msgstr "المضاف منذ"
 
+#: onedesk/one_ai/doctype/reading/reading.json
+msgid "Added before OneAI was turned on. Filed and searchable, but not acted on."
+msgstr "أُضيف قبل تشغيل OneAI. مؤرشف وقابل للبحث، لكن لا يُتخذ بشأنه أي إجراء."
+
 #: onedesk/public/js/one_account/account_center.js:1029
 msgid "Added to OneBook as a draft bill."
 msgstr "أُضيفت إلى OneBook كفاتورة مشتريات مسودة."
@@ -4170,6 +4166,10 @@ msgstr "تعمل الإضافة على الشاشة أو على الخادم."
 #: onedesk/one_project/library/small_building_works.json
 msgid "An extension, a villa renovation or a small new building."
 msgstr "توسعة أو تجديد فيلا أو مبنى جديد صغير."
+
+#: onedesk/one_ai/doctype/identifier/identifier.json
+msgid "An identifier for a person or organisation, for example an email, phone number or IBAN, and the record it belongs to."
+msgstr "معرّف لشخص أو جهة، مثل بريد إلكتروني أو رقم هاتف أو IBAN، والسجل الذي ينتمي إليه."
 
 #: onedesk/one_hr/home.py:165
 msgid "An incentive paid with the next payroll."
@@ -6442,6 +6442,10 @@ msgstr "الراتب الأساسي"
 msgid "Base URL"
 msgstr ""
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Base domain for workspace addresses. Example: t.4dl.app"
+msgstr "النطاق الأساسي لعناوين مساحات العمل. مثال: t.4dl.app"
+
 #. Label in the One Leave Policy Assignment print format
 #: onedesk/one_hr/print_format/one_leave_policy_assignment/one_leave_policy_assignment.json
 #: onedesk/public/js/one/access_center.js:383
@@ -6781,10 +6785,6 @@ msgstr "نسخة تجريبية مع مستخدمين حقيقيين"
 #: frontend/src/sheet/components/SheetEditor/index.vue:4854
 msgid "Between"
 msgstr "بين"
-
-#: onedesk/one_display/widgets.py:81
-msgid "Between Items"
-msgstr "بين العناصر"
 
 #: frontend/src/display/Layout.vue:179
 #: onedesk/one_display/doctype/display_widget/display_widget.json
@@ -7654,8 +7654,8 @@ msgid "By Category"
 msgstr "حسب الفئة"
 
 #: onedesk/one_display/doctype/display_source/display_source.json
-msgid "By Category keeps a category's headlines together, for a ticker that shows its categories."
-msgstr "يُبقي خيار «حسب الفئة» عناوين كل فئة معاً، لشريط إخباري يعرض فئاته."
+msgid "By Category keeps each category's headlines together."
+msgstr "«حسب الفئة» يُبقي عناوين كل فئة معاً."
 
 #: frontend/src/inventory/home/InventoryStory.vue:15
 msgid "By Item Group"
@@ -7698,11 +7698,6 @@ msgstr "بالساعة"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:278
 msgid "By {0}"
 msgstr "بواسطة {0}"
-
-#. Description of the 'Amount' (Long Int) field in DocType 'Tenant Event'
-#: onedesk/one_admin/doctype/tenant_event/tenant_event.json
-msgid "Bytes held, on an Over Storage row, so the next is written only when it moves."
-msgstr "البايتات المخزنة في سطر تجاوز التخزين، ليُكتب التالي فقط عندما تتغير."
 
 #. Description of the 'Pending' (Long Int) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
@@ -8707,11 +8702,9 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 msgid "Checklist"
 msgstr "قائمة التحقق"
 
-#. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
-#. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Checkout and webhook credentials. The webhook secret is required; signature checks fail without it."
-msgstr "بيانات الدفع والـ webhook. سر الـ webhook مطلوب، وبدونه يفشل فحص التوقيع."
+msgid "Checkout and webhook credentials. Webhook signature checks fail without the webhook secret."
+msgstr "بيانات اعتماد الدفع والـ webhook. يفشل التحقق من توقيع الـ webhook دون سرّه."
 
 #. Label of the gates_tab (Tab Break) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -8815,6 +8808,10 @@ msgstr "اختر قالبًا من القائمة."
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
+
+#: onedesk/one/announcements.py:135
+msgid "Choose announcements or news."
+msgstr "اختر الإعلانات أو الأخبار."
 
 #: onedesk/public/js/one/role_matrix.js:107
 msgid "Choose at least one role."
@@ -9592,6 +9589,10 @@ msgstr "فاصلة"
 msgid "Comma-separated times of day, in 24-hour time."
 msgstr "أوقات من اليوم مفصولة بفواصل، بنظام 24 ساعة."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Comma-separated, in the workspace's time zone."
+msgstr "مفصولة بفواصل، بالمنطقة الزمنية لمساحة العمل."
+
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Comma-separated. Example: USD, EUR, GBP"
 msgstr "مفصولة بفواصل. مثال: USD, EUR, GBP"
@@ -9887,6 +9888,10 @@ msgstr "عرض التصميم المبدئي على العميل"
 msgid "Condition"
 msgstr "الشرط"
 
+#: onedesk/one_task/doctype/task_step/task_step.json
+msgid "Condition, written by OneAI, that completes this step automatically. Leave empty to complete it by hand."
+msgstr "شرط يكتبه OneAI لإكمال هذه الخطوة تلقائياً. اتركه فارغاً لإكمالها يدوياً."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:258
 #: frontend/src/sheet/components/SheetEditor/index.vue:1134
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:70
@@ -9900,12 +9905,6 @@ msgstr "تنسيق شرطي…"
 #: onedesk/one/ai.py:3756 onedesk/public/js/one/notification_center.js:471
 msgid "Conditions"
 msgstr ""
-
-#. Description of the 'Shown When' (Small Text) field in DocType 'Record Head
-#. Chart'
-#: onedesk/one/doctype/record_head_chart/record_head_chart.json
-msgid "Conditions on the record, as frappe filters. Empty is always."
-msgstr "شروط على السجل، كمرشحات فرابي. الفارغ يعني دائمًا."
 
 #. Label of the floor (Percent) field in DocType 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json
@@ -11546,6 +11545,10 @@ msgstr "قائمة مالية مخصصة"
 msgid "Custom Hostname ID"
 msgstr "معرّف اسم المضيف المخصص"
 
+#: onedesk/one_display/widgets.py:67
+msgid "Custom Separator"
+msgstr "فاصل مخصص"
+
 #: frontend/src/writer/components/SpacingDialog.vue:9
 #: frontend/src/writer/components/core-editor/menu-buttons.js:163
 msgid "Custom Spacing"
@@ -11843,6 +11846,10 @@ msgstr "ملحق معالجة البيانات"
 #: frontend/src/sheet/components/SheetEditor/index.vue:5004
 msgid "Data bars"
 msgstr "أشرطة البيانات"
+
+#: onedesk/one_ai/doctype/reading/reading.json
+msgid "Data extracted from the file. Example: e-invoice lines, bank statement rows or email headers."
+msgstr "بيانات مستخرجة من الملف. مثال: بنود فاتورة إلكترونية أو صفوف كشف حساب أو ترويسات بريد."
 
 #: frontend/src/slide/shim/DataDialog.vue:5
 #: frontend/src/slide/shim/EditorNavbar.vue:149
@@ -15796,11 +15803,6 @@ msgstr "إفراغ سلة المحذوفات"
 msgid "Empty Recycle Bin? Everything in it is deleted permanently."
 msgstr "إفراغ سلة المحذوفات؟ سيُحذف كل ما فيها نهائيًا."
 
-#. Description of the 'Record' (Data) field in DocType 'AI Proposal'
-#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
-msgid "Empty for a new record."
-msgstr "فارغ لسجل جديد."
-
 #: onedesk/public/js/one_ai/ai_center.js:223
 msgid "Empty for everything."
 msgstr "اتركه فارغًا ليشمل كل شيء."
@@ -15808,12 +15810,6 @@ msgstr "اتركه فارغًا ليشمل كل شيء."
 #: onedesk/public/js/item_actions.js:275
 msgid "Empty is the item's own unit."
 msgstr "إن تُرك فارغًا فهو وحدة الصنف نفسها."
-
-#. Description of the 'Drawn From' (Link) field in DocType 'Credit Ledger
-#. Entry'
-#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-msgid "Empty on a spend that overdrew and belongs to no grant."
-msgstr "فارغ عند إنفاق تجاوز الرصيد ولا ينتمي إلى أي منحة."
 
 #: onedesk/public/js/one_account/account_center.js:516
 msgid "Enable"
@@ -16724,6 +16720,10 @@ msgstr "مثال: A"
 msgid "Example: Score, Count or Price. Leave empty if items only have a state."
 msgstr "مثال: النتيجة أو العدد أو السعر. اتركه فارغًا إذا كان للعناصر حالة فقط."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Example: construction and building materials news."
+msgstr "مثال: أخبار البناء ومواد البناء."
+
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Example: modified desc"
 msgstr "مثال: modified desc"
@@ -17405,6 +17405,10 @@ msgstr "موجز"
 msgid "Feed Address"
 msgstr "عنوان الخلاصة"
 
+#: onedesk/one/doctype/news_source/news_source.py:32
+msgid "Feed Address must start with https://."
+msgstr "يجب أن يبدأ عنوان الخلاصة بـ https://."
+
 #: onedesk/one/doctype/news_item/news_item.json
 msgid "Feed ID"
 msgstr "معرّف الخلاصة"
@@ -17458,13 +17462,17 @@ msgstr "اجلب الآن"
 msgid "Fetch Overtime Details"
 msgstr "جلب تفاصيل العمل الإضافي"
 
+#: onedesk/one/news/fetching.py:132
+msgid "Fetch failed. It will be retried automatically."
+msgstr "فشل الجلب. ستُعاد المحاولة تلقائياً."
+
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Fetching"
 msgstr "الجلب"
 
 #: onedesk/one/doctype/news_source/news_source.js:11
-msgid "Fetching. Its items arrive in a moment."
-msgstr "جارٍ الجلب. تصل عناصره بعد لحظات."
+msgid "Fetching news. New items will appear shortly."
+msgstr "جارٍ جلب الأخبار. ستظهر العناصر الجديدة قريباً."
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label of the field (Data) field in DocType 'Record Head Band'
@@ -17678,11 +17686,6 @@ msgstr "تُحفظ الملفات في مجلد جديد داخل {0}."
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "Files asked for"
 msgstr "الملفات المطلوبة"
-
-#. Description of a DocType
-#: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
-msgid "Files asked of somebody, by name, each landing in a folder or on a record."
-msgstr "ملفات مطلوبة من شخص ما بأسمائها، يصل كل منها إلى مجلد أو سجل."
 
 #: onedesk/one_admin/log.py:20
 msgid "Files deleted"
@@ -18222,6 +18225,10 @@ msgstr "لا يمكن أن يحتوي اسم المجلد على {0}."
 msgid "Folder name must be 1 to 100 characters."
 msgstr "يجب أن يتكون اسم المجلد من 1 إلى 100 حرف."
 
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Folder name on the mail server."
+msgstr "اسم المجلد على خادم البريد."
+
 #: onedesk/one_ai/reading/switches.py:49
 msgid "Folder {0} not found"
 msgstr "المجلد {0} غير موجود"
@@ -18430,10 +18437,6 @@ msgstr "مثلًا: مبيعات أول."
 msgid "For example, a thank-you line."
 msgstr "مثلًا: سطر شكر."
 
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "For example, business news that a building company would care about."
-msgstr "مثلاً، أخبار الأعمال التي تهم شركة بناء."
-
 #: frontend/src/slide/shim/EffectsSection.vue:22
 msgid "For example: border-radius: 24px; mix-blend-mode: multiply"
 msgstr "مثال: border-radius: 24px; mix-blend-mode: multiply"
@@ -18445,8 +18448,8 @@ msgid "For new projects"
 msgstr "للمشاريع الجديدة"
 
 #: onedesk/one/doctype/news_source/news_source.json
-msgid "For previewing only, since showing other publishers' articles may need their licence. One fetches it a few times a day."
-msgstr "للمعاينة فقط، إذ قد يتطلب عرض مقالات ناشرين آخرين ترخيصاً منهم. يجلبها One بضع مرات في اليوم."
+msgid "For preview only. Showing these headlines publicly may require each publisher's permission."
+msgstr "للمعاينة فقط. قد يتطلب عرض هذه العناوين علناً إذن كل ناشر."
 
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:35
@@ -19658,6 +19661,10 @@ msgstr "تقويم Google"
 msgid "Google News"
 msgstr "Google News"
 
+#: onedesk/one/news/fetching.py:176
+msgid "Google News is turned off. Turn it on in TrustCenter."
+msgstr "أخبار Google متوقفة. شغّلها من TrustCenter."
+
 #. Label of the ladder_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
@@ -19871,6 +19878,10 @@ msgstr "المجموعة {0}"
 #: frontend/src/kit/People.vue:72 onedesk/public/js/one/access_center.js:322
 msgid "Groups"
 msgstr "مجموعات"
+
+#: onedesk/one/doctype/news_category/news_category.json
+msgid "Groups news by topic, for example Business or Sports. Tickers can show the category name and colour next to each headline."
+msgstr "تجمع الأخبار حسب الموضوع، مثل الأعمال أو الرياضة. يمكن للأشرطة عرض اسم الفئة ولونها بجانب كل عنوان."
 
 #: onedesk/one_book/home.py:384
 msgid "Groups of customers and suppliers taxed alike."
@@ -20105,6 +20116,10 @@ msgstr "هل وقعت هذه الإضافة في أخطاء مؤخرًا، وم�
 msgid "Has this one run into errors?"
 msgstr "هل وقعت هذه في أخطاء؟"
 
+#: onedesk/one_ai/doctype/reading/reading.json
+msgid "Hash of the content. The same file is read only once."
+msgstr "بصمة المحتوى. يُقرأ الملف نفسه مرة واحدة فقط."
+
 #: onedesk/public/js/one_mail/rule_builder.js:276
 msgid "Have OneAI write a reply that follows"
 msgstr "اجعل OneAI يكتب ردًا يتبع"
@@ -20195,10 +20210,6 @@ msgstr "العناوين في كل تشغيل"
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Headlines from the workspace's News Sources, newest first. A source is added under One › News."
 msgstr "عناوين من مصادر أخبار مساحة العمل، الأحدث أولاً. يُضاف المصدر من One › الأخبار."
-
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Headlines matching these words, in place of the topic."
-msgstr "عناوين تطابق هذه الكلمات، بدلاً من الموضوع."
 
 #. Label of the one_health (Select) field in DocType 'Project'
 #. Label of the one_health (Select) field in DocType 'Project User'
@@ -20369,6 +20380,10 @@ msgstr "مخفي"
 #: onedesk/one_portal/custom/supplier_quotation.json
 msgid "Hidden From Contacts"
 msgstr "مخفي عن جهات الاتصال"
+
+#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
+msgid "Hidden folders only repeat other folders or contain no mail. Example: Gmail's All Mail."
+msgstr "المجلدات المخفية تكرر مجلدات أخرى أو لا تحتوي بريداً. مثال: «كل البريد» في Gmail."
 
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
@@ -20967,10 +20982,6 @@ msgstr "كم عنصرًا في كل حالة، وكل العناصر تحتها.
 msgid "How many of each bundle the stock can make up."
 msgstr "كم حزمة من كل نوع يمكن تكوينها من المخزون."
 
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "How many of its newest items are kept. Older ones are deleted as new ones arrive; 0 keeps them all."
-msgstr "عدد أحدث العناصر التي تُحفظ. تُحذف الأقدم مع وصول الجديدة، و0 يحفظها كلها."
-
 #: onedesk/one_inventory/home.py:202
 msgid "How many of one unit make another."
 msgstr "كم من وحدة يساوي وحدة أخرى."
@@ -21321,6 +21332,10 @@ msgstr "إذا وافقت على هذا الطلب، ما الذي يُحذف، 
 msgid "If a payment went through, the receipt is in your email and somebody will be in touch."
 msgstr "إن تمت دفعة، فالإيصال في بريدك وسيتواصل معك أحد."
 
+#: onedesk/one_ai/doctype/reading_ask/reading_ask.json
+msgid "If checked, the writer commits to doing this, rather than asking someone else."
+msgstr "عند التحديد، يلتزم الكاتب بفعل ذلك بدلاً من طلبه من غيره."
+
 #. Description of the 'allow_geolocation_tracking' field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -21383,9 +21398,21 @@ msgstr "عند التفعيل، تبقى الملفات التي لا تطابق
 msgid "If enabled, no drafts are made and Spending shows what was bought."
 msgstr "عند التفعيل، لا تُنشأ مسودات ويعرض الإنفاق ما اشتُري."
 
+#: onedesk/one_storage/doctype/cloud_link/cloud_link.json
+msgid "If enabled, people with the link can upload files to the folder."
+msgstr "عند التفعيل، يمكن لمن لديه الرابط رفع ملفات إلى المجلد."
+
+#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
+msgid "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
+msgstr "عند التفعيل، تُقرأ أيضاً المسوحات والصور المرفقة بالسجلات نيابةً عن المستخدم الذي أرفقها."
+
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "If enabled, the slide fills the screen and is cropped to fit."
 msgstr "عند التفعيل، تملأ الشريحة الشاشة وتُقص لتناسبها."
+
+#: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
+msgid "If enabled, this reason is offered on Attendance Requests."
+msgstr "عند التفعيل، يُعرض هذا السبب في طلبات الحضور."
 
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "If enabled, this row is skipped."
@@ -21418,6 +21445,14 @@ msgstr "عند الإيقاف، لا يمكن لأحد سؤال OneAI ولا ت�
 #: onedesk/public/js/one_ai/ai_center.js:113
 msgid "If off, nothing new is read and Documents keeps what it holds."
 msgstr "عند الإيقاف، لا يُقرأ شيء جديد وتحتفظ المستندات بما فيها."
+
+#: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
+msgid "If set, OneAI is given this note on that document type's list and form. Leave empty to let OneAI look it up when needed."
+msgstr "عند التعيين، يُعطى OneAI هذه الملاحظة في قائمة ذلك النوع ونموذجه. اتركه فارغاً ليبحث عنها OneAI عند الحاجة."
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "If set, shows headlines matching these words instead of the topic."
+msgstr "عند التعيين، تُعرض العناوين المطابقة لهذه الكلمات بدلاً من الموضوع."
 
 #: onedesk/www/s.py:21
 msgid "If this address was invited, a code has been sent to it."
@@ -22334,11 +22369,6 @@ msgstr "مقابلات اليوم"
 msgid "Into"
 msgstr "إلى"
 
-#. Description of the 'Can upload' (Check) field in DocType 'Cloud Link'
-#: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-msgid "Into a folder, for somebody sending you files."
-msgstr "إلى مجلد، لشخص يرسل إليك ملفات."
-
 #: onedesk/one_project/money.py:192
 msgid "Into the Store"
 msgstr "إلى المخزن"
@@ -22821,14 +22851,6 @@ msgstr "البلاغات المفتوحة والمردود عليها والمح
 msgid "Issuing Country"
 msgstr "بلد الإصدار"
 
-#: onedesk/public/js/one_mail/onemail_settings.js:976
-msgid "It appears in their mailboxes once connected."
-msgstr "يظهر في صناديق بريدهم بمجرد ربطه."
-
-#: onedesk/public/js/doctype_settings.js:767
-msgid "It becomes required and unique."
-msgstr "يصبح إلزاميًا وفريدًا."
-
 #: onedesk/one_studio/heads.py:37
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr "لا يمكن تشغيلها هنا بعد: مساحة العمل هذه لا تشغّل الإضافات على الخادم. اطلب منا تفعيلها."
@@ -22944,10 +22966,6 @@ msgstr "أصبحت تكلفته {monthly} شهريًا."
 #: onedesk/one_doc/tour.py:24
 msgid "It saves itself as you write, and selected words can be commented on in the margin."
 msgstr "يُحفظ تلقائيًا أثناء الكتابة، ويمكن التعليق على الكلمات المحددة في الهامش."
-
-#: onedesk/public/js/one_legal/trust_center.js:295
-msgid "It sends somewhere new, so it waits for an administrator to agree."
-msgstr "يُرسل إلى جهة جديدة، لذا ينتظر موافقة مسؤول."
 
 #. Message of a notification
 #: onedesk/one_hr/notifications.py
@@ -23326,10 +23344,6 @@ msgstr "الأصناف"
 msgid "Items and prices with a code to see more."
 msgstr "عناصر وأسعار مع رمز لمعرفة المزيد."
 
-#: onedesk/one/doctype/news_item/news_item.py:12
-msgid "Items are written only for a Written source. The others fetch their own."
-msgstr "تُكتب العناصر لمصدر مكتوب فقط. أما المصادر الأخرى فتجلب عناصرها بنفسها."
-
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
 msgid "Items below their reorder level have no request to buy them. Check their reorder settings and default supplier."
@@ -23338,6 +23352,10 @@ msgstr "أصناف دون حدّ إعادة الطلب ليس لها طلب شر
 #: frontend/src/inventory/lots/LotsPage.vue:7
 msgid "Items can't be kept in batches or by Serial No yet."
 msgstr "لا يمكن حفظ الأصناف في دفعات أو بالرقم التسلسلي بعد."
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Items to Keep"
+msgstr "العناصر المحفوظة"
 
 #: onedesk/one_inventory/home.py:169
 msgid "Items wanted beyond what is on hand."
@@ -23355,10 +23373,6 @@ msgstr "استيراد الأصناف والعملاء والموردين"
 #: onedesk/one_inventory/tour.py:13
 msgid "Items, warehouses, what is ordered and received, the workshop and the company's equipment."
 msgstr "الأصناف والمستودعات، وما طُلب وما استُلم، والورشة، ومعدات الشركة."
-
-#: onedesk/one/doctype/news_source/news_source.js:15
-msgid "Its Items"
-msgstr "عناصره"
 
 #: onedesk/one_mail/ai.py:776
 msgid "Its Mail"
@@ -23379,24 +23393,10 @@ msgstr "حقولها الآن: {fields}."
 msgid "Its interviewers"
 msgstr "المُقابِلون فيها"
 
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Its logo comes from here. A feed fills it in."
-msgstr "يأتي شعاره من هنا. تملؤه الخلاصة تلقائياً."
-
 #. Message of a notification
 #: onedesk/one_mail/notifications.py
 msgid "Its mail is in OneMail now, beside your own, and you can reply from it."
 msgstr "بريده في OneMail الآن، بجانب بريدك، ويمكنك الرد منه."
-
-#. Description of the 'Server' (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
-msgid "Its name in Frappe Cloud, for example u25-nuremberg-3.frappe.cloud."
-msgstr "اسمه في Frappe Cloud، مثل u25-nuremberg-3.frappe.cloud."
-
-#. Description of the 'Path' (Data) field in DocType 'Mail Folder'
-#: onedesk/one_mail/doctype/mail_folder/mail_folder.json
-msgid "Its name on the server, as the server spells it."
-msgstr "اسمه على الخادم، كما يكتبه الخادم."
 
 #: onedesk/one_project/tour.py:20
 msgid "Its name, status and health, with the facts its kind needs; click the name or the status to change it."
@@ -23429,12 +23429,6 @@ msgstr "أشخاصها وتطبيقاتها ومساحتها ورصيد OneAI، 
 #: onedesk/one_hr/notifications.py
 msgid "Its reviewers"
 msgstr "مراجعوه"
-
-#. Description of the 'Per Workspace' (Currency) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Its site on Frappe Cloud at the smallest size, and its mail."
-msgstr "موقعها على Frappe Cloud بأصغر حجم، وبريدها."
 
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
@@ -24097,10 +24091,6 @@ msgstr "آخر مسير رواتب"
 msgid "Last Price"
 msgstr "آخر سعر"
 
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Last Problem"
-msgstr "آخر مشكلة"
-
 #: onedesk/one_book/heads.py:235 onedesk/one_book/heads.py:715
 msgid "Last Purchase Invoice"
 msgstr "آخر فاتورة شراء"
@@ -24193,6 +24183,10 @@ msgstr "آخر احتساب"
 msgid "Last active {0}"
 msgstr "آخر نشاط {0}"
 
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Last day this grant can be used. Leave empty for no expiry."
+msgstr "آخر يوم يمكن فيه استخدام هذه المنحة. اتركه فارغاً لعدم الانتهاء."
+
 #. Label of the last_opened (Datetime) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 msgid "Last opened"
@@ -24280,6 +24274,10 @@ msgstr "آخر نداء"
 #: onedesk/one_display/widgets.py:349
 msgid "Latest News"
 msgstr "آخر الأخبار"
+
+#: onedesk/one_display/widgets.py:75
+msgid "Latest headlines from your News Sources, with image, summary and publisher."
+msgstr "أحدث العناوين من مصادر أخبارك، مع الصورة والملخص والناشر."
 
 #: frontend/src/slide/shim/WidgetMock.vue:12
 msgid "Latest news"
@@ -24598,6 +24596,10 @@ msgstr "الإجازة السنوية"
 #: onedesk/one_hr/home.py:120
 msgid "Leave asked for, and its answer."
 msgstr "إجازة مطلوبة وردّها."
+
+#: onedesk/one_hr/doctype/employee_document/employee_document.json
+msgid "Leave empty for documents that do not expire. Example: a birth certificate."
+msgstr "اتركه فارغاً للمستندات التي لا تنتهي. مثال: شهادة الميلاد."
 
 #: onedesk/public/js/tenant.js:50
 msgid "Leave empty for no expiry."
@@ -27297,6 +27299,10 @@ msgstr "المراجعة الشهرية"
 msgid "Monthly Salary"
 msgstr "الراتب الشهري"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Monthly cost of one workspace's Frappe Cloud site at the smallest size, including mail."
+msgstr "التكلفة الشهرية لموقع مساحة عمل واحدة على Frappe Cloud بأصغر حجم، شاملة البريد."
+
 #: onedesk/one_admin/topup.py:99
 msgid "Monthly credit for {0}"
 msgstr "رصيد شهر {0}"
@@ -29138,8 +29144,8 @@ msgid "No family by that name."
 msgstr "لا توجد عائلة خطوط بهذا الاسم."
 
 #: onedesk/one/doctype/news_source/news_source_list.js:50
-msgid "No feed matches."
-msgstr "لا توجد خلاصة مطابقة."
+msgid "No feeds found."
+msgstr "لم يُعثر على خلاصات."
 
 #: frontend/src/writer/shim/FieldDialog.vue:18
 msgid "No field matches."
@@ -30178,6 +30184,10 @@ msgstr "لا يُرسل"
 msgid "Not set"
 msgstr "غير محدد"
 
+#: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
+msgid "Not set for a new record."
+msgstr "غير محدد لسجل جديد."
+
 #: onedesk/public/js/admin_settings.js:34
 msgid "Not set up yet"
 msgstr "لم يُعدّ بعد"
@@ -30908,11 +30918,6 @@ msgstr "يُعرض من معتمد طلبات المناوبة الخاص بال
 msgid "Offered to employees on check out."
 msgstr "يُعرض على الموظفين عند تسجيل الانصراف."
 
-#. Description of the 'Enabled' (Check) field in DocType 'Attendance Reason'
-#: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json
-msgid "Offered when somebody raises an Attendance Request."
-msgstr "يُعرض عند تقديم طلب حضور."
-
 #. Name of a DocType
 #: onedesk/one_admin/doctype/offering/offering.json
 #: onedesk/one_admin/report/price_check/price_check.py:95
@@ -30955,6 +30960,10 @@ msgstr "تسليم المكتب القديم"
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Old system closed"
 msgstr "إغلاق النظام القديم"
+
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Older items are deleted when new ones arrive. Set to 0 to keep all items."
+msgstr "تُحذف العناصر الأقدم عند وصول عناصر جديدة. اضبطه على 0 للاحتفاظ بكل العناصر."
 
 #: onedesk/one/ai.py:3544 onedesk/one/ai.py:3759 onedesk/one/rights.py:261
 #: onedesk/one_ai/chat.py:698 onedesk/one_doc/ai.py:136
@@ -31048,10 +31057,9 @@ msgstr "قيد الطلب"
 msgid "On Screen"
 msgstr "على الشاشة"
 
-#. Description of the 'Runs' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
-msgid "On Screen runs in the browser of whoever opens the record. On Server runs when the record is saved, whoever saves it."
-msgstr "\"على الشاشة\" تعمل في متصفح من يفتح السجل. \"على الخادم\" تعمل عند حفظ السجل أياً كان من يحفظه."
+msgid "On Screen runs in the browser of the user who opens the record. On Server runs when the record is saved."
+msgstr "«على الشاشة» يعمل في متصفح من يفتح السجل. «على الخادم» يعمل عند حفظ السجل."
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
 #: onedesk/one_studio/doctype/extension/extension.json
@@ -31411,11 +31419,6 @@ msgstr "تكاليف مركز تكلفة موزعة على غيره."
 msgid "One dish with a picture and its price."
 msgstr "طبق واحد مع صورة وسعره."
 
-#. Description of a DocType
-#: onedesk/one_sheet/doctype/workbook_change/workbook_change.json
-msgid "One edit to a workbook, in the order it was saved: what it touched, and what each cell was before and after. History reads it; nobody opens one."
-msgstr "تعديل واحد على مصنف، بترتيب حفظه: ما الذي مسّه، وما كانت عليه كل خلية قبله وبعده. يقرؤه السجل؛ ولا يفتحه أحد."
-
 #: onedesk/public/js/one_account/account_center.js:905
 msgid "One file with the database, every record as a spreadsheet, and all files."
 msgstr "ملف واحد يضم قاعدة البيانات وكل سجل كجدول بيانات وجميع الملفات."
@@ -31424,10 +31427,6 @@ msgstr "ملف واحد يضم قاعدة البيانات وكل سجل كجد�
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "One folder of a mailbox, and how far it has been read."
 msgstr "مجلد واحد من صندوق بريد، وإلى أي حد قُرئ."
-
-#: onedesk/one/doctype/news_item/news_item.json
-msgid "One headline from a News Source. Items from a feed arrive on their own; a Written source's items are the ones you write."
-msgstr "عنوان واحد من مصدر أخبار. تصل عناصر الخلاصة تلقائياً، وعناصر المصدر المكتوب هي ما تكتبه أنت."
 
 #: onedesk/one_slide/decks.py:158
 msgid "One line on what it is about"
@@ -31487,6 +31486,10 @@ msgstr "شخص واحد"
 msgid "One piece of news with a picture."
 msgstr "خبر واحد مع صورة."
 
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "One place is free. Each extra place uses 5 credits a day."
+msgstr "مكان واحد مجاني. كل مكان إضافي يستهلك 5 أرصدة يومياً."
+
 #: onedesk/public/js/item_new.js:7
 msgid "One product in several versions."
 msgstr "منتج واحد بعدة نسخ."
@@ -31527,11 +31530,6 @@ msgstr "أمر واحد فعله OneAI أو اقترحه بمستند، وما �
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
 msgstr "رمز واحد لكل Cloudflare. يملأ إعداد Cloudflare بقية هذا القسم وقسم التخزين منه."
-
-#. Description of a DocType
-#: onedesk/one_ai/doctype/identifier/identifier.json
-msgid "One way of telling who somebody is, and the record it belongs to."
-msgstr "طريقة لمعرفة من هو شخص ما، والسجل الذي تخصه."
 
 #: onedesk/one_admin/heads.py:451
 msgid "One workspace has this"
@@ -31824,8 +31822,8 @@ msgid "OneAI says whether the sender is upset or in a hurry, and someone is told
 msgstr "يقول OneAI إن كان المرسل منزعجًا أو مستعجلًا، ويُبلَّغ شخص بذلك."
 
 #: onedesk/one/doctype/news_source/news_source.json
-msgid "OneAI searches the web with Google and writes the headlines it finds. Each run costs credits, so it runs at the times you set."
-msgstr "يبحث OneAI في الويب عبر Google ويكتب العناوين التي يجدها. كل تشغيل يكلّف أرصدة، لذا يعمل في الأوقات التي تحددها."
+msgid "OneAI searches the web and writes headlines from what it finds. Each run uses credits."
+msgstr "يبحث OneAI في الويب ويكتب عناوين مما يجده. كل تشغيل يستهلك أرصدة."
 
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
@@ -32202,8 +32200,8 @@ msgid "Only in {0}."
 msgstr "في {0} فقط."
 
 #: onedesk/public/js/one_mail/onemail_settings.js:634
-msgid "Only in {0}. Their role already allows {1}."
-msgstr "في {0} فقط. دوره يسمح أصلًا بـ {1}."
+msgid "Only in {0}. This user's role already allows {1}."
+msgstr "في {0} فقط. دور هذا المستخدم يسمح مسبقاً بـ {1}."
 
 #: onedesk/public/js/doctype_settings.js:692
 msgid "Only letters, digits, spaces and - / _ . # { } are allowed."
@@ -38923,10 +38921,9 @@ msgstr ""
 msgid "Rejected goods are not billed"
 msgstr "البضائع المرفوضة لا تُفوتر"
 
-#. Description of the 'Verdict' (Select) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-msgid "Rejected sets Skip Auto Attendance on the check-in, so it stops counting. Nothing is deleted."
-msgstr "الرفض يفعّل «تخطي الحضور التلقائي» على سجل الحضور فلا يُحتسب. ولا يُحذف أي شيء."
+msgid "Rejected sets Skip Auto Attendance on the check-in and excludes it from attendance. Nothing is deleted."
+msgstr "«مرفوض» يفعّل تخطي الحضور التلقائي على تسجيل الدخول ويستبعده من الحضور. لا يُحذف شيء."
 
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
@@ -41290,12 +41287,6 @@ msgstr "امسحه بتطبيق البنك"
 msgid "Scans and papers HR keeps for you. Add any here."
 msgstr "مستندات وأوراق تحفظها الموارد البشرية لك. أضف أيًّا منها هنا."
 
-#. Description of the 'Read Files Attached to Records' (Check) field in DocType
-#. 'Reading Settings'
-#: onedesk/one_ai/doctype/reading_settings/reading_settings.json
-msgid "Scans and photos attached on a form are read too, on behalf of whoever attached them."
-msgstr "تُقرأ أيضاً المستندات الممسوحة والصور المرفقة في نموذج، نيابةً عمّن أرفقها."
-
 #. Description of the 'Read Attachments' (Check) field in DocType 'Email
 #. Account'
 #: onedesk/one_ai/custom/email_account.json
@@ -41315,6 +41306,10 @@ msgstr "مبعثر"
 #: onedesk/public/js/project.js:14 onedesk/public/js/task_actions.js:5
 msgid "Schedule"
 msgstr "الجدول الزمني"
+
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "Schedule as a cron expression. Example: 0 8 * * 1-5 for 8 AM on weekdays."
+msgstr "الجدول كتعبير cron. مثال: 0 8 * * 1-5 للساعة 8 صباحاً في أيام العمل."
 
 #: onedesk/one_display/widgets.py:341
 msgid "Schedule for the Day"
@@ -41573,13 +41568,13 @@ msgstr "التمديدات النهائية والتركيبات"
 msgid "Seconds"
 msgstr "ثوانٍ"
 
-#: onedesk/one_display/widgets.py:97
-msgid "Seconds Each"
-msgstr "ثوانٍ لكلٍّ"
-
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json
 msgid "Seconds on Each Slide"
 msgstr "الثواني على كل شريحة"
+
+#: onedesk/one_display/widgets.py:82
+msgid "Seconds per Story"
+msgstr "ثوانٍ لكل خبر"
 
 #. Label of the auth (Data) field in DocType 'Push Device'
 #: onedesk/one/doctype/push_device/push_device.json
@@ -41944,6 +41939,10 @@ msgstr "المرسل ليس {0}"
 msgid "Sender's Domain"
 msgstr "نطاق المرسل"
 
+#: onedesk/public/js/one_mail/rule_builder.js:242
+msgid "Sender's Records"
+msgstr "سجلات المرسل"
+
 #: onedesk/www/r.html:65 onedesk/www/s.html:107
 msgid "Sending…"
 msgstr "جارٍ الإرسال…"
@@ -42240,6 +42239,10 @@ msgstr "خطأ في الخادم: {0}"
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:18
 msgid "Server is required."
 msgstr "الخادم مطلوب."
+
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json
+msgid "Server name in Frappe Cloud. Example: u25-nuremberg-3.frappe.cloud"
+msgstr "اسم الخادم في Frappe Cloud. مثال: u25-nuremberg-3.frappe.cloud"
 
 #: onedesk/one_storage/mounts.py:85
 msgid "Server {0} not found."
@@ -43177,6 +43180,10 @@ msgstr "عرض الملخص"
 msgid "Show Supplier Quotations to Decide"
 msgstr "عرض عروض أسعار الموردين للبت"
 
+#: onedesk/one_display/widgets.py:85
+msgid "Show Time"
+msgstr "إظهار الوقت"
+
 #: onedesk/one_display/widgets.py:85 onedesk/one_display/widgets.py:97
 msgid "Show Time in State"
 msgstr "إظهار المدة في الحالة"
@@ -43201,10 +43208,6 @@ msgstr "إظهار القيمة"
 #: onedesk/one_display/widgets.py:24
 msgid "Show Waiting Count"
 msgstr "إظهار عدد المنتظرين"
-
-#: onedesk/one_display/widgets.py:100
-msgid "Show When"
-msgstr "عرض الوقت"
 
 #: frontend/src/inventory/plant/PlantFloor.vue:177
 msgid "Show Workstations in Production"
@@ -43250,6 +43253,10 @@ msgstr "عرض الصور"
 #: frontend/src/slide/shim/MasterSection.vue:6
 msgid "Show the Master"
 msgstr "إظهار القالب الرئيسي"
+
+#: onedesk/one/doctype/record_head_chart/record_head_chart.json
+msgid "Show the chart only when the record matches these filters. Leave empty to always show it."
+msgstr "اعرض المخطط فقط عندما يطابق السجل هذه المرشحات. اتركه فارغاً لعرضه دائماً."
 
 #: frontend/src/project/Updates.vue:24
 msgid "Show {0} Earlier"
@@ -44007,6 +44014,10 @@ msgstr "حقول شريحة غير مقبولة: {0}"
 msgid "Slide in"
 msgstr "انزلاق"
 
+#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
+msgid "Slide type in the slide library. Example: Title or Timeline."
+msgstr "نوع الشريحة في مكتبة الشرائح. مثال: عنوان أو خط زمني."
+
 #: onedesk/one_slide/ai.py:381
 msgid "Slide {0}"
 msgstr "الشريحة {0}"
@@ -44293,11 +44304,6 @@ msgstr "أخطأ أحدهم في كلمة مرورك {0}. إن لم تكن أن�
 #: onedesk/public/js/one_mail/rule_builder.js:768
 msgid "Someone is unhappy with what they got or how they were treated."
 msgstr "شخص غير راضٍ عما حصل عليه أو عن طريقة معاملته."
-
-#. Description of a DocType
-#: onedesk/one_ai/doctype/reading_ask/reading_ask.json
-msgid "Something a document asks somebody to do."
-msgstr "شيء يطلب المستند من أحد أن يفعله."
 
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
@@ -44847,6 +44853,10 @@ msgstr "يبدأ عند التسجيل"
 #: onedesk/public/js/onecloud_dialogs.js:291
 msgid "Starts with https://"
 msgstr "يبدأ بـ https://"
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Starts with pk_live_ or pk_test_. Used by checkout pages and safe to expose."
+msgstr "يبدأ بـ pk_live_ أو pk_test_. تستخدمه صفحات الدفع ويمكن كشفه بأمان."
 
 #: onedesk/public/js/one/access_center.js:387
 #: onedesk/public/js/one/role_matrix.js:133
@@ -45523,18 +45533,22 @@ msgstr "التخزين ممتلئ: تُرفض الملفات"
 msgid "Storage is nearly full"
 msgstr "التخزين شبه ممتلئ"
 
+#: onedesk/one_admin/doctype/tenant_event/tenant_event.json
+msgid "Storage used in bytes, for Over Storage events. A new event is recorded only when it changes."
+msgstr "التخزين المستخدم بالبايت لأحداث تجاوز التخزين. يُسجل حدث جديد فقط عند تغيّره."
+
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
 msgid "Store listings and screenshots"
 msgstr "صفحات المتجر ولقطات الشاشة"
 
+#: onedesk/one_ai/doctype/identifier/identifier.json
+msgid "Stored in a standard format. Example: an IBAN without spaces, or a phone number with its country code."
+msgstr "يُخزن بصيغة موحدة. مثال: IBAN دون مسافات، أو رقم هاتف مع رمز الدولة."
+
 #: onedesk/one_display/widgets.py:96
 msgid "Stories"
 msgstr "الأخبار"
-
-#: onedesk/one/doctype/news_item/news_item.json
-msgid "Story"
-msgstr "الخبر"
 
 #: frontend/src/slide/components/ShapeStyleSection.vue:119
 msgid "Straight"
@@ -45610,10 +45624,9 @@ msgstr "لم يستجب Stripe بخصوص {0}. حاول مرة أخرى بعد �
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr "لم يُضبط Stripe. اضبطه في إعدادات OneAdmin."
 
-#. Description of the 'Event ID' (Data) field in DocType 'Stripe Webhook Event'
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json
-msgid "Stripe's event id. Unique, so a repeated delivery is ignored."
-msgstr "معرّف حدث Stripe. فريد، فيُتجاهل التسليم المكرَّر."
+msgid "Stripe's event ID. Repeated deliveries of the same event are ignored."
+msgstr "معرّف حدث Stripe. يُتجاهل تكرار إرسال الحدث نفسه."
 
 #: onedesk/one_admin/heads.py:361
 msgid "Stripe's secret key"
@@ -46293,10 +46306,9 @@ msgstr "مُعطّلة، لذا لا يمكن لأي صنف أن يكون له �
 msgid "Synced"
 msgstr "متزامن"
 
-#. Description of the 'Backed Up' (Check) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
-msgid "Synced through iCloud Keychain or Google Password Manager, so it is also present on the employee's other devices."
-msgstr "متزامن عبر سلسلة مفاتيح iCloud أو مدير كلمات مرور Google، فهو موجود أيضاً على أجهزة الموظف الأخرى."
+msgid "Synced through iCloud Keychain or Google Password Manager and available on the employee's other devices."
+msgstr "مُزامن عبر سلسلة مفاتيح iCloud أو مدير كلمات مرور Google ومتاح على أجهزة الموظف الأخرى."
 
 #: frontend/src/mail/mail.js:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:1817
@@ -47395,10 +47407,6 @@ msgstr "لم يتم ذلك. حاول مرة أخرى بعد لحظة."
 msgid "That event is not on your calendar."
 msgstr "هذا الحدث ليس في تقويمك."
 
-#: onedesk/one/news/__init__.py:353
-msgid "That feed is not in the library."
-msgstr "هذه الخلاصة ليست في المكتبة."
-
 #: onedesk/one_mail/api.py:94
 msgid "That folder is not in this mailbox."
 msgstr "هذا المجلد ليس في صندوق البريد هذا."
@@ -47553,6 +47561,10 @@ msgstr "العرض"
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
 msgid "The One account that holds this workspace, gets its invoices and hears about paying."
 msgstr "حساب One الذي يضم مساحة العمل هذه ويتلقى فواتيرها وإشعارات الدفع."
+
+#: onedesk/public/js/one_account/account_center.js:1085
+msgid "The One account with this email becomes the owner and receives invoices and payment notices."
+msgstr "يصبح حساب One المرتبط بهذا البريد هو المالك ويتلقى الفواتير وإشعارات الدفع."
 
 #: onedesk/one_doc/tour.py:17
 msgid "The Outline"
@@ -47751,10 +47763,6 @@ msgstr "أُغلقت نافذة الجمهور."
 msgid "The authenticator's own counter. A value lower than the one stored means the passkey has been cloned."
 msgstr "العدّاد الخاص بأداة المصادقة. القيمة الأقل من المخزَّنة تعني أن مفتاح المرور قد استُنسخ."
 
-#: onedesk/one/announcements.py:135
-msgid "The bar runs announcements or news."
-msgstr "يعرض الشريط الإعلانات أو الأخبار."
-
 #. Description of the 'Channels' (Section Break) field in DocType 'Notification
 #. Type'
 #: onedesk/one/custom/notification_type.json
@@ -47822,6 +47830,10 @@ msgstr "لا يحتوي دليل الحسابات على مجموعة للحسا
 #: onedesk/public/js/floor_actions.js:125
 msgid "The check was rejected, so the operation stays open."
 msgstr "رُفض الفحص، لذا تبقى العملية مفتوحة."
+
+#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
+msgid "The check-in created by this attempt. Not set if the attempt was rejected."
+msgstr "تسجيل الدخول الذي أنشأته هذه المحاولة. غير محدد إذا رُفضت المحاولة."
 
 #: onedesk/one_book/heads.py:555
 msgid "The cheque or transfer number. The invoice's number when left empty."
@@ -47904,11 +47916,6 @@ msgstr "الشركة وكيفية التواصل معها وعنوانها."
 msgid "The contact invited"
 msgstr "جهة الاتصال المدعوة"
 
-#. Description of the 'Key' (Data) field in DocType 'Reading'
-#: onedesk/one_ai/doctype/reading/reading.json
-msgid "The content's hash, so the same file anywhere is read once."
-msgstr "بصمة المحتوى، حتى يُقرأ الملف نفسه مرة واحدة أينما كان."
-
 #. Subject of a notification
 #: onedesk/one_crm/notifications.py
 msgid "The contract with {party} ends on {date}"
@@ -47990,6 +47997,10 @@ msgstr "قاعدة البيانات شبه ممتلئة"
 msgid "The database uses {0} GB and the plan allows {1} GB."
 msgstr "تستخدم قاعدة البيانات {0} غيغابايت والخطة تسمح بـ {1} غيغابايت."
 
+#: onedesk/one_admin/doctype/tenant/tenant.json
+msgid "The date the workspace closes, set when the account owner asks to close it."
+msgstr "تاريخ إغلاق مساحة العمل، ويُحدد عندما يطلب مالك الحساب إغلاقها."
+
 #: onedesk/one_book/home.py:330
 msgid "The dates payments cleared the bank, set in one go."
 msgstr "تواريخ صرف المدفوعات في البنك، تُحدد دفعة واحدة."
@@ -48022,11 +48033,6 @@ msgstr "اليوم الذي تُحذف فيه نهائيًا بعد إغلاقه
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json
 msgid "The day the workspace closes, because the person who pays for it asked."
 msgstr "اليوم الذي تُغلق فيه مساحة العمل، لأن من يدفع لها طلب ذلك."
-
-#. Description of the 'Closing On' (Date) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/tenant/tenant.json
-msgid "The day the workspace closes, because the person who pays for it asked. Empty when nobody has."
-msgstr "اليوم الذي تُغلق فيه مساحة العمل، لأن من يدفع لها طلب ذلك. فارغ إن لم يطلب أحد."
 
 #: onedesk/one_display/starters.py:1196
 msgid "The day's sessions, the next one marked."
@@ -48078,11 +48084,9 @@ msgstr "أُعيد تشغيل الجهاز أو المتصفح بشكل غير �
 msgid "The document as HTML when the version was taken."
 msgstr "المستند بصيغة HTML عند أخذ النسخة."
 
-#. Description of the 'Document' (Data) field in DocType 'Legal Document
-#. Version'
 #: onedesk/one_legal/doctype/legal_document_version/legal_document_version.json
-msgid "The document's key, such as terms or privacy."
-msgstr "مفتاح المستند، مثل terms أو privacy."
+msgid "The document's key. Example: terms or privacy."
+msgstr "مفتاح المستند. مثال: terms أو privacy."
 
 #. Description of the 'Content' (Long Text) field in DocType 'Writer Document'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
@@ -48135,10 +48139,6 @@ msgstr "اسم الفعالية والوقت ورمز للبرنامج."
 msgid "The expense is booked and the money is owed to them."
 msgstr "تُسجَّل المصروفات ويصبح المبلغ مستحقًا لهم."
 
-#: onedesk/one/news/fetching.py:166
-msgid "The fetch failed. It is tried again later."
-msgstr "تعذّر الجلب. ستُعاد المحاولة لاحقاً."
-
 #: frontend/src/writer/shim/PrintDialog.vue:8
 msgid "The fields in this document are filled from {0}."
 msgstr "تُملأ الحقول في هذا المستند من {0}."
@@ -48166,10 +48166,6 @@ msgstr "أول مستند في الموضوع الذي يخصه هذا. المس
 #: onedesk/one_crm/custom/lead.json
 msgid "The first mail sent or call made to them."
 msgstr "أول بريد أُرسل إليهم أو أول مكالمة أُجريت معهم."
-
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "The first place a day is free; each other costs five credits a day it is shown."
-msgstr "أول مكان في اليوم مجاني، وكل مكان آخر يكلّف خمس أرصدة عن كل يوم يُعرض فيه."
 
 #. Description of the 'Title' (Data) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
@@ -48257,6 +48253,10 @@ msgstr "التنزيل الكامل جاهز"
 msgid "The function that makes the record, when it is not a plain insert."
 msgstr "الدالة التي تنشئ السجل حين لا يكون إدراجًا بسيطًا."
 
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "The grant this spend is charged to. Not set when the spend exceeded all grants."
+msgstr "المنحة التي يُحمّل عليها هذا الإنفاق. غير محددة عندما يتجاوز الإنفاق كل المنح."
+
 #: onedesk/one_inventory/home.py:199
 msgid "The groups items are sorted into."
 msgstr "المجموعات التي تُصنَّف فيها الأصناف."
@@ -48312,8 +48312,8 @@ msgid "The invited address"
 msgstr "العنوان المدعو"
 
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json
-msgid "The invited address it was opened with; empty for anyone with the link."
-msgstr "العنوان المدعو الذي فُتح به؛ فارغ لمن لديه الرابط."
+msgid "The invited email address used to open the presentation. Not set for link access."
+msgstr "عنوان البريد المدعو الذي فُتح به العرض. غير محدد عند الوصول عبر الرابط."
 
 #: onedesk/one_ai/reading/drafts.py:76
 msgid "The invoice IBAN isn't on file for {0}."
@@ -48342,10 +48342,9 @@ msgstr "تم تركيب البنود أعلاه وهي تعمل كما ينبغ�
 msgid "The job profile this person's app levels were set from. Changing a level by hand takes them off it."
 msgstr "الملف الوظيفي الذي ضُبطت منه مستويات تطبيقات هذا الشخص. تغيير مستوى يدويًا يزيله عنه."
 
-#. Description of the 'Action' (Data) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
-msgid "The job the call was made for, so a workspace can see what each costs."
-msgstr "المهمة التي أُجري الطلب من أجلها، ليرى كل مساحة عمل تكلفة كل مهمة."
+msgid "The job these credits were reserved for. Shown to the workspace in its usage."
+msgstr "المهمة التي حُجزت لها هذه الأرصدة. تظهر لمساحة العمل في سجل الاستخدام."
 
 #: onedesk/one_hr/home.py:540
 msgid "The kinds of expense somebody may claim."
@@ -48360,12 +48359,6 @@ msgstr "آخر 30 يومًا"
 msgid "The last day a cancellation can reach them."
 msgstr "آخر يوم يمكن أن يصلهم فيه الإلغاء."
 
-#. Description of the 'Expires On' (Date) field in DocType 'Credit Ledger
-#. Entry'
-#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
-msgid "The last day this grant counts. Empty never expires."
-msgstr "آخر يوم تُحتسب فيه هذه المنحة. وتركه فارغاً يعني بلا انتهاء."
-
 #. Description of the 'Error' (Small Text) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
 msgid "The last failure, as the service that failed reported it."
@@ -48378,10 +48371,6 @@ msgstr "آخر نداء وكل الشبابيك على شاشة طويلة."
 #: onedesk/one_display/starters.py:1140
 msgid "The latest call large and the calls before it."
 msgstr "آخر نداء بحجم كبير والنداءات التي سبقته."
-
-#: onedesk/one_display/widgets.py:90
-msgid "The latest headlines from News Sources, with their pictures, what they say and where they are from."
-msgstr "أحدث العناوين من مصادر الأخبار، مع صورها ومضمونها ومصدرها."
 
 #. Description of the 'Keep Until' (Date) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -48442,12 +48431,6 @@ msgstr "يعمل الرابط مرة واحدة لمدة {minutes} دقيقة. �
 #: onedesk/one_inventory/home.py:207
 msgid "The lists prices are kept in, for buying and selling."
 msgstr "القوائم التي تُحفظ فيها الأسعار، للشراء والبيع."
-
-#. Description of the 'Employee Checkin' (Link) field in DocType 'Clock
-#. Attempt'
-#: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
-msgid "The log this attempt wrote. Empty when the attempt was refused."
-msgstr "السجل الذي كتبته هذه المحاولة. يكون فارغاً عند رفض المحاولة."
 
 #: onedesk/public/js/one/one_control.js:285
 msgid "The logo and colours on letter heads and around every screen."
@@ -48645,14 +48628,13 @@ msgstr "يُذكَّر المسؤول في هذا الوقت."
 msgid "The page"
 msgstr "الصفحة"
 
-#. Description of the 'Place' (Data) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json
-msgid "The page it runs on and what it waits for there, such as OneMail when a conversation is opened."
-msgstr "الصفحة التي تعمل عليها وما تنتظره هناك، مثل OneMail عند فتح محادثة."
-
 #: onedesk/one_studio/printing.py:549
 msgid "The page number position must be one of {0}."
 msgstr "يجب أن يكون موضع رقم الصفحة أحد {0}."
+
+#: onedesk/one_studio/doctype/extension/extension.json
+msgid "The page the extension runs on and the event it waits for. Example: OneMail, when a conversation is opened."
+msgstr "الصفحة التي تعمل عليها الإضافة والحدث الذي تنتظره. مثال: OneMail عند فتح محادثة."
 
 #: onedesk/one_crm/home.py:166
 msgid "The part of the market a lead or a customer is in."
@@ -48976,6 +48958,10 @@ msgstr "السعر بين عملتين في يوم معين."
 msgid "The receiving server confirmed the sender's address, because DMARC passed, or DKIM or SPF passed for the sender's own domain."
 msgstr "أكد الخادم المستلم عنوان المرسل، لأن DMARC نجح، أو نجح DKIM أو SPF لنطاق المرسل نفسه."
 
+#: onedesk/public/js/one_portal/portal.js:94
+msgid "The recipient can reply through this link once."
+msgstr "يمكن للمستلم الرد عبر هذا الرابط مرة واحدة."
+
 #: onedesk/public/js/one_ai/panel/Record.vue:165
 msgid "The record changed after this was suggested."
 msgstr "تغيّر السجل بعد تقديم هذا الاقتراح."
@@ -49063,6 +49049,10 @@ msgstr "يمكن إدخال رقم فاتورة المورد نفسه مرتين
 #: onedesk/one_book/ready.py:163
 msgid "The same supplier invoice number is refused a second time."
 msgstr "يُرفض رقم فاتورة المورد نفسه في المرة الثانية."
+
+#: onedesk/public/js/doctype_settings.js:767
+msgid "The selected field becomes required and unique."
+msgstr "يصبح الحقل المحدد إلزامياً وفريداً."
 
 #: onedesk/one_mail/imap.py:341
 msgid "The server didn't respond in time."
@@ -49217,8 +49207,8 @@ msgid "The template includes the whole document as it is now."
 msgstr "يتضمن القالب المستند كاملًا كما هو الآن."
 
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
-msgid "The template slide this one was laid out from, so a change to its look can be brought in later."
-msgstr "شريحة القالب التي صُممت هذه الشريحة منها، لكي يمكن جلب أي تغيير في مظهرها لاحقاً."
+msgid "The template slide this slide is based on. Used to apply later changes to the template."
+msgstr "شريحة القالب التي تستند إليها هذه الشريحة. تُستخدم لتطبيق تغييرات القالب لاحقاً."
 
 #: onedesk/one_crm/home.py:169
 msgid "The terms a quotation and an order carry."
@@ -49428,11 +49418,6 @@ msgstr "قاعدة مساحة العمل التي أُنشئ هذا النوع �
 msgid "The workspace's owner"
 msgstr "مالك مساحة العمل"
 
-#. Description of the 'Promised' (Check) field in DocType 'Reading Ask'
-#: onedesk/one_ai/doctype/reading_ask/reading_ask.json
-msgid "The writer promises to do this, rather than asking somebody else."
-msgstr "يتعهد الكاتب بفعل هذا بنفسه بدل أن يطلبه من غيره."
-
 #: onedesk/public/js/one_mail/onemail_settings.js:245
 msgid "The writer's name"
 msgstr "اسم الكاتب"
@@ -49488,10 +49473,6 @@ msgstr "موادهم"
 msgid "Their Materials At"
 msgstr "موادهم في"
 
-#: onedesk/public/js/one_account/account_center.js:1085
-msgid "Their One account becomes the owner and receives invoices and payment notices."
-msgstr "يصبح حسابه في One المالك ويتلقى الفواتير وإشعارات الدفع."
-
 #: onedesk/one_mail/abilities.py:23
 msgid "Their Own Address"
 msgstr "عنوانه الخاص"
@@ -49500,10 +49481,6 @@ msgstr "عنوانه الخاص"
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 msgid "Their Quotation No"
 msgstr "رقم عرض السعر الخاص بهم"
-
-#: onedesk/public/js/one_mail/rule_builder.js:242
-msgid "Their Records"
-msgstr "سجلاتهم"
 
 #. Label in the One Blanket Order print format
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -49540,10 +49517,6 @@ msgstr "معتمد الإجازات، أو الموارد البشرية إن ل
 msgid "Their passkey and shift assignments have been ended, but the status is still Active: {why}<br>Fix that, then set their status to Left."
 msgstr "أُنهي مفتاح مروره وتكليفات الورديات، لكن الحالة لا تزال نشطة: {why}<br>أصلح ذلك، ثم اجعل حالته غادر."
 
-#: onedesk/public/js/one_mail/onemail_settings.js:661
-msgid "Their role already allows everything here."
-msgstr "دوره يسمح أصلًا بكل شيء هنا."
-
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
 msgid "Their shift approver, or HR when none is set"
@@ -49572,11 +49545,6 @@ msgstr "لا توجد شرائح للطباعة."
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:7
 msgid "There are no templates yet. Save one from File › Save as Template."
 msgstr "لا توجد قوالب بعد. احفظ واحدًا من ملف › حفظ كقالب."
-
-#. Description of the 'History' (Check) field in DocType 'Reading'
-#: onedesk/one_ai/doctype/reading/reading.json
-msgid "There before OneAI was switched on, so it is only filed and searchable."
-msgstr "كان موجوداً قبل تشغيل OneAI، لذا يُحفظ ويصبح قابلاً للبحث فقط."
 
 #: onedesk/one/access.py:888
 msgid "There is already a group called {0}."
@@ -49757,8 +49725,8 @@ msgid "These extensions ran into errors, and the work went on: {extensions}. Ope
 msgstr "وقعت هذه الإضافات في أخطاء، واستمر العمل: {extensions}. افتح إحداها واضغط «أصلحها مع OneAI»، أو أوقفها."
 
 #: onedesk/one/doctype/news_source/news_source_list.js:21
-msgid "These feeds were gathered by others and belong to their publishers. You are responsible for having the right to show what you add."
-msgstr "جمع هذه الخلاصات آخرون، وهي ملك لناشريها. أنت مسؤول عن امتلاك حق عرض ما تضيفه."
+msgid "These feeds belong to their publishers. You need each publisher's permission to show their content."
+msgstr "هذه الخلاصات ملك لناشريها. تحتاج إلى إذن كل ناشر لعرض محتواه."
 
 #: onedesk/one_inventory/ready.py:135
 msgid "These post to an account that is not a stock account, so stock and the books disagree: {0}. Set a stock account on each warehouse."
@@ -49787,10 +49755,6 @@ msgstr "لا يزالون بانتظارها."
 #: onedesk/one_account/notifications.py
 msgid "They are used before any others, so nothing needs doing unless you want them used."
 msgstr "تُستخدم قبل غيرها، فلا حاجة لأي إجراء إلا إن أردت استخدامها."
-
-#: onedesk/public/js/one_portal/portal.js:94
-msgid "They can answer through it once."
-msgstr "يمكنهم الرد من خلاله مرة واحدة."
 
 #. Description of the 'Covering Person Reads My Mail' (Check) field in DocType
 #. 'Leave Application'
@@ -49832,10 +49796,6 @@ msgstr "انضم في {joined}."
 #: onedesk/one_admin/heads.py:463
 msgid "They keep their price. Quota changes apply the next time they change their plan or add-ons."
 msgstr "يحتفظون بسعرهم. تُطبّق تغييرات الحصص في المرة القادمة التي يغيّرون فيها خطتهم أو إضافاتهم."
-
-#: onedesk/public/js/one_mail/onemail_settings.js:304
-msgid "They name {0} for anything urgent."
-msgstr "وتذكر {0} للأمور العاجلة."
 
 #: onedesk/one_display/starters.py:681
 msgid "They took care of everything."
@@ -49990,6 +49950,10 @@ msgstr "مفتاح مرور هذا الموظف محظور. على الموار�
 #: onedesk/one_studio/extensions.py:266
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr "لم تجتز هذه الإضافة مراجعتها، لذا لا يمكن تشغيلها. اطلب من OneAI تعديلها."
+
+#: onedesk/one/news/library.py:62
+msgid "This feed is not in the library."
+msgstr "هذه الخلاصة ليست في المكتبة."
 
 #: onedesk/one_doc/word.py:225 onedesk/one_doc/word.py:261
 #: onedesk/one_sheet/api.py:222 onedesk/one_sheet/excel.py:278
@@ -50281,6 +50245,10 @@ msgstr "لا يمكن تشغيل هذه القاعدة بينما البريد �
 msgid "This screen has no kiosk."
 msgstr "لا يوجد كشك في هذه الشاشة."
 
+#: onedesk/public/js/one_legal/trust_center.js:295
+msgid "This service sends data to a new company and needs an administrator's approval."
+msgstr "ترسل هذه الخدمة بيانات إلى شركة جديدة وتحتاج إلى موافقة مسؤول."
+
 #: frontend/src/sheet/shim/PrintDialog.vue:53
 msgid "This sheet ({0})"
 msgstr "هذه الورقة ({0})"
@@ -50361,6 +50329,10 @@ msgstr "لا يحتوي هذا القالب على خصائص للاختيار �
 #: onedesk/one_storage/upload.py:69
 msgid "This upload expired. Try again."
 msgstr "انتهت صلاحية هذا الرفع. حاول مرة أخرى."
+
+#: onedesk/public/js/one_mail/onemail_settings.js:661
+msgid "This user's role already allows everything here."
+msgstr "دور هذا المستخدم يسمح مسبقاً بكل ما هنا."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:971
 msgid "This value is not allowed"
@@ -50569,9 +50541,9 @@ msgstr "شريط حسب الفئة"
 msgid "Ticker in Your Colour"
 msgstr "شريط أخبار بلونك"
 
-#: onedesk/one_display/widgets.py:347
-msgid "Ticker with Your Logo Between"
-msgstr "شريط يتخلله شعارك"
+#: onedesk/one_display/widgets.py:332
+msgid "Ticker with Company Icon"
+msgstr "شريط مع أيقونة الشركة"
 
 #: onedesk/one_display/widgets.py:269
 msgid "Ticker with a Label"
@@ -50758,10 +50730,6 @@ msgstr "عدد مرات النداء"
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 msgid "Times Opened"
 msgstr "مرات الفتح"
-
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Times of day in the workspace's time zone, with commas between them."
-msgstr "أوقات من اليوم بالمنطقة الزمنية لمساحة العمل، تفصل بينها فواصل."
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
@@ -51198,11 +51166,6 @@ msgstr "بصمة الرمز"
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Token Once"
 msgstr "الرمز لمرة واحدة"
-
-#. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
-#: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
-msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
-msgstr "تُقال لـ OneAI كلما كان أحدهم في قائمة هذا النوع أو نموذجه. اتركه فارغًا لملاحظة يجدها عند البحث."
 
 #: frontend/src/hr/HrHome.vue:207 frontend/src/project/Milestones.vue:29
 #: onedesk/one_task/mine.py:17
@@ -51920,10 +51883,6 @@ msgstr "إيقاف حسابك وإزالة اسمك وعنوانك من السج
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "إيقاف وصول {0} إلى البوابة؟ سيتم تسجيل خروجه فوراً."
 
-#: onedesk/one/news/__init__.py:210
-msgid "Turn on Google News in TrustCenter to fetch it."
-msgstr "فعّل Google News في TrustCenter لجلبه."
-
 #: onedesk/one/weather.py:173
 msgid "Turn on Weather in TrustCenter to search for a place."
 msgstr "فعّل الطقس في TrustCenter للبحث عن مكان."
@@ -52341,6 +52300,14 @@ msgstr "إظهار كل الأعمدة"
 #: frontend/src/sheet/components/SheetEditor/index.vue:781
 msgid "Unhide all rows"
 msgstr "إظهار كل الصفوف"
+
+#: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
+msgid "Unique key that stops a retried webhook from creating a duplicate entry."
+msgstr "مفتاح فريد يمنع إعادة محاولة الـ webhook من إنشاء قيد مكرر."
+
+#: onedesk/one_ai/doctype/reading_action/reading_action.json
+msgid "Unique key that stops the same action from running twice."
+msgstr "مفتاح فريد يمنع تنفيذ الإجراء نفسه مرتين."
 
 #. Label in the One Asset Capitalization print format
 #. Label in the One Bill of Materials print format
@@ -52839,6 +52806,10 @@ msgstr "عاجل بعد ساعات العمل"
 msgid "Urgent Grievance"
 msgstr "شكوى عاجلة"
 
+#: onedesk/public/js/one_mail/onemail_settings.js:304
+msgid "Urgent requests are referred to {0}."
+msgstr "تُحال الطلبات العاجلة إلى {0}."
+
 #. Label of the storage_said (HTML) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_ai/abilities.py:26
 #: onedesk/public/js/one_ai/ai_center.js:328
@@ -52979,6 +52950,10 @@ msgstr "يُستخدم لصفحات الويب وللشرائح التي ليس 
 msgid "Used in URLs. Do not change it once the offering has been sold."
 msgstr "يُستعمل في الروابط. لا تغيّره بعد بيع العرض."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Used to find the source's logo. Filled in automatically for feeds."
+msgstr "يُستخدم لإيجاد شعار المصدر. يُملأ تلقائياً للخلاصات."
+
 #: frontend/src/inventory/item/ItemStock.vue:52
 #: onedesk/public/js/onecloud_dialogs.js:567
 msgid "Used {0}"
@@ -53058,6 +53033,10 @@ msgstr ""
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Users test their own work"
 msgstr "المستخدمون يختبرون عملهم"
+
+#: onedesk/public/js/one_mail/onemail_settings.js:976
+msgid "Users with access see this mailbox once it is connected."
+msgstr "يرى المستخدمون الذين لديهم صلاحية هذا الصندوق بمجرد ربطه."
 
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:82
 msgid "Usual Days"
@@ -53385,6 +53364,10 @@ msgstr "عرض الكل ({0})"
 #: onedesk/public/js/offering.js:16
 msgid "View Item"
 msgstr "عرض الصنف"
+
+#: onedesk/one/doctype/news_source/news_source.js:15
+msgid "View Items"
+msgstr "عرض العناصر"
 
 #: frontend/src/project/Hero.vue:39
 msgid "View Media"
@@ -54704,11 +54687,6 @@ msgstr "ما تملكه الشركة وما عليها في يوم معين."
 msgid "What the equipment was worth and is worth now."
 msgstr "كم كانت قيمة المعدات وكم قيمتها الآن."
 
-#. Description of the 'Data' (JSON) field in DocType 'Reading'
-#: onedesk/one_ai/doctype/reading/reading.json
-msgid "What the file said as data, such as an e-invoice, a bank statement, a card or a message's headers."
-msgstr "ما قاله الملف كبيانات، مثل فاتورة إلكترونية أو كشف حساب بنكي أو بطاقة أو ترويسة رسالة."
-
 #. Description of the 'Title' (Data) field in DocType 'Cloud File Request'
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json
 msgid "What the files are for, as the people asked will see it."
@@ -54855,10 +54833,9 @@ msgstr "ما قاله خادم الاستقبال عندما فشل البريد
 msgid "What the rule checks and does, top to bottom, as OneMail's rule builder draws it."
 msgstr "ما تفحصه القاعدة وتفعله، من الأعلى إلى الأسفل، كما يرسمه منشئ القواعد في OneMail."
 
-#. Description of the 'Name' (Data) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
-msgid "What the rule is for, such as Quotes from customers."
-msgstr "الغرض من القاعدة، مثل عروض الأسعار من العملاء."
+msgid "What the rule is for. Example: Quotes from customers."
+msgstr "الغرض من القاعدة. مثال: عروض أسعار من العملاء."
 
 #: frontend/src/slide/shim/WidgetMock.vue:61
 msgid "What the story says, in a line."
@@ -54927,11 +54904,6 @@ msgstr "ما تريد مساحة العمل هذه أن يعرفه OneAI: سيا
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What those fields held when this was written."
 msgstr "ما كانت تحمله تلك الحقول حين كُتب هذا."
-
-#. Description of the 'Done When' (Small Text) field in DocType 'Task Step'
-#: onedesk/one_task/doctype/task_step/task_step.json
-msgid "What ticks this step by itself, written by OneAI. Empty for a step a person ticks."
-msgstr "ما يُتم هذه الخطوة تلقائيًا، كتبه OneAI. فارغ لخطوة يُتمها شخص."
 
 #: frontend/src/intake/IntakeExplain.vue:11
 msgid "What to do"
@@ -55002,11 +54974,6 @@ msgstr "ما الذي حُذف في الأسبوع الماضي، ومن حذف�
 #: onedesk/one/ai.py:282
 msgid "What was deleted lately?"
 msgstr "ما الذي حُذف مؤخرًا؟"
-
-#. Description of the 'Key' (Data) field in DocType 'Reading Action'
-#: onedesk/one_ai/doctype/reading_action/reading_action.json
-msgid "What was done and for what, so the same thing is never done twice."
-msgstr "ما فُعل ولأجل ماذا، كي لا يتكرر الأمر نفسه."
 
 #: onedesk/public/js/project_actions.js:265
 msgid "What was done, what comes next, and anything in the way."
@@ -55932,11 +55899,6 @@ msgstr "عندما تتجاوز بضائع أمر الشراء التاريخ ا
 msgid "When issues close by themselves, and what the help page shows."
 msgstr "متى تُغلق البلاغات تلقائياً، وما تعرضه صفحة المساعدة."
 
-#. Description of the 'Schedule' (Data) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json
-msgid "When it runs, as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
-msgstr "متى تعمل، بسطر cron، مثل 0 8 * * 1-5 للساعة الثامنة صباح كل يوم عمل."
-
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
 msgid "When items fall to their reorder level and a material request is raised for them."
@@ -56649,10 +56611,6 @@ msgstr "أين يذهب مال هذا المشروع؟ اذكر ما فُوتر 
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
 msgstr "حيث تُبنى مساحات العمل الجديدة. توضع كل منها على أفرغ خادم مفتوح يقبلها."
 
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Where news comes from: a feed, Google News, OneAI or what you write. Its newest items are kept as News Items for the desk and for screens."
-msgstr "من أين تأتي الأخبار: خلاصة أو Google News أو OneAI أو ما تكتبه. تُحفظ أحدث عناصره كأخبار لسطح المكتب وللشاشات."
-
 #: onedesk/one_hr/home.py:545
 msgid "Where people work."
 msgstr "أين يعمل الناس."
@@ -56793,10 +56751,6 @@ msgstr "أي الأصناف عند مستوى إعادة الطلب أو دون�
 #: onedesk/one_inventory/ai.py:81
 msgid "Which items have more promised to customers than is on hand, by how much, and what is on order for them."
 msgstr "أي الأصناف وُعد العملاء منها بأكثر من المتوفر، وبكم، وما المطلوب منها في أوامر الشراء."
-
-#: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
-msgid "Which kind of slide this is in the slide library, such as Title or Timeline."
-msgstr "نوع هذه الشريحة في مكتبة الشرائح، مثل العنوان أو الجدول الزمني."
 
 #: onedesk/one_crm/ai.py:113
 msgid "Which leads are waiting on us?"
@@ -57394,10 +57348,6 @@ msgstr "من يدفع لمساحة العمل"
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "Whoever pressed Fix With OneAI"
 msgstr "من ضغط «أصلح باستخدام OneAI»"
-
-#: onedesk/one/doctype/news_source/news_source.json
-msgid "Whoever publishes a feed owns what it says. You are responsible for having the right to show it."
-msgstr "من ينشر الخلاصة يملك مضمونها. أنت مسؤول عن امتلاك حق عرضها."
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
@@ -58330,12 +58280,6 @@ msgstr "قاعدة مساحة العمل"
 msgid "Workspaces"
 msgstr "مساحات العمل"
 
-#. Description of the 'Workspace Domain' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Workspaces are reached at &lt;slug&gt;.&lt;this&gt;, for example t.4dl.app."
-msgstr "يُوصل إلى مساحات العمل على &lt;المعرّف&gt;.&lt;هذا&gt;، مثل t.4dl.app."
-
 #. Description of the 'Mail Domain' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
@@ -58675,11 +58619,6 @@ msgstr "كتبه {0}"
 msgid "Written off to nothing, and still in use."
 msgstr "مستهلك بالكامل، ولا يزال قيد الاستخدام."
 
-#. Description of the 'Value' (Data) field in DocType 'Identifier'
-#: onedesk/one_ai/doctype/identifier/identifier.json
-msgid "Written one way however it was typed, such as an IBAN without spaces or a phone number with its country."
-msgstr "يُكتب بطريقة واحدة مهما كُتب، مثل رقم IBAN بلا مسافات أو رقم هاتف مع رمز بلده."
-
 #: onedesk/one_ai/heads.py:71
 msgid "Written {0}."
 msgstr "كُتب {0}."
@@ -58807,6 +58746,10 @@ msgstr "يمكنك تسجيل الحضور من هاتفك الجديد"
 #: onedesk/one/setup_steps.py:69
 msgid "You can leave this for later."
 msgstr "يمكنك ترك هذا لوقت لاحق."
+
+#: onedesk/one/doctype/news_item/news_item.py:13
+msgid "You can only add items to a Written source. Other sources fetch their items automatically."
+msgstr "يمكنك إضافة عناصر إلى مصدر مكتوب فقط. المصادر الأخرى تجلب عناصرها تلقائياً."
 
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.py:22
 msgid "You can only ask for a letter about yourself."
@@ -58987,6 +58930,10 @@ msgstr "لا يُسمح لك بتشغيل {0}."
 msgid "You may not {0} {1}."
 msgstr "لا يجوز لك {0} {1}."
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "You need the publisher's permission to show their content."
+msgstr "تحتاج إلى إذن الناشر لعرض محتواه."
+
 #: onedesk/www/me.py:14
 msgid "You need to be logged in to access this page"
 msgstr "يجب تسجيل الدخول للوصول إلى هذه الصفحة"
@@ -59049,8 +58996,8 @@ msgid "You're interviewing {applicant} on {when}"
 msgstr "ستُجري مقابلة مع {applicant} في {when}"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:303
-msgid "You're on approved leave until {0}. Replies go out on their own, saying you're back on {1}."
-msgstr "أنت في إجازة معتمدة حتى {0}. تُرسل الردود تلقائيًا وتقول إنك ستعود في {1}."
+msgid "You're on approved leave until {0}. Automatic replies say you're back on {1}."
+msgstr "أنت في إجازة معتمدة حتى {0}. تقول الردود التلقائية إنك تعود في {1}."
 
 #: onedesk/one/privacy.py:110
 msgid "You're the only administrator. Make someone else an administrator first."
@@ -59159,17 +59106,9 @@ msgstr "تقويمك في OneCalendar داخل Google Calendar أو Apple Calend
 msgid "Your Organisation"
 msgstr "مؤسستك"
 
-#: onedesk/one_display/widgets.py:42
-msgid "Your Own"
-msgstr "خاص بك"
-
 #: onedesk/public/js/one_legal/trust_center.js:150
 msgid "Your Own Data"
 msgstr "بياناتك الخاصة"
-
-#: onedesk/one_display/widgets.py:82
-msgid "Your Own Separator"
-msgstr "فاصل خاص بك"
 
 #: frontend/portal/src/pages/YourData.vue:32
 #: onedesk/public/js/one_account/account_center.js:189
@@ -60730,12 +60669,6 @@ msgstr "العنوان الدائم"
 #: onedesk/public/js/crm_record.js:28
 msgid "phone"
 msgstr "الهاتف"
-
-#. Description of the 'Publishable Key' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "pk_live_… or pk_test_…. Pages see it; it only draws checkouts the secret key made."
-msgstr "pk_live_… أو pk_test_…. تراه الصفحات؛ ولا يعرض إلا صفحات الدفع التي أنشأها المفتاح السري."
 
 #: onedesk/one_hr/hiring.py:324
 msgid "placed {0} of {1}"
@@ -62443,10 +62376,6 @@ msgstr "{0} يغطي عنه."
 msgid "{0} is done"
 msgstr "أُنجز {0}"
 
-#: onedesk/one/doctype/news_source/news_source.py:27
-msgid "{0} is fetched at most every {1} minutes, so this source is fetched {2}."
-msgstr "يُجلب {0} مرة كل {1} دقيقة على الأكثر، لذا يُجلب هذا المصدر {2}."
-
 #: onedesk/one_admin/home.py:324
 msgid "{0} is filling up"
 msgstr "{0} يمتلئ"
@@ -62627,10 +62556,6 @@ msgstr "{0} ليست مهمة في هذا المشروع."
 msgid "{0} is not a template for {1}."
 msgstr "{0} ليس قالبًا لـ {1}."
 
-#: onedesk/one/news/__init__.py:448
-msgid "{0} is not a time of day. Write times like 07:00, 13:30."
-msgstr "{0} ليس وقتاً من اليوم. اكتب الأوقات مثل 07:00، 13:30."
-
 #: onedesk/one_ai/tools.py:673
 msgid "{0} is not a tool."
 msgstr "{0} ليس أداة."
@@ -62650,6 +62575,10 @@ msgstr "{0} ليس عنواناً أو نطاقاً صالحاً. مثال: 203.
 #: onedesk/one_display/screens.py:330
 msgid "{0} is not a valid screen command."
 msgstr "{0} ليس أمر شاشة صالحًا."
+
+#: onedesk/one/news/fetching.py:296
+msgid "{0} is not a valid time. Use a format like 07:00, 13:30."
+msgstr "{0} ليس وقتاً صالحاً. استخدم صيغة مثل 07:00، 13:30."
 
 #: onedesk/one_mail/holders.py:462
 msgid "{0} is not a workspace address."
@@ -62992,6 +62921,10 @@ msgstr "{0} أخرى"
 msgid "{0} more cells"
 msgstr "{0} خلايا أخرى"
 
+#: onedesk/one/doctype/news_source/news_source_list.js:72
+msgid "{0} more feeds match. Refine your search to see them."
+msgstr "توجد {0} خلاصات أخرى مطابقة. حسّن بحثك لرؤيتها."
+
 #: frontend/src/project/Money.vue:116
 msgid "{0} more on order"
 msgstr "{0} إضافية قيد الطلب"
@@ -63003,10 +62936,6 @@ msgstr "{0} أشخاص آخرين"
 #: frontend/src/inventory/item/ItemPage.vue:209
 msgid "{0} more promised than on hand"
 msgstr "وُعد بـ {0} أكثر مما في المخزون"
-
-#: onedesk/one/doctype/news_source/news_source_list.js:72
-msgid "{0} more. Search to narrow them."
-msgstr "{0} أخرى. ابحث لتضييق النتائج."
 
 #: onedesk/one_book/heads.py:307
 msgid "{0} moved from {1} to {2}."
@@ -63551,6 +63480,10 @@ msgstr "{0} لا يعرض شيئًا."
 #: onedesk/one_hr/heads.py:325
 msgid "{0} slips"
 msgstr "{0} قسائم"
+
+#: onedesk/one/doctype/news_source/news_source.py:42
+msgid "{0} sources are fetched at most every {1} minutes. Fetch was changed to {2}."
+msgstr "تُجلب مصادر {0} كل {1} دقيقة على الأكثر. تم تغيير الجلب إلى {2}."
 
 #: frontend/src/project/Money.vue:106 frontend/src/project/Overview.vue:337
 #: frontend/src/project/Overview.vue:357

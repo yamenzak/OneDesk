@@ -10,7 +10,7 @@ class NewsItem(Document):
 	def validate(self):
 		self.written = int(news.written(self.source))
 		if self.is_new() and not self.flags.from_source and not self.written:
-			frappe.throw(_("Items are written only for a Written source. The others fetch their own."))
+			frappe.throw(_("You can only add items to a Written source. Other sources fetch their items automatically."))
 		if self.written and not self.guid:
 			self.guid = frappe.generate_hash(length=16)
 

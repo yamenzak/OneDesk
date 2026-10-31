@@ -34,7 +34,7 @@
   },
   {
    "columns": 2,
-   "description": "A document that does not expire, such as a birth certificate, leaves this empty.",
+   "description": "Leave empty for documents that do not expire. Example: a birth certificate.",
    "fieldname": "expires_on",
    "fieldtype": "Date",
    "in_list_view": 1,

@@ -50,7 +50,7 @@
    "fieldtype": "Data",
    "label": "Name",
    "in_list_view": 1,
-   "description": "What the rule is for, such as Quotes from customers."
+   "description": "What the rule is for. Example: Quotes from customers."
   },
   {
    "fieldname": "section_steps",

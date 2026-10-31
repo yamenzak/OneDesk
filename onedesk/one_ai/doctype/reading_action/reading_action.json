@@ -85,7 +85,7 @@
    "label": "Key",
    "search_index": 1,
    "read_only": 1,
-   "description": "What was done and for what, so the same thing is never done twice.",
+   "description": "Unique key that stops the same action from running twice.",
    "unique": 1
   },
   {

@@ -20,7 +20,7 @@
    "in_list_view": 1,
    "reqd": 1,
    "columns": 4,
-   "description": "Its name in Frappe Cloud, for example u25-nuremberg-3.frappe.cloud."
+   "description": "Server name in Frappe Cloud. Example: u25-nuremberg-3.frappe.cloud"
   },
   {
    "fieldname": "region",

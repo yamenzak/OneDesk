@@ -194,15 +194,21 @@ NOTE_LONGEST = 70
 TELLING = re.compile(r"\b(Open one|Click (one|a|an|the|somebody|someone)|Tap one)\b")
 
 
+DANGLING = re.compile(r"^(Its|It|Their|They|Them)\b|\bIts [A-Z]")
+
+
 def test_what_a_screen_says_is_plain():
-	root = tree.APP / "public" / "js"
+	"""The desk's own scripts and each doctype's: a button called "Its Items"
+	sat in a doctype script, where this used not to look."""
+	root = tree.APP
 	found = []
-	for path in sorted(root.rglob("*.js")):
+	paths = [*(root / "public" / "js").rglob("*.js"), *root.glob("*/doctype/*/*.js")]
+	for path in sorted(paths):
 		for one in SCREEN.finditer(path.read_text(encoding="utf-8")):
 			text = one.group(1)
 			if LABELLED.match(text):
 				continue
-			if JOINED.search(text) or len(text) > SCREEN_LONGEST or TELLING.search(text):
+			if JOINED.search(text) or len(text) > SCREEN_LONGEST or TELLING.search(text) or DANGLING.search(text):
 				found.append(f"  {path.relative_to(root)}: {text}")
 		for one in NOTE.finditer(path.read_text(encoding="utf-8")):
 			if len(one.group(1)) > NOTE_LONGEST:
@@ -282,10 +288,13 @@ def test_no_screen_text_reads_like_a_commit_message():
 REASONING = re.compile(
 	r"^Empty\b|\bEmpty (is|lets|tells|for|never|when|means)\b|\b[Ss]uch as\b|, so (a|an|the|it|they|its)\b"
 	r"|\bwhich (frees|means)\b|\b(whoever|nobody|somebody)\b|\bholds on to\b"
+	# a pronoun with nothing before it to point at, and two sentences glued with a semicolon:
+	# "Its logo comes from here", "Older ones are deleted; 0 keeps them all"
+	r"|^(Its|It|Their|They|Them)\b|;"
 )
-# The modules whose field help has been rewritten to frappe's register; a
-# module joins as it is rewritten (docs/WORDING.md, The description).
-REGISTERED = ("one_display",)
+# Every module's field help, since News showed that a module left out of the
+# list writes the register this rule exists to stop (docs/WORDING.md, The description).
+REGISTERED = tuple(sorted(one.parent.name for one in tree.APP.glob("*/doctype")))
 
 
 def test_field_help_says_what_the_system_does():

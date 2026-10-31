@@ -29,7 +29,7 @@
    "label": "Applies To",
    "options": "DocType",
    "in_list_view": 1,
-   "description": "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
+   "description": "If set, OneAI is given this note on that document type's list and form. Leave empty to let OneAI look it up when needed."
   },
   {
    "fieldname": "column_break_what",

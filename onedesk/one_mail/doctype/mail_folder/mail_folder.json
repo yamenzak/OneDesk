@@ -40,7 +40,7 @@
    "label": "Path",
    "reqd": 1,
    "in_list_view": 1,
-   "description": "Its name on the server, as the server spells it."
+   "description": "Folder name on the mail server."
   },
   {
    "fieldname": "label",
@@ -59,7 +59,7 @@
    "fieldname": "hidden",
    "fieldtype": "Check",
    "label": "Not Shown",
-   "description": "A folder that only repeats others, such as Gmail's All Mail, or one that holds no mail itself."
+   "description": "Hidden folders only repeat other folders or contain no mail. Example: Gmail's All Mail."
   },
   {
    "fieldname": "column_break_sync",
