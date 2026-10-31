@@ -521,12 +521,24 @@ next to its changes, and a job lists the rows it wrote.
   Includes the **Bench Group** every workspace runs on, the **Site Plan** for
   each site (one of the provider's free Unlimited plans, which only sets daily
   CPU time), and **Servers** (below).
-- **Cloudflare**: one token. **Set Up Cloudflare** finds or creates the rest
-  and shows the result under **Last Setup**, including the certificate for
-  every workspace's address. That needs **Advanced Certificate Manager**, a
-  paid add-on, turned on for the zone in Cloudflare first; until it is, the
-  certificate step needs attention and workspaces don't open.
-- The R2 buckets and keys, Stripe's keys and the AI Gateway.
+- **Cloudflare**: one **Master Token**, made in Cloudflare from the **Create
+  Additional Tokens** template. **Set Up Cloudflare** uses it only to make
+  One's own three tokens, each allowed only its own work: **OneAdmin** for
+  OneAdmin's calls, **OneAdmin Storage** for the two R2 buckets, and **OneAI** to
+  run the AI Gateway. It then finds or creates everything else and shows each
+  step under **Last Setup** as it ends. It runs in the background, so leaving
+  the page stops nothing.
+- Pressing it again checks everything and mends what is missing. A run cut
+  off anywhere loses nothing: each thing is saved the moment it is found or
+  made, everything is looked for by name before anything is made, and a token
+  whose secret was never saved is rolled for a new one.
+- The certificate for every workspace's address needs **Advanced Certificate
+  Manager**, a paid add-on, turned on for the zone in Cloudflare. Setup
+  checks for it and says so; until it is on, workspaces don't open.
+- The master token can make any token on the account. You can delete it in
+  Cloudflare once setup is done; setup then asks for it again only when a
+  token needs mending.
+- The R2 buckets, Stripe's keys and the AI Gateway.
 - **Sender Email** (noreply@4dl.app): where One's own emails come from, such
   as sign-in links, signups and customer notices. Set Up Cloudflare turns on
   sending for its domain and makes it this site's outgoing account, so those
@@ -1882,10 +1894,23 @@ taken, and a missing lead is a thing to fix, not a reason to refuse.
 
 ### setup.py
 
-The operator gives OneAdmin Settings one API token and presses **Set up
+The operator gives One Admin Settings one master token, made from
+Cloudflare's **Create Additional Tokens** template, and presses **Set up
 Cloudflare**. Everything a workspace needs from Cloudflare is then found or
 made here:
 
+- One's own three tokens (`TOKENS`, `ensure_token`): **OneAdmin**, which
+  every other step and OneAdmin's own calls run with; **OneAdmin Storage**, whose
+  id and the SHA-256 of whose secret are R2's S3 keys, allowed only the two
+  buckets; and **OneAI**, which may run the gateway and nothing else. The
+  master token makes and mends them and is used for nothing else. Each is
+  found by its name before one is made, and its permissions are set again
+  whenever they differ from `TOKENS`. OneAdmin starts allowed any account
+  and zone, since neither is known yet, and is narrowed to the two found in
+  the same run. A permission is looked up by the names Cloudflare may give
+  it (the API says Write where the dashboard says Edit); Email Sending and AI
+  Search are named nowhere in Cloudflare's documentation, so whichever
+  permission starts so is taken, and none is no complaint;
 - the account and the zone;
 - the KV namespace both Workers read;
 - the two R2 buckets and the S3 keys to them;
@@ -1901,8 +1926,7 @@ made here:
   with its logs of counts and costs on and Guardrails flagging prompt
   injection and Llama Guard's thirteen hazards on every call. Flagged, not
   blocked: OneAI's own guard is what stops it acting on what arrived. What
-  the gateway already holds (caching, rate and spend limits) is kept, and
-  the token OneAI calls with is still the operator's to give.
+  the gateway already holds (caching, rate and spend limits) is kept.
 
 **It never takes what is somebody else's.** A resource that exists under our
 name is ours and is kept. One that exists but belongs to something else — a
@@ -1912,6 +1936,19 @@ it is and reported. Nothing is deleted.
 The one deliberate exception is the zone's email catch-all. There is only one
 per zone, and the mail domain cannot work without it, so it is pointed at our
 Worker whatever it held. The operator decided that for `4dl.app`.
+
+**A run cut off anywhere loses nothing.** It runs as one background job
+(`set_up` enqueues `run`, deduplicated, and `run` holds a lock that expires on
+its own), so a closed page or a dropped connection stops nothing. Each thing
+is saved the moment it is found or made (`keep`, `own`, each with its own
+commit), and each step's result as it ends (`note`). A token is the one thing
+Cloudflare shows only once: one made but never saved, because the run died
+between Cloudflare answering and the secret being stored, is found by name on
+the next run, its held secret fails `/user/tokens/verify`, and it is rolled,
+the same token with a new secret, saved before anything else. The demo check
+`oneadmin_sets_up_cloudflare_from_a_master_token` cuts a run off exactly
+there against a stand-in Cloudflare and checks that the next run makes
+nothing twice.
 
 **Running it twice is running it once.** Each step reads before it writes, so
 the button is also the check: pressed on a set-up account it changes nothing
@@ -2085,7 +2122,7 @@ own pages, because Stripe has no embedded version of them: the billing
 portal (billing address, tax ID, receipts: **Billing Details**) and paying an
 open invoice (**Pay**). Stripe.js has to load from `js.stripe.com` — Stripe
 allows no copy — so it loads the first time something is paid for and not
-before. The publishable key is `stripe_publishable_key` in OneAdmin Settings
+before. The publishable key is `stripe_publishable_key` in One Admin Settings
 or site_config; it can only draw a session the secret key made.
 
 The webhook is the dangerous half and it has three guards, in this order:
@@ -2172,7 +2209,7 @@ remembered to write.
 **Packs rather than amounts.** A customer buys a row from a price list, not a
 number they typed. That is a decision rather than a shortcut: a calculator on
 this screen is a second place where credits per dollar is decided, and the
-first one is in OneAdmin Settings where it belongs.
+first one is in One Admin Settings where it belongs.
 
 **A plan's monthly credit does not roll over.** It carries the end of its own
 month as `expires_on`, which is the case the ledger's draw order was built for

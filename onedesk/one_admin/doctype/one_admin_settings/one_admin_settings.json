@@ -18,6 +18,7 @@
   "servers",
   "cloudflare_section",
   "cloudflare_account",
+  "cloudflare_master_token",
   "cloudflare_token",
   "cloudflare_kv",
   "cloudflare_zone",
@@ -118,10 +119,17 @@
    "label": "Account ID"
   },
   {
+   "fieldname": "cloudflare_master_token",
+   "fieldtype": "Password",
+   "label": "Master Token",
+   "description": "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
+  },
+  {
    "fieldname": "cloudflare_token",
    "fieldtype": "Password",
-   "label": "API Token",
-   "description": "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
+   "label": "OneAdmin Token",
+   "description": "Made by Set Up Cloudflare for OneAdmin's own calls, and made again when its secret is lost.",
+   "read_only": 1
   },
   {
    "fieldname": "cloudflare_kv",
@@ -156,7 +164,7 @@
    "fieldname": "set_up_cloudflare",
    "fieldtype": "Button",
    "label": "Set Up Cloudflare",
-   "description": "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
+   "description": "Finds or makes everything a workspace needs from Cloudflare. Running it again checks it all and mends what is missing."
   },
   {
    "fieldname": "cloudflare_setup_said",
@@ -205,12 +213,15 @@
   {
    "fieldname": "r2_key_id",
    "fieldtype": "Data",
-   "label": "R2 Access Key ID"
+   "label": "R2 Access Key ID",
+   "read_only": 1,
+   "description": "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
   },
   {
    "fieldname": "r2_secret",
    "fieldtype": "Password",
-   "label": "R2 Secret"
+   "label": "R2 Secret",
+   "read_only": 1
   },
   {
    "fieldname": "stripe_section",
@@ -257,7 +268,8 @@
    "fieldname": "ai_gateway_token",
    "fieldtype": "Password",
    "label": "Gateway Token",
-   "description": "Provider keys are stored in the gateway, never here."
+   "description": "The OneAI token, made by Set Up Cloudflare. Provider keys are stored in the gateway, never here.",
+   "read_only": 1
   },
   {
    "fieldname": "weather_section",
@@ -425,7 +437,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-31 08:12:26.629859",
+ "modified": "2026-10-31 12:35:39.740914",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

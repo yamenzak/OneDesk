@@ -3991,3 +3991,151 @@ def _modules() -> None:
 
 
 _modules()
+
+
+class FakeCloudflare:
+	"""Cloudflare's API as Set Up Cloudflare uses it, held in memory, which can
+	be told to drop the connection once a given call has been done. Nothing
+	here reaches Cloudflare."""
+
+	GROUPS = tuple(
+		{"id": f"g{n}", "name": name, "scopes": [scope]}
+		for n, (name, scope) in enumerate(
+			[
+				("Account Settings Read", "com.cloudflare.api.account"),
+				("Workers Scripts Write", "com.cloudflare.api.account"),
+				("Workers KV Storage Write", "com.cloudflare.api.account"),
+				("Workers R2 Storage Write", "com.cloudflare.api.account"),
+				("AI Gateway Write", "com.cloudflare.api.account"),
+				("AI Gateway Run", "com.cloudflare.api.account"),
+				("Workers AI Read", "com.cloudflare.api.account"),
+				("Email Routing Addresses Write", "com.cloudflare.api.account"),
+				("Zone Read", "com.cloudflare.api.account.zone"),
+				("DNS Write", "com.cloudflare.api.account.zone"),
+				("Workers Routes Write", "com.cloudflare.api.account.zone"),
+				("SSL and Certificates Write", "com.cloudflare.api.account.zone"),
+				("Zone Settings Write", "com.cloudflare.api.account.zone"),
+				("Email Routing Rules Write", "com.cloudflare.api.account.zone"),
+				("Workers R2 Storage Bucket Item Write", "com.cloudflare.edge.r2.bucket"),
+			]
+		)
+	)
+
+	def __init__(self):
+		self.tokens: dict[str, dict] = {}
+		self.made: list[str] = []
+		self.kv: list[dict] = []
+		self.buckets: dict[str, list] = {"": [], "eu": []}
+		self.drop_after = None
+		self.n = 0
+
+	def answer(self, result=None, ok=True, status=200):
+		from unittest.mock import Mock
+
+		return Mock(ok=ok, status_code=status, reason="", json=lambda: {"success": ok, "result": result, "errors": [] if ok else [{"message": "refused"}], "result_info": {"total_pages": 1}})
+
+	def __call__(self, method, url, headers=None, json=None, params=None, files=None, timeout=None):
+		import requests
+
+		path = url.split("/client/v4", 1)[1]
+		bearer = (headers or {}).get("Authorization", "").removeprefix("Bearer ")
+		self.n += 1
+		said = self.handle(method, path, bearer, json or {}, headers or {})
+		if self.drop_after and self.drop_after(method, path, json or {}):
+			self.drop_after = None
+			raise requests.ConnectionError("cut off")
+		return said
+
+	def handle(self, method, path, bearer, body, headers):
+		if path.startswith("/user/tokens"):
+			if path == "/user/tokens/verify":
+				found = next((one for one in self.tokens.values() if one["value"] == bearer and one["status"] == "active"), None)
+				return self.answer({"id": found["id"], "status": "active"}) if found else self.answer(ok=False, status=401)
+			assert bearer == "MASTER", f"only the master token makes tokens: {path}"
+			if path == "/user/tokens/permission_groups":
+				return self.answer(list(self.GROUPS))
+			if path == "/user/tokens" and method == "GET":
+				return self.answer([{key: value for key, value in one.items() if key != "value"} for one in self.tokens.values()])
+			if path == "/user/tokens" and method == "POST":
+				ident = f"t{len(self.tokens)}"
+				self.tokens[ident] = {"id": ident, "name": body["name"], "policies": body["policies"], "status": "active", "value": f"secret-{ident}-1"}
+				self.made.append(body["name"])
+				return self.answer(self.tokens[ident])
+			ident = path.split("/")[3]
+			if path.endswith("/value"):
+				one = self.tokens[ident]
+				one["value"] = f"secret-{ident}-{int(one['value'].rsplit('-', 1)[1]) + 1}"
+				return self.answer(one["value"])
+			self.tokens[ident].update(policies=body["policies"], status=body.get("status", "active"))
+			return self.answer(self.tokens[ident])
+		known = {one["value"] for one in self.tokens.values() if one["name"] == "OneAdmin"}
+		assert bearer in known, f"everything else runs with the OneAdmin token: {path}"
+		if path == "/accounts":
+			return self.answer([{"id": "acc1", "name": "One"}])
+		if path == "/zones":
+			return self.answer([{"id": "zone1", "name": "4dl.app"}])
+		if path.endswith("/storage/kv/namespaces"):
+			if method == "POST":
+				self.kv.append({"id": f"kv{len(self.kv)}", "title": body["title"]})
+				return self.answer(self.kv[-1])
+			return self.answer(self.kv)
+		if path.endswith("/r2/buckets"):
+			held = self.buckets["eu" if headers.get("cf-r2-jurisdiction") else ""]
+			if method == "POST":
+				held.append({"name": body["name"]})
+			return self.answer({"buckets": held})
+		if path.endswith("/ssl/certificate_packs/quota"):
+			return self.answer({"advanced": {"allocated": 0, "used": 0}})
+		if "/ai-gateway/gateways/" in path and method == "GET":
+			return self.answer(ok=False, status=404)
+		if method == "GET":
+			return self.answer([])
+		return self.answer({"enabled": True, "id": "x"})
+
+
+@check
+def oneadmin_sets_up_cloudflare_from_a_master_token():
+	"""Set Up Cloudflare makes One's own three tokens from the master one, each
+	allowed only its work, and a run cut off anywhere loses nothing: a token
+	made but never saved is rolled for a new secret, nothing is made twice,
+	and the next run carries on (one_admin/setup.py). Cloudflare is stood in
+	for: nothing leaves."""
+	from unittest.mock import patch
+
+	from onedesk.one_admin import setup
+
+	fake = FakeCloudflare()
+	settings = frappe.get_doc("One Admin Settings")
+	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway")}
+	for field in was:
+		frappe.db.set_single_value("One Admin Settings", field, None)
+	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"):
+		# Cut off right after Cloudflare made the OneAI token: its secret was never seen.
+		fake.drop_after = lambda method, path, body: method == "POST" and path == "/user/tokens" and body.get("name") == "OneAI"
+		first = setup.run()
+		assert first[-1]["state"] == setup.FAILED and "did not answer" in first[-1]["detail"], first[-1]
+		kv = frappe.db.get_single_value("One Admin Settings", "cloudflare_kv")
+		assert kv and frappe.db.get_single_value("One Admin Settings", "cloudflare_account") == "acc1", "what was found is kept as it was found"
+
+		second = setup.run()
+		assert sorted(fake.made) == ["OneAI", "OneAdmin", "OneAdmin Storage"], f"each token made once: {fake.made}"
+		assert len(fake.kv) == 1 and frappe.db.get_single_value("One Admin Settings", "cloudflare_kv") == kv, "nothing is made twice"
+		ai = next(one for one in fake.tokens.values() if one["name"] == "OneAI")
+		held = frappe.get_doc("One Admin Settings").get_password("ai_gateway_token")
+		assert ai["value"] == held and held.endswith("-2"), "the token whose secret was lost is rolled, and the new one saved"
+		admin = next(one for one in fake.tokens.values() if one["name"] == "OneAdmin")
+		assert {key for policy in admin["policies"] for key in policy["resources"]} == {"com.cloudflare.api.account.acc1", "com.cloudflare.api.account.zone.zone1"}, "OneAdmin is narrowed to what was found"
+		storage = next(one for one in fake.tokens.values() if one["name"] == "OneAdmin Storage")
+		assert all(key.startswith("com.cloudflare.edge.r2.bucket.acc1_") for policy in storage["policies"] for key in policy["resources"])
+		assert frappe.db.get_single_value("One Admin Settings", "r2_key_id") == storage["id"]
+		steps = {one["step"]: one for one in second}
+		assert steps["certificate"]["state"] == setup.WAITING and "Advanced Certificate Manager" in steps["certificate"]["detail"]
+		assert "token OneAdmin" in steps and steps["token OneAdmin"]["state"] in (setup.OURS, setup.MADE)
+
+		made = len(fake.tokens)
+		setup.run()
+		assert len(fake.tokens) == made and len(fake.kv) == 1, "a third run finds everything and makes nothing"
+		assert next(one for one in fake.tokens.values() if one["name"] == "OneAI")["value"].endswith("-2"), "a held secret that works is not rolled"
+	frappe.db.rollback()
+	for field, value in was.items():
+		frappe.db.set_single_value("One Admin Settings", field, value)

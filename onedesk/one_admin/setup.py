@@ -1,17 +1,17 @@
-"""Cloudflare, set up from one key.
-
-The operator gives OneAdmin Settings one API token and presses Set up
-Cloudflare; everything a workspace needs from Cloudflare is found or made here.
-It never takes what is somebody else's, and running it twice is running it once.
-"""
+"""Cloudflare, set up from one master key: One's own tokens made from it, and
+everything a workspace needs from Cloudflare found or made with them. It takes
+nothing of anybody else's, running it twice is running it once, and a run cut
+off anywhere loses nothing (README, under setup.py)."""
 
 import hashlib
 import json
+import time
 from pathlib import Path
 
 import frappe
 import requests
 from frappe import _
+from frappe.utils.password import set_encrypted_password
 
 from onedesk.one_admin import site
 
@@ -27,6 +27,46 @@ DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
 GATEWAY = "one"
 
+# One's own tokens: each one's settings field and the names Cloudflare may give
+# each permission it needs (Write or Edit). A * name is any that starts so,
+# left out quietly when there is none.
+TOKENS = {
+	"OneAdmin": (
+		"cloudflare_token",
+		(
+			("Account Settings Read",),
+			("Workers Scripts Write", "Workers Scripts Edit"),
+			("Workers KV Storage Write", "Workers KV Storage Edit"),
+			("Workers R2 Storage Write", "Workers R2 Storage Edit"),
+			("AI Gateway Write", "AI Gateway Edit"),
+			("Email Routing Addresses Write", "Email Routing Addresses Edit"),
+			# Not named in Cloudflare's documentation: whichever it has.
+			("Email Sending*",),
+			("Zone Read",),
+			("DNS Write", "DNS Edit"),
+			("Workers Routes Write", "Workers Routes Edit"),
+			("SSL and Certificates Write", "SSL and Certificates Edit"),
+			("Zone Settings Write", "Zone Settings Edit"),
+			("Email Routing Rules Write", "Email Routing Rules Edit"),
+		),
+	),
+	"OneAdmin Storage": ("r2_secret", (("Workers R2 Storage Bucket Item Write",),)),
+	"OneAI": (
+		"ai_gateway_token",
+		(
+			("AI Gateway Run",),
+			("Workers AI Read",),
+			("AI Search*",),
+		),
+	),
+}
+ACCOUNT = "com.cloudflare.api.account"
+ZONE = "com.cloudflare.api.account.zone"
+BUCKET = "com.cloudflare.edge.r2.bucket"
+# How long a run may hold the lock: one cut off frees it by itself.
+LOCK = "one_cloudflare_setup"
+LOCKED_FOR = 15 * 60
+
 # Prompt injection (P1) and Llama Guard's hazards (S1-S13), flagged, never
 # blocked: one_ai/reading/guard.py is what stops OneAI acting by itself.
 FLAGGED = tuple(f"S{n}" for n in range(1, 14))
@@ -39,17 +79,19 @@ OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "ne
 
 
 class Setup:
-	"""One run: what was found and made, step by step."""
+	"""One run: what was found and made, step by step, each saved as it is."""
 
-	def __init__(self, token: str):
-		self.token = token
+	def __init__(self, master: str):
+		self.master = master
+		self.token = None
 		self.settings = frappe.get_doc("One Admin Settings")
 		self.said: list[dict] = []
-		self.account = None
+		self.account = self.settings.cloudflare_account or None
 		self.zone = None
+		self.groups = None
 
-	def call(self, method: str, path: str, **kwargs) -> dict:
-		headers = {"Authorization": f"Bearer {self.token}", **kwargs.pop("headers", {})}
+	def call(self, method: str, path: str, token: str | None = None, **kwargs) -> dict:
+		headers = {"Authorization": f"Bearer {token or self.token}", **kwargs.pop("headers", {})}
 		answered = requests.request(method, f"{API}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
 		try:
 			body = answered.json()
@@ -60,20 +102,37 @@ class Setup:
 		return body
 
 	def note(self, step: str, state: str, detail: str = "") -> None:
+		self.said = [one for one in self.said if one["step"] != step]
 		self.said.append({"step": step, "state": state, "detail": detail})
+		frappe.db.set_single_value("One Admin Settings", "cloudflare_setup", json.dumps(self.said, indent=1))
+		frappe.db.commit()
+		frappe.publish_realtime("cloudflare_setup", {"said": self.said}, user=frappe.session.user)
 
 	def keep(self, field: str, value) -> None:
-		"""A setting is filled in once, and never replaced."""
+		"""A setting is filled in once, never replaced, and saved at once."""
 		if value and not self.settings.get(field):
 			self.settings.set(field, value)
+			frappe.db.set_single_value("One Admin Settings", field, value)
+			frappe.db.commit()
+
+	def own(self, field: str, value: str, secret: bool = True) -> None:
+		"""What only this setup makes, One's tokens and R2 keys: replaced
+		whenever it makes them anew, and saved before anything else is done."""
+		if secret:
+			set_encrypted_password("One Admin Settings", "One Admin Settings", value, field)
+		else:
+			self.settings.set(field, value)
+			frappe.db.set_single_value("One Admin Settings", field, value)
+		frappe.db.commit()
 
 	def run(self) -> list[dict]:
 		for step in (
+			self.admin_token,
 			self.find_account,
 			self.find_zone,
 			self.kv,
 			self.buckets,
-			self.r2_keys,
+			self.tokens,
 			self.router,
 			self.certificate,
 			self.custom_hostnames,
@@ -89,12 +148,104 @@ class Setup:
 				step()
 			except Refused as reason:
 				self.note(step.__name__, FAILED, str(reason))
-				if step in (self.find_account, self.find_zone):
+				if step in (self.admin_token, self.find_account, self.find_zone):
 					break
-		self.settings.cloudflare_setup = json.dumps(self.said, indent=1)
-		self.settings.flags.ignore_permissions = True
-		self.settings.save()
+			except requests.RequestException as reason:
+				self.note(step.__name__, FAILED, _("Cloudflare did not answer: {0}. Set up again.").format(reason))
+				break
 		return self.said
+
+	# One's tokens
+
+	def permission_groups(self) -> list[dict]:
+		if self.groups is None:
+			self.groups = self.call("GET", "/user/tokens/permission_groups", token=self.master)["result"]
+		return self.groups
+
+	def held_tokens(self) -> list[dict]:
+		found, page = [], 1
+		while True:
+			body = self.call("GET", "/user/tokens", token=self.master, params={"per_page": 50, "page": page})
+			found += body["result"] or []
+			info = body.get("result_info") or {}
+			if page >= (info.get("total_pages") or 1):
+				return found
+			page += 1
+
+	def verified(self, value: str | None) -> str | None:
+		"""The id of the token a secret belongs to, or None when it is no
+		token any more."""
+		if not value:
+			return None
+		try:
+			return self.call("GET", "/user/tokens/verify", token=value)["result"].get("id")
+		except Refused:
+			return None
+
+	def ensure_token(self, name: str) -> str:
+		"""One of One's tokens, found by its name or made, allowed what TOKENS
+		says on what this setup has found so far. A token whose secret is not
+		the one held, because a run was cut off between Cloudflare making it
+		and us saving it, is rolled: the same token with a new secret, saved
+		before anything else."""
+		field, needs = TOKENS[name]
+		wanted, missing = policies(self.permission_groups(), needs, self.account, self.zone and self.zone["id"], self.buckets_held())
+		held = next((one for one in self.held_tokens() if one["name"] == name), None)
+		value = self.settings.get_password(field, raise_exception=False)
+		if name == "OneAdmin Storage":
+			value = None if not held or self.settings.r2_key_id != held["id"] else "held"
+		state = OURS
+		if not held:
+			made = self.call("POST", "/user/tokens", token=self.master, json={"name": name, "policies": wanted})["result"]
+			held, value, state = made, made["value"], MADE
+			self.store(name, made["id"], value)
+		else:
+			if name != "OneAdmin Storage" and self.verified(value) != held["id"]:
+				value = None
+			if not value:
+				value = self.call("PUT", f"/user/tokens/{held['id']}/value", token=self.master, json={})["result"]
+				self.store(name, held["id"], value)
+				state = MADE
+			if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
+				self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": name, "policies": wanted, "status": "active"})
+		detail = _("missing permissions: {0}").format(", ".join(missing)) if missing else ""
+		self.note(f"token {name}", WAITING if missing else state, detail)
+		return value
+
+	def store(self, name: str, ident: str, value: str) -> None:
+		field = TOKENS[name][0]
+		if name == "OneAdmin Storage":
+			# R2's S3 keys are the token: its id, and the SHA-256 of its secret.
+			self.own("r2_key_id", ident, secret=False)
+			self.own("r2_secret", hashlib.sha256(value.encode()).hexdigest())
+		else:
+			self.own(field, value)
+
+	def buckets_held(self) -> list[tuple[str, str]]:
+		return [
+			("eu" if field == "bucket_eu" else "default", self.settings.get(field))
+			for field in ("bucket_global", "bucket_eu")
+			if self.settings.get(field)
+		]
+
+	def admin_token(self) -> None:
+		"""The token every other step runs with. Before the account and the
+		zone are known it may reach any of them; tokens() narrows it once
+		they are."""
+		self.token = self.ensure_token("OneAdmin")
+		for _try in range(5):
+			if self.verified(self.token):
+				return
+			time.sleep(1)
+		raise Refused(_("The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."))
+
+	def tokens(self) -> None:
+		"""One's three tokens, each allowed only its own work on what was
+		found: the account, the zone and the two buckets."""
+		self.token = self.ensure_token("OneAdmin")
+		if self.buckets_held():
+			self.ensure_token("OneAdmin Storage")
+		self.ensure_token("OneAI")
 
 	def find_account(self) -> None:
 		accounts = self.call("GET", "/accounts")["result"]
@@ -150,16 +301,6 @@ class Setup:
 				self.note(f"bucket {jurisdiction}", MADE, name)
 			self.keep(field, name)
 
-	def r2_keys(self) -> None:
-		"""R2's S3 keys are the token itself: its id, and the SHA-256 of its
-		value. Nothing is created, and a rotated token rotates them."""
-		if self.settings.r2_key_id:
-			return self.note("r2 keys", OURS, _("already set"))
-		verified = self.call("GET", "/user/tokens/verify")["result"]
-		self.keep("r2_key_id", verified["id"])
-		self.settings.r2_secret = hashlib.sha256(self.token.encode()).hexdigest()
-		self.note("r2 keys", MADE, _("from the token"))
-
 	def router(self) -> None:
 		domain = self.settings.tenant_domain
 		bindings = [self.kv_binding(), {"type": "plain_text", "name": "TENANT_DOMAIN", "text": domain}]
@@ -180,6 +321,10 @@ class Setup:
 		found = next((one for one in held if wanted <= set(one.get("hosts") or [])), None)
 		if found:
 			return self.note("certificate", OURS if found.get("status") == "active" else WAITING, found.get("status") or "")
+		if not acm(self.quota(zone)):
+			return self.note(
+				"certificate", WAITING, _("Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again.").format(self.zone["name"])
+			)
 		try:
 			made = self.call(
 				"POST",
@@ -198,6 +343,12 @@ class Setup:
 			)
 		self.note("certificate", MADE, made.get("status") or "")
 
+	def quota(self, zone: str) -> dict | None:
+		try:
+			return self.call("GET", f"/zones/{zone}/ssl/certificate_packs/quota")["result"]
+		except Refused:
+			return None
+
 	def custom_hostnames(self) -> None:
 		"""Cloudflare for SaaS on the zone, for customers' own domains
 		(domains.py). A custom hostname needs a fallback origin on the zone
@@ -209,7 +360,7 @@ class Setup:
 			self.call("GET", f"/zones/{zone}/custom_hostnames", params={"per_page": 1})
 		except Refused as reason:
 			return self.note(
-				"custom hostnames", WAITING, _("{0}. The key needs SSL and Certificates: Edit on the zone.").format(reason)
+				"custom hostnames", WAITING, _("{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone.").format(reason)
 			)
 		try:
 			held = self.call("GET", f"/zones/{zone}/custom_hostnames/fallback_origin").get("result") or {}
@@ -241,7 +392,7 @@ class Setup:
 		try:
 			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": mail})["result"]
 		except Refused as reason:
-			return self.note("mail routing", WAITING, _("{0}. The key needs Zone Settings: Edit.").format(reason))
+			return self.note("mail routing", WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
 		missing = [one for one in (held or {}).get("record", held or []) if isinstance(one, dict) and one.get("missing")]
 		if held and not missing:
 			return self.note("mail routing", OURS, mail)
@@ -322,8 +473,8 @@ class Setup:
 	def ai_gateway(self) -> None:
 		"""The AI gateway OneAI calls through, found or made, with Guardrails
 		on. What it already holds (caching, rate limits, spend limits) is kept;
-		only its logs and its Guardrails are set. The token OneAI calls with is
-		the operator's to give, in OneAdmin Settings."""
+		only its logs and its Guardrails are set. OneAI calls it with the OneAI
+		token tokens() makes."""
 		name = self.settings.ai_gateway or GATEWAY
 		base = f"/accounts/{self.account}/ai-gateway/gateways"
 		try:
@@ -337,8 +488,6 @@ class Setup:
 			self.note("ai gateway", OURS, name)
 		self.call("PUT", f"{base}/{name}", json=guarded(held or {}))
 		self.keep("ai_gateway", name)
-		if not self.settings.get_password("ai_gateway_token", raise_exception=False):
-			self.note("ai gateway token", WAITING, _("Give OneAdmin Settings a token that may run the gateway."))
 
 	def kv_binding(self) -> dict:
 		return {"type": "kv_namespace", "name": "SITES", "namespace_id": self.settings.cloudflare_kv}
@@ -363,7 +512,7 @@ class Setup:
 			},
 		)
 		held[name] = wanted
-		self.settings.cloudflare_deployed = json.dumps(held)
+		self.own("cloudflare_deployed", json.dumps(held), secret=False)
 		self.note(f"worker {name}", OURS if there else MADE, _("deployed") if there else "")
 
 	def dns(self, kind: str, name: str, content: str) -> None:
@@ -412,14 +561,101 @@ def guarded(held: dict) -> dict:
 KEPT = ("id", "authentication", "spend_limits", "retry_backoff", "retry_delay", "retry_max_attempts", "log_management", "log_management_strategy", "byok_only", "zdr")
 
 
+def policies(groups: list[dict], needs: tuple, account: str | None, zone: str | None, buckets: list) -> tuple[list[dict], list[str]]:
+	"""A token's policies from the permissions it needs: each granted on the
+	account, the zone or the buckets, as its own scope says, and on all
+	accounts or zones while which one is not known yet. Also the needs
+	Cloudflare has no permission for, by their first name. Pure."""
+	where = {
+		ACCOUNT: {f"{ACCOUNT}.{account}" if account else f"{ACCOUNT}.*": "*"},
+		ZONE: {f"{ZONE}.{zone}" if zone else f"{ZONE}.*": "*"},
+		BUCKET: {f"{BUCKET}.{account}_{jurisdiction}_{name}": "*" for jurisdiction, name in buckets} if account else {},
+	}
+	granted: dict[str, list[str]] = {}
+	missing = []
+	for names in needs:
+		group = next((one for name in names for one in groups if named(one["name"], name)), None)
+		scope = group and next((one for one in (BUCKET, ZONE, ACCOUNT) if one in (group.get("scopes") or [])), None)
+		if not scope:
+			if not names[0].endswith("*"):
+				missing.append(names[0])
+			continue
+		if where[scope]:
+			granted.setdefault(scope, []).append(group["id"])
+	made = [
+		{"effect": "allow", "permission_groups": [{"id": one} for one in ids], "resources": where[scope]}
+		for scope, ids in granted.items()
+	]
+	return made, missing
+
+
+def named(name: str, wanted: str) -> bool:
+	"""Whether a permission is the one wanted: by its name, or for a name
+	ending in *, any that starts so and is not only Read. Pure."""
+	if wanted.endswith("*"):
+		return name.startswith(wanted[:-1]) and not name.endswith("Read")
+	return name == wanted
+
+
+def same(held: list[dict], wanted: list[dict]) -> bool:
+	"""Whether a token already allows what it should, whatever order
+	Cloudflare keeps it in. Pure."""
+
+	def shape(policies):
+		return sorted(
+			(sorted(one["id"] for one in policy.get("permission_groups") or []), json.dumps(policy.get("resources"), sort_keys=True))
+			for policy in policies
+			if policy.get("effect", "allow") == "allow"
+		)
+
+	return shape(held) == shape(wanted)
+
+
+def acm(quota: dict | None) -> bool:
+	"""Whether the zone may order an advanced certificate: Advanced
+	Certificate Manager is on. Unknown counts as on, and the order says. Pure."""
+	if quota is None:
+		return True
+	return bool((quota.get("advanced") or {}).get("allocated"))
+
+
 @frappe.whitelist(methods=["POST"])
-def set_up() -> list[dict]:
-	"""The button on OneAdmin Settings."""
+def set_up() -> dict:
+	"""The button on One Admin Settings: one run at a time, in the background,
+	so closing the page or losing the connection stops nothing."""
 	frappe.only_for(site.OPERATOR)
 	site.require_admin()
-	token = frappe.conf.get("cloudflare_token") or frappe.get_doc("One Admin Settings").get_password(
-		"cloudflare_token", raise_exception=False
+	if not master():
+		frappe.throw(_("Enter the Cloudflare master token first."))
+	frappe.enqueue(
+		"onedesk.one_admin.setup.run",
+		queue="long",
+		timeout=LOCKED_FOR,
+		job_id=LOCK,
+		deduplicate=True,
+		user=frappe.session.user,
 	)
-	if not token:
-		frappe.throw(_("Enter the Cloudflare API token first."))
-	return Setup(token).run()
+	return {"running": True}
+
+
+def master() -> str | None:
+	return frappe.conf.get("cloudflare_master_token") or frappe.get_doc("One Admin Settings").get_password(
+		"cloudflare_master_token", raise_exception=False
+	)
+
+
+def run(user: str | None = None) -> list[dict]:
+	"""One Set Up Cloudflare, holding the lock while it runs. A run that dies
+	frees the lock when it expires, and the next one carries on from what the
+	last one saved."""
+	if user:
+		frappe.set_user(user)
+	key = frappe.cache.make_key(LOCK)
+	if not frappe.cache.set(key, 1, nx=True, ex=LOCKED_FOR):
+		return []
+	try:
+		said = Setup(master()).run()
+	finally:
+		frappe.cache.delete(key)
+	frappe.publish_realtime("cloudflare_setup", {"said": said, "done": True}, user=frappe.session.user)
+	return said

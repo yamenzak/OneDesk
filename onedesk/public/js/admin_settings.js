@@ -6,20 +6,24 @@ frappe.ui.form.on("One Admin Settings", {
 	},
 	set_up_cloudflare(frm) {
 		if (frm.is_dirty()) return frappe.msgprint(__("Save before setting up Cloudflare."));
-		frappe.dom.freeze(__("Setting up Cloudflare…"));
-		frappe
-			.xcall("onedesk.one_admin.setup.set_up")
-			.then((said) => {
+		// It runs in the background (setup.run): each step shows as it ends,
+		// and leaving the page stops nothing.
+		frappe.realtime.off("cloudflare_setup");
+		frappe.realtime.on("cloudflare_setup", ({ said, done }) => {
+			frm.doc.cloudflare_setup = JSON.stringify(said);
+			onedesk.admin.drawSetup(frm, !done);
+			if (done) {
+				frappe.realtime.off("cloudflare_setup");
 				frm.reload_doc();
-				onedesk.admin.showSetup(said);
-			})
-			.finally(() => frappe.dom.unfreeze());
+			}
+		});
+		frappe.xcall("onedesk.one_admin.setup.set_up").then(() => onedesk.admin.drawSetup(frm, true));
 	},
 });
 
 frappe.provide("onedesk.admin");
 
-onedesk.admin.drawSetup = (frm) => {
+onedesk.admin.drawSetup = (frm, running = false) => {
 	const field = frm.fields_dict.cloudflare_setup_said;
 	if (!field) return;
 	let said = [];
@@ -30,8 +34,13 @@ onedesk.admin.drawSetup = (frm) => {
 	}
 	field.$wrapper.html(
 		said.length
-			? `<div class="control-label">${__("Last Setup")}</div>${onedesk.admin.setupTable(said)}`
-			: `<p class="text-muted small">${__("Not set up yet")}</p>`,
+			? `<div class="control-label">${running ? __("Setting Up…") : __("Last Setup")}</div>${onedesk.admin.setupTable(said)}`
+			: `<p class="text-muted small">${running ? __("Setting Up…") : __("Not set up yet")}</p>`,
+	);
+};
+
+onedesk.admin.setupTable(said)}`
+			: `<p class="text-muted small">${running ? __("Setting Up…") : __("Not set up yet")}</p>`,
 	);
 };
 

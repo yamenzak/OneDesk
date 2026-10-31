@@ -30,14 +30,16 @@ def test_a_setting_already_filled_in_is_never_replaced():
 	keep = _method("keep")
 	assert "if value and (not self.settings.get(field))" in keep
 	writes = re.findall(r"self\.settings\.(\w+) = ", SOURCE)
-	assert set(writes) <= {"cloudflare_setup", "cloudflare_deployed", "r2_secret"}
-	assert "if self.settings.r2_key_id:" in _method("r2_keys")
+	assert not writes, "settings are written through keep() or own(), each saved at once"
+	assert "frappe.db.commit()" in keep and "frappe.db.commit()" in _method("own")
 
 
 def test_somebody_elses_record_or_route_is_left_as_it_is():
 	assert "THEIRS" in _method("dns") and "THEIRS" in _method("route")
 	puts = re.findall(r'self\.call\(\s*"PUT",\s*f"([^"]+)"', SOURCE)
 	assert puts == [
+		"/user/tokens/{held['id']}/value",
+		"/user/tokens/{held['id']}",
 		"/zones/{zone}/custom_hostnames/fallback_origin",
 		"/zones/{zone}/email/routing/rules/catch_all",
 		"{base}/{name}",
@@ -76,7 +78,9 @@ def test_the_workspace_certificate_is_ordered_once():
 
 
 def _lifted(names: tuple) -> dict:
-	space = {}
+	import json
+
+	space = {"json": json}
 	for node in ast.parse(SOURCE).body:
 		named = getattr(node.targets[0], "id", "") if isinstance(node, ast.Assign) else getattr(node, "name", "")
 		if named in names:
@@ -98,3 +102,46 @@ def test_the_ai_gateway_keeps_what_it_holds_and_flags_on_every_call():
 	assert held["cache_ttl"] == 300 and held["rate_limiting_limit"] == 50 and held["authentication"] is True
 	assert "created_at" not in held, "only what the update takes is sent back"
 	assert "self.ai_gateway," in SOURCE and "self.keep('ai_gateway', name)" in _method("ai_gateway")
+
+
+def test_one_s_tokens_are_allowed_only_what_was_found():
+	"""Before the account and zone are known, OneAdmin may reach any of them;
+	after, only those. OneAdmin Storage reaches only the two buckets. A name
+	Cloudflare does not have is said, unless it is a * name."""
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "TOKENS", "named", "policies", "same"))
+	groups = [
+		{"id": "a", "name": "Workers Scripts Write", "scopes": ["com.cloudflare.api.account"]},
+		{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]},
+		{"id": "b", "name": "Workers R2 Storage Bucket Item Write", "scopes": ["com.cloudflare.edge.r2.bucket"]},
+		{"id": "r", "name": "Email Sending Read", "scopes": ["com.cloudflare.api.account"]},
+	]
+	needs = (("Workers Scripts Write",), ("DNS Write", "DNS Edit"), ("Zone Read",), ("Email Sending*",))
+	early, missing = space["policies"](groups, needs, None, None, [])
+	assert missing == ["Zone Read"], "a * name with only a Read permission is left out quietly"
+	assert {key for one in early for key in one["resources"]} == {"com.cloudflare.api.account.*", "com.cloudflare.api.account.zone.*"}
+	late, _ = space["policies"](groups, needs, "acc", "zone", [])
+	assert {key for one in late for key in one["resources"]} == {"com.cloudflare.api.account.acc", "com.cloudflare.api.account.zone.zone"}
+	assert not space["same"](early, late) and space["same"](late, list(reversed(late)))
+	storage, _ = space["policies"](groups, space["TOKENS"]["OneAdmin Storage"][1], "acc", "zone", [("default", "one-global"), ("eu", "one-eu")])
+	assert storage == [{"effect": "allow", "permission_groups": [{"id": "b"}], "resources": {"com.cloudflare.edge.r2.bucket.acc_default_one-global": "*", "com.cloudflare.edge.r2.bucket.acc_eu_one-eu": "*"}}]
+
+
+def test_a_token_whose_secret_was_lost_is_rolled_not_made_again():
+	ensure = _method("ensure_token")
+	assert ensure.index("held_tokens()") < ensure.index("'POST', '/user/tokens'"), "looked for by name before anything is made"
+	assert "/value" in ensure and "self.verified(value) != held['id']" in ensure
+	assert ensure.index("self.store(") < ensure.index("self.note("), "a secret is saved before the step is said done"
+	assert "token=self.master" in _method("permission_groups") and "token=self.master" in _method("held_tokens")
+
+
+def test_one_run_at_a_time_in_the_background():
+	assert "frappe.enqueue(" in _method("set_up") and "deduplicate=True" in _method("set_up")
+	assert "nx=True" in _method("run") and "frappe.cache.delete(key)" in _method("run")
+
+
+def test_advanced_certificate_manager_is_checked_before_ordering():
+	space = _lifted(("acm",))
+	assert space["acm"](None) and space["acm"]({"advanced": {"allocated": 1}})
+	assert not space["acm"]({"advanced": {"allocated": 0}})
+	certificate = _method("certificate")
+	assert certificate.index("acm(") < certificate.index("certificate_packs/order")

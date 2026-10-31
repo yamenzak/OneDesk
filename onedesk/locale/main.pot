@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 12:06+0000\n"
-"PO-Revision-Date: 2026-10-31 12:06+0000\n"
+"POT-Creation-Date: 2026-10-31 12:35+0000\n"
+"PO-Revision-Date: 2026-10-31 12:35+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1864,8 +1864,6 @@ msgid "AICenter"
 msgstr ""
 
 #. Label of the press_token (Password) field in DocType 'One Admin Settings'
-#. Label of the cloudflare_token (Password) field in DocType 'One Admin
-#. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "API Token"
 msgstr ""
@@ -5405,7 +5403,7 @@ msgstr ""
 msgid "Asked {0} for prices"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:74
+#: onedesk/public/js/admin_settings.js:83
 msgid "Asking…"
 msgstr ""
 
@@ -9568,8 +9566,12 @@ msgstr ""
 #. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json
-#: onedesk/one_admin/heads.py:356 onedesk/public/js/admin_settings.js:39
+#: onedesk/one_admin/heads.py:356
 msgid "Cloudflare"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:154
+msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
 
 #: onedesk/one_admin/heads.py:429
@@ -11445,10 +11447,6 @@ msgstr ""
 
 #: frontend/src/sheet/shim/CellProblem.vue:7 onedesk/one_mail/flow.py:326
 msgid "Create {0}"
-msgstr ""
-
-#: onedesk/public/js/admin_settings.js:45
-msgid "Created"
 msgstr ""
 
 #: onedesk/one/rules.py:279
@@ -16409,8 +16407,8 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:424
-msgid "Enter the Cloudflare API token first."
+#: onedesk/one_admin/setup.py:629
+msgid "Enter the Cloudflare master token first."
 msgstr ""
 
 #: onedesk/one_book/ready.py:287
@@ -17233,10 +17231,6 @@ msgstr ""
 msgid "Existing workspaces keep it. New signups can't pick it."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:45
-msgid "Exists"
-msgstr ""
-
 #: frontend/src/writer/components/VersionsSidebar.vue:22
 msgid "Exit"
 msgstr ""
@@ -17721,7 +17715,6 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
-#: onedesk/public/js/admin_settings.js:45
 #: onedesk/public/js/one_account/account_center.js:384
 msgid "Failed"
 msgstr ""
@@ -18388,7 +18381,7 @@ msgstr ""
 #. Description of the 'Set Up Cloudflare' (Button) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Finds or makes everything a workspace needs from Cloudflare with the token above. It changes nothing that is already set up."
+msgid "Finds or makes everything a workspace needs from Cloudflare. Running it again checks it all and mends what is missing."
 msgstr ""
 
 #. Task in the Year-End Audit project template
@@ -19845,10 +19838,6 @@ msgstr ""
 
 #: onedesk/one_mail/flow.py:212
 msgid "Give OneAI at least two labels to pick from."
-msgstr ""
-
-#: onedesk/one_admin/setup.py:341
-msgid "Give OneAdmin Settings a token that may run the gateway."
 msgstr ""
 
 #. Label of the one_for (Small Text) field in DocType 'Task'
@@ -24824,7 +24813,7 @@ msgstr ""
 #. Settings'
 #. Label of the cloudflare_setup (Code) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/public/js/admin_settings.js:33
+#: onedesk/public/js/admin_settings.js:37
 msgid "Last Setup"
 msgstr ""
 
@@ -26530,6 +26519,12 @@ msgstr ""
 msgid "Made by OneAI. Not checked yet."
 msgstr ""
 
+#. Description of the 'OneAdmin Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Made by Set Up Cloudflare for OneAdmin's own calls, and made again when its secret is lost."
+msgstr ""
+
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Band'
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Chart'
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head
@@ -26558,6 +26553,12 @@ msgstr ""
 
 #: onedesk/one_ai/reading/planning.py:109
 msgid "Made from {0}."
+msgstr ""
+
+#. Description of the 'Master Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
 msgstr ""
 
 #: onedesk/public/js/item_new.js:99
@@ -27385,6 +27386,12 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:140
 msgid "Master Production Schedule"
+msgstr ""
+
+#. Label of the cloudflare_master_token (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Master Token"
 msgstr ""
 
 #: onedesk/one_slide/api.py:274
@@ -28700,10 +28707,6 @@ msgstr ""
 #. Label of the needs (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Needs"
-msgstr ""
-
-#: onedesk/public/js/admin_settings.js:45
-msgid "Needs Attention"
 msgstr ""
 
 #: frontend/src/intake/IntakeReading.vue:94
@@ -31040,7 +31043,8 @@ msgstr ""
 msgid "Not set for a new record."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:34
+#: onedesk/public/js/admin_settings.js:38
+#: onedesk/public/js/admin_settings.js:43
 msgid "Not set up yet"
 msgstr ""
 
@@ -32417,12 +32421,6 @@ msgstr ""
 msgid "One thing OneAI did or proposed with a document, what was there before, and whether a person has looked."
 msgstr ""
 
-#. Description of the 'API Token' (Password) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "One token for all of Cloudflare. Set Up Cloudflare fills in the rest of this section and the storage one from it."
-msgstr ""
-
 #: onedesk/one_admin/heads.py:451
 msgid "One workspace has this"
 msgstr ""
@@ -32766,6 +32764,12 @@ msgstr ""
 #. Title of a Sidebar
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "OneAdmin"
+msgstr ""
+
+#. Label of the cloudflare_token (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "OneAdmin Token"
 msgstr ""
 
 #: onedesk/one_account/private.py:88
@@ -37962,10 +37966,6 @@ msgstr ""
 msgid "Promotional Scheme"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:65
-msgid "Prompt"
-msgstr ""
-
 #. Label in the One Employee Tax Exemption Proof Submission print format
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
 msgid "Proof"
@@ -38059,12 +38059,6 @@ msgstr ""
 #. Label of the usd (Float) field in DocType 'Credit Reservation'
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json
 msgid "Provider Cost (USD)"
-msgstr ""
-
-#. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Provider keys are stored in the gateway, never here."
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
@@ -42408,10 +42402,6 @@ msgstr ""
 msgid "Say a little about yourself and your work."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:67
-msgid "Say hello in one short sentence."
-msgstr ""
-
 #: onedesk/one_ai/heads.py:115
 msgid "Say no to this?"
 msgstr ""
@@ -43058,10 +43048,6 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:484
 msgid "Send Password Reset"
-msgstr ""
-
-#: onedesk/public/js/admin_settings.js:71
-msgid "Send Prompt"
 msgstr ""
 
 #: frontend/portal/src/pages/Rfq.vue:95
@@ -43797,8 +43783,10 @@ msgstr ""
 msgid "Sets your first shift and holiday list. You can change both later."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:9
-msgid "Setting up Cloudflare…"
+#: onedesk/public/js/admin_settings.js:37
+#: onedesk/public/js/admin_settings.js:38
+#: onedesk/public/js/admin_settings.js:43
+msgid "Setting Up…"
 msgstr ""
 
 #: onedesk/one/setup_wizard.py:12
@@ -48695,7 +48683,7 @@ msgstr ""
 msgid "Test"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:3 onedesk/public/js/admin_settings.js:60
+#: onedesk/public/js/admin_settings.js:3
 msgid "Test Gateway"
 msgstr ""
 
@@ -49030,6 +49018,22 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:1085
 msgid "The One account with this email becomes the owner and receives invoices and payment notices."
+msgstr ""
+
+#. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The OneAI token, made by Set Up Cloudflare. Provider keys are stored in the gateway, never here."
+msgstr ""
+
+#. Description of the 'R2 Access Key ID' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:240
+msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
 #: onedesk/one_doc/tour.py:17
@@ -50749,11 +50753,11 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:105
+#: onedesk/one_admin/setup.py:256
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:119
+#: onedesk/one_admin/setup.py:270
 msgid "The token has no zone for {0}."
 msgstr ""
 
@@ -53459,6 +53463,10 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
+#: onedesk/one_admin/setup.py:326
+msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
+msgstr ""
+
 #: onedesk/one/weather.py:179
 msgid "Turn on Weather in TrustCenter to search for a place."
 msgstr ""
@@ -53780,10 +53788,6 @@ msgstr ""
 
 #: frontend/src/project/group.js:30
 msgid "Unassigned"
-msgstr ""
-
-#: onedesk/public/js/admin_settings.js:45
-msgid "Unchanged"
 msgstr ""
 
 #: frontend/src/crm/CrmHome.vue:232
@@ -61618,10 +61622,6 @@ msgstr ""
 msgid "all of these:"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:157
-msgid "already set"
-msgstr ""
-
 #: onedesk/one_studio/print_blocks.py:892
 #: onedesk/one_studio/print_blocks.py:907
 msgid "an employee"
@@ -61799,7 +61799,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:367
+#: onedesk/one_admin/setup.py:516
 msgid "deployed"
 msgstr ""
 
@@ -61917,10 +61917,6 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:304
 msgid "from it"
-msgstr ""
-
-#: onedesk/one_admin/setup.py:161
-msgid "from the token"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:286
@@ -62188,6 +62184,10 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Workbook Version'
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json
 msgid "milestone"
+msgstr ""
+
+#: onedesk/one_admin/setup.py:211
+msgid "missing permissions: {0}"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:623
@@ -62842,7 +62842,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:378
+#: onedesk/one_admin/setup.py:527
 msgid "unchanged"
 msgstr ""
 
@@ -63287,7 +63287,7 @@ msgstr ""
 msgid "{0} and {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:121
+#: onedesk/one_admin/setup.py:272
 msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
@@ -64421,7 +64421,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:285
+#: onedesk/one_admin/setup.py:436
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
@@ -65775,7 +65775,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:282
+#: onedesk/one_admin/setup.py:433
 msgid "{0}, on the mail domain"
 msgstr ""
 
@@ -65783,7 +65783,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:262
+#: onedesk/one_admin/setup.py:413
 msgid "{0}, replacing the previous rule"
 msgstr ""
 
@@ -65820,16 +65820,16 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:197
+#: onedesk/one_admin/setup.py:342
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:212
-msgid "{0}. The key needs SSL and Certificates: Edit on the zone."
+#: onedesk/one_admin/setup.py:363
+msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:244
-msgid "{0}. The key needs Zone Settings: Edit."
+#: onedesk/one_admin/setup.py:395
+msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""
 
 #: onedesk/one/layer.py:137 onedesk/one/layer.py:240
