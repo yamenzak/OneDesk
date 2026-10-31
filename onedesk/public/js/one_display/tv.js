@@ -520,6 +520,7 @@
 			var make = (LAYOUTS[one.type] || {})[(one.settings || {}).layout] || KINDS[one.type];
 			if (!make) continue;
 			var inset = dress(box, (one.settings || {}).look, s.w / Math.round(s.w / 2));
+			sizes(box, one);
 			boxes[one.id] = make(box, one, (one.w * s.w) / 100 - inset, (one.h * s.h) / 100 - inset) || {};
 		}
 		slide = { index: -1, total: 0 };
@@ -950,7 +951,27 @@
 	   every answer; words are sized in em from the box's own height. */
 
 	function sized(box, px) {
-		box.style.fontSize = Math.max(Math.round(px), 8) + "px";
+		box.style.fontSize = Math.max(Math.round(px * (box.textScale || 1)), 8) + "px";
+	}
+
+	// how large a widget's words are against what fits: all of them, then its
+	// main figure, its labels and its details, each a percent (widgets.LOOK)
+	function partsOf(one) {
+		var look = ((one || {}).settings || {}).look || {};
+		function part(key) {
+			var value = Number(look[key]);
+			return value > 0 ? value / 100 : 1;
+		}
+		return { text: part("textSize"), main: part("mainSize"), label: part("labelSize"), detail: part("detailSize") };
+	}
+
+	function sizes(box, one) {
+		var parts = partsOf(one);
+		box.textScale = parts.text;
+		if (!box.style.setProperty) return;
+		box.style.setProperty("--fs-main", parts.main);
+		box.style.setProperty("--fs-label", parts.label);
+		box.style.setProperty("--fs-detail", parts.detail);
 	}
 
 	// a widget's highlight: its look's, or the business's colour
@@ -1054,7 +1075,8 @@
 		// the big word as large as the box takes it, by how many letters it has
 		function fitted(words) {
 			var letters = Math.max(String(words || "").length, 3);
-			big.style.fontSize = Math.min(2, (w * 0.92) / (letters * 0.6 * base)) + "em";
+			var parts = partsOf(one);
+			big.style.fontSize = Math.min(2 * parts.main, (w * 0.92) / (letters * 0.6 * base * parts.text)) + "em";
 		}
 		var holder = el("div", "single");
 		var name = el("div", "eyebrow");
@@ -1283,8 +1305,9 @@
 			// the time alone takes the room a date would have had
 			sized(box, Math.min(h / ((one.settings || {}).date ? 2.4 : 1.5), w / 3.4));
 			var time = el("div", "big");
+			time.style.fontSize = "calc(1em * var(--fs-main, 1))";
 			var date = el("div");
-			date.style.fontSize = "0.32em";
+			date.style.fontSize = "calc(0.32em * var(--fs-detail, 1))";
 			date.style.opacity = "0.8";
 			date.style.marginTop = "0.2em";
 			box.appendChild(time);
@@ -1422,9 +1445,11 @@
 	}
 
 	// a word as large as its box allows, by how many letters it has
-	function fitWord(node, words, width, base, most) {
+	// its main figure as set, but never wider than the box
+	function fitWord(node, words, width, base, most, one) {
+		var parts = partsOf(one);
 		var letters = Math.max(String(words || "").length, 2);
-		node.style.fontSize = Math.min(most, (width * 0.9) / (letters * 0.6 * base)) + "em";
+		node.style.fontSize = Math.min(most * parts.main, (width * 0.9) / (letters * 0.6 * base * parts.text)) + "em";
 	}
 
 	// the newest call at each counter, the queue's counters in their order
@@ -1459,7 +1484,7 @@
 				if ((first ? first.id : "") === shown) return;
 				shown = first ? first.id : "";
 				text(ticket, first ? first.ticket : "—");
-				fitWord(ticket, ticket.textContent, w, base, 3.2);
+				fitWord(ticket, ticket.textContent, w, base, 3.2, one);
 				text(where, first ? word("counter") + " " + (first.counter || "") : word("nobody"));
 				holder.className = "wl-center" + (first && heard && !heard[first.id] ? " fresh" : "");
 			},
@@ -1491,7 +1516,7 @@
 				if ((call ? call.id : "") === shown) return;
 				shown = call ? call.id : "";
 				text(ticket, call ? call.ticket : "—");
-				fitWord(ticket, ticket.textContent, w, base, 3.2);
+				fitWord(ticket, ticket.textContent, w, base, 3.2, one);
 				holder.className = "wl-center" + (call && heard && !heard[call.id] ? " fresh" : "");
 			},
 		};
@@ -1835,7 +1860,7 @@
 			setTimeout(function () {
 				text(line, words[at % words.length]);
 				line.style.fontSize = "";
-				if (line.scrollWidth > line.clientWidth) line.style.fontSize = (0.75 * line.clientWidth) / line.scrollWidth + "em";
+				if (line.scrollWidth > line.clientWidth) line.style.fontSize = (parseFloat(window.getComputedStyle(line).fontSize) * line.clientWidth) / line.scrollWidth + "px";
 				line.style.opacity = 1;
 				at++;
 			}, 500);

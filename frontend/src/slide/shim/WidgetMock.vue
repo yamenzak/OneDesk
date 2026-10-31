@@ -3,7 +3,7 @@
      the screen sizes it (one_display/widgets.py PRESETS). One's own;
      VENDORED.md. -->
 <template>
-	<div class="flex size-full flex-col items-center justify-center overflow-hidden text-center leading-tight" :style="dressed">
+	<div ref="root" class="flex size-full flex-col items-center justify-center overflow-hidden text-center leading-tight" :style="dressed">
 		<template v-if="type === 'Clock' && layout === 'analog'">
 			<svg viewBox="0 0 100 100" class="size-full" :style="{ maxWidth: '100%', maxHeight: '100%' }">
 				<line v-for="i in 60" :key="i" x1="50" :y1="i % 5 ? 5 : 4" x2="50" :y2="i % 5 ? 7.5 : 11" stroke="currentColor" :stroke-width="i % 5 ? 0.8 : 2.2" stroke-linecap="round" :opacity="i % 5 ? 0.45 : 1" :transform="`rotate(${i * 6} 50 50)`" />
@@ -15,7 +15,7 @@
 		</template>
 		<template v-else-if="type === 'Clock' && layout === 'date'">
 			<span class="font-semibold uppercase opacity-75" :style="{ ...em(0.8), letterSpacing: '0.12em' }">{{ weekday }}</span>
-			<span class="font-bold leading-none" :style="em(3.6)">{{ dayOfMonth }}</span>
+			<span data-fit class="font-bold leading-none" :style="em(3.6)">{{ dayOfMonth }}</span>
 			<span class="opacity-75" :style="em(0.9)">{{ month }}</span>
 		</template>
 		<div v-else-if="type === 'Clock' && layout === 'stacked'" class="flex w-full flex-col items-start text-start" :style="{ padding: '0 0.4em' }">
@@ -23,7 +23,7 @@
 			<span class="font-semibold" :style="{ ...em(1), marginTop: '0.35em' }">{{ weekday }}</span>
 			<span class="opacity-75" :style="em(0.9)">{{ dayOfMonth }} {{ month }}</span>
 		</div>
-		<span v-else-if="type === 'Clock' && layout === 'minimal'" class="font-extralight leading-none tabular-nums" :style="em(3.4)">09:41</span>
+		<span v-else-if="type === 'Clock' && layout === 'minimal'" data-fit class="font-extralight leading-none tabular-nums" :style="em(3.4)">09:41</span>
 		<template v-else-if="type === 'Clock'">
 			<span class="font-semibold tabular-nums" :style="em(2.6)">{{ settings.hours === "12" ? "9:41" : "09:41" }}</span>
 			<span v-if="settings.date !== 0" class="opacity-80" :style="em(0.8)">{{ shown }}</span>
@@ -37,7 +37,7 @@
 		<div v-else-if="type === 'Ticker'" class="w-full truncate whitespace-nowrap text-start" :style="{ ...em(2.6), padding: '0 0.3em' }">{{ [__("Latest news"), __("Opening hours"), __("Welcome")].join("\u2003•\u2003") }}</div>
 		<template v-else-if="type === 'Queue Board' && layout === 'latest'">
 			<span class="uppercase opacity-70" :style="em(0.7)">{{ settings.heading || __("Now Serving") }}</span>
-			<span class="font-bold leading-none" :style="em(3)">A012</span>
+			<span data-fit class="font-bold leading-none" :style="em(3)">A012</span>
 			<span class="opacity-80" :style="{ ...em(0.9), marginTop: '0.3em' }">{{ __("Counter {0}", [2]) }}</span>
 		</template>
 		<div v-else-if="type === 'Queue Board' && layout === 'counters'" class="grid size-full grid-cols-2" :style="{ gap: '0.3em', padding: '0.3em' }">
@@ -60,7 +60,7 @@
 		</div>
 		<template v-else-if="type === 'Queue Board' && layout === 'counter'">
 			<span class="uppercase opacity-75" :style="{ ...em(0.8), letterSpacing: '0.1em' }">{{ __("Counter {0}", [settings.counter || 1]) }}</span>
-			<span class="font-bold leading-none" :style="em(3)">A012</span>
+			<span data-fit class="font-bold leading-none" :style="em(3)">A012</span>
 			<span class="opacity-75" :style="{ ...em(0.8), marginTop: '0.3em' }">{{ settings.heading || __("Now Serving") }}</span>
 		</template>
 		<div v-else-if="type === 'Queue Board'" class="flex w-full flex-col text-start" :style="{ gap: '0.3em', padding: '0.4em' }">
@@ -116,7 +116,7 @@
 		<span v-else-if="type === 'Weather' && layout === 'compact'" class="flex items-center whitespace-nowrap font-semibold" :style="{ ...em(2), gap: '0.25em' }"><Icon icon="lucide-sun" :style="square(1.1)" />24°</span>
 		<template v-else-if="type === 'Weather' && layout === 'big'">
 			<Icon icon="lucide-sun" :style="square(1.8)" />
-			<span class="font-extralight leading-none" :style="em(3.8)">24°</span>
+			<span data-fit class="font-extralight leading-none" :style="em(3.8)">24°</span>
 			<span class="opacity-75" :style="em(0.8)">{{ __("Clear sky") }}</span>
 		</template>
 		<div v-else-if="type === 'Weather'" class="flex w-full flex-col" :style="{ padding: '0 0.4em' }">
@@ -179,7 +179,7 @@
 </template>
 
 <script setup>
-import { computed } from "vue";
+import { computed, nextTick, onBeforeUnmount, onMounted, onUpdated, ref } from "vue";
 import { Icon } from "frappe-ui";
 import { date, dayWords, today } from "../../kit/desk";
 import { __ } from "./words.js";
@@ -198,7 +198,34 @@ const props = defineProps({
 	frameHigh: { type: Number, default: 0 },
 });
 
-const em = (size) => ({ fontSize: `${size}em` });
+// a size in em, scaled by the look's part it belongs to: a large figure is
+// the main one, small words are labels, the rest details (widgets.LOOK)
+const part = (key) => (Number(props.look?.[key]) > 0 ? Number(props.look[key]) / 100 : 1);
+// a large figure as set, but never wider than the widget, as the screen draws it
+const root = ref(null);
+function fit() {
+	nextTick(() => {
+		for (const node of root.value?.querySelectorAll("[data-fit]") || []) {
+			// its size as set is in em; one in px is what this made it
+			if (!node.style.fontSize.endsWith("px")) node.dataset.set = node.style.fontSize;
+			node.style.fontSize = node.dataset.set || "";
+			const room = root.value.clientWidth * 0.94;
+			if (node.scrollWidth > room) node.style.fontSize = `${(parseFloat(getComputedStyle(node).fontSize) * room) / node.scrollWidth}px`;
+		}
+	});
+}
+let watcher = null;
+onMounted(() => {
+	fit();
+	// the widget resized on the canvas draws again at its new width
+	if (typeof ResizeObserver !== "undefined" && root.value) {
+		watcher = new ResizeObserver(fit);
+		watcher.observe(root.value);
+	}
+});
+onUpdated(fit);
+onBeforeUnmount(() => watcher?.disconnect());
+const em = (size) => ({ fontSize: `${size * part(size >= 1.4 ? "mainSize" : size <= 0.8 ? "labelSize" : "detailSize")}em` });
 const layout = computed(() => props.settings.layout || "");
 
 // example words in the reader's language, as the screen gets them from the server
@@ -239,6 +266,7 @@ const dressed = computed(() => {
 		background: one.fillColor || undefined,
 		// a screen's words are its brand's ink until a look says otherwise
 		color: one.color || props.onBrand || undefined,
+		fontSize: Number(one.textSize) > 0 ? `${one.textSize / 100}em` : undefined,
 		fontFamily: one.fontFamily ? `'${one.fontFamily}'` : undefined,
 		padding: one.padding ? `${one.padding * props.scale}px` : undefined,
 		borderRadius: one.borderRadius ? `${Math.min(one.borderRadius * props.scale, 999)}px` : undefined,

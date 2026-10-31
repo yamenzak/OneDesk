@@ -17,6 +17,19 @@
 			<Combobox trigger="button" variant="ghost" size="sm" align="end" class="-me-1" :options="fonts" :model-value="element.fontFamily || ''" @update:model-value="(value) => setElementProperty('fontFamily', value || null)" />
 		</PropertyRow>
 		<NumberControl :modelValue="element.padding ?? 0" :label="__('Padding')" suffix="px" :min="0" :max="200" :max-digits="3" @update:modelValue="padding.set" @change-start="padding.begin" @change-end="padding.commit" />
+		<NumberControl
+			v-for="one in parts"
+			:key="one.key"
+			:modelValue="element[one.key] ?? 100"
+			:label="one.label"
+			suffix="%"
+			:min="20"
+			:max="400"
+			:max-digits="3"
+			@update:modelValue="one.edit.set"
+			@change-start="one.edit.begin"
+			@change-end="one.edit.commit"
+		/>
 	</Section>
 </template>
 
@@ -34,13 +47,20 @@ import { fontOptions, loadFonts } from "./fonts.js";
 import { __ } from "./words.js";
 
 // what a look may set: widgets.LOOK, the same names Border and Shadow write
-const KEYS = ["fillColor", "color", "accentColor", "fontFamily", "padding", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
+const KEYS = ["fillColor", "color", "accentColor", "fontFamily", "padding", "textSize", "mainSize", "labelSize", "detailSize", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
 
 const element = computed(() => firstEditableElement.value || {});
 const fill = useElementProperty("fillColor");
 const ink = useElementProperty("color");
 const hi = useElementProperty("accentColor");
 const padding = useElementProperty("padding");
+// how large its words are against what fits: all, then each part of them
+const parts = [
+	{ key: "textSize", label: __("Text Size"), edit: useElementProperty("textSize") },
+	{ key: "mainSize", label: __("Main"), edit: useElementProperty("mainSize") },
+	{ key: "labelSize", label: __("Labels"), edit: useElementProperty("labelSize") },
+	{ key: "detailSize", label: __("Details"), edit: useElementProperty("detailSize") },
+];
 const fonts = computed(() => [{ group: "", options: [{ label: __("The Screen's"), value: "" }] }, ...fontOptions.value]);
 const lookOptions = computed(() => (screen.value?.looks || []).map((one) => ({ label: one.label, value: one.name })));
 

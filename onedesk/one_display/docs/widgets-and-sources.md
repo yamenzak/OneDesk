@@ -58,7 +58,13 @@ padding, border, corners and shadow are set in the panel like anything
 else on the screen. **Highlight** is the colour of what stands out inside
 it: the newest call, the kiosk's buttons, a ticker's label, the second
 hand. It is your business's colour until you choose another, and the words
-on it turn dark on a light colour by themselves. **Look** gives a set of these in one go, which you can
+on it turn dark on a light colour by themselves.
+
+A widget sizes its words to fit its box. **Text Size** makes all of them
+larger or smaller, and **Main**, **Labels** and **Details** change one kind
+at a time: the ticket number or the temperature, the small words above it
+such as "Counter 1", and the lines under it. The main figure never grows
+wider than the box. **Look** gives a set of these in one go, which you can
 change afterwards: Card, Light Card, Soft, Floating, Glass, Dark Glass, Pill,
 Rounded, Outline, Band, Light Band, Solid, Highlight, Alert and Contrast, and
 four in your own colour, Accent, Accent Band, Accent Pill and Accent Outline.

@@ -111,7 +111,13 @@ border, corners and shadow are the element's, set in the editor like any
 object's and applied by `dress(box, look, unit)`. The look's `accentColor`
 is the widget's highlight (`accent(one)`, falling back to the brand), and
 `highlight(node, one)` gives what sits on it dark or white words by its
-lightness; the Accent looks set it to white, as their fill is the brand. A **look**
+lightness; the Accent looks set it to white, as their fill is the brand.
+Its words' sizes are the look's too: `textSize` scales the box's font
+(`sizes`, read by `sized`), and `mainSize`, `labelSize` and `detailSize`
+are set on the box as `--fs-main`, `--fs-label` and `--fs-detail`, which
+every text class in tv.html multiplies its size by. Which class is which
+part is decided there, once; a figure fitted to its box (`fitWord`) is
+scaled first and then capped at the box's width. A **look**
 (`widgets.LOOKS`) is a saved set of those offered per widget; a variation is
 a look, never a new widget. `tests/test_display.py` holds that no renderer
 sets a background, border or font of its own. A widget that only showed

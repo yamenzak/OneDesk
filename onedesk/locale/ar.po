@@ -46079,6 +46079,10 @@ msgstr "الاختبار والتسليم والإغلاق"
 msgid "Text"
 msgstr "النص"
 
+#: frontend/src/slide/shim/WidgetLookSection.vue:59
+msgid "Text Size"
+msgstr "حجم النص"
+
 #. Label of the stored_version (Link) field in DocType 'Legal Acceptance'
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json
 msgid "Text agreed to"

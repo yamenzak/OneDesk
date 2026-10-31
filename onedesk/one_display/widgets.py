@@ -152,6 +152,7 @@ TYPES = {
 # units, half a screen's pixels.
 LOOK = (
 	"fillColor", "color", "accentColor", "fontFamily", "padding",
+	"textSize", "mainSize", "labelSize", "detailSize",
 	"borderStyle", "borderColor", "borderWidth", "borderRadius",
 	"shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle",
 )

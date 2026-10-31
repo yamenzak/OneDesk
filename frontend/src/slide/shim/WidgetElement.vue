@@ -34,6 +34,6 @@ const settings = computed(() => {
 });
 
 // its look is the element's own, as the screen draws it (tv.js dress)
-const KEYS = ["fillColor", "color", "accentColor", "fontFamily", "padding", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
+const KEYS = ["fillColor", "color", "accentColor", "fontFamily", "padding", "textSize", "mainSize", "labelSize", "detailSize", "borderStyle", "borderColor", "borderWidth", "borderRadius", "shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle"];
 const look = computed(() => Object.fromEntries(KEYS.filter((key) => props.element[key] != null && props.element[key] !== "").map((key) => [key, props.element[key]])));
 </script>
