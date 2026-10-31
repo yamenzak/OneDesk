@@ -185,8 +185,9 @@ clause(
 	body="""
 		Weather is off until your workspace's administrators turn it on. While it is on, One's account sends
 		OpenWeather the coordinates of each place you choose. It also sends the name you search for when you
-		add a place. Nothing about a person is sent. The first place shown each day is free; each other place
-		costs five credits for each day it is shown.
+		add a place. Nothing about a person is sent. The location button uses the town Cloudflare places the
+		request's internet address in, and nothing more is kept than the place you save. The first place shown
+		each day is free; each other place costs five credits for each day it is shown.
 	""",
 )
 
@@ -237,6 +238,8 @@ clause(
 		request. While Google News is on, the topic or the words searched for, and the country and language, go to
 		One's account. It alone asks Google, on its own schedule, and shares what it fetches with every workspace that
 		asks for the same. A OneAI source sends what it should look for through One's account to the model, and each run costs
-		credits. Each source keeps only its newest items and deletes the rest as new ones arrive.
+		credits. Each source keeps only its newest items and deletes the rest as new ones arrive. We keep only the
+		address of an item's picture, never the picture. It loads from its publisher, who sees the internet address
+		of the desk or screen showing it, and is told nothing else.
 	""",
 )

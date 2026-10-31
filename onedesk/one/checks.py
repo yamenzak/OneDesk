@@ -261,6 +261,23 @@ def one_follows_the_news():
 			now = announcements.current()
 			assert now["shows"] == "News" and now["news"][0]["title"] == "Our own news"
 
+			from onedesk.one.news import adding
+
+			page = b'<html><head><meta property="og:site_name" content="Check Site"><link rel="alternate" type="application/rss+xml" href="/rss"></head></html>'
+			with mock.patch.object(feeds, "get", side_effect=[(200, page, None, None), (200, rss, None, None)]):
+				found = adding.find("check.example.com")
+			assert found["url"] == "https://check.example.com/rss" and found["name"] == "Check Site" and len(found["headlines"]) == 2, found
+			assert found["there"] == "Check Feed", "a feed already a source says so"
+			with mock.patch.object(feeds, "get", return_value=(200, b"<html></html>", None, None)):
+				assert "error" in adding.find("nothing.example.com")
+			made = adding.add("Written", "Check Written")
+			assert made == "Check Written 2", "a name already taken gets a number"
+			frappe.delete_doc(news.SOURCE, made, force=True)
+			assert adding.start()["google"]
+			latest = adding.latest("Check OneAI")
+			assert latest["items"][0]["title"] == "Towers rise" and latest["fetched"]
+			assert adding.add_many([]) == []
+
 			found = news_library.search("khaleej", "", "AE")
 			assert [one["name"] for one in found["feeds"]] == ["Khaleej Times"] and "World" in found["categories"]
 			url = found["feeds"][0]["url"]
@@ -398,6 +415,13 @@ def one_shows_the_weather_for_its_places():
 			with mock.patch("onedesk.one.account.ask", return_value=found) as asked:
 				assert weather.search("Dubai") == found
 				assert asked.call_args.args[0] == weather.PLACES and asked.call_args.kwargs["query"] == "Dubai"
+				listed = weather.suggest("Dubai")
+				assert listed[0]["value"] == "دبي, Dubai, AE" and listed[0]["label"] == "دبي", "towns sharing a name are told apart"
+			assert weather.suggest("D") == [], "one letter asks nothing"
+			with mock.patch("frappe.get_request_header", side_effect={"X-One-City": "Al%20Barsha", "X-One-Region": "Dubai", "X-One-Country": "AE", "X-One-Latitude": "25.11", "X-One-Longitude": "55.19"}.get):
+				assert weather.located() == {"name": "Al Barsha", "region": "Dubai", "country": "AE", "latitude": 25.11, "longitude": 55.19}
+			with mock.patch("frappe.get_request_header", return_value=None):
+				assert weather.located() == {}, "without the edge's headers, where it is is not guessed"
 			with mock.patch("onedesk.one.account.ask", return_value=dict(answer)) as asked, mock.patch.object(weather, "_now", return_value=start + 60):
 				shown = weather.here()
 				assert shown["place"] == place and shown["temperature"] == "30°C" and len(shown["hours"]) == 13, shown

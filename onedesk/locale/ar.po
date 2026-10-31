@@ -2556,6 +2556,10 @@ msgstr "إضافة ذكرى"
 msgid "Add Milestone"
 msgstr "إضافة مرحلة"
 
+#: onedesk/public/js/one/news_add.js:30 onedesk/public/js/one/news_add.js:74
+msgid "Add News Source"
+msgstr "إضافة مصدر أخبار"
+
 #: onedesk/public/js/one_account/account_center.js:49
 msgid "Add Photo"
 msgstr "إضافة صورة"
@@ -2602,6 +2606,10 @@ msgstr "إضافة شريحة"
 #: frontend/src/slide/shim/EditorNavbar.vue:121
 msgid "Add Slide Number"
 msgstr "إضافة رقم الشريحة"
+
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add Source"
+msgstr "إضافة المصدر"
 
 #: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:62
 #: onedesk/public/js/one_mail/rule_builder.js:414
@@ -2935,6 +2943,10 @@ msgstr "إضافة {0}"
 #: onedesk/public/js/item_new.js:275
 msgid "Add {0} Parts"
 msgstr "إضافة {0} قطع"
+
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add {0} Sources"
+msgstr "إضافة {0} مصادر"
 
 #: onedesk/one_project/ai.py:560 onedesk/one_project/ai.py:672
 #: onedesk/one_project/ai.py:813
@@ -3574,6 +3586,10 @@ msgstr "الكل"
 msgid "All Announcements"
 msgstr "كل الإعلانات"
 
+#: onedesk/public/js/one/news_add.js:148
+msgid "All Categories"
+msgstr "كل الفئات"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 msgid "All Day"
@@ -3797,6 +3813,10 @@ msgstr "النطاقات المسموح بها"
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Already Paid"
 msgstr "مدفوع مسبقاً"
+
+#: onedesk/public/js/one/news_add.js:136
+msgid "Already added as {0}."
+msgstr "مضاف مسبقًا باسم {0}."
 
 #: onedesk/one_ai/reading/planning.py:141
 msgid "Already paid."
@@ -8805,6 +8825,10 @@ msgstr "اختر ورقة لطباعتها."
 msgid "Choose a template from the list."
 msgstr "اختر قالبًا من القائمة."
 
+#: onedesk/one/news/adding.py:111
+msgid "Choose a type of source."
+msgstr "اختر نوع المصدر."
+
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
 msgstr "اختر الموظف وتاريخ القيد أولاً."
@@ -8914,6 +8938,10 @@ msgstr "اختر كلمة المرور"
 #: onedesk/one/notifications.py
 msgid "Choose your password to start.{apps}<br><br>The link works for {days} days. You sign in with {address}."
 msgstr "اختر كلمة المرور لتبدأ.{apps}<br><br>يعمل الرابط لمدة {days} أيام. تسجّل الدخول باستخدام {address}."
+
+#: onedesk/one/doctype/weather_place/weather_place.py:10
+msgid "Choose {0} from the list, or use the location button."
+msgstr "اختر {0} من القائمة، أو استخدم زر الموقع."
 
 #: onedesk/one_admin/steps.py:42
 msgid "Choosing a server"
@@ -10136,6 +10164,10 @@ msgstr "الدعم أثناء التنفيذ"
 #: onedesk/one_project/library_terms.json
 msgid "Construction Works"
 msgstr "أعمال إنشائية"
+
+#: onedesk/public/js/one/news_add.js:227
+msgid "Construction and building materials news"
+msgstr "أخبار البناء ومواد البناء"
 
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
@@ -17466,6 +17498,10 @@ msgstr "جلب تفاصيل العمل الإضافي"
 msgid "Fetch failed. It will be retried automatically."
 msgstr "فشل الجلب. ستُعاد المحاولة تلقائياً."
 
+#: onedesk/one/doctype/news_source/news_source.js:39
+msgid "Fetched {0}. Next fetch at {1}."
+msgstr "جُلب {0}. الجلب التالي عند {1}."
+
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Fetching"
 msgstr "الجلب"
@@ -17894,12 +17930,6 @@ msgstr "البحث والاستبدال"
 #: onedesk/one_legal/tour.py:23
 msgid "Find a Clause"
 msgstr "البحث عن بند"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:6
-#: onedesk/one/doctype/weather_place/weather_place.js:7
-#: onedesk/one/doctype/weather_place/weather_place.js:14
-msgid "Find a Place"
-msgstr "ابحث عن مكان"
 
 #: onedesk/one_storage/ai.py:18 onedesk/one_storage/ai.py:43
 msgid "Find a file…"
@@ -19064,6 +19094,10 @@ msgstr "من أو إلى"
 #: frontend/src/project/Overview.vue:313
 msgid "From the Customer"
 msgstr "لدى العميل"
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "From the Library"
+msgstr "من المكتبة"
 
 #: onedesk/public/js/one/one_control.js:202
 msgid "From the Web"
@@ -20385,6 +20419,14 @@ msgstr "مخفي عن جهات الاتصال"
 msgid "Hidden folders only repeat other folders or contain no mail. Example: Gmail's All Mail."
 msgstr "المجلدات المخفية تكرر مجلدات أخرى أو لا تحتوي بريداً. مثال: «كل البريد» في Gmail."
 
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Hidden headlines are not shown on the top bar, on screens or anywhere else."
+msgstr "العناوين المخفية لا تظهر في الشريط العلوي ولا على الشاشات ولا في أي مكان آخر."
+
+#: onedesk/one/doctype/news_item/news_item.js:19
+msgid "Hidden. This headline is not shown on the top bar or on screens."
+msgstr "مخفي. هذا العنوان لا يظهر في الشريط العلوي ولا على الشاشات."
+
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
 #: onedesk/public/js/window/chrome.js:200
@@ -20394,6 +20436,10 @@ msgstr "إخفاء"
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
 msgstr "إخفاء الملفات"
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Hide Headline"
+msgstr "إخفاء العنوان"
 
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Hide Master"
@@ -24270,6 +24316,10 @@ msgstr "لاحقًا"
 msgid "Latest Call"
 msgstr "آخر نداء"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Latest Headlines"
+msgstr "أحدث العناوين"
+
 #: frontend/src/slide/shim/WidgetMock.vue:45 onedesk/one_display/widgets.py:95
 #: onedesk/one_display/widgets.py:349
 msgid "Latest News"
@@ -25596,6 +25646,10 @@ msgstr "اطّلع على {0}"
 #: onedesk/public/js/one_ai/panel/Panel.vue:688
 msgid "Looked something up"
 msgstr "بحث عن معلومة"
+
+#: onedesk/public/js/one/news_add.js:126
+msgid "Looking for the site's feed…"
+msgstr "جارٍ البحث عن خلاصة الموقع…"
 
 #: frontend/src/slide/shim/ViewsDialog.vue:10
 msgid "Looks"
@@ -27765,10 +27819,6 @@ msgstr "الاسم مطلوب."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe Cloud عند أرشفة الموقع."
 
-#: onedesk/one/doctype/news_source/news_source_list.js:26
-msgid "Name or address"
-msgstr "الاسم أو العنوان"
-
 #: onedesk/one_book/ready.py:370
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
@@ -27874,6 +27924,10 @@ msgstr "تضييق القائمة"
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:138
 msgid "Navigation"
 msgstr "التنقل"
+
+#: onedesk/public/js/one/news_add.js:149
+msgid "Near You"
+msgstr "بالقرب منك"
 
 #: onedesk/public/js/one_account/account_center.js:704
 msgid "Nearly Full"
@@ -28532,6 +28586,10 @@ msgstr "مصادر الأخبار"
 msgid "News Ticker"
 msgstr "شريط الأخبار"
 
+#: onedesk/public/js/one/news_add.js:14
+msgid "News you write yourself, for example company updates."
+msgstr "أخبار تكتبها بنفسك، مثل أخبار الشركة."
+
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Newsletter"
@@ -29143,6 +29201,10 @@ msgstr "لا توجد أحداث"
 msgid "No family by that name."
 msgstr "لا توجد عائلة خطوط بهذا الاسم."
 
+#: onedesk/one/news/adding.py:68
+msgid "No feed was found at this address. Try the feed's own address."
+msgstr "لم يُعثر على خلاصة في هذا العنوان. جرّب عنوان الخلاصة نفسها."
+
 #: onedesk/one/doctype/news_source/news_source_list.js:50
 msgid "No feeds found."
 msgstr "لم يُعثر على خلاصات."
@@ -29415,10 +29477,6 @@ msgstr "لم يُقدَّم أي مفتاح مرور."
 #: onedesk/public/js/one_account/account_center.js:404
 msgid "No people"
 msgstr "لا يوجد أشخاص"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:28
-msgid "No place by that name."
-msgstr "لا يوجد مكان بهذا الاسم."
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:135
 msgid "No plan fits"
@@ -30041,6 +30099,10 @@ msgstr "لا يكفي {0} لقطعة واحدة"
 #: frontend/src/sheet/components/SheetEditor/index.vue:4853
 msgid "Not equal to"
 msgstr "لا يساوي"
+
+#: onedesk/one/doctype/news_source/news_source.js:40
+msgid "Not fetched yet. The first headlines arrive within a few minutes."
+msgstr "لم يُجلب بعد. تصل العناوين الأولى خلال دقائق."
 
 #: onedesk/one_inventory/heads.py:784
 msgid "Not finished, and it was wanted {0} ago."
@@ -31825,6 +31887,10 @@ msgstr "يقول OneAI إن كان المرسل منزعجًا أو مستعجل
 msgid "OneAI searches the web and writes headlines from what it finds. Each run uses credits."
 msgstr "يبحث OneAI في الويب ويكتب عناوين مما يجده. كل تشغيل يستهلك أرصدة."
 
+#: onedesk/public/js/one/news_add.js:13
+msgid "OneAI searches the web for the news you describe. Each run uses credits."
+msgstr "يبحث OneAI في الويب عن الأخبار التي تصفها. كل تشغيل يستهلك أرصدة."
+
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -32373,6 +32439,10 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr "فتح"
 
+#: onedesk/one/doctype/news_item/news_item.js:22
+msgid "Open Article"
+msgstr "فتح المقال"
+
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:191
 msgid "Open Asset"
 msgstr "افتح الأصل"
@@ -32883,6 +32953,10 @@ msgstr "الفرص حسب مرحلة المبيعات"
 msgid "Opportunity by Territory"
 msgstr "الفرص حسب المنطقة"
 
+#: onedesk/public/js/one/news_add.js:64
+msgid "Optional"
+msgstr "اختياري"
+
 #: onedesk/one_legal/services.py:145
 #: onedesk/public/js/one_legal/trust_center.js:51
 #: onedesk/public/js/one_legal/trust_center.js:99
@@ -32901,6 +32975,10 @@ msgstr "اختياري. وسيراه مقدّم الطلب."
 #: onedesk/public/js/timesheet.js:46
 msgid "Optional. The timer says so when it runs past this."
 msgstr "اختياري. ينبّه المؤقّت عند تجاوزها."
+
+#: onedesk/public/js/one/news_add.js:221
+msgid "Optional. Used instead of the topic."
+msgstr "اختياري. يُستخدم بدل الموضوع."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:125
 msgid "Options"
@@ -34409,6 +34487,10 @@ msgstr "معكرونة اليوم"
 msgid "Paste"
 msgstr "لصق"
 
+#: onedesk/public/js/one/news_add.js:10
+msgid "Paste a news site's address and see its latest headlines."
+msgstr "الصق عنوان موقع إخباري واطّلع على أحدث عناوينه."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:790
 msgid "Paste formats only"
 msgstr "لصق التنسيقات فقط"
@@ -35399,6 +35481,10 @@ msgstr "اختر سلسلة لرؤية معاينة"
 msgid "Pick a template."
 msgstr "اختر قالبًا."
 
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "Pick a town or city as you type, or use the location button."
+msgstr "اختر بلدة أو مدينة أثناء الكتابة، أو استخدم زر الموقع."
+
 #: onedesk/public/js/item_new.js:378
 msgid "Pick at least one size or colour."
 msgstr "اختر مقاسًا أو لونًا واحدًا على الأقل."
@@ -35410,6 +35496,10 @@ msgstr "اختر قيمة واحدة على الأقل."
 #: frontend/src/slide/components/controls/ColorPicker.vue:86
 msgid "Pick color from screen"
 msgstr "التقاط لون من الشاشة"
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "Pick news sites near you, several at once."
+msgstr "اختر مواقع إخبارية قريبة منك، عدة مواقع دفعة واحدة."
 
 #: onedesk/one_project/agreement.py:39
 msgid "Pick one of the suppliers on {0}."
@@ -40734,6 +40824,10 @@ msgstr "تعمل"
 msgid "Runs Out First"
 msgstr "ينفد أولًا"
 
+#: onedesk/one/doctype/news_source/news_source.js:32
+msgid "Runs at {0}"
+msgstr "يعمل عند {0}"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:571
 msgid "Runs with {0}'s permissions."
 msgstr "يعمل بصلاحيات {0}."
@@ -41506,6 +41600,10 @@ msgstr "ابحث في بريدك"
 msgid "Search by Meaning"
 msgstr "البحث بالمعنى"
 
+#: onedesk/public/js/one/news_add.js:147
+msgid "Search by name or address"
+msgstr "ابحث بالاسم أو العنوان"
+
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
 msgid "Search engine basics"
@@ -41535,10 +41633,6 @@ msgstr "ابحث في القوالب..."
 #: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
 msgid "Search {0}"
 msgstr "البحث في {0}"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:24
-msgid "Searching…"
-msgstr "جارٍ البحث…"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:564
 msgid "Search…"
@@ -43098,6 +43192,10 @@ msgstr "عرض عروض أسعار الموردين المنتهية قريبً�
 #: frontend/src/project/Team.vue:161
 msgid "Show Files"
 msgstr "إظهار الملفات"
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Show Headline"
+msgstr "إظهار العنوان"
 
 #: onedesk/public/js/reports.js:274
 msgid "Show In"
@@ -51250,6 +51348,10 @@ msgstr "أعلى اليسار"
 msgid "Top right"
 msgstr "أعلى اليمين"
 
+#: onedesk/public/js/one/news_add.js:12
+msgid "Top stories on a topic, or headlines for a search. For preview only."
+msgstr "أبرز الأخبار في موضوع، أو عناوين لبحث. للمعاينة فقط."
+
 #. Label of the gross (Float) field in DocType 'Reading'
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Exchange Rate Revaluation print format
@@ -51478,10 +51580,6 @@ msgstr "الإجماليات بالحروف"
 #: onedesk/one_display/starters.py:1192
 msgid "Town Hall"
 msgstr "الاجتماع العام"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:16
-msgid "Town or City"
-msgstr "البلدة أو المدينة"
 
 #: frontend/src/inventory/lots/LotsPage.vue:158
 #: onedesk/public/js/lots_actions.js:5
@@ -52860,6 +52958,10 @@ msgstr "استخدام موقعي"
 msgid "Use SSL"
 msgstr "استخدام SSL"
 
+#: onedesk/one/doctype/weather_place/weather_place.js:25
+msgid "Use Where I Am"
+msgstr "استخدم موقعي الحالي"
+
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
 msgstr "استخدم هاتفك كجهاز تحكم"
@@ -53874,6 +53976,10 @@ msgstr "تعذّر على الويب هوكس التسليم أمس"
 #: onedesk/public/js/one_studio/studio_control.js:170
 msgid "Website"
 msgstr ""
+
+#: onedesk/public/js/one/news_add.js:114
+msgid "Website or Feed Address"
+msgstr "عنوان الموقع أو الخلاصة"
 
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Wednesday"
@@ -56663,6 +56769,10 @@ msgstr "أين نحن وما التالي"
 msgid "Where work is done, and what an hour there costs."
 msgstr "أين يُنجز العمل، وكم تكلّف الساعة هناك."
 
+#: onedesk/one/doctype/weather_place/weather_place.js:29
+msgid "Where you are could not be found. Type the place instead."
+msgstr "تعذّر تحديد موقعك. اكتب المكان بدلًا من ذلك."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:438
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
 msgstr "هل يمكن لـ OneAI قراءة صندوق البريد هذا، وما يفعله بالبريد الجديد هنا من تلقاء نفسه."
@@ -58610,6 +58720,10 @@ msgstr "يكتبه OneAI مما حدث لهذا السجل، مرة واحدة �
 #: onedesk/one/custom/notification_settings.json
 msgid "Written by Settings, Notifications. Sent to the devices a person turned push on in."
 msgstr "يُكتب من الإعدادات، الإشعارات. يُرسل إلى الأجهزة التي فعّل فيها الشخص الإشعارات الفورية."
+
+#: onedesk/public/js/one/news_add.js:14
+msgid "Written by You"
+msgstr "مكتوب بواسطتك"
 
 #: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/one_ai/oneai.js:309
 msgid "Written by {0}"
@@ -63480,6 +63594,10 @@ msgstr "{0} لا يعرض شيئًا."
 #: onedesk/one_hr/heads.py:325
 msgid "{0} slips"
 msgstr "{0} قسائم"
+
+#: onedesk/public/js/one/news_add.js:255
+msgid "{0} sources added. Their first headlines arrive within a few minutes."
+msgstr "أُضيف {0} مصادر. تصل عناوينها الأولى خلال دقائق."
 
 #: onedesk/one/doctype/news_source/news_source.py:42
 msgid "{0} sources are fetched at most every {1} minutes. Fetch was changed to {2}."

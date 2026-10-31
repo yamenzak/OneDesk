@@ -1001,6 +1001,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/one_ai/oneai.css",
 	"/assets/onedesk/css/one_legal/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
+	"/assets/onedesk/css/one/news_add.css",
 	"/assets/onedesk/css/lost.css",
 ])
 
@@ -1046,6 +1047,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/window/tree.js",
 	"/assets/onedesk/js/window/form.js",
 	"/assets/onedesk/js/window/json_view.js",
+	"/assets/onedesk/js/one/news_add.js",
 	"/assets/onedesk/js/one_portal/portal.js",
 	"/assets/onedesk/js/one_task/task_control.js",
 	"/assets/onedesk/js/one_project/project_control.js",

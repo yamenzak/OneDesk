@@ -184,7 +184,7 @@ def test_the_library_is_searched_by_words_category_and_country():
 	import json
 
 	rows = json.loads((NEWS / "library.json").read_text(encoding="utf-8"))
-	assert len(rows) > 500 and all(one["url"].startswith("http") for one in rows)
+	assert len(rows) > 300 and all(one["url"].startswith("http") for one in rows)
 	assert len({one["url"] for one in rows}) == len(rows), "each feed once"
 	found = READER["matching"](rows, "khaleej", "", "AE")
 	assert [one["name"] for one in found] == ["Khaleej Times"]

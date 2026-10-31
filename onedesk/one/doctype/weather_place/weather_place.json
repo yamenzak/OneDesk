@@ -12,31 +12,34 @@
   "column_break_place",
   "units",
   "is_default",
-  "where_section",
   "latitude",
-  "column_break_where",
   "longitude"
  ],
  "fields": [
   {
    "fieldname": "place_name",
-   "fieldtype": "Data",
+   "fieldtype": "Autocomplete",
    "in_list_view": 1,
    "label": "Place",
    "reqd": 1,
-   "unique": 1
+   "unique": 1,
+   "description": "Pick a town or city as you type, or use the location button."
   },
   {
    "fieldname": "region",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Region"
+   "label": "Region",
+   "read_only": 1,
+   "depends_on": "eval:!doc.__islocal"
   },
   {
    "fieldname": "country",
    "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Country"
+   "label": "Country",
+   "read_only": 1,
+   "depends_on": "eval:!doc.__islocal"
   },
   {
    "fieldname": "column_break_place",
@@ -58,32 +61,25 @@
    "label": "Default Place"
   },
   {
-   "fieldname": "where_section",
-   "fieldtype": "Section Break",
-   "label": "Where"
-  },
-  {
    "fieldname": "latitude",
    "fieldtype": "Float",
    "label": "Latitude",
    "precision": "4",
-   "reqd": 1
-  },
-  {
-   "fieldname": "column_break_where",
-   "fieldtype": "Column Break"
+   "hidden": 1,
+   "read_only": 1
   },
   {
    "fieldname": "longitude",
    "fieldtype": "Float",
    "label": "Longitude",
    "precision": "4",
-   "reqd": 1
+   "hidden": 1,
+   "read_only": 1
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-31 14:00:00.000000",
+ "modified": "2026-10-31 11:22:35.000000",
  "modified_by": "Administrator",
  "module": "One",
  "name": "Weather Place",

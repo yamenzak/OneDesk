@@ -610,3 +610,22 @@ by side, two ways to do one thing.
   several be picked.
 - **Shipped lists are curated, not imported.** No podcasts in a news
   library, no duplicates, names cleaned.
+
+## 2026-10-31 — A weather place, and what a small form is owed
+
+Three fields (Place, Units, Default Place) opened in the full-height settings
+dialog with a rail, and the location button sat on the field as a bordered
+button of its own. Both were the same mistake: drawing the thing before asking
+what frappe already draws for it.
+
+- **An action inside a field is frappe's `.link-btn`**, the icon a Link field
+  shows for its open arrow, not a button laid over the input.
+- **A create dialog sizes to its form** (window/form.js `SMALL`): no tabs and
+  at most six fields to fill is a 36rem dialog, one column, as tall as its
+  fields, with no line under the last section above the foot's own.
+- **What is filled for the person is not shown to them while making it.**
+  Region, country and coordinates are hidden on a new place and read-only on
+  a saved one, where they say which of five Dubais it is.
+- **An autocomplete's rows need distinct values.** frappe's Autocomplete finds
+  a row by its value, so five towns called Dubai drew as one and filled in
+  Uganda's.

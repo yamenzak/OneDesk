@@ -6,6 +6,8 @@ from frappe.utils import flt
 
 class WeatherPlace(Document):
 	def validate(self):
+		if not (self.latitude or self.longitude):
+			frappe.throw(_("Choose {0} from the list, or use the location button.").format(self.place_name))
 		if not (-90 <= flt(self.latitude) <= 90 and -180 <= flt(self.longitude) <= 180):
 			frappe.throw(_("A latitude is between -90 and 90, and a longitude between -180 and 180."))
 

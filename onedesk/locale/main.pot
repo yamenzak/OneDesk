@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 10:22+0000\n"
-"PO-Revision-Date: 2026-10-31 10:22+0000\n"
+"POT-Creation-Date: 2026-10-31 12:06+0000\n"
+"PO-Revision-Date: 2026-10-31 12:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -951,7 +951,7 @@ msgstr ""
 msgid "A late customer is reminded"
 msgstr ""
 
-#: onedesk/one/doctype/weather_place/weather_place.py:10
+#: onedesk/one/doctype/weather_place/weather_place.py:12
 msgid "A latitude is between -90 and 90, and a longitude between -180 and 180."
 msgstr ""
 
@@ -2406,7 +2406,7 @@ msgstr ""
 #: onedesk/one_project/ai.py:714
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/window/form.js:149
+#: onedesk/public/js/window/form.js:152
 msgid "Activity"
 msgstr ""
 
@@ -2454,7 +2454,6 @@ msgstr ""
 #: frontend/src/slide/shim/DataDialog.vue:139
 #: frontend/src/slide/shim/FontsDialog.vue:22
 #: frontend/src/task/TaskWaits.vue:18 onedesk/one/ai.py:1844
-#: onedesk/one/doctype/news_source/news_source_list.js:62
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/report/books_check/books_check.js:16
@@ -2577,6 +2576,10 @@ msgstr ""
 msgid "Add Milestone"
 msgstr ""
 
+#: onedesk/public/js/one/news_add.js:30 onedesk/public/js/one/news_add.js:74
+msgid "Add News Source"
+msgstr ""
+
 #: onedesk/public/js/one_account/account_center.js:49
 msgid "Add Photo"
 msgstr ""
@@ -2622,6 +2625,10 @@ msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:139
 msgid "Add Slide Number"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add Source"
 msgstr ""
 
 #: frontend/src/project/TaskPanel.vue:67
@@ -2958,6 +2965,10 @@ msgstr ""
 msgid "Add {0} Parts"
 msgstr ""
 
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add {0} Sources"
+msgstr ""
+
 #: onedesk/one_project/ai.py:560 onedesk/one_project/ai.py:672
 #: onedesk/one_project/ai.py:813
 msgid "Add {0} to {1}"
@@ -2991,10 +3002,10 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
 #: frontend/src/slide/shim/FontsDialog.vue:22 onedesk/one/account.py:268
-#: onedesk/one/doctype/news_source/news_source_list.js:58
 #: onedesk/one_studio/ai_setup.py:643
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
+#: onedesk/public/js/one/news_add.js:176
 msgid "Added"
 msgstr ""
 
@@ -3620,6 +3631,10 @@ msgstr ""
 msgid "All Announcements"
 msgstr ""
 
+#: onedesk/public/js/one/news_add.js:148
+msgid "All Categories"
+msgstr ""
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 msgid "All Day"
@@ -3842,6 +3857,10 @@ msgstr ""
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Already Paid"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:136
+msgid "Already added as {0}."
 msgstr ""
 
 #: onedesk/one_ai/reading/planning.py:141
@@ -6225,9 +6244,10 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
-#: onedesk/public/js/window/frame.js:247 onedesk/www/account_invoices.html:62
-#: onedesk/www/s.html:125 onedesk/www/slide-remote.html:23
-#: onedesk/www/start.html:89 onedesk/www/welcome.html:45
+#: onedesk/public/js/one/news_add.js:33 onedesk/public/js/window/frame.js:247
+#: onedesk/www/account_invoices.html:62 onedesk/www/s.html:125
+#: onedesk/www/slide-remote.html:23 onedesk/www/start.html:89
+#: onedesk/www/welcome.html:45
 msgid "Back"
 msgstr ""
 
@@ -8238,7 +8258,6 @@ msgstr ""
 #: onedesk/one/doctype/news_category/news_category.json
 #: onedesk/one/doctype/news_item/news_item.json
 #: onedesk/one/doctype/news_source/news_source.json
-#: onedesk/one/doctype/news_source/news_source_list.js:28
 #: onedesk/one_ai/doctype/reading_line/reading_line.json
 #: onedesk/one_ai/report/spending/spending.py:31
 #: onedesk/one_display/layout.py:20
@@ -8247,6 +8266,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_asset_value_adjustment/one_asset_value_adjustment.json
+#: onedesk/public/js/one/news_add.js:64
 msgid "Category"
 msgstr ""
 
@@ -8974,6 +8994,10 @@ msgstr ""
 msgid "Choose a template from the list."
 msgstr ""
 
+#: onedesk/one/news/adding.py:111
+msgid "Choose a type of source."
+msgstr ""
+
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
 msgstr ""
@@ -9082,6 +9106,10 @@ msgstr ""
 #. Message of a notification
 #: onedesk/one/notifications.py
 msgid "Choose your password to start.{apps}<br><br>The link works for {days} days. You sign in with {address}."
+msgstr ""
+
+#: onedesk/one/doctype/weather_place/weather_place.py:10
+msgid "Choose {0} from the list, or use the location button."
 msgstr ""
 
 #: onedesk/one_admin/steps.py:42
@@ -10299,7 +10327,7 @@ msgstr ""
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:149
+#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:152
 msgid "Connections"
 msgstr ""
 
@@ -10353,6 +10381,10 @@ msgstr ""
 #. Name of terms and conditions
 #: onedesk/one_project/library_terms.json
 msgid "Construction Works"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:227
+msgid "Construction and building materials news"
 msgstr ""
 
 #. Task in the Architectural Design Stages project template
@@ -11217,11 +11249,11 @@ msgstr ""
 #. Label of the one_country (Link) field in DocType 'Identification Document
 #. Type'
 #: onedesk/one/doctype/news_source/news_source.json
-#: onedesk/one/doctype/news_source/news_source_list.js:30
 #: onedesk/one/doctype/weather_place/weather_place.json
 #: onedesk/one_admin/doctype/account_request/account_request.json
 #: onedesk/one_admin/doctype/tenant/tenant.json onedesk/one_hr/control.py:80
 #: onedesk/one_hr/custom/identification_document_type.json
+#: onedesk/public/js/one/news_add.js:207
 #: onedesk/public/js/one/one_control.js:21
 msgid "Country"
 msgstr ""
@@ -11423,7 +11455,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:337
+#: onedesk/public/js/window/form.js:340
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -13866,8 +13898,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
 #: onedesk/public/js/project_actions.js:700
-#: onedesk/public/js/project_new.js:193 onedesk/public/js/window/form.js:451
-#: onedesk/public/js/window/form.js:452
+#: onedesk/public/js/project_new.js:193 onedesk/public/js/window/form.js:462
 msgid "Details"
 msgstr ""
 
@@ -14011,6 +14042,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemOverview.vue:19
 #: frontend/src/inventory/item/ItemPage.vue:16
 #: frontend/src/template/TemplatePage.vue:94
+#: onedesk/one/doctype/news_source/news_source_list.js:7
 #: onedesk/one_admin/doctype/offering/offering_list.js:11
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
 #: onedesk/public/js/doctype_settings.js:920
@@ -15528,7 +15560,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/window/form.js:339
+#: onedesk/public/js/window/form.js:342
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -17868,7 +17900,7 @@ msgstr ""
 msgid "Fetch"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:9
+#: onedesk/one/doctype/news_source/news_source.js:11
 msgid "Fetch Now"
 msgstr ""
 
@@ -17880,12 +17912,16 @@ msgstr ""
 msgid "Fetch failed. It will be retried automatically."
 msgstr ""
 
+#: onedesk/one/doctype/news_source/news_source.js:39
+msgid "Fetched {0}. Next fetch at {1}."
+msgstr ""
+
 #. Label of the fetching_section (Section Break) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Fetching"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:11
+#: onedesk/one/doctype/news_source/news_source.js:13
 msgid "Fetching news. New items will appear shortly."
 msgstr ""
 
@@ -18323,12 +18359,6 @@ msgstr ""
 
 #: onedesk/one_legal/tour.py:23
 msgid "Find a Clause"
-msgstr ""
-
-#: onedesk/one/doctype/weather_place/weather_place.js:6
-#: onedesk/one/doctype/weather_place/weather_place.js:7
-#: onedesk/one/doctype/weather_place/weather_place.js:14
-msgid "Find a Place"
 msgstr ""
 
 #: onedesk/one_storage/ai.py:18 onedesk/one_storage/ai.py:43
@@ -18891,6 +18921,7 @@ msgstr ""
 #. Description of the 'Google News' (Section Break) field in DocType 'News
 #. Source'
 #: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/public/js/one/news_add.js:214
 msgid "For preview only. Showing these headlines publicly may require each publisher's permission."
 msgstr ""
 
@@ -19461,8 +19492,6 @@ msgstr ""
 msgid "From Employee"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source_list.js:6
-#: onedesk/one/doctype/news_source/news_source_list.js:15
 #: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_new.js:87
 #: onedesk/public/js/project_template_list.js:9
 #: onedesk/public/js/project_template_list.js:11
@@ -19527,6 +19556,10 @@ msgstr ""
 
 #: frontend/src/project/Overview.vue:313
 msgid "From the Customer"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "From the Library"
 msgstr ""
 
 #: onedesk/public/js/one/one_control.js:202
@@ -20131,10 +20164,11 @@ msgstr ""
 #. Option for the 'Type' (Select) field in DocType 'News Source'
 #. Label of the google_section (Section Break) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/public/js/one/news_add.js:12
 msgid "Google News"
 msgstr ""
 
-#: onedesk/one/news/fetching.py:176
+#: onedesk/one/news/fetching.py:176 onedesk/public/js/one/news_add.js:215
 msgid "Google News is turned off. Turn it on in TrustCenter."
 msgstr ""
 
@@ -20859,6 +20893,9 @@ msgstr ""
 msgid "HelpCenter"
 msgstr ""
 
+#. Label of the hidden_item (Check) field in DocType 'News Item'
+#: onedesk/one/doctype/news_item/news_item.json
+#: onedesk/one/doctype/news_item/news_item_list.js:7
 #: onedesk/public/js/one/one_control.js:88
 #: onedesk/public/js/one_portal/portal.js:125
 msgid "Hidden"
@@ -20892,6 +20929,15 @@ msgstr ""
 msgid "Hidden folders only repeat other folders or contain no mail. Example: Gmail's All Mail."
 msgstr ""
 
+#. Description of the 'Hidden' (Check) field in DocType 'News Item'
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Hidden headlines are not shown on the top bar, on screens or anywhere else."
+msgstr ""
+
+#: onedesk/one/doctype/news_item/news_item.js:19
+msgid "Hidden. This headline is not shown on the top bar or on screens."
+msgstr ""
+
 #: frontend/src/slide/shim/LayersPanel.vue:46
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
@@ -20901,6 +20947,10 @@ msgstr ""
 
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
+msgstr ""
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Hide Headline"
 msgstr ""
 
 #. Label of the hide_master (Check) field in DocType 'Presentation Slide'
@@ -24535,6 +24585,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_voice/display_voice.json
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json
 #: onedesk/one_display/doctype/voice_pack/voice_pack.json
+#: onedesk/public/js/one/news_add.js:208
 msgid "Language"
 msgstr ""
 
@@ -24886,6 +24937,11 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:37 onedesk/one_display/widgets.py:337
 msgid "Latest Call"
+msgstr ""
+
+#. Label of the latest_section (Section Break) field in DocType 'News Source'
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Latest Headlines"
 msgstr ""
 
 #: frontend/src/slide/shim/WidgetMock.vue:45 onedesk/one_display/widgets.py:80
@@ -26015,7 +26071,7 @@ msgstr ""
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:6
 #: frontend/src/writer/shim/FieldDialog.vue:18
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:265
-#: onedesk/public/js/center_section.js:95
+#: onedesk/public/js/center_section.js:95 onedesk/public/js/one/news_add.js:199
 #: onedesk/public/js/one_account/account_center.js:818
 #: onedesk/public/js/one_account/account_center.js:1055
 #: onedesk/public/js/shell.js:20
@@ -26225,6 +26281,7 @@ msgstr ""
 
 #. Label of the ai_brief (Small Text) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/public/js/one/news_add.js:227
 msgid "Look For"
 msgstr ""
 
@@ -26275,6 +26332,10 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:688
 msgid "Looked something up"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:126
+msgid "Looking for the site's feed…"
 msgstr ""
 
 #: frontend/src/slide/shim/ViewsDialog.vue:10
@@ -26532,7 +26593,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:388 onedesk/public/js/window/form.js:149
+#: onedesk/one_storage/namespace.py:388 onedesk/public/js/window/form.js:152
 msgid "Mail"
 msgstr ""
 
@@ -28044,7 +28105,7 @@ msgstr ""
 #: onedesk/one_sheet/ai.py:247 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:360 onedesk/public/js/window/nav_tree.js:67
+#: onedesk/public/js/window/form.js:363 onedesk/public/js/window/nav_tree.js:67
 msgid "More"
 msgstr ""
 
@@ -28446,6 +28507,7 @@ msgstr ""
 #: onedesk/public/js/leave_control_panel.js:11
 #: onedesk/public/js/one/access_center.js:285
 #: onedesk/public/js/one/access_center.js:366
+#: onedesk/public/js/one/news_add.js:63
 #: onedesk/public/js/one/role_matrix.js:120
 #: onedesk/public/js/one/role_matrix.js:143
 #: onedesk/public/js/one_account/account_center.js:1312
@@ -28457,7 +28519,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:166
 #: onedesk/public/js/one_studio/studio_control.js:180
 #: onedesk/public/js/onecloud_dialogs.js:279
-#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:537
+#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:553
 msgid "Name"
 msgstr ""
 
@@ -28494,10 +28556,6 @@ msgstr ""
 #. Description of the 'Backup Before Archive' (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
-msgstr ""
-
-#: onedesk/one/doctype/news_source/news_source_list.js:26
-msgid "Name or address"
 msgstr ""
 
 #: onedesk/one_book/ready.py:370
@@ -28605,6 +28663,10 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:137
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:138
 msgid "Navigation"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:149
+msgid "Near You"
 msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:704
@@ -28821,7 +28883,7 @@ msgstr ""
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
 #: frontend/src/mail/OneMail.vue:488
 #: onedesk/public/js/one_mail/record_mail.js:35
-#: onedesk/public/js/window/form.js:233 onedesk/www/account_profile.html:36
+#: onedesk/public/js/window/form.js:236 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr ""
 
@@ -29228,8 +29290,8 @@ msgstr ""
 
 #: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:619
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:405
-#: onedesk/public/js/window/form.js:465
+#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:416
+#: onedesk/public/js/window/form.js:464 onedesk/public/js/window/form.js:477
 msgid "New {0}"
 msgstr ""
 
@@ -29246,7 +29308,8 @@ msgstr ""
 #. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_news (Section Break) field in DocType 'Display Source'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
-#: frontend/src/slide/shim/WidgetMock.vue:34 onedesk/one/sidebar/one/one.json
+#: frontend/src/slide/shim/WidgetMock.vue:34 onedesk/one/news/adding.py:97
+#: onedesk/one/sidebar/one/one.json
 #: onedesk/one_display/doctype/display_source/display_source.json
 #: onedesk/one_display/doctype/display_widget/display_widget.json
 #: onedesk/one_display/starters.py:1154 onedesk/one_display/widgets.py:65
@@ -29284,6 +29347,10 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:325
 msgid "News Ticker"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:14
+msgid "News you write yourself, for example company updates."
 msgstr ""
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
@@ -29907,7 +29974,11 @@ msgstr ""
 msgid "No family by that name."
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source_list.js:50
+#: onedesk/one/news/adding.py:68
+msgid "No feed was found at this address. Try the feed's own address."
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:169
 msgid "No feeds found."
 msgstr ""
 
@@ -29948,6 +30019,7 @@ msgstr ""
 msgid "No groups"
 msgstr ""
 
+#: onedesk/one/doctype/news_source/news_source.js:53
 #: onedesk/one_display/programme.py:436
 msgid "No headlines yet."
 msgstr ""
@@ -30178,10 +30250,6 @@ msgstr ""
 #: onedesk/public/js/one/access_center.js:480
 #: onedesk/public/js/one_account/account_center.js:404
 msgid "No people"
-msgstr ""
-
-#: onedesk/one/doctype/weather_place/weather_place.js:28
-msgid "No place by that name."
 msgstr ""
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:135
@@ -30818,6 +30886,10 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:954
 #: frontend/src/sheet/components/SheetEditor/index.vue:4860
 msgid "Not equal to"
+msgstr ""
+
+#: onedesk/one/doctype/news_source/news_source.js:40
+msgid "Not fetched yet. The first headlines arrive within a few minutes."
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:784
@@ -32388,6 +32460,7 @@ msgstr ""
 #: onedesk/one_hr/custom/employee_grievance.json
 #: onedesk/one_hr/custom/hr_settings.json onedesk/one_hr/custom/interview.json
 #: onedesk/one_hr/custom/job_applicant.json
+#: onedesk/public/js/one/news_add.js:13
 #: onedesk/public/js/one/notification_center.js:54
 #: onedesk/public/js/one_ai/ai_center.js:40
 #: onedesk/public/js/one_ai/ai_center.js:42
@@ -32650,6 +32723,10 @@ msgstr ""
 #. Description of the 'OneAI' (Section Break) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "OneAI searches the web and writes headlines from what it finds. Each run uses credits."
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:13
+msgid "OneAI searches the web for the news you describe. Each run uses credits."
 msgstr ""
 
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
@@ -33220,6 +33297,10 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr ""
 
+#: onedesk/one/doctype/news_item/news_item.js:22
+msgid "Open Article"
+msgstr ""
+
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:191
 msgid "Open Asset"
 msgstr ""
@@ -33436,7 +33517,7 @@ msgstr ""
 msgid "Open in Boards"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:308
+#: onedesk/public/js/window/form.js:311
 msgid "Open in OneCloud"
 msgstr ""
 
@@ -33736,6 +33817,10 @@ msgstr ""
 msgid "Opportunity by Territory"
 msgstr ""
 
+#: onedesk/public/js/one/news_add.js:64
+msgid "Optional"
+msgstr ""
+
 #: onedesk/one_legal/services.py:145
 #: onedesk/public/js/one_legal/trust_center.js:51
 #: onedesk/public/js/one_legal/trust_center.js:99
@@ -33753,6 +33838,10 @@ msgstr ""
 
 #: onedesk/public/js/timesheet.js:46
 msgid "Optional. The timer says so when it runs past this."
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:221
+msgid "Optional. Used instead of the topic."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:126
@@ -34521,7 +34610,7 @@ msgstr ""
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:73 onedesk/public/js/page_views.js:85
-#: onedesk/public/js/window/form.js:149
+#: onedesk/public/js/window/form.js:152
 msgid "Overview"
 msgstr ""
 
@@ -35289,6 +35378,10 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:538 frontend/src/cloud/OneCloud.vue:645
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:155
 msgid "Paste"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:10
+msgid "Paste a news site's address and see its latest headlines."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:796
@@ -36295,6 +36388,11 @@ msgstr ""
 msgid "Pick a template."
 msgstr ""
 
+#. Description of the 'Place' (Autocomplete) field in DocType 'Weather Place'
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "Pick a town or city as you type, or use the location button."
+msgstr ""
+
 #: onedesk/public/js/item_new.js:378
 msgid "Pick at least one size or colour."
 msgstr ""
@@ -36305,6 +36403,10 @@ msgstr ""
 
 #: frontend/src/slide/components/controls/ColorPicker.vue:86
 msgid "Pick color from screen"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "Pick news sites near you, several at once."
 msgstr ""
 
 #: onedesk/one_project/agreement.py:39
@@ -36512,7 +36614,7 @@ msgstr ""
 msgid "Pivot table…"
 msgstr ""
 
-#. Label of the place_name (Data) field in DocType 'Weather Place'
+#. Label of the place_name (Autocomplete) field in DocType 'Weather Place'
 #. Label of the weather_place (Link) field in DocType 'Display Source'
 #. Label of the place (Data) field in DocType 'Extension'
 #: onedesk/one/doctype/weather_place/weather_place.json
@@ -37122,7 +37224,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:31
 #: onedesk/one_display/doctype/display_channel/display_channel.js:9
 #: onedesk/one_display/doctype/display_source/display_source.js:7
-#: onedesk/one_display/screens.py:297
+#: onedesk/one_display/screens.py:297 onedesk/public/js/one/news_add.js:180
 #: onedesk/public/js/one/notification_center.js:350
 #: onedesk/public/js/one_mail/mail_templates.js:278
 #: onedesk/public/js/one_mail/mail_templates.js:368
@@ -41827,6 +41929,10 @@ msgstr ""
 msgid "Runs Out First"
 msgstr ""
 
+#: onedesk/one/doctype/news_source/news_source.js:32
+msgid "Runs at {0}"
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:571
 msgid "Runs with {0}'s permissions."
 msgstr ""
@@ -42153,7 +42259,7 @@ msgstr ""
 #: onedesk/public/js/project_actions.js:624
 #: onedesk/public/js/project_actions.js:677 onedesk/public/js/reports.js:297
 #: onedesk/public/js/shell.js:360 onedesk/public/js/window/chrome.js:301
-#: onedesk/public/js/window/form.js:414 onedesk/www/account_profile.html:29
+#: onedesk/public/js/window/form.js:425 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr ""
 
@@ -42605,7 +42711,6 @@ msgstr ""
 #: frontend/src/inventory/to_order/ToOrderPage.vue:9
 #: frontend/src/inventory/upkeep/UpkeepPage.vue:10
 #: frontend/src/mail/OneMail.vue:186 frontend/src/project/ProjectPage.vue:16
-#: onedesk/one/doctype/news_source/news_source_list.js:26
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:106
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
@@ -42615,6 +42720,7 @@ msgstr ""
 
 #. Label of the google_query (Data) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/public/js/one/news_add.js:221
 msgid "Search For"
 msgstr ""
 
@@ -42637,6 +42743,10 @@ msgstr ""
 
 #: onedesk/one_ai/jobs.py:51
 msgid "Search by Meaning"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:147
+msgid "Search by name or address"
 msgstr ""
 
 #. Task in the Website project template
@@ -42667,10 +42777,6 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:221 onedesk/public/js/crumb_switch.js:135
 #: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
 msgid "Search {0}"
-msgstr ""
-
-#: onedesk/one/doctype/weather_place/weather_place.js:24
-msgid "Searching…"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:569
@@ -44257,6 +44363,10 @@ msgstr ""
 
 #: frontend/src/project/Team.vue:161
 msgid "Show Files"
+msgstr ""
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Show Headline"
 msgstr ""
 
 #: onedesk/public/js/reports.js:274
@@ -46446,7 +46556,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:490
+#: onedesk/public/js/window/form.js:506
 msgid "Still needed: {0}"
 msgstr ""
 
@@ -51108,7 +51218,7 @@ msgstr ""
 msgid "These extensions ran into errors, and the work went on: {extensions}. Open one and press Fix With OneAI, or turn it off."
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source_list.js:21
+#: onedesk/public/js/one/news_add.js:152
 msgid "These feeds belong to their publishers. You need each publisher's permission to show their content."
 msgstr ""
 
@@ -51340,7 +51450,7 @@ msgstr ""
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr ""
 
-#: onedesk/one/news/library.py:62
+#: onedesk/one/news/library.py:97
 msgid "This feed is not in the library."
 msgstr ""
 
@@ -52127,6 +52237,7 @@ msgstr ""
 #: onedesk/one/doctype/news_source/news_source.json
 #: onedesk/one_display/doctype/channel_ad/channel_ad.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
+#: onedesk/public/js/one/news_add.js:229
 msgid "Times"
 msgstr ""
 
@@ -52677,6 +52788,7 @@ msgid "Top Preset"
 msgstr ""
 
 #. Option for the 'Topic' (Select) field in DocType 'News Source'
+#: onedesk/one/doctype/news_source/news_source.js:31
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Top Stories"
 msgstr ""
@@ -52693,8 +52805,13 @@ msgstr ""
 msgid "Top right"
 msgstr ""
 
+#: onedesk/public/js/one/news_add.js:12
+msgid "Top stories on a topic, or headlines for a search. For preview only."
+msgstr ""
+
 #. Label of the google_topic (Select) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json
+#: onedesk/public/js/one/news_add.js:218
 msgid "Topic"
 msgstr ""
 
@@ -52925,10 +53042,6 @@ msgstr ""
 
 #: onedesk/one_display/starters.py:1191
 msgid "Town Hall"
-msgstr ""
-
-#: onedesk/one/doctype/weather_place/weather_place.js:16
-msgid "Town or City"
 msgstr ""
 
 #: frontend/src/inventory/lots/LotsPage.vue:158
@@ -54346,6 +54459,10 @@ msgstr ""
 msgid "Use SSL"
 msgstr ""
 
+#: onedesk/one/doctype/weather_place/weather_place.js:25
+msgid "Use Where I Am"
+msgstr ""
+
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
 msgstr ""
@@ -54873,7 +54990,7 @@ msgstr ""
 msgid "View Item"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:15
+#: onedesk/one/doctype/news_source/news_source.js:17
 msgid "View Items"
 msgstr ""
 
@@ -54902,7 +55019,7 @@ msgstr ""
 msgid "Viewer"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:349
+#: onedesk/public/js/window/form.js:352
 msgid "Viewing now"
 msgstr ""
 
@@ -55428,9 +55545,13 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
 #: onedesk/one_inventory/custom/brand.json onedesk/one_mail/signatures.py:31
 #: onedesk/one_project/library/website.json
-#: onedesk/one_studio/letter_heads.py:57
+#: onedesk/one_studio/letter_heads.py:57 onedesk/public/js/one/news_add.js:10
 #: onedesk/public/js/one_studio/studio_control.js:170
 msgid "Website"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:114
+msgid "Website or Feed Address"
 msgstr ""
 
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
@@ -58080,7 +58201,6 @@ msgid "When {0} changes to {1}"
 msgstr ""
 
 #. Label of the where_section (Section Break) field in DocType 'News Source'
-#. Label of the where_section (Section Break) field in DocType 'Weather Place'
 #. Label of the where_section (Section Break) field in DocType 'Clock Place'
 #. Label in the One Shift Assignment print format
 #. Label in the One Training Event print format
@@ -58090,7 +58210,6 @@ msgstr ""
 #: frontend/src/inventory/lots/LotRows.vue:9
 #: frontend/src/inventory/lots/SerialRows.vue:7
 #: onedesk/one/doctype/news_source/news_source.json
-#: onedesk/one/doctype/weather_place/weather_place.json
 #: onedesk/one_display/starters.py:961 onedesk/one_display/starters.py:1008
 #: onedesk/one_hr/doctype/clock_place/clock_place.json
 #: onedesk/one_hr/heads.py:698
@@ -58269,6 +58388,10 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:208
 msgid "Where work is done, and what an hour there costs."
+msgstr ""
+
+#: onedesk/one/doctype/weather_place/weather_place.js:29
+msgid "Where you are could not be found. Type the place instead."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:438
@@ -60081,7 +60204,7 @@ msgstr ""
 msgid "Write an Email"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:7
+#: onedesk/one/doctype/news_source/news_source.js:9
 msgid "Write an Item"
 msgstr ""
 
@@ -60278,6 +60401,10 @@ msgstr ""
 #. DocType 'Notification Settings'
 #: onedesk/one/custom/notification_settings.json
 msgid "Written by Settings, Notifications. Sent to the devices a person turned push on in."
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:14
+msgid "Written by You"
 msgstr ""
 
 #: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/one_ai/oneai.js:309
@@ -61593,7 +61720,7 @@ msgstr ""
 msgid "cancelled"
 msgstr ""
 
-#: onedesk/one/news/library.py:76
+#: onedesk/one/news/library.py:111
 msgid "category"
 msgstr ""
 
@@ -62275,7 +62402,7 @@ msgstr ""
 msgid "only the records of {0} {1}, {2}"
 msgstr ""
 
-#: onedesk/public/js/window/form.js:170
+#: onedesk/public/js/window/form.js:173
 msgid "open"
 msgstr ""
 
@@ -64605,7 +64732,7 @@ msgstr ""
 msgid "{0} more cells"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source_list.js:72
+#: onedesk/public/js/one/news_add.js:182
 msgid "{0} more feeds match. Refine your search to see them."
 msgstr ""
 
@@ -65165,6 +65292,10 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:325
 msgid "{0} slips"
+msgstr ""
+
+#: onedesk/public/js/one/news_add.js:255
+msgid "{0} sources added. Their first headlines arrive within a few minutes."
 msgstr ""
 
 #: onedesk/one/doctype/news_source/news_source.py:42

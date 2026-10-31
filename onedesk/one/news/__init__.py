@@ -57,6 +57,8 @@ def items(sources: list[str] | None = None, most: int = 20, order: str = "Newest
 		.left_join(C)
 		.on(I.category == C.name)
 		.where(S.enabled == 1)
+		# a hidden headline is read nowhere: the bar, screens, a source's form
+		.where(I.hidden_item == 0)
 		.select(
 			I.name,
 			I.title,

@@ -178,3 +178,46 @@ def search(query: Annotated[str, "A town or city's name."]) -> list[dict]:
 	if said is None:
 		frappe.throw(_("Turn on Weather in TrustCenter to search for a place."), title=_("Weather Is Off"))
 	return said
+
+
+@frappe.whitelist()
+def suggest(txt: Annotated[str, "What has been typed so far."] = "") -> list[dict]:
+	"""Places for the Place field's list as it is typed: each with where it
+	is, so choosing one fills in the rest. Nothing while Weather is off."""
+	if len((txt or "").strip()) < 2 or not services.on(SERVICE):
+		return []
+	return [
+		{
+			# The list knows a row by its value, and many towns share a name.
+			"value": ", ".join(dict.fromkeys(filter(None, (one["name"], one.get("region"), one.get("country"))))),
+			"label": one["name"],
+			"description": ", ".join(filter(None, (one.get("region"), one.get("country")))),
+			**one,
+		}
+		for one in search(txt) or []
+	]
+
+
+# What the edge worker (deploy/edge/worker.js) reads from Cloudflare for the
+# request asking where it comes from: the town of its internet address,
+# written with encodeURIComponent since a town's name need not be ASCII.
+LOCATED = {
+	"name": "X-One-City",
+	"region": "X-One-Region",
+	"country": "X-One-Country",
+	"latitude": "X-One-Latitude",
+	"longitude": "X-One-Longitude",
+}
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def located() -> dict:
+	"""Roughly where the person asking is, from their internet address, as
+	Cloudflare places it. Nothing is asked of the browser and nothing kept."""
+	from urllib.parse import unquote
+
+	said = {key: unquote(frappe.get_request_header(header) or "").strip() for key, header in LOCATED.items()}
+	if not (said["name"] and said["latitude"] and said["longitude"]):
+		return {}
+	return {**said, "latitude": flt(said["latitude"]), "longitude": flt(said["longitude"])}

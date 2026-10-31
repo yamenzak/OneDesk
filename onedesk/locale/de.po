@@ -2556,6 +2556,10 @@ msgstr "Erinnerung hinzufügen"
 msgid "Add Milestone"
 msgstr "Meilenstein hinzufügen"
 
+#: onedesk/public/js/one/news_add.js:30 onedesk/public/js/one/news_add.js:74
+msgid "Add News Source"
+msgstr "Nachrichtenquelle hinzufügen"
+
 #: onedesk/public/js/one_account/account_center.js:49
 msgid "Add Photo"
 msgstr "Foto hinzufügen"
@@ -2602,6 +2606,10 @@ msgstr "Folie hinzufügen"
 #: frontend/src/slide/shim/EditorNavbar.vue:121
 msgid "Add Slide Number"
 msgstr "Foliennummer hinzufügen"
+
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add Source"
+msgstr "Quelle hinzufügen"
 
 #: frontend/src/project/TaskPanel.vue:67 frontend/src/task/TaskPage.vue:62
 #: onedesk/public/js/one_mail/rule_builder.js:414
@@ -2935,6 +2943,10 @@ msgstr "{0} hinzufügen"
 #: onedesk/public/js/item_new.js:275
 msgid "Add {0} Parts"
 msgstr "{0} Teile hinzufügen"
+
+#: onedesk/public/js/one/news_add.js:90
+msgid "Add {0} Sources"
+msgstr "{0} Quellen hinzufügen"
 
 #: onedesk/one_project/ai.py:560 onedesk/one_project/ai.py:672
 #: onedesk/one_project/ai.py:813
@@ -3574,6 +3586,10 @@ msgstr "Alle"
 msgid "All Announcements"
 msgstr "Alle Ankündigungen"
 
+#: onedesk/public/js/one/news_add.js:148
+msgid "All Categories"
+msgstr "Alle Kategorien"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 msgid "All Day"
@@ -3797,6 +3813,10 @@ msgstr "Erlaubte Domains"
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Already Paid"
 msgstr "Bereits bezahlt"
+
+#: onedesk/public/js/one/news_add.js:136
+msgid "Already added as {0}."
+msgstr "Bereits als {0} hinzugefügt."
 
 #: onedesk/one_ai/reading/planning.py:141
 msgid "Already paid."
@@ -8805,6 +8825,10 @@ msgstr "Wählen Sie ein Blatt zum Drucken."
 msgid "Choose a template from the list."
 msgstr "Wählen Sie eine Vorlage aus der Liste."
 
+#: onedesk/one/news/adding.py:111
+msgid "Choose a type of source."
+msgstr "Wählen Sie eine Art von Quelle."
+
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
 msgstr "Wählen Sie zuerst eine Person und ein Buchungsdatum."
@@ -8914,6 +8938,10 @@ msgstr "Passwort festlegen"
 #: onedesk/one/notifications.py
 msgid "Choose your password to start.{apps}<br><br>The link works for {days} days. You sign in with {address}."
 msgstr "Legen Sie Ihr Passwort fest, um zu beginnen.{apps}<br><br>Der Link gilt {days} Tage. Sie melden sich mit {address} an."
+
+#: onedesk/one/doctype/weather_place/weather_place.py:10
+msgid "Choose {0} from the list, or use the location button."
+msgstr "Wählen Sie {0} aus der Liste oder nutzen Sie die Standortschaltfläche."
 
 #: onedesk/one_admin/steps.py:42
 msgid "Choosing a server"
@@ -10136,6 +10164,10 @@ msgstr "Bauüberwachung"
 #: onedesk/one_project/library_terms.json
 msgid "Construction Works"
 msgstr "Bauarbeiten"
+
+#: onedesk/public/js/one/news_add.js:227
+msgid "Construction and building materials news"
+msgstr "Nachrichten zu Bau und Baustoffen"
 
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
@@ -17466,6 +17498,10 @@ msgstr "Überstundendetails abrufen"
 msgid "Fetch failed. It will be retried automatically."
 msgstr "Abruf fehlgeschlagen. Er wird automatisch wiederholt."
 
+#: onedesk/one/doctype/news_source/news_source.js:39
+msgid "Fetched {0}. Next fetch at {1}."
+msgstr "Abgerufen {0}. Nächster Abruf um {1}."
+
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Fetching"
 msgstr "Abruf"
@@ -17894,12 +17930,6 @@ msgstr "Suchen und Ersetzen"
 #: onedesk/one_legal/tour.py:23
 msgid "Find a Clause"
 msgstr "Eine Klausel finden"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:6
-#: onedesk/one/doctype/weather_place/weather_place.js:7
-#: onedesk/one/doctype/weather_place/weather_place.js:14
-msgid "Find a Place"
-msgstr "Ort suchen"
 
 #: onedesk/one_storage/ai.py:18 onedesk/one_storage/ai.py:43
 msgid "Find a file…"
@@ -19064,6 +19094,10 @@ msgstr "Von oder an"
 #: frontend/src/project/Overview.vue:313
 msgid "From the Customer"
 msgstr "Beim Kunden"
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "From the Library"
+msgstr "Aus der Bibliothek"
 
 #: onedesk/public/js/one/one_control.js:202
 msgid "From the Web"
@@ -20385,6 +20419,14 @@ msgstr "Ausgeblendet für Kontakte"
 msgid "Hidden folders only repeat other folders or contain no mail. Example: Gmail's All Mail."
 msgstr "Ausgeblendete Ordner wiederholen nur andere Ordner oder enthalten keine Mails. Beispiel: „Alle Nachrichten“ in Gmail."
 
+#: onedesk/one/doctype/news_item/news_item.json
+msgid "Hidden headlines are not shown on the top bar, on screens or anywhere else."
+msgstr "Ausgeblendete Schlagzeilen erscheinen weder in der oberen Leiste noch auf Bildschirmen noch anderswo."
+
+#: onedesk/one/doctype/news_item/news_item.js:19
+msgid "Hidden. This headline is not shown on the top bar or on screens."
+msgstr "Ausgeblendet. Diese Schlagzeile erscheint weder in der oberen Leiste noch auf Bildschirmen."
+
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
 #: onedesk/public/js/window/chrome.js:200
@@ -20394,6 +20436,10 @@ msgstr "Ausblenden"
 #: frontend/src/project/Team.vue:160
 msgid "Hide Files"
 msgstr "Dateien ausblenden"
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Hide Headline"
+msgstr "Schlagzeile ausblenden"
 
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json
 msgid "Hide Master"
@@ -24270,6 +24316,10 @@ msgstr "Später"
 msgid "Latest Call"
 msgstr "Letzter Aufruf"
 
+#: onedesk/one/doctype/news_source/news_source.json
+msgid "Latest Headlines"
+msgstr "Neueste Schlagzeilen"
+
 #: frontend/src/slide/shim/WidgetMock.vue:45 onedesk/one_display/widgets.py:95
 #: onedesk/one_display/widgets.py:349
 msgid "Latest News"
@@ -25596,6 +25646,10 @@ msgstr "Hat {0} nachgeschlagen"
 #: onedesk/public/js/one_ai/panel/Panel.vue:688
 msgid "Looked something up"
 msgstr "Hat etwas nachgeschlagen"
+
+#: onedesk/public/js/one/news_add.js:126
+msgid "Looking for the site's feed…"
+msgstr "Feed der Website wird gesucht…"
 
 #: frontend/src/slide/shim/ViewsDialog.vue:10
 msgid "Looks"
@@ -27765,10 +27819,6 @@ msgstr "Name ist erforderlich."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhielt."
 
-#: onedesk/one/doctype/news_source/news_source_list.js:26
-msgid "Name or address"
-msgstr "Name oder Adresse"
-
 #: onedesk/one_book/ready.py:370
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
@@ -27874,6 +27924,10 @@ msgstr "Liste eingrenzen"
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:138
 msgid "Navigation"
 msgstr "Navigation"
+
+#: onedesk/public/js/one/news_add.js:149
+msgid "Near You"
+msgstr "In Ihrer Nähe"
 
 #: onedesk/public/js/one_account/account_center.js:704
 msgid "Nearly Full"
@@ -28532,6 +28586,10 @@ msgstr "Nachrichtenquellen"
 msgid "News Ticker"
 msgstr "Nachrichten-Laufband"
 
+#: onedesk/public/js/one/news_add.js:14
+msgid "News you write yourself, for example company updates."
+msgstr "Nachrichten, die Sie selbst schreiben, zum Beispiel Neuigkeiten aus dem Unternehmen."
+
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Newsletter"
@@ -29143,6 +29201,10 @@ msgstr "Keine Termine"
 msgid "No family by that name."
 msgstr "Keine Schriftfamilie mit diesem Namen."
 
+#: onedesk/one/news/adding.py:68
+msgid "No feed was found at this address. Try the feed's own address."
+msgstr "Unter dieser Adresse wurde kein Feed gefunden. Versuchen Sie die Adresse des Feeds selbst."
+
 #: onedesk/one/doctype/news_source/news_source_list.js:50
 msgid "No feeds found."
 msgstr "Keine Feeds gefunden."
@@ -29415,10 +29477,6 @@ msgstr "Es wurde kein Passkey vorgelegt."
 #: onedesk/public/js/one_account/account_center.js:404
 msgid "No people"
 msgstr "Keine Personen"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:28
-msgid "No place by that name."
-msgstr "Kein Ort mit diesem Namen."
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:135
 msgid "No plan fits"
@@ -30041,6 +30099,10 @@ msgstr "Nicht genug {0} für eins"
 #: frontend/src/sheet/components/SheetEditor/index.vue:4853
 msgid "Not equal to"
 msgstr "Ungleich"
+
+#: onedesk/one/doctype/news_source/news_source.js:40
+msgid "Not fetched yet. The first headlines arrive within a few minutes."
+msgstr "Noch nicht abgerufen. Die ersten Schlagzeilen kommen in wenigen Minuten."
 
 #: onedesk/one_inventory/heads.py:784
 msgid "Not finished, and it was wanted {0} ago."
@@ -31825,6 +31887,10 @@ msgstr "OneAI sagt, ob der Absender verärgert oder in Eile ist, und jemand wird
 msgid "OneAI searches the web and writes headlines from what it finds. Each run uses credits."
 msgstr "OneAI durchsucht das Web und schreibt Schlagzeilen aus den Funden. Jeder Lauf verbraucht Credits."
 
+#: onedesk/public/js/one/news_add.js:13
+msgid "OneAI searches the web for the news you describe. Each run uses credits."
+msgstr "OneAI sucht im Web nach den Nachrichten, die Sie beschreiben. Jeder Lauf verbraucht Guthaben."
+
 #. Description of the 'Triage Grievances' (Check) field in DocType 'HR
 #. Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -32373,6 +32439,10 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr "Öffnen"
 
+#: onedesk/one/doctype/news_item/news_item.js:22
+msgid "Open Article"
+msgstr "Artikel öffnen"
+
 #: frontend/src/inventory/upkeep/UpkeepRows.vue:191
 msgid "Open Asset"
 msgstr "Anlage öffnen"
@@ -32883,6 +32953,10 @@ msgstr "Chancen nach Verkaufsphase"
 msgid "Opportunity by Territory"
 msgstr "Chancen nach Gebiet"
 
+#: onedesk/public/js/one/news_add.js:64
+msgid "Optional"
+msgstr "Optional"
+
 #: onedesk/one_legal/services.py:145
 #: onedesk/public/js/one_legal/trust_center.js:51
 #: onedesk/public/js/one_legal/trust_center.js:99
@@ -32901,6 +32975,10 @@ msgstr "Optional. Die antragstellende Person sieht es."
 #: onedesk/public/js/timesheet.js:46
 msgid "Optional. The timer says so when it runs past this."
 msgstr "Optional. Der Timer meldet sich, wenn er darüber läuft."
+
+#: onedesk/public/js/one/news_add.js:221
+msgid "Optional. Used instead of the topic."
+msgstr "Optional. Wird anstelle des Themas verwendet."
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:125
 msgid "Options"
@@ -34409,6 +34487,10 @@ msgstr "Pasta des Tages"
 msgid "Paste"
 msgstr "Einfügen"
 
+#: onedesk/public/js/one/news_add.js:10
+msgid "Paste a news site's address and see its latest headlines."
+msgstr "Fügen Sie die Adresse einer Nachrichtenseite ein und sehen Sie ihre neuesten Schlagzeilen."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:790
 msgid "Paste formats only"
 msgstr "Nur Formate einfügen"
@@ -35399,6 +35481,10 @@ msgstr "Wählen Sie eine Datenreihe, um eine Vorschau zu sehen"
 msgid "Pick a template."
 msgstr "Wählen Sie eine Vorlage."
 
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "Pick a town or city as you type, or use the location button."
+msgstr "Wählen Sie beim Tippen einen Ort oder eine Stadt, oder nutzen Sie die Standortschaltfläche."
+
 #: onedesk/public/js/item_new.js:378
 msgid "Pick at least one size or colour."
 msgstr "Wähle mindestens eine Größe oder Farbe."
@@ -35410,6 +35496,10 @@ msgstr "Wählen Sie mindestens einen Wert."
 #: frontend/src/slide/components/controls/ColorPicker.vue:86
 msgid "Pick color from screen"
 msgstr "Farbe vom Bildschirm aufnehmen"
+
+#: onedesk/public/js/one/news_add.js:11
+msgid "Pick news sites near you, several at once."
+msgstr "Wählen Sie Nachrichtenseiten in Ihrer Nähe, mehrere auf einmal."
 
 #: onedesk/one_project/agreement.py:39
 msgid "Pick one of the suppliers on {0}."
@@ -40734,6 +40824,10 @@ msgstr "Läuft"
 msgid "Runs Out First"
 msgstr "Geht zuerst aus"
 
+#: onedesk/one/doctype/news_source/news_source.js:32
+msgid "Runs at {0}"
+msgstr "Läuft um {0}"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:571
 msgid "Runs with {0}'s permissions."
 msgstr "Läuft mit den Berechtigungen von {0}."
@@ -41506,6 +41600,10 @@ msgstr "E-Mails durchsuchen"
 msgid "Search by Meaning"
 msgstr "Suche nach Bedeutung"
 
+#: onedesk/public/js/one/news_add.js:147
+msgid "Search by name or address"
+msgstr "Nach Name oder Adresse suchen"
+
 #. Task in the Website project template
 #: onedesk/one_project/library/website.json
 msgid "Search engine basics"
@@ -41535,10 +41633,6 @@ msgstr "Vorlagen suchen..."
 #: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
 msgid "Search {0}"
 msgstr "{0} durchsuchen"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:24
-msgid "Searching…"
-msgstr "Suche läuft…"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:564
 msgid "Search…"
@@ -43098,6 +43192,10 @@ msgstr "Ablaufende Lieferantenangebote anzeigen"
 #: frontend/src/project/Team.vue:161
 msgid "Show Files"
 msgstr "Dateien zeigen"
+
+#: onedesk/one/doctype/news_item/news_item.js:15
+msgid "Show Headline"
+msgstr "Schlagzeile einblenden"
 
 #: onedesk/public/js/reports.js:274
 msgid "Show In"
@@ -51250,6 +51348,10 @@ msgstr "Oben links"
 msgid "Top right"
 msgstr "Oben rechts"
 
+#: onedesk/public/js/one/news_add.js:12
+msgid "Top stories on a topic, or headlines for a search. For preview only."
+msgstr "Top-Meldungen zu einem Thema oder Schlagzeilen zu einer Suche. Nur zur Vorschau."
+
 #. Label of the gross (Float) field in DocType 'Reading'
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Exchange Rate Revaluation print format
@@ -51478,10 +51580,6 @@ msgstr "Summen in Worten"
 #: onedesk/one_display/starters.py:1192
 msgid "Town Hall"
 msgstr "Mitarbeitendenversammlung"
-
-#: onedesk/one/doctype/weather_place/weather_place.js:16
-msgid "Town or City"
-msgstr "Ort oder Stadt"
 
 #: frontend/src/inventory/lots/LotsPage.vue:158
 #: onedesk/public/js/lots_actions.js:5
@@ -52860,6 +52958,10 @@ msgstr "Meinen Standort verwenden"
 msgid "Use SSL"
 msgstr "SSL verwenden"
 
+#: onedesk/one/doctype/weather_place/weather_place.js:25
+msgid "Use Where I Am"
+msgstr "Meinen Standort verwenden"
+
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
 msgstr "Ihr Telefon als Fernbedienung"
@@ -53874,6 +53976,10 @@ msgstr "Webhooks konnten gestern nicht zustellen"
 #: onedesk/public/js/one_studio/studio_control.js:170
 msgid "Website"
 msgstr ""
+
+#: onedesk/public/js/one/news_add.js:114
+msgid "Website or Feed Address"
+msgstr "Adresse der Website oder des Feeds"
 
 #: frontend/src/inventory/home/InventoryStory.vue:132
 msgid "Wednesday"
@@ -56663,6 +56769,10 @@ msgstr "Wo wir stehen und was als Nächstes kommt"
 msgid "Where work is done, and what an hour there costs."
 msgstr "Wo gearbeitet wird und was eine Stunde dort kostet."
 
+#: onedesk/one/doctype/weather_place/weather_place.js:29
+msgid "Where you are could not be found. Type the place instead."
+msgstr "Ihr Standort wurde nicht gefunden. Geben Sie den Ort stattdessen ein."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:438
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
 msgstr "Ob OneAI dieses Postfach lesen darf und was es hier selbstständig mit neuen E-Mails tut."
@@ -58610,6 +58720,10 @@ msgstr "Von OneAI aus dem geschrieben, was mit diesem Datensatz geschah, höchst
 #: onedesk/one/custom/notification_settings.json
 msgid "Written by Settings, Notifications. Sent to the devices a person turned push on in."
 msgstr "Wird von Einstellungen, Benachrichtigungen geschrieben. Geht an die Geräte, in denen eine Person Push eingeschaltet hat."
+
+#: onedesk/public/js/one/news_add.js:14
+msgid "Written by You"
+msgstr "Selbst geschrieben"
 
 #: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/one_ai/oneai.js:309
 msgid "Written by {0}"
@@ -63480,6 +63594,10 @@ msgstr "{0} zeigt nichts."
 #: onedesk/one_hr/heads.py:325
 msgid "{0} slips"
 msgstr "{0} Abrechnungen"
+
+#: onedesk/public/js/one/news_add.js:255
+msgid "{0} sources added. Their first headlines arrive within a few minutes."
+msgstr "{0} Quellen hinzugefügt. Ihre ersten Schlagzeilen kommen in wenigen Minuten."
 
 #: onedesk/one/doctype/news_source/news_source.py:42
 msgid "{0} sources are fetched at most every {1} minutes. Fetch was changed to {2}."

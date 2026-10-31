@@ -86,6 +86,9 @@ onedesk.window.adapt("form", () => {
 				frappe.model.with_doctype(doctype, () => {
 					const meta = frappe.get_meta(doctype);
 					if (skip_insert || !meta || meta.istable || meta.issingle || !frappe.ui.SettingsDialog) return resolve(quick.apply(this, args));
+					// A doctype whose making is a few questions, not its form, has a dialog of its own.
+					const own = onedesk.window.creators[doctype];
+					if (own) return resolve(own({ after_insert, init_callback, doc }));
 					resolve(onedesk.window.create(doctype, { after_insert, init_callback, doc }));
 				})
 			);
@@ -399,6 +402,14 @@ onedesk.window.tabs = ($list) => {
 	$(document).on("form-refresh", later);
 };
 
+// Dialogs that make a record of one doctype in place of the form
+// (one/news's Add News Source): each takes { after_insert } and resolves
+// with the record made, or null.
+onedesk.window.creators = onedesk.window.creators || {};
+
+// At most this many fields to fill, and the create dialog is a small one.
+const SMALL = 6;
+
 onedesk.window.create = (doctype, { after_insert = null, init_callback = null, doc = null } = {}) =>
 	new Promise((resolve) =>
 		frappe.model.with_doctype(doctype, () => {
@@ -449,7 +460,8 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			const tab = (one) => ({
 				id: one ? one.df.fieldname : "__details",
 				label: one ? __(one.label, null, doctype) : __("Details"),
-				title: one ? __(one.label, null, doctype) : __("Details"),
+				// A form with one tab or none has no rail, and its heading says what is made.
+				title: one && tabs().length > 1 ? __(one.label, null, doctype) : __("New {0}", [__(doctype)]),
 				actions: [{ icon: "x", variant: "ghost", click: () => dialog.hide() }],
 				// Beside the panel's body, not in it: the SettingsDialog styles a
 				// body's fields as settings rows (a line between switches, a line
@@ -470,6 +482,10 @@ onedesk.window.create = (doctype, { after_insert = null, init_callback = null, d
 			const reset = (at = null) => {
 				$host.detach();
 				$foot.detach();
+				dialog.$wrapper.toggleClass("one-create-single", tabs().length < 2);
+				// A form of a few fields is a small dialog as tall as they are.
+				const asked = frm.fields.filter((one) => one.df && !frappe.model.layout_fields.includes(one.df.fieldtype) && one.df.fieldtype !== "HTML" && one.disp_status === "Write");
+				dialog.$wrapper.toggleClass("one-create-small", tabs().length < 2 && asked.length <= SMALL);
 				dialog.reset(rail(), at);
 				$foot.appendTo(dialog.$panels);
 			};

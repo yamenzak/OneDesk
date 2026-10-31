@@ -66,6 +66,12 @@ SUGGESTIONS = {
 
 def page(said: dict) -> str | None:
 	"""The sentence the model is told at the counter."""
+	if said.get("page") == "boards":
+		return (
+			"The reader is on Boards, the items a screen shows with a state and values each: rooms, machines, "
+			"orders. Each board's items change from its control page. How boards work is in OneDisplay's "
+			"documentation (how_to)."
+		)
 	if said.get("page") != "counter":
 		return None
 	return (

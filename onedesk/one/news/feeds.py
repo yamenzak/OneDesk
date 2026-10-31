@@ -79,6 +79,51 @@ def get(url: str, etag: str | None = None, modified: str | None = None):
 	raise Unreadable("The feed moved more than three times.")
 
 
+def linked(body: bytes, base: str) -> list[str]:
+	"""The feeds a web page names in its head, in its own order. Pure."""
+	from lxml import html as lxml_html
+
+	try:
+		page = lxml_html.fromstring(body[:FETCHED])
+	except Exception:
+		return []
+	out = []
+	for one in page.xpath("//link[@rel='alternate'][@href]"):
+		kind = (one.get("type") or "").lower()
+		if "rss" in kind or "atom" in kind:
+			url = urljoin(base, one.get("href").strip())
+			if url not in out:
+				out.append(url)
+	return out
+
+
+GENERIC = re.compile(
+	r"^(blog( posts)?|posts|articles|home|top (section|stories)|latest( news| stories)?|rss( feed)?|feed|all stories|news|front page)$",
+	re.I,
+)
+
+
+def named(title: str | None) -> str:
+	"""A feed's title as a name: its parts without taglines or words that
+	name nothing, "World news | The Guardian" → "World news · The Guardian". Pure."""
+	parts = [one.strip(" .") for one in re.split(r"\s+[|–—-]\s+", text_of(title)) if one.strip(" .|–—-")]
+	kept = [one for one in parts if not GENERIC.match(one) and len(one.split()) <= 5]
+	return " · ".join(kept)[:140]
+
+
+def site_name(page: bytes) -> str:
+	"""The name a web page gives its own site (og:site_name). Pure."""
+	found = re.search(rb'<meta[^>]+property=["\']og:site_name["\'][^>]+content=["\']([^"\']+)', page[:200_000] or b"")
+	return text_of(found.group(1).decode("utf-8", "ignore")) if found else ""
+
+
+def clipped(text: str, most: int) -> str:
+	"""Text cut at a word before `most` characters, with an ellipsis. Pure."""
+	if len(text) <= most:
+		return text
+	return text[: most - 1].rsplit(" ", 1)[0].rstrip(" ,;:.") + "…"
+
+
 def text_of(value: str | None) -> str:
 	"""Words without their markup or entities, on one line."""
 	value = re.sub(r"<[^>]+>", " ", value or "")
@@ -134,7 +179,9 @@ def read(body: bytes) -> dict:
 		home = root.find(f"{ATOM}link").get("href") or ""
 	if not items and root.tag not in ("rss", f"{ATOM}feed") and channel is None:
 		raise Unreadable("This is not an RSS or Atom feed.")
+	title = text_of(channel.findtext("title")) if channel is not None else text_of(root.findtext(f"{ATOM}title"))
 	return {
+		"title": title[:140],
 		"home": home if home.startswith("http") else "",
 		"items": [one for one in (_item(item) for item in items[:MOST]) if one],
 	}
@@ -168,7 +215,7 @@ def _item(item) -> dict | None:
 	return {
 		"guid": guid[:480],
 		"title": title[:480],
-		"summary": text_of(described)[:600],
+		"summary": clipped(text_of(described), 600),
 		"link": link if link.startswith("http") else "",
 		"image": image,
 		"published": when(_first(item, "pubDate", f"{ATOM}published", f"{ATOM}updated", f"{DC}date")),

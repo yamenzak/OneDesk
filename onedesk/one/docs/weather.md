@@ -5,9 +5,10 @@ and beside the clock. It comes from OpenWeather, through One's account.
 
 - **Weather is off** until an administrator turns it on in **TrustCenter**.
   While it is off, weather widgets show nothing and no place can be found.
-- Add a place under One › **Weather Places**. Choose **Find a Place**, type a
-  town or city, and pick it from the list. Its coordinates are filled in for
-  you. Choose **Metric** or **Imperial** for each place.
+- Add a place under One › **Weather Places**. Type a town or city in
+  **Place** and pick it from the list, or click the location button in the
+  field to use the town you are in. Its region, country and coordinates are
+  filled in for you. Choose **Metric** or **Imperial** for each place.
 - Tick **Default Place** on the one to show beside the clock, at the end of
   the bottom bar. Point at it for the day's high and low; click it to open
   the place. Only one place is the default.

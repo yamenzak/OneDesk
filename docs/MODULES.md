@@ -8,8 +8,8 @@
 | Doctype | Fields | Kind |
 |---|--:|---|
 | News Category | 2 | document |
-| News Item | 16 | document |
-| News Source | 32 | document |
+| News Item | 19 | document |
+| News Source | 34 | document |
 | Push Device | 7 | document |
 | Record Head | 15 | document |
 | Record Head Band | 12 | child |
@@ -18,7 +18,7 @@
 | Record Head Linked | 5 | child |
 | Record Head Sentence | 5 | child |
 | Record Head Verb | 4 | child |
-| Weather Place | 10 | document |
+| Weather Place | 8 | document |
 | Workspace Customization | 5 | document |
 
 ## One HR
@@ -315,6 +315,11 @@ No doctypes yet.
 * `onedesk.one.head.run`
 * `onedesk.one.home.read`
 * `onedesk.one.lists.kinds`
+* `onedesk.one.news.adding.add`
+* `onedesk.one.news.adding.add_many`
+* `onedesk.one.news.adding.find`
+* `onedesk.one.news.adding.latest`
+* `onedesk.one.news.adding.start`
 * `onedesk.one.news.desk.follow`
 * `onedesk.one.news.desk.following`
 * `onedesk.one.news.fetching.fetch_now`
@@ -362,7 +367,9 @@ No doctypes yet.
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
 * `onedesk.one.weather.here`
+* `onedesk.one.weather.located`
 * `onedesk.one.weather.search`
+* `onedesk.one.weather.suggest`
 * `onedesk.one_account.ai.write_bio`
 * `onedesk.one_account.bills.change_card`
 * `onedesk.one_account.bills.invoices`

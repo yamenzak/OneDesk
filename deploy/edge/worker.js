@@ -3,6 +3,17 @@ const REMEMBER_FOR = 60;
 
 const STRIPPED = ["x-forwarded-host", "x-one-slug", "x-real-ip"];
 
+// The weather place's location button asks where it is; only that request
+// carries the town Cloudflare places the visitor's internet address in.
+const LOCATING = "/api/method/onedesk.one.weather.located";
+const LOCATED = {
+	"x-one-city": "city",
+	"x-one-region": "region",
+	"x-one-country": "country",
+	"x-one-latitude": "latitude",
+	"x-one-longitude": "longitude",
+};
+
 export default {
 	async fetch(request, env, ctx) {
 		const asked = new URL(request.url);
@@ -30,6 +41,11 @@ export default {
 
 		const headers = new Headers(request.headers);
 		for (const header of STRIPPED) headers.delete(header);
+		for (const [header, key] of Object.entries(LOCATED)) {
+			headers.delete(header);
+			const value = request.cf && request.cf[key];
+			if (asked.pathname === LOCATING && value) headers.set(header, encodeURIComponent(String(value)));
+		}
 		headers.set("Host", site);
 		headers.set("X-Forwarded-Host", asked.hostname);
 

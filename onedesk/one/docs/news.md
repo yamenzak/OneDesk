@@ -3,11 +3,12 @@
 News Sources add headlines to the top bar and to OneDisplay tickers and news
 widgets. Go to One › News › Sources to add one.
 
-There are four types of source:
+Click **Add News Source** and choose how to add one.
 
-- **Feed** reads an RSS or Atom feed. To pick from ready-made feeds, click
-  **From Library** on the Sources list and search by name, category or
-  country.
+- **Feed** reads an RSS or Atom feed. Paste a news site's address, or the
+  feed's own, and its newest headlines show before you add it. Choose
+  **From the Library** to pick several ready-made feeds at once. The library
+  opens on feeds near you, and you can search by name, category or country.
 - **Google News** shows Google's headlines for a topic, or for words you
   search for, in a country and language. Use it for preview only. Showing
   these headlines publicly may require each publisher's permission. An
@@ -36,6 +37,12 @@ The top bar shows announcements or news. When there are both, click the icon
 at the start of the bar to switch. Click **Choose Sources** next to it to pick
 which sources you see. Each person chooses their own. Clicking a headline
 opens the article, or the item itself if it was written in the workspace.
+
+## Headlines
+
+A fetched headline opens as a read-only article with its picture and a link
+to the publisher's page. Click **Hide Headline** to keep one off the top bar,
+screens and everywhere else. Click **Show Headline** to bring it back.
 
 ## Logos
 

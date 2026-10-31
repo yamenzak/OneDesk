@@ -1,48 +1,65 @@
-// A place is found by its name (one/weather.py search), so nobody types
-// coordinates; they stay on the form for a place no search finds.
+// The Place field is an autocomplete over the place search (one/weather.py
+// suggest): typing lists the towns that answer to it, and choosing one
+// fills in its region, country and coordinates, which are never typed and
+// show, read only, once the place is saved. The
+// location button beside it asks the server where the request came from
+// (weather.located), so the browser asks the person nothing.
 frappe.ui.form.on("Weather Place", {
+	setup(frm) {
+		frm.set_query("place_name", () => ({ query: "onedesk.one.weather.suggest" }));
+	},
 	refresh(frm) {
-		if (!frm.perm[0]?.write) return;
-		frm.add_custom_button(__("Find a Place"), () => find_place(frm));
-		if (frm.is_new()) frm.change_custom_button_type(__("Find a Place"), null, "primary");
+		const field = frm.fields_dict.place_name;
+		const $input = field?.$input;
+		frm._one_named = frm.doc.place_name;
+		if (!$input || $input.data("one-place")) return;
+		$input.data("one-place", true);
+		// A place no search finds keeps the name typed for it.
+		field.df.ignore_validation = 1;
+		// The chosen row carries the whole place; the field's own value is only its name.
+		$input.on("awesomplete-select", (e) => {
+			frm._one_place = $(e.originalEvent?.origin).data("item.autocomplete") || null;
+		});
+		// Drawn as frappe draws a Link field's open arrow: an icon in the field.
+		const $locate = $(`<span class="link-btn" style="display: inline-flex">
+				<a title="${__("Use Where I Am")}">${frappe.utils.icon("locate-fixed", "sm")}</a></span>`)
+			.on("click", () => {
+				frappe.call({ method: "onedesk.one.weather.located", freeze: true }).then(({ message: place }) => {
+					if (!place?.name) {
+						frappe.show_alert({ message: __("Where you are could not be found. Type the place instead."), indicator: "orange" });
+						return;
+					}
+					frm._one_place = null;
+					frm._one_named = place.name;
+					frm.set_value({
+						place_name: place.name,
+						region: place.region || "",
+						country: place.country || "",
+						latitude: place.latitude,
+						longitude: place.longitude,
+					});
+				});
+			});
+		$input.css("padding-inline-end", "var(--padding-xl)");
+		$input.parent().css("position", "relative").append($locate);
+		$locate.find("a").css("cursor", "pointer");
+	},
+	place_name(frm) {
+		const place = frm._one_place;
+		frm._one_place = null;
+		if (frm.doc.place_name === frm._one_named) return;
+		if (!place || place.value !== frm.doc.place_name || place.latitude == null) {
+			// A name typed rather than chosen is somewhere no one has said yet.
+			frm.set_value({ region: "", country: "", latitude: 0, longitude: 0 });
+			return;
+		}
+		frm._one_named = place.name;
+		frm.set_value({
+			place_name: place.name,
+			region: place.region || "",
+			country: place.country || "",
+			latitude: place.latitude,
+			longitude: place.longitude,
+		});
 	},
 });
-
-function find_place(frm) {
-	let asked = 0;
-	const dialog = new frappe.ui.Dialog({
-		title: __("Find a Place"),
-		fields: [
-			{ fieldname: "query", fieldtype: "Data", label: __("Town or City"), default: frm.doc.place_name || "" },
-			{ fieldname: "found", fieldtype: "HTML" },
-		],
-	});
-	const wrapper = dialog.get_field("found").$wrapper;
-	const search = frappe.utils.debounce(async (query) => {
-		const mine = ++asked;
-		if ((query || "").trim().length < 2) return wrapper.empty();
-		wrapper.html(`<p class="text-muted">${__("Searching…")}</p>`);
-		const { message: places } = await frappe.call({ method: "onedesk.one.weather.search", args: { query } });
-		if (mine !== asked) return;
-		wrapper.empty();
-		if (!places?.length) return wrapper.html(`<p class="text-muted">${__("No place by that name.")}</p>`);
-		for (const place of places) {
-			const where = [place.region, place.country].filter(Boolean).join(", ");
-			const pick = () => {
-				frm.set_value({
-					place_name: frm.doc.place_name || place.name,
-					region: place.region,
-					country: place.country,
-					latitude: place.latitude,
-					longitude: place.longitude,
-				});
-				dialog.hide();
-			};
-			const label = where ? `${place.name} · ${where}` : place.name;
-			wrapper.append(frappe.ui.button({ label, variant: "outline", css_class: "btn-block", onclick: pick }));
-		}
-	}, 400);
-	dialog.fields_dict.query.$input.on("input", (event) => search(event.target.value));
-	dialog.show();
-	if (frm.doc.place_name) search(frm.doc.place_name);
-}

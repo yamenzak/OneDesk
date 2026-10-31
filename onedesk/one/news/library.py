@@ -5,6 +5,7 @@ Arabic and German feeds of ours; whoever publishes a feed owns it."""
 import json
 from functools import lru_cache
 from pathlib import Path
+from urllib.parse import urlparse
 
 import frappe
 from frappe import _
@@ -19,6 +20,26 @@ SHOWN = 60
 @lru_cache(maxsize=1)
 def _library() -> tuple:
 	return tuple(json.loads(LIBRARY.read_text(encoding="utf-8")))
+
+
+def near(rows, country: str) -> list[dict]:
+	"""What a workspace sees before it searches: feeds from its own country,
+	then the world's and business news from anywhere. Pure."""
+	own = [one for one in rows if country and one["country"] == country]
+	order = ("World", "Business", "Finance")
+	anywhere = sorted(
+		(one for one in rows if not one["country"] and one["category"] in order),
+		key=lambda one: order.index(one["category"]),
+	)
+	return own + anywhere
+
+
+def site(url: str) -> str:
+	"""A feed's publisher's site, where its logo is found. Pure."""
+	host = urlparse(url).netloc.lower()
+	for prefix in ("www.", "feeds.", "feed.", "rss."):
+		host = host.removeprefix(prefix)
+	return host
 
 
 def matching(rows, query: str = "", category: str = "", country: str = "") -> list[dict]:
@@ -44,13 +65,27 @@ def search(query: str = "", category: str = "", country: str = "") -> dict:
 	frappe.has_permission(SOURCE, "create", throw=True)
 	rows = _library()
 	added = set(frappe.get_all(SOURCE, filters={"kind": "Feed"}, pluck="feed_url"))
-	found = matching(rows, query or "", category or "", (country or "").upper())
+	if query or category or country:
+		found = matching(rows, query or "", category or "", (country or "").upper())
+	else:
+		found = near(rows, _country())
+	shown = found[:SHOWN]
+	logos = news.logos({site(one["url"]) for one in shown})
 	return {
-		"feeds": [{**one, "added": one["url"] in added} for one in found[:SHOWN]],
+		"feeds": [
+			{**one, "site": site(one["url"]), "logo": logos.get(site(one["url"]), ""), "added": one["url"] in added}
+			for one in shown
+		],
 		"more": max(0, len(found) - SHOWN),
 		"categories": sorted({one["category"] for one in rows}),
 		"countries": sorted({one["country"] for one in rows if one["country"]}),
 	}
+
+
+def _country() -> str:
+	"""The workspace's country as the library writes it, AE."""
+	named = frappe.db.get_default("country")
+	return (frappe.db.get_value("Country", named, "code") or "").upper() if named else ""
 
 
 @frappe.whitelist(methods=["POST"])
