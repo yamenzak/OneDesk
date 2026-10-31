@@ -424,11 +424,11 @@ MODULES = {
 		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-31", "commit": "7360e3ba9baf", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-31", "commit": "7360e3ba9baf", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-31", "commit": "7360e3ba9baf", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-31", "commit": "7360e3ba9baf", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-31", "commit": "7360e3ba9baf", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
