@@ -81,9 +81,14 @@ def _screens():
 		},
 	)
 	_make(
+		"Weather Place",
+		"Dubai",
+		{"place_name": "Dubai", "region": "Dubai", "country": "AE", "latitude": 25.2648, "longitude": 55.2924, "is_default": 1},
+	)
+	_make(
 		"Display Source",
 		"Dubai Weather",
-		{"source_name": "Dubai Weather", "kind": "Weather", "place": "Dubai", "latitude": 25.2048, "longitude": 55.2708},
+		{"source_name": "Dubai Weather", "kind": "Weather", "weather_place": "Dubai"},
 	)
 	late = _make(
 		"Display Source",

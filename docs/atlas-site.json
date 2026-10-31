@@ -3007,6 +3007,13 @@
 "Sales Manager",
 "Sales User"
 ],
+"Weather Place": [
+"Desk User",
+"One Manager",
+"OneDisplay Manager",
+"System Manager",
+"Workspace Administrator"
+],
 "Web Form": [
 "Website Manager",
 "Workspace Administrator"
@@ -3514,6 +3521,7 @@
 "Warehouse",
 "Warehouse Type",
 "Warranty Claim",
+"Weather Place",
 "Web Form",
 "Web Template",
 "Website Theme",

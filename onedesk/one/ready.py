@@ -437,6 +437,7 @@ MODULES = {
 			("announcements", "megaphone"),
 			("records", "file-text"),
 			("recycle-bin", "trash-2"),
+			("weather", "cloud-sun"),
 			("notifications", "bell"),
 			("access-and-the-audit-log", "shield-check"),
 			("your-data", "folder-lock"),

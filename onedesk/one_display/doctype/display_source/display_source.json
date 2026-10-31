@@ -28,11 +28,7 @@
   "section_feed",
   "feed_url",
   "section_weather",
-  "place",
-  "latitude",
-  "column_break_weather",
-  "longitude",
-  "units",
+  "weather_place",
   "section_rates",
   "base_currency",
   "column_break_rates",
@@ -201,35 +197,11 @@
    "depends_on": "eval:doc.kind=='Weather'"
   },
   {
-   "fieldname": "place",
-   "fieldtype": "Data",
+   "fieldname": "weather_place",
+   "fieldtype": "Link",
    "label": "Place",
-   "description": "Name shown on screen. Example: Dubai"
-  },
-  {
-   "fieldname": "latitude",
-   "fieldtype": "Float",
-   "label": "Latitude",
-   "precision": "6",
-   "mandatory_depends_on": "eval:doc.kind=='Weather'"
-  },
-  {
-   "fieldname": "column_break_weather",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "longitude",
-   "fieldtype": "Float",
-   "label": "Longitude",
-   "precision": "6",
-   "mandatory_depends_on": "eval:doc.kind=='Weather'"
-  },
-  {
-   "fieldname": "units",
-   "fieldtype": "Select",
-   "label": "Units",
-   "options": "Metric\nImperial",
-   "default": "Metric"
+   "options": "Weather Place",
+   "description": "The first place a day is free; each other costs five credits a day it is shown."
   },
   {
    "fieldname": "section_rates",
@@ -256,7 +228,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-31 04:15:48.735864",
+ "modified": "2026-10-31 08:14:53.396593",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Source",

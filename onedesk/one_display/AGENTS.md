@@ -181,11 +181,13 @@ instead.
   internet (`sources._public`), without redirects, at most 1 MB, with
   `defusedxml`. A feed is the workspace's own choice of address, so it is not
   a subprocessor and not an optional service.
-- **Weather** is Open-Meteo through TrustCenter's optional service
-  `display_weather`, off until a workspace turns it on. `sources._shaped`
-  turns its answer into now, today's high and low, thirteen `hours` and the
-  `days`, each named in the reader's language and with bare `hi`/`lo` for a
-  range drawn to scale.
+- **Weather** is One's (`one/weather.py`): a source names a `Weather Place`,
+  and `weather.reading` turns the account's answer into now, today's high
+  and low, thirteen `hours` and the `days`, each named in the reader's
+  language and with bare `hi`/`lo` for a range drawn to scale. The account
+  fetches it from OpenWeather once for every workspace near the place and
+  charges five credits a day for each place past the first
+  (`one_admin/weather.py`), behind TrustCenter's optional service `weather`.
 - **Exchange Rates** are ERPNext's own (`get_exchange_rate`, from the
   workspace's Currency Exchange records), for the listed currencies in the
   source's currency or the company's; a currency with no rate is left out.

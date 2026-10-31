@@ -287,6 +287,33 @@ def ai_web_search(query: str, most: int = 5) -> dict:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def weather_reading(latitude: float, longitude: float) -> dict:
+	"""A place's next hours and days, shared with every workspace near it and
+	charged to this one past its free place a day (one_admin/weather.py)."""
+	from onedesk.one_admin import weather
+
+	tenant = caller()
+	try:
+		return weather.reading(tenant.name, latitude, longitude)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def weather_places(query: str, lang: str = "en") -> list:
+	"""Places that answer to a name, to pick one for the weather. Not charged."""
+	from onedesk.one_admin import weather
+
+	caller()
+	try:
+		return weather.places(query, lang)
+	except faults.Refused as raised:
+		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_embed(texts: list | str) -> dict:
 	"""Texts as vectors, for this workspace's search by meaning, billed to it."""
 	from onedesk.one_admin import actions

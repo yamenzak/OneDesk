@@ -1,9 +1,10 @@
 """What OneDisplay adds to the agreements: a paired screen is a guest that
 shows the workspace's channel to whoever stands in front of it, a ticket
-names nobody, a news feed is read from the address the workspace gives, and
-the weather comes from outside only once a workspace turns it on. See one_display/AGENTS.md and one_legal/AGENTS.md."""
+names nobody, and a news feed is read from the address the workspace
+gives. The weather is One's (one/legal.py). See one_display/AGENTS.md and
+one_legal/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, service, subprocessor
+from onedesk.one_legal.registry import clause
 
 M = "OneDisplay"
 
@@ -43,25 +44,4 @@ clause(
 		a widget from what you describe. It is sent only the words to say or the description you give, and
 		what it makes is kept in the workspace as a file you can replace.
 	""",
-)
-
-service(
-	key="display_weather",
-	module=M,
-	title="Weather on Screens",
-	does="Shows the weather now and for the next days in a weather widget.",
-	sends="The latitude and longitude of the place a weather widget is set to, to Open-Meteo.",
-	off="A weather widget shows nothing until it is turned on.",
-	hosts=("api.open-meteo.com",),
-)
-
-subprocessor(
-	name="Open-Meteo",
-	module=M,
-	purpose="The weather for a place a weather widget shows",
-	data="The latitude and longitude of that place, never anything about a person",
-	where="The European Union",
-	safeguard="Only a place's coordinates are sent",
-	url="https://open-meteo.com/en/terms",
-	service="display_weather",
 )

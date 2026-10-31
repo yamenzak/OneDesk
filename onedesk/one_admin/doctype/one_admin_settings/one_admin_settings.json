@@ -45,6 +45,8 @@
   "ai_gateway",
   "column_break_ai",
   "ai_gateway_token",
+  "weather_section",
+  "openweather_key",
   "money_tab",
   "credits_section",
   "credits_per_dollar",
@@ -258,6 +260,17 @@
    "description": "Provider keys are stored in the gateway, never here."
   },
   {
+   "fieldname": "weather_section",
+   "fieldtype": "Section Break",
+   "label": "Weather"
+  },
+  {
+   "fieldname": "openweather_key",
+   "fieldtype": "Password",
+   "label": "OpenWeather Key",
+   "description": "One Call API 4.0. Workspaces near one place share its reading."
+  },
+  {
    "fieldname": "money_tab",
    "fieldtype": "Tab Break",
    "label": "Money"
@@ -412,7 +425,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-27 20:00:00.000000",
+ "modified": "2026-10-31 08:12:26.629859",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

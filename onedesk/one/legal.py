@@ -2,7 +2,7 @@
 docs/PASSOVER.md point 8: each screen's lines are added as the pass reaches it.
 """
 
-from onedesk.one_legal.registry import clause, subprocessor
+from onedesk.one_legal.registry import clause, service, subprocessor
 
 M = "One"
 
@@ -153,4 +153,39 @@ clause(
 		announcement and deleted with it.
 	""",
 	order=30,
+)
+
+
+service(
+	key="weather",
+	module=M,
+	title="Weather",
+	does="Shows the weather now and for the next days for the places you choose: on screens and beside the clock.",
+	sends="The latitude and longitude of each place, and the name you search for when you add one, through One's account to OpenWeather.",
+	off="Weather widgets show nothing, and no place can be searched for.",
+	hosts=("onedesk.one_admin.proxy.weather_reading", "onedesk.one_admin.proxy.weather_places"),
+)
+
+subprocessor(
+	name="OpenWeather Ltd",
+	module=M,
+	purpose="The weather for the places a workspace chooses, and finding a place by its name",
+	data="The coordinates of a place, and the name searched for to find it, never anything about a person",
+	where="The United Kingdom",
+	safeguard="Only a place's coordinates and the name searched for are sent, through One's account, which asks once for every workspace near the same place",
+	url="https://openweather.co.uk/privacy-policy",
+	service="weather",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="weather",
+	module=M,
+	body="""
+		Weather is off until your workspace's administrators turn it on. While it is on, One's account sends
+		OpenWeather the coordinates of each place you choose. It also sends the name you search for when you
+		add a place. Nothing about a person is sent. The first place shown each day is free; each other place
+		costs five credits for each day it is shown.
+	""",
 )

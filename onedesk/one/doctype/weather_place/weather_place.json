@@ -1,0 +1,131 @@
+{
+ "actions": [],
+ "autoname": "field:place_name",
+ "creation": "2026-10-31 12:00:00.000000",
+ "description": "A place whose weather One shows: on screens and beside the clock. The first a day is free; each other costs five credits a day it is shown.",
+ "doctype": "DocType",
+ "engine": "InnoDB",
+ "field_order": [
+  "place_name",
+  "region",
+  "country",
+  "column_break_place",
+  "units",
+  "is_default",
+  "where_section",
+  "latitude",
+  "column_break_where",
+  "longitude"
+ ],
+ "fields": [
+  {
+   "fieldname": "place_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Place",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "region",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Region"
+  },
+  {
+   "fieldname": "country",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Country"
+  },
+  {
+   "fieldname": "column_break_place",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "Metric",
+   "fieldname": "units",
+   "fieldtype": "Select",
+   "label": "Units",
+   "options": "Metric\nImperial"
+  },
+  {
+   "default": "0",
+   "description": "The place shown beside the clock. Only one place is the default.",
+   "fieldname": "is_default",
+   "fieldtype": "Check",
+   "in_list_view": 1,
+   "label": "Default Place"
+  },
+  {
+   "fieldname": "where_section",
+   "fieldtype": "Section Break",
+   "label": "Where"
+  },
+  {
+   "fieldname": "latitude",
+   "fieldtype": "Float",
+   "label": "Latitude",
+   "precision": "4",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_where",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "longitude",
+   "fieldtype": "Float",
+   "label": "Longitude",
+   "precision": "4",
+   "reqd": 1
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-10-31 14:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One",
+ "name": "Weather Place",
+ "naming_rule": "By fieldname",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "System Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "Workspace Administrator"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "One Manager"
+  },
+  {
+   "create": 1,
+   "delete": 1,
+   "read": 1,
+   "write": 1,
+   "role": "OneDisplay Manager"
+  },
+  {
+   "read": 1,
+   "role": "Desk User"
+  }
+ ],
+ "sort_field": "place_name",
+ "sort_order": "ASC",
+ "states": [],
+ "title_field": "place_name",
+ "track_changes": 1
+}

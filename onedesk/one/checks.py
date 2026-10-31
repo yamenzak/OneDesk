@@ -175,3 +175,57 @@ def a_record_with_no_picture_gets_one_drawn_and_keeps_its_own():
 		for name in (plain.name, own.name):
 			frappe.delete_doc("Contact", name, ignore_permissions=True, force=True)
 		avatars.fill("Contact")
+
+
+@check
+def one_shows_the_weather_for_its_places():
+	"""A place is found by its name and its weather comes through the account,
+	once for every workspace near it (one/weather.py, one_admin/weather.py).
+	Off, nothing is asked; on, the default place is shown beside the clock in
+	the workspace's units. The account is stood in for: no call leaves."""
+	from unittest import mock
+
+	from onedesk.one import weather
+	from onedesk.one_legal import services
+
+	start = 1_793_433_600
+	answer = {
+		"place": "25.3,55.3",
+		"offset": 4 * 3600,
+		"hours": [{"dt": start + i * 3600, "temp": 30 + i, "humidity": 40, "wind_speed": 5, "code": 800} for i in range(20)],
+		"days": [{"dt": start + i * 86400, "high": 33, "low": 26, "code": 801} for i in range(10)],
+		"credits": 0,
+	}
+	place = frappe.db.get_value("Weather Place", {"is_default": 1}, "name")
+	assert place, "the demo has a default place"
+	with as_user(OWNER):
+		was = services.on(weather.SERVICE)
+		try:
+			services.switch(weather.SERVICE, 0)
+			frappe.local.one_services = {}
+			weather.forget(place)
+			with mock.patch("onedesk.one.account.ask") as asked:
+				assert weather.here() is None, "off, nothing is shown"
+				try:
+					weather.search("Dubai")
+				except frappe.ValidationError:
+					pass
+				else:
+					raise AssertionError("off, no place can be searched for")
+				asked.assert_not_called()
+			services.switch(weather.SERVICE, 1)
+			frappe.local.one_services = {}
+			found = [{"name": "دبي", "region": "Dubai", "country": "AE", "latitude": 25.2647, "longitude": 55.2924}]
+			with mock.patch("onedesk.one.account.ask", return_value=found) as asked:
+				assert weather.search("Dubai") == found
+				assert asked.call_args.args[0] == weather.PLACES and asked.call_args.kwargs["query"] == "Dubai"
+			with mock.patch("onedesk.one.account.ask", return_value=dict(answer)) as asked, mock.patch.object(weather, "_now", return_value=start + 60):
+				shown = weather.here()
+				assert shown["place"] == place and shown["temperature"] == "30°C" and len(shown["hours"]) == 13, shown
+				assert asked.call_args.args[0] == weather.READING and set(asked.call_args.kwargs) == {"latitude", "longitude"}
+				weather.here()
+				assert asked.call_count == 1, "the account's answer is kept a quarter of an hour"
+		finally:
+			weather.forget(place)
+			services.switch(weather.SERVICE, int(was))
+			frappe.local.one_services = {}

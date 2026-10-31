@@ -3,7 +3,6 @@ import json
 import frappe
 from frappe import _
 from frappe.model.document import Document
-from frappe.utils import flt
 
 
 class DisplaySource(Document):
@@ -24,8 +23,8 @@ class DisplaySource(Document):
 			self.report_filters = _json(self.report_filters, dict, _("Report filters are not valid."))
 		if self.kind == "Feed" and not (self.feed_url or "").startswith("https://"):
 			frappe.throw(_("A feed's address starts with https://."))
-		if self.kind == "Weather" and not (-90 <= flt(self.latitude) <= 90 and -180 <= flt(self.longitude) <= 180):
-			frappe.throw(_("A latitude is between -90 and 90, and a longitude between -180 and 180."))
+		if self.kind == "Weather" and not self.weather_place:
+			frappe.throw(_("Choose the place whose weather to show."))
 		if self.kind == "Exchange Rates":
 			from onedesk.one_display.sources import currencies_in
 

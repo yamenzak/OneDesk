@@ -203,9 +203,11 @@ say(
 	"fees",
 	"credits",
 	"""
-	OneAI is paid for with credits. A plan includes some each month, and more are bought in advance. Credits
-	are used up as OneAI works and cannot be exchanged for money. Every use is recorded in the workspace, with what it
-	cost.
+	OneAI is paid for with credits, and so are optional services that cost us to provide, such as the weather
+	for more than one place. A plan includes some each month, and more are bought in advance. Credits are used
+	up as they are spent and cannot be exchanged for money. Every use is recorded in the workspace, with what it
+	cost. What each use costs in credits is shown where it is turned on, and changes like the rest of these
+	terms.
 
 	A plan's monthly credits expire at the end of the month they are given for and do not roll over.
 	Credits you buy do not expire. Credits that expire are always used before the ones you bought, and the

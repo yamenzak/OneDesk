@@ -11,11 +11,10 @@ from contextlib import contextmanager
 from typing import Annotated
 
 import frappe
-from frappe import _, _lt
+from frappe import _
 from frappe.utils import cint, flt, strip_html
 
 from onedesk.one_display import queue as queues
-from onedesk.one_legal import services
 
 DOCTYPE = "Display Source"
 KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Board": 0, "Feed": 900, "Weather": 1800, "Exchange Rates": 3600}
@@ -23,7 +22,6 @@ KEPT = {"Records": 60, "Record": 60, "Report": 300, "Queue": 0, "Board": 0, "Fee
 RATE_FIELDS = ("currency", "rate", "base", "line")
 MOST_ROWS = 50
 FIELD = re.compile(r"\{([A-Za-z_][A-Za-z0-9_]*)\}")
-WEATHER = "display_weather"
 FETCHED = 1024 * 1024
 
 
@@ -126,7 +124,9 @@ def _read(source, fields: set[str], lang: str) -> list[dict]:
 		if source.kind == "Exchange Rates":
 			return _rates(source)
 		if source.kind == "Weather":
-			said = services.call(WEATHER, _weather, source.latitude, source.longitude, source.units)
+			from onedesk.one import weather
+
+			said = weather.reading(source.weather_place, lang) if source.weather_place else None
 			return [said] if said else []
 		with _as(source.read_as or source.owner):
 			if source.kind == "Records":
@@ -292,99 +292,6 @@ def _feed(url: str) -> list[dict]:
 			}
 		)
 	return rows
-
-
-# What WMO's weather codes mean, as Open-Meteo answers them, and the icon a
-# screen draws for each.
-CONDITIONS = (
-	((0,), _lt("Clear"), "sun"),
-	((1, 2), _lt("Partly Cloudy"), "cloud-sun"),
-	((3,), _lt("Cloudy"), "cloud"),
-	((45, 48), _lt("Fog"), "cloud-fog"),
-	((51, 53, 55, 56, 57), _lt("Drizzle"), "cloud-drizzle"),
-	((61, 63, 65, 66, 67, 80, 81, 82), _lt("Rain"), "cloud-rain"),
-	((71, 73, 75, 77, 85, 86), _lt("Snow"), "cloud-snow"),
-	((95, 96, 99), _lt("Thunderstorm"), "cloud-lightning"),
-)
-
-
-def condition(code) -> tuple[str, str]:
-	code = cint(code)
-	for codes, label, icon in CONDITIONS:
-		if code in codes:
-			return str(label), icon
-	return "", "cloud"
-
-
-def _weather(latitude, longitude, units: str = "Metric") -> dict:
-	"""Now and the next days from Open-Meteo, which asks for no key and is
-	told only the place."""
-	import requests
-
-	imperial = units == "Imperial"
-	answer = requests.get(
-		"https://api.open-meteo.com/v1/forecast",
-		params={
-			"latitude": flt(latitude),
-			"longitude": flt(longitude),
-			"current": "temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m",
-			"daily": "temperature_2m_max,temperature_2m_min,weather_code",
-			"hourly": "temperature_2m,weather_code",
-			"forecast_hours": 13,
-			"timezone": "auto",
-			"forecast_days": 6,
-			"temperature_unit": "fahrenheit" if imperial else "celsius",
-			"wind_speed_unit": "mph" if imperial else "kmh",
-		},
-		timeout=8,
-	)
-	answer.raise_for_status()
-	said = answer.json()
-	now = said.get("current") or {}
-	daily = said.get("daily") or {}
-	label, icon = condition(now.get("weather_code"))
-	degree = "°F" if imperial else "°C"
-	return _shaped(now, daily, said.get("hourly") or {}, degree, "mph" if imperial else "km/h", frappe.local.lang or "en")
-
-
-def _shaped(now: dict, daily: dict, hourly: dict, degree: str, speed: str, lang: str) -> dict:
-	"""Open-Meteo's answer as a widget draws it: now, the next hours and the
-	days, each day named in the reader's language and with its numbers bare
-	too, for a range drawn to scale."""
-	from onedesk.one_display.programme import _babel
-
-	label, icon = condition(now.get("weather_code"))
-	days = []
-	for i, day in enumerate(daily.get("time") or []):
-		day_label, day_icon = condition((daily.get("weather_code") or [None])[i])
-		high, low = round(flt(daily["temperature_2m_max"][i])), round(flt(daily["temperature_2m_min"][i]))
-		days.append(
-			{
-				"date": day,
-				"label": _("Today") if i == 0 else _babel(day, "EEE", lang),
-				"high": f"{high}{degree}",
-				"low": f"{low}{degree}",
-				"hi": high,
-				"lo": low,
-				"condition": day_label,
-				"icon": day_icon,
-			}
-		)
-	hours = []
-	for i, at in enumerate((hourly.get("time") or [])[:13]):
-		_said, hour_icon = condition((hourly.get("weather_code") or [None])[i])
-		hours.append({"label": _("Now") if i == 0 else str(at)[11:16], "temperature": f"{round(flt(hourly['temperature_2m'][i]))}°", "icon": hour_icon})
-	return {
-		"temperature": f"{round(flt(now.get('temperature_2m')))}{degree}",
-		"condition": label,
-		"icon": icon,
-		"wind": f"{round(flt(now.get('wind_speed_10m')))} {speed}",
-		"humidity": f"{cint(now.get('relative_humidity_2m'))}%",
-		"high": days[0]["high"] if days else "",
-		"low": days[0]["low"] if days else "",
-		"days": days,
-		"hours": hours,
-	}
 
 
 def fill(widget, lang: str) -> dict:

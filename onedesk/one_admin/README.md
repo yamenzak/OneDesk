@@ -2182,3 +2182,27 @@ while a free monthly allowance sits unused beside it.
 `GRANTED_ON`: Overdue is there for the same reason `proxy.SERVING` carries it:
 Overdue is defined as nothing happening to the workspace, and cutting off its
 allowance would be the grace period not existing.
+
+### Weather
+
+`weather.py` gets the weather from OpenWeather's One Call API 4.0 for every
+workspace that has the Weather service on (`one/weather.py`).
+
+- **Places share a reading.** A place is a cell about ten kilometres across,
+  its coordinates to one decimal, so two workspaces in one city share one
+  reading, held in Redis.
+- **It is fetched only when asked, and only when old.** A cell's next hours
+  (`timeline/1h`) are fetched again after two hours and its next days
+  (`timeline/1day`) after twelve: fourteen calls a day for a place shown all
+  day. Nothing runs on a timer. "Now" is the hour that covers the present,
+  read from the hours already held.
+- **The first place a day is free.** Every other place a workspace shows that
+  day costs `CREDITS_A_DAY`, charged the first time it is served that day,
+  whether it was fetched for that workspace or already held for another.
+  `calls_today` counts the calls against OpenWeather's free thousand a day.
+- **Places are found by name** through OpenWeather's geocoding, which is not
+  charged.
+- **The key never leaves.** It is the OpenWeather Key in One Admin Settings.
+  OpenWeather takes it in the address, so `_get` raises a failure again
+  without the address, and the `prev` and `next` links OpenWeather answers
+  with are never kept.

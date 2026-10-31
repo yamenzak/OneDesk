@@ -18,12 +18,12 @@ from onedesk.one import ready  # noqa: E402
 from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 
 VERSIONS = {
-	"terms": "12.4511ee03",
+	"terms": "12.6acabf25",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.54268217",
+	"privacy": "27.53d559f5",
 	"cookies": "2.946a434c",
 	"dpa": "7.619281d4",
-	"subprocessors": "5.537a08fe",
+	"subprocessors": "5.f9341143",
 	"ai": "25.b173a315",
 	"licences": "1.c71daf62",
 }
@@ -41,7 +41,9 @@ HOSTS = {
 	"fonts.googleapis.com": "Google LLC",
 	"fonts.gstatic.com": "Google LLC",
 	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
-	"api.open-meteo.com": "Open-Meteo",
+	"api.openweathermap.org": "OpenWeather Ltd",
+	"onedesk.one_admin.proxy.weather_reading": "OpenWeather Ltd",
+	"onedesk.one_admin.proxy.weather_places": "OpenWeather Ltd",
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

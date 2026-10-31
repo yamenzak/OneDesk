@@ -1264,6 +1264,10 @@ msgstr "جزء من مستند أو رسالة أو سجل، واتجاه معن
 msgid "A place belongs to a Shift Location or to one employee, not to both."
 msgstr "ينتمي الموقع إلى موقع مناوبة أو إلى موظف واحد، لا إلى كليهما."
 
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "A place whose weather One shows: on screens and beside the clock. The first a day is free; each other costs five credits a day it is shown."
+msgstr "مكان يعرض One طقسه: على الشاشات وبجانب الساعة. أول مكان في اليوم مجاني، وكل مكان آخر يكلّف خمس أرصدة عن كل يوم يُعرض فيه."
+
 #: onedesk/one_slide/doctype/presentation/presentation.json
 msgid "A presentation's slides, behind the File that puts it in OneCloud. Opened and saved only through one_slide/api.py, which asks OneCloud whether the reader may."
 msgstr "شرائح العرض التقديمي، خلف الملف الذي يضعه في OneCloud. يُفتح ويُحفظ فقط عبر one_slide/api.py، الذي يسأل OneCloud إن كان القارئ يملك الإذن."
@@ -8788,6 +8792,10 @@ msgstr "اختر الخط الافتراضي لهذا المستند."
 msgid "Choose the folder to move to."
 msgstr "اختر المجلد للنقل إليه."
 
+#: onedesk/one_display/doctype/display_source/display_source.py:27
+msgid "Choose the place whose weather to show."
+msgstr "اختر المكان الذي تريد عرض طقسه."
+
 #: onedesk/one_inventory/quotes.py:341
 msgid "Choose the suppliers to ask."
 msgstr "اختر الموردين المطلوب سؤالهم."
@@ -12438,6 +12446,10 @@ msgstr "الرسالة الافتراضية"
 #: onedesk/public/js/one_mail/onemail_settings.js:1186
 msgid "Default Outgoing"
 msgstr "الصادر الافتراضي"
+
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "Default Place"
+msgstr "المكان الافتراضي"
 
 #: frontend/src/inventory/item/ItemBuying.vue:121
 msgid "Default Purchase Unit of Measure"
@@ -17747,6 +17759,12 @@ msgstr "البحث والاستبدال"
 #: onedesk/one_legal/tour.py:23
 msgid "Find a Clause"
 msgstr "البحث عن بند"
+
+#: onedesk/one/doctype/weather_place/weather_place.js:6
+#: onedesk/one/doctype/weather_place/weather_place.js:7
+#: onedesk/one/doctype/weather_place/weather_place.js:14
+msgid "Find a Place"
+msgstr "ابحث عن مكان"
 
 #: onedesk/one_storage/ai.py:18 onedesk/one_storage/ai.py:43
 msgid "Find a file…"
@@ -27531,10 +27549,6 @@ msgstr "الاسم مطلوب."
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
 msgstr "اسم النسخة الاحتياطية الخارجية لدى Frappe Cloud عند أرشفة الموقع."
 
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Name shown on screen. Example: Dubai"
-msgstr "الاسم المعروض على الشاشة. مثال: دبي"
-
 #: onedesk/one_book/ready.py:370
 msgid "Name the bank and the account."
 msgstr "اذكر اسم البنك والحساب."
@@ -29142,6 +29156,10 @@ msgstr "لم يُقدَّم أي مفتاح مرور."
 #: onedesk/public/js/one_account/account_center.js:404
 msgid "No people"
 msgstr "لا يوجد أشخاص"
+
+#: onedesk/one/doctype/weather_place/weather_place.js:28
+msgid "No place by that name."
+msgstr "لا يوجد مكان بهذا الاسم."
 
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:135
 msgid "No plan fits"
@@ -31012,6 +31030,10 @@ msgstr "OneCRM"
 msgid "One Calendar"
 msgstr "OneCalendar"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "One Call API 4.0. Workspaces near one place share its reading."
+msgstr "One Call API 4.0. مساحات العمل القريبة من مكان واحد تتشارك قراءته."
+
 #: onedesk/one_display/widgets.py:25 onedesk/one_display/widgets.py:274
 msgid "One Counter"
 msgstr "شباك واحد"
@@ -31043,6 +31065,10 @@ msgstr "سطر واحد"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json
 msgid "One Mail"
 msgstr "OneMail"
+
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "One Manager"
+msgstr "مدير One"
 
 #: onedesk/one_display/widgets.py:270
 msgid "One Message at a Time"
@@ -32383,6 +32409,10 @@ msgstr "فتح {0}"
 #: frontend/src/project/Time.vue:57
 msgid "Open {0} Older Entries"
 msgstr "فتح {0} من الإدخالات الأقدم"
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "OpenWeather Key"
+msgstr "مفتاح OpenWeather"
 
 #. Label of the source_kind (Data) field in DocType 'Writer Document'
 #. Label of the source_kind (Data) field in DocType 'Workbook'
@@ -35816,10 +35846,6 @@ msgstr "جارٍ تجهيز النسخة لـ {0}."
 #: onedesk/public/js/one_account/account_center.js:902
 msgid "Preparing. You'll be notified when it's ready."
 msgstr "قيد التجهيز. ستُبلَّغ عند جاهزيته."
-
-#: onedesk/one_display/starters.py:883
-msgid "Prescription ready"
-msgstr "الوصفة جاهزة"
 
 #: onedesk/one_display/starters.py:1187
 msgid "Prescriptions ready to collect, from a queue."
@@ -41231,6 +41257,10 @@ msgstr "ابحث في القوالب..."
 #: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
 msgid "Search {0}"
 msgstr "البحث في {0}"
+
+#: onedesk/one/doctype/weather_place/weather_place.js:24
+msgid "Searching…"
+msgstr "جارٍ البحث…"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:564
 msgid "Search…"
@@ -47794,6 +47824,10 @@ msgstr "أول مستند في الموضوع الذي يخصه هذا. المس
 msgid "The first mail sent or call made to them."
 msgstr "أول بريد أُرسل إليهم أو أول مكالمة أُجريت معهم."
 
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "The first place a day is free; each other costs five credits a day it is shown."
+msgstr "أول مكان في اليوم مجاني، وكل مكان آخر يكلّف خمس أرصدة عن كل يوم يُعرض فيه."
+
 #. Description of the 'Title' (Data) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "The first thing asked, shortened. Renaming is allowed."
@@ -48416,6 +48450,10 @@ msgstr "لم يُصدر الهاتف مفتاح المرور إلا بعد بص�
 #: onedesk/one_studio/places.py:307
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr "تُرسم لوحة المبيعات، وفي كل مرة تتغير فيها قيمة مرحلة."
+
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "The place shown beside the clock. Only one place is the default."
+msgstr "المكان المعروض بجانب الساعة. مكان واحد فقط هو الافتراضي."
 
 #: onedesk/one_crm/home.py:163
 msgid "The places you sell in."
@@ -51111,6 +51149,10 @@ msgstr "الإجماليات بالحروف"
 msgid "Town Hall"
 msgstr "الاجتماع العام"
 
+#: onedesk/one/doctype/weather_place/weather_place.js:16
+msgid "Town or City"
+msgstr "البلدة أو المدينة"
+
 #: frontend/src/inventory/lots/LotsPage.vue:158
 #: onedesk/public/js/lots_actions.js:5
 msgid "Track Batches"
@@ -51510,6 +51552,10 @@ msgstr "إيقاف حسابك وإزالة اسمك وعنوانك من السج
 #: onedesk/public/js/one_portal/portal.js:198
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "إيقاف وصول {0} إلى البوابة؟ سيتم تسجيل خروجه فوراً."
+
+#: onedesk/one/weather.py:173
+msgid "Turn on Weather in TrustCenter to search for a place."
+msgstr "فعّل الطقس في TrustCenter للبحث عن مكان."
 
 #: onedesk/one_account/center.py:590
 msgid "Turn them on first."
@@ -53407,6 +53453,14 @@ msgstr "الطقس"
 #: onedesk/one_display/widgets.py:268
 msgid "Weather Card"
 msgstr "بطاقة الطقس"
+
+#: onedesk/one/weather.py:173
+msgid "Weather Is Off"
+msgstr "الطقس متوقف"
+
+#: onedesk/one/doctype/weather_place/weather_place.json
+msgid "Weather Place"
+msgstr "مكان الطقس"
 
 #: onedesk/one_display/widgets.py:283
 msgid "Weather by the Hour"
