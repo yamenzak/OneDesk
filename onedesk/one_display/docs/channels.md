@@ -8,7 +8,7 @@ stay in step with each other.
 | Part | What it is |
 | --- | --- |
 | **Slide Playlist** | The slides, filling the screen behind everything else. See [Slides](slides). |
-| **Widget Collection** | The widgets laid over the slides: a queue board, a clock, a figure from your records. See [Widgets and Sources](widgets-and-sources). |
+| **Widget Collection** | The widgets laid over the slides: a queue board, a clock, a figure from your records. **Choose a Layout** makes one from a [template](templates). See [Widgets and Sources](widgets-and-sources). |
 | **Screen Size** | The shape it is laid out for: Landscape, Portrait, a Bar over a counter, a Square, a Wall of two screens side by side, or a size of your own. A screen of another shape scales it. |
 | **Language** | The language of the words on its screens. |
 

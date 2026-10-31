@@ -8,6 +8,8 @@ import { currentSlide } from "../stores/slide";
 import { generateUniqueId } from "../utils/helpers";
 import { frame } from "./frame.js";
 
+// `kind` is a widget kind or a ready-made one (widgets.py presets), which
+// brings its settings too.
 export function addWidget(kind) {
 	const slide = currentSlide.value;
 	if (!slide) return;
@@ -17,7 +19,7 @@ export function addWidget(kind) {
 	const element = {
 		id: generateUniqueId(),
 		type: "widget",
-		name: "",
+		name: kind.key && kind.key !== kind.type ? kind.label : "",
 		left: (frame.w - width) / 2,
 		top: (frame.h - height) / 2,
 		width,
@@ -25,7 +27,7 @@ export function addWidget(kind) {
 		zIndex: Math.max(0, ...slide.elements.map((one) => one.zIndex || 0)) + 1,
 		// the look its kind starts in (one_display/widgets.py FIRST_LOOK)
 		...(kind.look || {}),
-		widget: { id: null, widget_type: kind.type, label: "", source: "", mapping: {}, settings: {}, shown: "Always" },
+		widget: { id: null, widget_type: kind.type, label: "", source: "", mapping: {}, settings: { ...(kind.settings || {}) }, shown: "Always" },
 	};
 	commandHistory.execute(batchCommand({ slideId: slide.clientId, elementIds: [element.id], commands: [addElementCommand({ slideId: slide.clientId, element })] }));
 	setActiveElements([element.id]);

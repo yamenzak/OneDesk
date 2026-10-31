@@ -53,7 +53,7 @@ def loaded(doc: dict, item: dict) -> None:
 		return
 	said = layout.get(collection.name)
 	wide, high = frame(collection)
-	doc["screen"] = {key: said[key] for key in ("name", "screen_size", "writable", "types", "sources", "looks")}
+	doc["screen"] = {key: said[key] for key in ("name", "screen_size", "writable", "types", "sources", "looks", "presets", "brand")}
 	# the frame the editor lays the screen out on (frontend/src/slide/shim/frame.js)
 	doc["screen"]["frame"] = {"w": wide, "h": high}
 	slides = (doc.get("slides") or [])[:1]
@@ -61,25 +61,27 @@ def loaded(doc: dict, item: dict) -> None:
 		return
 	first = slides[0]
 	elements = [one for one in _parsed(first.get("elements")) if one.get("type") != WIDGET]
-	for row in said["widgets"]:
-		elements.append(
-			{
-				"id": f"w-{row['id']}",
-				"type": WIDGET,
-				"name": row.get("label") or "",
-				"left": round(flt(row["x"]) / 100 * wide, 2),
-				"top": round(flt(row["y"]) / 100 * high, 2),
-				"width": round(flt(row["w"]) / 100 * wide, 2),
-				"height": round(flt(row["h"]) / 100 * high, 2),
-				"zIndex": ABOVE + cint(row.get("layer")),
-				"widget": {"id": row["id"], **{key: row.get(key) for key in ROW}},
-				# its look is the element's own, edited as any object's is (widgets.LOOK)
-				**kinds.look(_settings(row.get("settings"))),
-			}
-		)
+	elements += [element(row, wide, high) for row in said["widgets"]]
 	first["elements"] = json.dumps(elements)
 	first["background"] = collection.background or _brand()
 	doc["slides"] = slides
+
+
+def element(row: dict, wide: int, high: int) -> dict:
+	"""A collection's widget as an element on the editor's canvas. Pure."""
+	return {
+		"id": f"w-{row['id']}",
+		"type": WIDGET,
+		"name": row.get("label") or "",
+		"left": round(flt(row["x"]) / 100 * wide, 2),
+		"top": round(flt(row["y"]) / 100 * high, 2),
+		"width": round(flt(row["w"]) / 100 * wide, 2),
+		"height": round(flt(row["h"]) / 100 * high, 2),
+		"zIndex": ABOVE + cint(row.get("layer")),
+		"widget": {"id": row["id"], **{key: row.get(key) for key in ROW}},
+		# its look is the element's own, edited as any object's is (widgets.LOOK)
+		**kinds.look(_settings(row.get("settings"))),
+	}
 
 
 def saving(name: str, item: dict, slides: list) -> list:

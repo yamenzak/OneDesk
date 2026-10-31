@@ -576,6 +576,9 @@ No doctypes yet.
 * `onedesk.one_display.sources.fields_of`
 * `onedesk.one_display.sources.peek`
 * `onedesk.one_display.sources.report_fields`
+* `onedesk.one_display.starters.for_channel`
+* `onedesk.one_display.starters.made`
+* `onedesk.one_display.starters.offered`
 * `onedesk.one_display.voices.record`
 * `onedesk.one_doc.api.add_picture`
 * `onedesk.one_doc.api.download`

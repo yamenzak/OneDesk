@@ -19,8 +19,11 @@ FEED = {"title": _lt("Title"), "summary": _lt("Summary"), "date": _lt("Date"), "
 @frappe.whitelist()
 def get(collection: Annotated[str, "The widget collection."]) -> dict:
 	"""A collection, what it may hold and where the rows can come from."""
+	from onedesk.one_slide import decks
+
 	doc = frappe.get_doc(DOCTYPE, collection)
 	doc.check_permission("read")
+	colour = decks.brand()["colour"]
 	return {
 		"name": doc.name,
 		"screen_size": doc.screen_size or "Landscape",
@@ -29,8 +32,10 @@ def get(collection: Annotated[str, "The widget collection."]) -> dict:
 		"background": doc.background or "",
 		"writable": doc.has_permission("write"),
 		"widgets": [{"id": row.name, **{key: row.get(key) for key in KEPT}} for row in doc.widgets],
-		"types": kinds.described(),
-		"looks": kinds.looks(),
+		"types": kinds.described(colour),
+		"looks": kinds.looks(colour),
+		"presets": kinds.presets(colour),
+		"brand": colour,
 		"sources": frappe.get_list(
 			"Display Source", fields=["name", "kind", "ref_doctype", "report"], order_by="name asc", limit=500
 		),

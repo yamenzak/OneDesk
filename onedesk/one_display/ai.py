@@ -15,6 +15,7 @@ REACH = {}
 
 NOT_FOR_AI = {
 	"screen.backdrop": "Only Edit Layout asks for it, to open a screen's layout in the editor.",
+	"starters.for_channel": "Only Choose a Layout asks for it, to open a channel's new layout on its templates.",
 	"screens.start": "Only a screen asks for its pairing code, from the TV address.",
 	"screens.status": "Only a screen asks whether it was paired, with the secret it keeps.",
 	"screens.state": "Only a paired screen asks what to show, with its own token.",

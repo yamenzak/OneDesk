@@ -199,6 +199,38 @@ codes open one item's buttons. The **Board** and **Board Item** widgets draw
 them; Board Item pointed at a counter shows what it serves. `tell.past_limits`
 tells the board's people when an item passes its state's limit.
 
+## Templates and ready-made widgets
+
+`starters.py` is the library of whole screens, built in code as OneSlide's
+decks are, so each comes in the reader's language, the business's colour
+(`decks.brand`) and logo, and the frame of the collection it is put on. A
+`Canvas` lays a screen out in percent; words are sized on a short side of
+540, or 300 for a strip. Each starter names its shape (wide, tall or strip),
+its group, and is drawn by one function. A widget it puts down is a
+ready-made one (`widgets.PRESETS`) reading the first source of the kind it
+takes (`TAKES`); a QR code gets the site's address, a picture one of the
+four abstract pictures in `public/images/one_display/pictures/`, a ticker
+with no feed a line of words, so a screen shows something from the first
+minute. `made` returns the slide for the editor, which puts it on the canvas
+as one command that undoes (`shim/ScreenTemplates.vue`); `apply` saves it
+as the editor would, through `api.save_slides` and the `one_slide_saving`
+hook. The editor opens an empty screen on its templates; `for_channel`
+makes a channel's layout the first time, for **Choose a Layout**.
+
+Each template's picture is `public/images/one_display/starters/<key>.jpg`,
+taken from the player (`/tv?collection=`) with a queue called and the
+weather filled. Over-slides templates are shot on a keyed background with an
+abstract picture laid in, as slides would be.
+
+`widgets.PRESETS` are ready-made widgets: a kind, settings it has, a look and
+a size. Three are Custom code (`COUNTDOWN`, `ROTATING`, `PROGRESS`), ES5
+because they run in the screen's browser, their words filled in the reader's
+language. A Custom frame is given the box's colour and font, which it does
+not inherit (tv.js). Looks may name `BRAND`, filled with the business's
+colour when they are read (`worn`). **Add a Widget** (`shim/WidgetGallery.vue`)
+and the canvas (`shim/WidgetElement.vue`) draw a widget with
+`shim/WidgetMock.vue`: what it shows with example words, in its look.
+
 ## Data on screens
 
 A screen's editor offers OneSlide's data chips (`one_slide/data.py`) with a
@@ -308,7 +340,8 @@ one).
 | `boards.py`, `chips.py` | Boards, and data chips for what were Number and List |
 | `playlist.py` | Pictures and videos dropped on a playlist |
 | `sources.py` | Reading a source, filling a widget's slots, feeds and weather |
-| `widgets.py` | Every widget kind: slots, settings, which sources fill it |
+| `widgets.py` | Every widget kind: slots, settings, which sources fill it; the looks and the ready-made widgets |
+| `starters.py` | The templates: whole screens built in code, offered in the editor and put on a layout |
 | `layout.py` | A collection's widgets, read and saved back |
 | `screen.py` | A collection edited in OneSlide's editor: its backdrop presentation, widgets on and off its slide, what the TV draws behind them |
 | `live.py` | Waking screens over the socket |
@@ -325,5 +358,6 @@ one).
 | `page/boards/` | The Boards island |
 | `../www/tv.html`, `../www/tv.py`, `../public/js/one_display/` | The player and its worker; `../public/js/one_slide/play.js` draws a slide |
 | `../public/js/one_display/display_control.js` | Settings and the foot |
+| `../public/images/one_display/` | Each template's picture, and the abstract pictures templates start with |
 | `../../frontend/src/display/` | The counter and Boards |
 | `../../realtime/handlers.js` | A screen joining its room, admitted by `live.admit` |

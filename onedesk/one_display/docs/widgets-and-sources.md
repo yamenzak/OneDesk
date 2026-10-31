@@ -1,9 +1,11 @@
 # Widgets and Sources
 
 A widget collection is a layout of widgets on the screen. **Edit Layout** on a
-collection opens it in OneSlide's editor, at the screen's own shape. **Add a
-Widget** puts one in the middle; drag it into place, pull its handles to size
-it, and line it up with the others as you would anything on a slide. Click a
+collection opens it in OneSlide's editor, at the screen's own shape; a new
+one opens on its [Templates](templates). **Add a Widget** shows every widget
+and its ready-made versions, drawn as they will look, and puts the one you
+choose in the middle; drag it into place, pull its handles to size it, and
+line it up with the others as you would anything on a slide. Click a
 widget and the panel shows where it reads from and its settings.
 **Preview** opens the screen as it plays.
 
@@ -38,8 +40,10 @@ A widget can show always, or only between two times of day.
 
 A widget draws only what it shows. Its fill, its words' colour, its font,
 padding, border, corners and shadow are set in the panel like anything
-else on the screen. **Look** gives a set of these in one go, Plain, Card,
-Light Card, Outline, Band or Solid, which you can change afterwards.
+else on the screen. **Look** gives a set of these in one go, which you can
+change afterwards: Card, Light Card, Soft, Floating, Glass, Dark Glass, Pill,
+Rounded, Outline, Band, Light Band, Solid, Highlight, Alert and Contrast, and
+four in your own colour, Accent, Accent Band, Accent Pill and Accent Outline.
 
 ![A queue board with the Card look](widgets-and-sources/looks.png)
 

@@ -14,9 +14,8 @@
 		</div>
 		<span class="text-sm text-ink-gray-5 max-md:hidden">{{ making || status }}</span>
 		<div class="ml-auto flex shrink-0 items-center gap-2">
-			<Dropdown v-if="!inReadonlyMode && screen" :options="widgetMenu" align="end">
-				<Button variant="ghost" icon-left="lucide-layout-dashboard" :label="__('Add a Widget')" icon-right="lucide-chevron-down" />
-			</Dropdown>
+			<Button v-if="!inReadonlyMode && screen" variant="ghost" icon-left="lucide-layout-template" :label="__('Templates')" @click="showTemplates = true" />
+			<Button v-if="!inReadonlyMode && screen" variant="ghost" icon-left="lucide-layout-dashboard" :label="__('Add a Widget')" @click="showWidgets = true" />
 			<Dropdown v-if="!inReadonlyMode && presentationDoc && oneaiOn() && !masterOf" :options="aiMenu" align="end">
 				<Button variant="ghost" :label="ONEAI" icon-right="lucide-chevron-down" :loading="!!making">
 					<template #prefix><img :src="oneaiMark" class="size-4" alt="" /></template>
@@ -34,6 +33,8 @@
 		<SlideCamera ref="camera" />
 		<VersionsDialog v-if="presentationDoc" v-model="showVersions" :name="presentationDoc.name" :writable="!inReadonlyMode" @restored="reload" />
 		<ViewsDialog v-if="presentationDoc" v-model="showViews" :name="presentationDoc.name" />
+		<WidgetGallery v-if="screen" v-model:open="showWidgets" @add="addWidget" />
+		<ScreenTemplates v-if="screen && !inReadonlyMode" v-model:open="showTemplates" />
 		<DataDialog v-if="presentationDoc" v-model="showData" :record="presentationDoc.record" :readonly="inReadonlyMode" :screen="!!screen" />
 	</div>
 </template>
@@ -59,6 +60,8 @@ import { dirty, isSaving, saveFailed, saveWithoutDelay } from "../stores/saving"
 import SlideCamera from "./SlideCamera.vue";
 import VersionsDialog from "./VersionsDialog.vue";
 import DataDialog from "./DataDialog.vue";
+import WidgetGallery from "./WidgetGallery.vue";
+import ScreenTemplates from "./ScreenTemplates.vue";
 import ViewsDialog from "./ViewsDialog.vue";
 import { sources } from "./data.js";
 
@@ -358,7 +361,19 @@ onBeforeUnmount(() => aiSees(null));
 // a card approved in OneAI's panel changed the slides: open them as they are now
 const unwritten = listen("one_slide_written", (said) => said?.presentation === presentationDoc.value?.name && reload());
 onBeforeUnmount(unwritten);
-const widgetMenu = computed(() => [{ group: __("Widgets"), options: (screen.value?.types || []).map((one) => ({ label: one.label, onClick: () => addWidget(one) })) }]);
+const showWidgets = ref(false);
+// an empty screen opens on its templates, which is where most start
+const showTemplates = ref(false);
+let looked = false;
+watch(
+	() => screen.value && currentSlide.value,
+	(slide) => {
+		if (!slide || looked) return;
+		looked = true;
+		if (!inReadonlyMode.value && !slide.elements.length) showTemplates.value = true;
+	},
+	{ immediate: true }
+);
 
 function described(title, label, done) {
 	prompt([{ fieldname: "description", fieldtype: "Small Text", label: __("Describe It"), reqd: 1 }], ({ description }) => done(description), title, label);

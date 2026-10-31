@@ -897,6 +897,18 @@ msgstr "Eine Gutschrift fügt hinzu und kann verfallen. Verbrauch und Erstattung
 msgid "A grant can't be drawn from another entry."
 msgstr "Eine Gutschrift kann nicht von einem anderen Eintrag abgebucht werden."
 
+#: onedesk/one_display/starters.py:454
+msgid "A greeting and the time across a long screen."
+msgstr "Eine Begrüßung und die Uhrzeit über einen langen Bildschirm."
+
+#: onedesk/one_display/starters.py:453
+msgid "A greeting for a screen on its side."
+msgstr "Eine Begrüßung für einen hochkant stehenden Bildschirm."
+
+#: onedesk/one_display/starters.py:450
+msgid "A greeting with the time, the weather and a ticker."
+msgstr "Eine Begrüßung mit Uhrzeit, Wetter und Laufband."
+
 #: onedesk/one/access.py:880
 msgid "A group holds people of the workspace."
 msgstr "Eine Gruppe enthält Personen des Arbeitsbereichs."
@@ -916,6 +928,10 @@ msgstr "Eine Überschrift oder ein Text, hier geschrieben oder aus einem Datensa
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
 msgid "A job needs a workspace."
 msgstr "Ein Job braucht einen Arbeitsbereich."
+
+#: onedesk/one_display/starters.py:451
+msgid "A large picture beside today's news and the weather."
+msgstr "Ein großes Bild neben den heutigen Neuigkeiten und dem Wetter."
 
 #: onedesk/one_book/ready.py:170
 msgid "A late customer is reminded"
@@ -1206,6 +1222,14 @@ msgstr "Das Bild einer Person oder das Logo einer Organisation, einmal gesucht u
 #: onedesk/one_crm/home.py:180
 msgid "A phone line, mailbox or chat customers reach you on, and who answers it when."
 msgstr "Eine Telefonleitung, ein Postfach oder ein Chat, über die Kunden Sie erreichen, und wer wann antwortet."
+
+#: onedesk/one_display/starters.py:473
+msgid "A picture of someone and a few words about them."
+msgstr "Ein Bild einer Person und ein paar Worte über sie."
+
+#: onedesk/one_display/starters.py:470
+msgid "A picture, an offer, its price and a code."
+msgstr "Ein Bild, ein Angebot, sein Preis und ein Code."
 
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
@@ -1568,6 +1592,14 @@ msgstr "Eine Vorlage kann ein Feld des Datensatzes nennen, etwa {{ customer_name
 msgid "A template task begins on or after the project's first day, and lasts 0 days or more."
 msgstr "Eine Vorlagenaufgabe beginnt am ersten Tag des Projekts oder danach und dauert 0 Tage oder länger."
 
+#: onedesk/one_display/starters.py:477
+msgid "A ticker across a long screen, with the time."
+msgstr "Ein Laufband über einen langen Bildschirm, mit Uhrzeit."
+
+#: onedesk/one_display/starters.py:476
+msgid "A ticker and the time along the foot of the slides."
+msgstr "Ein Laufband und die Uhrzeit am unteren Rand der Folien."
+
 #: onedesk/one_display/queue.py:149
 msgid "A ticket can only be closed as Done or No Show."
 msgstr "Ein Ticket kann nur als Erledigt oder Nicht erschienen geschlossen werden."
@@ -1838,6 +1870,26 @@ msgstr "Heute abwesend"
 #: onedesk/one_studio/letter_heads.py:35
 msgid "Accent"
 msgstr "Akzent"
+
+#: onedesk/one_display/widgets.py:186
+msgid "Accent Band"
+msgstr "Akzentband"
+
+#: onedesk/one_display/widgets.py:246
+msgid "Accent Clock"
+msgstr "Akzentuhr"
+
+#: onedesk/one_display/widgets.py:188
+msgid "Accent Outline"
+msgstr "Akzentrahmen"
+
+#: onedesk/one_display/widgets.py:187
+msgid "Accent Pill"
+msgstr "Akzentpille"
+
+#: onedesk/one_display/widgets.py:258
+msgid "Accent Ticker"
+msgstr "Akzent-Laufband"
 
 #: onedesk/one_hr/heads.py:652
 msgid "Accept"
@@ -3382,6 +3434,14 @@ msgstr "Vereinbarungen"
 #: onedesk/one_legal/notifications.py
 msgid "Agreements Changed"
 msgstr "Vereinbarungen geändert"
+
+#: onedesk/one_display/widgets.py:189
+msgid "Alert"
+msgstr "Warnung"
+
+#: onedesk/one_display/widgets.py:261
+msgid "Alert Ticker"
+msgstr "Warn-Laufband"
 
 #: frontend/src/writer/components/core-editor/menu-buttons.js:105
 msgid "Align"
@@ -4988,6 +5048,10 @@ msgstr "Fragen Sie unter Ihre Daten erneut, wenn Sie Ihr Konto weiterhin lösche
 msgid "Ask an administrator for access."
 msgstr "Bitten Sie einen Administrator um Zugriff."
 
+#: onedesk/one_display/starters.py:365
+msgid "Ask at the counter for details."
+msgstr "Details erfahren Sie am Schalter."
+
 #: onedesk/one_mail/abilities.py:49
 msgid "Ask for Approval"
 msgstr "Genehmigung anfragen"
@@ -5037,6 +5101,10 @@ msgstr "Fragen Sie die Person, die Sie eingeladen hat."
 #: onedesk/www/r.html:18
 msgid "Ask the sender for a new one."
 msgstr "Bitten Sie den Absender um einen neuen."
+
+#: onedesk/one_display/widgets.py:287
+msgid "Ask us anything"
+msgstr "Fragen Sie uns alles"
 
 #: onedesk/public/js/one_ai/oneai.js:109 onedesk/public/js/one_ai/oneai.js:110
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
@@ -6575,6 +6643,10 @@ msgstr "Zwischen"
 msgid "Between Times"
 msgstr "Zwischen zwei Uhrzeiten"
 
+#: onedesk/one_display/widgets.py:253
+msgid "Big Number"
+msgstr "Große Zahl"
+
 #: frontend/src/project/Suppliers.vue:78
 msgid "Bill"
 msgstr "Rechnung"
@@ -6895,6 +6967,10 @@ msgstr "Tafelelement"
 msgid "Board Name"
 msgstr "Tafelname"
 
+#: onedesk/one_display/widgets.py:273
+msgid "Board in Columns"
+msgstr "Tafel in Spalten"
+
 #. Label of the 'boarding_status' field in DocType 'Employee Separation'
 #: onedesk/one_hr/custom/employee_separation.json
 msgid "Boarding Status"
@@ -6904,6 +6980,10 @@ msgstr "Bearbeitungsstand"
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json
 msgid "Boards"
 msgstr "Tafeln"
+
+#: onedesk/one_display/starters.py:29
+msgid "Boards and Rooms"
+msgstr "Tafeln und Räume"
 
 #. Label of the body (Code) field in DocType 'Stripe Webhook Event'
 #. Label of the body (Text Editor) field in DocType 'Employee Letter'
@@ -6919,6 +6999,10 @@ msgstr "Fett"
 #: frontend/src/sheet/components/SheetEditor/index.vue:199
 msgid "Bold (Ctrl+B)"
 msgstr "Fett (Ctrl+B)"
+
+#: onedesk/one_display/starters.py:267
+msgid "Book at the front desk"
+msgstr "Buchung am Empfang"
 
 #: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
 msgid "Book time off"
@@ -7267,6 +7351,10 @@ msgstr "Schaltflächen für registrierte Aktionen eines Moduls. Jede erscheint n
 #: onedesk/one_display/widgets.py:30
 msgid "Buttons that issue a ticket for each service."
 msgstr "Schaltflächen, die für jeden Dienst ein Ticket ausgeben."
+
+#: onedesk/one_display/starters.py:459
+msgid "Buttons that issue a ticket, for a touch screen."
+msgstr "Schaltflächen, die ein Ticket ausgeben, für einen Touchscreen."
 
 #: onedesk/one_studio/customize.py:575 onedesk/one_studio/customize.py:633
 msgid "Buttons: {0} needs a label and a route."
@@ -7840,6 +7928,10 @@ msgstr "Mitte"
 #: onedesk/one_studio/letter_heads.py:20 onedesk/one_studio/letter_heads.py:31
 msgid "Centred"
 msgstr "Zentriert"
+
+#: onedesk/one_display/widgets.py:249
+msgid "Centred Title"
+msgstr "Zentrierter Titel"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -8432,6 +8524,10 @@ msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle zu wiederholen."
 msgid "Choose For to show a table's rows."
 msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle anzuzeigen."
 
+#: onedesk/one_display/doctype/display_channel/display_channel.js:11
+msgid "Choose a Layout"
+msgstr "Layout wählen"
+
 #: onedesk/one_portal/share.py:271
 msgid "Choose a day that hasn't passed."
 msgstr "Wählen Sie einen Tag, der noch nicht vorbei ist."
@@ -8460,9 +8556,17 @@ msgstr "Wählen Sie Monat und Jahr."
 msgid "Choose a photo or a video from your computer."
 msgstr "Wählen Sie ein Foto oder Video von Ihrem Computer."
 
+#: onedesk/one_display/starters.py:234
+msgid "Choose a service"
+msgstr "Dienst wählen"
+
 #: onedesk/one_sheet/paper.py:356
 msgid "Choose a sheet to print."
 msgstr "Wählen Sie ein Blatt zum Drucken."
+
+#: onedesk/one_display/starters.py:518
+msgid "Choose a template from the list."
+msgstr "Wählen Sie eine Vorlage aus der Liste."
 
 #: onedesk/public/js/overtime_slip.js:26
 msgid "Choose an employee and a posting date first."
@@ -8772,6 +8876,14 @@ msgstr "Einchecken-Grund"
 msgid "Clock Signal"
 msgstr "Einchecken-Signal"
 
+#: onedesk/one_display/widgets.py:243
+msgid "Clock and Date"
+msgstr "Uhr und Datum"
+
+#: onedesk/one_display/starters.py:452
+msgid "Clock and Weather"
+msgstr "Uhr und Wetter"
+
 #: frontend/src/cloud/CloudUploads.vue:5 frontend/src/kit/Drawer.vue:9
 #: frontend/src/sheet/components/SheetEditor/index.vue:609
 #: onedesk/public/js/module_docs.js:475
@@ -9023,6 +9135,10 @@ msgstr "An {0} gesendeter Code"
 msgid "Code, name, quantity and unit, one part per row"
 msgstr "Code, Name, Menge und Einheit, ein Teil pro Zeile"
 
+#: onedesk/one_display/starters.py:472
+msgid "Codes for your website, social pages and feedback."
+msgstr "Codes für Ihre Website, Ihre sozialen Seiten und Feedback."
+
 #: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
 msgid "Collapse"
 msgstr "Einklappen"
@@ -9087,6 +9203,10 @@ msgstr "Sammlung gelöscht"
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Collection Name"
 msgstr "Name der Sammlung"
+
+#: frontend/src/slide/shim/WidgetMock.vue:22
+msgid "Collections"
+msgstr "Abholungen"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:135
 msgid "Colors"
@@ -9231,6 +9351,10 @@ msgstr "Kommunikationskanal"
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json
 msgid "Compact"
 msgstr "Kompakt"
+
+#: onedesk/one_display/widgets.py:264
+msgid "Compact Queue"
+msgstr "Kompakte Warteschlange"
 
 #: onedesk/public/js/one_legal/trust_center.js:111
 msgid "Companies"
@@ -9957,6 +10081,10 @@ msgstr "Endende Verträge und Probezeiten"
 msgid "Contracts, leave, attendance, payroll and hiring for everyone who works with you."
 msgstr "Verträge, Abwesenheiten, Anwesenheit, Gehaltsabrechnung und Einstellung für alle, die mit Ihnen arbeiten."
 
+#: onedesk/one_display/widgets.py:191
+msgid "Contrast"
+msgstr "Kontrast"
+
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Control"
 msgstr "Steuerung"
@@ -10088,6 +10216,10 @@ msgstr "Texte geschrieben"
 #: onedesk/one_studio/letter_heads.py:36
 msgid "Corner"
 msgstr "Ecke"
+
+#: onedesk/one_display/widgets.py:244
+msgid "Corner Clock"
+msgstr "Eckuhr"
 
 #: frontend/src/slide/components/ShapeStyleSection.vue:42
 msgid "Corner Radius"
@@ -10435,6 +10567,10 @@ msgstr "Anzahl {0}"
 msgid "Count: {0}"
 msgstr "Anzahl: {0}"
 
+#: onedesk/one_display/starters.py:469 onedesk/one_display/widgets.py:286
+msgid "Countdown"
+msgstr "Countdown"
+
 #. Label in the One Stock Reconciliation print format
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 #: onedesk/public/js/checkin_list.js:32
@@ -10465,6 +10601,16 @@ msgstr "Wird im Lager gezählt."
 #: frontend/src/inventory/item/ItemStock.vue:77
 msgid "Counted {0}"
 msgstr "{0} gezählt"
+
+#: onedesk/one_display/widgets.py:277
+msgid "Counter Tile"
+msgstr "Schalterkachel"
+
+#: frontend/src/slide/shim/WidgetMock.vue:16
+#: frontend/src/slide/shim/WidgetMock.vue:18
+#: onedesk/one_display/starters.py:240
+msgid "Counter {0}"
+msgstr "Schalter {0}"
 
 #: onedesk/one_display/doctype/queue/queue.json
 msgid "Counters"
@@ -11321,6 +11467,10 @@ msgstr ""
 msgid "Daily support for the first two weeks"
 msgstr "Tägliche Betreuung in den ersten zwei Wochen"
 
+#: onedesk/one_display/widgets.py:179
+msgid "Dark Glass"
+msgstr "Dunkles Glas"
+
 #: onedesk/one_studio/ai_setup.py:368
 msgid "Dashboard {0}"
 msgstr "Dashboard {0}"
@@ -11768,6 +11918,10 @@ msgstr "Tage je Status, bevor der nächste folgt. Null deaktiviert den Wechsel."
 #: onedesk/one_hr/home.py:508
 msgid "Days leave may not be taken."
 msgstr "Tage, an denen kein Urlaub genommen werden darf."
+
+#: onedesk/one_display/starters.py:469
+msgid "Days, hours and minutes to an opening or an event."
+msgstr "Tage, Stunden und Minuten bis zu einer Eröffnung oder Veranstaltung."
 
 #: onedesk/one_admin/steps.py:50
 msgid "Deactivating the site"
@@ -13154,6 +13308,10 @@ msgstr "Lastschrift"
 msgid "Direction"
 msgstr "Richtung"
 
+#: onedesk/one_display/starters.py:289 onedesk/one_display/starters.py:464
+msgid "Directory"
+msgstr "Wegweiser"
+
 #: onedesk/public/js/one_account/account_center.js:507
 msgid "Disable"
 msgstr "Deaktivieren"
@@ -13662,6 +13820,10 @@ msgstr "Erledigt. Es wurde {0} geschrieben."
 #: onedesk/one_crm/next.py:49
 msgid "Done: {0}"
 msgstr "Erledigt: {0}"
+
+#: onedesk/one_display/widgets.py:276
+msgid "Door Sign"
+msgstr "Türschild"
 
 #: onedesk/one_display/blocks.py:52
 msgid "Dotted"
@@ -15402,6 +15564,10 @@ msgstr "Reicht für {0}"
 msgid "Enough for {0}. {1} runs out first."
 msgstr "Reicht für {0}. {1} geht zuerst aus."
 
+#: frontend/src/slide/shim/WidgetMock.vue:22
+msgid "Enquiries"
+msgstr "Anfragen"
+
 #: onedesk/one_sheet/table.py:184
 msgid "Enter TRUE or FALSE."
 msgstr "Geben Sie TRUE oder FALSE ein."
@@ -15755,6 +15921,10 @@ msgstr "Stündlich, täglich oder wöchentlich, wie gewählt, wenn sich gefolgte
 msgid "Every invoice for the workspaces in your account, newest first."
 msgstr "Alle Rechnungen für die Arbeitsbereiche in Ihrem Konto, die neuesten zuerst."
 
+#: onedesk/one_display/starters.py:460
+msgid "Every item on a board in columns."
+msgstr "Alle Einträge einer Tafel in Spalten."
+
 #: onedesk/one_display/widgets.py:80
 msgid "Every item on a board with its state, time in state and value."
 msgstr "Jedes Element einer Tafel mit Zustand, Zeit im Zustand und Wert."
@@ -16066,6 +16236,10 @@ msgstr "Alles an einem Ort"
 #: onedesk/one/notifications.py
 msgid "Everything in the workspace, {size}, is ready to download from Plan and Credits: the database, every record as a spreadsheet, and every file. {missing}"
 msgstr "Alles im Arbeitsbereich, {size}, steht unter „Tarif und Guthaben“ zum Herunterladen bereit: die Datenbank, jeder Datensatz als Tabelle und jede Datei. {missing}"
+
+#: onedesk/one_display/starters.py:374
+msgid "Everything included"
+msgstr "Alles inklusive"
 
 #: onedesk/one_inventory/heads.py:558
 msgid "Everything is in; the bill from {0} is still to come."
@@ -17302,6 +17476,10 @@ msgstr "Beendet"
 msgid "Finishes"
 msgstr "Ausbau"
 
+#: onedesk/one_display/starters.py:316
+msgid "Fire drill on Thursday at 11:00"
+msgstr "Brandschutzübung am Donnerstag um 11:00"
+
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "First Delivery"
@@ -17502,6 +17680,10 @@ msgstr "Horizontal spiegeln"
 msgid "Flip vertical"
 msgstr "Vertikal spiegeln"
 
+#: onedesk/one_display/widgets.py:176
+msgid "Floating"
+msgstr "Schwebend"
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Flooring"
@@ -17571,6 +17753,10 @@ msgstr "Folio"
 msgid "Follow"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:285
+msgid "Follow Us"
+msgstr "Folgen Sie uns"
+
 #: onedesk/one/people.py:50
 msgid "Follow every lead from first call to signed quote, and keep each customer's story in one place."
 msgstr "Begleiten Sie jeden Lead vom ersten Anruf bis zum unterschriebenen Angebot und behalten Sie die Geschichte jedes Kunden an einem Ort."
@@ -17582,6 +17768,10 @@ msgstr "Systemeinstellung folgen"
 #: onedesk/www/s.html:121
 msgid "Follow the Presenter"
 msgstr "Der vortragenden Person folgen"
+
+#: onedesk/one_display/widgets.py:285
+msgid "Follow us"
+msgstr "Folgen Sie uns"
 
 #. Name of a notification
 #: onedesk/one/notifications.py
@@ -17698,6 +17888,14 @@ msgstr "Für Monat"
 #: onedesk/one_inventory/print_format/one_production_plan/one_production_plan.json
 msgid "For Orders"
 msgstr "Für Aufträge"
+
+#: frontend/src/slide/shim/ScreenTemplates.vue:50
+msgid "For This Screen"
+msgstr "Für diesen Bildschirm"
+
+#: onedesk/one_display/starters.py:374
+msgid "For any package"
+msgstr "Für jedes Paket"
 
 #: onedesk/one_mail/rules.py:683
 msgid "For anything urgent, write to {0} at {1}."
@@ -18023,6 +18221,10 @@ msgstr "Fundamente"
 msgid "Four Degree Labs' own workspace. Nobody bills it, its OneAI is never refused for credits, and its AI use is a cost, not a sale."
 msgstr "Der eigene Arbeitsbereich von Four Degree Labs. Niemand stellt ihn in Rechnung, sein OneAI wird nie wegen Credits abgelehnt, und seine KI-Nutzung ist Kosten, kein Verkauf."
 
+#: onedesk/one_display/starters.py:467
+msgid "Four figures and progress to a goal."
+msgstr "Vier Kennzahlen und der Fortschritt zu einem Ziel."
+
 #: frontend/src/slide/components/FrameSection.vue:3
 msgid "Frame"
 msgstr "Rahmen"
@@ -18031,6 +18233,10 @@ msgstr "Rahmen"
 #: onedesk/one/custom/company.json
 msgid "Frame Colour"
 msgstr "Rahmenfarbe"
+
+#: onedesk/one_display/widgets.py:280
+msgid "Framed Picture"
+msgstr "Gerahmtes Bild"
 
 #. Label of the app (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
@@ -18268,6 +18474,10 @@ msgstr "Von Mitarbeiter"
 msgid "From Library"
 msgstr "Aus der Bibliothek"
 
+#: onedesk/one_display/starters.py:306
+msgid "From Monday"
+msgstr "Ab Montag"
+
 #. Label in the One Share Transfer print format
 #: onedesk/one_book/print_format/one_share_transfer/one_share_transfer.json
 msgid "From No"
@@ -18462,6 +18672,14 @@ msgstr "Vollständiger Download bereit"
 msgid "Full Screen"
 msgstr "Vollbild"
 
+#: onedesk/one_display/widgets.py:279
+msgid "Full Screen Picture"
+msgstr "Vollbild"
+
+#: onedesk/one_display/widgets.py:265
+msgid "Full Screen Queue"
+msgstr "Warteschlange im Vollbild"
+
 #. Label in the One Full and Final Settlement print format
 #: onedesk/one_hr/print_format/one_full_and_final_settlement/one_full_and_final_settlement.json
 msgid "Full and Final Settlement"
@@ -18573,6 +18791,10 @@ msgstr "Geben"
 #: onedesk/public/js/tenant.js:54
 msgid "Give Credits"
 msgstr "Guthaben vergeben"
+
+#: onedesk/one_display/widgets.py:284
+msgid "Give Feedback"
+msgstr "Feedback geben"
 
 #: onedesk/one_mail/flow.py:212
 msgid "Give OneAI at least two labels to pick from."
@@ -18708,6 +18930,14 @@ msgstr "Übergeben."
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Gives"
 msgstr "Bietet"
+
+#: onedesk/one_display/widgets.py:178
+msgid "Glass"
+msgstr "Glas"
+
+#: onedesk/one_display/widgets.py:247
+msgid "Glass Clock"
+msgstr "Glasuhr"
 
 #. Task in the Aluminium & Glazing project template
 #: onedesk/one_project/library/aluminium_and_glazing.json
@@ -19045,6 +19275,10 @@ msgstr "Brutto- und Nettogewinn"
 msgid "Gross and net profit, period by period."
 msgstr "Brutto- und Nettogewinn, Zeitraum für Zeitraum."
 
+#: onedesk/one_display/starters.py:275
+msgid "Ground floor"
+msgstr "Erdgeschoss"
+
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Groundworks & Structure"
@@ -19194,6 +19428,10 @@ msgstr "Halber Tag am"
 #: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:167
 msgid "Half day"
 msgstr "Halbtags"
+
+#: onedesk/one_display/starters.py:275
+msgid "Hall"
+msgstr "Saal"
 
 #: onedesk/one_inventory/heads.py:1311
 msgid "Hand To Somebody Else"
@@ -19362,6 +19600,10 @@ msgstr ""
 #: onedesk/one_doc/tour.py:12
 msgid "Headings, lists, links, pictures, tables and page breaks go in from here."
 msgstr "Überschriften, Listen, Links, Bilder, Tabellen und Seitenumbrüche fügen Sie von hier ein."
+
+#: onedesk/one_display/widgets.py:248
+msgid "Headline"
+msgstr "Schlagzeile"
 
 #. Label of the one_health (Select) field in DocType 'Project'
 #. Label of the one_health (Select) field in DocType 'Project User'
@@ -19564,6 +19806,10 @@ msgstr "Änderungen ausblenden"
 #: onedesk/one_hr/custom/employee_grievance.json
 msgid "High"
 msgstr ""
+
+#: onedesk/one_display/widgets.py:256
+msgid "Highlighted Text"
+msgstr "Hervorgehobener Text"
 
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
@@ -19994,6 +20240,10 @@ msgstr "Wie läuft {project}?"
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 msgid "How it reads. Quiet for nothing to do, waiting for something to do, alarm for something late."
 msgstr "Wie es wirkt. Ruhig, wenn nichts zu tun ist, wartend, wenn etwas zu tun ist, Alarm, wenn etwas verspätet ist."
+
+#: onedesk/one_display/starters.py:208
+msgid "How it works"
+msgstr "So funktioniert es"
 
 #: onedesk/one_crm/home.py:151
 msgid "How leads, opportunities and quotations work."
@@ -22428,6 +22678,10 @@ msgstr ""
 msgid "Items"
 msgstr "Artikel"
 
+#: onedesk/one_display/starters.py:471
+msgid "Items and prices with a code to see more."
+msgstr "Artikel und Preise mit einem Code für mehr."
+
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
 msgid "Items below their reorder level have no request to buy them. Check their reorder settings and default supplier."
@@ -23018,6 +23272,10 @@ msgstr "Sprache des Textes auf Bildschirmen. Standard ist die Sprache des Arbeit
 msgid "Language, time zone, how dates and numbers read, and amounts."
 msgstr "Sprache, Zeitzone, wie Daten und Zahlen gelesen werden, und Beträge."
 
+#: onedesk/one_display/widgets.py:242
+msgid "Large Clock"
+msgstr "Große Uhr"
+
 #: frontend/src/slide/shim/PresenterView.vue:47
 msgid "Larger"
 msgstr "Größer"
@@ -23317,6 +23575,14 @@ msgstr "Verspätet an {0}"
 #: frontend/src/project/group.js:41 onedesk/one_task/mine.py:19
 msgid "Later"
 msgstr "Später"
+
+#: frontend/src/slide/shim/WidgetMock.vue:12
+msgid "Latest news"
+msgstr "Neuigkeiten"
+
+#: onedesk/one_display/starters.py:121
+msgid "Latest news and updates appear here"
+msgstr "Hier erscheinen Neuigkeiten und Aktualisierungen"
 
 #. Label of the latitude (Float) field in DocType 'Clock Attempt'
 #. Label of the latitude (Float) field in DocType 'Clock Place'
@@ -24056,9 +24322,29 @@ msgstr "Name der Bibliothek"
 msgid "Lifecycle Overview"
 msgstr "Übersicht Mitarbeiterlebenszyklus"
 
+#: onedesk/one_display/widgets.py:183
+msgid "Light Band"
+msgstr "Helles Band"
+
 #: onedesk/one_display/widgets.py:155
 msgid "Light Card"
 msgstr "Helle Karte"
+
+#: onedesk/one_display/widgets.py:245
+msgid "Light Clock"
+msgstr "Helle Uhr"
+
+#: onedesk/one_display/widgets.py:267
+msgid "Light Kiosk"
+msgstr "Heller Kiosk"
+
+#: onedesk/one_display/widgets.py:259
+msgid "Light Ticker"
+msgstr "Helles Laufband"
+
+#: onedesk/one_display/widgets.py:271
+msgid "Light Weather"
+msgstr "Helles Wetter"
 
 #. Label of the storage_limit (Long Int) field in DocType 'Workspace Account'
 #. Label of the storage_limit (Long Int) field in DocType 'Tenant'
@@ -24376,6 +24662,10 @@ msgstr "Darlehen ab"
 msgid "Loan Until"
 msgstr "Darlehen bis"
 
+#: onedesk/one_display/starters.py:451
+msgid "Lobby"
+msgstr "Foyer"
+
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:360
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json
@@ -24683,6 +24973,10 @@ msgstr "Niedrig {0}"
 msgid "Lower Deduction Certificate"
 msgstr "Bescheinigung über ermäßigten Abzug"
 
+#: onedesk/one_display/starters.py:476
+msgid "Lower Third"
+msgstr "Bauchbinde"
+
 #. Description of the 'Order' (Int) field in DocType 'Mail Rule'
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "Lower runs first."
@@ -24695,6 +24989,10 @@ msgstr "Kleinbuchstaben"
 #: onedesk/one_inventory/heads.py:1503
 msgid "Lowest On"
 msgstr "Am günstigsten bei"
+
+#: onedesk/one_display/starters.py:275
+msgid "Lunch"
+msgstr "Mittagessen"
 
 #: onedesk/public/js/size.js:6
 msgid "MB"
@@ -25888,6 +26186,10 @@ msgstr "Mittel"
 msgid "Meet the client and agree the brief"
 msgstr "Kunden treffen und Aufgabenstellung vereinbaren"
 
+#: onedesk/one_display/starters.py:291
+msgid "Meeting rooms"
+msgstr "Besprechungsräume"
+
 #: onedesk/one/people.py:58
 msgid "Meetings, leave and deadlines from every app, on one calendar."
 msgstr "Besprechungen, Abwesenheiten und Fristen aus jeder App, in einem Kalender."
@@ -25989,6 +26291,10 @@ msgstr "Nachrichten-ID"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "Messages"
 msgstr "Nachrichten"
+
+#: onedesk/one_display/starters.py:474
+msgid "Messages that change, and a code to give feedback."
+msgstr "Wechselnde Nachrichten und ein Code für Feedback."
 
 #. Label in the One Asset Card print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
@@ -26298,6 +26604,10 @@ msgstr "Weitere Ansichten"
 msgid "More ways to split stock, such as a shelf or a project."
 msgstr "Weitere Arten, Bestand aufzuteilen, etwa nach Regal oder Projekt."
 
+#: onedesk/one_display/starters.py:275
+msgid "Morning briefing"
+msgstr "Morgenbesprechung"
+
 #. Label of the most_pages (Int) field in DocType 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "Most Pages Read"
@@ -26311,6 +26621,10 @@ msgstr "Wertvollste Artikel"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json
 msgid "Most Workspaces"
 msgstr "Höchstzahl Arbeitsbereiche"
+
+#: onedesk/one_display/starters.py:374
+msgid "Most chosen"
+msgstr "Am häufigsten gewählt"
 
 #: frontend/src/slide/shim/MotionSection.vue:3
 msgid "Motion"
@@ -26653,6 +26967,10 @@ msgstr "Meine Aufgaben ist alles, was Ihnen zugewiesen ist, und der Posteingang 
 #: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:522
 msgid "Name"
 msgstr "Name"
+
+#: onedesk/one_display/starters.py:399
+msgid "Name Surname"
+msgstr "Vorname Nachname"
 
 #. Description of the 'family_background' field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
@@ -27263,6 +27581,10 @@ msgstr "Neuer Arbeitsplatz"
 msgid "New conversation"
 msgstr "Neue Unterhaltung"
 
+#: onedesk/one_display/starters.py:328
+msgid "New customers"
+msgstr "Neukundschaft"
+
 #: onedesk/one_crm/home.py:144
 msgid "New customers against returning ones, month by month."
 msgstr "Neue gegenüber wiederkehrenden Kunden, Monat für Monat."
@@ -27353,6 +27675,10 @@ msgstr "Neue E-Mails werden von diesem Postfach gesendet, sofern der Verfasser k
 msgid "New name"
 msgstr "Neuer Name"
 
+#: onedesk/one_display/starters.py:316
+msgid "New parking rules from next month"
+msgstr "Neue Parkregeln ab nächstem Monat"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "New premises chosen"
@@ -27386,6 +27712,10 @@ msgstr "Neu: {0}"
 #: onedesk/one_ai/proposals.py:618
 msgid "New {0}: {1}"
 msgstr "Neu: {0} {1}"
+
+#: onedesk/one_display/widgets.py:257
+msgid "News Ticker"
+msgstr "Nachrichten-Laufband"
 
 #. Option for the 'First Look' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -29367,6 +29697,14 @@ msgstr "Noch nichts."
 msgid "Notice"
 msgstr "Kündigungsfrist"
 
+#: onedesk/one_display/widgets.py:252
+msgid "Notice Bar"
+msgstr "Hinweisleiste"
+
+#: onedesk/one_display/starters.py:314 onedesk/one_display/starters.py:466
+msgid "Notice Board"
+msgstr "Anschlagtafel"
+
 #. Label of the one_notice_ends_on (Date) field in DocType 'Employee'
 #: onedesk/one_hr/custom/employee.json
 msgid "Notice Ends On"
@@ -29460,6 +29798,10 @@ msgstr ""
 msgid "Now Serving"
 msgstr "Jetzt an der Reihe"
 
+#: onedesk/one_display/widgets.py:263
+msgid "Now Serving, Light"
+msgstr "Jetzt an der Reihe, hell"
+
 #: onedesk/one_display/doctype/display_source/display_source.js:11
 msgid "Now Showing"
 msgstr "Wird gerade gezeigt"
@@ -29468,6 +29810,10 @@ msgstr "Wird gerade gezeigt"
 #: onedesk/one_inventory/print_format/one_asset_value_adjustment/one_asset_value_adjustment.json
 msgid "Now Worth"
 msgstr "Aktueller Wert"
+
+#: onedesk/one_display/starters.py:243
+msgid "Now serving the number shown"
+msgstr "Jetzt an der Reihe ist die angezeigte Nummer"
 
 #. Message of a notification
 #: onedesk/one_calendar/notifications.py
@@ -29749,6 +30095,10 @@ msgstr "Angebote"
 msgid "Office Move"
 msgstr "Büroumzug"
 
+#: onedesk/one_display/starters.py:291
+msgid "Offices"
+msgstr "Büros"
+
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:59
 #: onedesk/www/tv.py:30
 msgid "Offline"
@@ -29996,6 +30346,10 @@ msgstr "Im Formular {0}"
 #: onedesk/one_studio/doctype/extension/extension.js:78
 msgid "On the {0} list"
 msgstr "In der Liste {0}"
+
+#: onedesk/one_display/starters.py:328
+msgid "On time"
+msgstr "Pünktlich"
 
 #: onedesk/one_admin/accounts.py:151
 msgid "On trial"
@@ -30256,9 +30610,17 @@ msgstr "Eine pro Zeile. Jede Person erhält den Link und einen Anmeldecode."
 msgid "One person"
 msgstr "Eine Person"
 
+#: onedesk/one_display/starters.py:465
+msgid "One piece of news with a picture."
+msgstr "Eine Neuigkeit mit Bild."
+
 #: onedesk/public/js/item_new.js:7
 msgid "One product in several versions."
 msgstr "Ein Produkt in mehreren Varianten."
+
+#: onedesk/one_display/starters.py:462
+msgid "One room's state, for beside its door."
+msgstr "Der Zustand eines Raums, für neben seiner Tür."
 
 #. Description of the 'Description' (Small Text) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json
@@ -31047,6 +31409,10 @@ msgstr "Nur die Person, die {0} verbunden hat, kann es entfernen."
 msgid "Only the person who saved a report, or an administrator, can move it."
 msgstr "Nur die Person, die einen Bericht gespeichert hat, oder ein Administrator kann ihn verschieben."
 
+#: onedesk/one_display/starters.py:456
+msgid "Only the queue, as large as it goes."
+msgstr "Nur die Warteschlange, so groß wie möglich."
+
 #: onedesk/one_portal/share.py:198
 msgid "Only the record's own contacts can be hidden from."
 msgstr "Nur vor den eigenen Kontakten des Datensatzes kann er verborgen werden."
@@ -31438,6 +31804,10 @@ msgstr "Anfangssaldo"
 msgid "Opening Invoice Creation Tool"
 msgstr ""
 
+#: onedesk/one_display/starters.py:355
+msgid "Opening Soon"
+msgstr "Bald geöffnet"
+
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:35
 msgid "Opening Status"
 msgstr "Status der Ausschreibung"
@@ -31455,6 +31825,15 @@ msgstr "Eröffnungssalden und Bestände importiert"
 #: onedesk/one_book/ready.py:229
 msgid "Opening balances are finished"
 msgstr "Die Eröffnungssalden sind vollständig"
+
+#: frontend/src/slide/shim/WidgetMock.vue:12
+msgid "Opening hours"
+msgstr "Öffnungszeiten"
+
+#: onedesk/one_display/starters.py:175 onedesk/one_display/starters.py:186
+#: onedesk/one_display/widgets.py:252
+msgid "Opening hours today: 9:00 to 18:00"
+msgstr "Öffnungszeiten heute: 9:00 bis 18:00"
 
 #: onedesk/www/start.html:79 onedesk/www/welcome.html:36
 msgid "Opening payment…"
@@ -31943,6 +32322,10 @@ msgstr "Weitere Formulare"
 msgid "Other Income"
 msgstr "Sonstiges Einkommen"
 
+#: frontend/src/slide/shim/ScreenTemplates.vue:51
+msgid "Other Shapes"
+msgstr "Andere Formate"
+
 #. Description of the 'Also Allow Check-in From' (Table) field in DocType
 #. 'Shift Location'
 #: onedesk/one_hr/custom/shift_location.json
@@ -32197,6 +32580,10 @@ msgstr "Datenbank überschritten"
 #: frontend/src/inventory/item/ItemBuying.vue:124
 msgid "Over Delivery/Receipt Allowance (%)"
 msgstr ""
+
+#: onedesk/one_display/starters.py:32
+msgid "Over Slides"
+msgstr "Über Folien"
 
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
@@ -32736,6 +33123,10 @@ msgstr "Übergeordnetes Projekt"
 #: frontend/src/project/TaskPanel.vue:121 frontend/src/task/TaskPage.vue:242
 msgid "Parent Task"
 msgstr ""
+
+#: onedesk/one_display/starters.py:291
+msgid "Parking"
+msgstr "Parken"
 
 #. Label of the part (Int) field in DocType 'AI Chunk'
 #. Label of the part (Data) field in DocType 'Reading'
@@ -34221,6 +34612,10 @@ msgstr "Stück"
 msgid "Pieces"
 msgstr "Stück"
 
+#: onedesk/one_display/widgets.py:180
+msgid "Pill"
+msgstr "Pille"
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json
 msgid "Pipeline"
@@ -34622,6 +35017,10 @@ msgstr "Abnahmebegehung"
 #: onedesk/public/js/doctype_settings.js:901
 msgid "Prefix"
 msgstr ""
+
+#: onedesk/one_display/starters.py:374
+msgid "Premium"
+msgstr "Premium"
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
@@ -35248,6 +35647,10 @@ msgstr "Fortschritt"
 #: onedesk/one_project/notifications.py
 msgid "Progress Bill Drafted"
 msgstr "Fortschrittsrechnung erstellt"
+
+#: onedesk/one_display/widgets.py:288
+msgid "Progress to a Goal"
+msgstr "Fortschritt zum Ziel"
 
 #: frontend/src/cloud/OneCloud.vue:591
 msgid "Progress…"
@@ -36096,6 +36499,14 @@ msgstr "Dienst der Warteschlange"
 msgid "Queue Ticket"
 msgstr "Warteticket"
 
+#: onedesk/one_display/starters.py:456
+msgid "Queue, Full Screen"
+msgstr "Warteschlange, Vollbild"
+
+#: onedesk/one_display/starters.py:458
+msgid "Queue, Standing"
+msgstr "Warteschlange, hochkant"
+
 #. Option for the 'State' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json
 msgid "Queued"
@@ -36357,6 +36768,14 @@ msgstr "Bewertet anhand der Auswahlkriterien der Stelle."
 #: onedesk/one_hr/hiring.py:322
 msgid "Rated {0} of 5"
 msgstr "Bewertet mit {0} von 5"
+
+#: onedesk/one_display/starters.py:340
+msgid "Rates are for guidance and may change during the day."
+msgstr "Die Kurse dienen der Orientierung und können sich im Laufe des Tages ändern."
+
+#: onedesk/one_display/starters.py:468
+msgid "Rates from an Exchange Rates source, with the time."
+msgstr "Kurse aus einer Wechselkursquelle, mit Uhrzeit."
 
 #. Label in the One Appraisal print format
 #. Label in the One Employee Performance Feedback print format
@@ -36894,6 +37313,10 @@ msgstr "Zuletzt verwendet"
 #: onedesk/public/js/one_account/account_center.js:567
 msgid "Recent Sign-ins"
 msgstr "Letzte Anmeldungen"
+
+#: onedesk/one_display/starters.py:291
+msgid "Reception and cafe"
+msgstr "Empfang und Café"
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
@@ -37940,6 +38363,10 @@ msgstr "Ersetzen"
 msgid "Replace URL with its title?"
 msgstr "URL durch ihren Titel ersetzen?"
 
+#: frontend/src/slide/shim/ScreenTemplates.vue:68
+msgid "Replace what is on this screen with {0}? Undo brings it back."
+msgstr "Inhalt dieses Bildschirms durch {0} ersetzen? Mit Rückgängig kommt er zurück."
+
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:21
 msgid "Replace with"
 msgstr "Ersetzen durch"
@@ -38948,6 +39375,10 @@ msgstr "Risikogrund"
 msgid "Role"
 msgstr "Rolle"
 
+#: onedesk/one_display/starters.py:400
+msgid "Role in the team"
+msgstr "Rolle im Team"
+
 #: onedesk/one_storage/library.py:88
 msgid "Role must be Reader, Member or Owner."
 msgstr "Die Rolle muss Leser, Mitglied oder Eigentümer sein."
@@ -38979,9 +39410,34 @@ msgstr "Dachdecke"
 msgid "Roof waterproofing"
 msgstr "Dachabdichtung"
 
+#: onedesk/one_display/starters.py:275
+msgid "Room 1"
+msgstr "Raum 1"
+
+#: onedesk/one_display/starters.py:275
+msgid "Room 3"
+msgstr "Raum 3"
+
+#: onedesk/one_display/starters.py:462
+msgid "Room Sign"
+msgstr "Raumschild"
+
+#: frontend/src/slide/shim/WidgetMock.vue:32
+#: onedesk/one_display/starters.py:265 onedesk/one_display/starters.py:268
+msgid "Room {0}"
+msgstr "Raum {0}"
+
+#: onedesk/one_display/starters.py:257 onedesk/one_display/starters.py:461
+msgid "Rooms"
+msgstr "Räume"
+
 #: onedesk/public/js/one_portal/portal.js:158
 msgid "Rotate"
 msgstr "Erneuern"
+
+#: onedesk/one_display/widgets.py:287
+msgid "Rotating Messages"
+msgstr "Wechselnde Nachrichten"
 
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Rotation"
@@ -38991,6 +39447,14 @@ msgstr "Drehung"
 #: onedesk/one_hr/print_format/one_interview/one_interview.json
 msgid "Round"
 msgstr "Runde"
+
+#: onedesk/one_display/widgets.py:181
+msgid "Rounded"
+msgstr "Abgerundet"
+
+#: onedesk/one_display/widgets.py:281
+msgid "Rounded Picture"
+msgstr "Abgerundetes Bild"
 
 #: onedesk/public/js/one/one_control.js:106
 msgid "Rounded Total"
@@ -39698,6 +40162,14 @@ msgstr "Sagen Sie warum, damit die Person es weiß."
 msgid "Scan"
 msgstr ""
 
+#: onedesk/one_display/starters.py:390
+msgid "Scan a code with your phone's camera."
+msgstr "Scannen Sie einen Code mit der Kamera Ihres Telefons."
+
+#: onedesk/one_display/widgets.py:283
+msgid "Scan for the menu"
+msgstr "Für die Karte scannen"
+
 #: onedesk/www/slide-remote.html:12
 msgid "Scan the code in the presenter view again."
 msgstr "Scannen Sie den Code in der Referentenansicht erneut."
@@ -39709,6 +40181,10 @@ msgstr "Scannen Sie den Code mit der Kamera Ihres Telefons. Das erste Telefon, d
 #: frontend/src/slide/shim/PresenterView.vue:59
 msgid "Scan this with your phone's camera. The phone moves the slides and shows this slide's notes. To point at the slide, keep a finger on Hold to Point and turn the phone."
 msgstr "Scannen Sie dies mit der Kamera Ihres Telefons. Das Telefon wechselt die Folien und zeigt die Notizen dieser Folie. Um auf die Folie zu zeigen, halten Sie einen Finger auf „Gedrückt halten zum Zeigen“ und drehen Sie das Telefon."
+
+#: onedesk/one_display/widgets.py:282
+msgid "Scan to visit our website"
+msgstr "Scannen, um unsere Website zu besuchen"
 
 #: frontend/src/intake/IntakePay.vue:16
 msgid "Scan with your banking app"
@@ -39999,6 +40475,10 @@ msgstr "Alle Aufgaben sehen"
 #: onedesk/one/abilities.py:27
 msgid "See and put back what anybody deleted, of the kinds of record they may read."
 msgstr "Sehen und wiederherstellen, was jemand gelöscht hat, bei den Datensatzarten, die man lesen darf."
+
+#: onedesk/one_display/widgets.py:283
+msgid "See the Menu"
+msgstr "Karte ansehen"
 
 #: onedesk/public/js/one_ai/panel/Record.vue:58
 msgid "See the Page"
@@ -41007,6 +41487,10 @@ msgstr "Bei der Einrichtung ist bei uns ein Problem aufgetreten. Wir arbeiten da
 msgid "Several Files"
 msgstr "Mehrere Dateien"
 
+#: onedesk/one_display/starters.py:466
+msgid "Several notices on a screen on its side."
+msgstr "Mehrere Hinweise auf einem hochkant stehenden Bildschirm."
+
 #: onedesk/public/js/one_account/account_center.js:1379
 msgid "Several people"
 msgstr "Mehrere Personen"
@@ -41938,6 +42422,10 @@ msgstr "Anmeldungen"
 msgid "Simple"
 msgstr "Schlicht"
 
+#: onedesk/one_display/widgets.py:274
+msgid "Simple Board"
+msgstr "Einfache Tafel"
+
 #. Label in the One Simplified Tax Invoice print format
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
 msgid "Simplified Tax Credit Note"
@@ -42352,6 +42840,10 @@ msgstr "Schein Nr."
 msgid "Slow"
 msgstr "Langsam"
 
+#: onedesk/one_display/widgets.py:260
+msgid "Slow Ticker"
+msgstr "Langsames Laufband"
+
 #. Label of the slug (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Slug"
@@ -42421,6 +42913,10 @@ msgstr "Bisher"
 #: onedesk/one/access.py:403
 msgid "So they can fill those in, they may also pick from {0}."
 msgstr "Damit sie diese ausfüllen können, dürfen sie auch aus {0} auswählen."
+
+#: onedesk/one_display/widgets.py:175
+msgid "Soft"
+msgstr "Sanft"
 
 #. Name of terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -42612,6 +43108,14 @@ msgstr "Etwas, das ein Modell vorgeschlagen hat. Es geschieht nichts, bis eine P
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "Etwas, das eine Person zurückgenommen oder abgelehnt hat, gemerkt für das nächste Dokument derselben Partei."
+
+#: onedesk/one_display/starters.py:304
+msgid "Something new is coming"
+msgstr "Etwas Neues kommt"
+
+#: onedesk/one_display/starters.py:357
+msgid "Something new is on its way. See you there."
+msgstr "Etwas Neues ist unterwegs. Bis bald."
 
 #: onedesk/one_crm/home.py:122
 msgid "Something sold that broke, and whether the warranty covers it."
@@ -43311,14 +43815,26 @@ msgstr ""
 msgid "Status"
 msgstr "Status"
 
+#: onedesk/one_display/starters.py:460 onedesk/one_display/widgets.py:272
+msgid "Status Board"
+msgstr "Statustafel"
+
 #. Label of the status_since (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Status Since"
 msgstr "Status seit"
 
+#: onedesk/one_display/widgets.py:275
+msgid "Status Tile"
+msgstr "Statuskachel"
+
 #: frontend/src/sheet/shim/confirmLeave.js:14
 msgid "Stay"
 msgstr "Bleiben"
+
+#: onedesk/one_display/starters.py:389 onedesk/one_display/starters.py:472
+msgid "Stay in Touch"
+msgstr "Bleiben Sie in Kontakt"
 
 #: frontend/src/slide/components/FrameSection.vue:166
 msgid "Stays the width you set"
@@ -43964,6 +44480,10 @@ msgstr "Subunternehmer"
 #: frontend/src/project/Overview.vue:87 frontend/src/project/Suppliers.vue:24
 msgid "Subcontracts"
 msgstr "Nachunternehmeraufträge"
+
+#: onedesk/one_display/widgets.py:250
+msgid "Subheading"
+msgstr "Unterüberschrift"
 
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #. Label in the One Employee Grievance print format
@@ -44643,6 +45163,10 @@ msgstr "Diese Chance übernehmen"
 msgid "Take a ticket"
 msgstr "Ziehen Sie ein Ticket"
 
+#: onedesk/one_display/starters.py:209
+msgid "Take a ticket, watch for your number, and go to the counter shown."
+msgstr "Ticket ziehen, auf die eigene Nummer achten und zum angezeigten Schalter gehen."
+
 #: onedesk/public/js/one/access_center.js:107
 msgid "Take away what {0} was given on {1}?"
 msgstr "Wegnehmen, was {0} für {1} erhalten hat?"
@@ -45176,6 +45700,18 @@ msgstr "Team"
 msgid "Team Library"
 msgstr "Teambibliothek"
 
+#: onedesk/one_display/starters.py:398 onedesk/one_display/starters.py:473
+msgid "Team Spotlight"
+msgstr "Team im Fokus"
+
+#: onedesk/one_display/starters.py:196
+msgid ""
+"Team meeting\n"
+"10:00, Room 2"
+msgstr ""
+"Teambesprechung\n"
+"10:00, Raum 2"
+
 #. Task in the Architectural Design Stages project template
 #: onedesk/one_project/library/architectural_design.json
 msgid "Technical Design"
@@ -45217,6 +45753,10 @@ msgstr "Jemanden benachrichtigen, wenn dringende Kunden-E-Mails nach Feierabend 
 #: onedesk/public/js/one_mail/rule_builder.js:529
 msgid "Tell suppliers their attached documents arrived."
 msgstr "Lieferanten mitteilen, dass ihre angehängten Dokumente angekommen sind."
+
+#: onedesk/one_display/widgets.py:284
+msgid "Tell us how we did"
+msgstr "Sagen Sie uns, wie es war"
 
 #. Introduction text of the get-in-touch Web Form
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json
@@ -45527,6 +46067,10 @@ msgstr "Bedanke dich, sag, was du verstanden hast, das sie brauchen, und sag, da
 #: onedesk/one_slide/decks.py:236
 msgid "Thank you"
 msgstr "Vielen Dank"
+
+#: onedesk/one_display/widgets.py:287
+msgid "Thank you for visiting"
+msgstr "Danke für Ihren Besuch"
 
 #: onedesk/public/js/one_mail/rule_builder.js:519
 msgid "Thank you for your message. Our office is closed now, and we will reply when we open."
@@ -46294,6 +46838,10 @@ msgstr "Der im Status genannte Mitarbeiter und der Lieferant"
 #: onedesk/one_hr/notifications.py
 msgid "The employee who raised it"
 msgstr "Wer sie eingereicht hat"
+
+#: onedesk/one_display/starters.py:374
+msgid "The essentials"
+msgstr "Das Wesentliche"
 
 #: onedesk/one_hr/heads.py:623
 msgid "The expense is booked and the money is owed to them."
@@ -47070,6 +47618,14 @@ msgstr "Die Feiertage und wöchentlichen freien Tage, um die Urlaub und Anwesenh
 msgid "The questions feedback asks."
 msgstr "Die Fragen, die ein Feedback stellt."
 
+#: onedesk/one_display/starters.py:458
+msgid "The queue on a screen on its side."
+msgstr "Die Warteschlange auf einem hochkant stehenden Bildschirm."
+
+#: onedesk/one_display/starters.py:455
+msgid "The queue, how it works, and a feedback code."
+msgstr "Die Warteschlange, wie sie funktioniert, und ein Feedback-Code."
+
 #: onedesk/one/control.py:324
 msgid "The rail and the bars around every screen, for everyone. Leave it empty for One's own."
 msgstr "Die Leiste und die Balken um jeden Bildschirm, für alle. Leer lassen für die Farbe von One."
@@ -47352,9 +47908,21 @@ msgstr "Das Design konnte nicht geändert werden. Versuchen Sie es erneut."
 msgid "The ticket could not be taken. Try again."
 msgstr "Die Nummer konnte nicht gezogen werden. Versuchen Sie es erneut."
 
+#: onedesk/one_display/starters.py:457
+msgid "The ticket one counter is serving, for above it."
+msgstr "Das Ticket, das ein Schalter bedient, für darüber."
+
 #: onedesk/public/js/one_ai/ai_center.js:43
 msgid "The tier sets which models answer and what each answer costs."
 msgstr "Die Stufe bestimmt, welche Modelle antworten und was jede Antwort kostet."
+
+#: onedesk/one_display/starters.py:452
+msgid "The time and the week's weather, large."
+msgstr "Die Uhrzeit und das Wetter der Woche, groß."
+
+#: onedesk/one_display/starters.py:475
+msgid "The time, the weather and a code beside the slides."
+msgstr "Uhrzeit, Wetter und ein Code neben den Folien."
 
 #: onedesk/one_slide/decks.py:157
 msgid "The title of your presentation"
@@ -48621,9 +49189,17 @@ msgstr "{0} von {1} angekreuzt"
 msgid "Ticker"
 msgstr "Laufband"
 
+#: onedesk/one_display/starters.py:477
+msgid "Ticker Strip"
+msgstr "Laufbandstreifen"
+
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
 msgid "Ticket"
 msgstr "Ticket"
+
+#: onedesk/one_display/starters.py:459 onedesk/one_display/widgets.py:266
+msgid "Ticket Kiosk"
+msgstr "Ticketkiosk"
 
 #: onedesk/one_display/packs.py:30
 msgid "Ticket number"
@@ -49132,10 +49708,18 @@ msgstr "Heute ist, was Sie braucht, vom Einstempeln bis zu wartenden Anträgen; 
 msgid "Today on this task"
 msgstr "Heute an dieser Aufgabe"
 
+#: onedesk/one_display/widgets.py:256
+msgid "Today only"
+msgstr "Nur heute"
+
 #. Name of a notification
 #: onedesk/one_calendar/notifications.py
 msgid "Today's Events"
 msgstr "Heutige Termine"
+
+#: onedesk/one_display/starters.py:273 onedesk/one_display/starters.py:463
+msgid "Today's Schedule"
+msgstr "Heutiges Programm"
 
 #. Name of a notification
 #: onedesk/one_task/notifications.py
@@ -49941,6 +50525,10 @@ msgstr "Wer ihn einschaltet, stimmt dem für den ganzen Arbeitsbereich zu, und d
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "Turns"
 msgstr "Züge"
+
+#: onedesk/one_display/starters.py:364
+msgid "Twenty percent off this week"
+msgstr "Zwanzig Prozent Rabatt diese Woche"
 
 #. Option for the 'frequency' (Select) field in DocType 'Project'
 #: onedesk/one_project/custom/project.json
@@ -51348,6 +51936,18 @@ msgstr "Sichtbar für"
 msgid "Visit"
 msgstr "Besuch"
 
+#: onedesk/one_display/widgets.py:282
+msgid "Visit Our Website"
+msgstr "Unsere Website besuchen"
+
+#: onedesk/one_display/starters.py:197
+msgid ""
+"Visitors sign in\n"
+"at the front desk"
+msgstr ""
+"Besuch meldet sich\n"
+"am Empfang an"
+
 #. Label in the One Maintenance Plan print format
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 msgid "Visits"
@@ -51670,6 +52270,14 @@ msgstr "Frachtbrief-Nr."
 msgid "We Owe"
 msgstr "Wir schulden"
 
+#: onedesk/one_display/starters.py:435 onedesk/one_display/widgets.py:250
+msgid "We are glad you are here"
+msgstr "Schön, dass Sie da sind"
+
+#: onedesk/one_display/starters.py:172 onedesk/one_display/starters.py:184
+msgid "We are glad you are here. Make yourself at home."
+msgstr "Schön, dass Sie da sind. Fühlen Sie sich wie zu Hause."
+
 #. Message of a notification
 #: onedesk/notifications/one_admin/workspace_delayed.md
 msgid "We have your payment for {workspace}, but setup hit a problem on our side. We're working on it.<br><br>We'll email you when it's ready. You don't need to do anything. If you have a question, reply to this email."
@@ -51701,6 +52309,14 @@ msgstr "Wir haben geschlossen"
 #: onedesk/one_display/widgets.py:72
 msgid "Weather"
 msgstr "Wetter"
+
+#: onedesk/one_display/widgets.py:268
+msgid "Weather Card"
+msgstr "Wetterkarte"
+
+#: onedesk/one_display/widgets.py:269
+msgid "Weather Today"
+msgstr "Wetter heute"
 
 #: onedesk/one_studio/letter_heads.py:354
 #: onedesk/one_studio/letter_heads.py:372
@@ -51760,6 +52376,10 @@ msgstr "Mittwoch"
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:164
 msgid "Week"
 msgstr ""
+
+#: onedesk/one_display/widgets.py:270
+msgid "Week Ahead"
+msgstr "Die Woche"
 
 #: onedesk/one_project/report/workload/workload.js:69
 msgid "Week Of"
@@ -51836,10 +52456,26 @@ msgstr "Gewichteter Wert"
 msgid "Welcome"
 msgstr ""
 
+#: onedesk/one_display/starters.py:454
+msgid "Welcome Strip"
+msgstr "Begrüßungsstreifen"
+
 #. Task in the New Client Onboarding project template
 #: onedesk/one_project/library/client_onboarding.json
 msgid "Welcome mail and contacts"
 msgstr "Willkommensmail und Ansprechpartner"
+
+#: onedesk/one_display/starters.py:316
+msgid "Welcome to our new team members"
+msgstr "Willkommen an unsere neuen Teammitglieder"
+
+#: onedesk/one_display/starters.py:199 onedesk/one_display/starters.py:443
+msgid "Welcome to our visitors today"
+msgstr "Willkommen an unseren Besuch heute"
+
+#: onedesk/one_display/starters.py:453
+msgid "Welcome, Standing"
+msgstr "Begrüßung, hochkant"
 
 #: onedesk/one_slide/decks.py:80
 msgid "Went well"
@@ -52222,6 +52858,10 @@ msgstr "Was passiert ist, wenn dies gesendet wird."
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json
 msgid "What happens to mail arriving in a mailbox's Inbox: conditions, OneAI's reading and actions, top to bottom."
 msgstr "Was mit E-Mails im Posteingang eines Postfachs geschieht: Bedingungen, das Lesen durch OneAI und Aktionen, von oben nach unten."
+
+#: onedesk/one_display/starters.py:463
+msgid "What happens today, when and where."
+msgstr "Was heute passiert, wann und wo."
 
 #: onedesk/one/ai.py:78
 msgid "What have I agreed to?"
@@ -54417,6 +55057,10 @@ msgstr "Wo jede Seriennummer gewesen ist."
 msgid "Where equipment is kept."
 msgstr "Wo Ausrüstung aufbewahrt wird."
 
+#: onedesk/one_display/starters.py:464
+msgid "Where everything is, floor by floor."
+msgstr "Wo sich alles befindet, Etage für Etage."
+
 #: onedesk/one_book/home.py:406
 msgid "Where exchange rates are fetched from."
 msgstr "Woher Wechselkurse abgerufen werden."
@@ -54693,6 +55337,10 @@ msgstr "Welche Berichte werden per E-Mail verschickt, wie oft und an wen?"
 #: onedesk/one/ai.py:213
 msgid "Which reports go out by mail?"
 msgstr "Welche Berichte gehen per E-Mail hinaus?"
+
+#: onedesk/one_display/starters.py:461
+msgid "Which rooms are free and which are in use."
+msgstr "Welche Räume frei und welche belegt sind."
 
 #. Description of the 'Kind' (Data) field in DocType 'Cloud File Request Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
@@ -56297,6 +56945,10 @@ msgstr "Schreibe, was die Antwort von OneAI sagen soll."
 msgid "Write what each condition looks for."
 msgstr "Schreib, wonach jede Bedingung sucht."
 
+#: onedesk/one_display/starters.py:305
+msgid "Write what is changing, when, and who to ask about it."
+msgstr "Schreiben Sie, was sich ändert, wann, und wen man fragen kann."
+
 #: frontend/src/display/Layout.vue:119
 msgid "Write with OneAI"
 msgstr "Mit OneAI schreiben"
@@ -57083,6 +57735,10 @@ msgstr "Ihre Spesenabrechnung über {amount}: {status}"
 msgid "Your expense claim was paid"
 msgstr "Ihre Spesenabrechnung wurde bezahlt"
 
+#: onedesk/one_display/starters.py:407
+msgid "Your feedback helps us do better."
+msgstr "Ihr Feedback hilft uns, besser zu werden."
+
 #. Subject of a notification
 #: onedesk/one_hr/notifications.py
 msgid "Your feedback on {applicant}'s interview is due"
@@ -57149,6 +57805,15 @@ msgstr "Ihr Name · Ihre E-Mail · Ihr Telefon"
 #: onedesk/public/js/one/notification_center.js:48
 msgid "Your notifications are off."
 msgstr "Ihre Benachrichtigungen sind aus."
+
+#: onedesk/one_display/starters.py:211 onedesk/one_display/starters.py:217
+#: onedesk/one_display/starters.py:226
+msgid "Your number will be called and shown here"
+msgstr "Ihre Nummer wird hier aufgerufen und angezeigt"
+
+#: onedesk/one_display/starters.py:235
+msgid "Your number will be called on the screens"
+msgstr "Ihre Nummer wird auf den Bildschirmen aufgerufen"
 
 #: onedesk/public/js/one_mail/onemail_settings.js:911
 msgid "Your organization address, or a private one at {0}."
@@ -57733,6 +58398,10 @@ msgstr "Strich"
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:23
 msgid "database"
 msgstr "Datenbank"
+
+#: onedesk/one_display/widgets.py:286
+msgid "days, hours and minutes to go"
+msgstr "Tage, Stunden und Minuten bis dahin"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:1028
 msgid "decimal"
@@ -62881,6 +63550,10 @@ msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist er jetzt off
 #: onedesk/notifications/one_admin/workspace_owing.md
 msgid "{workspace}: {state}"
 msgstr "{workspace}: {state}"
+
+#: onedesk/one_display/starters.py:401
+msgid "“A few words from them about what they do and what they enjoy about it.”"
+msgstr "„Ein paar Worte darüber, was diese Person macht und was ihr daran gefällt.“"
 
 #: onedesk/one_display/notifications.py
 msgid "“{what}” is ready in {playlist}"

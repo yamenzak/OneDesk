@@ -124,7 +124,7 @@ def test_a_recording_is_wrapped_as_a_wav():
 def _widgets() -> dict:
 	return _load(
 		HERE / "widgets.py",
-		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES", "LOOK", "LOOKS", "LOOK_LABELS", "FIRST_LOOK"),
+		("TEXT", "LONG", "NUMBER", "CHECK", "COLOUR", "SELECT", "IMAGE", "CODE", "TYPES", "LOOK", "BRAND", "LOOKS", "LOOK_LABELS", "FIRST_LOOK", "COUNTDOWN", "ROTATING", "PROGRESS", "PRESETS"),
 		_lt=lambda text, context=None: text,
 	)
 
@@ -169,6 +169,52 @@ def test_a_widget_draws_nothing_around_its_content():
 		assert name in said["LOOK_LABELS"], name
 	assert set(said["FIRST_LOOK"]) <= set(said["TYPES"]) and set(said["FIRST_LOOK"].values()) <= set(said["LOOKS"])
 	assert not {"Number", "List"} & set(said["TYPES"]), "a figure or a list is words with chips, not a widget"
+
+
+def test_every_ready_made_widget_is_sound():
+	"""A ready-made widget is a kind with settings it has, in a look there is,
+	at a size that fits on a screen; none is named twice."""
+	said = _widgets()
+	keys = [one[0] for one in said["PRESETS"]]
+	assert len(keys) == len(set(keys)), "a ready-made widget is named twice"
+	assert not set(keys) & set(said["TYPES"]), "a ready-made widget is named as a kind"
+	for key, kind, _label, settings, look, (width, height) in said["PRESETS"]:
+		assert kind in said["TYPES"], f"{key} is a kind there isn't"
+		allowed = {setting[0] for setting in said["TYPES"][kind]["settings"]}
+		assert set(settings) <= allowed, f"{key} sets what a {kind} does not have: {set(settings) - allowed}"
+		assert look in said["LOOKS"], f"{key} wears a look there isn't"
+		assert 0 < width <= 100 and 0 < height <= 100, key
+
+
+def test_every_premade_screen_has_its_picture():
+	"""A template the gallery offers has a builder, a shape, a group the
+	gallery shows, a picture of it, and puts down only ready-made widgets
+	there are (starters.py)."""
+	text = (HERE / "starters.py").read_text()
+	groups = set(re.findall(r'^\t"(\w+)": _lt\(', text[text.index("GROUPS = {") : text.index("SHAPES = {")], re.M))
+	rows = re.findall(r'^\t"(\w+)": \((\w+), "(wide|tall|strip)", "(\w+)",', text, re.M)
+	assert len(rows) >= 24, "the library has its templates"
+	presets = {one[0] for one in _widgets()["PRESETS"]} | set(_widgets()["TYPES"])
+	for key, builder, _shape, group in rows:
+		assert f"def {builder}(c: Canvas)" in text, f"{key} has no builder"
+		assert group in groups, f"{key} is in a group the gallery does not show"
+		assert (HERE.parent / "public/images/one_display/starters" / f"{key}.jpg").exists(), f"{key} has no picture"
+	used = set(re.findall(r'c\.widget\("(\w+)"', text))
+	assert used <= presets, f"a template puts down a widget there isn't: {used - presets}"
+
+
+@pytest.mark.skipif(not shutil.which("node"), reason="no node to parse the player with")
+def test_ready_made_code_runs_on_an_old_tvs_browser():
+	"""A ready-made Custom widget's script runs in the screen's own browser."""
+	acorn = ROOT / "frontend" / "node_modules" / "acorn"
+	if not acorn.exists():
+		pytest.skip("acorn is not installed")
+	said = _widgets()
+	for name in ("COUNTDOWN", "ROTATING", "PROGRESS"):
+		code = said[name].replace("{words}", '["x"]')
+		for script in re.findall(r"<script>(.*?)</script>", code, re.S):
+			parsed = subprocess.run(["node", "-e", f"require({json.dumps(str(acorn))}).parse({json.dumps(script)}, {{ecmaVersion: 5}})"], capture_output=True, text=True)
+			assert parsed.returncode == 0, f"{name} is not ES5: {parsed.stderr[-300:]}"
 
 
 @pytest.mark.skipif(not shutil.which("node"), reason="no node to parse the player with")

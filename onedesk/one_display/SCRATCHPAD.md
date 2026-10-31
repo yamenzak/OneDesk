@@ -24,6 +24,10 @@ What is known to be missing or wrong. How it works and why is `AGENTS.md`.
   starts the player when the TV powers on, restarts a frozen page, and
   prints a kiosk's ticket silently. A separate project; no code here
   changes for it.
+- **Templates are not mirrored for Arabic.** Their words come in the
+  reader's language, but the layout is left to right, as OneSlide's decks
+  are. Their pictures in the gallery are the English ones in the demo's
+  colour, taken once; the template put on the screen is in the reader's.
 - **Widgets on a screen do not come and go.** Motion is drawn by `play.js`,
   which draws a screen's backdrop; widgets are drawn by `tv.js`.
 - **Whole numbers past 999 are joined only in English** (`packs.THOUSANDS`).

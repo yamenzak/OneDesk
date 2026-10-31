@@ -7,7 +7,10 @@ its source whole instead (the queue board takes a queue, the weather takes
 the weather), and its `slots` are empty. A widget is bare: what surrounds
 its content is its element's `look` (LOOK, below). Pure."""
 
+import json
+
 from frappe import _lt
+from frappe.utils import escape_html
 
 # A setting is (key, kind, label, default); kinds are what the editor draws.
 TEXT, LONG, NUMBER, CHECK, COLOUR, SELECT, IMAGE, CODE = ("text", "long", "number", "check", "colour", "select", "image", "code")
@@ -140,27 +143,147 @@ LOOK = (
 	"shadowColor", "shadowBlur", "shadowOpacity", "shadowOffset", "shadowAngle",
 )
 
-# Looks offered for every widget. Plain is no look at all.
+# Looks offered for every widget. Plain is no look at all; BRAND is the
+# business's colour, filled in when the looks are read (`looks`).
+BRAND = "brand"
 LOOKS = {
 	"Plain": {},
 	"Card": {"fillColor": "#0B0D10DB", "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
 	"Light Card": {"fillColor": "#FFFFFFF2", "color": "#111827FF", "borderRadius": 8, "padding": 10},
+	"Soft": {"fillColor": "#F3F4F6FF", "color": "#111827FF", "borderRadius": 14, "padding": 12},
+	"Floating": {"fillColor": "#FFFFFFFF", "color": "#111827FF", "borderRadius": 16, "padding": 14, "shadowColor": "#0000004D", "shadowBlur": 12, "shadowOffset": 3, "shadowAngle": 90},
 	"Outline": {"color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": "#FFFFFF66", "borderWidth": 1, "borderRadius": 8, "padding": 10},
+	"Glass": {"fillColor": "#FFFFFF1F", "color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": "#FFFFFF40", "borderWidth": 1, "borderRadius": 16, "padding": 12},
+	"Dark Glass": {"fillColor": "#00000066", "color": "#FFFFFFFF", "borderRadius": 16, "padding": 12},
+	"Pill": {"fillColor": "#0B0D10DB", "color": "#FFFFFFFF", "borderRadius": 999, "padding": 8},
+	"Rounded": {"borderRadius": 24},
 	"Band": {"fillColor": "#111827EB", "color": "#FFFFFFFF"},
-	"Solid": {"fillColor": "#0B0D10FF", "color": "#FFFFFFFF"},
+	"Light Band": {"fillColor": "#FFFFFFF2", "color": "#111827FF"},
+	"Solid": {"fillColor": "#0B0D10FF", "color": "#FFFFFFFF", "padding": 12},
+	"Accent": {"fillColor": BRAND, "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
+	"Accent Band": {"fillColor": BRAND, "color": "#FFFFFFFF"},
+	"Accent Pill": {"fillColor": BRAND, "color": "#FFFFFFFF", "borderRadius": 999, "padding": 8},
+	"Accent Outline": {"color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": BRAND, "borderWidth": 2, "borderRadius": 8, "padding": 10},
+	"Alert": {"fillColor": "#DC2626FF", "color": "#FFFFFFFF", "borderRadius": 8, "padding": 10},
+	"Highlight": {"fillColor": "#FEF3C7FF", "color": "#78350FFF", "borderRadius": 8, "padding": 10},
+	"Contrast": {"fillColor": "#000000FF", "color": "#FFFFFFFF", "borderStyle": "solid", "borderColor": "#FFFFFFFF", "borderWidth": 2, "borderRadius": 4, "padding": 10},
 }
 LOOK_LABELS = {
 	"Plain": _lt("Plain"),
 	"Card": _lt("Card"),
 	"Light Card": _lt("Light Card"),
+	"Soft": _lt("Soft"),
+	"Floating": _lt("Floating"),
 	"Outline": _lt("Outline"),
+	"Glass": _lt("Glass"),
+	"Dark Glass": _lt("Dark Glass"),
+	"Pill": _lt("Pill"),
+	"Rounded": _lt("Rounded"),
 	"Band": _lt("Band"),
+	"Light Band": _lt("Light Band"),
 	"Solid": _lt("Solid"),
+	"Accent": _lt("Accent"),
+	"Accent Band": _lt("Accent Band"),
+	"Accent Pill": _lt("Accent Pill"),
+	"Accent Outline": _lt("Accent Outline"),
+	"Alert": _lt("Alert"),
+	"Highlight": _lt("Highlight"),
+	"Contrast": _lt("Contrast"),
 }
 
 # The look a widget is given when it is put on a screen, which is how each
 # was drawn before widgets were bare.
 FIRST_LOOK = {"Queue Board": "Card", "Weather": "Card", "Ticker": "Band", "Kiosk": "Solid", "Board Item": "Card"}
+
+
+# Ready-made widgets, a kind with settings, a look and a size (AGENTS.md,
+# Templates). Custom code runs on the screen's own browser, so it is ES5.
+COUNTDOWN = """<div id="c" style="height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;font-weight:600;font-size:26vh;line-height:1">
+<div id="t"></div><div style="font-size:8vh;opacity:.7;margin-top:3vh">{words}</div></div>
+<script>
+var target = new Date(new Date().getFullYear() + 1, 0, 1).getTime();
+function two(n) { return (n < 10 ? "0" : "") + n; }
+function tick() {
+	var left = Math.max(0, Math.floor((target - Date.now()) / 1000));
+	var days = Math.floor(left / 86400), hours = Math.floor(left / 3600) % 24, minutes = Math.floor(left / 60) % 60;
+	document.getElementById("t").textContent = days + " : " + two(hours) + " : " + two(minutes);
+}
+tick(); setInterval(tick, 1000);
+</script>"""
+ROTATING = """<div id="m" style="height:100%;display:flex;align-items:center;justify-content:center;text-align:center;font-weight:600;font-size:30vh;line-height:1.2;transition:opacity .6s"></div>
+<script>
+var lines = {words};
+var at = 0, box = document.getElementById("m");
+function next() {
+	box.style.opacity = 0;
+	setTimeout(function () { box.textContent = lines[at % lines.length]; box.style.opacity = 1; at++; }, 600);
+}
+next(); setInterval(next, 8000);
+</script>"""
+PROGRESS = """<div style="height:100%;display:flex;flex-direction:column;justify-content:center;font-weight:600;font-size:22vh;line-height:1.2">
+<div style="display:flex;justify-content:space-between"><span>{words}</span><span id="v"></span></div>
+<div style="height:14vh;margin-top:4vh;border-radius:7vh;background:rgba(127,127,127,.25);overflow:hidden"><div id="b" style="height:100%;width:0;border-radius:7vh;background:currentColor;transition:width 1s"></div></div></div>
+<script>
+var goal = 100;
+function draw() {
+	var row = (window.one_display_rows || [])[0] || {};
+	var value = Number(row.value) || 0;
+	document.getElementById("v").textContent = value + " / " + goal;
+	document.getElementById("b").style.width = Math.min(100, (value / goal) * 100) + "%";
+}
+window.one_display_changed = draw; draw();
+</script>"""
+
+PRESETS = (
+	# key, kind, label, settings, look, size
+	("large_clock", "Clock", _lt("Large Clock"), {"date": 0}, "Plain", (40, 30)),
+	("clock_and_date", "Clock", _lt("Clock and Date"), {"date": 1}, "Card", (24, 20)),
+	("corner_clock", "Clock", _lt("Corner Clock"), {"date": 0}, "Pill", (16, 12)),
+	("light_clock", "Clock", _lt("Light Clock"), {"date": 1, "hours": "12"}, "Light Card", (24, 20)),
+	("accent_clock", "Clock", _lt("Accent Clock"), {"date": 1}, "Accent", (24, 20)),
+	("glass_clock", "Clock", _lt("Glass Clock"), {"date": 1}, "Glass", (24, 20)),
+	("headline", "Text", _lt("Headline"), {"text": _lt("Welcome"), "size": 9}, "Plain", (80, 14)),
+	("centred_title", "Text", _lt("Centred Title"), {"text": _lt("Welcome"), "size": 10, "align": "center"}, "Plain", (90, 16)),
+	("subheading", "Text", _lt("Subheading"), {"text": _lt("We are glad you are here"), "size": 5}, "Plain", (70, 9)),
+	("caption", "Text", _lt("Caption"), {"text": _lt("Caption"), "size": 3}, "Plain", (50, 6)),
+	("notice", "Text", _lt("Notice Bar"), {"text": _lt("Opening hours today: 9:00 to 18:00"), "size": 4, "align": "center"}, "Accent Band", (100, 10)),
+	("big_number", "Text", _lt("Big Number"), {"text": "128", "size": 14, "align": "center"}, "Card", (22, 24)),
+	("tag", "Text", _lt("Tag"), {"text": _lt("New"), "size": 3, "align": "center"}, "Accent Pill", (14, 7)),
+	("price", "Text", _lt("Price"), {"text": "24.00", "size": 7, "align": "end"}, "Plain", (20, 10)),
+	("highlight_text", "Text", _lt("Highlighted Text"), {"text": _lt("Today only"), "size": 5, "align": "center"}, "Highlight", (30, 10)),
+	("news_ticker", "Ticker", _lt("News Ticker"), {}, "Band", (100, 8)),
+	("accent_ticker", "Ticker", _lt("Accent Ticker"), {}, "Accent Band", (100, 8)),
+	("light_ticker", "Ticker", _lt("Light Ticker"), {}, "Light Band", (100, 8)),
+	("slow_ticker", "Ticker", _lt("Slow Ticker"), {"speed": 60}, "Band", (100, 8)),
+	("alert_ticker", "Ticker", _lt("Alert Ticker"), {}, "Alert", (100, 8)),
+	("now_serving", "Queue Board", _lt("Now Serving"), {}, "Card", (60, 80)),
+	("now_serving_light", "Queue Board", _lt("Now Serving, Light"), {}, "Floating", (60, 80)),
+	("compact_queue", "Queue Board", _lt("Compact Queue"), {"rows": 3, "waiting": 0}, "Card", (34, 50)),
+	("full_queue", "Queue Board", _lt("Full Screen Queue"), {"rows": 8}, "Solid", (100, 100)),
+	("ticket_kiosk", "Kiosk", _lt("Ticket Kiosk"), {}, "Solid", (100, 100)),
+	("light_kiosk", "Kiosk", _lt("Light Kiosk"), {}, "Soft", (100, 100)),
+	("weather_card", "Weather", _lt("Weather Card"), {}, "Card", (25, 30)),
+	("weather_today", "Weather", _lt("Weather Today"), {"days": 0}, "Pill", (18, 12)),
+	("week_ahead", "Weather", _lt("Week Ahead"), {"days": 5}, "Glass", (40, 30)),
+	("light_weather", "Weather", _lt("Light Weather"), {}, "Light Card", (25, 30)),
+	("status_board", "Board", _lt("Status Board"), {}, "Plain", (60, 60)),
+	("board_columns", "Board", _lt("Board in Columns"), {"columns": 4}, "Card", (90, 60)),
+	("simple_board", "Board", _lt("Simple Board"), {"time": 0, "value": 0}, "Light Card", (60, 60)),
+	("status_tile", "Board Item", _lt("Status Tile"), {}, "Card", (30, 30)),
+	("door_sign", "Board Item", _lt("Door Sign"), {}, "Floating", (40, 40)),
+	("counter_tile", "Board Item", _lt("Counter Tile"), {"time": 0}, "Accent", (30, 30)),
+	("logo", "Image", _lt("Logo"), {}, "Plain", (16, 12)),
+	("full_picture", "Image", _lt("Full Screen Picture"), {"fit": "cover"}, "Plain", (100, 100)),
+	("framed_picture", "Image", _lt("Framed Picture"), {"fit": "cover"}, "Floating", (40, 40)),
+	("rounded_picture", "Image", _lt("Rounded Picture"), {"fit": "cover"}, "Rounded", (24, 40)),
+	("visit_website", "QR Code", _lt("Visit Our Website"), {"caption": _lt("Scan to visit our website")}, "Light Card", (15, 25)),
+	("see_menu", "QR Code", _lt("See the Menu"), {"caption": _lt("Scan for the menu")}, "Light Card", (15, 25)),
+	("give_feedback", "QR Code", _lt("Give Feedback"), {"caption": _lt("Tell us how we did")}, "Floating", (15, 25)),
+	("follow_us", "QR Code", _lt("Follow Us"), {"caption": _lt("Follow us")}, "Accent", (15, 25)),
+	("countdown", "Custom", _lt("Countdown"), {"html": (COUNTDOWN, _lt("days, hours and minutes to go"))}, "Card", (50, 30)),
+	("rotating_messages", "Custom", _lt("Rotating Messages"), {"html": (ROTATING, (_lt("Welcome"), _lt("Thank you for visiting"), _lt("Ask us anything")))}, "Plain", (80, 20)),
+	("progress", "Custom", _lt("Progress to a Goal"), {"html": (PROGRESS, _lt("Progress"))}, "Card", (50, 16)),
+)
 
 
 def look(settings: dict | None) -> dict:
@@ -182,7 +305,7 @@ def defaults(kind: str) -> dict:
 	}
 
 
-def described() -> list[dict]:
+def described(colour: str) -> list[dict]:
 	"""The registry as the editor reads it, its words translated."""
 	return [
 		{
@@ -202,12 +325,38 @@ def described() -> list[dict]:
 				for key, kind_, label, default, *rest in spec["settings"]
 			],
 			"size": list(spec["size"]),
-			"look": LOOKS.get(FIRST_LOOK.get(kind, "Plain"), {}),
+			"look": worn(FIRST_LOOK.get(kind, "Plain"), colour),
 		}
 		for kind, spec in TYPES.items()
 	]
 
 
-def looks() -> list[dict]:
+def worn(name: str, colour: str) -> dict:
+	"""A look with the business's colour in it. Pure."""
+	return {key: colour if value == BRAND else value for key, value in LOOKS.get(name, {}).items()}
+
+
+def looks(colour: str) -> list[dict]:
 	"""The looks as the editor offers them, named in the reader's language."""
-	return [{"name": name, "label": str(LOOK_LABELS[name]), "look": said} for name, said in LOOKS.items()]
+	return [{"name": name, "label": str(LOOK_LABELS[name]), "look": worn(name, colour)} for name in LOOKS]
+
+
+def _settled(value):
+	"""A preset's setting in the reader's language: a Custom widget's code
+	with its words put in, or words. Pure but for the translation."""
+	if isinstance(value, tuple):
+		code, words = value
+		said = json.dumps([str(one) for one in words], ensure_ascii=False) if isinstance(words, tuple) else escape_html(str(words))
+		return code.replace("{words}", said)
+	return value if isinstance(value, (int, float)) else str(value)
+
+
+def presets(colour: str) -> list[dict]:
+	"""The ready-made widgets as the editor offers them, each kind bare first."""
+	out = []
+	for kind, spec in TYPES.items():
+		out.append({"key": kind, "type": kind, "label": str(spec["label"]), "settings": {}, "look": worn(FIRST_LOOK.get(kind, "Plain"), colour), "size": list(spec["size"])})
+		for key, of, label, settings, look_name, size in PRESETS:
+			if of == kind:
+				out.append({"key": key, "type": kind, "label": str(label), "settings": {name: _settled(value) for name, value in settings.items()}, "look": worn(look_name, colour), "size": list(size)})
+	return out

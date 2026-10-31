@@ -278,6 +278,7 @@ MODULES = {
 		"help": (
 			("overview", "info"),
 			("screens-and-pairing", "tv"),
+			("templates", "layout-template"),
 			("channels", "radio"),
 			("slides", "images"),
 			("widgets-and-sources", "layout-dashboard"),

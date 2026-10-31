@@ -647,6 +647,46 @@ def onedisplay_builds_a_screen_in_oneslide():
 
 
 @check
+def onedisplay_starts_a_screen_from_a_template():
+	"""Every template lays out on every shape of screen, its widgets kinds
+	there are and inside the frame; one put on a new layout is saved as its
+	rows and its backdrop, the way the editor saves, and a channel with no
+	layout is given one to open on its templates (starters.py)."""
+	from onedesk.one_display import layout, screen, sizes, starters
+	from onedesk.one_display import widgets as kinds
+
+	frappe.db.savepoint("starter_check")
+	try:
+		with as_user(OWNER):
+			for size in sizes.SIZES:
+				wide, high = (round(one / 2) for one in sizes.SIZES[size])
+				for key in starters.STARTERS:
+					made = starters.build(key, wide, high)
+					placed = [one for one in made["elements"] if one["type"] == "widget"]
+					assert placed, f"{key} puts down no widget"
+					for one in placed:
+						assert one["widget"]["widget_type"] in kinds.TYPES, (key, one["widget"]["widget_type"])
+						assert -1 <= one["left"] and one["left"] + one["width"] <= wide + 1, (key, size, one["left"], one["width"])
+			named = frappe.get_doc({"doctype": "Widget Collection", "collection_name": "Template Check", "screen_size": "Portrait"}).insert().name
+			assert starters.offered(named)["shape"] == "tall"
+			drawn_for_editor = starters.made(named, "queue_tall")
+			assert any(one["type"] == "widget" for one in drawn_for_editor["elements"]), "the editor is given the widgets"
+			starters.apply(named, "queue_tall")
+			rows = layout.get(named)["widgets"]
+			built = [one for one in starters.build("queue_tall", 540, 960)["elements"] if one["type"] == "widget"]
+			assert [row["widget_type"] for row in rows] == [one["widget"]["widget_type"] for one in built], rows
+			assert any(row["source"] for row in rows if row["widget_type"] == "Queue Board"), "the queue board reads the first queue"
+			drawn = screen.drawn(frappe.get_doc("Widget Collection", named))
+			assert drawn and drawn["elements"], "the template's words are on its backdrop"
+			channel = frappe.get_doc({"doctype": "Display Channel", "channel_name": "Template Check Channel"}).insert()
+			opened = starters.for_channel(channel.name)["presentation"]
+			assert frappe.db.get_value("Display Channel", channel.name, "widget_collection"), "the channel was given a layout"
+			assert starters.for_channel(channel.name)["presentation"] == opened, "and keeps it"
+	finally:
+		frappe.db.rollback(save_point="starter_check")
+
+
+@check
 def onedisplay_makes_music_in_the_background():
 	"""A song is made, kept as a public file and added to its playlist paused,
 	with its length read from the file, and whoever asked is told; a failure

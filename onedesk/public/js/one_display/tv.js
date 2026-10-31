@@ -1155,8 +1155,9 @@
 		},
 
 		Kiosk: function (box, one, w, h) {
-			sized(box, h / 9);
-			var panel = el("div", "kiosk");
+			sized(box, Math.min(h / 9, w / 8));
+			// standing, its buttons go one under another, full width
+			var panel = el("div", h > w ? "kiosk stacked" : "kiosk");
 			var heading = el("h1");
 			var buttons = el("div");
 			panel.appendChild(heading);
@@ -1239,7 +1240,8 @@
 		},
 
 		Clock: function (box, one, w, h) {
-			sized(box, h / 2.4);
+			// the time alone takes the room a date would have had
+			sized(box, Math.min(h / ((one.settings || {}).date ? 2.4 : 1.5), w / 3.4));
 			var time = el("div", "big");
 			var date = el("div");
 			date.style.fontSize = "0.32em";
@@ -1338,9 +1340,13 @@
 			var frame = el("iframe");
 			frame.setAttribute("sandbox", "allow-scripts");
 			var data = JSON.stringify(one.data || {}).replace(/</g, "\\u003c");
+			// its words wear the look's colour and font, which a frame does not inherit
+			var worn = window.getComputedStyle ? window.getComputedStyle(box) : {};
+			var page = "<style>html,body{margin:0;height:100%;overflow:hidden;background:transparent;color:" + (worn.color || "inherit") +
+				";font-family:" + String(worn.fontFamily || "Inter, sans-serif").replace(/[<>]/g, "") + "}</style>";
 			frame.setAttribute(
 				"srcdoc",
-				"<script>window.one_display_rows=" + data + ".rows||[];window.one_display_whole=" + data + ".whole||null;" +
+				page + "<script>window.one_display_rows=" + data + ".rows||[];window.one_display_whole=" + data + ".whole||null;" +
 					"window.addEventListener('message',function(e){if(e.data&&e.data.one_display){window.one_display_rows=e.data.rows||[];" +
 					"window.one_display_whole=e.data.whole||null;if(window.one_display_changed)window.one_display_changed();}});<\/script>" +
 					((one.settings || {}).html || "")
