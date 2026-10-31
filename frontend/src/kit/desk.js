@@ -273,6 +273,8 @@ export const today = () => frappe().datetime.get_today();
 export const now = () => frappe().datetime.now_datetime();
 export const yesterday = () => frappe().datetime.add_days(frappe().datetime.get_today(), -1);
 
+// a day some days from today in the reader's words, by a moment pattern ("dddd", "MMMM YYYY", "ddd")
+export const dayWords = (days, pattern) => (window.moment ? window.moment().add(days || 0, "days").format(pattern) : "");
 export const shortDate = (value) => (value ? frappe().datetime.str_to_obj(value).toLocaleDateString(frappe().boot.lang || undefined, { day: "numeric", month: "short" }) : "");
 
 export const duration = (seconds, { seconds: withSeconds = true } = {}) =>

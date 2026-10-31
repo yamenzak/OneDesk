@@ -145,9 +145,6 @@ def layout(name: str | None, lang: str, at: datetime | None = None, edge: int | 
 		if row.widget_type == "QR Code":
 			link = ((data.get("rows") or [{}])[0] or {}).get("link") or settings.get("link")
 			data["svg"] = _qr(link) if link else ""
-		if row.widget_type == "Weather" and data.get("whole"):
-			for day in data["whole"].get("days") or []:
-				day["label"] = _babel(day.get("date"), "EEE", lang)
 		placed.append(
 			{
 				"id": row.name,
@@ -267,6 +264,12 @@ def _babel(day, pattern: str, lang: str) -> str:
 def today_line(lang: str) -> str:
 	"""Today, as a clock widget writes it under the time."""
 	return _babel(now_datetime(), "EEEE d MMMM", lang)
+
+
+def day_parts(lang: str) -> dict:
+	"""Today in pieces, for a clock drawn as a page of a calendar."""
+	day = now_datetime()
+	return {"weekday": _babel(day, "EEEE", lang), "day": _babel(day, "d", lang), "month": _babel(day, "MMMM", lang), "year": _babel(day, "y", lang)}
 
 
 def zone_minutes() -> int:

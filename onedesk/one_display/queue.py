@@ -70,16 +70,15 @@ def board(queue: str) -> dict:
 		group_by="service",
 	)
 	counts = {row.service: row.waiting for row in waiting}
-	services = [
-		{"service": row.service, "prefix": row.prefix, "waiting": counts.get(row.service, 0)}
-		for row in frappe.get_cached_doc("Queue", queue).services
-	]
+	doc = frappe.get_cached_doc("Queue", queue)
+	services = [{"service": row.service, "prefix": row.prefix, "waiting": counts.get(row.service, 0)} for row in doc.services]
 	return {
 		"called": [
 			{"id": f"{row.name}:{row.calls}", "ticket": row.ticket, "counter": row.counter, "at": str(row.called_at)}
 			for row in called
 		],
 		"services": services,
+		"counters": [row.counter for row in doc.counters if row.counter],
 	}
 
 

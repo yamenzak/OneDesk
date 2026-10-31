@@ -35,8 +35,9 @@ the screen.
 ## Ready-Made Widgets
 
 **Add a Widget** shows every widget drawn as it will look, with ready-made
-versions of each: a large clock, a clock in the corner, a notice bar, a news
-ticker, a door sign, a countdown, a code for feedback, and more. Each comes
+versions of each: an analog clock, a date card, the latest call alone, every
+counter at once, the weather by the hour, a ticker with a label, a door
+sign, a countdown, a code for feedback, and more. Each comes
 in a look you can change in the panel, from Card and Glass to the Accent
 looks in your colour.
 

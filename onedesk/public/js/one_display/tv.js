@@ -39,6 +39,7 @@
 	var screen = { rotate: 0, muted: 0, dark: 0 };
 	var brand = {};
 	var today = "";
+	var dayParts = null;
 	var storedAt = 0;
 	var channel = null;
 	var lastCommand = null;
@@ -173,7 +174,7 @@
 		call("start", { device: navigator.userAgent, kind: RADIO ? "Radio" : "Screen" }, function (m) {
 			saved = { screen: m.screen, secret: m.secret };
 			store(KEY, saved);
-			showCode(m.code);
+			showCode(m.code, m.qr);
 			later(waitForPair, 3000);
 		}, function () {
 			offline(true);
@@ -181,42 +182,49 @@
 		});
 	}
 
-	// the code in six tiles, drawn again only when it changes, so they rise once
+	// the code in large figures, drawn again only when it changes, so they rise once
 	var shownCode = "";
+	var shownQr = "";
 
-	function showCode(code) {
+	function showCode(code, qr) {
 		text("pair-title", W.pair);
 		text("pair-how", W.how);
 		text("pair-where", W.where || "");
 		text("pair-host", W.host || "");
+		text("pair-scan", W.scan || "");
+		if (qr && qr !== shownQr) {
+			shownQr = qr;
+			$("pair-qr").innerHTML = qr;
+		}
 		if (code && code !== shownCode) {
 			shownCode = code;
-			var tiles = $("code");
-			tiles.innerHTML = "";
+			var figures = $("code");
+			figures.innerHTML = "";
 			for (var i = 0; i < code.length; i++) {
-				var tile = el("div", "digit");
-				tile.textContent = code.charAt(i);
-				tile.style.webkitAnimationDelay = tile.style.animationDelay = i * 0.08 + "s";
-				tiles.appendChild(tile);
+				// the six figures read as two groups of three
+				if (i === 3) figures.appendChild(el("span", "gap"));
+				var one = el("span");
+				one.textContent = code.charAt(i);
+				one.style.webkitAnimationDelay = one.style.animationDelay = 0.15 + i * 0.06 + "s";
+				figures.appendChild(one);
 			}
 		}
 		show("pair", true);
 	}
 
-	// paired: the code gives way to a link from the workspace to this screen,
-	// a tick, and the screen's name; the channel loads behind it meanwhile
+	// paired: the code leaves, a tick and the screen's name arrive, and the
+	// channel, loading behind them meanwhile, is uncovered
 	function linked(m) {
 		var pair = $("pair");
 		text("pair-done", W.done || "");
 		text("pair-what", [m.name, m.plays].filter(function (one) { return one; }).join(" · "));
 		pair.className = "over linking";
-		setTimeout(function () { pair.className = "over linking linked"; }, 2200);
-		setTimeout(function () { pair.className = "over linking linked leaving"; }, 4200);
+		setTimeout(function () { pair.className = "over linking leaving"; }, 3400);
 		setTimeout(function () {
 			pair.className = "over";
 			show("pair", false);
 			shownCode = "";
-		}, 5000);
+		}, 4300);
 	}
 
 	function waitForPair() {
@@ -234,7 +242,7 @@
 				linked(m);
 				return poll();
 			}
-			showCode(m.code);
+			showCode(m.code, m.qr);
 			later(waitForPair, 3000);
 		}, function () {
 			offline(true);
@@ -390,6 +398,7 @@
 		if (RADIO) drawRadio();
 		brand = m.brand || {};
 		today = m.today || today;
+		dayParts = m.day || dayParts;
 		var next = m.channel;
 		if (next && next.light && channel && channel.revision === next.revision) {
 			channel.mode = next.mode;
@@ -408,7 +417,7 @@
 		// shape, and its rows once a minute, which an old TV's storage can bear.
 		if (!PREVIEW && (!(next && next.light) || Date.now() - storedAt > 60000)) {
 			storedAt = Date.now();
-			store(KEPT, { channel: channel, brand: brand, zone: zone, screen: screen, today: today });
+			store(KEPT, { channel: channel, brand: brand, zone: zone, screen: screen, today: today, day: dayParts });
 		}
 		draw(m.alert);
 	}
@@ -507,7 +516,8 @@
 			box.style.height = one.h + "%";
 			box.style.zIndex = one.layer || 1;
 			holder.appendChild(box);
-			var make = KINDS[one.type];
+			// a layout of its kind, or the kind as it first was (LAYOUTS)
+			var make = (LAYOUTS[one.type] || {})[(one.settings || {}).layout] || KINDS[one.type];
 			if (!make) continue;
 			var inset = dress(box, (one.settings || {}).look, s.w / Math.round(s.w / 2));
 			boxes[one.id] = make(box, one, (one.w * s.w) / 100 - inset, (one.h * s.h) / 100 - inset) || {};
@@ -989,7 +999,7 @@
 			grid.innerHTML = "";
 			for (var i = 0; i < list.length; i++) {
 				var item = list[i];
-				var tile = el("div", "digit");
+				var tile = el("div", "tile");
 				tile.style.width = 100 / columns + "%";
 				tile.style.height = 100 / lines + "%";
 				var inside = el("div", "tile-in" + (item.over ? " fresh" : ""));
@@ -1154,14 +1164,13 @@
 			};
 		},
 
+		// a tile a service, its letter large, in as many columns as the box suits
 		Kiosk: function (box, one, w, h) {
-			sized(box, Math.min(h / 9, w / 8));
-			// standing, its buttons go one under another, full width
-			var panel = el("div", h > w ? "kiosk stacked" : "kiosk");
-			var heading = el("h1");
-			var buttons = el("div");
+			var panel = el("div", "wl-kiosk");
+			var heading = el("div", "wl-k-head");
+			var grid = el("div", "wl-k-grid");
 			panel.appendChild(heading);
-			panel.appendChild(buttons);
+			panel.appendChild(grid);
 			box.appendChild(panel);
 			var drawn = null;
 			document.body.style.cursor = "default";
@@ -1174,15 +1183,25 @@
 					}).join("|");
 					if (key === drawn) return;
 					drawn = key;
-					buttons.innerHTML = "";
+					var count = Math.max(services.length, 1);
+					var columns = Math.max(1, Math.min(count, Math.round(Math.sqrt((count * w) / Math.max(h * 0.8, 1)))));
+					var lines = Math.ceil(count / columns);
+					sized(box, Math.min((h * 0.8) / lines / 4.4, w / columns / 7, h / 7));
+					grid.innerHTML = "";
 					for (var i = 0; i < services.length; i++) {
-						var b = el("button", null, services[i].service);
+						var cell = el("div", "wl-cell");
+						cell.style.width = 100 / columns + "%";
+						cell.style.height = 100 / lines + "%";
+						var b = el("button", "wl-k-tile");
 						b.style.background = accent();
+						b.appendChild(el("span", "wl-k-letter", services[i].prefix || services[i].service.charAt(0)));
+						b.appendChild(el("span", "wl-k-name", services[i].service));
 						b.setAttribute("data-service", services[i].service);
 						b.onclick = function (e) {
 							take(one.id, e.currentTarget.getAttribute("data-service"));
 						};
-						buttons.appendChild(b);
+						cell.appendChild(b);
+						grid.appendChild(cell);
 					}
 				},
 			};
@@ -1268,8 +1287,8 @@
 			};
 		},
 
+		// now on top, then the next days side by side
 		Weather: function (box, one, w, h) {
-			sized(box, h / 8);
 			var panel = el("div", "panel weather");
 			box.appendChild(panel);
 			return {
@@ -1277,23 +1296,27 @@
 					var said = one.data && one.data.whole;
 					show(box, !!said);
 					if (!said) return;
+					var list = (said.days || []).slice(1, 1 + Math.max((one.settings || {}).days || 3, 0));
+					sized(box, Math.min(h / 11, w / Math.max(list.length * 3.4, 9)));
 					panel.innerHTML = "";
-					var top = el("div");
+					var top = el("div", "w-now");
 					var i = el("span", "icon");
 					i.innerHTML = icon(said.icon);
 					top.appendChild(i);
-					top.appendChild(el("span", "temp", " " + said.temperature));
+					var now = el("div");
+					now.appendChild(el("div", "temp", said.temperature));
+					now.appendChild(el("div", "w-cond", said.condition));
+					top.appendChild(now);
 					panel.appendChild(top);
-					panel.appendChild(el("div", null, said.condition));
 					var days = el("div", "days");
-					var list = (said.days || []).slice(1, 1 + Math.max((one.settings || {}).days || 3, 0));
 					for (var d = 0; d < list.length; d++) {
 						var day = el("div");
 						var di = el("div");
 						di.innerHTML = icon(list[d].icon);
-						day.appendChild(el("div", null, dayName(list[d])));
+						day.appendChild(el("div", "w-name", dayName(list[d])));
 						day.appendChild(di);
-						day.appendChild(el("div", null, list[d].high + " / " + list[d].low));
+						day.appendChild(el("div", "w-hi", list[d].high));
+						day.appendChild(el("div", "w-lo", list[d].low));
 						days.appendChild(day);
 					}
 					panel.appendChild(days);
@@ -1317,19 +1340,22 @@
 			};
 		},
 
+		// the code as large as fits, its caption on up to two lines beneath
 		"QR Code": function (box, one, w, h) {
-			sized(box, h / 10);
 			var panel = el("div", "qr");
-			var code = el("div");
-			code.style.height = "85%";
-			var caption = el("div");
+			var code = el("div", "qr-code");
+			var caption = el("div", "qr-caption");
 			panel.appendChild(code);
 			panel.appendChild(caption);
 			box.appendChild(panel);
 			return {
 				update: function (one) {
+					var said = String((one.settings || {}).caption || "");
+					var side = Math.min(w, said ? h * 0.76 : h);
+					code.style.width = code.style.height = side + "px";
+					sized(box, Math.min((h * 0.24) / 2.7, (2 * w) / Math.max(said.length * 0.56, 8), 64));
 					code.innerHTML = (one.data && one.data.svg) || "";
-					text(caption, (one.settings || {}).caption || "");
+					text(caption, said);
 				},
 			};
 		},
@@ -1361,6 +1387,559 @@
 				},
 			};
 		},
+	};
+
+	/* Layouts: one kind drawn another way, chosen by its Layout setting
+	   (widgets.py LAYOUTS). The kind's first layout is its renderer in KINDS. */
+
+	function settingsOf(one) {
+		return one.settings || {};
+	}
+
+	function whole(one) {
+		return (one.data && one.data.whole) || null;
+	}
+
+	// a word as large as its box allows, by how many letters it has
+	function fitWord(node, words, width, base, most) {
+		var letters = Math.max(String(words || "").length, 2);
+		node.style.fontSize = Math.min(most, (width * 0.9) / (letters * 0.6 * base)) + "em";
+	}
+
+	// the newest call at each counter, the queue's counters in their order
+	function byCounter(board) {
+		var latest = {};
+		var called = board.called || [];
+		for (var i = called.length - 1; i >= 0; i--) latest[called[i].counter] = called[i];
+		var names = (board.counters || []).slice();
+		for (var c = 0; c < called.length; c++) if (names.indexOf(called[c].counter) < 0 && called[c].counter) names.push(called[c].counter);
+		return names.map(function (name) {
+			return { counter: name, call: latest[name] || null };
+		});
+	}
+
+	function queueLatest(box, one, w, h) {
+		var base = Math.min(h / 6, w / 7);
+		sized(box, base);
+		var holder = el("div", "wl-center");
+		var eyebrow = el("div", "eyebrow");
+		var ticket = el("div", "wl-huge");
+		var where = el("div", "wl-sub");
+		holder.appendChild(eyebrow);
+		holder.appendChild(ticket);
+		holder.appendChild(where);
+		box.appendChild(holder);
+		var shown = null;
+		return {
+			update: function (one) {
+				var board = whole(one) || { called: [] };
+				var first = (board.called || [])[0];
+				text(eyebrow, settingsOf(one).heading || "");
+				if ((first ? first.id : "") === shown) return;
+				shown = first ? first.id : "";
+				text(ticket, first ? first.ticket : "—");
+				fitWord(ticket, ticket.textContent, w, base, 3.2);
+				text(where, first ? word("counter") + " " + (first.counter || "") : word("nobody"));
+				holder.className = "wl-center" + (first && heard && !heard[first.id] ? " fresh" : "");
+			},
+		};
+	}
+
+	function queueCounters(box, one, w, h) {
+		var grid = el("div", "wl-grid");
+		box.appendChild(grid);
+		return {
+			update: function (one) {
+				var board = whole(one) || { called: [] };
+				var list = byCounter(board);
+				var count = Math.max(list.length, 1);
+				var columns = Math.max(1, Math.round(Math.sqrt((count * w) / Math.max(h, 1))));
+				var lines = Math.ceil(count / columns);
+				sized(box, Math.min(w / columns / 6, h / lines / 3.6));
+				var newest = (board.called || [])[0];
+				grid.innerHTML = "";
+				for (var i = 0; i < list.length; i++) {
+					var cell = el("div", "wl-cell");
+					cell.style.width = 100 / columns + "%";
+					cell.style.height = 100 / lines + "%";
+					var inside = el("div", "wl-cell-in");
+					if (newest && list[i].call && list[i].call.id === newest.id) inside.style.background = accent();
+					inside.appendChild(el("div", "eyebrow", word("counter") + " " + list[i].counter));
+					inside.appendChild(el("div", "wl-big", list[i].call ? list[i].call.ticket : "—"));
+					cell.appendChild(inside);
+					grid.appendChild(cell);
+				}
+			},
+		};
+	}
+
+	function queueList(box, one, w, h) {
+		var many = Math.max(settingsOf(one).rows || 6, 1);
+		sized(box, h / (many * 1.9 + 2.2));
+		var head = el("div", "eyebrow");
+		var list = el("div", "wl-rows");
+		box.appendChild(head);
+		box.appendChild(list);
+		return {
+			update: function (one) {
+				var s = settingsOf(one);
+				var called = ((whole(one) || {}).called || []).slice(0, Math.max(s.rows || 6, 1));
+				text(head, s.heading || "");
+				list.innerHTML = "";
+				if (!called.length) list.appendChild(el("div", "wl-row", word("nobody")));
+				for (var i = 0; i < called.length; i++) {
+					var row = el("div", "wl-row" + (i === 0 ? " first" : ""));
+					var ticket = el("div", "wl-tk", called[i].ticket);
+					if (i === 0) ticket.style.color = accent();
+					row.appendChild(ticket);
+					row.appendChild(el("div", "wl-arrow", "→"));
+					row.appendChild(el("div", "wl-at", word("counter") + " " + (called[i].counter || "")));
+					list.appendChild(row);
+				}
+			},
+		};
+	}
+
+	function queueWaiting(box, one, w, h) {
+		var head = el("div", "eyebrow");
+		var list = el("div", "wl-rows");
+		box.appendChild(head);
+		box.appendChild(list);
+		return {
+			update: function (one) {
+				var services = (whole(one) || {}).services || [];
+				sized(box, Math.min(h / (Math.max(services.length, 1) * 2.9 + 2), w / 10));
+				text(head, word("waiting"));
+				list.innerHTML = "";
+				for (var i = 0; i < services.length; i++) {
+					var row = el("div", "wl-row");
+					var pill = el("span", "pill", services[i].prefix);
+					row.appendChild(pill);
+					row.appendChild(el("div", "wl-name", services[i].service));
+					row.appendChild(el("div", "wl-count", services[i].waiting));
+					list.appendChild(row);
+				}
+			},
+		};
+	}
+
+	// now: the sky, the temperature, today's high and low, wind and humidity
+	function weatherToday(box, one, w, h) {
+		sized(box, Math.min(h / 5.8, w / 12.5));
+		var holder = el("div", "wl-today");
+		box.appendChild(holder);
+		return {
+			update: function (one) {
+				var said = whole(one);
+				show(box, !!said);
+				if (!said) return;
+				holder.innerHTML = "";
+				var mark = el("div", "wl-sky");
+				mark.innerHTML = icon(said.icon);
+				var words = el("div");
+				words.appendChild(el("div", "wl-temp", said.temperature));
+				words.appendChild(el("div", "wl-cond", said.condition));
+				words.appendChild(highLow(said));
+				words.appendChild(el("div", "wl-more", [said.wind, said.humidity].filter(function (one) { return one; }).join("  ·  ")));
+				holder.appendChild(mark);
+				holder.appendChild(words);
+			},
+		};
+	}
+
+	function weatherHours(box, one, w, h) {
+		var count = Math.max(4, Math.min(8, Math.floor(w / (h * 0.42))));
+		sized(box, Math.min(h / 6.2, w / count / 3));
+		var top = el("div", "wl-now");
+		var line = el("div", "wl-hours");
+		box.appendChild(top);
+		box.appendChild(line);
+		return {
+			update: function (one) {
+				var said = whole(one);
+				show(box, !!said);
+				if (!said) return;
+				text(top, said.temperature + "  " + said.condition);
+				line.innerHTML = "";
+				var hours = (said.hours || []).slice(0, count);
+				for (var i = 0; i < hours.length; i++) {
+					var cell = el("div", "wl-hour");
+					cell.style.width = 100 / hours.length + "%";
+					cell.appendChild(el("div", "wl-when", hours[i].label));
+					var sky = el("div", "wl-sky-s");
+					sky.innerHTML = icon(hours[i].icon);
+					cell.appendChild(sky);
+					cell.appendChild(el("div", "wl-t", hours[i].temperature));
+					line.appendChild(cell);
+				}
+			},
+		};
+	}
+
+	// each day a row: its name, its sky, and its low to high drawn to the week's scale
+	function weatherList(box, one, w, h) {
+		var list = el("div", "wl-days");
+		box.appendChild(list);
+		return {
+			update: function (one) {
+				var said = whole(one);
+				show(box, !!said);
+				if (!said) return;
+				var days = (said.days || []).slice(0, Math.max((settingsOf(one).days || 5) + 1, 2));
+				sized(box, Math.min(h / (days.length * 1.75), w / 15.5));
+				var lo = 1e9, hi = -1e9;
+				for (var d = 0; d < days.length; d++) {
+					lo = Math.min(lo, Number(days[d].lo));
+					hi = Math.max(hi, Number(days[d].hi));
+				}
+				var span = Math.max(hi - lo, 1);
+				list.innerHTML = "";
+				for (var i = 0; i < days.length; i++) {
+					var row = el("div", "wl-day");
+					row.appendChild(el("div", "wl-dname", dayName(days[i])));
+					var sky = el("div", "wl-sky-s");
+					sky.innerHTML = icon(days[i].icon);
+					row.appendChild(sky);
+					row.appendChild(el("div", "wl-lo", days[i].low));
+					var track = el("div", "wl-track");
+					var bar = el("i");
+					var from = isNaN(Number(days[i].lo)) ? 0 : (Number(days[i].lo) - lo) / span;
+					var to = isNaN(Number(days[i].hi)) ? 1 : (Number(days[i].hi) - lo) / span;
+					bar.style.left = from * 100 + "%";
+					bar.style.width = Math.max(to - from, 0.04) * 100 + "%";
+					track.appendChild(bar);
+					row.appendChild(track);
+					row.appendChild(el("div", "wl-hi", days[i].high));
+					list.appendChild(row);
+				}
+			},
+		};
+	}
+
+	// today's high and low, each with its arrow
+	function highLow(said) {
+		var line = el("div", "wl-hl");
+		line.appendChild(el("span", null, "↑ " + (said.high || "")));
+		line.appendChild(el("span", null, "↓ " + (said.low || "")));
+		return line;
+	}
+
+	function weatherCompact(box, one, w, h) {
+		sized(box, Math.min(h / 1.9, w / 7));
+		var line = el("div", "wl-compact");
+		box.appendChild(line);
+		return {
+			update: function (one) {
+				var said = whole(one);
+				show(box, !!said);
+				if (!said) return;
+				line.innerHTML = "";
+				var sky = el("span", "wl-sky-s");
+				sky.innerHTML = icon(said.icon);
+				line.appendChild(sky);
+				line.appendChild(el("span", "wl-t", said.temperature));
+				if (w > h * 4) line.appendChild(el("span", "wl-cond", said.condition));
+			},
+		};
+	}
+
+	function weatherBig(box, one, w, h) {
+		sized(box, Math.min(h / 10.6, w / 7));
+		var holder = el("div", "wl-center");
+		box.appendChild(holder);
+		return {
+			update: function (one) {
+				var said = whole(one);
+				show(box, !!said);
+				if (!said) return;
+				holder.innerHTML = "";
+				var sky = el("div", "wl-sky");
+				sky.innerHTML = icon(said.icon);
+				holder.appendChild(sky);
+				holder.appendChild(el("div", "wl-giant", String(said.temperature).replace(/[CF]$/, "")));
+				holder.appendChild(el("div", "wl-cond", said.condition));
+				holder.appendChild(highLow(said));
+			},
+		};
+	}
+
+	// a face, its hands turned as the time is; the second hand steps
+	function clockAnalog(box, one, w, h) {
+		var side = Math.min(w, h);
+		var ns = "http://www.w3.org/2000/svg";
+		var face = document.createElementNS(ns, "svg");
+		face.setAttribute("viewBox", "0 0 100 100");
+		face.setAttribute("class", "wl-face");
+		face.style.width = face.style.height = side + "px";
+		var marks = "";
+		for (var i = 0; i < 60; i++) {
+			var big = i % 5 === 0;
+			marks += '<line x1="50" y1="' + (big ? 4 : 5) + '" x2="50" y2="' + (big ? 11 : 7.5) + '" stroke="currentColor" stroke-width="' + (big ? 2.2 : 0.8) + '" stroke-linecap="round" opacity="' + (big ? 1 : 0.45) + '" transform="rotate(' + i * 6 + ' 50 50)"/>';
+		}
+		face.innerHTML = marks +
+			'<line class="h" x1="50" y1="54" x2="50" y2="27" stroke="currentColor" stroke-width="4.4" stroke-linecap="round"/>' +
+			'<line class="m" x1="50" y1="56" x2="50" y2="15" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>' +
+			'<line class="s" x1="50" y1="60" x2="50" y2="12" stroke-width="1.2" stroke-linecap="round"/>' +
+			'<circle cx="50" cy="50" r="2.6" fill="currentColor"/>';
+		var holder = el("div", "wl-center");
+		holder.appendChild(face);
+		box.appendChild(holder);
+		var hands = { h: face.querySelector(".h"), m: face.querySelector(".m"), s: face.querySelector(".s") };
+		hands.s.setAttribute("stroke", accent());
+		function turn(node, degrees) {
+			node.setAttribute("transform", "rotate(" + degrees + " 50 50)");
+		}
+		function tick() {
+			var d = local();
+			var seconds = d.getUTCSeconds();
+			var minutes = d.getUTCMinutes() + seconds / 60;
+			turn(hands.h, ((d.getUTCHours() % 12) + minutes / 60) * 30);
+			turn(hands.m, minutes * 6);
+			turn(hands.s, seconds * 6);
+		}
+		tick();
+		var every = setInterval(tick, 1000);
+		return {
+			update: function () {
+				hands.s.setAttribute("stroke", accent());
+			},
+			drop: function () {
+				clearInterval(every);
+			},
+		};
+	}
+
+	// a page of a calendar: the weekday, the day large, the month
+	function clockDate(box, one, w, h) {
+		sized(box, Math.min(h / 7, w / 6));
+		var holder = el("div", "wl-center");
+		var weekday = el("div", "wl-wd wl-caps");
+		var day = el("div", "wl-day-n");
+		var month = el("div", "wl-sub");
+		holder.appendChild(weekday);
+		holder.appendChild(day);
+		holder.appendChild(month);
+		box.appendChild(holder);
+		function draw() {
+			var parts = dayParts || {};
+			var d = local();
+			text(weekday, parts.weekday || "");
+			text(day, parts.day || d.getUTCDate());
+			text(month, [parts.month, parts.year].filter(function (one) { return one; }).join(" "));
+		}
+		draw();
+		var every = setInterval(draw, 60000);
+		return { update: draw, drop: function () { clearInterval(every); } };
+	}
+
+	// the time large, the weekday and date beneath it, set to one side
+	function clockStacked(box, one, w, h) {
+		sized(box, Math.min(h / 6.2, w / 8.6));
+		var holder = el("div", "wl-stack");
+		var time = el("div", "wl-time");
+		var day = el("div", "wl-wd");
+		var date = el("div", "wl-sub");
+		holder.appendChild(time);
+		holder.appendChild(day);
+		holder.appendChild(date);
+		box.appendChild(holder);
+		var s = settingsOf(one);
+		function tick() {
+			var parts = dayParts || {};
+			text(time, hhmm(local(), s.hours === "12"));
+			text(day, parts.weekday || "");
+			text(date, [parts.day, parts.month].filter(function (one) { return one; }).join(" "));
+		}
+		tick();
+		var every = setInterval(tick, 5000);
+		return { update: function (fresh) { s = settingsOf(fresh); tick(); }, drop: function () { clearInterval(every); } };
+	}
+
+	function clockMinimal(box, one, w, h) {
+		sized(box, Math.min(h / 1.3, w / 3.1));
+		var time = el("div", "wl-thin");
+		var holder = el("div", "wl-center");
+		holder.appendChild(time);
+		box.appendChild(holder);
+		var s = settingsOf(one);
+		function tick() {
+			text(time, hhmm(local(), s.hours === "12"));
+		}
+		tick();
+		var every = setInterval(tick, 5000);
+		return { update: function (fresh) { s = settingsOf(fresh); tick(); }, drop: function () { clearInterval(every); } };
+	}
+
+	// one line at a time, each held a while and crossfaded to the next
+	function tickerFade(box, one, w, h) {
+		sized(box, h / 2.2);
+		var line = el("div", "wl-fade");
+		box.appendChild(line);
+		var words = [];
+		var at = 0;
+		function next() {
+			if (!words.length) return;
+			line.style.opacity = 0;
+			setTimeout(function () {
+				text(line, words[at % words.length]);
+				line.style.fontSize = "";
+				if (line.scrollWidth > line.clientWidth) line.style.fontSize = (0.75 * line.clientWidth) / line.scrollWidth + "em";
+				line.style.opacity = 1;
+				at++;
+			}, 500);
+		}
+		var every = setInterval(next, 6000);
+		return {
+			update: function (one) {
+				var s = settingsOf(one);
+				var fresh = rows(one).map(function (r) { return r.text; }).filter(Boolean);
+				if (s.text) fresh.unshift(s.text);
+				var changed = fresh.join("|") !== words.join("|");
+				words = fresh;
+				if (changed) { at = 0; next(); }
+			},
+			drop: function () { clearInterval(every); },
+		};
+	}
+
+	// a label in the brand's colour, and the line running beside it
+	function tickerLabelled(box, one, w, h) {
+		sized(box, h / 2.2);
+		var band = el("div", "wl-labelled");
+		var label = el("div", "wl-label");
+		var rest = el("div", "wl-rest");
+		band.appendChild(label);
+		band.appendChild(rest);
+		box.appendChild(band);
+		var inner = null;
+		return {
+			update: function (one) {
+				text(label, settingsOf(one).label || "");
+				label.style.background = accent();
+				inner = inner || KINDS.Ticker(rest, one, rest.offsetWidth || w * 0.8, h);
+				inner.update(one);
+			},
+		};
+	}
+
+	// a board as a list: each item, its state's colour, its state and for how long
+	function boardList(box, one, w, h) {
+		var list = el("div", "wl-rows");
+		box.appendChild(list);
+		var last = one;
+		function draw() {
+			var s = settingsOf(last);
+			var items = rows(last);
+			sized(box, Math.min(h / (Math.max(items.length, 1) * 1.8 + 0.4), w / 18));
+			list.innerHTML = "";
+			for (var i = 0; i < items.length; i++) {
+				var row = el("div", "wl-row");
+				var dot = el("span", "wl-dot");
+				dot.style.background = items[i].colour || accent();
+				row.appendChild(dot);
+				row.appendChild(el("div", "wl-name", items[i].item));
+				row.appendChild(el("div", "wl-state", items[i].state || items[i].value || ""));
+				if (s.time) row.appendChild(el("div", "wl-since", lasted(items[i].since)));
+				list.appendChild(row);
+			}
+		}
+		var timer = setInterval(draw, 20000);
+		return { update: function (fresh) { last = fresh; draw(); }, drop: function () { clearInterval(timer); } };
+	}
+
+	// how many items are in each state, in the state's colour
+	function boardSummary(box, one, w, h) {
+		var grid = el("div", "wl-grid");
+		box.appendChild(grid);
+		return {
+			update: function (one) {
+				var states = [];
+				var counts = {};
+				var colours = {};
+				var items = rows(one);
+				for (var i = 0; i < items.length; i++) {
+					var state = items[i].state || items[i].value || "";
+					if (!(state in counts)) { states.push(state); counts[state] = 0; colours[state] = items[i].colour; }
+					counts[state]++;
+				}
+				var count = Math.max(states.length, 1);
+				sized(box, Math.min(w / count / 4.6, h / 5.4));
+				grid.innerHTML = "";
+				for (var s = 0; s < states.length; s++) {
+					var cell = el("div", "wl-cell");
+					cell.style.width = 100 / count + "%";
+					cell.style.height = "100%";
+					var inside = el("div", "wl-cell-in");
+					var figure = el("div", "wl-huge", counts[states[s]]);
+					figure.style.color = colours[states[s]] || accent();
+					inside.appendChild(figure);
+					inside.appendChild(el("div", "wl-sub", states[s]));
+					cell.appendChild(inside);
+					grid.appendChild(cell);
+				}
+			},
+		};
+	}
+
+	// the code beside its caption, for a wide band
+	function qrSide(box, one, w, h) {
+		sized(box, Math.min(h / 4, w / 12));
+		var holder = el("div", "wl-side");
+		var code = el("div", "wl-code");
+		code.style.width = code.style.height = h + "px";
+		var caption = el("div", "wl-caption");
+		holder.appendChild(code);
+		holder.appendChild(caption);
+		box.appendChild(holder);
+		return {
+			update: function (one) {
+				code.innerHTML = (one.data && one.data.svg) || "";
+				text(caption, settingsOf(one).caption || "");
+			},
+		};
+	}
+
+	// a row a service: its letter, its name, how many are waiting
+	function kioskList(box, one, w, h) {
+		var panel = el("div", "wl-kiosk");
+		var heading = el("div", "wl-k-head");
+		var list = el("div", "wl-k-rows");
+		panel.appendChild(heading);
+		panel.appendChild(list);
+		box.appendChild(panel);
+		document.body.style.cursor = "default";
+		return {
+			update: function (one) {
+				var services = (whole(one) || {}).services || [];
+				sized(box, Math.min(h / (Math.max(services.length, 1) * 2.6 + 2.6), w / 17));
+				text(heading, settingsOf(one).heading || "");
+				list.innerHTML = "";
+				for (var i = 0; i < services.length; i++) {
+					var row = el("button", "wl-k-row");
+					var letter = el("span", "wl-k-pre", services[i].prefix || services[i].service.charAt(0));
+					letter.style.background = accent();
+					row.appendChild(letter);
+					row.appendChild(el("span", "wl-name", services[i].service));
+					row.appendChild(el("span", "wl-k-wait", services[i].waiting ? word("queued").replace("{0}", services[i].waiting) : ""));
+					row.appendChild(el("span", "wl-k-go", document.documentElement.dir === "rtl" ? "‹" : "›"));
+					row.setAttribute("data-service", services[i].service);
+					row.onclick = function (e) {
+						take(one.id, e.currentTarget.getAttribute("data-service"));
+					};
+					list.appendChild(row);
+				}
+			},
+		};
+	}
+
+	var LAYOUTS = {
+		"Queue Board": { latest: queueLatest, counters: queueCounters, list: queueList, waiting: queueWaiting },
+		Weather: { today: weatherToday, hours: weatherHours, list: weatherList, compact: weatherCompact, big: weatherBig },
+		Clock: { analog: clockAnalog, date: clockDate, stacked: clockStacked, minimal: clockMinimal },
+		Ticker: { fade: tickerFade, labelled: tickerLabelled },
+		Board: { list: boardList, summary: boardSummary },
+		"QR Code": { side: qrSide },
+		Kiosk: { list: kioskList },
 	};
 
 	function dayName(one) {
@@ -1502,6 +2081,7 @@
 			zone = kept.zone || 0;
 			brand = kept.brand || {};
 			today = kept.today || "";
+			dayParts = kept.day || null;
 			screen = kept.screen || screen;
 			channel = kept.channel;
 			speaks(channel);

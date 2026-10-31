@@ -36,6 +36,21 @@ next time they look.
 
 A widget can show always, or only between two times of day.
 
+## Ways to Show
+
+Most widgets can show the same thing in more than one way. Choose one under
+**Layout** in the panel; the widget keeps its source and its look.
+
+| Widget | Layouts |
+| --- | --- |
+| **Queue Board** | Now Serving, Latest Call (one ticket, large), Every Counter (a tile for each counter), Recent Calls, Waiting by Service. |
+| **Weather** | Week Ahead, Today (with the high, low, wind and humidity), By the Hour, Week as a List (each day's low to high drawn to scale), Compact, Large Temperature. |
+| **Clock** | Digital, Analog, Date Card, Time and Day, Time Only. |
+| **Ticker** | Scrolling, One at a Time, With a Label. |
+| **Board** | Tiles, List, Count by State. |
+| **QR Code** | Code and Caption, Caption Beside. |
+| **Kiosk** | Grid, a tile for each service, or List, a row for each with how many are waiting. |
+
 ## How a Widget Looks
 
 A widget draws only what it shows. Its fill, its words' colour, its font,

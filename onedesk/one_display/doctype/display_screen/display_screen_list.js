@@ -1,7 +1,7 @@
 // Screens: a TV opens /tv, or a radio /radio, and shows a code; Pair a Screen takes the code here.
 frappe.provide("onedesk.display");
 
-onedesk.display.pair = (listview) => {
+onedesk.display.pair = (listview, code) => {
 	const dialog = new frappe.ui.Dialog({
 		title: __("Pair a Screen"),
 		fields: [
@@ -10,6 +10,7 @@ onedesk.display.pair = (listview) => {
 				fieldtype: "Data",
 				label: __("Code"),
 				reqd: 1,
+				default: code || "",
 				description: __("Shown on the screen at {0}, or on a radio at {1}.", [`${location.origin}/tv`, `${location.origin}/radio`]),
 			},
 			{ fieldname: "screen_name", fieldtype: "Data", label: __("Screen Name"), reqd: 1 },
@@ -31,8 +32,7 @@ onedesk.display.pair = (listview) => {
 					{ value: "270", label: __("Turned Left") },
 				],
 				default: "0",
-				label: __("Turn"),
-				description: __("For screens mounted vertically or upside down."),
+				label: __("Rotation"),
 			},
 		],
 		primary_action_label: __("Pair"),
@@ -82,6 +82,9 @@ frappe.listview_settings["Display Screen"] = {
 		onedesk.display.pair(cur_list);
 	},
 	onload(listview) {
+		// a phone that scanned a screen's code arrives here with it (screens._pairing_qr)
+		const scanned = new URLSearchParams(location.search).get("pair_code");
+		if (scanned) onedesk.display.pair(listview, scanned);
 		// The tour's marks (tour.py): the list, and how a screen is added.
 		listview.$result.attr("data-tour", "onedisplay-screens");
 		listview.page.btn_primary.attr("data-tour", "onedisplay-pair");

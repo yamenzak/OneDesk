@@ -170,8 +170,8 @@ def welcome(c: Canvas) -> str:
 	c.logo(6, 7, 22, 9)
 	c.text(6, 30, 60, _("Welcome"), 92, bold=True)
 	c.text(6, 52, 52, _("We are glad you are here. Make yourself at home."), 26, "#FFFFFFD9")
-	c.widget("glass_clock", 72, 7, 22, 20)
-	c.widget("week_ahead", 64, 56, 30, 26, look="Glass")
+	c.widget("time_and_day", 70, 6, 24, 24, look="Glass")
+	c.widget("weather_today", 62, 56, 32, 26, look="Glass")
 	c.widget("news_ticker", 0, 90, 100, 10, look="Dark Glass", settings={"text": _("Opening hours today: 9:00 to 18:00")})
 	return _fade(c.brand, c.deep)
 
@@ -179,10 +179,10 @@ def welcome(c: Canvas) -> str:
 def welcome_tall(c: Canvas) -> str:
 	c.box(-20, -8, 90, 0, "#FFFFFF14", shape="oval", square=True)
 	c.logo(8, 5, 50, 5)
-	c.widget("glass_clock", 8, 16, 84, 12)
+	c.widget("time_and_day", 8, 15, 84, 14, look="Glass")
 	c.text(8, 40, 84, _("Welcome"), 96, bold=True)
 	c.text(8, 52, 84, _("We are glad you are here. Make yourself at home."), 30, "#FFFFFFD9")
-	c.widget("weather_card", 8, 68, 84, 16, look="Glass")
+	c.widget("hourly", 8, 68, 84, 16, look="Glass")
 	c.widget("news_ticker", 0, 93, 100, 7, look="Dark Glass", settings={"text": _("Opening hours today: 9:00 to 18:00")})
 	return _fade(c.brand, c.deep, 180)
 
@@ -195,7 +195,7 @@ def lobby(c: Canvas) -> str:
 	c.text(66, 20, 30, _("Today"), 18, "#FFFFFFA6", bold=True)
 	c.text(66, 27, 30, _("Team meeting\n10:00, Room 2"), 30, bold=True)
 	c.text(66, 46, 30, _("Visitors sign in\nat the front desk"), 24, "#FFFFFFD9")
-	c.widget("weather_card", 66, 64, 30, 22, look="Dark Glass")
+	c.widget("weather_today", 66, 64, 30, 22, look="Dark Glass")
 	c.widget("accent_ticker", 0, 90, 100, 10, settings={"text": _("Welcome to our visitors today")})
 	return NIGHT
 
@@ -241,7 +241,7 @@ def counter(c: Canvas) -> str:
 	c.widget("counter_tile", 5, 26, 58, 64, settings={"item": "1"}, source=_first("Queue"))
 	c.widget("clock_and_date", 68, 8, 27, 22, look="Dark Glass")
 	c.text(68, 40, 27, _("Now serving the number shown"), 22, "#FFFFFFD9")
-	c.widget("compact_queue", 68, 58, 27, 32, look="Dark Glass")
+	c.widget("recent_calls", 68, 58, 27, 32, look="Dark Glass", settings={"rows": 3, "heading": ""})
 	return _fade(c.dark, NIGHT)
 
 
@@ -255,7 +255,7 @@ def status_board(c: Canvas) -> str:
 def rooms(c: Canvas) -> str:
 	c.box(0, 0, 100, 16, CLEAR)
 	c.text(5, 6, 60, _("Rooms"), 40, INK, bold=True)
-	c.widget("light_clock", 74, 4, 22, 16, look="Soft")
+	c.widget("date_card", 80, 3, 15, 17, look="Soft")
 	c.widget("simple_board", 5, 22, 90, 70, look="Plain")
 	return PAPER
 
@@ -263,7 +263,7 @@ def rooms(c: Canvas) -> str:
 def room_sign(c: Canvas) -> str:
 	c.box(0, 0, 38, 100, c.brand)
 	c.text(4, 10, 32, _("Room {0}").format(1), 44, bold=True)
-	c.widget("large_clock", 4, 38, 30, 22)
+	c.widget("analog_clock", 9, 34, 20, 36)
 	c.text(4, 78, 32, _("Book at the front desk"), 18, "#FFFFFFD9")
 	c.widget("door_sign", 44, 12, 50, 76, settings={"item": _("Room {0}").format(1)})
 	return PAPER
@@ -271,7 +271,7 @@ def room_sign(c: Canvas) -> str:
 
 def schedule(c: Canvas) -> str:
 	c.text(6, 7, 60, _("Today's Schedule"), 44, INK, bold=True)
-	c.widget("light_clock", 74, 5, 20, 15, look="Floating")
+	c.widget("date_card", 80, 4, 14, 18, look="Floating")
 	times = [("09:00", _("Morning briefing"), _("Room 1")), ("11:00", _("Training session"), _("Hall")), ("13:00", _("Lunch"), _("Ground floor")), ("15:30", _("Workshop"), _("Room 3"))]
 	for at, (when, what, where) in enumerate(times):
 		top = 26 + at * 16
@@ -287,7 +287,7 @@ def directory(c: Canvas) -> str:
 	c.box(0, 0, 34, 100, c.brand)
 	c.logo(5, 7, 26, 8)
 	c.text(5, 30, 26, _("Directory"), 48, bold=True)
-	c.widget("large_clock", 5, 66, 24, 18)
+	c.widget("time_and_day", 5, 62, 26, 26)
 	floors = [("3", _("Meeting rooms"), "→"), ("2", _("Offices"), "→"), ("1", _("Reception and cafe"), "←"), ("0", _("Parking"), "↓")]
 	for at, (level, what, way) in enumerate(floors):
 		top = 10 + at * 21
@@ -345,8 +345,9 @@ def rates(c: Canvas) -> str:
 
 
 def clock_weather(c: Canvas) -> str:
-	c.widget("large_clock", 20, 12, 60, 46)
-	c.widget("week_ahead", 25, 62, 50, 28, look="Glass")
+	c.widget("analog_clock", 7, 12, 34, 76)
+	c.widget("weather_today", 48, 14, 46, 34, look="Glass")
+	c.widget("hourly", 48, 54, 46, 32, look="Glass")
 	return _fade(c.brand, c.deep, 160)
 
 
@@ -406,15 +407,15 @@ def thanks(c: Canvas) -> str:
 	c.widget("rotating_messages", 6, 18, 56, 30, look="Plain")
 	c.text(6, 54, 56, _("Your feedback helps us do better."), 26, "#FFFFFFD9")
 	c.widget("give_feedback", 68, 18, 26, 46, look="Floating")
-	c.widget("news_ticker", 0, 90, 100, 10, look="Dark Glass")
+	c.widget("one_at_a_time", 0, 90, 100, 10, look="Dark Glass", settings={"text": _("Thank you for visiting")})
 	return _fade(c.brand, c.deep)
 
 
 def sidebar(c: Canvas) -> str:
 	c.box(72, 0, 28, 100, NIGHT)
 	c.logo(75, 5, 22, 8)
-	c.widget("clock_and_date", 75, 22, 22, 16, look="Plain")
-	c.widget("weather_card", 75, 40, 22, 26, look="Dark Glass")
+	c.widget("time_and_day", 75, 20, 22, 18, look="Plain")
+	c.widget("week_list", 75, 40, 22, 28, look="Dark Glass", settings={"days": 3})
 	c.widget("visit_website", 79, 70, 14, 26, look="Light Card")
 	return NIGHT
 
@@ -423,7 +424,7 @@ def lower_third(c: Canvas) -> str:
 	c.box(0, 82, 100, 18, NIGHT)
 	c.box(0, 82, 1, 18, c.brand, layer=2)
 	c.logo(3, 85, 22, 12)
-	c.widget("news_ticker", 26, 84, 57, 14, look="Plain")
+	c.widget("labelled_ticker", 26, 85, 57, 12, look="Plain")
 	c.widget("corner_clock", 85, 85, 12, 12, look="Accent Pill")
 	return NIGHT
 
@@ -433,7 +434,7 @@ def banner(c: Canvas) -> str:
 	c.logo(2, 25, 18, 50)
 	c.text(26, 18, 50, _("Welcome"), 64, bold=True)
 	c.text(26, 58, 50, _("We are glad you are here"), 28, "#FFFFFFD9")
-	c.widget("clock_and_date", 80, 15, 17, 70, look="Glass")
+	c.widget("time_and_day", 79, 12, 18, 76, look="Glass")
 	return _fade(c.dark, NIGHT, 90)
 
 
@@ -443,6 +444,32 @@ def banner_ticker(c: Canvas) -> str:
 	c.widget("news_ticker", 14, 0, 74, 100, look="Plain", settings={"text": _("Welcome to our visitors today")})
 	c.widget("corner_clock", 89, 20, 10, 60, look="Accent")
 	return NIGHT
+
+
+def every_counter(c: Canvas) -> str:
+	c.logo(4, 5, 30, 8)
+	c.widget("corner_clock", 80, 4, 16, 11, look="Dark Glass")
+	c.widget("every_counter", 4, 20, 60, 68)
+	c.widget("latest_call", 68, 20, 28, 40)
+	c.widget("waiting_count", 68, 64, 28, 24, look="Dark Glass")
+	return _fade(c.deep, NIGHT)
+
+
+def weather(c: Canvas) -> str:
+	c.text(5, 7, 60, _("Weather"), 40, bold=True)
+	c.widget("date_card", 80, 5, 15, 26, look="Glass")
+	c.widget("big_temperature", 5, 22, 32, 46)
+	c.widget("week_list", 42, 24, 30, 46, look="Plain")
+	c.widget("hourly", 5, 72, 90, 22, look="Glass")
+	return _fade(c.brand, c.deep, 170)
+
+
+def status_glance(c: Canvas) -> str:
+	c.text(4, 5, 60, _("Status at a Glance"), 40, bold=True)
+	c.widget("time_and_day", 76, 3, 20, 16)
+	c.widget("board_summary", 4, 22, 92, 26, look="Plain")
+	c.widget("board_list", 4, 52, 92, 42, look="Dark Glass")
+	return _fade(c.deep, NIGHT)
 
 
 #: key: (builder, shape, group, name, what it is for)
@@ -455,16 +482,19 @@ STARTERS = {
 	"now_serving": (now_serving, "wide", "queues", _lt("Now Serving"), _lt("The queue, how it works, and a feedback code.")),
 	"queue_full": (queue_full, "wide", "queues", _lt("Queue, Full Screen"), _lt("Only the queue, as large as it goes.")),
 	"counter": (counter, "wide", "queues", _lt("Counter"), _lt("The ticket one counter is serving, for above it.")),
+	"every_counter": (every_counter, "wide", "queues", _lt("Every Counter"), _lt("What each counter is serving, and the latest call large.")),
 	"queue_tall": (queue_tall, "tall", "queues", _lt("Queue, Standing"), _lt("The queue on a screen on its side.")),
 	"kiosk_tall": (kiosk_tall, "tall", "queues", _lt("Ticket Kiosk"), _lt("Buttons that issue a ticket, for a touch screen.")),
 	"status_board": (status_board, "wide", "boards", _lt("Status Board"), _lt("Every item on a board in columns.")),
 	"rooms": (rooms, "wide", "boards", _lt("Rooms"), _lt("Which rooms are free and which are in use.")),
 	"room_sign": (room_sign, "wide", "boards", _lt("Room Sign"), _lt("One room's state, for beside its door.")),
+	"status_glance": (status_glance, "wide", "boards", _lt("Status at a Glance"), _lt("How many items are in each state, and every item below.")),
 	"schedule": (schedule, "wide", "information", _lt("Today's Schedule"), _lt("What happens today, when and where.")),
 	"directory": (directory, "wide", "information", _lt("Directory"), _lt("Where everything is, floor by floor.")),
 	"announcement": (announcement, "wide", "information", _lt("Announcement"), _lt("One piece of news with a picture.")),
 	"notices_tall": (notices_tall, "tall", "information", _lt("Notice Board"), _lt("Several notices on a screen on its side.")),
 	"figures": (figures, "wide", "information", _lt("Figures"), _lt("Four figures and progress to a goal.")),
+	"weather": (weather, "wide", "information", _lt("Weather"), _lt("The temperature large, the week and the next hours.")),
 	"rates": (rates, "wide", "information", _lt("Exchange Rates"), _lt("Rates from an Exchange Rates source, with the time.")),
 	"countdown": (countdown, "wide", "promotion", _lt("Countdown"), _lt("Days, hours and minutes to an opening or an event.")),
 	"promotion": (promotion, "wide", "promotion", _lt("Offer"), _lt("A picture, an offer, its price and a code.")),

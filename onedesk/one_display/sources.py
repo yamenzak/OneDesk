@@ -312,7 +312,7 @@ def condition(code) -> tuple[str, str]:
 	code = cint(code)
 	for codes, label, icon in CONDITIONS:
 		if code in codes:
-			return _(label), icon
+			return str(label), icon
 	return "", "cloud"
 
 
@@ -329,6 +329,8 @@ def _weather(latitude, longitude, units: str = "Metric") -> dict:
 			"longitude": flt(longitude),
 			"current": "temperature_2m,weather_code,wind_speed_10m,relative_humidity_2m",
 			"daily": "temperature_2m_max,temperature_2m_min,weather_code",
+			"hourly": "temperature_2m,weather_code",
+			"forecast_hours": 13,
 			"timezone": "auto",
 			"forecast_days": 6,
 			"temperature_unit": "fahrenheit" if imperial else "celsius",
@@ -342,25 +344,46 @@ def _weather(latitude, longitude, units: str = "Metric") -> dict:
 	daily = said.get("daily") or {}
 	label, icon = condition(now.get("weather_code"))
 	degree = "°F" if imperial else "°C"
+	return _shaped(now, daily, said.get("hourly") or {}, degree, "mph" if imperial else "km/h", frappe.local.lang or "en")
+
+
+def _shaped(now: dict, daily: dict, hourly: dict, degree: str, speed: str, lang: str) -> dict:
+	"""Open-Meteo's answer as a widget draws it: now, the next hours and the
+	days, each day named in the reader's language and with its numbers bare
+	too, for a range drawn to scale."""
+	from onedesk.one_display.programme import _babel
+
+	label, icon = condition(now.get("weather_code"))
 	days = []
 	for i, day in enumerate(daily.get("time") or []):
 		day_label, day_icon = condition((daily.get("weather_code") or [None])[i])
+		high, low = round(flt(daily["temperature_2m_max"][i])), round(flt(daily["temperature_2m_min"][i]))
 		days.append(
 			{
 				"date": day,
-				"high": f"{round(flt(daily['temperature_2m_max'][i]))}{degree}",
-				"low": f"{round(flt(daily['temperature_2m_min'][i]))}{degree}",
+				"label": _("Today") if i == 0 else _babel(day, "EEE", lang),
+				"high": f"{high}{degree}",
+				"low": f"{low}{degree}",
+				"hi": high,
+				"lo": low,
 				"condition": day_label,
 				"icon": day_icon,
 			}
 		)
+	hours = []
+	for i, at in enumerate((hourly.get("time") or [])[:13]):
+		_said, hour_icon = condition((hourly.get("weather_code") or [None])[i])
+		hours.append({"label": _("Now") if i == 0 else str(at)[11:16], "temperature": f"{round(flt(hourly['temperature_2m'][i]))}°", "icon": hour_icon})
 	return {
 		"temperature": f"{round(flt(now.get('temperature_2m')))}{degree}",
 		"condition": label,
 		"icon": icon,
-		"wind": f"{round(flt(now.get('wind_speed_10m')))} {'mph' if imperial else 'km/h'}",
+		"wind": f"{round(flt(now.get('wind_speed_10m')))} {speed}",
 		"humidity": f"{cint(now.get('relative_humidity_2m'))}%",
+		"high": days[0]["high"] if days else "",
+		"low": days[0]["low"] if days else "",
 		"days": days,
+		"hours": hours,
 	}
 
 

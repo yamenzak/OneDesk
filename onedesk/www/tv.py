@@ -43,16 +43,16 @@ def get_context(context):
 	context.mark = _mark()
 	context.words_json = json.dumps(
 		{
-			"pair": _("Pair this radio") if context.radio else _("Pair this screen"),
+			"pair": _("Connect this radio") if context.radio else _("Connect this screen"),
+			"scan": _("Or scan with your phone"),
 			"where": brand["name"],
 			"host": frappe.utils.get_url().split("://", 1)[-1],
 			"done": _("Connected"),
-			"how": _("Enter this code in OneDisplay to connect this radio.")
-			if context.radio
-			else _("Enter this code in OneDisplay to connect this screen."),
+			"how": _("Open Screens in OneDisplay, add a screen and enter this code."),
 			"silent": _("Nothing playing"),
 			"counter": _("Counter"),
 			"waiting": _("Waiting"),
+			"queued": _("{0} waiting"),
 			"nobody": _("No ticket is being served."),
 			"your": _("Your ticket"),
 			"ahead": _("{0} ahead of you"),

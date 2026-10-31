@@ -13,6 +13,9 @@ on a TV remote.
    Choose its sound zone too if its own speakers play the zone. The screen
    starts playing within a few seconds.
 
+Or scan the code beside the number with your phone: it opens the same step
+with the code already filled in.
+
 The screen remembers it was added, through power cuts and restarts. Deleting
 it here sends it back to showing a code.
 

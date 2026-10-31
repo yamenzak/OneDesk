@@ -145,7 +145,9 @@ def test_every_widget_is_declared_soundly():
 		for setting in one["settings"]:
 			assert setting[1] in kinds, f"{name}'s {setting[0]} is drawn as {setting[1]}"
 			if setting[1] == said["SELECT"]:
-				assert setting[3] in setting[4], f"{name}'s {setting[0]} starts on a choice it doesn't offer"
+				# a choice is a value, or a value with the name it is shown by
+				offered = [one[0] if isinstance(one, tuple) else one for one in setting[4]]
+				assert setting[3] in offered, f"{name}'s {setting[0]} starts on a choice it doesn't offer"
 		width, height = one["size"]
 		assert 0 < width <= 100 and 0 < height <= 100, name
 
@@ -182,6 +184,9 @@ def test_every_ready_made_widget_is_sound():
 		assert kind in said["TYPES"], f"{key} is a kind there isn't"
 		allowed = {setting[0] for setting in said["TYPES"][kind]["settings"]}
 		assert set(settings) <= allowed, f"{key} sets what a {kind} does not have: {set(settings) - allowed}"
+		if "layout" in settings:
+			layouts = next(setting[4] for setting in said["TYPES"][kind]["settings"] if setting[0] == "layout")
+			assert settings["layout"] in [one[0] for one in layouts], f"{key} is drawn in a layout {kind} does not have"
 		assert look in said["LOOKS"], f"{key} wears a look there isn't"
 		assert 0 < width <= 100 and 0 < height <= 100, key
 
@@ -215,6 +220,23 @@ def test_ready_made_code_runs_on_an_old_tvs_browser():
 		for script in re.findall(r"<script>(.*?)</script>", code, re.S):
 			parsed = subprocess.run(["node", "-e", f"require({json.dumps(str(acorn))}).parse({json.dumps(script)}, {{ecmaVersion: 5}})"], capture_output=True, text=True)
 			assert parsed.returncode == 0, f"{name} is not ES5: {parsed.stderr[-300:]}"
+
+
+def test_every_layout_is_drawn_by_the_player():
+	"""A kind's first layout is its renderer in tv.js KINDS; every other one
+	it offers has its own renderer in LAYOUTS, so choosing it changes what is
+	drawn and not only the box around it."""
+	said = _widgets()
+	tv = (ROOT / "onedesk/public/js/one_display/tv.js").read_text()
+	block = tv[tv.index("var LAYOUTS = {") : tv.index("};", tv.index("var LAYOUTS = {"))]
+	for kind, spec in said["TYPES"].items():
+		layout = next((setting for setting in spec["settings"] if setting[0] == "layout"), None)
+		if not layout:
+			continue
+		assert layout[3] == layout[4][0][0], f"{kind} starts on its first layout"
+		line = next((one for one in block.splitlines() if one.strip().startswith((f'"{kind}":', f"{kind}:"))), "")
+		for key, _label in layout[4][1:]:
+			assert re.search(rf"\b{key}: \w+", line), f"{kind}'s {key} layout has no renderer in tv.js"
 
 
 @pytest.mark.skipif(not shutil.which("node"), reason="no node to parse the player with")

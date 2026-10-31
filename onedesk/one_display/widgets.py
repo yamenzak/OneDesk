@@ -22,6 +22,7 @@ TYPES = {
 		"sources": ("Queue",),
 		"slots": (),
 		"settings": (
+			("layout", SELECT, _lt("Layout"), "now_serving", (("now_serving", _lt("Now Serving")), ("latest", _lt("Latest Call")), ("counters", _lt("Every Counter")), ("list", _lt("Recent Calls")), ("waiting", _lt("Waiting by Service")))),
 			("heading", TEXT, _lt("Heading"), _lt("Now Serving")),
 			("rows", NUMBER, _lt("Rows"), 6),
 			("waiting", CHECK, _lt("Show Waiting Count"), 1),
@@ -33,7 +34,10 @@ TYPES = {
 		"about": _lt("Buttons that issue a ticket for each service."),
 		"sources": ("Queue",),
 		"slots": (),
-		"settings": (("heading", TEXT, _lt("Heading"), _lt("Take a ticket")),),
+		"settings": (
+			("layout", SELECT, _lt("Layout"), "grid", (("grid", _lt("Grid")), ("list", _lt("List")))),
+			("heading", TEXT, _lt("Heading"), _lt("Take a ticket")),
+		),
 		"size": (100, 100),
 	},
 	"Ticker": {
@@ -42,8 +46,10 @@ TYPES = {
 		"sources": ("Records", "Record", "Report", "Feed", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
+			("layout", SELECT, _lt("Layout"), "scroll", (("scroll", _lt("Scrolling")), ("fade", _lt("One at a Time")), ("labelled", _lt("With a Label")))),
 			("text", LONG, _lt("Words"), ""),
 			("speed", NUMBER, _lt("Scroll Duration (Seconds)"), 30),
+			("label", TEXT, _lt("Label"), _lt("News")),
 		),
 		"size": (100, 8),
 	},
@@ -65,6 +71,7 @@ TYPES = {
 		"sources": (),
 		"slots": (),
 		"settings": (
+			("layout", SELECT, _lt("Layout"), "digital", (("digital", _lt("Digital")), ("analog", _lt("Analog")), ("date", _lt("Date Card")), ("stacked", _lt("Time and Day")), ("minimal", _lt("Time Only")))),
 			("date", CHECK, _lt("Show Date"), 1),
 			("hours", SELECT, _lt("Hours"), "24", ("24", "12")),
 		),
@@ -75,7 +82,10 @@ TYPES = {
 		"about": _lt("Current weather and forecast for a place."),
 		"sources": ("Weather",),
 		"slots": (),
-		"settings": (("days", NUMBER, _lt("Forecast Days"), 3),),
+		"settings": (
+			("layout", SELECT, _lt("Layout"), "week", (("week", _lt("Week Ahead")), ("today", _lt("Today")), ("hours", _lt("By the Hour")), ("list", _lt("Week as a List")), ("compact", _lt("Compact")), ("big", _lt("Large Temperature")))),
+			("days", NUMBER, _lt("Forecast Days"), 3),
+		),
 		"size": (25, 30),
 	},
 	"Board": {
@@ -84,6 +94,7 @@ TYPES = {
 		"sources": ("Board",),
 		"slots": (),
 		"settings": (
+			("layout", SELECT, _lt("Layout"), "tiles", (("tiles", _lt("Tiles")), ("list", _lt("List")), ("summary", _lt("Count by State")))),
 			("columns", NUMBER, _lt("Columns"), 0),
 			("time", CHECK, _lt("Show Time in State"), 1),
 			("value", CHECK, _lt("Show Value"), 1),
@@ -119,6 +130,7 @@ TYPES = {
 		"sources": ("Record",),
 		"slots": ("link",),
 		"settings": (
+			("layout", SELECT, _lt("Layout"), "card", (("card", _lt("Code and Caption")), ("side", _lt("Caption Beside")))),
 			("link", TEXT, _lt("Address"), ""),
 			("caption", TEXT, _lt("Caption"), ""),
 		),
@@ -236,12 +248,13 @@ window.one_display_changed = draw; draw();
 
 PRESETS = (
 	# key, kind, label, settings, look, size
-	("large_clock", "Clock", _lt("Large Clock"), {"date": 0}, "Plain", (40, 30)),
 	("clock_and_date", "Clock", _lt("Clock and Date"), {"date": 1}, "Card", (24, 20)),
 	("corner_clock", "Clock", _lt("Corner Clock"), {"date": 0}, "Pill", (16, 12)),
-	("light_clock", "Clock", _lt("Light Clock"), {"date": 1, "hours": "12"}, "Light Card", (24, 20)),
-	("accent_clock", "Clock", _lt("Accent Clock"), {"date": 1}, "Accent", (24, 20)),
-	("glass_clock", "Clock", _lt("Glass Clock"), {"date": 1}, "Glass", (24, 20)),
+	("large_clock", "Clock", _lt("Time Only"), {"layout": "minimal"}, "Plain", (40, 26)),
+	("analog_clock", "Clock", _lt("Analog Clock"), {"layout": "analog"}, "Plain", (20, 36)),
+	("analog_card", "Clock", _lt("Analog Clock on a Card"), {"layout": "analog"}, "Floating", (20, 36)),
+	("date_card", "Clock", _lt("Date Card"), {"layout": "date"}, "Light Card", (16, 30)),
+	("time_and_day", "Clock", _lt("Time and Day"), {"layout": "stacked"}, "Plain", (30, 30)),
 	("headline", "Text", _lt("Headline"), {"text": _lt("Welcome"), "size": 9}, "Plain", (80, 14)),
 	("centred_title", "Text", _lt("Centred Title"), {"text": _lt("Welcome"), "size": 10, "align": "center"}, "Plain", (90, 16)),
 	("subheading", "Text", _lt("Subheading"), {"text": _lt("We are glad you are here"), "size": 5}, "Plain", (70, 9)),
@@ -252,23 +265,31 @@ PRESETS = (
 	("price", "Text", _lt("Price"), {"text": "24.00", "size": 7, "align": "end"}, "Plain", (20, 10)),
 	("highlight_text", "Text", _lt("Highlighted Text"), {"text": _lt("Today only"), "size": 5, "align": "center"}, "Highlight", (30, 10)),
 	("news_ticker", "Ticker", _lt("News Ticker"), {}, "Band", (100, 8)),
-	("accent_ticker", "Ticker", _lt("Accent Ticker"), {}, "Accent Band", (100, 8)),
-	("light_ticker", "Ticker", _lt("Light Ticker"), {}, "Light Band", (100, 8)),
-	("slow_ticker", "Ticker", _lt("Slow Ticker"), {"speed": 60}, "Band", (100, 8)),
-	("alert_ticker", "Ticker", _lt("Alert Ticker"), {}, "Alert", (100, 8)),
+	("accent_ticker", "Ticker", _lt("Ticker in Your Colour"), {}, "Accent Band", (100, 8)),
+	("labelled_ticker", "Ticker", _lt("Ticker with a Label"), {"layout": "labelled", "label": _lt("News")}, "Band", (100, 8)),
+	("one_at_a_time", "Ticker", _lt("One Message at a Time"), {"layout": "fade"}, "Accent Band", (100, 8)),
+	("alert_ticker", "Ticker", _lt("Alert Ticker"), {"layout": "labelled", "label": _lt("Notice")}, "Alert", (100, 8)),
 	("now_serving", "Queue Board", _lt("Now Serving"), {}, "Card", (60, 80)),
-	("now_serving_light", "Queue Board", _lt("Now Serving, Light"), {}, "Floating", (60, 80)),
+	("latest_call", "Queue Board", _lt("Latest Call"), {"layout": "latest"}, "Accent", (40, 40)),
+	("every_counter", "Queue Board", _lt("Every Counter"), {"layout": "counters"}, "Plain", (70, 60)),
+	("recent_calls", "Queue Board", _lt("Recent Calls"), {"layout": "list", "rows": 6}, "Card", (40, 70)),
+	("waiting_count", "Queue Board", _lt("Waiting by Service"), {"layout": "waiting"}, "Card", (36, 40)),
 	("compact_queue", "Queue Board", _lt("Compact Queue"), {"rows": 3, "waiting": 0}, "Card", (34, 50)),
 	("full_queue", "Queue Board", _lt("Full Screen Queue"), {"rows": 8}, "Solid", (100, 100)),
 	("ticket_kiosk", "Kiosk", _lt("Ticket Kiosk"), {}, "Solid", (100, 100)),
-	("light_kiosk", "Kiosk", _lt("Light Kiosk"), {}, "Soft", (100, 100)),
+	("light_kiosk", "Kiosk", _lt("Ticket Kiosk as a List"), {"layout": "list"}, "Soft", (100, 100)),
 	("weather_card", "Weather", _lt("Weather Card"), {}, "Card", (25, 30)),
-	("weather_today", "Weather", _lt("Weather Today"), {"days": 0}, "Pill", (18, 12)),
+	("weather_today", "Weather", _lt("Today's Weather"), {"layout": "today"}, "Card", (32, 26)),
+	("hourly", "Weather", _lt("Weather by the Hour"), {"layout": "hours"}, "Glass", (60, 26)),
 	("week_ahead", "Weather", _lt("Week Ahead"), {"days": 5}, "Glass", (40, 30)),
-	("light_weather", "Weather", _lt("Light Weather"), {}, "Light Card", (25, 30)),
+	("week_list", "Weather", _lt("Week as a List"), {"layout": "list", "days": 5}, "Card", (32, 50)),
+	("weather_compact", "Weather", _lt("Compact Weather"), {"layout": "compact"}, "Pill", (16, 9)),
+	("big_temperature", "Weather", _lt("Large Temperature"), {"layout": "big"}, "Plain", (26, 40)),
 	("status_board", "Board", _lt("Status Board"), {}, "Plain", (60, 60)),
 	("board_columns", "Board", _lt("Board in Columns"), {"columns": 4}, "Card", (90, 60)),
 	("simple_board", "Board", _lt("Simple Board"), {"time": 0, "value": 0}, "Light Card", (60, 60)),
+	("board_list", "Board", _lt("Board as a List"), {"layout": "list"}, "Card", (40, 60)),
+	("board_summary", "Board", _lt("Count by State"), {"layout": "summary"}, "Plain", (60, 30)),
 	("status_tile", "Board Item", _lt("Status Tile"), {}, "Card", (30, 30)),
 	("door_sign", "Board Item", _lt("Door Sign"), {}, "Floating", (40, 40)),
 	("counter_tile", "Board Item", _lt("Counter Tile"), {"time": 0}, "Accent", (30, 30)),
@@ -277,6 +298,7 @@ PRESETS = (
 	("framed_picture", "Image", _lt("Framed Picture"), {"fit": "cover"}, "Floating", (40, 40)),
 	("rounded_picture", "Image", _lt("Rounded Picture"), {"fit": "cover"}, "Rounded", (24, 40)),
 	("visit_website", "QR Code", _lt("Visit Our Website"), {"caption": _lt("Scan to visit our website")}, "Light Card", (15, 25)),
+	("qr_beside", "QR Code", _lt("Code with Caption Beside"), {"layout": "side", "caption": _lt("Scan to visit our website")}, "Light Card", (36, 16)),
 	("see_menu", "QR Code", _lt("See the Menu"), {"caption": _lt("Scan for the menu")}, "Light Card", (15, 25)),
 	("give_feedback", "QR Code", _lt("Give Feedback"), {"caption": _lt("Tell us how we did")}, "Floating", (15, 25)),
 	("follow_us", "QR Code", _lt("Follow Us"), {"caption": _lt("Follow us")}, "Accent", (15, 25)),
@@ -305,6 +327,11 @@ def defaults(kind: str) -> dict:
 	}
 
 
+def _choices(options: tuple) -> list:
+	"""A select's choices: plain values, or values with a name to show."""
+	return [{"value": one[0], "label": str(one[1])} if isinstance(one, tuple) else one for one in options]
+
+
 def described(colour: str) -> list[dict]:
 	"""The registry as the editor reads it, its words translated."""
 	return [
@@ -320,7 +347,7 @@ def described(colour: str) -> list[dict]:
 					"kind": kind_,
 					"label": str(label),
 					"default": default if isinstance(default, (int, float)) else str(default),
-					"options": list(rest[0]) if rest else None,
+					"options": _choices(rest[0]) if rest else None,
 				}
 				for key, kind_, label, default, *rest in spec["settings"]
 			],

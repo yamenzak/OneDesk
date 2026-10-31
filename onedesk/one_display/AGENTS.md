@@ -46,11 +46,14 @@ and the demo.
   Chromium 53. `tests/test_display.py` parses it with acorn at `ecmaVersion:
   5`. Nothing is bundled.
 - `screens.start` (guest) gives a six-digit code and a secret; only the
-  secret's hash is kept. `screens.pair` (desk) takes the code. `status` hands
+  secret's hash is kept. The code is shown with a QR code of the desk's
+  Display Screen list with `pair_code` set, so a phone opens the Pair dialog
+  filled in. `screens.pair` (desk) takes the code. `status` hands
   the token over once, then keeps only its hash.
 - `screens.state` (guest, with the token) answers every two seconds with the
   server's time, the screen's turn, mute and dark, the last command, the
-  alert, the brand, today's date in words, the channel (none for a radio)
+  alert, the brand, today's date in words and in parts
+  (`programme.day_parts`, for a date card), the channel (none for a radio)
   and its sound zone (`programme.heard`).
 - **`/radio`** is the same page and script with nothing drawn (`TV.radio`):
   it pairs to a zone and shows the zone's name and what is playing.
@@ -91,6 +94,15 @@ positioned in percent and sized in `em` from their own box, so a layout looks
 the same on any screen. Each kind is a renderer `KINDS[type](box, one, w, h)`
 returning `{update, drop}`; a Custom widget runs in a sandboxed iframe and is
 posted its rows.
+
+**Layouts.** A kind may be drawn more than one way, chosen by its `layout`
+setting (`widgets.TYPES`, a SELECT of value and label). The first is the
+kind's renderer in `KINDS`; the others are in `LAYOUTS[type][layout]`, and
+`test_every_layout_is_drawn_by_the_player` holds that each one offered has
+one. A layout is how the data is arranged (one ticket large, a tile per
+counter, the week drawn to scale); a look is how the box is dressed. Each
+renderer sizes its words from its box so nothing spills, and
+`shim/WidgetMock.vue` draws every layout in the editor with example words.
 
 **The bare widget, as a rule.** A renderer draws its content and behaviour
 and nothing else: a ticker is text moving with its spacing, separator, speed
@@ -161,7 +173,10 @@ instead.
   `defusedxml`. A feed is the workspace's own choice of address, so it is not
   a subprocessor and not an optional service.
 - **Weather** is Open-Meteo through TrustCenter's optional service
-  `display_weather`, off until a workspace turns it on.
+  `display_weather`, off until a workspace turns it on. `sources._shaped`
+  turns its answer into now, today's high and low, thirteen `hours` and the
+  `days`, each named in the reader's language and with bare `hi`/`lo` for a
+  range drawn to scale.
 - **Exchange Rates** are ERPNext's own (`get_exchange_rate`, from the
   workspace's Currency Exchange records), for the listed currencies in the
   source's currency or the company's; a currency with no rate is left out.

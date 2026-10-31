@@ -61,7 +61,16 @@ def start(
 			"last_seen": now_datetime(),
 		}
 	).insert(ignore_permissions=True)
-	return {"screen": screen.name, "code": screen.pair_code, "secret": secret}
+	return {"screen": screen.name, "code": screen.pair_code, "secret": secret, "qr": _pairing_qr(screen.pair_code)}
+
+
+def _pairing_qr(code: str) -> str:
+	"""A code a phone scans to open Pair a Screen with this code filled in."""
+	from frappe.utils import get_url
+
+	from onedesk.one import qr
+
+	return qr.svg(get_url(f"/desk/display-screen?pair_code={code}"))
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
@@ -73,7 +82,7 @@ def status(screen: str, secret: str) -> dict:
 	if not row or not hmac.compare_digest(row.secret_hash or "", _hash(secret)):
 		return {"gone": 1}
 	if row.status != "Paired":
-		return {"code": row.pair_code}
+		return {"code": row.pair_code, "qr": _pairing_qr(row.pair_code)}
 	if not row.token:
 		return {"gone": 1}
 	frappe.db.set_value(DOCTYPE, screen, "token", None, update_modified=False)
@@ -234,6 +243,7 @@ def state(screen: str, token: str, have: str | None = None, report: str | None =
 		"brand": _brand(),
 		"zone": programme.zone_minutes(),
 		"today": programme.today_line(_language(row.channel)),
+		"day": programme.day_parts(_language(row.channel)),
 		"channel": _channel(row.channel, have) if row.kind != "Radio" else None,
 		# what it plays for the speakers it is wired to, if any (programme.heard)
 		"sounds": programme.heard(row.sound_zone, _language(row.channel)),
@@ -290,6 +300,7 @@ def preview(
 		"brand": _brand(),
 		"zone": programme.zone_minutes(),
 		"today": programme.today_line(said["language"]),
+		"day": programme.day_parts(said["language"]),
 		"channel": said,
 	}
 

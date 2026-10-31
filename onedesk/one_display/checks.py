@@ -40,7 +40,8 @@ def onedisplay_pairs_a_screen_and_runs_the_queue():
 
 	with as_user("Guest"):
 		started = screens.start("check")
-		assert screens.status(started["screen"], started["secret"]) == {"code": started["code"]}
+		waiting = screens.status(started["screen"], started["secret"])
+		assert waiting["code"] == started["code"] and "<svg" in waiting["qr"], "a waiting screen shows its code and a code to scan"
 		assert screens.status(started["screen"], "a guess") == {"gone": 1}
 	with as_user(OWNER):
 		screen = screens.pair(started["code"], "Door Kiosk", KIOSK, 90)
