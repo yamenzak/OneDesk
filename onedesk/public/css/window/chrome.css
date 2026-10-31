@@ -118,7 +118,10 @@
 		height: calc(100dvh - var(--page-head-height) - var(--one-bar-offset));
 	}
 
-	body.one-barred .body-sidebar .standard-items-band {
+	/* Search and notifications are the top bar's. Frappe draws them in the
+	   sidebar's band, and newer frappe in the rail's utilities too. */
+	body.one-barred .body-sidebar .standard-items-band,
+	body.one-barred .dock .dock-utilities {
 		display: none;
 	}
 

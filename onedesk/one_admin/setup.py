@@ -189,14 +189,19 @@ class Setup:
 		and us saving it, is rolled: the same token with a new secret, saved
 		before anything else."""
 		field, needs = TOKENS[name]
-		wanted, missing = policies(self.permission_groups(), needs, self.account, self.zone and self.zone["id"], self.buckets_held())
+		groups = self.permission_groups()
+		wanted, missing = policies(groups, needs, self.account, self.zone and self.zone["id"], self.buckets_held())
 		held = next((one for one in self.held_tokens() if one["name"] == name), None)
 		value = self.settings.get_password(field, raise_exception=False)
 		if name == "OneAdmin Storage":
 			value = None if not held or self.settings.r2_key_id != held["id"] else "held"
 		state = OURS
 		if not held:
-			made = self.call("POST", "/user/tokens", token=self.master, json={"name": name, "policies": wanted})["result"]
+			try:
+				made = self.call("POST", "/user/tokens", token=self.master, json={"name": name, "policies": wanted})["result"]
+			except Refused as refused:
+				asked = {one["id"] for policy in wanted for one in policy["permission_groups"]}
+				raise Refused(f"{refused} ({', '.join(one['name'] for one in groups if one['id'] in asked)})") from refused
 			held, value, state = made, made["value"], MADE
 			self.store(name, made["id"], value)
 		else:
@@ -256,6 +261,9 @@ class Setup:
 				raise Refused(_("The token has access to {0} accounts. Enter the Account ID.").format(len(accounts)))
 			found = accounts[0]
 		self.account = found["id"]
+		if wanted != self.account:
+			# what was typed named no account the token reaches (a browser can fill an email in)
+			self.settings.set("cloudflare_account", None)
 		self.keep("cloudflare_account", self.account)
 		self.note("account", OURS, found["name"])
 
@@ -574,7 +582,7 @@ def policies(groups: list[dict], needs: tuple, account: str | None, zone: str | 
 	granted: dict[str, list[str]] = {}
 	missing = []
 	for names in needs:
-		group = next((one for name in names for one in groups if named(one["name"], name)), None)
+		group = next((one for name in names for one in groups if named(one["name"], name) and plain(one)), None)
 		scope = group and next((one for one in (BUCKET, ZONE, ACCOUNT) if one in (group.get("scopes") or [])), None)
 		if not scope:
 			if not names[0].endswith("*"):
@@ -587,6 +595,14 @@ def policies(groups: list[dict], needs: tuple, account: str | None, zone: str | 
 		for scope, ids in granted.items()
 	]
 	return made, missing
+
+
+def plain(group: dict) -> bool:
+	"""Whether a permission is one a user token may hold: granted on the
+	account, a zone or a bucket and nothing narrower. Cloudflare also lists
+	roles scoped to single resources, which a user token is refused. Pure."""
+	scopes = set(group.get("scopes") or [])
+	return bool(scopes) and scopes <= {ACCOUNT, ZONE, BUCKET}
 
 
 def named(name: str, wanted: str) -> bool:

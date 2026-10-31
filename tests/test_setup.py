@@ -108,7 +108,7 @@ def test_one_s_tokens_are_allowed_only_what_was_found():
 	"""Before the account and zone are known, OneAdmin may reach any of them;
 	after, only those. OneAdmin Storage reaches only the two buckets. A name
 	Cloudflare does not have is said, unless it is a * name."""
-	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "TOKENS", "named", "policies", "same"))
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "TOKENS", "named", "plain", "policies", "same"))
 	groups = [
 		{"id": "a", "name": "Workers Scripts Write", "scopes": ["com.cloudflare.api.account"]},
 		{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]},
@@ -124,6 +124,22 @@ def test_one_s_tokens_are_allowed_only_what_was_found():
 	assert not space["same"](early, late) and space["same"](late, list(reversed(late)))
 	storage, _ = space["policies"](groups, space["TOKENS"]["OneAdmin Storage"][1], "acc", "zone", [("default", "one-global"), ("eu", "one-eu")])
 	assert storage == [{"effect": "allow", "permission_groups": [{"id": "b"}], "resources": {"com.cloudflare.edge.r2.bucket.acc_default_one-global": "*", "com.cloudflare.edge.r2.bucket.acc_eu_one-eu": "*"}}]
+
+
+def test_a_role_scoped_to_single_resources_is_never_asked_for():
+	"""Cloudflare lists roles scoped to single resources beside its
+	permissions, some under the same name, and refuses a user token that
+	holds one ("User tokens cannot reference roles with granular resource
+	scopes"). Only a permission on the account, a zone or a bucket is taken."""
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "named", "plain", "policies"))
+	groups = [
+		{"id": "role", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone.dns_record"]},
+		{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]},
+		{"id": "none", "name": "Email Sending Admin", "scopes": []},
+	]
+	made, missing = space["policies"](groups, (("DNS Write",), ("Email Sending*",)), "acc", "zone", [])
+	assert made == [{"effect": "allow", "permission_groups": [{"id": "z"}], "resources": {"com.cloudflare.api.account.zone.zone": "*"}}]
+	assert missing == []
 
 
 def test_a_token_whose_secret_was_lost_is_rolled_not_made_again():

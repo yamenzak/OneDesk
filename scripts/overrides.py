@@ -836,6 +836,13 @@ OVERRIDES = [
 		"this.menu = this.attach_menu(this.wrapper);",
 	),
 	(
+		"A key field is not a sign-in",
+		"a Password field is a plain password input, so a browser fills the saved sign-in email into the field before it (OneAdmin's Account ID, Stripe's Publishable Key); shell.js gives ControlPassword.make_input autocomplete=new-password",
+		"onedesk/public/js/shell.js",
+		"frappe/frappe/public/js/frappe/form/controls/password.js",
+		"frappe.ui.form.ControlPassword = class ControlPassword extends frappe.ui.form.ControlData {",
+	),
+	(
 		"One's desk has no Manage Dock",
 		"frappe's user menu builds its options inline and hands them to frappe.ui.Dropdown; outside.js swaps the Dropdown during create_user_menu to leave the option named workspace-selector out",
 		"onedesk/public/js/outside.js",

@@ -592,6 +592,38 @@ onedesk.shell.Editor = class Editor {
 		Header.prototype.setup_menu = function () {};
 	}
 
+	// A key or secret field is never a sign-in: told so, the browser stops
+	// filling the saved email into the field before it.
+	const Password = frappe.ui.form.ControlPassword;
+	if (Password && !Password.prototype.__one_not_a_login) {
+		Password.prototype.__one_not_a_login = true;
+		const make_input = Password.prototype.make_input;
+		Password.prototype.make_input = function (...args) {
+			const out = make_input.apply(this, args);
+			this.$input?.attr("autocomplete", "new-password");
+			return out;
+		};
+	}
+
+	// A page named like a doctype (presentation, workbook) is the editor for
+	// it: the router takes the doctype first, which shows anyone who can read
+	// it (a System Manager) the record's form instead.
+	const pages_first = () => {
+		for (const slug of Object.keys(frappe.router.routes || {})) {
+			if (frappe.boot?.page_info?.[slug]) delete frappe.router.routes[slug];
+		}
+	};
+	if (frappe.router && !frappe.router.__one_pages_first) {
+		frappe.router.__one_pages_first = true;
+		const setup = frappe.router.setup;
+		frappe.router.setup = function (...args) {
+			const out = setup.apply(this, args);
+			pages_first();
+			return out;
+		};
+		pages_first();
+	}
+
 	// The rail's mark opens One as One's own rail button does. Followed as a
 	// link, the router keeps the app on screen and lands on /desk/<app>/one.
 	const Dock = frappe.ui.Dock;
