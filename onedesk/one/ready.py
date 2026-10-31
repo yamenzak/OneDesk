@@ -2,7 +2,7 @@
 (docs/READY.md). Pure, so the guards read it without a site.
 
 A module's files are its folder, its static files under
-`public/js/<folder>/` and `public/css/<folder>/`, and its screens under
+`public/js/<folder>/`, `public/css/<folder>/` and `public/images/<folder>/`, and its screens under
 `frontend/src/<screens>/`. OUTSIDE lists what still
 sits elsewhere until it moves in; it only shrinks.
 """
@@ -269,11 +269,11 @@ MODULES = {
 		"names": ("one_display", "onedisplay"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "666a43243069", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "666a43243069", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "666a43243069", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "666a43243069", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "666a43243069", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-10-31", "commit": "111e2a8b44db", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-10-31", "commit": "111e2a8b44db", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-10-31", "commit": "111e2a8b44db", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-10-31", "commit": "111e2a8b44db", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-10-31", "commit": "111e2a8b44db", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -734,6 +734,7 @@ def places(module: str) -> list[Path]:
 		APP / spec["folder"],
 		APP / "public" / "js" / spec["folder"],
 		APP / "public" / "css" / spec["folder"],
+		APP / "public" / "images" / spec["folder"],
 		ROOT / "frontend" / "src" / spec["screens"],
 	] + ([ROOT / "frontend" / spec["app"]] if spec.get("app") else [])
 
