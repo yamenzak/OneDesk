@@ -20,7 +20,7 @@ from onedesk.one_legal import assemble, documents, registry  # noqa: E402
 VERSIONS = {
 	"terms": "12.75f55b53",
 	"aup": "1.87e4fdd0",
-	"privacy": "27.cf0b9056",
+	"privacy": "27.9c4c47bd",
 	"cookies": "2.946a434c",
 	"dpa": "7.619281d4",
 	"subprocessors": "5.8a640a22",
@@ -43,6 +43,7 @@ HOSTS = {
 	"onedesk.one_admin.proxy.ai_web_search": "Exa Labs, Inc.",
 	"api.openweathermap.org": "OpenWeather Ltd",
 	"news.google.com": "Google LLC",
+	"onedesk.one_admin.proxy.google_news": "Google LLC",
 	"onedesk.one_admin.proxy.weather_reading": "OpenWeather Ltd",
 	"onedesk.one_admin.proxy.weather_places": "OpenWeather Ltd",
 	"fcm.googleapis.com": None,

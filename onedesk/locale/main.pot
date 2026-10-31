@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 09:49+0000\n"
-"PO-Revision-Date: 2026-10-31 09:49+0000\n"
+"POT-Creation-Date: 2026-10-31 10:07+0000\n"
+"PO-Revision-Date: 2026-10-31 10:07+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1573,7 +1573,7 @@ msgstr ""
 msgid "A signup from the public sign-up page."
 msgstr ""
 
-#: onedesk/one/news/fetching.py:305
+#: onedesk/one/news/fetching.py:298
 msgid "A source is fetched at most {0} times a day."
 msgstr ""
 
@@ -18867,7 +18867,7 @@ msgstr ""
 #. Description of the 'Google News' (Section Break) field in DocType 'News
 #. Source'
 #: onedesk/one/doctype/news_source/news_source.json
-msgid "For previewing only. Google News gathers other publishers' articles, and showing them may need a licence from each publisher."
+msgid "For previewing only, since showing other publishers' articles may need their licence. One fetches it a few times a day."
 msgstr ""
 
 #. Description of the 'Rotation' (Select) field in DocType 'Display Screen'
@@ -49451,7 +49451,7 @@ msgstr ""
 msgid "The expense is booked and the money is owed to them."
 msgstr ""
 
-#: onedesk/one/news/fetching.py:166
+#: onedesk/one/news/fetching.py:132
 msgid "The fetch failed. It is tried again later."
 msgstr ""
 
@@ -51784,7 +51784,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:613
+#: onedesk/one_admin/proxy.py:628
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -51824,7 +51824,7 @@ msgstr ""
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:610
+#: onedesk/one_admin/proxy.py:625
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -53328,7 +53328,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one/news/fetching.py:202
+#: onedesk/one/news/fetching.py:176
 msgid "Turn on Google News in TrustCenter to fetch it."
 msgstr ""
 
@@ -64067,7 +64067,7 @@ msgstr ""
 msgid "{0} is done"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.py:39
+#: onedesk/one/doctype/news_source/news_source.py:42
 msgid "{0} is fetched at most every {1} minutes, so this source is fetched {2}."
 msgstr ""
 
@@ -64251,7 +64251,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one/news/fetching.py:303
+#: onedesk/one/news/fetching.py:296
 msgid "{0} is not a time of day. Write times like 07:00, 13:30."
 msgstr ""
 

@@ -159,6 +159,7 @@ scheduler_events = {
 			"onedesk.one_mail.tell.not_sent",
 			"onedesk.one_display.tell.offline",
 			"onedesk.one.news.fetching.due",
+			"onedesk.one_admin.google_news.tick",
 		],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],

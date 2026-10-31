@@ -180,7 +180,8 @@ def a_record_with_no_picture_gets_one_drawn_and_keeps_its_own():
 @check
 def one_follows_the_news():
 	"""News Sources fetch on their own (one/news): a feed's new items are
-	kept and its oldest let go, Google News asks nothing while it is off,
+	kept and its oldest let go, Google News asks OneAdmin and never Google,
+	and nothing while it is off,
 	OneAI's headlines come through the account, a Written source takes the
 	items written for it, and each person's bar and each screen read them.
 	Nothing leaves: the feed and the account are stood in for."""
@@ -218,10 +219,26 @@ def one_follows_the_news():
 
 			services.switch(fetching.GOOGLE_SERVICE, 0)
 			frappe.local.one_services = {}
-			with mock.patch.object(feeds, "get") as got:
+			with mock.patch("onedesk.one.account.ask") as asked:
 				fetching.fetch("Check Google")
-				got.assert_not_called()
+				asked.assert_not_called()
 			assert "TrustCenter" in frappe.db.get_value(news.SOURCE, "Check Google", "last_error"), "off, Google News is not asked"
+			services.switch(fetching.GOOGLE_SERVICE, 1)
+			frappe.local.one_services = {}
+			google = frappe.get_doc(news.SOURCE, "Check Google")
+			google.fetch_every = "15 Minutes"
+			google.save()
+			assert google.fetch_every == "Hourly", "how often Google News is fetched is not the workspace's to set"
+			with mock.patch.object(feeds, "get") as got, mock.patch("onedesk.one.account.ask", return_value={"items": [], "waiting": True}) as asked:
+				assert fetching.fetch("Check Google") == 0
+				got.assert_not_called()
+			assert asked.call_args.args[0] == fetching.GOOGLE and asked.call_args.kwargs["topic"] == "Business", "the workspace asks OneAdmin, never Google"
+			soon = frappe.db.get_value(news.SOURCE, "Check Google", "next_fetch")
+			assert soon <= frappe.utils.add_to_date(None, minutes=fetching.GOOGLE_WAITING + 1), "a first edition is asked again soon"
+			headline = {"guid": "g1", "title": "Gold falls", "link": "https://check.example.com/g1", "published": "2026-10-31T05:00:00", "publisher": "Reuters", "publisher_site": "reuters.com"}
+			with mock.patch("onedesk.one.account.ask", return_value={"items": [headline], "waiting": False}):
+				assert fetching.fetch("Check Google") == 1
+			assert frappe.db.get_value(news.SOURCE, "Check Google", "next_fetch") > frappe.utils.add_to_date(None, minutes=fetching.GOOGLE_EVERY - 1)
 
 			said = {"items": [{"title": "Towers rise", "summary": "Output rose.", "publisher": "thenationalnews.com", "publisher_site": "thenationalnews.com"}]}
 			with mock.patch("onedesk.one.account.ask", return_value=said) as asked:
@@ -268,6 +285,75 @@ def one_follows_the_news():
 					frappe.delete_doc(news.SOURCE, name, force=True)
 			services.switch(fetching.GOOGLE_SERVICE, int(was))
 			frappe.local.one_services = {}
+
+
+@check
+def oneadmin_fetches_google_news_gently():
+	"""OneAdmin alone reaches Google News (one_admin/google_news.py): a first
+	ask is answered waiting and fetched at the next tick, two workspaces
+	share one fetch, a fresh edition is not fetched again, a refusal pauses
+	every fetch, and a workspace follows ten editions at most. Google is
+	stood in for."""
+	from unittest import mock
+
+	from onedesk.one.news import feeds
+	from onedesk.one_admin import google_news, site
+	from onedesk.one_admin.faults import Refused
+
+	rss = (
+		b'<rss version="2.0"><channel><title>Google News</title>'
+		b"<item><title>Gold falls - Reuters</title><guid>g1</guid><link>https://check.example.com/g1</link>"
+		b'<pubDate>Sat, 31 Oct 2026 06:00:00 GMT</pubDate><source url="https://www.reuters.com">Reuters</source></item>'
+		b"</channel></rss>"
+	)
+	tenants = ("check-news-a", "check-news-b")
+	names = set()
+	try:
+		first = google_news.headlines(tenants[0], "Business", "", "AE", "en")
+		assert first == {"items": [], "fetched": 0, "waiting": True}, first
+		google_news.headlines(tenants[1], "Business", "", "AE", "en")
+		names = google_news._names()
+		with mock.patch.object(site, "is_admin", return_value=True), mock.patch.object(
+			feeds, "get", return_value=(200, rss, None, None)
+		) as got:
+			google_news.tick()
+			google_news.tick()
+		assert got.call_count == 1, "two workspaces share one fetch, and a fresh edition waits its turn"
+		said = google_news.headlines(tenants[1], "Business", "", "AE", "en")
+		assert not said["waiting"] and said["items"][0]["title"] == "Gold falls"
+		assert said["items"][0]["publisher_site"] == "reuters.com" and said["items"][0]["published"].startswith("2026-10-31")
+
+		google_news.headlines(tenants[0], "", "glass facades", "AE", "en")
+		names = google_news._names()
+		with mock.patch.object(site, "is_admin", return_value=True), mock.patch.object(
+			feeds, "get", side_effect=feeds.Unreadable("Google answered 503.")
+		):
+			google_news.tick()
+		paused = frappe.cache.get_value(google_news.PAUSED)
+		assert paused and paused["pauses"] == 1, "a refusal pauses every fetch"
+		with mock.patch.object(site, "is_admin", return_value=True), mock.patch.object(feeds, "get") as got:
+			google_news.tick()
+			got.assert_not_called()
+		with mock.patch.object(feeds, "get") as got:
+			google_news.tick()
+			got.assert_not_called()
+
+		for n in range(google_news.MOST_A_WORKSPACE - 1):
+			google_news.headlines(tenants[1], "", f"check words {n}", "AE", "en")
+		names = google_news._names()
+		try:
+			google_news.headlines(tenants[1], "", "one too many", "AE", "en")
+		except Refused:
+			pass
+		else:
+			raise AssertionError("a workspace follows ten editions at most")
+	finally:
+		frappe.cache.delete_value(google_news.PAUSED)
+		for name in names:
+			frappe.cache.delete_value(google_news.HELD.format(name))
+			frappe.cache.srem(google_news.EDITIONS, name)
+		for tenant in tenants:
+			frappe.cache.delete_value(google_news.FOLLOWED.format(tenant))
 
 
 @check

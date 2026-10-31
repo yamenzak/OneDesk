@@ -441,6 +441,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.domain_list`
 * `onedesk.one_admin.proxy.domain_primary`
 * `onedesk.one_admin.proxy.domain_refresh`
+* `onedesk.one_admin.proxy.google_news`
 * `onedesk.one_admin.proxy.hello`
 * `onedesk.one_admin.proxy.mail_names`
 * `onedesk.one_admin.proxy.mail_send`

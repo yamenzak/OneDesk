@@ -110,7 +110,7 @@
    "fieldtype": "Section Break",
    "label": "Google News",
    "depends_on": "eval:doc.kind=='Google News'",
-   "description": "For previewing only. Google News gathers other publishers' articles, and showing them may need a licence from each publisher."
+   "description": "For previewing only, since showing other publishers' articles may need their licence. One fetches it a few times a day."
   },
   {
    "fieldname": "google_topic",
@@ -186,14 +186,15 @@
    "fieldtype": "Select",
    "label": "Fetch",
    "options": "15 Minutes\n30 Minutes\nHourly\nEvery 3 Hours\nEvery 6 Hours\nEvery 12 Hours\nDaily\nAt Set Times",
-   "default": "Hourly"
+   "default": "Hourly",
+   "depends_on": "eval:doc.kind!='Google News'"
   },
   {
    "fieldname": "fetch_at",
    "fieldtype": "Data",
    "label": "Times",
-   "depends_on": "eval:doc.fetch_every=='At Set Times'",
-   "mandatory_depends_on": "eval:doc.fetch_every=='At Set Times'",
+   "depends_on": "eval:doc.fetch_every=='At Set Times' && doc.kind!='Google News'",
+   "mandatory_depends_on": "eval:doc.fetch_every=='At Set Times' && doc.kind!='Google News'",
    "description": "Times of day in the workspace's time zone, with commas between them.",
    "placeholder": "07:00, 13:00"
   },

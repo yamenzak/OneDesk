@@ -10,7 +10,10 @@ OneDisplay's tickers and news widgets. Add them under One › News › Sources.
   search for, in a country and language. It is for previewing only: Google
   News gathers other publishers' articles, and showing them to others may
   need a licence from each publisher. It is off until an administrator turns
-  it on in **TrustCenter**, and it is asked at most once an hour.
+  it on in **TrustCenter**. Your workspace never asks Google itself: One
+  fetches each topic or search a few times a day for every workspace that
+  follows it, so how often is not set on the source, and a new one can take a
+  little while to show its first headlines.
 - **OneAI** searches the web with Google for what you write in **Look For**
   and writes the headlines it finds. Each run costs credits, so it runs at
   the **Times** you set, such as 07:00, 13:00. A headline it could not find
@@ -18,7 +21,7 @@ OneDisplay's tickers and news widgets. Add them under One › News › Sources.
 - **Written** is your own news. Its items are the ones you write, with a
   picture, a summary and the story itself.
 
-Each source is fetched as often as you set under **Fetch**, and keeps only
+Each other source is fetched as often as you set under **Fetch**, and keeps only
 its newest items: with **Keep** at 60, the 61st oldest is deleted as each new
 one arrives. **Fetch Now** asks at once. When a fetch fails, the problem is
 shown on the source and it is tried again later, waiting longer each time.

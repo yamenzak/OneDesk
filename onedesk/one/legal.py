@@ -195,10 +195,10 @@ service(
 	key="google_news",
 	module=M,
 	title="Google News",
-	does="Fetches Google News headlines for a topic or a search, for News Sources of that type. It is for previewing only.",
-	sends="The topic or the words searched for, and the country and language asked for, to Google.",
+	does="Gets Google News headlines for a topic or a search from One's account, which alone fetches them from Google, on its own schedule. It is for previewing only.",
+	sends="The topic or the words searched for, and the country and language asked for, to One's account, which asks Google.",
 	off="Google News sources fetch nothing; feeds, OneAI and written sources go on as before.",
-	hosts=("news.google.com",),
+	hosts=("onedesk.one_admin.proxy.google_news",),
 )
 
 subprocessor(
@@ -234,8 +234,9 @@ clause(
 	module=M,
 	body="""
 		A News Source fetches a feed from the address your workspace gives it. Nothing about a person is sent with the
-		request. While Google News is on, Google receives the topic or the words searched for, and the country and
-		language. A OneAI source sends what it should look for through One's account to the model, and each run costs
+		request. While Google News is on, the topic or the words searched for, and the country and language, go to
+		One's account. It alone asks Google, on its own schedule, and shares what it fetches with every workspace that
+		asks for the same. A OneAI source sends what it should look for through One's account to the model, and each run costs
 		credits. Each source keeps only its newest items and deletes the rest as new ones arrive.
 	""",
 )

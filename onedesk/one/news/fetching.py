@@ -4,13 +4,13 @@ package's own (`news.items`)."""
 
 import re
 from datetime import datetime, timedelta
-from urllib.parse import urlencode
 
 import frappe
 from frappe import _
-from frappe.utils import cint, convert_utc_to_system_timezone, now_datetime
+from frappe.utils import cint, convert_utc_to_system_timezone, get_datetime, now_datetime
 
 from onedesk.one.news import ITEM, SOURCE, feeds
+from onedesk.one_admin import faults
 from onedesk.one_legal import services
 
 EVERY = {
@@ -24,37 +24,27 @@ EVERY = {
 }
 SET_TIMES = "At Set Times"
 SLOWEST = 1440
-# The least time between two fetches of one kind, in minutes: Google News is
-# somebody else's service and is asked gently; OneAI costs credits each run.
-LEAST = {"Google News": 60, "OneAI": 360}
+# The least time between two runs of OneAI, which costs credits each time.
+LEAST = {"OneAI": 360}
 MOST_TIMES = 6
 AT_ONCE = 20
 FIRST_RETRY = 15
 
 GOOGLE_SERVICE = "google_news"
-GOOGLE = "https://news.google.com/rss"
-# The least time between two Google News requests from this whole site.
-GOOGLE_GAP = 20
-GOOGLE_LOCK = "one_news:google"
-TOPICS = {
-	"World": "WORLD",
-	"Business": "BUSINESS",
-	"Technology": "TECHNOLOGY",
-	"Science": "SCIENCE",
-	"Health": "HEALTH",
-	"Sports": "SPORTS",
-	"Entertainment": "ENTERTAINMENT",
-}
+GOOGLE = "onedesk.one_admin.proxy.google_news"
+# A Google News source asks OneAdmin, never Google: hourly, or in ten
+# minutes while OneAdmin has not fetched its edition yet. Not the
+# workspace's to set; OneAdmin fetches Google on its own schedule.
+GOOGLE_EVERY = 60
+GOOGLE_WAITING = 10
 
 AI = "onedesk.one_admin.proxy.news_brief"
 
 
-class Later(Exception):
-	"""Not now: asked again in a minute or two, and not counted as a failure."""
-
-
 def interval(kind: str, every: str) -> int:
 	"""Minutes between two fetches of a source. Pure."""
+	if kind == "Google News":
+		return GOOGLE_EVERY
 	return max(EVERY.get(every, 60), LEAST.get(kind, 0))
 
 
@@ -78,7 +68,7 @@ def next_at(kind: str, every: str, at: str | None, now: datetime, failures: int 
 	if failures:
 		wait = min(FIRST_RETRY * 2 ** (failures - 1), SLOWEST)
 		return now + timedelta(minutes=max(wait, 60 if kind == "Google News" else 0))
-	if every == SET_TIMES:
+	if every == SET_TIMES and kind != "Google News":
 		times = times_in(at) or [(7, 0)]
 		for day in (0, 1):
 			for hour, minute in times:
@@ -86,27 +76,6 @@ def next_at(kind: str, every: str, at: str | None, now: datetime, failures: int 
 				if then > now:
 					return then
 	return now + timedelta(minutes=interval(kind, every))
-
-
-def google_url(topic: str | None, query: str | None, country: str | None, language: str | None) -> str:
-	"""Google News' own RSS for a topic or a search, in a country and
-	language. Pure."""
-	country = (country or "US").upper()
-	language = (language or "en").split("-")[0].lower()
-	where = {"hl": f"{language}-{country}", "gl": country, "ceid": f"{country}:{language}"}
-	query = " ".join((query or "").split())
-	if query:
-		return f"{GOOGLE}/search?{urlencode({'q': query, **where})}"
-	if topic in TOPICS:
-		return f"{GOOGLE}/headlines/section/topic/{TOPICS[topic]}?{urlencode(where)}"
-	return f"{GOOGLE}?{urlencode(where)}"
-
-
-def untitled(title: str, publisher: str) -> str:
-	"""A Google News headline without the " - Publisher" it ends with. Pure."""
-	if publisher and title.endswith(f" - {publisher}"):
-		return title[: -len(publisher) - 3].strip()
-	return title
 
 
 def due() -> None:
@@ -155,17 +124,19 @@ def fetch(name: str) -> int:
 		if said.get("home") and not source.website:
 			values["website"] = said["home"]
 		failures = 0
-	except Later:
-		frappe.db.set_value(SOURCE, name, "next_fetch", now + timedelta(minutes=2), update_modified=False)
-		return 0
-	except feeds.Unreadable as raised:
+	except (feeds.Unreadable, faults.Refused) as raised:
 		failures = cint(source.failures) + 1
 		values.update(last_error=str(raised), failures=failures)
 	except Exception:
 		failures = cint(source.failures) + 1
 		values.update(last_error=_("The fetch failed. It is tried again later."), failures=failures)
 		frappe.log_error(title=f"News from {name}")
-	values["next_fetch"] = next_at(source.kind, source.fetch_every, source.fetch_at, now, failures)
+	values["next_fetch"] = (
+		now + timedelta(minutes=GOOGLE_WAITING)
+		if values.get("waiting")
+		else next_at(source.kind, source.fetch_every, source.fetch_at, now, failures)
+	)
+	values.pop("waiting", None)
 	frappe.db.set_value(SOURCE, name, values, update_modified=False)
 	if values.get("website"):
 		from onedesk.one_mail import faces
@@ -183,7 +154,7 @@ def _read(source, values: dict) -> dict:
 		values.update(etag=etag or "", last_modified=modified or "")
 		return {"items": [], "home": ""} if status == 304 else feeds.read(body)
 	if source.kind == "Google News":
-		return _google(source)
+		return _google(source, values)
 	if source.kind == "OneAI":
 		return _ai(source)
 	return {"items": [], "home": ""}
@@ -195,21 +166,43 @@ def _codes(source) -> tuple[str | None, str | None]:
 	return country, language
 
 
-def _google(source) -> dict:
-	"""Google News, asked gently: one request from this site every
-	GOOGLE_GAP seconds at most, and each source at most hourly."""
+def _google(source, values: dict) -> dict:
+	"""Google News, from OneAdmin: what it last fetched for this topic or
+	search, shared with every workspace that follows the same. The
+	workspace never reaches Google itself."""
+	from onedesk.one import account
+
 	if not services.on(GOOGLE_SERVICE):
 		raise feeds.Unreadable(_("Turn on Google News in TrustCenter to fetch it."))
-	if not frappe.cache.set(frappe.cache.make_key(GOOGLE_LOCK), 1, nx=True, ex=GOOGLE_GAP):
-		raise Later
 	country, language = _codes(source)
-	url = google_url(source.google_topic, source.google_query, country, language)
-	status, body, _etag, _modified = services.call(GOOGLE_SERVICE, feeds.get, url)
-	said = feeds.read(body) if status == 200 else {"items": []}
-	for one in said["items"]:
-		one["title"] = untitled(one["title"], one["publisher"])
-		one["summary"] = ""
-	return {"items": said["items"], "home": ""}
+	said = services.call(
+		GOOGLE_SERVICE,
+		account.ask,
+		GOOGLE,
+		topic=source.google_topic or "",
+		query=source.google_query or "",
+		country=country or "",
+		language=language,
+	) or {}
+	values["waiting"] = bool(said.get("waiting"))
+	items = []
+	for one in said.get("items") or []:
+		title = feeds.text_of(one.get("title"))
+		if not title or not one.get("guid"):
+			continue
+		items.append(
+			{
+				"guid": str(one["guid"])[:480],
+				"title": title[:480],
+				"summary": "",
+				"link": one.get("link") if str(one.get("link") or "").startswith("https://") else "",
+				"image": "",
+				"published": get_datetime(one["published"]) if one.get("published") else None,
+				"publisher": feeds.text_of(one.get("publisher"))[:140],
+				"publisher_site": feeds.site_of(f"https://{one.get('publisher_site') or ''}"),
+			}
+		)
+	return {"items": items, "home": ""}
 
 
 def _ai(source) -> dict:

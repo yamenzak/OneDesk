@@ -552,10 +552,13 @@ News Sources and their News Items (one/docs/news.md is the Help).
 - **Four kinds.** Feed: `feeds.get` asks once over https, only public
   addresses, at most three redirects each checked again, 2 MB, with the
   etag and date it gave last time; `feeds.read` parses with lxml, entities
-  off and nothing fetched. Google News: its own RSS (`fetching.google_url`), never
-  its pages, behind the `google_news` service, at most hourly per source and
-  one request every `GOOGLE_GAP` seconds from the whole site; a 429 or 503 is
-  a failure like any other and waits longer each time. OneAI: the account's
+  off and nothing fetched. Google News: asked of the account
+  (`proxy.google_news`, one_admin/google_news.py), never of Google: OneAdmin
+  alone fetches Google, one edition at a time on its own timer, shared by
+  every workspace that follows it, and pauses all of it on a refusal. The
+  source asks hourly (`GOOGLE_EVERY`), or in ten minutes while its edition is
+  `waiting`; its Fetch is not shown and `validate` holds it at Hourly. Behind
+  the `google_news` service. OneAI: the account's
   `news_brief` (one_admin/news.py), one grounded Gemini call, billed per run,
   at the source's set times. Written: items are written by hand.
 - **The schedule** is `next_fetch`, worked out by `fetching.next_at` and read by

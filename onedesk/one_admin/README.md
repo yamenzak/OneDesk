@@ -2183,6 +2183,30 @@ while a free monthly allowance sits unused beside it.
 Overdue is defined as nothing happening to the workspace, and cutting off its
 allowance would be the grace period not existing.
 
+### Google News
+
+`google_news.py` is the only place in One that reaches Google News. A
+workspace's Google News source asks `proxy.google_news` for an edition (a
+topic or a search, in a country and language) and gets what was last
+fetched; it never asks Google itself, and how often Google is asked is not a
+workspace's to set.
+
+- **Editions are shared.** Every workspace following the same topic or search
+  in the same country and language reads one copy, held in Redis.
+- **One request at a time, on a timer.** `tick` runs every five minutes on
+  the admin site and fetches at most one edition: one never fetched first,
+  else the stalest older than `REFRESH` (two hours). That is twelve requests
+  an hour at most, whatever the number of workspaces. Asking never fetches; a
+  first ask answers `waiting`, and the workspace asks again in ten minutes.
+- **A refusal stops everything.** Any answer from Google but a feed pauses
+  every fetch for `FIRST_PAUSE`, doubling each time in a row up to
+  `LONGEST_PAUSE`; the next good fetch clears it.
+- **Nothing is kept for nobody.** An edition no workspace asked for in
+  `FORGOTTEN` (three days) is dropped, and a workspace follows at most
+  `MOST_A_WORKSPACE` editions, so one cannot make the rest wait.
+- **Not charged.** It costs Google nothing we pay for, and the headlines are
+  for previewing only (the `news-content` clause).
+
 ### Weather
 
 `weather.py` gets the weather from OpenWeather's One Call API 4.0 for every

@@ -18445,8 +18445,8 @@ msgid "For new projects"
 msgstr "Für neue Projekte"
 
 #: onedesk/one/doctype/news_source/news_source.json
-msgid "For previewing only. Google News gathers other publishers' articles, and showing them may need a licence from each publisher."
-msgstr "Nur zur Vorschau. Google News sammelt Artikel anderer Verlage, und sie zu zeigen kann eine Lizenz jedes Verlags erfordern."
+msgid "For previewing only, since showing other publishers' articles may need their licence. One fetches it a few times a day."
+msgstr "Nur zur Vorschau, da das Zeigen von Artikeln anderer Verlage deren Lizenz erfordern kann. One ruft sie einige Male am Tag ab."
 
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:35

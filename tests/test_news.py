@@ -41,14 +41,26 @@ ENGINE = _lifted(
 		"SLOWEST",
 		"LEAST",
 		"FIRST_RETRY",
-		"GOOGLE",
-		"TOPICS",
+		"GOOGLE_EVERY",
 		"interval",
 		"times_in",
 		"next_at",
-		"google_url",
-		"untitled",
 	),
+)
+GOOGLE = _lifted(
+	(tree.APP / "one_admin" / "google_news.py").read_text(),
+	(
+		"GOOGLE",
+		"TOPICS",
+		"REFRESH",
+		"FIRST_PAUSE",
+		"LONGEST_PAUSE",
+		"url",
+		"untitled",
+		"next_one",
+		"pause_after",
+	),
+	flt=float,
 )
 READER = _lifted((NEWS / "library.py").read_text(), ("matching",))
 ADMIN = _lifted(
@@ -109,7 +121,8 @@ def test_a_feed_on_the_workspaces_own_network_is_refused():
 def test_each_kind_is_fetched_no_faster_than_it_may_be():
 	interval = ENGINE["interval"]
 	assert interval("Feed", "15 Minutes") == 15
-	assert interval("Google News", "15 Minutes") == 60, "Google News is asked gently"
+	assert interval("Google News", "15 Minutes") == 60, "a Google News source asks OneAdmin hourly"
+	assert interval("Google News", "Daily") == 60, "and how often is not the workspace's to set"
 	assert interval("OneAI", "Hourly") == 360, "each OneAI run costs credits"
 
 
@@ -137,7 +150,7 @@ def test_set_times_come_round_and_failures_wait_longer():
 
 
 def test_google_news_is_its_own_rss_for_a_topic_or_a_search():
-	url = ENGINE["google_url"]
+	url = GOOGLE["url"]
 	assert (
 		url("Business", None, "AE", "en")
 		== "https://news.google.com/rss/headlines/section/topic/BUSINESS?hl=en-AE&gl=AE&ceid=AE%3Aen"
@@ -146,8 +159,25 @@ def test_google_news_is_its_own_rss_for_a_topic_or_a_search():
 		"https://news.google.com/rss/search?q=glass+facades&hl=ar-AE"
 	)
 	assert url("Top Stories", "", None, None) == "https://news.google.com/rss?hl=en-US&gl=US&ceid=US%3Aen"
-	assert ENGINE["untitled"]("Gold falls - Reuters", "Reuters") == "Gold falls"
-	assert ENGINE["untitled"]("Gold falls", "Reuters") == "Gold falls"
+	assert GOOGLE["untitled"]("Gold falls - Reuters", "Reuters") == "Gold falls"
+	assert GOOGLE["untitled"]("Gold falls", "Reuters") == "Gold falls"
+
+
+def test_oneadmin_fetches_one_edition_at_a_time_and_backs_off():
+	next_one, pause_after, refresh = GOOGLE["next_one"], GOOGLE["pause_after"], GOOGLE["REFRESH"]
+	now = 100_000.0
+	held = [
+		{"name": "fresh", "at": now - 60},
+		{"name": "stale", "at": now - refresh - 5},
+		{"name": "staler", "at": now - refresh - 50},
+	]
+	assert next_one(held, now)["name"] == "staler", "the stalest past its refresh"
+	assert next_one([*held, {"name": "new", "since": now - 1}, {"name": "older", "since": now - 9}], now)["name"] == "older", (
+		"an edition never fetched comes first, the longest waiting first"
+	)
+	assert next_one([{"name": "fresh", "at": now - 60}], now) is None, "nothing is fetched before it is due"
+	assert pause_after(1) == GOOGLE["FIRST_PAUSE"] and pause_after(2) == 2 * GOOGLE["FIRST_PAUSE"]
+	assert pause_after(50) == GOOGLE["LONGEST_PAUSE"], "a refusal pauses every fetch, up to a limit"
 
 
 def test_the_library_is_searched_by_words_category_and_country():
