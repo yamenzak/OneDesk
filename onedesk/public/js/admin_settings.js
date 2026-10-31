@@ -3,6 +3,7 @@ frappe.ui.form.on("One Admin Settings", {
 		frm.add_custom_button(__("Test Gateway"), () => onedesk.admin.tryGateway());
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 		onedesk.admin.drawSetup(frm);
+		onedesk.admin.drawOperators(frm);
 	},
 	set_up_cloudflare(frm) {
 		if (frm.is_dirty()) return frappe.msgprint(__("Save before setting up Cloudflare."));
@@ -23,6 +24,55 @@ frappe.ui.form.on("One Admin Settings", {
 
 frappe.provide("onedesk.admin");
 
+// Who may run OneAdmin (site.operators): one line each, a person added from
+// the workspace's members, and the last one kept (site.make_operator).
+onedesk.admin.drawOperators = async (frm, said = null) => {
+	const field = frm.fields_dict.operators;
+	if (!field) return;
+	const people = said || (await frappe.xcall("onedesk.one_admin.site.operators"));
+	const esc = frappe.utils.escape_html;
+	const change = (user, on) =>
+		frappe.xcall("onedesk.one_admin.site.make_operator", { user, on }).then((now) => onedesk.admin.drawOperators(frm, now));
+	const $list = $(`<div class="mb-3"></div>`);
+	for (const one of people) {
+		$(`<div class="d-flex align-items-center mb-2" style="gap: var(--padding-sm)">
+				${frappe.avatar(one.user, "avatar-small")}
+				<span>${esc(one.name)}</span>
+				<span class="text-muted flex-fill">${esc(one.user)}</span>
+			</div>`)
+			.append(
+				people.length > 1
+					? frappe.ui.button({ label: __("Remove"), variant: "ghost", size: "sm", onclick: () => change(one.user, 0) })
+					: ""
+			)
+			.appendTo($list);
+	}
+	const $add = frappe.ui.button({
+		label: __("Add Operator"),
+		icon: "plus",
+		size: "sm",
+		onclick: () => {
+			const asking = new frappe.ui.Dialog({
+				title: __("Add Operator"),
+				fields: [
+					{
+						fieldtype: "Link",
+						fieldname: "user",
+						label: __("Person"),
+						options: "User",
+						reqd: 1,
+						get_query: () => ({ filters: { enabled: 1, user_type: "System User", name: ["not in", ["Administrator", "Guest"]] } }),
+					},
+				],
+				primary_action_label: __("Add"),
+				primary_action: ({ user }) => change(user, 1).then(() => asking.hide()),
+			});
+			asking.show();
+		},
+	});
+	field.$wrapper.empty().append($list, $add);
+};
+
 onedesk.admin.drawSetup = (frm, running = false) => {
 	const field = frm.fields_dict.cloudflare_setup_said;
 	if (!field) return;
@@ -37,15 +87,6 @@ onedesk.admin.drawSetup = (frm, running = false) => {
 			? `<div class="control-label">${running ? __("Setting Up…") : __("Last Setup")}</div>${onedesk.admin.setupTable(said)}`
 			: `<p class="text-muted small">${running ? __("Setting Up…") : __("Not set up yet")}</p>`,
 	);
-};
-
-onedesk.admin.setupTable(said)}`
-			: `<p class="text-muted small">${running ? __("Setting Up…") : __("Not set up yet")}</p>`,
-	);
-};
-
-onedesk.admin.showSetup = (said) => {
-	frappe.msgprint({ title: __("Cloudflare"), message: onedesk.admin.setupTable(said), wide: true });
 };
 
 onedesk.admin.setupTable = (said) => {

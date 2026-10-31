@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 13:14+0000\n"
-"PO-Revision-Date: 2026-10-31 13:14+0000\n"
+"POT-Creation-Date: 2026-10-31 14:22+0000\n"
+"PO-Revision-Date: 2026-10-31 14:22+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2456,7 +2456,8 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_book/report/books_check/books_check.js:16
 #: onedesk/one_inventory/report/inventory_check/inventory_check.js:18
-#: onedesk/public/js/apps.js:65 onedesk/public/js/doctype_settings.js:350
+#: onedesk/public/js/admin_settings.js:67 onedesk/public/js/apps.js:65
+#: onedesk/public/js/doctype_settings.js:350
 #: onedesk/public/js/doctype_settings.js:924
 #: onedesk/public/js/one_account/account_center.js:607
 #: onedesk/public/js/one_account/account_center.js:1187
@@ -2576,6 +2577,11 @@ msgstr ""
 
 #: onedesk/public/js/one/news_add.js:30 onedesk/public/js/one/news_add.js:74
 msgid "Add News Source"
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:51
+#: onedesk/public/js/admin_settings.js:56
+msgid "Add Operator"
 msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:49
@@ -5402,7 +5408,7 @@ msgstr ""
 msgid "Asked {0} for prices"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:83
+#: onedesk/public/js/admin_settings.js:124
 msgid "Asking…"
 msgstr ""
 
@@ -11448,6 +11454,10 @@ msgstr ""
 msgid "Create {0}"
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Created"
+msgstr ""
+
 #: onedesk/one/rules.py:279
 msgid "Created By"
 msgstr ""
@@ -17230,6 +17240,10 @@ msgstr ""
 msgid "Existing workspaces keep it. New signups can't pick it."
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Exists"
+msgstr ""
+
 #: frontend/src/writer/components/VersionsSidebar.vue:22
 msgid "Exit"
 msgstr ""
@@ -17714,6 +17728,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading/reading.json
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.json
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json
+#: onedesk/public/js/admin_settings.js:95
 #: onedesk/public/js/one_account/account_center.js:384
 msgid "Failed"
 msgstr ""
@@ -24812,7 +24827,7 @@ msgstr ""
 #. Settings'
 #. Label of the cloudflare_setup (Code) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/public/js/admin_settings.js:37
+#: onedesk/public/js/admin_settings.js:87
 msgid "Last Setup"
 msgstr ""
 
@@ -28708,6 +28723,10 @@ msgstr ""
 msgid "Needs"
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Needs Attention"
+msgstr ""
+
 #: frontend/src/intake/IntakeReading.vue:94
 #: onedesk/one_ai/doctype/reading_action/reading_action_list.js:4
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:23
@@ -31042,8 +31061,7 @@ msgstr ""
 msgid "Not set for a new record."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:38
-#: onedesk/public/js/admin_settings.js:43
+#: onedesk/public/js/admin_settings.js:88
 msgid "Not set up yet"
 msgstr ""
 
@@ -32775,6 +32793,10 @@ msgstr ""
 msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr ""
 
+#: onedesk/one_admin/site.py:83
+msgid "OneAdmin needs at least one operator."
+msgstr ""
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: frontend/src/books/BooksHome.vue:257 onedesk/one_book/page/books/books.js:5
@@ -33060,6 +33082,10 @@ msgstr ""
 
 #: onedesk/one_project/budget.py:183
 msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
+msgstr ""
+
+#: onedesk/one_admin/site.py:79
+msgid "Only an active member of the workspace can be an operator."
 msgstr ""
 
 #: onedesk/one_studio/reports.py:240
@@ -33738,6 +33764,13 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 msgid "Operator"
+msgstr ""
+
+#. Label of the operators_section (Section Break) field in DocType 'One Admin
+#. Settings'
+#. Label of the operators (HTML) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Operators"
 msgstr ""
 
 #: onedesk/one_admin/operator.py:59
@@ -36192,6 +36225,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_board_person/display_board_person.json
 #: onedesk/one_mail/doctype/face/face.json
 #: onedesk/one_project/report/workload/workload.py:173
+#: onedesk/public/js/admin_settings.js:61
 #: onedesk/public/js/one_account/account_center.js:409
 #: onedesk/public/js/one_account/account_center.js:1336
 msgid "Person"
@@ -37963,6 +37997,10 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:171
 msgid "Promotional Scheme"
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:115
+msgid "Prompt"
 msgstr ""
 
 #. Label in the One Employee Tax Exemption Proof Submission print format
@@ -40222,6 +40260,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:35
 #: frontend/src/slide/shim/DataDialog.vue:13
 #: frontend/src/slide/shim/Rulers.vue:48 onedesk/one/ai.py:1858
+#: onedesk/public/js/admin_settings.js:45
 #: onedesk/public/js/module_settings.js:282
 #: onedesk/public/js/one_account/account_center.js:264
 #: onedesk/public/js/one_account/account_center.js:629
@@ -42290,7 +42329,7 @@ msgstr ""
 msgid "Save as Template"
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:8
+#: onedesk/public/js/admin_settings.js:9
 msgid "Save before setting up Cloudflare."
 msgstr ""
 
@@ -42399,6 +42438,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:135
 msgid "Say a little about yourself and your work."
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:117
+msgid "Say hello in one short sentence."
 msgstr ""
 
 #: onedesk/one_ai/heads.py:115
@@ -43047,6 +43090,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:484
 msgid "Send Password Reset"
+msgstr ""
+
+#: onedesk/public/js/admin_settings.js:121
+msgid "Send Prompt"
 msgstr ""
 
 #: frontend/portal/src/pages/Rfq.vue:95
@@ -43782,9 +43829,8 @@ msgstr ""
 msgid "Sets your first shift and holiday list. You can change both later."
 msgstr ""
 
-#: onedesk/public/js/admin_settings.js:37
-#: onedesk/public/js/admin_settings.js:38
-#: onedesk/public/js/admin_settings.js:43
+#: onedesk/public/js/admin_settings.js:87
+#: onedesk/public/js/admin_settings.js:88
 msgid "Setting Up…"
 msgstr ""
 
@@ -48683,6 +48729,7 @@ msgid "Test"
 msgstr ""
 
 #: onedesk/public/js/admin_settings.js:3
+#: onedesk/public/js/admin_settings.js:110
 msgid "Test Gateway"
 msgstr ""
 
@@ -53789,6 +53836,10 @@ msgstr ""
 msgid "Unassigned"
 msgstr ""
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Unchanged"
+msgstr ""
+
 #: frontend/src/crm/CrmHome.vue:232
 msgid "Unclaimed Leads"
 msgstr ""
@@ -58840,6 +58891,12 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:459
 msgid "Who left, when and why."
+msgstr ""
+
+#. Description of the 'Operators' (Section Break) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Who may run OneAdmin. The workspace's administrators are its first operators."
 msgstr ""
 
 #: onedesk/one_project/ai.py:109

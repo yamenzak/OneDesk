@@ -11,6 +11,11 @@ signups, credits and OneAI's models.
 It's only on the admin site, and only for **One Operator**. No one on a
 customer's workspace can open it, whatever roles they hold there.
 
+One has no desk to give that role from. When the admin site is set up or
+migrated and there are no operators yet, its workspace administrators
+become operators. **Operators** in OneAdmin Settings adds anyone
+else from the workspace's people, and removes them, keeping the last one.
+
 ## Our own workspace
 
 The admin site is **Four Degree Labs**' own workspace of One (`4dl`). It uses
@@ -751,6 +756,11 @@ For the people who build OneAdmin. OneAI does not read past this heading.
   admin site, and every OneAdmin doctype grants only One Operator. On any
   other site the role is taken off everybody, and the permission hooks refuse
   every record and every list.
+
+  On the admin site, `site.first_operators` runs on migrate and when the
+  setup wizard finishes: while nobody but Administrator holds the role, every
+  enabled workspace administrator (`roles.administrators`) is given it. `site.make_operator` adds and removes
+  the rest from OneAdmin Settings and refuses to take the last one.
 
   The same app ships to every site. It is a site config key rather than a
   role, a setting or a fixture, and that is the whole point: all three of

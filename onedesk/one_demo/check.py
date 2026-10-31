@@ -4139,3 +4139,40 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 	frappe.db.rollback()
 	for field, value in was.items():
 		frappe.db.set_single_value("One Admin Settings", field, value)
+
+
+@check
+def oneadmin_makes_its_first_operators():
+	"""One has no desk to give a role from, so on the admin site the
+	workspace's administrators become operators while there are none, and
+	OneAdmin Settings adds and removes the rest, keeping the last
+	(one_admin/site.py)."""
+	from unittest.mock import patch
+
+	from onedesk.one_admin import site
+
+	with patch.object(site, "is_admin", return_value=True), patch.object(frappe.db, "commit"):
+		frappe.db.delete("Has Role", {"role": site.OPERATOR, "parenttype": "User"})
+		site.first_operators()
+		from onedesk.one import roles
+
+		managers = set(roles.administrators())
+		assert managers and set(site._operators()) == managers, "every workspace administrator is an operator"
+
+		keep, *rest = sorted(managers)
+		for user in rest:
+			site.make_operator(user, 0)
+		assert site._operators() == [keep]
+		try:
+			site.make_operator(keep, 0)
+			raise AssertionError("the last operator was removed")
+		except frappe.ValidationError:
+			pass
+		try:
+			site.make_operator("Guest", 1)
+			raise AssertionError("Guest became an operator")
+		except frappe.ValidationError:
+			pass
+		site.first_operators()
+		assert site._operators() == [keep], "someone is already an operator, so nobody is added"
+	frappe.db.rollback()

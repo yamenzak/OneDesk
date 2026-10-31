@@ -126,3 +126,23 @@ def test_a_closed_module_lints_clean():
 		pytest.skip("ruff isn't installed here")
 	found = subprocess.run([ruff, "check", "--quiet", *LINTED], cwd=tree.ROOT, capture_output=True, text=True)
 	assert found.returncode == 0, found.stdout[-3000:]
+
+
+def test_every_desk_script_parses():
+	"""A desk script that does not parse kills its whole form or report."""
+	import shutil
+	import subprocess
+
+	import pytest
+
+	node = shutil.which("node")
+	if not node:
+		pytest.skip("node isn't installed here")
+	skip = ("node_modules", "dist", "frontend")
+	scripts = [p for p in (tree.ROOT / "onedesk").rglob("*.js") if not set(p.parts) & set(skip)]
+	broken = [
+		str(p.relative_to(tree.ROOT))
+		for p in scripts
+		if subprocess.run([node, "--check", str(p)], capture_output=True).returncode
+	]
+	assert not broken, broken

@@ -6,6 +6,8 @@
  "engine": "InnoDB",
  "field_order": [
   "connections_tab",
+  "operators_section",
+  "operators",
   "press_section",
   "press_team",
   "press_token",
@@ -74,6 +76,17 @@
    "fieldname": "connections_tab",
    "fieldtype": "Tab Break",
    "label": "Connections"
+  },
+  {
+   "fieldname": "operators_section",
+   "fieldtype": "Section Break",
+   "label": "Operators",
+   "description": "Who may run OneAdmin. The workspace's administrators are its first operators."
+  },
+  {
+   "fieldname": "operators",
+   "fieldtype": "HTML",
+   "label": "Operators"
   },
   {
    "fieldname": "press_section",
@@ -437,7 +450,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-31 12:35:39.740914",
+ "modified": "2026-10-31 14:10:34.880404",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

@@ -33,8 +33,56 @@ def apply(*_args) -> None:
 	"""Make the operator role match what kind of site this is."""
 	if is_admin():
 		_ensure_role()
+		first_operators()
 		return
 	_withdraw_role()
+
+
+def first_operators(*_args) -> None:
+	"""On the admin site, the workspace's administrators become its operators
+	while nobody but Administrator is one: One has no desk to give the role
+	from, so without this nobody could open OneAdmin. Also run when the setup
+	wizard finishes, which is when the first person is made."""
+	from onedesk.one import roles
+
+	if not is_admin() or _operators():
+		return
+	_ensure_role()
+	for user in roles.administrators():
+		frappe.get_doc("User", user).add_roles(OPERATOR)
+
+
+def _operators() -> list[str]:
+	held = frappe.get_all("Has Role", filters={"role": OPERATOR, "parenttype": "User"}, pluck="parent", distinct=True)
+	return [user for user in held if user not in ("Administrator", "Guest")]
+
+
+@frappe.whitelist()
+def operators() -> list[dict]:
+	"""Who may run OneAdmin, for its Settings."""
+	frappe.only_for(OPERATOR)
+	require_admin()
+	return [
+		{"user": user, "name": frappe.utils.get_fullname(user)}
+		for user in sorted(_operators(), key=lambda one: frappe.utils.get_fullname(one).lower())
+	]
+
+
+@frappe.whitelist(methods=["POST"])
+def make_operator(user: str, on: int = 1) -> list[dict]:
+	"""Give or take the operator role. The last operator stays one."""
+	frappe.only_for(OPERATOR)
+	require_admin()
+	doc = frappe.get_doc("User", user)
+	if int(on):
+		if doc.user_type != "System User" or not doc.enabled:
+			frappe.throw(frappe._("Only an active member of the workspace can be an operator."))
+		doc.add_roles(OPERATOR)
+	else:
+		if _operators() == [user]:
+			frappe.throw(frappe._("OneAdmin needs at least one operator."))
+		doc.remove_roles(OPERATOR)
+	return operators()
 
 
 def _ensure_role() -> None:

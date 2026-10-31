@@ -2560,6 +2560,11 @@ msgstr "Meilenstein hinzufügen"
 msgid "Add News Source"
 msgstr "Nachrichtenquelle hinzufügen"
 
+#: onedesk/public/js/admin_settings.js:51
+#: onedesk/public/js/admin_settings.js:56
+msgid "Add Operator"
+msgstr "Operator hinzufügen"
+
 #: onedesk/public/js/one_account/account_center.js:49
 msgid "Add Photo"
 msgstr "Foto hinzufügen"
@@ -16834,6 +16839,10 @@ msgstr "Vorhandene Datensätze behalten ihre Namen. Nur Pflichtfelder werden ang
 msgid "Existing workspaces keep it. New signups can't pick it."
 msgstr "Bestehende Arbeitsbereiche behalten es. Neue Anmeldungen können es nicht wählen."
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Exists"
+msgstr "Vorhanden"
+
 #: frontend/src/writer/components/VersionsSidebar.vue:22
 msgid "Exit"
 msgstr "Austritt"
@@ -27964,6 +27973,10 @@ msgstr "Für die Fertigung benötigt"
 msgid "Needs"
 msgstr "Braucht"
 
+#: onedesk/public/js/admin_settings.js:95
+msgid "Needs Attention"
+msgstr "Braucht Aufmerksamkeit"
+
 #: frontend/src/intake/IntakeReading.vue:94
 #: onedesk/one_ai/doctype/reading_action/reading_action_list.js:4
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:23
@@ -31930,6 +31943,10 @@ msgstr "One-Admin-Token"
 msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr "OneAdmin ist gerade nicht erreichbar. Versuchen Sie es in ein paar Minuten erneut."
 
+#: onedesk/one_admin/site.py:85
+msgid "OneAdmin needs at least one operator."
+msgstr "OneAdmin braucht mindestens einen Operator."
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: frontend/src/books/BooksHome.vue:257 onedesk/one_book/page/books/books.js:5
@@ -32198,6 +32215,10 @@ msgstr "Nur HR-Manager können eine Beschwerde als nicht sensibel markieren."
 #: onedesk/one_project/budget.py:183
 msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
 msgstr "Nur ein Buchhaltungsbenutzer legt ein Budget für eine Kostenstelle fest. Lege dieses für ein Projekt fest."
+
+#: onedesk/one_admin/site.py:81
+msgid "Only an active member of the workspace can be an operator."
+msgstr "Nur aktive Mitglieder des Arbeitsbereichs können Operatoren sein."
 
 #: onedesk/one_studio/reports.py:240
 msgid "Only an administrator can show it to everyone."
@@ -32868,6 +32889,10 @@ msgstr "Arbeitsgänge mit Bearbeiter"
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 msgid "Operator"
 msgstr ""
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Operators"
+msgstr "Operatoren"
 
 #: onedesk/one_admin/operator.py:59
 msgid "Operators can't set {0}."
@@ -36994,6 +37019,10 @@ msgstr "Beförderungsschreiben"
 #: onedesk/one_crm/home.py:171
 msgid "Promotional Scheme"
 msgstr "Werbeaktion"
+
+#: onedesk/public/js/admin_settings.js:115
+msgid "Prompt"
+msgstr "Prompt"
 
 #. Label in the One Employee Tax Exemption Proof Submission print format
 #: onedesk/one_hr/print_format/one_employee_tax_exemption_proof_submission/one_employee_tax_exemption_proof_submission.json
@@ -41278,6 +41307,10 @@ msgstr "Wird gespeichert…"
 msgid "Say a little about yourself and your work."
 msgstr "Erzählen Sie etwas über sich und Ihre Arbeit."
 
+#: onedesk/public/js/admin_settings.js:117
+msgid "Say hello in one short sentence."
+msgstr "Sag in einem kurzen Satz Hallo."
+
 #: onedesk/one_ai/heads.py:115
 msgid "Say no to this?"
 msgstr "Das ablehnen?"
@@ -41889,6 +41922,10 @@ msgstr "Link senden"
 #: onedesk/public/js/one_account/account_center.js:484
 msgid "Send Password Reset"
 msgstr "Passwort-Zurücksetzung senden"
+
+#: onedesk/public/js/admin_settings.js:121
+msgid "Send Prompt"
+msgstr "Prompt senden"
 
 #: frontend/portal/src/pages/Rfq.vue:95
 msgid "Send Quote"
@@ -57209,6 +57246,10 @@ msgstr "Wen es betrifft"
 #: onedesk/one_hr/home.py:459
 msgid "Who left, when and why."
 msgstr "Wer gegangen ist, wann und warum."
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Who may run OneAdmin. The workspace's administrators are its first operators."
+msgstr "Wer OneAdmin führen darf. Die Administration des Arbeitsbereichs stellt die ersten Operatoren."
 
 #: onedesk/one_project/ai.py:109
 msgid "Who on this project has too much on? Say who has the most open and late tasks and the most hours this month, and which tasks could go to somebody with less."

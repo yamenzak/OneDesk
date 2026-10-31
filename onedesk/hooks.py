@@ -984,6 +984,8 @@ web_include_js = stamped(["/assets/onedesk/js/login.js"])
 
 setup_wizard_requires = "/assets/onedesk/js/setup_wizard.js"
 setup_wizard_stages = "onedesk.one.setup_wizard.get_setup_stages"
+# The first person on the admin site becomes its operator (one_admin/site.py).
+setup_wizard_success = "onedesk.one_admin.site.first_operators"
 
 app_include_css = stamped([
 	"/assets/onedesk/css/theme.css",

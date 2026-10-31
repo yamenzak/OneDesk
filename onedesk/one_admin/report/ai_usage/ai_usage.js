@@ -24,7 +24,7 @@ frappe.query_reports["AI Usage"] = {
 			label: __("Workspace"),
 			fieldtype: "Link",
 			options: "Tenant",
-		}
+		},
 		{
 			fieldname: "model",
 			label: __("Model"),

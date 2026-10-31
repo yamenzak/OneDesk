@@ -56,7 +56,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 63 | single |
+| One Admin Settings | 65 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -470,6 +470,8 @@ No doctypes yet.
 * `onedesk.one_admin.signup.pay`
 * `onedesk.one_admin.signup.start`
 * `onedesk.one_admin.signup.state`
+* `onedesk.one_admin.site.make_operator`
+* `onedesk.one_admin.site.operators`
 * `onedesk.one_admin.stripe.webhook`
 * `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.brief.switch`
