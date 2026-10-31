@@ -37,7 +37,7 @@ def _code() -> str:
 		code = f"{secrets.randbelow(900000) + 100000}"
 		if not frappe.db.exists(DOCTYPE, {"pair_code": code, "status": "Waiting to Pair"}):
 			return code
-	frappe.throw(_("No pairing code is free. Try again."))
+	frappe.throw(_("No pairing code is available. Try again."))
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
@@ -67,7 +67,9 @@ def start(
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 def status(screen: str, secret: str) -> dict:
 	"""Whether the screen has been paired; the first time it has, its token."""
-	row = frappe.db.get_value(DOCTYPE, screen, ["status", "pair_code", "secret_hash", "token"], as_dict=True)
+	row = frappe.db.get_value(
+		DOCTYPE, screen, ["status", "pair_code", "secret_hash", "token", "screen_name", "channel", "sound_zone"], as_dict=True
+	)
 	if not row or not hmac.compare_digest(row.secret_hash or "", _hash(secret)):
 		return {"gone": 1}
 	if row.status != "Paired":
@@ -75,7 +77,7 @@ def status(screen: str, secret: str) -> dict:
 	if not row.token:
 		return {"gone": 1}
 	frappe.db.set_value(DOCTYPE, screen, "token", None, update_modified=False)
-	return {"token": row.token}
+	return {"token": row.token, "name": row.screen_name, "plays": row.channel or row.sound_zone or ""}
 
 
 @frappe.whitelist(methods=["POST"])
@@ -90,13 +92,13 @@ def pair(
 	frappe.has_permission(DOCTYPE, "write", throw=True)
 	name = frappe.db.get_value(DOCTYPE, {"pair_code": (code or "").strip(), "status": "Waiting to Pair"})
 	if not name:
-		frappe.throw(_("No screen is showing {0}. Check the code on the screen.").format(code))
+		frappe.throw(_("No screen is showing code {0}. Check the code and try again.").format(code))
 	token = secrets.token_urlsafe(32)
 	doc = frappe.get_doc(DOCTYPE, name)
 	if doc.kind == "Radio" and not sound_zone:
-		frappe.throw(_("A radio plays a sound zone. Choose which."))
+		frappe.throw(_("Select a sound zone for the radio."))
 	if doc.kind != "Radio" and not channel:
-		frappe.throw(_("Choose the channel the screen shows."))
+		frappe.throw(_("Select a channel for the screen."))
 	doc.update(
 		{
 			"screen_name": screen_name,
@@ -145,11 +147,11 @@ MB = 1024 * 1024
 
 def _why(said: str) -> str:
 	return {
-		"memory": _("Its page memory was nearly full."),
-		"nightly": _("The nightly fresh start."),
-		"command": _("Reload was sent from OneDisplay."),
-		"start": _("It was turned on or opened."),
-	}.get(said) or _("Unexpected: the device or its browser restarted.")
+		"memory": _("Page memory was nearly full."),
+		"nightly": _("Nightly reload."),
+		"command": _("Reloaded from OneDisplay."),
+		"start": _("Started or opened."),
+	}.get(said) or _("The device or browser restarted unexpectedly.")
 
 
 def _risks(seen: dict) -> list[str]:
@@ -157,16 +159,16 @@ def _risks(seen: dict) -> list[str]:
 	said = []
 	heap, limit = cint(seen.get("heap_mb")), cint(seen.get("heap_limit_mb"))
 	if limit and heap > limit * HEAP_SHARE:
-		said.append(_("Its page memory is {0}% full.").format(round(heap * 100 / limit)))
+		said.append(_("Page memory is {0}% full.").format(round(heap * 100 / limit)))
 	pictures, memory = cint(seen.get("pictures_mb")), flt(seen.get("memory_gb"))
 	if memory and pictures > memory * 1024 * PICTURE_SHARE:
-		said.append(_("Pictures take {0} MB, a quarter or more of the device's memory.").format(pictures))
+		said.append(_("Images use {0} MB, at least a quarter of the device memory.").format(pictures))
 	elif not memory and pictures > PICTURES_UNKNOWN_MB:
-		said.append(_("Pictures take {0} MB.").format(pictures))
+		said.append(_("Images use {0} MB.").format(pictures))
 	if cint(seen.get("restarts_today")) >= RESTARTS:
-		said.append(_("It restarted {0} times today.").format(cint(seen["restarts_today"])))
+		said.append(_("Restarted {0} times today.").format(cint(seen["restarts_today"])))
 	if seen.get("video_too_big"):
-		said.append(_("A video is {0}, larger than this screen shows.").format(seen["largest_video"]))
+		said.append(_("A video is {0}, larger than this screen's resolution.").format(seen["largest_video"]))
 	return said
 
 
@@ -308,7 +310,7 @@ def take(screen: str, token: str, widget: str, service: str) -> dict:
 	"""A kiosk widget on this screen's channel hands out a ticket."""
 	row = _screen(screen, token)
 	if not row or not row.channel:
-		frappe.throw(_("This screen does not hand out tickets."), frappe.PermissionError)
+		frappe.throw(_("This screen has no kiosk."), frappe.PermissionError)
 	collection = programme.plays(frappe.get_cached_doc("Display Channel", row.channel))["widgets"]
 	kiosk = frappe.db.get_value(
 		"Display Widget",
@@ -317,7 +319,7 @@ def take(screen: str, token: str, widget: str, service: str) -> dict:
 	)
 	queue = frappe.db.get_value("Display Source", {"name": kiosk, "kind": "Queue"}, "queue") if kiosk else None
 	if not queue:
-		frappe.throw(_("This screen does not hand out tickets."), frappe.PermissionError)
+		frappe.throw(_("This screen has no kiosk."), frappe.PermissionError)
 	return queues.take(queue, service)
 
 
@@ -325,7 +327,7 @@ def take(screen: str, token: str, widget: str, service: str) -> dict:
 def control(screen: Annotated[str, "The screen."], command: Annotated[str, "reload, mute, unmute, off or on."]) -> str:
 	"""Tell a screen to reload, go quiet or dark, or come back."""
 	if command not in COMMANDS:
-		frappe.throw(_("A screen cannot be told {0}.").format(command))
+		frappe.throw(_("{0} is not a valid screen command.").format(command))
 	doc = frappe.get_doc(DOCTYPE, screen)
 	doc.check_permission("write")
 	doc.update({**COMMANDS[command], "command": command, "command_at": now_datetime()})
@@ -340,7 +342,7 @@ def alert(message: Annotated[str, "What every screen shows; empty ends the alert
 	from onedesk.one import rights
 
 	if not rights.held("Display Settings", "display_alert"):
-		frappe.throw(_("Sending an emergency alert is not yours to do."), frappe.PermissionError)
+		frappe.throw(_("You do not have permission to send an emergency alert."), frappe.PermissionError)
 	settings = frappe.get_doc("Display Settings")
 	settings.alert_active = 1 if (message or "").strip() else 0
 	settings.alert_message = (message or "").strip() or settings.alert_message
@@ -350,4 +352,4 @@ def alert(message: Annotated[str, "What every screen shows; empty ends the alert
 		from onedesk.one_display import tell
 
 		tell.alert_sent(settings.alert_message)
-	return _("Every screen shows the alert.") if settings.alert_active else _("The alert has ended.")
+	return _("The alert is showing on all screens.") if settings.alert_active else _("The alert has ended.")

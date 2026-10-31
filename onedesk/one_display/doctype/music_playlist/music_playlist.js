@@ -35,7 +35,7 @@ frappe.ui.form.on("Music Playlist", {
 					({ description }) =>
 						frappe
 							.xcall("onedesk.one_display.make.music", { playlist: frm.doc.name, description })
-							.then(() => frappe.show_alert({ message: __("OneAI is making the music. You will be told when it is in the playlist."), indicator: "blue" })),
+							.then(() => frappe.show_alert({ message: __("OneAI is generating the music. You will be notified when it is added to the playlist."), indicator: "blue" })),
 					__("Make Music"),
 					__("Make")
 				),

@@ -9,17 +9,17 @@ frappe.ui.form.on("Voice Pack", {
 		if (frm.is_new()) return;
 		const missing = Object.values(covers).reduce((sum, { made, of }) => sum + of - made, 0);
 		if (missing) {
-			frm.add_custom_button(__("Make the Rest"), () =>
+			frm.add_custom_button(__("Record Missing Clips"), () =>
 				frappe.xcall("onedesk.one_display.packs.make", { name: frm.doc.name }).then((count) =>
-					frappe.show_alert({ message: __("OneAI is saying {0} pieces. They are kept as they come.", [count]), indicator: "blue" })
+					frappe.show_alert({ message: __("Recording {0} clips.", [count]), indicator: "blue" })
 				)
 			);
 		}
 		if (frm.doc.made) {
-			frm.add_custom_button(__("Make Again"), () =>
-				frappe.confirm(__("Say every piece of this pack again, in place?"), () =>
+			frm.add_custom_button(__("Re-record All"), () =>
+				frappe.confirm(__("Re-record every clip in this pack? Existing clips are replaced."), () =>
 					frappe.xcall("onedesk.one_display.packs.again", { name: frm.doc.name }).then((count) =>
-						frappe.show_alert({ message: __("OneAI is saying {0} pieces again.", [count]), indicator: "blue" })
+						frappe.show_alert({ message: __("Re-recording {0} clips.", [count]), indicator: "blue" })
 					)
 				)
 			);

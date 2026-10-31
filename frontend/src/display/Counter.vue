@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto flex w-full max-w-4xl flex-col gap-5 px-5 py-6">
     <Loading v-if="!desks" />
-    <p v-else-if="!desks.length" class="text-base text-ink-gray-5">{{ __("No queue is set up yet.") }}</p>
+    <p v-else-if="!desks.length" class="text-base text-ink-gray-5">{{ __("No queues") }}</p>
     <template v-else>
       <div class="flex flex-wrap gap-2">
         <Select v-if="desks.length > 1" v-model="queue" class="w-48" :options="desks.map((one) => one.queue)" />
@@ -29,7 +29,7 @@
             <span class="min-w-0 flex-1 truncate text-sm text-ink-gray-7">{{ one.service }}</span>
             <span class="text-sm text-ink-gray-5">{{ ago(one.creation) }}</span>
           </div>
-          <p v-if="!state.waiting.length" class="py-2 text-sm text-ink-gray-5">{{ __("Nobody is waiting.") }}</p>
+          <p v-if="!state.waiting.length" class="py-2 text-sm text-ink-gray-5">{{ __("No one is waiting.") }}</p>
         </section>
       </div>
     </template>

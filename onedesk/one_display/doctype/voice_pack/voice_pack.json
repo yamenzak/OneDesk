@@ -4,7 +4,7 @@
  "doctype": "DocType",
  "engine": "InnoDB",
  "links": [],
- "modified": "2026-10-30 22:07:24.730252",
+ "modified": "2026-10-31 04:15:48.902011",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Voice Pack",
@@ -45,7 +45,7 @@
    "share": 1
   }
  ],
- "description": "What a call is said from in one language, voice and tone: kept once, joined for every ticket.",
+ "description": "Recorded letters, numbers and words that calls are assembled from.",
  "field_order": [
   "language",
   "voice",
@@ -94,13 +94,12 @@
    "fieldtype": "Int",
    "label": "Clips",
    "read_only": 1,
-   "in_list_view": 1,
-   "description": "Each a letter, a number, a word or a counter's name, said once."
+   "in_list_view": 1
   },
   {
    "fieldname": "covers",
    "fieldtype": "HTML",
-   "label": "Covers"
+   "label": "Coverage"
   },
   {
    "fieldname": "section_clips",

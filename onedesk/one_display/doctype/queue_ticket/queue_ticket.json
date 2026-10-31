@@ -96,7 +96,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-31 04:15:48.842022",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue Ticket",
@@ -145,5 +145,5 @@
  "track_changes": 1,
  "autoname": "hash",
  "title_field": "ticket",
- "description": "One person's place in a queue, from taking it at the kiosk to being served."
+ "description": "A ticket in a queue."
 }

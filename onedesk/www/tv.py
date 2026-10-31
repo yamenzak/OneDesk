@@ -7,10 +7,14 @@ without pairing: the channel's Preview, and the layout editor's with
 &collection=<collection>&embed=1."""
 
 import json
+import re
+from pathlib import Path
 
 import frappe
 from frappe import _
 from frappe.sessions import get_csrf_token
+
+from onedesk.one_display import screens
 
 no_cache = 1
 
@@ -34,20 +38,33 @@ def get_context(context):
 	context.socket_json = json.dumps(
 		{"port": frappe.conf.socketio_port if frappe._dev_server else None, "site": frappe.local.site}
 	)
+	brand = screens._brand()
+	context.accent = brand["colour"] if re.fullmatch(r"#[0-9a-fA-F]{6}", brand.get("colour") or "") else "#2563eb"
+	context.mark = _mark()
 	context.words_json = json.dumps(
 		{
 			"pair": _("Pair this radio") if context.radio else _("Pair this screen"),
-			"how": _("In OneDisplay, open Display Screen, choose Add Display Screen, enter this code and choose its sound zone.")
+			"where": brand["name"],
+			"host": frappe.utils.get_url().split("://", 1)[-1],
+			"done": _("Connected"),
+			"how": _("Enter this code in OneDisplay to connect this radio.")
 			if context.radio
-			else _("In OneDisplay, open Display Screen, choose Add Display Screen and enter this code."),
-			"silent": _("Nothing is playing now."),
+			else _("Enter this code in OneDisplay to connect this screen."),
+			"silent": _("Nothing playing"),
 			"counter": _("Counter"),
 			"waiting": _("Waiting"),
-			"nobody": _("Nobody is being served yet."),
+			"nobody": _("No ticket is being served."),
 			"your": _("Your ticket"),
 			"ahead": _("{0} ahead of you"),
-			"sound": _("Press OK to turn on sound"),
+			"sound": _("Press OK to enable sound"),
 			"busy": _("The ticket could not be taken. Try again."),
 		}
 	).replace("<", "\\u003c")
 	return context
+
+
+def _mark() -> str:
+	"""OneDisplay's mark from brand/, drawn inline with ids of its own."""
+	svg = (Path(frappe.get_app_path("onedesk")).parent / "brand" / "onedisplay.svg").read_text()
+	svg = re.sub(r'\s(width|height)="\d+"', "", svg, count=2)
+	return svg.replace('id="', 'id="pm-').replace("url(#", "url(#pm-")

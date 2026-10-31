@@ -410,7 +410,7 @@ def words() -> dict:
 	return {
 		"counter": _("Counter"),
 		"waiting": _("Waiting"),
-		"nobody": _("Nobody is being served yet."),
+		"nobody": _("No ticket is being served."),
 		"your": _("Your ticket"),
 		"ahead": _("{0} ahead of you"),
 		"busy": _("The ticket could not be taken. Try again."),

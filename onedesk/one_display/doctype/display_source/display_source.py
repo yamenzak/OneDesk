@@ -14,14 +14,14 @@ class DisplaySource(Document):
 		if self.kind in ("Records", "Record"):
 			frappe.has_permission(self.ref_doctype, "read", throw=True)
 			if frappe.get_meta(self.ref_doctype).istable:
-				frappe.throw(_("A source reads records, not the rows of a table."))
+				frappe.throw(_("A child table cannot be used as a source."))
 		if self.kind == "Records":
-			self.filters = _json(self.filters, list, _("The filters are not a list."))
+			self.filters = _json(self.filters, list, _("Filters are not valid."))
 			if self.aggregate in ("Sum", "Average") and not frappe.get_meta(self.ref_doctype).get_field(self.aggregate_field or ""):
 				frappe.throw(_("{0} has no field {1}.").format(_(self.ref_doctype), self.aggregate_field or ""))
 		if self.kind == "Report":
 			frappe.has_permission("Report", "read", doc=self.report, throw=True)
-			self.report_filters = _json(self.report_filters, dict, _("The report's filters are not a set of values."))
+			self.report_filters = _json(self.report_filters, dict, _("Report filters are not valid."))
 		if self.kind == "Feed" and not (self.feed_url or "").startswith("https://"):
 			frappe.throw(_("A feed's address starts with https://."))
 		if self.kind == "Weather" and not (-90 <= flt(self.latitude) <= 90 and -180 <= flt(self.longitude) <= 180):
@@ -31,7 +31,7 @@ class DisplaySource(Document):
 
 			named = currencies_in(self.currencies)
 			if not named:
-				frappe.throw(_("Name at least one currency, such as USD."))
+				frappe.throw(_("Enter at least one currency."))
 			unknown = [one for one in named if not frappe.db.exists("Currency", one)]
 			if unknown:
 				frappe.throw(_("There is no currency {0}.").format(", ".join(unknown)))

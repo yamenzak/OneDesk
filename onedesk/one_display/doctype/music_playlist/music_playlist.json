@@ -30,7 +30,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-31 04:15:48.796084",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Music Playlist",
@@ -74,6 +74,6 @@
  "autoname": "field:playlist_name",
  "naming_rule": "By fieldname",
  "title_field": "playlist_name",
- "description": "Music every screen of a channel plays together.",
+ "description": "Tracks played in a sound zone.",
  "make_attachments_public": 1
 }

@@ -27,8 +27,7 @@
   {
    "fieldname": "description",
    "fieldtype": "Small Text",
-   "label": "Description",
-   "description": "What it keeps track of, and where."
+   "label": "Description"
   },
   {
    "fieldname": "column_break_name",
@@ -37,8 +36,8 @@
   {
    "fieldname": "value_label",
    "fieldtype": "Data",
-   "label": "Value Name",
-   "description": "Such as Score, Count or Price. Empty when items have only a state."
+   "label": "Value Label",
+   "description": "Example: Score, Count or Price. Leave empty if items only have a state."
   },
   {
    "fieldname": "value_kind",
@@ -58,7 +57,7 @@
    "fieldtype": "Table",
    "label": "States",
    "options": "Display Board State",
-   "description": "What an item can be, in order. Empty when items have only a value."
+   "description": "Leave empty if items only have a value."
   },
   {
    "fieldname": "section_items",
@@ -69,8 +68,7 @@
    "fieldname": "items",
    "fieldtype": "Table",
    "label": "Items",
-   "options": "Display Board Item",
-   "description": "The things on the board. They are changed from Boards, on a phone or a tablet."
+   "options": "Display Board Item"
   },
   {
    "fieldname": "section_people",
@@ -82,11 +80,11 @@
    "fieldtype": "Table MultiSelect",
    "label": "People",
    "options": "Display Board Person",
-   "description": "Empty lets everyone with OneDisplay change it. They are also told when an item passes its time limit."
+   "description": "Can update the board and are notified when an item passes its time limit. Leave empty to allow all OneDisplay users."
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:34:32.107819",
+ "modified": "2026-10-31 04:15:48.610728",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Board",
@@ -134,5 +132,5 @@
  "track_changes": 1,
  "autoname": "field:board_name",
  "title_field": "board_name",
- "description": "Things whose state or value people change by hand, shown on screens."
+ "description": "Items whose state or value is updated by hand and shown on screens."
 }

@@ -8,10 +8,10 @@ frappe.ui.form.on("Display Source", {
 				frappe.xcall("onedesk.one_display.sources.peek", { source: frm.doc.name, widget_type: "Custom" }).then((said) => {
 					const rows = said.rows?.length ? said.rows : said.whole ? [said.whole] : [];
 					frappe.msgprint({
-						title: __("What It Shows Now"),
+						title: __("Now Showing"),
 						message: rows.length
 							? `<pre class="text-sm">${frappe.utils.escape_html(JSON.stringify(rows.slice(0, 5), null, 2))}</pre>`
-							: __("Nothing yet. A records source shows the fields a widget maps."),
+							: __("No rows yet."),
 						wide: true,
 					});
 				})

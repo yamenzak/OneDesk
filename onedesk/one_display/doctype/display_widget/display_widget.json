@@ -77,9 +77,9 @@
   {
    "fieldname": "mapping",
    "fieldtype": "Code",
-   "label": "Fields Shown",
+   "label": "Field Mapping",
    "options": "JSON",
-   "description": "Which field fills each part the widget draws."
+   "description": "Source field shown in each part of the widget."
   },
   {
    "fieldname": "settings",
@@ -108,7 +108,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:34:32.181678",
+ "modified": "2026-10-31 04:15:48.780984",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Widget",

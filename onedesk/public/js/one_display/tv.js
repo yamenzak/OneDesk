@@ -181,11 +181,42 @@
 		});
 	}
 
+	// the code in six tiles, drawn again only when it changes, so they rise once
+	var shownCode = "";
+
 	function showCode(code) {
 		text("pair-title", W.pair);
 		text("pair-how", W.how);
-		text("code", code);
+		text("pair-where", W.where || "");
+		text("pair-host", W.host || "");
+		if (code && code !== shownCode) {
+			shownCode = code;
+			var tiles = $("code");
+			tiles.innerHTML = "";
+			for (var i = 0; i < code.length; i++) {
+				var tile = el("div", "digit");
+				tile.textContent = code.charAt(i);
+				tile.style.webkitAnimationDelay = tile.style.animationDelay = i * 0.08 + "s";
+				tiles.appendChild(tile);
+			}
+		}
 		show("pair", true);
+	}
+
+	// paired: the code gives way to a link from the workspace to this screen,
+	// a tick, and the screen's name; the channel loads behind it meanwhile
+	function linked(m) {
+		var pair = $("pair");
+		text("pair-done", W.done || "");
+		text("pair-what", [m.name, m.plays].filter(function (one) { return one; }).join(" · "));
+		pair.className = "over linking";
+		setTimeout(function () { pair.className = "over linking linked"; }, 2200);
+		setTimeout(function () { pair.className = "over linking linked leaving"; }, 4200);
+		setTimeout(function () {
+			pair.className = "over";
+			show("pair", false);
+			shownCode = "";
+		}, 5000);
 	}
 
 	function waitForPair() {
@@ -200,7 +231,7 @@
 				saved.token = m.token;
 				delete saved.secret;
 				store(KEY, saved);
-				show("pair", false);
+				linked(m);
 				return poll();
 			}
 			showCode(m.code);
@@ -958,7 +989,7 @@
 			grid.innerHTML = "";
 			for (var i = 0; i < list.length; i++) {
 				var item = list[i];
-				var tile = el("div", "tile");
+				var tile = el("div", "digit");
 				tile.style.width = 100 / columns + "%";
 				tile.style.height = 100 / lines + "%";
 				var inside = el("div", "tile-in" + (item.over ? " fresh" : ""));
@@ -1405,6 +1436,7 @@
 		var tracks = soundZone && soundZone.music ? soundZone.music.tracks : [];
 		var at = tracks.length ? where(tracks, now()) : null;
 		text("radio-now", at ? tracks[at.index].title || "" : W.silent || "");
+		$("radio").className = "over" + (at && !soundZone.muted ? "" : " silent");
 	}
 
 	var taking = false;

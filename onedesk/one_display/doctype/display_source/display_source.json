@@ -49,11 +49,10 @@
   {
    "fieldname": "kind",
    "fieldtype": "Select",
-   "label": "Kind",
+   "label": "Type",
    "options": "Records\nRecord\nReport\nQueue\nFeed\nWeather\nExchange Rates\nBoard",
    "reqd": 1,
-   "default": "Records",
-   "description": "Where its rows come from, such as records, a report, a queue, a news feed or the weather."
+   "default": "Records"
   },
   {
    "fieldname": "read_as",
@@ -61,7 +60,7 @@
    "label": "Read As",
    "options": "User",
    "read_only": 1,
-   "description": "Whose access it reads with. It is whoever saved it last."
+   "description": "Data is read with this user's permissions."
   },
   {
    "fieldname": "column_break_kind",
@@ -70,9 +69,9 @@
   {
    "fieldname": "refresh",
    "fieldtype": "Int",
-   "label": "Refresh Every (Seconds)",
+   "label": "Refresh Interval (Seconds)",
    "default": "0",
-   "description": "How long screens keep what it said before it is read again. Empty is the kind's usual."
+   "description": "Leave empty to use the default for the source type."
   },
   {
    "fieldname": "board",
@@ -126,7 +125,7 @@
    "fieldtype": "Data",
    "label": "Order By",
    "depends_on": "eval:doc.kind=='Records'",
-   "description": "A field and asc or desc, such as modified desc."
+   "description": "Example: modified desc"
   },
   {
    "fieldname": "row_limit",
@@ -138,15 +137,15 @@
   {
    "fieldname": "aggregate",
    "fieldtype": "Select",
-   "label": "Count or Total",
+   "label": "Aggregate",
    "options": "\nCount\nSum\nAverage",
    "depends_on": "eval:doc.kind=='Records'",
-   "description": "One figure instead of rows, such as how many there are, or the sum or average of a field."
+   "description": "Returns a single value instead of rows."
   },
   {
    "fieldname": "aggregate_field",
    "fieldtype": "Data",
-   "label": "Of Field",
+   "label": "Aggregate Field",
    "depends_on": "eval:doc.kind=='Records' && ['Sum','Average'].includes(doc.aggregate)"
   },
   {
@@ -190,10 +189,10 @@
   {
    "fieldname": "feed_url",
    "fieldtype": "Data",
-   "label": "Feed Address",
+   "label": "Feed URL",
    "options": "URL",
    "mandatory_depends_on": "eval:doc.kind=='Feed'",
-   "description": "An RSS or Atom address, such as a news site's headlines."
+   "description": "RSS or Atom feed."
   },
   {
    "fieldname": "section_weather",
@@ -205,7 +204,7 @@
    "fieldname": "place",
    "fieldtype": "Data",
    "label": "Place",
-   "description": "What the screen calls it, such as Dubai."
+   "description": "Name shown on screen. Example: Dubai"
   },
   {
    "fieldname": "latitude",
@@ -242,8 +241,8 @@
    "fieldname": "base_currency",
    "fieldtype": "Link",
    "options": "Currency",
-   "label": "In Currency",
-   "description": "What each rate is given in. Empty is the company's own currency."
+   "label": "Base Currency",
+   "description": "Defaults to the company currency."
   },
   {
    "fieldname": "column_break_rates",
@@ -253,11 +252,11 @@
    "fieldname": "currencies",
    "fieldtype": "Small Text",
    "label": "Currencies",
-   "description": "The currencies shown, such as USD, EUR, GBP, separated by commas."
+   "description": "Comma-separated. Example: USD, EUR, GBP"
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:34:32.161906",
+ "modified": "2026-10-31 04:15:48.735864",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Source",
@@ -301,5 +300,5 @@
  "autoname": "field:source_name",
  "naming_rule": "By fieldname",
  "title_field": "source_name",
- "description": "Where a widget's words, numbers and pictures come from. A screen is shown only the fields a widget maps."
+ "description": "Supplies data to widgets. Only fields mapped to a widget are sent to screens."
 }

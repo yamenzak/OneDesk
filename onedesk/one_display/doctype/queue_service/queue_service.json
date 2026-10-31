@@ -22,11 +22,11 @@
    "reqd": 1,
    "length": 3,
    "in_list_view": 1,
-   "description": "The letter tickets for this service start with, such as A."
+   "description": "Example: A"
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-31 04:15:48.826107",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue Service",

@@ -77,7 +77,7 @@ def _may_change(doctype: str, name: str) -> None:
 def _later(what: str, playlist: str, description: str, **more) -> None:
 	description = (description or "").strip()[:2000]
 	if not description:
-		frappe.throw(_("Say what OneAI should make."))
+		frappe.throw(_("Describe what OneAI should make."))
 	frappe.enqueue(
 		"onedesk.one_display.make.made_later",
 		queue="long",

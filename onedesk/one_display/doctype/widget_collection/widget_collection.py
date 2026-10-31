@@ -33,7 +33,7 @@ def _object(text) -> str:
 	try:
 		said = json.loads(text or "{}")
 	except ValueError:
-		frappe.throw(_("A widget's settings could not be read."))
+		frappe.throw(_("Widget settings are not valid."))
 	if not isinstance(said, dict):
-		frappe.throw(_("A widget's settings could not be read."))
+		frappe.throw(_("Widget settings are not valid."))
 	return json.dumps(said, ensure_ascii=False)

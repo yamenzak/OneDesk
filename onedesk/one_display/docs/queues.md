@@ -31,6 +31,6 @@ a second or so.
 
 ## Nobody Left Waiting
 
-Set **Tell Counters After (Minutes)** on a queue, and whoever staffs its
+Set **Long Wait Alert (Minutes)** on a queue, and whoever staffs its
 counters is told when somebody has waited longer than that. Each ticket is
 told once.

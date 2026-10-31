@@ -21,7 +21,7 @@
   {
    "fieldname": "plays",
    "fieldtype": "Select",
-   "label": "Plays",
+   "label": "Frequency",
    "options": "Every Few Minutes\nAt Times",
    "default": "Every Few Minutes",
    "in_list_view": 1
@@ -37,14 +37,14 @@
   {
    "fieldname": "at_times",
    "fieldtype": "Data",
-   "label": "At",
+   "label": "Times",
    "in_list_view": 1,
    "depends_on": "eval:doc.plays=='At Times'",
-   "description": "Times of day, such as 9.00 and 13.30, separated by commas."
+   "description": "Comma-separated times of day, in 24-hour time."
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-31 04:15:48.578635",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Channel Ad",

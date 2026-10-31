@@ -10,7 +10,7 @@ is: a lobby, a waiting area, a showroom floor.
 
 | Part | What it is |
 | --- | --- |
-| **Says Calls** | Whether a ticket called at a counter is said aloud here. A queue names the zone its calls are said in. |
+| **Announce Calls** | Whether a ticket called at a counter is said aloud here. A queue names the zone its calls are said in. |
 | **Announcement Language** and **Voice** | The language calls are said in, and OneAI's voice. With no voice, a screen's own voice says them. |
 | **Music Playlist** | The music, quietly under everything, with a **Schedule** for other music, or none, at certain times. |
 | **Voice Ads** | Ads read aloud every few minutes, or at set times. |
@@ -48,12 +48,12 @@ each kind it has said.
 
 ![A voice pack, and what it has said](sound/pack.png)
 
-**Make the Rest** has OneAI say everything the pack may still need, and **Make
-Again** says every piece once more, each in its place. The pieces are files
+**Record Missing Clips** has OneAI record everything the pack may still need,
+and **Re-record All** records every clip again, replacing the old one. The pieces are files
 in OneCloud, under **Records**, **Voice Pack**; deleting the pack deletes
 them.
 
-A queue's **Numbers Said** chooses how a ticket's number is read: **Auto**
+A queue's **Number Reading** chooses how a ticket's number is read: **Auto**
 says four digits or more one by one and a shorter number whole, or always
 **Digit by Digit**, or always the **Whole Number**.
 

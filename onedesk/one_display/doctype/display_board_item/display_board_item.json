@@ -42,13 +42,13 @@
   {
    "fieldname": "told",
    "fieldtype": "Check",
-   "label": "Told",
+   "label": "Notified",
    "hidden": 1,
    "read_only": 1
   }
  ],
  "links": [],
- "modified": "2026-10-31 02:00:00.000000",
+ "modified": "2026-10-31 04:15:48.640200",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Board Item",

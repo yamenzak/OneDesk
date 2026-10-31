@@ -274,3 +274,30 @@ def test_no_screen_text_reads_like_a_commit_message():
 			if THEIR_APP.search(text):
 				wrong.append(f"{folder}.{where}: says press rather than Frappe Cloud")
 	assert not wrong, "screen text out of register:\n  " + "\n  ".join(wrong)
+
+
+# Help written as reasoning rather than as frappe writes it: "Empty is the
+# kind's usual", "such as Dubai", "which frees what an old TV holds on to".
+# Frappe says "Leave empty to …", "Defaults to …" and "Example: …".
+REASONING = re.compile(
+	r"^Empty\b|\bEmpty (is|lets|tells|for|never|when|means)\b|\b[Ss]uch as\b|, so (a|an|the|it|they|its)\b"
+	r"|\bwhich (frees|means)\b|\b(whoever|nobody|somebody)\b|\bholds on to\b"
+)
+# The modules whose field help has been rewritten to frappe's register; a
+# module joins as it is rewritten (docs/WORDING.md, The description).
+REGISTERED = ("one_display",)
+
+
+def test_field_help_says_what_the_system_does():
+	wrong = []
+	for module in REGISTERED:
+		for path in sorted((tree.APP / module).glob("doctype/*/*.json")):
+			spec = json.loads(path.read_text(encoding="utf-8"))
+			if spec.get("doctype") != "DocType":
+				continue
+			said = [("[doctype]", spec.get("description") or "")]
+			said += [(one["fieldname"], one.get("description") or "") for one in spec.get("fields", [])]
+			for where, text in said:
+				if text and REASONING.search(text):
+					wrong.append(f"{path.stem}.{where}: {text}")
+	assert not wrong, "field help reads as reasoning, see docs/WORDING.md, The description:\n  " + "\n  ".join(wrong)

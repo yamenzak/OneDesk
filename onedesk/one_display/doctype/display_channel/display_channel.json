@@ -32,16 +32,14 @@
    "fieldtype": "Select",
    "label": "Screen Size",
    "options": "Landscape\nPortrait\nBar\nSquare\nWall\nCustom",
-   "default": "Landscape",
-   "description": "Bar is 1920 × 540, a strip over a counter. Wall is 3840 × 1080, two screens side by side."
+   "default": "Landscape"
   },
   {
    "fieldname": "width",
    "fieldtype": "Int",
    "label": "Width",
    "default": "1920",
-   "read_only_depends_on": "eval:doc.screen_size!=='Custom'",
-   "description": "In pixels, as the layout is drawn; a screen of another size scales it."
+   "read_only_depends_on": "eval:doc.screen_size!=='Custom'"
   },
   {
    "fieldname": "height",
@@ -57,15 +55,14 @@
   {
    "fieldname": "description",
    "fieldtype": "Small Text",
-   "label": "Location",
-   "description": "Such as the showroom's lobby."
+   "label": "Location"
   },
   {
    "fieldname": "reload_at",
    "fieldtype": "Time",
-   "label": "Fresh Start Every Night At",
+   "label": "Nightly Reload Time",
    "default": "04:00:00",
-   "description": "Screens on this channel reload at this time each night, which frees what an old TV's browser holds on to. Empty never."
+   "description": "Screens reload at this time every night. Leave empty to disable."
   },
   {
    "fieldname": "section_plays",
@@ -89,13 +86,13 @@
    "fieldtype": "Link",
    "label": "Language",
    "options": "Language",
-   "description": "The language of the words on its screens. Empty is the workspace's."
+   "description": "Language of text on screens. Defaults to the workspace language."
   },
   {
    "fieldname": "section_programme",
    "fieldtype": "Section Break",
    "label": "Schedule",
-   "description": "What plays instead at some times, such as a screensaver at night or no music during prayers."
+   "description": "Rows replace what the channel shows at the times set. A later row takes priority."
   },
   {
    "fieldname": "programme",
@@ -105,7 +102,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:47:43.595499",
+ "modified": "2026-10-31 04:15:48.673368",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Channel",
@@ -149,5 +146,5 @@
  "autoname": "field:channel_name",
  "naming_rule": "By fieldname",
  "title_field": "channel_name",
- "description": "What a screen shows: slides, widgets over them, music and voice, and when each plays."
+ "description": "Slides, widgets and a schedule shown on screens."
 }

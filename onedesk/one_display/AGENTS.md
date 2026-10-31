@@ -175,7 +175,7 @@ through the gateway's `make`) and wraps it as a WAV every TV plays.
 whatever a ticket's format makes it into letters, numbers and separators:
 A1828 is A, 1, 8, 2, 8; with **Whole Number**, 1828-3 is 1 thousand 828,
 dash, 3, where the language joins thousands simply (`THOUSANDS`; elsewhere
-the whole sentence is recorded). A queue's **Numbers Said** is Auto (digit by
+the whole sentence is recorded). A queue's **Number Reading** is Auto (digit by
 digit from four digits), Digit by Digit or Whole Number. `programme.calls`
 plays a whole sentence already kept as a `Display Voice`, else the pack's
 clips, else asks for the whole sentence. A clip the pack lacks is recorded by
@@ -277,7 +277,7 @@ an item past its state's limit, to the board's people, once each time),
 **Screen Offline** (every five
 minutes, a paired screen silent ten minutes and not turned off, once per
 silence), **Long Wait** (every two minutes, a ticket waiting longer than its
-queue's **Tell Counters After**, to whoever staffs its counters, once per
+queue's **Long Wait Alert**, to whoever staffs its counters, once per
 ticket), **Made by OneAI** and **Not Made by OneAI** (to whoever asked for a
 video or music), and **Emergency Alert Sent** (to the others who may send
 one).

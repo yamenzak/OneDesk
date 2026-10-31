@@ -1,7 +1,7 @@
 <template>
   <div class="mx-auto flex w-full max-w-4xl flex-col gap-5 px-5 py-6">
     <Loading v-if="!boards" />
-    <p v-else-if="!boards.length" class="text-base text-ink-gray-5">{{ __("No board you may change is set up yet.") }}</p>
+    <p v-else-if="!boards.length" class="text-base text-ink-gray-5">{{ __("No boards") }}</p>
     <template v-else>
       <div class="flex flex-wrap items-center gap-2">
         <Select v-if="boards.length > 1 && !only" v-model="board" class="w-56" :options="boards.map((one) => one.board)" />
@@ -55,7 +55,7 @@ function minutes(one) {
 }
 
 // what sits under a state: the value beside it, how long, and past its limit
-const under = (one) => [one.state && one.value ? `${state.value?.value_label || __("Value")}: ${one.value}` : "", minutes(one), one.over ? __("Past its time") : ""].filter(Boolean).join(" · ");
+const under = (one) => [one.state && one.value ? `${state.value?.value_label || __("Value")}: ${one.value}` : "", minutes(one), one.over ? __("Over time limit") : ""].filter(Boolean).join(" · ");
 
 async function load() {
   clearTimeout(timer);

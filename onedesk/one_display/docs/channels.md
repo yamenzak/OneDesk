@@ -25,8 +25,8 @@ Outside every row the channel plays what is chosen above it.
 **Preview** on a channel shows it as a screen shows it now, without pairing
 anything.
 
-## A Fresh Start Every Night
+## Nightly Reload
 
-The screens on a channel reload at **Fresh Start Every Night At**, 04:00
+The screens on a channel reload at **Nightly Reload Time**, 04:00
 unless you change it. An old TV's browser holds on to more the longer it
 runs, and this lets it go while nobody is looking.

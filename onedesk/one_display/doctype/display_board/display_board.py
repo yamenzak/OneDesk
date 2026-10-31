@@ -14,7 +14,7 @@ class DisplayBoard(Document):
 				name = (row.get(field) or "").strip()
 				row.set(field, name)
 				if name in seen:
-					frappe.throw(_("{0} is named twice. Each {1} needs its own name.").format(name, what))
+					frappe.throw(_("{0} is used twice. Each {1} must have a unique name.").format(name, what))
 				seen.add(name)
 		states = {row.state for row in self.states}
 		for row in self.items:

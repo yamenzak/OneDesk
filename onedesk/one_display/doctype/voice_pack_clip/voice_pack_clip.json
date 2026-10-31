@@ -22,7 +22,7 @@
   {
    "fieldname": "kind",
    "fieldtype": "Select",
-   "label": "Kind",
+   "label": "Type",
    "options": "Letter\nNumber\nWord\nCounter",
    "in_list_view": 1,
    "read_only": 1
@@ -30,7 +30,7 @@
   {
    "fieldname": "said",
    "fieldtype": "Data",
-   "label": "Said",
+   "label": "Text",
    "in_list_view": 1,
    "read_only": 1
   },
@@ -43,7 +43,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 22:07:24.746117",
+ "modified": "2026-10-31 04:15:48.916560",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Voice Pack Clip",

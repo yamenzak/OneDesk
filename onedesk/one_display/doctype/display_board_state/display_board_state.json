@@ -25,13 +25,13 @@
   {
    "fieldname": "limit_minutes",
    "fieldtype": "Int",
-   "label": "Time Limit",
+   "label": "Time Limit (Minutes)",
    "in_list_view": 1,
-   "description": "Minutes an item may stay in this state before someone is told. Empty for none."
+   "description": "Notify the board's people when an item stays in this state longer. Leave empty for no limit."
   }
  ],
  "links": [],
- "modified": "2026-10-31 02:00:00.000000",
+ "modified": "2026-10-31 04:15:48.658440",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Board State",

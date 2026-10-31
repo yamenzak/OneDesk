@@ -146,7 +146,7 @@ def finish(
 ) -> dict:
 	"""The ticket is served, or nobody came."""
 	if status not in ("Done", "No Show"):
-		frappe.throw(_("A ticket is finished as Done or No Show."))
+		frappe.throw(_("A ticket can only be closed as Done or No Show."))
 	doc = frappe.get_doc(DOCTYPE, ticket)
 	_may(doc.queue)
 	frappe.db.set_value(DOCTYPE, ticket, "status", status)

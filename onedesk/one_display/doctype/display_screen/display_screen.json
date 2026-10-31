@@ -59,19 +59,18 @@
   {
    "fieldname": "kind",
    "fieldtype": "Select",
-   "label": "Kind",
+   "label": "Type",
    "options": "Screen\nRadio",
    "default": "Screen",
    "read_only": 1,
-   "in_list_view": 1,
-   "description": "A radio plays a zone's sound and shows nothing; it opened /radio."
+   "in_list_view": 1
   },
   {
    "fieldname": "sound_zone",
    "fieldtype": "Link",
    "label": "Sound Zone",
    "options": "Sound Zone",
-   "description": "The zone whose music, ads and calls it plays. Empty when speakers elsewhere play them."
+   "description": "Leave empty if the screen does not play sound."
   },
   {
    "fieldname": "plays_sound",
@@ -79,15 +78,15 @@
    "label": "Plays Sound",
    "default": "1",
    "depends_on": "eval:doc.kind!='Radio'",
-   "description": "Plays the sound of videos whose own Plays Sound is on."
+   "description": "If enabled, videos with Plays Sound turned on play their audio."
   },
   {
    "fieldname": "rotate",
    "fieldtype": "Select",
-   "label": "Turn",
+   "label": "Rotation",
    "options": "0\n90\n180\n270",
    "default": "0",
-   "description": "Degrees to turn the picture, for a screen mounted on its side."
+   "description": "For screens mounted vertically or upside down."
   },
   {
    "fieldname": "column_break_state",
@@ -132,23 +131,22 @@
   {
    "fieldname": "risk",
    "fieldtype": "Small Text",
-   "label": "Why",
+   "label": "Risk Reason",
    "read_only": 1,
    "depends_on": "at_risk"
   },
   {
    "fieldname": "pixels",
    "fieldtype": "Data",
-   "label": "Pixels",
-   "read_only": 1,
-   "description": "What the screen's browser draws on, across by down, and its pixel ratio."
+   "label": "Resolution",
+   "read_only": 1
   },
   {
    "fieldname": "memory_gb",
    "fieldtype": "Float",
-   "label": "Memory (GB)",
+   "label": "Device Memory (GB)",
    "read_only": 1,
-   "description": "What the browser says the device has; some do not say."
+   "description": "Reported by the browser, where supported."
   },
   {
    "fieldname": "column_break_load",
@@ -169,9 +167,9 @@
   {
    "fieldname": "pictures_mb",
    "fieldtype": "Int",
-   "label": "Pictures in Memory (MB)",
+   "label": "Image Memory (MB)",
    "read_only": 1,
-   "description": "The most the pictures on screen and the next one took at once, decoded, in the last half hour."
+   "description": "Peak decoded image memory in the last 30 minutes."
   },
   {
    "fieldname": "largest_video",
@@ -271,7 +269,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:47:43.613381",
+ "modified": "2026-10-31 04:15:48.688341",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Screen",
@@ -314,5 +312,5 @@
  "track_changes": 1,
  "autoname": "hash",
  "title_field": "screen_name",
- "description": "A TV, monitor or tablet that shows a channel, paired with the code it shows."
+ "description": "A TV, monitor or tablet paired to show a channel or play a sound zone."
 }

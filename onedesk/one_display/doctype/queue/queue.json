@@ -22,8 +22,8 @@
   {
    "fieldname": "wait_alert",
    "fieldtype": "Int",
-   "label": "Tell Counters After (Minutes)",
-   "description": "When somebody has waited this long, whoever staffs a counter is told. Empty tells nobody.",
+   "label": "Long Wait Alert (Minutes)",
+   "description": "Notify counter staff when a ticket waits longer than this. Leave empty to disable.",
    "non_negative": 1
   },
   {
@@ -31,15 +31,15 @@
    "fieldtype": "Link",
    "label": "Sound Zone",
    "options": "Sound Zone",
-   "description": "Where its calls are said."
+   "description": "Where calls from this queue are announced."
   },
   {
    "fieldname": "number_reading",
    "fieldtype": "Select",
-   "label": "Numbers Said",
+   "label": "Number Reading",
    "options": "Auto\nDigit by Digit\nWhole Number",
    "default": "Auto",
-   "description": "Auto says a number of four digits or more digit by digit, and a shorter one whole."
+   "description": "Auto reads numbers of four or more digits one digit at a time."
   },
   {
    "fieldname": "services",
@@ -57,7 +57,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 22:07:24.761929",
+ "modified": "2026-10-31 04:15:48.810508",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Queue",
@@ -106,5 +106,5 @@
  "autoname": "field:queue_name",
  "naming_rule": "By fieldname",
  "title_field": "queue_name",
- "description": "Where people wait: the services they take a ticket for, and the counters that call them."
+ "description": "A waiting line with its services and counters."
 }

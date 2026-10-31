@@ -30,19 +30,19 @@
    "default": "0",
    "in_list_view": 1,
    "columns": 1,
-   "description": "Not played until this is cleared. What OneAI makes arrives paused."
+   "description": "If enabled, this track is skipped. Tracks made by OneAI are added paused."
   },
   {
    "fieldname": "duration",
    "fieldtype": "Float",
-   "label": "Seconds",
+   "label": "Duration (Seconds)",
    "in_list_view": 1,
    "read_only": 1,
-   "description": "Read from the file when it is attached."
+   "description": "Read from the file on upload."
   }
  ],
  "links": [],
- "modified": "2026-10-30 09:00:00.000000",
+ "modified": "2026-10-31 04:15:48.750972",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Track",

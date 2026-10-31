@@ -15,19 +15,19 @@ TEXT, LONG, NUMBER, CHECK, COLOUR, SELECT, IMAGE, CODE = ("text", "long", "numbe
 TYPES = {
 	"Queue Board": {
 		"label": _lt("Queue Board"),
-		"about": _lt("Who is being served at which counter, and how many wait for each service."),
+		"about": _lt("Tickets being served at each counter and how many are waiting."),
 		"sources": ("Queue",),
 		"slots": (),
 		"settings": (
 			("heading", TEXT, _lt("Heading"), _lt("Now Serving")),
 			("rows", NUMBER, _lt("Rows"), 6),
-			("waiting", CHECK, _lt("Show Who Waits"), 1),
+			("waiting", CHECK, _lt("Show Waiting Count"), 1),
 		),
 		"size": (60, 80),
 	},
 	"Kiosk": {
 		"label": _lt("Kiosk"),
-		"about": _lt("A button for each service; a touch takes a ticket."),
+		"about": _lt("Buttons that issue a ticket for each service."),
 		"sources": ("Queue",),
 		"slots": (),
 		"settings": (("heading", TEXT, _lt("Heading"), _lt("Take a ticket")),),
@@ -35,18 +35,18 @@ TYPES = {
 	},
 	"Ticker": {
 		"label": _lt("Ticker"),
-		"about": _lt("Words that run along the screen: headlines, notices, figures."),
+		"about": _lt("Scrolling text, written here or from a source."),
 		"sources": ("Records", "Record", "Report", "Feed", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
 			("text", LONG, _lt("Words"), ""),
-			("speed", NUMBER, _lt("Seconds Across"), 30),
+			("speed", NUMBER, _lt("Scroll Duration (Seconds)"), 30),
 		),
 		"size": (100, 8),
 	},
 	"Text": {
 		"label": _lt("Text"),
-		"about": _lt("A heading or a line of words, written here or taken from a record."),
+		"about": _lt("A heading or text, written here or from a record."),
 		"sources": ("Record", "Records", "Report", "Exchange Rates"),
 		"slots": ("text",),
 		"settings": (
@@ -58,38 +58,38 @@ TYPES = {
 	},
 	"Clock": {
 		"label": _lt("Clock", context="A widget that shows the time"),
-		"about": _lt("The time, and the date if you want it."),
+		"about": _lt("The current time, with an optional date."),
 		"sources": (),
 		"slots": (),
 		"settings": (
-			("date", CHECK, _lt("Show the Date"), 1),
+			("date", CHECK, _lt("Show Date"), 1),
 			("hours", SELECT, _lt("Hours"), "24", ("24", "12")),
 		),
 		"size": (20, 14),
 	},
 	"Weather": {
 		"label": _lt("Weather"),
-		"about": _lt("The weather now and for the next days, for a place."),
+		"about": _lt("Current weather and forecast for a place."),
 		"sources": ("Weather",),
 		"slots": (),
-		"settings": (("days", NUMBER, _lt("Days Ahead"), 3),),
+		"settings": (("days", NUMBER, _lt("Forecast Days"), 3),),
 		"size": (25, 30),
 	},
 	"Board": {
 		"label": _lt("Board"),
-		"about": _lt("Every item on a board: its state in its colour, how long it has been so, and its value."),
+		"about": _lt("Every item on a board with its state, time in state and value."),
 		"sources": ("Board",),
 		"slots": (),
 		"settings": (
 			("columns", NUMBER, _lt("Columns"), 0),
 			("time", CHECK, _lt("Show Time in State"), 1),
-			("value", CHECK, _lt("Show the Value"), 1),
+			("value", CHECK, _lt("Show Value"), 1),
 		),
 		"size": (60, 60),
 	},
 	"Board Item": {
 		"label": _lt("Board Item"),
-		"about": _lt("One item, large: a board's item, or what a queue's counter is serving, flashing when it is called."),
+		"about": _lt("One board item, or the ticket a counter is serving."),
 		"sources": ("Board", "Queue"),
 		"slots": (),
 		"settings": (
@@ -101,7 +101,7 @@ TYPES = {
 	},
 	"Image": {
 		"label": _lt("Image"),
-		"about": _lt("A picture or a logo, uploaded or from a record."),
+		"about": _lt("An uploaded image or one from a record."),
 		"sources": ("Record",),
 		"slots": ("image",),
 		"settings": (
@@ -112,7 +112,7 @@ TYPES = {
 	},
 	"QR Code": {
 		"label": _lt("QR Code"),
-		"about": _lt("A code a phone opens: a menu, a form, a page."),
+		"about": _lt("A code that opens a link on a phone."),
 		"sources": ("Record",),
 		"slots": ("link",),
 		"settings": (
@@ -123,7 +123,7 @@ TYPES = {
 	},
 	"Custom": {
 		"label": _lt("Custom"),
-		"about": _lt("HTML, CSS and JavaScript of your own or OneAI's, in a sandbox. Its rows arrive as one_display_rows."),
+		"about": _lt("HTML, CSS and JavaScript run in a sandbox. Rows are available as one_display_rows."),
 		"sources": ("Records", "Record", "Report", "Feed", "Weather", "Exchange Rates"),
 		"slots": (),
 		"settings": (("html", CODE, _lt("Code"), ""),),

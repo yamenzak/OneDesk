@@ -79,7 +79,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 21:34:32.138555",
+ "modified": "2026-10-31 04:15:48.625321",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Board Change",
@@ -117,5 +117,5 @@
  "autoname": "hash",
  "title_field": "item",
  "in_create": 1,
- "description": "Every change made on a board, so how long things take can be read back."
+ "description": "A log of every change made to a board."
 }

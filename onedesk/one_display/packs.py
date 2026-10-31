@@ -245,5 +245,5 @@ def of_zone(zone: Annotated[str, "The sound zone."]) -> str:
 	doc = frappe.get_doc("Sound Zone", zone)
 	doc.check_permission("read")
 	if not doc.voice:
-		frappe.throw(_("Choose the zone's voice first."))
+		frappe.throw(_("Set a voice for the sound zone first."))
 	return pack(doc.voice_language or frappe.db.get_default("lang") or "en", doc.voice)

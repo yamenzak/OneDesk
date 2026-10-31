@@ -18,11 +18,11 @@
    "fieldtype": "Small Text",
    "label": "Emergency Message",
    "depends_on": "alert_active",
-   "description": "Shown on every screen, over everything else, until the alert is turned off."
+   "description": "Shown on all screens until the alert is ended."
   }
  ],
  "links": [],
- "modified": "2026-10-29 23:00:00.000000",
+ "modified": "2026-10-31 04:15:48.703746",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Display Settings",
@@ -64,5 +64,5 @@
  "states": [],
  "track_changes": 1,
  "issingle": 1,
- "description": "Settings for every screen."
+ "description": "Settings for all screens."
 }

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-30 22:33+0000\n"
-"PO-Revision-Date: 2026-10-30 22:33+0000\n"
+"POT-Creation-Date: 2026-10-31 04:25+0000\n"
+"PO-Revision-Date: 2026-10-31 04:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -473,7 +473,7 @@ msgstr ""
 
 #. Description of a DocType
 #: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "A TV, monitor or tablet that shows a channel, paired with the code it shows."
+msgid "A TV, monitor or tablet paired to show a channel or play a sound zone."
 msgstr ""
 
 #: onedesk/one_book/ready.py:196
@@ -531,17 +531,8 @@ msgstr ""
 msgid "A business you want to sell to, with its people."
 msgstr ""
 
-#: onedesk/one_display/widgets.py:30
-msgid "A button for each service; a touch takes a ticket."
-msgstr ""
-
 #: onedesk/one_crm/record.py:163
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_voice/display_voice.json
-msgid "A call or an ad OneAI has already said, kept so it is said once."
 msgstr ""
 
 #. What a project template is for
@@ -568,16 +559,16 @@ msgstr ""
 msgid "A check-in from outside the radius is allowed, and the distance is recorded on Clock Attempt. If unchecked, it is refused."
 msgstr ""
 
+#: onedesk/one_display/doctype/display_source/display_source.py:17
+msgid "A child table cannot be used as a source."
+msgstr ""
+
 #: onedesk/one_book/home.py:410
 msgid "A class of shares."
 msgstr ""
 
 #: onedesk/one_hr/home.py:90
 msgid "A clock-in the clock was not sure of, waiting for HR."
-msgstr ""
-
-#: onedesk/one_display/widgets.py:115
-msgid "A code a phone opens: a menu, a form, a page."
 msgstr ""
 
 #: onedesk/one/control.py:392
@@ -590,6 +581,10 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:228
 msgid "A code sent to your email after your password."
+msgstr ""
+
+#: onedesk/one_display/widgets.py:115
+msgid "A code that opens a link on a phone."
 msgstr ""
 
 #: onedesk/one_studio/record_types.py:102
@@ -824,11 +819,6 @@ msgstr ""
 msgid "A field OneAI wrote, and what it wrote. The badge shows while the field still says it."
 msgstr ""
 
-#. Description of the 'Order By' (Data) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "A field and asc or desc, such as modified desc."
-msgstr ""
-
 #: frontend/src/slide/shim/DataDialog.vue:112
 msgid "A field of the list's records, such as customer."
 msgstr ""
@@ -916,7 +906,7 @@ msgid "A heading"
 msgstr ""
 
 #: onedesk/one_display/widgets.py:49
-msgid "A heading or a line of words, written here or taken from a record."
+msgid "A heading or text, written here or from a record."
 msgstr ""
 
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.py:20
@@ -934,6 +924,11 @@ msgstr ""
 #: onedesk/one_studio/printing.py:497 onedesk/one_studio/printing.py:584
 #: onedesk/one_studio/printing.py:587
 msgid "A layout has sections, each of columns of blocks."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/widget_collection/widget_collection.json
+msgid "A layout of widgets shown over the slides."
 msgstr ""
 
 #: onedesk/one_crm/capture.py:106
@@ -1010,6 +1005,11 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:120
 msgid "A list of addresses a newsletter goes to."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_board_change/display_board_change.json
+msgid "A log of every change made to a board."
 msgstr ""
 
 #. Description of the 'Most Pages Read' (Int) field in DocType 'Reading
@@ -1206,10 +1206,6 @@ msgstr ""
 msgid "A phone line, mailbox or chat customers reach you on, and who answers it when."
 msgstr ""
 
-#: onedesk/one_display/widgets.py:104
-msgid "A picture or a logo, uploaded or from a record."
-msgstr ""
-
 #. Description of a DocType
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 msgid "A piece of a document, a message or a record, and where it points in meaning, so a search finds what is meant."
@@ -1217,11 +1213,6 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_place/clock_place.py:12
 msgid "A place belongs to a Shift Location or to one employee, not to both."
-msgstr ""
-
-#. Description of the 'Presentation' (Link) field in DocType 'Display Slide'
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "A presentation in OneCloud. It plays whole, each slide for its own time."
 msgstr ""
 
 #. Description of a DocType
@@ -1314,15 +1305,6 @@ msgstr ""
 msgid "A quotation the customer said yes to."
 msgstr ""
 
-#: onedesk/one_display/screens.py:97
-msgid "A radio plays a sound zone. Choose which."
-msgstr ""
-
-#. Description of the 'Kind' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "A radio plays a zone's sound and shows nothing; it opened /radio."
-msgstr ""
-
 #: onedesk/one_book/home.py:382
 msgid "A rate for items taxed differently."
 msgstr ""
@@ -1354,6 +1336,11 @@ msgstr ""
 
 #: onedesk/one_sheet/excel.py:330
 msgid "A record's workbook can only be edited in OneWorkbook."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_voice/display_voice.json
+msgid "A recorded announcement, reused each time it is played."
 msgstr ""
 
 #: onedesk/one_book/home.py:313
@@ -1402,6 +1389,11 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:281
 msgid "A round of appraisals, and who is in it."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "A row of a slide playlist."
 msgstr ""
 
 #: onedesk/one_studio/numbering.py:647
@@ -1456,10 +1448,6 @@ msgstr ""
 msgid "A scheduled extension runs at most once an hour."
 msgstr ""
 
-#: onedesk/one_display/screens.py:328
-msgid "A screen cannot be told {0}."
-msgstr ""
-
 #: onedesk/one_book/home.py:377
 msgid "A second set of books, such as for tax depreciation."
 msgstr ""
@@ -1501,16 +1489,12 @@ msgstr ""
 
 #. Description of a DocType
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json
-msgid "A short spoken message screens play at times or now and then."
+msgid "A short spoken message played in a sound zone."
 msgstr ""
 
 #. Description of a DocType
 #: onedesk/one_admin/doctype/account_request/account_request.json
 msgid "A signup from the public sign-up page."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_source/display_source.py:17
-msgid "A source reads records, not the rows of a table."
 msgstr ""
 
 #: onedesk/one_studio/places.py:274
@@ -1588,7 +1572,12 @@ msgid "A template task begins on or after the project's first day, and lasts 0 d
 msgstr ""
 
 #: onedesk/one_display/queue.py:149
-msgid "A ticket is finished as Done or No Show."
+msgid "A ticket can only be closed as Done or No Show."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
+msgid "A ticket in a queue."
 msgstr ""
 
 #: onedesk/one_studio/ai_setup.py:223
@@ -1620,12 +1609,17 @@ msgstr ""
 msgid "A version of this document could not be kept. Try again later."
 msgstr ""
 
-#: onedesk/one_display/screens.py:169
-msgid "A video is {0}, larger than this screen shows."
+#: onedesk/one_display/screens.py:171
+msgid "A video is {0}, larger than this screen's resolution."
 msgstr ""
 
 #: onedesk/one_crm/home.py:124
 msgid "A visit to a customer, and the work done."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "A waiting line with its services and counters."
 msgstr ""
 
 #: onedesk/one_book/home.py:393
@@ -1642,11 +1636,6 @@ msgstr ""
 
 #: onedesk/one/webhooks.py:55
 msgid "A webhook is sent over https."
-msgstr ""
-
-#: onedesk/one_display/doctype/widget_collection/widget_collection.py:36
-#: onedesk/one_display/doctype/widget_collection/widget_collection.py:38
-msgid "A widget's settings could not be read."
 msgstr ""
 
 #. Description of a DocType
@@ -3348,8 +3337,15 @@ msgstr ""
 msgid "Agenda"
 msgstr ""
 
+#. Label of the aggregate (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
+#: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Aggregate"
+msgstr ""
+
+#. Label of the aggregate_field (Data) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Aggregate Field"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:68
@@ -3936,11 +3932,6 @@ msgstr ""
 msgid "Amounts show their currency's symbol."
 msgstr ""
 
-#. Description of the 'Feed Address' (Data) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "An RSS or Atom address, such as a news site's headlines."
-msgstr ""
-
 #. Description of a DocType
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json
 msgid "An SFTP or WebDAV server shown as a folder in OneCloud."
@@ -4148,6 +4139,10 @@ msgstr ""
 msgid "An update on {0}"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:104
+msgid "An uploaded image or one from a record."
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/one_hr/notifications.py
 msgid "An urgent grievance was raised"
@@ -4161,6 +4156,11 @@ msgstr ""
 
 #: frontend/src/slide/components/ShadowSection.vue:50
 msgid "Angle"
+msgstr ""
+
+#. Label of the announce (Check) field in DocType 'Sound Zone'
+#: onedesk/one_display/doctype/sound_zone/sound_zone.json
+msgid "Announce Calls"
 msgstr ""
 
 #. Name of a notification
@@ -5421,10 +5421,7 @@ msgstr ""
 msgid "Assignment for {0} {1}"
 msgstr ""
 
-#. Label of the at_times (Data) field in DocType 'Channel Ad'
-#: frontend/src/inventory/floor/OrderRows.vue:7
-#: onedesk/one_display/doctype/channel_ad/channel_ad.json
-#: onedesk/one_mail/ai.py:1058
+#: frontend/src/inventory/floor/OrderRows.vue:7 onedesk/one_mail/ai.py:1058
 msgid "At"
 msgstr ""
 
@@ -5451,7 +5448,7 @@ msgstr ""
 msgid "At Step"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Ad'
+#. Option for the 'Frequency' (Select) field in DocType 'Channel Ad'
 #: onedesk/one_display/doctype/channel_ad/channel_ad.json
 msgid "At Times"
 msgstr ""
@@ -5754,7 +5751,7 @@ msgstr ""
 msgid "Authority inspection"
 msgstr ""
 
-#. Option for the 'Numbers Said' (Select) field in DocType 'Queue'
+#. Option for the 'Number Reading' (Select) field in DocType 'Queue'
 #: frontend/src/slide/components/FrameSection.vue:165
 #: frontend/src/slide/components/ParagraphSection.vue:73
 #: onedesk/one_display/doctype/queue/queue.json
@@ -5796,9 +5793,9 @@ msgstr ""
 msgid "Auto Reply in Their Language"
 msgstr ""
 
-#. Description of the 'Numbers Said' (Select) field in DocType 'Queue'
+#. Description of the 'Number Reading' (Select) field in DocType 'Queue'
 #: onedesk/one_display/doctype/queue/queue.json
-msgid "Auto says a number of four digits or more digit by digit, and a shorter one whole."
+msgid "Auto reads numbers of four or more digits one digit at a time."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:785
@@ -5899,7 +5896,7 @@ msgstr ""
 msgid "Available fields: {0}"
 msgstr ""
 
-#. Option for the 'Count or Total' (Select) field in DocType 'Display Source'
+#. Option for the 'Aggregate' (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:211
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Average"
@@ -6284,14 +6281,6 @@ msgstr ""
 msgid "Bar colour"
 msgstr ""
 
-#. Description of the 'Screen Size' (Select) field in DocType 'Display Channel'
-#. Description of the 'Screen Size' (Select) field in DocType 'Widget
-#. Collection'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-#: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "Bar is 1920 × 540, a strip over a counter. Wall is 3840 × 1080, two screens side by side."
-msgstr ""
-
 #: frontend/src/inventory/item/ItemBarcodes.vue:66
 msgid "Barcode"
 msgstr ""
@@ -6306,6 +6295,11 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemBarcodes.vue:56
 msgid "Barcodes"
+msgstr ""
+
+#. Label of the base_currency (Link) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Base Currency"
 msgstr ""
 
 #. Label in the One Salary Structure Assignment print format
@@ -6960,7 +6954,7 @@ msgid "Blur"
 msgstr ""
 
 #. Label of the board (Link) field in DocType 'Display Board Change'
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the board (Link) field in DocType 'Display Source'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
 #: frontend/src/project/ProjectPage.vue:169
@@ -7356,6 +7350,10 @@ msgstr ""
 msgid "Buttons that do something a module registered. Each shows only when it can be done."
 msgstr ""
 
+#: onedesk/one_display/widgets.py:30
+msgid "Buttons that issue a ticket for each service."
+msgstr ""
+
 #: onedesk/one_studio/customize.py:575 onedesk/one_studio/customize.py:633
 msgid "Buttons: {0} needs a label and a route."
 msgstr ""
@@ -7685,6 +7683,12 @@ msgstr ""
 
 #: onedesk/public/js/one_portal/portal.js:124
 msgid "Can see"
+msgstr ""
+
+#. Description of the 'People' (Table MultiSelect) field in DocType 'Display
+#. Board'
+#: onedesk/one_display/doctype/display_board/display_board.json
+msgid "Can update the board and are notified when an item passes its time limit. Leave empty to allow all OneDisplay users."
 msgstr ""
 
 #. Label of the allow_upload (Check) field in DocType 'Cloud Link'
@@ -8612,10 +8616,6 @@ msgstr ""
 msgid "Choose the Tax Charged by Default"
 msgstr ""
 
-#: onedesk/one_display/screens.py:99
-msgid "Choose the channel the screen shows."
-msgstr ""
-
 #: onedesk/public/js/one_hr/hr_control.js:108
 msgid "Choose the country first."
 msgstr ""
@@ -8638,10 +8638,6 @@ msgstr ""
 
 #: onedesk/one_inventory/quotes.py:341
 msgid "Choose the suppliers to ask."
-msgstr ""
-
-#: onedesk/one_display/packs.py:248
-msgid "Choose the zone's voice first."
 msgstr ""
 
 #: onedesk/one/rules.py:131
@@ -9307,6 +9303,17 @@ msgstr ""
 msgid "Comma"
 msgstr ""
 
+#. Description of the 'Times' (Data) field in DocType 'Channel Ad'
+#: onedesk/one_display/doctype/channel_ad/channel_ad.json
+msgid "Comma-separated times of day, in 24-hour time."
+msgstr ""
+
+#. Description of the 'Currencies' (Small Text) field in DocType 'Display
+#. Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Comma-separated. Example: USD, EUR, GBP"
+msgstr ""
+
 #. Label of the command_at (Datetime) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Command Sent"
@@ -9749,7 +9756,7 @@ msgstr ""
 msgid "Connect {0} as a drive"
 msgstr ""
 
-#: onedesk/public/js/one_mail/onemail_settings.js:692
+#: onedesk/public/js/one_mail/onemail_settings.js:692 onedesk/www/tv.py:49
 msgid "Connected"
 msgstr ""
 
@@ -9968,11 +9975,13 @@ msgstr ""
 msgid "Contains"
 msgstr ""
 
+#. Label of the plays (Select) field in DocType 'Channel Programme'
 #. Label of the section_plays (Section Break) field in DocType 'Display
 #. Channel'
 #. Label of a Sidebar Item
 #. Label of the content (Long Text) field in DocType 'Writer Document'
 #. Task in the Website project template
+#: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/display_channel/display_channel.json
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json
 #: onedesk/one_doc/doctype/writer_document/writer_document.json
@@ -10565,7 +10574,7 @@ msgstr ""
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
 #. Label in the One Transaction Deletion Record print format
-#. Option for the 'Count or Total' (Select) field in DocType 'Display Source'
+#. Option for the 'Aggregate' (Select) field in DocType 'Display Source'
 #. Label in the One Shipment print format
 #: frontend/src/slide/shim/DataDialog.vue:72
 #: frontend/src/slide/shim/DataDialog.vue:74
@@ -10599,11 +10608,6 @@ msgstr ""
 
 #: onedesk/one_studio/ai_setup.py:135
 msgid "Count of {0}"
-msgstr ""
-
-#. Label of the aggregate (Select) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Count or Total"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:705
@@ -10643,7 +10647,7 @@ msgstr ""
 
 #. Label of the counter (Data) field in DocType 'Queue Counter'
 #. Label of the counter (Data) field in DocType 'Queue Ticket'
-#. Option for the 'Kind' (Select) field in DocType 'Voice Pack Clip'
+#. Option for the 'Type' (Select) field in DocType 'Voice Pack Clip'
 #. Label of a Sidebar Item
 #: frontend/src/display/Counter.vue:8
 #: onedesk/one_display/doctype/queue_counter/queue_counter.json
@@ -10651,7 +10655,7 @@ msgstr ""
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
 #: onedesk/one_display/page/counter/counter.js:2
 #: onedesk/one_display/programme.py:411
-#: onedesk/one_display/sidebar/onedisplay/onedisplay.json onedesk/www/tv.py:44
+#: onedesk/one_display/sidebar/onedisplay/onedisplay.json onedesk/www/tv.py:54
 msgid "Counter"
 msgstr ""
 
@@ -10697,6 +10701,11 @@ msgstr ""
 msgid "Cover Holidays Too"
 msgstr ""
 
+#. Label of the covers (HTML) field in DocType 'Voice Pack'
+#: onedesk/one_display/doctype/voice_pack/voice_pack.json
+msgid "Coverage"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/one_mail/notifications.py
 msgid "Covering Mail"
@@ -10720,11 +10729,6 @@ msgstr ""
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/public/js/one_mail/onemail_settings.js:69
 msgid "Covering until {0}"
-msgstr ""
-
-#. Label of the covers (HTML) field in DocType 'Voice Pack'
-#: onedesk/one_display/doctype/voice_pack/voice_pack.json
-msgid "Covers"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
@@ -11215,6 +11219,10 @@ msgstr ""
 msgid "Current processes mapped"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:72
+msgid "Current weather and forecast for a place."
+msgstr ""
+
 #. Label of the was (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "Currently"
@@ -11567,6 +11575,11 @@ msgstr ""
 msgid "Data from Records"
 msgstr ""
 
+#. Description of the 'Read As' (Link) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Data is read with this user's permissions."
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:901
 msgid "Data validation"
 msgstr ""
@@ -11917,10 +11930,6 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 #: onedesk/one_project/custom/project_template.json
 msgid "Days"
-msgstr ""
-
-#: onedesk/one_display/widgets.py:75
-msgid "Days Ahead"
 msgstr ""
 
 #. Label in the One Payroll Correction print format
@@ -12286,6 +12295,11 @@ msgstr ""
 msgid "Defaults"
 msgstr ""
 
+#. Description of the 'Base Currency' (Link) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Defaults to the company currency."
+msgstr ""
+
 #. Label in the One Process Deferred Accounting print format
 #: onedesk/one_book/print_format/one_process_deferred_accounting/one_process_deferred_accounting.json
 msgid "Deferred Booking"
@@ -12302,11 +12316,6 @@ msgstr ""
 
 #: onedesk/one_book/home.py:400
 msgid "Deferred income and costs booked for a period."
-msgstr ""
-
-#. Description of the 'Turn' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "Degrees to turn the picture, for a screen mounted on its side."
 msgstr ""
 
 #: frontend/src/slide/shim/MotionSection.vue:18
@@ -12973,6 +12982,10 @@ msgstr ""
 msgid "Describe It"
 msgstr ""
 
+#: onedesk/one_display/make.py:80
+msgid "Describe what OneAI should make."
+msgstr ""
+
 #. Label of the description (Small Text) field in DocType 'Offering'
 #. Label of the said (Small Text) field in DocType 'Private App'
 #. Label in the One Credit Ledger Entry print format
@@ -13316,6 +13329,11 @@ msgstr ""
 msgid "Device ID"
 msgstr ""
 
+#. Label of the memory_gb (Float) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Device Memory (GB)"
+msgstr ""
+
 #: onedesk/one_account/center.py:37
 msgid "Devices"
 msgstr ""
@@ -13342,7 +13360,7 @@ msgstr ""
 msgid "Digest"
 msgstr ""
 
-#. Option for the 'Numbers Said' (Select) field in DocType 'Queue'
+#. Option for the 'Number Reading' (Select) field in DocType 'Queue'
 #: onedesk/one_display/doctype/queue/queue.json
 msgid "Digit by Digit"
 msgstr ""
@@ -14414,6 +14432,13 @@ msgstr ""
 msgid "Duration (Minutes)"
 msgstr ""
 
+#. Label of the duration (Int) field in DocType 'Display Slide'
+#. Label of the duration (Float) field in DocType 'Display Track'
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+#: onedesk/one_display/doctype/display_track/display_track.json
+msgid "Duration (Seconds)"
+msgstr ""
+
 #. Name of a project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "ERP Rollout"
@@ -14436,11 +14461,6 @@ msgstr ""
 #. Label of the amount (Float) field in DocType 'Workspace Add-on'
 #: onedesk/one_account/doctype/workspace_add_on/workspace_add_on.json
 msgid "Each"
-msgstr ""
-
-#. Description of the 'Clips' (Int) field in DocType 'Voice Pack'
-#: onedesk/one_display/doctype/voice_pack/voice_pack.json
-msgid "Each a letter, a number, a word or a counter's name, said once."
 msgstr ""
 
 #: onedesk/one_book/home.py:363
@@ -15517,12 +15537,6 @@ msgstr ""
 msgid "Empty is the item's own unit."
 msgstr ""
 
-#. Description of the 'People' (Table MultiSelect) field in DocType 'Display
-#. Board'
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "Empty lets everyone with OneDisplay change it. They are also told when an item passes its time limit."
-msgstr ""
-
 #. Description of the 'Drawn From' (Link) field in DocType 'Credit Ledger
 #. Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json
@@ -15707,6 +15721,10 @@ msgstr ""
 msgid "Enter a whole number."
 msgstr ""
 
+#: onedesk/one_display/doctype/display_source/display_source.py:34
+msgid "Enter at least one currency."
+msgstr ""
+
 #: onedesk/one_admin/setup.py:424
 msgid "Enter the Cloudflare API token first."
 msgstr ""
@@ -15729,6 +15747,14 @@ msgstr ""
 
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
+msgstr ""
+
+#: onedesk/www/tv.py:50
+msgid "Enter this code in OneDisplay to connect this radio."
+msgstr ""
+
+#: onedesk/www/tv.py:52
+msgid "Enter this code in OneDisplay to connect this screen."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:316
@@ -15885,7 +15911,7 @@ msgstr ""
 msgid "Every Day"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Ad'
+#. Option for the 'Frequency' (Select) field in DocType 'Channel Ad'
 #: onedesk/one_display/doctype/channel_ad/channel_ad.json
 msgid "Every Few Minutes"
 msgstr ""
@@ -15958,11 +15984,6 @@ msgstr ""
 msgid "Every call made and taken, and who it was with."
 msgstr ""
 
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_board_change/display_board_change.json
-msgid "Every change made on a board, so how long things take can be read back."
-msgstr ""
-
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 msgid "Every check-in attempt, allowed, flagged or refused."
@@ -16030,7 +16051,7 @@ msgid "Every invoice for the workspaces in your account, newest first."
 msgstr ""
 
 #: onedesk/one_display/widgets.py:80
-msgid "Every item on a board: its state in its colour, how long it has been so, and its value."
+msgid "Every item on a board with its state, time in state and value."
 msgstr ""
 
 #: onedesk/one_crm/home.py:141
@@ -16144,14 +16165,6 @@ msgstr ""
 
 #: onedesk/one_book/home.py:346
 msgid "Every sales invoice with its taxes, one line each."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_screen/display_screen_list.js:58
-msgid "Every screen shows it over everything else, and reads it out, until it is ended."
-msgstr ""
-
-#: onedesk/one_display/screens.py:353
-msgid "Every screen shows the alert."
 msgstr ""
 
 #. Message of a notification
@@ -16385,6 +16398,21 @@ msgstr ""
 msgid "Everywhere"
 msgstr ""
 
+#. Description of the 'Prefix' (Data) field in DocType 'Queue Service'
+#: onedesk/one_display/doctype/queue_service/queue_service.json
+msgid "Example: A"
+msgstr ""
+
+#. Description of the 'Value Label' (Data) field in DocType 'Display Board'
+#: onedesk/one_display/doctype/display_board/display_board.json
+msgid "Example: Score, Count or Price. Leave empty if items only have a state."
+msgstr ""
+
+#. Description of the 'Order By' (Data) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Example: modified desc"
+msgstr ""
+
 #. Description of the 'Addressed To' (Data) field in DocType 'Employee Letter'
 #: onedesk/one_hr/doctype/employee_letter/employee_letter.json
 msgid "Example: the bank, or To Whom It May Concern."
@@ -16410,7 +16438,7 @@ msgstr ""
 msgid "Exchange Rate Revaluation"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_rates (Section Break) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Exchange Rates"
@@ -17047,7 +17075,7 @@ msgstr ""
 msgid "Fee and appointment signed"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_feed (Section Break) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Feed"
@@ -17055,7 +17083,7 @@ msgstr ""
 
 #. Label of the feed_url (Data) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Feed Address"
+msgid "Feed URL"
 msgstr ""
 
 #. Label in the One Service Report print format
@@ -17118,6 +17146,11 @@ msgstr ""
 msgid "Field"
 msgstr ""
 
+#. Label of the mapping (Code) field in DocType 'Display Widget'
+#: onedesk/one_display/doctype/display_widget/display_widget.json
+msgid "Field Mapping"
+msgstr ""
+
 #: onedesk/one_studio/automations.py:122
 msgid "Field Values"
 msgstr ""
@@ -17133,9 +17166,7 @@ msgstr ""
 msgid "Fields"
 msgstr ""
 
-#. Label of the mapping (Code) field in DocType 'Display Widget'
 #: frontend/src/slide/shim/WidgetSection.vue:10
-#: onedesk/one_display/doctype/display_widget/display_widget.json
 msgid "Fields Shown"
 msgstr ""
 
@@ -17429,11 +17460,6 @@ msgstr ""
 msgid "Filling Up"
 msgstr ""
 
-#. Description of the 'Fill Screen' (Check) field in DocType 'Display Slide'
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Fills a screen of another shape and trims the edges, instead of showing the slide whole."
-msgstr ""
-
 #: onedesk/public/js/one_mail/onemail_settings.js:407
 msgid "Fills empty fields, and a different value waits for approval in Documents."
 msgstr ""
@@ -17459,6 +17485,10 @@ msgstr ""
 #: onedesk/one_display/doctype/display_source/display_source.json
 #: onedesk/one_studio/ai_setup.py:228
 msgid "Filters"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_source/display_source.py:19
+msgid "Filters are not valid."
 msgstr ""
 
 #. Description of the 'Shown When' (Code) field in DocType 'Record Head Band'
@@ -18058,6 +18088,12 @@ msgstr ""
 msgid "For new projects"
 msgstr ""
 
+#. Description of the 'Rotation' (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:35
+msgid "For screens mounted vertically or upside down."
+msgstr ""
+
 #. Label in the One Invoice Discounting print format
 #: onedesk/one_book/print_format/one_invoice_discounting/one_invoice_discounting.json
 msgid "For the Bank"
@@ -18136,6 +18172,10 @@ msgstr ""
 
 #: frontend/src/project/Money.vue:143 frontend/src/project/Money.vue:173
 msgid "Forecast Cost"
+msgstr ""
+
+#: onedesk/one_display/widgets.py:75
+msgid "Forecast Days"
 msgstr ""
 
 #: frontend/src/project/Money.vue:155 frontend/src/project/Money.vue:179
@@ -18410,9 +18450,9 @@ msgstr ""
 msgid "Freight and duty added to what goods cost."
 msgstr ""
 
-#. Label of the reload_at (Time) field in DocType 'Display Channel'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "Fresh Start Every Night At"
+#. Label of the plays (Select) field in DocType 'Channel Ad'
+#: onedesk/one_display/doctype/channel_ad/channel_ad.json
+msgid "Frequency"
 msgstr ""
 
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
@@ -18865,6 +18905,11 @@ msgstr ""
 
 #: onedesk/one_book/home.py:417
 msgid "General and Payment Ledger Comparison"
+msgstr ""
+
+#. Description of the 'Recording' (Attach) field in DocType 'Voice Ad'
+#: onedesk/one_display/doctype/voice_ad/voice_ad.json
+msgid "Generated by OneAI or uploaded. Without one, the screen's built-in voice reads the script."
 msgstr ""
 
 #. Title of the get-in-touch Web Form
@@ -19491,7 +19536,7 @@ msgid "HTML"
 msgstr ""
 
 #: onedesk/one_display/widgets.py:126
-msgid "HTML, CSS and JavaScript of your own or OneAI's, in a sandbox. Its rows arrive as one_display_rows."
+msgid "HTML, CSS and JavaScript run in a sandbox. Rows are available as one_display_rows."
 msgstr ""
 
 #. Label in the One Leave Adjustment print format
@@ -20383,12 +20428,6 @@ msgstr ""
 msgid "How long opportunities stay in each stage, and take to win."
 msgstr ""
 
-#. Description of the 'Refresh Every (Seconds)' (Int) field in DocType 'Display
-#. Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "How long screens keep what it said before it is read again. Empty is the kind's usual."
-msgstr ""
-
 #: onedesk/one/control.py:334
 msgid "How long signing in is refused after too many wrong passwords."
 msgstr ""
@@ -20563,10 +20602,6 @@ msgstr ""
 #. Link'
 #: onedesk/one_mail/custom/communication_link.json
 msgid "How the message came to be filed on this record."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_screen/display_screen_list.js:35
-msgid "How the screen is hung, so its picture stands upright."
 msgstr ""
 
 #. Description of the 'Standing' (Percent) field in DocType 'Job Applicant'
@@ -20838,6 +20873,11 @@ msgstr ""
 msgid "If enabled, an employee may log two timesheet rows for the same hours, such as a supervisor on two sites at once."
 msgstr ""
 
+#. Description of the 'Announce Calls' (Check) field in DocType 'Sound Zone'
+#: onedesk/one_display/doctype/sound_zone/sound_zone.json
+msgid "If enabled, calls from queues in this zone are announced."
+msgstr ""
+
 #. Description of the 'fetch_timesheet_in_sales_invoice' field in DocType
 #. 'Projects Settings'
 #: onedesk/one_project/custom/projects_settings.json
@@ -20853,6 +20893,26 @@ msgstr ""
 #. Description of the 'Household' (Check) field in DocType 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json
 msgid "If enabled, no drafts are made and Spending shows what was bought."
+msgstr ""
+
+#. Description of the 'Fill Screen' (Check) field in DocType 'Display Slide'
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "If enabled, the slide fills the screen and is cropped to fit."
+msgstr ""
+
+#. Description of the 'Paused' (Check) field in DocType 'Display Slide'
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "If enabled, this row is skipped."
+msgstr ""
+
+#. Description of the 'Paused' (Check) field in DocType 'Display Track'
+#: onedesk/one_display/doctype/display_track/display_track.json
+msgid "If enabled, this track is skipped. Tracks made by OneAI are added paused."
+msgstr ""
+
+#. Description of the 'Plays Sound' (Check) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "If enabled, videos with Plays Sound turned on play their audio."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:377
@@ -20929,6 +20989,19 @@ msgstr ""
 msgid "Image"
 msgstr ""
 
+#. Label of the pictures_mb (Int) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Image Memory (MB)"
+msgstr ""
+
+#: onedesk/one_display/screens.py:165
+msgid "Images use {0} MB, at least a quarter of the device memory."
+msgstr ""
+
+#: onedesk/one_display/screens.py:167
+msgid "Images use {0} MB."
+msgstr ""
+
 #. Option for the 'Units' (Select) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json
 msgid "Imperial"
@@ -20981,8 +21054,6 @@ msgstr ""
 msgid "In Company Currency"
 msgstr ""
 
-#. Label of the base_currency (Link) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
 #: onedesk/one_display/layout.py:54
 msgid "In Currency"
 msgstr ""
@@ -21022,14 +21093,6 @@ msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:43
 msgid "In OneCloud, when a file preview opens"
-msgstr ""
-
-#: onedesk/www/tv.py:42
-msgid "In OneDisplay, open Display Screen, choose Add Display Screen and enter this code."
-msgstr ""
-
-#: onedesk/www/tv.py:40
-msgid "In OneDisplay, open Display Screen, choose Add Display Screen, enter this code and choose its sound zone."
 msgstr ""
 
 #: onedesk/one_studio/doctype/extension/extension.js:40
@@ -21150,13 +21213,6 @@ msgstr ""
 
 #: onedesk/one_studio/ai_setup.py:641
 msgid "In it"
-msgstr ""
-
-#. Description of the 'Width' (Int) field in DocType 'Display Channel'
-#. Description of the 'Width' (Int) field in DocType 'Widget Collection'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-#: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "In pixels, as the layout is drawn; a screen of another size scales it."
 msgstr ""
 
 #: onedesk/public/js/one_studio/studio_control.js:223
@@ -22402,10 +22458,6 @@ msgstr ""
 msgid "It now costs {monthly} a month."
 msgstr ""
 
-#: onedesk/one_display/screens.py:167
-msgid "It restarted {0} times today."
-msgstr ""
-
 #: onedesk/one_doc/tour.py:24
 msgid "It saves itself as you write, and selected words can be commented on in the margin."
 msgstr ""
@@ -22455,10 +22507,6 @@ msgstr ""
 #. Message of a notification
 #: onedesk/one_display/notifications.py
 msgid "It was last seen {when}. Check that it is switched on and has a connection."
-msgstr ""
-
-#: onedesk/one_display/screens.py:151
-msgid "It was turned on or opened."
 msgstr ""
 
 #. Message of a notification
@@ -22815,6 +22863,11 @@ msgstr ""
 msgid "Items wanted beyond what is on hand."
 msgstr ""
 
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_board/display_board.json
+msgid "Items whose state or value is updated by hand and shown on screens."
+msgstr ""
+
 #. Task in the ERP Rollout project template
 #: onedesk/one_project/library/erp_rollout.json
 msgid "Items, customers and suppliers imported"
@@ -22879,15 +22932,6 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/one_crm/notifications.py
 msgid "Its owner"
-msgstr ""
-
-#: onedesk/one_display/screens.py:160
-#, python-format
-msgid "Its page memory is {0}% full."
-msgstr ""
-
-#: onedesk/one_display/screens.py:148
-msgid "Its page memory was nearly full."
 msgstr ""
 
 #: onedesk/one/tour.py:19
@@ -23246,10 +23290,6 @@ msgstr ""
 #. Label of the kind (Select) field in DocType 'Reading Action'
 #. Label of the kind (Select) field in DocType 'Reading Reference'
 #. Label in the One Transaction Deletion Record print format
-#. Label of the kind (Select) field in DocType 'Display Screen'
-#. Label of the kind (Select) field in DocType 'Display Slide'
-#. Label of the kind (Select) field in DocType 'Display Source'
-#. Label of the kind (Select) field in DocType 'Voice Pack Clip'
 #. Label in the One Employee Grievance print format
 #. Label in the One Training Event print format
 #. Label in the One Vehicle Log print format
@@ -23274,10 +23314,6 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-#: onedesk/one_display/doctype/display_source/display_source.json
-#: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
@@ -23423,6 +23459,11 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:59
 msgid "Language and Time"
+msgstr ""
+
+#. Description of the 'Language' (Link) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Language of text on screens. Defaults to the workspace language."
 msgstr ""
 
 #: onedesk/public/js/one/one_control.js:286
@@ -24056,6 +24097,16 @@ msgstr ""
 msgid "Leave empty for no limit."
 msgstr ""
 
+#. Description of the 'States' (Table) field in DocType 'Display Board'
+#: onedesk/one_display/doctype/display_board/display_board.json
+msgid "Leave empty if items only have a value."
+msgstr ""
+
+#. Description of the 'Sound Zone' (Link) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Leave empty if the screen does not play sound."
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1298
 msgid "Leave empty to allow any domain."
 msgstr ""
@@ -24080,9 +24131,20 @@ msgstr ""
 msgid "Leave empty to use it for any record type."
 msgstr ""
 
+#. Description of the 'Refresh Interval (Seconds)' (Int) field in DocType
+#. 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Leave empty to use the default for the source type."
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:712
 #: onedesk/public/js/one_mail/onemail_settings.js:948
 msgid "Leave empty to use the email address."
+msgstr ""
+
+#. Description of the 'Voice' (Select) field in DocType 'Sound Zone'
+#: onedesk/one_display/doctype/sound_zone/sound_zone.json
+msgid "Leave empty to use the screen's built-in voice."
 msgstr ""
 
 #: onedesk/public/js/project_actions.js:168
@@ -24383,7 +24445,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #. Label in the One Payment Reminder print format
-#. Option for the 'Kind' (Select) field in DocType 'Voice Pack Clip'
+#. Option for the 'Type' (Select) field in DocType 'Voice Pack Clip'
 #. Label of the body_section (Section Break) field in DocType 'Employee Letter'
 #: frontend/src/intake/IntakeExplain.vue:18
 #: onedesk/one_ai/doctype/reading/reading.json
@@ -24965,6 +25027,11 @@ msgstr ""
 msgid "Long Wait"
 msgstr ""
 
+#. Label of the wait_alert (Int) field in DocType 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Long Wait Alert (Minutes)"
+msgstr ""
+
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:85
 msgid "Longer Than Usual"
 msgstr ""
@@ -25208,11 +25275,6 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one_ai/custom/file.json onedesk/one_display/notifications.py
 msgid "Made by OneAI"
-msgstr ""
-
-#. Description of the 'Recording' (Attach) field in DocType 'Voice Ad'
-#: onedesk/one_display/doctype/voice_ad/voice_ad.json
-msgid "Made by OneAI from the script, or a recording of your own. Without one the screen's own voice reads it."
 msgstr ""
 
 #: onedesk/public/js/one_ai/intake.js:16
@@ -25546,10 +25608,6 @@ msgstr ""
 msgid "Make 1 Variant"
 msgstr ""
 
-#: onedesk/one_display/doctype/voice_pack/voice_pack.js:19
-msgid "Make Again"
-msgstr ""
-
 #: onedesk/one_admin/doctype/private_app/private_app.js:16
 msgid "Make Code"
 msgstr ""
@@ -25738,10 +25796,6 @@ msgstr ""
 
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:9
 msgid "Make the Recording"
-msgstr ""
-
-#: onedesk/one_display/doctype/voice_pack/voice_pack.js:12
-msgid "Make the Rest"
 msgstr ""
 
 #: onedesk/one_book/abilities.py:34
@@ -26382,11 +26436,6 @@ msgstr ""
 msgid "Memory"
 msgstr ""
 
-#. Label of the memory_gb (Float) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "Memory (GB)"
-msgstr ""
-
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json
 msgid "Mentioned"
@@ -26552,11 +26601,6 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
 msgid "Minutes"
-msgstr ""
-
-#. Description of the 'Time Limit' (Int) field in DocType 'Display Board State'
-#: onedesk/one_display/doctype/display_board_state/display_board_state.json
-msgid "Minutes an item may stay in this state before someone is told. Empty for none."
 msgstr ""
 
 #. Label of the minutes (Float) field in DocType 'Display Board Change'
@@ -27014,7 +27058,7 @@ msgstr ""
 msgid "Multiplied onto provider cost. 2 charges twice the provider's price."
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the section_music (Section Break) field in DocType 'Sound Zone'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/sound_zone/sound_zone.json
@@ -27033,15 +27077,15 @@ msgid "Music Playlist"
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_display/doctype/music_playlist/music_playlist.json
-msgid "Music every screen of a channel plays together."
+#: onedesk/one_display/doctype/sound_zone/sound_zone.json
+msgid "Music, voice ads and call announcements for one area."
 msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:4
 msgid "Mute"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the muted (Check) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/display_screen/display_screen.json
@@ -27164,10 +27208,6 @@ msgstr ""
 msgid "Name and occupation of parent, spouse and children."
 msgstr ""
 
-#: onedesk/one_display/doctype/display_source/display_source.py:34
-msgid "Name at least one currency, such as USD."
-msgstr ""
-
 #: onedesk/public/js/doctype_settings.js:753
 msgid "Name each new {0} by"
 msgstr ""
@@ -27191,6 +27231,11 @@ msgstr ""
 #. Description of the 'Backup Before Archive' (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Name of the offsite backup Frappe Cloud held when the site was archived."
+msgstr ""
+
+#. Description of the 'Place' (Data) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Name shown on screen. Example: Dubai"
 msgstr ""
 
 #: onedesk/one_book/ready.py:370
@@ -28030,6 +28075,15 @@ msgstr ""
 msgid "Next: {0}"
 msgstr ""
 
+#. Label of the reload_at (Time) field in DocType 'Display Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Nightly Reload Time"
+msgstr ""
+
+#: onedesk/one_display/screens.py:151
+msgid "Nightly reload."
+msgstr ""
+
 #. Label in the One Detailed Tax Invoice print format
 #. Label in the One Payment Order print format
 #. Label in the One POS Invoice print format
@@ -28338,7 +28392,7 @@ msgid "No billable time on {0} is waiting to be invoiced."
 msgstr ""
 
 #: frontend/src/display/Boards.vue:4
-msgid "No board you may change is set up yet."
+msgid "No boards"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:36
@@ -28708,6 +28762,10 @@ msgstr ""
 msgid "No one else"
 msgstr ""
 
+#: frontend/src/display/Counter.vue:32
+msgid "No one is waiting."
+msgstr ""
+
 #: onedesk/one_studio/automation_steps.py:62
 msgid "No one to notify"
 msgstr ""
@@ -28746,7 +28804,7 @@ msgid "No overtime was recorded on any attendance between {0} and {1}."
 msgstr ""
 
 #: onedesk/one_display/screens.py:40
-msgid "No pairing code is free. Try again."
+msgid "No pairing code is available. Try again."
 msgstr ""
 
 #: onedesk/one_inventory/parts.py:106
@@ -28792,7 +28850,7 @@ msgid "No profiles"
 msgstr ""
 
 #: frontend/src/display/Counter.vue:4
-msgid "No queue is set up yet."
+msgid "No queues"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:43 frontend/src/project/Overview.vue:84
@@ -28835,6 +28893,10 @@ msgstr ""
 msgid "No roles"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_source/display_source.js:14
+msgid "No rows yet."
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:236
 #: onedesk/public/js/one/notification_center.js:309
 #: onedesk/public/js/one_mail/onemail_settings.js:758
@@ -28861,8 +28923,8 @@ msgstr ""
 msgid "No schedule"
 msgstr ""
 
-#: onedesk/one_display/screens.py:93
-msgid "No screen is showing {0}. Check the code on the screen."
+#: onedesk/one_display/screens.py:95
+msgid "No screen is showing code {0}. Check the code and try again."
 msgstr ""
 
 #: frontend/src/inventory/item/ItemSelling.vue:15
@@ -28956,6 +29018,10 @@ msgstr ""
 
 #: onedesk/one_book/ready.py:123
 msgid "No template is the default, so nothing is charged unless somebody picks one."
+msgstr ""
+
+#: onedesk/one_display/programme.py:413 onedesk/www/tv.py:56
+msgid "No ticket is being served."
 msgstr ""
 
 #: frontend/src/project/Time.vue:21
@@ -29084,16 +29150,8 @@ msgstr ""
 msgid "Nobody has work this week"
 msgstr ""
 
-#: onedesk/one_display/programme.py:413 onedesk/www/tv.py:46
-msgid "Nobody is being served yet."
-msgstr ""
-
 #: onedesk/one_book/ready.py:173
 msgid "Nobody is reminded of an unpaid invoice. The fix mails the customer a week after it falls due."
-msgstr ""
-
-#: frontend/src/display/Counter.vue:32
-msgid "Nobody is waiting."
 msgstr ""
 
 #: frontend/src/inventory/floor/FloorSteps.vue:22
@@ -29497,11 +29555,6 @@ msgstr ""
 msgid "Not paid within {0} days, so its name is free again."
 msgstr ""
 
-#. Description of the 'Paused' (Check) field in DocType 'Display Track'
-#: onedesk/one_display/doctype/display_track/display_track.json
-msgid "Not played until this is cleared. What OneAI makes arrives paused."
-msgstr ""
-
 #: onedesk/one/notification_center.py:47
 msgid "Not pushed in this workspace."
 msgstr ""
@@ -29554,11 +29607,6 @@ msgstr ""
 msgid "Not shown"
 msgstr ""
 
-#. Description of the 'Paused' (Check) field in DocType 'Display Slide'
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Not shown until this is cleared."
-msgstr ""
-
 #. Description of the 'Hide When Empty' (Check) field in DocType 'Record Head
 #. Band'
 #: onedesk/one/doctype/record_head_band/record_head_band.json
@@ -29583,6 +29631,10 @@ msgstr ""
 
 #: onedesk/public/js/calendar_link.js:12
 msgid "Not synced yet."
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:16
+msgid "Not used by radios."
 msgstr ""
 
 #: frontend/src/template/TemplatePage.vue:11
@@ -29725,10 +29777,6 @@ msgstr ""
 msgid "Nothing is being announced."
 msgstr ""
 
-#: onedesk/www/tv.py:43
-msgid "Nothing is playing now."
-msgstr ""
-
 #: onedesk/one_hr/heads.py:588
 msgid "Nothing is spent and no attendance is marked."
 msgstr ""
@@ -29787,6 +29835,10 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:647
 msgid "Nothing ordered yet. Ask for quotes or order it."
+msgstr ""
+
+#: onedesk/www/tv.py:53
+msgid "Nothing playing"
 msgstr ""
 
 #: frontend/src/inventory/sent_out/SentOutPage.vue:19
@@ -29888,10 +29940,6 @@ msgstr ""
 msgid "Nothing yet."
 msgstr ""
 
-#: onedesk/one_display/doctype/display_source/display_source.js:14
-msgid "Nothing yet. A records source shows the fields a widget maps."
-msgstr ""
-
 #. Label in the One Contract print format
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "Notice"
@@ -29948,6 +29996,8 @@ msgstr ""
 msgid "Notifications you got"
 msgstr ""
 
+#. Label of the told (Check) field in DocType 'Display Board Item'
+#: onedesk/one_display/doctype/display_board_item/display_board_item.json
 #: onedesk/one_studio/ai_setup.py:701
 msgid "Notified"
 msgstr ""
@@ -29962,6 +30012,18 @@ msgstr ""
 
 #: onedesk/one/ai.py:3716
 msgid "Notify"
+msgstr ""
+
+#. Description of the 'Long Wait Alert (Minutes)' (Int) field in DocType
+#. 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Notify counter staff when a ticket waits longer than this. Leave empty to disable."
+msgstr ""
+
+#. Description of the 'Time Limit (Minutes)' (Int) field in DocType 'Display
+#. Board State'
+#: onedesk/one_display/doctype/display_board_state/display_board_state.json
+msgid "Notify the board's people when an item stays in this state longer. Leave empty for no limit."
 msgstr ""
 
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:35
@@ -29982,6 +30044,10 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:22
 msgid "Now Serving"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_source/display_source.js:11
+msgid "Now Showing"
 msgstr ""
 
 #. Label in the One Asset Value Adjustment print format
@@ -30015,7 +30081,7 @@ msgstr ""
 #. Label in the One Simplified Tax Invoice print format
 #. Option for the 'Value Type' (Select) field in DocType 'Display Board'
 #. Label of the number (Int) field in DocType 'Queue Ticket'
-#. Option for the 'Kind' (Select) field in DocType 'Voice Pack Clip'
+#. Option for the 'Type' (Select) field in DocType 'Voice Pack Clip'
 #. Label of the number (Data) field in DocType 'Employee Document'
 #. Label in the One Serial and Batch Bundle print format
 #. Label in the One Stock Reservation Entry print format
@@ -30048,6 +30114,11 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json
 msgid "Number Cards"
+msgstr ""
+
+#. Label of the number_reading (Select) field in DocType 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Number Reading"
 msgstr ""
 
 #: frontend/src/writer/components/WriterSettings.vue:112
@@ -30135,11 +30206,6 @@ msgstr ""
 msgid "Numbers"
 msgstr ""
 
-#. Label of the number_reading (Select) field in DocType 'Queue'
-#: onedesk/one_display/doctype/queue/queue.json
-msgid "Numbers Said"
-msgstr ""
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:81
 msgid "Numeric only"
 msgstr ""
@@ -30171,11 +30237,6 @@ msgstr ""
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_studio/ai_setup.py:226
 msgid "Of"
-msgstr ""
-
-#. Label of the aggregate_field (Data) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Of Field"
 msgstr ""
 
 #. Label of the of_whom (Data) field in DocType 'Reading Ask'
@@ -30704,6 +30765,10 @@ msgstr ""
 msgid "One backup copy of one GB of database, kept a month."
 msgstr ""
 
+#: onedesk/one_display/widgets.py:92
+msgid "One board item, or the ticket a counter is serving."
+msgstr ""
+
 #: onedesk/one_book/home.py:386
 msgid "One code of a code list, and what it stands for here."
 msgstr ""
@@ -30722,12 +30787,6 @@ msgstr ""
 msgid "One edit to a workbook, in the order it was saved: what it touched, and what each cell was before and after. History reads it; nobody opens one."
 msgstr ""
 
-#. Description of the 'Count or Total' (Select) field in DocType 'Display
-#. Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "One figure instead of rows, such as how many there are, or the sum or average of a field."
-msgstr ""
-
 #: onedesk/public/js/one_account/account_center.js:905
 msgid "One file with the database, every record as a spreadsheet, and all files."
 msgstr ""
@@ -30735,10 +30794,6 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json
 msgid "One folder of a mailbox, and how far it has been read."
-msgstr ""
-
-#: onedesk/one_display/widgets.py:92
-msgid "One item, large: a board's item, or what a queue's counter is serving, flashing when it is called."
 msgstr ""
 
 #: onedesk/one_slide/decks.py:172
@@ -30796,18 +30851,8 @@ msgstr ""
 msgid "One person"
 msgstr ""
 
-#. Description of a DocType
-#: onedesk/one_display/doctype/queue_ticket/queue_ticket.json
-msgid "One person's place in a queue, from taking it at the kiosk to being served."
-msgstr ""
-
 #: onedesk/public/js/item_new.js:7
 msgid "One product in several versions."
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "One row of a slide playlist: a presentation from OneCloud, played whole, or a web page."
 msgstr ""
 
 #. Description of the 'Description' (Small Text) field in DocType 'Private App'
@@ -31060,7 +31105,7 @@ msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is d
 msgstr ""
 
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:38
-msgid "OneAI is making the music. You will be told when it is in the playlist."
+msgid "OneAI is generating the music. You will be notified when it is added to the playlist."
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:388
@@ -31085,14 +31130,6 @@ msgstr ""
 
 #: onedesk/one_display/doctype/voice_ad/voice_ad.js:12
 msgid "OneAI is recording the ad"
-msgstr ""
-
-#: onedesk/one_display/doctype/voice_pack/voice_pack.js:22
-msgid "OneAI is saying {0} pieces again."
-msgstr ""
-
-#: onedesk/one_display/doctype/voice_pack/voice_pack.js:14
-msgid "OneAI is saying {0} pieces. They are kept as they come."
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:396
@@ -31166,11 +31203,6 @@ msgstr ""
 
 #: onedesk/one_studio/mend.py:122
 msgid "OneAI's fixed version was not kept: {0}"
-msgstr ""
-
-#. Description of the 'Voice' (Select) field in DocType 'Sound Zone'
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "OneAI's voice for calls and ads. Without OneAI the screen's own voice speaks."
 msgstr ""
 
 #: onedesk/one_slide/tour.py:29
@@ -32549,11 +32581,6 @@ msgstr ""
 msgid "Other Taxes"
 msgstr ""
 
-#. Description of the 'Schedule' (Table) field in DocType 'Sound Zone'
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "Other music, or none, at certain times. A later row wins."
-msgstr ""
-
 #: onedesk/public/js/one_account/account_center.js:349
 msgid "Other sessions signed out"
 msgstr ""
@@ -32809,6 +32836,10 @@ msgstr ""
 msgid "Over a Year"
 msgstr ""
 
+#: frontend/src/display/Boards.vue:58
+msgid "Over time limit"
+msgstr ""
+
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #. Label in the One Detailed Tax Invoice print format
@@ -33049,6 +33080,15 @@ msgstr ""
 msgid "Page [page] of [topage]"
 msgstr ""
 
+#: onedesk/one_display/screens.py:162
+#, python-format
+msgid "Page memory is {0}% full."
+msgstr ""
+
+#: onedesk/one_display/screens.py:150
+msgid "Page memory was nearly full."
+msgstr ""
+
 #: onedesk/public/js/outside.js:266 onedesk/www/404.html:15
 #: onedesk/www/error.py:17
 msgid "Page not found"
@@ -33279,11 +33319,11 @@ msgstr ""
 msgid "Pair a Screen"
 msgstr ""
 
-#: onedesk/www/tv.py:39
+#: onedesk/www/tv.py:46
 msgid "Pair this radio"
 msgstr ""
 
-#: onedesk/www/tv.py:39
+#: onedesk/www/tv.py:46
 msgid "Pair this screen"
 msgstr ""
 
@@ -33645,10 +33685,6 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:106
 msgid "Past Work"
-msgstr ""
-
-#: frontend/src/display/Boards.vue:58
-msgid "Past its time"
 msgstr ""
 
 #: onedesk/public/js/timesheet.js:96
@@ -34235,6 +34271,12 @@ msgstr ""
 msgid "Payslips and IDs are only attached to the Employee."
 msgstr ""
 
+#. Description of the 'Image Memory (MB)' (Int) field in DocType 'Display
+#. Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Peak decoded image memory in the last 30 minutes."
+msgstr ""
+
 #: onedesk/one_book/home.py:407
 msgid "Pegged Currencies"
 msgstr ""
@@ -34753,30 +34795,12 @@ msgstr ""
 msgid "Pictures can't be drawn on this server."
 msgstr ""
 
-#. Label of the pictures_mb (Int) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "Pictures in Memory (MB)"
-msgstr ""
-
 #: onedesk/public/js/one/one_control.js:289
 msgid "Pictures of contacts, customers and others, from the web or drawn for those with none."
 msgstr ""
 
 #: onedesk/public/js/one/one_control.js:202
 msgid "Pictures people and organisations already have elsewhere."
-msgstr ""
-
-#: onedesk/one_display/screens.py:163
-msgid "Pictures take {0} MB, a quarter or more of the device's memory."
-msgstr ""
-
-#: onedesk/one_display/screens.py:165
-msgid "Pictures take {0} MB."
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
-msgid "Pictures, videos and pages shown one after another behind the widgets."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:221
@@ -34877,11 +34901,6 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:87
 msgid "Pivot table…"
-msgstr ""
-
-#. Label of the pixels (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "Pixels"
 msgstr ""
 
 #. Label of the place (Data) field in DocType 'Display Source'
@@ -35112,22 +35131,10 @@ msgstr ""
 msgid "Playlist Name"
 msgstr ""
 
-#. Label of the plays (Select) field in DocType 'Channel Ad'
-#. Label of the plays (Select) field in DocType 'Channel Programme'
-#: onedesk/one_display/doctype/channel_ad/channel_ad.json
-#: onedesk/one_display/doctype/channel_programme/channel_programme.json
-msgid "Plays"
-msgstr ""
-
 #. Label of the plays_sound (Check) field in DocType 'Display Screen'
 #: frontend/src/slide/components/PlaybackSection.vue:16
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Plays Sound"
-msgstr ""
-
-#. Description of the 'Plays Sound' (Check) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "Plays the sound of videos whose own Plays Sound is on."
 msgstr ""
 
 #. Label in the One Payment Order print format
@@ -35216,6 +35223,11 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_job_offer/one_job_offer.json
 #: onedesk/one_studio/print_blocks.py:88
 msgid "Position"
+msgstr ""
+
+#. Description of the 'Widgets' (Table) field in DocType 'Widget Collection'
+#: onedesk/one_display/doctype/widget_collection/widget_collection.json
+msgid "Positions are in percent of the screen."
 msgstr ""
 
 #. Description of the 'Credits' (Float) field in DocType 'Credit Ledger Entry'
@@ -35419,7 +35431,7 @@ msgstr ""
 msgid "Present Today"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Slide'
+#. Option for the 'Type' (Select) field in DocType 'Display Slide'
 #. Label of the presentation (Link) field in DocType 'Display Slide'
 #. Name of a DocType
 #. Label of the presentation (Link) field in DocType 'Presentation Version'
@@ -35451,6 +35463,11 @@ msgstr ""
 msgid "Presentation options"
 msgstr ""
 
+#. Description of a DocType
+#: onedesk/one_display/doctype/slide_playlist/slide_playlist.json
+msgid "Presentations and web pages shown in sequence."
+msgstr ""
+
 #: onedesk/one_slide/api.py:109
 msgid "Presentations cannot be created in a mounted drive."
 msgstr ""
@@ -35463,8 +35480,8 @@ msgstr ""
 msgid "Presenting live: everyone with a link to this presentation follows your slides."
 msgstr ""
 
-#: onedesk/www/tv.py:49
-msgid "Press OK to turn on sound"
+#: onedesk/www/tv.py:59
+msgid "Press OK to enable sound"
 msgstr ""
 
 #. Label of the press_domain (Data) field in DocType 'One Admin Settings'
@@ -35482,7 +35499,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:32
 #: onedesk/one_display/doctype/display_channel/display_channel.js:9
 #: onedesk/one_display/doctype/display_source/display_source.js:7
-#: onedesk/one_display/screens.py:285
+#: onedesk/one_display/screens.py:287
 #: onedesk/public/js/one/notification_center.js:350
 #: onedesk/public/js/one_mail/mail_templates.js:278
 #: onedesk/public/js/one_mail/mail_templates.js:368
@@ -36765,7 +36782,7 @@ msgstr ""
 msgid "Questions?"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_queue (Section Break) field in DocType 'Display Source'
 #. Label of the queue (Link) field in DocType 'Display Source'
 #. Name of a DocType
@@ -36988,7 +37005,12 @@ msgstr ""
 msgid "R2 is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Screen'
+#. Description of the 'Feed URL' (Data) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "RSS or Atom feed."
+msgstr ""
+
+#. Option for the 'Type' (Select) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/display_screen/display_screen.json
 msgid "Radio"
 msgstr ""
@@ -37085,6 +37107,18 @@ msgstr ""
 #. Label in the One Employee Performance Feedback print format
 #: onedesk/one_hr/print_format/one_employee_performance_feedback/one_employee_performance_feedback.json
 msgid "Ratings"
+msgstr ""
+
+#: onedesk/one_display/doctype/voice_pack/voice_pack.js:19
+msgid "Re-record All"
+msgstr ""
+
+#: onedesk/one_display/doctype/voice_pack/voice_pack.js:20
+msgid "Re-record every clip in this pack? Existing clips are replaced."
+msgstr ""
+
+#: onedesk/one_display/doctype/voice_pack/voice_pack.js:22
+msgid "Re-recording {0} clips."
 msgstr ""
 
 #: onedesk/one_mail/rules.py:872
@@ -37210,9 +37244,10 @@ msgstr ""
 msgid "Read from Frappe Cloud when Settings is saved."
 msgstr ""
 
-#. Description of the 'Seconds' (Float) field in DocType 'Display Track'
+#. Description of the 'Duration (Seconds)' (Float) field in DocType 'Display
+#. Track'
 #: onedesk/one_display/doctype/display_track/display_track.json
-msgid "Read from the file when it is attached."
+msgid "Read from the file on upload."
 msgstr ""
 
 #. Description of the 'When' (Data) field in DocType 'Timesheet Detail'
@@ -37638,7 +37673,7 @@ msgstr ""
 #. Label of the record (Dynamic Link) field in DocType 'AI Touch'
 #. Label of the for_name (Dynamic Link) field in DocType 'Identifier'
 #. Label of the target_name (Dynamic Link) field in DocType 'Reading Action'
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the record_name (Dynamic Link) field in DocType 'Display Source'
 #. Label of the bound_name (Dynamic Link) field in DocType 'Writer Document'
 #. Label of the reference_name (Dynamic Link) field in DocType 'Portal Link'
@@ -37726,6 +37761,10 @@ msgstr ""
 msgid "Record Made"
 msgstr ""
 
+#: onedesk/one_display/doctype/voice_pack/voice_pack.js:12
+msgid "Record Missing Clips"
+msgstr ""
+
 #. Label in the One Transaction Deletion Record print format
 #. Label in the One Maintenance Record print format
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
@@ -37809,6 +37848,11 @@ msgstr ""
 msgid "Recorded By"
 msgstr ""
 
+#. Description of a DocType
+#: onedesk/one_display/doctype/voice_pack/voice_pack.json
+msgid "Recorded letters, numbers and words that calls are assembled from."
+msgstr ""
+
 #: onedesk/public/js/overtime.js:64
 msgid "Recorded on {0}"
 msgstr ""
@@ -37847,6 +37891,10 @@ msgstr ""
 msgid "Recording the overtime"
 msgstr ""
 
+#: onedesk/one_display/doctype/voice_pack/voice_pack.js:14
+msgid "Recording {0} clips."
+msgstr ""
+
 #. Description of the 'Transcribe Interview Recordings' (Check) field in
 #. DocType 'HR Settings'
 #: onedesk/one_hr/custom/hr_settings.json
@@ -37857,7 +37905,7 @@ msgstr ""
 msgid "Recording…"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_records (Section Break) field in DocType 'Display
 #. Source'
 #: frontend/src/slide/shim/EditorNavbar.vue:286
@@ -38030,7 +38078,7 @@ msgstr ""
 
 #. Label of the refresh (Int) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Refresh Every (Seconds)"
+msgid "Refresh Interval (Seconds)"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartOverlay.vue:35
@@ -38240,8 +38288,8 @@ msgstr ""
 msgid "Reload"
 msgstr ""
 
-#: onedesk/one_display/screens.py:150
-msgid "Reload was sent from OneDisplay."
+#: onedesk/one_display/screens.py:152
+msgid "Reloaded from OneDisplay."
 msgstr ""
 
 #. Label in the One Journal Voucher print format
@@ -38751,7 +38799,7 @@ msgstr ""
 msgid "Reply…"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_report (Section Break) field in DocType 'Display
 #. Source'
 #. Label of the report (Link) field in DocType 'Display Source'
@@ -38781,6 +38829,16 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one/notifications.py
 msgid "Report by Mail"
+msgstr ""
+
+#: onedesk/one_display/doctype/display_source/display_source.py:24
+msgid "Report filters are not valid."
+msgstr ""
+
+#. Description of the 'Device Memory (GB)' (Float) field in DocType 'Display
+#. Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Reported by the browser, where supported."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -39047,6 +39105,10 @@ msgstr ""
 msgid "Required By {0}"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:22
+msgid "Required for radios."
+msgstr ""
+
 #. Label in the One Contract print format
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 msgid "Requirement"
@@ -39140,7 +39202,9 @@ msgstr ""
 msgid "Resigned On"
 msgstr ""
 
+#. Label of the pixels (Data) field in DocType 'Display Screen'
 #. Label in the One Employee Grievance print format
+#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 msgid "Resolution"
 msgstr ""
@@ -39176,6 +39240,10 @@ msgstr ""
 
 #: frontend/src/slide/shim/PresenterView.vue:13
 msgid "Restart the Clock"
+msgstr ""
+
+#: onedesk/one_display/screens.py:169
+msgid "Restarted {0} times today."
 msgstr ""
 
 #. Label of the restarts_today (Int) field in DocType 'Display Screen'
@@ -39488,6 +39556,11 @@ msgstr ""
 msgid "Returned {0} to Supplier"
 msgstr ""
 
+#. Description of the 'Aggregate' (Select) field in DocType 'Display Source'
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Returns a single value instead of rows."
+msgstr ""
+
 #. Label in the One Item Standard Cost print format
 #: onedesk/one_inventory/print_format/one_item_standard_cost/one_item_standard_cost.json
 msgid "Revaluation"
@@ -39653,6 +39726,11 @@ msgstr ""
 msgid "Right to left"
 msgstr ""
 
+#. Label of the risk (Small Text) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Risk Reason"
+msgstr ""
+
 #. Label of the role (Select) field in DocType 'Reading Party'
 #. Label in the One Staffing Plan print format
 #. Label of the role (Select) field in DocType 'Project Contact'
@@ -39702,6 +39780,11 @@ msgstr ""
 #: frontend/src/slide/components/FrameSection.vue:43
 #: onedesk/public/js/one_portal/portal.js:158
 msgid "Rotate"
+msgstr ""
+
+#. Label of the rotate (Select) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+msgid "Rotation"
 msgstr ""
 
 #. Label in the One Interview print format
@@ -39757,27 +39840,23 @@ msgid "Row {0}"
 msgstr ""
 
 #: onedesk/one_display/doctype/sound_zone/sound_zone.py:15
-msgid "Row {0} of the schedule plays music but does not say which."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_channel/display_channel.py:15
-msgid "Row {0} of the schedule plays music. Music plays in a sound zone now; set it there."
+msgid "Row {0} of the schedule needs a music playlist."
 msgstr ""
 
 #: onedesk/one_display/doctype/display_channel/display_channel.py:18
-msgid "Row {0} of the schedule plays {1} but does not say which."
+msgid "Row {0} of the schedule needs a {1}."
+msgstr ""
+
+#: onedesk/one_display/doctype/display_channel/display_channel.py:15
+msgid "Row {0} of the schedule plays music. Set music in a sound zone instead."
 msgstr ""
 
 #: onedesk/one_display/doctype/sound_zone/sound_zone.py:13
-msgid "Row {0} of the schedule plays {1}, which is seen, not heard. A zone plays music or is muted."
-msgstr ""
-
-#: onedesk/one_display/doctype/sound_zone/sound_zone.py:26
-msgid "Row {0} of the voice ads has {1}, which is not a time of day."
+msgid "Row {0} of the schedule shows {1}. A sound zone schedule can only play music or mute."
 msgstr ""
 
 #: onedesk/one_display/doctype/sound_zone/sound_zone.py:23
-msgid "Row {0} of the voice ads plays at times but names none."
+msgid "Row {0} of the voice ads needs at least one time."
 msgstr ""
 
 #: onedesk/one_sheet/table.py:332
@@ -39802,6 +39881,17 @@ msgstr ""
 #: onedesk/one_display/doctype/display_source/display_source.json
 #: onedesk/one_display/widgets.py:23
 msgid "Rows"
+msgstr ""
+
+#. Description of the 'Schedule' (Table) field in DocType 'Sound Zone'
+#: onedesk/one_display/doctype/sound_zone/sound_zone.json
+msgid "Rows replace the music at the times set. A later row takes priority."
+msgstr ""
+
+#. Description of the 'Schedule' (Section Break) field in DocType 'Display
+#. Channel'
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Rows replace what the channel shows at the times set. A later row takes priority."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:72
@@ -39966,11 +40056,6 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:108
 msgid "Safety Stock"
-msgstr ""
-
-#. Label of the said (Data) field in DocType 'Voice Pack Clip'
-#: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
-msgid "Said"
 msgstr ""
 
 #: onedesk/one_book/journal.py:38
@@ -40385,10 +40470,6 @@ msgstr ""
 msgid "Say a little about yourself and your work."
 msgstr ""
 
-#: onedesk/one_display/doctype/voice_pack/voice_pack.js:20
-msgid "Say every piece of this pack again, in place?"
-msgstr ""
-
 #: onedesk/public/js/admin_settings.js:67
 msgid "Say hello in one short sentence."
 msgstr ""
@@ -40401,7 +40482,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_slide/ai.py:72
+#: onedesk/one_slide/ai.py:72
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -40427,16 +40508,6 @@ msgstr ""
 
 #: onedesk/one/privacy.py:220
 msgid "Say why, so they know."
-msgstr ""
-
-#. Label of the announce (Check) field in DocType 'Sound Zone'
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "Says Calls"
-msgstr ""
-
-#. Description of the 'Says Calls' (Check) field in DocType 'Sound Zone'
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "Says each call of the queues that name this zone."
 msgstr ""
 
 #. Label of the attachment (Attach) field in DocType 'Employee Document'
@@ -40537,7 +40608,7 @@ msgstr ""
 msgid "Scrapped on {0}."
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Screen'
+#. Option for the 'Type' (Select) field in DocType 'Display Screen'
 #. Label of the screen (Data) field in DocType 'Clock Attempt'
 #. Label of the screen (Data) field in DocType 'Clock Device'
 #: onedesk/one_display/doctype/display_screen/display_screen.js:24
@@ -40562,7 +40633,7 @@ msgstr ""
 msgid "Screen New Applicants"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the dark (Check) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/display_screen/display_screen.json
@@ -40603,13 +40674,13 @@ msgstr ""
 msgid "Screens and channels sit at the top, the slides, widgets, music and ads a channel plays under Content, and the queues under Queues."
 msgstr ""
 
-#. Description of the 'Fresh Start Every Night At' (Time) field in DocType
-#. 'Display Channel'
+#. Description of the 'Nightly Reload Time' (Time) field in DocType 'Display
+#. Channel'
 #: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "Screens on this channel reload at this time each night, which frees what an old TV's browser holds on to. Empty never."
+msgid "Screens reload at this time every night. Leave empty to disable."
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 msgid "Screensaver"
 msgstr ""
@@ -40621,9 +40692,17 @@ msgstr ""
 msgid "Script"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:43
+msgid "Scroll Duration (Seconds)"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:137
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:138
 msgid "Scroll one screen"
+msgstr ""
+
+#: onedesk/one_display/widgets.py:38
+msgid "Scrolling text, written here or from a source."
 msgstr ""
 
 #. Task in the Aluminium & Glazing project template
@@ -40722,22 +40801,9 @@ msgstr ""
 msgid "Second fix and fittings"
 msgstr ""
 
-#. Label of the duration (Int) field in DocType 'Display Slide'
-#. Label of the duration (Float) field in DocType 'Display Track'
 #. Label of the total (Int) field in DocType 'Presentation View'
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-#: onedesk/one_display/doctype/display_track/display_track.json
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json
 msgid "Seconds"
-msgstr ""
-
-#: onedesk/one_display/widgets.py:43
-msgid "Seconds Across"
-msgstr ""
-
-#. Description of the 'Seconds' (Int) field in DocType 'Display Slide'
-#: onedesk/one_display/doctype/display_slide/display_slide.json
-msgid "Seconds for each slide that has no time of its own, and for a web page."
 msgstr ""
 
 #. Label of the seconds (JSON) field in DocType 'Presentation View'
@@ -40833,8 +40899,16 @@ msgstr ""
 msgid "Select a cell and press"
 msgstr ""
 
+#: onedesk/one_display/screens.py:101
+msgid "Select a channel for the screen."
+msgstr ""
+
 #: onedesk/public/js/one/notification_center.js:498
 msgid "Select a record type first."
+msgstr ""
+
+#: onedesk/one_display/screens.py:99
+msgid "Select a sound zone for the radio."
 msgstr ""
 
 #: onedesk/one_sheet/table.py:182
@@ -41092,10 +41166,6 @@ msgstr ""
 msgid "Sender's Domain"
 msgstr ""
 
-#: onedesk/one_display/screens.py:343
-msgid "Sending an emergency alert is not yours to do."
-msgstr ""
-
 #: onedesk/www/r.html:65 onedesk/www/s.html:107
 msgid "Sending…"
 msgstr ""
@@ -41212,7 +41282,7 @@ msgstr ""
 msgid "Sent {0} to Subcontractor"
 msgstr ""
 
-#: onedesk/one_display/screens.py:333
+#: onedesk/one_display/screens.py:335
 msgid "Sent."
 msgstr ""
 
@@ -41573,6 +41643,10 @@ msgstr ""
 msgid "Set a rate for each item you can supply."
 msgstr ""
 
+#: onedesk/one_display/packs.py:248
+msgid "Set a voice for the sound zone first."
+msgstr ""
+
 #: onedesk/public/js/doctype_settings.js:142
 #: onedesk/public/js/one_studio/studio_control.js:142
 msgid "Set as Default"
@@ -41729,7 +41803,7 @@ msgstr ""
 
 #. Description of a DocType
 #: onedesk/one_display/doctype/display_settings/display_settings.json
-msgid "Settings for every screen."
+msgid "Settings for all screens."
 msgstr ""
 
 #: onedesk/one_book/tour.py:31 onedesk/one_crm/tour.py:31
@@ -42209,6 +42283,10 @@ msgstr ""
 msgid "Show Completed"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:65
+msgid "Show Date"
+msgstr ""
+
 #: frontend/src/inventory/quotes/QuotesPage.vue:112
 msgid "Show Draft Supplier Quotations"
 msgstr ""
@@ -42319,8 +42397,12 @@ msgstr ""
 msgid "Show Until"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:86
+msgid "Show Value"
+msgstr ""
+
 #: onedesk/one_display/widgets.py:24
-msgid "Show Who Waits"
+msgid "Show Waiting Count"
 msgstr ""
 
 #: frontend/src/inventory/plant/PlantFloor.vue:177
@@ -42364,16 +42446,8 @@ msgstr ""
 msgid "Show pictures"
 msgstr ""
 
-#: onedesk/one_display/widgets.py:65
-msgid "Show the Date"
-msgstr ""
-
 #: frontend/src/slide/shim/MasterSection.vue:6
 msgid "Show the Master"
-msgstr ""
-
-#: onedesk/one_display/widgets.py:86
-msgid "Show the Value"
 msgstr ""
 
 #: frontend/src/project/Updates.vue:24
@@ -42434,6 +42508,10 @@ msgstr ""
 msgid "Shown When"
 msgstr ""
 
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:58
+msgid "Shown and announced on all screens until it is ended."
+msgstr ""
+
 #: onedesk/one_studio/ai_setup.py:234 onedesk/one_studio/ai_setup.py:359
 msgid "Shown in"
 msgstr ""
@@ -42441,12 +42519,16 @@ msgstr ""
 #. Description of the 'Emergency Message' (Small Text) field in DocType
 #. 'Display Settings'
 #: onedesk/one_display/doctype/display_settings/display_settings.json
-msgid "Shown on every screen, over everything else, until the alert is turned off."
+msgid "Shown on all screens until the alert is ended."
+msgstr ""
+
+#: onedesk/one_display/doctype/display_screen/display_screen_list.js:13
+msgid "Shown on the screen at {0}, or on a radio at {1}."
 msgstr ""
 
 #. Description of the 'Background' (Data) field in DocType 'Widget Collection'
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "Shown where no slide plays, as the screen's editor sets it. Empty is the brand's."
+msgid "Shown when no slide is playing. Defaults to the brand colour."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:246
@@ -43141,7 +43223,7 @@ msgstr ""
 msgid "Slide {0}: Advance After must be between 1 and 3600 seconds, not {1}"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the slides (Table) field in DocType 'Slide Playlist'
 #. Label of the slides (Table) field in DocType 'Presentation'
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
@@ -43150,6 +43232,11 @@ msgstr ""
 #: onedesk/one_slide/doctype/presentation/presentation.json
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json
 msgid "Slides"
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_channel/display_channel.json
+msgid "Slides, widgets and a schedule shown on screens."
 msgstr ""
 
 #: frontend/src/slide/composables/useShortcuts.js:476
@@ -43587,6 +43674,11 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
+#. Description of the 'Field Mapping' (Code) field in DocType 'Display Widget'
+#: onedesk/one_display/doctype/display_widget/display_widget.json
+msgid "Source field shown in each part of the widget."
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:8
 msgid "Source range"
 msgstr ""
@@ -43938,6 +44030,10 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:247 frontend/src/crm/CrmHome.vue:264
 #: frontend/src/inventory/home/InventoryHome.vue:303
 msgid "Started more than a day ago"
+msgstr ""
+
+#: onedesk/one_display/screens.py:153
+msgid "Started or opened."
 msgstr ""
 
 #. Name of a notification
@@ -44977,22 +45073,6 @@ msgstr ""
 msgid "Such as Quote Request."
 msgstr ""
 
-#. Description of the 'Value Name' (Data) field in DocType 'Display Board'
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "Such as Score, Count or Price. Empty when items have only a state."
-msgstr ""
-
-#. Description of the 'Location' (Small Text) field in DocType 'Sound Zone'
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "Such as the lobby and the waiting area."
-msgstr ""
-
-#. Description of the 'Location' (Small Text) field in DocType 'Display
-#. Channel'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "Such as the showroom's lobby."
-msgstr ""
-
 #: onedesk/one_mail/setup.py:38
 msgid "Such as yourcompany.com, whose mail servers are found for you."
 msgstr ""
@@ -45051,7 +45131,7 @@ msgid "Suggestions"
 msgstr ""
 
 #. Option for the 'Value' (Select) field in DocType 'Record Head Band'
-#. Option for the 'Count or Total' (Select) field in DocType 'Display Source'
+#. Option for the 'Aggregate' (Select) field in DocType 'Display Source'
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:210
 #: onedesk/one/doctype/record_head_band/record_head_band.json
 #: onedesk/one_display/doctype/display_source/display_source.json
@@ -45335,6 +45415,11 @@ msgstr ""
 
 #: onedesk/one_inventory/home.py:128
 msgid "Suppliers' prices side by side."
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/display_source/display_source.json
+msgid "Supplies data to widgets. Only fields mapped to a widget are sent to screens."
 msgstr ""
 
 #. Label of a Sidebar Item
@@ -46117,11 +46202,6 @@ msgstr ""
 msgid "Tell"
 msgstr ""
 
-#. Label of the wait_alert (Int) field in DocType 'Queue'
-#: onedesk/one_display/doctype/queue/queue.json
-msgid "Tell Counters After (Minutes)"
-msgstr ""
-
 #: onedesk/one_account/ai.py:94
 msgid "Tell OneAI a little less, in a few sentences."
 msgstr ""
@@ -46399,13 +46479,17 @@ msgstr ""
 #. Label of the text (Long Text) field in DocType 'AI Chunk'
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
+#. Label of the text (Small Text) field in DocType 'Display Voice'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
+#. Label of the said (Data) field in DocType 'Voice Pack Clip'
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/shim/LayersPanel.vue:111
 #: onedesk/one/custom/notification_type.json
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json
 #: onedesk/one_ai/doctype/reading/reading.json
+#: onedesk/one_display/doctype/display_voice/display_voice.json
 #: onedesk/one_display/doctype/display_widget/display_widget.json
+#: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
 #: onedesk/one_display/widgets.py:48 onedesk/one_mail/flow.py:286
 msgid "Text"
 msgstr ""
@@ -46436,6 +46520,11 @@ msgstr ""
 
 #: onedesk/one_slide/tour.py:18
 msgid "Text, pictures and videos, shapes, lines and tables go on the slide from here."
+msgstr ""
+
+#. Description of the 'Backdrop' (Link) field in DocType 'Widget Collection'
+#: onedesk/one_display/doctype/widget_collection/widget_collection.json
+msgid "Text, shapes and images behind the widgets."
 msgstr ""
 
 #: onedesk/one_slide/decks.py:32
@@ -46820,8 +46909,12 @@ msgstr ""
 msgid "The agreement between your organisation and Four Degree Labs for the use of One."
 msgstr ""
 
-#: onedesk/one_display/screens.py:353
+#: onedesk/one_display/screens.py:355
 msgid "The alert has ended."
+msgstr ""
+
+#: onedesk/one_display/screens.py:355
+msgid "The alert is showing on all screens."
 msgstr ""
 
 #. Description of the 'Level Of' (Data) field in DocType 'Role'
@@ -46930,10 +47023,6 @@ msgstr ""
 msgid "The claim is closed and nothing is booked."
 msgstr ""
 
-#: onedesk/one_display/doctype/display_screen/display_screen_list.js:13
-msgid "The code a screen shows once {0} is open on it, or a radio once {1} is."
-msgstr ""
-
 #. Description of the 'Code Ends' (Data) field in DocType 'Private App Grant'
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json
 msgid "The code's last four characters, to tell codes apart. The code itself is shown once, when it is made."
@@ -47037,14 +47126,12 @@ msgstr ""
 msgid "The covering person"
 msgstr ""
 
-#. Description of the 'Currencies' (Small Text) field in DocType 'Display
-#. Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "The currencies shown, such as USD, EUR, GBP, separated by commas."
-msgstr ""
-
 #: onedesk/public/js/one/one_control.js:29
 msgid "The currency can't change once there are transactions."
+msgstr ""
+
+#: onedesk/one_display/widgets.py:61
+msgid "The current time, with an optional date."
 msgstr ""
 
 #. Description of the 'By' (Select) field in DocType 'Tenant Event'
@@ -47176,6 +47263,10 @@ msgstr ""
 msgid "The detail under the bell, and the body of the mail. It may be empty, and simple HTML is fine."
 msgstr ""
 
+#: onedesk/one_display/screens.py:154
+msgid "The device or browser restarted unexpectedly."
+msgstr ""
+
 #. Description of the 'Snapshot' (Long Text) field in DocType 'Writer Document
 #. Version'
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json
@@ -47247,10 +47338,6 @@ msgstr ""
 #. Item'
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json
 msgid "The file field on the record, or on one of its tables, the file goes in."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_source/display_source.py:19
-msgid "The filters are not a list."
 msgstr ""
 
 #. Description of the 'Matter' (Link) field in DocType 'Reading'
@@ -47444,11 +47531,6 @@ msgstr ""
 msgid "The kinds of expense somebody may claim."
 msgstr ""
 
-#. Description of the 'Language' (Link) field in DocType 'Display Channel'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "The language of the words on its screens. Empty is the workspace's."
-msgstr ""
-
 #: frontend/src/hr/HrStory.vue:23
 msgid "The last 30 days"
 msgstr ""
@@ -47499,11 +47581,6 @@ msgstr ""
 
 #: onedesk/public/js/one_studio/studio_control.js:383
 msgid "The letter heads and print formats documents are printed and sent on."
-msgstr ""
-
-#. Description of the 'Prefix' (Data) field in DocType 'Queue Service'
-#: onedesk/one_display/doctype/queue_service/queue_service.json
-msgid "The letter tickets for this service start with, such as A."
 msgstr ""
 
 #. Description of the 'Guides' (Long Text) field in DocType 'Presentation'
@@ -47587,20 +47664,10 @@ msgstr ""
 msgid "The month in figures"
 msgstr ""
 
-#. Description of the 'Pictures in Memory (MB)' (Int) field in DocType 'Display
-#. Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "The most the pictures on screen and the next one took at once, decoded, in the last half hour."
-msgstr ""
-
 #. Description of the 'maximum_overtime_hours_allowed' field in DocType
 #. 'Overtime Details'
 #: onedesk/one_hr/custom/overtime_details.json
 msgid "The most this overtime type pays in one day. Anything worked beyond it is not paid."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_screen/display_screen_list.js:22
-msgid "The music, ads and calls it plays; a radio needs one."
 msgstr ""
 
 #. Description of the 'Mail Name' (Data) field in DocType 'User'
@@ -47646,10 +47713,6 @@ msgstr ""
 #. Message of a notification
 #: onedesk/one/notifications.py
 msgid "The next {kind} could not be made, so the repeat is switched off. Fix what stopped it, then switch the repeat back on."
-msgstr ""
-
-#: onedesk/one_display/screens.py:149
-msgid "The nightly fresh start."
 msgstr ""
 
 #: onedesk/one/notification_words.py:228
@@ -48100,10 +48163,6 @@ msgstr ""
 msgid "The repeat of {document} stopped"
 msgstr ""
 
-#: onedesk/one_display/doctype/display_source/display_source.py:24
-msgid "The report's filters are not a set of values."
-msgstr ""
-
 #: onedesk/one_hr/heads.py:616
 msgid "The request is closed and nobody is assigned anything."
 msgstr ""
@@ -48319,21 +48378,12 @@ msgstr ""
 msgid "The theme could not be changed. Try again."
 msgstr ""
 
-#. Description of the 'Items' (Table) field in DocType 'Display Board'
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "The things on the board. They are changed from Boards, on a phone or a tablet."
-msgstr ""
-
-#: onedesk/one_display/programme.py:416 onedesk/www/tv.py:50
+#: onedesk/one_display/programme.py:416 onedesk/www/tv.py:60
 msgid "The ticket could not be taken. Try again."
 msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:43
 msgid "The tier sets which models answer and what each answer costs."
-msgstr ""
-
-#: onedesk/one_display/widgets.py:61
-msgid "The time, and the date if you want it."
 msgstr ""
 
 #: onedesk/one_slide/decks.py:171
@@ -48372,10 +48422,6 @@ msgstr ""
 msgid "The visits promised to keep what a customer bought working."
 msgstr ""
 
-#: onedesk/one_display/widgets.py:72
-msgid "The weather now and for the next days, for a place."
-msgstr ""
-
 #: onedesk/one_crm/home.py:154
 msgid "The website form that makes a lead."
 msgstr ""
@@ -48383,11 +48429,6 @@ msgstr ""
 #. Description of the 'Turns' (Long Text) field in DocType 'AI Chat'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json
 msgid "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
-msgstr ""
-
-#. Description of the 'Backdrop' (Link) field in DocType 'Widget Collection'
-#: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "The words, shapes and pictures drawn behind the widgets, kept as a one-slide presentation on this collection."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:133
@@ -48530,11 +48571,6 @@ msgstr ""
 #. Description of the 'Zone ID' (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "The zone the workspace domain is in. Customers' own domains are added to it as custom hostnames."
-msgstr ""
-
-#. Description of the 'Sound Zone' (Link) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "The zone whose music, ads and calls it plays. Empty when speakers elsewhere play them."
 msgstr ""
 
 #. Label in the One Blanket Order print format
@@ -48932,11 +48968,6 @@ msgstr ""
 
 #: onedesk/one/tour.py:13
 msgid "Things only an administrator can put right, such as a mailbox that stopped connecting."
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "Things whose state or value people change by hand, shown on screens."
 msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:371
@@ -49364,8 +49395,8 @@ msgstr ""
 msgid "This rule can't run while New Mail is set to Not Read in the mailbox's OneAI tab."
 msgstr ""
 
-#: onedesk/one_display/screens.py:311 onedesk/one_display/screens.py:320
-msgid "This screen does not hand out tickets."
+#: onedesk/one_display/screens.py:313 onedesk/one_display/screens.py:322
+msgid "This screen has no kiosk."
 msgstr ""
 
 #: frontend/src/sheet/shim/PrintDialog.vue:53
@@ -49406,7 +49437,7 @@ msgid "This site doesn't manage workspaces."
 msgstr ""
 
 #: onedesk/one_display/sources.py:52
-msgid "This source has nobody to read as."
+msgid "This source has no user to read data as. Save it again."
 msgstr ""
 
 #: onedesk/one_task/task.py:67
@@ -49648,6 +49679,10 @@ msgstr ""
 msgid "Ticket {0}, counter {1}"
 msgstr ""
 
+#: onedesk/one_display/widgets.py:18
+msgid "Tickets being served at each counter and how many are waiting."
+msgstr ""
+
 #: onedesk/one/ai.py:145
 msgid "Tidy our footer"
 msgstr ""
@@ -49723,7 +49758,7 @@ msgstr ""
 
 #. Label of the limit_minutes (Int) field in DocType 'Display Board State'
 #: onedesk/one_display/doctype/display_board_state/display_board_state.json
-msgid "Time Limit"
+msgid "Time Limit (Minutes)"
 msgstr ""
 
 #. Label in the One Detailed Tax Invoice print format
@@ -49780,7 +49815,9 @@ msgstr ""
 msgid "Timers"
 msgstr ""
 
+#. Label of the at_times (Data) field in DocType 'Channel Ad'
 #. Label in the One Asset Card print format
+#: onedesk/one_display/doctype/channel_ad/channel_ad.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Times"
 msgstr ""
@@ -49793,11 +49830,6 @@ msgstr ""
 #. Label of the opened (Int) field in DocType 'Portal Link'
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 msgid "Times Opened"
-msgstr ""
-
-#. Description of the 'At' (Data) field in DocType 'Channel Ad'
-#: onedesk/one_display/doctype/channel_ad/channel_ad.json
-msgid "Times of day, such as 9.00 and 13.30, separated by commas."
 msgstr ""
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
@@ -50218,11 +50250,6 @@ msgstr ""
 msgid "Token Once"
 msgstr ""
 
-#. Label of the told (Check) field in DocType 'Display Board Item'
-#: onedesk/one_display/doctype/display_board_item/display_board_item.json
-msgid "Told"
-msgstr ""
-
 #. Description of the 'Applies To' (Link) field in DocType 'AI Knowledge'
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json
 msgid "Told to OneAI whenever somebody is on this type's list or form. Leave empty for a note it finds when it looks."
@@ -50552,6 +50579,11 @@ msgstr ""
 #. Label of the tracks (Table) field in DocType 'Music Playlist'
 #: onedesk/one_display/doctype/music_playlist/music_playlist.json
 msgid "Tracks"
+msgstr ""
+
+#. Description of a DocType
+#: onedesk/one_display/doctype/music_playlist/music_playlist.json
+msgid "Tracks played in a sound zone."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:4882
@@ -50891,8 +50923,6 @@ msgstr ""
 msgid "Tuesday"
 msgstr ""
 
-#. Label of the rotate (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:34
 msgid "Turn"
 msgstr ""
@@ -51063,6 +51093,10 @@ msgstr ""
 #. Label in the One Process Payment Reconciliation print format
 #. Label in the One Share Transfer print format
 #. Label in the One Service Report print format
+#. Label of the kind (Select) field in DocType 'Display Screen'
+#. Label of the kind (Select) field in DocType 'Display Slide'
+#. Label of the kind (Select) field in DocType 'Display Source'
+#. Label of the kind (Select) field in DocType 'Voice Pack Clip'
 #. Label of the document_type (Link) field in DocType 'Employee Document'
 #. Label in the One Additional Salary print format
 #. Label in the One Employee Grievance print format
@@ -51086,6 +51120,10 @@ msgstr ""
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
 #: onedesk/one_book/print_format/one_share_transfer/one_share_transfer.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
+#: onedesk/one_display/doctype/display_screen/display_screen.json
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+#: onedesk/one_display/doctype/display_source/display_source.json
+#: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
 #: onedesk/one_hr/doctype/employee_document/employee_document.json
 #: onedesk/one_hr/print_format/one_additional_salary/one_additional_salary.json
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
@@ -51317,10 +51355,6 @@ msgstr ""
 
 #: onedesk/one_ai/reading/lessons.py:123
 msgid "Undone {0} times before for this party."
-msgstr ""
-
-#: onedesk/one_display/screens.py:152
-msgid "Unexpected: the device or its browser restarted."
 msgstr ""
 
 #: onedesk/public/js/record.js:166
@@ -51968,6 +52002,12 @@ msgstr ""
 msgid "Used for the company name, lines and banner in letter heads."
 msgstr ""
 
+#. Description of the 'Duration (Seconds)' (Int) field in DocType 'Display
+#. Slide'
+#: onedesk/one_display/doctype/display_slide/display_slide.json
+msgid "Used for web pages and for slides without their own duration."
+msgstr ""
+
 #. Description of the 'Key' (Data) field in DocType 'Offering'
 #: onedesk/one_admin/doctype/offering/offering.json
 msgid "Used in URLs. Do not change it once the offering has been sold."
@@ -52172,7 +52212,7 @@ msgstr ""
 
 #. Label of the value_label (Data) field in DocType 'Display Board'
 #: onedesk/one_display/doctype/display_board/display_board.json
-msgid "Value Name"
+msgid "Value Label"
 msgstr ""
 
 #. Label of the value_kind (Select) field in DocType 'Display Board'
@@ -52566,7 +52606,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json
 #: onedesk/one_studio/print_blocks.py:943
 #: onedesk/public/js/one_ai/ai_center.js:130
-#: onedesk/public/js/onecloud_dialogs.js:475 onedesk/www/tv.py:45
+#: onedesk/public/js/onecloud_dialogs.js:475 onedesk/www/tv.py:55
 msgid "Waiting"
 msgstr ""
 
@@ -52816,7 +52856,7 @@ msgstr ""
 msgid "We're Closed"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Source'
+#. Option for the 'Type' (Select) field in DocType 'Display Source'
 #. Label of the section_weather (Section Break) field in DocType 'Display
 #. Source'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
@@ -52831,7 +52871,7 @@ msgstr ""
 msgid "Web"
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Display Slide'
+#. Option for the 'Type' (Select) field in DocType 'Display Slide'
 #: onedesk/one_display/doctype/display_slide/display_slide.json
 msgid "Web Page"
 msgstr ""
@@ -53038,10 +53078,6 @@ msgstr ""
 msgid "What It Sends"
 msgstr ""
 
-#: onedesk/one_display/doctype/display_source/display_source.js:11
-msgid "What It Shows Now"
-msgstr ""
-
 #: onedesk/one_legal/gate.py:20
 msgid "What One may not be used for, by your organisation or anyone who signs in."
 msgstr ""
@@ -53113,11 +53149,6 @@ msgstr ""
 msgid "What Was Done"
 msgstr ""
 
-#. Description of a DocType
-#: onedesk/one_display/doctype/voice_pack/voice_pack.json
-msgid "What a call is said from in one language, voice and tone: kept once, joined for every ticket."
-msgstr ""
-
 #: onedesk/one_crm/home.py:177
 msgid "What a call was about."
 msgstr ""
@@ -53168,15 +53199,6 @@ msgstr ""
 msgid "What a sales order is billed with, in OneBook."
 msgstr ""
 
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "What a screen shows: slides, widgets over them, music and voice, and when each plays."
-msgstr ""
-
-#: onedesk/one_display/doctype/display_screen/display_screen_list.js:16
-msgid "What a screen shows; a radio leaves it empty."
-msgstr ""
-
 #: onedesk/one_inventory/home.py:145
 msgid "What a supplier made, taken back in."
 msgstr ""
@@ -53199,11 +53221,6 @@ msgstr ""
 
 #: onedesk/one_hr/home.py:567
 msgid "What an appraisal scores somebody on."
-msgstr ""
-
-#. Description of the 'States' (Table) field in DocType 'Display Board'
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "What an item can be, in order. Empty when items have only a value."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:123
@@ -53343,11 +53360,6 @@ msgstr ""
 msgid "What each person costs, part by part."
 msgstr ""
 
-#. Description of the 'In Currency' (Link) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "What each rate is given in. Empty is the company's own currency."
-msgstr ""
-
 #: onedesk/public/js/one/access_center.js:33
 #: onedesk/public/js/one/access_center.js:119
 msgid "What each role can do in {0}."
@@ -53414,11 +53426,6 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json
 msgid "What is happening"
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/sound_zone/sound_zone.json
-msgid "What is heard where one set of speakers is: its music, voice ads and the calls of its queues."
 msgstr ""
 
 #: onedesk/one_slide/decks.py:245
@@ -53534,12 +53541,6 @@ msgstr ""
 msgid "What it gives, in one line, written when it is saved."
 msgstr ""
 
-#. Description of the 'Description' (Small Text) field in DocType 'Display
-#. Board'
-#: onedesk/one_display/doctype/display_board/display_board.json
-msgid "What it keeps track of, and where."
-msgstr ""
-
 #: frontend/src/slide/shim/WidgetSection.vue:128
 msgid "What it shows and does"
 msgstr ""
@@ -53578,12 +53579,6 @@ msgstr ""
 
 #: onedesk/public/js/one/one_control.js:288
 msgid "What people may share outside their own access."
-msgstr ""
-
-#. Description of the 'Schedule' (Section Break) field in DocType 'Display
-#. Channel'
-#: onedesk/one_display/doctype/display_channel/display_channel.json
-msgid "What plays instead at some times, such as a screensaver at night or no music during prayers."
 msgstr ""
 
 #: onedesk/one/ai.py:199
@@ -53669,11 +53664,6 @@ msgstr ""
 #. Description of the 'Device' (Data) field in DocType 'Clock Device'
 #: onedesk/one_hr/doctype/clock_device/clock_device.json
 msgid "What the browser called itself when the passkey was registered."
-msgstr ""
-
-#. Description of the 'Memory (GB)' (Float) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "What the browser says the device has; some do not say."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:147
@@ -53872,24 +53862,9 @@ msgstr ""
 msgid "What the rule is for, such as Quotes from customers."
 msgstr ""
 
-#. Description of the 'Place' (Data) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "What the screen calls it, such as Dubai."
-msgstr ""
-
-#. Description of the 'Pixels' (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json
-msgid "What the screen's browser draws on, across by down, and its pixel ratio."
-msgstr ""
-
 #. Description of the 'Files' (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json
 msgid "What the suggestion was made from. Attached to the record it makes."
-msgstr ""
-
-#. Description of the 'Script' (Small Text) field in DocType 'Voice Ad'
-#: onedesk/one_display/doctype/voice_ad/voice_ad.json
-msgid "What the voice says."
 msgstr ""
 
 #. Description of the 'Plan' (Link) field in DocType 'Tenant'
@@ -55142,12 +55117,6 @@ msgstr ""
 msgid "When somebody flags a customer who is over their credit limit."
 msgstr ""
 
-#. Description of the 'Tell Counters After (Minutes)' (Int) field in DocType
-#. 'Queue'
-#: onedesk/one_display/doctype/queue/queue.json
-msgid "When somebody has waited this long, whoever staffs a counter is told. Empty tells nobody."
-msgstr ""
-
 #. When a notification is sent
 #: onedesk/one_display/notifications.py
 msgid "When somebody in a queue has waited longer than the queue allows."
@@ -55602,13 +55571,13 @@ msgstr ""
 msgid "Where a new order starts. When Released taxes each invoice on the work less its retention, and the retention when it's released."
 msgstr ""
 
-#. Description of a DocType
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Where a widget's words, numbers and pictures come from. A screen is shown only the fields a widget maps."
-msgstr ""
-
 #: onedesk/one_inventory/home.py:196
 msgid "Where arriving stock is put away, and how much each warehouse holds."
+msgstr ""
+
+#. Description of the 'Sound Zone' (Link) field in DocType 'Queue'
+#: onedesk/one_display/doctype/queue/queue.json
+msgid "Where calls from this queue are announced."
 msgstr ""
 
 #: onedesk/one_admin/ai.py:135
@@ -55647,11 +55616,6 @@ msgstr ""
 msgid "Where each serial number has been."
 msgstr ""
 
-#. Description of the 'Widgets' (Table) field in DocType 'Widget Collection'
-#: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "Where each widget sits, in percent of the screen."
-msgstr ""
-
 #: onedesk/one_inventory/home.py:216
 msgid "Where equipment is kept."
 msgstr ""
@@ -55676,24 +55640,9 @@ msgstr ""
 msgid "Where is this project's money going? Say what the customer has been invoiced and paid, what it has cost and on what, which cost types are close to or over their budget, and where the forecast margin is heading."
 msgstr ""
 
-#. Description of the 'Sound Zone' (Link) field in DocType 'Queue'
-#: onedesk/one_display/doctype/queue/queue.json
-msgid "Where its calls are said."
-msgstr ""
-
-#. Description of the 'Kind' (Select) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Where its rows come from, such as records, a report, a queue, a news feed or the weather."
-msgstr ""
-
 #. Description of the 'Servers' (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/queue/queue.json
-msgid "Where people wait: the services they take a ticket for, and the counters that call them."
 msgstr ""
 
 #: onedesk/one_hr/home.py:545
@@ -55811,11 +55760,6 @@ msgstr ""
 
 #: onedesk/one_studio/ai.py:60
 msgid "Which extensions does this workspace have, what does each do, and is any of them failing?"
-msgstr ""
-
-#. Description of the 'Fields Shown' (Code) field in DocType 'Display Widget'
-#: onedesk/one_display/doctype/display_widget/display_widget.json
-msgid "Which field fills each part the widget draws."
 msgstr ""
 
 #: onedesk/one/ai.py:169
@@ -56159,10 +56103,6 @@ msgstr ""
 msgid "Who in this workspace can use which apps, and who administers it? Say anything that looks too wide."
 msgstr ""
 
-#: onedesk/one_display/widgets.py:18
-msgid "Who is being served at which counter, and how many wait for each service."
-msgstr ""
-
 #: onedesk/one_inventory/ai.py:194
 msgid "Who is cheapest?"
 msgstr ""
@@ -56474,7 +56414,7 @@ msgstr ""
 msgid "Whoever was taken off"
 msgstr ""
 
-#. Option for the 'Numbers Said' (Select) field in DocType 'Queue'
+#. Option for the 'Number Reading' (Select) field in DocType 'Queue'
 #: onedesk/one_display/doctype/queue/queue.json
 msgid "Whole Number"
 msgstr ""
@@ -56497,11 +56437,6 @@ msgstr ""
 msgid "Whose One account holds this workspace. Set when it is paid for."
 msgstr ""
 
-#. Description of the 'Read As' (Link) field in DocType 'Display Source'
-#: onedesk/one_display/doctype/display_source/display_source.json
-msgid "Whose access it reads with. It is whoever saved it last."
-msgstr ""
-
 #: onedesk/one_hr/home.py:456
 msgid "Whose birthday is this month."
 msgstr ""
@@ -56512,11 +56447,9 @@ msgid "Whose permissions were checked when this was written, and whose will be c
 msgstr ""
 
 #. Label of the why (Small Text) field in DocType 'Reading Action'
-#. Label of the risk (Small Text) field in DocType 'Display Screen'
 #. Label in the One Employee Referral print format
 #: frontend/src/inventory/to_order/ToOrderPage.vue:19
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
-#: onedesk/one_display/doctype/display_screen/display_screen.json
 #: onedesk/one_hr/print_format/one_employee_referral/one_employee_referral.json
 msgid "Why"
 msgstr ""
@@ -56635,17 +56568,17 @@ msgstr ""
 msgid "Widget Collection"
 msgstr ""
 
-#. Option for the 'Plays' (Select) field in DocType 'Channel Programme'
+#: onedesk/one_display/doctype/widget_collection/widget_collection.py:36
+#: onedesk/one_display/doctype/widget_collection/widget_collection.py:38
+msgid "Widget settings are not valid."
+msgstr ""
+
+#. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the widgets (Table) field in DocType 'Widget Collection'
 #: frontend/src/slide/shim/EditorNavbar.vue:361
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json
 msgid "Widgets"
-msgstr ""
-
-#. Description of a DocType
-#: onedesk/one_display/doctype/widget_collection/widget_collection.json
-msgid "Widgets laid out over the slides: a queue board, a ticker, a clock, the weather, a list of records."
 msgstr ""
 
 #. Label of the width (Int) field in DocType 'Display Channel'
@@ -56894,7 +56827,7 @@ msgstr ""
 msgid "Won."
 msgstr ""
 
-#. Option for the 'Kind' (Select) field in DocType 'Voice Pack Clip'
+#. Option for the 'Type' (Select) field in DocType 'Voice Pack Clip'
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json
 msgid "Word"
 msgstr ""
@@ -56904,11 +56837,9 @@ msgid "Wordmark"
 msgstr ""
 
 #. Option for the 'Value Type' (Select) field in DocType 'Display Board'
-#. Label of the text (Small Text) field in DocType 'Display Voice'
 #: frontend/src/slide/shim/WidgetLookSection.vue:10
 #: frontend/src/slide/shim/WidgetSection.vue:61
 #: onedesk/one_display/doctype/display_board/display_board.json
-#: onedesk/one_display/doctype/display_voice/display_voice.json
 #: onedesk/one_display/widgets.py:42 onedesk/one_display/widgets.py:53
 msgid "Words"
 msgstr ""
@@ -56919,10 +56850,6 @@ msgstr ""
 
 #: frontend/src/slide/shim/DataDialog.vue:7
 msgid "Words from a record stay up to date: they are read again each time the slide is shown, and show only what the person looking may see."
-msgstr ""
-
-#: onedesk/one_display/widgets.py:38
-msgid "Words that run along the screen: headlines, notices, figures."
 msgstr ""
 
 #. Label in the One Service Report print format
@@ -57930,6 +57857,10 @@ msgstr ""
 msgid "You checked in but never checked out, so a check out was written for you at the shift end. Tell HR if that is wrong."
 msgstr ""
 
+#: onedesk/one_display/boards.py:99 onedesk/one_display/boards.py:146
+msgid "You do not have permission to change {0}."
+msgstr ""
+
 #: onedesk/one_doc/api.py:67
 msgid "You do not have permission to open this document."
 msgstr ""
@@ -57940,6 +57871,10 @@ msgstr ""
 
 #: onedesk/one_sheet/api.py:46
 msgid "You do not have permission to open this workbook."
+msgstr ""
+
+#: onedesk/one_display/screens.py:345
+msgid "You do not have permission to send an emergency alert."
 msgstr ""
 
 #: onedesk/one_mail/holders.py:516
@@ -57996,7 +57931,6 @@ msgstr ""
 msgid "You may not change how {0} signs."
 msgstr ""
 
-#: onedesk/one_display/boards.py:99 onedesk/one_display/boards.py:146
 #: onedesk/one_task/ai.py:315
 msgid "You may not change {0}."
 msgstr ""
@@ -58636,7 +58570,7 @@ msgstr ""
 msgid "Your sign-ins"
 msgstr ""
 
-#: onedesk/one_display/programme.py:414 onedesk/www/tv.py:47
+#: onedesk/one_display/programme.py:414 onedesk/www/tv.py:57
 msgid "Your ticket"
 msgstr ""
 
@@ -60512,7 +60446,7 @@ msgstr ""
 msgid "{0} agreed on {1}"
 msgstr ""
 
-#: onedesk/one_display/programme.py:415 onedesk/www/tv.py:48
+#: onedesk/one_display/programme.py:415 onedesk/www/tv.py:58
 msgid "{0} ahead of you"
 msgstr ""
 
@@ -61514,10 +61448,6 @@ msgstr ""
 msgid "{0} is more than the {1} still owed."
 msgstr ""
 
-#: onedesk/one_display/doctype/display_board/display_board.py:17
-msgid "{0} is named twice. Each {1} needs its own name."
-msgstr ""
-
 #: onedesk/one_storage/targets.py:125
 msgid "{0} is needed."
 msgstr ""
@@ -61660,6 +61590,10 @@ msgstr ""
 
 #: onedesk/one_hr/doctype/clock_network/clock_network.py:12
 msgid "{0} is not a valid address or range. Example: 203.0.113.7 or 203.0.113.0/24"
+msgstr ""
+
+#: onedesk/one_display/screens.py:330
+msgid "{0} is not a valid screen command."
 msgstr ""
 
 #: onedesk/one_mail/holders.py:462
@@ -61858,6 +61792,10 @@ msgstr ""
 
 #: onedesk/one_mail/mail_templates.py:172
 msgid "{0} is used outside the rows it repeats."
+msgstr ""
+
+#: onedesk/one_display/doctype/display_board/display_board.py:17
+msgid "{0} is used twice. Each {1} must have a unique name."
 msgstr ""
 
 #: onedesk/one_admin/lifecycle.py:104
@@ -63232,6 +63170,10 @@ msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:4594
 msgid "{0}m ago"
+msgstr ""
+
+#: onedesk/one_display/doctype/sound_zone/sound_zone.py:26
+msgid "{1} in row {0} of the voice ads is not a valid time."
 msgstr ""
 
 #: onedesk/one_admin/offerings.py:176

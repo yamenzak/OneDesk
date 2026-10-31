@@ -31,7 +31,7 @@
   }
  ],
  "links": [],
- "modified": "2026-10-30 01:00:00.000000",
+ "modified": "2026-10-31 04:15:48.856196",
  "modified_by": "Administrator",
  "module": "One Display",
  "name": "Slide Playlist",
@@ -75,6 +75,6 @@
  "autoname": "field:playlist_name",
  "naming_rule": "By fieldname",
  "title_field": "playlist_name",
- "description": "Pictures, videos and pages shown one after another behind the widgets.",
+ "description": "Presentations and web pages shown in sequence.",
  "make_attachments_public": 1
 }

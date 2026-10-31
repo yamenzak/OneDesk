@@ -49,7 +49,7 @@ def _as(user: str):
 	"""Read as the person who saved the source, and back again."""
 	was = frappe.session.user
 	if not user or not frappe.db.get_value("User", user, "enabled"):
-		frappe.throw(_("This source has nobody to read as."), frappe.PermissionError)
+		frappe.throw(_("This source has no user to read data as. Save it again."), frappe.PermissionError)
 	frappe.set_user(user)
 	try:
 		yield

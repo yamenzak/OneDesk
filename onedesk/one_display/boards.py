@@ -96,7 +96,7 @@ def get(board: Annotated[str, "The board."]) -> dict:
 	"""A board with each item's state, value and time in it."""
 	doc = frappe.get_doc(DOCTYPE, board)
 	if not may(doc):
-		frappe.throw(_("You may not change {0}.").format(board), frappe.PermissionError)
+		frappe.throw(_("You do not have permission to change {0}.").format(board), frappe.PermissionError)
 	return shown(doc)
 
 
@@ -143,7 +143,7 @@ def change(
 	"""Set an item's state, its value, or step its value up or down."""
 	doc = frappe.get_doc(DOCTYPE, board)
 	if not may(doc):
-		frappe.throw(_("You may not change {0}.").format(board), frappe.PermissionError)
+		frappe.throw(_("You do not have permission to change {0}.").format(board), frappe.PermissionError)
 	row = _item(doc, item)
 	if state is not None and state != "" and not _state(doc, state):
 		frappe.throw(_("{0} is not a state of {1}.").format(state, doc.board_name))
