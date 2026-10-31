@@ -1480,6 +1480,7 @@ one_portal = [
 ]
 
 one_record_heads = [
+	"onedesk.one.heads.HEADS",
 	"onedesk.one_inventory.heads.HEADS",
 	"onedesk.one_book.heads.HEADS",
 	"onedesk.one_crm.heads.HEADS",
@@ -1492,6 +1493,7 @@ one_record_heads = [
 	"onedesk.one_studio.heads.HEADS",
 ]
 one_measures = [
+	"onedesk.one.heads.MEASURES",
 	"onedesk.one_inventory.heads.MEASURES",
 	"onedesk.one_book.heads.MEASURES",
 	"onedesk.one_crm.heads.MEASURES",

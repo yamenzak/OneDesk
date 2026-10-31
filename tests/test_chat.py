@@ -144,7 +144,6 @@ def test_only_the_launcher_is_on_every_page():
 def test_the_panel_is_not_inside_the_page_frappe_tears_down():
 	"""Mounted on `body`, which is what makes a conversation survive a route change."""
 	launcher = LAUNCHER.read_text(encoding="utf-8")
-	assert "document.body.appendChild" in launcher
 	assert "onedesk.oneai.mount(document.body)" in launcher
 
 
@@ -182,3 +181,9 @@ def test_several_records_are_one_list_under_the_answer():
 	assert "return _answer_first(said)" in spoken(CHAT, "shown")
 	panel = PANEL.read_text(encoding="utf-8")
 	assert '<Found v-if="look.found"' in panel
+
+
+def test_oneai_opens_from_the_bar_only():
+	"""The bottom bar is on every page once a workspace is set up; a floating
+	button showed only where it was not, over the setup wizard."""
+	assert "one-ai-dial" not in LAUNCHER.read_text(encoding="utf-8")

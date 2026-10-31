@@ -1,63 +1,3 @@
-.one-ai-dial {
-	position: fixed;
-	inset-inline-end: 24px;
-	bottom: 24px;
-	z-index: 1030;
-	width: 52px;
-	height: 52px;
-	padding: 2px;
-	border: 0;
-	border-radius: var(--radius-full);
-	background: var(--one-ai-spectrum);
-	cursor: pointer;
-	transition: transform 0.16s ease;
-}
-
-.one-ai-dial:hover {
-	transform: translateY(-2px);
-}
-
-.one-ai-dial:focus-visible {
-	outline: 2px solid var(--one-ai-3);
-	outline-offset: 3px;
-}
-
-.one-ai-dial__face {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 100%;
-	height: 100%;
-	border-radius: var(--radius-full);
-	background: var(--surface-base);
-}
-
-.one-ai-dial__face svg {
-	width: 30px;
-	height: 30px;
-	display: block;
-}
-
-.one-ai-dial__count {
-	position: absolute;
-	top: -2px;
-	inset-inline-end: -2px;
-	min-width: 20px;
-	height: 20px;
-	padding: 0 5px;
-	border-radius: var(--radius-full);
-	background: var(--one-ai-6);
-	color: var(--ink-base);
-	font-size: 11px;
-	font-weight: 600;
-	line-height: 20px;
-	text-align: center;
-}
-
-.one-ai-dial[hidden] {
-	display: none;
-}
-
 .one-ai-panel {
 	position: fixed;
 	inset-inline-end: 24px;
@@ -936,8 +876,6 @@
 		width: auto;
 		height: calc(100vh - 96px);
 	}
-	.one-ai-dial { inset-inline-end: 16px; bottom: 16px; }
-	body:has(.one-ai-panel) .one-ai-dial { display: none; }
 }
 
 
@@ -1228,8 +1166,7 @@
 }
 
 
-body.one-ai-composing .one-ai-panel,
-body.one-ai-composing .one-ai-dial {
+body.one-ai-composing .one-ai-panel {
 	z-index: 1060;
 }
 
@@ -1247,14 +1184,6 @@ body.one-ai-composing .one-ai-dial {
 	border: 1px solid var(--outline-gray-2);
 	border-radius: var(--radius-lg);
 	background: var(--surface-base);
-}
-
-/* A dialog on a phone fills the screen with its own buttons at the foot,
-   where the dial sits; it steps aside until the dialog closes. */
-@media (max-width: 767px) {
-	body.modal-open .one-ai-dial {
-		display: none;
-	}
 }
 
 /* An OneAI action's button (onedesk.oneai.action): frappe's own button in a

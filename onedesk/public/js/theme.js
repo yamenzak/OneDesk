@@ -5,7 +5,23 @@
 if (frappe.assets && !frappe.assets.__one_stamped) {
 	frappe.assets.__one_stamped = true;
 	const theirs = frappe.assets.load_asset.bind(frappe.assets);
+	// An address frappe finds no loader for stopped the setup wizard on Frappe
+	// Cloud: its kind is read from its path instead, or it is passed over.
+	const loader = (path) => {
+		const handlers = frappe.assets._handlers || {};
+		const kind = new URL(path, window.location.origin).pathname.split(".").pop();
+		return handlers[frappe.assets.extn(path)] ? null : handlers[kind] || "none";
+	};
 	frappe.assets.load_asset = (path, url) => {
+		const own = loader(path);
+		if (own === "none") {
+			console.warn(`${path} is not a script or a stylesheet, so it was not loaded.`);
+			return Promise.resolve();
+		}
+		if (own) {
+			if (frappe.assets._executed.includes(path)) return Promise.resolve();
+			return own(url).then(() => frappe.assets._executed.push(path));
+		}
 		const held = (frappe.boot.one_assets || {})[path];
 		if (!held) return theirs(path, url);
 		const stamped = new URL(url, window.location.origin);

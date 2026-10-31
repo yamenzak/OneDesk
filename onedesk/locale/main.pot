@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 12:35+0000\n"
-"PO-Revision-Date: 2026-10-31 12:35+0000\n"
+"POT-Creation-Date: 2026-10-31 13:14+0000\n"
+"PO-Revision-Date: 2026-10-31 13:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5307,7 +5307,6 @@ msgstr ""
 msgid "Ask us what it is"
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:109 onedesk/public/js/one_ai/oneai.js:110
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
 #: onedesk/public/js/window/chrome.js:130
 msgid "Ask {0}"
@@ -17905,7 +17904,7 @@ msgstr ""
 msgid "Fetch failed. It will be retried automatically."
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:39
+#: onedesk/one/doctype/news_source/news_source.js:38
 msgid "Fetched {0}. Next fetch at {1}."
 msgstr ""
 
@@ -18719,7 +18718,7 @@ msgstr ""
 msgid "Follow every lead from first call to signed quote, and keep each customer's story in one place."
 msgstr ""
 
-#: onedesk/public/js/theme.js:35
+#: onedesk/public/js/theme.js:51
 msgid "Follow my system"
 msgstr ""
 
@@ -20923,7 +20922,7 @@ msgstr ""
 msgid "Hidden headlines are not shown on the top bar, on screens or anywhere else."
 msgstr ""
 
-#: onedesk/one/doctype/news_item/news_item.js:19
+#: onedesk/one/heads.py:19
 msgid "Hidden. This headline is not shown on the top bar or on screens."
 msgstr ""
 
@@ -26547,7 +26546,7 @@ msgstr ""
 msgid "Made by the workspace, so held to what a workspace rule may do."
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:158
+#: onedesk/public/js/one_ai/oneai.js:137
 msgid "Made by {0}"
 msgstr ""
 
@@ -27790,7 +27789,7 @@ msgstr ""
 #: onedesk/one_studio/automation_steps.py:42
 #: onedesk/public/js/one/notification_center.js:380
 #: onedesk/public/js/one/notification_center.js:475
-#: onedesk/public/js/one_ai/oneai.js:437
+#: onedesk/public/js/one_ai/oneai.js:416
 #: onedesk/public/js/one_mail/mail_templates.js:32
 #: onedesk/public/js/one_mail/mail_templates.js:36
 #: onedesk/public/js/one_mail/mail_templates.js:37
@@ -30022,7 +30021,7 @@ msgstr ""
 msgid "No groups"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:53
+#: onedesk/one/doctype/news_source/news_source.js:52
 #: onedesk/one_display/programme.py:436
 msgid "No headlines yet."
 msgstr ""
@@ -30891,7 +30890,7 @@ msgstr ""
 msgid "Not equal to"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:40
+#: onedesk/one/doctype/news_source/news_source.js:39
 msgid "Not fetched yet. The first headlines arrive within a few minutes."
 msgstr ""
 
@@ -32745,7 +32744,7 @@ msgstr ""
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:220
+#: onedesk/public/js/one_ai/oneai.js:199
 msgid "OneAI wrote nothing. Tell it a little more."
 msgstr ""
 
@@ -33301,7 +33300,7 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr ""
 
-#: onedesk/one/doctype/news_item/news_item.js:22
+#: onedesk/one/doctype/news_item/news_item.js:21
 msgid "Open Article"
 msgstr ""
 
@@ -41923,7 +41922,7 @@ msgstr ""
 msgid "Runs Out First"
 msgstr ""
 
-#: onedesk/one/doctype/news_source/news_source.js:32
+#: onedesk/one/doctype/news_source/news_source.js:31
 msgid "Runs at {0}"
 msgstr ""
 
@@ -47305,7 +47304,7 @@ msgstr ""
 msgid "Suggested a change to {0}"
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:159
+#: onedesk/public/js/one_ai/oneai.js:138
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
@@ -52792,7 +52791,7 @@ msgid "Top Preset"
 msgstr ""
 
 #. Option for the 'Topic' (Select) field in DocType 'News Source'
-#: onedesk/one/doctype/news_source/news_source.js:31
+#: onedesk/one/doctype/news_source/news_source.js:30
 #: onedesk/one/doctype/news_source/news_source.json
 msgid "Top Stories"
 msgstr ""
@@ -53394,7 +53393,7 @@ msgstr ""
 msgid "TrustCenter"
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:222 onedesk/www/error.html:17
+#: onedesk/public/js/one_ai/oneai.js:201 onedesk/www/error.html:17
 msgid "Try Again"
 msgstr ""
 
@@ -54424,7 +54423,7 @@ msgstr ""
 #. Label of the section_use (Section Break) field in DocType 'Cloud Link'
 #: onedesk/one_portal/doctype/portal_link/portal_link.json
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json
-#: onedesk/public/js/one_ai/oneai.js:223
+#: onedesk/public/js/one_ai/oneai.js:202
 msgid "Use"
 msgstr ""
 
@@ -55392,7 +55391,7 @@ msgstr ""
 msgid "Was wanted by {0}"
 msgstr ""
 
-#: onedesk/one_task/tell.py:193 onedesk/public/js/one_ai/oneai.js:276
+#: onedesk/one_task/tell.py:193 onedesk/public/js/one_ai/oneai.js:255
 msgid "Was {0}"
 msgstr ""
 
@@ -60120,7 +60119,7 @@ msgid "Wrap text"
 msgstr ""
 
 #: frontend/src/slide/shim/WidgetSection.vue:139
-#: onedesk/public/js/one_ai/oneai.js:207
+#: onedesk/public/js/one_ai/oneai.js:186
 msgid "Write"
 msgstr ""
 
@@ -60353,7 +60352,7 @@ msgid "Writing it down again. The transcript and my remarks follow when I am don
 msgstr ""
 
 #: frontend/src/intake/IntakeExplain.vue:7
-#: onedesk/public/js/one_ai/oneai.js:212
+#: onedesk/public/js/one_ai/oneai.js:191
 msgid "Writing…"
 msgstr ""
 
@@ -60411,7 +60410,7 @@ msgstr ""
 msgid "Written by You"
 msgstr ""
 
-#: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/one_ai/oneai.js:309
+#: frontend/src/kit/FieldEdit.vue:8 onedesk/public/js/one_ai/oneai.js:288
 msgid "Written by {0}"
 msgstr ""
 
@@ -61870,7 +61869,7 @@ msgstr ""
 msgid "emergency contact"
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:276
+#: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
 msgid "empty"
 msgstr ""
@@ -64686,7 +64685,7 @@ msgstr ""
 msgid "{0} links to {1}, which is not a kind of record you may open."
 msgstr ""
 
-#: onedesk/public/js/one_ai/oneai.js:37
+#: onedesk/public/js/one_ai/oneai.js:36
 msgid "{0} list"
 msgstr ""
 

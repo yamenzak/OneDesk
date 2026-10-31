@@ -98,11 +98,6 @@
 		bottom: 0;
 	}
 
-	/* OneAI lives in the bottom bar, so its floating dial does not. */
-	body.one-barred .one-ai-dial {
-		display: none;
-	}
-
 	body.one-barred .main-section,
 	body.one-barred.dock-pinned .dock,
 	body.one-barred .body-sidebar,

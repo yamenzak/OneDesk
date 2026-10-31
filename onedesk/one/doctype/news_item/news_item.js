@@ -16,7 +16,6 @@ frappe.ui.form.on("News Item", {
 			frm.set_value("hidden_item", hidden ? 0 : 1);
 			frm.save();
 		});
-		if (hidden) frm.dashboard.set_headline_alert(__("Hidden. This headline is not shown on the top bar or on screens."), "gray");
 		if (!fetched) return;
 		frm.disable_save();
 		if (frm.doc.link) frm.add_custom_button(__("Open Article"), () => window.open(frm.doc.link, "_blank", "noopener"));

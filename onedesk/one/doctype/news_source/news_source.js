@@ -15,7 +15,6 @@ frappe.ui.form.on("News Source", {
 			);
 		}
 		frm.add_custom_button(__("View Items"), () => frappe.set_route("List", "News Item", { source: frm.doc.name }));
-		if (frm.doc.last_error) frm.dashboard.set_headline_alert(frappe.utils.escape_html(frm.doc.last_error), "orange");
 		latest(frm);
 	},
 });

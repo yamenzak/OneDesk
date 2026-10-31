@@ -5,7 +5,6 @@ const MARK = "/assets/onedesk/images/oneai.svg";
 const ONEAI = "OneAI";
 
 onedesk.oneai = {
-	dial: null,
 	panel: null,
 	waiting: 0,
 
@@ -95,26 +94,6 @@ onedesk.oneai = {
 	paint() {
 		const said = this.waiting > 9 ? "9+" : String(this.waiting);
 		$(".one-ai-row .one-bar-badge").text(said).toggleClass("hide", !this.waiting);
-		if (!this.dial) return;
-		const badge = this.dial.querySelector(".one-ai-dial__count");
-		badge.textContent = said;
-		badge.hidden = !this.waiting;
-	},
-
-	draw() {
-		if (this.dial || frappe.session.user === "Guest") return;
-		const dial = document.createElement("button");
-		dial.className = "one-ai-dial";
-		dial.type = "button";
-		dial.title = __("Ask {0}", [ONEAI]);
-		dial.setAttribute("aria-label", __("Ask {0}", [ONEAI]));
-		dial.innerHTML = `
-			<span class="one-ai-dial__face"><img src="${MARK}" alt=""></span>
-			<span class="one-ai-dial__count" hidden></span>`;
-		dial.addEventListener("click", () => this.open());
-		document.body.appendChild(dial);
-		this.dial = dial;
-		this.paint();
 	},
 };
 
@@ -395,8 +374,8 @@ onedesk.oneai.beside = function (on) {
 	document.body.classList.toggle("one-ai-writing", !!on);
 };
 
-// An open mail window is what the panel writes in when it is opened: the
-// dial shows above the window and nothing is drawn in it.
+// An open mail window is what the panel writes in when it is opened, and
+// the panel shows above the window.
 onedesk.oneai.compose = function (composer) {
 	if (!onedesk.apps.ai() || !composer.dialog) return;
 	onedesk.oneai.composing = composer;
@@ -460,7 +439,6 @@ $(document).on("form-refresh", (event, frm) => onedesk.oneai.fields(frm));
 
 $(document).on("app_ready", () => {
 	if (!onedesk.apps.ai()) return;
-	onedesk.oneai.draw();
 	onedesk.oneai.count();
 
 	frappe.router.on("change", () => {
