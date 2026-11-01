@@ -533,7 +533,10 @@ next to its changes, and a job lists the rows it wrote.
   Additional Tokens** template. **Set Up Cloudflare** uses it only to make
   One's own three tokens, each allowed only its own work: **OneAdmin** for
   OneAdmin's calls, **OneAdmin Storage** for the two R2 buckets, and **OneAI** to
-  run the AI Gateway. It then finds or creates everything else and shows each
+  run the AI Gateway. In Cloudflare's token list each is named with its
+  environment first, `[one-prod] OneAdmin` or `[one-dev] OneAI`, so they read
+  apart from anybody's own; tokens made before that under the bare name are
+  renamed on the next run. It then finds or creates everything else and shows each
   step under **Last Setup** as it ends. It runs in the background, so leaving
   the page stops nothing.
 - Pressing it again checks everything and mends what is missing. A run cut
@@ -546,7 +549,7 @@ next to its changes, and a job lists the rows it wrote.
 - **Environment** is empty in production. A second OneAdmin on the same
   Cloudflare account, the dev one, sets it to `dev`: everything Set Up
   Cloudflare makes then carries it (`one-mail-dev`, `one-sites-dev`, the
-  `OneAI (dev)` token), it must name its own workspace domain, mail domain and
+  `[one-dev] OneAI` token), it must name its own workspace domain, mail domain and
   sender, and it never takes over a catch-all that hands mail to another
   Worker. Email Routing's catch-all belongs to a whole zone, so the mail domain
   may be in another zone than the workspace domain: dev's workspaces are under

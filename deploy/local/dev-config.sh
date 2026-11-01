@@ -15,7 +15,7 @@
 #
 # The dev OneAdmin is the dev environment: Environment is always written as
 # dev, so everything Set Up Cloudflare makes is named apart from production's
-# (one-mail-dev, one-sites-dev, "OneAI (dev)"), its catch-all is never taken
+# (one-mail-dev, one-sites-dev, "[one-dev] OneAI"), its catch-all is never taken
 # from production, and it needs domains of its own, which may not be
 # production's. Only sites public.sh marked one_dev are touched, and a Stripe
 # live key is refused. The two things left by hand are the Stripe test keys

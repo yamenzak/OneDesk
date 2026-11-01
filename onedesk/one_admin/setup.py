@@ -212,7 +212,12 @@ class Setup:
 		called = token_for_env(self.env, name)
 		groups = self.permission_groups()
 		wanted, missing = policies(groups, needs, self.account, self.zone_ids(), self.buckets_held())
-		held = next((one for one in self.held_tokens() if one["name"] == called), None)
+		tokens = self.held_tokens()
+		# Production's tokens were first made with the bare name; found by it,
+		# they are renamed below rather than made again.
+		held = next((one for one in tokens if one["name"] == called), None) or (
+			None if self.env else next((one for one in tokens if one["name"] == name), None)
+		)
 		value = self.settings.get_password(field, raise_exception=False)
 		if name == "OneAdmin Storage":
 			value = None if not held or self.settings.r2_key_id != held["id"] else "held"
@@ -232,10 +237,10 @@ class Setup:
 				value = self.call("PUT", f"/user/tokens/{held['id']}/value", token=self.master, json={})["result"]
 				self.store(name, held["id"], value)
 				state = MADE
-			if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
+			if not same(held.get("policies") or [], wanted) or held.get("status") != "active" or held.get("name") != called:
 				self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": called, "policies": wanted, "status": "active"})
-		detail = _("missing permissions: {0}").format(", ".join(missing)) if missing else ""
-		self.note(f"token {called}", WAITING if missing else state, detail)
+		detail = _("missing permissions: {0}").format(", ".join(missing)) if missing else called
+		self.note(f"token {name}", WAITING if missing else state, detail)
 		return value
 
 	def zone_ids(self) -> list[str]:
@@ -623,8 +628,9 @@ def for_env(env: str | None, name: str) -> str:
 
 
 def token_for_env(env: str | None, name: str) -> str:
-	"""One of One's tokens as Cloudflare lists it, by environment. Pure."""
-	return f"{name} ({env})" if env else name
+	"""One of One's tokens as Cloudflare lists it: the environment first, in
+	brackets, so a token setup made reads apart from a person's own. Pure."""
+	return f"[one-{env or 'prod'}] {name}"
 
 
 def within(zones: list[dict], domain: str) -> dict | None:

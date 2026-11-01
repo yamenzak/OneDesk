@@ -182,7 +182,7 @@ def test_another_environment_names_everything_it_makes_and_brings_its_own_domain
 	names it has always had, and only production has the 4dl.app defaults."""
 	space = _lifted(("for_env", "token_for_env", "within"))
 	assert space["for_env"](None, "one-mail") == "one-mail" and space["for_env"]("dev", "one-mail") == "one-mail-dev"
-	assert space["token_for_env"](None, "OneAI") == "OneAI" and space["token_for_env"]("dev", "OneAI") == "OneAI (dev)"
+	assert space["token_for_env"](None, "OneAI") == "[one-prod] OneAI" and space["token_for_env"]("dev", "OneAI") == "[one-dev] OneAI"
 	zones = [{"name": "4dl.app"}, {"name": "4dl.dev"}]
 	assert space["within"](zones, "d.4dl.app")["name"] == "4dl.app" and space["within"](zones, "m.4dl.dev")["name"] == "4dl.dev"
 	assert space["within"](zones, "4dl.com") is None
@@ -209,3 +209,12 @@ def test_the_mail_zone_is_its_own_and_another_workers_catch_all_is_left_alone():
 	groups = [{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]}]
 	both, _ = space["policies"](groups, (("DNS Write",),), "acc", ["app", "dev"], [])
 	assert set(both[0]["resources"]) == {"com.cloudflare.api.account.zone.app", "com.cloudflare.api.account.zone.dev"}
+
+
+def test_production_s_first_tokens_are_renamed_not_made_again():
+	"""Production's tokens were made under bare names (OneAdmin, OneAI,
+	OneAdmin Storage). Found by that name when the labelled one is not
+	there, they are renamed in place; another environment never takes them."""
+	ensure = _method("ensure_token")
+	assert "None if self.env else next((one for one in tokens if one['name'] == name), None)" in ensure
+	assert "held.get('name') != called" in ensure

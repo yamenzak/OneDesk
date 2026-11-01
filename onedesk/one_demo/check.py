@@ -4068,7 +4068,7 @@ class FakeCloudflare:
 				return self.answer(one["value"])
 			self.tokens[ident].update(policies=body["policies"], status=body.get("status", "active"))
 			return self.answer(self.tokens[ident])
-		known = {one["value"] for one in self.tokens.values() if one["name"] == "OneAdmin"}
+		known = {one["value"] for one in self.tokens.values() if one["name"] == "[one-prod] OneAdmin"}
 		assert bearer in known, f"everything else runs with the OneAdmin token: {path}"
 		if path == "/accounts":
 			return self.answer([{"id": "acc1", "name": "One"}])
@@ -4111,21 +4111,21 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		frappe.db.set_single_value("One Admin Settings", field, None)
 	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"):
 		# Cut off right after Cloudflare made the OneAI token: its secret was never seen.
-		fake.drop_after = lambda method, path, body: method == "POST" and path == "/user/tokens" and body.get("name") == "OneAI"
+		fake.drop_after = lambda method, path, body: method == "POST" and path == "/user/tokens" and body.get("name") == "[one-prod] OneAI"
 		first = setup.run()
 		assert first[-1]["state"] == setup.FAILED and "did not answer" in first[-1]["detail"], first[-1]
 		kv = frappe.db.get_single_value("One Admin Settings", "cloudflare_kv")
 		assert kv and frappe.db.get_single_value("One Admin Settings", "cloudflare_account") == "acc1", "what was found is kept as it was found"
 
 		second = setup.run()
-		assert sorted(fake.made) == ["OneAI", "OneAdmin", "OneAdmin Storage"], f"each token made once: {fake.made}"
+		assert sorted(fake.made) == ["[one-prod] OneAI", "[one-prod] OneAdmin", "[one-prod] OneAdmin Storage"], f"each token made once: {fake.made}"
 		assert len(fake.kv) == 1 and frappe.db.get_single_value("One Admin Settings", "cloudflare_kv") == kv, "nothing is made twice"
-		ai = next(one for one in fake.tokens.values() if one["name"] == "OneAI")
+		ai = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAI")
 		held = frappe.get_doc("One Admin Settings").get_password("ai_gateway_token")
 		assert ai["value"] == held and held.endswith("-2"), "the token whose secret was lost is rolled, and the new one saved"
-		admin = next(one for one in fake.tokens.values() if one["name"] == "OneAdmin")
+		admin = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin")
 		assert {key for policy in admin["policies"] for key in policy["resources"]} == {"com.cloudflare.api.account.acc1", "com.cloudflare.api.account.zone.zone1"}, "OneAdmin is narrowed to what was found"
-		storage = next(one for one in fake.tokens.values() if one["name"] == "OneAdmin Storage")
+		storage = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin Storage")
 		assert all(key.startswith("com.cloudflare.edge.r2.bucket.acc1_") for policy in storage["policies"] for key in policy["resources"])
 		assert frappe.db.get_single_value("One Admin Settings", "r2_key_id") == storage["id"]
 		steps = {one["step"]: one for one in second}
@@ -4135,7 +4135,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		made = len(fake.tokens)
 		setup.run()
 		assert len(fake.tokens) == made and len(fake.kv) == 1, "a third run finds everything and makes nothing"
-		assert next(one for one in fake.tokens.values() if one["name"] == "OneAI")["value"].endswith("-2"), "a held secret that works is not rolled"
+		assert next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAI")["value"].endswith("-2"), "a held secret that works is not rolled"
 	frappe.db.rollback()
 	for field, value in was.items():
 		frappe.db.set_single_value("One Admin Settings", field, value)
