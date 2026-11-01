@@ -10,7 +10,12 @@ answered leaves it.
 - **The main action and two more.** The lab hid every action past the
   third; the renderer keeps them all until the extra ones can move into
   the menu rather than vanish.
-- **One dialog kit** for the seven kinds: Ask, Tell, Toast, Task, Create
-  (standard, search first, kind first), Centre, and the islands' dialogs.
+- **The rest of the dialog kit.** Ask, Tell, Task, Create and Centre are
+  drawn; still to come are the toast, an island's frappe-ui dialog, the
+  search-first and kind-first creates, and a centre's actions moved into
+  its footer.
+- **Callers still say Yes and No.** frappe.confirm keeps whatever words it
+  was given; each caller moves to `onedesk.interface.ask` with a verb as
+  its screen is walked.
 - **Island pages** carry a stamp in the bottom bar until each is replaced
   by a framework screen in the screen-by-screen walk.

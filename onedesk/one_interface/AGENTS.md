@@ -79,7 +79,7 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   be dragged: a drag sets `--sidebar-width` (frappe's own variable) between
   180 and 440 px and keeps it per browser; a click still folds. A view that
   has a tree (OneCloud's folders, OneMail's mailboxes, a module's lists) hands
-  its rows to the window's tree (`win.tree()`, `window/nav_tree.js`, and
+  its rows to the window's tree (`win.tree()`, `one_interface/nav_tree.js`, and
   `interfaceTree` from an island), which draws them as the rail's own rows
   under the view's row, so there is one place to go somewhere and one way
   it looks. Where that row is the rail's only one (OneCloud, OneMail) the
@@ -262,7 +262,7 @@ views, files and activity in itself, as it always has.
 
 ## Making a record
 
-Every create opens one dialog (`onedesk.interface.create`, in `window/form.js`), in place of frappe's
+Every create opens one dialog (`onedesk.interface.create`, in `one_interface/form.js`), in place of frappe's
 quick entry and its full-page new form alike: `make_quick_entry` is where
 `frappe.new_doc`, a list's New and a link field's Create a new all arrive,
 and it is wrapped there. The dialog is frappe's own form mounted in frappe's
@@ -270,7 +270,7 @@ and it is wrapped there. The dialog is frappe's own form mounted in frappe's
 so the doctype's scripts, depends_on and validation run as on the page and a
 refused save leaves the dialog open. The form's tabs that show are the
 dialog's rail (one, Details, for a form without tabs), redrawn when a tab
-comes or goes; close is each panel's head. Save is fixed at the foot of
+comes or goes; close is each panel's head in Classic and the dialog's corner in a look that draws dialogs. Save is fixed at the foot of
 the dialog, whatever tab is open, and stays disabled while anything frappe
 would refuse for is still empty (`onedesk.interface.missing`, frappe's
 `check_mandatory` read without its scrolling and message, rows of tables
@@ -441,7 +441,7 @@ address bar, tree or status of its own; the nav width stays inside its
 limits and is kept; every kind of view is on it, for everybody, with no
 preview left to turn on.
 
-The engine names no screen. `window/` and `band.js` work from what frappe
+The engine names no screen. `one_interface/` and `band.js` work from what frappe
 says a screen has, so no doctype, field or route of one screen appears in
 them (`test_the_engine_names_no_doctype`); the only doctype read by name is
 frappe's `Note`, which is the top bar's news. A rule for one screen goes to
@@ -495,3 +495,41 @@ once more after the form settles:
 
 The registry is `ready.MODULES[module]["interface"]`; `ready.interface()`
 merges it and boot hands it over as `frappe.boot.one_interface`.
+
+## Dialogs
+
+Every dialog is frappe's own (`frappe.ui.Dialog`, `SettingsDialog`,
+`frappe.confirm`, `frappe.warn`, `frappe.prompt`, `frappe.msgprint`), told
+its **kind** after frappe builds it, and the kind decides its size and
+parts, never the caller. `public/js/one_interface/dialogs.js` wraps
+`Dialog.make` and the four helpers; `public/css/one_interface/dialogs.css`
+draws them in Canvas.
+
+| Kind | What opens it | Size | Parts |
+|---|---|---|---|
+| ask | `frappe.confirm`, `frappe.warn`, `frappe.prompt`, `onedesk.interface.ask` | 420 | round mark, the question as the title, the effect under it, the verb |
+| tell | `frappe.msgprint` | 420 | round mark (red for an error), the message, OK |
+| task | any other `frappe.ui.Dialog` | 580, 820 when frappe asks for large | title, Enlarge and Close, fields in one column, footer |
+| create | `onedesk.interface.create` (`one_mark("create")`) | 640 | rail of the form's tabs, two columns, Save at the foot with what is missing |
+| centre | a `SettingsDialog` | 1000 | rail, Help, Enlarge and Close in the corner, Back one page deep |
+
+A caller that knows better passes `one_kind`. The header says where you
+are and holds the window's controls; the footer says what is still needed
+on the left (`dialog.one_need(html)`) and holds the verbs on the right,
+the main one last, red when it cannot be undone. Enlarged, a dialog fills
+the window, not the browser (`one_enlarge`); a centre keeps the size it
+was left at (`one_keeps_size`, `centre_large`).
+
+**Asking.** A question is asked with `onedesk.interface.ask({ question,
+effect, verb, danger })`, which resolves true or false: the question is
+the title, the effect is one line under it, and the verb names the act
+(Delete Customer, not Yes). frappe's own confirm keeps its words; a short
+plain message under a generic Confirm becomes the title.
+
+**Back** in a centre is the centre's (`module_settings.js` `view`,
+`center_section.js` `as_record`); the kit adds none of its own.
+
+Only a look that turns on `dialogs` adds controls (Classic does not); the
+kind is set in every look, so a look's stylesheet can draw any of them. A
+toast is frappe's `show_alert`, and an island's dialog is frappe-ui's,
+both not yet drawn to this anatomy (SCRATCHPAD).

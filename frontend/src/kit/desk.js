@@ -409,7 +409,7 @@ export function interfaceSearch(win, { placeholder = "", hint = "", onInput, onK
 	};
 }
 
-// The window's tree (window/nav_tree.js): rows in this view's nav pane, or,
+// The window's tree (one_interface/nav_tree.js): rows in this view's nav pane, or,
 // with no window, in a box of the desk's own that the host gave (OneCloud's
 // picker). Rows and handlers as nav_tree.js says; `lucide-` is dropped from
 // an icon, since the desk names its sprite's icons bare. Returns `set(rows)`.
@@ -425,20 +425,20 @@ export function interfaceTree(at, { label = "", pick, twist, over, leave, drop, 
 }
 
 // A button at the end of the rail's head while this view is on screen
-// (window/nav_tree.js); `icon` is a lucide name.
+// (one_interface/nav_tree.js); `icon` is a lucide name.
 export const interfaceHeadAction = (win, { icon, title, onClick }) =>
 	win && win.head_action({ icon: icon.replace(/^lucide-/, ""), title, click: onClick });
 
 // A row at the foot of the rail while this view is on screen
-// (window/nav_tree.js), for where it is set up; `icon` is a lucide name.
+// (one_interface/nav_tree.js), for where it is set up; `icon` is a lucide name.
 export const interfaceFootAction = (win, { icon, label, onClick, version = null }) =>
 	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
 
 // A module's foot: Settings, the tour, Help, TrustCenter and its version, the same in every module
-// (window/nav_tree.js `module_foot`).
+// (one_interface/nav_tree.js `module_foot`).
 export const interfaceModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
 
-// Meters at the foot of this view's nav pane (window/nav_tree.js).
+// Meters at the foot of this view's nav pane (one_interface/nav_tree.js).
 export const interfaceMeters = (win, rows) => win && win.meters(rows);
 
 // What the window does for its own Up, Refresh and typed paths, and its

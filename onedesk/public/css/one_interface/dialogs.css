@@ -1,0 +1,57 @@
+/* One anatomy for every dialog (onedesk/one_interface/AGENTS.md, Dialogs),
+   in the Canvas look. dialogs.js tells each frappe dialog its kind; the
+   kind, never the caller, decides its size. The header says where you are
+   and holds the window's controls; the footer says what is still needed on
+   the left and holds the verbs on the right. */
+
+/* sizes by kind: small for a question or a message, medium for a task or a
+   new record, large for a centre */
+:root[data-one-look="canvas"] .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-dialog { max-width: 420px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="task"] .modal-dialog:not(.modal-lg):not(.modal-xl) { max-width: 580px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="task"] .modal-dialog:is(.modal-lg, .modal-xl) { max-width: 820px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="create"] .modal-dialog { max-width: 640px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="centre"] .modal-dialog { max-width: 1000px; }
+
+/* enlarged, a dialog fills the window, not the browser */
+:root[data-one-look="canvas"] .one-dialog.one-enlarged .modal-dialog { position: fixed; inset: 48px 16px 40px; max-width: none; width: auto; margin: 0; }
+:root[data-one-look="canvas"] .one-dialog.one-enlarged .modal-content { height: 100%; }
+:root[data-one-look="canvas"] .one-dialog.one-enlarged .modal-body { flex: 1 1 auto; overflow: auto; }
+
+/* the header: where you are, then the window's controls */
+:root[data-one-look="canvas"] .one-dialog .modal-content { border: 0; border-radius: var(--radius-xl); overflow: hidden; }
+:root[data-one-look="canvas"] .one-dialog .modal-header { min-height: 52px; padding: 10px 12px 4px 20px; border: 0; align-items: center; }
+:root[data-one-look="canvas"] .one-dialog .modal-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink-gray-9); letter-spacing: 0; }
+:root[data-one-look="canvas"] .one-dialog .modal-actions { gap: 2px; align-items: center; }
+:root[data-one-look="canvas"] .one-dialog .modal-actions .icon-btn { width: 28px; height: 28px; }
+
+/* an ask or a tell leads with a round mark; its title is the question */
+:root[data-one-look="canvas"] .one-dialog .title-section { align-items: center; gap: 12px; }
+:root[data-one-look="canvas"] .one-dialog-mark { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: var(--radius-full); background: var(--surface-gray-2); color: var(--ink-gray-7); }
+:root[data-one-look="canvas"] .one-dialog[data-tone="red"] .one-dialog-mark { background: var(--surface-red-3); color: var(--ink-red-7); }
+:root[data-one-look="canvas"] .one-dialog[data-tone="orange"] .one-dialog-mark { background: var(--surface-amber-3); color: var(--ink-amber-7); }
+:root[data-one-look="canvas"] .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-header { padding-top: 18px; }
+:root[data-one-look="canvas"] .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-body { padding-inline-start: 68px; }
+:root[data-one-look="canvas"] .one-dialog-effect, :root[data-one-look="canvas"] .one-dialog .frappe-confirm-message { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-gray-7); }
+
+/* the body: a dialog's fields in one column, two in a new record, three
+   once enlarged; the record page's section padding and rules stay out */
+:root[data-one-look="canvas"] .one-dialog .modal-body { padding: 4px 20px 20px; }
+:root[data-one-look="canvas"] .one-dialog .form-page .form-section { padding: 12px 0 0 !important; border-top: 0 !important; }
+:root[data-one-look="canvas"] .one-dialog .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr); }
+:root[data-one-look="canvas"] .one-dialog[data-kind="create"] .form-page .form-section .section-body { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+:root[data-one-look="canvas"] .one-dialog.one-enlarged .form-page .form-section .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
+
+/* the footer: what is still needed on the left, the verbs on the right, the main one last */
+:root[data-one-look="canvas"] .one-dialog .modal-footer { display: flex; align-items: center; gap: 8px; padding: 12px 16px 12px 20px; border-top: 1px solid var(--outline-gray-1); }
+:root[data-one-look="canvas"] .one-dialog .modal-footer .custom-actions:empty { display: none; }
+:root[data-one-look="canvas"] .one-dialog-need { margin-inline-end: auto; min-width: 0; font-size: 13px; color: var(--ink-gray-5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+:root[data-one-look="canvas"] .one-dialog-need b { color: var(--ink-gray-8); font-weight: 500; }
+:root[data-one-look="canvas"] .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-footer { border-top: 0; padding-top: 4px; padding-bottom: 16px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="ask"][data-tone="red"] .modal-footer .btn-primary { background: var(--surface-red-6); border-color: transparent; color: var(--surface-base); }
+
+/* a centre: its window controls in its corner, its own Help just before them */
+:root[data-one-look="canvas"] .one-dialog-controls { position: absolute; top: 12px; inset-inline-end: 12px; z-index: 3; display: flex; gap: 2px; }
+:root[data-one-look="canvas"] .one-dialog-controls .icon-btn { width: 32px; height: 32px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="centre"] .settings-dialog-panel-header { padding-inline-end: 80px; }
+:root[data-one-look="canvas"] .one-dialog.one-has-corner .one-dialog-corner { inset-inline-end: 80px; }
+:root[data-one-look="canvas"] .one-dialog[data-kind="centre"].one-has-corner .settings-dialog-panel-header { padding-inline-end: 112px; }

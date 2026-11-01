@@ -1,9 +1,24 @@
 # Dialogs
 
+Every window that opens over a screen is one of five kinds, and each kind
+always looks the same.
+
 ## Questions
 
-When One needs you to confirm something, it asks the question and says what
-will happen, and the button names the act, such as Delete or Rename.
+When One needs you to confirm something, the question is the title and
+the line under it says what will happen. The button names the act, such
+as **Delete Customer**, and is red when it cannot be undone.
+
+## Messages
+
+A message has a round mark before it, red when something went wrong, and
+**OK** to close it.
+
+## Tasks
+
+A task, such as sending a statement, has its fields in one column and its
+buttons at the bottom right. The line at the bottom left says what is
+still needed. The arrows beside the cross make it fill the window.
 
 ## Making a Record
 
@@ -14,5 +29,6 @@ what is still missing. The link under the fields opens the whole form.
 ## Centres
 
 AccessCenter, NotificationCenter, TrustCenter, AICenter and AccountCenter
-open over the screen, with their sections down the left. Close one with
-the cross or the Escape key.
+open over the screen, with their sections down the left. The arrows in
+the corner make a centre fill the window, and it opens that size next
+time. Close one with the cross or the Escape key.

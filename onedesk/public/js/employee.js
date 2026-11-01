@@ -19,7 +19,7 @@ onedesk.employee.passkey = (frm, data) => {
 };
 
 // Its shortcuts (Apply for Leave, Claim an Expense, Assign a Salary Structure) are declared in the
-// registry and drawn by window/form.js, which clears the panel's actions first; what is left here
+// registry and drawn by one_interface/form.js, which clears the panel's actions first; what is left here
 // is the one that opens a dialog.
 onedesk.employee.actions = (frm) => {
 	if (frm.doc.status !== "Active") return;

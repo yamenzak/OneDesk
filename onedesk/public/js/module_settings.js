@@ -61,6 +61,12 @@ onedesk.module_head_expand = ($head, dialog) => {
 		.addClass("one-dialog-corner")
 		.appendTo(dialog.$wrapper.find(".settings-dialog"));
 	dialog.$wrapper.addClass("one-has-corner");
+	// A look that draws dialogs puts Enlarge and Close here itself, and keeps the size.
+	if (onedesk.interface.uses("dialogs")) {
+		dialog.one_keeps_size = "centre_large";
+		if (onedesk.interface.kept("centre_large", false)) dialog.one_enlarge(true);
+		return;
+	}
 	let large = !!onedesk.interface.kept("centre_large", false);
 	const $button = $(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2" })).appendTo(dialog.$corner);
 	const show = () => {

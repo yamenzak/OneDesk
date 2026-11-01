@@ -58,7 +58,7 @@ onedesk.pick_from_onecloud = ({ dialog, uploader, doctype, docname, fieldname })
 	picker.$wrapper.addClass("one-files-dialog");
 	picker.show();
 	picker.get_primary_btn().prop("disabled", true);
-	// The folders are the window's tree (window/nav_tree.js), in a box of the
+	// The folders are the window's tree (one_interface/nav_tree.js), in a box of the
 	// dialog's own beside the island.
 	const $box = picker.fields_dict.explorer.$wrapper
 		.addClass("one-cloud-picker")

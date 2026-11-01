@@ -623,7 +623,7 @@ what frappe already draws for it.
 
 - **An action inside a field is frappe's `.link-btn`**, the icon a Link field
   shows for its open arrow, not a button laid over the input.
-- **A create dialog sizes to its form** (window/form.js `SMALL`): no tabs and
+- **A create dialog sizes to its form** (one_interface/form.js `SMALL`): no tabs and
   at most six fields to fill is a 36rem dialog, one column, as tall as its
   fields, with no line under the last section above the foot's own.
 - **What is filled for the person is not shown to them while making it.**

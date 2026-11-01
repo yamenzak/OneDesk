@@ -415,6 +415,7 @@ onedesk.interface.create = (doctype, { after_insert = null, init_callback = null
 		frappe.model.with_doctype(doctype, () => {
 			const dialog = new frappe.ui.SettingsDialog({ title: __("New {0}", [__(doctype)]), tabs: [] });
 			dialog.$wrapper.addClass("one-create");
+			if (dialog.one_mark) dialog.one_mark("create");
 			// Each dialog's own listeners: one made over another must not take
 			// the other's away when it closes.
 			const ns = `.one-create-${frappe.utils.get_random(6)}`;
@@ -462,7 +463,8 @@ onedesk.interface.create = (doctype, { after_insert = null, init_callback = null
 				label: one ? __(one.label, null, doctype) : __("Details"),
 				// A form with one tab or none has no rail, and its heading says what is made.
 				title: one && tabs().length > 1 ? __(one.label, null, doctype) : __("New {0}", [__(doctype)]),
-				actions: [{ icon: "x", variant: "ghost", click: () => dialog.hide() }],
+				// A look that draws dialogs puts Close in the dialog's corner (dialogs.js).
+				actions: onedesk.interface.uses("dialogs") ? [] : [{ icon: "x", variant: "ghost", click: () => dialog.hide() }],
 				// Beside the panel's body, not in it: the SettingsDialog styles a
 				// body's fields as settings rows (a line between switches, a line
 				// over each headed section), and this is a form, drawn as on the page.
