@@ -12,10 +12,10 @@ TOKENS = (CSS / "tokens.css").read_text(encoding="utf-8")
 PALETTES = (CSS / "palettes.css").read_text(encoding="utf-8")
 
 # A step of frappe's scale, which only tokens.css and palettes.css may read.
-SCALE = re.compile(r"var\(--(?:(?:ink|surface|outline)-gray-\d+|gray-\d+|surface-base|ink-base|radius(?:-sm|-md|-lg)?)\)")
+SCALE = re.compile(r"var\(--(?:(?:ink|surface|outline)-gray-\d+|gray-\d+|surface-base|ink-base|radius(?:-(?!full\b|none\b)[a-z0-9]+)?|font-stack|(?:shadow|elevation)-[a-z0-9]+)\)")
 # Not a palette's to set: layout, and names derived from the roles.
 NOT_PALETTE = re.compile(r"^--one-(?:bar-|over-|frame$|frame-gutter$|check$)")
-SHAPE = re.compile(r"^--one-(?:radius-|heading-|button-weight$)")
+SHAPE = re.compile(r"^--one-(?:radius-|heading-|button-weight$|font$)")
 
 
 def blocks(text: str) -> list[tuple[str, str]]:
@@ -90,3 +90,10 @@ def test_a_palette_sets_only_roles_and_the_scale():
 			if extra:
 				stray[f"{name} {theme}"] = extra
 	assert not stray, f"a palette sets a role or a step of the gray scale, nothing else: {stray}"
+
+
+def test_a_palette_writes_against_the_raw_scale():
+	"""Under a palette frappe's named steps are the roles (tokens.css), so a
+	role written as one of them would read itself."""
+	named = re.findall(r"(--one-[a-z0-9-]+):\s*[^;]*var\(--((?:ink|surface|outline)-[a-z0-9-]+)\)", PALETTES)
+	assert not named, f"write these against --gray-*, not a named step: {named}"

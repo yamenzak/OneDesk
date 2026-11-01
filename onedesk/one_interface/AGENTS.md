@@ -517,9 +517,39 @@ without being edited.
 A palette (`palettes.css`, on `data-one-palette`) sets its own grey scale,
 keeping frappe's lightness at every step so contrast stays Standard's, and
 then every role for its light and its dark; shape and type are set once.
+Sand is the one palette One ships, with the Canvas look.
+
+Under a palette nothing frappe draws is left on a value the palette did not
+choose. tokens.css points, only while a palette is on:
+
+- frappe's named steps (`--ink-gray-3`…`9`, `--surface-base`,
+  `--surface-gray-1`…`4`, `--outline-gray-1`…`4`, the elevations,
+  `--surface-sidebar`, `--ink-base`) at the roles, so every rule of
+  frappe's that reads a step follows; a palette therefore writes its roles
+  against the raw scale (`--gray-900`), never a named step;
+- frappe's component variables (`--text-color`, `--border-color`,
+  `--card-bg`, `--modal-bg`, `--popover-bg`, `--checkbox-color` and the
+  rest) at the roles;
+- the whole radius scale (`--radius-1`…`8`, `sm` to `2xl`) at the six
+  corner roles, every shadow and elevation at the three shadow roles, and
+  `--font-stack` at `--one-font`;
+- the surfaces frappe paints with a general colour (a dialog and the form
+  in it, Bootstrap's and espresso's menus and popovers, a figure card) at
+  their roles.
+
+Islands draw in a shadow root with frappe-ui's own copy of the greys, so
+look.js adopts one sheet into every island and island part that points the
+same steps at the same roles, the steps no role stands for at the page's
+(`--one-page-*`), and the island's corners and font at the palette's, and
+copies the palette onto the island's root. Standard leaves frappe and
+islands exactly as they draw.
+
 `tests/guards/test_palettes.py` fails when a rule reads the scale, a role is
-read and never declared, or a palette leaves a role out. A new part gets a
-role in tokens.css and a value in every palette in the same commit.
+read and never declared, a palette leaves a role out or writes one against
+a named step. A new part gets a role in tokens.css and a value in every
+palette in the same commit. To audit, give every role a loud value under a
+throwaway palette and shoot the screens: whatever still looks like Standard
+is a part no role reaches.
 
 ## Dialogs
 

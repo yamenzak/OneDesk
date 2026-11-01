@@ -20,6 +20,9 @@
 	--one-radius-control: var(--radius-md);
 	--one-radius-sheet: var(--radius-lg);
 	--one-radius-small: var(--radius-sm);
+	--one-radius-dialog: var(--radius-xl);
+	--one-radius-large: var(--radius-2xl);
+	--one-font: var(--font-stack);
 
 	/* Ink, strongest to faintest. */
 	--one-ink-strong: var(--ink-gray-9);
@@ -28,6 +31,7 @@
 	--one-ink-quiet: var(--ink-gray-6);
 	--one-ink-muted: var(--ink-gray-5);
 	--one-ink-faint: var(--ink-gray-4);
+	--one-placeholder: var(--ink-gray-3);
 
 	/* Lines and fills on a sheet. */
 	--one-line: var(--outline-gray-1);
@@ -57,6 +61,20 @@
 	--one-button-ink: var(--ink-gray-8);
 	--one-control-bg: var(--surface-gray-2);
 	--one-focus: var(--ink-gray-6);
+
+	/* What floats: dialogs, menus and popovers, and frappe's cards. */
+	--one-dialog-bg: var(--surface-base);
+	--one-menu-bg: var(--surface-base);
+	--one-card-bg: var(--surface-base);
+	/* Something raised off its surface: the chosen row in a dialog's rail. */
+	--one-raised-bg: var(--surface-elevation-3);
+	--one-dialog-rail: var(--surface-sidebar);
+
+	/* Shadows: Standard keeps frappe's own, and these are read only under a
+	   palette (the palette bridge below). */
+	--one-shadow-small: none;
+	--one-shadow-raised: none;
+	--one-shadow-dialog: none;
 
 	/* The Canvas look: the canvas behind, the sheets on it. */
 	--one-canvas: var(--surface-gray-2);
@@ -169,40 +187,136 @@
 /* An island draws in its own shadow root with frappe-ui's own greys, which
    no page variable reaches, so under a palette the page's greys are
    handed down by names an island does not redeclare (look.js points the
-   island's greys at them). */
+   island's greys at them). The steps a role stands for go to the role. */
 :root[data-one-palette] {
-	--one-page-surface-base: var(--surface-base);
-	--one-page-surface-elevation-1: var(--surface-elevation-1);
-	--one-page-surface-elevation-3: var(--surface-elevation-3);
-	--one-page-ink-base: var(--ink-base);
-	--one-page-surface-gray-1: var(--surface-gray-1);
-	--one-page-surface-gray-2: var(--surface-gray-2);
-	--one-page-surface-gray-3: var(--surface-gray-3);
-	--one-page-surface-gray-4: var(--surface-gray-4);
 	--one-page-surface-gray-5: var(--surface-gray-5);
 	--one-page-surface-gray-6: var(--surface-gray-6);
 	--one-page-surface-gray-7: var(--surface-gray-7);
 	--one-page-surface-gray-8: var(--surface-gray-8);
 	--one-page-surface-gray-9: var(--surface-gray-9);
-	--one-page-surface-gray-10: var(--surface-gray-10);
 	--one-page-ink-gray-1: var(--ink-gray-1);
 	--one-page-ink-gray-2: var(--ink-gray-2);
-	--one-page-ink-gray-3: var(--ink-gray-3);
-	--one-page-ink-gray-4: var(--ink-gray-4);
-	--one-page-ink-gray-5: var(--ink-gray-5);
-	--one-page-ink-gray-6: var(--ink-gray-6);
-	--one-page-ink-gray-7: var(--ink-gray-7);
-	--one-page-ink-gray-8: var(--ink-gray-8);
-	--one-page-ink-gray-9: var(--ink-gray-9);
-	--one-page-outline-gray-1: var(--outline-gray-1);
-	--one-page-outline-gray-2: var(--outline-gray-2);
-	--one-page-outline-gray-3: var(--outline-gray-3);
-	--one-page-outline-gray-4: var(--outline-gray-4);
 	--one-page-outline-gray-5: var(--outline-gray-5);
 	--one-page-outline-gray-6: var(--outline-gray-6);
 	--one-page-outline-gray-7: var(--outline-gray-7);
 	--one-page-outline-gray-8: var(--outline-gray-8);
 	--one-page-outline-gray-9: var(--outline-gray-9);
+}
+
+
+/* ── Under a palette, every variable frappe's own CSS reads ───────────
+   Standard is frappe's own, so these apply only when a palette is on: its
+   component colours, the whole radius scale, the shadows and the font.
+   Nothing frappe draws is left on a value a palette did not choose. */
+
+:root[data-one-palette],
+:root[data-one-palette][data-theme] {
+	--bg-color: var(--one-surface);
+	--fg-color: var(--one-surface);
+	--card-bg: var(--one-card-bg);
+	--modal-bg: var(--one-dialog-bg);
+	--popover-bg: var(--one-menu-bg);
+	--navbar-bg: var(--one-sidebar-bg);
+	--subtle-accent: var(--one-tint);
+	--subtle-fg: var(--one-hover);
+	--fg-hover-color: var(--one-hover);
+	--highlight-color: var(--one-tint);
+	--control-bg-on-gray: var(--one-press);
+	--disabled-control-bg: var(--one-tint);
+	--sidebar-select-color: var(--one-sidebar-active-bg);
+	--text-color: var(--one-ink);
+	--heading-color: var(--one-ink-strong);
+	--text-muted: var(--one-ink-quiet);
+	--text-light: var(--one-ink-muted);
+	--disabled-text-color: var(--one-ink-muted);
+	--placeholder-color: var(--one-placeholder);
+	--border-color: var(--one-line);
+	--dark-border-color: var(--one-edge);
+	--table-border-color: var(--one-line);
+	--btn-group-border-color: var(--one-edge);
+	--checkbox-color: var(--one-accent);
+	--primary-color: var(--one-primary-bg);
+	--primary: var(--one-primary-bg);
+
+	--radius-none: 0px;
+	--radius-0: 0px;
+	--radius-1: var(--one-radius-small);
+	--radius-2: var(--one-radius-small);
+	--radius-sm: var(--one-radius-small);
+	--radius-3: var(--one-radius-row);
+	--radius-4: var(--one-radius-row);
+	--radius: var(--one-radius-row);
+	--radius-5: var(--one-radius-control);
+	--radius-md: var(--one-radius-control);
+	--radius-6: var(--one-radius-sheet);
+	--radius-lg: var(--one-radius-sheet);
+	--radius-7: var(--one-radius-dialog);
+	--radius-xl: var(--one-radius-dialog);
+	--radius-8: var(--one-radius-large);
+	--radius-2xl: var(--one-radius-large);
+
+	--shadow-xs: var(--one-shadow-small);
+	--shadow-sm: var(--one-shadow-small);
+	--shadow-base: var(--one-shadow-raised);
+	--shadow-md: var(--one-shadow-raised);
+	--shadow-lg: var(--one-shadow-dialog);
+	--shadow-xl: var(--one-shadow-dialog);
+	--shadow-2xl: var(--one-shadow-dialog);
+
+	--font-stack: var(--one-font);
+
+	/* frappe's named steps are the roles, so every rule of frappe's that
+	   reads a step follows the palette. A palette writes its roles against
+	   the raw scale (--gray-900), never these, or they would read
+	   themselves (test_palettes). */
+	--surface-base: var(--one-surface);
+	--surface-gray-1: var(--one-tint);
+	--surface-gray-2: var(--one-hover);
+	--surface-gray-3: var(--one-press);
+	--surface-gray-4: var(--one-fill);
+	--surface-sidebar: var(--one-dialog-rail);
+	--surface-elevation-1: var(--one-surface);
+	--surface-elevation-2: var(--one-card-bg);
+	--surface-elevation-3: var(--one-raised-bg);
+	--ink-base: var(--one-ink-on-colour);
+	--ink-gray-9: var(--one-ink-strong);
+	--ink-gray-8: var(--one-ink);
+	--ink-gray-7: var(--one-ink-soft);
+	--ink-gray-6: var(--one-ink-quiet);
+	--ink-gray-5: var(--one-ink-muted);
+	--ink-gray-4: var(--one-ink-faint);
+	--ink-gray-3: var(--one-placeholder);
+	--outline-gray-1: var(--one-line);
+	--outline-gray-2: var(--one-edge);
+	--outline-gray-3: var(--one-edge-strong);
+	--outline-gray-4: var(--one-edge-heavy);
+
+	--elevation-sm: var(--one-shadow-small);
+	--elevation-base: var(--one-shadow-raised);
+	--elevation-md: var(--one-shadow-raised);
+	--elevation-lg: var(--one-shadow-dialog);
+	--elevation-xl: var(--one-shadow-dialog);
+	--elevation-2xl: var(--one-shadow-dialog);
+}
+
+/* Surfaces frappe paints with a general colour rather than one of their
+   own: a dialog, a menu or popover (Bootstrap's and espresso's), and a
+   figure card. Under a palette they are their roles. */
+:root[data-one-palette] :is(.modal-content, .settings-dialog-panels) {
+	background-color: var(--one-dialog-bg);
+}
+
+/* A form inside a dialog sits on the dialog, not on a sheet of its own. */
+:root[data-one-palette] .modal-content :is(.form-layout, .form-page) {
+	background-color: transparent;
+}
+
+:root[data-one-palette] :is(.dropdown-menu, .popover, .awesomplete > [role="listbox"], .es-menu, .es-popover, .es-bottom-sheet) {
+	background-color: var(--one-menu-bg);
+}
+
+:root[data-one-palette] .es-stat-card {
+	background-color: var(--one-card-bg);
 }
 
 /* ── Bridges: frappe's variables read the roles ───────────────────── */

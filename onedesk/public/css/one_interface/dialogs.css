@@ -30,7 +30,7 @@
 .one-dialog.one-enlarged .modal-body:not(.settings-dialog-body) { flex: 1 1 auto; overflow: auto; }
 
 /* The box. */
-.one-dialog .modal-content { border: 0; border-radius: var(--radius-xl); overflow: hidden; }
+.one-dialog .modal-content { border: 0; border-radius: var(--one-radius-dialog); overflow: hidden; }
 
 /* The header: where you are, then the window's controls. */
 .one-dialog .modal-header { min-height: 52px; padding: 10px 12px 4px 20px; border: 0; align-items: center; }
