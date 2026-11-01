@@ -65419,3 +65419,11 @@ msgstr "غيّر {0} حقول"
 #: onedesk/public/js/one_interface/look.js
 msgid "Show 1 Empty Field"
 msgstr "إظهار حقل فارغ واحد"
+
+#: onedesk/public/js/one_interface/stamps.js:32
+msgid "Passed {0}"
+msgstr "اجتاز المراجعة {0}"
+
+#: onedesk/public/js/module_docs.js:41
+msgid "Changed In"
+msgstr "تغيّر في"

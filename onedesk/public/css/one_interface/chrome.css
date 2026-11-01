@@ -660,8 +660,8 @@ body.one-barred .dock-item-icon .one-flat {
 	display: block;
 }
 
-/* island_page.js: the stamp on a page that is still an island. */
-.one-bar-status .one-island-stamp {
+/* Review stamps (stamps.js), on a dev site only: outlined, in their tone. */
+.one-bar-status .one-stamp {
 	display: inline-flex;
 	align-items: center;
 	gap: 4px;
@@ -669,8 +669,11 @@ body.one-barred .dock-item-icon .one-flat {
 	height: 18px;
 	border-radius: var(--radius-full);
 	border: 1px solid currentColor;
-	color: var(--ink-amber-3);
 	font-size: var(--text-xs);
 	font-weight: 500;
 	white-space: nowrap;
 }
+
+.one-bar-status .one-stamp[data-tone="amber"] { color: var(--ink-amber-3); }
+.one-bar-status .one-stamp[data-tone="green"] { color: var(--ink-green-3); }
+.one-bar-status .one-stamp[data-tone="gray"] { color: var(--ink-gray-4); }

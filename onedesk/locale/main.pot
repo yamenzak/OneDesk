@@ -67159,3 +67159,11 @@ msgstr ""
 #: onedesk/public/js/one_interface/look.js
 msgid "Show 1 Empty Field"
 msgstr ""
+
+#: onedesk/public/js/one_interface/stamps.js:32
+msgid "Passed {0}"
+msgstr ""
+
+#: onedesk/public/js/module_docs.js:41
+msgid "Changed In"
+msgstr ""

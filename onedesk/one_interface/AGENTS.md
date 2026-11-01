@@ -549,3 +549,20 @@ message under a generic Confirm becomes the title.
 A toast is frappe's `show_alert`, an island's dialog is frappe-ui's, and
 the create dialog still keeps a foot of its own inside its panels; none
 is drawn to this anatomy yet (SCRATCHPAD).
+
+## Stamps
+
+On a dev site only (`developer_mode` or `one_dev` in its config), the
+bottom bar says how far a screen has come in review
+(`public/js/one_interface/stamps.js`, `onedesk.interface.stamp`):
+
+- **Island**, amber, with the island's name, on a page an island still
+  draws (`island_page.js`), until the walk replaces it.
+- **Passed**, green, with its day, on a screen the final passthrough has
+  finished: `stamps.py` `PASSED`, keyed as frappe routes to the screen
+  (`Form/<doctype>`, `List/<doctype>`, `query-report/<report>`, a page's
+  route). The passthrough skill adds a screen in the commit that finishes
+  it; a change that undoes the pass takes it out.
+
+A customer never sees one: `stamps.for_boot` sends nothing to a site that
+is not dev. `tests/guards/test_stamps.py` holds how a screen is named.

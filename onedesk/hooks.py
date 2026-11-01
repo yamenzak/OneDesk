@@ -1057,6 +1057,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_interface/json_view.js",
 	"/assets/onedesk/js/one_interface/look.js",
 	"/assets/onedesk/js/one_interface/dialogs.js",
+	"/assets/onedesk/js/one_interface/stamps.js",
 	"/assets/onedesk/js/one/news_add.js",
 	"/assets/onedesk/js/one_portal/portal.js",
 	"/assets/onedesk/js/one_task/task_control.js",
