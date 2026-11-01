@@ -49,6 +49,14 @@ port opened on the server. The tunnel is a line of the Procfile, so they are
 online exactly while `bench start` runs. Their Administrator password is
 `PUBLIC_ADMIN_PASSWORD` in `~/.one-local`.
 
+## Always on
+
+On a server, `bash ~/one-bench/apps/onedesk/deploy/local/always-on.sh` runs
+`bench start` as a system service: at boot, again within seconds if it stops,
+and with no terminal open. `sudo systemctl restart one-bench` after a change to
+`hooks.py`; `journalctl -u one-bench -f` shows what it prints; `always-on.sh
+off` hands it back to you.
+
 ## Every day
 
     cd ~/one-bench && bench start
