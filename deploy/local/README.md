@@ -27,11 +27,23 @@ twenty minutes or so. Run it again at any time; it only does what is missing.
 Keep the bench in Ubuntu's own home (`~/one-bench`), never under `/mnt/c`:
 files on the Windows side are many times slower to read from Linux.
 
+## Or on a server
+
+The same script runs on any Ubuntu server (24.04 or later, 8 GB of memory or
+more), as a user with sudo. Nothing needs opening to the internet: connect with
+
+    ssh -L 8000:localhost:8000 -L 9000:localhost:9000 ubuntu@SERVER
+
+and the addresses below open in your own browser as if the bench were local.
+Port 9000 is socketio, which the desk's realtime needs.
+
 ## Every day
 
     cd ~/one-bench && bench start
 
-and open `http://one.localhost:8000` or `http://admin.localhost:8000` in the
+Python reloads on save, `bench watch` rebuilds the desk's JS and CSS, and the
+`islands` line in the Procfile rebuilds onedesk's frontend; refresh the page
+to see a change. Open `http://one.localhost:8000` or `http://admin.localhost:8000` in the
 Windows browser. Passwords are in `~/.one-local`. Push to `main` as before;
 Frappe Cloud deploys from there.
 

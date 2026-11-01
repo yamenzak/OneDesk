@@ -175,13 +175,19 @@ make_site admin.localhost 1
 # No `bench use`: with a current site, bench serve answers every address as
 # that one site, and admin.localhost would open the workspace.
 
+# bench start runs the Procfile. bench watch rebuilds the desk's own JS and CSS
+# on save; onedesk's islands (frontend/) have their own watcher, added here.
+grep -q "^islands:" Procfile || echo "islands: cd apps/onedesk/frontend && yarn dev" >>Procfile
+
 say "Ready"
 cat <<DONE
-Start everything (web, worker, socketio, redis, the asset watcher):
+Start everything (web, worker, socketio, redis, and the watchers that rebuild
+on save):
 
   cd $BENCH && bench start
 
-Then open, in your Windows browser:
+Then open, in your browser (on a server, first connect with
+ssh -L 8000:localhost:8000 -L 9000:localhost:9000 you@server):
 
   http://one.localhost:8000      a workspace
   http://admin.localhost:8000    OneAdmin
