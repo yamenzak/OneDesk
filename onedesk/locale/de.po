@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-01 22:54+0000\n"
+"POT-Creation-Date: 2026-11-01 23:52+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -3211,7 +3211,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:88
 #: onedesk/public/js/one_account/account_center.js:371
 #: onedesk/public/js/one_account/account_center.js:381
-#: onedesk/public/js/one_interface/frame.js:354
+#: onedesk/public/js/one_interface/frame.js:358
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/onecloud_dialogs.js:288
 #: onedesk/public/js/onecloud_dialogs.js:527
@@ -3640,7 +3640,7 @@ msgstr "Ausrichtung"
 #: onedesk/one_inventory/heads.py:804 onedesk/one_project/heads.py:204
 #: onedesk/public/js/item_list.js:4
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:536
+#: onedesk/public/js/one_interface/look.js:564
 msgid "All"
 msgstr "Alle"
 
@@ -13950,7 +13950,7 @@ msgstr "Einzelheit"
 msgid "Details"
 msgstr "Details"
 
-#: onedesk/public/js/one_interface/frame.js:260
+#: onedesk/public/js/one_interface/frame.js:262
 msgid "Details pane"
 msgstr "Detailbereich"
 
@@ -20118,7 +20118,7 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Go to"
 msgstr "Gehe zu"
 
-#: onedesk/public/js/one_interface/frame.js:354
+#: onedesk/public/js/one_interface/frame.js:358
 msgid "Go to a place, a record or a command"
 msgstr "Zu einem Ort, einem Datensatz oder einem Befehl"
 
@@ -28218,7 +28218,7 @@ msgstr "Hier hält mehr als ein Kunde Einbehalte. Gib sie auf jeder Rechnung fre
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "Hier sind Einbehalte von mehr als einem Lieferanten offen. Zahle sie auf jeder Eingangsrechnung."
 
-#: onedesk/public/js/one_interface/frame.js:536
+#: onedesk/public/js/one_interface/frame.js:547
 msgid "More views"
 msgstr "Weitere Ansichten"
 
@@ -28914,6 +28914,8 @@ msgstr "Nie verwendet"
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
+#: onedesk/public/js/one_interface/look.js:582
+#: onedesk/public/js/one_interface/look.js:584
 msgid "New"
 msgstr "Neu"
 
@@ -55122,7 +55124,7 @@ msgstr "Video für eine Präsentation nicht erstellt"
 #: onedesk/one_inventory/portal.py:110
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14
-#: onedesk/public/js/one_interface/frame.js:528
+#: onedesk/public/js/one_interface/frame.js:539
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
 #: onedesk/public/js/project.js:13 onedesk/www/account_invoices.html:39
 msgid "View"

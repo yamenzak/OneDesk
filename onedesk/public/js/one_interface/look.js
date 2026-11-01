@@ -524,6 +524,7 @@ list.strip = async (view) => {
 		main.prepend(hero);
 	}
 	hero.querySelector("h1").textContent = __(doctype);
+	list.place(view, hero);
 	const kind = onedesk.interface.icon_of(doctype);
 	const mark = hero.querySelector(".one-hero-icon");
 	mark.hidden = !kind;
@@ -569,7 +570,24 @@ list.strip = async (view) => {
 	});
 };
 
-// frappe's quick filters, beside Filter in the actions row.
+// The heading row holds what acts on the whole list: New beside the name,
+// the ways of looking at the far end. The Frame keeps both by reference, so
+// they go on working where they are put.
+list.place = (view, hero) => {
+	const win = view.page.interface;
+	const title = hero.querySelector(".one-hero-title");
+	const primary = win.group("primary")[0];
+	if (primary && primary.parentElement !== title) title.append(primary);
+	const label = primary && primary.querySelector(".primary-action .es-button__label.hidden-xs");
+	if (label && label.textContent.trim() !== __("New")) {
+		label.closest(".primary-action").setAttribute("title", label.textContent.trim());
+		label.textContent = __("New");
+	}
+	const ways = win.ways_slot()[0];
+	if (ways.parentElement !== hero) hero.append(ways);
+};
+
+// frappe's quick filters, in the row under the address, Filter and Sort at its end.
 list.filters = (view) => {
 	const wrapper = view.page.wrapper[0];
 	const filters = wrapper.querySelector(".standard-filter-section");
@@ -593,6 +611,24 @@ list.icons = (view) => {
 		if (name && !el.querySelector(".one-ico") && el.children.length === 0) el.insertAdjacentHTML("afterbegin", icon(name));
 	});
 };
+
+// A view's … menu ends the address row, after search and a record's ‹ ›.
+{
+	const Frame = onedesk.interface.Frame;
+	if (Frame && !Object.hasOwn(Frame.prototype, "one_look")) {
+		Frame.prototype.one_look = true;
+		const view = Frame.prototype.view;
+		Frame.prototype.view = function (parts = {}) {
+			const said = view.call(this, parts);
+			if (onedesk.interface.uses("head")) {
+				const menu = this.group("menu");
+				if (menu[0].parentElement !== this.$tools[0] || menu[0].nextElementSibling) this.$tools.append(menu);
+				if (parts.menu && parts.menu.dropdown) parts.menu.dropdown.align = "end";
+			}
+			return said;
+		};
+	}
+}
 
 {
 	const ListView = frappe.views && frappe.views.ListView;

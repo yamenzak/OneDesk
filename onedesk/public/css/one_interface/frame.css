@@ -145,6 +145,12 @@
 		display: none;
 	}
 
+	/* The ways of looking, held apart from Filter so a look may place them
+	   (window.ways_slot); where they are, they sit as the views row's own. */
+	.one-interface .one-interface-views > .one-interface-ways {
+		display: contents;
+	}
+
 	.one-interface .page-head-content > .one-interface-switch {
 		order: 8;
 		margin-inline-end: calc(var(--spacing) * 2);

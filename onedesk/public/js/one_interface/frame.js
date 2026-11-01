@@ -257,6 +257,8 @@ onedesk.interface.Frame = class Frame {
 		this.$commands = $(
 			`<div class="one-interface-commands"><span class="one-interface-group" data-group="primary"></span><span class="one-interface-group" data-group="own"></span><span class="one-interface-group" data-group="menu"></span></div>`
 		).insertBefore($content.children(".standard-items-section"));
+		this.groups = {};
+		this.$commands.children("[data-group]").each((_, el) => (this.groups[el.dataset.group] = $(el)));
 		this.$switch = $(button("details", "panel-right", __("Details pane"))).addClass("one-interface-switch").appendTo($content).hide();
 		this.$status = $(
 			`<div class="one-interface-status" hidden><span class="one-interface-said"></span><span class="one-interface-more"></span></div>`
@@ -304,7 +306,7 @@ onedesk.interface.Frame = class Frame {
 		}
 		if (views) {
 			if (typeof views.get_views === "function") this.views_of(views);
-			else this.views_slot().append(views);
+			else this.ways_slot().append(views);
 		}
 		if (controls && controls.length) this.views_slot().prepend(controls.addClass("one-interface-filters"));
 		if (search) this.search(search);
@@ -318,8 +320,10 @@ onedesk.interface.Frame = class Frame {
 		return this;
 	}
 
+	// Held by reference, so a look may place a group elsewhere (Canvas puts
+	// a list's New beside its heading and the menu in the address row).
 	group(name) {
-		return this.$commands.children(`[data-group=${name}]`);
+		return this.groups[name];
 	}
 
 	// A row across the window under the commands, for what a view shows over
@@ -505,6 +509,13 @@ onedesk.interface.Frame = class Frame {
 		return this.$views;
 	}
 
+	// The ways of looking themselves, apart from what narrows the view, so a
+	// look may put them by the heading (Canvas) and leave Filter where it is.
+	ways_slot() {
+		if (!this.$ways) this.$ways = $(`<span class="one-interface-ways"></span>`).appendTo(this.views_slot());
+		return this.$ways;
+	}
+
 	// frappe's view switcher drawn as the window draws views: one toggle per
 	// view it offers, from its own list, icons and actions. Its own menu stays,
 	// as a chevron after them, for what a view has inside it (saved layouts,
@@ -517,7 +528,7 @@ onedesk.interface.Frame = class Frame {
 				const label = select.label_map[view] || __(view);
 				return { value: view, icon: select.icon_map[view] || "list", label, title: label };
 			});
-		const $slot = this.views_slot();
+		const $slot = this.ways_slot();
 		// Said again, the toggles are drawn again; frappe's menu is its own
 		// node and is only moved, never removed, so its handlers stay.
 		$slot.children(".es-tab-buttons").remove();

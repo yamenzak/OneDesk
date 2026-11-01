@@ -404,14 +404,24 @@ whole while they scroll sideways: a sticky layer as wide as the list's
 window (`100cqw` of `.result-container`) draws the pill, the heads ride
 over it.
 
-A list's quick filters are frappe's own (the fields marked for the standard
-filter bar, which anyone changes in Customize Form; we add none), moved by
-`list.filters` into the actions' views. With any, the narrowing takes a row
-of its own: the filters from the edge, sliding sideways when they overflow,
-then Filter, the sort and the view switcher, which is drawn as their
-neighbour (`--one-head-button-bg`, the chosen view pressed in). The list's
-heading carries its kind's icon (`onedesk.interface.icon_of`: the module's
-declared `icon`, else the icon of its row in frappe's module sidebars).
+A list's head in Canvas is three rows, each holding one kind of thing. The
+island holds where you are, and the view's … menu at its end (every view:
+the look wraps `Frame.view` and moves the menu group into the tools, its
+dropdown aligned to the end). The row under it narrows: frappe's own quick
+filters (the fields marked for the standard filter bar, which anyone
+changes in Customize Form; we add none), moved there by `list.filters` and
+sliding sideways when they overflow, then Filter and the sort at the end as
+icons (their words hidden for the eye only; an applied count stays). The
+heading row acts on the whole list: its kind's icon
+(`onedesk.interface.icon_of`: the module's declared `icon`, else the icon
+of its row in frappe's module sidebars), name and count, New beside them,
+and the view switcher at the far end (`list.place`). The Frame keeps its
+command groups and its views (`ways_slot`, apart from the filters) by
+reference, so a look can put them anywhere and the Frame still fills them;
+classic leaves them where they were. A view without a heading (Report,
+Kanban) keeps New and the views in the row under the island. The column
+heads' pill is New's colour (`--one-primary-bg`), and the states over the
+rows are pills of the palette, the chosen one filled like the chosen view.
 
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
 in an empty part, or with Ctrl+K, or with the search button in the top bar,
