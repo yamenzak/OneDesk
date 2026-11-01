@@ -11,7 +11,8 @@ dialog. The job is to find the property or component that makes frappe draw
 it, and put it where OneInterface says it goes. Drawing it ourselves is the
 last resort, and every time it was the first resort here it was wrong.
 
-Words on the screen follow the `wording` skill. Load both.
+Words on the screen follow the `wording` skill; whether the job gets done is
+the `ux` skill. Load all three.
 
 ## Before anything: which kind of screen
 
@@ -46,32 +47,18 @@ FormLayout, ListView, Filter, ActivityTimeline), then `frontend/src/kit`
 (`Page`, `Section`, `Rows`, `Figures`, `Facts`, `Pill`, `OneAlert`), and
 our own component only when none of those has it.
 
-## The job comes first
+## The parts of a screen that serve the job
 
-UX here means one thing: the person can do what they came to do, quickly,
-without reading instructions.
+Whether the job can be done at all, in how many steps, and what happens when
+it goes wrong is the `ux` skill. On the screen itself:
 
-- **Name the job before building.** "Huda records a payment from a bank
-  statement." The screen is built for that job and that person's role.
 - **The one main action is the solid button, first on the left of the
   command row.** Everything else is outline, after it, then the `···` menu.
-  One main action per screen.
-- **One way to do one thing.** Never Add and From Library side by side; put
-  the library inside Add.
 - **A row that stands for a record opens it.** The whole row, the title, the
   card. No Edit or Open button on rows.
 - **A create dialog asks the deciding question first**, as cards when the
-  answer changes the rest of the form. It shows only what is needed to make
-  the record; everything else is on the saved record.
-- **Fill what can be filled, and don't show it while making.** A feed's
-  name read from the feed; region and country from the picked place.
-- **Take what the person has.** A site's address, not its RSS URL; a name
-  they type, not an ID.
-- **Show what they'll get before it's added**: a preview, three headlines,
-  or the error.
-- **A picker opens on what is near the person** (their country, language,
-  recent), scrolls inside itself, shows each choice's face, and allows
-  picking several when people pick several.
+  answer changes the rest of the form.
+- **A picker scrolls inside itself and shows each choice's face.**
 - **Nothing the rail already has is repeated on the page.** No heading that
   repeats the rail row, no link list to places the rail lists.
 - **A home holds what only its app can gather.** Not shortcuts.
@@ -138,12 +125,8 @@ Each of these happened in this app.
 - **Decoration.** Cards around everything, separator lines, shadows,
   eyebrow labels above headings, an icon on every row. Take it off until
   something is missing.
-- **Showing every field on a new record.** Enabled, Fetch and Items to Keep
-  on a News Source nobody has saved yet. They belong on the saved record.
 - **A heading that says the section, not the thing.** "Details" over the
   only section of New News Source.
-- **Checking as somebody who can't do the job.** News shipped with
-  screenshots taken as a user who couldn't see the Add button.
 - **Desktop only.** Every screen is looked at on a phone and in Arabic too.
 
 ## Before calling it done
