@@ -34,7 +34,7 @@
 
 /* The header: where you are, then the window's controls. */
 .one-dialog .modal-header { min-height: 52px; padding: 10px 12px 4px 20px; border: 0; align-items: center; }
-.one-dialog .modal-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--ink-gray-9); letter-spacing: 0; }
+.one-dialog .modal-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--one-ink-strong); letter-spacing: 0; }
 .one-dialog .modal-actions { gap: 2px; align-items: center; }
 .one-dialog .modal-actions .icon-btn,
 .one-dialog-controls .icon-btn { width: 32px; height: 32px; }
@@ -51,20 +51,20 @@
 
 /* An ask or a tell leads with a round mark; its title is the question. */
 .one-dialog .title-section { align-items: center; gap: 12px; }
-.one-dialog-mark { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: var(--radius-full); background: var(--surface-gray-2); color: var(--ink-gray-7); }
+.one-dialog-mark { width: 36px; height: 36px; flex: none; display: grid; place-items: center; border-radius: var(--radius-full); background: var(--one-hover); color: var(--one-ink-soft); }
 .one-dialog[data-tone="red"] .one-dialog-mark { background: var(--surface-red-3); color: var(--ink-red-7); }
 .one-dialog[data-tone="orange"] .one-dialog-mark { background: var(--surface-amber-3); color: var(--ink-amber-7); }
 .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-header { padding-top: 18px; }
 .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-body { padding-inline-start: 68px; }
-.one-dialog-effect, .one-dialog .frappe-confirm-message { margin: 0; font-size: 14px; line-height: 1.5; color: var(--ink-gray-7); }
+.one-dialog-effect, .one-dialog .frappe-confirm-message { margin: 0; font-size: 14px; line-height: 1.5; color: var(--one-ink-soft); }
 
 /* The body. A dialog with a rail lays out its own panes, edge to edge. */
 .one-dialog .modal-body:not(.settings-dialog-body) { padding: 4px 20px 20px; }
 
 /* The footer: what is still needed on the left, the verbs on the right, the main one last. */
-.one-dialog .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 12px 16px 12px 20px; border-top: 1px solid var(--outline-gray-1); }
+.one-dialog .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 12px 16px 12px 20px; border-top: 1px solid var(--one-line); }
 .one-dialog .modal-footer .custom-actions:empty { display: none; }
-.one-dialog-need { margin-inline-end: auto; min-width: 0; font-size: 13px; color: var(--ink-gray-5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.one-dialog-need { margin-inline-end: auto; min-width: 0; font-size: 13px; color: var(--one-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .one-dialog-need:empty { display: none; }
-.one-dialog-need b { color: var(--ink-gray-8); font-weight: 500; }
+.one-dialog-need b { color: var(--one-ink); font-weight: 500; }
 .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-footer { border-top: 0; padding-top: 4px; padding-bottom: 16px; }

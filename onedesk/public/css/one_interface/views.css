@@ -40,7 +40,7 @@
 	.one-interface .list-page-form,
 	.one-interface[data-one-view="tree"] .page-form {
 		min-height: 44px;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 		align-items: center;
 		padding-inline: calc(var(--spacing) * 2);
 	}
@@ -77,14 +77,14 @@
 	.one-interface[data-one-view="list"] .list-row-head {
 		background: transparent;
 		border-radius: 0;
-		border-bottom: 1px solid var(--outline-gray-1);
-		color: var(--ink-gray-5);
+		border-bottom: 1px solid var(--one-line);
+		color: var(--one-ink-muted);
 	}
 
 	/* frappe holds the head's right end (count, likes) over the rows as they
 	   scroll sideways, on the head's own grey; on the page's surface now. */
 	.one-interface[data-one-view="list"] .list-row-head .level-right {
-		background: var(--surface-base);
+		background: var(--one-surface);
 	}
 
 	.one-interface .one-interface-more .list-paging-area {
@@ -179,7 +179,7 @@
 		padding: 10px 0;
 		border: 0;
 		background: transparent;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 	}
 
 	.one-interface .form-tab-content {
@@ -195,11 +195,11 @@
 		padding: 0;
 		border: 0;
 		background: transparent;
-		color: var(--ink-gray-7);
+		color: var(--one-ink-soft);
 	}
 
 	.one-interface .one-interface-steps .btn:hover {
-		background: var(--surface-gray-2);
+		background: var(--one-hover);
 	}
 
 	:is(.one-interface[data-one-view="form"], .one-interface.one-record-page) .form-sidebar .modified-by,
@@ -230,7 +230,7 @@
 	}
 
 	:is(.one-interface[data-one-view="form"], .one-create) .switch-control.one-on:not(:has(.input-area input)) .switch-visual {
-		background-color: var(--ink-gray-8);
+		background-color: var(--one-ink);
 	}
 
 	:is(.one-interface[data-one-view="form"], .one-create) .switch-control.one-on:not(:has(.input-area input)) .switch-thumb {
@@ -271,7 +271,7 @@
 		margin: 0;
 		padding: 0;
 		background: transparent;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 	}
 
 	.one-interface .form-stats-likes .one-cloud-open > svg {
@@ -282,7 +282,7 @@
 	}
 
 	.one-interface .form-stats-likes .one-cloud-open:hover {
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 	}
 
 
@@ -298,7 +298,7 @@
 	/* The panel's tabs share the bar's width, an icon each. */
 	.one-interface .one-panel-tabs > .es-tabs__list {
 		padding: 0;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	/* One tab has nothing to choose between: its bar goes, its pane stays. */
@@ -424,7 +424,7 @@
 		min-width: 0;
 		padding: calc(var(--spacing) * 2) 0;
 		border: 0;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 		border-radius: 0;
 		background: transparent;
 	}
@@ -442,7 +442,7 @@
 
 	.one-interface .one-panel-pane .es-stat-card__label {
 		font-size: var(--text-sm);
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 		white-space: normal;
 	}
 
@@ -459,7 +459,7 @@
 
 	.one-interface .one-panel-pane .es-stat-card > .es-stat-card__caption {
 		font-size: var(--text-xs);
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 		text-align: end;
 		white-space: normal;
 	}
@@ -499,7 +499,7 @@
 	.one-interface .one-panel-pane .form-dashboard-section .section-head {
 		margin: 0 0 calc(var(--spacing) * 1);
 		padding: 0;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 		font-size: var(--text-sm);
 		font-weight: var(--font-weight-regular);
 	}
@@ -524,7 +524,7 @@
 	.one-interface .one-panel-pane .form-dashboard-section .row:has(> [class*="col-"] > a > .badge) {
 		margin: 0 !important;
 		padding-block: calc(var(--spacing) * 2);
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	.one-interface .one-panel-pane .form-dashboard-section .row > [class*="col-"]:has(> a > .badge) {
@@ -539,13 +539,13 @@
 		align-items: baseline;
 		justify-content: space-between;
 		font-size: var(--text-sm);
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 	}
 
 	.one-interface .one-panel-pane .form-dashboard-section a > .badge {
 		padding: 0;
 		background: none;
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 		font-size: var(--text-base);
 		font-weight: var(--weight-medium);
 		font-variant-numeric: tabular-nums;
@@ -584,7 +584,7 @@
 		gap: calc(var(--spacing) * 2);
 		margin: 0 !important;
 		padding-block: calc(var(--spacing) * 1.5);
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 		font-size: var(--text-sm);
 	}
 
@@ -599,12 +599,12 @@
 	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:first-child {
 		flex: 1 1 auto;
 		min-width: 0;
-		color: var(--ink-gray-6);
+		color: var(--one-ink-quiet);
 	}
 
 	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:nth-child(2) {
 		margin-inline-end: calc(var(--spacing) * 2);
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 		font-variant-numeric: tabular-nums;
 	}
 
@@ -629,13 +629,13 @@
 		flex: 0 0 100%;
 		max-width: none;
 		padding: calc(var(--spacing) * 2) 0;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	.one-interface .one-panel-pane .form-stats .indicator {
 		display: flex;
 		width: 100%;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 		font-size: var(--text-sm);
 	}
 
@@ -645,7 +645,7 @@
 
 	.one-interface .one-panel-pane .one-indicator-value {
 		margin-inline-start: auto;
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 		font-size: var(--text-base);
 		font-weight: var(--font-weight-medium);
 	}
@@ -668,7 +668,7 @@
 		max-width: none;
 		padding-block: calc(var(--spacing) * 2.5);
 		padding-inline: 96px 0;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	.one-interface .one-panel-pane .form-documents > .row:first-child > .col-md-4:first-child {
@@ -681,7 +681,7 @@
 		width: 88px;
 		margin: 0;
 		padding-top: 3px;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 		font-size: var(--text-sm);
 		font-weight: var(--font-weight-regular);
 	}
@@ -696,13 +696,13 @@
 		margin: 0;
 		padding: 0 calc(var(--spacing) * 2);
 		border: 1px solid transparent;
-		border-radius: var(--radius);
-		background: var(--surface-gray-2);
+		border-radius: var(--one-radius-row);
+		background: var(--one-hover);
 	}
 
 	.one-interface .one-panel-pane .document-link:has(.count.hidden),
 	.one-interface .one-panel-pane .document-link:has(.count.hidden):hover {
-		border: 1px dashed var(--outline-gray-2);
+		border: 1px dashed var(--one-edge);
 		background: transparent;
 	}
 
@@ -715,18 +715,18 @@
 	}
 
 	.one-interface .one-panel-pane .document-link .badge-link {
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 	}
 
 	.one-interface .one-panel-pane .document-link:has(.count.hidden) .badge-link {
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 	}
 
 	.one-interface .one-panel-pane .document-link .count {
 		margin: 0;
 		padding: 0;
 		background: transparent;
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 		font-size: var(--text-sm);
 		font-weight: var(--font-weight-medium);
 	}
@@ -760,11 +760,11 @@
 		padding: 0;
 		border: 0;
 		background: transparent;
-		color: var(--ink-gray-5);
+		color: var(--one-ink-muted);
 	}
 
 	.one-interface .one-panel-pane .document-link .btn-new:hover {
-		color: var(--ink-gray-8);
+		color: var(--one-ink);
 	}
 }
 
@@ -800,14 +800,14 @@
 	justify-content: flex-end;
 	gap: calc(var(--spacing) * 3);
 	padding: calc(var(--spacing) * 3) 1.5rem;
-	border-top: 1px solid var(--outline-gray-1);
+	border-top: 1px solid var(--one-line);
 }
 
 .one-create .one-create-missing {
 	flex: 1;
 	min-width: 0;
 	overflow: hidden;
-	color: var(--ink-gray-5);
+	color: var(--one-ink-muted);
 	font-size: var(--text-sm);
 	text-overflow: ellipsis;
 	white-space: nowrap;

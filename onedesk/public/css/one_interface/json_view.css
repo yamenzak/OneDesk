@@ -5,8 +5,8 @@
    filter row's white strip padded 4px 7px around frappe's own input. What
    is ours is the tree: indent, caret, and a value's kind by its ink. */
 .one-json {
-	border: 1px solid var(--outline-gray-1);
-	border-radius: var(--radius-md);
+	border: 1px solid var(--one-line);
+	border-radius: var(--one-radius-control);
 	overflow: hidden;
 }
 
@@ -16,20 +16,20 @@
 	gap: calc(var(--spacing) * 2);
 	min-height: 32px;
 	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
-	background: var(--surface-gray-2);
-	border-bottom: 1px solid var(--outline-gray-1);
+	background: var(--one-hover);
+	border-bottom: 1px solid var(--one-line);
 }
 
 .one-json-head .one-json-where {
 	flex: 1 1 0;
 	min-width: 0;
-	color: var(--ink-gray-5);
+	color: var(--one-ink-muted);
 	font-size: var(--text-sm);
 }
 
 .one-json-filter {
 	padding: 4px 7px;
-	border-bottom: 1px solid var(--outline-gray-1);
+	border-bottom: 1px solid var(--one-line);
 }
 
 .one-json-text {
@@ -59,7 +59,7 @@
 }
 
 .one-json-row:hover {
-	background: var(--surface-gray-1);
+	background: var(--one-tint);
 }
 
 .one-json-row.one-json-hit {
@@ -67,7 +67,7 @@
 }
 
 .one-json-key {
-	color: var(--ink-gray-8);
+	color: var(--one-ink);
 	font-weight: 600;
 }
 
@@ -110,6 +110,6 @@ html[dir="rtl"] .one-json-caret:not(.open) svg {
 }
 
 .one-json-null {
-	color: var(--ink-gray-5);
+	color: var(--one-ink-muted);
 	font-style: italic;
 }

@@ -20,3 +20,5 @@ answered leaves it.
   its screen is walked.
 - **Island pages** carry a stamp in the bottom bar until each is replaced
   by a framework screen in the screen-by-screen walk.
+- The window's search box draws over an open dialog (seen on New Customer from the Customer list): it should sit under the modal.
+- New Customer's create dialog says "Still needed: Customer Name" but shows no Customer Name field on Details.

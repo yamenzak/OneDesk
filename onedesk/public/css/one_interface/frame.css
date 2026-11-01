@@ -14,7 +14,7 @@
 
 	.one-interface > .page-head {
 		height: auto;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	.one-interface > .page-head > .container {
@@ -38,7 +38,7 @@
 	.one-interface .page-head-content > .one-interface-tools {
 		align-self: stretch;
 		min-height: 44px;
-		border-bottom: 1px solid var(--outline-gray-1);
+		border-bottom: 1px solid var(--one-line);
 	}
 
 	.one-interface .page-head-content > .one-interface-nav {
@@ -64,9 +64,9 @@
 		min-width: 0;
 		height: 30px;
 		padding-inline: calc(var(--spacing) * 2);
-		border: 1px solid var(--outline-gray-2);
-		border-radius: var(--radius);
-		background: var(--surface-gray-1);
+		border: 1px solid var(--one-address-edge);
+		border-radius: var(--one-radius-row);
+		background: var(--one-address-bg);
 		align-items: center;
 	}
 
@@ -123,7 +123,7 @@
 		width: 1px;
 		height: 20px;
 		margin-inline-end: calc(var(--spacing) * 1);
-		background: var(--outline-gray-2);
+		background: var(--one-edge);
 	}
 
 	.one-interface .page-head-content > .standard-items-section {
@@ -160,7 +160,7 @@
 
 	.one-interface .page-head-content > .one-interface-switch[data-state="on"],
 	.one-interface .one-interface-commands .es-button[data-state="on"] {
-		background: var(--surface-gray-3);
+		background: var(--one-command-on);
 	}
 
 	/* The status row, held at the foot of the screen while the page scrolls. */
@@ -184,9 +184,9 @@
 		gap: calc(var(--spacing) * 3);
 		min-height: 32px;
 		padding-inline: calc(var(--spacing) * 2);
-		border-top: 1px solid var(--outline-gray-1);
-		background: var(--surface-base);
-		color: var(--ink-gray-5);
+		border-top: 1px solid var(--one-line);
+		background: var(--one-status-bg);
+		color: var(--one-status-ink);
 		font-size: var(--text-sm);
 	}
 
@@ -226,8 +226,8 @@
 		position: relative;
 		flex: 0 0 var(--one-details-width);
 		min-width: 0;
-		border-inline-start: 1px solid var(--outline-gray-1);
-		background: var(--surface-base);
+		border-inline-start: 1px solid var(--one-line);
+		background: var(--one-details-bg);
 	}
 
 	.one-interface-details[hidden] {
@@ -249,7 +249,7 @@
 	}
 
 	.one-interface-details-edge:hover {
-		background: var(--outline-gray-2);
+		background: var(--one-edge);
 	}
 
 	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
@@ -419,7 +419,7 @@
 		min-height: 32px;
 		display: flex;
 		align-items: center;
-		color: var(--ink-gray-5);
+		color: var(--one-status-ink);
 		font-size: var(--text-sm);
 	}
 }
@@ -456,12 +456,12 @@ body.one-interface-dragging * {
 .one-interface-tree .standard-sidebar-item {
 	display: flex;
 	margin-bottom: 2px;
-	border-radius: var(--radius);
+	border-radius: var(--one-radius-row);
 }
 
 .one-interface-tree .standard-sidebar-item:not(.active-sidebar):hover,
 .one-interface-tree .standard-sidebar-item.one-interface-menu:not(.active-sidebar) {
-	background: var(--surface-gray-2);
+	background: var(--one-sidebar-hover);
 }
 
 .one-interface-tree .standard-sidebar-item .item-anchor {
@@ -471,13 +471,13 @@ body.one-interface-dragging * {
 	min-width: 0;
 	height: 28px;
 	padding-inline: calc(var(--depth, 0) * 14px + 2px) 0;
-	border-radius: var(--radius);
-	color: var(--ink-gray-6);
+	border-radius: var(--one-radius-row);
+	color: var(--one-sidebar-ink);
 	text-decoration: none;
 }
 
 .one-interface-tree .active-sidebar .item-anchor {
-	color: var(--ink-gray-8);
+	color: var(--one-sidebar-ink-strong);
 }
 
 .one-interface-tree .sidebar-item-icon {
@@ -534,7 +534,7 @@ body.one-interface-dragging * {
 
 .one-interface-tree .one-interface-note {
 	overflow: hidden;
-	color: var(--ink-gray-5);
+	color: var(--one-sidebar-ink-muted);
 	font-size: var(--text-xs);
 	line-height: 1.3;
 	white-space: nowrap;
@@ -554,7 +554,7 @@ body.one-interface-dragging * {
 }
 
 .one-interface-tree .one-interface-strong .sidebar-item-label {
-	color: var(--ink-gray-8);
+	color: var(--one-sidebar-ink-strong);
 	font-weight: var(--font-weight-semibold);
 }
 
@@ -576,13 +576,13 @@ body.one-interface-dragging * {
 	height: 16px;
 	padding: 0;
 	border: 0;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	background: transparent;
-	color: var(--ink-gray-5);
+	color: var(--one-sidebar-ink-muted);
 }
 
 .one-interface-twisty[data-twist]:hover {
-	background: var(--surface-gray-3);
+	background: var(--one-sidebar-press);
 }
 
 [dir="rtl"] .one-interface-twisty svg {
@@ -592,7 +592,7 @@ body.one-interface-dragging * {
 .one-interface-tree .one-interface-count {
 	margin-inline-start: auto;
 	padding-inline: calc(var(--spacing) * 1);
-	color: var(--ink-gray-5);
+	color: var(--one-sidebar-ink-muted);
 	font-size: var(--text-xs);
 }
 
@@ -637,14 +637,14 @@ body.one-interface-dragging * {
 	align-items: center;
 	padding: calc(var(--spacing) * 1);
 	border: 0;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	background: transparent;
-	color: var(--ink-gray-5);
+	color: var(--one-sidebar-ink-muted);
 }
 
 .one-interface-foot-help:hover {
-	background: var(--surface-gray-2);
-	color: var(--ink-gray-8);
+	background: var(--one-sidebar-hover);
+	color: var(--one-sidebar-ink-strong);
 }
 
 .body-sidebar-container:not(.expanded) .one-interface-foot-help {
@@ -656,15 +656,15 @@ body.one-interface-dragging * {
 	flex-shrink: 0;
 	padding: 0 calc(var(--spacing) * 1.5);
 	border: 0;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	background: transparent;
 	font-size: var(--text-xs);
-	color: var(--ink-gray-5);
+	color: var(--one-sidebar-ink-muted);
 }
 
 .one-interface-foot-version:hover {
-	background: var(--surface-gray-2);
-	color: var(--ink-gray-8);
+	background: var(--one-sidebar-hover);
+	color: var(--one-sidebar-ink-strong);
 }
 
 .one-interface-foot-version--unseen::after {
@@ -731,8 +731,8 @@ body.one-interface-dragging * {
 
 .one-interface .title-area.one-interface-typing {
 	overflow: visible;
-	border-color: var(--outline-gray-3);
-	background: var(--surface-base);
+	border-color: var(--one-edge-strong);
+	background: var(--one-surface);
 }
 
 .one-interface-address {
@@ -752,7 +752,7 @@ body.one-interface-dragging * {
 
 .one-interface-address .awesomebar-search-icon {
 	display: flex;
-	color: var(--ink-gray-5);
+	color: var(--one-ink-muted);
 }
 
 .one-interface-address input {
@@ -763,7 +763,7 @@ body.one-interface-dragging * {
 	border: 0;
 	outline: none;
 	background: transparent;
-	color: var(--ink-gray-8);
+	color: var(--one-ink);
 	font-size: var(--text-base);
 }
 
@@ -777,9 +777,9 @@ body.one-interface-dragging * {
 	width: auto;
 	max-height: min(60vh, 480px);
 	z-index: 1030;
-	border: 1px solid var(--outline-gray-2);
-	border-radius: var(--radius-lg);
-	background: var(--surface-base);
+	border: 1px solid var(--one-edge);
+	border-radius: var(--one-radius-sheet);
+	background: var(--one-surface);
 	box-shadow: none;
 }
 
@@ -790,7 +790,7 @@ body.one-interface-dragging * {
 		order: 9;
 		flex-basis: 100%;
 		min-width: 0;
-		border-top: 1px solid var(--outline-gray-1);
+		border-top: 1px solid var(--one-line);
 	}
 
 	.one-interface .page-head-content > .one-interface-row:empty {
@@ -807,7 +807,7 @@ body.one-interface-dragging * {
 		gap: 2px;
 		margin-inline-start: calc(var(--spacing) * 1);
 		padding-inline-start: calc(var(--spacing) * 1);
-		border-inline-start: 1px solid var(--outline-gray-2);
+		border-inline-start: 1px solid var(--one-edge);
 	}
 
 	.one-interface-tools > .one-interface-steps:not(:has(> *)) {
@@ -824,13 +824,13 @@ body.one-interface-dragging * {
 	margin-inline: auto calc(var(--spacing) * 1);
 	width: 20px;
 	height: 20px;
-	border-radius: var(--radius-sm);
-	color: var(--ink-gray-6);
+	border-radius: var(--one-radius-small);
+	color: var(--one-sidebar-ink);
 }
 
 .one-interface-tree .one-interface-more:hover {
-	background: var(--surface-gray-3);
-	color: var(--ink-gray-8);
+	background: var(--one-sidebar-press);
+	color: var(--one-sidebar-ink-strong);
 }
 
 .one-interface-tree .standard-sidebar-item:is(:hover, :focus-within, .one-interface-menu) .one-interface-more {
@@ -847,8 +847,8 @@ body.one-interface-dragging * {
 .one-interface-filters .filter-selector .btn-group .filter-label {
 	display: inline-block;
 	font-weight: 600;
-	color: var(--ink-gray-8);
-	background-color: var(--surface-gray-2);
+	color: var(--one-ink);
+	background-color: var(--one-hover);
 	min-width: 21px;
 	border-radius: var(--radius-full);
 	margin-left: 6px;

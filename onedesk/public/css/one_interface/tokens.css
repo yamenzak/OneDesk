@@ -1,0 +1,200 @@
+/* Roles (onedesk/one_interface/AGENTS.md, Palettes): one name for each part
+   of the frame and the Canvas look, so a palette can set each part on its
+   own instead of moving a whole grey scale at once. Every rule in
+   one_interface/ reads a role, never a step of frappe's scale; a role here
+   holds Standard's value, which is frappe's own, and a palette
+   (palettes.css) sets every role again for its light and its dark.
+
+   Frappe's own parts (the sidebar's rows, the rail, buttons, inputs) read
+   frappe's variables, so the bridges at the foot of this file point those
+   variables at the roles, and frappe's CSS follows a palette unedited. */
+
+/* ── Roles: Standard ───────────────────────────────────────────────── */
+
+:root {
+	/* Type and shape: one value for both themes. */
+	--one-heading-weight: 600;
+	--one-heading-tracking: -0.02em;
+	--one-button-weight: 420;
+	--one-radius-row: var(--radius);
+	--one-radius-control: var(--radius-md);
+	--one-radius-sheet: var(--radius-lg);
+	--one-radius-small: var(--radius-sm);
+
+	/* Ink, strongest to faintest. */
+	--one-ink-strong: var(--ink-gray-9);
+	--one-ink: var(--ink-gray-8);
+	--one-ink-soft: var(--ink-gray-7);
+	--one-ink-quiet: var(--ink-gray-6);
+	--one-ink-muted: var(--ink-gray-5);
+	--one-ink-faint: var(--ink-gray-4);
+
+	/* Lines and fills on a sheet. */
+	--one-line: var(--outline-gray-1);
+	--one-edge: var(--outline-gray-2);
+	--one-edge-strong: var(--outline-gray-3);
+	--one-edge-heavy: var(--outline-gray-4);
+	--one-surface: var(--surface-base);
+	--one-tint: var(--surface-gray-1);
+	--one-hover: var(--surface-gray-2);
+	--one-press: var(--surface-gray-3);
+	--one-fill: var(--surface-gray-4);
+
+	/* The one colour that says "this": done steps, the chosen state, the
+	   primary button. */
+	--one-accent: var(--ink-gray-9);
+	--one-accent-ink: var(--surface-base);
+	/* Ink on a status colour (a running timer's green). */
+	--one-ink-on-colour: var(--ink-base);
+	/* A ticked box in the tree, which a row may colour itself (nav_tree.js). */
+	--one-check: var(--one-accent);
+
+	/* Buttons and fields. */
+	--one-primary-bg: var(--surface-gray-10);
+	--one-primary-ink: var(--ink-base);
+	--one-button-bg: var(--surface-gray-2);
+	--one-button-hover: var(--surface-gray-3);
+	--one-button-ink: var(--ink-gray-8);
+	--one-control-bg: var(--surface-gray-2);
+	--one-focus: var(--ink-gray-6);
+
+	/* The Canvas look: the canvas behind, the sheets on it. */
+	--one-canvas: var(--surface-gray-2);
+	--one-sheet: var(--surface-base);
+
+	/* frappe's sidebar beside the screen, and the tree in it. */
+	--one-sidebar-bg: var(--surface-gray-1);
+	--one-sidebar-ink: var(--ink-gray-6);
+	--one-sidebar-ink-strong: var(--ink-gray-8);
+	--one-sidebar-ink-muted: var(--ink-gray-5);
+	--one-sidebar-hover: var(--surface-gray-2);
+	--one-sidebar-press: var(--surface-gray-3);
+	--one-sidebar-active-bg: var(--surface-elevation-3);
+	--one-sidebar-active-ink: var(--ink-gray-8);
+	/* Standard keeps frappe's own shadow under the chosen row: the bridge
+	   below reads this only under a palette. */
+	--one-sidebar-active-shadow: none;
+	--one-sidebar-line: var(--outline-gray-1);
+
+	/* The window's head: the address box and its commands. */
+	--one-address-bg: var(--surface-gray-1);
+	--one-address-edge: var(--outline-gray-2);
+	--one-command-on: var(--surface-gray-3);
+
+	/* The window's status line and the details beside it. */
+	--one-status-bg: var(--surface-base);
+	--one-status-ink: var(--ink-gray-5);
+	--one-details-bg: var(--surface-base);
+
+	/* Tabs and the strip of states over a list. */
+	--one-tab-ink: var(--ink-gray-5);
+	--one-tab-on-ink: var(--ink-gray-9);
+	--one-count-bg: var(--surface-gray-3);
+	--one-count-ink: var(--ink-gray-6);
+}
+
+/* In a dark theme frappe's sidebar is the page's colour, one surface with
+   the screen beside it. */
+:root[data-theme="dark"] {
+	--one-sidebar-bg: var(--surface-base);
+}
+
+/* ── The frame: the rail, the bars and the gutter round the screen ── */
+
+:root {
+	--one-bar-height: 28px;
+	--one-bar-offset: 0px;
+	--one-frame-gutter: 6px;
+
+	/* The workspace's colour when it set one (chrome.js), else frappe-ui's
+	   darkest grey. */
+	--one-frame-brand: var(--surface-gray-10);
+	--one-frame: var(--one-frame-brand);
+	--one-frame-dark: var(--surface-gray-1);
+
+	/* Light ink on the frame; dark on a light Frame Colour, below. */
+	--one-frame-ink: var(--one-over-white-700);
+	--one-frame-ink-strong: var(--one-over-white-950);
+	--one-frame-hover: var(--one-over-white-100);
+	--one-frame-active: var(--one-over-white-200);
+	--one-frame-line: var(--one-over-white-200);
+
+	--one-over-white-100: oklch(1 0 0 / 0.18);
+	--one-over-white-200: oklch(1 0 0 / 0.271);
+	--one-over-white-700: oklch(1 0 0 / 0.722);
+	--one-over-white-950: oklch(1 0 0 / 0.949);
+	--one-over-black-100: oklch(0 0 0 / 0.18);
+	--one-over-black-200: oklch(0 0 0 / 0.271);
+	--one-over-black-500: oklch(0 0 0 / 0.541);
+	--one-over-black-700: oklch(0 0 0 / 0.722);
+	--one-over-black-950: oklch(0 0 0 / 0.949);
+
+	/* The bar's own names for the frame's. */
+	--one-bar-bg: var(--one-frame);
+	--one-bar-ink: var(--one-frame-ink);
+	--one-bar-ink-strong: var(--one-frame-ink-strong);
+	--one-bar-hover: var(--one-frame-hover);
+
+	/* frappe's rail draws from its own tokens; they are the frame's. */
+	--dock-bg: var(--one-frame);
+	--dock-ink: var(--one-frame-ink);
+	--dock-ink-strong: var(--one-frame-ink-strong);
+	--dock-tile-hover: var(--one-frame-hover);
+	--dock-tile-active: transparent;
+	--dock-rule: var(--one-frame-line);
+}
+
+/* In a dark theme the page is frappe-ui's darkest surface already, so the
+   frame steps the other way: a grey a step lighter, and the workspace's
+   colour deepened into the dark. */
+:root[data-theme="dark"] {
+	--one-frame: var(--one-frame-dark);
+}
+
+:root[data-theme="dark"][data-one-frame="brand"] {
+	--one-frame: color-mix(in oklab, var(--one-frame-brand) 40%, var(--surface-base));
+}
+
+:root[data-one-frame-ink="dark"]:not([data-theme="dark"]) {
+	--one-frame-ink: var(--one-over-black-700);
+	--one-frame-ink-strong: var(--one-over-black-950);
+	--one-frame-hover: var(--one-over-black-100);
+	--one-frame-active: var(--one-over-black-200);
+	--one-frame-line: var(--one-over-black-200);
+}
+
+/* ── Bridges: frappe's variables read the roles ───────────────────── */
+
+:root,
+:root[data-theme] {
+	--btn-primary: var(--one-primary-bg);
+	--btn-default-bg: var(--one-button-bg);
+	--btn-default-hover-bg: var(--one-button-hover);
+	--control-bg: var(--one-control-bg);
+}
+
+.btn.btn-primary {
+	--neutral: var(--one-primary-ink);
+}
+
+body.one-barred.dock-pinned {
+	--desk-sidebar-bg: var(--one-sidebar-bg);
+}
+
+/* frappe's sidebar rows read its scale directly; inside the sidebar those
+   steps are the sidebar's roles. */
+.body-sidebar {
+	--ink-gray-6: var(--one-sidebar-ink);
+	--ink-gray-8: var(--one-sidebar-ink-strong);
+	--surface-gray-2: var(--one-sidebar-hover);
+	--surface-elevation-3: var(--one-sidebar-active-bg);
+	--radius: var(--one-radius-row);
+}
+
+:root[data-one-palette] .body-sidebar {
+	--shadow-sm: var(--one-sidebar-active-shadow);
+}
+
+.body-sidebar .standard-sidebar-item.active-sidebar .item-anchor {
+	color: var(--one-sidebar-active-ink);
+}

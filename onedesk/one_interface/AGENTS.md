@@ -461,8 +461,9 @@ not a theme. Three words, three layers:
   `thread`, `quiet`, `icons`. Classic turns none on, which is frappe's desk
   on the frame as it was.
 - **Theme**: light, dark or automatic. Frappe's (`desk_theme`), untouched.
-- **Palette**: a colour set that swaps colour tokens only, such as the
-  workspace's frame colour (`one_frame_colour`).
+- **Palette**: everything a look's parts are drawn in, part by part:
+  colours, the primary and plain buttons, the chosen row, corners, heading
+  and button weight. Below, under Palettes.
 
 Every look defines its tokens for every theme; palettes ride on both. The
 HTML the renderer builds is the same in every look: a look changes tokens
@@ -495,6 +496,30 @@ once more after the form settles:
 
 The registry is `ready.MODULES[module]["interface"]`; `ready.interface()`
 merges it and boot hands it over as `frappe.boot.one_interface`.
+
+## Palettes
+
+Every rule of the frame and of Canvas reads a **role**, never a step of
+frappe's grey scale: `--one-sidebar-active-bg`, not `--surface-gray-2`.
+`public/css/one_interface/tokens.css` names the 61 roles (the frame, the
+sidebar and its chosen row, the window's head and status line, the canvas
+and its sheets, ink, lines and fills, the accent, the primary and plain
+buttons, fields and focus, tabs and counts, corners, heading and button
+weight) and holds Standard's value for each, which is frappe's own, so
+Standard draws exactly what frappe draws.
+
+Frappe's own parts read frappe's variables, so tokens.css bridges them:
+`--btn-primary`, `--btn-default-bg`, `--control-bg`, `--desk-sidebar-bg`
+and `--dock-*` read the roles, and inside `.body-sidebar` the steps frappe's
+sidebar rows read are the sidebar's roles. Frappe's CSS follows a palette
+without being edited.
+
+A palette (`palettes.css`, on `data-one-palette`) sets its own grey scale,
+keeping frappe's lightness at every step so contrast stays Standard's, and
+then every role for its light and its dark; shape and type are set once.
+`tests/guards/test_palettes.py` fails when a rule reads the scale, a role is
+read and never declared, or a palette leaves a role out. A new part gets a
+role in tokens.css and a value in every palette in the same commit.
 
 ## Dialogs
 

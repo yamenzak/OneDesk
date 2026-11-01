@@ -37,7 +37,7 @@ def test_the_interface_is_one_folder_loaded_after_the_shell():
 	assert loaded[:2] == ["one_interface/frame.js", "one_interface/chrome.js"]
 	assert sorted(loaded) == sorted(f"one_interface/{path.name}" for path in FRAME_JS.glob("*.js"))
 	styles = re.findall(r'"/assets/onedesk/css/(one_interface/[\w.]+)"', HOOKS)
-	assert styles[:2] == ["one_interface/chrome.css", "one_interface/frame.css"]
+	assert styles[:4] == ["one_interface/tokens.css", "one_interface/palettes.css", "one_interface/chrome.css", "one_interface/frame.css"]
 	assert sorted(styles) == sorted(f"one_interface/{path.name}" for path in FRAME_CSS.glob("*.css"))
 	assert {"page", "list", "board", "report", "tree", "form", "print", "workspace"} <= set(ADAPTERS)
 	assert not (tree.APP / "public" / "js" / "window.js").exists()
@@ -229,10 +229,10 @@ def test_the_frame_is_a_top_bar_a_bottom_bar_and_the_rail():
 	assert "onedesk.dock.bar = " not in desk and "onedesk.interface.bars()" in desk
 	control = (tree.APP / "one" / "control.py").read_text(encoding="utf-8")
 	assert "def place_bar" not in control
-	chrome_css = (FRAME_CSS / "chrome.css").read_text(encoding="utf-8")
+	chrome_css = "".join((FRAME_CSS / name).read_text(encoding="utf-8") for name in ("tokens.css", "chrome.css"))
 	for token in ("--dock-bg: var(--one-frame);", "--dock-ink: var(--one-frame-ink);", "--dock-tile-active: transparent;"):
 		assert token in chrome_css, token
-	assert "border-start-end-radius: var(--radius-lg);" in chrome_css and "border-end-start-radius: var(--radius-lg);" in chrome_css
+	assert "border-start-end-radius: var(--one-radius-sheet);" in chrome_css and "border-end-start-radius: var(--one-radius-sheet);" in chrome_css
 	desk_css = (tree.APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
 	assert ".one-bar {" not in desk_css and "one-bar-bottom" not in desk_css
 
@@ -247,7 +247,7 @@ def test_the_frame_wears_the_workspaces_colour():
 	company = (tree.APP / "one" / "company.py").read_text(encoding="utf-8")
 	assert "letter_heads.on(colour)" in company, "the frame's ink is the letter heads' rule, not a second one"
 	assert "luminance" not in CHROME.lower()
-	chrome_css = (FRAME_CSS / "chrome.css").read_text(encoding="utf-8")
+	chrome_css = (FRAME_CSS / "tokens.css").read_text(encoding="utf-8")
 	assert ':root[data-theme="dark"][data-one-frame="brand"]' in chrome_css
 	assert ':root[data-one-frame-ink="dark"]:not([data-theme="dark"])' in chrome_css
 

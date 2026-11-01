@@ -1,11 +1,11 @@
 :root {
-	--scrollbar-thumb-color: var(--outline-gray-3);
+	--scrollbar-thumb-color: var(--one-edge-strong);
 	--scrollbar-track-color: transparent;
 }
 
 * {
 	scrollbar-width: thin;
-	scrollbar-color: var(--outline-gray-3) transparent;
+	scrollbar-color: var(--one-edge-strong) transparent;
 }
 
 *:not(#page-form-builder *)::-webkit-scrollbar {
@@ -25,14 +25,14 @@ body::-webkit-scrollbar {
 }
 
 *::-webkit-scrollbar-thumb {
-	background-color: var(--outline-gray-3);
+	background-color: var(--one-edge-strong);
 	border-radius: var(--radius-full);
 	min-height: 32px;
 }
 
 *::-webkit-scrollbar-thumb:hover,
 *::-webkit-scrollbar-thumb:active {
-	background-color: var(--outline-gray-4);
+	background-color: var(--one-edge-heavy);
 }
 
 @media (hover: hover) {
@@ -41,7 +41,7 @@ body::-webkit-scrollbar {
 	}
 
 	*:hover {
-		scrollbar-color: var(--outline-gray-3) transparent;
+		scrollbar-color: var(--one-edge-strong) transparent;
 	}
 
 	*::-webkit-scrollbar-thumb {
@@ -49,11 +49,11 @@ body::-webkit-scrollbar {
 	}
 
 	*:hover::-webkit-scrollbar-thumb {
-		background-color: var(--outline-gray-3);
+		background-color: var(--one-edge-strong);
 	}
 
 	*:hover::-webkit-scrollbar-thumb:hover,
 	*:hover::-webkit-scrollbar-thumb:active {
-		background-color: var(--outline-gray-4);
+		background-color: var(--one-edge-heavy);
 	}
 }

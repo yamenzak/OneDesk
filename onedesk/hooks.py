@@ -993,6 +993,8 @@ setup_wizard_success = "onedesk.one_admin.site.first_operators"
 
 app_include_css = stamped([
 	"/assets/onedesk/css/theme.css",
+	"/assets/onedesk/css/one_interface/tokens.css",
+	"/assets/onedesk/css/one_interface/palettes.css",
 	"/assets/onedesk/css/desk.css",
 	"/assets/onedesk/css/module_docs.css",
 	"/assets/onedesk/css/module_settings.css",

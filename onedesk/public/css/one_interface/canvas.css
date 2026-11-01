@@ -5,10 +5,6 @@
    rule of the same weight wins. */
 :root[data-one-look="canvas"] {
 	--one-ease: cubic-bezier(.2,.8,.2,1);
-	--one-canvas: var(--surface-gray-2);
-	--one-sheet: var(--surface-base);
-	--one-line: var(--outline-gray-1);
-	--one-edge: var(--outline-gray-2);
 }
 
 /* the canvas and the sheet */
@@ -20,56 +16,56 @@
 /* the head on the canvas */
 :root[data-one-look="canvas"] .one-hero { padding: 26px 32px 6px; }
 :root[data-one-look="canvas"] .one-hero-title { display: flex; align-items: baseline; gap: 12px; }
-:root[data-one-look="canvas"] .one-hero h1 { margin: 0; font-size: 26px; font-weight: 600; letter-spacing: -0.02em; color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .one-hero-count { font-size: 15px; color: var(--ink-gray-5); font-variant-numeric: tabular-nums; }
+:root[data-one-look="canvas"] .one-hero h1 { margin: 0; font-size: 26px; font-weight: var(--one-heading-weight); letter-spacing: var(--one-heading-tracking); color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-hero-count { font-size: 15px; color: var(--one-ink-muted); font-variant-numeric: tabular-nums; }
 :root[data-one-look="canvas"] .one-hero-record { padding: 28px 36px 4px; }
-:root[data-one-look="canvas"] .one-hero-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--ink-gray-5); margin-bottom: 6px; }
+:root[data-one-look="canvas"] .one-hero-top { display: flex; justify-content: space-between; font-size: 13px; color: var(--one-ink-muted); margin-bottom: 6px; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-title { align-items: center; }
 :root[data-one-look="canvas"] .one-hero-record h1 { font-size: 28px; }
 :root[data-one-look="canvas"] .one-facts { display: flex; gap: 44px; margin: 22px 0 20px; flex-wrap: wrap; }
-:root[data-one-look="canvas"] .one-fact-label { font-size: 12.5px; color: var(--ink-gray-5); margin-bottom: 3px; }
-:root[data-one-look="canvas"] .one-fact-value { font-size: 17px; font-weight: 500; color: var(--ink-gray-9); font-variant-numeric: tabular-nums; }
+:root[data-one-look="canvas"] .one-fact-label { font-size: 12.5px; color: var(--one-ink-muted); margin-bottom: 3px; }
+:root[data-one-look="canvas"] .one-fact-value { font-size: 17px; font-weight: 500; color: var(--one-ink-strong); font-variant-numeric: tabular-nums; }
 
 /* states and filters: one row on the canvas */
 :root[data-one-look="canvas"] .one-strip { display: flex; align-items: center; gap: 22px; padding: 12px 32px 0; border-bottom: 1px solid var(--one-edge); margin: 0 0 18px; }
-:root[data-one-look="canvas"] .one-strip-item { display: inline-flex; gap: 8px; align-items: center; padding: 0 0 12px; border: 0; background: transparent; font-size: 13.5px; color: var(--ink-gray-5); margin-bottom: -1px; position: relative; white-space: nowrap; }
-:root[data-one-look="canvas"] .one-strip-item.is-on { color: var(--ink-gray-9);  font-weight: 500; }
+:root[data-one-look="canvas"] .one-strip-item { display: inline-flex; gap: 8px; align-items: center; padding: 0 0 12px; border: 0; background: transparent; font-size: 13.5px; color: var(--one-tab-ink); margin-bottom: -1px; position: relative; white-space: nowrap; }
+:root[data-one-look="canvas"] .one-strip-item.is-on { color: var(--one-tab-on-ink);  font-weight: 500; }
 :root[data-one-look="canvas"] .one-strip-dot { display: none; }
-:root[data-one-look="canvas"] .one-strip-count { font-size: 12px; padding: 0 7px; border-radius: var(--radius-full); background: var(--surface-gray-3); color: var(--ink-gray-6); font-variant-numeric: tabular-nums; }
+:root[data-one-look="canvas"] .one-strip-count { font-size: 12px; padding: 0 7px; border-radius: var(--radius-full); background: var(--one-count-bg); color: var(--one-count-ink); font-variant-numeric: tabular-nums; }
 :root[data-one-look="canvas"] .one-strip-filters { margin-left: auto; padding-bottom: 8px; gap: 6px !important; flex-wrap: nowrap !important; }
 :root[data-one-look="canvas"] .one-strip-filters .form-group { width: 132px !important; max-width: 132px !important; flex: 0 0 auto !important; margin: 0 !important; padding: 0 !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; font-size: 12.5px !important; background: transparent !important; border: 1px dashed var(--outline-gray-3) !important; border-radius: var(--radius-full) !important; }
+:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; font-size: 12.5px !important; background: transparent !important; border: 1px dashed var(--one-edge-strong) !important; border-radius: var(--radius-full) !important; }
 :root[data-one-look="canvas"] .one-interface .list-page-form:not(:has(.form-group)) { display: none !important; }
 
 /* the list is one sheet */
-:root[data-one-look="canvas"] .one-interface .frappe-list { margin: 0 32px 24px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--radius-lg); overflow: hidden; }
-:root[data-one-look="canvas"] .frappe-list .list-row-head { background: transparent !important; border-bottom: 1px solid var(--one-line) !important; color: var(--ink-gray-5) !important; font-size: 12.5px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list { margin: 0 32px 24px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--one-radius-sheet); overflow: hidden; }
+:root[data-one-look="canvas"] .frappe-list .list-row-head { background: transparent !important; border-bottom: 1px solid var(--one-line) !important; color: var(--one-ink-muted) !important; font-size: 12.5px; }
 :root[data-one-look="canvas"] .frappe-list .list-row-container { border-bottom: 1px solid var(--one-line) !important; transition: background 120ms var(--one-ease); }
 :root[data-one-look="canvas"] .frappe-list .list-row-container:last-child { border-bottom: 0 !important; }
 :root[data-one-look="canvas"] .frappe-list .list-row { height: 50px !important; }
-:root[data-one-look="canvas"] .frappe-list .list-row-container:hover { background: var(--surface-gray-1) !important; }
+:root[data-one-look="canvas"] .frappe-list .list-row-container:hover { background: var(--one-tint) !important; }
 :root[data-one-look="canvas"] .frappe-list .list-row-activity { opacity: 0; transition: opacity 120ms var(--one-ease); }
 :root[data-one-look="canvas"] .frappe-list .list-row-container:hover .list-row-activity { opacity: 1; }
 
 /* the form is one sheet of sections: what it is on the left, what it holds on the right */
 :root[data-one-look="canvas"] .form-layout .form-message-container { padding: 0 36px; background: transparent !important; }
-:root[data-one-look="canvas"] .form-layout .form-message-container .form-message { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--radius-lg) !important; }
-:root[data-one-look="canvas"] .one-interface .form-page { margin: 4px 36px 32px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--radius-lg); overflow: hidden; }
+:root[data-one-look="canvas"] .form-layout .form-message-container .form-message { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-sheet) !important; }
+:root[data-one-look="canvas"] .one-interface .form-page { margin: 4px 36px 32px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--one-radius-sheet); overflow: hidden; }
 :root[data-one-look="canvas"] .form-page .form-section { display: block !important; border-top: 1px solid var(--one-line) !important; padding: 24px 28px 8px !important; margin: 0 !important; }
 :root[data-one-look="canvas"] .form-page .form-section:first-of-type, :root[data-one-look="canvas"] .form-page .form-section.one-first { border-top: 0 !important; }
-:root[data-one-look="canvas"] .form-page .form-section .section-head { font-size: 14px !important; font-weight: 600 !important; color: var(--ink-gray-9) !important; padding: 0 !important; margin: 0 0 16px !important; }
-:root[data-one-look="canvas"] .form-page .form-section .section-head.collapsed { color: var(--ink-gray-6) !important; }
+:root[data-one-look="canvas"] .form-page .form-section .section-head { font-size: 14px !important; font-weight: 600 !important; color: var(--one-ink-strong) !important; padding: 0 !important; margin: 0 0 16px !important; }
+:root[data-one-look="canvas"] .form-page .form-section .section-head.collapsed { color: var(--one-ink-quiet) !important; }
 :root[data-one-look="canvas"] .form-page .form-section .section-body { display: grid !important; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
 :root[data-one-look="canvas"] .form-page .form-section .section-body > .form-column { width: auto !important; max-width: none !important; flex: none !important; padding: 0 !important; display: contents; }
 :root[data-one-look="canvas"] .form-page .form-section .section-body > .form-column > form { display: contents; }
 
 :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"], :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Text Editor"], :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Small Text"], :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Text"], :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Long Text"] { grid-column: 1 / -1; }
 :root[data-one-look="canvas"] .form-page .frappe-control { margin: 0 0 18px !important; }
-:root[data-one-look="canvas"] .form-page .control-label { font-size: 12.5px !important; color: var(--ink-gray-5) !important; margin-bottom: 5px !important; font-weight: 400 !important; }
-:root[data-one-look="canvas"] .form-page .form-control { height: 36px; border-radius: var(--radius-md) !important; background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; box-shadow: none !important; transition: border-color 120ms var(--one-ease); }
-:root[data-one-look="canvas"] .form-page .form-control:focus { border-color: var(--ink-gray-6) !important; }
+:root[data-one-look="canvas"] .form-page .control-label { font-size: 12.5px !important; color: var(--one-ink-muted) !important; margin-bottom: 5px !important; font-weight: 400 !important; }
+:root[data-one-look="canvas"] .form-page .form-control { height: 36px; border-radius: var(--one-radius-control) !important; background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; box-shadow: none !important; transition: border-color 120ms var(--one-ease); }
+:root[data-one-look="canvas"] .form-page .form-control:focus { border-color: var(--one-focus) !important; }
 /* a value that can't be changed reads as text, not as a disabled box */
-:root[data-one-look="canvas"] .form-page .like-disabled-input, :root[data-one-look="canvas"] .form-page .control-value { background: transparent !important; border: 0 !important; padding: 0 !important; height: auto !important; min-height: 0 !important; font-size: 14.5px; font-weight: 500; color: var(--ink-gray-9) !important; }
+:root[data-one-look="canvas"] .form-page .like-disabled-input, :root[data-one-look="canvas"] .form-page .control-value { background: transparent !important; border: 0 !important; padding: 0 !important; height: auto !important; min-height: 0 !important; font-size: 14.5px; font-weight: 500; color: var(--one-ink-strong) !important; }
 /* a switch is a row: its label, then the switch at the end */
 :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Check"] .checkbox { margin: 6px 0 0 !important; }
 
@@ -80,10 +76,10 @@
 :root[data-one-look="canvas"] .form-page .one-quiet-section { display: none !important; }
 :root[data-one-look="canvas"] .form-page.one-open .one-quiet-section { display: grid !important; }
 @keyframes one-in { from { opacity: 0; transform: translateY(-3px); } to { opacity: 1; transform: none; } }
-:root[data-one-look="canvas"] .one-more { grid-column: 1 / -1; justify-self: start; border: 0; background: transparent; padding: 2px 0 6px; font-size: 13px; color: var(--ink-gray-5); cursor: pointer; }
-:root[data-one-look="canvas"] .one-more:hover { color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-more { grid-column: 1 / -1; justify-self: start; border: 0; background: transparent; padding: 2px 0 6px; font-size: 13px; color: var(--one-ink-muted); cursor: pointer; }
+:root[data-one-look="canvas"] .one-more:hover { color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-more-all { display: block; margin: 0; padding: 18px 28px 22px; border-top: 1px solid var(--one-line); width: 100%; text-align: left; }
-:root[data-one-look="canvas"] .one-help { display: inline-grid; place-items: center; width: 15px; height: 15px; margin-left: 6px; border-radius: var(--radius-full); border: 1px solid var(--outline-gray-3); font-size: 10px; font-style: italic; font-weight: 600; color: var(--ink-gray-5); cursor: help; vertical-align: 1px; }
+:root[data-one-look="canvas"] .one-help { display: inline-grid; place-items: center; width: 15px; height: 15px; margin-left: 6px; border-radius: var(--radius-full); border: 1px solid var(--one-edge-strong); font-size: 10px; font-style: italic; font-weight: 600; color: var(--one-ink-muted); cursor: help; vertical-align: 1px; }
 
 /* the record panel: quiet, on the canvas */
 :root[data-one-look="canvas"] .one-interface .form-sidebar .sidebar-section { border-color: transparent !important; }
@@ -112,14 +108,14 @@
 :root[data-one-look="canvas"] .one-hero-track .one-steps { display: flex !important; gap: 22px; margin: 0; padding: 0; }
 :root[data-one-look="canvas"] .one-hero-track .one-step { display: flex; align-items: center; gap: 8px; height: auto !important; padding: 0 !important; }
 :root[data-one-look="canvas"] .one-hero-track .one-step::before, :root[data-one-look="canvas"] .one-hero-track .one-step::after { display: none !important; }
-:root[data-one-look="canvas"] .one-hero-track .one-step-text { position: static !important; padding: 0 !important; font-size: 13px; color: var(--ink-gray-7); }
+:root[data-one-look="canvas"] .one-hero-track .one-step-text { position: static !important; padding: 0 !important; font-size: 13px; color: var(--one-ink-soft); }
 :root[data-one-look="canvas"] .one-hero-track .one-step-note { position: static !important; margin-left: 6px; font-size: 12.5px; }
 :root[data-one-look="canvas"] .one-hero-body { display: flex; align-items: flex-end; gap: 48px; margin: 18px 0 6px; }
 :root[data-one-look="canvas"] .one-hero-body .one-facts { margin: 0; gap: 40px; flex: 1; }
 :root[data-one-look="canvas"] .one-facts .one-stat-link { text-decoration: none !important; }
 :root[data-one-look="canvas"] .one-facts .es-stat-card { display: block !important; padding: 0 !important; border: 0 !important; background: transparent !important; min-height: 0 !important; }
 :root[data-one-look="canvas"] .one-facts .es-stat-card__head { margin: 0 0 3px !important; }
-:root[data-one-look="canvas"] .one-facts .es-stat-card__label { font-size: 12.5px !important; color: var(--ink-gray-5) !important; }
+:root[data-one-look="canvas"] .one-facts .es-stat-card__label { font-size: 12.5px !important; color: var(--one-ink-muted) !important; }
 :root[data-one-look="canvas"] .one-facts .es-stat-card__value { font-size: 17px !important; font-weight: 500 !important; text-align: left !important; justify-content: flex-start !important; }
 :root[data-one-look="canvas"] .one-hero-chart { width: 300px; flex: none; margin: 0 !important; }
 :root[data-one-look="canvas"] .one-hero-chart .one-chart-head { display: none !important; }
@@ -131,15 +127,15 @@
 :root[data-one-look="canvas"] .one-interface .form-page { margin: 16px 36px 32px !important; }
 
 /* a field you can change looks like its value until you reach for it */
-:root[data-one-look="canvas"] .form-page .form-control:not(.like-disabled-input):not(textarea) { background: transparent !important; border-color: transparent !important; margin-left: -9px; width: calc(100% + 9px); font-size: 14.5px; font-weight: 500; color: var(--ink-gray-9); }
+:root[data-one-look="canvas"] .form-page .form-control:not(.like-disabled-input):not(textarea) { background: transparent !important; border-color: transparent !important; margin-left: -9px; width: calc(100% + 9px); font-size: 14.5px; font-weight: 500; color: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .form-page .frappe-control:hover .form-control:not(.like-disabled-input) { border-color: var(--one-edge) !important; }
-:root[data-one-look="canvas"] .form-page .form-control:focus { background: var(--one-sheet) !important; border-color: var(--ink-gray-6) !important; }
+:root[data-one-look="canvas"] .form-page .form-control:focus { background: var(--one-sheet) !important; border-color: var(--one-focus) !important; }
 
 /* the sidebar on the canvas */
 :root[data-one-look="canvas"] .one-interface .form-sidebar { background: transparent !important; padding: 8px 8px 0 4px; }
 :root[data-one-look="canvas"] .one-interface .form-sidebar .sidebar-section { border: 0 !important; padding: 10px 16px !important; }
-:root[data-one-look="canvas"] .one-interface .form-sidebar .form-sidebar-label, :root[data-one-look="canvas"] .one-interface .form-sidebar .share-label, :root[data-one-look="canvas"] .one-interface .form-sidebar .add-assignment-label { font-size: 13px !important; color: var(--ink-gray-6) !important; }
-:root[data-one-look="canvas"] .one-interface .one-panel { background: var(--one-sheet); border: 1px solid var(--one-edge) !important; border-radius: var(--radius-lg); margin: 10px 12px 0 8px; padding: 0 !important; overflow: hidden; }
+:root[data-one-look="canvas"] .one-interface .form-sidebar .form-sidebar-label, :root[data-one-look="canvas"] .one-interface .form-sidebar .share-label, :root[data-one-look="canvas"] .one-interface .form-sidebar .add-assignment-label { font-size: 13px !important; color: var(--one-ink-quiet) !important; }
+:root[data-one-look="canvas"] .one-interface .one-panel { background: var(--one-sheet); border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-sheet); margin: 10px 12px 0 8px; padding: 0 !important; overflow: hidden; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-title { flex-wrap: wrap; row-gap: 8px; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: nowrap; flex: none; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-actions { flex-wrap: wrap; justify-content: flex-end; min-width: 0; }
@@ -149,39 +145,39 @@
 :root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { font-size: 26px; }
 :root[data-one-look="canvas"] .one-interface > .one-hero-record { padding: 22px 36px 18px !important; }
 :root[data-one-look="canvas"] .one-tiles { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 18px; }
-:root[data-one-look="canvas"] .one-tile { height: 96px; padding: 14px 16px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--radius-lg); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
-:root[data-one-look="canvas"] .one-tile-label { font-size: 12.5px; color: var(--ink-gray-5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-:root[data-one-look="canvas"] .one-tile-value { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; color: var(--ink-gray-9); font-variant-numeric: tabular-nums; white-space: nowrap; }
+:root[data-one-look="canvas"] .one-tile { height: 96px; padding: 14px 16px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--one-radius-sheet); display: flex; flex-direction: column; justify-content: space-between; overflow: hidden; }
+:root[data-one-look="canvas"] .one-tile-label { font-size: 12.5px; color: var(--one-ink-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+:root[data-one-look="canvas"] .one-tile-value { font-size: 21px; font-weight: 600; letter-spacing: -0.01em; color: var(--one-ink-strong); font-variant-numeric: tabular-nums; white-space: nowrap; }
 :root[data-one-look="canvas"] .one-tile.is-alarm .one-tile-value, :root[data-one-look="canvas"] .one-tile.is-alarm .one-tile-value * { color: var(--ink-red-6) !important; }
-:root[data-one-look="canvas"] .one-tile-value.is-small { font-size: 13px; font-weight: 500; color: var(--ink-gray-7); }
+:root[data-one-look="canvas"] .one-tile-value.is-small { font-size: 13px; font-weight: 500; color: var(--one-ink-soft); }
 :root[data-one-look="canvas"] .one-tile-chart { justify-content: flex-start; gap: 2px; }
 :root[data-one-look="canvas"] .one-spark { display: flex; align-items: flex-end; gap: 3px; height: 30px; margin-top: auto; }
-:root[data-one-look="canvas"] .one-spark i { flex: 1; background: var(--surface-gray-4); border-radius: var(--radius-sm) var(--radius-sm) 0 0; min-height: 3px; }
-:root[data-one-look="canvas"] .one-spark i.is-now { background: var(--ink-gray-9); }
+:root[data-one-look="canvas"] .one-spark i { flex: 1; background: var(--one-fill); border-radius: var(--one-radius-small) var(--one-radius-small) 0 0; min-height: 3px; }
+:root[data-one-look="canvas"] .one-spark i.is-now { background: var(--one-accent); }
 
 :root[data-one-look="canvas"] .one-stepper { margin-left: auto; display: flex; align-items: center; }
 :root[data-one-look="canvas"] .one-stepper .one-steps { display: flex !important; align-items: center; gap: 0; margin: 0; padding: 0; list-style: none; }
-:root[data-one-look="canvas"] .one-stepper .one-step { display: flex !important; align-items: center; height: 28px !important; padding: 0 12px 0 18px !important; margin: 0 !important; font-size: 12.5px; color: var(--ink-gray-5); position: relative; background: var(--surface-gray-2); }
-:root[data-one-look="canvas"] .one-stepper .one-step:first-child { border-radius: var(--radius-md) 0 0 var(--radius-md); padding-left: 12px !important; }
-:root[data-one-look="canvas"] .one-stepper .one-step:last-child { border-radius: 0 var(--radius-md) var(--radius-md) 0; }
+:root[data-one-look="canvas"] .one-stepper .one-step { display: flex !important; align-items: center; height: 28px !important; padding: 0 12px 0 18px !important; margin: 0 !important; font-size: 12.5px; color: var(--one-ink-muted); position: relative; background: var(--one-hover); }
+:root[data-one-look="canvas"] .one-stepper .one-step:first-child { border-radius: var(--one-radius-control) 0 0 var(--one-radius-control); padding-left: 12px !important; }
+:root[data-one-look="canvas"] .one-stepper .one-step:last-child { border-radius: 0 var(--one-radius-control) var(--one-radius-control) 0; }
 :root[data-one-look="canvas"] .one-stepper .one-step + .one-step { border-left: 1px solid var(--one-canvas); }
 :root[data-one-look="canvas"] .one-stepper .one-step::before, :root[data-one-look="canvas"] .one-stepper .one-step::after, :root[data-one-look="canvas"] .one-stepper .one-step > *:not(.one-step-text) { display: none !important; }
 :root[data-one-look="canvas"] .one-stepper .one-step-text { position: static !important; padding: 0 !important; font-size: 12.5px; color: inherit; white-space: nowrap; }
 :root[data-one-look="canvas"] .one-stepper .one-step-note { display: none !important; }
-:root[data-one-look="canvas"] .one-stepper .one-step-done { color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-stepper .one-step-done { color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-stepper .one-step-late { color: var(--ink-red-6); font-weight: 500; }
 :root[data-one-look="canvas"] .one-bar-icons { display: flex !important; gap: 4px; margin-left: 12px; align-items: center; }
 
 /* the side panel is a sheet on the canvas, like the record */
-:root[data-one-look="canvas"] .one-has-head .form-sidebar { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--radius-lg); margin: 16px 20px 24px 0; padding: 6px 0 0 !important; }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-sheet); margin: 16px 20px 24px 0; padding: 6px 0 0 !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .sidebar-meta-details { display: none !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .sidebar-section { padding: 8px 18px !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel { background: transparent; border: 0 !important; border-radius: 0; margin: 6px 0 0 !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { justify-content: flex-start !important; gap: 18px; padding: 0 18px; border-bottom: 1px solid var(--one-line) !important; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab { flex: none !important; width: auto !important; padding: 10px 0 !important; font-size: 13px; color: var(--ink-gray-5); }
-:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab[aria-selected="true"], :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab.active { color: var(--ink-gray-9); }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab { flex: none !important; width: auto !important; padding: 10px 0 !important; font-size: 13px; color: var(--one-tab-ink); }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab[aria-selected="true"], :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab.active { color: var(--one-tab-on-ink); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .activity-title, :root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-header { display: none !important; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .timeline-item { font-size: 12.5px !important; line-height: 1.5; color: var(--ink-gray-6); }
+:root[data-one-look="canvas"] .one-has-head .one-panel .timeline-item { font-size: 12.5px !important; line-height: 1.5; color: var(--one-ink-quiet); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .form-footer { padding: 4px 4px 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-tab-content { margin-top: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-section .section-body { padding-top: 0 !important; }
@@ -189,7 +185,7 @@
 /* ONE PILL: frappe's es-badge, small, everywhere: a record's state, a list's states, tags, counts */
 :root[data-one-look="canvas"] .one-has-head .one-hero-title .es-badge { height: 20px !important; padding: 0 6px !important; font-size: 12px !important; }
 :root[data-one-look="canvas"] .form-tag.es-badge, :root[data-one-look="canvas"] .form-tags .es-badge { height: 20px !important; padding: 0 6px !important; font-size: 12px !important; }
-:root[data-one-look="canvas"] .one-strip-count { height: 20px; display: inline-flex; align-items: center; padding: 0 6px !important; border-radius: var(--radius-full); font-size: 12px !important; font-weight: 420; background: var(--surface-gray-2) !important; color: var(--ink-gray-6) !important; }
+:root[data-one-look="canvas"] .one-strip-count { height: 20px; display: inline-flex; align-items: center; padding: 0 6px !important; border-radius: var(--radius-full); font-size: 12px !important; font-weight: 420; background: var(--one-hover) !important; color: var(--one-count-ink) !important; }
 
 /* ONE ACTIONS .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section), for a list and a record alike. The address and actions bars are the
    window's chrome, on white; the canvas begins under them.
@@ -197,48 +193,48 @@
    right the record's state or the list's ways of looking, the icons, Cancel */
 :root[data-one-look="canvas"] .one-interface .page-head { background: var(--one-sheet) !important; border-bottom: 1px solid var(--one-edge) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn) {
-	height: 28px !important; min-height: 28px !important; padding: 0 10px !important; border-radius: var(--radius-md) !important;
-	font-size: 14px !important; font-weight: 420 !important; box-shadow: none !important; border: 1px solid transparent !important; }
+	height: 28px !important; min-height: 28px !important; padding: 0 10px !important; border-radius: var(--one-radius-control) !important;
+	font-size: 14px !important; font-weight: var(--one-button-weight) !important; box-shadow: none !important; border: 1px solid transparent !important; }
 :root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) {
-	background: var(--surface-gray-2) !important; color: var(--ink-gray-8) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary):hover { background: var(--surface-gray-3) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action, .btn-primary) { background: var(--ink-gray-9) !important; color: var(--surface-base) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action) * { color: var(--surface-base) !important; }
+	background: var(--one-button-bg) !important; color: var(--one-button-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary):hover { background: var(--one-button-hover) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action, .btn-primary) { background: var(--one-primary-bg) !important; color: var(--one-primary-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action) * { color: var(--one-primary-ink) !important; }
 :root[data-one-look="canvas"] .one-has-head .one-head-record { display: none !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .filter-selector .btn, :root[data-one-look="canvas"] .one-interface .page-head .sort-selector .btn { border-radius: var(--radius-md) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .filter-selector .btn, :root[data-one-look="canvas"] .one-interface .page-head .sort-selector .btn { border-radius: var(--one-radius-control) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-group { gap: 6px; }
 /* icons are quiet buttons of the same size */
-:root[data-one-look="canvas"] .one-bar-icons > * { width: 28px; height: 28px; display: inline-grid !important; place-items: center; border-radius: var(--radius-md); }
-:root[data-one-look="canvas"] .one-bar-icons > *:hover { background: var(--surface-gray-2); }
+:root[data-one-look="canvas"] .one-bar-icons > * { width: 28px; height: 28px; display: inline-grid !important; place-items: center; border-radius: var(--one-radius-control); }
+:root[data-one-look="canvas"] .one-bar-icons > *:hover { background: var(--one-hover); }
 /* the record's state uses the view switcher's segmented look */
-:root[data-one-look="canvas"] .one-stepper .one-steps { background: var(--surface-gray-2); border-radius: var(--radius-md); padding: 1px; gap: 0 !important; }
-:root[data-one-look="canvas"] .one-stepper .one-step { background: transparent !important; height: 26px !important; padding: 0 10px !important; border: 0 !important; border-radius: var(--radius-md) !important; font-size: 13px; color: var(--ink-gray-5); }
-:root[data-one-look="canvas"] .one-stepper .one-step-done { color: var(--ink-gray-8); }
-:root[data-one-look="canvas"] .one-stepper .one-step-late { background: var(--surface-base) !important; color: var(--ink-red-6) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-stepper .one-steps { background: var(--one-hover); border-radius: var(--one-radius-control); padding: 1px; gap: 0 !important; }
+:root[data-one-look="canvas"] .one-stepper .one-step { background: transparent !important; height: 26px !important; padding: 0 10px !important; border: 0 !important; border-radius: var(--one-radius-control) !important; font-size: 13px; color: var(--one-ink-muted); }
+:root[data-one-look="canvas"] .one-stepper .one-step-done { color: var(--one-ink); }
+:root[data-one-look="canvas"] .one-stepper .one-step-late { background: var(--one-surface) !important; color: var(--ink-red-6) !important; font-weight: 500; }
 
 :root[data-one-look="canvas"] .one-bar-icons :is(button, a, span) { background: transparent !important; }
-:root[data-one-look="canvas"] .one-bar-icons > *:hover { background: var(--surface-gray-2) !important; }
+:root[data-one-look="canvas"] .one-bar-icons > *:hover { background: var(--one-hover) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-stepper .one-step.one-step-late { color: var(--ink-red-6) !important; }
 
 /* progress, not a control: done with a tick, where it stands with a dot, a chevron between */
-:root[data-one-look="canvas"] .one-progress { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--ink-gray-5); }
+:root[data-one-look="canvas"] .one-progress { margin-left: auto; display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-progress-step { display: inline-flex; align-items: center; gap: 6px; white-space: nowrap; }
-:root[data-one-look="canvas"] .one-progress-step.is-done { color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-progress-step.is-done { color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-progress-step.is-done svg { color: var(--ink-green-6); }
-:root[data-one-look="canvas"] .one-progress-step i { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--ink-gray-4); }
+:root[data-one-look="canvas"] .one-progress-step i { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--one-ink-faint); }
 :root[data-one-look="canvas"] .one-progress-step.is-late { color: var(--ink-red-6); font-weight: 500; }
 :root[data-one-look="canvas"] .one-progress-step.is-late i { background: var(--ink-red-5); }
-:root[data-one-look="canvas"] .one-progress-sep { display: inline-flex; color: var(--ink-gray-4); }
+:root[data-one-look="canvas"] .one-progress-sep { display: inline-flex; color: var(--one-ink-faint); }
 
 /* by kind, not by origin: text buttons subtle, icon buttons quiet, the main action solid */
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands :is(.icon-btn, .menu-btn-group .es-button), :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons :is(.es-button, button, a, span, div) {
 	background: transparent !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands :is(.icon-btn, .menu-btn-group .es-button):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons > *:hover { background: var(--surface-gray-2) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands :is(.icon-btn, .menu-btn-group .es-button):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons > *:hover { background: var(--one-hover) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-bar-icons svg, :root[data-one-look="canvas"] .one-interface .page-head .one-bar-icons img { width: 16px !important; height: 16px !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-bar-icons .like-icon, :root[data-one-look="canvas"] .one-interface .page-head .one-bar-icons use { transform: none; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons.one-bar-icons.one-bar-icons :is(.es-button, .btn), :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .menu-btn-group.menu-btn-group.menu-btn-group :is(.es-button, .btn) {
 	background: transparent !important; padding: 0 !important; width: 28px !important; min-width: 28px !important; display: inline-grid !important; place-items: center; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons.one-bar-icons.one-bar-icons :is(.es-button, .btn):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .menu-btn-group.menu-btn-group.menu-btn-group :is(.es-button, .btn):hover { background: var(--surface-gray-2) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .one-bar-icons.one-bar-icons.one-bar-icons :is(.es-button, .btn):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-commands .menu-btn-group.menu-btn-group.menu-btn-group :is(.es-button, .btn):hover { background: var(--one-hover) !important; }
 :root[data-one-look="canvas"] .one-bar-icons .form-title-edit:empty { display: none !important; }
 
 /* the record's progress: steps of one width, each dot joined to the next by a line that
@@ -247,14 +243,14 @@
 :root[data-one-look="canvas"] .one-track { display: flex; margin: 14px 0 4px; }
 :root[data-one-look="canvas"] .one-track-step { width: 156px; flex: none; display: flex; flex-direction: column; gap: 6px; }
 :root[data-one-look="canvas"] .one-track-mark { display: flex; align-items: center; height: 14px; }
-:root[data-one-look="canvas"] .one-track-dot { width: 14px; height: 14px; flex: none; border-radius: var(--radius-full); display: grid; place-items: center; border: 1px solid var(--outline-gray-3); background: var(--surface-base); }
-:root[data-one-look="canvas"] .one-track-step.is-done .one-track-dot { background: var(--ink-gray-9); border-color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .one-track-step.is-done .one-track-dot svg { width: 9px; height: 9px; stroke: var(--surface-base); stroke-width: 3; }
-:root[data-one-look="canvas"] .one-track-line { flex: 1; height: 0; border-top: 1px dashed var(--outline-gray-3); margin: 0 6px; }
-:root[data-one-look="canvas"] .one-track-line.is-done { border-top-style: solid; border-color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .one-track-text { font-size: 13px; font-weight: 500; color: var(--ink-gray-9); display: flex; flex-direction: column; line-height: 1.3; }
-:root[data-one-look="canvas"] .one-track-step.is-todo .one-track-text { color: var(--ink-gray-4); font-weight: 400; }
-:root[data-one-look="canvas"] .one-track-text small { font-size: 12px; font-weight: 400; color: var(--ink-gray-5); }
+:root[data-one-look="canvas"] .one-track-dot { width: 14px; height: 14px; flex: none; border-radius: var(--radius-full); display: grid; place-items: center; border: 1px solid var(--one-edge-strong); background: var(--one-surface); }
+:root[data-one-look="canvas"] .one-track-step.is-done .one-track-dot { background: var(--one-accent); border-color: var(--one-accent); }
+:root[data-one-look="canvas"] .one-track-step.is-done .one-track-dot svg { width: 9px; height: 9px; stroke: var(--one-surface); stroke-width: 3; }
+:root[data-one-look="canvas"] .one-track-line { flex: 1; height: 0; border-top: 1px dashed var(--one-edge-strong); margin: 0 6px; }
+:root[data-one-look="canvas"] .one-track-line.is-done { border-top-style: solid; border-color: var(--one-accent); }
+:root[data-one-look="canvas"] .one-track-text { font-size: 13px; font-weight: 500; color: var(--one-ink-strong); display: flex; flex-direction: column; line-height: 1.3; }
+:root[data-one-look="canvas"] .one-track-step.is-todo .one-track-text { color: var(--one-ink-faint); font-weight: 400; }
+:root[data-one-look="canvas"] .one-track-text small { font-size: 12px; font-weight: 400; color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-track-text small.is-late { color: var(--ink-red-6); }
 
 /* the activity: one entry per person per sitting, a line per change */
@@ -262,20 +258,20 @@
 :root[data-one-look="canvas"] .one-act { display: flex; gap: 10px; align-items: flex-start; }
 :root[data-one-look="canvas"] .one-act .avatar { flex: none; margin-top: 1px; }
 :root[data-one-look="canvas"] .one-act-body { flex: 1; min-width: 0; }
-:root[data-one-look="canvas"] .one-act-head { font-size: 13px; color: var(--ink-gray-6); display: flex; gap: 4px; flex-wrap: wrap; align-items: baseline; }
-:root[data-one-look="canvas"] .one-act-head b { font-weight: 500; color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .one-act-when { margin-left: auto; font-size: 12px; color: var(--ink-gray-5); white-space: nowrap; }
+:root[data-one-look="canvas"] .one-act-head { font-size: 13px; color: var(--one-ink-quiet); display: flex; gap: 4px; flex-wrap: wrap; align-items: baseline; }
+:root[data-one-look="canvas"] .one-act-head b { font-weight: 500; color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-act-when { margin-left: auto; font-size: 12px; color: var(--one-ink-muted); white-space: nowrap; }
 :root[data-one-look="canvas"] .one-act-lines { display: none; margin-top: 6px; flex-direction: column; gap: 4px; }
 :root[data-one-look="canvas"] .one-act.is-open .one-act-lines { display: flex; }
-:root[data-one-look="canvas"] .one-ch { font-size: 12.5px; color: var(--ink-gray-8); display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
-:root[data-one-look="canvas"] .one-ch-field { color: var(--ink-gray-5); margin-right: 2px; }
-:root[data-one-look="canvas"] .one-ch i { color: var(--ink-gray-4); font-style: normal; }
-:root[data-one-look="canvas"] .one-ch-arrow { color: var(--ink-gray-4); }
-:root[data-one-look="canvas"] .one-act-more { margin-top: 6px; border: 0; background: transparent; padding: 0; font-size: 12.5px; color: var(--ink-gray-6); cursor: pointer; }
-:root[data-one-look="canvas"] .one-act-more:hover { color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .one-act-comment { margin-top: 8px; padding: 10px 12px; border-radius: var(--radius-lg); background: var(--surface-gray-1); font-size: 13px; color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-ch { font-size: 12.5px; color: var(--one-ink); display: flex; flex-wrap: wrap; gap: 6px; align-items: baseline; }
+:root[data-one-look="canvas"] .one-ch-field { color: var(--one-ink-muted); margin-right: 2px; }
+:root[data-one-look="canvas"] .one-ch i { color: var(--one-ink-faint); font-style: normal; }
+:root[data-one-look="canvas"] .one-ch-arrow { color: var(--one-ink-faint); }
+:root[data-one-look="canvas"] .one-act-more { margin-top: 6px; border: 0; background: transparent; padding: 0; font-size: 12.5px; color: var(--one-ink-quiet); cursor: pointer; }
+:root[data-one-look="canvas"] .one-act-more:hover { color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-act-comment { margin-top: 8px; padding: 10px 12px; border-radius: var(--one-radius-sheet); background: var(--one-tint); font-size: 13px; color: var(--one-ink); }
 
-:root[data-one-look="canvas"] .one-ch-verb { font-weight: 500; color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-ch-verb { font-weight: 500; color: var(--one-ink); }
 
 /* the side panel, tight: rows of one height, the panel as tall as what it holds */
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { padding: 4px 0 8px !important; }
@@ -298,7 +294,7 @@
 :root[data-one-look="canvas"] .one-has-head .one-panel .new-timeline::before, :root[data-one-look="canvas"] .one-has-head .one-panel .timeline-items::before { display: none !important; content: none !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .timeline-items { margin: 0 !important; padding: 0 !important; border: 0 !important; }
 :root[data-one-look="canvas"] .one-acts { padding: 10px 0 8px !important; }
-:root[data-one-look="canvas"] .one-ch-verb { font-weight: 400 !important; color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-ch-verb { font-weight: 400 !important; color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { padding-bottom: 4px !important; }
 /* the panel and its pane add no inset of their own; tabs and footer carry the one 16px edge */
 :root[data-one-look="canvas"] .one-has-head .one-panel.one-panel, :root[data-one-look="canvas"] .one-has-head .one-panel .one-panel-pane { padding: 0 !important; }
@@ -308,7 +304,7 @@
 
 /* round 8: only the work is a sheet. The panel and the alert sit on the canvas. */
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { background: transparent !important; border: 0 !important; border-radius: 0 !important; margin: 16px 20px 24px 0 !important; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--radius-md) !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-control) !important; }
 :root[data-one-look="canvas"] .form-layout .form-message-container .form-message { background: transparent !important; border: 0 !important; padding: 0 !important; margin: 16px 0 4px !important; box-shadow: none !important; }
 
 /* the activity: a faded dashed thread joining a dot per entry; a face only where a person spoke */
@@ -316,27 +312,27 @@
 :root[data-one-look="canvas"] .one-act { position: relative; gap: 10px !important; padding-bottom: 16px; }
 :root[data-one-look="canvas"] .one-act:last-child { padding-bottom: 0; }
 :root[data-one-look="canvas"] .one-act-mark { flex: none; width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; position: relative; z-index: 1; }
-:root[data-one-look="canvas"] .one-act-dot { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--one-sheet); border: 1px solid var(--ink-gray-4); }
+:root[data-one-look="canvas"] .one-act-dot { width: 7px; height: 7px; border-radius: var(--radius-full); background: var(--one-sheet); border: 1px solid var(--one-ink-faint); }
 :root[data-one-look="canvas"] .one-act-mark .avatar { width: 20px !important; height: 20px !important; }
-:root[data-one-look="canvas"] .one-act:not(:last-child)::before { content: ""; position: absolute; left: 9.5px; top: 20px; bottom: 0; border-left: 1px dashed var(--outline-gray-3); opacity: .7; }
+:root[data-one-look="canvas"] .one-act:not(:last-child)::before { content: ""; position: absolute; left: 9.5px; top: 20px; bottom: 0; border-left: 1px dashed var(--one-edge-strong); opacity: .7; }
 :root[data-one-look="canvas"] .one-act-head { line-height: 20px; }
 :root[data-one-look="canvas"] .one-act-toggle { width: 100%; border: 0; background: transparent; padding: 0; text-align: start; cursor: pointer; font: inherit; }
-:root[data-one-look="canvas"] .one-act-chev { display: inline-flex; color: var(--ink-gray-5); transition: transform 160ms var(--cv-ease, ease); align-self: center; }
+:root[data-one-look="canvas"] .one-act-chev { display: inline-flex; color: var(--one-ink-muted); transition: transform 160ms var(--cv-ease, ease); align-self: center; }
 :root[data-one-look="canvas"] .one-act.is-open .one-act-chev { transform: rotate(90deg); }
-:root[data-one-look="canvas"] .one-act-toggle:hover .one-act-chev, :root[data-one-look="canvas"] .one-act-toggle:hover b { color: var(--ink-gray-9); }
+:root[data-one-look="canvas"] .one-act-toggle:hover .one-act-chev, :root[data-one-look="canvas"] .one-act-toggle:hover b { color: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .one-act-lines { padding-inline-start: 12px; border-inline-start: 1px dashed transparent; margin-top: 4px !important; }
 :root[data-one-look="canvas"] .one-act-comment { background: var(--one-sheet) !important; border: 1px solid var(--one-edge); }
 
 /* round 9: a said comment is words on the canvas, not a box; a value is never cut */
-:root[data-one-look="canvas"] .one-act-comment { background: transparent !important; border: 0 !important; padding: 2px 0 0 !important; border-radius: 0 !important; font-size: 13px; line-height: 1.5; color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-act-comment { background: transparent !important; border: 0 !important; padding: 2px 0 0 !important; border-radius: 0 !important; font-size: 13px; line-height: 1.5; color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-act-comment p { margin: 0; }
 :root[data-one-look="canvas"] .form-page .frappe-control .form-control { text-overflow: ellipsis; }
 /* a value is never cut: plain text wraps; an editable box keeps its cell and shows the rest on hover and while typing */
 :root[data-one-look="canvas"] .form-page .like-disabled-input, :root[data-one-look="canvas"] .form-page .control-value, :root[data-one-look="canvas"] .form-page .control-value a { white-space: normal !important; overflow-wrap: anywhere; overflow: visible !important; text-overflow: clip !important; }
 
 /* round 10: the side panel is a bordered sheet again; the alert stays on the canvas */
-:root[data-one-look="canvas"] .one-has-head .form-sidebar { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--radius-lg) !important; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: var(--surface-gray-1) !important; border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-sheet) !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: var(--one-tint) !important; border-color: transparent !important; }
 /* the panel fits the window: rows and tabs stay, the activity scrolls inside it, the comment box stays on top */
 :root[data-one-look="canvas"] .one-has-head .layout-side-section.right { overflow: hidden !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { display: flex !important; flex-direction: column; max-height: calc(100% - 40px); overflow: hidden; }
@@ -355,26 +351,26 @@
 :root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; }
 :root[data-one-look="canvas"] .one-act-dot { background: var(--one-canvas) !important; }
 /* round 12: inputs on the canvas are outlined, not filled; focus darkens the outline */
-:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: transparent !important; border: 1px solid var(--outline-gray-2) !important; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-container:focus-within .ql-editor { border-color: var(--outline-gray-4) !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-editor { background: transparent !important; border: 1px solid var(--one-edge) !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-wrapper .ql-container:focus-within .ql-editor { border-color: var(--one-edge-heavy) !important; }
 /* round 13: a box means it can be changed. Editable inputs keep their box at rest; read-only values are plain text. */
-:root[data-one-look="canvas"] .form-page .form-control:not(.like-disabled-input):not(textarea) { background: var(--one-sheet) !important; border: 1px solid var(--outline-gray-2) !important; margin-left: 0 !important; width: 100% !important; font-size: 14px; font-weight: 400; color: var(--ink-gray-9); }
-:root[data-one-look="canvas"] .form-page .frappe-control:hover .form-control:not(.like-disabled-input) { border-color: var(--outline-gray-3) !important; }
-:root[data-one-look="canvas"] .form-page .form-control:focus { border-color: var(--ink-gray-6) !important; }
+:root[data-one-look="canvas"] .form-page .form-control:not(.like-disabled-input):not(textarea) { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; margin-left: 0 !important; width: 100% !important; font-size: 14px; font-weight: 400; color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .form-page .frappe-control:hover .form-control:not(.like-disabled-input) { border-color: var(--one-edge-strong) !important; }
+:root[data-one-look="canvas"] .form-page .form-control:focus { border-color: var(--one-focus) !important; }
 
 /* round 14: the head holds the record's picture and, when it is not the name, its ID */
 :root[data-one-look="canvas"] .one-hero-row { display: flex; align-items: flex-start; gap: 16px; }
 :root[data-one-look="canvas"] .one-hero-main { flex: 1; min-width: 0; }
 :root[data-one-look="canvas"] .one-hero-face[hidden] { display: none; }
-:root[data-one-look="canvas"] .one-hero-face .sidebar-image-wrapper { width: 56px; height: 56px; margin: 0 !important; position: relative; border-radius: var(--radius-lg); overflow: hidden; }
-:root[data-one-look="canvas"] .one-hero-face .sidebar-image, :root[data-one-look="canvas"] .one-hero-face .sidebar-standard-image, :root[data-one-look="canvas"] .one-hero-face .standard-image { width: 56px !important; height: 56px !important; border-radius: var(--radius-lg) !important; object-fit: cover; font-size: 22px !important; }
-:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6px; opacity: 0; background: color-mix(in oklch, var(--ink-gray-9) 45%, transparent); transition: opacity 120ms; }
+:root[data-one-look="canvas"] .one-hero-face .sidebar-image-wrapper { width: 56px; height: 56px; margin: 0 !important; position: relative; border-radius: var(--one-radius-sheet); overflow: hidden; }
+:root[data-one-look="canvas"] .one-hero-face .sidebar-image, :root[data-one-look="canvas"] .one-hero-face .sidebar-standard-image, :root[data-one-look="canvas"] .one-hero-face .standard-image { width: 56px !important; height: 56px !important; border-radius: var(--one-radius-sheet) !important; object-fit: cover; font-size: 22px !important; }
+:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; gap: 6px; opacity: 0; background: color-mix(in oklch, var(--one-ink-strong) 45%, transparent); transition: opacity 120ms; }
 :root[data-one-look="canvas"] .one-hero-face .sidebar-image-wrapper:hover .sidebar-image-actions { opacity: 1; }
-:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions .icon { stroke: var(--surface-base); }
-:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions > * { position: static !important; display: flex !important; padding: 4px; border-radius: var(--radius-sm); cursor: pointer; }
-:root[data-one-look="canvas"] .one-hero-name { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; padding: 2px 6px; margin-inline-start: -2px; border-radius: var(--radius-sm); font-size: 13px; color: var(--ink-gray-5); font-variant-numeric: tabular-nums; cursor: pointer; }
+:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions .icon { stroke: var(--one-surface); }
+:root[data-one-look="canvas"] .one-hero-face .sidebar-image-actions > * { position: static !important; display: flex !important; padding: 4px; border-radius: var(--one-radius-small); cursor: pointer; }
+:root[data-one-look="canvas"] .one-hero-name { display: inline-flex; align-items: center; gap: 6px; border: 0; background: transparent; padding: 2px 6px; margin-inline-start: -2px; border-radius: var(--one-radius-small); font-size: 13px; color: var(--one-ink-muted); font-variant-numeric: tabular-nums; cursor: pointer; }
 :root[data-one-look="canvas"] .one-hero-name .icon { opacity: 0; transition: opacity 120ms; }
-:root[data-one-look="canvas"] .one-hero-name:hover { background: var(--surface-gray-3); color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-hero-name:hover { background: var(--one-press); color: var(--one-ink); }
 :root[data-one-look="canvas"] .one-hero-name:hover .icon { opacity: 1; }
 :root[data-one-look="canvas"] .one-hero-row { align-items: center; }
 /* round 15: the ID is a quiet line under the name */
@@ -383,7 +379,7 @@
 :root[data-one-look="canvas"] .one-interface .form-page .form-section.empty-section { display: none !important; }
 
 /* round 16: icons the registry declares, on tabs and field labels; the head's figures are the homes' cards */
-:root[data-one-look="canvas"] .one-ico { display: inline-flex; vertical-align: -2px; margin-inline-end: 6px; color: var(--ink-gray-5); }
+:root[data-one-look="canvas"] .one-ico { display: inline-flex; vertical-align: -2px; margin-inline-end: 6px; color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-ico .icon { width: 14px; height: 14px; stroke-width: 1.75; }
 :root[data-one-look="canvas"] .one-tab-ico { color: inherit; opacity: .8; }
 :root[data-one-look="canvas"] .control-label .one-ico .icon { width: 13px; height: 13px; }
@@ -391,33 +387,33 @@
 
 /* round 17: a group is one control. frappe's btn-groups (filter + clear, sort direction + field), its view
    switcher and its input groups: outer corners only, a hairline between the parts, one height, one fill */
-:root[data-one-look="canvas"] .one-interface .page-head .btn-group { display: inline-flex; border-radius: var(--radius-md); overflow: hidden; gap: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .btn-group { display: inline-flex; border-radius: var(--one-radius-control); overflow: hidden; gap: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn { margin: 0 !important; border-radius: 0 !important; height: 28px; }
-:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn:first-child { border-start-start-radius: var(--radius-md) !important; border-end-start-radius: var(--radius-md) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn:last-child { border-start-end-radius: var(--radius-md) !important; border-end-end-radius: var(--radius-md) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn + .btn { border-inline-start: 1px solid var(--outline-gray-2) !important; }
-:root[data-one-look="canvas"][dir="rtl"] .one-interface .page-head .btn-group > .btn + .btn { border-inline-start: 1px solid var(--outline-gray-2) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn:first-child { border-start-start-radius: var(--one-radius-control) !important; border-end-start-radius: var(--one-radius-control) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn:last-child { border-start-end-radius: var(--one-radius-control) !important; border-end-end-radius: var(--one-radius-control) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .btn-group > .btn + .btn { border-inline-start: 1px solid var(--one-edge) !important; }
+:root[data-one-look="canvas"][dir="rtl"] .one-interface .page-head .btn-group > .btn + .btn { border-inline-start: 1px solid var(--one-edge) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .filter-x-button, :root[data-one-look="canvas"] .one-interface .page-head .btn-order { width: 30px; padding: 0 !important; justify-content: center; }
 
 /* the view switcher: one segmented control, 28px like every control in the bar */
-:root[data-one-look="canvas"] .one-interface .page-head :has(> .es-pill) { display: inline-flex; align-items: center; gap: 2px; height: 28px; padding: 2px; border-radius: var(--radius-md); background: var(--surface-gray-2); }
-:root[data-one-look="canvas"] .one-interface .page-head .es-pill { height: 24px !important; width: 26px; border-radius: var(--radius-sm) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-pressed="true"], :root[data-one-look="canvas"] .one-interface .page-head .es-pill.active, :root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-selected="true"] { background: var(--surface-base) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head :has(> .es-pill) { display: inline-flex; align-items: center; gap: 2px; height: 28px; padding: 2px; border-radius: var(--one-radius-control); background: var(--one-hover); }
+:root[data-one-look="canvas"] .one-interface .page-head .es-pill { height: 24px !important; width: 26px; border-radius: var(--one-radius-small) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-pressed="true"], :root[data-one-look="canvas"] .one-interface .page-head .es-pill.active, :root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-selected="true"] { background: var(--one-surface) !important; }
 
 /* quick filters look like the bar's other controls: 28px, filled, no dashes; a mode switch sits inside its field */
-:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; border: 1px solid transparent !important; border-radius: var(--radius-md) !important; background: var(--surface-gray-2) !important; font-size: 13px !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control:focus { background: var(--surface-base) !important; border-color: var(--outline-gray-3) !important; }
+:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; border: 1px solid transparent !important; border-radius: var(--one-radius-control) !important; background: var(--one-hover) !important; font-size: 13px !important; }
+:root[data-one-look="canvas"] .one-strip-filters .form-control:focus { background: var(--one-surface) !important; border-color: var(--one-edge-strong) !important; }
 :root[data-one-look="canvas"] .one-strip-filters .input-group { position: relative; display: flex; }
-:root[data-one-look="canvas"] .one-strip-filters .input-group > .form-control { border-radius: var(--radius-md) !important; padding-inline-end: 30px !important; }
+:root[data-one-look="canvas"] .one-strip-filters .input-group > .form-control { border-radius: var(--one-radius-control) !important; padding-inline-end: 30px !important; }
 :root[data-one-look="canvas"] .one-strip-filters .input-group-btn { position: absolute; inset-inline-end: 2px; top: 2px; z-index: 2; margin: 0 !important; }
-:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn { height: 24px; width: 24px; padding: 0 !important; display: flex; align-items: center; justify-content: center; background: transparent !important; border: 0 !important; color: var(--ink-gray-5); border-radius: var(--radius-sm) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn:hover { background: var(--surface-gray-3) !important; color: var(--ink-gray-8); }
+:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn { height: 24px; width: 24px; padding: 0 !important; display: flex; align-items: center; justify-content: center; background: transparent !important; border: 0 !important; color: var(--one-ink-muted); border-radius: var(--one-radius-small) !important; }
+:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn:hover { background: var(--one-press) !important; color: var(--one-ink); }
 /* on the canvas a field is outlined, not filled (rule 34), and fills its own group */
-:root[data-one-look="canvas"] .one-strip-filters .form-control { background: transparent !important; border: 1px solid var(--outline-gray-2) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control:hover { border-color: var(--outline-gray-3) !important; }
+:root[data-one-look="canvas"] .one-strip-filters .form-control { background: transparent !important; border: 1px solid var(--one-edge) !important; }
+:root[data-one-look="canvas"] .one-strip-filters .form-control:hover { border-color: var(--one-edge-strong) !important; }
 :root[data-one-look="canvas"] .one-strip-filters .input-group > .form-control { flex: 1 1 auto; width: 100% !important; }
 :root[data-one-look="canvas"] .one-strip-filters .form-group { margin: 0 !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .es-pill[data-state="active"] { background: var(--surface-base) !important; color: var(--ink-gray-9) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .es-pill[data-state="active"] { background: var(--one-surface) !important; color: var(--one-ink-strong) !important; }
 
 /* round 18: the table starts on the same edge as the title and the states, with the same gutter on the far side */
 :root[data-one-look="canvas"] .one-interface .frappe-list { padding: 0 32px 24px !important; }
@@ -425,21 +421,21 @@
 :root[data-one-look="canvas"] .one-interface .frappe-list { border: 0 !important; border-radius: 0 !important; box-shadow: none !important; background: transparent !important; }
 
 /* round 19: a row's activity (assignees, last change, comments, like) is always there, quiet; never hidden until hover */
-:root[data-one-look="canvas"] .frappe-list .list-row-activity, :root[data-one-look="canvas"] .frappe-list .list-row-container:hover .list-row-activity { opacity: 1 !important; color: var(--ink-gray-5); }
+:root[data-one-look="canvas"] .frappe-list .list-row-activity, :root[data-one-look="canvas"] .frappe-list .list-row-container:hover .list-row-activity { opacity: 1 !important; color: var(--one-ink-muted); }
 
 /* round 21: a record's shortcuts are panel rows like Assign and Attachments */
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-actions { padding: 6px 0 !important; border-bottom: 1px solid var(--one-line) !important; margin: 0 16px; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-actions-header { display: none !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-row { margin: 0 !important; }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link { display: flex !important; align-items: center; gap: 10px; min-height: 34px; padding: 0 8px; margin: 0 -8px; border-radius: var(--radius-md); text-decoration: none !important; color: var(--ink-gray-8) !important; font-size: 14px; cursor: pointer; }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link:hover { background: var(--surface-gray-2); }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link { display: flex !important; align-items: center; gap: 10px; min-height: 34px; padding: 0 8px; margin: 0 -8px; border-radius: var(--one-radius-control); text-decoration: none !important; color: var(--one-ink) !important; font-size: 14px; cursor: pointer; }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link:hover { background: var(--one-hover); }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label { display: inline-flex; align-items: center; gap: 10px; flex: 1; min-width: 0; text-decoration: none !important; }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label .icon { color: var(--ink-gray-5); flex: none; width: 16px; height: 16px; }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .one-trail { display: inline-flex; color: var(--ink-gray-4); }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link:hover .one-trail { color: var(--ink-gray-7); }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label .icon { color: var(--one-ink-muted); flex: none; width: 16px; height: 16px; }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .one-trail { display: inline-flex; color: var(--one-ink-faint); }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link:hover .one-trail { color: var(--one-ink-soft); }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-actions { display: block !important; margin: 0 16px !important; padding: 4px 0 8px !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-actions-list { width: 100%; }
-:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link { justify-content: flex-start !important; color: var(--ink-gray-6) !important; font-size: 13px !important; }
+:root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-link { justify-content: flex-start !important; color: var(--one-ink-quiet) !important; font-size: 13px !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label { flex: 1 1 auto !important; justify-content: flex-start !important; color: inherit !important; font-size: inherit !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label > * { margin: 0 !important; }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .user-action-label { gap: 8px !important; }
@@ -452,7 +448,7 @@
 
 
 /* the chosen state's underline: a bar on the strip's line, not a border */
-:root[data-one-look="canvas"] .one-strip-item.is-on::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--ink-gray-9); }
+:root[data-one-look="canvas"] .one-strip-item.is-on::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--one-tab-on-ink); }
 
 /* A form in a dialog: Canvas's grid of fields in one column, two in a new
    record, three once enlarged, without the record page's section padding

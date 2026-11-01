@@ -4,67 +4,6 @@
    rounded corners. The frame is dark in a light theme and a step off the
    inset in a dark one; a workspace's Frame Colour takes its place. */
 
-:root {
-	--one-bar-height: 28px;
-	--one-bar-offset: 0px;
-	--one-frame-gutter: 6px;
-
-	/* The workspace's colour when it set one (chrome.js), else frappe-ui's
-	   darkest grey. */
-	--one-frame-brand: var(--surface-gray-10);
-	--one-frame: var(--one-frame-brand);
-
-	/* Light ink on the frame; dark on a light Frame Colour, below. */
-	--one-frame-ink: var(--one-over-white-700);
-	--one-frame-ink-strong: var(--one-over-white-950);
-	--one-frame-hover: var(--one-over-white-100);
-	--one-frame-active: var(--one-over-white-200);
-	--one-frame-line: var(--one-over-white-200);
-
-	--one-over-white-100: oklch(1 0 0 / 0.18);
-	--one-over-white-200: oklch(1 0 0 / 0.271);
-	--one-over-white-700: oklch(1 0 0 / 0.722);
-	--one-over-white-950: oklch(1 0 0 / 0.949);
-	--one-over-black-100: oklch(0 0 0 / 0.18);
-	--one-over-black-200: oklch(0 0 0 / 0.271);
-	--one-over-black-500: oklch(0 0 0 / 0.541);
-	--one-over-black-700: oklch(0 0 0 / 0.722);
-	--one-over-black-950: oklch(0 0 0 / 0.949);
-
-	/* The bar's own names for the frame's. */
-	--one-bar-bg: var(--one-frame);
-	--one-bar-ink: var(--one-frame-ink);
-	--one-bar-ink-strong: var(--one-frame-ink-strong);
-	--one-bar-hover: var(--one-frame-hover);
-
-	/* frappe's rail draws from its own tokens; they are the frame's. */
-	--dock-bg: var(--one-frame);
-	--dock-ink: var(--one-frame-ink);
-	--dock-ink-strong: var(--one-frame-ink-strong);
-	--dock-tile-hover: var(--one-frame-hover);
-	--dock-tile-active: transparent;
-	--dock-rule: var(--one-frame-line);
-}
-
-/* In a dark theme the page is frappe-ui's darkest surface already, so the
-   frame steps the other way: a grey a step lighter, and the workspace's
-   colour deepened into the dark. */
-:root[data-theme="dark"] {
-	--one-frame: var(--surface-gray-1);
-}
-
-:root[data-theme="dark"][data-one-frame="brand"] {
-	--one-frame: color-mix(in oklab, var(--one-frame-brand) 40%, var(--surface-base));
-}
-
-:root[data-one-frame-ink="dark"]:not([data-theme="dark"]) {
-	--one-frame-ink: var(--one-over-black-700);
-	--one-frame-ink-strong: var(--one-over-black-950);
-	--one-frame-hover: var(--one-over-black-100);
-	--one-frame-active: var(--one-over-black-200);
-	--one-frame-line: var(--one-over-black-200);
-}
-
 .one-bar {
 	display: none;
 }
@@ -133,34 +72,28 @@
 	   surface in the frame, with a strip of the frame on its far side. */
 	body.one-barred.dock-pinned .main-section {
 		margin-inline-end: var(--one-frame-gutter);
-		border-start-end-radius: var(--radius-lg);
-		border-end-end-radius: var(--radius-lg);
-		background: var(--surface-base);
+		border-start-end-radius: var(--one-radius-sheet);
+		border-end-end-radius: var(--one-radius-sheet);
+		background: var(--one-surface);
 	}
 
 	body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar,
 	body.one-barred.dock-pinned .body-sidebar-container:is(:not(.expanded), [style*="display: none"]) + .main-section {
-		border-start-start-radius: var(--radius-lg);
-		border-end-start-radius: var(--radius-lg);
-	}
-
-	/* In a dark theme the inset is one surface: frappe's sidebar takes the
-	   page's colour rather than the frame's, with a line between them. */
-	:root[data-theme="dark"] body.one-barred.dock-pinned {
-		--desk-sidebar-bg: var(--surface-base);
+		border-start-start-radius: var(--one-radius-sheet);
+		border-end-start-radius: var(--one-radius-sheet);
 	}
 
 	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) + .main-section {
-		border-inline-start: 1px solid var(--outline-gray-1);
+		border-inline-start: 1px solid var(--one-sidebar-line);
 	}
 
 	/* A dark inset in a dark frame needs its edge drawn. */
 	:root[data-theme="dark"] body.one-barred.dock-pinned .main-section {
-		border: 1px solid var(--outline-gray-1);
+		border: 1px solid var(--one-line);
 	}
 
 	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar {
-		border: 1px solid var(--outline-gray-1);
+		border: 1px solid var(--one-sidebar-line);
 		border-inline-end: 0;
 	}
 
@@ -303,7 +236,7 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	align-items: center;
 	padding: 0 4px;
 	border: 0;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	background: transparent;
 	color: inherit;
 	font-size: var(--text-xs);
@@ -335,9 +268,9 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	flex: none;
 	width: 14px;
 	height: 14px;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	object-fit: contain;
-	background: var(--surface-base);
+	background: var(--one-surface);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -365,7 +298,7 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	gap: 6px;
 	height: 22px;
 	border: 0;
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 	background: transparent;
 	color: inherit;
 	font-size: var(--text-xs);
@@ -431,7 +364,7 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 .one-timers-count.one-timers-on,
 .one-bar .one-bar-badge.one-timers-on {
 	background: var(--surface-green-7);
-	color: var(--ink-base);
+	color: var(--one-ink-on-colour);
 }
 
 .one-bar .one-clock .one-clock-dot {
@@ -441,7 +374,7 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	width: 6px;
 	height: 6px;
 	outline: 1.5px solid var(--one-bar-bg);
-	background: var(--surface-gray-4);
+	background: var(--one-fill);
 }
 
 .one-bar .one-clock .one-clock-dot.one-clock-on {
@@ -452,7 +385,7 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 	position: relative;
 	gap: 0;
 	border: 1px solid var(--one-frame-line);
-	border-radius: var(--radius-sm);
+	border-radius: var(--one-radius-small);
 }
 
 .one-bar [data-group="open"] .one-bar-tool {
@@ -461,13 +394,13 @@ html[dir="rtl"] .one-bar-news-moving .one-bar-news-track {
 }
 
 .one-bar [data-group="open"] .one-bar-tool:first-child {
-	border-start-start-radius: var(--radius-sm);
-	border-end-start-radius: var(--radius-sm);
+	border-start-start-radius: var(--one-radius-small);
+	border-end-start-radius: var(--one-radius-small);
 }
 
 .one-bar [data-group="open"] .one-bar-tool:not(.hide):nth-last-child(1 of .one-bar-tool:not(.hide)) {
-	border-start-end-radius: var(--radius-sm);
-	border-end-end-radius: var(--radius-sm);
+	border-start-end-radius: var(--one-radius-small);
+	border-end-end-radius: var(--one-radius-small);
 }
 
 .one-bar .one-workbooks svg {
@@ -676,4 +609,4 @@ body.one-barred .dock-item-icon .one-flat {
 
 .one-bar-status .one-stamp[data-tone="amber"] { color: var(--ink-amber-3); }
 .one-bar-status .one-stamp[data-tone="green"] { color: var(--ink-green-3); }
-.one-bar-status .one-stamp[data-tone="gray"] { color: var(--ink-gray-4); }
+.one-bar-status .one-stamp[data-tone="gray"] { color: var(--one-ink-faint); }

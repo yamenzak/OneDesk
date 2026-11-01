@@ -22,7 +22,8 @@ FRONTEND = tree.ROOT / "frontend" / "src"
 # Drawn where frappe-ui's tokens are not loaded: a print, a mail, and the TV
 # player and the designed slides it draws, which load no stylesheet of
 # frappe's to fit an old TV's memory (one_display/AGENTS.md).
-NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails", "www/tv.html", "one_slide/play.js")
+# A palette is the one place colours are chosen (test_palettes.py holds it to every role).
+NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "templates/emails", "www/tv.html", "one_slide/play.js", "one_interface/palettes.css")
 
 SANDBOXED = {
 	"frontend/src/mail/mail.js": "a received mail, in a frame",
@@ -55,7 +56,8 @@ TOKEN = re.compile(
 	r"|--one-[\w-]+|--desk-sidebar-bg"
 )
 
-RADIUS = re.compile(r"var\(--radius(-(sm|md|lg|xl|2xl|full|none|[0-9]))?\)")
+# frappe's radius tokens, or a role that holds one (one_interface/tokens.css), which a palette sets.
+RADIUS = re.compile(r"var\(--(radius(-(sm|md|lg|xl|2xl|full|none|[0-9]))?|one-radius-(row|control|sheet|small))\)")
 
 OLD = re.compile(
 	r"--(text-(color|muted|light|extra-muted|on-[\w-]+)|bg-[\w-]+|border-color|fg-color|card-bg|subtle-[\w-]+|control-bg|btn-[\w-]+|heading-color"
