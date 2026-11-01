@@ -453,3 +453,12 @@
 
 /* the chosen state's underline: a bar on the strip's line, not a border */
 :root[data-one-look="canvas"] .one-strip-item.is-on::after { content: ""; position: absolute; inset-inline: 0; bottom: 0; height: 2px; background: var(--ink-gray-9); }
+
+/* A form in a dialog: Canvas's grid of fields in one column, two in a new
+   record, three once enlarged, without the record page's section padding
+   and rules (dialogs.js tells the dialog its kind). */
+:root[data-one-look="canvas"] .one-dialog .form-page .form-section { padding: 12px 0 0 !important; border-top: 0 !important; }
+:root[data-one-look="canvas"] .one-dialog .form-page .frappe-control .form-group { margin-bottom: 0; }
+:root[data-one-look="canvas"] .one-dialog .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr); }
+:root[data-one-look="canvas"] .one-dialog[data-kind="create"]:not([data-size="small"]) .form-page .form-section .section-body { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
+:root[data-one-look="canvas"] .one-dialog.one-enlarged .form-page .form-section .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }

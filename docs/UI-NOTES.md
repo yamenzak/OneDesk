@@ -221,8 +221,8 @@ with the gates at the end.
   TrustCenter are named and drawn as the rail draws them. Words and Rules
   lost its panel buttons (Ask OneAI, Rewrite with OneAI); "Blue means on by
   default" is the list's own note. Every centre's and Help's Help and
-  arrows sit in the dialog's top right corner (`dialog.$corner`, `help` on
-  module_settings.Dialog), so the sidebar's head keeps its width for the name.
+  arrows sit in the dialog's top right corner (the dialog kit's controls,
+  `dialog.one_help`), so the sidebar's head keeps its width for the name.
 - **AccountCenter, Plan and Credits**: not connected to its account, one
   yellow alert, what was last known (or nothing but the alert), no actions,
   invoices or ledger; the side names the workspace as the top bar does;
@@ -374,7 +374,7 @@ Document Types and its description, and the rails' Overview rows and OneStudio's
 
 ### The arrows in a centre's corner enlarge it
 
-The arrows in a centre's top right corner (module_settings.js `module_head_expand`)
+The arrows in a centre's top right corner (the dialog kit's Enlarge, `one_interface/dialogs.js`)
 make the window larger for reading, and back; the choice is remembered in the
 browser and every centre, Help and What's New included, opens at it. They
 used to jump to the whole of the centre, which nobody expected; the whole of a

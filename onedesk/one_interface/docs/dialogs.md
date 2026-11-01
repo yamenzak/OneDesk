@@ -29,6 +29,8 @@ what is still missing. The link under the fields opens the whole form.
 ## Centres
 
 AccessCenter, NotificationCenter, TrustCenter, AICenter and AccountCenter
-open over the screen, with their sections down the left. The arrows in
-the corner make a centre fill the window, and it opens that size next
-time. Close one with the cross or the Escape key.
+open over the screen, with their sections down the left. A page inside a
+section has an arrow before its title that goes back. The question mark in
+the corner opens Help for the section, the arrows make a centre fill the
+window, and it opens that size next time. Close one with the cross or the
+Escape key.

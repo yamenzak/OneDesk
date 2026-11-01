@@ -12,8 +12,9 @@ answered leaves it.
   the menu rather than vanish.
 - **The rest of the dialog kit.** Ask, Tell, Task, Create and Centre are
   drawn; still to come are the toast, an island's frappe-ui dialog, the
-  search-first and kind-first creates, and a centre's actions moved into
-  its footer.
+  search-first and kind-first creates, a centre's actions moved into its
+  footer, and the create dialog's own foot (Save and what is missing)
+  becoming the kit's footer.
 - **Callers still say Yes and No.** frappe.confirm keeps whatever words it
   was given; each caller moves to `onedesk.interface.ask` with a verb as
   its screen is walked.

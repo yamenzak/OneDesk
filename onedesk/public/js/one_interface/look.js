@@ -8,9 +8,8 @@ frappe.provide("onedesk.interface");
 onedesk.interface.LOOKS = {
 	// frappe's desk on the frame, as it was before Canvas
 	classic: {},
-	// the record and the list on a quiet canvas, each one sheet on it, and
-	// every dialog drawn to one anatomy (dialogs.js)
-	canvas: { head: true, strip: true, thread: true, quiet: true, icons: true, dialogs: true },
+	// the record and the list on a quiet canvas, each one sheet on it
+	canvas: { head: true, strip: true, thread: true, quiet: true, icons: true },
 };
 
 onedesk.interface.look = () => {

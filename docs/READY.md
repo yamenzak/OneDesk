@@ -325,11 +325,10 @@ own stylesheet keeps only what is its own. The foot is
 `win.module_foot({ module, settings })`, `interfaceModuleFoot` in an island:
 a row of icons: Settings (the cog), the tour of the area on screen and Help,
 then the version at the row's end (mechanism 18 for where every other
-centre opens). Every center's head has an
-expand button at its corner that opens the whole of it: HelpCenter and
-UpdateCenter for all of One, ControlCenter for workspace settings,
-AccountCenter for all your mailboxes, TrustCenter for the workspace
-(`dialog.expand`, `onedesk.module_head_expand`). `test_ready.py` fails on a
+centre opens). A centre's Help, Enlarge and Close, and Back a page deep,
+are OneInterface's dialog kit's (`one_interface/AGENTS.md`, Dialogs); a
+centre asks for Help with `dialog.one_help` and draws no control of its
+own. `test_ready.py` fails on a
 module that draws its own settings dialog or its own foot. OneMail is on
 both.
 

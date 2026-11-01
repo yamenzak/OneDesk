@@ -768,7 +768,7 @@
 	}
 }
 
-/* A record being made (onedesk.interface.create, window/form.js): frappe's form in frappe's
+/* A record being made (onedesk.interface.create, one_interface/form.js): frappe's form in frappe's
    SettingsDialog, its tabs the dialog's rail and its Save the panel's, so the
    form's own head, tab row, sidebar and activity are not drawn. */
 .one-create .one-create-form .page-head,
@@ -925,30 +925,4 @@
 	.one-interface-commands .one-task-add .one-task-due {
 		display: none;
 	}
-}
-
-/* A create dialog over a form with one tab or none draws no rail, and one
-   with few fields is a small dialog as tall as they are (form.js). */
-.one-create.one-create-single .settings-dialog-sidebar {
-	display: none;
-}
-
-.one-create.one-create-small .modal-dialog {
-	max-width: 36rem;
-}
-
-.one-create.one-create-small .modal-content {
-	height: auto;
-	max-height: calc(100vh - 8rem);
-}
-
-/* One column of fields, and no line under them above the foot's own. */
-.one-create.one-create-small .one-create-form .form-column {
-	flex: 0 0 100%;
-	max-width: 100%;
-	padding-inline: 0;
-}
-
-.one-create.one-create-small .one-create-form .form-section {
-	border-bottom: 0;
 }

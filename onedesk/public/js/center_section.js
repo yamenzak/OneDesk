@@ -131,11 +131,7 @@ onedesk.CenterSection = class CenterSection extends onedesk.shell.Editor {
 		this.trailed = true;
 		this.status = record.status || null;
 		this.panel.set_header({ title: record.title });
-		onedesk.module_settings.kit
-			.button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
-			.addClass("one-set-back")
-			.on("click", () => this.open(this.key))
-			.prependTo(this.panel.$header.find(".settings-dialog-panel-title"));
+		this.panel.one_back(() => this.open(this.key));
 		this.$content = onedesk.shell.record(this.$content, { ...record, parent: null, page: this.page });
 		return this.$content;
 	}

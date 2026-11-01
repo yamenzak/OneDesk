@@ -270,7 +270,7 @@ and it is wrapped there. The dialog is frappe's own form mounted in frappe's
 so the doctype's scripts, depends_on and validation run as on the page and a
 refused save leaves the dialog open. The form's tabs that show are the
 dialog's rail (one, Details, for a form without tabs), redrawn when a tab
-comes or goes; close is each panel's head in Classic and the dialog's corner in a look that draws dialogs. Save is fixed at the foot of
+comes or goes; Enlarge and Close are the dialog's own, in its corner (dialogs.js). Save is fixed at the foot of
 the dialog, whatever tab is open, and stays disabled while anything frappe
 would refuse for is still empty (`onedesk.interface.missing`, frappe's
 `check_mandatory` read without its scrolling and message, rows of tables
@@ -503,33 +503,49 @@ Every dialog is frappe's own (`frappe.ui.Dialog`, `SettingsDialog`,
 its **kind** after frappe builds it, and the kind decides its size and
 parts, never the caller. `public/js/one_interface/dialogs.js` wraps
 `Dialog.make` and the four helpers; `public/css/one_interface/dialogs.css`
-draws them in Canvas.
+draws them. Both hold in every look: a look restyles the parts through
+its tokens (Canvas lays a dialog's fields on its grid, `canvas.css`) and
+never draws parts of its own.
 
 | Kind | What opens it | Size | Parts |
 |---|---|---|---|
 | ask | `frappe.confirm`, `frappe.warn`, `frappe.prompt`, `onedesk.interface.ask` | 420 | round mark, the question as the title, the effect under it, the verb |
 | tell | `frappe.msgprint` | 420 | round mark (red for an error), the message, OK |
 | task | any other `frappe.ui.Dialog` | 580, 820 when frappe asks for large | title, Enlarge and Close, fields in one column, footer |
-| create | `onedesk.interface.create` (`one_mark("create")`) | 640 | rail of the form's tabs, two columns, Save at the foot with what is missing |
-| centre | a `SettingsDialog` | 1000 | rail, Help, Enlarge and Close in the corner, Back one page deep |
+| create | `onedesk.interface.create` (`one_kind: "create"`) | by its shape | the form's tabs as a rail, Save at the foot with what is missing |
+| centre | any other `SettingsDialog` | 1000 | rail, Help, Enlarge and Close in the corner, Back one page deep |
 
-A caller that knows better passes `one_kind`. The header says where you
-are and holds the window's controls; the footer says what is still needed
-on the left (`dialog.one_need(html)`) and holds the verbs on the right,
-the main one last, red when it cannot be undone. Enlarged, a dialog fills
-the window, not the browser (`one_enlarge`); a centre keeps the size it
-was left at (`one_keeps_size`, `centre_large`).
+A new record's shape is `dialog.one_shape({ rail, small })`: with its
+rail it is 960 wide, so the form keeps two columns beside it; without, 720
+and as tall as its fields; a few fields and no tabs, 560 and one column.
+
+**The window's controls are the kit's alone.** A dialog with a header
+holds them in frappe's `.modal-actions`; a dialog with a rail, which has
+no header, in `.one-dialog-controls` in its corner. In order:
+
+- **Help**, `dialog.one_help(open)`: a centre or the Help dialog says what
+  opens; nothing else draws a Help button.
+- **Enlarge**, `dialog.one_enlarge()`: a task, a new record or a centre
+  fills the window, not the browser. A centre opens at the size it was
+  left at (`centre_large`, in this browser).
+- **Close**.
+
+**Back**, `panel.one_back(go)`, before a panel's title once it has gone a
+page deep: a centre's view (`module_settings.kit.view`) and a record in a
+centre (`center_section.js` `as_record`) both ask the kit for it. frappe's
+`set_header` and `set_view` draw the title again, which takes it away.
+
+The footer says what is still needed on the left (`dialog.one_need(html)`)
+and holds the verbs on the right, the main one last, red when it cannot
+be undone.
 
 **Asking.** A question is asked with `onedesk.interface.ask({ question,
 effect, verb, danger })`, which resolves true or false: the question is
 the title, the effect is one line under it, and the verb names the act
-(Delete Customer, not Yes). frappe's own confirm keeps its words; a short
-plain message under a generic Confirm becomes the title.
+(Delete Customer, not Yes), in frappe's own solid red button when it
+cannot be undone. frappe's own confirm keeps its words; a short plain
+message under a generic Confirm becomes the title.
 
-**Back** in a centre is the centre's (`module_settings.js` `view`,
-`center_section.js` `as_record`); the kit adds none of its own.
-
-Only a look that turns on `dialogs` adds controls (Classic does not); the
-kind is set in every look, so a look's stylesheet can draw any of them. A
-toast is frappe's `show_alert`, and an island's dialog is frappe-ui's,
-both not yet drawn to this anatomy (SCRATCHPAD).
+A toast is frappe's `show_alert`, an island's dialog is frappe-ui's, and
+the create dialog still keeps a foot of its own inside its panels; none
+is drawn to this anatomy yet (SCRATCHPAD).

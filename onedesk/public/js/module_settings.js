@@ -46,40 +46,7 @@ onedesk.module_head = ($into, { center, module = null, label = null, icon = null
 		if (icon) $of.append(frappe.utils.icon(icon, "xs"));
 		$(`<span></span>`).text(label || module || "").appendTo($of);
 	}
-	$(`<div class="one-module-head-tools"></div>`).appendTo($head);
 	return $head;
-};
-
-// The arrows in a centre's top right corner make its window larger, for
-// reading, and back. Every centre opens at the size last chosen, in this
-// browser. The corner is the dialog's (`dialog.$corner`), above every tab, so
-// the sidebar's head keeps its width for the centre's name.
-onedesk.module_head_expand = ($head, dialog) => {
-	if (dialog.$corner) dialog.$corner.remove();
-	dialog.$corner = $head
-		.find(".one-module-head-tools")
-		.addClass("one-dialog-corner")
-		.appendTo(dialog.$wrapper.find(".settings-dialog"));
-	dialog.$wrapper.addClass("one-has-corner");
-	// A look that draws dialogs puts Enlarge and Close here itself, and keeps the size.
-	if (onedesk.interface.uses("dialogs")) {
-		dialog.one_keeps_size = "centre_large";
-		if (onedesk.interface.kept("centre_large", false)) dialog.one_enlarge(true);
-		return;
-	}
-	let large = !!onedesk.interface.kept("centre_large", false);
-	const $button = $(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2" })).appendTo(dialog.$corner);
-	const show = () => {
-		const said = large ? __("Make Smaller") : __("Enlarge");
-		dialog.$wrapper.toggleClass("one-set-large", large);
-		$button.attr({ title: said, "aria-label": said }).find("use").attr("href", `#icon-${large ? "minimize-2" : "maximize-2"}`);
-	};
-	$button.on("click", () => {
-		large = !large;
-		onedesk.interface.keep("centre_large", large ? 1 : 0);
-		show();
-	});
-	show();
 };
 
 onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.SettingsDialog {
@@ -95,18 +62,15 @@ onedesk.module_settings.Dialog = class ModuleSettingsDialog extends frappe.ui.Se
 				: this.module
 				? { center: this.center || "settings", module: this.module }
 				: { center: this.center, label: __("Your Workspace"), icon: "building" };
-		const $head = onedesk.module_head(this.$sidebar, center);
-		onedesk.module_head_expand($head, this);
-		// A centre with no module foot to hold Help holds it in its corner,
-		// before the arrows (`help`: an app and its page, or a function of
-		// the open tab returning them).
+		onedesk.module_head(this.$sidebar, center);
+		// Help for the open tab, among the window's controls (dialogs.js):
+		// `help` is an app and its page, or a function of the open tab
+		// returning them.
 		if (this.help) {
-			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
-				.on("click", () => {
-					const tab = (onedesk.centers.here && onedesk.centers.here.section) || "";
-					onedesk.help.open(...(typeof this.help === "function" ? this.help(tab) : this.help));
-				})
-				.prependTo(this.$corner);
+			this.one_help(() => {
+				const tab = (onedesk.centers.here && onedesk.centers.here.section) || "";
+				onedesk.help.open(...(typeof this.help === "function" ? this.help(tab) : this.help));
+			});
 		}
 	}
 
@@ -287,15 +251,11 @@ onedesk.module_settings.kit = (() => {
 	const remove = (click) =>
 		button({ variant: "ghost", icon: "x", title: __("Remove"), attrs: { "aria-label": __("Remove") } }).on("click", click);
 
-	// A view inside a tab: frappe's panel view, with Back before its title.
+	// A view inside a tab: frappe's panel view, with the window's Back to the tab.
 	const view = (panel, opts) => {
 		panel.shown = (panel.shown || 0) + 1;
 		panel.set_view(opts);
-		button({ variant: "ghost", icon: "arrow-left", title: __("Back"), attrs: { "aria-label": __("Back") } })
-			.addClass("one-set-back")
-			.on("click", () => panel.refresh())
-			.prependTo(panel.$header.find(".settings-dialog-panel-title"));
-		return panel;
+		return panel.one_back(() => panel.refresh());
 	};
 
 	// A tab's Save shows only once something in it changed, and goes again

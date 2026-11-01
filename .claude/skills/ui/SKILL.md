@@ -39,7 +39,7 @@ Three layers, three words; never call one by another's name.
   default) and sets `data-one-look` on the page. A look is a stylesheet
   scoped to that attribute plus the renderer parts it turns on
   (`onedesk.interface.uses(part)`: `head`, `strip`, `thread`, `quiet`,
-  `icons`, `dialogs`). Classic turns none on.
+  `icons`). Classic turns none on. Dialogs are the kit's in every look.
 - **Theme**: frappe's light, dark or automatic. Every look defines its
   tokens for both.
 - **Palette**: a set of colour tokens only, such as the workspace's frame
@@ -172,8 +172,10 @@ it); the kind sets its size and parts, never the caller.
 | create | `onedesk.interface.create` | medium |
 | centre | a `SettingsDialog` | large |
 
-- **The header is where you are and the window:** Back once a page deep,
-  the title, its state; Enlarge and Close. Nothing you *do* is in it.
+- **The header is where you are and the window:** Back once a page deep
+  (`panel.one_back`), the title, its state; Help (`dialog.one_help`),
+  Enlarge and Close. Only `dialogs.js` draws these; a centre or a creator
+  asks for them and never draws its own. Nothing you *do* is in the header.
 - **The footer:** what is still needed on the left (`dialog.one_need`), the
   verbs on the right, the main one last and solid, red only when it cannot
   be undone.
@@ -186,8 +188,10 @@ it); the kind sets its size and parts, never the caller.
   place, a company), a search fills the rest. Kind first: when kinds mean
   different things, cards first, then that kind's few answers. A creator
   decides the body, never the chrome.
-- **A small form gets a small dialog:** no tabs and at most six fields is
-  one column with no rail.
+- **A new record's size follows its shape** (`dialog.one_shape`): with a
+  rail, wide enough for two columns beside it; without, the form alone and
+  as tall as its fields; no tabs and at most six fields, small and one
+  column.
 
 ## Claude's UI habits, and what to do instead
 

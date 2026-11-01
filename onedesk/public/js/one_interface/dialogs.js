@@ -1,72 +1,94 @@
-// One anatomy for every dialog (onedesk/one_interface/AGENTS.md, Dialogs).
-// Frappe's own Dialog and SettingsDialog stay the engine; each is told its
-// kind, and the kind decides its size and parts, never the caller:
+// One anatomy for every dialog, in every look (onedesk/one_interface/AGENTS.md,
+// Dialogs). Frappe's own Dialog and SettingsDialog stay the engine; each is
+// told its kind, and the kind decides its size and parts, never the caller:
 //   ask    frappe.confirm, frappe.warn, frappe.prompt, onedesk.interface.ask
 //   tell   frappe.msgprint
 //   task   any other frappe.ui.Dialog
-//   create the record drawer (window create, a creator)
-//   centre a SettingsDialog with its rail
-// The header says where you are and holds the window's controls (enlarge,
-// close; a centre's Back is module_settings.js `view`); the footer says what is still needed on the left and
-// holds the verbs on the right.
+//   create onedesk.interface.create
+//   centre any other SettingsDialog
+// The header says where you are and holds the window's controls, which only
+// this file draws: Back (a panel one page deep, `panel.one_back`), Help
+// (`dialog.one_help`), Enlarge and Close. The footer says what is still
+// needed on the left (`dialog.one_need`) and holds the verbs on the right.
 frappe.provide("onedesk.interface");
 
 onedesk.interface.WINDOWED = ["task", "create", "centre"];
 
 {
+	const control = (icon, label, css = "") =>
+		$(frappe.ui.button.html({ icon, variant: "ghost", title: label, css_class: `icon-btn ${css}` })).attr("aria-label", label);
+	const railed = (dialog) => frappe.ui.SettingsDialog && dialog instanceof frappe.ui.SettingsDialog;
+
 	const Dialog = frappe.ui.Dialog;
 	if (Dialog && !Object.hasOwn(Dialog.prototype, "one_dialog")) {
 		Dialog.prototype.one_dialog = true;
 		const make = Dialog.prototype.make;
 		Dialog.prototype.make = function (...args) {
 			const said = make.apply(this, args);
-			const centre = frappe.ui.SettingsDialog && this instanceof frappe.ui.SettingsDialog;
-			const kind = this.one_kind || (centre ? "centre" : "task");
-			this.one_mark(kind);
-			// what is still needed, or what the verb will do, at the footer's start
+			this.one_mark(this.one_kind || (railed(this) ? "centre" : "task"));
 			this.$one_need = $('<div class="one-dialog-need"></div>').prependTo(this.footer);
 			return said;
 		};
 
-		// Kind is set again when a helper (confirm, msgprint) learns it after make.
+		// The kind is set again when a helper (confirm, msgprint) learns it after make.
 		Dialog.prototype.one_mark = function (kind) {
 			this.one_kind = kind;
 			this.$wrapper.addClass("one-dialog").attr("data-kind", kind);
-			// The kind is always told; only a look that draws dialogs adds controls.
-			const windowed = onedesk.interface.WINDOWED.includes(kind) && onedesk.interface.uses("dialogs");
-			const $actions = this.$wrapper.find(".modal-actions").first();
-			if (windowed && !this.$one_enlarge) {
-				this.$one_enlarge = $(frappe.ui.button.html({ icon: "maximize-2", variant: "ghost", title: __("Enlarge"), css_class: "icon-btn one-dialog-enlarge" }))
-					.attr("aria-label", __("Enlarge"))
-					.on("click", () => this.one_enlarge());
-				// A centre draws no header of its own; its window controls sit in its
-				// corner, after Help when the centre has one (module_settings.js).
-				const centre = frappe.ui.SettingsDialog && this instanceof frappe.ui.SettingsDialog;
-				if ($actions.length && !centre) $actions.prepend(this.$one_enlarge);
-				else {
-					const $close = $(frappe.ui.button.html({ icon: "x", variant: "ghost", title: __("Close"), css_class: "icon-btn" }))
-						.attr("aria-label", __("Close"))
-						.on("click", () => this.hide());
-					$('<div class="one-dialog-controls"></div>').append(this.$one_enlarge, $close).appendTo(this.$wrapper.find(".modal-content").first());
+			if (!this.$one_controls) {
+				this.$one_enlarge = control("maximize-2", __("Enlarge"), "one-dialog-enlarge").on("click", () => this.one_enlarge());
+				if (railed(this)) {
+					// A dialog with a rail draws no header; its controls sit in its corner.
+					this.$one_controls = $('<div class="one-dialog-controls"></div>')
+						.append(this.$one_enlarge, control("x", __("Close")).on("click", () => this.hide()))
+						.appendTo(this.$wrapper.find(".modal-content").first());
+				} else {
+					this.$one_controls = this.$wrapper.find(".modal-actions").first().prepend(this.$one_enlarge);
 				}
 			}
-			if (this.$one_enlarge) this.$one_enlarge.toggle(windowed);
+			this.$one_enlarge.toggle(onedesk.interface.WINDOWED.includes(kind));
+			// A centre opens at the size it was left at, in this browser.
+			if (kind === "centre") this.one_enlarge(!!onedesk.interface.kept("centre_large", false), true);
 			return this;
 		};
 
 		// Enlarged, a dialog fills the window, not the browser.
-		Dialog.prototype.one_enlarge = function (on) {
+		Dialog.prototype.one_enlarge = function (on, quiet = false) {
 			const now = on === undefined ? !this.$wrapper.hasClass("one-enlarged") : !!on;
 			this.$wrapper.toggleClass("one-enlarged", now);
-			if (this.one_keeps_size && on === undefined) onedesk.interface.keep(this.one_keeps_size, now ? 1 : 0);
-			if (this.$one_enlarge) {
-				const label = now ? __("Make Smaller") : __("Enlarge");
-				this.$one_enlarge.attr({ title: label, "aria-label": label }).html(frappe.utils.icon(now ? "minimize-2" : "maximize-2", "sm"));
-			}
+			if (this.one_kind === "centre" && !quiet) onedesk.interface.keep("centre_large", now ? 1 : 0);
+			const label = now ? __("Make Smaller") : __("Enlarge");
+			this.$one_enlarge.attr({ title: label, "aria-label": label }).html(frappe.utils.icon(now ? "minimize-2" : "maximize-2", "sm"));
+			return this;
+		};
+
+		// Help for what is open, first among the window's controls.
+		Dialog.prototype.one_help = function (open) {
+			this.$one_controls.find(".one-dialog-help").remove();
+			control("circle-question-mark", __("Help"), "one-dialog-help").on("click", open).prependTo(this.$one_controls);
+			return this;
 		};
 
 		Dialog.prototype.one_need = function (html) {
 			if (this.$one_need) this.$one_need.html(html || "");
+			return this;
+		};
+
+		// A dialog with a rail says whether it shows it, and whether its body is
+		// a few fields (small, as tall as they are) or more.
+		Dialog.prototype.one_shape = function ({ rail = true, small = false } = {}) {
+			this.$wrapper.attr({ "data-rail": rail ? "on" : "off", "data-size": small ? "small" : "full" });
+			return this;
+		};
+	}
+
+	// Back, before a panel's title, once it has gone a page deep. frappe's
+	// set_header and set_view draw the title again, which takes Back away.
+	const Panel = frappe.ui.SettingsDialogPanel;
+	if (Panel && !Object.hasOwn(Panel.prototype, "one_back")) {
+		Panel.prototype.one_back = function (go) {
+			const $title = this.$header.find(".settings-dialog-panel-title").first();
+			$title.find(".one-dialog-back").remove();
+			control("arrow-left", __("Back"), "one-dialog-back").on("click", go).prependTo($title);
 			return this;
 		};
 	}

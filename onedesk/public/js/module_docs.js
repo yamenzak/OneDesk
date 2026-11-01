@@ -89,16 +89,11 @@ onedesk.module_docs.Dialog = class ModuleDocsDialog extends frappe.ui.SettingsDi
 		for (const group of this.tabs) for (const item of group.items || []) this._items[item.id] = item;
 		this._items[onedesk.module_docs.SEARCH] = this.search_item();
 
-		const $head = onedesk.module_head(
+		onedesk.module_head(
 			this.$sidebar,
 			this.module ? { center: this.center, module: this.module } : { center: this.center, label: __("Your Workspace"), icon: "building" },
 		);
-		onedesk.module_head_expand($head, this);
-		if (this.help) {
-			$(frappe.ui.button.html({ variant: "ghost", icon: "circle-question-mark", title: __("Help"), attrs: { "aria-label": __("Help") } }))
-				.on("click", () => onedesk.help.open(...this.help))
-				.prependTo(this.$corner);
-		}
+		if (this.help) this.one_help(() => onedesk.help.open(...this.help));
 
 		const $search = $(`<label class="one-docs-search" data-tour="docs-search"></label>`).appendTo(this.$sidebar);
 		$search.append(frappe.utils.icon("search", "sm"));

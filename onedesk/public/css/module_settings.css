@@ -33,26 +33,6 @@
 	--icon-stroke: var(--ink-gray-5);
 }
 
-/* Help and the arrows sit in the dialog's top right corner
-   (module_settings.js `module_head_expand`), and a tab's own header keeps
-   clear of them. */
-.one-has-corner .settings-dialog {
-	position: relative;
-}
-
-.one-dialog-corner {
-	position: absolute;
-	top: calc(var(--spacing) * 3);
-	inset-inline-end: calc(var(--spacing) * 3);
-	z-index: 2;
-	display: flex;
-	gap: calc(var(--spacing) * 0.5);
-}
-
-.one-has-corner .settings-dialog-panel-header {
-	padding-inline-end: calc(var(--spacing) * 16);
-}
-
 /* width 0 with min-width 100% keeps a long row from widening the panel:
    its words end in an ellipsis instead. */
 .one-set .one-set-list {
@@ -212,17 +192,6 @@ the radio, and what it says may run to two lines. */
 	margin: 0;
 }
 
-/* Back, before a view's title (module_settings.js `view`). */
-.one-set .settings-dialog-panel-title {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 1);
-}
-
-.one-set .one-set-back {
-	margin-inline-start: calc(var(--spacing) * -2);
-}
-
 .one-set .one-set-search {
 	margin-top: calc(var(--spacing) * 2);
 }
@@ -233,10 +202,6 @@ the radio, and what it says may run to two lines. */
 
 .one-set .one-set-search .control-label {
 	display: none;
-}
-
-.one-set .settings-dialog-panel-heading:has(.one-set-back) .settings-dialog-panel-description {
-	padding-inline-start: calc(var(--spacing) * 6);
 }
 
 .one-set .one-set-label {
@@ -441,17 +406,6 @@ the radio, and what it says may run to two lines. */
 .one-set .settings-dialog-section-heading,
 .one-set .settings-dialog-panel-body .form-section:not(:first-child):has(> .section-head) {
 	border-top: 0;
-}
-
-/* A centre enlarged from the arrows by its name (module_head_expand): the
-   window takes most of the screen, for reading. */
-.one-set-large .modal-dialog {
-	width: calc(100vw - var(--spacing) * 16);
-	max-width: none;
-}
-
-.one-set-large .modal-content {
-	height: calc(100vh - var(--spacing) * 16);
 }
 
 /* Tiles in a centre's form (onedesk.OneSection draw_signin): each part a
