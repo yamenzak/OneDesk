@@ -183,6 +183,11 @@ make_site admin.localhost 1
 # on save; onedesk's islands (frontend/) have their own watcher, added here.
 grep -q "^islands:" Procfile || echo "islands: cd apps/onedesk/frontend && yarn dev" >>Procfile
 
+# bench start runs its own redis on these ports, and stops everything if
+# either is already taken.
+redis-cli -p 13000 shutdown nosave >/dev/null 2>&1 || true
+redis-cli -p 11000 shutdown nosave >/dev/null 2>&1 || true
+
 say "Ready"
 cat <<DONE
 Start everything (web, worker, socketio, redis, and the watchers that rebuild
