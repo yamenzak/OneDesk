@@ -163,6 +163,48 @@
 	--one-frame-line: var(--one-over-black-200);
 }
 
+
+/* ── Islands: what a palette's greys are, for a shadow root to read ── */
+
+/* An island draws in its own shadow root with frappe-ui's own greys, which
+   no page variable reaches, so under a palette the page's greys are
+   handed down by names an island does not redeclare (look.js points the
+   island's greys at them). */
+:root[data-one-palette] {
+	--one-page-surface-base: var(--surface-base);
+	--one-page-surface-elevation-1: var(--surface-elevation-1);
+	--one-page-surface-elevation-3: var(--surface-elevation-3);
+	--one-page-ink-base: var(--ink-base);
+	--one-page-surface-gray-1: var(--surface-gray-1);
+	--one-page-surface-gray-2: var(--surface-gray-2);
+	--one-page-surface-gray-3: var(--surface-gray-3);
+	--one-page-surface-gray-4: var(--surface-gray-4);
+	--one-page-surface-gray-5: var(--surface-gray-5);
+	--one-page-surface-gray-6: var(--surface-gray-6);
+	--one-page-surface-gray-7: var(--surface-gray-7);
+	--one-page-surface-gray-8: var(--surface-gray-8);
+	--one-page-surface-gray-9: var(--surface-gray-9);
+	--one-page-surface-gray-10: var(--surface-gray-10);
+	--one-page-ink-gray-1: var(--ink-gray-1);
+	--one-page-ink-gray-2: var(--ink-gray-2);
+	--one-page-ink-gray-3: var(--ink-gray-3);
+	--one-page-ink-gray-4: var(--ink-gray-4);
+	--one-page-ink-gray-5: var(--ink-gray-5);
+	--one-page-ink-gray-6: var(--ink-gray-6);
+	--one-page-ink-gray-7: var(--ink-gray-7);
+	--one-page-ink-gray-8: var(--ink-gray-8);
+	--one-page-ink-gray-9: var(--ink-gray-9);
+	--one-page-outline-gray-1: var(--outline-gray-1);
+	--one-page-outline-gray-2: var(--outline-gray-2);
+	--one-page-outline-gray-3: var(--outline-gray-3);
+	--one-page-outline-gray-4: var(--outline-gray-4);
+	--one-page-outline-gray-5: var(--outline-gray-5);
+	--one-page-outline-gray-6: var(--outline-gray-6);
+	--one-page-outline-gray-7: var(--outline-gray-7);
+	--one-page-outline-gray-8: var(--outline-gray-8);
+	--one-page-outline-gray-9: var(--outline-gray-9);
+}
+
 /* ── Bridges: frappe's variables read the roles ───────────────────── */
 
 :root,

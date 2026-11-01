@@ -19,6 +19,50 @@ onedesk.interface.look = () => {
 onedesk.interface.uses = (part) => !!onedesk.interface.LOOKS[onedesk.interface.look()][part];
 document.documentElement.dataset.oneLook = onedesk.interface.look();
 
+// ── Palettes in islands ────────────────────────────────────────────────
+// An island draws in a shadow root with frappe-ui's own greys, which no page
+// variable reaches. Under a palette each island adopts this sheet, which
+// points its greys at the page's (tokens.css hands them down as --one-page-*)
+// and its cards at the palette's sheet, and its root carries the palette.
+// Standard leaves islands exactly as frappe-ui draws them.
+const ISLAND_PALETTE = new CSSStyleSheet();
+ISLAND_PALETTE.replaceSync(`.frappe-island-root[data-one-palette], .frappe-island-portal[data-one-palette], .one-island-part-root[data-one-palette] { --surface-base: var(--one-page-surface-base); --surface-elevation-1: var(--one-page-surface-elevation-1); --surface-elevation-3: var(--one-page-surface-elevation-3); --ink-base: var(--one-page-ink-base); --surface-gray-1: var(--one-page-surface-gray-1); --surface-gray-2: var(--one-page-surface-gray-2); --surface-gray-3: var(--one-page-surface-gray-3); --surface-gray-4: var(--one-page-surface-gray-4); --surface-gray-5: var(--one-page-surface-gray-5); --surface-gray-6: var(--one-page-surface-gray-6); --surface-gray-7: var(--one-page-surface-gray-7); --surface-gray-8: var(--one-page-surface-gray-8); --surface-gray-9: var(--one-page-surface-gray-9); --surface-gray-10: var(--one-page-surface-gray-10); --ink-gray-1: var(--one-page-ink-gray-1); --ink-gray-2: var(--one-page-ink-gray-2); --ink-gray-3: var(--one-page-ink-gray-3); --ink-gray-4: var(--one-page-ink-gray-4); --ink-gray-5: var(--one-page-ink-gray-5); --ink-gray-6: var(--one-page-ink-gray-6); --ink-gray-7: var(--one-page-ink-gray-7); --ink-gray-8: var(--one-page-ink-gray-8); --ink-gray-9: var(--one-page-ink-gray-9); --outline-gray-1: var(--one-page-outline-gray-1); --outline-gray-2: var(--one-page-outline-gray-2); --outline-gray-3: var(--one-page-outline-gray-3); --outline-gray-4: var(--one-page-outline-gray-4); --outline-gray-5: var(--one-page-outline-gray-5); --outline-gray-6: var(--one-page-outline-gray-6); --outline-gray-7: var(--one-page-outline-gray-7); --outline-gray-8: var(--one-page-outline-gray-8); --outline-gray-9: var(--one-page-outline-gray-9); --surface-elevation-2: var(--one-sheet); }`);
+
+onedesk.interface.palette = () => document.documentElement.dataset.onePalette || "";
+
+const dress = (host) => {
+	const shadow = host.shadowRoot;
+	if (!shadow) return;
+	if (!shadow.adoptedStyleSheets.includes(ISLAND_PALETTE)) shadow.adoptedStyleSheets = [...shadow.adoptedStyleSheets, ISLAND_PALETTE];
+	const palette = onedesk.interface.palette();
+	for (const root of shadow.children) {
+		if (!root.hasAttribute("data-theme")) continue;
+		if (host.classList.contains("one-island-part")) root.classList.add("one-island-part-root");
+		if (palette) root.setAttribute("data-one-palette", palette);
+		else root.removeAttribute("data-one-palette");
+	}
+};
+const islands = () => document.querySelectorAll(".frappe-island, .one-island-part");
+// frappe's mount sets an island's sheets once its stylesheets load, after the
+// host is in the page, so a host is dressed again when its app first draws.
+const watch = (host) => {
+	if (host.__one_dressed || !host.shadowRoot) return;
+	host.__one_dressed = true;
+	dress(host);
+	const drawn = new MutationObserver(() => {
+		dress(host);
+		drawn.disconnect();
+	});
+	drawn.observe(host.shadowRoot, { childList: true, subtree: true });
+};
+new MutationObserver((changes) => {
+	for (const change of changes)
+		for (const node of change.addedNodes)
+			if (node.nodeType === 1) [node, ...node.querySelectorAll(".frappe-island, .one-island-part")].filter((one) => one.matches?.(".frappe-island, .one-island-part")).forEach(watch);
+}).observe(document.documentElement, { childList: true, subtree: true });
+new MutationObserver(() => islands().forEach(dress)).observe(document.documentElement, { attributes: true, attributeFilter: ["data-one-palette"] });
+islands().forEach(watch);
+
 const esc = (value) => frappe.utils.escape_html(String(value ?? ""));
 const declared = (doctype) => (frappe.boot.one_interface || {})[doctype] || null;
 const icon = (name) => `<span class="one-ico">${frappe.utils.icon(name, "sm")}</span>`;
