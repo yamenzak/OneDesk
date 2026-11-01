@@ -220,7 +220,11 @@ class Setup:
 		)
 		value = self.settings.get_password(field, raise_exception=False)
 		if name == "OneAdmin Storage":
-			value = None if not held or self.settings.r2_key_id != held["id"] else "held"
+			# Its secret is kept only as a hash, so it cannot be checked
+			# against Cloudflare: held means the id matches and a secret is
+			# kept. Either missing, the token is rolled and both are saved.
+			kept = held and self.settings.r2_key_id == held["id"] and self.settings.get_password("r2_secret", raise_exception=False)
+			value = "held" if kept else None
 		state = OURS
 		if not held:
 			try:

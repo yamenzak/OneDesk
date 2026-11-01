@@ -218,3 +218,11 @@ def test_production_s_first_tokens_are_renamed_not_made_again():
 	ensure = _method("ensure_token")
 	assert "None if self.env else next((one for one in tokens if one['name'] == name), None)" in ensure
 	assert "held.get('name') != called" in ensure
+
+
+def test_a_storage_token_with_no_secret_kept_is_rolled():
+	"""The storage token's secret is kept only as its hash. A run that saved
+	the id and not the secret would otherwise read as held for ever, and
+	OneAdmin would say no file can be kept on every run after."""
+	ensure = _method("ensure_token")
+	assert "self.settings.r2_key_id == held['id'] and self.settings.get_password('r2_secret', raise_exception=False)" in ensure
