@@ -187,17 +187,26 @@
 :root[data-one-look="canvas"] .form-tag.es-badge, :root[data-one-look="canvas"] .form-tags .es-badge { height: 20px !important; padding: 0 6px !important; font-size: 12px !important; }
 :root[data-one-look="canvas"] .one-strip-count { height: 20px; display: inline-flex; align-items: center; padding: 0 6px !important; border-radius: var(--radius-full); font-size: 12px !important; font-weight: 420; background: var(--one-hover) !important; color: var(--one-count-ink) !important; }
 
-/* ONE ACTIONS .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section), for a list and a record alike. The address and actions bars are the
-   window's chrome, on white; the canvas begins under them.
+/* ONE ACTIONS .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section), for a list and a record alike. The head is on the
+   canvas like everything else: the address row is one island in from the edges (--one-head-bg), the actions sit under it on the ground.
    left  the solid main action (frappe's data-variant="solid"), the others subtle, the menu
    right the record's state or the list's ways of looking, the icons, Cancel */
-:root[data-one-look="canvas"] .one-interface .page-head { background: var(--one-sheet) !important; border-bottom: 1px solid var(--one-edge) !important; }
+:root[data-one-look="canvas"] .one-interface { --page-head-height: 100px; }
+:root[data-one-look="canvas"] body.one-barred.dock-pinned .main-section { background: var(--one-canvas); }
+:root[data-one-look="canvas"] .one-interface .page-head { background: var(--one-canvas) !important; border-bottom: 0 !important; padding: 8px 10px 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content { position: relative; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content::before { content: ""; position: absolute; top: 0; inset-inline: 0; height: 44px; border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); background: var(--one-head-bg); }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > * { border-bottom: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-nav, .page-title, .one-interface-tools) { position: relative; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .page-title .title-area { border-color: transparent !important; background: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .one-interface-switch, .standard-items-section) { margin-top: 4px; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control { height: 28px; }
 :root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn) {
 	height: 28px !important; min-height: 28px !important; padding: 0 10px !important; border-radius: var(--one-radius-control) !important;
 	font-size: 14px !important; font-weight: var(--one-button-weight) !important; box-shadow: none !important; border: 1px solid transparent !important; }
 :root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) {
-	background: var(--one-button-bg) !important; color: var(--one-button-ink) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary):hover { background: var(--one-button-hover) !important; }
+	background: var(--one-head-button-bg) !important; color: var(--one-button-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary):hover { background: var(--one-head-button-hover) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action, .btn-primary) { background: var(--one-primary-bg) !important; color: var(--one-primary-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head :is([data-variant="solid"], .primary-action) * { color: var(--one-primary-ink) !important; }
 :root[data-one-look="canvas"] .one-has-head .one-head-record { display: none !important; }
@@ -458,3 +467,5 @@
 :root[data-one-look="canvas"] .one-dialog .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr); }
 :root[data-one-look="canvas"] .one-dialog[data-kind="create"]:not([data-size="small"]) .form-page .form-section .section-body { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
 :root[data-one-look="canvas"] .one-dialog.one-enlarged .form-page .form-section .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
+/* The view switcher is a group of pills on the ground; its own fill is the canvas's grey in Standard, so its edge is drawn. */
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .es-tab-buttons { border: 1px solid var(--one-line); }

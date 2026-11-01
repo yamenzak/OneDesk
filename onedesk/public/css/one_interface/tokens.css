@@ -97,6 +97,11 @@
 
 	/* The window's head: the address box and its commands. */
 	--one-address-bg: var(--surface-gray-1);
+	/* The window's head on the canvas: the address row an island, the
+	   buttons under it on the ground, so a plain button needs its own fill. */
+	--one-head-bg: var(--surface-base);
+	--one-head-button-bg: var(--surface-base);
+	--one-head-button-hover: var(--surface-gray-3);
 	--one-address-edge: var(--outline-gray-2);
 	--one-command-on: var(--surface-gray-3);
 

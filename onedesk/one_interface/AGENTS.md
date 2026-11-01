@@ -387,6 +387,14 @@ the window's buttons hide.
 
 ## The address box
 
+In Canvas the whole head is on the canvas, like the record under it: the
+address row is one island in from the window's edges (`--one-head-bg`, a
+softer white than a sheet in Sand), its box drawn without an edge of its
+own since the island is the box, and the actions row sits under it on the
+ground, its plain buttons on `--one-head-button-bg` so they stand off the
+canvas in every palette. No line runs under either row. Classic keeps the
+two rows as a band.
+
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
 in an empty part, or with Ctrl+K, or with the search button in the top bar,
 it becomes a box to type in, answered by frappe's own search bar

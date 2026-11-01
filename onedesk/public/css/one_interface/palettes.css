@@ -58,6 +58,9 @@
 	--one-frame-ink: var(--one-over-white-700);
 	--one-frame-ink-strong: var(--one-over-white-950);
 	--one-frame-line: var(--one-over-white-200);
+	--one-head-bg: oklch(0.975 0.008 80);
+	--one-head-button-bg: oklch(0.93 0.014 75);
+	--one-head-button-hover: var(--gray-200);
 	--one-hover: var(--gray-100);
 	--one-ink: var(--gray-900);
 	--one-ink-faint: var(--gray-500);
@@ -138,6 +141,9 @@
 	--one-frame-ink: var(--one-over-white-700);
 	--one-frame-ink-strong: var(--one-over-white-950);
 	--one-frame-line: var(--one-over-white-200);
+	--one-head-bg: var(--gray-950);
+	--one-head-button-bg: var(--gray-700);
+	--one-head-button-hover: var(--gray-600);
 	--one-hover: var(--gray-700);
 	--one-ink: var(--gray-100);
 	--one-ink-faint: var(--gray-400);
