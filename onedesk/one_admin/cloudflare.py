@@ -67,12 +67,13 @@ def host_route(name: str, site: str) -> None:
 	and a route that sends the name to the router. Both a PUT of the same
 	thing, or found before made, so a retry is free."""
 	_call("PUT", f"values/host:{name}", data=site)
-	from onedesk.one_admin.setup import ROUTER
+	from onedesk.one_admin.setup import ROUTER, for_env
 
+	router = for_env((frappe.get_cached_value("One Admin Settings", None, "environment") or "").strip().lower() or None, ROUTER)
 	pattern = f"{name}/*"
 	held = _zone("GET", "workers/routes") or []
 	if not any(one.get("pattern") == pattern for one in held):
-		_zone("POST", "workers/routes", json={"pattern": pattern, "script": ROUTER})
+		_zone("POST", "workers/routes", json={"pattern": pattern, "script": router})
 
 
 def host_unroute(name: str) -> None:

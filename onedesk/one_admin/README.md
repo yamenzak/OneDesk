@@ -543,6 +543,15 @@ next to its changes, and a job lists the rows it wrote.
 - The certificate for every workspace's address needs **Advanced Certificate
   Manager**, a paid add-on, turned on for the zone in Cloudflare. Setup
   checks for it and says so; until it is on, workspaces don't open.
+- **Environment** is empty in production. A second OneAdmin on the same
+  Cloudflare account, the dev one, sets it to `dev`: everything Set Up
+  Cloudflare makes then carries it (`one-mail-dev`, `one-sites-dev`, the
+  `OneAI (dev)` token), it must name its own workspace domain, mail domain and
+  sender, and it never takes over a catch-all that hands mail to another
+  Worker. Email Routing's catch-all belongs to a whole zone, so the mail domain
+  may be in another zone than the workspace domain: dev's workspaces are under
+  `d.4dl.app`, on the certificate manager 4dl.app already has, and its mail on
+  `m.4dl.dev`.
 - The master token can make any token on the account. You can delete it in
   Cloudflare once setup is done; setup then asks for it again only when a
   token needs mending.

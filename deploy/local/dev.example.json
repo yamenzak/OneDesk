@@ -7,16 +7,24 @@
 		"currency": "EUR",
 		"language": "English"
 	},
-	"workspace_company": ["One Dev", "OD"],
-	"admin_company": ["Four Degree Labs", "4DL"],
+	"workspace_company": [
+		"One Dev",
+		"OD"
+	],
+	"admin_company": [
+		"Four Degree Labs",
+		"4DL"
+	],
 	"one_admin_settings": {
 		"cloudflare_account": "",
-		"ai_gateway": "one-dev",
-		"ai_gateway_token": "",
-		"bucket_global": "one-dev",
-		"bucket_eu": "one-dev",
-		"r2_key_id": "",
-		"r2_secret": "",
+		"cloudflare_master_token": "",
+		"tenant_domain": "d.4dl.app",
+		"mail_domain": "m.4dl.dev",
+		"sender_email": "noreply@4dl.dev",
+		"press_team": "",
+		"press_token": "",
+		"press_bench": "one-dev",
+		"press_plan": "",
 		"stripe_publishable_key": "pk_test_",
 		"stripe_secret_key": "sk_test_",
 		"stripe_webhook_secret": "whsec_",

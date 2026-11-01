@@ -52,19 +52,31 @@ online exactly while `bench start` runs. Their Administrator password is
 ## Set up in one go
 
 `dev-config.sh` takes `public.sh`'s two empty sites to a working pair: the
-setup wizard on each, OneAdmin Settings filled with the dev values, and the
-workspace linked to the dev OneAdmin as its own workspace, so OneAI, weather
-and news work there unbilled.
+setup wizard on each, OneAdmin Settings filled with the dev values, the
+workspace linked to the dev OneAdmin as its own workspace (OneAI, weather and
+news unbilled), and, given a Cloudflare master token in the file, Set Up
+Cloudflare run as the `dev` environment.
 
     cp ~/one-bench/apps/onedesk/deploy/local/dev.example.json ~/.one-dev.json
     chmod 600 ~/.one-dev.json     # then fill it in
     bash ~/one-bench/apps/onedesk/deploy/local/dev-config.sh 4dl.dev
 
-The values are dev's own: separate R2 buckets, an AI gateway named `one-dev`,
-Stripe test keys. It refuses a Stripe live key, touches only sites `public.sh`
-marked `one_dev`, and writes the Frappe Cloud and Cloudflare fields blank, so a
-dev OneAdmin can never build a real site or rewrite production's tokens and
-routes. Run it again after changing the file.
+The dev OneAdmin is the `dev` environment of the same Cloudflare and Frappe
+Cloud accounts: its Workers, store, buckets, gateway and tokens carry `-dev`,
+its workspaces are `slug.d.4dl.app` and its mail `m.4dl.dev`, and a signup on
+it builds a real site on its own bench group (`one-dev`), to be archived after
+the test. It refuses production's domains and a Stripe live key, and touches
+only sites `public.sh` marked `one_dev`. Run it again after changing the file.
+
+Left by hand, in each environment: the OpenWeather key, Stripe's keys, and
+Stripe's webhook, at `https://ADMIN/api/method/onedesk.one_admin.stripe.webhook`
+with these five events:
+
+- `checkout.session.completed`
+- `invoice.paid`
+- `invoice.payment_failed`
+- `customer.subscription.deleted`
+- `charge.refunded`
 
 ## Always on
 

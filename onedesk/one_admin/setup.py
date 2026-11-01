@@ -88,7 +88,15 @@ class Setup:
 		self.said: list[dict] = []
 		self.account = self.settings.cloudflare_account or None
 		self.zone = None
+		self.mail_zone = None
 		self.groups = None
+		# Production leaves Environment empty. Any other environment on the
+		# same account (dev) gets its own Workers, store, buckets, gateway and
+		# tokens, each named after it, and must bring its own domains.
+		self.env = (self.settings.get("environment") or "").strip().lower() or None
+		self.kv_title = for_env(self.env, KV_TITLE)
+		self.router_name = for_env(self.env, ROUTER)
+		self.mailer_name = for_env(self.env, MAILER)
 
 	def call(self, method: str, path: str, token: str | None = None, **kwargs) -> dict:
 		headers = {"Authorization": f"Bearer {token or self.token}", **kwargs.pop("headers", {})}
@@ -201,16 +209,17 @@ class Setup:
 		and us saving it, is rolled: the same token with a new secret, saved
 		before anything else."""
 		field, needs = TOKENS[name]
+		called = token_for_env(self.env, name)
 		groups = self.permission_groups()
-		wanted, missing = policies(groups, needs, self.account, self.zone and self.zone["id"], self.buckets_held())
-		held = next((one for one in self.held_tokens() if one["name"] == name), None)
+		wanted, missing = policies(groups, needs, self.account, self.zone_ids(), self.buckets_held())
+		held = next((one for one in self.held_tokens() if one["name"] == called), None)
 		value = self.settings.get_password(field, raise_exception=False)
 		if name == "OneAdmin Storage":
 			value = None if not held or self.settings.r2_key_id != held["id"] else "held"
 		state = OURS
 		if not held:
 			try:
-				made = self.call("POST", "/user/tokens", token=self.master, json={"name": name, "policies": wanted})["result"]
+				made = self.call("POST", "/user/tokens", token=self.master, json={"name": called, "policies": wanted})["result"]
 			except Refused as refused:
 				asked = {one["id"] for policy in wanted for one in policy["permission_groups"]}
 				raise Refused(f"{refused} ({', '.join(one['name'] for one in groups if one['id'] in asked)})") from refused
@@ -224,10 +233,15 @@ class Setup:
 				self.store(name, held["id"], value)
 				state = MADE
 			if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
-				self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": name, "policies": wanted, "status": "active"})
+				self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": called, "policies": wanted, "status": "active"})
 		detail = _("missing permissions: {0}").format(", ".join(missing)) if missing else ""
-		self.note(f"token {name}", WAITING if missing else state, detail)
+		self.note(f"token {called}", WAITING if missing else state, detail)
 		return value
+
+	def zone_ids(self) -> list[str]:
+		"""The zones found so far, the workspace domain's and the mail
+		domain's, once each."""
+		return list(dict.fromkeys(one["id"] for one in (self.zone, self.mail_zone) if one))
 
 	def store(self, name: str, ident: str, value: str) -> None:
 		field = TOKENS[name][0]
@@ -280,38 +294,41 @@ class Setup:
 		self.note("account", OURS, found["name"])
 
 	def find_zone(self) -> None:
-		"""The zone both domains are in: the workspace domain's, and the mail
-		domain's, which must be the same one."""
-		domain = self.settings.tenant_domain or "t.4dl.app"
-		mail = self.settings.mail_domain or "m.4dl.app"
+		"""The workspace domain's zone and the mail domain's, which may be
+		another one: Email Routing's catch-all belongs to a whole zone, so an
+		environment sharing production's zone takes its mail elsewhere. Only
+		production has the defaults; any other environment names its own."""
+		domain = self.settings.tenant_domain or (None if self.env else "t.4dl.app")
+		mail = self.settings.mail_domain or (None if self.env else "m.4dl.app")
+		if not (domain and mail):
+			raise Refused(_("Enter the workspace and mail domains for {0}.").format(self.env))
 		zones = self.call("GET", "/zones", params={"per_page": 50})["result"]
-		zone = next((one for one in zones if domain.endswith("." + one["name"]) or domain == one["name"]), None)
-		if not zone:
-			raise Refused(_("The token has no zone for {0}.").format(domain))
-		if not (mail.endswith("." + zone["name"]) or mail == zone["name"]):
-			raise Refused(_("{0} and {1} aren't in the same zone.").format(domain, mail))
-		self.zone = zone
+		zone, mail_zone = within(zones, domain), within(zones, mail)
+		for found, name in ((zone, domain), (mail_zone, mail)):
+			if not found:
+				raise Refused(_("The token has no zone for {0}.").format(name))
+		self.zone, self.mail_zone = zone, mail_zone
 		self.keep("cloudflare_zone", zone["id"])
 		self.keep("tenant_domain", domain)
 		self.keep("mail_domain", mail)
-		self.note("zone", OURS, zone["name"])
+		self.note("zone", OURS, zone["name"] if zone is mail_zone else f"{zone['name']}, {mail_zone['name']}")
 
 	def kv(self) -> None:
 		if self.settings.cloudflare_kv:
 			return self.note("kv", OURS, self.settings.cloudflare_kv)
 		spaces = self.patiently("GET", f"/accounts/{self.account}/storage/kv/namespaces", params={"per_page": 100})["result"]
-		found = next((one for one in spaces if one["title"] == KV_TITLE), None)
+		found = next((one for one in spaces if one["title"] == self.kv_title), None)
 		if found:
 			self.keep("cloudflare_kv", found["id"])
-			return self.note("kv", OURS, KV_TITLE)
-		made = self.call("POST", f"/accounts/{self.account}/storage/kv/namespaces", json={"title": KV_TITLE})["result"]
+			return self.note("kv", OURS, self.kv_title)
+		made = self.call("POST", f"/accounts/{self.account}/storage/kv/namespaces", json={"title": self.kv_title})["result"]
 		self.keep("cloudflare_kv", made["id"])
-		self.note("kv", MADE, KV_TITLE)
+		self.note("kv", MADE, self.kv_title)
 
 	def buckets(self) -> None:
 		for jurisdiction, default in BUCKETS.items():
 			field = "bucket_eu" if jurisdiction == "EU" else "bucket_global"
-			name = self.settings.get(field) or default
+			name = self.settings.get(field) or for_env(self.env, default)
 			headers = {"cf-r2-jurisdiction": "eu"} if jurisdiction == "EU" else {}
 			held = self.call("GET", f"/accounts/{self.account}/r2/buckets", headers=headers)["result"]
 			if any(one["name"] == name for one in held.get("buckets", [])):
@@ -326,9 +343,9 @@ class Setup:
 			return self.note("router", WAITING, _("Needs the KV namespace first."))
 		domain = self.settings.tenant_domain
 		bindings = [self.kv_binding(), {"type": "plain_text", "name": "TENANT_DOMAIN", "text": domain}]
-		self.deploy(ROUTER, DEPLOY / "edge" / "worker.js", bindings)
+		self.deploy(self.router_name, DEPLOY / "edge" / "worker.js", bindings)
 		self.dns("A", f"*.{domain}", NOWHERE)
-		self.route(f"*.{domain}/*", ROUTER)
+		self.route(f"*.{domain}/*", self.router_name)
 
 	def certificate(self) -> None:
 		"""The certificate for `*.t.4dl.app`, which the zone's free one does not
@@ -406,13 +423,13 @@ class Setup:
 			{"type": "r2_bucket", "name": "FILES_EU", "bucket_name": self.settings.bucket_eu, "jurisdiction": "eu"},
 			{"type": "plain_text", "name": "MAIL_DOMAIN", "text": self.settings.mail_domain},
 		]
-		self.deploy(MAILER, DEPLOY / "mail" / "worker.js", bindings)
+		self.deploy(self.mailer_name, DEPLOY / "mail" / "worker.js", bindings)
 
 	def mail_routing(self) -> None:
 		"""Email Routing on the mail domain: Cloudflare adds and locks its MX
 		and SPF records. Needs the key's Zone Settings: Edit."""
 		mail = self.settings.mail_domain
-		zone = self.zone["id"]
+		zone = self.mail_zone["id"]
 		try:
 			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": mail})["result"]
 		except Refused as reason:
@@ -424,21 +441,27 @@ class Setup:
 		self.note("mail routing", MADE, mail)
 
 	def catch_all(self) -> None:
-		zone = self.zone["id"]
+		"""The mail zone's catch-all, to our mail Worker. One that already
+		hands mail to another Worker is left as it is: on a zone two
+		environments share, it is the other one's."""
+		zone = self.mail_zone["id"]
+		mailer = self.mailer_name
 		held = self.call("GET", f"/zones/{zone}/email/routing/rules/catch_all")["result"] or {}
 		actions = held.get("actions") or []
-		if held.get("enabled") and actions and actions[0].get("type") == "worker" and actions[0].get("value") == [MAILER]:
-			return self.note("catch-all", OURS, MAILER)
+		if held.get("enabled") and actions and actions[0].get("type") == "worker":
+			if actions[0].get("value") == [mailer]:
+				return self.note("catch-all", OURS, mailer)
+			return self.note("catch-all", THEIRS, _("left to {0}").format(", ".join(actions[0].get("value") or [])))
 		self.call(
 			"PUT",
 			f"/zones/{zone}/email/routing/rules/catch_all",
-			json={"matchers": [{"type": "all"}], "actions": [{"type": "worker", "value": [MAILER]}], "enabled": True},
+			json={"matchers": [{"type": "all"}], "actions": [{"type": "worker", "value": [mailer]}], "enabled": True},
 		)
-		self.note("catch-all", MADE, _("{0}, replacing the previous rule").format(MAILER))
+		self.note("catch-all", MADE, _("{0}, replacing the previous rule").format(mailer))
 
 	def mail_sending(self) -> None:
 		mail = self.settings.mail_domain
-		zone = self.zone["id"]
+		zone = self.mail_zone["id"]
 		held = self.call("GET", f"/zones/{zone}/email/sending/subdomains")["result"] or []
 		found = next((one for one in held if one["name"] == mail), None)
 		if found:
@@ -450,14 +473,14 @@ class Setup:
 		"""Sending for the domain One's own mails come from (Sender Email), the
 		way mail_sending does it for the mail domain. Nothing to do when the
 		sender is on the mail domain itself."""
-		sender = (self.settings.sender_email or "noreply@4dl.app").strip().lower()
+		sender = self.sender()
 		self.keep("sender_email", sender)
 		domain = sender.rpartition("@")[2]
 		if domain == self.settings.mail_domain:
 			return self.note("sender", OURS, _("{0}, on the mail domain").format(sender))
-		zone = self.zone
-		if not (domain == zone["name"] or domain.endswith("." + zone["name"])):
-			raise Refused(_("{0} is not in the zone {1}.").format(domain, zone["name"]))
+		zone = within([one for one in (self.zone, self.mail_zone) if one], domain)
+		if not zone:
+			raise Refused(_("{0} is not in the zone {1}.").format(domain, self.mail_zone["name"]))
 		held = self.call("GET", f"/zones/{zone['id']}/email/sending/subdomains")["result"] or []
 		found = next((one for one in held if one["name"] == domain), None)
 		if found:
@@ -470,7 +493,7 @@ class Setup:
 		queue sends from it, and outbound.deliver hands it to Cloudflare
 		(mailing.send_ours). It becomes the default, so no mail of ours goes
 		out from a workspace's address."""
-		sender = (self.settings.sender_email or "noreply@4dl.app").strip().lower()
+		sender = self.sender()
 		name = frappe.db.get_value("Email Account", {"email_id": sender})
 		held = frappe.get_doc("Email Account", name) if name else frappe.new_doc("Email Account")
 		held.update(
@@ -494,12 +517,20 @@ class Setup:
 			frappe.db.set_value("Email Account", other, "default_outgoing", 0)
 		self.note("sender account", OURS if name else MADE, sender)
 
+	def sender(self) -> str:
+		"""Sender Email, with production's default; any other environment
+		names its own."""
+		sender = (self.settings.sender_email or ("" if self.env else "noreply@4dl.app")).strip().lower()
+		if not sender:
+			raise Refused(_("Enter the Sender Email for {0}.").format(self.env))
+		return sender
+
 	def ai_gateway(self) -> None:
 		"""The AI gateway OneAI calls through, found or made, with Guardrails
 		on. What it already holds (caching, rate limits, spend limits) is kept;
 		only its logs and its Guardrails are set. OneAI calls it with the OneAI
 		token tokens() makes."""
-		name = self.settings.ai_gateway or GATEWAY
+		name = self.settings.ai_gateway or for_env(self.env, GATEWAY)
 		base = f"/accounts/{self.account}/ai-gateway/gateways"
 		try:
 			held = self.call("GET", f"{base}/{name}")["result"]
@@ -585,14 +616,32 @@ def guarded(held: dict) -> dict:
 KEPT = ("id", "authentication", "spend_limits", "retry_backoff", "retry_delay", "retry_max_attempts", "log_management", "log_management_strategy", "byok_only", "zdr")
 
 
-def policies(groups: list[dict], needs: tuple, account: str | None, zone: str | None, buckets: list) -> tuple[list[dict], list[str]]:
+def for_env(env: str | None, name: str) -> str:
+	"""What Set Up Cloudflare calls a thing it makes: the name itself in
+	production, the name and the environment anywhere else. Pure."""
+	return f"{name}-{env}" if env else name
+
+
+def token_for_env(env: str | None, name: str) -> str:
+	"""One of One's tokens as Cloudflare lists it, by environment. Pure."""
+	return f"{name} ({env})" if env else name
+
+
+def within(zones: list[dict], domain: str) -> dict | None:
+	"""The zone a domain is in, or None. Pure."""
+	return next((one for one in zones if domain == one["name"] or domain.endswith("." + one["name"])), None)
+
+
+def policies(groups: list[dict], needs: tuple, account: str | None, zone, buckets: list) -> tuple[list[dict], list[str]]:
 	"""A token's policies from the permissions it needs: each granted on the
-	account, the zone or the buckets, as its own scope says, and on all
-	accounts or zones while which one is not known yet. Also the needs
-	Cloudflare has no permission for, by their first name. Pure."""
+	account, the zones (one, or the workspace's and the mail's) or the
+	buckets, as its own scope says, and on all accounts or zones while which
+	is not known yet. Also the needs Cloudflare has no permission for, by
+	their first name. Pure."""
+	zones = [zone] if isinstance(zone, str) else [one for one in zone or [] if one]
 	where = {
 		ACCOUNT: {f"{ACCOUNT}.{account}" if account else f"{ACCOUNT}.*": "*"},
-		ZONE: {f"{ZONE}.{zone}" if zone else f"{ZONE}.*": "*"},
+		ZONE: {f"{ZONE}.{one}": "*" for one in zones} if zones else {f"{ZONE}.*": "*"},
 		BUCKET: {f"{BUCKET}.{account}_{jurisdiction}_{name}": "*" for jurisdiction, name in buckets} if account else {},
 	}
 	granted: dict[str, list[str]] = {}

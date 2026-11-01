@@ -16042,6 +16042,10 @@ msgstr "Mindestens eine Währung eingeben."
 msgid "Enter the Cloudflare master token first."
 msgstr "Geben Sie zuerst den Haupt-Token von Cloudflare ein."
 
+#: onedesk/one_admin/setup.py:525
+msgid "Enter the Sender Email for {0}."
+msgstr "Gib die Absenderadresse für {0} ein."
+
 #: onedesk/one_book/ready.py:287
 msgid "Enter the TRN."
 msgstr "Geben Sie die Steuernummer ein."
@@ -16061,6 +16065,10 @@ msgstr "Überstunden eingeben."
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
 msgstr "Geben Sie die Straßenadresse ein."
+
+#: onedesk/one_admin/setup.py:304
+msgid "Enter the workspace and mail domains for {0}."
+msgstr "Gib die Arbeitsbereichs- und die Maildomain für {0} ein."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:311
 msgid "Enter value or formula"
@@ -16083,6 +16091,10 @@ msgstr "Buchungs-Nr."
 #: onedesk/one_project/library/small_building_works.json
 msgid "Envelope"
 msgstr "Gebäudehülle"
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Environment"
+msgstr "Umgebung"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:947
 #: frontend/src/sheet/components/SheetEditor/index.vue:4852
@@ -36658,6 +36670,10 @@ msgstr "Produktionsplan-Visualisierung"
 msgid "Production Request"
 msgstr "Produktionsanforderung"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Production leaves this blank. Any other name, like dev, is added to each Worker, store, bucket, gateway and token setup makes."
+msgstr "In der Produktion bleibt dies leer. Jeder andere Name, etwa dev, wird an jeden Worker, Speicher, Bucket, jedes Gateway und jedes Token angehängt, das die Einrichtung anlegt."
+
 #: onedesk/one_inventory/home.py:139
 msgid "Production plans laid out over time."
 msgstr "Produktionspläne über die Zeit dargestellt."
@@ -43608,11 +43624,9 @@ msgstr "Anmelderegeln geändert"
 msgid "Sign-in and accounts"
 msgstr "Anmeldung und Konten"
 
-#. Description of the 'Sender Email' (Data) field in DocType 'One Admin
-#. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
-msgstr "Anmeldelinks, Anmeldungen und Hinweise an Kunden kommen von dieser Adresse. Sie muss in derselben Zone wie die Mail-Domain liegen."
+msgid "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
+msgstr "Anmeldelinks, Registrierungen und Hinweise an Kundschaft kommen von dieser Adresse. Sie muss in der Zone der Arbeitsbereichs- oder der Maildomain liegen."
 
 #. Message of a notification
 #: onedesk/one_account/notifications.py
@@ -58432,8 +58446,8 @@ msgid "Workspaces"
 msgstr "Arbeitsbereiche"
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
-msgstr "Arbeitsbereiche erhalten hier ihre Mailadressen, zum Beispiel m.4dl.app. Sie muss in derselben Zone wie die Arbeitsbereich-Domain liegen."
+msgid "Workspaces get their mail addresses here, for example m.4dl.app. It may be in another zone than the workspace domain."
+msgstr "Arbeitsbereiche erhalten hier ihre Mailadressen, zum Beispiel m.4dl.app. Sie darf in einer anderen Zone als die Arbeitsbereichsdomain liegen."
 
 #: onedesk/one_inventory/heads.py:1582 onedesk/one_inventory/home.py:208
 msgid "Workstation"
@@ -60478,6 +60492,10 @@ msgstr "übrig"
 msgid "left early"
 msgstr "früher gegangen"
 
+#: onedesk/one_admin/setup.py:454
+msgid "left to {0}"
+msgstr "{0} überlassen"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1028
 msgid "literal."
 msgstr "Literal."
@@ -61628,10 +61646,6 @@ msgstr "{0} und Ihre Daten"
 #: onedesk/one_hr/heads.py:40 onedesk/one_hr/tell.py:880
 msgid "{0} and {1}"
 msgstr "{0} und {1}"
-
-#: onedesk/one_admin/setup.py:121
-msgid "{0} and {1} aren't in the same zone."
-msgstr "{0} und {1} sind nicht in derselben Zone."
 
 #: frontend/src/inventory/sent_out/OutRows.vue:98
 #: onedesk/one_inventory/quotes.py:178 onedesk/one_project/billing.py:569

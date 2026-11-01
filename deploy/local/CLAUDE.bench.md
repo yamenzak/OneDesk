@@ -45,15 +45,18 @@ DOMAIN` writes them again. Never print either file.
 
 ## What never to do here
 
-- Never press Set Up Cloudflare, and never put a Frappe Cloud or Cloudflare
-  master token in the dev OneAdmin: dev-config.sh writes those blank on
-  purpose. Either would let dev build real sites or rewrite production's
-  tokens, Workers and routes.
+- Never clear Environment in the dev OneAdmin, and never give it production's
+  domains (`t.4dl.app`, `m.4dl.app`, `noreply@4dl.app`). Environment `dev` is
+  what keeps Set Up Cloudflare on its own Workers, store, tokens and catch-all;
+  dev-config.sh writes it every run.
 - Never put a Stripe live key here; dev takes test keys.
 - Never commit in `apps/frappe`, `apps/erpnext` or `apps/hrms`. Their changed
   files are build output.
 - Never drop or reinstall the domain sites without being asked: they hold the
   setup the person using them did by hand.
+- A signup on the dev OneAdmin builds a real site on Frappe Cloud, on the dev
+  bench group, and costs money while it lives: archive what you made for a
+  test when the test is done.
 
 ## The gates
 

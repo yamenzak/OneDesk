@@ -1,20 +1,25 @@
 #!/usr/bin/env bash
 # One command from public.sh's two empty sites to a dev pair that works: the
-# setup wizard done on each, OneAdmin Settings filled with the dev values, and
-# the workspace linked to the dev OneAdmin so its OneAI, weather and news go
-# through it.
+# setup wizard done on each, OneAdmin Settings filled with the dev values, the
+# workspace linked to the dev OneAdmin so its OneAI, weather and news go
+# through it, and, given a Cloudflare master token, Set Up Cloudflare run for
+# the dev environment.
 #
 #   cp ~/one-bench/apps/onedesk/deploy/local/dev.example.json ~/.one-dev.json
 #   chmod 600 ~/.one-dev.json      then fill it in
 #   bash dev-config.sh 4dl.dev
 #
-# Safe to run again; the wizard is skipped where it is done, and the settings
-# are written again from the file, so the file is where a dev key changes.
+# Safe to run again; the wizard is skipped where it is done, the settings are
+# written again from the file (an empty value is left as the site has it), and
+# Set Up Cloudflare finds what it made before.
 #
-# It never reaches production, and refuses to help it: only sites public.sh
-# marked one_dev are touched, Stripe live keys are refused, and the Frappe
-# Cloud and Cloudflare fields that would let a dev OneAdmin build a real site
-# or rewrite production's tokens and routes are written blank.
+# The dev OneAdmin is the dev environment: Environment is always written as
+# dev, so everything Set Up Cloudflare makes is named apart from production's
+# (one-mail-dev, one-sites-dev, "OneAI (dev)"), its catch-all is never taken
+# from production, and it needs domains of its own, which may not be
+# production's. Only sites public.sh marked one_dev are touched, and a Stripe
+# live key is refused. The two things left by hand are the Stripe test keys
+# and the OpenWeather key, in the file, and the webhook in Stripe's test mode.
 
 set -euo pipefail
 
@@ -48,6 +53,13 @@ done
 if jq -r '.one_admin_settings | to_entries[] | .value' "$FILE" | grep -qE '^(sk|pk|rk)_live_'; then
 	fail "$FILE holds a Stripe live key. Dev takes test keys only (pk_test_, sk_test_)."
 fi
+for key in tenant_domain mail_domain sender_email; do
+	value="$(jq -r ".one_admin_settings.$key // empty" "$FILE")"
+	[ -n "$value" ] || fail "$FILE has no $key. Dev brings its own (dev.example.json has the usual ones)."
+	case "$value" in
+	t.4dl.app | m.4dl.app | noreply@4dl.app) fail "$key is production's ($value). Dev takes its own." ;;
+	esac
+done
 
 # --- The setup wizard, once per site ---------------------------------------------------
 wizard() {
@@ -73,21 +85,28 @@ wizard "$ADMIN" "$(jq -r '.admin_company[0]' "$FILE")" "$(jq -r '.admin_company[
 
 # --- OneAdmin Settings ---------------------------------------------------------------------
 say "OneAdmin Settings on $ADMIN"
-values="$(jq -c '.one_admin_settings + {
-	press_team: "", press_token: "", press_bench: "", press_plan: "",
-	cloudflare_master_token: "", cloudflare_token: "", cloudflare_kv: "", cloudflare_zone: "",
-	tenant_domain: "", mail_domain: ""
-} | with_entries(select(.value != null))' "$FILE")"
+# The site first knows every field the file names.
+bench --site "$ADMIN" migrate >/dev/null
+values="$(jq -c '.one_admin_settings | with_entries(select(.value != null and .value != "")) + {environment: "dev"}' "$FILE")"
 bench --site "$ADMIN" execute frappe.client.set_value \
 	--kwargs "$(jq -cn --argjson v "$values" '{doctype: "One Admin Settings", name: "One Admin Settings", fieldname: $v}')" >/dev/null
-echo "written: $(jq -r 'keys | join(", ")' <<<"$values")"
+echo "written: $(jq -r 'keys | map(select(test("token|secret|key") | not)) | join(", ")' <<<"$values"), and the keys"
+
+# --- Set Up Cloudflare, as the dev environment -------------------------------------------
+if [ -n "$(jq -r '.one_admin_settings.cloudflare_master_token // empty' "$FILE")" ]; then
+	say "Set Up Cloudflare for dev (a few minutes)"
+	bench --site "$ADMIN" execute onedesk.one_admin.setup.run | tail -1 |
+		jq -r '.[] | "  \(.state | ascii_upcase)\t\(.step)\t\(.detail)"' 2>/dev/null ||
+		echo "  Set Up Cloudflare said nothing readable; open OneAdmin Settings and look under Last Setup."
+else
+	echo "No cloudflare_master_token in $FILE: Set Up Cloudflare left for later."
+fi
 
 # --- The workspace speaks to the dev OneAdmin as its house workspace -----------------------
 # The admin site linked itself to its own workspace (house.link, after every
 # migrate); the dev workspace takes the same tenant and token, so it is served
 # as ours: never billed, never refused for credits.
 say "Linking $WORKSPACE to $ADMIN"
-bench --site "$ADMIN" migrate >/dev/null
 tenant="$(jq -r '.one_tenant // empty' "sites/$ADMIN/site_config.json")"
 token="$(jq -r '.one_token // empty' "sites/$ADMIN/site_config.json")"
 [ -n "$tenant" ] && [ -n "$token" ] || fail "$ADMIN has not linked itself to its own workspace yet."
@@ -99,8 +118,17 @@ for site in "$WORKSPACE" "$ADMIN"; do bench --site "$site" clear-cache; done
 say "Ready"
 cat <<DONE
   https://$WORKSPACE    a workspace, linked to the dev OneAdmin
-  https://$ADMIN  OneAdmin, with the dev settings
+  https://$ADMIN  OneAdmin, the dev environment
 
 Sign in as $(jq -r '.owner.email' "$FILE") with PUBLIC_ADMIN_PASSWORD from ~/.one-local.
 Press Test Gateway in OneAdmin Settings to check the AI gateway.
+
+Left by hand, in Stripe's test mode: a webhook to
+  https://$ADMIN/api/method/onedesk.one_admin.stripe.webhook
+with these five events, its signing secret in stripe_webhook_secret:
+  checkout.session.completed
+  invoice.paid
+  invoice.payment_failed
+  customer.subscription.deleted
+  charge.refunded
 DONE

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-10-31 17:03+0000\n"
-"PO-Revision-Date: 2026-10-31 17:03+0000\n"
+"POT-Creation-Date: 2026-11-01 14:26+0000\n"
+"PO-Revision-Date: 2026-11-01 14:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9575,7 +9575,7 @@ msgstr ""
 msgid "Cloudflare"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:166
+#: onedesk/one_admin/setup.py:174
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
 
@@ -16416,8 +16416,12 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:661
+#: onedesk/one_admin/setup.py:710
 msgid "Enter the Cloudflare master token first."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:525
+msgid "Enter the Sender Email for {0}."
 msgstr ""
 
 #: onedesk/one_book/ready.py:287
@@ -16438,6 +16442,10 @@ msgstr ""
 
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
+msgstr ""
+
+#: onedesk/one_admin/setup.py:304
+msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:316
@@ -16461,6 +16469,11 @@ msgstr ""
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Envelope"
+msgstr ""
+
+#. Label of the environment (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Environment"
 msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:953
@@ -28748,7 +28761,7 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:326 onedesk/one_admin/setup.py:402
+#: onedesk/one_admin/setup.py:343 onedesk/one_admin/setup.py:419
 msgid "Needs the KV namespace first."
 msgstr ""
 
@@ -32801,7 +32814,7 @@ msgstr ""
 msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr ""
 
-#: onedesk/one_admin/site.py:83
+#: onedesk/one_admin/site.py:86
 msgid "OneAdmin needs at least one operator."
 msgstr ""
 
@@ -33092,7 +33105,7 @@ msgstr ""
 msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
 msgstr ""
 
-#: onedesk/one_admin/site.py:79
+#: onedesk/one_admin/site.py:82
 msgid "Only an active member of the workspace can be an operator."
 msgstr ""
 
@@ -37633,6 +37646,12 @@ msgstr ""
 #. Label in the One Material Request print format
 #: onedesk/one_inventory/print_format/one_material_request/one_material_request.json
 msgid "Production Request"
+msgstr ""
+
+#. Description of the 'Environment' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Production leaves this blank. Any other name, like dev, is added to each Worker, store, bucket, gateway and token setup makes."
 msgstr ""
 
 #: onedesk/one_inventory/home.py:139
@@ -44813,7 +44832,7 @@ msgstr ""
 #. Description of the 'Sender Email' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
+msgid "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
 msgstr ""
 
 #. Message of a notification
@@ -49086,7 +49105,7 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:257
+#: onedesk/one_admin/setup.py:271
 msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -50807,11 +50826,11 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:273
+#: onedesk/one_admin/setup.py:287
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:290
+#: onedesk/one_admin/setup.py:309
 msgid "The token has no zone for {0}."
 msgstr ""
 
@@ -53517,7 +53536,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:348
+#: onedesk/one_admin/setup.py:365
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
 
@@ -60139,7 +60158,7 @@ msgstr ""
 #. Description of the 'Mail Domain' (Data) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
+msgid "Workspaces get their mail addresses here, for example m.4dl.app. It may be in another zone than the workspace domain."
 msgstr ""
 
 #: onedesk/one_inventory/heads.py:1576 onedesk/one_inventory/home.py:208
@@ -61863,7 +61882,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:540
+#: onedesk/one_admin/setup.py:571
 msgid "deployed"
 msgstr ""
 
@@ -62200,6 +62219,10 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
+#: onedesk/one_admin/setup.py:454
+msgid "left to {0}"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1034
 msgid "literal."
 msgstr ""
@@ -62250,7 +62273,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:228
+#: onedesk/one_admin/setup.py:237
 msgid "missing permissions: {0}"
 msgstr ""
 
@@ -62906,7 +62929,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:551
+#: onedesk/one_admin/setup.py:582
 msgid "unchanged"
 msgstr ""
 
@@ -63349,10 +63372,6 @@ msgstr ""
 
 #: onedesk/one_hr/heads.py:40 onedesk/one_hr/tell.py:880
 msgid "{0} and {1}"
-msgstr ""
-
-#: onedesk/one_admin/setup.py:292
-msgid "{0} and {1} aren't in the same zone."
 msgstr ""
 
 #: frontend/src/inventory/sent_out/OutRows.vue:98
@@ -64485,7 +64504,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:460
+#: onedesk/one_admin/setup.py:483
 msgid "{0} is not in the zone {1}."
 msgstr ""
 
@@ -65839,7 +65858,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:457
+#: onedesk/one_admin/setup.py:480
 msgid "{0}, on the mail domain"
 msgstr ""
 
@@ -65847,7 +65866,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:437
+#: onedesk/one_admin/setup.py:460
 msgid "{0}, replacing the previous rule"
 msgstr ""
 
@@ -65884,15 +65903,15 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:364
+#: onedesk/one_admin/setup.py:381
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:385
+#: onedesk/one_admin/setup.py:402
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:419
+#: onedesk/one_admin/setup.py:436
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""
 

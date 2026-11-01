@@ -16042,6 +16042,10 @@ msgstr "أدخل عملة واحدة على الأقل."
 msgid "Enter the Cloudflare master token first."
 msgstr "أدخل الرمز الرئيسي لـ Cloudflare أولًا."
 
+#: onedesk/one_admin/setup.py:525
+msgid "Enter the Sender Email for {0}."
+msgstr "أدخل بريد المُرسِل لبيئة {0}."
+
 #: onedesk/one_book/ready.py:287
 msgid "Enter the TRN."
 msgstr "أدخل الرقم الضريبي."
@@ -16061,6 +16065,10 @@ msgstr "أدخل ساعات العمل الإضافي."
 #: onedesk/one_book/vat.py:64
 msgid "Enter the street address."
 msgstr "أدخل عنوان الشارع."
+
+#: onedesk/one_admin/setup.py:304
+msgid "Enter the workspace and mail domains for {0}."
+msgstr "أدخل نطاق مساحات العمل ونطاق البريد لبيئة {0}."
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:311
 msgid "Enter value or formula"
@@ -16083,6 +16091,10 @@ msgstr "رقم القيد"
 #: onedesk/one_project/library/small_building_works.json
 msgid "Envelope"
 msgstr "الغلاف الخارجي"
+
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Environment"
+msgstr "البيئة"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:947
 #: frontend/src/sheet/components/SheetEditor/index.vue:4852
@@ -36658,6 +36670,10 @@ msgstr "عارض خطة الإنتاج"
 msgid "Production Request"
 msgstr "طلب إنتاج"
 
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
+msgid "Production leaves this blank. Any other name, like dev, is added to each Worker, store, bucket, gateway and token setup makes."
+msgstr "يبقى هذا فارغًا في الإنتاج. أي اسم آخر، مثل dev، يُضاف إلى كل Worker ومخزن وحاوية وبوابة ورمز ينشئه الإعداد."
+
 #: onedesk/one_inventory/home.py:139
 msgid "Production plans laid out over time."
 msgstr "خطط الإنتاج موزعة على الزمن."
@@ -43608,11 +43624,9 @@ msgstr "تغيّرت قواعد تسجيل الدخول"
 msgid "Sign-in and accounts"
 msgstr "تسجيل الدخول والحسابات"
 
-#. Description of the 'Sender Email' (Data) field in DocType 'One Admin
-#. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
-msgstr "روابط تسجيل الدخول والتسجيلات والإشعارات للعملاء تصدر من هذا العنوان. يجب أن يكون في نفس النطاق مع نطاق البريد."
+msgid "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
+msgstr "روابط تسجيل الدخول والاشتراكات والإشعارات إلى العملاء تأتي من هذا العنوان. يجب أن يكون في منطقة نطاق مساحات العمل أو نطاق البريد."
 
 #. Message of a notification
 #: onedesk/one_account/notifications.py
@@ -58432,8 +58446,8 @@ msgid "Workspaces"
 msgstr "مساحات العمل"
 
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-msgid "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
-msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يجب أن يكون في منطقة نطاق مساحة العمل نفسها."
+msgid "Workspaces get their mail addresses here, for example m.4dl.app. It may be in another zone than the workspace domain."
+msgstr "تحصل مساحات العمل على عناوين بريدها هنا، مثل m.4dl.app. يمكن أن يكون في منطقة غير منطقة نطاق مساحات العمل."
 
 #: onedesk/one_inventory/heads.py:1582 onedesk/one_inventory/home.py:208
 msgid "Workstation"
@@ -60478,6 +60492,10 @@ msgstr "متبقٍ"
 msgid "left early"
 msgstr "انصرف مبكراً"
 
+#: onedesk/one_admin/setup.py:454
+msgid "left to {0}"
+msgstr "تُرك لـ {0}"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:1028
 msgid "literal."
 msgstr "نص حرفي."
@@ -61628,10 +61646,6 @@ msgstr "{0} وبياناتك"
 #: onedesk/one_hr/heads.py:40 onedesk/one_hr/tell.py:880
 msgid "{0} and {1}"
 msgstr "{0} و{1}"
-
-#: onedesk/one_admin/setup.py:121
-msgid "{0} and {1} aren't in the same zone."
-msgstr "{0} و{1} ليسا في المنطقة نفسها."
 
 #: frontend/src/inventory/sent_out/OutRows.vue:98
 #: onedesk/one_inventory/quotes.py:178 onedesk/one_project/billing.py:569

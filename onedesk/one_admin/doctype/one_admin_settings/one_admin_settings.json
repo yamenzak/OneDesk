@@ -20,6 +20,7 @@
   "servers",
   "cloudflare_section",
   "cloudflare_account",
+  "environment",
   "cloudflare_master_token",
   "cloudflare_token",
   "cloudflare_kv",
@@ -132,6 +133,12 @@
    "label": "Account ID"
   },
   {
+   "fieldname": "environment",
+   "fieldtype": "Data",
+   "label": "Environment",
+   "description": "Production leaves this blank. Any other name, like dev, is added to each Worker, store, bucket, gateway and token setup makes."
+  },
+  {
    "fieldname": "cloudflare_master_token",
    "fieldtype": "Password",
    "label": "Master Token",
@@ -171,7 +178,7 @@
    "fieldname": "mail_domain",
    "fieldtype": "Data",
    "label": "Mail Domain",
-   "description": "Workspaces get their mail addresses here, for example m.4dl.app. It must be in the same zone as the workspace domain."
+   "description": "Workspaces get their mail addresses here, for example m.4dl.app. It may be in another zone than the workspace domain."
   },
   {
    "fieldname": "set_up_cloudflare",
@@ -420,7 +427,7 @@
    "options": "Email",
    "label": "Sender Email",
    "default": "noreply@4dl.app",
-   "description": "Sign-in links, signups and notices to customers come from this address. It must be in the same zone as the mail domain."
+   "description": "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
   },
   {
    "fieldname": "press_bench",
@@ -450,7 +457,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-31 14:10:34.880404",
+ "modified": "2026-11-01 14:24:45.592301",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

@@ -173,3 +173,39 @@ def test_a_new_token_is_waited_for_and_the_workers_wait_for_kv():
 	for step in ("router", "mailer"):
 		body = _method(step)
 		assert body.index("if not self.settings.cloudflare_kv") < body.index("self.deploy(")
+
+
+def test_another_environment_names_everything_it_makes_and_brings_its_own_domains():
+	"""A second OneAdmin on the same account (dev) never shares a Worker, a
+	KV, a bucket, a gateway or a token with production: each carries the
+	environment in its name. Production, with Environment empty, keeps the
+	names it has always had, and only production has the 4dl.app defaults."""
+	space = _lifted(("for_env", "token_for_env", "within"))
+	assert space["for_env"](None, "one-mail") == "one-mail" and space["for_env"]("dev", "one-mail") == "one-mail-dev"
+	assert space["token_for_env"](None, "OneAI") == "OneAI" and space["token_for_env"]("dev", "OneAI") == "OneAI (dev)"
+	zones = [{"name": "4dl.app"}, {"name": "4dl.dev"}]
+	assert space["within"](zones, "d.4dl.app")["name"] == "4dl.app" and space["within"](zones, "m.4dl.dev")["name"] == "4dl.dev"
+	assert space["within"](zones, "4dl.com") is None
+	init = _method("__init__")
+	for made in ("KV_TITLE", "ROUTER", "MAILER"):
+		assert f"for_env(self.env, {made})" in init
+	assert "for_env(self.env, GATEWAY)" in _method("ai_gateway") and "for_env(self.env, default)" in _method("buckets")
+	assert "token_for_env(self.env, name)" in _method("ensure_token")
+	zone = _method("find_zone")
+	assert "None if self.env else 't.4dl.app'" in zone and "None if self.env else 'm.4dl.app'" in zone
+	assert "'' if self.env else 'noreply@4dl.app'" in _method("sender")
+	assert "KV_TITLE" not in _method("kv") and "self.router_name" in _method("router") and "self.mailer_name" in _method("mailer")
+
+
+def test_the_mail_zone_is_its_own_and_another_workers_catch_all_is_left_alone():
+	"""Email Routing's catch-all belongs to a whole zone: setup takes mail
+	in on the mail domain's zone, and leaves a catch-all that already hands
+	mail to another Worker as it is."""
+	for step in ("mail_routing", "catch_all", "mail_sending"):
+		assert 'self.mail_zone["id"]' in _method(step).replace("'", '"')
+	catch = _method("catch_all")
+	assert catch.index("THEIRS") < catch.index("'PUT'")
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "named", "plain", "policies"))
+	groups = [{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]}]
+	both, _ = space["policies"](groups, (("DNS Write",),), "acc", ["app", "dev"], [])
+	assert set(both[0]["resources"]) == {"com.cloudflare.api.account.zone.app", "com.cloudflare.api.account.zone.dev"}
