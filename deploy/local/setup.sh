@@ -163,7 +163,7 @@ make_site() {
 	local site="$1" admin="$2"
 	[ -d "sites/$site" ] && return
 	say "Site $site"
-	bench new-site "$site" --db-root-password "$DB_ROOT_PASSWORD" --admin-password "$ADMIN_PASSWORD"
+	bench new-site "$site" --db-root-username root --db-root-password "$DB_ROOT_PASSWORD" --admin-password "$ADMIN_PASSWORD"
 	bench --site "$site" set-config -p developer_mode 1
 	bench --site "$site" set-config host_name "http://$site:8000"
 	[ "$admin" = 1 ] && bench --site "$site" set-config -p one_admin 1
