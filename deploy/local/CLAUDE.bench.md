@@ -25,6 +25,10 @@ rules. This file is only about how this machine runs it.
   refresh. The portal (`frontend/portal`) has no watcher: `cd
   apps/onedesk/frontend && yarn build` after changing it.
 - A doctype or fixture JSON change needs `bench --site SITE migrate`.
+- You may be running under the `one-claude` service (Remote Control), started
+  in `apps/onedesk` and sharing it with the bench: what you change is served
+  at once. Never stop or restart `one-claude` yourself; that ends the session
+  you are in.
 
 ## The sites
 

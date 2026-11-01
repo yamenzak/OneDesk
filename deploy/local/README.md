@@ -72,7 +72,10 @@ On a server, `bash ~/one-bench/apps/onedesk/deploy/local/always-on.sh` runs
 `bench start` as a system service: at boot, again within seconds if it stops,
 and with no terminal open. `sudo systemctl restart one-bench` after a change to
 `hooks.py`; `journalctl -u one-bench -f` shows what it prints; `always-on.sh
-off` hands it back to you.
+off` hands it back to you. Once Claude Code is installed and
+`claude remote-control` has been run by hand in `apps/onedesk`, the same script
+runs Remote Control as `one-claude` too, so a session on this machine can be
+opened from claude.ai/code or the Claude app at any time.
 
 ## For Claude Code
 
