@@ -159,6 +159,10 @@ uv pip install -q --python env/bin/python pytest openpyxl
 
 # --- Sites ----------------------------------------------------------------------------
 bench config dns_multitenant on >/dev/null
+# Installing an app writes to the cache and the queue, which bench start would
+# run; until then, start them here, or an app's own setup fails halfway.
+redis-cli -p 13000 ping >/dev/null 2>&1 || redis-server config/redis_cache.conf --daemonize yes >/dev/null
+redis-cli -p 11000 ping >/dev/null 2>&1 || redis-server config/redis_queue.conf --daemonize yes >/dev/null
 make_site() {
 	local site="$1" admin="$2"
 	[ -d "sites/$site" ] && return
