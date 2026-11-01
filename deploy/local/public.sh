@@ -71,8 +71,9 @@ for host in "$WORKSPACE" "$ADMIN"; do
 done
 
 # Pages to the web server on 8000; socketio to its own server on 9000. The
-# Host header is passed through untouched: socketio refuses a connection whose
-# Host and Origin differ, and the site is found by that name.
+# Host header is set to the public name on both: socketio refuses a
+# connection whose Host and Origin differ ("Invalid origin"), and the site is
+# found by that name.
 CONFIG="$HOME/.cloudflared/config.yml"
 {
 	echo "tunnel: $ID"
@@ -82,8 +83,12 @@ CONFIG="$HOME/.cloudflared/config.yml"
 		echo "  - hostname: $host"
 		echo "    path: ^/socket\\.io"
 		echo "    service: http://localhost:9000"
+		echo "    originRequest:"
+		echo "      httpHostHeader: $host"
 		echo "  - hostname: $host"
 		echo "    service: http://localhost:8000"
+		echo "    originRequest:"
+		echo "      httpHostHeader: $host"
 	done
 	echo "  - service: http_status:404"
 } >"$CONFIG"
