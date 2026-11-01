@@ -1,11 +1,5 @@
 frappe.provide("onedesk.employee");
 
-onedesk.employee.ACTIONS = [
-	["Leave Application", __("Apply for Leave")],
-	["Expense Claim", __("Claim an Expense")],
-	["Salary Structure Assignment", __("Assign a Salary Structure")],
-];
-
 onedesk.employee.passkey = (frm, data) => {
 	if (!data.passkey || !frappe.model.can_write("Clock Device")) return;
 	frm.sidebar.add_user_action(__("Reset Passkey"), () => {
@@ -24,19 +18,13 @@ onedesk.employee.passkey = (frm, data) => {
 	});
 };
 
+// Its shortcuts (Apply for Leave, Claim an Expense, Assign a Salary Structure) are declared in the
+// registry and drawn by window/form.js, which clears the panel's actions first; what is left here
+// is the one that opens a dialog.
 onedesk.employee.actions = (frm) => {
-	frm.sidebar.clear_user_actions();
 	if (frm.doc.status !== "Active") return;
-
-	for (const [doctype, label] of onedesk.employee.ACTIONS) {
-		if (!frappe.model.can_create(doctype)) continue;
-		frm.sidebar.add_user_action(label, () => {
-			frappe.new_doc(doctype, { employee: frm.doc.name });
-		});
-	}
-
 	if (frappe.model.can_write("Attendance")) {
-		frm.sidebar.add_user_action(__("Record Overtime"), () =>
+		frm.sidebar.add_user_action(`${frappe.utils.icon("clock-plus", "sm")}<span>${__("Record Overtime")}</span>`, () =>
 			onedesk.overtime.ask({ employee: frm.doc.name }),
 		);
 	}

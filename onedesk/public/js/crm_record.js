@@ -16,7 +16,7 @@ onedesk.crm_record.one_series = (frm) => {
 onedesk.crm_record.actions = (frm) => {
 	frm.sidebar.clear_user_actions();
 	if (!frm.perm[0]?.write) return;
-	frm.sidebar.add_user_action(__("Log a Call"), () => onedesk.crm_record.call(frm));
+	frm.sidebar.add_user_action(`${frappe.utils.icon("phone-call", "sm")}<span>${__("Log a Call")}</span>`, () => onedesk.crm_record.call(frm));
 	if (frm.doctype === "Lead" && frm.doc.one_duplicate_of) onedesk.crm_record.duplicate(frm);
 };
 

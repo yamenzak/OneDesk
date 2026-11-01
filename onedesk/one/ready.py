@@ -11,6 +11,12 @@ import hashlib
 import re
 from pathlib import Path
 
+
+def _lt(text: str) -> str:
+	"""Marks a word the interface shows; the renderer says it in the reader's
+	language. Plain here, so this file reads without frappe."""
+	return text
+
 APP = Path(__file__).resolve().parents[1]
 ROOT = APP.parent
 
@@ -231,6 +237,50 @@ MODULES = {
 			("who-can-do-what", "shield"),
 			("settings", "settings"),
 		),
+		# How its record types are drawn: an icon for each tab and field, the
+		# head's cards (at most four, by the key of a head row or chart in
+		# heads.py) and the row whose steps are the track. See interface().
+		"interface": {
+			"Sales Invoice": {
+				"tabs": {
+					"__details": "file-text",
+					"payments_tab": "wallet",
+					"contact_and_address_tab": "map-pin",
+					"terms_tab": "scroll-text",
+					"more_info_tab": "info",
+					"connections_tab": "link",
+				},
+				"fields": {
+					"customer": "user",
+					"company_tax_id": "hash",
+					"tax_id": "hash",
+					"posting_date": "calendar",
+					"posting_time": "clock",
+					"due_date": "calendar-clock",
+					"project": "folder-kanban",
+					"currency": "coins",
+					"selling_price_list": "tags",
+					"grand_total": "sigma",
+					"outstanding_amount": "wallet",
+					"status": "circle-dot",
+					"total_qty": "package",
+					"total": "sigma",
+					"taxes_and_charges": "percent",
+				},
+				"cards": (
+					{"key": "invoice.outstanding"},
+					{"key": "invoice.due"},
+					{"key": "grand_total"},
+					{"key": "invoice.party_billed", "title": _lt("Billed in 12 Months")},
+				),
+				"track": "invoice.progress",
+				"states": {
+					"field": "status",
+					"order": ("Overdue", "Unpaid", "Partly Paid", "Paid", "Return", "Credit Note Issued", "Draft"),
+					"hide": ("Cancelled",),
+				},
+			},
+		},
 	},
 	"OneCRM": {
 		"folder": "one_crm",
@@ -262,6 +312,37 @@ MODULES = {
 			("who-can-do-what", "shield"),
 			("settings", "settings"),
 		),
+		# How its record types are drawn. See OneBook's and interface().
+		"interface": {
+			"Customer": {
+				"tabs": {
+					"details_tab": "file-text",
+					"contact_and_address_tab": "map-pin",
+					"accounting_tab": "landmark",
+					"tax_tab": "percent",
+					"settings_tab": "settings",
+					"sales_team_tab": "users",
+					"portal_users_tab": "user-check",
+					"more_info_tab": "info",
+					"connections_tab": "link",
+				},
+				"fields": {
+					"customer_name": "building-2",
+					"customer_type": "shapes",
+					"territory": "globe",
+					"customer_group": "folder",
+					"default_currency": "coins",
+					"tax_id": "hash",
+				},
+				"cards": (
+					{"key": "party.overdue"},
+					{"key": "party.last_bill"},
+					{"key": "Open Orders"},
+					{"key": "party.billed", "title": _lt("Billed in 12 Months")},
+				),
+				"states": {"field": "customer_type", "order": ("Company", "Individual", "Partnership")},
+			},
+		},
 	},
 	"OneDisplay": {
 		"folder": "one_display",
@@ -323,6 +404,34 @@ MODULES = {
 			("who-can-do-what", "shield"),
 			("settings", "settings"),
 		),
+		# How its record types are drawn. See OneBook's and interface().
+		"interface": {
+			"Employee": {
+				"links": (
+					{
+						"label": _lt("Apply for Leave"),
+						"icon": "plane-takeoff",
+						"new": "Leave Application",
+						"with": {"employee": "name"},
+						"when": (("status", "=", "Active"),),
+					},
+					{
+						"label": _lt("Claim an Expense"),
+						"icon": "receipt",
+						"new": "Expense Claim",
+						"with": {"employee": "name"},
+						"when": (("status", "=", "Active"),),
+					},
+					{
+						"label": _lt("Assign a Salary Structure"),
+						"icon": "wallet",
+						"new": "Salary Structure Assignment",
+						"with": {"employee": "name"},
+						"when": (("status", "=", "Active"),),
+					},
+				),
+			},
+		},
 	},
 	"OneSlide": {
 		"folder": "one_slide",
@@ -838,3 +947,65 @@ def registry(module: str) -> list[dict]:
 		}
 		for key, point in POINTS.items()
 	]
+
+
+INTERFACE_KEYS = {"tabs", "fields", "cards", "track", "states", "links"}
+
+
+def _states(said: dict | None) -> dict:
+	"""The list's strip: the field it counts, its values in the order the
+	strip shows them (the rest after, by count) and those it leaves out.
+	Undeclared, the strip counts `status`, by count."""
+	said = said or {}
+	strange = set(said) - {"field", "order", "hide"}
+	if strange:
+		raise ValueError(f"a strip declares {sorted(strange)}")
+	return {"field": said.get("field", "status"), "order": list(said.get("order") or ()), "hide": list(said.get("hide") or ())}
+
+
+LINK_KEYS = {"label", "icon", "new", "list", "with", "when"}
+
+
+def _link(said: dict) -> dict:
+	"""A record's shortcut: a new record of `new`, or the list of `list`,
+	with `with` (the other type's field: this record's field) carried over,
+	shown while every `when` ([field, "=" | "!=" | "in", value]) holds."""
+	strange = set(said) - LINK_KEYS
+	if strange or not said.get("label") or bool(said.get("new")) == bool(said.get("list")):
+		raise ValueError(f"a link must say a label and one of new or list: {said}")
+	return {
+		"label": str(said["label"]),
+		"icon": said.get("icon") or "arrow-up-right",
+		"new": said.get("new"),
+		"list": said.get("list"),
+		"with": dict(said.get("with") or {}),
+		"when": [list(one) for one in said.get("when") or ()],
+	}
+
+
+def interface() -> dict:
+	"""How each record type is drawn, as every module declares it under
+	"interface": icons for its tabs and fields, at most four head cards, the
+	row whose steps are its track and the states its list's strip counts. The renderer reads this and nothing
+	else; a record type is declared by one module only."""
+	found = {}
+	for module, one in MODULES.items():
+		for doctype, said in (one.get("interface") or {}).items():
+			strange = set(said) - INTERFACE_KEYS
+			if strange:
+				raise ValueError(f"{module} declares {sorted(strange)} for {doctype}")
+			if doctype in found:
+				raise ValueError(f"{doctype} is declared by {found[doctype]['module']} and {module}")
+			if len(said.get("cards") or ()) > 4:
+				raise ValueError(f"{module} gives {doctype} more than four head cards")
+			found[doctype] = {
+				"module": module,
+				"tabs": dict(said.get("tabs") or {}),
+				"fields": dict(said.get("fields") or {}),
+				"cards": [{**card, "title": str(card["title"])} if card.get("title") else dict(card) for card in said.get("cards") or ()],
+				"track": said.get("track"),
+				"states": _states(said.get("states")),
+				"links": [_link(one) for one in said.get("links") or ()],
+			}
+	return found
+

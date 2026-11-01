@@ -566,3 +566,31 @@ onedesk.window.missing = (frm) => {
 	return out;
 };
 
+
+// A record's shortcuts, as its module declares them in the registry (ready.MODULES "links", frappe.boot.one_interface):
+// a new record filled from this one, or the list of those belonging to it. They go through frappe's own sidebar
+// user actions, so a shortcut a script adds (a dialog) sits beside them and looks the same.
+onedesk.window.holds = (doc, when) =>
+	(when || []).every(([field, op, value]) =>
+		op === "=" ? doc[field] == value : op === "!=" ? doc[field] != value : op === "in" ? value.includes(doc[field]) : false
+	);
+
+onedesk.window.links = (frm) => {
+	const said = frappe.boot.one_interface?.[frm.doctype]?.links;
+	if (!said?.length || frm.is_new() || !frm.sidebar) return;
+	frm.sidebar.clear_user_actions();
+	for (const link of said) {
+		if (!onedesk.window.holds(frm.doc, link.when)) continue;
+		if (link.new ? !frappe.model.can_create(link.new) : !frappe.model.can_read(link.list)) continue;
+		const values = Object.fromEntries(Object.entries(link.with).map(([theirs, ours]) => [theirs, frm.doc[ours]]));
+		frm.sidebar
+			.add_user_action(`${frappe.utils.icon(link.icon, "sm")}<span>${__(link.label)}</span>`, () =>
+				link.new ? frappe.new_doc(link.new, values) : frappe.set_route("List", link.list, values)
+			)
+			.attr("data-kind", link.new ? "new" : "list");
+	}
+};
+
+Object.keys(frappe.boot.one_interface || {}).forEach((doctype) =>
+	frappe.ui.form.on(doctype, { refresh: (frm) => onedesk.window.links(frm) })
+);

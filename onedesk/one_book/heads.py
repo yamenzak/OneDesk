@@ -688,27 +688,6 @@ HEADS = [
 		],
 	},
 	{
-		"doctype": "Customer",
-		"band": [
-			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},
-			{"label": _lt("Last Sales Invoice"), "source": "Measure", "measure": "party.last_bill"},
-			{
-				"label": _lt("Open Orders"),
-				"source": "Count",
-				"of_doctype": "Sales Order",
-				"filters": [
-					["customer", "=", "{{ doc.name }}"],
-					["docstatus", "=", 1],
-					["status", "not in", ["Completed", "Closed"]],
-				],
-				"route": '/desk/sales-order?customer={{ doc.name }}&docstatus=1&status=["not in",["Completed","Closed"]]',
-				"hide_empty": 1,
-			},
-			{"label": _lt("Opportunity"), "source": "Measure", "measure": "crm.of_customer"},
-		],
-		"charts": [{"chart": "party.billed"}],
-	},
-	{
 		"doctype": "Supplier",
 		"band": [
 			{"label": _lt("Overdue"), "source": "Measure", "measure": "party.overdue"},

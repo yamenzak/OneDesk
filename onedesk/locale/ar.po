@@ -65331,3 +65331,7 @@ msgstr "«{what}» جاهز في {presentation}"
 #: onedesk/public/js/island_page.js
 msgid "Island"
 msgstr "جزيرة"
+
+#: onedesk/one/ready.py
+msgid "Billed in 12 Months"
+msgstr "المفوتر خلال 12 شهرًا"

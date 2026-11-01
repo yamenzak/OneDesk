@@ -1175,7 +1175,7 @@ one_makes_records = {
 	"Call Log": ["one_crm"],
 	"Contact": ["one_admin", "one_calendar"],
 	"Contract": ["one_crm", "one_project"],
-	"Customer": ["one_admin", "one_book", "one_crm"],
+	"Customer": ["one_admin", "one_crm"],
 	"Delivery Note": ["one_inventory"],
 	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
