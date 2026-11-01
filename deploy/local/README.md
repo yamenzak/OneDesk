@@ -49,6 +49,23 @@ port opened on the server. The tunnel is a line of the Procfile, so they are
 online exactly while `bench start` runs. Their Administrator password is
 `PUBLIC_ADMIN_PASSWORD` in `~/.one-local`.
 
+## Set up in one go
+
+`dev-config.sh` takes `public.sh`'s two empty sites to a working pair: the
+setup wizard on each, OneAdmin Settings filled with the dev values, and the
+workspace linked to the dev OneAdmin as its own workspace, so OneAI, weather
+and news work there unbilled.
+
+    cp ~/one-bench/apps/onedesk/deploy/local/dev.example.json ~/.one-dev.json
+    chmod 600 ~/.one-dev.json     # then fill it in
+    bash ~/one-bench/apps/onedesk/deploy/local/dev-config.sh 4dl.dev
+
+The values are dev's own: separate R2 buckets, an AI gateway named `one-dev`,
+Stripe test keys. It refuses a Stripe live key, touches only sites `public.sh`
+marked `one_dev`, and writes the Frappe Cloud and Cloudflare fields blank, so a
+dev OneAdmin can never build a real site or rewrite production's tokens and
+routes. Run it again after changing the file.
+
 ## Always on
 
 On a server, `bash ~/one-bench/apps/onedesk/deploy/local/always-on.sh` runs

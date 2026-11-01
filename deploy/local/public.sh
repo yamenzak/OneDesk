@@ -117,6 +117,10 @@ make_site() {
 }
 make_site "$WORKSPACE" 0
 make_site "$ADMIN" 1
+# The mark dev-config.sh asks for before it writes anything to a site.
+for site in "$WORKSPACE" "$ADMIN"; do
+	bench --site "$site" set-config -p one_dev 1 >/dev/null
+done
 
 for port in "${started[@]}"; do
 	redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true

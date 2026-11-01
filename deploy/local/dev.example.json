@@ -1,0 +1,25 @@
+{
+	"owner": {
+		"full_name": "Your Name",
+		"email": "you@example.com",
+		"country": "Germany",
+		"timezone": "Europe/Berlin",
+		"currency": "EUR",
+		"language": "English"
+	},
+	"workspace_company": ["One Dev", "OD"],
+	"admin_company": ["Four Degree Labs", "4DL"],
+	"one_admin_settings": {
+		"cloudflare_account": "",
+		"ai_gateway": "one-dev",
+		"ai_gateway_token": "",
+		"bucket_global": "one-dev",
+		"bucket_eu": "one-dev",
+		"r2_key_id": "",
+		"r2_secret": "",
+		"stripe_publishable_key": "pk_test_",
+		"stripe_secret_key": "sk_test_",
+		"stripe_webhook_secret": "whsec_",
+		"openweather_key": ""
+	}
+}
