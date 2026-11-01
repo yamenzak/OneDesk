@@ -54541,7 +54541,7 @@ msgid "Use SSL"
 msgstr ""
 
 #: onedesk/one/doctype/weather_place/weather_place.js:25
-msgid "Use Where I Am"
+msgid "Use Current Location"
 msgstr ""
 
 #: onedesk/www/s.html:118

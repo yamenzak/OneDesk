@@ -22,7 +22,7 @@ frappe.ui.form.on("Weather Place", {
 		});
 		// Drawn as frappe draws a Link field's open arrow: an icon in the field.
 		const $locate = $(`<span class="link-btn" style="display: inline-flex">
-				<a title="${__("Use Where I Am")}">${frappe.utils.icon("locate-fixed", "sm")}</a></span>`)
+				<a title="${__("Use Current Location")}">${frappe.utils.icon("locate-fixed", "sm")}</a></span>`)
 			.on("click", () => {
 				frappe.call({ method: "onedesk.one.weather.located", freeze: true }).then(({ message: place }) => {
 					if (!place?.name) {

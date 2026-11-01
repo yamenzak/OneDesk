@@ -53010,8 +53010,8 @@ msgid "Use SSL"
 msgstr "استخدام SSL"
 
 #: onedesk/one/doctype/weather_place/weather_place.js:25
-msgid "Use Where I Am"
-msgstr "استخدم موقعي الحالي"
+msgid "Use Current Location"
+msgstr "استخدام الموقع الحالي"
 
 #: onedesk/www/s.html:118
 msgid "Use Your Phone as the Remote"
