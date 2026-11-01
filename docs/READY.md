@@ -174,7 +174,7 @@ ones that read only the top of `public/js` or `public/css` also read `one_*/`.
   to a title of five words or fewer and words with no file, function or
   commit in them. A picture an entry names must sit beside it.
 - `one/versions.py` sends What's New: the entries, newest first, rendered,
-  with a picture sent inside its entry, each marked New past the version
+  each picture and clip drawn from R2 (Pictures and clips, under 4), each marked New past the version
   the reader last saw, which opening them moves on (a user default per
   module). `frappe.boot.one_versions` carries each module's version and
   whether it is unseen.
@@ -279,11 +279,32 @@ section with them marked there too. A link to another page
 A page is written to be scanned: a line or two, then sections, with tables
 for anything parallel, numbered steps for anything done in order, a
 blockquote for the one thing worth knowing, and a cropped picture of the
-screen it talks about beside it in `docs/<page>/`, sent inside the page.
+screen it talks about beside it in `docs/<page>/`.
 `test_ready.py` fails on a page not listed, a page that names code (what a
 claim rests on goes in `AGENTS.md`, under Where Help's claims are kept), a
 heading over five words, a picture that isn't there, and a link to a page
 Help doesn't list.
+
+**Pictures and clips.** A page or a version names a picture (`.png`,
+`.jpg`, `.webp`) or a clip (`.gif`, nine seconds at most, made with
+`scripts/clip.mjs`) that sits beside it in the repository; the docs and
+changelog skills say when one earns its place. The page draws it from R2
+(`one/media.py`): the public `one-docs` bucket, which holds nothing else and
+which every environment shares, at `media.4dl.app/docs/<hash of the
+file>.<kind>`, so a picture has one address on dev and in production and a
+changed one a new address. Until R2 has it, the page falls back to the
+workspace, which serves it from the repository. An admin site sends what R2
+does not have whenever it migrates (`one_admin/media.py`), so on dev
+`git pull` and `bench --site all migrate` publish a new picture; Set Up
+Cloudflare makes the bucket, lets the storage token write it and puts it on
+`media.<zone>` (`docs_media`). `tests/guards/test_docs_media.py` fails on a
+picture that isn't there, one nothing shows, one over 1 MB, a clip over 4 MB
+or nine seconds, and a kind a browser might not show.
+
+**Read on.** A version names the pages it changed (`docs:`), and What's
+New offers them under it as Read More; each of those pages ends with
+Changed In, the versions that named it, each opening What's New on that
+version. So writing `docs:` is what links both ways.
 
 **Before.** Every module has a `README.md`. Above `## Under the hood` it is
 written for users, and OneAI's `how_to` (`one_ai/guide.py`) searches that

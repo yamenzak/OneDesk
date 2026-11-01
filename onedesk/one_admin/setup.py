@@ -20,6 +20,8 @@ TIMEOUT = 30
 
 KV_TITLE = "one-sites"
 BUCKETS = {"Global": "one-global", "EU": "one-eu"}
+# Help's pictures and clips, every environment's (one_admin/media.py).
+DOCS_BUCKET = "one-docs"
 ROUTER = "one-tenant-router"
 MAILER = "one-mail"
 NOWHERE = "192.0.2.1"
@@ -152,6 +154,7 @@ class Setup:
 			self.find_zone,
 			self.kv,
 			self.buckets,
+			self.docs_media,
 			self.tokens,
 			self.router,
 			self.certificate,
@@ -262,11 +265,14 @@ class Setup:
 			self.own(field, value)
 
 	def buckets_held(self) -> list[tuple[str, str]]:
-		return [
+		"""The buckets the storage token may write: the workspaces' two, and
+		Help's pictures (one_admin/media.py) once there are those."""
+		held = [
 			("eu" if field == "bucket_eu" else "default", self.settings.get(field))
 			for field in ("bucket_global", "bucket_eu")
 			if self.settings.get(field)
 		]
+		return held + [("default", DOCS_BUCKET)] if held else held
 
 	def admin_token(self) -> None:
 		"""The token every other step runs with. Before the account and the
@@ -346,6 +352,24 @@ class Setup:
 				self.call("POST", f"/accounts/{self.account}/r2/buckets", headers=headers, json={"name": name})
 				self.note(f"bucket {jurisdiction}", MADE, name)
 			self.keep(field, name)
+
+	def docs_media(self) -> None:
+		"""Help's pictures and clips: a bucket of their own, shared by every
+		environment and holding nothing else, public on media.<zone>
+		(one/media.py). A workspace's bucket is never made public."""
+		held = self.call("GET", f"/accounts/{self.account}/r2/buckets")["result"]
+		if any(one["name"] == DOCS_BUCKET for one in held.get("buckets", [])):
+			self.note("bucket docs", OURS, DOCS_BUCKET)
+		else:
+			self.call("POST", f"/accounts/{self.account}/r2/buckets", json={"name": DOCS_BUCKET})
+			self.note("bucket docs", MADE, DOCS_BUCKET)
+		domain = f"media.{self.zone['name']}"
+		path = f"/accounts/{self.account}/r2/buckets/{DOCS_BUCKET}/domains/custom"
+		domains = self.call("GET", path)["result"].get("domains", [])
+		if any(one.get("domain") == domain for one in domains):
+			return self.note(f"domain {domain}", OURS)
+		self.call("POST", path, json={"domain": domain, "zoneId": self.zone["id"], "enabled": True, "minTLS": "1.2"})
+		self.note(f"domain {domain}", MADE)
 
 	def router(self) -> None:
 		if not self.settings.cloudflare_kv:

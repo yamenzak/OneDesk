@@ -1,22 +1,16 @@
 """What's New: each module's versions, from its docs/changelog/, and the
-newest each person has seen (docs/READY.md, Versions and What's New).
-
-The words are written in English only, for the people using the module, so
-they are shown as written. A picture beside an entry is sent inside it.
+newest each person has seen (docs/READY.md, Versions and What's New). A
+version names the Help pages it changed (`docs`), and each page lists the
+versions that changed it.
 """
-
-import base64
-import mimetypes
-import re
 
 import frappe
 from frappe import _
 from frappe.utils import md_to_html
 
-from onedesk.one import ready
+from onedesk.one import media, ready
 
 SEEN = "one_seen_version_{}"
-PICTURE = re.compile(r"!\[([^\]]*)\]\(([^)]+)\)")
 
 
 def _known(module: str) -> None:
@@ -54,7 +48,7 @@ def whats_new(module: str) -> dict:
 				"date": one["date"],
 				"kind": one["kind"],
 				"title": one["title"],
-				"html": md_to_html(_pictured(one)),
+				"html": md_to_html(media.pictured(module, one["body"], one["path"])),
 				"new": int(ready.number(one["version"]) > before),
 				"docs": [{"id": page, "title": titles[page]} for page in one["docs"] if page in titles],
 			}
@@ -62,20 +56,6 @@ def whats_new(module: str) -> dict:
 	if entries:
 		frappe.defaults.set_user_default(SEEN.format(ready.MODULES[module]["folder"]), entries[0]["version"])
 	return {"module": module, "versions": entries}
-
-
-def _pictured(one: dict) -> str:
-	"""A version's or a help page's words with each picture beside it sent
-	inside them."""
-
-	def inline(found: re.Match) -> str:
-		path = (one["path"].parent / found.group(2)).resolve()
-		if not path.is_relative_to(one["path"].parent.resolve()) or not path.exists():
-			return found.group(1)
-		kind = mimetypes.guess_type(path.name)[0] or "image/png"
-		return f"![{found.group(1)}](data:{kind};base64,{base64.b64encode(path.read_bytes()).decode()})"
-
-	return PICTURE.sub(inline, one["body"])
 
 
 def _filled(module: str, body: str) -> str:
@@ -93,11 +73,21 @@ def help_pages(module: str) -> dict:
 	"""A module's help, page by page, in reading order, as people read it in
 	its Help (docs/READY.md, Docs and Help)."""
 	_known(module)
+	changed = {}
+	for one in ready.versions(module):
+		for page in one["docs"]:
+			changed.setdefault(page, []).append({"version": one["version"], "title": one["title"], "date": one["date"]})
 	return {
 		"module": module,
 		"version": ready.current(module),
 		"pages": [
-			{"id": page["id"], "icon": page["icon"], "title": page["title"], "html": md_to_html(_filled(module, _pictured(page)))}
+			{
+				"id": page["id"],
+				"icon": page["icon"],
+				"title": page["title"],
+				"html": md_to_html(_filled(module, media.pictured(module, page["body"], page["path"]))),
+				"changed": changed.get(page["id"], []),
+			}
 			for page in ready.help_pages(module)
 		],
 	}

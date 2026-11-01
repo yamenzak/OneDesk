@@ -13,6 +13,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 
 after_sync = [
 	"onedesk.one.roles.ensure",
+	"onedesk.one_admin.media.after_migrate",
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
@@ -78,6 +79,7 @@ before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]
 
 after_migrate = [
 	"onedesk.one.roles.ensure",
+	"onedesk.one_admin.media.after_migrate",
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",

@@ -28,7 +28,27 @@ onedesk.module_docs = {
 			if ($p.length && $p.children().length === 1 && !$p.text().trim()) $p.replaceWith($figure);
 		});
 		$doc.find("table").removeClass("table table-bordered").wrap(`<div class="one-doc-table"></div>`);
+		// A picture R2 does not have yet comes from this site (one/media.py).
+		$doc.find("img[data-here]").each((_i, img) => {
+			img.addEventListener("error", () => img.dataset.here && img.src !== img.dataset.here && (img.src = img.dataset.here), { once: true });
+			if (img.complete && !img.naturalWidth) img.src = img.dataset.here;
+		});
 		return $doc;
+	},
+
+	// Under a page, the versions that changed it, each opening What's New on it.
+	changed($into, module, versions) {
+		if (!versions || !versions.length) return;
+		const $more = $(`<div class="one-docs-more"></div>`).appendTo($into);
+		$(`<div class="one-docs-more-title"></div>`).text(__("Changed In")).appendTo($more);
+		for (const one of versions) {
+			$(frappe.ui.button.html({ label: `${one.version} · ${one.title}`, variant: "outline", icon: "sparkles" }))
+				.on("click", () => {
+					frappe.ui.hide_open_dialog();
+					onedesk.whats_new.open(module, one.version);
+				})
+				.appendTo($more);
+		}
 	},
 
 	// A page's sections: what comes before its first heading, then each
@@ -357,6 +377,7 @@ onedesk.help.open = async (module = null, page = null, anchor = null) => {
 				title: one.title,
 				render(panel) {
 					onedesk.module_docs.page(panel.body.empty(), one.html);
+					onedesk.module_docs.changed(panel.body, of, one.changed);
 					panel.body.off("scroll.one-docs").on(
 						"scroll.one-docs",
 						frappe.utils.throttle(() => dialog.spy(here), 80),
