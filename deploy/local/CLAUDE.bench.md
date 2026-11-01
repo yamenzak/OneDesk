@@ -34,8 +34,9 @@ rules. This file is only about how this machine runs it.
 
 `ls sites` lists them. The pair on the domain (`one.DOMAIN`, a workspace, and
 `admin.DOMAIN`, OneAdmin) are served over HTTPS through the tunnel, realtime
-included: `/socket.io` goes to 9000 and the sites set `socketio_port` 443 for
-it. They are marked `one_dev` in their site config. The workspace is linked to
+included: `/socket.io` goes to a local nginx on 9001, which adds the Origin
+header socketio insists on and passes it to 9000, and the sites set
+`socketio_port` 443 for it. They are marked `one_dev` in their site config. The workspace is linked to
 the dev OneAdmin as its house workspace, so its OneAI is unbilled.
 
 Passwords are in `~/.one-local` (`PUBLIC_ADMIN_PASSWORD` for the domain pair).

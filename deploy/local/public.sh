@@ -70,10 +70,29 @@ for host in "$WORKSPACE" "$ADMIN"; do
 	cloudflared tunnel route dns --overwrite-dns "$TUNNEL" "$host" >/dev/null
 done
 
-# Pages to the web server on 8000; socketio to its own server on 9000. The
-# Host header is set to the public name on both: socketio refuses a
-# connection whose Host and Origin differ ("Invalid origin"), and the site is
-# found by that name.
+# Pages to the web server on 8000; /socket.io to a local nginx on 9001 in
+# front of socketio on 9000. The Host header is set to the public name on
+# both, which is how the site is found. socketio also refuses a connection
+# whose Origin is missing or names another host ("Invalid origin"), and a
+# browser sends no Origin on the first, same-origin request of the handshake;
+# production's nginx sets it (proxy_set_header Origin), and so does this one.
+command -v nginx >/dev/null || { say "nginx"; sudo apt-get install -y -qq nginx >/dev/null; }
+sudo tee /etc/nginx/conf.d/one-dev-socketio.conf >/dev/null <<'NGINX'
+server {
+	listen 127.0.0.1:9001;
+	location / {
+		proxy_http_version 1.1;
+		proxy_set_header Upgrade $http_upgrade;
+		proxy_set_header Connection "upgrade";
+		proxy_set_header Host $host;
+		proxy_set_header Origin https://$host;
+		proxy_read_timeout 3600s;
+		proxy_pass http://127.0.0.1:9000;
+	}
+}
+NGINX
+sudo nginx -t -q && sudo systemctl reload-or-restart nginx
+
 CONFIG="$HOME/.cloudflared/config.yml"
 {
 	echo "tunnel: $ID"
@@ -82,7 +101,7 @@ CONFIG="$HOME/.cloudflared/config.yml"
 	for host in "$WORKSPACE" "$ADMIN"; do
 		echo "  - hostname: $host"
 		echo "    path: ^/socket\\.io"
-		echo "    service: http://localhost:9000"
+		echo "    service: http://127.0.0.1:9001"
 		echo "    originRequest:"
 		echo "      httpHostHeader: $host"
 		echo "  - hostname: $host"
