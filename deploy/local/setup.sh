@@ -190,6 +190,11 @@ make_site admin.localhost 1
 # on save; onedesk's islands (frontend/) have their own watcher, added here.
 grep -q "^islands:" Procfile || echo "islands: cd apps/onedesk/frontend && yarn dev" >>Procfile
 
+# What Claude Code needs to know about this machine, at the bench's root so it
+# is read from anywhere inside it, and out of the repository, which is also
+# worked on where none of it is true.
+cp apps/onedesk/deploy/local/CLAUDE.bench.md CLAUDE.md
+
 # bench start runs its own redis on these ports, and stops everything if
 # either is already taken. Only the ones started above are stopped, so a
 # bench start already running keeps its own.

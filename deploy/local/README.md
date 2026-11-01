@@ -74,6 +74,12 @@ and with no terminal open. `sudo systemctl restart one-bench` after a change to
 `hooks.py`; `journalctl -u one-bench -f` shows what it prints; `always-on.sh
 off` hands it back to you.
 
+## For Claude Code
+
+`setup.sh` copies `CLAUDE.bench.md` to `~/one-bench/CLAUDE.md`, which Claude
+Code reads from anywhere in the bench: the service, the sites, the gates, and
+what never to do on a dev machine. Edit it here, not there.
+
 ## Every day
 
     cd ~/one-bench && bench start

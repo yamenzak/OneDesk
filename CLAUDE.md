@@ -260,6 +260,11 @@ repository is emptied and their sites are gone. Some module READMEs and
 docstrings still say a piece was first written there; that is history, not a
 dependency.
 
+On the dev server the bench is `~/one-bench`, and `~/one-bench/CLAUDE.md`
+(written by `deploy/local/setup.sh` from `deploy/local/CLAUDE.bench.md`) says
+how that machine runs: the service, the sites on the domain, what never to do
+there.
+
 ## The guards
 
 `python -m pytest` — fast, no site needed, and every guard has a test proving
