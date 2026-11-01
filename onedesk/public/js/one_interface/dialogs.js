@@ -160,6 +160,8 @@ onedesk.interface.ask = ({ question, effect = "", verb, danger = false }) =>
 			secondary_action: () => dialog.hide(),
 		});
 		dialog.$wrapper.attr("data-tone", danger ? "red" : "gray");
+		// frappe's own red button, as frappe.warn draws it
+		if (danger) frappe.ui.button.dress(dialog.get_primary_btn(), { variant: "solid", theme: "red" });
 		onedesk.interface.lead(dialog, danger ? "trash-2" : "circle-question-mark", "");
 		if (effect) dialog.$body.append($('<p class="one-dialog-effect"></p>').text(effect));
 		dialog.onhide = () => answered || resolve(false);

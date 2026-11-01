@@ -47,7 +47,6 @@
 :root[data-one-look="canvas"] .one-dialog-need { margin-inline-end: auto; min-width: 0; font-size: 13px; color: var(--ink-gray-5); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 :root[data-one-look="canvas"] .one-dialog-need b { color: var(--ink-gray-8); font-weight: 500; }
 :root[data-one-look="canvas"] .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-footer { border-top: 0; padding-top: 4px; padding-bottom: 16px; }
-:root[data-one-look="canvas"] .one-dialog[data-kind="ask"][data-tone="red"] .modal-footer .btn-primary { background: var(--surface-red-6); border-color: transparent; color: var(--surface-base); }
 
 /* a centre: its window controls in its corner, its own Help just before them */
 :root[data-one-look="canvas"] .one-dialog-controls { position: absolute; top: 12px; inset-inline-end: 12px; z-index: 3; display: flex; gap: 2px; }
