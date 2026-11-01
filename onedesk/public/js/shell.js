@@ -8,8 +8,8 @@ $.extend(onedesk.shell, {
 			title,
 			single_column: true,
 			hide_sidebar,
-			one_window: in_window,
-			one_window_fit: fit,
+			one_interface: in_window,
+			one_interface_fit: fit,
 		});
 		if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 		page.$shell = $(`<section class="one-shell"></section>`).appendTo(page.main);
@@ -487,7 +487,7 @@ onedesk.shell.Editor = class Editor {
 			const narrows = (a) => new URLSearchParams(a.getAttribute("href").split("?")[1] || "").size;
 			const row = (path) =>
 				$(".item-anchor[href]")
-					.not(".one-window-nav-slot *")
+					.not(".one-interface-nav-slot *")
 					.toArray()
 					.filter((a) => list(a.getAttribute("href")) === list(path))
 					.sort((a, b) => narrows(a) - narrows(b))[0];

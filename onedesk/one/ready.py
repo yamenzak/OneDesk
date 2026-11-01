@@ -527,6 +527,24 @@ MODULES = {
 			("who-can-do-what", "shield"),
 		),
 	},
+	"OneInterface": {
+		"folder": "one_interface",
+		"screens": "interface",
+		"names": ("one_interface", "oneinterface"),
+		"ready": False,
+		"windowless": "OneInterface is the window every other module is drawn in, so it has no window, foot or settings of its own.",
+		# A module that is the frame the others are drawn in, rather than an
+		# app somebody is given, ships no roles; it says why (docs/READY.md,
+		# An engine module).
+		"engine": "OneInterface draws every module's screens and keeps no records of its own, so nobody is given it and it ships no roles.",
+		"help": (
+			("overview", "app-window"),
+			("records", "file-text"),
+			("lists", "list"),
+			("dialogs", "square-stack"),
+			("looks-and-themes", "palette"),
+		),
+	},
 	"One": {
 		"folder": "one",
 		"screens": "one",
@@ -808,6 +826,7 @@ def shared(path: str) -> bool:
 
 
 OUTSIDE = {
+	"OneInterface": [],
 	"OneCRM": [],
 	"OneHR": [],
 	"OneMail": [],

@@ -37,7 +37,7 @@ Look for these before drawing anything:
 | A coloured state on a row | `get_indicator` in `listview_settings` |
 | A yes/no on a form | a Check: the window draws it as frappe's switch |
 | Figures or a chart on a record | the head in `one/head.py`: it lands in the record panel already laid out |
-| Making a record | the window's create dialog (`onedesk.window.create`), never a page of our own |
+| Making a record | the window's create dialog (`onedesk.interface.create`), never a page of our own |
 | A record's files | OneCloud's mark beside print and like, never a Files tab |
 | An action inside a field | frappe's `.link-btn`, the icon a Link field shows |
 | A button | `frappe.ui.button` / frappe-ui `Button`; inputs are frappe's `form-control` |
@@ -66,7 +66,7 @@ it goes wrong is the `ux` skill. On the screen itself:
 ## Where things go (OneInterface)
 
 The frame decides placement; a view only says what it has
-(`page.window.view({ primary, commands, menu, controls, views, search, row, status })`).
+(`page.interface.view({ primary, commands, menu, controls, views, search, row, status })`).
 
 - **Address row:** Back, Forward, Up, the breadcrumb, the record's status
   pill, Refresh, search.
@@ -82,7 +82,7 @@ The frame decides placement; a view only says what it has
   that rail, not a column of its own.
 
 Never reach into the frame's rows from a screen. A change to how every
-screen looks is made once, in `public/js/window/` or `public/css/window/`.
+screen looks is made once, in `public/js/one_interface/` or `public/css/one_interface/`.
 
 ## How it looks
 
@@ -144,11 +144,11 @@ Walk the job, as the person who does it, to the end:
 4. Read every string with the `wording` skill.
 5. Run the UI guards, which take seconds:
 
-       python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_window.py \
+       python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
          tests/guards/test_islands.py tests/guards/test_layout.py tests/guards/test_shell.py \
          tests/guards/test_record_page.py tests/guards/test_rail.py
 
 A guard failure means the screen is wrong, not the guard.
 
-`docs/ONEINTERFACE.md` is the full contract and `docs/UI-NOTES.md` the walk
+`onedesk/one_interface/AGENTS.md` is the full contract and `docs/UI-NOTES.md` the walk
 each rule came from.

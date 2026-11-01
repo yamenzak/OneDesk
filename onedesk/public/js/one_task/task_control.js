@@ -15,9 +15,9 @@ onedesk.control_centers.OneTask = onedesk.task.settings;
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.window.current();
+		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneTask") return;
 		win.module_foot({ module: "OneTask", settings: () => onedesk.task.settings() });
-		onedesk.window.nav.place();
+		onedesk.interface.nav.place();
 	}, 0)
 );

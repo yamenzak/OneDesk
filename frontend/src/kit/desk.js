@@ -332,10 +332,10 @@ export const symbol = (name) => {
   return found ? { viewBox: found.getAttribute("viewBox"), html: found.innerHTML } : null;
 };
 
-// Where on the window a part of an island goes (docs/ONEINTERFACE.md, The parts):
+// Where on the window a part of an island goes (onedesk/one_interface/AGENTS.md, The parts):
 // the nav pane under the view's row, the details pane, the command row or the
 // views at its end. Null when the island is not on a window (in a dialog).
-export function windowPart(win, part, { key = "page", width } = {}) {
+export function interfacePart(win, part, { key = "page", width } = {}) {
 	if (!win) return null;
 	const $at = {
 		nav: () => win.nav_slot(),
@@ -349,9 +349,9 @@ export function windowPart(win, part, { key = "page", width } = {}) {
 }
 
 // Whether a record page's window holds a form's parts for it
-// (docs/ONEINTERFACE.md, A record page): its tabs in the view row, its
+// (onedesk/one_interface/AGENTS.md, A record page): its tabs in the view row, its
 // activity in the record panel and its files behind OneCloud's mark.
-export const windowRecord = (win) => Boolean(win?.record_panel);
+export const interfaceRecord = (win) => Boolean(win?.record_panel);
 
 // A record's pill for the address row, as frappe draws a form's: frappe's own
 // indicator for the doctype (its list settings where loaded, else its status).
@@ -393,7 +393,7 @@ export function toast(message, action = null, duration = 8000) {
 }
 
 // The window's own search box, in its address row.
-export function windowSearch(win, { placeholder = "", hint = "", onInput, onKey } = {}) {
+export function interfaceSearch(win, { placeholder = "", hint = "", onInput, onKey } = {}) {
 	if (!win) return null;
 	const $input = win.search({
 		placeholder,
@@ -413,12 +413,12 @@ export function windowSearch(win, { placeholder = "", hint = "", onInput, onKey 
 // with no window, in a box of the desk's own that the host gave (OneCloud's
 // picker). Rows and handlers as nav_tree.js says; `lucide-` is dropped from
 // an icon, since the desk names its sprite's icons bare. Returns `set(rows)`.
-export function windowTree(at, { label = "", pick, twist, over, leave, drop, menu } = {}) {
+export function interfaceTree(at, { label = "", pick, twist, over, leave, drop, menu } = {}) {
 	if (!at) return null;
 	// `menu(id)` answers [{ label, icon, theme, onClick }] for a right-clicked row.
 	const items = menu && ((id) => (menu(id) || []).map((one) => ({ label: one.label, icon: one.icon && one.icon.replace(/^lucide-/, ""), theme: one.theme, onclick: one.onClick })));
 	const spec = { label, pick, twist, over, leave, drop, menu: items, rows: [] };
-	const tree = at.tree ? at.tree(spec) : new window.onedesk.window.Tree(window.$(at), spec);
+	const tree = at.tree ? at.tree(spec) : new window.onedesk.interface.Tree(window.$(at), spec);
 	return {
 		set: (rows) => tree.set({ rows: rows.map((row) => ({ ...row, icon: row.icon && row.icon.replace(/^lucide-/, "") })) }),
 	};
@@ -426,26 +426,26 @@ export function windowTree(at, { label = "", pick, twist, over, leave, drop, men
 
 // A button at the end of the rail's head while this view is on screen
 // (window/nav_tree.js); `icon` is a lucide name.
-export const windowHeadAction = (win, { icon, title, onClick }) =>
+export const interfaceHeadAction = (win, { icon, title, onClick }) =>
 	win && win.head_action({ icon: icon.replace(/^lucide-/, ""), title, click: onClick });
 
 // A row at the foot of the rail while this view is on screen
 // (window/nav_tree.js), for where it is set up; `icon` is a lucide name.
-export const windowFootAction = (win, { icon, label, onClick, version = null }) =>
+export const interfaceFootAction = (win, { icon, label, onClick, version = null }) =>
 	win && win.foot_action({ icon: icon.replace(/^lucide-/, ""), label, click: onClick, version });
 
 // A module's foot: Settings, the tour, Help, TrustCenter and its version, the same in every module
 // (window/nav_tree.js `module_foot`).
-export const windowModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
+export const interfaceModuleFoot = (win, { module, onSettings }) => win && win.module_foot({ module, settings: onSettings });
 
 // Meters at the foot of this view's nav pane (window/nav_tree.js).
-export const windowMeters = (win, rows) => win && win.meters(rows);
+export const interfaceMeters = (win, rows) => win && win.meters(rows);
 
 // What the window does for its own Up, Refresh and typed paths, and its
 // status row.
-export const windowHandles = (win, handlers) => win && win.view(handlers);
-export const windowStatus = (win, text) => win && win.status(text);
-export const windowCan = (win, can) => win && win.can(can);
+export const interfaceHandles = (win, handlers) => win && win.view(handlers);
+export const interfaceStatus = (win, text) => win && win.status(text);
+export const interfaceCan = (win, can) => win && win.can(can);
 
 // An event published to a doctype's room (frappe's get_doctype_room), heard
 // while the island is up.

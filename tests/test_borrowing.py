@@ -82,8 +82,8 @@ DEFINES_TOKENS = (
 
 LOOKED = {
 	# frappe's own form tabs, moved into the window's row and folded into More;
-	# placed, not redrawn (docs/ONEINTERFACE.md).
-	("tabs", "onedesk/public/css/window/views.css"),
+	# placed, not redrawn (onedesk/one_interface/AGENTS.md).
+	("tabs", "onedesk/public/css/one_interface/views.css"),
 	("fetching", "frontend/src/cloud/OneCloud.vue"),
 	("icons", "onedesk/one_studio/letter_heads.py"),
 	("icons", "onedesk/public/js/outside.js"),
@@ -139,7 +139,7 @@ def test_every_rule_would_catch_its_own_example():
 		"per-user state": "localStorage.setItem('tab', tab)",
 		"colours and sizes": "color: #1a1a1a;",
 		"icons": '<svg viewBox="0 0 16 16"><path d="M4 4l8 8" /></svg>',
-		"tabs": ".one-window .form-tabs .nav-link.active { border: 0; }",
+		"tabs": ".one-interface .form-tabs .nav-link.active { border: 0; }",
 		"permission checks": "if frappe.session.user == 'admin@example.com':",
 	}
 	for what, _instead, pattern, _suffixes in RULES:

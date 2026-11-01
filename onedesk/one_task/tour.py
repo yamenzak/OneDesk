@@ -7,7 +7,7 @@ from frappe import _lt
 
 MY_TASKS = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Your Tasks and Inbox"),
 		"text": _lt("My Tasks is everything given to you, and Inbox is what has no project yet."),
@@ -25,7 +25,7 @@ MY_TASKS = [
 		"text": _lt("Drag a task to Completed when it is done, or time it with the play button on its card."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Settings is the cog, and the tour runs again from the button beside it."),

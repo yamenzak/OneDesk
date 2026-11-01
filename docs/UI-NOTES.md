@@ -5,7 +5,7 @@ The rules below are gathered, as they are applied, in
 
 Yamen's points from walking every screen, written as rules for the next
 screen. When the walk ends, each one either moves into the UI contract
-(`docs/ONEINTERFACE.md`, `docs/WORDING.md`) or becomes a guard, and this
+(`onedesk/one_interface/AGENTS.md`, `docs/WORDING.md`) or becomes a guard, and this
 file goes.
 
 ## Prefer the desk
@@ -48,9 +48,9 @@ file goes.
   `.page-form`); moved into the window's controls, "Filters 2" read
   "Filters2". Every move the window makes is checked against the scss that
   styled the node in its old parent, and the rule follows it in
-  `css/window/frame.css`. A guard can list each node `window.view` moves
+  `css/one_interface/frame.css`. A guard can list each node `window.view` moves
   and the frappe selectors that scope it.
-- **Read-only JSON is a tree** (`js/window/json_view.js`): any Code or JSON
+- **Read-only JSON is a tree** (`js/one_interface/json_view.js`): any Code or JSON
   field that can't be edited and holds JSON folds by level, inks values by
   kind, counts what a level holds, finds a key or a value at any depth,
   copies a row, shows the path under the pointer, unfolds JSON inside a
@@ -251,7 +251,7 @@ with the gates at the end.
   Centers rows each with their own icon; Announcements as
   frappe's Note list (Status filter, Stop Showing, Show Until, Seen By);
   Recycle Bin as frappe's Deleted Document list (Restore); the JSON field
-  viewer (`js/window/json_view.js`); the Address Book as frappe's Contact
+  viewer (`js/one_interface/json_view.js`); the Address Book as frappe's Contact
   and Address lists (no ID or Status column on Contacts); one Portal
   dialog on a document, a customer, a supplier and a contact.
 - **OneCalendar**: the calendar keeps OneCalendar's rail, with the layers
@@ -320,7 +320,7 @@ with the gates at the end.
   window: their tabs inside the page under the head, an Activity and a Files
   tab of their own, the sidebar with a Files row and Last Edited By / Created
   By under it, no details switch, and a task's Start Timer at the far right.
-  They are laid out as a form now (docs/ONEINTERFACE.md, A record page): tabs
+  They are laid out as a form now (onedesk/one_interface/AGENTS.md, A record page): tabs
   in the view row, the status pill in the address row, buttons in the command
   row, Activity in the record panel beside Mail, files behind OneCloud's mark,
   who changed it in the status. The item page keeps OneInventory's rail, and
@@ -349,7 +349,7 @@ with the gates at the end.
   and pages (test_tiers, test_shell ISLAND_PAGES, screens.mjs,
   test_outside, test_announcements, ISLANDS.md, ATLAS, MODULES.md), the
   tokens in frame.css's filter pill, one/checks.py reading the rail from
-  its JSON, test_tiers for contact_list and test_window for json_view; a fix
+  its JSON, test_tiers for contact_list and test_interface_frame for json_view; a fix
   version for OneMail (theirs.py's import moved), One's version for the
   portal clause leaving its legal.py, and ar/de for OnePortal's new
   strings and its name (its picker line, the Portal column and its three
@@ -510,7 +510,7 @@ and on a phone. What it changed in the parts every app shares:
   right with frappe's own layout: the window waits for frappe's Kanban
   class with a setter on frappe.views, and the board scripts (OneTask's and
   OneProject's) each put a setter of their own on the same name, the last
-  one replacing the window's. onedesk.window.when now keeps every waiter
+  one replacing the window's. onedesk.interface.when now keeps every waiter
   and calls them all; the board scripts wait through it, and a guard
   refuses another setter of their own. OneTask's add field goes in the
   command row through the window's `commands`, beside Add Task, instead of

@@ -15,10 +15,10 @@ onedesk.control_centers.OneBook = onedesk.book.settings;
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.window.current();
+		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneBook") return;
 		win.module_foot({ module: "OneBook", settings: () => onedesk.book.settings() });
-		onedesk.window.nav.place();
+		onedesk.interface.nav.place();
 	}, 0)
 );
 

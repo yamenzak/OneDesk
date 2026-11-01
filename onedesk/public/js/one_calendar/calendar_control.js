@@ -59,9 +59,9 @@ onedesk.control_centers.OneCalendar = onedesk.calendar_control.open;
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.window.current();
+		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OneCalendar") return;
 		win.module_foot({ module: "OneCalendar", settings: () => onedesk.calendar_control.open() });
-		onedesk.window.nav.place();
+		onedesk.interface.nav.place();
 	}, 0)
 );

@@ -7,7 +7,7 @@ from frappe import _lt
 
 HOME = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Stock, Buying and Making"),
 		"text": _lt("Items, warehouses, what is ordered and received, the workshop and the company's equipment."),
@@ -25,7 +25,7 @@ HOME = [
 		"text": _lt("Overview says how stock is doing, Today what needs you, Everything finds any list, and Reports and Setup sit beside them."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Settings is the cog, and the tour runs again from the button beside it."),

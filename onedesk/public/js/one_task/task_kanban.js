@@ -31,7 +31,7 @@ onedesk.task_board.mine = (page) => page.doctype === "Task" && onedesk.task_boar
 			return said;
 		};
 	};
-	onedesk.window.when(frappe.views, "KanbanV2Page", shape);
+	onedesk.interface.when(frappe.views, "KanbanV2Page", shape);
 })();
 
 // A task's subject and when it is due, added on Enter, as the window's own
@@ -40,7 +40,7 @@ onedesk.task_board.mine = (page) => page.doctype === "Task" && onedesk.task_boar
 onedesk.task_board.adder = (page) => {
 	if (!page.$one_add) {
 		page.$one_add = $(`<div class="one-task-add" data-tour="onetask-add"></div>`);
-		const win = page.page && page.page.window;
+		const win = page.page && page.page.interface;
 		if (win) win.view({ commands: page.$one_add });
 		else page.$one_add.insertBefore(page.$container);
 		const subject = frappe.ui.form.make_control({

@@ -1,0 +1,868 @@
+/* The window (onedesk/one_interface/AGENTS.md). frappe's page head becomes two rows by
+   wrapping, so nothing frappe holds moves: the address row (Back, Forward, Up,
+   frappe's breadcrumbs and pill, Refresh, search) and the command row (the
+   view's commands, frappe's actions, the details switch). */
+
+:root {
+	--one-details-width: 280px;
+}
+
+@media (min-width: 768px) {
+	.one-interface {
+		--page-head-height: 89px;
+	}
+
+	.one-interface > .page-head {
+		height: auto;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-interface > .page-head > .container {
+		max-width: none;
+		padding: 0;
+	}
+
+	/* frappe marks the head `flex-nowrap`, which is !important. */
+	.one-interface .page-head .page-head-content {
+		display: flex;
+		flex-wrap: wrap !important;
+		align-items: center;
+		gap: 0;
+		height: auto;
+		margin: 0;
+		padding: 0;
+	}
+
+	.one-interface .page-head-content > .one-interface-nav,
+	.one-interface .page-head-content > .page-title,
+	.one-interface .page-head-content > .one-interface-tools {
+		align-self: stretch;
+		min-height: 44px;
+		border-bottom: 1px solid var(--outline-gray-1);
+	}
+
+	.one-interface .page-head-content > .one-interface-nav {
+		order: 1;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		padding-inline: calc(var(--spacing) * 2) calc(var(--spacing) * 1);
+	}
+
+	.one-interface .page-head-content > .page-title {
+		order: 2;
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		min-width: 0;
+		margin: 0;
+		padding-inline: calc(var(--spacing) * 1);
+	}
+
+	.one-interface .page-head-content > .page-title .title-area {
+		flex: 1;
+		min-width: 0;
+		height: 30px;
+		padding-inline: calc(var(--spacing) * 2);
+		border: 1px solid var(--outline-gray-2);
+		border-radius: var(--radius);
+		background: var(--surface-gray-1);
+		align-items: center;
+	}
+
+	.one-interface .page-head-content > .one-interface-tools {
+		order: 3;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		padding-inline: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	}
+
+	.one-interface .page-head-content > .one-interface-break {
+		order: 4;
+		flex-basis: 100%;
+		height: 0;
+	}
+
+	.one-interface .one-interface-search {
+		width: 240px;
+	}
+
+	.one-interface .one-interface-search:empty {
+		display: none;
+	}
+
+	.one-interface .page-head-content > .one-interface-commands {
+		order: 5;
+		flex: 1 1 0;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+		min-height: 44px;
+		padding-inline: calc(var(--spacing) * 2);
+	}
+
+	/* The command row's groups (the view's primary, its own commands, frappe's
+	   menu), each a run of buttons, with a line between two that are shown,
+	   as OneCloud draws between its commands. A group with nothing shown in
+	   it is not there. */
+	.one-interface .one-interface-commands > .one-interface-group {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-interface .one-interface-commands > .one-interface-group:not(:has(> :not(.hide, [hidden], [style*="display: none"]))) {
+		display: none;
+	}
+
+	.one-interface .one-interface-commands > .one-interface-group:has(> :not(.hide, [hidden], [style*="display: none"]))
+		~ .one-interface-group:has(> :not(.hide, [hidden], [style*="display: none"]))::before {
+		content: "";
+		width: 1px;
+		height: 20px;
+		margin-inline-end: calc(var(--spacing) * 1);
+		background: var(--outline-gray-2);
+	}
+
+	.one-interface .page-head-content > .standard-items-section {
+		order: 6;
+		min-height: 44px;
+		padding-inline: calc(var(--spacing) * 2);
+	}
+
+	.one-interface .page-head-content > .one-interface-views {
+		order: 7;
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		min-height: 44px;
+		padding-inline-end: calc(var(--spacing) * 2);
+	}
+
+	.one-interface .page-head-content > .one-interface-views:empty {
+		display: none;
+	}
+
+	.one-interface .page-head-content > .one-interface-switch {
+		order: 8;
+		margin-inline-end: calc(var(--spacing) * 2);
+	}
+
+	/* frappe hides its menu on a wide screen when all it holds is what the
+	   row already shows (hidden-xl). */
+	@media (min-width: 992px) {
+		.one-interface .one-interface-commands > [data-group="menu"]:not(:has(> :not(.hide, [hidden], .hidden-xl))) {
+			display: none;
+		}
+	}
+
+	.one-interface .page-head-content > .one-interface-switch[data-state="on"],
+	.one-interface .one-interface-commands .es-button[data-state="on"] {
+		background: var(--surface-gray-3);
+	}
+
+	/* The status row, held at the foot of the screen while the page scrolls. */
+	.one-interface {
+		display: flex;
+		flex-direction: column;
+		min-height: calc(100dvh - var(--one-bar-offset, 0px));
+	}
+
+	.one-interface > .page-body {
+		flex: 1 0 auto;
+	}
+
+	.one-interface > .one-interface-status {
+		position: sticky;
+		bottom: 0;
+		z-index: 3;
+		display: flex;
+		align-items: center;
+		justify-content: space-between;
+		gap: calc(var(--spacing) * 3);
+		min-height: 32px;
+		padding-inline: calc(var(--spacing) * 2);
+		border-top: 1px solid var(--outline-gray-1);
+		background: var(--surface-base);
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+	}
+
+	.one-interface > .one-interface-status[hidden] {
+		display: none;
+	}
+
+	/* A fitted window is the screen, and its view scrolls inside (frappe's
+	   full-height-page box). */
+	.one-interface.one-interface-fit {
+		min-height: 0;
+	}
+
+	.one-interface.one-interface-fit > .one-interface-status {
+		position: static;
+	}
+
+	/* An island on a fitted window (OneMail, OneCloud) is the view's height,
+	   and scrolls inside its own panes. */
+	.one-interface-fit .one-island {
+		height: 100%;
+		min-height: 0;
+	}
+
+	/* The details pane, right of the view. */
+	.one-interface .layout-main:has(> .one-interface-details) {
+		display: flex;
+		min-height: 0;
+	}
+
+	.one-interface .layout-main:has(> .one-interface-details) > .layout-main-section-wrapper {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-interface-details {
+		position: relative;
+		flex: 0 0 var(--one-details-width);
+		min-width: 0;
+		border-inline-start: 1px solid var(--outline-gray-1);
+		background: var(--surface-base);
+	}
+
+	.one-interface-details[hidden] {
+		display: none;
+	}
+
+	.one-interface-details-body {
+		height: 100%;
+		overflow: auto;
+	}
+
+	.one-interface-details-edge {
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: -4px;
+		z-index: 2;
+		width: 8px;
+		cursor: col-resize;
+	}
+
+	.one-interface-details-edge:hover {
+		background: var(--outline-gray-2);
+	}
+
+	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
+	   its own variables and scrolls it, so the window's width wins and the
+	   edge sits inside its box. */
+	.one-interface .layout-main > .one-interface-details-own {
+		flex: 0 0 var(--one-details-width);
+		width: var(--one-details-width);
+		min-width: 0;
+		max-width: none;
+	}
+
+	body .one-interface .one-interface-details-own .form-sidebar {
+		width: auto;
+		max-width: none;
+	}
+
+	.one-interface .one-interface-details-own > .one-interface-details-edge {
+		inset-inline-start: 0;
+		width: 6px;
+	}
+}
+
+/* Below a tablet frappe's own phone head stays, laid in three rows: the
+   sidebar toggle, where you are and frappe's search; a record's name and
+   pill; then Refresh, the view's search and its commands in one row,
+   scrolling sideways when they don't fit, frappe's own buttons (a
+   submitted record's Cancel) at its end. */
+@media (max-width: 767px) {
+	/* frappe stacks a phone's filter toggle over the Filter button, and Sort
+	   in a box as tall; on the window's one row they sit side by side. */
+	.one-interface .one-interface-filters,
+	.one-interface .one-interface-filters :is(.filter-selector, .sort-selector) {
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-interface-nav,
+	.one-interface-switch,
+	.one-interface-details-edge {
+		display: none !important;
+	}
+
+	.one-interface > .page-head {
+		height: auto;
+	}
+
+	.one-interface .page-head .page-head-content {
+		display: flex;
+		flex-wrap: wrap !important;
+		align-items: center;
+		gap: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
+		height: auto;
+		margin: 0;
+		padding-block: calc(var(--spacing) * 2);
+	}
+
+	.one-interface .page-head-content > .page-title {
+		order: 1;
+		flex: 1 1 0;
+		min-width: 72px;
+		margin: 0;
+	}
+
+	/* frappe's phone head keeps its search, its Cancel and a record's name
+	   in one box; each goes to its own row. */
+	.one-interface .page-head-content > .standard-items-section {
+		display: contents;
+	}
+
+	.one-interface .standard-items-section > .navbar-modal-search-mobile {
+		order: 1;
+	}
+
+	.one-interface .standard-items-section > .page-actions {
+		order: 1;
+		min-width: 0;
+	}
+
+	.one-interface .standard-items-section > .page-actions:has(> .one-head-record, > .page-indicator-pill:not(.hide)) {
+		order: 2;
+		flex: 1 1 100%;
+		flex-direction: row;
+		align-items: center;
+		justify-content: flex-start !important;
+		gap: calc(var(--spacing) * 2);
+		overflow: hidden;
+	}
+
+	.one-interface .standard-items-section > .standard-actions {
+		order: 3;
+		margin-inline-start: auto;
+	}
+
+	/* A view's row across the window (a form's tabs), last, scrolling
+	   sideways. */
+	.one-interface .page-head-content > .one-interface-row {
+		order: 5;
+		flex: 1 1 100%;
+		min-width: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.one-interface .page-head-content > .one-interface-row:empty {
+		display: none;
+	}
+
+	.one-interface .page-head-content > .page-title .title-area {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-interface .page-head-content > .one-interface-tools {
+		order: 3;
+		flex: 0 0 auto;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+	}
+
+	.one-interface .one-interface-search {
+		flex: 1;
+		min-width: 0;
+	}
+
+	.one-interface .one-interface-search:empty {
+		display: none;
+	}
+
+	.one-interface .page-head-content > .one-interface-tools:has(> .one-interface-search:not(:empty)) {
+		flex: 1 1 0;
+	}
+
+	.one-interface .page-head-content > .one-interface-commands {
+		order: 3;
+		flex: 0 1 auto;
+		display: flex;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+		min-width: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.one-interface .one-interface-commands > .one-interface-group {
+		display: flex;
+		flex-shrink: 0;
+		align-items: center;
+		gap: calc(var(--spacing) * 1);
+	}
+
+	.one-interface .page-head-content > .one-interface-views {
+		order: 4;
+		display: flex;
+		flex-wrap: nowrap;
+		align-items: center;
+		gap: 2px;
+		max-width: 100%;
+		overflow-x: auto;
+	}
+
+	.one-interface > .one-interface-status {
+		padding-inline: calc(var(--spacing) * 4);
+		min-height: 32px;
+		display: flex;
+		align-items: center;
+		color: var(--ink-gray-5);
+		font-size: var(--text-sm);
+	}
+}
+
+/* The nav pane: frappe's sidebar, with a view's own tree under its row. */
+.body-sidebar-container .sidebar-edge {
+	cursor: col-resize;
+}
+
+body.one-interface-dragging,
+body.one-interface-dragging * {
+	cursor: col-resize !important;
+	user-select: none !important;
+}
+
+.one-interface-nav-slot {
+	padding-block: 0 2px;
+	padding-inline-start: calc(var(--spacing) * 3);
+}
+
+.sidebar-item-container.one-interface-nav-alone {
+	display: none;
+}
+
+.one-interface-nav-slot.one-interface-nav-whole {
+	padding-inline-start: 0;
+}
+
+/* The window's tree (window/nav_tree.js) is the sidebar's own rows (frappe's
+   standard-sidebar-item: its height, hover and pill), indented by depth,
+   a twisty before a row that holds others and a count at a row's end. The
+   row is said again here for a tree outside the rail (OneCloud's picker),
+   where frappe's sidebar rules do not reach. */
+.one-interface-tree .standard-sidebar-item {
+	display: flex;
+	margin-bottom: 2px;
+	border-radius: var(--radius);
+}
+
+.one-interface-tree .standard-sidebar-item:not(.active-sidebar):hover,
+.one-interface-tree .standard-sidebar-item.one-interface-menu:not(.active-sidebar) {
+	background: var(--surface-gray-2);
+}
+
+.one-interface-tree .standard-sidebar-item .item-anchor {
+	display: flex;
+	flex: 1;
+	align-items: center;
+	min-width: 0;
+	height: 28px;
+	padding-inline: calc(var(--depth, 0) * 14px + 2px) 0;
+	border-radius: var(--radius);
+	color: var(--ink-gray-6);
+	text-decoration: none;
+}
+
+.one-interface-tree .active-sidebar .item-anchor {
+	color: var(--ink-gray-8);
+}
+
+.one-interface-tree .sidebar-item-icon {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+}
+
+.one-interface-tree .sidebar-item-icon svg {
+	width: 16px;
+	height: 16px;
+}
+
+/* A row with a box (OneCalendar's layers): frappe's own checkbox, inked in
+   the row's colour when ticked through frappe's own --checkbox-gradient. */
+.one-interface-tree .one-interface-check {
+	margin: 0;
+	cursor: pointer;
+}
+
+.one-interface-tree .one-interface-check:checked {
+	--checkbox-gradient: linear-gradient(var(--one-check), var(--one-check));
+	border-color: var(--one-check);
+}
+
+.one-interface-tree .standard-sidebar-item .sidebar-item-label {
+	flex: 1 1 auto;
+	min-width: 0;
+	margin-inline-start: 6px;
+	overflow: hidden;
+	font-size: var(--text-sm);
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.one-interface-tree .one-interface-noted .item-anchor {
+	height: auto;
+	min-height: 28px;
+	padding-block: 3px;
+}
+
+.one-interface-tree .one-interface-label {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+	min-width: 0;
+	margin-inline-start: 6px;
+}
+
+.one-interface-tree .one-interface-label .sidebar-item-label {
+	margin-inline-start: 0;
+}
+
+.one-interface-tree .one-interface-note {
+	overflow: hidden;
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+	line-height: 1.3;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
+.sidebar-header .one-interface-head-action {
+	flex-shrink: 0;
+	margin-inline-start: auto;
+}
+
+/* The head keeps room at its end for frappe's menu button, which the shell
+   hides; with a button of the view's there instead, that end lines up with
+   the rows' own end. */
+.body-sidebar-container.expanded .body-sidebar .sidebar-header:has(> .one-interface-head-action) {
+	padding-inline-end: 4px;
+}
+
+.one-interface-tree .one-interface-strong .sidebar-item-label {
+	color: var(--ink-gray-8);
+	font-weight: var(--font-weight-semibold);
+}
+
+.one-interface-tree .one-interface-drop {
+	background: var(--surface-blue-2);
+}
+
+.one-interface-tree .one-interface-warn {
+	display: flex;
+	color: var(--ink-amber-7);
+}
+
+.one-interface-twisty {
+	display: inline-flex;
+	flex-shrink: 0;
+	align-items: center;
+	justify-content: center;
+	width: 16px;
+	height: 16px;
+	padding: 0;
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--ink-gray-5);
+}
+
+.one-interface-twisty[data-twist]:hover {
+	background: var(--surface-gray-3);
+}
+
+[dir="rtl"] .one-interface-twisty svg {
+	transform: scaleX(-1);
+}
+
+.one-interface-tree .one-interface-count {
+	margin-inline-start: auto;
+	padding-inline: calc(var(--spacing) * 1);
+	color: var(--ink-gray-5);
+	font-size: var(--text-xs);
+}
+
+/* A view's own row at the foot of the nav pane (win.foot_action): its
+   settings, drawn as the rail's own rows are. */
+.body-sidebar-bottom .one-interface-foot-action {
+	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+}
+
+.body-sidebar-container:not(.expanded) .one-interface-foot-action .sidebar-item-label {
+	display: none;
+}
+
+/* The module's version at the end of its foot row, a dot until seen. */
+.one-interface-foot-action .standard-sidebar-item {
+	display: flex;
+	align-items: center;
+}
+
+.one-interface-foot-action .item-anchor {
+	flex: 1;
+	min-width: 0;
+}
+
+/* A module's foot (win.module_foot) is icons, Settings among them, and its
+   version at the end. */
+.one-interface-foot-action--icons .standard-sidebar-item .sidebar-item-label {
+	display: none;
+}
+
+.one-interface-foot-action--icons .item-anchor {
+	flex: 0 0 auto;
+}
+
+.one-interface-foot-action--icons .one-interface-foot-version {
+	margin-inline-start: auto;
+}
+
+.one-interface-foot-help {
+	display: flex;
+	flex-shrink: 0;
+	align-items: center;
+	padding: calc(var(--spacing) * 1);
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	color: var(--ink-gray-5);
+}
+
+.one-interface-foot-help:hover {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+}
+
+.body-sidebar-container:not(.expanded) .one-interface-foot-help {
+	display: none;
+}
+
+.one-interface-foot-version {
+	position: relative;
+	flex-shrink: 0;
+	padding: 0 calc(var(--spacing) * 1.5);
+	border: 0;
+	border-radius: var(--radius-sm);
+	background: transparent;
+	font-size: var(--text-xs);
+	color: var(--ink-gray-5);
+}
+
+.one-interface-foot-version:hover {
+	background: var(--surface-gray-2);
+	color: var(--ink-gray-8);
+}
+
+.one-interface-foot-version--unseen::after {
+	content: "";
+	position: absolute;
+	top: 0;
+	right: 0;
+	width: 6px;
+	height: 6px;
+	border-radius: var(--radius-full);
+	background: var(--surface-blue-6);
+}
+
+.body-sidebar-container:not(.expanded) .one-interface-foot-version {
+	display: none;
+}
+
+/* A view's meters (win.meters) at the foot of the nav pane: frappe's
+   progress bars, amber when nearly full and red when over; a size with no
+   limit is said without a bar. */
+.one-interface-meters {
+	display: flex;
+	flex-direction: column;
+	gap: calc(var(--spacing) * 3);
+	padding: calc(var(--spacing) * 3) calc(var(--spacing) * 2);
+}
+
+.one-interface-meters .one-meter-free .es-progress__track {
+	display: none;
+}
+
+.one-interface-meters .one-meter-near .es-progress__fill {
+	background: var(--surface-amber-5);
+}
+
+.one-interface-meters .one-meter-over .es-progress__fill {
+	background: var(--surface-red-5);
+}
+
+.body-sidebar-container:not(.expanded) .one-interface-meters {
+	display: none;
+}
+
+/* Where a view's own tree has the row you are on, the sidebar row it hangs
+   from says only which section you are in: one pill on screen, not two. */
+.body-sidebar-container .sidebar-item-container:has(+ .one-interface-nav-slot .active-sidebar) > .standard-sidebar-item.active-sidebar {
+	background: transparent;
+	box-shadow: none;
+}
+
+.body-sidebar-container .sidebar-item-container:has(+ .one-interface-nav-slot .active-sidebar) > .standard-sidebar-item .sidebar-item-label {
+	font-weight: var(--font-weight-medium);
+}
+
+.body-sidebar-container:not(.expanded) .one-interface-nav-slot {
+	display: none;
+}
+
+/* The address box: frappe's breadcrumbs at rest, a box to type in when
+   clicked, with frappe's search bar's answers under it. */
+.one-interface .title-area.one-interface-typing > :not(.one-interface-address) {
+	display: none !important;
+}
+
+.one-interface .title-area.one-interface-typing {
+	overflow: visible;
+	border-color: var(--outline-gray-3);
+	background: var(--surface-base);
+}
+
+.one-interface-address {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+}
+
+.one-interface-address .awesomplete,
+.one-interface-address .awesomebar-input-row {
+	display: flex;
+	align-items: center;
+	gap: calc(var(--spacing) * 2);
+	height: 100%;
+	position: static;
+}
+
+.one-interface-address .awesomebar-search-icon {
+	display: flex;
+	color: var(--ink-gray-5);
+}
+
+.one-interface-address input {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	outline: none;
+	background: transparent;
+	color: var(--ink-gray-8);
+	font-size: var(--text-base);
+}
+
+.one-interface .page-title .title-area {
+	position: relative;
+}
+
+.one-interface-address .awesomplete > [role="listbox"] {
+	top: calc(100% + 6px);
+	inset-inline: -1px;
+	width: auto;
+	max-height: min(60vh, 480px);
+	z-index: 1030;
+	border: 1px solid var(--outline-gray-2);
+	border-radius: var(--radius-lg);
+	background: var(--surface-base);
+	box-shadow: none;
+}
+
+/* A view's row across the window under the commands (a form's tabs), part
+   of the head, so it stays on screen as the page scrolls. */
+@media (min-width: 768px) {
+	.one-interface .page-head-content > .one-interface-row {
+		order: 9;
+		flex-basis: 100%;
+		min-width: 0;
+		border-top: 1px solid var(--outline-gray-1);
+	}
+
+	.one-interface .page-head-content > .one-interface-row:empty {
+		display: none;
+	}
+
+	.one-interface:has(> .page-head .one-interface-row:not(:empty)) {
+		--page-head-height: 131px;
+	}
+
+	.one-interface-tools > .one-interface-steps {
+		display: flex;
+		align-items: center;
+		gap: 2px;
+		margin-inline-start: calc(var(--spacing) * 1);
+		padding-inline-start: calc(var(--spacing) * 1);
+		border-inline-start: 1px solid var(--outline-gray-2);
+	}
+
+	.one-interface-tools > .one-interface-steps:not(:has(> *)) {
+		display: none;
+	}
+}
+
+/* A row's … (nav_tree.js `menu`): shown on hover, or while its menu is open,
+   in place of the count. */
+.one-interface-tree .one-interface-more {
+	display: none;
+	align-items: center;
+	justify-content: center;
+	margin-inline: auto calc(var(--spacing) * 1);
+	width: 20px;
+	height: 20px;
+	border-radius: var(--radius-sm);
+	color: var(--ink-gray-6);
+}
+
+.one-interface-tree .one-interface-more:hover {
+	background: var(--surface-gray-3);
+	color: var(--ink-gray-8);
+}
+
+.one-interface-tree .standard-sidebar-item:is(:hover, :focus-within, .one-interface-menu) .one-interface-more {
+	display: inline-flex;
+}
+
+.one-interface-tree .standard-sidebar-item:is(:hover, :focus-within, .one-interface-menu):has(.one-interface-more) .one-interface-count {
+	display: none;
+}
+
+/* frappe styles a list's filter count as a pill only inside its filter row
+   (.page-form, list.scss); the window moves Filter out of that row into its
+   own controls, so the same rule, frappe's values, follows it there. */
+.one-interface-filters .filter-selector .btn-group .filter-label {
+	display: inline-block;
+	font-weight: 600;
+	color: var(--ink-gray-8);
+	background-color: var(--surface-gray-2);
+	min-width: 21px;
+	border-radius: var(--radius-full);
+	margin-left: 6px;
+}
+
+.one-interface-tree .one-interface-tree-heading {
+	margin-left: -6px;
+}
+
+/* A record page beside its rail and its record panel: frappe's two-column
+   layout holds the main column at 80% and never shrinks it, which pushed the
+   panel past the window's edge once the rail was there too. The column takes
+   what the panel leaves. */
+.one-interface .layout-main.layout-two-column > .layout-main-section-wrapper {
+	flex: 1 1 0;
+	min-width: 0;
+}

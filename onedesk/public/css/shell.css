@@ -585,8 +585,8 @@ a.one-shell-row:hover {
 	position: relative;
 }
 
-/* In a fitted window (docs/ONEINTERFACE.md) a page's shell is the screen's height. */
-.one-window-fit .one-shell {
+/* In a fitted window (onedesk/one_interface/AGENTS.md) a page's shell is the screen's height. */
+.one-interface-fit .one-shell {
 	padding: 0;
 	display: flex;
 	flex-direction: column;

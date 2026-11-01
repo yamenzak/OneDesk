@@ -1,11 +1,11 @@
 <template>
-  <WindowPart :win="win" part="commands" inline>
+  <InterfacePart :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-2">
       <TabButtons v-model="box" :options="boxes" />
       <Button variant="ghost" :label="__('Mark All as Read')" @click="seenAll" />
       <Switch v-if="mayEveryone" v-model="everyone" :label="everyonesLabel" />
     </span>
-  </WindowPart>
+  </InterfacePart>
 
   <div class="flex h-full min-h-0 text-ink-gray-8" :class="{ 'max-md:flex-col': !win }">
     <div class="min-w-0 flex-1 overflow-auto" role="listbox" :aria-label="__('Documents')">
@@ -44,7 +44,7 @@
       </template>
     </div>
 
-    <component :is="win ? WindowPart : 'section'" v-bind="win ? { win, part: 'details', detailsKey: 'intake', width: 440 } : { class: 'border-s border-outline-gray-1 md:w-[28rem]' }">
+    <component :is="win ? InterfacePart : 'section'" v-bind="win ? { win, part: 'details', detailsKey: 'intake', width: 440 } : { class: 'border-s border-outline-gray-1 md:w-[28rem]' }">
       <IntakeReading :reading="reading" @changed="changed" />
     </component>
   </div>
@@ -58,7 +58,7 @@
 import { computed, onBeforeUnmount, ref, watch } from "vue";
 import { Badge, Button, Switch, TabButtons } from "frappe-ui";
 
-import { Loading, WindowPart, __, ago, call, hasRole, listen, onedesk, setQuery, windowModuleFoot } from "../kit";
+import { Loading, InterfacePart, __, ago, call, hasRole, listen, onedesk, setQuery, interfaceModuleFoot } from "../kit";
 import IntakeReading from "./IntakeReading.vue";
 
 const props = defineProps({
@@ -128,7 +128,7 @@ watch([box, reading, everyone], () => {
 
 props.onTitle?.(__("Documents"));
 // OneAI's foot: its settings are AICenter (public/js/one_ai/ai_center.js).
-windowModuleFoot(props.win, { module: "OneAI", onSettings: () => onedesk().ai_center.open() });
+interfaceModuleFoot(props.win, { module: "OneAI", onSettings: () => onedesk().ai_center.open() });
 load();
 onBeforeUnmount(listen("intake_inbox", () => load()));
 </script>

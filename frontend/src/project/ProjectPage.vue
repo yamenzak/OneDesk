@@ -4,7 +4,7 @@
     <template v-else>
       <Header data-tour="oneproject-head" :said="said" @change="changeProject" @media="load" @view="(now) => (view = now)" />
       <PlaceSpot :said="placed" class="mt-4" />
-      <WindowPart v-if="onWindow" :win="win" part="row"><ViewTabs v-model="tab" :views="VIEWS" row data-tour="oneproject-views" /></WindowPart>
+      <InterfacePart v-if="inInterface" :win="win" part="row"><ViewTabs v-model="tab" :views="VIEWS" row data-tour="oneproject-views" /></InterfacePart>
       <ViewTabs v-else v-model="tab" :views="VIEWS" class="mt-4" data-tour="oneproject-views" />
       <div ref="views" class="pt-4 transition-[padding] duration-200" :style="{ paddingInlineEnd: `${room}px` }">
       <div v-if="taskView" class="flex flex-wrap items-center gap-2 pb-2">
@@ -42,7 +42,7 @@
       <Files v-else-if="view === 'files'" :project="said.name" @count="(n) => (fileCount = n)" />
       <ProjectActivity v-else-if="view === 'activity'" :key="said.name" :project="said.name" :modified="said.modified" @task="open" />
       </div>
-      <WindowPart v-if="onWindow" :win="win" part="activity"><ProjectActivity :key="said.name" :project="said.name" :modified="said.modified" @task="open" /></WindowPart>
+      <InterfacePart v-if="inInterface" :win="win" part="activity"><ProjectActivity :key="said.name" :project="said.name" :modified="said.modified" @task="open" /></InterfacePart>
 
       <TaskPanel :task="opened" :work="work || EMPTY" :team="team" :can-write="work?.can_write" @close="opened = null" @set="set" @give="give" @take="take" @open="open" @add="add" @changed="loadWork" />
     </template>
@@ -53,7 +53,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
-import { Loading, Page, PlaceSpot, ViewTabs, WindowPart, __, andList, call, can, confirm, escape, follow, followList, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth, windowRecord, indicator } from "../kit";
+import { Loading, Page, PlaceSpot, ViewTabs, InterfacePart, __, andList, call, can, confirm, escape, follow, followList, go, listen, newDoc, onResize, onedesk, setQuery, setValue, useRecord, viewWidth, interfaceRecord, indicator } from "../kit";
 import Board from "./Board.vue";
 import Files from "./Files.vue";
 import Header from "./Header.vue";
@@ -82,7 +82,7 @@ const props = defineProps({
   win: { type: Object, default: null },
 });
 
-const onWindow = windowRecord(props.win);
+const inInterface = interfaceRecord(props.win);
 const EMPTY = { statuses: [], priorities: [], people: {}, groups: [], tasks: [] };
 const name = computed(() => props.route[0]);
 const said = ref(null);
@@ -179,8 +179,8 @@ const VIEWS = computed(() =>
     allowed("invoices") && { key: "invoices", label: __("Invoices"), icon: "lucide-receipt" },
     allowed("suppliers") && { key: "suppliers", label: __("Suppliers"), icon: "lucide-truck", count: said.value.money.suppliers.length || null },
     allowed("team") && { key: "team", label: __("Team"), icon: "lucide-users" },
-    !onWindow && { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
-    !onWindow && { key: "activity", label: __("Activity"), icon: "lucide-activity" },
+    !inInterface && { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
+    !inInterface && { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean)
 );
 const layout = ref(["board", "timeline"].includes(props.query.view) ? props.query.view : "tasks");

@@ -48,7 +48,7 @@
       </header>
 
       <PlaceSpot :said="placed" class="mt-4" />
-      <WindowPart v-if="onWindow" :win="win" part="row"><ViewTabs v-model="view" :views="VIEWS" row /></WindowPart>
+      <InterfacePart v-if="inInterface" :win="win" part="row"><ViewTabs v-model="view" :views="VIEWS" row /></InterfacePart>
       <ViewTabs v-else v-model="view" :views="VIEWS" class="mt-5" />
 
       <div class="pt-4">
@@ -63,7 +63,7 @@
           <Activity :key="said.name" doctype="Item" :name="said.name" />
         </div>
       </div>
-      <WindowPart v-if="onWindow" :win="win" part="activity"><Activity :key="said.name" doctype="Item" :name="said.name" /></WindowPart>
+      <InterfacePart v-if="inInterface" :win="win" part="activity"><Activity :key="said.name" doctype="Item" :name="said.name" /></InterfacePart>
       <ItemVariantsMake v-if="said.choices" v-model:open="several" :item="said.name" :choices="said.choices" @made="load" />
     </template>
   </Page>
@@ -73,7 +73,7 @@
 import { computed, defineAsyncComponent, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge } from "frappe-ui";
 
-import { FieldEdit, Figures, Loading, Page, PlaceSpot, ViewTabs, WindowPart, __, call, date, follow, followList, go, money, onResize, onedesk, quantity, setQuery, setValue, upload, useForm, useRecord, viewWidth, windowRecord } from "../../kit";
+import { FieldEdit, Figures, Loading, Page, PlaceSpot, ViewTabs, InterfacePart, __, call, date, follow, followList, go, money, onResize, onedesk, quantity, setQuery, setValue, upload, useForm, useRecord, viewWidth, interfaceRecord } from "../../kit";
 import Title from "../../project/Title.vue";
 import { usePlace } from "../../project/place";
 import ItemBarcodes from "./ItemBarcodes.vue";
@@ -96,7 +96,7 @@ const props = defineProps({
   win: { type: Object, default: null },
 });
 
-const onWindow = windowRecord(props.win);
+const inInterface = interfaceRecord(props.win);
 
 const TONE = { red: "text-ink-red-5", orange: "text-ink-amber-6", gray: "text-ink-gray-5" };
 const LINK = "text-ink-gray-8 underline decoration-outline-gray-3 underline-offset-4 hover:decoration-ink-gray-8";
@@ -191,8 +191,8 @@ const VIEWS = computed(() => {
     s.buying && { key: "buying", label: __("Buying"), icon: "lucide-shopping-cart", count: open(s.buying.orders) },
     s.selling && { key: "selling", label: __("Selling"), icon: "lucide-hand-coins", count: open(s.selling.orders) },
     s.making && { key: "making", label: __("Manufacturing"), icon: "lucide-hammer", count: s.making.orders.length || null },
-    !onWindow && { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
-    !onWindow && { key: "activity", label: __("Activity"), icon: "lucide-activity" },
+    !inInterface && { key: "files", label: __("Files"), icon: "lucide-paperclip", count: fileCount.value || null },
+    !inInterface && { key: "activity", label: __("Activity"), icon: "lucide-activity" },
   ].filter(Boolean);
 });
 watch(VIEWS, (now) => now.length && !now.some((one) => one.key === view.value) && (view.value = "overview"));

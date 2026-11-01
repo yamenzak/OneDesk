@@ -7,7 +7,7 @@ from frappe import _lt
 
 CALENDAR = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Your Calendars"),
 		"text": _lt("Tick a calendar to show it, and untick it to hide it."),
@@ -31,7 +31,7 @@ CALENDAR = [
 		"text": _lt("Drag across the calendar to make an event at that time, click one to see who is on it, or drag it to another time."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Your calendar link is in the settings from the cog, and the tour runs again from the button beside it."),

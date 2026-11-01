@@ -169,7 +169,7 @@ def test_a_help_page_is_headed_pictured_and_linked_soundly():
 
 def test_a_module_has_one_settings_dialog_and_one_foot():
 	"""Every module's settings are drawn by onedesk.module_settings and its
-	foot by windowModuleFoot (docs/READY.md, mechanism 5), so they look and
+	foot by interfaceModuleFoot (docs/READY.md, mechanism 5), so they look and
 	behave alike: the mark and Help atop the settings, tabs left out by role,
 	and Settings, Help and the version at the foot. A module with no window,
 	whose screen is a centre the others open, says why instead."""
@@ -181,12 +181,12 @@ def test_a_module_has_one_settings_dialog_and_one_foot():
 		code = {path: path.read_text(encoding="utf-8") for path in ready.files(module) if path.suffix in (".js", ".vue")}
 		own = [str(path.relative_to(ROOT)) for path, text in code.items() if "new frappe.ui.SettingsDialog" in text]
 		assert not own, f"{module} draws its own settings dialog in {own}; use onedesk.module_settings.open"
-		loose = [str(path.relative_to(ROOT)) for path, text in code.items() if "windowFootAction(" in text]
-		assert not loose, f"{module} draws its own foot in {loose}; use windowModuleFoot"
+		loose = [str(path.relative_to(ROOT)) for path, text in code.items() if "interfaceFootAction(" in text]
+		assert not loose, f"{module} draws its own foot in {loose}; use interfaceModuleFoot"
 		assert any("onedesk.module_settings.open(" in text for text in code.values()), f"{module} has no settings dialog"
-		# An island draws it with windowModuleFoot, frappe's desk pages through
+		# An island draws it with interfaceModuleFoot, frappe's desk pages through
 		# the window's own module_foot.
-		assert any("windowModuleFoot(" in text or ".module_foot({ module:" in text for text in code.values()), f"{module} has no foot"
+		assert any("interfaceModuleFoot(" in text or ".module_foot({ module:" in text for text in code.values()), f"{module} has no foot"
 
 
 def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
@@ -201,7 +201,7 @@ def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
 	settings = (js / "module_settings.js").read_text(encoding="utf-8").split("onedesk.module_settings.centers = ", 1)[1].split("\n};", 1)[0]
 	for opens in ("onedesk.access.open", "onedesk.notification_center.open", "onedesk.ai_center.open", "onedesk.trust.open"):
 		assert opens in settings, f"a module's Settings doesn't open {opens}"
-	frame = (js / "window" / "chrome.js").read_text(encoding="utf-8") + (js / "window" / "nav_tree.js").read_text(encoding="utf-8")
+	frame = (js / "one_interface" / "chrome.js").read_text(encoding="utf-8") + (js / "one_interface" / "nav_tree.js").read_text(encoding="utf-8")
 	for centre in ("onedesk.access.open(", "onedesk.trust.open(", "onedesk.ai_center.open("):
 		assert centre not in frame, f"the frame opens {centre}: centres open from One's rail and Settings"
 
@@ -249,6 +249,13 @@ def test_a_module_ships_its_roles():
 	ships."""
 	hooks = (ROOT / "onedesk" / "hooks.py").read_text(encoding="utf-8")
 	for module, spec in ready.MODULES.items():
+		if spec.get("engine"):
+			# A module that is the frame the others are drawn in has no
+			# records and is given to nobody; it says why instead.
+			said = spec["engine"]
+			assert said.endswith(".") and len(re.findall(r"[.!?](?:\s|$)", said)) == 1, f"{module}: why it ships no roles, in one sentence"
+			assert not (ROOT / "onedesk" / spec["folder"] / "abilities.py").exists(), f"{module} is an engine and ships no roles"
+			continue
 		path = ROOT / "onedesk" / spec["folder"] / "abilities.py"
 		assert path.exists(), f"{module} ships no roles: write {path.relative_to(ROOT)}"
 		assert f'"onedesk.{spec["folder"]}.abilities"' in hooks, f"one_abilities in hooks.py doesn't name {module}'s"
@@ -390,7 +397,7 @@ def test_a_module_says_what_setting_it_up_takes():
 				assert "save" in keys, f"{where} has fields and nothing saves them"
 
 
-WINDOW_MARKS = ("onedesk/public/js/window/frame.js", "onedesk/public/js/window/nav_tree.js", "onedesk/public/js/module_docs.js")
+WINDOW_MARKS = ("onedesk/public/js/one_interface/frame.js", "onedesk/public/js/one_interface/nav_tree.js", "onedesk/public/js/module_docs.js")
 
 
 def _draws(mark: str, code: str) -> bool:

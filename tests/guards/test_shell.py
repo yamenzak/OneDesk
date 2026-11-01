@@ -1,4 +1,4 @@
-"""The shell is on its way out (docs/ONEINTERFACE.md, the screen contract).
+"""The shell is on its way out (onedesk/one_interface/AGENTS.md, the screen contract).
 
 Every screen is one of two kinds: frappe's own list or form, with small
 pieces added, or a Vue island, for a screen that is more than a list or a
@@ -54,7 +54,7 @@ USE_THE_SHELL = {
 	"public/js/extension_errors.js",
 	"public/js/island_page.js",
 	"public/js/one_mail/record_mail.js",
-	"public/js/window/frame.js",
+	"public/js/one_interface/frame.js",
 }
 
 # Addresses that only open a frappe view in their own place (a rail's or a
@@ -80,7 +80,7 @@ def test_every_page_is_an_island_or_still_on_the_shell():
 	unknown = set(pages) - set(ON_THE_SHELL) - ISLAND_PAGES - OPENS_A_VIEW
 	assert not unknown, (
 		"a new page is a Vue island (ISLAND_PAGES, declared in tiers.SCREENS) or not a page at all: "
-		f"frappe's own list or form (docs/ONEINTERFACE.md, the screen contract): {sorted(unknown)}"
+		f"frappe's own list or form (onedesk/one_interface/AGENTS.md, the screen contract): {sorted(unknown)}"
 	)
 
 

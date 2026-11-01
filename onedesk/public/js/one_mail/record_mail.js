@@ -44,6 +44,6 @@ onedesk.record_mail.open = async (frm, $into = null) => {
 };
 
 onedesk.record_tabs.register("mail", {
-	wanted: (frm) => !(onedesk.window.panelled && onedesk.window.panelled(frm)),
+	wanted: (frm) => !(onedesk.interface.panelled && onedesk.interface.panelled(frm)),
 	open: (frm) => onedesk.record_mail.open(frm),
 });

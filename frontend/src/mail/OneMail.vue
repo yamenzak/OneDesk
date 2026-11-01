@@ -1,5 +1,5 @@
 <template>
-  <WindowPart :win="win" part="commands" inline>
+  <InterfacePart :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
       <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" data-tour="onemail-new" @click="write()" />
       <template v-if="picked.size">
@@ -12,8 +12,8 @@
         </template>
       </template>
     </span>
-  </WindowPart>
-  <WindowPart :win="win" part="views" inline>
+  </InterfacePart>
+  <InterfacePart :win="win" part="views" inline>
     <span v-if="!picked.size && thread" class="inline-flex items-center gap-0.5">
       <Button class="md:hidden" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="close()" />
       <template v-for="one in commands" :key="one.act">
@@ -23,7 +23,7 @@
         <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
       </template>
     </span>
-  </WindowPart>
+  </InterfacePart>
 
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
     <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }" data-tour="onemail-list">
@@ -68,7 +68,7 @@ import { Button, ContextMenu, Dropdown } from "frappe-ui";
 
 import {
   Loading,
-  WindowPart,
+  InterfacePart,
   __,
   alert,
   ask,
@@ -84,13 +84,13 @@ import {
   setQuery,
   toast,
   userSettings,
-  windowHandles,
-  windowSearch,
-  windowStatus,
+  interfaceHandles,
+  interfaceSearch,
+  interfaceStatus,
   requires,
-  windowModuleFoot,
-  windowHeadAction,
-  windowTree,
+  interfaceModuleFoot,
+  interfaceHeadAction,
+  interfaceTree,
 } from "../kit";
 import { ACT, API, called, depth, folderLabel, forward, kindOf, names, noSender, reply, sender } from "./mail";
 import MailConversation from "./MailConversation.vue";
@@ -182,7 +182,7 @@ function menuFor(name) {
   ].filter(Boolean);
 }
 
-const searchBox = windowSearch(props.win, {
+const searchBox = interfaceSearch(props.win, {
   placeholder: __("Search"),
   hint: __("Supports from:, to:, subject:, has:attachment, is:unread and is:starred"),
   onInput: (value) => {
@@ -191,7 +191,7 @@ const searchBox = windowSearch(props.win, {
   },
   onKey: (event) => event.key === "Escape" && root.value?.focus(),
 });
-windowHandles(props.win, { refresh: () => refresh() });
+interfaceHandles(props.win, { refresh: () => refresh() });
 props.onTitle?.(__("OneMail"));
 
 userSettings.get("OneMail").then((said) => (folds.value = (said && said.folds) || {}));
@@ -251,7 +251,7 @@ const treeRows = computed(() => {
   return out;
 });
 
-windowHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => settings("connect") });
+interfaceHeadAction(props.win, { icon: "plus", title: __("Connect Mailbox"), onClick: () => settings("connect") });
 
 // OneMail's settings: frappe's settings dialog, public/js/one_mail/onemail_settings.js.
 const SETTINGS = ["/assets/onedesk/js/one_mail/onemail_settings.js", "/assets/onedesk/css/one_mail/onemail_settings.css"];
@@ -259,9 +259,9 @@ async function settings(tab) {
   await requires(SETTINGS);
   onedesk().mail.settings(tab);
 }
-windowModuleFoot(props.win, { module: "OneMail", onSettings: () => settings() });
+interfaceModuleFoot(props.win, { module: "OneMail", onSettings: () => settings() });
 
-const tree = windowTree(props.win, {
+const tree = interfaceTree(props.win, {
   label: __("Mailboxes"),
   twist: (id) => fold(id.slice(BOX.length)),
   pick: (id) => {
@@ -393,7 +393,7 @@ async function list({ keep = false, more: further = false } = {}) {
   items.value = further ? items.value.concat(answer.items) : answer.items;
   more.value = answer.more;
   if (answer.total != null) total.value = answer.total;
-  windowStatus(props.win, __("{0} of {1}", [items.value.length, Math.max(total.value, items.value.length)]));
+  interfaceStatus(props.win, __("{0} of {1}", [items.value.length, Math.max(total.value, items.value.length)]));
   if (!keep) picked.clear();
   const here = new Set(items.value.map((one) => one.thread));
   for (const one of [...picked]) if (!here.has(one)) picked.delete(one);

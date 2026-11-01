@@ -175,7 +175,7 @@ onedesk.OneCalendar = class OneCalendar {
 			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
 			this.$title
 		);
-		this.page.window.view({ commands: moves, views: $(`<span data-tour="onecalendar-views"></span>`).append(this.views.$el) });
+		this.page.interface.view({ commands: moves, views: $(`<span data-tour="onecalendar-views"></span>`).append(this.views.$el) });
 	}
 
 	date_jumper() {
@@ -207,7 +207,7 @@ onedesk.OneCalendar = class OneCalendar {
 			rows.push({ id: `group:${group}`, label, section: true });
 			for (const one of mine) rows.push({ id: one.key, label: one.label, color: one.color, check: !this.off().includes(one.key) });
 		}
-		this.page.window.tree({
+		this.page.interface.tree({
 			label: __("Calendars"),
 			alone: true,
 			rows,

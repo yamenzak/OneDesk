@@ -1,5 +1,5 @@
 <template>
-  <WindowPart v-if="win" :win="win" part="commands" inline>
+  <InterfacePart v-if="win" :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
       <Dropdown :options="newMenu">
         <template #trigger>
@@ -12,13 +12,13 @@
         <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="act(one.act)" />
       </template>
     </span>
-  </WindowPart>
-  <WindowPart v-if="win" :win="win" part="views" inline>
+  </InterfacePart>
+  <InterfacePart v-if="win" :win="win" part="views" inline>
     <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
-  </WindowPart>
-  <WindowPart v-if="win" :win="win" part="details" details-key="onecloud">
+  </InterfacePart>
+  <InterfacePart v-if="win" :win="win" part="details" details-key="onecloud">
     <CloudPreview :chosen="chosen" :items="items" :node="node" :here-name="here?.name || ''" @changed="refresh" />
-  </WindowPart>
+  </InterfacePart>
 
   <div ref="root" class="relative flex h-full min-h-0 flex-col text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
     <template v-if="!win">
@@ -119,7 +119,7 @@
 // OneCloud (one_storage/api.py) as Explorer has it: the folders as a tree,
 // what is in the one open as Details or Tiles, what is chosen beside it, and
 // the keys, menus, cut, copy and paste, rename in place and dragging that
-// Explorer has. On its own page it is on the window (docs/ONEINTERFACE.md): the
+// Explorer has. On its own page it is on the window (onedesk/one_interface/AGENTS.md): the
 // tree in the nav pane, the commands in the command row, the chosen file in
 // the details pane, the path in the breadcrumbs and the count in the status
 // row. In a record's files dialog (`room`) and in the picker (`picker`) it
@@ -129,7 +129,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, ContextMenu, Dropdown, TabButtons, TextInput } from "frappe-ui";
 
 import {
-  WindowPart,
+  InterfacePart,
   __,
   aiMoved,
   alert,
@@ -148,12 +148,12 @@ import {
   requires,
   setCrumbs,
   userSettings,
-  windowCan,
-  windowHandles,
-  windowMeters,
-  windowSearch,
-  windowStatus,
-  windowTree,
+  interfaceCan,
+  interfaceHandles,
+  interfaceMeters,
+  interfaceSearch,
+  interfaceStatus,
+  interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
 import { API, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
@@ -370,11 +370,11 @@ function tellWindow() {
     trail.value.map((one, at) => ({ label: one.name, ...(at < last ? { href: `/desk/onecloud?node=${encodeURIComponent(one.id)}` } : {}) })),
     last >= 0 ? trail.value[last].name : __("OneCloud")
   );
-  windowCan(props.win, { up: trail.value.length > 1 });
+  interfaceCan(props.win, { up: trail.value.length > 1 });
   searchBox?.placeholder(searchPlaceholder.value);
 }
 
-watch(status, (text) => windowStatus(props.win, text));
+watch(status, (text) => interfaceStatus(props.win, text));
 
 // OneAI follows the folder and the one file chosen (oneai.js, where).
 watch([node, chosen], () => {
@@ -419,7 +419,7 @@ const treeRows = computed(() => {
 
 const tree = room
   ? null
-  : windowTree(props.win || (props.picker && props.picker.nav), {
+  : interfaceTree(props.win || (props.picker && props.picker.nav), {
       label: __("Folders"),
       pick: (id) => go(id),
       twist,
@@ -437,7 +437,7 @@ if (tree) watch(treeRows, (rows) => tree.set(rows), { immediate: true });
 // How full the workspace is, at the foot of the rail (api.capacity); asked
 // again when its files change.
 async function measure() {
-  if (props.win) windowMeters(props.win, await get(API + "capacity"));
+  if (props.win) interfaceMeters(props.win, await get(API + "capacity"));
 }
 measure();
 
@@ -1179,7 +1179,7 @@ function xhr(method, url, body, row, headers) {
 
 // ---- the window, and starting ----
 
-const searchBox = windowSearch(props.win, {
+const searchBox = interfaceSearch(props.win, {
   placeholder: __("Search"),
   onInput: (value) => {
     search.value = value;
@@ -1194,7 +1194,7 @@ const searchBox = windowSearch(props.win, {
     if (event.key === "ArrowDown") list.value?.focus();
   },
 });
-windowHandles(props.win, {
+interfaceHandles(props.win, {
   kind: "files",
   up: () => act("up"),
   refresh: () => act("refresh"),

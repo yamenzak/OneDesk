@@ -300,9 +300,9 @@ onedesk.control_centers.OnePortal = onedesk.portal.settings;
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.window.current();
+		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "OnePortal") return;
 		win.module_foot({ module: "OnePortal", settings: () => onedesk.portal.settings() });
-		onedesk.window.nav.place();
+		onedesk.interface.nav.place();
 	}, 0)
 );

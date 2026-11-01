@@ -7,7 +7,7 @@ from frappe import _lt
 
 HOME = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("People, Time and Pay"),
 		"text": _lt("Employees, leave, attendance, payroll, expenses and hiring, each a row of its own."),
@@ -25,7 +25,7 @@ HOME = [
 		"text": _lt("Today is what needs you, from checking in to requests waiting; HR also gets Overview, and Everything finds any list."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Settings is the cog, and the tour runs again from the button beside it."),

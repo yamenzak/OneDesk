@@ -301,7 +301,7 @@ One adds five things:
   in its actions, and `stop` ends one at once by setting its Show Until to
   now. Who has seen each is frappe's own Seen By on the form.
 - **It runs along the top bar** (`current`, booted as `one_announcements`
-  and drawn by `onedesk.window.news`): public, not expired, newest five. A Note
+  and drawn by `onedesk.interface.news`): public, not expired, newest five. A Note
   with no expiry runs for `FRESH_DAYS` from when it was posted, as frappe's
   pop-up does. Saving or deleting a public one sends `one_announcements`, and
   every open bar asks again. The text scrolls only when it is wider than the
@@ -526,7 +526,7 @@ them too.
 Lists (public/js/lists.js, added by `module_settings.open` as the centres
 are), one row per list with its count, each opening frappe's list; the
 module's other lists are a tree in the window's nav pane beside it (through
-`onedesk.window.trees`). A module with lists and no ControlCenter of its own
+`onedesk.interface.trees`). A module with lists and no ControlCenter of its own
 (OneCRM, OneBook, OneInventory, OneProject) gets one with only what every
 ControlCenter finds. `listed()` is the lists this person keeps, by module, in
 boot; `kinds(module)` adds the counts. A value's trail leads to its module's

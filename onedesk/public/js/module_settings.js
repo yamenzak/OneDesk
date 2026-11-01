@@ -61,7 +61,7 @@ onedesk.module_head_expand = ($head, dialog) => {
 		.addClass("one-dialog-corner")
 		.appendTo(dialog.$wrapper.find(".settings-dialog"));
 	dialog.$wrapper.addClass("one-has-corner");
-	let large = !!onedesk.window.kept("centre_large", false);
+	let large = !!onedesk.interface.kept("centre_large", false);
 	const $button = $(frappe.ui.button.html({ variant: "ghost", icon: "maximize-2" })).appendTo(dialog.$corner);
 	const show = () => {
 		const said = large ? __("Make Smaller") : __("Enlarge");
@@ -70,7 +70,7 @@ onedesk.module_head_expand = ($head, dialog) => {
 	};
 	$button.on("click", () => {
 		large = !large;
-		onedesk.window.keep("centre_large", large ? 1 : 0);
+		onedesk.interface.keep("centre_large", large ? 1 : 0);
 		show();
 	});
 	show();

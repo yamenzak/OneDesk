@@ -2,9 +2,9 @@
 // news comes from, one row per way; each way is then a screen of its own
 // with only what it needs, laid out on one column and one spacing scale
 // (css/one/news_add.css). Every way of making a News Source opens this
-// (onedesk.window.creators).
+// (onedesk.interface.creators).
 frappe.provide("onedesk.news");
-frappe.provide("onedesk.window.creators");
+frappe.provide("onedesk.interface.creators");
 
 onedesk.news.WAYS = [
 	{ way: "site", kind: "Feed", icon: "globe", label: __("Website"), text: __("Paste a news site's address and see its latest headlines.") },
@@ -263,4 +263,4 @@ onedesk.news.add = ({ after_insert = null } = {}) =>
 		frappe.xcall("onedesk.one.news.adding.start").then((said) => (context = said));
 	});
 
-onedesk.window.creators["News Source"] = onedesk.news.add;
+onedesk.interface.creators["News Source"] = onedesk.news.add;

@@ -7,7 +7,7 @@ from frappe import _lt
 
 SCREENS = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Screens and What They Show"),
 		"text": _lt("Screens and channels sit at the top, the slides, widgets, music and ads a channel plays under Content, and the queues under Queues."),
@@ -25,7 +25,7 @@ SCREENS = [
 		"text": _lt("Open the TV address on the screen, then type the code it shows here and choose its channel."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Settings is the cog, and the tour runs again from the button beside it."),

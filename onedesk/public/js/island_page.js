@@ -1,24 +1,24 @@
 frappe.provide("onedesk");
 
 onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null, bare = null, fit = false }) => {
-	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar, one_window_fit: fit });
+	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar, one_interface_fit: fit });
 	if (bare) $(wrapper).addClass(bare);
 	page.one_record = record;
-	// A record page on the window is laid out as a form is (docs/ONEINTERFACE.md,
+	// A record page on the window is laid out as a form is (onedesk/one_interface/AGENTS.md,
 	// A record page): its sidebar is the details pane with its switch, its
 	// own buttons are the command row's, and the island is told it may put
 	// its tabs in the view row and its activity in the record panel.
-	const win = page.window;
+	const win = page.interface;
 	if (win && record) {
 		$(wrapper).addClass("one-record-page");
-		win.record_panel = onedesk.window.panelled({ page });
+		win.record_panel = onedesk.interface.panelled({ page });
 		win.view({ commands: page.custom_actions });
 		const $side = page.wrapper.find(".layout-main > .layout-side-section").first();
 		if (win.record_panel && $side.length) win.details({ key: "form", width: 400, pane: $side });
 	}
 	// Until the walk replaces every island page with a framework screen, the
 	// bottom bar says this is one and which island it mounts.
-	if (page.window) page.window.$status.prop("hidden", false).append(`<span class="one-island-stamp">${frappe.utils.icon("puzzle", "xs")}${__("Island")} · ${island}</span>`);
+	if (page.interface) page.interface.$status.prop("hidden", false).append(`<span class="one-island-stamp">${frappe.utils.icon("puzzle", "xs")}${__("Island")} · ${island}</span>`);
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 	let framed = null;
 	let unframe = () => {};
@@ -70,7 +70,7 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			else {
 				handle = frappe.ui.mount_island(island, $body[0], {
 					...where(),
-					win: page.window || null,
+					win: page.interface || null,
 					onTitle: (said) => {
 						chrome.title = typeof said === "string" ? said : said?.title;
 						chrome.between = (typeof said === "object" && said?.between) || [];

@@ -15,7 +15,7 @@ onedesk.record_activity.count = (frm) =>
 })();
 
 onedesk.record_tabs.register("activity", {
-	wanted: (frm) => !frm.meta.hide_toolbar && frappe.boot.desk_settings.timeline && !(onedesk.window.panelled && onedesk.window.panelled(frm)),
+	wanted: (frm) => !frm.meta.hide_toolbar && frappe.boot.desk_settings.timeline && !(onedesk.interface.panelled && onedesk.interface.panelled(frm)),
 	refresh(frm, field, tab) {
 		if (!field || !frm.footer) return;
 		const footer = frm.footer.wrapper;

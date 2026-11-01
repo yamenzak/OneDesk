@@ -9,7 +9,7 @@
 			return [...filters, ["Project", "project_type", "!=", "Employee Boarding"]];
 		};
 	};
-	onedesk.window.when(frappe.views, "KanbanV2Page", quiet);
+	onedesk.interface.when(frappe.views, "KanbanV2Page", quiet);
 })();
 
 frappe.kanban_v2.extend_settings("Project", {

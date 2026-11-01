@@ -3883,7 +3883,7 @@ def tour_runs_once_then_from_help():
 			said = tours.tour("OneMail")
 			assert [one["key"] for one in said] == ["mailbox"] and said[0]["at"] == "onemail-list", said
 			steps = said[0]["steps"]
-			assert [one["target"] for one in steps][:2] == ["window-nav", "onemail-new"], steps
+			assert [one["target"] for one in steps][:2] == ["interface-nav", "onemail-new"], steps
 			assert all(one["title"] and one["text"] for one in steps), steps
 			tours.seen("OneMail", "mailbox")
 			assert "OneMail:mailbox" not in tours.unseen()

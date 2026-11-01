@@ -84,7 +84,7 @@ def test_every_controlcenter_ends_with_lists():
 
 
 def test_a_modules_lists_are_a_tree_beside_any_of_them():
-	assert "onedesk.window.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw })" in JS
+	assert "onedesk.interface.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw })" in JS
 	assert '"/assets/onedesk/js/lists.js"' in HOOKS
 	assert "win.tree({" in JS and "count:" in JS and "active:" in JS
 	homes = SOURCE.split("def homes(", 1)[1].split("\ndef ", 1)[0]

@@ -270,7 +270,7 @@ msgstr "عنصر واحد في {title} يحتاج مراجعة"
 msgid "1 item selected"
 msgstr "عنصر واحد محدد"
 
-#: onedesk/public/js/window/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:92
 msgid "1 key"
 msgstr "مفتاح واحد"
 
@@ -2389,7 +2389,7 @@ msgstr "الخلية النشطة {0}"
 #: onedesk/one_project/ai.py:714
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:149
+#: onedesk/public/js/task_actions.js:82 onedesk/public/js/one_interface/form.js:149
 msgid "Activity"
 msgstr "النشاط"
 
@@ -3174,7 +3174,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/onecloud_dialogs.js:288
 #: onedesk/public/js/onecloud_dialogs.js:527
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/one_interface/frame.js:346
 msgid "Address"
 msgstr "العنوان"
 
@@ -3587,7 +3587,7 @@ msgstr "المحاذاة"
 msgid "All"
 msgstr "الكل"
 
-#: frontend/src/one/Home.vue:28 onedesk/public/js/window/chrome.js:224
+#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:224
 msgid "All Announcements"
 msgstr "كل الإعلانات"
 
@@ -4327,7 +4327,7 @@ msgstr "لغة الإعلان"
 #. Label of a Sidebar Item
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json
 #: onedesk/one/tour.py:36 onedesk/public/js/note_list.js:12
-#: onedesk/public/js/window/chrome.js:31 onedesk/public/js/window/chrome.js:179
+#: onedesk/public/js/one_interface/chrome.js:31 onedesk/public/js/one_interface/chrome.js:179
 msgid "Announcements"
 msgstr "الإعلانات"
 
@@ -5253,7 +5253,7 @@ msgstr "اسألنا ما هو"
 
 #: onedesk/public/js/one_ai/oneai.js:109 onedesk/public/js/one_ai/oneai.js:110
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
-#: onedesk/public/js/window/chrome.js:129
+#: onedesk/public/js/one_interface/chrome.js:129
 msgid "Ask {0}"
 msgstr "اسأل {0}"
 
@@ -6172,7 +6172,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
-#: onedesk/public/js/window/frame.js:239 onedesk/www/account_invoices.html:62
+#: onedesk/public/js/one_interface/frame.js:239 onedesk/www/account_invoices.html:62
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr "رجوع"
@@ -6225,7 +6225,7 @@ msgstr "الخادم والبيانات"
 msgid "Background"
 msgstr "الخلفية"
 
-#: onedesk/public/js/window/chrome.js:102
+#: onedesk/public/js/one_interface/chrome.js:102
 msgid "Background Tasks"
 msgstr "المهام في الخلفية"
 
@@ -8486,7 +8486,7 @@ msgstr "تحقق مرة أخرى"
 #: frontend/src/hr/HrHome.vue:237 onedesk/one_hr/notifications.py
 #: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:96
 #: onedesk/public/js/desk.js:188 onedesk/public/js/desk.js:199
-#: onedesk/public/js/desk.js:204 onedesk/public/js/window/chrome.js:109
+#: onedesk/public/js/desk.js:204 onedesk/public/js/one_interface/chrome.js:109
 msgid "Check In"
 msgstr "تسجيل الحضور"
 
@@ -8781,8 +8781,8 @@ msgstr "اختر \"لـ\" لتكرار صفوف جدول."
 msgid "Choose For to show a table's rows."
 msgstr "اختر \"لـ\" لعرض صفوف جدول."
 
-#: onedesk/public/js/window/chrome.js:251
-#: onedesk/public/js/window/chrome.js:287
+#: onedesk/public/js/one_interface/chrome.js:251
+#: onedesk/public/js/one_interface/chrome.js:287
 msgid "Choose Sources"
 msgstr "اختر المصادر"
 
@@ -9478,11 +9478,11 @@ msgstr "قهوة"
 msgid "Coffee Menu"
 msgstr "قائمة القهوة"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/one_interface/nav_tree.js:59
 msgid "Collapse"
 msgstr "طي"
 
-#: onedesk/public/js/window/json_view.js:98
+#: onedesk/public/js/one_interface/json_view.js:98
 msgid "Collapse All"
 msgstr ""
 
@@ -10119,7 +10119,7 @@ msgstr "الاتصال"
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:149
+#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/one_interface/form.js:149
 msgid "Connections"
 msgstr ""
 
@@ -10507,8 +10507,8 @@ msgstr "تم نسخ {0} عناصر"
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
 #: onedesk/public/js/onecloud_dialogs.js:543
-#: onedesk/public/js/window/json_view.js:100
-#: onedesk/public/js/window/json_view.js:185
+#: onedesk/public/js/one_interface/json_view.js:100
+#: onedesk/public/js/one_interface/json_view.js:185
 msgid "Copy"
 msgstr "نسخ"
 
@@ -11078,7 +11078,7 @@ msgstr "يغطي حتى {0}"
 #: onedesk/public/js/plant_actions.js:43 onedesk/public/js/progress.js:30
 #: onedesk/public/js/progress.js:81 onedesk/public/js/project_actions.js:33
 #: onedesk/public/js/project_actions.js:123
-#: onedesk/public/js/project_actions.js:503 onedesk/public/js/window/form.js:40
+#: onedesk/public/js/project_actions.js:503 onedesk/public/js/one_interface/form.js:40
 msgid "Create"
 msgstr "إنشاء"
 
@@ -11197,7 +11197,7 @@ msgstr "إنشاء {0}"
 msgid "Created By"
 msgstr "أنشأه"
 
-#: onedesk/public/js/window/form.js:322
+#: onedesk/public/js/one_interface/form.js:322
 msgid "Created {0} by {1}"
 msgstr "أنشأه {1} {0}"
 
@@ -13604,11 +13604,11 @@ msgstr "التفصيل"
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
 #: onedesk/public/js/project_actions.js:700
 #: onedesk/public/js/project_new.js:193 onedesk/public/js/task_actions.js:4
-#: onedesk/public/js/window/form.js:436 onedesk/public/js/window/form.js:437
+#: onedesk/public/js/one_interface/form.js:436 onedesk/public/js/one_interface/form.js:437
 msgid "Details"
 msgstr "التفاصيل"
 
-#: onedesk/public/js/window/frame.js:252
+#: onedesk/public/js/one_interface/frame.js:252
 msgid "Details pane"
 msgstr "جزء التفاصيل"
 
@@ -14071,7 +14071,7 @@ msgstr "منشئ السجل"
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/public/js/desk.js:104 onedesk/public/js/desk.js:173
 #: onedesk/public/js/print_documents.js:14
-#: onedesk/public/js/window/chrome.js:81
+#: onedesk/public/js/one_interface/chrome.js:81
 msgid "Documents"
 msgstr "المستندات"
 
@@ -14500,7 +14500,7 @@ msgstr "اسحب هنا لتحريك المؤشر"
 msgid "Drag off the slide to remove"
 msgstr "اسحبه خارج الشريحة لإزالته"
 
-#: onedesk/public/js/window/frame.js:163
+#: onedesk/public/js/one_interface/frame.js:163
 msgid "Drag to resize, click to fold"
 msgstr "اسحب لتغيير الحجم، وانقر للطي"
 
@@ -15197,7 +15197,7 @@ msgstr "معدّل"
 msgid "Edited text is no longer translated."
 msgstr "النص المعدّل لا يُترجم بعد ذلك."
 
-#: onedesk/public/js/window/form.js:324
+#: onedesk/public/js/one_interface/form.js:324
 msgid "Edited {0} by {1}"
 msgstr "عدّله {1} {0}"
 
@@ -16891,11 +16891,11 @@ msgstr "الخروج من سجل الإصدارات"
 msgid "Exit: {0}"
 msgstr "مغادرة: {0}"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/one_interface/nav_tree.js:59
 msgid "Expand"
 msgstr "توسيع"
 
-#: onedesk/public/js/window/json_view.js:97
+#: onedesk/public/js/one_interface/json_view.js:97
 msgid "Expand All"
 msgstr ""
 
@@ -17952,7 +17952,7 @@ msgstr "البحث عن بند"
 msgid "Find a file…"
 msgstr "ابحث عن ملف…"
 
-#: onedesk/public/js/window/json_view.js:103
+#: onedesk/public/js/one_interface/json_view.js:103
 msgid "Find a key or a value"
 msgstr "ابحث عن مفتاح أو قيمة"
 
@@ -18242,7 +18242,7 @@ msgstr "ضباب"
 msgid "Fold a lead that is somebody already known into the one kept, which deletes it."
 msgstr "دمج عميل محتمل معروف مسبقًا في العميل المُبقى عليه، مما يحذفه."
 
-#: onedesk/public/js/window/json_view.js:166
+#: onedesk/public/js/one_interface/json_view.js:166
 msgid "Fold or unfold"
 msgstr "طيّ أو فتح"
 
@@ -18693,7 +18693,7 @@ msgstr "النماذج والتكاملات"
 
 #: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:77
 #: onedesk/public/js/one_mail/rule_builder.js:44
-#: onedesk/public/js/window/frame.js:239
+#: onedesk/public/js/one_interface/frame.js:239
 msgid "Forward"
 msgstr "تقدم"
 
@@ -19597,7 +19597,7 @@ msgstr "راجع معي هذه الإعدادات: أيها مهم لشركة م
 msgid "Go to"
 msgstr "انتقل إلى"
 
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/one_interface/frame.js:346
 msgid "Go to a place, a record or a command"
 msgstr "انتقل إلى مكان أو سجل أو أمر"
 
@@ -20383,7 +20383,7 @@ msgstr "مرحبًا {0}"
 
 #: onedesk/public/js/module_docs.js:98 onedesk/public/js/module_docs.js:390
 #: onedesk/public/js/module_settings.js:98
-#: onedesk/public/js/window/nav_tree.js:261
+#: onedesk/public/js/one_interface/nav_tree.js:261
 msgid "Help"
 msgstr "مساعدة"
 
@@ -20444,7 +20444,7 @@ msgstr "مخفي. هذا العنوان لا يظهر في الشريط العل
 
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
-#: onedesk/public/js/window/chrome.js:200
+#: onedesk/public/js/one_interface/chrome.js:200
 msgid "Hide"
 msgstr "إخفاء"
 
@@ -23500,7 +23500,7 @@ msgstr "يُرحَّل مخزونه إلى {account}، وهو ليس حساب م
 msgid "Its subscription was cancelled in Stripe"
 msgstr "أُلغي اشتراكه في Stripe"
 
-#: onedesk/public/js/window/json_view.js:172
+#: onedesk/public/js/one_interface/json_view.js:172
 msgid "JSON in text"
 msgstr "JSON كنص"
 
@@ -25925,7 +25925,7 @@ msgstr "الحركة السحرية"
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:381 onedesk/public/js/window/form.js:149
+#: onedesk/one_storage/namespace.py:381 onedesk/public/js/one_interface/form.js:149
 msgid "Mail"
 msgstr "الرسالة"
 
@@ -27412,7 +27412,7 @@ msgstr "أشهر غير مفوترة"
 #: onedesk/one_sheet/ai.py:227 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:345 onedesk/public/js/window/nav_tree.js:67
+#: onedesk/public/js/one_interface/form.js:345 onedesk/public/js/one_interface/nav_tree.js:67
 msgid "More"
 msgstr "المزيد"
 
@@ -27436,7 +27436,7 @@ msgstr "يحتجز أكثر من عميل محتجزات هنا. أفرج عنه
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "هناك محتجزات لأكثر من مورد هنا. ادفعها من كل فاتورة مورد."
 
-#: onedesk/public/js/window/frame.js:528
+#: onedesk/public/js/one_interface/frame.js:528
 msgid "More views"
 msgstr "طرق عرض أخرى"
 
@@ -27808,7 +27808,7 @@ msgstr "مهامي هي كل ما أُسند إليك، والوارد هو ما
 #: onedesk/public/js/one_studio/studio_control.js:166
 #: onedesk/public/js/one_studio/studio_control.js:180
 #: onedesk/public/js/onecloud_dialogs.js:279
-#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:522
+#: onedesk/public/js/project_new.js:85 onedesk/public/js/one_interface/form.js:522
 msgid "Name"
 msgstr "الاسم"
 
@@ -28170,7 +28170,7 @@ msgstr "مستند جديد"
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
 #: frontend/src/mail/OneMail.vue:488
 #: onedesk/public/js/one_mail/record_mail.js:35
-#: onedesk/public/js/window/form.js:218 onedesk/www/account_profile.html:36
+#: onedesk/public/js/one_interface/form.js:218 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr "بريد إلكتروني جديد"
 
@@ -28574,8 +28574,8 @@ msgstr "لا يمكن إنشاء مساحات عمل جديدة حتى يُضا�
 
 #: frontend/src/kit/desk.js:80 onedesk/one_ai/proposals.py:619
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:390
-#: onedesk/public/js/window/form.js:450
+#: onedesk/public/js/record.js:169 onedesk/public/js/one_interface/form.js:390
+#: onedesk/public/js/one_interface/form.js:450
 msgid "New {0}"
 msgstr "{0} جديد"
 
@@ -30475,7 +30475,7 @@ msgstr "لا يخرج من المستودع ما ليس فيه."
 #: frontend/src/crm/CrmHome.vue:28 frontend/src/hr/HrHome.vue:28
 #: frontend/src/inventory/home/InventoryHome.vue:28
 #: frontend/src/inventory/to_order/ToOrderPage.vue:15
-#: onedesk/public/js/window/json_view.js:107
+#: onedesk/public/js/one_interface/json_view.js:107
 msgid "Nothing matches"
 msgstr "لا شيء يطابق"
 
@@ -30668,7 +30668,7 @@ msgstr "NotificationCenter"
 #: onedesk/public/js/module_settings.js:191
 #: onedesk/public/js/one/notification_center.js:167
 #: onedesk/public/js/one/notification_center.js:319
-#: onedesk/public/js/window/chrome.js:91
+#: onedesk/public/js/one_interface/chrome.js:91
 msgid "Notifications"
 msgstr "الإشعارات"
 
@@ -32696,7 +32696,7 @@ msgstr "فتح موقع الملف"
 msgid "Open in Boards"
 msgstr "فتح في «اللوحات»"
 
-#: onedesk/public/js/window/form.js:293
+#: onedesk/public/js/one_interface/form.js:293
 msgid "Open in OneCloud"
 msgstr "افتح في OneCloud"
 
@@ -33773,7 +33773,7 @@ msgstr "عمل إضافي مُسجَّل يدوياً: {0} ساعة، {1}."
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:73 onedesk/public/js/page_views.js:85
-#: onedesk/public/js/window/form.js:149
+#: onedesk/public/js/one_interface/form.js:149
 msgid "Overview"
 msgstr "نظرة عامة"
 
@@ -38881,7 +38881,7 @@ msgstr "الانطباعات"
 #: frontend/src/cloud/OneCloud.vue:36 frontend/src/cloud/OneCloud.vue:633
 #: frontend/src/cloud/OneCloud.vue:634 frontend/src/cloud/OneCloud.vue:656
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
-#: onedesk/public/js/head.js:412 onedesk/public/js/window/frame.js:245
+#: onedesk/public/js/head.js:412 onedesk/public/js/one_interface/frame.js:245
 msgid "Refresh"
 msgstr "تحديث"
 
@@ -40827,7 +40827,7 @@ msgstr "التشغيل باسم المستلم"
 msgid "Run sheet written"
 msgstr "كتابة جدول سير الفعالية"
 
-#: frontend/src/task/TimerList.vue:8 onedesk/public/js/window/chrome.js:37
+#: frontend/src/task/TimerList.vue:8 onedesk/public/js/one_interface/chrome.js:37
 msgid "Running"
 msgstr "قيد التشغيل"
 
@@ -41187,7 +41187,7 @@ msgstr "السبت"
 #: onedesk/public/js/project_actions.js:624
 #: onedesk/public/js/project_actions.js:677 onedesk/public/js/reports.js:297
 #: onedesk/public/js/shell.js:360 onedesk/public/js/task_actions.js:25
-#: onedesk/public/js/window/form.js:399 onedesk/www/account_profile.html:29
+#: onedesk/public/js/one_interface/form.js:399 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr "حفظ"
 
@@ -41610,7 +41610,7 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:106
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
-#: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
+#: onedesk/public/js/one_interface/chrome.js:72 onedesk/public/js/one_interface/chrome.js:73
 msgid "Search"
 msgstr "بحث"
 
@@ -41669,7 +41669,7 @@ msgid "Search templates..."
 msgstr "ابحث في القوالب..."
 
 #: frontend/src/cloud/OneCloud.vue:220 onedesk/public/js/crumb_switch.js:135
-#: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
+#: onedesk/public/js/one_interface/list.js:65 onedesk/public/js/one_interface/tree.js:23
 msgid "Search {0}"
 msgstr "البحث في {0}"
 
@@ -42698,8 +42698,8 @@ msgstr "إعداد العنوان"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/home.py:66 onedesk/public/js/doctype_settings.js:979
 #: onedesk/public/js/head.js:23 onedesk/public/js/one_ai/ai_center.js:135
-#: onedesk/public/js/window/nav_tree.js:244
-#: onedesk/public/js/window/nav_tree.js:245
+#: onedesk/public/js/one_interface/nav_tree.js:244
+#: onedesk/public/js/one_interface/nav_tree.js:245
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -43190,7 +43190,7 @@ msgstr ""
 msgid "Show All"
 msgstr "عرض الكل"
 
-#: onedesk/public/js/window/chrome.js:247
+#: onedesk/public/js/one_interface/chrome.js:247
 msgid "Show Announcements"
 msgstr "عرض الإعلانات"
 
@@ -43263,7 +43263,7 @@ msgstr "عرض الأصناف المنخفضة"
 msgid "Show More"
 msgstr "عرض المزيد"
 
-#: onedesk/public/js/window/chrome.js:247
+#: onedesk/public/js/one_interface/chrome.js:247
 msgid "Show News"
 msgstr "عرض الأخبار"
 
@@ -43275,8 +43275,8 @@ msgstr "عرض المخطط"
 msgid "Show Publisher"
 msgstr "عرض الناشر"
 
-#: onedesk/public/js/window/json_view.js:82
-#: onedesk/public/js/window/json_view.js:99
+#: onedesk/public/js/one_interface/json_view.js:82
+#: onedesk/public/js/one_interface/json_view.js:99
 msgid "Show Raw"
 msgstr "عرض النص الخام"
 
@@ -43331,7 +43331,7 @@ msgstr "إظهار المدة في الحالة"
 msgid "Show Timesheets"
 msgstr "إظهار سجلات الوقت"
 
-#: onedesk/public/js/window/json_view.js:82
+#: onedesk/public/js/one_interface/json_view.js:82
 msgid "Show Tree"
 msgstr "عرض الشجرة"
 
@@ -45287,7 +45287,7 @@ msgstr "ما زالت مسودات"
 msgid "Still in Draft"
 msgstr "ما زال مسودة"
 
-#: onedesk/public/js/window/form.js:475
+#: onedesk/public/js/one_interface/form.js:475
 msgid "Still needed: {0}"
 msgstr "ما زال مطلوبًا: {0}"
 
@@ -46568,11 +46568,11 @@ msgstr "استرجع {0} وسجّل ذلك بزر الاسترجاع في صفح
 msgid "Take off the shelf"
 msgstr "إزالة من المكتبة"
 
-#: onedesk/public/js/window/nav_tree.js:256
+#: onedesk/public/js/one_interface/nav_tree.js:256
 msgid "Take the Tour"
 msgstr "خذ الجولة"
 
-#: onedesk/public/js/window/nav_tree.js:256
+#: onedesk/public/js/one_interface/nav_tree.js:256
 msgid "Take the Tour of This Screen"
 msgstr "جولة في هذه الشاشة"
 
@@ -50862,7 +50862,7 @@ msgstr "المهلة (بالثواني)"
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
 #: onedesk/public/js/desk.js:113 onedesk/public/js/desk.js:141
-#: onedesk/public/js/window/chrome.js:119
+#: onedesk/public/js/one_interface/chrome.js:119
 msgid "Timers"
 msgstr "المؤقتات"
 
@@ -51362,7 +51362,7 @@ msgstr "محاولات كثيرة خلال دقيقة. انتظر لحظة ثم 
 msgid "Too many tries. Try again in an hour."
 msgstr "محاولات كثيرة جدًا. حاول مرة أخرى بعد ساعة."
 
-#: onedesk/public/js/window/chrome.js:29
+#: onedesk/public/js/one_interface/chrome.js:29
 msgid "Tools"
 msgstr "الأدوات"
 
@@ -52766,7 +52766,7 @@ msgstr "غير مُسجَّل"
 msgid "Untracked Hours"
 msgstr "ساعات غير مسجلة"
 
-#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:242
+#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/one_interface/frame.js:242
 msgid "Up"
 msgstr "أعلى"
 
@@ -53505,7 +53505,7 @@ msgstr "تعذّر إنشاء فيديو لعرض تقديمي"
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
-#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:520
+#: onedesk/public/js/project.js:13 onedesk/public/js/one_interface/frame.js:520
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr "عرض"
@@ -53546,7 +53546,7 @@ msgstr "عرض فقط"
 msgid "Viewer"
 msgstr "المشاهد"
 
-#: onedesk/public/js/window/form.js:334
+#: onedesk/public/js/one_interface/form.js:334
 msgid "Viewing now"
 msgstr "يشاهدونه الآن"
 
@@ -55292,12 +55292,12 @@ msgid "What's Maintained"
 msgstr "ما تتم صيانته"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:266
+#: onedesk/public/js/one_interface/nav_tree.js:266
 msgid "What's New"
 msgstr "ما الجديد"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:266
+#: onedesk/public/js/one_interface/nav_tree.js:266
 msgid "What's New in {0}"
 msgstr "ما الجديد في {0}"
 
@@ -60762,7 +60762,7 @@ msgstr "سجلات {0} {1} فقط"
 msgid "only the records of {0} {1}, {2}"
 msgstr "سجلات {0} {1} فقط، {2}"
 
-#: onedesk/public/js/window/form.js:170
+#: onedesk/public/js/one_interface/form.js:170
 msgid "open"
 msgstr "مفتوح"
 
@@ -61442,7 +61442,7 @@ msgid "{0} GB storage"
 msgstr "{0} غيغابايت تخزين"
 
 #: onedesk/public/js/module_docs.js:390
-#: onedesk/public/js/window/nav_tree.js:261
+#: onedesk/public/js/one_interface/nav_tree.js:261
 msgid "{0} Help"
 msgstr "مساعدة {0}"
 
@@ -61519,7 +61519,7 @@ msgid "{0} Screen"
 msgstr "شاشة {0}"
 
 #: onedesk/public/js/module_settings.js:225
-#: onedesk/public/js/window/nav_tree.js:245
+#: onedesk/public/js/one_interface/nav_tree.js:245
 msgid "{0} Settings"
 msgstr "إعدادات {0}"
 
@@ -62986,7 +62986,7 @@ msgstr "{0} أصناف لها حد إعادة طلب، لكن لا يُطلب ش
 msgid "{0} items selected"
 msgstr "{0} عناصر محددة"
 
-#: onedesk/public/js/window/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:92
 msgid "{0} keys"
 msgstr "{0} مفاتيح"
 
@@ -63573,7 +63573,7 @@ msgstr "{0} محتجزات"
 msgid "{0} returned"
 msgstr "{0} مُرتجع"
 
-#: onedesk/one_doc/paper.py:275 onedesk/public/js/window/report.js:72
+#: onedesk/one_doc/paper.py:275 onedesk/public/js/one_interface/report.js:72
 msgid "{0} rows"
 msgstr "{0} صفوف"
 
@@ -64117,7 +64117,7 @@ msgstr "{0}، اعتباراً من {1}. لم يُدرج أي تغيير بعد.
 msgid "{0}, from {1}: {2}."
 msgstr "{0}، اعتباراً من {1}: {2}."
 
-#: onedesk/public/js/window/chrome.js:175
+#: onedesk/public/js/one_interface/chrome.js:175
 msgid "{0}, high {1}, low {2}"
 msgstr "{0}، العظمى {1}، الصغرى {2}"
 
@@ -65335,3 +65335,27 @@ msgstr "جزيرة"
 #: onedesk/one/ready.py
 msgid "Billed in 12 Months"
 msgstr "المفوتر خلال 12 شهرًا"
+
+#: onedesk/one_interface/tour.py
+msgid "Where You Are"
+msgstr "أين أنت"
+
+#: onedesk/one_interface/tour.py
+msgid "The address says where you are; click it and type to find anything, or press Ctrl+K."
+msgstr "يُظهر العنوان مكانك؛ انقر عليه واكتب للعثور على أي شيء، أو اضغط Ctrl+K."
+
+#: onedesk/one_interface/tour.py
+msgid "The App's Places"
+msgstr "أماكن التطبيق"
+
+#: onedesk/one_interface/tour.py
+msgid "Every place of the app you are in, and its settings at the foot."
+msgstr "كل أماكن التطبيق الذي أنت فيه، وإعداداته في الأسفل."
+
+#: onedesk/one_interface/tour.py
+msgid "Settings, Tour and Help"
+msgstr "الإعدادات والجولة والمساعدة"
+
+#: onedesk/one_interface/tour.py
+msgid "The app's settings, this tour again, its help and what is new in it."
+msgstr "إعدادات التطبيق، وهذه الجولة مرة أخرى، ومساعدته، وما الجديد فيه."

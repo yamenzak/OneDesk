@@ -50,7 +50,7 @@ onedesk.record_tabs.tab = (frm, name) =>
 	((frm.layout && frm.layout.tabs) || []).find((one) => one.df.fieldname === onedesk.record_tabs.TAB(name));
 
 onedesk.record_tabs.count = (frm, name, count) => {
-	if (onedesk.window.panel_count) onedesk.window.panel_count(frm, name, count);
+	if (onedesk.interface.panel_count) onedesk.interface.panel_count(frm, name, count);
 	const tab = onedesk.record_tabs.tab(frm, name);
 	if (!tab) return;
 	const $link = tab.tab_link.find(".nav-link");

@@ -442,7 +442,7 @@ def test_the_explorer_is_its_own_navigation():
 	js = EXPLORER
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text()
 	assert '"onedesk.onecloud"' in page and "hide_sidebar" not in page, "OneCloud sits in the window, its tree in the nav pane"
-	assert "windowTree(props.win" in js and 'part="details"' in js
+	assert "interfaceTree(props.win" in js and 'part="details"' in js
 	assert "storage-check" not in js, "nobody in a workspace can link storage, so there is no check to open"
 
 

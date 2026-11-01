@@ -303,13 +303,13 @@ onedesk.control_centers.One = onedesk.one_control.open;
 // One's foot (docs/READY.md, mechanism 5): Settings, Help and the version
 // at the foot of One's rail, on whichever of its screens is open. They are
 // frappe's desk pages, so the window draws it (module_foot) rather than an
-// island's windowModuleFoot.
+// island's interfaceModuleFoot.
 $(document).on("page-change", () =>
 	setTimeout(() => {
 		const sidebar = frappe.app && frappe.app.sidebar;
-		const win = onedesk.window.current();
+		const win = onedesk.interface.current();
 		if (!win || win.$foot_action || !sidebar || sidebar.current_module !== "One") return;
 		win.module_foot({ module: "One", settings: () => onedesk.one_control.open() });
-		onedesk.window.nav.place();
+		onedesk.interface.nav.place();
 	}, 0)
 );

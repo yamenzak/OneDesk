@@ -62,7 +62,7 @@ onedesk.band.put = (frm, html) => {
 	const pane = frm.one_panel && frm.one_panel.head;
 	if (pane) {
 		pane.html(html || "");
-		onedesk.window.panel_refresh(frm);
+		onedesk.interface.panel_refresh(frm);
 		return pane;
 	}
 	if (html) frm.dashboard.set_headline(html, null, true);

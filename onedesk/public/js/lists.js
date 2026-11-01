@@ -27,7 +27,7 @@ onedesk.lists.draw = async (win, doctype) => {
 	});
 };
 
-onedesk.window.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw });
+onedesk.interface.trees.push({ covers: (doctype) => !!onedesk.lists.module_of(doctype), draw: onedesk.lists.draw });
 
 // How many a list holds, in its own word where it has one (lists.py COUNTED).
 onedesk.lists.counted = (count, words = null) => {

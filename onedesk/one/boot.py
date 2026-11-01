@@ -16,7 +16,7 @@ def boot_session(bootinfo) -> None:
 
 	from frappe.model.utils.user_settings import get_user_settings
 
-	bootinfo["one_window"] = frappe.parse_json(get_user_settings("One Window")) or {}
+	bootinfo["one_interface_held"] = frappe.parse_json(get_user_settings("One Interface")) or {}
 	from onedesk.one import ready
 
 	bootinfo["one_interface"] = ready.interface()

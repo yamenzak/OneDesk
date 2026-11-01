@@ -270,7 +270,7 @@ msgstr "1 Eintrag in {title} muss geprüft werden"
 msgid "1 item selected"
 msgstr "1 Element ausgewählt"
 
-#: onedesk/public/js/window/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:92
 msgid "1 key"
 msgstr "1 Schlüssel"
 
@@ -2389,7 +2389,7 @@ msgstr "Aktive Zelle {0}"
 #: onedesk/one_project/ai.py:714
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/public/js/project_actions.js:359
-#: onedesk/public/js/task_actions.js:82 onedesk/public/js/window/form.js:149
+#: onedesk/public/js/task_actions.js:82 onedesk/public/js/one_interface/form.js:149
 msgid "Activity"
 msgstr "Aktivität"
 
@@ -3174,7 +3174,7 @@ msgstr ""
 #: onedesk/public/js/one_studio/studio_control.js:167
 #: onedesk/public/js/onecloud_dialogs.js:288
 #: onedesk/public/js/onecloud_dialogs.js:527
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/one_interface/frame.js:346
 msgid "Address"
 msgstr "Adresse"
 
@@ -3587,7 +3587,7 @@ msgstr "Ausrichtung"
 msgid "All"
 msgstr "Alle"
 
-#: frontend/src/one/Home.vue:28 onedesk/public/js/window/chrome.js:224
+#: frontend/src/one/Home.vue:28 onedesk/public/js/one_interface/chrome.js:224
 msgid "All Announcements"
 msgstr "Alle Ankündigungen"
 
@@ -4327,7 +4327,7 @@ msgstr "Sprache der Ansage"
 #. Label of a Sidebar Item
 #: frontend/src/one/Home.vue:28 onedesk/one/sidebar/one/one.json
 #: onedesk/one/tour.py:36 onedesk/public/js/note_list.js:12
-#: onedesk/public/js/window/chrome.js:31 onedesk/public/js/window/chrome.js:179
+#: onedesk/public/js/one_interface/chrome.js:31 onedesk/public/js/one_interface/chrome.js:179
 msgid "Announcements"
 msgstr "Ankündigungen"
 
@@ -5253,7 +5253,7 @@ msgstr "Fragen Sie uns, was es ist"
 
 #: onedesk/public/js/one_ai/oneai.js:109 onedesk/public/js/one_ai/oneai.js:110
 #: onedesk/public/js/one_ai/panel/Panel.vue:190
-#: onedesk/public/js/window/chrome.js:129
+#: onedesk/public/js/one_interface/chrome.js:129
 msgid "Ask {0}"
 msgstr "{0} fragen"
 
@@ -6172,7 +6172,7 @@ msgstr ""
 #: frontend/src/writer/DocumentPage.vue:5
 #: onedesk/public/js/center_section.js:135
 #: onedesk/public/js/module_settings.js:288
-#: onedesk/public/js/window/frame.js:239 onedesk/www/account_invoices.html:62
+#: onedesk/public/js/one_interface/frame.js:239 onedesk/www/account_invoices.html:62
 #: onedesk/www/start.html:89 onedesk/www/welcome.html:45
 msgid "Back"
 msgstr "Zurück"
@@ -6225,7 +6225,7 @@ msgstr "Backend und Daten"
 msgid "Background"
 msgstr "Hintergrund"
 
-#: onedesk/public/js/window/chrome.js:102
+#: onedesk/public/js/one_interface/chrome.js:102
 msgid "Background Tasks"
 msgstr "Hintergrundaufgaben"
 
@@ -8486,7 +8486,7 @@ msgstr "Erneut prüfen"
 #: frontend/src/hr/HrHome.vue:237 onedesk/one_hr/notifications.py
 #: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:96
 #: onedesk/public/js/desk.js:188 onedesk/public/js/desk.js:199
-#: onedesk/public/js/desk.js:204 onedesk/public/js/window/chrome.js:109
+#: onedesk/public/js/desk.js:204 onedesk/public/js/one_interface/chrome.js:109
 msgid "Check In"
 msgstr ""
 
@@ -8781,8 +8781,8 @@ msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle zu wiederholen."
 msgid "Choose For to show a table's rows."
 msgstr "Wählen Sie „Für“, um die Zeilen einer Tabelle anzuzeigen."
 
-#: onedesk/public/js/window/chrome.js:251
-#: onedesk/public/js/window/chrome.js:287
+#: onedesk/public/js/one_interface/chrome.js:251
+#: onedesk/public/js/one_interface/chrome.js:287
 msgid "Choose Sources"
 msgstr "Quellen wählen"
 
@@ -9478,11 +9478,11 @@ msgstr "Kaffee"
 msgid "Coffee Menu"
 msgstr "Kaffeekarte"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/one_interface/nav_tree.js:59
 msgid "Collapse"
 msgstr "Einklappen"
 
-#: onedesk/public/js/window/json_view.js:98
+#: onedesk/public/js/one_interface/json_view.js:98
 msgid "Collapse All"
 msgstr ""
 
@@ -10119,7 +10119,7 @@ msgstr "Verbindung"
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json
-#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/window/form.js:149
+#: onedesk/one_hr/custom/timesheet.json onedesk/public/js/one_interface/form.js:149
 msgid "Connections"
 msgstr ""
 
@@ -10507,8 +10507,8 @@ msgstr "{0} Elemente kopiert"
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
 #: onedesk/public/js/onecloud_dialogs.js:543
-#: onedesk/public/js/window/json_view.js:100
-#: onedesk/public/js/window/json_view.js:185
+#: onedesk/public/js/one_interface/json_view.js:100
+#: onedesk/public/js/one_interface/json_view.js:185
 msgid "Copy"
 msgstr "Kopieren"
 
@@ -11078,7 +11078,7 @@ msgstr "Vertritt bis {0}"
 #: onedesk/public/js/plant_actions.js:43 onedesk/public/js/progress.js:30
 #: onedesk/public/js/progress.js:81 onedesk/public/js/project_actions.js:33
 #: onedesk/public/js/project_actions.js:123
-#: onedesk/public/js/project_actions.js:503 onedesk/public/js/window/form.js:40
+#: onedesk/public/js/project_actions.js:503 onedesk/public/js/one_interface/form.js:40
 msgid "Create"
 msgstr "Erstellen"
 
@@ -11197,7 +11197,7 @@ msgstr "{0} anlegen"
 msgid "Created By"
 msgstr "Erstellt von"
 
-#: onedesk/public/js/window/form.js:322
+#: onedesk/public/js/one_interface/form.js:322
 msgid "Created {0} by {1}"
 msgstr "Erstellt {0} von {1}"
 
@@ -13604,11 +13604,11 @@ msgstr "Einzelheit"
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
 #: onedesk/public/js/project_actions.js:700
 #: onedesk/public/js/project_new.js:193 onedesk/public/js/task_actions.js:4
-#: onedesk/public/js/window/form.js:436 onedesk/public/js/window/form.js:437
+#: onedesk/public/js/one_interface/form.js:436 onedesk/public/js/one_interface/form.js:437
 msgid "Details"
 msgstr "Details"
 
-#: onedesk/public/js/window/frame.js:252
+#: onedesk/public/js/one_interface/frame.js:252
 msgid "Details pane"
 msgstr "Detailbereich"
 
@@ -14071,7 +14071,7 @@ msgstr "Ersteller des Datensatzes"
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
 #: onedesk/public/js/desk.js:104 onedesk/public/js/desk.js:173
 #: onedesk/public/js/print_documents.js:14
-#: onedesk/public/js/window/chrome.js:81
+#: onedesk/public/js/one_interface/chrome.js:81
 msgid "Documents"
 msgstr "Dokumente"
 
@@ -14500,7 +14500,7 @@ msgstr "Hier ziehen, um den Zeiger zu bewegen"
 msgid "Drag off the slide to remove"
 msgstr "Zum Entfernen von der Folie ziehen"
 
-#: onedesk/public/js/window/frame.js:163
+#: onedesk/public/js/one_interface/frame.js:163
 msgid "Drag to resize, click to fold"
 msgstr "Zum Ändern der Größe ziehen, zum Einklappen klicken"
 
@@ -15197,7 +15197,7 @@ msgstr "Bearbeitet"
 msgid "Edited text is no longer translated."
 msgstr "Bearbeiteter Text wird nicht mehr übersetzt."
 
-#: onedesk/public/js/window/form.js:324
+#: onedesk/public/js/one_interface/form.js:324
 msgid "Edited {0} by {1}"
 msgstr "Bearbeitet {0} von {1}"
 
@@ -16891,11 +16891,11 @@ msgstr "Versionsverlauf verlassen"
 msgid "Exit: {0}"
 msgstr "Austritt: {0}"
 
-#: frontend/src/project/Tasks.vue:5 onedesk/public/js/window/nav_tree.js:59
+#: frontend/src/project/Tasks.vue:5 onedesk/public/js/one_interface/nav_tree.js:59
 msgid "Expand"
 msgstr "Ausklappen"
 
-#: onedesk/public/js/window/json_view.js:97
+#: onedesk/public/js/one_interface/json_view.js:97
 msgid "Expand All"
 msgstr ""
 
@@ -17952,7 +17952,7 @@ msgstr "Eine Klausel finden"
 msgid "Find a file…"
 msgstr "Datei finden…"
 
-#: onedesk/public/js/window/json_view.js:103
+#: onedesk/public/js/one_interface/json_view.js:103
 msgid "Find a key or a value"
 msgstr "Schlüssel oder Wert suchen"
 
@@ -18242,7 +18242,7 @@ msgstr "Nebel"
 msgid "Fold a lead that is somebody already known into the one kept, which deletes it."
 msgstr "Einen Lead, der schon bekannt ist, in den behaltenen zusammenführen, wodurch er gelöscht wird."
 
-#: onedesk/public/js/window/json_view.js:166
+#: onedesk/public/js/one_interface/json_view.js:166
 msgid "Fold or unfold"
 msgstr "Ein- oder ausklappen"
 
@@ -18693,7 +18693,7 @@ msgstr "Formulare und Anbindungen"
 
 #: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:77
 #: onedesk/public/js/one_mail/rule_builder.js:44
-#: onedesk/public/js/window/frame.js:239
+#: onedesk/public/js/one_interface/frame.js:239
 msgid "Forward"
 msgstr "Vorwärts"
 
@@ -19597,7 +19597,7 @@ msgstr "Geh diese Einstellungen mit mir durch: welche für ein Unternehmen wie u
 msgid "Go to"
 msgstr "Gehe zu"
 
-#: onedesk/public/js/window/frame.js:346
+#: onedesk/public/js/one_interface/frame.js:346
 msgid "Go to a place, a record or a command"
 msgstr "Zu einem Ort, einem Datensatz oder einem Befehl"
 
@@ -20383,7 +20383,7 @@ msgstr "Hallo {0}"
 
 #: onedesk/public/js/module_docs.js:98 onedesk/public/js/module_docs.js:390
 #: onedesk/public/js/module_settings.js:98
-#: onedesk/public/js/window/nav_tree.js:261
+#: onedesk/public/js/one_interface/nav_tree.js:261
 msgid "Help"
 msgstr "Hilfe"
 
@@ -20444,7 +20444,7 @@ msgstr "Ausgeblendet. Diese Schlagzeile erscheint weder in der oberen Leiste noc
 
 #: frontend/src/writer/components/ToC.vue:12
 #: frontend/src/writer/components/ToC.vue:99
-#: onedesk/public/js/window/chrome.js:200
+#: onedesk/public/js/one_interface/chrome.js:200
 msgid "Hide"
 msgstr "Ausblenden"
 
@@ -23500,7 +23500,7 @@ msgstr "Sein Bestand wird auf {account} gebucht, das kein Bestandskonto ist. Hin
 msgid "Its subscription was cancelled in Stripe"
 msgstr "Sein Abonnement wurde in Stripe gekündigt"
 
-#: onedesk/public/js/window/json_view.js:172
+#: onedesk/public/js/one_interface/json_view.js:172
 msgid "JSON in text"
 msgstr "JSON als Text"
 
@@ -25925,7 +25925,7 @@ msgstr "Magischer Übergang"
 #: onedesk/one_ai/doctype/reading_action/reading_action.json
 #: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
 #: onedesk/one_mail/sidebar/onemail/onemail.json
-#: onedesk/one_storage/namespace.py:381 onedesk/public/js/window/form.js:149
+#: onedesk/one_storage/namespace.py:381 onedesk/public/js/one_interface/form.js:149
 msgid "Mail"
 msgstr "E-Mail"
 
@@ -27412,7 +27412,7 @@ msgstr "Nicht abgerechnete Monate"
 #: onedesk/one_sheet/ai.py:227 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
-#: onedesk/public/js/window/form.js:345 onedesk/public/js/window/nav_tree.js:67
+#: onedesk/public/js/one_interface/form.js:345 onedesk/public/js/one_interface/nav_tree.js:67
 msgid "More"
 msgstr "Mehr"
 
@@ -27436,7 +27436,7 @@ msgstr "Hier hält mehr als ein Kunde Einbehalte. Gib sie auf jeder Rechnung fre
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr "Hier sind Einbehalte von mehr als einem Lieferanten offen. Zahle sie auf jeder Eingangsrechnung."
 
-#: onedesk/public/js/window/frame.js:528
+#: onedesk/public/js/one_interface/frame.js:528
 msgid "More views"
 msgstr "Weitere Ansichten"
 
@@ -27808,7 +27808,7 @@ msgstr "Meine Aufgaben ist alles, was Ihnen zugewiesen ist, und der Posteingang 
 #: onedesk/public/js/one_studio/studio_control.js:166
 #: onedesk/public/js/one_studio/studio_control.js:180
 #: onedesk/public/js/onecloud_dialogs.js:279
-#: onedesk/public/js/project_new.js:85 onedesk/public/js/window/form.js:522
+#: onedesk/public/js/project_new.js:85 onedesk/public/js/one_interface/form.js:522
 msgid "Name"
 msgstr "Name"
 
@@ -28170,7 +28170,7 @@ msgstr "Neues Dokument"
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
 #: frontend/src/mail/OneMail.vue:488
 #: onedesk/public/js/one_mail/record_mail.js:35
-#: onedesk/public/js/window/form.js:218 onedesk/www/account_profile.html:36
+#: onedesk/public/js/one_interface/form.js:218 onedesk/www/account_profile.html:36
 msgid "New Email"
 msgstr "Neue E-Mail"
 
@@ -28574,8 +28574,8 @@ msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzu
 
 #: frontend/src/kit/desk.js:80 onedesk/one_ai/proposals.py:619
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/record.js:169 onedesk/public/js/window/form.js:390
-#: onedesk/public/js/window/form.js:450
+#: onedesk/public/js/record.js:169 onedesk/public/js/one_interface/form.js:390
+#: onedesk/public/js/one_interface/form.js:450
 msgid "New {0}"
 msgstr "Neu: {0}"
 
@@ -30475,7 +30475,7 @@ msgstr "Nichts verlässt ein Lager, das es nicht hat."
 #: frontend/src/crm/CrmHome.vue:28 frontend/src/hr/HrHome.vue:28
 #: frontend/src/inventory/home/InventoryHome.vue:28
 #: frontend/src/inventory/to_order/ToOrderPage.vue:15
-#: onedesk/public/js/window/json_view.js:107
+#: onedesk/public/js/one_interface/json_view.js:107
 msgid "Nothing matches"
 msgstr "Nichts passt"
 
@@ -30668,7 +30668,7 @@ msgstr "NotificationCenter"
 #: onedesk/public/js/module_settings.js:191
 #: onedesk/public/js/one/notification_center.js:167
 #: onedesk/public/js/one/notification_center.js:319
-#: onedesk/public/js/window/chrome.js:91
+#: onedesk/public/js/one_interface/chrome.js:91
 msgid "Notifications"
 msgstr "Benachrichtigungen"
 
@@ -32696,7 +32696,7 @@ msgstr "Dateispeicherort öffnen"
 msgid "Open in Boards"
 msgstr "In „Tafeln“ öffnen"
 
-#: onedesk/public/js/window/form.js:293
+#: onedesk/public/js/one_interface/form.js:293
 msgid "Open in OneCloud"
 msgstr "In OneCloud öffnen"
 
@@ -33773,7 +33773,7 @@ msgstr "Überstunden von Hand erfasst: {0} Stunden, {1}."
 #: onedesk/one_hr/sidebar/onehr/onehr.json
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json
 #: onedesk/public/js/page_views.js:73 onedesk/public/js/page_views.js:85
-#: onedesk/public/js/window/form.js:149
+#: onedesk/public/js/one_interface/form.js:149
 msgid "Overview"
 msgstr "Übersicht"
 
@@ -38881,7 +38881,7 @@ msgstr "Reflexionen"
 #: frontend/src/cloud/OneCloud.vue:36 frontend/src/cloud/OneCloud.vue:633
 #: frontend/src/cloud/OneCloud.vue:634 frontend/src/cloud/OneCloud.vue:656
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
-#: onedesk/public/js/head.js:412 onedesk/public/js/window/frame.js:245
+#: onedesk/public/js/head.js:412 onedesk/public/js/one_interface/frame.js:245
 msgid "Refresh"
 msgstr "Aktualisieren"
 
@@ -40827,7 +40827,7 @@ msgstr "Als Empfänger ausführen"
 msgid "Run sheet written"
 msgstr "Ablaufplan geschrieben"
 
-#: frontend/src/task/TimerList.vue:8 onedesk/public/js/window/chrome.js:37
+#: frontend/src/task/TimerList.vue:8 onedesk/public/js/one_interface/chrome.js:37
 msgid "Running"
 msgstr "Läuft"
 
@@ -41187,7 +41187,7 @@ msgstr "Samstag"
 #: onedesk/public/js/project_actions.js:624
 #: onedesk/public/js/project_actions.js:677 onedesk/public/js/reports.js:297
 #: onedesk/public/js/shell.js:360 onedesk/public/js/task_actions.js:25
-#: onedesk/public/js/window/form.js:399 onedesk/www/account_profile.html:29
+#: onedesk/public/js/one_interface/form.js:399 onedesk/www/account_profile.html:29
 msgid "Save"
 msgstr "Speichern"
 
@@ -41610,7 +41610,7 @@ msgstr "Abdichten und wetterfest machen"
 #: onedesk/one_hr/custom/employee_attendance_tool.json
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:106
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
-#: onedesk/public/js/window/chrome.js:72 onedesk/public/js/window/chrome.js:73
+#: onedesk/public/js/one_interface/chrome.js:72 onedesk/public/js/one_interface/chrome.js:73
 msgid "Search"
 msgstr "Suchen"
 
@@ -41669,7 +41669,7 @@ msgid "Search templates..."
 msgstr "Vorlagen suchen..."
 
 #: frontend/src/cloud/OneCloud.vue:220 onedesk/public/js/crumb_switch.js:135
-#: onedesk/public/js/window/list.js:65 onedesk/public/js/window/tree.js:23
+#: onedesk/public/js/one_interface/list.js:65 onedesk/public/js/one_interface/tree.js:23
 msgid "Search {0}"
 msgstr "{0} durchsuchen"
 
@@ -42698,8 +42698,8 @@ msgstr "Adresse wird eingerichtet"
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json
 #: onedesk/one_inventory/home.py:66 onedesk/public/js/doctype_settings.js:979
 #: onedesk/public/js/head.js:23 onedesk/public/js/one_ai/ai_center.js:135
-#: onedesk/public/js/window/nav_tree.js:244
-#: onedesk/public/js/window/nav_tree.js:245
+#: onedesk/public/js/one_interface/nav_tree.js:244
+#: onedesk/public/js/one_interface/nav_tree.js:245
 msgid "Settings"
 msgstr "Einstellungen"
 
@@ -43190,7 +43190,7 @@ msgstr ""
 msgid "Show All"
 msgstr "Alle anzeigen"
 
-#: onedesk/public/js/window/chrome.js:247
+#: onedesk/public/js/one_interface/chrome.js:247
 msgid "Show Announcements"
 msgstr "Ankündigungen zeigen"
 
@@ -43263,7 +43263,7 @@ msgstr "Knappe Artikel zeigen"
 msgid "Show More"
 msgstr "Mehr anzeigen"
 
-#: onedesk/public/js/window/chrome.js:247
+#: onedesk/public/js/one_interface/chrome.js:247
 msgid "Show News"
 msgstr "Nachrichten zeigen"
 
@@ -43275,8 +43275,8 @@ msgstr "Geplante anzeigen"
 msgid "Show Publisher"
 msgstr "Verlag zeigen"
 
-#: onedesk/public/js/window/json_view.js:82
-#: onedesk/public/js/window/json_view.js:99
+#: onedesk/public/js/one_interface/json_view.js:82
+#: onedesk/public/js/one_interface/json_view.js:99
 msgid "Show Raw"
 msgstr "Rohdaten anzeigen"
 
@@ -43331,7 +43331,7 @@ msgstr "Zeit im Zustand anzeigen"
 msgid "Show Timesheets"
 msgstr "Zeiterfassungen zeigen"
 
-#: onedesk/public/js/window/json_view.js:82
+#: onedesk/public/js/one_interface/json_view.js:82
 msgid "Show Tree"
 msgstr "Baum anzeigen"
 
@@ -45287,7 +45287,7 @@ msgstr "Noch Entwürfe"
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
 
-#: onedesk/public/js/window/form.js:475
+#: onedesk/public/js/one_interface/form.js:475
 msgid "Still needed: {0}"
 msgstr "Noch erforderlich: {0}"
 
@@ -46568,11 +46568,11 @@ msgstr "{0} zurücknehmen und mit „Zurücknehmen“ auf der Seite des Anlagegu
 msgid "Take off the shelf"
 msgstr "Aus der Bibliothek nehmen"
 
-#: onedesk/public/js/window/nav_tree.js:256
+#: onedesk/public/js/one_interface/nav_tree.js:256
 msgid "Take the Tour"
 msgstr "Tour starten"
 
-#: onedesk/public/js/window/nav_tree.js:256
+#: onedesk/public/js/one_interface/nav_tree.js:256
 msgid "Take the Tour of This Screen"
 msgstr "Rundgang durch diesen Bildschirm"
 
@@ -50862,7 +50862,7 @@ msgstr "Zeitlimit (Sekunden)"
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
 #: onedesk/public/js/desk.js:113 onedesk/public/js/desk.js:141
-#: onedesk/public/js/window/chrome.js:119
+#: onedesk/public/js/one_interface/chrome.js:119
 msgid "Timers"
 msgstr "Timer"
 
@@ -51362,7 +51362,7 @@ msgstr "Zu viele Versuche in einer Minute. Warten Sie einen Moment und versuchen
 msgid "Too many tries. Try again in an hour."
 msgstr "Zu viele Versuche. Versuchen Sie es in einer Stunde erneut."
 
-#: onedesk/public/js/window/chrome.js:29
+#: onedesk/public/js/one_interface/chrome.js:29
 msgid "Tools"
 msgstr "Werkzeuge"
 
@@ -52766,7 +52766,7 @@ msgstr "Nicht erfasst"
 msgid "Untracked Hours"
 msgstr "Nicht erfasste Stunden"
 
-#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/window/frame.js:242
+#: frontend/src/cloud/OneCloud.vue:28 onedesk/public/js/one_interface/frame.js:242
 msgid "Up"
 msgstr "Nach oben"
 
@@ -53505,7 +53505,7 @@ msgstr "Video für eine Präsentation nicht erstellt"
 #: onedesk/one_studio/doctype/extension/extension.json
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
-#: onedesk/public/js/project.js:13 onedesk/public/js/window/frame.js:520
+#: onedesk/public/js/project.js:13 onedesk/public/js/one_interface/frame.js:520
 #: onedesk/www/account_invoices.html:39
 msgid "View"
 msgstr "Ansehen"
@@ -53546,7 +53546,7 @@ msgstr "Nur Ansicht"
 msgid "Viewer"
 msgstr "Betrachtende Person"
 
-#: onedesk/public/js/window/form.js:334
+#: onedesk/public/js/one_interface/form.js:334
 msgid "Viewing now"
 msgstr "Sehen gerade zu"
 
@@ -55292,12 +55292,12 @@ msgid "What's Maintained"
 msgstr "Was gewartet wird"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:266
+#: onedesk/public/js/one_interface/nav_tree.js:266
 msgid "What's New"
 msgstr "Neuigkeiten"
 
 #: onedesk/public/js/module_docs.js:326
-#: onedesk/public/js/window/nav_tree.js:266
+#: onedesk/public/js/one_interface/nav_tree.js:266
 msgid "What's New in {0}"
 msgstr "Neuigkeiten in {0}"
 
@@ -60762,7 +60762,7 @@ msgstr "nur die Datensätze von {0} {1}"
 msgid "only the records of {0} {1}, {2}"
 msgstr "nur die Datensätze von {0} {1}, {2}"
 
-#: onedesk/public/js/window/form.js:170
+#: onedesk/public/js/one_interface/form.js:170
 msgid "open"
 msgstr "offen"
 
@@ -61442,7 +61442,7 @@ msgid "{0} GB storage"
 msgstr "{0} GB Speicher"
 
 #: onedesk/public/js/module_docs.js:390
-#: onedesk/public/js/window/nav_tree.js:261
+#: onedesk/public/js/one_interface/nav_tree.js:261
 msgid "{0} Help"
 msgstr "Hilfe zu {0}"
 
@@ -61519,7 +61519,7 @@ msgid "{0} Screen"
 msgstr "Bildschirm {0}"
 
 #: onedesk/public/js/module_settings.js:225
-#: onedesk/public/js/window/nav_tree.js:245
+#: onedesk/public/js/one_interface/nav_tree.js:245
 msgid "{0} Settings"
 msgstr "Einstellungen von {0}"
 
@@ -62986,7 +62986,7 @@ msgstr "{0} Artikel haben einen Meldebestand, aber nichts wird angefordert, wenn
 msgid "{0} items selected"
 msgstr "{0} Elemente ausgewählt"
 
-#: onedesk/public/js/window/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:92
 msgid "{0} keys"
 msgstr "{0} Schlüssel"
 
@@ -63573,7 +63573,7 @@ msgstr "{0} Einbehalt"
 msgid "{0} returned"
 msgstr "{0} zurückgegeben"
 
-#: onedesk/one_doc/paper.py:275 onedesk/public/js/window/report.js:72
+#: onedesk/one_doc/paper.py:275 onedesk/public/js/one_interface/report.js:72
 msgid "{0} rows"
 msgstr "{0} Zeilen"
 
@@ -64117,7 +64117,7 @@ msgstr "{0}, ab {1}. Es ist noch keine Änderung eingetragen."
 msgid "{0}, from {1}: {2}."
 msgstr "{0}, ab {1}: {2}."
 
-#: onedesk/public/js/window/chrome.js:175
+#: onedesk/public/js/one_interface/chrome.js:175
 msgid "{0}, high {1}, low {2}"
 msgstr "{0}, Höchstwert {1}, Tiefstwert {2}"
 
@@ -65335,3 +65335,27 @@ msgstr "Insel"
 #: onedesk/one/ready.py
 msgid "Billed in 12 Months"
 msgstr "In 12 Monaten abgerechnet"
+
+#: onedesk/one_interface/tour.py
+msgid "Where You Are"
+msgstr "Wo Sie sind"
+
+#: onedesk/one_interface/tour.py
+msgid "The address says where you are; click it and type to find anything, or press Ctrl+K."
+msgstr "Die Adresse zeigt, wo Sie sind; klicken Sie darauf und tippen Sie, um alles zu finden, oder drücken Sie Strg+K."
+
+#: onedesk/one_interface/tour.py
+msgid "The App's Places"
+msgstr "Die Bereiche der App"
+
+#: onedesk/one_interface/tour.py
+msgid "Every place of the app you are in, and its settings at the foot."
+msgstr "Alle Bereiche der App, in der Sie sind, und unten ihre Einstellungen."
+
+#: onedesk/one_interface/tour.py
+msgid "Settings, Tour and Help"
+msgstr "Einstellungen, Tour und Hilfe"
+
+#: onedesk/one_interface/tour.py
+msgid "The app's settings, this tour again, its help and what is new in it."
+msgstr "Die Einstellungen der App, diese Tour noch einmal, ihre Hilfe und was neu ist."

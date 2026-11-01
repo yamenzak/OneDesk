@@ -7,7 +7,7 @@ from frappe import _lt
 
 MAILBOX = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Your Mailboxes"),
 		"text": _lt("Every mailbox you can read is here, and each opens to its folders."),
@@ -31,13 +31,13 @@ MAILBOX = [
 		"text": _lt("The conversation opens here, with the records it is linked to above it."),
 	},
 	{
-		"target": "window-search",
+		"target": "interface-search",
 		"side": "bottom",
 		"title": _lt("Search Your Mail"),
 		"text": _lt("Type to search, and narrow it with from:, subject: or is:unread."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Set up your mailboxes from the cog, and take the tour of any screen again from the button beside it."),

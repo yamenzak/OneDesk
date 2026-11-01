@@ -8,7 +8,7 @@ from frappe import _lt
 
 PROJECT = [
 	{
-		"target": "window-nav",
+		"target": "interface-nav",
 		"side": "right",
 		"title": _lt("Projects and Time"),
 		"text": _lt("Every project you can see, the hours people have logged, and who has room this week."),
@@ -26,7 +26,7 @@ PROJECT = [
 		"text": _lt("Overview, tasks, time, money, invoices, the team and files, each one click away."),
 	},
 	{
-		"target": "window-tour",
+		"target": "interface-tour",
 		"side": "top",
 		"title": _lt("Settings and Tours"),
 		"text": _lt("Settings is the cog, and the tour runs again from the button beside it."),

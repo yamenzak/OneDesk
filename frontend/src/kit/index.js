@@ -16,4 +16,4 @@ export { useForm, useRecord } from "./record";
 export { default as Rows } from "./Rows.vue";
 export { default as Section } from "./Section.vue";
 export { default as ViewTabs } from "./ViewTabs.vue";
-export { default as WindowPart } from "./WindowPart.vue";
+export { default as InterfacePart } from "./InterfacePart.vue";

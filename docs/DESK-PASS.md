@@ -30,7 +30,7 @@ Measured on 2026-11-01, before any of it:
 
 - **Frappe's parts, placed and restyled by the renderer, never redrawn.**
   A list stays frappe's ListView, a dialog stays frappe's Dialog. The window
-  already works this way (`docs/ONEINTERFACE.md`); this pass takes the same
+  already works this way (`onedesk/one_interface/AGENTS.md`); this pass takes the same
   approach to dialogs, surfaces and motion. Because nothing is copied, a
   frappe, erpnext or hrms upgrade arrives in our screens by itself.
 - **Seams, not forks.** We change frappe by wrapping one of its methods and
@@ -47,7 +47,7 @@ Each is a recommendation until agreed.
 
 **D1. One place decides how things look.** Borders, corners, shadows,
 motion and type sizes are declared only in the window's system layer
-(`public/css/window/`) and the island kit (`frontend/src/kit`). A screen's
+(`public/css/one_interface/`) and the island kit (`frontend/src/kit`). A screen's
 own CSS holds layout and nothing else: grid, gap, width, order. A guard
 refuses a `border`, `border-radius`, `box-shadow`, `transition`, colour or
 `font-size` anywhere else. Making a screen look different from the rest
@@ -155,7 +155,7 @@ guard, the gates, and its effect on load measured.
 1. **Bundle and load late.** One bundle each; centres and module dialogs
    loaded when opened.
 2. **The system layer.** Every border, corner, shadow, colour, size and
-   transition moves into `css/window/` or the kit; D1's guard; D2 to D4
+   transition moves into `css/one_interface/` or the kit; D1's guard; D2 to D4
    applied there.
 3. **One dialog.** D7, for frappe's dialogs, ours, the centres and the
    islands.

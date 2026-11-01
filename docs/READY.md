@@ -97,8 +97,9 @@ there:
 
 `onedesk/one/ready.py` names each module's places, so the guards read all of
 them. The root `docs/`
-keeps what has no single module: this file, the passover, OneInterface, the
-wording and the generated reference.
+keeps what has no single module: this file, the passover, the wording and
+the generated reference. OneInterface is a module like the others, in
+`onedesk/one_interface/`.
 
 ## The mechanisms
 
@@ -321,7 +322,7 @@ heading with a control at its end, a switch after a tab's title, Back
 before a view's title, a Save that shows once something changed; its
 classes are `one-set-*` in `public/css/module_settings.css`, and a module's
 own stylesheet keeps only what is its own. The foot is
-`win.module_foot({ module, settings })`, `windowModuleFoot` in an island:
+`win.module_foot({ module, settings })`, `interfaceModuleFoot` in an island:
 a row of icons: Settings (the cog), the tour of the area on screen and Help,
 then the version at the row's end (mechanism 18 for where every other
 centre opens). Every center's head has an
@@ -340,6 +341,15 @@ point still holds. Its tour starts from the center the first time it
 opens, and a tour of a dialog keeps the dialog above driver's overlay and
 outlines each step where it is (`onedesk.tour.run`). Its Help is listed in
 HelpCenter beside every other module's.
+
+**An engine module.** A module that is the frame the others are drawn in,
+rather than an app somebody is given, keeps no records of its own and has
+no roles to ship. OneInterface is the one there is. It says so in one
+sentence, as `engine` in its registry entry, writes no `abilities.py`, and
+the roles guard skips it; it still declares what it sends (nothing), what
+setting it up takes (nothing), what OneAI may do (nothing of its own) and a
+tour, of the window itself, which runs the first time anybody opens a
+screen of One and before any module's own.
 
 **Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
 helpers inside it, opened from Settings at the foot of its rail and from

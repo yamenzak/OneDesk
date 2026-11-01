@@ -117,7 +117,7 @@ onedesk.dock.rows = (sidebar) => {
 			onClick: () => onedesk.dock.timers_open($(".one-timers-row:visible").not(".one-bar-tool")[0]),
 		});
 	}
-	onedesk.window.bars();
+	onedesk.interface.bars();
 	onedesk.dock.refresh();
 	onedesk.dock.intake();
 	onedesk.dock.timers();

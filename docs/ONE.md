@@ -23,7 +23,7 @@ Decided on 2026-10-26, before this was written:
    centre to open.
 3. **Masters go to the modules that use them.** The Masters page goes.
 4. **One is bespoke.** Every screen it keeps is designed for what it is and
-   drawn on OneInterface (`docs/ONEINTERFACE.md`, The screen contract), not
+   drawn on OneInterface (`onedesk/one_interface/AGENTS.md`, The screen contract), not
    a doctype's list dropped in a rail. A log nobody reads row by row (sign-ins,
    webhook calls, exports) is a view inside the centre that owns it, not a
    rail row of its own.
