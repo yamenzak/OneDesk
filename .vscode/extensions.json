@@ -1,0 +1,11 @@
+{
+	"recommendations": [
+		"ms-python.python",
+		"ms-python.vscode-pylance",
+		"charliermarsh.ruff",
+		"Vue.volar",
+		"bradlc.vscode-tailwindcss",
+		"EditorConfig.EditorConfig",
+		"anthropic.claude-code"
+	]
+}
