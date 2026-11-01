@@ -469,3 +469,28 @@
 :root[data-one-look="canvas"] .one-dialog.one-enlarged .form-page .form-section .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
 /* The view switcher is a group of pills on the ground; its own fill is the canvas's grey in Standard, so its edge is drawn. */
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .es-tab-buttons { border: 1px solid var(--one-line); }
+
+/* ONE EDGE. Everything in the window starts and ends on one line, --one-inset in from the window's sides: the address
+   island, the actions under it, the heading, the tabs and the list. Inside a box (the island, the head pill, a row) its own
+   padding sets the content in; nothing else steps in on its own. */
+:root[data-one-look="canvas"] .one-interface { --one-inset: 10px; --one-row-inset: 14px; }
+:root[data-one-look="canvas"] .one-interface .page-head { padding-inline: var(--one-inset) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands { padding-inline-start: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-views, .one-interface-switch) { padding-inline-end: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-hero-list { padding-inline: var(--one-inset); }
+:root[data-one-look="canvas"] .one-interface .one-strip { padding-inline: 0; margin-inline: var(--one-inset); }
+:root[data-one-look="canvas"] .one-interface .frappe-list { margin-inline: var(--one-inset) !important; padding-inline: 0 !important; }
+
+/* The list's column heads are a filled pill, the island's material, held at the top as the rows scroll under it and
+   whole as they scroll sideways: the pill is drawn by a sticky layer as wide as the list's window, the heads ride over it. */
+:root[data-one-look="canvas"] .one-interface .frappe-list .result-container { container-type: inline-size; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { display: grid; background: var(--one-canvas) !important; border-bottom: 0 !important; padding-bottom: 6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { content: ""; grid-area: 1 / 1; position: sticky; inset-inline-start: 0; width: 100cqw; height: 36px; border-radius: var(--radius-full); background: var(--one-head-bg); border: 1px solid var(--one-line); box-sizing: border-box; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head { grid-area: 1 / 1; position: relative; height: 36px; align-items: center; border-bottom: 0 !important; font-size: 13px !important; font-weight: 500; color: var(--one-ink-soft) !important; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { background: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .frappe-list :is(.list-row-head, .list-row-container .list-row) { padding-inline: var(--one-row-inset) !important; }
+/* A record on the same edge: its head, figures, tabs, alert and sheet. frappe's tab links carry 8px of their own on each side. */
+:root[data-one-look="canvas"] .one-interface > .one-hero-record { padding-inline: var(--one-inset) !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row.one-tabs-below { padding-inline: calc(var(--one-inset) - 8px) !important; }
+:root[data-one-look="canvas"] .one-interface .form-layout .form-message-container { padding-inline: var(--one-inset) !important; }
+:root[data-one-look="canvas"] .one-interface .form-page { margin-inline: var(--one-inset) !important; }

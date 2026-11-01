@@ -395,6 +395,15 @@ ground, its plain buttons on `--one-head-button-bg` so they stand off the
 canvas in every palette. No line runs under either row. Classic keeps the
 two rows as a band.
 
+Everything in the window starts and ends on one edge, `--one-inset` (10px)
+in from its sides: the island, the actions, the heading, the tabs, a list,
+and a record's figures, alert and sheet. Only a box sets its own content in
+(the island, a row, the list's head). A list's column heads are a filled
+pill of the island's material, held at the top while the rows scroll and
+whole while they scroll sideways: a sticky layer as wide as the list's
+window (`100cqw` of `.result-container`) draws the pill, the heads ride
+over it.
+
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
 in an empty part, or with Ctrl+K, or with the search button in the top bar,
 it becomes a box to type in, answered by frappe's own search bar
