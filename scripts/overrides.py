@@ -206,6 +206,13 @@ OVERRIDES = [
 		'doc.select_print_heading = frappe.get_cached_value("Print Heading", "Credit Note")',
 	),
 	(
+		"Scrollbars are a clear track and a thin pill that shows on hover",
+		"frappe's scrollbar.scss paints every track surface-gray-3 and a 6px square-ended thumb that is always there; scrollbar.css follows frappe-ui's ScrollArea instead, a transparent track and a 6px rounded thumb that shows while the pointer is over what scrolls",
+		"onedesk/public/css/window/scrollbar.css",
+		"frappe/frappe/public/scss/desk/scrollbar.scss",
+		"scrollbar-color: var(--scrollbar-thumb-color) var(--scrollbar-track-color);",
+	),
+	(
 		"An Arabic page with a chart is as wide as the window",
 		"frappe-ui's charts measure their labels in a hidden element at left: -9999px, which a right-to-left page can scroll to, so every Arabic page with a chart grew eleven thousand pixels wide and opened on nothing; desk.css parks it on the other side",
 		"onedesk/public/css/desk.css",
@@ -3081,6 +3088,9 @@ ASKS = {
 	),
 	"A lead's status is the colour of what it means": (
 		"Same as row 1: propose `states` on erpnext's lead.json, since frappe.get_indicator reads meta.states ahead of get_indicator. Keep our COLOUR override (extends settings, copies nothing) until then."
+	),
+	"Scrollbars are a clear track and a thin pill that shows on hover": (
+		"Ours restates scrollbar.scss's selectors to outweigh them. Propose that frappe's desk use a transparent --scrollbar-track-color and a rounded, padded thumb, matching frappe-ui's ScrollArea, which is frappe's own newer look. Then scrollbar.css goes."
 	),
 	'An Arabic page with a chart is as wide as the window': (
 		"The desk.css rule matches the inline `left: -9999px` string, so if frappe-ui changes how it serialises that style the RTL page silently grows wide again. Propose that frappe-ui measureText.ts set `style.insetInlineStart = '-9999px'` (or drop `left` and keep only `top: -9999px`), which is right-side in RTL and is exactly what our rule forces. Then drop the rule."

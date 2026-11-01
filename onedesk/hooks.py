@@ -1002,6 +1002,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/window/json_view.css",
 	"/assets/onedesk/css/one_portal/button.css",
 	"/assets/onedesk/css/window/views.css",
+	"/assets/onedesk/css/window/scrollbar.css",
 	"/assets/onedesk/css/one_ai/oneai.css",
 	"/assets/onedesk/css/one_legal/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
