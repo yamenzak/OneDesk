@@ -11,7 +11,8 @@
 
 /* ── Roles: Standard ───────────────────────────────────────────────── */
 
-:root {
+:root,
+.one-sample {
 	/* Type and shape: one value for both themes. */
 	--one-heading-weight: 600;
 	--one-heading-tracking: -0.02em;
@@ -111,9 +112,15 @@
 	--one-count-ink: var(--ink-gray-6);
 }
 
+/* A .one-sample is a small picture of the page in a theme and palette of
+   its own (the Appearance dialog): it takes the roles here and in
+   palettes.css afresh, from frappe's steps, which frappe declares again on
+   every [data-theme]. */
+
 /* In a dark theme frappe's sidebar is the page's colour, one surface with
    the screen beside it. */
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+.one-sample[data-theme="dark"] {
 	--one-sidebar-bg: var(--surface-base);
 }
 
@@ -138,7 +145,8 @@
 
 /* ── The frame: the rail, the bars and the gutter round the screen ── */
 
-:root {
+:root,
+.one-sample {
 	--one-bar-height: 28px;
 	--one-bar-offset: 0px;
 	--one-frame-gutter: 6px;
@@ -184,15 +192,18 @@
 /* In a dark theme the page is frappe-ui's darkest surface already, so the
    frame steps the other way: a grey a step lighter, and the workspace's
    colour deepened into the dark. */
-:root[data-theme="dark"] {
+:root[data-theme="dark"],
+.one-sample[data-theme="dark"] {
 	--one-frame: var(--one-frame-dark);
 }
 
-:root[data-theme="dark"][data-one-frame="brand"] {
+:root[data-theme="dark"][data-one-frame="brand"],
+.one-sample[data-theme="dark"][data-one-frame="brand"] {
 	--one-frame: color-mix(in oklab, var(--one-frame-brand) 40%, var(--surface-base));
 }
 
-:root[data-one-frame-ink="dark"]:not([data-theme="dark"]) {
+:root[data-one-frame-ink="dark"]:not([data-theme="dark"]),
+.one-sample[data-one-frame-ink="dark"]:not([data-theme="dark"]) {
 	--one-frame-ink: var(--one-over-black-700);
 	--one-frame-ink-strong: var(--one-over-black-950);
 	--one-frame-hover: var(--one-over-black-100);

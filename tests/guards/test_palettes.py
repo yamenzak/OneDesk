@@ -29,7 +29,7 @@ def declared(body: str) -> set[str]:
 def roles() -> set[str]:
 	found = set()
 	for selector, body in blocks(TOKENS):
-		if selector == ":root":
+		if re.sub(r"\s+", " ", selector) in (":root", ":root, .one-sample"):
 			found |= {name for name in declared(body) if name.startswith("--one-") and not NOT_PALETTE.match(name)}
 	return found
 
@@ -37,9 +37,9 @@ def roles() -> set[str]:
 def palettes() -> dict[str, dict[str, set[str]]]:
 	found: dict[str, dict[str, set[str]]] = {}
 	for selector, body in blocks(PALETTES):
-		named = re.fullmatch(r':root\[data-one-palette="([a-z]+)"\](\[data-theme="dark"\])?', selector)
-		assert named, f"palettes.css: {selector} is not a palette's light or dark block"
-		found.setdefault(named.group(1), {}).setdefault("dark" if named.group(2) else "light", set()).update(declared(body))
+		named = re.fullmatch(r':root(\[data-one-palette="([a-z]+)"\](\[data-theme="dark"\])?),\s*\.one-sample\1', selector)
+		assert named, f"palettes.css: {selector} is not a palette's light or dark block, for the page and for a sample of it"
+		found.setdefault(named.group(2), {}).setdefault("dark" if named.group(3) else "light", set()).update(declared(body))
 	return found
 
 

@@ -30,38 +30,111 @@ if (frappe.assets && !frappe.assets.__one_stamped) {
 	};
 }
 
+// frappe's theme dialog, as One's Appearance: the theme (light, dark or the
+// system's) and the palette (onedesk/one_interface/AGENTS.md, Palettes), each
+// card a small picture of the window drawn from the same roles the window
+// reads (.one-sample, tokens.css). A choice shows at once and is kept: the
+// theme in frappe's own user field, the palette in the window's user settings.
 frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher {
 	setup_dialog() {
-		super.setup_dialog();
-		this.dialog.$wrapper.find(".modal-dialog").removeClass("modal-lg");
+		this.dialog = new frappe.ui.Dialog({ title: __("Appearance") });
+		this.body = $(`<div class="one-appearance"></div>`).appendTo(this.dialog.$body);
+		this.bind_events();
 	}
 
 	fetch_themes() {
-		return super.fetch_themes().then((themes) => {
-			this.themes = themes.filter((one) => one.name !== "automatic");
-			return this.themes;
-		});
+		this.themes = [
+			{ name: "light", label: __("Light") },
+			{ name: "dark", label: __("Dark") },
+			{ name: "automatic", label: __("System") },
+		];
+		return Promise.resolve(this.themes);
+	}
+
+	// the theme a picture is drawn in when the choice is the system's
+	shown_theme() {
+		if (this.current_theme !== "automatic") return this.current_theme;
+		return frappe.ui.dark_theme_media_query.matches ? "dark" : "light";
+	}
+
+	sample(theme, palette) {
+		const root = document.documentElement;
+		const brand = root.dataset.oneFrame === "brand" ? root.style.getPropertyValue("--one-frame-brand") : "";
+		const $sample = $(`
+			<span class="one-sample" data-theme="${theme}" aria-hidden="true">
+				<span class="one-sample-bar"></span>
+				<span class="one-sample-window">
+					<span class="one-sample-side"><i></i><i class="one-sample-on"></i><i></i><i></i></span>
+					<span class="one-sample-canvas">
+						<span class="one-sample-sheet"><i class="one-sample-title"></i><i></i><i></i><i class="one-sample-short"></i><b></b></span>
+					</span>
+				</span>
+			</span>
+		`);
+		if (palette !== "standard") $sample.attr("data-one-palette", palette);
+		if (brand) $sample.attr("data-one-frame", "brand").css("--one-frame-brand", brand);
+		if (root.dataset.oneFrameInk) $sample.attr("data-one-frame-ink", root.dataset.oneFrameInk);
+		return $sample;
+	}
+
+	card({ label, says, chosen, pictures, pick }) {
+		const $card = $(`
+			<button type="button" class="one-appearance-card" aria-pressed="${chosen}">
+				<span class="one-appearance-picture"></span>
+				<span class="one-appearance-label"></span>
+			</button>
+		`);
+		$card.find(".one-appearance-picture").append(pictures);
+		$card.find(".one-appearance-label").text(label);
+		if (says) $(`<span class="one-appearance-says"></span>`).text(says).appendTo($card);
+		$card.on("click", pick);
+		return $card;
 	}
 
 	render() {
-		super.render();
-		this.$follow = $(`
-			<label class="theme-follow">
-				<input type="checkbox" />
-				<span>${__("Follow my system")}</span>
-			</label>
-		`).appendTo(this.dialog.$body);
+		this.body.empty();
+		const palette = onedesk.interface.palette() || "standard";
+		const group = (title) => {
+			const $group = $(`<div class="one-appearance-group"><div class="one-appearance-head"></div><div class="one-appearance-row"></div></div>`).appendTo(this.body);
+			$group.find(".one-appearance-head").text(title);
+			return $group.find(".one-appearance-row");
+		};
 
-		const box = this.$follow.find("input");
-		box.prop("checked", document.documentElement.getAttribute("data-theme-mode") === "automatic");
-		box.on("change", () => {
-			if (box.is(":checked")) return super.toggle_theme("automatic");
-			super.toggle_theme(frappe.ui.get_current_theme() || "light");
-		});
+		const $themes = group(__("Theme"));
+		for (const theme of this.themes) {
+			const pictures = theme.name === "automatic" ? [this.sample("light", palette), this.sample("dark", palette).addClass("one-sample-half")] : [this.sample(theme.name, palette)];
+			theme.$html = this.card({
+				label: theme.label,
+				chosen: this.current_theme === theme.name,
+				pictures,
+				pick: () => this.toggle_theme(theme.name),
+			}).appendTo($themes);
+		}
+
+		const palettes = onedesk.interface.palettes();
+		if (palettes.length < 2) return;
+		const $palettes = group(__("Palette"));
+		for (const name of palettes) {
+			const one = onedesk.interface.PALETTES[name];
+			this.card({
+				label: one.label,
+				says: one.says,
+				chosen: palette === name,
+				pictures: [this.sample(this.shown_theme(), name)],
+				pick: () => {
+					if (palette === name) return;
+					onedesk.interface.set_palette(name, true);
+					this.render();
+				},
+			}).appendTo($palettes);
+		}
 	}
 
-	toggle_theme(name) {
-		super.toggle_theme(name);
-		this.$follow?.find("input").prop("checked", false);
+	toggle_theme(theme) {
+		if (this.current_theme === theme) return;
+		this.current_theme = theme;
+		document.documentElement.setAttribute("data-theme-mode", theme);
+		frappe.xcall("frappe.core.doctype.user.user.switch_theme", { theme: toTitle(theme) });
+		this.render();
 	}
 };

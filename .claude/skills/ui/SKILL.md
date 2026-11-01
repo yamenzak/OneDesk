@@ -47,6 +47,9 @@ Three layers, three words; never call one by another's name.
 - **Palette**: every value a look draws with, colour, corners, shadows,
   type, set on `data-one-palette`. Standard is frappe's own; Sand is the
   one One ships. A palette is a full set of roles (below), never a hue.
+  Each person picks theme and palette in Appearance (`theme.js`); a
+  picture of the window there is a `.one-sample`, which takes the roles
+  afresh, so draw any preview of a theme or palette with one.
 
 The HTML is the same in every look. A look that needs a different
 arrangement adds a part to the renderer; it never forks it.

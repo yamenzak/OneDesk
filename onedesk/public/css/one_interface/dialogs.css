@@ -68,3 +68,34 @@
 .one-dialog-need:empty { display: none; }
 .one-dialog-need b { color: var(--one-ink); font-weight: 500; }
 .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-footer { border-top: 0; padding-top: 4px; padding-bottom: 16px; }
+
+/* Appearance (theme.js): two rows of cards, the theme and the palette, each a
+   small picture of the window in that choice. The picture reads the same
+   roles the window does, so it is what the window will look like. */
+.one-appearance { display: flex; flex-direction: column; gap: 20px; }
+.one-appearance-head { margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--one-ink-soft); }
+.one-appearance-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.one-appearance-card { display: flex; flex-direction: column; gap: 6px; padding: 0; border: 0; background: none; text-align: start; color: var(--one-ink); cursor: pointer; }
+.one-appearance-picture { position: relative; display: block; height: 104px; overflow: hidden; border: 1px solid var(--one-edge); border-radius: var(--one-radius-control); }
+.one-appearance-card[aria-pressed="true"] .one-appearance-picture { outline: 2px solid var(--one-accent); outline-offset: 2px; }
+.one-appearance-card:hover .one-appearance-picture { border-color: var(--one-edge-strong); }
+.one-appearance-card:focus-visible { outline: none; }
+.one-appearance-card:focus-visible .one-appearance-picture { outline: 2px solid var(--one-focus); outline-offset: 2px; }
+.one-appearance-label { font-size: 13px; font-weight: 500; color: var(--one-ink-strong); }
+.one-appearance-says { margin-top: -4px; font-size: 12px; line-height: 1.4; color: var(--one-ink-muted); }
+
+/* The picture: the frame's bar and rail round the window, the sidebar with
+   its chosen row, and one sheet on the canvas with the primary button. */
+.one-sample { position: absolute; inset: 0; display: grid; grid-template: 7px 1fr / 10px 1fr; background: var(--one-frame); }
+.one-sample-half { clip-path: polygon(56% 0, 100% 0, 100% 100%, 44% 100%); }
+.one-sample-bar { grid-column: 1 / -1; }
+.one-sample-window { grid-area: 2 / 2; display: flex; min-width: 0; overflow: hidden; background: var(--one-canvas); border-start-start-radius: var(--one-radius-small); }
+.one-sample-side { display: flex; flex-direction: column; gap: 4px; width: 32%; padding: 6px 4px; background: var(--one-sidebar-bg); border-inline-end: 1px solid var(--one-sidebar-line); }
+.one-sample-side i { display: block; height: 3px; width: 70%; margin: 2px 3px; border-radius: var(--radius-full); background: var(--one-sidebar-ink-muted); opacity: 0.45; }
+.one-sample-side .one-sample-on { height: 9px; width: auto; margin: 0; background: var(--one-sidebar-active-bg); outline: 1px solid var(--one-sidebar-line); opacity: 1; }
+.one-sample-canvas { flex: 1; min-width: 0; padding: 6px; }
+.one-sample-sheet { display: flex; flex-direction: column; gap: 5px; height: 100%; padding: 7px; background: var(--one-sheet); border: 1px solid var(--one-line); border-radius: var(--one-radius-small); }
+.one-sample-sheet i { display: block; height: 3px; width: 82%; border-radius: var(--radius-full); background: var(--one-ink-faint); opacity: 0.5; }
+.one-sample-sheet .one-sample-title { width: 46%; height: 5px; background: var(--one-ink-strong); opacity: 0.8; }
+.one-sample-sheet .one-sample-short { width: 56%; }
+.one-sample-sheet b { margin-top: auto; align-self: flex-end; width: 26px; height: 9px; border-radius: var(--one-radius-small); background: var(--one-primary-bg); }

@@ -5,7 +5,8 @@
    tests/guards/test_palettes.py holds every palette to every role. */
 
 /* Sand: Warm and soft: sand and espresso, a filled active row, round corners and a lighter heading. */
-:root[data-one-palette="sand"] {
+:root[data-one-palette="sand"],
+.one-sample[data-one-palette="sand"] {
 	--gray-50: oklch(0.9791 0.0057 58);
 	--gray-100: oklch(0.9642 0.0098 58);
 	--gray-200: oklch(0.9461 0.0110 58);
@@ -94,7 +95,8 @@
 	--one-tint: var(--gray-50);
 }
 
-:root[data-one-palette="sand"][data-theme="dark"] {
+:root[data-one-palette="sand"][data-theme="dark"],
+.one-sample[data-one-palette="sand"][data-theme="dark"] {
 	--gray-50: oklch(0.9791 0.0020 58);
 	--gray-100: oklch(0.8853 0.0052 58);
 	--gray-200: oklch(0.7540 0.0076 58);

@@ -519,6 +519,16 @@ keeping frappe's lightness at every step so contrast stays Standard's, and
 then every role for its light and its dark; shape and type are set once.
 Sand is the one palette One ships, with the Canvas look.
 
+Each person chooses their palette, with their theme, in Appearance
+(frappe's Toggle Theme, `theme.js`). A look names the palettes drawn for
+it (`LOOKS.canvas.palettes`, look.js) and Standard is always offered;
+the choice is kept in the window's user settings (`palette`, frame.js) and
+look.js sets `data-one-palette` before the first screen. Every card is a
+`.one-sample`: tokens.css and palettes.css declare their roles on it as on
+`:root`, and frappe declares its greys on every `[data-theme]`, so a
+sample in any theme and palette draws from the same roles as the window.
+A palette's blocks name both, which `test_palettes.py` checks.
+
 Under a palette nothing frappe draws is left on a value the palette did not
 choose. tokens.css points, only while a palette is on:
 

@@ -1032,11 +1032,11 @@ OVERRIDES = [
 		"def to_symbol",
 	),
 	(
-		"Switch Theme offers Light and Dark, and following the system is a checkbox",
-		"frappe offers Light, Dark and Automatic as three cards; theme.js subclasses ThemeSwitcher, filters Automatic out of frappe's own list, and puts Follow my system under the two cards",
+		"Switch Theme is Appearance: the theme and the palette, each card a picture of the window in that choice",
+		"frappe offers Light, Dark and Automatic as three cards of its own preview; theme.js subclasses ThemeSwitcher and draws its own dialog, with Light, Dark and System, then the palettes the look has, each picture a .one-sample drawn from the roles. It keeps frappe's refresh, arrow keys and switch_theme call",
 		"onedesk/public/js/theme.js",
 		"frappe/frappe/public/js/frappe/ui/theme_switcher.js",
-		'size: "large"',
+		"new_theme.$html.click();",
 	),
 	(
 		"The Employee band is not a notice",
