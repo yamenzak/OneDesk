@@ -948,7 +948,10 @@ names its mechanism.
 4. **Documented.** `AGENTS.md` for agents and a `docs/` wiki for people,
    shown in Help (mechanism 4).
 5. **Copy.** Every heading and description it shows passes the copy rules
-   (mechanism 1).
+   (mechanism 1), and reads right in Arabic and German on the screen itself:
+   the sense the screen means, the glossary's word for each term
+   (`onedesk/locale/glossary.csv`), and none of its strings left in
+   `onedesk/locale/glossary_debt.json`.
 6. **Roles.** Its roles ship, its overrides use grants, the matrix is
    written down, and AccessCenter shows all of it (mechanisms 7 and 14).
 7. **OneAI.** Everything a person can do here, OneAI can do as a card, or

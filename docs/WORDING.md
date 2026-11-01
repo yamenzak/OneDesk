@@ -308,6 +308,16 @@ longer says, and a `{0}` in the English is a `{0}` in both translations.
 Which means a wording change is a translation change. Rewrite the English,
 regenerate the POT, and fill in the two `msgstr` lines in the same commit.
 
+**One word for one thing.** A translation was written from a bare list of
+English strings, so "Approve" came out four ways across the screens and
+buttons took two grammatical forms. `onedesk/locale/glossary.csv` now holds
+one Arabic and one German word per term, `scripts/translate.py` hands each
+new string over with its kind, its place and its neighbours, and
+`tests/guards/test_glossary.py` refuses a new translation that says a term
+another way. What was already wrong is listed in
+`onedesk/locale/glossary_debt.json`, which only shrinks: point 5 of
+`docs/READY.md` clears it screen by screen.
+
 **`rules.py` is the one exception to `_()`.** It must not import frappe, so its
 signal sentences are wrapped in a local `N_` — a no-op marker babel extracts
 anyway — and `clock.py` translates them at the point it shows one.

@@ -138,16 +138,41 @@ A thing is called what ERPNext calls it, the name Ctrl+K finds it by.
 
 ## Translation
 
-A wording change is a translation change, in the same commit.
+A wording change is a translation change, in the same commit. Never
+translate a bare list of English strings: each one is translated where it
+is shown.
 
 1. `bench generate-pot-file --app onedesk`
-2. Fill the new `msgstr` in `onedesk/locale/ar.po` and `de.po`. Keep every
-   `{0}`. Before choosing a word, grep both files for how it is already
-   translated and use that. Leave empty a string frappe, erpnext or hrms
-   already translate ("Salary Slip", "Status").
-3. German is gender-neutral: rephrase around the person ("Wer einen Antrag
-   stellt", "Beschäftigte", "Personen") rather than "Mitarbeiter".
-4. `bench compile-po-to-mo --app onedesk`
+2. `../../env/bin/python scripts/translate.py todo > /tmp/todo.json` lists
+   every string nobody translates yet, with what it is (a field label, a
+   notification subject, a print format label), the files it is in, the
+   strings around it with their Arabic, and the glossary's words for the
+   terms it uses. A string frappe, erpnext or hrms already translate is left
+   to theirs and is not listed.
+3. Fill each entry's `ar` and `de`, reading it in that frame. "Open" next
+   to invoice statuses is مفتوحة, not فتح. "Bank's No" on a bank guarantee
+   is the guarantee's number at the bank, not رقم البنك.
+4. `../../env/bin/python scripts/translate.py apply /tmp/todo.json` writes
+   them, and refuses one whose placeholders differ from the English or that
+   says a glossary term another way.
+5. `bench compile-po-to-mo --app onedesk`
+
+**The glossary** (`onedesk/locale/glossary.csv`) is one word per term: اعتماد
+for Approve, never وافق or موافقة; مخزون for Stock; مسودة for Draft. Buttons
+take the verbal noun, as frappe's do: إضافة, حفظ, إرسال, never أضف. A term
+missing from it is added there, with its Arabic and German, before it is
+used. Upstream's own Arabic is not a source: hrms says غادر for Leave.
+
+**German** is gender-neutral for people: Mitarbeitende, not Mitarbeiter;
+rephrase around the person ("Wer einen Antrag stellt"). A customer or
+supplier is an organisation, so Kunde and Lieferant stay.
+
+**Arabic** is Modern Standard, as a Gulf business product writes it.
+Placeholders stay as they are.
+
+`onedesk/locale/glossary_debt.json` lists what was already wrong when the
+glossary came in. It is cleared screen by screen in the final checks, and
+a string fixed is taken out of it in the same commit.
 
 ## Before handing back
 
@@ -155,7 +180,7 @@ Read every new string aloud, in the place it appears. Then run the wording
 guards, which take seconds, instead of the whole suite:
 
     python3 -m pytest -q tests/guards/test_wording.py tests/guards/test_copy.py \
-      tests/test_names.py tests/guards/test_translations.py \
+      tests/test_names.py tests/guards/test_translations.py tests/guards/test_glossary.py \
       tests/guards/test_legal.py tests/guards/test_erpnext_names.py
 
 A guard failure means the string is wrong, not the guard. Rewrite the string
