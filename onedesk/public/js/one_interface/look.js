@@ -490,9 +490,28 @@ $(document).on("form-refresh", (_e, frm) => {
 frappe.provide("onedesk.interface.list");
 const list = onedesk.interface.list;
 
-// Over the rows: the list's name and how many, then a strip of the states
-// its module declares (status by default), each a filter, with the list's
-// quick filters at the strip's end.
+// The icon a kind of record is shown with: its module's declared icon, else
+// the one its row on the rail carries (frappe's module sidebars).
+onedesk.interface.icon_of = (doctype) => {
+	const reg = declared(doctype);
+	if (reg && reg.icon) return reg.icon;
+	let found = null;
+	const walk = (node, depth) => {
+		if (found || !node || typeof node !== "object" || depth > 6) return;
+		if (Array.isArray(node)) return node.forEach((one) => walk(one, depth + 1));
+		if (node.link_type === "DocType" && node.link_to === doctype && node.icon) found = node.icon;
+		for (const key of Object.keys(node)) if (key !== "parent") walk(node[key], depth + 1);
+	};
+	const sidebars = frappe.boot.module_sidebars || {};
+	const current = frappe.app && frappe.app.sidebar && frappe.app.sidebar.current_module;
+	walk(current && sidebars[current], 0);
+	walk(sidebars, 0);
+	return found;
+};
+
+// Over the rows: the list's icon, name and how many, then a strip of the
+// states its module declares (status by default), each a filter. The list's
+// quick filters sit beside Filter in the actions row.
 list.strip = async (view) => {
 	const doctype = view.doctype;
 	const main = view.page.wrapper[0].querySelector(".layout-main-list") || (view.$frappe_list && view.$frappe_list[0].parentElement);
@@ -501,10 +520,18 @@ list.strip = async (view) => {
 	if (!hero) {
 		hero = document.createElement("div");
 		hero.className = "one-hero one-hero-list";
-		hero.innerHTML = `<div class="one-hero-title"><h1></h1><span class="one-hero-count"></span></div>`;
+		hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon" hidden></span><h1></h1><span class="one-hero-count"></span></div>`;
 		main.prepend(hero);
 	}
 	hero.querySelector("h1").textContent = __(doctype);
+	const kind = onedesk.interface.icon_of(doctype);
+	const mark = hero.querySelector(".one-hero-icon");
+	mark.hidden = !kind;
+	if (kind && mark.dataset.icon !== kind) {
+		mark.innerHTML = frappe.utils.icon(kind, "md");
+		mark.dataset.icon = kind;
+	}
+	list.filters(view);
 	const decl = (declared(doctype) || {}).states || { field: "status", order: [], hide: [] };
 	let states = [];
 	if (frappe.meta.get_docfield(doctype, decl.field)) {
@@ -540,12 +567,16 @@ list.strip = async (view) => {
 			if (button.dataset.value) await view.filter_area.add([[doctype, decl.field, "=", button.dataset.value]]);
 		};
 	});
-	// the quick filters join the strip's end
-	const filters = view.page.wrapper[0].querySelector(".standard-filter-section");
-	if (filters && filters.parentElement !== strip) {
-		filters.classList.add("one-strip-filters");
-		strip.append(filters);
-	}
+};
+
+// frappe's quick filters, beside Filter in the actions row.
+list.filters = (view) => {
+	const wrapper = view.page.wrapper[0];
+	const filters = wrapper.querySelector(".standard-filter-section");
+	const views = wrapper.querySelector(".page-head .one-interface-views");
+	if (!filters || !views) return;
+	filters.classList.add("one-head-filters");
+	if (filters.parentElement !== views) views.prepend(filters);
 };
 
 // The icons a module declares for its fields, on the list's column heads,

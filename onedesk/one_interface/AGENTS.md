@@ -404,6 +404,15 @@ whole while they scroll sideways: a sticky layer as wide as the list's
 window (`100cqw` of `.result-container`) draws the pill, the heads ride
 over it.
 
+A list's quick filters are frappe's own (the fields marked for the standard
+filter bar, which anyone changes in Customize Form; we add none), moved by
+`list.filters` into the actions' views. With any, the narrowing takes a row
+of its own: the filters from the edge, sliding sideways when they overflow,
+then Filter, the sort and the view switcher, which is drawn as their
+neighbour (`--one-head-button-bg`, the chosen view pressed in). The list's
+heading carries its kind's icon (`onedesk.interface.icon_of`: the module's
+declared `icon`, else the icon of its row in frappe's module sidebars).
+
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
 in an empty part, or with Ctrl+K, or with the search button in the top bar,
 it becomes a box to type in, answered by frappe's own search bar

@@ -32,9 +32,6 @@
 :root[data-one-look="canvas"] .one-strip-item.is-on { color: var(--one-tab-on-ink);  font-weight: 500; }
 :root[data-one-look="canvas"] .one-strip-dot { display: none; }
 :root[data-one-look="canvas"] .one-strip-count { font-size: 12px; padding: 0 7px; border-radius: var(--radius-full); background: var(--one-count-bg); color: var(--one-count-ink); font-variant-numeric: tabular-nums; }
-:root[data-one-look="canvas"] .one-strip-filters { margin-left: auto; padding-bottom: 8px; gap: 6px !important; flex-wrap: nowrap !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-group { width: 132px !important; max-width: 132px !important; flex: 0 0 auto !important; margin: 0 !important; padding: 0 !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; font-size: 12.5px !important; background: transparent !important; border: 1px dashed var(--one-edge-strong) !important; border-radius: var(--radius-full) !important; }
 :root[data-one-look="canvas"] .one-interface .list-page-form:not(:has(.form-group)) { display: none !important; }
 
 /* the list is one sheet */
@@ -92,7 +89,6 @@
 :root[data-one-look="canvas"] .form-page .form-section:has(.frappe-control[data-fieldtype="Table"]:not(.one-quiet)) .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); }
 :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] > .form-group > .control-label, :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] .control-label:first-child { display: none; }
 :root[data-one-look="canvas"] .frappe-list .level-right, :root[data-one-look="canvas"] .frappe-list .list-row-head .level-right, :root[data-one-look="canvas"] .frappe-list .list-row .level-right { background: transparent !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-group:nth-child(n+3) { display: none !important; }
 
 /* the head above the tabs: name, state and actions on one line; then the track, the figures and the chart */
 :root[data-one-look="canvas"] .one-has-head .form-sidebar .form-title-text, :root[data-one-look="canvas"] .one-has-head .form-sidebar .form-name-container { display: none !important; }
@@ -410,18 +406,16 @@
 :root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-pressed="true"], :root[data-one-look="canvas"] .one-interface .page-head .es-pill.active, :root[data-one-look="canvas"] .one-interface .page-head .es-pill[aria-selected="true"] { background: var(--one-surface) !important; }
 
 /* quick filters look like the bar's other controls: 28px, filled, no dashes; a mode switch sits inside its field */
-:root[data-one-look="canvas"] .one-strip-filters .form-control { height: 28px !important; border: 1px solid transparent !important; border-radius: var(--one-radius-control) !important; background: var(--one-hover) !important; font-size: 13px !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control:focus { background: var(--one-surface) !important; border-color: var(--one-edge-strong) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .input-group { position: relative; display: flex; }
-:root[data-one-look="canvas"] .one-strip-filters .input-group > .form-control { border-radius: var(--one-radius-control) !important; padding-inline-end: 30px !important; }
-:root[data-one-look="canvas"] .one-strip-filters .input-group-btn { position: absolute; inset-inline-end: 2px; top: 2px; z-index: 2; margin: 0 !important; }
-:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn { height: 24px; width: 24px; padding: 0 !important; display: flex; align-items: center; justify-content: center; background: transparent !important; border: 0 !important; color: var(--one-ink-muted); border-radius: var(--one-radius-small) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .match-type-dropdown-btn:hover { background: var(--one-press) !important; color: var(--one-ink); }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group { position: relative; display: flex; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group > .form-control { border-radius: var(--one-radius-control) !important; padding-inline-end: 30px !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group-btn { position: absolute; inset-inline-end: 2px; top: 2px; z-index: 2; margin: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .match-type-dropdown-btn { height: 24px; width: 24px; padding: 0 !important; display: flex; align-items: center; justify-content: center; background: transparent !important; border: 0 !important; color: var(--one-ink-muted); border-radius: var(--one-radius-small) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .match-type-dropdown-btn:hover { background: var(--one-press) !important; color: var(--one-ink); }
 /* on the canvas a field is outlined, not filled (rule 34), and fills its own group */
-:root[data-one-look="canvas"] .one-strip-filters .form-control { background: transparent !important; border: 1px solid var(--one-edge) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-control:hover { border-color: var(--one-edge-strong) !important; }
-:root[data-one-look="canvas"] .one-strip-filters .input-group > .form-control { flex: 1 1 auto; width: 100% !important; }
-:root[data-one-look="canvas"] .one-strip-filters .form-group { margin: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control { background: transparent !important; border: 1px solid var(--one-edge) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control:hover { border-color: var(--one-edge-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group > .form-control { flex: 1 1 auto; width: 100% !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-group { margin: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .es-pill[data-state="active"] { background: var(--one-surface) !important; color: var(--one-ink-strong) !important; }
 
 /* round 18: the table starts on the same edge as the title and the states, with the same gutter on the far side */
@@ -467,8 +461,12 @@
 :root[data-one-look="canvas"] .one-dialog .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr); }
 :root[data-one-look="canvas"] .one-dialog[data-kind="create"]:not([data-size="small"]) .form-page .form-section .section-body { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 20px; }
 :root[data-one-look="canvas"] .one-dialog.one-enlarged .form-page .form-section .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0 32px; }
-/* The view switcher is a group of pills on the ground; its own fill is the canvas's grey in Standard, so its edge is drawn. */
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .es-tab-buttons { border: 1px solid var(--one-line); }
+/* The view switcher is a button like its neighbours, Filter and the sort: their fill, their corner, their height, with the
+   chosen view pressed into it. frappe's own group is a raw grey with literal white pills, which no palette reaches. */
+:root[data-one-look="canvas"] .one-interface .page-head .es-tab-buttons { height: 28px; padding: 2px; gap: 2px; border: 0 !important; border-radius: var(--one-radius-control) !important; background: var(--one-head-button-bg) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .es-tab-buttons .es-pill { height: 24px; border-radius: var(--one-radius-small) !important; background: transparent !important; color: var(--one-ink-quiet) !important; box-shadow: none !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .es-tab-buttons .es-pill:hover { color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .es-tab-buttons .es-pill[data-state="active"] { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
 
 /* ONE EDGE. Everything in the window starts and ends on one line, --one-inset in from the window's sides: the address
    island, the actions under it, the heading, the tabs and the list. Inside a box (the island, the head pill, a row) its own
@@ -494,3 +492,29 @@
 :root[data-one-look="canvas"] .one-interface .one-interface-row.one-tabs-below { padding-inline: calc(var(--one-inset) - 8px) !important; }
 :root[data-one-look="canvas"] .one-interface .form-layout .form-message-container { padding-inline: var(--one-inset) !important; }
 :root[data-one-look="canvas"] .one-interface .form-page { margin-inline: var(--one-inset) !important; }
+
+/* A checkbox in the window is the palette's: its edge and its ground, and ticked, the palette's check colour. frappe's small corner stays: a palette's rounder one makes a 14px box a circle. */
+:root[data-one-look="canvas"] .one-interface input[type="checkbox"] { border-color: var(--one-edge-strong) !important; }
+:root[data-one-look="canvas"] .one-interface input[type="checkbox"]:not(:checked) { background-color: var(--one-head-bg) !important; }
+:root[data-one-look="canvas"] .one-interface input[type="checkbox"]:checked { background-color: var(--one-check) !important; border-color: var(--one-check) !important; }
+
+/* The record's panel ends on the window's edge like everything else. */
+:root[data-one-look="canvas"] .one-interface .layout-side-section .form-sidebar { margin-inline-end: var(--one-inset) !important; }
+
+/* A list's quick filters are frappe's own (the fields marked to filter in the standard bar, which anyone can change in
+   Customize Form), set beside Filter in the actions row and drawn as its neighbours are. */
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; margin: 0 !important; padding: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-group { width: 132px !important; max-width: 132px !important; flex: 0 0 auto !important; margin: 0 !important; padding: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control { height: 28px !important; font-size: 13px !important; background: var(--one-head-button-bg) !important; border: 1px solid transparent !important; border-radius: var(--one-radius-control) !important; color: var(--one-button-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control:focus { background: var(--one-head-bg) !important; border-color: var(--one-edge-strong) !important; }
+
+/* The list's heading carries its kind's icon, the one its rail row shows. */
+:root[data-one-look="canvas"] .one-hero-icon { display: inline-flex; align-self: center; color: var(--one-ink-quiet); }
+:root[data-one-look="canvas"] .one-hero-icon svg { width: 22px; height: 22px; }
+/* With quick filters the narrowing gets a row of its own, on the same edge: the filters from the start (sliding sideways
+   when there are more than fit), Filter, the sort and the views at the end. The commands keep the row above to themselves. */
+:root[data-one-look="canvas"] .one-interface:has(.page-head .one-head-filters .form-group) { --page-head-height: 148px; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views:has(.one-head-filters .form-group) { flex: 1 0 100%; order: 9; display: flex; align-items: center; gap: 6px; min-width: 0; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters::-webkit-scrollbar { display: none; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views:has(.one-head-filters .form-group) > :not(.one-head-filters) { flex: none; }
