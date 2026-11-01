@@ -161,8 +161,15 @@ uv pip install -q --python env/bin/python pytest openpyxl
 bench config dns_multitenant on >/dev/null
 # Installing an app writes to the cache and the queue, which bench start would
 # run; until then, start them here, or an app's own setup fails halfway.
-redis-cli -p 13000 ping >/dev/null 2>&1 || redis-server config/redis_cache.conf --daemonize yes >/dev/null
-redis-cli -p 11000 ping >/dev/null 2>&1 || redis-server config/redis_queue.conf --daemonize yes >/dev/null
+started=()
+for port in 13000 11000; do
+	if ! redis-cli -p "$port" ping >/dev/null 2>&1; then
+		conf=config/redis_cache.conf
+		[ "$port" = 11000 ] && conf=config/redis_queue.conf
+		redis-server "$conf" --daemonize yes >/dev/null
+		started+=("$port")
+	fi
+done
 make_site() {
 	local site="$1" admin="$2"
 	[ -d "sites/$site" ] && return
@@ -184,9 +191,11 @@ make_site admin.localhost 1
 grep -q "^islands:" Procfile || echo "islands: cd apps/onedesk/frontend && yarn dev" >>Procfile
 
 # bench start runs its own redis on these ports, and stops everything if
-# either is already taken.
-redis-cli -p 13000 shutdown nosave >/dev/null 2>&1 || true
-redis-cli -p 11000 shutdown nosave >/dev/null 2>&1 || true
+# either is already taken. Only the ones started above are stopped, so a
+# bench start already running keeps its own.
+for port in "${started[@]}"; do
+	redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
+done
 
 say "Ready"
 cat <<DONE

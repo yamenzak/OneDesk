@@ -37,6 +37,18 @@ more), as a user with sudo. Nothing needs opening to the internet: connect with
 and the addresses below open in your own browser as if the bench were local.
 Port 9000 is socketio, which the desk's realtime needs.
 
+## On the internet
+
+With a domain in your Cloudflare account, after `setup.sh`:
+
+    bash ~/one-bench/apps/onedesk/deploy/local/public.sh 4dl.dev
+
+makes `one.4dl.dev` (a workspace) and `admin.4dl.dev` (OneAdmin) as two more
+sites, served through a Cloudflare Tunnel: HTTPS, realtime included, and no
+port opened on the server. The tunnel is a line of the Procfile, so they are
+online exactly while `bench start` runs. Their Administrator password is
+`PUBLIC_ADMIN_PASSWORD` in `~/.one-local`.
+
 ## Every day
 
     cd ~/one-bench && bench start
