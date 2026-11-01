@@ -454,8 +454,8 @@ not a theme. Three words, three layers:
 
 - **Look**: the design language. `public/js/one_interface/look.js`
   declares them (`onedesk.interface.LOOKS`) and sets `data-one-look` on the
-  page from the boot (`one_look`, the workspace default `one_look`, Canvas
-  when unset). A look is a stylesheet scoped to its attribute
+  page: the person's own (Appearance), else the workspace default
+  `one_look` from the boot, Canvas when unset. A look is a stylesheet scoped to its attribute
   (`public/css/one_interface/canvas.css` is Canvas) and the parts of the
   renderer it turns on (`onedesk.interface.uses(part)`): `head`, `strip`,
   `thread`, `quiet`, `icons`. Classic turns none on, which is frappe's desk
@@ -517,13 +517,18 @@ without being edited.
 A palette (`palettes.css`, on `data-one-palette`) sets its own grey scale,
 keeping frappe's lightness at every step so contrast stays Standard's, and
 then every role for its light and its dark; shape and type are set once.
-Sand is the one palette One ships, with the Canvas look.
+Sand is the one palette One ships, with the Canvas look, and what everyone
+sees until they choose.
 
-Each person chooses their palette, with their theme, in Appearance
-(frappe's Toggle Theme, `theme.js`). A look names the palettes drawn for
-it (`LOOKS.canvas.palettes`, look.js) and Standard is always offered;
-the choice is kept in the window's user settings (`palette`, frame.js) and
-look.js sets `data-one-palette` before the first screen. Every card is a
+Each person chooses their look, theme and palette in Appearance (frappe's
+Toggle Theme, `theme.js`). A look marked `offered` is shown there (Canvas
+only, for now; Classic is kept but not offered), and names the palettes
+drawn for it (`LOOKS.canvas.palettes`, look.js), the first being its
+default; Standard is always offered. Look and palette are kept in the
+window's user settings (`look`, `palette`, frame.js), the look falling back
+to the workspace's `one_look`; look.js sets `data-one-look` and
+`data-one-palette` before the first screen. Changing the look reloads the
+page, since it turns parts of the renderer on. Every card is a
 `.one-sample`: tokens.css and palettes.css declare their roles on it as on
 `:root`, and frappe declares its greys on every `[data-theme]`, so a
 sample in any theme and palette draws from the same roles as the window.

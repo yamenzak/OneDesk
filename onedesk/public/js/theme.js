@@ -30,8 +30,8 @@ if (frappe.assets && !frappe.assets.__one_stamped) {
 	};
 }
 
-// frappe's theme dialog, as One's Appearance: the theme (light, dark or the
-// system's) and the palette (onedesk/one_interface/AGENTS.md, Palettes), each
+// frappe's theme dialog, as One's Appearance: the look, the theme (light,
+// dark or the system's) and the palette (onedesk/one_interface/AGENTS.md, Palettes), each
 // card a small picture of the window drawn from the same roles the window
 // reads (.one-sample, tokens.css). A choice shows at once and is kept: the
 // theme in frappe's own user field, the palette in the window's user settings.
@@ -99,6 +99,23 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 			$group.find(".one-appearance-head").text(title);
 			return $group.find(".one-appearance-row");
 		};
+
+		const $looks = group(__("Look"));
+		const look = onedesk.interface.look();
+		for (const name of onedesk.interface.looks()) {
+			const one = onedesk.interface.LOOKS[name];
+			this.card({
+				label: one.label,
+				says: one.says,
+				chosen: look === name,
+				pictures: [this.sample(this.shown_theme(), palette)],
+				pick: () => {
+					if (look === name) return;
+					// a look turns parts of the renderer on, so the page is drawn again
+					onedesk.interface.keep("look", name).then(() => window.location.reload());
+				},
+			}).appendTo($looks);
+		}
 
 		const $themes = group(__("Theme"));
 		for (const theme of this.themes) {

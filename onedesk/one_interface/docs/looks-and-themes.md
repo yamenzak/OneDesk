@@ -9,16 +9,17 @@ The look is how screens are laid out and drawn. One's is Canvas: the
 window is a quiet ground, and what you are working on is one sheet on it,
 with its name, its steps and its figures at the top.
 
-## Theme and Palette
+## Choosing How One Looks
 
 **Toggle Theme** in your avatar's menu opens **Appearance**. Each card is a
 small picture of One in that choice, and a choice shows at once.
 
+- **Look**: Canvas, for now the only one.
 - **Theme**: Light, Dark, or System, which follows your computer.
-- **Palette**: Standard, in neutral greys, or Sand, in warm greys with
-  rounder corners.
+- **Palette**: Sand, in warm greys with rounder corners, which is where One
+  starts, or Standard, in neutral greys.
 
-Both are yours alone: they follow you to any computer you sign in on, and
+All three are yours alone: they follow you to any computer you sign in on, and
 nobody else's One changes.
 
 ## Your Workspace's Colour

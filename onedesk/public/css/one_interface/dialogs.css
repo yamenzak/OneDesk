@@ -69,14 +69,15 @@
 .one-dialog-need b { color: var(--one-ink); font-weight: 500; }
 .one-dialog:is([data-kind="ask"], [data-kind="tell"]) .modal-footer { border-top: 0; padding-top: 4px; padding-bottom: 16px; }
 
-/* Appearance (theme.js): two rows of cards, the theme and the palette, each a
+/* Appearance (theme.js): three rows of cards, look, theme and palette, each a
    small picture of the window in that choice. The picture reads the same
    roles the window does, so it is what the window will look like. */
 .one-appearance { display: flex; flex-direction: column; gap: 20px; }
 .one-appearance-head { margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--one-ink-soft); }
-.one-appearance-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 12px; }
+.one-appearance-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+@media (max-width: 480px) { .one-appearance-row { gap: 8px; } .one-appearance-picture { height: 64px; } .one-appearance-says { display: none; } }
 .one-appearance-card { display: flex; flex-direction: column; gap: 6px; padding: 0; border: 0; background: none; text-align: start; color: var(--one-ink); cursor: pointer; }
-.one-appearance-picture { position: relative; display: block; height: 104px; overflow: hidden; border: 1px solid var(--one-edge); border-radius: var(--one-radius-control); }
+.one-appearance-picture { position: relative; display: block; height: 96px; overflow: hidden; border: 1px solid var(--one-edge); border-radius: var(--one-radius-control); }
 .one-appearance-card[aria-pressed="true"] .one-appearance-picture { outline: 2px solid var(--one-accent); outline-offset: 2px; }
 .one-appearance-card:hover .one-appearance-picture { border-color: var(--one-edge-strong); }
 .one-appearance-card:focus-visible { outline: none; }
