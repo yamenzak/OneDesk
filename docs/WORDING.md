@@ -1,5 +1,9 @@
 # How a field is worded
 
+The rules as they are applied are `.claude/skills/wording/SKILL.md`, which
+Claude Code loads before writing anything a person reads. This page is the
+reasoning behind them and what each guard checks.
+
 Every label and every description this app adds is read next to frappe's and
 hrms's own. If ours sound different, the form reads as two products. This is
 the house style, taken from frappe's own JSON rather than invented: the samples
