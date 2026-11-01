@@ -57,11 +57,23 @@ thing named, the value in `{0}`.
 **Toast.** Past tense, the button's verb: `Template saved.`, `Invite sent.`,
 `{0} moved to OneCloud.`
 
-**Confirmation.** The question, then the effect. The confirm button repeats
-the verb.
+**Confirmation.** The question is the dialog's title; the effect is one
+line under it; the button names the act, never Yes or OK.
 
-    Delete comment?
-    Reset Item? This removes all custom fields and changes.
+    Delete Grant Plastics?         Its contacts and addresses stay.      [Delete Customer]
+    Cancel this invoice?           It stays in the books as cancelled.   [Cancel Invoice]
+
+**Card on a record's head.** What the figure is and over what span; the
+value is only the number. `Billed in 12 months`, `Overdue`, `Open Orders`.
+
+**Activity.** One line per person per sitting, in the past tense with the
+reader as "You": `You changed 5 fields`, `Huda submitted this`, `1 row
+added, 1 row removed`. A field's line is `Field old → new`; long text says
+`edited`.
+
+**Window controls.** `Enlarge`, `Make Smaller`, `Close`, `Back`. A tour
+step's title is a short noun phrase (`Find What You Need`) and its text
+says what the marked thing does, never where it is.
 
 **Notification.** `about` starts with the moment: "When somebody applies for
 leave." The subject says what happened to what; the message says what to do
@@ -106,6 +118,10 @@ A person's turn of phrase.
 
     ✗ This doesn't read as a workbook.     ✓ This file is not a workbook.
     ✗ The record didn't take this table.   ✓ Could not add the table to {0}.
+
+A clause where a button should be: a pronoun, a place, no verb.
+
+    ✗ Where I Am                  ✓ Use Current Location
 
 Telling the reader how to use the screen.
 
@@ -176,7 +192,8 @@ a string fixed is taken out of it in the same commit.
 
 ## Before handing back
 
-Read every new string aloud, in the place it appears. Then run the wording
+Words in a mock are product words: they pass this skill before they are
+drawn, not after. Read every new string aloud, in the place it appears. Then run the wording
 guards, which take seconds, instead of the whole suite:
 
     python3 -m pytest -q tests/guards/test_wording.py tests/guards/test_copy.py \

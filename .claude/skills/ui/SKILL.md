@@ -1,6 +1,6 @@
 ---
 name: ui
-description: How a screen of One is built and laid out. Load it before making or changing anything a person sees or clicks — a list, form, dialog, page, island, record page, settings section, button, column, filter, tile, card, empty state or rail row — in doctype JSON, a client script, desk JS/CSS or a Vue island, and before calling any UI work done.
+description: How a screen of One is built and laid out. Load it before making or changing anything a person sees or clicks — a list, form, dialog, page, island, record page, settings section, button, column, filter, tile, card, empty state or rail row — in doctype JSON, a client script, desk JS/CSS, the registry or a Vue island, and before calling any UI work done.
 ---
 
 # UI
@@ -8,147 +8,227 @@ description: How a screen of One is built and laid out. Load it before making or
 **Do not design. Place frappe's parts.** Nearly everything a screen needs,
 frappe already draws: a list, a form, a filter, a status colour, a switch, a
 dialog. The job is to find the property or component that makes frappe draw
-it, and put it where OneInterface says it goes. Drawing it ourselves is the
-last resort, and every time it was the first resort here it was wrong.
+it, say in the registry what this record type has, and let OneInterface draw
+it where it goes. Drawing it ourselves is the last resort, and every time it
+was the first resort here it was wrong.
 
 Words on the screen follow the `wording` skill; whether the job gets done is
 the `ux` skill. Load all three.
 
-## Before anything: which kind of screen
+## Change the renderer, never the page
+
+A change to a part is made where the part is drawn, for every place it
+appears. Restyling one pill on one screen is how drift starts.
+
+- **How every screen looks** lives in `public/js/one_interface/` and
+  `public/css/one_interface/`, nowhere else.
+- **What one record type has** (an icon per tab and field, head cards, its
+  track, its list's states, its shortcuts) is declared in
+  `ready.MODULES[module]["interface"]` and reaches the browser as
+  `frappe.boot.one_interface`. Nothing page-specific is written outside the
+  registry, and the engine names no doctype (`test_interface_frame.py`).
+- **A screen never reaches into the frame's rows.** It tells the frame what
+  it has: `page.interface.view({ primary, commands, menu, controls, views, search, row, status })`.
+
+## Look, Theme, Palette
+
+Three layers, three words; never call one by another's name.
+
+- **Look**: the design language. `look.js` declares them
+  (`onedesk.interface.LOOKS`), boot picks one (`one_look`, Canvas by
+  default) and sets `data-one-look` on the page. A look is a stylesheet
+  scoped to that attribute plus the renderer parts it turns on
+  (`onedesk.interface.uses(part)`: `head`, `strip`, `thread`, `quiet`,
+  `icons`, `dialogs`). Classic turns none on.
+- **Theme**: frappe's light, dark or automatic. Every look defines its
+  tokens for both.
+- **Palette**: a set of colour tokens only, such as the workspace's frame
+  colour.
+
+The HTML is the same in every look. A look that needs a different
+arrangement adds a part to the renderer; it never forks it.
+
+## Which kind of screen
 
 1. **Frappe's own list or form, on the window.** The default for nearly
-   everything. What we add is a small piece inside it: a column, a filter, a
-   head with figures (`one/head.py`), a record tab, a button, a client script.
+   everything. What we add is a registry entry, a column, a filter, a
+   figure, a button, a client script.
 2. **A Vue island**, only for what is genuinely more than a list or a form:
-   a product (OneMail, OneCloud, OneCalendar), an app's home, an editor, a
-   record run from all day (`tiers.PAGES`). Declared in `tiers.SCREENS` with
-   the reason it isn't a list or a form.
+   a product (OneMail, OneCloud, OneCalendar), an app's home, an editor.
+   Declared in `tiers.SCREENS` with the reason. An island page carries the
+   stamp until the walk replaces it with a framework screen.
 
 If you cannot say why a list or a form won't do, it is 1.
 
-## Where frappe draws it for you
+## Where frappe, or the registry, draws it for you
 
-Look for these before drawing anything:
-
-| You want | Frappe does it with |
+| You want | It is drawn by |
 |---|---|
-| A list split by state (Showing / Ended) | a Select field with `in_standard_filter`, and `listview_settings.filters` to open on one |
-| A column in a list | `in_list_view` |
-| A coloured state on a row | `get_indicator` in `listview_settings` |
-| A yes/no on a form | a Check: the window draws it as frappe's switch |
-| Figures or a chart on a record | the head in `one/head.py`: it lands in the record panel already laid out |
-| Making a record | the window's create dialog (`onedesk.interface.create`), never a page of our own |
-| A record's files | OneCloud's mark beside print and like, never a Files tab |
-| An action inside a field | frappe's `.link-btn`, the icon a Link field shows |
-| A button | `frappe.ui.button` / frappe-ui `Button`; inputs are frappe's `form-control` |
+| A list split by state | the registry's `states` (the strip over the rows), or a Select with `in_standard_filter` |
+| A column | `in_list_view`; its icon from the registry's `fields` |
+| A coloured state | `get_indicator`, drawn as frappe's es-badge |
+| A yes/no | a Check: frappe's switch |
+| Figures on a record | the registry's `cards` (at most four), from `one/head.py`'s rows |
+| A record's progress | the registry's `track` |
+| "New invoice from this", "its tasks" | the registry's `links`, drawn as panel rows |
+| Making a record | `onedesk.interface.create`, never a page of our own |
+| A record's files | OneCloud's mark at the bar's end, never a Files tab |
+| A dialog | `frappe.ui.Dialog` and frappe's helpers; the kit sizes and dresses it |
+| A button | `frappe.ui.button` / frappe-ui `Button` |
 
-In an island the order is: frappe-ui, then `@framework/ui` (Link,
-FormLayout, ListView, Filter, ActivityTimeline), then `frontend/src/kit`
+In an island: frappe-ui, then `@framework/ui`, then `frontend/src/kit`
 (`Page`, `Section`, `Rows`, `Figures`, `Facts`, `Pill`, `OneAlert`), and
-our own component only when none of those has it.
+our own component only when none of those has it. A figure is the kit's
+`Figures` on homes and record heads alike.
 
-## The parts of a screen that serve the job
+## The record (Canvas)
 
-Whether the job can be done at all, in how many steps, and what happens when
-it goes wrong is the `ux` skill. On the screen itself:
+Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 
-- **The one main action is the solid button, first on the left of the
-  command row.** Everything else is outline, after it, then the `···` menu.
-- **A row that stands for a record opens it.** The whole row, the title, the
-  card. No Edit or Open button on rows.
-- **A create dialog asks the deciding question first**, as cards when the
-  answer changes the rest of the form.
-- **A picker scrolls inside itself and shows each choice's face.**
-- **Nothing the rail already has is repeated on the page.** No heading that
-  repeats the rail row, no link list to places the rail lists.
-- **A home holds what only its app can gather.** Not shortcuts.
+- **The head is the record's Overview.** Picture (frappe's own wrapper,
+  moved, so upload still works), name, state pill, the ID on a quiet line
+  under the name only when it is not the name, the track, then up to four
+  cards of one size. The panel loses its Overview tab; nothing is said
+  twice.
+- **The track is read, not clicked:** a filled tick per step done, an open
+  dot where it stands (red when late), a dashed line to steps not reached,
+  each step's date under it. Anything that looks like a segmented control
+  is read as a choice.
+- **A card's title says what and over what span** ("Billed in 12
+  months"); the value is only the number.
+- **One sheet per tab.** Sections are space and a hairline, never a card
+  each; a heading sits over its fields in one grid. A tab with nothing in
+  it goes, and the record opens on the first tab that has something.
+- **A box means it can be changed.** An editable field shows its outline at
+  rest; one that cannot be changed is plain text. On a saved record an
+  empty field nobody must fill waits behind Show N Empty Fields.
+- **A value is never cut, and nothing changes size because of what it
+  holds.** Plain text wraps; a box keeps its width, ends in an ellipsis and
+  shows the whole value on hover and while typing. (A list's resizable
+  column is the reader's choice, and may cut.)
+- **The panel sits on the canvas**, outlined, not filled. Assign,
+  Attachments, Tags, Share, the registry's shortcuts (a trailing mark says
+  what happens: + makes, an arrow opens a list, a chevron a dialog), then
+  Activity, Mail, Connections. It never grows past the window; only the
+  activity scrolls inside it.
+- **Activity is one thread.** One entry per person per hour ("You changed 5
+  fields", opening to `field old → new`), submit and cancel as verbs, empty
+  to empty dropped, long text "edited". A comment carries a 20px face and
+  is plain text; a change is a small hollow dot.
 
-## Where things go (OneInterface)
+## The list (Canvas)
 
-The frame decides placement; a view only says what it has
-(`page.interface.view({ primary, commands, menu, controls, views, search, row, status })`).
+- **One gutter.** Title, states, table and paging start on one edge; a
+  row's padding is pulled outside it so its hover bleeds past.
+- **The strip:** the list's name and count, then its states as filters
+  (All clears), frappe's quick filters at its end.
+- **A row's activity is always shown** in quiet ink at its end. Hover may
+  add, never reveal what was always meant to be seen. Bold for an unread
+  record is frappe's and stays.
 
-- **Address row:** Back, Forward, Up, the breadcrumb, the record's status
-  pill, Refresh, search.
-- **Command row:** the main action (solid), the view's other commands, then
-  `···`. The right end holds only ways of looking (views, Filter, Sort, the
-  details switch) and a form's Cancel, last.
-- **View row:** a list's quick filters; a form's tabs.
-- **Details pane / record panel:** Overview (the head), Activity, Mail,
-  Connections. Who changed it is the status row, not sidebar rows.
-- **Status row:** the count, what is chosen, paging.
-- **A rail row is a place** (a list, a page, a board), never a dialog. A
-  page keeps its app's rail; what it lets a person pick from is a section of
-  that rail, not a column of its own.
+## The bars and controls
 
-Never reach into the frame's rows from a screen. A change to how every
-screen looks is made once, in `public/js/one_interface/` or `public/css/one_interface/`.
+- **One actions bar for a list and a record.** Left: the one solid main
+  action, the others subtle, then the menu. Right end, fixed: print, like,
+  files as icons, then Cancel. A part anchors itself to its end; it never
+  relies on something before it pushing it over.
+- **Three weights:** navigation quiet (no fill), actions subtle (grey
+  fill), the main action solid. A control's look follows its kind, never
+  where it came from; a secondary action carries no colour of its own.
+- **Every control is 28px**, the control corner, 16px icons.
+- **A group is one control.** Filter and its clear, sort and its field, the
+  view switcher: one outline, inner corners square, a hairline between
+  parts. A field's own switch is a quiet icon inside it.
+- **One pill:** frappe's es-badge at its small size, for every state, tag
+  and count.
+- **Frappe's `.icon` has `margin: auto`.** Any row of ours that puts an
+  icon beside text resets it (`margin: 0`, `flex: none`).
 
-## How it looks
+## Surfaces
 
-- **Tokens only.** Colours are `--ink-*`, `--surface-*`, `--outline-*` (or
-  `--one-*` built from them), corners `--radius-*`, borders 1px. No shadows,
-  no literal colours, no Tailwind palette classes like `bg-gray-100`.
-  `test_tokens.py` refuses the rest.
-- **Sections are space, not lines.** No rule between groups. A list keeps
-  its row dividers inside itself only.
-- **Most sections have no note.** The heading and the content say enough.
-- **Colour only says what needs somebody:** red for overdue, amber for
-  waiting. Never decoration.
-- **An empty list is not drawn as an empty box.** A quiet line ("No custom
-  fields"), or nothing.
-- **Rows, tiles, cards:** many of a kind are list rows; a few parallel
-  things each with a state and one action (password, two-factor, passkey)
-  are tiles; choices that each have a picture are cards. Liking tiles on
-  one page is no reason to use them on the next.
-- **A small form gets a small dialog.** No tabs and at most six fields is
-  one column, 36rem, as tall as its fields, with no section rail.
-- **A switch means "on shows it":** Currency Symbol, not Hide Currency Symbol.
-- **An OneAI button does one thing in place:** violet, OneAI's mark, a small
-  popover with Use and Try Again. It never opens the panel.
+- **Only the work is a sheet.** The panel and the record's alert sit on the
+  canvas; a second white surface beside the record competes with it.
+- **A line is drawn only when it joins two things.** No rule down a feed,
+  no border under a head that already has space.
+- **One edge per column.** Head, alert and sheet share a gutter; panel rows,
+  tabs, comment box and activity share theirs. Framework padding (`.col`)
+  is zeroed by the renderer, not page by page.
+- **Tokens only.** `--ink-*`, `--surface-*`, `--outline-*`, `--radius-*`,
+  1px borders. No shadows, literal colours or Tailwind palette classes. A
+  token that does not exist fails silently, so `test_tokens.py` checks
+  each one resolves.
+- **Colour only says what needs somebody:** red overdue, amber waiting.
+
+## Dialogs
+
+Every dialog is frappe's, told its kind (`one_kind`, else the kit infers
+it); the kind sets its size and parts, never the caller.
+
+| Kind | Opened by | Size |
+|---|---|---|
+| ask | `onedesk.interface.ask`, `frappe.confirm`, `warn`, `prompt` | small |
+| tell | `frappe.msgprint` | small |
+| task | any other `frappe.ui.Dialog` | medium |
+| create | `onedesk.interface.create` | medium |
+| centre | a `SettingsDialog` | large |
+
+- **The header is where you are and the window:** Back once a page deep,
+  the title, its state; Enlarge and Close. Nothing you *do* is in it.
+- **The footer:** what is still needed on the left (`dialog.one_need`), the
+  verbs on the right, the main one last and solid, red only when it cannot
+  be undone.
+- **Ask and Tell lead with a round mark;** the question is the title, the
+  effect the line under it, the verb names the act.
+- **Enlarge fills the window, not the browser.** A centre opens at the size
+  it was left at.
+- **Making a record has three shapes in one dialog.** Standard: the
+  record's own fields. Search first: when the thing exists out there (a
+  place, a company), a search fills the rest. Kind first: when kinds mean
+  different things, cards first, then that kind's few answers. A creator
+  decides the body, never the chrome.
+- **A small form gets a small dialog:** no tabs and at most six fields is
+  one column with no rail.
 
 ## Claude's UI habits, and what to do instead
 
-Each of these happened in this app.
+Each happened in this app.
 
-- **Building a screen frappe already has.** The Recycle Bin was a Vue
-  island; frappe's Deleted Document list with Restore does the job.
+- **Building a screen frappe already has.** The Recycle Bin was an island;
+  frappe's Deleted Document list does the job.
 - **Drawing a control where a property makes frappe draw it.**
-  Announcements got tabs, then a redirect page, then a hand-drawn picker;
-  the answer was a Status field marked `in_standard_filter`.
-- **Explaining the screen on the screen.** "How Do I Add It?" sections,
-  notes under every heading, a second heading repeating the first. Delete
-  them.
-- **Saying things twice.** A "Stats" heading over rows that name
-  themselves; a figure in the head and again in the panel; My Tasks drawing
-  a column with the rail's own rows.
+  Announcements got tabs, a redirect page and a picker; the answer was a
+  Status field marked `in_standard_filter`.
+- **Fixing one screen.** One pill restyled on one record; the next record
+  drifted. Change the part where it is drawn.
+- **Trusting what happens to be next to it.** The bar's icons were pushed
+  right by the track; the track moved and they fell left on every record.
+- **Explaining the screen on the screen,** and saying things twice: a
+  heading repeating the rail row, a figure in the head and in the panel.
 - **Decoration.** Cards around everything, separator lines, shadows,
-  eyebrow labels above headings, an icon on every row. Take it off until
-  something is missing.
-- **A heading that says the section, not the thing.** "Details" over the
-  only section of New News Source.
-- **Desktop only.** Every screen is looked at on a phone and in Arabic too.
+  eyebrow labels, an icon on every row.
+- **A dialog that sizes itself per caller,** a Yes/No where the verb should
+  be, two close buttons because the kit and the caller both drew one.
+- **Looking at 1x on a desktop only.**
 
 ## Before calling it done
 
-Walk the job, as the person who does it, to the end:
-
-1. Sign in as a demo user with the role (`tests/browser/screens.mjs` lists
-   who does what: samir runs projects, huda keeps the books, karim the
-   stock, omar sales, mariam HR, tariq and nadia are employees, wsadmin
-   administers).
-2. Click what they would click and finish the job: make the record, not
-   just open one that exists.
-3. Look at it at 1440 wide and at 390 wide, in Arabic (right to left), and
-   in the dark theme.
-4. Read every string with the `wording` skill.
-5. Run the UI guards, which take seconds:
+1. Sign in as the demo user with the role (huda the books, samir projects,
+   karim stock, omar sales, mariam HR, tariq and nadia employees, wsadmin
+   the administrator) and finish the job: make the record, not just open
+   one that exists.
+2. Screenshot it (`ONE_SHOTS=folder node tests/browser/run.mjs <screen>`
+   keeps one per screen) and look at the part you changed at 2x, cropped
+   to it. Then 390 wide, Arabic (right to left), dark.
+3. Read every string with the `wording` skill.
+4. Run the UI guards, which take seconds:
 
        python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
-         tests/guards/test_islands.py tests/guards/test_layout.py tests/guards/test_shell.py \
-         tests/guards/test_record_page.py tests/guards/test_rail.py
+         tests/guards/test_interface.py tests/guards/test_islands.py tests/guards/test_layout.py \
+         tests/guards/test_shell.py tests/guards/test_record_page.py tests/guards/test_rail.py \
+         tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py
 
 A guard failure means the screen is wrong, not the guard.
 
-`onedesk/one_interface/AGENTS.md` is the full contract and `docs/UI-NOTES.md` the walk
-each rule came from.
+`onedesk/one_interface/AGENTS.md` is the full contract (Looks, Dialogs, the
+record panel, the guards) and `docs/UI-NOTES.md` the walk each rule came
+from.

@@ -40,7 +40,12 @@ step is clear.
 - **Default to what is right most of the time:** today, the person's
   company, the warehouse they used last.
 - **Ask only what changes the outcome.** The rest goes on the saved record,
-  or nowhere.
+  or nowhere. On a saved record, empty fields nobody must fill wait behind
+  one button rather than stretching the page.
+- **Ask in the shape the answer takes.** When the thing exists out there
+  (a place, a company), search first and let the choice fill the rest. When
+  kinds mean different things, ask the kind first, as cards, then only that
+  kind's questions.
 - **Take what the person has, find the rest.** The site's address, not its
   RSS link; a place's name, not its coordinates.
 - **Do several at once when people do several.** Pick five sources; approve
@@ -58,6 +63,13 @@ step is clear.
   feed, the preview of the print, the error from the bank file.
 - **A state is where the person looks.** Overdue on the row, waiting on the
   pill, not only inside the record.
+- **Progress is read, not clicked.** A record's steps say what is done and
+  where it stands; something that looks like a set of buttons is taken for
+  a choice.
+- **Nothing a person looks for waits for hover.** Who has a row, when it
+  last changed, its comments: always shown. Hover may add, never reveal.
+- **A value is never cut on a record.** A name, a state or an amount that
+  is squeezed or ends in "…" with no way to read it is information lost.
 - **The same number everywhere.** Project Progress said 0 beside seventeen
   late tasks, because it counted a different way from the list.
 
@@ -67,8 +79,9 @@ step is clear.
   empty, and the dialog's foot says what is missing.
 - **Offer only what makes sense now.** A leave application finished by
   Approve does not also offer frappe's Submit.
-- **Undo beats "are you sure".** Confirm only what cannot be undone, and say
-  what it does: "Reset Item? This removes all custom fields and changes."
+- **Undo beats "are you sure".** Confirm only what cannot be undone, with
+  `onedesk.interface.ask`: the question, what it does, and a verb that
+  names the act, red when it cannot be undone. Never Yes and No.
 - **An error keeps what was typed** and says what to change.
 - **No dead ends.** A record the person cannot open says No access, not a
   spinner. A settings dialog opens on something, never an empty panel.
@@ -120,6 +133,8 @@ Each happened in this app.
   paid in parts showed "26 days overdue" beside the last part's due date.
 - **Both verbs:** our Approve and frappe's Submit offered together.
 - **The wrong device:** a desktop told to act "on this phone".
+- **A Yes button.** frappe.confirm's Yes and No made the person reread the
+  question; the verb (Delete Customer) answers it.
 
 ## Before calling it done
 
