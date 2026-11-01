@@ -598,8 +598,23 @@ body.one-interface-dragging * {
 
 /* A view's own row at the foot of the nav pane (win.foot_action): its
    settings, drawn as the rail's own rows are. */
+/* It is as tall as the rail's own foot, the person's picture, and sits as
+   far from the bottom, so the two read as one row across the frame. */
+body.one-barred .body-sidebar-bottom {
+	padding-bottom: calc(var(--spacing) * 2);
+}
+
 .body-sidebar-bottom .one-interface-foot-action {
-	padding: calc(var(--spacing) * 1) calc(var(--spacing) * 2);
+	display: flex;
+	align-items: center;
+	height: 40px;
+	padding: 0 calc(var(--spacing) * 2);
+}
+
+.body-sidebar-bottom .one-interface-foot-action > .standard-sidebar-item {
+	flex: 1;
+	min-width: 0;
+	margin: 0;
 }
 
 .body-sidebar-container:not(.expanded) .one-interface-foot-action .sidebar-item-label {

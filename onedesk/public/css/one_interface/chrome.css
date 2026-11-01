@@ -64,7 +64,19 @@
 		display: none;
 	}
 
+	/* The inset sits a gutter in from the frame on every side but the rail's,
+	   which pads itself: off the top bar, the bottom bar and the window's
+	   far edge alike. */
+	body.one-barred.dock-pinned {
+		--one-bar-offset: calc(2 * (var(--one-bar-height) + var(--one-frame-gutter)));
+		padding-top: calc(var(--one-bar-height) + var(--one-frame-gutter)) !important;
+		padding-bottom: calc(var(--one-bar-height) + var(--one-frame-gutter)) !important;
+	}
+
+	/* frappe adds a pixel for a border the frame does not draw, which put
+	   every tile on a half pixel. */
 	body.one-barred.dock-pinned .dock {
+		width: var(--dock-width);
 		border-right: 0;
 	}
 

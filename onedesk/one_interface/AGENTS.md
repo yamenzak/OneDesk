@@ -146,7 +146,11 @@ down the left (frappe's own `.dock`, drawn from its own `--dock-*` tokens,
 which `chrome.css` points at the frame's; the app you are in is marked by a
 bar on the rail's edge, as Discord marks a server), a bar across the top and one
 across the bottom (`chrome.js`), and the window inset between them, its
-corners rounded, with a strip of the frame on its far side.
+corners rounded, with the same strip of the frame (`--one-frame-gutter`)
+above it, below it and on its far side; the rail pads itself on the near
+side. The rail is frappe's 56px with no border, so every tile sits on a
+whole pixel, and the nav pane's foot row is as tall as the rail's picture of
+the person and sits as far from the bottom, so the two read as one row.
 
 - **Top bar**: the workspace and what reaches you. Its name on the left,
   the announcements in the middle, then Search (an icon, which opens the
