@@ -659,3 +659,18 @@ body.one-barred .dock-item-icon .one-flat {
 :root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon > svg.one-flat {
 	display: block;
 }
+
+/* island_page.js: the stamp on a page that is still an island. */
+.one-bar-status .one-island-stamp {
+	display: inline-flex;
+	align-items: center;
+	gap: 4px;
+	padding: 0 8px;
+	height: 18px;
+	border-radius: var(--radius-full);
+	background: var(--surface-amber-2);
+	color: var(--ink-amber-8);
+	font-size: var(--text-xs);
+	font-weight: 500;
+	white-space: nowrap;
+}

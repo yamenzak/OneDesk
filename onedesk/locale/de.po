@@ -65327,3 +65327,7 @@ msgstr "„{what}“ ist in {playlist} bereit"
 msgid "“{what}” is ready in {presentation}"
 msgstr "„{what}“ ist in {presentation} bereit"
 
+
+#: onedesk/public/js/island_page.js
+msgid "Island"
+msgstr "Insel"

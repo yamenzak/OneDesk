@@ -65327,3 +65327,7 @@ msgstr "«{what}» جاهز في {playlist}"
 msgid "“{what}” is ready in {presentation}"
 msgstr "«{what}» جاهز في {presentation}"
 
+
+#: onedesk/public/js/island_page.js
+msgid "Island"
+msgstr "جزيرة"

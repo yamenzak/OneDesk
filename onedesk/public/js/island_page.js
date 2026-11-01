@@ -16,6 +16,9 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 		const $side = page.wrapper.find(".layout-main > .layout-side-section").first();
 		if (win.record_panel && $side.length) win.details({ key: "form", width: 400, pane: $side });
 	}
+	// Until the walk replaces every island page with a framework screen, the
+	// bottom bar says this is one and which island it mounts.
+	if (page.window) page.window.$status.prop("hidden", false).append(`<span class="one-island-stamp">${frappe.utils.icon("puzzle", "xs")}${__("Island")} · ${island}</span>`);
 	if (mark) page.$title_area.prepend(`<span class="one-shell-mark">${frappe.utils.icon(mark, "md")}</span>`);
 	let framed = null;
 	let unframe = () => {};
