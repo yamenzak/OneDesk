@@ -321,6 +321,7 @@ No doctypes yet.
 * `onedesk.one.head.run`
 * `onedesk.one.home.read`
 * `onedesk.one.lists.kinds`
+* `onedesk.one.media.picture`
 * `onedesk.one.news.adding.add`
 * `onedesk.one.news.adding.add_many`
 * `onedesk.one.news.adding.find`
