@@ -57,7 +57,7 @@ if [ ! -f "$HOME/.cloudflared/cert.pem" ]; then
 	cloudflared tunnel login
 fi
 
-tunnel_id() { cloudflared tunnel list -o json 2>/dev/null | jq -r --arg n "$TUNNEL" '.[] | select(.name == $n) | .id' | head -1; }
+tunnel_id() { cloudflared tunnel list -o json 2>/dev/null | jq -r --arg n "$TUNNEL" '(. // [])[] | select(.name == $n) | .id' | head -1; }
 ID="$(tunnel_id)"
 if [ -z "$ID" ]; then
 	say "Tunnel $TUNNEL"
