@@ -561,7 +561,7 @@ a.one-shell-row:hover {
 
 .one-field-float {
 	position: fixed;
-	z-index: 1030;
+	z-index: var(--one-layer-frame);
 }
 
 .one-field-float .control-label,

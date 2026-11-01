@@ -14,7 +14,7 @@ PALETTES = (CSS / "palettes.css").read_text(encoding="utf-8")
 # A step of frappe's scale, which only tokens.css and palettes.css may read.
 SCALE = re.compile(r"var\(--(?:(?:ink|surface|outline)-gray-\d+|gray-\d+|surface-base|ink-base|radius(?:-(?!full\b|none\b)[a-z0-9]+)?|font-stack|(?:shadow|elevation)-[a-z0-9]+)\)")
 # Not a palette's to set: layout, and names derived from the roles.
-NOT_PALETTE = re.compile(r"^--one-(?:bar-|over-|frame$|frame-gutter$|check$)")
+NOT_PALETTE = re.compile(r"^--one-(?:bar-|over-|layer-|frame$|frame-gutter$|check$)")
 SHAPE = re.compile(r"^--one-(?:radius-|heading-|button-weight$|font$)")
 
 

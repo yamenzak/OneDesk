@@ -20,7 +20,7 @@
 		position: fixed;
 		left: 0;
 		right: 0;
-		z-index: 1031;
+		z-index: calc(var(--one-layer-frame) + 1);
 		display: flex;
 		align-items: center;
 		height: var(--one-bar-height);

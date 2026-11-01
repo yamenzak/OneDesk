@@ -219,7 +219,7 @@ onBeforeUnmount(close)
      from _position(). z-index sits above Frappe UI Dialog (~50-100) but
      below modal-blocking layers like global toasts. */
   position: fixed;
-  z-index: 9500;
+  z-index: calc(var(--one-layer-menu) + 4);
   background: var(--surface-base, #ffffff);
   border: 1px solid var(--outline-gray-2, #e5e5e5);
   border-radius: 8px;

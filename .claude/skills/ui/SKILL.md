@@ -44,8 +44,9 @@ Three layers, three words; never call one by another's name.
   `icons`). Classic turns none on. Dialogs are the kit's in every look.
 - **Theme**: frappe's light, dark or automatic. Every look defines its
   tokens for both.
-- **Palette**: a set of colour tokens only, such as the workspace's frame
-  colour.
+- **Palette**: every value a look draws with, colour, corners, shadows,
+  type, set on `data-one-palette`. Standard is frappe's own; Sand is the
+  one One ships. A palette is a full set of roles (below), never a hue.
 
 The HTML is the same in every look. A look that needs a different
 arrangement adds a part to the renderer; it never forks it.
@@ -155,10 +156,26 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 - **One edge per column.** Head, alert and sheet share a gutter; panel rows,
   tabs, comment box and activity share theirs. Framework padding (`.col`)
   is zeroed by the renderer, not page by page.
-- **Tokens only.** `--ink-*`, `--surface-*`, `--outline-*`, `--radius-*`,
-  1px borders. No shadows, literal colours or Tailwind palette classes. A
-  token that does not exist fails silently, so `test_tokens.py` checks
-  each one resolves.
+- **Roles, not the scale,** in the frame and Canvas: `--one-sidebar-active-bg`,
+  `--one-primary-bg`, `--one-radius-control`, never `--surface-gray-2` or
+  `--radius-md`. A new part gets a role in `tokens.css` (Standard's value)
+  and a value in every palette in `palettes.css`, in the same commit;
+  `test_palettes.py` fails otherwise. Elsewhere, frappe's tokens:
+  `--ink-*`, `--surface-*`, `--outline-*`, `--radius-*`, 1px borders. No
+  shadows, literal colours or Tailwind palette classes. A token that does
+  not exist fails silently, so `test_tokens.py` checks each one resolves.
+- **Frappe's parts follow through bridges, not edits.** Under a palette,
+  tokens.css points frappe's named steps, its component variables, the
+  radius scale, shadows and font at the roles; islands get the same through
+  the sheet look.js adopts. A palette writes against the raw `--gray-*`,
+  never a named step, or it reads itself.
+- **Audit a palette with a loud one.** Give every role a garish value under
+  a throwaway palette and shoot the screens: whatever still looks Standard
+  is a part no role reaches. Bridge it, then shoot again.
+- **Layers by name.** A z-index is `var(--one-layer-*)` (sticky, panel,
+  frame, backdrop, dialog, menu, tooltip, toast, tour), `calc()` of one
+  plus a small step, or a local order under 100 inside its own part. Never
+  9999. `test_layers.py`; the ladder is in AGENTS.md, Layers.
 - **Colour only says what needs somebody:** red overdue, amber waiting.
 
 ## Dialogs
@@ -246,6 +263,10 @@ Each happened in this app.
 - **A dialog that sizes itself per caller,** a Yes/No where the verb should
   be, two close buttons because the kit and the caller both drew one.
 - **Looking at 1x on a desktop only.**
+- **Raising a z-index until it shows.** The search box drew over a dialog
+  because a tour's 100004 outranked it; name the layer instead.
+- **Styling Standard and calling the palette done.** Sand's widgets kept
+  Standard's white until the islands and frappe's menus were bridged.
 
 ## Before calling it done
 
@@ -262,10 +283,11 @@ Each happened in this app.
        python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
          tests/guards/test_interface.py tests/guards/test_islands.py tests/guards/test_layout.py \
          tests/guards/test_shell.py tests/guards/test_record_page.py tests/guards/test_rail.py \
-         tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py
+         tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py \
+         tests/guards/test_palettes.py tests/guards/test_layers.py
 
 A guard failure means the screen is wrong, not the guard.
 
-`onedesk/one_interface/AGENTS.md` is the full contract (Looks, Dialogs, the
-record panel, the guards) and `docs/UI-NOTES.md` the walk each rule came
+`onedesk/one_interface/AGENTS.md` is the full contract (Looks, Palettes, Layers,
+Dialogs, the record panel, the guards) and `docs/UI-NOTES.md` the walk each rule came
 from.

@@ -583,7 +583,7 @@ async function copyLink() {
 
 /* Search results popover */
 .sd-results {
-  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 500;
+  position: absolute; top: calc(100% + 4px); left: 0; right: 0; z-index: 60;
   background: var(--surface-elevation-2); border: 1px solid var(--outline-elevation-2);
   border-radius: 10px; box-shadow: 0 4px 16px rgba(0,0,0,.12); padding: 4px;
 }

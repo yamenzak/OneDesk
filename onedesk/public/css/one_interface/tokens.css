@@ -117,6 +117,25 @@
 	--one-sidebar-bg: var(--surface-base);
 }
 
+
+/* ── Layers: what sits on what ─────────────────────────────────────────
+   Every z-index of ours is either one of these or a small number (99 at
+   most) that orders things inside one component. They are Bootstrap's own
+   steps, so frappe's dialogs and menus keep their places among them.
+   Not a palette's to set. tests/guards/test_layers.py holds the rule. */
+
+:root {
+	--one-layer-sticky: 1020;
+	--one-layer-panel: 1029;
+	--one-layer-frame: 1030;
+	--one-layer-backdrop: 1040;
+	--one-layer-dialog: 1050;
+	--one-layer-menu: 1060;
+	--one-layer-tooltip: 1070;
+	--one-layer-toast: 1080;
+	--one-layer-tour: 100003;
+}
+
 /* ── The frame: the rail, the bars and the gutter round the screen ── */
 
 :root {

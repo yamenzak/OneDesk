@@ -776,7 +776,7 @@ body.one-interface-dragging * {
 	inset-inline: -1px;
 	width: auto;
 	max-height: min(60vh, 480px);
-	z-index: 1030;
+	z-index: var(--one-layer-menu);
 	border: 1px solid var(--one-edge);
 	border-radius: var(--one-radius-sheet);
 	background: var(--one-surface);

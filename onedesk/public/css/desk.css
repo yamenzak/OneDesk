@@ -1636,7 +1636,7 @@ html[dir="rtl"] body > div[style*="left: -9999px"] {
    the dialog it is typed in. */
 .one-slash {
 	position: fixed;
-	z-index: 1080;
+	z-index: var(--one-layer-menu);
 	width: 280px;
 	max-height: 320px;
 	overflow-y: auto;

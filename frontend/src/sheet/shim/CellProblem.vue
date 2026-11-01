@@ -33,7 +33,7 @@ const box = computed(() => ({
 	left: props.x + "px",
 	top: props.y + "px",
 	width: "280px",
-	zIndex: 8400,
+	zIndex: "calc(var(--one-layer-menu) + 1)",
 	padding: "var(--padding-sm, 8px) var(--padding-md, 12px)",
 	fontSize: "var(--text-sm, 13px)",
 	lineHeight: 1.45,

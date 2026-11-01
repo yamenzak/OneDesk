@@ -2,7 +2,7 @@
 	position: fixed;
 	inset-inline-end: 24px;
 	bottom: 88px;
-	z-index: 1029;
+	z-index: var(--one-layer-panel);
 	display: flex;
 	flex-direction: column;
 	width: 400px;
@@ -1092,7 +1092,7 @@
 	position: fixed;
 	left: 50%;
 	bottom: 24px;
-	z-index: 1030;
+	z-index: var(--one-layer-frame);
 	display: flex;
 	align-items: center;
 	gap: 10px;
@@ -1167,7 +1167,7 @@
 
 
 body.one-ai-composing .one-ai-panel {
-	z-index: 1060;
+	z-index: var(--one-layer-menu);
 }
 
 @media (min-width: 1280px) {

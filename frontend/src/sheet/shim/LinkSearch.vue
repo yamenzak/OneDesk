@@ -59,7 +59,7 @@ const box = computed(() => ({
 	maxHeight: "min(60vh, 300px)",
 	overflowY: "auto",
 	overflowX: "hidden",
-	zIndex: 8500,
+	zIndex: "calc(var(--one-layer-menu) + 2)",
 	margin: 0,
 	padding: "var(--padding-xs, 4px)",
 	backgroundColor: "var(--bg-color, var(--surface-white))",

@@ -551,6 +551,34 @@ palette in the same commit. To audit, give every role a loud value under a
 throwaway palette and shoot the screens: whatever still looks like Standard
 is a part no role reaches.
 
+## Layers
+
+Whatever stacks over the page names its layer, so a bar, a dialog, a menu
+and a tour cannot take each other's place. tokens.css holds the ladder,
+which is Bootstrap's own (frappe's dialogs and menus already sit on it):
+
+| Layer | Value | What sits on it |
+|---|---|---|
+| `--one-layer-sticky` | 1020 | a list's sticky head |
+| `--one-layer-panel` | 1029 | OneAI's panel, just under the bars |
+| `--one-layer-frame` | 1030 | the top and bottom bars, a floating field |
+| `--one-layer-backdrop` | 1040 | a dialog's scrim, a slideshow over the window |
+| `--one-layer-dialog` | 1050 | a dialog |
+| `--one-layer-menu` | 1060 | a menu, a listbox, a popover, a context menu |
+| `--one-layer-tooltip` | 1070 | a tooltip, a drag cursor |
+| `--one-layer-toast` | 1080 | a toast |
+| `--one-layer-tour` | 100003 | a tour (driver's own numbers), only over a dialog when the tour is in it |
+
+A z-index of ours is one of these, or `calc()` of one plus a small step
+when two of ours share a layer (the sheet's slicer, comment box and context
+menu are menu +1, +2, +3), or a local order under 100 inside its own part.
+A tour's highlight drops back to `auto` while a dialog is open and the tour
+is not in it, which is what drew the search box over a dialog.
+
+The one exception is the slide canvas: a slide's elements number one per
+element inside the slide's own stacking context, and the handles sit above
+any count of them. `tests/guards/test_layers.py` holds the list.
+
 ## Dialogs
 
 Every dialog is frappe's own (`frappe.ui.Dialog`, `SettingsDialog`,

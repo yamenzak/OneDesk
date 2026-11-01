@@ -6345,7 +6345,7 @@ function toggleShowFormulas() {
 .sn-fbar-actions  { display:flex; align-items:center; gap:6px; flex-shrink:0; margin-left:4px; }
 
 /* Formula autocomplete — Frappe UI Autocomplete is form-field oriented, so the inline popover is bespoke but uses Espresso surfaces. */
-.sn-ac-list       { position:absolute; top:calc(100% + 4px); bottom:auto; left:0; right:0; background:var(--surface-elevation-2); border:1px solid var(--outline-gray-2); border-radius:8px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); z-index:300; max-height:240px; overflow-y:auto; padding:4px; }
+.sn-ac-list       { position:absolute; top:calc(100% + 4px); bottom:auto; left:0; right:0; background:var(--surface-elevation-2); border:1px solid var(--outline-gray-2); border-radius:8px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); z-index:70; max-height:240px; overflow-y:auto; padding:4px; }
 .sn-ac-list--up   { top:auto; bottom:calc(100% + 4px); }
 .sn-ac-item  { display:flex; align-items:baseline; gap:10px; padding:6px 10px; cursor:pointer; white-space:nowrap; border-radius:4px; }
 .sn-ac-item:hover, .sn-ac-item.active { background:var(--surface-gray-2); }
@@ -6474,7 +6474,7 @@ function toggleShowFormulas() {
   max-width:140px; overflow:hidden; text-overflow:ellipsis;
 }
 
-.sn-filter-panel { position:absolute; z-index:100; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:12px; width:260px; display:flex; flex-direction:column; gap:8px; }
+.sn-filter-panel { position:absolute; z-index:60; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:12px; width:260px; display:flex; flex-direction:column; gap:8px; }
 .sn-fp-title   { font-size:12px; font-weight:600; letter-spacing:.02em; color:var(--ink-gray-8); padding-bottom:2px; }
 .sn-fp-row     { display:flex; gap:4px; }
 .sn-fp-mode    { display:flex; gap:2px; padding:2px; border:1px solid var(--outline-gray-2); border-radius:8px; background:var(--surface-base); }
@@ -6605,7 +6605,7 @@ function toggleShowFormulas() {
 .sn-stats { display:flex; align-items:center; gap:14px; padding:0 14px; font-size:11px; letter-spacing:.02em; color:var(--ink-gray-6); flex-shrink:0; white-space:nowrap; border-left:1px solid var(--outline-gray-2); height:100%; }
 
 /* ── Right-click context menu (positioned at cursor; uses Frappe UI Buttons inside) ── */
-.sn-ctx-menu { position:fixed; z-index:9000; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:4px; min-width:208px; display:flex; flex-direction:column; gap:1px; overflow-y:auto; }
+.sn-ctx-menu { position:fixed; z-index:calc(var(--one-layer-menu) + 3); background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:4px; min-width:208px; display:flex; flex-direction:column; gap:1px; overflow-y:auto; }
 /* Frappe UI Button defaults to `justify-content:center`. Override inside
    context menus so every row's icon sits at the same left padding and the
    labels line up regardless of length. */
@@ -6643,10 +6643,10 @@ function toggleShowFormulas() {
 .sn-addrows-input:focus { border-color:var(--outline-gray-4); box-shadow:0 0 0 2px rgba(23,23,23,.10); }
 
 /* Comment panel */
-.sn-comment-panel  { position:fixed; z-index:8500; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,.14); padding:12px; min-width:240px; display:flex; flex-direction:column; gap:8px; }
+.sn-comment-panel  { position:fixed; z-index:calc(var(--one-layer-menu) + 2); background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 4px 16px rgba(0,0,0,.14); padding:12px; min-width:240px; display:flex; flex-direction:column; gap:8px; }
 
 /* Slicers — floating value-filter controls */
-.sn-slicer        { position:fixed; z-index:8400; width:220px; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:10px; display:flex; flex-direction:column; gap:8px; }
+.sn-slicer        { position:fixed; z-index:calc(var(--one-layer-menu) + 1); width:220px; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:10px; box-shadow:0 0 1px rgba(0,0,0,.35), 0 6px 8px -4px rgba(0,0,0,.1); padding:10px; display:flex; flex-direction:column; gap:8px; }
 .sn-slicer-head   { display:flex; align-items:center; gap:6px; cursor:move; user-select:none; }
 .sn-slicer-colsel { flex:1 1 auto; min-width:0; }
 .sn-slicer-colsel :deep(button) { width:100%; justify-content:space-between; font-weight:600; }
@@ -6691,7 +6691,7 @@ function toggleShowFormulas() {
 .sn-notes-row-text    { font-size:12px; color:var(--ink-gray-6); margin-top:2px; line-height:1.4; display:-webkit-box; -webkit-line-clamp:2; -webkit-box-orient:vertical; overflow:hidden; word-break:break-word; }
 
 /* Validation dropdown panel */
-.sn-dropdown-panel { position:fixed; z-index:8500; padding:4px; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.12); min-width:140px; max-height:240px; overflow-y:auto; }
+.sn-dropdown-panel { position:fixed; z-index:calc(var(--one-layer-menu) + 2); padding:4px; background:var(--surface-elevation-2); border:1px solid var(--outline-elevation-2); border-radius:8px; box-shadow:0 4px 12px rgba(0,0,0,.12); min-width:140px; max-height:240px; overflow-y:auto; }
 .sn-dropdown-opt   { display:flex; align-items:center; gap:8px; padding:6px 10px; border-radius:6px; font-size:13px; color:var(--ink-gray-9); cursor:pointer; white-space:nowrap; }
 .sn-dropdown-opt:hover { background:var(--surface-gray-2); }
 .sn-dropdown-opt.is-active { font-weight:500; }
@@ -6752,7 +6752,7 @@ function toggleShowFormulas() {
    dropdowns everywhere else in the app (and other Suite products) keep their
    normal stacking. The doubled class still outranks the single-class default. */
 body:has(.sn-slicer) .dropdown-content.dropdown-content,
-body:has(.sn-slicer) .menu-content.menu-content { z-index: 9500; }
+body:has(.sn-slicer) .menu-content.menu-content { z-index: calc(var(--one-layer-menu) + 4); }
 
 /* A Frappe UI Dialog draws a translucent (~12% black) scrim over the grid.
    The filter-range outline, pivot-output highlight, floating charts, and

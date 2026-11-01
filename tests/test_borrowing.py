@@ -77,6 +77,7 @@ RULES = [
 DEFINES_TOKENS = (
 	"onedesk/public/css/theme.css",
 	"onedesk/public/css/one_portal/portal.css",
+	"onedesk/public/css/one_interface/palettes.css",
 )
 
 

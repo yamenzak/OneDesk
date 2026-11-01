@@ -23,9 +23,10 @@
 		</label>
 	</div>
 	<Teleport to="body">
+		<!-- One: on the tooltip layer (tokens.css, VENDORED.md) -->
 		<lucide-move-horizontal
 			v-if="isScrubbing"
-			class="pointer-events-none fixed z-[10000] size-5 -translate-x-1/2 -translate-y-1/2 text-white [filter:drop-shadow(0_0_1.5px_rgb(0_0_0/0.9))]"
+			class="pointer-events-none fixed z-[var(--one-layer-tooltip,1070)] size-5 -translate-x-1/2 -translate-y-1/2 text-white [filter:drop-shadow(0_0_1.5px_rgb(0_0_0/0.9))]"
 			:style="cursorStyle"
 		/>
 	</Teleport>
