@@ -1,5 +1,14 @@
 # Looks and Themes
 
+One is drawn in a look, and in light or dark, and in your workspace's
+colour. The three change separately.
+
+## The Look
+
+The look is how screens are laid out and drawn. One's is Canvas: the
+window is a quiet ground, and what you are working on is one sheet on it,
+with its name, its steps and its figures at the top.
+
 ## Light or Dark
 
 **Toggle Theme** in your avatar's menu switches One between light and

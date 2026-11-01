@@ -65337,12 +65337,12 @@ msgid "Billed in 12 Months"
 msgstr "In 12 Monaten abgerechnet"
 
 #: onedesk/one_interface/tour.py
-msgid "Where You Are"
-msgstr "Wo Sie sind"
+msgid "Find What You Need"
+msgstr "Finden, was Sie brauchen"
 
 #: onedesk/one_interface/tour.py
-msgid "The address says where you are; click it and type to find anything, or press Ctrl+K."
-msgstr "Die Adresse zeigt, wo Sie sind; klicken Sie darauf und tippen Sie, um alles zu finden, oder drücken Sie Strg+K."
+msgid "Type here to search what is on this screen, or press Ctrl+K to search everything."
+msgstr "Tippen Sie hier, um auf diesem Bildschirm zu suchen, oder drücken Sie Strg+K, um alles zu durchsuchen."
 
 #: onedesk/one_interface/tour.py
 msgid "The App's Places"
@@ -65359,3 +65359,63 @@ msgstr "Einstellungen, Tour und Hilfe"
 #: onedesk/one_interface/tour.py
 msgid "The app's settings, this tour again, its help and what is new in it."
 msgstr "Die Einstellungen der App, diese Tour noch einmal, ihre Hilfe und was neu ist."
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Hide Empty Fields"
+msgstr "Leere Felder ausblenden"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show {0} Empty Fields"
+msgstr "{0} leere Felder anzeigen"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "submitted this"
+msgstr "hat dies gebucht"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "cancelled this"
+msgstr "hat dies storniert"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "returned this to draft"
+msgstr "hat dies in den Entwurf zurückgesetzt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "edited"
+msgstr "bearbeitet"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row added"
+msgstr "1 Zeile hinzugefügt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows added"
+msgstr "{0} Zeilen hinzugefügt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row removed"
+msgstr "1 Zeile entfernt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows removed"
+msgstr "{0} Zeilen entfernt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "created this"
+msgstr "hat dies erstellt"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "commented"
+msgstr "hat kommentiert"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed 1 field"
+msgstr "hat 1 Feld geändert"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed {0} fields"
+msgstr "hat {0} Felder geändert"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show 1 Empty Field"
+msgstr "1 leeres Feld anzeigen"

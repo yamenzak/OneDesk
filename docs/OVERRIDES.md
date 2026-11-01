@@ -5,6 +5,8 @@ Each row is something that would still run but stop working if upstream moved. `
 
 | What | Why | Ours | Upstream | Must still contain |
 |---|---|---|---|---|
+| A list's name, count and strip of states sit over its rows in the Canvas look | one_interface/look.js wraps ListView.after_render: after frappe draws the rows it draws the list's head and the strip of states its module declares, moves frappe's own quick filters to the strip's end, and puts the declared icons on the column heads | `onedesk/public/js/one_interface/look.js` | `frappe/frappe/public/js/frappe/list/list_view.js` | `after_render() {` |
+| A record's activity is one thread in the Canvas look | one_interface/look.js wraps the form timeline's render_timeline_items: after frappe draws it, the items are drawn again from the same docinfo as one thread, comments with their writer's picture and changes as dots, a sitting's changes grouped | `onedesk/public/js/one_interface/look.js` | `frappe/frappe/public/js/frappe/form/footer/base_timeline.js` | `render_timeline_items() {` |
 | frappe's reload button sits in the window's address row | a list, a report, a board and a tree add it with page.add_action_icon("refresh-cw"); window/frame.js moves that button, frappe's own with its click and tooltip, to where the window keeps Refresh, and the window's own steps aside | `onedesk/public/js/one_interface/frame.js` | `frappe/frappe/public/js/frappe/ui/page.js` | `add_action_icon(icon, click, css_class = "", tooltip_label) {` |
 | A list's views are toggles in the window, frappe's menu a chevron after them | the trial only; window/list.js wraps BaseList.setup_view_menu and draws one toggle per view frappe's ListViewSelect offers, from its own get_views, icon_map and label_map, and moves its menu (layouts, boards, saved reports) after them | `onedesk/public/js/one_interface/list.js` | `frappe/frappe/public/js/frappe/list/base_list.js` | `setup_view_menu() {` |
 | Ctrl+K and the top bar's search open the window's address box | on a page in the window, window/frame.js answers frappe's Ctrl+K shortcut, and a click on the search button, with the address box; frappe's search modal stays for every other page and below 768 px | `onedesk/public/js/one_interface/frame.js` | `frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js` | `frappe.search.open_awesomebar_from_global_search_shortcut = function (e) {` |
@@ -425,7 +427,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-419 overrides.
+421 overrides.
 
 ## What we would ask upstream
 

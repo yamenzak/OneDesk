@@ -446,3 +446,52 @@ says a screen has, so no doctype, field or route of one screen appears in
 them (`test_the_engine_names_no_doctype`); the only doctype read by name is
 frappe's `Note`, which is the top bar's news. A rule for one screen goes to
 the module that owns it.
+
+## Looks
+
+A **look** is how the frame and frappe's screens in it are drawn; it is
+not a theme. Three words, three layers:
+
+- **Look**: the design language. `public/js/one_interface/look.js`
+  declares them (`onedesk.interface.LOOKS`) and sets `data-one-look` on the
+  page from the boot (`one_look`, the workspace default `one_look`, Canvas
+  when unset). A look is a stylesheet scoped to its attribute
+  (`public/css/one_interface/canvas.css` is Canvas) and the parts of the
+  renderer it turns on (`onedesk.interface.uses(part)`): `head`, `strip`,
+  `thread`, `quiet`, `icons`. Classic turns none on, which is frappe's desk
+  on the frame as it was.
+- **Theme**: light, dark or automatic. Frappe's (`desk_theme`), untouched.
+- **Palette**: a colour set that swaps colour tokens only, such as the
+  workspace's frame colour (`one_frame_colour`).
+
+Every look defines its tokens for every theme; palettes ride on both. The
+HTML the renderer builds is the same in every look: a look changes tokens
+and turns parts on, and a future look that wants a different arrangement
+adds a part here rather than forking the renderer.
+
+**What Canvas's parts do**, each idempotent, drawn on `form-refresh` and
+once more after the form settles:
+
+- `head` (`record.head`): the record's picture (frappe's own wrapper, moved
+  so upload and remove still work), its name and state, its ID under the
+  name when the ID is not the name, the track (the steps of the head row
+  the module names as `track`, else the first with steps), the cards its
+  module declares (`cards`, at most four, the `onedesk.head` island drawing
+  the kit's Figures) and the tabs under the head. The panel's Overview tab
+  goes when the head says what it said. Print, like and OneCloud sit at
+  the bar's end, before Cancel.
+- `quiet` (`record.fields`): on a saved record an empty field nobody must
+  fill waits behind Show N Empty Fields, a section with nothing shown goes,
+  a tab with nothing shown goes, a field's help is a mark beside its label,
+  and a box shows its whole value on hover.
+- `icons`: the icons a module declares for tabs and fields, on the record
+  and on a list's column heads, drawn again whenever the list is.
+- `thread` (`record.thread`): the activity as one thread, redrawn after
+  frappe's timeline each time (it wraps `render_timeline_items`).
+- `strip` (`list.strip`): over a list's rows, its name and count, then the
+  states its module declares (`states`; `status` by default), each a
+  filter, with frappe's quick filters at the strip's end. It wraps
+  `ListView.after_render`.
+
+The registry is `ready.MODULES[module]["interface"]`; `ready.interface()`
+merges it and boot hands it over as `frappe.boot.one_interface`.

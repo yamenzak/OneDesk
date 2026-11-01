@@ -46,6 +46,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | stock (`frontend/src/inventory/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
 | home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
+| head (`frontend/src/interface/RecordHead.vue`) | – | – | – | – |
 | books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/crm/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
 | hr (`frontend/src/hr/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |

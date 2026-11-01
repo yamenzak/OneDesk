@@ -130,3 +130,6 @@ msgstr "Page builder using components"
 
 msgid "If enabled, Frappe exports the form to the module folder."
 msgstr "If enabled, the form is exported to the module folder."
+
+msgid "One Interface"
+msgstr "OneInterface"

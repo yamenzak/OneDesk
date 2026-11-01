@@ -8,8 +8,8 @@ WINDOW = [
 	{
 		"target": "interface-search",
 		"side": "bottom",
-		"title": _lt("Where You Are"),
-		"text": _lt("The address says where you are; click it and type to find anything, or press Ctrl+K."),
+		"title": _lt("Find What You Need"),
+		"text": _lt("Type here to search what is on this screen, or press Ctrl+K to search everything."),
 	},
 	{
 		"target": "interface-nav",

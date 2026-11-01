@@ -132,6 +132,7 @@ that exists.
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
+| `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |
 | `src/inventory/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
 | `src/inventory/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |
 | `src/inventory/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |

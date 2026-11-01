@@ -65337,12 +65337,12 @@ msgid "Billed in 12 Months"
 msgstr "المفوتر خلال 12 شهرًا"
 
 #: onedesk/one_interface/tour.py
-msgid "Where You Are"
-msgstr "أين أنت"
+msgid "Find What You Need"
+msgstr "اعثر على ما تحتاجه"
 
 #: onedesk/one_interface/tour.py
-msgid "The address says where you are; click it and type to find anything, or press Ctrl+K."
-msgstr "يُظهر العنوان مكانك؛ انقر عليه واكتب للعثور على أي شيء، أو اضغط Ctrl+K."
+msgid "Type here to search what is on this screen, or press Ctrl+K to search everything."
+msgstr "اكتب هنا للبحث فيما على هذه الشاشة، أو اضغط Ctrl+K للبحث في كل شيء."
 
 #: onedesk/one_interface/tour.py
 msgid "The App's Places"
@@ -65359,3 +65359,63 @@ msgstr "الإعدادات والجولة والمساعدة"
 #: onedesk/one_interface/tour.py
 msgid "The app's settings, this tour again, its help and what is new in it."
 msgstr "إعدادات التطبيق، وهذه الجولة مرة أخرى، ومساعدته، وما الجديد فيه."
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Hide Empty Fields"
+msgstr "إخفاء الحقول الفارغة"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show {0} Empty Fields"
+msgstr "إظهار {0} حقول فارغة"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "submitted this"
+msgstr "اعتمد هذا"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "cancelled this"
+msgstr "ألغى هذا"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "returned this to draft"
+msgstr "أعاد هذا إلى المسودة"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "edited"
+msgstr "عُدِّل"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row added"
+msgstr "أُضيف صف واحد"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows added"
+msgstr "أُضيفت {0} صفوف"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row removed"
+msgstr "أُزيل صف واحد"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows removed"
+msgstr "أُزيلت {0} صفوف"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "created this"
+msgstr "أنشأ هذا"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "commented"
+msgstr "علّق"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed 1 field"
+msgstr "غيّر حقلاً واحداً"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed {0} fields"
+msgstr "غيّر {0} حقول"
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show 1 Empty Field"
+msgstr "إظهار حقل فارغ واحد"

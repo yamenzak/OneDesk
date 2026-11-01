@@ -63,7 +63,14 @@ def test_every_island_is_declared_built_and_mounted():
 			for path in tree.APP.glob("*/report/*/*.js")
 			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
 		]
-		assert pages or tabs or reports, f"no desk page, record tab or report mounts {name}"
+		# A part OneInterface's renderer draws on every record of a kind (the
+		# head's cards) is mounted by the renderer itself.
+		parts = [
+			path
+			for path in (tree.APP / "public" / "js" / "one_interface").glob("*.js")
+			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
+		]
+		assert pages or tabs or reports or parts, f"no desk page, record tab, report or OneInterface part mounts {name}"
 		for page in pages:
 			assert "onedesk.island_page(" in page.read_text(encoding="utf-8"), page
 

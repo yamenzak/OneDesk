@@ -67077,11 +67077,11 @@ msgid "Billed in 12 Months"
 msgstr ""
 
 #: onedesk/one_interface/tour.py
-msgid "Where You Are"
+msgid "Find What You Need"
 msgstr ""
 
 #: onedesk/one_interface/tour.py
-msgid "The address says where you are; click it and type to find anything, or press Ctrl+K."
+msgid "Type here to search what is on this screen, or press Ctrl+K to search everything."
 msgstr ""
 
 #: onedesk/one_interface/tour.py
@@ -67098,4 +67098,64 @@ msgstr ""
 
 #: onedesk/one_interface/tour.py
 msgid "The app's settings, this tour again, its help and what is new in it."
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Hide Empty Fields"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show {0} Empty Fields"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "submitted this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "cancelled this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "returned this to draft"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "edited"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row added"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows added"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "1 row removed"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "{0} rows removed"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "created this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "commented"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed 1 field"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "changed {0} fields"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js
+msgid "Show 1 Empty Field"
 msgstr ""
