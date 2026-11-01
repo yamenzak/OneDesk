@@ -83,6 +83,8 @@ next; the button is a verb and a noun (`Review Request`). Facts on one line:
 **Agreement clause.** "We" is Four Degree Labs, "you" is the organisation. One
 point per sentence, at most 30 words, a number where there is one, no
 legalese (shall, herein, hereby, pursuant to, notwithstanding). English only.
+The `legal` skill has the rest. A version's words are the `changelog`
+skill's, a Help page's the `docs` skill's.
 
 ## Claude's habits, and what to write instead
 

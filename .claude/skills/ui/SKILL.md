@@ -13,7 +13,9 @@ it where it goes. Drawing it ourselves is the last resort, and every time it
 was the first resort here it was wrong.
 
 Words on the screen follow the `wording` skill; whether the job gets done is
-the `ux` skill. Load all three.
+the `ux` skill. Load all three. Help pages and their pictures are the
+`docs` skill; a review of screens already built is the `passthrough`
+skill.
 
 ## Change the renderer, never the page
 
@@ -192,6 +194,37 @@ it); the kind sets its size and parts, never the caller.
   rail, wide enough for two columns beside it; without, the form alone and
   as tall as its fields; no tabs and at most six fields, small and one
   column.
+
+## Mails
+
+A notification is a screen too, read in somebody's inbox. Every mail One
+sends is drawn by `one/notify.py` `compose` (`templates/emails/one_mail.html`)
+and laid in one frame (`templates/emails/standard.html`, ours), so a module
+declares a mail and never draws one.
+
+- **Declared, never hand-built.** A module's `notifications.py` `TYPES`
+  says when it goes, to whom, its subject, message and button; no
+  `frappe.sendmail` with HTML of our own.
+- **The frame:** the workspace's name and logo over a white card on a grey
+  page, 560 wide; in the card the heading (what happened), the message, one
+  button, and under a hairline why this person got it; the footer under the
+  card. A mail One sends about itself wears One's mark instead
+  (`ones`).
+- **One button,** a verb and a noun (Review Request), in the company's Brand
+  Colour, opening the record. A second thing to do is a second mail or
+  nothing.
+- **Facts on one line,** separated by a middle dot: `Due 20 Oct · Mansour
+  Villa`. No table for layout, no picture but the logo, no colour but the
+  button's.
+- **Light only** (`color-scheme: light`): mail clients invert dark mail
+  badly. Right to left for a reader of Arabic, decided by the reader's
+  language, not the sender's.
+- **Words by the `wording` skill:** the subject says what happened to
+  what, the message what to do next.
+
+Look at a mail before calling it done: render the type for a demo record in
+English and Arabic, and read it at phone width.
+`tests/guards/test_notifications.py` holds every type declared and worded.
 
 ## Claude's UI habits, and what to do instead
 

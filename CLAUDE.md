@@ -126,7 +126,9 @@ its commit message, as the seventeen-point table. Where each area stands and
 what is up next go in `docs/PASSOVER-LOG.md`, which is kept short; the log of
 every walk up to 18 October 2026 is `git show b22b68f:docs/PASSOVER-LOG.md`. The
 guards and the atlas check what a machine can; the walk is for what it
-cannot (placement, the look, the words, the flow, a phone).
+cannot (placement, the look, the words, the flow, a phone). How any pass is
+run, whatever its focus, is the `passthrough` skill; a screen it finishes
+is stamped Passed on dev (`one_interface/stamps.py`).
 
 ## Nothing ERPNext has is lost
 
