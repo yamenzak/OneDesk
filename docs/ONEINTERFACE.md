@@ -1,5 +1,8 @@
 # OneInterface
 
+The rules as they are applied are `.claude/skills/ui/SKILL.md`, which Claude
+Code loads before building any screen. This page is the contract behind them.
+
 OneInterface is every screen of One in one frame, the way every folder in Windows Explorer
 looks the same whatever is in it. OneCloud is the frame's first tenant
 because it already looks like this; every list, form, report and page of

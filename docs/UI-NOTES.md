@@ -1,5 +1,8 @@
 # UI notes from the walk
 
+The rules below are gathered, as they are applied, in
+`.claude/skills/ui/SKILL.md`.
+
 Yamen's points from walking every screen, written as rules for the next
 screen. When the walk ends, each one either moves into the UI contract
 (`docs/ONEINTERFACE.md`, `docs/WORDING.md`) or becomes a guard, and this
