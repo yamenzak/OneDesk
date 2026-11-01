@@ -75,7 +75,7 @@
 .one-appearance { display: flex; flex-direction: column; gap: 20px; }
 .one-appearance-head { margin-bottom: 8px; font-size: 13px; font-weight: 500; color: var(--one-ink-soft); }
 .one-appearance-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
-@media (max-width: 480px) { .one-appearance-row { gap: 8px; } .one-appearance-picture { height: 64px; } .one-appearance-says { display: none; } }
+@media (max-width: 480px) { .one-appearance-row { gap: 8px; } .one-appearance-picture { height: 64px; } }
 .one-appearance-card { display: flex; flex-direction: column; gap: 6px; padding: 0; border: 0; background: none; text-align: start; color: var(--one-ink); cursor: pointer; }
 .one-appearance-picture { position: relative; display: block; height: 96px; overflow: hidden; border: 1px solid var(--one-edge); border-radius: var(--one-radius-control); }
 .one-appearance-card[aria-pressed="true"] .one-appearance-picture { outline: 2px solid var(--one-accent); outline-offset: 2px; }
@@ -83,7 +83,6 @@
 .one-appearance-card:focus-visible { outline: none; }
 .one-appearance-card:focus-visible .one-appearance-picture { outline: 2px solid var(--one-focus); outline-offset: 2px; }
 .one-appearance-label { font-size: 13px; font-weight: 500; color: var(--one-ink-strong); }
-.one-appearance-says { margin-top: -4px; font-size: 12px; line-height: 1.4; color: var(--one-ink-muted); }
 
 /* The picture: the frame's bar and rail round the window, the sidebar with
    its chosen row, and one sheet on the canvas with the primary button. */
@@ -100,3 +99,23 @@
 .one-sample-sheet .one-sample-title { width: 46%; height: 5px; background: var(--one-ink-strong); opacity: 0.8; }
 .one-sample-sheet .one-sample-short { width: 56%; }
 .one-sample-sheet b { margin-top: auto; align-self: flex-end; width: 26px; height: 9px; border-radius: var(--one-radius-small); background: var(--one-primary-bg); }
+
+/* Canvas's own picture: the record's head on the ground (its picture, name,
+   state and main button), three figures, the tabs, then the record itself as
+   the one sheet. */
+.one-sample-look { display: flex; flex-direction: column; gap: 5px; padding: 7px 8px 0; }
+.one-sample-head { display: flex; align-items: center; gap: 4px; }
+.one-sample-head u { width: 9px; height: 9px; flex: none; border-radius: var(--radius-full); background: var(--one-fill); }
+.one-sample-head .one-sample-title { display: block; width: 34%; height: 5px; border-radius: var(--radius-full); background: var(--one-ink-strong); opacity: 0.8; }
+.one-sample-head s { width: 14px; height: 5px; border-radius: var(--radius-full); background: var(--one-status-bg); outline: 1px solid var(--one-edge); }
+.one-sample-head b { margin-inline-start: auto; width: 20px; height: 8px; border-radius: var(--one-radius-small); background: var(--one-primary-bg); }
+.one-sample-cards { display: flex; gap: 4px; }
+.one-sample-cards em { display: flex; flex: 1; flex-direction: column; gap: 3px; padding: 4px; border-radius: var(--one-radius-small); background: var(--one-card-bg); border: 1px solid var(--one-line); }
+.one-sample-cards i { display: block; width: 60%; height: 2px; border-radius: var(--radius-full); background: var(--one-ink-faint); opacity: 0.6; }
+.one-sample-cards .one-sample-figure { width: 80%; height: 4px; background: var(--one-ink-strong); opacity: 0.75; }
+.one-sample-tabs { display: flex; gap: 6px; padding-bottom: 2px; border-bottom: 1px solid var(--one-line); }
+.one-sample-tabs i { display: block; width: 14px; height: 3px; border-radius: var(--radius-full); background: var(--one-ink-faint); opacity: 0.5; }
+.one-sample-tabs .one-sample-tab-on { background: var(--one-ink-strong); opacity: 0.8; }
+.one-sample-look .one-sample-sheet { flex: 1; height: auto; border-end-start-radius: 0; border-end-end-radius: 0; border-bottom: 0; }
+.one-sample-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 8px; }
+.one-sample-fields i { width: 90%; }

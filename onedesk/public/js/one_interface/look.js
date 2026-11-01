@@ -13,7 +13,6 @@ onedesk.interface.LOOKS = {
 		head: true, strip: true, thread: true, quiet: true, icons: true,
 		offered: true,
 		label: __("Canvas"),
-		says: __("Each record and list is one sheet on a quiet ground."),
 		// the palettes drawn for it, the first one by default
 		palettes: ["sand"],
 	},
@@ -23,8 +22,8 @@ onedesk.interface.LOOKS = {
 // and every look has it; a look names the others it was drawn for, and the
 // first of them is what a person sees until they choose.
 onedesk.interface.PALETTES = {
-	standard: { label: __("Standard"), says: __("Neutral greys and square corners.") },
-	sand: { label: __("Sand"), says: __("Warm greys and rounder corners.") },
+	standard: { label: __("Standard") },
+	sand: { label: __("Sand") },
 };
 
 // Each person's look, kept with their palette (Appearance, theme.js), else

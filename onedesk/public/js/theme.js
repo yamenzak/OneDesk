@@ -57,7 +57,23 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		return frappe.ui.dark_theme_media_query.matches ? "dark" : "light";
 	}
 
-	sample(theme, palette) {
+	// what sits on the canvas: one plain sheet, or a look's own picture of
+	// what it does (Canvas: a record's head on the ground, its figures and
+	// tabs, then the record as one sheet)
+	inside(look) {
+		if (look === "canvas")
+			return `<span class="one-sample-canvas one-sample-look">
+				<span class="one-sample-head"><u></u><i class="one-sample-title"></i><s></s><b></b></span>
+				<span class="one-sample-cards"><em><i></i><i class="one-sample-figure"></i></em><em><i></i><i class="one-sample-figure"></i></em><em><i></i><i class="one-sample-figure"></i></em></span>
+				<span class="one-sample-tabs"><i class="one-sample-tab-on"></i><i></i><i></i></span>
+				<span class="one-sample-sheet"><span class="one-sample-fields"><i></i><i></i><i></i><i></i></span></span>
+			</span>`;
+		return `<span class="one-sample-canvas">
+			<span class="one-sample-sheet"><i class="one-sample-title"></i><i></i><i></i><i class="one-sample-short"></i><b></b></span>
+		</span>`;
+	}
+
+	sample(theme, palette, look) {
 		const root = document.documentElement;
 		const brand = root.dataset.oneFrame === "brand" ? root.style.getPropertyValue("--one-frame-brand") : "";
 		const $sample = $(`
@@ -65,9 +81,7 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 				<span class="one-sample-bar"></span>
 				<span class="one-sample-window">
 					<span class="one-sample-side"><i></i><i class="one-sample-on"></i><i></i><i></i></span>
-					<span class="one-sample-canvas">
-						<span class="one-sample-sheet"><i class="one-sample-title"></i><i></i><i></i><i class="one-sample-short"></i><b></b></span>
-					</span>
+					${this.inside(look)}
 				</span>
 			</span>
 		`);
@@ -77,7 +91,7 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		return $sample;
 	}
 
-	card({ label, says, chosen, pictures, pick }) {
+	card({ label, chosen, pictures, pick }) {
 		const $card = $(`
 			<button type="button" class="one-appearance-card" aria-pressed="${chosen}">
 				<span class="one-appearance-picture"></span>
@@ -86,7 +100,6 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 		`);
 		$card.find(".one-appearance-picture").append(pictures);
 		$card.find(".one-appearance-label").text(label);
-		if (says) $(`<span class="one-appearance-says"></span>`).text(says).appendTo($card);
 		$card.on("click", pick);
 		return $card;
 	}
@@ -106,9 +119,8 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 			const one = onedesk.interface.LOOKS[name];
 			this.card({
 				label: one.label,
-				says: one.says,
 				chosen: look === name,
-				pictures: [this.sample(this.shown_theme(), palette)],
+				pictures: [this.sample(this.shown_theme(), palette, name)],
 				pick: () => {
 					if (look === name) return;
 					// a look turns parts of the renderer on, so the page is drawn again
@@ -135,7 +147,6 @@ frappe.ui.ThemeSwitcher = class OneThemeSwitcher extends frappe.ui.ThemeSwitcher
 			const one = onedesk.interface.PALETTES[name];
 			this.card({
 				label: one.label,
-				says: one.says,
 				chosen: palette === name,
 				pictures: [this.sample(this.shown_theme(), name)],
 				pick: () => {
