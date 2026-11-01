@@ -9,7 +9,7 @@ deploy.
 
 In PowerShell, as administrator:
 
-    wsl --install -d Ubuntu-24.04
+    wsl --install -d Ubuntu
 
 Restart when it asks, open **Ubuntu** from the Start menu, and choose a user
 name and password. Install **VS Code** on Windows with its **WSL** extension.

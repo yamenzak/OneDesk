@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# One on your own machine: a bench in WSL2 Ubuntu 24.04 with frappe, erpnext,
+# One on your own machine: a bench in WSL2 Ubuntu (24.04 or later) with frappe, erpnext,
 # hrms and onedesk at the commits upstream.json records, and two sites:
 #
 #   one.localhost    a workspace, for building and trying One
@@ -56,7 +56,7 @@ sudo apt-get update -qq
 sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq \
 	git curl ca-certificates build-essential pkg-config jq unzip cron \
 	mariadb-server mariadb-client libmariadb-dev redis-server \
-	libffi-dev libssl-dev fontconfig xfonts-75dpi xfonts-base libjpeg-turbo8 \
+	libffi-dev libssl-dev fontconfig xfonts-75dpi xfonts-base \
 	gh >/dev/null
 # bench starts its own redis on 11000 and 13000; the system one only takes memory.
 sudo systemctl disable --now redis-server >/dev/null 2>&1 || true
@@ -65,7 +65,9 @@ if ! wkhtmltopdf --version 2>/dev/null | grep -q "with patched qt"; then
 	say "wkhtmltopdf (patched qt, for headers and footers on prints)"
 	deb=/tmp/wkhtmltox.deb
 	curl -fsSL -o "$deb" https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.jammy_amd64.deb
-	sudo apt-get install -y -qq "$deb" >/dev/null
+	# Built for 22.04; where a newer Ubuntu can't take it, the distribution's
+	# own wkhtmltopdf prints everything but headers and footers.
+	sudo apt-get install -y -qq "$deb" >/dev/null 2>&1 || sudo apt-get install -y -qq wkhtmltopdf >/dev/null
 	rm -f "$deb"
 fi
 
