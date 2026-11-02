@@ -28,7 +28,42 @@ Then check what earlier passes already did: `docs/PASSOVER-LOG.md` (where
 every area stands, and when it was last passed), `git log --grep` the
 scope, the module's SCRATCHPAD, and `one_interface/stamps.py` `PASSED`. A
 screen stamped Passed is not passed again unless it changed since its day.
-A screen's pass also holds it to `docs/PASSOVER.md`'s seventeen points.
+
+A screen's pass holds it to `docs/PASSOVER.md`'s seventeen points. A
+module's pass holds it to `docs/READY.md`'s fourteen points, through its
+mechanisms (1 to 19), and to the lessons at the end of READY.md.
+
+## What every pass looks at
+
+Whatever the focus, these are on the list unless the three lines say why
+not. Each was missed once by a pass that thought it was done.
+
+- **Sizes.** 1440, a tablet (820), a phone (390), and a pane beside the
+  screen. The tablet finds what neither end does.
+- **Looks.** Light and dark, the default palette and one other, Arabic
+  (right to left) and German (the longest words).
+- **People.** Each role whose work it is, and one who may not: what they
+  can't do is hidden or refused, never an error.
+- **States.** Empty, one row, many, loading, an error on purpose, a draft,
+  a cancelled record, a record in another currency.
+- **Live.** It changes when the record changes elsewhere
+  (`frappe.realtime`); dates, numbers, money and time zone are the reader's.
+- **Keys.** Its shortcuts are declared in the module's `shortcuts.py` and
+  work in that view and no other; nothing clashes in ShortcutCenter;
+  Escape closes, Tab reaches every control, focus is visible.
+- **The frame.** On OneInterface through its adapter or island kit, tokens
+  only, frappe's own parts placed and not redrawn.
+- **Its part of every centre.** Settings (ControlCenter), `abilities.py`
+  (AccessCenter), `notifications.py`, `legal.py` (TrustCenter), `ai.py`
+  (AICenter), `shortcuts.py` (ShortcutCenter), `docs/` (HelpCenter),
+  `docs/changelog/` (UpdateCenter), and the foot that opens them.
+- **OneAI.** Everything a person does here is a card, or is in `NOT_FOR_AI`
+  with the reason.
+- **Demo.** The demo company has it, and a check in the module's
+  `checks.py` reaches every whitelisted method (`test_coverage.py`).
+- **First visit.** Its tour and its setup steps still match the screen.
+- **What ERPNext already does.** Its statuses, its checks on save, its
+  mappers, precision and units, and `base_` amounts in figures.
 
 ## Each item, in this order
 
@@ -45,12 +80,19 @@ A screen's pass also holds it to `docs/PASSOVER.md`'s seventeen points.
    user can decide is a question, asked once, with a recommendation; the
    rest of the item carries on.
 5. **Look again** at what changed, the same way as step 2.
-6. **Close it**: the gates (below), translations for every new string, the
-   module's Help page and its pictures if what people see changed (`docs`
-   skill), a version (`changelog` skill), the overrides ledger if a frappe
-   method is wrapped, and for a screen its entry in `stamps.py` `PASSED`
-   with today's day and this pass's name.
-7. **Commit** the item, or a few small ones, with the findings and what was
+6. **Close it**: the gates (below), translations for every new string
+   (`bench generate-pot-file`, `scripts/translate.py todo` and `apply`,
+   then `bench compile-po-to-mo`; the glossary wins, so reword the English
+   rather than fight it), the module's Help page and its pictures if what
+   people see changed (`docs` skill), a version (`changelog` skill), the
+   overrides ledger if a frappe method is wrapped (`scripts/overrides.py`),
+   and for a screen its entry in `stamps.py` `PASSED` with today's day and
+   this pass's name.
+7. **Look again on the record.** A minor or major version makes a ready
+   module's hand looks stale (`ready.MODULES[...]["checked"]`). Commit the
+   work, then re-date each look you actually took to that commit, in a
+   second commit.
+8. **Commit** the item, or a few small ones, with the findings and what was
    done in the message.
 
 ## Rules that keep a pass honest
@@ -78,6 +120,11 @@ A screen's pass also holds it to `docs/PASSOVER.md`'s seventeen points.
   the part that draws it.
 - **Forgetting the paperwork.** A changed screen with an old Help picture,
   no version and no translation is not passed.
+- **Forgetting the log.** A pass that leaves `PASSOVER-LOG.md` and the
+  stamps as they were is redone by the next one.
+- **Adding a mechanism and not a line here.** A new centre, registry or
+  guard that every module must answer goes into **What every pass looks
+  at** in the same commit.
 - **Re-doing a pass that was already done** because nothing said it was.
   Read the log and the stamps first, and leave both behind.
 - **Turning one pass into a redesign.** Changes the user did not ask for
@@ -91,7 +138,12 @@ area's row in `docs/PASSOVER-LOG.md` says what this pass did and its day
 gates, which take minutes between them:
 
     python3 -m pytest -q
+    bench --site onedesk.localhost execute onedesk.one_demo.check.run
+    python3 scripts/overrides.py --check && python3 scripts/docs.py --check
     cd frontend && npx vitest run && npx eslint src && npx vite build   # when frontend source changed
+
+READY.md's **The gates** is the full list. A test that failed before this
+pass is named in the report, not hidden and not fixed in this commit.
 
 Report in one or two sentences: the scope, how many items passed, the one
 thing left open. The commit messages carry the detail.
