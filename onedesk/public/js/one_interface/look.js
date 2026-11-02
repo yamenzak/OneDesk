@@ -18,11 +18,11 @@ onedesk.interface.LOOKS = {
 	},
 };
 
-// The palettes a person may choose (palettes.css). Standard is frappe's own
-// and every look has it; a look names the others it was drawn for, and the
-// first of them is what a person sees until they choose.
+// The palettes a person may choose (palettes.css). Slate (id `standard`) is
+// frappe-ui's own greys and every look has it; a look names the others it was
+// drawn for, and the first of them is what a person sees until they choose.
 onedesk.interface.PALETTES = {
-	standard: { label: __("Standard") },
+	standard: { label: __("Slate") },
 	sand: { label: __("Sand") },
 };
 

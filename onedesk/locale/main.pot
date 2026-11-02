@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-01 23:52+0000\n"
-"PO-Revision-Date: 2026-11-01 23:52+0000\n"
+"POT-Creation-Date: 2026-11-02 09:59+0000\n"
+"PO-Revision-Date: 2026-11-02 09:59+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -267,7 +267,7 @@ msgstr ""
 msgid "1 item selected"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:134
 msgid "1 key"
 msgstr ""
 
@@ -315,11 +315,11 @@ msgstr ""
 msgid "1 record"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:426
+#: onedesk/public/js/one_interface/look.js:440
 msgid "1 row added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:426
+#: onedesk/public/js/one_interface/look.js:440
 msgid "1 row removed"
 msgstr ""
 
@@ -2473,6 +2473,8 @@ msgstr ""
 #: onedesk/public/js/one_ai/ai_center.js:227
 #: onedesk/public/js/one_ai/ai_center.js:399
 #: onedesk/public/js/one_ai/ai_center.js:550
+#: onedesk/public/js/one_interface/json_view.js:141
+#: onedesk/public/js/one_interface/json_view.js:343
 #: onedesk/public/js/one_mail/onemail_settings.js:609
 #: onedesk/public/js/one_mail/onemail_settings.js:1327
 #: onedesk/public/js/onecloud_dialogs.js:228
@@ -3636,7 +3638,7 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:804 onedesk/one_project/heads.py:204
 #: onedesk/public/js/item_list.js:4
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:564
+#: onedesk/public/js/one_interface/look.js:590
 msgid "All"
 msgstr ""
 
@@ -9688,7 +9690,7 @@ msgstr ""
 msgid "Collapse"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:98
+#: onedesk/public/js/one_interface/json_view.js:143
 msgid "Collapse All"
 msgstr ""
 
@@ -10766,8 +10768,8 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:153
 #: frontend/src/slide/components/ElementContextMenu.vue:137
 #: onedesk/one_ai/doctype/reading/reading.json
-#: onedesk/public/js/one_interface/json_view.js:100
-#: onedesk/public/js/one_interface/json_view.js:185
+#: onedesk/public/js/one_interface/json_view.js:145
+#: onedesk/public/js/one_interface/json_view.js:344
 #: onedesk/public/js/one_interface/look.js:154
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
@@ -11494,7 +11496,7 @@ msgstr ""
 msgid "Created By"
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:340
+#: onedesk/public/js/one_interface/form.js:342
 msgid "Created {0} by {1}"
 msgstr ""
 
@@ -13940,7 +13942,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
-#: onedesk/public/js/one_interface/form.js:462
+#: onedesk/public/js/one_interface/form.js:464
 #: onedesk/public/js/project_actions.js:700
 #: onedesk/public/js/project_new.js:193
 msgid "Details"
@@ -15604,7 +15606,7 @@ msgstr ""
 msgid "Edited text is no longer translated."
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:342
+#: onedesk/public/js/one_interface/form.js:344
 msgid "Edited {0} by {1}"
 msgstr ""
 
@@ -17340,7 +17342,7 @@ msgstr ""
 msgid "Expand"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:97
+#: onedesk/public/js/one_interface/json_view.js:142
 msgid "Expand All"
 msgstr ""
 
@@ -18432,7 +18434,7 @@ msgstr ""
 msgid "Find a file…"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:103
+#: onedesk/public/js/one_interface/json_view.js:135
 msgid "Find a key or a value"
 msgstr ""
 
@@ -18729,7 +18731,7 @@ msgstr ""
 msgid "Fold a lead that is somebody already known into the one kept, which deletes it."
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:166
+#: onedesk/public/js/one_interface/json_view.js:324
 msgid "Fold or unfold"
 msgstr ""
 
@@ -21008,8 +21010,8 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:282
-#: onedesk/public/js/one_interface/look.js:288
+#: onedesk/public/js/one_interface/look.js:296
+#: onedesk/public/js/one_interface/look.js:302
 msgid "Hide Empty Fields"
 msgstr ""
 
@@ -23046,6 +23048,10 @@ msgstr ""
 msgid "Introduction"
 msgstr ""
 
+#: onedesk/public/js/one_interface/json_view.js:285
+msgid "Invalid JSON"
+msgstr ""
+
 #: onedesk/one_book/home.py:416
 msgid "Invalid Ledger Entries"
 msgstr ""
@@ -24129,7 +24135,7 @@ msgstr ""
 msgid "Its subscription was cancelled in Stripe"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:172
+#: onedesk/public/js/one_interface/json_view.js:331
 msgid "JSON in text"
 msgstr ""
 
@@ -28199,7 +28205,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:1166
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:383
 #: onedesk/one_sheet/ai.py:247 onedesk/public/js/center_section.js:45
-#: onedesk/public/js/one_interface/form.js:363
+#: onedesk/public/js/one_interface/form.js:365
 #: onedesk/public/js/one_interface/nav_tree.js:67
 #: onedesk/public/js/one_portal/portal.js:135
 #: onedesk/public/js/project_actions.js:651
@@ -28611,7 +28617,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1371
 #: onedesk/public/js/one_account/account_center.js:1537
 #: onedesk/public/js/one_ai/panel/Panel.vue:485
-#: onedesk/public/js/one_interface/form.js:552
+#: onedesk/public/js/one_interface/form.js:554
 #: onedesk/public/js/one_mail/mail_templates.js:17
 #: onedesk/public/js/one_mail/rule_builder.js:430
 #: onedesk/public/js/one_studio/studio_control.js:166
@@ -28922,8 +28928,8 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:582
-#: onedesk/public/js/one_interface/look.js:584
+#: onedesk/public/js/one_interface/look.js:608
+#: onedesk/public/js/one_interface/look.js:610
 msgid "New"
 msgstr ""
 
@@ -29395,9 +29401,9 @@ msgstr ""
 
 #: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:619
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/one_interface/form.js:416
-#: onedesk/public/js/one_interface/form.js:464
-#: onedesk/public/js/one_interface/form.js:476 onedesk/public/js/record.js:169
+#: onedesk/public/js/one_interface/form.js:418
+#: onedesk/public/js/one_interface/form.js:466
+#: onedesk/public/js/one_interface/form.js:478 onedesk/public/js/record.js:169
 msgid "New {0}"
 msgstr ""
 
@@ -31340,7 +31346,7 @@ msgstr ""
 #: frontend/src/crm/CrmHome.vue:28 frontend/src/hr/HrHome.vue:28
 #: frontend/src/inventory/home/InventoryHome.vue:28
 #: frontend/src/inventory/to_order/ToOrderPage.vue:15
-#: onedesk/public/js/one_interface/json_view.js:107
+#: onedesk/public/js/one_interface/json_view.js:149
 msgid "Nothing matches"
 msgstr ""
 
@@ -33631,7 +33637,7 @@ msgstr ""
 msgid "Open in Boards"
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:311
+#: onedesk/public/js/one_interface/form.js:313
 msgid "Open in OneCloud"
 msgstr ""
 
@@ -40367,6 +40373,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:850
 #: onedesk/public/js/one_account/account_center.js:1503
 #: onedesk/public/js/one_ai/panel/Panel.vue:182
+#: onedesk/public/js/one_interface/json_view.js:345
 #: onedesk/public/js/one_mail/mail_compose.js:26
 #: onedesk/public/js/one_mail/rule_builder.js:117
 #: onedesk/public/js/one_mail/rule_builder.js:325
@@ -42381,7 +42388,7 @@ msgstr ""
 #: onedesk/public/js/one_ai/ai_center.js:227
 #: onedesk/public/js/one_ai/ai_center.js:399
 #: onedesk/public/js/one_interface/chrome.js:301
-#: onedesk/public/js/one_interface/form.js:425
+#: onedesk/public/js/one_interface/form.js:427
 #: onedesk/public/js/one_mail/mail_templates.js:351
 #: onedesk/public/js/one_mail/onemail_settings.js:206
 #: onedesk/public/js/one_mail/onemail_settings.js:318
@@ -44461,7 +44468,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:239
+#: onedesk/public/js/one_interface/look.js:252
 msgid "Show 1 Empty Field"
 msgstr ""
 
@@ -44555,8 +44562,8 @@ msgstr ""
 msgid "Show Publisher"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:82
-#: onedesk/public/js/one_interface/json_view.js:99
+#: onedesk/public/js/one_interface/json_view.js:117
+#: onedesk/public/js/one_interface/json_view.js:144
 msgid "Show Raw"
 msgstr ""
 
@@ -44611,7 +44618,7 @@ msgstr ""
 msgid "Show Timesheets"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:82
+#: onedesk/public/js/one_interface/json_view.js:117
 msgid "Show Tree"
 msgstr ""
 
@@ -44683,7 +44690,7 @@ msgstr ""
 msgid "Show {0} Earlier"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:239
+#: onedesk/public/js/one_interface/look.js:252
 msgid "Show {0} Empty Fields"
 msgstr ""
 
@@ -45435,6 +45442,10 @@ msgstr ""
 msgid "Slash"
 msgstr ""
 
+#: onedesk/public/js/one_interface/look.js:25
+msgid "Slate"
+msgstr ""
+
 #: frontend/src/slide/components/NavigationPanel.vue:14
 msgid "Slide"
 msgstr ""
@@ -46156,7 +46167,7 @@ msgid "Stalled"
 msgstr ""
 
 #: onedesk/one/ai.py:2494 onedesk/one_display/starters.py:626
-#: onedesk/one_slide/decks.py:245 onedesk/public/js/one_interface/look.js:25
+#: onedesk/one_slide/decks.py:245
 #: onedesk/public/js/one_studio/studio_control.js:127
 msgid "Standard"
 msgstr ""
@@ -46709,7 +46720,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:505
+#: onedesk/public/js/one_interface/form.js:507
 msgid "Still needed: {0}"
 msgstr ""
 
@@ -55207,7 +55218,7 @@ msgstr ""
 msgid "Viewer"
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:352
+#: onedesk/public/js/one_interface/form.js:354
 msgid "Viewing now"
 msgstr ""
 
@@ -61910,7 +61921,7 @@ msgstr ""
 msgid "cancelled"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:407
+#: onedesk/public/js/one_interface/look.js:421
 msgid "cancelled this"
 msgstr ""
 
@@ -61922,15 +61933,15 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:456
+#: onedesk/public/js/one_interface/look.js:470
 msgid "changed 1 field"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:456
+#: onedesk/public/js/one_interface/look.js:470
 msgid "changed {0} fields"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:453
+#: onedesk/public/js/one_interface/look.js:467
 msgid "commented"
 msgstr ""
 
@@ -61971,7 +61982,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:451
+#: onedesk/public/js/one_interface/look.js:465
 msgid "created this"
 msgstr ""
 
@@ -62063,7 +62074,7 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:412
+#: onedesk/public/js/one_interface/look.js:426
 msgid "edited"
 msgstr ""
 
@@ -62086,7 +62097,7 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:390
+#: onedesk/public/js/one_interface/look.js:404
 msgid "empty"
 msgstr ""
 
@@ -62777,7 +62788,7 @@ msgstr ""
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:407
+#: onedesk/public/js/one_interface/look.js:421
 msgid "returned this to draft"
 msgstr ""
 
@@ -62884,7 +62895,7 @@ msgstr ""
 msgid "submitted"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:407
+#: onedesk/public/js/one_interface/look.js:421
 msgid "submitted this"
 msgstr ""
 
@@ -63121,7 +63132,7 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:136 frontend/src/crm/CrmHome.vue:133
 #: frontend/src/hr/HrHome.vue:152
 #: frontend/src/inventory/home/InventoryHome.vue:149
-#: onedesk/public/js/one_interface/look.js:195
+#: onedesk/public/js/one_interface/look.js:196
 msgid "vs last month"
 msgstr ""
 
@@ -64860,7 +64871,7 @@ msgstr ""
 msgid "{0} items selected"
 msgstr ""
 
-#: onedesk/public/js/one_interface/json_view.js:92
+#: onedesk/public/js/one_interface/json_view.js:134
 msgid "{0} keys"
 msgstr ""
 
@@ -65455,11 +65466,11 @@ msgstr ""
 msgid "{0} rows"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:426
+#: onedesk/public/js/one_interface/look.js:440
 msgid "{0} rows added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:426
+#: onedesk/public/js/one_interface/look.js:440
 msgid "{0} rows removed"
 msgstr ""
 

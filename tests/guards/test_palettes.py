@@ -152,8 +152,6 @@ def test_every_surface_stands_on_a_level():
 				wrong[f"{theme} --one-{role}"] = f"should be var(--one-level-{level}), is {values.get(f'--one-{role}')}"
 	tokens = {k: v.strip() for _s, body in blocks(TOKENS) for k, v in re.findall(r"(--one-[a-z0-9-]+)\s*:\s*([^;]+);", body)}
 	for role, level in ON_LEVEL.items():
-		if role == "head-button-bg":
-			continue  # Standard's head buttons stay white on Standard's page, as before the levels
 		if tokens.get(f"--one-{role}") != f"var(--one-level-{level})":
 			wrong[f"tokens --one-{role}"] = f"should be var(--one-level-{level})"
 	assert not wrong, wrong
@@ -190,3 +188,55 @@ def test_every_tables_column_heads_are_on_the_control_level():
 	}
 	missing = [name for name, rule in heads.items() if not re.search(rule, canvas)]
 	assert not missing, f"these column heads are not on the control level: {missing}"
+
+
+def test_slates_levels_keep_their_order():
+	"""Slate (id standard) is tokens.css's own roles on frappe-ui's steps.
+	frappe-ui's surface-gray-N moves away from surface-base as N grows, in
+	light and in dark alike, so a level's distance from base is its N."""
+	levels = {}
+	for selector, body in blocks(TOKENS):
+		if re.sub(r"\s+", " ", selector) in (":root", ":root, .one-sample"):
+			levels.update(dict(re.findall(r"--one-level-(page|island|control|float):\s*var\(--surface-(base|gray-\d+)\)", body)))
+	assert set(levels) == set(LEVELS), f"Slate sets its levels on frappe-ui's steps: {levels}"
+	at = {k: 0 if v == "base" else int(v.split("-")[1]) for k, v in levels.items()}
+	rise = at["island"] - at["page"]
+	assert rise, "an island is the page"
+	assert abs(at["control"] - at["island"]) > abs(rise), f"a control is nearer its island than the island is to the page: {levels}"
+	assert (at["float"] - at["page"]) * rise >= 0 and abs(at["float"] - at["page"]) >= abs(rise), f"what floats is behind an island: {levels}"
+
+
+SELECTED = re.compile(r'\.is-on\b|\.active\b|\.active-sidebar\b|aria-selected="true"|aria-pressed="true"|data-state="(?:active|on)"')
+
+
+def test_every_selected_thing_is_one_fill():
+	"""A chosen tab, a chosen state in the strip, a chosen way of looking, the
+	sidebar's row, a panel's tab, a pressed switch: one fill, --one-chosen,
+	so being chosen reads the same wherever it is. A mark drawn inside the
+	chosen thing (a count, an underline) is not its fill. Canvas's sheets
+	only: frame.css is the Standard look's own, and chrome.css chooses on the
+	dark frame's bars, a ground of its own."""
+	wrong = []
+	for name in ("canvas.css", "views.css"):
+		for selector, body in blocks((CSS / name).read_text(encoding="utf-8")):
+			fill = re.search(r"(?<![-\w])background(?:-color)?\s*:\s*([^;]+)", body)
+			if not fill or ":hover" in selector or "::" in selector:
+				continue
+			for part in selector.split(","):
+				tail = re.split(r"\s+", part.strip())[-1]
+				if SELECTED.search(tail) and "var(--one-chosen)" not in fill.group(1) and "transparent" not in fill.group(1):
+					wrong.append(f"{name}: {part.strip()[-90:]} -> {fill.group(1).strip()}")
+	assert not wrong, "a chosen thing's fill is --one-chosen:\n" + "\n".join(wrong)
+
+
+def test_every_island_is_one_shape():
+	"""A record's section card, a list and a report's table are one island:
+	the island level, the sheet radius, a hairline of --one-line."""
+	canvas = (CSS / "canvas.css").read_text(encoding="utf-8")
+	islands = {
+		"record section": r"\.form-section:not\(\.empty-section\) \{[^}]*background: var\(--one-sheet\)[^}]*border: 1px solid var\(--one-line\)[^}]*border-radius: var\(--one-radius-sheet\)",
+		"list": r"\.frappe-list \.result-container \{[^}]*background: var\(--one-level-island\)[^}]*border: 1px solid var\(--one-line\)[^}]*border-radius: var\(--one-radius-sheet\)",
+		"report": r"\.datatable \{[^}]*border: 1px solid var\(--one-line\)[^}]*border-radius: var\(--one-radius-sheet\)",
+	}
+	missing = [name for name, rule in islands.items() if not re.search(rule, canvas)]
+	assert not missing, f"these islands lost the island's shape: {missing}"

@@ -404,7 +404,7 @@
 /* the view switcher: one segmented control, 28px like every control in the bar */
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) :has(> .es-pill) { display: inline-flex; align-items: center; gap: 2px; height: 28px; padding: 2px; border-radius: var(--one-radius-control); background: var(--one-hover); }
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill { height: 24px !important; width: 26px; border-radius: var(--one-radius-small) !important; }
-:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[aria-pressed="true"], :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill.active, :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[aria-selected="true"] { background: var(--one-surface) !important; }
+:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[aria-pressed="true"], :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill.active, :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[aria-selected="true"] { background: var(--one-chosen) !important; }
 
 /* quick filters look like the bar's other controls: 28px, filled, no dashes; a mode switch sits inside its field */
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group { position: relative; display: flex; }
@@ -417,7 +417,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control:hover { border-color: var(--one-edge-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group > .form-control { flex: 1 1 auto; width: 100% !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-group { margin: 0 !important; }
-:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[data-state="active"] { background: var(--one-surface) !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[data-state="active"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
 
 /* round 18: the table starts on the same edge as the title and the states, with the same gutter on the far side */
 :root[data-one-look="canvas"] .one-interface .frappe-list { padding: 0 32px 24px !important; }
@@ -467,7 +467,7 @@
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons { height: 28px; padding: 2px; gap: 2px; border: 0 !important; border-radius: var(--one-radius-control) !important; background: var(--one-head-button-bg) !important; }
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons .es-pill { height: 24px; border-radius: var(--one-radius-small) !important; background: transparent !important; color: var(--one-ink-quiet) !important; box-shadow: none !important; }
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons .es-pill:hover { color: var(--one-ink-strong) !important; }
-:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons .es-pill[data-state="active"] { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons .es-pill[data-state="active"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
 
 /* ONE EDGE. Everything in the window starts and ends on one line, --one-inset in from the window's sides: the address
    island, the actions under it, the heading, the tabs and the list. Inside a box (the island, the head pill, a row) its own
@@ -553,7 +553,7 @@
 :root[data-one-look="canvas"] .one-interface .one-strip { gap: 4px; padding: 0 !important; border-bottom: 0; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item { height: 30px; padding: 0 6px 0 12px; margin: 0; gap: 8px; border-radius: var(--one-radius-control); font-size: 13.5px; color: var(--one-tab-ink); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item:hover { background: var(--one-head-button-bg); color: var(--one-tab-on-ink); }
-:root[data-one-look="canvas"] .one-interface .one-strip-item.is-on { background: var(--one-head-button-hover); color: var(--one-tab-on-ink); }
+:root[data-one-look="canvas"] .one-interface .one-strip-item.is-on { background: var(--one-chosen); color: var(--one-tab-on-ink); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on::after { display: none; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item .one-strip-count { background: var(--one-count-bg) !important; color: var(--one-count-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on .one-strip-count { background: var(--one-head-bg) !important; color: var(--one-tab-on-ink) !important; }
@@ -821,3 +821,5 @@
 :root[data-one-look="canvas"] .one-interface .datatable .dt-header .dt-row-header { border-radius: var(--radius-full); overflow: hidden; }
 :root[data-one-look="canvas"] .one-interface .datatable .dt-header .dt-row-header .dt-cell { border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-cell { border-color: transparent !important; }
+/* A command that stays pressed (the details pane open) is chosen like a tab is. */
+:root[data-one-look="canvas"] .one-interface .one-interface-commands .es-button[data-state="on"] { background: var(--one-chosen) !important; }

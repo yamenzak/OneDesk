@@ -713,8 +713,16 @@ tokens.css that a palette sets for its light and its dark:
   `--one-details-bg`, `--one-status-bg`).
 
 A dark palette may come forward by going darker: Sand's islands are darker
-than its page. tests/guards/test_palettes.py holds every surface to its level
-and the levels to that order. The rest are bridges to frappe's own variables
+than its page. Slate (id `standard`, frappe-ui's own greys, the palette every
+look offers) keeps the same levels on frappe-ui's steps: page surface-gray-2,
+island surface-base, control surface-gray-3, float surface-base.
+
+Being chosen is one fill too, `--one-chosen`: a tab, a state in the strip, a
+way of looking, the sidebar's row, a panel's tab, a pressed command. A
+column head is not chosen; it is the control band. tests/guards/test_palettes.py holds every surface to its level,
+the levels to that order in every palette and in Slate, every chosen thing in
+Canvas to `--one-chosen`, every table's column heads to the control level, and
+a record's section, a list and a report's table to one island shape. The rest are bridges to frappe's own variables
 (`--one-surface`, `--one-raised-bg`, `--one-control-bg`, `--one-sidebar-bg`)
 or states and marks drawn on a level (hover, press, fill, tint, chosen).
 

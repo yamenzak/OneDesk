@@ -23043,6 +23043,10 @@ msgstr "Ins Lager"
 msgid "Introduction"
 msgstr "Einleitung"
 
+#: onedesk/public/js/one_interface/json_view.js:285
+msgid "Invalid JSON"
+msgstr "Ungültiges JSON"
+
 #: onedesk/one_book/home.py:416
 msgid "Invalid Ledger Entries"
 msgstr "Ungültige Buchungen"
@@ -45410,6 +45414,10 @@ msgstr "Stufe"
 #: onedesk/one_display/widgets.py:66
 msgid "Slash"
 msgstr "Schrägstrich"
+
+#: onedesk/public/js/one_interface/look.js:25
+msgid "Slate"
+msgstr "Schiefer"
 
 #: frontend/src/slide/components/NavigationPanel.vue:14
 msgid "Slide"

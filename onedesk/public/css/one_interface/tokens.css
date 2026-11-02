@@ -82,10 +82,11 @@
 	   section cards, a table); the controls in an island, set apart from it
 	   further than the island is from the page; and what floats over all
 	   (menus, dialogs, the details pane, the status line). Each surface role
-	   below reads one; tests/guards/test_palettes.py keeps them in order. */
+	   below reads one; tests/guards/test_palettes.py keeps them in order.
+	   These are Slate's, the palette of frappe-ui's own greys (id standard). */
 	--one-level-page: var(--surface-gray-2);
 	--one-level-island: var(--surface-base);
-	--one-level-control: var(--surface-gray-2);
+	--one-level-control: var(--surface-gray-3);
 	--one-level-float: var(--surface-base);
 
 	/* The Canvas look: the canvas behind, the sheets on it. */
@@ -111,8 +112,8 @@
 	/* The window's head on the canvas: the address row an island, the
 	   buttons under it on the ground, so a plain button needs its own fill. */
 	--one-head-bg: var(--one-level-island);
-	--one-head-button-bg: var(--surface-base);
-	--one-head-button-hover: var(--surface-gray-3);
+	--one-head-button-bg: var(--one-level-control);
+	--one-head-button-hover: var(--surface-gray-4);
 	/* a starred record's star (star.js) */
 	--one-star: var(--ink-amber-5);
 	--one-address-edge: var(--outline-gray-2);

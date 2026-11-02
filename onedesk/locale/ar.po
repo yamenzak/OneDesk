@@ -23043,6 +23043,10 @@ msgstr "إلى المخزن"
 msgid "Introduction"
 msgstr "المقدمة"
 
+#: onedesk/public/js/one_interface/json_view.js:285
+msgid "Invalid JSON"
+msgstr "JSON غير صالح"
+
 #: onedesk/one_book/home.py:416
 msgid "Invalid Ledger Entries"
 msgstr "قيود دفتر غير صالحة"
@@ -45410,6 +45414,10 @@ msgstr "الشريحة"
 #: onedesk/one_display/widgets.py:66
 msgid "Slash"
 msgstr "شَرطة مائلة"
+
+#: onedesk/public/js/one_interface/look.js:25
+msgid "Slate"
+msgstr "أردوازي"
 
 #: frontend/src/slide/components/NavigationPanel.vue:14
 msgid "Slide"
