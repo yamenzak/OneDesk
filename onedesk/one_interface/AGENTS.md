@@ -401,6 +401,8 @@ whatever sticks under it sits right either way.
 A record's tabs and its panel's tabs are the list's state tabs: 28px pills,
 no line, the chosen one in `--one-chosen`. A panel tab whose say the head
 has taken (`one-gone`) is never the one the panel opens on.
+A table in a record (frappe's grid) has the list's heads, `--one-chosen`, and
+the details switch wears it while the pane is open.
 
 ## Stars
 

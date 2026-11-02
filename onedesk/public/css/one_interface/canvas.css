@@ -621,3 +621,15 @@
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab:hover { background: var(--one-head-button-bg); color: var(--one-tab-on-ink); }
 :root[data-one-look="canvas"] .one-has-head .one-panel :is(.es-tabs__tab[aria-selected="true"], .es-tabs__tab.active) { background: var(--one-chosen); color: var(--one-ink-strong); font-weight: 500; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__indicator, :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab::after { display: none !important; }
+/* The tabs' pills start on the window's edge, like everything else (frappe's 8px link margins are gone). */
+:root[data-one-look="canvas"] .one-interface .one-interface-row.one-tabs-below { padding-inline: var(--one-inset) !important; }
+/* The details switch, when the pane is open, is chosen. */
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch { background: transparent !important; color: var(--one-ink-quiet) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch[data-state="on"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
+/* A table in a record has the list's heads: the same tint, the same words, rounded at the table's top. */
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row { background: var(--one-chosen) !important; border-bottom: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-row, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .static-area { background: transparent !important; color: var(--one-ink-strong) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-static-col, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .row-check { border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row :is(.col, .grid-static-col, .row-check, .row-index) { background: transparent !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
