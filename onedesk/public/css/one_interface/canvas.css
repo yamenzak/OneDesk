@@ -560,3 +560,10 @@
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .standard-items-section:not(:has(.custom-actions > *, .standard-actions > :not(.hide))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .one-interface-filters { padding-inline-end: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-toggle { display: none !important; }
+
+/* The side pane is an island like the address row: the window is one canvas from its left edge, and the pane sits on it
+   in the address row's material (--one-head-bg, --one-line, --one-radius-sheet), as far in from the window's edge as the
+   address row is from the top, their tops level. One role, so the two cannot drift apart in any palette. */
+:root[data-one-look="canvas"] body.one-barred.dock-pinned .body-sidebar-container.expanded > .body-sidebar { background: var(--one-canvas) !important; isolation: isolate; padding-block: 8px; padding-inline-start: 8px; }
+:root[data-one-look="canvas"] body.one-barred.dock-pinned .body-sidebar-container.expanded > .body-sidebar::before { content: ""; position: absolute; inset-block: 8px; inset-inline: 8px 0; z-index: -1; background: var(--one-head-bg); border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); }
+:root[data-one-look="canvas"][data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded + .main-section { border-inline-start: 0 !important; }

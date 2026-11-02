@@ -387,6 +387,13 @@ the window's buttons hide.
 
 ## The address box
 
+In Canvas the window is one canvas from its left edge, and the side pane is
+an island on it like the address row: `--one-head-bg`, `--one-line` and
+`--one-radius-sheet`, 8px in, its top level with the address row's. The
+pane is drawn by a `::before` on `.body-sidebar` (pinned and expanded
+only), so frappe's sidebar markup is untouched. One role for both, so they
+stay the same material in every palette.
+
 In Canvas the whole head is on the canvas, like the record under it: the
 address row is one island in from the window's edges (`--one-head-bg`, a
 softer white than a sheet in Sand), its box drawn without an edge of its
