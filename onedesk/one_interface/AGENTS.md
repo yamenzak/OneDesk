@@ -444,6 +444,22 @@ quiet dash; a pick is set on the `<select>` and sent as `input` and
 `change`. A table's cell is a cell: its input fills it square and unfilled,
 with the focus edge inside while typing.
 
+Every field type is that one control, walked type by type on a form that
+holds them all, light and dark, empty and filled. A field fills its cell
+(frappe's 50% `.input-max-width` cap in a one-column section is lifted). A
+required value is not bold; the label's mark says it is required. Small
+Text, Text and Long Text grow with what is written (`field-sizing:
+content`, 88px or 132px up to 480px) instead of frappe's fixed 150px and
+300px boxes, which frappe sets inline, so the height is `!important` and
+the resize handle goes. The rich text editor is one box: its toolbar on the
+field's fill, a hairline above the writing, and the editor grows to 480px.
+Code, JSON, Markdown and HTML editors (ace) and Signature take the fill and
+corner with no frame, the gutter and current line quiet. Table MultiSelect's
+typing line is part of its box. Attach is a field the width of its cell,
+"Attach" in the placeholder's ink; an attached file already reads as one.
+Pickers (date, time, duration, colour, phone country, a Link's list) are
+frappe's popovers and already match.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

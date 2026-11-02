@@ -692,3 +692,32 @@
    focus edge inside the cell while typing. The filled 36px box cut a select's text in half. */
 :root[data-one-look="canvas"] .one-interface .form-page .form-grid .grid-static-col .form-control, :root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover .form-grid .grid-static-col .form-control { height: 100% !important; border-radius: 0 !important; background: transparent !important; border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-grid .grid-static-col .form-control:focus { background: var(--one-sheet) !important; outline: 1px solid var(--one-focus); outline-offset: -1px; }
+
+/* A field fills its cell. frappe caps a field in a one-column section at half its width (.input-max-width), which in
+   Canvas's grid is half a cell. */
+:root[data-one-look="canvas"] .form-page .section-body .frappe-control.input-max-width, :root[data-one-look="canvas"] .form-page .section-body .frappe-control.input-max-width > .form-group { max-width: none !important; }
+
+/* Fields, one by one. Every field is the same control: the head-button fill, no edge, the control corner, the stronger
+   fill on hover and the card's ground with the focus edge while typing. */
+/* A required value reads like any other; the label's mark says it is required. */
+:root[data-one-look="canvas"] .one-interface .form-page .form-control.bold { font-weight: 400 !important; }
+/* Text grows with what is written, from a few lines to a screenful, instead of frappe's fixed 150px and 300px boxes. */
+:root[data-one-look="canvas"] .one-interface .form-page textarea.form-control:is([data-fieldtype="Small Text"], [data-fieldtype="Text"], [data-fieldtype="Long Text"]) { height: auto !important; field-sizing: content; min-height: 88px; max-height: 480px; resize: none; }
+:root[data-one-look="canvas"] .one-interface .form-page textarea.form-control:is([data-fieldtype="Text"], [data-fieldtype="Long Text"]) { min-height: 132px; }
+/* The rich text editor is one box: its toolbar sits on the field's own fill, a hairline above the writing. */
+:root[data-one-look="canvas"] .one-interface .form-page .ql-toolbar.ql-snow { background: var(--one-head-button-bg) !important; border: 0 !important; border-bottom: 1px solid var(--one-line) !important; border-radius: var(--one-radius-control) var(--one-radius-control) 0 0 !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover .ql-toolbar.ql-snow { background: var(--one-head-button-hover) !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control:focus-within .ql-toolbar.ql-snow { background: var(--one-sheet) !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .ql-container.ql-snow { background: transparent !important; border: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .ql-snow .ql-editor { height: auto; min-height: 160px; max-height: 480px; overflow-y: auto; }
+/* Code, JSON, Markdown and HTML: the same fill and corner, no frame; the gutter and the current line are quiet. */
+:root[data-one-look="canvas"] .one-interface .form-page .ace_editor { background: var(--one-head-button-bg) !important; border: 0 !important; border-radius: var(--one-radius-control) !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .ace_editor .ace_gutter { background: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .ace_editor :is(.ace_active-line, .ace_gutter-active-line) { background: var(--one-head-button-hover) !important; }
+/* A signature is signed on the field's fill. */
+:root[data-one-look="canvas"] .one-interface .form-page .signature-field { background: var(--one-head-button-bg) !important; border: 0 !important; border-radius: var(--one-radius-control) !important; }
+/* A many-choice field's typing line is part of the box, not a strip inside it. */
+:root[data-one-look="canvas"] .one-interface .form-page .table-multiselect input { background: transparent !important; border: 0 !important; box-shadow: none !important; outline: 0; }
+/* Attach is a field, the width of its cell, saying what to do in the placeholder's ink. */
+:root[data-one-look="canvas"] .one-interface .form-page .section-body .btn-attach { display: flex; align-items: center; width: 100%; height: 36px; padding-inline: 10px; justify-content: flex-start; background: var(--one-head-button-bg) !important; border-radius: var(--one-radius-control) !important; color: var(--one-ink-muted) !important; font-size: 14px; font-weight: 400; box-shadow: none !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .section-body .btn-attach:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
