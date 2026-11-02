@@ -223,7 +223,19 @@ record.head = (frm) => {
 		if (label && tab.textContent.trim() !== label) tab.textContent = label;
 	});
 
-	// print, like and OneCloud sit at the bar's end, before Cancel
+	// the star ends the address row, as a browser's ends its address bar
+	const star = container.one_star || container.querySelector(".form-sidebar .liked-by");
+	const place = pageHead.querySelector(".page-title");
+	if (star && place) {
+		container.one_star = star;
+		star.classList.add("one-star");
+		if (star.parentElement !== place) {
+			place.append(star);
+			frappe.ui.setup_like_popover($(place), ".like-icon");
+		}
+	}
+
+	// print and OneCloud sit at the bar's end, before Cancel
 	const commands = pageHead.querySelector(".one-interface-commands");
 	const likes = container.querySelector(".form-sidebar .form-stats-likes");
 	if (commands && likes) {

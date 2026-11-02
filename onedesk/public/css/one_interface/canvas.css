@@ -582,3 +582,8 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > :is(.btn, .es-button):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control { background: var(--one-address-bg) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control::placeholder, :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters select.form-control, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control::placeholder { color: var(--one-ink-muted) !important; opacity: 1; }
+
+/* A record's star ends the address row, as a browser's ends its address bar (star.js). */
+:root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star { flex: none; width: 28px; height: 28px; display: inline-grid !important; place-items: center; margin-inline-start: 4px; border-radius: var(--one-radius-control); color: var(--one-ink-quiet); cursor: pointer; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star:hover { background: var(--one-head-button-hover); color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star .like-icon { width: 16px; height: 16px; margin: 0; }

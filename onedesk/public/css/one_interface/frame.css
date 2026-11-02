@@ -887,3 +887,30 @@ body.one-barred .body-sidebar-bottom {
 	flex: 1 1 0;
 	min-width: 0;
 }
+
+/* Likes are stars (star.js): filled with the palette's star when chosen, and
+   a short pop as it fills. */
+.liked .like-icon,
+.liked .like-icon use,
+.like-icon.liked,
+.like-icon.liked use {
+	--icon-stroke: var(--one-star);
+	fill: var(--one-star);
+	color: var(--one-star);
+}
+
+.like-icon.one-star-pop {
+	animation: one-star-pop 420ms cubic-bezier(.2, .8, .2, 1);
+	transform-origin: center;
+}
+
+@keyframes one-star-pop {
+	0% { transform: scale(1) rotate(0); }
+	35% { transform: scale(1.4) rotate(-12deg); }
+	65% { transform: scale(0.9) rotate(4deg); }
+	100% { transform: scale(1) rotate(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.like-icon.one-star-pop { animation: none; }
+}

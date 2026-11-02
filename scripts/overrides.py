@@ -1039,6 +1039,13 @@ OVERRIDES = [
 		"new_theme.$html.click();",
 	),
 	(
+		"Likes are stars, and a record's star ends the address row",
+		"frappe draws a like as a heart in a list, a record, the activity and a board; One draws the star a browser and a file manager use for a favourite. star.js swaps the heart symbol for the star wherever frappe draws it and wraps toggle_like to pop the star as it fills; frappe's call, classes and liked-by list are untouched, and Canvas moves the record's like from the sidebar to the end of the address row",
+		"onedesk/public/js/one_interface/star.js",
+		"frappe/frappe/public/js/frappe/ui/like.js",
+		"frappe.ui.toggle_like = function ($btn, doctype, name, callback) {",
+	),
+	(
 		"The Employee band is not a notice",
 		"`set_headline` paints its band for an alert; this one is a permanent summary",
 		"onedesk/public/css/desk.css",

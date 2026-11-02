@@ -385,6 +385,16 @@ frappe keeps a reference to, so its buttons keep their handlers.
 Below 992 px nothing moves: frappe's own phone and tablet head stay, and
 the window's buttons hide.
 
+## Stars
+
+A like is a star (`star.js`), the mark a browser and a file manager use for
+a favourite. frappe's like is untouched (`toggle_like`, `_liked_by`, the
+liked-by list, the list's filter); `star.js` swaps the heart symbol for the
+star wherever frappe draws it (a MutationObserver on the body) and wraps
+`toggle_like` to pop the star as it fills. A chosen star reads `--one-star`.
+In Canvas a record's star leaves the sidebar for the end of the address row,
+before refresh, as a browser's ends its address bar.
+
 ## The address box
 
 In Canvas the window is one canvas from its left edge, and the side pane is

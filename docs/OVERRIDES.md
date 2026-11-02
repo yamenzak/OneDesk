@@ -150,6 +150,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | The icon sprite is kept out of flow, not hidden | a gradient in a `display: none` subtree resolves to nothing, so every One mark drew hollow | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/desk.js` | `getElementById("all-symbols")` |
 | Marks become sprite symbols | 27 Custom Icon rows, ids rewritten per mark so two marks cannot share a gradient | `scripts/icons.py` | `frappe/frappe/core/doctype/custom_icon/custom_icon.py` | `def to_symbol` |
 | Switch Theme is Appearance: the theme and the palette, each card a picture of the window in that choice | frappe offers Light, Dark and Automatic as three cards of its own preview; theme.js subclasses ThemeSwitcher and draws its own dialog, with Light, Dark and System, then the palettes the look has, each picture a .one-sample drawn from the roles. It keeps frappe's refresh, arrow keys and switch_theme call | `onedesk/public/js/theme.js` | `frappe/frappe/public/js/frappe/ui/theme_switcher.js` | `new_theme.$html.click();` |
+| Likes are stars, and a record's star ends the address row | frappe draws a like as a heart in a list, a record, the activity and a board; One draws the star a browser and a file manager use for a favourite. star.js swaps the heart symbol for the star wherever frappe draws it and wraps toggle_like to pop the star as it fills; frappe's call, classes and liked-by list are untouched, and Canvas moves the record's like from the sidebar to the end of the address row | `onedesk/public/js/one_interface/star.js` | `frappe/frappe/public/js/frappe/ui/like.js` | `frappe.ui.toggle_like = function ($btn, doctype, name, callback) {` |
 | The Employee band is not a notice | `set_headline` paints its band for an alert; this one is a permanent summary | `onedesk/public/css/desk.css` | `frappe/frappe/public/js/frappe/form/layout.js` | `form-message border-bottom` |
 | Framework leaves the apps screen | it is frappe's own administration and everyone who needs it holds System Manager | `onedesk/one/boot.py` | `frappe/frappe/boot.py` | `on_apps_screen` |
 | The site wears One at install | `get_app_logo` reads Website Settings first, then Navbar Settings, then a hook we cannot win | `onedesk/one/brand.py` | `frappe/frappe/core/doctype/navbar_settings/navbar_settings.py` | `def get_app_logo` |
@@ -428,7 +429,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-422 overrides.
+423 overrides.
 
 ## What we would ask upstream
 

@@ -61,6 +61,7 @@
 	--one-head-bg: oklch(0.975 0.008 80);
 	--one-head-button-bg: oklch(0.93 0.014 75);
 	--one-head-button-hover: var(--gray-200);
+	--one-star: oklch(0.74 0.15 72);
 	--one-hover: var(--gray-100);
 	--one-ink: var(--gray-900);
 	--one-ink-faint: var(--gray-500);
@@ -144,6 +145,7 @@
 	--one-head-bg: var(--gray-950);
 	--one-head-button-bg: var(--gray-700);
 	--one-head-button-hover: var(--gray-600);
+	--one-star: oklch(0.8 0.14 78);
 	--one-hover: var(--gray-700);
 	--one-ink: var(--gray-100);
 	--one-ink-faint: var(--gray-400);
