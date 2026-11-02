@@ -571,7 +571,9 @@
 /* ONE CHOSEN. What is chosen in the head, the state tab, the view and the column heads' pill, wears one colour: New's,
    washed into the canvas. Everything else in the head is a plain control, 28px, --one-head-button-bg, --one-radius-control,
    13px words; the island's own (refresh, search, the menu) are the island's --one-address-bg. */
-:root[data-one-look="canvas"] .one-interface { --one-chosen: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); }
+:root[data-one-look="canvas"] { --one-chosen: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); }
+/* the side pane's chosen row too */
+:root[data-one-look="canvas"] .body-sidebar { --one-sidebar-active-bg: var(--one-chosen); --one-sidebar-active-ink: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item { height: 28px; font-size: 13px; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on { background: var(--one-chosen); color: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on .one-strip-count { background: var(--one-head-bg) !important; color: var(--one-ink-strong) !important; }

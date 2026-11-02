@@ -145,7 +145,7 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 - **Every control is 28px,** `--one-radius-control`, 16px icons, 13px
   words, on `--one-head-button-bg`. The island's own controls (refresh,
   search, the menu) are on the island's `--one-address-bg`.
-- **One colour for what is chosen:** the state tab, the view and the
+- **One colour for what is chosen:** the side pane's row, the state tab, the view and the
   column heads' pill all read `--one-chosen` (New's colour washed into the
   canvas). The main action is the only solid thing; a solid band of it is
   a bright bar in dark.
