@@ -609,7 +609,9 @@ own colours: a report's table (and a query report's) has its heads on the
 list's head fill and its filter boxes filled like a field; a Gantt chart's
 bars are `--one-fill` with progress in `--one-edge-heavy`, where frappe-gantt
 draws a white bar on a white row; a calendar's grid is the sheet with Sunday
-on the tint. A calendar event keeps frappe's colour, which is its state's.
+on the tint. A calendar event keeps frappe's colour, which is its state's. A chart's labels, legend and tooltip read the page's inks: frappe's dark theme
+sets the chart's label colour but not `--charts-legend-value`, so a legend's
+figures stayed the light theme's dark grey on a dark sheet.
 
 A map view was blank in frappe: ListView's constructor sets `this.load_lib`
 to a promise, hiding MapView's own `load_lib`. list.js gives MapView a

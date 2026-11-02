@@ -795,3 +795,16 @@
 :root[data-one-look="canvas"] .one-interface .layout-main-section > .page-form:empty { display: none; }
 /* A query report's own buttons end its head, as the ways end a list's. */
 :root[data-one-look="canvas"] .one-interface .one-hero-list > .one-hero-actions { display: flex; align-items: center; gap: 6px; margin-inline-start: auto; }
+/* A chart's words read the page's inks in both themes. frappe's dark theme sets the label colour but not
+   --charts-legend-value, which keeps the light theme's dark grey and vanishes on a dark sheet. */
+:root[data-one-look="canvas"] :is(.chart-container, .frappe-chart) {
+	--charts-label-color: var(--one-ink-muted);
+	--charts-legend-label: var(--one-ink-soft);
+	--charts-legend-value: var(--one-ink-muted);
+	--charts-axis-line-color: var(--one-line);
+	--charts-dataset-circle-stroke: var(--one-sheet);
+	--charts-tooltip-bg: var(--one-menu-bg);
+	--charts-tooltip-title: var(--one-ink-soft);
+	--charts-tooltip-label: var(--one-ink-soft);
+	--charts-tooltip-value: var(--one-ink-strong);
+}
