@@ -57,16 +57,16 @@
 	/* Buttons and fields. */
 	--one-primary-bg: var(--surface-gray-10);
 	--one-primary-ink: var(--ink-base);
-	--one-button-bg: var(--surface-gray-2);
+	--one-button-bg: var(--one-level-control);
 	--one-button-hover: var(--surface-gray-3);
 	--one-button-ink: var(--ink-gray-8);
 	--one-control-bg: var(--surface-gray-2);
 	--one-focus: var(--ink-gray-6);
 
 	/* What floats: dialogs, menus and popovers, and frappe's cards. */
-	--one-dialog-bg: var(--surface-base);
-	--one-menu-bg: var(--surface-base);
-	--one-card-bg: var(--surface-base);
+	--one-dialog-bg: var(--one-level-float);
+	--one-menu-bg: var(--one-level-float);
+	--one-card-bg: var(--one-level-island);
 	/* Something raised off its surface: the chosen row in a dialog's rail. */
 	--one-raised-bg: var(--surface-elevation-3);
 	--one-dialog-rail: var(--surface-sidebar);
@@ -77,9 +77,20 @@
 	--one-shadow-raised: none;
 	--one-shadow-dialog: none;
 
+	/* The four levels every surface stands on (AGENTS.md, Levels), back to
+	   front: the page; the islands on it (the address row, a record's
+	   section cards, a table); the controls in an island, set apart from it
+	   further than the island is from the page; and what floats over all
+	   (menus, dialogs, the details pane, the status line). Each surface role
+	   below reads one; tests/guards/test_palettes.py keeps them in order. */
+	--one-level-page: var(--surface-gray-2);
+	--one-level-island: var(--surface-base);
+	--one-level-control: var(--surface-gray-2);
+	--one-level-float: var(--surface-base);
+
 	/* The Canvas look: the canvas behind, the sheets on it. */
-	--one-canvas: var(--surface-gray-2);
-	--one-sheet: var(--surface-base);
+	--one-canvas: var(--one-level-page);
+	--one-sheet: var(--one-level-island);
 
 	/* frappe's sidebar beside the screen, and the tree in it. */
 	--one-sidebar-bg: var(--surface-gray-1);
@@ -99,7 +110,7 @@
 	--one-address-bg: var(--surface-gray-1);
 	/* The window's head on the canvas: the address row an island, the
 	   buttons under it on the ground, so a plain button needs its own fill. */
-	--one-head-bg: var(--surface-base);
+	--one-head-bg: var(--one-level-island);
 	--one-head-button-bg: var(--surface-base);
 	--one-head-button-hover: var(--surface-gray-3);
 	/* a starred record's star (star.js) */
@@ -108,9 +119,9 @@
 	--one-command-on: var(--surface-gray-3);
 
 	/* The window's status line and the details beside it. */
-	--one-status-bg: var(--surface-base);
+	--one-status-bg: var(--one-level-float);
 	--one-status-ink: var(--ink-gray-5);
-	--one-details-bg: var(--surface-base);
+	--one-details-bg: var(--one-level-float);
 
 	/* Tabs and the strip of states over a list. */
 	--one-tab-ink: var(--ink-gray-5);

@@ -691,6 +691,28 @@ once more after the form settles:
 The registry is `ready.MODULES[module]["interface"]`; `ready.interface()`
 merges it and boot hands it over as `frappe.boot.one_interface`.
 
+## Levels
+
+Every surface stands on one of four levels, back to front, each a role in
+tokens.css that a palette sets for its light and its dark:
+
+- `--one-level-page`: the page behind everything (`--one-canvas`).
+- `--one-level-island`: what stands on the page. The address row, a record's
+  section cards, a report's table (`--one-sheet`, `--one-card-bg`,
+  `--one-head-bg`).
+- `--one-level-control`: a field or button in an island, set apart from it
+  further than the island is from the page (`--one-head-button-bg`,
+  `--one-button-bg`). A field reads as a dip in its card.
+- `--one-level-float`: what floats over all of it. Menus, dialogs, the details
+  pane, the status line (`--one-menu-bg`, `--one-dialog-bg`,
+  `--one-details-bg`, `--one-status-bg`).
+
+A dark palette may come forward by going darker: Sand's islands are darker
+than its page. tests/guards/test_palettes.py holds every surface to its level
+and the levels to that order. The rest are bridges to frappe's own variables
+(`--one-surface`, `--one-raised-bg`, `--one-control-bg`, `--one-sidebar-bg`)
+or states and marks drawn on a level (hover, press, fill, tint, chosen).
+
 ## Palettes
 
 Every rule of the frame and of Canvas reads a **role**, never a step of
