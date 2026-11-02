@@ -385,6 +385,23 @@ frappe keeps a reference to, so its buttons keep their handlers.
 Below 992 px nothing moves: frappe's own phone and tablet head stay, and
 the window's buttons hide.
 
+## A record's head
+
+A record has nothing to narrow, so in Canvas its commands join the address
+row, as a browser's toolbar does: nav, the address and its star, the
+commands (primary first, then its own, then print and OneCloud), frappe's
+Cancel, refresh, the steps, the menu, the details switch. The address row
+is held at the top, so Save and Submit stay in reach. `Frame.one_join`
+measures what the parts need (not what a row stretched them to) and sets
+`.one-head-joined` only when they fit beside an address of at least 220px;
+otherwise the commands keep their own row under the island. The head
+measures its own height into `--page-head-height` (a ResizeObserver), so
+whatever sticks under it sits right either way.
+
+A record's tabs and its panel's tabs are the list's state tabs: 28px pills,
+no line, the chosen one in `--one-chosen`. A panel tab whose say the head
+has taken (`one-gone`) is never the one the panel opens on.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

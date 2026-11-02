@@ -236,6 +236,8 @@ onedesk.interface.panel_refresh = (frm) => {
 		.filter((_, button) => $(button).text().trim() === __("New Email"))
 		.toggle(!has.mail);
 	const names = onedesk.interface.PANEL;
+	// a tab whose say the record's head has taken (look.js) is not chosen
+	names.forEach((name, i) => panel.tabs.tabs[i].button.classList.contains("one-gone") && (has[name] = false));
 	names.forEach((name, i) => (panel.tabs.tabs[i].button.hidden = !has[name]));
 	panel.tabs.position_indicator();
 	const shown = names.filter((name) => has[name]);

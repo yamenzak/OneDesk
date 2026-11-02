@@ -587,3 +587,37 @@
 :root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star { flex: none; width: 28px; height: 28px; display: inline-grid !important; place-items: center; margin-inline-start: 4px; border-radius: var(--one-radius-control); color: var(--one-ink-quiet); cursor: pointer; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star:hover { background: var(--one-head-button-hover); color: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .one-interface .page-head .page-title > .one-star .like-icon { width: 16px; height: 16px; margin: 0; }
+
+/* A RECORD'S HEAD. A record has nothing to narrow, so its commands join the address row, as a browser's toolbar does:
+   where you are, its star, what you can do to it, then refresh, the steps, the menu and the details pane. The address
+   row is held at the top as the record scrolls, so Save and Submit are always in reach, and the record keeps one row. */
+/* .one-head-joined is set by look.js when everything fits beside an address still readable (220px). */
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-nav { order: 0; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .page-title { order: 1; flex: 1 1 220px; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > :is(.one-interface-commands, .standard-items-section) { order: 2; position: relative; margin-top: 0 !important; min-height: 44px; flex: none; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-commands { padding-inline: 4px 0 !important; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .standard-items-section { padding-inline: 6px 0 !important; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-tools { order: 3; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-switch { order: 4; position: relative; margin: 8px 8px 0 0 !important; align-self: flex-start; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-break { order: 5; }
+:root[data-one-look="canvas"] .one-head-joined .page-head :is(.one-interface-commands, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) { background: var(--one-address-bg) !important; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .one-interface-commands .one-bar-icons { margin-inline: 4px 0 !important; }
+:root[data-one-look="canvas"] .one-head-joined .page-head .one-interface-commands .one-bar-icons :is(.es-button, .btn, button) { background: transparent !important; }
+
+/* ONE TAB. A record's tabs and its panel's tabs are the list's state tabs: 28px pills on the canvas, no line under them,
+   the chosen one in --one-chosen. frappe's underline and the row's border go. */
+:root[data-one-look="canvas"] .one-interface > .one-tabs-below { border-bottom: 0 !important; padding-block: 2px 10px !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs-list { border: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs { gap: 4px; border: 0 !important; align-items: center; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-item { margin: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link { height: 28px; display: inline-flex !important; align-items: center; gap: 6px; margin: 0 !important; padding: 0 10px !important; border: 0 !important; border-radius: var(--one-radius-control) !important; font-size: 13px !important; color: var(--one-tab-ink) !important; background: transparent !important; box-shadow: none !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link:hover { background: var(--one-head-button-bg) !important; color: var(--one-tab-on-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link.active { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link::after { display: none !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button { height: 28px; padding: 0 10px !important; margin: 0 !important; border-radius: var(--one-radius-control); font-size: 13px; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button:hover { background: var(--one-head-button-bg); }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { gap: 4px !important; border-bottom: 0 !important; padding-block: 4px !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab { height: 28px; padding: 0 10px !important; border-radius: var(--one-radius-control); border: 0 !important; box-shadow: none !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab:hover { background: var(--one-head-button-bg); color: var(--one-tab-on-ink); }
+:root[data-one-look="canvas"] .one-has-head .one-panel :is(.es-tabs__tab[aria-selected="true"], .es-tabs__tab.active) { background: var(--one-chosen); color: var(--one-ink-strong); font-weight: 500; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__indicator, :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab::after { display: none !important; }

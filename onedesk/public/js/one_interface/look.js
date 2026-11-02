@@ -629,12 +629,40 @@ list.icons = (view) => {
 	if (Frame && !Object.hasOwn(Frame.prototype, "one_look")) {
 		Frame.prototype.one_look = true;
 		const view = Frame.prototype.view;
+		// A record's commands join the address row when they fit beside an
+		// address still readable (220px), as a browser's toolbar does; else they
+		// keep their own row under it. Measured from what is there, both ways.
+		Frame.prototype.one_join = function (head) {
+			const content = head.querySelector(".page-head-content");
+			const form = this.$wrapper.attr("data-one-view") === "form";
+			if (!content || !form) return this.$wrapper.removeClass("one-head-joined");
+			const width = (el) => (el && el.offsetParent ? el.getBoundingClientRect().width : 0);
+			const extra = content.querySelector(":scope > .standard-items-section");
+			// what the parts need, not what a row stretched them to
+			const own = (el) => (el ? [...el.children].reduce((sum, child) => sum + width(child) + 6, 0) : 0);
+			const deep = (el) => (el ? [...el.children].reduce((sum, child) => sum + (child.children.length && !child.matches("button, .btn, .es-button") ? own(child) : width(child) + 6), 0) : 0);
+			const needed =
+				width(this.$nav[0]) + 220 + deep(this.$commands[0]) + (extra && extra.querySelector(".btn:not(.hide), .es-button:not(.hide)") ? deep(extra) : 0) +
+				width(this.$tools[0]) + width(this.$switch[0]) + 40;
+			this.$wrapper.toggleClass("one-head-joined", needed <= content.clientWidth);
+		};
 		Frame.prototype.view = function (parts = {}) {
 			const said = view.call(this, parts);
 			if (onedesk.interface.uses("head")) {
 				const menu = this.group("menu");
 				if (menu[0].parentElement !== this.$tools[0] || menu[0].nextElementSibling) this.$tools.append(menu);
 				if (parts.menu && parts.menu.dropdown) parts.menu.dropdown.align = "end";
+				// the head says its own height, so what sticks under it sits right
+				// whether its commands fit the address row or wrap under it
+				const head = this.$wrapper.find(".page-head")[0];
+				if (head && !this.one_measured && window.ResizeObserver) {
+					this.one_measured = new ResizeObserver(() => {
+						this.one_join(head);
+						if (head.offsetHeight) this.$wrapper[0].style.setProperty("--page-head-height", `${head.offsetHeight}px`);
+					});
+					this.one_measured.observe(head);
+					this.one_measured.observe(this.$commands[0]);
+				}
 			}
 			return said;
 		};
