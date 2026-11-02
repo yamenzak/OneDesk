@@ -263,6 +263,7 @@ record.fields = (frm) => {
 		if (df.fieldtype === "Check") return !value;
 		return value === null || value === undefined || value === "" || (value === 0 && !NUMBER.includes(df.fieldtype));
 	};
+	page.querySelectorAll(".form-section").forEach((el) => el.classList.toggle("one-headless", !el.querySelector(":scope > .section-head")));
 	page.querySelectorAll(".one-quiet").forEach((el) => el.classList.remove("one-quiet"));
 	page.querySelectorAll(".one-quiet-section").forEach((el) => el.classList.remove("one-quiet-section"));
 	let quiet = 0;

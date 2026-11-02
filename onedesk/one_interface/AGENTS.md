@@ -418,6 +418,18 @@ keeps an 8px band of canvas under the address row and a short fade below,
 so content scrolls under it, not against it. The record's tab rules live in
 views.css, the one file the borrowing guard lets name frappe's form tabs.
 
+A section counts its page's width, not the window's: `.form-page` is a
+container (`one-page`), and the three columns drop to two under 860px and
+one under 520px, so a phone and a page beside an open pane both read. A
+section with no heading (`one-headless`, set by `record.fields`, since
+`:has()` cannot nest) goes on in the card above it when the two are next to
+each other: the items table under "Items", the taxes under theirs. Under
+768px the head's name wraps and the track takes its own line, and frappe's
+fixed phone height on `.page-title` is lifted so the address row's contents
+sit in its pill. Panel panes that carry no padding of their own (Overview)
+take the panel's 16px edge. In dark an off switch's thumb is
+`--one-ink-quiet`, since frappe's thumb is the dark surface.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

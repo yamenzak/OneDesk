@@ -303,6 +303,7 @@
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { padding-bottom: 4px !important; }
 /* the panel and its pane add no inset of their own; tabs and footer carry the one 16px edge */
 :root[data-one-look="canvas"] .one-has-head .one-panel.one-panel, :root[data-one-look="canvas"] .one-has-head .one-panel .one-panel-pane { padding: 0 !important; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .one-panel-pane:not(:has(.form-footer, .comment-box)) { padding: 6px 16px 14px !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { padding: 0 16px !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .form-footer { padding: 0 16px 12px !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-container > .frappe-control.col { padding: 0 !important; flex: 1 1 auto; max-width: 100%; }
@@ -634,7 +635,8 @@
 /* A record's track stands across from its name, at the head's far end, its last step as wide as its words. */
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row { display: flex; align-items: center; gap: 16px; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { flex: 1 1 auto; min-width: 0; }
-:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: none; margin: 0 0 0 auto; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row { flex-wrap: wrap; row-gap: 12px; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: none; margin: 0; margin-inline-start: auto; }
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track .one-track-step:last-child { width: auto; }
 
 /* ONE CARD PER SECTION. A record's sections are cards on the canvas, as its head's figures and its panel are: the
@@ -642,6 +644,11 @@
    second sheet, so nothing is a box inside a box. */
 :root[data-one-look="canvas"] .one-interface .form-page { background: transparent !important; border: 0 !important; border-radius: 0 !important; overflow: visible !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-section:not(.empty-section) { background: var(--one-sheet) !important; border: 1px solid var(--one-line) !important; border-radius: var(--one-radius-sheet) !important; margin: 0 0 10px !important; }
+/* A section with no heading goes on with the card above it: the items table under "Items", not a card of its own.
+   Only when the two are next to each other; with a hidden section between, they stay two cards. */
+:root[data-one-look="canvas"] .one-interface .form-page .form-section.visible-section:not(.one-quiet-section):has(+ .form-section.visible-section.one-headless:not(.one-quiet-section)) { margin-bottom: 0 !important; border-bottom: 0 !important; border-end-start-radius: 0 !important; border-end-end-radius: 0 !important; padding-bottom: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .form-section.visible-section:not(.one-quiet-section) + .form-section.visible-section.one-headless:not(.one-quiet-section) { border-top: 0 !important; border-start-start-radius: 0 !important; border-start-end-radius: 0 !important; padding-top: 4px !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .grid-footer { background: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-section:first-of-type, :root[data-one-look="canvas"] .one-interface .form-page .form-section.one-first { border-top: 1px solid var(--one-line) !important; }
 :root[data-one-look="canvas"] .one-interface .std-form-layout :is(.section-head, .section-body) { max-width: none !important; margin-inline: 0 !important; }
 
@@ -656,3 +663,14 @@
 :root[data-one-look="canvas"] .one-interface .switch-control .switch-visual { background-color: var(--one-edge-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .switch-control:hover .input-area:not(:has(input:checked)) ~ .switch-visual { background-color: var(--one-ink-faint) !important; }
 :root[data-one-look="canvas"] .one-interface .switch-control .input-area:has(input:checked) ~ .switch-visual { background-color: var(--one-check) !important; }
+:root[data-one-look="canvas"][data-theme="dark"] .one-interface .switch-control .input-area:not(:has(input:checked)) ~ .switch-visual .switch-thumb { background-color: var(--one-ink-quiet); }
+
+/* a record on a narrow page: the sections count their own width, not the window's */
+:root[data-one-look="canvas"] .one-interface .form-page { container: one-page / inline-size; }
+@container one-page (max-width: 860px) { :root[data-one-look="canvas"] .form-page .form-section .section-body { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 0 24px; } }
+@container one-page (max-width: 520px) { :root[data-one-look="canvas"] .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr) !important; } }
+@media (max-width: 767.98px) {
+	:root[data-one-look="canvas"] .one-interface .page-head .page-title { height: auto; }
+	:root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: normal; }
+	:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: 1 1 100%; margin-inline-start: 0; }
+}

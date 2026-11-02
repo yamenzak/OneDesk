@@ -171,6 +171,15 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
   the track stands across from the name.
 - **A field is a control:** filled, no edge, the focus edge only while
   typing. A read-only value is plain text.
+- **Columns count the page, not the window.** The form is a container;
+  three columns become two, then one, as the page narrows (a phone, or a
+  page beside an open pane). A viewport media query gets the second case
+  wrong.
+- **A section without a heading belongs to the one above.** It continues
+  that card instead of floating as a card with nothing to say what it is.
+- **Check every pass at 390px, in Arabic and in dark** before calling it
+  done: tonight's phone check found the fields still three across and the
+  address row's contents below its pill.
 - **Island record pages (Item, Project, Task) are not on this yet.** They
   draw their own head, panel header and star; they wait for their own
   passover, with the user, and must take the address-row star, the pill
