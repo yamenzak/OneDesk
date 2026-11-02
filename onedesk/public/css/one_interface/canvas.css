@@ -516,7 +516,7 @@
    The heading row holds what acts on the whole list: its icon, name and count, New beside them, the views at the far end. */
 :root[data-one-look="canvas"] .one-interface { --page-head-height: 92px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > .one-interface-group[data-group="menu"] { display: inline-flex; align-items: center; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button { height: 28px !important; width: 28px; padding: 0 !important; justify-content: center; background: transparent !important; color: var(--one-ink-quiet) !important; border-radius: var(--one-radius-control) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button { height: 28px !important; width: 28px; padding: 0 !important; justify-content: center; background: var(--one-address-bg) !important; color: var(--one-ink-quiet) !important; border-radius: var(--one-radius-control) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(.es-button, .btn, button, a)) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; }
@@ -543,7 +543,7 @@
 
 /* The column heads are a pill washed with the main action's colour, New's partner without its weight: a filled band of
    it is a bright bar in dark. The words keep their own ink. */
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); border: 0; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: var(--one-chosen); border: 0; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head, :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head :is(span, a, .list-subject, .list-row-col, svg, .level-item) { color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
 
@@ -567,3 +567,16 @@
 :root[data-one-look="canvas"] body.one-barred.dock-pinned .body-sidebar-container.expanded > .body-sidebar { background: var(--one-canvas) !important; isolation: isolate; padding-block: 8px; padding-inline-start: 8px; }
 :root[data-one-look="canvas"] body.one-barred.dock-pinned .body-sidebar-container.expanded > .body-sidebar::before { content: ""; position: absolute; inset-block: 8px; inset-inline: 8px 0; z-index: -1; background: var(--one-head-bg); border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); }
 :root[data-one-look="canvas"][data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded + .main-section { border-inline-start: 0 !important; }
+
+/* ONE CHOSEN. What is chosen in the head, the state tab, the view and the column heads' pill, wears one colour: New's,
+   washed into the canvas. Everything else in the head is a plain control, 28px, --one-head-button-bg, --one-radius-control,
+   13px words; the island's own (refresh, search, the menu) are the island's --one-address-bg. */
+:root[data-one-look="canvas"] .one-interface { --one-chosen: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); }
+:root[data-one-look="canvas"] .one-interface .one-strip-item { height: 28px; font-size: 13px; }
+:root[data-one-look="canvas"] .one-interface .one-strip-item.is-on { background: var(--one-chosen); color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-interface .one-strip-item.is-on .one-strip-count { background: var(--one-head-bg) !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-tab-buttons .es-pill[data-state="active"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > :is(.btn, .es-button):not(.hide):not([style*="display: none"]) { background: var(--one-address-bg) !important; border: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > :is(.btn, .es-button):hover, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control { background: var(--one-address-bg) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control::placeholder, :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters select.form-control, :root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control::placeholder { color: var(--one-ink-muted) !important; opacity: 1; }

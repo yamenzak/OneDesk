@@ -430,7 +430,11 @@ classic leaves them where they were. A view without a heading (Report,
 Kanban) keeps New and the views in the row under the island. The column
 heads' pill is washed with New's colour (12% of `--one-primary-bg` on the
 canvas, no edge; a solid band was a bright bar in dark), and the states over the
-rows are pills of the palette, the chosen one filled like the chosen view.
+rows are pills of the palette, the chosen one filled like the chosen view. What is chosen (the state tab,
+the view, the heads' pill) reads one derived role, `--one-chosen` (12% of
+`--one-primary-bg` on the canvas, canvas.css); every other control in the
+head is 28px on `--one-head-button-bg` with `--one-radius-control`, and the
+island's own (refresh, search, the menu) are on `--one-address-bg`.
 
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
 in an empty part, or with Ctrl+K, or with the search button in the top bar,
