@@ -705,7 +705,9 @@ tokens.css that a palette sets for its light and its dark:
   `--one-button-bg`). A field reads as a dip in its card. Every table's
   column heads are this band too: a list's, a record's table's, a report's
   and a query report's, the tone of the quick filters over them. A list's
-  rows stand on an island like a report's.
+  rows stand on an island like a report's, and the two are one island: the
+  sheet radius all round, a hairline, a 6px inset, the column heads a
+  rounded band with no rules between them.
 - `--one-level-float`: what floats over all of it. Menus, dialogs, the details
   pane, the status line (`--one-menu-bg`, `--one-dialog-bg`,
   `--one-details-bg`, `--one-status-bg`).

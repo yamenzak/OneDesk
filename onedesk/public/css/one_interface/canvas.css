@@ -815,3 +815,9 @@
    its column heads on the control level, as every table's are (AGENTS.md, Levels). */
 :root[data-one-look="canvas"] .one-interface .frappe-list .result-container { background: var(--one-level-island); border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); padding: 6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { background: var(--one-level-island) !important; }
+/* A report's table is the same island as a list's: the sheet radius all round, a hairline, the list's inset,
+   and its column heads the same rounded band on the control level, with no rules between them. */
+:root[data-one-look="canvas"] .one-interface .datatable { border: 1px solid var(--one-line) !important; border-radius: var(--one-radius-sheet) !important; padding: 6px; overflow: clip !important; overflow-clip-margin: content-box; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-header .dt-row-header { border-radius: var(--radius-full); overflow: hidden; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-header .dt-row-header .dt-cell { border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-cell { border-color: transparent !important; }
