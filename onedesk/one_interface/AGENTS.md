@@ -430,6 +430,20 @@ sit in its pill. Panel panes that carry no padding of their own (Overview)
 take the panel's 16px edge. In dark an off switch's thumb is
 `--one-ink-quiet`, since frappe's thumb is the dark surface.
 
+## Fields
+
+A field in Canvas is filled, with no edge, and a red edge
+(`--outline-red-4`, frappe's own error red) on `.has-error`, which frappe sets only once the form has
+been touched or saved, never on load. A select's arrow is centred on its box
+and sits at its end in either direction. A Select opens the Link's list
+(`select.js`): the native list never opens; frappe's awesomplete list is
+drawn in a fixed layer under the box (over it near the window's foot), so a
+scrolling filter strip, a table cell or a dialog cannot clip it; arrows,
+Home/End, Enter, Escape, Tab and type-to-jump work; the empty choice is a
+quiet dash; a pick is set on the `<select>` and sent as `input` and
+`change`. A table's cell is a cell: its input fills it square and unfilled,
+with the focus edge inside while typing.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

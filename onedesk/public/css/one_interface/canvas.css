@@ -658,6 +658,8 @@
 :root[data-one-look="canvas"] .one-interface .form-page :is(.form-control:not(.like-disabled-input):not(textarea), textarea.form-control, .ql-editor) { background: var(--one-head-button-bg) !important; border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover :is(.form-control:not(.like-disabled-input), .ql-editor) { background: var(--one-head-button-hover) !important; border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-page :is(.form-control, .ql-editor):focus, :root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover .form-control:focus { background: var(--one-sheet) !important; border-color: var(--one-focus) !important; }
+/* A required field still empty keeps frappe's red edge (--outline-red-4), filled or focused; the filled look had hidden it. */
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control.has-error :is(.form-control:not(.like-disabled-input), .ql-editor), :root[data-one-look="canvas"] .one-interface .form-page .frappe-control.has-error:hover :is(.form-control:not(.like-disabled-input), .ql-editor) { border-color: var(--outline-red-4) !important; }
 /* A switch is the palette's like a checkbox: off on the strong edge, on in the check colour. frappe's off
    track was a near-white step that vanished on a card. */
 :root[data-one-look="canvas"] .one-interface .switch-control .switch-visual { background-color: var(--one-edge-strong) !important; }
@@ -674,3 +676,19 @@
 	:root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: normal; }
 	:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: 1 1 100%; margin-inline-start: 0; }
 }
+
+/* A select's arrow is centred on its box: frappe pins it 3px from the top of a 28px box, and Canvas boxes are taller.
+   It sits at the box's end in either direction. */
+:root[data-one-look="canvas"] .frappe-control .control-input > .select-icon:not(.xs) { top: 0; bottom: 0; right: auto; inset-inline-end: 12px; display: flex; align-items: center; }
+
+/* A select's list is the Link's list (select.js): frappe's awesomplete list, in a layer of its own under the box (over
+   it near the window's foot) so nothing clips it. The empty choice is a quiet dash. */
+:root[data-one-look="canvas"] .one-select-menu { position: fixed; height: 0; z-index: var(--one-layer-menu); }
+:root[data-one-look="canvas"] .one-select-menu > [role="listbox"] { top: 0; left: 0; min-width: 0; }
+:root[data-one-look="canvas"] .one-select-menu.one-up > [role="listbox"] { top: auto; bottom: 0; }
+:root[data-one-look="canvas"] .one-select-menu > [role="listbox"] > .one-select-none { color: var(--one-ink-faint); }
+
+/* A table's cell is a cell, not a field: its input fills the cell square and unfilled, as frappe draws it, and shows the
+   focus edge inside the cell while typing. The filled 36px box cut a select's text in half. */
+:root[data-one-look="canvas"] .one-interface .form-page .form-grid .grid-static-col .form-control, :root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover .form-grid .grid-static-col .form-control { height: 100% !important; border-radius: 0 !important; background: transparent !important; border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .form-grid .grid-static-col .form-control:focus { background: var(--one-sheet) !important; outline: 1px solid var(--one-focus); outline-offset: -1px; }
