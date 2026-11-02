@@ -595,6 +595,15 @@ page, not a list view, so look.js wraps each. A board's Filter, Group and
 Settings live in a row of their own beside its quick filters, so that row
 moves with them.
 
+A tree and a query report wear the same head under their own name: Chart of
+Accounts with its Add (as New) and its ways, or Accounts Receivable with the
+icon of the doctype it reports on and its own buttons (Accounts Receivable
+Summary) where the ways would be. A tree's search fields and a query report's
+whole filter form fill the row under the address. look.js runs the head after
+TreeView's set_primary_action and again after its post_render (ERPNext's
+Account tree sets its button anew there), and after QueryReport's
+setup_page_head, which runs once per report opened.
+
 In Canvas each view's body reads the page's roles rather than its library's
 own colours: a report's table (and a query report's) has its heads on the
 list's head fill and its filter boxes filled like a field; a Gantt chart's

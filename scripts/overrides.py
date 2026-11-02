@@ -1067,6 +1067,13 @@ OVERRIDES = [
 		"setup_quick_filters() {",
 	),
 	(
+		"A tree and a query report wear the list's head",
+		"frappe draws a tree's and a query report's name only in the address. look.js runs the list's head after TreeView's set_primary_action and post_render (ERPNext's Account tree sets its button again in post_render) and after QueryReport's setup_page_head: the name, a tree's Add as New with its ways, a report's own buttons at the far end, and the filters (a report's whole form) in the row under the address",
+		"onedesk/public/js/one_interface/look.js",
+		"frappe/frappe/public/js/frappe/views/treeview.js",
+		"post_render() {",
+	),
+	(
 		"A map view loads its map",
 		"ListView's constructor sets this.load_lib to a promise, which hides MapView's load_lib method, so frappe's map view throws before Leaflet loads and stays blank. list.js gives MapView a setup_view that calls its class's load_lib by name, then frappe's own setup_map",
 		"onedesk/public/js/one_interface/list.js",

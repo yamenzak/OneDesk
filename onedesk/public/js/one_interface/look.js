@@ -531,7 +531,11 @@ list.FAMILY = ["List", "Report", "Kanban", "Gantt", "Calendar", "Image", "Map", 
 // states, and a dashboard's charts count its own.
 list.STATELESS = ["Kanban", "Dashboard"];
 
-list.strip = async (view, with_states = true) => {
+// A tree and a query report wear the same head with their own name (`title`),
+// the icon of the doctype they show (`icon`), their own primary button's word
+// (`rename: false`), their whole filter form in the row (`form: true`) and
+// a report's own buttons at the head's far end (`actions: true`).
+list.strip = async (view, with_states = true, how = {}) => {
 	const doctype = view.doctype;
 	const main = view.page.wrapper[0].querySelector(".layout-main-list") || (view.$frappe_list && view.$frappe_list[0].parentElement) || (view.page.main && view.page.main[0]);
 	if (!main) return;
@@ -542,16 +546,16 @@ list.strip = async (view, with_states = true) => {
 		hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon" hidden></span><h1></h1></div>`;
 		main.prepend(hero);
 	}
-	hero.querySelector("h1").textContent = __(doctype);
-	list.place(view, hero);
-	const kind = onedesk.interface.icon_of(doctype);
+	hero.querySelector("h1").textContent = how.title || __(doctype);
+	list.place(view, hero, how.rename !== false, how.actions);
+	const kind = (how.icon || doctype) && onedesk.interface.icon_of(how.icon || doctype);
 	const mark = hero.querySelector(".one-hero-icon");
 	mark.hidden = !kind;
 	if (kind && mark.dataset.icon !== kind) {
 		mark.innerHTML = frappe.utils.icon(kind, "md");
 		mark.dataset.icon = kind;
 	}
-	list.filters(view);
+	list.filters(view, how.form);
 	if (!with_states) {
 		main.querySelector(":scope > .one-strip")?.remove();
 		return;
@@ -595,28 +599,33 @@ list.strip = async (view, with_states = true) => {
 // The heading row holds what acts on the whole list: New beside the name,
 // the ways of looking at the far end. The Frame keeps both by reference, so
 // they go on working where they are put.
-list.place = (view, hero) => {
+list.place = (view, hero, rename = true, actions_of = false) => {
 	const win = view.page.interface;
 	const title = hero.querySelector(".one-hero-title");
 	const primary = win.group("primary")[0];
 	if (primary && primary.parentElement !== title) title.append(primary);
 	const label = primary && primary.querySelector(".primary-action .es-button__label.hidden-xs");
-	if (label && label.textContent.trim() !== __("New")) {
+	if (rename && label && label.textContent.trim() !== __("New")) {
 		label.closest(".primary-action").setAttribute("title", label.textContent.trim());
 		label.textContent = __("New");
 	}
 	const ways = win.ways_slot()[0];
-	if (ways.parentElement !== hero) hero.append(ways);
+	if (ways && ways.parentElement !== hero) hero.append(ways);
+	const actions = actions_of && view.page.custom_actions && view.page.custom_actions[0];
+	if (actions && actions.parentElement !== hero) {
+		actions.classList.add("one-hero-actions");
+		hero.append(actions);
+	}
 };
 
 // frappe's quick filters, in the row under the address, Filter and Sort at its end.
 // A board keeps Filter and Group in a row of its own beside its quick
 // filters, so that row follows them.
-list.filters = (view) => {
+list.filters = (view, form = false) => {
 	const wrapper = view.page.wrapper[0];
 	const views = wrapper.querySelector(".page-head .one-interface-views");
 	if (!views) return;
-	const filters = wrapper.querySelector(".standard-filter-section");
+	const filters = form ? view.page.page_form && view.page.page_form[0] : wrapper.querySelector(".standard-filter-section");
 	const board = wrapper.querySelector(".kanban-v2-filter-section");
 	if (board && board.parentElement !== views) views.prepend(board);
 	if (!filters) return;
@@ -691,9 +700,9 @@ list.icons = (view) => {
 	// The states strip is left off a board and a dashboard.
 	// The report view draws itself without the list's after_render, and the
 	// board is frappe's own page rather than a list view, so each is wrapped.
-	const head = (view, states) => {
+	const head = (view, states, how) => {
 		if (!view.page || !view.page.interface) return;
-		if (onedesk.interface.uses("strip")) list.strip(view, states);
+		if (onedesk.interface.uses("strip")) list.strip(view, states, how);
 		if (onedesk.interface.uses("icons") && view.view_name === "List") list.icons(view);
 	};
 	[frappe.views && frappe.views.ListView, frappe.views && frappe.views.ReportView].forEach((View) => {
@@ -706,6 +715,35 @@ list.icons = (view) => {
 			return said;
 		};
 	});
+	// A tree is a list drawn as its parents and children: its name (Chart of
+	// Accounts), Add as New, its ways, its search in the row under the address.
+	const Tree = frappe.views && frappe.views.TreeView;
+	if (Tree && !Object.hasOwn(Tree.prototype, "one_look")) {
+		Tree.prototype.one_look = true;
+		// After frappe's primary button, and again after a tree's own
+		// post_render, which may set it anew (Account's says Add Account).
+		const tree_head = (tree) => head(tree, false, { title: tree.opts.title || __(tree.doctype) });
+		["set_primary_action", "post_render"].forEach((name) => {
+			const own = Tree.prototype[name];
+			Tree.prototype[name] = function (...args) {
+				const said = own.apply(this, args);
+				tree_head(this);
+				return said;
+			};
+		});
+	}
+	// A query report has no New and no ways: the head is its name, with the
+	// icon of the doctype it reports on, and its filters fill the row.
+	const Query = frappe.views && frappe.views.QueryReport;
+	if (Query && !Object.hasOwn(Query.prototype, "one_look")) {
+		Query.prototype.one_look = true;
+		const page_head = Query.prototype.setup_page_head;
+		Query.prototype.setup_page_head = function (...args) {
+			const said = page_head.apply(this, args);
+			head(this, false, { title: __(this.report_name), icon: this.report_doc && this.report_doc.ref_doctype, rename: false, form: true, actions: true });
+			return said;
+		};
+	}
 	onedesk.interface.when(frappe.views, "KanbanV2Page", (Board) => {
 		if (Object.hasOwn(Board.prototype, "one_look")) return;
 		Board.prototype.one_look = true;
