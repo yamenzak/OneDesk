@@ -735,3 +735,57 @@
 :root[data-one-look="canvas"] .one-interface .form-page .attached-file .btn:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong); }
 /* A placeholder is in the same ink as Attach's word, readable in both themes. */
 :root[data-one-look="canvas"] .one-interface .form-page :is(.form-control, .ql-editor)::placeholder, :root[data-one-look="canvas"] .one-interface .form-page .ql-editor.ql-blank::before { color: var(--one-ink-muted) !important; }
+
+/* VIEWS. Every other way of looking at a list, in the list's own materials (onedesk/one_interface/AGENTS.md, Views). */
+/* A board's Filter, Group and Settings end the row under the address, as Filter and Sort end a list's. */
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .kanban-v2-filter-section { flex: none; display: flex; align-items: center; gap: 6px; margin-inline-start: auto; padding: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .kanban-v2-filter-section :is(.filter-selector, .group-selector) { display: flex; align-items: center; }
+:root[data-one-look="canvas"] .one-interface .page-head .kanban-v2-filter-section :is(.group-button, .settings-button) { margin: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .kanban-v2-filter-section .filter-button .button-label { margin-inline-start: 4px; }
+/* A report's table: the heads on the list's head fill, the filter boxes filled like a field, the lines the page's. */
+:root[data-one-look="canvas"] .one-interface .datatable {
+	--dt-cell-bg: var(--one-sheet);
+	--dt-header-cell-bg: var(--one-head-bg);
+	--dt-border-color: var(--one-line);
+	--dt-selection-highlight-color: var(--one-hover);
+	--dt-light-bg: var(--one-hover);
+	background-color: var(--one-sheet);
+}
+:root[data-one-look="canvas"] .one-interface .datatable .dt-header :is(.dt-row-header, .dt-cell--header, .dt-cell--header .dt-cell__content) { background-color: var(--one-head-bg) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter :is(.dt-cell, .dt-cell__content) { background-color: var(--one-sheet) !important; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-filter.dt-input { background-color: var(--one-head-button-bg) !important; border: 0 !important; border-radius: var(--one-radius-small) !important; color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-filter.dt-input:focus { box-shadow: none !important; outline: 1px solid var(--one-focus); outline-offset: -1px; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-filter.dt-input::placeholder { color: var(--one-ink-quiet); }
+/* A Gantt chart's bars are filled and its grid is the sheet's: frappe-gantt draws a white bar on a white row. */
+:root[data-one-look="canvas"] .one-interface .gantt-container {
+	--g-bar-color: var(--one-fill);
+	--g-bar-border: var(--one-edge-strong);
+	--g-progress-color: var(--one-edge-heavy);
+	--g-expected-progress: var(--one-press);
+	--g-header-background: var(--one-sheet);
+	--g-row-color: var(--one-sheet);
+	--g-border-color: var(--one-line);
+	--g-row-border-color: var(--one-line);
+	--g-tick-color: var(--one-line);
+	--g-tick-color-thick: var(--one-edge);
+	--g-weekend-highlight-color: var(--one-tint);
+	--g-weekend-label-color: var(--one-tint);
+	--g-today-highlight: var(--one-accent);
+	--g-text-light: var(--one-accent-ink);
+	--g-text-dark: var(--one-ink-strong);
+	--g-text-muted: var(--one-ink-muted);
+	--g-actions-background: var(--one-head-button-bg);
+	--g-popup-actions: var(--one-head-button-bg);
+	--g-arrow-color: var(--one-ink-quiet);
+	--g-handle-color: var(--one-ink-strong);
+	border-radius: var(--one-radius-sheet);
+}
+:root[data-one-look="canvas"] .one-interface .gantt .bar-wrapper .bar { outline: 0; }
+:root[data-one-look="canvas"] .one-interface .gantt .bar-label { font-family: inherit; font-size: 12.5px; }
+/* A calendar's grid is the sheet's, Sunday on the page's tint. An event keeps frappe's colour, which is its state's. */
+:root[data-one-look="canvas"] .one-interface .fc {
+	--fc-page-bg-color: var(--one-sheet);
+	--fc-border-color: var(--one-line);
+	--fc-neutral-bg-color: var(--one-tint);
+	--fc-highlight-color: var(--one-hover);
+}

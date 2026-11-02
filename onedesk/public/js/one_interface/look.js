@@ -526,9 +526,14 @@ onedesk.interface.icon_of = (doctype) => {
 // Over the rows: the list's icon and name, then a strip of the
 // states its module declares (status by default), each a filter. The list's
 // quick filters sit beside Filter in the actions row.
-list.strip = async (view) => {
+list.FAMILY = ["List", "Report", "Kanban", "Gantt", "Calendar", "Image", "Map", "Dashboard"];
+// Views whose own body already sorts by state: a board's columns are its
+// states, and a dashboard's charts count its own.
+list.STATELESS = ["Kanban", "Dashboard"];
+
+list.strip = async (view, with_states = true) => {
 	const doctype = view.doctype;
-	const main = view.page.wrapper[0].querySelector(".layout-main-list") || (view.$frappe_list && view.$frappe_list[0].parentElement);
+	const main = view.page.wrapper[0].querySelector(".layout-main-list") || (view.$frappe_list && view.$frappe_list[0].parentElement) || (view.page.main && view.page.main[0]);
 	if (!main) return;
 	let hero = main.querySelector(":scope > .one-hero-list");
 	if (!hero) {
@@ -547,6 +552,10 @@ list.strip = async (view) => {
 		mark.dataset.icon = kind;
 	}
 	list.filters(view);
+	if (!with_states) {
+		main.querySelector(":scope > .one-strip")?.remove();
+		return;
+	}
 	const decl = (declared(doctype) || {}).states || { field: "status", order: [], hide: [] };
 	let states = [];
 	if (frappe.meta.get_docfield(doctype, decl.field)) {
@@ -601,13 +610,18 @@ list.place = (view, hero) => {
 };
 
 // frappe's quick filters, in the row under the address, Filter and Sort at its end.
+// A board keeps Filter and Group in a row of its own beside its quick
+// filters, so that row follows them.
 list.filters = (view) => {
 	const wrapper = view.page.wrapper[0];
-	const filters = wrapper.querySelector(".standard-filter-section");
 	const views = wrapper.querySelector(".page-head .one-interface-views");
-	if (!filters || !views) return;
+	if (!views) return;
+	const filters = wrapper.querySelector(".standard-filter-section");
+	const board = wrapper.querySelector(".kanban-v2-filter-section");
+	if (board && board.parentElement !== views) views.prepend(board);
+	if (!filters) return;
 	filters.classList.add("one-head-filters");
-	if (filters.parentElement !== views) views.prepend(filters);
+	if (filters.parentElement !== views || (board && filters.nextElementSibling !== board)) views.prepend(filters);
 };
 
 // The icons a module declares for its fields, on the list's column heads,
@@ -672,17 +686,34 @@ list.icons = (view) => {
 }
 
 {
-	const ListView = frappe.views && frappe.views.ListView;
-	if (ListView && !Object.hasOwn(ListView.prototype, "one_look")) {
-		ListView.prototype.one_look = true;
-		const after = ListView.prototype.after_render;
-		ListView.prototype.after_render = function (...args) {
+	// Every way of looking at a list wears the list's head: its name with
+	// New, the ways at the far end, the quick filters under the address.
+	// The states strip is left off a board and a dashboard.
+	// The report view draws itself without the list's after_render, and the
+	// board is frappe's own page rather than a list view, so each is wrapped.
+	const head = (view, states) => {
+		if (!view.page || !view.page.interface) return;
+		if (onedesk.interface.uses("strip")) list.strip(view, states);
+		if (onedesk.interface.uses("icons") && view.view_name === "List") list.icons(view);
+	};
+	[frappe.views && frappe.views.ListView, frappe.views && frappe.views.ReportView].forEach((View) => {
+		if (!View || Object.hasOwn(View.prototype, "one_look")) return;
+		View.prototype.one_look = true;
+		const after = View.prototype.after_render;
+		View.prototype.after_render = function (...args) {
 			const said = after.apply(this, args);
-			if (this.page && this.page.interface && this.view_name === "List") {
-				if (onedesk.interface.uses("strip")) list.strip(this);
-				if (onedesk.interface.uses("icons")) list.icons(this);
-			}
+			if (list.FAMILY.includes(this.view_name)) head(this, !list.STATELESS.includes(this.view_name));
 			return said;
 		};
-	}
+	});
+	onedesk.interface.when(frappe.views, "KanbanV2Page", (Board) => {
+		if (Object.hasOwn(Board.prototype, "one_look")) return;
+		Board.prototype.one_look = true;
+		const quick = Board.prototype.setup_quick_filters;
+		Board.prototype.setup_quick_filters = function (...args) {
+			const said = quick.apply(this, args);
+			head(this, false);
+			return said;
+		};
+	});
 }

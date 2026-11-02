@@ -92,3 +92,18 @@ onedesk.interface.adapt("list", () => {
 		});
 	};
 });
+
+// A map view opens blank in frappe: ListView's constructor sets
+// `this.load_lib` to a promise, which hides MapView's own load_lib method,
+// so its setup_view throws "this.load_lib is not a function" before Leaflet
+// loads. The map's setup calls its class's method by name instead.
+{
+	const MapView = frappe.views && frappe.views.MapView;
+	if (MapView && !Object.hasOwn(MapView.prototype, "one_loads")) {
+		MapView.prototype.one_loads = true;
+		const load = MapView.prototype.load_lib;
+		MapView.prototype.setup_view = function () {
+			return load.call(this).then(() => this.setup_map());
+		};
+	}
+}

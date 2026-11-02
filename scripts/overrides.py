@@ -1060,6 +1060,20 @@ OVERRIDES = [
 		"set_formatted_input(value) {",
 	),
 	(
+		"Every view of a list wears the list's head",
+		"frappe draws the list's name, New and the ways only over a list. look.js runs the list's head after ReportView's after_render, which does not call the list's, and after the Kanban v2 board's setup_quick_filters, since the board is its own page rather than a list view: the name with New, the ways at the far end, the quick filters (and a board's Filter and Group) in the row under the address. The states strip is left off a board and a dashboard",
+		"onedesk/public/js/one_interface/look.js",
+		"frappe/frappe/public/js/frappe/views/kanban_v2/kanban_page.js",
+		"setup_quick_filters() {",
+	),
+	(
+		"A map view loads its map",
+		"ListView's constructor sets this.load_lib to a promise, which hides MapView's load_lib method, so frappe's map view throws before Leaflet loads and stays blank. list.js gives MapView a setup_view that calls its class's load_lib by name, then frappe's own setup_map",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/views/map/map_view.js",
+		"return this.load_lib().then(() => this.setup_map());",
+	),
+	(
 		"The Employee band is not a notice",
 		"`set_headline` paints its band for an alert; this one is a permanent summary",
 		"onedesk/public/css/desk.css",

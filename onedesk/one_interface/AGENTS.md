@@ -582,6 +582,30 @@ phone and tablet head stay, as before.
 | A list | the browser's; Up is the app's Home | `list.refresh()` | the title field, as a filter | frappe's count, chosen | (next) the chosen record |
 | A form | the browser's; Up is the list; ‹ › its records, at the address row's end | `frm.reload_doc()` | none | who edited it and when, who made it | frappe's form sidebar, as frappe draws it, less who edited and made it (the status says); who else has it open (frappe's avatars) as a row above Assign; OneCloud's mark beside print and like for its files; the record panel |
 
+## Views
+
+Every way of looking at a list wears the list's head: the list's name with
+New, the ways at the far end, the quick filters in the row under the address
+with Filter and Sort at its end. That is List, Report, Kanban, Gantt,
+Calendar, Image, Map and Dashboard (`list.FAMILY` in look.js). The states
+strip under the name is left off a board, whose columns are the states, and
+a dashboard, whose charts count their own (`list.STATELESS`). The report view
+draws itself without the list's `after_render` and the board is frappe's own
+page, not a list view, so look.js wraps each. A board's Filter, Group and
+Settings live in a row of their own beside its quick filters, so that row
+moves with them.
+
+In Canvas each view's body reads the page's roles rather than its library's
+own colours: a report's table (and a query report's) has its heads on the
+list's head fill and its filter boxes filled like a field; a Gantt chart's
+bars are `--one-fill` with progress in `--one-edge-heavy`, where frappe-gantt
+draws a white bar on a white row; a calendar's grid is the sheet with Sunday
+on the tint. A calendar event keeps frappe's colour, which is its state's.
+
+A map view was blank in frappe: ListView's constructor sets `this.load_lib`
+to a promise, hiding MapView's own `load_lib`. list.js gives MapView a
+`setup_view` that calls the class's method by name.
+
 ## What it replaces, when every view is on it
 
 OneCloud's own bar, address bar, tree and status line (done), OneMail's
