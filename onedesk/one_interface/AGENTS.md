@@ -414,13 +414,15 @@ sliding sideways when they overflow, then Filter and the sort at the end as
 icons (their words hidden for the eye only; an applied count stays). The
 heading row acts on the whole list: its kind's icon
 (`onedesk.interface.icon_of`: the module's declared `icon`, else the icon
-of its row in frappe's module sidebars), name and count, New beside them,
+of its row in frappe's module sidebars) and name, New beside them (the count
+is the All tab's, not said twice),
 and the view switcher at the far end (`list.place`). The Frame keeps its
 command groups and its views (`ways_slot`, apart from the filters) by
 reference, so a look can put them anywhere and the Frame still fills them;
 classic leaves them where they were. A view without a heading (Report,
 Kanban) keeps New and the views in the row under the island. The column
-heads' pill is New's colour (`--one-primary-bg`), and the states over the
+heads' pill is washed with New's colour (12% of `--one-primary-bg` on the
+canvas; a solid band was a bright bar in dark), and the states over the
 rows are pills of the palette, the chosen one filled like the chosen view.
 
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked

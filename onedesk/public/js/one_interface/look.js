@@ -509,7 +509,7 @@ onedesk.interface.icon_of = (doctype) => {
 	return found;
 };
 
-// Over the rows: the list's icon, name and how many, then a strip of the
+// Over the rows: the list's icon and name, then a strip of the
 // states its module declares (status by default), each a filter. The list's
 // quick filters sit beside Filter in the actions row.
 list.strip = async (view) => {
@@ -520,7 +520,7 @@ list.strip = async (view) => {
 	if (!hero) {
 		hero = document.createElement("div");
 		hero.className = "one-hero one-hero-list";
-		hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon" hidden></span><h1></h1><span class="one-hero-count"></span></div>`;
+		hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon" hidden></span><h1></h1></div>`;
 		main.prepend(hero);
 	}
 	hero.querySelector("h1").textContent = __(doctype);
@@ -543,7 +543,6 @@ list.strip = async (view) => {
 		}
 	}
 	const total = states.reduce((sum, one) => sum + (one.count || 0), 0) || view.data.length;
-	hero.querySelector(".one-hero-count").textContent = total;
 	states = states.filter((one) => one.name && !decl.hide.includes(one.name));
 	const rank = (one) => (decl.order.includes(one.name) ? decl.order.indexOf(one.name) : decl.order.length);
 	states.sort((a, b) => rank(a) - rank(b) || b.count - a.count);

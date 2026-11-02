@@ -541,10 +541,11 @@
 :root[data-one-look="canvas"] .one-hero-list > .one-interface-ways .view-switcher .es-button { height: 28px !important; width: 28px; padding: 0 !important; justify-content: center; background: transparent !important; color: var(--one-ink-quiet) !important; }
 :root[data-one-look="canvas"] .one-hero-list > .one-interface-ways .view-switcher .es-button:hover { background: var(--one-head-button-hover) !important; }
 
-/* The column heads are a pill of the main action's colour, New's partner, the rows' words plain under it. */
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: var(--one-primary-bg); border-color: var(--one-primary-bg); }
-:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head, :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head :is(span, a, .list-subject, .list-row-col, svg, .level-item) { color: var(--one-primary-ink) !important; }
-:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head input[type="checkbox"]:not(:checked) { background-color: transparent !important; border-color: var(--one-primary-ink) !important; opacity: 0.7; }
+/* The column heads are a pill washed with the main action's colour, New's partner without its weight: a filled band of
+   it is a bright bar in dark. The words keep their own ink. */
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); border-color: color-mix(in oklch, var(--one-primary-bg) 22%, var(--one-canvas)); }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head, :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head :is(span, a, .list-subject, .list-row-col, svg, .level-item) { color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
 
 /* The states over a list are tabs of the palette: each a quiet pill, the chosen one filled as the views are, the count
    a chip inside it. No line under them: the head pill below is the line. */
