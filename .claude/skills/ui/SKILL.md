@@ -124,31 +124,56 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 
 ## The list (Canvas)
 
-- **One gutter.** Title, states, table and paging start on one edge; a
-  row's padding is pulled outside it so its hover bleeds past.
-- **The strip:** the list's name and count, then its states as filters
-  (All clears), frappe's quick filters at its end.
+- **Each row of the head holds one kind of thing.** The address island:
+  where you are, refresh, search, the view's … menu. Under it, what
+  narrows: frappe's quick filters from the edge, Filter and the sort as
+  icons at the end. The heading: icon, name, New beside it, the views at
+  the far end. Then the states, then the rows. Nothing is said twice (the
+  count is the All tab's, not the heading's).
+- **A look places, the Frame fills.** The Frame keeps its command groups
+  and its views by reference (`win.group(name)`, `win.ways_slot()`), so a
+  look moves them (`list.place`) and the Frame still fills them where they
+  are. Never copy a frappe node to show it twice; move it.
+- **One edge** (`--one-inset`) for every row of the window; only a box
+  (an island, the head pill, a row) sets its own content in.
 - **A row's activity is always shown** in quiet ink at its end. Hover may
   add, never reveal what was always meant to be seen. Bold for an unread
   record is frappe's and stays.
 
 ## The bars and controls
 
-- **One actions bar for a list and a record.** Left: the one solid main
-  action, the others subtle, then the menu. Right end, fixed: print, like,
-  files as icons, then Cancel. A part anchors itself to its end; it never
-  relies on something before it pushing it over.
-- **Three weights:** navigation quiet (no fill), actions subtle (grey
-  fill), the main action solid. A control's look follows its kind, never
-  where it came from; a secondary action carries no colour of its own.
-- **Every control is 28px**, the control corner, 16px icons.
-- **A group is one control.** Filter and its clear, sort and its field, the
-  view switcher: one outline, inner corners square, a hairline between
-  parts. A field's own switch is a quiet icon inside it.
+- **Every control is 28px,** `--one-radius-control`, 16px icons, 13px
+  words, on `--one-head-button-bg`. The island's own controls (refresh,
+  search, the menu) are on the island's `--one-address-bg`.
+- **One colour for what is chosen:** the state tab, the view and the
+  column heads' pill all read `--one-chosen` (New's colour washed into the
+  canvas). The main action is the only solid thing; a solid band of it is
+  a bright bar in dark.
+- **Three corners, by what a thing is:** a control
+  (`--one-radius-control`), a surface or island (`--one-radius-sheet`), a
+  pill for counts, states and the column heads (`--radius-full`).
+  frappe's checkbox keeps its own: a palette's rounder one makes a 14px
+  box a circle.
 - **One pill:** frappe's es-badge at its small size, for every state, tag
   and count.
+- **A group is one control.** Filter and its clear, sort and its field, the
+  view switcher: one fill, inner corners square, a hairline between
+  parts. A field's own switch is a quiet icon inside it.
 - **Frappe's `.icon` has `margin: auto`.** Any row of ours that puts an
   icon beside text resets it (`margin: 0`, `flex: none`).
+
+## How a layout pass is done
+
+- **Show before building.** Two to four options as real screenshots, side
+  by side, light and dark, the same crop. A colour that reads well in light
+  is often a glaring bar in dark; that is where options are decided.
+- **Measure, don't eyeball.** Read every control's computed height, fill,
+  corner, border, font size and ink from the DOM in both themes and line
+  them up in one table; the odd ones out are the findings. Edges are
+  checked as x positions, not by eye.
+- **Ask what the person meant before mocking the wrong thing.** "The bar"
+  was the address row, not the top bar; one question costs less than a
+  sheet of the wrong options.
 
 ## Surfaces
 
@@ -268,6 +293,11 @@ Each happened in this app.
 - **Looking at 1x on a desktop only.**
 - **Raising a z-index until it shows.** The search box drew over a dialog
   because a tour's 100004 outranked it; name the layer instead.
+- **A new colour per new state.** The chosen tab, the chosen view and the
+  head pill each got their own; one role (`--one-chosen`) answers all of
+  them.
+- **Filling a band with the main action's colour.** Fine in light, a
+  near-white bar in dark; wash it into the canvas instead.
 - **Styling Standard and calling the palette done.** Sand's widgets kept
   Standard's white until the islands and frappe's menus were bridged.
 
