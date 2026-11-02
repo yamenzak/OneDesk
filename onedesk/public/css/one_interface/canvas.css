@@ -808,3 +808,6 @@
 	--charts-tooltip-label: var(--one-ink-soft);
 	--charts-tooltip-value: var(--one-ink-strong);
 }
+/* A report can ask for a dozen filters (General Ledger): its row wraps rather than scrolling them out of sight. */
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .page-form.one-head-filters { flex-wrap: wrap; overflow: visible; row-gap: 6px; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content:has(> .one-interface-views > .page-form.one-head-filters) { flex-wrap: wrap; height: auto; }
