@@ -926,3 +926,13 @@
 		display: none;
 	}
 }
+
+/* Canvas: a record's tabs are the list's state tabs (canvas.css, ONE TAB): 28px pills, no line, the chosen one in
+   --one-chosen. Kept here, beside the rules that place frappe's form tabs, because only this file may name them. */
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs-list { border: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs { gap: 4px; border: 0 !important; align-items: center; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-item { margin: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link { height: 28px; display: inline-flex !important; align-items: center; gap: 6px; margin: 0 !important; padding: 0 10px !important; border: 0 !important; border-radius: var(--one-radius-control) !important; font-size: 13px !important; color: var(--one-tab-ink) !important; background: transparent !important; box-shadow: none !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link:hover { background: var(--one-head-button-bg) !important; color: var(--one-tab-on-ink) !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link.active { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link::after { display: none !important; }

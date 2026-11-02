@@ -162,6 +162,20 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 - **Frappe's `.icon` has `margin: auto`.** Any row of ours that puts an
   icon beside text resets it (`margin: 0`, `flex: none`).
 
+## The record (Canvas), as rendered
+
+- **One material:** islands, the side pane, sections, head cards and the
+  panel are all `--one-sheet`/`--one-head-bg` on the canvas. Each section is
+  its own card; there is no sheet around them.
+- **The head is one row** when the commands fit beside a readable address;
+  the track stands across from the name.
+- **A field is a control:** filled, no edge, the focus edge only while
+  typing. A read-only value is plain text.
+- **Island record pages (Item, Project, Task) are not on this yet.** They
+  draw their own head, panel header and star; they wait for their own
+  passover, with the user, and must take the address-row star, the pill
+  tabs, the section cards and the filled fields from here when they do.
+
 ## How a layout pass is done
 
 - **Show before building.** Two to four options as real screenshots, side

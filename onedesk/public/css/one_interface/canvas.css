@@ -495,7 +495,7 @@
 
 /* A checkbox in the window is the palette's: its edge and its ground, and ticked, the palette's check colour. frappe's small corner stays: a palette's rounder one makes a 14px box a circle. */
 :root[data-one-look="canvas"] .one-interface input[type="checkbox"] { border-color: var(--one-edge-strong) !important; }
-:root[data-one-look="canvas"] .one-interface input[type="checkbox"]:not(:checked) { background-color: var(--one-head-bg) !important; }
+:root[data-one-look="canvas"] .one-interface input[type="checkbox"]:not(:checked) { background-color: var(--one-head-button-bg) !important; }
 :root[data-one-look="canvas"] .one-interface input[type="checkbox"]:checked { background-color: var(--one-check) !important; border-color: var(--one-check) !important; }
 
 /* The record's panel ends on the window's edge like everything else. */
@@ -607,13 +607,6 @@
 /* ONE TAB. A record's tabs and its panel's tabs are the list's state tabs: 28px pills on the canvas, no line under them,
    the chosen one in --one-chosen. frappe's underline and the row's border go. */
 :root[data-one-look="canvas"] .one-interface > .one-tabs-below { border-bottom: 0 !important; padding-block: 2px 10px !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs-list { border: 0 !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs { gap: 4px; border: 0 !important; align-items: center; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-item { margin: 0 !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link { height: 28px; display: inline-flex !important; align-items: center; gap: 6px; margin: 0 !important; padding: 0 10px !important; border: 0 !important; border-radius: var(--one-radius-control) !important; font-size: 13px !important; color: var(--one-tab-ink) !important; background: transparent !important; box-shadow: none !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link:hover { background: var(--one-head-button-bg) !important; color: var(--one-tab-on-ink) !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link.active { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link::after { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button { height: 28px; padding: 0 10px !important; margin: 0 !important; border-radius: var(--one-radius-control); font-size: 13px; }
 :root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button:hover { background: var(--one-head-button-bg); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { gap: 4px !important; border-bottom: 0 !important; padding-block: 4px !important; }
@@ -633,3 +626,33 @@
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-static-col, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .row-check { border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row :is(.col, .grid-static-col, .row-check, .row-index) { background: transparent !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
+
+/* What scrolls goes under the head, not against it: the head keeps a band of canvas under the address row, and a short
+   fade below it, so a sheet passing beneath reads as passing beneath. */
+:root[data-one-look="canvas"] .one-interface .page-head { padding-bottom: 8px !important; }
+:root[data-one-look="canvas"] .one-interface .page-head::after { content: ""; position: absolute; inset-inline: 0; top: 100%; height: 10px; background: linear-gradient(var(--one-canvas), transparent); pointer-events: none; }
+/* A record's track stands across from its name, at the head's far end, its last step as wide as its words. */
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row { display: flex; align-items: center; gap: 16px; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { flex: 1 1 auto; min-width: 0; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: none; margin: 0 0 0 auto; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track .one-track-step:last-child { width: auto; }
+
+/* ONE CARD PER SECTION. A record's sections are cards on the canvas, as its head's figures and its panel are: the
+   address row's material, its edge and corners, a 10px gap between them. The page around them is the canvas, not a
+   second sheet, so nothing is a box inside a box. */
+:root[data-one-look="canvas"] .one-interface .form-page { background: transparent !important; border: 0 !important; border-radius: 0 !important; overflow: visible !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .form-section:not(.empty-section) { background: var(--one-sheet) !important; border: 1px solid var(--one-line) !important; border-radius: var(--one-radius-sheet) !important; margin: 0 0 10px !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .form-section:first-of-type, :root[data-one-look="canvas"] .one-interface .form-page .form-section.one-first { border-top: 1px solid var(--one-line) !important; }
+:root[data-one-look="canvas"] .one-interface .std-form-layout :is(.section-head, .section-body) { max-width: none !important; margin-inline: 0 !important; }
+
+/* A field to type in is a control like the head's: filled with --one-head-button-bg, no edge, the control corner; a
+   stronger fill on hover; and while typing, the card's own ground with the focus edge. What cannot be changed reads as
+   plain text, as before. */
+:root[data-one-look="canvas"] .one-interface .form-page :is(.form-control:not(.like-disabled-input):not(textarea), textarea.form-control, .ql-editor) { background: var(--one-head-button-bg) !important; border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover :is(.form-control:not(.like-disabled-input), .ql-editor) { background: var(--one-head-button-hover) !important; border-color: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-page :is(.form-control, .ql-editor):focus, :root[data-one-look="canvas"] .one-interface .form-page .frappe-control:hover .form-control:focus { background: var(--one-sheet) !important; border-color: var(--one-focus) !important; }
+/* A switch is the palette's like a checkbox: off on the strong edge, on in the check colour. frappe's off
+   track was a near-white step that vanished on a card. */
+:root[data-one-look="canvas"] .one-interface .switch-control .switch-visual { background-color: var(--one-edge-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .switch-control:hover .input-area:not(:has(input:checked)) ~ .switch-visual { background-color: var(--one-ink-faint) !important; }
+:root[data-one-look="canvas"] .one-interface .switch-control .input-area:has(input:checked) ~ .switch-visual { background-color: var(--one-check) !important; }

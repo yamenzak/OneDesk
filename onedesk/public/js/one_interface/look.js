@@ -177,7 +177,8 @@ record.head = (frm) => {
 				`<div class="one-track-step ${done ? "is-done" : "is-todo"}"><div class="one-track-mark"><span class="one-track-dot">${done ? frappe.utils.icon("check", "xs") : ""}</span>${i < steps.length - 1 ? `<span class="one-track-line ${joined ? "is-done" : ""}"></span>` : ""}</div><div class="one-track-text">${esc(step.label)}<small class="${step.state === "late" ? "is-late" : ""}">${esc(step.note || "")}</small></div></div>`
 			);
 		});
-		(hero.querySelector(".one-hero-name") || title).after(track);
+		// at the head's far end, across from the name: where it stands, read at a glance
+		hero.querySelector(".one-hero-row").append(track);
 	}
 
 	// the cards: the homes' figures, one per key the module names, in its order

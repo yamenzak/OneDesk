@@ -404,6 +404,20 @@ has taken (`one-gone`) is never the one the panel opens on.
 A table in a record (frappe's grid) has the list's heads, `--one-chosen`, and
 the details switch wears it while the pane is open.
 
+The record's body in Canvas: each section is a card (`--one-sheet`,
+`--one-line`, `--one-radius-sheet`, 10px apart) on the canvas, with no sheet
+around them, so nothing is a box in a box; frappe's `--page-max-width` on a
+section is lifted so a section fills its card. Sheet, cards and islands are
+one material in every palette (Sand's `--one-sheet` and `--one-card-bg` were
+a step whiter than `--one-head-bg`). The track stands at the head's far end,
+across from the name. A field to type in is a control: filled with
+`--one-head-button-bg`, no edge, `--one-head-button-hover` on hover, the
+card's ground and `--one-focus` while typing; what cannot change reads as
+text. A switch is off on `--one-edge-strong`, on in `--one-check`. The head
+keeps an 8px band of canvas under the address row and a short fade below,
+so content scrolls under it, not against it. The record's tab rules live in
+views.css, the one file the borrowing guard lets name frappe's form tabs.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

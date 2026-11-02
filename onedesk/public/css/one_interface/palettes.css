@@ -38,7 +38,7 @@
 	--one-button-hover: var(--gray-200);
 	--one-button-ink: var(--gray-900);
 	--one-canvas: oklch(0.952 0.012 78);
-	--one-card-bg: oklch(0.993 0.005 85);
+	--one-card-bg: oklch(0.975 0.008 80);
 	--one-command-on: oklch(0.905 0.02 72);
 	--one-control-bg: oklch(0.965 0.01 80);
 	--one-count-bg: oklch(0.905 0.02 72);
@@ -80,7 +80,7 @@
 	--one-shadow-dialog: 0 0 0 1px oklch(0.3 0.03 55 / 0.06), 0 24px 56px -16px oklch(0.25 0.03 55 / 0.3);
 	--one-shadow-raised: 0 2px 10px -2px oklch(0.3 0.03 55 / 0.14);
 	--one-shadow-small: 0 1px 2px oklch(0.3 0.03 55 / 0.08);
-	--one-sheet: oklch(0.993 0.005 85);
+	--one-sheet: oklch(0.975 0.008 80);
 	--one-sidebar-active-bg: oklch(0.905 0.02 72);
 	--one-sidebar-active-ink: var(--gray-950);
 	--one-sidebar-active-shadow: none;
