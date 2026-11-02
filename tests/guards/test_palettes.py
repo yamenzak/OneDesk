@@ -176,3 +176,17 @@ def test_the_levels_keep_their_order():
 		elif (at["float"] - at["page"]) * rise < 0 or abs(at["float"] - at["page"]) < abs(rise):
 			out[theme] = f"what floats ({at['float']:.3f}) does not stand at least as far forward as an island"
 	assert not out, out
+
+
+def test_every_tables_column_heads_are_on_the_control_level():
+	"""A list's, a record's table's and a report's column heads are one band,
+	on the control level, the tone of the quick filters above them. Not the
+	chosen state's fill: a head is not chosen."""
+	canvas = (CSS / "canvas.css").read_text(encoding="utf-8")
+	heads = {
+		"list": r"\.frappe-list \.result > \.list-row-container:first-child::before \{ background: var\(--one-level-control\)",
+		"record table": r"\.form-grid \.grid-heading-row \{ background: var\(--one-level-control\)",
+		"report": r"\.dt-cell--header \.dt-cell__content\) \{ background-color: var\(--one-level-control\)",
+	}
+	missing = [name for name, rule in heads.items() if not re.search(rule, canvas)]
+	assert not missing, f"these column heads are not on the control level: {missing}"

@@ -544,7 +544,7 @@
 
 /* The column heads are a pill washed with the main action's colour, New's partner without its weight: a filled band of
    it is a bright bar in dark. The words keep their own ink. */
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: var(--one-chosen); border: 0; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: var(--one-level-control); border: 0; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head, :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head :is(span, a, .list-subject, .list-row-col, svg, .level-item) { color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
 
@@ -622,7 +622,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch[data-state="on"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
 /* A table in a record has the list's heads: the same tint, the same words, rounded at the table's top. */
-:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row { background: var(--one-chosen) !important; border-bottom: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row { background: var(--one-level-control) !important; border-bottom: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-row, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .static-area { background: transparent !important; color: var(--one-ink-strong) !important; font-weight: 500; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-static-col, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .row-check { border-color: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row :is(.col, .grid-static-col, .row-check, .row-index) { background: transparent !important; color: var(--one-ink-strong) !important; }
@@ -745,13 +745,13 @@
 /* A report's table: the heads on the list's head fill, the filter boxes filled like a field, the lines the page's. */
 :root[data-one-look="canvas"] .one-interface .datatable {
 	--dt-cell-bg: var(--one-sheet);
-	--dt-header-cell-bg: var(--one-head-bg);
+	--dt-header-cell-bg: var(--one-level-control);
 	--dt-border-color: var(--one-line);
 	--dt-selection-highlight-color: var(--one-hover);
 	--dt-light-bg: var(--one-hover);
 	background-color: var(--one-sheet);
 }
-:root[data-one-look="canvas"] .one-interface .datatable .dt-header :is(.dt-row-header, .dt-cell--header, .dt-cell--header .dt-cell__content) { background-color: var(--one-head-bg) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
+:root[data-one-look="canvas"] .one-interface .datatable .dt-header :is(.dt-row-header, .dt-cell--header, .dt-cell--header .dt-cell__content) { background-color: var(--one-level-control) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
 :root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter :is(.dt-cell, .dt-cell__content) { background-color: var(--one-sheet) !important; }
 :root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-filter.dt-input { background-color: var(--one-head-button-bg) !important; border: 0 !important; border-radius: var(--one-radius-small) !important; color: var(--one-ink-strong); }
 :root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-filter.dt-input:focus { box-shadow: none !important; outline: 1px solid var(--one-focus); outline-offset: -1px; }
@@ -811,3 +811,7 @@
 /* A report can ask for a dozen filters (General Ledger): its row wraps rather than scrolling them out of sight. */
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .page-form.one-head-filters { flex-wrap: wrap; overflow: visible; row-gap: 6px; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content:has(> .one-interface-views > .page-form.one-head-filters) { flex-wrap: wrap; height: auto; }
+/* A list stands on an island, as a report's table and a record's sections do: its rows on the island level,
+   its column heads on the control level, as every table's are (AGENTS.md, Levels). */
+:root[data-one-look="canvas"] .one-interface .frappe-list .result-container { background: var(--one-level-island); border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); padding: 6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { background: var(--one-level-island) !important; }

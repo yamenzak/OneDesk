@@ -702,7 +702,10 @@ tokens.css that a palette sets for its light and its dark:
   `--one-head-bg`).
 - `--one-level-control`: a field or button in an island, set apart from it
   further than the island is from the page (`--one-head-button-bg`,
-  `--one-button-bg`). A field reads as a dip in its card.
+  `--one-button-bg`). A field reads as a dip in its card. Every table's
+  column heads are this band too: a list's, a record's table's, a report's
+  and a query report's, the tone of the quick filters over them. A list's
+  rows stand on an island like a report's.
 - `--one-level-float`: what floats over all of it. Menus, dialogs, the details
   pane, the status line (`--one-menu-bg`, `--one-dialog-bg`,
   `--one-details-bg`, `--one-status-bg`).
