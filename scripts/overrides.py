@@ -1053,6 +1053,13 @@ OVERRIDES = [
 		'static html_element = "select";',
 	),
 	(
+		"A JSON field is a tree, read and edited in place",
+		"frappe shows a JSON field as its code editor, and a read-only one as text. json_view.js wraps ControlCode's refresh and set_formatted_input to draw the value as a tree that folds by level; read-only it only reads, editable (JSON, or Code whose options say JSON) a value or a key is changed where it stands, a row is removed or given a child, and each change is written back with set_value as JSON text. Raw shows frappe's own code editor over the same text; frappe's control, its value and its editor stay frappe's",
+		"onedesk/public/js/one_interface/json_view.js",
+		"frappe/frappe/public/js/frappe/form/controls/code.js",
+		"set_formatted_input(value) {",
+	),
+	(
 		"The Employee band is not a notice",
 		"`set_headline` paints its band for an alert; this one is a permanent summary",
 		"onedesk/public/css/desk.css",

@@ -152,3 +152,51 @@ html[dir="rtl"] .one-json-caret:not(.open) svg {
 	color: var(--one-ink-muted);
 	font-style: italic;
 }
+
+/* A row's tools (add, copy, remove) show on the row the pointer is on. */
+.one-json-tool {
+	visibility: hidden;
+}
+
+.one-json-row:hover .one-json-tool {
+	visibility: visible;
+}
+
+/* Editable: a key or a value is changed where it stands. */
+.one-json-editable-part {
+	cursor: text;
+	border-radius: var(--one-radius-small);
+}
+
+.one-json-editable-part:hover {
+	text-decoration: underline dotted var(--one-ink-faint);
+	text-underline-offset: 3px;
+}
+
+.one-json-edit {
+	flex: 0 1 auto;
+	min-width: 120px;
+	height: 22px;
+	padding: 0 6px;
+	border: 1px solid var(--one-focus);
+	border-radius: var(--one-radius-small);
+	outline: 0;
+	background: var(--one-sheet);
+	color: var(--one-ink-strong);
+	font: inherit;
+}
+
+.one-json-row .one-json-edit:last-of-type {
+	flex: 1 1 0;
+}
+
+/* Raw, editable: frappe's code editor goes on under the heading as one box. */
+.one-json.one-json-editable.one-json-raw {
+	border-end-start-radius: 0;
+	border-end-end-radius: 0;
+}
+
+.one-json.one-json-editable.one-json-raw + .control-input .ace_editor {
+	border-start-start-radius: 0 !important;
+	border-start-end-radius: 0 !important;
+}

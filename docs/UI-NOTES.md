@@ -54,8 +54,8 @@ file goes.
   field that can't be edited and holds JSON folds by level, inks values by
   kind, counts what a level holds, finds a key or a value at any depth,
   copies a row, shows the path under the pointer, unfolds JSON inside a
-  text, and shows the stored text on Show Raw. An editable one keeps
-  frappe's code editor. What only shows data is never branded
+  text, and shows the stored text on Show Raw. An editable JSON field is
+  the same tree edited in place, with frappe's code editor behind Raw. What only shows data is never branded
   (`brand.LEAVE`).
 - **No hand-made controls.** Buttons are `frappe.ui.button` (outline on a
   gray strip, ghost for a row's icon), inputs are frappe's `form-control`.

@@ -469,6 +469,17 @@ dark. A read-only JSON value is `json_view.js`: one filled box like any
 field, its heading row a search with no box of its own, the key count (or
 the path pointed at), and its tools as icons named by their tooltips
 (expand, collapse, raw or tree, copy); it takes the section's width.
+An editable JSON field (JSON, or Code whose options say JSON) is the same
+tree, edited in place: a value or a key is clicked and typed where it
+stands (a text value stays text; a number, true, false or null is that), a
+row shows add, copy and remove on hover, the heading's add puts a key at
+the top, and each change is written back with `set_value` as JSON text
+(frappe's one-space layout). Raw is frappe's code editor under the same
+heading; back to the tree reads the text again, and text that is not JSON
+yet stays in Raw with "Invalid JSON". JSON kept as text inside a value is
+shown, never edited. The tree follows `set_formatted_input` as well as
+`refresh`, because a value set from a script reaches the input without a
+refresh.
 
 ## Stars
 
