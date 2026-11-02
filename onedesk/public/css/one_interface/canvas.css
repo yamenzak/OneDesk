@@ -543,7 +543,7 @@
 
 /* The column heads are a pill washed with the main action's colour, New's partner without its weight: a filled band of
    it is a bright bar in dark. The words keep their own ink. */
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); border-color: color-mix(in oklch, var(--one-primary-bg) 22%, var(--one-canvas)); }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { background: color-mix(in oklch, var(--one-primary-bg) 12%, var(--one-canvas)); border: 0; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head, :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head :is(span, a, .list-subject, .list-row-col, svg, .level-item) { color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
 

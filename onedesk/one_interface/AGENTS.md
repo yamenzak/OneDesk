@@ -422,7 +422,7 @@ reference, so a look can put them anywhere and the Frame still fills them;
 classic leaves them where they were. A view without a heading (Report,
 Kanban) keeps New and the views in the row under the island. The column
 heads' pill is washed with New's colour (12% of `--one-primary-bg` on the
-canvas; a solid band was a bright bar in dark), and the states over the
+canvas, no edge; a solid band was a bright bar in dark), and the states over the
 rows are pills of the palette, the chosen one filled like the chosen view.
 
 At rest the address box is frappe's breadcrumbs, each crumb a link. Clicked
