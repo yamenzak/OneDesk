@@ -88,6 +88,8 @@ LOOKED = {
 	("fetching", "frontend/src/cloud/OneCloud.vue"),
 	("icons", "onedesk/one_studio/letter_heads.py"),
 	("icons", "onedesk/public/js/outside.js"),
+	# ShortcutCenter's mouse is a picture with buttons to click, not an icon.
+	("icons", "onedesk/public/js/one/shortcut_center.js"),
 	# The TV player loads no frappe at all: ES5 for a 2017 TV, its own requests,
 	# its last answer kept for a restart with no network, and its own glyphs.
 	("fetching", "onedesk/public/js/one_display/tv.js"),

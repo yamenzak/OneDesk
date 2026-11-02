@@ -33,11 +33,11 @@ MODULES = {
 		# The points a guard can't settle, each as a person last looked at it
 		# (HAND).
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
 		},
 		# Its help pages in reading order, each with its icon (docs/).
 		"help": (
@@ -551,11 +551,11 @@ MODULES = {
 		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-31", "commit": "399f2ee21b4f", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-31", "commit": "399f2ee21b4f", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-31", "commit": "399f2ee21b4f", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-31", "commit": "399f2ee21b4f", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-31", "commit": "399f2ee21b4f", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -580,11 +580,11 @@ MODULES = {
 		"names": ("one_ai", "oneai"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-30", "commit": "55ab6de111c0", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-30", "commit": "55ab6de111c0", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-30", "commit": "55ab6de111c0", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-30", "commit": "55ab6de111c0", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-30", "commit": "55ab6de111c0", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
