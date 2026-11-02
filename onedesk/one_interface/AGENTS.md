@@ -460,6 +460,16 @@ typing line is part of its box. Attach is a field the width of its cell,
 Pickers (date, time, duration, colour, phone country, a Link's list) are
 frappe's popovers and already match.
 
+Check renders as a switch on forms already (Canvas's switch rules), so it
+is not a second control. Icons inside a field sit on its middle line at its
+start or end in either direction: the colour swatch, the password eye, and
+an attached file, whose box is the field's 36px with a quiet Clear.
+Placeholders are `--one-ink-muted`, the ink of Attach's word, readable in
+dark. A read-only JSON value is `json_view.js`: one filled box like any
+field, its heading row a search with no box of its own, the key count (or
+the path pointed at), and its tools as icons named by their tooltips
+(expand, collapse, raw or tree, copy); it takes the section's width.
+
 ## Stars
 
 A like is a star (`star.js`), the mark a browser and a file manager use for

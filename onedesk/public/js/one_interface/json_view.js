@@ -1,10 +1,9 @@
 // OneInterface's JSON viewer (onedesk/one_interface/AGENTS.md): a field that holds JSON
-// and can't be edited is shown as a tree that folds by level. Its frame is
-// framed the way frappe frames a child table with its filter row: a
-// bordered, rounded box, a gray heading strip with frappe's buttons, a white
-// strip under it with frappe's own small input (find a key or a value, at any
-// depth) and frappe's buttons. A field that can be edited keeps frappe's
-// code editor.
+// and can't be edited is shown as a tree that folds by level. It is a field
+// like the others, one filled box: a heading row with a search that finds a
+// key or a value at any depth, what is being pointed at, and its tools as
+// icons (expand, collapse, raw or tree, copy); a hairline; the tree. A field
+// that can be edited keeps frappe's code editor.
 onedesk.json_view = {
 	// Unfolded at first: the top two levels, or all of it when it is small.
 	OPEN: 2,
@@ -77,9 +76,9 @@ onedesk.json_view = {
 	// heading copies what is stored.
 	raw($view, control, raw) {
 		$view.data("raw", raw);
-		$view.find(".one-json-filter, .one-json-body, [data-action=open], [data-action=fold]").toggleClass("hide", raw);
+		$view.find(".one-json-search, .one-json-body, [data-action=open], [data-action=fold]").toggleClass("hide", raw);
 		$view.find(".one-json-text").toggleClass("hide", !raw);
-		$view.find("[data-action=raw] .es-button__label").text(raw ? __("Show Tree") : __("Show Raw"));
+		$view.find("[data-action=raw]").replaceWith(this.icon(raw ? "list-tree" : "code", raw ? __("Show Tree") : __("Show Raw"), "raw"));
 		$(control.disp_area).addClass("hide");
 		control.copy_button && control.copy_button.addClass("hide");
 	},
@@ -88,19 +87,17 @@ onedesk.json_view = {
 		const esc = frappe.utils.escape_html;
 		const rows = this.rows(json);
 		const open = rows.length <= this.SMALL ? Infinity : this.OPEN;
-		const button = (label, action) => frappe.ui.button.html({ label, size: "sm", variant: "outline", attrs: { "data-action": action } });
 		const count = rows.length === 1 ? __("1 key") : __("{0} keys", [rows.length]);
+		const find = esc(__("Find a key or a value"));
 		const $view = $(`
 			<div class="one-json">
 				<div class="one-json-head">
+					<label class="one-json-search">${frappe.utils.icon("search", "sm")}<input type="text" class="one-json-find" placeholder="${find}" aria-label="${find}"></label>
 					<div class="ellipsis one-json-where">${esc(count)}</div>
-					${button(__("Expand All"), "open")}
-					${button(__("Collapse All"), "fold")}
-					${button(__("Show Raw"), "raw")}
-					${button(__("Copy"), "all")}
-				</div>
-				<div class="one-json-filter">
-					<input type="text" class="form-control input-xs one-json-find" placeholder="${esc(__("Find a key or a value"))}" aria-label="${esc(__("Find a key or a value"))}">
+					${this.icon("chevrons-up-down", __("Expand All"), "open")}
+					${this.icon("chevrons-down-up", __("Collapse All"), "fold")}
+					${this.icon("code", __("Show Raw"), "raw")}
+					${this.icon("copy", __("Copy"), "all")}
 				</div>
 				<div class="one-json-body">
 					<div class="one-json-rows"></div>
@@ -157,6 +154,11 @@ onedesk.json_view = {
 		$view.on("mouseleave", ".one-json-rows", () => $view.find(".one-json-where").text(count));
 		$view.find(".one-json-find").on("input", frappe.utils.debounce(show, 150));
 		return $view;
+	},
+
+	// The heading's tools are icons, each named by its tooltip.
+	icon(icon, title, action) {
+		return frappe.ui.button.html({ icon, size: "sm", variant: "ghost", title, attrs: { "data-action": action, "aria-label": title } });
 	},
 
 	row(row, at) {

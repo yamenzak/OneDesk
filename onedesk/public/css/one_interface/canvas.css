@@ -721,3 +721,17 @@
 /* Attach is a field, the width of its cell, saying what to do in the placeholder's ink. */
 :root[data-one-look="canvas"] .one-interface .form-page .section-body .btn-attach { display: flex; align-items: center; width: 100%; height: 36px; padding-inline: 10px; justify-content: flex-start; background: var(--one-head-button-bg) !important; border-radius: var(--one-radius-control) !important; color: var(--one-ink-muted) !important; font-size: 14px; font-weight: 400; box-shadow: none !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .section-body .btn-attach:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
+
+/* Icons inside a field sit on the field's middle line, at its start or end in either direction: frappe places the
+   colour swatch and the password eye from the top of a 28px box, and an attached file in a 32px box. */
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control[data-fieldtype="Color"] .selected-color { top: 50%; margin-top: -8px; left: auto; inset-inline-start: 10px; }
+:root[data-one-look="canvas"] .one-interface .form-page .frappe-control[data-fieldtype="Password"] .toggle-password { top: 0; bottom: 0; right: auto; inset-inline-end: 8px; display: flex; align-items: center; }
+:root[data-one-look="canvas"] .one-interface .form-page .attached-file { display: flex; align-items: center; justify-content: space-between; gap: 8px; min-height: 36px; padding: 0 4px 0 10px; padding-inline: 10px 4px; background: var(--one-head-button-bg); border-radius: var(--one-radius-control); }
+:root[data-one-look="canvas"] .one-interface .form-page .attached-file > :first-child { display: flex; align-items: center; gap: 6px; min-width: 0; }
+:root[data-one-look="canvas"] .one-interface .form-page .attached-file svg { flex: none; }
+/* A JSON value shown as a tree takes the section's width, as long text does. */
+:root[data-one-look="canvas"] .form-page .section-body .frappe-control:has(.one-json:not(.hide)) { grid-column: 1 / -1; }
+:root[data-one-look="canvas"] .one-interface .form-page .attached-file .btn { background: transparent !important; box-shadow: none !important; color: var(--one-ink-muted); }
+:root[data-one-look="canvas"] .one-interface .form-page .attached-file .btn:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong); }
+/* A placeholder is in the same ink as Attach's word, readable in both themes. */
+:root[data-one-look="canvas"] .one-interface .form-page :is(.form-control, .ql-editor)::placeholder, :root[data-one-look="canvas"] .one-interface .form-page .ql-editor.ql-blank::before { color: var(--one-ink-muted) !important; }
