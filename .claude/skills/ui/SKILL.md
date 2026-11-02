@@ -200,6 +200,12 @@ Top to bottom: the address row, the head, the cards, the tabs, the section cards
 - **Check every pass at 390px, in Arabic and in dark** before calling it
   done: tonight's phone check found the fields still three across and the
   address row's contents below its pill.
+- **A phone is three rows and nothing cut** (AGENTS.md, On a phone): the
+  address with its tools, the narrowing strip that scrolls with Filter and
+  Sort at its end, then the one-line heading with New and the views menu.
+  Never a toggle per view on a phone, never a field squeezed to its first
+  letters, never a figure the head shows said again under the tabs. The
+  pinned end of a scrolling row wears the island's fill, never transparent.
 - **Island record pages (Item, Project, Task) are not on this yet.** They
   draw their own head, panel header and star; they wait for their own
   passover, with the user, and must take the address-row star, the pill

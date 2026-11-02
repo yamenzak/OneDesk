@@ -420,6 +420,100 @@
 		overflow-x: auto;
 	}
 
+	/* What narrows the view is a row of its own, under the address, however
+	   little it holds: a calendar's Filter beside the address had squeezed
+	   the place to two letters. */
+	.one-interface .page-head-content > .one-interface-views:not(:empty) {
+		flex: 1 1 100%;
+		gap: calc(var(--spacing) * 2);
+		overflow: visible;
+	}
+
+	/* Its fields scroll sideways in their own strip, each wide enough to read,
+	   and Filter and Sort stay in reach at its end. */
+	.one-interface .one-interface-views > :is(.one-head-filters, .page-form) {
+		flex: 1 1 auto;
+		flex-wrap: nowrap !important;
+		min-width: 0;
+		overflow-x: auto;
+		scrollbar-width: none;
+	}
+
+	.one-interface .one-interface-views > :is(.one-head-filters, .page-form) > .form-group {
+		flex: 0 0 136px;
+		min-width: 136px !important;
+		max-width: none !important;
+	}
+
+	.one-interface .one-interface-views > :not(.one-head-filters, .page-form, .one-interface-ways) {
+		flex: none;
+	}
+
+	/* A query report folds the filters past its first row behind a chevron
+	   it puts on the last one it shows; the one it picks can be hidden, and
+	   then none of them can be reached. The strip scrolls, so each is shown. */
+	.one-interface .one-interface-views > .page-form > .form-group.hidden:not(.one-gone, [style*="display: none"]) {
+		display: block !important;
+	}
+
+	/* An empty box frappe keeps for phone buttons no longer breaks the
+	   address row in two. */
+	.one-interface .standard-items-section > .page-actions:not(:has(> .one-head-record, > .page-indicator-pill:not(.hide))) {
+		flex: 0 1 auto;
+		width: auto;
+		max-width: none;
+	}
+
+	/* The address says where you are, not the way there: its last place.
+	   A record's last place is the record, which its head already names, so
+	   there the address keeps the kind of record, which switches to others. */
+	.one-interface .page-title .navbar-breadcrumbs li:not(:last-child),
+	.one-has-head .page-title .navbar-breadcrumbs li:not(:first-child) {
+		display: none !important;
+	}
+
+	.one-has-head .page-title .navbar-breadcrumbs li:first-child {
+		display: flex !important;
+	}
+
+	.one-interface .page-title .navbar-breadcrumbs li + li::before {
+		content: none;
+	}
+
+	/* A row with nothing in it takes no room from the address. */
+	.one-interface .page-head-content > .one-interface-views:empty {
+		display: none !important;
+	}
+
+	/* One glass: where the view searches itself, frappe's phone search,
+	   which looks everywhere, gives way to it. */
+	.one-interface .page-head-content:has(> .one-interface-tools > .one-interface-search:not(:empty)) .navbar-modal-search-mobile {
+		display: none !important;
+	}
+
+	/* Search is its glass until it is used, then it takes the row. */
+	.one-interface .page-head-content > .one-interface-tools:has(> .one-interface-search:not(:empty)) {
+		flex: 0 0 auto;
+	}
+
+	.one-interface .page-head-content > .one-interface-tools:has(> .one-interface-search:focus-within) {
+		flex: 1 1 0;
+	}
+
+	.one-interface .one-interface-search:not(:focus-within) {
+		flex: none;
+		width: 32px;
+	}
+
+	.one-interface .one-interface-search:not(:focus-within) .form-control {
+		padding-inline-end: 0 !important;
+		cursor: pointer;
+	}
+
+	.one-interface .one-interface-search:not(:focus-within) .form-control::placeholder {
+		color: transparent !important;
+	}
+
 	.one-interface > .one-interface-status {
 		padding-inline: calc(var(--spacing) * 4);
 		min-height: 32px;

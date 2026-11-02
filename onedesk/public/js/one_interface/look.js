@@ -228,6 +228,7 @@ record.head = (frm) => {
 	const panel = frm.one_panel;
 	const tabs = container.querySelectorAll(".one-panel .es-tabs__tab");
 	const took = !!(steps && steps.length) || cards.length > 0;
+	container.classList.toggle("one-head-took", took);
 	if (panel && tabs.length > 1) {
 		tabs[0].classList.toggle("one-gone", took);
 		if (took && panel.tabs.active === 0) {
@@ -262,6 +263,10 @@ record.head = (frm) => {
 		likes.classList.add("one-bar-icons");
 		if (likes.parentElement !== tools) tools.prepend(likes);
 	}
+	// frappe's phone search came with its buttons to the name; it searches
+	// everywhere, so it goes back to the address row
+	const glass = hero.querySelector(".navbar-modal-search-mobile");
+	if (tools && glass) tools.prepend(glass);
 };
 
 // What a saved record holds is shown; an empty field that isn't asked for
@@ -649,6 +654,15 @@ list.filters = (view, form = false) => {
 	if (!filters) return;
 	filters.classList.add("one-head-filters");
 	if (filters.parentElement !== views || (board && filters.nextElementSibling !== board)) views.prepend(filters);
+	// frappe's phone ID box is one more field: it starts the fields' strip
+	// rather than standing between them and Filter, which on a phone took a
+	// second row; where the ID is one of them already, it goes
+	const id = wrapper.querySelector(".page-head .one-interface-filters > .mobile-id-filter");
+	if (id) {
+		filters.prepend(id);
+		const field = id.querySelector("[data-fieldname]")?.dataset.fieldname;
+		id.hidden = !!field && [...filters.children].some((el) => el !== id && el.dataset.fieldname === field);
+	}
 };
 
 // The icons a module declares for its fields, on the list's column heads,

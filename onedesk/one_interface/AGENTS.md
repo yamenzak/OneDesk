@@ -382,8 +382,45 @@ frappe keeps a reference to, so its buttons keep their handlers.
 `frappe.ui.make_app_page` gives one to every page but one inside a dialog
 (a record being made), whose page is the dialog's.
 
-Below 992 px nothing moves: frappe's own phone and tablet head stay, and
-the window's buttons hide.
+Below 768 px the head is laid out for a phone (On a phone, below); the
+nav buttons, the details switch and the pane's edge hide.
+
+## On a phone
+
+Under 768 px (frame.css for both looks, canvas.css for Canvas's own parts)
+a list's top is three rows and a record's two, and nothing on them is cut:
+
+- **The address row** holds where you are and its tools. The address shows
+  its last place only, and on a record the kind of record (which switches
+  to others), since the head already names the record. A view's search is
+  its glass until tapped, then takes the row; frappe's phone search, which
+  looks everywhere, gives way to it, and on a record it joins the tools
+  rather than standing by the name. An empty views row, or frappe's empty
+  box for phone buttons, takes no room from the address.
+- **The row under it narrows the view:** its fields scroll sideways in one
+  strip, each 132px so it can be read, with Filter and Sort at the end.
+  frappe's phone ID box joins the strip as its first field, and goes where
+  the ID is one of the fields already. A query report's whole filter form
+  is the strip: frappe folds the filters past its first row behind a
+  chevron it puts on the last one shown, which on a phone could be a
+  hidden filter, leaving none reachable, so each is shown.
+- **The heading** is one line: the name gives way before New, and the ways
+  of looking are frappe's one views menu, which shows the view you are in
+  and lists the rest, in place of a toggle for each (eight toggles had
+  covered New).
+- **A record** keeps its track's steps sharing the width, so the last is
+  not cut at the edge. With no panel on a phone, frappe's headline under
+  the tabs repeated the head's figures and track; once the head has them
+  (`one-head-took`) it goes, as the panel's Overview does on a desk.
+- **Bodies:** a list row is two lines, so it grows past the desk's 50px; a
+  calendar's bar wraps rather than cutting Week and Day off; pictures go
+  two across.
+
+On a tablet the desk's head stays. A list row too wide for the page scrolls
+sideways under its pinned end (changed, comments, star), which wears the
+island, the row's hover and the head's control fill, pinned at the island's
+edge; it was transparent, so the columns showed through it. A record's name
+keeps 300px beside its track before the track takes the next line.
 
 ## A record's head
 

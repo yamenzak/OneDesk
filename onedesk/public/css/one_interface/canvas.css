@@ -675,7 +675,36 @@
 	:root[data-one-look="canvas"] .one-interface .page-head .page-title { height: auto; }
 	:root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: normal; }
 	:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: 1 1 100%; margin-inline-start: 0; }
+	/* the track's steps share the width rather than each taking 156px, so the last one is not cut at the edge */
+	:root[data-one-look="canvas"] .one-hero-record .one-track-step { width: auto; flex: 1 1 0; min-width: 0; }
+	:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track .one-track-step:last-child { flex: 0 1 auto; }
+	/* a list's heading on one line: its name gives way before New does; the ways of looking are frappe's one
+	   menu, which shows the view you are in and lists the rest, in place of a toggle for each */
+	:root[data-one-look="canvas"] .one-interface .one-hero-list { gap: 8px; padding-top: 14px !important; padding-bottom: 10px !important; }
+	:root[data-one-look="canvas"] .one-hero-list .one-hero-title h1 { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 22px; }
+	:root[data-one-look="canvas"] .one-hero-list .one-hero-title > .one-interface-group { flex: none; }
+	:root[data-one-look="canvas"] .one-hero-list > .one-interface-ways > .es-tab-buttons { display: none; }
+	:root[data-one-look="canvas"] .one-hero-list > .one-interface-ways .view-switcher .es-button { background: var(--one-head-button-bg) !important; color: var(--one-button-ink) !important; }
+	/* what narrows the view is its own row under the address; its fields keep at least one readable, and Filter
+	   and Sort go under them before squeezing them */
+	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views:not(:empty) { flex: 1 1 100%; flex-wrap: wrap; row-gap: 6px; }
+	:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .one-head-filters { flex: 1 1 136px; }
+	/* a calendar's bar (the month and Month, Week, Day) wraps rather than cutting Week and Day off; pictures go two across; a list's own tabs
+	   (Item's kinds) scroll sideways like the state tabs instead of taking two lines */
+	:root[data-one-look="canvas"] .one-interface .frappe-list .result > .flex:has(> .es-tab-buttons) { flex-wrap: wrap; row-gap: 8px; }
+	:root[data-one-look="canvas"] .one-interface .image-view-container { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px; }
+	:root[data-one-look="canvas"] .one-interface .one-item-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
+	:root[data-one-look="canvas"] .one-interface .one-item-tabs > button { flex: none; white-space: nowrap; }
+	/* frappe's phone search, in the address row's tools, is one of them: no box of its own */
+	:root[data-one-look="canvas"] .one-interface .page-head .navbar-modal-search-mobile { background: transparent !important; border: 0 !important; box-shadow: none !important; color: var(--one-ink-quiet); }
+	/* the address gives way to its tools rather than pushing them to a row of their own */
+	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .page-title { flex: 1 1 0 !important; min-width: 96px; }
+	/* a row on a phone is two lines (the name, then its dates), taller than a desk's one */
+	:root[data-one-look="canvas"] .frappe-list .list-row { height: auto !important; min-height: 50px; padding-block: 8px; }
 }
+/* What the head says, frappe's headline under the tabs does not say again: where the record has no panel to hold
+   the figures and the track (a phone), the band that repeats them goes once the head has them. */
+:root[data-one-look="canvas"] .one-head-took .form-message-container > .form-message:has(.one-band) { display: none; }
 
 /* A select's arrow is centred on its box: frappe pins it 3px from the top of a 28px box, and Canvas boxes are taller.
    It sits at the box's end in either direction. */
@@ -842,3 +871,14 @@
 :root[data-one-look="canvas"] .one-interface .report-wrapper { padding-inline: var(--one-inset) !important; padding-top: 10px !important; }
 /* The name's column gives way before the track does: its actions wrap under the name, and the track keeps its place across from it. */
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { flex: 1 1 0; min-width: 0; }
+
+/* A list's row ends (when it was changed, its comments, its star) are pinned at the island's end while a row too wide
+   for the page scrolls sideways (a tablet): they wear the island, the row's hover and the head's control fill, so the
+   columns pass under them instead of showing through. */
+:root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { background: var(--one-level-island) !important; }
+/* pinned to the island's edge, not 6px inside it, where the columns showed through the island's padding */
+:root[data-one-look="canvas"] .one-interface .frappe-list .result :is(.list-row, .list-row-head) .level-right { inset-inline-end: -6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-container:hover .list-row .level-right { background: var(--one-tint) !important; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
+/* A record's name keeps room to be read beside its track; with less, the track takes the next line. */
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { min-width: min(100%, 300px); }
