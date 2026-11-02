@@ -10,7 +10,7 @@ frappe.provide("onedesk.module_settings");
 // The centres a module's dialogs are, named as One's products are: One's
 // mark, the first word light and Center after it (HelpCenter, ControlCenter,
 // AccountCenter, UpdateCenter, TrustCenter, AccessCenter,
-// NotificationCenter, AICenter). They are names, so they are not translated, and
+// NotificationCenter, AICenter, ShortcutCenter). They are names, so they are not translated, and
 // brand.js draws them so wherever they are written (brand.CENTER).
 onedesk.CENTERS = {
 	help: "Help",
@@ -21,6 +21,7 @@ onedesk.CENTERS = {
 	access: "Access",
 	notifications: "Notification",
 	ai: "AI",
+	shortcuts: "Shortcut",
 };
 
 // Modules that are a centre rather than a product, named and drawn as the
@@ -149,8 +150,9 @@ onedesk.module_settings.getting_started = (module) => ({
 // What every module's ControlCenter ends with, found rather than drawn
 // (docs/READY.md, mechanism 18), after its Lists (lists.js): Roles and Access
 // for a module that declares abilities, to its administrators, Notifications
-// for a module that sends any, OneAI for one OneAI works in, and Your Data
-// for every module, each opening its centre on the module.
+// for a module that sends any, OneAI for one OneAI works in, Keyboard
+// Shortcuts for one with keys, and Your Data for every module, each opening
+// its centre on the module.
 onedesk.module_settings.centers = (module) => {
 	const has = frappe.boot.one_centers || {};
 	const items = [];
@@ -162,6 +164,11 @@ onedesk.module_settings.centers = (module) => {
 	}
 	if ((has.ai || []).includes(module)) {
 		items.push({ id: "ai_center", label: "OneAI", icon: "oneai", opens: () => onedesk.ai_center.open({ module }) });
+	}
+	// A module whose keys do something (its shortcuts.py, mechanism 19).
+	const keyed = ((frappe.boot.one_shortcuts || {}).shortcuts || []).some((one) => one.module === module);
+	if (keyed) {
+		items.push({ id: "shortcut_center", label: __("Keyboard Shortcuts"), icon: "keyboard", opens: () => onedesk.shortcut_center.open({ module }) });
 	}
 	// Every module says what it sends out and to whom, if only that it sends
 	// nothing (mechanism 13).

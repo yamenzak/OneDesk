@@ -368,6 +368,8 @@ No doctypes yet.
 * `onedesk.one.rules.watchable`
 * `onedesk.one.setup_steps.finish`
 * `onedesk.one.setup_wizard.setup_complete`
+* `onedesk.one.shortcut_center.reset`
+* `onedesk.one.shortcut_center.save`
 * `onedesk.one.start_again.start`
 * `onedesk.one.tours.seen`
 * `onedesk.one.tours.tour`

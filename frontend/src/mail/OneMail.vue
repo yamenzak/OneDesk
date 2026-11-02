@@ -60,9 +60,7 @@
 <script setup>
 // OneMail (one_mail/api.py): the reader's mailboxes and their folders in the
 // window's nav pane, the conversations of the one chosen in the view, and the
-// one open beside them. Keys as Gmail has them: j and k, e to archive, # to
-// delete, r, a and f to answer, s to star, u for unread, c to write, / to
-// search.
+// one open beside them. Its keys are its shortcuts (one_mail/shortcuts.py).
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, ContextMenu, Dropdown } from "frappe-ui";
 
@@ -82,6 +80,7 @@ import {
   onedesk,
   prompt,
   setQuery,
+  shortcut,
   toast,
   userSettings,
   interfaceHandles,
@@ -491,35 +490,33 @@ function write({ reply: answering = false, all = false, forward: passing = false
   reply(boxes.value, messages.value, from.value, { all }, done);
 }
 
-function key(event) {
-  if (event.target.closest?.("input, textarea, [contenteditable]") || event.metaKey || event.ctrlKey || event.altKey) return;
+// The mailbox's keys are OneMail's shortcuts (one_mail/shortcuts.py), as
+// Gmail has them; the reader can move them in ShortcutCenter. Each does
+// what it says while this screen is open. Escape clears the selection, as it
+// does in any list.
+function step(by) {
   const at = items.value.findIndex((one) => one.thread === thread.value);
-  const step = (by) => {
-    const next = items.value[Math.min(items.value.length - 1, Math.max(0, at + by))];
-    if (next) open(next.thread);
-  };
-  const flagged = messages.value.some((one) => one.one_flagged);
-  const keys = {
-    j: () => step(1),
-    k: () => step(-1),
-    ArrowDown: () => step(1),
-    ArrowUp: () => step(-1),
-    e: () => run("archive", these.value),
-    "#": () => run("delete", these.value),
-    Delete: () => run("delete", these.value),
-    r: () => thread.value && write({ reply: true }),
-    a: () => thread.value && write({ reply: true, all: true }),
-    f: () => thread.value && write({ forward: true }),
-    s: () => thread.value && run(flagged ? "unstar" : "star", [thread.value]),
-    u: () => thread.value && run("unread", [thread.value]),
-    c: () => write(),
-    "/": () => searchBox?.focus(),
-    Escape: () => picked.clear(),
-  };
-  const fn = keys[event.key];
-  if (!fn) return;
-  event.preventDefault();
-  fn();
+  const next = items.value[Math.min(items.value.length - 1, Math.max(0, at + by))];
+  if (next) open(next.thread);
+}
+const KEYS = {
+  next: () => step(1),
+  previous: () => step(-1),
+  archive: () => run("archive", these.value),
+  delete: () => run("delete", these.value),
+  reply: () => thread.value && write({ reply: true }),
+  reply_all: () => thread.value && write({ reply: true, all: true }),
+  forward: () => thread.value && write({ forward: true }),
+  star: () => thread.value && run(messages.value.some((one) => one.one_flagged) ? "unstar" : "star", [thread.value]),
+  unread: () => thread.value && run("unread", [thread.value]),
+  compose: () => write(),
+  search: () => searchBox?.focus(),
+};
+const forget = Object.entries(KEYS).map(([key, fn]) => shortcut(`one_mail.${key}`, fn));
+onBeforeUnmount(() => forget.forEach((one) => one()));
+
+function key(event) {
+  if (event.key === "Escape" && !event.target.closest?.("input, textarea, [contenteditable]")) picked.clear();
 }
 
 // Chosen in the address: a folder from the nav pane, a conversation from a

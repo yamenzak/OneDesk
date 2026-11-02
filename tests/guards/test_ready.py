@@ -194,12 +194,12 @@ def test_every_centre_opens_from_ones_rail_and_from_each_modules_settings():
 	a module's part from its Settings, and nothing else in the frame."""
 	js = ROOT / "onedesk" / "public" / "js"
 	names = re.findall(r"^\t(\w+): \"", (js / "module_settings.js").read_text(encoding="utf-8").split("onedesk.CENTERS = {", 1)[1].split("};", 1)[0], re.M)
-	assert len(names) == 8, names
+	assert len(names) == 9, names
 	rail = json.loads((ROOT / "onedesk" / "one" / "sidebar" / "one" / "one.json").read_text())["items"]
 	opened = {re.search(r"center=(\w+)", row.get("url") or "").group(1) for row in rail if "center=" in (row.get("url") or "")}
 	assert opened == set(names), sorted(set(names) - opened)
 	settings = (js / "module_settings.js").read_text(encoding="utf-8").split("onedesk.module_settings.centers = ", 1)[1].split("\n};", 1)[0]
-	for opens in ("onedesk.access.open", "onedesk.notification_center.open", "onedesk.ai_center.open", "onedesk.trust.open"):
+	for opens in ("onedesk.access.open", "onedesk.notification_center.open", "onedesk.ai_center.open", "onedesk.shortcut_center.open", "onedesk.trust.open"):
 		assert opens in settings, f"a module's Settings doesn't open {opens}"
 	frame = (js / "one_interface" / "chrome.js").read_text(encoding="utf-8") + (js / "one_interface" / "nav_tree.js").read_text(encoding="utf-8")
 	for centre in ("onedesk.access.open(", "onedesk.trust.open(", "onedesk.ai_center.open("):

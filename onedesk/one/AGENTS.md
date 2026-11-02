@@ -941,6 +941,22 @@ a holiday throws — leave, attendance requests, and the shift's own processing.
 `Company.default_holiday_list` is set as well, because erpnext's own reports
 still read it.
 
+### shortcut_center.py
+
+ShortcutCenter's server half (docs/READY.md, mechanism 19). `declared()`
+reads each module's `shortcuts.py` and gives every shortcut the id
+`<folder>.<key>`; `for_boot()` hands the engine their words, where each
+works (`WHERE`, or a module's page), the keys each ships with and the keys
+the reader moved. `save` keeps a reader's keys for one shortcut and drops
+the entry when they equal the shipped ones; `reset` puts one or all back.
+
+A key is written as the engine reads it: the modifiers held, in the order
+mod (Ctrl, or Command on a Mac), alt, shift, then the key's place on the
+keyboard (`event.code`: KeyK, Slash, ArrowLeft), or a mouse button
+(mouse:back, mouse:forward, mouse:middle). The place, not the letter, so a
+shortcut stays on the same key in any keyboard layout. `RESERVED` is what a
+browser or the system keeps and no page can be given.
+
 ### stamp.py
 
 Frappe Cloud serves `/assets` as immutable for a year, and only frappe's

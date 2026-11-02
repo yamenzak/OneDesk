@@ -1,0 +1,207 @@
+/* ShortcutCenter (one/shortcut_center.js): a keyboard and a mouse drawn as
+   keys, on the dialog's float. Keys are controls; the keys a part uses carry
+   a dot; a shortcut's keys are lit in the chosen fill; while listening, the
+   picture answers to clicks and a modifier clicked stays held. */
+.one-keys .one-kb-wrap {
+	container-type: inline-size;
+	margin-bottom: 4px;
+}
+
+.one-keys .one-kb {
+	display: grid;
+	grid-template-columns: 60fr 12fr 9fr;
+	gap: 2.4cqw;
+	align-items: end;
+	padding: 12px;
+	border: 1px solid var(--one-line);
+	border-radius: var(--one-radius-sheet);
+	background: var(--one-level-island);
+}
+
+.one-keys .one-kb-main,
+.one-keys .one-kb-side {
+	display: grid;
+	gap: 0.5cqw;
+}
+
+.one-keys .one-kb-row {
+	display: grid;
+	grid-template-columns: repeat(60, 1fr);
+	gap: 0.5cqw;
+}
+
+.one-keys .one-kb-side .one-kb-row {
+	grid-template-columns: repeat(12, 1fr);
+}
+
+.one-keys button.one-kb-key {
+	position: relative;
+	height: 3.6cqw;
+	min-height: 18px;
+	padding: 0 0.4cqw;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--one-line);
+	border-radius: var(--one-radius-small);
+	background: var(--one-head-button-bg);
+	color: var(--one-ink-quiet);
+	font-size: clamp(8px, 1.25cqw, 11px);
+	line-height: 1;
+	white-space: nowrap;
+	overflow: hidden;
+	cursor: pointer;
+	transition: background 120ms, color 120ms, transform 80ms;
+}
+
+.one-keys .one-kb-main .one-kb-row:first-child button.one-kb-key {
+	height: 2.6cqw;
+	font-size: clamp(7px, 1.05cqw, 10px);
+}
+
+.one-keys button.one-kb-key:hover {
+	background: var(--one-head-button-hover);
+	color: var(--one-ink-strong);
+}
+
+/* a key the part uses: a dot in its corner */
+.one-keys button.one-kb-key.is-used::after {
+	content: "";
+	position: absolute;
+	top: 3px;
+	inset-inline-end: 3px;
+	width: 4px;
+	height: 4px;
+	border-radius: var(--radius-full);
+	background: var(--one-accent);
+}
+
+/* a shortcut's keys, lit; a modifier clicked while listening, held */
+.one-keys button.one-kb-key.is-lit,
+.one-keys button.one-kb-key.is-held {
+	background: var(--one-primary-bg);
+	border-color: var(--one-primary-bg);
+	color: var(--one-primary-ink);
+}
+
+.one-keys button.one-kb-key.is-lit {
+	transform: translateY(1px);
+}
+
+.one-keys .one-kb-wrap.is-listening .one-kb {
+	border-color: var(--one-focus);
+}
+
+/* the mouse: its shell, and the wheel and side buttons as keys */
+.one-keys .one-mouse {
+	justify-self: center;
+	width: 100%;
+	max-width: 62px;
+	overflow: visible;
+}
+
+.one-keys .one-mouse .one-mouse-shell {
+	fill: var(--one-head-button-bg);
+	stroke: var(--one-edge-strong);
+	stroke-width: 1.2;
+}
+
+.one-keys .one-mouse .one-mouse-line {
+	fill: none;
+	stroke: var(--one-edge-strong);
+	stroke-width: 1;
+}
+
+.one-keys .one-mouse .one-kb-key {
+	fill: var(--one-level-island);
+	stroke: var(--one-edge-strong);
+	stroke-width: 1.2;
+	cursor: pointer;
+}
+
+.one-keys .one-mouse .one-kb-key:hover {
+	fill: var(--one-head-button-hover);
+}
+
+.one-keys .one-mouse .one-kb-key.is-used {
+	stroke: var(--one-accent);
+}
+
+.one-keys .one-mouse .one-kb-key:is(.is-lit, .is-held) {
+	fill: var(--one-primary-bg);
+	stroke: var(--one-primary-bg);
+}
+
+/* what the picture says: the key clicked, or what to press */
+.one-keys .one-kb-said {
+	min-height: 28px;
+	margin-top: 6px;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	color: var(--one-ink-muted);
+	font-size: var(--text-sm);
+}
+
+.one-keys .one-kb-said b {
+	color: var(--one-ink-strong);
+	font-weight: 500;
+}
+
+/* a key combination, wherever it is shown: its keys as caps */
+.one-combo {
+	display: inline-flex;
+	gap: 3px;
+}
+
+.one-combo kbd {
+	min-width: 22px;
+	height: 22px;
+	padding: 0 6px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid var(--one-line);
+	border-radius: var(--one-radius-small);
+	background: var(--one-head-button-bg);
+	color: var(--one-ink-strong);
+	font: 500 12px/1 var(--one-font, inherit);
+	box-shadow: none;
+}
+
+.one-keys .one-keys-list .one-keys-where {
+	padding: 14px 12px 4px;
+	color: var(--one-ink-muted);
+	font-size: var(--text-sm);
+	font-weight: 500;
+}
+
+.one-keys .one-keys-list .one-keys-where:first-child {
+	padding-top: 6px;
+}
+
+.one-keys .one-keys-row .one-set-end {
+	gap: 8px;
+}
+
+.one-keys .one-keys-now {
+	display: inline-flex;
+	align-items: center;
+	gap: 6px;
+}
+
+.one-keys .one-keys-or,
+.one-keys .one-keys-none {
+	color: var(--one-ink-faint);
+	font-size: var(--text-xs);
+}
+
+.one-keys .one-keys-row.is-listening {
+	background: var(--one-chosen);
+	border-radius: var(--one-radius-row);
+}
+
+.one-keys .one-keys-reset {
+	margin-inline-start: auto;
+}

@@ -445,3 +445,6 @@ $(document).on("app_ready", () => {
 		if (onedesk.oneai.panel) onedesk.oneai.panel.moved(onedesk.oneai.where());
 	});
 });
+
+// OneAI's key (one_ai/shortcuts.py): asking, from anywhere, while OneAI is on.
+onedesk.shortcuts.does("one_ai.ask", () => onedesk.apps.ai() && onedesk.oneai.open && onedesk.oneai.open());

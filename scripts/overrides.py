@@ -1074,6 +1074,20 @@ OVERRIDES = [
 		"post_render() {",
 	),
 	(
+		"frappe's keys move into ShortcutCenter",
+		"Every key a module declares (its shortcuts.py) runs from one listener that knows the view in front of the reader, and a person moves any of them. A key frappe registered that a declaration took over (Ctrl+S, Ctrl+K, Ctrl+B, Ctrl+P, Ctrl+/, Shift+/) would still fire on its old key, so shortcuts.js takes it off and does not let a view register it again",
+		"onedesk/public/js/one/shortcuts.js",
+		"frappe/frappe/public/js/frappe/ui/keyboard.js",
+		"frappe.ui.keys.add_shortcut = ({",
+	),
+	(
+		"frappe's list of shortcuts is ShortcutCenter",
+		"frappe draws its shortcuts as a table that can't change any of them; Shift+/ and the user menu open ShortcutCenter, which shows each with where it works and moves it",
+		"onedesk/public/js/one/shortcuts.js",
+		"frappe/frappe/public/js/frappe/ui/keyboard.js",
+		"frappe.ui.keys.show_keyboard_shortcut_dialog = () => {",
+	),
+	(
 		"A map view loads its map",
 		"ListView's constructor sets this.load_lib to a promise, which hides MapView's load_lib method, so frappe's map view throws before Leaflet loads and stays blank. list.js gives MapView a setup_view that calls its class's load_lib by name, then frappe's own setup_map",
 		"onedesk/public/js/one_interface/list.js",

@@ -567,6 +567,7 @@ MODULES = {
 			("weather", "cloud-sun"),
 			("news", "newspaper"),
 			("notifications", "bell"),
+			("shortcuts", "keyboard"),
 			("access-and-the-audit-log", "shield-check"),
 			("your-data", "folder-lock"),
 			("who-can-do-what", "shield"),

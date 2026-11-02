@@ -133,6 +133,10 @@ export function aiSees(what) {
 // OneAI's panel opened on a question, as if the reader had typed it there.
 export const askOneAI = (ask) => window.onedesk?.oneai?.open({ ask });
 
+// What a shortcut does while the island is open (its module's shortcuts.py,
+// ShortcutCenter); returns what takes it back.
+export const shortcut = (id, fn) => window.onedesk?.shortcuts?.does(id, fn) || (() => {});
+
 // The text field the reader just left: opening OneAI soon after writes in it
 // (public/js/one_ai/oneai.js, justLeft).
 export function aiLeft(field) {

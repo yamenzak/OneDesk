@@ -80,6 +80,10 @@ def boot_session(bootinfo) -> None:
 		"notifications": notification_center.for_boot(),
 		"ai": ai_center.modules() if roles.administers() and apps.ai_on() else [],
 	}
+	from onedesk.one import shortcut_center
+
+	# Every module's keys and the reader's own (mechanism 19).
+	bootinfo["one_shortcuts"] = shortcut_center.for_boot()
 	bootinfo["one_ai_may"] = ai_center.may() if apps.ai_on() else {}
 	bootinfo["one_ai_actions"] = ai_actions.for_boot() if apps.ai_on() else {}
 	bootinfo["one_mail_private"] = {"on": int(addresses.external()), "domains": addresses.allowed_domains()}

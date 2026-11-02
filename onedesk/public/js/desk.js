@@ -293,6 +293,7 @@ onedesk.centers.open = (center, { at = null, record = null, module = null } = {}
 		access: () => onedesk.access.open({ module, at, record }),
 		notifications: () => onedesk.notification_center.open({ module, at }),
 		ai: () => onedesk.ai_center.open({ module, at }),
+		shortcuts: () => onedesk.shortcut_center.open({ module, at }),
 		trust: () => onedesk.trust.open({ module, at }),
 		help: () => onedesk.help.open(module),
 		updates: () => onedesk.whats_new.open(module),

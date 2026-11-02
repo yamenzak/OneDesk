@@ -6325,6 +6325,10 @@ msgstr "Hintergrund"
 msgid "Background Tasks"
 msgstr "Hintergrundaufgaben"
 
+#: onedesk/public/js/one/shortcuts.js:151
+msgid "Backspace"
+msgstr "Rücktaste"
+
 #. Label of the archived_backup (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json
 msgid "Backup Before Archive"
@@ -8373,6 +8377,10 @@ msgstr "Zeugnis"
 #: onedesk/www/account_profile.html:37
 msgid "Change"
 msgstr "Änderung"
+
+#: onedesk/one/shortcuts.py:14
+msgid "Change Appearance"
+msgstr "Darstellung ändern"
 
 #: frontend/src/project/Money.vue:66 frontend/src/project/Money.vue:111
 msgid "Change Budget"
@@ -16426,6 +16434,10 @@ msgstr "Reicht für {0}. {1} geht zuerst aus."
 msgid "Enquiries"
 msgstr "Anfragen"
 
+#: onedesk/public/js/one/shortcuts.js:149
+msgid "Enter"
+msgstr "Eingabe"
+
 #: onedesk/one_sheet/table.py:184
 msgid "Enter TRUE or FALSE."
 msgstr "Geben Sie TRUE oder FALSE ein."
@@ -21101,6 +21113,10 @@ msgstr "Anfrage zurückstellen"
 msgid "Hold Retention"
 msgstr "Einbehalt nutzen"
 
+#: onedesk/public/js/one/shortcut_center.js:226
+msgid "Hold another key with the middle button. Alone, it opens a link in a new tab."
+msgstr "Halten Sie mit der mittleren Taste eine weitere Taste gedrückt. Allein öffnet sie einen Link in einem neuen Tab."
+
 #: frontend/src/slide/shim/PresenterView.vue:27
 msgid "Hold the mouse on the slide to point at it"
 msgstr "Maustaste auf der Folie gedrückt halten, um darauf zu zeigen"
@@ -24454,6 +24470,10 @@ msgstr "Tastenkombinationen"
 #: onedesk/one_display/starters.py:997
 msgid "Keynote"
 msgstr "Keynote"
+
+#: onedesk/one/shortcut_center.py:115
+msgid "Keys must be a list."
+msgstr "Die Tasten müssen eine Liste sein."
 
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
@@ -27933,6 +27953,10 @@ msgstr "Zwischenauswertung"
 msgid "Middle"
 msgstr "Mitte"
 
+#: onedesk/public/js/one/shortcuts.js:165
+msgid "Middle Click"
+msgstr "Mittelklick"
+
 #: frontend/src/project/TaskPanel.vue:38 frontend/src/project/TaskPanel.vue:39
 #: frontend/src/sheet/services/versions.js:60
 #: frontend/src/template/Tasks.vue:22 frontend/src/template/Tasks.vue:26
@@ -28259,6 +28283,18 @@ msgstr "Am häufigsten gewählt"
 #: frontend/src/slide/shim/MotionSection.vue:3
 msgid "Motion"
 msgstr "Bewegung"
+
+#: onedesk/public/js/one/shortcut_center.js:73
+msgid "Mouse"
+msgstr "Maus"
+
+#: onedesk/public/js/one/shortcuts.js:163
+msgid "Mouse Back"
+msgstr "Maustaste Zurück"
+
+#: onedesk/public/js/one/shortcuts.js:164
+msgid "Mouse Forward"
+msgstr "Maustaste Vorwärts"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
@@ -29494,6 +29530,10 @@ msgstr "Nächste 2 Wochen"
 msgid "Next 7 Days"
 msgstr "Nächste 7 Tage"
 
+#: onedesk/one_mail/shortcuts.py:10
+msgid "Next Conversation"
+msgstr "Nächste Unterhaltung"
+
 #: onedesk/one_inventory/heads.py:1396
 msgid "Next Depreciation"
 msgstr "Nächste Abschreibung"
@@ -29519,6 +29559,14 @@ msgstr "Nächster Abruf"
 #: onedesk/one_project/heads.py:264
 msgid "Next Milestone"
 msgstr "Nächster Meilenstein"
+
+#: onedesk/one_interface/shortcuts.py:33
+msgid "Next Period"
+msgstr "Nächster Zeitraum"
+
+#: onedesk/one_interface/shortcuts.py:30
+msgid "Next Record"
+msgstr "Nächster Datensatz"
 
 #. Label of the next_run_at (Datetime) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json
@@ -29843,6 +29891,10 @@ msgstr "Noch keine Seriennummern"
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:180
 msgid "No Shift"
 msgstr "Ohne Schicht"
+
+#: onedesk/public/js/one/shortcut_center.js:175
+msgid "No Shortcut"
+msgstr "Kein Tastenkürzel"
 
 #. Option for the 'Status' (Select) field in DocType 'Queue Ticket'
 #: frontend/src/display/Counter.vue:21
@@ -30471,6 +30523,11 @@ msgstr "Keine Serververbindungen"
 #: onedesk/public/js/one_mail/onemail_settings.js:1176
 msgid "No shared mailboxes"
 msgstr "Keine gemeinsamen Postfächer"
+
+#: onedesk/public/js/one/shortcut_center.js:244
+#: onedesk/public/js/one/shortcut_center.js:248
+msgid "No shortcut"
+msgstr "Kein Tastenkürzel"
 
 #: frontend/src/project/Team.vue:35
 msgid "No sign-in"
@@ -31310,6 +31367,10 @@ msgstr "Von {0} ist nichts gekommen, und es wurde vor {1} benötigt."
 #: onedesk/one_ai/heads.py:40
 msgid "Nothing has happened yet. It is checked against your own permissions when you apply it."
 msgstr "Noch ist nichts geschehen. Beim Anwenden wird es gegen Ihre eigenen Berechtigungen geprüft."
+
+#: onedesk/public/js/one/shortcut_center.js:214
+msgid "Nothing here uses this key."
+msgstr "Hier verwendet nichts diese Taste."
 
 #: frontend/portal/src/pages/Home.vue:74 frontend/portal/src/pages/List.vue:85
 #: onedesk/public/js/desk.js:356
@@ -37343,6 +37404,10 @@ msgstr "Frappe-Cloud-Hauptdomain"
 msgid "Press Site"
 msgstr "Frappe-Cloud-Site"
 
+#: onedesk/public/js/one/shortcut_center.js:174
+msgid "Press the keys for {0}, or click them on the keyboard or the mouse."
+msgstr "Drücken Sie die Tasten für {0} oder klicken Sie sie auf der Tastatur oder der Maus an."
+
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:175
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:116
 #: frontend/src/slide/shim/EditorNavbar.vue:31
@@ -37386,6 +37451,18 @@ msgstr "Letzte 30 Tage"
 #: frontend/src/sheet/utils/recency-groups.js:11
 msgid "Previous 7 days"
 msgstr "Letzte 7 Tage"
+
+#: onedesk/one_mail/shortcuts.py:11
+msgid "Previous Conversation"
+msgstr "Vorherige Unterhaltung"
+
+#: onedesk/one_interface/shortcuts.py:34
+msgid "Previous Period"
+msgstr "Vorheriger Zeitraum"
+
+#: onedesk/one_interface/shortcuts.py:29
+msgid "Previous Record"
+msgstr "Vorheriger Datensatz"
 
 #. Label of the was_state (Data) field in DocType 'Display Board Change'
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json
@@ -42863,6 +42940,14 @@ msgstr "Google Fonts durchsuchen"
 msgid "Search Items"
 msgstr "Artikel suchen"
 
+#: onedesk/one_mail/shortcuts.py:20
+msgid "Search Mail"
+msgstr "E-Mails durchsuchen"
+
+#: onedesk/one_interface/shortcuts.py:24
+msgid "Search This List"
+msgstr "Diese Liste durchsuchen"
+
 #: frontend/src/inventory/floor/ShopFloor.vue:35
 msgid "Search Work Orders"
 msgstr "Arbeitsaufträge durchsuchen"
@@ -42978,6 +43063,10 @@ msgstr "Alle Aufgaben sehen"
 #: onedesk/one_display/starters.py:701 onedesk/one_display/starters.py:727
 msgid "See all offers"
 msgstr "Alle Angebote ansehen"
+
+#: onedesk/one/shortcuts.py:11
+msgid "See and Change Shortcuts"
+msgstr "Tastenkürzel ansehen und ändern"
 
 #: onedesk/one/abilities.py:27
 msgid "See and put back what anybody deleted, of the kinds of record they may read."
@@ -44410,6 +44499,11 @@ msgstr "{0} fehlt, {1} mehr nötig"
 msgid "Short {0}"
 msgstr "Fehlmenge {0}"
 
+#. Label of a Sidebar Item
+#: onedesk/one/sidebar/one/one.json
+msgid "ShortcutCenter"
+msgstr "ShortcutCenter"
+
 #: frontend/src/slide/shim/EditorNavbar.vue:339
 msgid "Shorten This Slide"
 msgstr "Diese Folie kürzen"
@@ -44650,6 +44744,14 @@ msgstr "Tastenkürzel anzeigen"
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:128
 msgid "Show legend"
 msgstr "Legende anzeigen"
+
+#: onedesk/one_interface/shortcuts.py:20
+msgid "Show or Hide Details"
+msgstr "Details anzeigen oder ausblenden"
+
+#: onedesk/one_interface/shortcuts.py:21
+msgid "Show or Hide the Sidebar"
+msgstr "Seitenleiste anzeigen oder ausblenden"
 
 #: frontend/src/writer/components/WriterSettings.vue:111
 msgid "Show page numbers"
@@ -46198,6 +46300,10 @@ msgstr "E-Mails von einer Adresse oder Domain markieren und jemanden über die G
 #: onedesk/public/js/one_mail/rule_builder.js:565
 msgid "Star mail with an invoice attached and move it to a folder."
 msgstr "E-Mails mit angehängter Rechnung markieren und in einen Ordner verschieben."
+
+#: onedesk/one_mail/shortcuts.py:18
+msgid "Star or Unstar"
+msgstr "Mit Stern markieren oder Stern entfernen"
 
 #. Label of the one_flagged (Check) field in DocType 'Communication'
 #: frontend/src/cloud/CloudItems.vue:73
@@ -51295,6 +51401,10 @@ msgstr "Diesen Bereich gibt es nicht."
 msgid "There is no such service."
 msgstr "Diesen Dienst gibt es nicht."
 
+#: onedesk/one/shortcut_center.py:131
+msgid "There is no such shortcut."
+msgstr "Dieses Tastenkürzel gibt es nicht."
+
 #: onedesk/one_mail/signatures.py:241
 msgid "There is no such signature."
 msgstr "Diese Signatur gibt es nicht."
@@ -54379,6 +54489,10 @@ msgstr "Nach oben"
 msgid "Up Next"
 msgstr "Als Nächstes"
 
+#: onedesk/one_interface/shortcuts.py:18
+msgid "Up One Level"
+msgstr "Eine Ebene höher"
+
 #. Label in the One Employee Benefit Application print format
 #. Label in the One Employee Tax Exemption Declaration print format
 #. Label in the One Employee Tax Exemption Proof Submission print format
@@ -54601,6 +54715,10 @@ msgstr "Mit „Für verloren erklären“ angeben, warum sie verloren wurde."
 #: onedesk/public/js/doctype_settings.js:782
 msgid "Use Expression"
 msgstr "Ausdruck verwenden"
+
+#: onedesk/public/js/one/shortcut_center.js:152
+msgid "Use It Here"
+msgstr "Hier verwenden"
 
 #: frontend/src/inventory/item/ItemPriceRow.vue:11
 msgid "Use Last Price"
@@ -56180,6 +56298,14 @@ msgstr "Was jeder Kunde schuldet, nach Verzug."
 #: onedesk/one_inventory/home.py:120
 msgid "What each item is bought and sold for."
 msgstr "Wofür jeder Artikel ein- und verkauft wird."
+
+#: onedesk/public/js/one/shortcut_center.js:283
+msgid "What each key does in every app. What you change here is yours alone."
+msgstr "Was jede Taste in jeder App tut. Was Sie hier ändern, gilt nur für Sie."
+
+#: onedesk/public/js/one/shortcut_center.js:282
+msgid "What each key does in {0}. What you change here is yours alone."
+msgstr "Was jede Taste in {0} tut. Was Sie hier ändern, gilt nur für Sie."
 
 #: onedesk/one_crm/home.py:130
 msgid "What each lead owner turned into opportunities and sales."
@@ -61811,6 +61937,10 @@ msgstr "genehmigt"
 msgid "auto"
 msgstr "automatisch"
 
+#: onedesk/public/js/one/shortcut_center.js:143
+msgid "belongs to your browser, so it can't be a shortcut."
+msgstr "gehört zu Ihrem Browser und kann deshalb kein Tastenkürzel sein."
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:5016
 msgid "between {0} and {1}"
 msgstr "zwischen {0} und {1}"
@@ -62182,6 +62312,10 @@ msgstr "ist"
 #: onedesk/public/js/one_mail/rule_builder.js:147
 msgid "is a"
 msgstr "ist ein"
+
+#: onedesk/public/js/one/shortcut_center.js:151
+msgid "is already {0}."
+msgstr "ist bereits {0}."
 
 #: onedesk/one_mail/flow.py:292
 msgid "is {0}"
@@ -63549,6 +63683,10 @@ msgstr "{0} wird {1}"
 msgid "{0} being made"
 msgstr "{0} in Fertigung"
 
+#: onedesk/one/shortcut_center.py:120
+msgid "{0} belongs to your browser, so it can't be a shortcut."
+msgstr "{0} gehört zu Ihrem Browser und kann deshalb kein Tastenkürzel sein."
+
 #: onedesk/one_storage/share.py:15
 msgid "{0} belongs to {1} {2}. Share the record instead."
 msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
@@ -64468,6 +64606,10 @@ msgstr "{0} ist keine Gutschrift."
 #: onedesk/one_admin/operator.py:157
 msgid "{0} is not a job."
 msgstr "{0} ist kein Auftrag."
+
+#: onedesk/one/shortcut_center.py:118
+msgid "{0} is not a key."
+msgstr "{0} ist keine Taste."
 
 #: onedesk/one_storage/library.py:21
 msgid "{0} is not a library."

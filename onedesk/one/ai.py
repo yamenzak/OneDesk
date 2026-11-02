@@ -19,6 +19,8 @@ from frappe import _, _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"shortcut_center.save": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
+	"shortcut_center.reset": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"avatars.pick": "How every record of a kind looks is an administrator's choice in One's settings, never OneAI's.",
 	"access.change_ability": "What a role may do is an administrator's decision in AccessCenter, never OneAI's.",
 	"access.rename_role": "Naming a role is an administrator's choice in AccessCenter, never OneAI's.",

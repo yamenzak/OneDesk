@@ -432,3 +432,33 @@ def one_shows_the_weather_for_its_places():
 			weather.forget(place)
 			services.switch(weather.SERVICE, int(was))
 			frappe.local.one_services = {}
+
+
+@check
+def shortcuts_move_for_the_reader_alone():
+	"""ShortcutCenter (one/shortcut_center.py): every module's shortcuts.py
+	read beside the others, each with its own id. Nadia moves Search to
+	Ctrl+Shift+F; it is hers, Karim's is as shipped. Moved back to its own keys
+	it is no longer kept; a key the browser keeps is refused; reset puts every
+	one back."""
+	from onedesk.one import shortcut_center
+
+	ids = [one["id"] for one in shortcut_center.declared()]
+	assert len(ids) == len(set(ids)), "two shortcuts share an id"
+	assert "one_interface.search" in ids and "one_mail.next" in ids, ids
+	shipped = next(one for one in shortcut_center.declared() if one["id"] == "one_interface.search")["keys"]
+	with as_user("nadia@one.test"):
+		try:
+			said = shortcut_center.save("one_interface.search", '["mod+shift+KeyF"]')
+			assert said.get("one_interface.search") == ["mod+shift+KeyF"], said
+			with as_user("karim@one.test"):
+				assert "one_interface.search" not in shortcut_center.yours()
+			assert "one_interface.search" not in shortcut_center.save("one_interface.search", list(shipped))
+			try:
+				shortcut_center.save("one_interface.search", '["mod+KeyW"]')
+			except frappe.ValidationError:
+				pass
+			else:
+				raise AssertionError("a key the browser keeps was taken as a shortcut")
+		finally:
+			assert shortcut_center.reset() == {}

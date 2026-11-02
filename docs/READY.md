@@ -922,13 +922,14 @@ the shell, Home and a few screens of its own; the rest is in `docs/ONE.md`.
 
 ### 18. The centres, and where each opens
 
-**Built.** There are eight: **AccountCenter**, **ControlCenter**,
+**Built.** There are nine: **AccountCenter**, **ControlCenter**,
 **NotificationCenter**, **AccessCenter**, **TrustCenter**, **AICenter**,
-**HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
+**ShortcutCenter**, **HelpCenter** and **UpdateCenter** (`onedesk.CENTERS`). Every one of them is
 One's, and every module but OneAccount adds its part to them from its own
 files rather than drawing one: its settings and Lists (ControlCenter), its
 `abilities.py` (AccessCenter), `notifications.py` (NotificationCenter),
-`legal.py` (TrustCenter), `ai.py` (AICenter), `docs/` (HelpCenter) and
+`legal.py` (TrustCenter), `ai.py` (AICenter), `shortcuts.py`
+(ShortcutCenter), `docs/` (HelpCenter) and
 `docs/changelog/` (UpdateCenter). AccountCenter is One's alone.
 
 **Two ways in, and no third.**
@@ -943,7 +944,7 @@ files rather than drawing one: its settings and Lists (ControlCenter), its
   Help (HelpCenter on the module) and the version (UpdateCenter on it).
   ControlCenter, its Settings, ends with a row per centre it has a part in,
   each opening that centre on the module: Roles and Access, Notifications,
-  OneAI, and Your Data, which every module has
+  OneAI, Keyboard Shortcuts, and Your Data, which every module has
   (`onedesk.module_settings.centers`).
 
 Nothing else opens a centre: the frame's bars carry what is used every day
@@ -963,6 +964,33 @@ Settings leaves one out.
 **Before.** The bottom bar had AICenter, AccessCenter and TrustCenter;
 the foot had a TrustCenter shield; One's rail had You and Workspace groups
 of rows that each opened a centre or a module's settings.
+
+### 19. ShortcutCenter
+
+**Built.** Every module declares its keys in its own `shortcuts.py`
+(`SHORTCUTS`: a key, a label, where it works, the keys it ships with, and
+`frappe` when it takes over a key frappe had). One collects them
+(`one/shortcut_center.py`) into boot, and the engine
+(`public/js/one/shortcuts.js`) runs each in the view it belongs to:
+`anywhere`, `lists`, `record`, `calendar`, or a module's own page by name.
+A shortcut made for the view in front of the reader wins over one that works
+anywhere. The code that does a shortcut says so by its id
+(`onedesk.shortcuts.does("one_mail.next", fn)`, or `shortcut()` from the kit
+on an island), so a screen registers what it does while it is open.
+
+A key is its place on the keyboard (`event.code`), with the modifiers in the
+order mod, alt, shift: `mod+KeyK`, `shift+Slash`, `KeyJ`, so it stays on the
+same key in any layout. A mouse's side buttons are keys too. frappe's own
+keys are folded in: the ones a declaration names stop being frappe's, and
+frappe's list of shortcuts opens ShortcutCenter. Letters alone and Alt+Shift
+are ours; Alt and a letter stays frappe's, which clicks the button whose
+letter is underlined.
+
+ShortcutCenter draws a keyboard and a mouse, lights the keys a row uses, and
+listens when a row's Change is clicked: press the keys, or click them on the
+picture. A key another shortcut uses where this one works asks first. What a
+reader moves is theirs alone, kept as their default `one_shortcuts`; keys
+the browser keeps are refused (`RESERVED`).
 
 ## The fourteen points
 

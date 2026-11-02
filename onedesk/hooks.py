@@ -1013,6 +1013,7 @@ app_include_css = stamped([
 	"/assets/onedesk/css/one_legal/legal.css",
 	"/assets/onedesk/css/one_ai/intake.css",
 	"/assets/onedesk/css/one/news_add.css",
+	"/assets/onedesk/css/one/shortcut_center.css",
 	"/assets/onedesk/css/lost.css",
 ])
 
@@ -1025,6 +1026,8 @@ app_include_js = stamped([
 	"/assets/onedesk/js/theme.js",
 	"/assets/onedesk/js/brand.js",
 	"/assets/onedesk/js/module_settings.js",
+	"/assets/onedesk/js/one/shortcuts.js",
+	"/assets/onedesk/js/one/shortcut_center.js",
 	"/assets/onedesk/js/module_docs.js",
 	"/assets/onedesk/js/one_legal/trust_center.js",
 	"/assets/onedesk/js/check.js",
@@ -1062,6 +1065,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_interface/select.js",
 	"/assets/onedesk/js/one_interface/dialogs.js",
 	"/assets/onedesk/js/one_interface/stamps.js",
+	"/assets/onedesk/js/one_interface/keys.js",
 	"/assets/onedesk/js/one/news_add.js",
 	"/assets/onedesk/js/one_portal/portal.js",
 	"/assets/onedesk/js/one_task/task_control.js",
