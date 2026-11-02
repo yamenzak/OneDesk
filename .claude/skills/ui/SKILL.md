@@ -89,7 +89,17 @@ our own component only when none of those has it. A figure is the kit's
 
 ## The record (Canvas)
 
-Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
+Top to bottom: the address row, the head, the cards, the tabs, the section cards.
+
+- **The address row is where you are, not what you do.** Nav, the address
+  and its star, then print, OneCloud, refresh, the record's ‹ ›, the view's
+  ⋮ menu (three dots on end, every view) and the details switch.
+- **What acts on the record stands by its name,** as New stands by a
+  list's: frappe's primary and its commands and a doctype's own buttons,
+  moved into the head (`record.head`), wrapping under the name before the
+  track gives up its place across from it. A new record has a head too
+  ("New Sales Invoice", Save beside it), so its tabs never sit against the
+  address row.
 
 - **The head is the record's Overview.** Picture (frappe's own wrapper,
   moved, so upload still works), name, state pill, the ID on a quiet line
@@ -102,11 +112,13 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
   is read as a choice.
 - **A card's title says what and over what span** ("Billed in 12
   months"); the value is only the number.
-- **One sheet per tab.** Sections are space and a hairline, never a card
-  each; a heading sits over its fields in one grid. A tab with nothing in
-  it goes, and the record opens on the first tab that has something.
-- **A box means it can be changed.** An editable field shows its outline at
-  rest; one that cannot be changed is plain text. On a saved record an
+- **A section is a card** (the island level, `--one-line`,
+  `--one-radius-sheet`, 10px apart); a section with no heading of its own
+  joins the card above it. A tab with nothing in it goes, and the record
+  opens on the first tab that has something.
+- **A box means it can be changed.** An editable field is filled on the
+  control level, a dip in its card, with no edge until you type in it; one
+  that cannot be changed is plain text. On a saved record an
   empty field nobody must fill waits behind Show N Empty Fields.
 - **A value is never cut, and nothing changes size because of what it
   holds.** Plain text wraps; a box keeps its width, ends in an ellipsis and
@@ -125,7 +137,7 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 ## The list (Canvas)
 
 - **Each row of the head holds one kind of thing.** The address island:
-  where you are, refresh, search, the view's … menu. Under it, what
+  where you are, refresh, search, the view's ⋮ menu. Under it, what
   narrows: frappe's quick filters from the edge, Filter and the sort as
   icons at the end. The heading: icon, name, New beside it, the views at
   the far end. Then the states, then the rows. Nothing is said twice (the
@@ -136,6 +148,12 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
   are. Never copy a frappe node to show it twice; move it.
 - **One edge** (`--one-inset`) for every row of the window; only a box
   (an island, the head pill, a row) sets its own content in.
+- **Every view of a list wears this head:** Report, Kanban, Gantt, Calendar,
+  Image, Map, Dashboard, a tree (its title, Add as New) and a query report
+  (its name, its own buttons where the ways go, its whole filter form in the
+  row, wrapping, never scrolled out of sight). The states strip is left off
+  a board and a dashboard. A report's table is the list's island exactly:
+  the same radius, hairline, 6px inset and column-head band.
 - **A row's activity is always shown** in quiet ink at its end. Hover may
   add, never reveal what was always meant to be seen. Bold for an unread
   record is frappe's and stays.
@@ -145,9 +163,11 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 - **Every control is 28px,** `--one-radius-control`, 16px icons, 13px
   words, on `--one-head-button-bg`. The island's own controls (refresh,
   search, the menu) are on the island's `--one-address-bg`.
-- **One colour for what is chosen:** the side pane's row, the state tab, the view and the
-  column heads' pill all read `--one-chosen` (New's colour washed into the
-  canvas). The main action is the only solid thing; a solid band of it is
+- **One colour for what is chosen:** the side pane's row, the state tab, the view, a
+  record's and a panel's tabs and a pressed command all read `--one-chosen`
+  (New's colour washed into the canvas). A column head is not chosen: every
+  table's heads (list, record table, report) are one band on the control
+  level, the tone of the quick filters over them. The main action is the only solid thing; a solid band of it is
   a bright bar in dark.
 - **Three corners, by what a thing is:** a control
   (`--one-radius-control`), a surface or island (`--one-radius-sheet`), a
@@ -200,6 +220,12 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
 
 ## Surfaces
 
+- **Four levels, back to front:** page (`--one-level-page`), island (the
+  address row, section cards, a list, a table), control (a field, a button,
+  a column-head band, set apart from its island further than the island is
+  from the page) and float (menus, dialogs, the details pane, the status
+  line). Every surface role reads one; a new surface picks its level, not a
+  colour. A dark palette may come forward by going darker.
 - **Only the work is a sheet.** The panel and the record's alert sit on the
   canvas; a second white surface beside the record competes with it.
 - **A line is drawn only when it joins two things.** No rule down a feed,
@@ -209,9 +235,13 @@ Top to bottom: address bar, actions bar, then the head, the tabs, the sheet.
   is zeroed by the renderer, not page by page.
 - **Roles, not the scale,** in the frame and Canvas: `--one-sidebar-active-bg`,
   `--one-primary-bg`, `--one-radius-control`, never `--surface-gray-2` or
-  `--radius-md`. A new part gets a role in `tokens.css` (Standard's value)
-  and a value in every palette in `palettes.css`, in the same commit;
-  `test_palettes.py` fails otherwise. Elsewhere, frappe's tokens:
+  `--radius-md`. A new part gets a role in `tokens.css` (Slate's value:
+  Slate is the palette of frappe-ui's own greys, id `standard`) and a value
+  in every palette in `palettes.css`, in the same commit; `test_palettes.py`
+  fails otherwise, and also when a surface leaves its level, the levels
+  leave their order (in Sand and in Slate), a chosen thing leaves
+  `--one-chosen`, a column head leaves the control level, or a section card,
+  a list or a report's table leaves the island's shape. Elsewhere, frappe's tokens:
   `--ink-*`, `--surface-*`, `--outline-*`, `--radius-*`, 1px borders. No
   shadows, literal colours or Tailwind palette classes. A token that does
   not exist fails silently, so `test_tokens.py` checks each one resolves.

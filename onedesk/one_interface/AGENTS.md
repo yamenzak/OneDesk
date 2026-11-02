@@ -387,10 +387,18 @@ the window's buttons hide.
 
 ## A record's head
 
-A record has nothing to narrow, so in Canvas its commands join the address
-row, as a browser's toolbar does: nav, the address and its star, the
-commands (primary first, then its own, then print and OneCloud), frappe's
-Cancel, refresh, the steps, the menu, the details switch. The address row
+A record has nothing to narrow. In Canvas what acts on it stands by its
+name, as New stands by a list's: `record.head` moves frappe's primary, its
+commands and a doctype's own buttons (`.standard-items-section`) into
+`.one-hero-actions` in the head's title, where they wrap under the name
+before the track gives up its place. The address row keeps the nav, the
+address and its star, print and OneCloud (`.one-bar-icons`, in the row's
+tools), refresh, the record's ‹ ›, the view's menu (frappe's ellipsis,
+turned on end as `ellipsis-vertical` in every view) and the details
+switch. A new record has a head too, its name "New {doctype}", so its tabs
+never sit against the address row. What follows describes the older case
+where the commands stay in the address row, still in force for a page
+whose commands are not moved: The address row
 is held at the top, so Save and Submit stay in reach. `Frame.one_join`
 measures what the parts need (not what a row stretched them to) and sets
 `.one-head-joined` only when they fit beside an address of at least 220px;

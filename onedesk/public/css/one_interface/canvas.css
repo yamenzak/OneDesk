@@ -823,3 +823,22 @@
 :root[data-one-look="canvas"] .one-interface .datatable .dt-row-filter .dt-cell { border-color: transparent !important; }
 /* A command that stays pressed (the details pane open) is chosen like a tab is. */
 :root[data-one-look="canvas"] .one-interface .one-interface-commands .es-button[data-state="on"] { background: var(--one-chosen) !important; }
+/* A record's commands stand by its name (look.js record.head), as New stands by a list's; the address row keeps print, OneCloud,
+   refresh, the record's ‹ › and the menu. A new record has the head too, so its tabs never sit against the address row. */
+:root[data-one-look="canvas"] .one-hero-record .one-hero-title .one-hero-actions { margin-inline-start: 4px; flex-wrap: wrap; gap: 6px; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is(.one-interface-commands, .standard-items-section) { display: flex !important; align-items: center; gap: 6px; margin: 0 !important; padding: 0 !important; border: 0 !important; background: transparent !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is(.es-button, .btn) { height: 28px !important; min-height: 28px !important; padding: 0 10px !important; border-radius: var(--one-radius-control) !important; font-size: 14px !important; font-weight: var(--one-button-weight) !important; box-shadow: none !important; border: 1px solid transparent !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) { background: var(--one-head-button-bg) !important; color: var(--one-button-ink) !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary):hover { background: var(--one-head-button-hover) !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is([data-variant="solid"], .primary-action, .btn-primary) { background: var(--one-primary-bg) !important; color: var(--one-primary-ink) !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions :is([data-variant="solid"], .primary-action) * { color: var(--one-primary-ink) !important; }
+:root[data-one-look="canvas"] .one-hero-record .one-hero-actions .es-button[data-state="on"] { background: var(--one-chosen) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .one-bar-icons { display: flex; align-items: center; gap: 2px; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .one-bar-icons :is(.es-button, .btn, button, a) { background: transparent !important; padding: 0 !important; width: 28px !important; min-width: 28px !important; height: 28px; display: inline-grid !important; place-items: center; border: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .one-bar-icons > *:hover { background: var(--one-hover) !important; border-radius: var(--one-radius-control); }
+/* A report's head, strip and table: the strip keeps its pills' height in a report's column, and a query report's table stands on the
+   list's edges, a gap under its name. */
+:root[data-one-look="canvas"] .one-interface :is(.one-hero-list, .one-strip) { flex-shrink: 0; }
+:root[data-one-look="canvas"] .one-interface .report-wrapper { padding-inline: var(--one-inset) !important; padding-top: 10px !important; }
+/* The name's column gives way before the track does: its actions wrap under the name, and the track keeps its place across from it. */
+:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { flex: 1 1 0; min-width: 0; }

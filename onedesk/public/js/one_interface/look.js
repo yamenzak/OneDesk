@@ -110,7 +110,9 @@ record.head = (frm) => {
 	const container = frm.page && frm.page.wrapper && frm.page.wrapper[0];
 	const pageHead = container && container.querySelector(":scope > .page-head, .page-head");
 	if (!pageHead) return;
-	const shown = !frm.is_new();
+	// a new record has a head too: its name says New, its commands sit by it
+	const shown = true;
+	const fresh = frm.is_new();
 	container.classList.toggle("one-has-head", shown);
 	let hero = container.one_hero;
 	if (!hero) {
@@ -131,10 +133,25 @@ record.head = (frm) => {
 	}
 
 	const title = hero.querySelector(".one-hero-title");
-	const name = frm.doc[frm.meta.title_field] || frm.doc.name;
+	const name = fresh ? __("New {0}", [__(frm.doctype)]) : frm.doc[frm.meta.title_field] || frm.doc.name;
 	title.querySelector("h1").textContent = name;
 	const pill = pageHead.querySelector(".page-indicator-pill") || title.querySelector(".page-indicator-pill");
 	if (pill && pill.parentElement !== title) title.append(pill);
+
+	// what acts on the record stands by its name, as New stands by a list's,
+	// and leaves the address row its room: frappe's primary and its
+	// commands, and the buttons a doctype adds. Moved, so frappe's references
+	// to them still work.
+	let actions = hero.querySelector(".one-hero-actions");
+	if (!actions) {
+		actions = document.createElement("div");
+		actions.className = "one-hero-actions";
+		title.append(actions);
+	}
+	const commands = pageHead.querySelector(".one-interface-commands");
+	const extra = pageHead.querySelector(".page-head-content > .standard-items-section");
+	if (commands && commands.parentElement !== actions) actions.append(commands);
+	if (extra && extra.parentElement !== actions) actions.append(extra);
 
 	// frappe's own picture, moved, so its upload and remove still work
 	const face = hero.querySelector(".one-hero-face");
@@ -148,7 +165,7 @@ record.head = (frm) => {
 
 	// the ID, a quiet line under the name, copied when clicked
 	hero.querySelector(".one-hero-name")?.remove();
-	if (frm.doc.name && frm.doc.name !== name) {
+	if (!fresh && frm.doc.name && frm.doc.name !== name) {
 		const id = document.createElement("button");
 		id.className = "one-hero-name";
 		id.title = __("Copy");
@@ -236,13 +253,14 @@ record.head = (frm) => {
 		}
 	}
 
-	// print and OneCloud sit at the bar's end, before Cancel
-	const commands = pageHead.querySelector(".one-interface-commands");
+	// print and OneCloud stay in the address row, before refresh and the
+	// menu, when the record's commands go to stand by its name
+	const tools = pageHead.querySelector(".one-interface-tools");
 	const likes = container.querySelector(".form-sidebar .form-stats-likes");
-	if (commands && likes) {
-		commands.querySelectorAll(".one-bar-icons").forEach((old) => old !== likes && old.remove());
+	if (tools && likes) {
+		container.querySelectorAll(".one-bar-icons").forEach((old) => old !== likes && old.remove());
 		likes.classList.add("one-bar-icons");
-		if (likes.parentElement !== commands) commands.append(likes);
+		if (likes.parentElement !== tools) tools.prepend(likes);
 	}
 };
 
@@ -663,6 +681,8 @@ list.icons = (view) => {
 			if (!content || !form) return this.$wrapper.removeClass("one-head-joined");
 			const width = (el) => (el && el.offsetParent ? el.getBoundingClientRect().width : 0);
 			const extra = content.querySelector(":scope > .standard-items-section");
+			// a record's commands stand by its name, out of the address row
+			if (!head.contains(this.$commands[0])) return this.$wrapper.addClass("one-head-joined");
 			// what the parts need, not what a row stretched them to
 			const own = (el) => (el ? [...el.children].reduce((sum, child) => sum + width(child) + 6, 0) : 0);
 			const deep = (el) => (el ? [...el.children].reduce((sum, child) => sum + (child.children.length && !child.matches("button, .btn, .es-button") ? own(child) : width(child) + 6), 0) : 0);
@@ -676,6 +696,8 @@ list.icons = (view) => {
 			if (onedesk.interface.uses("head")) {
 				const menu = this.group("menu");
 				if (menu[0].parentElement !== this.$tools[0] || menu[0].nextElementSibling) this.$tools.append(menu);
+				// the view's menu is three dots stood on end, the address row's last word
+				menu[0].querySelectorAll('.menu-more-button use[href="#icon-ellipsis"]').forEach((use) => use.setAttribute("href", "#icon-ellipsis-vertical"));
 				if (parts.menu && parts.menu.dropdown) parts.menu.dropdown.align = "end";
 				// the head says its own height, so what sticks under it sits right
 				// whether its commands fit the address row or wrap under it
