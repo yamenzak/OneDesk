@@ -30,6 +30,7 @@ LIFTED = (
 	"_without_thinking",
 	"_openai_calls",
 	"_arguments",
+	"_repaired",
 	"_gemini_calls",
 	"_gemini_turn",
 )

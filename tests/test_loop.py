@@ -31,6 +31,7 @@ LIFTED = (
 	"_openai_turn",
 	"_openai_calls",
 	"_arguments",
+	"_repaired",
 	"_gemini_turn",
 	"_gemini_calls",
 	"_first_part",
@@ -144,6 +145,19 @@ def test_arguments_that_are_not_json_are_no_arguments_rather_than_a_traceback():
 	room = turns()
 	body = {"result": {"tool_calls": [{"name": "list_records", "arguments": "{oops"}]}}
 	assert room["_openai_calls"](body) == [{"id": "list_records", "tool": "list_records", "args": {}}]
+
+
+def test_arguments_written_almost_as_json_are_read():
+	"""A trailing comma or a missing brace, as frappe's Flow repairs them."""
+	room = turns()
+	assert room["_arguments"]('{"doctype": "Customer", "limit": 5,}') == [{"doctype": "Customer", "limit": 5}]
+	assert room["_arguments"]('{"doctype": "Customer"') == [{"doctype": "Customer"}]
+	assert room["_arguments"]('{"a": 1}{"b": 2}') == [{"a": 1}, {"b": 2}]
+
+
+def test_a_rate_limit_asks_the_same_model_once_more_and_a_timeout_does_not():
+	said = spoken(GATEWAY, "_first_that_answers") + spoken(GATEWAY, "_blip")
+	assert "time.sleep(PAUSE)" in said and "worth_retrying(raised.status)" in said and "bool(raised.status)" in said
 
 
 def test_a_call_with_no_name_in_it_is_dropped():

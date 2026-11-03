@@ -58,6 +58,23 @@ frappe.ui.form.on("Extension", {
 		frm.toggle_display(DRAWN, false);
 		frm.set_df_property("code", "label", "");
 		frm.events.draw(frm);
+		frm.events.offer_draft(frm);
+	},
+
+	offer_draft(frm) {
+		const draft = frm.doc.draft && JSON.parse(frm.doc.draft);
+		if (!draft) return;
+		const call = (method) =>
+			frappe
+				.xcall(`onedesk.one_studio.extensions.${method}`, { extension: frm.doc.name })
+				.then(() => frm.reload_doc());
+		if (draft.review === "Passed") {
+			frm.add_custom_button(__("Use New Version"), () => call("use_draft"));
+			frm.change_custom_button_type(__("Use New Version"), null, "primary");
+		}
+		frm.add_custom_button(__("Discard New Version"), () =>
+			frappe.confirm(__("Discard the new version? The one that is on stays as it is."), () => call("drop_draft")),
+		);
 	},
 
 	draw(frm) {
@@ -124,6 +141,25 @@ frappe.ui.form.on("Extension", {
 				shell.section(
 					__("Review"),
 					doc.review_note ? text(doc.review_note) : "",
+					"",
+					badge,
+				),
+			);
+		}
+		const draft = doc.draft && JSON.parse(doc.draft);
+		if (draft) {
+			const badge = frappe.ui.badge.html({
+				label: __(draft.review),
+				theme: draft.review === "Passed" ? "green" : "red",
+			});
+			sections.unshift(
+				shell.section(
+					__("New Version"),
+					text(
+						draft.review === "Passed"
+							? __("OneAI wrote a new version. The one that is on keeps running until you use it.")
+							: __("OneAI wrote a new version, and the review refused it. The one that is on keeps running."),
+					) + (draft.review_note ? text(draft.review_note) : ""),
 					"",
 					badge,
 				),

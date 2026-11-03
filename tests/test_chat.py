@@ -108,7 +108,9 @@ def test_a_failed_run_is_logged_when_it_is_a_bug_and_said_when_it_is_not():
 
 
 def test_the_whole_conversation_is_kept_and_only_the_tail_is_sent():
-	assert "turns[-KEPT:]" in spoken(CHAT, "_ran"), "the whole conversation is sent every round"
+	assert "_sent(doc, turns)" in spoken(CHAT, "_ran"), "the whole conversation is sent every round"
+	sent = spoken(CHAT, "_sent")
+	assert "turns[-KEPT:]" in sent and "RECALL_EVERY" in sent and "earlier_upto" in sent, "older turns are recalled, not sent"
 	assert "shown(turns)" in spoken(CHAT, "say")
 
 

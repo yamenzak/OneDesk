@@ -221,7 +221,8 @@ def mend_extension(
 		"extension": doc.name,
 		"title": doc.title,
 		"started": mend.start(doc, problem),
-		"next": "Say that OneAI is fixing it, that it takes about a minute and they will be told what went wrong, and that the fixed version stays off until they turn it on from its page.",
+		"next": "Say that OneAI is fixing it, that it takes about a minute and they will be told what went wrong, and that the fixed version waits on its page until they use it"
+		+ (": the one that is on keeps running meanwhile." if doc.enabled else "."),
 	}
 
 
@@ -335,14 +336,22 @@ def write_extension(
 		**_proposed(doc, asked),
 		"tried": kept["tried"],
 		"next": "If what it did when tried is not what was asked, write it again with "
-		f"extension={doc.name}. Otherwise say in one sentence what it does, and that approving turns it on. "
-		"Do not show the code.",
+		f"extension={doc.name}. Otherwise say in one sentence what it does, and "
+		+ (
+			"that the version now on keeps running until approving puts this one in its place. "
+			if kept.get("draft")
+			else "that approving turns it on. "
+		)
+		+ "Do not show the code.",
 	}
 
 
 def _proposed(doc, why: str) -> dict:
-	"""The card that turns an extension on, as it stands, when approved."""
+	"""The card that turns an extension on, as it stands, when approved; for
+	one that is on, the card that puts its new version in its place."""
 	from onedesk.one_ai import proposals
+
+	doc = extensions.drafted(doc) or doc
 
 	where = (
 		extensions._place_said(doc)
@@ -377,10 +386,14 @@ def turn_on(changes: dict) -> str:
 	"""A Setup card for an extension approved: turned on, as whoever pressed
 	Approve, if it is still the code that was shown."""
 	doc = frappe.get_doc(extensions.EXTENSION, changes["extension"])
-	if extensions.reviewed_as(doc) != changes.get("state"):
+	shown = extensions.drafted(doc) or doc
+	if extensions.reviewed_as(shown) != changes.get("state"):
 		raise frappe.ValidationError(
 			_("{0} has changed since this was suggested, so it no longer applies.").format(doc.title)
 		)
+	if shown is not doc:
+		extensions.take_draft(doc)
+		return doc.name
 	doc.enabled = 1
 	doc.save()
 	return doc.name

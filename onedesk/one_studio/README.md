@@ -95,8 +95,12 @@ not see its code, and nobody in your workspace writes or changes it by hand,
 so there is nothing to type and no Save: OneAI writes it, and to change one you
 press **Change this one…** on it and say what ("make it apply only to new
 customers"). OneAI reads the code it has now and changes only what you
-asked, keeping the rest as it was; it is reviewed again, and it stays off
-until you approve it. Changing where or when it runs counts as changing it.
+asked, keeping the rest as it was, and it is reviewed again. A new version
+of one that is on waits on its page under **New Version**, while the one that
+is on keeps running: approve OneAI's suggestion, or press **Use New Version**,
+to run it in its place, or **Discard New Version** to keep what runs. A new
+version of one that is off stays off until you approve it. Changing where or
+when it runs makes it a new extension to turn on.
 
 **Turning one on and off.** **Turn On** and **Turn Off** at the top of the
 extension. One the review refused cannot be turned on; ask OneAI to change
@@ -112,7 +116,9 @@ one. The extension's **Errors** tab lists them: when, on which record, and what
 went wrong in one line, since OneAI last wrote it. Press **Fix With OneAI**
 at the top of the extension: OneAI reads the code and its errors, and a few
 minutes later tells you what went wrong and that it has written a fixed
-version, reviewed and off until you turn it on. Or ask **Has this one run into errors?**
+version, reviewed: for one that is on, it waits under **New Version** while
+the one that is on keeps running; for one that is off, it stays off until
+you turn it on. Or ask **Has this one run into errors?**
 in OneAI, or turn it off. An extension can also go wrong without an error:
 one that never does its work logs nothing. Tell OneAI what it does wrong,
 such as "Create Call Task never makes the task", and it fixes it the same

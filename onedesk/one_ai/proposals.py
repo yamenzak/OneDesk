@@ -93,8 +93,7 @@ def apply(proposal: str) -> dict:
 		from onedesk.one_studio import customize
 
 		if changes.get("token") != customize.state(entry.for_doctype):
-			entry.db_set("state", "Stale")
-			frappe.db.commit()
+			_stale(entry)
 			frappe.throw(
 				frappe._(
 					"How {0} looks has changed since this was suggested, so it no longer applies."
@@ -129,8 +128,7 @@ def apply(proposal: str) -> dict:
 
 		roles.require()
 		if str(frappe.db.get_value("Holiday List", entry.record, "modified")) != changes.get("modified"):
-			entry.db_set("state", "Stale")
-			frappe.db.commit()
+			_stale(entry)
 			frappe.throw(
 				frappe._("{0} has changed since this was suggested, so it no longer applies.").format(
 					entry.record
@@ -149,8 +147,7 @@ def apply(proposal: str) -> dict:
 		from onedesk.one_studio import numbering
 
 		if changes.get("state") != numbering.state(entry.for_doctype):
-			entry.db_set("state", "Stale")
-			frappe.db.commit()
+			_stale(entry)
 			frappe.throw(
 				frappe._(
 					"How {0} is numbered has changed since this was suggested, so it no longer applies."
@@ -175,8 +172,7 @@ def apply(proposal: str) -> dict:
 		made = changes.get("format") or {}
 		kind_of = entry.for_doctype if changes.get("default_format") or made else None
 		if changes.get("state") != printing.state(kind_of, made.get("name")):
-			entry.db_set("state", "Stale")
-			frappe.db.commit()
+			_stale(entry)
 			frappe.throw(
 				frappe._("How documents print has changed since this was suggested, so it no longer applies.")
 			)
@@ -195,8 +191,7 @@ def apply(proposal: str) -> dict:
 		from onedesk.one_studio import approvals
 
 		if changes.get("state") != approvals.state(entry.for_doctype):
-			entry.db_set("state", "Stale")
-			frappe.db.commit()
+			_stale(entry)
 			frappe.throw(
 				frappe._("The approvals on {0} have changed since this was suggested, so it no longer applies.").format(
 					frappe._(entry.for_doctype)
@@ -211,8 +206,7 @@ def apply(proposal: str) -> dict:
 			made = ai_setup.apply(changes)
 		except frappe.ValidationError as e:
 			if "no longer applies" in str(e):
-				entry.db_set("state", "Stale")
-				frappe.db.commit()
+				_stale(entry)
 			raise
 		return _done(entry, made)
 
@@ -232,7 +226,7 @@ def apply(proposal: str) -> dict:
 
 	held = frappe.get_doc(entry.for_doctype, entry.record)
 	if entry.modified_then and str(held.modified) != entry.modified_then:
-		entry.db_set("state", "Stale")
+		_stale(entry)
 		frappe.throw(
 			frappe._("{0} has changed since this was suggested, so it no longer applies.").format(
 				entry.record
@@ -408,19 +402,42 @@ IN_THE_PANEL = ("Reply", "Mail")
 def apply_all(names: list[str]) -> list[dict]:
 	"""Approve several cards at once, in the order they were suggested, which is
 	the order they point at each other in. A card already approved because a
-	later one needed it is skipped; one only the panel can apply is left."""
+	later one needed it is skipped; one only the panel can apply is left.
+
+	All or nothing, as frappe's Flow runs a batch: when one card cannot be
+	done, none of them is, and a card found out of date is marked so after
+	the rest are undone."""
 	out = []
-	for name in names:
-		held = frappe.db.get_value("AI Proposal", name, ["state", "kind", "record"], as_dict=True)
-		if not held or held.state != "Proposed":
-			continue
-		if held.kind in IN_THE_PANEL or (held.kind == "Edit" and not held.record):
-			out.append({"proposal": name, "state": "Proposed", "left": True})
-			continue
-		out.append(apply(name))
+	frappe.flags.one_stale = []
+	try:
+		for name in names:
+			held = frappe.db.get_value("AI Proposal", name, ["state", "kind", "record"], as_dict=True)
+			if not held or held.state != "Proposed":
+				continue
+			if held.kind in IN_THE_PANEL or (held.kind == "Edit" and not held.record):
+				out.append({"proposal": name, "state": "Proposed", "left": True})
+				continue
+			out.append(apply(name))
+	except Exception:
+		stale, frappe.flags.one_stale = frappe.flags.one_stale, None
+		frappe.db.rollback()
+		for name in stale:
+			frappe.db.set_value("AI Proposal", name, "state", "Stale")
+		if stale:
+			frappe.db.commit()
+		raise
+	frappe.flags.one_stale = None
 	return out
 
 
+def _stale(entry) -> None:
+	"""A card that no longer applies, marked so for good: at once, or inside
+	Approve All once the cards before it are undone."""
+	if frappe.flags.one_stale is not None:
+		frappe.flags.one_stale.append(entry.name)
+		return
+	entry.db_set("state", "Stale")
+	frappe.db.commit()
 
 
 def _understood(doctype: str, changes: dict) -> dict:

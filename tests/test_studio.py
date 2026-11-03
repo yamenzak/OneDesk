@@ -293,7 +293,7 @@ def test_mending_reads_the_code_on_the_server_and_answers_only_the_diagnosis():
 	assert "roles.require()" in mend and "run.once(MEND," in mend
 	assert "extensions.write(" in mend, "the mended code is guarded and reviewed like any"
 	assert (
-		'return {"extension": doc.name, "diagnosis": diagnosis, "review": kept["review"], "why": kept["why"]}'
+		'"diagnosis": diagnosis,'
 		in mend
 	)
 	assert 'if code == (doc.code or "").strip():' in mend

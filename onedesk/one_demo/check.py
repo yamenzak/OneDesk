@@ -901,6 +901,25 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=fixed):
 				said = mend.mend(screen)
 			assert said["review"] == "Passed" and not frappe.db.get_value(extensions.EXTENSION, screen, "enabled"), "a fixed extension stays off"
+			on = frappe.get_doc(extensions.EXTENSION, screen)
+			on.enabled = 1
+			on.save()
+			running = on.code
+			again = {**fixed, "code": fixed["code"].replace("No mobile number yet.", "This customer has no mobile number yet.")}
+			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=again):
+				assert mend.mend(screen)["draft"], "a fix of one that is on waits beside it"
+			on.reload()
+			assert on.enabled and on.code == running and extensions.drafted(on).code == again["code"]
+			extensions.use_draft(screen)
+			on.reload()
+			assert on.enabled and on.code == again["code"] and not on.draft, "Use New Version runs it in its place"
+			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=fixed):
+				mend.mend(screen)
+			extensions.drop_draft(screen)
+			on.reload()
+			assert on.code == again["code"] and not on.draft, "Discard New Version leaves the one that is on"
+			on.enabled = 0
+			on.save()
 		with mock.patch("frappe.enqueue") as queued:
 			assert "error" in ai.mend_extension(screen)
 			assert ai.mend_extension(screen, "It says nothing on a new customer").get("started")

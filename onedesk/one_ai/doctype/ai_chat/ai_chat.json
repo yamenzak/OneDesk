@@ -15,7 +15,9 @@
   "model",
   "titled",
   "said_section",
-  "turns"
+  "turns",
+  "earlier",
+  "earlier_upto"
  ],
  "fields": [
   {
@@ -69,11 +71,27 @@
    "read_only": 1,
    "description": "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person.",
    "ignore_xss_filter": 1
+  },
+  {
+   "fieldname": "earlier",
+   "fieldtype": "Long Text",
+   "label": "Earlier",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "What OneAI recalls of the turns too old to send again."
+  },
+  {
+   "fieldname": "earlier_upto",
+   "fieldtype": "Int",
+   "label": "Earlier Up To",
+   "hidden": 1,
+   "read_only": 1,
+   "description": "How many turns that covers."
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-26 16:00:00.000000",
+ "modified": "2026-11-03 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Chat",

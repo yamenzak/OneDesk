@@ -9,6 +9,7 @@ hold, call, and settle what it cost.
 import base64
 import json
 import re
+import time
 from datetime import date
 
 import frappe
@@ -22,6 +23,8 @@ API = "https://api.cloudflare.com/client/v4/accounts/{account}/ai"
 URL = "https://gateway.ai.cloudflare.com/v1"
 
 TIMEOUT = 60
+
+PAUSE = 2
 
 THOUGHT = 110
 
@@ -387,15 +390,29 @@ def _got(model: str, where: str, headers: dict, timeout: int = TIMEOUT):
 def _first_that_answers(asked: list[str], ask):
 	"""The first model's answer, or its fallback's when the first cannot
 	answer now or no longer exists. A refusal of what was asked is not tried
-	again on another model: it would be refused there too."""
+	again on another model: it would be refused there too.
+
+	A model that answered a rate limit or a bad moment (429, 5xx) is asked
+	once more after a pause before the next is: the round is often fine a
+	second later, and a fallback is a weaker or dearer model. A timeout is
+	not asked again, since the model may have spent the time answering."""
 	for at, model in enumerate(asked):
-		try:
-			return model, ask(model)
-		except Refused as raised:
-			gone = raised.status in (402, 404, 410)
-			if at == len(asked) - 1 or not (isinstance(raised, Again) or gone):
-				raise
+		for attempt in range(2):
+			try:
+				return model, ask(model)
+			except Refused as raised:
+				gone = raised.status in (402, 404, 410)
+				if attempt == 0 and _blip(raised):
+					time.sleep(PAUSE)
+					continue
+				if at == len(asked) - 1 or not (isinstance(raised, Again) or gone):
+					raise
+				break
 	raise Refused("no model answered")
+
+
+def _blip(raised: Refused) -> bool:
+	return isinstance(raised, Again) and bool(raised.status) and faults.worth_retrying(raised.status)
 
 
 def _ceiling(asked: list[str], caps: dict, money: dict) -> float:
@@ -683,7 +700,7 @@ def _arguments(args) -> list[dict]:
 			try:
 				one, at = json.JSONDecoder().raw_decode(text, at)
 			except ValueError:
-				every = []
+				every = [] if at else [_repaired(text)]
 				break
 			every.append(one)
 			while at < len(text) and text[at].isspace():
@@ -692,6 +709,19 @@ def _arguments(args) -> list[dict]:
 			return [one for one in every if isinstance(one, dict)] or [{}]
 		args = every[0] if every else {}
 	return [args if isinstance(args, dict) else {}]
+
+
+def _repaired(text: str) -> dict:
+	"""A call's arguments a model wrote almost as JSON (a trailing comma, a
+	missing brace, single quotes), read the way frappe's Flow reads them;
+	nothing when even that does not make an object of them."""
+	from json_repair import repair_json
+
+	try:
+		one = repair_json(text, return_objects=True)
+	except Exception:
+		return {}
+	return one if isinstance(one, dict) else {}
 
 
 # What Gemini 3 is handed back for a call it did not make, such as one a

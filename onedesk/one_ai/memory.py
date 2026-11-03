@@ -88,13 +88,15 @@ def recall(
 	text: Annotated[str, "Words to look for: a name, a subject, a term. Leave it out for everything."] = "",
 ) -> dict:
 	"""Search what the reader asked OneAI to remember and what this workspace
-	wrote down for OneAI — policies, a glossary, how things are done here.
+	wrote down for OneAI — policies, a glossary, how things are done here —
+	by its words and by what it means, as frappe's Flow recalls memory.
 	Without words, everything: what OneAI knows about the reader."""
 	words = _words(text)
+	meant = _meant(text)
 	mine = frappe.get_list(
 		"AI Memory",
 		filters={"owner": frappe.session.user},
-		or_filters=[["fact", "like", f"%{one}%"] for one in words],
+		or_filters=[["fact", "like", f"%{one}%"] for one in words] + _by_name(meant, "AI Memory"),
 		fields=["fact", "about_doctype", "about_name", "modified"],
 		order_by="modified desc",
 		limit_page_length=20,
@@ -102,7 +104,8 @@ def recall(
 	known = frappe.get_list(
 		"AI Knowledge",
 		filters={"enabled": 1},
-		or_filters=[f for one in words for f in (["title", "like", f"%{one}%"], ["body", "like", f"%{one}%"])],
+		or_filters=[f for one in words for f in (["title", "like", f"%{one}%"], ["body", "like", f"%{one}%"])]
+		+ _by_name(meant, "AI Knowledge"),
 		fields=["title", "applies_to", "body"],
 		limit_page_length=5,
 	)
@@ -112,6 +115,25 @@ def recall(
 		],
 		"knowledge": [{"title": one.title, "applies_to": one.applies_to, "text": _text(one.body)} for one in known],
 	}
+
+
+def _meant(text: str) -> list[dict]:
+	"""The memories and notes closest in meaning to the words, that the reader
+	may open (one_ai/index.py); none without words or a search."""
+	from onedesk.one_ai import index
+
+	if not (text or "").strip():
+		return []
+	try:
+		return index.nearest(text, ("AI Memory", "AI Knowledge"), 8)
+	except Exception:
+		frappe.log_error("recall by meaning")
+		return []
+
+
+def _by_name(meant: list[dict], doctype: str) -> list:
+	names = [one["source_name"] for one in meant if one.get("source_doctype") == doctype]
+	return [["name", "in", names]] if names else []
 
 
 def search_my_chats(

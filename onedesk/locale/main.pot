@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 15:30+0000\n"
-"PO-Revision-Date: 2026-11-03 15:30+0000\n"
+"POT-Creation-Date: 2026-11-03 16:10+0000\n"
+"PO-Revision-Date: 2026-11-03 16:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1091,7 +1091,7 @@ msgstr ""
 msgid "A longer scan is read up to this page and found by its name beyond it."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:637
+#: onedesk/one_ai/proposals.py:654
 #: onedesk/public/js/one_ai/panel/Record.vue:147
 #, python-brace-format
 msgid "A mail about {0}"
@@ -1210,6 +1210,11 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/one_account/notifications.py
 msgid "A new sign-in to your account"
+msgstr ""
+
+#. Description of the 'New Version' (JSON) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.json:197
+msgid "A new version OneAI wrote while this one is on. It runs only once it is used."
 msgstr ""
 
 #: onedesk/one/tell.py:35
@@ -1453,7 +1458,7 @@ msgstr ""
 msgid "A repeating event can only be moved from its own page."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:635
+#: onedesk/one_ai/proposals.py:652
 #: onedesk/public/js/one_ai/panel/Record.vue:146
 #, python-brace-format
 msgid "A reply to {0}"
@@ -1566,7 +1571,7 @@ msgstr ""
 msgid "A saved version of a document, either named by a user or created automatically while editing."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:139
+#: onedesk/one_studio/extensions.py:142
 msgid "A scheduled extension runs at most once an hour."
 msgstr ""
 
@@ -1846,7 +1851,7 @@ msgstr ""
 msgid "A {0} cannot show {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:533
+#: onedesk/one_ai/proposals.py:550
 #, python-brace-format
 msgid "A {0} has to name a record."
 msgstr ""
@@ -1870,7 +1875,7 @@ msgid "AI Addendum"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:79
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:97
 msgid "AI Chat"
 msgstr ""
 
@@ -2371,7 +2376,7 @@ msgstr ""
 msgid "Act After"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:68
+#: onedesk/one_ai/jobs.py:69
 msgid "Act on What Arrived"
 msgstr ""
 
@@ -3429,12 +3434,12 @@ msgid "After"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Cancel"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Delete"
 msgstr ""
 
@@ -3443,22 +3448,22 @@ msgid "After Hours"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Insert"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Save"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Save (Submitted Document)"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "After Submit"
 msgstr ""
 
@@ -3715,7 +3720,7 @@ msgstr ""
 #: frontend/src/slide/shim/ScreenTemplates.vue:44
 #: frontend/src/slide/shim/SlideLibrary.vue:39
 #: frontend/src/slide/shim/WidgetGallery.vue:48
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:91
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:109
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:83
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json:66
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:196
@@ -4333,15 +4338,15 @@ msgstr ""
 msgid "An event's date, place and a code to register."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:168
+#: onedesk/one_studio/extensions.py:171
 msgid "An extension on the screen runs on a form, a list or one of One's pages."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:172
+#: onedesk/one_studio/extensions.py:175
 msgid "An extension on the server runs when a record is saved, submitted, cancelled or deleted, or on a schedule."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:154
+#: onedesk/one_studio/extensions.py:157
 msgid "An extension runs on the screen or on the server."
 msgstr ""
 
@@ -4435,7 +4440,7 @@ msgstr ""
 msgid "An unknown device"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:639
+#: onedesk/one_ai/proposals.py:656
 #, python-brace-format
 msgid "An update on {0}"
 msgstr ""
@@ -4896,7 +4901,7 @@ msgstr ""
 msgid "Approval Waiting"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:631
+#: onedesk/one_ai/proposals.py:648
 #: onedesk/public/js/one_ai/panel/Record.vue:145
 #, python-brace-format
 msgid "Approval of {0}"
@@ -5465,7 +5470,7 @@ msgid "Ask {1} for invoice {0}"
 msgstr ""
 
 #: frontend/src/inventory/quotes/RequestRows.vue:9
-#: onedesk/one_studio/doctype/extension/extension.js:115
+#: onedesk/one_studio/doctype/extension/extension.js:132
 msgid "Asked"
 msgstr ""
 
@@ -5474,7 +5479,7 @@ msgstr ""
 #. Label of the asked_by_name (Data) field in DocType 'Extension'
 #. Label of the asked_by (Link) field in DocType 'Record Type'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:76
-#: onedesk/one_studio/doctype/extension/extension.json:127
+#: onedesk/one_studio/doctype/extension/extension.json:128
 #: onedesk/one_studio/doctype/record_type/record_type.json:58
 msgid "Asked By"
 msgstr ""
@@ -5499,7 +5504,7 @@ msgid "Asked On"
 msgstr ""
 
 #. Label of the section_asked (Section Break) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:115
+#: onedesk/one_studio/doctype/extension/extension.json:116
 msgid "Asked and Reviewed"
 msgstr ""
 
@@ -6065,7 +6070,7 @@ msgstr ""
 msgid "Audit OneAI Actions"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:66
+#: onedesk/one_ai/jobs.py:67
 msgid "Audit What OneAI Did"
 msgstr ""
 
@@ -6838,12 +6843,12 @@ msgid "Before"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Cancel"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Delete"
 msgstr ""
 
@@ -6852,7 +6857,7 @@ msgid "Before Each Group"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Insert"
 msgstr ""
 
@@ -6861,22 +6866,22 @@ msgid "Before OneAI wrote slides"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Save"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Save (Submitted Document)"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Submit"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Before Validate"
 msgstr ""
 
@@ -8652,7 +8657,7 @@ msgstr ""
 msgid "Change {0}"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:646
+#: onedesk/one_ai/proposals.py:663
 #, python-brace-format
 msgid "Change {0} on {1}"
 msgstr ""
@@ -8910,7 +8915,7 @@ msgstr ""
 msgid "Check Supplier Quotation"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:69
+#: onedesk/one_ai/jobs.py:70
 msgid "Check What Arrived Before Acting"
 msgstr ""
 
@@ -9857,7 +9862,7 @@ msgstr ""
 #: frontend/src/cloud/cloud.js:18
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:11
 #: onedesk/one_display/widgets.py:201
-#: onedesk/one_studio/doctype/extension/extension.json:156
+#: onedesk/one_studio/doctype/extension/extension.json:157
 #: onedesk/public/js/apps.js:63 onedesk/public/js/item_new.js:38
 msgid "Code"
 msgstr ""
@@ -10966,7 +10971,7 @@ msgid "ControlCenter"
 msgstr ""
 
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:63
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:65
 msgid "Conversation"
 msgstr ""
 
@@ -11962,7 +11967,7 @@ msgid "Credits Running Low"
 msgstr ""
 
 #. Label of the spent (Float) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:42
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:44
 msgid "Credits Spent"
 msgstr ""
 
@@ -12366,7 +12371,7 @@ msgstr ""
 msgid "Customize"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:621
+#: onedesk/one_ai/proposals.py:638
 #: onedesk/public/js/one_ai/panel/Record.vue:140
 #, python-brace-format
 msgid "Customize {0}"
@@ -13421,7 +13426,7 @@ msgstr ""
 msgid "Delete this rule?"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:641 onedesk/one_mail/ai.py:768
+#: onedesk/one_ai/proposals.py:658 onedesk/one_mail/ai.py:768
 #: onedesk/one_mail/ai.py:921 onedesk/public/js/one_ai/panel/Record.vue:139
 #: onedesk/public/js/one_legal/trust_center.js:135
 #, python-brace-format
@@ -14092,7 +14097,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_studio/ai.py:440 onedesk/one_studio/automations.py:126
+#: onedesk/one_studio/ai.py:453 onedesk/one_studio/automations.py:126
 #: onedesk/one_studio/doctype/record_type/record_type.json:45
 #: onedesk/public/js/item_new.js:80
 #: onedesk/public/js/one/notification_center.js:314
@@ -14130,7 +14135,7 @@ msgid "Design Services"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:328
-#: frontend/src/slide/shim/EditorNavbar.vue:393 onedesk/one_ai/jobs.py:73
+#: frontend/src/slide/shim/EditorNavbar.vue:393 onedesk/one_ai/jobs.py:74
 msgid "Design a Slide"
 msgstr ""
 
@@ -14418,6 +14423,14 @@ msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:5
 msgid "Discard"
+msgstr ""
+
+#: onedesk/one_studio/doctype/extension/extension.js:75
+msgid "Discard New Version"
+msgstr ""
+
+#: onedesk/one_studio/doctype/extension/extension.js:76
+msgid "Discard the new version? The one that is on stays as it is."
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:599
@@ -15055,7 +15068,7 @@ msgstr ""
 msgid "Draft Supplier Quotations"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:52
+#: onedesk/one_ai/jobs.py:53
 msgid "Draft a Reply"
 msgstr ""
 
@@ -15753,8 +15766,15 @@ msgstr ""
 msgid "Each {% for %} needs an {% endfor %}."
 msgstr ""
 
+#. Label of the earlier (Long Text) field in DocType 'AI Chat'
 #: frontend/src/sheet/utils/recency-groups.js:13
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:78
 msgid "Earlier"
+msgstr ""
+
+#. Label of the earlier_upto (Int) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:86
+msgid "Earlier Up To"
 msgstr ""
 
 #: onedesk/one_display/starters.py:756
@@ -16637,7 +16657,7 @@ msgstr ""
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json:50
 #: onedesk/one_hr/doctype/clock_reason/clock_reason.json:41
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:33
-#: onedesk/one_studio/doctype/extension/extension.json:48
+#: onedesk/one_studio/doctype/extension/extension.json:49
 #: onedesk/public/js/one_ai/ai_center.js:224
 #: onedesk/public/js/one_mail/onemail_settings.js:787
 msgid "Enabled"
@@ -17038,7 +17058,7 @@ msgstr ""
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
 #. Option for the 'When' (Select) field in DocType 'Extension'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:52
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Every Day"
 msgstr ""
 
@@ -17048,7 +17068,7 @@ msgid "Every Few Minutes"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Every Hour"
 msgstr ""
 
@@ -17066,7 +17086,7 @@ msgid "Every Mailbox"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Every Month"
 msgstr ""
 
@@ -17075,7 +17095,7 @@ msgid "Every Screen"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Every Week"
 msgstr ""
 
@@ -17955,7 +17975,7 @@ msgstr ""
 msgid "Explain Again"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:65
+#: onedesk/one_ai/jobs.py:66
 msgid "Explain a Document"
 msgstr ""
 
@@ -17972,8 +17992,8 @@ msgstr ""
 #. Label of the explanation (Small Text) field in DocType 'Extension'
 #: onedesk/one_book/report/books_check/books_check.py:17
 #: onedesk/one_hr/print_format/one_attendance_request/one_attendance_request.json
-#: onedesk/one_studio/ai.py:365
-#: onedesk/one_studio/doctype/extension/extension.json:108
+#: onedesk/one_studio/ai.py:374
+#: onedesk/one_studio/doctype/extension/extension.json:109
 msgid "Explanation"
 msgstr ""
 
@@ -18022,7 +18042,7 @@ msgid "Extend selection"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_studio/doctype/extension/extension.json:196
+#: onedesk/one_studio/doctype/extension/extension.json:205
 msgid "Extension"
 msgstr ""
 
@@ -18407,7 +18427,7 @@ msgstr ""
 
 #. Label of the fields (Small Text) field in DocType 'Record Head Linked'
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:33
-#: onedesk/one_studio/ai.py:441
+#: onedesk/one_studio/ai.py:454
 msgid "Fields"
 msgstr ""
 
@@ -18655,7 +18675,7 @@ msgstr ""
 msgid "Fill Screen"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:67
+#: onedesk/one_ai/jobs.py:68
 msgid "Fill What a Record Still Needs"
 msgstr ""
 
@@ -18912,7 +18932,7 @@ msgid "First Found In"
 msgstr ""
 
 #. Label of the verdict (Select) field in DocType 'Reading'
-#: onedesk/one_ai/doctype/reading/reading.json:225 onedesk/one_ai/jobs.py:61
+#: onedesk/one_ai/doctype/reading/reading.json:225 onedesk/one_ai/jobs.py:62
 msgid "First Look"
 msgstr ""
 
@@ -19009,7 +19029,7 @@ msgstr ""
 msgid "Fix With OneAI"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:50
+#: onedesk/one_ai/jobs.py:51
 msgid "Fix an Extension"
 msgstr ""
 
@@ -19024,7 +19044,7 @@ msgid "Fix subframes and anchors"
 msgstr ""
 
 #: frontend/src/slide/components/FrameSection.vue:166
-#: onedesk/one_studio/doctype/extension/extension.js:109
+#: onedesk/one_studio/doctype/extension/extension.js:126
 #: onedesk/public/js/check.js:9
 msgid "Fixed"
 msgstr ""
@@ -19067,7 +19087,7 @@ msgstr ""
 msgid "Fixes"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:172
+#: onedesk/one_studio/mend.py:183
 #, python-brace-format
 msgid "Fixing {0}"
 msgstr ""
@@ -19521,7 +19541,7 @@ msgstr ""
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #. Label of the form (Link) field in DocType 'Workspace Field'
-#: onedesk/one_studio/doctype/extension/extension.json:77
+#: onedesk/one_studio/doctype/extension/extension.json:78
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:29
 msgid "Form"
 msgstr ""
@@ -20810,7 +20830,7 @@ msgstr ""
 msgid "Grievance Types"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:57
+#: onedesk/one_ai/jobs.py:58
 msgid "Grievances"
 msgstr ""
 
@@ -21617,7 +21637,7 @@ msgstr ""
 msgid "Holidays Run Out Soon"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:625
+#: onedesk/one_ai/proposals.py:642
 #: onedesk/public/js/one_ai/panel/Record.vue:142
 #, python-brace-format
 msgid "Holidays in {0}"
@@ -21834,7 +21854,7 @@ msgstr ""
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:181
+#: onedesk/one_ai/proposals.py:177
 msgid "How documents print has changed since this was suggested, so it no longer applies."
 msgstr ""
 
@@ -22089,6 +22109,11 @@ msgstr ""
 msgid "How many people the result covers, kept on the document so the list can say it."
 msgstr ""
 
+#. Description of the 'Earlier Up To' (Int) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:89
+msgid "How many turns that covers."
+msgstr ""
+
 #. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
 #. Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:59
@@ -22213,12 +22238,12 @@ msgstr ""
 msgid "How we will do it"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:156
+#: onedesk/one_ai/proposals.py:153
 #, python-brace-format
 msgid "How {0} is numbered has changed since this was suggested, so it no longer applies."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:100
+#: onedesk/one_ai/proposals.py:99
 #, python-brace-format
 msgid "How {0} looks has changed since this was suggested, so it no longer applies."
 msgstr ""
@@ -22891,7 +22916,7 @@ msgstr ""
 msgid "In the OneAI Panel"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:93
+#: onedesk/one_studio/doctype/extension/extension.js:110
 msgid "In the browser"
 msgstr ""
 
@@ -23490,7 +23515,7 @@ msgstr ""
 msgid "Interviewers"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:55
+#: onedesk/one_ai/jobs.py:56
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:186
 msgid "Interviews"
 msgstr ""
@@ -25385,7 +25410,7 @@ msgid "Last Restart"
 msgstr ""
 
 #. Label of the last_said_on (Datetime) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:35
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:37
 msgid "Last Said On"
 msgstr ""
 
@@ -26600,7 +26625,7 @@ msgstr ""
 #: frontend/src/writer/components/CommentEditor.vue:92
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
 #: onedesk/one_display/widgets.py:51 onedesk/one_display/widgets.py:130
-#: onedesk/one_studio/doctype/extension/extension.json:77
+#: onedesk/one_studio/doctype/extension/extension.json:78
 msgid "List"
 msgstr ""
 
@@ -27545,7 +27570,7 @@ msgstr ""
 msgid "Make Music"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:71
+#: onedesk/one_ai/jobs.py:72
 msgid "Make Music for a Screen"
 msgstr ""
 
@@ -27599,7 +27624,7 @@ msgstr ""
 msgid "Make a Picture"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:74
+#: onedesk/one_ai/jobs.py:75
 msgid "Make a Picture for a Slide"
 msgstr ""
 
@@ -27612,7 +27637,7 @@ msgstr ""
 msgid "Make a Video"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:75
+#: onedesk/one_ai/jobs.py:76
 msgid "Make a Video for a Slide"
 msgstr ""
 
@@ -28617,7 +28642,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:112
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:30
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:93
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:49
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:51
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:61
 #: onedesk/one_ai/doctype/reading/reading.json:196
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:211
@@ -29858,6 +29883,12 @@ msgstr ""
 msgid "New Template"
 msgstr ""
 
+#. Label of the draft (JSON) field in DocType 'Extension'
+#: onedesk/one_studio/doctype/extension/extension.js:157
+#: onedesk/one_studio/doctype/extension/extension.json:194
+msgid "New Version"
+msgstr ""
+
 #: frontend/src/inventory/floor/ShopFloor.vue:145
 msgid "New Work Order"
 msgstr ""
@@ -30016,7 +30047,7 @@ msgstr ""
 msgid "New workspaces can't be built until a server is added."
 msgstr ""
 
-#: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:619
+#: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:636
 #: onedesk/public/js/one_ai/panel/Record.vue:134
 #: onedesk/public/js/one_interface/form.js:418
 #: onedesk/public/js/one_interface/form.js:466
@@ -30026,7 +30057,7 @@ msgstr ""
 msgid "New {0}"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:618
+#: onedesk/one_ai/proposals.py:635
 #, python-brace-format
 msgid "New {0}: {1}"
 msgstr ""
@@ -30906,7 +30937,7 @@ msgstr ""
 msgid "No milestones"
 msgstr ""
 
-#: onedesk/one_admin/gateway.py:153
+#: onedesk/one_admin/gateway.py:156
 #, python-brace-format
 msgid "No model here reads {0}."
 msgstr ""
@@ -32463,7 +32494,7 @@ msgstr ""
 msgid "Numbering"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:627
+#: onedesk/one_ai/proposals.py:644
 #: onedesk/public/js/one_ai/panel/Record.vue:143
 #, python-brace-format
 msgid "Numbering of {0}"
@@ -32738,18 +32769,18 @@ msgid "On Order"
 msgstr ""
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:56
+#: onedesk/one_studio/doctype/extension/extension.json:57
 #: onedesk/one_studio/doctype/extension/extension_list.js:23
 msgid "On Screen"
 msgstr ""
 
 #. Description of the 'Runs' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:60
+#: onedesk/one_studio/doctype/extension/extension.json:61
 msgid "On Screen runs in the browser of the user who opens the record. On Server runs when the record is saved."
 msgstr ""
 
 #. Option for the 'Runs' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:56
+#: onedesk/one_studio/doctype/extension/extension.json:57
 msgid "On Server"
 msgstr ""
 
@@ -32873,16 +32904,16 @@ msgstr ""
 msgid "On the schedule {0}"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:93
+#: onedesk/one_studio/doctype/extension/extension.js:110
 msgid "On the server"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:78
+#: onedesk/one_studio/doctype/extension/extension.js:95
 #, python-brace-format
 msgid "On the {0} form"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:77
+#: onedesk/one_studio/doctype/extension/extension.js:94
 #, python-brace-format
 msgid "On the {0} list"
 msgstr ""
@@ -33114,7 +33145,7 @@ msgid "One code of a code list, and what it stands for here."
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:112
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:130
 msgid "One conversation with OneAI, kept so it is still there tomorrow."
 msgstr ""
 
@@ -33465,7 +33496,7 @@ msgstr ""
 msgid "OneAI is designing the slide…"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:150
+#: onedesk/one_studio/mend.py:156
 msgid "OneAI is fixing it. It takes a few minutes; you will be told when it is done."
 msgstr ""
 
@@ -33573,6 +33604,14 @@ msgstr ""
 
 #: onedesk/one_ai/heads.py:66
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
+msgstr ""
+
+#: onedesk/one_studio/doctype/extension/extension.js:161
+msgid "OneAI wrote a new version, and the review refused it. The one that is on keeps running."
+msgstr ""
+
+#: onedesk/one_studio/doctype/extension/extension.js:160
+msgid "OneAI wrote a new version. The one that is on keeps running until you use it."
 msgstr ""
 
 #: onedesk/public/js/one_ai/oneai.js:199
@@ -33757,7 +33796,7 @@ msgid "OneSlide"
 msgstr ""
 
 #. Title of a Sidebar
-#: onedesk/one_ai/jobs.py:48
+#: onedesk/one_ai/jobs.py:49
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:14
 msgid "OneStudio"
 msgstr ""
@@ -33804,7 +33843,7 @@ msgstr ""
 msgid "Only HR can review a check-in."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:260
+#: onedesk/one_studio/extensions.py:344
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
 msgstr ""
 
@@ -35614,7 +35653,7 @@ msgstr ""
 #. Label of the boot (Data) field in DocType 'Display Screen'
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: onedesk/one_display/doctype/display_screen/display_screen.json:205
-#: onedesk/one_studio/doctype/extension/extension.json:77
+#: onedesk/one_studio/doctype/extension/extension.json:78
 msgid "Page"
 msgstr ""
 
@@ -36116,7 +36155,7 @@ msgid "Party Type"
 msgstr ""
 
 #. Option for the 'Review' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:143
+#: onedesk/one_studio/doctype/extension/extension.json:144
 msgid "Passed"
 msgstr ""
 
@@ -37539,11 +37578,11 @@ msgstr ""
 #. Label of the place (Data) field in DocType 'Extension'
 #: onedesk/one/doctype/weather_place/weather_place.json:23
 #: onedesk/one_display/doctype/display_source/display_source.json:223
-#: onedesk/one_studio/doctype/extension/extension.json:83
+#: onedesk/one_studio/doctype/extension/extension.json:84
 msgid "Place"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:64
+#: onedesk/one_ai/jobs.py:65
 msgid "Place a Document"
 msgstr ""
 
@@ -38307,7 +38346,7 @@ msgstr ""
 msgid "Print"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:46
+#: onedesk/one_ai/jobs.py:47
 msgid "Print Design"
 msgstr ""
 
@@ -38370,7 +38409,7 @@ msgstr ""
 msgid "Printing"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:629
+#: onedesk/one_ai/proposals.py:646
 #: onedesk/public/js/one_ai/panel/Record.vue:144
 #, python-brace-format
 msgid "Printing of {0}"
@@ -39957,15 +39996,15 @@ msgstr ""
 msgid "Read Only"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:58
+#: onedesk/one_ai/jobs.py:59
 msgid "Read Scans"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:62
+#: onedesk/one_ai/jobs.py:63
 msgid "Read a Bill Twice"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:63
+#: onedesk/one_ai/jobs.py:64
 msgid "Read a Document"
 msgstr ""
 
@@ -40226,6 +40265,10 @@ msgstr ""
 #. Description of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:427
 msgid "Reasons offered to employees on check out."
+msgstr ""
+
+#: onedesk/one_ai/jobs.py:45
+msgid "Recall Earlier in a Conversation"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
@@ -40496,8 +40539,8 @@ msgstr ""
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:38
 #: onedesk/one_sheet/doctype/workbook/workbook.json:69
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:81
-#: onedesk/one_studio/ai.py:364
-#: onedesk/one_studio/doctype/extension/extension.json:65
+#: onedesk/one_studio/ai.py:373
+#: onedesk/one_studio/doctype/extension/extension.json:66
 #: onedesk/public/js/extension_errors.js:16 onedesk/public/js/hiring.js:8
 #: onedesk/public/js/one_account/account_center.js:598
 #: onedesk/public/js/one_account/account_center.js:623
@@ -40923,7 +40966,7 @@ msgstr ""
 #: onedesk/one_ai/heads.py:16
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:89
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:311
-#: onedesk/one_studio/doctype/extension/extension.json:143
+#: onedesk/one_studio/doctype/extension/extension.json:144
 #: onedesk/public/js/one_ai/ai_proposal_list.js:9
 msgid "Refused"
 msgstr ""
@@ -41745,7 +41788,7 @@ msgstr ""
 #. Label of the asked (Small Text) field in DocType 'Record Type'
 #: onedesk/one_admin/doctype/account_request/account_request.json:76
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:78
-#: onedesk/one_studio/doctype/extension/extension.json:121
+#: onedesk/one_studio/doctype/extension/extension.json:122
 #: onedesk/one_studio/doctype/record_type/record_type.json:52
 #: onedesk/www/your_data.html:31 onedesk/www/your_data.html:63
 msgid "Request"
@@ -42457,9 +42500,9 @@ msgstr ""
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:120
 #: onedesk/one_inventory/home.py:189
 #: onedesk/one_project/library/client_onboarding.json
-#: onedesk/one_studio/ai.py:366
-#: onedesk/one_studio/doctype/extension/extension.js:125
-#: onedesk/one_studio/doctype/extension/extension.json:142
+#: onedesk/one_studio/ai.py:375
+#: onedesk/one_studio/doctype/extension/extension.js:142
+#: onedesk/one_studio/doctype/extension/extension.json:143
 msgid "Review"
 msgstr ""
 
@@ -42469,11 +42512,11 @@ msgid "Review It"
 msgstr ""
 
 #. Label of the review_note (Small Text) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:150
+#: onedesk/one_studio/doctype/extension/extension.json:151
 msgid "Review Note"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:49
+#: onedesk/one_ai/jobs.py:50
 msgid "Review an Extension"
 msgstr ""
 
@@ -42510,7 +42553,7 @@ msgid "Reviewed By"
 msgstr ""
 
 #. Label of the reviewed (Data) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:169
+#: onedesk/one_studio/doctype/extension/extension.json:170
 msgid "Reviewed Code"
 msgstr ""
 
@@ -42978,8 +43021,8 @@ msgid "Running low asks for more"
 msgstr ""
 
 #. Label of the runs (Select) field in DocType 'Extension'
-#: onedesk/one_project/ai.py:929 onedesk/one_studio/ai.py:363
-#: onedesk/one_studio/doctype/extension/extension.json:55
+#: onedesk/one_project/ai.py:929 onedesk/one_studio/ai.py:372
+#: onedesk/one_studio/doctype/extension/extension.json:56
 msgid "Runs"
 msgstr ""
 
@@ -43500,11 +43543,11 @@ msgstr ""
 msgid "Say what to write in {0}, or pick one of these."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:135
+#: onedesk/one_studio/extensions.py:138
 msgid "Say when it runs as a cron line, such as 0 8 * * 1-5 for eight each weekday morning."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:219
+#: onedesk/one_studio/extensions.py:225
 msgid "Say which kind of record's head it runs on."
 msgstr ""
 
@@ -43593,13 +43636,13 @@ msgstr ""
 #: onedesk/one_display/widgets.py:175
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
 #: onedesk/one_inventory/print_format/one_asset_shift_allocation/one_asset_shift_allocation.json
-#: onedesk/one_studio/doctype/extension/extension.json:100
+#: onedesk/one_studio/doctype/extension/extension.json:101
 #: onedesk/public/js/project.js:14
 msgid "Schedule"
 msgstr ""
 
 #. Description of the 'Schedule' (Data) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:103
+#: onedesk/one_studio/doctype/extension/extension.json:104
 msgid "Schedule as a cron expression. Example: 0 8 * * 1-5 for 8 AM on weekdays."
 msgstr ""
 
@@ -43612,7 +43655,7 @@ msgid "Schedule, Standing"
 msgstr ""
 
 #. Option for the 'When' (Select) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:93
+#: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Scheduled"
 msgstr ""
 
@@ -43678,7 +43721,7 @@ msgstr ""
 msgid "Screen"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:54
+#: onedesk/one_ai/jobs.py:55
 msgid "Screen Applicants"
 msgstr ""
 
@@ -43748,7 +43791,7 @@ msgstr ""
 #. Label of the script (Small Text) field in DocType 'Voice Ad'
 #. Label of the script (Data) field in DocType 'Extension'
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:27
-#: onedesk/one_studio/doctype/extension/extension.json:177
+#: onedesk/one_studio/doctype/extension/extension.json:178
 msgid "Script"
 msgstr ""
 
@@ -43825,7 +43868,7 @@ msgstr ""
 msgid "Search Your Mail"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:51
+#: onedesk/one_ai/jobs.py:52
 msgid "Search by Meaning"
 msgstr ""
 
@@ -45966,7 +46009,7 @@ msgstr ""
 msgid "Signature and Sender Name"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:623
+#: onedesk/one_ai/proposals.py:640
 #: onedesk/public/js/one_ai/panel/Record.vue:141
 #, python-brace-format
 msgid "Signature for {0}"
@@ -46877,7 +46920,7 @@ msgstr ""
 msgid "Sort Only"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:60
+#: onedesk/one_ai/jobs.py:61
 msgid "Sort What Arrives"
 msgstr ""
 
@@ -47027,7 +47070,7 @@ msgstr ""
 msgid "Speak"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:70
+#: onedesk/one_ai/jobs.py:71
 msgid "Speak Calls and Ads"
 msgstr ""
 
@@ -48568,7 +48611,7 @@ msgstr ""
 msgid "Summarise Now"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:45
+#: onedesk/one_ai/jobs.py:46
 msgid "Summarise a Record"
 msgstr ""
 
@@ -48620,7 +48663,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_exit_interview/one_exit_interview.json
 #: onedesk/one_hr/print_format/one_interview/one_interview.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:67
-#: onedesk/one_studio/doctype/extension/extension.json:34
+#: onedesk/one_studio/doctype/extension/extension.json:35
 #: onedesk/public/js/crm_record.js:95
 msgid "Summary"
 msgstr ""
@@ -48970,7 +49013,7 @@ msgstr ""
 #: onedesk/one/doctype/weather_place/weather_place.json:94
 #: onedesk/one_account/doctype/device/device.json:139
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:354
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:103
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:121
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:82
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:208
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:91
@@ -48999,7 +49042,7 @@ msgstr ""
 #: onedesk/one_slide/doctype/presentation/presentation.json:29
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:29
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json:30
-#: onedesk/one_studio/doctype/extension/extension.json:203
+#: onedesk/one_studio/doctype/extension/extension.json:212
 #: onedesk/one_studio/doctype/record_type/record_type.json:76
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:86
 msgid "System Manager"
@@ -50476,7 +50519,7 @@ msgstr ""
 msgid "The applicant"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:201
+#: onedesk/one_ai/proposals.py:196
 #, python-brace-format
 msgid "The approvals on {0} have changed since this was suggested, so it no longer applies."
 msgstr ""
@@ -50914,7 +50957,7 @@ msgid "The first mail sent or call made to them."
 msgstr ""
 
 #. Description of the 'Title' (Data) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:26
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:28
 msgid "The first thing asked, shortened. Renaming is allowed."
 msgstr ""
 
@@ -51225,7 +51268,7 @@ msgid "The model that answered the call."
 msgstr ""
 
 #. Description of the 'Model' (Data) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:51
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:53
 msgid "The model the last answer came from."
 msgstr ""
 
@@ -51285,6 +51328,10 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/one_project/notifications.py
 msgid "The new manager, unless they made themselves it"
+msgstr ""
+
+#: onedesk/one_studio/extensions.py:310
+msgid "The new version has not passed its review, so it cannot be used. Ask OneAI to change it."
 msgstr ""
 
 #: onedesk/one_display/starters.py:1196
@@ -51397,7 +51444,7 @@ msgid "The page number position must be one of {0}."
 msgstr ""
 
 #. Description of the 'Place' (Data) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:86
+#: onedesk/one_studio/doctype/extension/extension.json:87
 msgid "The page the extension runs on and the event it waits for. Example: OneMail, when a conversation is opened."
 msgstr ""
 
@@ -52079,7 +52126,7 @@ msgid "The website form that makes a lead."
 msgstr ""
 
 #. Description of the 'Turns' (Long Text) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:70
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:72
 msgid "The whole conversation, in the shape the gateway speaks. Read by the panel, not by a person."
 msgstr ""
 
@@ -52420,6 +52467,11 @@ msgstr ""
 
 #: onedesk/one_inventory/ready.py:279
 msgid "There is no maintenance team, and a schedule needs one."
+msgstr ""
+
+#: onedesk/one_studio/extensions.py:308
+#, python-brace-format
+msgid "There is no new version of {0}."
 msgstr ""
 
 #: onedesk/one/notification_words.py:113 onedesk/one/notify.py:439
@@ -52783,7 +52835,7 @@ msgstr ""
 msgid "This employee's passkey is blocked. HR must reset it before another can be registered."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:266
+#: onedesk/one_studio/extensions.py:350
 msgid "This extension has not passed its review, so it cannot be turned on. Ask OneAI to change it."
 msgstr ""
 
@@ -52845,7 +52897,7 @@ msgstr ""
 msgid "This is an automatic snapshot of this document from {0}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:231
+#: onedesk/one_ai/proposals.py:225
 msgid "This is for a document that is not saved yet. Apply it from its form."
 msgstr ""
 
@@ -52853,7 +52905,7 @@ msgstr ""
 msgid "This is for a person to decide."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:230
+#: onedesk/one_ai/proposals.py:224
 msgid "This is for an email being written. Apply it with its email window open."
 msgstr ""
 
@@ -52958,7 +53010,7 @@ msgstr ""
 msgid "This month"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:395
+#: onedesk/one_ai/proposals.py:389
 #, python-brace-format
 msgid "This needs {0}, which was {1}. Ask OneAI to suggest it again."
 msgstr ""
@@ -53258,7 +53310,7 @@ msgstr ""
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:269
+#: onedesk/one_studio/extensions.py:353
 msgid "This workspace does not run extensions on the server yet. Ask us to turn them on."
 msgstr ""
 
@@ -53680,7 +53732,7 @@ msgstr ""
 #: onedesk/one/custom/deleted_document.json:9
 #: onedesk/one/doctype/news_item/news_item.json:37
 #: onedesk/one_admin/doctype/private_app/private_app.json:33
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:24
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:26
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:46
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:22
 #: onedesk/one_ai/doctype/reading/reading.json:96
@@ -53697,7 +53749,7 @@ msgstr ""
 #: onedesk/one_slide/doctype/presentation/presentation.json:41
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:50
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:31
-#: onedesk/one_studio/doctype/extension/extension.json:39
+#: onedesk/one_studio/doctype/extension/extension.json:40
 #: onedesk/public/js/one_ai/ai_center.js:222
 #: onedesk/public/js/onecloud_dialogs.js:343
 msgid "Title"
@@ -53712,7 +53764,7 @@ msgid "Title of the talk goes here"
 msgstr ""
 
 #. Label of the titled (Check) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:56
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:58
 msgid "Titled"
 msgstr ""
 
@@ -54527,11 +54579,11 @@ msgstr ""
 msgid "Transcribe Interview Recordings"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:56
+#: onedesk/one_ai/jobs.py:57
 msgid "Transcribe Interviews"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:59
+#: onedesk/one_ai/jobs.py:60
 msgid "Transcribe Recordings"
 msgstr ""
 
@@ -54889,7 +54941,7 @@ msgid "Turning it on agrees to this for your whole workspace, and is recorded wi
 msgstr ""
 
 #. Label of the turns (Long Text) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:68
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:70
 msgid "Turns"
 msgstr ""
 
@@ -55865,6 +55917,11 @@ msgstr ""
 msgid "Use My Location"
 msgstr ""
 
+#: onedesk/one_studio/doctype/extension/extension.js:72
+#: onedesk/one_studio/doctype/extension/extension.js:73
+msgid "Use New Version"
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:951
 msgid "Use SSL"
 msgstr ""
@@ -56395,7 +56452,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:99
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:100
 #: onedesk/one_inventory/portal.py:110
-#: onedesk/one_studio/doctype/extension/extension.json:76
+#: onedesk/one_studio/doctype/extension/extension.json:77
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/one_interface/frame.js:539
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
@@ -57189,7 +57246,7 @@ msgstr ""
 msgid "What Is Kept"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:82
+#: onedesk/one_studio/doctype/extension/extension.js:99
 msgid "What It Does"
 msgstr ""
 
@@ -57230,6 +57287,11 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_ai/doctype/reading/reading.json:6
 msgid "What OneAI read in one file or message. One per content, however many places it is in."
+msgstr ""
+
+#. Description of the 'Earlier' (Long Text) field in DocType 'AI Chat'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:81
+msgid "What OneAI recalls of the turns too old to send again."
 msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Panel.vue:54
@@ -58339,7 +58401,7 @@ msgstr ""
 #: onedesk/one_hr/custom/timesheet_detail.json:7
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:69
 #: onedesk/one_mail/ai.py:284
-#: onedesk/one_studio/doctype/extension/extension.json:92
+#: onedesk/one_studio/doctype/extension/extension.json:93
 #: onedesk/public/js/doctype_settings.js:216
 #: onedesk/public/js/doctype_settings.js:247
 #: onedesk/public/js/doctype_settings.js:882
@@ -58420,7 +58482,7 @@ msgid "When OneAI finishes fixing an extension you asked it to fix."
 msgstr ""
 
 #. Description of the 'Written On' (Datetime) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:188
+#: onedesk/one_studio/doctype/extension/extension.json:189
 msgid "When OneAI last wrote it. Errors from before are about other code."
 msgstr ""
 
@@ -59687,7 +59749,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_inventory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_inventory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_studio/ai.py:439 onedesk/public/js/one_legal/trust_center.js:344
+#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:344
 msgid "Where"
 msgstr ""
 
@@ -59699,7 +59761,7 @@ msgstr ""
 msgid "Where It Is"
 msgstr ""
 
-#: onedesk/one_studio/doctype/extension/extension.js:90
+#: onedesk/one_studio/doctype/extension/extension.js:107
 msgid "Where It Runs"
 msgstr ""
 
@@ -61397,7 +61459,7 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:83
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json:154
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:135
-#: onedesk/one_studio/doctype/extension/extension.json:216
+#: onedesk/one_studio/doctype/extension/extension.json:225
 #: onedesk/one_studio/doctype/record_type/record_type.json:83
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:82
 msgid "Workspace Administrator"
@@ -61503,7 +61565,7 @@ msgstr ""
 msgid "Workspace Server"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:47
+#: onedesk/one_ai/jobs.py:48
 msgid "Workspace Setup"
 msgstr ""
 
@@ -61614,7 +61676,7 @@ msgstr ""
 msgid "Write My Bio"
 msgstr ""
 
-#: onedesk/one_ai/jobs.py:53
+#: onedesk/one_ai/jobs.py:54
 msgid "Write a Bio"
 msgstr ""
 
@@ -61623,7 +61685,7 @@ msgstr ""
 msgid "Write a Whole Deck"
 msgstr ""
 
-#: frontend/src/slide/shim/WidgetSection.vue:138 onedesk/one_ai/jobs.py:72
+#: frontend/src/slide/shim/WidgetSection.vue:138 onedesk/one_ai/jobs.py:73
 msgid "Write a Widget"
 msgstr ""
 
@@ -61799,7 +61861,7 @@ msgstr ""
 msgid "Write your update first."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:645
+#: onedesk/one_ai/proposals.py:662
 #, python-brace-format
 msgid "Write {0} on a new {1}"
 msgstr ""
@@ -61859,7 +61921,7 @@ msgid "Written Down"
 msgstr ""
 
 #. Label of the written_on (Datetime) field in DocType 'Extension'
-#: onedesk/one_studio/doctype/extension/extension.json:185
+#: onedesk/one_studio/doctype/extension/extension.json:186
 msgid "Written On"
 msgstr ""
 
@@ -62198,7 +62260,7 @@ msgstr ""
 msgid "You haven't downloaded the workspace."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:520
+#: onedesk/one_ai/proposals.py:537
 #, python-brace-format
 msgid "You may not change how {0} signs."
 msgstr ""
@@ -62241,7 +62303,7 @@ msgstr ""
 msgid "You may not run {0}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:538
+#: onedesk/one_ai/proposals.py:555
 #, python-brace-format
 msgid "You may not {0} {1}."
 msgstr ""
@@ -63388,7 +63450,7 @@ msgstr ""
 msgid "decimal"
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:396
+#: onedesk/one_ai/proposals.py:390
 msgid "deleted"
 msgstr ""
 
@@ -64707,7 +64769,7 @@ msgid "{0} (was {1})"
 msgstr ""
 
 #: onedesk/one/tell.py:532 onedesk/one/tell.py:673
-#: onedesk/one_ai/reading/search.py:186 onedesk/one_studio/extensions.py:432
+#: onedesk/one_ai/reading/search.py:186 onedesk/one_studio/extensions.py:516
 #: onedesk/public/js/privacy_copy.js:22
 #, python-brace-format
 msgid "{0} ({1})"
@@ -64893,12 +64955,17 @@ msgstr ""
 msgid "{0} Settings"
 msgstr ""
 
-#: onedesk/one_studio/mend.py:163
+#: onedesk/one_studio/mend.py:174
 #, python-brace-format
 msgid "{0} The fixed version is off until you turn it on."
 msgstr ""
 
-#: onedesk/one_studio/mend.py:166
+#: onedesk/one_studio/mend.py:169
+#, python-brace-format
+msgid "{0} The fixed version is on its page; the one that is on keeps running until you use it."
+msgstr ""
+
+#: onedesk/one_studio/mend.py:177
 #, python-brace-format
 msgid "{0} The fixed version was kept off: the review refused it. {1}"
 msgstr ""
@@ -65715,8 +65782,8 @@ msgstr ""
 msgid "{0} has already joined. Send a password reset instead."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:135 onedesk/one_ai/proposals.py:237
-#: onedesk/one_studio/ai.py:382 onedesk/one_studio/ai_setup.py:793
+#: onedesk/one_ai/proposals.py:133 onedesk/one_ai/proposals.py:231
+#: onedesk/one_studio/ai.py:392 onedesk/one_studio/ai_setup.py:793
 #, python-brace-format
 msgid "{0} has changed since this was suggested, so it no longer applies."
 msgstr ""
@@ -66315,7 +66382,7 @@ msgstr ""
 msgid "{0} is not a list of filters."
 msgstr ""
 
-#: onedesk/one_studio/extensions.py:160
+#: onedesk/one_studio/extensions.py:163
 #, python-brace-format
 msgid "{0} is not a page an extension can run on."
 msgstr ""
@@ -66551,7 +66618,7 @@ msgstr ""
 msgid "{0} is not something done to {1}."
 msgstr ""
 
-#: onedesk/one_ai/proposals.py:526
+#: onedesk/one_ai/proposals.py:543
 #, python-brace-format
 msgid "{0} is not something that can be proposed."
 msgstr ""
@@ -67190,7 +67257,7 @@ msgid "{0} on the odometer since the last log."
 msgstr ""
 
 #: onedesk/one_account/center.py:264 onedesk/one_account/signin.py:40
-#: onedesk/one_ai/proposals.py:643
+#: onedesk/one_ai/proposals.py:660
 #: onedesk/public/js/deleted_document_list.js:10 onedesk/public/js/push.js:41
 #, python-brace-format
 msgid "{0} on {1}"
@@ -67809,7 +67876,7 @@ msgid "{0} was added to {1}."
 msgstr ""
 
 #: onedesk/one_admin/ledger.py:149 onedesk/one_ai/proposals.py:87
-#: onedesk/one_ai/proposals.py:279 onedesk/one_ai/touch.py:227
+#: onedesk/one_ai/proposals.py:273 onedesk/one_ai/touch.py:227
 #, python-brace-format
 msgid "{0} was already {1}."
 msgstr ""
@@ -68168,8 +68235,8 @@ msgstr ""
 msgid "{0}, when {1}"
 msgstr ""
 
-#: onedesk/one_project/retainer.py:229 onedesk/one_studio/ai.py:350
-#: onedesk/one_studio/ai_setup.py:326 onedesk/one_studio/extensions.py:353
+#: onedesk/one_project/retainer.py:229 onedesk/one_studio/ai.py:359
+#: onedesk/one_studio/ai_setup.py:326 onedesk/one_studio/extensions.py:437
 #, python-brace-format
 msgid "{0}, {1}"
 msgstr ""
@@ -68333,7 +68400,7 @@ msgstr ""
 
 #: onedesk/one/notify.py:272 onedesk/one/rules.py:47
 #: onedesk/one_book/journal.py:46 onedesk/one_mail/mail_templates.py:321
-#: onedesk/one_studio/extensions.py:370
+#: onedesk/one_studio/extensions.py:454
 #: onedesk/public/js/one/access_center.js:99
 #, python-brace-format
 msgid "{0}: {1}"

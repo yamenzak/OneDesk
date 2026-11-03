@@ -81,3 +81,11 @@ def test_a_level_card_says_only_what_changes_and_goes_stale():
 	level = _body("suggest_level")
 	assert "if r not in have.get(" in level and "if r in have.get(" in level
 	assert 'entry.db_set("state", "Stale")' in PROPOSALS
+
+
+def test_approve_all_is_all_or_nothing():
+	"""A card that fails undoes the ones approved before it; one found out of
+	date is marked so only once they are undone."""
+	every = PROPOSALS.split("def apply_all(", 1)[1].split("\ndef ", 1)[0]
+	assert "frappe.db.rollback()" in every and "raise" in every and "frappe.flags.one_stale = []" in every
+	assert PROPOSALS.count('entry.db_set("state", "Stale")') == 1, "a card marks itself out of date only through _stale"

@@ -55,7 +55,13 @@ RECORDS = (
 
 DOCUMENTS = ("Reading", "Communication")
 
-SOURCES = (*DOCUMENTS, *RECORDS)
+#: What OneAI was told to remember and what the workspace wrote down for it,
+#: found by meaning by `recall` alone, never among the records searched.
+RECALLED = ("AI Memory", "AI Knowledge")
+
+SEARCHED = (*DOCUMENTS, *RECORDS)
+
+SOURCES = (*SEARCHED, *RECALLED)
 
 WORDS = ("Data", "Small Text", "Text", "Long Text", "Text Editor", "Select", "Link", "Date", "Currency")
 
@@ -327,6 +333,7 @@ def nearest(text: str, doctypes: list[str] | tuple | None = None, most: int = 10
 	best piece of each source once, best first."""
 	if not on() or not (text or "").strip():
 		return []
+	doctypes = doctypes or SEARCHED
 	from onedesk.one_ai import search
 
 	found = search.find(text, doctypes, most)

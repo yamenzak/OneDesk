@@ -419,7 +419,7 @@ def _ran(doc, text: str, turns: list[dict], heard=None, page: dict | str | None 
 			CHAT,
 			text,
 			reference=doc.name,
-			turns=carrying.carried(lighter(turns[-KEPT:])),
+			turns=carrying.carried(lighter(_sent(doc, turns))),
 			heard=heard,
 			expects=suggest.expected(text) or _expects_edit(turns),
 			groups=groups.chosen(text, page, turns),
@@ -1071,6 +1071,56 @@ def _title(doc, turns: list[dict]) -> None:
 
 
 CHAT_TITLE = "chat_title"
+
+CHAT_EARLIER = "chat_earlier"
+
+#: Turns dropped past the last recollection before it is made again, so a
+#: long conversation costs one short call a dozen turns, not one a turn.
+RECALL_EVERY = 12
+
+#: Characters of each old turn the recollection reads.
+RECALLED_TURN = 600
+
+
+def _sent(doc, turns: list[dict]) -> list[dict]:
+	"""The turns the model is sent: the newest `KEPT`, and what is recalled
+	of those before them ahead, as frappe's Flow compacts a long chat.
+
+	The recollection is made again only once `RECALL_EVERY` more turns have
+	gone past it; until then the turns since it are sent whole."""
+	if len(turns) <= KEPT:
+		return turns
+	upto = int(doc.get("earlier_upto") or 0)
+	if upto > len(turns):
+		upto = 0
+	if not upto or len(turns) - upto > KEPT + RECALL_EVERY:
+		until = len(turns) - KEPT
+		said = _recalled(doc, doc.get("earlier") if upto else "", turns[upto:until])
+		if said:
+			frappe.db.set_value("AI Chat", doc.name, {"earlier": said, "earlier_upto": until}, update_modified=False)
+			doc.earlier, doc.earlier_upto, upto = said, until, until
+	if not upto or not doc.get("earlier"):
+		return turns[-KEPT:]
+	recalled = {"role": "user", "text": f"Earlier in this conversation: {doc.earlier}", "calls": [], "context": True}
+	return [recalled, *turns[upto:]]
+
+
+def _recalled(doc, before: str | None, turns: list[dict]) -> str:
+	"""What is worth knowing of the turns, with what was recalled before."""
+	said = "\n".join(
+		f"{'Person' if one.get('role') == 'user' else 'OneAI'}: {strip_html_tags(one.get('text') or '')[:RECALLED_TURN]}"
+		for one in turns
+		if one.get("role") in ("user", "model") and not one.get("context") and (one.get("text") or "").strip()
+	)
+	if not said:
+		return before or ""
+	text = (f"Recalled before: {before}\n\n" if before else "") + said
+	try:
+		answer = run.once(CHAT_EARLIER, text, reference=doc.name)
+	except Exception:
+		frappe.log_error(title="OneAI could not recall a long conversation", reference_doctype="AI Chat", reference_name=doc.name)
+		return before or ""
+	return strip_html_tags(answer or "").strip()[:2000] or before or ""
 
 
 def _turns(doc) -> list[dict]:

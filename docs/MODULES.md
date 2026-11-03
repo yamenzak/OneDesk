@@ -73,7 +73,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| AI Chat | 8 | document |
+| AI Chat | 10 | document |
 | AI Chunk | 8 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
@@ -176,7 +176,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Extension | 21 | document |
+| Extension | 22 | document |
 | Record Type | 6 | document |
 | Workspace Field | 7 | document |
 
@@ -1047,7 +1047,9 @@ No doctypes yet.
 * `onedesk.one_studio.customize.load`
 * `onedesk.one_studio.customize.reset`
 * `onedesk.one_studio.customize.save`
+* `onedesk.one_studio.extensions.drop_draft`
 * `onedesk.one_studio.extensions.tripped`
+* `onedesk.one_studio.extensions.use_draft`
 * `onedesk.one_studio.forms.extensions`
 * `onedesk.one_studio.forms.forms`
 * `onedesk.one_studio.letter_heads.presets`

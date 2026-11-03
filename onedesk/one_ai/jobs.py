@@ -42,6 +42,7 @@ class Job:
 JOBS = {
 	"chat": Job(_lt("Chat"), "OneAI", "talk", tools=True, speaks=True, most=800),
 	"chat_title": Job(_lt("Title a Conversation"), "OneAI", "talk", most=100),
+	"chat_earlier": Job(_lt("Recall Earlier in a Conversation"), "OneAI", "talk", most=400),
 	"brief": Job(_lt("Summarise a Record"), "OneAI", "talk", speaks=True, most=400),
 	"print_design": Job(_lt("Print Design"), "OneAI", "build", tools=True, speaks=True, most=4000, thinks="always"),
 	"workspace_setup": Job(_lt("Workspace Setup"), "OneAI", "build", tools=True, speaks=True, most=4000, thinks="always"),

@@ -2,6 +2,7 @@
 turn on and off but never write or read.
 """
 
+import json
 from contextlib import contextmanager
 
 import frappe
@@ -33,8 +34,10 @@ PREFIX = "OneStudio "
 
 WRITTEN = (
 	"title", "runs", "record_doctype", "view", "place", "event", "cron", "explanation", "asked", "asked_by",
-	"review", "review_note", "written_on",
+	"review", "review_note", "written_on", "draft",
 )  # fmt: skip
+
+DRAFTED = ("title", "explanation", "asked", "asked_by", "code", "review", "review_note", "reviewed", "written_on")
 
 
 @contextmanager
@@ -207,7 +210,10 @@ def write(
 	cron: str | None = None,
 ) -> dict:
 	"""Keep an extension OneAI wrote, off, with its review: a new one, or a
-	new version of `extension`. Refuses what guard.py refuses."""
+	new version of `extension`. A new version of one that is on waits beside
+	it as its draft, and the one that is on keeps running until the draft is
+	used (`use_draft`), as frappe's Studio keeps a draft beside what is
+	published. Refuses what guard.py refuses."""
 	from onedesk.one_studio import places
 
 	roles.require()
@@ -226,6 +232,31 @@ def write(
 	if extension:
 		doc.check_permission("write")
 	passed = said["verdict"] == "Pass"
+	if extension and doc.enabled and _same_place(doc, runs, doctype, view, place, event, cron):
+		new = frappe._dict(
+			{
+				"title": title,
+				"explanation": explanation,
+				"asked": asked,
+				"asked_by": frappe.session.user,
+				"code": code,
+				"review": "Passed" if passed else "Refused",
+				"review_note": said["why"],
+				"written_on": str(frappe.utils.now_datetime()),
+				"runs": doc.runs,
+				"record_doctype": doc.record_doctype,
+				"view": doc.view,
+				"place": doc.get("place"),
+				"event": doc.event,
+				"cron": doc.get("cron"),
+			}
+		)
+		new.reviewed = reviewed_as(new) if passed else None
+		doc.draft = json.dumps({key: new[key] for key in DRAFTED})
+		doc.flags.ignore_permissions = True
+		doc.flags.written = True
+		doc.save()
+		return {"extension": doc.name, "review": new.review, "why": new.review_note, "tried": tried, "draft": True}
 	doc.update(
 		{
 			"title": title,
@@ -242,6 +273,7 @@ def write(
 			"code": code,
 			"review": "Passed" if passed else "Refused",
 			"review_note": said["why"],
+			"draft": None,
 		}
 	)
 	doc.reviewed = reviewed_as(doc) if passed else None
@@ -250,6 +282,58 @@ def write(
 	doc.flags.written = True
 	doc.save()
 	return {"extension": doc.name, "review": doc.review, "why": doc.review_note, "tried": tried}
+
+
+def _same_place(doc, runs, doctype, view, place, event, cron) -> bool:
+	"""Whether a new version runs where the one that is on runs; one that
+	moves is a different extension to turn on, and is written as before."""
+	return (runs, doctype, view if runs == ON_SCREEN else None, place or None, event if runs == ON_SERVER else None, cron or None) == (
+		doc.runs, doc.record_doctype, doc.view if doc.runs == ON_SCREEN else None, doc.get("place") or None,
+		doc.event if doc.runs == ON_SERVER else None, doc.get("cron") or None,
+	)  # fmt: skip
+
+
+def drafted(doc):
+	"""The extension as its draft would make it, or None without one."""
+	if not doc.get("draft"):
+		return None
+	return frappe._dict({**doc.as_dict(), **json.loads(doc.draft)})
+
+
+def take_draft(doc) -> None:
+	"""The draft becomes the extension, kept on, when its review passed and
+	it is still the code that was reviewed."""
+	new = drafted(doc)
+	if not new:
+		frappe.throw(_("There is no new version of {0}.").format(doc.title))
+	if new.review != "Passed" or new.reviewed != reviewed_as(new):
+		frappe.throw(_("The new version has not passed its review, so it cannot be used. Ask OneAI to change it."))
+	doc.update({key: new[key] for key in DRAFTED})
+	doc.draft = None
+	doc.flags.ignore_permissions = True
+	doc.flags.written = True
+	doc.save()
+
+
+@frappe.whitelist(methods=["POST"])
+def use_draft(extension: str) -> None:
+	"""Use New Version, on an extension's page: the draft runs in its place."""
+	roles.require()
+	doc = frappe.get_doc(EXTENSION, extension)
+	doc.check_permission("write")
+	take_draft(doc)
+
+
+@frappe.whitelist(methods=["POST"])
+def drop_draft(extension: str) -> None:
+	"""Discard New Version: the one that is on stays as it is."""
+	roles.require()
+	doc = frappe.get_doc(EXTENSION, extension)
+	doc.check_permission("write")
+	doc.draft = None
+	doc.flags.ignore_permissions = True
+	doc.flags.written = True
+	doc.save()
 
 
 def validate(doc, method=None) -> None:

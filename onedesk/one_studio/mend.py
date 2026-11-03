@@ -120,7 +120,13 @@ def mend(extension: str, problem: str | None = None) -> dict:
 		)
 	except guard.Refused as refused:
 		frappe.throw(_("OneAI's fixed version was not kept: {0}").format(refused))
-	return {"extension": doc.name, "diagnosis": diagnosis, "review": kept["review"], "why": kept["why"]}
+	return {
+		"extension": doc.name,
+		"diagnosis": diagnosis,
+		"review": kept["review"],
+		"why": kept["why"],
+		"draft": kept.get("draft", False),
+	}
 
 
 @frappe.whitelist()
@@ -159,7 +165,12 @@ def in_background(extension: str, told: str, problem: str | None = None) -> None
 		frappe.clear_last_message()
 		message, indicator = str(e), "red"
 	else:
-		if said["review"] == "Passed":
+		if said["review"] == "Passed" and said.get("draft"):
+			message = _("{0} The fixed version is on its page; the one that is on keeps running until you use it.").format(
+				said["diagnosis"]
+			)
+			indicator = "green"
+		elif said["review"] == "Passed":
 			message = _("{0} The fixed version is off until you turn it on.").format(said["diagnosis"])
 			indicator = "green"
 		else:
