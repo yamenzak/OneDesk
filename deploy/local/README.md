@@ -37,6 +37,10 @@ more), as a user with sudo. Nothing needs opening to the internet: connect with
 and the addresses below open in your own browser as if the bench were local.
 Port 9000 is socketio, which the desk's realtime needs.
 
+On a server, `setup.sh` also adds a swap file (4 to 8 GB), and `bench build`
+runs `build.sh`: the bench is stopped for the build and started again after,
+since a full build beside a running bench can use up a small machine's memory.
+
 ## On the internet
 
 With a domain in your Cloudflare account, after `setup.sh`:

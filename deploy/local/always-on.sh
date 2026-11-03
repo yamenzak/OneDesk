@@ -40,6 +40,7 @@ Wants=network-online.target
 User=$(id -un)
 WorkingDirectory=$BENCH
 Environment=PATH=$HOME/.local/bin:$NODE_BIN:/usr/local/bin:/usr/bin:/bin
+Environment=NODE_OPTIONS=--max-old-space-size=2048
 ExecStart=$HOME/.local/bin/bench start
 Restart=always
 RestartSec=5

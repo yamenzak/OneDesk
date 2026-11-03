@@ -71,6 +71,21 @@ if ! wkhtmltopdf --version 2>/dev/null | grep -q "with patched qt"; then
 	rm -f "$deb"
 fi
 
+# --- Swap, so a build that runs short slows the machine instead of hanging it -
+# WSL keeps its own swap (.wslconfig); a server image usually has none.
+if ! grep -qi microsoft /proc/version && [ -z "$(swapon --show --noheadings)" ]; then
+	say "Swap"
+	ram_gb=$(( ($(awk '/MemTotal/ {print $2}' /proc/meminfo) + 1048575) / 1048576 ))
+	size_gb=$(( ram_gb < 4 ? 4 : (ram_gb > 8 ? 8 : ram_gb) ))
+	sudo fallocate -l "${size_gb}G" /swapfile
+	sudo chmod 600 /swapfile
+	sudo mkswap /swapfile >/dev/null
+	sudo swapon /swapfile
+	grep -q "^/swapfile " /etc/fstab || echo "/swapfile none swap sw 0 0" | sudo tee -a /etc/fstab >/dev/null
+	echo "vm.swappiness=10" | sudo tee /etc/sysctl.d/99-one-swap.conf >/dev/null
+	sudo sysctl -q -p /etc/sysctl.d/99-one-swap.conf
+fi
+
 # --- Passwords ------------------------------------------------------------------
 SECRETS="$HOME/.one-local"
 if [ ! -f "$SECRETS" ]; then
@@ -189,6 +204,23 @@ make_site admin.localhost 1
 # bench start runs the Procfile. bench watch rebuilds the desk's own JS and CSS
 # on save; onedesk's islands (frontend/) have their own watcher, added here.
 grep -q "^islands:" Procfile || echo "islands: cd apps/onedesk/frontend && yarn dev" >>Procfile
+
+# `bench build` goes through build.sh, which stops the one-bench service for
+# the build and starts it again, so a build never runs beside bench start.
+if ! grep -q "# one: bench build" "$HOME/.bashrc" 2>/dev/null; then
+	cat >>"$HOME/.bashrc" <<'RC'
+
+# one: bench build stops one-bench while it builds (deploy/local/build.sh)
+bench() {
+	if [ "${1:-}" = build ]; then
+		shift
+		bash "$HOME/one-bench/apps/onedesk/deploy/local/build.sh" "$@"
+	else
+		command bench "$@"
+	fi
+}
+RC
+fi
 
 # What Claude Code needs to know about this machine, at the bench's root so it
 # is read from anywhere inside it, and out of the repository, which is also

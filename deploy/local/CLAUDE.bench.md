@@ -25,6 +25,11 @@ rules. This file is only about how this machine runs it.
   refresh. The portal (`frontend/portal`) has no watcher: `cd
   apps/onedesk/frontend && yarn build` after changing it.
 - A doctype or fixture JSON change needs `bench --site SITE migrate`.
+- `bench build` runs `deploy/local/build.sh`: it stops `one-bench`, builds,
+  and starts it again, because a full build beside the running bench runs
+  this machine out of memory. The sites are offline for that minute. Build
+  one app where one changed (`bench build --app onedesk`), and never run a
+  build in the background beside another.
 - You may be running under the `one-claude` service (Remote Control), started
   in `apps/onedesk` and sharing it with the bench: what you change is served
   at once. Never stop or restart `one-claude` yourself; that ends the session
