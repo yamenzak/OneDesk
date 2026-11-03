@@ -59,7 +59,7 @@ $.extend(onedesk.interface, {
 			});
 		const add = ({ label, icon, css, badge = "", text = "", click, tip: said = label, group }) => {
 			const $tile = $(
-				`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}"><span class="one-bar-icon">${frappe.utils.icon(
+				`<button class="one-bar-tool ${css}" aria-label="${frappe.utils.escape_html(label)}" data-one-label="${frappe.utils.escape_html(label)}"><span class="one-bar-icon">${frappe.utils.icon(
 					icon,
 					"sm"
 				)}${badge}</span>${text}</button>`

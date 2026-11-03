@@ -387,6 +387,18 @@ nav buttons, the details switch and the pane's edge hide.
 
 ## On a phone
 
+**The shell** (phone.js, phone.css) is frappe's tab bar and its navigation
+sheet, dressed as frappe defines them, since frappe loads them only on a
+phone. The tabs are Home, Apps, Search, Notifications (with the unread
+count) and Profile. Apps opens the sheet from anywhere, as tapping the
+page's title already did: a search through every app's rail at the top,
+then the bars' tools (Documents, Check In, Timers, OneAI, open workbooks),
+moved in while it is open and back to the bars when it closes, then every
+app as a grid four across, then the rail of the app you are in. The Apps
+tab carries a dot while any of those tools has a count. A phone has no top
+or bottom bar, so nothing on them may be reachable only there: a tool
+added to a bar group reaches the sheet with it.
+
 **The floor and the floats.** frappe's tab bar (Home, Search,
 Notifications, Profile) holds the bottom of a phone; `--one-floor`
 (frame.css) is its height there and 0 everywhere else. Anything One pins

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 21:17+0000\n"
+"POT-Creation-Date: 2026-11-03 21:59+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -5105,6 +5105,7 @@ msgstr "Die Genehmigung von „{0}“ ist nicht durchgegangen: {1} Korrigieren S
 #: onedesk/public/js/one_account/account_center.js:553
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
+#: onedesk/public/js/one_interface/phone.js:55
 msgid "Apps"
 msgstr ""
 
@@ -30910,6 +30911,10 @@ msgstr "Keine passenden Felder"
 msgid "No matching notifications"
 msgstr "Keine passenden Benachrichtigungen"
 
+#: onedesk/public/js/one_interface/phone.js:150
+msgid "No matching pages"
+msgstr "Keine passenden Seiten"
+
 #: onedesk/public/js/one_account/account_center.js:405
 msgid "No matching people"
 msgstr "Keine passenden Personen"
@@ -43828,6 +43833,10 @@ msgstr "Abdichten und wetterfest machen"
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr "Suchen"
+
+#: onedesk/public/js/one_interface/phone.js:98
+msgid "Search Apps and Pages"
+msgstr "Apps und Seiten suchen"
 
 #. Label of the google_query (Data) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json:137

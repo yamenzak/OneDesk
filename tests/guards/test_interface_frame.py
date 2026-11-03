@@ -16,7 +16,7 @@ FRAME_JS = tree.APP / "public" / "js" / "one_interface"
 FRAME_CSS = tree.APP / "public" / "css" / "one_interface"
 FRAME = (FRAME_JS / "frame.js").read_text(encoding="utf-8")
 CHROME = (FRAME_JS / "chrome.js").read_text(encoding="utf-8")
-ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in FRAME_JS.glob("*.js") if path.stem not in ("frame", "chrome", "nav_tree", "json_view", "look", "dialogs", "stamps", "star", "select", "keys")}
+ADAPTERS = {path.stem: path.read_text(encoding="utf-8") for path in FRAME_JS.glob("*.js") if path.stem not in ("frame", "chrome", "phone", "nav_tree", "json_view", "look", "dialogs", "stamps", "star", "select", "keys")}
 JS = FRAME + "".join(ADAPTERS.values())
 CSS = "".join(path.read_text(encoding="utf-8") for path in sorted(FRAME_CSS.glob("*.css")))
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -396,3 +396,16 @@ def test_the_interface_has_one_name():
 				if OLD_NAMES.search(line):
 					found.append(f"{path.relative_to(tree.ROOT)}:{number}")
 	assert not found, f"the window's old name is still used: {found[:20]}"
+
+
+def test_a_phone_reaches_every_app_and_every_bar_tool():
+	"""A phone has no bars: its Apps tab opens frappe's navigation sheet,
+	which searches every app's rail and carries each bar group that holds a
+	tool, so nothing on the bars is reachable only from a desk."""
+	phone = (FRAME_JS / "phone.js").read_text(encoding="utf-8")
+	assert '{ name: "apps"' in phone and "this.open_navigation()" in phone
+	assert "frappe.boot.module_sidebars" in phone and "frappe.ui.sidebar_item.get_route" in phone
+	groups = set(re.findall(r'data-group="(\w+)"', CHROME)) - {"find", "weather", "when"}
+	carried = set(re.findall(r'\[data-group="(\w+)"\]', phone.split("TOOLS:", 1)[1].split("\n", 1)[0]))
+	assert groups == carried, f"bar groups a phone cannot reach: {sorted(groups - carried)}"
+	assert "phone.css" in HOOKS and "one_interface/phone.js" in HOOKS

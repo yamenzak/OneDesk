@@ -2656,6 +2656,27 @@ OVERRIDES = [
 		"self.content_hash = None",
 	),
 	(
+		"A phone's tab bar has Apps",
+		"phone.js dresses frappe's MobileNav as it is defined: get_tabs gains Apps second, make_tab draws it as a button that opens the navigation sheet, and Notifications carries the unread count",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		"get_tabs() {",
+	),
+	(
+		"A phone's navigation sheet searches every app",
+		"phone.js wraps open_navigation and open_sheet: the sheet is full height, its header a search through every app's rail, the bars' tools moved in above the dock while it is open and put back in return_sidebar, and browse_dock_entry's set_title names the rail under the dock",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		"this.open_sheet(this.module_label(sidebar.current_module), () => ({",
+	),
+	(
+		"A phone's dock is a grid of every app",
+		"phone.css lays frappe's sheet dock out four across instead of a row that scrolls past the edge",
+		"onedesk/public/css/one_interface/phone.css",
+		"frappe/frappe/public/scss/desk/mobile_nav.scss",
+		"overflow-x: auto;",
+	),
+	(
 		"Search offers to ask OneAI",
 		"oneai.js wraps the search bar's get_options and adds Ask OneAI: first for a question, so Enter asks; last for anything else of two words or more. Search by meaning is OneAI's from there, not on every keystroke",
 		"onedesk/public/js/one_ai/oneai.js",

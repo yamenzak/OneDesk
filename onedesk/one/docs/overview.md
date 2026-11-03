@@ -39,7 +39,7 @@ you left for another screen, under OneWorkbook's mark. On the right are **Check 
 then **OneAI**, and at the end today's date and the time, which open OneCalendar. A number on
 an icon says how much waits there. **Check In** says *Check In* when your
 shift has started and you haven't, and *Late* once you are late. On a phone
-there are no bars, and their tools are at the top of the panel instead.
+there are no bars: their tools are at the top of **Apps**.
 
 The frame's colour is the workspace's to choose: **Frame Colour** under
 One's ControlCenter › Branding. Its writing turns dark on a light
@@ -59,6 +59,13 @@ The names at the top of a page take you elsewhere. Tap the place's name,
 name to open another record of its kind, the latest ones first. Type to
 search them, as you would in a field that picks a record. **All Projects**
 at the foot opens the whole list.
+
+On a phone the tabs along the bottom are **Home**, **Apps**, **Search**,
+**Notifications** and **Profile**. **Apps** opens every app and its places
+from any page: type in its search to find a place in any app, such as
+"leave" or "bank", or tap an app to see its places under it. A dot on
+**Apps** says something waits in one of its tools. Tapping the place's name
+at the top of a page opens the same.
 
 On a phone the top of a page is two bars. The first has the menu, the place,
 the page's buttons and search. The second is for the record you have open:

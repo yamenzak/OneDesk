@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 21:17+0000\n"
+"POT-Creation-Date: 2026-11-03 21:59+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -5105,6 +5105,7 @@ msgstr "لم تنجح الموافقة على «{0}»: {1} صحّحه واقتر
 #: onedesk/public/js/one_account/account_center.js:553
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
+#: onedesk/public/js/one_interface/phone.js:55
 msgid "Apps"
 msgstr ""
 
@@ -30910,6 +30911,10 @@ msgstr "لا توجد حقول مطابقة"
 msgid "No matching notifications"
 msgstr "لا توجد إشعارات مطابقة"
 
+#: onedesk/public/js/one_interface/phone.js:150
+msgid "No matching pages"
+msgstr "لا توجد صفحات مطابقة"
+
 #: onedesk/public/js/one_account/account_center.js:405
 msgid "No matching people"
 msgstr "لا يوجد أشخاص مطابقون"
@@ -43828,6 +43833,10 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr "بحث"
+
+#: onedesk/public/js/one_interface/phone.js:98
+msgid "Search Apps and Pages"
+msgstr "بحث في التطبيقات والصفحات"
 
 #. Label of the google_query (Data) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json:137
