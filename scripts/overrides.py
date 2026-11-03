@@ -2649,6 +2649,13 @@ OVERRIDES = [
 		"query = db._get_query(",
 	),
 	(
+		"A stored file keeps the hash of its content",
+		"frappe's File.validate empties content_hash for a file at a URL, a stored file's included; CloudFile.validate puts back the hash store.write took of the bytes it stored in that save",
+		"onedesk/one_storage/file.py",
+		"frappe/frappe/core/doctype/file/file.py",
+		"self.content_hash = None",
+	),
+	(
 		"File reads a stored file's content from R2",
 		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
 		"onedesk/one_storage/file.py",

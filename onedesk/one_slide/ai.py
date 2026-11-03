@@ -273,7 +273,7 @@ def _headline(one: dict) -> str:
 def draft_deck(
 	presentation: Annotated[str, "The presentation's id."],
 	slides: Annotated[
-		str | list,
+		list[dict],
 		"The slides in order, each {kind, words, notes}. kind is one of the kinds the page lists; words are the "
 		"kind's words (the page says which); notes are what the speaker says. A value that comes from a record is "
 		"written as its chip, such as {this.grand_total}, never typed.",
@@ -315,7 +315,7 @@ def draft_deck(
 def write_slide(
 	presentation: Annotated[str, "The presentation's id."],
 	slide: Annotated[str, "The slide's id (or its number), from read_presentation or the page."],
-	texts: Annotated[str | dict, "New words for the slide's texts, by element id: {id: words}, lines split by \\n."],
+	texts: Annotated[dict, "New words for the slide's texts, by element id: {id: words}, lines split by \\n."],
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:
 	"""Suggest new words for a slide, keeping each text's look: to rewrite,
@@ -356,7 +356,7 @@ def remake_slide(
 	presentation: Annotated[str, "The presentation's id."],
 	slide: Annotated[str, "The slide's id (or its number)."],
 	kind: Annotated[str, "The kind of slide to make it, such as timeline or figures."],
-	words: Annotated[str | dict, "The kind's words, from what the slide says now."],
+	words: Annotated[dict, "The kind's words, from what the slide says now."],
 	notes: Annotated[str, "What the speaker says, if it changes."] | None = None,
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:

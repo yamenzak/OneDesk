@@ -286,3 +286,19 @@ def test_a_big_change_is_said_as_what_it_touches_and_marked_on_the_page():
 	assert "onedesk.oneai.changed = function" in js and "onedesk.oneai.unchanged(frm)" in js
 	chat = (tree.APP / "one_ai" / "chat.py").read_text()
 	assert '"fieldname": field' in chat and 'frappe._("On")' in chat
+
+
+def test_no_tool_takes_a_type_a_model_cannot_be_told():
+	"""`str | dict` and `str | list` have no name in JSON Schema, and the tool
+	that takes one is left out of what a model is told (one_ai/schema.py).
+	A tool takes the dict or the list and reads a string as JSON itself."""
+	import re
+
+	found = [
+		f"{path.relative_to(tree.APP)}:{at}"
+		for path in sorted(tree.APP.glob("*/ai.py"))
+		for at, line in enumerate(path.read_text(encoding="utf-8").splitlines(), 1)
+		if re.search(r"Annotated\[\s*str \| (dict|list)\b", line)
+		or (re.match(r"\s*str \| (dict|list),\s*$", line))
+	]
+	assert not found, found

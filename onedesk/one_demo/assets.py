@@ -231,14 +231,16 @@ def _mended():
 
 
 def _written_down():
-	"""The CNC centre's spindle crashed, and Huda writes it down by a tenth."""
+	"""The CNC centre's spindle crashed, and Huda writes it down by a tenth,
+	today: ERPNext takes no adjustment dated before its last depreciation,
+	which is posted to the end of last month."""
 	with as_user(BOOKS):
 		cut = frappe.new_doc("Asset Value Adjustment")
 		cut.update(
 			{
 				"asset": frappe.db.get_value("Asset", {"asset_name": "CNC Profile Machining Centre"}),
 				"company": COMPANY,
-				"date": ago(25),
+				"date": today(),
 				"difference_account": account("Impairment"),
 			}
 		)

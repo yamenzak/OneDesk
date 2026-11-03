@@ -91,7 +91,7 @@ def test_a_search_is_checked_against_the_reader_and_costs_nothing_twice():
 	source = INDEX.read_text(encoding="utf-8")
 	nearest = source.split("def nearest(", 1)[1].split("\ndef ", 1)[0]
 	assert "_may(*key)" in nearest, "every hit is checked against the reader"
-	remember = source.split("def remember(", 1)[1].split("\ndef ", 1)[0]
+	remember = source.split("def remember_many(", 1)[1].split("\ndef ", 1)[0]
 	assert remember.index("digest(one)") < remember.index("embedded("), "unchanged text is never embedded again"
 	assert "proxy.ai_embed" in source, "embedded through the account, billed to the workspace"
 	hooks = (tree.APP / "hooks.py").read_text(encoding="utf-8")

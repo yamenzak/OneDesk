@@ -31,8 +31,10 @@ def handle(path: Path, kept: bool = False) -> Handled:
 	"""One sample through Intake as it arrives: the Reading Action rows it made,
 	and any model call the sample does not answer. Kept, it stays in the demo
 	as Intake left it; otherwise each commit is only a savepoint."""
-	spec = json.loads(path.read_text())
+	spec = _dated(json.loads(path.read_text()))
 	content = path.with_name(spec["file"]).read_bytes()
+	if spec.get("unpaid", {}).get("now"):
+		content = content.replace(spec["unpaid"]["written_as"].encode(), spec["unpaid"]["now"].encode())
 	started = now_datetime()
 	unanswered = []
 	with _answered(path.name, spec.get("answers") or {}, unanswered), (nullcontext() if kept else unkept()):
@@ -54,6 +56,27 @@ def handle(path: Path, kept: bool = False) -> Handled:
 		order_by="creation asc",
 	)
 	return Handled(made, unanswered)
+
+
+def _dated(spec: dict) -> dict:
+	"""A sample that pays an invoice pays the customer's oldest one still
+	unpaid, which moves with the day the demo is built: the invoice it was
+	written about is put right in the model's answers, and `handle` puts it
+	right in what arrives."""
+	asked = spec.get("unpaid")
+	if not asked:
+		return spec
+	now = frappe.get_all(
+		"Sales Invoice",
+		filters={"customer": asked["customer"], "docstatus": 1, "outstanding_amount": [">", 0]},
+		order_by="posting_date asc, name asc",
+		pluck="name",
+		limit=1,
+	)
+	if not now:
+		return spec
+	said = json.loads(json.dumps({key: value for key, value in spec.items() if key != "unpaid"}).replace(asked["written_as"], now[0]))
+	return {**said, "unpaid": {**asked, "now": now[0]}}
 
 
 def found(path: Path) -> Handled | None:
@@ -149,9 +172,14 @@ def _arrive(name: str, content: bytes) -> None:
 @contextmanager
 def _answered(sample: str, answers: dict, unanswered: list):
 	"""Every model call answered from the sample. One it has no answer for is
-	refused and noted, since Intake may carry on without it."""
+	refused and noted, since Intake may carry on without it; the check for
+	an attack on OneAI (reading/guard.py) is safe unless the sample says."""
+	from onedesk.one_ai.reading import guard
+
 
 	def once(action, text, files=None, reference=None):
+		if action == guard.JOB:
+			return answers.get(action) or "safe"
 		said = answers.get(action)
 		if said == RIGHT or (isinstance(said, dict) and "wrong" in said):
 			ids = re.findall(r'"id": "([^"]+)"', text)

@@ -1,5 +1,9 @@
 {
  "file": "payment-advice.eml",
+ "unpaid": {
+  "customer": "Marina Hotels Group",
+  "written_as": "ACC-SINV-2026-00016"
+ },
  "answers": {
   "intake_look": {
    "verdict": "Information",

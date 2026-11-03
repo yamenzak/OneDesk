@@ -37,6 +37,15 @@ def in_force(company: str) -> tuple:
 		return year_from(getdate(today()).replace(month=1, day=1))
 
 
+def free_name(doctype: str, year: str, company: str) -> str:
+	"""`2026` for the first company to have that year, and `2026 SGA`, with
+	the company's abbreviation, for a second: a period is one company's, and
+	its name is the whole site's."""
+	if not frappe.db.exists(doctype, year):
+		return year
+	return f"{year} {frappe.get_cached_value('Company', company, 'abbr') or company}"
+
+
 def make(company: str, start, end) -> None:
 	"""Both periods for one year, each only where none covers it yet."""
 	if not frappe.db.exists(
@@ -45,24 +54,26 @@ def make(company: str, start, end) -> None:
 		period = frappe.new_doc("Leave Period")
 		period.update({"company": company, "from_date": start, "to_date": end, "is_active": 1})
 		period.insert(ignore_permissions=True)
-		if not frappe.db.exists("Leave Period", named(start, end)):
-			frappe.rename_doc("Leave Period", period.name, named(start, end), force=True)
+		wanted = free_name("Leave Period", named(start, end), company)
+		if not frappe.db.exists("Leave Period", wanted):
+			frappe.rename_doc("Leave Period", period.name, wanted, force=True)
 	if not frappe.db.exists(
 		"Payroll Period", {"company": company, "start_date": ("<=", end), "end_date": (">=", start)}
 	):
 		period = frappe.new_doc("Payroll Period")
-		period.name = named(start, end)
+		period.name = free_name("Payroll Period", named(start, end), company)
 		period.update({"company": company, "start_date": start, "end_date": end})
 		period.insert(ignore_permissions=True)
 
 
 def daily() -> None:
-	"""Next year's periods, once this year's end is a month away."""
-	from onedesk.one_hr import holidays
+	"""Next year's periods, for each company, once its year's end is a month
+	away."""
+	for company in frappe.get_all("Company", pluck="name"):
+		_next(company)
 
-	company = holidays.company()
-	if not company:
-		return
+
+def _next(company: str) -> None:
 	last = frappe.get_all(
 		"Leave Period", filters={"company": company}, fields=["to_date"], order_by="to_date desc", limit=1
 	)

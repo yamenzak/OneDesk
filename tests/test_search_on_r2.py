@@ -36,7 +36,7 @@ def test_ai_search_is_gone():
 def test_the_index_holds_the_text_and_vectors_and_mariadb_only_which():
 	chunk = (tree.APP / "one_ai" / "doctype" / "ai_chunk" / "ai_chunk.json").read_text()
 	assert '"vector"' not in chunk and '"fieldname": "text"' not in chunk
-	assert "vectors.put(" in _body(INDEX, "remember") and "vectors.find(" in _body(INDEX, "nearest")
+	assert "vectors.put_many(" in _body(INDEX, "remember_many") and "vectors.find(" in _body(INDEX, "nearest")
 	assert "vectors.drop(" in _body(INDEX, "forget_all")
 	assert 'query_type="hybrid"' in _body(VECTORS, "find"), "by meaning and by words together"
 
@@ -45,3 +45,14 @@ def test_the_index_is_tidied_each_night():
 	assert '"onedesk.one_ai.vectors.tidy"' in (tree.APP / "hooks.py").read_text()
 	tidy = _body(VECTORS, "tidy")
 	assert "optimize()" in tidy and "create_fts_index" in tidy
+
+
+def test_a_save_marks_its_record_and_one_job_indexes_them_all():
+	"""An import of thousands queues one job, not one a record, and each round
+	is one embedding call and one write to R2."""
+	marked = _body(INDEX, "changed")
+	assert "frappe.cache.sadd(DIRTY" in marked and '"onedesk.one_ai.index.flush"' in marked
+	assert 'job_id="one_index_flush"' in marked and "deduplicate=True" in marked
+	flushed = _body(INDEX, "flush")
+	assert "range(FLUSHED)" in flushed and "remember_many(" in flushed
+	assert "done = flush()" in _body(INDEX, "catch_up"), "what was marked while a flush finished is caught up"

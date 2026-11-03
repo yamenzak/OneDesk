@@ -470,6 +470,10 @@ CENTRES = {
 		"The reader is in UpdateCenter: every app's versions, newest first, each with what changed for the "
 		"people who use it."
 	),
+	"shortcuts": (
+		"The reader is in ShortcutCenter: every app's keyboard shortcuts, by where they work, and the keys "
+		"they chose for them. Which key does what is theirs to change there, never OneAI's."
+	),
 }
 
 

@@ -900,12 +900,18 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			)
 			assert written.get("state") == "Proposed", written
 			fixed = {"diagnosis": "frm.dashboard is not there on a new form.", "code": "frappe.ui.form.on('Customer', { refresh(frm) { if (!frm.doc.mobile_no) frm.set_intro(__('No mobile number yet.')); } });", "explanation": "Says on the form when a customer has no mobile."}
+			was_on = frappe.db.get_value(extensions.EXTENSION, screen, "enabled")
 			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=fixed):
 				said = mend.mend(screen)
-			assert said["review"] == "Passed" and not frappe.db.get_value(extensions.EXTENSION, screen, "enabled"), "a fixed extension stays off"
 			on = frappe.get_doc(extensions.EXTENSION, screen)
-			on.enabled = 1
-			on.save()
+			if was_on:
+				assert said["review"] == "Passed" and said["draft"] and on.enabled, "a fixed extension that is on waits beside it"
+				extensions.drop_draft(screen)
+				on.reload()
+			else:
+				assert said["review"] == "Passed" and not on.enabled, "a fixed extension that is off stays off"
+				on.enabled = 1
+				on.save()
 			running = on.code
 			again = {**fixed, "code": fixed["code"].replace("No mobile number yet.", "This customer has no mobile number yet.")}
 			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=again):
@@ -916,11 +922,11 @@ def onestudio_record_types_extensions_and_forms_for_the_owner():
 			on.reload()
 			assert on.enabled and on.code == again["code"] and not on.draft, "Use New Version runs it in its place"
 			with mock.patch("onedesk.one_ai.run.once", return_value=""), mock.patch("onedesk.one_hr.hiring.read", return_value=fixed):
-				mend.mend(screen)
+				assert mend.mend(screen, "It says nothing on a new customer")["draft"]
 			extensions.drop_draft(screen)
 			on.reload()
 			assert on.code == again["code"] and not on.draft, "Discard New Version leaves the one that is on"
-			on.enabled = 0
+			on.enabled = was_on
 			on.save()
 		with mock.patch("frappe.enqueue") as queued:
 			assert "error" in ai.mend_extension(screen)

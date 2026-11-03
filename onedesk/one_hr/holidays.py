@@ -32,17 +32,25 @@ def assignments(held: str | None = None) -> list:
 	)
 
 
-def in_force(day=None, held: str | None = None) -> str | None:
-	"""The list in force on a day, as hrms decides it: the last assignment
-	started by then, else the first one, else the company's field."""
+def assigned(day=None, held: str | None = None) -> str | None:
+	"""The list hrms holds the company to on a day: the last assignment started
+	by then, else the first one (hrms's resolve_holiday_list_assignment)."""
 	held = held or company()
 	day = getdate(day or today())
 	found = assignments(held)
 	started = [one for one in found if getdate(one.from_date) <= day]
 	if started:
 		return started[-1].holiday_list
+	return found[0].holiday_list if found else None
+
+
+def in_force(day=None, held: str | None = None) -> str | None:
+	"""The list shown as in force on a day: the one assigned, else the
+	company's field, until an assignment is made."""
+	held = held or company()
+	found = assigned(day, held)
 	if found:
-		return found[0].holiday_list
+		return found
 	return frappe.db.get_value("Company", held, "default_holiday_list") if held else None
 
 
@@ -130,7 +138,7 @@ def assign(holiday_list: str, held: str | None = None) -> bool:
 	held = held or company()
 	start, end = frappe.db.get_value("Holiday List", holiday_list, ["from_date", "to_date"])
 	day = getdate(today()) if getdate(start) <= getdate(today()) <= getdate(end) else getdate(start)
-	if in_force(day, held) == holiday_list:
+	if assigned(day, held) == holiday_list:
 		_follow(held)
 		return False
 	same_day = frappe.db.get_value(

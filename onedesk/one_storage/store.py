@@ -118,6 +118,7 @@ def write(doc):
 	key = key_for(doc.content_hash, doc.file_name, doc.is_private)
 	put(key, content)
 	doc.file_url = url_for(key)
+	doc.flags.one_hashed = doc.content_hash
 	return {"file_name": doc.file_name, "file_url": doc.file_url}
 
 

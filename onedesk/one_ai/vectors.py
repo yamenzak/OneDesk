@@ -91,10 +91,17 @@ def where(sources: list[tuple[str, str]]) -> str:
 
 def put(doctype: str, name: str, rows: list[dict]) -> None:
 	"""A source's pieces, in place of what it had."""
+	put_many([(doctype, name)], rows)
+
+
+def put_many(sources: list[tuple[str, str]], rows: list[dict]) -> None:
+	"""These sources' pieces, in place of what they had: one delete and one
+	write, however many there are."""
 	if not rows:
 		return
 	table = _table(len(rows[0]["vector"]), create=True)
-	table.delete(where([(doctype, name)]))
+	for at in range(0, len(sources), 200):
+		table.delete(where(sources[at : at + 200]))
 	table.add(rows)
 
 

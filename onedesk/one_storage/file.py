@@ -19,9 +19,17 @@ from onedesk.one_storage import store
 
 class CloudFile(File):
 	def validate(self):
+		"""Frappe empties the content hash of a file at a URL, since a hash a
+		browser sends is not to be trusted, and a stored file's URL is one; the
+		hash `store.write` took of the bytes it stored this save is kept, so a
+		stored file is still found by its content."""
 		if self.flags.one_named:
 			self.file_name, self.flags.one_named = self.flags.one_named, None
-		return super().validate()
+		hashed = self.flags.one_hashed
+		said = super().validate()
+		if hashed and store.is_stored(self.file_url) and hashed in (store.key_of(self.file_url) or ""):
+			self.content_hash = hashed
+		return said
 
 	def exists_on_disk(self):
 		"""A stored file exists wherever it is kept, which is how Frappe's

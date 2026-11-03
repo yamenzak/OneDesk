@@ -380,6 +380,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A stored object is dropped when the last File naming it goes | Frappe's seam for deleting content; ours defers to after commit and skips a shared object | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file_v1.py` | `method = get_hook_method("delete_file_data_content")` |
 | A stored file's URL is counted as remote | `/api/method/` is in URL_PREFIXES, so Frappe's disk checks pass our URLs by | `onedesk/one_storage/store.py` | `frappe/frappe/core/doctype/file/file.py` | `URL_PREFIXES = ("http://", "https://", "/api/method/")` |
 | The sign-in and export logs show a workspace administrator what the Audit Log does | frappe keeps Activity Log and Access Log in its SQLite log store, whose list runs no permission query; one/audit_logs.py subclasses both controllers and adds audit's limits as filters to get_list and get_count | `onedesk/one/audit_logs.py` | `frappe/frappe/utils/sqlite_document.py` | `query = db._get_query(` |
+| A stored file keeps the hash of its content | frappe's File.validate empties content_hash for a file at a URL, a stored file's included; CloudFile.validate puts back the hash store.write took of the bytes it stored in that save | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `self.content_hash = None` |
 | File reads a stored file's content from R2 | Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file_v1.py` | `with open(file_path, mode="rb") as f:` |
 | A stored file is decoded the way Frappe decodes one | text as text and anything else as bytes, by the same constants | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `OLE_FILE_SIGNATURE = ` |
 | File.validate_private_file_access: may this user name a private file's URL | Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `def validate_private_file_access(self):` |
@@ -435,7 +436,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-429 overrides.
+430 overrides.
 
 ## What we would ask upstream
 
