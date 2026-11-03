@@ -8,12 +8,21 @@
 	/* What the bottom of the screen holds that a float keeps above: frappe's
 	   tab bar on a phone, nothing elsewhere. */
 	--one-floor: 0px;
+	--one-float-gap: 24px;
 }
 
 @media (max-width: 767.98px) {
 	body.has-mobile-nav {
 		--one-floor: var(--desk-mobile-nav-height, 0px);
 	}
+}
+
+/* A float: anything One pins over the page at the bottom of the window (the
+   OneAI panel, the recording bar). It keeps its gap above the floor; a part
+   says only its gap, never where the bottom is. */
+.one-float {
+	position: fixed;
+	bottom: calc(var(--one-floor) + var(--one-float-gap));
 }
 
 @media (min-width: 768px) {

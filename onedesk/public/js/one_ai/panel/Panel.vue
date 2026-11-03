@@ -4,7 +4,7 @@
      shape OneMessaging will want too — its threads join this list rather than
      needing a second panel drawn beside this one. -->
 <template>
-	<div class="one-ai-panel" :class="`one-ai-panel--${size}`" data-tour="oneai-panel">
+	<div class="one-ai-panel one-float" :class="`one-ai-panel--${size}`" data-tour="oneai-panel">
 		<div class="one-ai-head">
 			<button
 				v-if="view === 'chat'"

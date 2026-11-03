@@ -1,7 +1,6 @@
 .one-ai-panel {
-	position: fixed;
+	--one-float-gap: 88px;
 	inset-inline-end: 24px;
-	bottom: 88px;
 	z-index: var(--one-layer-panel);
 	display: flex;
 	flex-direction: column;
@@ -873,7 +872,7 @@
 		right: 12px;
 		left: 12px;
 		width: auto;
-		bottom: calc(var(--one-floor) + 12px);
+		--one-float-gap: 12px;
 		height: calc(100vh - 96px - var(--one-floor));
 	}
 }
@@ -1089,9 +1088,7 @@
 }
 
 .one-rec {
-	position: fixed;
 	left: 50%;
-	bottom: calc(var(--one-floor) + 24px);
 	z-index: var(--one-layer-frame);
 	display: flex;
 	align-items: center;

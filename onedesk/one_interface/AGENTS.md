@@ -387,11 +387,13 @@ nav buttons, the details switch and the pane's edge hide.
 
 ## On a phone
 
-**The floor.** frappe's tab bar (Home, Search, Notifications, Profile) holds
-the bottom of a phone; `--one-floor` (frame.css) is its height there and 0
-everywhere else, and anything One floats at the bottom (the OneAI panel, the
-recording bar, an enlarged dialog) keeps above it with that, never its own
-number.
+**The floor and the floats.** frappe's tab bar (Home, Search,
+Notifications, Profile) holds the bottom of a phone; `--one-floor`
+(frame.css) is its height there and 0 everywhere else. Anything One pins
+over the page at the bottom is a `.one-float` (frame.css), which keeps it
+above the floor; the part sets only its gap (`--one-float-gap`, 24px unless
+it says), never `position` or `bottom`. The OneAI panel and the recording
+bar are floats; an enlarged dialog keeps above the floor in dialogs.css.
 
 **Every dialog, one way** (dialogs.css, under 640 px): a rail becomes one
 strip across the top, under Help, Enlarge and Close; a panel's heading has

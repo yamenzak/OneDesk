@@ -252,7 +252,7 @@ onedesk.hiring.recorder = {
 
 	bar() {
 		this.$bar = $(`
-			<div class="one-rec" role="status">
+			<div class="one-rec one-float" role="status">
 				<span class="one-rec__dot"></span>
 				<span class="one-rec__label"></span>
 				<canvas class="one-rec__wave" aria-hidden="true"></canvas>
