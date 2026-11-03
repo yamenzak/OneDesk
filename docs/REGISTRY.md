@@ -509,7 +509,7 @@ Ready.
 | Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-03, `deec115` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-02, `9c07465` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-03, `433f81b` |
 | Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-02, `9c07465` |
 | OneInterface pass | — | 2026-11-02, `9c07465` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |

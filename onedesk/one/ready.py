@@ -581,7 +581,7 @@ MODULES = {
 		"ready": True,
 		"checked": {
 			"copy": {"on": "2026-11-03", "commit": "deec11533a5e", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-03", "commit": "433f81b33919", "by": "Claude, for Yamen"},
 			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
 			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
 			"legal": {"on": "2026-11-03", "commit": "deec11533a5e", "by": "Claude, for Yamen"},
