@@ -9,10 +9,11 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 NEXT = tree.APP / "one_crm" / "next.py"
 HOME = tree.APP / "one_crm" / "home.py"
-ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext/crm/doctype")
+ERPNEXT = APPS / "erpnext/erpnext/crm/doctype"
 
 
 def _constant(name):

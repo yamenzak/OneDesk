@@ -11,6 +11,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 SOURCE = (tree.APP / "one" / "outside.py").read_text()
 
@@ -146,7 +147,7 @@ def test_a_kind_of_record_not_readable_is_no_access_and_a_missing_page_404():
 	assert '{% if error and code.startswith("5") %}' in (tree.APP / "www" / "error.html").read_text()
 
 
-SEARCH = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js")
+SEARCH = APPS / "frappe/frappe/public/js/frappe/ui/toolbar/search_utils.js"
 OUTSIDE_JS = (tree.APP / "public" / "js" / "outside.js").read_text()
 
 

@@ -10,6 +10,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 BOOK = tree.APP / "one_book"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -37,7 +38,7 @@ def test_the_money_is_onebooks_and_the_customer_onecrms():
 
 def test_every_report_row_names_a_report_erpnext_or_onebook_ships():
 	reports = [item["link_to"] for item in RAIL["items"] if item.get("link_type") == "Report"]
-	erpnext = Path("/home/frappe/bench1/apps/erpnext/erpnext")
+	erpnext = APPS / "erpnext/erpnext"
 	if not erpnext.exists():
 		return
 	shipped = {
@@ -88,7 +89,7 @@ def test_a_first_fiscal_year_begins_when_the_countrys_does():
 	assert begins(wizard, "Australia") == (7, 1)
 	assert begins(wizard, "New Zealand") == (4, 1)
 	assert begins(wizard, "Germany") == (1, 1)
-	theirs = Path("/home/frappe/bench1/apps/erpnext/erpnext/public/js/setup_wizard.js")
+	theirs = APPS / "erpnext/erpnext/public/js/setup_wizard.js"
 	if theirs.exists():
 		assert begins(theirs.read_text(encoding="utf-8"), "India") == (4, 1)
 

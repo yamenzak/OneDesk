@@ -9,6 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 CAPTURE = tree.APP / "one_crm" / "capture.py"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -37,7 +38,7 @@ def test_the_mail_finds_its_lead_by_the_error_frappe_catches():
 	the sender up; any other refusal would lose the mail."""
 	source = CAPTURE.read_text(encoding="utf-8")
 	assert "raise frappe.DuplicateEntryError(" in source
-	receive = Path("/home/frappe/bench1/apps/frappe/frappe/email/receive.py").read_text()
+	receive = (APPS / "frappe/frappe/email/receive.py").read_text()
 	assert "except frappe.DuplicateEntryError:" in receive
 
 
@@ -51,7 +52,7 @@ def test_every_way_in_is_hooked():
 
 def test_the_web_form_writes_only_what_a_lead_has():
 	form = json.loads((tree.APP / "one_crm" / "web_form" / "get_in_touch" / "get_in_touch.json").read_text())
-	lead = json.loads(Path("/home/frappe/bench1/apps/erpnext/erpnext/crm/doctype/lead/lead.json").read_text())
+	lead = json.loads((APPS / "erpnext/erpnext/crm/doctype/lead/lead.json").read_text())
 	custom = json.loads((tree.APP / "one_crm" / "custom" / "lead.json").read_text())["custom_fields"]
 	fields = {f["fieldname"] for f in lead["fields"]} | {f["fieldname"] for f in custom}
 	assert form["doc_type"] == "Lead" and not form["login_required"]

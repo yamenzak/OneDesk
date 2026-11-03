@@ -12,11 +12,10 @@ import sys
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parent.parent
-CHARTS = Path(
-	"/home/frappe/bench1/apps/erpnext/erpnext/accounts/doctype/account/chart_of_accounts/verified"
-)
+CHARTS = APPS / "erpnext/erpnext/accounts/doctype/account/chart_of_accounts/verified"
 
 WANTED = ("Payroll Payable", "Employee Advances")
 

@@ -8,9 +8,10 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 RECORD = tree.APP / "one_crm" / "record.py"
-CALL_LOG = Path("/home/frappe/bench1/apps/erpnext/erpnext/telephony/doctype/call_log/call_log.json")
+CALL_LOG = APPS / "erpnext/erpnext/telephony/doctype/call_log/call_log.json"
 
 
 def _constant(name):

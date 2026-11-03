@@ -17,9 +17,9 @@ import re
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2] / "onedesk"
-APPS = Path("/home/frappe/bench1/apps")
 
 FILLS = ("one_ai/reading",)
 

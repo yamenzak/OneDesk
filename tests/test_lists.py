@@ -125,7 +125,8 @@ def test_contacts_and_addresses_are_the_workspaces_not_onecrms():
 	one = json.loads((tree.APP / "one" / "sidebar" / "one" / "one.json").read_text())["items"]
 	labels = [item.get("label") for item in one]
 	at = labels.index("Address Book")
-	assert labels[at + 1 : at + 4] == ["Contacts", "Addresses", "Centers"]
+	assert labels[at + 1 : at + 3] == ["Contacts", "Addresses"]
+	assert one[at + 3].get("type") == "Section Break"
 	assert all(item.get("is_default_module") for item in one[at + 1 : at + 3])
 	assert "Masters" not in labels and "Setup" not in labels
 	crm = json.loads((tree.APP / "one_crm" / "sidebar" / "onecrm" / "onecrm.json").read_text())["items"]

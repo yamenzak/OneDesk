@@ -9,7 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
-from test_task import _Board, _body, _load, _Row
+from tests.test_task import _Board, _body, _load, _Row
 
 PROJECT = tree.APP / "one_project"
 TASK = tree.APP / "one_task"

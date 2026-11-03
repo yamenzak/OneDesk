@@ -15,7 +15,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import tree
 
-BENCH = Path("/home/frappe/bench1/apps")
+BENCH = Path(__file__).resolve().parents[2]
 FRAPPE = BENCH / "frappe"
 DESK_JS = FRAPPE / "frappe/public/js"
 TOKENS_CSS = FRAPPE / "frappe/public/css/espresso"

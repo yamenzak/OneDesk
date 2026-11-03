@@ -7,9 +7,9 @@ import ast
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
-APPS = Path("/home/frappe/bench1/apps")
 
 STOPS = (
 	("onedesk/one_calendar/tell.py", "FRAPPE_DIGEST"),

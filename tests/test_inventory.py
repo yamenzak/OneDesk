@@ -9,6 +9,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 INVENTORY = tree.APP / "one_inventory"
 HOOKS = (tree.APP / "hooks.py").read_text(encoding="utf-8")
@@ -36,7 +37,7 @@ def test_stock_buying_and_assets_are_one_place_and_nothing_is_owned_twice():
 
 def test_every_report_row_names_a_report_erpnext_ships():
 	reports = [item["link_to"] for item in RAIL["items"] if item.get("link_type") == "Report"]
-	erpnext = Path("/home/frappe/bench1/apps/erpnext/erpnext")
+	erpnext = APPS / "erpnext/erpnext"
 	if not erpnext.exists():
 		return
 	shipped = {

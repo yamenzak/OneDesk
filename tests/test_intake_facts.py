@@ -91,7 +91,7 @@ def _understand(*names):
 
 
 def test_an_e_invoice_is_understood_with_no_model():
-	from test_intake_read import CII, UBL
+	from tests.test_intake_read import CII, UBL
 
 	from onedesk.one_ai.reading.readers import einvoice
 

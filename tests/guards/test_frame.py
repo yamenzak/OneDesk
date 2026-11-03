@@ -9,11 +9,12 @@ from pathlib import Path
 import pytest
 
 from onedesk.one import tiers
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
 APP = ROOT / "onedesk"
 RECORD = (APP / "public" / "js" / "record.js").read_text()
-FRAPPE = Path("/home/frappe/bench1/apps/frappe/frappe/public/js/frappe")
+FRAPPE = APPS / "frappe/frappe/public/js/frappe"
 
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
@@ -203,7 +204,7 @@ EDITS = {
 	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
 	"Item": ("item_actions.js", "GROUPS", "ELSEWHERE"),
 }
-ERPNEXT = Path("/home/frappe/bench1/apps/erpnext/erpnext")
+ERPNEXT = APPS / "erpnext/erpnext"
 NO_VALUE = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Image", "Fold", "Heading"}
 
 

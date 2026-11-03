@@ -30,7 +30,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 ROOT = Path(__file__).resolve().parent.parent
 RECORD = ROOT / "upstream.json"
 NOTES = ROOT / "docs" / "upstream"
-BENCH = Path("/home/frappe/bench1/apps")
+BENCH = Path(__file__).resolve().parents[2]
 SITE = os.environ.get("ONE_SITE", "onedesk.localhost")
 
 APPS = ("frappe", "erpnext", "hrms")

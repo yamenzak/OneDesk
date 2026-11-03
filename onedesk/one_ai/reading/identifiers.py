@@ -74,6 +74,8 @@ def phone(raw: str | None, country: str | None = None) -> str | None:
 	said = (raw or "").strip()
 	if not re.search(r"\d", said):
 		return None
+	if said.startswith("00"):
+		said = "+" + said[2:]
 	try:
 		import phonenumbers
 

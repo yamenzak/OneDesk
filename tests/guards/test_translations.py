@@ -22,10 +22,11 @@ import re
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
 LOCALE = ROOT / "onedesk" / "locale"
-BENCH = Path("/home/frappe/bench1/apps")
+BENCH = APPS
 
 SHIPPED = ("ar", "de")
 

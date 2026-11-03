@@ -167,6 +167,10 @@ for app in erpnext hrms; do
 done
 [ -d apps/onedesk ] || { say "get-app onedesk"; bench get-app --branch "$BRANCH" "$REPO"; }
 [ -d apps/onedesk ] || fail "onedesk did not arrive in $BENCH/apps."
+# get-app clones one commit deep; the version guards read older commits.
+if [ "$(git -C apps/onedesk rev-parse --is-shallow-repository)" = true ]; then
+	git -C apps/onedesk fetch -q --unshallow "$(git -C apps/onedesk remote | head -1)"
+fi
 
 # --- Pin frappe, erpnext and hrms to what onedesk was last checked against ------------
 say "Pinning to upstream.json"

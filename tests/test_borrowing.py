@@ -15,6 +15,7 @@ import pytest
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
 
 import tree
+from tests.bench import APPS
 
 RULES = [
 	(
@@ -149,7 +150,7 @@ def test_every_rule_would_catch_its_own_example():
 		assert re.search(pattern, examples[what]), f"{what} no longer matches its example"
 
 
-LUCIDE = Path("/home/frappe/bench1/apps/frappe/frappe/public/icons/lucide/icons.svg")
+LUCIDE = APPS / "frappe/frappe/public/icons/lucide/icons.svg"
 
 NAMED = (
 	r"<Icon\s+name=\"([\w-]+)\"",

@@ -25,7 +25,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 import tree
 
-BENCH = Path("/home/frappe/bench1/apps")
+BENCH = Path(__file__).resolve().parents[2]
 APPS = ("frappe", "erpnext", "hrms")
 SNAPSHOT = tree.ROOT / "docs" / "upstream" / "atlas.json"
 ROLES = tree.ROOT / "docs" / "atlas-site.json"

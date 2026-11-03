@@ -9,9 +9,10 @@ import re
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
-SPRITE = Path("/home/frappe/bench1/apps/frappe/frappe/public/icons/lucide/icons.svg")
+SPRITE = APPS / "frappe/frappe/public/icons/lucide/icons.svg"
 
 
 def test_a_top_row_has_an_icon_frappe_draws():

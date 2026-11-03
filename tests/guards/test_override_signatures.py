@@ -8,9 +8,9 @@ import ast
 from pathlib import Path
 
 import pytest
+from tests.bench import APPS
 
 ROOT = Path(__file__).resolve().parents[2]
-APPS = Path("/home/frappe/bench1/apps")
 
 
 def _overrides() -> dict[str, str]:
