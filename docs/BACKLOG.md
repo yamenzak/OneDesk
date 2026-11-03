@@ -78,17 +78,11 @@ Webhooks are the integration One offers today (Workspace › Webhooks).
 
 ## OneStudio
 
-- **Taken from frappe's Studio and Flow** (2026-11-03, both kept off
-  workspaces: their code runs unchecked and their AI is on the site's own
-  keys). Worth taking into One: an extension's rewrite as a draft beside the
-  live one, approved to swap in, so it stays on while it waits (Studio's
-  draft and published blocks); OneAI's model call retrying a dropped round
-  and repairing broken tool JSON (Studio's AI loop); OneAI's read tools run
-  read-only (`frappe.db.read_only`), Approve All all-or-nothing, and a card
-  for any submit, cancel or approval step a record offers (Flow's tools);
-  memory and knowledge found by meaning through One's own embeddings, a
-  thumbs-down kept as memory, and long chats compacted (Flow); the vectors
-  in LanceDB, which frappe now ships, instead of a scan of AI Chunk.
+- **Still to take from frappe's Flow and Studio** (the rest went in on
+  2026-11-03): a card for any submit, cancel or approval step a record
+  offers (Flow's `_doc_actions`); a thumbs-down on an answer, kept as
+  memory; and a page extension that draws a small block of frappe-ui parts
+  rather than a note or a button (Studio's blocks).
 - **An extension behind an API call**, and **a table inside a custom
   collection**. AI-written endpoints and SQL are not going to be built.
 - **Custom apps**: a workspace's own app in the dock, with its own icon, rail
