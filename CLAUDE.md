@@ -81,18 +81,19 @@ module they turned on. Two different things arrive wearing the same clothes:
 `slides.splice` to replace. Both erpnext and hrms gate on a boot flag — hrms on
 `frappe.boot.hr_only_setup` — so per-site slides are their pattern, not ours.
 
-## One workspace is one company
+## Several companies
 
-**Multi-company is not a thing One does.** A group that runs four companies buys
-four workspaces. There is no consolidation, no inter-company anything, and no
-screen that has to ask whose record this is.
+**One now supports a workspace with several companies.** Until 3 November 2026
+a workspace was one company, and `one/company.py` still hides every `Company`
+field and fills it from the global default. That is undone module by module:
+each module's next pass makes its screens work for several companies (the
+passthrough skill, Several companies) and says so in its version.
 
-So **every `Company` field is hidden**, on all two hundred-odd doctypes erpnext
-and hrms put one on. `one/company.py` does it after every migrate, the global
-default fills the value, and a document that can do better than the default does
-— an attendance request and a shift request take it from the employee. When you
-add a field or meet a screen that asks which company, the answer is to take the
-question off the screen, not to answer it.
+The rule that stays: **a workspace with one company looks exactly as it does
+today.** The company is shown, offered as a filter or asked for only once
+there is a second one. Where it is shown it is defaulted (the reader's default,
+the employee's, the party's), figures are one company's at a time in its own
+currency, and nothing is added up across companies.
 
 ## Every figure keeps to what is set
 

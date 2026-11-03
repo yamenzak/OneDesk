@@ -73,6 +73,34 @@ not. Each was missed once by a pass that thought it was done.
 - **First visit.** Its tour and its setup steps still match the screen.
 - **What ERPNext already does.** Its statuses, its checks on save, its
   mappers, precision and units, and `base_` amounts in figures.
+- **Several companies.** It works for a workspace with more than one
+  company, and looks unchanged with one. Where the company decides
+  something it is shown and defaulted (the reader's default, the
+  employee's, the party's); lists offer it as a column and a filter; Homes
+  and figures are one company's at a time, in its currency, never added
+  across; pickers offer only that company's accounts, warehouses, cost
+  centres, tax templates and series; prints carry that company's letter
+  head; a person limited to a company by a User Permission sees only its
+  records; the demo has a second company with records, and a check. Each
+  module's pass does this for its own screens (CLAUDE.md, Several companies).
+- **Printing.** A record that leaves the company prints from our own
+  format, in Arabic too, under the letter head.
+- **Portal.** What it shows customers and suppliers (`portal.py`), and a
+  signed link opens that record and no other.
+- **Search and reach.** Its records are found in Ctrl+K and in pickers, and
+  nothing the reader can't open is on a rail, in search or in a picker.
+- **Security.** Every whitelisted method checks permission, a write is
+  POST only, and a guest page gives away nothing it shouldn't.
+- **Speed.** Requests, size and time to a usable screen, measured before
+  and after (`docs/DESK-PASS.md`).
+- **A fresh site.** It works on a new workspace straight after the setup
+  wizard, not only on the demo.
+- **Intake.** Which mails and files should make or change its records, and
+  whether OneAI's reading does.
+- **Deleting.** What deleting it does: the Recycle Bin brings it back,
+  links are swept, the audit log has it.
+- **Upstream.** What we override of frappe's, ERPNext's or HRMS's is read
+  again against their newest code (`scripts/overrides.py`).
 
 ## Each item, in this order
 

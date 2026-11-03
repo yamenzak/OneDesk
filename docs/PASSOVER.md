@@ -256,9 +256,11 @@ keep it working. On every doctype the pass checks:
   Figures that add documents up use the `base_` amounts, in the company's
   currency, never the document's own. A rate we keep on our side (a monthly
   fee, a contract value) says which currency it is in.
-- **The company.** No Company field or filter is shown, but every document
-  still has one, from the user's default, and its accounts are that
-  company's.
+- **The company.** Every document has one, from the user's default (or the
+  employee's, or the party's), and its accounts, warehouses and taxes are
+  that company's. With one company nothing about it is shown; with several
+  it is shown, filtered on and kept apart in every figure (CLAUDE.md,
+  Several companies).
 - **Draft, submitted, cancelled, amended.** Only submitted documents count.
   An amended document replaces the one it amends, and a revised quotation
   replaces the earlier one, so neither is counted twice.
