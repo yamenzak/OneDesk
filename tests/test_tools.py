@@ -302,3 +302,33 @@ def test_no_tool_takes_a_type_a_model_cannot_be_told():
 		or (re.match(r"\s*str \| (dict|list),\s*$", line))
 	]
 	assert not found, found
+
+
+def _lined():
+	from types import SimpleNamespace
+
+	body = ast.parse(TOOLS.read_text(encoding="utf-8"))
+	node = next(one for one in body.body if isinstance(one, ast.FunctionDef) and one.name == "_lined")
+	tables = {"items": "Sales Invoice Item"}
+	meta = SimpleNamespace(get_field=lambda name: SimpleNamespace(options=tables[name]))
+	space = {"frappe": SimpleNamespace(get_meta=lambda doctype: meta)}
+	exec(compile(ast.Module(body=[node], type_ignores=[]), str(TOOLS), "exec"), space)
+	return space["_lined"]
+
+
+def test_a_record_is_found_by_what_its_lines_say():
+	lined = _lined()
+	assert lined("Sales Invoice", {"customer": "Grant"}) == {"customer": "Grant"}
+	assert lined("Sales Invoice", {"items.item_name": ["like", "%sealant%"], "docstatus": 1}) == [
+		["Sales Invoice Item", "item_name", "like", "%sealant%"],
+		["Sales Invoice", "docstatus", "=", 1],
+	]
+
+
+def test_the_search_bar_searches_by_words_and_asks_oneai_by_meaning():
+	"""Typing in the bar never waits on a model; a question is offered to OneAI."""
+	search = (tree.APP / "one_ai" / "reading" / "search.py").read_text(encoding="utf-8")
+	bar = search.split("def awesomebar(", 1)[1].split("\ndef ", 1)[0]
+	assert "nearest(" not in bar and "both(" not in bar
+	oneai = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text(encoding="utf-8")
+	assert "AwesomeBar.prototype.get_options" in oneai and "onedesk.oneai.open({ ask: said })" in oneai

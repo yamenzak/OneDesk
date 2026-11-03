@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 21:01+0000\n"
-"PO-Revision-Date: 2026-11-03 21:01+0000\n"
+"POT-Creation-Date: 2026-11-03 21:18+0000\n"
+"PO-Revision-Date: 2026-11-03 21:18+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5359,6 +5359,11 @@ msgstr ""
 
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.py:145
 msgid "Ask OneAI to remove a field."
+msgstr ""
+
+#: onedesk/public/js/one_ai/oneai.js:482 onedesk/public/js/one_ai/oneai.js:483
+#, python-brace-format
+msgid "Ask OneAI {0}"
 msgstr ""
 
 #: onedesk/one/people.py:61
@@ -48572,11 +48577,11 @@ msgstr ""
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:701 onedesk/one_hr/ai.py:364
+#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:364
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:260
+#: onedesk/one_ai/tools.py:291
 msgid "Suggested. They happen when somebody approves them."
 msgstr ""
 
@@ -62279,7 +62284,7 @@ msgstr ""
 msgid "You may not read these records, so their fields are not offered."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:435
+#: onedesk/one_ai/tools.py:466
 #, python-brace-format
 msgid "You may not read {0} {1}."
 msgstr ""
@@ -62294,12 +62299,12 @@ msgstr ""
 msgid "You may not read {0}, so it can't be a source."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:178 onedesk/one_ai/tools.py:411
+#: onedesk/one_ai/tools.py:209 onedesk/one_ai/tools.py:442
 #, python-brace-format
 msgid "You may not read {0}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:492
+#: onedesk/one_ai/tools.py:523
 #, python-brace-format
 msgid "You may not run {0}."
 msgstr ""
@@ -64364,10 +64369,6 @@ msgstr ""
 msgid "someone has renamed it since"
 msgstr ""
 
-#: onedesk/one_ai/reading/search.py:186
-msgid "source_doctype"
-msgstr ""
-
 #: frontend/src/project/ProjectActivity.vue:75
 msgid "started sub-project"
 msgstr ""
@@ -64733,12 +64734,12 @@ msgstr ""
 msgid "{0} (for {1})"
 msgstr ""
 
-#: onedesk/one_ai/reading/search.py:155
+#: onedesk/one_ai/reading/search.py:157
 #, python-brace-format
 msgid "{0} (in documents)"
 msgstr ""
 
-#: onedesk/one_ai/reading/search.py:165
+#: onedesk/one_ai/reading/search.py:167
 #, python-brace-format
 msgid "{0} (in mail)"
 msgstr ""
@@ -64770,8 +64771,7 @@ msgid "{0} (was {1})"
 msgstr ""
 
 #: onedesk/one/tell.py:532 onedesk/one/tell.py:673
-#: onedesk/one_ai/reading/search.py:186 onedesk/one_studio/extensions.py:516
-#: onedesk/public/js/privacy_copy.js:22
+#: onedesk/one_studio/extensions.py:516 onedesk/public/js/privacy_copy.js:22
 #, python-brace-format
 msgid "{0} ({1})"
 msgstr ""
@@ -66463,7 +66463,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:673
+#: onedesk/one_ai/tools.py:704
 #, python-brace-format
 msgid "{0} is not a tool."
 msgstr ""

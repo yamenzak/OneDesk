@@ -144,9 +144,11 @@ def messages_of(hit: dict) -> list[str]:
 
 
 def awesomebar(txt: str) -> list[dict]:
-	"""The awesome bar's "In documents": files and messages whose words match."""
-	out = _records_meant(txt)
-	for hit in sorted(both(txt, 30), key=lambda one: not one.get("part_of")):
+	"""The awesome bar's "In documents": files and messages whose words match.
+	By words alone, as it is typed: a search by meaning is asked of OneAI from
+	the bar (oneai.js, Ask OneAI), so a pause while typing costs nothing."""
+	out = []
+	for hit in sorted(found(txt, 30), key=lambda one: not one.get("part_of")):
 		top = root_of(hit)
 		where = f", {hit['part']}" if hit.get("part_of") and hit.get("part") else ""
 		for file in [one for one in files_of(top) if one.attached_to_doctype != "Communication"][:1]:
@@ -172,24 +174,6 @@ def awesomebar(txt: str) -> list[dict]:
 		if len(out) >= 12:
 			break
 	return out
-
-
-def _records_meant(txt: str) -> list[dict]:
-	"""Records whose meaning matches, for the awesome bar: a customer found
-	by what they buy, a project by what it builds."""
-	from onedesk.one_ai import index
-
-	if len(words(txt)) < 2:
-		return []
-	return [
-		{
-			"label": _("{0} ({1})").format(one["title"], _(one["source_doctype"])),
-			"description": snippet((one.get("text") or "")[:WIDTH]),
-			"route": f"/app/{frappe.scrub(one['source_doctype']).replace('_', '-')}/{one['source_name']}",
-			"index": 50,
-		}
-		for one in index.nearest(txt, index.RECORDS, 5)
-	]
 
 
 def _once(items: list[dict]) -> list[dict]:

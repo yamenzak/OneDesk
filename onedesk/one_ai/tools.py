@@ -25,7 +25,8 @@ FILTERS = (
 	"Field name to value; all of them have to match. A value may be [operator, value] for anything but "
 	'equal: {"grand_total": [">", 1000]}, {"posting_date": ["between", ["2026-01-01", "2026-03-31"]]}, '
 	'{"status": ["in", ["Open", "Overdue"]]}, {"customer_name": ["like", "%glass%"]}, '
-	'{"email_id": ["is", "set"]}.'
+	'{"email_id": ["is", "set"]}. A field of its lines is the table and the field: '
+	'{"items.item_name": ["like", "%sealant%"]} finds the invoices with a line for sealant.'
 )
 
 
@@ -45,6 +46,7 @@ def list_records(
 	`permission_query_conditions` hook apply exactly as they do in the browser.
 	"""
 	_known(doctype, filters, fields, order_by)
+	filters = _lined(doctype, filters)
 	if fields and all(isinstance(one, str) and one.isidentifier() for one in fields):
 		title = frappe.get_meta(doctype).title_field
 		fields = list(dict.fromkeys(["name", *([title] if title else []), *fields]))
@@ -60,6 +62,22 @@ def list_records(
 
 		rows = [one for one in rows if not one.get("name") or gate.readable(doctype, one["name"])]
 	return rows
+
+
+def _lined(doctype: str, filters):
+	"""Filters as frappe takes them, a field of a record's lines (`items.item_name`)
+	as frappe's own filter on the child table, so a record is found by what its
+	lines say."""
+	if not isinstance(filters, dict) or not any("." in key for key in filters):
+		return filters
+	meta = frappe.get_meta(doctype)
+	out = []
+	for key, value in filters.items():
+		operator, value = (value[0], value[1]) if isinstance(value, list | tuple) and len(value) == 2 else ("=", value)
+		table, _dot, field = key.partition(".")
+		child = meta.get_field(table).options if field else doctype
+		out.append([child, field or key, operator, value])
+	return out
 
 
 def _known(doctype: str, filters=None, fields=None, order_by: str | None = None) -> None:
@@ -81,13 +99,25 @@ def _known(doctype: str, filters=None, fields=None, order_by: str | None = None)
 	named += [one for one in fields or [] if isinstance(one, str) and one.isidentifier()]
 	if order_by:
 		named.append(order_by.split()[0].split(".")[-1].strip("`"))
-	unknown = [one for one in named if not meta.has_field(one) and one not in frappe.model.default_fields]
+	lines = {df.fieldname: df.options for df in meta.fields if df.fieldtype in frappe.model.table_fields}
+	unknown = []
+	for one in named:
+		table, _dot, field = one.partition(".")
+		if field:
+			if table not in lines or not frappe.get_meta(lines[table]).has_field(field):
+				where = "; ".join(f"{name}: {', '.join(kind.fields_of(frappe.get_meta(child), 12))}" for name, child in lines.items())
+				frappe.throw(f"{doctype} has no lines {one}. Its lines: {where or 'none'}.")
+			continue
+		if not meta.has_field(one) and one not in frappe.model.default_fields:
+			unknown.append(one)
 	if unknown:
 		frappe.throw(
 			f"{doctype} has no field {', '.join(unknown)}. Its fields: {', '.join(kind.fields_of(meta))}, "
 			"plus name, owner, creation and modified."
 		)
 	for field, value in (filters or {}).items() if isinstance(filters, dict) else ():
+		if "." in field:
+			continue
 		df = meta.get_field(field)
 		if df and df.fieldtype == "Link" and isinstance(value, str) and value and not frappe.db.exists(df.options, value):
 			try:
@@ -160,6 +190,7 @@ def count_records(
 ) -> int:
 	"""Count records of one type, counting only what the person asking may see."""
 	_known(doctype, filters)
+	filters = _lined(doctype, filters)
 	return len(
 		frappe.get_list(
 			doctype, filters=filters or {}, fields=["name"], limit_page_length=0

@@ -448,3 +448,44 @@ $(document).on("app_ready", () => {
 
 // OneAI's key (one_ai/shortcuts.py): asking, from anywhere, while OneAI is on.
 onedesk.shortcuts.does("one_ai.ask", () => onedesk.apps.ai() && onedesk.oneai.open && onedesk.oneai.open());
+
+// Whether what was typed into search reads as a question: one it should
+// answer rather than a name to find. Pure.
+onedesk.oneai.asks = (txt) => {
+	const said = (txt || "").trim().toLowerCase();
+	if (!said) return false;
+	if (/[?؟]$/.test(said)) return true;
+	const first = said.split(/\s+/)[0];
+	return [
+		"who", "what", "when", "where", "which", "why", "how", "is", "are", "does", "do", "did",
+		"can", "should", "show", "list", "find", "give", "tell", "compare",
+		"من", "ما", "ماذا", "متى", "أين", "كيف", "لماذا", "هل", "كم", "أي",
+		"wer", "was", "wann", "wo", "wie", "warum", "welche", "welcher", "zeige", "gibt",
+	].includes(first);
+};
+
+// Search by meaning is asked of OneAI from the search bar (docs/AICENTER.md,
+// Search): typing finds by words, and Ask OneAI answers from the records and
+// documents the reader may open, saying where each came from. A question
+// puts it first, so Enter asks; anything else of two words or more offers
+// it last.
+if (frappe.search?.AwesomeBar && !Object.hasOwn(frappe.search.AwesomeBar.prototype, "one_ai_ask")) {
+	frappe.search.AwesomeBar.prototype.one_ai_ask = true;
+	const options = frappe.search.AwesomeBar.prototype.get_options;
+	frappe.search.AwesomeBar.prototype.get_options = function (txt) {
+		const found = options.call(this, txt);
+		const said = (txt || "").trim();
+		if (!onedesk.apps.ai() || said.split(/\s+/).length < 2) return found;
+		const question = onedesk.oneai.asks(said);
+		const safe = frappe.utils.xss_sanitise(said);
+		const ask = {
+			label: `<span class="flex justify-between text-medium"><span class="ellipsis">${__("Ask OneAI {0}", [safe.bold()])}</span>${question ? "<kbd>↵</kbd>" : ""}</span>`,
+			value: __("Ask OneAI {0}", [safe]),
+			match: said,
+			type: "Executable",
+			index: question ? 200 : 1,
+			onclick: () => onedesk.oneai.open({ ask: said }),
+		};
+		return question ? [ask, ...found] : [...found, ask];
+	};
+}

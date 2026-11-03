@@ -2656,6 +2656,13 @@ OVERRIDES = [
 		"self.content_hash = None",
 	),
 	(
+		"Search offers to ask OneAI",
+		"oneai.js wraps the search bar's get_options and adds Ask OneAI: first for a question, so Enter asks; last for anything else of two words or more. Search by meaning is OneAI's from there, not on every keystroke",
+		"onedesk/public/js/one_ai/oneai.js",
+		"frappe/frappe/public/js/frappe/ui/toolbar/awesome_bar.js",
+		"get_options(txt) {",
+	),
+	(
 		"File reads a stored file's content from R2",
 		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
 		"onedesk/one_storage/file.py",

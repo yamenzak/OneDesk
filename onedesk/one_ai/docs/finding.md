@@ -1,20 +1,21 @@
 # Finding Documents
 
-Search finds documents and mail by what they say, not only by their names,
-and by what they mean, not only the words you type. Search for "the quote
-for the lobby glass" and it finds the quotation that says "reception area
-curtain wall".
+Search finds documents and mail by what they say, not only by their names.
+To find something by what it means, ask OneAI: "the quote for the lobby
+glass" finds the quotation that says "reception area curtain wall".
 
 ## Where to Search
 
 | Where | What it finds |
 | --- | --- |
-| **Ctrl+K** | Documents and messages under **In documents** and **In mail**, with the matching line |
+| **Ctrl+K** | Documents and messages under **In documents** and **In mail**, with the matching line, and **Ask OneAI** for anything of two words or more |
 | **OneCloud** | Files by what they say as well as their names |
 | **OneMail** | The text of attachments, and messages by what they are about |
 | **The OneAI panel** | Documents from a description, such as "invoices from Stadtwerke this year" |
 
-Matching by meaning starts at two words; one word searches for the word.
+When what you type is a question, such as "who bought casement windows?",
+**Ask OneAI** is the first row and Enter asks it. The answer opens in the
+OneAI panel.
 
 ## Asking About Them
 

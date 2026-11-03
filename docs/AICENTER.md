@@ -466,6 +466,13 @@ instance per workspace, a charge per search, and copies of what is searched
 held by it. LanceDB, which frappe ships, does the same in the workspace's
 own folder.
 
+**From the search bar.** Typing in the awesome bar (Ctrl+K, the top bar, the
+phone's Search) searches by words only, so it never waits on a model. Two
+words or more add a row, Ask OneAI, that opens the panel with the question
+asked; when the words read as a question it is the first row and Enter asks.
+OneAI answers from the records (a line's field filters too, "who bought
+casement windows"), cited.
+
 **Who sees what.** Permissions are checked after the search: OneAI asks for
 more than it needs and drops what the reader cannot open, before anything
 is shown.
