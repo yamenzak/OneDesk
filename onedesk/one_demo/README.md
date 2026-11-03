@@ -7,11 +7,14 @@ suite reads it back as the people who work there.
 
 ## Build it
 
-On a new site with every app One needs installed:
+On a dev site only: one marked `one_dev` in its site config, or in developer
+mode (one/dev.py). A workspace in production is never offered the demo, and
+building it there, or running its checks, is refused. On a new dev site with
+every app One needs installed:
 
     bench --site <site> execute onedesk.one_demo.build.load --kwargs "{'password': '…'}"
 
-Or in one click: a workspace not set up yet offers **Load the Demo Company**
+Or in one click: a dev site's workspace not set up yet offers **Load the Demo Company**
 under Get Started on the setup wizard's first screen. It asks for the password, builds the same
 steps in the background (start.py) and opens One when they are done.
 

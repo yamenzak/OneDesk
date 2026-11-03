@@ -15,9 +15,9 @@ SCREEN = re.compile(r"^((Form|List|Tree|Report|query-report|print)/[^/]+|[a-z0-9
 
 
 def dev() -> bool:
-	import frappe
+	from onedesk.one import dev
 
-	return bool(frappe.conf.get("developer_mode") or frappe.conf.get("one_dev"))
+	return dev.site()
 
 
 def for_boot() -> dict:

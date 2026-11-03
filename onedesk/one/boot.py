@@ -27,6 +27,9 @@ def boot_session(bootinfo) -> None:
 	from onedesk.one_interface import stamps
 
 	bootinfo["one_stamps"] = stamps.for_boot()
+	from onedesk.one import dev
+
+	bootinfo["one_dev"] = dev.site()
 	from onedesk.one import company
 
 	bootinfo["one_frame_colour"] = company.frame_colour()

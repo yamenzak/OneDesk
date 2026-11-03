@@ -63,7 +63,11 @@ def _mark(step: str) -> None:
 
 
 def load(password: str | None = None, only: str | None = None) -> None:
-	"""Build what is not built yet, or only the step named."""
+	"""Build what is not built yet, or only the step named. On a dev site only:
+	a workspace in production never holds the demo company."""
+	from onedesk.one import dev
+
+	dev.require()
 	frappe.flags.mute_emails = True
 	frappe.flags.in_demo = True
 	frappe.set_user("Administrator")

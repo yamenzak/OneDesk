@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 16:44+0000\n"
+"POT-Creation-Date: 2026-11-03 17:12+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -50803,9 +50803,13 @@ msgstr "الأيام التي يمنحها هذا التخصيص، قبل أي �
 msgid "The demo company could not be built. The error is in the Error Log."
 msgstr "تعذّر بناء الشركة التجريبية. الخطأ في سجل الأخطاء."
 
-#: onedesk/one_demo/start.py:21
+#: onedesk/one_demo/start.py:24
 msgid "The demo company goes only into a workspace that is not set up yet."
 msgstr "لا تُحمَّل الشركة التجريبية إلا في مساحة عمل لم تُعدّ بعد."
+
+#: onedesk/one/dev.py:15
+msgid "The demo company is built on dev sites only."
+msgstr "لا تُنشأ الشركة التجريبية إلا على مواقع التطوير."
 
 #. The Events terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -55892,7 +55896,7 @@ msgstr "استخدام SSL"
 msgid "Use Your Phone as the Remote"
 msgstr "استخدم هاتفك كجهاز تحكم"
 
-#: onedesk/one_demo/start.py:29
+#: onedesk/one_demo/start.py:32
 msgid "Use at least 8 characters."
 msgstr "استخدم 8 أحرف على الأقل."
 

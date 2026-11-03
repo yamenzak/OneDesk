@@ -1,5 +1,5 @@
 """The demo company in one click: the setup wizard's first screen offers it on
-a workspace not set up yet, the build runs in the background (build.py), and
+a dev site's workspace not set up yet (one/dev.py), never in production, the build runs in the background (build.py), and
 the wizard follows it until One opens."""
 
 from typing import Annotated
@@ -16,6 +16,9 @@ BUILT = "one_demo_built"
 
 
 def _may() -> None:
+	from onedesk.one import dev
+
+	dev.require()
 	frappe.only_for(ADMINISTRATOR)
 	if frappe.is_setup_complete() and "setup" not in build.done():
 		frappe.throw(_("The demo company goes only into a workspace that is not set up yet."))

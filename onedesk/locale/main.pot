@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 16:49+0000\n"
-"PO-Revision-Date: 2026-11-03 16:49+0000\n"
+"POT-Creation-Date: 2026-11-03 17:13+0000\n"
+"PO-Revision-Date: 2026-11-03 17:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -50843,8 +50843,12 @@ msgstr ""
 msgid "The demo company could not be built. The error is in the Error Log."
 msgstr ""
 
-#: onedesk/one_demo/start.py:21
+#: onedesk/one_demo/start.py:24
 msgid "The demo company goes only into a workspace that is not set up yet."
+msgstr ""
+
+#: onedesk/one/dev.py:15
+msgid "The demo company is built on dev sites only."
 msgstr ""
 
 #. The Events terms and conditions
@@ -55932,7 +55936,7 @@ msgstr ""
 msgid "Use Your Phone as the Remote"
 msgstr ""
 
-#: onedesk/one_demo/start.py:29
+#: onedesk/one_demo/start.py:32
 msgid "Use at least 8 characters."
 msgstr ""
 

@@ -32,8 +32,10 @@ def check(fn):
 
 
 def run(only: str | None = None) -> int:
+	from onedesk.one import dev
 	from onedesk.one_demo.samples import unkept
 
+	dev.require()
 	failed = []
 	chosen = [fn for fn in CHECKS if not only or fn.__name__ == only or (only.endswith("_") and fn.__name__.startswith(only))]
 	for fn in chosen:

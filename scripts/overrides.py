@@ -1733,7 +1733,7 @@ OVERRIDES = [
 	),
 	(
 		"The setup wizard's first screen offers the demo company",
-		"Load the Demo Company sits under Get Started; frappe's intro has no place for a second action",
+		"on a dev site only (one/dev.py), Load the Demo Company sits under Get Started; frappe's intro has no place for a second action",
 		"onedesk/public/js/setup_wizard.js",
 		"frappe/frappe/desk/page/setup_wizard/setup_wizard.js",
 		"make_intro() {",

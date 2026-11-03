@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 16:44+0000\n"
+"POT-Creation-Date: 2026-11-03 17:12+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -50803,9 +50803,13 @@ msgstr "Die Tage, die diese Zuteilung gewährt, vor allem Übertrag."
 msgid "The demo company could not be built. The error is in the Error Log."
 msgstr "Das Demounternehmen konnte nicht aufgebaut werden. Der Fehler steht im Fehlerprotokoll."
 
-#: onedesk/one_demo/start.py:21
+#: onedesk/one_demo/start.py:24
 msgid "The demo company goes only into a workspace that is not set up yet."
 msgstr "Das Demounternehmen kommt nur in einen Arbeitsbereich, der noch nicht eingerichtet ist."
+
+#: onedesk/one/dev.py:15
+msgid "The demo company is built on dev sites only."
+msgstr "Das Demo-Unternehmen wird nur auf Entwicklungsseiten aufgebaut."
 
 #. The Events terms and conditions
 #: onedesk/one_project/library_terms.json
@@ -55892,7 +55896,7 @@ msgstr "SSL verwenden"
 msgid "Use Your Phone as the Remote"
 msgstr "Ihr Telefon als Fernbedienung"
 
-#: onedesk/one_demo/start.py:29
+#: onedesk/one_demo/start.py:32
 msgid "Use at least 8 characters."
 msgstr "Verwenden Sie mindestens 8 Zeichen."
 

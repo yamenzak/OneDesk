@@ -103,3 +103,14 @@ def test_reading_switches_live_in_one_not_in_onemail_or_onecloud():
 	for path in (tree.ROOT / "frontend" / "src" / "mail" / "OneMail.vue", tree.ROOT / "frontend" / "src" / "cloud" / "OneCloud.vue"):
 		source = path.read_text()
 		assert "switches.set_mailbox" not in source and "switches.set_folder" not in source, path.name
+
+
+def test_the_demo_company_is_for_dev_sites_only():
+	"""Production never offers, builds or checks the demo company."""
+	dev = (tree.APP / "one" / "dev.py").read_text()
+	assert 'frappe.conf.get("one_dev")' in dev
+	for path, name in (("one_demo/build.py", "def load("), ("one_demo/start.py", "def _may("), ("one_demo/check.py", "def run(")):
+		body = (tree.APP / path).read_text().split(name, 1)[1].split("\ndef ", 1)[0]
+		assert "dev.require()" in body, path
+	assert "frappe.boot.one_dev &&" in (tree.APP / "public" / "js" / "setup_wizard.js").read_text()
+	assert 'bootinfo["one_dev"] = dev.site()' in (tree.APP / "one" / "boot.py").read_text()
