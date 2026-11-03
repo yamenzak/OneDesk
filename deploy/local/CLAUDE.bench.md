@@ -65,7 +65,7 @@ DOMAIN` writes them again. Never print either file.
 
 ## The gates
 
-From `apps/onedesk`: `../../env/bin/python -m pytest -q`. `python3
+From `apps/onedesk`: `../../env/bin/python scripts/quick.py --all` (every test, in parallel), and `scripts/quick.py` alone while working. `python3
 scripts/docs.py` first when docs or the registry changed, and
 `../../env/bin/python scripts/overrides.py` after touching an override. Push
 only with the gates green.

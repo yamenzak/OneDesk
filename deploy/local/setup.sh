@@ -168,9 +168,10 @@ done
 if [ "$moved" = 1 ]; then
 	say "Requirements and build for the pinned commits"
 	bench setup requirements
-	bench build
+	# Through build.sh, which stops the one-bench service while it builds.
+	bash apps/onedesk/deploy/local/build.sh
 fi
-uv pip install -q --python env/bin/python pytest openpyxl
+uv pip install -q --python env/bin/python pytest pytest-xdist openpyxl
 
 # --- Sites ----------------------------------------------------------------------------
 bench config dns_multitenant on >/dev/null
