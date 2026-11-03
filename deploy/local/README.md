@@ -43,13 +43,16 @@ since a full build beside a running bench can use up a small machine's memory.
 
 ## On the internet
 
-With a domain in your Cloudflare account, after `setup.sh`:
+With a domain in your Cloudflare account, give it to `setup.sh`:
 
-    bash ~/one-bench/apps/onedesk/deploy/local/public.sh 4dl.dev
+    bash setup.sh 4dl.dev
 
-makes `one.4dl.dev` (a workspace) and `admin.4dl.dev` (OneAdmin) as two more
-sites, served through a Cloudflare Tunnel: HTTPS, realtime included, and no
-port opened on the server. The tunnel is a line of the Procfile, so they are
+and it makes `one.4dl.dev` (a workspace) and `admin.4dl.dev` (OneAdmin)
+instead of the `.localhost` pair, by running `public.sh` at the end, served
+through a Cloudflare Tunnel: HTTPS, realtime included, and no port opened on
+the server. Once a bench is on a domain, `bash setup.sh` with none keeps to it
+and never adds the `.localhost` pair. On a bench that already has the
+`.localhost` pair, `public.sh 4dl.dev` adds the domain pair beside them. The tunnel is a line of the Procfile, so they are
 online exactly while `bench start` runs. Their Administrator password is
 `PUBLIC_ADMIN_PASSWORD` in `~/.one-local`.
 

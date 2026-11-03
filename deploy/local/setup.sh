@@ -7,7 +7,12 @@
 #
 # Run it inside Ubuntu, as your own user (not root):
 #
-#   bash setup.sh
+#   bash setup.sh             the two sites above, on this machine
+#   bash setup.sh 4dl.dev     one.4dl.dev and admin.4dl.dev instead, through a
+#                             Cloudflare Tunnel (public.sh), and no .localhost
+#
+# Run again with no domain on a bench public.sh already put on one, it keeps
+# to that domain rather than adding the .localhost pair.
 #
 # It is safe to run again: every step checks before it acts. It asks for your
 # sudo password once and, if you have not signed in to GitHub yet, opens the
@@ -23,9 +28,21 @@ BRANCH="${BRANCH:-main}"
 PY_VERSION=3.14
 NODE_VERSION=24
 SITES=(one.localhost admin.localhost)
+DOMAIN="${1:-}"
 
 say() { printf '\n\033[1;34m== %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31m%s\033[0m\n' "$*" >&2; exit 1; }
+
+if [ -z "$DOMAIN" ]; then
+	for conf in "$BENCH"/sites/one.*/site_config.json; do
+		[ -f "$conf" ] && grep -q '"one_dev": *1' "$conf" || continue
+		site="$(basename "$(dirname "$conf")")"
+		DOMAIN="${site#one.}"
+		echo "This bench serves $site through the tunnel; keeping to $DOMAIN."
+		break
+	done
+fi
+[ -z "$DOMAIN" ] || SITES=()
 
 [ "$(id -u)" -ne 0 ] || fail "Run this as your own user, not root."
 grep -qi microsoft /proc/version || echo "Not WSL; carrying on as plain Linux."
@@ -197,8 +214,10 @@ make_site() {
 	bench --site "$site" install-app erpnext hrms onedesk
 	bench --site "$site" migrate
 }
-make_site one.localhost 0
-make_site admin.localhost 1
+if [ -z "$DOMAIN" ]; then
+	make_site one.localhost 0
+	make_site admin.localhost 1
+fi
 # No `bench use`: with a current site, bench serve answers every address as
 # that one site, and admin.localhost would open the workspace.
 
@@ -234,6 +253,8 @@ cp apps/onedesk/deploy/local/CLAUDE.bench.md CLAUDE.md
 for port in "${started[@]}"; do
 	redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
 done
+
+[ -z "$DOMAIN" ] || exec bash apps/onedesk/deploy/local/public.sh "$DOMAIN"
 
 say "Ready"
 cat <<DONE
