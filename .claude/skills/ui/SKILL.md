@@ -12,10 +12,10 @@ it, say in the registry what this record type has, and let OneInterface draw
 it where it goes. Drawing it ourselves is the last resort, and every time it
 was the first resort here it was wrong.
 
-Words on the screen follow the `wording` skill; whether the job gets done is
-the `ux` skill. Load all three. Help pages and their pictures are the
-`docs` skill; a review of screens already built is the `passthrough`
-skill.
+Words on the screen follow the `wording` skill, when the change adds or
+changes words; whether the job gets done is the `ux` skill, when the change
+alters how a job is done. Help pages and their pictures are the `docs`
+skill; a review of screens already built is the `passthrough` skill.
 
 ## Change the renderer, never the page
 
@@ -213,6 +213,10 @@ Top to bottom: the address row, the head, the cards, the tabs, the section cards
 
 ## How a layout pass is done
 
+A layout pass rearranges a screen or a part: where things sit, what is
+grouped with what. A bug fix to a part that is drawn wrong is not one, and
+needs neither options nor a table.
+
 - **Show before building.** Two to four options as real screenshots, side
   by side, light and dark, the same crop. A colour that reads well in light
   is often a glaring bar in dark; that is where options are decided.
@@ -392,21 +396,35 @@ Each happened in this app.
 
 ## Before calling it done
 
-1. Sign in as the demo user with the role (huda the books, samir projects,
-   karim stock, omar sales, mariam HR, tariq and nadia employees, wsadmin
-   the administrator) and finish the job: make the record, not just open
-   one that exists.
-2. Screenshot it (`ONE_SHOTS=folder node tests/browser/run.mjs <screen>`
-   keeps one per screen) and look at the part you changed at 2x, cropped
-   to it. Then 390 wide, Arabic (right to left), dark.
-3. Read every string with the `wording` skill.
-4. Run the UI guards, which take seconds:
+**Find the part first.** Before writing a rule, name the renderer part that
+draws the thing (`one_interface/` CSS or JS, the registry, the kit) and put
+the change there, so every screen that has the part gets it. A rule scoped
+to one screen, centre or module for something the renderer draws is the
+habit above, *Fixing one screen*.
 
-       python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
-         tests/guards/test_interface.py tests/guards/test_islands.py tests/guards/test_layout.py \
-         tests/guards/test_shell.py tests/guards/test_record_page.py tests/guards/test_rail.py \
-         tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py \
-         tests/guards/test_palettes.py tests/guards/test_layers.py
+**Then check as much as the change is big.** Each row includes the ones
+above it.
+
+| The change | Check | About |
+|---|---|---|
+| A style rule in the renderer, a fix to a part drawn wrong | the UI guards (below); shots of the part in each kind it covers (every dialog kind for a dialog rule, a list and a record for a frame rule), at 390 wide, in dark and in Arabic | 5 min |
+| New or changed words | the `wording` skill, its guards, and the translation steps | 2 min |
+| A screen of its own, or a part rearranged | a layout pass (above): options first, then the measured table | 30 min |
+| How a job is done: a create dialog, an approval, an import | the `ux` skill: walk the job as the demo user whose job it is (huda the books, samir projects, karim stock, omar sales, mariam HR, tariq and nadia employees, wsadmin the administrator), making the record rather than opening one, and one mistake on purpose | 15 min |
+| Before a release, an upstream checkpoint, or a module's hand look at Interface | the whole screen run, `ONE_URL=… ONE_DEMO_PASSWORD=… node tests/browser/run.mjs` (`ONE_SHOTS=folder` keeps a shot of each), every role | 30 min |
+
+A shot looks at the part you changed at 2x, cropped to it. After a change to
+a stylesheet or script, restart the web workers before shooting: an
+asset's address carries its hash (`one/stamp.py`), worked out once per
+process, so a running server keeps sending the old file.
+
+The UI guards take seconds:
+
+    python3 -m pytest -q tests/guards/test_tokens.py tests/guards/test_interface_frame.py \
+      tests/guards/test_interface.py tests/guards/test_islands.py tests/guards/test_layout.py \
+      tests/guards/test_shell.py tests/guards/test_record_page.py tests/guards/test_rail.py \
+      tests/guards/test_icon_margins.py tests/guards/test_overrides_recorded.py \
+      tests/guards/test_palettes.py tests/guards/test_layers.py
 
 A guard failure means the screen is wrong, not the guard.
 

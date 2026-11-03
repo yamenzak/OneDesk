@@ -138,6 +138,11 @@ Each happened in this app.
 
 ## Before calling it done
 
-Walk the job as the `ui` skill says, as the person who does it, from where
-it starts to done. Then write in the commit message: who, the job, where it
-starts, the steps counted, and what the person saw when you tried a mistake.
+This is for a change to how a job is done: its steps, where it starts, what
+the person is told, what happens when it goes wrong. A change to how a part
+looks, with the steps the same, is the `ui` skill's alone.
+
+Walk the job as the person who does it, from where it starts to done (the
+`ui` skill's table, How a job is done). Then write in the commit message:
+who, the job, where it starts, the steps counted, and what the person saw
+when you tried a mistake.
