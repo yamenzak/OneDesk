@@ -59,6 +59,15 @@ not. Each was missed once by a pass that thought it was done.
   `docs/changelog/` (UpdateCenter), and the foot that opens them.
 - **OneAI.** Everything a person does here is a card, or is in `NOT_FOR_AI`
   with the reason.
+- **Notifications.** What each of its events sends, to whom, on which
+  channels, in plain words, and that NotificationCenter lists each type
+  (`notifications.py`, the `ui` skill's mails).
+- **Docs.** Its AGENTS.md says how it works now, its Help page says what a
+  person does now with pictures of the screen as it is, and What's New
+  says what changed (`docs` and `changelog` skills).
+- **Legal.** What it does with data is in its `legal.py`; a new service,
+  company or kind of data moves the agreements with a version (`legal`
+  skill).
 - **Demo.** The demo company has it, and a check in the module's
   `checks.py` reaches every whitelisted method (`test_coverage.py`).
 - **First visit.** Its tour and its setup steps still match the screen.
