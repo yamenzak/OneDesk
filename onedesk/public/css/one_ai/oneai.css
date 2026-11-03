@@ -872,14 +872,9 @@
 	.one-ai-panel {
 		right: 12px;
 		left: 12px;
-		bottom: 12px;
 		width: auto;
-		height: calc(100vh - 96px);
-	}
-	/* Over frappe's tab bar on a phone, not half over it. */
-	body.has-mobile-nav .one-ai-panel {
-		bottom: calc(var(--desk-mobile-nav-height, 0px) + 12px);
-		height: calc(100vh - 96px - var(--desk-mobile-nav-height, 0px));
+		bottom: calc(var(--one-floor) + 12px);
+		height: calc(100vh - 96px - var(--one-floor));
 	}
 }
 
@@ -1096,7 +1091,7 @@
 .one-rec {
 	position: fixed;
 	left: 50%;
-	bottom: 24px;
+	bottom: calc(var(--one-floor) + 24px);
 	z-index: var(--one-layer-frame);
 	display: flex;
 	align-items: center;

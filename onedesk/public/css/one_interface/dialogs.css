@@ -25,7 +25,7 @@
 .one-dialog[data-size="small"] .form-section { border-bottom: 0; }
 
 /* Enlarged, a dialog fills the window, not the browser. */
-.one-dialog.one-enlarged .modal-dialog { position: fixed; inset: 48px 16px 40px; max-width: none; width: auto; margin: 0; }
+.one-dialog.one-enlarged .modal-dialog { position: fixed; inset: 48px 16px calc(40px + var(--one-floor)); max-width: none; width: auto; margin: 0; }
 .one-dialog.one-enlarged .modal-content { height: 100%; max-height: none; }
 .one-dialog.one-enlarged .modal-body:not(.settings-dialog-body) { flex: 1 1 auto; overflow: auto; }
 
@@ -34,7 +34,7 @@
 
 /* The header: where you are, then the window's controls. */
 .one-dialog .modal-header { min-height: 52px; padding: 10px 12px 4px 20px; border: 0; align-items: center; }
-.one-dialog .modal-title { margin: 0; font-size: 15px; font-weight: 600; color: var(--one-ink-strong); letter-spacing: 0; }
+.one-dialog .modal-header .modal-title { margin: 0; font-size: 15px; font-weight: 600; line-height: 1.35; color: var(--one-ink-strong); letter-spacing: 0; }
 .one-dialog .modal-actions { gap: 2px; align-items: center; }
 .one-dialog .modal-actions .icon-btn,
 .one-dialog-controls .icon-btn { width: 32px; height: 32px; }
@@ -120,9 +120,14 @@
 .one-sample-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 8px; }
 .one-sample-fields i { width: 90%; }
 
-/* On a phone a centre's pages are one strip across the top; it starts under
-   Help, Enlarge and Close rather than running beneath them. */
+/* On a phone, for every dialog: a rail is one strip across the top, under
+   Help, Enlarge and Close rather than beneath them; a panel's heading has
+   the width, its actions on the line under it; and a row whose end is a
+   value puts the value under its words. */
 @media (max-width: 640px) {
 	.one-dialog .settings-dialog-sidebar { padding-top: 44px; }
-	.one-dialog .settings-dialog-panel-header { padding-inline-end: 0; }
+	.one-dialog .settings-dialog-panel-header { padding-inline-end: 0; flex-wrap: wrap; row-gap: 12px; }
+	.one-dialog .settings-dialog-panel-header > .settings-dialog-panel-heading { flex-basis: 100%; }
+	.one-dialog .one-set-row:has(> .one-set-end .one-set-value) { flex-wrap: wrap; }
+	.one-dialog .one-set-row:has(> .one-set-end .one-set-value) > .one-set-end { flex-basis: 100%; padding-inline-start: 44px; }
 }

@@ -387,6 +387,18 @@ nav buttons, the details switch and the pane's edge hide.
 
 ## On a phone
 
+**The floor.** frappe's tab bar (Home, Search, Notifications, Profile) holds
+the bottom of a phone; `--one-floor` (frame.css) is its height there and 0
+everywhere else, and anything One floats at the bottom (the OneAI panel, the
+recording bar, an enlarged dialog) keeps above it with that, never its own
+number.
+
+**Every dialog, one way** (dialogs.css, under 640 px): a rail becomes one
+strip across the top, under Help, Enlarge and Close; a panel's heading has
+the width with its actions under it; a row ending in a value puts the value
+under its words. A screen never fixes its own dialog on a phone; what one
+needs, the renderer gives them all.
+
 Under 768 px (frame.css for both looks, canvas.css for Canvas's own parts)
 a list's top is three rows and a record's two, and nothing on them is cut:
 

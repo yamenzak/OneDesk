@@ -5,6 +5,15 @@
 
 :root {
 	--one-details-width: 280px;
+	/* What the bottom of the screen holds that a float keeps above: frappe's
+	   tab bar on a phone, nothing elsewhere. */
+	--one-floor: 0px;
+}
+
+@media (max-width: 767.98px) {
+	body.has-mobile-nav {
+		--one-floor: var(--desk-mobile-nav-height, 0px);
+	}
 }
 
 @media (min-width: 768px) {

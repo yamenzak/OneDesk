@@ -611,23 +611,3 @@ the radio, and what it says may run to two lines. */
 		grid-template-columns: repeat(2, minmax(0, 1fr));
 	}
 }
-
-/* On a phone a row whose end is a value (AICenter's tiers) puts the value
-   under its words, which then have the row's width; and a page's heading
-   takes the width, with its actions on the line under it. */
-@media (max-width: 640px) {
-	.one-set .settings-dialog-panel-header {
-		flex-wrap: wrap;
-		row-gap: calc(var(--spacing) * 3);
-	}
-	.one-set .settings-dialog-panel-header > .settings-dialog-panel-heading {
-		flex-basis: 100%;
-	}
-	.one-set .one-set-row:has(> .one-set-end .one-set-value) {
-		flex-wrap: wrap;
-	}
-	.one-set .one-set-row:has(> .one-set-end .one-set-value) > .one-set-end {
-		flex-basis: 100%;
-		padding-inline-start: calc(32px + var(--spacing) * 3);
-	}
-}
