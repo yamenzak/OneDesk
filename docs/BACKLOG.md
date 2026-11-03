@@ -25,6 +25,15 @@ module's README says what it does.
   erpnext and hrms for (31, 23 and 7). Each one sent and merged retires an
   override row. Which to send, and in what order, is yours.
 
+- **What the desk pass left.** Of `DESK-PASS.md`'s stages, the dialog kit,
+  corners, surfaces and the Canvas walk are done. Left: one bundle for our
+  desk code and one stylesheet, with centres and module dialogs loaded when
+  opened (`frappe.require`), measured against a baseline of requests, KB and
+  time to a usable list, form, home and centre; motion in three durations
+  (120, 180, 240ms) with `prefers-reduced-motion` honoured; skeletons in
+  place of spinners; a dialog over a dialog dimming the one beneath. The
+  plan is `git show cade87a7:docs/DESK-PASS.md`.
+
 ## Frappe that One does not reach yet (P3)
 
 Small, or for some customers. Every other doctype frappe ships is reached in
@@ -96,7 +105,7 @@ Checked against ERPNext while passing OneProject's Time tab.
   month, a chart of open projects by status, and a chart of completion per
   project from our Project Progress report; Employee Boarding projects left
   out everywhere. It goes on the rail as **Overview** under Project, the
-  way the other apps' dashboards do (`docs/UI-NOTES.md`).
+  way the other apps' dashboards do (the `ui` skill, Rules from the walks).
 
 - **Advance recovered by share**: an advance comes off each invoice in full
   until it is used up. Many building contracts take back a share of each

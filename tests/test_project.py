@@ -2102,7 +2102,7 @@ def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budge
 	overview = (src / "project" / "Overview.vue").read_text()
 	assert '<Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />' in overview
 	assert overview.count("data-cards") == 2 and "border-b" not in overview
-	# A section ends with space, never a rule (docs/UI-NOTES.md).
+	# A section ends with space, never a rule (the ui skill, Surfaces).
 	assert "border-b" not in (src / "kit" / "Section.vue").read_text()
 	assert '<Section boxed :title="__(\'Needs You\')"' in overview
 	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview

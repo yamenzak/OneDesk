@@ -330,6 +330,36 @@ Look at a mail before calling it done: render the type for a demo record in
 English and Arabic, and read it at phone width.
 `tests/guards/test_notifications.py` holds every type declared and worded.
 
+## Rules from the walks
+
+What walking every screen with Yamen settled, beyond the sections above.
+
+- **A screen that only lists records is frappe's list**, not an island; a
+  view split two ways is a field frappe filters by (`in_standard_filter`,
+  `listview_settings.filters`), not tabs or a picker we draw.
+- **A row that stands for a record opens it**: the row, its title, the
+  whole card, never an Edit button beside it.
+- **No hand-made controls.** Buttons are `frappe.ui.button`, inputs are
+  frappe's `form-control`; a drawn switch, search box or bare `<button>` is
+  a custom primitive.
+- **A border is the last way to separate things**: first space, then a
+  change of surface, then a line. An empty list is not drawn at all.
+- **A handful of parallel things are tiles**, each with its state as a
+  badge and its one action (Sign-in's password, two-factor, passkey); a
+  list row is for many of a kind.
+- **A page keeps its app's rail.** What it lets a person pick from is a
+  section of that rail, and nothing the rail has is repeated on the page.
+- **A home holds what only its app sees.** One's Home is approvals,
+  announcements and what is new; each app's dashboards are Overview rows on
+  its own rail.
+- **An OneAI button does one thing in place** (`onedesk.oneai.action`): a
+  small popover with Use and Try Again, never the panel.
+- **One switch per thing agreed to**, and wherever a service is switched it
+  is TrustCenter's own switch (`onedesk.trust.switch`).
+- **Not made by a model.** No identical soft-shadowed cards, gradient
+  washes, uppercase labels over every heading, big-number-and-accent
+  sections, emoji, or decoration that encodes nothing.
+
 ## Claude's UI habits, and what to do instead
 
 Each happened in this app.
@@ -381,5 +411,5 @@ Each happened in this app.
 A guard failure means the screen is wrong, not the guard.
 
 `onedesk/one_interface/AGENTS.md` is the full contract (Looks, Palettes, Layers,
-Dialogs, the record panel, the guards) and `docs/UI-NOTES.md` the walk each rule came
+Dialogs, the record panel, the guards) and the commit history the walk each rule came
 from.

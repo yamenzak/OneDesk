@@ -92,7 +92,7 @@ not. Each was missed once by a pass that thought it was done.
 - **Security.** Every whitelisted method checks permission, a write is
   POST only, and a guest page gives away nothing it shouldn't.
 - **Speed.** Requests, size and time to a usable screen, measured before
-  and after (`docs/DESK-PASS.md`).
+  and after: requests, KB and time to a usable list, form, home and centre.
 - **A fresh site.** It works on a new workspace straight after the setup
   wizard, not only on the demo.
 - **Intake.** Which mails and files should make or change its records, and

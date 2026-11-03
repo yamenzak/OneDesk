@@ -97,7 +97,7 @@ def test_each_rail_with_lists_opens_its_controlcenter_on_them():
 		rows = json.loads(path.read_text())["items"]
 		urls = [row.get("url") for row in rows if row.get("label") == "Lists"]
 		# One's rail opens screens only; its Lists are in its settings
-		# (docs/UI-NOTES.md, A rail row opens a screen).
+		# (docs/READY.md, mechanism 18).
 		wanted = [] if module == "One" else [f"/desk/one?center=settings&module={module}&at=lists"]
 		assert urls == wanted, (module, urls)
 
