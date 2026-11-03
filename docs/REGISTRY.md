@@ -511,7 +511,7 @@ Ready.
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
 | Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-03, `433f81b` |
 | Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-03, `e1e0c0a` |
-| OneInterface pass | — | 2026-11-02, `9c07465` |
+| OneInterface pass | — | 2026-11-03, `e1fc991` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
