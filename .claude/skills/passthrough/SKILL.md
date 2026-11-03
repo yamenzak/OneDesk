@@ -33,10 +33,16 @@ A screen's pass holds it to `docs/PASSOVER.md`'s seventeen points. A
 module's pass holds it to `docs/READY.md`'s fourteen points, through its
 mechanisms (1 to 19), and to the lessons at the end of READY.md.
 
-## What every pass looks at
+## What a pass looks at
 
-Whatever the focus, these are on the list unless the three lines say why
-not. Each was missed once by a pass that thought it was done.
+Two lists, so a pass does not do twenty-five things per page. Each was
+missed once by a pass that thought it was done; leave one out only when the
+three lines say why.
+
+### On every screen, by eye (9)
+
+These depend on how one screen looks and behaves, so each screen in scope
+gets them.
 
 - **Sizes.** 1440, a tablet (820), a phone (390), and a pane beside the
   screen. The tablet finds what neither end does.
@@ -53,26 +59,6 @@ not. Each was missed once by a pass that thought it was done.
   Escape closes, Tab reaches every control, focus is visible.
 - **The frame.** On OneInterface through its adapter or island kit, tokens
   only, frappe's own parts placed and not redrawn.
-- **Its part of every centre.** Settings (ControlCenter), `abilities.py`
-  (AccessCenter), `notifications.py`, `legal.py` (TrustCenter), `ai.py`
-  (AICenter), `shortcuts.py` (ShortcutCenter), `docs/` (HelpCenter),
-  `docs/changelog/` (UpdateCenter), and the foot that opens them.
-- **OneAI.** Everything a person does here is a card, or is in `NOT_FOR_AI`
-  with the reason.
-- **Notifications.** What each of its events sends, to whom, on which
-  channels, in plain words, and that NotificationCenter lists each type
-  (`notifications.py`, the `ui` skill's mails).
-- **Docs.** Its AGENTS.md says how it works now, its Help page says what a
-  person does now with pictures of the screen as it is, and What's New
-  says what changed (`docs` and `changelog` skills).
-- **Legal.** What it does with data is in its `legal.py`; a new service,
-  company or kind of data moves the agreements with a version (`legal`
-  skill).
-- **Demo.** The demo company has it, and a check in the module's
-  `checks.py` reaches every whitelisted method (`test_coverage.py`).
-- **First visit.** Its tour and its setup steps still match the screen.
-- **What ERPNext already does.** Its statuses, its checks on save, its
-  mappers, precision and units, and `base_` amounts in figures.
 - **Several companies.** It works for a workspace with more than one
   company, and looks unchanged with one. Where the company decides
   something it is shown and defaulted (the reader's default, the
@@ -83,12 +69,46 @@ not. Each was missed once by a pass that thought it was done.
   head; a person limited to a company by a User Permission sees only its
   records; the demo has a second company with records, and a check. Each
   module's pass does this for its own screens (CLAUDE.md, Several companies).
-- **Printing.** A record that leaves the company prints from our own
-  format, in Arabic too, under the letter head.
-- **Portal.** What it shows customers and suppliers (`portal.py`), and a
-  signed link opens that record and no other.
 - **Search and reach.** Its records are found in Ctrl+K and in pickers, and
   nothing the reader can't open is on a rail, in search or in a picker.
+
+### Once per module (16)
+
+These belong to the module, not the screen: check them once, when the pass
+covers a module or finishes its last screen.
+
+**Held by a guard (9).** Run the guards; a failure names what is missing.
+By hand, only what the guard can't see: the words, and that it is right.
+
+- **Its part of every centre.** Settings (ControlCenter), `abilities.py`
+  (AccessCenter), `notifications.py`, `legal.py` (TrustCenter), `ai.py`
+  (AICenter), `shortcuts.py` (ShortcutCenter), `docs/` (HelpCenter),
+  `docs/changelog/` (UpdateCenter), and the foot that opens them. *Guard: test_ready.*
+- **OneAI.** Everything a person does here is a card, or is in `NOT_FOR_AI`
+  with the reason. *Guard: test_ready.*
+- **Demo.** The demo company has it, and a check in the module's
+  `checks.py` reaches every whitelisted method (`test_coverage.py`). *Guard: test_coverage, test_demo.*
+- **Notifications.** What each of its events sends, to whom, on which
+  channels, in plain words, and that NotificationCenter lists each type
+  (`notifications.py`, the `ui` skill's mails). *Guard: test_notifications.*
+- **Legal.** What it does with data is in its `legal.py`; a new service,
+  company or kind of data moves the agreements with a version (`legal`
+  skill). *Guard: test_legal.*
+- **Docs.** Its AGENTS.md says how it works now, its Help page says what a
+  person does now with pictures of the screen as it is, and What's New
+  says what changed (`docs` and `changelog` skills). *Guard: test_ready, test_docs_media.*
+- **First visit.** Its tour and its setup steps still match the screen. *Guard: test_ready.*
+- **Printing.** A record that leaves the company prints from our own
+  format, in Arabic too, under the letter head. *Guard: test_print.*
+- **Upstream.** What we override of frappe's, ERPNext's or HRMS's is read
+  again against their newest code (`scripts/overrides.py`). *Guard: test_generated, test_override_signatures.*
+
+**By hand (7).** No guard sees these; look at each once.
+
+- **What ERPNext already does.** Its statuses, its checks on save, its
+  mappers, precision and units, and `base_` amounts in figures.
+- **Portal.** What it shows customers and suppliers (`portal.py`), and a
+  signed link opens that record and no other.
 - **Security.** Every whitelisted method checks permission, a write is
   POST only, and a guest page gives away nothing it shouldn't.
 - **Speed.** Requests, size and time to a usable screen, measured before
@@ -99,8 +119,6 @@ not. Each was missed once by a pass that thought it was done.
   whether OneAI's reading does.
 - **Deleting.** What deleting it does: the Recycle Bin brings it back,
   links are swept, the audit log has it.
-- **Upstream.** What we override of frappe's, ERPNext's or HRMS's is read
-  again against their newest code (`scripts/overrides.py`).
 
 ## Each item, in this order
 
@@ -160,8 +178,8 @@ not. Each was missed once by a pass that thought it was done.
 - **Forgetting the log.** A pass that leaves `PASSOVER-LOG.md` and the
   stamps as they were is redone by the next one.
 - **Adding a mechanism and not a line here.** A new centre, registry or
-  guard that every module must answer goes into **What every pass looks
-  at** in the same commit.
+  guard that every module must answer goes into **What a pass looks at**,
+  under the list it belongs to, in the same commit.
 - **Re-doing a pass that was already done** because nothing said it was.
   Read the log and the stamps first, and leave both behind.
 - **Turning one pass into a redesign.** Changes the user did not ask for
