@@ -134,19 +134,25 @@ By hand, only what the guard can't see: the words, and that it is right.
    shared helper), never by patching this one item. A fix that only the
    user can decide is a question, asked once, with a recommendation; the
    rest of the item carries on.
+   While fixing, run `python3 scripts/quick.py`: the guards that name what
+   changed, in parallel, in seconds. Keep `node build-islands.mjs --watch`
+   running in `frontend/` while island code changes, never the production
+   build.
 5. **Look again** at what changed, the same way as step 2.
-6. **Close it**: the gates (below), translations for every new string
-   (`bench generate-pot-file`, `scripts/translate.py todo` and `apply`,
-   then `bench compile-po-to-mo`; the glossary wins, so reword the English
-   rather than fight it), the module's Help page and its pictures if what
-   people see changed (`docs` skill), a version (`changelog` skill), the
-   overrides ledger if a frappe method is wrapped (`scripts/overrides.py`),
-   and for a screen its entry in `stamps.py` `PASSED` with today's day and
-   this pass's name.
+6. **Close it**: `python3 scripts/close.py` regenerates docs and the
+   overrides ledger, gives a version not yet committed the module's
+   fingerprint, names a module that needs `scripts/version.py`, and counts
+   the strings still to translate. Then write what only a person can: the
+   version's words (`changelog` skill), the Help page and its pictures if
+   what people see changed (`docs` skill), and the ar/de strings, once per
+   module rather than per screen (`scripts/translate.py apply`, then
+   `bench compile-po-to-mo`; the glossary wins, so reword the English rather
+   than fight it). For a screen, its entry in `stamps.py` `PASSED` with
+   today's day and this pass's name.
 7. **Look again on the record.** A minor or major version makes a ready
-   module's hand looks stale (`ready.MODULES[...]["checked"]`). Commit the
-   work, then re-date each look you actually took to that commit, in a
-   second commit.
+   module's hand looks stale. Commit, then record only the looks you took:
+   `python3 scripts/close.py --looked one_mail:copy,interface`, in a second
+   commit.
 8. **Commit** the item, or a few small ones, with the findings and what was
    done in the message.
 
@@ -190,9 +196,9 @@ By hand, only what the guard can't see: the words, and that it is right.
 Every item is stamped or listed as not passed with the reason, and the
 area's row in `docs/PASSOVER-LOG.md` says what this pass did and its day
 (the log is kept short: a row per area, not a row per pass). Run the
-gates, which take minutes between them:
+gates, about a minute between them:
 
-    python3 -m pytest -q
+    python3 scripts/quick.py --all           # every test, in parallel (~35s)
     bench --site onedesk.localhost execute onedesk.one_demo.check.run
     python3 scripts/overrides.py --check && python3 scripts/docs.py --check
     cd frontend && npx vitest run && npx eslint src && npx vite build   # when frontend source changed

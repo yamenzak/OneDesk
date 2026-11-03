@@ -270,8 +270,15 @@ there.
 
 ## The guards
 
-`python -m pytest` — fast, no site needed, and every guard has a test proving
-it still catches its own example. Every guard is listed by the passover point
+`python -m pytest` — no site needed, and every guard has a test proving
+it still catches its own example. Run it as `python3 scripts/quick.py --all`
+(pytest-xdist, every core: about 35s for the whole suite, against two and a
+half minutes in one process), and while working `python3 scripts/quick.py`,
+which runs only the guard files that name what changed, in seconds. The
+bookkeeping the guards check (docs/, the overrides ledger, a version's
+fingerprint, what is left to translate) is written by `scripts/close.py`, so
+it never fails a run; `--looked` re-dates a ready module's hand looks after
+the commit. Every guard is listed by the passover point
 it serves in `tests/guards/registry.py` and lives in `tests/guards/`, except
 the two below that sit in `tests/` and are not in the registry.
 

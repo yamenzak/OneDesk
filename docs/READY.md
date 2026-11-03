@@ -1360,7 +1360,7 @@ inside its parent's.
 Each must pass before a push.
 
 ```
-python3 -m pytest -q tests                  # fast tests and every guard
+python3 scripts/quick.py --all              # every test and guard, in parallel
 bench --site <site> execute onedesk.one_demo.check.run   # every demo check
 python3 scripts/overrides.py --check
 python3 scripts/atlas.py --check            # the snapshot is the bench's
