@@ -156,11 +156,17 @@ def _weekends() -> dict:
 
 def _holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
 	"""This year's list: the week's days off, plus the country's public
-	holidays (one/holidays.py, `make`), put in force for the company."""
+	holidays (one/holidays.py, `make`), put in force for the company. HRMS's
+	own stage, which runs first, has already made one with the country's
+	usual days off; it goes, so the days chosen here are the ones kept."""
 	if not company:
 		return None
 	from onedesk.one_hr import holidays
 
+	made = frappe.db.get_value("Company", company, "default_holiday_list")
+	if made:
+		frappe.db.set_value("Company", company, "default_holiday_list", None)
+		frappe.delete_doc("Holiday List", made, ignore_permissions=True, force=True)
 	name = holidays.make(company, getdate(nowdate()).year, weekly_offs, _country_code(company))
 	holidays.assign(name, company)
 	return name

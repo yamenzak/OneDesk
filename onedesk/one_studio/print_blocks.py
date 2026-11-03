@@ -306,7 +306,7 @@ REPLACES = {
 	"One Payslip": ("Salary Slip Classic",),
 	"One Payslip Compact": ("Salary Slip Compact",),
 	"One Salary Statement": ("Salary Slip Detailed",),
-	"One Job Offer": ("Job Offer",),
+	"One Job Offer": ("Job Offer Classic", "Job Offer Minimal"),
 	"One Appointment Letter": ("Standard Appointment Letter",),
 }
 

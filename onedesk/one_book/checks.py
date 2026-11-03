@@ -38,7 +38,7 @@ def onebook_home_and_payments_for_the_accounts_team():
 		assert frappe.db.get_single_value("Accounts Settings", "check_supplier_invoice_uniqueness")
 	with as_user("omar@one.test"):
 		customer = frappe.get_all("Customer", pluck="name", limit=1)[0]
-		tell.credit_limit(customer, 1000, 500, [OWNER])
+		tell.credit_limit(customer, COMPANY)
 
 
 @check

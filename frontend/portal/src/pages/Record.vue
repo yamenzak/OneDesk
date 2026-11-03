@@ -55,7 +55,7 @@
           <p class="text-sm text-ink-gray-6">{{ doc.summary.label }}</p>
           <p class="mt-1 text-3xl font-semibold tabular-nums text-ink-gray-9">{{ doc.summary.value }}</p>
           <p v-if="doc.summary.line" :class="['mt-1 text-sm', doc.summary.late ? 'text-ink-red-6' : 'text-ink-gray-6']">{{ doc.summary.line }}</p>
-          <Button v-for="one in solid" :key="one.href" class="mt-4 w-full" variant="solid" size="md" :label="one.label" :href="one.href" />
+          <Button v-for="one in solid" :key="one.href || one.post" class="mt-4 w-full" variant="solid" size="md" :label="one.label" :href="one.href" @click="one.post && post(one)" />
           <p v-if="answered" class="mt-3 text-sm text-ink-gray-6">{{ __("Answered by {0}, {1}.", [answered.by, answered.on]) }}</p>
           <div v-if="doc.answer" class="mt-4 flex flex-col gap-2">
             <Button variant="solid" size="md" :label="__('Accept Quotation')" icon-left="lucide-check" @click="accepting = true" />
@@ -152,6 +152,21 @@ const tab = computed(() => boot().tabs?.find((one) => one.path === props.kind)?.
 const doc = ref(props.link?.page || null);
 const answered = ref(props.link?.answered || null);
 const failed = ref(false);
+function post(one) {
+  const form = document.createElement("form");
+  form.method = "post";
+  form.action = one.post;
+  for (const [name, value] of Object.entries({ ...one.fields, csrf_token: window.csrf_token })) {
+    const input = document.createElement("input");
+    input.type = "hidden";
+    input.name = name;
+    input.value = value;
+    form.appendChild(input);
+  }
+  document.body.appendChild(form);
+  form.submit();
+}
+
 const solid = computed(() => (doc.value?.actions || []).filter((one) => one.solid));
 const quiet = computed(() => (doc.value?.actions || []).filter((one) => !one.solid));
 

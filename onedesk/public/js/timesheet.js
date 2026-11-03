@@ -81,7 +81,7 @@ function run(frm, dialog, row) {
 
 	// Elapsed is always derived from the row's own start against the site's
 	const since = () =>
-		Math.max(moment(frappe.datetime.now_datetime()).diff(moment(row.from_time), "seconds"), 0);
+		Math.max(moment(frappe.datetime.system_datetime()).diff(moment(row.from_time), "seconds"), 0);
 
 	function show() {
 		const seconds = since();
@@ -111,7 +111,7 @@ function run(frm, dialog, row) {
 		if (!said) return;
 		row = frappe.model.add_child(frm.doc, "Timesheet Detail", "time_logs");
 		Object.assign(row, said, {
-			from_time: frappe.datetime.now_datetime(),
+			from_time: frappe.datetime.system_datetime(),
 			completed: 0,
 		});
 		frm.refresh_field("time_logs");
@@ -123,7 +123,7 @@ function run(frm, dialog, row) {
 		const said = dialog.get_values();
 		if (!said) return;
 		Object.assign(row, said, {
-			to_time: frappe.datetime.now_datetime(),
+			to_time: frappe.datetime.system_datetime(),
 			completed: 1,
 		});
 		clearInterval(ticking);

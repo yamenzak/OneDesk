@@ -51,29 +51,6 @@ def version_query(user: str | None = None) -> str | None:
 	return f"({_in('`tabVersion`.`ref_doctype`', kinds())} and {_not_system('`tabVersion`.`owner`')})"
 
 
-def activity_query(user: str | None = None) -> str | None:
-	user = user or frappe.session.user
-	if _trusted(user):
-		return None
-	if not roles.administers(user):
-		return "1=0"
-	table = "`tabActivity Log`"
-	return (
-		f"({_not_system(f'{table}.`user`')} and ({table}.`reference_doctype` is null"
-		f" or {table}.`reference_doctype` = '' or {_in(f'{table}.`reference_doctype`', kinds())}))"
-	)
-
-
-def access_query(user: str | None = None) -> str | None:
-	user = user or frappe.session.user
-	if _trusted(user):
-		return None
-	if not roles.administers(user):
-		return "1=0"
-	table = "`tabAccess Log`"
-	return f"({_in(f'{table}.`export_from`', kinds(DOWNLOADS))} and {_not_system(f'{table}.`user`')})"
-
-
 def has_permission(doc, ptype: str | None = None, user: str | None = None) -> bool:
 	"""has_permission for all three: read only, by an administrator, of what
 	the lists show."""

@@ -129,7 +129,7 @@ def test_make_several_is_erpnexts_own_multiple_variants():
 def test_how_many_to_order_is_erpnexts_rule():
 	quantity = _pure(tree.APP / "one_inventory" / "order.py", "quantity", flt=lambda v: float(v or 0))
 	assert quantity(40, 100, 30) == 100, "the reorder quantity"
-	assert quantity(40, 5, 10) == 30, "or back up to the level, if that is more"
+	assert quantity(40, 5, 10) == 35, "and the shortfall on top, when the reorder quantity alone stays at or under the level"
 
 
 def test_a_request_line_is_left_to_order_less_what_orders_and_drafts_hold():

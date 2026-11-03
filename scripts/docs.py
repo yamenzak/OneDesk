@@ -177,7 +177,7 @@ def upstream_page() -> str:
 		" the frappe/ui parts the islands use) and everything upstream shipped (each"
 		" `feat` commit, new doctypes, new hooks, new frappe/ui parts). Every item"
 		" starts open.\n"
-		"3. `--update` backs up the site, moves each app to the note's commits, installs"
+		"3. `--update` backs up every site (or `ONE_SITE`), moves each app to the note's commits, installs"
 		" what they need, migrates and builds, as the bench's user. `ONE_BENCH_ENV`"
 		" names a file it sources before each step, with the Node, certificate bundle and"
 		" proxy the machine needs and the bench does not carry."

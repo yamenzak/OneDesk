@@ -216,6 +216,7 @@ onedesk.record.sidebar = (page, doctype, name, { files = null } = {}) => {
 			get_field: () => null,
 			get_docfield: () => null,
 			has_perm: (ptype) => frappe.perm.has_perm(doctype, 0, ptype, frm.doc),
+			get_perm: (permlevel, ptype) => frappe.perm.has_perm(doctype, permlevel, ptype, frm.doc),
 			set_value: (field, value) => frappe.db.set_value(doctype, name, field, value).then(draw),
 			refresh_field: () => {},
 			share_doc: () => frm.shared.show(),

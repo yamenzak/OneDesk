@@ -21,9 +21,17 @@ def _body(name: str) -> str:
 
 
 def test_every_log_is_guarded_both_ways():
-	for doctype, query in zip(LOGS, ("version_query", "activity_query", "access_query"), strict=True):
+	"""Version's list runs audit's permission query; the two logs live in
+	frappe's SQLite store, whose list runs none, so audit_logs puts the same
+	limits on it as filters."""
+	for doctype in LOGS:
 		assert f'"{doctype}": "onedesk.one.audit.has_permission"' in HOOKS, doctype
-		assert f'"{doctype}": "onedesk.one.audit.{query}"' in HOOKS, doctype
+	assert '"Version": "onedesk.one.audit.version_query"' in HOOKS
+	held = (tree.APP / "one" / "audit_logs.py").read_text()
+	for doctype, cls in (("Activity Log", "ActivityLog"), ("Access Log", "AccessLog")):
+		assert f'"{doctype}": "onedesk.one.audit_logs.{cls}"' in HOOKS, doctype
+		assert f"class {cls}(" in held and "def get_list(" in held and "def get_count(" in held
+	assert "audit.SYSTEM" in held and "audit.kinds(audit.DOWNLOADS)" in held and "roles.administers(user)" in held
 	assert '"onedesk.one.access.settle"' in HOOKS
 	assert '"Version": {"onload": "onedesk.one.audit.onload"}' in HOOKS
 

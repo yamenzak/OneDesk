@@ -34,8 +34,6 @@ COLUMN = re.compile(r"\"([A-Za-z][A-Za-z0-9_]*)\"")
 COLUMNS = ("item_name", "qty", "rate", "amount")
 
 NAMED_BY = (
-	("HR Settings", "leave_approval_notification_template", "Leave Application"),
-	("HR Settings", "leave_status_notification_template", "Leave Application"),
 	("HR Settings", "interview_reminder_template", "Interview"),
 	("HR Settings", "feedback_reminder_notification_template", "Interview"),
 	("HR Settings", "exit_questionnaire_notification_template", "Exit Interview"),
@@ -46,6 +44,7 @@ NAMED_BY = (
 MADE_AS = (
 	("Leave Approval Notification", "Leave Application"),
 	("Leave Status Notification", "Leave Application"),
+	("Leave Application Notification", "Leave Application"),
 	("Interview Reminder", "Interview"),
 	("Interview Feedback Reminder", "Interview"),
 	("Exit Questionnaire Notification", "Exit Interview"),

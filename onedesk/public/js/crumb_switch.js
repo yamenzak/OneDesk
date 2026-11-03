@@ -175,11 +175,12 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 				wire($button);
 			};
 			const done = new Set();
+			const phone_title = frappe.ui.Page.title_action?.();
 			items.forEach((item, i) => {
 				if (!item.one_menu) return;
 				const menu = item.one_menu;
 				const options = async (txt) => matching(await menu(), txt);
-				onedesk.crumbs.switch($crumbs.eq(i), { options });
+				if (!(phone_title && i === items.length - 1)) onedesk.crumbs.switch($crumbs.eq(i), { options });
 				done.add(i);
 				below(i, i === at ? "one-head-record" : "one-head-scope", ($b) => onedesk.crumbs.switch($b, { options, button: true }));
 			});

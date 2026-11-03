@@ -467,13 +467,6 @@ that refuses below 70 should not paint 65 as unremarkable.
 Nothing is returned before the first nightly run has written one. An empty
 field is not a score of zero and must not be shown as one.
 
-`get_assignable_masters` stands in for HRMS's question behind the record's
-**Create Assignments** menu: is there a leave policy, a salary structure, a
-shift schedule to assign. HRMS asks it of all three whatever the reader may
-read, so anybody who may open a colleague's record but not Leave Policy got a
-permission error on opening it. Ours answers no for a master the reader may
-not read, and HRMS then leaves that item out of the menu.
-
 `_days` is a quarter of attendance, one square a day, starting on a week boundary. Nothing marked and no holiday list is a site that does not keep attendance,
 and a grid of ninety-odd blank squares says that worse than no grid does.
 

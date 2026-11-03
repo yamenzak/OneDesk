@@ -16,7 +16,8 @@
 		if (named && labels.length) {
 			built.colors = labels.map((label) => hue(named[label]));
 			built.data = { ...built.data, labels: labels.map((label) => __(label)) };
-			if (ROUND.includes(built.type)) {
+			const classic = !frappe.ui.chart || !frappe.ui.chart.is_classic || frappe.ui.chart.is_classic(built);
+			if (ROUND.includes(built.type) && classic) {
 				built.showLegend = 0;
 				const values = (built.data.datasets && built.data.datasets[0] && built.data.datasets[0].values) || [];
 				this.one_legend = built.data.labels.map((label, i) => [label, values[i], built.colors[i]]);

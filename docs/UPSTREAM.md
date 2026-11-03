@@ -5,19 +5,19 @@ One runs on frappe, erpnext and hrms as they are on their develop branches, and 
 
 ## Now
 
-Checkpoint of 2026-10-07, reviewed in `docs/upstream/2026-10-07.md`.
+Checkpoint of 2026-11-03, reviewed in `docs/upstream/2026-11-03.md`.
 
 | App | Version | Commit | Dated |
 |---|---|---|---|
-| frappe | 17.0.0-dev | `19e5f0fa2b` | 2026-10-07 |
-| erpnext | 17.0.0-dev | `e0d68c0185` | 2026-10-07 |
-| hrms | 17.0.0-dev | `912515388d` | 2026-10-07 |
+| frappe | 17.0.0-dev | `41a77aa058` | 2026-11-03 |
+| erpnext | 17.0.0-dev | `2881b5f463` | 2026-11-03 |
+| hrms | 17.0.0-dev | `73aae47dd5` | 2026-11-03 |
 
 ## Taking the next checkpoint
 
 1. `python scripts/upstream.py --fetch` brings in each app's upstream branch, and `python scripts/upstream.py` says what landed.
 2. `--draft` writes `docs/upstream/<today>.md`. It lists every place One leans on upstream that moved (a line `scripts/overrides.py` names, a doctype we customize or hook, a method we override, a desk method our scripts patch, the frappe/ui parts the islands use) and everything upstream shipped (each `feat` commit, new doctypes, new hooks, new frappe/ui parts). Every item starts open.
-3. `--update` backs up the site, moves each app to the note's commits, installs what they need, migrates and builds, as the bench's user. `ONE_BENCH_ENV` names a file it sources before each step, with the Node, certificate bundle and proxy the machine needs and the bench does not carry. Restart the bench after it.
+3. `--update` backs up every site (or `ONE_SITE`), moves each app to the note's commits, installs what they need, migrates and builds, as the bench's user. `ONE_BENCH_ENV` names a file it sources before each step, with the Node, certificate bundle and proxy the machine needs and the bench does not carry. Restart the bench after it.
 4. Run `scripts/overrides.py --check`, the gates, the browser screens and the demo checks (a fresh install and demo build is the surest), and fix what broke. Then `python scripts/atlas.py --snapshot` and `--brand`: a record type, report or page upstream added fails `tests/guards/test_atlas.py` until it is placed or answered (docs/ATLAS.md), and a new sentence naming ERPNext or Frappe is said as One.
 5. Close every item in the note: tick it and say, after a dash, what was done: **Kept** (still right as it is), **Corrected** (we changed ours to follow), **Adopted** (we now use what upstream added), **Not for us**, or **Later** with the task it went to.
 6. `--checkpoint` records it in `upstream.json`. It refuses while the bench is not at the note's commits or any item is open.
@@ -28,4 +28,5 @@ The gates fail when the bench moved without a checkpoint, when the checkpoint's 
 
 | Checkpoint | frappe | erpnext | hrms | Note |
 |---|---|---|---|---|
+| 2026-10-07 | `19e5f0fa2b` 2026-10-07 | `e0d68c0185` 2026-10-07 | `912515388d` 2026-10-07 | docs/upstream/2026-10-07.md |
 | 2026-10-05 | `11fb93570c` 2026-09-19 | `db6e089109` 2026-09-19 | `d222ced551` 2026-09-18 | none |

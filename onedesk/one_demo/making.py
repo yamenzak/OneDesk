@@ -362,7 +362,7 @@ def _planned():
 			"currency": frappe.get_cached_value("Company", COMPANY, "default_currency"),
 			"rm_cost_as_per": "Valuation Rate",
 			"items": [
-				{"item_code": code, "fg_item": "DR-SL24", "qty": qty}
+				{"item_code": code, "qty": qty}
 				for code, qty in (("ALU-6063", 16), ("GLS-DGU", 4.5), ("HW-LOCK", 1))
 			],
 		},

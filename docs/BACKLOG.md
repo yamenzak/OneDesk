@@ -15,12 +15,6 @@ module's README says what it does.
   `oneinventory_equipment_bought_given_serviced_and_mended`. The twelve steps
   are in `onedesk/one_demo/README.md`. A fresh site needs the database's root
   password.
-- **The upstream checkpoint.** The last is `docs/upstream/2026-10-07.md`;
-  `tests/guards/test_generated.py` fails after 2026-10-21. Run
-  `python3 scripts/upstream.py --fetch --draft`, close each item, then
-  `--checkpoint`. On this box `--fetch` was killed for memory on 18 October,
-  taking the session with it; fetch the three apps one at a time, or from a
-  bigger machine.
 - **The asks upstream.** `docs/OVERRIDES.md` lists 62 changes to ask frappe,
   erpnext and hrms for (31, 23 and 7). Each one sent and merged retires an
   override row. Which to send, and in what order, is yours.
@@ -35,6 +29,17 @@ module's README says what it does.
   plan is `git show cade87a7:docs/DESK-PASS.md`.
 
 ## Frappe that One does not reach yet (P3)
+
+- **frappe's MCP server** (System Settings › AI Agents, on by default since
+  the 2026-11-03 checkpoint): an outside AI client, signed in with a
+  person's API keys, reads and writes as that person, as the REST API does.
+  Whether One offers it beside OneAI, or turns it off, is to decide.
+- **One-click Gmail sign-in** through Frappe Cloud for OneMail, in place of
+  an app password.
+- **Charts on frappe.ui.chart**: `frappe.Chart` is deprecated; band.js
+  still draws on it.
+- **A supplier's items as a Vue Component field**: supplier_items.js mounts
+  its island in an HTML field; frappe now has a field type for it.
 
 Small, or for some customers. Every other doctype frappe ships is reached in
 One, runs underneath, or is the platform's; `onedesk/one/atlas.py` says which.
@@ -51,8 +56,9 @@ One, runs underneath, or is the platform's; `onedesk/one/atlas.py` says which.
 - **Session defaults** (Session Default Settings): the values a person works
   under. One has a single company, so little is left of it.
 - **What happens after saving** (Success Action).
-- **Slack** (Slack Webhook URL): notifications into a channel. Webhooks
-  already reach Slack through Zapier or n8n.
+- **Slack and other chat services** (Slack Webhook URL, Notification
+  Webhook URL): notifications into a channel. Webhooks already reach Slack
+  through Zapier or n8n.
 - **UTM Campaign and Medium**: OneCRM has Lead Source, not the other two.
 - **A form sent to one person** (Web Form Request), with OneForms.
 - **LDAP**: enterprise sign-in.
@@ -141,6 +147,10 @@ Checked against ERPNext while passing OneProject's Time tab.
   opportunity (upstream).
 - **Approvals by condition and priority** (frappe's Workflow Condition), in
   Workspace › Approvals.
+- **Selling Settings' read for the sales, stock, accounts and project
+  users** (`one_crm/access.py`) was given so an order opened without a
+  permission error. erpnext now hands an order its proforma settings on
+  load, so take it back once a walk finds nothing else reading it.
 
 ## OneInventory and OneHR
 
@@ -267,6 +277,20 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
 - **A time in a letter** converted from the sender's time zone (§6).
 
 ## Noticed along the way
+
+- **After the 2026-11-03 checkpoint**, what upstream now does that One still
+  does itself, to take out once checked: a service log's Overdue turned back
+  to Planned (`one_inventory/maintenance.on_time`), a timesheet's person
+  (`OneTimesheet.set_user`), the Gantt opening on today (desk.css), and the
+  view-mode shims in project_calendar.js and task_list.js, which no longer
+  run. And what to walk: the print page's Style picker, empty for anyone
+  but a System Manager; hrms's new Employee Overview tab beside One's head;
+  a Supplier Overview beside the customer one; the picker's paging and
+  pictures if frappe's combobox is turned on (`one/apps.search_link`); the
+  rail's flat mark, now 2px smaller than frappe's; OneCloud's WebDAV upload
+  streamed rather than read whole (`streaming_request_paths`); and a
+  password set by an administrator, which frappe now tells the person in
+  the bell, beside One's own Password Changed.
 
 - **Profile**: a OneAI button, Check My Profile, and Write It With OneAI
   under Bio. A proof of address Intake reads could offer to update it.

@@ -80,12 +80,6 @@ class LeaveApplication(Approvals, HRMSLeaveApplication):
 			"to_date": formatdate(self.to_date),
 		}
 
-	def notify_leave_approver(self):
-		"""HRMS's mail to the approver. `notify_approver` tells them."""
-
-	def notify_employee(self):
-		"""HRMS's mail to the employee. `notify_approval_status` tells them."""
-
 	def on_cancel(self):
 		super().on_cancel()
 		self.answered("Cancelled")

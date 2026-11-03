@@ -832,8 +832,7 @@ def one_boards_open_on_frappes_new_kanban():
 	from onedesk.one_crm import board as pipeline
 	from onedesk.one_project import board as projects
 
-	create_kanban_board_if_not_exists(VILLA)
-	villa = frappe.db.get_value("Project", VILLA, "project_name")
+	villa = create_kanban_board_if_not_exists(VILLA)
 	for name, card in ((pipeline.BOARD, pipeline.CARD), (projects.HEALTH_BOARD, projects.HEALTH_CARD), (villa, projects.CARD)):
 		board = frappe.get_doc("Kanban Board", name)
 		assert board.use_kanban_v2, f"{name} is on the old board"
@@ -2962,10 +2961,9 @@ def a_project_pays_for_stock_once():
 		if not stored:
 			continue
 		bought = money._lines("Purchase Invoice", [name])
-		plain, doc = frappe.get_doc("Project", name), frappe.get_doc("Project", name)
-		Project.update_purchase_costing(plain)
+		doc = frappe.get_doc("Project", name)
 		doc.update_purchase_costing()
-		assert abs(flt(plain.total_purchase_cost) - flt(doc.total_purchase_cost) - stored) < 0.01 and stored <= bought, (name, stored)
+		assert flt(doc.total_purchase_cost) <= bought - stored + 0.01 and stored <= bought, (name, stored)
 		break
 	else:
 		raise AssertionError("no project bought anything into a store")

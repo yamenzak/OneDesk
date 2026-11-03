@@ -20,6 +20,10 @@ STUDIO = "OneStudio, whose changes are these underneath"
 
 BACKLOG = "waits in docs/BACKLOG.md"
 
+FLOW = "frappe's own AI agents, which it keeps to the people who run the platform; a workspace's AI is OneAI"
+
+FRAPPE_STUDIO = "frappe's app builder, which it keeps to the people who run the platform; a workspace changes itself through OneStudio"
+
 VIDEO = "ERPNext's library of YouTube help videos; One's help is OneAI, on every page"
 
 GOOGLE = "frappe's sync with a Google account, which One does not offer; a calendar reaches Google through its own link"
@@ -172,7 +176,33 @@ ANSWERS = {
 	("DocType", "LDAP Settings"): (LEFT_OUT, BACKLOG),
 	("DocType", "UTM Campaign"): (LEFT_OUT, BACKLOG),
 	("DocType", "UTM Medium"): (LEFT_OUT, BACKLOG),
-	("DocType", "Slack Webhook URL"): (LEFT_OUT, BACKLOG),
+	("DocType", "Notification Webhook URL"): (LEFT_OUT, BACKLOG),
+	("DocType", "Flow Agent"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Agent Memory"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Knowledge Base"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Knowledge Chunk"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Knowledge Settings"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Knowledge Source"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Model"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Provider"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Run"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Session"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Settings"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Skill"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Tool"): (LEFT_OUT, FLOW),
+	("DocType", "Flow Trigger"): (LEFT_OUT, FLOW),
+	("DocType", "Studio AI Message"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Studio AI Session"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Studio App"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Studio Component"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Studio Page"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Studio Settings"): (LEFT_OUT, FRAPPE_STUDIO),
+	("DocType", "Attachment Queue"): (ENGINE, "frappe's queue of files waiting to be attached to a record"),
+	("DocType", "File Blob"): (ENGINE, "a file's bytes under frappe's second way of storing files, which One leaves off; One keeps files in OneCloud"),
+	("Page", "notifications"): (INSIDE, "the phone's tab bar, listing what the bell lists"),
+	("Page", "profile"): (REPLACED, "AccountCenter › Profile, where the phone's tab bar opens it"),
+	("Page", "search"): (INSIDE, "the phone's tab bar; on a computer, the window's address box"),
+	("Page", "report-print"): (INSIDE, "a report's Print"),
 	("DocType", "Social Login Key"): (LEFT_OUT, BACKLOG),
 	("DocType", "OAuth Client"): (LEFT_OUT, BACKLOG),
 	("DocType", "OAuth Provider Settings"): (LEFT_OUT, BACKLOG),

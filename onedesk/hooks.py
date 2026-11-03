@@ -754,7 +754,6 @@ override_whitelisted_methods = {
 	"frappe.utils.print_format_generator.download_builder_preview_pdf": "onedesk.one_studio.printing.download_builder_preview_pdf",
 	"frappe.utils.print_format_generator.render_jinja_template": "onedesk.one_studio.printing.render_jinja_template",
 	"frappe.email.doctype.email_template.email_template.get_email_template": "onedesk.one_mail.mail_templates.get_email_template",
-	"hrms.overrides.employee_master.get_assignable_masters": "onedesk.one_hr.employee.get_assignable_masters",
 	"frappe.desk.search.search_link": "onedesk.one.apps.search_link",
 }
 
@@ -808,8 +807,6 @@ permission_query_conditions = {
 	"Clock Device": "onedesk.one_hr.passkey.query",
 	"Deleted Document": "onedesk.one.recycle.query",
 	"Version": "onedesk.one.audit.version_query",
-	"Activity Log": "onedesk.one.audit.activity_query",
-	"Access Log": "onedesk.one.audit.access_query",
 	"Webhook": "onedesk.one.webhooks.query",
 	"Assignment Rule": "onedesk.one_crm.access.query",
 	"Webhook Request Log": "onedesk.one.webhooks.log_query",
@@ -955,6 +952,8 @@ override_doctype_dashboards = {
 }
 
 override_doctype_class = {
+	"Activity Log": "onedesk.one.audit_logs.ActivityLog",
+	"Access Log": "onedesk.one.audit_logs.AccessLog",
 	"Reminder": "onedesk.one.tell.Reminder",
 	"Employee Checkin": "onedesk.one_hr.checkin.OneEmployeeCheckin",
 	"Timesheet": "onedesk.one_hr.timesheet.OneTimesheet",

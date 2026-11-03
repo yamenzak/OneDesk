@@ -169,12 +169,16 @@ def _switch(one: dict) -> int:
 
 def _settle() -> None:
 	"""The apps' own switches for what we now send, off, after every migrate:
-	with one on, the same thing would be sent twice. They are hidden on their
-	settings (the modules' custom JSON), because Send This decides now."""
+	with one on, the same thing would be sent twice. A switch is a setting,
+	hidden on its settings (the modules' custom JSON) because Send This decides
+	now, or a standard Notification the app sends it by (`replaces_rules`)."""
 	for one in declared().values():
 		for doctype, field in one.get("replaces") or ():
 			if frappe.db.get_single_value(doctype, field):
 				frappe.db.set_single_value(doctype, field, 0)
+		for rule in one.get("replaces_rules") or ():
+			if frappe.db.get_value("Notification", rule, "enabled"):
+				frappe.db.set_value("Notification", rule, "enabled", 0)
 
 
 def switched(doc, method=None) -> None:

@@ -1,10 +1,11 @@
 frappe.provide("onedesk.project");
 
 onedesk.project.board = async (frm) => {
-	await frappe.xcall("erpnext.projects.doctype.project.project.create_kanban_board_if_not_exists", {
-		project: frm.doc.name,
-	});
-	frappe.set_route("List", "Task", "Kanban", frm.doc.project_name);
+	const board = await frappe.xcall(
+		"erpnext.projects.doctype.project.project.create_kanban_board_if_not_exists",
+		{ project: frm.doc.name }
+	);
+	frappe.set_route("List", "Task", "Kanban", board);
 };
 
 onedesk.project.plan = async (frm) => {

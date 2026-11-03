@@ -522,8 +522,8 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 			{
 				"label": _("Pay {0}").format(fmt_money(context.pay_amount, currency=doc.currency)),
 				"solid": True,
-				"href": "/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request?"
-				+ urlencode({"dn": doc.name, "dt": doctype, "submit_doc": 1, "order_type": "Shopping Cart"}),
+				"post": "/api/method/erpnext.accounts.doctype.payment_request.payment_request.make_payment_request",
+				"fields": {"dn": doc.name, "dt": doctype, "submit_doc": 1, "order_type": "Shopping Cart"},
 			}
 		)
 	return {

@@ -35,10 +35,9 @@ FROM = ("periodicity", "start_date", "last_completion_date", "end_date")
 
 def due(doc, method=None) -> None:
 	"""Asset Maintenance before_validate: every task has its next date, however
-	the schedule is saved. ERPNext's form works it out as the dates are typed,
-	so a schedule saved by Data Import, OneAI or a script had none, and none of
-	its services were on anybody's calendar. ERPNext's own sum leaves it empty
-	for a task with an end date."""
+	the schedule is saved. ERPNext's validate works it out only for a task with
+	none, so a task whose dates were changed by Data Import, OneAI or a script
+	kept the old one."""
 	before = {row.name: row for row in (doc.get_doc_before_save() or frappe._dict()).get("asset_maintenance_tasks") or []}
 	for task in doc.get("asset_maintenance_tasks"):
 		was = before.get(task.name)

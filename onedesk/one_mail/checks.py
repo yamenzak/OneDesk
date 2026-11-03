@@ -243,21 +243,21 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		holders.set_allowed_domains([])
 		holders.set_external(1)
 		assert isinstance(mail_templates.templates(), list)
-		if frappe.db.exists("Email Template", "Leave Approval Notification"):
+		if frappe.db.exists("Email Template", "Interview Reminder"):
 			mail_templates.settle()
-			was = frappe.db.get_single_value("HR Settings", "leave_approval_notification_template")
-			frappe.db.set_single_value("HR Settings", "leave_approval_notification_template", "Leave Approval Notification")
+			was = frappe.db.get_single_value("HR Settings", "interview_reminder_template")
+			frappe.db.set_single_value("HR Settings", "interview_reminder_template", "Interview Reminder")
 			try:
-				row = next(one for one in mail_templates.templates() if one["name"] == "Leave Approval Notification")
-				assert row["reference_doctype"] == "Leave Application", row
+				row = next(one for one in mail_templates.templates() if one["name"] == "Interview Reminder")
+				assert row["reference_doctype"] == "Interview", row
 				assert row["used_by"] and row["code"], "HR's template says who sends it and that it holds code"
 				try:
-					frappe.delete_doc("Email Template", "Leave Approval Notification")
+					frappe.delete_doc("Email Template", "Interview Reminder")
 					raise AssertionError("a template HR Settings sends was deleted")
 				except frappe.ValidationError:
 					pass
 			finally:
-				frappe.db.set_single_value("HR Settings", "leave_approval_notification_template", was)
+				frappe.db.set_single_value("HR Settings", "interview_reminder_template", was)
 		assert {one["label"] for one in api.capacity()}
 
 

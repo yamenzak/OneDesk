@@ -127,6 +127,8 @@ onedesk.outside.instead = (sub_path) => {
 			// The bell's gear opens NotificationCenter where the reader is.
 			onedesk.notification_center.open();
 			return frappe.get_route();
+		case "profile":
+			return ["one", { center: "account", at: "profile" }];
 		case "user":
 			// A person is AccountCenter's: your own profile, or People.
 			if (name && decodeURIComponent(name) === me) return ["one", { center: "account", at: "profile" }];

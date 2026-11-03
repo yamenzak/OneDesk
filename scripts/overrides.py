@@ -543,10 +543,10 @@ OVERRIDES = [
 	),
 	(
 		"A workspace's HTML block prints through One's sandbox",
-		"onedesk's copy of frappe's HTML block macro, found first because frappe's loader searches apps in reverse, draws a block the workspace saved (marked one_sandboxed) through print_html.render; any other block is drawn as frappe draws it",
+		"onedesk's copy of frappe's HTML block macro, found first because frappe's loader searches apps in reverse, draws a block the workspace saved (marked one_sandboxed) through print_html.render; any other block is drawn as frappe drew it in PrintFormatGenerator.prepare_html. frappe draws a marked block there too, in its own sandbox; print_html.check_template has already held it to the record, and the macro does not print what frappe drew",
 		"onedesk/templates/print_format/macros/HTML.html",
 		"frappe/frappe/templates/print_format/macros/HTML.html",
-		"{{ frappe.render_template(df.html, {'doc': doc}) }}",
+		"{{ df._html }}",
 	),
 	(
 		"One's print blocks print through frappe's field template macro",
@@ -594,14 +594,14 @@ OVERRIDES = [
 		"A conversation is stored as it was said",
 		"frappe's XSS filter rewrites a Long Text holding a tag as HTML, which broke a conversation's JSON once a tool answered with markup; AI Chat's turns carries ignore_xss_filter, and the panel draws what it holds itself",
 		"onedesk/one_ai/doctype/ai_chat/ai_chat.json",
-		"frappe/frappe/model/base_document.py",
+		"frappe/frappe/model/document.py",
 		'df.get("ignore_xss_filter")',
 	),
 	(
 		"A letter head's top is filtered by One, not by frappe's XSS filter",
 		"frappe's XSS filter takes an inline picture out of HTML, and a drawn top's or foot's icons are inline pictures; Letter Head's content and footer carry ignore_xss_filter, and validate_letter_head filters them instead: print_html.clean for the workspace, frappe's own sanitize_html for any top or foot not drawn by letter_heads",
 		"onedesk/one/custom/letter_head.json",
-		"frappe/frappe/model/base_document.py",
+		"frappe/frappe/model/document.py",
 		'df.get("ignore_xss_filter")',
 	),
 	(
@@ -1088,13 +1088,6 @@ OVERRIDES = [
 		"frappe.ui.keys.show_keyboard_shortcut_dialog = () => {",
 	),
 	(
-		"A map view loads its map",
-		"ListView's constructor sets this.load_lib to a promise, which hides MapView's load_lib method, so frappe's map view throws before Leaflet loads and stays blank. list.js gives MapView a setup_view that calls its class's load_lib by name, then frappe's own setup_map",
-		"onedesk/public/js/one_interface/list.js",
-		"frappe/frappe/public/js/frappe/views/map/map_view.js",
-		"return this.load_lib().then(() => this.setup_map());",
-	),
-	(
 		"The Employee band is not a notice",
 		"`set_headline` paints its band for an alert; this one is a permanent summary",
 		"onedesk/public/css/desk.css",
@@ -1254,13 +1247,6 @@ OVERRIDES = [
 		"onedesk/public/js/timesheet.js",
 		"erpnext/erpnext/projects/doctype/timesheet/timesheet.js",
 		"Resume Timer",
-	),
-	(
-		"The timer stamps one clock",
-		"theirs writes `get_datetime_as_string()` (the operator's machine) and measures against the site's timezone",
-		"onedesk/public/js/timesheet.js",
-		"erpnext/erpnext/public/js/projects/timer.js",
-		"grid_row.doc.to_time = frappe.datetime.get_datetime_as_string()",
 	),
 	(
 		"Monthly Attendance is one row per person, and everybody is on it",
@@ -1445,11 +1431,25 @@ OVERRIDES = [
 		"def set_user(self):",
 	),
 	(
-		"Leave's own mails are silent",
-		"HRMS mailed the approver and the employee from Email Templates; the approval types tell them, so tell.LeaveApplication makes both methods do nothing and the switch is off",
-		"onedesk/one_hr/tell.py",
-		"hrms/hrms/hr/doctype/leave_application/leave_application.py",
-		"def notify_leave_approver(self):",
+		"Leave's own mails are silent: Leave Application Pending Approval",
+		"HRMS mails leave through its standard Notification Leave Application Pending Approval; Leave Asked tells the same people, declares it in replaces_rules, and notify._settle turns it off after every migrate",
+		"onedesk/one_hr/notifications.py",
+		"hrms/hrms/hr/notification/leave_application_pending_approval/leave_application_pending_approval.json",
+		'"name": "Leave Application Pending Approval",',
+	),
+	(
+		"Leave's own mails are silent: Leave Application Status Update",
+		"HRMS mails leave through its standard Notification Leave Application Status Update; Leave Answered tells the same people, declares it in replaces_rules, and notify._settle turns it off after every migrate",
+		"onedesk/one_hr/notifications.py",
+		"hrms/hrms/hr/notification/leave_application_status_update/leave_application_status_update.json",
+		'"name": "Leave Application Status Update",',
+	),
+	(
+		"Leave's own mails are silent: Leave Application Cancelled",
+		"HRMS mails leave through its standard Notification Leave Application Cancelled; Leave Cancelled tells the same people, declares it in replaces_rules, and notify._settle turns it off after every migrate",
+		"onedesk/one_hr/notifications.py",
+		"hrms/hrms/hr/notification/leave_application_cancelled/leave_application_cancelled.json",
+		'"name": "Leave Application Cancelled",',
 	),
 	(
 		"A moved interview tells interviewers in One and mails the applicant",
@@ -1890,7 +1890,7 @@ OVERRIDES = [
 		"their button makes a board per project with a column per status; ours archives Template and Cancelled and sets what a card shows",
 		"onedesk/one_project/board.py",
 		"erpnext/erpnext/projects/doctype/project/project.py",
-		'quick_kanban_board("Task", project.project_name, "status", project.name)',
+		'return quick_kanban_board("Task", board_name, "status", project.name).name',
 	),
 	(
 		"The board is a button of its own on a project",
@@ -1926,13 +1926,6 @@ OVERRIDES = [
 		"onedesk/one_project/templates.py",
 		"erpnext/erpnext/projects/doctype/project/project.py",
 		"return self.update_if_holiday(self.end_date)",
-	),
-	(
-		"An employee's Create Assignments menu asks only of what the reader may read",
-		"their question reads Leave Policy, Salary Structure and Shift Schedule whatever the reader may read, so a colleague's record opened on a permission error",
-		"onedesk/one_hr/employee.py",
-		"hrms/hrms/overrides/employee_master.py",
-		'doctype: bool(frappe.get_list(doctype, filters=filters, limit=1, pluck="name"))',
 	),
 	(
 		"The rail ends in Apps for a workspace administrator",
@@ -2324,7 +2317,7 @@ OVERRIDES = [
 		"UAE VAT 201's box 9 sums a field on each bill somebody is meant to type; untouched, the company reclaims nothing",
 		"onedesk/one_book/vat.py",
 		"erpnext/erpnext/regional/report/uae_vat_201/uae_vat_201.py",
-		'query_filters.append(["recoverable_standard_rated_expenses", ">", 0])',
+		'query_filters.append(["recoverable_standard_rated_expenses", "!=", 0])',
 	),
 	(
 		"The invoice's emirate is copied from the company address",
@@ -2352,7 +2345,7 @@ OVERRIDES = [
 		"the Period Closing Voucher asks for a closing account; the chart's Retained Earnings is the answer",
 		"onedesk/one_book/closing.py",
 		"erpnext/erpnext/accounts/doctype/period_closing_voucher/period_closing_voucher.py",
-		"def check_closing_account_type(self):",
+		"def check_closing_account(self):",
 	),
 	(
 		"Serial and batch numbers are offered as a switch",
@@ -2377,10 +2370,10 @@ OVERRIDES = [
 	),
 	(
 		"To Order counts how many as ERPNext's reorder does",
-		"the reorder quantity, or back up to the level when that is more",
+		"the reorder quantity, and the shortfall to the level on top when the reorder quantity alone would not reach it",
 		"onedesk/one_inventory/order.py",
 		"erpnext/erpnext/stock/reorder_item.py",
-		"if deficiency > reorder_qty:",
+		"if projected_qty + reorder_qty <= reorder_level:",
 	),
 	(
 		"An order made from To Order keeps its request",
@@ -2426,10 +2419,10 @@ OVERRIDES = [
 	),
 	(
 		"A maintenance task with an end date is due",
-		"ERPNext blanks the next due date whenever an end date is set (`or next_due_date`), and only its form works the date out at all; `due`, on before_validate, works it out for every task with none or whose dates changed, so a schedule saved by Data Import or OneAI has its services on the calendar",
+		"ERPNext's validate works the next due date out only for a task with none, so a task whose dates were changed by Data Import or OneAI keeps its old one; `due`, on before_validate, works it out again for every task whose dates changed",
 		"onedesk/one_inventory/maintenance.py",
 		"erpnext/erpnext/assets/doctype/asset_maintenance/asset_maintenance.py",
-		"or next_due_date",
+		"if not task.next_due_date and task.periodicity:",
 	),
 	(
 		"A service moved past today is no longer late",
@@ -2528,13 +2521,6 @@ OVERRIDES = [
 		"onedesk/public/js/rate_note.js",
 		"erpnext/erpnext/public/js/controllers/transaction.js",
 		"this.frm.toggle_display(field, this.frm.doc[field] !== 0 || this.frm.doc.docstatus !== 1);",
-	),
-	(
-		"Whoever reads a sales order may read Selling Settings",
-		"ERPNext's sales_order_proforma.js reads two Selling Settings as an order opens and gives them to the Sales Manager alone; one_crm/access.py gives read to the sales, stock, accounts and project users",
-		"onedesk/one_crm/access.py",
-		"erpnext/erpnext/public/js/sales_order_proforma.js",
-		'frappe.db.get_single_value("Selling Settings", "enable_proforma_invoice")',
 	),
 	(
 		"Free to sell counts held stock once",
@@ -2638,14 +2624,14 @@ OVERRIDES = [
 		"New file content goes to R2",
 		"Frappe's own seam for where content is written; ours asks admin for a signed URL and puts it there",
 		"onedesk/one_storage/store.py",
-		"frappe/frappe/core/doctype/file/file.py",
+		"frappe/frappe/core/doctype/file/file_v1.py",
 		'write_file_method = get_hook_method("write_file")',
 	),
 	(
 		"A stored object is dropped when the last File naming it goes",
 		"Frappe's seam for deleting content; ours defers to after commit and skips a shared object",
 		"onedesk/one_storage/store.py",
-		"frappe/frappe/core/doctype/file/file.py",
+		"frappe/frappe/core/doctype/file/file_v1.py",
 		'method = get_hook_method("delete_file_data_content")',
 	),
 	(
@@ -2657,9 +2643,9 @@ OVERRIDES = [
 	),
 	(
 		"File reads a stored file's content from R2",
-		"Frappe opens a path on disk in get_content; CloudFile overrides it, exists_on_disk and make_thumbnail",
+		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
 		"onedesk/one_storage/file.py",
-		"frappe/frappe/core/doctype/file/file.py",
+		"frappe/frappe/core/doctype/file/file_v1.py",
 		"with open(file_path, mode=\"rb\") as f:",
 	),
 	(
@@ -3065,7 +3051,7 @@ ASKS = {
 		"finish() blanks depreciation_start_date after set_missing_values so Asset.validate's get_last_day(available_for_use_date) default (asset.py:627) applies. Propose get_item_details' finance book rows use d.depreciation_start_date without `or nowdate()` (asset.py:1131); then the blanking goes."
 	),
 	'A maintenance task with an end date is due': (
-		"maintenance.next_due re-implements calculate_next_due_date because upstream blanks the date whenever an end date is set (`or next_due_date`, asset_maintenance.py:128). Propose changing that clause to `or (next_due_date and getdate(next_due_date) > getdate(end_date))` and computing next_due_date in AssetMaintenance.validate; then `due` can call upstream's function."
+		"Upstream now fixed the end-date clause and works the date out in validate for a task with none. Propose it also works the date out again when a task's dates change; then `due` drops."
 	),
 	'A service moved past today is no longer late': (
 		'before_validate puts Overdue back to Planned when due_date is not past. Propose AssetMaintenanceLog.validate do the reverse itself (Overdue -> Planned when due_date >= today), a two-line change at asset_maintenance_log.py:45.'
@@ -3108,9 +3094,6 @@ ASKS = {
 	),
 	"A picker of record types leaves out those only apps turned off list": (
 		'Ours wraps search_link to add a name filter when picking a DocType. Propose search_widget take its DocType exclusions from a hook (beside get_disabled_modules) so an app can hide record types from pickers without wrapping search_link; ours drops.'
-	),
-	"An employee's Create Assignments menu asks only of what the reader may read": (
-		'Ours copies hrms\'s masters dict and adds frappe.has_permission(doctype, "read") before get_list. Propose hrms add the same has_permission guard in employee_master.get_assignable_masters (one condition); then the override and MASTERS copy drop.'
 	),
 	'A rolled-back naming rule leaves the cache too': (
 		'naming._write registers frappe.db.after_rollback.add(_forget) to clear the Document Naming Rule doctype map. Propose DocumentNamingRule.clear_doctype_map also register itself on after_rollback (same for any doctype-map cache); ours drops then.'
@@ -3189,9 +3172,6 @@ ASKS = {
 	),
 	'The timesheet timer is ours': (
 		"Ours removes their Start/Resume Timer by label and draws its own timer, so a renamed label would show both. Propose that erpnext's timesheet.js resume only a row with from_time and no to_time, and that Complete not overwrite an existing to_time. Keep ours until then."
-	),
-	'The timer stamps one clock': (
-		"Propose that erpnext's public/js/projects/timer.js stamp with frappe.datetime.now_datetime() (site tz) instead of get_datetime_as_string() (browser tz), matching what it measures against. Together with row 143 this would let timesheet.js's timer go."
 	),
 	'A tax report opens on a period rather than a red box': (
 		"Propose that hrms's income_tax_computation.js and accrued_earnings_report.js default payroll_period to the period containing today (one get_value on Payroll Period). Then 'Payroll Period' can leave PERIODS in reports.js, and with row 182 the whole the_period wrapper of QueryReport.setup_filters could go."

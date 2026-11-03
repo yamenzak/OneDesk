@@ -31,7 +31,8 @@ ROOT = Path(__file__).resolve().parent.parent
 RECORD = ROOT / "upstream.json"
 NOTES = ROOT / "docs" / "upstream"
 BENCH = Path(__file__).resolve().parents[2]
-SITE = os.environ.get("ONE_SITE", "onedesk.localhost")
+SITE = os.environ.get("ONE_SITE", "all")
+BUILD = ROOT / "deploy" / "local" / "build.sh"
 
 APPS = ("frappe", "erpnext", "hrms")
 REMOTE, BRANCH = "upstream", "develop"
@@ -318,7 +319,11 @@ def latest_note() -> Path | None:
 
 
 def update(note: Path) -> None:
-	"""Move each app to the note's commits, then bring the site along.
+	"""Move each app to the note's commits, then bring every site along.
+
+	`ONE_SITE` names one site instead. The build goes through
+	`deploy/local/build.sh` where there is one, which stops the dev server's
+	bench while it builds rather than running it out of memory.
 
 	Each step runs as the bench's user. `ONE_BENCH_ENV` names a shell file
 	sourced before each one, with the Node, certificate bundle and proxy the
@@ -338,7 +343,8 @@ def update(note: Path) -> None:
 		subprocess.run(["chown", "-R", "frappe:frappe", *owned], check=True)
 	steps = [f"cd {bench} && bench --site {SITE} backup"]
 	steps += [f"git -C {BENCH / app} merge --ff-only {one['to']}" for app, one in meta.items()]
-	steps += [f"cd {bench} && bench setup requirements", f"cd {bench} && bench --site {SITE} migrate", f"cd {bench} && bench build"]
+	build = f"bash {BUILD}" if BUILD.exists() else "bench build"
+	steps += [f"cd {bench} && bench setup requirements", f"cd {bench} && bench --site {SITE} migrate", f"cd {bench} && {build}"]
 	for step in steps:
 		print(f"$ {step}", flush=True)
 		if subprocess.run(run(step)).returncode:
@@ -408,7 +414,8 @@ def main() -> int:
 
 	if opts.fetch:
 		for app in APPS:
-			git(app, "fetch", REMOTE, BRANCH)
+			deep = ["--unshallow"] if git(app, "rev-parse", "--is-shallow-repository") == "true" else []
+			git(app, "fetch", *deep, REMOTE, BRANCH)
 			print(f"{app}: {REMOTE}/{BRANCH} at {head(app, f'{REMOTE}/{BRANCH}')[:10]}")
 		return 0
 	if opts.draft:

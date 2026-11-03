@@ -164,15 +164,15 @@ def onehr_a_colleagues_record_opens_for_whoever_may_read_it():
 	Structure: it opens without a permission error and offers him nothing to
 	assign. Mariam, who assigns them, is offered the salary structures there
 	are."""
-	from onedesk.one_hr import employee
+	from hrms.overrides.employee_master import get_assignable_masters
 
 	company = frappe.db.get_value("Employee", _employee("Mariam"), "company")
 	with as_user("karim@one.test"):
 		assert not frappe.has_permission("Leave Policy", "read")
 		assert not frappe.has_permission("Salary Structure", "read")
-		assert not any(employee.get_assignable_masters(company).values())
+		assert not any(get_assignable_masters(company).values())
 	with as_user("mariam@one.test"):
-		assert employee.get_assignable_masters(company)["Salary Structure"] is True
+		assert get_assignable_masters(company)["Salary Structure"] is True
 
 
 @check

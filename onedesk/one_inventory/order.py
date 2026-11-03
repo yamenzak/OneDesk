@@ -13,9 +13,12 @@ from onedesk.one_inventory.item import last_bought
 
 def quantity(level: float, reorder_qty: float, projected: float) -> float:
 	"""How many to order of an item at or below its level: its reorder
-	quantity, or enough to bring it back to the level if that is more —
-	ERPNext's own rule. Pure."""
-	return max(flt(reorder_qty), flt(level) - flt(projected))
+	quantity, and what it is short of the level on top when the reorder
+	quantity alone would not bring it back — ERPNext's own rule. Pure."""
+	level, reorder_qty, projected = flt(level), flt(reorder_qty), flt(projected)
+	if projected + reorder_qty <= level:
+		return reorder_qty + level - projected
+	return reorder_qty
 
 
 def left(asked: float, ordered: float, held: float) -> float:

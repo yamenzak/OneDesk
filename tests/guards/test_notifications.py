@@ -94,7 +94,7 @@ def test_nothing_declares_a_notification_anywhere_else():
 KEYS = {
 	"name", "app", "about", "subject", "message", "roles", "email", "push", "email_default",
 	"push_default", "outside", "required", "always_mailed", "words", "rule", "mailed_by", "switch",
-	"replaces", "starts_as", "to", "button", "from_one", "follows", "oneai", "notification",
+	"replaces", "replaces_rules", "starts_as", "to", "button", "from_one", "follows", "oneai", "notification",
 }  # fmt: skip
 
 
@@ -117,6 +117,8 @@ def test_every_type_says_what_it_needs():
 			*filter(None, [one.get("switch"), one.get("starts_as")]),
 		]:
 			assert doctype.endswith("Settings") and field, name
+		for rule in one.get("replaces_rules") or ():
+			assert isinstance(rule, str) and rule and not rule.endswith("Settings"), name
 
 
 def test_every_type_says_when_and_to_whom_the_same_way():

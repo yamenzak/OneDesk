@@ -90,8 +90,15 @@ def _content(doc) -> None:
 	doc.format_data = json.dumps(data)
 
 
+def _no_globals() -> None:
+	frappe.throw(_("Print formats here set no global variables. An HTML block reads the record itself."))
+
+
 def _layout(data, doctype: str | None, name: str) -> None:
-	"""Every block of a builder layout is one of frappe's escaped macros."""
+	"""Every block of a builder layout is one of frappe's escaped macros, and the
+	layout sets no global variables, which frappe renders as its own Jinja."""
+	if isinstance(data, dict) and data.get("global_variables"):
+		_no_globals()
 	rich = _rich_fields(doctype) if doctype else set()
 	for block in _blocks(data):
 		where = block.get("label") or name
@@ -174,16 +181,19 @@ def _known(template: str) -> bool:
 
 
 @frappe.whitelist()
-def render_jinja_template(template: str, doctype: str, docname: str) -> str:
+def render_jinja_template(template: str, doctype: str, docname: str, global_variables: str | None = None) -> str:
 	"""frappe's canvas preview of a Jinja template, which frappe keeps to its System
 	Managers since a template is code. The ones frappe wrote are previewed for
 	whoever may print the record, and a workspace's HTML block as it will print
-	(print_html.render); anything else goes to frappe's, which refuses."""
+	(print_html.render), with no global variables; anything else goes to
+	frappe's, which refuses."""
 	from frappe.utils import print_format_generator
 
 	held = layer.held()
 	if not _known(template) and not held:
-		return print_format_generator.render_jinja_template(template, doctype, docname)
+		return print_format_generator.render_jinja_template(template, doctype, docname, global_variables)
+	if global_variables:
+		_no_globals()
 	doc = frappe.get_doc(doctype, docname)
 	doc.check_permission("print")
 	if not _known(template):
@@ -463,7 +473,7 @@ def new_format(
 			_hold_copy(doc)
 	else:
 		doc = frappe.new_doc("Print Format")
-		doc.update({"doc_type": doctype, "print_format_builder_beta": 1})
+		doc.update({"doc_type": doctype, "print_format_builder_beta": 1, "pdf_generator": "chrome"})
 	doc.set("__newname", name)
 	doc.insert()
 	return doc.name
@@ -563,6 +573,7 @@ def format_doc(
 			"standard": "No",
 			"print_format_for": "DocType",
 			"print_format_builder_beta": 1,
+			"pdf_generator": "chrome",
 			"format_data": json.dumps(layout),
 			"css": css or None,
 		}
@@ -644,6 +655,7 @@ def proposal_preview(proposal: Annotated[str, "An AI Proposal of kind Printing."
 				"standard": "No",
 				"print_format_for": "DocType",
 				"print_format_builder_beta": 1,
+				"pdf_generator": "chrome",
 				"format_data": made["format_data"],
 				"css": made.get("css"),
 			}

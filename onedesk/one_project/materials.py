@@ -65,11 +65,8 @@ def returned(projects: list[str]) -> float:
 
 
 class OneProject(EmployeeProject):
-	"""The project's purchase and material costs, each counted once."""
-
-	def update_purchase_costing(self):
-		super().update_purchase_costing()
-		self.total_purchase_cost = flt(self.total_purchase_cost) - into_store([self.name])
+	"""The project's material cost, less what came back to the store.
+	ERPNext's purchase cost already leaves out what went into a store."""
 
 	def set_consumed_material_cost(self):
 		super().set_consumed_material_cost()

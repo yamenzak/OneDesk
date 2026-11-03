@@ -28,6 +28,7 @@ KEYS = (
 	"mailed_by",
 	"switch",
 	"replaces",
+	"replaces_rules",
 	"starts_as",
 )
 
@@ -124,6 +125,8 @@ def _value(key: str, value: str):
 		return tuple(value.split(".", 1))
 	if key == "replaces":
 		return tuple(tuple(one.strip().split(".", 1)) for one in value.split(","))
+	if key == "replaces_rules":
+		return tuple(one.strip() for one in value.split(","))
 	return value
 
 
@@ -142,6 +145,8 @@ def write(one: dict) -> str:
 			value = ".".join(value)
 		elif key == "replaces":
 			value = ", ".join(".".join(pair) for pair in value)
+		elif key == "replaces_rules":
+			value = ", ".join(value)
 		lines.append(f"{key}: {value}")
 	lines.append("---")
 	if one.get("subject"):

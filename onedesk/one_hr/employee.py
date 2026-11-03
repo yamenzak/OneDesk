@@ -329,30 +329,6 @@ def _next_payday(doc) -> str | None:
 	return add_days(last[0]["end_date"], 1) if last else None
 
 
-MASTERS = {
-	"Leave Policy": {"docstatus": 1},
-	"Salary Structure": {"docstatus": 1, "is_active": "Yes"},
-	"Shift Schedule": {"docstatus": 1},
-}
-
-
-@frappe.whitelist()
-def get_assignable_masters(company: str) -> dict[str, bool]:
-	"""HRMS's question, asked only of what the reader may read: a master they
-	may not read answers no, where HRMS's own refuses the whole question and
-	the record opens on a permission error."""
-	return {
-		doctype: bool(
-			frappe.has_permission(doctype, "read")
-			and frappe.get_list(
-				doctype,
-				filters={**filters, **({"company": company} if doctype == "Salary Structure" else {})},
-				limit=1,
-				pluck="name",
-			)
-		)
-		for doctype, filters in MASTERS.items()
-	}
 
 
 def dashboard(data):

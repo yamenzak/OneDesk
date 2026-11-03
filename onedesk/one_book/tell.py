@@ -8,34 +8,34 @@ from onedesk.one import notify
 
 
 @frappe.whitelist()
-def credit_limit(
-	customer: str, customer_outstanding: float, credit_limit: float, credit_controller_users_list: str | list
-):
+def credit_limit(customer: str, company: str):
 	"""ERPNext's `customer.send_emails`, which the credit limit dialog calls:
-	the credit controllers are told in One rather than mailed. Who they are
-	and what the customer owes are read here, as erpnext's check reads them;
-	the dialog's own list and figures are not trusted, since anybody who may
-	mail a customer can call this."""
-	from erpnext.selling.doctype.customer.customer import get_credit_limit, get_customer_outstanding
+	the credit controllers are told in One rather than mailed, with what the
+	customer owes the company in the company's currency, read as ERPNext's
+	own check reads it."""
+	from erpnext import get_company_currency
+	from erpnext.selling.doctype.customer.customer import (
+		get_credit_controller_users,
+		get_credit_limit,
+		get_customer_outstanding,
+		is_sales_order_credit_check_bypassed,
+	)
 	from frappe.utils import get_fullname
-	from frappe.utils.user import get_users_with_role
 
 	frappe.has_permission("Customer", ptype="email", doc=customer, throw=True)
-	company = frappe.defaults.get_user_default("company") or frappe.defaults.get_global_default("company")
+	frappe.has_permission("Company", doc=company, throw=True)
 	limit = get_credit_limit(customer, company)
 	if not limit:
 		return
-	role = frappe.db.get_single_value("Accounts Settings", "credit_controller") or "Sales Master Manager"
-	currency = frappe.db.get_value("Customer", customer, "default_currency") or frappe.db.get_default(
-		"currency"
-	)
+	currency = get_company_currency(company)
+	outstanding = get_customer_outstanding(customer, company, is_sales_order_credit_check_bypassed(customer, company))
 	notify.notify(
 		"Credit Limit Crossed",
-		get_users_with_role(role),
+		get_credit_controller_users(),
 		record=("Customer", customer),
 		customer=frappe.db.get_value("Customer", customer, "customer_name") or customer,
 		by=get_fullname(frappe.session.user),
-		outstanding=fmt_money(get_customer_outstanding(customer, company), currency=currency),
+		outstanding=fmt_money(outstanding, currency=currency),
 		limit=fmt_money(limit, currency=currency),
 	)
 
