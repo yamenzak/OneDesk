@@ -97,3 +97,17 @@ def test_every_operator_verb_is_gated():
 			if isinstance(one, ast.Call) and isinstance(one.func, ast.Name)
 		}
 		assert "_may" in calls, f"{node.name} is whitelisted and does not call _may()"
+
+
+def test_nobody_on_a_workspace_is_given_frappes_flow_or_studio():
+	"""frappe's Flow and Studio run code nobody checked and AI on the site's own
+	keys (one/atlas.py, FLOW and FRAPPE_STUDIO); they stay off a workspace only
+	while none of One's files hands out their roles."""
+	given = [
+		path.relative_to(tree.APP)
+		for path in tree.APP.rglob("*")
+		if path.suffix in (".py", ".json")
+		and path.is_file()
+		and ('"Flow User"' in (text := path.read_text(encoding="utf-8", errors="ignore")) or '"Studio User"' in text)
+	]
+	assert not given, given

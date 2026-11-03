@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 13:04+0000\n"
+"POT-Creation-Date: 2026-11-03 15:29+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -21275,7 +21275,6 @@ msgstr "استمع إلى خطة الربع القادم واطرح أسئلتك
 #. Label of the one_height (Float) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Label of the one_height (Float) field in DocType 'Blanket Order Item'
-#. Label of the one_height (Float) field in DocType 'BOM Creator Item'
 #. Label of the one_height (Float) field in DocType 'BOM Item'
 #. Label of the one_height (Float) field in DocType 'BOM Secondary Item'
 #. Label of the one_height (Float) field in DocType 'Delivery Note Item'
@@ -21315,7 +21314,6 @@ msgstr "استمع إلى خطة الربع القادم واطرح أسئلتك
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:40
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:55
 #: onedesk/one_inventory/custom/blanket_order_item.json:55
-#: onedesk/one_inventory/custom/bom_creator_item.json:55
 #: onedesk/one_inventory/custom/bom_item.json:55
 #: onedesk/one_inventory/custom/bom_secondary_item.json:55
 #: onedesk/one_inventory/custom/delivery_note_item.json:55
@@ -26115,7 +26113,6 @@ msgstr "إصدار مستند قانوني"
 #. Label of the one_length (Float) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Label of the one_length (Float) field in DocType 'Blanket Order Item'
-#. Label of the one_length (Float) field in DocType 'BOM Creator Item'
 #. Label of the one_length (Float) field in DocType 'BOM Item'
 #. Label of the one_length (Float) field in DocType 'BOM Secondary Item'
 #. Label of the one_length (Float) field in DocType 'Delivery Note Item'
@@ -26151,7 +26148,6 @@ msgstr "إصدار مستند قانوني"
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:27
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:31
 #: onedesk/one_inventory/custom/blanket_order_item.json:31
-#: onedesk/one_inventory/custom/bom_creator_item.json:31
 #: onedesk/one_inventory/custom/bom_item.json:31
 #: onedesk/one_inventory/custom/bom_secondary_item.json:31
 #: onedesk/one_inventory/custom/delivery_note_item.json:31
@@ -37442,7 +37438,6 @@ msgstr "بالقطعة"
 #. Label of the one_pieces (Int) field in DocType 'Asset Capitalization Service
 #. Item'
 #. Label of the one_pieces (Int) field in DocType 'Blanket Order Item'
-#. Label of the one_pieces (Int) field in DocType 'BOM Creator Item'
 #. Label of the one_pieces (Int) field in DocType 'BOM Item'
 #. Label of the one_pieces (Int) field in DocType 'BOM Secondary Item'
 #. Label of the one_pieces (Int) field in DocType 'Delivery Note Item'
@@ -37472,7 +37467,6 @@ msgstr "بالقطعة"
 #. Label of the one_pieces (Int) field in DocType 'Work Order Additional Item'
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:18
 #: onedesk/one_inventory/custom/blanket_order_item.json:18
-#: onedesk/one_inventory/custom/bom_creator_item.json:18
 #: onedesk/one_inventory/custom/bom_item.json:18
 #: onedesk/one_inventory/custom/bom_secondary_item.json:18
 #: onedesk/one_inventory/custom/delivery_note_item.json:18
@@ -46180,7 +46174,6 @@ msgstr "ستة أماكن لشعارات رعاتك."
 #. Label of the one_size (Data) field in DocType 'Asset Capitalization Service
 #. Item'
 #. Label of the one_size (Data) field in DocType 'Blanket Order Item'
-#. Label of the one_size (Data) field in DocType 'BOM Creator Item'
 #. Label of the one_size (Data) field in DocType 'BOM Item'
 #. Label of the one_size (Data) field in DocType 'BOM Secondary Item'
 #. Label of the one_size (Data) field in DocType 'Delivery Note Item'
@@ -46264,7 +46257,6 @@ msgstr "ستة أماكن لشعارات رعاتك."
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:67
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:79
 #: onedesk/one_inventory/custom/blanket_order_item.json:79
-#: onedesk/one_inventory/custom/bom_creator_item.json:79
 #: onedesk/one_inventory/custom/bom_item.json:79
 #: onedesk/one_inventory/custom/bom_secondary_item.json:79
 #: onedesk/one_inventory/custom/delivery_note_item.json:79
@@ -46327,7 +46319,6 @@ msgstr "الحجم"
 #. Label of the one_size_uom (Link) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Label of the one_size_uom (Link) field in DocType 'Blanket Order Item'
-#. Label of the one_size_uom (Link) field in DocType 'BOM Creator Item'
 #. Label of the one_size_uom (Link) field in DocType 'BOM Item'
 #. Label of the one_size_uom (Link) field in DocType 'BOM Secondary Item'
 #. Label of the one_size_uom (Link) field in DocType 'Delivery Note Item'
@@ -46361,7 +46352,6 @@ msgstr "الحجم"
 #: frontend/src/inventory/item/ItemOverview.vue:110
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:68
 #: onedesk/one_inventory/custom/blanket_order_item.json:68
-#: onedesk/one_inventory/custom/bom_creator_item.json:68
 #: onedesk/one_inventory/custom/bom_item.json:68
 #: onedesk/one_inventory/custom/bom_secondary_item.json:68
 #: onedesk/one_inventory/custom/delivery_note_item.json:68
@@ -46394,7 +46384,7 @@ msgstr "الحجم"
 msgid "Size Unit"
 msgstr "وحدة المقاس"
 
-#: onedesk/one_inventory/measure.py:142
+#: onedesk/one_inventory/measure.py:141
 #, python-brace-format
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr "لا يمكن كتابة المقاسات بوحدة {0}. اختر وحدة طول: مليمتر، سنتيمتر، بوصة."
@@ -46636,7 +46626,6 @@ msgstr "بيع بسعر {0} إلى {1} في {2}"
 #. Label of the one_measured_by (Data) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Label of the one_measured_by (Data) field in DocType 'Blanket Order Item'
-#. Label of the one_measured_by (Data) field in DocType 'BOM Creator Item'
 #. Label of the one_measured_by (Data) field in DocType 'BOM Item'
 #. Label of the one_measured_by (Data) field in DocType 'BOM Secondary Item'
 #. Label of the one_measured_by (Data) field in DocType 'Delivery Note Item'
@@ -46669,7 +46658,6 @@ msgstr "بيع بسعر {0} إلى {1} في {2}"
 #: frontend/src/inventory/item/ItemOverview.vue:109
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:6
 #: onedesk/one_inventory/custom/blanket_order_item.json:6
-#: onedesk/one_inventory/custom/bom_creator_item.json:6
 #: onedesk/one_inventory/custom/bom_item.json:6
 #: onedesk/one_inventory/custom/bom_secondary_item.json:6
 #: onedesk/one_inventory/custom/delivery_note_item.json:6
@@ -55360,7 +55348,7 @@ msgstr "فئة الوحدة"
 msgid "Unit Price"
 msgstr "سعر الوحدة"
 
-#: onedesk/one_inventory/measure.py:181
+#: onedesk/one_inventory/measure.py:180
 #, python-brace-format
 msgid "Unit {0} can't be counted in {1}. Pick a unit that converts, or add it to the item's units."
 msgstr "لا يمكن حساب الوحدة {0} بـ {1}. اختر وحدة قابلة للتحويل، أو أضفها إلى وحدات الصنف."
@@ -57830,7 +57818,6 @@ msgstr "اسم المجلد في OneCloud."
 #. Description of the 'Size Unit' (Link) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Blanket Order Item'
-#. Description of the 'Size Unit' (Link) field in DocType 'BOM Creator Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'BOM Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'BOM Secondary Item'
 #. Description of the 'Size Unit' (Link) field in DocType 'Delivery Note Item'
@@ -57863,7 +57850,6 @@ msgstr "اسم المجلد في OneCloud."
 #. Additional Item'
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:74
 #: onedesk/one_inventory/custom/blanket_order_item.json:74
-#: onedesk/one_inventory/custom/bom_creator_item.json:74
 #: onedesk/one_inventory/custom/bom_item.json:74
 #: onedesk/one_inventory/custom/bom_secondary_item.json:74
 #: onedesk/one_inventory/custom/delivery_note_item.json:74
@@ -60744,7 +60730,6 @@ msgstr "الأدوات"
 #. Label of the one_width (Float) field in DocType 'Asset Capitalization
 #. Service Item'
 #. Label of the one_width (Float) field in DocType 'Blanket Order Item'
-#. Label of the one_width (Float) field in DocType 'BOM Creator Item'
 #. Label of the one_width (Float) field in DocType 'BOM Item'
 #. Label of the one_width (Float) field in DocType 'BOM Secondary Item'
 #. Label of the one_width (Float) field in DocType 'Delivery Note Item'
@@ -60782,7 +60767,6 @@ msgstr "الأدوات"
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:33
 #: onedesk/one_inventory/custom/asset_capitalization_service_item.json:43
 #: onedesk/one_inventory/custom/blanket_order_item.json:43
-#: onedesk/one_inventory/custom/bom_creator_item.json:43
 #: onedesk/one_inventory/custom/bom_item.json:43
 #: onedesk/one_inventory/custom/bom_secondary_item.json:43
 #: onedesk/one_inventory/custom/delivery_note_item.json:43

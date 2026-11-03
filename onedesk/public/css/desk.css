@@ -954,29 +954,6 @@ body[data-one-held] #page-workflow-builder .field:has(> [data-fieldname="evaluat
 	}
 }
 
-.one-chart-legend {
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	gap: 6px 18px;
-	padding: 0 16px 16px;
-	font-size: var(--text-sm);
-	color: var(--ink-gray-8);
-}
-.one-chart-legend-item {
-	display: inline-flex;
-	align-items: center;
-	gap: 6px;
-}
-.one-chart-legend-dot {
-	width: 8px;
-	height: 8px;
-	border-radius: var(--radius-full);
-}
-.one-chart-legend-count {
-	color: var(--ink-gray-6);
-}
-
 .navbar-breadcrumbs li.one-crumb-switch {
 	cursor: pointer;
 	min-width: 0;

@@ -1446,7 +1446,7 @@ OVERRIDES = [
 	),
 	(
 		"Leave's own mails are silent: Leave Application Cancelled",
-		"HRMS mails leave through its standard Notification Leave Application Cancelled; Leave Cancelled tells the same people, declares it in replaces_rules, and notify._settle turns it off after every migrate",
+		"HRMS mails leave through its standard Notification Leave Application Cancelled, to the employee; Leave Answered tells them it was cancelled, declares it in replaces_rules, and notify._settle turns it off after every migrate",
 		"onedesk/one_hr/notifications.py",
 		"hrms/hrms/hr/notification/leave_application_cancelled/leave_application_cancelled.json",
 		'"name": "Leave Application Cancelled",',
@@ -2642,6 +2642,13 @@ OVERRIDES = [
 		'URL_PREFIXES = ("http://", "https://", "/api/method/")',
 	),
 	(
+		"The sign-in and export logs show a workspace administrator what the Audit Log does",
+		"frappe keeps Activity Log and Access Log in its SQLite log store, whose list runs no permission query; one/audit_logs.py subclasses both controllers and adds audit's limits as filters to get_list and get_count",
+		"onedesk/one/audit_logs.py",
+		"frappe/frappe/utils/sqlite_document.py",
+		"query = db._get_query(",
+	),
+	(
 		"File reads a stored file's content from R2",
 		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
 		"onedesk/one_storage/file.py",
@@ -2909,7 +2916,7 @@ OVERRIDES = [
 	),
 	(
 		"A chart's colours say what each slice is",
-		"chart_colors.js wraps the chart widget's get_chart_args to colour each label by what it means and draw the legend for pie and donut charts",
+		"chart_colors.js wraps the chart widget's get_chart_args to colour each label by what it means; frappe-ui's chart draws the legend in those colours",
 		"onedesk/public/js/chart_colors.js",
 		"frappe/frappe/public/js/frappe/widgets/chart_widget.js",
 		"get_chart_args() {",
@@ -3049,6 +3056,9 @@ ASKS = {
 	),
 	'A finished asset depreciates from the end of the month it was bought': (
 		"finish() blanks depreciation_start_date after set_missing_values so Asset.validate's get_last_day(available_for_use_date) default (asset.py:627) applies. Propose get_item_details' finance book rows use d.depreciation_start_date without `or nowdate()` (asset.py:1131); then the blanking goes."
+	),
+	"The sign-in and export logs show a workspace administrator what the Audit Log does": (
+		"Propose that SQLiteLogDocument.get_list and get_count apply the doctype's permission_query_conditions hook as filters, the way db_query does for a table; then audit_logs.py drops and audit.py's two queries come back."
 	),
 	'A maintenance task with an end date is due': (
 		"Upstream now fixed the end-date clause and works the date out in validate for a task with none. Propose it also works the date out again when a task's dates change; then `due` drops."

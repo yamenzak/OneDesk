@@ -109,3 +109,4 @@ onedesk.one_task.patches.no_task_page
 onedesk.one_display.patches.weather_on_places
 onedesk.one_display.patches.news_from_feeds
 onedesk.one_interface.patches.settings_keep_their_name
+onedesk.one_inventory.patches.bom_creator_not_measured

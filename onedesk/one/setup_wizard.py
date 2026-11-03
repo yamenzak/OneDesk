@@ -155,19 +155,32 @@ def _weekends() -> dict:
 
 
 def _holiday_list(company: str | None, weekly_offs: list[str]) -> str | None:
-	"""This year's list: the week's days off, plus the country's public
-	holidays (one/holidays.py, `make`), put in force for the company. HRMS's
-	own stage, which runs first, has already made one with the country's
-	usual days off; it goes, so the days chosen here are the ones kept."""
+	"""The company's first list, put in force. HRMS's own setup stage, which
+	runs first, makes it for the company's first financial year with the
+	country's usual days off; here it takes the days off chosen on the
+	working-day slide, and its public holidays named in the reader's language
+	(one_hr/holidays.py, `local`). Without HRMS's, this year's is made."""
 	if not company:
 		return None
 	from onedesk.one_hr import holidays
 
-	made = frappe.db.get_value("Company", company, "default_holiday_list")
-	if made:
-		frappe.db.set_value("Company", company, "default_holiday_list", None)
-		frappe.delete_doc("Holiday List", made, ignore_permissions=True, force=True)
-	name = holidays.make(company, getdate(nowdate()).year, weekly_offs, _country_code(company))
+	name = frappe.db.get_value("Company", company, "default_holiday_list")
+	if not name:
+		name = holidays.make(company, getdate(nowdate()).year, weekly_offs, _country_code(company))
+	else:
+		doc = frappe.get_doc("Holiday List", name)
+		country = doc.country or _country_code(company)
+		if country:
+			try:
+				named = holidays.local(country, doc.subdivision, doc.from_date, doc.to_date)
+				doc.set("holidays", [one for one in doc.holidays if one.weekly_off])
+				for one in named:
+					doc.append("holidays", {**one, "weekly_off": 0})
+			except Exception:
+				frappe.log_error(f"public holidays for {country}")
+		holidays.set_days_off(doc, weekly_offs)
+		doc.flags.ignore_permissions = True
+		doc.save()
 	holidays.assign(name, company)
 	return name
 

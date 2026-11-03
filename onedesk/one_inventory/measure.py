@@ -43,7 +43,6 @@ LINES = (
 	"Stock Entry Detail",
 	"Stock Reconciliation Item",
 	"BOM Item",
-	"BOM Creator Item",
 	"BOM Secondary Item",
 	"Work Order Additional Item",
 	"Subcontracting Order Item",
