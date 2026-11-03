@@ -1770,17 +1770,6 @@ action that caps its output tokens against a model priced per picture has
 simply capped something that does not apply. The hold covers what could be
 priced, and the settle is where an unmeterable call is caught.
 
-### search.py
-
-Search on Cloudflare's AI Search for a workspace (docs/AICENTER.md, Search):
-`find` asks the workspace's instance by keyword or by meaning (hybrid and
-reranked), bills it at Cloudflare's price per search, and returns each hit's
-key, text and score. An instance is one per workspace, named by `name_for`,
-with its R2 data source on the workspace's prefix and its path filter on
-`search/**`; none is made here. Made by hand, it is recorded with `adopt`,
-and a workspace without one is refused with `NoSearch` and searches as it
-did (`proxy.ai_search_state`, `proxy.ai_search`).
-
 ### web.py
 
 Web search for a workspace (docs/AICENTER.md, Web search): `find` asks
@@ -2103,6 +2092,13 @@ works out the key and signs a URL; the browser then talks to R2 directly and
 not one byte passes through this process. Doing it the other way would put
 every tenant's uploads through one Frappe site with four workers, and that is
 the first thing that would fall over.
+
+**A workspace's search index is the one exception to signing a URL a file
+at a time:** LanceDB lists and writes the objects of its table itself, so
+`search_access` lends the workspace a key instead: Cloudflare's temporary R2
+credentials, object read and write on `<prefix>search/` alone, for an hour,
+made from the storage key with the account's API token. It counts toward the
+workspace's storage like any of its files.
 
 **Two buckets, Global and EU, and a prefix per tenant.** Jurisdiction is chosen
 once at signup and is permanent — R2 pins a bucket to it at creation, so moving

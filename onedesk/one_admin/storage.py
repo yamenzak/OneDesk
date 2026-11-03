@@ -70,6 +70,67 @@ def get_url(tenant, key: str, filename: str | None = None, inline: bool = True) 
 	return {"url": signed, "key": full, "expires_in": GOOD_FOR}
 
 
+#: Where a workspace's search index lives, under its own prefix, and how long
+#: the key it is lent for it lasts.
+SEARCH = "search/"
+SEARCH_KEY_LASTS = 60 * 60
+CREDENTIALS = "https://api.cloudflare.com/client/v4/accounts/{account}/r2/temp-access-credentials"
+
+
+def search_access(tenant) -> dict:
+	"""A key to the workspace's search index on R2, good for an hour and for
+	its own `search/` prefix alone: LanceDB lists and writes objects there
+	itself, which a signed URL a file at a time cannot do. Cloudflare's
+	temporary credentials, made from the storage key this account holds."""
+	import requests
+
+	from onedesk.one_admin import faults
+
+	stored = frappe.get_cached_doc("One Admin Settings")
+	account = frappe.conf.get("cloudflare_account") or stored.cloudflare_account
+	token = frappe.conf.get("cloudflare_token") or stored.get_password("cloudflare_token", raise_exception=False)
+	key_id = frappe.conf.get("r2_key_id") or stored.r2_key_id
+	if not (account and token and key_id):
+		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
+	bucket = _bucket(tenant.jurisdiction)
+	prefix = keys.prefix(tenant.name) + SEARCH
+	headers = {"Authorization": f"Bearer {token}"}
+	if tenant.jurisdiction == "EU":
+		headers["cf-r2-jurisdiction"] = "eu"
+	try:
+		answered = requests.post(
+			CREDENTIALS.format(account=account),
+			headers=headers,
+			json={
+				"bucket": bucket,
+				"parentAccessKeyId": key_id,
+				"permission": "object-read-write",
+				"prefixes": [prefix],
+				"ttlSeconds": SEARCH_KEY_LASTS,
+			},
+			timeout=20,
+		)
+	except requests.RequestException as reason:
+		raise faults.Again(f"cloudflare did not answer: {reason}") from reason
+	if answered.status_code != 200:
+		raise faults.raised("r2 credentials", answered.status_code, answered.text[: faults.KEPT])
+	said = answered.json().get("result") or {}
+	endpoint = frappe.conf.get("r2_endpoint") or HOSTS[tenant.jurisdiction if tenant.jurisdiction in HOSTS else "Global"].format(
+		account=account
+	)
+	return {
+		"uri": f"s3://{bucket}/{prefix}lance",
+		"options": {
+			"aws_access_key_id": said.get("accessKeyId"),
+			"aws_secret_access_key": said.get("secretAccessKey"),
+			"aws_session_token": said.get("sessionToken"),
+			"aws_endpoint": endpoint,
+			"aws_region": REGION,
+		},
+		"expires_in": SEARCH_KEY_LASTS,
+	}
+
+
 def disposition(filename: str, inline: bool = True) -> str:
 	"""A Content-Disposition naming the file, for every browser: an ASCII
 	fallback and the real name in RFC 5987 form. Pure."""

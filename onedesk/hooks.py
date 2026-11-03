@@ -186,6 +186,7 @@ scheduler_events = {
 		],
 	},
 	"daily": [
+		"onedesk.one_ai.vectors.tidy",
 		"onedesk.one_sheet.versions.tidy",
 		"onedesk.one_doc.versions.tidy",
 		"onedesk.one_account.devices.forget",

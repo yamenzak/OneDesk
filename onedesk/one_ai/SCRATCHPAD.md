@@ -5,12 +5,6 @@ answered leaves it.
 
 ## Built, not released
 
-- **Search on AI Search** is built and switched off: no workspace has an
-  instance, so nothing is written to R2. Releasing it means a Cloudflare AI
-  Search instance per workspace (billed from 2026-11-01), its R2 data
-  source on the workspace's prefix with the path filter `search/**`, then
-  `onedesk.one_admin.search.adopt(tenant)`, and the agreements saying
-  copies of what is searched sit at Cloudflare first.
 - **Web search** is built and off until an administrator turns it on in
   TrustCenter. Releasing it needs AI Gateway credits or an Exa key in the
   gateway's Provider Keys (alias `default`); the one call tried answered

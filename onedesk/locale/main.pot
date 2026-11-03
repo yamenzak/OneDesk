@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 16:10+0000\n"
-"PO-Revision-Date: 2026-11-03 16:10+0000\n"
+"POT-Creation-Date: 2026-11-03 16:49+0000\n"
+"PO-Revision-Date: 2026-11-03 16:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1880,7 +1880,7 @@ msgid "AI Chat"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:75
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:63
 msgid "AI Chunk"
 msgstr ""
 
@@ -9264,7 +9264,7 @@ msgstr ""
 msgid "Choose how much you see, and the calendar opens on that view next time."
 msgstr ""
 
-#: onedesk/one_mail/gate.py:340
+#: onedesk/one_mail/gate.py:343
 #, python-brace-format
 msgid "Choose one of {0}."
 msgstr ""
@@ -9826,7 +9826,7 @@ msgstr ""
 msgid "Cloudflare"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:177
+#: onedesk/one_admin/setup.py:176
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
@@ -14339,7 +14339,7 @@ msgid "Difference Amount"
 msgstr ""
 
 #. Label of the digest (Data) field in DocType 'AI Chunk'
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:56
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:49
 msgid "Digest"
 msgstr ""
 
@@ -16827,11 +16827,11 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:744
+#: onedesk/one_admin/setup.py:743
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:558
+#: onedesk/one_admin/setup.py:557
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr ""
@@ -16856,7 +16856,7 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:319
+#: onedesk/one_admin/setup.py:318
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
@@ -28643,7 +28643,7 @@ msgstr ""
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:30
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:93
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:51
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:61
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:54
 #: onedesk/one_ai/doctype/reading/reading.json:196
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:211
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:172
@@ -29461,7 +29461,7 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:376 onedesk/one_admin/setup.py:452
+#: onedesk/one_admin/setup.py:375 onedesk/one_admin/setup.py:451
 msgid "Needs the KV namespace first."
 msgstr ""
 
@@ -31322,7 +31322,7 @@ msgstr ""
 msgid "No year has ended with entries left open."
 msgstr ""
 
-#: onedesk/one_admin/storage.py:173
+#: onedesk/one_admin/storage.py:234
 #, python-brace-format
 msgid "No {0} bucket is configured."
 msgstr ""
@@ -35990,7 +35990,7 @@ msgstr ""
 #. Label of the part (Data) field in DocType 'Reading'
 #. Label in the One BOM Creator print format
 #. Label in the One Repair Record print format
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:41
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:39
 #: onedesk/one_ai/doctype/reading/reading.json:154
 #: onedesk/one_inventory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
@@ -39791,7 +39791,7 @@ msgstr ""
 msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
 msgstr ""
 
-#: onedesk/one_admin/storage.py:183
+#: onedesk/one_admin/storage.py:94 onedesk/one_admin/storage.py:244
 msgid "R2 is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
@@ -46999,7 +46999,7 @@ msgstr ""
 #: onedesk/one/doctype/news_item/news_item.json:45
 #: onedesk/one/doctype/news_source/news_source.json:48
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:88
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:33
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:31
 #: onedesk/one_crm/heads.py:323 onedesk/one_crm/heads.py:363
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:75
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
@@ -47018,7 +47018,7 @@ msgid "Source Name"
 msgstr ""
 
 #. Label of the source_doctype (Link) field in DocType 'AI Chunk'
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:25
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:23
 msgid "Source Type"
 msgstr ""
 
@@ -49014,7 +49014,7 @@ msgstr ""
 #: onedesk/one_account/doctype/device/device.json:139
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:354
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:121
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:82
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:70
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:208
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:91
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:76
@@ -50005,7 +50005,6 @@ msgstr ""
 
 #. Label of the one_text_section (Section Break) field in DocType 'Notification
 #. Type'
-#. Label of the text (Long Text) field in DocType 'AI Chunk'
 #. Label of the section_text (Section Break) field in DocType 'Reading'
 #. Label of the text (Long Text) field in DocType 'Reading'
 #. Label of the text (Small Text) field in DocType 'Display Voice'
@@ -50015,7 +50014,6 @@ msgstr ""
 #: frontend/src/slide/shim/LayersPanel.vue:111
 #: frontend/src/slide/shim/WidgetMock.vue:31
 #: onedesk/one/custom/notification_type.json:45
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:51
 #: onedesk/one_ai/doctype/reading/reading.json:533
 #: onedesk/one_display/doctype/display_voice/display_voice.json:25
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
@@ -50326,7 +50324,7 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:286
+#: onedesk/one_admin/setup.py:285
 msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -52085,12 +52083,12 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:302
+#: onedesk/one_admin/setup.py:301
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:324
+#: onedesk/one_admin/setup.py:323
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr ""
@@ -53326,7 +53324,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:628
+#: onedesk/one_admin/proxy.py:615
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -53368,7 +53366,11 @@ msgstr ""
 msgid "This workspace isn't linked to OneAdmin, so it can't add private apps."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:625
+#: onedesk/one_ai/vectors.py:28
+msgid "This workspace's search is not set up yet."
+msgstr ""
+
+#: onedesk/one_admin/proxy.py:612
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -53733,7 +53735,7 @@ msgstr ""
 #: onedesk/one/doctype/news_item/news_item.json:37
 #: onedesk/one_admin/doctype/private_app/private_app.json:33
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:26
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:46
+#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:44
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:22
 #: onedesk/one_ai/doctype/reading/reading.json:96
 #: onedesk/one_ai/reading/bundle.py:74
@@ -54881,7 +54883,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:398
+#: onedesk/one_admin/setup.py:397
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
@@ -56305,11 +56307,6 @@ msgstr ""
 #: frontend/src/inventory/item/ItemOverview.vue:18
 #: onedesk/public/js/item_actions.js:9
 msgid "Variants"
-msgstr ""
-
-#. Label of the vector (Long Text) field in DocType 'AI Chunk'
-#: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:67
-msgid "Vector"
 msgstr ""
 
 #. Label in the One Vehicle Log print format
@@ -63454,7 +63451,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:604
+#: onedesk/one_admin/setup.py:603
 msgid "deployed"
 msgstr ""
 
@@ -63817,7 +63814,7 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:487
+#: onedesk/one_admin/setup.py:486
 #, python-brace-format
 msgid "left to {0}"
 msgstr ""
@@ -63879,7 +63876,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:249
+#: onedesk/one_admin/setup.py:248
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr ""
@@ -64581,7 +64578,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:615
+#: onedesk/one_admin/setup.py:614
 msgid "unchanged"
 msgstr ""
 
@@ -66532,7 +66529,7 @@ msgstr ""
 msgid "{0} is not connecting"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:516
+#: onedesk/one_admin/setup.py:515
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr ""
@@ -68205,7 +68202,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:513
+#: onedesk/one_admin/setup.py:512
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr ""
@@ -68215,7 +68212,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:493
+#: onedesk/one_admin/setup.py:492
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr ""
@@ -68261,17 +68258,17 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:414
+#: onedesk/one_admin/setup.py:413
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:435
+#: onedesk/one_admin/setup.py:434
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:469
+#: onedesk/one_admin/setup.py:468
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""

@@ -5,14 +5,11 @@ The pure parts are lifted out and run here: how text is cut, how a vector
 is kept, how the nearest are found, how the words' list and the meaning's
 list become one, and how each provider's answer is read."""
 
-import array
 import ast
-import base64
 import hashlib
 import json
 import math
 import sys
-from operator import mul
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "scripts"))
@@ -40,8 +37,8 @@ def _lifted(where: Path, names: tuple, room: dict) -> dict:
 def _index():
 	return _lifted(
 		INDEX,
-		("PIECE", "OVERLAP", "MOST_PIECES", "pieces", "pack", "unpack", "closest", "digest"),
-		{"array": array, "base64": base64, "hashlib": hashlib, "math": math, "mul": mul},
+		("PIECE", "OVERLAP", "MOST_PIECES", "pieces", "normal", "digest"),
+		{"hashlib": hashlib, "math": math},
 	)
 
 
@@ -56,14 +53,19 @@ def test_text_is_cut_into_overlapping_pieces_at_a_space():
 	assert len(room["pieces"]("x " * 200_000)) == room["MOST_PIECES"]
 
 
-def test_a_vector_is_kept_normalised_so_nearness_is_a_dot_product():
+def test_a_vector_is_kept_at_length_one_so_near_in_meaning_is_near():
 	room = _index()
-	kept = room["unpack"](room["pack"]([3.0, 4.0]))
+	kept = room["normal"]([3.0, 4.0])
 	assert abs(kept[0] - 0.6) < 1e-6 and abs(kept[1] - 0.8) < 1e-6
-	query = room["unpack"](room["pack"]([1.0, 0.0]))
-	rows = [(room["unpack"](room["pack"](v)), {"n": n}) for n, v in enumerate(([0.0, 1.0], [1.0, 0.1], [1.0, 1.0], [1.0]))]
-	found = room["closest"](query, rows, 2)
-	assert [meta["n"] for _score, meta in found] == [1, 2], "best first, and a vector of another length is skipped"
+	assert room["normal"]([0.0, 0.0]) == [0.0, 0.0]
+
+
+def test_a_filter_on_the_index_cannot_be_broken_out_of():
+	room = _lifted(tree.APP / "one_ai" / "vectors.py", ("quoted", "where", "table_name"), {})
+	assert room["quoted"]("O'Brien") == "'O''Brien'"
+	said = room["where"]([("Customer", "O'Brien' or 1=1 --"), ("Item", "Bolt")])
+	assert said == "(source_doctype = 'Customer' and source_name = 'O''Brien'' or 1=1 --') or (source_doctype = 'Item' and source_name = 'Bolt')"
+	assert room["table_name"](768) == "pieces_768"
 
 
 def test_the_words_and_the_meaning_are_one_list():

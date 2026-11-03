@@ -13,10 +13,8 @@
   "source_name",
   "part",
   "title",
-  "text",
   "digest",
-  "model",
-  "vector"
+  "model"
  ],
  "fields": [
   {
@@ -46,11 +44,6 @@
    "label": "Title"
   },
   {
-   "fieldname": "text",
-   "fieldtype": "Long Text",
-   "label": "Text"
-  },
-  {
    "fieldname": "digest",
    "fieldtype": "Data",
    "label": "Digest"
@@ -60,16 +53,11 @@
    "fieldtype": "Data",
    "label": "Model",
    "search_index": 1
-  },
-  {
-   "fieldname": "vector",
-   "fieldtype": "Long Text",
-   "label": "Vector"
   }
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-20 03:00:00.000000",
+ "modified": "2026-11-03 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One AI",
  "name": "AI Chunk",

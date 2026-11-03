@@ -5,8 +5,8 @@ every call goes through Cloudflare's AI Gateway in one request shape, and a
 workspace sets OneAI up in **AICenter**, a centre like AccessCenter and
 NotificationCenter. OneIntake stops being a name: reading what arrives is
 something OneAI does, through two small Cloudflare models built for it.
-Search moves to Cloudflare's AI Search, and web search arrives as an optional
-service.
+Search moves to R2, a LanceDB index in each workspace's own folder, and web
+search arrives as an optional service.
 
 This is the plan, with each stage marked as it is built (Stages, below). It
 is mechanism 16 in `docs/READY.md`.
@@ -49,19 +49,13 @@ is written so its AI parts move across rather than block either:
   `ledger.py`) with no screens of its own. The rewritten OneAdmin keeps it
   or puts it in a Worker; nothing else on OneAdmin knows about models.
 - **What the deployer sets up for AI** is listed in one place,
-  `one_admin/steps.py`: the workspace's tag, its AI Search instance, its
-  ceiling at the gateway. A one-click deployer runs the same steps.
+  `one_admin/steps.py`: the workspace's tag and its ceiling at the gateway. A one-click deployer runs the same steps.
 - **Buying credits** stays where it is (Plan and Credits, `topup.py`) until
   the marketplace takes it; AICenter only links to it.
 - **Storage is already R2.** Every file a workspace keeps is in R2, not on a
-  server's disk, so AI Search reads the workspace's prefix in R2 directly
-  as its data source rather than being sent each file. What is not a file
-  (mail and records) is written to the same prefix as small Markdown
-  objects, so one source holds everything a workspace searches, and the
-  marketplace's storage line counts it.
-
-## Names
-
+  server's disk, and so is its search index: a LanceDB table under the
+  workspace's own `search/` prefix, reached with a key the account lends
+  for that prefix alone, for an hour.
 - **OneAI** is the product: the panel, the cards, writing in a field,
   summaries, and reading what arrives.
 - **AICenter** is where it is set up: the tier, Knowledge, credits, and what
@@ -131,7 +125,7 @@ conversion, Web Search and AI Search pages), and tried with real calls.
 | A model with its own shape (Clairic, Clef, Whisper, embeddings) | `POST /accounts/{a}/ai/run/{model}` |
 | A file to text | `POST /accounts/{a}/ai/tomarkdown` |
 | Web search | `POST /accounts/{a}/ai/websearch` |
-| Search | AI Search's own endpoints, one instance per workspace |
+| A key to a workspace's search index | `POST /accounts/{a}/r2/temp-access-credentials`, for its `search/` prefix alone |
 
 All of them carry `Authorization: Bearer` and `cf-aig-gateway-id`, so every
 call is logged, limited and costed by our gateway. Models are named
@@ -334,9 +328,9 @@ holds the credits, and it charges for every call. In order of the work:
    settle from usage and the answering model's price. Credit Ledger Entry's
    `model` becomes plain text, the model's id, and `ledger.commit` stops
    looking for an AI Model.
-4. **Search instances.** Provisioning (`steps.py`) creates the workspace's
-   AI Search instance, and closing a workspace deletes it, as it deletes the
-   site.
+4. **Search keys.** Nothing is provisioned: a workspace asks the account for
+   a key to its own `search/` prefix when it first searches, and closing a
+   workspace empties its prefix, the index with it.
 5. **What goes.** AI Model, AI Model Rate, the catalogue, the price
    scraper, capability, the persona and `prefer_models_from` on OneAdmin
    Settings, the operator's model screens and buttons, `models_gone` and
@@ -456,33 +450,25 @@ dearer, so a withdrawal is a cost and not an outage.
 
 ## Search
 
-**AI Search replaces our own.** One instance per workspace, as Cloudflare
-recommends, so one workspace can never find another's. Its data source is
-the workspace's own prefix in R2, where its files already are; mail and
-records are written there as Markdown, so nothing is uploaded twice. It does keyword and
-meaning search together, reranks, reads scanned PDFs, and embeds pictures.
-AI Chunk, `index.py`, the embed action and the vectors in MariaDB go.
+**The index is on R2.** Each workspace's pieces of documents, mail, records,
+and what OneAI was asked to remember are a LanceDB table under its own
+`search/` prefix, in its own region (one_ai/vectors.py). The account lends
+a key to that prefix alone for an hour (Cloudflare's temporary R2
+credentials, `storage.search_access`), so one workspace can never reach
+another's. Search is by meaning and by words together (LanceDB's hybrid
+search), with no instance to provision and no charge per search: only the
+embedding of each piece and each question is billed, as before. `AI Chunk`
+keeps only which pieces there are, so the catch-up and a save that changed
+nothing ask nothing of R2. Each night the small writes are folded together.
 
-What is indexed: OneCloud's files, mail, and each record type a module
-declares as searchable, as text with the record's name and type in its
-metadata. A save or a delete updates the instance after commit, as the
-index does today.
+Cloudflare's AI Search was built for this first and never switched on: one
+instance per workspace, a charge per search, and copies of what is searched
+held by it. LanceDB, which frappe ships, does the same in the workspace's
+own folder.
 
-**Who sees what.** An instance holds five custom fields per item and
-cannot filter on a list of people, so permissions are checked after the
-search: OneAI asks for more than it needs and drops what the reader cannot
-open, before anything is shown. Fewer results is the cost; a result the
-reader may not see is never one.
-
-**The search bar.** As you type: a keyword search, at $0.10 per thousand.
-On Enter, or when what was typed reads as a question: a meaning search, at
-$0.75 per thousand, and for a question an answer written by the Talk model
-from the passages found, each cited. The free thousand of each a month is
-shared by the whole account, not each workspace.
-
-Billing for AI Search starts on 2026-11-01. Copies of what is indexed sit
-at Cloudflare, which is a change to the agreements, made when this is
-built.
+**Who sees what.** Permissions are checked after the search: OneAI asks for
+more than it needs and drops what the reader cannot open, before anything
+is shown.
 
 ## Web search
 
@@ -538,8 +524,8 @@ other two centres.
 
 Made the day each stage is built, while One is before production:
 
-- **Cloudflare**: gateway, Workers AI, Markdown conversion, AI Search,
-  which now stores copies of what is searched. Its logs keep no content.
+- **Cloudflare**: gateway, Workers AI, Markdown conversion, and R2, which
+  now also keeps each workspace's search index. Its logs keep no content.
 - **Google**: Gemini, for building and as the fallback.
 - **The web search provider**, for that optional service only.
 - **The AI Addendum**: OneAI's models are chosen by us, by tier; what it
@@ -663,19 +649,11 @@ the screen), a commit, and the docs it changes.
    Clef's and Clairic's calls from the sample. Not yet a sample: a voice
    note, several attachments in one mail, a PDF longer than one Clairic
    pass, the same invoice twice, and a currency written as a word.
-5. **Search.** An AI Search instance per workspace, indexing on save,
-   permissions after search, the search bar and OneCloud's search; AI
-   Chunk and the index go. **Built switched off (2026-10-26).** The account
-   asks a workspace's instance (`one_admin/search.py`: keyword, or meaning
-   as hybrid and reranked, billed at $0.10 and $0.75 a thousand) once one
-   is recorded for it with `adopt`; the workspace asks whether it has one
-   (`proxy.ai_search_state`, free, believed for an hour), and only then
-   writes each record `index.py` indexes as Markdown under `search/` in its
-   R2 prefix, and lets `index.nearest` ask the instance before the vectors,
-   dropping what the reader may not open. No instance was made: the first
-   waits for a yes (the scratchpad). Until then nothing changes, so AI
-   Chunk, the vectors and the search bar's keyword search stay; they go
-   once instances answer.
+5. **Search.** Built on R2 (2026-11-03): each workspace's index is a LanceDB
+   table under its own `search/` prefix, by meaning and words together, with
+   a key lent per hour for that prefix alone; the vectors left MariaDB and
+   `AI Chunk` keeps only which pieces there are. Cloudflare's AI Search,
+   built first and never switched on, is gone.
 6. **Web search.** Built, and off until a workspace administrator turns
    it on in TrustCenter (`web_search`, one_ai/legal.py). On, OneAI is given
    `web_search` and the `web` group (one_ai/ai_web.py); off, neither is

@@ -1,16 +1,9 @@
-"""Search by meaning: documents, mail and records as vectors.
+"""Search by meaning: documents, mail and records cut into pieces, each
+embedded once and kept in the workspace's index on R2 (one_ai/vectors.py),
+with an `AI Chunk` row here saying it is there. AGENTS.md, index.py."""
 
-Each source (a document OneAI read, a message, a record people search
-for) is cut into pieces, each piece embedded once through the account and
-kept as an `AI Chunk`; a search embeds the question and scans for the
-nearest. After OneApp's `oneai/index.py`. README, index.py.
-"""
-
-import array
-import base64
 import hashlib
 import math
-from operator import mul
 
 import frappe
 from frappe.utils import strip_html_tags
@@ -26,10 +19,6 @@ PIECE, OVERLAP = 1500, 200
 #: Pieces of one source: past this it is a manual, and what is searched for
 #: is nearly always in its first pages.
 MOST_PIECES = 24
-
-#: Pieces one search compares, newest first. Measured: about 60ms per 2,000
-#: in pure Python, held unpacked between searches.
-MOST_SCANNED = 12_000
 
 #: Sources the catch-up indexes in one go.
 CATCH_UP = 150
@@ -67,9 +56,6 @@ WORDS = ("Data", "Small Text", "Text", "Long Text", "Text Editor", "Select", "Li
 
 NEVER = ("naming_series", "amended_from", "company")
 
-_held: dict = {}
-
-
 def on() -> bool:
 	"""Whether this workspace searches by meaning: OneAI on, and an account
 	to embed through."""
@@ -92,27 +78,14 @@ def pieces(text: str) -> list[str]:
 	return [one for one in out if one]
 
 
-def pack(values: list[float]) -> str:
-	"""A vector as base64 of normalised float32, so a comparison is a dot product. Pure."""
+def normal(values: list[float]) -> list[float]:
+	"""A vector at length one, so near in meaning is near in distance. Pure."""
 	length = math.sqrt(sum(one * one for one in values)) or 1.0
-	return base64.b64encode(array.array("f", [one / length for one in values]).tobytes()).decode()
-
-
-def unpack(blob: str) -> array.array:
-	found = array.array("f")
-	found.frombytes(base64.b64decode(blob or ""))
-	return found
+	return [one / length for one in values]
 
 
 def digest(text: str) -> str:
 	return hashlib.sha256((text or "").encode("utf-8")).hexdigest()[:32]
-
-
-def closest(query: array.array, rows: list[tuple], most: int) -> list[tuple[float, dict]]:
-	"""The rows nearest the query, best first: rows are (vector, meta). Pure."""
-	scored = [(sum(map(mul, query, vector)), meta) for vector, meta in rows if len(vector) == len(query)]
-	scored.sort(key=lambda one: one[0], reverse=True)
-	return scored[:most]
 
 
 def embedded(texts: list[str]) -> dict:
@@ -194,8 +167,26 @@ def remember(doctype: str, name: str) -> bool:
 	said = embedded(parts)
 	if len(said["vectors"]) != len(parts):
 		return False
-	forget(doctype, name)
-	for at, (part, vector) in enumerate(zip(parts, said["vectors"], strict=True)):
+	from onedesk.one_ai import vectors
+
+	vectors.put(
+		doctype,
+		name,
+		[
+			{
+				"source_doctype": doctype,
+				"source_name": name,
+				"part": at,
+				"title": (title or name)[:140],
+				"text": part,
+				"model": said["model"] or "",
+				"vector": normal(vector),
+			}
+			for at, (part, vector) in enumerate(zip(parts, said["vectors"], strict=True))
+		],
+	)
+	frappe.db.delete(CHUNK, {"source_doctype": doctype, "source_name": name})
+	for at, part in enumerate(parts):
 		frappe.get_doc(
 			{
 				"doctype": CHUNK,
@@ -203,29 +194,31 @@ def remember(doctype: str, name: str) -> bool:
 				"source_name": name,
 				"part": at,
 				"title": (title or name)[:140],
-				"text": part,
 				"digest": digest(part),
 				"model": said["model"],
-				"vector": pack(vector),
 			}
 		).db_insert()
-	_held.pop(frappe.local.site, None)
 	return True
 
 
 def forget(doctype: str, name: str) -> None:
-	frappe.db.delete(CHUNK, {"source_doctype": doctype, "source_name": name})
+	forget_all([(doctype, name)])
 
 
-def _searched(doctype: str, name: str, gone: bool = False) -> None:
-	"""The workspace's own search instance kept up as the index is, once it
-	has one (one_ai/search.py)."""
-	from onedesk.one_ai import search
+def forget_all(sources: list[tuple[str, str]]) -> None:
+	"""These sources taken out of the index, and out of what says they are in it."""
+	sources = [tuple(one) for one in sources if frappe.db.exists(CHUNK, {"source_doctype": one[0], "source_name": one[1]})]
+	if not sources:
+		return
+	from onedesk.one_ai import vectors
 
 	try:
-		search.drop(doctype, name) if gone else search.write(doctype, name)
+		vectors.drop(sources)
 	except Exception:
-		frappe.log_error(title="Search could not keep up", reference_doctype=doctype, reference_name=name)
+		frappe.log_error(title="Search could not forget", message=repr(sources[:20]))
+	for at in range(0, len(sources), 200):
+		for doctype, name in sources[at : at + 200]:
+			frappe.db.delete(CHUNK, {"source_doctype": doctype, "source_name": name})
 
 
 def changed(doc, method=None) -> None:
@@ -245,13 +238,11 @@ def changed(doc, method=None) -> None:
 
 
 def removed(doc, method=None) -> None:
-	if doc.doctype in SOURCES:
+	if doc.doctype in SOURCES and frappe.db.exists(CHUNK, {"source_doctype": doc.doctype, "source_name": doc.name}):
 		forget(doc.doctype, doc.name)
-		_searched(doc.doctype, doc.name, gone=True)
 
 
 def refresh(doctype: str, name: str) -> None:
-	_searched(doctype, name)
 	try:
 		remember(doctype, name)
 	except Exception:
@@ -305,52 +296,24 @@ def catch_up() -> int:
 	return done
 
 
-def _rows(model: str | None) -> list[tuple]:
-	"""Every piece's vector with what it points at, newest first, held
-	between searches and read again only when the index changed."""
-	site = frappe.local.site
-	stamp = frappe.db.sql(f"select count(*), max(modified) from `tab{CHUNK}`")[0]
-	held = _held.get(site)
-	if held and held["stamp"] == stamp:
-		return held["rows"]
-	rows = frappe.get_all(
-		CHUNK,
-		filters={"model": model} if model else {},
-		fields=["source_doctype", "source_name", "part", "title", "text", "vector"],
-		order_by="modified desc",
-		limit_page_length=MOST_SCANNED,
-	)
-	unpacked = [
-		(unpack(row.pop("vector")), row)
-		for row in rows
-	]
-	_held[site] = {"stamp": stamp, "rows": unpacked}
-	return unpacked
-
-
 def nearest(text: str, doctypes: list[str] | tuple | None = None, most: int = 10) -> list[dict]:
 	"""The pieces closest in meaning to `text` that the reader may open, the
 	best piece of each source once, best first."""
 	if not on() or not (text or "").strip():
 		return []
 	doctypes = doctypes or SEARCHED
-	from onedesk.one_ai import search
+	from onedesk.one_ai import vectors
 
-	found = search.find(text, doctypes, most)
-	if found is not None:
-		return found
 	said = embedded([text[:2000]])
 	if not said["vectors"]:
 		return []
-	query = unpack(pack(said["vectors"][0]))
-	rows = [one for one in _rows(said["model"]) if not doctypes or one[1]["source_doctype"] in doctypes]
 	out, seen = [], set()
-	for score, meta in closest(query, rows, most * 6):
+	for meta in vectors.find(normal(said["vectors"][0]), text[:500], doctypes, most):
 		key = (meta["source_doctype"], meta["source_name"])
 		if key in seen or not _may(*key):
 			continue
 		seen.add(key)
-		out.append({**meta, "score": round(score, 4)})
+		out.append(meta)
 		if len(out) >= most:
 			break
 	return out

@@ -58,7 +58,6 @@ TOKENS = {
 		(
 			("AI Gateway Run",),
 			("Workers AI Read",),
-			("AI Search*",),
 		),
 	),
 }

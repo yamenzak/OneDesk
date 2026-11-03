@@ -424,31 +424,33 @@ deliberately not here.
   through `services.call`, so with it off nothing leaves. Only the question
   goes, to the account (`proxy.ai_web_search`), which asks Cloudflare's web
   search for Exa's pages.
-- `search.py`: search on the workspace's own AI Search instance, once the
-  account says it has one (`proxy.ai_search_state`, believed for an hour).
-  Each record `index.py` indexes is also written as Markdown under `search/`
-  in the workspace's R2 prefix (`key_of`), and taken away when it goes;
-  `index.nearest` asks the instance first (`run.search`, by meaning) and
-  shows only what the reader may open (`index._may`). Until then nothing is
-  written and the vectors below answer.
-- `index.py`, `doctype/ai_chunk`: search by meaning. A document OneAI
-  read, a message, and the records people look for (`RECORDS`) are cut into
-  overlapping pieces (`pieces`), each embedded once through the account and
-  kept as an `AI Chunk` with a digest of its text, so a save that changed
-  nothing costs nothing. A search embeds the question and scans the newest
-  pieces (`MOST_SCANNED`) in pure Python: there is no vector type in
-  MariaDB 10.11 and no numpy on the bench, and vectors stored normalised make
-  each comparison a dot product, about 60ms per 2,000, held unpacked between
-  searches until the index changes. Every hit is checked against the reader
-  through what it came from, a document through its file or its message.
-  Vectors of two models never meet: a search compares only pieces of the
-  model that embedded the question. Saves queue a refresh after commit, one
-  per source however often it is saved; `catch_up` indexes the rest a
-  quarter of an hour at a time. `find_by_meaning` is the panel's tool:
-  passages and where each came from, which the model answers from, naming
-  them. `one_ai/reading/search.py` ranks the words' hits and the meaning's
-  together (reciprocal rank) for Ctrl+K, OneCloud and OneMail. After
-  OneApp's `oneai/index.py`.
+- `index.py`, `vectors.py`, `doctype/ai_chunk`: search by meaning and by
+  words. A document OneAI read, a message, the records people look for
+  (`RECORDS`), and what OneAI was told to remember and the workspace's notes
+  (`RECALLED`, searched by `recall` alone) are cut into overlapping pieces
+  (`pieces`), each embedded once through the account. The pieces' text and
+  vectors are a LanceDB table on R2, under the workspace's own `search/`
+  prefix (`vectors.py`), as frappe's Flow keeps its knowledge; the account
+  lends a key to that prefix alone for an hour (`proxy.search_access`,
+  `one_admin/storage.search_access`, Cloudflare's temporary R2 credentials),
+  and nothing else is shared between workspaces. One table per vector
+  length (`pieces_<n>`), so a model with another length starts its own.
+  `AI Chunk` keeps only which piece of which source is there and its digest,
+  so a save that changed nothing, and the catch-up's "not indexed yet",
+  are answered here without asking R2. A search embeds the question and asks
+  the table by its meaning and its words together (LanceDB's hybrid search,
+  reciprocal rank), several hits per hit kept, since every hit is then
+  checked against the reader through what it came from, a document through
+  its file or its message. Saves queue a refresh after commit, one per
+  source however often it is saved; `catch_up` indexes the rest a quarter
+  of an hour at a time, and each night `vectors.tidy` folds the small writes
+  together and brings the words index up to date. Writes from two workers
+  at once are both kept (measured: twelve at once, none lost, slower), and
+  a warm search takes about half a second before the embedding.
+  `find_by_meaning` is the panel's tool: passages and where each came from,
+  which the model answers from, naming them. `one_ai/reading/search.py`
+  ranks the words' hits and the meaning's together (reciprocal rank) for
+  Ctrl+K, OneCloud and OneMail. After OneApp's `oneai/index.py`.
 - `brief.py`: the summary at the top of a customer, supplier, opportunity or
   project. Three hidden fields on each (`custom/*.json`): the text, when it
   was written, and whether it is due. `touched`, on every record's save,
@@ -697,8 +699,7 @@ Every call goes through Cloudflare AI Gateway (`one_admin/gateway.py`), on
 Cloudflare's REST endpoints with the gateway named: chat completions, in
 the OpenAI shape, for every talking model on Workers AI; `ai/run/{model}`
 for the models with their own shape (Clef, Clairic, Whisper, the
-embeddings, Llama Guard); `tomarkdown` for a file to text; `websearch`; and
-AI Search's own endpoints. Gemini goes through the gateway's Google route in
+embeddings, Llama Guard); `tomarkdown` for a file to text; and `websearch`. Gemini goes through the gateway's Google route in
 Google's own shape, with the key the gateway stores. The account holds a
 gateway token and the Cloudflare account id; a workspace holds neither. No
 payload is kept in the gateway's logs (`cf-aig-collect-log-payload: false`),

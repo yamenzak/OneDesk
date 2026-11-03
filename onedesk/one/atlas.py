@@ -235,7 +235,7 @@ ANSWERS = {
 	("DocType", "Device"): (INSIDE, "AccountCenter › Devices"),
 	("DocType", "Personal Data Deletion Request"): (INSIDE, "TrustCenter › Your Data, under Requests, each opening its request"),
 	("DocType", "Credit Reservation"): (ENGINE, "credits held while OneAI works, released when it is done"),
-	("DocType", "AI Chunk"): (ENGINE, "pieces of documents, mail and records by meaning, which Ctrl+K, OneCloud, OneMail and OneAI search"),
+	("DocType", "AI Chunk"): (ENGINE, "which pieces of documents, mail and records the search index on R2 holds, which Ctrl+K, OneCloud, OneMail and OneAI search"),
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),
 	("DocType", "Mail Rule"): (INSIDE, "OneMail's settings, a mailbox's Automation tab, which writes it"),
 	("DocType", "Mail Folder"): (ENGINE, "a mailbox's folders, which OneMail's sidebar shows and makes"),

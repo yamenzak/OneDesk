@@ -74,7 +74,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | AI Chat | 10 | document |
-| AI Chunk | 8 | document |
+| AI Chunk | 6 | document |
 | AI Knowledge | 6 | document |
 | AI Memory | 5 | document |
 | AI Proposal | 21 | document |
@@ -438,8 +438,6 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_make`
 * `onedesk.one_admin.proxy.ai_read`
 * `onedesk.one_admin.proxy.ai_run`
-* `onedesk.one_admin.proxy.ai_search`
-* `onedesk.one_admin.proxy.ai_search_state`
 * `onedesk.one_admin.proxy.ai_tiers`
 * `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.ai_web_search`
@@ -467,6 +465,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.plans_quote`
 * `onedesk.one_admin.proxy.plans_take`
 * `onedesk.one_admin.proxy.private_apps`
+* `onedesk.one_admin.proxy.search_access`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`

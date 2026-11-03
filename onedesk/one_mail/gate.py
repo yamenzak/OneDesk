@@ -259,8 +259,10 @@ def spent(reference: str | None, credits) -> None:
 
 def forget(account: str) -> None:
 	"""A mailbox no longer read: what search by meaning held of its mail goes."""
-	frappe.db.sql(
-		"""delete from `tabAI Chunk` where
+	from onedesk.one_ai import index
+
+	held = frappe.db.sql(
+		"""select distinct source_doctype, source_name from `tabAI Chunk` where
 			(source_doctype = 'Communication' and source_name in
 				(select name from `tabCommunication` where email_account = %(account)s))
 			or (source_doctype = 'Reading' and source_name in
@@ -274,6 +276,7 @@ def forget(account: str) -> None:
 				where m.email_account = %(account)s))""",
 		{"account": account},
 	)
+	index.forget_all([tuple(one) for one in held])
 
 
 @frappe.whitelist()

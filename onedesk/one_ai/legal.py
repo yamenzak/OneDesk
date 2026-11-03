@@ -9,6 +9,30 @@ M = "OneAI"
 
 CLOUDFLARE = "Standard Contractual Clauses and Cloudflare's data processing addendum"
 
+clause(
+	document="privacy",
+	section="modules",
+	key="oneai-search-index",
+	module=M,
+	body="""
+		So that OneAI and search find things by what they mean, the text of documents, mail and records is cut
+		into pieces. Each piece is turned into numbers by a model. The pieces and their numbers are kept in
+		Cloudflare R2, in the workspace's region and its own folder. What OneAI was asked to remember is kept
+		the same way. Only your workspace's search reaches that folder, with a key that lasts an hour. A piece
+		goes when what it came from is deleted, and the folder goes when the workspace is closed.
+	""",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Object storage (R2) for the workspace's search index",
+	data="Pieces of the text of documents, mail and records, and of what OneAI was asked to remember, each with its vector",
+	where="The storage location chosen when the workspace was created",
+	safeguard=CLOUDFLARE,
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)
+
 subprocessor(
 	name="Cloudflare, Inc.",
 	module=M,
