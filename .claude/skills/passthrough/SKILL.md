@@ -39,7 +39,7 @@ Two lists, so a pass does not do twenty-five things per page. Each was
 missed once by a pass that thought it was done; leave one out only when the
 three lines say why.
 
-### On every screen, by eye (9)
+### On every screen, by eye (12)
 
 These depend on how one screen looks and behaves, so each screen in scope
 gets them.
@@ -71,6 +71,21 @@ gets them.
   module's pass does this for its own screens (CLAUDE.md, Several companies).
 - **Search and reach.** Its records are found in Ctrl+K and in pickers, and
   nothing the reader can't open is on a rail, in search or in a picker.
+- **The registry.** Every record type on the screen has its entry in
+  `ready.MODULES[module]["interface"]`: an icon for each tab and field, up
+  to four head cards, its track, its list's states and its links. On 4
+  November 2026 only Sales Invoice, Customer and Employee had one; the
+  guards hold an entry to be right, not to be there.
+- **OneAI and links.** OneAI's panel names this screen and offers its cards
+  here, and a notification, a head card or a link about its records opens
+  this screen. An island moved to frappe's own screen carries both across:
+  OneAI's page context was keyed to island names (`item-view`,
+  `stock-on-hand`), and every guard still passed without it.
+- **Island or frappe's.** A screen that is an island (`tiers.SCREENS`)
+  becomes frappe's own list, form or report with the registry's dressing,
+  unless it is more than a list or a form (an editor, mail, a calendar);
+  the module's pass moves its islands first, then walks every screen, so
+  nothing is stamped that is about to be replaced.
 
 ### Once per module (16)
 
@@ -103,8 +118,16 @@ By hand, only what the guard can't see: the words, and that it is right.
 - **Upstream.** What we override of frappe's, ERPNext's or HRMS's is read
   again against their newest code (`scripts/overrides.py`). *Guard: test_generated, test_override_signatures.*
 
-**By hand (7).** No guard sees these; look at each once.
+**By hand (9).** No guard sees these; look at each once. The guards above
+hold what is declared to be right; these are what is missing.
 
+- **Who may.** Each thing the module lets a person do either fits a role
+  or is an ability in its `abilities.py` (AccessCenter), and each method our
+  screens call on the server checks it, beyond what frappe already checks
+  (`test_roles` and `rights.grant` hold the rest).
+- **Tells.** List the module's events and who waits on each (an approver,
+  the person asked, the owner); every one has a notification in its
+  `notifications.py`, or a line saying why not.
 - **What ERPNext already does.** Its statuses, its checks on save, its
   mappers, precision and units, and `base_` amounts in figures.
 - **Portal.** What it shows customers and suppliers (`portal.py`), and a
