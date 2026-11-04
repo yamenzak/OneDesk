@@ -34,6 +34,7 @@
   "dark",
   "command",
   "command_at",
+  "offline_told",
   "column_break_device",
   "device",
   "secret_hash",
@@ -233,6 +234,13 @@
    "fieldname": "command_at",
    "fieldtype": "Datetime",
    "label": "Command Sent",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "offline_told",
+   "fieldtype": "Datetime",
+   "label": "Offline Told",
    "read_only": 1,
    "hidden": 1
   },

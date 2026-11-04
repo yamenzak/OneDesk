@@ -124,7 +124,6 @@ def onedisplay_reports_a_silent_screen_once():
 		screen = screens.pair(started["code"], "Back Office", CHANNEL)
 	try:
 		frappe.db.set_value("Display Screen", screen, "last_seen", add_to_date(now_datetime(), minutes=-30), update_modified=False)
-		frappe.cache.delete_value(tell.TOLD.format(screen))
 
 		def reported() -> list:
 			with _told() as said:
@@ -134,8 +133,7 @@ def onedisplay_reports_a_silent_screen_once():
 		first = reported()
 		assert first and OWNER in first[0][1], f"a silent screen is reported to whoever runs OneDisplay: {first}"
 		assert not reported(), "once for each time it goes quiet"
-		frappe.db.set_value("Display Screen", screen, "dark", 1, update_modified=False)
-		frappe.cache.delete_value(tell.TOLD.format(screen))
+		frappe.db.set_value("Display Screen", screen, {"dark": 1, "offline_told": None}, update_modified=False)
 		assert not reported(), "a screen turned off is not reported"
 	finally:
 		frappe.delete_doc("Display Screen", screen, ignore_permissions=True, force=True)

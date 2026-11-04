@@ -38,3 +38,12 @@ def test_the_demo_checks_send_no_mail():
 	check = (tree.APP / "one_demo" / "check.py").read_text(encoding="utf-8")
 	held = check.split("def _unsent(", 1)[1].split("\ndef ", 1)[0]
 	assert 'set_default("suspend_email_queue", 1)' in held and 'frappe.db.delete("Email Queue"' in held
+
+
+def test_a_screen_is_told_offline_once_and_only_after_it_was_seen():
+	"""The told quiet is kept on the screen, not in the cache a deploy
+	clears, and a screen never seen is not quiet: an empty date reads as the
+	earliest day, so `<` alone told the demo's three screens again and again."""
+	tell = (tree.APP / "one_display" / "tell.py").read_text(encoding="utf-8")
+	body = tell.split("def offline(", 1)[1].split("\ndef ", 1)[0]
+	assert '["last_seen", "is", "set"]' in body and "offline_told" in body and "frappe.cache" not in body

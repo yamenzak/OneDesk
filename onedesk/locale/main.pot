@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-04 23:18+0000\n"
-"PO-Revision-Date: 2026-11-04 23:18+0000\n"
+"POT-Creation-Date: 2026-11-04 23:36+0000\n"
+"PO-Revision-Date: 2026-11-04 23:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -500,7 +500,7 @@ msgid "A Shift Location, or a single employee. Leave both empty to apply it site
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_display/doctype/display_screen/display_screen.json:315
+#: onedesk/one_display/doctype/display_screen/display_screen.json:323
 msgid "A TV, monitor or tablet paired to show a channel or play a sound zone."
 msgstr ""
 
@@ -5820,7 +5820,7 @@ msgstr ""
 #. Label of the at_risk (Check) field in DocType 'Display Screen'
 #. Option for the 'Health' (Select) field in DocType 'Project'
 #. Option for the 'Health' (Select) field in DocType 'Project User'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:126
+#: onedesk/one_display/doctype/display_screen/display_screen.json:127
 #: onedesk/one_project/custom/project.json:29
 #: onedesk/one_project/custom/project_user.json:8
 msgid "At Risk"
@@ -8738,7 +8738,7 @@ msgid "Changing on {0}"
 msgstr ""
 
 #. Label of the channel (Link) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:54
+#: onedesk/one_display/doctype/display_screen/display_screen.json:55
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:17
 msgid "Channel"
 msgstr ""
@@ -10109,7 +10109,7 @@ msgid "Comma-separated. Example: USD, EUR, GBP"
 msgstr ""
 
 #. Label of the command_at (Datetime) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:235
+#: onedesk/one_display/doctype/display_screen/display_screen.json:236
 msgid "Command Sent"
 msgstr ""
 
@@ -10968,7 +10968,7 @@ msgstr ""
 
 #. Label of the section_break_control (Section Break) field in DocType 'Display
 #. Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:212
+#: onedesk/one_display/doctype/display_screen/display_screen.json:213
 msgid "Control"
 msgstr ""
 
@@ -14306,7 +14306,7 @@ msgstr ""
 #. Label of the device (Link) field in DocType 'Clock Device'
 #: onedesk/one/doctype/push_device/push_device.json:31
 #: onedesk/one_account/doctype/device/device.json:116
-#: onedesk/one_display/doctype/display_screen/display_screen.json:120
+#: onedesk/one_display/doctype/display_screen/display_screen.json:121
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:68
 #: onedesk/public/js/one_account/account_center.js:366
 #: onedesk/public/js/one_account/account_center.js:1338
@@ -14319,7 +14319,7 @@ msgid "Device ID"
 msgstr ""
 
 #. Label of the memory_gb (Float) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:147
+#: onedesk/one_display/doctype/display_screen/display_screen.json:148
 msgid "Device Memory (GB)"
 msgstr ""
 
@@ -14601,7 +14601,7 @@ msgstr ""
 
 #. Name of a DocType
 #. Label of a Sidebar Item
-#: onedesk/one_display/doctype/display_screen/display_screen.json:275
+#: onedesk/one_display/doctype/display_screen/display_screen.json:283
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:22
 msgid "Display Screen"
 msgstr ""
@@ -19425,7 +19425,7 @@ msgid "For preview only. Showing these headlines publicly may require each publi
 msgstr ""
 
 #. Description of the 'Rotation' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:89
+#: onedesk/one_display/doctype/display_screen/display_screen.json:90
 msgid "For screens mounted vertically or upside down."
 msgstr ""
 
@@ -22563,7 +22563,7 @@ msgid "If enabled, this track is skipped. Tracks made by OneAI are added paused.
 msgstr ""
 
 #. Description of the 'Plays Sound' (Check) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:81
+#: onedesk/one_display/doctype/display_screen/display_screen.json:82
 msgid "If enabled, videos with Plays Sound turned on play their audio."
 msgstr ""
 
@@ -22657,7 +22657,7 @@ msgid "Image"
 msgstr ""
 
 #. Label of the pictures_mb (Int) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:170
+#: onedesk/one_display/doctype/display_screen/display_screen.json:171
 msgid "Image Memory (MB)"
 msgstr ""
 
@@ -25242,7 +25242,7 @@ msgid "Larger"
 msgstr ""
 
 #. Label of the largest_video (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:177
+#: onedesk/one_display/doctype/display_screen/display_screen.json:178
 msgid "Largest Video"
 msgstr ""
 
@@ -25292,7 +25292,7 @@ msgid "Last Checked"
 msgstr ""
 
 #. Label of the command (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:229
+#: onedesk/one_display/doctype/display_screen/display_screen.json:230
 msgid "Last Command"
 msgstr ""
 
@@ -25412,7 +25412,7 @@ msgid "Last Reminded"
 msgstr ""
 
 #. Label of the last_restart (Datetime) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:193
+#: onedesk/one_display/doctype/display_screen/display_screen.json:194
 msgid "Last Restart"
 msgstr ""
 
@@ -25432,7 +25432,7 @@ msgstr ""
 #. Label of the last_seen (Datetime) field in DocType 'Clock Place'
 #. Label of the last_seen (Datetime) field in DocType 'Presentation View'
 #: onedesk/one_account/doctype/device/device.json:71
-#: onedesk/one_display/doctype/display_screen/display_screen.json:107
+#: onedesk/one_display/doctype/display_screen/display_screen.json:108
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:106
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:129
 #: onedesk/one_slide/doctype/presentation_view/presentation_view.json:78
@@ -25944,7 +25944,7 @@ msgid "Leave empty if items only have a value."
 msgstr ""
 
 #. Description of the 'Sound Zone' (Link) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:73
+#: onedesk/one_display/doctype/display_screen/display_screen.json:74
 msgid "Leave empty if the screen does not play sound."
 msgstr ""
 
@@ -29149,7 +29149,7 @@ msgstr ""
 #. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the muted (Check) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
-#: onedesk/one_display/doctype/display_screen/display_screen.json:217
+#: onedesk/one_display/doctype/display_screen/display_screen.json:218
 msgid "Muted"
 msgstr ""
 
@@ -32667,6 +32667,11 @@ msgstr ""
 msgid "Offline"
 msgstr ""
 
+#. Label of the offline_told (Datetime) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json:243
+msgid "Offline Told"
+msgstr ""
+
 #: frontend/src/slide/components/ShadowSection.vue:38
 msgid "Offset"
 msgstr ""
@@ -33717,7 +33722,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_board/display_board.json:114
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:102
 #: onedesk/one_display/doctype/display_channel/display_channel.json:132
-#: onedesk/one_display/doctype/display_screen/display_screen.json:299
+#: onedesk/one_display/doctype/display_screen/display_screen.json:307
 #: onedesk/one_display/doctype/display_settings/display_settings.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:279
 #: onedesk/one_display/doctype/display_voice/display_voice.json:78
@@ -35663,7 +35668,7 @@ msgstr ""
 
 #. Label of the boot (Data) field in DocType 'Display Screen'
 #. Option for the 'View' (Select) field in DocType 'Extension'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:205
+#: onedesk/one_display/doctype/display_screen/display_screen.json:206
 #: onedesk/one_studio/doctype/extension/extension.json:78
 msgid "Page"
 msgstr ""
@@ -35673,12 +35678,12 @@ msgid "Page Break"
 msgstr ""
 
 #. Label of the heap_mb (Int) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:158
+#: onedesk/one_display/doctype/display_screen/display_screen.json:159
 msgid "Page Memory (MB)"
 msgstr ""
 
 #. Label of the heap_limit_mb (Int) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:164
+#: onedesk/one_display/doctype/display_screen/display_screen.json:165
 msgid "Page Memory Limit (MB)"
 msgstr ""
 
@@ -35934,7 +35939,7 @@ msgid "Pair a Screen"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:99
+#: onedesk/one_display/doctype/display_screen/display_screen.json:100
 msgid "Paired"
 msgstr ""
 
@@ -35943,7 +35948,7 @@ msgid "Paired."
 msgstr ""
 
 #. Label of the pair_code (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:113
+#: onedesk/one_display/doctype/display_screen/display_screen.json:114
 msgid "Pairing Code"
 msgstr ""
 
@@ -36927,7 +36932,7 @@ msgstr ""
 
 #. Description of the 'Image Memory (MB)' (Int) field in DocType 'Display
 #. Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:172
+#: onedesk/one_display/doctype/display_screen/display_screen.json:173
 msgid "Peak decoded image memory in the last 30 minutes."
 msgstr ""
 
@@ -37818,7 +37823,7 @@ msgstr ""
 
 #. Label of the plays_sound (Check) field in DocType 'Display Screen'
 #: frontend/src/slide/components/PlaybackSection.vue:16
-#: onedesk/one_display/doctype/display_screen/display_screen.json:78
+#: onedesk/one_display/doctype/display_screen/display_screen.json:79
 msgid "Plays Sound"
 msgstr ""
 
@@ -39807,7 +39812,7 @@ msgid "R2 is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
 #. Option for the 'Type' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:63
+#: onedesk/one_display/doctype/display_screen/display_screen.json:64
 msgid "Radio"
 msgstr ""
 
@@ -41741,7 +41746,7 @@ msgstr ""
 
 #. Description of the 'Device Memory (GB)' (Float) field in DocType 'Display
 #. Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:149
+#: onedesk/one_display/doctype/display_screen/display_screen.json:150
 msgid "Reported by the browser, where supported."
 msgstr ""
 
@@ -42117,7 +42122,7 @@ msgstr ""
 
 #. Label of the pixels (Data) field in DocType 'Display Screen'
 #. Label in the One Employee Grievance print format
-#: onedesk/one_display/doctype/display_screen/display_screen.json:141
+#: onedesk/one_display/doctype/display_screen/display_screen.json:142
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 msgid "Resolution"
 msgstr ""
@@ -42147,7 +42152,7 @@ msgid "Restart"
 msgstr ""
 
 #. Label of the last_restart_reason (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:199
+#: onedesk/one_display/doctype/display_screen/display_screen.json:200
 msgid "Restart Reason"
 msgstr ""
 
@@ -42161,7 +42166,7 @@ msgid "Restarted {0} times today."
 msgstr ""
 
 #. Label of the restarts_today (Int) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:187
+#: onedesk/one_display/doctype/display_screen/display_screen.json:188
 msgid "Restarts Today"
 msgstr ""
 
@@ -42672,7 +42677,7 @@ msgid "Right to left"
 msgstr ""
 
 #. Label of the risk (Small Text) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:134
+#: onedesk/one_display/doctype/display_screen/display_screen.json:135
 msgid "Risk Reason"
 msgstr ""
 
@@ -42787,7 +42792,7 @@ msgid "Rotating Messages"
 msgstr ""
 
 #. Label of the rotate (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:86
+#: onedesk/one_display/doctype/display_screen/display_screen.json:87
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:35
 msgid "Rotation"
 msgstr ""
@@ -43726,7 +43731,7 @@ msgstr ""
 #. Label of the screen (Data) field in DocType 'Clock Attempt'
 #. Label of the screen (Data) field in DocType 'Clock Device'
 #: onedesk/one_display/doctype/display_screen/display_screen.js:24
-#: onedesk/one_display/doctype/display_screen/display_screen.json:63
+#: onedesk/one_display/doctype/display_screen/display_screen.json:64
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:217
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:182
 msgid "Screen"
@@ -43737,7 +43742,7 @@ msgid "Screen Applicants"
 msgstr ""
 
 #. Label of the screen_name (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:47
+#: onedesk/one_display/doctype/display_screen/display_screen.json:48
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:16
 msgid "Screen Name"
 msgstr ""
@@ -43750,7 +43755,7 @@ msgstr ""
 #. Option for the 'Content' (Select) field in DocType 'Channel Programme'
 #. Label of the dark (Check) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
-#: onedesk/one_display/doctype/display_screen/display_screen.json:223
+#: onedesk/one_display/doctype/display_screen/display_screen.json:224
 msgid "Screen Off"
 msgstr ""
 
@@ -43966,7 +43971,7 @@ msgstr ""
 #. Label of the auth (Data) field in DocType 'Push Device'
 #. Label of the secret_hash (Data) field in DocType 'Display Screen'
 #: onedesk/one/doctype/push_device/push_device.json:51
-#: onedesk/one_display/doctype/display_screen/display_screen.json:252
+#: onedesk/one_display/doctype/display_screen/display_screen.json:260
 msgid "Secret"
 msgstr ""
 
@@ -46998,7 +47003,7 @@ msgstr ""
 #. Label of the sound_zone (Link) field in DocType 'Queue'
 #. Name of a DocType
 #. Label of a Sidebar Item
-#: onedesk/one_display/doctype/display_screen/display_screen.json:71
+#: onedesk/one_display/doctype/display_screen/display_screen.json:72
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:22
 #: onedesk/one_display/doctype/queue/queue.json:32
 #: onedesk/one_display/doctype/sound_zone/sound_zone.json:10
@@ -47649,7 +47654,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_transaction_deletion_record/one_transaction_deletion_record.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
-#: onedesk/one_display/doctype/display_screen/display_screen.json:98
+#: onedesk/one_display/doctype/display_screen/display_screen.json:99
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:64
 #: onedesk/one_display/starters.py:412
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:81
@@ -49040,7 +49045,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_board/display_board.json:94
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:89
 #: onedesk/one_display/doctype/display_channel/display_channel.json:112
-#: onedesk/one_display/doctype/display_screen/display_screen.json:279
+#: onedesk/one_display/doctype/display_screen/display_screen.json:287
 #: onedesk/one_display/doctype/display_settings/display_settings.json:32
 #: onedesk/one_display/doctype/display_source/display_source.json:259
 #: onedesk/one_display/doctype/display_voice/display_voice.json:58
@@ -54123,7 +54128,7 @@ msgstr ""
 #. Recipient'
 #. Label of the token (Password) field in DocType 'Cloud Link'
 #: onedesk/one_calendar/doctype/calendar_feed/calendar_feed.json:51
-#: onedesk/one_display/doctype/display_screen/display_screen.json:259
+#: onedesk/one_display/doctype/display_screen/display_screen.json:267
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:120
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:49
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json:129
@@ -54147,7 +54152,7 @@ msgid "Token Hash"
 msgstr ""
 
 #. Label of the token (Data) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:266
+#: onedesk/one_display/doctype/display_screen/display_screen.json:274
 msgid "Token Once"
 msgstr ""
 
@@ -55081,7 +55086,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
 #: onedesk/one_book/print_format/one_share_transfer/one_share_transfer.json
 #: onedesk/one_crm/print_format/one_service_report/one_service_report.json
-#: onedesk/one_display/doctype/display_screen/display_screen.json:62
+#: onedesk/one_display/doctype/display_screen/display_screen.json:63
 #: onedesk/one_display/doctype/display_slide/display_slide.json:21
 #: onedesk/one_display/doctype/display_source/display_source.json:51
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json:25
@@ -56773,7 +56778,7 @@ msgid "Waiting since {0}."
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Display Screen'
-#: onedesk/one_display/doctype/display_screen/display_screen.json:99
+#: onedesk/one_display/doctype/display_screen/display_screen.json:100
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:75
 msgid "Waiting to Pair"
 msgstr ""
@@ -61458,7 +61463,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_board/display_board.json:104
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:96
 #: onedesk/one_display/doctype/display_channel/display_channel.json:122
-#: onedesk/one_display/doctype/display_screen/display_screen.json:289
+#: onedesk/one_display/doctype/display_screen/display_screen.json:297
 #: onedesk/one_display/doctype/display_settings/display_settings.json:42
 #: onedesk/one_display/doctype/display_source/display_source.json:269
 #: onedesk/one_display/doctype/display_voice/display_voice.json:68

@@ -225,7 +225,7 @@ No doctypes yet.
 | Display Board State | 3 | child |
 | Display Channel | 13 | document |
 | Display News Source | 1 | child |
-| Display Screen | 35 | document |
+| Display Screen | 36 | document |
 | Display Settings | 2 | single |
 | Display Slide | 9 | child |
 | Display Source | 32 | document |

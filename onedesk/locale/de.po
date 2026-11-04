@@ -32658,6 +32658,11 @@ msgstr "Büros"
 msgid "Offline"
 msgstr "Offline"
 
+#. Label of the offline_told (Datetime) field in DocType 'Display Screen'
+#: onedesk/one_display/doctype/display_screen/display_screen.json:243
+msgid "Offline Told"
+msgstr "Offline gemeldet"
+
 #: frontend/src/slide/components/ShadowSection.vue:38
 msgid "Offset"
 msgstr "Versatz"

@@ -12,21 +12,23 @@ TOLD = "one_display:offline:{}"
 def offline() -> None:
 	"""Every five minutes: a paired screen that stopped asking, and was not
 	turned off from here, is told to whoever runs OneDisplay once for each
-	time it went quiet."""
+	time it went quiet. Which quiet was told is kept on the screen
+	(offline_told), not in the cache, which a deploy clears. A screen never
+	heard from has not gone quiet: frappe reads an empty date as the
+	earliest day, so `<` alone told it every time."""
 	since = add_to_date(now_datetime(), minutes=-SILENT)
 	screens = frappe.get_all(
 		"Display Screen",
-		filters={"status": "Paired", "dark": 0, "last_seen": ["<", since]},
-		fields=["name", "screen_name", "last_seen"],
+		filters=[["status", "=", "Paired"], ["dark", "=", 0], ["last_seen", "is", "set"], ["last_seen", "<", since]],
+		fields=["name", "screen_name", "last_seen", "offline_told"],
 	)
 	if not screens:
 		return
 	people = _runners()
 	for screen in screens:
-		key = TOLD.format(screen.name)
-		if frappe.cache.get_value(key) == str(screen.last_seen):
+		if screen.offline_told == screen.last_seen:
 			continue
-		frappe.cache.set_value(key, str(screen.last_seen), expires_in_sec=7 * 86400)
+		frappe.db.set_value("Display Screen", screen.name, "offline_told", screen.last_seen, update_modified=False)
 		notify.notify(
 			"Screen Offline",
 			people,
