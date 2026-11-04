@@ -91,6 +91,7 @@ onedesk.one_mail.patches.rules_are_steps
 onedesk.one_mail.patches.no_auto_reply_ability
 onedesk.one_mail.patches.rule_replies_are_sent
 onedesk.one_mail.patches.notifications_send_from_one
+onedesk.one_mail.patches.rehold
 onedesk.one_admin.patches.no_model_catalogue
 onedesk.one_ai.patches.jobs_in_code
 onedesk.one.patches.home_is_a_page

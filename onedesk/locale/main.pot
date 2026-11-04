@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-04 16:01+0000\n"
-"PO-Revision-Date: 2026-11-04 16:01+0000\n"
+"POT-Creation-Date: 2026-11-04 20:19+0000\n"
+"PO-Revision-Date: 2026-11-04 20:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -471,7 +471,7 @@ msgstr ""
 msgid "A Frappe app's name is lowercase letters, digits and underscores."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1114 onedesk/one_mail/rules.py:1126
+#: onedesk/one_mail/rules.py:1117 onedesk/one_mail/rules.py:1129
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr ""
 
@@ -31355,7 +31355,7 @@ msgstr ""
 msgid "Nobody Applied"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1140
+#: onedesk/one_mail/rules.py:1143
 msgid "Nobody asked for this rule."
 msgstr ""
 
@@ -50227,7 +50227,7 @@ msgstr ""
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1093
+#: onedesk/one_mail/rules.py:1096
 msgid "That rule is not in this mailbox."
 msgstr ""
 

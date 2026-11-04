@@ -913,8 +913,11 @@ def who_is_away(emails: str | list) -> list[dict]:
 def cover(*_args) -> None:
 	"""Daily: whoever covers for a person on approved leave, where the leave
 	says so, reads that person's workspace address until the leave ends, and
-	not a day after. They never send from it."""
-	for row in frappe.get_all("User Email", filters={"one_cover_until": ["<", today()]}, pluck="name"):
+	not a day after. They never send from it. Only a cover row ends: frappe
+	reads an empty date as the earliest day, so `<` alone also matched every
+	holder's own row and took everybody's mailbox away each night."""
+	ended = [["one_cover_until", "is", "set"], ["one_cover_until", "<", today()]]
+	for row in frappe.get_all("User Email", filters=ended, pluck="name"):
 		frappe.db.delete("User Email", {"name": row})
 	for leave in frappe.get_all(
 		"Leave Application",

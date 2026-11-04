@@ -6,6 +6,16 @@ module's README says what it does.
 
 ## Due now
 
+- **The tests inside modules are not in the gate.** `quick.py --all` runs
+  `tests/`; the nine `onedesk/*/tests/test_*.py` (127 tests) run nowhere,
+  and `one_ai/tests/test_oneai_words.py::test_no_tool_says_it` fails. Move
+  them into `tests/` or add the folders to `--all`, and fix that one.
+- **Empty dates in `<` filters.** frappe reads an empty date as the earliest
+  day (`IFNULL(field, '0001-01-01') < x`), which took every mailbox away
+  each night (one_mail rules.cover, fixed 5 November 2026). Read the rest in
+  each module's pass: inventory's expiring batches and due services, a
+  project's end date, HR's scheduled reviews, matters.act_after, the
+  admin runner, and announcements.ended (db.set_value).
 - **Rebuild the demo on a fresh site.** Five checks read dates relative to
   today and fail on a demo built days ago:
   `onecalendar_shows_each_person_their_week`,
