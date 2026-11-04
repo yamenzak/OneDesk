@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-03 22:00+0000\n"
-"PO-Revision-Date: 2026-11-03 22:00+0000\n"
+"POT-Creation-Date: 2026-11-04 11:25+0000\n"
+"PO-Revision-Date: 2026-11-04 11:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -28847,7 +28847,7 @@ msgstr ""
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
-#: onedesk/public/js/one_interface/frame.js:547
+#: onedesk/public/js/one_interface/frame.js:548
 msgid "More views"
 msgstr ""
 
@@ -43843,6 +43843,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:121
 #: onedesk/public/js/one_interface/chrome.js:73
 #: onedesk/public/js/one_interface/chrome.js:74
+#: onedesk/public/js/one_interface/frame.js:253
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr ""
@@ -56469,7 +56470,7 @@ msgstr ""
 #: onedesk/one_inventory/portal.py:110
 #: onedesk/one_studio/doctype/extension/extension.json:77
 #: onedesk/public/js/account_tree.js:14
-#: onedesk/public/js/one_interface/frame.js:539
+#: onedesk/public/js/one_interface/frame.js:540
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:8
 #: onedesk/public/js/project.js:13 onedesk/www/account_invoices.html:39
 msgid "View"

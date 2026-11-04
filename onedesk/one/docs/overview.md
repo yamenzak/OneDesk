@@ -67,10 +67,12 @@ from any page: type in its search to find a place in any app, such as
 **Apps** says something waits in one of its tools. Tapping the place's name
 at the top of a page opens the same.
 
-On a phone the top of a page is two bars. The first has the menu, the place,
-the page's buttons and search. The second is for the record you have open:
-its name, its status and a project's **All Work**. On a list the second bar
-has **List View**.
+On a phone the bar at the top has the place, **Refresh**, **Search** and
+the menu. **Search** there is the same as Ctrl+K on a computer: type a
+place, a record or a question for OneAI. On a list, the row under it
+searches that list and holds its filters, **Filter** and **Sort**. The bar
+moves out of the way while you scroll down and comes back when you scroll
+up.
 
 A record's own page, such as a project's, reads like a form. Its views are
 tabs across the top, which slide sideways when they don't all fit, and who it's

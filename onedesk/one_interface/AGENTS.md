@@ -399,6 +399,16 @@ tab carries a dot while any of those tools has a count. A phone has no top
 or bottom bar, so nothing on them may be reachable only there: a tool
 added to a bar group reaches the sheet with it.
 
+**The two bars are one material.** The address bar at the top and the tab
+bar at the bottom run edge to edge on `--one-head-bg`, a `--one-line`
+hairline toward the page; the address row's island is not drawn. The
+address bar's first row is the place and its tools (Refresh, the
+address box's glass, the menu); its second narrows the view (its own
+search's glass first, then the fields, Filter and Sort), and frappe's
+phone Reload List, which repeats Refresh, goes. The bar slides away while
+the page scrolls down and comes back as soon as it scrolls up or nears
+the top (`phone.tuck`), and stays while something in it is typed in.
+
 **The floor and the floats.** frappe's tab bar (Home, Search,
 Notifications, Profile) holds the bottom of a phone; `--one-floor`
 (frame.css) is its height there and 0 everywhere else. Anything One pins
@@ -630,8 +640,10 @@ OneCloud opens `Company/Document Templates` as a folder.
 
 So there is one way to go somewhere (the address box) and one way to narrow
 what is here (the search box beside it, which filters this list or this
-folder). Below 768 px, where the address row is not drawn, Ctrl+K opens
-frappe's own search as before.
+folder). On a phone the address box is the same: the bar's glass
+(`data-interface="address"`, shown only there, since a desk has the top
+bar's) opens it, the answers drop under the bar the width of the screen,
+and frappe's own phone glass and its search page give way to it.
 
 frappe's global search tells the reader, in a message, about every record
 it leaves out because they may not read it. Typed into a box that searches

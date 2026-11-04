@@ -204,3 +204,116 @@ body:has(.one-bar .one-bar-badge:not(.hide, .hidden)) [data-one-tab="apps"] .one
 	color: var(--one-ink-quiet);
 	text-align: center;
 }
+
+.one-interface [data-interface="address"] {
+	display: none !important;
+}
+
+/* The two bars of a phone are one material: the address bar at the top and
+   frappe's tab bar at the bottom, edge to edge, a hairline toward the page.
+   The address bar slides away while the page scrolls down and back as soon as
+   it scrolls up (phone.js). */
+@media (max-width: 767.98px) {
+	frappe-mobile-nav [data-slot="mobile-nav"] {
+		border-top: 1px solid var(--one-line);
+		background: var(--one-head-bg);
+	}
+
+	.one-interface > .page-head {
+		padding: 0 !important;
+		border-bottom: 1px solid var(--one-line);
+		background: var(--one-head-bg);
+		transition: transform 0.2s ease;
+	}
+
+	body.one-head-tucked .one-interface > .page-head {
+		transform: translateY(-100%);
+	}
+
+	.one-interface > .page-head > .container {
+		max-width: none;
+		padding-inline: 0 !important;
+	}
+
+	.one-interface .page-head .page-head-content {
+		padding: 6px var(--one-inset, 10px) !important;
+		row-gap: 6px !important;
+	}
+
+	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content::before {
+		content: none;
+	}
+
+	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .one-interface-switch, .standard-items-section) {
+		margin-top: 0;
+	}
+
+	.one-interface .page-head-content > .page-title {
+		padding-inline: 0 !important;
+	}
+
+	.one-interface .page-head-content > .page-title .title-area {
+		padding-inline: 0;
+	}
+
+	.one-interface .page-head .page-head-content > .one-interface-tools {
+		display: contents;
+	}
+
+	.one-interface .page-head .page-head-content > .one-interface-tools > * {
+		order: 3;
+	}
+
+	.one-interface .page-head .page-head-content > .one-interface-break {
+		order: 4;
+		display: block;
+		flex-basis: 100%;
+		height: 0;
+	}
+
+	.one-interface .page-head .page-head-content:has(> .one-interface-views:not(:empty)) > .one-interface-tools > .one-interface-search {
+		order: 5;
+	}
+
+	.one-interface .page-head .page-head-content > .one-interface-views:not(:empty) {
+		order: 6;
+		flex: 1 1 0 !important;
+		min-width: 0;
+	}
+
+	.one-interface .page-head .page-head-content > .one-interface-tools > .one-interface-search:focus-within {
+		flex: 0 0 100%;
+	}
+
+	.one-interface .page-head .page-head-content:has(> .one-interface-tools > .one-interface-search:focus-within) > .one-interface-views {
+		display: none !important;
+	}
+
+	.one-interface .page-head [data-interface="address"] {
+		display: inline-flex !important;
+	}
+
+	.one-interface .page-head .navbar-modal-search-mobile,
+	.one-interface .page-head .filter-selector > .hidden-lg {
+		display: none !important;
+	}
+
+	.one-interface .page-head :is(.page-head-content, .page-title, .page-title .title-area):has(.one-interface-address) {
+		position: static !important;
+	}
+
+	.one-interface-address .awesomplete > [role="listbox"] {
+		top: 100%;
+		inset-inline: 0;
+		margin: 0;
+		max-height: calc(100dvh - 160px);
+		border-inline: 0;
+		border-radius: 0;
+	}
+}
+
+@media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
+	.one-interface > .page-head {
+		transition: none;
+	}
+}

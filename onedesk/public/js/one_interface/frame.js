@@ -250,7 +250,7 @@ onedesk.interface.Frame = class Frame {
 				__("Up")
 			)}</div>`
 		).prependTo($content);
-		this.$tools = $(`<div class="one-interface-tools">${button("refresh", "refresh-cw", __("Refresh"))}<div class="one-interface-search" data-tour="interface-search"></div></div>`).insertAfter(
+		this.$tools = $(`<div class="one-interface-tools">${button("refresh", "refresh-cw", __("Refresh"))}${button("address", "search", __("Search"))}<div class="one-interface-search" data-tour="interface-search"></div></div>`).insertAfter(
 			$content.children(".page-title")
 		);
 		$(`<div class="one-interface-break"></div>`).insertAfter(this.$tools);
@@ -424,6 +424,7 @@ onedesk.interface.Frame = class Frame {
 			return route && frappe.set_route(route);
 		}
 		if (name === "details") return this.toggle_details();
+		if (name === "address") return this.address();
 	}
 
 	search({ placeholder = "", on_input, on_key } = {}) {
@@ -575,8 +576,15 @@ onedesk.interface.AddressBar = class AddressBar extends frappe.search.AwesomeBar
 // The current page's window, if it has one and the screen is wide enough
 // for its address row.
 onedesk.interface.current = () => {
+	const win = onedesk.interface.here();
+	return win && window.innerWidth >= 768 ? win : null;
+};
+
+// The current page's window on any screen: a phone's address bar is typed
+// into as a desk's is.
+onedesk.interface.here = () => {
 	const page = frappe.container && frappe.container.page && frappe.container.page.page;
-	return page && page.interface && window.innerWidth >= 768 ? page.interface : null;
+	return (page && page.interface) || null;
 };
 
 (() => {
@@ -584,7 +592,7 @@ onedesk.interface.current = () => {
 		frappe.search.one_interface = true;
 		const theirs = frappe.search.open_awesomebar_from_global_search_shortcut;
 		frappe.search.open_awesomebar_from_global_search_shortcut = function (e) {
-			const win = onedesk.interface.current();
+			const win = onedesk.interface.here();
 			if (!win) return theirs.call(this, e);
 			win.address();
 			return false;
@@ -592,7 +600,7 @@ onedesk.interface.current = () => {
 		document.addEventListener(
 			"click",
 			(e) => {
-				const win = e.target.closest && e.target.closest(".navbar-modal-search-mobile") && onedesk.interface.current();
+				const win = e.target.closest && e.target.closest(".navbar-modal-search-mobile") && onedesk.interface.here();
 				if (!win) return;
 				e.stopPropagation();
 				e.preventDefault();

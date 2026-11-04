@@ -2670,6 +2670,13 @@ OVERRIDES = [
 		"this.open_sheet(this.module_label(sidebar.current_module), () => ({",
 	),
 	(
+		"A phone's list has one Reload",
+		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
+		"onedesk/public/css/one_interface/phone.css",
+		"frappe/frappe/public/js/frappe/list/base_list.js",
+		'this.$filter_list_wrapper.find(".filter-selector").prepend(refresh_button);',
+	),
+	(
 		"A phone's dock is a grid of every app",
 		"phone.css lays frappe's sheet dock out four across instead of a row that scrolls past the edge",
 		"onedesk/public/css/one_interface/phone.css",

@@ -409,3 +409,16 @@ def test_a_phone_reaches_every_app_and_every_bar_tool():
 	carried = set(re.findall(r'\[data-group="(\w+)"\]', phone.split("TOOLS:", 1)[1].split("\n", 1)[0]))
 	assert groups == carried, f"bar groups a phone cannot reach: {sorted(groups - carried)}"
 	assert "phone.css" in HOOKS and "one_interface/phone.js" in HOOKS
+
+
+def test_a_phones_address_bar_is_typed_into_as_a_desks_is():
+	"""On a phone the address bar's glass opens the address box (Ctrl+K's
+	answers), the bar is the tab bar's material edge to edge, and it slides
+	away as the page scrolls down."""
+	phone_css = (FRAME_CSS / "phone.css").read_text(encoding="utf-8")
+	phone_js = (FRAME_JS / "phone.js").read_text(encoding="utf-8")
+	assert 'button("address", "search"' in FRAME and 'if (name === "address") return this.address();' in FRAME
+	assert "onedesk.interface.here()" in FRAME.split("open_awesomebar_from_global_search_shortcut = function", 1)[1].split("};", 1)[0]
+	assert "one-head-tucked" in phone_js and "body.one-head-tucked .one-interface > .page-head" in phone_css
+	bars = re.findall(r"background: var\((--one-[a-z-]+)\);", phone_css.split("@media (max-width: 767.98px) {", 1)[1].split("body.one-head-tucked", 1)[0])
+	assert bars[:2] == ["--one-head-bg", "--one-head-bg"], bars

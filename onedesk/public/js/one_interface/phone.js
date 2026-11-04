@@ -152,12 +152,41 @@ $.extend(onedesk.interface.phone, {
 		return body;
 	},
 
+	/** The address bar slides away while the page scrolls down and comes back
+	 * as soon as it scrolls up, or once the page is near its top. It stays while
+	 * something in it is being typed in. */
+	tuck() {
+		const phone = window.matchMedia("(max-width: 767.98px)");
+		const set = (on) => document.body.classList.toggle("one-head-tucked", on);
+		let last = 0;
+		document.addEventListener(
+			"scroll",
+			(e) => {
+				const scroller = e.target;
+				if (!(scroller instanceof Element) || !scroller.classList.contains("main-section")) return;
+				const at = scroller.scrollTop;
+				const moved = at - last;
+				last = at;
+				if (!phone.matches || at < 64 || document.querySelector(".one-interface-address, .page-head :focus-within")) return set(false);
+				if (moved > 6) set(true);
+				else if (moved < -6) set(false);
+			},
+			{ capture: true, passive: true }
+		);
+		frappe.router?.on("change", () => {
+			last = 0;
+			set(false);
+		});
+	},
+
 	return_tools(nav) {
 		for (const { tool, group } of nav.one_tools || []) group.appendChild(tool);
 		nav.one_tools = [];
 		nav.$one_heading = null;
 	},
 });
+
+onedesk.interface.phone.tuck();
 
 if (frappe.ui.MobileNav) onedesk.interface.phone.dress(frappe.ui.MobileNav);
 else {
