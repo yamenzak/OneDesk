@@ -116,6 +116,8 @@
 	--one-head-button-hover: var(--surface-gray-4);
 	/* a starred record's star (star.js) */
 	--one-star: var(--ink-amber-5);
+	/* what dims the page under a panel from the top or bottom (phone.find) */
+	--one-scrim: var(--one-over-black-200);
 	--one-address-edge: var(--outline-gray-2);
 	--one-command-on: var(--surface-gray-3);
 
@@ -140,6 +142,7 @@
    the screen beside it. */
 :root[data-theme="dark"],
 .one-sample[data-theme="dark"] {
+	--one-scrim: var(--one-over-black-500);
 	--one-sidebar-bg: var(--surface-base);
 }
 

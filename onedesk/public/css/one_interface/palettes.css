@@ -37,6 +37,7 @@
 	--one-level-control: oklch(0.93 0.014 75);
 	--one-level-float: oklch(0.993 0.005 85);
 	--one-address-bg: oklch(0.965 0.01 80);
+	--one-scrim: var(--one-over-black-200);
 	--one-address-edge: var(--gray-300);
 	--one-button-bg: var(--one-level-control);
 	--one-button-hover: var(--gray-200);
@@ -125,6 +126,7 @@
 	--one-level-control: var(--gray-700);
 	--one-level-float: var(--gray-950);
 	--one-address-bg: var(--gray-900);
+	--one-scrim: var(--one-over-black-500);
 	--one-address-edge: var(--gray-600);
 	--one-button-bg: var(--one-level-control);
 	--one-button-hover: var(--gray-600);

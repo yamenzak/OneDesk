@@ -2684,6 +2684,13 @@ OVERRIDES = [
 		'.querySelector(".es-bottom-sheet__grip")',
 	),
 	(
+		"A phone's Search tab opens the search from the top",
+		"phone.js catches the Search tab's tap before frappe's link to its search page and opens phone.find, frappe's search bar in a panel from the top with the box focused",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		'to: "/desk/search",',
+	),
+	(
 		"A phone's list has one Reload",
 		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
 		"onedesk/public/css/one_interface/phone.css",

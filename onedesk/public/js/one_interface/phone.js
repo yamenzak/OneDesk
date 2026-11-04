@@ -60,6 +60,18 @@ $.extend(onedesk.interface.phone, {
 		proto.make_tab = function (one) {
 			if (!one.opens) {
 				const made = tab.call(this, one);
+				if (one.name === "search") {
+					made.el.addEventListener(
+						"click",
+						(e) => {
+							if (e instanceof CustomEvent) return;
+							e.preventDefault();
+							e.stopPropagation();
+							onedesk.interface.phone.find();
+						},
+						true
+					);
+				}
 				if (one.name === "notifications") {
 					const unread = frappe.boot.notification_unread_count || 0;
 					$(made.el).append(
@@ -280,6 +292,69 @@ $.extend(onedesk.interface.phone, {
 		};
 	},
 
+	/** Search on a phone: a panel that drops from the top with its box
+	 * focused in the same tap, so the keyboard is up at once, and frappe's
+	 * search bar answering under it as in a desk's address box (AddressBar),
+	 * recent places first. The Search tab, the bar's glass, a place name and
+	 * Ctrl+K open it. */
+	find() {
+		const open = document.querySelector(".one-find input");
+		if (open) return open.focus();
+		const $find = $(`<div class="one-find" role="dialog" aria-modal="true">
+			<div class="one-find-scrim"></div>
+			<div class="one-find-panel"><div class="one-find-row"><div class="one-find-box"><input type="search"></div></div></div>
+		</div>`)
+			.attr("aria-label", __("Search"))
+			.appendTo(document.body);
+		const $input = $find.find("input").attr({
+			placeholder: __("Search"),
+			"aria-label": __("Search"),
+			enterkeyhint: "search",
+			autocomplete: "off",
+			spellcheck: "false",
+		});
+		$input[0].focus();
+		const room = () => {
+			const tall = window.visualViewport?.height || window.innerHeight;
+			$find.find(".one-find-panel").css("max-height", `${tall}px`);
+			$find.find("[role=listbox]").css("max-height", `${tall - 64}px`);
+		};
+		const esc = (e) => {
+			if (e.key !== "Escape") return;
+			e.stopPropagation();
+			close();
+		};
+		const close = () => {
+			if (!$find.parent().length) return;
+			window.visualViewport?.removeEventListener("resize", room);
+			document.removeEventListener("keydown", esc, true);
+			$input.trigger("blur");
+			$find.removeClass("one-find-open");
+			setTimeout(() => $find.remove(), 200);
+		};
+		room();
+		window.visualViewport?.addEventListener("resize", room);
+		document.addEventListener("keydown", esc, true);
+		$find.find(".one-find-scrim").on("click", close);
+		$find.find(".one-find-row").append(frappe.ui.button({ label: __("Cancel"), variant: "ghost", css_class: "one-find-cancel", onclick: close }));
+		new onedesk.interface.AddressBar($find.find(".one-find-box"), $input, close);
+		room();
+		$input.trigger("focus");
+		requestAnimationFrame(() => $find.addClass("one-find-open"));
+	},
+
+	/** On a phone the address box is the drop-down search. */
+	search(Frame) {
+		const proto = Frame?.prototype;
+		if (!proto || proto.__one_find) return;
+		proto.__one_find = true;
+		const address = proto.address;
+		proto.address = function (...args) {
+			if (window.matchMedia("(max-width: 767.98px)").matches) return onedesk.interface.phone.find();
+			return address.apply(this, args);
+		};
+	},
+
 	return_tools(nav) {
 		for (const { tool, group } of nav.one_tools || []) group.appendChild(tool);
 		nav.one_tools = [];
@@ -288,6 +363,7 @@ $.extend(onedesk.interface.phone, {
 });
 
 onedesk.interface.phone.tuck();
+onedesk.interface.phone.search(onedesk.interface.Frame);
 
 if (frappe.ui.mobile_nav) {
 	onedesk.interface.phone.titled();

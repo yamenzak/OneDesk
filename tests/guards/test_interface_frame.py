@@ -431,3 +431,14 @@ def test_a_sheet_closes_from_anywhere_at_its_top():
 	pull = phone_js.split("\tpull(Sheet) {", 1)[1].split("\n\t},\n", 1)[0]
 	assert "scrollTop > 0" in pull and 'sheet.close("swipe")' in pull and "passive: false" in pull
 	assert 'Object.defineProperty(frappe.ui, "BottomSheet"' in phone_js
+
+
+def test_a_phones_search_drops_from_the_top_with_the_keyboard_up():
+	"""The box is focused in the tap that opens it, which a phone needs to
+	raise its keyboard, and every way into search on a phone lands there."""
+	phone_js = (FRAME_JS / "phone.js").read_text(encoding="utf-8")
+	find = phone_js.split("\tfind() {", 1)[1].split("\n\t},\n", 1)[0]
+	assert find.index("$input[0].focus();") < find.index("requestAnimationFrame(")
+	assert "new onedesk.interface.AddressBar(" in find
+	assert 'one.name === "search"' in phone_js and "onedesk.interface.phone.find();" in phone_js
+	assert "proto.address = function" in phone_js

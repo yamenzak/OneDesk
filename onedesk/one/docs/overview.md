@@ -68,8 +68,9 @@ from any page: type in its search to find a place in any app, such as
 at the top of a page opens the same.
 
 On a phone the bar at the top has the place, **Refresh**, **Search** and
-the menu. **Search** there is the same as Ctrl+K on a computer: type a
-place, a record or a question for OneAI. On a list, the row under it
+the menu. **Search** there, or the **Search** tab, opens at the top of
+the screen with the keyboard ready. It is the same as Ctrl+K on a computer:
+your recent places, then type a place, a record or a question for OneAI. On a list, the row under it
 searches that list and holds its filters, **Filter** and **Sort**. The bar
 moves out of the way while you scroll down and comes back when you scroll
 up. On a phone, tap the place's name to search; on a record, tap its kind,

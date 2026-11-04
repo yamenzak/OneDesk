@@ -298,22 +298,119 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		display: none !important;
 	}
 
-	.one-interface .page-head :is(.page-head-content, .page-title, .page-title .title-area):has(.one-interface-address) {
-		position: static !important;
-	}
-
-	.one-interface-address .awesomplete > [role="listbox"] {
-		top: 100%;
-		inset-inline: 0;
-		margin: 0;
-		max-height: calc(100dvh - 160px);
-		border-inline: 0;
-		border-radius: 0;
-	}
 }
 
 @media (max-width: 767.98px) and (prefers-reduced-motion: reduce) {
 	.one-interface > .page-head {
+		transition: none;
+	}
+}
+
+/* Search on a phone (phone.find): a panel from the top, the box and Cancel
+   in a row, frappe's answers under them, as tall as the keyboard leaves. */
+.one-find {
+	position: fixed;
+	inset: 0;
+	z-index: calc(var(--one-layer-backdrop) + 5);
+}
+
+.one-find-scrim {
+	position: absolute;
+	inset: 0;
+	background: var(--one-scrim);
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.one-find-panel {
+	position: absolute;
+	top: 0;
+	inset-inline: 0;
+	display: flex;
+	flex-direction: column;
+	max-height: 100dvh;
+	padding-top: env(safe-area-inset-top);
+	border-bottom: 1px solid var(--one-line);
+	border-radius: 0 0 var(--one-radius-sheet) var(--one-radius-sheet);
+	background: var(--one-head-bg);
+	transform: translateY(-100%);
+	transition: transform 0.2s ease;
+}
+
+.one-find-open .one-find-scrim {
+	opacity: 1;
+}
+
+.one-find-open .one-find-panel {
+	transform: none;
+}
+
+.one-find-row {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 8px;
+	min-height: 0;
+	padding: 8px var(--one-inset, 10px);
+}
+
+.one-find-box,
+.one-find-box .awesomplete {
+	display: contents;
+}
+
+.one-find-box .awesomebar-input-row {
+	flex: 1;
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	min-width: 0;
+	height: 40px;
+	padding: 0 12px;
+	border-radius: var(--one-radius-control);
+	background: var(--one-control-bg);
+}
+
+.one-find-box .awesomebar-search-icon {
+	display: flex;
+	color: var(--one-ink-quiet);
+}
+
+.one-find-box input {
+	flex: 1;
+	min-width: 0;
+	height: 100%;
+	padding: 0;
+	border: 0;
+	outline: none;
+	background: transparent;
+	color: var(--one-ink);
+	font-size: 16px;
+}
+
+.one-find-cancel {
+	flex: none;
+}
+
+.one-find-box .awesomplete > [role="listbox"] {
+	position: static !important;
+	order: 2;
+	flex: 0 0 calc(100% + 2 * var(--one-inset, 10px));
+	max-height: calc(100dvh - 64px - env(safe-area-inset-top));
+	margin: 0 calc(-1 * var(--one-inset, 10px)) -8px !important;
+	padding: 4px 6px 8px;
+	overflow-y: auto;
+	overscroll-behavior: contain;
+	border: 0 !important;
+	border-top: 1px solid var(--one-line) !important;
+	border-radius: 0 !important;
+	box-shadow: none !important;
+	background: transparent !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-find-scrim,
+	.one-find-panel {
 		transition: none;
 	}
 }

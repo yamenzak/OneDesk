@@ -652,10 +652,13 @@ OneCloud opens `Company/Document Templates` as a folder.
 
 So there is one way to go somewhere (the address box) and one way to narrow
 what is here (the search box beside it, which filters this list or this
-folder). On a phone the address box is the same: the bar's glass
-(`data-interface="address"`, shown only there, since a desk has the top
-bar's) opens it, the answers drop under the bar the width of the screen,
-and frappe's own phone glass and its search page give way to it.
+folder). On a phone the same search drops from the top (`phone.find`):
+a panel on the bars' material with the box focused in the same tap, so the
+keyboard is up at once, Cancel beside it, frappe's answers under it as tall
+as the keyboard leaves, recent places first. The Search tab, the bar's
+glass (`data-interface="address"`, shown only there, since a desk has the
+top bar's), a list's place name and Ctrl+K open it; `Frame.address` hands
+over to it below 768px. frappe's search page stays at its address.
 
 frappe's global search tells the reader, in a message, about every record
 it leaves out because they may not read it. Typed into a box that searches
