@@ -195,10 +195,15 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 				here = onedesk.panel.row(window.location.pathname);
 				if (here) place = items.length - 1;
 			}
-			if (place >= 0 && !done.has(place)) onedesk.crumbs.places($crumbs.eq(place).addClass("one-places"), here);
+			const list = place >= 0 ? items[place].label : null;
+			const record = { doctype, name, list };
+			if (!window.matchMedia("(max-width: 767.98px)").matches) {
+				if (place >= 0 && !done.has(place)) onedesk.crumbs.places($crumbs.eq(place).addClass("one-places"), here);
+			} else if (doctype && name && at > 0) {
+				const kind = place >= 0 && !done.has(place) ? place : 0;
+				onedesk.crumbs.records($crumbs.eq(kind).addClass("one-places"), record);
+			}
 			if (doctype && name && at >= 0 && !done.has(at)) {
-				const list = place >= 0 ? items[place].label : null;
-				const record = { doctype, name, list };
 				onedesk.crumbs.records($crumbs.eq(at), record);
 				below(at, "one-head-record", ($b) => onedesk.crumbs.records($b, { ...record, button: true }));
 			}

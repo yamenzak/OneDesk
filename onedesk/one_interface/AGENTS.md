@@ -427,8 +427,13 @@ Under 768 px (frame.css for both looks, canvas.css for Canvas's own parts)
 a list's top is three rows and a record's two, and nothing on them is cut:
 
 - **The address row** holds where you are and its tools. The address shows
-  its last place only, and on a record the kind of record (which switches
-  to others), since the head already names the record. A view's search is
+  its last place only, and on a record the kind of record, since the head
+  already names the record. Of a desk's switchers it keeps one: on a
+  record the kind switches to another record of it (the latest first,
+  then a search, then All). The app's other places are under Apps, so a
+  list's place name, tapped, opens the address box instead
+  (`phone.titled`, frappe's `Page.title_action`; crumb_switch.js leaves
+  the places switcher off). A view's search is
   its glass until tapped, then takes the row; frappe's phone search, which
   looks everywhere, gives way to it, and on a record it joins the tools
   rather than standing by the name. An empty views row, or frappe's empty

@@ -179,6 +179,18 @@ $.extend(onedesk.interface.phone, {
 		});
 	},
 
+	/** A page's place name, tapped on a phone, opens the address box, as on a
+	 * desk: the app's places are under Apps, and everything else is a search
+	 * away. frappe's tab bar sets this as it is built, so it is set after. */
+	titled() {
+		const phone = window.matchMedia("(max-width: 767.98px)");
+		frappe.ui.Page.title_action = () =>
+			phone.matches && document.body.classList.contains("mobile-nav-title") && onedesk.interface.here()
+				? () => onedesk.interface.here()?.address()
+				: null;
+		frappe.container?.page?.page?.render_breadcrumbs?.();
+	},
+
 	return_tools(nav) {
 		for (const { tool, group } of nav.one_tools || []) group.appendChild(tool);
 		nav.one_tools = [];
@@ -187,6 +199,20 @@ $.extend(onedesk.interface.phone, {
 });
 
 onedesk.interface.phone.tuck();
+
+if (frappe.ui.mobile_nav) onedesk.interface.phone.titled();
+else {
+	let made;
+	Object.defineProperty(frappe.ui, "mobile_nav", {
+		configurable: true,
+		enumerable: true,
+		get: () => made,
+		set: (nav) => {
+			made = nav;
+			onedesk.interface.phone.titled();
+		},
+	});
+}
 
 if (frappe.ui.MobileNav) onedesk.interface.phone.dress(frappe.ui.MobileNav);
 else {

@@ -72,7 +72,9 @@ the menu. **Search** there is the same as Ctrl+K on a computer: type a
 place, a record or a question for OneAI. On a list, the row under it
 searches that list and holds its filters, **Filter** and **Sort**. The bar
 moves out of the way while you scroll down and comes back when you scroll
-up.
+up. On a phone, tap the place's name to search; on a record, tap its kind,
+**Customer** for example, to open another one. The app's other places are
+under **Apps**.
 
 A record's own page, such as a project's, reads like a form. Its views are
 tabs across the top, which slide sideways when they don't all fit, and who it's

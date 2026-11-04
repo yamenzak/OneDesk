@@ -2670,6 +2670,13 @@ OVERRIDES = [
 		"this.open_sheet(this.module_label(sidebar.current_module), () => ({",
 	),
 	(
+		"A phone's place name opens the address box",
+		"phone.js sets frappe.ui.Page.title_action again once frappe's tab bar is built: the title opens the address box rather than the navigation sheet, which the Apps tab opens",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		"frappe.ui.Page.title_action = () =>",
+	),
+	(
 		"A phone's list has one Reload",
 		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
 		"onedesk/public/css/one_interface/phone.css",
