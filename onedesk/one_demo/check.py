@@ -9,6 +9,7 @@ starts with it, such as a module's.
 
 import json
 import traceback
+from contextlib import contextmanager
 
 import frappe
 from frappe.utils import (
@@ -38,6 +39,34 @@ def run(only: str | None = None) -> int:
 	dev.require()
 	failed = []
 	chosen = [fn for fn in CHECKS if not only or fn.__name__ == only or (only.endswith("_") and fn.__name__.startswith(only))]
+	with _unsent():
+		_each(chosen, failed, unkept)
+	print(f"{len(chosen) - len(failed)} of {len(chosen)} passed" if len(chosen) != 1 else "")
+	return len(failed)
+
+
+@contextmanager
+def _unsent():
+	"""No mail leaves while the checks run, and none they made is kept: a
+	check that commits (a notification, a screen gone quiet) escapes the
+	rollback, and each run once left a few hundred in the queue. frappe's
+	suspend_email_queue holds the worker; what was queued since is dropped."""
+	held = frappe.db.get_default("suspend_email_queue")
+	frappe.db.set_default("suspend_email_queue", 1)
+	frappe.db.commit()
+	started = now_datetime()
+	try:
+		yield
+	finally:
+		made = frappe.get_all("Email Queue", filters={"creation": [">=", started]}, pluck="name")
+		for at in range(0, len(made), 500):
+			frappe.db.delete("Email Queue Recipient", {"parent": ["in", made[at : at + 500]]})
+			frappe.db.delete("Email Queue", {"name": ["in", made[at : at + 500]]})
+		frappe.db.set_default("suspend_email_queue", held or 0)
+		frappe.db.commit()
+
+
+def _each(chosen, failed, unkept) -> None:
 	for fn in chosen:
 		try:
 			with unkept():
@@ -58,8 +87,6 @@ def run(only: str | None = None) -> int:
 			_unasked()
 			frappe.local.response = frappe._dict({"docs": []})
 			frappe.set_user("Administrator")
-	print(f"{len(chosen) - len(failed)} of {len(chosen)} passed" if len(chosen) != 1 else "")
-	return len(failed)
 
 
 def _close(a, b, by=0.05) -> bool:

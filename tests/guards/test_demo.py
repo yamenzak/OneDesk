@@ -37,6 +37,16 @@ def test_every_app_people_gives_is_given_to_somebody_in_the_demo():
 
 
 def test_the_suite_checks_and_writes_nothing():
-	source = "\n".join(path.read_text() for path in [DEMO / "check.py", *sorted((ROOT / "onedesk").glob("*/checks.py"))])
+	"""Each check is rolled back. The one write the run makes is around itself
+	(check._unsent): it holds frappe's mail queue while it runs and drops the
+	mail its checks queued, which a check that commits would otherwise leave
+	to be sent. It writes nothing else."""
+	check = (DEMO / "check.py").read_text()
+	head, _, rest = check.partition("\ndef _unsent(")
+	unsent, _, tail = rest.partition("\ndef ")
+	source = "\n".join([head, tail, *(path.read_text() for path in sorted((ROOT / "onedesk").glob("*/checks.py")))])
 	assert source.count("@check") >= 15
 	assert "frappe.db.rollback()" in source and "frappe.db.commit" not in source
+	writes = re.findall(r"frappe\.db\.(set_default|delete|set_value|sql|insert)\(\s*\"([^\"]+)\"", unsent)
+	assert {name for _, name in writes} == {"suspend_email_queue", "Email Queue", "Email Queue Recipient"}, writes
+	assert "with _unsent():" in check.split("\ndef run(", 1)[1].split("\ndef ", 1)[0]

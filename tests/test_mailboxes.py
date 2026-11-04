@@ -29,3 +29,12 @@ def test_nothing_reaches_into_frappe_local_by_its_dict():
 	]
 	assert not found, found
 
+
+
+def test_the_demo_checks_send_no_mail():
+	"""A check that commits escapes its rollback, and each run once left a
+	few hundred notifications queued: the run holds the queue and drops what
+	it made."""
+	check = (tree.APP / "one_demo" / "check.py").read_text(encoding="utf-8")
+	held = check.split("def _unsent(", 1)[1].split("\ndef ", 1)[0]
+	assert 'set_default("suspend_email_queue", 1)' in held and 'frappe.db.delete("Email Queue"' in held
