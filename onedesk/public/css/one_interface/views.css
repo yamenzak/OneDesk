@@ -521,13 +521,13 @@
 
 	/* A count frappe sets as a link with a badge (an asset's maintenance
 	   log) is one of the panel's rows: its name, then its number. */
-	.one-interface .one-panel-pane .form-dashboard-section .row:has(> [class*="col-"] > a > .badge) {
+	.one-interface .one-panel-pane .form-dashboard-section .row:has(> * > a > .badge) {
 		margin: 0 !important;
 		padding-block: calc(var(--spacing) * 2);
 		border-bottom: 1px solid var(--one-line);
 	}
 
-	.one-interface .one-panel-pane .form-dashboard-section .row > [class*="col-"]:has(> a > .badge) {
+	.one-interface .one-panel-pane .form-dashboard-section .row > :has(> a > .badge) {
 		width: 100%;
 		max-width: none;
 		flex: 1 1 auto;
@@ -578,7 +578,7 @@
 	/* A batch's stock levels (erpnext's three columns for a full-width form)
 	   as the panel's other rows: the warehouse, its quantity, then Move and
 	   Split, on one ruled line. */
-	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) {
+	.one-interface .one-panel-pane .row:has(> * > .btn-move) {
 		display: flex;
 		align-items: center;
 		gap: calc(var(--spacing) * 2);
@@ -588,7 +588,8 @@
 		font-size: var(--text-sm);
 	}
 
-	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"] {
+	.one-interface .one-panel-pane .row > .col-sm-3.small,
+	.one-interface .one-panel-pane .row > .col-sm-6:has(> .btn-move) {
 		flex: none;
 		width: auto;
 		max-width: none;
@@ -596,19 +597,19 @@
 		font-size: inherit;
 	}
 
-	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:first-child {
+	.one-interface .one-panel-pane .row > .col-sm-3.small:first-child {
 		flex: 1 1 auto;
 		min-width: 0;
 		color: var(--one-ink-quiet);
 	}
 
-	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:nth-child(2) {
+	.one-interface .one-panel-pane .row > .col-sm-3.small.text-right {
 		margin-inline-end: calc(var(--spacing) * 2);
 		color: var(--one-ink);
 		font-variant-numeric: tabular-nums;
 	}
 
-	.one-interface .one-panel-pane .row:has(> [class*="col-"] > .btn-move) > [class*="col-"]:last-child {
+	.one-interface .one-panel-pane .row > .col-sm-6:has(> .btn-move) {
 		display: flex;
 		gap: calc(var(--spacing) * 1);
 	}

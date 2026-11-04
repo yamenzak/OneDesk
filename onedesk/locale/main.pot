@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-04 12:12+0000\n"
-"PO-Revision-Date: 2026-11-04 12:12+0000\n"
+"POT-Creation-Date: 2026-11-04 13:00+0000\n"
+"PO-Revision-Date: 2026-11-04 13:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3429,7 +3429,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:146
 #: onedesk/one_project/library/event.json
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:62
-#: onedesk/public/js/head.js:209
+#: onedesk/public/js/head.js:210
 msgid "After"
 msgstr ""
 
@@ -12081,7 +12081,7 @@ msgstr ""
 msgid "Currency · {0}"
 msgstr ""
 
-#: frontend/src/cloud/CloudPreview.vue:29 onedesk/public/js/head.js:208
+#: frontend/src/cloud/CloudPreview.vue:29 onedesk/public/js/head.js:209
 #: onedesk/public/js/one_account/account_center.js:1116
 msgid "Current"
 msgstr ""
@@ -16021,7 +16021,7 @@ msgid "Education"
 msgstr ""
 
 #: frontend/src/slide/components/TransitionSection.vue:4
-#: onedesk/public/js/head.js:199
+#: onedesk/public/js/head.js:200
 msgid "Effect"
 msgstr ""
 
@@ -18462,7 +18462,7 @@ msgstr ""
 msgid "Fieldwork"
 msgstr ""
 
-#: frontend/src/slide/shim/WidgetSection.vue:61 onedesk/public/js/head.js:207
+#: frontend/src/slide/shim/WidgetSection.vue:61 onedesk/public/js/head.js:208
 msgid "Figure"
 msgstr ""
 
@@ -40925,7 +40925,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:36 frontend/src/cloud/OneCloud.vue:635
 #: frontend/src/cloud/OneCloud.vue:636 frontend/src/cloud/OneCloud.vue:659
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
-#: onedesk/one_interface/shortcuts.py:19 onedesk/public/js/head.js:423
+#: onedesk/one_interface/shortcuts.py:19 onedesk/public/js/head.js:424
 #: onedesk/public/js/one_interface/frame.js:253
 msgid "Refresh"
 msgstr ""
@@ -52889,7 +52889,7 @@ msgstr ""
 msgid "This footer is custom HTML. Choosing a preset replaces it."
 msgstr ""
 
-#: onedesk/public/js/head.js:430 onedesk/public/js/shell.js:264
+#: onedesk/public/js/head.js:431 onedesk/public/js/shell.js:264
 msgid "This form has been modified after you have loaded it"
 msgstr ""
 
@@ -68019,7 +68019,7 @@ msgstr ""
 msgid "{0} {1} was changed by somebody else after you opened this. Refresh to see it; nothing was saved."
 msgstr ""
 
-#: onedesk/public/js/head.js:415
+#: onedesk/public/js/head.js:416
 #, python-brace-format
 msgid "{0} {1} was changed by someone else. Refresh to see the latest."
 msgstr ""

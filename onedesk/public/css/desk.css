@@ -25,7 +25,7 @@
 	display: none;
 }
 
-.form-message:has(.one-band) {
+.form-message.one-banded {
 	padding: var(--padding-md) var(--padding-xl);
 	background: transparent !important;
 	border: none !important;
@@ -39,11 +39,11 @@
    a round icon at the start (onedesk.head.marked), and the fix, where there
    is one, as an outline button at the end. The head's band shares frappe's
    box and is not an alert. */
-.form-message-container > .form-message:not(:has(.one-band)) {
+.form-message-container > .form-message:not(.one-banded) {
 	margin: var(--margin-md) var(--margin-md) 0;
 }
 
-.form-message-container > .form-message:not(:has(.one-band)),
+.form-message-container > .form-message:not(.one-banded),
 .one-alert {
 	display: flex;
 	align-items: center;
@@ -55,13 +55,13 @@
 	color: var(--ink-gray-8);
 }
 
-.form-message-container > .form-message:not(:has(.one-band)) > :not(.one-alert-icon, .close-message, .one-notice-verbs),
+.form-message-container > .form-message:not(.one-banded) > :not(.one-alert-icon, .close-message, .one-notice-verbs),
 .one-alert > :not(.one-alert-icon, .one-notice-verbs) {
 	flex: 1;
 	min-width: 0;
 }
 
-.form-message-container > .form-message:not(:has(.one-band)) a,
+.form-message-container > .form-message:not(.one-banded) a,
 .one-alert a {
 	color: inherit;
 	text-decoration: underline;

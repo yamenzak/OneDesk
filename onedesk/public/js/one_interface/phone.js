@@ -182,6 +182,19 @@ $.extend(onedesk.interface.phone, {
 	/** A page's place name, tapped on a phone, opens the address box, as on a
 	 * desk: the app's places are under Apps, and everything else is a search
 	 * away. frappe's tab bar sets this as it is built, so it is set after. */
+	/** The Apps tab's dot, on while any tool on the bars has a count. Watched
+	 * on the bars alone, so nothing else on the page restyles for it. */
+	waiting(nav, tries = 0) {
+		const tab = nav?.tabs?.find((one) => one.name === "apps")?.el;
+		const bars = document.querySelectorAll(".one-bar");
+		if (!tab) return;
+		if (!bars.length) return tries < 5 && setTimeout(() => onedesk.interface.phone.waiting(nav, tries + 1), 2000);
+		const mark = () => tab.classList.toggle("one-waiting", !!document.querySelector(".one-bar .one-bar-badge:not(.hide, .hidden)"));
+		const watch = new MutationObserver(mark);
+		bars.forEach((bar) => watch.observe(bar, { subtree: true, childList: true, attributes: true, attributeFilter: ["class"] }));
+		mark();
+	},
+
 	titled() {
 		const phone = window.matchMedia("(max-width: 767.98px)");
 		frappe.ui.Page.title_action = () =>
@@ -200,7 +213,10 @@ $.extend(onedesk.interface.phone, {
 
 onedesk.interface.phone.tuck();
 
-if (frappe.ui.mobile_nav) onedesk.interface.phone.titled();
+if (frappe.ui.mobile_nav) {
+	onedesk.interface.phone.titled();
+	onedesk.interface.phone.waiting(frappe.ui.mobile_nav);
+}
 else {
 	let made;
 	Object.defineProperty(frappe.ui, "mobile_nav", {
@@ -210,6 +226,7 @@ else {
 		set: (nav) => {
 			made = nav;
 			onedesk.interface.phone.titled();
+			onedesk.interface.phone.waiting(nav);
 		},
 	});
 }

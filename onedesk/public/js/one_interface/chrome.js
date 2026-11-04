@@ -348,7 +348,7 @@ $.extend(onedesk.interface, {
 			const $item = made.call(this, entry);
 			if ($item && flat().has(entry.icon)) {
 				const twin = frappe.utils.icon(`${entry.icon}-flat`, "md", "", "", "one-flat");
-				$item.find(".dock-item-icon").append(twin);
+				$item.find(".dock-item-icon").addClass("one-flat-icon").append(twin);
 			}
 			return $item;
 		};

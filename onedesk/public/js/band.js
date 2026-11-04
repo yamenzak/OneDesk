@@ -74,7 +74,7 @@ onedesk.band.show = async (frm, said, charts = []) => {
 	if (!said.length && !charts.length) return onedesk.band.put(frm, "");
 	if (said.some((one) => typeof one !== "string")) await frappe.require(["desk_charts.bundle.js", "desk_charts.bundle.css"]);
 	const stats = said.map((one) => (typeof one === "string" ? one : onedesk.band.card(one)));
-	frm.layout.message.children(".form-message:has(.one-band)").remove();
+	frm.layout.message.children(".form-message.one-banded").remove();
 	const heat = charts.find((chart) => chart.kind === "heat");
 	if (heat) {
 		const drawn = onedesk.band.heat(heat.days);

@@ -593,11 +593,11 @@ body.one-barred .dock-item-icon .one-flat {
 	display: none;
 }
 
-:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon:has(.one-flat) {
+:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon.one-flat-icon {
 	color: var(--one-frame-ink-strong);
 }
 
-:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon:has(.one-flat) > svg {
+:root[data-one-frame="brand"] body.one-barred .dock-item .dock-item-icon.one-flat-icon > svg {
 	display: none;
 }
 

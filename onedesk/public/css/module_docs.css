@@ -446,8 +446,8 @@ body.one-tour-in-dialog .modal.show {
 }
 /* A tour of the page under a dialog that opened over it: the dialog wins,
    so the step it was showing goes back to its own layer. */
-body:has(.modal.show):not(.one-tour-in-dialog) .driver-highlighted-element:not(.modal *),
-body:has(.modal.show):not(.one-tour-in-dialog) #driver-highlighted-element-stage {
+body.modal-open:not(.one-tour-in-dialog) .driver-highlighted-element:not(.modal *),
+body.modal-open:not(.one-tour-in-dialog) #driver-highlighted-element-stage {
 	z-index: auto !important;
 }
 body.one-tour-in-dialog #driver-highlighted-element-stage {

@@ -704,7 +704,7 @@
 }
 /* What the head says, frappe's headline under the tabs does not say again: where the record has no panel to hold
    the figures and the track (a phone), the band that repeats them goes once the head has them. */
-:root[data-one-look="canvas"] .one-head-took .form-message-container > .form-message:has(.one-band) { display: none; }
+:root[data-one-look="canvas"] .one-head-took .form-message-container > .form-message.one-banded { display: none; }
 
 /* A select's arrow is centred on its box: frappe pins it 3px from the top of a 28px box, and Canvas boxes are taller.
    It sits at the box's end in either direction. */

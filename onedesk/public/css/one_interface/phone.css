@@ -35,7 +35,7 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	background: var(--one-primary-bg);
 }
 
-body:has(.one-bar .one-bar-badge:not(.hide, .hidden)) [data-one-tab="apps"] .one-phone-dot {
+[data-one-tab="apps"].one-waiting .one-phone-dot {
 	display: block;
 }
 

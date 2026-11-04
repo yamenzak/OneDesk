@@ -230,6 +230,7 @@ GUARDS = [
 		"a list of records not drawn as frappe's table",
 		"tests/guards/test_shell.py::test_a_list_of_records_is_frappes_table",
 	),
+	Guard("selectors-cheap", 17, "a :has() selector that restyles the whole page on any change", "tests/guards/test_selectors.py::test_no_rule_of_ours_restyles_the_page"),
 	Guard("dialog-is-frappes", 8, "a dialog not frappe's", "tests/guards/test_shell.py::test_a_dialog_is_frappes"),
 	Guard(
 		"button-is-frappes",

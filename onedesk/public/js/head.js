@@ -57,7 +57,7 @@ onedesk.head.draw = (frm, drawn = null) => {
 	const head = drawn || (frm.doc.__onload && frm.doc.__onload.one_head);
 	if (!head && !frm.one_headed) return;
 	frm.one_headed = !!head;
-	frm.layout.message.children(".form-message:has(.one-head-sentence, .one-band), .one-record-changed, .one-notice").remove();
+	frm.layout.message.children(".form-message:has(.one-head-sentence), .form-message.one-banded, .one-record-changed, .one-notice").remove();
 	if (frm.one_panel && !head) onedesk.band.put(frm, "");
 	if (!head) return;
 	for (const notice of head.notices || []) onedesk.head.notice(frm, notice);
@@ -65,7 +65,7 @@ onedesk.head.draw = (frm, drawn = null) => {
 	if (head.sentence) {
 		const said = head.sentence;
 		setTimeout(() => {
-			frm.layout.message.children(".form-message:not(:has(.one-band))").not(frm.$intro_message || []).remove();
+			frm.layout.message.children(".form-message:not(.one-banded)").not(frm.$intro_message || []).remove();
 			frm.dashboard.set_headline_alert(
 				`<span class="one-head-sentence">${frappe.utils.escape_html(said.text)}</span>`,
 				said.colour === "gray" ? "white" : said.colour,
@@ -156,7 +156,8 @@ onedesk.alert = ({ text, colour = "blue", verbs = [] }) => {
 		const shown = Layout.prototype.show_message;
 		Layout.prototype.show_message = function (html, color, permanent) {
 			const $html = shown.call(this, html, color, permanent);
-			if ($html && !$html.find(".one-band").length) {
+			if ($html) $html.toggleClass("one-banded", !!$html.find(".one-band").length);
+			if ($html && !$html.hasClass("one-banded")) {
 				const colour = ["yellow", "blue", "red", "green", "orange", "white"].includes(color) ? color : "blue";
 				$html.prepend(onedesk.head.marked(colour));
 			}
