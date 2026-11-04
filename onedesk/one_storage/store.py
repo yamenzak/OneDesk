@@ -110,10 +110,7 @@ def unlimit() -> None:
 		frappe.db.set_single_value("System Settings", "max_file_size", wanted)
 
 
-#: Files their app writes to again in place, by the disk path frappe gives
-#: (open(file.get_full_path(), "wb")), so they stay on disk: ERPNext's stock
-#: revaluation keeps its working file this way (stock_ledger
-#: create_json_gz_file), and on R2 every back-dated stock change failed.
+#: Files their app rewrites in place by disk path, so they stay on disk.
 IN_PLACE = {("Repost Item Valuation", "reposting_data_file")}
 
 
