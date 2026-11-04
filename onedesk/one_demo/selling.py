@@ -20,7 +20,9 @@ DRIVER = "yousef@one.test"
 
 
 def run(password=None):
-	if not frappe.db.exists("Delivery Note", {"docstatus": 1}):
+	"""Selling's own orders, once: asked by its first customer, since steps
+	before it (projects, making) deliver too."""
+	if not frappe.db.exists("Sales Order", {"customer": "Crescent Schools"}):
 		_sell()
 	_to_site()
 	_shipped()
