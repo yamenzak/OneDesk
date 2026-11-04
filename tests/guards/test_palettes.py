@@ -214,10 +214,11 @@ def test_every_selected_thing_is_one_fill():
 	sidebar's row, a panel's tab, a pressed switch: one fill, --one-chosen,
 	so being chosen reads the same wherever it is. A mark drawn inside the
 	chosen thing (a count, an underline) is not its fill. Canvas's sheets
-	only: frame.css is the Standard look's own, and chrome.css chooses on the
+	only, and the kit's dialogs, the phone's sheets and Help, which every look
+	shows: frame.css is the Standard look's own, and chrome.css chooses on the
 	dark frame's bars, a ground of its own."""
 	wrong = []
-	for name in ("canvas.css", "views.css"):
+	for name in ("canvas.css", "views.css", "dialogs.css", "phone.css", "../module_docs.css"):
 		for selector, body in blocks((CSS / name).read_text(encoding="utf-8")):
 			fill = re.search(r"(?<![-\w])background(?:-color)?\s*:\s*([^;]+)", body)
 			if not fill or ":hover" in selector or "::" in selector:

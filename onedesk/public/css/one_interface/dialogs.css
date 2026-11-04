@@ -120,6 +120,12 @@
 .one-sample-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 5px 8px; }
 .one-sample-fields i { width: 90%; }
 
+/* A dialog's chosen tab, and Help's chosen page, which is one of its tabs,
+   read --one-chosen as the side pane's chosen row does: flat, no shadow.
+   Classic keeps frappe's raised pill. */
+:root[data-one-look="canvas"] .one-dialog .settings-dialog-tab-item.active,
+:root[data-one-look="canvas"] .one-dialog .settings-dialog-tab-item.active:hover { background: var(--one-chosen); box-shadow: none; }
+
 /* On a phone, for every dialog: a rail is one strip across the top, under
    Help, Enlarge and Close rather than beneath them, and only its tabs scroll
    sideways: the centre's name stays on the top line beside the controls; a panel's heading has

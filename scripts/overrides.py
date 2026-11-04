@@ -2691,6 +2691,20 @@ OVERRIDES = [
 		'to: "/desk/search",',
 	),
 	(
+		"A dialog's chosen tab is the chosen fill",
+		"dialogs.css gives frappe's raised active tab --one-chosen and no shadow in Canvas, so a dialog's rail (and Help's tree, built of its tabs) chooses as the side pane does",
+		"onedesk/public/css/one_interface/dialogs.css",
+		"frappe/frappe/public/scss/desk/settings_dialog.scss",
+		"background-color: var(--surface-elevation-3, var(--surface-base));",
+	),
+	(
+		"The Apps sheet's chosen app and row are the chosen fill",
+		"phone.css gives the navigation sheet's active dock tile and active sidebar row --one-chosen in Canvas, in place of frappe's two greys",
+		"onedesk/public/css/one_interface/phone.css",
+		"frappe/frappe/public/scss/desk/mobile_nav.scss",
+		"background: var(--surface-gray-4);",
+	),
+	(
 		"A phone's list has one Reload",
 		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
 		"onedesk/public/css/one_interface/phone.css",

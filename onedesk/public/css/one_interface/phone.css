@@ -140,6 +140,13 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	min-width: 0;
 }
 
+/* The app you are in and the place you are at read --one-chosen, as the
+   side pane's chosen row does on a desk. */
+:root[data-one-look="canvas"] .one-phone-sheet .desk-mobile-sheet-dock-item.active .dock-item-icon,
+:root[data-one-look="canvas"] .one-phone-sheet .desk-mobile-sheet-sidebar .standard-sidebar-item.active-sidebar {
+	background: var(--one-chosen);
+}
+
 .one-phone-heading {
 	padding: 16px 8px 0;
 	color: var(--one-ink-quiet);
