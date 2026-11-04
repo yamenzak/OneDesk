@@ -204,6 +204,82 @@ $.extend(onedesk.interface.phone, {
 		frappe.container?.page?.page?.render_breadcrumbs?.();
 	},
 
+	/** Every sheet closes as a phone's own sheets do: pulled down from
+	 * anywhere in it while its content is at the top, not only by the grip,
+	 * and let go past a short way or flicked. */
+	pull(Sheet) {
+		const proto = Sheet.prototype;
+		if (proto.__one_pull) return;
+		proto.__one_pull = true;
+		const SHORT = 96;
+		const FLICK = 0.4;
+		const bind = proto.bind;
+		proto.bind = function (...args) {
+			const said = bind.apply(this, args);
+			if (this.popover || !this.panel) return said;
+			const sheet = this;
+			let pull = null;
+			const reset = () => {
+				sheet.panel?.removeAttribute("data-dragging");
+				if (sheet.panel) sheet.panel.style.transform = "";
+				if (sheet.scrim) sheet.scrim.style.opacity = "";
+			};
+			this.onpullstart = (e) => {
+				if (sheet.drag || e.touches.length !== 1) return;
+				const body = e.target.closest(".es-bottom-sheet__body");
+				pull = { y: e.touches[0].clientY, t: e.timeStamp, body, moved: 0, on: false, v: 0 };
+			};
+			this.onpullmove = (e) => {
+				if (!pull || sheet.drag) return;
+				const y = e.touches[0].clientY;
+				const dy = y - pull.y;
+				if (!pull.on) {
+					if (dy < 8 || (pull.body && pull.body.scrollTop > 0)) {
+						if (dy < -4 || (pull.body && pull.body.scrollTop > 0)) pull = null;
+						return;
+					}
+					pull.on = true;
+					pull.y = y;
+					pull.from = e.timeStamp;
+					sheet.panel.setAttribute("data-dragging", "");
+				}
+				e.preventDefault();
+				const moved = Math.max(0, y - pull.y);
+				const dt = e.timeStamp - pull.t;
+				if (dt > 0) pull.v = (moved - pull.moved) / dt;
+				pull.moved = moved;
+				pull.t = e.timeStamp;
+				sheet.panel.style.transform = moved ? `translateY(${moved}px)` : "";
+				sheet.scrim.style.opacity = String(1 - moved / sheet.panel.offsetHeight);
+			};
+			this.onpullend = () => {
+				const done = pull;
+				pull = null;
+				if (!done?.on) return;
+				const speed = done.moved / Math.max(1, done.t - done.from);
+				if ((done.moved > SHORT || Math.max(done.v, speed) > FLICK) && sheet.dismissible) {
+					sheet.panel.removeAttribute("data-dragging");
+					sheet.close("swipe");
+					return;
+				}
+				reset();
+			};
+			this.panel.addEventListener("touchstart", this.onpullstart, { passive: true });
+			this.panel.addEventListener("touchmove", this.onpullmove, { passive: false });
+			this.panel.addEventListener("touchend", this.onpullend);
+			this.panel.addEventListener("touchcancel", this.onpullend);
+			return said;
+		};
+		const unbind = proto.unbind;
+		proto.unbind = function (...args) {
+			this.panel?.removeEventListener("touchstart", this.onpullstart);
+			this.panel?.removeEventListener("touchmove", this.onpullmove);
+			this.panel?.removeEventListener("touchend", this.onpullend);
+			this.panel?.removeEventListener("touchcancel", this.onpullend);
+			return unbind.apply(this, args);
+		};
+	},
+
 	return_tools(nav) {
 		for (const { tool, group } of nav.one_tools || []) group.appendChild(tool);
 		nav.one_tools = [];
@@ -227,6 +303,20 @@ else {
 			made = nav;
 			onedesk.interface.phone.titled();
 			onedesk.interface.phone.waiting(nav);
+		},
+	});
+}
+
+if (frappe.ui.BottomSheet) onedesk.interface.phone.pull(frappe.ui.BottomSheet);
+else {
+	let sheet;
+	Object.defineProperty(frappe.ui, "BottomSheet", {
+		configurable: true,
+		enumerable: true,
+		get: () => sheet,
+		set: (made) => {
+			sheet = made;
+			onedesk.interface.phone.pull(made);
 		},
 	});
 }

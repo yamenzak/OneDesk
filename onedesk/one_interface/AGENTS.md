@@ -409,6 +409,13 @@ phone Reload List, which repeats Refresh, goes. The bar slides away while
 the page scrolls down and comes back as soon as it scrolls up or nears
 the top (`phone.tuck`), and stays while something in it is typed in.
 
+**A sheet closes like a phone's own** (`phone.pull`). frappe's sheet is
+dragged only by its grip and header, past a quarter of its height, and a
+header that is a search box is nearly all input, which does not drag. Every
+sheet also moves with a pull anywhere on it while its content is at the
+top, and closes past 96px or on a flick (0.4px/ms); a content scrolled down
+scrolls as before.
+
 **The floor and the floats.** frappe's tab bar (Home, Search,
 Notifications, Profile) holds the bottom of a phone; `--one-floor`
 (frame.css) is its height there and 0 everywhere else. Anything One pins

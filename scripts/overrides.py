@@ -2677,6 +2677,13 @@ OVERRIDES = [
 		"frappe.ui.Page.title_action = () =>",
 	),
 	(
+		"A sheet is pulled down from anywhere to close",
+		"phone.js wraps frappe.ui.BottomSheet's bind and unbind as the class is defined: a touch pull on the panel while its body is at the top moves the sheet and closes it past 96px or on a flick, beside frappe's own grip and header drag, which it leaves alone while one runs",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/components/bottom_sheet.js",
+		'.querySelector(".es-bottom-sheet__grip")',
+	),
+	(
 		"A phone's list has one Reload",
 		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
 		"onedesk/public/css/one_interface/phone.css",

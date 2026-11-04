@@ -422,3 +422,12 @@ def test_a_phones_address_bar_is_typed_into_as_a_desks_is():
 	assert "one-head-tucked" in phone_js and "body.one-head-tucked .one-interface > .page-head" in phone_css
 	bars = re.findall(r"background: var\((--one-[a-z-]+)\);", phone_css.split("@media (max-width: 767.98px) {", 1)[1].split("body.one-head-tucked", 1)[0])
 	assert bars[:2] == ["--one-head-bg", "--one-head-bg"], bars
+
+
+def test_a_sheet_closes_from_anywhere_at_its_top():
+	"""frappe's sheet drags by its grip and header only; every sheet is also
+	pulled down from its content while that is at the top."""
+	phone_js = (FRAME_JS / "phone.js").read_text(encoding="utf-8")
+	pull = phone_js.split("\tpull(Sheet) {", 1)[1].split("\n\t},\n", 1)[0]
+	assert "scrollTop > 0" in pull and 'sheet.close("swipe")' in pull and "passive: false" in pull
+	assert 'Object.defineProperty(frappe.ui, "BottomSheet"' in phone_js
