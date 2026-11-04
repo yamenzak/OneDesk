@@ -391,6 +391,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A phone's list has one Reload | phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh | `onedesk/public/css/one_interface/phone.css` | `frappe/frappe/public/js/frappe/list/base_list.js` | `this.$filter_list_wrapper.find(".filter-selector").prepend(refresh_button);` |
 | A phone's dock is a grid of every app | phone.css lays frappe's sheet dock out four across instead of a row that scrolls past the edge | `onedesk/public/css/one_interface/phone.css` | `frappe/frappe/public/scss/desk/mobile_nav.scss` | `overflow-x: auto;` |
 | Search offers to ask OneAI | oneai.js wraps the search bar's get_options and adds Ask OneAI: first for a question, so Enter asks; last for anything else of two words or more. Search by meaning is OneAI's from there, not on every keystroke | `onedesk/public/js/one_ai/oneai.js` | `frappe/frappe/public/js/frappe/ui/toolbar/awesome_bar.js` | `get_options(txt) {` |
+| A stock revaluation's working file stays on disk | store.write keeps a Repost Item Valuation's reposting_data_file on disk (IN_PLACE): ERPNext's create_json_gz_file rewrites it by opening get_full_path, which an R2 file does not have | `onedesk/one_storage/store.py` | `erpnext/erpnext/stock/stock_ledger.py` | `path = file_doc.get_full_path()` |
 | File reads a stored file's content from R2 | Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file_v1.py` | `with open(file_path, mode="rb") as f:` |
 | A stored file is decoded the way Frappe decodes one | text as text and anything else as bytes, by the same constants | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `OLE_FILE_SIGNATURE = ` |
 | File.validate_private_file_access: may this user name a private file's URL | Frappe asks its own File permission of the first row with that URL, which knows nothing of a folder shared with the reader, so copying a shared file out was refused; any row namespace.may lets them open will do | `onedesk/one_storage/file.py` | `frappe/frappe/core/doctype/file/file.py` | `def validate_private_file_access(self):` |
@@ -446,7 +447,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-440 overrides.
+441 overrides.
 
 ## What we would ask upstream
 

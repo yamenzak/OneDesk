@@ -110,9 +110,17 @@ def unlimit() -> None:
 		frappe.db.set_single_value("System Settings", "max_file_size", wanted)
 
 
+#: Files their app writes to again in place, by the disk path frappe gives
+#: (open(file.get_full_path(), "wb")), so they stay on disk: ERPNext's stock
+#: revaluation keeps its working file this way (stock_ledger
+#: create_json_gz_file), and on R2 every back-dated stock change failed.
+IN_PLACE = {("Repost Item Valuation", "reposting_data_file")}
+
+
 def write(doc):
-	"""write_file: new content to R2, or to disk where there is no account."""
-	if not enabled():
+	"""write_file: new content to R2, or to disk where there is no account
+	or the file is rewritten in place (IN_PLACE)."""
+	if not enabled() or (doc.attached_to_doctype, doc.attached_to_field) in IN_PLACE:
 		return doc.save_file_on_filesystem()
 	content = doc._content if isinstance(doc._content, bytes) else doc._content.encode()
 	key = key_for(doc.content_hash, doc.file_name, doc.is_private)

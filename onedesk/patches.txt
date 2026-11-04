@@ -113,3 +113,4 @@ onedesk.one_interface.patches.settings_keep_their_name
 onedesk.one_inventory.patches.bom_creator_not_measured
 onedesk.one_ai.patches.search_on_r2
 onedesk.one_storage.patches.stored_files_keep_their_hash
+onedesk.one_storage.patches.reposts_on_disk

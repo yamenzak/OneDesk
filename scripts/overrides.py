@@ -2726,6 +2726,13 @@ OVERRIDES = [
 		"get_options(txt) {",
 	),
 	(
+		"A stock revaluation's working file stays on disk",
+		"store.write keeps a Repost Item Valuation's reposting_data_file on disk (IN_PLACE): ERPNext's create_json_gz_file rewrites it by opening get_full_path, which an R2 file does not have",
+		"onedesk/one_storage/store.py",
+		"erpnext/erpnext/stock/stock_ledger.py",
+		"path = file_doc.get_full_path()",
+	),
+	(
 		"File reads a stored file's content from R2",
 		"Frappe opens a path on disk in FileV1._read_content, under get_content; CloudFile overrides get_content, exists_on_disk and make_thumbnail",
 		"onedesk/one_storage/file.py",
