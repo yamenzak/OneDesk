@@ -144,7 +144,9 @@ def _say(parsed, heading: str, linked: list) -> None:
 def _linker(queue):
 	"""`link_for` for one queue: a link for each of its message's files, made
 	once however many recipients the message has."""
-	made = frappe.local.__dict__.setdefault("one_mail_links", {})
+	made = getattr(frappe.local, "one_mail_links", None)
+	if made is None:
+		made = frappe.local.one_mail_links = {}
 
 	def link_for(name: str) -> str | None:
 		key = (queue.name, name)
