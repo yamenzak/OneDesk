@@ -520,3 +520,30 @@ html[dir="rtl"] #driver-popover-item {
 .one-docs-row .one-docs-waiting {
 	margin-inline-start: auto;
 }
+
+/* On a phone the docs rail is not a strip of tabs: the search across the
+   width, then the tree of pages under it, scrolling up and down, never more
+   than under half the window. */
+@media (max-width: 640px) {
+	.one-dialog .settings-dialog-sidebar.one-docs-sidebar {
+		flex-direction: column;
+		align-items: stretch;
+		gap: 6px;
+		max-height: 45dvh;
+		overflow-x: hidden;
+		overflow-y: auto;
+		overscroll-behavior: contain;
+	}
+
+	.one-docs-sidebar .one-docs-search {
+		flex: none;
+		width: auto;
+		margin: 0;
+	}
+
+	.one-docs-sidebar .one-docs-tree {
+		flex: none;
+		flex-direction: column;
+		width: auto;
+	}
+}

@@ -127,9 +127,9 @@
    value puts the value under its words. */
 @media (max-width: 640px) {
 	.one-dialog .settings-dialog-sidebar { padding-top: 44px; scrollbar-width: none; }
-	.one-dialog .settings-dialog-sidebar:has(> .one-module-head) { padding-top: 70px; }
-	.one-dialog .settings-dialog-sidebar > .one-module-head { position: absolute; top: 10px; inset-inline: 8px 84px; min-width: 0; }
-	.one-dialog .settings-dialog-sidebar > .one-module-head :is(.one-module-head-name, .one-module-head-of) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
+	.one-dialog .settings-dialog-sidebar:has(.one-module-head) { padding-top: 70px; }
+	.one-dialog .settings-dialog-sidebar .one-module-head { position: absolute; top: 10px; inset-inline: 8px 84px; min-width: 0; }
+	.one-dialog .settings-dialog-sidebar .one-module-head :is(.one-module-head-name, .one-module-head-of) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }
 	.one-dialog .settings-dialog-panel-header { padding-inline-end: 0; flex-wrap: wrap; row-gap: 12px; }
 	.one-dialog .settings-dialog-panel-header > .settings-dialog-panel-heading { flex-basis: 100%; }
 	.one-dialog .one-set-row:has(> .one-set-end .one-set-value) { flex-wrap: wrap; }

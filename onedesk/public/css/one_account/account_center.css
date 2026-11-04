@@ -246,6 +246,15 @@
 	min-height: 0;
 }
 
+/* On a phone the sidebar is one strip of tabs (dialogs.css): the wrapper
+   lays its tabs in that one row instead of a row per group. */
+@media (max-width: 640px) {
+	.one-account .one-account-tabs {
+		flex-direction: row;
+		flex: none;
+	}
+}
+
 /* Pictures (one_control.js): a card for each record type, which opens a
    grid of every style drawn from one of its names. */
 .os-picture-cards {
