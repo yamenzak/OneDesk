@@ -38,6 +38,23 @@ module's README says what it does.
   place of spinners; a dialog over a dialog dimming the one beneath. The
   plan is `git show cade87a7:docs/DESK-PASS.md`.
 
+## Setup, tours and Help (with the pass)
+
+Decided with Yamen on 5 November 2026:
+
+- **A setup page, shipped at the end of this pass.** Setup asks which apps
+  first, then each chosen app's steps, mandatory ones first and optional
+  ones skippable. Each app declares its steps in the registry; the pass
+  lists them as it walks each app. Turning an app on later opens its
+  steps. It takes over from the setup wizard's slides.
+- **Tours never start by themselves.** Today AccountCenter starts its own
+  and `one_tours_unseen` drives first-time tours. They are offered from
+  Help instead, and a record type may have one: how it works and what its
+  fields are for.
+- **Help and tours are written from frappe's, ERPNext's and HRMS's own
+  docs** (docs.frappe.io/erpnext, docs.frappe.io/hr) in our words, never
+  copied (they are CC BY-SA) or linked (`docs` skill).
+
 ## OneAccess: one Share for everything
 
 Decided with Yamen on 5 November 2026, to build when the passes reach

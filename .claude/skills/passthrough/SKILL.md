@@ -125,14 +125,23 @@ What an app declares about itself, in its own folder and in
   *Guard: test_legal.*
 - **HelpCenter and What's New.** Its AGENTS.md says how it works now; its
   `docs/` pages say what a person does, with pictures of the screen as it
-  is (`docs` skill); each change is a version in `docs/changelog/`
-  (`changelog` skill). *Guards: test_ready, test_docs_media.*
+  is, written from what frappe's, ERPNext's and HRMS's own docs say in our
+  words (`docs` skill, Where what a page says comes from); each change is a
+  version in `docs/changelog/` (`changelog` skill). *Guards: test_ready,
+  test_docs_media.*
 - **Printing.** Every record that leaves the company (to a customer, a
   supplier, an employee, an authority) prints from a format of ours, in
   Arabic too, under the letter head, or is in `NOT_SENT`. *Guard: test_print.*
+- **Setup.** Its steps for the setup page, each mandatory or optional, in
+  the order a new workspace needs them, declared in the registry; the page
+  asks which apps first, and turning an app on later opens its steps.
+  Until the setup page ships (`docs/BACKLOG.md`), list them in the pass.
+- **Tours.** Never started by themselves; offered from Help. A screen's
+  tour points at what this role has there; a record type's says how it
+  works and what its fields are for, from the same source as Help.
 - **The rest of the centres.** Its settings in ControlCenter, its keys in
-  `shortcuts.py` (ShortcutCenter, nothing clashing), its tour and its
-  setup wizard slide, and the foot that opens them. *Guard: test_ready.*
+  `shortcuts.py` (ShortcutCenter, nothing clashing), and the foot that
+  opens them. *Guard: test_ready.*
 - **Demo and checks.** The demo company has its records, made by the
   user whose work it is, and its `checks.py` reaches every whitelisted
   method. *Guards: test_coverage, test_demo.*

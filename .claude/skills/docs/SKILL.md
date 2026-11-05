@@ -30,6 +30,25 @@ when it needs a picture or a clip, and how it links to What's New.
 - **Changes with the screen.** A commit that changes what people see
   changes the page and its picture in the same commit.
 
+## Where what a page says comes from
+
+frappe, ERPNext and HRMS already explain most of what their records do:
+docs.frappe.io/erpnext and docs.frappe.io/hr. Read them for what is true
+(what a record is for, what each field does, how a flow runs), then write
+it for One in our words, by the `wording` skill. Never copy or closely
+follow their sentences, and never link to them or name them: their docs
+are under CC BY-SA, so a copied sentence would have to credit them and
+carry their licence, and our own words do neither. Where they are thin,
+read the code.
+
+- **Explain everything a person meets,** each field that is not obvious
+  from its label, each status, each step, once, in the place it is used.
+- **Not an encyclopedia:** no history, no theory, no every-possible-setting
+  tour. What the person does here and what happens when they do.
+- **Not a few words pretending to be a page:** a page that only restates
+  the screen's labels says nothing. If there is nothing to explain, there
+  is no page.
+
 ## When a page needs a picture
 
 A picture earns its place when the words would otherwise have to describe

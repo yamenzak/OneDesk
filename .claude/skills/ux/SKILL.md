@@ -102,9 +102,13 @@ step is clear.
 
 - **An empty screen leads to the first action:** a short empty state and the
   primary button, never a blank page.
-- **Setup asks once,** in the setup wizard, with defaults for the country.
-- **A tour points at what this role has on this screen.** OneHR's tour
-  described HR's figures to an employee who sees their own leave instead.
+- **Setup asks once,** with defaults for the country: the setup page asks
+  which apps, then each chosen app's steps, mandatory ones first and
+  optional ones skippable; turning an app on later opens its steps.
+- **A tour never starts by itself.** It is offered (Help, a record's ?),
+  and points at what this role has on this screen: OneHR's tour described
+  HR's figures to an employee who sees their own leave instead. A record
+  type may have one too, saying how it works and what its fields are for.
 
 ## Real conditions
 
