@@ -154,11 +154,11 @@ MODULES = {
 		"names": ("one_project", "oneproject"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-05", "commit": "360b28153639", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-05", "commit": "360b28153639", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-05", "commit": "360b28153639", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-05", "commit": "360b28153639", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-05", "commit": "360b28153639", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
