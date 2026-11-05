@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 21:03+0000\n"
-"PO-Revision-Date: 2026-11-05 21:03+0000\n"
+"POT-Creation-Date: 2026-11-05 21:25+0000\n"
+"PO-Revision-Date: 2026-11-05 21:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -315,11 +315,11 @@ msgstr ""
 msgid "1 record"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:476
+#: onedesk/public/js/one_interface/look.js:500
 msgid "1 row added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:476
+#: onedesk/public/js/one_interface/look.js:500
 msgid "1 row removed"
 msgstr ""
 
@@ -2374,7 +2374,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemManufacturerRow.vue:16
 #: frontend/src/inventory/item/ItemPlaces.vue:27
 #: frontend/src/inventory/item/ItemSuppliers.vue:29
-#: frontend/src/kit/Rows.vue:40 frontend/src/project/Invoices.vue:53
+#: frontend/src/kit/Rows.vue:45 frontend/src/project/Invoices.vue:53
 #: frontend/src/project/Suppliers.vue:62 frontend/src/project/Suppliers.vue:108
 #: frontend/src/project/Team.vue:46 frontend/src/template/Tasks.vue:86
 #: onedesk/public/js/one/access_center.js:427
@@ -3671,8 +3671,8 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:617 onedesk/one_inventory/heads.py:699
 #: onedesk/one_inventory/heads.py:725 onedesk/one_project/heads.py:204
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:627
-#: onedesk/public/js/one_interface/look.js:657
+#: onedesk/public/js/one_interface/look.js:651
+#: onedesk/public/js/one_interface/look.js:681
 msgid "All"
 msgstr ""
 
@@ -5006,7 +5006,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:553
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
-#: onedesk/public/js/one_interface/phone.js:55
+#: onedesk/public/js/one_interface/phone.js:71
 msgid "Apps"
 msgstr ""
 
@@ -8133,7 +8133,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:153
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:339
+#: onedesk/public/js/one_interface/phone.js:355
 #: onedesk/public/js/one_legal/trust_center.js:463
 msgid "Cancel"
 msgstr ""
@@ -21212,8 +21212,8 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:332
-#: onedesk/public/js/one_interface/look.js:338
+#: onedesk/public/js/one_interface/look.js:349
+#: onedesk/public/js/one_interface/look.js:356
 msgid "Hide Empty Fields"
 msgstr ""
 
@@ -29148,8 +29148,8 @@ msgstr ""
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:677
-#: onedesk/public/js/one_interface/look.js:679
+#: onedesk/public/js/one_interface/look.js:701
+#: onedesk/public/js/one_interface/look.js:703
 msgid "New"
 msgstr ""
 
@@ -30441,7 +30441,7 @@ msgstr ""
 msgid "No matching notifications"
 msgstr ""
 
-#: onedesk/public/js/one_interface/phone.js:162
+#: onedesk/public/js/one_interface/phone.js:178
 msgid "No matching pages"
 msgstr ""
 
@@ -43231,14 +43231,14 @@ msgstr ""
 #: onedesk/public/js/one_interface/chrome.js:73
 #: onedesk/public/js/one_interface/chrome.js:74
 #: onedesk/public/js/one_interface/frame.js:253
-#: onedesk/public/js/one_interface/phone.js:307
-#: onedesk/public/js/one_interface/phone.js:310
-#: onedesk/public/js/one_interface/phone.js:311
+#: onedesk/public/js/one_interface/phone.js:323
+#: onedesk/public/js/one_interface/phone.js:326
+#: onedesk/public/js/one_interface/phone.js:327
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr ""
 
-#: onedesk/public/js/one_interface/phone.js:110
+#: onedesk/public/js/one_interface/phone.js:126
 msgid "Search Apps and Pages"
 msgstr ""
 
@@ -62542,7 +62542,7 @@ msgstr ""
 msgid "cancelled"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:457
+#: onedesk/public/js/one_interface/look.js:481
 msgid "cancelled this"
 msgstr ""
 
@@ -62554,16 +62554,16 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:506
+#: onedesk/public/js/one_interface/look.js:530
 msgid "changed 1 field"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:506
+#: onedesk/public/js/one_interface/look.js:530
 #, python-brace-format
 msgid "changed {0} fields"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:503
+#: onedesk/public/js/one_interface/look.js:527
 msgid "commented"
 msgstr ""
 
@@ -62606,7 +62606,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:501
+#: onedesk/public/js/one_interface/look.js:525
 msgid "created this"
 msgstr ""
 
@@ -62699,7 +62699,7 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:462
+#: onedesk/public/js/one_interface/look.js:486
 msgid "edited"
 msgstr ""
 
@@ -62722,7 +62722,7 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:440
+#: onedesk/public/js/one_interface/look.js:464
 msgid "empty"
 msgstr ""
 
@@ -63473,7 +63473,7 @@ msgstr ""
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:457
+#: onedesk/public/js/one_interface/look.js:481
 msgid "returned this to draft"
 msgstr ""
 
@@ -63583,7 +63583,7 @@ msgstr ""
 msgid "submitted"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:457
+#: onedesk/public/js/one_interface/look.js:481
 msgid "submitted this"
 msgstr ""
 
@@ -66653,12 +66653,12 @@ msgstr ""
 msgid "{0} rows"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:476
+#: onedesk/public/js/one_interface/look.js:500
 #, python-brace-format
 msgid "{0} rows added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:476
+#: onedesk/public/js/one_interface/look.js:500
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr ""

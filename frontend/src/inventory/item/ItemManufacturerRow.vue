@@ -2,7 +2,7 @@
   <li class="flex gap-3 py-2.5">
     <div class="min-w-0 flex-1">
       <div class="flex min-w-0 items-center gap-2">
-        <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/manufacturer/${encodeURIComponent(maker.manufacturer)}`)">
+        <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/manufacturer/${encodeURIComponent(maker.manufacturer)}`)">
           {{ maker.manufacturer }}
         </button>
         <Badge v-if="maker.is_default" :label="__('Default')" theme="blue" size="sm" />

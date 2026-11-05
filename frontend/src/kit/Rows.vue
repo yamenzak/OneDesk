@@ -1,23 +1,28 @@
 <template>
   <div v-if="!rows.length && empty" class="py-3 text-base text-ink-gray-5">{{ empty }}</div>
-  <List v-else :columns="columns" :row-height="height" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
+  <List v-else :columns="columns" divider="full" class="-mx-3 list-gap-3 list-row-px-3">
     <ListRows :items="rows" row-key="key" v-slot="{ item }">
-      <ListRow v-bind="opens(item)">
+      <ListRow v-bind="opens(item)" class="py-2" :style="{ minHeight: `${height}px` }">
         <ListCell class="min-w-0 gap-2.5">
           <span v-if="item.dot" class="h-2 w-2 shrink-0 rounded-full" :class="dots[item.dot] || dots.gray" />
           <Avatar v-if="item.avatar" :label="item.avatar" :image="item.image" :shape="item.square ? 'square' : 'circle'" size="sm" />
           <Avatar v-else-if="item.icon" :shape="item.square ? 'square' : 'circle'" size="sm"><span :class="item.icon" class="size-3" /></Avatar>
           <div class="min-w-0 flex-1">
-            <div class="flex min-w-0 items-center gap-2">
-              <div class="flex h-[1lh] min-w-0 flex-wrap overflow-hidden text-base">
+            <div class="flex min-w-0 flex-wrap items-center gap-x-2">
+              <div class="flex min-w-0 flex-wrap text-base">
                 <span class="max-w-full break-words text-ink-gray-8"><Branded :text="item.label" /></span>
-                <span v-if="item.sub" class="whitespace-nowrap ps-1 text-ink-gray-5">· {{ item.sub }}</span>
+                <span v-if="item.sub" class="ps-1 text-ink-gray-5">· {{ item.sub }}</span>
               </div>
               <Badge v-if="item.badge" :label="item.badge.label || item.badge" :theme="item.badge.theme || 'gray'" size="sm" />
             </div>
             <div v-if="bars && item.dim" class="break-words text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
             <div v-if="item.below" class="break-words text-sm text-ink-gray-5">{{ item.below }}</div>
             <div v-for="(line, i) in item.lines || []" :key="i" class="break-words text-sm text-ink-gray-5">{{ line }}</div>
+            <div v-if="(dims && !bars && item.dim) || (values && (item.value || item.under))" class="flex flex-wrap gap-x-2 text-sm tabular-nums text-ink-gray-5 sm:hidden">
+              <span v-if="!bars && item.dim">{{ item.dim }}</span>
+              <span v-if="item.value" class="text-ink-gray-7">{{ item.value }}</span>
+              <span v-if="item.under">{{ item.under }}</span>
+            </div>
           </div>
         </ListCell>
         <ListCell v-if="bars">
@@ -28,8 +33,8 @@
           </div>
           <Progress v-else-if="item.progress !== undefined && item.progress !== null" :value="item.progress" size="md" class="w-full" />
         </ListCell>
-        <ListCell v-else-if="dims" class="justify-end text-base tabular-nums text-ink-gray-5">{{ item.dim }}</ListCell>
-        <ListCell v-if="values" class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7">
+        <ListCell v-else-if="dims" class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-5 max-sm:hidden">{{ item.dim }}</ListCell>
+        <ListCell v-if="values" class="justify-end whitespace-nowrap text-base tabular-nums text-ink-gray-7 max-sm:hidden">
           <div class="text-end">
             <div>{{ item.value }}</div>
             <div v-if="item.under" class="text-sm text-ink-gray-5">{{ item.under }}</div>
@@ -58,12 +63,15 @@ const bars = computed(() => props.rows.some((row) => row.progress !== undefined 
 const menus = computed(() => props.rows.some((row) => row.actions?.length));
 const dims = computed(() => props.rows.some((row) => row.dim));
 const values = computed(() => props.rows.some((row) => row.value || row.under));
-const columns = computed(() => [
-  "minmax(0,1fr)",
-  ...(bars.value ? ["6rem"] : dims.value ? ["auto"] : []),
-  ...(values.value ? ["minmax(8rem,max-content)"] : []),
-  ...(menus.value ? ["2rem"] : []),
-]);
+const columns = computed(() => ({
+  base: ["minmax(0,1fr)", ...(bars.value ? ["6rem"] : []), ...(menus.value ? ["2rem"] : [])],
+  sm: [
+    "minmax(0,1fr)",
+    ...(bars.value ? ["6rem"] : dims.value ? ["auto"] : []),
+    ...(values.value ? ["minmax(8rem,max-content)"] : []),
+    ...(menus.value ? ["2rem"] : []),
+  ],
+}));
 const height = computed(() =>
   Math.max(...props.rows.map((row) => 40 + 18 * Math.max((bars.value && row.dim ? 1 : 0) + (row.below ? 1 : 0) + (row.lines?.length || 0), row.under ? 1 : 0)), 40)
 );

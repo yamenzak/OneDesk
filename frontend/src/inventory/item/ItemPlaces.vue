@@ -5,7 +5,7 @@
       <span class="mt-2 h-2 w-2 shrink-0 rounded-full" :class="one.low ? 'bg-surface-amber-5' : 'bg-surface-gray-4'" aria-hidden="true" />
       <div class="min-w-0 flex-1">
         <div class="flex min-w-0 items-center gap-2">
-          <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/warehouse/${encodeURIComponent(one.warehouse)}`)">
+          <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/warehouse/${encodeURIComponent(one.warehouse)}`)">
             {{ one.called }}
           </button>
           <Badge v-if="one.low" :label="__('Low')" theme="amber" size="sm" />

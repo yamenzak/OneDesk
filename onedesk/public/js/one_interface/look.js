@@ -287,6 +287,23 @@ record.head = (frm) => {
 // section with nothing shown goes, and so does a tab.
 record.show_empty = (count) => (count === 1 ? __("Show 1 Empty Field") : __("Show {0} Empty Fields", [count]));
 
+record.quiet_tabs = (frm) => {
+	const page = frm.layout && frm.layout.wrapper && frm.layout.wrapper[0];
+	const tabs = frm.layout && frm.layout.tabs;
+	if (!page || !tabs || !tabs.length) return;
+	const open = (page.querySelector(".form-page") || page).classList.contains("one-open");
+	const shows = (tab) =>
+		[...tab.wrapper[0].querySelectorAll(".form-section")].some(
+			(section) => !section.classList.contains("empty-section") && !section.classList.contains("hide-control") && !section.classList.contains("one-quiet-section")
+		);
+	tabs.forEach((tab) => tab.tab_link && tab.tab_link[0].classList.toggle("one-quiet-tab", !open && !tab.hidden && !shows(tab)));
+	const active = tabs.find((tab) => tab.is_active());
+	if (active && active.tab_link[0].classList.contains("one-quiet-tab")) {
+		const first = tabs.find((tab) => !tab.hidden && !tab.tab_link[0].classList.contains("one-quiet-tab"));
+		first && first.set_active();
+	}
+};
+
 record.fields = (frm) => {
 	const page = frm.layout && frm.layout.wrapper && frm.layout.wrapper[0];
 	if (!page) return;
@@ -330,6 +347,7 @@ record.fields = (frm) => {
 				const form = page.querySelector(".form-page") || page;
 				form.classList.toggle("one-open");
 				more.textContent = form.classList.contains("one-open") ? __("Hide Empty Fields") : record.show_empty(Number(more.dataset.count));
+				record.quiet_tabs(frm);
 			};
 			(page.querySelector(".form-page") || page).append(more);
 		}
@@ -337,6 +355,7 @@ record.fields = (frm) => {
 		const open = (page.querySelector(".form-page") || page).classList.contains("one-open");
 		more.textContent = open ? __("Hide Empty Fields") : record.show_empty(quiet);
 	} else if (more) more.remove();
+	record.quiet_tabs(frm);
 
 	// a field's help is a mark beside its label
 	page.querySelectorAll(".frappe-control").forEach((el) => {
@@ -352,6 +371,11 @@ record.fields = (frm) => {
 			label.append(mark);
 		}
 		mark.title = said;
+		mark.onclick = (event) => {
+			event.preventDefault();
+			event.stopPropagation();
+			help.classList.toggle("one-gone");
+		};
 		help.classList.add("one-gone");
 	});
 

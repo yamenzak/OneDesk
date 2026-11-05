@@ -49,6 +49,22 @@ $.extend(onedesk.interface.phone, {
 		proto.__one_phone = true;
 		const phone = onedesk.interface.phone;
 
+		const top = proto.make_back_to_top;
+		proto.make_back_to_top = function () {
+			top.call(this);
+			const main = document.querySelector(".main-section");
+			if (!main || !this.update_back_to_top) return;
+			main.removeEventListener("scroll", this.update_back_to_top);
+			let frame = null;
+			const update = () => {
+				frame = null;
+				document.body.classList.toggle("has-back-to-top", main.scrollTop > main.clientHeight / 2);
+			};
+			this.update_back_to_top = () => (frame ??= requestAnimationFrame(update));
+			main.addEventListener("scroll", this.update_back_to_top, { passive: true });
+			frappe.router?.on?.("change", this.update_back_to_top);
+		};
+
 		const tabs = proto.get_tabs;
 		proto.get_tabs = function () {
 			const said = tabs.call(this);
@@ -413,7 +429,7 @@ else {
 
 $(document).on("click", ".frappe-control .control-label", (event) => {
 	if (!frappe.is_mobile()) return;
-	const trigger = event.currentTarget.querySelector(".info-trigger");
-	if (!trigger || event.target.closest(".info-trigger, .info-card")) return;
+	const trigger = event.currentTarget.querySelector(".info-trigger, .one-help");
+	if (!trigger || event.target.closest(".info-trigger, .info-card, .one-help")) return;
 	trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
 });

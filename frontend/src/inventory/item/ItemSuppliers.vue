@@ -5,7 +5,7 @@
       <Avatar :label="one.supplier" :image="one.image" shape="square" size="md" class="mt-0.5 shrink-0" />
       <div class="min-w-0 flex-1">
         <div class="flex min-w-0 items-center gap-2">
-          <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/supplier/${encodeURIComponent(one.supplier)}`)">
+          <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/supplier/${encodeURIComponent(one.supplier)}`)">
             {{ one.supplier }}
           </button>
           <Badge v-if="one.default" :label="__('Default')" theme="blue" size="sm" />

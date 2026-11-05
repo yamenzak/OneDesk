@@ -4,10 +4,10 @@
     <li v-for="one in rows" :key="one.customer" class="flex gap-3 py-2.5">
       <Avatar :label="one.customer" :image="one.image" shape="square" size="md" class="mt-0.5 shrink-0" />
       <div class="min-w-0 flex-1">
-        <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/customer/${encodeURIComponent(one.customer)}`)">
+        <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/customer/${encodeURIComponent(one.customer)}`)">
           {{ one.customer }}
         </button>
-        <div v-for="(line, i) in one.lines" :key="i" class="truncate text-sm text-ink-gray-5">{{ line }}</div>
+        <div v-for="(line, i) in one.lines" :key="i" class="break-words text-sm text-ink-gray-5">{{ line }}</div>
         <div v-if="one.row" class="mt-1 flex items-center gap-1.5 whitespace-nowrap text-sm text-ink-gray-5">
           {{ __("Customer's Code") }}
           <FieldEdit :form="form" table="customer_items" :row="one.row" field="ref_code" :label="__('Customer\'s Code')" :hold="Boolean(adding) && one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" />

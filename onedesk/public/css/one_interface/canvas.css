@@ -889,3 +889,8 @@
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open), :root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open) > .data-row :is(.col, .row-check, .row-index) { background: var(--one-sheet) !important; }
 :root[data-one-look="canvas"] .one-interface .form-in-grid :is(.form-layout, .form-page) { background: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .form-in-grid .form-page .form-section:not(.empty-section) { background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; }
+:root[data-one-look="canvas"] li.one-quiet-tab { display: none !important; }
+:root[data-one-look="canvas"] .form-page .form-section .section-body.hide { display: none !important; }
+@media (max-width: 767px) {
+	:root[data-one-look="canvas"] .frappe-list .list-row .list-subject, :root[data-one-look="canvas"] .frappe-list .list-row .list-subject .level-item.bold, :root[data-one-look="canvas"] .frappe-list .list-row .list-subject a.ellipsis { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; min-width: 0; }
+}

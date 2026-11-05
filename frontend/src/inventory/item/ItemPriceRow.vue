@@ -1,11 +1,11 @@
 <template>
   <li class="flex gap-3 py-2.5">
     <div class="min-w-0 flex-1">
-      <button type="button" class="truncate rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/item-price/${encodeURIComponent(price.name)}`)">
+      <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/item-price/${encodeURIComponent(price.name)}`)">
         {{ price.price_list }}<span v-if="price.supplier || price.customer" class="text-ink-gray-5"> · {{ price.supplier || price.customer }}</span>
       </button>
-      <div v-if="lines.length" class="truncate text-sm text-ink-gray-5">{{ lines.join(" · ") }}</div>
-      <div v-if="below" class="truncate text-sm text-ink-gray-5">{{ __("Sold at {0} to {1} on {2}", [money(below.rate, below.currency), below.customer, date(below.on)]) }}</div>
+      <div v-if="lines.length" class="break-words text-sm text-ink-gray-5">{{ lines.join(" · ") }}</div>
+      <div v-if="below" class="break-words text-sm text-ink-gray-5">{{ __("Sold at {0} to {1} on {2}", [money(below.rate, below.currency), below.customer, date(below.on)]) }}</div>
       <div v-if="differs" class="mt-1 flex flex-wrap items-center gap-2 text-sm text-ink-gray-5">
         {{ __("Last paid {0} on {1}", [money(last.rate, last.currency), date(last.on)]) }}
         <Button v-if="writable" size="sm" :label="__('Use Last Price')" :loading="using" @click="useLast" />

@@ -1046,6 +1046,13 @@ OVERRIDES = [
 		"frappe.ui.toggle_like = function ($btn, doctype, name, callback) {",
 	),
 	(
+		"Back to top shows after half a screen on a phone",
+		"frappe's phone Back to top appears once .main-section has scrolled two screens, so a record or list under three screens long never offered it. phone.js wraps make_back_to_top: frappe still draws the button and scrolls, and One swaps its scroll listener for one that shows it after half a screen and checks again on every route change",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		"const shown = main_section.scrollTop > main_section.clientHeight * 2;",
+	),
+	(
 		"A field's help opens from its label on a phone",
 		"frappe opens a field's help card from a 12px info icon beside its label, too small to hit with a finger. On a phone, phone.js sends a tap anywhere on the label to that icon as a click, so frappe's own card opens and closes as before",
 		"onedesk/public/js/one_interface/phone.js",
