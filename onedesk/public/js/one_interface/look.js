@@ -251,7 +251,12 @@ record.head = (frm) => {
 	});
 
 	// the star ends the address row, as a browser's ends its address bar
-	const star = container.one_star || container.querySelector(".form-sidebar .liked-by");
+	const drawn = [container, pageHead].flatMap((root) => [...root.querySelectorAll(".form-stats-likes .liked-by:not(.one-star)")])[0];
+	if (drawn) {
+		container.one_star?.remove();
+		container.one_star = drawn;
+	}
+	const star = container.one_star;
 	const place = pageHead.querySelector(".page-title");
 	if (star && place) {
 		container.one_star = star;

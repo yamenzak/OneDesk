@@ -368,7 +368,14 @@ onedesk.interface.tabs = ($list) => {
 		$more.appendTo($ul).hide();
 		const $tabs = $ul.children(".nav-item").not($more).removeClass("one-folded");
 		if (frappe.is_mobile()) {
-			$ul.find(".nav-link.active").closest(".nav-item")[0]?.scrollIntoView({ block: "nearest", inline: "nearest" });
+			const li = $ul.find(".nav-link.active").closest(".nav-item")[0];
+			if (li && li !== $ul[0].one_shown) {
+				$ul[0].one_shown = li;
+				const tab = li.getBoundingClientRect();
+				const strip = $ul[0].getBoundingClientRect();
+				if (tab.left < strip.left) $ul[0].scrollLeft -= strip.left - tab.left;
+				else if (tab.right > strip.right) $ul[0].scrollLeft += tab.right - strip.right;
+			}
 			return;
 		}
 		const room = $ul[0].clientWidth;

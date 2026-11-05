@@ -410,3 +410,10 @@ else {
 		},
 	});
 }
+
+$(document).on("click", ".frappe-control .control-label", (event) => {
+	if (!frappe.is_mobile()) return;
+	const trigger = event.currentTarget.querySelector(".info-trigger");
+	if (!trigger || event.target.closest(".info-trigger, .info-card")) return;
+	trigger.dispatchEvent(new MouseEvent("click", { bubbles: true }));
+});

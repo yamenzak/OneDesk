@@ -10,14 +10,14 @@
           <div class="min-w-0 flex-1">
             <div class="flex min-w-0 items-center gap-2">
               <div class="flex h-[1lh] min-w-0 flex-wrap overflow-hidden text-base">
-                <span class="max-w-full truncate text-ink-gray-8"><Branded :text="item.label" /></span>
+                <span class="max-w-full break-words text-ink-gray-8"><Branded :text="item.label" /></span>
                 <span v-if="item.sub" class="whitespace-nowrap ps-1 text-ink-gray-5">· {{ item.sub }}</span>
               </div>
               <Badge v-if="item.badge" :label="item.badge.label || item.badge" :theme="item.badge.theme || 'gray'" size="sm" />
             </div>
-            <div v-if="bars && item.dim" class="truncate text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
-            <div v-if="item.below" class="truncate text-sm text-ink-gray-5">{{ item.below }}</div>
-            <div v-for="(line, i) in item.lines || []" :key="i" class="truncate text-sm text-ink-gray-5">{{ line }}</div>
+            <div v-if="bars && item.dim" class="break-words text-sm tabular-nums text-ink-gray-5">{{ item.dim }}</div>
+            <div v-if="item.below" class="break-words text-sm text-ink-gray-5">{{ item.below }}</div>
+            <div v-for="(line, i) in item.lines || []" :key="i" class="break-words text-sm text-ink-gray-5">{{ line }}</div>
           </div>
         </ListCell>
         <ListCell v-if="bars">

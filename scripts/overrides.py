@@ -1046,6 +1046,13 @@ OVERRIDES = [
 		"frappe.ui.toggle_like = function ($btn, doctype, name, callback) {",
 	),
 	(
+		"A field's help opens from its label on a phone",
+		"frappe opens a field's help card from a 12px info icon beside its label, too small to hit with a finger. On a phone, phone.js sends a tap anywhere on the label to that icon as a click, so frappe's own card opens and closes as before",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/form/info_card.js",
+		'"cursor-pointer m-0 info-trigger card-icons"',
+	),
+	(
 		"A Select opens the Link's list",
 		"frappe draws a Select as the browser's own <select>, whose list is the operating system's and nothing like the list a Link drops on the same form. In Canvas, select.js stops the native list from opening and draws frappe's own awesomplete list in a layer under the box, with arrows, Enter, Escape and type-to-jump; a pick is set on the <select> and sent as a change, which frappe's control already listens to. The <select>, its options and its value stay frappe's",
 		"onedesk/public/js/one_interface/select.js",

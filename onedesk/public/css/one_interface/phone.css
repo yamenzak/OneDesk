@@ -421,3 +421,9 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		transition: none;
 	}
 }
+
+@media (hover: none) {
+	.tooltip {
+		display: none !important;
+	}
+}
