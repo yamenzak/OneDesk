@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 85 | 2 | 38 | 0 |
+| onedesk | 84 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 300 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -54,7 +54,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | supplier_items (`frontend/src/inventory/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
 | check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
 | workload (`frontend/src/workload/WorkloadList.vue`) | – | – | – | – |
-| quotes (`frontend/src/inventory/quotes/QuotesPage.vue`) | Purchase Order Item, Request for Quotation, Request for Quotation Item, Request for Quotation Supplier, Supplier Quotation, Supplier Quotation Item | – | – | – |
 | sent_out (`frontend/src/inventory/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | – | – | – |
 | upkeep (`frontend/src/inventory/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | – | – | – |
 | floor (`frontend/src/inventory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
@@ -202,7 +201,7 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our 
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
 | Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 6 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
-| Request for Quotation | opened by our screens | OneInventory | a head, events, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Request for Quotation | on a rail or a home | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
 | Supplier Quotation | on a rail or a home | OneInventory | a head, events, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -374,7 +373,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
-| Incoterm | through a form's link (Request for Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Quotation Lost Reason | through a form's link (Quotation: lost_reason) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -1040,7 +1039,7 @@ Pages: onehr (on a rail or a home).
 
 Reports: Inventory Check (on a rail or a home).
 
-Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
+Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); plant (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
 
 ## onedesk / One Legal
 

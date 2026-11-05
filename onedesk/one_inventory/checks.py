@@ -385,8 +385,9 @@ def oneinventory_lots_and_numbers_are_read_where_people_look():
 
 
 @check
-def oneinventory_quotes_ask_compare_and_order_on_one_page():
-	"""Quotes: the stores' profile asked of Al Noor and Euro Hardware, Euro
+def oneinventory_quotes_ask_compare_and_order():
+	"""Asking for prices, on frappe's own request and quote forms: the
+	stores' profile asked of Al Noor and Euro Hardware, Euro
 	Hardware's answer in euros compared in dirhams, Al Noor still waiting,
 	and the villa's request with every cheapest line ordered already. Al
 	Noor's quote typed in makes them cheapest, Order the Cheapest drafts
@@ -399,10 +400,11 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 	from onedesk.one_inventory import ai, quotes
 
 	code, qty, rate = STORES_ASKED
+	assert not frappe.db.exists("Page", "quotes")
 	with as_user("karim@one.test"):
-		said = quotes.read()
-		assert said["figures"]["waiting"] >= 1 and said["figures"]["expiring"] >= 1, said["figures"]
-		stores = next(one for one in said["asked"] if any(row["supplier"] == EURO for row in one["suppliers"]))
+		figures, asked = quotes.figures(), quotes.asked()
+		assert figures["waiting"] >= 1 and figures["expiring"] >= 1, figures
+		stores = next(one for one in asked if any(row["supplier"] == EURO for row in one["suppliers"]))
 		answered = {row["supplier"]: row["answered"] for row in stores["suppliers"]}
 		assert answered == {ALUMINIUM: False, EURO: True} and not stores["ordered"], stores
 
@@ -413,7 +415,7 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 		assert offer["rate"] == rate and offer["base_rate"] > rate * 3, offer
 		assert [one["quote"] is None for one in compared["suppliers"]] == [True, False], compared["suppliers"]
 
-		villa = quotes.compare(next(one["name"] for one in said["asked"] if one["ordered"] and one["answered"] == 2))
+		villa = quotes.compare(next(one["name"] for one in asked if one["ordered"] and one["answered"] == 2))
 		assert all(one["ordered"] for one in villa["lines"]) and not any(one["cheapest_on"] for one in villa["suppliers"]), villa
 
 		theirs = make_supplier_quotation_from_rfq(stores["name"], for_supplier=ALUMINIUM)
@@ -437,8 +439,8 @@ def oneinventory_quotes_ask_compare_and_order_on_one_page():
 		facts = ai.quotes_now()
 		assert facts["figures"] == quotes.figures() and facts["newest_compared"], facts
 	with as_user("nadia@one.test"):
-		said = quotes.read()
-		assert not said["asked"] and said["figures"]["waiting"] is None and not said["can"]["ask"], said
+		assert not quotes.asked() and quotes.figures()["waiting"] is None, quotes.figures()
+		assert not frappe.has_permission("Request for Quotation", "create")
 		assert ai.quotes_now().get("error")
 
 

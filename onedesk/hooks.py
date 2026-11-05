@@ -857,6 +857,7 @@ fixtures = [
 
 
 doctype_js = {
+	"Request for Quotation": "public/js/one_inventory/request_for_quotation.js",
 	"Shift Location": "public/js/one_hr/shift_location.js",
 	"Appointment": "public/js/one_crm/appointment.js",
 	"Bank Reconciliation Tool": "public/js/bank.js",

@@ -122,7 +122,7 @@ EVERYTHING = (
 	("stock", _lt("Item Standard Cost"), "DocType", "Item Standard Cost", _lt("What an item is valued at when it is kept at a standard cost.")),
 	("buying", _lt("Reorder"), "Page", "to-order", _lt("What runs low, and orders for it.")),
 	("buying", _lt("Material Request"), "DocType", "Material Request", _lt("Goods asked for by the stores, the workshop or a project.")),
-	("buying", _lt("Request for Quotation"), "Page", "quotes", _lt("Ask suppliers for prices, see their answers side by side and order the cheapest.")),
+	("buying", _lt("Request for Quotation"), "DocType", "Request for Quotation", _lt("Ask suppliers for prices, see their answers side by side and order the cheapest.")),
 	("buying", _lt("Supplier Quotation"), "DocType", "Supplier Quotation", _lt("The prices suppliers gave.")),
 	("buying", _lt("Supplier Quotation Comparison"), "Report", "Supplier Quotation Comparison", _lt("Suppliers' prices side by side.")),
 	("buying", _lt("Purchase Order"), "DocType", "Purchase Order", _lt("What was ordered, and what is still to come.")),

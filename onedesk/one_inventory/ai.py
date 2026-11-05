@@ -35,7 +35,6 @@ STOCK = "stock-on-hand"
 FLOOR = "floor"
 PLANT = "plant"
 HOME = "inventory"
-QUOTES = "quotes"
 SENT_OUT = "sent-out"
 UPKEEP = "upkeep"
 
@@ -280,7 +279,6 @@ SUGGESTIONS = {
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
 	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
-	f"page:{QUOTES}": [_UNANSWERED, _CHEAPEST],
 	f"page:{SENT_OUT}": [_OUT_NOW],
 	f"page:{UPKEEP}": [_DUE, _BROKEN],
 	"Asset Repair": [_BROKEN],
@@ -335,16 +333,6 @@ def page(said: dict) -> str | None:
 			"The reader is on Reorder, which lists the items at or below their reorder level in each warehouse, "
 			"with what is on hand, already ordered and promised, and orders for them. running_low reads it as the "
 			"page shows it. How the page works is in OneInventory's documentation (how_to)."
-		)
-	if said.get("page") == QUOTES:
-		return (
-			"The reader is on Quotes, which lists each request for prices with which suppliers answered and "
-			"which have not, each supplier's quote with its total and until when it holds, and one request's "
-			"quotes side by side with the cheapest on each line. quotes_now reads it as the page shows it, and "
-			"quotes_now with request (a request for quotation, or the material request it was made from) "
-			"compares one request's quotes line by line; plan_quote_request drafts a new request for a material "
-			"request as a card. "
-			"How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") == UPKEEP:
 		return (

@@ -1,25 +1,6 @@
 frappe.provide("onedesk");
 
 onedesk.page_views = {
-	lots: {
-		label: () => __("Batch and Serial No"),
-		doctypes: [
-			["Batch", () => __("Batch"), "batches"],
-			["Serial No", () => __("Serial No"), "serials"],
-		],
-		reports: [
-			["Batch Item Expiry Status", () => __("Batch Item Expiry Status")],
-			["Batch-Wise Balance History", () => __("Batch-Wise Balance History")],
-		],
-	},
-	quotes: {
-		label: () => __("Request for Quotation"),
-		doctypes: [
-			["Request for Quotation", () => __("Request for Quotation"), "asked"],
-			["Supplier Quotation", () => __("Supplier Quotation"), "quotes"],
-		],
-		reports: [["Supplier Quotation Comparison", () => __("Supplier Quotation Comparison")]],
-	},
 	"sent-out": {
 		label: () => __("Subcontracting Order"),
 		doctypes: [

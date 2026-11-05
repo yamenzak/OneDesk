@@ -160,7 +160,6 @@ SCREENS = {
 	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
 	"upkeep": "servicing and mending the equipment, services due, repairs, plans and what was done (Asset Maintenance Log, Asset Repair)",
 	"sent-out": "work a supplier does on our own materials, what went and what came back (Subcontracting Order)",
-	"quotes": "asking suppliers for prices, their answers and the comparison (Request for Quotation, Supplier Quotation)",
 	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",
 	"plant": "a floor's workstations, their status and the stock kept on the floor (Plant Floor, Workstation)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",

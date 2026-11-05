@@ -349,7 +349,6 @@ PAGES = {
 	"stock-on-hand": "inventory",
 	"inventory": "inventory",
 	"to-order": "inventory",
-	"quotes": "inventory",
 	"sent-out": "inventory",
 	"upkeep": "inventory",
 	"floor": "inventory",

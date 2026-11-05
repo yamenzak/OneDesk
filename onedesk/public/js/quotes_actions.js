@@ -69,10 +69,15 @@ onedesk.quotes.order = (quote) =>
 		source_name: quote,
 	});
 
-onedesk.quotes.order_cheapest = (request, done) =>
-	frappe.confirm(__("Draft an order to each supplier for the lines they are cheapest on?"), async () => {
-		const made = await frappe.xcall("onedesk.one_inventory.quotes.order_cheapest", { request });
-		if (made.length === 1) return frappe.set_route("Form", "Purchase Order", made[0]);
-		frappe.show_alert({ message: __("{0} draft orders made", [made.length]), indicator: "green" });
-		done?.();
+onedesk.quotes.order_cheapest = async (request, done) => {
+	const go = await onedesk.interface.ask({
+		question: __("Order the cheapest quote on each line?"),
+		effect: __("A draft purchase order is made to each supplier for the lines they are cheapest on. Nothing is sent."),
+		verb: __("Draft Orders"),
 	});
+	if (!go) return;
+	const made = await frappe.xcall("onedesk.one_inventory.quotes.order_cheapest", { request });
+	if (made.length === 1) return frappe.set_route("Form", "Purchase Order", made[0]);
+	frappe.show_alert({ message: __("{0} draft orders made.", [made.length]), indicator: "green" });
+	done?.();
+};

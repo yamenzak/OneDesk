@@ -23,43 +23,24 @@ Order** starts one with them.
    already names the items and whether they are bought or made, so it has
    no number or Purpose column; a request's lines take the request's
    Required By and leave it out of the table.
-2. **Ask for prices.** **Request for Quotation** in the rail opens the
-   page for asking suppliers. **Ask for Prices** on it picks the material
-   request and the suppliers, and with **Email Suppliers Now** ticked mails
-   each one a link; untick it to leave the request a draft to finish on its
-   form. **Create › Request for Quotation** on the material request does the
-   same from there. Submit it and **Send Email** mails each one a link. A
-   supplier with a portal login prices it there, and their quote arrives as
-   a draft with whoever asked told. A quote by mail is **Create › Supplier
-   Quotation** on the request. A quote holds until its **Valid Till**, and
-   expires by itself after.
-3. **Compare.** The page has three tabs. **Request for Quotation** is a
-   table of requests: what each asks for, where it stands (Draft, Waiting,
-   Answered or Ordered), each supplier asked with a tick once they
-   answered, and when it was asked and is wanted. A row's menu has
-   **Compare**, **Add Supplier Quotation from** a supplier who has not
-   answered, and **Open Request for Quotation**. **Supplier Quotations** is
-   a table of suppliers' quotes: who, where it stands, the request it
-   answers and the orders made from it, until when it holds, and its total
-   in its own money, with **All**, **To Decide**, **Draft** and **Expiring**
-   above it. **Comparison** sets one request's quotes side by side: each
-   supplier's rate on each line, in their own money and in the company's
-   currency for one in another money, with the cheapest live rate marked **Cheapest** (a quote past its
-   Valid Till never is) and a
-   line ordered already said as ordered. Under each supplier, **Add
-   Supplier Quotation** types in the quote of a supplier who answered by
-   mail, **Check Supplier Quotation** opens one still a draft, and
-   **Order** drafts an order from a quote while a line it prices is left to
-   order. **Order the Cheapest**, the main button on a comparison, drafts one order to each supplier for the
-   lines they are cheapest on. The figures say how many suppliers are still
-   to answer (**Waiting for Prices**), how many quotes wait for a decision
-   or are still drafts, and how many run out within a week (**Expiring**).
-   OneAI answers **Who has not answered?** and **Who is cheapest?** there.
-   A request for quotation's own page says how many suppliers have
-   **Quoted** and who is **Cheapest**, line by line. The **Supplier
-   Quotation Comparison** report sets every quote side by side, in the
-   company's money too. A quote says on how many of its lines it is the
-   cheapest (**Lowest On**).
+2. **Ask for prices.** On a material request, **Create › Request for
+   Quotation** makes the request for the lines still to buy. Add the
+   suppliers, submit it, and **Send Emails to Suppliers** mails each one a
+   link. A supplier with a portal login prices it there, and their quote
+   arrives as a draft with whoever asked told. A quote by mail is **Create
+   › Supplier Quotation** on the request. A quote holds until its **Valid
+   Till**, and expires by itself after. From a project, **Ask for Prices**
+   on its **Suppliers** does all of it in one step.
+3. **Compare.** **Request for Quotation** in the rail lists the requests,
+   and **Supplier Quotation** the quotes. A request's page says how many
+   suppliers have **Quoted** and who is **Cheapest**, line by line, and
+   **View › Supplier Quotation Comparison** sets its quotes side by side,
+   in the company's money too. A quote past its **Valid Till** is never the
+   cheapest. **Create › Order Cheapest** on the request drafts one order to
+   each supplier for the lines they are cheapest on; nothing is sent. A
+   quote says on how many of its lines it is the cheapest (**Lowest On**).
+   OneAI answers **Who has not answered?** and **Who is cheapest?** on a
+   request.
 4. **Order.** **Create › Purchase Order** on the quote you take. Lines can
    go to different suppliers, each from whoever is cheapest on it.
    An order's page says the **Project**, its **Grand Total** while it is a

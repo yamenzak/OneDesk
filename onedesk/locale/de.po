@@ -764,6 +764,10 @@ msgstr "Der Inhalt eines Dokuments hinter der Datei, die es in OneCloud ablegt. 
 msgid "A domain is at most {0} characters."
 msgstr "Eine Domain hat höchstens {0} Zeichen."
 
+#: onedesk/public/js/quotes_actions.js:75
+msgid "A draft purchase order is made to each supplier for the lines they are cheapest on. Nothing is sent."
+msgstr "Für jeden Lieferanten wird ein Bestellentwurf mit den Positionen erstellt, bei denen er am günstigsten ist. Es wird nichts gesendet."
+
 #: onedesk/one_inventory/heads.py:624
 msgid "A draft. Submit it to ask for these."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um diese anzufordern."
@@ -2742,15 +2746,6 @@ msgstr "Unteraufgabe hinzufügen"
 #: frontend/src/project/Suppliers.vue:8 frontend/src/project/Suppliers.vue:271
 msgid "Add Supplier"
 msgstr "Lieferant hinzufügen"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:50
-msgid "Add Supplier Quotation"
-msgstr "Lieferantenangebot hinzufügen"
-
-#: frontend/src/inventory/quotes/RequestRows.vue:73
-#, python-brace-format
-msgid "Add Supplier Quotation from {0}"
-msgstr "Lieferantenangebot von {0} hinzufügen"
 
 #: frontend/src/project/Tasks.vue:75 frontend/src/template/Tasks.vue:98
 #: frontend/src/template/TemplatePage.vue:113 onedesk/public/js/task_new.js:43
@@ -8904,10 +8899,6 @@ msgstr ""
 msgid "Check Quality"
 msgstr "Qualität prüfen"
 
-#: frontend/src/inventory/quotes/QuoteCompare.vue:47
-msgid "Check Supplier Quotation"
-msgstr "Lieferantenangebot prüfen"
-
 #: onedesk/one_ai/jobs.py:70
 msgid "Check What Arrived Before Acting"
 msgstr "Prüfen, was ankam, bevor gehandelt wird"
@@ -10267,11 +10258,6 @@ msgstr "Firmendaten"
 msgid "Company, chart of accounts and taxes"
 msgstr "Unternehmen, Kontenplan und Steuern"
 
-#: frontend/src/inventory/quotes/QuoteRows.vue:80
-#: frontend/src/inventory/quotes/RequestRows.vue:71
-msgid "Compare"
-msgstr "Vergleichen"
-
 #: onedesk/one_inventory/ai.py:168
 msgid "Compare the quotes"
 msgstr "Angebote vergleichen"
@@ -10288,10 +10274,6 @@ msgstr "Vergleiche diese Gehaltsabrechnung mit der letzten dieser Person und sag
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:76
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr "Wird als Text mit dem aktuellen Feldinhalt verglichen. Eine Bearbeitung durch eine Person macht sie verschieden, und das Abzeichen verschwindet."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:100
-msgid "Comparison"
-msgstr "Vergleich"
 
 #. Label in the One Compensatory Leave Request print format
 #: onedesk/one_hr/print_format/one_compensatory_leave_request/one_compensatory_leave_request.json
@@ -15057,9 +15039,9 @@ msgstr "Rechnungen, Bestellungen und Zahlungen entwerfen"
 msgid "Draft No"
 msgstr "Entwurfs-Nr."
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Draft Supplier Quotations"
-msgstr "Lieferantenangebote im Entwurf"
+#: onedesk/public/js/quotes_actions.js:76
+msgid "Draft Orders"
+msgstr "Bestellentwürfe erstellen"
 
 #: onedesk/one_ai/jobs.py:53
 msgid "Draft a Reply"
@@ -15130,10 +15112,6 @@ msgstr "Entwirf einen Arbeitsauftrag über zehn Stück davon, mit seiner eigenen
 msgid "Draft accounts"
 msgstr "Entwurf des Abschlusses"
 
-#: onedesk/public/js/quotes_actions.js:73
-msgid "Draft an order to each supplier for the lines they are cheapest on?"
-msgstr "Jedem Lieferanten eine Bestellung als Entwurf für die Positionen anlegen, bei denen er am günstigsten ist?"
-
 #: onedesk/one_hr/ai.py:165
 msgid "Draft my feedback"
 msgstr "Mein Feedback entwerfen"
@@ -15174,11 +15152,6 @@ msgstr "Bestellentwürfe für alle {0} Positionen anlegen?"
 #: onedesk/one_hr/ai.py:147
 msgid "Draft the opening"
 msgstr "Stelle entwerfen"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:128
-#, python-brace-format
-msgid "Draft {0}"
-msgstr "Entwurf {0}"
 
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:8
 msgid "Draft. Not issued."
@@ -31003,10 +30976,6 @@ msgstr "Noch keine Produktionshallen"
 msgid "No position was sent."
 msgstr "Es wurde keine Position übermittelt."
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:17
-msgid "No prices asked for yet"
-msgstr "Noch keine Preise angefragt"
-
 #: onedesk/public/js/one_studio/studio_control.js:105
 msgid "No print formats"
 msgstr "Keine Druckformate"
@@ -31043,10 +31012,6 @@ msgstr "Keine Erinnerungen gesendet"
 #, python-brace-format
 msgid "No request for quotation the reader may see is {0}."
 msgstr "Keine sichtbare Angebotsanfrage heißt {0}."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:17
-msgid "No requests match"
-msgstr "Keine passenden Anfragen"
 
 #: frontend/src/cloud/cloud.js:107 frontend/src/mail/MailList.vue:18
 msgid "No results"
@@ -31148,18 +31113,6 @@ msgstr "Keine Unteraufträge"
 #: onedesk/one_hr/review.py:38
 msgid "No such check-in attempt."
 msgstr "Diesen Einchecken-Versuch gibt es nicht."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:20
-msgid "No supplier quotations match"
-msgstr "Keine passenden Lieferantenangebote"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:23
-msgid "No supplier quotations to compare yet"
-msgstr "Noch keine Lieferantenangebote zum Vergleichen"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:20
-msgid "No supplier quotations yet"
-msgstr "Noch keine Lieferantenangebote"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:45
 msgid "No supplier yet"
@@ -31579,11 +31532,6 @@ msgstr "Nicht erlaubt"
 #: onedesk/one_ai/chat.py:430 onedesk/one_ai/chat.py:433
 msgid "Not answered"
 msgstr "Nicht beantwortet"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:39
-#: frontend/src/inventory/quotes/RequestRows.vue:25
-msgid "Not answered yet"
-msgstr "Noch nicht beantwortet"
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:11
 #: onedesk/one_admin/heads.py:49
@@ -34278,11 +34226,6 @@ msgstr "Bestellung öffnen"
 msgid "Open Quotes"
 msgstr "Offene Angebote"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:28
-#: frontend/src/inventory/quotes/RequestRows.vue:75
-msgid "Open Request for Quotation"
-msgstr "Angebotsanfrage öffnen"
-
 #: onedesk/www/tv.py:51
 msgid "Open Screens in OneDisplay, add a screen and enter this code."
 msgstr "Öffnen Sie Bildschirme in OneDisplay, fügen Sie einen Bildschirm hinzu und geben Sie diesen Code ein."
@@ -34295,10 +34238,6 @@ msgstr "Anmeldung öffnen"
 #: onedesk/one_legal/gate.py:31
 msgid "Open Source and Third-Party Notices"
 msgstr "Open-Source- und Drittanbieterhinweise"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:49
-msgid "Open Supplier Quotation"
-msgstr "Lieferantenangebot öffnen"
 
 #: frontend/src/project/TaskPanel.vue:176
 msgid "Open Task"
@@ -34768,6 +34707,10 @@ msgstr "Alle bestellen"
 msgid "Order By"
 msgstr ""
 
+#: onedesk/public/js/one_inventory/request_for_quotation.js:13
+msgid "Order Cheapest"
+msgstr "Günstigste bestellen"
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:236
 msgid "Order Confirmation"
@@ -34861,9 +34804,9 @@ msgstr "Schreinerarbeiten und Möbel bestellen"
 msgid "Order long-lead items"
 msgstr "Artikel mit langer Lieferzeit bestellen"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:159
-msgid "Order the Cheapest"
-msgstr "Das Günstigste bestellen"
+#: onedesk/public/js/quotes_actions.js:74
+msgid "Order the cheapest quote on each line?"
+msgstr "Für jede Position das günstigste Angebot bestellen?"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:178
 #, python-brace-format
@@ -34900,11 +34843,6 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:633
 msgid "Ordered and received."
 msgstr "Bestellt und erhalten."
-
-#: frontend/src/inventory/quotes/QuoteRows.vue:28
-#, python-brace-format
-msgid "Ordered as {0}"
-msgstr "Bestellt als {0}"
 
 #: onedesk/one_inventory/heads.py:636
 #, python-brace-format
@@ -35962,10 +35900,6 @@ msgstr "Teil eins"
 
 #: frontend/src/inventory/sent_out/OutRows.vue:86
 msgid "Partial Material Transferred"
-msgstr ""
-
-#: frontend/src/inventory/quotes/QuoteRows.vue:68
-msgid "Partially Ordered"
 msgstr ""
 
 #: frontend/src/inventory/sent_out/OutRows.vue:88
@@ -39699,10 +39633,6 @@ msgstr "Angeboten, gültig bis {0}"
 msgid "Quotes"
 msgstr "Angebote"
 
-#: onedesk/one_studio/places.py:180
-msgid "Quotes is opened, and each time a request for prices, a quote or an order changes."
-msgstr "Angebote wird geöffnet, und jedes Mal, wenn sich eine Preisanfrage, ein Angebot oder eine Bestellung ändert."
-
 #. Label of the r2_key_id (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:236
 msgid "R2 Access Key ID"
@@ -41922,11 +41852,6 @@ msgstr "Erforderlich"
 #: onedesk/one_studio/print_blocks.py:75
 msgid "Required By"
 msgstr ""
-
-#: frontend/src/inventory/quotes/RequestRows.vue:33
-#, python-brace-format
-msgid "Required By {0}"
-msgstr "Benötigt bis {0}"
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:23
 msgid "Required for radios."
@@ -45442,17 +45367,9 @@ msgstr "Abgeschlossene anzeigen"
 msgid "Show Date"
 msgstr "Datum anzeigen"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Show Draft Supplier Quotations"
-msgstr "Lieferantenangebote im Entwurf anzeigen"
-
 #: onedesk/www/error.html:25
 msgid "Show Error"
 msgstr "Fehler anzeigen"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:113
-msgid "Show Expiring Supplier Quotations"
-msgstr "Ablaufende Lieferantenangebote anzeigen"
 
 #: frontend/src/project/Team.vue:161
 msgid "Show Files"
@@ -45508,10 +45425,6 @@ msgstr "Rohdaten anzeigen"
 msgid "Show Requested"
 msgstr "Angefordertes anzeigen"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Show Requests for Quotation"
-msgstr "Angebotsanfragen anzeigen"
-
 #: onedesk/public/js/one/access_center.js:25
 #: onedesk/public/js/one/role_matrix.js:91
 msgid "Show Roles"
@@ -45538,10 +45451,6 @@ msgstr "Mit einem Passkey anmelden auf der Anmeldeseite anzeigen."
 #: onedesk/one_display/widgets.py:83
 msgid "Show Summary"
 msgstr "Zusammenfassung zeigen"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:111
-msgid "Show Supplier Quotations to Decide"
-msgstr "Zu entscheidende Lieferantenangebote anzeigen"
 
 #: onedesk/one_display/widgets.py:85
 msgid "Show Time"
@@ -47676,10 +47585,6 @@ msgstr "Beantwortet noch die letzte Frage."
 msgid "Still closing"
 msgstr "Wird weiterhin geschlossen"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Still drafts"
-msgstr "Noch Entwürfe"
-
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:195
 msgid "Still in Draft"
 msgstr "Noch im Entwurf"
@@ -48698,14 +48603,6 @@ msgstr "Lieferantenangebot"
 msgid "Supplier Quotation Comparison"
 msgstr ""
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:99
-msgid "Supplier Quotations"
-msgstr "Lieferantenangebote"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:111
-msgid "Supplier Quotations to Decide"
-msgstr "Zu entscheidende Lieferantenangebote"
-
 #. Label in the One Supplier Scorecard Period print format
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
 msgid "Supplier Score"
@@ -48766,10 +48663,6 @@ msgstr "Lieferanten"
 #: onedesk/one_inventory/ready.py:169
 msgid "Suppliers can be scored"
 msgstr "Lieferanten können bewertet werden"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Suppliers still to answer"
-msgstr "Lieferanten, die noch antworten müssen"
 
 #: onedesk/one_book/home.py:321
 msgid "Suppliers' electronic invoices read in from a zip file."
@@ -53782,11 +53675,6 @@ msgstr "An Unternehmen"
 msgid "To Date"
 msgstr "Bis Datum"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:127
-#, python-brace-format
-msgid "To Decide {0}"
-msgstr "Zu entscheiden {0}"
-
 #: frontend/src/inventory/item/ItemSelling.vue:5
 msgid "To Deliver"
 msgstr "Zu liefern"
@@ -56069,11 +55957,6 @@ msgstr ""
 msgid "Valid Until"
 msgstr "Gültig bis"
 
-#: frontend/src/inventory/quotes/QuoteCompare.vue:75
-#, python-brace-format
-msgid "Valid till {0}"
-msgstr "Gültig bis {0}"
-
 #: onedesk/one_portal/portal.py:45
 msgid "Valid until"
 msgstr "Gültig bis"
@@ -56576,10 +56459,6 @@ msgstr "Wartet auf DNS"
 #: onedesk/one_admin/steps.py:45 onedesk/one_admin/steps.py:63
 msgid "Waiting for Frappe Cloud"
 msgstr "Wartet auf Frappe Cloud"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Waiting for Prices"
-msgstr "Warten auf Preise"
 
 #: frontend/src/hr/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
@@ -60906,10 +60785,6 @@ msgstr "Zurückgehalten"
 #, python-brace-format
 msgid "Withheld: {0}"
 msgstr "Zurückgehalten: {0}"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:113
-msgid "Within a week"
-msgstr "Innerhalb einer Woche"
 
 #: onedesk/one_book/ready.py:108
 #, python-brace-format
@@ -65444,10 +65319,10 @@ msgstr "{0} nutzt dieses Postfach nicht."
 msgid "{0} done"
 msgstr "{0} erledigt"
 
-#: onedesk/public/js/quotes_actions.js:76
+#: onedesk/public/js/quotes_actions.js:81
 #, python-brace-format
-msgid "{0} draft orders made"
-msgstr "{0} Bestellentwürfe angelegt"
+msgid "{0} draft orders made."
+msgstr "{0} Bestellentwürfe erstellt."
 
 #: frontend/src/books/BooksHome.vue:248 frontend/src/crm/CrmHome.vue:265
 #: frontend/src/inventory/home/InventoryHome.vue:304
@@ -67887,11 +67762,6 @@ msgstr "{0} {1} → {2}"
 #, python-brace-format
 msgid "{0} {1}?"
 msgstr "{0} {1}?"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:15
-#, python-brace-format
-msgid "{0} · Ordered"
-msgstr "{0} · Bestellt"
 
 #: onedesk/one_book/heads.py:59
 #, python-brace-format

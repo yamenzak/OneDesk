@@ -44,8 +44,6 @@ export const SCREENS = [
 	{ who: "karim@one.test", path: "/desk/inventory/setup", page: "inventory", sees: ["Warehouses", "Where stock is kept."], panel: true },
 	{ who: "karim@one.test", path: "/desk/to-order", page: "to-order", sees: ["Running Low", "Structural Silicone Sealant"], panel: true },
 	{ who: "karim@one.test", path: "/desk/lots", page: "lots", sees: ["Lots in Stock", "Weatherproof Silicone Sealant", "Stores - SGA"], panel: true },
-	{ who: "karim@one.test", path: "/desk/quotes", page: "quotes", sees: ["Waiting for Prices", "Aluminium Profile 6063", "Euro Hardware Trading"], panel: true },
-	{ who: "karim@one.test", path: "/desk/quotes?view=compare&request=PUR-RFQ-2026-00005", page: "quotes", sees: ["Cheapest", "Emirates Sealants & Fixings"], panel: true },
 	{ who: "karim@one.test", path: "/desk/sent-out", page: "sent-out", sees: ["With Suppliers", "Gulf Powder Coating", "Aluminium Profile 6063, Powder Coated"], panel: true },
 	{ who: "karim@one.test", path: "/desk/upkeep", page: "upkeep", sees: ["Due This Week", "Pickup Truck 2", "Yousef Bakr"], panel: true },
 	{ who: "karim@one.test", path: "/desk/upkeep?view=repairs", page: "upkeep", sees: ["Laptop Huda", "Out of Order"], panel: true },

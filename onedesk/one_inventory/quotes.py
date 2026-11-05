@@ -1,8 +1,9 @@
-"""Quotes (page/quotes, frontend/src/inventory/quotes): asking suppliers for prices,
-their answers and the comparison, as one page. Every change is ERPNext's own
-mapper: a request for quotation from a material request, a supplier's quote
-from the request, and a purchase order from a quote. How it works is in the
-module's AGENTS.md.
+"""Asking suppliers for prices, their answers and the comparison, as OneAI
+and a project's Suppliers read and act on them; Request for Quotation and
+Supplier Quotation themselves are frappe's own lists and forms. Every change
+is ERPNext's own mapper: a request for quotation from a material request
+(`ask`), and a purchase order from a quote (`order_cheapest`, the request's
+Create menu). How it works is in the module's AGENTS.md.
 """
 
 import erpnext
@@ -12,32 +13,6 @@ from frappe.utils import add_days, flt, getdate, today
 
 MOST = 40
 SOON = 7
-
-
-@frappe.whitelist()
-def read(view: str = "asked", search: str | None = None, request: str | None = None) -> dict:
-	"""The figures, and the requests, quotes or comparison one tab shows."""
-	said = {
-		"can": {
-			"ask": bool(frappe.has_permission("Request for Quotation", "create")),
-			"quote": bool(frappe.has_permission("Supplier Quotation", "create")),
-			"order": bool(frappe.has_permission("Purchase Order", "create")),
-		},
-		"figures": figures(),
-		"asked": [],
-		"quotes": [],
-		"compare": None,
-		"requests": [],
-	}
-	if view == "quotes":
-		said["quotes"] = quotes(search=search)
-	elif view == "compare":
-		said["requests"] = [{"name": one["name"], "label": one["what"]} for one in asked() if one["answered"]]
-		chosen = request or next((one["name"] for one in said["requests"]), None)
-		said["compare"] = compare(chosen) if chosen else None
-	else:
-		said["asked"] = asked(search=search)
-	return said
 
 
 def figures() -> dict:

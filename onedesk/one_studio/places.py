@@ -172,17 +172,6 @@ PLACES = {
 			},
 		},
 	},
-	"oneinventory_quotes": {
-		"label": "OneInventory",
-		"record": "Supplier Quotation",
-		"events": {
-			"shown": {
-				"about": _lt("Quotes is opened, and each time a request for prices, a quote or an order changes."),
-				"gives": "quotes.view (asked, quotes or compare), quotes.request (the request compared, or null), quotes.waiting (suppliers still to answer), quotes.to_decide, quotes.drafts, quotes.expiring",
-				"may": ("note", "action"),
-			},
-		},
-	},
 	"oneinventory_sent_out": {
 		"label": "OneInventory",
 		"record": "Subcontracting Order",

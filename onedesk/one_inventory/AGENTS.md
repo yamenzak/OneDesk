@@ -130,22 +130,23 @@ a register and a movement form in it would be a rail with five rows.
   picker is `can_be_tracked`, items with no stock ledger entry. New Batch
   inserts a Batch with `frappe.client.insert`, and ERPNext numbers it and
   works out its expiry. OneAI's `lots_and_numbers` reads the same.
-- `quotes.py`, `page/quotes`, `frontend/src/inventory/quotes` and
-  `public/js/quotes_actions.js` — Quotes. `read` gives the figures and one
-  tab: `asked` (Request for Quotation with its suppliers' quote_status and
-  each one's quote, `_answers`), `quotes` (Supplier Quotation with the
-  request it answers and the orders made from it) or `compare`. `compare`
-  sets a request's lines against each supplier asked, rate and base_rate
-  from Supplier Quotation Item, the cheapest live base_rate marked, and a
-  line ordered when the quotes' ordered_qty covers it. Every change is
-  ERPNext's mapper: `ask` runs Material Request's
+- `quotes.py`, `public/js/quotes_actions.js` and
+  `public/js/one_inventory/request_for_quotation.js` — asking for prices.
+  Request for Quotation and Supplier Quotation are frappe's own lists and
+  forms (the Quotes page went in November 2026; `/desk/quotes` leads to the
+  requests), and ERPNext's own View › Supplier Quotation Comparison is the
+  side by side. `figures`, `asked` (Request for Quotation with its
+  suppliers' quote_status and each one's quote, `_answers`), `quotes` and
+  `compare` are what OneAI's `quotes_now` reads: `compare` sets a request's
+  lines against each supplier asked, rate and base_rate from Supplier
+  Quotation Item, the cheapest live base_rate marked, and a line ordered
+  when the quotes' ordered_qty covers it. Every change is ERPNext's mapper:
+  `ask` (a project's Suppliers, Ask for Prices) runs Material Request's
   `make_request_for_quotation`, inserts it and, sent, submits it and runs
-  `send_supplier_emails`. Add Their Quote calls
-  `make_supplier_quotation_from_rfq` with `for_supplier`, as the request's
-  form does. Order opens `supplier_quotation.mapper.make_purchase_order`,
-  and `order_cheapest` runs it per supplier with `filtered_children` for the
-  lines they are cheapest on, leaving drafts. OneAI's `quotes_now` reads the
-  page.
+  `send_supplier_emails`; `order_cheapest` (the request's Create › Order
+  Cheapest, once a quote is submitted) runs
+  `supplier_quotation.mapper.make_purchase_order` per supplier with
+  `filtered_children` for the lines they are cheapest on, leaving drafts.
 - `sent_out.py`, `page/sent_out`, `frontend/src/inventory/sent_out` and
   `public/js/sent_out_actions.js` — Sent Out. `read` gives the figures and
   one tab of Subcontracting Orders by ERPNext's own status (`OUT` or

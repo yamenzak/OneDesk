@@ -764,6 +764,10 @@ msgstr "محتوى مستند، خلف الملف الذي يضعه في OneClou
 msgid "A domain is at most {0} characters."
 msgstr "النطاق لا يتجاوز {0} حرفًا."
 
+#: onedesk/public/js/quotes_actions.js:75
+msgid "A draft purchase order is made to each supplier for the lines they are cheapest on. Nothing is sent."
+msgstr "تُنشأ مسودة أمر شراء لكل مورد بالبنود التي يقدّم فيها أقل سعر. لا يُرسل شيء."
+
 #: onedesk/one_inventory/heads.py:624
 msgid "A draft. Submit it to ask for these."
 msgstr "مسودة. أرسلها لطلب هذه."
@@ -2742,15 +2746,6 @@ msgstr "إضافة مهمة فرعية"
 #: frontend/src/project/Suppliers.vue:8 frontend/src/project/Suppliers.vue:271
 msgid "Add Supplier"
 msgstr "إضافة مورد"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:50
-msgid "Add Supplier Quotation"
-msgstr "إضافة عرض سعر مورد"
-
-#: frontend/src/inventory/quotes/RequestRows.vue:73
-#, python-brace-format
-msgid "Add Supplier Quotation from {0}"
-msgstr "إضافة عرض سعر مورد من {0}"
 
 #: frontend/src/project/Tasks.vue:75 frontend/src/template/Tasks.vue:98
 #: frontend/src/template/TemplatePage.vue:113 onedesk/public/js/task_new.js:43
@@ -8904,10 +8899,6 @@ msgstr "تسجيل الانصراف"
 msgid "Check Quality"
 msgstr "فحص الجودة"
 
-#: frontend/src/inventory/quotes/QuoteCompare.vue:47
-msgid "Check Supplier Quotation"
-msgstr "مراجعة عرض سعر المورد"
-
 #: onedesk/one_ai/jobs.py:70
 msgid "Check What Arrived Before Acting"
 msgstr "التحقق مما وصل قبل التصرف"
@@ -10267,11 +10258,6 @@ msgstr "بيانات الشركة"
 msgid "Company, chart of accounts and taxes"
 msgstr "الشركة ودليل الحسابات والضرائب"
 
-#: frontend/src/inventory/quotes/QuoteRows.vue:80
-#: frontend/src/inventory/quotes/RequestRows.vue:71
-msgid "Compare"
-msgstr "قارن"
-
 #: onedesk/one_inventory/ai.py:168
 msgid "Compare the quotes"
 msgstr "قارن عروض الأسعار"
@@ -10288,10 +10274,6 @@ msgstr "قارن قسيمة الراتب هذه بآخر قسيمة لهذا ا�
 #: onedesk/one_ai/doctype/ai_touch/ai_touch.json:76
 msgid "Compared as text with what the field holds now. A person's edit makes them differ, and the badge goes."
 msgstr "يُقارن كنص مع ما يحويه الحقل الآن. تعديل أي شخص يجعلهما مختلفين، فتختفي الشارة."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:100
-msgid "Comparison"
-msgstr "المقارنة"
 
 #. Label in the One Compensatory Leave Request print format
 #: onedesk/one_hr/print_format/one_compensatory_leave_request/one_compensatory_leave_request.json
@@ -15057,9 +15039,9 @@ msgstr "مسودات الفواتير والطلبات والمدفوعات"
 msgid "Draft No"
 msgstr "رقم المسودة"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Draft Supplier Quotations"
-msgstr "عروض أسعار موردين مسودة"
+#: onedesk/public/js/quotes_actions.js:76
+msgid "Draft Orders"
+msgstr "إنشاء مسودات الأوامر"
 
 #: onedesk/one_ai/jobs.py:53
 msgid "Draft a Reply"
@@ -15130,10 +15112,6 @@ msgstr "صغ أمر عمل لصنع عشرة من هذا، بقائمة المو
 msgid "Draft accounts"
 msgstr "مسودة القوائم المالية"
 
-#: onedesk/public/js/quotes_actions.js:73
-msgid "Draft an order to each supplier for the lines they are cheapest on?"
-msgstr "إعداد مسودة طلب لكل مورد بالبنود التي هو الأرخص فيها؟"
-
 #: onedesk/one_hr/ai.py:165
 msgid "Draft my feedback"
 msgstr "صياغة ملاحظاتي"
@@ -15174,11 +15152,6 @@ msgstr "إنشاء مسودات أوامر شراء لكل البنود الـ {
 #: onedesk/one_hr/ai.py:147
 msgid "Draft the opening"
 msgstr "صياغة الوظيفة"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:128
-#, python-brace-format
-msgid "Draft {0}"
-msgstr "مسودة {0}"
 
 #: onedesk/one_hr/print_format/employee_letter/employee_letter.html:8
 msgid "Draft. Not issued."
@@ -31003,10 +30976,6 @@ msgstr "لا توجد أرضيات إنتاج بعد"
 msgid "No position was sent."
 msgstr "لم يُرسَل أي موقع."
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:17
-msgid "No prices asked for yet"
-msgstr "لم تُطلب أسعار بعد"
-
 #: onedesk/public/js/one_studio/studio_control.js:105
 msgid "No print formats"
 msgstr "لا توجد تنسيقات طباعة"
@@ -31043,10 +31012,6 @@ msgstr "لم تُرسَل أي تذكيرات"
 #, python-brace-format
 msgid "No request for quotation the reader may see is {0}."
 msgstr "لا يوجد طلب عرض أسعار مرئي باسم {0}."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:17
-msgid "No requests match"
-msgstr "لا طلبات مطابقة"
 
 #: frontend/src/cloud/cloud.js:107 frontend/src/mail/MailList.vue:18
 msgid "No results"
@@ -31148,18 +31113,6 @@ msgstr "لا توجد عقود من الباطن"
 #: onedesk/one_hr/review.py:38
 msgid "No such check-in attempt."
 msgstr "لا توجد محاولة تسجيل بهذا المعرّف."
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:20
-msgid "No supplier quotations match"
-msgstr "لا عروض أسعار موردين مطابقة"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:23
-msgid "No supplier quotations to compare yet"
-msgstr "لا عروض أسعار موردين للمقارنة بعد"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:20
-msgid "No supplier quotations yet"
-msgstr "لا عروض أسعار موردين بعد"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:45
 msgid "No supplier yet"
@@ -31579,11 +31532,6 @@ msgstr "غير مسموح"
 #: onedesk/one_ai/chat.py:430 onedesk/one_ai/chat.py:433
 msgid "Not answered"
 msgstr "لم يُجب"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:39
-#: frontend/src/inventory/quotes/RequestRows.vue:25
-msgid "Not answered yet"
-msgstr "لم يُجب بعد"
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:11
 #: onedesk/one_admin/heads.py:49
@@ -34278,11 +34226,6 @@ msgstr "افتح أمر الشراء"
 msgid "Open Quotes"
 msgstr "عروض أسعار مفتوحة"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:28
-#: frontend/src/inventory/quotes/RequestRows.vue:75
-msgid "Open Request for Quotation"
-msgstr "فتح طلب عرض الأسعار"
-
 #: onedesk/www/tv.py:51
 msgid "Open Screens in OneDisplay, add a screen and enter this code."
 msgstr "افتح الشاشات في OneDisplay، وأضف شاشة، وأدخل هذا الرمز."
@@ -34295,10 +34238,6 @@ msgstr "فتح تسجيل الدخول"
 #: onedesk/one_legal/gate.py:31
 msgid "Open Source and Third-Party Notices"
 msgstr "إشعارات المصادر المفتوحة والأطراف الثالثة"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:49
-msgid "Open Supplier Quotation"
-msgstr "فتح عرض سعر المورد"
 
 #: frontend/src/project/TaskPanel.vue:176
 msgid "Open Task"
@@ -34768,6 +34707,10 @@ msgstr "اطلب الكل"
 msgid "Order By"
 msgstr ""
 
+#: onedesk/public/js/one_inventory/request_for_quotation.js:13
+msgid "Order Cheapest"
+msgstr "طلب الأرخص"
+
 #. Option for the 'Kind' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:236
 msgid "Order Confirmation"
@@ -34861,9 +34804,9 @@ msgstr "طلب أعمال النجارة والأثاث"
 msgid "Order long-lead items"
 msgstr "طلب المواد طويلة التوريد"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:159
-msgid "Order the Cheapest"
-msgstr "اطلب الأرخص"
+#: onedesk/public/js/quotes_actions.js:74
+msgid "Order the cheapest quote on each line?"
+msgstr "هل تطلب أرخص عرض سعر لكل بند؟"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:178
 #, python-brace-format
@@ -34900,11 +34843,6 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:633
 msgid "Ordered and received."
 msgstr "تم الطلب والاستلام."
-
-#: frontend/src/inventory/quotes/QuoteRows.vue:28
-#, python-brace-format
-msgid "Ordered as {0}"
-msgstr "طُلب برقم {0}"
 
 #: onedesk/one_inventory/heads.py:636
 #, python-brace-format
@@ -35962,10 +35900,6 @@ msgstr "الجزء الأول"
 
 #: frontend/src/inventory/sent_out/OutRows.vue:86
 msgid "Partial Material Transferred"
-msgstr ""
-
-#: frontend/src/inventory/quotes/QuoteRows.vue:68
-msgid "Partially Ordered"
 msgstr ""
 
 #: frontend/src/inventory/sent_out/OutRows.vue:88
@@ -39699,10 +39633,6 @@ msgstr "مُسعَّر، صالح حتى {0}"
 msgid "Quotes"
 msgstr "العروض"
 
-#: onedesk/one_studio/places.py:180
-msgid "Quotes is opened, and each time a request for prices, a quote or an order changes."
-msgstr "تُفتح العروض، وفي كل مرة يتغير فيها طلب أسعار أو عرض أو طلب شراء."
-
 #. Label of the r2_key_id (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:236
 msgid "R2 Access Key ID"
@@ -41922,11 +41852,6 @@ msgstr "مطلوب"
 #: onedesk/one_studio/print_blocks.py:75
 msgid "Required By"
 msgstr ""
-
-#: frontend/src/inventory/quotes/RequestRows.vue:33
-#, python-brace-format
-msgid "Required By {0}"
-msgstr "مطلوب بحلول {0}"
 
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:23
 msgid "Required for radios."
@@ -45442,17 +45367,9 @@ msgstr "إظهار المكتملة"
 msgid "Show Date"
 msgstr "إظهار التاريخ"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Show Draft Supplier Quotations"
-msgstr "عرض عروض أسعار الموردين المسودة"
-
 #: onedesk/www/error.html:25
 msgid "Show Error"
 msgstr "عرض الخطأ"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:113
-msgid "Show Expiring Supplier Quotations"
-msgstr "عرض عروض أسعار الموردين المنتهية قريبًا"
 
 #: frontend/src/project/Team.vue:161
 msgid "Show Files"
@@ -45508,10 +45425,6 @@ msgstr "عرض النص الخام"
 msgid "Show Requested"
 msgstr "اعرض المطلوب"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Show Requests for Quotation"
-msgstr "عرض طلبات عروض الأسعار"
-
 #: onedesk/public/js/one/access_center.js:25
 #: onedesk/public/js/one/role_matrix.js:91
 msgid "Show Roles"
@@ -45538,10 +45451,6 @@ msgstr "إظهار تسجيل الدخول بمفتاح مرور في صفحة �
 #: onedesk/one_display/widgets.py:83
 msgid "Show Summary"
 msgstr "عرض الملخص"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:111
-msgid "Show Supplier Quotations to Decide"
-msgstr "عرض عروض أسعار الموردين للبت"
 
 #: onedesk/one_display/widgets.py:85
 msgid "Show Time"
@@ -47676,10 +47585,6 @@ msgstr "ما زال يجيب عن السؤال السابق."
 msgid "Still closing"
 msgstr "ما زالت قيد الإغلاق"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:112
-msgid "Still drafts"
-msgstr "ما زالت مسودات"
-
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:195
 msgid "Still in Draft"
 msgstr "ما زال مسودة"
@@ -48698,14 +48603,6 @@ msgstr "عرض سعر المورد"
 msgid "Supplier Quotation Comparison"
 msgstr ""
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:99
-msgid "Supplier Quotations"
-msgstr "عروض أسعار الموردين"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:111
-msgid "Supplier Quotations to Decide"
-msgstr "عروض أسعار موردين للبت"
-
 #. Label in the One Supplier Scorecard Period print format
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
 msgid "Supplier Score"
@@ -48766,10 +48663,6 @@ msgstr "الموردون"
 #: onedesk/one_inventory/ready.py:169
 msgid "Suppliers can be scored"
 msgstr "يمكن تقييم الموردين"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Suppliers still to answer"
-msgstr "موردون لم يجيبوا بعد"
 
 #: onedesk/one_book/home.py:321
 msgid "Suppliers' electronic invoices read in from a zip file."
@@ -53782,11 +53675,6 @@ msgstr "إلى الشركة"
 msgid "To Date"
 msgstr "إلى تاريخ"
 
-#: frontend/src/inventory/quotes/QuotesPage.vue:127
-#, python-brace-format
-msgid "To Decide {0}"
-msgstr "بانتظار القرار {0}"
-
 #: frontend/src/inventory/item/ItemSelling.vue:5
 msgid "To Deliver"
 msgstr "للتسليم"
@@ -56069,11 +55957,6 @@ msgstr ""
 msgid "Valid Until"
 msgstr "صالح حتى"
 
-#: frontend/src/inventory/quotes/QuoteCompare.vue:75
-#, python-brace-format
-msgid "Valid till {0}"
-msgstr "صالح حتى {0}"
-
 #: onedesk/one_portal/portal.py:45
 msgid "Valid until"
 msgstr "صالح حتى"
@@ -56576,10 +56459,6 @@ msgstr "في انتظار DNS"
 #: onedesk/one_admin/steps.py:45 onedesk/one_admin/steps.py:63
 msgid "Waiting for Frappe Cloud"
 msgstr "في انتظار Frappe Cloud"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:110
-msgid "Waiting for Prices"
-msgstr "بانتظار الأسعار"
 
 #: frontend/src/hr/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
@@ -60906,10 +60785,6 @@ msgstr "مُستبعد"
 #, python-brace-format
 msgid "Withheld: {0}"
 msgstr "ما استُبعد: {0}"
-
-#: frontend/src/inventory/quotes/QuotesPage.vue:113
-msgid "Within a week"
-msgstr "خلال أسبوع"
 
 #: onedesk/one_book/ready.py:108
 #, python-brace-format
@@ -65444,10 +65319,10 @@ msgstr "{0} لا يستخدم صندوق البريد هذا."
 msgid "{0} done"
 msgstr "{0} منجز"
 
-#: onedesk/public/js/quotes_actions.js:76
+#: onedesk/public/js/quotes_actions.js:81
 #, python-brace-format
-msgid "{0} draft orders made"
-msgstr "أُنشئت {0} مسودات طلبات"
+msgid "{0} draft orders made."
+msgstr "تم إنشاء {0} من مسودات الأوامر."
 
 #: frontend/src/books/BooksHome.vue:248 frontend/src/crm/CrmHome.vue:265
 #: frontend/src/inventory/home/InventoryHome.vue:304
@@ -67887,11 +67762,6 @@ msgstr "{0} من {1} إلى {2}"
 #, python-brace-format
 msgid "{0} {1}?"
 msgstr "{0} {1}؟"
-
-#: frontend/src/inventory/quotes/QuoteCompare.vue:15
-#, python-brace-format
-msgid "{0} · Ordered"
-msgstr "{0} · مطلوب"
 
 #: onedesk/one_book/heads.py:59
 #, python-brace-format
