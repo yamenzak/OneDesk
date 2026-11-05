@@ -203,6 +203,19 @@ MODULES = {
 					),
 				},
 			},
+			"Quality Inspection": {
+				"fields": {
+					"inspection_type": "list-checks",
+					"report_date": "calendar",
+					"reference_name": "file-text",
+					"item_code": "package",
+					"batch_no": "layers",
+					"inspected_by": "user",
+					"sample_size": "hash",
+				},
+				"cards": ({"key": "inspection.readings"}, {"key": "inspection.of"}, {"key": "item_name"}, {"key": "inspection.by"}),
+				"states": {"order": ("Accepted", "Rejected"), "hide": ("Cancelled",)},
+			},
 			"Material Request": {
 				"tabs": {"terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
 				"fields": {
@@ -388,6 +401,35 @@ MODULES = {
 		"screens": "quality",
 		"names": ("one_quality", "onequality"),
 		"ready": False,
+		"interface": {
+			"Non Conformance": {
+				"fields": {"subject": "triangle-alert", "procedure": "list-ordered", "status": "circle-dot", "full_name": "user"},
+				"cards": ({"key": "procedure"}, {"key": "quality.raised_by"}),
+				"states": {"order": ("Open", "Resolved"), "hide": ("Cancelled",)},
+			},
+			"Quality Action": {
+				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered", "review": "clipboard-check", "feedback": "message-square", "corrective_preventive": "wrench"},
+				"cards": ({"key": "quality.action_done"}, {"key": "goal"}, {"key": "procedure"}),
+				"states": {"order": ("Open", "Completed")},
+			},
+			"Quality Review": {
+				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered"},
+				"cards": ({"key": "quality.review_met"}, {"key": "procedure"}),
+				"states": {"order": ("Open", "Failed", "Passed")},
+			},
+			"Quality Goal": {
+				"fields": {"goal": "target", "procedure": "list-ordered", "frequency": "repeat"},
+				"cards": ({"key": "quality.goal_last"}, {"key": "procedure"}),
+				"states": {"field": "frequency"},
+			},
+			"Quality Procedure": {
+				"fields": {"quality_procedure_name": "list-ordered", "parent_quality_procedure": "folder-tree", "process_owner": "user"},
+				"cards": ({"key": "quality.procedure_open"}, {"key": "process_owner_full_name"}),
+				"states": {"field": "process_owner_full_name"},
+			},
+			"Quality Meeting": {"states": {"order": ("Open", "Closed")}},
+			"Quality Feedback": {"fields": {"template": "file-text", "document_type": "tag", "document_name": "user"}, "states": {"field": "document_type"}},
+		},
 		"help": (
 			("overview", "info"),
 			("procedures-and-goals", "list-ordered"),

@@ -4,7 +4,7 @@
       <Tooltip :text="one.other ? `${one.other.label}: ${one.other.value}` : ''" :disabled="!one.other" :hover-delay="150">
       <NumberCard
         :title="one.title"
-        :value="one.value"
+        :value="isolated(one.value)"
         :card="!!one.sparkline"
         :class="{ 'flex-1': one.sparkline, [TAXED]: one.other }"
         :color="one.alarm ? 'var(--ink-red-7)' : undefined"
@@ -36,6 +36,8 @@ import { NumberCard } from "frappe-ui/charts";
 import { go } from "./desk";
 
 defineProps({ figures: { type: Array, required: true }, columns: Number });
+const DATED = /(\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4})/g;
+const isolated = (value) => (typeof value === "string" ? value.replace(DATED, (date) => `\u2068${date.replaceAll("-", "\u2011")}\u2069`) : value);
 const CARD = "rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-3";
 const TAXED = "cursor-help [&_.tabular-nums>span:first-child]:underline [&_.tabular-nums>span:first-child]:decoration-dashed [&_.tabular-nums>span:first-child]:decoration-[var(--ink-gray-4)] [&_.tabular-nums>span:first-child]:decoration-1 [&_.tabular-nums>span:first-child]:underline-offset-4";
 const COLUMNS = { 2: "lg:grid-cols-2", 3: "lg:grid-cols-3", 5: "lg:grid-cols-3", 6: "lg:grid-cols-3" };

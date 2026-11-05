@@ -814,6 +814,29 @@ def blanket_orders(doc):
 	return {"value": str(len(made)), "tone": None if made else "quiet"}
 
 
+def inspection_readings(doc):
+	"""How many of its readings were within limits."""
+	rows = doc.get("readings") or []
+	if not rows:
+		return None
+	fine = sum(1 for row in rows if row.status == "Accepted")
+	return {"value": _("{0} of {1}").format(fine, len(rows)), "tone": None if fine == len(rows) else "alarm"}
+
+
+def inspection_by(doc):
+	return {"value": frappe.utils.get_fullname(doc.inspected_by)} if doc.inspected_by else None
+
+
+def inspection_of(doc):
+	"""The receipt, delivery or job it checked."""
+	if not (doc.reference_type and doc.reference_name):
+		return None
+	return {
+		"value": doc.reference_name,
+		"route": f"/desk/{frappe.scrub(doc.reference_type).replace('_', '-')}/{quote(doc.reference_name)}",
+	}
+
+
 MADE = ("Manufacture", "Repack", "Disassemble")
 
 
@@ -1039,6 +1062,9 @@ CHARTS = {
 
 
 MEASURES = {
+	"inspection.readings": inspection_readings,
+	"inspection.of": inspection_of,
+	"inspection.by": inspection_by,
 	"item.on_hand": on_hand,
 	"item.free": free,
 	"item.on_order": on_order,
@@ -1158,6 +1184,15 @@ VERBS = {
 
 
 HEADS = [
+	{
+		"doctype": "Quality Inspection",
+		"band": [
+			{"label": _lt("Readings Within Limits"), "source": "Measure", "measure": "inspection.readings"},
+			{"label": _lt("Reference Name"), "source": "Measure", "measure": "inspection.of"},
+			{"label": _lt("Item Name"), "source": "Field", "field": "item_name"},
+			{"label": _lt("Inspected By"), "source": "Measure", "measure": "inspection.by"},
+		],
+	},
 	{
 		"doctype": "Item",
 		"band": [
