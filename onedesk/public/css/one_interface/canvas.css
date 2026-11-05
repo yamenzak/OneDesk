@@ -88,7 +88,7 @@
 :root[data-one-look="canvas"] .form-page .form-section:has(.frappe-control[data-fieldtype="Table"]:not(.one-quiet)) { display: block !important; }
 :root[data-one-look="canvas"] .form-page .form-section:has(.frappe-control[data-fieldtype="Table"]:not(.one-quiet)) .section-head { margin-bottom: 14px !important; }
 :root[data-one-look="canvas"] .form-page .form-section:has(.frappe-control[data-fieldtype="Table"]:not(.one-quiet)) .section-body { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-:root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] > .form-group > .control-label, :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] .control-label:first-child { display: none; }
+:root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] > .form-group > .control-label, :root[data-one-look="canvas"] .form-page .frappe-control[data-fieldtype="Table"] .control-label:first-child:not(.form-in-grid *) { display: none; }
 :root[data-one-look="canvas"] .frappe-list .level-right, :root[data-one-look="canvas"] .frappe-list .list-row-head .level-right, :root[data-one-look="canvas"] .frappe-list .list-row .level-right { background: transparent !important; }
 
 /* the head above the tabs: name, state and actions on one line; then the track, the figures and the chart */
@@ -627,7 +627,7 @@
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row { background: var(--one-level-control) !important; border-bottom: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-row, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .static-area { background: transparent !important; color: var(--one-ink-strong) !important; font-weight: 500; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-static-col, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .row-check { border-color: transparent !important; }
-:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row :is(.col, .grid-static-col, .row-check, .row-index) { background: transparent !important; color: var(--one-ink-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row :is(.col, .grid-static-col, .row-check, .row-index) { background: var(--one-level-control) !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row input[type="checkbox"]:not(:checked) { background-color: transparent !important; }
 
 /* What scrolls goes under the head, not against it: the head keeps a band of canvas under the address row, and a short
@@ -886,3 +886,6 @@
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
 /* A record's name keeps room to be read beside its track; with less, the track takes the next line. */
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { min-width: min(100%, 300px); }
+:root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open), :root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open) > .data-row :is(.col, .row-check, .row-index) { background: var(--one-sheet) !important; }
+:root[data-one-look="canvas"] .one-interface .form-in-grid :is(.form-layout, .form-page) { background: transparent !important; }
+:root[data-one-look="canvas"] .one-interface .form-in-grid .form-page .form-section:not(.empty-section) { background: transparent !important; border: 0 !important; border-radius: 0 !important; padding: 0 !important; margin: 0 !important; }
