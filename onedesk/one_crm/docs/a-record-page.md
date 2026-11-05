@@ -7,17 +7,18 @@ lost and why, on hold, a quotation still with them or run out, or won and
 how much of it is still owed — red once some of that is late. Won and lost
 opportunities say the day they were won or lost rather than a time in a stage.
 
-The band under the name answers what the page is usually opened for, before
+The figures under the name answer what the page is usually opened for, before
 anything is clicked:
 
-- on an opportunity — **Opportunity Amount** and its probability, the **stage** and how long it
-  has been there beside how long opportunities usually stay there (amber once it is
-  longer, and more than a day), the **Next Step** (red once overdue), the
-  **Last Call** or **Last Email**, when it **Closes** (red once past), its
-  latest **Quotation**, and where it came from;
-- on a lead — when it **Came In**, **Waiting For a Reply** or how long the
-  **First Reply** took, the Next Step, the last contact, the **Opportunities** made
-  from it, and where it came from.
+- on an opportunity — **Opportunity Amount** and its probability, the
+  **stage** and how long it has been there beside how long opportunities
+  usually stay there (amber once it is longer, and more than a day), the
+  **Next Step** (red once overdue), and when it **Closes** (red once past);
+- on a lead — the **Next Step**, **Waiting For a Reply** or how long the
+  **First Reply** took, the last call or email, and the **Opportunities** made
+  from it.
+
+Where it came from is its **Source**, and its latest quotation is on the track.
 
 A lead or opportunity nobody owns yet offers **Take This Lead** (or Opportunity), which
 makes it yours.

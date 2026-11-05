@@ -1,5 +1,5 @@
 <template>
-  <div class="grid grid-cols-2 gap-3 max-sm:[&_.text-3xl-semibold]:text-xl-semibold [&_.text-3xl-semibold>span:first-child]:min-w-0 [&_.text-3xl-semibold>span:first-child]:shrink [&_.text-3xl-semibold>span:first-child]:[overflow-wrap:anywhere]" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
+  <div class="grid grid-cols-2 gap-3 max-sm:[&_.text-3xl-semibold]:text-xl-semibold [&_.text-3xl-semibold>span:first-child]:min-w-0 [&_.text-3xl-semibold>span:first-child]:shrink [&_.text-3xl-semibold>span:first-child]:[overflow-wrap:anywhere] [&_span.min-w-0.truncate]:whitespace-normal" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
     <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: !one.sparkline }">
       <Tooltip :text="one.other ? `${one.other.label}: ${one.other.value}` : ''" :disabled="!one.other" :hover-delay="150">
       <NumberCard

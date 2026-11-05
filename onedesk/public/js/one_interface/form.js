@@ -210,7 +210,10 @@ onedesk.interface.panel_refresh = (frm) => {
 	panel.$panel.prop("hidden", frm.is_new());
 	if (frm.is_new()) return;
 	const footer = frm.footer && frm.footer.wrapper;
-	if (footer && footer.length && !$.contains(panel.panes.activity[0], footer[0])) panel.panes.activity.append(footer);
+	if (footer && footer.length && !$.contains(panel.panes.activity[0], footer[0])) {
+		panel.panes.activity.append(footer);
+		if (onedesk.interface.uses("thread")) setTimeout(() => onedesk.interface.record.thread(frm), 0);
+	}
 	// Frappe's dashboard leaves its tab for the panel: its connections to
 	// Connections, every other section (stats, heatmap, graph, progress, and
 	// any a doctype adds) to Overview under the head. The tab, with nothing

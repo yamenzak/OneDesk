@@ -223,7 +223,8 @@ record.head = (frm) => {
 			const one = rows[card.key];
 			if (!one || one.value === "—") return null;
 			const bar = one.meter && one.meter.of ? Math.min(100, Math.round((100 * one.meter.value) / one.meter.of)) : null;
-			return { title: named || one.label, value: one.value, note: one.note || null, bar, tone: TONE[one.tone] || null, route: one.route };
+			const at = one.when && (one.short ? $("<div>").html(frappe.datetime.comment_when(one.when, true)).text() : frappe.datetime.prettyDate(one.when));
+			return { title: named || one.label, value: at ? String(one.value).replace("{when}", at) : one.value, note: one.note || null, bar, tone: TONE[one.tone] || null, route: one.route };
 		})
 		.filter(Boolean);
 	const host = hero.querySelector(".one-head-cards");

@@ -941,6 +941,7 @@ doctype_list_js = {
 	"Employee Checkin": "public/js/checkin_list.js",
 	"Opportunity": "public/js/opportunity_list.js",
 	"Lead": "public/js/lead_list.js",
+	"Prospect": "public/js/prospect_list.js",
 	"Task": "public/js/task_list.js",
 	"Project": "public/js/project_list.js",
 	"Item": "public/js/item_list.js",

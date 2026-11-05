@@ -1,6 +1,7 @@
 (() => {
 	const settings = (frappe.listview_settings["Lead"] ||= {});
 	settings.formatters = { ...settings.formatters, ...onedesk.next_step.formatters };
+	settings.hide_name_column = true;
 	const COLOUR = {
 		Lead: "blue",
 		Open: "blue",

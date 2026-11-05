@@ -686,6 +686,23 @@ MODULES = {
 				),
 				"states": {"field": "customer_type", "order": ("Company", "Individual", "Partnership")},
 			},
+			"Lead": {
+				"tabs": {"activities_tab": "calendar-check", "notes_tab": "notebook-pen", "dashboard_tab": "link"},
+				"fields": {"email_id": "mail", "mobile_no": "phone", "phone": "phone", "website": "globe", "company_name": "building-2", "utm_source": "compass", "lead_owner": "user", "territory": "globe"},
+				"cards": ({"key": "crm.next_step"}, {"key": "crm.reply"}, {"key": "crm.contact"}, {"key": "crm.deals"}),
+				"states": {"order": ("Lead", "Open", "Replied", "Interested", "Opportunity", "Quotation", "Converted"), "hide": ("Do Not Contact", "Lost Quotation")},
+			},
+			"Opportunity": {
+				"tabs": {"contact_info": "contact", "items_section": "package", "activities_tab": "calendar-check", "notes_tab": "message-square", "dashboard_tab": "link"},
+				"fields": {"party_name": "building-2", "opportunity_owner": "user", "sales_stage": "kanban", "expected_closing": "calendar", "probability": "percent", "utm_source": "compass", "currency": "coins", "opportunity_amount": "sigma"},
+				"cards": ({"key": "crm.value"}, {"key": "crm.stage"}, {"key": "crm.next_step"}, {"key": "crm.closes"}),
+				"states": {"order": ("Open", "Replied", "Quotation", "Converted", "Lost"), "hide": ("Closed",)},
+			},
+			"Prospect": {
+				"tabs": {"overview_tab": "layout-dashboard", "contacts_tab": "map-pin", "leads_section": "user-plus", "opportunities_tab": "handshake", "activities_tab": "calendar-check", "notes_section": "message-square"},
+				"fields": {"company_name": "building-2", "industry": "factory", "market_segment": "shapes", "territory": "globe", "prospect_owner": "user", "website": "globe"},
+				"states": {"field": "industry"},
+			},
 		},
 	},
 	"OneDisplay": {

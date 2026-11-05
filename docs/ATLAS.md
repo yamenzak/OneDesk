@@ -226,7 +226,7 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 | Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 5 fields, 37 settings | yes | taught |  | yes |  |  |  |  |
 | Opportunity Lost Reason | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity Type | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Prospect | on a rail or a home | OneCRM | 7 settings | yes | general |  | yes |  |  |  |  |
+| Prospect | on a rail or a home | OneCRM | list script, 7 settings | yes | general |  | yes |  |  |  |  |
 | Sales Stage | on a rail or a home | OneCRM | events, list script, 3 fields, 2 settings | yes | general |  | yes |  |  |  |  |
 
 Reports: Campaign Efficiency (on a rail or a home); First Response Time for Opportunity (on a rail or a home); Lead Conversion Time (on a rail or a home); Lead Details (under a list's related reports (Lead's list)); Lead Owner Efficiency (on a rail or a home); Lost Opportunity (under a list's related reports (Opportunity's list)); Opportunity Summary by Sales Stage (under a list's related reports (Opportunity's list)); Prospects Engaged But Not Converted (on a rail or a home); Sales Pipeline Analytics (under a list's related reports (Opportunity's list)).
