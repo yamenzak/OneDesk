@@ -26,7 +26,7 @@
           <BarChart :title="__('Opportunity by Sales Stage')" :data="stages" x="label" y="value" split-by="label" stacked :y-axis="{ format: cash }" :palette="stageColors" @select="(one) => stage(one.row)" />
         </ChartCard>
         <ChartCard v-if="story.pipeline.owners.length" class="h-96">
-          <BarChart :title="__('Opportunity by Owner')" :data="story.pipeline.owners" x="name" :y="['open', 'won']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="ownerSeries" @select="(one) => go(`/desk/opportunity?opportunity_owner=${encodeURIComponent(one.row.owner || '')}`)" />
+          <BarChart :title="__('Opportunity by Owner')" :data="story.pipeline.owners" x="name" :y="['open', 'won']" horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :series-config="ownerSeries" @select="(one) => go(`/desk/opportunity?opportunity_owner=${encodeURIComponent(one.row.owner || '')}`)" />
         </ChartCard>
         <ChartCard v-if="story.pipeline.lost.length" class="h-96">
           <DonutChart :title="__('Lost Reasons')" :data="lost" category="label" value="count" :format="count" :center-label="__('Lost')" :palette="ramp(8)" @select="go('/desk/query-report/Won and Lost?group_by=Lost Reason')" />
@@ -37,7 +37,7 @@
     <Section v-if="story.sources" :title="__('Source')" icon="lucide-compass" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
         <ChartCard v-if="story.sources.leads.length" class="h-96">
-          <BarChart :title="__('Lead by Source')" :data="story.sources.leads" x="source" :y="['leads', 'converted']" horizontal :x-axis="wrap" :y-axis="{ format: count }" :series-config="sourceSeries" @select="(one) => go(`/desk/lead?utm_source=${encodeURIComponent(one.row.source)}`)" />
+          <BarChart :title="__('Lead by Source')" :data="story.sources.leads" x="source" :y="['leads', 'converted']" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="sourceSeries" @select="(one) => go(`/desk/lead?utm_source=${encodeURIComponent(one.row.source)}`)" />
         </ChartCard>
         <ChartCard v-if="story.sources.won.length" class="h-96">
           <DonutChart :title="__('Won by Source')" :data="story.sources.won" category="name" value="won" :format="cash" :center-label="__('Won')" :palette="ramp(2)" @select="go('/desk/query-report/Won and Lost?group_by=Source')" />
@@ -55,7 +55,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, FunnelChart, LineChart, useChartTokens } from "frappe-ui/charts";
 
-import { Section, __, count, go, money, shortMonth } from "../kit";
+import { __, count, go, money, Section, shortMonth, wrapped } from "../kit";
 
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
@@ -72,7 +72,6 @@ const ramp = (from) => {
 
 const cash = (value) => money(value, props.story.currency, 0);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
 const trendSeries = computed(() => ({
   leads: { label: __("Lead"), color: hue(0) },

@@ -288,7 +288,6 @@ def oneinventory_home_tells_the_story_of_the_stock():
 		assert round(sum(one["worth"] for one in told["ages"])) == round(worth), told["ages"]
 		steps = [one["requests"] for one in told["buying"]["requests"]]
 		assert steps == sorted(steps, reverse=True) and steps[0] > 0, steps
-		assert {one["status"] for one in told["making"]["statuses"]} >= {"Completed", "In Process"}
 		assert {one["kind"] for one in told["equipment"]["kinds"]} >= {"Vehicles", "Machinery"}
 	with as_user("nadia@one.test"):
 		told = story.read()
@@ -490,10 +489,10 @@ def oneinventory_lots_say_their_dates_and_where_they_went():
 		left = batches.left(old.name)
 		assert {one["warehouse"] for one in left} == {wh("Stores"), wh("Mansour Villa Site")}, left
 		assert sum(one["qty"] for one in left) == old.batch_qty == 120
-		assert "2" in heads.batch_left(old), heads.batch_left(old)
+		assert heads.batch_left(old).startswith("120"), heads.batch_left(old)
 		assert heads.batch_expires(old)["tone"] == "waiting"
 		came = heads.batch_came_from(old)
-		assert came["route"].startswith("/desk/purchase-receipt/"), came
+		assert came["route"].startswith("/desk/purchase-receipt/") and came["route"].endswith(came["value"]), came
 		assert heads.batch_went(old)["value"] == 1
 		assert [one.batch_id for one in batches.dated("SIL-WP")] == ["SIL-WP-A1"]
 	with _Told() as told:

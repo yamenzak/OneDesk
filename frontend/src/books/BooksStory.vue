@@ -26,7 +26,7 @@
           <BarChart :title="__('Ageing')" :data="side.ages" x="band" y="owed" split-by="band" stacked :y-axis="{ format: cash }" :palette="ageColors" @select="go(side.report)" />
         </ChartCard>
         <ChartCard v-if="side.parties.length" class="h-96">
-          <BarChart :title="side.partiesTitle" :data="side.parties" x="name" :y="['owed']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="{ owed: { label: __('Outstanding Amount'), color: hue(side.hue) } }" @select="(one) => go(`${side.party}/${encodeURIComponent(one.row.name)}`)" />
+          <BarChart :title="side.partiesTitle" :data="side.parties" x="name" :y="['owed']" horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :series-config="{ owed: { label: __('Outstanding Amount'), color: hue(side.hue) } }" @select="(one) => go(`${side.party}/${encodeURIComponent(one.row.name)}`)" />
         </ChartCard>
         <ChartCard v-if="side.statuses.length" class="h-96">
           <DonutChart :title="side.statusesTitle" :data="side.statuses" category="label" value="billed" :format="cash" variant="half" :center-label="__('Grand Total')" :palette="side.statusColors" @select="(one) => go(`${side.list}?status=${encodeURIComponent(one.rows[0].status)}`)" />
@@ -41,7 +41,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
 
-import { Section, __, go, money, shortMonth } from "../kit";
+import { __, go, money, Section, shortMonth, wrapped } from "../kit";
 
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
@@ -58,7 +58,6 @@ const ramp = (from) => {
 
 const cash = (value) => money(value, props.story.currency, 0);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
 const flowSeries = computed(() => ({
   inflow: { label: __("Inflow"), color: hue(2) },

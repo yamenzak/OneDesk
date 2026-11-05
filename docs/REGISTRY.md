@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.2.4
+## OneMail 1.2.5
 
 Ready.
 
@@ -90,7 +90,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCalendar 1.0.1
+## OneCalendar 1.0.2
 
 Ready.
 
@@ -177,7 +177,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInventory 1.6.0
+## OneInventory 1.7.0
 
 Ready.
 
@@ -235,7 +235,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneBook 1.1.3
+## OneBook 1.1.4
 
 Ready.
 
@@ -264,7 +264,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneCRM 1.1.2
+## OneCRM 1.1.3
 
 Ready.
 
@@ -293,7 +293,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneDisplay 2.6.4
+## OneDisplay 2.6.5
 
 Ready.
 
@@ -322,7 +322,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneHR 1.1.6
+## OneHR 1.1.7
 
 Ready.
 
@@ -467,7 +467,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInterface 1.8.4
+## OneInterface 1.9.0
 
 Not marked ready yet.
 
@@ -496,7 +496,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## One 2.9.11
+## One 2.9.12
 
 Ready.
 

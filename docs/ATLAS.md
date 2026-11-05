@@ -45,7 +45,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | item (`frontend/src/inventory/item/ItemPage.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Cloud File Version, Comment, DocShare, Employee, File, Item, Item Attribute Value, Item Manufacturer, Item Price, Item Variant Attribute, Purchase Order, Quotation, Reading, Reading Action, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | stock (`frontend/src/inventory/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
-| home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Job Card, Material Request, Purchase Order, Purchase Receipt, Stock Entry, Stock Ledger Entry, Warehouse, Work Order | – | – | – |
+| home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Material Request, Purchase Order, Purchase Receipt, Stock Ledger Entry, Warehouse | – | – | – |
 | head (`frontend/src/interface/RecordHead.vue`) | – | – | – | – |
 | books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/crm/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
@@ -388,7 +388,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Batch | on a rail or a home | OneInventory | a head | yes | taught |  | yes |  |  |  | Expiring Soon |
+| Batch | on a rail or a home | OneInventory | a head, list script, 1 settings | yes | taught |  | yes |  |  |  | Expiring Soon |
 | Bin | engine: what each warehouse holds of each item; Stock Summary reads it | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |

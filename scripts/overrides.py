@@ -46,7 +46,7 @@ OVERRIDES = [
 	),
 	(
 		"frappe's reload button sits in the window's address row",
-		"a list, a report, a board and a tree add it with page.add_action_icon(\"refresh-cw\"); one_interface/frame.js moves that button, frappe's own with its click and tooltip, to where the window keeps Refresh, and the window's own steps aside",
+		"a list, a report, a board and a tree add it with page.add_action_icon(\"refresh-cw\"); one_interface/frame.js moves that button, frappe's own with its click and tooltip, to where the window keeps Refresh, and the window's own steps aside; a report's Print (\"printer\") goes beside it",
 		"onedesk/public/js/one_interface/frame.js",
 		"frappe/frappe/public/js/frappe/ui/page.js",
 		"add_action_icon(icon, click, css_class = \"\", tooltip_label) {",
@@ -2908,8 +2908,15 @@ OVERRIDES = [
 		"get_filters_for_args() {",
 	),
 	(
-		"A list's first column is named for its kind, not \"ID\"",
-		"list_names.js renames ListView.setup_columns' Subject column on a doctype with no title field from frappe's \"ID\" to the doctype's own name",
+		"Stock Balance opens at once, not as a background report",
+		"one_inventory/prepared.py clears prepared_report on three ERPNext stock reports after every migrate, relying on Report.execute_script_report's watcher to turn it back on for a report that runs too long",
+		"onedesk/one_inventory/prepared.py",
+		"frappe/frappe/core/doctype/report/report.py",
+		"function=enable_prepared_report,",
+	),
+	(
+		"A list's first column is named for its kind, not \"ID\", and a random ID is never a column",
+		"list_names.js renames ListView.setup_columns' Subject column on a doctype with no title field from frappe's \"ID\" to the doctype's own name, and drops the ID column frappe adds beside a title field when the doctype is named by hash (Batch)",
 		"onedesk/public/js/list_names.js",
 		"frappe/frappe/public/js/frappe/list/list_view.js",
 		"setup_columns(",

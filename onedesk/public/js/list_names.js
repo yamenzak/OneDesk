@@ -9,5 +9,8 @@
 		if (first && first.type === "Subject" && first.df && first.df.fieldname === "name" && !this.meta.title_field) {
 			first.df = { ...first.df, label: this.doctype };
 		}
+		if (this.meta.autoname === "hash" && this.columns) {
+			this.columns = this.columns.filter((one) => !(one.type === "Field" && one.df && one.df.fieldname === "name" && one !== first));
+		}
 	};
 })();

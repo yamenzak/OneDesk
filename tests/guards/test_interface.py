@@ -100,12 +100,17 @@ def test_a_head_has_at_most_four_cards():
 
 
 def test_a_strip_counts_a_field_its_record_type_has_and_names_only_its_values():
+	"""A strip counts one field's values, or kinds declared as filters on
+	fields the record type has."""
 	wrong = []
 	for doctype, said in DECLARED.items():
 		fields = _fields(doctype)
 		if fields is None:
 			continue
 		states = said["states"]
+		if states["kinds"]:
+			wrong += [f"{doctype}: {kind['label']} filters on {rule[0]}, which it does not have" for kind in states["kinds"] for rule in kind["filters"] if rule[0] not in fields]
+			continue
 		field = fields.get(states["field"])
 		if not field:
 			wrong.append(f"{doctype}: no field {states['field']}")

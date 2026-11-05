@@ -937,3 +937,8 @@
 :root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link:hover { background: var(--one-head-button-bg) !important; color: var(--one-tab-on-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link.active { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
 :root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link::after { display: none !important; }
+
+html[dir="rtl"] .list-row .list-row-col.ellipsis {
+	unicode-bidi: plaintext;
+	text-align: right;
+}

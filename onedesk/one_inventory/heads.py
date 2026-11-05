@@ -231,16 +231,12 @@ def _moves(name: str) -> list:
 
 
 def batch_left(doc):
-	"""What is left of it, and where when it is in more than one warehouse."""
+	"""What is left of it, with its unit, in every warehouse together; the
+	card opens the balance by warehouse."""
 	places = _left(doc.name)
-	total = sum(one["qty"] for one in places)
 	if not places:
 		return {"value": _("None left"), "tone": "quiet"}
-	said = _count(doc, total)
-	if len(places) == 1:
-		called = frappe.get_cached_value("Warehouse", places[0]["warehouse"], "warehouse_name")
-		return _("{0} in {1}").format(said, called or places[0]["warehouse"])
-	return _("{0} in {1} warehouses").format(said, len(places))
+	return _count(doc, sum(one["qty"] for one in places))
 
 
 def batch_expires(doc):
@@ -254,13 +250,13 @@ def batch_expires(doc):
 
 
 def batch_came_from(doc):
-	"""The document that first brought it in."""
+	"""The document that first brought it in, by its ID; the card opens it."""
 	moves = [one for one in _moves(doc.name) if one["qty"] > 0]
 	if not moves:
 		return None
 	kind, name = moves[-1]["doctype"], moves[-1]["name"]
 	return {
-		"value": _("{0} {1}").format(_(kind), name),
+		"value": name,
 		"route": f"/desk/{frappe.scrub(kind).replace('_', '-')}/{quote(name)}",
 	}
 

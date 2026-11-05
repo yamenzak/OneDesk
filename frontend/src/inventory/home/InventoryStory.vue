@@ -12,10 +12,10 @@
           <DonutChart :title="__('By Warehouse')" :data="story.where.warehouses" category="name" value="worth" :format="cash" :center-label="__('Stock Value')" :palette="ramp(0)" @select="(one) => go(`/desk/stock-on-hand?warehouse=${encodeURIComponent(one.rows[0].warehouse)}`)" />
         </ChartCard>
         <ChartCard class="h-96">
-          <BarChart :title="__('By Item Group')" :data="story.where.groups" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrap" :y-axis="{ format: cash }" :palette="ramp(4)" @select="(one) => go(`/desk/item?item_group=${encodeURIComponent(one.row.group)}`)" />
+          <BarChart :title="__('By Item Group')" :data="story.where.groups" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :palette="ramp(4)" @select="(one) => go(`/desk/item?item_group=${encodeURIComponent(one.row.group)}`)" />
         </ChartCard>
         <ChartCard class="h-96">
-          <BarChart :title="__('Most Valuable Items')" :data="story.where.items" x="name" :y="['worth']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Value'), color: hue(4) } }" @select="(one) => go(`/desk/item/${encodeURIComponent(one.row.item)}`)" />
+          <BarChart :title="__('Most Valuable Items')" :data="story.where.items" x="name" :y="['worth']" horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :series-config="{ worth: { label: __('Stock Value'), color: hue(4) } }" @select="(one) => go(`/desk/item/${encodeURIComponent(one.row.item)}`)" />
         </ChartCard>
       </div>
     </Section>
@@ -56,7 +56,7 @@
           <FunnelChart :title="__('Material Requests')" :data="requests" category="step" value="requests" :format="count" :palette="ramp(2)" @select="go('/desk/material-request')" />
         </ChartCard>
         <ChartCard class="h-96">
-          <BarChart :title="__('Bought by Supplier')" :data="suppliers" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrap" :y-axis="{ format: cash }" :palette="ramp(6)" @select="(one) => go(`/desk/purchase-order?supplier=${encodeURIComponent(one.row.supplier)}`)" />
+          <BarChart :title="__('Bought by Supplier')" :data="suppliers" x="name" y="worth" split-by="name" stacked horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :palette="ramp(6)" @select="(one) => go(`/desk/purchase-order?supplier=${encodeURIComponent(one.row.supplier)}`)" />
         </ChartCard>
         <ChartCard class="h-96">
           <ScatterChart :title="__('How Suppliers Keep to Dates')" :data="suppliers" x="worth" y="late" size="orders" split-by="name" label="name" :x-axis="{ title: __('Ordered'), format: cash }" :y-axis="{ title: __('Days Late'), format: days }" :palette="ramp(6)" />
@@ -64,24 +64,11 @@
       </div>
     </Section>
 
-    <Section v-if="making" :title="__('Making')" icon="lucide-factory" data-cards>
-      <div class="grid gap-3 lg:grid-cols-3">
-        <ChartCard v-if="making.statuses.length" class="h-80">
-          <DonutChart :title="__('Work Orders')" :data="making.statuses" category="label" value="orders" :format="count" :center-label="__('Work Orders')" :palette="making.statusColors" @select="(one) => go(`/desk/work-order?status=${encodeURIComponent(one.rows[0].status)}`)" />
-        </ChartCard>
-        <ChartCard v-if="making.made.length" class="h-80">
-          <BarChart :title="__('Manufactured Value by Month')" :data="making.made" x="month" y="made" split-by="item" stacked :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: cash }" :palette="ramp(4)" />
-        </ChartCard>
-        <ChartCard v-if="making.hours.length" class="h-80">
-          <BarChart :title="__('Hours by Workstation')" :data="making.hours" x="workstation" :y="['hours']" horizontal :x-axis="wrap" :y-axis="{ format: asHours }" :series-config="{ hours: { label: __('Hours'), color: hue(6) } }" @select="(one) => go(`/desk/workstation/${encodeURIComponent(one.row.workstation)}`)" />
-        </ChartCard>
-      </div>
-    </Section>
 
     <Section v-if="equipment" :title="__('Equipment')" icon="lucide-truck" data-cards>
       <div class="grid gap-3 lg:grid-cols-3">
         <ChartCard v-if="equipment.kinds.length" class="h-80">
-          <BarChart :title="__('Value by Asset Category')" :data="equipment.kinds" x="kind" :y="['bought', 'now']" horizontal :x-axis="wrap" :y-axis="{ format: cash }" :series-config="{ bought: { label: __('Total Asset Cost'), color: hue(0) }, now: { label: __('Value After Depreciation'), color: hue(1) } }" @select="(one) => go(`/desk/asset?asset_category=${encodeURIComponent(one.row.kind)}`)" />
+          <BarChart :title="__('Value by Asset Category')" :data="equipment.kinds" x="kind" :y="['bought', 'now']" horizontal :x-axis="wrapped" :y-axis="{ format: cash }" :series-config="{ bought: { label: __('Total Asset Cost'), color: hue(0) }, now: { label: __('Value After Depreciation'), color: hue(1) } }" @select="(one) => go(`/desk/asset?asset_category=${encodeURIComponent(one.row.kind)}`)" />
         </ChartCard>
         <ChartCard v-if="equipment.statuses.length" class="h-80">
           <DonutChart :title="__('Assets by Status')" :data="equipment.statuses" category="label" value="assets" variant="half" :format="count" :center-label="__('Assets')" :palette="equipment.statusColors" @select="(one) => go(`/desk/asset?status=${encodeURIComponent(one.rows[0].status)}`)" />
@@ -99,7 +86,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { AreaChart, BarChart, ChartCard, DonutChart, FunnelChart, HeatmapChart, SankeyChart, ScatterChart, useChartTokens } from "frappe-ui/charts";
 
-import { Section, __, count, go, hours as asHours, money, shortMonth, weekdays } from "../../kit";
+import { __, count, go, money, Section, shortMonth, weekdays, wrapped } from "../../kit";
 
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 
@@ -118,7 +105,6 @@ const statusHue = (tone) => (tone in STATUS ? hue(STATUS[tone]) : tokens.value.a
 
 const cash = (value) => money(value, props.story.currency, 0);
 
-const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 
 const sankeyRoom = computed(() => {
   const paths = props.story.moves?.paths || [];
@@ -163,19 +149,11 @@ const STEPS = () => ({ asked: __("Requested"), ordered: __("Ordered"), arriving:
 const requests = computed(() => (props.story.buying?.requests || []).map((one) => ({ step: STEPS()[one.step], requests: one.requests })));
 const suppliers = computed(() => (props.story.buying?.suppliers || []).slice(0, 8));
 
-const WORK = { Completed: "good", "In Process": "going", "Not Started": "waiting", Stopped: "broken", Closed: "waiting", Draft: "waiting" };
 const ASSET = { "Partially Depreciated": "going", "Fully Depreciated": "waiting", Submitted: "good", Sold: "waiting", Scrapped: "broken", "Out of Order": "broken", "In Maintenance": "late", Receipt: "going", "Capitalized": "good" };
 const SERVICE = { Completed: "good", Planned: "going", Overdue: "late", Cancelled: "waiting" };
 const tinted = (rows, tones) => ({
   rows: rows.map((one) => ({ ...one, label: __(one.status) })),
   colors: rows.map((one) => (statusHue(tones[one.status]))),
-});
-
-const making = computed(() => {
-  const m = props.story.making;
-  if (!m || !(m.statuses.length || m.made.length || m.hours.length)) return null;
-  const statuses = tinted(m.statuses, WORK);
-  return { ...m, statuses: statuses.rows, statusColors: statuses.colors };
 });
 
 const equipment = computed(() => {

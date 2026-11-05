@@ -191,6 +191,120 @@ MODULES = {
 			"interface": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
 			"legal": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
 		},
+		"interface": {
+			"Item": {
+				"states": {
+					"kinds": (
+						{"label": _lt("Kept in Stock"), "filters": (("is_stock_item", "=", 1), ("has_variants", "=", 0))},
+						{"label": _lt("Made Here"), "filters": (("default_bom", "is", "set"),)},
+						{"label": _lt("Services"), "filters": (("is_stock_item", "=", 0), ("is_fixed_asset", "=", 0))},
+						{"label": _lt("Equipment"), "filters": (("is_fixed_asset", "=", 1),)},
+						{"label": _lt("Sizes or Colours"), "filters": (("has_variants", "=", 1),)},
+					),
+				},
+			},
+			"Stock Entry": {
+				"tabs": {
+					"stock_entry_details_tab": "file-text",
+					"additional_costs_section": "receipt",
+					"supplier_info_tab": "truck",
+					"accounting_dimensions_section": "layers",
+					"other_info_tab": "info",
+					"tab_connections": "link",
+				},
+				"fields": {
+					"stock_entry_type": "arrow-left-right",
+					"posting_date": "calendar",
+					"posting_time": "clock",
+					"project": "folder-kanban",
+					"from_warehouse": "warehouse",
+					"to_warehouse": "warehouse",
+					"work_order": "hard-hat",
+					"total_outgoing_value": "sigma",
+					"total_incoming_value": "sigma",
+					"value_difference": "sigma",
+				},
+				"cards": (
+					{"key": "move.from", "title": _lt("Source Warehouse")},
+					{"key": "move.to", "title": _lt("Target Warehouse")},
+					{"key": "move.value"},
+					{"key": "project.of"},
+				),
+				"states": {
+					"field": "stock_entry_type",
+					"order": ("Material Receipt", "Material Issue", "Material Transfer", "Manufacture", "Repack"),
+				},
+			},
+			"Stock Reconciliation": {
+				"fields": {
+					"purpose": "list-checks",
+					"posting_date": "calendar",
+					"posting_time": "clock",
+					"set_warehouse": "warehouse",
+					"expense_account": "book-open",
+					"cost_center": "target",
+					"difference_amount": "sigma",
+				},
+				"cards": (
+					{"key": "count.where"},
+					{"key": "count.items"},
+					{"key": "difference_amount"},
+				),
+				"states": {"field": "purpose", "order": ("Stock Reconciliation", "Opening Stock")},
+			},
+			"Batch": {
+				"fields": {
+					"item": "package",
+					"manufacturing_date": "calendar",
+					"expiry_date": "calendar-x",
+					"supplier": "truck",
+					"batch_qty": "boxes",
+					"reference_name": "file-text",
+				},
+				"cards": (
+					{"key": "batch.left"},
+					{"key": "batch.expires"},
+					{"key": "batch.came_from"},
+					{"key": "batch.went"},
+				),
+				"states": {"field": "item"},
+			},
+			"Serial No": {
+				"fields": {
+					"item_code": "package",
+					"warehouse": "warehouse",
+					"batch_no": "layers",
+					"customer": "user",
+					"employee": "user",
+					"asset": "wrench",
+					"location": "map-pin",
+					"purchase_rate": "coins",
+					"warranty_expiry_date": "shield-check",
+					"amc_expiry_date": "calendar-clock",
+				},
+				"states": {"field": "status", "order": ("Active", "Delivered", "Consumed", "Inactive", "Expired")},
+			},
+			"Warehouse": {
+				"fields": {
+					"warehouse_name": "warehouse",
+					"parent_warehouse": "folder-tree",
+					"warehouse_type": "tag",
+					"company": "building-2",
+					"account": "book-open",
+					"phone_no": "phone",
+					"email_id": "mail",
+					"address_line_1": "map-pin",
+					"city": "map-pin",
+				},
+				"cards": (
+					{"key": "warehouse.items"},
+					{"key": "warehouse.worth"},
+					{"key": "warehouse.low"},
+					{"key": "warehouse.last"},
+				),
+				"states": {"field": "warehouse_type"},
+			},
+		},
 		"help": (
 			("overview", "info"),
 			("getting-ready", "list-checks"),
@@ -991,12 +1105,19 @@ INTERFACE_KEYS = {"tabs", "fields", "cards", "track", "states", "links"}
 def _states(said: dict | None) -> dict:
 	"""The list's strip: the field it counts, its values in the order the
 	strip shows them (the rest after, by count) and those it leaves out.
-	Undeclared, the strip counts `status`, by count."""
+	Undeclared, the strip counts `status`, by count. A record type whose
+	kinds are no one field's values names them as `kinds` instead, each a
+	label and its filters ([field, operator, value]), counted in that order."""
 	said = said or {}
-	strange = set(said) - {"field", "order", "hide"}
+	strange = set(said) - {"field", "order", "hide", "kinds"}
 	if strange:
 		raise ValueError(f"a strip declares {sorted(strange)}")
-	return {"field": said.get("field", "status"), "order": list(said.get("order") or ()), "hide": list(said.get("hide") or ())}
+	kinds = []
+	for one in said.get("kinds") or ():
+		if set(one) != {"label", "filters"} or not one["filters"]:
+			raise ValueError(f"a strip's kind says a label and its filters: {one}")
+		kinds.append({"label": str(one["label"]), "filters": [list(rule) for rule in one["filters"]]})
+	return {"field": said.get("field", "status"), "order": list(said.get("order") or ()), "hide": list(said.get("hide") or ()), "kinds": kinds}
 
 
 LINK_KEYS = {"label", "icon", "new", "list", "with", "when"}

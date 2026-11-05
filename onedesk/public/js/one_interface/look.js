@@ -165,7 +165,7 @@ record.head = (frm) => {
 
 	// the ID, a quiet line under the name, copied when clicked
 	hero.querySelector(".one-hero-name")?.remove();
-	if (!fresh && frm.doc.name && frm.doc.name !== name) {
+	if (!fresh && frm.doc.name && frm.doc.name !== name && frm.meta.autoname !== "hash") {
 		const id = document.createElement("button");
 		id.className = "one-hero-name";
 		id.title = __("Copy");
@@ -583,7 +583,8 @@ list.strip = async (view, with_states = true, how = {}) => {
 		main.querySelector(":scope > .one-strip")?.remove();
 		return;
 	}
-	const decl = (declared(doctype) || {}).states || { field: "status", order: [], hide: [] };
+	const decl = (declared(doctype) || {}).states || { field: "status", order: [], hide: [], kinds: [] };
+	if (decl.kinds && decl.kinds.length) return list.kinds(view, hero, decl.kinds);
 	let states = [];
 	if (frappe.meta.get_docfield(doctype, decl.field)) {
 		try {
@@ -615,6 +616,38 @@ list.strip = async (view, with_states = true, how = {}) => {
 		button.onclick = async () => {
 			await view.filter_area.remove(decl.field);
 			if (button.dataset.value) await view.filter_area.add([[doctype, decl.field, "=", button.dataset.value]]);
+		};
+	});
+};
+
+// A strip of kinds, each a set of filters rather than one field's value
+// (registry "kinds"): counted, shown in their order, and one chosen at a time.
+list.kinds = async (view, hero, kinds) => {
+	const doctype = view.doctype;
+	const main = hero.parentElement;
+	const fields = [...new Set(kinds.flatMap((kind) => kind.filters.map((rule) => rule[0])))];
+	const counts = await Promise.all(
+		[[], ...kinds.map((kind) => kind.filters)].map((filters) => frappe.xcall("frappe.client.get_count", { doctype, filters }).catch(() => null))
+	);
+	const set = ((view.filter_area && view.filter_area.get()) || []).filter((one) => fields.includes(one[1]));
+	const same = (rule, one) => one[1] === rule[0] && one[2] === rule[1] && String(one[3] ?? "") === String(rule[2] ?? "");
+	const at = kinds.findIndex((kind) => kind.filters.length === set.length && kind.filters.every((rule) => set.some((one) => same(rule, one))));
+	let strip = main.querySelector(":scope > .one-strip");
+	if (!strip) {
+		strip = document.createElement("div");
+		strip.className = "one-strip";
+		hero.after(strip);
+	}
+	const item = (index, text, count) =>
+		`<button type="button" class="one-strip-item${index === at ? " is-on" : ""}" data-kind="${index}"><span class="one-strip-label">${esc(text)}</span>${count === null ? "" : `<span class="one-strip-count">${count}</span>`}</button>`;
+	strip.querySelectorAll(".one-strip-item").forEach((one) => one.remove());
+	strip.insertAdjacentHTML("afterbegin", item(-1, __("All"), counts[0]) + kinds.map((kind, i) => item(i, __(kind.label), counts[i + 1])).join(""));
+	strip.querySelectorAll(".one-strip-item").forEach((button) => {
+		button.onclick = async () => {
+			const kind = kinds[Number(button.dataset.kind)];
+			const kept = (view.filter_area.get() || []).filter((one) => !fields.includes(one[1]));
+			await view.filter_area.clear(false);
+			await view.filter_area.add([...kept, ...((kind && kind.filters) || []).map((rule) => [doctype, ...rule])]);
 		};
 	});
 };

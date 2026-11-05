@@ -1186,35 +1186,6 @@ body[data-route^="project-template-view"] .layout-side-section {
 	}
 }
 
-.one-item-tabs {
-	display: inline-flex;
-	flex-wrap: wrap;
-	gap: 2px;
-	padding: 2px;
-	margin: 0 0 var(--margin-sm);
-	border-radius: var(--radius-md);
-	background: var(--surface-gray-2);
-}
-
-.one-item-tabs button {
-	padding: 4px 12px;
-	border: 0;
-	border-radius: var(--radius-sm);
-	background: transparent;
-	color: var(--ink-gray-6);
-	font-size: var(--text-sm);
-	transition: background-color 0.15s, color 0.15s;
-}
-
-.one-item-tabs button:hover {
-	color: var(--ink-gray-8);
-}
-
-.one-item-tabs button[aria-selected="true"] {
-	background: var(--surface-base);
-	color: var(--ink-gray-8);
-}
-
 body[data-route="List/Timesheet/List"] .list-row-col.list-subject {
 	flex: 1.4;
 }

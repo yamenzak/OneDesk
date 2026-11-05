@@ -21582,10 +21582,6 @@ msgstr "Geleistete Stunden"
 msgid "Hours by Week"
 msgstr "Stunden pro Woche"
 
-#: frontend/src/inventory/home/InventoryStory.vue:76
-msgid "Hours by Workstation"
-msgstr "Stunden nach Arbeitsplatz"
-
 #: onedesk/one_display/widgets.py:187
 msgid "Hours for each day of the week, with today marked and whether you are open now."
 msgstr "Die Zeiten für jeden Wochentag, mit markiertem heutigen Tag und ob gerade geöffnet ist."
@@ -27653,10 +27649,6 @@ msgstr ""
 #: onedesk/one_inventory/number_card/made_this_month/made_this_month.json
 msgid "Manufactured This Month"
 msgstr "Diesen Monat gefertigt"
-
-#: frontend/src/inventory/home/InventoryStory.vue:73
-msgid "Manufactured Value by Month"
-msgstr "Gefertigter Wert nach Monat"
 
 #: frontend/src/inventory/item/ItemBuying.vue:17
 msgid "Manufacturers"
@@ -65360,11 +65352,6 @@ msgstr "{0} in {1} Aufrufen"
 #, python-brace-format
 msgid "{0} in {1} days."
 msgstr "{0} in {1} Tagen."
-
-#: onedesk/one_inventory/heads.py:243
-#, python-brace-format
-msgid "{0} in {1} warehouses"
-msgstr "{0} in {1} Lagern"
 
 #: onedesk/one_project/view.py:481
 #, python-brace-format

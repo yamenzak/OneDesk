@@ -1,6 +1,6 @@
 """OneInventory's Home, told as a story (page/inventory, frontend/src/home):
 the headline figures with their months, then where stock is, how it moves,
-how old it is, buying, making and equipment. Each is read through
+how old it is, buying and equipment. Each is read through
 frappe.get_list as the reader may see it, for the reader's company, in its
 currency. How it works is in the module's AGENTS.md.
 """
@@ -91,7 +91,6 @@ def read() -> dict:
 		"moves": _flows(months, moves),
 		"ages": _ages(company),
 		"buying": _buying(months[0]),
-		"making": _making(months[0]),
 		"equipment": _equipment(months),
 	}
 
@@ -585,67 +584,6 @@ def _received_on(orders: list[str]) -> dict:
 		):
 			last[row.purchase_order] = getdate(row.posting_date)
 	return last
-
-
-def _making(since: date) -> dict | None:
-	"""Work orders by status, the worth of what was made each month by
-	product, and the hours each workstation worked. Made is worth, in the
-	company's currency, so pieces and metres of different products are never
-	stacked as one number."""
-	if not _may("Work Order"):
-		return None
-	statuses = frappe.get_list(
-		"Work Order",
-		filters=_ours({"docstatus": ["<", 2]}),
-		fields=["status", {"COUNT": "*", "as": "orders"}],
-		group_by="status",
-	)
-	made = (
-		frappe.get_list(
-			"Stock Entry",
-			filters=[
-				*[[k, "=", v] for k, v in _ours({"docstatus": 1, "purpose": "Manufacture"}).items()],
-				["posting_date", ">=", since],
-				["Stock Entry Detail", "is_finished_item", "=", 1],
-			],
-			fields=[
-				"posting_date",
-				"`tabStock Entry Detail`.item_name as item_name",
-				"`tabStock Entry Detail`.amount as amount",
-			],
-			limit_page_length=0,
-		)
-		if _may("Stock Entry")
-		else []
-	)
-	by = defaultdict(float)
-	for one in made:
-		by[(_month(one.posting_date), one.item_name)] += flt(one.amount)
-	hours = (
-		frappe.get_list(
-			"Job Card",
-			filters=_ours({"docstatus": ["<", 2], "workstation": ["is", "set"]}),
-			fields=["workstation", {"SUM": "total_time_in_mins", "as": "minutes"}],
-			group_by="workstation",
-		)
-		if _may("Job Card")
-		else []
-	)
-	return {
-		"statuses": [{"status": one.status, "orders": one.orders} for one in statuses],
-		"made": [
-			{"month": month, "item": item, "made": round(worth, 2)}
-			for (month, item), worth in sorted(by.items())
-		],
-		"hours": sorted(
-			[
-				{"workstation": one.workstation, "hours": round(flt(one.minutes) / 60, 1)}
-				for one in hours
-				if flt(one.minutes)
-			],
-			key=lambda one: -one["hours"],
-		),
-	}
 
 
 def _plans() -> list[str]:

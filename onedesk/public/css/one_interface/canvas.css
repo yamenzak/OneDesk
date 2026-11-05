@@ -693,8 +693,6 @@
 	   (Item's kinds) scroll sideways like the state tabs instead of taking two lines */
 	:root[data-one-look="canvas"] .one-interface .frappe-list .result > .flex:has(> .es-tab-buttons) { flex-wrap: wrap; row-gap: 8px; }
 	:root[data-one-look="canvas"] .one-interface .image-view-container { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; gap: 10px; }
-	:root[data-one-look="canvas"] .one-interface .one-item-tabs { flex-wrap: nowrap; overflow-x: auto; scrollbar-width: none; }
-	:root[data-one-look="canvas"] .one-interface .one-item-tabs > button { flex: none; white-space: nowrap; }
 	/* frappe's phone search, in the address row's tools, is one of them: no box of its own */
 	:root[data-one-look="canvas"] .one-interface .page-head .navbar-modal-search-mobile { background: transparent !important; border: 0 !important; box-shadow: none !important; color: var(--one-ink-quiet); }
 	/* the address gives way to its tools rather than pushing them to a row of their own */
@@ -824,6 +822,7 @@
 /* A tree's and a query report's filters in the row under the address: no band of their own, a check's words on one line. */
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .page-form.one-head-filters { background: transparent !important; border: 0 !important; padding: 0 !important; margin: 0 !important; min-height: 0; align-items: center; gap: 6px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .checkbox label { white-space: nowrap; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .frappe-control[data-fieldtype="Check"], :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .frappe-control[data-fieldtype="Check"] .form-group { width: auto !important; max-width: none !important; flex: 0 0 auto !important; }
 :root[data-one-look="canvas"] .one-interface .layout-main-section > .page-form:empty { display: none; }
 /* A query report's own buttons end its head, as the ways end a list's. */
 :root[data-one-look="canvas"] .one-interface .one-hero-list > .one-hero-actions { display: flex; align-items: center; gap: 6px; margin-inline-start: auto; }

@@ -472,3 +472,5 @@ export function aiMoved() {
 	const oneai = window.onedesk && window.onedesk.oneai;
 	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
 }
+
+export const wrapped = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break", width: 88 } } };

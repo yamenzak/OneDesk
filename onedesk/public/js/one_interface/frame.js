@@ -396,6 +396,16 @@ onedesk.interface.Frame = class Frame {
 		if (!this.page.icon_group.children().length) this.page.icon_group.addClass("hide");
 	}
 
+	// frappe's Print on a report (page.add_action_icon("printer")) sits
+	// beside the reload in the address row, as a record's print does.
+	adopt_print($button) {
+		const $reload = this.$tools.find(".one-interface-reload");
+		if ($reload.length) $button.insertBefore($reload);
+		else this.$tools.find("[data-interface=refresh]").before($button);
+		$button.addClass("one-interface-print");
+		if (!this.page.icon_group.children().length) this.page.icon_group.addClass("hide");
+	}
+
 	// What can be pressed. Back and Forward are the browser's history unless
 	// the view keeps its own, so the browser is asked (the Navigation API
 	// where it has one); Up is the breadcrumb's unless the view says.
@@ -619,6 +629,7 @@ onedesk.interface.here = () => {
 	Page.prototype.add_action_icon = function (name, ...rest) {
 		const $button = icon.call(this, name, ...rest);
 		if (this.interface && name === "refresh-cw") this.interface.adopt_reload($button);
+		if (this.interface && name === "printer") this.interface.adopt_print($button);
 		return $button;
 	};
 })();

@@ -1,5 +1,5 @@
 <template>
-  <Figures :figures="figures" :columns="Math.min(4, figures.length)" />
+  <Figures :figures="figures" :columns="Math.min(4, figures.length)" class="[&_.text-3xl-semibold>span:first-child]:min-w-0 [&_.text-3xl-semibold>span:first-child]:shrink [&_.text-3xl-semibold>span:first-child]:[overflow-wrap:anywhere]" />
 </template>
 
 <script setup>

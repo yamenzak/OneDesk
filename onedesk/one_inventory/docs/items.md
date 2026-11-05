@@ -9,8 +9,9 @@
 - **Sizes or Colours** — one product in several versions. Pick the sizes and
   colours it comes in, and each combination becomes its own item.
 
-The Items list has a tab for each kind: **All**, **Kept in Stock**, **Made
-Here**, **Services**, **Equipment** and **Sizes or Colours**.
+Over the Items list, a tab for each kind says how many there are: **All**,
+**Kept in Stock**, **Made Here**, **Services**, **Equipment** and **Sizes or
+Colours**.
 
 **Details** asks for its name, group, unit and a picture. **Sold by Size**
 says whether each line gives its length (**Length**) or its length and width

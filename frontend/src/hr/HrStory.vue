@@ -9,7 +9,7 @@
     <Section v-if="story.people" :title="__('Employee')" icon="lucide-users" data-cards>
       <div class="grid gap-3 lg:grid-cols-2">
         <ChartCard v-if="departments.length" class="h-96">
-          <BarChart :title="__('Headcount by Department')" :data="departments" x="label" y="count" horizontal :x-axis="wrap" :y-axis="{ format: count }" :series-config="{ count: { label: __('Employee'), color: hue(0) } }" @select="(one) => go(`/desk/employee?status=Active&department=${encodeURIComponent(one.row.department || '')}`)" />
+          <BarChart :title="__('Headcount by Department')" :data="departments" x="label" y="count" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ count: { label: __('Employee'), color: hue(0) } }" @select="(one) => go(`/desk/employee?status=Active&department=${encodeURIComponent(one.row.department || '')}`)" />
         </ChartCard>
         <ChartCard class="h-96">
           <BarChart :title="__('Joined and Left')" :data="story.people.moves" x="month" :y="['joined', 'left']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="whole" :series-config="moveSeries" @select="go('/desk/query-report/Employee Exits')" />
@@ -52,7 +52,7 @@ import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
 import { BarChart, ChartCard, DonutChart, FunnelChart, useChartTokens } from "frappe-ui/charts";
 
-import { Section, __, count, date, go, money, shortMonth } from "../kit";
+import { __, count, date, go, money, Section, shortMonth, wrapped } from "../kit";
 
 const TONE = { late: "text-ink-red-5", soon: "text-ink-amber-6", left: "text-ink-gray-5" };
 const STATUSES = ["Present", "Work From Home", "Half Day", "On Leave", "Absent"];
@@ -72,7 +72,6 @@ const cash = (value) => money(value, props.story.currency, 0);
 const days = (value) => __("{0} days", [value]);
 const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
 const dayName = (value) => date(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
-const wrap = { echartOptions: { axisLabel: { formatter: (value) => value, overflow: "break" } } };
 const whole = { format: count, echartOptions: { minInterval: 1 } };
 
 const departments = computed(() => (props.story.people?.departments || []).map((one) => ({ ...one, label: one.label || __("Not Recorded") })));

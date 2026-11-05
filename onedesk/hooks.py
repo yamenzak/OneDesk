@@ -62,6 +62,7 @@ after_sync = [
 	"onedesk.one_inventory.access.settle",
 	"onedesk.one_factory.access.settle",
 	"onedesk.one_inventory.boards.settle",
+	"onedesk.one_inventory.prepared.settle",
 	"onedesk.one_factory.boards.settle",
 	"onedesk.one_project.access.settle",
 	"onedesk.one_hr.access.settle",
@@ -124,6 +125,7 @@ after_migrate = [
 	"onedesk.one_inventory.access.settle",
 	"onedesk.one_factory.access.settle",
 	"onedesk.one_inventory.boards.settle",
+	"onedesk.one_inventory.prepared.settle",
 	"onedesk.one_factory.boards.settle",
 	"onedesk.one_project.access.settle",
 	"onedesk.one_hr.access.settle",
@@ -947,6 +949,7 @@ doctype_list_js = {
 	"Purchase Order": "public/js/purchase_order_list.js",
 	"Supplier": "public/js/supplier_list.js",
 	"Work Order": "public/js/work_order_list.js",
+	"Batch": "public/js/batch_list.js",
 	"BOM": ["public/js/bom_list.js", "public/js/one_factory/bom.js"],
 	"Asset": "public/js/asset_list.js",
 }
