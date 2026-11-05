@@ -36,15 +36,9 @@ piece?** on the page.
 
 ## Quality
 
-**Quality** under Everything on Home has quality management beside the
-inspections. A **Quality Inspection** checks goods on the way in, on the way
-out or while they are made.
-A **Quality Procedure** says how a piece of work is done, step by step. A
-**Quality Goal** says what the business means to achieve against it, and how
-often it is checked; each check is a **Quality Review**, objective by
-objective, and a failed one asks for a **Quality Action**, with who fixes what
-by when. Work that did not follow its procedure is a **Non Conformance**. The
-**Quality Meeting** keeps an agenda and minutes that point at reviews and
-actions, and **Quality Feedback** asks a customer or a colleague the
-questions of a template (Setup's Quality). The **Review** report lists every
-action with the review it came from.
+A **Quality Inspection**, under Everything on Home, checks goods on the way
+in, on the way out or while they are made, reading by reading against what
+they should be. A receipt can require one before it is submitted.
+
+How work is done, what went wrong and what is done about it (procedures,
+goals, non conformances and actions) is OneQuality's.

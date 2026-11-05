@@ -1,4 +1,4 @@
-"""OneInventory's Quality: how a curtain wall is installed, the goal of getting
+"""OneQuality's demo: how a curtain wall is installed, the goal of getting
 it right the first time and last month's review of it, the action the review
 asked for, sealant laid in the cold against the procedure, the monthly quality
 meeting, and what Marina Hotels thought of their pool fence."""

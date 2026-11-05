@@ -390,3 +390,12 @@ Reported or to report; nothing here is patched in One.
   One's Plant Floor page replaces it in the rail.
 - frappe's list layouts, chart parts and Frappe UI pages: One's own list
   layouts, Home figures and island pages move onto them as they land.
+
+## OneQuality and OneGovernance
+
+Decided with Yamen on 5 November 2026. OneQuality left OneInventory as an app
+of ERPNext's quality forms. It grows with its own job: a snag or non
+conformance reported from a phone on site, with photos, turned into an
+action with tasks and an owner; procedures people sign off; audits on a
+schedule. OneGovernance is a separate app for later: policies people sign, a
+risk register, compliance deadlines.

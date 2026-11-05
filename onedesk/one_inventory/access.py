@@ -26,19 +26,9 @@ SCORING = (
 	"Supplier Scorecard Variable",
 )
 
-QUALITY = (
-	"Quality Goal",
-	"Quality Procedure",
-	"Quality Review",
-	"Quality Action",
-	"Non Conformance",
-	"Quality Meeting",
-	"Quality Feedback",
-)
 
 GIVEN = (
 	{doctype: {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE} for doctype in REGISTER}
-	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in QUALITY}
 	| {doctype: {STOCK_USER: roles.WORK, STOCK_MANAGER: roles.MANAGE} for doctype in UPKEEP}
 	| {
 		"Item Price": {
@@ -74,7 +64,6 @@ GIVEN["Item Lead Time"] = {
 	"Purchase Manager": roles.MANAGE,
 	"Manufacturing Manager": roles.MANAGE,
 }
-GIVEN["Quality Feedback Template"] = {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE}
 GIVEN["UOM Conversion Factor"] = {STOCK_USER: roles.USE, STOCK_MANAGER: roles.MANAGE, "Item Manager": roles.MANAGE}
 GIVEN["Delivery Settings"] = {"Stock Manager": ("read", "write")}
 GIVEN["Shipment Parcel Template"] = {"Stock User": roles.USE, "Stock Manager": roles.MANAGE}
@@ -89,5 +78,4 @@ RAISED = {"Supplier": {"Purchase User": ("read", "write", "create"), "Purchase M
 
 def settle() -> None:
 	roles.give(GIVEN)
-	roles.open_report("Review", STOCK_USER, STOCK_MANAGER)
 	roles.raise_once(RAISED)

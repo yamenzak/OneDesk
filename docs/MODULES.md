@@ -267,10 +267,16 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Quality
+
+`onedesk/one_quality`
+
+No doctypes yet.
+
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onequality, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods

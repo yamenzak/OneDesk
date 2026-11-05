@@ -8,18 +8,18 @@ from frappe.utils.password import update_password
 from onedesk.one_demo.base import COMPANY, make, on, tag
 
 OWNER = "wsadmin@one.test"
-APPS = ("OneCRM", "OneBook", "OneInventory", "OneFactory", "OneProject", "OneHR", "OneMail")
+APPS = ("OneCRM", "OneBook", "OneInventory", "OneFactory", "OneQuality", "OneProject", "OneHR", "OneMail")
 
 PEOPLE = (
 	("Layla", "Haddad", OWNER, "Management", "General Manager", "Female", (2019, 3, 1), 42000, None, dict.fromkeys(APPS, "Manager")),
 	("Samir", "Aoun", "samir@one.test", "Projects", "Projects Manager", "Male", (2020, 6, 14), 28000, "Layla", {"OneProject": "Manager", "OneCRM": "User", "OneInventory": "User"}),
 	("Omar", "Farouk", "omar@one.test", "Sales", "Sales Manager", "Male", (2021, 1, 10), 24000, "Layla", {"OneCRM": "Manager", "OneProject": "User", "OneBook": "User", "OneWriter": "Manager"}),
 	("Huda", "Nasser", "huda@one.test", "Accounts", "Accountant", "Female", (2021, 9, 1), 18000, "Layla", {"OneBook": "Manager", "OneInventory": "User", "OneProject": "User", "OneAccount": "Manager", "OneWorkbook": "Manager"}),
-	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneFactory": "User", "OneBook": "User", "OneProject": "User"}),
+	("Karim", "Mansour", "karim@one.test", "Purchase", "Procurement Officer", "Male", (2022, 2, 20), 15000, "Samir", {"OneInventory": "Manager", "OneFactory": "User", "OneQuality": "Manager", "OneBook": "User", "OneProject": "User"}),
 	("Mariam", "Saleh", "mariam@one.test", "Human Resources", "HR Officer", "Female", (2022, 5, 3), 15000, "Layla", {"OneHR": "Manager", "OneMail": "Manager", "One": "Manager", "OneCalendar": "Manager"}),
 	("Rania", "Sabbagh", "rania@one.test", "Projects", "Site Engineer", "Female", (2022, 8, 15), 16000, "Samir", {"OneProject": "User", "OneInventory": "User"}),
 	("Nadia", "Khoury", "nadia@one.test", "Design", "Designer", "Female", (2023, 3, 1), 14000, "Samir", {"OneProject": "User", "OneSlide": "Manager"}),
-	("Tariq", "Haidar", "tariq@one.test", "Workshop", "Workshop Supervisor", "Male", (2020, 11, 2), 12000, "Samir", {"OneProject": "User", "OneInventory": "User", "OneFactory": "Manager"}),
+	("Tariq", "Haidar", "tariq@one.test", "Workshop", "Workshop Supervisor", "Male", (2020, 11, 2), 12000, "Samir", {"OneProject": "User", "OneInventory": "User", "OneFactory": "Manager", "OneQuality": "User"}),
 	("Yousef", "Bakr", "yousef@one.test", "Workshop", "Installer", "Male", (2023, 7, 9), 6500, "Tariq", {"OneInventory": "User", "OneFactory": "User"}),
 	("Arun", "Kumar", None, "Workshop", "Fabricator", "Male", (2021, 4, 12), 4800, "Tariq", None),
 	("Ravi", "Menon", None, "Workshop", "Fabricator", "Male", (2022, 1, 17), 4500, "Tariq", None),

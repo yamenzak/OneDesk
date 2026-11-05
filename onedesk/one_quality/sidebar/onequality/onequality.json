@@ -1,0 +1,141 @@
+{
+ "app": "onedesk",
+ "creation": "2026-11-05 20:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "onequality",
+ "idx": 0,
+ "modified": "2026-11-09 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Quality",
+ "name": "OneQuality",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OneQuality",
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Non Conformance",
+   "link_to": "Non Conformance",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "triangle-alert"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Action",
+   "link_to": "Quality Action",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "wrench"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Procedure",
+   "link_to": "Quality Procedure",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "list-ordered"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Goal",
+   "link_to": "Quality Goal",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "target"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Review",
+   "link_to": "Quality Review",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "clipboard-check"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Meeting",
+   "link_to": "Quality Meeting",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "users"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Feedback",
+   "link_to": "Quality Feedback",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "message-square"
+  },
+  {
+   "collapsible": 1,
+   "icon": "chart-line",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Reports",
+   "link_type": "DocType",
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Review",
+   "link_to": "Review",
+   "link_type": "Report",
+   "show_arrow": 0,
+   "type": "Link"
+  },
+  {
+   "collapsible": 1,
+   "icon": "settings",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Setup",
+   "link_type": "DocType",
+   "type": "Section Break"
+  },
+  {
+   "child": 1,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Quality Feedback Template",
+   "link_to": "Quality Feedback Template",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link"
+  }
+ ]
+}

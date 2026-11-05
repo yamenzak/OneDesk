@@ -168,16 +168,16 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Asset | on a rail or a home | OneBook, OneHR, OneInventory | a head, list script, 6 settings | yes | taught |  | yes |  |  |  | Equipment Handed Over |
-| Asset Activity | engine: an asset's history, kept as it is moved, repaired and depreciated | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Capitalization | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Asset Category | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Depreciation Schedule | inside: an asset's form draws its schedule | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Maintenance | opened by our screens | OneFactory, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
+| Asset | on a rail or a home | OneBook, OneHR, OneInventory, OneQuality | a head, list script, 6 settings | yes | taught |  | yes |  |  |  | Equipment Handed Over |
+| Asset Activity | engine: an asset's history, kept as it is moved, repaired and depreciated | OneBook, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
+| Asset Capitalization | on a rail or a home | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
+| Asset Category | on a rail or a home | OneBook, OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
+| Asset Depreciation Schedule | inside: an asset's form draws its schedule | OneBook, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
+| Asset Maintenance | opened by our screens | OneFactory, OneInventory, OneQuality | a head, events | yes | taught |  | yes |  |  |  |  |
 | Asset Maintenance Log | on a rail or a home | OneFactory, OneInventory | a head, events, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Maintenance Team | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
-| Asset Repair | on a rail or a home | OneFactory, OneInventory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
+| Asset Repair | on a rail or a home | OneFactory, OneInventory, OneQuality | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Shift Allocation | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Shift Factor | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Value Adjustment | on a rail or a home | OneBook, OneInventory | a head, 1 settings | yes | taught |  | yes |  |  |  |  |
@@ -308,13 +308,13 @@ Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Non Conformance | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Quality Action | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Non Conformance | on a rail or a home | everybody | events | yes | taught |  | yes |  |  |  | Non Conformance Raised |
+| Quality Action | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Quality Feedback | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Quality Feedback Template | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Feedback Template | on a rail or a home | OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Goal | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Meeting | on a rail or a home | everybody | 2 settings | yes | general |  | yes |  |  |  |  |
-| Quality Procedure | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Procedure | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Quality Review | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 
 Reports: Review (on a rail or a home).
@@ -411,10 +411,10 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Price List | on a rail or a home | OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
 | Putaway Rule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Quality Inspection | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
-| Quality Inspection Parameter | through a form's link (Quality Inspection: specification) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Inspection Template | through a form's link (Quality Inspection: quality_inspection_template) | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Quality Inspection | on a rail or a home | OneInventory, OneQuality | untouched | yes | taught |  | yes |  |  |  |  |
+| Quality Inspection Parameter | through a form's link (Quality Inspection: specification) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
+| Quality Inspection Template | through a form's link (Quality Inspection: quality_inspection_template) | OneFactory, OneInventory, OneQuality | untouched | yes | general |  | **none** |  |  |  |  |
 | Quick Stock Balance | replaced: Stock Summary | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  | yes |  |  |  | Reposting Failed |
 | Serial No | on a rail or a home | OneCRM, OneInventory | 1 settings | yes | taught |  | yes |  |  |  |  |

@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "non_conformance_quality_resolve",
+ "doc_type": "Non Conformance",
+ "perm_type": "quality_resolve",
+ "modified": "2026-11-05 20:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-11-05 20:00:00.000000"
+}

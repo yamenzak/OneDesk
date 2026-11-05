@@ -61,6 +61,7 @@ after_sync = [
 	"onedesk.one_book.access.settle",
 	"onedesk.one_inventory.access.settle",
 	"onedesk.one_factory.access.settle",
+	"onedesk.one_quality.access.settle",
 	"onedesk.one_inventory.boards.settle",
 	"onedesk.one_inventory.prepared.settle",
 	"onedesk.one_factory.boards.settle",
@@ -124,6 +125,7 @@ after_migrate = [
 	"onedesk.one_book.access.settle",
 	"onedesk.one_inventory.access.settle",
 	"onedesk.one_factory.access.settle",
+	"onedesk.one_quality.access.settle",
 	"onedesk.one_inventory.boards.settle",
 	"onedesk.one_inventory.prepared.settle",
 	"onedesk.one_factory.boards.settle",
@@ -267,6 +269,7 @@ doc_events = {
 	"Repost Item Valuation": {"on_change": "onedesk.one_project.money.restocked"},
 	"Work Order": {"before_validate": "onedesk.one_factory.making.steps"},
 	"BOM": {"onload": "onedesk.one_factory.costs.onload"},
+	"Non Conformance": {"validate": "onedesk.one_quality.resolve.guard", "after_insert": "onedesk.one_quality.tell.raised"},
 	"Stock Entry": {
 		"before_validate": "onedesk.one_project.money.issued",
 		"on_submit": ["onedesk.one_factory.tell.work_done", "onedesk.one_inventory.tell.moved"],
@@ -1084,6 +1087,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_project/project_control.js",
 	"/assets/onedesk/js/one_inventory/inventory_control.js",
 	"/assets/onedesk/js/one_factory/factory_control.js",
+	"/assets/onedesk/js/one_quality/quality_control.js",
 	"/assets/onedesk/js/one_book/book_control.js",
 	"/assets/onedesk/js/one_crm/crm_control.js",
 	"/assets/onedesk/js/one_display/display_control.js",
@@ -1156,7 +1160,7 @@ one_module_heirs = {
 	"Accounts": ["OneBook"],
 	"CRM": ["OneCRM"],
 	"Selling": ["OneCRM"],
-	"Quality Management": ["OneInventory"],
+	"Quality Management": ["OneQuality"],
 	"Support": ["OneCRM"],
 	"Maintenance": ["OneCRM"],
 	"Telephony": ["OneCRM"],
@@ -1464,6 +1468,7 @@ one_ai_suggestions = [
 	"onedesk.one_task.ai.SUGGESTIONS",
 	"onedesk.one_inventory.ai.SUGGESTIONS",
 	"onedesk.one_factory.ai.SUGGESTIONS",
+	"onedesk.one_quality.ai.SUGGESTIONS",
 	"onedesk.one_book.ai.SUGGESTIONS",
 	"onedesk.one_project.ai.SUGGESTIONS",
 	"onedesk.one_admin.ai.SUGGESTIONS",
@@ -1495,7 +1500,7 @@ one_homes = ["onedesk.one.lists.homes", "onedesk.one_project.rates.homes"]
 
 one_notification_types = ["onedesk.notifications.TYPES"]
 
-one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_factory.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities", "onedesk.one_slide.abilities", "onedesk.one_doc.abilities", "onedesk.one_sheet.abilities"]
+one_abilities = ["onedesk.one.abilities", "onedesk.one_mail.abilities", "onedesk.one_ai.abilities", "onedesk.one_legal.abilities", "onedesk.one_account.abilities", "onedesk.one_portal.abilities", "onedesk.one_calendar.abilities", "onedesk.one_task.abilities", "onedesk.one_project.abilities", "onedesk.one_inventory.abilities", "onedesk.one_factory.abilities", "onedesk.one_quality.abilities", "onedesk.one_book.abilities", "onedesk.one_crm.abilities", "onedesk.one_hr.abilities", "onedesk.one_display.abilities", "onedesk.one_slide.abilities", "onedesk.one_doc.abilities", "onedesk.one_sheet.abilities"]
 
 # What another module adds to a presentation as OneSlide loads and saves it
 # (one_slide/api.py): OneDisplay's widgets on a screen's backdrop.
