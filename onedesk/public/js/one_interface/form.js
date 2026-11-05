@@ -367,6 +367,7 @@ onedesk.interface.tabs = ($list) => {
 	const fold = () => {
 		$more.appendTo($ul).hide();
 		const $tabs = $ul.children(".nav-item").not($more).removeClass("one-folded");
+		if (frappe.is_mobile()) return;
 		const room = $ul[0].clientWidth;
 		if (!room || $ul[0].scrollWidth <= room) return;
 		$more.show();

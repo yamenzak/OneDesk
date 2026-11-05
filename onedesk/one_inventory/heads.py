@@ -44,7 +44,11 @@ def on_hand(doc):
 
 def free(doc):
 	said = _item(doc.name)
-	return {"value": _count(doc, said["free"]), "meter": {"value": said["free"], "of": said["on_hand"]}}
+	return {
+		"value": _count(doc, said["free"]),
+		"meter": {"value": said["free"], "of": said["on_hand"]},
+		"tone": "alarm" if said["free"] < 0 else None,
+	}
 
 
 def on_order(doc):

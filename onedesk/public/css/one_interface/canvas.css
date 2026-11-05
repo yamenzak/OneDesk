@@ -49,6 +49,7 @@
 :root[data-one-look="canvas"] .form-layout .form-message-container .form-message { background: var(--one-sheet) !important; border: 1px solid var(--one-edge) !important; border-radius: var(--one-radius-sheet) !important; }
 :root[data-one-look="canvas"] .one-interface .form-page { margin: 4px 36px 32px; background: var(--one-sheet); border: 1px solid var(--one-edge); border-radius: var(--one-radius-sheet); overflow: hidden; }
 :root[data-one-look="canvas"] .form-page .form-section { display: block !important; border-top: 1px solid var(--one-line) !important; padding: 24px 28px 8px !important; margin: 0 !important; }
+:root[data-one-look="canvas"] .form-page .form-section.one-activity-field { display: none !important; }
 :root[data-one-look="canvas"] .form-page .form-section:first-of-type, :root[data-one-look="canvas"] .form-page .form-section.one-first { border-top: 0 !important; }
 :root[data-one-look="canvas"] .form-page .form-section .section-head { font-size: 14px !important; font-weight: 600 !important; color: var(--one-ink-strong) !important; padding: 0 !important; margin: 0 0 16px !important; }
 :root[data-one-look="canvas"] .form-page .form-section .section-head.collapsed { color: var(--one-ink-quiet) !important; }
@@ -173,6 +174,7 @@
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab { flex: none !important; width: auto !important; padding: 10px 0 !important; font-size: 13px; color: var(--one-tab-ink); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab[aria-selected="true"], :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab.active { color: var(--one-tab-on-ink); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .activity-title, :root[data-one-look="canvas"] .one-has-head .one-panel .comment-input-header { display: none !important; }
+:root[data-one-look="canvas"] .one-interface .new-timeline .activity-title, :root[data-one-look="canvas"] .one-interface .new-timeline .timeline-actions { background: transparent; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .timeline-item { font-size: 12.5px !important; line-height: 1.5; color: var(--one-ink-quiet); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .form-footer { padding: 4px 4px 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-page .form-tab-content { margin-top: 0 !important; }
@@ -608,8 +610,8 @@
 /* ONE TAB. A record's tabs and its panel's tabs are the list's state tabs: 28px pills on the canvas, no line under them,
    the chosen one in --one-chosen. frappe's underline and the row's border go. */
 :root[data-one-look="canvas"] .one-interface > .one-tabs-below { border-bottom: 0 !important; padding-block: 2px 10px !important; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button { height: 28px; padding: 0 10px !important; margin: 0 !important; border-radius: var(--one-radius-control); font-size: 13px; }
-:root[data-one-look="canvas"] .one-interface .one-interface-row .one-tabs-more-button:hover { background: var(--one-head-button-bg); }
+:root[data-one-look="canvas"] .one-interface .one-tabs-more-button { height: 28px; padding: 0 10px !important; margin: 0 !important; border-radius: var(--one-radius-control); font-size: 13px; }
+:root[data-one-look="canvas"] .one-interface .one-tabs-more-button:hover { background: var(--one-head-button-bg); }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { gap: 4px !important; border-bottom: 0 !important; padding-block: 4px !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab { height: 28px; padding: 0 10px !important; border-radius: var(--one-radius-control); border: 0 !important; box-shadow: none !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__tab:hover { background: var(--one-head-button-bg); color: var(--one-tab-on-ink); }
