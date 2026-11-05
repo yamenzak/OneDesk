@@ -10,7 +10,7 @@
         <Button v-if="said.can.order" class="ms-auto" icon-left="lucide-plus" :label="__('New Purchase Order')" @click="newDoc('Purchase Order', { supplier })" />
       </div>
       <p v-if="!rows.length" class="py-6 text-base text-ink-gray-5">{{ search ? __("No items match") : __("Nothing bought from them yet") }}</p>
-      <List v-else :columns="columns" divider="full" :row-height="56" class="-mx-3 list-gap-4 list-row-px-3">
+      <List v-else :columns="columns" divider="full" class="-mx-3 list-gap-4 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Last Price") }}</ListHeaderCell>
@@ -19,16 +19,16 @@
           <ListHeaderCell v-if="has.lead_days" class="justify-end max-xl:hidden">{{ __("Lead Time") }}</ListHeaderCell>
         </ListHeader>
         <ListRows :items="rows" row-key="item" v-slot="{ item }">
-          <ListRow @click="go(`/desk/item/${encodeURIComponent(item.item)}?view=buying`)">
+          <ListRow class="min-h-14 py-2" @click="go(`/desk/item/${encodeURIComponent(item.item)}?view=buying`)">
             <ListCell class="min-w-0 gap-3">
               <Avatar :label="item.item_name" :image="item.image" shape="square" size="lg" />
               <div class="flex min-w-0 flex-col gap-1">
-                <div class="flex min-w-0 items-center gap-2">
-                  <span class="truncate text-base font-medium" :class="item.disabled ? 'text-ink-gray-5' : 'text-ink-gray-8'">{{ item.item_name }}</span>
+                <div class="flex min-w-0 flex-wrap items-center gap-x-2 gap-y-1">
+                  <span class="break-words text-base font-medium" :class="item.disabled ? 'text-ink-gray-5' : 'text-ink-gray-8'">{{ item.item_name }}</span>
                   <Badge v-if="item.default" :label="__('Default')" theme="blue" size="sm" />
                   <Badge v-if="item.quoted" :label="__('Quoted')" theme="gray" size="sm" />
                 </div>
-                <span class="truncate text-sm text-ink-gray-5">{{ [item.item !== item.item_name && item.item, item.part_no && __("Supplier Part No {0}", [item.part_no])].filter(Boolean).join(" · ") }}</span>
+                <span class="break-words text-sm text-ink-gray-5">{{ [item.item !== item.item_name && item.item, item.part_no && __("Supplier Part No {0}", [item.part_no])].filter(Boolean).join(" · ") }}</span>
               </div>
             </ListCell>
             <ListCell class="justify-end">
@@ -83,9 +83,9 @@ const columns = computed(() => {
   const lead = has.value.lead_days ? ["6rem"] : [];
   return {
     base: ["minmax(0,1fr)", "auto"],
-    sm: ["minmax(0,1fr)", "11rem", "8rem"],
-    lg: ["minmax(0,1fr)", "11rem", "8rem", ...order],
-    xl: ["minmax(0,1fr)", "11rem", "8rem", ...order, ...lead],
+    sm: ["minmax(12rem,1fr)", "max-content", "8rem"],
+    lg: ["minmax(12rem,1fr)", "max-content", "8rem", ...order],
+    xl: ["minmax(12rem,1fr)", "max-content", "8rem", ...order, ...lead],
   };
 });
 

@@ -1563,7 +1563,6 @@ one_record_tabs = [
 	"onedesk.one_storage.namespace.TABS",
 	"onedesk.one.tabs.TABS",
 	"onedesk.one_studio.mend.TABS",
-	"onedesk.one_inventory.supplier_items.TABS",
 ]
 
 one_calendar_layers = [

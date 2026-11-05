@@ -56,6 +56,7 @@ def test_every_island_is_declared_built_and_mounted():
 			and (
 				"onedesk.record_tabs.register(" in path.read_text(encoding="utf-8")
 				or "onedesk.check.report = " in path.read_text(encoding="utf-8")
+				or "frappe.ui.form.on(" in path.read_text(encoding="utf-8")
 			)
 		]
 		reports = [
@@ -70,7 +71,7 @@ def test_every_island_is_declared_built_and_mounted():
 			for path in (tree.APP / "public" / "js" / "one_interface").glob("*.js")
 			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
 		]
-		assert pages or tabs or reports or parts, f"no desk page, record tab, report or OneInterface part mounts {name}"
+		assert pages or tabs or reports or parts, f"no desk page, record tab, form field, report or OneInterface part mounts {name}"
 		for page in pages:
 			assert "onedesk.island_page(" in page.read_text(encoding="utf-8"), page
 

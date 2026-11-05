@@ -147,6 +147,16 @@ a register and a movement form in it would be a rail with five rows.
   Cheapest, once a quote is submitted) runs
   `supplier_quotation.mapper.make_purchase_order` per supplier with
   `filtered_children` for the lines they are cheapest on, leaving drafts.
+- `supplier_items.py`, `public/js/supplier_items.js` and
+  `frontend/src/inventory/supplier` — a supplier's Items tab. ERPNext's own
+  Items tab (October 2026) lists Frequently Bought and the party's specific
+  items; `supplier_items.js` wraps `erpnext.PartyItems.make_frequent_list`
+  for a Supplier so its `frequently_bought_html` draws ours instead: each
+  item with the supplier's code for it, whether they are its default
+  supplier, the last price paid in their money, how much was bought in a
+  year, what is on order, a blanket order's agreed price and the lead time,
+  then what they quoted for and were never ordered from. Their party
+  specific items stay below.
 - `upkeep.py` and `public/js/one_inventory/asset_maintenance_log.js` —
   servicing the equipment. Asset Maintenance Log, Asset Repair and Asset
   Maintenance are frappe's own lists and forms (the Upkeep page went in

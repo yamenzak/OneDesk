@@ -2908,6 +2908,13 @@ OVERRIDES = [
 		"get_filters_for_args() {",
 	),
 	(
+		"A supplier's Items tab lists what is bought from them, prices and all",
+		"supplier_items.js wraps erpnext.PartyItems.make_frequent_list for a Supplier, so ERPNext's Items tab draws One's supplier items island in its frequently_bought_html field and keeps its party specific items below",
+		"onedesk/public/js/supplier_items.js",
+		"erpnext/erpnext/public/js/party_items.js",
+		"make_frequent_list() {",
+	),
+	(
 		"Stock Balance opens at once, not as a background report",
 		"one_inventory/prepared.py clears prepared_report on three ERPNext stock reports after every migrate, relying on Report.execute_script_report's watcher to turn it back on for a report that runs too long",
 		"onedesk/one_inventory/prepared.py",

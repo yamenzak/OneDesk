@@ -13,8 +13,8 @@ The scope, decided with Yamen on 5 November 2026:
    Upkeep (Asset Maintenance Log; Mark Done its primary action), Plant
    (ERPNext's Plant Floor form). Kept as ours, with their reason in
    `tiers`: Item (a cornerstone page), Stock Summary (`stock-on-hand`),
-   Reorder (`to-order`), Shop Floor (`floor`). Still to decide with Yamen:
-   **Supplier Items** (`supplier_items`, on a supplier), in the buying area.
+   Reorder (`to-order`), Shop Floor (`floor`). **Supplier Items** is kept, brought into the new UI
+   (decided 5 November).
 2. **OneFactory.** Manufacturing leaves OneInventory for an app of its
    own (decided 5 November): BOM, BOM Creator, Work Order, Job Card,
    Routing, Operation, Workstation and its types, Plant Floor, Production
@@ -38,7 +38,8 @@ count (plan_count); a check keeps a second company's stock out; Help says
 how stock is valued. Setup steps for the setup page: Inventory Check's
 rows. A record type's own tour waits for Help to offer tours. Left for
 OneInterface: a record's item table cuts its columns (frappe's grid).
-Next area: buying (decide Supplier Items with Yamen first).
+Next area: buying. Supplier Items, decided with Yamen on 5 November: kept
+as ours, brought into the new UI (Canvas: section cards, the list rule).
 
 ## Found on the walk, for the areas
 

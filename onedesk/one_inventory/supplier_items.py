@@ -1,18 +1,13 @@
-"""A supplier's Items tab (public/js/supplier_items.js, frontend/src/inventory/supplier):
-what is bought from them, item by item, the way an item's Buying tab says who
-it is bought from (view.py `_buying`), turned round. Each item with their own
-code for it, whether they are its default supplier, the last price paid in
-their money, how much was bought in a year, what is on order, what they agreed
-on a blanket order and the item's lead time; then what they quoted for and
-were never ordered from.
+"""What a supplier's Items tab lists in place of ERPNext's Frequently Bought
+(public/js/supplier_items.js, frontend/src/inventory/supplier): what is bought
+from them and quoted, item by item, the way an item's Buying tab says who it
+is bought from. How each column is read is in AGENTS.md.
 """
 
 import erpnext
 import frappe
-from frappe import _lt
 from frappe.utils import add_days, flt, nowdate
 
-TABS = [{"name": "items", "label": _lt("Items"), "order": 20, "doctypes": ("Supplier",)}]
 
 MOST = 100
 COMING = ("To Receive and Bill", "To Receive")
