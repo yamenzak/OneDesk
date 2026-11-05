@@ -3,6 +3,8 @@
 The figures are record.py's `overview`, worked out once per request.
 """
 
+from urllib.parse import quote
+
 import frappe
 from frappe import _, _lt
 from frappe.utils import flt, fmt_money, formatdate, get_datetime, getdate, now_datetime, today
@@ -257,7 +259,28 @@ def deliver_by(doc):
 	return formatdate(day)
 
 
+def valid(doc):
+	"""How long a quotation holds, said as run out, in red, while the customer
+	still has it to answer."""
+	if not doc.get("valid_till"):
+		return None
+	if doc.docstatus == 1 and doc.status in ("Open", "Replied", "Expired") and getdate(doc.valid_till) < getdate(today()):
+		return {"value": _("Ran out on {0}").format(formatdate(doc.valid_till)), "tone": "alarm"}
+	return formatdate(doc.valid_till)
+
+
+def deal_of(doc):
+	"""The opportunity a quotation answers, opening it."""
+	deal = doc.get("opportunity")
+	if not deal or not frappe.has_permission("Opportunity", "read", doc=deal):
+		return None
+	title = frappe.db.get_value("Opportunity", deal, "title") or deal
+	return {"value": title, "route": f"/desk/opportunity/{quote(deal, safe='')}"}
+
+
 MEASURES = {
+	"crm.valid": valid,
+	"crm.deal_of": deal_of,
 	"crm.value": value,
 	"crm.progress": progress,
 	"crm.said": said,
@@ -323,6 +346,15 @@ HEADS = [
 			{"label": _lt("Source"), "source": "Measure", "measure": "crm.source"},
 		],
 		"verbs": [{"verb": "crm.take"}],
+	},
+	{
+		"doctype": "Quotation",
+		"band": [
+			{"label": _lt("Grand Total"), "source": "Measure", "measure": "order.total"},
+			{"label": _lt("Valid Till"), "source": "Measure", "measure": "crm.valid"},
+			{"label": _lt("Opportunity"), "source": "Measure", "measure": "crm.deal_of"},
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+		],
 	},
 	{
 		"doctype": "Sales Order",

@@ -698,6 +698,23 @@ MODULES = {
 				"cards": ({"key": "crm.value"}, {"key": "crm.stage"}, {"key": "crm.next_step"}, {"key": "crm.closes"}),
 				"states": {"order": ("Open", "Replied", "Quotation", "Converted", "Lost"), "hide": ("Closed",)},
 			},
+			"Quotation": {
+				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
+				"fields": {"party_name": "building-2", "transaction_date": "calendar", "valid_till": "calendar-clock", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma", "opportunity": "handshake"},
+				"cards": ({"key": "order.total"}, {"key": "crm.valid"}, {"key": "crm.deal_of"}, {"key": "project.of"}),
+				"states": {"order": ("Draft", "Open", "Replied", "Partially Ordered", "Ordered", "Expired", "Lost"), "hide": ("Cancelled",)},
+			},
+			"Sales Order": {
+				"tabs": {"contact_info": "map-pin", "proforma_tab": "receipt", "payment_schedule_section": "calendar-clock", "more_info": "info", "connections_tab": "link"},
+				"fields": {"customer": "building-2", "transaction_date": "calendar", "delivery_date": "truck", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
+				"cards": ({"key": "order.total"}, {"key": "crm.deliver_by"}, {"key": "per_delivered"}, {"key": "per_billed"}),
+				"states": {"order": ("Draft", "To Deliver and Bill", "To Bill", "To Deliver", "Completed"), "hide": ("Cancelled", "Closed")},
+			},
+			"Contract": {
+				"fields": {"party_name": "building-2", "start_date": "calendar", "end_date": "calendar-x", "contract_template": "scroll-text"},
+				"cards": ({"key": "signed_on"}, {"key": "end_date"}, {"key": "project.of"}),
+				"states": {"order": ("Unsigned", "Active", "Inactive")},
+			},
 			"Prospect": {
 				"tabs": {"overview_tab": "layout-dashboard", "contacts_tab": "map-pin", "leads_section": "user-plus", "opportunities_tab": "handshake", "activities_tab": "calendar-check", "notes_section": "message-square"},
 				"fields": {"company_name": "building-2", "industry": "factory", "market_segment": "shapes", "territory": "globe", "prospect_owner": "user", "website": "globe"},

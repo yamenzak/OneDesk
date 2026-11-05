@@ -26,6 +26,24 @@
    "property": "hidden",
    "property_type": "Check",
    "value": "1"
+  },
+  {
+   "doc_type": "Sales Order",
+   "doctype_or_field": "DocField",
+   "field_name": "per_delivered",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "name": "Sales Order-per_delivered-in_list_view"
+  },
+  {
+   "doc_type": "Sales Order",
+   "doctype_or_field": "DocField",
+   "field_name": "per_billed",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "name": "Sales Order-per_billed-in_list_view"
   }
  ],
  "sync_on_migrate": 1
