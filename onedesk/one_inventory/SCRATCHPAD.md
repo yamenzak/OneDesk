@@ -31,16 +31,14 @@ The scope, decided with Yamen on 5 November 2026:
 Baseline on 5 November, a phone at 4x CPU: Home 4.4s, Item list 6.1s, the
 Item page 7.3s and 27 requests, Stock Summary 1.8s, Stock Balance 3.0s.
 
-## The stock area (5 November 2026, 02cde9a0)
+## The stock area: closed 5 November 2026
 
-Walked and fixed at 1440: Home, Item list, Stock Summary, Stock Entry,
-Stock Reconciliation, Batch, Serial No, Warehouse, Stock Balance, Stock
-Ledger, then at 390 in Arabic and dark, and stamped. Overview is
-ERPNext's Stock dashboard (its Arabic corrected in translations/words).
-Then for the area: OneAI cards and notifications for what is missing,
-setup steps, tours, Help from ERPNext's stock docs, several companies.
-A record's item table cuts its columns (frappe's grid widths): for
-OneInterface.
+Walked at 1440 and 390, Arabic and dark, fixed and stamped; OneAI records a
+count (plan_count); a check keeps a second company's stock out; Help says
+how stock is valued. Setup steps for the setup page: Inventory Check's
+rows. A record type's own tour waits for Help to offer tours. Left for
+OneInterface: a record's item table cuts its columns (frappe's grid).
+Next area: buying (decide Supplier Items with Yamen first).
 
 ## Found on the walk, for the areas
 
