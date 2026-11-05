@@ -760,6 +760,9 @@
 :root[data-one-look="canvas"] .one-interface .form-page .attached-file svg { flex: none; }
 /* A JSON value shown as a tree takes the section's width, as long text does. */
 :root[data-one-look="canvas"] .form-page .section-body .frappe-control:has(.one-json:not(.hide)) { grid-column: 1 / -1; }
+/* An HTML field is a block of its own (a dashboard, an address card, a board of workstations), drawn to the width of its
+   column: in the grid of fields it takes the whole row, or its own layout is squeezed into one cell. */
+:root[data-one-look="canvas"] .form-page .section-body .frappe-control[data-fieldtype="HTML"] { grid-column: 1 / -1; }
 :root[data-one-look="canvas"] .one-interface .form-page .attached-file .btn { background: transparent !important; box-shadow: none !important; color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-interface .form-page .attached-file .btn:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong); }
 /* A placeholder is in the same ink as Attach's word, readable in both themes. */
