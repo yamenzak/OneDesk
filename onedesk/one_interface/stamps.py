@@ -14,6 +14,7 @@ PASSED: dict[str, dict] = {
 	"Form/Batch": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"inventory": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"List/Item": {"on": "2026-11-05", "pass": "OneInventory, stock"},
+	"Form/Item": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"stock-on-hand": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"List/Stock Entry": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"Form/Stock Reconciliation": {"on": "2026-11-05", "pass": "OneInventory, stock"},

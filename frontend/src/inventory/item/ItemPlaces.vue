@@ -10,7 +10,7 @@
           </button>
           <Badge v-if="one.low" :label="__('Low')" theme="amber" size="sm" />
         </div>
-        <div class="truncate text-sm tabular-nums text-ink-gray-5">{{ one.said }}</div>
+        <div class="break-words text-sm tabular-nums text-ink-gray-5">{{ one.said }}</div>
         <Progress v-if="one.bar !== null" :value="one.bar" size="sm" class="mt-1.5 max-w-64" />
         <div v-if="one.row" class="mt-1 flex flex-wrap items-center gap-x-4 gap-y-1 text-sm text-ink-gray-5">
           <span class="flex items-center gap-1.5 whitespace-nowrap">{{ __("Reorders At") }}<FieldEdit :form="form" table="reorder_levels" :row="one.row" field="warehouse_reorder_level" :label="__('Reorders At')" :hold="Boolean(adding) && one.row === adding" start class="text-ink-gray-8" @saved="emit('changed')" @cancel="cancel" /></span>

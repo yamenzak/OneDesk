@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 19:53+0000\n"
-"PO-Revision-Date: 2026-11-05 19:53+0000\n"
+"POT-Creation-Date: 2026-11-05 20:00+0000\n"
+"PO-Revision-Date: 2026-11-05 20:00+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -14070,7 +14070,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:94
 #: onedesk/one_hr/print_format/one_travel_request/one_travel_request.json
 #: onedesk/public/js/item_actions.js:4 onedesk/public/js/item_new.js:184
-#: onedesk/public/js/one_interface/form.js:465
+#: onedesk/public/js/one_interface/form.js:468
 #: onedesk/public/js/project_actions.js:701
 #: onedesk/public/js/project_new.js:193
 msgid "Details"
@@ -28835,7 +28835,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:1371
 #: onedesk/public/js/one_account/account_center.js:1537
 #: onedesk/public/js/one_ai/panel/Panel.vue:485
-#: onedesk/public/js/one_interface/form.js:555
+#: onedesk/public/js/one_interface/form.js:558
 #: onedesk/public/js/one_mail/mail_templates.js:17
 #: onedesk/public/js/one_mail/rule_builder.js:430
 #: onedesk/public/js/one_studio/studio_control.js:166
@@ -29611,9 +29611,9 @@ msgstr ""
 
 #: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:636
 #: onedesk/public/js/one_ai/panel/Record.vue:134
-#: onedesk/public/js/one_interface/form.js:419
-#: onedesk/public/js/one_interface/form.js:467
-#: onedesk/public/js/one_interface/form.js:479
+#: onedesk/public/js/one_interface/form.js:422
+#: onedesk/public/js/one_interface/form.js:470
+#: onedesk/public/js/one_interface/form.js:482
 #: onedesk/public/js/one_interface/look.js:144 onedesk/public/js/record.js:169
 #, python-brace-format
 msgid "New {0}"
@@ -42751,7 +42751,7 @@ msgstr ""
 #: onedesk/public/js/one_ai/ai_center.js:227
 #: onedesk/public/js/one_ai/ai_center.js:399
 #: onedesk/public/js/one_interface/chrome.js:301
-#: onedesk/public/js/one_interface/form.js:428
+#: onedesk/public/js/one_interface/form.js:431
 #: onedesk/public/js/one_mail/mail_templates.js:351
 #: onedesk/public/js/one_mail/onemail_settings.js:206
 #: onedesk/public/js/one_mail/onemail_settings.js:318
@@ -47138,7 +47138,7 @@ msgstr ""
 msgid "Still in Draft"
 msgstr ""
 
-#: onedesk/public/js/one_interface/form.js:508
+#: onedesk/public/js/one_interface/form.js:511
 #, python-brace-format
 msgid "Still needed: {0}"
 msgstr ""
