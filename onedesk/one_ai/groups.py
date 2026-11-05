@@ -346,7 +346,6 @@ PAGES = {
 	"document": "documents",
 	"presentation": "presentations",
 	"one-admin": "console",
-	"item-view": "inventory",
 	"stock-on-hand": "inventory",
 	"inventory": "inventory",
 	"to-order": "inventory",

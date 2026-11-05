@@ -10,7 +10,6 @@ VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "
 PAGES = {
 	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
 	"Project Template": "its tasks are laid out, nested, linked and timed as a project's are, which a form's child table cannot show",
-	"Item": "the stores run on it: where it is kept and how much, who it is bought from and sold to, what it is made of and goes into",
 }
 
 NEXT_PAGES = {
@@ -160,7 +159,6 @@ SCREENS = {
 	"presentation": "a presentation from OneCloud, in OneSlide's editor (Presentation)",
 	"project-view": "the page a Project opens on (PAGES)",
 	"project-template-view": "the page a Project Template opens on (PAGES)",
-	"item-view": "the page an Item opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"one": "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)",
 	"onehr": "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)",

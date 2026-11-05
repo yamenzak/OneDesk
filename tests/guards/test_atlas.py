@@ -161,7 +161,6 @@ UNHEARD = {
 	# chosen. A project's and an item's Files are OneCloud.
 	"onecloud": 5,
 	"project": 6,
-	"item": 5,
 	# OneMail hears its own event, onemail_change (one_mail/live.py), which
 	# names the mailbox a sync or an action changed; a list follow on
 	# Communication would wake it for every mail in the workspace.

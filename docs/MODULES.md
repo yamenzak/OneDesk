@@ -709,7 +709,6 @@ No doctypes yet.
 * `onedesk.one_hr.story.read`
 * `onedesk.one_hr.tell.reschedule_interview`
 * `onedesk.one_inventory.assets.said`
-* `onedesk.one_inventory.barcodes.save`
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`
 * `onedesk.one_inventory.home.read`

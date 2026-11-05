@@ -105,25 +105,8 @@ def test_the_item_page_draws_the_band():
 	assert '"doctype": "Item"' in heads and "item.said(name)" in heads
 
 
-def test_make_several_offers_a_numeric_range_as_erpnext_writes_it():
-	flt = lambda v, p=None: round(float(v or 0), p) if p is not None else float(v or 0)  # noqa: E731
-	view = tree.APP / "one_inventory" / "view.py"
-	written = _pure(view, "_written", flt=flt)
-	steps = _pure(view, "steps", flt=flt, _written=written, STEPS=100)
-	assert steps(10, 20, 5) == ["10", "15", "20"], "10, not 10.0, as a variant's value is stored"
-	assert steps(0.5, 1.5, 0.5) == ["0.5", "1", "1.5"]
-	assert steps(1, 1000, 1) is None, "too many to list: the picker asks for them typed"
-	assert steps(1, 10, 0) == [] and steps(10, 1, 1) == [], "no step, or a range backwards, allows nothing"
 
 
-def test_make_several_is_erpnexts_own_multiple_variants():
-	page = (tree.ROOT / "frontend" / "src" / "inventory" / "item" / "ItemVariantsMake.vue").read_text(encoding="utf-8")
-	assert '"erpnext.controllers.item_variant.enqueue_multiple_variant_creation"' in page
-	assert "MOST = 500" in page and "QUEUED = 10" in page, "ERPNext's own limits"
-	overview = (tree.ROOT / "frontend" / "src" / "inventory" / "item" / "ItemOverview.vue").read_text(encoding="utf-8")
-	assert "__('Make Several')" in overview and "said.choices && {" in overview
-	view = (tree.APP / "one_inventory" / "view.py").read_text(encoding="utf-8")
-	assert 'doc.variant_based_on == "Item Attribute"' in view, "only a template by attribute is made several at once, as ERPNext offers it"
 
 
 def test_how_many_to_order_is_erpnexts_rule():

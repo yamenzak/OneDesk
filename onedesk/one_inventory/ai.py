@@ -15,7 +15,6 @@ from frappe.utils import flt, get_fullname
 REACH = {}
 
 NOT_FOR_AI = {
-	"barcodes.save": "OneAI changes an item as a card from plan_item_change, and a barcode is read off the label by a person.",
 	"custody.give": "OneAI hands equipment over its own way, as a card from plan_handover.",
 	"custody.take_back": "Taking equipment back is done with the thing in hand, by whoever receives it.",
 	"kinds.make": "OneAI suggests an item's changes with plan_item_change, and a new item's prices and opening stock are a person's to say.",
@@ -30,7 +29,6 @@ NOT_FOR_AI = {
 	"upkeep.done": "A service is recorded done by whoever did it.",
 }
 
-PAGE = "item-view"
 STOCK = "stock-on-hand"
 HOME = "inventory"
 
@@ -237,10 +235,7 @@ _HAND = {
 }
 
 SUGGESTIONS = {
-	f"page:{PAGE}": [_HOW, _ORDER, _CHANGE],
-	f"page:{PAGE}/stock": [_HOW, _ORDER],
-	f"page:{PAGE}/buying": [_ORDER, _HOW],
-	"Item": [_LOW, _HOW],
+	"Item": [_HOW, _ORDER, _CHANGE],
 	f"page:{STOCK}": [_LOW, _HELD],
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
 	"Asset Repair": [_BROKEN],
@@ -263,7 +258,7 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on an item's page or Stock on Hand."""
+	"""The sentence the model is told on Stock on Hand, Home or Reorder."""
 	if said.get("page") == STOCK:
 		return (
 			"The reader is on Stock on Hand, which lists what each item has on hand, free to sell, on order and "
@@ -284,19 +279,7 @@ def page(said: dict) -> str | None:
 			"with what is on hand, already ordered and promised, and orders for them. running_low reads it as the "
 			"page shows it. How the page works is in OneInventory's documentation (how_to)."
 		)
-	if said.get("page") != PAGE:
-		return None
-	name = (said.get("record") or "").strip()
-	if not name or not frappe.db.exists("Item", name) or not frappe.has_permission("Item", "read", doc=name):
-		return "The reader is on an item's page."
-	title = frappe.db.get_value("Item", name, "item_name")
-	return (
-		f"The reader is on the page of item {name} (“{title}”). item_facts reads it as its page shows it: "
-		"how much is on hand in each warehouse, free to sell, on order and being made, its reorder levels, "
-		"its suppliers and last prices, its open orders and what it is made from; plan_item_change suggests "
-		"a change to it as a card, as the page makes it. Nothing is changed until the reader approves. How "
-		"an item's page works is in OneInventory's documentation (how_to)."
-	)
+	return None
 
 
 def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> dict:

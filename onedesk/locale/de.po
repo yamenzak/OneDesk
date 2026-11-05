@@ -352,10 +352,6 @@ msgstr "1 Transaktion"
 msgid "1 value"
 msgstr "1 Wert"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:135
-msgid "1 variant made"
-msgstr "1 Variante erstellt"
-
 #: onedesk/one/control.py:315
 msgid "1 week"
 msgstr "1 Woche"
@@ -2642,10 +2638,6 @@ msgstr "Foto hinzufügen"
 msgid "Add Photos"
 msgstr "Fotos hinzufügen"
 
-#: frontend/src/inventory/item/ItemPage.vue:25
-msgid "Add Picture"
-msgstr "Bild hinzufügen"
-
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:44
 msgid "Add Pictures and Videos"
 msgstr "Bilder und Videos hinzufügen"
@@ -3843,11 +3835,6 @@ msgstr "Alle {0} Credits verbraucht."
 msgid "All {0} done"
 msgstr "Alle {0} erledigt"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:123
-#, python-brace-format
-msgid "All {0} of these variants already exist."
-msgstr "Alle {0} dieser Varianten gibt es bereits."
-
 #: onedesk/one/people.py:222
 #, python-brace-format
 msgid "All {0} seats are in use. Disable someone or add seats to the plan."
@@ -3893,14 +3880,6 @@ msgstr "Aufzeichnung von Gesprächen erlauben"
 #: frontend/src/inventory/item/ItemStock.vue:109
 msgid "Allow Negative Stock"
 msgstr "Negativen Bestand erlauben"
-
-#: frontend/src/inventory/item/ItemOverview.vue:111
-msgid "Allow Purchase"
-msgstr ""
-
-#: frontend/src/inventory/item/ItemOverview.vue:112
-msgid "Allow Sales"
-msgstr ""
 
 #: onedesk/public/js/one/notification_center.js:191
 msgid "Allow notifications for this site in your browser settings."
@@ -4342,17 +4321,9 @@ msgstr "Ein Artikel auf seinem Meldebestand erhält jede Nacht eine Materialanfo
 msgid "An item can have serial numbers or batches."
 msgstr "Ein Artikel kann Seriennummern oder Chargen haben."
 
-#: onedesk/one_studio/places.py:92
-msgid "An item's Activity view is opened."
-msgstr "Die Aktivitätsansicht eines Artikels wird geöffnet."
-
 #: onedesk/one_studio/places.py:72
 msgid "An item's Buying view is opened."
 msgstr "Die Einkaufsansicht eines Artikels wird geöffnet."
-
-#: onedesk/one_studio/places.py:87
-msgid "An item's Files view is opened."
-msgstr "Die Dateiansicht eines Artikels wird geöffnet."
 
 #: onedesk/one_studio/places.py:82
 msgid "An item's Making view is opened."
@@ -4365,10 +4336,6 @@ msgstr "Die Verkaufsansicht eines Artikels wird geöffnet."
 #: onedesk/one_studio/places.py:67
 msgid "An item's Stock view is opened, and each time its stock changes."
 msgstr "Die Bestandsansicht eines Artikels wird geöffnet, und jedes Mal, wenn sich sein Bestand ändert."
-
-#: onedesk/one_studio/places.py:58
-msgid "An item's page is opened, and each time the item or its stock changes."
-msgstr "Die Seite eines Artikels wird geöffnet, und jedes Mal, wenn sich der Artikel oder sein Bestand ändert."
 
 #: onedesk/one_hr/home.py:246
 msgid "An offer made, and its answer."
@@ -5444,10 +5411,6 @@ msgstr "Angefragt"
 msgid "Asked For On"
 msgstr "Beantragt am"
 
-#: frontend/src/inventory/item/ItemOverview.vue:103
-msgid "Asked For, Not Yet Ordered"
-msgstr "Angefragt, noch nicht bestellt"
-
 #. Label of the asked_on (Datetime) field in DocType 'Tenant Domain'
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:66
 msgid "Asked On"
@@ -5786,11 +5749,6 @@ msgstr "An der Kasse"
 #: frontend/src/inventory/to_order/ToOrderPage.vue:144
 msgid "At or below their reorder level"
 msgstr "Auf oder unter ihrem Meldebestand"
-
-#: frontend/src/inventory/item/ItemPage.vue:207
-#, python-brace-format
-msgid "At the end of its life since {0}"
-msgstr "Seit {0} am Ende seiner Lebensdauer"
 
 #: onedesk/one/control.py:330
 msgid "At the foot of every mail the workspace sends. Leave it empty for none."
@@ -6633,23 +6591,6 @@ msgstr "Balken"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1219
 msgid "Bar colour"
 msgstr "Balkenfarbe"
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:66
-msgid "Barcode"
-msgstr "Barcode"
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:67
-msgid "Barcode Type"
-msgstr "Barcode-Typ"
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:8
-#, python-brace-format
-msgid "Barcode {0}"
-msgstr "Barcode {0}"
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:56
-msgid "Barcodes"
-msgstr "Barcodes"
 
 #. Label of the base_currency (Link) field in DocType 'Display Source'
 #: onedesk/one_display/doctype/display_source/display_source.json:237
@@ -8504,10 +8445,6 @@ msgstr "Passwort ändern"
 #: onedesk/public/js/one_account/account_center.js:49
 msgid "Change Photo"
 msgstr "Foto ändern"
-
-#: frontend/src/inventory/item/ItemPage.vue:25
-msgid "Change Picture"
-msgstr "Bild ändern"
 
 #: onedesk/public/js/one_account/account_center.js:676
 #: onedesk/public/js/one_account/account_center.js:1124
@@ -10982,10 +10919,6 @@ msgstr "Kopie meiner Daten"
 msgid "Copy of Your Data"
 msgstr "Kopie Ihrer Daten"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:32
-msgid "Copy the Template Image"
-msgstr "Bild der Vorlage übernehmen"
-
 #: onedesk/public/js/record.js:168
 msgid "Copy to Clipboard"
 msgstr ""
@@ -11453,10 +11386,6 @@ msgstr "Zählung"
 #: onedesk/public/js/one/one_control.js:21
 msgid "Country"
 msgstr ""
-
-#: frontend/src/inventory/item/ItemOverview.vue:115
-msgid "Country of Origin"
-msgstr "Ursprungsland"
 
 #. Label in the One Training Event print format
 #. Label in the One Training Feedback print format
@@ -12277,10 +12206,6 @@ msgstr ""
 #, python-brace-format
 msgid "Customize {0}"
 msgstr "{0} anpassen"
-
-#: frontend/src/inventory/item/ItemOverview.vue:116
-msgid "Customs Tariff Number"
-msgstr "Zolltarifnummer"
 
 #: frontend/src/cloud/OneCloud.vue:536 frontend/src/cloud/OneCloud.vue:615
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:154
@@ -13119,10 +13044,6 @@ msgstr ""
 #: onedesk/one_book/report/books_check/books_check.js:45
 msgid "Default Template"
 msgstr "Standardvorlage"
-
-#: frontend/src/inventory/item/ItemPage.vue:220
-msgid "Default Unit of Measure"
-msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:1398
 #, python-brace-format
@@ -14289,10 +14210,6 @@ msgstr "Wegweiser, Hochformat"
 msgid "Disable"
 msgstr "Deaktivieren"
 
-#: frontend/src/inventory/item/ItemPage.vue:309
-msgid "Disable Item"
-msgstr "Artikel deaktivieren"
-
 #: onedesk/one/home.py:270
 msgid "Disable someone or add seats to invite more people."
 msgstr "Deaktivieren Sie jemanden oder fügen Sie Plätze hinzu, um weitere Personen einzuladen."
@@ -14320,10 +14237,6 @@ msgstr "{0} deaktivieren? Die Person wird abgemeldet und kann sich nicht anmelde
 #: onedesk/public/js/one_studio/studio_control.js:184
 msgid "Disabled"
 msgstr "Deaktiviert"
-
-#: frontend/src/inventory/item/ItemPage.vue:206
-msgid "Disabled, so no new document can use it"
-msgstr "Deaktiviert, daher kann kein neues Dokument ihn verwenden"
 
 #: frontend/portal/src/parts/WebForm.vue:5
 msgid "Discard"
@@ -16510,10 +16423,6 @@ msgstr "Leer bedeutet die eigene Einheit des Artikels."
 msgid "Enable"
 msgstr ""
 
-#: frontend/src/inventory/item/ItemPage.vue:309
-msgid "Enable Item"
-msgstr "Artikel aktivieren"
-
 #: onedesk/public/js/one_mail/onemail_settings.js:946
 #: onedesk/public/js/one_mail/onemail_settings.js:1014
 msgid "Enable Outgoing"
@@ -16550,10 +16459,6 @@ msgstr "Aktiviert"
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:56
 msgid "End Date"
 msgstr ""
-
-#: frontend/src/inventory/item/ItemOverview.vue:118
-msgid "End of Life"
-msgstr "Ende der Lebensdauer"
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json:1092
@@ -17757,10 +17662,6 @@ msgstr "Abgelaufen"
 #, python-brace-format
 msgid "Expired {0}"
 msgstr "Abgelaufen am {0}"
-
-#: frontend/src/inventory/item/ItemOverview.vue:83
-msgid "Expired, Still in Stock"
-msgstr "Abgelaufen, noch auf Lager"
 
 #: onedesk/one_account/center.py:273
 #, python-brace-format
@@ -22814,11 +22715,6 @@ msgstr "In {0}"
 msgid "In {0} days"
 msgstr "In {0} Tagen"
 
-#: frontend/src/inventory/item/ItemPage.vue:242
-#, python-brace-format
-msgid "In {0} warehouses"
-msgstr "In {0} Lagern"
-
 #. Message of a notification
 #: onedesk/one/notifications.py
 #, python-brace-format
@@ -23726,10 +23622,6 @@ msgstr ""
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json:50
 msgid "Is Folder"
 msgstr "Ist Ordner"
-
-#: frontend/src/inventory/item/ItemOverview.vue:114
-msgid "Is Subcontracted Item"
-msgstr ""
 
 #. Label of the is_template (Check) field in DocType 'Writer Document'
 #. Label of the is_template (Check) field in DocType 'Workbook'
@@ -25167,10 +25059,6 @@ msgstr "Zuletzt gehört"
 msgid "Last Interview"
 msgstr "Letztes Gespräch"
 
-#: frontend/src/inventory/item/ItemPage.vue:256
-msgid "Last Manufactured"
-msgstr "Zuletzt gefertigt"
-
 #. Label of the last_modified (Data) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json:263
 msgid "Last Modified"
@@ -25191,10 +25079,6 @@ msgstr "Nachname"
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:102
 msgid "Last Opened"
 msgstr "Zuletzt geöffnet"
-
-#: frontend/src/inventory/item/ItemPage.vue:257
-msgid "Last Ordered"
-msgstr "Zuletzt bestellt"
 
 #: frontend/src/hr/HrHome.vue:123
 msgid "Last Payroll"
@@ -25223,10 +25107,6 @@ msgstr "Letzter Einkaufspreis · {0}"
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:120
 msgid "Last Read"
 msgstr "Zuletzt gelesen"
-
-#: frontend/src/inventory/item/ItemPage.vue:257
-msgid "Last Received"
-msgstr "Zuletzt erhalten"
 
 #. Label of the last_reminded (Date) field in DocType 'Cloud File Request
 #. Recipient'
@@ -25377,21 +25257,11 @@ msgstr "Nur Verspätungen"
 msgid "Late Orders"
 msgstr "Verspätete Bestellungen"
 
-#: frontend/src/inventory/item/ItemOverview.vue:96
-#, python-brace-format
-msgid "Late from {0}"
-msgstr "Verspätet von {0}"
-
 #: onedesk/one_crm/heads.py:256 onedesk/one_inventory/heads.py:373
 #: onedesk/one_inventory/heads.py:522 onedesk/public/js/desk.js:209
 #, python-brace-format
 msgid "Late since {0}"
 msgstr "Überfällig seit {0}"
-
-#: frontend/src/inventory/item/ItemOverview.vue:100
-#, python-brace-format
-msgid "Late to {0}"
-msgstr "Verspätet an {0}"
 
 #: frontend/src/project/group.js:41 onedesk/one_task/mine.py:19
 msgid "Later"
@@ -27351,10 +27221,6 @@ msgstr "Groß"
 msgid "Make"
 msgstr "Fertigen"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:127
-msgid "Make 1 Variant"
-msgstr "1 Variante erstellen"
-
 #: onedesk/one_admin/doctype/private_app/private_app.js:16
 msgid "Make Code"
 msgstr "Code erstellen"
@@ -27402,15 +27268,6 @@ msgstr "Eine für jeden erstellen…"
 msgid "Make Order"
 msgstr "Auftrag erstellen"
 
-#: frontend/src/inventory/item/ItemOverview.vue:18
-msgid "Make Several"
-msgstr "Mehrere erstellen"
-
-#: frontend/src/inventory/item/ItemPage.vue:307
-#: frontend/src/inventory/item/ItemVariantsMake.vue:2
-msgid "Make Several Variants"
-msgstr "Mehrere Varianten erstellen"
-
 #: onedesk/public/js/one_interface/dialogs.js:59
 msgid "Make Smaller"
 msgstr "Verkleinern"
@@ -27418,10 +27275,6 @@ msgstr "Verkleinern"
 #: frontend/src/slide/shim/EditorNavbar.vue:341
 msgid "Make This Slide a Timeline"
 msgstr "Diese Folie zur Zeitleiste machen"
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:127
-msgid "Make Variants"
-msgstr "Varianten erstellen"
 
 #: onedesk/public/js/one_account/account_center.js:1369
 msgid "Make a Company Device"
@@ -27560,11 +27413,6 @@ msgstr "Erstellen Sie Ihren Passkey auf Ihrem Telefon."
 msgid "Make {0}"
 msgstr "{0} anlegen"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:127
-#, python-brace-format
-msgid "Make {0} Variants"
-msgstr "{0} Varianten erstellen"
-
 #. Label in the One Bill of Materials print format
 #. Label in the One BOM Creator print format
 #. Label in the One Asset Capitalization print format
@@ -27573,20 +27421,6 @@ msgstr "{0} Varianten erstellen"
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Makes"
 msgstr "Fertigt"
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:124
-msgid "Makes 1 variant."
-msgstr "Erstellt 1 Variante."
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:124
-#, python-brace-format
-msgid "Makes {0} new variants. {1} of these combinations already exist and are left as they are."
-msgstr "Erstellt {0} neue Varianten. {1} dieser Kombinationen gibt es bereits; sie bleiben, wie sie sind."
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:124
-#, python-brace-format
-msgid "Makes {0} variants."
-msgstr "Erstellt {0} Varianten."
 
 #: onedesk/one_inventory/story.py:433
 msgid "Making"
@@ -27605,15 +27439,6 @@ msgstr "Die Fertigung mit Werkstattzeit schlägt fehl, bis das Unternehmen ein K
 #, python-brace-format
 msgid "Making {0} presentations. You will be told when they are filed."
 msgstr "{0} Präsentationen werden erstellt. Sie erhalten eine Nachricht, sobald sie abgelegt sind."
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:134
-#, python-brace-format
-msgid "Making {0} variants in the background"
-msgstr "{0} Varianten werden im Hintergrund erstellt"
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:13
-msgid "Manage Barcodes"
-msgstr "Barcodes verwalten"
 
 #: onedesk/public/js/one_account/account_center.js:102
 msgid "Managed by HR."
@@ -30322,10 +30147,6 @@ msgstr "Keine Apps"
 msgid "No asset is marked Maintenance Required."
 msgstr "Kein Anlagegut ist als wartungspflichtig markiert."
 
-#: frontend/src/inventory/item/ItemOverview.vue:23
-msgid "No assets"
-msgstr "Keine Anlagen"
-
 #: onedesk/public/js/doctype_settings.js:202
 msgid "No automations"
 msgstr "Keine Automatisierungen"
@@ -30347,10 +30168,6 @@ msgstr "Keine Tafeln"
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:79
 msgid "No border"
 msgstr "Kein Rahmen"
-
-#: frontend/src/inventory/item/ItemPage.vue:221
-msgid "No brand"
-msgstr "Keine Marke"
 
 #: frontend/src/project/Money.vue:175 onedesk/one_project/view.py:503
 msgid "No budget"
@@ -31008,10 +30825,6 @@ msgstr "Keine Benutzer"
 msgid "No values"
 msgstr "Keine Werte"
 
-#: frontend/src/inventory/item/ItemOverview.vue:19
-msgid "No variants"
-msgstr "Keine Varianten"
-
 #: frontend/src/slide/shim/VersionsDialog.vue:9
 msgid "No versions yet. One is kept as you work, at most every ten minutes."
 msgstr "Noch keine Versionen. Während Sie arbeiten, wird höchstens alle zehn Minuten eine gespeichert."
@@ -31309,10 +31122,6 @@ msgstr "In diesem Arbeitsbereich nicht genutzt"
 #: frontend/src/books/BooksStory.vue:76 onedesk/public/js/reports.js:373
 msgid "Not Yet Due"
 msgstr "Noch nicht fällig"
-
-#: frontend/src/inventory/item/ItemOverview.vue:58
-msgid "Not Yet Registered"
-msgstr "Noch nicht erfasst"
 
 #: onedesk/public/js/crm_record.js:51
 msgid "Not a Duplicate"
@@ -35937,10 +35746,6 @@ msgstr "Überfällig"
 msgid "Past Expected Closing Date"
 msgstr "Über dem erwarteten Abschlussdatum"
 
-#: frontend/src/inventory/item/ItemOverview.vue:72
-msgid "Past Its End of Life"
-msgstr "Über das Lebensende hinaus"
-
 #. Name of a notification
 #: onedesk/one_display/notifications.py
 msgid "Past Its Time"
@@ -36991,10 +36796,6 @@ msgstr "Wählen Sie beim Tippen einen Ort oder eine Stadt, oder nutzen Sie die S
 msgid "Pick at least one size or colour."
 msgstr "Wähle mindestens eine Größe oder Farbe."
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:121
-msgid "Pick at least one value."
-msgstr "Wählen Sie mindestens einen Wert."
-
 #: frontend/src/slide/components/controls/ColorPicker.vue:86
 msgid "Pick color from screen"
 msgstr "Farbe vom Bildschirm aufnehmen"
@@ -37053,10 +36854,6 @@ msgstr "Wählen Sie die Rolle."
 #: onedesk/one_project/hours.py:100
 msgid "Pick the site."
 msgstr "Wählen Sie den Standort."
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:4
-msgid "Pick the values to make. Every combination of them becomes a variant."
-msgstr "Wählen Sie die Werte. Jede Kombination daraus wird eine Variante."
 
 #: onedesk/one_project/kinds.py:104
 msgid "Pick what kind of project this is."
@@ -41163,11 +40960,6 @@ msgstr "Die Nachbestellung konnte {count} Anforderungen nicht erstellen"
 msgid "Reorders At"
 msgstr "Nachbestellen bei"
 
-#: frontend/src/inventory/item/ItemOverview.vue:92
-#, python-brace-format
-msgid "Reorders at {0}"
-msgstr "Nachbestellung bei {0}"
-
 #: frontend/src/inventory/item/ItemStock.vue:64
 #, python-brace-format
 msgid "Repacked {0}"
@@ -42640,11 +42432,6 @@ msgstr "Läuft"
 #: frontend/src/inventory/to_order/ToOrderPage.vue:144
 msgid "Running Low"
 msgstr "Wird knapp"
-
-#: frontend/src/inventory/item/ItemOverview.vue:92
-#, python-brace-format
-msgid "Running Low in {0}"
-msgstr "Wird knapp in {0}"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:126
 #, python-brace-format
@@ -44420,10 +44207,6 @@ msgstr "Nächsten Schritt festlegen"
 #: onedesk/one/module_onboarding/one_onboarding/one_onboarding.json:31
 msgid "Set One up"
 msgstr "One einrichten"
-
-#: frontend/src/inventory/item/ItemPage.vue:305
-msgid "Set Opening Stock"
-msgstr "Anfangsbestand festlegen"
 
 #: frontend/src/inventory/item/ItemSuppliers.vue:87
 msgid "Set Part Number"
@@ -46356,10 +46139,6 @@ msgstr "Verkauft zu {0} an {1} am {2}"
 #: onedesk/public/js/item_new.js:47
 msgid "Sold by Size"
 msgstr "Nach Maß verkauft"
-
-#: frontend/src/inventory/item/ItemPage.vue:261
-msgid "Sold in 12 Months"
-msgstr "Verkauft in 12 Monaten"
 
 #: onedesk/one_inventory/heads.py:743
 #, python-brace-format
@@ -49748,11 +49527,6 @@ msgstr "Das ist keine deiner Erinnerungen."
 msgid "That is not your password."
 msgstr "Das ist nicht Ihr Passwort."
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:122
-#, python-brace-format
-msgid "That is {0} variants. Make at most {1} at a time."
-msgstr "Das sind {0} Varianten. Erstellen Sie höchstens {1} auf einmal."
-
 #: onedesk/one_admin/signup.py:294
 msgid "That isn't on offer."
 msgstr "Das wird nicht angeboten."
@@ -49793,10 +49567,6 @@ msgstr "Dieser Tab hat keinen Ton geteilt, daher wird nur das Mikrofon aufgenomm
 #: onedesk/one_slide/api.py:385
 msgid "That theme does not exist."
 msgstr "Dieses Design gibt es nicht."
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:123
-msgid "That variant already exists."
-msgstr "Diese Variante gibt es bereits."
 
 #: onedesk/one_slide/versions.py:91
 msgid "That version is not of this presentation."
@@ -50533,10 +50303,6 @@ msgstr "Die erste an sie gesendete E-Mail oder der erste Anruf bei ihnen."
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:28
 msgid "The first thing asked, shortened. Renaming is allowed."
 msgstr "Die erste Frage, gekürzt. Umbenennen ist möglich."
-
-#: frontend/src/inventory/item/ItemBarcodes.vue:62
-msgid "The first two show on the item's page, and dragging a row moves it."
-msgstr "Die ersten beiden erscheinen auf der Seite des Artikels, und eine Zeile wird durch Ziehen verschoben."
 
 #. Description of the 'Sentences' (Table) field in DocType 'Record Head'
 #: onedesk/one/doctype/record_head/record_head.json:75
@@ -52182,10 +51948,6 @@ msgstr "Diese Webhooks konnten nach allen Versuchen nicht zustellen: {webhooks}.
 msgid "They Replied"
 msgstr "Antwort erhalten"
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:125
-msgid "They are made in the background and appear here as they are made."
-msgstr "Sie werden im Hintergrund erstellt und erscheinen hier, sobald sie fertig sind."
-
 #. Message of a notification
 #: onedesk/notifications/one_storage/file_request_reminder.md
 msgid "They are still waiting for them."
@@ -52784,10 +52546,6 @@ msgstr "Das dauert ein paar Minuten. Sie erhalten eine E-Mail, sobald er bereit 
 #, python-brace-format
 msgid "This template can't be filled in: {0}"
 msgstr "Diese Vorlage kann nicht ausgefüllt werden: {0}"
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:5
-msgid "This template has no attributes to choose from."
-msgstr "Diese Vorlage hat keine Merkmale zur Auswahl."
 
 #: onedesk/one_storage/upload.py:69
 msgid "This upload expired. Try again."
@@ -53561,11 +53319,6 @@ msgstr "Zu erstatten"
 #, python-brace-format
 msgid "To {0}"
 msgstr "An {0}"
-
-#: frontend/src/inventory/item/ItemPage.vue:261
-#, python-brace-format
-msgid "To {0} customers"
-msgstr "An {0} Kunden"
 
 #: onedesk/one/privacy_copy.py:24
 msgid "To-dos given to you"
@@ -55510,14 +55263,6 @@ msgstr "Genutzt von"
 msgid "Used This Month"
 msgstr "Diesen Monat verbraucht"
 
-#: frontend/src/inventory/item/ItemOverview.vue:10
-msgid "Used and Sent Out"
-msgstr "Verbraucht und versandt"
-
-#: frontend/src/inventory/item/ItemOverview.vue:10
-msgid "Used and Sent Out, Month by Month"
-msgstr "Verbraucht und versandt, Monat für Monat"
-
 #: frontend/src/template/TemplatePage.vue:83
 msgid "Used by 1 project"
 msgstr "Von 1 Projekt verwendet"
@@ -55729,10 +55474,6 @@ msgstr "Gültig bis {0}"
 msgid "Validity"
 msgstr ""
 
-#: frontend/src/inventory/item/ItemPage.vue:222
-msgid "Valuation Method"
-msgstr ""
-
 #. Label of the source (Select) field in DocType 'Record Head Band'
 #. Label of the value (Long Text) field in DocType 'AI Touch'
 #. Label of the value (Data) field in DocType 'Identifier'
@@ -55793,11 +55534,6 @@ msgstr "Wert durch Regel der Datenüberprüfung markiert"
 msgid "Value rejected by data validation rule"
 msgstr "Wert durch Regel der Datenüberprüfung abgelehnt"
 
-#: frontend/src/inventory/item/ItemPage.vue:249
-#, python-brace-format
-msgid "Valued by {0}"
-msgstr "Bewertet nach {0}"
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:78
 #: frontend/src/sheet/components/SheetEditor/PivotDialog.vue:84
 #: frontend/src/sheet/components/SheetEditor/index.vue:542
@@ -55817,10 +55553,6 @@ msgstr "Die Werte werden über den Bereich in drei gleich große Gruppen aufgete
 msgid "Values collected by the steps that have run so far."
 msgstr "Werte, die die bisher gelaufenen Schritte gesammelt haben."
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:27
-msgid "Values, separated by commas"
-msgstr "Werte, durch Kommas getrennt"
-
 #. Label in the One Salary Structure Assignment print format
 #: onedesk/one_hr/print_format/one_salary_structure_assignment/one_salary_structure_assignment.json
 msgid "Variable"
@@ -55829,15 +55561,6 @@ msgstr "Variabel"
 #: frontend/src/sheet/components/SheetEditor/index.vue:1191
 msgid "Variant"
 msgstr "Variante"
-
-#: frontend/src/inventory/item/ItemPage.vue:315
-msgid "Variant Details Report"
-msgstr "Bericht zu Variantendetails"
-
-#: frontend/src/inventory/item/ItemPage.vue:18
-#, python-brace-format
-msgid "Variant of {0}"
-msgstr "Variante von {0}"
 
 #: frontend/src/inventory/item/ItemOverview.vue:18
 #: onedesk/public/js/item_actions.js:9
@@ -63988,11 +63711,6 @@ msgstr "das eigene Netzwerk"
 msgid "there is no field {0} for the barcode"
 msgstr "es gibt kein Feld {0} für den Barcode"
 
-#: frontend/src/inventory/item/ItemPage.vue:246
-#: frontend/src/inventory/item/ItemPage.vue:249
-msgid "this month"
-msgstr "diesen Monat"
-
 #: onedesk/one_hr/hiring.py:697
 msgid "this part could not be transcribed"
 msgstr "dieser Teil konnte nicht transkribiert werden"
@@ -64349,11 +64067,6 @@ msgstr "{0}-Listen"
 msgid "{0} Maintenance Due"
 msgstr "{0} Wartungen fällig"
 
-#: frontend/src/inventory/item/ItemBarcodes.vue:13
-#, python-brace-format
-msgid "{0} More"
-msgstr "{0} weitere"
-
 #: frontend/src/crm/CrmHome.vue:145
 #, python-brace-format
 msgid "{0} Next Steps Due"
@@ -64664,11 +64377,6 @@ msgstr "{0} ausstehend"
 #, python-brace-format
 msgid "{0} becomes {1}"
 msgstr "{0} wird {1}"
-
-#: frontend/src/inventory/item/ItemPage.vue:248
-#, python-brace-format
-msgid "{0} being made"
-msgstr "{0} in Fertigung"
 
 #: onedesk/one/shortcut_center.py:120
 #, python-brace-format
@@ -65053,11 +64761,6 @@ msgstr "{0} Bearbeitungen"
 #, python-brace-format
 msgid "{0} elements"
 msgstr "{0} Elemente"
-
-#: frontend/src/inventory/item/ItemOverview.vue:92
-#, python-brace-format
-msgid "{0} expected"
-msgstr "{0} erwartet"
 
 #: onedesk/public/js/one_account/account_center.js:716
 #, python-brace-format
@@ -65968,11 +65671,6 @@ msgstr "{0} ist kein aktiver Benutzer dieses Arbeitsbereichs."
 msgid "{0} is not another form here."
 msgstr "{0} ist hier kein anderes Formular."
 
-#: frontend/src/inventory/item/ItemVariantsMake.vue:29
-#, python-brace-format
-msgid "{0} is not between {1} and {2} in steps of {3}"
-msgstr "{0} liegt nicht zwischen {1} und {2} in Schritten von {3}"
-
 #: onedesk/one/home.py:220
 #, python-brace-format
 msgid "{0} is not connecting"
@@ -66379,11 +66077,6 @@ msgstr "{0} weitere bestellt"
 msgid "{0} more people"
 msgstr "{0} weitere Personen"
 
-#: frontend/src/inventory/item/ItemPage.vue:209
-#, python-brace-format
-msgid "{0} more promised than on hand"
-msgstr "{0} mehr zugesagt als auf Lager"
-
 #: onedesk/one_book/heads.py:307
 #, python-brace-format
 msgid "{0} moved from {1} to {2}."
@@ -66469,11 +66162,6 @@ msgstr "{0} noch nicht abgerechnet."
 #, python-brace-format
 msgid "{0} not submitted"
 msgstr "{0} nicht eingereicht"
-
-#: frontend/src/inventory/item/ItemPage.vue:254
-#, python-brace-format
-msgid "{0} not yet registered"
-msgstr "{0} noch nicht erfasst"
 
 #: onedesk/one_ai/reading/calendar.py:144
 #, python-brace-format
@@ -66903,16 +66591,6 @@ msgstr "{0} Projekte"
 msgid "{0} promised"
 msgstr "{0} zugesagt"
 
-#: frontend/src/inventory/item/ItemPage.vue:247
-#, python-brace-format
-msgid "{0} promised to customers"
-msgstr "{0} Kunden zugesagt"
-
-#: frontend/src/inventory/item/ItemPage.vue:247
-#, python-brace-format
-msgid "{0} promised to customers, {1} of it held"
-msgstr "{0} Kunden zugesagt, davon {1} reserviert"
-
 #: frontend/src/inventory/to_order/ToOrderPage.vue:154
 #, python-brace-format
 msgid "{0} purchase orders drafted."
@@ -67112,20 +66790,10 @@ msgstr "{0} hat noch {1}. Auch diese abschließen?"
 msgid "{0} still owed by {1}."
 msgstr "{1} schuldet noch {0}."
 
-#: frontend/src/inventory/item/ItemOverview.vue:100
-#, python-brace-format
-msgid "{0} still to bill"
-msgstr "{0} noch abzurechnen"
-
 #: onedesk/one_project/heads.py:219
 #, python-brace-format
 msgid "{0} still to bill to the customer."
 msgstr "{0} sind dem Kunden noch zu berechnen."
-
-#: frontend/src/inventory/item/ItemOverview.vue:96
-#, python-brace-format
-msgid "{0} still to come"
-msgstr "{0} stehen noch aus"
 
 #: onedesk/one_book/heads.py:410
 #, python-brace-format
@@ -67136,11 +66804,6 @@ msgstr "{0} noch abzugleichen."
 #, python-brace-format
 msgid "{0} still to pay {1}."
 msgstr "{0} sind noch an {1} zu zahlen."
-
-#: frontend/src/inventory/item/ItemOverview.vue:100
-#, python-brace-format
-msgid "{0} still to send"
-msgstr "{0} noch zu senden"
 
 #: frontend/src/inventory/item/ItemMaking.vue:138
 #, python-brace-format
@@ -67294,11 +66957,6 @@ msgstr "{0}-Benutzer"
 #, python-brace-format
 msgid "{0} values"
 msgstr "{0} Werte"
-
-#: frontend/src/inventory/item/ItemVariantsMake.vue:135
-#, python-brace-format
-msgid "{0} variants made"
-msgstr "{0} Varianten erstellt"
 
 #: frontend/src/slide/shim/WidgetMock.vue:104 onedesk/www/tv.py:55
 #, python-brace-format
@@ -67615,11 +67273,6 @@ msgstr "{0}, kostenlos bis {1}"
 msgid "{0}, from the card above"
 msgstr "{0}, aus der Karte oben"
 
-#: frontend/src/inventory/item/ItemPage.vue:257
-#, python-brace-format
-msgid "{0}, from {1}"
-msgstr "{0}, von {1}"
-
 #: onedesk/one_hr/heads.py:471
 #, python-brace-format
 msgid "{0}, from {1}. Nothing is listed as changing yet."
@@ -67675,11 +67328,6 @@ msgstr "{0}, wenn {1}"
 #, python-brace-format
 msgid "{0}, {1}"
 msgstr "{0}, {1}"
-
-#: frontend/src/inventory/item/ItemPage.vue:210
-#, python-brace-format
-msgid "{0}, {1} being made"
-msgstr "{0}, {1} in Fertigung"
 
 #: onedesk/one_hr/heads.py:364
 #, python-brace-format

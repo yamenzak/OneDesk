@@ -21,6 +21,38 @@
    "depends_on": "eval:doc.one_measured_by && doc.one_measured_by !== \"No\"",
    "module": "One Inventory",
    "description": "What an order's sizes for this item are typed in. Left blank, the workspace's, in Stock Settings."
+  },
+  {
+   "dt": "Item",
+   "fieldname": "one_stock_part",
+   "fieldtype": "HTML",
+   "label": "",
+   "insert_after": "inventory_section",
+   "module": "One Inventory"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "one_buying_part",
+   "fieldtype": "HTML",
+   "label": "",
+   "insert_after": "purchasing_tab",
+   "module": "One Inventory"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "one_selling_part",
+   "fieldtype": "HTML",
+   "label": "",
+   "insert_after": "sales_details",
+   "module": "One Inventory"
+  },
+  {
+   "dt": "Item",
+   "fieldname": "one_making_part",
+   "fieldtype": "HTML",
+   "label": "",
+   "insert_after": "manufacturing",
+   "module": "One Inventory"
   }
  ],
  "doctype": "Item",

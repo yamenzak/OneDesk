@@ -295,7 +295,6 @@ Each row is something that would still run but stop working if upstream moved. `
 | A page changes a field of a table row in place | onedesk.record.lend_row makes the row's control as their grid row does, with the grid's own get_query, and floats it over the page | `onedesk/public/js/record.js` | `frappe/frappe/public/js/frappe/form/grid_row.js` | `var field = frappe.ui.form.make_control({` |
 | An item with stock keeps Batches and Serial Numbers locked | their toggle_has_serial_batch_fields runs after the refresh that locks both and turns them back on when lots are on, so item_form.js locks them again | `onedesk/public/js/item_form.js` | `erpnext/erpnext/stock/doctype/item/item.js` | `frm.toggle_enable(["has_serial_no", "has_batch_no"], !hide_fields);` |
 | An item's head draws its barcodes as the Barcode field does | the kit's barcode() makes a Barcode control off the page and takes the SVG its get_barcode_html returns | `frontend/src/kit/desk.js` | `frappe/frappe/public/js/frappe/form/controls/barcode.js` | `return this.get_barcode_html(value);` |
-| An item's picture is in its page's head, not the form's sidebar | item_view.js hides the sidebar's image section on the item's page, where the head shows and changes the picture | `onedesk/one_inventory/page/item_view/item_view.js` | `frappe/frappe/public/js/frappe/form/sidebar/form_sidebar.js` | `this.image_section = this.sidebar.find(".sidebar-image-section");` |
 | A boarding task names the person and opens their onboarding or separation | their boarding keeps a plain project behind each checklist, so a task from it read as that project and opened it | `onedesk/one_task/mine.py` | `hrms/hrms/controllers/employee_boarding_controller.py` | `self.db_set("project", project.name)` |
 | The Task tree leaves templates out and names a task once | their tree reads every task, a template's steps too, and frappe's label put the task's number after its subject | `onedesk/public/js/task_tree.js` | `erpnext/erpnext/projects/doctype/task/task_tree.js` | `get_tree_nodes: "erpnext.projects.doctype.task.task.get_children",` |
 | ERPNext's own task board puts Overdue away | its Task Status board keeps an Overdue column, which nothing reaches once their Overdue job is stopped | `onedesk/one_project/board.py` | `erpnext/erpnext/projects/doctype/task/kanban_board/task_status.json` | `"column_name": "Overdue",` |
@@ -448,7 +447,7 @@ Each row is something that would still run but stop working if upstream moved. `
 | A notification's mail is One's mail | NotificationLog (hooks override_doctype_class) repeats frappe's after_insert, the realtime push and unseen mark, and mails through mail_log in place of send_notification_email; a change to frappe's after_insert has to be carried here | `onedesk/one/notify.py` | `frappe/frappe/desk/doctype/notification_log/notification_log.py` | `send_notification_email(self)` |
 | Remind Me is told as One's Reminder | Reminder (hooks override_doctype_class) repeats frappe's send_reminder guard, marking it notified once, and tells through notify rather than writing an Alert, which neither pushes nor mails | `onedesk/one/tell.py` | `frappe/frappe/automation/doctype/reminder/reminder.py` | `self.db_set("notified", 1, update_modified=False)` |
 
-442 overrides.
+441 overrides.
 
 ## What we would ask upstream
 

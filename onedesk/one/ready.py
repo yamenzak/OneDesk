@@ -193,6 +193,22 @@ MODULES = {
 		},
 		"interface": {
 			"Item": {
+				"tabs": {
+					"details": "file-text",
+					"inventory_section": "warehouse",
+					"purchasing_tab": "shopping-cart",
+					"sales_details": "hand-coins",
+					"manufacturing": "hammer",
+					"accounting": "book-open",
+					"uom_tab": "ruler",
+					"variants_section": "layers",
+					"quality_tab": "badge-check",
+					"item_tax_section_break": "percent",
+					"pricing_tab": "tags",
+					"dashboard_tab": "link",
+				},
+				"fields": {"item_group": "tag", "stock_uom": "ruler", "brand": "award", "valuation_method": "coins", "item_code": "hash"},
+				"cards": ({"key": "item.on_hand", "title": _lt("On Hand")}, {"key": "item.free", "title": _lt("Free to Sell")}, {"key": "item.on_order", "title": _lt("On Order")}, {"key": "item.worth"}),
 				"states": {
 					"kinds": (
 						{"label": _lt("Kept in Stock"), "filters": (("is_stock_item", "=", 1), ("has_variants", "=", 0))},

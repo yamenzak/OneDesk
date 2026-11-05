@@ -48,7 +48,6 @@ def test_every_page_of_its_own_is_declared():
 	islands = {
 		"onedesk.project": "Project",
 		"onedesk.template": "Project Template",
-		"onedesk.item": "Item",
 		"onedesk.stock": None,
 		"onedesk.one_home": None,
 		"onedesk.home": None,
@@ -57,6 +56,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.hr": None,
 		"onedesk.to_order": None,
 		"onedesk.supplier_items": None,
+		"onedesk.item_part": None,
 		"onedesk.check": None,
 		"onedesk.workload": None,
 		"onedesk.floor": None,

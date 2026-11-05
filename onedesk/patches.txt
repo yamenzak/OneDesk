@@ -112,7 +112,7 @@ onedesk.one_display.patches.news_from_feeds
 onedesk.one_display.patches.offline_told
 onedesk.one_interface.patches.settings_keep_their_name
 onedesk.one_inventory.patches.bom_creator_not_measured
-onedesk.one_inventory.patches.islands_to_frappe #upkeep_plant
+onedesk.one_inventory.patches.islands_to_frappe #item_view
 onedesk.one_ai.patches.search_on_r2
 onedesk.one_storage.patches.stored_files_keep_their_hash
 onedesk.one_storage.patches.reposts_on_disk

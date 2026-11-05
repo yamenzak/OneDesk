@@ -886,7 +886,7 @@ doctype_js = {
 	"Credit Ledger Entry": "public/js/credit_ledger_entry.js",
 	"Offering": "public/js/offering.js",
 	"One Admin Settings": "public/js/admin_settings.js",
-	"Item": "public/js/item_form.js",
+	"Item": ["public/js/item_form.js", "public/js/one_inventory/item.js"],
 	"Employee": "public/js/employee.js",
 	"Employee Attendance Tool": "public/js/attendance_tool.js",
 	"Attendance": "public/js/attendance.js",

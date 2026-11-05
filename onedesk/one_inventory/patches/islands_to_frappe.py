@@ -4,7 +4,7 @@ files, and their addresses lead to the list (desk.js re_route)."""
 
 import frappe
 
-GONE = ("lots", "quotes", "sent_out", "upkeep", "plant")
+GONE = ("lots", "quotes", "sent_out", "upkeep", "plant", "item-view")
 
 
 def execute():

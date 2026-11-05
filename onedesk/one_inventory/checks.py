@@ -80,7 +80,7 @@ def oneinventory_an_item_opens_on_its_own_page():
 		assert view.files("ALU-6063") == 0
 		facts = ai.item_facts("ALU-6063")
 		assert facts["on_hand"] == profile["summary"]["on_hand"] and facts["suppliers"], facts
-		assert "item_facts" in (ai.page({"page": "item-view", "record": "ALU-6063"}) or "")
+		assert any(one["expects"] == "item_facts" for one in ai.SUGGESTIONS["Item"])
 		low = ai.running_low()
 		assert {"low", "count"} <= set(low), low
 		card = ai.plan_item_change("ALU-6063", warehouse=wh("Stores"), reorder_level=500, reorder_qty=1000, why="Bigger jobs coming")
@@ -442,34 +442,21 @@ def oneinventory_upkeep_says_what_is_due_broken_and_done():
 
 @check
 def oneinventory_an_items_head_has_its_barcodes_and_trends():
-	"""A new item is given its code as its first barcode. Manage Barcodes puts
-	them in the order it is given, so the first two are the head's, and
-	somebody who may only read the item can't change them. The head's cards
+	"""A new item is given its code as its first barcode. An item's figures
 	draw twelve months of stock held, its worth and what was ordered, and the
 	prices it was last bought at."""
-	from onedesk.one_inventory import barcodes, view
+	from onedesk.one_inventory import view
 
 	with as_user("karim@one.test"):
 		item = frappe.get_doc(
 			{"doctype": "Item", "item_code": "CHK-BAR-1", "item_name": "Barcode check", "item_group": "Raw Material", "stock_uom": "Nos"}
 		).insert()
 		assert [row.barcode for row in item.barcodes] == ["CHK-BAR-1"], item.barcodes
-		rows = barcodes.save("CHK-BAR-1", [{"barcode": "6291041500213", "barcode_type": "EAN"}, {"barcode": "CHK-BAR-1"}])
-		assert [row["barcode"] for row in rows] == ["6291041500213", "CHK-BAR-1"], rows
-		said = view.read("CHK-BAR-1")
-		assert [row["barcode"] for row in said["barcodes"]][: barcodes.FEATURED] == ["6291041500213", "CHK-BAR-1"]
 		head = view.read("ALU-6063")
 		trends = head["trends"]
 		assert len(trends["held"]) == 12 and len(trends["worth"]) == 12 and len(trends["ordered"]) == 12, trends
 		assert abs(trends["held"][-1] - head["summary"]["on_hand"]) < 0.001, (trends["held"], head["summary"])
 		assert trends["prices"], "the last prices it was bought at"
-	with as_user("nadia@one.test"):
-		try:
-			barcodes.save("CHK-BAR-1", [])
-		except frappe.PermissionError:
-			pass
-		else:
-			raise AssertionError("somebody who can't change the item changed its barcodes")
 
 
 @check

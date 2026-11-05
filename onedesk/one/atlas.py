@@ -249,7 +249,6 @@ ANSWERS = {
 	("DocType", "Reading"): (INSIDE, "a document OneAI read's Reading"),
 	("DocType", "Workspace Account"): (INSIDE, "Account, from the rail's foot"),
 	("DocType", "Workspace Customization"): (ENGINE, "OneStudio's ledger of what a workspace changed"),
-	("Page", "item-view"): (INSIDE, "an Item opens on it"),
 	("Page", "project-view"): (INSIDE, "a Project opens on it"),
 	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
 	("DocType", "GL Entry"): (ENGINE, "one line per posting; the General Ledger report shows them"),

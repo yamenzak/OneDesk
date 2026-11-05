@@ -26,30 +26,3 @@ def listed(doc) -> list[dict]:
 		if row.barcode
 	]
 	return rows or [{"name": None, "barcode": doc.item_code, "barcode_type": "", "uom": None}]
-
-
-@frappe.whitelist(methods=["POST"])
-def save(item: str, rows: list | str) -> list[dict]:
-	"""The item's barcodes, as the dialog leaves them: their order is their
-	place, so the first two are the ones its page shows. ERPNext checks each
-	one is the item's alone and fits its type."""
-	doc = frappe.get_doc("Item", item)
-	doc.check_permission("write")
-	rows = [
-		one
-		for one in frappe.parse_json(rows) or []
-		if isinstance(one, dict) and (one.get("barcode") or "").strip()
-	]
-	doc.set(
-		"barcodes",
-		[
-			{
-				"barcode": one["barcode"].strip(),
-				"barcode_type": one.get("barcode_type") or "",
-				"uom": one.get("uom") or None,
-			}
-			for one in rows
-		],
-	)
-	doc.save()
-	return listed(doc)

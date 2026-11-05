@@ -2054,13 +2054,6 @@ OVERRIDES = [
 		"return this.get_barcode_html(value);",
 	),
 	(
-		"An item's picture is in its page's head, not the form's sidebar",
-		"item_view.js hides the sidebar's image section on the item's page, where the head shows and changes the picture",
-		"onedesk/one_inventory/page/item_view/item_view.js",
-		"frappe/frappe/public/js/frappe/form/sidebar/form_sidebar.js",
-		'this.image_section = this.sidebar.find(".sidebar-image-section");',
-	),
-	(
 		"A boarding task names the person and opens their onboarding or separation",
 		"their boarding keeps a plain project behind each checklist, so a task from it read as that project and opened it",
 		"onedesk/one_task/mine.py",

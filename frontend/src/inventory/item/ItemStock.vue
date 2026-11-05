@@ -1,5 +1,5 @@
 <template>
-  <div class="grid gap-x-10 pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+  <div class="grid gap-x-10" :class="facts ? 'pb-12 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]' : 'pb-2'">
     <div class="min-w-0">
     <PlaceSpot :said="spot" class="mb-4" />
     <Section :title="__('Where It Is')" icon="lucide-warehouse" :aside="said.stock.places.length || ''">
@@ -16,7 +16,7 @@
       <Rows :rows="moves" :empty="__('No moves yet')" />
     </Section>
   </div>
-    <aside class="min-w-0">
+    <aside v-if="facts" class="min-w-0">
       <Section :title="__('Details')" icon="lucide-info">
         <Facts :facts="details" :form="form" @saved="emit('changed')" />
       </Section>
@@ -33,7 +33,7 @@ import SerialRows from "../lots/SerialRows.vue";
 import ItemPlaces from "./ItemPlaces.vue";
 import { usePlace } from "../../project/place";
 
-const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true } });
+const props = defineProps({ said: { type: Object, required: true }, form: { type: Object, required: true }, facts: { type: Boolean, default: true } });
 const emit = defineEmits(["changed"]);
 const uom = computed(() => props.said.stock_uom);
 const slug = (doctype) => doctype.toLowerCase().replace(/ /g, "-");

@@ -54,13 +54,16 @@ export function useRecord(doctype, name) {
 	};
 }
 
-export function useForm(doctype, name) {
+export function useForm(doctype, name, given = null) {
 	const frm = shallowRef(null);
 	const version = ref(0);
 	const listeners = new Set();
 	let stop = null;
 
-	watch(
+	if (given) {
+		frm.value = given;
+		onBeforeUnmount(desk().heard(given, () => version.value++));
+	} else watch(
 		() => unref(name),
 		async (now) => {
 			stop?.();

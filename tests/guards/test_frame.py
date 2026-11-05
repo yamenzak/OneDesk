@@ -19,15 +19,13 @@ FRAPPE = APPS / "frappe/frappe/public/js/frappe"
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
 	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
-	"Item": ROOT / "frontend" / "src" / "inventory" / "item" / "ItemPage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
 	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
-	"Item": APP / "one_inventory" / "page" / "item_view" / "item_view.js",
 }
 
-PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template", "Item": "oneinventory_item"}
+PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template"}
 
 SIDEBAR = (
 	"form/sidebar/form_sidebar.js",
@@ -166,13 +164,10 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		**{
 			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "inventory" / "item" / f"{name}.vue").read_text()
 			for view, name in (
-				("item", "ItemPage"),
 				("stock", "ItemStock"),
 				("buying", "ItemBuying"),
 				("selling", "ItemSelling"),
 				("making", "ItemMaking"),
-				("files", "ItemFiles"),
-				("activity", "ItemPage"),
 			)
 		},
 		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "inventory" / "stock" / "StockOnHand.vue").read_text(),

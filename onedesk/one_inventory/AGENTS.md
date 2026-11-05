@@ -165,42 +165,36 @@ a register and a movement form in it would be a rail with five rows.
   `done` is the log's Mark Done, its primary action in place of Submit:
   ERPNext's own log, completed on the day and submitted, which works out
   the job's next date.
-- `view.py`, `page/item_view` and `frontend/src/inventory/item` — an item's page. An
-  item is the hub of the stores, as a project is of a job, so it opens on a
-  page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the
-  form. `read` gathers what ERPNext keeps in a dozen places, each as the
-  reader may see it: the Bins per warehouse with their reorder levels, the
-  stock ledger's last moves (each Stock Entry by its type, a transfer's two
-  rows made one by the pure `merged`, each with who made it), suppliers from
-  the item's own table and its submitted orders, open purchase and sales
-  orders with what is still to come, material requests, prices, its bills of
-  materials, what they go into and the work orders making it. `headline` is
-  pure. The supplier's last two prices, a blanket order still running, the
-  quotes still open and the last price paid come from the submitted
-  documents, each in its party's currency with its base amount. What the
-  page changes it changes as desk does, and
-  `public/js/item_actions.js` has Edit Details (every field, its tables in
-  frappe's grid, a row's company the workspace's own) and the documents an
-  item starts, each opened in its form with ERPNext's own triggers filling
-  the line. The page keeps frappe's sidebar and menu and hears the item and
-  its stock change. Each view is a place for OneStudio
-  (`oneinventory_item.*`). `_trends` draws the head's lines from the ledger's
-  balance per warehouse at each month's end (a stock count sets a balance
-  without moving any), the purchase orders per month, and `item.rates` the
-  last prices bought at. The fields shown in each view's Details are the
-  item form's own, held out of sight by the kit's `useForm` and lent where
-  they are shown (`FieldEdit`, docs/READY.md point 6).
+- `view.py`, `public/js/one_inventory/item.js` and `frontend/src/inventory/item`
+  — an item. It opens on ERPNext's own Item form (it had a page of its own
+  until November 2026; decided with Yamen to keep one experience across
+  records). The form's head carries its figures (registry `cards`, from
+  `heads.py` `item.*`), and `item.js` adds Order More or Make More and, under
+  Create, Request Material, Transfer Stock and Count Stock. Four HTML fields
+  (`custom/item.json`, `one_*_part`) open ERPNext's Inventory, Purchasing,
+  Sales and Manufacturing tabs with `ItemPart.vue`, which draws ItemStock,
+  ItemBuying, ItemSelling or ItemMaking from `read` without their Details
+  column (`facts`), since the tab's own fields are right under it. The kit's
+  `useForm` is handed the open form (`given`) rather than building a hidden
+  one: a second Form of the same record runs Item's refresh scripts again,
+  which mounted the parts again, round and round. `read` gathers what
+  ERPNext keeps in a dozen places, each as the reader may see it: the Bins
+  per warehouse with their reorder levels, the stock ledger's last moves
+  (each Stock Entry by its type, a transfer's two rows made one by the pure
+  `merged`, each with who made it), suppliers from the item's own table and
+  its submitted orders, open purchase and sales orders with what is still to
+  come, material requests, prices, its bills of materials, what they go into
+  and the work orders making it. Each part is a place for OneStudio
+  (`oneinventory_item.*`) and follows what it lists through frappe.realtime.
 - `batches.py` — lots. ERPNext keeps a lot's moves in the Serial and Batch
   Entry rows of each move's bundle, so `left` and `moves` read those, per
   warehouse, and `state` (pure) says Expired or Expiring Soon. A lot's head
   is in `heads.py` (`batch.*`), and `tell.expiring` tells whoever keeps the
   stores once a day. A lot's name is ERPNext's own hash; people read its
   `batch_id`.
-- `barcodes.py` and `frontend/src/inventory/item/ItemBarcodes.vue` — barcodes, in
-  ERPNext's own Item Barcode table. `coded` gives a new item its code as its
-  first barcode on every path an item is made by. `save` keeps the order the
-  dialog leaves, so the first two are the head's. They are drawn by frappe's
-  own Barcode control in the format their type names.
+- `barcodes.py` — barcodes, in ERPNext's own Item Barcode table, kept on
+  the form. `coded` gives a new item its code as its first barcode on every
+  path an item is made by.
 - `stock.py`, `page/stock_on_hand` and `frontend/src/inventory/stock` — Stock on
   Hand. ERPNext's Stock Balance answers it over a period and is a prepared
   report, so the rail's first look at the stores was an empty page with a

@@ -312,6 +312,15 @@ onedesk.record.form = (doctype, name, changed = () => {}, edited = () => {}) =>
 		});
 	});
 
+onedesk.record.heard = (frm, changed) => {
+	const heard = (refreshed) => refreshed === frm && changed(frm);
+	frappe.ui.form.on(frm.doctype, "refresh", heard);
+	return () => {
+		const handlers = (frappe.ui.form.handlers[frm.doctype] || {}).refresh || [];
+		if (handlers.includes(heard)) handlers.splice(handlers.indexOf(heard), 1);
+	};
+};
+
 onedesk.record.lend = (frm, fieldname, spot, hooks = {}) => {
 	const control = frm.fields_dict[fieldname];
 	const $home = $('<span hidden class="one-field-home"></span>').insertBefore(control.$wrapper);

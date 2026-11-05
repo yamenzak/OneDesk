@@ -1108,7 +1108,7 @@ def test_a_project_opens_on_its_own_page():
 	for follows in ('follow("Project"', 'listen("one_project_money"'):
 		assert follows in script
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
-	assert '{ Project: "project-view", "Project Template": "project-template-view", Item: "item-view" }' in route
+	assert '{ Project: "project-view", "Project Template": "project-template-view" }' in route
 	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
 	assert "?edit=1" not in script
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
