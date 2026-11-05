@@ -35,7 +35,6 @@ STOCK = "stock-on-hand"
 FLOOR = "floor"
 PLANT = "plant"
 HOME = "inventory"
-LOTS = "lots"
 QUOTES = "quotes"
 SENT_OUT = "sent-out"
 UPKEEP = "upkeep"
@@ -281,7 +280,6 @@ SUGGESTIONS = {
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
 	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
-	f"page:{LOTS}": [_GOING_OFF, _WHERE_NUMBER],
 	f"page:{QUOTES}": [_UNANSWERED, _CHEAPEST],
 	f"page:{SENT_OUT}": [_OUT_NOW],
 	f"page:{UPKEEP}": [_DUE, _BROKEN],
@@ -331,13 +329,6 @@ def page(said: dict) -> str | None:
 			"OneInventory with what it is for. still_to_arrive with late_only, running_low and upkeep_now read "
 			"those; how each "
 			"part works is in OneInventory's documentation (how_to)."
-		)
-	if said.get("page") == LOTS:
-		return (
-			"The reader is on Lots, which shows each lot in stock with how much is left and where, when it goes "
-			"off, each serial number with where it is or who has it, and the items kept in lots or by number. "
-			"lots_and_numbers reads it as the page shows it. How the page works is in OneInventory's "
-			"documentation (how_to)."
 		)
 	if said.get("page") == "to-order":
 		return (
@@ -1313,9 +1304,9 @@ def lots_and_numbers(
 	item: Annotated[str, "Only this item's lots and numbers, by its code. Left out, every item."] | None = None,
 	soon: Annotated[bool, "Only the lots going off within a month or gone off."] = False,
 ) -> dict:
-	"""What the Lots page shows: how many lots are in stock and how many go
-	off soon or have, each lot with what is left and where, and each serial
-	number with where it is or who has it and its warranty."""
+	"""What is kept in lots and by number: how many lots are in stock and
+	how many go off soon or have, each lot with what is left and where, and
+	each serial number with where it is or who has it and its warranty."""
 	from onedesk.one_inventory import lots
 
 	if not frappe.has_permission("Batch", "read") and not frappe.has_permission("Serial No", "read"):

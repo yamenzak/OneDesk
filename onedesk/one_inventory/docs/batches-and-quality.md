@@ -1,41 +1,27 @@
 # Batches and Quality
 
-**Batch and Serial No** in the rail keeps lots (batches) and serial numbers
-in one place. The figures say how many lots are in stock (**Batches in
-Stock**), how many go off within a month (**Expiring Soon**), how many have
-gone off (**Expired**) and how many numbered pieces are in stock (**Serial
-Nos**), the company's own. Three tabs follow.
-
-- **Batches** is a table of each lot with something left, the one going off
-  first, with one status (Good, Expiring Soon within a month, Expired, or
-  Keeps for a lot that never goes off), when it was made, when it goes off
-  and in how many days, what is left in each warehouse, and how much in
-  all. **All**, **Expiring Soon** and **Expired** above it narrow it, and
-  the Expiring Soon and Expired figures do too.
-- **Serial Nos** is a table of each numbered piece with its status, where
-  it is or the customer it went to, its lot, and when its warranty ends.
-- **Items** lists the items kept in lots or by number, and how each is
-  numbered.
+**Batch** and **Serial No** in the rail list lots (batches) and numbered
+pieces. A batch row shows its item, how much is left and when it goes off;
+open one to see what each warehouse holds of it under **Stock Levels**, and
+**Move** or **Split** it from there. A serial number shows its status, where
+it is or the customer it went to, its lot, and when its warranty ends. The
+lots going off within a month are on Home under **Expiring Soon**.
 
 ### Tracking Batches and Serials
 
-**Track Batches** sets an item up to be kept in lots or by number in one
-step: **By Batch** or **By Serial No**, whether new lots are numbered for
-you and how (**Automatically Create New Batch**, **Batch Number Series**),
-whether lots go off and how many days one keeps (**Has Expiry Date**,
-**Shelf Life In Days**), or how serial numbers run and how long the warranty
-is. It offers only items that have never moved, since how an item is kept
-cannot change once it has. **New Batch** makes a lot by hand, with when it
-was made and when it goes off. Left empty, the date is worked out from how
-long the item keeps. Each receipt asks which lot or numbers came in.
+On an item's **Stock** view, **Track by Batch or Serial No** sets the item
+up to be kept in lots or by number in one step: **By Batch** or **By Serial
+No**, whether new lots are numbered for you and how (**Automatically Create
+New Batch**, **Batch Number Series**), whether lots go off and how many days
+one keeps (**Has Expiry Date**, **Shelf Life In Days**), or how serial
+numbers run and how long the warranty is. It is offered only for an item
+that has never moved, since how an item is kept cannot change once it has.
+**New Batch** makes a lot by hand, with when it was made and when it goes
+off; left empty, the date is worked out from how long the item keeps. Each
+receipt asks which lot or numbers came in.
 
-When lots are switched off for the workspace, the page says so and
-**Turn On** switches them on, as the Inventory Check does.
-
-An item's Stock view shows the same lots and numbers, with **New Batch**,
-and **Track by Batch or Serial No** for an item that has not moved yet. Its
-Overview says **Expiring Soon** for a lot that runs out of date within a
-month and **Expired, Still in Stock** for one past its date, so it is used,
+An item's Stock view shows its lots and numbers. Its Overview says
+**Expiring Soon** for a lot that runs out of date within a month and **Expired, Still in Stock** for one past its date, so it is used,
 sold or taken out of stock first. The stock managers are told once when
 a lot with some left will expire within a month. **Batch Item Expiry
 Status** and **Available Batch Report** are under Reports.

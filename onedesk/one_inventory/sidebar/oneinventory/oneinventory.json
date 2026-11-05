@@ -116,12 +116,25 @@
    "indent": 0,
    "is_default_module": 1,
    "keep_closed": 0,
-   "label": "Batch and Serial No",
-   "link_type": "Page",
+   "label": "Batch",
+   "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "link_to": "lots",
+   "link_to": "Batch",
    "icon": "layers"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "indent": 0,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Serial No",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "link_to": "Serial No",
+   "icon": "hash"
   },
   {
    "child": 0,
@@ -373,12 +386,12 @@
    "icon": "tags",
    "child": 0,
    "route_options": null,
-   "idx": null,
+   "idx": 31,
    "filters": null,
    "url": "/desk/one?center=settings&module=OneInventory&at=lists"
   }
  ],
- "modified": "2026-11-08 10:00:00.000000",
+ "modified": "2026-11-09 10:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Inventory",
  "name": "OneInventory",

@@ -110,7 +110,6 @@ EVERYTHING = (
 	("stock", _lt("Delivery Note"), "DocType", "Delivery Note", _lt("Goods sent out to customers.")),
 	("stock", _lt("Stock Entry"), "DocType", "Stock Entry", _lt("Stock moved between warehouses, used up or added.")),
 	("stock", _lt("Stock Reconciliation"), "DocType", "Stock Reconciliation", _lt("Stock counted, and set right where it was wrong.")),
-	("stock", _lt("Batch and Serial No"), "Page", "lots", _lt("Batches and serial numbers: what each lot holds, where, and what goes off soon.")),
 	("stock", _lt("Batch"), "DocType", "Batch", _lt("Lots of goods that go off, with their dates.")),
 	("stock", _lt("Serial No"), "DocType", "Serial No", _lt("Single pieces kept track of by their number.")),
 	("stock", _lt("Pick List"), "DocType", "Pick List", _lt("What to fetch from where, for an order.")),
@@ -312,7 +311,7 @@ def needs_you() -> dict:
 	return {
 		"late": _kept(late.get("orders") or []),
 		"low": _kept([{**one, "place": _place(one.get("warehouse"))} for one in low.get("low") or []]),
-		"lots": _kept(lots),
+		"lots": {**_kept(lots), "until": str(add_days(today(), batches.SOON))},
 		"services": _kept([one for one in services.get("services") or [] if getdate(one["due"]) <= add_days(day, 7)]),
 		"work": _kept([{**one, "expected_delivery_date": str(one.expected_delivery_date)} for one in work]),
 		"drafts": drafts(),

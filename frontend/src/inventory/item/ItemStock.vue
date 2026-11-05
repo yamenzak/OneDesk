@@ -8,7 +8,7 @@
     <Section v-if="said.has_batch_no" :title="__('Lots')" icon="lucide-boxes" :aside="said.stock.batches.length || ''" :action="lotAction">
       <LotRows :lots="said.stock.batches" :with-item="false" :empty="__('No lots in stock')" />
     </Section>
-    <Section v-if="said.has_serial_no" :title="__('Serial Numbers')" icon="lucide-hash" :aside="said.stock.numbers.length || ''" :action="{ icon: 'lucide-arrow-up-right', label: __('Lots'), onClick: () => go(`/desk/lots?view=serials&item=${encodeURIComponent(said.name)}`) }">
+    <Section v-if="said.has_serial_no" :title="__('Serial Numbers')" icon="lucide-hash" :aside="said.stock.numbers.length || ''" :action="{ icon: 'lucide-arrow-up-right', label: __('Serial No'), onClick: () => go(`/desk/serial-no?item_code=${encodeURIComponent(said.name)}`) }">
       <SerialRows :serials="said.stock.numbers" :with-item="false" :empty="__('No numbered pieces yet')" />
     </Section>
     <button v-if="canTrack" type="button" class="mt-3 text-sm text-ink-gray-5 hover:underline" @click="onedesk().lots.track(said.name, () => emit('changed'))">{{ __("Track by Batch or Serial No") }}</button>

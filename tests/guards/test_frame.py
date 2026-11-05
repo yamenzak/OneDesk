@@ -181,7 +181,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onecrm_home.shown": (ROOT / "frontend" / "src" / "crm" / "CrmHome.vue").read_text(),
 		"onehr_home.shown": (ROOT / "frontend" / "src" / "hr" / "HrHome.vue").read_text(),
 		"onebook_home.shown": (ROOT / "frontend" / "src" / "books" / "BooksHome.vue").read_text(),
-		"oneinventory_lots.shown": (ROOT / "frontend" / "src" / "inventory" / "lots" / "LotsPage.vue").read_text(),
 		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "inventory" / "to_order" / "ToOrderPage.vue").read_text(),
 		"oneinventory_quotes.shown": (ROOT / "frontend" / "src" / "inventory" / "quotes" / "QuotesPage.vue").read_text(),
 		"oneinventory_sent_out.shown": (ROOT / "frontend" / "src" / "inventory" / "sent_out" / "SentOutPage.vue").read_text(),

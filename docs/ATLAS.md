@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 86 | 2 | 38 | 0 |
+| onedesk | 85 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 300 | 135 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -50,7 +50,6 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/crm/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
 | hr (`frontend/src/hr/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |
-| lots (`frontend/src/inventory/lots/LotsPage.vue`) | Batch, Item, Serial No | – | – | – |
 | to_order (`frontend/src/inventory/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
 | supplier_items (`frontend/src/inventory/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
 | check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
@@ -1041,7 +1040,7 @@ Pages: onehr (on a rail or a home).
 
 Reports: Inventory Check (on a rail or a home).
 
-Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); lots (on a rail or a home); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
+Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); plant (on a rail or a home); quotes (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
 
 ## onedesk / One Legal
 

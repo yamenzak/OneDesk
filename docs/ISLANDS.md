@@ -134,7 +134,6 @@ that exists.
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |
 | `src/inventory/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
-| `src/inventory/lots/LotsPage.vue` | Odoo's Lots and Serial Numbers and Katana's batch tracking: a table of lots with one status each, filtered by state above it |
 | `src/inventory/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |
 | `src/project/ProjectPage.vue` | Asana's project and monday's boards: a head with its health, then views that each open in place, as a form's tabs do, across the top under the head |
 | `src/inventory/quotes/QuotesPage.vue` | Odoo Purchase: Asked is its list of RFQs, Quotes its vendors' quotations, and Compare its Compare Product Lines, one request's quotes side by side with the cheapest marked |

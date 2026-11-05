@@ -158,7 +158,6 @@ SCREENS = {
 	"books": "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)",
 	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
 	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
-	"lots": "batches and serial numbers as one tool, what each lot holds and where (Batch, Serial No)",
 	"upkeep": "servicing and mending the equipment, services due, repairs, plans and what was done (Asset Maintenance Log, Asset Repair)",
 	"sent-out": "work a supplier does on our own materials, what went and what came back (Subcontracting Order)",
 	"quotes": "asking suppliers for prices, their answers and the comparison (Request for Quotation, Supplier Quotation)",

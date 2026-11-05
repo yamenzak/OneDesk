@@ -78,14 +78,16 @@ def state(expiry_date, qty, day=None) -> str | None:
 
 def dated(item: str | None = None) -> list:
 	"""The batches with some in stock and an expiry date within SOON days or
-	past, soonest first, as the reader may see them."""
-	filters = {
-		"disabled": 0,
-		"batch_qty": [">", 0],
-		"expiry_date": ["<=", add_days(today(), SOON)],
-	}
+	past, soonest first, as the reader may see them. A batch with no expiry
+	date never goes off: frappe reads an empty date as the earliest day."""
+	filters = [
+		["disabled", "=", 0],
+		["batch_qty", ">", 0],
+		["expiry_date", "is", "set"],
+		["expiry_date", "<=", add_days(today(), SOON)],
+	]
 	if item:
-		filters["item"] = item
+		filters.append(["item", "=", item])
 	return frappe.get_list(
 		"Batch",
 		filters=filters,

@@ -161,17 +161,6 @@ PLACES = {
 			},
 		},
 	},
-	"oneinventory_lots": {
-		"label": "OneInventory",
-		"record": "Batch",
-		"events": {
-			"shown": {
-				"about": _lt("Lots is opened, and each time a lot, a serial number or an item kept in lots changes."),
-				"gives": "lots.view (batches, serials or items), lots.lots (lots in stock), lots.going_off, lots.gone, lots.serials (numbered pieces in stock)",
-				"may": ("note", "action"),
-			},
-		},
-	},
 	"oneinventory_order": {
 		"label": "OneInventory",
 		"record": "Material Request",

@@ -83,6 +83,7 @@ $(document).on("app_ready", () =>
 );
 
 frappe.re_route["automation"] = "automation-flow";
+frappe.re_route["lots"] = "batch";
 
 if (frappe.boot.one_elsewhere) {
 	for (const slug of frappe.boot.one_elsewhere) frappe.re_route[slug] = "one";

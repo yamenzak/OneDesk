@@ -337,31 +337,32 @@ def oneinventory_home_tells_the_story_of_the_stock():
 
 
 @check
-def oneinventory_lots_and_numbers_are_one_tool():
-	"""Lots: the sealant's two lots, the one going off first, each with what
-	is left and where, the six smart locks by number in the Stores, and the
-	items kept either way. An item set up from the page to be kept in lots,
-	and a lot made for it, show at once. OneAI reads it. Somebody outside the
-	stores sees none of it."""
+def oneinventory_lots_and_numbers_are_read_where_people_look():
+	"""Batch and Serial No are frappe's own lists; what the item's Stock tab
+	and OneAI read of them: the sealant's two lots, the one going off first,
+	each with what is left and where, the six smart locks by number in the
+	Stores, and the items kept either way. An item set up to be kept in
+	lots, and a lot made for it, show at once. Somebody outside the stores
+	sees none of it, and /desk/lots leads to the Batch list."""
 	from onedesk.one_demo.lots import LOCK, LOCKS
 	from onedesk.one_inventory import ai, lots
 
+	assert not frappe.db.exists("Page", "lots")
 	with as_user("karim@one.test"):
-		said = lots.read()
-		assert said["switched_on"] and said["can"]["Batch"], said["can"]
-		sealant = [one for one in said["batches"] if one["item"] == "SIL-WP"]
+		sealant = [one for one in lots.lots() if one["item"] == "SIL-WP"]
 		assert [one["batch_id"] for one in sealant] == ["SIL-WP-A1", "SIL-WP-B2"], sealant
 		assert sealant[0]["state"] == "Expiring Soon" and not sealant[1]["state"], sealant
 		assert {place["warehouse"] for place in sealant[0]["where"]} == {wh("Stores"), wh("Mansour Villa Site")}, sealant[0]
 		assert sum(place["qty"] for place in sealant[0]["where"]) == sealant[0]["batch_qty"]
-		assert said["figures"]["going_off"] >= 1 and said["figures"]["serials"] >= len(LOCKS[1]), said["figures"]
-		assert [one["batch_id"] for one in lots.read(soon=1)["batches"] if one["item"] == "SIL-WP"] == ["SIL-WP-A1"]
+		figures = lots.figures()
+		assert figures["going_off"] >= 1 and figures["serials"] >= len(LOCKS[1]), figures
+		assert [one["batch_id"] for one in lots.lots(soon=1) if one["item"] == "SIL-WP"] == ["SIL-WP-A1"]
 
-		numbers = lots.read(view="serials", item=LOCK)["serials"]
+		numbers = lots.serials(item=LOCK)
 		assert sorted(one["serial_no"] for one in numbers) == LOCKS[1], numbers
 		assert all(one["status"] == "Active" and one["warehouse"] == wh("Stores") for one in numbers), numbers
-		assert [one["serial_no"] for one in lots.read(view="serials", search="SL-0003")["serials"]] == ["SL-0003"]
-		kept = {one["name"]: one for one in lots.read(view="items")["items"]}
+		assert [one["serial_no"] for one in lots.serials(search="SL-0003")] == ["SL-0003"]
+		kept = {one["name"]: one for one in lots.kept_in_lots()}
 		assert kept["SIL-WP"]["has_batch_no"] and kept[LOCK]["has_serial_no"], kept
 
 		frappe.get_doc({"doctype": "Item", "item_code": "CHK-PRIMER", "item_name": "Check Primer", "item_group": "Consumable", "stock_uom": "Nos", "is_stock_item": 1}).insert()
@@ -371,16 +372,15 @@ def oneinventory_lots_and_numbers_are_one_tool():
 		made = frappe.client.insert({"doctype": "Batch", "item": "CHK-PRIMER", "batch_id": "", "manufacturing_date": frappe.utils.today()})
 		assert made["batch_id"].startswith("PR-"), made
 		assert str(made["expiry_date"]) == frappe.utils.add_days(frappe.utils.today(), 90), made
-		assert "CHK-PRIMER" in {one["name"] for one in lots.read(view="items")["items"]}
+		assert "CHK-PRIMER" in {one["name"] for one in lots.kept_in_lots()}
 
 		facts = ai.lots_and_numbers(item="SIL-WP")
 		assert [one["lot"] for one in facts["lots"]] == ["SIL-WP-A1", "SIL-WP-B2"], facts
 		assert len(ai.lots_and_numbers(item=LOCK)["numbers"]) == len(LOCKS[1])
+		assert ai.lots_and_numbers().get("figures"), "OneAI reads the counts the list does"
 		assert ai.lots_and_numbers(item="NOPE").get("error")
 	with as_user("nadia@one.test"):
-		said = lots.read()
-		assert not said["batches"] and said["figures"]["lots"] is None, said["figures"]
-		assert not lots.read(view="serials")["serials"] and not said["can"]["Batch"]
+		assert lots.figures()["lots"] is None and not frappe.has_permission("Batch", "create")
 		assert ai.lots_and_numbers().get("error")
 
 

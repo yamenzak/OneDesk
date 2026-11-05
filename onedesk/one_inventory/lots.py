@@ -1,7 +1,7 @@
-"""Lots (page/lots, frontend/src/inventory/lots): batches and serial numbers as one
-tool, what each lot holds and where, which go off soon, and the items kept in
-lots. The item's Stock tab shows the same rows. How it works is in the
-module's AGENTS.md.
+"""Batches and serial numbers as the item's Stock tab and OneAI read them:
+what each lot holds and where, which go off soon, and the items kept in
+lots. Batch and Serial No themselves are frappe's own lists and forms. How
+it works is in the module's AGENTS.md.
 """
 
 import erpnext
@@ -11,36 +11,6 @@ from frappe.utils import flt
 from onedesk.one_inventory import batches
 
 MOST = 60
-
-
-@frappe.whitelist()
-def read(view: str = "batches", search: str | None = None, item: str | None = None, soon: bool | int = 0) -> dict:
-	"""The figures, and the batches, serial numbers or items one tab shows."""
-	said = {
-		"switched_on": bool(frappe.db.get_single_value("Stock Settings", "enable_serial_and_batch_no_for_item")),
-		"can": {
-			"Batch": bool(frappe.has_permission("Batch", "create")),
-			"Item": bool(frappe.has_permission("Item", "write")),
-			"switch": _fixes(),
-		},
-		"figures": figures(),
-		"batches": [],
-		"serials": [],
-		"items": [],
-	}
-	if view == "serials":
-		said["serials"] = serials(search=search, item=item)
-	elif view == "items":
-		said["items"] = kept_in_lots(search=search)
-	else:
-		said["batches"] = lots(search=search, item=item, soon=frappe.utils.cint(soon))
-	return said
-
-
-def _fixes() -> bool:
-	from onedesk.one_inventory import ready
-
-	return ready.fixes()
 
 
 def figures() -> dict:

@@ -115,20 +115,21 @@ a register and a movement form in it would be a rail with five rows.
   what it is for, shown only when the reader may open it (a doctype's read
   permission, a report's or page's own roles). The rail's Reports and Setup
   are Page links to it with a route (`/desk/inventory/reports`).
-- `lots.py`, `page/lots`, `frontend/src/inventory/lots` and
-  `public/js/lots_actions.js` — Lots. `read` gives the figures and one tab:
-  `lots` (Batch with something left, sorted by expiry in Python, each with
-  `batches.state` and `batches.left`), `serials` (Serial No, in stock
-  first) or `kept_in_lots` (items with has_batch_no or has_serial_no). The
-  item's Stock view reads the same `lots` and `serials` through `view.py`,
-  drawn by the same `LotRows` and `SerialRows`. Track Lots sets the item's
-  own fields (has_batch_no, create_new_batch, batch_number_series,
-  has_expiry_date, shelf_life_in_days, or has_serial_no, serial_no_series,
-  warranty_period) with `frappe.client.set_value`, so ERPNext's Item rules
-  apply. Its item picker is `can_be_tracked`, items with no stock ledger
-  entry. New Lot inserts a Batch with `frappe.client.insert`, and ERPNext
-  numbers it and works out its expiry. Turn On runs the Inventory Check's
-  `serials` fix. OneAI's `lots_and_numbers` reads the page.
+- `lots.py`, `frontend/src/inventory/lots` and `public/js/lots_actions.js`
+  — what is kept in lots and by number. Batch and Serial No are frappe's
+  own lists and forms (the Lots page went in November 2026; `/desk/lots`
+  leads to Batch). `lots` gives Batch with something left, sorted by expiry
+  in Python, each with `batches.state` and `batches.left`; `serials` gives
+  Serial No, in stock first; `kept_in_lots` the items with has_batch_no or
+  has_serial_no; `figures` the counts. The item's Stock view reads `lots`
+  and `serials` through `view.py`, drawn by `LotRows` and `SerialRows`.
+  Track Batches, on the item, sets the item's own fields (has_batch_no,
+  create_new_batch, batch_number_series, has_expiry_date,
+  shelf_life_in_days, or has_serial_no, serial_no_series, warranty_period)
+  with `frappe.client.set_value`, so ERPNext's Item rules apply; its item
+  picker is `can_be_tracked`, items with no stock ledger entry. New Batch
+  inserts a Batch with `frappe.client.insert`, and ERPNext numbers it and
+  works out its expiry. OneAI's `lots_and_numbers` reads the same.
 - `quotes.py`, `page/quotes`, `frontend/src/inventory/quotes` and
   `public/js/quotes_actions.js` — Quotes. `read` gives the figures and one
   tab: `asked` (Request for Quotation with its suppliers' quote_status and

@@ -255,7 +255,7 @@ const parts = computed(() => {
         under: one.gone ? __("Expired {0}", [date(one.expiry_date)]) : __("Expires {0}", [date(one.expiry_date)]),
         route: `/desk/batch/${encodeURIComponent(one.name)}`,
       })),
-      more: more(n.lots, __("Batch and Serial No"), "/desk/lots?soon=1"),
+      more: more(n.lots, __("Batch"), `/desk/batch?disabled=0&expiry_date=${encodeURIComponent(JSON.stringify(["<=", n.lots.until]))}`),
     });
   if (n.services.count)
     out.push({

@@ -706,7 +706,6 @@ No doctypes yet.
 * `onedesk.one_inventory.kinds.make`
 * `onedesk.one_inventory.kinds.stocked`
 * `onedesk.one_inventory.lots.can_be_tracked`
-* `onedesk.one_inventory.lots.read`
 * `onedesk.one_inventory.measure.line_quantity`
 * `onedesk.one_inventory.measure.unit_is`
 * `onedesk.one_inventory.order.order`

@@ -71,8 +71,8 @@ The rail keeps what people use every day:
   categories, locations, maintenance teams, shift factors, delivery
   settings, and the stock, buying and manufacturing settings.
 
-**Batch and Serial No**, **Request for Quotation**, **Subcontracting Order**
-and **Asset Maintenance** each gather several kinds of record. At the top of
+**Request for Quotation**, **Subcontracting Order** and **Asset
+Maintenance** each gather several kinds of record. At the top of
 each is the same view switch a list has. **List View** and **Report View**
 open those records as a list or a report, and the reports that go with them
 are there too. On those lists the switch leads back to the page.
