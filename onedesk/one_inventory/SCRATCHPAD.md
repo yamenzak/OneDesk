@@ -20,15 +20,7 @@ The scope, decided with Yamen on 5 November 2026:
    Routing, Operation, Workstation and its types, Plant Floor, Production
    Plan, Downtime Entry, Manufacturing Settings, the Shop Floor, and
    subcontracting. Quality, assets and shipping stay here.
-3. **The four failing demo checks** (the plant floor's was fixed in OneFactory), then the areas.
-   - `the_stock_in_the_books_is_what_the_warehouses_hold`: the books hold
-     108 AED more stock than the warehouses (402,997.13 against
-     402,889.13). Back-dated reposts used to fail on R2 (fixed, aa48d968);
-     what is left is to find.
-   - `home_says_what_needs_somebody_and_where_everything_is`: a block is
-     empty (`rows: []`).
-   - `stock_on_hand_says_what_the_stores_hold`: returns nothing.
-   - `hand_offs_from_the_other_side`: a figure says 100.0.
+3. **The failing demo checks**: done 5 November (c698f191), 28 of 28.
 4. **The areas**, each: the registry for every record type it reaches
    (icons, cards, track, states, links), OneAI actions and notifications
    and permissions for what is missing, setup steps, tours, Help from
