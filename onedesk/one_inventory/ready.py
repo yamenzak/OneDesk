@@ -44,6 +44,7 @@ def checks() -> list[dict]:
 		_held(),
 		_stock_accounts(one),
 		_reposted(),
+		_corrected(),
 		_scored(),
 		_workshop(one),
 		_floor(one),
@@ -152,6 +153,13 @@ def _reposted() -> dict:
 		return _row("reposts", check, READY, _("{0} recalculations after back-dated entries are on their way.").format(waiting))
 	return _row("reposts", check, READY, _("Every back-dated entry has been worked through."))
 
+
+
+def _corrected() -> dict:
+	check = _("Stock and the books are put right each week")
+	if frappe.db.get_single_value("Stock Reposting Settings", "repost_incorrect_valuation_entries"):
+		return _row("corrected", check, READY, _("Each week, stock valued wrongly or apart from the books this year is recalculated."))
+	return _row("corrected", check, SUGGESTED, _("Stock valued wrongly or apart from the books stays that way until somebody recalculates it."), "corrected")
 
 CRITERIA = (
 	(
@@ -310,6 +318,8 @@ def fix(key: str, **values) -> None:
 		failed = failed_reposts()
 		if failed:
 			bulk_restart_reposting(failed)
+	elif key == "corrected":
+		_settle("Stock Reposting Settings", repost_incorrect_valuation_entries=1)
 	elif key == "scoring":
 		add_criteria()
 	elif key == "workshop":

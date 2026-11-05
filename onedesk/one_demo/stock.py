@@ -22,6 +22,16 @@ def run(password=None):
 	_opening()
 	_cleared()
 	_kept()
+	_corrected()
+
+
+def _corrected():
+	"""Stock and the books put right each week, as Inventory Check's Fix
+	does, so a revaluation that stopped never leaves them apart for long."""
+	from onedesk.one_inventory import ready
+
+	if not frappe.db.get_single_value("Stock Reposting Settings", "repost_incorrect_valuation_entries"):
+		ready.fix("corrected")
 
 
 def _opening():

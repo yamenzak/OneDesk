@@ -20,6 +20,10 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
   to one order can go out on another first. **Fix** turns it on.
 - **Every warehouse posts to a stock account** and **Stock values are up to
   date** — stock and the books agree. See When stock and the books disagree.
+- **Stock and the books are put right each week.** Off to begin with, so
+  stock valued wrongly, or apart from the books, stays that way until
+  somebody recalculates it. **Fix** turns on a weekly recalculation of
+  this year's entries.
 - **Suppliers can be scored.** Nothing to score them by to begin with.
   **Fix** adds Delivered On Time and Accepted on Arrival, each out of 100.
 - **Workshop time is costed.** Making goods that take time at a workstation

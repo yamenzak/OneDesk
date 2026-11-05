@@ -11,6 +11,23 @@ from onedesk.one_demo.check import CENTS, VILLA, _Told, check
 from onedesk.one_demo.people import OWNER
 
 
+def _before_reordering():
+	"""The stores as they were before the nightly reorder ran: the demo's
+	silicone is low in Stores, and once a night has passed ERPNext's
+	reordering has asked for more (Material Request Raised), which takes it
+	off Running Low by ERPNext's own rule. Those requests are cancelled here,
+	inside the check's rollback, so the screens can be read with something
+	low whatever day it is."""
+	raised = frappe.get_all(
+		"Material Request",
+		filters={"owner": "Administrator", "docstatus": 1, "status": "Pending", "material_request_type": "Purchase"},
+		pluck="name",
+	)
+	for name in raised:
+		frappe.get_doc("Material Request", name).cancel()
+	return raised
+
+
 @check
 def oneinventory_assets_items_and_orders_for_the_stores():
 	"""An asset's and an item's page as Karim reads them, an asset given to
@@ -215,6 +232,7 @@ def oneinventory_home_says_what_needs_somebody_and_where_everything_is():
 	sees none of it."""
 	from onedesk.one_inventory import ai, batches, home
 
+	_before_reordering()
 	with as_user("karim@one.test"):
 		said = home.read()
 		needs = said["needs"]
@@ -629,6 +647,7 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 
 	from onedesk.one_inventory import ai, heads, ready, stock
 
+	_before_reordering()
 	held = sum(flt(one) for one in frappe.get_all("Bin", pluck="stock_value"))
 	with as_user("karim@one.test"):
 		every = stock.on_hand()
@@ -1107,7 +1126,7 @@ def oneinventory_equipment_bought_given_serviced_and_mended():
 def oneinventory_hand_offs_from_the_other_side():
 	"""OneInventory's hand-offs, as the person on the other side meets them.
 	Mariam starts Sanjay's leaving checklist herself, and it asks the stores
-	for his truck back. Omar's order says how much has gone out and since when
+	for his truck back. Omar's order for Crescent Schools' classrooms says how much has gone out and since when
 	it is late. Huda's receipt for the coating says what it cost, and the
 	coater's bill arrives by mail as a draft against the order. Yousef's
 	services name the pickup they are for."""
@@ -1124,7 +1143,7 @@ def oneinventory_hand_offs_from_the_other_side():
 	back = next(row for row in separation.activities if truck in (row.activity_name or ""))
 	assert back.task and demo.STORES in frappe.parse_json(frappe.db.get_value("Task", back.task, "_assign") or "[]"), back.task
 
-	order = frappe.get_doc("Sales Order", "SAL-ORD-2026-00006")
+	order = frappe.get_doc("Sales Order", {"customer": "Crescent Schools", "docstatus": 1})
 	assert 0 < order.per_delivered < 100, order.per_delivered
 	late = crm_heads.deliver_by(order)
 	assert isinstance(late, dict) and late["tone"] == "alarm", late
@@ -1168,7 +1187,8 @@ def oneinventory_broken_glass_goes_back_and_the_bill_is_debited():
 @check
 def oneinventory_the_stock_in_the_books_is_what_the_warehouses_hold():
 	"""What the stock is worth in the books is what the warehouses hold, each
-	warehouse's account against its stock ledger."""
+	warehouse's account against its stock ledger, and ERPNext's weekly
+	recalculation keeps them so (Inventory Check's corrected)."""
 	from erpnext.stock import get_warehouse_account_map
 
 	held = {}
@@ -1187,6 +1207,9 @@ def oneinventory_the_stock_in_the_books_is_what_the_warehouses_hold():
 		if abs(value - booked) > 1:
 			off[account] = (round(value, 2), round(booked, 2))
 	assert held and not off, off
+	from onedesk.one_inventory import ready
+
+	assert {row["key"]: row["state"] for row in ready.checks()}["corrected"] == ready.READY, "stock and the books are put right each week"
 
 
 @check

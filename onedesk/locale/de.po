@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 10:17+0000\n"
+"POT-Creation-Date: 2026-11-05 10:57+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -509,11 +509,11 @@ msgstr "Ein Kontoauszug, aus einer Datei eingelesen."
 msgid "A benefit claimed against its receipts."
 msgstr "Eine Leistung, gegen Belege beantragt."
 
-#: onedesk/one_inventory/ready.py:103
+#: onedesk/one_inventory/ready.py:104
 msgid "A bill made from a receipt charges for what was rejected on arrival too."
 msgstr "Eine Rechnung aus einem Wareneingang berechnet auch, was bei der Ankunft abgelehnt wurde."
 
-#: onedesk/one_inventory/ready.py:104
+#: onedesk/one_inventory/ready.py:105
 msgid "A bill made from a receipt charges only for what was accepted."
 msgstr "Eine Rechnung aus einem Wareneingang berechnet nur, was angenommen wurde."
 
@@ -769,7 +769,7 @@ msgstr "Ein Entwurf. Buchen Sie ihn, um {0} zu fakturieren."
 msgid "A draft. Submit it to count {0} of {1}'s time."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um {0} von {1}s Zeit zu zählen."
 
-#: onedesk/one_factory/heads.py:109
+#: onedesk/one_factory/heads.py:111
 #, python-brace-format
 msgid "A draft. Submit it to make {0} from it."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um daraus {0} zu fertigen."
@@ -783,7 +783,7 @@ msgstr "Ein Entwurf. Buchen Sie ihn, um das Geld umzubuchen."
 msgid "A draft. Submit it to order from {0}."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um bei {0} zu bestellen."
 
-#: onedesk/one_factory/heads.py:56
+#: onedesk/one_factory/heads.py:58
 #, python-brace-format
 msgid "A draft. Submit it to plan making {0}."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um die Fertigung von {0} zu planen."
@@ -819,7 +819,7 @@ msgstr "Ein Entwurf. Buchen Sie ihn, um den Zahlungseingang von {0} zu erfassen.
 msgid "A draft. Submit it to record what {0} billed."
 msgstr "Ein Entwurf. Buchen Sie ihn, um zu erfassen, was {0} berechnet hat."
 
-#: onedesk/one_factory/heads.py:91
+#: onedesk/one_factory/heads.py:93
 #, python-brace-format
 msgid "A draft. Submit it to send work to {0}."
 msgstr "Ein Entwurf. Reichen Sie ihn ein, um Arbeit an {0} zu vergeben."
@@ -1180,11 +1180,11 @@ msgstr "Ein neuer Kunde, begrüßt und eingerichtet, vom unterschriebenen Vertra
 msgid "A new field needs a label."
 msgstr "Ein neues Feld braucht eine Beschriftung."
 
-#: onedesk/one_inventory/ready.py:74
+#: onedesk/one_inventory/ready.py:75
 msgid "A new item has no warehouse, so every receipt and count asks for one on each line."
 msgstr "Ein neuer Artikel hat kein Lager, daher fragt jeder Eingang und jede Zählung in jeder Zeile danach."
 
-#: onedesk/one_inventory/ready.py:71
+#: onedesk/one_inventory/ready.py:72
 #, python-brace-format
 msgid "A new item is kept in {0} unless it says otherwise."
 msgstr "Ein neuer Artikel liegt in {0}, wenn nichts anderes angegeben ist."
@@ -1661,7 +1661,7 @@ msgstr "Eine Lieferantenrechnung kann nicht zweimal erfasst werden"
 msgid "A supplier's certificate for tax withheld at a lower rate."
 msgstr "Bescheinigung eines Lieferanten über einen ermäßigten Steuerabzug."
 
-#: onedesk/one_inventory/ready.py:172
+#: onedesk/one_inventory/ready.py:180
 #, python-brace-format
 msgid "A supplier's scorecard scores them by {0}."
 msgstr "Die Lieferantenbewertung bewertet nach {0}."
@@ -2848,11 +2848,11 @@ msgstr "Aufgabe hinzufügen: "
 msgid "Add a task…"
 msgstr "Aufgabe hinzufügen…"
 
-#: onedesk/one_inventory/ready.py:73 onedesk/one_inventory/ready.py:296
+#: onedesk/one_inventory/ready.py:74 onedesk/one_inventory/ready.py:304
 msgid "Add a warehouse first."
 msgstr "Fügen Sie zuerst ein Lager hinzu."
 
-#: onedesk/one_inventory/ready.py:318
+#: onedesk/one_inventory/ready.py:328
 msgid "Add an account for costs included in stock value first."
 msgstr "Legen Sie zuerst ein Konto für Kosten an, die in den Lagerwert eingehen."
 
@@ -2969,7 +2969,7 @@ msgstr "Folie darunter hinzufügen"
 msgid "Add text box"
 msgstr "Textfeld hinzufügen"
 
-#: onedesk/one_inventory/ready.py:326
+#: onedesk/one_inventory/ready.py:336
 msgid "Add the Work In Progress and Finished Goods warehouses first."
 msgstr "Legen Sie zuerst die Lager für laufende Arbeit und Fertigwaren an."
 
@@ -3689,8 +3689,8 @@ msgstr "Ausrichtung"
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:83
 #: onedesk/one_ai/doctype/ai_memory/ai_memory.json:66
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:196
-#: onedesk/one_book/heads.py:90 onedesk/one_factory/heads.py:83
-#: onedesk/one_factory/heads.py:84 onedesk/one_inventory/heads.py:606
+#: onedesk/one_book/heads.py:90 onedesk/one_factory/heads.py:85
+#: onedesk/one_factory/heads.py:86 onedesk/one_inventory/heads.py:606
 #: onedesk/one_inventory/heads.py:614 onedesk/one_inventory/heads.py:615
 #: onedesk/one_inventory/heads.py:621 onedesk/one_inventory/heads.py:703
 #: onedesk/one_inventory/heads.py:729 onedesk/one_project/heads.py:204
@@ -3764,7 +3764,7 @@ msgstr "Alle Arbeitsaufträge"
 msgid "All agreements"
 msgstr "Alle Vereinbarungen"
 
-#: onedesk/one_factory/heads.py:96
+#: onedesk/one_factory/heads.py:98
 #, python-brace-format
 msgid "All back from {0}."
 msgstr "Alles ist von {0} zurück."
@@ -3799,7 +3799,7 @@ msgstr "Alle Feiertage sind bereits in der Liste."
 msgid "All in"
 msgstr "Alles da"
 
-#: onedesk/one_factory/heads.py:61
+#: onedesk/one_factory/heads.py:63
 msgid "All made."
 msgstr "Alles gefertigt."
 
@@ -3807,7 +3807,7 @@ msgstr "Alles gefertigt."
 msgid "All mail"
 msgstr "Alle E-Mails"
 
-#: onedesk/one_factory/heads.py:41
+#: onedesk/one_factory/heads.py:43
 msgid "All on the floor"
 msgstr "Alles in der Werkstatt"
 
@@ -4342,11 +4342,11 @@ msgstr "Eine Rechnung, die ein Import oder OneAI erstellt, nennt ihre Steuervorl
 msgid "An invoice or bill that names a tax template gets its taxes, however it was made."
 msgstr "Eine Rechnung, die eine Steuervorlage nennt, erhält deren Steuern, wie auch immer sie erstellt wurde."
 
-#: onedesk/one_inventory/ready.py:94
+#: onedesk/one_inventory/ready.py:95
 msgid "An item at its reorder level gets a material request each night."
 msgstr "Ein Artikel auf seinem Meldebestand erhält jede Nacht eine Materialanforderung."
 
-#: onedesk/one_inventory/ready.py:232
+#: onedesk/one_inventory/ready.py:240
 msgid "An item can have serial numbers or batches."
 msgstr "Ein Artikel kann Seriennummern oder Chargen haben."
 
@@ -4393,7 +4393,7 @@ msgstr "Ein Büro, Laden oder Restaurant im Rohbau ausgebaut, von der Aufnahme b
 msgid "An opportunity moved to this stage takes this probability, unless one was typed."
 msgstr "Eine Chance, die in diese Phase wechselt, übernimmt diese Wahrscheinlichkeit, sofern keine eingegeben wurde."
 
-#: onedesk/one_inventory/ready.py:110
+#: onedesk/one_inventory/ready.py:111
 msgid "An order can have its stock set aside, so no other order takes it."
 msgstr "Einem Auftrag kann Bestand zurückgelegt werden, damit kein anderer Auftrag ihn nimmt."
 
@@ -5656,7 +5656,7 @@ msgstr "Anlagen"
 msgid "Assets Used"
 msgstr "Verwendete Anlagen"
 
-#: onedesk/one_inventory/ready.py:269
+#: onedesk/one_inventory/ready.py:277
 msgid "Assets bought are registered and depreciating by themselves."
 msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 
@@ -5664,7 +5664,7 @@ msgstr "Gekaufte Anlagegüter werden von selbst erfasst und abgeschrieben."
 msgid "Assets by Status"
 msgstr "Anlagen nach Status"
 
-#: onedesk/one_inventory/ready.py:248
+#: onedesk/one_inventory/ready.py:256
 msgid "Assets have categories"
 msgstr "Anlagegüter haben Kategorien"
 
@@ -6906,11 +6906,11 @@ msgstr "In Fertigung"
 msgid "Being built"
 msgstr "Wird aufgebaut"
 
-#: onedesk/one_factory/heads.py:69 onedesk/one_inventory/heads.py:653
+#: onedesk/one_factory/heads.py:71 onedesk/one_inventory/heads.py:653
 msgid "Being made."
 msgstr "Wird gefertigt."
 
-#: onedesk/one_factory/heads.py:68
+#: onedesk/one_factory/heads.py:70
 #, python-brace-format
 msgid "Being made; wanted by {0}."
 msgstr "Wird gefertigt; benötigt bis {0}."
@@ -9621,7 +9621,7 @@ msgstr "Auf Ihren Wunsch geschlossen. Er wird am {0} gelöscht. Antworten Sie au
 msgid "Closed now"
 msgstr "Jetzt geschlossen"
 
-#: onedesk/one_factory/heads.py:94
+#: onedesk/one_factory/heads.py:96
 msgid "Closed; nothing more is expected on it."
 msgstr "Geschlossen; darauf wird nichts mehr erwartet."
 
@@ -11090,7 +11090,7 @@ msgstr "Kostenart"
 msgid "Cost Types"
 msgstr "Kostenarten"
 
-#: onedesk/one_factory/heads.py:223
+#: onedesk/one_factory/heads.py:225
 msgid "Cost per Unit"
 msgstr "Kosten pro Einheit"
 
@@ -13841,7 +13841,7 @@ msgstr "Abschreibung"
 msgid "Depreciation Not Posted"
 msgstr "Abschreibung nicht gebucht"
 
-#: onedesk/one_inventory/ready.py:259
+#: onedesk/one_inventory/ready.py:267
 msgid "Depreciation is worked out but never posted unless somebody does it."
 msgstr "Abschreibungen werden berechnet, aber nie gebucht, außer jemand tut es."
 
@@ -13850,7 +13850,7 @@ msgstr "Abschreibungen werden berechnet, aber nie gebucht, außer jemand tut es.
 msgid "Depreciation of {0}"
 msgstr "Abschreibung von {0}"
 
-#: onedesk/one_inventory/ready.py:256
+#: onedesk/one_inventory/ready.py:264
 msgid "Depreciation posts itself"
 msgstr "Abschreibungen buchen sich selbst"
 
@@ -15429,11 +15429,11 @@ msgstr "Jede Vereinbarung, die optionalen Dienste, wer Daten erhält und was sic
 msgid "Each appraisal's scores, cycle by cycle."
 msgstr "Die Ergebnisse jeder Beurteilung, Zyklus für Zyklus."
 
-#: onedesk/one_inventory/ready.py:283
+#: onedesk/one_inventory/ready.py:291
 msgid "Each asset that needs servicing has a schedule, on its people's calendars."
 msgstr "Jedes wartungspflichtige Anlagegut hat einen Plan in den Kalendern der Zuständigen."
 
-#: onedesk/one_inventory/ready.py:258
+#: onedesk/one_inventory/ready.py:266
 msgid "Each asset's depreciation is posted to the books when it falls due."
 msgstr "Die Abschreibung jedes Anlageguts wird bei Fälligkeit gebucht."
 
@@ -15522,7 +15522,7 @@ msgstr "Jede Zeile des Kontoauszugs."
 msgid "Each month's depreciation."
 msgstr "Die Abschreibung jedes Monats."
 
-#: onedesk/one_inventory/ready.py:203
+#: onedesk/one_inventory/ready.py:211
 msgid "Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."
 msgstr "Jeder neue Arbeitsauftrag fragt, wo gearbeitet wird und wohin das Gefertigte kommt. Die Korrektur setzt die Lager für laufende Arbeit und Fertigwaren des Unternehmens."
 
@@ -15631,6 +15631,10 @@ msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er gep
 #, python-brace-format
 msgid "Each time a {0} is saved, before it is written"
 msgstr "Jedes Mal, wenn ein Datensatz vom Typ {0} gespeichert wird, bevor er geschrieben wird"
+
+#: onedesk/one_inventory/ready.py:161
+msgid "Each week, stock valued wrongly or apart from the books this year is recalculated."
+msgstr "Jede Woche wird Bestand, der dieses Jahr falsch oder abweichend von der Buchhaltung bewertet ist, neu berechnet."
 
 #: onedesk/www/account_invoices.html:51
 msgid "Each workspace is billed on its own, so each has its own card."
@@ -16224,7 +16228,7 @@ msgstr "Emirates ID"
 #. Label in the One Timesheet print format
 #: frontend/src/hr/HrStory.vue:9 frontend/src/hr/HrStory.vue:12
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:34
-#: onedesk/one_factory/heads.py:235 onedesk/one_hr/custom/expense_claim.json:77
+#: onedesk/one_factory/heads.py:237 onedesk/one_hr/custom/expense_claim.json:77
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json:80
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:57
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:361
@@ -16801,7 +16805,7 @@ msgstr "Ausrüstung, die übergeben oder verlegt wurde."
 msgid "Equipment mended, and what it cost."
 msgstr "Reparierte Ausrüstung und was es kostete."
 
-#: onedesk/one_inventory/ready.py:275
+#: onedesk/one_inventory/ready.py:283
 msgid "Equipment that needs servicing has a schedule"
 msgstr "Wartungspflichtige Ausstattung hat einen Plan"
 
@@ -16991,11 +16995,11 @@ msgstr "Jede Administratorin und jeder Administrator"
 msgid "Every administrator, and everybody who holds the mailbox"
 msgstr "Jeder Administrator und jeder, der das Postfach hat"
 
-#: onedesk/one_inventory/ready.py:239
+#: onedesk/one_inventory/ready.py:247
 msgid "Every asset is kept at a location."
 msgstr "Jedes Anlagegut befindet sich an einem Standort."
 
-#: onedesk/one_inventory/ready.py:265
+#: onedesk/one_inventory/ready.py:273
 msgid "Every asset is registered"
 msgstr "Jedes Anlagegut ist erfasst"
 
@@ -17003,7 +17007,7 @@ msgstr "Jedes Anlagegut ist erfasst"
 msgid "Every asset with its cost and worth."
 msgstr "Jedes Anlagegut mit Kosten und Wert."
 
-#: onedesk/one_inventory/ready.py:153
+#: onedesk/one_inventory/ready.py:154
 msgid "Every back-dated entry has been worked through."
 msgstr "Jede rückdatierte Buchung ist durchgerechnet."
 
@@ -17193,7 +17197,7 @@ msgstr "Jede Eingangsrechnung mit ihren Steuern, eine Zeile pro Rechnung."
 msgid "Every quality action, with the review it came from."
 msgstr "Jede Qualitätsmaßnahme, mit der Bewertung, aus der sie kam."
 
-#: onedesk/one_inventory/ready.py:226
+#: onedesk/one_inventory/ready.py:234
 msgid "Every receipt and delivery is posted to the stock accounts."
 msgstr "Jeder Wareneingang und jede Lieferung wird auf die Bestandskonten gebucht."
 
@@ -17248,7 +17252,7 @@ msgstr "Jeder Dritte, der Kundendaten erhält, wofür und wo sie aufbewahrt werd
 msgid "Every visit due, by customer and item."
 msgstr "Jeder fällige Besuch, nach Kunde und Artikel."
 
-#: onedesk/one_inventory/ready.py:129
+#: onedesk/one_inventory/ready.py:130
 msgid "Every warehouse posts to a stock account"
 msgstr "Jedes Lager bucht auf ein Bestandskonto"
 
@@ -22783,12 +22787,12 @@ msgstr "In Gebrauch bei {0}, in {1}."
 msgid "In use by {0}."
 msgstr "In Gebrauch bei {0}."
 
-#: onedesk/one_factory/heads.py:118
+#: onedesk/one_factory/heads.py:120
 #, python-brace-format
 msgid "In use, and no BOM for {0} is the default."
 msgstr "In Gebrauch, und keine Stückliste für {0} ist Standard."
 
-#: onedesk/one_factory/heads.py:117
+#: onedesk/one_factory/heads.py:119
 #, python-brace-format
 msgid "In use, but new work orders for {0} pick {1}."
 msgstr "In Gebrauch, aber neue Arbeitsaufträge für {0} nehmen {1}."
@@ -27590,7 +27594,7 @@ msgstr "Fertigung"
 msgid "Making and Subcontracting"
 msgstr "Fertigung und Fremdvergabe"
 
-#: onedesk/one_inventory/ready.py:191
+#: onedesk/one_inventory/ready.py:199
 #, python-brace-format
 msgid "Making goods that take workshop time fails until the company names an account for it. Fix uses {0}."
 msgstr "Die Fertigung mit Werkstattzeit schlägt fehl, bis das Unternehmen ein Konto dafür nennt. Die Korrektur nimmt {0}."
@@ -27636,7 +27640,7 @@ msgstr "Manuell"
 #: frontend/src/inventory/home/InventoryStory.vue:144
 #: frontend/src/inventory/home/InventoryStory.vue:150
 #: frontend/src/inventory/item/ItemOverview.vue:113
-#: onedesk/one_factory/heads.py:46 onedesk/one_inventory/heads.py:615
+#: onedesk/one_factory/heads.py:48 onedesk/one_inventory/heads.py:615
 msgid "Manufactured"
 msgstr "Gefertigt"
 
@@ -27774,7 +27778,7 @@ msgstr "{0} auf {1} setzen"
 msgid "Marked Absent"
 msgstr "Als abwesend markiert"
 
-#: onedesk/one_inventory/ready.py:282
+#: onedesk/one_inventory/ready.py:290
 #, python-brace-format
 msgid "Marked Maintenance Required with no schedule: {0}. Add one under Assets › Maintenance."
 msgstr "Als wartungspflichtig markiert, aber ohne Plan: {0}. Unter Anlagen › Wartung anlegen."
@@ -28006,7 +28010,7 @@ msgstr ""
 msgid "Material Transfer"
 msgstr ""
 
-#: onedesk/one_factory/heads.py:39 onedesk/one_factory/heads.py:83
+#: onedesk/one_factory/heads.py:41 onedesk/one_factory/heads.py:85
 msgid "Material Transferred"
 msgstr ""
 
@@ -28047,7 +28051,7 @@ msgstr "Verbrauchtes Material"
 msgid "Materials We Send"
 msgstr "Von uns gesendetes Material"
 
-#: onedesk/one_inventory/ready.py:202
+#: onedesk/one_inventory/ready.py:210
 #, python-brace-format
 msgid "Materials go to {0} and what is made goes to {1}."
 msgstr "Material kommt nach {0}, Gefertigtes nach {1}."
@@ -29083,7 +29087,7 @@ msgstr "Name der externen Sicherung, die Frappe Cloud bei der Archivierung vorhi
 msgid "Name the bank and the account."
 msgstr "Nennen Sie die Bank und das Konto."
 
-#: onedesk/one_inventory/ready.py:366
+#: onedesk/one_inventory/ready.py:376
 msgid "Name the location."
 msgstr "Benennen Sie den Standort."
 
@@ -29799,7 +29803,7 @@ msgstr "Neue Versionen von: {documents}. Sie gelten ab dem {effective}, bis dahi
 msgid "New versions of: {documents}. They take effect on {effective}. TrustCenter shows what changes."
 msgstr "Neue Versionen von: {documents}. Sie gelten ab dem {effective}. TrustCenter zeigt, was sich ändert."
 
-#: onedesk/one_factory/heads.py:114
+#: onedesk/one_factory/heads.py:116
 #, python-brace-format
 msgid "New work orders for {0} use this one."
 msgstr "Neue Arbeitsaufträge für {0} nutzen diese."
@@ -30317,7 +30321,7 @@ msgstr "Keine Genehmigungen"
 msgid "No apps"
 msgstr "Keine Apps"
 
-#: onedesk/one_inventory/ready.py:277
+#: onedesk/one_inventory/ready.py:285
 msgid "No asset is marked Maintenance Required."
 msgstr "Kein Anlagegut ist als wartungspflichtig markiert."
 
@@ -30568,7 +30572,7 @@ msgstr "Keine Rechnungen"
 msgid "No invoices yet. A plan with a trial sends its first when the trial ends."
 msgstr "Noch keine Rechnungen. Ein Tarif mit Testphase stellt die erste Rechnung, wenn die Testphase endet."
 
-#: onedesk/one_inventory/ready.py:96
+#: onedesk/one_inventory/ready.py:97
 msgid "No item has a reorder level yet. Set one on an item's Stock view."
 msgstr "Noch kein Artikel hat einen Meldebestand. Legen Sie ihn in der Bestandsansicht eines Artikels fest."
 
@@ -31152,7 +31156,7 @@ msgid "None planned"
 msgstr "Nichts geplant"
 
 #: onedesk/one_book/heads.py:233 onedesk/one_book/heads.py:489
-#: onedesk/one_crm/heads.py:231 onedesk/one_factory/heads.py:171
+#: onedesk/one_crm/heads.py:231 onedesk/one_factory/heads.py:173
 #: onedesk/public/js/one_ai/ai_center.js:314
 msgid "None yet"
 msgstr "Noch keiner"
@@ -31393,7 +31397,7 @@ msgstr "Ungleich"
 msgid "Not fetched yet. The first headlines arrive within a few minutes."
 msgstr "Noch nicht abgerufen. Die ersten Schlagzeilen kommen in wenigen Minuten."
 
-#: onedesk/one_factory/heads.py:64
+#: onedesk/one_factory/heads.py:66
 #, python-brace-format
 msgid "Not finished, and it was wanted {0} ago."
 msgstr "Nicht fertig, und es wurde vor {0} benötigt."
@@ -31434,7 +31438,7 @@ msgstr "Noch nicht im Datensatz: {0}"
 msgid "Not in the record yet: {0} cells need a look"
 msgstr "Noch nicht im Datensatz: {0} Zellen brauchen einen Blick"
 
-#: onedesk/one_factory/heads.py:112
+#: onedesk/one_factory/heads.py:114
 msgid "Not in use; new work orders cannot pick it."
 msgstr "Nicht in Gebrauch; neue Arbeitsaufträge können sie nicht wählen."
 
@@ -31730,7 +31734,7 @@ msgstr "Derzeit wird nichts angekündigt."
 msgid "Nothing is spent and no attendance is marked."
 msgstr "Es wird nichts abgezogen und keine Anwesenheit erfasst."
 
-#: onedesk/one_inventory/ready.py:87
+#: onedesk/one_inventory/ready.py:88
 msgid "Nothing leaves a warehouse that does not have it."
 msgstr "Nichts verlässt ein Lager, das es nicht hat."
 
@@ -31807,7 +31811,7 @@ msgstr "Nichts zu liefern"
 msgid "Nothing to do"
 msgstr "Nichts zu tun"
 
-#: onedesk/one_book/ready.py:317 onedesk/one_inventory/ready.py:352
+#: onedesk/one_book/ready.py:317 onedesk/one_inventory/ready.py:362
 #, python-brace-format
 msgid "Nothing to fix for {0}."
 msgstr "Für {0} gibt es nichts zu beheben."
@@ -31830,7 +31834,7 @@ msgstr "Noch nichts auszuzahlen: diese Person hat am {0} kein Gehaltsschema."
 msgid "Nothing to pay yet: {0} has no Leave Encashment Amount Per Day. Set it on the salary structure or on this person's assignment."
 msgstr "Noch nichts zu zahlen: {0} hat keinen Betrag für Urlaubsauszahlung pro Tag. Legen Sie ihn in der Gehaltsstruktur oder in der Zuweisung dieser Person fest."
 
-#: onedesk/one_inventory/ready.py:173
+#: onedesk/one_inventory/ready.py:181
 msgid "Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."
 msgstr "Noch nichts, wonach Lieferanten bewertet werden. „Beheben“ fügt Pünktlich geliefert und Bei Ankunft angenommen hinzu."
 
@@ -34266,8 +34270,8 @@ msgid "Operation"
 msgstr ""
 
 #: frontend/src/factory/floor/OrderRows.vue:9
-#: frontend/src/factory/floor/ShopFloor.vue:25 onedesk/one_factory/heads.py:44
-#: onedesk/one_factory/heads.py:224
+#: frontend/src/factory/floor/ShopFloor.vue:25 onedesk/one_factory/heads.py:46
+#: onedesk/one_factory/heads.py:226
 msgid "Operations"
 msgstr "Arbeitsgänge"
 
@@ -34585,7 +34589,7 @@ msgstr "{0} bestellen"
 #: frontend/src/inventory/home/InventoryStory.vue:162
 #: frontend/src/project/Money.vue:150 frontend/src/project/Suppliers.vue:182
 #: onedesk/one_book/heads.py:98 onedesk/one_crm/portal.py:16
-#: onedesk/one_factory/heads.py:81 onedesk/one_inventory/heads.py:522
+#: onedesk/one_factory/heads.py:83 onedesk/one_inventory/heads.py:522
 #: onedesk/one_inventory/heads.py:606 onedesk/one_inventory/heads.py:701
 #: onedesk/one_inventory/heads.py:727 onedesk/one_inventory/portal.py:20
 #: onedesk/one_inventory/portal.py:34
@@ -37338,7 +37342,7 @@ msgstr "Planen, was hergestellt wird, es in der Fertigung ausführen und Arbeite
 
 #. Label in the One Production Plan print format
 #. Label in the One Staffing Plan print format
-#: frontend/src/workload/WorkloadList.vue:19 onedesk/one_factory/heads.py:36
+#: frontend/src/workload/WorkloadList.vue:19 onedesk/one_factory/heads.py:38
 #: onedesk/one_factory/print_format/one_production_plan/one_production_plan.json
 #: onedesk/one_hr/print_format/one_staffing_plan/one_staffing_plan.json
 msgid "Planned"
@@ -38265,7 +38269,7 @@ msgstr "Programm"
 #: frontend/src/slide/shim/WidgetMock.vue:231 onedesk/one_book/heads.py:577
 #: onedesk/one_book/heads.py:657 onedesk/one_book/heads.py:667
 #: onedesk/one_crm/heads.py:315 onedesk/one_display/widgets.py:374
-#: onedesk/one_factory/heads.py:214 onedesk/one_factory/heads.py:242
+#: onedesk/one_factory/heads.py:216 onedesk/one_factory/heads.py:244
 #: onedesk/one_inventory/heads.py:1288 onedesk/one_inventory/heads.py:1298
 #: onedesk/one_inventory/heads.py:1336 onedesk/one_inventory/heads.py:1348
 #: onedesk/one_project/heads.py:272 onedesk/one_project/portal.py:339
@@ -38355,8 +38359,8 @@ msgstr "Fortschritt…"
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
-#: onedesk/one_factory/heads.py:215 onedesk/one_factory/heads.py:243
-#: onedesk/one_factory/heads.py:250
+#: onedesk/one_factory/heads.py:217 onedesk/one_factory/heads.py:245
+#: onedesk/one_factory/heads.py:252
 #: onedesk/one_factory/print_format/one_bill_of_materials/one_bill_of_materials.json
 #: onedesk/one_factory/print_format/one_bom_creator/one_bom_creator.json
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
@@ -39896,7 +39900,7 @@ msgstr "Quittungsbeleg"
 msgid "Receipts"
 msgstr "Belege"
 
-#: onedesk/one_inventory/ready.py:222
+#: onedesk/one_inventory/ready.py:230
 msgid "Receipts and deliveries do not reach the ledger, so the balance sheet has no stock."
 msgstr "Wareneingänge und Lieferungen erreichen das Hauptbuch nicht, daher zeigt die Bilanz keinen Bestand."
 
@@ -39948,7 +39952,7 @@ msgstr "Was {0} gefertigt hat, ins Lager übernehmen?"
 #: frontend/src/inventory/home/InventoryStory.vue:150
 #: frontend/src/inventory/home/InventoryStory.vue:162
 #: onedesk/one_book/heads.py:100 onedesk/one_book/heads.py:326
-#: onedesk/one_book/portal.py:31 onedesk/one_factory/heads.py:84
+#: onedesk/one_book/portal.py:31 onedesk/one_factory/heads.py:86
 #: onedesk/one_factory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_factory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_inventory/heads.py:524 onedesk/one_inventory/heads.py:607
@@ -40677,7 +40681,7 @@ msgstr "Abgelehnt nach"
 msgid "Rejected Qty"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:101
+#: onedesk/one_inventory/ready.py:102
 msgid "Rejected goods are not billed"
 msgstr "Abgelehnte Ware wird nicht berechnet"
 
@@ -42588,7 +42592,7 @@ msgstr "Wird knapp {0}"
 msgid "Running Now"
 msgstr "Läuft gerade"
 
-#: onedesk/one_inventory/ready.py:91
+#: onedesk/one_inventory/ready.py:92
 msgid "Running low asks for more"
 msgstr "Knapper Bestand fordert Nachschub an"
 
@@ -42786,7 +42790,7 @@ msgstr ""
 msgid "Sales Order Trends"
 msgstr ""
 
-#: onedesk/one_factory/heads.py:216
+#: onedesk/one_factory/heads.py:218
 msgid "Sales Order or Material Request"
 msgstr "Kundenauftrag oder Materialanforderung"
 
@@ -43844,11 +43848,11 @@ msgstr "Bestand zu einer Baustelle schicken"
 msgid "Send the list of documents you are agreeing to."
 msgstr "Sende die Liste der Dokumente, denen du zustimmst."
 
-#: onedesk/one_factory/heads.py:66
+#: onedesk/one_factory/heads.py:68
 msgid "Send the materials to the floor to start."
 msgstr "Schicken Sie das Material in die Fertigung, um zu beginnen."
 
-#: onedesk/one_factory/heads.py:99
+#: onedesk/one_factory/heads.py:101
 #, python-brace-format
 msgid "Send the materials to {0} to start."
 msgstr "Schicken Sie das Material an {0}, um zu beginnen."
@@ -44130,7 +44134,7 @@ msgstr "Serien- und Chargennummern"
 msgid "Serial and Batch Wise Stock Balance"
 msgstr "Lagerbestand nach Serie und Charge"
 
-#: onedesk/one_inventory/ready.py:230
+#: onedesk/one_inventory/ready.py:238
 msgid "Serial and batch numbers can be used"
 msgstr "Serien- und Chargennummern sind nutzbar"
 
@@ -44439,7 +44443,7 @@ msgstr "Wird durch Abrechnungsereignisse und die Aktionen in der Symbolleiste ge
 msgid "Set it up again the next time you sign in"
 msgstr "Bei der nächsten Anmeldung neu einrichten"
 
-#: onedesk/one_book/ready.py:72 onedesk/one_inventory/ready.py:225
+#: onedesk/one_book/ready.py:72 onedesk/one_inventory/ready.py:233
 #, python-brace-format
 msgid "Set on the company: {0}."
 msgstr "Im Unternehmen festlegen: {0}."
@@ -46416,11 +46420,11 @@ msgstr "Etwas ist schiefgelaufen"
 msgid "Something went wrong. Try again in a moment."
 msgstr "Etwas ist schiefgelaufen. Versuchen Sie es gleich noch einmal."
 
-#: onedesk/one_inventory/ready.py:237
+#: onedesk/one_inventory/ready.py:245
 msgid "Somewhere for an asset to be"
 msgstr "Ein Ort für ein Anlagegut"
 
-#: onedesk/one_inventory/ready.py:60
+#: onedesk/one_inventory/ready.py:61
 msgid "Somewhere to keep stock"
 msgstr "Ein Ort für den Bestand"
 
@@ -47447,6 +47451,10 @@ msgstr "Lager- und Buchhaltungsleitung"
 msgid "Stock and the books agree"
 msgstr "Bestand und Buchhaltung stimmen überein"
 
+#: onedesk/one_inventory/ready.py:159
+msgid "Stock and the books are put right each week"
+msgstr "Bestand und Buchhaltung werden wöchentlich abgeglichen"
+
 #: onedesk/one_inventory/tour.py:18
 msgid "Stock at a Glance"
 msgstr "Der Bestand auf einen Blick"
@@ -47462,20 +47470,20 @@ msgstr "Lager nach Projekt"
 msgid "Stock by batch and serial number, in each warehouse."
 msgstr "Bestand nach Charge und Seriennummer in jedem Lager."
 
-#: onedesk/one_inventory/ready.py:108
+#: onedesk/one_inventory/ready.py:109
 msgid "Stock can be held for an order"
 msgstr "Bestand kann für einen Auftrag reserviert werden"
 
-#: onedesk/one_inventory/ready.py:63
+#: onedesk/one_inventory/ready.py:64
 #, python-brace-format
 msgid "Stock can be received into {0} warehouses."
 msgstr "Ware kann in {0} Lager eingehen."
 
-#: onedesk/one_inventory/ready.py:86
+#: onedesk/one_inventory/ready.py:87
 msgid "Stock can go below zero, and what it is worth goes wrong with it."
 msgstr "Der Bestand kann unter null fallen, und sein Wert stimmt dann nicht mehr."
 
-#: onedesk/one_inventory/ready.py:84
+#: onedesk/one_inventory/ready.py:85
 msgid "Stock cannot go below zero"
 msgstr "Der Bestand kann nicht unter null fallen"
 
@@ -47488,15 +47496,15 @@ msgstr "Inventur"
 msgid "Stock counted, and set right where it was wrong."
 msgstr "Gezählter Bestand, berichtigt wo er falsch war."
 
-#: onedesk/one_inventory/ready.py:68
+#: onedesk/one_inventory/ready.py:69
 msgid "Stock has a warehouse to go to"
 msgstr "Der Bestand hat ein Lager"
 
-#: onedesk/one_inventory/ready.py:131
+#: onedesk/one_inventory/ready.py:132
 msgid "Stock is not valued in the books, so no account is used."
 msgstr "Der Bestand wird nicht in der Buchhaltung bewertet, daher wird kein Konto verwendet."
 
-#: onedesk/one_inventory/ready.py:220
+#: onedesk/one_inventory/ready.py:228
 msgid "Stock is valued in the books"
 msgstr "Der Bestand ist in den Büchern bewertet"
 
@@ -47513,9 +47521,13 @@ msgstr "Bestand zwischen Lagern bewegt, verbraucht oder hinzugefügt."
 msgid "Stock on Hand is opened, and each time stock moves or another warehouse is chosen."
 msgstr "Lagerbestand wird geöffnet, und jedes Mal, wenn sich Bestand bewegt oder ein anderes Lager gewählt wird."
 
-#: onedesk/one_inventory/ready.py:111
+#: onedesk/one_inventory/ready.py:112
 msgid "Stock promised to an order can still go out on another one first."
 msgstr "Einem Auftrag zugesagter Bestand kann zuerst mit einem anderen hinausgehen."
+
+#: onedesk/one_inventory/ready.py:162
+msgid "Stock valued wrongly or apart from the books stays that way until somebody recalculates it."
+msgstr "Falsch oder abweichend von der Buchhaltung bewerteter Bestand bleibt so, bis jemand ihn neu berechnet."
 
 #. Subject of a notification
 #: onedesk/one_inventory/notifications.py
@@ -47523,7 +47535,7 @@ msgstr "Einem Auftrag zugesagter Bestand kann zuerst mit einem anderen hinausgeh
 msgid "Stock values after {entry} could not be recalculated"
 msgstr "Lagerwerte nach {entry} konnten nicht neu berechnet werden"
 
-#: onedesk/one_inventory/ready.py:146
+#: onedesk/one_inventory/ready.py:147
 msgid "Stock values are up to date"
 msgstr "Bestandswerte sind aktuell"
 
@@ -47851,7 +47863,7 @@ msgstr "Lohnfertigungsauftrag (Kunde)"
 
 #. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
-#: onedesk/one_factory/heads.py:252
+#: onedesk/one_factory/heads.py:254
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:94
 msgid "Subcontracting Order"
@@ -48218,7 +48230,7 @@ msgstr "Vorgesetzter"
 #: onedesk/one_book/print_format/one_purchase_invoice_with_images/one_purchase_invoice_with_images.json
 #: onedesk/one_book/print_format/one_purchase_voucher/one_purchase_voucher.json
 #: onedesk/one_book/sidebar/onebook/onebook.json:142
-#: onedesk/one_factory/heads.py:251
+#: onedesk/one_factory/heads.py:253
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/home.py:115
 #: onedesk/one_inventory/print_format/one_blanket_order/one_blanket_order.json
@@ -48346,7 +48358,7 @@ msgstr "Angebotsnr. des Lieferanten"
 msgid "Suppliers"
 msgstr "Lieferanten"
 
-#: onedesk/one_inventory/ready.py:169
+#: onedesk/one_inventory/ready.py:177
 msgid "Suppliers can be scored"
 msgstr "Lieferanten können bewertet werden"
 
@@ -48454,7 +48466,7 @@ msgstr "Link deaktivieren? Kalender, die ihn verwenden, werden nicht mehr aktual
 msgid "Switch to {0}"
 msgstr "Zu {0} wechseln"
 
-#: onedesk/one_inventory/ready.py:233
+#: onedesk/one_inventory/ready.py:241
 msgid "Switched off, so no item can have serial numbers or batches."
 msgstr "Ausgeschaltet, daher kann kein Artikel Seriennummern oder Chargen haben."
 
@@ -50058,7 +50070,7 @@ msgstr "Die Herausforderung"
 msgid "The change could not be saved. Try again."
 msgstr "Die Änderung konnte nicht gespeichert werden. Versuchen Sie es erneut."
 
-#: onedesk/one_inventory/ready.py:408
+#: onedesk/one_inventory/ready.py:418
 msgid "The chart of accounts has no Fixed Asset ledgers to keep assets in."
 msgstr "Der Kontenplan hat keine Anlagenkonten für Anlagegüter."
 
@@ -51877,7 +51889,7 @@ msgstr "Es gibt bereits eine Rolle namens {0}."
 msgid "There is already a template called {0}."
 msgstr "Es gibt bereits eine Vorlage namens {0}."
 
-#: onedesk/one_inventory/ready.py:252
+#: onedesk/one_inventory/ready.py:260
 msgid "There is no asset category, and an item marked Is Fixed Asset needs one."
 msgstr "Es gibt keine Anlagenkategorie, und ein Artikel mit „Ist Anlagevermögen“ braucht eine."
 
@@ -51916,7 +51928,7 @@ msgstr "Es gibt keine Feiertagsliste {0}."
 msgid "There is no letter head {0}."
 msgstr "Es gibt keinen Briefkopf {0}."
 
-#: onedesk/one_inventory/ready.py:240
+#: onedesk/one_inventory/ready.py:248
 msgid "There is no location, and an asset will not save without one."
 msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speichern."
 
@@ -51925,7 +51937,7 @@ msgstr "Es gibt keinen Standort, und ohne ihn lässt sich kein Anlagegut speiche
 msgid "There is no mail template {0}"
 msgstr "Es gibt keine Mailvorlage {0}"
 
-#: onedesk/one_inventory/ready.py:279
+#: onedesk/one_inventory/ready.py:287
 msgid "There is no maintenance team, and a schedule needs one."
 msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 
@@ -51993,7 +52005,7 @@ msgstr "In der Bibliothek gibt es keine Vorlage namens {0}."
 msgid "There is no tour of this screen yet."
 msgstr "Für diesen Bildschirm gibt es noch keinen Rundgang."
 
-#: onedesk/one_inventory/ready.py:64
+#: onedesk/one_inventory/ready.py:65
 msgid "There is no warehouse, so nothing can be received."
 msgstr "Es gibt kein Lager, daher kann nichts eingehen."
 
@@ -52064,7 +52076,7 @@ msgstr "Bei diesen Erweiterungen sind Fehler aufgetreten, die Arbeit ging weiter
 msgid "These feeds belong to their publishers. You need each publisher's permission to show their content."
 msgstr "Diese Feeds gehören ihren Verlagen. Für die Anzeige der Inhalte ist die Erlaubnis jedes Verlags nötig."
 
-#: onedesk/one_inventory/ready.py:135
+#: onedesk/one_inventory/ready.py:136
 #, python-brace-format
 msgid "These post to an account that is not a stock account, so stock and the books disagree: {0}. Set a stock account on each warehouse."
 msgstr "Diese buchen auf ein Konto, das kein Bestandskonto ist, daher weichen Bestand und Buchhaltung ab: {0}. Hinterlege an jedem Lager ein Bestandskonto."
@@ -53082,7 +53094,7 @@ msgstr "Zeit erfasst"
 msgid "Time on Each Slide"
 msgstr "Zeit pro Folie"
 
-#: onedesk/one_inventory/ready.py:186
+#: onedesk/one_inventory/ready.py:194
 #, python-brace-format
 msgid "Time on a job card is added to what was made, against {0}."
 msgstr "Die Zeit auf einer Arbeitskarte geht in den Wert des Gefertigten ein, gegen {0}."
@@ -53755,7 +53767,7 @@ msgstr ""
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
 #: onedesk/one_crm/print_format/one_sales_order_with_images/one_sales_order_with_images.json
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:50
-#: onedesk/one_factory/heads.py:244 onedesk/one_factory/heads.py:253
+#: onedesk/one_factory/heads.py:246 onedesk/one_factory/heads.py:255
 #: onedesk/one_factory/print_format/one_production_plan/one_production_plan.json
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_factory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
@@ -53790,7 +53802,7 @@ msgstr ""
 msgid "Total Charges"
 msgstr "Gesamtkosten"
 
-#: onedesk/one_factory/heads.py:233
+#: onedesk/one_factory/heads.py:235
 msgid "Total Completed Qty"
 msgstr ""
 
@@ -53875,7 +53887,7 @@ msgstr "Gesamtwert Ausgang"
 msgid "Total Qty"
 msgstr "Gesamtmenge"
 
-#: onedesk/one_factory/heads.py:234
+#: onedesk/one_factory/heads.py:236
 msgid "Total Time in Mins"
 msgstr ""
 
@@ -56994,7 +57006,7 @@ msgstr "Was jeder Vertriebsmitarbeiter verkauft hat."
 msgid "What each vehicle cost to run."
 msgstr "Was jedes Fahrzeug im Betrieb kostete."
 
-#: onedesk/one_inventory/ready.py:136
+#: onedesk/one_inventory/ready.py:137
 msgid "What each warehouse holds is posted to a stock account."
 msgstr "Was jedes Lager hält, wird auf ein Bestandskonto gebucht."
 
@@ -60369,17 +60381,17 @@ msgstr "Mit Dank"
 msgid "With {0}"
 msgstr "Bei {0}"
 
-#: onedesk/one_factory/heads.py:101
+#: onedesk/one_factory/heads.py:103
 #, python-brace-format
 msgid "With {0}, and it was wanted back {1} ago."
 msgstr "Bei {0}, und es sollte vor {1} zurück sein."
 
-#: onedesk/one_factory/heads.py:104
+#: onedesk/one_factory/heads.py:106
 #, python-brace-format
 msgid "With {0}."
 msgstr "Bei {0}."
 
-#: onedesk/one_factory/heads.py:103
+#: onedesk/one_factory/heads.py:105
 #, python-brace-format
 msgid "With {0}; wanted back by {1}."
 msgstr "Bei {0}; zurück bis {1}."
@@ -60538,8 +60550,8 @@ msgstr "In Arbeit bei"
 #. Label in the One Material Request print format
 #. Label in the One Pick List print format
 #. Label in the One Stock Entry print format
-#: frontend/src/factory/floor/OrderRows.vue:5 onedesk/one_factory/heads.py:225
-#: onedesk/one_factory/heads.py:231
+#: frontend/src/factory/floor/OrderRows.vue:5 onedesk/one_factory/heads.py:227
+#: onedesk/one_factory/heads.py:233
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:50
@@ -60579,7 +60591,7 @@ msgstr "Erledigte Arbeit {0} %"
 msgid "Work or a charge, never stocked."
 msgstr "Arbeit oder Gebühr, nie auf Lager."
 
-#: onedesk/one_inventory/ready.py:200
+#: onedesk/one_inventory/ready.py:208
 msgid "Work orders know their warehouses"
 msgstr "Arbeitsaufträge kennen ihre Lager"
 
@@ -60699,7 +60711,7 @@ msgstr "Arbeitsort"
 msgid "Workshop"
 msgstr ""
 
-#: onedesk/one_inventory/ready.py:184
+#: onedesk/one_inventory/ready.py:192
 msgid "Workshop time is costed"
 msgstr "Werkstattzeit wird bewertet"
 
@@ -60969,7 +60981,7 @@ msgid "Workspaces get their mail addresses here, for example m.4dl.app. It may b
 msgstr "Arbeitsbereiche erhalten hier ihre Mailadressen, zum Beispiel m.4dl.app. Sie darf in einer anderen Zone als die Arbeitsbereichsdomain liegen."
 
 #. Label of a Sidebar Item
-#: onedesk/one_factory/heads.py:232
+#: onedesk/one_factory/heads.py:234
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:230
 msgid "Workstation"
 msgstr ""
@@ -63760,7 +63772,7 @@ msgstr "Text"
 msgid "the AI Gateway"
 msgstr "das AI Gateway"
 
-#: onedesk/one_inventory/ready.py:192
+#: onedesk/one_inventory/ready.py:200
 msgid "the account for costs included in stock value"
 msgstr "das Konto für Kosten im Lagerwert"
 
@@ -64504,7 +64516,7 @@ msgstr "{0} bittet in {1} darum."
 msgid "{0} assets"
 msgstr "{0} Anlagen"
 
-#: onedesk/one_inventory/ready.py:268
+#: onedesk/one_inventory/ready.py:276
 #, python-brace-format
 msgid "{0} assets are drafts, so they are not depreciated or counted. Each says why on its page."
 msgstr "{0} Anlagegüter sind Entwürfe und werden weder abgeschrieben noch gezählt. Jedes nennt den Grund auf seiner Seite."
@@ -64661,7 +64673,7 @@ msgstr "{0} kann den Zustand einer Genehmigung nicht aufnehmen."
 msgid "{0} cannot name each {1}: two records already have {2} in it."
 msgstr "{0} kann nicht jeden {1} benennen: Zwei Datensätze enthalten bereits {2}."
 
-#: onedesk/one_inventory/ready.py:251
+#: onedesk/one_inventory/ready.py:259
 #, python-brace-format
 msgid "{0} categories, each with its ledger and how it depreciates."
 msgstr "{0} Kategorien, jede mit ihrem Konto und ihrer Abschreibung."
@@ -64726,7 +64738,7 @@ msgstr "{0} Kostenposten"
 msgid "{0} costs, {1}"
 msgstr "{0} Kostenposten, {1}"
 
-#: onedesk/one_inventory/ready.py:344
+#: onedesk/one_inventory/ready.py:354
 #, python-brace-format
 msgid "{0} could not be registered; each says why on its page."
 msgstr "{0} konnten nicht erfasst werden; jedes nennt den Grund auf seiner Seite."
@@ -65045,7 +65057,7 @@ msgstr "{0} geht über {1}, das keine Verknüpfung ist."
 msgid "{0} goes up to {1} already, so it can only be moved to {1} or more."
 msgstr "{0} reicht bereits bis {1}, daher kann sie nur auf {1} oder mehr gesetzt werden."
 
-#: frontend/src/kit/desk.js:24 onedesk/one_factory/heads.py:172
+#: frontend/src/kit/desk.js:24 onedesk/one_factory/heads.py:174
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:202
 #: onedesk/one_project/billing.py:427 onedesk/one_project/heads.py:192
 #: onedesk/one_project/portal.py:298 onedesk/one_project/view.py:524
@@ -66117,7 +66129,7 @@ msgstr "{0} ist nicht gesetzt, daher {1}."
 msgid "{0} items"
 msgstr "{0} Elemente"
 
-#: onedesk/one_inventory/ready.py:97
+#: onedesk/one_inventory/ready.py:98
 #, python-brace-format
 msgid "{0} items have a reorder level, but nothing is asked for when they reach it. To Order still lists them."
 msgstr "{0} Artikel haben einen Meldebestand, aber nichts wird angefordert, wenn er erreicht ist. Zu bestellen listet sie weiterhin."
@@ -66395,7 +66407,7 @@ msgstr "{0} davon aktiv."
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
 #: onedesk/one_admin/heads.py:143
 #: onedesk/one_display/doctype/voice_pack/voice_pack.js:6
-#: onedesk/one_factory/heads.py:21 onedesk/one_factory/heads.py:44
+#: onedesk/one_factory/heads.py:23 onedesk/one_factory/heads.py:46
 #: onedesk/one_inventory/heads.py:425 onedesk/one_inventory/heads.py:871
 #: onedesk/one_project/heads.py:35 onedesk/one_project/view.py:618
 #: onedesk/one_storage/api.py:141 onedesk/one_task/heads.py:63
@@ -66537,7 +66549,7 @@ msgstr "{0} von {1} Aufgaben erledigt"
 msgid "{0} of {1} workspaces"
 msgstr "{0} von {1} Arbeitsbereichen"
 
-#: onedesk/one_factory/heads.py:48
+#: onedesk/one_factory/heads.py:50
 #, python-brace-format
 msgid "{0} of {1} {2}"
 msgstr "{0} von {1} {2}"
@@ -66720,7 +66732,7 @@ msgstr "{0} pausierte Timer"
 msgid "{0} pending"
 msgstr "{0} ausstehend"
 
-#: frontend/src/project/Overview.vue:290 onedesk/one_factory/heads.py:180
+#: frontend/src/project/Overview.vue:290 onedesk/one_factory/heads.py:182
 #: onedesk/one_hr/heads.py:33 onedesk/one_inventory/heads.py:889
 #: onedesk/public/js/one/access_center.js:511 onedesk/www/start.py:114
 #, python-brace-format
@@ -66797,12 +66809,12 @@ msgstr "{0} Kunden zugesagt, davon {1} reserviert"
 msgid "{0} purchase orders drafted."
 msgstr "{0} Bestellungen als Entwurf angelegt."
 
-#: onedesk/one_inventory/ready.py:152
+#: onedesk/one_inventory/ready.py:153
 #, python-brace-format
 msgid "{0} recalculations after back-dated entries are on their way."
 msgstr "{0} Neuberechnungen nach rückdatierten Buchungen laufen."
 
-#: onedesk/one_inventory/ready.py:149
+#: onedesk/one_inventory/ready.py:150
 #, python-brace-format
 msgid "{0} recalculations after back-dated entries stopped with an error, so what they change is not in the books yet. Fix tries them again."
 msgstr "{0} Neuberechnungen nach rückdatierten Buchungen sind mit einem Fehler stehen geblieben, daher ist ihre Änderung noch nicht in der Buchhaltung. Beheben versucht es erneut."
@@ -67101,7 +67113,7 @@ msgid "{0} to pay"
 msgstr "{0} zu bezahlen"
 
 #: onedesk/one_hr/heads.py:219 onedesk/one_hr/heads.py:350
-#: onedesk/one_inventory/heads.py:793 onedesk/one_inventory/ready.py:134
+#: onedesk/one_inventory/heads.py:793 onedesk/one_inventory/ready.py:135
 #: onedesk/one_project/heads.py:199 onedesk/one_project/tell.py:431
 #: onedesk/one_studio/print_blocks.py:813
 #: onedesk/public/js/one_hr/hr_control.js:87
@@ -67765,7 +67777,7 @@ msgstr "{0}: {1}, {2}, {3} noch im Entwurf."
 msgid "{0}; nothing more is expected on it."
 msgstr "{0}; darauf wird nichts mehr erwartet."
 
-#: onedesk/one_factory/heads.py:59
+#: onedesk/one_factory/heads.py:61
 #, python-brace-format
 msgid "{0}; nothing more will be made on it."
 msgstr "{0}; darauf wird nichts mehr gefertigt."
