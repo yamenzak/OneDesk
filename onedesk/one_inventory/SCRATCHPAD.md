@@ -41,6 +41,13 @@ OneInterface: a record's item table cuts its columns (frappe's grid).
 Next area: buying. Supplier Items, decided with Yamen on 5 November: kept
 as ours, brought into the new UI (Canvas: section cards, the list rule).
 
+## The buying area: walked 5 November 2026
+
+Walked at 1440 and 390 in Arabic and dark, fixed and stamped. Supplier
+Items sits in ERPNext's own Items tab. OneAI, notifications and Help
+looked at and current. Left: a material request's title is ERPNext's
+English, written into the record. Next: quality, then assets, shipping.
+
 ## Found on the walk, for the areas
 
 - Every Request for Quotation row says Submitted, where the island said
