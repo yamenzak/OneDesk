@@ -2,7 +2,6 @@
 loses nothing its form has, and the workspace's extensions reach it."""
 
 import importlib.util
-import json
 import re
 from pathlib import Path
 
@@ -16,14 +15,10 @@ APP = ROOT / "onedesk"
 RECORD = (APP / "public" / "js" / "record.js").read_text()
 FRAPPE = APPS / "frappe/frappe/public/js/frappe"
 
-ISLANDS = {
-	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
-}
-DESK_PAGES = {
-	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
-}
+ISLANDS = {}
+DESK_PAGES = {}
 
-PAGE_PLACES = {"Project": "oneproject"}
+PAGE_PLACES = {}
 
 SIDEBAR = (
 	"form/sidebar/form_sidebar.js",
@@ -143,19 +138,15 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"intake.reading": (ROOT / "frontend" / "src" / "intake" / "IntakeReading.vue").read_text(),
 		"onecrm.board": (public / "opportunity_list.js").read_text(),
 		"space.home": (public / "places.js").read_text(),
-		"oneproject.project": (ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text(),
 		**{
 			f"oneproject.{view}": (ROOT / "frontend" / "src" / "project" / f"{name}.vue").read_text()
 			for view, name in (
 				("overview", "Overview"),
-				("tasks", "ProjectPage"),
 				("time", "Time"),
 				("money", "Money"),
 				("invoices", "Invoices"),
 				("suppliers", "Suppliers"),
 				("team", "Team"),
-				("files", "Files"),
-				("activity", "ProjectActivity"),
 			)
 		},
 		**{
@@ -186,52 +177,3 @@ def test_each_page_fires_its_events_with_only_its_powers():
 	assert "/assets/onedesk/js/places.js" in (APP / "hooks.py").read_text()
 
 
-EDITS = {
-	"Project": ("project_actions.js", "ABOUT_GROUPS", "ELSEWHERE"),
-	"Project Template": ("project_actions.js", "TEMPLATE_GROUPS", "TEMPLATE_ELSEWHERE"),
-	"Item": ("item_actions.js", "GROUPS", "ELSEWHERE"),
-}
-ERPNEXT = APPS / "erpnext/erpnext"
-NO_VALUE = {"Section Break", "Column Break", "Tab Break", "HTML", "Button", "Image", "Fold", "Heading"}
-
-
-def _named(source, constant):
-	"""The fieldnames in a constant of an actions file."""
-	found = re.search(rf"onedesk\.\w+\.{constant} = (\[.*?\]);\n", source, re.S)
-	assert found, constant
-	return set(re.findall(r'"([a-z_]+)"', found.group(1)))
-
-
-def _typed(doctype):
-	"""The fields of a doctype that can be typed in, as frappe draws its form:
-	ERPNext's own and ours (every custom/*.json), less those our property
-	setters hide or make read-only."""
-	snake = doctype.lower().replace(" ", "_")
-	fields = {df["fieldname"]: df for df in json.loads(next(ERPNEXT.glob(f"*/doctype/{snake}/{snake}.json")).read_text())["fields"]}
-	for path in APP.glob("*/custom/*.json"):
-		custom = json.loads(path.read_text())
-		for df in custom.get("custom_fields", []):
-			if df.get("dt") == doctype:
-				fields[df["fieldname"]] = df
-		for setter in custom.get("property_setters", []):
-			if setter.get("doc_type") == doctype and setter.get("field_name") in fields and setter["property"] in ("hidden", "read_only"):
-				fields[setter["field_name"]][setter["property"]] = int(setter["value"])
-	return {
-		name
-		for name, df in fields.items()
-		if df.get("fieldtype") not in NO_VALUE and not df.get("hidden") and not df.get("read_only")
-	}
-
-
-@pytest.mark.parametrize("doctype", sorted(tiers.PAGES))
-def test_a_page_edits_every_field_of_its_record(doctype):
-	"""Point 6: a record on a page of its own is edited there, every field of
-	it, so its form is a fallback and never the only way in. A field a
-	workspace adds shows under More in the same dialog (`about_fields`)."""
-	file, groups, elsewhere = EDITS[doctype]
-	source = (APP / "public" / "js" / file).read_text()
-	placed = _named(source, groups) | _named(source, elsewhere)
-	missing = sorted(_typed(doctype) - placed)
-	assert not missing, f"{doctype}: {missing} can only be changed on the form; give each a place on the page"
-	assert "onedesk.project.about_fields(" in source
-	assert '[__("More"), more]' in (APP / "public" / "js" / "project_actions.js").read_text()

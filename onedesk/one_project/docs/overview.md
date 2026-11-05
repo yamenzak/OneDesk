@@ -46,14 +46,13 @@ places, and its reports below them.
   A report shows only to people whose role may open it.
 
 On a phone, tap the place's name at the top, **Project**, to go to another.
-A project's page has no panel. There, **Project** at the top goes to
-another of the four places. **Activity Type**, what an hour of each
+**Activity Type**, what an hour of each
 activity costs and is billed at, is in the ··· menu on **Project**, and so
 is **Project Update**, the progress notes a project's people send when its
 Collect Progress asks them.
 
-On a project's page, its name at the top opens your other open projects and
-**All Projects**. Its sub-projects are in the step after its name.
+On a project, its name at the top opens your other open projects and
+**All Projects**.
 
-Tasks are in OneTask, and a project's own tasks are on its page. Project
+Tasks are in OneTask, and a project's own tasks are on its **Tasks** tab. Project
 types are in OneProject's **Lists**, the last row of its rail.

@@ -1188,8 +1188,8 @@ Its row in `docs/ISLANDS.md` names its model, which
 **6 Nothing lost.** A page of its own keeps everything frappe's form gives.
 Its sidebar is frappe's own, its menu is frappe's under the page's, it saves
 against the `modified` it loaded, and it hears changes made elsewhere
-(`tests/guards/test_frame.py`). Every field on the form can be changed on
-the page, in place or in Edit Details (`test_a_page_edits_every_field_of_its_record`).
+(`tests/guards/test_frame.py`). Today no record has one: a record opens on its
+form, and what One adds is a head and parts in its tabs.
 
 **Nothing upstream is lost either.** Set by the user on 2026-10-13. Every
 record type, report and page frappe, erpnext and hrms ship has a way in or a

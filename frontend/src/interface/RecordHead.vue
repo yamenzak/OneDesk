@@ -1,5 +1,5 @@
 <template>
-  <Figures :figures="figures" :columns="Math.min(4, figures.length)" class="[&_.text-3xl-semibold>span:first-child]:min-w-0 [&_.text-3xl-semibold>span:first-child]:shrink [&_.text-3xl-semibold>span:first-child]:[overflow-wrap:anywhere]" />
+  <Figures :figures="figures" :columns="Math.min(4, figures.length)" />
 </template>
 
 <script setup>
@@ -16,6 +16,8 @@ const figures = computed(() =>
   props.cards.slice(0, 4).map((card) => ({
     title: card.title,
     value: card.value,
+    note: card.note || undefined,
+    bar: card.bar ?? undefined,
     route: card.route,
     alarm: card.tone === "red",
     ...(card.series?.length

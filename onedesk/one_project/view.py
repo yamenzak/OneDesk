@@ -26,7 +26,6 @@ from onedesk.one_project import (
 	budget,
 	hours,
 	kinds,
-	media,
 	milestones,
 	money,
 	overview,
@@ -94,7 +93,6 @@ def said(
 		"title": doc.project_name,
 		"modified": str(doc.modified),
 		"notes": doc.notes,
-		"percent_complete": flt(doc.percent_complete),
 		"kind": kind,
 		"status": doc.status,
 		"health": doc.get("one_health"),
@@ -106,21 +104,9 @@ def said(
 		"customer_image": frappe.db.get_value("Customer", doc.customer, "image") if doc.customer else None,
 		"starts": str(doc.expected_start_date) if doc.expected_start_date else None,
 		"ends": str(doc.expected_end_date) if doc.expected_end_date else None,
-		"manager_name": get_fullname(doc.one_manager) if doc.get("one_manager") else None,
-		"manager_image": frappe.db.get_value("User", doc.one_manager, "user_image")
-		if doc.get("one_manager")
-		else None,
-		"above": _above(doc.name),
-		"below": _below(doc.name),
 		"parts": [doc.name, *sorted(set(view["tree"]) - {doc.name})] if len(view["tree"]) > 1 else None,
-		"priority": doc.priority,
-		"progress_method": doc.percent_complete_method,
-		"project_type": doc.project_type,
-		"department": doc.department,
-		"task_prefix": doc.get("one_key"),
 		"cost_center": doc.cost_center,
 		"time": hours.method(doc.name),
-		"site": doc.get("one_site"),
 		**dict(zip(("payment_terms", "terms", "terms_from"), _terms(doc.name), strict=True)),
 		"retention_terms": {
 			"percent": flt(doc.get("one_retention")),
@@ -157,45 +143,11 @@ def said(
 		"can_budget": bool(frappe.has_permission("Project", "write", doc=doc)),
 		"cards": cards(kind, doc, view, cash),
 		"days_left": view["days_left"],
-		"monthly_hours": flt(doc.get("one_monthly_hours")),
-		"media": media.shown(doc.name),
 		"overview": _overview(kind, doc, view, cash),
 		"notices": record_head.notices_of(doc),
-		"only": tree.narrowed(doc.name) and bool(tree.children(tree.parents()).get(doc.name)),
 		"update_due": asking.asked(doc.name),
 		"asking": asking.asking(doc.as_dict()),
 	}
-
-
-def _below(project: str) -> list[dict]:
-	"""The sub-projects directly under the project the reader may see, for the
-	breadcrumb's switch between them."""
-	names = tree.children(tree.parents()).get(project)
-	if not names:
-		return []
-	found = frappe.get_list(
-		"Project",
-		filters={"name": ["in", names], "company": _company()},
-		fields=["name", "project_name"],
-		order_by="project_name asc",
-	)
-	return [{"name": one.name, "title": one.project_name or one.name} for one in found]
-
-
-def _above(project: str) -> list[dict]:
-	"""The projects a sub-project sits under, top first, for the breadcrumb."""
-	chain = tree.above(project, tree.parents())[1:]
-	if not chain:
-		return []
-	titles = dict(
-		frappe.get_all(
-			"Project",
-			filters={"name": ["in", chain], "company": _company()},
-			fields=["name", "project_name"],
-			as_list=True,
-		)
-	)
-	return [{"name": one, "title": titles.get(one) or one} for one in reversed(chain)]
 
 
 def contract(doc) -> str | None:
@@ -1320,161 +1272,6 @@ def _people(project: str) -> list[dict]:
 	]
 
 
-TASK_FIELDS = (
-	"name",
-	"subject",
-	"project",
-	"status",
-	"priority",
-	"parent_task",
-	"is_group",
-	"is_milestone",
-	"one_bill_share",
-	"exp_start_date",
-	"exp_end_date",
-	"progress",
-	"expected_time",
-	"actual_time",
-	"_assign",
-	"modified",
-)
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def work(
-	project: Annotated[str, "The project."],
-	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
-) -> dict:
-	"""The project's tasks and its sub-projects', for the Tasks, Board and
-	Timeline views: one group per project in the tree, this one first. Read as
-	the reader, so a task they may not see is not here."""
-	frappe.has_permission("Project", "read", doc=project, throw=True)
-	tree.narrow(project, only)
-	company = _company()
-	of = tree.parents()
-	below = tree.scope(project)
-	titles = dict(
-		frappe.get_all(
-			"Project",
-			filters={"name": ["in", list(below)], "company": company},
-			fields=["name", "project_name"],
-			as_list=True,
-		)
-	)
-	under = sorted(
-		(
-			{"key": one, "title": milestones.where(one, project, of, titles) or titles.get(one) or one}
-			for one in below - {project}
-			if frappe.has_permission("Project", "read", doc=one)
-		),
-		key=lambda one: one["title"],
-	)
-	groups = [{"key": project, "title": titles.get(project) or project, "own": True}, *under]
-	rows = frappe.get_list(
-		"Task",
-		filters=[
-			["project", "in", [one["key"] for one in groups]],
-			["company", "=", company],
-			["status", "!=", "Template"],
-		],
-		fields=list(TASK_FIELDS),
-		order_by="exp_end_date asc, creation asc",
-		limit_page_length=0,
-	)
-	people: set[str] = set()
-	tasks = []
-	for row in rows:
-		assigned = frappe.parse_json(row._assign or "[]")
-		people.update(assigned)
-		tasks.append(
-			{
-				**{key: row.get(key) for key in TASK_FIELDS if key != "_assign"},
-				"assigned": assigned,
-				"exp_start_date": str(row.exp_start_date).split(" ")[0] if row.exp_start_date else None,
-				"exp_end_date": str(row.exp_end_date).split(" ")[0] if row.exp_end_date else None,
-				"modified": str(row.modified),
-			}
-		)
-	waiting = _waiting([one["name"] for one in tasks if one["status"] not in overview.DONE])
-	for one in tasks:
-		one["waiting"] = waiting.get(one["name"], [])
-	teams = _user_groups()
-	people.update(user for one in teams for user in one["users"])
-	meta = frappe.get_meta("Task")
-	return {
-		"groups": groups,
-		"tasks": tasks,
-		"user_groups": teams,
-		"people": _people_of(people),
-		"statuses": [
-			one for one in meta.get_field("status").options.split("\n") if one and one != "Template"
-		],
-		"priorities": [one for one in meta.get_field("priority").options.split("\n") if one],
-		"can_create": bool(frappe.has_permission("Task", "create")),
-		"can_write": bool(frappe.has_permission("Task", "write")),
-		"today": nowdate(),
-	}
-
-
-def _user_groups() -> list[dict]:
-	"""The workspace's User Groups and their enabled members, to give a task to
-	a whole group as frappe's Assign To does: each member gets it."""
-	members: dict[str, list[str]] = {}
-	for row in frappe.get_all(
-		"User Group Member", filters={"parenttype": "User Group"}, fields=["parent", "user"], order_by="idx"
-	):
-		members.setdefault(row.parent, []).append(row.user)
-	if not members:
-		return []
-	enabled = set(
-		frappe.get_all(
-			"User",
-			filters={
-				"name": ["in", list({user for users in members.values() for user in users})],
-				"enabled": 1,
-			},
-			pluck="name",
-		)
-	)
-	return [
-		{"name": name, "users": [user for user in users if user in enabled]}
-		for name, users in sorted(members.items())
-		if any(user in enabled for user in users)
-	]
-
-
-def _waiting(names: list[str]) -> dict[str, list[str]]:
-	"""What each task still waits on: the tasks under its ERPNext Depends On
-	not yet completed or cancelled, by subject."""
-	if not names:
-		return {}
-	rows = frappe.get_all(
-		"Task Depends On",
-		filters={"parent": ["in", names], "parenttype": "Task"},
-		fields=["parent", "task"],
-	)
-	if not rows:
-		return {}
-	open_ = {
-		one.name: one.subject
-		for one in frappe.get_all(
-			"Task",
-			filters={
-				"name": ["in", list({row.task for row in rows})],
-				"status": ["not in", overview.DONE],
-				"company": _company(),
-			},
-			fields=["name", "subject"],
-		)
-	}
-	found: dict[str, list[str]] = {}
-	for row in rows:
-		if row.task in open_:
-			found.setdefault(row.parent, []).append(open_[row.task])
-	return found
-
-
 def _people_of(users) -> dict:
 	"""Each user's name and picture, for avatars."""
 	users = [one for one in users if one]
@@ -1486,53 +1283,6 @@ def _people_of(users) -> dict:
 			"User", filters={"name": ["in", users]}, fields=["name", "full_name", "user_image"]
 		)
 	}
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def files(
-	project: Annotated[str, "The project."],
-	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
-) -> list[dict]:
-	"""What is attached to the project, its sub-projects and their tasks, newest
-	first, each saying where it is attached."""
-	frappe.has_permission("Project", "read", doc=project, throw=True)
-	tree.narrow(project, only)
-	projects = [project] + (
-		[] if tree.narrowed(project) else [one["name"] for one in tree.totals(project)["under"]]
-	)
-	tasks = frappe.get_list("Task", filters={"project": ["in", projects]}, pluck="name", limit_page_length=0)
-	found = []
-	for doctype, names in (("Project", projects), ("Task", tasks)):
-		if not names:
-			continue
-		found += frappe.get_all(
-			"File",
-			filters={"attached_to_doctype": doctype, "attached_to_name": ["in", names], "is_folder": 0},
-			fields=[
-				"name",
-				"file_name",
-				"file_url",
-				"file_size",
-				"is_private",
-				"owner",
-				"creation",
-				"attached_to_doctype",
-				"attached_to_name",
-			],
-			order_by="creation desc",
-			limit=200,
-		)
-	found.sort(key=lambda one: one.creation, reverse=True)
-	people = _people_of({one.owner for one in found})
-	return [
-		{
-			**one,
-			"creation": str(one.creation),
-			"by": people.get(one.owner, {}).get("name", one.owner),
-		}
-		for one in found
-	]
 
 
 @frappe.whitelist()

@@ -207,15 +207,6 @@ PLACES = {
 		"label": "OneProject",
 		"record": "Project",
 		"events": {
-			"project": {
-				"about": _lt("A project's page is opened, and each time the project changes."),
-				"gives": (
-					"project.name, project.title, project.kind (Fixed Price, Time and Materials, Retainer or Internal), "
-					"project.status, project.health, project.customer, project.currency, project.starts, project.ends, "
-					"project.percent_complete, project.only_main (true while only its own work is shown)"
-				),
-				"may": ("note", "action"),
-			},
 			"overview": {
 				"about": _lt("A project's Overview is opened, and each time its figures change."),
 				"gives": (
@@ -223,11 +214,6 @@ PLACES = {
 					"figure by its key, such as contract, billed, cost, margin, due), overview.needs (what needs "
 					"someone, as it reads), overview.needs_count"
 				),
-				"may": ("note", "action"),
-			},
-			"tasks": {
-				"about": _lt("A project's Tasks are opened as a table, a board or a timeline, and each time they change."),
-				"gives": "project.name, project.title, tasks.view (tasks, board or timeline), tasks.count, tasks.open, tasks.late",
 				"may": ("note", "action"),
 			},
 			"time": {
@@ -267,16 +253,6 @@ PLACES = {
 			"team": {
 				"about": _lt("A project's Team view is opened, and each time its team changes."),
 				"gives": "project.name, team.people (how many), team.contacts (how many outside the company)",
-				"may": ("note", "action"),
-			},
-			"files": {
-				"about": _lt("A project's Files view is opened, and each time its files change."),
-				"gives": "project.name, files.count",
-				"may": ("note", "action"),
-			},
-			"activity": {
-				"about": _lt("A project's Activity view is opened, and each time it shows more."),
-				"gives": "project.name, activity.shown (all, or the kind picked), activity.count (how many lines)",
 				"may": ("note", "action"),
 			},
 		},

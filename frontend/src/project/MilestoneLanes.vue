@@ -17,7 +17,8 @@
           </div>
         </div>
         <div v-for="lane in rows" :key="lane.key" class="grid grid-cols-[9rem_minmax(0,1fr)_4rem] items-start gap-x-4 border-b border-outline-gray-1 py-3 last:border-b-0">
-          <button class="min-w-0 truncate text-start text-base text-ink-gray-8 hover:underline" @click="openLane(lane)">{{ lane.title }}</button>
+          <span v-if="lane.main" class="min-w-0 truncate text-start text-base text-ink-gray-8">{{ lane.title }}</span>
+          <button v-else class="min-w-0 truncate text-start text-base text-ink-gray-8 hover:underline" @click="openLane(lane)">{{ lane.title }}</button>
           <div class="relative h-10">
             <span class="absolute inset-x-0 top-[5px] h-0.5 bg-surface-gray-3" />
             <Tooltip v-for="one in lane.dated" :key="one.name" :text="tip(one)">
@@ -43,7 +44,6 @@ import { Tooltip } from "frappe-ui";
 import { Rows, __, go, shortDate, shortMonth, today } from "../kit";
 
 const props = defineProps({ lanes: { type: Array, required: true } });
-const emit = defineEmits(["main"]);
 
 const DAY = 86400000;
 const time = (day) => Date.parse(`${day}T00:00:00Z`);
@@ -83,7 +83,7 @@ const ring = (one, lane) =>
   one.done ? "border-outline-gray-5 bg-surface-gray-7" : late(one) ? "border-outline-red-3 bg-surface-red-5" : one.name === lane.next?.name ? "border-outline-gray-5 bg-surface-base" : "border-outline-gray-3 bg-surface-base";
 const tip = (one) => [one.subject, one.in_lane, one.due ? shortDate(one.due) : __("No date")].filter(Boolean).join(" · ");
 
-const openLane = (lane) => (lane.main ? emit("main") : go(`/desk/project/${encodeURIComponent(lane.key)}`));
+const openLane = (lane) => go(`/desk/project/${encodeURIComponent(lane.key)}`);
 
 const phone = computed(() =>
   rows.value.map((lane) => ({
@@ -92,7 +92,7 @@ const phone = computed(() =>
     lines: [lane.next ? [lane.next.subject, lane.next.due ? shortDate(lane.next.due) : __("No date")].join(" · ") : __("Done")],
     value: __("{0} of {1}", [lane.done, lane.milestones.length]),
     dot: lane.next && late(lane.next) ? "red" : undefined,
-    onClick: () => openLane(lane),
+    onClick: lane.main ? undefined : () => openLane(lane),
   }))
 );
 </script>

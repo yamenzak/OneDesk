@@ -1493,7 +1493,6 @@ one_ai_page = [
 	"onedesk.one_inventory.ai.page",
 	"onedesk.one_factory.ai.page",
 	"onedesk.one_admin.ai.page",
-	"onedesk.one_project.ai.page",
 	"onedesk.one_crm.ai.page",
 	"onedesk.one_hr.ai.page",
 	"onedesk.one_book.ai.page",
@@ -1592,7 +1591,7 @@ one_calendar_layers = [
 ]
 
 additional_timeline_content = {
-	"Project": ["onedesk.one_project.updates.timeline"],
+	"Project": ["onedesk.one_project.updates.timeline", "onedesk.one_project.activity.timeline"],
 	"Tenant": ["onedesk.one_admin.log.timeline"],
 }
 

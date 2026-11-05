@@ -96,11 +96,9 @@ import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Loading, PlaceSpot, __, call, confirm, followList, hours, onedesk } from "../kit";
-import { onlyArg, useOnly } from "./only";
 import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, modified: String });
-const only = useOnly();
 const emit = defineEmits(["changed"]);
 const said = ref(null);
 
@@ -113,7 +111,7 @@ const spot = usePlace("oneproject.team", () =>
 );
 async function load() {
   [said.value, outside.value] = await Promise.all([
-    call("onedesk.one_project.team.team", { project: props.projectName, ...onlyArg(only) }),
+    call("onedesk.one_project.team.team", { project: props.projectName }),
     call("onedesk.one_project.contacts.contacts", { project: props.projectName }),
   ]);
 }

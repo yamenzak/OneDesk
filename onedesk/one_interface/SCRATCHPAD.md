@@ -22,3 +22,8 @@ answered leaves it.
   by a framework screen in the screen-by-screen walk.
 - The window's search box draws over an open dialog (seen on New Customer from the Customer list): it should sit under the modal.
 - New Customer's create dialog says "Still needed: Customer Name" but shows no Customer Name field on Details.
+
+- **A hidden form per row.** The kit's `useForm` without a `given` form builds
+  a second Form of the record, and each builds a record panel (an Item with
+  two price rows had three panels). Harmless now; pass the open form where
+  there is one, and think about a lighter reader for rows.

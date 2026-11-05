@@ -423,13 +423,6 @@ OVERRIDES = [
 		'"fieldname": "per_ordered",',
 	),
 	(
-		"A project and a project template open on a page of their own",
-		"project_new.js wraps frappe's router so a Project or a Project Template at its own address opens its page (project-view, project-template-view), and the form only with ?edit=1 or when new",
-		"onedesk/public/js/project_new.js",
-		"frappe/frappe/public/js/frappe/router.js",
-		"async convert_to_standard_route(route) {",
-	),
-	(
 		"Numbering changes how a record is named through Selling Settings's own method",
 		"numbering.set_naming_by sets the one field and calls the method Selling Settings runs on save to show or hide the series and name fields, rather than saving the whole Single and running every other check it has",
 		"onedesk/one_studio/numbering.py",

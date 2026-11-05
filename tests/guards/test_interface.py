@@ -46,8 +46,9 @@ def _fields(doctype: str) -> dict | None:
 
 @cache
 def _fieldnames(doctype: str) -> set[str] | None:
-	"""A record type's fields as its own JSON and One's custom fields name
-	them. None when the type's JSON is not on this bench."""
+	"""A record type's fields as its own JSON and One's custom fields (in
+	custom_field.json or a module's custom/<type>.json) name them. None when
+	the type's JSON is not on this bench."""
 	scrub = doctype.lower().replace(" ", "_")
 	found = next(APPS.glob(f"*/*/*/doctype/{scrub}/{scrub}.json"), None)
 	if not found:
@@ -55,6 +56,8 @@ def _fieldnames(doctype: str) -> set[str] | None:
 	names = {one["fieldname"] for one in json.loads(found.read_text())["fields"]}
 	for path in (ROOT / "onedesk").glob("**/custom_field.json"):
 		names |= {one["fieldname"] for one in json.loads(path.read_text()) if one.get("dt") == doctype}
+	for path in (ROOT / "onedesk").glob(f"*/custom/{scrub}.json"):
+		names |= {one["fieldname"] for one in json.loads(path.read_text()).get("custom_fields", []) if one.get("dt") == doctype}
 	return names | {"__details"}
 
 

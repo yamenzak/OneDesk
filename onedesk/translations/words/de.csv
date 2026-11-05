@@ -331,3 +331,78 @@ Category-wise Asset Value,Anlagenwert je Kategorie,
 Location-wise Asset Value,Anlagenwert je Standort,
 Asset Value,Anlagenwert,
 Total Assets,Anlagen gesamt,
+1 day early,1 Tag früher
+1 task finished late,1 Aufgabe verspätet abgeschlossen
+All billable time invoiced,Alle abrechenbare Zeit fakturiert
+All milestones met,Alle Meilensteine erreicht
+All tasks completed,Alle Aufgaben abgeschlossen
+All tasks were cancelled,Alle Aufgaben wurden storniert
+"At most {0} pts behind, on {1}","Höchstens {0} Pkt. zurück, am {1}"
+Billable time not invoiced,Abrechenbare Zeit nicht fakturiert
+Completed by Completed On,Abgeschlossen nach Abschlussdatum
+Completed over Time,Abgeschlossen im Zeitverlauf
+Completed {0},Abgeschlossen {0}
+Could not load tasks,Aufgaben konnten nicht geladen werden
+Could not load the overview. Project details are still on the other tabs.,Die Übersicht konnte nicht geladen werden. Die Projektdetails stehen weiterhin in den anderen Tabs.
+Cumulative % of task progress,Kumulierter % des Aufgabenfortschritts
+Cumulative % of task weight,Kumulierter % der Aufgabengewichtung
+Cumulative % of tasks closed,Kumulierter % der abgeschlossenen Aufgaben
+Every task finished on time,Jede Aufgabe pünktlich abgeschlossen
+Finished 1 day after plan,1 Tag nach Plan abgeschlossen
+Finished 1 day ahead of plan,1 Tag vor Plan abgeschlossen
+Finished on plan,Planmäßig abgeschlossen
+Finished {0},Abgeschlossen {0}
+Finished {0} days after plan,{0} Tage nach Plan abgeschlossen
+Finished {0} days ahead of plan,{0} Tage vor Plan abgeschlossen
+Hours Logged,Erfasste Stunden
+Never behind plan,Nie hinter dem Plan
+No Expected End Dates to compare,Keine erwarteten Enddaten zum Vergleichen
+No Expected Time to compare,Keine erwartete Zeit zum Vergleichen
+No plan: {0} of {1} tasks have no Expected End Date,Kein Plan: {0} von {1} Aufgaben haben kein erwartetes Enddatum
+None due in the next {0} days,Nichts fällig in den nächsten {0} Tagen
+"None of this project's {0} tasks went ahead, so there is no progress or workload to show.","Keine der {0} Aufgaben dieses Projekts wurde begonnen, daher gibt es keinen Fortschritt und keine Auslastung anzuzeigen."
+Oldest {0},Älteste {0}
+On Time,Pünktlich
+On plan,Nach Plan
+Open Tasks by Assignee,Offene Aufgaben nach zugewiesener Person
+Planned by Expected End Date,Geplant nach erwartetem Enddatum
+Planned vs Completed,Geplant und abgeschlossen
+"Progress, deadlines, workload and costs for this project will show up here once tasks are added.","Fortschritt, Fristen, Auslastung und Kosten dieses Projekts erscheinen hier, sobald Aufgaben hinzugefügt sind."
+Tasks Delivered,Gelieferte Aufgaben
+Tasks by Status,Aufgaben nach Status
+Unbilled,Nicht abgerechnet
+View Tasks,Aufgaben anzeigen
+by week,nach Woche
+every {0} weeks,alle {0} Wochen
+planned {0},geplant {0}
+{0} days early,{0} Tage früher
+{0} done of {1} planned,{0} erledigt von {1} geplant
+{0} due in the next {1} days,{0} fällig in den nächsten {1} Tagen
+{0} of billable time not invoiced,{0} abrechenbare Zeit nicht fakturiert
+{0} of {1} tasks need a due date,{0} von {1} Aufgaben brauchen ein Fälligkeitsdatum
+{0} over {1} expected,{0} bei {1} erwartet
+{0} pts ahead,{0} Pkt. voraus
+{0} pts behind,{0} Pkt. zurück
+{0} still open,{0} noch offen
+{0} tasks finished late,{0} Aufgaben verspätet abgeschlossen
+{0} without Completed On use their last change,{0} ohne Abschlussdatum zählen mit ihrer letzten Änderung
+{0}% complete,{0}% abgeschlossen
+{0}% of {1} expected,{0}% von {1} erwartet
+"A task shared by several people counts for each of them. Group tasks are left out, as their subtasks carry the work.","Eine Aufgabe, die sich mehrere Personen teilen, zählt für jede von ihnen. Gruppenaufgaben werden ausgelassen, da ihre Unteraufgaben die Arbeit tragen."
+"Billed is the amount on Sales Invoices for this project. Cost is the time logged at costing rates, plus purchases and consumed material. Gross margin is Billed less Cost.","Abgerechnet ist der Betrag der Ausgangsrechnungen für dieses Projekt. Kosten sind die erfasste Zeit zu Kostensätzen, zuzüglich Einkäufen und verbrauchtem Material. Die Bruttomarge ist Abgerechnet abzüglich Kosten."
+Completed by Assignee,Abgeschlossen nach zugewiesener Person
+Delayed By,Verzögert um
+Gross Margin {0}%,Bruttomarge {0}%
+Loose Ends,Offene Enden
+No completed tasks,Keine abgeschlossenen Aufgaben
+No open tasks,Keine offenen Aufgaben
+Nothing billed or spent yet,Noch nichts abgerechnet oder ausgegeben
+Open Costing,Kosten öffnen
+Open Task List,Aufgabenliste öffnen
+"Overdue, blocked, unassigned, or due in the next {0} days","Überfällig, blockiert, nicht zugewiesen oder fällig in den nächsten {0} Tagen"
+Still Open,Noch offen
+Tasks by Outcome,Aufgaben nach Ergebnis
+Tasks still open on this cancelled project,Noch offene Aufgaben in diesem stornierten Projekt
+Tasks still open on this completed project,Noch offene Aufgaben in diesem abgeschlossenen Projekt
+{0} completed,{0} abgeschlossen
+{0} open,{0} offen

@@ -11,7 +11,7 @@ they're a member. Filter **Project** by it, or by **Health**.
 
 ## Who Sees a Project
 
-**A project's members** are the people listed under **Members** on its page.
+**A project's members** are the people listed under **Members** on its **More Info** tab.
 They see the project and every task in it. People who work in projects but
 aren't members don't see it. Projects Managers see every project, and whoever
 created a project sees it.

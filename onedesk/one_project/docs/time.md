@@ -1,6 +1,6 @@
 # Time
 
-**Timesheet** on a project's page lists every hour on the project and its
+A project's **Timesheet** tab lists every hour on the project and its
 sub-projects, newest first: the day, who,
 the activity, the task (with the sub-project under it), the hours, and where
 they stand. **Draft** is on a timesheet not yet submitted, **To Invoice** is

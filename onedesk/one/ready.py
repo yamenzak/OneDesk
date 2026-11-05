@@ -179,8 +179,25 @@ MODULES = {
 			("settings", "settings"),
 		),
 		"interface": {
+			"Project": {
+				"tabs": {
+					"overview_tab": "layout-dashboard",
+					"details_tab": "file-text",
+					"tasks_tab": "list-checks",
+					"one_time_tab": "clock",
+					"one_suppliers_tab": "truck",
+					"costing_tab": "wallet",
+					"users_tab": "users",
+					"more_info_tab": "building-2",
+					"monitor_progress_tab": "message-square",
+					"connections_tab": "link",
+				},
+				"fields": {"customer": "building-2", "expected_start_date": "calendar", "expected_end_date": "calendar-check", "company": "building", "sales_order": "file-text", "priority": "flag"},
+				"cards": ({"key": "project.done"}, {"key": "project.cost"}, {"key": "project.billed"}, {"key": "project.margin"}),
+				"states": {"field": "status", "order": ("Open", "On hold", "Completed"), "hide": ("Cancelled",)},
+			},
 			"Project Template": {
-				"fields": {"project_type": "shapes"},
+				"fields": {"project_type": "shapes", "one_payment_terms": "calendar-clock", "one_terms": "scroll-text", "one_retention": "percent"},
 				"cards": ({"key": "template.tasks"}, {"key": "template.days"}, {"key": "template.used"}),
 				"states": {"field": "project_type"},
 			},

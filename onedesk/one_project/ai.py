@@ -33,7 +33,6 @@ NOT_FOR_AI = {
 	"kinds.add_contract": "A contract's value is what the customer agreed to, so a person enters it from the agreement.",
 	"library.copy": "OneAI starts a template its own way, as a card from draft_template.",
 	"materials.give_back": "Materials going back to a store move stock, so whoever counted them records it.",
-	"media.add": "It takes a file the person uploads on the project's page.",
 	"members.let_in": "It follows a mention in a comment the person writes.",
 	"team.remove": "Taking somebody off a project ends what they see of it, so a person does it.",
 	"team.show": "What a customer's contact sees on the portal is the workspace's decision, made on the Team view.",
@@ -160,14 +159,12 @@ DRAFT = {
 	"expects": "draft_update",
 }
 
-PAGE = "project-view"
 BILLED = (kinds.FIXED, kinds.TIME, kinds.RETAINER)
-LAYOUTS = {"board": "tasks", "timeline": "tasks"}
 
 
 def _here(*offered, kinds: tuple | None = None) -> list[dict]:
-	"""Suggestions as the project page offers them: checked on the project the
-	page is open on, and, with `kinds`, only on a project of those kinds."""
+	"""Suggestions on a project's form: checked on the project it is open on,
+	and, with `kinds`, only on a project of those kinds."""
 	said = []
 	for one in offered:
 		one = {**one, "doctype": one.get("doctype") or "Project"}
@@ -202,12 +199,15 @@ SUGGESTIONS = {
 	"report:Workload": [WEEK],
 	"Project Template": [{**DRAFT_TEMPLATE, "view": "List"}, {**DRAFT_TEMPLATE, "view": "Form"}],
 	"Project": [
-		{**GOING, "view": "Form"},
-		{**LATE, "view": "Form"},
-		{**UPDATE, "view": "Form"},
-		{**MONEY, "view": "Form"},
-		{**SUPPLIERS, "view": "Form"},
-		{**PLAN, "view": "Form"},
+		*(
+			{**one, "view": "Form"}
+			for one in _here(ALLOWANCE, kinds=(kinds.RETAINER,))
+			+ _here(DRAFT, GOING, LATE)
+			+ _here(UPDATE, kinds=BILLED)
+			+ _here(PLAN, MONEY, SUPPLIERS)
+			+ _here(UNBILLED, CHASE, kinds=BILLED)
+			+ _here(TIME, LOAD)
+		),
 		{
 			"label": _lt("Which projects need attention?"),
 			"ask": _lt(
@@ -229,61 +229,7 @@ SUGGESTIONS = {
 			"expects": "draft_project",
 		},
 	],
-	f"page:{PAGE}": _here(ALLOWANCE, kinds=(kinds.RETAINER,))
-	+ _here(DRAFT, GOING, LATE)
-	+ _here(UPDATE, kinds=BILLED)
-	+ _here(PLAN),
-	f"page:{PAGE}/tasks": _here(LATE, PLAN, LOAD),
-	f"page:{PAGE}/time": _here(ALLOWANCE, kinds=(kinds.RETAINER,)) + _here(TIME, UNBILLED, LOAD),
-	f"page:{PAGE}/money": _here(MONEY) + _here(UNBILLED, kinds=BILLED) + _here(SUPPLIERS),
-	f"page:{PAGE}/invoices": _here(UNBILLED, CHASE, kinds=BILLED) + _here(ALLOWANCE, kinds=(kinds.RETAINER,)),
-	f"page:{PAGE}/suppliers": _here(SUPPLIERS, MONEY),
-	f"page:{PAGE}/team": _here(LOAD, LATE),
-	f"page:{PAGE}/files": _here(GOING) + _here(UPDATE, kinds=BILLED),
-	f"page:{PAGE}/activity": _here(DRAFT, GOING) + _here(UPDATE, kinds=BILLED),
 }
-for _layout, _view in LAYOUTS.items():
-	SUGGESTIONS[f"page:{PAGE}/{_layout}"] = SUGGESTIONS[f"page:{PAGE}/{_view}"]
-
-VIEWS = {
-	"overview": "the Overview: where it stands, what needs the reader, its numbers and milestones",
-	"tasks": "the Tasks view: its tasks as a table, a board or a timeline",
-	"time": "the Time view: the hours logged on it",
-	"money": "the Money view: what the customer is billed and has paid, and what it costs",
-	"invoices": "the Invoices view: its sales invoices",
-	"suppliers": "the Suppliers view: its subcontracts and purchase orders",
-	"team": "the Team view: its people, their open tasks and their hours, and its contacts outside the company",
-	"files": "the Files view: its files",
-	"activity": "the Activity view: what happened on it",
-}
-
-
-def page(said: dict) -> str | None:
-	"""The sentence the model is told on a project's page."""
-	if said.get("page") != PAGE:
-		return None
-	name = (said.get("record") or "").strip()
-	if (
-		not name
-		or not frappe.db.exists("Project", name)
-		or not frappe.has_permission("Project", "read", doc=name)
-	):
-		return "The reader is on a project's page."
-	title, kind = frappe.db.get_value("Project", name, ["project_name", "one_kind"])
-	view = (said.get("section") or "").strip() or "overview"
-	view = LAYOUTS.get(view, view)
-	return (
-		f"The reader is on the page of project {name} (“{title}”"
-		+ (f", a project of kind {kind}" if kind else "")
-		+ f"), on {VIEWS.get(view, VIEWS['overview'])}. project_facts reads it as its page shows it: its "
-		"dates, tasks, money, time, team, contacts and, for a retainer, its months, and the reader's own week on it; "
-		"plan_task suggests a task on it as a card that adds it when the reader approves, draft_update "
-		"drafts the reader's update as a card that puts it under Updates to post, remind_customer drafts "
-		"a reminder about an overdue invoice that opens in the email window to send, and add_member and "
-		"add_contact add somebody to its team or its contacts. Nothing is changed or sent until "
-		"the reader approves. How "
-		"OneProject works is in its documentation (how_to)."
-	)
 
 
 def _main(project: str) -> dict:
@@ -550,7 +496,7 @@ def add_member(
 		"project": project,
 		"user": who,
 		"summary": [{"label": _("Member"), "value": f"{get_fullname(who)} ({who})"}],
-		"route": [PAGE, project, {"view": "team"}],
+		"route": ["Form", "Project", project],
 	}
 	return {
 		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),
@@ -814,7 +760,7 @@ def add_contact(
 			*([{"label": _("Company"), "value": company}] if company else []),
 			*([{"label": _("Note"), "value": note.strip()}] if (note or "").strip() else []),
 		],
-		"route": [PAGE, project, {"view": "team"}],
+		"route": ["Form", "Project", project],
 	}
 	return {
 		"proposal": proposals.propose("Setup", "Project", changes=changes, record=project, why=why),

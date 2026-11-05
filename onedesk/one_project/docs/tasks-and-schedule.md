@@ -1,28 +1,11 @@
 # Tasks and Schedule
 
-A project's tasks and those of every project under it are shown together,
-grouped by project at first, each titled by where it sits (Handrails ›
-Glass for handrails). The switch beside **Search** lays them out as a
-**Table**, a **Board** or a **Timeline**. **Group by** changes the grouping,
-**Search** finds a task, and **Done** shows finished and cancelled tasks
-too. On the board, drag a card to change its status; the timeline marks
-today and counts the tasks without dates.
-
-In the table, change who a task is assigned to, its status, due date, priority or hours
-right in its row. Giving a task to a **group** (under **Settings ›
-Access**) gives it to each person in the group. **Planned** is
-the hours planned for it (the task's Expected Time), and each group's
-heading adds them up. **Progress** is the task's own progress. A
-project with no tasks of its own shows only **Add Task**. A task that depends on others not yet done says what it's
-**waiting on**. A sub-task sits under its parent, and a parent says how many
-of its own are done. **Add Task** at the foot of a group adds one there;
-**New Task** adds one to the project. Click a task's name to open it beside the page.
-It's the same task OneTask opens: change its owner, priority, dates, hours
-and whether it's a milestone in place; see its **Parent Task** and what it
-**Depends On**; tick and add its **Checklist**; add **Sub-tasks**; and read
-and write its comments. ▷ times it onto your timesheet. **⋯** has **Edit
-Details** (its type, hours, parent task, what it depends on, Bill on
-Completion and description), **Repeat** and **Open Task**, which opens the task on its own page.
+A project's **Tasks** tab lists its tasks, each with its status, priority,
+start and end dates, progress and who it's assigned to. Change a task's
+status or priority right in its row. **Search** finds a task, the sort orders
+them, and **Add Task** adds one. Click a task to open it. **Board**,
+**Calendar** and **Schedule** at the top of the project show its tasks in
+columns, on its calendar or on a timeline (see below).
 
 Late due dates are red. Whatever someone else changes shows up without
 reloading. Planned hours and a milestone's bill share are never below 0,
@@ -80,8 +63,8 @@ On a project with sub-projects, **Milestones** is a row per part of the job
 on one dated line: **Main** first, then each sub-project with what's under
 it, and a line for today across them all. Done ones are filled, a late one is
 red, and each row's next one is named with its date. Point at the others to
-see theirs. Each row counts how many are done. Click **Main** to see the
-project's own work, or a sub-project's name to open it. On a phone each part
+see theirs. Each row counts how many are done. Click a sub-project's name to
+open it. On a phone each part
 is a line with its next milestone.
 
 **Bill on Completion** is optional. Give a milestone a share of the contract

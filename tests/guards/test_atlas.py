@@ -160,7 +160,7 @@ UNHEARD = {
 	# shares, what OneAI read and did) is read again each time a file is
 	# chosen. A project's and an item's Files are OneCloud.
 	"onecloud": 5,
-	"project": 6,
+	"project_part": 1,
 	# OneMail hears its own event, onemail_change (one_mail/live.py), which
 	# names the mailbox a sync or an action changed; a list follow on
 	# Communication would wake it for every mail in the workspace.
@@ -173,7 +173,7 @@ UNHEARD = {
 BARE = {}
 
 NOT_THE_COMPANYS = {
-	"project": 4,
+	"project_part": 4,
 }
 
 

@@ -6,7 +6,7 @@ as 1 **Lump Sum**, so it can be billed a part at a time. An order with a Lump
 Sum line, or for anything not kept in stock, is a subcontract. An order for
 stock items is goods, and is listed under **Buying**.
 
-**Suppliers** on the project's page shows each subcontract as a card: the
+A project's **Suppliers** tab shows each subcontract as a card: the
 supplier, what it was ordered for and which sub-project, how much of it is
 billed, what's left to bill, what's been paid, what's **To Pay** now (in red,
 with how late, once it's past due), the retention held and the advance not

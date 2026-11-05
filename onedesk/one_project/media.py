@@ -134,21 +134,3 @@ def shown(project: str) -> list[dict]:
 		if kind_of(one.file_name)
 	]
 	return sorted(found, key=lambda one: one["url"] != cover)
-
-
-@frappe.whitelist(methods=["POST"])
-def add() -> dict:
-	"""frappe's upload dialog on the project's page, sent here (its `method`):
-	the file goes in the project's Featured Media. frappe's upload_file has
-	read the file and checked the project may be written to."""
-	from onedesk.one_storage import api, upload
-
-	content = getattr(frappe.local, "uploaded_file", None)
-	if content is None:
-		frappe.throw(_("Choose a photo or a video from your computer."))
-	project = frappe.form_dict.docname
-	if frappe.form_dict.doctype != "Project" or not project:
-		frappe.throw(_("Photos and videos are added to a project."))
-	name = api._clean(frappe.local.uploaded_filename) or "file"
-	upload._place(node(project), None, {"file_name": name, "content": content})
-	return {"project": project}

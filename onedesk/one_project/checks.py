@@ -69,13 +69,12 @@ def oneproject_every_tab_of_a_project_page_reads_for_samir():
 		assert added["projects"] == 3 and len(added["under"]) == 2
 		assert {one["value"] for one in tree.nodes(is_root=1)} >= {VILLA, TOWER, ACME}
 		assert tree.milestones([VILLA, TOWER])
-		assert "Window schedule.csv" in {one["file_name"] for one in view.files(VILLA)}
 		assert media.featured(VILLA)[0]["kind"] == "photo"
 		assert VILLA not in {one["name"] for one in view.picker("PROJ-0002")["open"]}, "the parent is in the breadcrumb already"
 		assert frappe.db.get_value("Project", "PROJ-0002", "project_name") == "Staircase balustrade", "extra work is called what it was quoted as"
 		assert view.to_quote("Acme Holdings") == ACME and chain.customer_project("Acme Holdings") == ACME
 		assert view.to_quote("Mansour & Sons") is None, "two open projects, so neither is guessed"
-		assert len(view.updates(VILLA)) >= 2 and activity.activity(VILLA)["activities"]
+		assert len(view.updates(VILLA)) >= 2 and activity.timeline("Project", VILLA)
 		assert billing.bills(VILLA)["bills"]
 		assert billing.unbilled(SHOWROOM)["hours"] > 0 and billing.unbilled(SHOWROOM)["currency"] == "EUR"
 		assert len(budget.lines(VILLA)["lines"]) == 4
@@ -156,7 +155,7 @@ def oneproject_a_timesheet_says_what_is_left_to_bill():
 
 @check
 def oneproject_samir_runs_a_project():
-	"""What Samir changes on a project's page: the team, a contact, time,
+	"""What Samir changes on a project: the team, a contact, time,
 	a cost type's budget, the update he is asked for, a template from the
 	villa's tasks, a contract on Acme's lobby, a project grouped above
 	another, a photo added, and the villa closed with its open work."""
@@ -173,6 +172,7 @@ def oneproject_samir_runs_a_project():
 		tree,
 		updates,
 	)
+	from onedesk.one_storage import upload
 
 	with as_user("samir@one.test"):
 		assert "huda@one.test" in {one["user"] for one in team.add(VILLA, "huda@one.test")["people"]}
@@ -202,12 +202,7 @@ def oneproject_samir_runs_a_project():
 		assert frappe.db.get_value("Project", ACME, "sales_order") == order, "the contract is the project's order"
 		above = tree.group_under(ACME, "Acme Americas")
 		assert frappe.db.get_value("Project", ACME, "one_parent") == above
-		frappe.local.uploaded_file, frappe.local.uploaded_filename = _png(), "Lobby mock-up.png"
-		frappe.form_dict.update({"doctype": "Project", "docname": ACME})
-		try:
-			assert media.add() == {"project": ACME}
-		finally:
-			frappe.local.uploaded_file = frappe.local.uploaded_filename = None
+		upload._place(media.node(ACME), None, {"file_name": "Lobby mock-up.png", "content": _png()})
 		assert media.featured(ACME)[0]["title"] == "Lobby mock-up.png"
 		try:
 			status.change(VILLA, "Completed")
@@ -637,7 +632,7 @@ def oneproject_its_invoices_suppliers_team_and_activity_read_true():
 	assert held and all(one.outstanding for one in held), held
 	with as_user("samir@one.test"):
 		assert "Client's Representative" in {one["role"] for one in contacts.contacts(VILLA)["contacts"]}
-		weeks = [one for one in activity.activity(VILLA)["activities"] if one["type"] == "time"]
+		weeks = activity._time(sorted(tree.scope(VILLA)), activity._People())
 		keys = [one["key"] for one in weeks]
 		assert len(keys) == len(set(keys)) and any(one["data"]["people"] > 1 for one in weeks), keys[:5]
 

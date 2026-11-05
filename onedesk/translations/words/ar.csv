@@ -662,3 +662,79 @@ Total Warehouses,إجمالي المستودعات,
 Total Active Items,إجمالي الأصناف النشطة,
 Category-wise Asset Value,قيمة الأصول حسب الفئة,
 Location-wise Asset Value,قيمة الأصول حسب الموقع,
+1 day early,مبكرًا بيوم واحد
+1 task finished late,انتهت مهمة واحدة متأخرة
+All billable time invoiced,تمت فوترة كل الوقت القابل للفوترة
+All milestones met,تم تحقيق كل المراحل الرئيسية
+All tasks completed,اكتملت كل المهام
+All tasks were cancelled,أُلغيت كل المهام
+"At most {0} pts behind, on {1}",متأخر {0} نقطة على الأكثر، في {1}
+Billable time not invoiced,وقت قابل للفوترة لم تتم فوترته
+Completed by Completed On,المكتمل حسب تاريخ الاكتمال
+Completed over Time,المكتمل عبر الوقت
+Completed {0},اكتمل {0}
+Could not load tasks,تعذّر تحميل المهام
+Could not load the overview. Project details are still on the other tabs.,تعذّر تحميل النظرة العامة. تفاصيل المشروع لا تزال في التبويبات الأخرى.
+Cumulative % of task progress,النسبة التراكمية لتقدّم المهام
+Cumulative % of task weight,النسبة التراكمية لوزن المهام
+Cumulative % of tasks closed,النسبة التراكمية للمهام المغلقة
+Every task finished on time,انتهت كل مهمة في وقتها
+Finished 1 day after plan,انتهى بعد الخطة بيوم واحد
+Finished 1 day ahead of plan,انتهى قبل الخطة بيوم واحد
+Finished on plan,انتهى حسب الخطة
+Finished {0},انتهى {0}
+Finished {0} days after plan,انتهى بعد الخطة بـ {0} أيام
+Finished {0} days ahead of plan,انتهى قبل الخطة بـ {0} أيام
+Hours Logged,الساعات المسجّلة
+Never behind plan,لم يتأخر عن الخطة قط
+No Expected End Dates to compare,لا توجد تواريخ انتهاء متوقعة للمقارنة
+No Expected Time to compare,لا يوجد وقت متوقع للمقارنة
+No plan: {0} of {1} tasks have no Expected End Date,لا توجد خطة: {0} من {1} مهام بلا تاريخ انتهاء متوقع
+None due in the next {0} days,لا شيء مستحق في الأيام الـ {0} القادمة
+"None of this project's {0} tasks went ahead, so there is no progress or workload to show.",لم تتقدّم أي من مهام هذا المشروع الـ {0}، لذا لا يوجد تقدّم أو عبء عمل لعرضه.
+Oldest {0},الأقدم {0}
+On Time,في الوقت
+On plan,حسب الخطة
+Open Tasks by Assignee,المهام المفتوحة حسب المكلَّف
+Planned by Expected End Date,المخطط حسب تاريخ الانتهاء المتوقع
+Planned vs Completed,المخطط مقابل المكتمل
+"Progress, deadlines, workload and costs for this project will show up here once tasks are added.",سيظهر هنا تقدّم هذا المشروع ومواعيده وعبء العمل وتكاليفه بعد إضافة المهام.
+Tasks Delivered,المهام المسلّمة
+Tasks by Status,المهام حسب الحالة
+Unbilled,غير مفوتر
+View Tasks,عرض المهام
+by week,حسب الأسبوع
+every {0} weeks,كل {0} أسابيع
+planned {0},المخطط {0}
+{0} cancelled,{0} ملغاة
+{0} days early,مبكرًا بـ {0} أيام
+{0} done of {1} planned,تم إنجاز {0} من {1} مخطط
+{0} due in the next {1} days,{0} مستحقة في الأيام الـ {1} القادمة
+{0} of billable time not invoiced,{0} من الوقت القابل للفوترة لم تتم فوترته
+{0} of {1} tasks need a due date,{0} من {1} مهام تحتاج إلى تاريخ استحقاق
+{0} over {1} expected,{0} مقابل {1} متوقعة
+{0} pts ahead,متقدّم {0} نقطة
+{0} pts behind,متأخر {0} نقطة
+{0} still open,{0} لا تزال مفتوحة
+{0} tasks finished late,انتهت {0} مهام متأخرة
+{0} without Completed On use their last change,{0} بلا تاريخ اكتمال تُحتسب بآخر تعديل عليها
+{0}% complete,مكتمل {0}%
+{0}% of {1} expected,{0}% من {1} متوقعة
+"A task shared by several people counts for each of them. Group tasks are left out, as their subtasks carry the work.",المهمة التي يتشاركها عدة أشخاص تُحتسب لكل منهم. تُستثنى المهام الجماعية، لأن مهامها الفرعية تحمل العمل.
+"Billed is the amount on Sales Invoices for this project. Cost is the time logged at costing rates, plus purchases and consumed material. Gross margin is Billed less Cost.",المفوتر هو المبلغ في فواتير المبيعات لهذا المشروع. التكلفة هي الوقت المسجّل بأسعار التكلفة، مضافًا إليه المشتريات والمواد المستهلكة. الهامش الإجمالي هو المفوتر ناقص التكلفة.
+Completed by Assignee,المكتمل حسب المكلَّف
+Delayed By,متأخر بمقدار
+Gross Margin {0}%,الهامش الإجمالي {0}%
+Loose Ends,أمور معلّقة
+No completed tasks,لا توجد مهام مكتملة
+No open tasks,لا توجد مهام مفتوحة
+Nothing billed or spent yet,لم تتم فوترة أو صرف أي شيء بعد
+Open Costing,فتح التكاليف
+Open Task List,فتح قائمة المهام
+"Overdue, blocked, unassigned, or due in the next {0} days",متأخرة أو معطّلة أو غير مكلَّفة أو مستحقة في الأيام الـ {0} القادمة
+Still Open,لا تزال مفتوحة
+Tasks by Outcome,المهام حسب النتيجة
+Tasks still open on this cancelled project,مهام لا تزال مفتوحة في هذا المشروع الملغى
+Tasks still open on this completed project,مهام لا تزال مفتوحة في هذا المشروع المكتمل
+{0} completed,{0} مكتملة
+{0} open,{0} مفتوحة

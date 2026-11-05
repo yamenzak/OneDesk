@@ -222,7 +222,8 @@ record.head = (frm) => {
 			}
 			const one = rows[card.key];
 			if (!one || one.value === "—") return null;
-			return { title: named || one.label, value: one.value, tone: TONE[one.tone] || null, route: one.route };
+			const bar = one.meter && one.meter.of ? Math.min(100, Math.round((100 * one.meter.value) / one.meter.of)) : null;
+			return { title: named || one.label, value: one.value, note: one.note || null, bar, tone: TONE[one.tone] || null, route: one.route };
 		})
 		.filter(Boolean);
 	const host = hero.querySelector(".one-head-cards");
@@ -505,6 +506,7 @@ record.thread = (frm) => {
 		if (lines.length || verb) events.push({ kind: "change", owner: version.owner, at: version.creation, lines, verb });
 	});
 	(info.comments || []).forEach((comment) => events.push({ kind: "comment", owner: comment.owner, at: comment.creation, html: comment.content }));
+	(info.additional_timeline_content || []).forEach((item) => item.content && events.push({ kind: "told", at: item.creation, html: item.content, icon: item.icon }));
 	const doc = frm.doc;
 	events.push({ kind: "made", owner: doc.owner, at: doc.creation });
 	events.sort((a, b) => (a.at < b.at ? 1 : -1));
@@ -522,6 +524,7 @@ record.thread = (frm) => {
 	const html = groups
 		.map((group) => {
 			const when = `<span class="one-act-when">${comment_when(group.at)}</span>`;
+			if (group.kind === "told") return `<div class="one-act is-told">${group.icon ? mark(frappe.utils.icon(group.icon, "xs")) : dot}<div class="one-act-body"><div class="one-act-head">${when}${group.html}</div></div></div>`;
 			if (group.kind === "made") return `<div class="one-act">${dot}<div class="one-act-body"><div class="one-act-head"><b>${who(group.owner)}</b> ${__("created this")}${when}</div></div></div>`;
 			if (group.kind === "comment")
 				return `<div class="one-act is-comment">${mark(frappe.avatar(group.owner, "avatar-xs"))}<div class="one-act-body"><div class="one-act-head"><b>${who(group.owner)}</b> ${__("commented")}${when}</div><div class="one-act-comment">${group.html}</div></div></div>`;

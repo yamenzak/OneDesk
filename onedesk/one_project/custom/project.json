@@ -224,6 +224,83 @@
    "module": "One Project",
    "depends_on": "eval:doc.status == 'Completed' || doc.one_completed_on",
    "description": ""
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_time_tab",
+   "fieldtype": "Tab Break",
+   "label": "Timesheet",
+   "insert_after": "tasks_html",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_time_tab"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_time_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "one_time_tab",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_time_part"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_suppliers_tab",
+   "fieldtype": "Tab Break",
+   "label": "Suppliers",
+   "insert_after": "one_time_part",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_suppliers_tab"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_suppliers_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "one_suppliers_tab",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_suppliers_part"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_money_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "costing_tab",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_money_part"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_team_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "users_tab",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_team_part"
+  },
+  {
+   "dt": "Project",
+   "module": "One Project",
+   "fieldname": "one_overview_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "overview_html",
+   "collapsible": 0,
+   "description": "",
+   "name": "Project-one_overview_part"
   }
  ],
  "doctype": "Project",
@@ -242,7 +319,7 @@
    "doctype_or_field": "DocType",
    "property": "field_order",
    "property_type": "Text",
-   "value": "[\"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"one_kind\", \"one_monthly_fee\", \"one_monthly_hours\", \"one_cover\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"users_section\", \"users\", \"costing_tab\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"monitor_progress_tab\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
+   "value": "[\"overview_tab\", \"overview_html\", \"one_overview_part\", \"details_tab\", \"naming_series\", \"project_name\", \"customer\", \"one_parent\", \"project_template\", \"column_break_5\", \"status\", \"one_health\", \"one_manager\", \"one_kind\", \"one_monthly_fee\", \"one_monthly_hours\", \"one_cover\", \"section_break_18\", \"expected_start_date\", \"expected_end_date\", \"column_break_20\", \"actual_start_date\", \"actual_end_date\", \"actual_time\", \"tasks_tab\", \"tasks_html\", \"one_time_tab\", \"one_time_part\", \"one_suppliers_tab\", \"one_suppliers_part\", \"costing_tab\", \"one_money_part\", \"project_details\", \"estimated_costing\", \"total_costing_amount\", \"total_purchase_cost\", \"total_consumed_material_cost\", \"company\", \"cost_center\", \"column_break_28\", \"sales_order\", \"total_sales_amount\", \"total_billable_amount\", \"total_billed_amount\", \"margin\", \"gross_margin\", \"column_break_37\", \"per_gross_margin\", \"accounting_section\", \"column_break_accounting\", \"monitor_progress_tab\", \"section_break_sjmx\", \"collect_progress\", \"holiday_list\", \"frequency\", \"from_time\", \"to_time\", \"first_email\", \"second_email\", \"daily_time_to_send\", \"day_to_send\", \"weekly_time_to_send\", \"column_break_45\", \"subject\", \"message\", \"users_tab\", \"one_team_part\", \"users_section\", \"users\", \"one_contacts_section\", \"one_contacts\", \"more_info_tab\", \"customer_details\", \"priority\", \"project_type\", \"department\", \"column_break_14\", \"one_key\", \"percent_complete_method\", \"percent_complete\", \"is_active\", \"copied_from\", \"section_break0\", \"notes\", \"connections_tab\"]"
   },
   {
    "doc_type": "Project",

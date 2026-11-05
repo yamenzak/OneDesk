@@ -336,7 +336,7 @@ def _stat(doc, row, measured=None) -> dict | None:
 		stat.update(
 			{
 				key: value[key]
-				for key in ("label", "route", "tone", "delta", "meter", "when", "short", "steps", "other")
+				for key in ("label", "route", "tone", "delta", "meter", "note", "when", "short", "steps", "other")
 				if key in value
 			}
 		)

@@ -134,7 +134,7 @@ that exists.
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |
 | `src/inventory/item/ItemPart.vue` | Shopify's product page and Odoo's product form, drawn inside ERPNext's own Item tabs: where it is kept and what moved, who it is bought from at what price, who buys it and what can go now, what it is made of and what is being made |
-| `src/project/ProjectPage.vue` | Asana's project and monday's boards: a head with its health, then views that each open in place, as a form's tabs do, across the top under the head |
+| `src/project/ProjectPart.vue` | Asana's project and monday's boards: what a project of its kind needs, its money, time, suppliers and team, each in its form's own tab |
 | `src/inventory/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
 | `src/inventory/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |

@@ -1,5 +1,5 @@
 <template>
-  <div ref="root" class="grid gap-x-10 pb-12 pt-2 lg:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
+  <div ref="root" class="grid gap-x-10 pb-12 pt-2 xl:grid-cols-[minmax(0,1.7fr)_minmax(0,1fr)]">
     <div class="min-w-0">
       <Section v-for="notice in said.notices || []" :key="notice.notice" data-notice boxed :title="notice.text" icon="lucide-history">
         <div class="flex flex-col gap-2 pb-1">
@@ -13,22 +13,6 @@
         </div>
       </Section>
       <PlaceSpot :said="spot" class="mt-5" />
-      <div data-cards class="py-5">
-        <Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />
-      </div>
-
-      <Section v-if="said.notes" :title="__('Brief')" icon="lucide-file-text" :action="said.can_write ? { icon: 'lucide-pencil', label: __('Edit Brief'), onClick: editBrief } : null">
-        <div class="text-base leading-relaxed text-ink-gray-7 [&_p]:mb-2" v-html="said.notes" />
-      </Section>
-
-      <div v-if="taskSlices.length || weekly.length" data-cards class="grid gap-3 pb-5 pt-1" :class="{ 'sm:grid-cols-[minmax(0,2fr)_minmax(0,3fr)]': taskSlices.length && weekly.length }">
-        <ChartCard v-if="taskSlices.length" class="h-64">
-          <DonutChart :title="__('Tasks')" :subtitle="tasksSaid" :data="taskSlices" category="status" value="n" :format="count" :center-label="tasks.length === 1 ? tasks[0].status : __('Tasks')" :palette="taskColors" @select="$emit('view', 'tasks')" />
-        </ChartCard>
-        <ChartCard v-if="weekly.length" class="h-64">
-          <BarChart :title="__('Hours by Week')" :subtitle="__('{0} in 12 weeks', [hours(view.weekly.total)])" :data="weekly" x="week" :y="['hours']" :y-axis="{ format: hours }" :series-config="{ hours: { label: __('Hours') } }" />
-        </ChartCard>
-      </div>
 
       <template v-if="kind === 'Fixed Price'">
         <Section v-if="view.billing" :title="__('Work and Billing')" icon="lucide-receipt">
@@ -50,7 +34,7 @@
           <Rows v-if="over.length" class="mt-2" :rows="over" />
         </Section>
         <Section :title="__('Milestones')" icon="lucide-flag" :action="!finished && can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
-          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
+          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
         </Section>
@@ -71,7 +55,7 @@
 
       <template v-else>
         <Section :title="__('Milestones')" icon="lucide-flag" :action="!finished && can('create', 'Task') ? { text: true, icon: 'lucide-plus', label: __('Add Milestone'), onClick: () => onedesk().project.add_milestone(view.milestones.projects, kind === 'Fixed Price', () => emit('changed')) } : null">
-          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" @main="$emit('main')" />
+          <MilestoneLanes v-if="view.milestones.lanes?.length" :lanes="view.milestones.lanes" />
           <Milestones v-else-if="view.milestones.list.length" :milestones="view.milestones.list" />
           <div v-else class="py-3 text-base text-ink-gray-5">{{ __("No milestones") }}</div>
         </Section>
@@ -98,15 +82,10 @@
     </div>
 
     <div class="min-w-0">
-      <Section boxed :title="__('Needs You')" icon="lucide-bell" :aside="view.needs_count || ''">
-        <Rows :rows="needs" :empty="__('Nothing to do')" />
-        <Button v-if="view.needs_all" variant="ghost" class="mt-2 -ms-2" :label="__('Show All')" @click="go(view.needs_all)" />
+      <Section v-if="needs.length" boxed :title="__('Needs You')" icon="lucide-bell" :aside="needs.length">
+        <Rows :rows="needs" />
       </Section>
 
-      <Section :title="__('About', null, 'Project')" icon="lucide-info">
-        <Facts :facts="facts" :form="form" @saved="$emit('changed')" />
-        <Button v-if="!said.notes && said.can_write" variant="ghost" class="mt-3 -ms-2" icon-left="lucide-plus" :label="__('Add Brief')" @click="editBrief" />
-      </Section>
       <Section :title="__('Updates')" icon="lucide-message-square" :aside="said.asking">
         <Updates :said="said" :writing="writing" @changed="$emit('changed')" />
       </Section>
@@ -130,20 +109,20 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from "vue";
+import { computed, ref } from "vue";
 import { Button } from "frappe-ui";
-import { BarChart, ChartCard, DonutChart, useChartTokens } from "frappe-ui/charts";
+import { BarChart, ChartCard, useChartTokens } from "frappe-ui/charts";
 
-import { Branded, Facts, Figures, PlaceSpot, Rows, Section, __, can, colors, count, date, go, hours, money, newDoc, newDocIn, onedesk, shortDate, useForm } from "../kit";
+import { Branded, PlaceSpot, Rows, Section, __, can, date, go, hours, money, newDoc, newDocIn, onedesk, shortDate } from "../kit";
 import MilestoneLanes from "./MilestoneLanes.vue";
 import Milestones from "./Milestones.vue";
 import Months from "./Months.vue";
 import Updates from "./Updates.vue";
-import { useParts } from "./only";
+import { useParts } from "./parts";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true }, writing: Boolean });
-const emit = defineEmits(["changed", "view", "main"]);
+const emit = defineEmits(["changed", "view"]);
 const parts = useParts();
 const DOTS = { red: "bg-surface-red-5", amber: "bg-surface-amber-5", orange: "bg-surface-amber-5", green: "bg-surface-green-5", blue: "bg-surface-blue-5", gray: "bg-surface-gray-5" };
 const act = (verb) => onedesk().head.act({ doctype: "Project", doc: { name: props.said.name }, reload_doc: () => emit("changed") }, verb);
@@ -154,17 +133,6 @@ const kind = computed(() => props.said.kind);
 
 const QUOTE = { Open: "blue", Replied: "blue", "Partially Ordered": "green", Ordered: "green", Lost: "red", Expired: "amber", Draft: "gray" };
 
-const NAMES = () => ({
-  contract: __("Contract"), quoted: __("Quoted"), valid: __("Valid Till"), billed: __("Billed"), cost: __("Cost"), forecast: __("Forecast Margin"), margin: __("Margin"), done: __("% Completed"),
-  hours: __("Hours This Month"), month: __("This Month"), unbilled: __("Not Invoiced Yet"), fee: __("Monthly Fee"),
-  months_waiting: __("Months Not Invoiced"), invoiced: __("Invoiced"), budget: __("Estimated Cost Used"), due: __("Expected End Date"), overdue: __("Overdue Tasks"),
-});
-const figure = (card) => {
-  if (card.money !== undefined && card.money !== null) return money(card.money, card.currency || props.said.currency);
-  if (card.hours !== undefined) return hours(card.hours);
-  if (card.date) return card.value ? date(card.value) : "–";
-  return card.value ?? "–";
-};
 const spot = usePlace("oneproject.overview", () => ({
   project: { name: props.said.name, title: props.said.title, kind: props.said.kind, currency: props.said.currency },
   overview: {
@@ -173,19 +141,6 @@ const spot = usePlace("oneproject.overview", () => ({
     needs_count: view.value.needs_count ?? view.value.needs.length,
   },
 }));
-const figures = computed(() =>
-  props.said.cards.map((card) => ({
-    title: NAMES()[card.key] || card.key,
-    value: figure(card),
-    note: card.note || (card.note_money ? card.note_money.map(([text, values]) => text.replace(/\{(\d+)\}/g, (_, i) => money(values[Number(i)], props.said.currency))).join("\n") : ""),
-    bar: card.bar,
-    other: card.other ? { label: card.other.tax === "with" ? __("With tax") : __("Before tax"), value: money(card.other.money, props.said.currency) } : undefined,
-    alarm: card.tone === "alarm",
-    route: card.route,
-    action: opens(card),
-    button: next(card),
-  }))
-);
 const workAndBilling = computed(() => {
   const b = view.value.billing;
   const sum = (value) => money(value, props.said.currency);
@@ -218,34 +173,6 @@ const over = computed(() =>
     .map((one) => ({ key: one.type, dot: "red", label: one.type, below: __("{0} budget", [money(one.budget, props.said.currency)]), value: __("{0} over", [money(-one.left, props.said.currency)]) }))
 );
 
-const TASK_ORDER = ["Completed", "Working", "Pending Review", "Overdue", "Open"];
-const tasks = computed(() =>
-  TASK_ORDER.filter((status) => view.value.statuses?.[status])
-    .map((status) => ({ key: status, status: __(status), n: view.value.statuses[status] }))
-    .sort((a, b) => b.n - a.n)
-);
-const taskSlices = computed(() => tasks.value.map(({ status, n }) => ({ status, n })));
-const taskColors = computed(() => {
-  const ramp = tokens.value.categorical;
-  const tone = { Completed: ramp[2], Working: ramp[0], "Pending Review": ramp[6], Overdue: ramp[8], Open: colors(root.value, "--outline-gray-3")[0] };
-  return tasks.value.map((one) => tone[one.key]);
-});
-const tasksSaid = computed(() => {
-  const all = Object.values(view.value.statuses || {}).reduce((a, b) => a + b, 0);
-  return __("{0} of {1} done", [view.value.statuses?.Completed || 0, all]);
-});
-
-const opens = (card) =>
-  card.view && !card.route && props.said.views?.includes(card.view)
-    ? { icon: "lucide-arrow-up-right", label: NAMES()[card.key] || card.key, onClick: () => emit("view", card.view) }
-    : null;
-const next = (card) => {
-  if (!can("create", "Sales Order")) return null;
-  if (card.action === "add_contract" && props.said.can_write && props.said.customer)
-    return { label: __("Add Contract"), icon: "lucide-plus", onClick: () => onedesk().project.add_contract(frm()) };
-  return null;
-};
-
 const frm = () => ({
   doctype: "Project",
   doc: {
@@ -259,55 +186,22 @@ const frm = () => ({
   reload_doc: () => emit("changed"),
 });
 const needs = computed(() =>
-  view.value.needs.map((one, i) => ({
-    key: i,
-    dot: one.tone,
-    label: one.text,
-    below: [one.dim, one.today ? __("Today") : one.late === 1 ? __("1 day late") : one.late ? __("{0} days late", [one.late]) : one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : ""].filter(Boolean).join(" · "),
-    route: one.route,
-  }))
+  view.value.needs
+    .filter((one) => !one.route?.startsWith("/desk/task/"))
+    .map((one, i) => ({
+      key: i,
+      dot: one.tone,
+      label: one.text,
+      below: [one.dim, one.money !== undefined && one.money !== null ? money(one.money, props.said.currency) : ""].filter(Boolean).join(" · "),
+      route: one.route,
+    }))
 );
 
-const weekly = computed(() => {
-  const w = view.value.weekly;
-  return w ? w.labels.map((week, i) => ({ week, hours: w.values[i] })) : [];
-});
 const unbilledTotal = computed(() => {
   const all = view.value.unbilled || [];
   return all.length ? money(all.reduce((sum, one) => sum + one.amount, 0), props.said.currency) : "";
 });
 
-const form = useForm("Project", computed(() => props.said.name));
-watch(() => props.said.modified, (now) => form.reload(now));
-const facts = computed(() => {
-  const s = props.said;
-  const left = s.days_left;
-  const open = s.status === "Open";
-  const from = (value) => (value ? [__(value), s.terms_from && __("from {0}", [s.terms_from])].filter(Boolean).join(" · ") : __("Not set"));
-  return [
-    { label: __("Progress"), field: "percent_complete_method" },
-    s.kind !== "Internal" && { label: __("Expected End Date"), field: "expected_end_date", placeholder: __("Not set"), tone: s.ends && open && left < 0 ? "red" : undefined },
-    s.people?.length && { label: __("Team"), value: s.people.length === 1 ? __("1 person") : __("{0} people", [s.people.length]), avatars: s.people.map((one) => ({ label: one.name, image: one.image })), onClick: () => emit("view", "team") },
-    { label: __("Priority"), field: "priority" },
-    { label: __("Time"), field: "one_time", placeholder: __(s.time) },
-    { label: __("Site"), field: "one_site" },
-    s.kind !== "Internal" && { label: __("Payment Terms"), field: "one_payment_terms", placeholder: from(s.payment_terms) },
-    { label: __("Terms and Conditions"), field: "one_terms", placeholder: s.terms ? from(s.terms) : "" },
-    { label: __("Project Type"), field: "project_type" },
-    { label: __("Department"), field: "department" },
-    { label: __("Task Prefix"), field: "one_key" },
-    { label: __("Cost Center"), field: "cost_center" },
-    { label: __("Retention"), field: "one_retention" },
-    { label: __("Released at Handover"), field: "one_retention_handover" },
-    { label: __("Retention Due"), field: "one_retention_due" },
-    s.agreement && {
-      label: __("Signed Contract"),
-      value: s.agreement.signed ? [__("Signed"), s.agreement.ends && __("Ends {0}", [date(s.agreement.ends)])].filter(Boolean).join(" · ") : __("Not signed yet"),
-      route: s.agreement.route,
-    },
-  ].filter(Boolean);
-});
-const editBrief = () => onedesk().project.edit_brief(props.said.name, props.said.modified, () => emit("changed"));
 const retention = computed(() =>
   [
     ["customer", __("From the Customer")],
@@ -342,7 +236,6 @@ const mainRow = computed(() => {
       lines: [worth.filter(Boolean).join(" · ")].filter(Boolean),
       value: share(one.share),
       dot: one.over ? "red" : undefined,
-      onClick: () => emit("main"),
     },
   ];
 });

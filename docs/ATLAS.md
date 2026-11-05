@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 81 | 2 | 36 | 0 |
+| onedesk | 81 | 2 | 35 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 298 | 137 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -40,7 +40,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 
 | Screen | Lists | Not heard | Bare | Not the company's |
 |---|---|---|---|---|
-| project (`frontend/src/project/ProjectPage.vue`) | Cloud File Version, Comment, Contact, DocShare, Employee, File, Payment Schedule, Project, Quotation, Reading, Reading Action, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Task Depends On, Timesheet, Timesheet Detail, User, User Group Member | Cloud File Version, Comment, DocShare, Reading, Reading Action, Record Head | – | Employee, Project, Task, Timesheet |
+| project_part (`frontend/src/project/ProjectPart.vue`) | Contact, Employee, Payment Schedule, Project, Quotation, Record Head, Request for Quotation Supplier, Sales Invoice, Sales Order, Sales Order Item, Supplier, Task, Timesheet, Timesheet Detail, User | Record Head | – | Employee, Project, Task, Timesheet |
 | template_part (`frontend/src/template/TemplatePart.vue`) | – | – | – | – |
 | stock (`frontend/src/inventory/stock/StockOnHand.vue`) | Bin, Item, Item Reorder, UOM, Warehouse | – | – | – |
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
@@ -293,7 +293,7 @@ Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Activity Cost | inside: an Activity Type's Connections, one rate for each person | OneProject | untouched | yes | general |  | **none** |  |  |  |  |
 | Activity Type | on a rail or a home | everybody | form script | yes | taught |  | yes |  |  |  |  |
-| Project | on a rail or a home | OneBook, OneHR, OneProject | a page of our own | yes | taught |  | yes |  |  |  | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
+| Project | on a rail or a home | OneBook, OneHR, OneProject | a head, class, events, form script, list script, tree script, 31 fields, 42 settings | yes | taught |  | yes |  |  |  | Added to Project, Comment on Project, Hours Over Plan, Made Project Manager, Milestone Done, Over Budget, Project Completed, Project End Moved, Project Health, Project Resumed, Project Stopped, Project Summary, Project Update Asked |
 | Project Template | on a rail or a home | OneProject | a head, events, form script, list script, 11 fields, 1 settings | yes | taught |  | yes |  |  |  |  |
 | Project Type | through a form's link (Project Template: project_type) | OneProject, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Project Update | opened by our screens | OneProject | untouched | yes | taught | makes it | yes |  |  |  |  |
@@ -1072,8 +1072,6 @@ Pages: onemail (on a rail or a home).
 
 
 Reports: Project Progress (on a rail or a home); Stock by Project (on a rail or a home); Workload (on a rail or a home).
-
-Pages: project-view (inside: a Project opens on it).
 
 ## onedesk / One Sheet
 

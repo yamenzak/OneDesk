@@ -31,7 +31,7 @@ The view switch at the top of **Project** lays them out as:
   projects.
 - **Kanban View**: **Projects by Health**, open projects in On Track, At Risk
   and Off Track. Drag a card to change its health; the project's people are
-  told as when it's changed on its page.
+  told as when it's changed on the project.
 - **Tree View**: each project under its parent. Click one to open it;
   **Show Completed** adds finished projects.
 - **Gantt View**: each project as a bar from its start to its end, filled as

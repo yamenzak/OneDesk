@@ -31,10 +31,10 @@ no end.
 - **Attendance on Site**: pick the project's **Site** (a check-in location in
   OneHR). Each day someone's attendance has them at the site counts as a day
   on the project. For crews who spend the whole day on one site.
-- **Not Tracked**: hours aren't counted, and the page has no Timesheet view.
+- **Not Tracked**: hours aren't counted, and the project has no **Timesheet** tab.
 
 It starts as **Count Time By** under **Projects Settings**, and can be changed
-later in **About**. A site belongs to one open project at a time.
+later on the project's **Details**. A site belongs to one open project at a time.
 
 Whether hours are billed follows the kind. Time and Materials and Retainer
 hours are billable; a Fixed Price or Internal project's hours are its labour

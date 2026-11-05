@@ -3,30 +3,24 @@
 A part of a job that's billed separately is a **sub-project**: handrails on a
 villa whose windows you're already fitting, or a booking module a website
 customer asks for halfway through. Set its **Parent Project**, or click **+**
-next to **Sub-projects** on the parent's page. It's a project of its own,
+next to **Sub-projects** on the parent's Overview. It's a project of its own,
 with its own quotation, sales order, time, costs and invoices, and it also
 counts towards the parent. Sub-projects can have sub-projects.
 
 - A sub-project gets its parent's **customer** unless you set another.
-- A parent's page shows the **whole tree added up** (estimated cost, cost,
-  billed and margin), and its **% Complete** measures every task under it.
-  **Sub-projects** lists the ones directly under it. The **Contract** card
-  says how much of it was ordered as extra work.
-- On **All Work**, a **New** button (invoice, bill, purchase order, material
+- A parent shows the **whole tree added up** (estimated cost, cost, billed
+  and margin), and its **% Complete** measures every task under it.
+  **Sub-projects** lists the ones directly under it, starting with **Main**,
+  the parent's own work alone.
+- A **New** button on a parent (invoice, bill, purchase order, material
   request, expense claim, quotation) asks which project it's for first, the
   main one filled in, as **New Task** does, so a variation's work isn't
-  booked on the main project by mistake. On **Main** or a sub-project it
-  goes straight to the form.
-- The **Contract** and **Billed** cards read with tax, as the **Invoices**
-  tab does: what the customer pays. **Money** works before tax, since cost
-  and margin have no tax in them. Every such figure has a dashed underline,
-  and hovering it says the other side of the tax.
-- **Main**, first in **Sub-projects**, shows the page for the parent's own
-  work alone: its own orders, tasks, time, invoices, bills, team and
-  activity, and its figures without what's under it. A project with
-  sub-projects has one more step in its breadcrumb, **All Work** or
-  **Main**, which switches between the two and opens each sub-project. The
-  address keeps it, so the link opens the same view.
+  booked on the main project by mistake. On a sub-project it goes straight
+  to the form.
+- The **Invoices** under **Costing** read with tax: what the customer pays.
+  **Money** works before tax, since cost and margin have no tax in them.
+  Every such figure has a dashed underline, and hovering it says the other
+  side of the tax.
 - A parent's **Calendar** includes its sub-projects' tasks, each titled with
   its sub-project.
 - **Members** of a project see everything under it.

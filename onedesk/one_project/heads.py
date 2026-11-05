@@ -31,10 +31,6 @@ def _money(said, value) -> str:
 	return fmt_money(value or 0, precision=0, currency=said["currency"])
 
 
-def _of(said, part, whole) -> str:
-	return _("{0} of {1}").format(_money(said, part), _money(said, whole)) if whole else _money(said, part)
-
-
 def _route(value) -> str:
 	"""A list filter in the address, as the desk writes one."""
 	return quote(json.dumps(value, separators=(",", ":")), safe="!~*'()")
@@ -57,12 +53,8 @@ def sub_projects(doc):
 
 def done(doc):
 	said = _said(doc.name)
-	value = (
-		_("{0}% · {1} of {2} tasks").format(said["share"], said["done"], said["tasks"])
-		if said["tasks"]
-		else f"{said['share']}%"
-	)
-	return {"value": value, "meter": {"value": said["share"], "of": 100}}
+	note = _("{0} of {1} tasks").format(said["done"], said["tasks"]) if said["tasks"] else None
+	return {"value": f"{said['share']}%", "note": note, "meter": {"value": said["share"], "of": 100}}
 
 
 def due(doc):
@@ -81,7 +73,8 @@ def cost(doc):
 	said = _said(doc.name)
 	over = said["estimated"] and said["cost"] > said["estimated"]
 	return {
-		"value": _of(said, said["cost"], said["estimated"]),
+		"value": _money(said, said["cost"]),
+		"note": _("of {0}").format(_money(said, said["estimated"])) if said["estimated"] else None,
 		"tone": "alarm" if over else None,
 		"meter": {"value": said["cost"], "of": said["estimated"]} if said["estimated"] else None,
 	}
@@ -92,7 +85,8 @@ def billed(doc):
 	if not (said["to_bill"] or said["billed"]):
 		return None
 	return {
-		"value": _of(said, said["billed"], said["to_bill"]),
+		"value": _money(said, said["billed"]),
+		"note": _("of {0}").format(_money(said, said["to_bill"])) if said["to_bill"] else None,
 		"meter": {"value": said["billed"], "of": said["to_bill"]} if said["to_bill"] else None,
 	}
 

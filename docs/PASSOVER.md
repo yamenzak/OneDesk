@@ -54,11 +54,9 @@ on any screen gets a guard first, then the fix.
    Followers, attachments, who's viewing, created and modified by), the record
    kept live (`doc_subscribe`, `doc_update`), a change made against the
    `modified` it was loaded with, and a warning before leaving unsaved work.
-   And every field of the record that can be typed in on its form is edited
-   on the page: in its own place there, or in the page's Edit dialog, grouped,
-   with any field a workspace adds under More. Its form stays in the menu as
-   a fallback, never as the only way to a field
-   (`test_a_page_edits_every_field_of_its_record`).
+   Today no record has a page of its own: a record opens on its form, and
+   what One adds is a head and parts in its tabs (Item, Project and Project
+   Template went that way in November 2026).
 7. **Extensible**: what a workspace adds still reaches the screen. A Client
    Script runs on frappe's form; a page of its own declares its places, where
    OneStudio's extensions go. Server Scripts and our hooks run whatever the

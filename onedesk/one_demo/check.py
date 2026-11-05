@@ -192,7 +192,7 @@ def _team(project):
 
 @check
 def every_project_page_opens_for_its_people():
-	"""The page's three reads, as the owner, the project manager, the books
+	"""A project's two reads, as the owner, the project manager, the books
 	and each member of its team."""
 	from onedesk.one_project import money, view
 
@@ -206,7 +206,6 @@ def every_project_page_opens_for_its_people():
 			try:
 				with as_user(user):
 					view.said(project.name)
-					view.work(project.name)
 					money.money(project.name)
 			except Exception as e:
 				broken.append((project.project_name, user, f"{type(e).__name__}: {e}"[:160]))

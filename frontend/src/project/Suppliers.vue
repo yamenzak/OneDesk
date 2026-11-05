@@ -159,11 +159,10 @@ import { Avatar, Badge, Button, Dropdown, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, PlaceSpot, __, call, date, followList, go, money, newDocIn, onedesk, requires } from "../kit";
-import { onlyArg, useOnly, useParts } from "./only";
+import { useParts } from "./parts";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });
-const only = useOnly();
 const parts = useParts();
 
 const STATUS = { "On Hold": "amber", Closed: "gray", Completed: "green" };
@@ -273,8 +272,8 @@ const editSupplier = (one) => onedesk().project.contact(props.said.name, one, (n
 
 async function load() {
   [buying.value, bills.value, contacts.value] = await Promise.all([
-    call("onedesk.one_project.buying.papers", { project: props.said.name, ...onlyArg(only) }),
-    call("onedesk.one_project.billing.bills", { project: props.said.name, ...onlyArg(only) }),
+    call("onedesk.one_project.buying.papers", { project: props.said.name }),
+    call("onedesk.one_project.billing.bills", { project: props.said.name }),
     call("onedesk.one_project.contacts.contacts", { project: props.said.name }),
   ]);
 }

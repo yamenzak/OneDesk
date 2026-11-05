@@ -76,7 +76,7 @@ import { Button, Dialog, Progress } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, PlaceSpot, Rows, Section, __, call, can, date, money, newDocIn, onedesk, requires } from "../kit";
-import { useParts } from "./only";
+import { useParts } from "./parts";
 import { usePlace } from "./place";
 
 const props = defineProps({ said: { type: Object, required: true } });

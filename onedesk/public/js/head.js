@@ -123,7 +123,7 @@ onedesk.head.draw = (frm, drawn = null) => {
 onedesk.head.notice = (frm, notice) => {
 	const $notice = $(`<div class="form-message one-notice ${notice.colour}">${onedesk.head.marked(notice.colour)}<div class="one-notice-text"></div><div class="one-notice-verbs"></div></div>`);
 	$notice.find(".one-notice-text").text(notice.text);
-	for (const line of notice.lines || []) $("<div>").text(line).appendTo($notice.find(".one-notice-text"));
+	for (const line of notice.lines || []) $("<div dir=\"auto\">").text(line).appendTo($notice.find(".one-notice-text"));
 	for (const verb of notice.verbs) {
 		$notice.find(".one-notice-verbs").append(frappe.ui.button({ label: verb.label, variant: "outline", onclick: () => onedesk.head.act(frm, verb) }));
 	}

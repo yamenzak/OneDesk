@@ -1,18 +1,5 @@
 frappe.provide("onedesk.project");
 
-{
-	const standard = frappe.router.convert_to_standard_route.bind(frappe.router);
-	frappe.router.convert_to_standard_route = async (route) => {
-		const found = await standard(route);
-		if (frappe.route_options) delete frappe.route_options.edit;
-		const [view, doctype, name] = found || [];
-		const page = { Project: "project-view" }[doctype];
-		if (view !== "Form" || !page || !name || name === "new" || name.startsWith("new-")) return found;
-		if (new URLSearchParams(window.location.search).has("edit")) return found;
-		return [page, name];
-	};
-}
-
 onedesk.project.library = async (field) => {
 	const presets = await frappe.xcall("onedesk.one_project.library.presets");
 	field.set_data(

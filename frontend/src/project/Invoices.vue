@@ -66,11 +66,10 @@ import { Avatar, Badge, Button, Dropdown } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
 import { Figures, Loading, PlaceSpot, __, call, date, emailRecord, followList, go, money, monthName, newDocIn, onedesk } from "../kit";
-import { onlyArg, useOnly, useParts } from "./only";
+import { useParts } from "./parts";
 import { usePlace } from "./place";
 
 const props = defineProps({ projectName: { type: String, required: true }, projectTitle: String, kind: String, customer: String, currency: String });
-const only = useOnly();
 const parts = useParts();
 
 const STATUS = { Paid: "green", "Partly Paid": "blue", Unpaid: "amber", Overdue: "red", Draft: "red", Return: "gray", "Credit Note Issued": "gray" };
@@ -86,7 +85,7 @@ const beforeTax = (net, gross) => (net !== undefined && net !== null && Math.abs
 const sum = (value, currency) => money(value, currency || props.currency);
 
 async function load() {
-  said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName, ...onlyArg(only) });
+  said.value = await call("onedesk.one_project.billing.invoices", { project: props.projectName });
 }
 let timer = null;
 const later = () => {

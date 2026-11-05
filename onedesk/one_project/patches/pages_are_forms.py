@@ -1,9 +1,10 @@
-"""A project template opens on its form now, with a head (one_project/heads.py)
-and its tasks drawn in it, so OneProject's own page of one is gone."""
+"""A project and a project template open on their forms now, with a head
+(one_project/heads.py) and OneProject's parts drawn in their tabs, so
+OneProject's own pages of them are gone."""
 
 import frappe
 
-GONE = ("project-template-view",)
+GONE = ("project-template-view", "project-view")
 
 
 def execute():

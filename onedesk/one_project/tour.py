@@ -1,8 +1,8 @@
 """OneProject's tours (one/tours.py, docs/READY.md mechanism 10), one for each
 area of its screens, found by the mark at `at`; each step points at a
 `data-tour` mark, the window's own (window-*) or OneProject's. A project's
-page has one area: its head and the row of views under it, with OneProject's
-rail beside it."""
+form has one area of OneProject's own: what its kind needs, under ERPNext's
+overview, with OneProject's rail beside it."""
 
 from frappe import _lt
 
@@ -14,16 +14,10 @@ PROJECT = [
 		"text": _lt("Every project you can see, the hours people have logged, and who has room this week."),
 	},
 	{
-		"target": "oneproject-head",
-		"side": "bottom",
-		"title": _lt("The Project at a Glance"),
-		"text": _lt("Its name, status and health, with the facts its kind needs; click the name or the status to change it."),
-	},
-	{
-		"target": "oneproject-views",
-		"side": "bottom",
-		"title": _lt("One Row of Views"),
-		"text": _lt("Overview, tasks, time, money, invoices, the team and files, each one click away."),
+		"target": "oneproject-overview",
+		"side": "top",
+		"title": _lt("What Its Kind Needs"),
+		"text": _lt("Billing, orders, the budget, milestones and contracts, as a project of its kind is run."),
 	},
 	{
 		"target": "interface-tour",
@@ -33,4 +27,4 @@ PROJECT = [
 	},
 ]
 
-TOURS = [{"key": "project", "at": "oneproject-views", "steps": PROJECT}]
+TOURS = [{"key": "project", "at": "oneproject-overview", "steps": PROJECT}]

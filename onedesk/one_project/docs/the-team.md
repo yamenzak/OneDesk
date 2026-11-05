@@ -5,7 +5,7 @@ it's going.
 
 ## Team
 
-Everyone on the project: its **Members**, its manager, whoever a task is
+**Team**, on the project's **More Info** tab, lists everyone on the project: its **Members**, its manager, whoever a task is
 assigned to and whoever logged time on it. Each shows their job (from their
 employee record, and **No sign-in** for somebody whose time is logged but
 who can't sign in), their open tasks with how many are late, and their hours
@@ -22,9 +22,6 @@ them. Only somebody who signs in can be a member. An employee who only has
 their time logged can't be. Whoever may change the project may change its
 members.
 
-The avatars in the project's head are the same people, the manager first,
-and open **Team**. **About** on the Overview counts them too.
-
 Members are who can open the project. Three things let somebody in, so
 nobody is given work on a project they can't see:
 
@@ -32,7 +29,7 @@ nobody is given work on a project they can't see:
   member, as a record is shared with whoever is assigned it. New Task
   says so under **Owner** before it's made.
 - **Mentioning somebody** in a comment who can't open the project asks
-  whether to add them first (**Add to Project** or **Just Comment**).
+  whether to add them first (**Add to Project** or **Comment Only**).
   Without it they'd be told of the mention and find the project closed.
 - **Members** in the sidebar is the project's sharing: it shows the members
   and its **+** is Add Member. Sharing a project any other way makes the
@@ -49,7 +46,8 @@ and whoever can change it can change them.
 
 ## Activity
 
-What happened on the project and its sub-projects, the newest first:
+**Activity**, on the right of the project, is what happened on the project
+and its sub-projects, the newest first:
 
 - **Documents**: each quotation, order, delivery, invoice, payment, request,
   receipt, expense claim, stock entry and journal entry made for it, when it
@@ -60,28 +58,22 @@ What happened on the project and its sub-projects, the newest first:
   its changes.
 - **Work**: tasks added and completed, the team's updates, the team's
   hours in a week (one line a week on each project, naming who logged them,
-  most hours first, and over how many days), files added or removed, and
-  sub-projects started. Every entry is on the **Timesheet** tab.
-- **Comments and emails** on the project.
+  most hours first, and over how many days), and sub-projects started. Every
+  entry is on the **Timesheet** tab.
+- **Comments** on the project.
 
-At the top, you write a comment, and typing @ mentions someone. **New
-Email** opens the email window on the project, with its mail templates and
-its files to attach. **Reply** and **Reply All** on an email answer it. The
-newest is first, and **Show earlier activity** at the foot loads older rows.
-A task's panel has the same Activity.
-
-**All**, **Money**, **Work** and **Comments** narrow it. A document only
-shows to whoever may read its type.
+At the top, you write a comment, and typing @ mentions someone. Its mail is
+under **Mail** beside it. A document only shows to whoever may read its type.
 
 ## Asking How It's Going
 
 **Updates** on a project's Overview shows the team's latest update, with the
 health the project was in when it was written. **Show Earlier** opens the
-rest. Write yours in the line under it and press **Post**. **Post Update** in
-the page's menu brings you to the same line. Health is set in the page's head,
-and each update keeps the health it was posted in.
+rest. Write yours in the line under it and press **Post**, or use **Post
+Update** at the top of the project. Health is set on the project's
+**Details**, and each update keeps the health it was posted in.
 
-**Ask for Updates** in the page's menu asks the team for an update: **How
+**Ask for Updates** under **Actions** asks the team for an update: **How
 Often** (**Daily**, **Twice Daily** or **Weekly**) and when. The Updates
 heading then says how often, such as **Asked every Monday**. Each member gets
 a notification that opens the project, and an email if the workspace sends
@@ -94,7 +86,7 @@ and One asks in its own words.
 - Replying to the email works too, whenever the reply comes.
 - A site log mailed in by a member, which names the project, is their update
   for the day too (OneAI reads it).
-- An update posted by someone else shows without reloading the page.
+- An update posted by someone else shows without reloading.
 - Every update is in the project's **Activity**, under who wrote it.
 - No one is asked on a day off in the project's **Holiday List**, and a
   project with no members asks no one.

@@ -55,7 +55,7 @@ def test_a_records_views_are_the_one_tab_row():
 		if "<TabTrigger" in text and re.search(r"defineProps\(\{[\s\S]*onTitle", text):
 			found.append(str(path.relative_to(ROOT)))
 	assert not found, found
-	assert "<ViewTabs" in (SRC / "project" / "ProjectPage.vue").read_text()
+	assert "<ViewTabs" in (SRC / "inventory" / "home" / "InventoryHome.vue").read_text()
 	row = (SRC / "kit" / "ViewTabs.vue").read_text()
 	assert "overflow-x-auto" in row and "flex-nowrap" in row, "the row scrolls, as a form's tabs do"
 	assert "Dropdown" not in row, "no tab is hidden in a menu"

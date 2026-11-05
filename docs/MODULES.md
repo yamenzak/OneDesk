@@ -842,7 +842,6 @@ No doctypes yet.
 * `onedesk.one_portal.share.revoke_link`
 * `onedesk.one_portal.share.rotate_link`
 * `onedesk.one_portal.share.set_access`
-* `onedesk.one_project.activity.activity`
 * `onedesk.one_project.agreement.draw_up`
 * `onedesk.one_project.agreement.parties`
 * `onedesk.one_project.billing.bills`
@@ -869,7 +868,6 @@ No doctypes yet.
 * `onedesk.one_project.library.copy`
 * `onedesk.one_project.library.presets`
 * `onedesk.one_project.materials.give_back`
-* `onedesk.one_project.media.add`
 * `onedesk.one_project.media.featured`
 * `onedesk.one_project.members.joins`
 * `onedesk.one_project.members.let_in`
@@ -903,12 +901,10 @@ No doctypes yet.
 * `onedesk.one_project.tree.totals`
 * `onedesk.one_project.updates.asked`
 * `onedesk.one_project.updates.post`
-* `onedesk.one_project.view.files`
 * `onedesk.one_project.view.picker`
 * `onedesk.one_project.view.said`
 * `onedesk.one_project.view.to_quote`
 * `onedesk.one_project.view.updates`
-* `onedesk.one_project.view.work`
 * `onedesk.one_sheet.api.download`
 * `onedesk.one_sheet.api.get_link_preview`
 * `onedesk.one_sheet.api.get_sheet`

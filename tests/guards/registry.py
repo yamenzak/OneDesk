@@ -500,12 +500,6 @@ GUARDS = [
 		"tests/guards/test_rail.py::test_every_sidebar_of_ours_has_a_tile_on_the_rail",
 	),
 	Guard(
-		"page-edits-every-field",
-		6,
-		"a field of a page's record that can be typed in on its form and has no place on the page",
-		"tests/guards/test_frame.py::test_a_page_edits_every_field_of_its_record",
-	),
-	Guard(
 		"page-keeps-form",
 		6,
 		"a page of its own without its form's menu, frappe's form sidebar or realtime",

@@ -10,7 +10,8 @@
    "no_copy": 1,
    "in_list_view": 1,
    "module": "One Project",
-   "hidden": 1
+   "hidden": 1,
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -22,7 +23,8 @@
    "no_copy": 1,
    "in_list_view": 1,
    "module": "One Project",
-   "hidden": 1
+   "hidden": 1,
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -34,7 +36,8 @@
    "no_copy": 1,
    "in_list_view": 1,
    "module": "One Project",
-   "hidden": 1
+   "hidden": 1,
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -44,7 +47,8 @@
    "insert_after": "one_projects",
    "module": "One Project",
    "name": "Project Template-one_tasks_section",
-   "collapsible": 0
+   "collapsible": 0,
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -52,7 +56,8 @@
    "label": "Terms",
    "fieldtype": "Section Break",
    "insert_after": "one_tasks_part",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -61,7 +66,8 @@
    "fieldtype": "Link",
    "options": "Payment Terms Template",
    "insert_after": "one_terms_section",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -70,14 +76,16 @@
    "fieldtype": "Link",
    "options": "Terms and Conditions",
    "insert_after": "one_payment_terms",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project Template",
    "fieldname": "one_terms_break",
    "fieldtype": "Column Break",
    "insert_after": "one_terms",
-   "module": "One Project"
+   "module": "One Project",
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -86,7 +94,8 @@
    "fieldtype": "Percent",
    "insert_after": "one_terms_break",
    "module": "One Project",
-   "depends_on": "eval:frappe.boot.one_retention || doc.one_retention"
+   "depends_on": "eval:frappe.boot.one_retention || doc.one_retention",
+   "description": ""
   },
   {
    "dt": "Project Template",
@@ -113,7 +122,7 @@
    "in_standard_filter": 0,
    "options": null,
    "default": null,
-   "description": null,
+   "description": "",
    "name": "Project Template-one_tasks_part"
   }
  ],

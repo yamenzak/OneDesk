@@ -8,7 +8,6 @@ Where we do more than frappe it is declared here, and
 VIEWS = ("List", "Report", "Dashboard", "Kanban", "Calendar", "Gantt", "Tree", "Image", "Map", "Inbox")
 
 PAGES = {
-	"Project": "a job is run from it all day: its money with both sides, tasks, time, suppliers, people and files, across its sub-projects",
 }
 
 NEXT_PAGES = {
@@ -157,7 +156,6 @@ SCREENS = {
 	"workbook": "a workbook from OneCloud, in OneWorkbook's editor (Workbook)",
 	"document": "a document from OneCloud, in OneWriter's editor (Writer Document)",
 	"presentation": "a presentation from OneCloud, in OneSlide's editor (Presentation)",
-	"project-view": "the page a Project opens on (PAGES)",
 	"stock-on-hand": "what the stores hold now, item by item, in every warehouse or one (Bin)",
 	"one": "One's Home: what waits for the reader in each app they have, the first few of each, and what in the workspace needs an administrator (Task, Event, Leave Application)",
 	"onehr": "OneHR's home: everybody's day, and for HR how the people are doing, and everything in it (Employee, Leave Application, Expense Claim, Salary Slip)",

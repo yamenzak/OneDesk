@@ -66,7 +66,6 @@ import { List, ListCell, ListGroup, ListHeader, ListHeaderCell, ListRow } from "
 
 import { Figures, Loading, PlaceSpot, __, call, date, followList, go, hours, money, onedesk } from "../kit";
 import { usePlace } from "./place";
-import { onlyArg, useOnly } from "./only";
 
 const props = defineProps({
   projectName: { type: String, required: true },
@@ -74,7 +73,6 @@ const props = defineProps({
   title: String,
   tree: { type: Array, default: () => [] },
 });
-const only = useOnly();
 
 const STATE = { Draft: "gray", "Not Billable": "gray", "To Invoice": "amber", Invoiced: "green" };
 const FILTERS = [
@@ -96,7 +94,7 @@ const value = (item) => (said.value.bills_hours ? item.amount : item.cost);
 const frm = () => ({ doctype: "Project", doc: { name: props.projectName, project_name: props.title, customer: props.customer }, tree: props.tree, bills_hours: said.value?.bills_hours });
 
 async function load() {
-  said.value = await call("onedesk.one_project.hours.entries", { project: props.projectName, ...onlyArg(only) });
+  said.value = await call("onedesk.one_project.hours.entries", { project: props.projectName });
 }
 let timer = null;
 const later = () => {

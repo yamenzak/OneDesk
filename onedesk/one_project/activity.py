@@ -1,15 +1,15 @@
-"""A project's history, across it and its sub-projects: the documents made
-for it, its tasks, the time logged on it, the team's updates, files added,
-and the sub-projects started under it.
+"""A project's history in its form's Activity, across it and its
+sub-projects: the documents made for it, its tasks, the time logged on it and
+the sub-projects started under it.
 """
 
 import re
 from collections import defaultdict
-from typing import Annotated
 
 import frappe
 from babel.lists import format_list
-from frappe.utils import add_days, get_datetime, get_fullname, getdate
+from frappe import _
+from frappe.utils import add_days, escape_html, flt, fmt_money, get_datetime, get_fullname, getdate
 
 from onedesk.one_project import hours, money, tree
 
@@ -31,52 +31,7 @@ DOCUMENTS = {
 }
 ON_LINES = {**money.LINES, "Journal Entry": "Journal Entry Account"}
 CURRENCY = {"Payment Entry": "paid_from_account_currency"}
-PAGE = 60
 SAME_SITTING = 30 * 60
-PHOTO = re.compile(r"\.(jpe?g|png|gif|webp|heic|avif)$", re.I)
-
-
-@frappe.whitelist()
-@frappe.read_only()
-def activity(
-	project: Annotated[str, "The project."],
-	before: Annotated[str | None, "Only what happened before this time, for the next page."] = None,
-	only: Annotated[bool | None, "Only the project's own work, not what is under it."] = None,
-) -> dict:
-	"""A page of the project's history, newest first."""
-	frappe.has_permission("Project", "read", doc=project, throw=True)
-	tree.narrow(project, only)
-	projects = sorted(tree.scope(project))
-	titles = dict(
-		frappe.get_all(
-			"Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True
-		)
-	)
-	people = _People()
-	rows = [
-		*_documents(projects, people),
-		*_tasks(projects, people),
-		*_time(projects, people),
-		*_updates(projects, people),
-		*_files(projects, people),
-		*_started(projects, project, people),
-	]
-	for row in rows:
-		where = row["data"].get("project")
-		row["data"]["sub_project"] = titles.get(where) if where and where != project else None
-	shown, more = page(rows, before)
-	return {"activities": shown, "more": more}
-
-
-def page(rows: list[dict], before: str | None, size: int = PAGE) -> tuple[list[dict], bool]:
-	"""The newest `size` rows before `before`, and whether older ones are
-	left. Pure."""
-	rows = sorted(
-		(one for one in rows if not before or one["timestamp"] < before),
-		key=lambda one: (one["timestamp"], one["key"]),
-		reverse=True,
-	)
-	return rows[:size], len(rows) > size
 
 
 def events(doc: dict, moves: list[tuple]) -> list[tuple]:
@@ -319,72 +274,6 @@ def week_of(when) -> str:
 	return str(add_days(day, -day.weekday()))
 
 
-def _updates(projects: list[str], people: _People) -> list[dict]:
-	from onedesk.one_project.ai import plain
-
-	asked = dict(
-		frappe.get_all(
-			"Project Update", filters={"project": ["in", projects]}, fields=["name", "project"], as_list=True
-		)
-	)
-	if not asked:
-		return []
-	return [
-		_row(
-			"update",
-			one.name,
-			one.modified,
-			people(one.user),
-			"work",
-			{"text": plain(one.project_status)[:600], "health": one.one_health, "project": asked[one.parent]},
-		)
-		for one in frappe.get_all(
-			"Project User",
-			filters={
-				"parenttype": "Project Update",
-				"parent": ["in", list(asked)],
-				"project_status": ["is", "set"],
-			},
-			fields=["name", "parent", "user", "project_status", "one_health", "modified"],
-		)
-	]
-
-
-def _files(projects: list[str], people: _People) -> list[dict]:
-	logs = frappe.get_all(
-		"Comment",
-		filters={
-			"reference_doctype": "Project",
-			"reference_name": ["in", projects],
-			"comment_type": ["in", ["Attachment", "Attachment Removed"]],
-		},
-		fields=["name", "owner", "creation", "comment_type", "content", "reference_name"],
-		order_by="creation asc",
-	)
-	found = []
-	for group in grouped(
-		logs, lambda one: (one.owner, one.reference_name, one.comment_type, getdate(one.creation))
-	):
-		named = [re.sub(r"<[^>]+>", "", one.content or "").strip() for one in group]
-		found.append(
-			_row(
-				"files",
-				f"{group[0].name}:{len(group)}",
-				max(one.creation for one in group),
-				people(group[0].owner),
-				"work",
-				{
-					"count": len(group),
-					"removed": group[0].comment_type == "Attachment Removed",
-					"photos": all(PHOTO.search(one) for one in named),
-					"names": named[:3],
-					"project": group[0].reference_name,
-				},
-			)
-		)
-	return found
-
-
 def _started(projects: list[str], project: str, people: _People) -> list[dict]:
 	return [
 		_row(
@@ -401,3 +290,71 @@ def _started(projects: list[str], project: str, people: _People) -> list[dict]:
 			fields=["name", "project_name", "owner", "creation"],
 		)
 	]
+
+
+SHOWN = 100
+
+ICONS = {"document": "file-text", "tasks": "list-plus", "task": "circle-check", "time": "clock", "started": "folder-plus"}
+
+
+def timeline(doctype: str, docname: str) -> list[dict]:
+	"""additional_timeline_content for Project: what was made, submitted and
+	cancelled for it and its sub-projects, the tasks added and finished, the
+	time logged each week and the sub-projects started, newest first. Its
+	updates come from updates.timeline, and its mail and files from frappe."""
+	if not frappe.has_permission("Project", "read", doc=docname):
+		return []
+	projects = sorted(tree.scope(docname))
+	titles = dict(frappe.get_all("Project", filters={"name": ["in", projects]}, fields=["name", "project_name"], as_list=True))
+	people = _People()
+	rows = [
+		*_documents(projects, people),
+		*_tasks(projects, people),
+		*_time(projects, people),
+		*(one for one in _started(projects, docname, people) if one["data"]["sub"]),
+	]
+	rows = sorted(rows, key=lambda one: (one["timestamp"], one["key"]), reverse=True)[:SHOWN]
+	return [
+		{
+			"icon": "file-x" if one["data"].get("verb") == "cancelled" else ICONS[one["type"]],
+			"creation": one["timestamp"],
+			"content": said(one, titles.get(one["data"].get("project")) if one["data"].get("project") != docname else None),
+		}
+		for one in rows
+	]
+
+
+def _link(route: str, text: str) -> str:
+	return f'<a href="{escape_html(route)}">{escape_html(text)}</a>'
+
+
+def said(row: dict, where: str | None) -> str:
+	"""One activity row as the sentence the timeline shows: who, what they did
+	and, quieter, on what and in which sub-project."""
+	data = row["data"]
+	who = f"<strong>{escape_html(row['author'].get('fullname') or '')}</strong>"
+	aside = []
+	if row["type"] == "document":
+		verb = {"created": _("created"), "submitted": _("submitted"), "cancelled": _("cancelled")}[data["verb"]]
+		doctype = data["doctype"]
+		what = f"{verb} {escape_html(_(doctype))} {_link(data['route'], data['name'])}"
+		aside = [data.get("party"), fmt_money(data["amount"], currency=data.get("currency")) if data.get("amount") else None]
+	elif row["type"] == "tasks":
+		first = data["tasks"][0]
+		what = (
+			f"{_('added task')} {_link('/desk/task/' + first['name'], first['subject'])}"
+			if data["count"] == 1
+			else escape_html(_("added {0} tasks").format(data["count"]))
+		)
+		if data["count"] > 1:
+			aside = [", ".join(one["subject"] for one in data["tasks"])]
+	elif row["type"] == "task":
+		what = f"{_('completed')} {_link('/desk/task/' + data['name'], data['subject'])}"
+	elif row["type"] == "time":
+		hours_ = _("{0} h").format(f"{flt(data['hours'], 1):g}")
+		what = escape_html(_("logged {0} over {1} days").format(hours_, data["days"]) if data["days"] > 1 else _("logged {0}").format(hours_))
+	else:
+		what = f"{_('started sub-project')} {_link('/desk/project/' + data['name'], data['title'])}"
+	aside.append(where)
+	quiet = " · ".join(escape_html(str(one)) for one in aside if one)
+	return f"{who} {what}" + (f' <span class="text-muted">· {quiet}</span>' if quiet else "")

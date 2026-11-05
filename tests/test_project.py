@@ -403,7 +403,7 @@ def test_updates_replace_erpnexts_asking_and_are_kept_on_the_project():
 	assert (
 		'"onedesk.one_project.updates.answered"' in HOOKS.split('"Communication": {', 1)[1].split("},", 1)[0]
 	)
-	assert '"Project": ["onedesk.one_project.updates.timeline"]' in HOOKS
+	assert '"Project": ["onedesk.one_project.updates.timeline", "onedesk.one_project.activity.timeline"]' in HOOKS
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	frequency = next(p for p in custom["property_setters"] if p["field_name"] == "frequency")
 	assert "Hourly" not in frequency["value"]
@@ -515,19 +515,16 @@ def test_the_projects_list_says_status_and_names_the_manager():
 	assert said[("Project", "customer", "in_standard_filter")] == "0"
 
 
-def test_a_projects_page_puts_its_dates_and_members_on_details():
+def test_a_projects_form_puts_its_dates_on_details_and_its_people_on_team():
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	said = {
 		(row["doc_type"], row.get("field_name"), row["property"]): row["value"]
 		for row in custom["property_setters"]
 	}
 	order = json.loads(said[("Project", None, "field_order")])
-	assert (
-		order.index("customer")
-		< order.index("section_break_18")
-		< order.index("users")
-		< order.index("costing_tab")
-	)
+	assert order.index("details_tab") < order.index("customer") < order.index("section_break_18") < order.index("tasks_tab")
+	assert order.index("users_tab") < order.index("one_team_part") < order.index("users") < order.index("one_contacts") < order.index("more_info_tab")
+	assert ("Project", "users_tab", "label") not in said, "ERPNext's More Info"
 	assert said[("Project", "section_break_18", "collapsible")] == "0"
 	assert ("Project", "users", "label") not in said and said[("Project", "users", "description")] == ""
 	assert said[("Project User", "view_attachments", "in_list_view")] == "0"
@@ -593,8 +590,8 @@ def test_updates_keep_their_health_and_lines_and_say_when_the_team_is_asked():
 	panel = (tree.ROOT / "frontend" / "src" / "project" / "Updates.vue").read_text()
 	assert ':colors="HEALTH" :label="__(\'Health\')" readonly' in panel and "setValue" not in panel
 	assert 'listen("one_project_update"' in panel and 'listen("one_project_draft"' in panel
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert 'label: __("Post Update"), onClick: writeUpdate' in page and "desk().project.ask_updates(" in page
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert 'frm.add_custom_button(__("Post Update"), () => onedesk.project.post(frm))' in form and "onedesk.project.ask_updates(" in form
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert 'frappe.xcall("frappe.client.save", { doc: { ...doc, ...values } })' in actions
 	ai = (PROJECT / "ai.py").read_text()
@@ -974,8 +971,6 @@ def test_milestones_say_where_and_when_and_may_be_billed_on_completion():
 	assert "Milestone Done" in tree.notifications()
 	page = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.add_milestone = (projects, billed, done)" in page and "is_milestone: 1" in page
-	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
-	assert "'is_milestone', v ? 1 : 0" in panel
 
 
 def test_subcontracts_say_what_where_how_far_and_what_to_pay():
@@ -1090,12 +1085,12 @@ def test_a_project_has_a_kind_and_new_project_asks_by_kind():
 		assert taken not in page
 
 
-def test_a_project_opens_on_its_own_page():
+def test_a_project_opens_on_its_form_with_its_parts_in_its_tabs():
 	space = _load(PROJECT / "view.py", ("share",), flt=float)
 	share = space["share"]
 	assert share(30, 120) == 25 and share(5, 0) == 0 and share(300, 100) == 100 and share(-5, 10) == 0
-	page = json.loads((PROJECT / "page" / "project_view" / "project_view.json").read_text())
-	assert page["name"] == "project-view" and page["module"] == "One Project"
+	assert not (PROJECT / "page" / "project_view").exists(), "a project opens on its form"
+	assert '"project-view"' in (PROJECT / "patches" / "pages_are_forms.py").read_text()
 	view = (PROJECT / "view.py").read_text()
 	assert 'frappe.has_permission("Project", "read", doc=project, throw=True)' in view
 	assert (
@@ -1103,17 +1098,17 @@ def test_a_project_opens_on_its_own_page():
 		and '"views": views(kind, cash, doc.customer, doc.name)' in view
 	)
 	assert 'frappe.has_permission("Purchase Order", "read")' in view
-	script = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert '"onedesk.one_project.view.said"' in script
+	part = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPart.vue").read_text()
+	assert '"onedesk.one_project.view.said"' in part
 	for follows in ('follow("Project"', 'listen("one_project_money"'):
-		assert follows in script
-	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
-	assert '{ Project: "project-view" }' in route
-	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
-	assert "?edit=1" not in script
+		assert follows in part
+	assert "props.frm?.toggle_display(props.field, shown())" in part, "a tab with nothing for the reader goes"
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert 'frappe.ui.mount_island("onedesk.project_part"' in form
+	assert 'one_overview_part: "overview", one_money_part: "money", one_time_part: "time", one_suppliers_part: "suppliers", one_team_part: "team"' in form
+	assert "convert_to_standard_route" not in (tree.APP / "public" / "js" / "project_new.js").read_text()
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
-	loader = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
-	assert "/assets/onedesk/js/project_actions.js" in loader and 'island: "onedesk.project"' in loader
+	assert '"onedesk.project_part": "src/islands/project_part.js"' in (tree.ROOT / "frontend" / "build-islands.mjs").read_text()
 
 
 def test_time_invoices_and_team_are_views_of_erpnexts_own_records():
@@ -1194,8 +1189,8 @@ def test_a_retainer_is_invoiced_by_the_month():
 	assert 'said["months"] = retainer.months(doc.name)' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert "onedesk().project.invoice_month(frm(), month)" in overview
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert "desk().project.invoice_month(frm())" in page
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert 'verb(__("Invoice Month"), () => onedesk.project.invoice_month(frm))' in form
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert (
 		"onedesk.project.invoice_month" in actions
@@ -1203,20 +1198,17 @@ def test_a_retainer_is_invoiced_by_the_month():
 	)
 
 
-def test_the_project_page_tells_oneai_where_it_is():
-	oneai = (tree.APP / "public" / "js" / "one_ai" / "oneai.js").read_text()
-	assert "params.section || params.view" in oneai
-	kit = (tree.ROOT / "frontend" / "src" / "kit" / "desk.js").read_text()
-	assert "oneai.panel.moved(oneai.where())" in kit
-	assert '"onedesk.one_project.ai.page"' in HOOKS
+def test_a_projects_form_offers_oneai_what_its_kind_needs():
+	assert '"onedesk.one_project.ai.page"' not in HOOKS, "a project's form is told as any record's"
 	ai = (PROJECT / "ai.py").read_text()
-	assert 'PAGE = "project-view"' in ai and 'frappe.has_permission("Project", "read", doc=name)' in ai
+	assert "PAGE" not in ai and "project-view" not in ai
 	suggest = (tree.APP / "one_ai" / "suggest.py").read_text()
 	assert 'page.get("name") or page.get("record")' in suggest
 	assert 'frappe.has_permission(doctype, "read", doc=name)' in suggest
-	for view in ("", "/tasks", "/board", "/timeline", "/time", "/money", "/invoices", "/suppliers", "/team"):
-		assert f"page:{{PAGE}}{view}" in ai or (view in ("/board", "/timeline") and "LAYOUTS" in ai)
+	assert '{**one, "view": "Form"}' in ai
 	assert "_here(UPDATE, kinds=BILLED)" in ai and "_here(ALLOWANCE, kinds=(kinds.RETAINER,))" in ai
+	assert "_here(UNBILLED, CHASE, kinds=BILLED)" in ai and "_here(TIME, LOAD)" in ai
+	assert ai.count('"route": ["Form", "Project", project]') == 2
 	for part in ('"time": _time(', '"team": _team(', '"months": _months('):
 		assert part in ai
 
@@ -1229,13 +1221,11 @@ def test_a_retainer_tells_whoever_runs_it():
 	assert "**Retainer Month to Invoice**" in told and "**Retainer Hours Used**" in told
 
 
-def test_the_project_page_fits_a_phone():
+def test_a_projects_parts_fit_a_phone():
 	src = tree.ROOT / "frontend" / "src" / "project"
 	for name in ("Time", "Team", "Invoices", "Money", "Months"):
 		vue = (src / f"{name}.vue").read_text()
 		assert ":columns=" in vue and "base:" in vue and "max-md:hidden" in vue, name
-	page = (src / "ProjectPage.vue").read_text()
-	assert '<ViewTabs v-model="tab" :views="VIEWS"' in page, "the views fit a phone, the row scrolling"
 	mount = (tree.ROOT / "frontend" / "src" / "kit" / "mount.js").read_text()
 	assert 'setConfig("systemTimezone", zone.system)' in mount
 
@@ -1261,8 +1251,6 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Activity Type")' in menu and '__("Project Templates")' not in menu
-	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()
-	assert "hide_sidebar" not in view_js and 'record: "Project"' in view_js, "a project keeps OneProject's rail"
 	assert "onedesk.crumbs.suggest.Project = onedesk.project.picker" in places
 	shell = (tree.APP / "public" / "js" / "shell.js").read_text()
 	assert "one_record: true" in shell and "one_menu: menu" in shell
@@ -1425,48 +1413,27 @@ def test_a_projects_page_is_laid_out_for_its_kind():
 	assert '"today": not late' in needs and 'budget.across(view["tree"])' in needs
 	assert '"needs_count": len(needed)' in view and '"needs_all": _late_route(view["tree"])' in view
 	overview_vue = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert ":aside=\"view.needs_count || ''\"" in overview_vue and "go(view.needs_all)" in overview_vue
-	assert 'one.today ? __("Today")' in overview_vue
 	assert '{"key": "hours", "hours": _month_hours(view["tree"])}' in view
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	for kind in ("'Fixed Price'", "'Time and Materials'", "'Retainer'"):
 		assert f"kind === {kind}" in overview
-	assert '<Section v-if="said.notes"' in overview and "__('Add Brief')" in overview
 	assert "<Updates " in overview
-	header = (tree.ROOT / "frontend" / "src" / "project" / "Header.vue").read_text()
-	assert 'method: "onedesk.one_project.media.add"' in header and '"image/*", "video/*"' in header
-	assert '"media": media.shown(doc.name)' in view
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert 'listen("one_project_media"' in page
-	media = (PROJECT / "media.py").read_text()
-	assert (
-		'@frappe.whitelist(methods=["POST"])\ndef add()' in media and "upload._place(node(project)" in media
-	)
+	assert "def add()" not in (PROJECT / "media.py").read_text(), "Featured Media is filled in OneCloud"
 
 
-def test_featured_media_turns_on_the_page_and_the_portal():
+def test_featured_media_turns_on_the_portal():
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert {"property": "max_attachments", "value": "0"}.items() <= next(
 		one for one in custom["property_setters"] if one["property"] == "max_attachments"
 	).items()
 	assert 'sorted(found, key=lambda one: one["url"] != cover)' in (PROJECT / "media.py").read_text()
-	hero = (tree.ROOT / "frontend" / "src" / "project" / "Hero.vue").read_text()
-	for part in (
-		"muted",
-		"playsinline",
-		':loop="media.length === 1"',
-		'@ended="i === at && next()"',
-		"lessMotion()",
-		"@mouseenter",
-	):
-		assert part in hero, part
 	gallery = (tree.ROOT / "frontend" / "portal" / "src" / "parts" / "Gallery.vue").read_text()
 	assert "<Gallery" in (tree.ROOT / "frontend" / "portal" / "src" / "pages" / "Project.vue").read_text()
 	for part in ("muted playsinline", ':loop="media.length === 1"', '@ended="on(1)"', "prefers-reduced-motion", "@mouseenter", "clip.value.play()"):
 		assert part in gallery, part
 
 
-def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
+def test_a_fixed_price_project_is_quoted_then_contracted_from_its_form():
 	def first(order, quote):
 		space = _load(PROJECT / "view.py", ("_first",), _=lambda text: text)
 		space.update(contract=lambda doc: order, quotation=lambda doc: quote, ordered_above=lambda doc: above)
@@ -1497,11 +1464,8 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	assert valid("2026-10-15") == {"key": "valid", "value": "2026-10-15", "date": True, "note": "In 10 days"}
 	assert valid(None)["note"] is None
 	assert "second = [_valid(valid)]" in (PROJECT / "view.py").read_text()
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert (
-		'if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("create", "Sales Order"))'
-		in page
-	)
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert 'if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("Sales Order"))' in form
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert 'if (s.kind === "Fixed Price" && !s.contract)\n    return { text: true, icon: "lucide-plus", label: __("New Quotation")' in overview
 	view_py = (PROJECT / "view.py").read_text()
@@ -1527,14 +1491,11 @@ def test_a_fixed_price_project_is_quoted_then_contracted_from_its_page():
 	):
 		assert part in add, part
 	assert 'bill_in(order, "Customer", project.customer)' in kinds
-	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert 'can("create", "Sales Order")' in overview and '__("Add Contract")' in overview
-	assert '<Button v-if="one.button"' in (tree.ROOT / "frontend" / "src" / "kit" / "Figures.vue").read_text()
+	assert 'verb(__("Add Contract"), () => onedesk.project.add_contract(frm))' in form
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "erpnext.selling.doctype.quotation.mapper.make_sales_order" in actions
 	assert "onedesk.one_project.kinds.add_contract" in actions
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert '__("Make Order")' in page
+	assert '__("Make Order")' in form
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
 	assert '__("New Quotation")' in overview and '__("Quote Extra Work")' in overview
 
@@ -1589,12 +1550,6 @@ def test_a_party_billed_in_another_currency_is_billed_in_it(monkeypatch):
 def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	status = (PROJECT / "status.py").read_text()
 	assert '"On hold": _lt("On hold")' in status
-	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
-	assert ":options=\"['Open', 'On hold', 'Completed', 'Cancelled']\"" in facts
-	assert '<Pill v-if="said.status === \'Open\'" :value="said.health"' in facts, (
-		"health is an open project's"
-	)
-	assert '"On hold": "amber"' in (tree.ROOT / "frontend" / "src" / "project" / "colors.js").read_text()
 	assert '"On hold": "orange"' in (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '"On hold": "amber"' in (PROJECT / "portal.py").read_text()
 	change = status[status.index("def change(") : status.index("def due(")]
@@ -1605,9 +1560,10 @@ def test_a_projects_status_holds_and_closing_it_closes_what_is_open():
 	assert 'if not doc.flags.get("one_close_work"):' in held
 	assert '"onedesk.one_project.status.held"' in HOOKS
 	assert 'doc.percent_complete_method = "Task Completion"' in held
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert 'if (fieldname === "status") return changeStatus(value);' in page
-	assert '"onedesk.one_project.status.ask"' in page and '"onedesk.one_project.status.change"' in page
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "before_save(frm) {\n\t\treturn onedesk.project.closing(frm);" in form, "closing asks before the save throws"
+	assert '"onedesk.one_project.status.ask"' in form and '"onedesk.one_project.status.change"' in form
+	assert "frappe.validated = false;" in form
 	view = (PROJECT / "view.py").read_text()
 	assert 'if doc.status == "Completed" and frappe.has_permission("Sales Invoice", "read"):' in view
 	tell = (PROJECT / "tell.py").read_text()
@@ -1628,13 +1584,8 @@ def test_a_project_with_several_orders_bills_and_holds_each():
 	view = (PROJECT / "view.py").read_text()
 	assert '"orders": orders(doc, view["tree"]),' in view
 	assert 'filters={"project": ["in", projects], "docstatus": 1, "company": _company()}' in view
-	facts = (tree.ROOT / "frontend" / "src" / "project" / "Facts.vue").read_text()
-	assert '__("{0} orders", [said.orders.length])' in facts
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert (
-		"desk().project.bill_progress(s.orders, s.contract, s.currency, s.overview?.billing?.billable?.share)"
-		in page
-	)
+	form = (tree.APP / "public" / "js" / "project.js").read_text()
+	assert "onedesk.project.bill_progress(s.orders, s.contract, s.currency, s.overview?.billing?.billable?.share)" in form
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.bill_progress = (orders, contract, currency, share) =>" in actions
 	assert "if (open.length <= 1) return bill(open.length ? open[0].name : contract);" in actions
@@ -1715,30 +1666,6 @@ def test_retention_is_switched_on_held_both_ways_released_in_parts_and_told():
 	)
 
 
-def test_about_says_what_the_head_doesnt_and_is_changed_in_place():
-	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	about = overview.split("const facts = computed(() => {", 1)[1].split("});", 1)[0]
-	for gone in ("s.customer", "s.manager", "s.contract", "s.starts", "s.parent"):
-		assert gone not in about
-	for said in ('__("Progress")', '__("Expected End Date")', '__("Team")', '__("Priority")'):
-		assert said in about
-	assert "__('About', null, 'Project')" in overview
-	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
-	assert '[__("Work"), ["one_manager", "expected_start_date", "expected_end_date"' in actions
-	assert 'frappe.meta.get_docfield("Project", fieldname)' in actions
-	assert "{ doc: { ...doc, ...values, modified } }" in actions
-	assert "onedesk().project.edit_brief(props.said.name, props.said.modified" in overview
-	assert "edit=1" not in overview
-	view = (PROJECT / "view.py").read_text()
-	assert '"above": _above(doc.name),' in view
-	assert (
-		"...between.map((one) => ({ label: one.label, href: one.route }))"
-		in (tree.APP / "public" / "js" / "shell.js").read_text()
-	)
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert "props.onTitle?.({ title: s.title, between:" in page
-
-
 def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
 	flt = lambda value=0, *args: float(value or 0)  # noqa: E731
 	branch_money = _load(PROJECT / "view.py", ("branch_money",), flt=flt)["branch_money"]
@@ -1754,66 +1681,21 @@ def test_sub_projects_say_how_each_is_going_and_what_it_is_worth():
 	assert 'dot: one.health === "Off Track" || late || one.over ? "red"' in overview
 	assert 'newDoc("Project", { one_parent: props.said.name, customer: props.said.customer })' in overview
 	assert "label: __('Add Sub-project'), onClick: addSub" in overview
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
 	assert (
 		'doc.one_parent ? __("New Sub-project") : __("New Project")'
 		in (tree.APP / "public" / "js" / "project_new.js").read_text()
 	)
 
 
-def test_the_tasks_table_says_what_waits_and_how_long_and_nests_sub_tasks():
-	view = (PROJECT / "view.py").read_text()
-	assert 'one["waiting"] = waiting.get(one["name"], [])' in view
-	assert '"Task Depends On"' in view.split("def _waiting(", 1)[1]
-	tasks = (tree.ROOT / "frontend" / "src" / "project" / "Tasks.vue").read_text()
-	assert '__("Waiting on {0}", [item.waiting.join(", ")])' in tasks
-	assert (
-		"$emit('set', item.name, 'expected_time'" in tasks
-		and '<ListHeaderCell>{{ __("Expected Time") }}</ListHeaderCell>' in tasks
-	)
-	assert ':items="nest(group.tasks)"' in tasks and "<TextInput" in tasks
-	group = (tree.ROOT / "frontend" / "src" / "project" / "group.js").read_text()
-	assert "export function nest(tasks)" in group and "subDone" in group
-
-
-def test_the_task_panel_is_the_same_task_onetask_opens():
-	panel = (tree.ROOT / "frontend" / "src" / "project" / "TaskPanel.vue").read_text()
-	for said in (
-		"onedesk.one_task.task.tick",
-		"onedesk.one_task.task.add_step",
-		"onedesk.one_task.timer.start",
-	):
-		assert said in panel
-	assert 'emit("add", props.task.project, text, { parent_task: props.task.name })' in panel
-	assert '__("Depends On")' in panel and '__("Repeat")' in panel and '__("Stop Repeating")' in panel
-	assert 'useForm("Task", computed(() => props.task?.name))' in panel and "<TaskWaits" in panel
-	assert 'field="description"' in panel and "task_details" not in panel
-	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
-	assert "onedesk.project.task_details" not in actions
-	assert 'frappe.utils.new_auto_repeat_prompt({ doc: { doctype: "Task", name: task }' in actions
-	waits = (tree.ROOT / "frontend" / "src" / "task" / "TaskWaits.vue").read_text()
-	assert 'props.form.addRow("depends_on")' in waits and 'props.form.removeRow("depends_on", row)' in waits
-	steps = (tree.APP / "one_task" / "task.py").read_text()
-	assert "def tick(task: str, step: str" in steps and "def add_step(task: str, step: str)" in steps
-	task = json.loads((tree.APP / "one_task" / "custom" / "task.json").read_text())
-	assert any(one["property"] == "show_title_field_in_link" for one in task["property_setters"])
-
-
 def test_a_task_goes_to_a_group_a_template_joins_a_running_project_and_people_hear():
-	people = (tree.ROOT / "frontend" / "src" / "kit" / "People.vue").read_text()
-	assert 'group: __("Groups")' in people and 'emit("group"' in people
-	for panel in ("Tasks.vue", "TaskPanel.vue"):
-		said = (tree.ROOT / "frontend" / "src" / "project" / panel).read_text()
-		assert ':groups="canWrite ? work.user_groups || [] : []"' in said
-	assert "def _user_groups() -> list[dict]:" in (PROJECT / "view.py").read_text()
 	templates = (PROJECT / "templates.py").read_text()
 	assert (
 		"doc.create_task_from_template(one)" in templates
 		and "doc.dependency_mapping(sources, made)" in templates
 	)
 	assert (
-		"desk().project.add_template(s.name, loadWork)"
-		in (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
+		'frm.add_custom_button(__("Add from Template"), () => onedesk.project.add_template(frm.doc.name'
+		in (tree.APP / "public" / "js" / "project.js").read_text()
 	)
 	assert {"Task Ready", "Pending Review", "Due Date Changed"} <= set(tree.notifications())
 	assert '"onedesk.one_task.tell.changed"' in (tree.APP / "hooks.py").read_text()
@@ -1946,8 +1828,6 @@ def test_the_cost_figure_says_why_it_is_red_and_what_is_on_order():
 	view = (PROJECT / "view.py").read_text()
 	assert '"view": "invoices",' in view and view.count('"view": "money",') == 3
 	assert 'def _made(cash: dict)' in view and '"key": "margin"' in view
-	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	assert "card.view && !card.route && props.said.views?.includes(card.view)" in overview
 
 
 def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
@@ -1973,8 +1853,6 @@ def test_work_done_is_measured_as_the_project_says_and_billing_as_amounts():
 	assert '"onedesk.one_project.overview.task_changed"' in HOOKS
 	assert '"onedesk.one_project.overview.project_changed"' in HOOKS
 	assert "onedesk.one_project.patches.tree_progress" in (tree.APP / "patches.txt").read_text()
-	view = (PROJECT / "view.py").read_text()
-	assert "milestones.where(one, project, of, titles)" in view.split("def work(", 1)[1]
 	billing = _load(PROJECT / "view.py", ("work_and_billing",), _=lambda text: text, flt=float)[
 		"work_and_billing"
 	]
@@ -2034,19 +1912,16 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	assert '"contacts": _contacts(project)' in (PROJECT / "ai.py").read_text()
 
 
-def test_the_head_shows_everyone_team_lists_and_any_user_can_be_made_a_member():
+def test_team_lists_everyone_and_any_user_can_be_made_a_member():
 	view_py = (PROJECT / "view.py").read_text()
 	assert 'for one in team.team(doc.name)["people"]' in view_py
 	team_py = (PROJECT / "team.py").read_text()
 	assert 'one["can_join"] = bool(known and known.enabled) and not one["member"]' in team_py
 	src = tree.ROOT / "frontend" / "src"
-	header = (src / "project" / "Header.vue").read_text()
-	assert "props.said.people.map" in header and ':max="5"' in header and "$emit('view', 'team')" in header
-	assert "s.people?.length" in (src / "project" / "Overview.vue").read_text()
 	team = (src / "project" / "Team.vue").read_text()
 	assert "person.can_join" in team and "onedesk.one_project.team.add" in team
 	assert '__("Remove {0} from the project?"' in team
-	assert "stack.users.length > props.max" in (src / "kit" / "People.vue").read_text()
+	assert 'v-if="users.length > max"' in (src / "kit" / "People.vue").read_text()
 
 
 def test_activity_is_the_projects_history_not_only_its_record():
@@ -2054,58 +1929,58 @@ def test_activity_is_the_projects_history_not_only_its_record():
 
 	space = _load(
 		PROJECT / "activity.py",
-		("SAME_SITTING", "PAGE", "events", "moved", "page", "grouped"),
+		("SAME_SITTING", "events", "moved", "grouped", "_link", "said"),
 		get_datetime=lambda value: datetime.fromisoformat(str(value)),
 		defaultdict=__import__("collections").defaultdict,
 		re=__import__("re"),
+		_=lambda text: text,
+		escape_html=lambda text: str(text).replace("<", "&lt;"),
+		fmt_money=lambda value, currency=None: f"{currency} {value:,.2f}",
+		flt=lambda value, precision=None: round(float(value or 0), precision or 9),
 	)
-	events, moved, page = space["events"], space["moved"], space["page"]
+	events, moved, said = space["events"], space["moved"], space["said"]
 	doc = {"creation": "2026-10-04 14:50:00", "owner": "wren", "docstatus": 1, "modified": "2026-10-04 15:00:00", "modified_by": "wren"}
 	assert events(doc, [("2026-10-04 14:55:00", "wren", 1)]) == [("submitted", "2026-10-04 14:55:00", "wren")]
-	said = events({**doc, "docstatus": 2}, [("2026-10-04 15:00:00", "samir", 1), ("2026-10-05 09:00:00", "samir", 2)])
-	assert [one[0] for one in said] == ["created", "submitted", "cancelled"]
+	told = events({**doc, "docstatus": 2}, [("2026-10-04 15:00:00", "samir", 1), ("2026-10-05 09:00:00", "samir", 2)])
+	assert [one[0] for one in told] == ["created", "submitted", "cancelled"]
 	assert events({**doc, "creation": "2026-10-01 09:00:00"}, [])[1] == ("submitted", "2026-10-04 15:00:00", "wren")
 	assert events({**doc, "docstatus": 0}, []) == [("created", "2026-10-04 14:50:00", "wren")]
 	assert moved('{"changed":[["status","Draft","To Bill"],["docstatus",0,1]]}') == 1
 	assert moved('{"changed":[["docstatus", 1, 2]]}') == 2 and moved('{"changed":[]}') is None
-	rows = [{"timestamp": f"2026-10-0{day} 10:00:00", "key": str(day)} for day in range(1, 7)]
-	shown, more = page(rows, None, 4)
-	assert [one["key"] for one in shown] == ["6", "5", "4", "3"] and more
-	assert [one["key"] for one in page(rows, "2026-10-03 00:00:00", 4)[0]] == ["2", "1"]
+	row = {
+		"type": "document",
+		"author": {"fullname": "Layla"},
+		"data": {"verb": "submitted", "doctype": "Purchase Order", "name": "PO-1", "route": "/desk/purchase-order/PO-1", "party": "Al Noor", "amount": 950, "currency": "AED"},
+	}
+	assert said(row, "Handrails") == (
+		'<strong>Layla</strong> submitted Purchase Order <a href="/desk/purchase-order/PO-1">PO-1</a>'
+		' <span class="text-muted">· Al Noor · AED 950.00 · Handrails</span>'
+	)
+	time = {"type": "time", "author": {"fullname": "Yousef"}, "data": {"hours": 12.5, "days": 2}}
+	assert said(time, None) == "<strong>Yousef</strong> logged 12.5 h over 2 days"
 	activity = (PROJECT / "activity.py").read_text()
 	for doctype in ("Purchase Order", "Sales Invoice", "Payment Entry", "Expense Claim", "Stock Entry", "Journal Entry"):
 		assert f'"{doctype}":' in activity
 	assert 'frappe.has_permission(doctype, "read")' in activity and "frappe.get_list(doctype" in activity
+	assert 'frappe.has_permission("Project", "read", doc=docname)' in activity
 	custom = json.loads((PROJECT / "custom" / "project.json").read_text())
 	assert any(one["property"] == "track_changes" and one["value"] == "1" for one in custom["property_setters"])
-	src = tree.ROOT / "frontend" / "src" / "project"
-	view = (src / "ProjectActivity.vue").read_text()
-	assert "onedesk.one_project.activity.activity" in view and 'useActivityTimeline("Project", props.project' in view
-	assert "#item-document" in view and "isPagedRow" in view and '__("Show earlier activity")' in view
-	assert '<ProjectActivity v-else-if="view === \'activity\'"' in (src / "ProjectPage.vue").read_text()
+	assert '"Project": ["onedesk.one_project.updates.timeline", "onedesk.one_project.activity.timeline"]' in HOOKS
+	thread = (tree.APP / "public" / "js" / "one_interface" / "look.js").read_text()
+	assert '(info.additional_timeline_content || []).forEach((item) => item.content && events.push({ kind: "told"' in thread
 
 
-def test_a_projects_views_are_one_row_of_tabs_under_its_head():
-	"""As a form's tabs: across the top under the head, scrolling with the
-	page, frappe's form sidebar on the right (tests/guards/test_record_page.py)."""
-	page = (tree.ROOT / "frontend" / "src" / "project" / "ProjectPage.vue").read_text()
-	assert "<Page wide>" in page and "grid-cols" not in page
-	assert page.index("<Header ") < page.index("<ViewTabs ")
-	assert "sticky" not in page and "vertical" not in page
-	assert "lg:max-w-[85rem]': wide" in (tree.ROOT / "frontend" / "src" / "kit" / "Page.vue").read_text()
-
-
-def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budget():
+def test_the_overview_leaves_figures_to_the_head_and_charts_the_budget():
 	src = tree.ROOT / "frontend" / "src"
 	overview = (src / "project" / "Overview.vue").read_text()
-	assert '<Figures :figures="figures" :columns="figures.length === 4 ? 2 : figures.length" />' in overview
-	assert overview.count("data-cards") == 2 and "border-b" not in overview
+	assert "<Figures" not in overview, "the head's cards and ERPNext's overview have the figures"
+	assert "border-b" not in overview
 	# A section ends with space, never a rule (the ui skill, Surfaces).
 	assert "border-b" not in (src / "kit" / "Section.vue").read_text()
-	assert '<Section boxed :title="__(\'Needs You\')"' in overview
-	assert "<DonutChart" in overview and "<ChartCard" in overview and "horizontal stacked" in overview
+	assert "<DonutChart" not in overview, "ERPNext's overview has the tasks by status"
+	assert '.filter((one) => !one.route?.startsWith("/desk/task/"))' in overview, "Needs You leaves the tasks to ERPNext's Needs Attention"
+	assert "<ChartCard" in overview and "horizontal stacked" in overview
 	assert "useChartTokens(root)" in overview and not re.search(r"#[0-9a-fA-F]{6}", overview)
-	assert ".sort((a, b) => b.n - a.n)" in overview
 	assert not (src / "project" / "Statuses.vue").exists()
 	assert "rounded-4 border border-outline-gray-1 bg-surface-elevation-2" in (src / "kit" / "Figures.vue").read_text()
 	view = (PROJECT / "view.py").read_text().split("def _overview(", 1)[1].split("\ndef ", 1)[0]
@@ -2117,7 +1992,7 @@ def test_the_overview_puts_its_figures_in_cards_and_charts_tasks_hours_and_budge
 
 def test_orders_and_quotations_sit_together_and_an_ordered_quote_is_its_order():
 	overview = (tree.ROOT / "frontend" / "src" / "project" / "Overview.vue").read_text()
-	left, right = overview.split("<Section boxed :title=\"__('Needs You')\"", 1)
+	left, right = overview.split("<Section :title=\"__('Updates')\"", 1)
 	billing = left.index("__('Work and Billing')")
 	assert billing < left.index("__('Orders')") < left.index("__('Quotations')") < left.index("__('Budget')")
 	assert "__('Orders')" not in right and "__('Quotations')" not in right
@@ -2130,9 +2005,9 @@ def test_every_avatar_on_a_project_shows_the_persons_picture():
 	for path in [*(src / "project").glob("*.vue"), *(src / "kit").glob("*.vue")]:
 		for line in path.read_text().splitlines():
 			if "<Avatar" in line or "h(Avatar" in line:
-				assert ":image=" in line or "image:" in line or 'label: "+"' in line or 'v-else-if="item.icon"' in line, f"{path.name}: {line.strip()}"
+				assert ":image=" in line or "image:" in line or 'label: "+"' in line or 'label="+"' in line or 'v-else-if="item.icon"' in line, f"{path.name}: {line.strip()}"
 	view = (PROJECT / "view.py").read_text()
-	assert '"manager_image"' in view and "def _faces(" in view and "row.image = faces.get(row.user)" in view
+	assert "def _faces(" in view and "row.image = faces.get(row.user)" in view
 	assert "faces = _faces(people.values())" in (PROJECT / "hours.py").read_text()
 	assert '"image": _person(people.get(one.contact), "image")' in (PROJECT / "contacts.py").read_text()
 
@@ -2149,7 +2024,6 @@ def test_a_suppliers_logo_shows_where_the_supplier_does():
 	assert (src / "Suppliers.vue").read_text().count(':image="item.party_image" shape="square"') == 2
 	assert '<Avatar :label="item.party" :image="item.party_image" shape="square"' in (src / "Invoices.vue").read_text()
 	assert '"customer_image": frappe.db.get_value("Customer", doc.customer, "image")' in (PROJECT / "view.py").read_text()
-	assert ':image="said.customer_image" shape="square"' in (src / "Facts.vue").read_text()
 	assert 'image: props.said.customer_image } : { icon: "lucide-truck" }),' in (src / "Overview.vue").read_text()
 	assert "    image: props.said.customer_image,\n    square: true," in (src / "Overview.vue").read_text()
 
@@ -2178,32 +2052,24 @@ def test_a_parent_can_be_read_without_what_is_under_it():
 	ONLY = 'only: Annotated[bool | None, "Only the project\'s own work, not what is under it."] = None'
 	for module, name in (
 		("view.py", "said"),
-		("view.py", "work"),
-		("view.py", "files"),
 		("billing.py", "invoices"),
 		("billing.py", "bills"),
 		("hours.py", "entries"),
 		("team.py", "team"),
-		("activity.py", "activity"),
 		("buying.py", "papers"),
 	):
 		body = (PROJECT / module).read_text().split(f"\ndef {name}(", 1)[1].split("\ndef ", 1)[0]
 		assert ONLY in body and "tree.narrow(project, only)" in body, (module, name)
-	for module in ("money.py", "overview.py", "team.py", "activity.py", "buying.py", "hours.py"):
+	for module in ("money.py", "overview.py", "team.py", "buying.py", "hours.py"):
 		assert "tree.scope(project)" in (PROJECT / module).read_text(), module
+	assert "tree.scope(docname)" in (PROJECT / "activity.py").read_text()
 	assert '"own" if tree.narrowed(project) else "tree"' in (PROJECT / "money.py").read_text()
 
 	src = tree.ROOT / "frontend" / "src" / "project"
 	view = (PROJECT / "view.py").read_text()
 	assert '"main": {' in view and "overview.own_progress(" in view
 	assert '_("{0} extra work")' in view
-	overview_vue = (src / "Overview.vue").read_text()
-	assert ':rows="[...mainRow, ...subProjects]"' in overview_vue and 'onClick: () => emit("main")' in overview_vue
-	page = (src / "ProjectPage.vue").read_text()
-	assert "after: scopeCrumb(s)" in page and '"below": _below(doc.name)' in view
-	assert 'const only = ref(props.query.only === "1");' in page and 'setQuery("only", now ? "1" : null);' in page
-	for one in ("Files.vue", "Invoices.vue", "ProjectActivity.vue", "Team.vue", "Time.vue", "Suppliers.vue"):
-		assert "...onlyArg(only)" in (src / one).read_text(), one
+	assert ':rows="[...mainRow, ...subProjects]"' in (src / "Overview.vue").read_text()
 	assert '"main": _main(project)' in (PROJECT / "ai.py").read_text()
 
 

@@ -1,6 +1,6 @@
 # Costs and Budget
 
-**Money** on the project's page shows the money for the project and its
+**Money**, at the top of a project's **Costing** tab, shows the money for the project and its
 sub-projects together. Click a row to see the documents behind it.
 
 - **Forecast**, by the project's kind:

@@ -18,7 +18,7 @@ opens beside OneProject's rail, as Rates and Project Types do. It holds:
   Employee**: on, one person may log two timesheet rows for the same hours,
   such as a supervisor on two sites at once. Off, the second is refused.
 - **Bring Timesheets into Sales Invoices**: on, choosing a project on a sales
-  invoice adds its billable timesheets. Invoice Time on a project's page does
+  invoice adds its billable timesheets. Invoice Time on a project does
   this either way.
 - **Hold Retention**, **Count Time By** for new projects, and **Activity for
   Days on Site**.

@@ -675,7 +675,7 @@
 @container one-page (max-width: 520px) { :root[data-one-look="canvas"] .form-page .form-section .section-body { grid-template-columns: minmax(0, 1fr) !important; } }
 @media (max-width: 767.98px) {
 	:root[data-one-look="canvas"] .one-interface .page-head .page-title { height: auto; }
-	:root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: normal; }
+	:root[data-one-look="canvas"] .one-hero-record .one-hero-title h1 { white-space: normal; max-width: 100%; overflow-wrap: anywhere; }
 	:root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-track { flex: 1 1 100%; margin-inline-start: 0; }
 	/* the track's steps share the width rather than each taking 156px, so the last one is not cut at the edge */
 	:root[data-one-look="canvas"] .one-hero-record .one-track-step { width: auto; flex: 1 1 0; min-width: 0; }
@@ -894,3 +894,8 @@
 @media (max-width: 767px) {
 	:root[data-one-look="canvas"] .frappe-list .list-row .list-subject, :root[data-one-look="canvas"] .frappe-list .list-row .list-subject .level-item.bold, :root[data-one-look="canvas"] .frappe-list .list-row .list-subject a.ellipsis { white-space: normal; overflow: visible; text-overflow: clip; overflow-wrap: anywhere; min-width: 0; }
 }
+:root[data-one-look="canvas"] .one-act.is-told .one-act-head { display: block; line-height: 20px; }
+:root[data-one-look="canvas"] .one-act.is-told .one-act-head strong { font-weight: 500; color: var(--one-ink-strong); }
+:root[data-one-look="canvas"] .one-act.is-told .one-act-when { float: inline-end; margin-inline-start: 8px; }
+:root[data-one-look="canvas"] .one-act.is-told .one-act-mark .icon { color: var(--one-ink-muted); }
+:root[data-one-look="canvas"] .one-act.is-told .one-update { margin-top: 4px; color: var(--one-ink-strong); white-space: pre-line; }

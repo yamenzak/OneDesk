@@ -14,11 +14,11 @@ A project for a customer holds two things agreed with them:
 **Add Project** fills both in. The payment terms are the customer's own when
 they have some, else the template's, else the company's. The terms and
 conditions are the template's, else the company's. Change either in the
-dialog, or later in **About**. A project made another way (a Sales Order's
+dialog, or later on the project's **Details**. A project made another way (a Sales Order's
 **Create › Project**, the form, Data Import) starts with the same, and a
 Fixed Price one with its template's retention. An internal project has neither. A sub-project
 with none of its own is billed on the nearest project above it that has some,
-and **About** says which.
+and its **Payment Terms** say which.
 
 Every quotation, order and invoice made for the project starts with them:
 **New Quotation**, the contract, **Bill Progress**, **Invoice Time** and
@@ -48,8 +48,7 @@ record who signed it and when, then submit it.
 
 **Contracts** on the Overview lists each one with who it is with, whether it
 is signed and when it ends. A supplier's contract also shows on its card on
-the **Suppliers** tab. **About** shows the customer's: **Signed** with when it
-ends, or **Not signed yet**. While the project is open, Needs You says **Get
+the **Suppliers** tab. While the project is open, Needs You says **Get
 the contract signed** for each one not signed, and **Renew the contract** from
 a month before a signed one ends, unless a later one with the same party runs
 on past it.
@@ -79,7 +78,7 @@ invoice's **Work Done** is the share of the whole by value.
 
 The customer's **Retention** is set three ways. The project holds the usual
 one (**Retention**, **Retention Due** and **Released at Handover**, from its
-template or the New Project dialog, changed under **Edit About**). Each new
+template or the New Project dialog, changed on the project's **Details**). Each new
 customer order on the project starts with it, and the order may change it,
 say to 0 on extra work. Each invoice starts with its order's, and may change
 it or set it to 0 before it's submitted. **Customer** under **Money** shows the **Retention Held** still to be
@@ -139,11 +138,11 @@ from before claim numbers got theirs in the order they were posted.
 ### Before the Customer Orders
 
 A Fixed Price project can start before anything is agreed. **New Quotation**
-(in **···**) starts a quotation for the project's customer, as often as you
+(under **Quotations** on the Overview) starts a quotation for the project's customer, as often as you
 need until one is ordered. While the customer's quotation is open,
-**Contract** on the Overview reads **Quoted** with the quotation's value,
+**Customer** under **Money** shows what they've been **Quoted**,
 **Forecast Margin** is worked out against it, and **Make Order** at the top
-of the page turns the quotation into the sales order. A quotation with
+of the project turns the quotation into the sales order. A quotation with
 alternative items opens instead, so you can pick which ones were ordered.
 **Quotations** on the Overview lists the project's quotations not ordered
 yet, drafts too, with where each stands. An ordered one is its order. **Work and Billing** shows once something is
@@ -182,7 +181,7 @@ A Retainer's **Overview** lists its months, newest first, from the one it
 starts in: the hours used of the month's allowance, any over, and the
 month's invoice. A month that has ended without one has **Invoice Month**.
 
-**Invoice Month** (also the page's main button) asks for the month and the
+**Invoice Month** (also the project's main button) asks for the month and the
 item to invoice it as. It shows the hours used of the allowance, and any on
 timesheets not submitted yet, which the invoice won't include. When the
 month went over, a tick to bill the hours over adds a line for them at what the
@@ -229,6 +228,6 @@ first, and pressed again after that, the payment.
 **···** on an invoice offers **Record Payment** (how much, when, into which
 account) and **Send**, which opens the invoice with its email ready and the
 invoice attached. **New Invoice** starts one for the customer on the
-project; **Invoice Time** and **Bill Progress** are in the page's buttons.
+project; **Invoice Time** and **Bill Progress** are at the top of the project.
 Shown on a project with a customer, to whoever may read invoices; Record
 Payment to whoever may make payments.
