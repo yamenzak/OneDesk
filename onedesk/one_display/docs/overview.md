@@ -26,5 +26,5 @@ A screen needs a browser and a connection. Most smart TVs have a browser, and
 a small stick or box behind any screen does the same. A screen that loses its
 connection keeps playing what it last had, and catches up when it is back.
 
-The first time you open OneDisplay, a short tour shows you around. To take it
-again, press the play button at the foot of the rail.
+A short tour shows you around: press the play button at the foot of the
+rail.

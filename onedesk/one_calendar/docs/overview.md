@@ -20,5 +20,5 @@ moves when the deal changes.
 The calendar opens on your last view and the calendars you chose, on any
 computer. On a phone it opens on the day instead of the week. A new event or a moved task elsewhere appears without reloading.
 
-The first time you open OneCalendar, a short tour shows you each of these.
-To take it again, press the play button at the foot of the rail.
+A short tour shows you each of these: press the play button at the foot of
+the rail.

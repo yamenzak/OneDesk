@@ -243,10 +243,6 @@ onedesk.interface.Frame.prototype.foot_action = function ({ icon, label, click, 
 onedesk.interface.Frame.prototype.module_foot = function ({ module, settings }) {
 	this.foot_action({ icon: "settings", label: __("Settings"), click: settings, version: { module } });
 	this.$foot_action.addClass("one-interface-foot-action--icons").find(".item-anchor").attr({ title: __("Settings"), "aria-label": __("{0} Settings", [module]) });
-	// A module that draws its foot has drawn its screen: its tour may start,
-	// after the window's own the first time anybody opens a screen of One.
-	const first = (frappe.boot.one_tours_unseen || []).some((one) => one.startsWith("OneInterface:"));
-	onedesk.tour.first(first ? "OneInterface" : module);
 	return this;
 };
 

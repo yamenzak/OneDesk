@@ -444,8 +444,8 @@ onedesk.help.open = async (module = null, page = null, anchor = null) => {
 
 // A module's tours (one/tours.py), one for each area of its screen, each
 // step at a `data-tour` mark, on frappe's driver. The area on screen is the
-// first whose `at` mark is shown; its tour starts on its own the first time,
-// and again from the tour button in the module's foot.
+// first whose `at` mark is shown; its tour starts from the tour button in
+// the module's foot, never by itself.
 frappe.provide("onedesk.tour");
 
 onedesk.tour.shown = (target) => {
@@ -552,22 +552,3 @@ onedesk.tour.lift = (el) => {
 			at.classList.add("driver-fix-stacking");
 	}
 };
-
-// The first time somebody opens an area of a module, once it has drawn:
-// asked when the module draws its foot and whenever the route changes.
-onedesk.tour.first = (module) => {
-	onedesk.tour._module = module;
-	const unseen = (frappe.boot.one_tours_unseen || []).filter((one) => one.startsWith(`${module}:`));
-	if (!unseen.length) return;
-	// An island draws after its foot, so the area is looked for a few times.
-	clearTimeout(onedesk.tour._wait);
-	const look = async (left) => {
-		if (onedesk.tour._running || onedesk.tour._module !== module || $(".modal.show").length) return;
-		const tour = await onedesk.tour.here(module);
-		if (tour && unseen.includes(`${module}:${tour.key}`)) onedesk.tour.run(module, tour);
-		else if (!tour && left) onedesk.tour._wait = setTimeout(() => look(left - 1), 500);
-	};
-	onedesk.tour._wait = setTimeout(() => look(10), 1500);
-};
-
-frappe.router.on("change", () => onedesk.tour._module && onedesk.tour.first(onedesk.tour._module));

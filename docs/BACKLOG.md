@@ -47,10 +47,12 @@ Decided with Yamen on 5 November 2026:
   ones skippable. Each app declares its steps in the registry; the pass
   lists them as it walks each app. Turning an app on later opens its
   steps. It takes over from the setup wizard's slides.
-- **Tours never start by themselves.** Today AccountCenter starts its own
-  and `one_tours_unseen` drives first-time tours. They are offered from
-  Help instead, and a record type may have one: how it works and what its
-  fields are for.
+- **Tours offered from Help.** A screen's tour no longer starts by itself
+  (5 November 2026); it runs from the foot's tour button. AccountCenter,
+  TrustCenter and OnePortal's dialog, which have no foot, still start theirs
+  the first time, and the window's own tour (one_interface/tour.py) is run
+  by nothing: both wait for Help to offer tours. A record type may have one:
+  how it works and what its fields are for.
 - **Help and tours are written from frappe's, ERPNext's and HRMS's own
   docs** (docs.frappe.io/erpnext, docs.frappe.io/hr) in our words, never
   copied (they are CC BY-SA) or linked (`docs` skill).

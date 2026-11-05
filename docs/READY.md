@@ -368,8 +368,8 @@ no roles to ship. OneInterface is the one there is. It says so in one
 sentence, as `engine` in its registry entry, writes no `abilities.py`, and
 the roles guard skips it; it still declares what it sends (nothing), what
 setting it up takes (nothing), what OneAI may do (nothing of its own) and a
-tour, of the window itself, which runs the first time anybody opens a
-screen of One and before any module's own.
+tour, of the window itself, which waits for Help to offer it
+(`docs/BACKLOG.md`).
 
 **Before.** OneMail had a SettingsDialog (`onemail_settings.js`) with its
 helpers inside it, opened from Settings at the foot of its rail and from
@@ -551,10 +551,9 @@ the window's own (`window-nav`, `window-search`, `window-foot`,
 reader's language (`tour`), the areas a reader hasn't toured, as
 `Module:key`, in the boot (`unseen`), and remembers an area's tour taken or
 closed as a user default (`seen`). The runner in `module_docs.js` puts them
-on `frappe.Driver`, taking the first tour whose `at` is on screen: on its
-own the first time an area is drawn (`onedesk.tour.first`, asked when the
-foot draws and on every route change), and from the play button in the
-module's foot, which says so when the screen has no tour.
+on `frappe.Driver`, taking the first tour whose `at` is on screen, from the
+play button in the module's foot, which says so when the screen has no
+tour. A tour never starts by itself.
 An island's parts sit in shadow roots, so the runner looks for a mark in
 each, lends driver's highlight rules to the root it is in, and lifts the
 layers outside it that driver's own walk stops short of. `test_ready.py`
