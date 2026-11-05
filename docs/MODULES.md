@@ -712,14 +712,12 @@ No doctypes yet.
 * `onedesk.one_inventory.order.read`
 * `onedesk.one_inventory.parts.add`
 * `onedesk.one_inventory.parts.read`
-* `onedesk.one_inventory.plant.read`
 * `onedesk.one_inventory.portal.quote_preview`
 * `onedesk.one_inventory.portal.rfq`
 * `onedesk.one_inventory.portal.send_quote`
 * `onedesk.one_inventory.quotes.ask`
 * `onedesk.one_inventory.quotes.order_cheapest`
 * `onedesk.one_inventory.ready.fix`
-* `onedesk.one_inventory.sent_out.read`
 * `onedesk.one_inventory.stock.issue`
 * `onedesk.one_inventory.stock.on_hand`
 * `onedesk.one_inventory.stock.transfer`
@@ -732,7 +730,6 @@ No doctypes yet.
 * `onedesk.one_inventory.story.taken_in_this_month`
 * `onedesk.one_inventory.supplier_items.read`
 * `onedesk.one_inventory.upkeep.done`
-* `onedesk.one_inventory.upkeep.read`
 * `onedesk.one_inventory.view.files`
 * `onedesk.one_inventory.view.read`
 * `onedesk.one_legal.gate.accept`

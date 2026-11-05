@@ -134,9 +134,7 @@ that exists.
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |
 | `src/inventory/item/ItemPage.vue` | Shopify's product page and Odoo's product form: what kind of thing it is, what it is called, the one thing worth saying, what it is and how much of it there is, then a view each for its stock, buying, selling and making |
-| `src/inventory/plant/PlantFloor.vue` | Odoo's work centres overview: a card per workstation with its status to change in place, what runs on it with its clock, and what waits |
 | `src/project/ProjectPage.vue` | Asana's project and monday's boards: a head with its health, then views that each open in place, as a form's tabs do, across the top under the head |
-| `src/inventory/sent_out/SentOutPage.vue` | Katana's outsourced purchase orders and Odoo's subcontracting: one table of what is out, and the orders not ready to send above it |
 | `src/inventory/stock/StockOnHand.vue` | Shopify's Inventory and Katana's Stock screen: a picture and a name, one status, and on hand split into what is committed and what is available, with what is coming in |
 | `src/inventory/supplier/SupplierItems.vue` | Odoo's vendor price list and Zoho Inventory's items on a vendor: the item with their own code for it, the last price paid in their money, how much was bought in a year, what is on order and the lead time, then what they quoted for and were never ordered from |
 | `src/task/Timers.vue` | Toggl's and Harvest's timer: the one running with its clock, pause and stop, then the ones paused to resume |
@@ -145,7 +143,6 @@ that exists.
 | `src/slide/shim/WidgetSection.vue` | Yodeck's and ScreenCloud's layout editors: widgets as boxes on the screen at its shape, in OneSlide's editor, and the chosen widget's source, fields and settings in the panel |
 | `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
-| `src/inventory/upkeep/UpkeepPage.vue` | UpKeep's and Fiix's work order lists: a table per tab, one status per row |
 | `src/workload/WorkloadList.vue` | Asana's Workload and Float's capacity view: the team's week in one line with a bar, then a row a person, their load as a bar that turns red past what they have, the hours planned of the hours free, and their tasks, late and not estimated, each opening the tasks it counts |
 
 ## Measured against `@framework/ui`

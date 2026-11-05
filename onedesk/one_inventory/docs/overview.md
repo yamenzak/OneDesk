@@ -59,7 +59,7 @@ The rail keeps what people use every day:
   **Purchase Order** and **Supplier**. See Buying.
 - **Manufacturing** — **Shop Floor**, **Plant Floor**, **Work Order**, **BOM**
   (bills of materials) and **Subcontracting Order**. See Manufacturing.
-- **Assets** — **Asset** and **Asset Maintenance**.
+- **Assets** — **Asset** and **Asset Maintenance Log**.
 - **Reports** — the stock, buying, making and asset reports, each with what
   it shows.
 - **Setup** — the **Inventory Check** first (what is missing before stock
@@ -70,11 +70,6 @@ The rail keeps what people use every day:
   routings, BOM Update Tool, subcontracted items, asset
   categories, locations, maintenance teams, shift factors, delivery
   settings, and the stock, buying and manufacturing settings.
-
-**Subcontracting Order** and **Asset Maintenance** each gather several kinds of record. At the top of
-each is the same view switch a list has. **List View** and **Report View**
-open those records as a list or a report, and the reports that go with them
-are there too. On those lists the switch leads back to the page.
 
 Everything else (blanket orders, job cards, asset movements, pick lists,
 packing slips, delivery trips, landed costs, item prices, item alternatives,

@@ -147,26 +147,21 @@ a register and a movement form in it would be a rail with five rows.
   Cheapest, once a quote is submitted) runs
   `supplier_quotation.mapper.make_purchase_order` per supplier with
   `filtered_children` for the lines they are cheapest on, leaving drafts.
-- `sent_out.py`, `page/sent_out`, `frontend/src/inventory/sent_out` and
-  `public/js/sent_out_actions.js` — Sent Out. `read` gives the figures and
-  one tab of Subcontracting Orders by ERPNext's own status (`OUT` or
-  `DONE`), each with its items (qty, received_qty) and supplied items
-  (supplied less returned, consumed). `figures` values the stock in the open
-  orders' supplier warehouses from Bin. `to_order` lists subcontracted
-  purchase orders with no subcontracting order. Every change is ERPNext's
-  call, as the Subcontracting Order's form makes it:
-  `purchase_order.mapper.make_subcontracting_order`,
-  `subcontracting_controller.make_rm_stock_entry` and
-  `subcontracting_order.make_subcontracting_receipt`. OneAI's
-  `sent_out_now` reads the page.
-- `upkeep.py`, `page/upkeep`, `frontend/src/inventory/upkeep` and
-  `public/js/upkeep_actions.js` — Upkeep. `read` gives the figures and one
-  tab: `due` (Asset Maintenance Log not submitted, Planned or Overdue),
-  `repairs` (Asset Repair, open first, with the days since it failed),
-  `plans` (Asset Maintenance with its tasks) or `log` (submitted, completed
-  logs and submitted repairs). `done` completes and submits a log as its
-  form does, and ERPNext's own `update_maintenance_task` moves the task's
-  next date. OneAI's `upkeep_now` reads the page.
+- `sent_out.py` — work sent to suppliers, as OneAI's `sent_out_now`
+  reads it: `figures`, `orders` (out now, or done with) and `to_order`
+  (subcontracted purchase orders with no subcontracting order yet).
+  Subcontracting Order is frappe's own list and form (the Sent Out page went
+  in November 2026; `/desk/sent-out` leads to it), and sending materials,
+  receiving and making the order are its and the purchase order's own
+  buttons.
+- `upkeep.py` and `public/js/one_inventory/asset_maintenance_log.js` —
+  servicing the equipment. Asset Maintenance Log, Asset Repair and Asset
+  Maintenance are frappe's own lists and forms (the Upkeep page went in
+  November 2026; `/desk/upkeep` leads to the log). `figures`, `due`,
+  `repairs`, `plans` and `log` are what OneAI's `upkeep_now` and Home read;
+  `done` is the log's Mark Done, its primary action in place of Submit:
+  ERPNext's own log, completed on the day and submitted, which works out
+  the job's next date.
 - `public/js/page_views.js` — the view switch on Lots, Quotes, Sent Out and
   Upkeep. `onedesk.page_views` names, per page, the doctypes it gathers (with
   the tab that shows each) and the script reports that go with them.
@@ -191,18 +186,12 @@ a register and a movement form in it would be a rail with five rows.
   follows Job Card and Work Order through frappe.realtime. ERPNext's own
   page stays at /desk/shop-floor. OneAI's `on_the_floor` reads what is
   running.
-- `plant.py`, `page/plant`, `frontend/src/inventory/plant` and
-  `public/js/plant_actions.js` — the Plant Floor. `read` reads ERPNext's
-  own `workstation.get_workstations` for a floor's cards and its filters,
-  the steps running on each workstation (`floor.running_now`), and
-  `plant_floor.get_stock_summary` for the floor's warehouse, leaving out
-  items with nothing there. Change Status saves the workstation's status,
-  which ERPNext tells every open Plant Floor about. Add Stock and Move Stock
-  run the Plant Floor's own `make_stock_entry` and open the draft. ERPNext's
-  Visual Plant Floor stays at /desk/visual-plant-floor. OneAI's
-  `plant_floor_now` reads it. Plant Floor is read by the Manufacturing User
-  and kept by the Manufacturing Manager (access.py), as ERPNext gives it to
-  the System Manager alone.
+- `plant.py` — a plant floor as OneAI's `plant_floor_now` reads it
+  (`now`): each workstation through ERPNext's `get_workstations`, the steps
+  running on it from the Shop Floor's job cards, and the floor's stock from
+  `plant_floor.get_stock_summary`. People see it on ERPNext's own Plant
+  Floor form (the Plant page went in November 2026; `/desk/plant` leads to
+  the list).
 - `view.py`, `page/item_view` and `frontend/src/inventory/item` — an item's page. An
   item is the hub of the stores, as a project is of a job, so it opens on a
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the

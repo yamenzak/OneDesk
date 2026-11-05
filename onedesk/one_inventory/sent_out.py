@@ -1,8 +1,8 @@
-"""Sent Out (page/sent_out, frontend/src/inventory/sent_out): work a supplier does on
-our own materials, powder coating say, as one page. What is out now, what
-went and what came back, each order as ERPNext's Subcontracting Order keeps
-it. Every change is ERPNext's own call. How it works is in the module's
-AGENTS.md.
+"""Work a supplier does on our own materials, powder coating say, as OneAI
+reads it: what is out now, what went and what came back, each order as
+ERPNext's Subcontracting Order keeps it. Subcontracting Order itself is
+frappe's own list and form, and every change is its own buttons. How it
+works is in the module's AGENTS.md.
 """
 
 import erpnext
@@ -12,22 +12,6 @@ from frappe.utils import flt, getdate, today
 MOST = 40
 OUT = ("Open", "Partial Material Transferred", "Material Transferred", "Partially Received")
 DONE = ("Completed", "Closed")
-
-
-@frappe.whitelist()
-def read(view: str = "out", search: str | None = None) -> dict:
-	"""The figures, and the orders one tab shows: out now, or done with."""
-	return {
-		"can": {
-			"order": bool(frappe.has_permission("Purchase Order", "create")),
-			"send": bool(frappe.has_permission("Stock Entry", "create")),
-			"receive": bool(frappe.has_permission("Subcontracting Receipt", "create")),
-		},
-		"figures": figures(),
-		"currency": erpnext.get_company_currency(erpnext.get_default_company()),
-		"orders": orders(done=view == "done", search=search),
-		"to_order": to_order() if view != "done" else [],
-	}
 
 
 def figures() -> dict:

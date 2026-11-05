@@ -446,10 +446,11 @@ def oneinventory_quotes_ask_compare_and_order():
 
 @check
 def oneinventory_sent_out_says_what_went_and_what_came_back():
-	"""Sent Out: the tower's profile with Gulf Powder Coating, all sent and
-	nothing back yet, the villa's done with, and what the materials with the
-	coater are worth. Taking the tower's back through ERPNext's receipt moves
-	it to Back. OneAI reads it. Tariq sees it, somebody outside the stores
+	"""Work sent to suppliers, on frappe's own Subcontracting Order: the
+	tower's profile with Gulf Powder Coating, all sent and nothing back yet,
+	the villa's done with, and what the materials with the coater are
+	worth. Taking the tower's back through ERPNext's receipt moves it to
+	done. OneAI reads it. Tariq sees it, somebody outside the stores
 	and the workshop does not."""
 	from erpnext.subcontracting.doctype.subcontracting_order.subcontracting_order import (
 		make_subcontracting_receipt,
@@ -459,67 +460,70 @@ def oneinventory_sent_out_says_what_went_and_what_came_back():
 	from onedesk.one_inventory import ai, sent_out
 
 	metres = COATING[0]
+	assert not frappe.db.exists("Page", "sent_out")
 	with as_user("karim@one.test"):
-		said = sent_out.read()
-		tower = next(one for one in said["orders"] if one["supplier"] == COATER)
+		tower = next(one for one in sent_out.orders() if one["supplier"] == COATER)
 		assert tower["status"] == "Material Transferred" and not tower["late"], tower
 		assert [(row["item"], row["qty"], row["back"]) for row in tower["makes"]] == [("ALU-6063-PC", metres, 0)], tower["makes"]
 		assert [(row["item"], row["sent"]) for row in tower["materials"]] == [("ALU-6063", metres)], tower["materials"]
 		assert tower["project_name"] == "Bayview Tower Curtain Wall"
-		assert said["figures"]["out"] >= 1 and said["figures"]["worth"] > 0, said["figures"]
-		assert any(one["status"] == "Completed" for one in sent_out.read(view="done")["orders"])
+		figures = sent_out.figures()
+		assert figures["out"] >= 1 and figures["worth"] > 0, figures
+		assert any(one["status"] == "Completed" for one in sent_out.orders(done=True))
 		facts = ai.sent_out_now()
 		assert any(one["order"] == tower["name"] for one in facts["out"]), facts
 
 		receipt = frappe.get_doc(make_subcontracting_receipt(tower["name"]))
 		receipt.insert()
 		receipt.submit()
-		assert tower["name"] not in {one["name"] for one in sent_out.read()["orders"]}
-		assert tower["name"] in {one["name"] for one in sent_out.read(view="done")["orders"]}
+		assert tower["name"] not in {one["name"] for one in sent_out.orders()}
+		assert tower["name"] in {one["name"] for one in sent_out.orders(done=True)}
 	with as_user("tariq@one.test"):
 		assert sent_out.figures()["out"] is not None
 	with as_user("nadia@one.test"):
-		said = sent_out.read()
-		assert not said["orders"] and said["figures"]["out"] is None, said
+		assert not sent_out.orders() and sent_out.figures()["out"] is None
 		assert ai.sent_out_now().get("error")
 
 
 @check
 def oneinventory_upkeep_says_what_is_due_broken_and_done():
-	"""Upkeep: the second truck's service late with Yousef, Huda's laptop out
-	of order, a plan for each serviced asset and the CNC centre's checks
-	done. Marking the truck's service done takes it off Due, puts it in Done
-	and moves its next date a quarter on, as ERPNext works it out. OneAI
-	reads it. Somebody outside the stores sees none of it."""
+	"""Servicing the equipment, on frappe's own maintenance log and repair
+	forms: the second truck's service late with Yousef, Huda's laptop out of
+	order, a plan for each serviced asset and the CNC centre's checks done.
+	Mark Done on the truck's service takes it off what is due, puts it in
+	the log and moves its next date a quarter on, as ERPNext works it out.
+	OneAI reads it. Somebody outside the stores sees none of it."""
 	from onedesk.one_inventory import ai, upkeep
 
+	assert not frappe.db.exists("Page", "upkeep")
 	with as_user("karim@one.test"):
-		said = upkeep.read()
-		assert said["figures"]["late"] >= 1 and said["figures"]["broken"] >= 1, said["figures"]
-		truck = next(one for one in said["due"] if one["asset_name"] == "Pickup Truck 2")
+		figures = upkeep.figures()
+		assert figures["late"] >= 1 and figures["broken"] >= 1, figures
+		truck = next(one for one in upkeep.due() if one["asset_name"] == "Pickup Truck 2")
 		assert truck["late"] and truck["assign_to_name"] == "Yousef Bakr", truck
-		broken = [one for one in upkeep.read(view="repairs")["repairs"] if one["open"]]
+		broken = [one for one in upkeep.repairs() if one["open"]]
 		assert [one["asset_name"] for one in broken] == ["Laptop Huda"] and broken[0]["days_out"] >= 0, broken
-		plans = {one["asset_name"]: one for one in upkeep.read(view="plans")["plans"]}
+		plans = {one["asset_name"]: one for one in upkeep.plans()}
 		assert {"Pickup Truck 1", "Pickup Truck 2", "CNC Profile Machining Centre"} <= set(plans), list(plans)
-		assert any(one["asset_name"] == "CNC Profile Machining Centre" for one in upkeep.read(view="log")["log"])
+		assert any(one["asset_name"] == "CNC Profile Machining Centre" for one in upkeep.log())
 		facts = ai.upkeep_now()
 		assert any(one["asset"] == "Pickup Truck 2" and one["late"] for one in facts["services"]), facts
 
 		upkeep.done(truck["name"], frappe.utils.today(), "Oil and filters changed.")
-		assert truck["name"] not in {one["name"] for one in upkeep.read()["due"]}
-		assert truck["name"] in {one["name"] for one in upkeep.read(view="log")["log"]}
+		assert truck["name"] not in {one["name"] for one in upkeep.due()}
+		assert truck["name"] in {one["name"] for one in upkeep.log()}
 		task = frappe.db.get_value("Asset Maintenance Task", {"parent": truck["asset"]}, ["last_completion_date", "next_due_date"], as_dict=True)
 		assert str(task.last_completion_date) == frappe.utils.today() and str(task.next_due_date) == str(frappe.utils.add_months(frappe.utils.today(), 3)), task
 	with as_user("nadia@one.test"):
-		said = upkeep.read()
-		assert not said["due"] and said["figures"]["late"] is None and not said["can"]["done"], said
+		assert not upkeep.due() and upkeep.figures()["late"] is None
+		assert not frappe.has_permission("Asset Maintenance Log", "submit")
 		assert ai.upkeep_now().get("error")
 
 
 @check
 def oneinventory_the_plant_floor_shows_each_workstation():
-	"""The Plant Floor: the workshop's three workstations with ERPNext's
+	"""A plant floor, as ERPNext's own form shows it and OneAI reads it: the
+	workshop's three workstations with ERPNext's
 	statuses, the step running on the saw and who is on it, the steps waiting
 	at each, and the stock kept on the floor. A status changed on a
 	workstation shows at once, and the figures follow. OneAI reads it.
@@ -527,7 +531,8 @@ def oneinventory_the_plant_floor_shows_each_workstation():
 	from onedesk.one_inventory import ai, plant
 
 	with as_user("tariq@one.test"):
-		said = plant.read()
+		assert not frappe.db.exists("Page", "plant")
+		said = plant.now()
 		assert said["plant"]["name"] == "Workshop", said["plant"]
 		shown = {one["name"]: one for one in said["workstations"]}
 		assert {name: one["status"] for name, one in shown.items()} == {
@@ -541,10 +546,10 @@ def oneinventory_the_plant_floor_shows_each_workstation():
 		assert shown["Assembly Bench"]["waiting"] >= 1, shown["Assembly Bench"]
 		assert said["figures"] == {"workstations": 3, "making": 1, "stopped": 1, "running": 1}, said["figures"]
 		assert said["stock"] and all(one["actual_qty"] > 0 for one in said["stock"]), said["stock"]
-		assert [one["name"] for one in plant.read(status="Maintenance")["workstations"]] == ["Glazing Table"]
+		assert [one["name"] for one in plant.now(status="Maintenance")["workstations"]] == ["Glazing Table"]
 
 		frappe.client.set_value("Workstation", "Glazing Table", "status", "Production")
-		after = plant.read()
+		after = plant.now()
 		assert after["figures"]["making"] == 2 and after["figures"]["stopped"] == 0, after["figures"]
 		facts = ai.plant_floor_now()
 		assert {one["workstation"]: one["status"] for one in facts["workstations"]}["Glazing Table"] == "Production"
@@ -552,7 +557,7 @@ def oneinventory_the_plant_floor_shows_each_workstation():
 	with as_user("nadia@one.test"):
 		assert ai.plant_floor_now().get("error")
 		try:
-			plant.read()
+			plant.now()
 		except frappe.PermissionError:
 			pass
 		else:

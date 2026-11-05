@@ -172,39 +172,6 @@ PLACES = {
 			},
 		},
 	},
-	"oneinventory_sent_out": {
-		"label": "OneInventory",
-		"record": "Subcontracting Order",
-		"events": {
-			"shown": {
-				"about": _lt("Sent Out is opened, and each time an order, a transfer or a receipt for work sent out changes."),
-				"gives": "sent_out.view (out or done), sent_out.out (orders still out), sent_out.to_send, sent_out.late, sent_out.worth (materials with suppliers, at cost)",
-				"may": ("note", "action"),
-			},
-		},
-	},
-	"oneinventory_upkeep": {
-		"label": "OneInventory",
-		"record": "Asset Maintenance Log",
-		"events": {
-			"shown": {
-				"about": _lt("Upkeep is opened, and each time a service, a plan or a repair changes."),
-				"gives": "upkeep.view (due, repairs, plans or log), upkeep.this_week (services due this week), upkeep.late, upkeep.broken (equipment out of order), upkeep.repairs_cost (the last twelve months)",
-				"may": ("note", "action"),
-			},
-		},
-	},
-	"oneinventory_plant": {
-		"label": "OneInventory",
-		"record": "Workstation",
-		"events": {
-			"shown": {
-				"about": _lt("Plant Floor is opened, and each time a workstation's status or a step on it changes."),
-				"gives": "plant.name (the floor shown, or null), plant.workstations (how many, and the list of each one's name and status), plant.making, plant.stopped, plant.running (steps running)",
-				"may": ("note", "action"),
-			},
-		},
-	},
 	"onecloud": {
 		"label": "OneCloud",
 		"record": "File",

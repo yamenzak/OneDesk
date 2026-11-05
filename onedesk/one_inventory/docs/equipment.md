@@ -35,26 +35,20 @@ hold, given to the stores.
 
 ## Servicing Equipment
 
-**Asset Maintenance** in the rail keeps servicing and mending on one page.
-The figures say how many services are **Due This Week**, how many are
-**Overdue**, what is **Out of Order**, and the **Repair Cost** over the
-last twelve months. Each tab is a table, one status to a row.
+**Asset Maintenance Log** in the rail lists each service: each service,
+its asset and job, who does it, when it is due and whether it is
+**Planned**, **Overdue** or **Completed**. Home says how many are due and
+opens the ones still to do.
 
-- **Planned** lists each service not done yet, the soonest first, with the
-  asset, the job, Overdue, Due Soon or Planned, who does it, how often and
-  when, red once late. **Mark Done** asks the **Completion Date** and the
-  **Actions Performed**, records them in the maintenance log and works out
-  the next date from that day.
-- **Asset Repair** lists what broke, what is wrong and how many days it has
-  been out of use, then the repairs finished, with what each cost.
-- **Asset Maintenance** lists each asset's servicing plan: its team, and
-  each job with how often and when it is next due.
-- **Completed** lists what was done, services with who did them and repairs
-  with what they cost, the latest first.
+- **Mark Done** on a service asks the **Completion Date** and the **Actions
+  Performed**, records them and works out the job's next date from that day.
+- **Asset Repair** lists what broke, what is wrong and what each repair
+  cost; **New Asset Repair** reports a breakdown.
+- Each asset's servicing plan is an **Asset Maintenance** record: its team,
+  and each job with how often and when it is next due.
 
-**New Asset Repair** reports a breakdown and **New Asset Maintenance** plans
-servicing. OneAI answers **Which services are due?** and **What is out of
-order?** there.
+OneAI answers **Which services are due?** and **What is out of order?** on
+the maintenance log and on repairs.
 
 Tick **Maintenance Required** on an asset that needs looking after, then
 **New Asset Maintenance**: the asset, the maintenance team, and a row

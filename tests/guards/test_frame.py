@@ -182,9 +182,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 		"onehr_home.shown": (ROOT / "frontend" / "src" / "hr" / "HrHome.vue").read_text(),
 		"onebook_home.shown": (ROOT / "frontend" / "src" / "books" / "BooksHome.vue").read_text(),
 		"oneinventory_order.shown": (ROOT / "frontend" / "src" / "inventory" / "to_order" / "ToOrderPage.vue").read_text(),
-		"oneinventory_sent_out.shown": (ROOT / "frontend" / "src" / "inventory" / "sent_out" / "SentOutPage.vue").read_text(),
-		"oneinventory_upkeep.shown": (ROOT / "frontend" / "src" / "inventory" / "upkeep" / "UpkeepPage.vue").read_text(),
-		"oneinventory_plant.shown": (ROOT / "frontend" / "src" / "inventory" / "plant" / "PlantFloor.vue").read_text(),
 		"oneproject_workload.week": (APP / "one_project" / "report" / "workload" / "workload.js").read_text(),
 		"oneproject_list.projects": (APP / "public" / "js" / "project_list.js").read_text(),
 	}

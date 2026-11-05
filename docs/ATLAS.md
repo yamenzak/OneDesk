@@ -25,9 +25,9 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 84 | 2 | 38 | 0 |
+| onedesk | 81 | 2 | 38 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
-| erpnext | 300 | 135 | 51 | 0 |
+| erpnext | 299 | 136 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
 
 ## Our screens
@@ -54,10 +54,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | supplier_items (`frontend/src/inventory/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
 | check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
 | workload (`frontend/src/workload/WorkloadList.vue`) | – | – | – | – |
-| sent_out (`frontend/src/inventory/sent_out/SentOutPage.vue`) | Bin, Project, Purchase Order, Subcontracting Order, Subcontracting Order Item, Subcontracting Order Supplied Item | – | – | – |
-| upkeep (`frontend/src/inventory/upkeep/UpkeepPage.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Asset Maintenance Task, Asset Repair | – | – | – |
 | floor (`frontend/src/inventory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
-| plant (`frontend/src/inventory/plant/PlantFloor.vue`) | Job Card, Job Card Time Log, Plant Floor, Workstation | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
@@ -177,7 +174,7 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 | Asset Category | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Depreciation Schedule | inside: an asset's form draws its schedule | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Maintenance | opened by our screens | OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
-| Asset Maintenance Log | on a rail or a home | OneInventory | a head, events, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
+| Asset Maintenance Log | on a rail or a home | OneInventory | a head, events, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Maintenance Team | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
 | Asset Repair | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
@@ -186,7 +183,7 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 | Asset Value Adjustment | on a rail or a home | OneBook, OneInventory | a head, 1 settings | yes | taught |  | yes |  |  |  |  |
 | Location | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 
-Reports: Asset Activity (on a rail or a home); Asset Maintenance (opened by our screens); Fixed Asset Register (on a rail or a home).
+Reports: Asset Activity (on a rail or a home); Asset Maintenance (under a list's related reports (Asset Maintenance's list)); Fixed Asset Register (on a rail or a home).
 
 ## erpnext / Bulk Transaction
 
@@ -431,7 +428,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Stock Ledger Entry | engine: one line per stock move; the Stock Ledger report shows them | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Reconciliation | on a rail or a home | OneInventory | a head, form script, 9 settings | yes | taught |  | yes |  |  |  |  |
 | Stock Reposting Settings | left out: how ERPNext paces revaluing stock; its defaults suit every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Stock Reservation Entry | through a form's connections (Subcontracting Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Stock Reservation Entry | through a form's connections (Production Plan's Connections) | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | events, 1 fields, 1 settings | no | general |  |  |  |  | ar 1 |  |
 | UOM Category | through a form's link (UOM Conversion Factor: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Warehouse | on a rail or a home | OneBook, OneCRM, OneInventory | a head, tree script | yes | taught |  | yes |  |  |  | Stock Account Wrong |
@@ -447,7 +444,7 @@ Pages: stock-balance (replaced: Stock Summary); warehouse-capacity-summary (on a
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Subcontracting BOM | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | **none** | ours |  |  |  |
-| Subcontracting Order | opened by our screens | OneInventory | a head, 3 settings | yes | taught |  | yes | ours |  |  | Back From Supplier Late |
+| Subcontracting Order | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes | ours |  |  | Back From Supplier Late |
 | Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  | yes | ours |  |  |  |
 
 Reports: Subcontracted Items To Be Delivered (under a list's related reports (Subcontracting Inward Order's list)); Subcontracted Raw Materials To Be Received (under a list's related reports (Subcontracting Inward Order's list)); Subcontracting Inward Order Summary (under a list's related reports (Subcontracting Inward Order's list)).
@@ -724,7 +721,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Print Format | through a form's link (Customize Form: default_print_format) | the administrator | events | no | taught |  | yes |  |  |  |  |
 | Print Format Field Template | inside: One's print blocks, laid out in Printing's builder | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Print Format Snippet | inside: OneStudio's ControlCenter › Printing | the administrator | events | no | general |  | **none** |  |  | ar 2 |  |
-| Print Heading | through a form's link (Subcontracting Order: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Print Heading | through a form's link (Subcontracting Receipt: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Print Settings | inside: OneStudio's ControlCenter › Printing | the administrator | untouched | no | general |  |  |  |  | ar 3, de 1 |  |
 | Print Style | replaced: One's print formats, which carry their own look | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
@@ -1039,7 +1036,7 @@ Pages: onehr (on a rail or a home).
 
 Reports: Inventory Check (on a rail or a home).
 
-Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); plant (on a rail or a home); sent-out (on a rail or a home); stock-on-hand (on a rail or a home); to-order (on a rail or a home); upkeep (on a rail or a home).
+Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); stock-on-hand (on a rail or a home); to-order (on a rail or a home).
 
 ## onedesk / One Legal
 

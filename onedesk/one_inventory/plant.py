@@ -1,7 +1,7 @@
-"""Plant Floor (page/plant, frontend/src/inventory/plant): a floor's workstations as
-cards, what each is doing now, and the stock kept on the floor, read through
-ERPNext's own Plant Floor and Workstation. How it works is in the module's
-AGENTS.md.
+"""A floor's workstations, what each is doing now, and the stock kept on
+the floor, as OneAI reads them through ERPNext's own Plant Floor and
+Workstation. People see them on ERPNext's own Plant Floor form. How it works
+is in the module's AGENTS.md.
 """
 
 import erpnext
@@ -15,9 +15,9 @@ from onedesk.one_inventory import floor as shop
 STATUSES = ("Production", "Off", "Idle", "Problem", "Maintenance", "Setup")
 
 
-@frappe.whitelist()
-def read(plant: str | None = None, workstation_type: str | None = None, status: str | None = None) -> dict:
-	"""The floors, and one floor's workstations and stock."""
+def now(plant: str | None = None, workstation_type: str | None = None, status: str | None = None) -> dict:
+	"""The floors, and one floor's workstations and stock, as OneAI's
+	plant_floor_now reads them."""
 	frappe.has_permission("Workstation", "read", throw=True)
 	floors = frappe.get_list(
 		"Plant Floor",

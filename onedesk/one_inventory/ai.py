@@ -33,10 +33,7 @@ NOT_FOR_AI = {
 PAGE = "item-view"
 STOCK = "stock-on-hand"
 FLOOR = "floor"
-PLANT = "plant"
 HOME = "inventory"
-SENT_OUT = "sent-out"
-UPKEEP = "upkeep"
 
 _HOW = {
 	"label": _lt("How is this item doing?"),
@@ -277,10 +274,7 @@ SUGGESTIONS = {
 	"Item": [_LOW, _HOW],
 	f"page:{STOCK}": [_LOW, _HELD],
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
-	f"page:{PLANT}": [_MACHINES, _ON_FLOOR],
 	f"page:{HOME}": [_LATE, _LOW, _DUE],
-	f"page:{SENT_OUT}": [_OUT_NOW],
-	f"page:{UPKEEP}": [_DUE, _BROKEN],
 	"Asset Repair": [_BROKEN],
 	"Subcontracting Order": [_OUT_NOW],
 	"Batch": [_GOING_OFF],
@@ -333,26 +327,6 @@ def page(said: dict) -> str | None:
 			"The reader is on Reorder, which lists the items at or below their reorder level in each warehouse, "
 			"with what is on hand, already ordered and promised, and orders for them. running_low reads it as the "
 			"page shows it. How the page works is in OneInventory's documentation (how_to)."
-		)
-	if said.get("page") == UPKEEP:
-		return (
-			"The reader is on Upkeep, which lists the services on the equipment not done yet, the repairs, each "
-			"asset's servicing plan and what was done. upkeep_now reads it as the page shows it, with the "
-			"services late or due within days (30 if not said). How the page works is in OneInventory's "
-			"documentation (how_to)."
-		)
-	if said.get("page") == SENT_OUT:
-		return (
-			"The reader is on Sent Out, which lists the work suppliers do on our own materials, powder coating "
-			"say: what each makes, what went to them and what came back, when it is due, and what the materials "
-			"with suppliers are worth. sent_out_now reads it as the page shows it. How the page works is in "
-			"OneInventory's documentation (how_to)."
-		)
-	if said.get("page") == PLANT:
-		return (
-			"The reader is on the Plant Floor, which shows a floor's workstations with their status and what is "
-			"running on each, and the stock kept on the floor. plant_floor_now reads it; on_the_floor reads the "
-			"steps. How the page works is in OneInventory's documentation (how_to)."
 		)
 	if said.get("page") != PAGE:
 		return None
@@ -1252,7 +1226,7 @@ def on_the_floor(
 def plant_floor_now(
 	plant: Annotated[str, "The plant floor, by name. Left out, the first one."] | None = None,
 ) -> dict:
-	"""What the Plant Floor shows: each workstation's status, the steps
+	"""What a plant floor holds now: each workstation's status, the steps
 	running on it and who is on them, how many wait there, and what the
 	floor's warehouse holds."""
 	from onedesk.one_inventory import plant as plants
@@ -1261,7 +1235,7 @@ def plant_floor_now(
 		return {"error": "The reader may not see workstations."}
 	if plant and not frappe.db.exists("Plant Floor", plant):
 		return {"error": f"No plant floor is called {plant}."}
-	said = plants.read(plant=plant)
+	said = plants.now(plant=plant)
 	if not said["plant"]:
 		return {"error": "There is no plant floor yet."}
 	return {

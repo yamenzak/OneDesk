@@ -272,7 +272,7 @@ const parts = computed(() => {
         value: one.late ? __("Was due {0}", [date(one.due)]) : __("Due {0}", [date(one.due)]),
         route: `/desk/asset-maintenance-log/${encodeURIComponent(one.service)}`,
       })),
-      more: more(n.services, __("Asset Maintenance"), "/desk/upkeep"),
+      more: more(n.services, __("Asset Maintenance"), `/desk/asset-maintenance-log?maintenance_status=${encodeURIComponent(JSON.stringify(["in", ["Planned", "Overdue"]]))}`),
     });
   if (n.work.count)
     out.push({

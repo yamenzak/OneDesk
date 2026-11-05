@@ -1,6 +1,6 @@
 frappe.provide("onedesk");
 
-onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, views = null, bare = null, fit = false }) => {
+onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], hide_sidebar = false, menu = null, record = null, files = null, mark = null, bare = null, fit = false }) => {
 	const page = frappe.ui.make_app_page({ parent: wrapper, title, single_column: !record, sidebar_position: "Right", hide_sidebar, one_interface_fit: fit });
 	if (bare) $(wrapper).addClass(bare);
 	page.one_record = record;
@@ -48,7 +48,6 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			else if (action.button) page.add_inner_button(action.label, run);
 			else page.add_menu_item(action.label, run, !!action.standard);
 		}
-		if (views) onedesk.page_views.switcher(page, views);
 	};
 	const view = (key) => {
 		const url = new URL(window.location.href);

@@ -1,8 +1,8 @@
-"""Upkeep (page/upkeep, frontend/src/inventory/upkeep): servicing and mending the
-company's equipment as one page. The services due, the repairs, each
-asset's plan and the log of what was done, each as ERPNext's Asset
-Maintenance, Asset Maintenance Log and Asset Repair keep it. How it works is
-in the module's AGENTS.md.
+"""Servicing and mending the company's equipment, as OneAI and Home read
+it: the services due, the repairs, each asset's plan and the log of what was
+done, each as ERPNext's Asset Maintenance, Asset Maintenance Log and Asset
+Repair keep it, which are frappe's own lists and forms. `done` is the log's
+Mark Done. How it works is in the module's AGENTS.md.
 """
 
 import erpnext
@@ -12,33 +12,6 @@ from frappe.utils import add_days, add_months, flt, get_datetime, getdate, now_d
 
 MOST = 60
 WEEK = 7
-
-
-@frappe.whitelist()
-def read(view: str = "due", search: str | None = None) -> dict:
-	"""The figures, and the services, repairs, plans or log one tab shows."""
-	said = {
-		"can": {
-			"done": bool(frappe.has_permission("Asset Maintenance Log", "submit")),
-			"repair": bool(frappe.has_permission("Asset Repair", "create")),
-			"plan": bool(frappe.has_permission("Asset Maintenance", "create")),
-		},
-		"currency": erpnext.get_company_currency(erpnext.get_default_company()),
-		"figures": figures(),
-		"due": [],
-		"repairs": [],
-		"plans": [],
-		"log": [],
-	}
-	if view == "repairs":
-		said["repairs"] = repairs(search=search)
-	elif view == "plans":
-		said["plans"] = plans(search=search)
-	elif view == "log":
-		said["log"] = log(search=search)
-	else:
-		said["due"] = due(search=search)
-	return said
 
 
 def figures() -> dict:

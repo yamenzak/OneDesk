@@ -857,6 +857,7 @@ fixtures = [
 
 
 doctype_js = {
+	"Asset Maintenance Log": "public/js/one_inventory/asset_maintenance_log.js",
 	"Request for Quotation": "public/js/one_inventory/request_for_quotation.js",
 	"Shift Location": "public/js/one_hr/shift_location.js",
 	"Appointment": "public/js/one_crm/appointment.js",
@@ -1038,7 +1039,6 @@ app_include_js = stamped([
 	"/assets/onedesk/js/workbooks.js",
 	"/assets/onedesk/js/apps.js",
 	"/assets/onedesk/js/record.js",
-	"/assets/onedesk/js/page_views.js",
 	"/assets/onedesk/js/list_names.js",
 	"/assets/onedesk/js/measure.js",
 	"/assets/onedesk/js/outside.js",

@@ -73,28 +73,19 @@ starts or closes a step.
 
 ### Plant Floor
 
-**Plant Floor** under Manufacturing shows a floor's workstations as cards.
-Over it, how many **Workstations** there are, how many are in
-**Production**, how many are **Stopped** by a problem or for maintenance,
-and how many **Operations Running**.
+**Plant Floor** under Manufacturing lists the floors; open one to see its
+workstations as cards, each with its status, and the stock its warehouse
+holds.
 
-- Each card says the workstation's type, its status with its colour, each
-  step running on it with who is on it and its clock, and how many steps
-  wait to start there. Its name and **Operations** open the workstation's
-  steps on the Shop Floor, and the gear (**Open Workstation**) opens the
-  workstation.
-- The status is a menu on the card (**Change Status**): Production, Off,
-  Idle, Problem, Maintenance or Setup. Every open Plant Floor changes with
-  it.
-- **All Types** and **Any Status** narrow the cards. A workspace with more
-  than one floor has a tab for each.
-- **Stock Here** is a table of what the floor's warehouse holds, how much of
-  it is kept for work orders, and how much is on its way, each with its
-  unit. **Add Stock** and **Move Stock** make the stock entry as a draft to
-  check and submit.
+- Each workstation's card changes as soon as its status does, anywhere.
+  **Create Workstation** adds one to the floor.
+- The stock part says what the floor's warehouse holds, how much is kept
+  for work orders and how much is on its way. **Add** and **Move** on an
+  item make the stock entry as a draft to check and submit.
 - A floor is set up with **New Plant Floor**: its name and its warehouse.
-  **Edit Plant Floor** changes it. A workstation joins it with **Plant
-  Floor** on the workstation.
+  A workstation joins it with **Plant Floor** on the workstation.
+
+OneAI answers **What are the machines doing?** on a plant floor.
 
 ### What Making Costs a Project
 
@@ -105,24 +96,15 @@ on OneProject.
 
 A product a supplier makes from your materials, powder coating say, is a
 **Subcontracting BOM** (Setup) naming the supplier's service.
-**Subcontracting Order** in the rail keeps that work on one page.
+**Subcontracting Order** in the rail lists that work: what each order
+makes, for which supplier, and where it stands.
 
-- The figures say how many orders are **Open**, how many still have
-  **Material to Transfer**, how many are **Late** back, and what our
-  materials **With Suppliers** are worth at cost.
-- **Open** is a table: what the supplier makes with its number and
-  project, the supplier, where it stands, what went to them (**Supplied**),
-  how much is **Received** with a bar, and when it is **Due**, red once
-  late. **Received** is the same table of those done with, with when each
-  went.
-- **New Subcontracting Order** starts the purchase order for the
-  supplier's service, marked **Is Subcontracted**. A purchase order with no
-  subcontracting order yet is listed under **Not Ready to Send**, with
-  **Make Subcontracting Order**.
-- In an order's menu, **Transfer Material** opens the transfer of your
-  materials to the supplier and **Subcontracting Receipt** the receipt of
-  what they made into the stores, both as drafts to check and submit.
-  **Open Purchase Order** opens the order it came from.
+- Start with the purchase order for the supplier's service, marked **Is
+  Subcontracted**; **Create › Subcontracting Order** on it makes the order
+  that says what the supplier makes and from what.
+- On the subcontracting order, **Transfer › Material to Supplier** sends
+  your materials to them, and **Create › Subcontracting Receipt** takes in
+  what they made, both as drafts to check and submit.
 
 The supplier's bill is made from the purchase receipt the subcontracting
 receipt creates. A subcontracting order's page says the **Project**, its
