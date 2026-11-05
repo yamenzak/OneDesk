@@ -8,18 +8,6 @@ ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
-		"name": "Back From Supplier Late",
-		"app": "OneInventory",
-		"roles": ("Purchase User", "Purchase Manager", "Manufacturing User"),
-		"about": "The day after subcontracted goods were due back and have not all come back.",
-		"to": "Whoever made the subcontracting order",
-		"channels": ALL,
-		"email_default": True,
-		"sender": "workspace",
-		"subject": "{supplier} is late returning {order}",
-		"message": "It was due back on {due}. Chase {supplier}.",
-	},
-	{
 		"name": "Delivery Late",
 		"app": "OneInventory",
 		"roles": ("Sales User", "Sales Manager", "Stock Manager"),
@@ -271,18 +259,6 @@ TYPES = [
 		"channels": ALL,
 		"mailed_by": True,
 		"sender": "workspace",
-	},
-	{
-		"name": "Work Order Done",
-		"app": "OneInventory",
-		"roles": ("Manufacturing User", "Projects Manager", "Sales User"),
-		"about": "When everything a work order was for has been made.",
-		"to": "Whoever asked for it, and the project's manager",
-		"channels": ALL,
-		"email_default": False,
-		"sender": "workspace",
-		"subject": "{item} is made",
-		"message": "All {qty} on {order} are made and in {warehouse}.",
 	},
 ]
 

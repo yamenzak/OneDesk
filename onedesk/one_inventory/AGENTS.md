@@ -10,7 +10,7 @@ folder).
 OneInventory is what the company holds: the goods it buys and sells or uses up
 (stock), and the equipment it keeps — laptops, vehicles, tools (assets). It is
 where things arrive from suppliers, leave for customers and move between
-places, where the workshop makes them, and where you order more. It shares
+places, and where you order more. What the company makes is OneFactory's. It shares
 its records with OneBook, so a delivery here is the same record an invoice in
 OneBook is made from, and an asset's depreciation lands in OneBook's books by
 itself.
@@ -18,12 +18,12 @@ itself.
 ## Connections
 
 - **From OneCRM**: A customer's Sales Order is delivered here with Create › Delivery Note. What open orders promise is taken off an item's Free to Sell, and stock held for an order is counted once. The order says at the top how much has gone out, and since when it is late.
-- **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries. Whoever works a step logs their time on its job card as an employee.
-- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A work order for a project names it, and so do the movements it makes. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
+- **From OneHR**: A delivery trip's driver is an employee, named on the trip and on the delivery it carries.
+- **From OneProject**: Material requests, requests for prices, purchase orders and stock issues started on a project's page are put on that project. A purchase order says its project, and how much is received and billed, at the top. A stock entry says its project, its type and the value it moved.
 - **From OneBook**: Suppliers are kept in OneBook, and Buying › Supplier opens the same supplier there. A supplier billed in another currency gets their order in it. Asset categories use the Fixed Assets accounts in the chart.
 - **From OneAI**: A supplier's delivery note read from mail becomes a draft Purchase Receipt against its order. A supplier's quote becomes a draft Supplier Quotation, and so does one priced on the portal. A supplier's bill for an order, such as the coater's, becomes a draft bill against the order, due when the bill says.
 - **To OneBook**: A receipt or a purchase order becomes the supplier's bill with Create › Purchase Invoice. A delivery is invoiced the same way, and each asset's depreciation is posted to the books by itself. A count's difference is posted to the stock adjustment account, and stock that does not agree with the books is told to the accountant. A repair takes its cost from the garage's bill, and an asset's value adjustment posts a journal entry.
-- **To OneProject**: A project's Buying colours each order, request and receipt as urgent as its page here says it is, and Reorder and Request for Quotation name a request's project by its name. What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way, and so do the materials a project's work orders use. Its manager is told when one is made.
+- **To OneProject**: A project's Buying colours each order, request and receipt as urgent as its page here says it is, and Reorder and Request for Quotation name a request's project by its name. What is ordered, received and issued for a project counts in its Cost. A purchase order for a package of work is a subcontract on the project's Suppliers view. Stock sent to a site and used there for a project counts the same way. Its manager is told when one is made.
 - **To OneHR**: An employee's page shows how much equipment they hold, to HR as well, who may read the register. A person given equipment is told and signs the handover. When they leave, HR submits their separation, and it gets a Return task for each piece, given to the stores.
 - **To OneCalendar**: Each maintenance due date is on the calendar of whoever does it, and on everybody's under Maintenance Due.
 
@@ -89,7 +89,7 @@ a register and a movement form in it would be a rail with five rows.
   (`stock_worth`, `taken_in_this_month` and so on). Any frappe dashboard or
   workspace can show them, and frappe shows each only to somebody who may read
   the record type it names.
-- `boards.py` — ERPNext's Stock, Buying, Manufacturing and Asset dashboards
+- `boards.py` — ERPNext's Stock, Buying and Asset dashboards
   (the rail's Overview rows) corrected after every sync and migrate: the
   three monthly counts filtered to this month rather than to 2020, no
   growth shown on a count of what exists, sums of money in the company's
@@ -147,13 +147,6 @@ a register and a movement form in it would be a rail with five rows.
   Cheapest, once a quote is submitted) runs
   `supplier_quotation.mapper.make_purchase_order` per supplier with
   `filtered_children` for the lines they are cheapest on, leaving drafts.
-- `sent_out.py` — work sent to suppliers, as OneAI's `sent_out_now`
-  reads it: `figures`, `orders` (out now, or done with) and `to_order`
-  (subcontracted purchase orders with no subcontracting order yet).
-  Subcontracting Order is frappe's own list and form (the Sent Out page went
-  in November 2026; `/desk/sent-out` leads to it), and sending materials,
-  receiving and making the order are its and the purchase order's own
-  buttons.
 - `upkeep.py` and `public/js/one_inventory/asset_maintenance_log.js` —
   servicing the equipment. Asset Maintenance Log, Asset Repair and Asset
   Maintenance are frappe's own lists and forms (the Upkeep page went in
@@ -162,36 +155,6 @@ a register and a movement form in it would be a rail with five rows.
   `done` is the log's Mark Done, its primary action in place of Submit:
   ERPNext's own log, completed on the day and submitted, which works out
   the job's next date.
-- `public/js/page_views.js` — the view switch on Lots, Quotes, Sent Out and
-  Upkeep. `onedesk.page_views` names, per page, the doctypes it gathers (with
-  the tab that shows each) and the script reports that go with them.
-  `switcher` draws frappe's own switcher in the page's head (the
-  `views` option of `onedesk.island_page`), with List View and Report View
-  per doctype. ListViewSelect's `get_view_options` is wrapped so the
-  switcher on those doctypes' lists has the page as its first row.
-- `floor.py`, `page/floor`, `frontend/src/inventory/floor` and
-  `public/js/floor_actions.js` — the Shop Floor. `read` reads through
-  ERPNext's own Shop Floor (`manufacturing/page/shop_floor`): its
-  `get_work_orders` for the board and its count, and its `get_data` for a
-  work order's or a workstation's job cards, with their materials,
-  instructions, quality check and time logs. `_step` says what each step's
-  buttons may do now (`may`), as ERPNext's page offers them. `figures`
-  counts open work orders by ERPNext's own bucket, and running, waiting and
-  closed-today job cards. Every change is ERPNext's whitelisted call, made
-  from `floor_actions.js` in frappe's dialogs: Workstation's
-  `update_job_card` (start_timer, pause_job, resume_job), Shop Floor's
-  `save_and_continue`, `complete_and_submit`, `submit_job_card`,
-  `make_manufacture_stock_entry`, `get_quality_inspection_checklist` and
-  `submit_quality_inspection`, and Job Card's `make_stock_entry`. The page
-  follows Job Card and Work Order through frappe.realtime. ERPNext's own
-  page stays at /desk/shop-floor. OneAI's `on_the_floor` reads what is
-  running.
-- `plant.py` — a plant floor as OneAI's `plant_floor_now` reads it
-  (`now`): each workstation through ERPNext's `get_workstations`, the steps
-  running on it from the Shop Floor's job cards, and the floor's stock from
-  `plant_floor.get_stock_summary`. People see it on ERPNext's own Plant
-  Floor form (the Plant page went in November 2026; `/desk/plant` leads to
-  the list).
 - `view.py`, `page/item_view` and `frontend/src/inventory/item` — an item's page. An
   item is the hub of the stores, as a project is of a job, so it opens on a
   page of its own (one/tiers.py PAGES) at its own address; `?edit=1` is the
@@ -305,24 +268,7 @@ a register and a movement form in it would be a rail with five rows.
   the form does not already say: the project, the order it came from, what
   it is worth. A note on a step says one thing, as a sum and a date side by
   side reorder around an Arabic currency sign.
-- `making.py`, `heads.py` (Work Order, BOM, Job Card, Subcontracting Order
-  and Receipt), `tell.work_done`, `print_format/one_work_order`, `ready.py`
-  and the five `custom/` lists — making. The work order form fetches its
-  bill's steps when the bill is chosen, so one saved any other way had no
-  steps and so no job cards. `making.steps` (before_validate) fills them
-  however it is saved. ERPNext reads a job card submitted in part as the rest
-  lost unless it is marked still to do, and the demo marks it. Making with
-  workstation time fails on a GL entry with no account until the company
-  has a Default Operating Cost Account (`ready._workshop`), and a new work
-  order asks for its warehouses until the company has defaults
-  (`ready._floor`). `tell.work_done`, on a Manufacture entry's submit, tells
-  whoever asked (the request's or the customer order's maker, else the work
-  order's) and the project's manager once the work order is Completed.
-  People's OneInventory levels hold Manufacturing User and Manager
-  (`one/settings.py`, patched in by `patches/making_roles.py`), and
-  `access.py` gives the Subcontracting BOM, the System Manager's alone in
-  ERPNext, to the buyers and the workshop.
-- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting, buying and making: `item_facts` reads
+- `ai.py` — OneAI on an item, the stores, receiving, delivering, moving, counting and buying: `item_facts` reads
   an item as its page does, `stock_on_hand` the stores as Stock on Hand does,
   `receipt_facts` a receipt, `still_to_arrive` what is ordered and not yet
   come (with `late_only`, the late orders only, a line per order),
@@ -334,13 +280,11 @@ a register and a movement form in it would be a rail with five rows.
   through `quotes.compare`), `plan_quote_request` drafts a request for
   quotation from a material request through ERPNext's own mapping,
   `running_low` lists what is at or below its reorder level as ERPNext's
-  reordering reads it, `work_order_facts` one work order's materials, steps
-  and cost so far, `plan_work_order` drafts a work order from an item's bill,
-  `asset_facts` reads a piece of equipment as its page does, with its
+  reordering reads it, `asset_facts` reads a piece of equipment as its page does, with its
   repairs, `upkeep_now` the Upkeep page with the services late or due within
   `days` (30 if not said), `plan_handover` drafts a handover, and
   `plan_item_change` suggests a change as a card. A delivery, a stock
-  movement, a count, the open work orders and what a person holds are the
+  movement, a count and what a person holds are the
   generic tools' (`about_record`, `read_record`, `list_records`), so the
   suggestions on those pages expect them.
 - `item.py` and `heads.py` — the item's figures and the head its form keeps
@@ -560,28 +504,20 @@ the stores' paper is drawn the same way: One Packing Slip (the delivery and
 who it goes to, the cases, each item's weight), One Stock Entry (a Transfer
 Note, an Issue Note, a Goods Receipt or a Production Note by what it's for,
 where the goods go with that store's address), One Blanket Order (the
-quantity and rate agreed, how much is ordered so far), One Work Order (what
-to make and for whom, the materials and where from, each step) and One
+quantity and rate agreed, how much is ordered so far) and One
 Equipment Handover (each piece from whom or where to whom or where, and the
-pledge of whoever takes it). Work sent out and taken in prints too: One
-Subcontracting Order (what the supplier makes at what cost, and the materials
-we send for it), One Subcontracting Receipt (received, accepted and rejected,
-and the materials it used) and One Subcontracting Inward Order (what a
-customer sends us to make, how far it has got, and their materials). So
-does the rest ERPNext ships no print for: One Material Request (a Purchase,
+pledge of whoever takes it). So does the rest ERPNext ships no print for: One Material Request (a Purchase,
 Transfer, Issue or Production Request by what it's for), One Supplier
 Quotation (the supplier's prices as entered, for whoever approves the
 buying), One Delivery Trip (the driver's stops in order, who to ask for,
 room to tick each one), One Quality Inspection (each reading against what
-it should be, and whether it passed), One Job Card (one step of a work order
-on the floor, its materials and time) and One Bill of Materials (the
-materials and steps, and what it all costs). The rest of what OneInventory
+it should be, and whether it passed). The rest of what OneInventory
 submits prints from One's pieces too rather than frappe's Standard: an
 asset's card (what it cost and is worth now, how it's written down, its
 insurance), its maintenance and repair records, a value adjustment, shift
 depreciation and a capitalization; a stock count (what the books said and
 what was found), a landed cost, a stock reservation, the serial and batch
-numbers a line moved, a stock closing; a production plan, a BOM draft, a
+numbers a line moved, a stock closing; a
 sales forecast, an item's standard cost, a product bundle, a supplier's
 score and a shipment.
 

@@ -20,7 +20,7 @@ The scope, decided with Yamen on 5 November 2026:
    Routing, Operation, Workstation and its types, Plant Floor, Production
    Plan, Downtime Entry, Manufacturing Settings, the Shop Floor, and
    subcontracting. Quality, assets and shipping stay here.
-3. **The five failing demo checks**, then the areas.
+3. **The four failing demo checks** (the plant floor's was fixed in OneFactory), then the areas.
    - `the_stock_in_the_books_is_what_the_warehouses_hold`: the books hold
      108 AED more stock than the warehouses (402,997.13 against
      402,889.13). Back-dated reposts used to fail on R2 (fixed, aa48d968);
@@ -29,8 +29,6 @@ The scope, decided with Yamen on 5 November 2026:
      empty (`rows: []`).
    - `stock_on_hand_says_what_the_stores_hold`: returns nothing.
    - `hand_offs_from_the_other_side`: a figure says 100.0.
-   - `the_plant_floor_shows_each_workstation`: the workstations' statuses
-     are not what the demo set (moves to OneFactory with the floor).
 4. **The areas**, each: the registry for every record type it reaches
    (icons, cards, track, states, links), OneAI actions and notifications
    and permissions for what is missing, setup steps, tours, Help from
@@ -60,16 +58,16 @@ Decided 5 November 2026. A new app, folder `one_factory`, frappe module
 OneFactory, rail and dock row onefactory. Ticked as each lands.
 
 What moves out of `one_inventory` (and its places):
-- [ ] `making.py` (Work Order steps, hooks.py doc_events), `floor.py` and
+- [x] `making.py` (Work Order steps, hooks.py doc_events), `floor.py` and
   page `floor` with `frontend/src/inventory/floor` (Shop Floor, kept as an
   island, `tiers`), `plant.py`, `sent_out.py`.
-- [ ] `custom/`: bom, bom_item, bom_operation, bom_secondary_item, job_card,
+- [x] `custom/`: bom, bom_item, bom_operation, bom_secondary_item, job_card,
   work_order, work_order_additional_item, every subcontracting_* file.
-- [ ] `print_format/`: one_bill_of_materials, one_bom_creator, one_job_card,
+- [x] `print_format/`: one_bill_of_materials, one_bom_creator, one_job_card,
   one_production_plan, one_work_order, one_subcontracting_order,
   one_subcontracting_receipt, one_subcontracting_inward_order (their JSON's
   module too).
-- [ ] `number_card/`: made_this_month, sent_out_this_month.
+- [x] `number_card/`: none after all (Made and Sent Out This Month are the stock story's).
 - [ ] From shared files, the making parts: `ai.py` (on_the_floor,
   plant_floor_now, sent_out_now, the making tools and suggestions, REACH
   and NOT_FOR_AI entries), `notifications.py` (work orders, back from
@@ -78,7 +76,7 @@ What moves out of `one_inventory` (and its places):
   (the making section, EVERYTHING rows), `tour.py`, `setup.py`
   (Manufacturing Settings), `boards.py` (the Manufacturing dashboard),
   `checks.py` (the making checks), `access.py`, `legal.py` if any.
-- [ ] Sidebar: the Manufacturing group leaves `oneinventory` for a new
+- [x] Sidebar: the Manufacturing group leaves `oneinventory` for a new
   `onefactory` sidebar; the dock (`dock/onedesk/onedesk.json`) gains a row;
   `add_to_apps_screen` if each app has one.
 - [ ] Registry: `ready.MODULES["OneFactory"]` (folder, screens, names,
@@ -91,3 +89,17 @@ What moves out of `one_inventory` (and its places):
   SCRATCHPAD.md of its own, a first version 1.0.0; OneInventory's pages and
   a version say manufacturing moved.
 - [ ] Translations, close.py, the gates, the demo checks for both apps.
+
+Done and committed on 5 November 2026 (OneFactory 1.0.0, OneInventory 1.5.0);
+what OneFactory still lacks is in its own SCRATCHPAD. Old notes:
+done: files moved with git mv, their JSON's module, imports; the rail
+(`one_factory/sidebar/onefactory`, Overview, Shop Floor, Plant Floor, Work
+Order, Job Card, Production Plan, BOM, Subcontracting Order) and the dock
+row; the mark (brand/onefactory.svg, icons.py); modules.txt; people.APPS
+and APP_SAID; demo people (Tariq Manager, Karim and Yousef User);
+abilities.py; ready.MODULES (ready False); ai.py (tools, suggestions,
+page, hooks); notifications.py and tell.py (Back From Supplier Late, Work
+Order Done, hooks); heads.py (HEADS, MEASURES, hooks).
+next: home.py (making rows, the work count), tour.py, setup.py, boards.py,
+checks.py, access.py, legal.py, AGENTS, SCRATCHPAD, docs and 1.0.0,
+tiers/ISLANDS/guards for the floor's new path, then close and the gates.

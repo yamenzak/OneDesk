@@ -3,7 +3,6 @@
 What OneInventory tells people, and when. **Notifications** in Settings
 changes how each person hears of each one.
 
-- **Back From Supplier Late**: the day after subcontracted goods were due back and have not all come back. To whoever made the subcontracting order.
 - **Delivery Late**: on the morning after a customer's order was due to be delivered and has not all gone. To whoever made the order, and the stock managers.
 - **Delivery Trip Notice**: when somebody presses Notify Customers on a delivery trip, in Delivery Settings' words. To each stop's contact.
 - **Depreciation Not Posted**: when the nightly job cannot post depreciation. To the role Accounts Settings names.
@@ -25,4 +24,3 @@ changes how each person hears of each one.
 - **Stock Account Wrong**: when a warehouse posts to an account that is not a stock account, so stock and the books disagree. To stock and accounts managers.
 - **Stock Asked**: when somebody asks for items to be moved, issued or made. To whoever keeps the stores, or makes it for a manufacture request.
 - **Supplier Scorecard Standing**: when a supplier's scorecard standing changes, where the standing is set to mail. To the employee the standing names, and the supplier.
-- **Work Order Done**: when everything a work order was for has been made. To whoever asked for it, and the project's manager.

@@ -1,0 +1,289 @@
+{
+ "app": "onedesk",
+ "creation": "2026-11-05 00:00:00.000000",
+ "docstatus": 0,
+ "doctype": "Sidebar",
+ "header_icon": "onefactory",
+ "idx": 0,
+ "items": [
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Overview",
+   "link_to": "Manufacturing",
+   "link_type": "Dashboard",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "layout-dashboard"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Shop Floor",
+   "link_to": "floor",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "hard-hat"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Plant Floor",
+   "link_to": "Plant Floor",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "factory"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Work Order",
+   "link_to": "Work Order",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "clipboard-list"
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Job Card",
+   "link_type": "DocType",
+   "link_to": "Job Card",
+   "icon": "square-check",
+   "type": "Link",
+   "child": 0
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Production Plan",
+   "link_type": "DocType",
+   "link_to": "Production Plan",
+   "icon": "calendar-range",
+   "type": "Link",
+   "child": 0
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "BOM",
+   "link_to": "BOM",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "list-tree"
+  },
+  {
+   "child": 0,
+   "collapsible": 1,
+   "is_default_module": 1,
+   "keep_closed": 0,
+   "label": "Subcontracting Order",
+   "link_to": "Subcontracting Order",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "icon": "send"
+  },
+  {
+   "collapsible": 1,
+   "icon": "ellipsis",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "More",
+   "link_type": "DocType",
+   "type": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "BOM Creator",
+   "link_type": "DocType",
+   "link_to": "BOM Creator",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Master Production Schedule",
+   "link_type": "DocType",
+   "link_to": "Master Production Schedule",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Sales Forecast",
+   "link_type": "DocType",
+   "link_to": "Sales Forecast",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Production Plan Visualizer",
+   "link_type": "Page",
+   "link_to": "production-plan-visualizer",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Downtime Entry",
+   "link_type": "DocType",
+   "link_to": "Downtime Entry",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Subcontracting Receipt",
+   "link_type": "DocType",
+   "link_to": "Subcontracting Receipt",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "icon": "chart-line",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Reports",
+   "link_type": "DocType",
+   "type": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Work Order Summary",
+   "link_type": "Report",
+   "link_to": "Work Order Summary",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Material Requirements Planning Report",
+   "link_type": "Report",
+   "link_to": "Material Requirements Planning Report",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Downtime Analysis",
+   "link_type": "Report",
+   "link_to": "Downtime Analysis",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "BOM Comparison Tool",
+   "link_type": "Page",
+   "link_to": "bom-comparison-tool",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Subcontract Order Summary",
+   "link_type": "Report",
+   "link_to": "Subcontract Order Summary",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "icon": "settings",
+   "indent": 1,
+   "keep_closed": 1,
+   "label": "Setup",
+   "link_type": "DocType",
+   "type": "Section Break"
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Workstation",
+   "link_type": "DocType",
+   "link_to": "Workstation",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Operation",
+   "link_type": "DocType",
+   "link_to": "Operation",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Routing",
+   "link_type": "DocType",
+   "link_to": "Routing",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "BOM Update Tool",
+   "link_type": "DocType",
+   "link_to": "BOM Update Tool",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Subcontracting BOM",
+   "link_type": "DocType",
+   "link_to": "Subcontracting BOM",
+   "type": "Link",
+   "child": 1
+  },
+  {
+   "collapsible": 1,
+   "is_default_module": 1,
+   "label": "Manufacturing Settings",
+   "link_type": "DocType",
+   "link_to": "Manufacturing Settings",
+   "type": "Link",
+   "child": 1
+  }
+ ],
+ "modified": "2026-11-09 15:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Factory",
+ "name": "OneFactory",
+ "owner": "Administrator",
+ "standard": 1,
+ "title": "OneFactory"
+}

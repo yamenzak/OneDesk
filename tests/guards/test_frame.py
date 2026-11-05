@@ -176,7 +176,7 @@ def test_each_page_fires_its_events_with_only_its_powers():
 			)
 		},
 		"oneinventory_stock.on_hand": (ROOT / "frontend" / "src" / "inventory" / "stock" / "StockOnHand.vue").read_text(),
-		"oneinventory_floor.shown": (ROOT / "frontend" / "src" / "inventory" / "floor" / "ShopFloor.vue").read_text(),
+		"onefactory_floor.shown": (ROOT / "frontend" / "src" / "factory" / "floor" / "ShopFloor.vue").read_text(),
 		"oneinventory_home.shown": (ROOT / "frontend" / "src" / "inventory" / "home" / "InventoryHome.vue").read_text(),
 		"onecrm_home.shown": (ROOT / "frontend" / "src" / "crm" / "CrmHome.vue").read_text(),
 		"onehr_home.shown": (ROOT / "frontend" / "src" / "hr" / "HrHome.vue").read_text(),

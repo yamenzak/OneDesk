@@ -1,0 +1,10 @@
+{
+ "doctype": "Permission Type",
+ "name": "manufacturing_settings_factory_costs",
+ "doc_type": "Manufacturing Settings",
+ "perm_type": "factory_costs",
+ "modified": "2026-11-05 12:00:00.000000",
+ "owner": "Administrator",
+ "modified_by": "Administrator",
+ "creation": "2026-11-05 12:00:00.000000"
+}

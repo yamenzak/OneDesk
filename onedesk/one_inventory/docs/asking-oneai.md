@@ -20,11 +20,6 @@ type your own.
   **What is still to deliver?**; on a sales order, **Deliver this order**.
 - **Moving and counting**: on a stock entry, **What did this movement do?**
   and **Send stock to a site**; on a count, **What did this count find?**
-- **Manufacturing**: on the Shop Floor, **What is running on the floor?**
-  and **What is the workshop making?**; on the Plant Floor and a
-  workstation, **How are the workstations doing?**; on a work order, **How
-  far along is it?**; on a BOM, **Make a work order**; on Subcontracting
-  Order, **What is out with suppliers?**
 - **Batches**: **Which lots go off soon?** and **Where is each numbered
   piece?**
 - **Equipment**: on an asset, **How is this asset doing?**, **Hand this to
@@ -32,4 +27,4 @@ type your own.
   services are due?** and **What is out of order?**
 
 Whatever OneAI would change or make, such as a receipt, a delivery, a
-transfer or a work order, comes as a draft card you approve first.
+transfer, comes as a draft card you approve first.

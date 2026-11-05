@@ -22,6 +22,7 @@ MODULES = (
 	"one_task",
 	"one_project",
 	"one_inventory",
+	"one_factory",
 	"one_crm",
 	"one_book",
 	"one_studio",

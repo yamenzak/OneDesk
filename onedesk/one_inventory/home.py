@@ -13,7 +13,6 @@ FEW = 5
 GROUPS = (
 	("stock", _lt("Stock")),
 	("buying", _lt("Buying")),
-	("making", _lt("Manufacturing")),
 	("quality", _lt("Quality")),
 	("equipment", _lt("Assets")),
 	("reports", _lt("Reports")),
@@ -23,7 +22,6 @@ REPORT_SECTIONS = (
 	("stock", _lt("Stock")),
 	("lots", _lt("Batch and Serial No")),
 	("buying", _lt("Buying and Selling")),
-	("making", _lt("Manufacturing")),
 	("quality", _lt("Quality")),
 	("equipment", _lt("Assets")),
 	("books", _lt("Accounting")),
@@ -49,11 +47,6 @@ REPORT_TOPICS = {
 	"Purchase Analytics": "buying",
 	"Item Prices": "buying",
 	"Delayed Order Report": "buying",
-	"Work Order Summary": "making",
-	"Material Requirements Planning Report": "making",
-	"Downtime Analysis": "making",
-	"bom-comparison-tool": "making",
-	"Subcontract Order Summary": "making",
 	"Review": "quality",
 	"Fixed Asset Register": "equipment",
 	"Asset Depreciations and Balances": "equipment",
@@ -67,7 +60,6 @@ SETUP_SECTIONS = (
 	("stock", _lt("Stock")),
 	("items", _lt("Items")),
 	("buying", _lt("Buying")),
-	("making", _lt("Manufacturing")),
 	("quality", _lt("Quality")),
 	("equipment", _lt("Assets")),
 )
@@ -75,7 +67,6 @@ SETUP_TOPICS = {
 	"Inventory Check": "settings",
 	"Stock Settings": "settings",
 	"Buying Settings": "settings",
-	"Manufacturing Settings": "settings",
 	"Delivery Settings": "settings",
 	"Item Variant Settings": "settings",
 	"Warehouse": "stock",
@@ -90,12 +81,6 @@ SETUP_TOPICS = {
 	"Price List": "items",
 	"Supplier Group": "buying",
 	"Supplier Scorecard Variable": "buying",
-	"Workstation": "making",
-	"Plant Floor": "making",
-	"Operation": "making",
-	"Routing": "making",
-	"BOM Update Tool": "making",
-	"Subcontracting BOM": "making",
 	"Quality Feedback Template": "quality",
 	"Asset Category": "equipment",
 	"Location": "equipment",
@@ -129,19 +114,6 @@ EVERYTHING = (
 	("buying", _lt("Blanket Order"), "DocType", "Blanket Order", _lt("A price agreed with a supplier for a year.")),
 	("buying", _lt("Supplier"), "DocType", "Supplier", _lt("Who you buy from.")),
 	("buying", _lt("Supplier Scorecard"), "DocType", "Supplier Scorecard", _lt("How each supplier delivers, scored.")),
-	("making", _lt("Shop Floor"), "Page", "floor", _lt("The work on the floor, step by step.")),
-	("making", _lt("Plant Floor"), "DocType", "Plant Floor", _lt("Each workstation, and what is running on it.")),
-	("making", _lt("Work Order"), "DocType", "Work Order", _lt("What to make, how many, and for whom.")),
-	("making", _lt("Job Card"), "DocType", "Job Card", _lt("Each step of a work order, with who did it and how long it took.")),
-	("making", _lt("BOM"), "DocType", "BOM", _lt("What a product is made from, and its steps.")),
-	("making", _lt("Production Plan"), "DocType", "Production Plan", _lt("Work orders and requests planned from sales orders.")),
-	("making", _lt("Production Plan Visualizer"), "Page", "production-plan-visualizer", _lt("Production plans laid out over time.")),
-	("making", _lt("Master Production Schedule"), "DocType", "Master Production Schedule", _lt("What to make each period, from forecasts and orders.")),
-	("making", _lt("Sales Forecast"), "DocType", "Sales Forecast", _lt("What is expected to sell, to plan making by.")),
-	("making", _lt("BOM Creator"), "DocType", "BOM Creator", _lt("Lay out a product's whole tree of parts at once.")),
-	("making", _lt("Downtime Entry"), "DocType", "Downtime Entry", _lt("When a workstation stood still, and why.")),
-	("making", _lt("Subcontracting Order"), "DocType", "Subcontracting Order", _lt("Work a supplier does on your materials: what went, what came back and when it is due.")),
-	("making", _lt("Subcontracting Receipt"), "DocType", "Subcontracting Receipt", _lt("What a supplier made, taken back in.")),
 	("quality", _lt("Quality Inspection"), "DocType", "Quality Inspection", _lt("Goods checked on the way in, out or while made.")),
 	("quality", _lt("Quality Goal"), "DocType", "Quality Goal", _lt("What the business means to achieve, and how often it is checked.")),
 	("quality", _lt("Quality Procedure"), "DocType", "Quality Procedure", _lt("How a piece of work is done, step by step.")),
@@ -180,11 +152,6 @@ EVERYTHING = (
 	("reports", _lt("Purchase Analytics"), "Report", "Purchase Analytics", _lt("What was bought, month by month.")),
 	("reports", _lt("Delayed Order Report"), "Report", "Delayed Order Report", _lt("When each customer order went out against the day it was promised; below nought is early.")),
 	("reports", _lt("Stock and Account Value Comparison"), "Report", "Stock and Account Value Comparison", _lt("Stock's worth against the accounts.")),
-	("reports", _lt("Work Order Summary"), "Report", "Work Order Summary", _lt("How far each work order has come.")),
-	("reports", _lt("Material Requirements Planning Report"), "Report", "Material Requirements Planning Report", _lt("What the production schedule needs, against what is on hand and coming.")),
-	("reports", _lt("Downtime Analysis"), "Report", "Downtime Analysis", _lt("How long workstations stood still, and why.")),
-	("reports", _lt("BOM Comparison Tool"), "Page", "bom-comparison-tool", _lt("Two bills of materials side by side.")),
-	("reports", _lt("Subcontract Order Summary"), "Report", "Subcontract Order Summary", _lt("What suppliers are making for you.")),
 	("reports", _lt("Review"), "Report", "Review", _lt("Every quality action, with the review it came from.")),
 	("reports", _lt("Fixed Asset Register"), "Report", "Fixed Asset Register", _lt("Every asset with its cost and worth.")),
 	("reports", _lt("Asset Depreciations and Balances"), "Report", "Asset Depreciations and Balances", _lt("What the equipment was worth and is worth now.")),
@@ -204,12 +171,6 @@ EVERYTHING = (
 	("setup", _lt("Supplier Group"), "List", "Supplier Group", _lt("The groups suppliers are sorted into.")),
 	("setup", _lt("Supplier Scorecard Variable"), "DocType", "Supplier Scorecard Variable", _lt("The figures a supplier's score is worked out from.")),
 	("setup", _lt("Price List"), "DocType", "Price List", _lt("The lists prices are kept in, for buying and selling.")),
-	("setup", _lt("Workstation"), "DocType", "Workstation", _lt("Where work is done, and what an hour there costs.")),
-	("setup", _lt("Plant Floor"), "DocType", "Plant Floor", _lt("The workshop's floors and their workstations.")),
-	("setup", _lt("Operation"), "DocType", "Operation", _lt("The steps products are made in.")),
-	("setup", _lt("Routing"), "DocType", "Routing", _lt("A set of steps used by more than one product.")),
-	("setup", _lt("BOM Update Tool"), "DocType", "BOM Update Tool", _lt("Swap a part for another in every bill of materials, or bring their costs up to date.")),
-	("setup", _lt("Subcontracting BOM"), "DocType", "Subcontracting BOM", _lt("Which service a supplier charges for making what.")),
 	("setup", _lt("Quality Feedback Template"), "DocType", "Quality Feedback Template", _lt("The questions feedback asks.")),
 	("setup", _lt("Asset Category"), "DocType", "Asset Category", _lt("Kinds of equipment, and how each loses worth.")),
 	("setup", _lt("Location"), "DocType", "Location", _lt("Where equipment is kept.")),
@@ -218,7 +179,6 @@ EVERYTHING = (
 	("setup", _lt("Delivery Settings"), "DocType", "Delivery Settings", _lt("What a customer is told when their delivery leaves.")),
 	("setup", _lt("Stock Settings"), "DocType", "Stock Settings", _lt("How stock is valued and moved.")),
 	("setup", _lt("Buying Settings"), "DocType", "Buying Settings", _lt("How buying works.")),
-	("setup", _lt("Manufacturing Settings"), "DocType", "Manufacturing Settings", _lt("How making works.")),
 )
 
 
@@ -268,8 +228,8 @@ def _kept(rows: list) -> dict:
 
 def needs_you() -> dict:
 	"""Purchase orders late, items running low, lots going off, services
-	late or due this week, work orders past their date, and drafts left
-	more than a day, each as the reader may see them."""
+	late or due this week, and drafts left more than a day, each as the
+	reader may see them."""
 	from onedesk.one_inventory import ai, batches
 
 	day = getdate(today())
@@ -293,27 +253,11 @@ def needs_you() -> dict:
 		if frappe.has_permission("Batch", "read")
 		else []
 	)
-	work = (
-		frappe.get_list(
-			"Work Order",
-			filters={
-				"docstatus": 1,
-				"status": ["in", ("Not Started", "In Process")],
-				"expected_delivery_date": ["<", day],
-				"company": erpnext.get_default_company(),
-			},
-			fields=["name", "item_name", "qty", "produced_qty", "expected_delivery_date"],
-			order_by="expected_delivery_date asc",
-		)
-		if frappe.has_permission("Work Order", "read")
-		else []
-	)
 	return {
 		"late": _kept(late.get("orders") or []),
 		"low": _kept([{**one, "place": _place(one.get("warehouse"))} for one in low.get("low") or []]),
 		"lots": {**_kept(lots), "until": str(add_days(today(), batches.SOON))},
 		"services": _kept([one for one in services.get("services") or [] if getdate(one["due"]) <= add_days(day, 7)]),
-		"work": _kept([{**one, "expected_delivery_date": str(one.expected_delivery_date)} for one in work]),
 		"drafts": drafts(),
 	}
 

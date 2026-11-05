@@ -106,8 +106,8 @@ PLACES = {
 			},
 		},
 	},
-	"oneinventory_floor": {
-		"label": "OneInventory",
+	"onefactory_floor": {
+		"label": "OneFactory",
 		"record": "Job Card",
 		"events": {
 			"shown": {

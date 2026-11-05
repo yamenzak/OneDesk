@@ -127,6 +127,12 @@ No doctypes yet.
 
 No doctypes yet.
 
+## One Factory
+
+`onedesk/one_factory`
+
+No doctypes yet.
+
 ## One Storage
 
 `onedesk/one_storage`
@@ -264,7 +270,7 @@ No doctypes yet.
 ## Desk records shipped as fixtures
 
 * **dock** — onedesk
-* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
+* **sidebar** — one, one_admin, oneai, onebook, onecalendar, onecloud, onecrm, onedisplay, onefactory, onehr, oneinventory, onemail, oneportal, oneproject, onestudio, onetask
 * **workspace** — one_admin, onehr_setup
 
 ## Whitelisted methods
@@ -638,6 +644,7 @@ No doctypes yet.
 * `onedesk.one_doc.versions.new_version`
 * `onedesk.one_doc.word.open_file`
 * `onedesk.one_doc.word.write_back`
+* `onedesk.one_factory.floor.read`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.control.load`
@@ -699,7 +706,6 @@ No doctypes yet.
 * `onedesk.one_inventory.barcodes.save`
 * `onedesk.one_inventory.custody.give`
 * `onedesk.one_inventory.custody.take_back`
-* `onedesk.one_inventory.floor.read`
 * `onedesk.one_inventory.home.read`
 * `onedesk.one_inventory.item.said`
 * `onedesk.one_inventory.kinds.defaults`

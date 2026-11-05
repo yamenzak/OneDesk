@@ -1,4 +1,4 @@
-"""ERPNext's Stock, Buying, Manufacturing and Asset dashboards, which the
+"""ERPNext's Stock, Buying and Asset dashboards, which the
 rail's Overview rows open, corrected where they say something untrue, after
 every sync and migrate. What each correction is for is in AGENTS.md."""
 
@@ -14,18 +14,6 @@ CARDS = {
 	"Total Warehouses": {"show_percentage_stats": 0},
 	"Active Suppliers": {"show_percentage_stats": 0},
 	"Total Assets": {"show_percentage_stats": 0},
-	"Monthly Total Work Order": {
-		"show_percentage_stats": 0,
-		"filters_json": [["Work Order", "docstatus", "=", 1], ["Work Order", *THIS_MONTH]],
-	},
-	"Monthly Completed Work Order": {
-		"show_percentage_stats": 0,
-		"filters_json": [
-			["Work Order", "status", "=", "Completed"],
-			["Work Order", "docstatus", "=", 1],
-			["Work Order", *THIS_MONTH],
-		],
-	},
 	"Monthly Quality Inspection": {
 		"show_percentage_stats": 0,
 		"filters_json": [["Quality Inspection", "docstatus", "=", 1], ["Quality Inspection", *THIS_MONTH]],
@@ -45,13 +33,6 @@ CHARTS = {
 		"dynamic_filters_json": {"company": 'frappe.defaults.get_user_default("Company")'},
 	},
 	"Quality Inspection Analysis": {"filters_json": {}, "dynamic_filters_json": YEAR},
-	"Last Month Downtime Analysis": {
-		"filters_json": {},
-		"dynamic_filters_json": {
-			"from_date": "frappe.datetime.add_months(frappe.datetime.nowdate(), -1)",
-			"to_date": "frappe.datetime.nowdate()",
-		},
-	},
 }
 
 

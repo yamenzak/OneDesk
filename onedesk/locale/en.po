@@ -58,6 +58,9 @@ msgstr "OneProject"
 msgid "One Book"
 msgstr "OneBook"
 
+msgid "One Factory"
+msgstr "OneFactory"
+
 msgid "One Inventory"
 msgstr "OneInventory"
 

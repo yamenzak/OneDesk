@@ -15,9 +15,10 @@ APPS = [
 	(
 		"OneInventory",
 		"oneinventory",
-		("Stock User", "Purchase User", "Manufacturing User"),
-		("Stock Manager", "Purchase Manager", "Item Manager", "Manufacturing Manager"),
+		("Stock User", "Purchase User"),
+		("Stock Manager", "Purchase Manager", "Item Manager"),
 	),
+	("OneFactory", "onefactory", ("Manufacturing User",), ("Manufacturing Manager",)),
 	("OneProject", "oneproject", ("Projects User",), ("Projects Manager",)),
 	("OneHR", "onehr", ("HR User",), ("HR Manager",)),
 	("OneMail", "onemail", ("OneMail User",), ("Mail Manager",)),
@@ -49,7 +50,8 @@ ALWAYS = ("OneMail",)
 APP_SAID = {
 	"OneCRM": _lt("Follow every lead from first call to signed quote, and keep each customer's story in one place."),
 	"OneBook": _lt("Send invoices, pay bills, match the bank and see where the money stands."),
-	"OneInventory": _lt("Know what's in stock, buy what runs low, and make and track what you sell."),
+	"OneInventory": _lt("Know what's in stock, buy what runs low, and track what you sell."),
+	"OneFactory": _lt("Plan what you make, run it on the shop floor, and send work out to suppliers."),
 	"OneProject": _lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
 	"OneHR": _lt("Contracts, leave, attendance, payroll and hiring for everyone who works with you."),
 	"OneCloud": _lt("Keep the company's files in one place and share them with anyone, inside or out."),

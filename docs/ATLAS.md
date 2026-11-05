@@ -54,7 +54,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | supplier_items (`frontend/src/inventory/supplier/SupplierItems.vue`) | Blanket Order, Item, Item Default, Item Supplier, Purchase Order, Supplier Quotation, UOM | – | – | – |
 | check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
 | workload (`frontend/src/workload/WorkloadList.vue`) | – | – | – | – |
-| floor (`frontend/src/inventory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
+| floor (`frontend/src/factory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
@@ -132,7 +132,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | Payment Reconciliation | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Payment Request | on a rail or a home | OneBook | 3 settings | yes | general |  | yes |  |  |  |  |
 | Payment Term | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Payment Terms Template | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Pegged Currencies | on a rail or a home | OneBook | untouched | no | general |  |  |  |  |  |  |
 | Period Closing Voucher | on a rail or a home | OneBook | events | yes | general |  | **none** |  |  |  |  |
 | Pricing Rule | on a rail or a home | OneBook, OneCRM, OneInventory | 1 settings | yes | general |  | yes |  |  |  |  |
@@ -170,14 +170,14 @@ Reports: Account Balance (under a list's related reports (Bank Account's list));
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Asset | on a rail or a home | OneBook, OneHR, OneInventory | a head, list script, 6 settings | yes | taught |  | yes |  |  |  | Equipment Handed Over |
 | Asset Activity | engine: an asset's history, kept as it is moved, repaired and depreciated | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Capitalization | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Asset Capitalization | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Category | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Depreciation Schedule | inside: an asset's form draws its schedule | OneBook | untouched | yes | general |  | yes |  |  |  |  |
-| Asset Maintenance | opened by our screens | OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
-| Asset Maintenance Log | on a rail or a home | OneInventory | a head, events, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
-| Asset Maintenance Team | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Asset Maintenance | opened by our screens | OneFactory, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
+| Asset Maintenance Log | on a rail or a home | OneFactory, OneInventory | a head, events, form script, 1 fields, 8 settings | yes | taught |  | yes |  |  |  |  |
+| Asset Maintenance Team | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Movement | on a rail or a home | OneBook, OneHR, OneInventory | a head, events | yes | taught |  | yes |  |  |  |  |
-| Asset Repair | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
+| Asset Repair | on a rail or a home | OneFactory, OneInventory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
 | Asset Shift Allocation | on a rail or a home | OneBook | untouched | yes | general |  | **none** |  |  |  |  |
 | Asset Shift Factor | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Asset Value Adjustment | on a rail or a home | OneBook, OneInventory | a head, 1 settings | yes | taught |  | yes |  |  |  |  |
@@ -198,9 +198,9 @@ Reports: Asset Activity (on a rail or a home); Asset Maintenance (under a list's
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Buying Settings | on a rail or a home | OneBook, OneInventory | untouched | no | general |  |  |  |  | ar 1 |  |
 | Purchase Order | on a rail or a home | OneInventory | a head, events, form script, list script, 6 fields, 8 settings | yes | taught |  | yes | ours |  |  | Order Late |
-| Request for Quotation | on a rail or a home | OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
+| Request for Quotation | on a rail or a home | OneFactory, OneInventory | a head, events, form script, 2 fields, 4 settings | yes | taught |  | yes | ours |  |  |  |
 | Supplier | on a rail or a home | OneBook, OneInventory | a head, events, list script, 6 fields, 2 settings | yes | taught | makes it | yes |  |  |  |  |
-| Supplier Quotation | on a rail or a home | OneInventory | a head, events, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
+| Supplier Quotation | on a rail or a home | OneFactory, OneInventory | a head, events, 1 fields | yes | taught | makes it | yes |  |  |  | Quote Received |
 | Supplier Scorecard | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Criteria | through a form's link (Supplier Scorecard: criteria_name) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Supplier Scorecard Period | through a form's connections (Supplier Scorecard's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -263,25 +263,25 @@ Reports: Maintenance Schedules (on a rail or a home).
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| BOM | on a rail or a home | OneInventory | a head, list script, 10 settings | yes | taught |  | yes |  |  |  |  |
-| BOM Creator | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| BOM Update Log | engine: what a BOM Update Tool run changed | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| BOM Update Tool | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
+| BOM | on a rail or a home | OneFactory, OneInventory | a head, events, form script, list script, 10 settings | yes | taught |  | yes |  |  |  |  |
+| BOM Creator | on a rail or a home | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
+| BOM Update Log | engine: what a BOM Update Tool run changed | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
+| BOM Update Tool | on a rail or a home | OneFactory | untouched | no | general |  |  |  |  |  |  |
 | Blanket Order | on a rail or a home | OneCRM, OneInventory | a head, 6 settings | yes | general |  | yes | ours |  |  |  |
-| Downtime Entry | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Job Card | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
-| Manufacturing Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Master Production Schedule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Operation | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Plant Floor | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
-| Production Plan | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Routing | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Sales Forecast | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Work Order | on a rail or a home | OneInventory | a head, events, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done |
-| Workstation | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
-| Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Workstation Type | through a form's link (Routing: workstation_type) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Downtime Entry | on a rail or a home | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
+| Job Card | on a rail or a home | OneFactory | a head, 3 settings | yes | taught |  | yes |  |  |  |  |
+| Manufacturing Settings | on a rail or a home | OneFactory | untouched | no | general |  |  |  |  |  |  |
+| Master Production Schedule | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Operation | on a rail or a home | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
+| Plant Floor | on a rail or a home | OneFactory | untouched | yes | taught |  | yes |  |  |  |  |
+| Production Plan | on a rail or a home | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
+| Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
+| Routing | on a rail or a home | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
+| Sales Forecast | on a rail or a home | OneCRM, OneFactory | untouched | yes | general |  | yes |  |  |  |  |
+| Work Order | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done |
+| Workstation | on a rail or a home | OneFactory | untouched | yes | taught |  | yes |  |  |  |  |
+| Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
+| Workstation Type | through a form's link (Routing: workstation_type) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 
 Reports: BOM Explorer (under a list's related reports (BOM's list)); BOM Operations Time (under a list's related reports (BOM's list)); BOM Stock Analysis (under a list's related reports (BOM's list)); BOM Variance Report (under a list's related reports (Stock Entry's list)); Completed Work Orders (under a list's related reports (Work Order's list)); Cost of Poor Quality Report (under a list's related reports (Job Card's list)); Downtime Analysis (on a rail or a home); Exponential Smoothing Forecasting (under a list's related reports (Sales Order's list)); Issued Items Against Work Order (under a list's related reports (Work Order's list)); Job Card Summary (under a list's related reports (Job Card's list)); Material Requirements Planning Report (on a rail or a home); Open Work Orders (under a list's related reports (Work Order's list)); Process Loss Report (under a list's related reports (Work Order's list)); Production Analytics (under a list's related reports (Work Order's list)); Production Plan Summary (under a list's related reports (Production Plan's list)); Production Planning Report (under a list's related reports (Work Order's list)); Quality Inspection Summary (under a list's related reports (Quality Inspection's list)); Work Order Consumed Materials (under a list's related reports (Work Order's list)); Work Order Stock Report (under a list's related reports (Work Order's list)); Work Order Summary (on a rail or a home); Work Orders in Progress (under a list's related reports (Work Order's list)).
 
@@ -358,7 +358,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Authorization Control | engine: what an Authorization Rule checks when a record is submitted | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Authorization Rule | replaced: Approvals in Workspace Settings, where a step can ask a manager to approve above an amount | **nobody** | untouched | yes | general |  | **none** |  |  |  |  |
 | Branch | on a rail or a home | OneHR, the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| Brand | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
+| Brand | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, the administrator | events, 1 fields | yes | general |  | **none** |  |  |  |  |
 | Company | opened by our screens | everybody | events, 3 fields | yes | taught |  | yes |  |  |  |  |
 | Currency Exchange | on a rail or a home | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Customer Group | on a rail or a home | OneBook, OneCRM, the administrator | events | yes | general |  | yes |  |  |  |  |
@@ -371,16 +371,16 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Item Group | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
+| Item Group | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
 | Party Type | through a form's link (Bank Transaction Rule: party_type) | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Quotation Lost Reason | through a form's link (Quotation: lost_reason) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Sales Partner | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Person | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
-| Supplier Group | on a rail or a home | OneBook, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
+| Supplier Group | on a rail or a home | OneBook, OneFactory, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Terms and Conditions | on a rail or a home | OneBook, OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Territory | on a rail or a home | OneBook, OneCRM, OneInventory, the administrator | events | yes | general |  | yes |  |  |  |  |
 | Transaction Deletion Record | opened by our screens | the administrator | untouched | yes | general |  | **none** |  |  |  |  |
-| UOM | on a rail or a home | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| UOM | on a rail or a home | OneCRM, OneFactory, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | UOM Conversion Factor | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Vehicle | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 
@@ -395,44 +395,44 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | general |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Item | on a rail or a home | OneBook, OneCRM, OneInventory | a page of our own | yes | taught |  | yes |  |  |  |  |
+| Item | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Item Alternative | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Item Attribute | on a rail or a home | OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Item Lead Time | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Item Attribute | on a rail or a home | OneFactory, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Item Lead Time | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Manufacturer | opened by our screens | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Price | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Standard Cost | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Variant Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Landed Cost Voucher | on a rail or a home | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  |  |  |
-| Material Request | on a rail or a home | OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
+| Material Request | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Pick List | on a rail or a home | OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
-| Price List | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Pick List | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
+| Price List | on a rail or a home | OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
 | Putaway Rule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Inspection | on a rail or a home | OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
-| Quality Inspection Parameter | through a form's link (Quality Inspection Template: specification) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Quality Inspection Template | through a form's link (Operation: quality_inspection_template) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Quality Inspection Parameter | through a form's link (Quality Inspection: specification) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Quality Inspection Parameter Group | through a form's link (Quality Inspection Parameter: parameter_group) | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
+| Quality Inspection Template | through a form's link (Quality Inspection: quality_inspection_template) | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Quick Stock Balance | replaced: Stock Summary | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  | yes |  |  |  | Reposting Failed |
 | Serial No | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
-| Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment Parcel Template | through a form's link (Shipment: parcel_template) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Closing Balance | through a form's connections (Stock Closing Entry's Connections) | OneBook, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Stock Closing Entry | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
-| Stock Entry | on a rail or a home | OneInventory | a head, events, list script, 7 settings | yes | taught |  | yes | ours |  |  |  |
-| Stock Entry Type | through a form's link (Stock Entry: stock_entry_type) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Stock Entry | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 7 settings | yes | taught |  | yes | ours |  |  |  |
+| Stock Entry Type | through a form's link (Stock Entry: stock_entry_type) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Ledger Entry | engine: one line per stock move; the Stock Ledger report shows them | OneBook, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Stock Reconciliation | on a rail or a home | OneInventory | a head, form script, 9 settings | yes | taught |  | yes |  |  |  |  |
 | Stock Reposting Settings | left out: how ERPNext paces revaluing stock; its defaults suit every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
-| Stock Reservation Entry | through a form's connections (Production Plan's Connections) | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Stock Settings | on a rail or a home | OneBook, OneCRM, OneInventory, OneProject | events, 1 fields, 1 settings | no | general |  |  |  |  | ar 1 |  |
-| UOM Category | through a form's link (UOM Conversion Factor: category) | OneCRM, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Warehouse | on a rail or a home | OneBook, OneCRM, OneInventory | a head, tree script | yes | taught |  | yes |  |  |  | Stock Account Wrong |
-| Warehouse Type | through a form's link (Warehouse: warehouse_type) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Stock Reservation Entry | through a form's connections (Pick List's Connections) | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Stock Settings | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, OneProject | events, 1 fields, 1 settings | no | general |  |  |  |  | ar 1 |  |
+| UOM Category | through a form's link (UOM Conversion Factor: category) | OneCRM, OneFactory, OneInventory, the administrator | untouched | yes | general |  | yes |  |  |  |  |
+| Warehouse | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a head, tree script | yes | taught |  | yes |  |  |  | Stock Account Wrong |
+| Warehouse Type | through a form's link (Warehouse: warehouse_type) | OneBook, OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 
 Reports: Available Batch Report (on a rail or a home); Available Serial No (on a rail or a home); BOM Search (under a list's related reports (BOM's list)); Batch Item Expiry Status (on a rail or a home); Batch Split Tree (under a list's related reports (Batch's list)); Batch-Wise Balance History (on a rail or a home); COGS By Item Group (on a rail or a home); Delayed Item Report (under a list's related reports (Delivery Note's list)); Delayed Order Report (on a rail or a home); Delivery Note Trends (under a list's related reports (Delivery Note's list)); FIFO Queue vs Qty After Transaction Comparison (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Incorrect Balance Qty After Transaction (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Incorrect Serial No Valuation (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Incorrect Serial and Batch Bundle (under a list's related reports (Serial and Batch Bundle's list)); Incorrect Stock Value Report (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Item Balance (Simple) (replaced: Stock Summary); Item Price Stock (under a list's related reports (Item's list)); Item Prices (on a rail or a home); Item Shortage Report (on a rail or a home); Item Variant Details (opened by our screens); Item Where Used (under a list's related reports (Item's list)); Item Wise Consumption (on a rail or a home); Item-wise Price List Rate (under a list's related reports (Item Price's list)); Items To Be Requested (under a list's related reports (Material Request's list)); Itemwise Recommended Reorder Level (under a list's related reports (Item's list)); Landed Cost Report (under a list's related reports (Landed Cost Voucher's list)); Material Requests for which Supplier Quotations are not created (under a list's related reports (Material Request's list)); Negative Batch Report (under a list's related reports (Serial and Batch Bundle's list)); Product Bundle Balance (on a rail or a home); Purchase Receipt Trends (under a list's related reports (Purchase Receipt's list)); Requested Items To Be Transferred (under a list's related reports (Stock Entry's list)); Reserved Stock (under a list's related reports (Stock Reservation Entry's list)); Serial No Ledger (on a rail or a home); Serial No Service Contract Expiry (under a list's related reports (Serial No's list)); Serial No Status (under a list's related reports (Serial No's list)); Serial No Warranty Expiry (under a list's related reports (Serial No's list)); Serial No and Batch Traceability (opened by our screens); Serial and Batch Summary (under a list's related reports (Serial and Batch Bundle's list)); Serial and Batch Wise Stock Balance (on a rail or a home); Stock Ageing (on a rail or a home); Stock Analytics (under a list's related reports (Stock Entry's list)); Stock Balance (opened by our screens); Stock Ledger (on a rail or a home); Stock Ledger Entries of Cancelled Vouchers (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Stock Ledger Invariant Check (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Stock Ledger Variance (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Stock Projected Qty (on a rail or a home); Stock Qty vs Batch Qty (under a list's related reports (Item's list)); Stock Qty vs Serial No Count (under a list's related reports (Item's list)); Stock Valuation Comparison (left out: a check of ERPNext's own ledger, for when stock's worth looks wrong; Stock against the Books and the Inventory Check say what a workspace needs); Stock and Account Value Comparison (on a rail or a home); Total Stock Summary (under a list's related reports (Stock Entry's list)); Warehouse Wise Stock Balance (on a rail or a home); Warehouse wise Item Balance Age and Value (on a rail or a home).
 
@@ -442,7 +442,7 @@ Pages: stock-balance (replaced: Stock Summary); warehouse-capacity-summary (on a
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Subcontracting BOM | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
+| Subcontracting BOM | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Subcontracting Inward Order | through a form's connections (Sales Order's Connections) | OneCRM, OneInventory | untouched | yes | general |  | **none** | ours |  |  |  |
 | Subcontracting Order | on a rail or a home | OneInventory | a head, 3 settings | yes | taught |  | yes | ours |  |  | Back From Supplier Late |
 | Subcontracting Receipt | on a rail or a home | OneBook, OneInventory | a head, 3 settings | yes | general |  | yes | ours |  |  |  |
@@ -721,7 +721,7 @@ Pages: backups (the platform's: backups, which the platform takes and keeps); de
 | Print Format | through a form's link (Customize Form: default_print_format) | the administrator | events | no | taught |  | yes |  |  |  |  |
 | Print Format Field Template | inside: One's print blocks, laid out in Printing's builder | the administrator | untouched | no | general |  | yes |  |  |  |  |
 | Print Format Snippet | inside: OneStudio's ControlCenter › Printing | the administrator | events | no | general |  | **none** |  |  | ar 2 |  |
-| Print Heading | through a form's link (Subcontracting Receipt: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
+| Print Heading | through a form's link (Supplier Quotation: select_print_heading) | everybody | untouched | no | general |  | yes |  |  |  |  |
 | Print Settings | inside: OneStudio's ControlCenter › Printing | the administrator | untouched | no | general |  |  |  |  | ar 3, de 1 |  |
 | Print Style | replaced: One's print formats, which carry their own look | **nobody** | untouched | no | general |  | yes |  |  |  |  |
 
@@ -1014,6 +1014,11 @@ Pages: boards (on a rail or a home); counter (on a rail or a home).
 
 Pages: document (opened by our screens).
 
+## onedesk / One Factory
+
+
+Pages: floor (on a rail or a home).
+
 ## onedesk / One HR
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
@@ -1036,7 +1041,7 @@ Pages: onehr (on a rail or a home).
 
 Reports: Inventory Check (on a rail or a home).
 
-Pages: floor (on a rail or a home); inventory (on a rail or a home); item-view (inside: an Item opens on it); stock-on-hand (on a rail or a home); to-order (on a rail or a home).
+Pages: inventory (on a rail or a home); item-view (inside: an Item opens on it); stock-on-hand (on a rail or a home); to-order (on a rail or a home).
 
 ## onedesk / One Legal
 

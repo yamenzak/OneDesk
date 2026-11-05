@@ -27,10 +27,9 @@ clause(
 	key="oneinventory-asks",
 	module=M,
 	body="""
-		In OneInventory, OneAI reads items, the stores, orders, receipts, deliveries, counts, work orders and
-		equipment as you see them. That covers what is held and where, and what is ordered from which
-		supplier at what price. It also covers what the workshop is making, and who holds each piece of
-		equipment with its services and repairs. Anything it suggests, such as a receipt, a transfer or a
+		In OneInventory, OneAI reads items, the stores, orders, receipts, deliveries, counts and equipment as
+		you see them. That covers what is held and where, and what is ordered from which supplier at what
+		price. It also covers who holds each piece of equipment with its services and repairs. Anything it suggests, such as a receipt, a transfer or a
 		change to an item, is made only when you approve it. It stays a draft until it is submitted.
 	""",
 )

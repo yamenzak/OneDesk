@@ -62,18 +62,6 @@ GIVEN = (
 			"Sales User": roles.WORK,
 			"Sales Manager": roles.MANAGE,
 		},
-		"Subcontracting BOM": {
-			"Purchase User": roles.USE,
-			"Manufacturing User": roles.USE,
-			"Purchase Manager": roles.MANAGE,
-			"Manufacturing Manager": roles.MANAGE,
-		},
-	}
-	| {
-		"Plant Floor": {
-			"Manufacturing User": roles.USE,
-			"Manufacturing Manager": roles.MANAGE,
-		},
 	}
 	| {doctype: {"Purchase User": roles.USE, "Purchase Manager": roles.MANAGE} for doctype in SCORING}
 )

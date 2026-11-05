@@ -117,7 +117,7 @@ const views = computed(() => [
 const needed = computed(() => {
   const n = said.value?.needs;
   if (!n) return 0;
-  return n.late.count + n.low.count + n.lots.count + n.services.count + n.work.count + n.drafts.length;
+  return n.late.count + n.low.count + n.lots.count + n.services.count + n.drafts.length;
 });
 
 const CARDS = () => [
@@ -161,7 +161,6 @@ const chips = computed(() => {
     n.low.count && { key: "low", tone: "soon", icon: "lucide-package-minus", label: n.low.count === 1 ? __("1 Item Running Low") : __("{0} Items Running Low", [n.low.count]) },
     n.lots.count && { key: "lots", tone: "soon", icon: "lucide-hourglass", label: n.lots.count === 1 ? __("1 Batch Expiring Soon") : __("{0} Batches Expiring Soon", [n.lots.count]) },
     n.services.count && { key: "services", tone: "soon", icon: "lucide-wrench", label: n.services.count === 1 ? __("1 Maintenance Due") : __("{0} Maintenance Due", [n.services.count]) },
-    n.work.count && { key: "work", tone: "late", icon: "lucide-factory", label: n.work.count === 1 ? __("1 Work Order Late") : __("{0} Work Orders Late", [n.work.count]) },
     n.drafts.length && { key: "drafts", tone: "left", icon: "lucide-file-pen-line", label: drafts === 1 ? __("1 Draft Left") : __("{0} Drafts Left", [drafts]) },
   ].filter(Boolean);
 });
@@ -274,23 +273,6 @@ const parts = computed(() => {
       })),
       more: more(n.services, __("Asset Maintenance"), `/desk/asset-maintenance-log?maintenance_status=${encodeURIComponent(JSON.stringify(["in", ["Planned", "Overdue"]]))}`),
     });
-  if (n.work.count)
-    out.push({
-      key: "work",
-      title: __("Work Running Late"),
-      icon: "lucide-factory",
-      count: n.work.count,
-      rows: n.work.rows.map((one) => ({
-        key: one.name,
-        label: one.item_name,
-        sub: one.name,
-        dot: "red",
-        value: __("{0} of {1} made", [quantity(one.produced_qty), quantity(one.qty)]),
-        under: __("Was expected by {0}", [date(one.expected_delivery_date)]),
-        route: `/desk/floor?work_order=${encodeURIComponent(one.name)}`,
-      })),
-      more: more(n.work, __("Work Orders"), "/desk/work-order"),
-    });
   if (n.drafts.length)
     out.push({
       key: "drafts",
@@ -329,7 +311,7 @@ function extended(s) {
   const places = onedesk().places;
   if (!places?.listening("oneinventory_home.shown")) return;
   const n = s.needs;
-  const data = { home: { ...s.figures, services: n.services.count, work: n.work.count, drafts: n.drafts.reduce((sum, one) => sum + one.count, 0) } };
+  const data = { home: { ...s.figures, services: n.services.count, drafts: n.drafts.reduce((sum, one) => sum + one.count, 0) } };
   const key = JSON.stringify(data);
   if (key === drawn) return;
   drawn = key;

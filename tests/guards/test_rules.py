@@ -34,7 +34,7 @@ RULES = (
 	("Email Account", "onedesk.one_ai.reading.switches.mailbox_switched", {"one_intake", "one_intake_for"}, None),
 	("Email Account", "onedesk.one_mail.holders.signed", {"add_signature"}, None),
 	("Purchase Order", "onedesk.one_inventory.order.within_requests", set(), "oneinventory_buying_from_request_to_order"),
-	("Work Order", "onedesk.one_inventory.making.steps", {"operations"}, "oneinventory_making_from_bill_to_finished_goods"),
+	("Work Order", "onedesk.one_factory.making.steps", {"operations"}, "onefactory_making_from_bill_to_finished_goods"),
 	("Asset Maintenance", "onedesk.one_inventory.maintenance.due", set(), "oneinventory_equipment_bought_given_serviced_and_mended"),
 	(
 		"Asset Maintenance Log",

@@ -8,6 +8,7 @@ One Task
 One Project
 One Book
 One Inventory
+One Factory
 One Storage
 One Mail
 One Legal

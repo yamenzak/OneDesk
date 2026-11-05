@@ -347,8 +347,8 @@ OVERRIDES = [
 	),
 	(
 		"A work order takes its bill's steps however it is saved",
-		"ERPNext's form fetches a work order's operations from its bill when the bill is chosen, so one saved by Data Import, OneAI or a script had none and made no job cards; one_inventory/making.py steps fills them on before_validate",
-		"onedesk/one_inventory/making.py",
+		"ERPNext's form fetches a work order's operations from its bill when the bill is chosen, so one saved by Data Import, OneAI or a script had none and made no job cards; one_factory/making.py steps fills them on before_validate",
+		"onedesk/one_factory/making.py",
 		"erpnext/erpnext/manufacturing/doctype/work_order/work_order.py",
 		"def set_work_order_operations(self):",
 	),
@@ -369,7 +369,7 @@ OVERRIDES = [
 	(
 		"The workshop's lists say what they make and for whom",
 		"ERPNext titles a work order by its item code and lists its bill, a bill of materials by its active and default ticks, and filters subcontracting by company; property setters title both by the item's name, show the project, how many are made and when they are wanted, and leave the company out",
-		"onedesk/one_inventory/custom/work_order.json",
+		"onedesk/one_factory/custom/work_order.json",
 		"erpnext/erpnext/manufacturing/doctype/work_order/work_order.json",
 		'"title_field": "production_item"',
 	),

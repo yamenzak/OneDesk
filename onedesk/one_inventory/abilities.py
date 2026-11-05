@@ -35,6 +35,5 @@ SHARED = ()
 DEFAULTS = {
 	"Stock User": {},
 	"Stock Manager": {"fix": 1},
-	"Manufacturing Manager": {"fix": 1},
 	"Accounts Manager": {"fix": 1},
 }
