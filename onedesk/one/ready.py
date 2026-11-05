@@ -203,6 +203,32 @@ MODULES = {
 					),
 				},
 			},
+			"Purchase Receipt": {
+				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
+				"fields": {"supplier": "truck", "posting_date": "calendar", "set_warehouse": "warehouse", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
+				"cards": ({"key": "receipt.order"}, {"key": "receipt.worth"}, {"key": "receipt.rejected"}, {"key": "project.of"}),
+				"track": "receipt.progress",
+				"states": {"order": ("To Bill", "Partly Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
+			},
+			"Delivery Note": {
+				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
+				"fields": {"customer": "user", "posting_date": "calendar", "set_warehouse": "warehouse", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
+				"cards": ({"key": "delivery.order"}, {"key": "delivery.total"}, {"key": "delivery.trip"}, {"key": "project.of"}),
+				"track": "delivery.progress",
+				"states": {"order": ("To Bill", "Partially Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
+			},
+			"Delivery Trip": {
+				"fields": {"driver": "user", "vehicle": "truck", "departure_time": "clock", "total_distance": "route"},
+				"cards": ({"key": "trip.stops"}, {"key": "vehicle"}, {"key": "departure_time"}),
+				"states": {"order": ("Scheduled", "In Transit", "Completed", "Draft"), "hide": ("Cancelled",)},
+			},
+			"Pick List": {
+				"tabs": {"other_info_tab": "info", "connections_tab": "link"},
+				"fields": {"purpose": "list-checks", "customer": "user", "parent_warehouse": "warehouse"},
+				"cards": ({"key": "pick.done"}, {"key": "customer_name"}, {"key": "parent_warehouse"}),
+				"states": {"order": ("Open", "Partly Delivered", "Partially Transferred", "Completed", "Draft"), "hide": ("Cancelled",)},
+			},
+			"Shipment": {"states": {"order": ("Submitted", "Booked", "Completed", "Draft"), "hide": ("Cancelled",)}},
 			"Asset": {
 				"tabs": {"depreciation_tab": "chart-line", "other_info_tab": "info", "connections_tab": "link"},
 				"fields": {

@@ -393,7 +393,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Customs Tariff Number | through a form's link (Item: customs_tariff_number) | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Delivery Note | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 1 fields, 6 settings | yes | taught |  | yes | ours |  |  |  |
 | Delivery Settings | on a rail or a home | OneInventory | untouched | no | general |  |  |  |  |  |  |
-| Delivery Trip | on a rail or a home | OneInventory | events, form script | yes | general |  | yes |  |  |  |  |
+| Delivery Trip | on a rail or a home | OneInventory | a head, events, form script | yes | general |  | yes |  |  |  |  |
 | Inventory Dimension | on a rail or a home | OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Item | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory | a page of our own | yes | taught |  | yes |  |  |  |  |
 | Item Alternative | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
@@ -407,7 +407,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Manufacturer | opened by our screens | OneInventory | events | yes | general |  | yes |  |  |  |  |
 | Material Request | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 1 fields, 7 settings | yes | taught |  | yes |  |  |  | Material Request Asked, Material Request Done, Material Request Raised, Material Request Receipt Notification (theirs), Material Request Stopped, Stock Asked |
 | Packing Slip | on a rail or a home | OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Pick List | on a rail or a home | OneFactory, OneInventory | untouched | yes | general |  | yes | ours |  |  |  |
+| Pick List | on a rail or a home | OneFactory, OneInventory | a head | yes | general |  | yes | ours |  |  |  |
 | Price List | on a rail or a home | OneCRM, OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Purchase Receipt | on a rail or a home | OneBook, OneInventory | a head, events, list script, 1 settings | yes | taught | makes it | yes | ours |  |  |  |
 | Putaway Rule | on a rail or a home | OneInventory | untouched | yes | general |  | yes |  |  |  |  |

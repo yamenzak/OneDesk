@@ -34,6 +34,10 @@ PASSED: dict[str, dict] = {
 	"List/Asset": {"on": "2026-11-05", "pass": "OneInventory, assets"},
 	"Form/Asset": {"on": "2026-11-05", "pass": "OneInventory, assets"},
 	"Form/Asset Maintenance Log": {"on": "2026-11-05", "pass": "OneInventory, assets"},
+	"List/Delivery Note": {"on": "2026-11-05", "pass": "OneInventory, shipping"},
+	"Form/Delivery Note": {"on": "2026-11-05", "pass": "OneInventory, shipping"},
+	"Form/Purchase Receipt": {"on": "2026-11-05", "pass": "OneInventory, shipping"},
+	"Form/Delivery Trip": {"on": "2026-11-05", "pass": "OneInventory, shipping"},
 }
 
 SCREEN = re.compile(r"^((Form|List|Tree|Report|query-report|print)/[^/]+|[a-z0-9-]+)$")

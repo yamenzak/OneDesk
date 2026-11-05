@@ -819,6 +819,24 @@ def inspection_readings(doc):
 	return {"value": _("{0} of {1}").format(fine, len(rows)), "tone": None if fine == len(rows) else "alarm"}
 
 
+def trip_stops(doc):
+	"""How many of its stops were visited."""
+	stops = doc.get("delivery_stops") or []
+	if not stops:
+		return None
+	visited = sum(1 for one in stops if one.visited)
+	return {"value": _("{0} of {1}").format(visited, len(stops)), "tone": None if visited == len(stops) else "waiting"}
+
+
+def pick_done(doc):
+	"""How many of its lines are picked in full."""
+	lines = doc.get("locations") or []
+	if not lines:
+		return None
+	picked = sum(1 for one in lines if flt(one.picked_qty) >= flt(one.qty))
+	return {"value": _("{0} of {1}").format(picked, len(lines)), "tone": None if picked == len(lines) else "waiting"}
+
+
 def inspection_by(doc):
 	return {"value": frappe.utils.get_fullname(doc.inspected_by)} if doc.inspected_by else None
 
@@ -1058,6 +1076,8 @@ CHARTS = {
 
 
 MEASURES = {
+	"trip.stops": trip_stops,
+	"pick.done": pick_done,
 	"inspection.readings": inspection_readings,
 	"inspection.of": inspection_of,
 	"inspection.by": inspection_by,
@@ -1180,6 +1200,23 @@ VERBS = {
 
 
 HEADS = [
+	{
+		"doctype": "Delivery Trip",
+		"band": [
+			{"label": _lt("Stops Visited"), "source": "Measure", "measure": "trip.stops"},
+			{"label": _lt("Driver Name"), "source": "Field", "field": "driver_name", "hide_empty": 1},
+			{"label": _lt("Vehicle"), "source": "Field", "field": "vehicle", "hide_empty": 1},
+			{"label": _lt("Departure Time"), "source": "Field", "field": "departure_time", "hide_empty": 1},
+		],
+	},
+	{
+		"doctype": "Pick List",
+		"band": [
+			{"label": _lt("Lines Picked"), "source": "Measure", "measure": "pick.done"},
+			{"label": _lt("Customer Name"), "source": "Field", "field": "customer_name", "hide_empty": 1},
+			{"label": _lt("Warehouse"), "source": "Field", "field": "parent_warehouse", "hide_empty": 1},
+		],
+	},
 	{
 		"doctype": "Quality Inspection",
 		"band": [
