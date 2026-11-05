@@ -31,6 +31,9 @@ PASSED: dict[str, dict] = {
 	"Form/Non Conformance": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
 	"Form/Quality Goal": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
 	"List/Quality Action": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
+	"List/Asset": {"on": "2026-11-05", "pass": "OneInventory, assets"},
+	"Form/Asset": {"on": "2026-11-05", "pass": "OneInventory, assets"},
+	"Form/Asset Maintenance Log": {"on": "2026-11-05", "pass": "OneInventory, assets"},
 }
 
 SCREEN = re.compile(r"^((Form|List|Tree|Report|query-report|print)/[^/]+|[a-z0-9-]+)$")

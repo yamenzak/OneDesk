@@ -1,4 +1,7 @@
 frappe.ui.form.on("Asset Maintenance Log", {
+	setup(frm) {
+		frm.one_finishes = frappe.model.can_submit("Asset Maintenance Log");
+	},
 	refresh(frm) {
 		if (frm.is_new() || frm.doc.docstatus !== 0 || !frappe.model.can_submit("Asset Maintenance Log")) return;
 		frm.page.set_primary_action(__("Mark Done"), () => {

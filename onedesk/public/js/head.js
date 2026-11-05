@@ -94,12 +94,14 @@ onedesk.head.draw = (frm, drawn = null) => {
 };
 
 // ... nor frappe's line asking for the Submit that is not offered, nor an
-// app's own (hrms's "Submit this Leave Application to confirm.").
+// app's own (hrms's "Submit this Leave Application to confirm."), when a
+// head verb or a form's own script (frm.one_finishes) finishes the draft.
 {
 	const Form = frappe.ui.form.Form;
 	const answered = (frm) =>
 		frm.doc.docstatus === 0 &&
-		((frm.doc.__onload && frm.doc.__onload.one_head && frm.doc.__onload.one_head.verbs) || []).some((verb) => verb.primary && !verb.group);
+		(!!frm.one_finishes ||
+			((frm.doc.__onload && frm.doc.__onload.one_head && frm.doc.__onload.one_head.verbs) || []).some((verb) => verb.primary && !verb.group));
 	const asks = Form && Form.prototype.show_submit_message;
 	if (asks && !asks.one_head) {
 		Form.prototype.show_submit_message = function (...args) {

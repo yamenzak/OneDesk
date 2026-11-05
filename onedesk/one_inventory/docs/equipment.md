@@ -6,10 +6,11 @@ else — a purchase order and a receipt. Each one received becomes an asset on
 the register by itself: kept at your location, in use from the day it was
 bought, and depreciating as its category says from the end of that month.
 
-An asset's page says what it is worth now (**Value After Depreciation**),
-what it cost (**Net Purchase Amount**), its **Depreciation**, how many
-months of its life are written off (**Depreciations Booked**, with a line
-showing how far through) and the **Next Depreciation**. Once registered, a
+At the top of an asset's page: what it is worth now (**Value After
+Depreciation**), what it cost (**Net Purchase Amount**), when it is next
+serviced (**Next Service**) and its **Next Depreciation**. Below, its
+**Depreciation** and how many months of its life are written off
+(**Depreciations Booked**, with a line showing how far through). Once registered, a
 chart beside them, also **Value After Depreciation**, is a line from what it
 cost to what it will be worth at the end, one point per depreciation its
 schedule books.
@@ -58,7 +59,7 @@ calendar as **My Maintenance**, and on everybody's as **Maintenance Due**
 when they turn it on, each named after the asset it is for; clicking one
 opens it to record it done, and the next one is worked out from that day.
 **Asset Maintenance Log**, under Everything on Home, lists every service
-with its asset. The asset's page says its next service (**Next Due Date**),
+with its asset. The asset's page says its next service (**Next Service**),
 in red once it is late.
 
 The first schedule needs a maintenance team. The Inventory Check makes one.

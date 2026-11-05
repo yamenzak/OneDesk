@@ -203,6 +203,51 @@ MODULES = {
 					),
 				},
 			},
+			"Asset": {
+				"tabs": {"depreciation_tab": "chart-line", "other_info_tab": "info", "connections_tab": "link"},
+				"fields": {
+					"item_code": "package",
+					"asset_category": "tag",
+					"location": "map-pin",
+					"custodian": "user",
+					"department": "building-2",
+					"purchase_date": "calendar",
+					"available_for_use_date": "calendar-check",
+					"net_purchase_amount": "coins",
+					"supplier": "truck",
+				},
+				"cards": ({"key": "asset.worth_now"}, {"key": "asset.cost"}, {"key": "asset.next_service", "title": _lt("Next Service")}, {"key": "asset.next_depreciation"}),
+				"states": {
+					"order": ("Submitted", "Partially Depreciated", "In Maintenance", "Out of Order", "Fully Depreciated", "Sold", "Scrapped", "Capitalized", "Work In Progress", "Draft"),
+					"hide": ("Cancelled",),
+				},
+			},
+			"Asset Maintenance Log": {
+				"fields": {"asset_name": "wrench", "maintenance_type": "tag", "due_date": "calendar-clock", "completion_date": "calendar-check", "assign_to_name": "user"},
+				"cards": ({"key": "service.due"}, {"key": "assign_to_name"}, {"key": "service.last"}),
+				"states": {"field": "maintenance_status", "order": ("Overdue", "Planned", "Completed"), "hide": ("Cancelled",)},
+			},
+			"Asset Maintenance": {
+				"fields": {"asset_name": "wrench", "maintenance_team": "users", "maintenance_manager_name": "user"},
+				"cards": ({"key": "schedule.next"}, {"key": "service.asset"}, {"key": "maintenance_team"}),
+				"states": {"field": "maintenance_team"},
+			},
+			"Asset Repair": {
+				"tabs": {"connection_tab": "link"},
+				"fields": {"asset": "wrench", "failure_date": "calendar-x", "completion_date": "calendar-check", "repair_cost": "coins"},
+				"cards": ({"key": "repair.out"}, {"key": "repair.cost"}),
+				"states": {"field": "repair_status", "order": ("Pending", "Completed"), "hide": ("Cancelled",)},
+			},
+			"Asset Movement": {
+				"fields": {"purpose": "arrow-left-right", "transaction_date": "calendar"},
+				"cards": ({"key": "handover.what"}, {"key": "handover.from"}, {"key": "handover.to"}, {"key": "transaction_date"}),
+				"states": {"field": "purpose", "order": ("Issue", "Receipt", "Transfer", "Transfer and Issue")},
+			},
+			"Asset Value Adjustment": {
+				"fields": {"asset": "wrench", "date": "calendar", "current_asset_value": "coins", "new_asset_value": "coins"},
+				"cards": ({"key": "repair.asset"}, {"key": "current_asset_value"}, {"key": "new_asset_value"}, {"key": "adjustment.change"}),
+				"states": {"field": "asset_category"},
+			},
 			"Quality Inspection": {
 				"fields": {
 					"inspection_type": "list-checks",

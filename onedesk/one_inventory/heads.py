@@ -117,10 +117,7 @@ def next_depreciation(doc):
 	upcoming = _asset(doc.name)["next"]
 	if not upcoming:
 		return {"value": _("None left"), "tone": "quiet"}
-	return {
-		"label": _("Next Depreciation · {0}").format(formatdate(upcoming.schedule_date)),
-		"value": _money(upcoming.depreciation_amount),
-	}
+	return {"value": _money(upcoming.depreciation_amount)}
 
 
 def next_service(doc):
@@ -133,8 +130,7 @@ def next_service(doc):
 			"route": f"/desk/asset-maintenance/new?asset_name={quote(doc.name)}",
 		}
 	return {
-		"label": _("Next Due Date · {0}").format(formatdate(service.due_date)),
-		"value": service.task_name,
+		"value": formatdate(service.due_date),
 		"tone": "alarm" if getdate(service.due_date) < getdate(today()) else None,
 		"route": f"/desk/asset-maintenance-log/{quote(service.name)}",
 	}
