@@ -178,6 +178,13 @@ MODULES = {
 			("who-can-do-what", "shield"),
 			("settings", "settings"),
 		),
+		"interface": {
+			"Project Template": {
+				"fields": {"project_type": "shapes"},
+				"cards": ({"key": "template.tasks"}, {"key": "template.days"}, {"key": "template.used"}),
+				"states": {"field": "project_type"},
+			},
+		},
 	},
 	"OneInventory": {
 		"folder": "one_inventory",

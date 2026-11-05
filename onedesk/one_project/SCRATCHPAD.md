@@ -12,7 +12,5 @@ What is known to be wrong and what is planned, kept short.
 As OneTask's page went (one_task/heads.py): the form with a head and verbs,
 only what frappe lacks kept as ours. After OneInventory's Item.
 
-- **Project Template** (page project_template_view, `src/template`): the
-  form, its tasks as the child table or the Task tree.
 - **Project** (page project_view, `src/project`): last, as its money, time
   and suppliers across sub-projects are the most frappe's form does not show.

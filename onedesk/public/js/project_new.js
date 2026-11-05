@@ -6,7 +6,7 @@ frappe.provide("onedesk.project");
 		const found = await standard(route);
 		if (frappe.route_options) delete frappe.route_options.edit;
 		const [view, doctype, name] = found || [];
-		const page = { Project: "project-view", "Project Template": "project-template-view" }[doctype];
+		const page = { Project: "project-view" }[doctype];
 		if (view !== "Form" || !page || !name || name === "new" || name.startsWith("new-")) return found;
 		if (new URLSearchParams(window.location.search).has("edit")) return found;
 		return [page, name];

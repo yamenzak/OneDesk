@@ -250,7 +250,6 @@ ANSWERS = {
 	("DocType", "Workspace Account"): (INSIDE, "Account, from the rail's foot"),
 	("DocType", "Workspace Customization"): (ENGINE, "OneStudio's ledger of what a workspace changed"),
 	("Page", "project-view"): (INSIDE, "a Project opens on it"),
-	("Page", "project-template-view"): (INSIDE, "a Project Template opens on it"),
 	("DocType", "GL Entry"): (ENGINE, "one line per posting; the General Ledger report shows them"),
 	("DocType", "Payment Ledger Entry"): (ENGINE, "one line per payment against an invoice; the Payment Ledger report shows them"),
 	("DocType", "Advance Payment Ledger Entry"): (ENGINE, "advances against orders, kept as they are paid"),

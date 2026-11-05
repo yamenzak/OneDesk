@@ -771,8 +771,11 @@ OneTask's as much as ours. ERPNext has no project inside a project; Parent Proje
 
   A new project's Task Prefix names the tasks a template makes, because the
   naming rule is written when the project is, not after (naming.py).
-- `template_view.py` — a template's page (page/project_template_view, the
-  onedesk.template island in frontend/src/template). `read` gives its tasks
+- `template_view.py` — a template's tasks, drawn in its form (the
+  onedesk.template_part island in frontend/src/template, mounted by
+  public/js/project_template.js in the one_tasks_part field; the Tasks table
+  shows only on a new template). The form's head has its Tasks, Duration and
+  Projects (heads.py, template.*). `read` gives its tasks
   in the template's order with their depth and what each waits on, leaving
   out the tasks ERPNext lists on a group as what it waits on, which are only
   its own tasks. `change`, `add`, `nest`, `wait` and `remove` each save the

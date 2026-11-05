@@ -171,15 +171,18 @@ def test_the_library_is_offered_where_a_template_is_picked():
 	assert '"Project Template": "public/js/project_template_list.js"' in HOOKS
 
 
-def test_a_template_opens_on_its_page_and_every_change_saves_it():
+def test_a_template_opens_on_its_form_and_every_change_saves_it():
 	view = (APP / "one_project" / "template_view.py").read_text()
 	for method in ("read", "change", "add", "nest", "wait", "remove"):
 		assert f"def {method}(" in view, method
 	assert view.count("_saved(doc)") >= 5, "every change saves the template, so its checks run"
 	assert 'frappe.has_permission("Project Template", "write", template, throw=True)' in view
-	assert '"onedesk.template": "src/islands/template.js"' in (ROOT / "frontend" / "build-islands.mjs").read_text()
+	assert '"onedesk.template_part": "src/islands/template_part.js"' in (ROOT / "frontend" / "build-islands.mjs").read_text()
+	form = (APP / "public" / "js" / "project_template.js").read_text()
+	assert 'frappe.ui.mount_island("onedesk.template_part"' in form
+	assert 'frm.toggle_display("tasks", frm.is_new())' in form, "a new template takes its first tasks in the table"
 	assert '"onedesk.one_project.templates.days_kept"' in HOOKS
-	page = (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text()
+	page = (ROOT / "frontend" / "src" / "template" / "TemplatePart.vue").read_text()
 	assert 'follow("Project Template"' in page
 	tasks = (ROOT / "frontend" / "src" / "template" / "Tasks.vue").read_text()
 	assert '__("Day {0}", [one.start || 0])' in tasks

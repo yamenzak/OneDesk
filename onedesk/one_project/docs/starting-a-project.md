@@ -50,10 +50,11 @@ takes, which depends on which, the milestones and the checklists.
 
 **Project Template** at the top of OneProject lists them, each with how many tasks
 it has, how many days it runs and how many projects were started from it. A
-template opens on a page
-of its own, its tasks in the same table a project's are in, each with when it
-starts and how long it lasts, as "Day 12 · 5 days" counted from the day the
-project starts. Everything changes in place:
+template opens on its form. At the top are its **Tasks**, its **Duration** and
+the **Projects** started from it (click that for the list), and **New Project**
+starts one. Under them are its tasks, each with when it starts and how long it
+lasts, as "Day 12 · 5 days" counted from the day the project starts. Everything
+changes in place:
 
 - Type in **Add Task** under the table to add one, or **Add Task Under** in a
   task's ··· menu to add one inside it.
@@ -61,18 +62,16 @@ project starts. Everything changes in place:
 - Click **Day 12 · 5 days** to change the day it begins on and how many days
   it lasts.
 - The flag beside a task makes it a milestone, or takes that away.
-- **Waits On** lists the tasks it can't start before. **+** adds one and **×**
+- **Depends On** lists the tasks it can't start before. **+** adds one and **×**
   takes one away.
 - **Put Under** in the ··· menu moves a task inside another, with the tasks
   under it. **Move to the Top** takes it out again. **Delete** removes it and
   the tasks under it.
 
-The line above the table says how many tasks it has, how many days it runs
-and how many projects were started from it (click that for the list). The
-line under it says what a project made from it starts with: its type,
-payment terms, terms and conditions and retention. The pencil beside them
-changes those and whether the template can still be used, and any field
-your workspace adds to templates. **New Project** at the top starts one.
+Under the tasks are its **Terms**: the payment terms, terms and conditions and
+retention a project made from it starts with. Its **Project Type**, whether it
+is **Disabled**, and any field your workspace adds to templates are on the
+form too.
 
 ### From the Library
 
@@ -106,7 +105,7 @@ workspace lacks are made the first time it is used, to change as you like.
   project that went well. Each task keeps when it started and ended, as days
   after the project started, so a task that started on day 5 and took three
   days does the same next time. Cancelled tasks are left out.
-- **New Project** on a template's page, or choosing it as **Template** on a
+- **New Project** on a template, or choosing it as **Template** on a
   new project, starts a project from it. Its tasks are created when it's
   saved, dated from the project's **Expected Start Date** (today if it has
   none), each with its sub-tasks, dependencies, checklist and whether it's a

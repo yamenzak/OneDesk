@@ -46,8 +46,8 @@ places, and its reports below them.
   A report shows only to people whose role may open it.
 
 On a phone, tap the place's name at the top, **Project**, to go to another.
-A project's page and a template's page have no panel. There, **Project** or
-**Project Template** at the top goes to another of the four places. **Activity Type**, what an hour of each
+A project's page has no panel. There, **Project** at the top goes to
+another of the four places. **Activity Type**, what an hour of each
 activity costs and is billed at, is in the ··· menu on **Project**, and so
 is **Project Update**, the progress notes a project's people send when its
 Collect Progress asks them.

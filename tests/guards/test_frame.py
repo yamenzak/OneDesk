@@ -18,14 +18,12 @@ FRAPPE = APPS / "frappe/frappe/public/js/frappe"
 
 ISLANDS = {
 	"Project": ROOT / "frontend" / "src" / "project" / "ProjectPage.vue",
-	"Project Template": ROOT / "frontend" / "src" / "template" / "TemplatePage.vue",
 }
 DESK_PAGES = {
 	"Project": APP / "one_project" / "page" / "project_view" / "project_view.js",
-	"Project Template": APP / "one_project" / "page" / "project_template_view" / "project_template_view.js",
 }
 
-PAGE_PLACES = {"Project": "oneproject", "Project Template": "oneproject_template"}
+PAGE_PLACES = {"Project": "oneproject"}
 
 SIDEBAR = (
 	"form/sidebar/form_sidebar.js",
@@ -160,7 +158,6 @@ def test_each_page_fires_its_events_with_only_its_powers():
 				("activity", "ProjectActivity"),
 			)
 		},
-		"oneproject_template.template": (ROOT / "frontend" / "src" / "template" / "TemplatePage.vue").read_text(),
 		**{
 			f"oneinventory_item.{view}": (ROOT / "frontend" / "src" / "inventory" / "item" / f"{name}.vue").read_text()
 			for view, name in (

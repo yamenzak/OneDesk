@@ -46,7 +46,7 @@ and the invoice attached, and you send it. Ask it to add somebody to the
 team or a contact, and approving the card adds them as **Add Member** and
 **Add Contact** do.
 
-On **Project Template** and on a template's page, OneAI offers **Draft a template**.
+On **Project Template** and on a template, OneAI offers **Draft a template**.
 Say what kind of job it is for. It offers a template you already have, or
 one from the library, first. A new one comes as a card listing its phases,
 how many tasks it has and how many days it runs. Approving it makes the

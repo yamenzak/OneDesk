@@ -141,7 +141,7 @@ that exists.
 | `src/display/Counter.vue` | Qmatic's and Qminder's service point: the ticket being served large, Call Next, Recall and No Show under it, and who waits beside it |
 | `src/display/Boards.vue` | A status board's tap-to-change control: each item a card in its state's colour, its states as buttons under it, one item alone behind its QR code |
 | `src/slide/shim/WidgetSection.vue` | Yodeck's and ScreenCloud's layout editors: widgets as boxes on the screen at its shape, in OneSlide's editor, and the chosen widget's source, fields and settings in the panel |
-| `src/template/TemplatePage.vue` | TeamGantt's and Smartsheet's project templates |
+| `src/template/TemplatePart.vue` | TeamGantt's and Smartsheet's project templates, drawn in the template's form |
 | `src/inventory/to_order/ToOrderPage.vue` | Odoo's Replenishment screen: one line per item and warehouse, why it is there, how many and from whom, ticked and ordered in one go, a draft purchase order per supplier |
 | `src/workload/WorkloadList.vue` | Asana's Workload and Float's capacity view: the team's week in one line with a bar, then a row a person, their load as a bar that turns red past what they have, the hours planned of the hours free, and their tasks, late and not estimated, each opening the tasks it counts |
 

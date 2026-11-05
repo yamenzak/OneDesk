@@ -1108,7 +1108,7 @@ def test_a_project_opens_on_its_own_page():
 	for follows in ('follow("Project"', 'listen("one_project_money"'):
 		assert follows in script
 	route = (tree.APP / "public" / "js" / "project_new.js").read_text()
-	assert '{ Project: "project-view", "Project Template": "project-template-view" }' in route
+	assert '{ Project: "project-view" }' in route
 	assert "return [page, name];" in route and 'has("edit")' in route and 'name.startsWith("new-")' in route
 	assert "?edit=1" not in script
 	assert '"Project": ["public/js/project_actions.js", "public/js/project.js"]' in HOOKS
@@ -1259,8 +1259,6 @@ def test_the_rail_is_projects_workload_time_and_templates_and_is_open_on_them():
 	places = (tree.APP / "public" / "js" / "project_places.js").read_text()
 	assert "TabButtons" not in places and "hide_sidebar" not in places
 	assert '"/assets/onedesk/js/project_places.js"' in HOOKS
-	template_js = (PROJECT / "page" / "project_template_view" / "project_template_view.js").read_text()
-	assert "hide_sidebar" not in template_js and 'record: "Project Template"' in template_js, "a template keeps OneProject's rail"
 	menu = (tree.APP / "public" / "js" / "project_list.js").read_text()
 	assert '__("Activity Type")' in menu and '__("Project Templates")' not in menu
 	view_js = (PROJECT / "page" / "project_view" / "project_view.js").read_text()

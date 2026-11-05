@@ -9,7 +9,8 @@
    "read_only": 1,
    "no_copy": 1,
    "in_list_view": 1,
-   "module": "One Project"
+   "module": "One Project",
+   "hidden": 1
   },
   {
    "dt": "Project Template",
@@ -20,7 +21,8 @@
    "read_only": 1,
    "no_copy": 1,
    "in_list_view": 1,
-   "module": "One Project"
+   "module": "One Project",
+   "hidden": 1
   },
   {
    "dt": "Project Template",
@@ -31,14 +33,25 @@
    "read_only": 1,
    "no_copy": 1,
    "in_list_view": 1,
-   "module": "One Project"
+   "module": "One Project",
+   "hidden": 1
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_tasks_section",
+   "label": "Tasks",
+   "fieldtype": "Section Break",
+   "insert_after": "one_projects",
+   "module": "One Project",
+   "name": "Project Template-one_tasks_section",
+   "collapsible": 0
   },
   {
    "dt": "Project Template",
    "fieldname": "one_terms_section",
    "label": "Terms",
    "fieldtype": "Section Break",
-   "insert_after": "one_projects",
+   "insert_after": "one_tasks_part",
    "module": "One Project"
   },
   {
@@ -84,6 +97,24 @@
    "module": "One Project",
    "depends_on": "eval:doc.one_retention",
    "description": "Share of the retention"
+  },
+  {
+   "dt": "Project Template",
+   "fieldname": "one_tasks_part",
+   "fieldtype": "HTML",
+   "label": null,
+   "insert_after": "tasks",
+   "read_only": 0,
+   "no_copy": 1,
+   "in_list_view": 0,
+   "module": "One Project",
+   "hidden": 0,
+   "reqd": 0,
+   "in_standard_filter": 0,
+   "options": null,
+   "default": null,
+   "description": null,
+   "name": "Project Template-one_tasks_part"
   }
  ],
  "doctype": "Project Template",

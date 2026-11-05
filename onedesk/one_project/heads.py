@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import flt, fmt_money, formatdate, today
+from frappe.utils import cint, flt, fmt_money, formatdate, today
 from frappe.utils.caching import request_cache
 
 from onedesk.one import stages
@@ -227,7 +227,31 @@ def timesheet_worth(doc):
 	return fmt_money(doc.total_billable_amount, currency=doc.currency)
 
 
+def template_tasks(doc):
+	"""Its tasks, leaving out the groups that only hold others."""
+	count = cint(doc.get("one_tasks"))
+	return str(count) if count else None
+
+
+def template_days(doc):
+	days = cint(doc.get("one_days"))
+	if not days:
+		return None
+	return _("1 day") if days == 1 else _("{0} days").format(days)
+
+
+def template_used(doc):
+	"""How many projects were started from it, opening them."""
+	used = frappe.db.count("Project", {"project_template": doc.name})
+	if not used:
+		return _("Not used yet")
+	return {"value": str(used), "route": f"/desk/project?project_template={quote(doc.name, safe='')}"}
+
+
 MEASURES = {
+	"template.tasks": template_tasks,
+	"template.days": template_days,
+	"template.used": template_used,
 	"project.health": health,
 	"project.sub_projects": sub_projects,
 	"project.done": done,
@@ -264,6 +288,14 @@ HEADS = [
 			{"label": _lt("Next Milestone"), "source": "Measure", "measure": "project.milestone"},
 		],
 		"charts": [{"chart": "project.hours"}],
+	},
+	{
+		"doctype": "Project Template",
+		"band": [
+			{"label": _lt("Tasks"), "source": "Measure", "measure": "template.tasks"},
+			{"label": _lt("Duration"), "source": "Measure", "measure": "template.days"},
+			{"label": _lt("Projects"), "source": "Measure", "measure": "template.used"},
+		],
 	},
 	{
 		"doctype": "Timesheet",

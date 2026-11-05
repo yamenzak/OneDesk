@@ -1,6 +1,6 @@
-"""A project template's page (page/project_template_view): its tasks as the
-Tasks table shows a project's, each a day after the start and a number of
-days long, changed in place. Every change saves the template, so ERPNext's own
+"""A project template's tasks, drawn in its form (the onedesk.template_part
+island in its Tasks section) as the Tasks table shows a project's, each a day
+after the start and a number of days long, changed in place. Every change saves the template, so ERPNext's own
 checks on it run and whoever has it open hears it."""
 
 import frappe

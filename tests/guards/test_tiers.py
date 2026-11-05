@@ -47,7 +47,7 @@ def test_every_record_head_is_declared():
 def test_every_page_of_its_own_is_declared():
 	islands = {
 		"onedesk.project": "Project",
-		"onedesk.template": "Project Template",
+		"onedesk.template_part": None,
 		"onedesk.stock": None,
 		"onedesk.one_home": None,
 		"onedesk.home": None,

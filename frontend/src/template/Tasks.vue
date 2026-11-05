@@ -1,11 +1,11 @@
 <template>
   <div class="overflow-x-auto rounded-5 border border-outline-gray-2">
-    <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[46rem] list-gap-3 list-row-px-3">
+    <List :columns="COLUMNS" :row-height="44" divider="full" class="min-w-[40rem] list-gap-3 list-row-px-3">
       <ListHeader class="bg-surface-gray-1">
         <ListHeaderCell>{{ __("Task") }}</ListHeaderCell>
         <ListHeaderCell>{{ __("When") }}</ListHeaderCell>
         <ListHeaderCell>{{ __("Depends On") }}</ListHeaderCell>
-        <ListHeaderCell>{{ __("Expected Time") }}</ListHeaderCell>
+        <ListHeaderCell>{{ __("Hours") }}</ListHeaderCell>
         <ListHeaderCell />
       </ListHeader>
       <ListRows :items="rows" row-key="name" v-slot="{ item }">
@@ -116,7 +116,7 @@ const props = defineProps({
 });
 const emit = defineEmits(["change", "add", "nest", "wait", "remove", "under"]);
 
-const COLUMNS = ["minmax(18rem,1fr)", "9rem", "minmax(8rem,14rem)", "5rem", "3rem"];
+const COLUMNS = ["minmax(14rem,1fr)", "8.5rem", "minmax(7rem,12rem)", "4.5rem", "2.5rem"];
 const rows = computed(() => props.tasks);
 const names = computed(() => Object.fromEntries(props.tasks.map((one) => [one.name, one.subject])));
 const subject = (name) => names.value[name] || name;

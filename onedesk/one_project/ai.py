@@ -177,8 +177,6 @@ def _here(*offered, kinds: tuple | None = None) -> list[dict]:
 	return said
 
 
-TEMPLATE_PAGE = "project-template-view"
-
 DRAFT_TEMPLATE = {
 	"label": _lt("Draft a template"),
 	"ask": _lt(
@@ -202,8 +200,7 @@ WEEK = {
 
 SUGGESTIONS = {
 	"report:Workload": [WEEK],
-	"Project Template": [{**DRAFT_TEMPLATE, "view": "List"}],
-	f"page:{TEMPLATE_PAGE}": [DRAFT_TEMPLATE],
+	"Project Template": [{**DRAFT_TEMPLATE, "view": "List"}, {**DRAFT_TEMPLATE, "view": "Form"}],
 	"Project": [
 		{**GOING, "view": "Form"},
 		{**LATE, "view": "Form"},
@@ -262,15 +259,7 @@ VIEWS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on a project's page, or a template's."""
-	if said.get("page") == TEMPLATE_PAGE:
-		name = (said.get("record") or "").strip()
-		return (
-			f"The reader is on the page of project template “{name}”, its tasks in a table, each a day after "
-			"the project starts and a number of days long. project_templates lists the workspace's templates "
-			"and the library's, and draft_template suggests a new one as a card that makes it when the reader "
-			"approves. How templates work is in OneProject's documentation (how_to)."
-		)
+	"""The sentence the model is told on a project's page."""
 	if said.get("page") != PAGE:
 		return None
 	name = (said.get("record") or "").strip()
@@ -940,7 +929,7 @@ def draft_template(
 		"title": title,
 		"preset": preset,
 		"summary": summary,
-		"route": ["project-template-view", title],
+		"route": ["Form", "Project Template", title],
 	}
 	return {
 		"proposal": proposals.propose("Setup", "Project Template", changes=changes, why=why),
