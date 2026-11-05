@@ -31,37 +31,25 @@ The scope, decided with Yamen on 5 November 2026:
 Baseline on 5 November, a phone at 4x CPU: Home 4.4s, Item list 6.1s, the
 Item page 7.3s and 27 requests, Stock Summary 1.8s, Stock Balance 3.0s.
 
-## The stock area, in progress (5 November 2026, uncommitted)
+## The stock area (5 November 2026, 02cde9a0)
 
-Scope: Home, Overview, Item list and page, Stock Summary, Stock Entry,
+Walked and fixed at 1440: Home, Item list, Stock Summary, Stock Entry,
 Stock Reconciliation, Batch, Serial No, Warehouse, Stock Balance, Stock
-Ledger. Receipts are buying's, deliveries shipping's.
-Done in the tree: the registry's `interface` for Stock Entry, Stock
-Reconciliation, Batch, Serial No and Warehouse (icons, cards, strips);
-a hash ID is never a list column nor the line under a name (list_names.js,
-look.js); Batch list shows expiry and its unit (custom/batch.json,
-batch_list.js); a batch's cards are short (heads.batch_left, came_from);
-a head card's value wraps (RecordHead.vue); Arabic phone rows keep the
-start of a Latin name (views.css). Walked: Stock Entry, Batch, Serial No,
-Warehouse at 1440; Stock Entry and Batch at 390 in Arabic and dark.
-Next: Stock Reconciliation, Item list, Stock Summary, Home, Overview, the
-two reports (Check filters overlap, Stock Balance prepared), then one
-version each for OneInventory and OneInterface, gates, commit, stamps.
-A stock entry's item table cuts warehouse and item (frappe's grid widths):
-for OneInterface.
+Ledger. Stamped (390, Arabic, dark too): Form/Stock Entry, List/Batch,
+Form/Batch. Still to walk at 390 in Arabic and dark before their stamps:
+the rest of the list above, and Overview (ERPNext's Stock dashboard).
+Then for the area: OneAI cards and notifications for what is missing,
+setup steps, tours, Help from ERPNext's stock docs, several companies.
+A record's item table cuts its columns (frappe's grid widths): for
+OneInterface.
 
 ## Found on the walk, for the areas
 
-- Serial No rows say Active twice (the pill and the line under the name).
-- A batch row shows its quantity with no unit, and no expiry date.
-- Arabic cuts an item name at its start ("…therproof").
 - Every Request for Quotation row says Submitted, where the island said
   Waiting, Answered or Ordered.
 - On a phone a request's head shows only Cancel: check Create and View.
 - A service shows frappe's "Submit this document to confirm" over Mark
   Done (head.js drops that intro only for some verbs).
-- A query report's Check filters overlap their labels (Stock Balance).
-- Stock Balance is a prepared report: it opens empty until Generate.
 
 ## OneFactory: the split, step by step
 

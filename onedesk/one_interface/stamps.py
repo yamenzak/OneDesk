@@ -9,6 +9,9 @@ import re
 
 PASSED: dict[str, dict] = {
 	# "Form/Customer": {"on": "2026-11-02", "pass": "Final passthrough"},
+	"Form/Stock Entry": {"on": "2026-11-05", "pass": "OneInventory, stock"},
+	"List/Batch": {"on": "2026-11-05", "pass": "OneInventory, stock"},
+	"Form/Batch": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 }
 
 SCREEN = re.compile(r"^((Form|List|Tree|Report|query-report|print)/[^/]+|[a-z0-9-]+)$")

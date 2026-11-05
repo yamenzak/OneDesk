@@ -185,11 +185,11 @@ MODULES = {
 		"names": ("one_inventory", "oneinventory"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-05", "commit": "c698f1913315", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-05", "commit": "02cde9a073c8", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-05", "commit": "02cde9a073c8", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-05", "commit": "02cde9a073c8", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-05", "commit": "02cde9a073c8", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-05", "commit": "02cde9a073c8", "by": "Claude, for Yamen"},
 		},
 		"interface": {
 			"Item": {
@@ -1001,9 +1001,9 @@ def places(module: str) -> list[Path]:
 
 
 # What a version is taken over: what the module ships and its help pages,
-# not what only we read or run (AGENTS.md, SCRATCHPAD.md, its versions, its
-# tests, its checks and its part of the demo).
-UNSHIPPED = ("AGENTS.md", "SCRATCHPAD.md", "checks.py", "demo.py")
+# not what only we read or run (its notes, versions, tests, checks, demo, and
+# the passover's stamps, which only a dev site shows).
+UNSHIPPED = ("AGENTS.md", "SCRATCHPAD.md", "checks.py", "demo.py", "stamps.py")
 KINDS = ("major", "minor", "fix")
 HEAD = re.compile(r"\A---\n(.*?)\n---\n", re.S)
 
