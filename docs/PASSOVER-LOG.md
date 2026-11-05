@@ -36,7 +36,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | OneInterface: Canvas, palettes, the record, every field, every view | walked in light and dark; not marked ready | 2026-11-02 |
 | OneInterface on a phone and a tablet | every view at 390 and the tablet, light and dark | 2026-11-02 |
 | ShortcutCenter, and the keys of One, OneInterface, OneMail and OneAI | built; looks re-taken for One, OneMail, OneAI | 2026-11-02 |
-| OneInventory: the pass of November 2026 (islands to frappe, OneFactory, then the areas) | in progress: islands, OneFactory, the demo checks and the stock area are done, buying is next; where it stands is in one_inventory/SCRATCHPAD.md | 2026-11-05 |
+| OneInventory: the pass of November 2026 (islands to frappe, OneFactory, then the areas) | done: islands to frappe, OneFactory and OneQuality split out, demo checks, and stock, buying, quality, assets and shipping walked and stamped; what is left is in one_inventory/SCRATCHPAD.md | 2026-11-05 |
 
 ## Up next
 

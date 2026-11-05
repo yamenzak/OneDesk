@@ -48,6 +48,15 @@ Items sits in ERPNext's own Items tab. OneAI, notifications and Help
 looked at and current. Left: a material request's title is ERPNext's
 English, written into the record. Next: quality, then assets, shipping.
 
+## The pass of November 2026: done (5 November)
+
+Every area walked at 1440 and 390 in Arabic and dark, fixed and stamped:
+stock, buying, quality (with OneQuality split out), assets, shipping.
+Still open, for later passes: a record's item table cuts its columns
+(frappe's grid, for OneInterface); a material request's title is
+ERPNext's English, written into the record; the demo's second company
+has no stock of its own (the check makes it in a rollback).
+
 ## Found on the walk, for the areas
 
 - Every Request for Quotation row says Submitted, where the island said

@@ -185,11 +185,11 @@ MODULES = {
 		"names": ("one_inventory", "oneinventory"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-05", "commit": "9ae821cbb75a", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-05", "commit": "9ae821cbb75a", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-05", "commit": "9ae821cbb75a", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-05", "commit": "9ae821cbb75a", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-05", "commit": "9ae821cbb75a", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-05", "commit": "8b775050e0b5", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-05", "commit": "8b775050e0b5", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-05", "commit": "8b775050e0b5", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-05", "commit": "8b775050e0b5", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-05", "commit": "8b775050e0b5", "by": "Claude, for Yamen"},
 		},
 		"interface": {
 			"Item": {
