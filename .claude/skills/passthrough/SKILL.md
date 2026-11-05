@@ -98,6 +98,10 @@ What an app declares about itself, in its own folder and in
   on one record gets it through `rights.grant`; every method our screens
   call on the server checks it, beyond what frappe checks, and a write is
   POST only. *Guards: test_ready, test_roles.*
+- **Sharing.** What a person may share of it (a record, a file, a
+  workbook) and at which levels, with people here, a customer's or
+  supplier's contact, or anyone with a link. Until OneAccess's one Share
+  is built (`docs/BACKLOG.md`), note where the app shares its own way.
 - **OneAI.** Every action that changes something is a card in its `ai.py`
   `REACH`, or in `NOT_FOR_AI` with the reason; AICenter shows its part; on
   each screen the panel knows where it is and offers the cards that fit,

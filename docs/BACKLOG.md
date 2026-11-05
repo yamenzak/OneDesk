@@ -38,6 +38,25 @@ module's README says what it does.
   place of spinners; a dialog over a dialog dimming the one beneath. The
   plan is `git show cade87a7:docs/DESK-PASS.md`.
 
+## OneAccess: one Share for everything
+
+Decided with Yamen on 5 November 2026, to build when the passes reach
+sharing. One Share popover, the same on a record, a workbook, a
+presentation, a document and a folder, part of OneAccess, which takes
+AccessCenter, abilities and Share out of One. Today there are four ways:
+frappe's Share on records, `rights.grant` for more on one record,
+OneCloud's roles on files and folders, and OnePortal's invites and signed
+links (`one_portal/share.py`, `invite.py`). The popover asks by who:
+
+- **People here**, a person or a group, with what they may do;
+- **A customer's or supplier's contact**, which was OnePortal's invite;
+- **Anyone with the link**, which was OnePortal's signed link, with an end.
+
+OnePortal stays what an outsider sees once they arrive (quotations to
+accept, price requests to answer, invoices); only who may arrive moves to
+OneAccess. Each app declares what it shares and at which levels in the
+registry, like its abilities.
+
 ## Frappe that One does not reach yet (P3)
 
 - **frappe's MCP server** (System Settings › AI Agents, on by default since
