@@ -203,6 +203,52 @@ MODULES = {
 					),
 				},
 			},
+			"Material Request": {
+				"tabs": {"terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
+				"fields": {
+					"material_request_type": "list-checks",
+					"transaction_date": "calendar",
+					"schedule_date": "calendar-clock",
+					"set_warehouse": "warehouse",
+					"customer": "user",
+				},
+				"cards": ({"key": "request.asked_by"}, {"key": "project.of"}),
+				"track": "material.progress",
+				"states": {
+					"order": ("Pending", "Partially Ordered", "Ordered", "Partially Received", "Received", "Issued", "Transferred", "Stopped", "Draft"),
+					"hide": ("Cancelled",),
+				},
+			},
+			"Request for Quotation": {
+				"tabs": {"address_and_contact_tab": "map-pin"},
+				"fields": {"transaction_date": "calendar", "schedule_date": "calendar-clock", "vendor": "truck"},
+				"cards": ({"key": "rfq.answered"}, {"key": "rfq.cheapest"}, {"key": "rfq.request"}, {"key": "project.of"}),
+				"states": {"hide": ("Submitted", "Cancelled")},
+			},
+			"Supplier Quotation": {
+				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
+				"fields": {"supplier": "truck", "transaction_date": "calendar", "valid_till": "calendar-x", "grand_total": "sigma"},
+				"cards": ({"key": "quote.cheapest"}, {"key": "quote.valid"}, {"key": "quote.request"}, {"key": "quote.ordered"}),
+				"states": {"order": ("Submitted", "Partially Ordered", "Ordered", "Expired", "Draft"), "hide": ("Cancelled",)},
+			},
+			"Purchase Order": {
+				"tabs": {"terms_tab": "scroll-text", "more_info_tab": "info", "address_and_contact_tab": "map-pin", "connections_tab": "link"},
+				"fields": {
+					"supplier": "truck",
+					"transaction_date": "calendar",
+					"schedule_date": "calendar-clock",
+					"set_warehouse": "warehouse",
+					"project": "folder-kanban",
+					"currency": "coins",
+					"grand_total": "sigma",
+				},
+				"cards": ({"key": "order.total"}, {"key": "project.of"}, {"key": "order.blanket"}),
+				"track": "order.progress",
+				"states": {
+					"order": ("To Receive and Bill", "To Receive", "To Bill", "To Pay", "On Hold", "Completed", "Closed", "Delivered", "Draft"),
+					"hide": ("Cancelled",),
+				},
+			},
 			"Stock Entry": {
 				"tabs": {
 					"stock_entry_details_tab": "file-text",

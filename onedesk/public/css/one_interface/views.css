@@ -940,7 +940,21 @@
 
 html[dir="rtl"] .list-row .list-row-col.ellipsis,
 html[dir="rtl"] .list-row .list-subject a.ellipsis,
-html[dir="rtl"] .dt-cell__content {
+html[dir="rtl"] .dt-cell__content,
+html[dir="rtl"] .form-grid .grid-static-col .static-area {
 	unicode-bidi: plaintext;
 	text-align: right;
+}
+
+.list-row-head .list-subject > .level-item {
+	display: block;
+	flex-shrink: 1;
+	min-width: 0;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+}
+
+.one-track-text bdi {
+	white-space: nowrap;
 }

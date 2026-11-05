@@ -102,6 +102,8 @@ new MutationObserver(() => islands().forEach(dress)).observe(document.documentEl
 islands().forEach(watch);
 
 const esc = (value) => frappe.utils.escape_html(String(value ?? ""));
+const DATED = /(\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4})/g;
+const isolated = (value) => esc(value).replace(DATED, "<bdi>$1</bdi>");
 const declared = (doctype) => (frappe.boot.one_interface || {})[doctype] || null;
 const icon = (name) => `<span class="one-ico">${frappe.utils.icon(name, "sm")}</span>`;
 
@@ -197,7 +199,7 @@ record.head = (frm) => {
 			const joined = done && steps[i + 1] && steps[i + 1].state === "done";
 			track.insertAdjacentHTML(
 				"beforeend",
-				`<div class="one-track-step ${done ? "is-done" : "is-todo"}"><div class="one-track-mark"><span class="one-track-dot">${done ? frappe.utils.icon("check", "xs") : ""}</span>${i < steps.length - 1 ? `<span class="one-track-line ${joined ? "is-done" : ""}"></span>` : ""}</div><div class="one-track-text">${esc(step.label)}<small class="${step.state === "late" ? "is-late" : ""}">${esc(step.note || "")}</small></div></div>`
+				`<div class="one-track-step ${done ? "is-done" : "is-todo"}"><div class="one-track-mark"><span class="one-track-dot">${done ? frappe.utils.icon("check", "xs") : ""}</span>${i < steps.length - 1 ? `<span class="one-track-line ${joined ? "is-done" : ""}"></span>` : ""}</div><div class="one-track-text">${esc(step.label)}<small class="${step.state === "late" ? "is-late" : ""}">${isolated(step.note || "")}</small></div></div>`
 			);
 		});
 		// at the head's far end, across from the name: where it stands, read at a glance

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 14:33+0000\n"
+"POT-Creation-Date: 2026-11-05 16:27+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -317,11 +317,11 @@ msgstr "1 Projekt"
 msgid "1 record"
 msgstr "1 Datensatz"
 
-#: onedesk/public/js/one_interface/look.js:469
+#: onedesk/public/js/one_interface/look.js:471
 msgid "1 row added"
 msgstr "1 Zeile hinzugefügt"
 
-#: onedesk/public/js/one_interface/look.js:469
+#: onedesk/public/js/one_interface/look.js:471
 msgid "1 row removed"
 msgstr "1 Zeile entfernt"
 
@@ -3695,8 +3695,8 @@ msgstr "Ausrichtung"
 #: onedesk/one_inventory/heads.py:617 onedesk/one_inventory/heads.py:699
 #: onedesk/one_inventory/heads.py:725 onedesk/one_project/heads.py:204
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:620
-#: onedesk/public/js/one_interface/look.js:650
+#: onedesk/public/js/one_interface/look.js:622
+#: onedesk/public/js/one_interface/look.js:652
 msgid "All"
 msgstr "Alle"
 
@@ -4738,7 +4738,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr "Zuschnitt anwenden"
 
-#: onedesk/one/ready.py:541
+#: onedesk/one/ready.py:587
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -5682,7 +5682,7 @@ msgstr "Neue Unterhaltungen zuweisen"
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:555
+#: onedesk/one/ready.py:601
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -7192,7 +7192,7 @@ msgstr "Nach Stunden zu vereinbarten Sätzen abgerechnet, plus was dafür gekauf
 msgid "Billed by {0}"
 msgstr "Berechnet von {0}"
 
-#: onedesk/one/ready.py:403 onedesk/one/ready.py:470
+#: onedesk/one/ready.py:449 onedesk/one/ready.py:516
 msgid "Billed in 12 Months"
 msgstr "In 12 Monaten abgerechnet"
 
@@ -9222,7 +9222,7 @@ msgstr "Wähle den Zielordner."
 msgid "Choose the place whose weather to show."
 msgstr "Wählen Sie den Ort, dessen Wetter gezeigt werden soll."
 
-#: onedesk/one_inventory/quotes.py:316
+#: onedesk/one_inventory/quotes.py:341
 msgid "Choose the suppliers to ask."
 msgstr "Wähle die Lieferanten, die gefragt werden sollen."
 
@@ -9316,7 +9316,7 @@ msgstr "Antragsnr."
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:548
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:594
 msgid "Claim an Expense"
 msgstr ""
 
@@ -10921,7 +10921,7 @@ msgstr "{0} Elemente kopiert"
 #: onedesk/one_ai/doctype/reading/reading.json:331
 #: onedesk/public/js/one_interface/json_view.js:145
 #: onedesk/public/js/one_interface/json_view.js:344
-#: onedesk/public/js/one_interface/look.js:177
+#: onedesk/public/js/one_interface/look.js:179
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
 #: onedesk/public/js/onecloud_dialogs.js:543
@@ -17443,7 +17443,7 @@ msgstr "Alles ist eingerichtet"
 msgid "Everything on it has been done."
 msgstr "Alles darauf ist erledigt."
 
-#: onedesk/one_inventory/quotes.py:319
+#: onedesk/one_inventory/quotes.py:344
 #, python-brace-format
 msgid "Everything on {0} is ordered already."
 msgstr "Alles auf {0} ist bereits bestellt."
@@ -17453,7 +17453,7 @@ msgstr "Alles auf {0} ist bereits bestellt."
 msgid "Everything on {0} moves to {1}, and {0} is deleted."
 msgstr "Alles aus {0} wird zu {1} verschoben, und {0} wird gelöscht."
 
-#: onedesk/one_inventory/quotes.py:368
+#: onedesk/one_inventory/quotes.py:393
 #, python-brace-format
 msgid "Everything quoted on {0} is ordered already."
 msgstr "Alles, was zu {0} angeboten wurde, ist bereits bestellt."
@@ -21330,8 +21330,8 @@ msgstr "Ausgeblendet. Diese Schlagzeile erscheint weder in der oberen Leiste noc
 msgid "Hide"
 msgstr "Ausblenden"
 
-#: onedesk/public/js/one_interface/look.js:325
-#: onedesk/public/js/one_interface/look.js:331
+#: onedesk/public/js/one_interface/look.js:327
+#: onedesk/public/js/one_interface/look.js:333
 msgid "Hide Empty Fields"
 msgstr "Leere Felder ausblenden"
 
@@ -24397,7 +24397,6 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_stock_reconciliation/one_stock_reconciliation.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_inventory/supplier_items.py:15
 #: onedesk/public/js/item_actions.js:191 onedesk/public/js/item_actions.js:238
 #: onedesk/public/js/item_actions.js:287
 msgid "Items"
@@ -29340,8 +29339,8 @@ msgstr "Nie verwendet"
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:670
 #: onedesk/public/js/one_interface/look.js:672
+#: onedesk/public/js/one_interface/look.js:674
 msgid "New"
 msgstr "Neu"
 
@@ -29806,7 +29805,7 @@ msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzu
 #: onedesk/public/js/one_interface/form.js:418
 #: onedesk/public/js/one_interface/form.js:466
 #: onedesk/public/js/one_interface/form.js:478
-#: onedesk/public/js/one_interface/look.js:142 onedesk/public/js/record.js:169
+#: onedesk/public/js/one_interface/look.js:144 onedesk/public/js/record.js:169
 #, python-brace-format
 msgid "New {0}"
 msgstr "Neu: {0}"
@@ -30820,7 +30819,7 @@ msgstr "Keine Datensätze mit Dateien"
 msgid "No reminders sent"
 msgstr "Keine Erinnerungen gesendet"
 
-#: onedesk/one_inventory/quotes.py:346
+#: onedesk/one_inventory/quotes.py:371
 #, python-brace-format
 msgid "No request for quotation the reader may see is {0}."
 msgstr "Keine sichtbare Angebotsanfrage heißt {0}."
@@ -45061,7 +45060,7 @@ msgstr "Soll ich mehr bestellen?"
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:281
+#: onedesk/public/js/one_interface/look.js:283
 msgid "Show 1 Empty Field"
 msgstr "1 leeres Feld anzeigen"
 
@@ -45252,7 +45251,7 @@ msgstr "Diagramm nur anzeigen, wenn der Datensatz diesen Filtern entspricht. Lee
 msgid "Show {0} Earlier"
 msgstr "{0} frühere anzeigen"
 
-#: onedesk/public/js/one_interface/look.js:281
+#: onedesk/public/js/one_interface/look.js:283
 #, python-brace-format
 msgid "Show {0} Empty Fields"
 msgstr "{0} leere Felder anzeigen"
@@ -46536,7 +46535,7 @@ msgstr ""
 msgid "Source Type"
 msgstr "Quelltyp"
 
-#: onedesk/one/ready.py:228
+#: onedesk/one/ready.py:274
 msgid "Source Warehouse"
 msgstr ""
 
@@ -48687,7 +48686,7 @@ msgstr "Alles mitnehmen"
 msgid "Target Margin"
 msgstr "Zielmarge"
 
-#: onedesk/one/ready.py:229
+#: onedesk/one/ready.py:275
 msgid "Target Warehouse"
 msgstr ""
 
@@ -62716,7 +62715,7 @@ msgstr "kann ansehen"
 msgid "cancelled"
 msgstr "hat abgesagt"
 
-#: onedesk/public/js/one_interface/look.js:450
+#: onedesk/public/js/one_interface/look.js:452
 msgid "cancelled this"
 msgstr "hat dies storniert"
 
@@ -62728,16 +62727,16 @@ msgstr "Kategorie"
 msgid "changed"
 msgstr "hat geändert"
 
-#: onedesk/public/js/one_interface/look.js:499
+#: onedesk/public/js/one_interface/look.js:501
 msgid "changed 1 field"
 msgstr "hat 1 Feld geändert"
 
-#: onedesk/public/js/one_interface/look.js:499
+#: onedesk/public/js/one_interface/look.js:501
 #, python-brace-format
 msgid "changed {0} fields"
 msgstr "hat {0} Felder geändert"
 
-#: onedesk/public/js/one_interface/look.js:496
+#: onedesk/public/js/one_interface/look.js:498
 msgid "commented"
 msgstr "hat kommentiert"
 
@@ -62780,7 +62779,7 @@ msgstr "hat es erstellt"
 msgid "created the project"
 msgstr "hat das Projekt erstellt"
 
-#: onedesk/public/js/one_interface/look.js:494
+#: onedesk/public/js/one_interface/look.js:496
 msgid "created this"
 msgstr "hat dies erstellt"
 
@@ -62873,7 +62872,7 @@ msgstr "z. B. {0}"
 msgid "edit"
 msgstr "Bearbeitung"
 
-#: onedesk/public/js/one_interface/look.js:455
+#: onedesk/public/js/one_interface/look.js:457
 msgid "edited"
 msgstr "bearbeitet"
 
@@ -62896,7 +62895,7 @@ msgstr "Notfallkontakt"
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:433
+#: onedesk/public/js/one_interface/look.js:435
 msgid "empty"
 msgstr "leer"
 
@@ -63643,7 +63642,7 @@ msgstr "hat Version {0} wiederhergestellt"
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:450
+#: onedesk/public/js/one_interface/look.js:452
 msgid "returned this to draft"
 msgstr "hat dies in den Entwurf zurückgesetzt"
 
@@ -63753,7 +63752,7 @@ msgstr "Speicher"
 msgid "submitted"
 msgstr "hat gebucht"
 
-#: onedesk/public/js/one_interface/look.js:450
+#: onedesk/public/js/one_interface/look.js:452
 msgid "submitted this"
 msgstr "hat dies gebucht"
 
@@ -63990,7 +63989,7 @@ msgstr "wir"
 #: frontend/src/books/BooksHome.vue:136 frontend/src/crm/CrmHome.vue:133
 #: frontend/src/hr/HrHome.vue:152
 #: frontend/src/inventory/home/InventoryHome.vue:149
-#: onedesk/public/js/one_interface/look.js:219
+#: onedesk/public/js/one_interface/look.js:221
 msgid "vs last month"
 msgstr "ggü. Vormonat"
 
@@ -64464,7 +64463,7 @@ msgstr "{0} und Ihre Daten"
 msgid "{0} and {1}"
 msgstr "{0} und {1}"
 
-#: onedesk/one_inventory/quotes.py:153 onedesk/one_project/billing.py:569
+#: onedesk/one_inventory/quotes.py:178 onedesk/one_project/billing.py:569
 #, python-brace-format
 msgid "{0} and {1} more"
 msgstr "{0} und {1} weitere"
@@ -66418,6 +66417,11 @@ msgstr "{0} von {1}"
 msgid "{0} of {1} ({2}%)"
 msgstr "{0} von {1} ({2} %)"
 
+#: onedesk/public/js/request_for_quotation_list.js:9
+#, python-brace-format
+msgid "{0} of {1} Answered"
+msgstr "{0} von {1} beantwortet"
+
 #: onedesk/one_inventory/heads.py:600
 #, python-brace-format
 msgid "{0} of {1} answered"
@@ -66861,12 +66865,12 @@ msgstr "{0} zurückgegeben"
 msgid "{0} rows"
 msgstr "{0} Zeilen"
 
-#: onedesk/public/js/one_interface/look.js:469
+#: onedesk/public/js/one_interface/look.js:471
 #, python-brace-format
 msgid "{0} rows added"
 msgstr "{0} Zeilen hinzugefügt"
 
-#: onedesk/public/js/one_interface/look.js:469
+#: onedesk/public/js/one_interface/look.js:471
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr "{0} Zeilen entfernt"

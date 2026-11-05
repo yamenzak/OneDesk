@@ -950,6 +950,7 @@ doctype_list_js = {
 	"Supplier": "public/js/supplier_list.js",
 	"Work Order": "public/js/work_order_list.js",
 	"Batch": "public/js/batch_list.js",
+	"Request for Quotation": "public/js/request_for_quotation_list.js",
 	"BOM": ["public/js/bom_list.js", "public/js/one_factory/bom.js"],
 	"Asset": "public/js/asset_list.js",
 }

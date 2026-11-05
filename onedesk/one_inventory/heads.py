@@ -1283,7 +1283,7 @@ HEADS = [
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "order.progress"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
-			{"label": _lt("Grand Total"), "source": "Measure", "measure": "order.total", "shown_when": [["docstatus", "=", 0]]},
+			{"label": _lt("Grand Total"), "source": "Measure", "measure": "order.total"},
 			{"label": _lt("Blanket Order"), "source": "Measure", "measure": "order.blanket"},
 		],
 	},

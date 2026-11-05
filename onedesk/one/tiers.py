@@ -123,6 +123,7 @@ COLLECTIONS = {
 	"Asset": {"List": "the name with room for it, its status in plain words, and what it is worth now, without the number or the item filter"},
 	"BOM": {"List": "the item with room for its name, and whether it has steps said as a word, not a checkbox"},
 	"Batch": {"List": "its quantity with its unit, beside the expiry date"},
+	"Request for Quotation": {"List": "where each request stands, Waiting, answered by how many of the suppliers asked, or Ordered, where frappe says Submitted"},
 	"Work Order": {"List": "the item with room for its name, how many are made of how many in one column, without the number or the item filter"},
 	"Supplier": {"List": "the name with room for it, without the number column or the company-or-person column"},
 	"Material Request": {"List": "the title with room to say what is asked for, without the number or the purpose the title already says"},

@@ -365,6 +365,9 @@ def oneinventory_quotes_ask_compare_and_order():
 		stores = next(one for one in asked if any(row["supplier"] == EURO for row in one["suppliers"]))
 		answered = {row["supplier"]: row["answered"] for row in stores["suppliers"]}
 		assert answered == {ALUMINIUM: False, EURO: True} and not stores["ordered"], stores
+		said = quotes.states([stores["name"], *(one["name"] for one in asked if one["ordered"])])
+		assert said[stores["name"]] == {"state": "Answered", "answered": 1, "asked": 2}, said
+		assert all(one["state"] == "Ordered" for name, one in said.items() if name != stores["name"]), said
 
 		compared = quotes.compare(stores["name"])
 		line = compared["lines"][0]

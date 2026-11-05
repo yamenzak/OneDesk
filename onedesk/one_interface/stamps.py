@@ -21,6 +21,12 @@ PASSED: dict[str, dict] = {
 	"Form/Warehouse": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"query-report/Stock Balance": {"on": "2026-11-05", "pass": "OneInventory, stock"},
 	"query-report/Stock Ledger": {"on": "2026-11-05", "pass": "OneInventory, stock"},
+	"to-order": {"on": "2026-11-05", "pass": "OneInventory, buying"},
+	"List/Material Request": {"on": "2026-11-05", "pass": "OneInventory, buying"},
+	"List/Request for Quotation": {"on": "2026-11-05", "pass": "OneInventory, buying"},
+	"Form/Request for Quotation": {"on": "2026-11-05", "pass": "OneInventory, buying"},
+	"Form/Supplier Quotation": {"on": "2026-11-05", "pass": "OneInventory, buying"},
+	"Form/Purchase Order": {"on": "2026-11-05", "pass": "OneInventory, buying"},
 }
 
 SCREEN = re.compile(r"^((Form|List|Tree|Report|query-report|print)/[^/]+|[a-z0-9-]+)$")

@@ -32,7 +32,8 @@ Order** starts one with them.
    Till**, and expires by itself after. From a project, **Ask for Prices**
    on its **Suppliers** does all of it in one step.
 3. **Compare.** **Request for Quotation** in the rail lists the requests,
-   and **Supplier Quotation** the quotes. A request's page says how many
+   each **Waiting**, answered by how many of the suppliers asked, or
+   **Ordered**, and **Supplier Quotation** the quotes. A request's page says how many
    suppliers have **Quoted** and who is **Cheapest**, line by line, and
    **View › Supplier Quotation Comparison** sets its quotes side by side,
    in the company's money too. A quote past its **Valid Till** is never the
@@ -43,6 +44,9 @@ Order** starts one with them.
    request.
 4. **Order.** **Create › Purchase Order** on the quote you take. Lines can
    go to different suppliers, each from whoever is cheapest on it.
+   A supplier's **Items** tab lists everything bought from them: the last
+   price paid, how much in a year, what is on order and the lead time, and
+   what they quoted for and were never ordered from.
    An order's page says the **Project**, its **Grand Total** while it is a
    draft, the **Blanket Order** it is agreed on, and under **Progress** how
    far it has got: Ordered, Received (in red once late) and Billed.

@@ -83,8 +83,8 @@ onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 const columns = {
   base: ["minmax(0,1fr)", "auto"],
   sm: ["minmax(0,1fr)", "11rem", "8rem"],
-  lg: ["minmax(0,1fr)", "11rem", "13rem", "8rem"],
-  xl: ["minmax(0,1fr)", "17rem", "13rem", "7rem", "8rem"],
+  lg: ["minmax(12rem,1.4fr)", "minmax(9rem,1fr)", "13rem", "8rem"],
+  xl: ["minmax(14rem,1.4fr)", "minmax(12rem,1fr)", "13rem", "7rem", "8rem"],
 };
 const WHY = {
   requested: { label: __("Requested"), theme: "blue" },

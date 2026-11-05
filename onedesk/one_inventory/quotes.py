@@ -112,6 +112,31 @@ def asked(search: str | None = None) -> list[dict]:
 	return out
 
 
+@frappe.whitelist()
+def states(names: list | str) -> dict:
+	"""Where each request for quotation stands, for its list: Ordered once a
+	quote from it is ordered, Answered once any supplier has quoted, else
+	Waiting; with how many of the suppliers asked have answered."""
+	names = frappe.parse_json(names) if isinstance(names, str) else names
+	names = [one for one in names or [] if frappe.has_permission("Request for Quotation", "read", doc=one)]
+	if not names:
+		return {}
+	asked_of: dict = {}
+	for row in frappe.get_all("Request for Quotation Supplier", filters={"parent": ["in", names]}, fields=["parent", "supplier"]):
+		asked_of.setdefault(row.parent, set()).add(row.supplier)
+	answers = _answers(names)
+	out = {}
+	for name in names:
+		got = {supplier: said for (request, supplier), said in answers.items() if request == name}
+		ordered = any(said.get("status") in ("Ordered", "Partially Ordered") for said in got.values())
+		out[name] = {
+			"state": "Ordered" if ordered else "Answered" if got else "Waiting",
+			"answered": len(got),
+			"asked": len(asked_of.get(name, ())),
+		}
+	return out
+
+
 def _answers(requests: list) -> dict:
 	"""Each supplier's quote for each request, {(request, supplier): quote},
 	the newest when there are several."""

@@ -723,6 +723,7 @@ No doctypes yet.
 * `onedesk.one_inventory.portal.send_quote`
 * `onedesk.one_inventory.quotes.ask`
 * `onedesk.one_inventory.quotes.order_cheapest`
+* `onedesk.one_inventory.quotes.states`
 * `onedesk.one_inventory.ready.fix`
 * `onedesk.one_inventory.stock.issue`
 * `onedesk.one_inventory.stock.on_hand`
