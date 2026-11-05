@@ -938,7 +938,9 @@
 :root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link.active { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; font-weight: 500; }
 :root[data-one-look="canvas"] .one-interface .one-interface-row .form-tabs .nav-link::after { display: none !important; }
 
-html[dir="rtl"] .list-row .list-row-col.ellipsis {
+html[dir="rtl"] .list-row .list-row-col.ellipsis,
+html[dir="rtl"] .list-row .list-subject a.ellipsis,
+html[dir="rtl"] .dt-cell__content {
 	unicode-bidi: plaintext;
 	text-align: right;
 }

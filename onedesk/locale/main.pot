@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 13:11+0000\n"
-"PO-Revision-Date: 2026-11-05 13:11+0000\n"
+"POT-Creation-Date: 2026-11-05 13:41+0000\n"
+"PO-Revision-Date: 2026-11-05 13:41+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -315,11 +315,11 @@ msgstr ""
 msgid "1 record"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:463
+#: onedesk/public/js/one_interface/look.js:469
 msgid "1 row added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:463
+#: onedesk/public/js/one_interface/look.js:469
 msgid "1 row removed"
 msgstr ""
 
@@ -3691,8 +3691,8 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:617 onedesk/one_inventory/heads.py:699
 #: onedesk/one_inventory/heads.py:725 onedesk/one_project/heads.py:204
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:614
-#: onedesk/public/js/one_interface/look.js:644
+#: onedesk/public/js/one_interface/look.js:620
+#: onedesk/public/js/one_interface/look.js:650
 msgid "All"
 msgstr ""
 
@@ -10917,7 +10917,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading/reading.json:331
 #: onedesk/public/js/one_interface/json_view.js:145
 #: onedesk/public/js/one_interface/json_view.js:344
-#: onedesk/public/js/one_interface/look.js:171
+#: onedesk/public/js/one_interface/look.js:177
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
 #: onedesk/public/js/onecloud_dialogs.js:543
@@ -21333,8 +21333,8 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:319
 #: onedesk/public/js/one_interface/look.js:325
+#: onedesk/public/js/one_interface/look.js:331
 msgid "Hide Empty Fields"
 msgstr ""
 
@@ -29348,8 +29348,8 @@ msgstr ""
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:664
-#: onedesk/public/js/one_interface/look.js:666
+#: onedesk/public/js/one_interface/look.js:670
+#: onedesk/public/js/one_interface/look.js:672
 msgid "New"
 msgstr ""
 
@@ -29814,7 +29814,7 @@ msgstr ""
 #: onedesk/public/js/one_interface/form.js:418
 #: onedesk/public/js/one_interface/form.js:466
 #: onedesk/public/js/one_interface/form.js:478
-#: onedesk/public/js/one_interface/look.js:136 onedesk/public/js/record.js:169
+#: onedesk/public/js/one_interface/look.js:142 onedesk/public/js/record.js:169
 #, python-brace-format
 msgid "New {0}"
 msgstr ""
@@ -45067,7 +45067,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:275
+#: onedesk/public/js/one_interface/look.js:281
 msgid "Show 1 Empty Field"
 msgstr ""
 
@@ -45258,7 +45258,7 @@ msgstr ""
 msgid "Show {0} Earlier"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:275
+#: onedesk/public/js/one_interface/look.js:281
 #, python-brace-format
 msgid "Show {0} Empty Fields"
 msgstr ""
@@ -62764,7 +62764,7 @@ msgstr ""
 msgid "cancelled"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:444
+#: onedesk/public/js/one_interface/look.js:450
 msgid "cancelled this"
 msgstr ""
 
@@ -62776,16 +62776,16 @@ msgstr ""
 msgid "changed"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:493
+#: onedesk/public/js/one_interface/look.js:499
 msgid "changed 1 field"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:493
+#: onedesk/public/js/one_interface/look.js:499
 #, python-brace-format
 msgid "changed {0} fields"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:490
+#: onedesk/public/js/one_interface/look.js:496
 msgid "commented"
 msgstr ""
 
@@ -62828,7 +62828,7 @@ msgstr ""
 msgid "created the project"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:488
+#: onedesk/public/js/one_interface/look.js:494
 msgid "created this"
 msgstr ""
 
@@ -62921,7 +62921,7 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:449
+#: onedesk/public/js/one_interface/look.js:455
 msgid "edited"
 msgstr ""
 
@@ -62944,7 +62944,7 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:427
+#: onedesk/public/js/one_interface/look.js:433
 msgid "empty"
 msgstr ""
 
@@ -63691,7 +63691,7 @@ msgstr ""
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:444
+#: onedesk/public/js/one_interface/look.js:450
 msgid "returned this to draft"
 msgstr ""
 
@@ -63801,7 +63801,7 @@ msgstr ""
 msgid "submitted"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:444
+#: onedesk/public/js/one_interface/look.js:450
 msgid "submitted this"
 msgstr ""
 
@@ -64038,7 +64038,7 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:136 frontend/src/crm/CrmHome.vue:133
 #: frontend/src/hr/HrHome.vue:152
 #: frontend/src/inventory/home/InventoryHome.vue:149
-#: onedesk/public/js/one_interface/look.js:213
+#: onedesk/public/js/one_interface/look.js:219
 msgid "vs last month"
 msgstr ""
 
@@ -66909,12 +66909,12 @@ msgstr ""
 msgid "{0} rows"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:463
+#: onedesk/public/js/one_interface/look.js:469
 #, python-brace-format
 msgid "{0} rows added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:463
+#: onedesk/public/js/one_interface/look.js:469
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr ""

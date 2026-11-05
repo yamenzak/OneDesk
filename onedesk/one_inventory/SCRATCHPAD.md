@@ -35,9 +35,8 @@ Item page 7.3s and 27 requests, Stock Summary 1.8s, Stock Balance 3.0s.
 
 Walked and fixed at 1440: Home, Item list, Stock Summary, Stock Entry,
 Stock Reconciliation, Batch, Serial No, Warehouse, Stock Balance, Stock
-Ledger. Stamped (390, Arabic, dark too): Form/Stock Entry, List/Batch,
-Form/Batch. Still to walk at 390 in Arabic and dark before their stamps:
-the rest of the list above, and Overview (ERPNext's Stock dashboard).
+Ledger, then at 390 in Arabic and dark, and stamped. Overview is
+ERPNext's Stock dashboard (its Arabic corrected in translations/words).
 Then for the area: OneAI cards and notifications for what is missing,
 setup steps, tours, Help from ERPNext's stock docs, several companies.
 A record's item table cuts its columns (frappe's grid widths): for

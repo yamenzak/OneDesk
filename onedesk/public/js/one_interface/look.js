@@ -48,6 +48,11 @@ document.documentElement.dataset.oneLook = onedesk.interface.look();
 const ISLAND_PALETTE = new CSSStyleSheet();
 ISLAND_PALETTE.replaceSync(`.frappe-island-root[data-one-palette], .frappe-island-portal[data-one-palette], .one-island-part-root[data-one-palette] { --surface-base: var(--one-surface); --surface-gray-1: var(--one-tint); --surface-gray-2: var(--one-hover); --surface-gray-3: var(--one-press); --surface-gray-4: var(--one-fill); --surface-gray-10: var(--one-primary-bg); --surface-elevation-1: var(--one-surface); --surface-elevation-2: var(--one-card-bg); --surface-elevation-3: var(--one-raised-bg); --ink-base: var(--one-primary-ink); --ink-gray-9: var(--one-ink-strong); --ink-gray-8: var(--one-ink); --ink-gray-7: var(--one-ink-soft); --ink-gray-6: var(--one-ink-quiet); --ink-gray-5: var(--one-ink-muted); --ink-gray-4: var(--one-ink-faint); --ink-gray-3: var(--one-placeholder); --outline-gray-1: var(--one-line); --outline-gray-2: var(--one-edge); --outline-gray-3: var(--one-edge-strong); --outline-gray-4: var(--one-edge-heavy); --surface-gray-5: var(--one-page-surface-gray-5); --surface-gray-6: var(--one-page-surface-gray-6); --surface-gray-7: var(--one-page-surface-gray-7); --surface-gray-8: var(--one-page-surface-gray-8); --surface-gray-9: var(--one-page-surface-gray-9); --ink-gray-1: var(--one-page-ink-gray-1); --ink-gray-2: var(--one-page-ink-gray-2); --outline-gray-5: var(--one-page-outline-gray-5); --outline-gray-6: var(--one-page-outline-gray-6); --outline-gray-7: var(--one-page-outline-gray-7); --outline-gray-8: var(--one-page-outline-gray-8); --outline-gray-9: var(--one-page-outline-gray-9); --radius-1: var(--one-radius-small); --radius-2: var(--one-radius-small); --radius-3: var(--one-radius-row); --radius-4: var(--one-radius-row); --radius-5: var(--one-radius-control); --radius-6: var(--one-radius-sheet); --radius-7: var(--one-radius-dialog); --radius-8: var(--one-radius-large); font-family: var(--one-font); }`);
 
+// In Arabic, a line cut to fit keeps the start of a Latin name: it takes its
+// direction from its own text, so the ellipsis falls at its end.
+const ISLAND_RTL = new CSSStyleSheet();
+ISLAND_RTL.replaceSync(`.truncate:dir(rtl) { unicode-bidi: plaintext; text-align: right; }`);
+
 onedesk.interface.palette = () => document.documentElement.dataset.onePalette || "";
 onedesk.interface.palettes = () => [...(onedesk.interface.LOOKS[onedesk.interface.look()].palettes || []), "standard"];
 
@@ -65,7 +70,8 @@ onedesk.interface.set_palette(onedesk.interface.kept("palette", onedesk.interfac
 const dress = (host) => {
 	const shadow = host.shadowRoot;
 	if (!shadow) return;
-	if (!shadow.adoptedStyleSheets.includes(ISLAND_PALETTE)) shadow.adoptedStyleSheets = [...shadow.adoptedStyleSheets, ISLAND_PALETTE];
+	const missing = [ISLAND_PALETTE, ISLAND_RTL].filter((one) => !shadow.adoptedStyleSheets.includes(one));
+	if (missing.length) shadow.adoptedStyleSheets = [...shadow.adoptedStyleSheets, ...missing];
 	const palette = onedesk.interface.palette();
 	for (const root of shadow.children) {
 		if (!root.hasAttribute("data-theme")) continue;

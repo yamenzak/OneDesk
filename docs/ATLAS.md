@@ -417,7 +417,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Quality Inspection Template | through a form's link (Quality Inspection: quality_inspection_template) | OneFactory, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Quick Stock Balance | replaced: Stock Summary | OneInventory | untouched | no | general |  |  |  |  |  |  |
 | Repost Item Valuation | engine: ERPNext revalues stock after a back-dated move by itself | OneBook, OneInventory | events | yes | general |  | yes |  |  |  | Reposting Failed |
-| Serial No | on a rail or a home | OneCRM, OneInventory | untouched | yes | taught |  | yes |  |  |  |  |
+| Serial No | on a rail or a home | OneCRM, OneInventory | 1 settings | yes | taught |  | yes |  |  |  |  |
 | Serial and Batch Bundle | through a form's link (Asset Capitalization: serial_and_batch_bundle) | OneFactory, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment | through a form's connections (Delivery Note's Connections) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Shipment Parcel Template | through a form's link (Shipment: parcel_template) | OneInventory | untouched | yes | general |  | yes |  |  |  |  |
