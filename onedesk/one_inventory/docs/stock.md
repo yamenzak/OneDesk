@@ -76,7 +76,33 @@ A count says above its fields what it was for (**Purpose**), the
 **Warehouse** it was counted in, how many **Items** it changed, and the
 **Difference Amount** it made in the books.
 
-OneAI says what a count found and what it did to the books.
+OneAI says what a count found and what it did to the books. On a warehouse,
+**Record a count…** takes what you say you counted of each item and drafts
+the count for you to check and submit. An item kept in batches is counted
+batch by batch.
+
+## How Stock Is Valued
+
+Every receipt brings goods in at what they cost. When they go out, they are
+valued one of two ways, set in **Stock Settings** for the whole workspace
+or on an item for that item alone:
+
+- **FIFO** (first in, first out), the usual one: what goes out is valued at
+  the cost of the oldest goods still on the shelf.
+- **Moving Average**: every receipt is mixed into one average cost, and
+  what goes out is valued at it.
+
+Choose before the first receipt. An item's way can't change once it has
+moved. A landed cost, such as freight or duty billed after the goods
+arrived, is added to the receipt with a **Landed Cost Voucher**.
+
+## Holding Stock for an Order
+
+With **Stock can be held for an order** on (Inventory Check), stock can be
+set aside for a customer's sales order, so no other order takes it. **Free
+to Sell** on an item and **Available Qty** on Stock Summary leave out what
+is held. Delivering the order releases what it held.
+
 
 ## When Stock and Books Disagree
 

@@ -1241,3 +1241,45 @@ def oneinventory_fixing_the_check_is_an_ability():
 			pass
 		else:
 			raise AssertionError("a Stock User fixed what Inventory Check found")
+
+
+@check
+def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
+	"""OneAI drafts a count of the Stores from what Karim says he counted,
+	beside what the books hold, batch by batch for a batched item, and
+	nothing moves until it is submitted.
+	Stock kept by a second company, One Dev here, never reaches Sahara's
+	Stock Summary, its Home or the count: figures are one company's at a
+	time. Somebody who may not count is refused."""
+	from onedesk.one_ai import proposals
+	from onedesk.one_inventory import ai, home, stock
+
+	with as_user("karim@one.test"):
+		before = stock.on_hand()["worth"], home.read()["figures"]["worth"]
+		books = flt(frappe.db.get_value("Bin", {"item_code": "SIL-CLR", "warehouse": wh("Stores")}, "actual_qty"))
+		card = ai.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": books - 2}], why="Month-end count")
+		drafted = proposals.apply(card["proposal"])
+		assert ai.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 10}]).get("error"), "a batched item is counted batch by batch"
+		assert ai.plan_count(wh("Stores"), [{"item": "SIL-WP", "qty": 48, "batch": "SIL-WP-A1"}]).get("proposal")
+		assert ai.plan_count(wh("Stores"), [{"item": "NOT-AN-ITEM", "qty": 1}]).get("error")
+	count = frappe.get_doc("Stock Reconciliation", drafted["record"])
+	assert count.docstatus == 0 and count.set_warehouse == wh("Stores") and count.company == COMPANY, count.as_dict()
+	line = count.items[0]
+	assert (line.item_code, line.qty, line.current_qty) == ("SIL-CLR", books - 2, books), line.as_dict()
+	with as_user("nadia@one.test"):
+		assert ai.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": 1}]).get("error")
+
+	other = frappe.db.get_value("Company", {"name": ["!=", COMPANY]})
+	assert other, "the bench has a second company"
+	place = frappe.db.get_value("Warehouse", {"company": other, "is_group": 0, "warehouse_name": "Stores"}) or frappe.db.get_value(
+		"Warehouse", {"company": other, "is_group": 0}
+	)
+	receipt = frappe.get_doc(
+		{"doctype": "Stock Entry", "stock_entry_type": "Material Receipt", "company": other, "items": [{"item_code": "SIL-CLR", "qty": 10, "basic_rate": 30, "t_warehouse": place}]}
+	)
+	receipt.insert()
+	receipt.submit()
+	with as_user("karim@one.test"):
+		after = stock.on_hand()
+		assert (after["worth"], home.read()["figures"]["worth"]) == before, "another company's stock reached Sahara's figures"
+		assert place not in {one["name"] for one in after["warehouses"]}

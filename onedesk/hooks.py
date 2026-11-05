@@ -1442,6 +1442,7 @@ one_ai_suggests = [
 	"onedesk.one_inventory.ai.plan_receipt",
 	"onedesk.one_inventory.ai.plan_delivery",
 	"onedesk.one_inventory.ai.plan_transfer",
+	"onedesk.one_inventory.ai.plan_count",
 	"onedesk.one_inventory.ai.plan_quote_request",
 	"onedesk.one_factory.ai.plan_work_order",
 	"onedesk.one_inventory.ai.plan_handover",

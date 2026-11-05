@@ -145,6 +145,13 @@ _SEND = {
 	"doctype": "Stock Entry",
 	"expects": "plan_transfer",
 }
+_COUNT = {
+	"label": _lt("Record a count…"),
+	"ask": _lt("Record a stock count of this warehouse. I will say what I counted of each item."),
+	"can": "create",
+	"doctype": "Stock Reconciliation",
+	"expects": "plan_count",
+}
 _COUNTED = {
 	"label": _lt("What did this count find?"),
 	"ask": _lt("What did this stock count find? Say what the books held and what was counted, and what it did to the books."),
@@ -239,7 +246,7 @@ SUGGESTIONS = {
 	"Asset Repair": [_BROKEN],
 	"Batch": [_GOING_OFF],
 	"Serial No": [_WHERE_NUMBER],
-	"Warehouse": [_WORTH, _LOW],
+	"Warehouse": [_WORTH, _LOW, _COUNT],
 	"Purchase Receipt": [_RECEIVED, _ARRIVING],
 	"Purchase Order": [_RECEIVE, _LATE, _ARRIVING],
 	"Material Request": [_ASK, _COMPARE],
@@ -886,6 +893,47 @@ def plan_transfer(
 		),
 		"state": "Proposed",
 	}
+
+
+def plan_count(
+	warehouse: Annotated[str, "The warehouse that was counted, such as Stores - ABC."],
+	counted: Annotated[list[dict], "What was found: each {item: code, qty: how many were counted, batch: the batch, for an item kept in several}."],
+	why: Annotated[str, "In a sentence, why this count."] | None = None,
+) -> dict:
+	"""Suggest a draft stock count of one warehouse from what the reader
+	counted, as a card they approve: a line for each item counted, beside
+	what the books say is there. Nothing changes in the books until the count
+	is submitted on its form."""
+	from erpnext.stock.doctype.stock_reconciliation.stock_reconciliation import get_items
+
+	from onedesk.one_ai import proposals
+
+	if not frappe.has_permission("Stock Reconciliation", "create"):
+		return {"error": "The reader may not count stock."}
+	place = frappe.db.get_value("Warehouse", {"name": warehouse, "is_group": 0}, ["name", "company"], as_dict=True)
+	if not place or not frappe.has_permission("Warehouse", "read", doc=place.name):
+		return {"error": f"{warehouse} is not a warehouse stock can be kept in."}
+	now = frappe.utils.now_datetime()
+	fields = {df.fieldname for df in frappe.get_meta("Stock Reconciliation Item").fields}
+	rows = []
+	for one in counted or []:
+		code, qty, batch = str(one.get("item") or ""), one.get("qty"), one.get("batch")
+		if qty is None or flt(qty) < 0 or not frappe.db.get_value("Item", code, "is_stock_item"):
+			return {"error": f"{code} is not a stock item with a count."}
+		held = get_items(place.name, now.date(), now.time().strftime("%H:%M:%S"), place.company, item_code=code)
+		if batch:
+			held = [row for row in held if row.get("batch_no") in (batch, frappe.db.get_value("Batch", {"batch_id": batch}))]
+		if len(held) > 1:
+			return {"error": f"{code} is kept in batches here: say how many of each batch were counted."}
+		row = {key: value for key, value in (held[0] if held else {"item_code": code, "warehouse": place.name}).items() if key in fields and value not in (None, "")}
+		row["qty"] = flt(qty)
+		if row.get("batch_no") or row.get("serial_no"):
+			row["use_serial_batch_fields"] = 1
+		rows.append(row)
+	if not rows:
+		return {"error": "Say what was counted, item by item."}
+	changes = {"purpose": "Stock Reconciliation", "company": place.company, "set_warehouse": place.name, "items": rows}
+	return {"proposal": proposals.propose("Create", "Stock Reconciliation", changes=changes, why=why), "state": "Proposed"}
 
 
 def late_orders() -> dict:

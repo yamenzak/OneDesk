@@ -161,6 +161,7 @@ GROUPS = {
 			"plan_receipt",
 			"plan_delivery",
 			"plan_transfer",
+			"plan_count",
 			"plan_quote_request",
 			"work_order_facts",
 			"on_the_floor",

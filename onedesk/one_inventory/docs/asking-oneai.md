@@ -9,7 +9,7 @@ type your own.
   more?** and **Change this item…**, which suggests a change as a card you
   approve.
 - **Stock Summary**: **What is running low?** and **What is short?** A
-  warehouse: **What is this warehouse worth?**
+  warehouse: **What is this warehouse worth?** and **Record a count…**
 - **Receiving and buying**: on a receipt, **What came in on this receipt?**
   and **What is still to arrive?**; on a purchase order, **Receive this
   order**, **Which orders are late?** and **What is still to arrive?**; on a

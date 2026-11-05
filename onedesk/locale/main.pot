@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 13:41+0000\n"
-"PO-Revision-Date: 2026-11-05 13:41+0000\n"
+"POT-Creation-Date: 2026-11-05 14:38+0000\n"
+"PO-Revision-Date: 2026-11-05 14:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5376,7 +5376,7 @@ msgstr ""
 msgid "Ask next round"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:156
+#: onedesk/one_inventory/ai.py:163
 msgid "Ask suppliers for prices"
 msgstr ""
 
@@ -10189,11 +10189,11 @@ msgstr ""
 msgid "Company, chart of accounts and taxes"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:163
+#: onedesk/one_inventory/ai.py:170
 msgid "Compare the quotes"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:164
+#: onedesk/one_inventory/ai.py:171
 msgid "Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."
 msgstr ""
 
@@ -15002,7 +15002,7 @@ msgstr ""
 msgid "Draft a reply to this conversation that says: "
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:157
+#: onedesk/one_inventory/ai.py:164
 msgid "Draft a request for quotation for this material request, to the suppliers who sold us these items before."
 msgstr ""
 
@@ -19304,7 +19304,7 @@ msgstr ""
 msgid "For the Company"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:183
+#: onedesk/one_inventory/ai.py:190
 msgid "For the newest request for prices, who is cheapest on each line, and which quotes run out soon?"
 msgstr ""
 
@@ -20923,11 +20923,11 @@ msgstr ""
 msgid "Hand over"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:225
+#: onedesk/one_inventory/ai.py:232
 msgid "Hand this asset to "
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:224
+#: onedesk/one_inventory/ai.py:231
 msgid "Hand this to somebody…"
 msgstr ""
 
@@ -21788,11 +21788,11 @@ msgstr ""
 msgid "How is the queue?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:209
+#: onedesk/one_inventory/ai.py:216
 msgid "How is this asset doing?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:211
+#: onedesk/one_inventory/ai.py:218
 msgid "How is this asset doing? Say who has it and where, what it is worth, its next service and whether it is late, and its repairs."
 msgstr ""
 
@@ -40258,6 +40258,14 @@ msgstr ""
 msgid "Record Written"
 msgstr ""
 
+#: onedesk/one_inventory/ai.py:149
+msgid "Record a count…"
+msgstr ""
+
+#: onedesk/one_inventory/ai.py:150
+msgid "Record a stock count of this warehouse. I will say what I counted of each item."
+msgstr ""
+
 #. Message of a notification
 #: onedesk/one_inventory/notifications.py
 msgid "Record it done on the service once it is done, and the next one is set from that day."
@@ -56915,7 +56923,7 @@ msgstr ""
 msgid "What customers and suppliers owed when you started."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:149
+#: onedesk/one_inventory/ai.py:156
 msgid "What did this count find?"
 msgstr ""
 
@@ -56923,7 +56931,7 @@ msgstr ""
 msgid "What did this movement do?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:150
+#: onedesk/one_inventory/ai.py:157
 msgid "What did this stock count find? Say what the books held and what was counted, and what it did to the books."
 msgstr ""
 
@@ -57133,7 +57141,7 @@ msgstr ""
 msgid "What is our leave policy?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:170
+#: onedesk/one_inventory/ai.py:177
 msgid "What is out of order?"
 msgstr ""
 
@@ -59292,7 +59300,7 @@ msgstr ""
 msgid "Where files are kept"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:202
+#: onedesk/one_inventory/ai.py:209
 msgid "Where is each numbered piece?"
 msgstr ""
 
@@ -59419,7 +59427,7 @@ msgstr ""
 msgid "Which device?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:171
+#: onedesk/one_inventory/ai.py:178
 msgid "Which equipment is out of order, since when and what is wrong, and what did repairs cost this year?"
 msgstr ""
 
@@ -59459,15 +59467,15 @@ msgstr ""
 msgid "Which leave policy somebody is on."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:196
+#: onedesk/one_inventory/ai.py:203
 msgid "Which lots go off soon?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:197
+#: onedesk/one_inventory/ai.py:204
 msgid "Which lots go off within a month or have gone off, how much is left of each and where is it?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:203
+#: onedesk/one_inventory/ai.py:210
 msgid "Which numbered pieces are in stock and where, which went to a customer, and whose warranty ends soon?"
 msgstr ""
 
@@ -59511,7 +59519,7 @@ msgstr ""
 msgid "Which opportunities have gone quiet?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:189
+#: onedesk/one_inventory/ai.py:196
 msgid "Which orders are late?"
 msgstr ""
 
@@ -59546,7 +59554,7 @@ msgstr ""
 msgid "Which purchase invoices fall due this week or are already late, to whom and for how much?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:190
+#: onedesk/one_inventory/ai.py:197
 msgid "Which purchase orders are late, from whom, since when, and what is still to come on each?"
 msgstr ""
 
@@ -59575,11 +59583,11 @@ msgstr ""
 msgid "Which screens are offline?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:219
+#: onedesk/one_inventory/ai.py:226
 msgid "Which services are due?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:220
+#: onedesk/one_inventory/ai.py:227
 msgid "Which services on our equipment are late or due in the next month, and who does each?"
 msgstr ""
 
@@ -59599,7 +59607,7 @@ msgstr ""
 msgid "Which steps is someone on now, for how long, which are paused, and which are short of materials?"
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:177
+#: onedesk/one_inventory/ai.py:184
 msgid "Which suppliers have not answered a request for prices yet, what were they asked for and since when?"
 msgstr ""
 
@@ -59730,7 +59738,7 @@ msgstr ""
 msgid "Who has logged time on this task, how much each, and how that compares with the hours planned."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:176
+#: onedesk/one_inventory/ai.py:183
 msgid "Who has not answered?"
 msgstr ""
 
@@ -59774,7 +59782,7 @@ msgstr ""
 msgid "Who is being seen, the wait, and a health tip."
 msgstr ""
 
-#: onedesk/one_inventory/ai.py:182
+#: onedesk/one_inventory/ai.py:189
 msgid "Who is cheapest?"
 msgstr ""
 
