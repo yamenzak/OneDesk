@@ -53,3 +53,41 @@ Item page 7.3s and 27 requests, Stock Summary 1.8s, Stock Balance 3.0s.
   Done (head.js drops that intro only for some verbs).
 - A query report's Check filters overlap their labels (Stock Balance).
 - Stock Balance is a prepared report: it opens empty until Generate.
+
+## OneFactory: the split, step by step
+
+Decided 5 November 2026. A new app, folder `one_factory`, frappe module
+OneFactory, rail and dock row onefactory. Ticked as each lands.
+
+What moves out of `one_inventory` (and its places):
+- [ ] `making.py` (Work Order steps, hooks.py doc_events), `floor.py` and
+  page `floor` with `frontend/src/inventory/floor` (Shop Floor, kept as an
+  island, `tiers`), `plant.py`, `sent_out.py`.
+- [ ] `custom/`: bom, bom_item, bom_operation, bom_secondary_item, job_card,
+  work_order, work_order_additional_item, every subcontracting_* file.
+- [ ] `print_format/`: one_bill_of_materials, one_bom_creator, one_job_card,
+  one_production_plan, one_work_order, one_subcontracting_order,
+  one_subcontracting_receipt, one_subcontracting_inward_order (their JSON's
+  module too).
+- [ ] `number_card/`: made_this_month, sent_out_this_month.
+- [ ] From shared files, the making parts: `ai.py` (on_the_floor,
+  plant_floor_now, sent_out_now, the making tools and suggestions, REACH
+  and NOT_FOR_AI entries), `notifications.py` (work orders, back from
+  supplier late, …), `abilities.py` (Manufacturing roles), `heads.py`
+  (BOM, Work Order, Job Card, Workstation, Subcontracting Order), `home.py`
+  (the making section, EVERYTHING rows), `tour.py`, `setup.py`
+  (Manufacturing Settings), `boards.py` (the Manufacturing dashboard),
+  `checks.py` (the making checks), `access.py`, `legal.py` if any.
+- [ ] Sidebar: the Manufacturing group leaves `oneinventory` for a new
+  `onefactory` sidebar; the dock (`dock/onedesk/onedesk.json`) gains a row;
+  `add_to_apps_screen` if each app has one.
+- [ ] Registry: `ready.MODULES["OneFactory"]` (folder, screens, names,
+  help), `modules.txt`, the apps list people are given (one/people.py and
+  one_demo/people.py), its mark in `scripts/icons.py` (and a flat twin),
+  `one_ai/groups.py`, `tiers.SCREENS`, ISLANDS.md, the guards' lists.
+- [ ] Docs: `docs/manufacturing.md` becomes OneFactory's pages (what it
+  is, work orders and the floor, bills of materials, subcontracting,
+  notifications, asking OneAI, who can do what, settings), AGENTS.md and
+  SCRATCHPAD.md of its own, a first version 1.0.0; OneInventory's pages and
+  a version say manufacturing moved.
+- [ ] Translations, close.py, the gates, the demo checks for both apps.
