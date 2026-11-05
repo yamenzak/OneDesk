@@ -185,11 +185,11 @@ MODULES = {
 		"names": ("one_inventory", "oneinventory"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-05", "commit": "3ff66ca85b5f", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-05", "commit": "3ff66ca85b5f", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-05", "commit": "3ff66ca85b5f", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-05", "commit": "3ff66ca85b5f", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-05", "commit": "3ff66ca85b5f", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-05", "commit": "304e5ad2970c", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-05", "commit": "304e5ad2970c", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-05", "commit": "304e5ad2970c", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-05", "commit": "304e5ad2970c", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-05", "commit": "304e5ad2970c", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -718,6 +718,7 @@ _RAN = "OnePortal's, a patch that has run, kept at the path frappe recorded it u
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/oneinventory.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/onefactory.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onecrm.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onehr.svg": "every product's mark is drawn in brand/, into one sprite",
 	"tests/samples/intake/one_crm/business-card.eml": "reading's samples sit with every module's, under tests/samples",
