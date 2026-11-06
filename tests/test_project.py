@@ -1899,7 +1899,7 @@ def test_a_project_lists_who_outside_the_company_is_on_it():
 	assert 'doc.check_permission("write")' in save
 	assert "linked(row.contact, doc.name)" in contacts_py and '"onedesk.one_project.contacts.held"' in HOOKS
 	assert '_("Give the supplier, the company or the contact.")' in save
-	assert 'person.has_permission("write")' in contacts_py
+	assert 'frappe.has_permission(person.doctype, "write", person)' in contacts_py
 	actions = (tree.APP / "public" / "js" / "project_actions.js").read_text()
 	assert "onedesk.project.contact = (project, row, done, preset = {})" in actions
 	assert '__("Remove {0} from the project?"' in actions

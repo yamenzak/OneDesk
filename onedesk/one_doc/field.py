@@ -36,7 +36,7 @@ def same(one: str | None, other: str | None) -> bool:
 def writable(doc, df) -> bool:
 	"""Whether the field can still change: a draft, or a field allowed to
 	change on a submitted record, and the reader may write the record."""
-	return (doc.docstatus == 0 or (doc.docstatus == 1 and df.allow_on_submit)) and doc.has_permission("write")
+	return (doc.docstatus == 0 or (doc.docstatus == 1 and df.allow_on_submit)) and frappe.has_permission(doc.doctype, "write", doc)
 
 
 @frappe.whitelist(methods=["POST"])

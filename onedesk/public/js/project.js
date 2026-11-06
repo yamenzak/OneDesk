@@ -13,6 +13,9 @@ frappe.ui.form.on("Project", {
 	before_save(frm) {
 		return onedesk.project.closing(frm);
 	},
+	on_tab_change(frm) {
+		if (!frm.is_new()) onedesk.project.parts(frm);
+	},
 	refresh(frm) {
 		frm.toggle_display(Object.keys(onedesk.project.PARTS), !frm.is_new());
 		frm.toggle_display(["users", "one_contacts"], frm.is_new());
@@ -115,7 +118,7 @@ onedesk.project.said = (frm) => {
 
 onedesk.project.main = async (frm) => {
 	const s = await onedesk.project.said(frm);
-	if (s.name !== frm.doc.name) return;
+	if (s.name !== frm.doc.name || frm.doc.status === "Cancelled") return;
 	const can = (doctype) => frappe.model.can_create(doctype);
 	const verb = (label, action) => frm.add_custom_button(label, action);
 	if (s.kind === "Fixed Price" && !s.contract && s.quotation?.count === 1 && can("Sales Order")) verb(__("Make Order"), () => onedesk.project.order_quote(s.quotation));
@@ -175,6 +178,7 @@ onedesk.project.parts = (frm) => {
 			field.one_island.update(props);
 			continue;
 		}
+		if (field.tab && !field.tab.is_active()) continue;
 		field.$wrapper.empty();
 		field.one_island = frappe.ui.mount_island("onedesk.project_part", field.$wrapper[0], props);
 	}

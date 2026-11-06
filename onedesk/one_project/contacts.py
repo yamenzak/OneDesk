@@ -75,7 +75,7 @@ def contacts(project: Annotated[str, "The project."]) -> dict:
 			}
 			for one in doc.get("one_contacts") or []
 		],
-		"can_change": bool(doc.has_permission("write")),
+		"can_change": bool(frappe.has_permission(doc.doctype, "write", doc)),
 		"roles": list(ROLES),
 	}
 
@@ -151,7 +151,7 @@ def linked(contact: str, project: str) -> None:
 	person = frappe.get_doc("Contact", contact)
 	if any(one.link_doctype == "Project" and one.link_name == project for one in person.links):
 		return
-	if not person.has_permission("write"):
+	if not frappe.has_permission(person.doctype, "write", person):
 		return
 	person.append("links", {"link_doctype": "Project", "link_name": project})
 	person.save()

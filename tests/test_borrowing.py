@@ -71,6 +71,11 @@ RULES = [
 		"frappe.has_permission, frappe.only_for, doctype permissions",
 		r"\bif\s+frappe\.session\.user\s*(==|!=)\s*['\"](?!Guest)",
 		{".py"},
+	),	(
+		"asking whether one may",
+		"frappe.has_permission(doc.doctype, ptype, doc), which answers without a message to the reader",
+		r"\b(?!frappe\b)\w+\.has_permission\(\s*[\"'](write|create|delete|submit|cancel)[\"']\s*\)",
+		{".py"},
 	),
 ]
 
@@ -145,6 +150,7 @@ def test_every_rule_would_catch_its_own_example():
 		"icons": '<svg viewBox="0 0 16 16"><path d="M4 4l8 8" /></svg>',
 		"tabs": ".one-interface .form-tabs .nav-link.active { border: 0; }",
 		"permission checks": "if frappe.session.user == 'admin@example.com':",
+		"asking whether one may": "\"can_change\": bool(doc.has_permission(\"write\")),",
 	}
 	for what, _instead, pattern, _suffixes in RULES:
 		assert re.search(pattern, examples[what]), f"{what} no longer matches its example"

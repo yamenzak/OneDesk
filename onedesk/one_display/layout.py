@@ -38,7 +38,7 @@ def get(collection: Annotated[str, "The widget collection."]) -> dict:
 		"width": doc.width,
 		"height": doc.height,
 		"background": doc.background or "",
-		"writable": doc.has_permission("write"),
+		"writable": frappe.has_permission(doc.doctype, "write", doc),
 		"widgets": [{"id": row.name, **{key: row.get(key) for key in KEPT}} for row in doc.widgets],
 		"types": kinds.described(colour),
 		"looks": kinds.looks(colour),

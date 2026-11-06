@@ -219,7 +219,7 @@ def loaded(doc, head) -> dict:
 		if not target or not link or not frappe.has_permission(link.options, "read", target):
 			continue
 		linked = frappe.get_doc(link.options, target)
-		writable = linked.docstatus < 2 and bool(linked.has_permission("write"))
+		writable = linked.docstatus < 2 and bool(frappe.has_permission(linked.doctype, "write", linked))
 		fields = [name for name in names(row.fields) if linked.meta.get_field(name)]
 		hidden = [name for name in fields if not linked.has_permlevel_access_to(name, permission_type="read")]
 		shown = [name for name in fields if name not in hidden]

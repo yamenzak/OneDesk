@@ -334,7 +334,7 @@ VERBS = {
 	"crm.take": {
 		"doctypes": list(OWNER),
 		"label": lambda doc: _("Take This Lead") if doc.doctype == "Lead" else _("Take This Opportunity"),
-		"when": lambda doc: not doc.get(OWNER[doc.doctype]) and bool(doc.has_permission("write")),
+		"when": lambda doc: not doc.get(OWNER[doc.doctype]) and bool(frappe.has_permission(doc.doctype, "write", doc)),
 		"fields": [],
 		"run": lambda doc: capture.take(doc.doctype, doc.name) or _("It is yours."),
 	},

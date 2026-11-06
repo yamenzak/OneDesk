@@ -633,7 +633,7 @@ VERBS = {
 	"shift.read_checkins": {
 		"doctypes": ["Shift Type"],
 		"label": lambda doc: _("Read Check-ins"),
-		"when": lambda doc: not doc.is_new() and _deaf(doc) and bool(doc.has_permission("write")),
+		"when": lambda doc: not doc.is_new() and _deaf(doc) and bool(frappe.has_permission(doc.doctype, "write", doc)),
 		"fields": lambda doc: [
 			{
 				"fieldtype": "HTML",

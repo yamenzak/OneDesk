@@ -64,8 +64,9 @@ def _mark(step: str) -> None:
 
 
 def load(password: str | None = None, only: str | None = None) -> None:
-	"""Build what is not built yet, or only the step named. On a dev site only:
-	a workspace in production never holds the demo company."""
+	"""Build what is not built yet, or only the step named, then put what it
+	made in search at once rather than when the queue is next read. On a dev
+	site only: a workspace in production never holds the demo company."""
 	from onedesk.one import dev
 
 	dev.require()
@@ -88,6 +89,9 @@ def load(password: str | None = None, only: str | None = None) -> None:
 	from onedesk.one_demo import history
 
 	history.settle()
+	from frappe.utils.global_search import sync_global_search
+
+	sync_global_search()
 	frappe.db.commit()
 	print("demo: built")
 

@@ -77,7 +77,7 @@ VERBS = {
 	"task.complete": {
 		"doctypes": ["Task"],
 		"label": _lt("Complete Task"),
-		"when": lambda doc: doc.status not in DONE and bool(doc.has_permission("write")),
+		"when": lambda doc: doc.status not in DONE and bool(frappe.has_permission(doc.doctype, "write", doc)),
 		"run": lambda doc: _complete(doc),
 	},
 }
