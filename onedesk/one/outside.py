@@ -132,11 +132,12 @@ def homeless(said: dict) -> None:
 
 @frappe.whitelist()
 def kind_of(name: str) -> bool:
-	"""Whether a desk address names a kind of record. One the reader may not
-	read is not in their boot, so frappe's router takes it for a page; it
-	then says No access rather than Not Found (outside.js)."""
-	name = (name or "").replace("-", " ").strip()
-	return bool(name) and bool(frappe.db.exists("DocType", name))
+	"""Whether a desk address names a kind of record or a page. One the
+	reader may not open is not in their boot, so frappe's router takes it for
+	a page it cannot find; it then says No access rather than Not Found
+	(outside.js)."""
+	name = (name or "").strip()
+	return bool(name) and bool(frappe.db.exists("DocType", name.replace("-", " ")) or frappe.db.exists("Page", name))
 
 
 #: frappe's record types a picker offers though no rail lists them: what a

@@ -171,7 +171,7 @@ export function upload(doctype, name, done, options = {}) {
 export function followList(doctype, changed) {
 	const realtime = frappe().realtime;
 	const heard = (data) => data.doctype === doctype && changed(data);
-	realtime.doctype_subscribe?.(doctype);
+	if (!realtime.subscribed_doctypes?.has(doctype)) realtime.doctype_subscribe?.(doctype);
 	realtime.on("list_update", heard);
 	return () => realtime.off("list_update", heard);
 }

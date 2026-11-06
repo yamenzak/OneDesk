@@ -30,3 +30,10 @@ answered leaves it.
 - **Money chart axes clip their first letter** ("ED 600,000" on OneCRM's
   Home): frappe-ui's charts measure label widths in Inter (`CHART_FONT_FAMILY`),
   Sand draws another font. One fix for every chart: tell the charts our font.
+- **A form's first open on a phone.** At 4x CPU the Item form takes 10.5s
+  and a Purchase Order 9.7s (6 November 2026); the server answers in
+  60ms. The time is the main thread: frappe's form Toolbar refresh (1.3s)
+  and the sidebar's `apply_page_visibility` (1.4s) each read a computed
+  style and force a full restyle, and popper measures every popover it
+  makes. Profile with `~/tools/browser/cpuprof.mjs`; the many `:has()`
+  rules in canvas.css are the first suspect for the cost of each restyle.

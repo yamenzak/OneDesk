@@ -24,7 +24,13 @@ const form = useForm("Item", computed(() => props.item), props.frm);
 
 async function load() {
   const asked = props.item;
-  const got = await call("onedesk.one_inventory.view.read", { item: asked });
+  const shared = props.frm ? (props.frm.one_item_said ||= {}) : {};
+  if (shared.name !== asked || Date.now() - shared.at > 1500) {
+    shared.name = asked;
+    shared.at = Date.now();
+    shared.got = call("onedesk.one_inventory.view.read", { item: asked });
+  }
+  const got = await shared.got;
   if (asked === props.item) said.value = got;
 }
 

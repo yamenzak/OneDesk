@@ -57,17 +57,37 @@ Still open, for later passes: a record's item table cuts its columns
 ERPNext's English, written into the record; the demo's second company
 has no stock of its own (the check makes it in a rollback).
 
-## Found on the walk, for the areas
+## Closing the pass: 6 November 2026
 
+What the 5 November pass left, done: shortcuts.py (/ and O); every
+whitelisted method read for permission and POST; ERPNext's statuses,
+mappers and base_ figures; the portal (the RFQ print named every
+supplier); Intake (a delivery note receives what it lists); deleting
+(Portal Link swept); several companies (`ready.MODULES["companies"]`, the
+check, a User Permission); 15 mails in English and Arabic; Help pictures on
+seven pages; tours for Stock Summary and Reorder; OneAI's seven inv- cases
+in `one_ai/evals.py` all pass; a tablet, German, the Standard palette, a
+sales user, a cancelled request and a euro order; live updates; reach.
+
+Left:
+- **A fresh site.** Not walked: this bench keeps only the domain pair and
+  Yamen wants no .localhost sites; Inventory Check is what a new workspace
+  meets first.
+- **The demo's own second company**, BACKLOG.
+- **Speed**, a phone at 4x CPU on 6 November against 5 November: Home 4.5s
+  (4.4), Item list 6.5s (6.1), the Item page 10.5 to 11s with 23 requests
+  (7.3s and 27 as its own page, before it became a form), Stock Summary
+  2.4s (1.8), Stock Balance 5.2s (3.0), Reorder 2.0s. The Item and Purchase
+  Order forms spend it in frappe's form toolbar and in style recalculations
+  (OneInterface's scratchpad).
 - Every Request for Quotation row says Submitted, where the island said
   Waiting, Answered or Ordered.
-- On a phone a request's head shows only Cancel: check Create and View.
-- A service shows frappe's "Submit this document to confirm" over Mark
-  Done (head.js drops that intro only for some verbs).
 
-## OneFactory: the split, step by step
+## OneFactory: the split, done 5 November 2026
 
-Decided 5 November 2026. A new app, folder `one_factory`, frappe module
+Decided 5 November 2026; every step below landed (OneFactory 1.0.0,
+OneInventory 1.5.0), and what OneFactory still lacks is in its own
+scratchpad. A new app, folder `one_factory`, frappe module
 OneFactory, rail and dock row onefactory. Ticked as each lands.
 
 What moves out of `one_inventory` (and its places):
@@ -81,7 +101,7 @@ What moves out of `one_inventory` (and its places):
   one_subcontracting_receipt, one_subcontracting_inward_order (their JSON's
   module too).
 - [x] `number_card/`: none after all (Made and Sent Out This Month are the stock story's).
-- [ ] From shared files, the making parts: `ai.py` (on_the_floor,
+- [x] From shared files, the making parts: `ai.py` (on_the_floor,
   plant_floor_now, sent_out_now, the making tools and suggestions, REACH
   and NOT_FOR_AI entries), `notifications.py` (work orders, back from
   supplier late, …), `abilities.py` (Manufacturing roles), `heads.py`
@@ -92,16 +112,16 @@ What moves out of `one_inventory` (and its places):
 - [x] Sidebar: the Manufacturing group leaves `oneinventory` for a new
   `onefactory` sidebar; the dock (`dock/onedesk/onedesk.json`) gains a row;
   `add_to_apps_screen` if each app has one.
-- [ ] Registry: `ready.MODULES["OneFactory"]` (folder, screens, names,
+- [x] Registry: `ready.MODULES["OneFactory"]` (folder, screens, names,
   help), `modules.txt`, the apps list people are given (one/people.py and
   one_demo/people.py), its mark in `scripts/icons.py` (and a flat twin),
   `one_ai/groups.py`, `tiers.SCREENS`, ISLANDS.md, the guards' lists.
-- [ ] Docs: `docs/manufacturing.md` becomes OneFactory's pages (what it
+- [x] Docs: `docs/manufacturing.md` becomes OneFactory's pages (what it
   is, work orders and the floor, bills of materials, subcontracting,
   notifications, asking OneAI, who can do what, settings), AGENTS.md and
   SCRATCHPAD.md of its own, a first version 1.0.0; OneInventory's pages and
   a version say manufacturing moved.
-- [ ] Translations, close.py, the gates, the demo checks for both apps.
+- [x] Translations, close.py, the gates, the demo checks for both apps.
 
 Done and committed on 5 November 2026 (OneFactory 1.0.0, OneInventory 1.5.0);
 what OneFactory still lacks is in its own SCRATCHPAD. Old notes:

@@ -15,3 +15,7 @@ What is known to be wrong and what is planned, kept short.
   ERPNext's `get_work_orders` or `floor.read` repeats it.
 - **Setup.** Inventory Check still sets the workshop's cost account and the
   work order warehouses; they belong in OneFactory's own setup steps.
+- **Its rail refuses two links.** `bench execute onedesk.one.reach.check`
+  (6 November 2026): Subcontracting Order and Subcontracting Receipt, "its
+  roles cannot read it". Give them to the roles People hands out in
+  OneFactory's `access.py`.
