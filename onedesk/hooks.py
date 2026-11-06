@@ -760,6 +760,7 @@ override_whitelisted_methods = {
 	"frappe.utils.global_search.search": "onedesk.one.outside.search",
 	"frappe.desk.page.setup_wizard.setup_wizard.setup_complete": "onedesk.one.setup_wizard.setup_complete",
 	"erpnext.stock.doctype.material_request.material_request.update_status": "onedesk.one_inventory.tell.update_status",
+	"erpnext.projects.doctype.project.project.get_project_tasks": "onedesk.one_project.milestones.project_tasks",
 	"frappe.desk.form.load.getdoc": "onedesk.one_mail.linking.getdoc",
 	"frappe.desk.form.load.get_docinfo": "onedesk.one_mail.linking.get_docinfo",
 	"frappe.desk.form.load.get_communications": "onedesk.one_mail.linking.get_communications",

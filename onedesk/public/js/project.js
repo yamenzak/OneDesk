@@ -1,6 +1,15 @@
 
 
 frappe.ui.form.on("Project", {
+	setup(frm) {
+		frm.tasks_sort = { sort_by: "lft", sort_order: "asc" };
+		const theirs = frm.events.render_tasks;
+		frm.events.render_tasks = (frm) => {
+			const pending = theirs(frm);
+			pending.then((list) => list && onedesk.project.by_milestone(frm, list));
+			return pending;
+		};
+	},
 	before_save(frm) {
 		return onedesk.project.closing(frm);
 	},
@@ -56,6 +65,43 @@ frappe.ui.form.on("Project", {
 });
 
 frappe.provide("onedesk.project");
+
+onedesk.project.by_milestone = (frm, list) => {
+	const $actions = frm.get_field("tasks_html").$wrapper.find(".embedded-list-header-actions");
+	new frappe.ui.SortSelector({
+		parent: $actions,
+		doctype: "Task",
+		args: {
+			sort_by: frm.tasks_sort.sort_by,
+			sort_order: frm.tasks_sort.sort_order,
+			options: [
+				{ fieldname: "lft", label: __("Milestone") },
+				{ fieldname: "creation", label: __("Created On") },
+				{ fieldname: "modified", label: __("Last Updated On") },
+				...list.columns.filter((column) => column.fieldname).map(({ fieldname, label }) => ({ fieldname, label })),
+			],
+		},
+		onchange: (sort_by, sort_order) => {
+			frm.tasks_sort = { sort_by, sort_order };
+			list.refresh();
+		},
+	}).wrapper.insertAfter($actions.find("[data-action='search']"));
+	const dress = () => {
+		const grouped = frm.tasks_sort.sort_by === "lft";
+		list.$wrapper.find("tbody tr[data-row-idx]").each((_i, tr) => {
+			const row = list.data[tr.dataset.rowIdx] || {};
+			tr.classList.toggle("one-row-group", grouped && !!row.is_group);
+			tr.classList.toggle("one-row-child", grouped && !row.is_group && !!row.parent_task);
+		});
+	};
+	list.after_render = dress;
+	const more = list.render_more.bind(list);
+	list.render_more = () => {
+		more();
+		dress();
+	};
+	dress();
+};
 
 onedesk.project.said = (frm) => {
 	const shared = (frm.one_project_said ||= {});

@@ -31,6 +31,8 @@ PEOPLE = (
 	("Noor", "Hassan", None, "Sales", "Estimator", "Female", (on(2, 1).year, 2, 1), 9000, "Omar", None),
 )
 
+ABILITIES = {"samir@one.test": ("OneProject Manager",)}
+
 
 def run(password=None):
 	from onedesk.one.people import set_access
@@ -53,6 +55,8 @@ def run(password=None):
 	for _first, _last, email, *_rest in PEOPLE:
 		if email and password:
 			update_password(email, password)
+	for email, held in ABILITIES.items():
+		frappe.get_doc("User", email).add_roles(*held)
 
 	for name in {one[3] for one in PEOPLE}:
 		if not frappe.db.exists("Department", f"{name} - {_abbr()}") and not frappe.db.exists("Department", name):

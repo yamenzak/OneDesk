@@ -2,8 +2,10 @@
 
 A project's **Tasks** tab lists its tasks, each with its status, priority,
 start and end dates, progress and who it's assigned to. Change a task's
-status or priority right in its row. **Search** finds a task, the sort orders
-them, and **Add Task** adds one. Click a task to open it. **Board**,
+status or priority right in its row. The tasks are listed under the
+milestone they belong to, each milestone in bold with its steps under it;
+the sort's **Milestone** puts them back that way after another order.
+**Search** finds a task, and **Add Task** adds one. Click a task to open it. **Board**,
 **Calendar** and **Schedule** at the top of the project show its tasks in
 columns, on its calendar or on a timeline (see below).
 

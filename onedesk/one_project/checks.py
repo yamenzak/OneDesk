@@ -624,12 +624,12 @@ def oneproject_its_invoices_suppliers_team_and_activity_read_true():
 			for row in own:
 				days = frappe.db.get_value("Payment Term", row.payment_term, "credit_days") if row.payment_term else 0
 				assert date_diff(row.due_date, one.posting_date) >= (days or 0), (one.name, row)
-	held = frappe.get_all(
-		"Payment Schedule",
-		filters={"parent": ["in", ["ACC-SINV-2026-00001", "ACC-PINV-2026-00016"]], "payment_term": ["in", HELD]},
-		fields=["parent", "outstanding"],
-	)
-	assert held and all(one.outstanding for one in held), held
+	from onedesk.one_project import tree
+	from onedesk.one_project.retention import held_on, invoices
+
+	for doctype in ("Sales Invoice", "Purchase Invoice"):
+		held = held_on(doctype, invoices(doctype, sorted(tree.scope(VILLA))))
+		assert held and all(amount > 0 for parts in held.values() for _due, amount in parts), (doctype, held)
 	with as_user("samir@one.test"):
 		assert "Client's Representative" in {one["role"] for one in contacts.contacts(VILLA)["contacts"]}
 		weeks = activity._time(sorted(tree.scope(VILLA)), activity._People())
@@ -672,7 +672,7 @@ def oneproject_oneai_reminds_adds_and_the_rules_stand():
 		card = ai.add_contact(VILLA, "Engineer", organisation="Gulf Structural Engineers", note="Checks the brackets")
 		proposals.apply(card["proposal"])
 		assert "Gulf Structural Engineers" in {one["company"] for one in contacts.contacts(VILLA)["contacts"]}
-	bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "project": VILLA}, pluck="name")[0]
+	bill = frappe.get_all("Purchase Invoice", filters={"docstatus": 1, "outstanding_amount": [">", 0], "project": ["is", "set"]}, pluck="name")[0]
 	for row in frappe.get_all("Payment Schedule", filters={"parent": bill, "parenttype": "Purchase Invoice"}, fields=["name", "payment_term"]):
 		if row.payment_term not in HELD:
 			frappe.db.set_value("Payment Schedule", row.name, {"due_date": today(), "outstanding": 1000})
@@ -1310,3 +1310,18 @@ def oneproject_a_manager_sees_every_project_and_a_member_sees_their_own():
 	members.forget()
 	with as_user("rania@one.test"):
 		assert frappe.has_permission("Project", "read", closed), "a member sees their project"
+
+
+@check
+def oneproject_tasks_are_listed_under_their_milestones():
+	"""A project's Tasks tab, sorted by Milestone, lists each milestone and
+	then the steps under it, and says which is which."""
+	from onedesk.one_project import milestones
+
+	with as_user("samir@one.test"):
+		rows = milestones.project_tasks(VILLA, sort_by="lft", sort_order="asc", page_length=100)
+	heads = [i for i, row in enumerate(rows) if row["is_group"]]
+	assert heads, rows[:3]
+	for i in heads:
+		after = rows[i + 1] if i + 1 < len(rows) else None
+		assert after is None or after["is_group"] or after["parent_task"] == rows[i]["name"], (rows[i], after)

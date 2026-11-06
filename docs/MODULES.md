@@ -873,6 +873,7 @@ No doctypes yet.
 * `onedesk.one_project.members.joins`
 * `onedesk.one_project.members.let_in`
 * `onedesk.one_project.members.unseen`
+* `onedesk.one_project.milestones.project_tasks`
 * `onedesk.one_project.money.money`
 * `onedesk.one_project.overview.overview`
 * `onedesk.one_project.portal.page`

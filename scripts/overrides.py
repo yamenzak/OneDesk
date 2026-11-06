@@ -1501,6 +1501,20 @@ OVERRIDES = [
 		"if not cint(reminder_settings.send_interview_reminder):",
 	),
 	(
+		"A project's Tasks tab groups its tasks under their milestones",
+		"get_project_tasks is called by name from the Project form; one_project/milestones.project_tasks stands in for it and adds each row's is_group and parent_task",
+		"onedesk/one_project/milestones.py",
+		"erpnext/erpnext/projects/doctype/project/project.js",
+		'frappe.xcall("erpnext.projects.doctype.project.project.get_project_tasks", {',
+	),
+	(
+		"A project's Tasks tab sorts by Milestone and dresses its rows",
+		"project.js wraps frm.events.render_tasks, which returns the EmbeddedList; the Tasks tab keeps its sort in frm.tasks_sort",
+		"onedesk/public/js/project.js",
+		"erpnext/erpnext/projects/doctype/project/project.js",
+		'frm.tasks_sort ??= { sort_by: "creation", sort_order: "asc" };',
+	),
+	(
 		"The credit limit dialog tells the credit controllers in One",
 		"its primary action calls customer.send_emails by name, which one_book/tell.credit_limit stands in for",
 		"onedesk/one_book/tell.py",

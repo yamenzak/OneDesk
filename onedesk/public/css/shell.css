@@ -457,8 +457,21 @@ a.one-shell-row:hover {
 	max-width: 32rem;
 }
 
+.embedded-list table.embedded-list-table td:first-child {
+	white-space: normal;
+	min-width: 12rem;
+}
+
 .one-shell .embedded-list .embedded-list-table-wrap {
 	max-height: none;
+}
+
+.embedded-list tr.one-row-group td:first-child {
+	font-weight: var(--weight-semibold);
+	color: var(--ink-gray-9);
+}
+.embedded-list tr.one-row-child td:first-child {
+	padding-inline-start: 28px;
 }
 
 .one-shell-part-mark {

@@ -186,3 +186,31 @@ def reached(doc, method=None) -> None:
 	from onedesk.one_project import tell
 
 	tell.milestone_done(doc, chain[0])
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def project_tasks(
+	project: str,
+	sort_by: str = "creation",
+	sort_order: str = "asc",
+	start: int = 0,
+	page_length: int = 50,
+	txt: str | None = None,
+) -> list[dict]:
+	"""ERPNext's page of a project's tasks for its form's Tasks tab
+	(project.get_project_tasks), each row also saying whether it is a
+	milestone and which milestone it is under, so the tab can group them."""
+	from erpnext.projects.doctype.project.project import get_project_tasks
+
+	rows = get_project_tasks(project, sort_by, sort_order, start, page_length, txt)
+	said = {
+		one.name: one
+		for one in frappe.get_all(
+			"Task", filters={"name": ["in", [row["name"] for row in rows] or [""]]}, fields=["name", "is_group", "parent_task"]
+		)
+	}
+	for row in rows:
+		row["is_group"] = said.get(row["name"], {}).get("is_group") or 0
+		row["parent_task"] = said.get(row["name"], {}).get("parent_task")
+	return rows
