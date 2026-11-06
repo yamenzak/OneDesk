@@ -958,11 +958,11 @@ MODULES = {
 		"names": ("one_control", "access_center", "notification_center", "role_matrix"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-06", "commit": "64c2b1b4cf51", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "64c2b1b4cf51", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "64c2b1b4cf51", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "64c2b1b4cf51", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "64c2b1b4cf51", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
