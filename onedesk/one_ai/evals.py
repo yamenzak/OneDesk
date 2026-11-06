@@ -25,6 +25,8 @@ STORES = "karim@one.test"
 
 SALES = "omar@one.test"
 
+BOOKS = "huda@one.test"
+
 CASES = [
 	{
 		"id": "count-customers",
@@ -313,6 +315,11 @@ CASES = [
 		"user": SALES,
 	},
 	{"id": "crm-ar-quiet", "page": {}, "ask": "ما الصفقات التي توقفت ولم يتحرك فيها شيء؟", "tools": ("gone_quiet",), "user": SALES},
+	{"id": "book-money", "page": {}, "ask": "How is the money doing this month?", "tools": ("money_now",), "user": BOOKS},
+	{"id": "book-late", "page": {}, "ask": "Which customer invoices are overdue, and by how much?", "tools": ("late_invoices",), "user": BOOKS},
+	{"id": "book-invoice", "page": _on("Sales Invoice", name="ACC-SINV-2026-00026"), "ask": "Where does this invoice stand?", "tools": ("invoice_facts",), "user": BOOKS},
+	{"id": "book-bank", "page": {}, "ask": "Which bank lines are still to match?", "tools": ("bank_to_match",), "user": BOOKS},
+	{"id": "book-ar-owed", "page": {}, "ask": "من يدين لنا بأكبر مبلغ، ومنذ متى؟", "tools": ("late_invoices", "money_now"), "user": BOOKS},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
 	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
 	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},

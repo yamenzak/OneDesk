@@ -18,7 +18,7 @@ def run(password=None):
 		bank = _bank()
 		_collecting()
 		_rules(bank)
-		if not frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "docstatus": 1, "company": COMPANY}):
+		if not frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "user_remark": "Opening balances", "docstatus": 1, "company": COMPANY}):
 			_entry(on(1, 1), "Opening Entry", "Opening balances", ((bank, 1250000, 0), (_equity(), 0, 1250000)))
 		rent = _expense("Rent Expense")
 		for month in range(1, today().month + 1):

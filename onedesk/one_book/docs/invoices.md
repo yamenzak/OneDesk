@@ -1,5 +1,7 @@
 # Invoices and Bills
 
+![A sales invoice with where it stands, its track and its four figures](invoices/invoice.png)
+
 1. **Sales Invoice › + Add Sales Invoice.** Pick the customer, add a line per item
    or service with its quantity and rate, and the tax if you charge one. The
    due date follows the customer's payment terms.
@@ -33,13 +35,12 @@ their bill. **Credit Note** and **Debit Note** in the rail list these returns.
 
 ### A Customer's Page
 
-**A customer's page** answers first their **Annual Billing** and **Total
-Unpaid**, then what is **Overdue** and how old the oldest is, the **Last Sales
-Invoice**, and their **Open Orders**. Beside them, **Billed** is their year, a
-bar a month. A supplier's page says the same from the other side: **Annual
-Billing**, **Total Unpaid**, **Overdue**, the **Last Purchase Invoice**, **Open
-Orders** and **Bought**. Every figure is worked out from the invoices your own list would
-show you.
+**A customer's page** answers first what is **Overdue** and how old the
+oldest is, the **Last Sales Invoice**, their **Open Orders**, and **Billed in
+12 Months**, a bar a month. A supplier's page says the same from the other
+side, with the **Last Purchase Invoice**. Every figure is your company's,
+worked out from the invoices your own list would show you, and what is owed
+is in the currency it is owed in.
 
 ### Late Payers and Being Told
 

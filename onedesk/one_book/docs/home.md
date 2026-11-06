@@ -13,6 +13,8 @@ drawn small under it:
 - **Profit This Month** — income less expenses since the first of the month,
   against last month.
 
+![Home with its six figures, each with its last twelve months](home/home.png)
+
 Click a figure to open the report or list it came from: Due This Week opens
 the bills due by the week's end. A change against last month is not shown on
 a loss, where a percentage would read the wrong way. Under them are five

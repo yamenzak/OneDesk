@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" ref="cardsRoot" data-tour="onebook-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div v-if="cards.length" ref="cardsRoot" data-tour="onebook-figures" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 [&_.truncate]:whitespace-normal">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, setQuery } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, setQuery, shortcut } from "../kit";
 import BooksStory from "./BooksStory.vue";
 
 const props = defineProps({
@@ -134,7 +134,7 @@ const cards = computed(() => {
         value: got[one.key].value ?? 0,
         format: (value) => money(value, story.value.currency, 0),
         ...(one.alone || change(got[one.key].series) === null ? {} : { delta: change(got[one.key].series), deltaSuffix: "%", deltaCaption: __("vs last month") }),
-        ...(got[one.key].series ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
+        ...(got[one.key].series?.some((value) => value) ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
       },
     }));
 });
@@ -284,4 +284,13 @@ function extended(s) {
     action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
   });
 }
+
+const keyed = (doctype) => () => can("create", doctype) && newDoc(doctype);
+const forgetKeys = [
+  shortcut("one_book.new_invoice", keyed("Sales Invoice")),
+  shortcut("one_book.new_bill", keyed("Purchase Invoice")),
+  shortcut("one_book.new_payment", keyed("Payment Entry")),
+  shortcut("one_book.new_journal", keyed("Journal Entry")),
+];
+onBeforeUnmount(() => forgetKeys.forEach((one) => one()));
 </script>

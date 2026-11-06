@@ -126,7 +126,8 @@ GROUPS = {
 		"tools": ("money_now", "late_invoices", "invoice_facts", "bank_to_match"),
 		"words": (
 			"money", "cash", "invoice", "bill", "owe", "overdue", "paid", "payment", "profit", "bank", "receivable",
-			"payable", "rechnung", "zahlung", "gewinn", "فاتورة", "دفع", "ربح", "بنك", "مستحق",
+			"payable", "rechnung", "zahlung", "gewinn", "schuld", "überfällig", "bargeld", "fällig",
+			"فاتورة", "فواتير", "دفع", "ربح", "بنك", "مستحق", "يدين", "يدينون", "ديون", "دين", "نقد", "متأخر", "مبلغ", "دفعة",
 		),
 	},
 	"projects": {

@@ -3,6 +3,8 @@
 A journal entry is for anything that is not an invoice or a payment:
 correcting a posting, an accrual, depreciation by hand, an opening balance.
 
+![A journal entry with its type and its total debit](journal-entries/journal-entry.png)
+
 1. **Journal Entry › + Add Journal Entry.** Pick the **Entry Type** (Journal
    Entry for most, Opening Entry for opening balances).
 2. Add a line per account under **Accounting Entries**, each with a
@@ -12,4 +14,6 @@ correcting a posting, an accrual, depreciation by hand, an opening balance.
 
 A journal entry nobody gave a title is named by what it is for — the
 payroll's period, the asset it depreciates, or its remark — rather than by
-its first account.
+its first account. At the top it says what it refers to, the cheque or
+reference number and the **Total Debit**, and the list is split by **Entry
+Type**.

@@ -12,6 +12,8 @@ statement in:
 A statement OneAI reads from mail arrives as Bank Transactions the same
 way.
 
+![A bank account with its balance and what is left to match](the-bank/bank-account.png)
+
 To match them, open **Bank Reconciliation Tool**. It starts on the default
 bank account; pick the dates and type the **Closing Balance as per Bank
 Statement**, then press **Get Unreconciled Entries**. Each line has

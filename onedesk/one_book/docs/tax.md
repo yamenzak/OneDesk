@@ -15,4 +15,4 @@ are reported under it). The VAT on each bill is filled into the bill's
 there when not all of it can be reclaimed, and it is left alone. A bill
 entered before that figure was filled in claims nothing; the Books Check
 counts them under **Bills claim their VAT back**, and its fix fills each from
-the bill's own VAT.
+the bill's own VAT, leaving bills in a locked period as they were.

@@ -73,3 +73,11 @@ So a sale goes quotation and order (OneCRM), delivery (OneInventory), invoice
 and payment (OneBook); a purchase goes order and receipt (OneInventory), bill
 and payment (OneBook). Each record opens in its own app's rail, wherever it
 was found.
+
+## Several Companies
+
+With more than one company, every invoice, payment, journal entry, account
+and bank record shows its **Company**, starting as yours, and every list
+opens on your company. Home and every figure are your company's alone, in
+its currency, and a customer's or supplier's figures count only your
+company's invoices. Change company from the top bar.

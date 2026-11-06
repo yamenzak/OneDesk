@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 20:07+0000\n"
-"PO-Revision-Date: 2026-11-06 20:07+0000\n"
+"POT-Creation-Date: 2026-11-06 20:32+0000\n"
+"PO-Revision-Date: 2026-11-06 20:32+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2436,6 +2436,10 @@ msgstr ""
 msgid "Activity for Days on Site"
 msgstr ""
 
+#: onedesk/one_book/tour.py:52
+msgid "Activity holds the mail sent with it, the comments and every change."
+msgstr ""
+
 #: frontend/src/inventory/stock/StockOnHand.vue:25
 #: onedesk/one_inventory/heads.py:1275
 msgid "Actual Qty"
@@ -3458,7 +3462,7 @@ msgstr ""
 #. Message of a notification
 #: onedesk/one_book/notifications.py
 #, python-brace-format
-msgid "Against {invoice}. The payment is recorded; nothing needs doing."
+msgid "Against {invoice}. The payment is recorded and nothing needs doing."
 msgstr ""
 
 #: frontend/src/books/BooksStory.vue:26
@@ -7046,6 +7050,10 @@ msgstr ""
 #. Label in the One Purchase Invoice Bordered print format
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
 msgid "Billed To"
+msgstr ""
+
+#: onedesk/one_book/tour.py:40
+msgid "Billed and paid as the payments made against it say, red once a part is late."
 msgstr ""
 
 #: onedesk/public/js/project_new.js:26
@@ -21796,6 +21804,10 @@ msgstr ""
 msgid "How much of this month's retainer hours are used, how many are left, and at this pace will the month go over? Say which months went over and which are not invoiced yet."
 msgstr ""
 
+#: onedesk/one_book/tour.py:67
+msgid "How much, by what means, the bank's reference and the project it is for."
+msgstr ""
+
 #: onedesk/one_crm/home.py:157
 msgid "How new leads are shared out."
 msgstr ""
@@ -26932,6 +26944,10 @@ msgstr ""
 msgid "Mail Templates"
 msgstr ""
 
+#: onedesk/one_book/tour.py:51
+msgid "Mail and Notes"
+msgstr ""
+
 #: onedesk/one/people.py:66 onedesk/public/js/one_ai/ai_center.js:108
 msgid "Mail and files read as they arrive, and filed on their record."
 msgstr ""
@@ -29178,7 +29194,7 @@ msgstr ""
 msgid "New Item"
 msgstr ""
 
-#: frontend/src/books/BooksHome.vue:265
+#: frontend/src/books/BooksHome.vue:265 onedesk/one_book/shortcuts.py:13
 msgid "New Journal Entry"
 msgstr ""
 
@@ -29253,7 +29269,7 @@ msgstr ""
 msgid "New Password"
 msgstr ""
 
-#: frontend/src/books/BooksHome.vue:264
+#: frontend/src/books/BooksHome.vue:264 onedesk/one_book/shortcuts.py:12
 msgid "New Payment Entry"
 msgstr ""
 
@@ -29284,7 +29300,7 @@ msgstr ""
 msgid "New Project"
 msgstr ""
 
-#: frontend/src/books/BooksHome.vue:263
+#: frontend/src/books/BooksHome.vue:263 onedesk/one_book/shortcuts.py:11
 msgid "New Purchase Invoice"
 msgstr ""
 
@@ -29324,7 +29340,7 @@ msgstr ""
 msgid "New Rule"
 msgstr ""
 
-#: frontend/src/books/BooksHome.vue:262
+#: frontend/src/books/BooksHome.vue:262 onedesk/one_book/shortcuts.py:10
 msgid "New Sales Invoice"
 msgstr ""
 
@@ -35146,6 +35162,10 @@ msgstr ""
 msgid "Paid With Payroll Of"
 msgstr ""
 
+#: onedesk/one_book/tour.py:60
+msgid "Paid and Reconciled"
+msgstr ""
+
 #: onedesk/one_ai/reading/planning.py:140
 msgid "Paid by direct debit."
 msgstr ""
@@ -35178,6 +35198,10 @@ msgstr ""
 
 #: onedesk/one_book/heads.py:130
 msgid "Paid in full."
+msgstr ""
+
+#: onedesk/one_book/tour.py:61
+msgid "Paid once submitted, and reconciled once the bank statement line is matched to it."
 msgstr ""
 
 #: onedesk/one_studio/print_blocks.py:818
@@ -49477,6 +49501,10 @@ msgstr ""
 msgid "The Path and File"
 msgstr ""
 
+#: onedesk/one_book/tour.py:66
+msgid "The Payment"
+msgstr ""
+
 #: onedesk/one/notification_words.py:274
 msgid "The Person on the Record"
 msgstr ""
@@ -56281,6 +56309,10 @@ msgstr ""
 msgid "What Is Kept"
 msgstr ""
 
+#: onedesk/one_book/tour.py:45
+msgid "What Is Owed"
+msgstr ""
+
 #: onedesk/one_studio/doctype/extension/extension.js:99
 msgid "What It Does"
 msgstr ""
@@ -56726,6 +56758,10 @@ msgstr ""
 
 #: onedesk/one_quality/ai.py:12
 msgid "What is still open?"
+msgstr ""
+
+#: onedesk/one_book/tour.py:46
+msgid "What is still owed and when the next part falls due, its total, and what the party was billed this year."
 msgstr ""
 
 #: onedesk/one_inventory/ai.py:99
@@ -58794,7 +58830,7 @@ msgstr ""
 msgid "Where It Runs"
 msgstr ""
 
-#: onedesk/one_crm/tour.py:60
+#: onedesk/one_book/tour.py:39 onedesk/one_crm/tour.py:60
 msgid "Where It Stands"
 msgstr ""
 

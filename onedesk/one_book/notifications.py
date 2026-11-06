@@ -77,7 +77,7 @@ TYPES = [
 		"push_default": True,
 		"sender": "workspace",
 		"subject": "{customer} paid {amount} online",
-		"message": "Against {invoice}. The payment is recorded; nothing needs doing.",
+		"message": "Against {invoice}. The payment is recorded and nothing needs doing.",
 	},
 	{
 		"name": "Payment Reminder",

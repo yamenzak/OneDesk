@@ -28,6 +28,8 @@ Do What):
   set** — both are made with the company, and the check catches a workspace
   where they were not.
 
+![Books Check with what is ready and what is left to do](getting-ready/books-check.png)
+
 ## Opening Balances
 
 When the books start part way through a business's life, what customers
