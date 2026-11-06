@@ -92,12 +92,24 @@ What an app declares about itself, in its own folder and in
   centres, tax templates and series; prints carry that company's letter
   head; a person limited to a company by a User Permission sees only its
   records; the demo has a second company with records, and a check
-  (CLAUDE.md, Several companies).
+  (CLAUDE.md, Several companies). *How:* list the app's record types with
+  a company field in `ready.MODULES[app]["companies"]`; `one/company.py`
+  then shows Company on them, as a column and a filter, once there are two
+  companies. Its check gives a person a User Permission on one company and
+  asserts the other's records stay out of `get_list`. Item-wide figures
+  read the reader's company only (`Bin.company`), and money takes the
+  record's company's currency, never the global default.
 - **Permissions.** Each thing the app lets a person do fits a role or is an
   ability in its `abilities.py`, shown in AccessCenter; a person given more
   on one record gets it through `rights.grant`; every method our screens
   call on the server checks it, beyond what frappe checks, and a write is
-  POST only. *Guards: test_ready, test_roles.*
+  POST only. *Guards: test_ready, test_roles.* *How:* read every
+  `@frappe.whitelist` of the app (a read-only agent does it well); what
+  slipped through before: a write without `methods=["POST"]`, raw SQL
+  showing purchase prices to whoever may read an Item, `ignore_permissions`
+  on another module's settings, `get_all` where the reader's user
+  permissions should apply. `get_list` returns 20 rows unless given
+  `limit_page_length=0`.
 - **Sharing.** What a person may share of it (a record, a file, a
   workbook) and at which levels, with people here, a customer's or
   supplier's contact, or anyone with a link. Until OneAccess's one Share
@@ -107,14 +119,22 @@ What an app declares about itself, in its own folder and in
   each screen the panel knows where it is and offers the cards that fit,
   and the page context moves with the screen when an island becomes
   frappe's (it was keyed to island names: `item-view`, `stock-on-hand`).
-  *Guard: test_ready, for the declaration only.*
+  *Guard: test_ready, for the declaration only.* *How:* ask it for real:
+  add the app's cases to `one_ai/evals.py` (`CASES`, as the person whose
+  work it is, English and Arabic, one per card) and run `bench --site
+  one.4dl.dev execute onedesk.one_ai.evals.run --kwargs "{'only':
+  'inv-'}"`. Tools must take what people say ("the Stores", a plural
+  name), and a tool's description starts with when to use it.
 - **Notifications.** List the app's events and who waits on each (an
   approver, the person asked, the owner): every one is a type in its
   `notifications.py`, worded by the `wording` skill and listed in
   NotificationCenter, or a line saying why not; its button opens the
   record where the person acts on it. A job that tells keeps who was told
   on the record, never only in the cache, which every deploy clears.
-  *Guards: test_notifications, test_ready.*
+  *Guards: test_notifications, test_ready.* *How:* render every type
+  through `notify.render`, `notify.compose` and frappe's
+  `get_formatted_html`, in English and Arabic, and shoot each at 390 (the
+  `ui` skill's Mails).
 - **Icons and the record's dressing.** Every record type a person reaches
   has its entry in `ready.MODULES[app]["interface"]`: an icon for each tab
   and field, up to four head cards, its track, its list's states and its
@@ -128,7 +148,10 @@ What an app declares about itself, in its own folder and in
   is, written from what frappe's, ERPNext's and HRMS's own docs say in our
   words (`docs` skill, Where what a page says comes from); each change is a
   version in `docs/changelog/` (`changelog` skill). *Guards: test_ready,
-  test_docs_media.*
+  test_docs_media.* The app's pass also rereads every one of its pages
+  and versions against today's screens and today's `docs` and `changelog`
+  skills, since most were written before them, and pictures each page that
+  needs one. Pictures reach R2 with `media.push` (`docs` skill).
 - **Printing.** Every record that leaves the company (to a customer, a
   supplier, an employee, an authority) prints from a format of ours, in
   Arabic too, under the letter head, or is in `NOT_SENT`. *Guard: test_print.*
@@ -138,10 +161,14 @@ What an app declares about itself, in its own folder and in
   Until the setup page ships (`docs/BACKLOG.md`), list them in the pass.
 - **Tours.** Never started by themselves; offered from Help. A screen's
   tour points at what this role has there; a record type's says how it
-  works and what its fields are for, from the same source as Help.
+  works and what its fields are for, from the same source as Help. Each of
+  the app's own screens (its Home, its pages) has one, on `data-tour`
+  marks, and none names a part that moved to another app.
 - **The rest of the centres.** Its settings in ControlCenter, its keys in
   `shortcuts.py` (ShortcutCenter, nothing clashing), and the foot that
-  opens them. *Guard: test_ready.*
+  opens them. *Guard: test_ready.* An app with screens of its own gives
+  them keys (`/` to search, a letter for the main action), done on the
+  island with the kit's `shortcut()`.
 - **Demo and checks.** The demo company has its records, made by the
   user whose work it is, and its `checks.py` reaches every whitelisted
   method. *Guards: test_coverage, test_demo.*
@@ -158,7 +185,11 @@ What an app declares about itself, in its own folder and in
 - **A page of its own**, where `tiers.PAGES` names one: it is reached from
   the record, reads like a form, and offers everything the form did.
 - **What ERPNext already does**: its statuses, checks on save, mappers,
-  precision, units and `base_` amounts, shown, never redone.
+  precision, units and `base_` amounts, shown, never redone. Found once:
+  money in the global currency, stock added across companies, quantities
+  added across items and units, a party's currency added to the order's,
+  a bill shared by two orders counted on each, a title ERPNext stores in
+  the saver's language.
 - **Upstream.** What we lean on of ERPNext's, HRMS's and frappe's is
   ledgered (`scripts/overrides.py`) and read against their newest code.
   *Guards: test_generated, test_override_signatures.*
@@ -181,12 +212,21 @@ What an app declares about itself, in its own folder and in
 Each screen in scope gets these, whichever kind its app is.
 
 - **Sizes.** 1440, a tablet (820), a phone (390), and a pane beside it.
+  The tablet is where frappe's `hidden-md` hides a record's buttons and an
+  island's breakpoints, which are the window's, squeeze a name beside the
+  rail.
 - **Looks.** Light and dark, the default palette and one other, Arabic
-  (right to left) and German (the longest words).
+  (right to left) and German (the longest words). German finds a sentence
+  built from a name and a verb phrase ("Sie hat …" for You): write one
+  sentence with the person as `{0}`, and the reader's own with the context
+  `"Said of the reader"`.
 - **People.** Each role whose work it is, and one who may not: what they
-  can't do is hidden or refused, never an error.
+  can't do is hidden or refused, never an error. A link to a screen they
+  may not open says No access, not Page not found.
 - **States.** Empty, one row, many, loading, an error on purpose, a draft,
-  a cancelled record, a record in another currency.
+  a cancelled record, a record in another currency. When the demo has no
+  cancelled record, make one that moves no stock or money (a material
+  request), and keep it.
 - **Keys.** Escape closes, Tab reaches every control, focus is visible, and
   its shortcuts work here and nowhere else.
 - **Search and reach.** Its records are found in Ctrl+K and in pickers, and
@@ -202,11 +242,24 @@ Each screen in scope gets these, whichever kind its app is.
   the one action.
 - **Speed**: requests, size and time to a usable list, form, home and
   centre, measured before and after. A `:has()` that restyles the page is
-  refused by `test_selectors`.
+  refused by `test_selectors`. *How:* `~/tools/browser/speed.mjs` (a phone
+  at 4x CPU), the app's baseline in its SCRATCHPAD; when it is slow,
+  `itemtrace.mjs` says whether the server or the page waits and
+  `cpuprof.mjs` which code. Look for one read asked once per tab.
 - **A fresh site**: it works straight after the setup wizard, not only on
   the demo.
+- **Live**: change a record from elsewhere while its screen is open (move
+  one item between warehouses) and see the screen follow.
 - **Deleting**: the Recycle Bin brings it back, links are swept, the audit
-  log has it.
+  log has it. A doctype of ours that links to any record (Portal Link)
+  goes in `ignore_links_on_delete` and is swept on trash, or it blocks a
+  delete frappe would allow.
+- **The portal**: a supplier or customer sees only their own; a print
+  format of ours sent to them prints nothing ERPNext keeps `print_hide`
+  (an RFQ's other suppliers).
+- **Intake**: what OneAI makes from a mail takes the document's own
+  figures (a delivery note's quantities), and proposes when a line matches
+  nothing.
 - **Empty dates.** frappe reads an empty date as the earliest day, so a
   `<` filter on a date that may be empty matches it; ask `is set` first.
   Three jobs did harm this way in one week.
@@ -233,7 +286,10 @@ Each screen in scope gets these, whichever kind its app is.
    app that needs `scripts/version.py`, and counts strings to translate.
    Then write what only a person can: the version's words, the Help page
    and its pictures if what people see changed, and the ar/de strings
-   (`scripts/translate.py apply`, then `bench compile-po-to-mo`).
+   (`scripts/translate.py apply`, then `bench compile-po-to-mo`). A day's
+   work in an app is one version: after the first, add to its words, and
+   `close.py` settles today's version even once committed (`changelog`
+   skill).
 7. **Stamp it** (below), and commit with the findings and what was done in
    the message. Commit only when `quick.py --all` itself reports no
    failure, not when a pipe after it does.
@@ -253,7 +309,9 @@ What a pass leaves behind, so the next one starts where it ended:
 - **The area**: its row in `docs/PASSOVER-LOG.md`, one row per area, saying
   what this pass did and its day.
 - **What waits**: anything found outside the scope goes in that app's
-  SCRATCHPAD or `docs/BACKLOG.md`, one line.
+  SCRATCHPAD or `docs/BACKLOG.md`, one line. The app's own SCRATCHPAD is
+  brought up to date too: a checklist whose work landed is ticked, and
+  what the pass closed and left is said in a few lines.
 
 ## Rules that keep a pass honest
 

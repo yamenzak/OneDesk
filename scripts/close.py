@@ -6,9 +6,11 @@
 
 It regenerates docs/ (scripts/docs.py) and the overrides ledger
 (scripts/overrides.py). For each module it touches, a version not yet
-committed takes the module's fingerprint and legal stamp as they now are, so
-an edit after `scripts/version.py` no longer fails the version guard; a module
-changed since its last committed version is named, with the command that
+committed, or one dated today, takes the module's fingerprint and legal stamp
+as they now are: a day's work in a module is one version (the changelog
+skill), so an edit after `scripts/version.py`, or after today's version was
+committed, no longer fails the version guard; add what changed to its words.
+A module changed since an older version is named, with the command that
 writes its next one. It says how many strings still want Arabic and German
 (scripts/translate.py todo), when `bench` is on the path.
 
@@ -79,7 +81,7 @@ def settle(name: str) -> str:
 	now, stamp = ready.fingerprint(name), ready.legal(name)
 	if newest["fingerprint"] == now and newest.get("legal", "") == stamp:
 		return f"{name}: {newest['version']} is current"
-	if committed(newest["path"]):
+	if committed(newest["path"]) and str(newest.get("date")) != datetime.date.today().isoformat():
 		return (
 			f"{name}: changed since {newest['version']}; "
 			f'python3 scripts/version.py {ready.MODULES[name]["folder"]} <major|minor|fix> "<title>", then this again'
@@ -89,6 +91,8 @@ def settle(name: str) -> str:
 	if "\nlegal: " in text.split("\n---\n", 1)[0] + "\n":
 		text = re.sub(r"^legal: .*$", f"legal: {stamp}", text, count=1, flags=re.M)
 	newest["path"].write_text(text, encoding="utf-8")
+	if committed(newest["path"]) or _git("status", "--porcelain", "--", str(newest["path"].relative_to(ROOT))).startswith(" M"):
+		return f"{name}: today's {newest['version']} takes fingerprint {now}; say what else changed in its words"
 	return f"{name}: {newest['version']} takes fingerprint {now}"
 
 

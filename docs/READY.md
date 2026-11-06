@@ -228,6 +228,13 @@ When torn between two, take the bigger one. `test_ready.py` holds the one
 rule a machine can check: a fix never changes what the module adds to the
 agreements.
 
+A day's work in a module is one version. `scripts/version.py` refuses a
+second one the same day (a bigger kind renumbers today's instead), and
+`scripts/close.py` keeps today's version on the module's fingerprint after
+it is committed, so a later change that day is added to its words. On 6
+November 2026 one pass wrote seven OneInventory versions in a day; they
+were folded into 2.1.0.
+
 **Before.** Nothing per module. Frappe's own What's New dialog
 (`frappe/utils/change_log.py`) is per app and reads
 `<app>/change_log/v1/v1_2_3.md`.

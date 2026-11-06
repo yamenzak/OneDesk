@@ -177,7 +177,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInventory 2.2.4
+## OneInventory 2.1.0
 
 Ready.
 
@@ -496,7 +496,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInterface 1.10.3
+## OneInterface 1.10.0
 
 Not marked ready yet.
 
@@ -525,7 +525,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## One 2.9.24
+## One 2.9.22
 
 Ready.
 
@@ -554,7 +554,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneAI 1.9.8
+## OneAI 1.9.7
 
 Ready.
 

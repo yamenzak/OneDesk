@@ -26,6 +26,11 @@ fingerprint, `legal:`); fill in the words and, when it applies, `docs:`.
   a screen replaced. Rare, and decided with the user.
 
 Several changes on one day in one module are one version, not one each.
+After the first, add each change to its words and run `scripts/close.py`,
+which gives a version dated today the module's fingerprint even once it is
+committed. `version.py` refuses a second version the same day, and a
+bigger kind renumbers today's (a fix becomes the minor), keeping its words.
+Order the words by what matters to the reader, not by when each was done.
 
 ## The title
 

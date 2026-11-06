@@ -24,6 +24,11 @@ rules. This file is only about how this machine runs it.
   the `islands` line rebuilds `frontend/`, both on save; the page needs a
   refresh. The portal (`frontend/portal`) has no watcher: `cd
   apps/onedesk/frontend && yarn build` after changing it.
+- A plain stylesheet in `public/css` (phone.css and the like) is served
+  under `?v=`, the modified time of `sites/assets/assets.json`, which the
+  tunnel's cache keeps for 12 hours: after changing one, `touch
+  sites/assets/assets.json` and restart `one-bench`, or the browser keeps
+  the old file.
 - A doctype or fixture JSON change needs `bench --site SITE migrate`.
 - `bench build` runs `deploy/local/build.sh`: it stops `one-bench`, builds,
   and starts it again, because a full build beside the running bench runs

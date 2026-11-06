@@ -101,7 +101,13 @@ has the same address on dev and in production. Nothing to do by hand: an
 admin site sends what R2 lacks whenever it migrates
 (`one_admin/media.py`), so on dev `git pull` and `bench --site all migrate`
 publish it. Until then the page falls back to the workspace's copy. To send
-now: `bench --site <admin site> execute onedesk.one_admin.media.push`.
+now: `bench --site <admin site> execute onedesk.one_admin.media.push`, and
+look at what it says: the migrate only logs a failure. AccessDenied means
+the storage token predates the docs bucket; running **Set Up Cloudflare**
+again in that OneAdmin's settings fixes it (the user does; 6 November
+2026, when 74 files had never gone up). A picture is taken at 2x as the
+person whose work it is (`~/tools/browser/helpshot.mjs`), cropped to the
+part, and scaled to 1600 wide.
 
 ## Help and What's New read on to each other
 
