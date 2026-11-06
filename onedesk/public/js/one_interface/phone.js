@@ -255,6 +255,8 @@ $.extend(onedesk.interface.phone, {
 		const name = $shown?.find(".header-title").html();
 		if (logo) $(`<span class="one-drawer-logo"></span>`).html(logo).appendTo($head);
 		$(`<span class="one-drawer-name"></span>`)[name ? "html" : "text"](name || $drawer.attr("aria-label")).appendTo($head);
+		onedesk.interface.company_switch("one-drawer-company")?.appendTo($body);
+		document.body.classList.add("one-drawer-open");
 		const $rail = $(`<div class="body-sidebar desk-mobile-sheet-sidebar one-drawer-rail"></div>`).appendTo($body);
 		sidebar.$items_container.appendTo($rail);
 		const module = sidebar.current_module;
@@ -274,6 +276,7 @@ $.extend(onedesk.interface.phone, {
 			sidebar.$items_container.appendTo(home);
 			$drawer.remove();
 			$scrim.remove();
+			document.body.classList.remove("one-drawer-open");
 			$(document).off("keydown.one-drawer");
 		};
 		$scrim.on("click", shut);

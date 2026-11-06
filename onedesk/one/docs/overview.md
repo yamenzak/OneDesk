@@ -29,7 +29,10 @@ it, its corners rounded. The frame is dark when the theme is light, and a
 shade lighter than the page when the theme is dark.
 
 The top bar is the workspace and what reaches you. On the left is the
-workspace's name. In the middle run the announcements. On the right are
+workspace's name, and, when the workspace has more than one company, the
+company you are working in: click it to change to another. Every Home,
+figure and new record is that company's. On a phone the company is at the
+top of the **☰** menu. In the middle run the announcements. On the right are
 **Search**, then **Reading** and **Notifications**.
 
 The bottom bar is the screen you are on and what is running, like a taskbar.

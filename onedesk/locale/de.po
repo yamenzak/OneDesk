@@ -8357,6 +8357,11 @@ msgstr "Darstellung ändern"
 msgid "Change Budget"
 msgstr "Budget ändern"
 
+#: onedesk/public/js/one_interface/chrome.js:32
+#: onedesk/public/js/one_interface/chrome.js:36
+msgid "Change Company"
+msgstr "Unternehmen wechseln"
+
 #: onedesk/public/js/one_account/account_center.js:225
 #: onedesk/public/js/one_account/account_center.js:296
 #: onedesk/public/js/one_account/account_center.js:308
@@ -60166,6 +60171,11 @@ msgstr "Funktioniert"
 #: onedesk/one_studio/print_blocks.py:87
 msgid "Working Days"
 msgstr "Arbeitstage"
+
+#: onedesk/public/js/one_interface/chrome.js:50
+#, python-brace-format
+msgid "Working in {0}."
+msgstr "Sie arbeiten jetzt in {0}."
 
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:397 onedesk/one_hr/sidebar/onehr/onehr.json:414

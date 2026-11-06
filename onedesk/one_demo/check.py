@@ -1800,6 +1800,32 @@ def one_oneai_turned_off_asks_nothing_and_oneintake_reads_nothing():
 
 
 @check
+def one_a_person_works_in_one_company_at_a_time():
+	"""With Sahara Glass Saudi beside Sahara, Karim may switch between them
+	from the frame, and Stock Summary follows; a company he may not read is
+	refused, and Yousef, who reads no company, is offered none."""
+	from onedesk.one import company
+	from onedesk.one_demo.branch import BRANCH
+	from onedesk.one_inventory import stock
+
+	try:
+		with as_user("karim@one.test"):
+			said = company.mine()
+			assert said and {COMPANY, BRANCH} <= set(said["all"]) and said["current"] == COMPANY, said
+			company.use(BRANCH)
+			assert company.mine()["current"] == BRANCH and stock.on_hand()["currency"] == "SAR"
+			try:
+				company.use("No Such Company")
+				raise AssertionError("a company he may not work in was taken")
+			except frappe.PermissionError:
+				pass
+	finally:
+		frappe.defaults.set_user_default("company", COMPANY, "karim@one.test")
+	with as_user("yousef@one.test"):
+		assert company.mine() is None
+
+
+@check
 def one_the_frame_wears_the_workspace_colour():
 	"""Frame Colour in One's ControlCenter › Branding is the rail and the bars
 	around every screen, for everyone; saved empty, the frame is One's own."""

@@ -19,6 +19,7 @@ from frappe import _, _lt
 REACH = {}
 
 NOT_FOR_AI = {
+	"company.use": "Which company a person works in is their own choice, from the frame.",
 	"shortcut_center.save": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"shortcut_center.reset": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"avatars.pick": "How every record of a kind looks is an administrator's choice in One's settings, never OneAI's.",

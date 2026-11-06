@@ -24,6 +24,34 @@ $.extend(onedesk.interface, {
 		root.dataset.oneFrameInk = ink === "dark" ? "dark" : "light";
 	},
 
+	company_switch(css) {
+		const said = frappe.boot.one_companies;
+		if (!said) return null;
+		const $button = $(`<button type="button" class="${css}"><span class="one-company-name"></span>${frappe.utils.icon("chevron-down", "xs")}</button>`);
+		$button.find(".one-company-name").text(said.current);
+		$button.attr({ "aria-label": __("Change Company"), title: __("Change Company") });
+		new frappe.ui.Dropdown({
+			trigger: $button,
+			sheet_on_mobile: true,
+			sheet_title: () => __("Change Company"),
+			options: said.all.map((name) => ({
+				label: name,
+				icon: "building-2",
+				selected: name === said.current,
+				onclick: () => onedesk.interface.use_company(name),
+			})),
+		});
+		return $button;
+	},
+
+	use_company(name) {
+		if (name === frappe.boot.one_companies?.current) return;
+		frappe.xcall("onedesk.one.company.use", { company: name }).then(() => {
+			frappe.show_alert({ message: __("Working in {0}.", [name]), indicator: "green" });
+			window.location.reload();
+		});
+	},
+
 	bars() {
 		if (frappe.session.user === "Guest" || $(".one-bar").length) return;
 		const $top = $(`<header class="one-bar" data-at="top" role="toolbar" aria-label="${__("Tools")}">
@@ -47,6 +75,7 @@ $.extend(onedesk.interface, {
 			</div>
 		</footer>`).appendTo(document.body);
 		$top.find(".one-bar-name").text(frappe.boot.one_workspace_name || frappe.boot.sysdefaults?.company || "");
+		onedesk.interface.company_switch("one-bar-tool one-bar-company")?.appendTo($top.find(".one-bar-lead"));
 		$("body").addClass("one-barred");
 		const $bars = $top.add($bottom);
 		const tip = (el) =>

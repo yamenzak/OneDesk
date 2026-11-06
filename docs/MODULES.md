@@ -324,6 +324,7 @@ No doctypes yet.
 * `onedesk.one.audit.log`
 * `onedesk.one.avatars.gallery`
 * `onedesk.one.avatars.pick`
+* `onedesk.one.company.use`
 * `onedesk.one.control.load`
 * `onedesk.one.control.save`
 * `onedesk.one.control.sections_of`

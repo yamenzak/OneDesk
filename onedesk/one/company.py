@@ -47,6 +47,27 @@ def hide(*_args) -> None:
 	frappe.clear_cache()
 
 
+def mine() -> dict | None:
+	"""The companies the reader may work in, and the one they work in now, for
+	the frame's switch; None with only one, so nothing shows."""
+	from erpnext import get_default_company
+
+	names = frappe.get_list("Company", pluck="name", order_by="name asc", limit_page_length=0, ignore_permissions=False)
+	if len(names) < 2:
+		return None
+	now = get_default_company()
+	return {"current": now if now in names else names[0], "all": names}
+
+
+@frappe.whitelist(methods=["POST"])
+def use(company: str) -> None:
+	"""Work in another company: the reader's default, which every Home,
+	figure and new record follows."""
+	if company not in ((mine() or {}).get("all") or ()):
+		raise frappe.PermissionError
+	frappe.defaults.set_user_default("company", company)
+
+
 def changed(doc=None, method=None) -> None:
 	"""A company added or deleted: the fields follow, after the commit."""
 	frappe.enqueue("onedesk.one.company.hide", queue="short", enqueue_after_commit=True, deduplicate=True, job_id="one_company_fields")

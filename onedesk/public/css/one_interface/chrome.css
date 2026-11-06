@@ -622,3 +622,14 @@ body.one-barred .dock-item-icon .one-flat {
 .one-bar-status .one-stamp[data-tone="amber"] { color: var(--ink-amber-3); }
 .one-bar-status .one-stamp[data-tone="green"] { color: var(--ink-green-3); }
 .one-bar-status .one-stamp[data-tone="gray"] { color: var(--one-ink-faint); }
+
+.one-bar-company {
+	color: var(--one-frame-ink);
+	font-weight: 500;
+}
+
+.one-bar-company .icon,
+.one-drawer-company .icon {
+	margin: 0;
+	flex: none;
+}
