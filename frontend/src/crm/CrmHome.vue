@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" ref="cardsRoot" data-tour="onecrm-figures" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
+      <div v-if="cards.length" ref="cardsRoot" data-tour="onecrm-figures" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3 [&_.truncate]:whitespace-normal">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
@@ -131,7 +131,7 @@ const cards = computed(() => {
         value: got[one.key].value ?? 0,
         format: format(one),
         ...(change(got[one.key].series, one.plain) === null ? {} : { delta: change(got[one.key].series, one.plain), deltaSuffix: one.plain ? "" : "%", deltaCaption: __("vs last month") }),
-        ...(got[one.key].series ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
+        ...(got[one.key].series?.some((value) => value) ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
       },
     }));
 });

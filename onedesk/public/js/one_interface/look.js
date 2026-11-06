@@ -130,6 +130,8 @@ record.head = (frm) => {
 		container.one_hero = hero;
 	}
 	if (hero.previousElementSibling !== pageHead) pageHead.after(hero);
+	hero.dataset.tour = `record-${frappe.scrub(frm.doctype).replace(/_/g, "-")}`;
+	hero.querySelector(".one-head-cards").dataset.tour = "record-cards";
 	hero.hidden = !shown;
 	if (!shown) return;
 
@@ -194,6 +196,7 @@ record.head = (frm) => {
 	if (steps && steps.length) {
 		const track = document.createElement("div");
 		track.className = "one-track";
+		track.dataset.tour = "record-track";
 		steps.forEach((step, i) => {
 			const done = step.state === "done";
 			const joined = done && steps[i + 1] && steps[i + 1].state === "done";

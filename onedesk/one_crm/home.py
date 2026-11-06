@@ -275,12 +275,13 @@ def _closing() -> list[dict]:
 	day = getdate(nowdate())
 	rows = frappe.get_list(
 		"Opportunity",
-		filters={
-			"opportunity_owner": frappe.session.user,
-			"status": ["in", next_step.OPEN["Opportunity"]],
-			"expected_closing": ["<", day],
-			"company": measure.company(),
-		},
+		filters=[
+			["opportunity_owner", "=", frappe.session.user],
+			["status", "in", next_step.OPEN["Opportunity"]],
+			["expected_closing", "is", "set"],
+			["expected_closing", "<", day],
+			["company", "=", measure.company()],
+		],
 		fields=["name", *TITLE["Opportunity"], "one_next_step", "one_next_on", "expected_closing"],
 		order_by="expected_closing asc",
 		limit_page_length=0,

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 17:55+0000\n"
+"POT-Creation-Date: 2026-11-06 19:06+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -319,11 +319,11 @@ msgstr "1 Projekt"
 msgid "1 record"
 msgstr "1 Datensatz"
 
-#: onedesk/public/js/one_interface/look.js:503
+#: onedesk/public/js/one_interface/look.js:506
 msgid "1 row added"
 msgstr "1 Zeile hinzugefügt"
 
-#: onedesk/public/js/one_interface/look.js:503
+#: onedesk/public/js/one_interface/look.js:506
 msgid "1 row removed"
 msgstr "1 Zeile entfernt"
 
@@ -3618,8 +3618,8 @@ msgstr "Ausrichtung"
 #: onedesk/one_inventory/heads.py:634 onedesk/one_inventory/heads.py:716
 #: onedesk/one_inventory/heads.py:742 onedesk/one_project/heads.py:198
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:666
-#: onedesk/public/js/one_interface/look.js:696
+#: onedesk/public/js/one_interface/look.js:669
+#: onedesk/public/js/one_interface/look.js:699
 msgid "All"
 msgstr "Alle"
 
@@ -3716,6 +3716,10 @@ msgstr "Alle Feiertage sind bereits in der Liste."
 #: onedesk/one_inventory/heads.py:632
 msgid "All in"
 msgstr "Alles da"
+
+#: onedesk/one_crm/heads.py:288
+msgid "All made"
+msgstr "Alle erledigt"
 
 #: onedesk/one_factory/heads.py:63
 msgid "All made."
@@ -4635,7 +4639,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr "Zuschnitt anwenden"
 
-#: onedesk/one/ready.py:833
+#: onedesk/one/ready.py:862
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -4692,6 +4696,10 @@ msgstr ""
 #. Label of a Link in the OneHR Setup Workspace
 #: onedesk/one_hr/workspace/onehr_setup/onehr_setup.json:332
 msgid "Appointment Letter Template"
+msgstr ""
+
+#: onedesk/one_crm/heads.py:438
+msgid "Appointment With"
 msgstr ""
 
 #. Label in the One Appraisal print format
@@ -5570,7 +5578,7 @@ msgstr "Neue Unterhaltungen zuweisen"
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:847
+#: onedesk/one/ready.py:876
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -7010,7 +7018,7 @@ msgstr "Abrechenbar nach Meilensteinen"
 #: frontend/src/project/Suppliers.vue:48 frontend/src/project/Suppliers.vue:182
 #: frontend/src/project/Suppliers.vue:205 onedesk/one_book/heads.py:101
 #: onedesk/one_book/heads.py:593 onedesk/one_crm/heads.py:131
-#: onedesk/one_crm/heads.py:372
+#: onedesk/one_crm/heads.py:404
 #: onedesk/one_hr/report/hours_utilization/hours_utilization.py:184
 #: onedesk/one_inventory/heads.py:547 onedesk/one_inventory/heads.py:716
 #: onedesk/one_inventory/heads.py:742 onedesk/one_project/heads.py:198
@@ -7953,6 +7961,10 @@ msgstr "Aufgerufen von"
 msgid "Calls"
 msgstr "Aufrufe"
 
+#: onedesk/one_crm/tour.py:51 onedesk/one_crm/tour.py:66
+msgid "Calls, Mail and Notes"
+msgstr "Anrufe, E-Mails und Notizen"
+
 #. Option for the 'Tone' (Select) field in DocType 'Voice Ad'
 #. Option for the 'Tone' (Select) field in DocType 'Voice Pack'
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:34
@@ -7960,7 +7972,7 @@ msgstr "Aufrufe"
 msgid "Calm"
 msgstr "Ruhig"
 
-#: onedesk/one_crm/heads.py:390
+#: onedesk/one_crm/heads.py:452
 msgid "Came In"
 msgstr "Eingegangen"
 
@@ -9167,7 +9179,7 @@ msgstr "Antragsnr."
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:840
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:869
 msgid "Claim an Expense"
 msgstr ""
 
@@ -9476,7 +9488,7 @@ msgstr "Jetzt geschlossen"
 msgid "Closed; nothing more is expected on it."
 msgstr "Geschlossen; darauf wird nichts mehr erwartet."
 
-#: onedesk/one_crm/heads.py:343 onedesk/one_project/ai.py:543
+#: onedesk/one_crm/heads.py:375 onedesk/one_project/ai.py:543
 msgid "Closes"
 msgstr "Abschluss"
 
@@ -10769,7 +10781,7 @@ msgstr "{0} Elemente kopiert"
 #: onedesk/one_ai/doctype/reading/reading.json:331
 #: onedesk/public/js/one_interface/json_view.js:145
 #: onedesk/public/js/one_interface/json_view.js:344
-#: onedesk/public/js/one_interface/look.js:179
+#: onedesk/public/js/one_interface/look.js:181
 #: onedesk/public/js/one_portal/portal.js:156
 #: onedesk/public/js/onecloud_dialogs.js:451
 #: onedesk/public/js/onecloud_dialogs.js:543
@@ -12846,12 +12858,12 @@ msgstr "{0} ablehnen"
 msgid "Declined"
 msgstr "Abgelehnt"
 
-#: onedesk/one_crm/portal.py:180
+#: onedesk/one_crm/portal.py:177
 #, python-brace-format
 msgid "Declined on the portal by {0}."
 msgstr "Im Portal von {0} abgelehnt."
 
-#: onedesk/one_crm/portal.py:179
+#: onedesk/one_crm/portal.py:176
 msgid "Declined on the portal."
 msgstr "Im Portal abgelehnt."
 
@@ -13305,7 +13317,7 @@ msgstr "Löschung abgebrochen"
 msgid "Deliver"
 msgstr "Liefern"
 
-#: onedesk/one_crm/heads.py:364
+#: onedesk/one_crm/heads.py:396
 msgid "Deliver By"
 msgstr "Liefern bis"
 
@@ -13361,7 +13373,7 @@ msgstr "Lieferung zur Baustelle"
 #. Label in the One Subcontracting Inward Order print format
 #: frontend/src/inventory/home/InventoryStory.vue:131
 #: frontend/src/inventory/home/InventoryStory.vue:136
-#: onedesk/one_book/heads.py:100 onedesk/one_crm/heads.py:366
+#: onedesk/one_book/heads.py:100 onedesk/one_crm/heads.py:398
 #: onedesk/one_crm/portal.py:25 onedesk/one_crm/portal.py:60
 #: onedesk/one_factory/print_format/one_subcontracting_inward_order/one_subcontracting_inward_order.json
 #: onedesk/one_inventory/heads.py:741 onedesk/one_inventory/portal.py:21
@@ -16303,6 +16315,10 @@ msgstr "Beschäftigungsart"
 msgid "Employment Types"
 msgstr "Beschäftigungsarten"
 
+#: onedesk/one/ready.py:772
+msgid "Empty"
+msgstr ""
+
 #: frontend/src/cloud/OneCloud.vue:546
 msgid "Empty Recycle Bin"
 msgstr "Papierkorb leeren"
@@ -16356,6 +16372,7 @@ msgstr "Ausgehende E-Mails sind für {0} deaktiviert."
 msgid "Enabled"
 msgstr "Aktiviert"
 
+#: onedesk/one_crm/heads.py:445
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:56
 msgid "End Date"
 msgstr ""
@@ -16407,7 +16424,7 @@ msgstr "Vor {0} Tagen beendet"
 #. Label in the One Job Card print format
 #. Label in the One Training Event print format
 #: onedesk/one_book/print_format/one_budget/one_budget.json
-#: onedesk/one_crm/heads.py:384
+#: onedesk/one_crm/heads.py:416
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_project/ai.py:953
@@ -18593,7 +18610,7 @@ msgstr "Vorname"
 
 #. Label of the one_first_reply_at (Datetime) field in DocType 'Lead'
 #: onedesk/one_crm/custom/lead.json:35 onedesk/one_crm/heads.py:193
-#: onedesk/one_crm/heads.py:391
+#: onedesk/one_crm/heads.py:453
 msgid "First Reply"
 msgstr "Erste Antwort"
 
@@ -20356,7 +20373,7 @@ msgid "Grade"
 msgstr "Gehaltsstufe"
 
 #: frontend/src/books/BooksStory.vue:32 onedesk/one_book/heads.py:586
-#: onedesk/one_crm/heads.py:353 onedesk/one_inventory/heads.py:1378
+#: onedesk/one_crm/heads.py:385 onedesk/one_inventory/heads.py:1378
 #: onedesk/one_inventory/heads.py:1405 onedesk/one_inventory/heads.py:1439
 #: onedesk/public/js/one/one_control.js:105
 msgid "Grand Total"
@@ -21110,8 +21127,8 @@ msgstr "Ausgeblendet. Diese Schlagzeile erscheint weder in der oberen Leiste noc
 msgid "Hide"
 msgstr "Ausblenden"
 
-#: onedesk/public/js/one_interface/look.js:352
-#: onedesk/public/js/one_interface/look.js:359
+#: onedesk/public/js/one_interface/look.js:355
+#: onedesk/public/js/one_interface/look.js:362
 msgid "Hide Empty Fields"
 msgstr "Leere Felder ausblenden"
 
@@ -23715,7 +23732,7 @@ msgstr "Sie wird unter OneCloud › Arbeitsmappenvorlagen gespeichert und steht 
 msgid "It is yours now: it is on your Home, and its next step is yours to take."
 msgstr "Er gehört jetzt Ihnen: Er steht auf Ihrer Startseite, und der nächste Schritt liegt bei Ihnen."
 
-#: onedesk/one_crm/heads.py:307
+#: onedesk/one_crm/heads.py:339
 msgid "It is yours."
 msgstr "Er gehört jetzt dir."
 
@@ -24199,6 +24216,10 @@ msgstr "Artikel, Lager, was bestellt und erhalten wurde, und die Ausrüstung des
 msgid "Its Mail"
 msgstr "Seine E-Mails"
 
+#: onedesk/one_crm/tour.py:46
+msgid "Its amount and probability, how long it has been in its stage, its next step and when it should close."
+msgstr "Betrag und Wahrscheinlichkeit, wie lange sie in ihrer Phase ist, der nächste Schritt und wann sie abschließen soll."
+
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
 msgid "Its employee"
@@ -24224,6 +24245,10 @@ msgstr "Seine Mail ist jetzt in OneMail neben Ihrer eigenen, und Sie können von
 #: onedesk/one_crm/notifications.py
 msgid "Its new owner"
 msgstr "Der neue Verantwortliche"
+
+#: onedesk/one_crm/tour.py:61
+msgid "Its next step, how soon it was answered, the last call or mail, and the opportunities made from it."
+msgstr "Der nächste Schritt, wie schnell geantwortet wurde, der letzte Anruf oder die letzte E-Mail und die daraus entstandenen Verkaufschancen."
 
 #. Description of the 'Claim No' (Int) field in DocType 'Sales Invoice'
 #: onedesk/one_project/custom/sales_invoice.json:27
@@ -24878,8 +24903,8 @@ msgstr "Letzter Befehl"
 msgid "Last Completion Date"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:232 onedesk/one_crm/heads.py:342
-#: onedesk/one_crm/heads.py:393
+#: onedesk/one_crm/heads.py:232 onedesk/one_crm/heads.py:374
+#: onedesk/one_crm/heads.py:455
 msgid "Last Contact"
 msgstr "Letzter Kontakt"
 
@@ -24991,7 +25016,7 @@ msgstr "Letzte Überprüfung"
 msgid "Last Said On"
 msgstr "Zuletzt gesagt am"
 
-#: onedesk/one_book/heads.py:235 onedesk/one_crm/heads.py:317
+#: onedesk/one_book/heads.py:235 onedesk/one_crm/heads.py:349
 msgid "Last Sales Invoice"
 msgstr "Letzte Ausgangsrechnung"
 
@@ -26388,6 +26413,10 @@ msgstr ""
 #: onedesk/public/js/crm_record.js:19 onedesk/public/js/crm_record.js:64
 msgid "Log a Call"
 msgstr "Anruf erfassen"
+
+#: onedesk/one_crm/tour.py:52 onedesk/one_crm/tour.py:67
+msgid "Log a Call writes a call down, and Activity holds everything said about it with the mail and comments."
+msgstr "Anruf erfassen hält einen Anruf fest, und die Aktivität enthält alles, was dazu gesagt wurde, mit E-Mails und Kommentaren."
 
 #: onedesk/one_calendar/feed.py:83
 msgid "Log in to create a calendar link."
@@ -29016,8 +29045,8 @@ msgstr "Nie verwendet"
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:716
-#: onedesk/public/js/one_interface/look.js:718
+#: onedesk/public/js/one_interface/look.js:719
+#: onedesk/public/js/one_interface/look.js:721
 msgid "New"
 msgstr "Neu"
 
@@ -29384,8 +29413,8 @@ msgid "New in Your Apps"
 msgstr "Neu in Ihren Apps"
 
 #: onedesk/one_crm/tour.py:19
-msgid "New leads, the pipeline and what it is likely worth, what was won and how often; click one to open it."
-msgstr "Neue Leads, die Pipeline und ihr wahrscheinlicher Wert, was gewonnen wurde und wie oft; klicken Sie auf eine Zahl, um sie zu öffnen."
+msgid "New leads, the pipeline and what it is likely worth, and what was won and how often, each opening its report."
+msgstr "Neue Interessenten, die Pipeline und ihr voraussichtlicher Wert, und was wie oft gewonnen wurde, jeweils mit ihrem Bericht."
 
 #: onedesk/one_studio/ai_setup.py:528
 msgid "New level"
@@ -29481,7 +29510,7 @@ msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzu
 #: onedesk/public/js/one_interface/form.js:432
 #: onedesk/public/js/one_interface/form.js:480
 #: onedesk/public/js/one_interface/form.js:492
-#: onedesk/public/js/one_interface/look.js:144 onedesk/public/js/record.js:169
+#: onedesk/public/js/one_interface/look.js:146 onedesk/public/js/record.js:169
 #, python-brace-format
 msgid "New {0}"
 msgstr "Neu: {0}"
@@ -29640,7 +29669,7 @@ msgstr "Nächster Status"
 #: onedesk/one_crm/calendar.py:40 onedesk/one_crm/calendar.py:69
 #: onedesk/one_crm/custom/lead.json:7 onedesk/one_crm/custom/opportunity.json:7
 #: onedesk/one_crm/heads.py:220 onedesk/one_crm/heads.py:221
-#: onedesk/one_crm/heads.py:341 onedesk/one_crm/heads.py:392
+#: onedesk/one_crm/heads.py:373 onedesk/one_crm/heads.py:454
 #: onedesk/one_crm/tell.py:48 onedesk/public/js/next_step.js:19
 msgid "Next Step"
 msgstr "Nächster Schritt"
@@ -29657,6 +29686,10 @@ msgstr "Nächster Schritt erledigt"
 #: onedesk/public/js/next_step.js:23
 msgid "Next Step Due"
 msgstr "Nächster Schritt fällig"
+
+#: onedesk/one_crm/heads.py:430
+msgid "Next Visit"
+msgstr "Nächster Besuch"
 
 #: onedesk/public/js/one_hr/hr_control.js:124
 msgid "Next Year's List"
@@ -33605,7 +33638,7 @@ msgstr "Offene Chancen"
 msgid "Open Order"
 msgstr "Bestellung öffnen"
 
-#: onedesk/one_book/heads.py:696 onedesk/one_crm/heads.py:319
+#: onedesk/one_book/heads.py:696 onedesk/one_crm/heads.py:351
 msgid "Open Orders"
 msgstr ""
 
@@ -33968,13 +34001,13 @@ msgstr "Chancen, Angebote, Aufträge und Rechnungen nach Gebiet."
 #: frontend/src/crm/CrmHome.vue:209 frontend/src/crm/CrmHome.vue:227
 #: frontend/src/crm/CrmStory.vue:78
 #: onedesk/one_admin/doctype/account_request/account_request.json:147
-#: onedesk/one_crm/heads.py:128 onedesk/one_crm/heads.py:330
-#: onedesk/one_crm/heads.py:355 onedesk/one_crm/heads.py:394
+#: onedesk/one_crm/heads.py:128 onedesk/one_crm/heads.py:362
+#: onedesk/one_crm/heads.py:387 onedesk/one_crm/heads.py:456
 #: onedesk/one_crm/home.py:107 onedesk/one_crm/sidebar/onecrm/onecrm.json:56
 msgid "Opportunity"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:339
+#: onedesk/one_crm/heads.py:371
 msgid "Opportunity Amount"
 msgstr ""
 
@@ -34736,7 +34769,7 @@ msgstr "Zeitlimit überschritten"
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
-#: onedesk/one_crm/heads.py:316
+#: onedesk/one_crm/heads.py:348
 #: onedesk/one_crm/report/opportunity_forecast/opportunity_forecast.py:40
 #: onedesk/one_task/mine.py:15 onedesk/one_task/tell.py:296
 msgid "Overdue"
@@ -37895,7 +37928,7 @@ msgstr "Programm"
 #: frontend/src/cloud/CloudPreview.vue:95 frontend/src/cloud/OneCloud.vue:226
 #: frontend/src/slide/shim/WidgetMock.vue:231 onedesk/one_book/heads.py:577
 #: onedesk/one_book/heads.py:657 onedesk/one_book/heads.py:667
-#: onedesk/one_crm/heads.py:338 onedesk/one_display/widgets.py:374
+#: onedesk/one_crm/heads.py:370 onedesk/one_display/widgets.py:374
 #: onedesk/one_factory/heads.py:216 onedesk/one_factory/heads.py:244
 #: onedesk/one_inventory/heads.py:1376 onedesk/one_inventory/heads.py:1386
 #: onedesk/one_inventory/heads.py:1424 onedesk/one_inventory/heads.py:1436
@@ -37977,8 +38010,8 @@ msgstr "Fortschritt…"
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
-#: onedesk/one_crm/heads.py:345 onedesk/one_crm/heads.py:356
-#: onedesk/one_crm/heads.py:362 onedesk/one_crm/heads.py:382
+#: onedesk/one_crm/heads.py:377 onedesk/one_crm/heads.py:388
+#: onedesk/one_crm/heads.py:394 onedesk/one_crm/heads.py:414
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -38871,8 +38904,8 @@ msgstr "Kontingente"
 #. Label in the One Quotation with Images print format
 #. Label of a Sidebar Item
 #: frontend/src/crm/CrmHome.vue:245 onedesk/one_crm/heads.py:129
-#: onedesk/one_crm/heads.py:344 onedesk/one_crm/home.py:114
-#: onedesk/one_crm/home.py:329
+#: onedesk/one_crm/heads.py:376 onedesk/one_crm/home.py:114
+#: onedesk/one_crm/home.py:330
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
 #: onedesk/one_crm/print_format/one_quotation_classic/one_quotation_classic.json
@@ -38988,6 +39021,10 @@ msgstr "Angeboten {0}"
 #, python-brace-format
 msgid "Quoted {0}, expired"
 msgstr "Angeboten {0}, abgelaufen"
+
+#: onedesk/one_crm/tour.py:40
+msgid "Quoted, ordered, billed and paid as its papers say, and won once its quotation becomes an order."
+msgstr "Angeboten, bestellt, abgerechnet und bezahlt, wie ihre Belege sagen, und gewonnen, sobald aus dem Angebot ein Auftrag wird."
 
 #: frontend/src/inventory/supplier/SupplierItems.vue:127
 #, python-brace-format
@@ -39711,6 +39748,7 @@ msgstr "Der Empfang ist links. Melden Sie sich bei Ankunft an."
 
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:34
+#: onedesk/one_crm/heads.py:446
 msgid "Recipient"
 msgstr "Empfänger"
 
@@ -41309,6 +41347,10 @@ msgstr "Gekündigt am"
 msgid "Resolution"
 msgstr "Lösung"
 
+#: onedesk/one_crm/heads.py:424
+msgid "Resolution Date"
+msgstr ""
+
 #: onedesk/one_quality/heads.py:63
 msgid "Resolutions Done"
 msgstr "Erledigte Lösungen"
@@ -42393,7 +42435,7 @@ msgstr "Ausgangsrechnungen nach Status"
 #. Label in the One Subcontracting Inward Order print format
 #. Label in the One Work Order print format
 #: onedesk/one_crm/heads.py:130 onedesk/one_crm/home.py:115
-#: onedesk/one_crm/home.py:330
+#: onedesk/one_crm/home.py:331
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
 #: onedesk/one_crm/print_format/one_sales_order_bordered/one_sales_order_bordered.json
 #: onedesk/one_crm/print_format/one_sales_order_classic/one_sales_order_classic.json
@@ -42438,7 +42480,7 @@ msgstr ""
 msgid "Sales Register"
 msgstr ""
 
-#: onedesk/one_crm/heads.py:66 onedesk/one_crm/heads.py:340
+#: onedesk/one_crm/heads.py:66 onedesk/one_crm/heads.py:372
 #: onedesk/one_crm/home.py:155
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:80
 msgid "Sales Stage"
@@ -42856,6 +42898,10 @@ msgstr "Zeitplan, Hochformat"
 #: onedesk/one_studio/doctype/extension/extension.json:94
 msgid "Scheduled"
 msgstr "Geplant"
+
+#: onedesk/one_crm/heads.py:437
+msgid "Scheduled Time"
+msgstr ""
 
 #. Task in the Year-End Audit project template
 #: onedesk/one_project/library/year_end_audit.json
@@ -44673,7 +44719,7 @@ msgstr "Soll ich mehr bestellen?"
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:291
+#: onedesk/public/js/one_interface/look.js:294
 msgid "Show 1 Empty Field"
 msgstr "1 leeres Feld anzeigen"
 
@@ -44860,7 +44906,7 @@ msgstr "Diagramm nur anzeigen, wenn der Datensatz diesen Filtern entspricht. Lee
 msgid "Show {0} Earlier"
 msgstr "{0} frühere anzeigen"
 
-#: onedesk/public/js/one_interface/look.js:291
+#: onedesk/public/js/one_interface/look.js:294
 #, python-brace-format
 msgid "Show {0} Empty Fields"
 msgstr "{0} leere Felder anzeigen"
@@ -45171,7 +45217,7 @@ msgid "Signed In By"
 msgstr "Angemeldet von"
 
 #. Label in the One Contract print format
-#: onedesk/one_crm/heads.py:383
+#: onedesk/one_crm/heads.py:415
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_studio/print_blocks.py:94
 msgid "Signed On"
@@ -46106,7 +46152,7 @@ msgstr "Klangzone"
 #: onedesk/one/doctype/news_source/news_source.json:48
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:88
 #: onedesk/one_ai/doctype/ai_chunk/ai_chunk.json:31
-#: onedesk/one_crm/heads.py:346 onedesk/one_crm/heads.py:395
+#: onedesk/one_crm/heads.py:378 onedesk/one_crm/heads.py:457
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:75
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_display/doctype/display_widget/display_widget.json:41
@@ -46422,6 +46468,7 @@ msgstr ""
 msgid "Start Again"
 msgstr "Neu beginnen"
 
+#: onedesk/one_crm/heads.py:444
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:49
 msgid "Start Date"
 msgstr "Startdatum"
@@ -48160,11 +48207,11 @@ msgstr "Zurücknehmen"
 msgid "Take Off {0}"
 msgstr "Von {0} entfernen"
 
-#: onedesk/one_crm/heads.py:304
+#: onedesk/one_crm/heads.py:336
 msgid "Take This Lead"
 msgstr "Diesen Lead übernehmen"
 
-#: onedesk/one_crm/heads.py:304
+#: onedesk/one_crm/heads.py:336
 msgid "Take This Opportunity"
 msgstr "Diese Chance übernehmen"
 
@@ -53291,7 +53338,7 @@ msgstr ""
 #: onedesk/one_book/print_format/one_sales_invoice_bordered/one_sales_invoice_bordered.json
 #: onedesk/one_book/print_format/one_sales_invoice_classic/one_sales_invoice_classic.json
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
-#: onedesk/one_crm/heads.py:363
+#: onedesk/one_crm/heads.py:395
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
 #: onedesk/one_crm/print_format/one_quotation/one_quotation.json
 #: onedesk/one_crm/print_format/one_quotation_bordered/one_quotation_bordered.json
@@ -55116,7 +55163,7 @@ msgstr ""
 msgid "Valid From"
 msgstr "Gültig ab"
 
-#: onedesk/one_crm/heads.py:354 onedesk/one_inventory/heads.py:1406
+#: onedesk/one_crm/heads.py:386 onedesk/one_inventory/heads.py:1406
 msgid "Valid Till"
 msgstr ""
 
@@ -55449,6 +55496,10 @@ msgstr "Gäste melden sich am Empfang an"
 msgid "Visits"
 msgstr "Besuche"
 
+#: onedesk/one_crm/heads.py:431
+msgid "Visits Made"
+msgstr "Erledigte Besuche"
+
 #. Task in the Mobile App project template
 #: onedesk/one_project/library/mobile_app.json
 msgid "Visual design"
@@ -55749,10 +55800,18 @@ msgstr "Warnung"
 msgid "Warranty"
 msgstr "Garantie"
 
+#: onedesk/one_crm/heads.py:422
+msgid "Warranty / AMC Status"
+msgstr ""
+
 #. Label of a Sidebar Item
 #: onedesk/one_crm/home.py:122 onedesk/one_crm/sidebar/onecrm/onecrm.json:264
 msgid "Warranty Claim"
 msgstr "Garantieanspruch"
+
+#: onedesk/one_crm/heads.py:423
+msgid "Warranty Expiry Date"
+msgstr ""
 
 #: frontend/src/inventory/item/ItemStock.vue:117
 #: onedesk/public/js/lots_actions.js:51
@@ -56164,6 +56223,10 @@ msgstr "Was aufbewahrt wird"
 #: onedesk/one_studio/doctype/extension/extension.js:99
 msgid "What It Does"
 msgstr "Was sie tut"
+
+#: onedesk/one_crm/tour.py:45
+msgid "What It Is Worth"
+msgstr "Was sie wert ist"
 
 #: onedesk/public/js/one_ai/ai_center.js:385
 msgid "What It Reads"
@@ -58658,6 +58721,10 @@ msgstr "Wo er ist"
 msgid "Where It Runs"
 msgstr "Wo sie läuft"
 
+#: onedesk/one_crm/tour.py:60
+msgid "Where It Stands"
+msgstr "Wo er steht"
+
 #: frontend/src/inventory/home/InventoryStory.vue:9
 msgid "Where Stock Is"
 msgstr "Wo der Bestand ist"
@@ -58769,6 +58836,10 @@ msgstr "Wo Personen arbeiten."
 #: onedesk/one_inventory/home.py:151
 msgid "Where stock is kept."
 msgstr "Wo Bestand gelagert wird."
+
+#: onedesk/one_crm/tour.py:39
+msgid "Where the Sale Stands"
+msgstr "Wo der Verkauf steht"
 
 #: onedesk/one_book/home.py:334
 msgid "Where the cash came from and went."
@@ -59858,6 +59929,10 @@ msgstr "Mit der Rechnung"
 #: onedesk/public/js/one_mail/rule_builder.js:831
 msgid "With OneAI"
 msgstr "Mit OneAI"
+
+#: onedesk/one/ready.py:771
+msgid "With Subscribers"
+msgstr "Mit Abonnenten"
 
 #: onedesk/one_display/widgets.py:62
 msgid "With a Label"
@@ -62336,7 +62411,7 @@ msgstr "z. B. {0}"
 msgid "edit"
 msgstr "Bearbeitung"
 
-#: onedesk/public/js/one_interface/look.js:489
+#: onedesk/public/js/one_interface/look.js:492
 msgid "edited"
 msgstr "bearbeitet"
 
@@ -62359,7 +62434,7 @@ msgstr "Notfallkontakt"
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:467
+#: onedesk/public/js/one_interface/look.js:470
 msgid "empty"
 msgstr "leer"
 
@@ -63428,7 +63503,7 @@ msgstr "wir"
 #: frontend/src/books/BooksHome.vue:136 frontend/src/crm/CrmHome.vue:133
 #: frontend/src/hr/HrHome.vue:152
 #: frontend/src/inventory/home/InventoryHome.vue:149
-#: onedesk/public/js/one_interface/look.js:221
+#: onedesk/public/js/one_interface/look.js:224
 msgid "vs last month"
 msgstr "ggü. Vormonat"
 
@@ -64072,12 +64147,12 @@ msgstr "{0} kann dieses Projekt nicht sehen. Zum Projekt hinzufügen?"
 msgid "{0} can't sign in, so can't join the project."
 msgstr "{0} kann sich nicht anmelden und daher dem Projekt nicht beitreten."
 
-#: onedesk/public/js/one_interface/look.js:528
+#: onedesk/public/js/one_interface/look.js:531
 #, python-brace-format
 msgid "{0} cancelled this"
 msgstr "{0} hat dies storniert"
 
-#: onedesk/public/js/one_interface/look.js:528
+#: onedesk/public/js/one_interface/look.js:531
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} cancelled this"
@@ -64129,12 +64204,12 @@ msgstr "{0} Kategorien, jede mit ihrem Konto und ihrer Abschreibung."
 msgid "{0} cells"
 msgstr "{0} Zellen"
 
-#: onedesk/public/js/one_interface/look.js:530
+#: onedesk/public/js/one_interface/look.js:533
 #, python-brace-format
 msgid "{0} changed 1 field"
 msgstr "{0} hat 1 Feld geändert"
 
-#: onedesk/public/js/one_interface/look.js:530
+#: onedesk/public/js/one_interface/look.js:533
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} changed 1 field"
@@ -64155,12 +64230,12 @@ msgstr "{0} hat sich mit diesem Speichern geändert. Zuerst speichern, dann das 
 msgid "{0} changed {1}"
 msgstr "{0} hat {1} geändert"
 
-#: onedesk/public/js/one_interface/look.js:531
+#: onedesk/public/js/one_interface/look.js:534
 #, python-brace-format
 msgid "{0} changed {1} fields"
 msgstr "{0} hat {1} Felder geändert"
 
-#: onedesk/public/js/one_interface/look.js:531
+#: onedesk/public/js/one_interface/look.js:534
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} changed {1} fields"
@@ -64186,12 +64261,12 @@ msgstr "{0} hat {1} für {2} geltend gemacht, und alles davon ist zulässig."
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr "{0} hat {1} für {2} geltend gemacht, davon sind {3} zulässig — der Rest liegt über einer Kategoriegrenze."
 
-#: onedesk/public/js/one_interface/look.js:526
+#: onedesk/public/js/one_interface/look.js:529
 #, python-brace-format
 msgid "{0} commented"
 msgstr "{0} hat kommentiert"
 
-#: onedesk/public/js/one_interface/look.js:526
+#: onedesk/public/js/one_interface/look.js:529
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} commented"
@@ -64243,12 +64318,12 @@ msgstr "{0} zählt nichts."
 msgid "{0} created"
 msgstr "{0} erstellt"
 
-#: onedesk/public/js/one_interface/look.js:525
+#: onedesk/public/js/one_interface/look.js:528
 #, python-brace-format
 msgid "{0} created this"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:525
+#: onedesk/public/js/one_interface/look.js:528
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} created this"
@@ -65866,7 +65941,7 @@ msgstr "{0} davon aktiv."
 #: frontend/src/slide/shim/PresenterView.vue:104
 #: onedesk/one_account/heads.py:69
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:29
-#: onedesk/one_admin/heads.py:143
+#: onedesk/one_admin/heads.py:143 onedesk/one_crm/heads.py:298
 #: onedesk/one_display/doctype/voice_pack/voice_pack.js:6
 #: onedesk/one_factory/heads.py:23 onedesk/one_factory/heads.py:46
 #: onedesk/one_inventory/heads.py:430 onedesk/one_inventory/heads.py:843
@@ -66315,12 +66390,12 @@ msgstr "{0} Einbehalt"
 msgid "{0} returned"
 msgstr "{0} zurückgegeben"
 
-#: onedesk/public/js/one_interface/look.js:529
+#: onedesk/public/js/one_interface/look.js:532
 #, python-brace-format
 msgid "{0} returned this to draft"
 msgstr "{0} hat dies in den Entwurf zurückgesetzt"
 
-#: onedesk/public/js/one_interface/look.js:529
+#: onedesk/public/js/one_interface/look.js:532
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} returned this to draft"
@@ -66331,12 +66406,12 @@ msgstr "{0} haben dies in den Entwurf zurückgesetzt"
 msgid "{0} rows"
 msgstr "{0} Zeilen"
 
-#: onedesk/public/js/one_interface/look.js:503
+#: onedesk/public/js/one_interface/look.js:506
 #, python-brace-format
 msgid "{0} rows added"
 msgstr "{0} Zeilen hinzugefügt"
 
-#: onedesk/public/js/one_interface/look.js:503
+#: onedesk/public/js/one_interface/look.js:506
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr "{0} Zeilen entfernt"
@@ -66504,12 +66579,12 @@ msgstr "{0} Teilprojekte"
 msgid "{0} submitted"
 msgstr "{0} gebucht"
 
-#: onedesk/public/js/one_interface/look.js:527
+#: onedesk/public/js/one_interface/look.js:530
 #, python-brace-format
 msgid "{0} submitted this"
 msgstr "{0} hat dies gebucht"
 
-#: onedesk/public/js/one_interface/look.js:527
+#: onedesk/public/js/one_interface/look.js:530
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} submitted this"

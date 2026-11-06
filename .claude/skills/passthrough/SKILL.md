@@ -165,7 +165,10 @@ What an app declares about itself, in its own folder and in
   tour points at what this role has there; a record type's says how it
   works and what its fields are for, from the same source as Help. Each of
   the app's own screens (its Home, its pages) has one, on `data-tour`
-  marks, and none names a part that moved to another app.
+  marks, and none names a part that moved to another app. Every record's
+  head is marked `record-<doctype>` (`record-opportunity`), with
+  `record-cards`, `record-track` and `record-panel` inside it: a record
+  type's tour is a `TOURS` entry `at` its head's mark.
 - **The rest of the centres.** Its settings in ControlCenter, its keys in
   `shortcuts.py` (ShortcutCenter, nothing clashing), and the foot that
   opens them. *Guard: test_ready.* An app with screens of its own gives

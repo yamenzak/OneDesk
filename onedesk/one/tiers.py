@@ -20,6 +20,7 @@ NEXT_PAGES = {
 HEADS = (
 	"AI Proposal",
 	"Account Request",
+	"Appointment",
 	"Appraisal",
 	"Asset",
 	"Asset Maintenance",
@@ -39,6 +40,7 @@ HEADS = (
 	"Customer",
 	"Delivery Note",
 	"Delivery Trip",
+	"Email Campaign",
 	"Employee",
 	"Employee Promotion",
 	"Employee Tax Exemption Declaration",
@@ -51,6 +53,7 @@ HEADS = (
 	"Lead",
 	"Leave Application",
 	"Leave Encashment",
+	"Maintenance Schedule",
 	"Material Request",
 	"Non Conformance",
 	"Offering",
@@ -90,6 +93,7 @@ HEADS = (
 	"Timesheet",
 	"Vehicle Log",
 	"Warehouse",
+	"Warranty Claim",
 	"Work Order",
 	"Workspace Account",
 )

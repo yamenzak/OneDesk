@@ -17,8 +17,19 @@ Speed, a phone at 4x CPU, 6 November (the baseline): Home 2.4s to its
 figures (speed.mjs never sees it settle; crmtrace shows every request done),
 Lead list 8.2s, an opportunity 8.1s, the Pipeline 4.8s, a quotation 8.7s.
 
+Finished the same evening: the five record types left undressed
+(Appointment, Email Campaign, Email Group, Warranty Claim, Maintenance
+Schedule) have icons, strips and heads; an opportunity and a lead have tours
+(every record's head is marked); setup needs no steps (a lead needs only a
+name); sharing is the quotation's Send Link; the phone in Arabic and dark;
+search and reach; Escape, Tab and focus; an empty Today in Riyadh; a figure
+with nothing in it draws no chart; Past Expected Closing Date no longer
+lists an opportunity with none (empty dates); mail, OneCalendar and
+OneCloud reach its records; a change on Home arrives live.
+
 Left: a fresh site (no .localhost sites here); /issues still answers
-(OnePortal's scratchpad); Intake's selling gaps (OneAI's scratchpad).
+(OnePortal's scratchpad); Intake's selling gaps (OneAI's scratchpad); a
+board's column headings in English (OneInterface's scratchpad).
 
 ## The pass of November 2026 (6 Nov)
 
@@ -27,9 +38,6 @@ Walked: the pipeline (Lead, Opportunity, the Pipeline board, Prospect), quoting
 Maintenance Visit), Campaign, and Home. Demo checks 7 of 7.
 
 Left:
-- **Appointment, Email Campaign, Email Group, Warranty Claim, Maintenance
-  Schedule** are ERPNext's own and were only looked at in their lists; none
-  has a head or a registry entry yet.
 - **Home's money charts** clip the first letter of a long axis label ("ED
   600,000"): frappe-ui measures labels in Inter and Sand draws another font.
   For OneInterface (one fix for every chart).

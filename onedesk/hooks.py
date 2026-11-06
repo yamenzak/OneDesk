@@ -1196,6 +1196,7 @@ one_makes_records = {
 	"Account": ["one_account", "one_admin", "one_book", "one_project"],
 	"Activity Type": ["one_project"],
 	"Address": ["one", "one_book"],
+	"Appointment": ["one_crm"],
 	"Appraisal": ["one_hr"],
 	"Asset": ["one_inventory"],
 	"Asset Category": ["one_inventory"],
@@ -1219,6 +1220,7 @@ one_makes_records = {
 	"Customer": ["one_admin", "one_crm"],
 	"Delivery Note": ["one_inventory"],
 	"Delivery Trip": ["one_inventory"],
+	"Email Campaign": ["one_crm"],
 	"Employee": ["one_hr"],
 	"Employee Checkin": ["one_hr"],
 	"Employee Performance Feedback": ["one_hr"],
@@ -1244,6 +1246,7 @@ one_makes_records = {
 	"Leave Encashment": ["one_hr"],
 	"Leave Period": ["one_hr"],
 	"Location": ["one_inventory"],
+	"Maintenance Schedule": ["one_crm"],
 	"Material Request": ["one_inventory"],
 	"Mode of Payment": ["one_admin"],
 	"Non Conformance": ["one_quality"],
@@ -1293,6 +1296,7 @@ one_makes_records = {
 	"UOM": ["one_project"],
 	"Vehicle Log": ["one_hr"],
 	"Warehouse": ["one_inventory"],
+	"Warranty Claim": ["one_crm"],
 	"Work Order": ["one_factory"],
 }
 

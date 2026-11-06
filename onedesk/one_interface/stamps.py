@@ -8,6 +8,15 @@ the commit that finishes its pass and taken out by a change that undoes it.
 import re
 
 PASSED: dict[str, dict] = {
+	"Form/Maintenance Schedule": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"List/Maintenance Schedule": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"Form/Warranty Claim": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"List/Warranty Claim": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"Form/Email Group": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"Form/Email Campaign": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"List/Email Campaign": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"Form/Appointment": {"on": "2026-11-06", "pass": "OneCRM, closing"},
+	"List/Appointment": {"on": "2026-11-06", "pass": "OneCRM, closing"},
 	"Form/Customer": {"on": "2026-11-06", "pass": "OneCRM, closing"},
 	"List/Purchase Order": {"on": "2026-11-06", "pass": "OneInventory, closing"},
 	"Form/Material Request": {"on": "2026-11-06", "pass": "OneInventory, closing"},

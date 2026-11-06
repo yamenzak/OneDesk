@@ -754,14 +754,43 @@ MODULES = {
 				"cards": ({"key": "signed_on"}, {"key": "end_date"}, {"key": "project.of"}),
 				"states": {"order": ("Unsigned", "Active", "Inactive")},
 			},
+			"Appointment": {
+				"fields": {"scheduled_time": "calendar-clock", "status": "circle-dot", "customer_name": "user", "customer_email": "mail", "customer_phone_number": "phone", "appointment_with": "link", "party": "building-2", "calendar_event": "calendar"},
+				"cards": ({"key": "scheduled_time"}, {"key": "crm.met_with"}),
+				"states": {"order": ("Open", "Unverified", "Closed")},
+			},
+			"Email Campaign": {
+				"fields": {"campaign_name": "megaphone", "email_campaign_for": "users", "recipient": "user", "sender": "send", "start_date": "calendar", "end_date": "calendar-check"},
+				"cards": ({"key": "start_date"}, {"key": "end_date"}, {"key": "recipient"}),
+				"states": {"order": ("Scheduled", "In Progress", "Completed", "Unsubscribed")},
+			},
+			"Email Group": {
+				"fields": {"title": "mails", "total_subscribers": "users", "confirmation_email_template": "mail-check", "welcome_email_template": "mail-plus", "welcome_url": "globe"},
+				"states": {
+					"kinds": (
+						{"label": _lt("With Subscribers"), "filters": (("total_subscribers", ">", 0),)},
+						{"label": _lt("Empty"), "filters": (("total_subscribers", "=", 0),)},
+					),
+				},
+			},
 			"Issue": {
 				"fields": {"subject": "message-circle-warning", "customer": "building-2", "raised_by": "mail", "priority": "flag", "issue_type": "shapes"},
 				"states": {"order": ("Open", "Replied", "On Hold", "Resolved", "Closed")},
+			},
+			"Maintenance Schedule": {
+				"fields": {"customer": "building-2", "transaction_date": "calendar", "contact_person": "user", "customer_address": "map-pin", "territory": "globe", "company": "landmark"},
+				"cards": ({"key": "crm.next_visit"}, {"key": "crm.visits_made"}),
+				"states": {"field": "status"},
 			},
 			"Prospect": {
 				"tabs": {"overview_tab": "layout-dashboard", "contacts_tab": "map-pin", "leads_section": "user-plus", "opportunities_tab": "handshake", "activities_tab": "calendar-check", "notes_section": "message-square"},
 				"fields": {"company_name": "building-2", "industry": "factory", "market_segment": "shapes", "territory": "globe", "prospect_owner": "user", "website": "globe"},
 				"states": {"field": "industry"},
+			},
+			"Warranty Claim": {
+				"fields": {"complaint_date": "calendar", "customer": "building-2", "serial_no": "hash", "item_code": "package", "complaint": "message-circle-warning", "warranty_amc_status": "shield-check", "warranty_expiry_date": "calendar-x", "resolution_date": "calendar-check", "resolved_by": "user-check", "contact_person": "user", "territory": "globe"},
+				"cards": ({"key": "warranty_amc_status"}, {"key": "warranty_expiry_date"}, {"key": "resolution_date"}),
+				"states": {"order": ("Open", "Work In Progress", "Closed", "Cancelled")},
 			},
 		},
 	},

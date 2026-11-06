@@ -37,3 +37,4 @@ answered leaves it.
   style and force a full restyle, and popper measures every popover it
   makes. Profile with `~/tools/browser/cpuprof.mjs`; the many `:has()`
   rules in canvas.css are the first suspect for the cost of each restyle.
+- **A v2 board's columns stay in English.** The Pipeline's column headings are the Sales Stage values as stored ("New", "Negotiation") while its strip above says them in Arabic; frappe's kanban v2 draws column titles without __(). For every board (from OneCRM's pass, 6 Nov 2026).

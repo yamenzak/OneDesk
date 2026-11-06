@@ -278,7 +278,39 @@ def deal_of(doc):
 	return {"value": title, "route": f"/desk/opportunity/{quote(deal, safe='')}"}
 
 
+def next_visit(doc):
+	"""A maintenance schedule's next visit still to make, red once it is due,
+	or that every visit is made."""
+	if doc.docstatus != 1:
+		return None
+	waiting = sorted(getdate(row.scheduled_date) for row in doc.get("schedules") or [] if row.completion_status != "Fully Completed" and row.scheduled_date)
+	if not waiting:
+		return {"value": _("All made"), "tone": "quiet"} if doc.get("schedules") else None
+	return {"value": formatdate(waiting[0]), "tone": "alarm" if waiting[0] < getdate(today()) else None}
+
+
+def visits_made(doc):
+	"""How many of a schedule's visits are made, of how many."""
+	rows = doc.get("schedules") or []
+	if not rows:
+		return None
+	made = sum(1 for row in rows if row.completion_status == "Fully Completed")
+	return {"value": _("{0} of {1}").format(made, len(rows)), "meter": {"value": made, "of": len(rows)}}
+
+
+def met_with(doc):
+	"""Who an appointment is with, by their name, opening them."""
+	if not doc.get("appointment_with") or not doc.get("party"):
+		return None
+	shown = frappe.get_meta(doc.appointment_with).get_title_field()
+	name = frappe.db.get_value(doc.appointment_with, doc.party, shown) if frappe.has_permission(doc.appointment_with, "read", doc=doc.party) else None
+	return {"value": name or doc.party, "route": f"/desk/{frappe.scrub(doc.appointment_with).replace('_', '-')}/{doc.party}"}
+
+
 MEASURES = {
+	"crm.met_with": met_with,
+	"crm.next_visit": next_visit,
+	"crm.visits_made": visits_made,
 	"crm.valid": valid,
 	"crm.deal_of": deal_of,
 	"crm.value": value,
@@ -382,6 +414,36 @@ HEADS = [
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Signed On"), "source": "Field", "field": "signed_on"},
 			{"label": _lt("Ends"), "source": "Field", "field": "end_date"},
+		],
+	},
+	{
+		"doctype": "Warranty Claim",
+		"band": [
+			{"label": _lt("Warranty / AMC Status"), "source": "Field", "field": "warranty_amc_status"},
+			{"label": _lt("Warranty Expiry Date"), "source": "Field", "field": "warranty_expiry_date"},
+			{"label": _lt("Resolution Date"), "source": "Field", "field": "resolution_date"},
+		],
+	},
+	{
+		"doctype": "Maintenance Schedule",
+		"band": [
+			{"label": _lt("Next Visit"), "source": "Measure", "measure": "crm.next_visit"},
+			{"label": _lt("Visits Made"), "source": "Measure", "measure": "crm.visits_made"},
+		],
+	},
+	{
+		"doctype": "Appointment",
+		"band": [
+			{"label": _lt("Scheduled Time"), "source": "Field", "field": "scheduled_time"},
+			{"label": _lt("Appointment With"), "source": "Measure", "measure": "crm.met_with"},
+		],
+	},
+	{
+		"doctype": "Email Campaign",
+		"band": [
+			{"label": _lt("Start Date"), "source": "Field", "field": "start_date"},
+			{"label": _lt("End Date"), "source": "Field", "field": "end_date"},
+			{"label": _lt("Recipient"), "source": "Field", "field": "recipient"},
 		],
 	},
 	{

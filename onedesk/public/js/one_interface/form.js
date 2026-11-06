@@ -171,7 +171,7 @@ onedesk.interface.panel = (frm, $sidebar) => {
 	const head = $(`<div class="one-panel-head"></div>`).appendTo(panes.overview);
 	const sections = $(`<div class="one-panel-sections"></div>`).appendTo(panes.overview);
 	panes.connections[0].style.setProperty("--one-open", JSON.stringify(__("open")));
-	const $panel = $(`<div class="sidebar-section one-panel"></div>`).append(tabs.$el);
+	const $panel = $(`<div class="sidebar-section one-panel" data-tour="record-panel"></div>`).append(tabs.$el);
 	const $after = $sidebar.find(".form-shared").first();
 	$after.length ? $panel.insertAfter($after) : $panel.appendTo($sidebar);
 	// frappe's stats arrive from a doctype's refresh, after the panel has drawn.

@@ -213,14 +213,14 @@ Reports: Item-wise Purchase History (under a list's related reports (Purchase Or
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Appointment | on a rail or a home | everybody | events, form script, 4 settings | yes | general |  | yes |  |  |  |  |
+| Appointment | on a rail or a home | everybody | a head, events, form script, 4 settings | yes | general |  | yes |  |  |  |  |
 | Appointment Booking Settings | on a rail or a home | OneCRM, OneHR | untouched | no | general |  |  |  |  |  |  |
 | CRM Settings | on a rail or a home | OneCRM | 9 settings | no | general |  |  |  |  | ar 1 |  |
 | Campaign | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Competitor | on a rail or a home | OneCRM | untouched | yes | general |  | **none** |  |  |  |  |
 | Contract | on a rail or a home | OneCRM, OneHR, OneInventory | a head, list script, 2 fields, 4 settings | yes | taught | makes it | yes |  |  |  | Contract Expiring |
 | Contract Template | through a form's link (Contract: contract_template) | OneCRM, OneHR, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
-| Email Campaign | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes |  |  |  |  |
+| Email Campaign | on a rail or a home | OneCRM | a head, 2 settings | yes | general |  | yes |  |  |  |  |
 | Lead | on a rail or a home | OneCRM | a head, events, form script, list script, 7 fields, 32 settings | yes | taught | makes it | yes |  |  |  | New Lead Waiting |
 | Market Segment | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Opportunity | on a rail or a home | OneCRM | a head, events, form script, list script, 5 fields, 37 settings | yes | taught |  | yes |  |  |  |  |
@@ -254,7 +254,7 @@ Reports: Campaign Efficiency (on a rail or a home); First Response Time for Oppo
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Maintenance Schedule | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes | ours |  |  |  |
+| Maintenance Schedule | on a rail or a home | OneCRM | a head, 2 settings | yes | general |  | yes | ours |  |  |  |
 | Maintenance Visit | on a rail or a home | OneCRM | list script, 1 settings | yes | general |  | yes | ours |  |  |  |
 
 Reports: Maintenance Schedules (on a rail or a home).
@@ -458,7 +458,7 @@ Reports: Subcontracted Items To Be Delivered (under a list's related reports (Su
 | Issue Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Service Level Agreement | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Support Settings | on a rail or a home | OneCRM | untouched | no | general |  |  |  |  |  |  |
-| Warranty Claim | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
+| Warranty Claim | on a rail or a home | OneCRM | a head | yes | general |  | yes |  |  |  |  |
 
 Reports: First Response Time for Issues (on a rail or a home); Issue Analytics (on a rail or a home); Issue Summary (on a rail or a home); Support Hour Distribution (on a rail or a home).
 

@@ -397,17 +397,28 @@ def test_a_module_says_what_setting_it_up_takes():
 				assert "save" in keys, f"{where} has fields and nothing saves them"
 
 
-WINDOW_MARKS = ("onedesk/public/js/one_interface/frame.js", "onedesk/public/js/one_interface/nav_tree.js", "onedesk/public/js/module_docs.js")
+WINDOW_MARKS = ("onedesk/public/js/one_interface/frame.js", "onedesk/public/js/one_interface/nav_tree.js", "onedesk/public/js/one_interface/look.js", "onedesk/public/js/one_interface/form.js", "onedesk/public/js/module_docs.js")
+
+
+RECORDS = {
+	doctype.lower().replace(" ", "-")
+	for spec in ready.MODULES.values()
+	for doctype in (spec.get("interface") or {})
+}
 
 
 def _draws(mark: str, code: str) -> bool:
 	"""A mark is drawn as written, bound to the one element that carries it
 	(`:data-tour="first ? 'mark' : undefined"`), such as a list's first row, or
-	set on an element frappe draws (`.attr("data-tour", "mark")`)."""
+	set on an element frappe draws (`.attr("data-tour", "mark")`, or
+	`.dataset.tour`); a record's head is `record-<its doctype>` for every
+	record type the registry dresses (look.js)."""
 	return (
 		f'data-tour="{mark}"' in code
 		or f'.attr("data-tour", "{mark}")' in code
+		or f'.dataset.tour = "{mark}"' in code
 		or bool(re.search(rf"data-tour=\"[^\"]*'{re.escape(mark)}'", code))
+		or (mark.startswith("record-") and "dataset.tour = `record-${" in code and mark[len("record-") :] in RECORDS)
 	)
 
 
