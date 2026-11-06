@@ -33,3 +33,9 @@ answered leaves it.
   extension, a screen with a list, mailing a report) end without the card
   they were asked for. Balanced misses those and approvals, events and a
   screen with mail. Not chased yet.
+- **Intake for buying, from OneInventory's pass (6 Nov 2026).** An offer
+  with one line matching no item is dropped (`money.quotation`), where the
+  sales order proposes; it never names its request for quotation, so an
+  emailed quote is missing from Compare and the request's head. A
+  supplier's order confirmation is grouped with its order and changes
+  nothing (its dates); a supplier's price list never becomes Item Prices.
