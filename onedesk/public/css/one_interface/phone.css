@@ -487,10 +487,45 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 }
 
 .one-drawer-head {
+	display: flex;
+	align-items: center;
+	gap: 10px;
 	padding: 8px 12px 12px;
 	font-size: var(--text-lg);
 	font-weight: 600;
 	color: var(--one-ink-strong);
+}
+
+.one-drawer-logo {
+	display: inline-flex;
+	flex: none;
+}
+
+.one-drawer-logo .icon {
+	width: 28px;
+	height: 28px;
+}
+
+.one-drawer-foot {
+	flex: none;
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	padding-top: 8px;
+}
+
+.one-drawer-foot .one-drawer-version {
+	margin-inline-start: auto;
+	color: var(--one-ink-quiet);
+}
+
+.one-drawer-foot .one-drawer-unseen::after {
+	content: "";
+	width: 6px;
+	height: 6px;
+	margin-inline-start: 4px;
+	border-radius: var(--radius-full);
+	background: var(--ink-blue-5);
 }
 
 .one-drawer-rail {

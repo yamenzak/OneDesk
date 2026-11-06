@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 06:35+0000\n"
+"POT-Creation-Date: 2026-11-06 07:21+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -8065,7 +8065,7 @@ msgstr "يمكنه العرض"
 #: onedesk/public/js/one/shortcut_center.js:153
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:419
+#: onedesk/public/js/one_interface/phone.js:437
 #: onedesk/public/js/one_legal/trust_center.js:463
 msgid "Cancel"
 msgstr ""
@@ -21014,6 +21014,7 @@ msgstr "مرحبًا {0}"
 #: onedesk/public/js/module_docs.js:406
 #: onedesk/public/js/one_interface/dialogs.js:67
 #: onedesk/public/js/one_interface/nav_tree.js:259
+#: onedesk/public/js/one_interface/phone.js:267
 msgid "Help"
 msgstr "مساعدة"
 
@@ -27864,7 +27865,7 @@ msgid "Mentioned in the message"
 msgstr "مذكور في الرسالة"
 
 #: onedesk/one_display/starters.py:802
-#: onedesk/public/js/one_interface/phone.js:285
+#: onedesk/public/js/one_interface/phone.js:303
 msgid "Menu"
 msgstr "القائمة"
 
@@ -42997,9 +42998,9 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: onedesk/public/js/one_interface/chrome.js:73
 #: onedesk/public/js/one_interface/chrome.js:74
 #: onedesk/public/js/one_interface/frame.js:253
-#: onedesk/public/js/one_interface/phone.js:387
-#: onedesk/public/js/one_interface/phone.js:390
-#: onedesk/public/js/one_interface/phone.js:391
+#: onedesk/public/js/one_interface/phone.js:405
+#: onedesk/public/js/one_interface/phone.js:408
+#: onedesk/public/js/one_interface/phone.js:409
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr "بحث"
@@ -44129,6 +44130,7 @@ msgstr "إعداد العنوان"
 #: onedesk/public/js/head.js:23 onedesk/public/js/one_ai/ai_center.js:135
 #: onedesk/public/js/one_interface/nav_tree.js:244
 #: onedesk/public/js/one_interface/nav_tree.js:245
+#: onedesk/public/js/one_interface/phone.js:265
 msgid "Settings"
 msgstr "الإعدادات"
 
@@ -48182,6 +48184,7 @@ msgid "Take off the shelf"
 msgstr "إزالة من المكتبة"
 
 #: onedesk/public/js/one_interface/nav_tree.js:254
+#: onedesk/public/js/one_interface/phone.js:266
 msgid "Take the Tour"
 msgstr "خذ الجولة"
 
@@ -57233,6 +57236,7 @@ msgstr "ما الجديد"
 
 #: onedesk/public/js/module_docs.js:341
 #: onedesk/public/js/one_interface/nav_tree.js:264
+#: onedesk/public/js/one_interface/phone.js:269
 #, python-brace-format
 msgid "What's New in {0}"
 msgstr "ما الجديد في {0}"

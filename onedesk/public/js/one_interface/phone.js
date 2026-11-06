@@ -249,9 +249,26 @@ $.extend(onedesk.interface.phone, {
 		const $scrim = $(`<div class="one-drawer-scrim"></div>`);
 		const $drawer = $(`<nav class="one-drawer" role="dialog" aria-modal="true" tabindex="-1"></nav>`).attr("aria-label", frappe.ui.mobile_nav?.module_label(sidebar.current_module) || __("Apps"));
 		const $body = $(`<div class="desk-mobile-sheet one-drawer-body"></div>`).appendTo($drawer);
-		$(`<div class="one-drawer-head"></div>`).text($drawer.attr("aria-label")).appendTo($body);
+		const $head = $(`<div class="one-drawer-head"></div>`).appendTo($body);
+		const $shown = sidebar.wrapper?.find(".sidebar-header").first();
+		const logo = $shown?.find(".header-logo").html();
+		const name = $shown?.find(".header-title").html();
+		if (logo) $(`<span class="one-drawer-logo"></span>`).html(logo).appendTo($head);
+		$(`<span class="one-drawer-name"></span>`)[name ? "html" : "text"](name || $drawer.attr("aria-label")).appendTo($head);
 		const $rail = $(`<div class="body-sidebar desk-mobile-sheet-sidebar one-drawer-rail"></div>`).appendTo($body);
 		sidebar.$items_container.appendTo($rail);
+		const module = sidebar.current_module;
+		const said = (frappe.boot.one_versions || {})[module];
+		if (said) {
+			const $foot = $(`<div class="one-drawer-foot"></div>`).appendTo($body);
+			const settings = (onedesk.control_centers || {})[module];
+			if (settings) frappe.ui.button({ icon: "settings", label: __("Settings"), variant: "ghost", onclick: () => settings() }).appendTo($foot);
+			frappe.ui.button({ icon: "circle-play", variant: "ghost", title: __("Take the Tour"), onclick: () => onedesk.tour.run(module) }).appendTo($foot);
+			frappe.ui.button({ icon: "circle-question-mark", variant: "ghost", title: __("Help"), onclick: () => onedesk.help.open(module) }).appendTo($foot);
+			frappe.ui
+				.button({ label: said.version, variant: "ghost", title: __("What's New in {0}", [module]), css_class: `one-drawer-version${said.unseen ? " one-drawer-unseen" : ""}`, onclick: () => onedesk.whats_new.open(module) })
+				.appendTo($foot);
+		}
 		const shut = () => {
 			if (!$drawer.parent().length) return;
 			sidebar.$items_container.appendTo(home);
@@ -261,6 +278,7 @@ $.extend(onedesk.interface.phone, {
 		};
 		$scrim.on("click", shut);
 		$drawer.on("click", "a[href]", () => setTimeout(shut));
+		$drawer.on("click", ".one-drawer-foot button", shut);
 		$(document).on("keydown.one-drawer", (e) => e.key === "Escape" && shut());
 		frappe.router?.once?.("change", shut);
 		$("body").append($scrim, $drawer);
