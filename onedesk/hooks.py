@@ -1276,7 +1276,7 @@ one_makes_records = {
 	"Request for Quotation": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
 	"Sales Invoice": ["one_admin", "one_project"],
-	"Sales Order": ["one_crm", "one_project"],
+	"Sales Order": ["one_crm", "one_inventory", "one_project"],
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
 	"Shift Type": ["one", "one_hr"],

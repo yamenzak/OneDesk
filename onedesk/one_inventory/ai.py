@@ -1429,7 +1429,7 @@ def services_due() -> dict:
 	out = []
 	for one in frappe.get_list(
 		"Asset Maintenance Log",
-		filters={"docstatus": 0, "maintenance_status": ["in", ["Planned", "Overdue"]], "due_date": ["<=", add_days(day, 30)]},
+		filters=[["docstatus", "=", 0], ["maintenance_status", "in", ["Planned", "Overdue"]], ["due_date", "is", "set"], ["due_date", "<=", add_days(day, 30)]],
 		fields=["name", "asset_maintenance", "task_name", "due_date", "assign_to_name"],
 		order_by="due_date asc",
 	):

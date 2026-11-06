@@ -1289,3 +1289,27 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 		frappe.defaults.clear_user_default("company", "karim@one.test")
 	held = flt(frappe.db.sql("select sum(stock_value) from `tabBin` where company = %s", other)[0][0])
 	assert riyadh["currency"] == "SAR" and abs(flt(riyadh["worth"]) - held) < 1, (riyadh["currency"], riyadh["worth"], held)
+
+
+@check
+def oneinventory_goods_and_deliveries_are_on_the_calendar():
+	"""OneCalendar's Goods Expected shows each purchase order still to arrive
+	on the day it is wanted, and Deliveries Due each sales order still to go
+	out on its day, Sahara's only, and a service without a due date is never
+	due."""
+	from frappe.utils import add_days, getdate, today
+
+	from onedesk.one_inventory import ai, calendar
+
+	start, end = getdate(add_days(today(), -60)), getdate(add_days(today(), 60))
+	with as_user("karim@one.test"):
+		expected = calendar.expected(start, end)
+		delivering = calendar.delivering(start, end)
+	wanted = frappe.get_all("Purchase Order", filters={"docstatus": 1, "company": COMPANY, "status": ["in", ["To Receive and Bill", "To Receive"]], "schedule_date": ["between", [start, end]]}, pluck="name")
+	assert {one["name"] for one in expected} == set(wanted), (expected, wanted)
+	assert all(frappe.db.get_value("Sales Order", one["name"], "company") == COMPANY for one in delivering)
+	log = frappe.db.get_value("Asset Maintenance Log", {"docstatus": 0, "maintenance_status": ["in", ["Planned", "Overdue"]]})
+	if log:
+		frappe.db.set_value("Asset Maintenance Log", log, "due_date", None)
+		with as_user("karim@one.test"):
+			assert log not in {one["service"] for one in ai.services_due().get("services") or []}, "a service with no due date was due"

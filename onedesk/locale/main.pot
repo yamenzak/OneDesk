@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 19:10+0000\n"
-"PO-Revision-Date: 2026-11-06 19:10+0000\n"
+"POT-Creation-Date: 2026-11-06 19:37+0000\n"
+"PO-Revision-Date: 2026-11-06 19:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -13425,6 +13425,10 @@ msgstr ""
 msgid "Deliveries"
 msgstr ""
 
+#: onedesk/one_inventory/calendar.py:41
+msgid "Deliveries Due"
+msgstr ""
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:96
 msgid "Deliveries received from Stripe, used to ignore repeats."
@@ -20290,6 +20294,10 @@ msgstr ""
 msgid "Good to see you"
 msgstr ""
 
+#: onedesk/one_inventory/calendar.py:32
+msgid "Goods Expected"
+msgstr ""
+
 #. Label in the One Stock Entry print format
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 msgid "Goods Receipt"
@@ -27054,13 +27062,13 @@ msgstr ""
 msgid "Main hall"
 msgstr ""
 
-#: onedesk/one_inventory/calendar.py:30 onedesk/one_inventory/calendar.py:57
+#: onedesk/one_inventory/calendar.py:50 onedesk/one_inventory/calendar.py:77
 #: onedesk/one_inventory/maintenance.py:87
 msgid "Maintenance"
 msgstr ""
 
 #: frontend/src/inventory/home/InventoryHome.vue:262
-#: onedesk/one_inventory/calendar.py:21
+#: onedesk/one_inventory/calendar.py:23
 msgid "Maintenance Due"
 msgstr ""
 
@@ -28673,7 +28681,7 @@ msgstr ""
 msgid "My Leave"
 msgstr ""
 
-#: onedesk/one_inventory/calendar.py:13
+#: onedesk/one_inventory/calendar.py:15
 msgid "My Maintenance"
 msgstr ""
 

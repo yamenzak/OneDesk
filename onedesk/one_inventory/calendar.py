@@ -1,6 +1,8 @@
 """OneInventory on the calendar: maintenance that is due, from ERPNext's Asset
-Maintenance Log. Clicking one opens the log, where it is recorded done. See
-one_inventory/maintenance.py."""
+Maintenance Log, which opens the log where it is recorded done (see
+one_inventory/maintenance.py); and the goods expected from suppliers and the
+deliveries due to customers, the reader's company's, each opening its
+order."""
 
 import frappe
 from frappe import _lt
@@ -24,6 +26,24 @@ LAYERS = [
 		"on": False,
 		"doctype": "Asset Maintenance Log",
 		"rows": "onedesk.one_inventory.calendar.everyone",
+	},
+	{
+		"key": "goods-expected",
+		"label": _lt("Goods Expected"),
+		"color": "blue",
+		"group": "Workspace",
+		"on": False,
+		"doctype": "Purchase Order",
+		"rows": "onedesk.one_inventory.calendar.expected",
+	},
+	{
+		"key": "deliveries-due",
+		"label": _lt("Deliveries Due"),
+		"color": "green",
+		"group": "Workspace",
+		"on": False,
+		"doctype": "Sales Order",
+		"rows": "onedesk.one_inventory.calendar.delivering",
 	},
 	{
 		"key": "asset-maintenance",
@@ -67,6 +87,46 @@ def _due(start, end, which: list) -> list[dict]:
 				*layers.within("due_date", start, end),
 			],
 			fields=["name", "task_name", "one_asset_title", "item_name", "asset_name", "due_date"],
+			limit=layers.MOST,
+		)
+	]
+
+
+def expected(start, end) -> list[dict]:
+	"""Purchase orders still to arrive, on the day they are wanted."""
+	from erpnext import get_default_company
+
+	return [
+		{"name": one.name, "title": f"{one.supplier_name} · {one.name}", "start": one.schedule_date, "all_day": 1}
+		for one in frappe.get_list(
+			"Purchase Order",
+			filters=[
+				["docstatus", "=", 1],
+				["status", "in", ["To Receive and Bill", "To Receive"]],
+				["company", "=", get_default_company()],
+				*layers.within("schedule_date", start, end),
+			],
+			fields=["name", "supplier_name", "schedule_date"],
+			limit=layers.MOST,
+		)
+	]
+
+
+def delivering(start, end) -> list[dict]:
+	"""Sales orders still to go out, on the day they are promised."""
+	from erpnext import get_default_company
+
+	return [
+		{"name": one.name, "title": f"{one.customer_name} · {one.name}", "start": one.delivery_date, "all_day": 1}
+		for one in frappe.get_list(
+			"Sales Order",
+			filters=[
+				["docstatus", "=", 1],
+				["status", "in", ["To Deliver and Bill", "To Deliver"]],
+				["company", "=", get_default_company()],
+				*layers.within("delivery_date", start, end),
+			],
+			fields=["name", "customer_name", "delivery_date"],
 			limit=layers.MOST,
 		)
 	]

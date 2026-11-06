@@ -223,11 +223,12 @@ def services() -> None:
 	day = getdate(today())
 	for log in frappe.get_all(
 		"Asset Maintenance Log",
-		filters={
-			"docstatus": 0,
-			"maintenance_status": ["in", ["Planned", "Overdue"]],
-			"due_date": ["<=", add_days(day, SOON)],
-		},
+		filters=[
+			["docstatus", "=", 0],
+			["maintenance_status", "in", ["Planned", "Overdue"]],
+			["due_date", "is", "set"],
+			["due_date", "<=", add_days(day, SOON)],
+		],
 		fields=["name", "asset_maintenance", "task_name", "due_date", "task_assignee_email"],
 	):
 		asset = frappe.db.get_value("Asset", log.asset_maintenance, "asset_name") or log.asset_maintenance

@@ -81,3 +81,10 @@ says when some of it came back.
 OneAI says what went out on a delivery, what is still to deliver for a
 customer or project and how much of it is held, and drafts a delivery for what
 an order still needs as a card you approve.
+
+## On the Calendar
+
+In OneCalendar, **Goods Expected** puts each purchase order still to arrive
+on the day it is wanted, and **Deliveries Due** each sales order still to go
+out on the day it was promised, your company's only. Both are off until you
+turn them on, and each opens its order.

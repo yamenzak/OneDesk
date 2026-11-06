@@ -13429,6 +13429,10 @@ msgstr "سُلّم {0}"
 msgid "Deliveries"
 msgstr "التسليمات"
 
+#: onedesk/one_inventory/calendar.py:41
+msgid "Deliveries Due"
+msgstr "التسليمات المستحقة"
+
 #. Description of a DocType
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:96
 msgid "Deliveries received from Stripe, used to ignore repeats."
@@ -20292,6 +20296,10 @@ msgstr "سليمة"
 #: onedesk/one_display/starters.py:246
 msgid "Good to see you"
 msgstr "سعداء برؤيتك"
+
+#: onedesk/one_inventory/calendar.py:32
+msgid "Goods Expected"
+msgstr "البضائع المتوقعة"
 
 #. Label in the One Stock Entry print format
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json

@@ -69,6 +69,13 @@ seven pages; tours for Stock Summary and Reorder; OneAI's seven inv- cases
 in `one_ai/evals.py` all pass; a tablet, German, the Standard palette, a
 sales user, a cancelled request and a euro order; live updates; reach.
 
+Finished the same evening, as OneCRM's close found: empty dates (a service
+with no due date counted as due, in the reminder and on Home); keys with
+real presses (/ searches, O asks before drafting, Tab and focus, Escape);
+no setup steps of its own (Inventory Check does that); sharing is the
+request for quotation's portal link; mail lands on orders, requests and
+suppliers; OneCalendar has Goods Expected and Deliveries Due.
+
 Left:
 - **A fresh site.** Not walked: this bench keeps only the domain pair and
   Yamen wants no .localhost sites; Inventory Check is what a new workspace
