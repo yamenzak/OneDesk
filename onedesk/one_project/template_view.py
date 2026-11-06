@@ -17,6 +17,7 @@ FIELDS = {
 
 
 @frappe.whitelist()
+@frappe.read_only()
 def read(template: str) -> dict:
 	"""The template and its tasks, in its order, each with its depth and what
 	it waits on."""

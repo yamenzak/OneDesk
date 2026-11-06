@@ -107,6 +107,8 @@ Each person shows:
   The hours are only as good as the estimates, so a light week with five
   unestimated tasks isn't really light.
 
+![Workload with everyone's planned hours this week](time/workload.png)
+
 The busiest come first, then whoever has the most late tasks. Give tasks an
 **Expected Time** and a date and the figures follow. You only
 see the tasks you can see, and the teams of the projects you can open. It

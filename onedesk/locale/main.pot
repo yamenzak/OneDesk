@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 23:02+0000\n"
-"PO-Revision-Date: 2026-11-06 23:02+0000\n"
+"POT-Creation-Date: 2026-11-06 23:19+0000\n"
+"PO-Revision-Date: 2026-11-06 23:19+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1637,11 +1637,11 @@ msgstr ""
 msgid "A table can take at most {0} rows from a workbook."
 msgstr ""
 
-#: onedesk/one_project/template_view.py:122
+#: onedesk/one_project/template_view.py:123
 msgid "A task cannot go under itself."
 msgstr ""
 
-#: onedesk/one_project/template_view.py:144
+#: onedesk/one_project/template_view.py:145
 msgid "A task cannot wait on itself."
 msgstr ""
 
@@ -4639,7 +4639,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:955
+#: onedesk/one/ready.py:969
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5578,12 +5578,16 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:969
+#: onedesk/one/ready.py:983
 msgid "Assign a Salary Structure"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:687
 msgid "Assign each new conversation from outside to one person."
+msgstr ""
+
+#: onedesk/one_task/tour.py:46
+msgid "Assign gives it to somebody, and Activity holds the comments and every change."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:295
@@ -7065,8 +7069,8 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one/ready.py:686 onedesk/one/ready.py:725 onedesk/one/ready.py:741
-#: onedesk/one/ready.py:817
+#: onedesk/one/ready.py:700 onedesk/one/ready.py:739 onedesk/one/ready.py:755
+#: onedesk/one/ready.py:831
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -7113,7 +7117,7 @@ msgstr ""
 msgid "Billing moved to {0}"
 msgstr ""
 
-#: onedesk/one_project/tour.py:20
+#: onedesk/one_project/tour.py:26
 msgid "Billing, orders, the budget, milestones and contracts, as a project of its kind is run."
 msgstr ""
 
@@ -9184,7 +9188,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:962
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:976
 msgid "Claim an Expense"
 msgstr ""
 
@@ -10008,7 +10012,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: onedesk/one/ready.py:656
+#: onedesk/one/ready.py:670
 msgid "Company Account"
 msgstr ""
 
@@ -10642,7 +10646,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json:18
 #: onedesk/one_crm/home.py:112
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
-#: onedesk/one_crm/sidebar/onecrm/onecrm.json:175 onedesk/one_project/ai.py:958
+#: onedesk/one_crm/sidebar/onecrm/onecrm.json:175 onedesk/one_project/ai.py:962
 #: onedesk/one_studio/print_blocks.py:34 onedesk/one_studio/print_blocks.py:699
 #: onedesk/one_studio/print_blocks.py:728
 msgid "Contract"
@@ -12067,7 +12071,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_receipt/one_purchase_receipt.json
 #: onedesk/one_inventory/print_format/one_purchase_receipt_with_serial_numbers/one_purchase_receipt_with_serial_numbers.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_project/ai.py:951
+#: onedesk/one_project/ai.py:955
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_project/tree.py:197 onedesk/one_studio/print_blocks.py:129
 #: onedesk/public/js/project_new.js:79
@@ -16332,7 +16336,7 @@ msgstr ""
 msgid "Employment Types"
 msgstr ""
 
-#: onedesk/one/ready.py:865
+#: onedesk/one/ready.py:879
 msgid "Empty"
 msgstr ""
 
@@ -16444,7 +16448,7 @@ msgstr ""
 #: onedesk/one_crm/heads.py:416
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_project/ai.py:953
+#: onedesk/one_project/ai.py:957
 msgid "Ends"
 msgstr ""
 
@@ -16621,7 +16625,7 @@ msgid "Equals"
 msgstr ""
 
 #. Label in the One Equipment Handover print format
-#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:268
+#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:282
 #: onedesk/one_hr/heads.py:704
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
@@ -19464,7 +19468,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: onedesk/one/ready.py:262
+#: onedesk/one/ready.py:276
 msgid "Free to Sell"
 msgstr ""
 
@@ -20127,7 +20131,7 @@ msgstr ""
 msgid "Give {0} a customer to invoice."
 msgstr ""
 
-#: onedesk/one_task/ai.py:292
+#: onedesk/one_task/ai.py:293
 #, python-brace-format
 msgid "Give {0} to {1}"
 msgstr ""
@@ -20156,7 +20160,7 @@ msgstr ""
 msgid "Given by {0}."
 msgstr ""
 
-#: onedesk/one_task/ai.py:297
+#: onedesk/one_task/ai.py:298
 msgid "Given to"
 msgstr ""
 
@@ -21800,6 +21804,10 @@ msgstr ""
 msgid "How much of each person's time was billed."
 msgstr ""
 
+#: onedesk/one_project/tour.py:20
+msgid "How much of the work is done, what it cost and billed against the plan, and the margin so far."
+msgstr ""
+
 #: onedesk/one_project/ai.py:143
 msgid "How much of this month's hours are used?"
 msgstr ""
@@ -21863,6 +21871,10 @@ msgstr ""
 
 #: onedesk/one_book/home.py:412
 msgid "How subscriptions are billed and cancelled."
+msgstr ""
+
+#: onedesk/one_project/tour.py:19
+msgid "How the Job Stands"
 msgstr ""
 
 #: onedesk/one_mail/ai.py:1055
@@ -24596,7 +24608,7 @@ msgstr ""
 msgid "Kept by Law"
 msgstr ""
 
-#: onedesk/one/ready.py:265 onedesk/public/js/item_new.js:4
+#: onedesk/one/ready.py:279 onedesk/public/js/item_new.js:4
 msgid "Kept in Stock"
 msgstr ""
 
@@ -24709,7 +24721,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 #: onedesk/one_mail/doctype/face/face.json:30
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:53
-#: onedesk/one_project/ai.py:950 onedesk/one_project/custom/project.json:53
+#: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:39
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:91
@@ -26772,7 +26784,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one/ready.py:266
+#: onedesk/one/ready.py:280
 msgid "Made Here"
 msgstr ""
 
@@ -28304,7 +28316,7 @@ msgid "Monthly Credits"
 msgstr ""
 
 #. Label of the one_monthly_fee (Currency) field in DocType 'Project'
-#: frontend/src/project/Money.vue:161 onedesk/one_project/ai.py:968
+#: frontend/src/project/Money.vue:161 onedesk/one_project/ai.py:972
 #: onedesk/one_project/custom/project.json:66
 #: onedesk/public/js/project_new.js:131
 msgid "Monthly Fee"
@@ -28375,11 +28387,11 @@ msgstr ""
 msgid "More promised than on hand"
 msgstr ""
 
-#: onedesk/one_project/retention.py:434
+#: onedesk/one_project/retention.py:436
 msgid "More than one customer holds retention here. Release it from each invoice."
 msgstr ""
 
-#: onedesk/one_project/retention.py:436
+#: onedesk/one_project/retention.py:438
 msgid "More than one supplier has retention held here. Pay it from each bill."
 msgstr ""
 
@@ -28841,8 +28853,8 @@ msgstr ""
 msgid "Name the location."
 msgstr ""
 
-#: onedesk/one_project/template_view.py:84
-#: onedesk/one_project/template_view.py:98
+#: onedesk/one_project/template_view.py:85
+#: onedesk/one_project/template_view.py:99
 msgid "Name the task."
 msgstr ""
 
@@ -29707,7 +29719,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/one/ready.py:312
+#: onedesk/one/ready.py:326
 msgid "Next Service"
 msgstr ""
 
@@ -30577,7 +30589,7 @@ msgstr ""
 msgid "No results"
 msgstr ""
 
-#: onedesk/one_project/retention.py:405 onedesk/one_project/retention.py:457
+#: onedesk/one_project/retention.py:407 onedesk/one_project/retention.py:459
 msgid "No retention is held here."
 msgstr ""
 
@@ -32110,7 +32122,7 @@ msgstr ""
 msgid "On Everyone's Calendar"
 msgstr ""
 
-#: onedesk/one/ready.py:262 onedesk/public/js/item_list.js:22
+#: onedesk/one/ready.py:276 onedesk/public/js/item_list.js:22
 msgid "On Hand"
 msgstr ""
 
@@ -32158,7 +32170,7 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:262
+#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:276
 msgid "On Order"
 msgstr ""
 
@@ -35487,7 +35499,7 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
-#: onedesk/one/ready.py:657
+#: onedesk/one/ready.py:671
 msgid "Party Account"
 msgstr ""
 
@@ -41703,7 +41715,7 @@ msgstr ""
 msgid "Retention at Handover"
 msgstr ""
 
-#: onedesk/one_project/retention.py:475
+#: onedesk/one_project/retention.py:477
 #, python-brace-format
 msgid "Retention held on {0}"
 msgstr ""
@@ -44015,7 +44027,7 @@ msgstr ""
 
 #. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
-#: onedesk/one/ready.py:267 onedesk/one_display/doctype/queue/queue.json:47
+#: onedesk/one/ready.py:281 onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Services"
 msgstr ""
@@ -44295,7 +44307,7 @@ msgstr ""
 #: onedesk/one_crm/tour.py:30 onedesk/one_display/tour.py:30
 #: onedesk/one_factory/tour.py:29 onedesk/one_hr/tour.py:30
 #: onedesk/one_inventory/tour.py:30 onedesk/one_mail/tour.py:42
-#: onedesk/one_project/tour.py:25 onedesk/one_quality/tour.py:17
+#: onedesk/one_project/tour.py:31 onedesk/one_quality/tour.py:17
 #: onedesk/one_task/tour.py:30
 msgid "Settings and Tours"
 msgstr ""
@@ -44308,7 +44320,7 @@ msgstr ""
 #: onedesk/one_book/tour.py:31 onedesk/one_crm/tour.py:31
 #: onedesk/one_display/tour.py:31 onedesk/one_factory/tour.py:30
 #: onedesk/one_hr/tour.py:31 onedesk/one_inventory/tour.py:31
-#: onedesk/one_project/tour.py:26 onedesk/one_quality/tour.py:18
+#: onedesk/one_project/tour.py:32 onedesk/one_quality/tour.py:18
 #: onedesk/one_task/tour.py:31
 msgid "Settings is the cog, and the tour runs again from the button beside it."
 msgstr ""
@@ -45708,7 +45720,7 @@ msgstr ""
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr ""
 
-#: onedesk/one/ready.py:269 onedesk/public/js/item_new.js:7
+#: onedesk/one/ready.py:283 onedesk/public/js/item_new.js:7
 msgid "Sizes or Colours"
 msgstr ""
 
@@ -46269,7 +46281,7 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
-#: onedesk/one/ready.py:425
+#: onedesk/one/ready.py:439
 msgid "Source Warehouse"
 msgstr ""
 
@@ -46687,7 +46699,7 @@ msgstr ""
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_production_plan/one_production_plan.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_project/ai.py:952 onedesk/public/js/project_actions.js:70
+#: onedesk/one_project/ai.py:956 onedesk/public/js/project_actions.js:70
 msgid "Starts"
 msgstr ""
 
@@ -48392,7 +48404,7 @@ msgstr ""
 msgid "Target Margin"
 msgstr ""
 
-#: onedesk/one/ready.py:426
+#: onedesk/one/ready.py:440
 msgid "Target Warehouse"
 msgstr ""
 
@@ -48407,7 +48419,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
 #: onedesk/one_project/ai.py:651
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
-#: onedesk/one_task/ai.py:296 onedesk/one_task/sidebar/onetask/onetask.json:48
+#: onedesk/one_task/ai.py:297 onedesk/one_task/sidebar/onetask/onetask.json:48
 #: onedesk/public/js/one_mail/rule_builder.js:652
 #: onedesk/public/js/project_actions.js:364 onedesk/public/js/task_new.js:10
 #: onedesk/public/js/timesheet.js:41
@@ -48942,7 +48954,7 @@ msgstr ""
 
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: frontend/src/sheet/components/SheetEditor/index.vue:1948
-#: onedesk/one_project/ai.py:954 onedesk/one_task/custom/task.json:87
+#: onedesk/one_project/ai.py:958 onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/project_actions.js:68 onedesk/public/js/project_new.js:73
 #: onedesk/public/js/project_template_list.js:12
@@ -51581,7 +51593,7 @@ msgstr ""
 msgid "There is already a role called {0}."
 msgstr ""
 
-#: onedesk/one_project/library.py:179 onedesk/one_project/templates.py:73
+#: onedesk/one_project/library.py:180 onedesk/one_project/templates.py:73
 #, python-brace-format
 msgid "There is already a template called {0}."
 msgstr ""
@@ -51693,7 +51705,7 @@ msgstr ""
 msgid "There is no such signature."
 msgstr ""
 
-#: onedesk/one_project/library.py:42
+#: onedesk/one_project/library.py:43
 #, python-brace-format
 msgid "There is no template called {0} in the library."
 msgstr ""
@@ -56350,7 +56362,7 @@ msgstr ""
 msgid "What It Sends"
 msgstr ""
 
-#: onedesk/one_project/tour.py:19
+#: onedesk/one_project/tour.py:25
 msgid "What Its Kind Needs"
 msgstr ""
 
@@ -58118,6 +58130,10 @@ msgstr ""
 msgid "When an open quotation has three days left to hold."
 msgstr ""
 
+#: onedesk/one_task/tour.py:39
+msgid "When and How Long"
+msgstr ""
+
 #. When a notification is sent
 #: onedesk/notifications/one_studio/collection_added.md
 msgid "When another administrator adds a custom collection."
@@ -58228,6 +58244,10 @@ msgstr ""
 
 #: onedesk/one_crm/home.py:173
 msgid "When issues close by themselves, and what the help page shows."
+msgstr ""
+
+#: onedesk/one_task/tour.py:40
+msgid "When it is due or how late, its checklist, what it waits on and the hours logged against the plan."
 msgstr ""
 
 #. When a notification is sent
@@ -59319,6 +59339,10 @@ msgstr ""
 msgid "Who Agreed"
 msgstr ""
 
+#: onedesk/one_task/tour.py:45
+msgid "Who Is On It"
+msgstr ""
+
 #: onedesk/one_portal/tour.py:11
 msgid "Who Is on the Portal"
 msgstr ""
@@ -60064,7 +60088,7 @@ msgstr ""
 msgid "With OneAI"
 msgstr ""
 
-#: onedesk/one/ready.py:864
+#: onedesk/one/ready.py:878
 msgid "With Subscribers"
 msgstr ""
 
@@ -61345,7 +61369,7 @@ msgstr ""
 msgid "You may not change how {0} signs."
 msgstr ""
 
-#: onedesk/one_task/ai.py:315
+#: onedesk/one_task/ai.py:316
 #, python-brace-format
 msgid "You may not change {0}."
 msgstr ""
@@ -64302,7 +64326,7 @@ msgstr ""
 msgid "{0} cannot be changed by you."
 msgstr ""
 
-#: onedesk/one_project/template_view.py:80
+#: onedesk/one_project/template_view.py:81
 #, python-brace-format
 msgid "{0} cannot be changed here."
 msgstr ""
@@ -64935,7 +64959,7 @@ msgstr ""
 msgid "{0} has no versions."
 msgstr ""
 
-#: onedesk/one_project/retention.py:592
+#: onedesk/one_project/retention.py:594
 #, python-brace-format
 msgid "{0} has no {1} account to create {2} under."
 msgstr ""
@@ -65544,7 +65568,7 @@ msgstr ""
 msgid "{0} is not an app a collection can belong to."
 msgstr ""
 
-#: onedesk/one_task/ai.py:320
+#: onedesk/one_task/ai.py:321
 #, python-brace-format
 msgid "{0} is not an enabled user of this workspace."
 msgstr ""
@@ -65620,7 +65644,7 @@ msgstr ""
 msgid "{0} is not one of the workspace's roles."
 msgstr ""
 
-#: onedesk/one_project/template_view.py:182
+#: onedesk/one_project/template_view.py:183
 #, python-brace-format
 msgid "{0} is not one of this template's tasks."
 msgstr ""

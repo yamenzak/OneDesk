@@ -14,6 +14,7 @@ TASK_KEYS = {"subject", "day", "days", "milestone", "hours", "after", "tasks"}
 
 
 @frappe.whitelist()
+@frappe.read_only()
 def presets() -> list[dict]:
 	"""Every preset in the reader's language, in the order a person meets them
 	(`order` in each file), with how many tasks and days it holds."""

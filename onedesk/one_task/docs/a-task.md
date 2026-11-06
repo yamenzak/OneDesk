@@ -4,6 +4,8 @@ A task opens on its form, wherever you open it from: My Tasks, the list, a
 project's Tasks, the calendar or a notification. OneTask's rail stays beside
 it.
 
+![A task with when it is due and the hours logged against it](a-task/task.png)
+
 Above the fields is what is worth knowing at a glance: when it is due, and how
 many days **late** if it is; how far the **Checklist** has got; what it still
 **Depends On**; and the hours logged against the plan. The address bar names

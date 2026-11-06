@@ -9,6 +9,8 @@ and health, and four figures:
 - **Margin So Far**: what's been billed less what's been spent, red below
   zero.
 
+![A project's page with its four figures and its tabs](a-projects-page/project.png)
+
 Beside the name are the project's buttons (see Buttons below), and on the
 right who it's assigned to, its attachments, tags, sharing and likes, with
 its **Activity**, **Mail** and **Connections**.

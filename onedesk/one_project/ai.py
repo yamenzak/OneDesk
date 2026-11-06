@@ -915,14 +915,18 @@ def draft_project(
 	if kind not in kinds.KINDS:
 		return {"mend": "draft_project", "error": f"The kind is one of {', '.join(kinds.KINDS)}."}
 	client = None
+	if str(customer or "").strip().lower() in ("", "none", "null"):
+		customer = None
 	if kind != kinds.INTERNAL:
-		client = frappe.db.get_value("Customer", customer) or frappe.db.get_value(
-			"Customer", {"customer_name": customer}
+		client = customer and (
+			frappe.db.get_value("Customer", customer) or frappe.db.get_value("Customer", {"customer_name": customer})
 		)
 		if not client:
 			return {
 				"mend": "draft_project",
-				"error": f"There is no customer called {customer}. Ask who it is for.",
+				"error": f"There is no customer called {customer}. Ask who it is for, or make it Internal."
+				if customer
+				else "A customer's project needs its customer. Ask who it is for, or make it Internal.",
 			}
 	if template and not frappe.db.exists("Project Template", template):
 		return {"mend": "draft_project", "error": f"There is no template called {template}."}

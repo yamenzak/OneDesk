@@ -14,6 +14,12 @@ PROJECT = [
 		"text": _lt("Every project you can see, the hours people have logged, and who has room this week."),
 	},
 	{
+		"target": "record-cards",
+		"side": "bottom",
+		"title": _lt("How the Job Stands"),
+		"text": _lt("How much of the work is done, what it cost and billed against the plan, and the margin so far."),
+	},
+	{
 		"target": "oneproject-overview",
 		"side": "top",
 		"title": _lt("What Its Kind Needs"),

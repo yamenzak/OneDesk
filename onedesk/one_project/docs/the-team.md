@@ -11,6 +11,8 @@ employee record, and **No sign-in** for somebody whose time is logged but
 who can't sign in), their open tasks with how many are late, and their hours
 this month and in all.
 
+![The Team tab with each person's open tasks and hours](the-team/team.png)
+
 **Add Member** adds somebody to the project's members. **···** on a row makes
 that person a member, or removes a member. A member who signs in on the
 portal, such as the client's representative, says **Portal** under their

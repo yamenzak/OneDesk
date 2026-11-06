@@ -32,4 +32,22 @@ MY_TASKS = [
 	},
 ]
 
-TOURS = [{"key": "my_tasks", "at": "onetask-list", "steps": MY_TASKS}]
+TASK = [
+	{
+		"target": "record-cards",
+		"side": "bottom",
+		"title": _lt("When and How Long"),
+		"text": _lt("When it is due or how late, its checklist, what it waits on and the hours logged against the plan."),
+	},
+	{
+		"target": "record-panel",
+		"side": "left",
+		"title": _lt("Who Is On It"),
+		"text": _lt("Assign gives it to somebody, and Activity holds the comments and every change."),
+	},
+]
+
+TOURS = [
+	{"key": "my_tasks", "at": "onetask-list", "steps": MY_TASKS},
+	{"key": "task", "at": "record-task", "steps": TASK},
+]

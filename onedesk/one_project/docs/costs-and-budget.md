@@ -26,6 +26,8 @@ sub-projects together. Click a row to see the documents behind it.
   billed for the project but went onto a store's shelf; it isn't spent until
   it's issued (see Materials).
 
+![The Costing tab's Money, with the forecast for the project](costs-and-budget/money.png)
+
 A row still at nothing isn't shown. Amounts are before tax, except payments,
 and in the company's currency. Everyone who reads the project sees its
 totals, as the project's form shows what's billed. A row opens its

@@ -114,8 +114,9 @@ def my_tasks(
 	"""The reader's tasks still to do, in the groups My Tasks shows (Overdue,
 	Today, Tomorrow, Next 7 Days, Later, No Due Date), each with its priority,
 	when it is due, its project, what it is about, and how many open tasks it
-	waits on. Read before saying what to do first or answering about the
-	reader's work."""
+	waits on. Read before saying what to do first, what is on the reader's
+	list or plate today or this week, or anything else about their work:
+	never say they have nothing to do without reading it."""
 	from onedesk.one_task import mine
 
 	groups = mine.tasks(view if view in mine.VIEWS else "mine")

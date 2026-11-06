@@ -371,6 +371,8 @@ def release(
 	if doctype not in ("Sales Invoice", "Purchase Invoice"):
 		frappe.throw(_("Retention is held on sales and purchase invoices."))
 	frappe.has_permission("Project", "read", project, throw=True)
+	if invoice:
+		frappe.has_permission(doctype, "read", invoice, throw=True)
 	key = "customer" if doctype == "Sales Invoice" else "supplier"
 	names = [invoice] if invoice else invoices(doctype, sorted(tree.scope(project)))
 	today = str(getdate(nowdate()))

@@ -9,6 +9,8 @@ the sort's **Milestone** puts them back that way after another order.
 **Calendar** and **Schedule** at the top of the project show its tasks in
 columns, on its calendar or on a timeline (see below).
 
+![A project's Tasks tab, each task under its milestone](tasks-and-schedule/tasks.png)
+
 Late due dates are red. Whatever someone else changes shows up without
 reloading. Planned hours and a milestone's bill share are never below 0,
 however they're written. **Planned** leaves out cancelled tasks.

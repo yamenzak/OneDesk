@@ -129,6 +129,14 @@ MODULES = {
 		"names": ("one_task", "onetask"),
 		"ready": True,
 		"companies": ("Task",),
+		"interface": {
+			"Task": {
+				"tabs": {"dependencies_tab": "git-branch", "more_info_tab": "info"},
+				"fields": {"project": "folder-kanban", "priority": "flag", "exp_start_date": "calendar", "exp_end_date": "calendar-check", "parent_task": "corner-left-up", "type": "shapes", "company": "building"},
+				"cards": ({"key": "task.due"}, {"key": "task.steps"}, {"key": "task.waits"}, {"key": "task.logged"}),
+				"states": {"order": ("Open", "Working", "Pending Review", "Overdue", "Completed"), "hide": ("Template", "Cancelled")},
+			},
+		},
 		"checked": {
 			"copy": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
 			"demo": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
@@ -202,6 +210,12 @@ MODULES = {
 				"fields": {"project_type": "shapes", "one_payment_terms": "calendar-clock", "one_terms": "scroll-text", "one_retention": "percent"},
 				"cards": ({"key": "template.tasks"}, {"key": "template.days"}, {"key": "template.used"}),
 				"states": {"field": "project_type"},
+			},
+			"Timesheet": {
+				"tabs": {"billing_tab": "receipt"},
+				"fields": {"employee": "user", "company": "building", "parent_project": "folder-kanban", "start_date": "calendar", "end_date": "calendar-check", "customer": "building-2"},
+				"cards": ({"key": "timesheet.progress"}, {"key": "timesheet.worth"}),
+				"states": {"order": ("Draft", "Submitted", "Partially Billed", "Billed", "Payslip"), "hide": ("Completed", "Cancelled")},
 			},
 		},
 	},

@@ -18,6 +18,7 @@ def _library():
 	"""library.py without a site: frappe only for what it calls at import."""
 	fake = types.ModuleType("frappe")
 	fake.whitelist = lambda **_kw: lambda fn: fn
+	fake.read_only = lambda **_kw: lambda fn: fn
 	fake._ = lambda text: text
 	before = sys.modules.get("frappe")
 	sys.modules["frappe"] = fake

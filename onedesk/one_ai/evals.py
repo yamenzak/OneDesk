@@ -27,6 +27,8 @@ SALES = "omar@one.test"
 
 BOOKS = "huda@one.test"
 
+PROJECTS = "samir@one.test"
+
 CASES = [
 	{
 		"id": "count-customers",
@@ -290,7 +292,7 @@ CASES = [
 	{
 		"id": "project-and-tasks",
 		"page": {},
-		"ask": "Start a project called Lobby Refit with three tasks: measure, order the glass, install.",
+		"ask": "Start a project called Lobby Refit for Acme Holdings with three tasks: measure, order the glass, install.",
 		"tools": ("create_records", "draft_project", "plan_task", "create_record"),
 		"card": True,
 		"cards": 2,
@@ -320,6 +322,11 @@ CASES = [
 	{"id": "book-invoice", "page": _on("Sales Invoice", name="ACC-SINV-2026-00026"), "ask": "Where does this invoice stand?", "tools": ("invoice_facts",), "user": BOOKS},
 	{"id": "book-bank", "page": {}, "ask": "Which bank lines are still to match?", "tools": ("bank_to_match",), "user": BOOKS},
 	{"id": "book-ar-owed", "page": {}, "ask": "من يدين لنا بأكبر مبلغ، ومنذ متى؟", "tools": ("late_invoices", "money_now"), "user": BOOKS},
+	{"id": "proj-state", "page": _on("Project", name="PROJ-0001"), "ask": "How is this project going?", "tools": ("project_facts",), "user": PROJECTS},
+	{"id": "proj-attention", "page": {}, "ask": "Which projects need my attention?", "tools": ("projects_needing_attention",), "user": PROJECTS},
+	{"id": "proj-ar-late", "page": _on("Project", name="PROJ-0001"), "ask": "ما المهام المتأخرة في هذا المشروع؟", "tools": ("project_facts",), "user": PROJECTS},
+	{"id": "task-mine", "page": {}, "ask": "Was steht heute auf meiner Liste?", "tools": ("my_tasks", "my_day"), "user": PROJECTS},
+	{"id": "task-state", "page": _on("Task", name="TASK-2026-00052"), "ask": "Where does this task stand?", "tools": ("task_facts",), "user": PROJECTS},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
 	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
 	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},
