@@ -17,6 +17,7 @@ from onedesk.one_book import home, story
 REACH = {}
 
 NOT_FOR_AI = {
+	"tell.credit_limit": "It is the credit limit dialog's own Send, telling the account managers a customer is over their limit.",
 	"closing.lock": "Locking the books is the accountant's word that a period is final.",
 	"paid.settle": "A payment is money that moved, so whoever saw it move records it.",
 	"ready.fix": "What Books Check fixes changes how the whole workspace keeps its books, so a manager presses Fix.",

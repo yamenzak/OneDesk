@@ -665,6 +665,7 @@ HEADS = [
 		"sentences": [{"measure": "payment.said"}],
 		"band": [
 			{"label": _lt("Progress"), "source": "Measure", "measure": "payment.progress"},
+			{"label": _lt("Paid Amount"), "source": "Field", "field": "paid_amount"},
 			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
 			{"label": _lt("Mode of Payment"), "source": "Field", "field": "mode_of_payment", "hide_empty": 1},
 			{

@@ -18,17 +18,20 @@ def run(password=None):
 		bank = _bank()
 		_collecting()
 		_rules(bank)
-		if frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "docstatus": 1}):
-			return
-		_entry(on(1, 1), "Opening Entry", "Opening balances", ((bank, 1250000, 0), (_equity(), 0, 1250000)))
+		if not frappe.db.exists("Journal Entry", {"voucher_type": "Opening Entry", "docstatus": 1, "company": COMPANY}):
+			_entry(on(1, 1), "Opening Entry", "Opening balances", ((bank, 1250000, 0), (_equity(), 0, 1250000)))
 		rent = _expense("Rent Expense")
 		for month in range(1, today().month + 1):
 			date = on(month, 1)
-			_entry(date, "Journal Entry", f"Workshop and office rent, {date.strftime('%B')}", ((rent, 38000, 0), (bank, 0, 38000)))
+			said = f"Workshop and office rent, {date.strftime('%B')}"
+			if not frappe.db.exists("Journal Entry", {"user_remark": said, "docstatus": 1}):
+				_entry(date, "Journal Entry", said, ((rent, 38000, 0), (bank, 0, 38000)))
 		utilities = _expense("Utility Expenses")
 		for month in range(1, today().month):
 			date = on(month, 20)
-			_entry(date, "Journal Entry", f"DEWA, {date.strftime('%B')}", ((utilities, 6200 + month * 140, 0), (bank, 0, 6200 + month * 140)))
+			said = f"DEWA, {date.strftime('%B')}"
+			if not frappe.db.exists("Journal Entry", {"user_remark": said, "docstatus": 1}):
+				_entry(date, "Journal Entry", said, ((utilities, 6200 + month * 140, 0), (bank, 0, 6200 + month * 140)))
 
 
 def _repeating():

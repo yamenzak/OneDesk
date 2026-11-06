@@ -2,12 +2,12 @@
 (onedesk/notifications/README.md)."""
 
 import frappe
-from frappe.utils import add_days, fmt_money, formatdate, getdate
+from frappe.utils import add_days, flt, fmt_money, formatdate, getdate
 
 from onedesk.one import notify
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def credit_limit(customer: str, company: str):
 	"""ERPNext's `customer.send_emails`, which the credit limit dialog calls:
 	the credit controllers are told in One rather than mailed, with what the
@@ -73,6 +73,8 @@ def bills_due() -> None:
 		return
 	from frappe.utils.user import get_users_with_role
 
+	from erpnext import get_company_currency
+
 	bills = frappe.get_all(
 		"Purchase Invoice",
 		filters={
@@ -80,21 +82,26 @@ def bills_due() -> None:
 			"outstanding_amount": [">", 0],
 			"due_date": ["between", [getdate(), add_days(getdate(), 6)]],
 		},
-		fields=["due_date", "outstanding_amount"],
+		fields=["company", "due_date", "outstanding_amount", "party_account_currency", "conversion_rate"],
 		order_by="due_date asc",
 	)
-	if not bills:
-		return
-	currency = frappe.db.get_default("currency")
-	notify.notify(
-		"Bills Due This Week",
-		sorted({*get_users_with_role("Accounts User"), *get_users_with_role("Accounts Manager")}),
-		link="/desk/purchase-invoice?docstatus=1&outstanding_amount=%5B%22%3E%22%2C0%5D",
-		sender="Administrator",
-		count=len(bills),
-		total=fmt_money(sum(one.outstanding_amount for one in bills), currency=currency),
-		first=formatdate(bills[0].due_date),
-	)
+	people = sorted({*get_users_with_role("Accounts User"), *get_users_with_role("Accounts Manager")})
+	for company in sorted({one.company for one in bills}):
+		ours = [one for one in bills if one.company == company]
+		currency = get_company_currency(company)
+		owed = sum(
+			flt(one.outstanding_amount) * ((flt(one.conversion_rate) or 1) if one.party_account_currency and one.party_account_currency != currency else 1)
+			for one in ours
+		)
+		notify.notify(
+			"Bills Due This Week",
+			people,
+			link=f"/desk/purchase-invoice?docstatus=1&company={company}&outstanding_amount=%5B%22%3E%22%2C0%5D",
+			sender="Administrator",
+			count=len(ours),
+			total=fmt_money(owed, currency=currency),
+			first=formatdate(ours[0].due_date),
+		)
 
 
 def paid_online(doc, method=None) -> None:

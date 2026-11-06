@@ -375,7 +375,7 @@ def onebook_the_books_check_has_nothing_left_to_do():
 		assert not ready.temporary(COMPANY)
 		said = run_report("UAE VAT 201", filters={"company": COMPANY, "from_date": add_days(today(), -365), "to_date": today()})
 		dubai = next(row for row in said["result"] if isinstance(row, dict) and row.get("no") == "1b")
-		assert flt(dubai.get("raw_amount")) > 0, dubai
+		assert flt(dubai.get("raw_amount", dubai.get("amount"))) > 0, dubai
 
 
 @check

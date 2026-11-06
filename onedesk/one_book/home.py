@@ -23,22 +23,29 @@ def _company() -> str:
 	return get_default_company()
 
 
-def _ledger(sql: str, **values) -> float:
+def _ledger(account: dict, **more) -> float:
+	"""Debit less credit on the reader's company's accounts that match
+	`account`, through the reader's own permissions on the ledger, its
+	accounts and cost centres, as story._entries reads it."""
 	frappe.has_permission("GL Entry", "read", throw=True)
-	found = frappe.db.sql(sql, {"company": _company(), **values})
-	return flt(found[0][0]) if found else 0.0
+	company = _company()
+	accounts = frappe.get_all("Account", filters={"company": company, "is_group": 0, **account}, pluck="name")
+	if not accounts:
+		return 0.0
+	rows = frappe.get_list(
+		"GL Entry",
+		filters={"company": company, "is_cancelled": 0, "account": ["in", accounts], **more},
+		fields=[{"SUM": "debit", "as": "debit"}, {"SUM": "credit", "as": "credit"}],
+		limit_page_length=0,
+	)
+	return sum(flt(row.debit) - flt(row.credit) for row in rows)
 
 
 @frappe.whitelist()
 @frappe.read_only()
 def cash(filters: str | None = None) -> dict:
 	"""What is in the bank and cash accounts, by the ledger."""
-	amount = _ledger(
-		"""select sum(entry.debit - entry.credit) from `tabGL Entry` entry
-		join `tabAccount` account on account.name = entry.account
-		where entry.company = %(company)s and entry.is_cancelled = 0
-		and account.account_type in ('Bank', 'Cash')"""
-	)
+	amount = _ledger({"account_type": ["in", ("Bank", "Cash")]})
 	return _card(amount, ["query-report", "Cash Flow"])
 
 
@@ -47,15 +54,10 @@ def cash(filters: str | None = None) -> dict:
 def profit_this_month(filters: str | None = None) -> dict:
 	"""Income less expenses since the first of the month. The entries a period
 	closing makes are left out, since they move the profit, not make it."""
-	amount = _ledger(
-		"""select sum(entry.credit - entry.debit) from `tabGL Entry` entry
-		join `tabAccount` account on account.name = entry.account
-		where entry.company = %(company)s and entry.is_cancelled = 0
-		and account.root_type in ('Income', 'Expense')
-		and entry.voucher_type != 'Period Closing Voucher'
-		and entry.posting_date between %(start)s and %(today)s""",
-		start=get_first_day(nowdate()),
-		today=nowdate(),
+	amount = -_ledger(
+		{"root_type": ["in", ("Income", "Expense")]},
+		voucher_type=["!=", "Period Closing Voucher"],
+		posting_date=["between", [get_first_day(nowdate()), nowdate()]],
 	)
 	return _card(amount, ["query-report", "Profit and Loss Statement"])
 
@@ -457,7 +459,7 @@ def _late(doctype: str, party: str, until, day) -> list[dict]:
 	rows = frappe.get_list(
 		doctype,
 		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": _company()},
-		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency"],
+		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency", "party_account_currency"],
 		limit_page_length=0,
 	)
 	schedule = _schedule(doctype, [one.name for one in rows])
@@ -473,7 +475,7 @@ def _late(doctype: str, party: str, until, day) -> list[dict]:
 				"due_date": str(first),
 				"late": (day - first).days,
 				"outstanding": flt(one.outstanding_amount),
-				"currency": one.currency,
+				"currency": one.get("party_account_currency") or one.currency,
 			}
 		)
 	return sorted(out, key=lambda one: one["due_date"])

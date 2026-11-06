@@ -22,7 +22,16 @@ def reconciling(company: str | None = None) -> dict | None:
 	)
 	if waiting:
 		return {"bank_account": waiting[0].bank_account, "from_date": str(waiting[0].since)}
-	account = frappe.db.get_value(
-		"Bank Account", {"company": company, "is_company_account": 1, "disabled": 0}, "name", order_by="is_default desc"
+	account = next(
+		iter(
+			frappe.get_list(
+				"Bank Account",
+				filters={"company": company, "is_company_account": 1, "disabled": 0},
+				pluck="name",
+				order_by="is_default desc",
+				limit=1,
+			)
+		),
+		None,
 	)
 	return {"bank_account": account, "from_date": None} if account else None
