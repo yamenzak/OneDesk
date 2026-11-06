@@ -1,9 +1,10 @@
 <template>
   <div class="mx-auto w-full max-w-4xl px-5 pb-16 pt-6 text-ink-gray-8">
     <div class="rounded-4 border border-outline-gray-1 bg-surface-elevation-2 p-5">
-      <div class="flex flex-wrap items-baseline justify-between gap-2">
+      <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
         <h2 class="text-lg font-semibold text-ink-gray-9">{{ left ? __("{0} of {1} ready", [count(ready.length), count(rows.length)]) : __("Everything is set up") }}</h2>
-        <span v-if="left" class="text-sm text-ink-gray-5">{{ todo.length ? __("{0} to do", [count(todo.length)]) : __("Only suggestions left") }}</span>
+        <span v-if="shown" class="text-sm text-ink-gray-5">{{ shown }}</span>
+        <span v-if="left" class="ms-auto text-sm text-ink-gray-5">{{ todo.length ? __("{0} to do", [count(todo.length)]) : __("Only suggestions left") }}</span>
       </div>
       <Progress :value="rows.length ? Math.round((100 * ready.length) / rows.length) : 0" size="md" class="mt-3" />
     </div>
@@ -31,10 +32,11 @@
 import { computed } from "vue";
 import { Button, Progress } from "frappe-ui";
 
-import { __, count } from "../kit";
+import { __, company, count } from "../kit";
 
 const props = defineProps({ rows: { type: Array, default: () => [] }, onFix: Function });
 
+const shown = company();
 const todo = computed(() => props.rows.filter((one) => one.state === "To Do"));
 const suggested = computed(() => props.rows.filter((one) => one.state === "Suggested"));
 const ready = computed(() => props.rows.filter((one) => one.state === "Ready"));

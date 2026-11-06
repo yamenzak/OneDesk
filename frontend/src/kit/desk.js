@@ -47,6 +47,7 @@ export const userSettings = {
 export const can = (action, doctype) => Boolean(frappe().model[`can_${action}`]?.(doctype));
 
 export const canReport = (name) => Boolean(frappe().boot.allowed_reports?.[name]);
+export const company = () => frappe().boot.one_companies?.current || "";
 
 export function follow(doctype, name, changed) {
 	const realtime = frappe().realtime;

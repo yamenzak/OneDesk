@@ -6,6 +6,9 @@ count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 
 ![Inventory Check with one suggestion to fix and what is ready](getting-ready/inventory-check.png)
 
+With more than one company, it checks the company you work in, named beside
+the count. Change the company at the top to check another.
+
 - **Somewhere to keep stock** and **stock is valued in the books** — a
   warehouse, and the company's stock accounts. A new company has both.
 - **Stock has a warehouse to go to.** Without one, every receipt and count

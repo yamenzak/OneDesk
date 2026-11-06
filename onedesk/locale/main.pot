@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 20:32+0000\n"
-"PO-Revision-Date: 2026-11-06 20:32+0000\n"
+"POT-Creation-Date: 2026-11-06 20:54+0000\n"
+"PO-Revision-Date: 2026-11-06 20:54+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -7128,6 +7128,10 @@ msgstr ""
 msgid "Bills Cost"
 msgstr ""
 
+#: onedesk/one_book/calendar.py:21
+msgid "Bills Due"
+msgstr ""
+
 #. Name of a notification
 #: onedesk/one_book/notifications.py
 msgid "Bills Due This Week"
@@ -8114,10 +8118,6 @@ msgstr ""
 #: onedesk/one_project/status.py:17 onedesk/one_task/custom/task.json:87
 #: onedesk/public/js/contract_list.js:8
 msgid "Cancelled"
-msgstr ""
-
-#: onedesk/one/stages.py:51
-msgid "Cancelled; it counts for nothing."
 msgstr ""
 
 #: onedesk/one_admin/steps.py:56
@@ -10616,7 +10616,7 @@ msgstr ""
 msgid "Contents"
 msgstr ""
 
-#: frontend/src/kit/desk.js:95
+#: frontend/src/kit/desk.js:96
 msgid "Continue"
 msgstr ""
 
@@ -18694,7 +18694,7 @@ msgstr ""
 msgid "Five years with us"
 msgstr ""
 
-#: frontend/src/check/CheckList.vue:23
+#: frontend/src/check/CheckList.vue:24
 #: onedesk/one_book/report/books_check/books_check.py:18
 #: onedesk/public/js/module_docs.js:14
 msgid "Fix"
@@ -23490,6 +23490,10 @@ msgstr ""
 #: onedesk/templates/includes/admin_account_tabs.html:3
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
+msgstr ""
+
+#: onedesk/one_book/calendar.py:12
+msgid "Invoices Due"
 msgstr ""
 
 #. Label in the One Process Payment Reconciliation print format
@@ -29542,7 +29546,7 @@ msgstr ""
 msgid "New workspaces can't be built until a server is added."
 msgstr ""
 
-#: frontend/src/kit/desk.js:83 onedesk/one_ai/proposals.py:636
+#: frontend/src/kit/desk.js:84 onedesk/one_ai/proposals.py:636
 #: onedesk/public/js/one_ai/panel/Record.vue:134
 #: onedesk/public/js/one_interface/form.js:432
 #: onedesk/public/js/one_interface/form.js:480
@@ -33458,7 +33462,7 @@ msgstr ""
 msgid "Only someone who can edit {0} can change this."
 msgstr ""
 
-#: frontend/src/check/CheckList.vue:6
+#: frontend/src/check/CheckList.vue:7
 msgid "Only suggestions left"
 msgstr ""
 
@@ -38048,7 +38052,7 @@ msgstr ""
 #. Label in the One Project Update print format
 #. Label in the One Timesheet print format
 #. Label of a Sidebar Item
-#: frontend/src/kit/desk.js:89 frontend/src/project/Time.vue:88
+#: frontend/src/kit/desk.js:90 frontend/src/project/Time.vue:88
 #: onedesk/one_book/heads.py:591 onedesk/one_book/heads.py:682
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_book/print_format/one_budget/one_budget.json
@@ -39527,7 +39531,7 @@ msgstr ""
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
-#: frontend/src/check/CheckList.vue:47
+#: frontend/src/check/CheckList.vue:49
 #: onedesk/one/custom/personal_data_download_request.json:26
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:319
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:34
@@ -47761,7 +47765,7 @@ msgstr ""
 msgid "Suggest the next step"
 msgstr ""
 
-#: frontend/src/check/CheckList.vue:46
+#: frontend/src/check/CheckList.vue:48
 msgid "Suggested"
 msgstr ""
 
@@ -51950,6 +51954,10 @@ msgstr ""
 msgid "This document could not be opened."
 msgstr ""
 
+#: onedesk/one/stages.py:51
+msgid "This document is cancelled."
+msgstr ""
+
 #: onedesk/one_doc/templates.py:53
 msgid "This document is not a template."
 msgstr ""
@@ -53042,7 +53050,7 @@ msgstr ""
 msgid "To Deliver"
 msgstr ""
 
-#: frontend/src/check/CheckList.vue:45 onedesk/one_project/portal.py:13
+#: frontend/src/check/CheckList.vue:47 onedesk/one_project/portal.py:13
 msgid "To Do"
 msgstr ""
 
@@ -62673,7 +62681,7 @@ msgstr ""
 msgid "in the list"
 msgstr ""
 
-#: frontend/src/kit/desk.js:263
+#: frontend/src/kit/desk.js:264
 #, python-brace-format
 msgid "in {0} days"
 msgstr ""
@@ -63551,11 +63559,11 @@ msgstr ""
 msgid "to pay"
 msgstr ""
 
-#: frontend/src/kit/desk.js:260
+#: frontend/src/kit/desk.js:261
 msgid "today"
 msgstr ""
 
-#: frontend/src/kit/desk.js:261
+#: frontend/src/kit/desk.js:262
 msgid "tomorrow"
 msgstr ""
 
@@ -63663,7 +63671,7 @@ msgstr ""
 msgid "yellow"
 msgstr ""
 
-#: frontend/src/kit/desk.js:262
+#: frontend/src/kit/desk.js:263
 msgid "yesterday"
 msgstr ""
 
@@ -64505,7 +64513,7 @@ msgstr ""
 msgid "{0} days after {1}"
 msgstr ""
 
-#: frontend/src/kit/desk.js:263
+#: frontend/src/kit/desk.js:264
 #, python-brace-format
 msgid "{0} days ago"
 msgstr ""
@@ -66741,7 +66749,7 @@ msgstr ""
 msgid "{0} to deliver"
 msgstr ""
 
-#: frontend/src/check/CheckList.vue:6
+#: frontend/src/check/CheckList.vue:7
 #, python-brace-format
 msgid "{0} to do"
 msgstr ""
@@ -66947,7 +66955,7 @@ msgstr ""
 msgid "{0} years"
 msgstr ""
 
-#: frontend/src/kit/desk.js:208 onedesk/one_portal/share.py:352
+#: frontend/src/kit/desk.js:209 onedesk/one_portal/share.py:352
 #: onedesk/one_studio/ai_setup.py:524
 #, python-brace-format
 msgid "{0} {1}"

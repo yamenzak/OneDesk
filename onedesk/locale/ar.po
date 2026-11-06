@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 20:29+0000\n"
+"POT-Creation-Date: 2026-11-06 20:48+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -7132,6 +7132,10 @@ msgstr "الفواتير الواردة"
 msgid "Bills Cost"
 msgstr "يفوتر التكلفة"
 
+#: onedesk/one_book/calendar.py:21
+msgid "Bills Due"
+msgstr "استحقاق فواتير الموردين"
+
 #. Name of a notification
 #: onedesk/one_book/notifications.py
 msgid "Bills Due This Week"
@@ -8119,10 +8123,6 @@ msgstr "إلغاء الحذف"
 #: onedesk/public/js/contract_list.js:8
 msgid "Cancelled"
 msgstr "أُلغي"
-
-#: onedesk/one/stages.py:51
-msgid "Cancelled; it counts for nothing."
-msgstr "ملغى؛ لا يُحتسب."
 
 #: onedesk/one_admin/steps.py:56
 msgid "Cancelling its subscription in Stripe"
@@ -18697,7 +18697,7 @@ msgstr "التجهيز"
 msgid "Five years with us"
 msgstr "خمس سنوات معنا"
 
-#: frontend/src/check/CheckList.vue:23
+#: frontend/src/check/CheckList.vue:24
 #: onedesk/one_book/report/books_check/books_check.py:18
 #: onedesk/public/js/module_docs.js:14
 msgid "Fix"
@@ -23488,6 +23488,10 @@ msgstr "مفوتر {0}"
 #: onedesk/www/account_invoices.html:2 onedesk/www/account_invoices.html:17
 msgid "Invoices"
 msgstr "الفواتير"
+
+#: onedesk/one_book/calendar.py:12
+msgid "Invoices Due"
+msgstr "استحقاق فواتير المبيعات"
 
 #. Label in the One Process Payment Reconciliation print format
 #: onedesk/one_book/print_format/one_process_payment_reconciliation/one_process_payment_reconciliation.json
@@ -33450,7 +33454,7 @@ msgstr "لا يبتّ في هذا إلا من يملك اعتماد هذه ال�
 msgid "Only someone who can edit {0} can change this."
 msgstr "يمكن فقط لمن يستطيع تعديل {0} تغيير هذا."
 
-#: frontend/src/check/CheckList.vue:6
+#: frontend/src/check/CheckList.vue:7
 msgid "Only suggestions left"
 msgstr "لم تبقَ إلا اقتراحات"
 
@@ -39516,7 +39520,7 @@ msgstr "القراءات ضمن الحدود"
 #. Option for the 'Request Status' (Select) field in DocType 'Personal Data
 #. Download Request'
 #. Option for the 'Full Download' (Select) field in DocType 'Workspace Account'
-#: frontend/src/check/CheckList.vue:47
+#: frontend/src/check/CheckList.vue:49
 #: onedesk/one/custom/personal_data_download_request.json:26
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:319
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:34
@@ -47728,7 +47732,7 @@ msgstr "اقترح ترقيم فواتير المبيعات الجديدة بـ 
 msgid "Suggest the next step"
 msgstr "اقترح الخطوة التالية"
 
-#: frontend/src/check/CheckList.vue:46
+#: frontend/src/check/CheckList.vue:48
 msgid "Suggested"
 msgstr "مُقترح"
 
@@ -51910,6 +51914,10 @@ msgstr "هذا المستند"
 msgid "This document could not be opened."
 msgstr "تعذّر فتح هذا المستند."
 
+#: onedesk/one/stages.py:51
+msgid "This document is cancelled."
+msgstr "هذا المستند ملغى."
+
 #: onedesk/one_doc/templates.py:53
 msgid "This document is not a template."
 msgstr "هذا المستند ليس قالبًا."
@@ -53002,7 +53010,7 @@ msgstr "إلى تاريخ"
 msgid "To Deliver"
 msgstr "للتسليم"
 
-#: frontend/src/check/CheckList.vue:45 onedesk/one_project/portal.py:13
+#: frontend/src/check/CheckList.vue:47 onedesk/one_project/portal.py:13
 msgid "To Do"
 msgstr "للتنفيذ"
 
@@ -66685,7 +66693,7 @@ msgstr "{0} للبتّ"
 msgid "{0} to deliver"
 msgstr "{0} للتسليم"
 
-#: frontend/src/check/CheckList.vue:6
+#: frontend/src/check/CheckList.vue:7
 #, python-brace-format
 msgid "{0} to do"
 msgstr "{0} للقيام بها"

@@ -8,6 +8,21 @@ the commit that finishes its pass and taken out by a change that undoes it.
 import re
 
 PASSED: dict[str, dict] = {
+	"Form/Sales Invoice": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Sales Invoice": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Purchase Invoice": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Purchase Invoice": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Payment Entry": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Payment Entry": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Journal Entry": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Journal Entry": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Bank Transaction": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Bank Transaction": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Bank Account": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Bank Account": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"Form/Supplier": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"List/Supplier": {"on": "2026-11-06", "pass": "OneBook, closing"},
+	"books": {"on": "2026-11-06", "pass": "OneBook, closing"},
 	"Form/Maintenance Schedule": {"on": "2026-11-06", "pass": "OneCRM, closing"},
 	"List/Maintenance Schedule": {"on": "2026-11-06", "pass": "OneCRM, closing"},
 	"Form/Warranty Claim": {"on": "2026-11-06", "pass": "OneCRM, closing"},

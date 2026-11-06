@@ -48,5 +48,5 @@ def draft(doc, what: str) -> dict | None:
 	if doc.docstatus == 0:
 		return {"text": what, "colour": "blue"}
 	if doc.docstatus == 2:
-		return {"text": _("Cancelled; it counts for nothing."), "colour": "gray"}
+		return {"text": _("This document is cancelled."), "colour": "gray"}
 	return None

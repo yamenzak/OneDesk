@@ -1264,7 +1264,7 @@ one_makes_records = {
 	"Project Template": ["one_project"],
 	"Project Type": ["one_hr"],
 	"Project Update": ["one_project"],
-	"Purchase Invoice": ["one_account"],
+	"Purchase Invoice": ["one_account", "one_book"],
 	"Purchase Order": ["one_inventory"],
 	"Purchase Receipt": ["one_inventory"],
 	"Quality Action": ["one_quality"],
@@ -1275,7 +1275,7 @@ one_makes_records = {
 	"Quotation": ["one_crm"],
 	"Request for Quotation": ["one_inventory"],
 	"Salary Slip": ["one_hr"],
-	"Sales Invoice": ["one_admin", "one_project"],
+	"Sales Invoice": ["one_admin", "one_book", "one_project"],
 	"Sales Order": ["one_crm", "one_inventory", "one_project"],
 	"Sales Stage": ["one_admin", "one_crm"],
 	"Shift Request": ["one_hr"],
@@ -1601,6 +1601,7 @@ one_calendar_layers = [
 	"onedesk.one_crm.calendar.LAYERS",
 	"onedesk.one_hr.calendar.LAYERS",
 	"onedesk.one_inventory.calendar.LAYERS",
+	"onedesk.one_book.calendar.LAYERS",
 	"onedesk.one_ai.reading.calendar.LAYERS",
 ]
 

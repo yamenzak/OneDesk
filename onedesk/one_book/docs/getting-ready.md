@@ -30,6 +30,9 @@ Do What):
 
 ![Books Check with what is ready and what is left to do](getting-ready/books-check.png)
 
+With more than one company, it checks the company you work in, named beside
+the count. Change the company at the top to check another.
+
 ## Opening Balances
 
 When the books start part way through a business's life, what customers

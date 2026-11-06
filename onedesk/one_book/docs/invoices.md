@@ -68,6 +68,13 @@ Request** sends a link to pay online. **Process Statement Of Accounts**
 mails each customer their statement on a schedule, monthly or as often as you
 set.
 
+## On the Calendar
+
+In OneCalendar, **Invoices Due** puts each invoice a customer still owes on
+the day it falls due, with what is left to pay, and **Bills Due** each bill
+still to pay, your company's only. Both are off until you turn them on, and
+each opens its invoice.
+
 ## Bills From Mail and Scans
 
 A supplier's bill that arrives by mail, or is scanned in, is read by OneAI
