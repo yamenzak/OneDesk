@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" ref="cardsRoot" data-tour="onecrm-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div v-if="cards.length" ref="cardsRoot" data-tour="onecrm-figures" class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-3">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />

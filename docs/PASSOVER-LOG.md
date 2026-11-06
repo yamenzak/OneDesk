@@ -38,7 +38,7 @@ commit message; the log of every walk up to 18 October 2026 is
 | ShortcutCenter, and the keys of One, OneInterface, OneMail and OneAI | built; looks re-taken for One, OneMail, OneAI | 2026-11-02 |
 | OneInventory: the pass of November 2026 (islands to frappe, OneFactory, then the areas) | done: islands to frappe, OneFactory and OneQuality split out, demo checks, and stock, buying, quality, assets and shipping walked and stamped; closed 6 November: security, ERPNext, portal, Intake, deleting, several companies (the first module, one/company.py's switch), mails, Help pictures, tours, OneAI's seven cases, a tablet, German, a role that may not, states, live, reach and speed; the demo's second company, Sahara Glass Saudi; left: a fresh site, the form's speed on a phone (one_inventory/SCRATCHPAD.md) | 2026-11-06 |
 | Project and Project Template: islands to frappe | a project and a template open on their forms, with heads and parts in their tabs; tiers.PAGES is empty; what is left is in one_project/SCRATCHPAD.md | 2026-11-06 |
-| OneCRM: the pass of November 2026 (pipeline, quoting, support, Home) | leads, deals, quotations, orders and contracts say where they stand at the top; lists trimmed; what is left is in one_crm/SCRATCHPAD.md | 2026-11-06 |
+| OneCRM: the pass of November 2026 (pipeline, quoting, support, Home) | leads, deals, quotations, orders and contracts say where they stand at the top; lists trimmed; closed the same day: several companies (Riyadh's pipeline, lists and the Pipeline on the reader's company), winning by the order, security, the portal's decline, Intake, deleting, shortcuts, OneAI, mails, Help with pictures, a tablet, German, states, speed; left: a fresh site (one_crm/SCRATCHPAD.md) | 2026-11-06 |
 
 ## Up next
 
