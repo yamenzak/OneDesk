@@ -27,3 +27,6 @@ answered leaves it.
   a second Form of the record, and each builds a record panel (an Item with
   two price rows had three panels). Harmless now; pass the open form where
   there is one, and think about a lighter reader for rows.
+- **Money chart axes clip their first letter** ("ED 600,000" on OneCRM's
+  Home): frappe-ui's charts measure label widths in Inter (`CHART_FONT_FAMILY`),
+  Sand draws another font. One fix for every chart: tell the charts our font.

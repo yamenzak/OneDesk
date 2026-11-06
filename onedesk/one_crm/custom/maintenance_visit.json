@@ -1,0 +1,17 @@
+{
+ "custom_fields": [],
+ "doctype": "Maintenance Visit",
+ "links": [],
+ "property_setters": [
+  {
+   "doc_type": "Maintenance Visit",
+   "doctype_or_field": "DocField",
+   "field_name": "completion_status",
+   "property": "in_list_view",
+   "property_type": "Check",
+   "value": "0",
+   "name": "Maintenance Visit-completion_status-in_list_view"
+  }
+ ],
+ "sync_on_migrate": 1
+}

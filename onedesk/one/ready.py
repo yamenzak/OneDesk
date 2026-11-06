@@ -715,6 +715,10 @@ MODULES = {
 				"cards": ({"key": "signed_on"}, {"key": "end_date"}, {"key": "project.of"}),
 				"states": {"order": ("Unsigned", "Active", "Inactive")},
 			},
+			"Issue": {
+				"fields": {"subject": "message-circle-warning", "customer": "building-2", "raised_by": "mail", "priority": "flag", "issue_type": "shapes"},
+				"states": {"order": ("Open", "Replied", "On Hold", "Resolved", "Closed")},
+			},
 			"Prospect": {
 				"tabs": {"overview_tab": "layout-dashboard", "contacts_tab": "map-pin", "leads_section": "user-plus", "opportunities_tab": "handshake", "activities_tab": "calendar-check", "notes_section": "message-square"},
 				"fields": {"company_name": "building-2", "industry": "factory", "market_segment": "shapes", "territory": "globe", "prospect_owner": "user", "website": "globe"},

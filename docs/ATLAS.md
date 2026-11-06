@@ -255,7 +255,7 @@ Reports: Campaign Efficiency (on a rail or a home); First Response Time for Oppo
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Maintenance Schedule | on a rail or a home | OneCRM | 2 settings | yes | general |  | yes | ours |  |  |  |
-| Maintenance Visit | on a rail or a home | OneCRM | untouched | yes | general |  | yes | ours |  |  |  |
+| Maintenance Visit | on a rail or a home | OneCRM | list script, 1 settings | yes | general |  | yes | ours |  |  |  |
 
 Reports: Maintenance Schedules (on a rail or a home).
 
@@ -453,7 +453,7 @@ Reports: Subcontracted Items To Be Delivered (under a list's related reports (Su
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Issue | on a rail or a home | OneCRM | untouched | yes | taught |  | yes |  |  |  |  |
+| Issue | on a rail or a home | OneCRM | list script | yes | taught |  | yes |  |  |  |  |
 | Issue Priority | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Issue Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Service Level Agreement | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |

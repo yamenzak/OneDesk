@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 23:50+0000\n"
-"PO-Revision-Date: 2026-11-05 23:50+0000\n"
+"POT-Creation-Date: 2026-11-05 23:59+0000\n"
+"PO-Revision-Date: 2026-11-05 23:59+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4623,7 +4623,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:790
+#: onedesk/one/ready.py:794
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5557,7 +5557,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:804
+#: onedesk/one/ready.py:808
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -9149,7 +9149,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:797
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:801
 msgid "Claim an Expense"
 msgstr ""
 

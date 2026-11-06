@@ -37,6 +37,8 @@ commit message; the log of every walk up to 18 October 2026 is
 | OneInterface on a phone and a tablet | every view at 390 and the tablet, light and dark | 2026-11-02 |
 | ShortcutCenter, and the keys of One, OneInterface, OneMail and OneAI | built; looks re-taken for One, OneMail, OneAI | 2026-11-02 |
 | OneInventory: the pass of November 2026 (islands to frappe, OneFactory, then the areas) | done: islands to frappe, OneFactory and OneQuality split out, demo checks, and stock, buying, quality, assets and shipping walked and stamped; what is left is in one_inventory/SCRATCHPAD.md | 2026-11-05 |
+| Project and Project Template: islands to frappe | a project and a template open on their forms, with heads and parts in their tabs; tiers.PAGES is empty; what is left is in one_project/SCRATCHPAD.md | 2026-11-06 |
+| OneCRM: the pass of November 2026 (pipeline, quoting, support, Home) | leads, deals, quotations, orders and contracts say where they stand at the top; lists trimmed; what is left is in one_crm/SCRATCHPAD.md | 2026-11-06 |
 
 ## Up next
 
