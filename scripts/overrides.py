@@ -1501,6 +1501,13 @@ OVERRIDES = [
 		"if not cint(reminder_settings.send_interview_reminder):",
 	),
 	(
+		"A board's column titles are in the reader's language",
+		"frappe's FrappeDataProvider.loadBoard gives each column its raw value as its title; list.js wraps it to translate the title",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/views/kanban_v2/providers/frappe_data_provider.js",
+		"title: id,",
+	),
+	(
 		"A project's Tasks tab groups its tasks under their milestones",
 		"get_project_tasks is called by name from the Project form; one_project/milestones.project_tasks stands in for it and adds each row's is_group and parent_task",
 		"onedesk/one_project/milestones.py",

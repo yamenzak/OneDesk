@@ -44,7 +44,7 @@ REQUEST = {
 
 DOMAIN = {
 	"Pending": ("orange", _lt("Waiting")),
-	"Active": ("green", _lt("Working")),
+	"Active": ("green", _lt("Working", context="Domain")),
 	"Broken": ("red", _lt("Not working")),
 	"Gone": ("grey", _lt("Not at Cloudflare")),
 }

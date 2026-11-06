@@ -84,7 +84,7 @@ const columns = {
 const SHOWN = { on_hand: "max-xl:hidden", committed: "max-xl:hidden", free: "", on_order: "max-lg:hidden" };
 const STATE = {
   in: { label: __("In Stock"), theme: "green" },
-  low: { label: __("Low"), theme: "amber" },
+  low: { label: __("Low", null, "Stock"), theme: "amber" },
   short: { label: __("Short"), theme: "red" },
   out: { label: __("Out of Stock"), theme: "gray" },
 };
@@ -151,7 +151,7 @@ const figures = computed(() => {
   return [
     { title: __("Stock Value"), value: money(s.worth, s.currency), note: s.warehouse ? short(s.warehouse) : __("In every warehouse") },
     { title: __("Items"), value: count(s.count) },
-    { title: __("Low"), value: count(s.low), alarm: s.low > 0, note: s.low ? __("At or below their reorder level") : "", action: s.low ? { icon: "lucide-filter", label: __("Show Low Items"), onClick: () => (state.value = "low") } : null },
+    { title: __("Low", null, "Stock"), value: count(s.low), alarm: s.low > 0, note: s.low ? __("At or below their reorder level") : "", action: s.low ? { icon: "lucide-filter", label: __("Show Low Items"), onClick: () => (state.value = "low") } : null },
     { title: __("Short"), value: count(s.short), alarm: s.short > 0, note: s.short ? __("More promised than on hand") : "", action: s.short ? { icon: "lucide-filter", label: __("Show Short Items"), onClick: () => (state.value = "short") } : null },
   ];
 });

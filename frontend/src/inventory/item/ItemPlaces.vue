@@ -8,7 +8,7 @@
           <button type="button" class="break-words text-start rounded-2 text-base text-ink-gray-8 hover:underline focus-visible:ring-2 focus-visible:ring-outline-gray-3" @click="go(`/desk/warehouse/${encodeURIComponent(one.warehouse)}`)">
             {{ one.called }}
           </button>
-          <Badge v-if="one.low" :label="__('Low')" theme="amber" size="sm" />
+          <Badge v-if="one.low" :label="__('Low', null, 'Stock')" theme="amber" size="sm" />
         </div>
         <div class="break-words text-sm tabular-nums text-ink-gray-5">{{ one.said }}</div>
         <Progress v-if="one.bar !== null" :value="one.bar" size="sm" class="mt-1.5 max-w-64" />

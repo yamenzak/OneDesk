@@ -2,7 +2,8 @@
 warehouses, a supplier and a customer, the stock it opened with, an order
 Karim placed and half received, windows Omar sold and delivered, and his
 Riyadh pipeline: a lead, and the tower's next phase quoted; Huda invoices
-the windows and has half of it paid, and books the supplier's bill. Its
+the windows and has half of it paid, and books the supplier's bill; Samir
+runs the tower's installation as a project of its own. Its
 chart is the one ERPNext builds when nobody names one (docs/ACCOUNTS.md);
 the riyal and the dirham are both pegged to the dollar, so their rate holds."""
 
@@ -38,6 +39,7 @@ def run(password=None):
 	_sold(customer)
 	_pipeline(customer)
 	_books()
+	_job(customer)
 
 
 def _company():
@@ -266,3 +268,55 @@ def _pay_a_third():
 		payment.posting_date = ago(2)
 		payment.reference_no, payment.reference_date = "RYD-CHQ-0417", ago(2)
 		save(payment, submit=True)
+
+
+def _job(customer: str):
+	"""Samir runs the tower's installation for Riyadh: a milestone with its
+	steps, the survey done and the fixing under way."""
+	if frappe.db.exists("Project", {"company": BRANCH}):
+		return
+	with as_user("samir@one.test"):
+		project = frappe.new_doc("Project")
+		project.update(
+			{
+				"project_name": "Al Olaya Towers Installation",
+				"company": BRANCH,
+				"customer": customer,
+				"expected_start_date": ago(20),
+				"expected_end_date": add_days(ago(20), 75),
+			}
+		)
+		project = save(project)
+		milestone = save(
+			frappe.get_doc(
+				{
+					"doctype": "Task",
+					"subject": "Installation",
+					"project": project.name,
+					"company": BRANCH,
+					"is_group": 1,
+					"is_milestone": 1,
+					"exp_start_date": ago(20),
+					"exp_end_date": add_days(ago(20), 70),
+				}
+			)
+		)
+		for subject, start, days, status in (
+			("Site survey", ago(20), 4, "Completed"),
+			("Fix brackets on levels 1 to 4", ago(12), 20, "Working"),
+			("Glaze levels 1 to 4", add_days(ago(12), 21), 25, "Open"),
+		):
+			save(
+				frappe.get_doc(
+					{
+						"doctype": "Task",
+						"subject": subject,
+						"project": project.name,
+						"company": BRANCH,
+						"parent_task": milestone.name,
+						"exp_start_date": start,
+						"exp_end_date": add_days(start, days),
+						"status": status,
+					}
+				)
+			)

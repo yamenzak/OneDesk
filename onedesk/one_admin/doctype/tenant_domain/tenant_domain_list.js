@@ -6,7 +6,7 @@ frappe.listview_settings["Tenant Domain"] = {
 	get_indicator(doc) {
 		const says = {
 			Pending: ["orange", __("Waiting")],
-			Active: ["green", __("Working")],
+			Active: ["green", __("Working", null, "Domain")],
 			Broken: ["red", __("Not working")],
 			Gone: ["grey", __("Not at Cloudflare")],
 		};

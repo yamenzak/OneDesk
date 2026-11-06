@@ -11,7 +11,7 @@
 				const unit = `<span class="text-muted small">${esc(__(value || ""))}</span>`;
 				if (!one) return unit;
 				const count = `${format_number(one.on_hand, null, 0)} ${unit}`;
-				return one.low ? `${count} <span class="indicator-pill orange">${esc(__("Low"))}</span>` : count;
+				return one.low ? `${count} <span class="indicator-pill orange">${esc(__("Low", null, "Stock"))}</span>` : count;
 			},
 		}),
 		onload(listview) {

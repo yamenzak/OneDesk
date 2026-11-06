@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 22:20+0000\n"
+"POT-Creation-Date: 2026-11-06 22:35+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -4643,7 +4643,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr "تطبيق القص"
 
-#: onedesk/one/ready.py:953
+#: onedesk/one/ready.py:955
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
 
@@ -5582,7 +5582,7 @@ msgstr "إسناد المحادثات الجديدة"
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:967
+#: onedesk/one/ready.py:969
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
@@ -7069,8 +7069,8 @@ msgstr "يُفوتر بالساعة بأسعار متفق عليها، إضاف�
 msgid "Billed by {0}"
 msgstr "فواتير {0}"
 
-#: onedesk/one/ready.py:684 onedesk/one/ready.py:723 onedesk/one/ready.py:739
-#: onedesk/one/ready.py:815
+#: onedesk/one/ready.py:686 onedesk/one/ready.py:725 onedesk/one/ready.py:741
+#: onedesk/one/ready.py:817
 msgid "Billed in 12 Months"
 msgstr "المفوتر خلال 12 شهرًا"
 
@@ -9188,7 +9188,7 @@ msgstr "رقم المطالبة"
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:960
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:962
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
 
@@ -10012,7 +10012,7 @@ msgstr "الشركات التي تتلقى البيانات"
 msgid "Company"
 msgstr "الشركة"
 
-#: onedesk/one/ready.py:654
+#: onedesk/one/ready.py:656
 msgid "Company Account"
 msgstr ""
 
@@ -16336,7 +16336,7 @@ msgstr "نوع التوظيف"
 msgid "Employment Types"
 msgstr "أنواع التوظيف"
 
-#: onedesk/one/ready.py:863
+#: onedesk/one/ready.py:865
 msgid "Empty"
 msgstr ""
 
@@ -16625,7 +16625,7 @@ msgid "Equals"
 msgstr "يساوي"
 
 #. Label in the One Equipment Handover print format
-#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:266
+#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:268
 #: onedesk/one_hr/heads.py:704
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
@@ -19467,7 +19467,7 @@ msgstr "توصيل مجاني"
 msgid "Free for {0} days"
 msgstr "مجاناً لمدة {0} يوماً"
 
-#: onedesk/one/ready.py:260
+#: onedesk/one/ready.py:262
 msgid "Free to Sell"
 msgstr "متاح للبيع"
 
@@ -24593,7 +24593,7 @@ msgstr "يظهر أعلى السجل ويُعاد كتابته مرة في ال�
 msgid "Kept by Law"
 msgstr "محفوظ بموجب القانون"
 
-#: onedesk/one/ready.py:263 onedesk/public/js/item_new.js:4
+#: onedesk/one/ready.py:265 onedesk/public/js/item_new.js:4
 msgid "Kept in Stock"
 msgstr "محفوظ في المخزون"
 
@@ -26674,11 +26674,15 @@ msgid "Lots of goods that go off, with their dates."
 msgstr "دفعات بضائع تنتهي صلاحيتها، مع تواريخها."
 
 #. Option for the 'Urgency' (Select) field in DocType 'Employee Grievance'
+#: onedesk/one_hr/custom/employee_grievance.json:42
+msgid "Low"
+msgstr "منخفض"
+
 #: frontend/src/inventory/item/ItemPlaces.vue:11
 #: frontend/src/inventory/stock/StockOnHand.vue:87
 #: frontend/src/inventory/stock/StockOnHand.vue:154
-#: onedesk/one_hr/custom/employee_grievance.json:42
 #: onedesk/public/js/item_list.js:14
+msgctxt "Stock"
 msgid "Low"
 msgstr "منخفض"
 
@@ -26761,7 +26765,7 @@ msgstr "مصنوع من"
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one/ready.py:264
+#: onedesk/one/ready.py:266
 msgid "Made Here"
 msgstr "يُصنع هنا"
 
@@ -29695,7 +29699,7 @@ msgstr "السجل التالي"
 msgid "Next Run"
 msgstr "التشغيل التالي"
 
-#: onedesk/one/ready.py:310
+#: onedesk/one/ready.py:312
 msgid "Next Service"
 msgstr "الصيانة التالية"
 
@@ -32098,7 +32102,7 @@ msgstr "المناوبون اليوم"
 msgid "On Everyone's Calendar"
 msgstr "في تقويم الجميع"
 
-#: onedesk/one/ready.py:260 onedesk/public/js/item_list.js:22
+#: onedesk/one/ready.py:262 onedesk/public/js/item_list.js:22
 msgid "On Hand"
 msgstr "في المخزون"
 
@@ -32146,7 +32150,7 @@ msgstr "على سجل واحد"
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:260
+#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:262
 msgid "On Order"
 msgstr "قيد الطلب"
 
@@ -35475,7 +35479,7 @@ msgstr "تُملأ الأجزاء بين {{ }} و{% %} عند الإرسال."
 msgid "Party"
 msgstr "الطرف"
 
-#: onedesk/one/ready.py:655
+#: onedesk/one/ready.py:657
 msgid "Party Account"
 msgstr ""
 
@@ -43998,7 +44002,7 @@ msgstr "نفذ الخدمة"
 
 #. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
-#: onedesk/one/ready.py:265 onedesk/one_display/doctype/queue/queue.json:47
+#: onedesk/one/ready.py:267 onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Services"
 msgstr ""
@@ -45680,7 +45684,7 @@ msgstr "وحدة المقاس"
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr "لا يمكن كتابة المقاسات بوحدة {0}. اختر وحدة طول: مليمتر، سنتيمتر، بوصة."
 
-#: onedesk/one/ready.py:267 onedesk/public/js/item_new.js:7
+#: onedesk/one/ready.py:269 onedesk/public/js/item_new.js:7
 msgid "Sizes or Colours"
 msgstr "مقاسات أو ألوان"
 
@@ -46232,7 +46236,7 @@ msgstr ""
 msgid "Source Type"
 msgstr "نوع المصدر"
 
-#: onedesk/one/ready.py:423
+#: onedesk/one/ready.py:425
 msgid "Source Warehouse"
 msgstr ""
 
@@ -48355,7 +48359,7 @@ msgstr "أخذها معك"
 msgid "Target Margin"
 msgstr "الهامش المستهدف"
 
-#: onedesk/one/ready.py:424
+#: onedesk/one/ready.py:426
 msgid "Target Warehouse"
 msgstr ""
 
@@ -60004,7 +60008,7 @@ msgstr "مع الفاتورة"
 msgid "With OneAI"
 msgstr "باستخدام OneAI"
 
-#: onedesk/one/ready.py:862
+#: onedesk/one/ready.py:864
 msgid "With Subscribers"
 msgstr "بها مشتركون"
 
@@ -60315,8 +60319,13 @@ msgid "Workers KV Namespace"
 msgstr "مساحة Workers KV"
 
 #. Option for the 'status' (Select) field in DocType 'Task'
+#: onedesk/one_task/custom/task.json:87
+msgid "Working"
+msgstr "قيد التنفيذ"
+
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:9
-#: onedesk/one_admin/heads.py:47 onedesk/one_task/custom/task.json:87
+#: onedesk/one_admin/heads.py:47
+msgctxt "Domain"
 msgid "Working"
 msgstr "يعمل"
 

@@ -122,6 +122,15 @@ onedesk.interface.adapt("list", () => {
 		};
 	};
 	onedesk.interface.when(frappe.views, "KanbanV2Page", pipeline);
+	frappe.provide("frappe.kanban_v2");
+	onedesk.interface.when(frappe.kanban_v2, "FrappeDataProvider", (Provider) => {
+		const loaded = Provider.prototype.loadBoard;
+		Provider.prototype.loadBoard = async function (...args) {
+			const said = await loaded.apply(this, args);
+			(said?.columns || []).forEach((column) => (column.title = __(column.id)));
+			return said;
+		};
+	});
 	const settle = frappe.views.ListView.prototype.setup_defaults;
 	frappe.views.ListView.prototype.setup_defaults = function (...args) {
 		boards();
