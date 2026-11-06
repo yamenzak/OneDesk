@@ -2,10 +2,10 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Figures :figures="figures" :columns="figures.length" class="mt-6" />
+      <Figures data-tour="oneinventory-order-figures" :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <div ref="finder" class="mt-6 flex flex-wrap items-center gap-2">
+      <div ref="finder" data-tour="oneinventory-order-find" class="mt-6 flex flex-wrap items-center gap-2">
         <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
@@ -13,7 +13,7 @@
       </div>
 
       <p v-if="!lines.length" class="py-10 text-center text-base text-ink-gray-5">{{ search || reason !== "all" ? __("Nothing matches") : __("Nothing to order") }}</p>
-      <List v-else v-model:selection="picked" :selectable="said.can.order" :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
+      <List data-tour="oneinventory-order-list" v-else v-model:selection="picked" :selectable="said.can.order" :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <ListHeaderCell class="max-sm:hidden">{{ __("Why") }}</ListHeaderCell>

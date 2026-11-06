@@ -344,6 +344,7 @@ doc_events = {
 	"Payroll Settings": {"on_update": "onedesk.one.notify.switched"},
 	"Notification": {"on_update": "onedesk.one.notify.switched"},
 	"Material Request": {
+		"before_validate": "onedesk.one_inventory.requests.titled",
 		"on_submit": "onedesk.one_inventory.tell.raised",
 		"validate": "onedesk.one_project.chain.agree",
 	},

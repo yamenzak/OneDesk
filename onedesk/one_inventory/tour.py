@@ -9,8 +9,8 @@ HOME = [
 	{
 		"target": "interface-nav",
 		"side": "right",
-		"title": _lt("Stock, Buying and Making"),
-		"text": _lt("Items, warehouses, what is ordered and received, the workshop and the company's equipment."),
+		"title": _lt("Stock, Buying and Equipment"),
+		"text": _lt("Items, warehouses, what is ordered and received, and the company's equipment."),
 	},
 	{
 		"target": "oneinventory-figures",
@@ -32,4 +32,44 @@ HOME = [
 	},
 ]
 
-TOURS = [{"key": "home", "at": "oneinventory-views", "steps": HOME}]
+STOCK = [
+	{
+		"target": "oneinventory-stock-figures",
+		"side": "bottom",
+		"title": _lt("Stock at a Glance"),
+		"text": _lt("What the stores are worth, and how many items are low or short; Low and Short narrow the list."),
+	},
+	{
+		"target": "oneinventory-stock-find",
+		"side": "bottom",
+		"title": _lt("Find an Item"),
+		"text": _lt("Pick a warehouse, search by name or code, or show only what is low, short or out of stock."),
+	},
+	{
+		"target": "oneinventory-stock-list",
+		"side": "top",
+		"title": _lt("Each Item"),
+		"text": _lt("What is on hand, promised, free and on order, and what it is worth; a line opens the item."),
+	},
+]
+
+ORDER = [
+	{
+		"target": "oneinventory-order-figures",
+		"side": "bottom",
+		"title": _lt("What to Order"),
+		"text": _lt("How many lines are requested or running low, and what they would cost at the last prices paid."),
+	},
+	{
+		"target": "oneinventory-order-list",
+		"side": "top",
+		"title": _lt("Order in One Go"),
+		"text": _lt("Tick lines and press Order, or Order All: one draft purchase order is made for each supplier."),
+	},
+]
+
+TOURS = [
+	{"key": "home", "at": "oneinventory-views", "steps": HOME},
+	{"key": "stock", "at": "oneinventory-stock-list", "steps": STOCK},
+	{"key": "order", "at": "oneinventory-order-list", "steps": ORDER},
+]

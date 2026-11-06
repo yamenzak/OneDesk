@@ -547,3 +547,40 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 .one-phone-sheet .desk-mobile-sheet-dock {
 	border-bottom: none;
 }
+
+@media (max-width: 767px) {
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .one-interface-commands,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .one-interface-group,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .custom-actions,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .standard-items-section,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .page-actions,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .standard-actions {
+		display: contents !important;
+	}
+
+	:root[data-one-look] body .one-hero-actions.one-hero-actions :is(.filters, .custom-mobile-actions):not(:has(*)) {
+		display: none !important;
+	}
+
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .standard-actions > *,
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .standard-actions > * > :first-child {
+		margin-inline: 0 !important;
+	}
+
+	:root[data-one-look] body .one-hero-record .one-hero-actions.one-hero-actions {
+		margin-inline-start: 0 !important;
+		flex-wrap: wrap !important;
+		justify-content: flex-start !important;
+		flex: 1 1 100%;
+		max-width: 100%;
+		gap: calc(var(--spacing) * 1.5);
+	}
+
+	:root[data-one-look] body .one-hero-actions.one-hero-actions :is(.primary-action[data-variant="solid"], .btn-primary, .inner-group-button:has(> [data-variant="solid"])) {
+		order: -2;
+	}
+
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .one-onward {
+		order: -1;
+	}
+}

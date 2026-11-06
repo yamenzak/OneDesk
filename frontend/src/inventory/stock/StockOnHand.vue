@@ -2,10 +2,10 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <Figures :figures="figures" :columns="figures.length" class="mt-6" />
+      <Figures data-tour="oneinventory-stock-figures" :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <div ref="finder" class="mt-6 flex flex-wrap items-center gap-2">
+      <div ref="finder" data-tour="oneinventory-stock-find" class="mt-6 flex flex-wrap items-center gap-2">
         <Dropdown :options="placeMenu">
           <template #trigger>
             <Button icon-left="lucide-warehouse" icon-right="lucide-chevron-down" :label="shown === 'all' ? __('All Warehouses') : short(shown)" />
@@ -18,7 +18,7 @@
       </div>
 
       <p v-if="!rows.length" class="py-10 text-center text-base text-ink-gray-5">{{ search || state !== "all" ? __("No items match") : __("Nothing on hand here") }}</p>
-      <List v-else :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
+      <List data-tour="oneinventory-stock-list" v-else :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
           <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>

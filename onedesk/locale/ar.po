@@ -15233,6 +15233,10 @@ msgstr "حاوية الاتحاد الأوروبي"
 msgid "Each"
 msgstr "لكل واحدة"
 
+#: onedesk/one_inventory/tour.py:51
+msgid "Each Item"
+msgstr "كل صنف"
+
 #: onedesk/one_book/home.py:365
 msgid "Each account's balance by accounting dimension."
 msgstr "رصيد كل حساب حسب البُعد المحاسبي."
@@ -18496,6 +18500,10 @@ msgstr "ابحث عن وقت هذا الأسبوع للاجتماع مع "
 msgid "Find a time to meet…"
 msgstr "ابحث عن وقت للاجتماع…"
 
+#: onedesk/one_inventory/tour.py:45
+msgid "Find an Item"
+msgstr "البحث عن صنف"
+
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:25
 msgid "Find next"
 msgstr "بحث عن التالي"
@@ -21678,6 +21686,10 @@ msgstr "كم يومًا من كل نوع تمنحه السنة."
 msgid "How many items are in each state, and every item below."
 msgstr "كم عنصرًا في كل حالة، وكل العناصر تحتها."
 
+#: onedesk/one_inventory/tour.py:61
+msgid "How many lines are requested or running low, and what they would cost at the last prices paid."
+msgstr "عدد السطور المطلوبة أو التي قارب مخزونها على النفاد، وتكلفتها بآخر الأسعار المدفوعة."
+
 #: onedesk/one_inventory/home.py:135
 msgid "How many of each bundle the stock can make up."
 msgstr "كم حزمة من كل نوع يمكن تكوينها من المخزون."
@@ -24171,8 +24183,8 @@ msgid "Items, customers and suppliers imported"
 msgstr "استيراد الأصناف والعملاء والموردين"
 
 #: onedesk/one_inventory/tour.py:13
-msgid "Items, warehouses, what is ordered and received, the workshop and the company's equipment."
-msgstr "الأصناف والمستودعات، وما طُلب وما استُلم، والورشة، ومعدات الشركة."
+msgid "Items, warehouses, what is ordered and received, and the company's equipment."
+msgstr "الأصناف والمستودعات وما طُلب واستُلم ومعدات الشركة."
 
 #: onedesk/one_mail/ai.py:776
 msgid "Its Mail"
@@ -34180,6 +34192,10 @@ msgstr "طلب الزجاج"
 msgid "Order hardware and accessories"
 msgstr "طلب الإكسسوارات والملحقات"
 
+#: onedesk/one_inventory/tour.py:66
+msgid "Order in One Go"
+msgstr "الطلب دفعة واحدة"
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Order joinery and furniture"
@@ -36560,6 +36576,10 @@ msgstr "اختر قالبًا."
 #: onedesk/one/doctype/weather_place/weather_place.json:26
 msgid "Pick a town or city as you type, or use the location button."
 msgstr "اختر بلدة أو مدينة أثناء الكتابة، أو استخدم زر الموقع."
+
+#: onedesk/one_inventory/tour.py:46
+msgid "Pick a warehouse, search by name or code, or show only what is low, short or out of stock."
+msgstr "اختر مستودعًا، أو ابحث بالاسم أو الرمز، أو اعرض فقط ما هو منخفض أو ناقص أو نفد من المخزون."
 
 #: onedesk/public/js/item_new.js:378
 msgid "Pick at least one size or colour."
@@ -47096,8 +47116,8 @@ msgid "Stock's worth against the accounts."
 msgstr "قيمة المخزون مقابل الحسابات."
 
 #: onedesk/one_inventory/tour.py:12
-msgid "Stock, Buying and Making"
-msgstr "المخزون والشراء والتصنيع"
+msgid "Stock, Buying and Equipment"
+msgstr "المخزون والمشتريات والمعدات"
 
 #: onedesk/public/js/hiring.js:260 onedesk/public/js/project_actions.js:325
 msgid "Stop"
@@ -52417,6 +52437,10 @@ msgstr "الخميس"
 msgid "Tick a calendar to show it, and untick it to hide it."
 msgstr "حدّد تقويمًا لإظهاره، وألغِ تحديده لإخفائه."
 
+#: onedesk/one_inventory/tour.py:67
+msgid "Tick lines and press Order, or Order All: one draft purchase order is made for each supplier."
+msgstr "حدد السطور واضغط طلب، أو طلب الكل: تُنشأ مسودة أمر شراء لكل مورد."
+
 #: onedesk/public/js/one_legal/legal.js:74
 msgid "Tick the box to agree."
 msgstr "ضع علامة في المربع للموافقة."
@@ -56538,6 +56562,10 @@ msgstr "ما الناقص في ملفي الشخصي؟"
 msgid "What is not set up yet, with the fix."
 msgstr "ما لم يُعدّ بعد، مع الحل."
 
+#: onedesk/one_inventory/tour.py:52
+msgid "What is on hand, promised, free and on order, and what it is worth; a line opens the item."
+msgstr "ما هو متوفر وموعود به ومتاح وقيد الطلب، وقيمته؛ يفتح السطر الصنف."
+
 #: onedesk/one_calendar/ai.py:33
 msgid "What is on my calendar this week? Say what matters most and anything that clashes."
 msgstr "ما في تقويمي هذا الأسبوع؟ قل ما الأهم وما يتعارض."
@@ -56922,6 +56950,10 @@ msgstr "ما تفحصه القاعدة وتفعله، من الأعلى إلى �
 msgid "What the rule is for. Example: Quotes from customers."
 msgstr "الغرض من القاعدة. مثال: عروض أسعار من العملاء."
 
+#: onedesk/one_inventory/tour.py:40
+msgid "What the stores are worth, and how many items are low or short; Low and Short narrow the list."
+msgstr "قيمة المخزون، وعدد الأصناف المنخفضة أو الناقصة؛ ويضيّق منخفض وناقص القائمة."
+
 #: frontend/src/slide/shim/WidgetMock.vue:61
 msgid "What the story says, in a line."
 msgstr "مضمون الخبر في سطر."
@@ -56989,6 +57021,10 @@ msgstr "ما تريد مساحة العمل هذه أن يعرفه OneAI: سيا
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:118
 msgid "What those fields held when this was written."
 msgstr "ما كانت تحمله تلك الحقول حين كُتب هذا."
+
+#: onedesk/one_inventory/tour.py:60
+msgid "What to Order"
+msgstr "ما يجب طلبه"
 
 #: frontend/src/intake/IntakeExplain.vue:11
 msgid "What to do"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 11:54+0000\n"
-"PO-Revision-Date: 2026-11-06 11:54+0000\n"
+"POT-Creation-Date: 2026-11-06 12:36+0000\n"
+"PO-Revision-Date: 2026-11-06 12:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -15229,6 +15229,10 @@ msgstr ""
 msgid "Each"
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:51
+msgid "Each Item"
+msgstr ""
+
 #: onedesk/one_book/home.py:365
 msgid "Each account's balance by accounting dimension."
 msgstr ""
@@ -18493,6 +18497,10 @@ msgstr ""
 msgid "Find a time to meet…"
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:45
+msgid "Find an Item"
+msgstr ""
+
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:25
 msgid "Find next"
 msgstr ""
@@ -21681,6 +21689,10 @@ msgstr ""
 msgid "How many items are in each state, and every item below."
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:61
+msgid "How many lines are requested or running low, and what they would cost at the last prices paid."
+msgstr ""
+
 #: onedesk/one_inventory/home.py:135
 msgid "How many of each bundle the stock can make up."
 msgstr ""
@@ -24174,7 +24186,7 @@ msgid "Items, customers and suppliers imported"
 msgstr ""
 
 #: onedesk/one_inventory/tour.py:13
-msgid "Items, warehouses, what is ordered and received, the workshop and the company's equipment."
+msgid "Items, warehouses, what is ordered and received, and the company's equipment."
 msgstr ""
 
 #: onedesk/one_mail/ai.py:776
@@ -34188,6 +34200,10 @@ msgstr ""
 msgid "Order hardware and accessories"
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:66
+msgid "Order in One Go"
+msgstr ""
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Order joinery and furniture"
@@ -36567,6 +36583,10 @@ msgstr ""
 #. Description of the 'Place' (Autocomplete) field in DocType 'Weather Place'
 #: onedesk/one/doctype/weather_place/weather_place.json:26
 msgid "Pick a town or city as you type, or use the location button."
+msgstr ""
+
+#: onedesk/one_inventory/tour.py:46
+msgid "Pick a warehouse, search by name or code, or show only what is low, short or out of stock."
 msgstr ""
 
 #: onedesk/public/js/item_new.js:378
@@ -47037,7 +47057,7 @@ msgstr ""
 msgid "Stock and the books are put right each week"
 msgstr ""
 
-#: onedesk/one_inventory/tour.py:18
+#: onedesk/one_inventory/tour.py:18 onedesk/one_inventory/tour.py:39
 msgid "Stock at a Glance"
 msgstr ""
 
@@ -47130,7 +47150,7 @@ msgid "Stock's worth against the accounts."
 msgstr ""
 
 #: onedesk/one_inventory/tour.py:12
-msgid "Stock, Buying and Making"
+msgid "Stock, Buying and Equipment"
 msgstr ""
 
 #: onedesk/public/js/hiring.js:260 onedesk/public/js/project_actions.js:325
@@ -52442,6 +52462,10 @@ msgstr ""
 msgid "Tick a calendar to show it, and untick it to hide it."
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:67
+msgid "Tick lines and press Order, or Order All: one draft purchase order is made for each supplier."
+msgstr ""
+
 #: onedesk/public/js/one_legal/legal.js:74
 msgid "Tick the box to agree."
 msgstr ""
@@ -56563,6 +56587,10 @@ msgstr ""
 msgid "What is not set up yet, with the fix."
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:52
+msgid "What is on hand, promised, free and on order, and what it is worth; a line opens the item."
+msgstr ""
+
 #: onedesk/one_calendar/ai.py:33
 msgid "What is on my calendar this week? Say what matters most and anything that clashes."
 msgstr ""
@@ -56958,6 +56986,10 @@ msgstr ""
 msgid "What the rule is for. Example: Quotes from customers."
 msgstr ""
 
+#: onedesk/one_inventory/tour.py:40
+msgid "What the stores are worth, and how many items are low or short; Low and Short narrow the list."
+msgstr ""
+
 #: frontend/src/slide/shim/WidgetMock.vue:61
 msgid "What the story says, in a line."
 msgstr ""
@@ -57024,6 +57056,10 @@ msgstr ""
 #. Description of the 'Currently' (Code) field in DocType 'AI Proposal'
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:118
 msgid "What those fields held when this was written."
+msgstr ""
+
+#: onedesk/one_inventory/tour.py:60
+msgid "What to Order"
 msgstr ""
 
 #: frontend/src/intake/IntakeExplain.vue:11

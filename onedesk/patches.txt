@@ -117,3 +117,4 @@ onedesk.one_ai.patches.search_on_r2
 onedesk.one_storage.patches.stored_files_keep_their_hash
 onedesk.one_storage.patches.reposts_on_disk
 onedesk.one_project.patches.pages_are_forms #project_view
+onedesk.one_inventory.patches.requests_titled_by_items

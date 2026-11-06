@@ -15233,6 +15233,10 @@ msgstr "EU-Bucket"
 msgid "Each"
 msgstr "Je Stück"
 
+#: onedesk/one_inventory/tour.py:51
+msgid "Each Item"
+msgstr "Jeder Artikel"
+
 #: onedesk/one_book/home.py:365
 msgid "Each account's balance by accounting dimension."
 msgstr "Der Saldo jedes Kontos nach Buchhaltungsdimension."
@@ -18496,6 +18500,10 @@ msgstr "Finde diese Woche eine Zeit für ein Treffen mit "
 msgid "Find a time to meet…"
 msgstr "Zeit für ein Treffen finden…"
 
+#: onedesk/one_inventory/tour.py:45
+msgid "Find an Item"
+msgstr "Artikel finden"
+
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:25
 msgid "Find next"
 msgstr "Weitersuchen"
@@ -21678,6 +21686,10 @@ msgstr "Wie viele Tage jeder Art ein Jahr gibt."
 msgid "How many items are in each state, and every item below."
 msgstr "Wie viele Einträge in jedem Status sind, darunter jeder Eintrag."
 
+#: onedesk/one_inventory/tour.py:61
+msgid "How many lines are requested or running low, and what they would cost at the last prices paid."
+msgstr "Wie viele Zeilen angefordert sind oder knapp werden, und was sie zu den zuletzt gezahlten Preisen kosten würden."
+
 #: onedesk/one_inventory/home.py:135
 msgid "How many of each bundle the stock can make up."
 msgstr "Wie viele Bündel jeder Art der Bestand ergibt."
@@ -24171,8 +24183,8 @@ msgid "Items, customers and suppliers imported"
 msgstr "Artikel, Kunden und Lieferanten importiert"
 
 #: onedesk/one_inventory/tour.py:13
-msgid "Items, warehouses, what is ordered and received, the workshop and the company's equipment."
-msgstr "Artikel, Lager, was bestellt und erhalten wurde, die Werkstatt und die Ausstattung des Unternehmens."
+msgid "Items, warehouses, what is ordered and received, and the company's equipment."
+msgstr "Artikel, Lager, was bestellt und erhalten wurde, und die Ausrüstung des Unternehmens."
 
 #: onedesk/one_mail/ai.py:776
 msgid "Its Mail"
@@ -34180,6 +34192,10 @@ msgstr "Glas bestellen"
 msgid "Order hardware and accessories"
 msgstr "Beschläge und Zubehör bestellen"
 
+#: onedesk/one_inventory/tour.py:66
+msgid "Order in One Go"
+msgstr "In einem Schritt bestellen"
+
 #. Task in the Interior Fit-Out project template
 #: onedesk/one_project/library/interior_fit_out.json
 msgid "Order joinery and furniture"
@@ -36560,6 +36576,10 @@ msgstr "Wählen Sie eine Vorlage."
 #: onedesk/one/doctype/weather_place/weather_place.json:26
 msgid "Pick a town or city as you type, or use the location button."
 msgstr "Wählen Sie beim Tippen einen Ort oder eine Stadt, oder nutzen Sie die Standortschaltfläche."
+
+#: onedesk/one_inventory/tour.py:46
+msgid "Pick a warehouse, search by name or code, or show only what is low, short or out of stock."
+msgstr "Wählen Sie ein Lager, suchen Sie nach Name oder Code, oder zeigen Sie nur, was knapp, unterdeckt oder nicht auf Bestand ist."
 
 #: onedesk/public/js/item_new.js:378
 msgid "Pick at least one size or colour."
@@ -47096,8 +47116,8 @@ msgid "Stock's worth against the accounts."
 msgstr "Lagerwert gegenüber der Buchhaltung."
 
 #: onedesk/one_inventory/tour.py:12
-msgid "Stock, Buying and Making"
-msgstr "Bestand, Einkauf und Fertigung"
+msgid "Stock, Buying and Equipment"
+msgstr "Bestand, Einkauf und Ausrüstung"
 
 #: onedesk/public/js/hiring.js:260 onedesk/public/js/project_actions.js:325
 msgid "Stop"
@@ -52417,6 +52437,10 @@ msgstr "Donnerstag"
 msgid "Tick a calendar to show it, and untick it to hide it."
 msgstr "Haken Sie einen Kalender an, um ihn anzuzeigen, und entfernen Sie den Haken, um ihn auszublenden."
 
+#: onedesk/one_inventory/tour.py:67
+msgid "Tick lines and press Order, or Order All: one draft purchase order is made for each supplier."
+msgstr "Zeilen ankreuzen und Bestellen drücken, oder Alle bestellen: Für jeden Lieferanten wird ein Entwurf einer Bestellung angelegt."
+
 #: onedesk/public/js/one_legal/legal.js:74
 msgid "Tick the box to agree."
 msgstr "Setze das Häkchen, um zuzustimmen."
@@ -56538,6 +56562,10 @@ msgstr "Was fehlt in meinem Profil?"
 msgid "What is not set up yet, with the fix."
 msgstr "Was noch nicht eingerichtet ist, mit der Lösung."
 
+#: onedesk/one_inventory/tour.py:52
+msgid "What is on hand, promised, free and on order, and what it is worth; a line opens the item."
+msgstr "Was auf Bestand, zugesagt, frei und bestellt ist, und was es wert ist; eine Zeile öffnet den Artikel."
+
 #: onedesk/one_calendar/ai.py:33
 msgid "What is on my calendar this week? Say what matters most and anything that clashes."
 msgstr "Was steht diese Woche in meinem Kalender? Sag, was am wichtigsten ist und was sich überschneidet."
@@ -56922,6 +56950,10 @@ msgstr "Was die Regel prüft und tut, von oben nach unten, wie der Regel-Builder
 msgid "What the rule is for. Example: Quotes from customers."
 msgstr "Wofür die Regel ist. Beispiel: Angebote von Kundschaft."
 
+#: onedesk/one_inventory/tour.py:40
+msgid "What the stores are worth, and how many items are low or short; Low and Short narrow the list."
+msgstr "Was der Bestand wert ist und wie viele Artikel knapp oder unterdeckt sind; Knapp und Unterdeckt grenzen die Liste ein."
+
 #: frontend/src/slide/shim/WidgetMock.vue:61
 msgid "What the story says, in a line."
 msgstr "Worum es in der Meldung geht, in einer Zeile."
@@ -56989,6 +57021,10 @@ msgstr "Was dieser Arbeitsbereich OneAI wissen lassen will: eine Richtlinie, ein
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:118
 msgid "What those fields held when this was written."
 msgstr "Was diese Felder enthielten, als dies geschrieben wurde."
+
+#: onedesk/one_inventory/tour.py:60
+msgid "What to Order"
+msgstr "Was zu bestellen ist"
 
 #: frontend/src/intake/IntakeExplain.vue:11
 msgid "What to do"

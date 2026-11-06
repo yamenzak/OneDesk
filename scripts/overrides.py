@@ -2712,6 +2712,13 @@ OVERRIDES = [
 		"background: var(--surface-gray-4);",
 	),
 	(
+		"A record's buttons show on a phone",
+		"phone.css shows the custom actions frappe hides below md (hidden-xs) once the record head has moved them in, and lets the head's groups dissolve so every button wraps on the screen",
+		"onedesk/public/css/one_interface/phone.css",
+		"frappe/frappe/public/js/frappe/ui/page.html",
+		'<div class="custom-actions hide hidden-xs hidden-md"></div>',
+	),
+	(
 		"A phone's list has one Reload",
 		"phone.css hides the Reload List that frappe's setup_mobile_toolbar puts first in the filter row, since the address bar holds Refresh",
 		"onedesk/public/css/one_interface/phone.css",
