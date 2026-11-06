@@ -1,6 +1,7 @@
 """Sahara Glass Saudi, the sister company in Riyadh, in riyals: its own
 warehouses, a supplier and a customer, the stock it opened with, an order
-Karim placed and half received, and windows Omar sold and delivered. Its
+Karim placed and half received, windows Omar sold and delivered, and his
+Riyadh pipeline: a lead, and the tower's next phase quoted. Its
 chart is the one ERPNext builds when nobody names one (docs/ACCOUNTS.md);
 the riyal and the dirham are both pegged to the dollar, so their rate holds."""
 
@@ -34,6 +35,7 @@ def run(password=None):
 	supplier, customer = _parties()
 	_bought(supplier)
 	_sold(customer)
+	_pipeline(customer)
 
 
 def _company():
@@ -165,3 +167,54 @@ def _sold(customer: str):
 		note = make_delivery_note(order.name)
 		dated(note, ago(9))
 		save(note, submit=True)
+
+
+def _pipeline(customer: str):
+	"""Omar's Riyadh pipeline: a lead met at an exhibition, and the tower's
+	next phase at Proposal with its quotation in riyals."""
+	from erpnext.crm.doctype.opportunity.mapper import make_quotation
+
+	from onedesk.one_demo.crm import _stages_to
+
+	with as_user(SALES):
+		if not frappe.db.exists("UTM Source", "Exhibition"):
+			tag(frappe.get_doc({"doctype": "UTM Source"}).insert(set_name="Exhibition"))
+		once(
+			"Lead",
+			{"email_id": "faisal@diriyahdev.example"},
+			{
+				"first_name": "Faisal",
+				"last_name": "Al Harbi",
+				"company_name": "Diriyah Developments",
+				"email_id": "faisal@diriyahdev.example",
+				"company": BRANCH,
+				"territory": _territory(),
+				"utm_source": "Exhibition",
+				"lead_owner": SALES,
+			},
+		)
+		title = "Al Olaya Towers Phase 2"
+		if frappe.db.exists("Opportunity", {"title": title}):
+			return
+		deal = make(
+			{
+				"doctype": "Opportunity",
+				"title": title,
+				"company": BRANCH,
+				"opportunity_from": "Customer",
+				"party_name": customer,
+				"opportunity_owner": SALES,
+				"sales_stage": "New",
+				"currency": CURRENCY,
+				"opportunity_amount": 69000,
+				"expected_closing": add_days(ago(0), 30),
+			}
+		)
+		for passed in _stages_to("Proposal"):
+			deal.reload()
+			deal.sales_stage = passed
+			deal.save()
+		quote = make_quotation(deal.name)
+		quote.append("items", {"item_code": "WIN-CS12", "qty": 60, "rate": 1150})
+		quote.valid_till = add_days(ago(0), 20)
+		save(quote, submit=True)

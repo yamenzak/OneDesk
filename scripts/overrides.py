@@ -1074,6 +1074,20 @@ OVERRIDES = [
 		"set_formatted_input(value) {",
 	),
 	(
+		"A list opens on the company you work in",
+		"list.js wraps ListView.setup_defaults to add the reader's company to a list's filters, with more than one company, for each record type an app has made ready for several, when the list has no company filter of its own",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		"	setup_defaults() {",
+	),
+	(
+		"A kanban board opens on the company you work in",
+		"list.js wraps KanbanView.get_board, which replaces the view's filters with the board's, and the Kanban v2 page's setup_quick_filters, to add the reader's company after the board's own filters",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/views/kanban/kanban_view.js",
+		"	get_board() {",
+	),
+	(
 		"Every view of a list wears the list's head",
 		"frappe draws the list's name, New and the ways only over a list. look.js runs the list's head after ReportView's after_render, which does not call the list's, and after the Kanban v2 board's setup_quick_filters, since the board is its own page rather than a list view: the name with New, the ways at the far end, the quick filters (and a board's Filter and Group) in the row under the address. The states strip is left off a board and a dashboard",
 		"onedesk/public/js/one_interface/look.js",

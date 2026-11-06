@@ -68,15 +68,25 @@ def sync(doc=None, method=None, *args) -> None:
 @frappe.read_only()
 def worth(filters: Annotated[str | list | None, "The board's filters, as the list sends them."] = None) -> dict:
 	"""Each stage's value and weighted value, in the company's currency, for the
-	deals the reader can see through the same filters as the board."""
+	deals the reader can see through the same filters as the board, of one
+	company: the board's own filter's, else the reader's."""
+	from erpnext import get_company_currency
+
+	from onedesk.one_crm import measure
+
+	given = frappe.parse_json(filters) if filters else []
+	if isinstance(given, dict):
+		given = [["Opportunity", key, "=", value] for key, value in given.items()]
+	named = next((one[3] if len(one) > 3 else one[2] for one in given if "company" in one[:2]), None)
+	company = named if isinstance(named, str) else measure.company()
 	rows = frappe.get_list(
 		"Opportunity",
-		filters=frappe.parse_json(filters) if filters else None,
+		filters=[*given, ["Opportunity", "company", "=", company]],
 		fields=["sales_stage", "base_opportunity_amount", "base_total", "probability"],
 		limit=0,
 	)
 	return {
-		"currency": frappe.db.get_default("currency"),
+		"currency": get_company_currency(company),
 		"stages": totals(rows),
 	}
 

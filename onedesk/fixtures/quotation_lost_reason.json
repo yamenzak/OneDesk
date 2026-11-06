@@ -33,5 +33,10 @@
   "doctype": "Quotation Lost Reason",
   "name": "Other",
   "order_lost_reason": "Other"
+ },
+ {
+  "doctype": "Quotation Lost Reason",
+  "name": "Declined by the Customer",
+  "order_lost_reason": "Declined by the Customer"
  }
 ]

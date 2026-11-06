@@ -104,6 +104,8 @@ def _answer(kind: str, name: str):
 	if engine._kind(kind) != "Quotation":
 		raise frappe.PermissionError
 	doc = engine._opened("Quotation", name, order).doc
+	if not frappe.has_website_permission(doc):
+		raise frappe.PermissionError
 	if not answerable(doc):
 		frappe.throw(_("This quotation can no longer be answered."))
 	return doc
@@ -160,6 +162,9 @@ def decline_quote(kind: str, name: str, reason: str | None = None) -> None:
 	decline(_answer(kind, name), reason, user, get_fullname(user))
 
 
+DECLINED = "Declined by the Customer"
+
+
 def decline(doc, reason: str | None, user: str, by: str) -> None:
 	"""A quotation declined: erpnext's own Set as Lost, with their reason,
 	and whoever made it is told."""
@@ -168,7 +173,7 @@ def decline(doc, reason: str | None, user: str, by: str) -> None:
 	reason = (reason or "").strip()[:1000]
 	frappe.session.user = "Administrator"
 	try:
-		doc.declare_enquiry_lost([], [], detailed_reason=reason or _("Declined on the portal."))
+		doc.declare_enquiry_lost([{"lost_reason": DECLINED}], [], detailed_reason=reason or _("Declined on the portal."))
 		doc.add_comment("Info", _("Declined on the portal by {0}.").format(by))
 	finally:
 		frappe.session.user = user

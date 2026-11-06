@@ -209,3 +209,47 @@ def onecrm_merging_leads_is_an_ability():
 			pass
 		else:
 			raise AssertionError("a Sales User merged two leads")
+
+
+@check
+def onecrm_riyadh_keeps_its_own_pipeline():
+	"""Sahara Glass Saudi's deal and quotation, in riyals, stay out of
+	Sahara's board, figures and Home; with Riyadh as Omar's company the board
+	is Riyadh's, in riyals; and Omar, limited to Sahara, never lists them."""
+	from erpnext import get_company_currency
+
+	from onedesk.one_crm import board, story
+	from onedesk.one_demo.base import COMPANY
+	from onedesk.one_demo.branch import BRANCH
+
+	deal = frappe.db.get_value("Opportunity", {"company": BRANCH, "title": "Al Olaya Towers Phase 2"})
+	quote = frappe.db.get_value("Quotation", {"company": BRANCH, "docstatus": 1})
+	assert deal and quote, "the demo's second company has its pipeline (one_demo/branch.py)"
+	with as_user("omar@one.test"):
+		ours = board.worth()
+		assert ours["currency"] == get_company_currency(COMPANY)
+		sahara = sum(flt(one.base_opportunity_amount) or flt(one.base_total) for one in frappe.get_all("Opportunity", filters={"company": COMPANY}, fields=["base_opportunity_amount", "base_total"]))
+		assert abs(sum(one["value"] for one in ours["stages"].values()) - sahara) < CENTS, "the board added another company's deals"
+		assert story.read()["currency"] == get_company_currency(COMPANY)
+	frappe.defaults.set_user_default("company", BRANCH, "omar@one.test")
+	try:
+		with as_user("omar@one.test"):
+			theirs = board.worth()
+			assert theirs["currency"] == get_company_currency(BRANCH) and theirs["stages"].get("Proposal", {}).get("value", 0) >= 69000, theirs
+			assert story.read()["currency"] == get_company_currency(BRANCH)
+	finally:
+		frappe.defaults.set_user_default("company", COMPANY, "omar@one.test")
+	from onedesk.one_crm import stages
+
+	with as_user("omar@one.test"):
+		won = frappe.get_doc("Opportunity", deal)
+		won.sales_stage = stages.first("Won")
+		try:
+			won.save()
+			raise AssertionError("a deal with no order was won")
+		except frappe.ValidationError as e:
+			assert "order" in str(e), e
+		frappe.get_doc({"doctype": "User Permission", "user": "omar@one.test", "allow": "Company", "for_value": COMPANY}).insert(ignore_permissions=True)
+	with as_user("omar@one.test"):
+		assert deal not in frappe.get_list("Opportunity", pluck="name", limit_page_length=0)
+		assert quote not in frappe.get_list("Quotation", pluck="name", limit_page_length=0)

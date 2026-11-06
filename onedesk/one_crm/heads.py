@@ -100,10 +100,10 @@ def _went(name: str) -> frappe._dict:
 	return chain.follow([name])[name]
 
 
-def _ours() -> str:
+def _ours(doc) -> str:
 	from erpnext import get_company_currency, get_default_company
 
-	return get_company_currency(get_default_company())
+	return get_company_currency(doc.get("company") or get_default_company())
 
 
 def _late(invoice) -> bool:
@@ -129,7 +129,7 @@ def progress(doc):
 		steps.step(_("Quotation"), steps.at(bool(quotes), bool(went.quotations)), _(quotes[0].status) if quotes else ""),
 		steps.step(_("Sales Order"), steps.at(bool(orders), bool(went.orders))),
 		steps.step(_("Billed"), steps.at(billed, bool(bills)), steps.share(orders[0].per_billed) if orders and not billed else ""),
-		steps.step(_("Paid"), steps.at(paid, bool(bills), late), _("{0} owed").format(_money(owed, _ours())) if owed > 0 else ""),
+		steps.step(_("Paid"), steps.at(paid, bool(bills), late), _("{0} owed").format(_money(owed, _ours(doc))) if owed > 0 else ""),
 		stopped=doc.status == "Lost" or held,
 	)
 
@@ -155,8 +155,8 @@ def said(doc):
 		if owed <= 0:
 			return {"text": _("Won, billed and paid in full."), "colour": "green"}
 		if any(_late(one) for one in bills):
-			return {"text": _("Won and billed; {0} is still owed, and some of it is late.").format(_money(owed, _ours())), "colour": "red"}
-		return {"text": _("Won and billed; {0} is still owed.").format(_money(owed, _ours())), "colour": "orange"}
+			return {"text": _("Won and billed; {0} is still owed, and some of it is late.").format(_money(owed, _ours(doc))), "colour": "red"}
+		return {"text": _("Won and billed; {0} is still owed.").format(_money(owed, _ours(doc))), "colour": "orange"}
 	quotes = [one for one in went.quotations if one.docstatus == 1 and one.status in ("Open", "Replied")]
 	if quotes and quotes[0].valid_till:
 		if getdate(quotes[0].valid_till) < getdate(today()):
@@ -177,7 +177,7 @@ def of_customer(doc):
 		return None
 	statuses = frappe.as_json(["in", list(OPEN["Opportunity"])], indent=None)
 	return {
-		"value": _("{0} open · {1}").format(len(found), _money(sum(measure.value(one) for one in found), _ours())),
+		"value": _("{0} open · {1}").format(len(found), _money(sum(measure.value(one) for one in found), _ours({}))),
 		"route": f"/desk/opportunity?opportunity_from=Customer&party_name={doc.name}&status={statuses}",
 	}
 

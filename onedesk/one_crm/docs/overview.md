@@ -38,8 +38,11 @@ and the project it is for. Open one to record who signed it and when, then
 submit it. A project's contracts are drawn up from the
 project's page with **Draw Up Contract**.
 
-**One workspace is one company.** You are never asked which company a lead or
-an opportunity belongs to.
+**Several companies.** With one company you are never asked which a lead or
+an opportunity belongs to. With more, each shows its **Company**, starting as
+yours, every list can filter by it, and Home, the Pipeline's totals and every
+figure are your company's alone, in its currency. Change company from the
+top bar.
 
 **OneAI is the round button in the corner.** Open it on any page and it offers
 what makes sense there. No OneAI button is ever put on a page itself.

@@ -39,3 +39,9 @@ answered leaves it.
   emailed quote is missing from Compare and the request's head. A
   supplier's order confirmation is grouped with its order and changes
   nothing (its dates); a supplier's price list never becomes Item Prices.
+- **Intake for selling, from OneCRM's pass (6 Nov 2026).** A customer's
+  order names our quotation, but the draft Sales Order is built from its
+  lines, not through `make_sales_order`, so the quotation and the deal never
+  become Ordered. An enquiry from a known customer or lead makes nothing
+  (it should make an Opportunity), an acceptance by mail changes nothing,
+  and a complaint has no kind (`understand.py`), so no Issue is made.

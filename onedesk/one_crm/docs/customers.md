@@ -6,6 +6,8 @@ their last invoice, their open orders, and their open opportunities with
 what they are worth. **Print** gives their Statement of Account. Customers
 are kept here and used by OneBook, OneInventory and OneProject alike.
 
+![A customer's page with what they owe, their orders and what was billed](customers/customer.png)
+
 A **Prospect** is a business you want to sell to before it has bought
 anything. Its page gathers its leads and opportunities in one place. Its
 people are contacts in One's **Address Book**.

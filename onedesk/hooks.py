@@ -359,6 +359,7 @@ doc_events = {
 	"Customer": {
 		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one_ai.reading.planning.carried"],
 		"on_update": "onedesk.one_mail.faces.dress_later",
+		"on_trash": "onedesk.one_crm.capture.forget",
 	},
 	"Supplier": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
 	"Bank": {"after_insert": "onedesk.one_mail.faces.dress_later", "on_update": "onedesk.one_mail.faces.dress_later"},
@@ -684,6 +685,7 @@ doc_events = {
 	},
 	"Lead": {
 		"before_insert": "onedesk.one_crm.capture.before_insert",
+		"on_trash": "onedesk.one_crm.capture.forget",
 		"on_update": [
 			"onedesk.one_mail.faces.dress_later",
 			"onedesk.one_crm.tell.given",
@@ -862,8 +864,8 @@ fixtures = [
 	"Attendance Reason",
 	"Identification Document Type",
 	{"dt": "Milestone Tracker", "filters": [["name", "=", "Opportunity-sales_stage"]]},
-	{"dt": "Opportunity Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
-	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other"]]]},
+	{"dt": "Opportunity Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other", "Declined by the Customer"]]]},
+	{"dt": "Quotation Lost Reason", "filters": [["name", "in", ["Price", "Went With a Competitor", "No Budget", "No Decision", "Timing", "Not a Fit", "Other", "Declined by the Customer"]]]},
 	{"dt": "UTM Source", "filters": [["name", "=", "Website"]]},
 	{"dt": "Custom HTML Block", "filters": [["name", "in", ["OneAdmin Needs You"]]]},
 ]
@@ -1205,10 +1207,10 @@ one_makes_records = {
 	"Asset Value Adjustment": ["one_inventory"],
 	"Attendance Request": ["one_hr"],
 	"BOM": ["one_factory", "one_inventory"],
-	"Batch": ["one_inventory"],
 	"Bank": ["one_book"],
 	"Bank Account": ["one_book"],
 	"Bank Transaction": ["one_book"],
+	"Batch": ["one_inventory"],
 	"Blanket Order": ["one_inventory"],
 	"Budget": ["one_project"],
 	"Call Log": ["one_crm"],

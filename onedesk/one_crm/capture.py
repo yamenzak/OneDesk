@@ -30,8 +30,9 @@ def before_insert(doc, method=None) -> None:
 	same = matches(doc)
 	by_email = next((one for one in same if one["on"] == "email" and one["doctype"] == "Lead"), None)
 	if by_email and not frappe.flags.in_web_form:
+		mine = frappe.has_permission("Lead", "read", doc=by_email["name"])
 		raise frappe.DuplicateEntryError(
-			_("{0} is already a lead: {1}").format(doc.email_id, by_email["name"]),
+			_("{0} is already a lead: {1}").format(doc.email_id, by_email["name"]) if mine else _("{0} is already a lead.").format(doc.email_id),
 			"Lead",
 			by_email["name"],
 		)
@@ -181,3 +182,10 @@ def defaults() -> None:
 	selling = frappe.get_single("Selling Settings")
 	selling.enable_utm = 1
 	selling.save(ignore_permissions=True)
+
+
+def forget(doc, method=None) -> None:
+	"""A lead or customer deleted is no longer anybody's duplicate: the leads
+	flagged as its duplicate are cleared, so the delete is not refused."""
+	for name in frappe.get_all("Lead", filters={"one_duplicate_type": doc.doctype, "one_duplicate_of": doc.name}, pluck="name"):
+		frappe.db.set_value("Lead", name, {"one_duplicate_type": None, "one_duplicate_of": None, "one_duplicate_on": None}, update_modified=False)

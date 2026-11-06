@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 17:10+0000\n"
-"PO-Revision-Date: 2026-11-06 17:10+0000\n"
+"POT-Creation-Date: 2026-11-06 18:06+0000\n"
+"PO-Revision-Date: 2026-11-06 18:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -317,11 +317,11 @@ msgstr ""
 msgid "1 record"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:502
+#: onedesk/public/js/one_interface/look.js:503
 msgid "1 row added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:502
+#: onedesk/public/js/one_interface/look.js:503
 msgid "1 row removed"
 msgstr ""
 
@@ -540,7 +540,7 @@ msgstr ""
 msgid "A business you want to sell to, with its people."
 msgstr ""
 
-#: onedesk/one_crm/record.py:163
+#: onedesk/one_crm/record.py:164
 msgid "A call is Outgoing or Incoming, and Answered, No Answer or Busy."
 msgstr ""
 
@@ -984,7 +984,7 @@ msgstr ""
 msgid "A layout of widgets shown over the slides."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:106
+#: onedesk/one_crm/capture.py:107
 msgid "A lead cannot be merged into itself."
 msgstr ""
 
@@ -2036,7 +2036,7 @@ msgstr ""
 msgid "Accepted By"
 msgstr ""
 
-#: onedesk/one_crm/portal.py:147
+#: onedesk/one_crm/portal.py:149
 #, python-brace-format
 msgid "Accepted on the portal by {0}: order {1}."
 msgstr ""
@@ -3614,8 +3614,8 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:634 onedesk/one_inventory/heads.py:716
 #: onedesk/one_inventory/heads.py:742 onedesk/one_project/heads.py:198
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:665
-#: onedesk/public/js/one_interface/look.js:695
+#: onedesk/public/js/one_interface/look.js:666
+#: onedesk/public/js/one_interface/look.js:696
 msgid "All"
 msgstr ""
 
@@ -4276,6 +4276,10 @@ msgstr ""
 msgid "An office, shop or restaurant fitted out inside a shell, from survey to handover."
 msgstr ""
 
+#: onedesk/one_crm/stages.py:120
+msgid "An opportunity is won when its quotation becomes an order. Make the sales order from its quotation."
+msgstr ""
+
 #. Description of the 'Probability (%)' (Percent) field in DocType 'Sales
 #. Stage'
 #: onedesk/one_crm/custom/sales_stage.json:19
@@ -4627,7 +4631,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:819
+#: onedesk/one/ready.py:833
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5562,7 +5566,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:833
+#: onedesk/one/ready.py:847
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -7045,7 +7049,7 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one/ready.py:643 onedesk/one/ready.py:710
+#: onedesk/one/ready.py:643 onedesk/one/ready.py:724
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -9045,7 +9049,7 @@ msgstr ""
 msgid "Choose the country first."
 msgstr ""
 
-#: onedesk/one_crm/portal.py:135
+#: onedesk/one_crm/portal.py:137
 msgid "Choose the date you need it by, today or later."
 msgstr ""
 
@@ -9159,7 +9163,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:826
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:840
 msgid "Claim an Expense"
 msgstr ""
 
@@ -12838,12 +12842,12 @@ msgstr ""
 msgid "Declined"
 msgstr ""
 
-#: onedesk/one_crm/portal.py:172
+#: onedesk/one_crm/portal.py:177
 #, python-brace-format
 msgid "Declined on the portal by {0}."
 msgstr ""
 
-#: onedesk/one_crm/portal.py:171
+#: onedesk/one_crm/portal.py:176
 msgid "Declined on the portal."
 msgstr ""
 
@@ -21109,8 +21113,8 @@ msgstr ""
 msgid "Hide"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:351
-#: onedesk/public/js/one_interface/look.js:358
+#: onedesk/public/js/one_interface/look.js:352
+#: onedesk/public/js/one_interface/look.js:359
 msgid "Hide Empty Fields"
 msgstr ""
 
@@ -26405,7 +26409,7 @@ msgstr ""
 msgid "Log {0} h on {1}"
 msgstr ""
 
-#: onedesk/one_crm/record.py:185
+#: onedesk/one_crm/record.py:186
 msgid "Logged by hand"
 msgstr ""
 
@@ -29020,8 +29024,8 @@ msgstr ""
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:715
-#: onedesk/public/js/one_interface/look.js:717
+#: onedesk/public/js/one_interface/look.js:716
+#: onedesk/public/js/one_interface/look.js:718
 msgid "New"
 msgstr ""
 
@@ -29145,7 +29149,7 @@ msgstr ""
 msgid "New Label"
 msgstr ""
 
-#: frontend/src/crm/CrmHome.vue:279
+#: frontend/src/crm/CrmHome.vue:279 onedesk/one_crm/shortcuts.py:10
 msgid "New Lead"
 msgstr ""
 
@@ -29194,7 +29198,7 @@ msgstr ""
 msgid "New Material Request"
 msgstr ""
 
-#: frontend/src/crm/CrmHome.vue:280
+#: frontend/src/crm/CrmHome.vue:280 onedesk/one_crm/shortcuts.py:11
 msgid "New Opportunity"
 msgstr ""
 
@@ -29253,7 +29257,7 @@ msgstr ""
 
 #: frontend/src/crm/CrmHome.vue:281
 #: frontend/src/inventory/item/ItemCustomers.vue:72
-#: frontend/src/project/Overview.vue:280
+#: frontend/src/project/Overview.vue:280 onedesk/one_crm/shortcuts.py:12
 msgid "New Quotation"
 msgstr ""
 
@@ -30899,6 +30903,10 @@ msgstr ""
 
 #: onedesk/public/js/desk.js:254 onedesk/public/js/passkey.js:141
 msgid "Not Now"
+msgstr ""
+
+#: onedesk/one_crm/stages.py:120
+msgid "Not Ordered Yet"
 msgstr ""
 
 #: onedesk/one_inventory/portal.py:270 onedesk/one_inventory/portal.py:272
@@ -33200,11 +33208,11 @@ msgstr ""
 msgid "Only a lead or an opportunity has an overview."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:138
+#: onedesk/one_crm/capture.py:139
 msgid "Only a lead or an opportunity has an owner."
 msgstr ""
 
-#: onedesk/one_crm/record.py:161
+#: onedesk/one_crm/record.py:162
 msgid "Only a lead or an opportunity has calls."
 msgstr ""
 
@@ -43110,7 +43118,7 @@ msgid "Search templates..."
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:221 onedesk/public/js/crumb_switch.js:135
-#: onedesk/public/js/one_interface/list.js:65
+#: onedesk/public/js/one_interface/list.js:66
 #: onedesk/public/js/one_interface/tree.js:23
 #, python-brace-format
 msgid "Search {0}"
@@ -44679,7 +44687,7 @@ msgstr ""
 msgid "Show"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:290
+#: onedesk/public/js/one_interface/look.js:291
 msgid "Show 1 Empty Field"
 msgstr ""
 
@@ -44866,7 +44874,7 @@ msgstr ""
 msgid "Show {0} Earlier"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:290
+#: onedesk/public/js/one_interface/look.js:291
 #, python-brace-format
 msgid "Show {0} Empty Fields"
 msgstr ""
@@ -52103,7 +52111,7 @@ msgstr ""
 msgid "This presentation was changed elsewhere. Reload to get the latest version."
 msgstr ""
 
-#: onedesk/one_crm/portal.py:108 onedesk/one_portal/share.py:440
+#: onedesk/one_crm/portal.py:110 onedesk/one_portal/share.py:440
 #: onedesk/one_portal/share.py:451
 msgid "This quotation can no longer be answered."
 msgstr ""
@@ -62384,7 +62392,7 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:488
+#: onedesk/public/js/one_interface/look.js:489
 msgid "edited"
 msgstr ""
 
@@ -62407,7 +62415,7 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/oneai.js:255
 #: onedesk/public/js/one_ai/panel/Record.vue:46
-#: onedesk/public/js/one_interface/look.js:466
+#: onedesk/public/js/one_interface/look.js:467
 msgid "empty"
 msgstr ""
 
@@ -63894,7 +63902,7 @@ msgstr ""
 msgid "{0} allows at most {1} overtime hours a day."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:142
+#: onedesk/one_crm/capture.py:143
 #, python-brace-format
 msgid "{0} already belongs to {1}."
 msgstr ""
@@ -64120,12 +64128,12 @@ msgstr ""
 msgid "{0} can't sign in, so can't join the project."
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:527
+#: onedesk/public/js/one_interface/look.js:528
 #, python-brace-format
 msgid "{0} cancelled this"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:527
+#: onedesk/public/js/one_interface/look.js:528
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} cancelled this"
@@ -64177,12 +64185,12 @@ msgstr ""
 msgid "{0} cells"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:529
+#: onedesk/public/js/one_interface/look.js:530
 #, python-brace-format
 msgid "{0} changed 1 field"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:529
+#: onedesk/public/js/one_interface/look.js:530
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} changed 1 field"
@@ -64203,12 +64211,12 @@ msgstr ""
 msgid "{0} changed {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:530
+#: onedesk/public/js/one_interface/look.js:531
 #, python-brace-format
 msgid "{0} changed {1} fields"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:530
+#: onedesk/public/js/one_interface/look.js:531
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} changed {1} fields"
@@ -64234,12 +64242,12 @@ msgstr ""
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:525
+#: onedesk/public/js/one_interface/look.js:526
 #, python-brace-format
 msgid "{0} commented"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:525
+#: onedesk/public/js/one_interface/look.js:526
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} commented"
@@ -64291,12 +64299,12 @@ msgstr ""
 msgid "{0} created"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:524
+#: onedesk/public/js/one_interface/look.js:525
 #, python-brace-format
 msgid "{0} created this"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:524
+#: onedesk/public/js/one_interface/look.js:525
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} created this"
@@ -64973,7 +64981,12 @@ msgstr ""
 msgid "{0} is added unless somebody picks another."
 msgstr ""
 
-#: onedesk/one_crm/capture.py:34
+#: onedesk/one_crm/capture.py:35
+#, python-brace-format
+msgid "{0} is already a lead."
+msgstr ""
+
+#: onedesk/one_crm/capture.py:35
 #, python-brace-format
 msgid "{0} is already a lead: {1}"
 msgstr ""
@@ -66358,12 +66371,12 @@ msgstr ""
 msgid "{0} returned"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:528
+#: onedesk/public/js/one_interface/look.js:529
 #, python-brace-format
 msgid "{0} returned this to draft"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:528
+#: onedesk/public/js/one_interface/look.js:529
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} returned this to draft"
@@ -66374,12 +66387,12 @@ msgstr ""
 msgid "{0} rows"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:502
+#: onedesk/public/js/one_interface/look.js:503
 #, python-brace-format
 msgid "{0} rows added"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:502
+#: onedesk/public/js/one_interface/look.js:503
 #, python-brace-format
 msgid "{0} rows removed"
 msgstr ""
@@ -66547,12 +66560,12 @@ msgstr ""
 msgid "{0} submitted"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:526
+#: onedesk/public/js/one_interface/look.js:527
 #, python-brace-format
 msgid "{0} submitted this"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:526
+#: onedesk/public/js/one_interface/look.js:527
 #, python-brace-format
 msgctxt "Said of the reader"
 msgid "{0} submitted this"

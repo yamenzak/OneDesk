@@ -2,6 +2,8 @@
 
 Home opens on six figures, each opening the report behind it:
 
+![OneCRM's Home with its six figures and how selling is going](home/home.png)
+
 - **Leads This Month** — how many came in, against last month.
 - **Pipeline Value** — what the open opportunities are worth, leaving out the
   ones on hold.

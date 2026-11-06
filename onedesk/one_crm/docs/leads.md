@@ -4,6 +4,8 @@ A **Lead** is where a sale usually starts. From a lead, **Create** makes an
 opportunity, a quotation, a customer or a prospect, and whatever was written on the
 lead goes with it.
 
+![The Lead list, split by status, with each lead's next step](leads/leads.png)
+
 An **Opportunity** is a sale in progress. Its **Sales Stage** says how far it has got,
 and a quotation made from it is linked back to it. **Opportunity Amount** is what it is
 worth; an opportunity priced by its items takes their total when no value is typed.

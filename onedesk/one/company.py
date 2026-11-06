@@ -48,15 +48,16 @@ def hide(*_args) -> None:
 
 
 def mine() -> dict | None:
-	"""The companies the reader may work in, and the one they work in now, for
-	the frame's switch; None with only one, so nothing shows."""
+	"""The companies the reader may work in, the one they work in now, and the
+	record types whose lists open on it, for the frame's switch and the lists
+	(list.js); None with only one, so nothing shows."""
 	from erpnext import get_default_company
 
 	names = frappe.get_list("Company", pluck="name", order_by="name asc", limit_page_length=0, ignore_permissions=False)
 	if len(names) < 2:
 		return None
 	now = get_default_company()
-	return {"current": now if now in names else names[0], "all": names}
+	return {"current": now if now in names else names[0], "all": names, "doctypes": sorted(ready())}
 
 
 @frappe.whitelist(methods=["POST"])

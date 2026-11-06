@@ -44,7 +44,7 @@ def closed(deals: list[str] | None = None) -> dict[str, frappe._dict]:
 
 
 def company() -> str:
-	"""The workspace's company: One is one company to a workspace."""
+	"""The reader's company, which every figure is of."""
 	from erpnext import get_default_company
 
 	return get_default_company()

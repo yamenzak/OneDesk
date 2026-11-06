@@ -33,5 +33,10 @@
   "doctype": "Opportunity Lost Reason",
   "name": "Other",
   "lost_reason": "Other"
+ },
+ {
+  "doctype": "Opportunity Lost Reason",
+  "name": "Declined by the Customer",
+  "lost_reason": "Declined by the Customer"
  }
 ]

@@ -5,7 +5,6 @@ in the module's AGENTS.md, under chain.py.
 """
 
 import frappe
-from erpnext import get_default_company
 from frappe.utils import flt
 
 
@@ -36,7 +35,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 		return out
 	quotes = frappe.get_list(
 		"Quotation",
-		filters={"opportunity": ["in", opportunities], "docstatus": ["<", 2], "company": get_default_company()},
+		filters={"opportunity": ["in", opportunities], "docstatus": ["<", 2]},
 		fields=[
 			"name",
 			"opportunity",
@@ -60,7 +59,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 		one.name: one
 		for one in frappe.get_list(
 			"Sales Order",
-			filters={"name": ["in", list(names) or [""]], "docstatus": ["<", 2], "company": get_default_company()},
+			filters={"name": ["in", list(names) or [""]], "docstatus": ["<", 2]},
 			fields=[
 				"name",
 				"status",
@@ -87,7 +86,6 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 					"name": ["in", list(parents) or [""]],
 					"docstatus": ["<", 2],
 					"is_return": 0,
-					"company": get_default_company(),
 				},
 				fields=[
 					"name",
@@ -98,6 +96,7 @@ def follow(opportunities: list[str]) -> dict[str, frappe._dict]:
 					"conversion_rate",
 					"party_account_currency",
 					"currency",
+					"company",
 					"posting_date",
 				],
 				limit=0,
@@ -124,7 +123,7 @@ def owed(invoice) -> float:
 	from erpnext import get_company_currency
 
 	amount = flt(invoice.outstanding_amount)
-	ours = get_company_currency(get_default_company())
+	ours = get_company_currency(invoice.company)
 	if invoice.party_account_currency and invoice.party_account_currency != ours:
 		amount *= flt(invoice.conversion_rate or 1)
 	return amount

@@ -23,6 +23,8 @@ PEOPLE = "faisal@one.test"
 
 STORES = "karim@one.test"
 
+SALES = "omar@one.test"
+
 CASES = [
 	{
 		"id": "count-customers",
@@ -293,6 +295,24 @@ CASES = [
 	},
 	{"id": "remember", "page": {}, "ask": "Remember that I prefer short answers.", "tools": ("remember",)},
 	{"id": "cannot", "page": {}, "ask": "Can you order pizza for the office?", "tools": ()},
+	{"id": "crm-deal", "page": _on("Opportunity", name="CRM-OPP-2026-00002"), "ask": "How is this deal going?", "tools": ("crm_facts", "history"), "user": SALES},
+	{
+		"id": "crm-next",
+		"page": _on("Opportunity", name="CRM-OPP-2026-00002"),
+		"ask": "Next step on this deal: send the revised drawings on Thursday.",
+		"tools": ("plan_next_step",),
+		"card": True,
+		"user": SALES,
+	},
+	{
+		"id": "crm-call",
+		"page": _on("Opportunity", name="CRM-OPP-2026-00002"),
+		"ask": "Write up my call: they want the glass upgraded to low-E and will decide by Sunday.",
+		"tools": ("write_up_call",),
+		"card": True,
+		"user": SALES,
+	},
+	{"id": "crm-ar-quiet", "page": {}, "ask": "ما الصفقات التي توقفت ولم يتحرك فيها شيء؟", "tools": ("gone_quiet",), "user": SALES},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
 	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
 	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},

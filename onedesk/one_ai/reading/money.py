@@ -149,6 +149,7 @@ def sales_order(reading: dict, ctx: dict) -> list[Action]:
 		"delivery_date": when or str(getdate(ctx["today"]) + timedelta(days=DELIVERY_DAYS)),
 		"po_no": reading.get("number"),
 		"po_date": reading.get("issued_on"),
+		"currency": reading.get("currency"),
 		"items": rows,
 	}
 	missing = len(rows) < len(source) or not rows

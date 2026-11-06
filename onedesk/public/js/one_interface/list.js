@@ -32,6 +32,7 @@ onedesk.interface.adapt("list", () => {
 	const List = frappe.views && frappe.views.ListView;
 	if (!List || Object.hasOwn(List.prototype, "one_interface")) return;
 
+
 	// A module's tree, the window's (`win.tree`), under the list's row in the
 	// nav pane, for the lists it says are its (`onedesk.interface.trees`,
 	// { covers(doctype), draw(win, doctype) }): a module's lists (lists.js). Drawn again
@@ -92,3 +93,40 @@ onedesk.interface.adapt("list", () => {
 		});
 	};
 });
+
+{
+	const company = (view) => {
+		const said = frappe.boot.one_companies;
+		if (said && (said.doctypes || []).includes(view.doctype) && !(view.filters || []).some((one) => one[1] === "company"))
+			view.filters = [...(view.filters || []), [view.doctype, "company", "=", said.current]];
+	};
+	const boards = () => {
+		const Board = frappe.views.KanbanView;
+		if (!Board || Object.hasOwn(Board.prototype, "one_company")) return;
+		Board.prototype.one_company = true;
+		const boarded = Board.prototype.get_board;
+		Board.prototype.get_board = function (...args) {
+			return boarded.apply(this, args).then((said) => {
+				company(this);
+				return said;
+			});
+		};
+	};
+	const pipeline = (Board) => {
+		if (!Board || Object.hasOwn(Board.prototype, "one_company")) return;
+		Board.prototype.one_company = true;
+		const laid = Board.prototype.setup_quick_filters;
+		Board.prototype.setup_quick_filters = function (...args) {
+			company(this);
+			return laid.apply(this, args);
+		};
+	};
+	onedesk.interface.when(frappe.views, "KanbanV2Page", pipeline);
+	const settle = frappe.views.ListView.prototype.setup_defaults;
+	frappe.views.ListView.prototype.setup_defaults = function (...args) {
+		boards();
+		const done = settle.apply(this, args);
+		company(this);
+		return done;
+	};
+}

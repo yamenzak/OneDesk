@@ -16,6 +16,8 @@
 5. A declined quotation is marked lost with their reason (**Quotation
    Declined**). To mark one lost yourself, **Set as Lost** asks why.
 
+![A quotation with its total, how long it holds and the opportunity it is for](quoting/quotation.png)
+
 The opportunity's track then moves on to ordered, billed and paid on its
 own. OneInventory delivers the order (**Create › Delivery Note**) and
 OneBook invoices it (**Create › Sales Invoice**). A quotation still open

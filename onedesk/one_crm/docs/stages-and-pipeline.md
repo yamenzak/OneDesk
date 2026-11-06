@@ -14,11 +14,13 @@ always 100% and a lost one 0%.
 
 **Won and Lost are stages as well as statuses**, and the two always agree:
 
-- Move an opportunity to a Won stage and its status becomes Converted.
+- An opportunity is won when a sales order is made from its quotation: its
+  stage moves to Won and its status to Converted on their own. Moving it to
+  Won by hand before then asks for the order first.
 - Pick a Lost stage and **Declare Lost** opens to ask why; the opportunity moves
   there once you have said.
-- Declare it lost from the button, lose its quotation, or receive a sales
-  order from its quotation, and the stage moves on its own.
+- Declare it lost from the button, or lose its quotation, and the stage
+  moves on its own.
 - **Reopen** it, or cancel that sales order, and it goes back to the last
   stage it was in before it was won or lost.
 
@@ -43,12 +45,14 @@ and converted ones stay as they are.
 
 **Pipeline** in the rail opens the board: one column per stage in position
 order, and a card per opportunity with its value and its next step. Drag a card to
-another column to move the opportunity; its probability follows, and a card dropped
-on Won converts the opportunity.
+another column to move the opportunity; its probability follows. A card is
+dropped on Won only once its quotation has become an order.
+
+![The Pipeline, a column per stage with what each is worth](stages-and-pipeline/pipeline.png)
 
 Under each column's name is what the opportunities in it are worth, and what they are
 worth weighted by their probability — 50,000 at 50% counts as 25,000. Both are
-in the company's currency and follow the board's filters.
+your company's, in its currency, and follow the board's filters.
 
 **On Hold** has its own column, with an orange dot, and counts no weighted
 value: its opportunities are not expected to close while they wait.

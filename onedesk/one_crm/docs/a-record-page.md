@@ -7,6 +7,8 @@ lost and why, on hold, a quotation still with them or run out, or won and
 how much of it is still owed — red once some of that is late. Won and lost
 opportunities say the day they were won or lost rather than a time in a stage.
 
+![An opportunity's page with its track, its figures and its next step](a-record-page/deal.png)
+
 The figures under the name answer what the page is usually opened for, before
 anything is clicked:
 

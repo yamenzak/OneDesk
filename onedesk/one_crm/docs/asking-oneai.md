@@ -4,6 +4,8 @@ Open OneAI on a page and it offers what makes sense there. Anything it would
 add or change comes back as a card; nothing happens until somebody approves
 it, and they approve it as themselves.
 
+![The OneAI panel on an opportunity, with the questions it offers there](asking-oneai/panel.png)
+
 - **On an opportunity**: *Where does this opportunity stand?* reads its value, stage, next
   step and its whole history — mail, calls, comments and stage moves — and
   says it in a few lines. *Suggest the next step* puts a next step and a day

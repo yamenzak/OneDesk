@@ -116,6 +116,8 @@ def before_validate(doc, method=None) -> None:
 		moved_to = _outcome(doc.sales_stage)
 		if moved_to == "Lost" and doc.status != "Lost":
 			frappe.throw(_("Use Declare Lost to say why it was lost."), title=_("Why Was It Lost?"))
+		if moved_to == "Won" and doc.status != "Converted" and not frappe.db.exists("Quotation", {"opportunity": doc.name, "status": "Ordered"}):
+			frappe.throw(_("An opportunity is won when its quotation becomes an order. Make the sales order from its quotation."), title=_("Not Ordered Yet"))
 		if moved_to in STATUS:
 			doc.status = STATUS[moved_to]
 		elif was_stage and _outcome(was_stage) in CLOSED:

@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, ago, call, date, followList, go, me, money, newDoc, onedesk, setQuery } from "../kit";
+import { __, ago, call, can, date, followList, go, Loading, me, money, newDoc, onedesk, Page, PlaceSpot, Rows, Section, setQuery, shortcut, ViewTabs } from "../kit";
 import CrmStory from "./CrmStory.vue";
 
 const props = defineProps({
@@ -300,4 +300,12 @@ function extended(s) {
     action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
   });
 }
+
+const keyed = (doctype) => () => can("create", doctype) && newDoc(doctype);
+const forgetKeys = [
+  shortcut("one_crm.new_lead", keyed("Lead")),
+  shortcut("one_crm.new_opportunity", keyed("Opportunity")),
+  shortcut("one_crm.new_quotation", keyed("Quotation")),
+];
+onBeforeUnmount(() => forgetKeys.forEach((one) => one()));
 </script>

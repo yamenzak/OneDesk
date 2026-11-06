@@ -124,7 +124,7 @@ def last_contact(doctype: str, name: str) -> dict | None:
 
 
 def quotation(opportunity: str) -> dict | None:
-	rows = frappe.get_all(
+	rows = frappe.get_list(
 		"Quotation",
 		filters={"opportunity": opportunity, "docstatus": ["<", 2]},
 		fields=["name", "status", "grand_total", "currency"],
@@ -135,10 +135,11 @@ def quotation(opportunity: str) -> dict | None:
 
 
 def deals(lead: str) -> dict:
-	rows = frappe.get_all(
+	rows = frappe.get_list(
 		"Opportunity",
 		filters={"opportunity_from": "Lead", "party_name": lead},
 		fields=["base_opportunity_amount", "status"],
+		limit_page_length=0,
 	)
 	return {
 		"count": len(rows),

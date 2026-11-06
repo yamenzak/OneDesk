@@ -348,6 +348,7 @@ def drafts() -> list[dict]:
 					"company": measure.company(),
 				},
 				pluck="name",
+				limit_page_length=0,
 			)
 		)
 		if count:
