@@ -671,11 +671,11 @@ MODULES = {
 			"Warranty Claim",
 		),
 		"checked": {
-			"copy": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-06", "commit": "3e11815adb08", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "3e11815adb08", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "3e11815adb08", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "3e11815adb08", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "3e11815adb08", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
