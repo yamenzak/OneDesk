@@ -13,6 +13,8 @@ Over the Items list, a tab for each kind says how many there are: **All**,
 **Kept in Stock**, **Made Here**, **Services**, **Equipment** and **Sizes or
 Colours**.
 
+![The Items list with a tab for each kind](items/item-list.png)
+
 **Details** asks for its name, group, unit and a picture. **Sold by Size**
 says whether each line gives its length (**Length**) or its length and width
 (**Area**), so the quantity follows; a size that only prints, on something

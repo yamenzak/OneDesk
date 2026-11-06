@@ -6,8 +6,10 @@ are **Low** (at or below their reorder level) and how many are **Short**
 (more promised to customers than there is); the Low and Short figures narrow
 the list to theirs.
 
+![Stock Summary with its figures and the items in every warehouse](stock/stock-summary.png)
+
 Above the list are the warehouse picker (**All Warehouses** or one), a search
-by name or code, and **All**, **Low**, **Short** and **Out of Stock** with how
+by name or code (**/** goes to it), and **All**, **Low**, **Short** and **Out of Stock** with how
 many of each. Each line is an item: its picture, its name with its code and
 group under it, one status (In Stock, Low, Short or Out of Stock, the worst
 that is true), then **Actual Qty** (on hand), **Reserved Qty** (promised to

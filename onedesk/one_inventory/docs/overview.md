@@ -8,6 +8,8 @@ its records with OneBook, so a delivery here is the same record an invoice in
 OneBook is made from, and an asset's depreciation lands in OneBook's books by
 itself.
 
+![OneInventory's Home, with its figures and what needs doing](overview/home.png)
+
 ## Finding Your Way
 
 **OneInventory** in the dock opens it on **Home**. Over it, six figures,

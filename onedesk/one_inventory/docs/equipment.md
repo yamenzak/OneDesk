@@ -17,6 +17,8 @@ schedule books.
 The Inventory Check's **Every asset is registered** turns **To Do** if one
 could not register itself, and each says why on its page.
 
+![An asset's page with what it is worth and when it is next serviced](equipment/asset.png)
+
 Equipment you already had is **Asset** in the rail, then **Add Asset**,
 with **Is Existing Asset** ticked. The list says who has each piece.
 

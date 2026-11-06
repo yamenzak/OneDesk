@@ -18,6 +18,8 @@ added to it, how much was rejected (**Rejected Qty**), and under
 **Progress**: Ordered, Received and Billed. Under the exchange rate it says
 what one of the supplier's currency is in the company's.
 
+![A purchase receipt with its order, stock value and what was rejected](receiving-and-delivering/receipt.png)
+
 - **Something broken or wrong on arrival.** Put what came under Received, what
   you keep under Accepted, and the rest under Rejected with the warehouse it
   waits in. Only what was accepted goes on the shelf. An item marked

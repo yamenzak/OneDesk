@@ -90,7 +90,7 @@ supplier, or whoever it was last bought from), what it last cost a unit and
 what the line would cost. The figures above say how many lines
 (**Items**), how many **Requested** and **Running Low**, and what it all
 comes to before tax (**Cost**). Tick the
-lines and press **Order**, or **Order All** with none ticked: one draft
+lines and press **Order** (or **O**), or **Order All** with none ticked: one draft
 purchase order is made for each supplier, and lines with no supplier go to
 the one you pick (**Who Supplies the Rest?**). **New Material Request**
 asks for something by hand. A supplier billed in another currency gets
@@ -98,6 +98,8 @@ their order in it. Read the drafts, correct prices and quantities, and submit
 them. A request line held by draft orders leaves the list, and no order,
 however it is made, can order more of a request line than is left on it.
 A request is marked ordered when its order is submitted.
+
+![Reorder with four requested lines, each with its supplier and cost](buying/reorder.png)
 
 Purchasing is told of both: a request reordering raised (**Material Request
 Raised**) and one a person asked for (**Material Request Asked**). A customer's

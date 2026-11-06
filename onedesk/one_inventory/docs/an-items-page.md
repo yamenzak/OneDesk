@@ -1,9 +1,11 @@
 # An Item's Page
 
 An item opens on its form, with its picture, name and code at the top and,
-for a stock item, four figures beside them: **On Hand** across every
-warehouse, **Free to Sell** (on hand, less what is promised to customers),
+for a stock item, four figures beside them: **On Hand** across your
+company's warehouses, **Free to Sell** (on hand, less what is promised to customers),
 **On Order** and what it is worth in the books (**Stock Value**).
+
+![An item's page with its four figures and its tabs](an-items-page/item.png)
 
 Beside its name is **Order More**, or **Make More** for something made here,
 or **Add Variant** for a template. **Create** has **Request Material**,
