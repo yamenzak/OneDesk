@@ -22,6 +22,12 @@ def _money(doc, value) -> str:
 	return fmt_money(flt(value), currency=doc.currency)
 
 
+def _owed(doc, value) -> str:
+	"""What is still owed, in the currency ERPNext keeps it in: the party
+	account's."""
+	return fmt_money(flt(value), currency=doc.get("party_account_currency") or doc.currency)
+
+
 def _due_on(doc):
 	"""When the next part still owed falls due, as ERPNext's status reads it:
 	the earliest unpaid row of the schedule, not the last (a retention held
@@ -42,7 +48,7 @@ def _late(doc) -> int | None:
 def outstanding(doc):
 	late = _late(doc)
 	tone = "quiet" if flt(doc.outstanding_amount) <= 0 else ("alarm" if late and late > 0 else None)
-	return {"value": _money(doc, doc.outstanding_amount), "tone": tone}
+	return {"value": _owed(doc, doc.outstanding_amount), "tone": tone}
 
 
 def due(doc):
@@ -125,11 +131,11 @@ def said(doc):
 	late = _late(doc)
 	if late and late > 0:
 		text = _("{0} late. {1} still owes {2}.") if selling else _("{0} late. {2} still to pay {1}.")
-		return {"text": text.format(stages.days(late), party, _money(doc, owed)), "colour": "red"}
+		return {"text": text.format(stages.days(late), party, _owed(doc, owed)), "colour": "red"}
 	if late == 0:
-		return {"text": _("{0} falls due today.").format(_money(doc, owed)), "colour": "orange"}
+		return {"text": _("{0} falls due today.").format(_owed(doc, owed)), "colour": "orange"}
 	text = _("{0} still owed by {1}.") if selling else _("{0} still to pay {1}.")
-	return {"text": text.format(_money(doc, owed), party), "colour": "orange"}
+	return {"text": text.format(_owed(doc, owed), party), "colour": "orange"}
 
 
 def repeats(doc):
@@ -157,10 +163,9 @@ COUNTED = {"docstatus": 1, "is_return": 0}
 
 
 def _currency(company: str | None = None) -> str:
-	company = company or frappe.defaults.get_user_default("Company") or frappe.db.get_default("company")
-	return frappe.get_cached_value("Company", company, "default_currency") or frappe.db.get_default(
-		"currency"
-	)
+	from erpnext import get_company_currency, get_default_company
+
+	return get_company_currency(company or get_default_company())
 
 
 def _bills(party_doctype: str, party: str, since=None, fields=None) -> list | None:
@@ -169,7 +174,9 @@ def _bills(party_doctype: str, party: str, since=None, fields=None) -> list | No
 	doctype, field = BILLS[party_doctype]
 	if not frappe.has_permission(doctype, "read"):
 		return None
-	filters = {field: party, **COUNTED}
+	from erpnext import get_default_company
+
+	filters = {field: party, "company": get_default_company(), **COUNTED}
 	if since:
 		filters["posting_date"] = [">=", since]
 	return frappe.get_list(
@@ -189,7 +196,7 @@ def party_overdue(doc):
 	due (home.parts), as ERPNext's Overdue status and OneBook's Home read it."""
 	from onedesk.one_book import home
 
-	rows = _bills(doc.doctype, doc.name, fields=["name", "outstanding_amount", "conversion_rate", "due_date"])
+	rows = _bills(doc.doctype, doc.name, fields=["name", "outstanding_amount", "conversion_rate", "due_date", "party_account_currency"])
 	if not rows:
 		return None
 	owing = [row for row in rows if flt(row.outstanding_amount) > 0]
@@ -200,7 +207,7 @@ def party_overdue(doc):
 		for row in owing
 		for part in home.parts(
 			{
-				"outstanding_amount": flt(row.outstanding_amount) * flt(row.conversion_rate or 1),
+				"outstanding_amount": flt(row.outstanding_amount) * (flt(row.conversion_rate or 1) if row.party_account_currency and row.party_account_currency != _currency() else 1),
 				"own": flt(row.outstanding_amount),
 				"due_date": row.due_date,
 			},
@@ -222,9 +229,11 @@ def party_last_bill(doc):
 	doctype, field = BILLS[doc.doctype]
 	if not frappe.has_permission(doctype, "read"):
 		return None
+	from erpnext import get_default_company
+
 	found = frappe.get_list(
 		doctype,
-		filters={field: doc.name, **COUNTED},
+		filters={field: doc.name, "company": get_default_company(), **COUNTED},
 		fields=["name", "posting_date", "base_grand_total"],
 		order_by="posting_date desc, creation desc",
 		limit_page_length=1,
@@ -418,13 +427,17 @@ def line_match(doc):
 		return None
 	if not frappe.has_permission("Payment Entry", "read"):
 		return None
+	ledger = frappe.db.get_value("Bank Account", doc.bank_account, "account") if doc.bank_account else None
+	if not ledger:
+		return None
 	found = frappe.get_list(
 		"Payment Entry",
-		filters={
-			"reference_no": doc.reference_number.strip(),
-			"docstatus": ["<", 2],
-			"clearance_date": ["is", "not set"],
-		},
+		filters=[
+			["reference_no", "=", doc.reference_number.strip()],
+			["docstatus", "<", 2],
+			["clearance_date", "is", "not set"],
+			["Payment Entry", "paid_to" if flt(doc.deposit) > 0 else "paid_from", "=", ledger],
+		],
 		fields=["name", "title", "docstatus"],
 		limit_page_length=1,
 	)
@@ -452,7 +465,7 @@ def account_balance(doc):
 	held = frappe.get_list(
 		"GL Entry",
 		filters={"account": doc.account, "is_cancelled": 0},
-		fields=[{"SUM": "debit", "as": "debit"}, {"SUM": "credit", "as": "credit"}],
+		fields=[{"SUM": "debit_in_account_currency", "as": "debit"}, {"SUM": "credit_in_account_currency", "as": "credit"}],
 	)
 	value = flt(held[0].debit) - flt(held[0].credit) if held else 0
 	currency = frappe.get_cached_value("Account", doc.account, "account_currency")

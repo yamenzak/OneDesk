@@ -1,7 +1,8 @@
 """Sahara Glass Saudi, the sister company in Riyadh, in riyals: its own
 warehouses, a supplier and a customer, the stock it opened with, an order
 Karim placed and half received, windows Omar sold and delivered, and his
-Riyadh pipeline: a lead, and the tower's next phase quoted. Its
+Riyadh pipeline: a lead, and the tower's next phase quoted; Huda invoices
+the windows and has half of it paid, and books the supplier's bill. Its
 chart is the one ERPNext builds when nobody names one (docs/ACCOUNTS.md);
 the riyal and the dirham are both pegged to the dollar, so their rate holds."""
 
@@ -36,6 +37,7 @@ def run(password=None):
 	_bought(supplier)
 	_sold(customer)
 	_pipeline(customer)
+	_books()
 
 
 def _company():
@@ -218,3 +220,34 @@ def _pipeline(customer: str):
 		quote.append("items", {"item_code": "WIN-CS12", "qty": 60, "rate": 1150})
 		quote.valid_till = add_days(ago(0), 20)
 		save(quote, submit=True)
+
+
+def _books():
+	"""Huda invoices the windows that went out, takes half of it into the
+	Riyadh cash account, and books Riyadh Aluminium's bill for what came."""
+	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice
+	from erpnext.stock.doctype.delivery_note.mapper import make_sales_invoice
+
+	if frappe.db.exists("Sales Invoice", {"company": BRANCH, "docstatus": 1}):
+		return
+	with as_user("huda@one.test"):
+		note = frappe.db.get_value("Delivery Note", {"company": BRANCH, "docstatus": 1}, "name")
+		invoice = make_sales_invoice(note)
+		dated(invoice, ago(8))
+		invoice.due_date = add_days(invoice.posting_date, 30)
+		for row in invoice.get("payment_schedule") or []:
+			row.due_date = invoice.due_date
+		invoice = save(invoice, submit=True)
+		payment = get_payment_entry("Sales Invoice", invoice.name, party_amount=invoice.grand_total / 2)
+		payment.posting_date = ago(3)
+		payment.reference_no, payment.reference_date = "RYD-TT-1182", ago(3)
+		save(payment, submit=True)
+		receipt = frappe.db.get_value("Purchase Receipt", {"company": BRANCH, "docstatus": 1}, "name")
+		bill = make_purchase_invoice(receipt)
+		dated(bill, ago(10))
+		bill.bill_no, bill.bill_date = "RAE-INV-5521", ago(11)
+		bill.due_date = add_days(bill.posting_date, 45)
+		for row in bill.get("payment_schedule") or []:
+			row.due_date = bill.due_date
+		save(bill, submit=True)

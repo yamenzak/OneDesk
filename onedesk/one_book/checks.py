@@ -497,3 +497,39 @@ def onebook_locking_and_fixing_are_abilities():
 				pass
 			else:
 				raise AssertionError("an Accounts User locked or fixed the books")
+
+
+@check
+def onebook_riyadh_keeps_its_own_books():
+	"""Sahara Glass Saudi's invoice, payment and bill, in riyals, stay out of
+	Sahara's Home and a party's figures; with Riyadh as Huda's company Home
+	is Riyadh's, in riyals, what is owed being what is left on each; and
+	Huda, limited to Sahara, never lists them."""
+	from erpnext import get_company_currency
+
+	from onedesk.one_book import heads, home
+	from onedesk.one_demo.branch import BRANCH
+
+	invoice = frappe.db.get_value("Sales Invoice", {"company": BRANCH, "docstatus": 1}, ["name", "customer", "outstanding_amount"], as_dict=True)
+	bill = frappe.db.get_value("Purchase Invoice", {"company": BRANCH, "docstatus": 1}, ["name", "outstanding_amount"], as_dict=True)
+	assert invoice and bill, "the demo's second company has its books (one_demo/branch.py)"
+	with as_user("huda@one.test"):
+		ours = home.owed_to_us()["value"]
+		assert invoice.name not in {one["name"] for one in home.needs_you()["overdue"].get("rows", [])}
+		customer = frappe.get_doc("Customer", invoice.customer)
+		last = heads.party_last_bill(customer)
+		assert last.get("value") == frappe._("None yet"), "Sahara read Riyadh's invoice as its customer's last"
+	frappe.defaults.set_user_default("company", BRANCH, "huda@one.test")
+	try:
+		with as_user("huda@one.test"):
+			theirs = home.owed_to_us()["value"]
+			assert abs(theirs - flt(invoice.outstanding_amount)) < 0.01, (theirs, invoice)
+			assert abs(home.we_owe()["value"] - flt(bill.outstanding_amount)) < 0.01
+			assert theirs != ours
+			assert heads._currency() == get_company_currency(BRANCH)
+	finally:
+		frappe.defaults.set_user_default("company", COMPANY, "huda@one.test")
+	frappe.get_doc({"doctype": "User Permission", "user": "huda@one.test", "allow": "Company", "for_value": COMPANY}).insert(ignore_permissions=True)
+	with as_user("huda@one.test"):
+		assert invoice.name not in frappe.get_list("Sales Invoice", pluck="name", limit_page_length=0)
+		assert bill.name not in frappe.get_list("Purchase Invoice", pluck="name", limit_page_length=0)

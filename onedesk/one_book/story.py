@@ -52,12 +52,14 @@ def read() -> dict:
 	ledger = _may("GL Entry") and company
 	sales = _unpaid("Sales Invoice")
 	bills = _unpaid("Purchase Invoice")
+	sales_all = _unpaid("Sales Invoice", credits=True)
+	bills_all = _unpaid("Purchase Invoice", credits=True)
 	cash = _cash(company, months) if ledger else None
 	profit = _profit(company, months) if ledger else None
 	return {
 		"currency": erpnext.get_company_currency(company) if company else None,
 		"months": [one.isoformat() for one in months],
-		"cards": _cards(months, cash, profit, sales, bills),
+		"cards": _cards(months, cash, profit, sales, bills, sales_all, bills_all),
 		"money": {
 			"flow": cash["flow"],
 			"profit": profit["months"],
@@ -65,15 +67,15 @@ def read() -> dict:
 		}
 		if ledger
 		else None,
-		"receivable": _owed("Sales Invoice", "customer", sales, months[0]),
-		"payable": _owed("Purchase Invoice", "supplier", bills, months[0]),
+		"receivable": _owed("Sales Invoice", "customer", sales_all, months[0]),
+		"payable": _owed("Purchase Invoice", "supplier", bills_all, months[0]),
 	}
 
 
-def _unpaid(doctype: str) -> list | None:
+def _unpaid(doctype: str, credits: bool = False) -> list | None:
 	if not _may(doctype):
 		return None
-	return home._due(doctype, fields=["customer" if doctype == "Sales Invoice" else "supplier"])
+	return home._due(doctype, fields=["customer" if doctype == "Sales Invoice" else "supplier"], credits=credits)
 
 
 def _leaves(company: str, **filters) -> list[str]:
@@ -177,16 +179,16 @@ def _billed(doctype: str, months: list[date]) -> list[float]:
 	return [by[one.isoformat()] for one in months]
 
 
-def _cards(months, cash, profit, sales, bills) -> dict:
+def _cards(months, cash, profit, sales, bills, sales_all=None, bills_all=None) -> dict:
 	"""The headline figures, each with its months where it has them."""
 	cards = {}
 	if cash:
 		cards["cash"] = {"value": cash["balances"][-1], "series": cash["balances"]}
 	if sales is not None:
-		cards["receivable"] = {"value": home.outstanding(sales), "series": _billed("Sales Invoice", months)}
+		cards["receivable"] = {"value": home.outstanding(sales if sales_all is None else sales_all), "series": _billed("Sales Invoice", months)}
 		cards["overdue"] = {"value": home.outstanding(sales, until=home.yesterday()), "series": fell_due(sales, months)}
 	if bills is not None:
-		cards["payable"] = {"value": home.outstanding(bills), "series": _billed("Purchase Invoice", months)}
+		cards["payable"] = {"value": home.outstanding(bills if bills_all is None else bills_all), "series": _billed("Purchase Invoice", months)}
 		cards["due_this_week"] = {"value": home.outstanding(bills, until=home.this_week()), "series": falls_due(bills), "until": str(home.this_week())}
 	if profit:
 		cards["profit"] = {"value": profit["values"][-1], "series": profit["values"]}

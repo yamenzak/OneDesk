@@ -62,17 +62,19 @@ def profit_this_month(filters: str | None = None) -> dict:
 	return _card(amount, ["query-report", "Profit and Loss Statement"])
 
 
-def _unpaid(doctype: str, fields: list | None = None) -> list:
+def _unpaid(doctype: str, fields: list | None = None, credits: bool = False) -> list:
 	"""What each still owes, in the company's currency. ERPNext keeps it in
 	the party's, so an invoice in dollars to a party billed in dollars is
-	turned at the invoice's own rate."""
+	turned at the invoice's own rate. With `credits`, a credit or debit note
+	not yet set against an invoice counts too, owing the other way, as
+	Accounts Receivable and Payable count it."""
 	from erpnext import get_company_currency
 
 	company = _company()
 	ours = get_company_currency(company)
 	rows = frappe.get_list(
 		doctype,
-		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": company},
+		filters={"docstatus": 1, "outstanding_amount": ["!=", 0] if credits else [">", 0], "company": company},
 		fields=[
 			"name",
 			"outstanding_amount",
@@ -98,7 +100,7 @@ def _schedule(doctype: str, names: list) -> dict:
 	for row in frappe.get_all(
 		"Payment Schedule",
 		filters={"parenttype": doctype, "parent": ["in", names]},
-		fields=["parent", "due_date", "payment_amount"],
+		fields=["parent", "due_date", "payment_amount", "base_payment_amount"],
 		order_by="due_date asc, idx asc",
 	):
 		found.setdefault(row.parent, []).append(row)
@@ -110,15 +112,16 @@ def parts(row: dict, schedule: list) -> list[dict]:
 	due. What was paid settles the earliest parts first, as ERPNext's Overdue
 	status counts it, so a retention held for a year does not hide a part
 	long late. The parts add up to what it owes, in the company's currency.
-	Pure over the invoice's outstanding_amount (and `own`, the same in its
-	own currency) and due_date, and its schedule's payment_amount and
-	due_date."""
+	Pure over the invoice's outstanding_amount in the company's currency and
+	due_date, and its schedule's base_payment_amount (else payment_amount,
+	with `own`, the outstanding in the invoice's currency) and due_date."""
 	owed = flt(row.get("outstanding_amount"))
-	own = flt(row.get("own", owed))
-	paid = sum(flt(one.get("payment_amount")) for one in schedule or []) - own
+	based = all(one.get("base_payment_amount") is not None for one in schedule or [])
+	amount = (lambda one: flt(one.get("base_payment_amount"))) if based else (lambda one: flt(one.get("payment_amount")))
+	paid = sum(amount(one) for one in schedule or []) - (owed if based else flt(row.get("own", owed)))
 	left = []
 	for one in schedule or []:
-		part = flt(one.get("payment_amount"))
+		part = amount(one)
 		settled = min(part, max(paid, 0))
 		paid -= settled
 		if part - settled > 0:
@@ -129,10 +132,11 @@ def parts(row: dict, schedule: list) -> list[dict]:
 	return [{"outstanding_amount": owed * amount / total, "due_date": day} for day, amount in left]
 
 
-def _due(doctype: str, fields: list | None = None) -> list:
+def _due(doctype: str, fields: list | None = None, credits: bool = False) -> list:
 	"""What is still owed on each invoice, part by part (`parts`), each part
-	carrying the invoice's own fields."""
-	rows = _unpaid(doctype, fields)
+	carrying the invoice's own fields; with `credits`, notes not yet set
+	against an invoice too (`_unpaid`)."""
+	rows = _unpaid(doctype, fields, credits)
 	schedule = _schedule(doctype, [row.name for row in rows])
 	return [{**row, **part} for row in rows for part in parts(row, schedule.get(row.name))]
 
@@ -159,7 +163,7 @@ def outstanding(rows: list, until=None) -> float:
 @frappe.read_only()
 def owed_to_us(filters: str | None = None) -> dict:
 	"""What customers still owe on invoices."""
-	return _card(outstanding(_unpaid("Sales Invoice")), ["query-report", "Accounts Receivable"], {"based_on_payment_terms": 1})
+	return _card(outstanding(_unpaid("Sales Invoice", credits=True)), ["query-report", "Accounts Receivable"], {"based_on_payment_terms": 1})
 
 
 @frappe.whitelist()
@@ -174,7 +178,7 @@ def overdue(filters: str | None = None) -> dict:
 @frappe.read_only()
 def we_owe(filters: str | None = None) -> dict:
 	"""What the company still owes on bills."""
-	return _card(outstanding(_unpaid("Purchase Invoice")), ["query-report", "Accounts Payable"], {"party_type": "Supplier"})
+	return _card(outstanding(_unpaid("Purchase Invoice", credits=True)), ["query-report", "Accounts Payable"], {"party_type": "Supplier"})
 
 
 @frappe.whitelist()
@@ -459,13 +463,18 @@ def _late(doctype: str, party: str, until, day) -> list[dict]:
 	rows = frappe.get_list(
 		doctype,
 		filters={"docstatus": 1, "outstanding_amount": [">", 0], "company": _company()},
-		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency", "party_account_currency"],
+		fields=["name", party, f"{party}_name as party_name", "due_date", "outstanding_amount", "currency", "party_account_currency", "conversion_rate"],
 		limit_page_length=0,
 	)
+	from erpnext import get_company_currency
+
+	ours = get_company_currency(_company())
 	schedule = _schedule(doctype, [one.name for one in rows])
 	out = []
 	for one in rows:
-		first = min(getdate(part["due_date"]) for part in parts(one, schedule.get(one.name)) if part["due_date"])
+		based = flt(one.outstanding_amount) * ((flt(one.conversion_rate) or 1) if (one.party_account_currency or ours) != ours else 1)
+		owing = {"outstanding_amount": based, "own": flt(one.outstanding_amount), "due_date": one.due_date}
+		first = min(getdate(part["due_date"]) for part in parts(owing, schedule.get(one.name)) if part["due_date"])
 		if first > getdate(until):
 			continue
 		out.append(

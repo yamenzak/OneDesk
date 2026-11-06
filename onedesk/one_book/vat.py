@@ -3,7 +3,7 @@
 
 import frappe
 from frappe import _
-from frappe.utils import flt
+from frappe.utils import flt, getdate
 
 UAE = "United Arab Emirates"
 
@@ -143,13 +143,22 @@ def unreclaimed(company: str) -> list[str]:
 
 
 def reclaim(company: str) -> int:
-	"""Box 9's figure on every bill `unreclaimed` finds, from its own VAT."""
+	"""Box 9's figure on every bill `unreclaimed` finds, from its own VAT,
+	each saying so on its timeline; never on a bill in a period the books
+	are closed for, whose return is filed."""
+	from frappe import _
+
 	accounts = set(settled_accounts(company))
-	names = unreclaimed(company)
-	for name in names:
+	closed = frappe.get_cached_value("Company", company, "accounts_frozen_till_date")
+	done = 0
+	for name in unreclaimed(company):
 		doc = frappe.get_doc("Purchase Invoice", name)
+		if closed and doc.posting_date and getdate(doc.posting_date) <= getdate(closed):
+			continue
 		doc.db_set("recoverable_standard_rated_expenses", vat_on(doc, accounts), update_modified=False)
-	return len(names)
+		doc.add_comment("Info", _("Recoverable VAT for the return set from its own VAT."))
+		done += 1
+	return done
 
 
 def emirate(doc, method=None) -> None:

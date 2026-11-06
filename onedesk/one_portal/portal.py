@@ -491,7 +491,8 @@ def _record(doctype: str, context, pdf: str | None = None) -> dict:
 	totals.append({"label": _("Total"), "value": doc.get_formatted(total), "strong": True})
 	if declared.get("owed") and doc.docstatus == 1:
 		left = doc.get("outstanding_amount") or 0
-		paid = (doc.get(total) or 0) - left
+		kept_in = doc.get("party_account_currency") or doc.currency
+		paid = (doc.get(total) or 0) - (left / (doc.get("conversion_rate") or 1) if kept_in != doc.currency else left)
 		if paid and left:
 			totals.append({"label": _("Paid"), "value": fmt_money(paid, currency=doc.currency)})
 			totals.append(

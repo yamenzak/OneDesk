@@ -45,3 +45,13 @@ answered leaves it.
   become Ordered. An enquiry from a known customer or lead makes nothing
   (it should make an Opportunity), an acceptance by mail changes nothing,
   and a complaint has no kind (`understand.py`), so no Issue is made.
+- **Intake for the books, from OneBook's pass (6 Nov 2026).** A receipt
+  or an "Already Paid" invoice becomes an unpaid bill with a remark, so it
+  shows in what we owe (`money.py` ~117): set `is_paid` with the bank
+  account, or draft a Payment Entry. A payment advice takes only the first
+  invoice it names and does not check its currency against the party
+  account's. Bank lines are told apart only by a hash with the line's
+  position, so an overlapping second statement makes duplicates: match on
+  date, amount and reference on the same bank account. Not handled: a
+  supplier's remittance advice for a payment we made, a customer's credit
+  note to us.

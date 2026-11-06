@@ -31,8 +31,12 @@ def lines(doc, method=None) -> None:
 
 
 def pay_into(doc, method=None) -> None:
-	"""validate: the company's own bank account, its default first, unless one was chosen."""
-	if doc.get("one_pay_into") or not doc.get("company"):
+	"""validate: the company's own bank account, its default first, unless one
+	of the company's was chosen; one of another company's (an invoice copied
+	or moved) is chosen again."""
+	if not doc.get("company"):
+		return
+	if doc.get("one_pay_into") and frappe.db.get_value("Bank Account", doc.one_pay_into, "company") == doc.company:
 		return
 	doc.one_pay_into = frappe.db.get_value(
 		"Bank Account",
@@ -45,8 +49,13 @@ def pay_into(doc, method=None) -> None:
 def titled(doc, *_args) -> None:
 	"""before_print: whether the invoice prints as a tax invoice, which it does
 	carrying the company's tax number where the law calls it one
-	(one/countries.py). The print formats read `doc.flags.one_tax_invoice`."""
+	(one/countries.py). The print formats read `doc.flags.one_tax_invoice`.
+	A voucher, which shows the accounts it posts to, is the company's own: a
+	customer or supplier on the portal is refused one."""
 	from onedesk.one import countries
+
+	if "voucher" in str(frappe.form_dict.get("format") or "").lower() and frappe.session.data.get("user_type") == "Website User":
+		raise frappe.PermissionError
 
 	doc.flags.one_tax_invoice = bool(doc.get("company_tax_id")) and countries.tax_invoice(doc.get("company"))
 

@@ -197,8 +197,13 @@ def invoice_facts(
 	doc = frappe.get_doc(kind, invoice)
 	if not doc.has_permission("read"):
 		return {"error": f"The reader may not see {invoice}."}
+	from erpnext import get_company_currency
+
+	ours = get_company_currency(doc.company)
+	owed_in = doc.get("party_account_currency") or doc.currency
+	base_owed = flt(doc.outstanding_amount) * ((flt(doc.conversion_rate) or 1) if owed_in != ours else 1)
 	schedule = home._schedule(kind, [doc.name]).get(doc.name)
-	owed = home.parts({"outstanding_amount": doc.outstanding_amount, "due_date": doc.due_date}, schedule)
+	owed = home.parts({"outstanding_amount": base_owed, "own": flt(doc.outstanding_amount), "due_date": doc.due_date}, schedule)
 	settled = frappe.get_all(
 		"Payment Entry Reference",
 		filters={"reference_doctype": kind, "reference_name": doc.name, "docstatus": 1},
@@ -218,6 +223,9 @@ def invoice_facts(
 		"grand_total": flt(doc.grand_total),
 		"currency": doc.currency,
 		"still_owed": flt(doc.outstanding_amount),
+		"still_owed_currency": owed_in,
+		"company_currency": ours,
+		"falls_due_currency": ours,
 		"falls_due": [
 			{"due": str(one["due_date"]), "amount": flt(one["outstanding_amount"])}
 			for one in owed

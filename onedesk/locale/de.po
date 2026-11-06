@@ -40072,6 +40072,10 @@ msgstr "Datensätze ohne Bild erhalten eines, gezeichnet in Ihrem Arbeitsbereich
 msgid "Records you changed, without the values"
 msgstr "Datensätze, die Sie geändert haben, ohne die Werte"
 
+#: onedesk/one_book/vat.py:159
+msgid "Recoverable VAT for the return set from its own VAT."
+msgstr "Erstattungsfähige Umsatzsteuer für die Erklärung aus der eigenen Steuer gesetzt."
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json:818
 msgid "Recruitment Overview"

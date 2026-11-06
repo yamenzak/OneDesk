@@ -53,7 +53,7 @@ def overdue() -> None:
 			"outstanding_amount": [">", 0],
 			"due_date": add_days(getdate(), -1),
 		},
-		fields=["name", "customer", "customer_name", "owner", "due_date", "outstanding_amount", "currency"],
+		fields=["name", "customer", "customer_name", "owner", "due_date", "outstanding_amount", "currency", "party_account_currency"],
 	):
 		notify.notify(
 			"Invoice Overdue",
@@ -62,7 +62,7 @@ def overdue() -> None:
 			sender="Administrator",
 			invoice=one.name,
 			customer=one.customer_name or one.customer,
-			outstanding=fmt_money(one.outstanding_amount, currency=one.currency),
+			outstanding=fmt_money(one.outstanding_amount, currency=one.party_account_currency or one.currency),
 			date=formatdate(one.due_date),
 		)
 

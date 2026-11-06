@@ -40072,6 +40072,10 @@ msgstr "تحصل السجلات التي بلا صورة على صورة تُر�
 msgid "Records you changed, without the values"
 msgstr "السجلات التي غيّرتها، دون القيم"
 
+#: onedesk/one_book/vat.py:159
+msgid "Recoverable VAT for the return set from its own VAT."
+msgstr "حُددت ضريبة القيمة المضافة القابلة للاسترداد للإقرار من ضريبتها."
+
 #. Label of a Sidebar Item
 #: onedesk/one_hr/sidebar/onehr/onehr.json:818
 msgid "Recruitment Overview"

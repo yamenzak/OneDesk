@@ -111,6 +111,7 @@ def purchase(reading: dict, ctx: dict) -> list[Action]:
 		"set_posting_time": 1,
 		"due_date": due if due and due >= day else None,
 		"currency": reading.get("currency"),
+		"company": ctx.get("company"),
 		"remarks": " ".join(remarks) or None,
 		"project": ctx.get("project"),
 		"taxes_and_charges": taxed_by(reading, ctx.get("purchase_taxes")),

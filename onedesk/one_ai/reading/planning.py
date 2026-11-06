@@ -403,13 +403,20 @@ def _money(ctx: dict, reading) -> None:
 		if refs.get("Invoice"):
 			ctx["original_invoice"] = frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "bill_no": refs["Invoice"], "docstatus": 1, "is_return": 0}, "name")
 		ctx["purchase_order"] = next((one for one in named if frappe.db.exists("Purchase Order", {"name": one, "supplier": ctx["supplier"], "docstatus": 1})), None)
+		company = (
+			(ctx["purchase_order"] and frappe.db.get_value("Purchase Order", ctx["purchase_order"], "company"))
+			or frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "docstatus": 1}, "company", order_by="posting_date desc")
+			or company
+		)
+		ctx["company"] = company
+		ctx["locked"] = str(frappe.db.get_value("Company", company, "accounts_frozen_till_date") or "") or None
 		ctx["items"] = _items(reading, ctx["supplier"], "Item Supplier", "supplier", "supplier_part_no")
 		ctx["expense_account"] = frappe.db.sql(
 			"""select item.expense_account from `tabPurchase Invoice Item` item
 			join `tabPurchase Invoice` bill on bill.name = item.parent
-			where bill.supplier = %s and bill.docstatus = 1 and ifnull(item.expense_account, '') != ''
+			where bill.supplier = %s and bill.company = %s and bill.docstatus = 1 and ifnull(item.expense_account, '') != ''
 			order by bill.posting_date desc limit 1""",
-			ctx["supplier"],
+			(ctx["supplier"], company),
 		)
 		ctx["expense_account"] = ctx["expense_account"][0][0] if ctx["expense_account"] else frappe.db.get_value("Company", company, "default_expense_account")
 		ctx["purchase_taxes"] = _taxes_by_rate(company)
