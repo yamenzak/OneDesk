@@ -116,8 +116,8 @@ def every_party_is_billed_in_its_own_currency():
 
 	wrong = []
 	for doctype, party_type, party in (("Sales Invoice", "Customer", "customer"), ("Purchase Invoice", "Supplier", "supplier")):
-		for doc in frappe.get_all(doctype, filters={"docstatus": 1}, fields=["name", party, "currency", "conversion_rate", "grand_total", "base_grand_total"]):
-			if doc.currency != get_party_account_currency(party_type, doc[party], COMPANY):
+		for doc in frappe.get_all(doctype, filters={"docstatus": 1}, fields=["name", party, "company", "currency", "conversion_rate", "grand_total", "base_grand_total"]):
+			if doc.currency != get_party_account_currency(party_type, doc[party], doc.company):
 				wrong.append((doc.name, doc.currency))
 			if not _close(doc.grand_total * doc.conversion_rate, doc.base_grand_total, 1):
 				wrong.append((doc.name, "base"))
@@ -346,14 +346,14 @@ def every_home_figure_reads_for_its_people():
 @check
 def the_books_home_tells_the_truth():
 	"""What is owed to us on the books' home is what the invoices still have
-	outstanding."""
+	outstanding, less credit notes not yet set against one."""
 	from onedesk.one_book import home as books
 
 	with as_user("huda@one.test"):
 		said = books.owed_to_us()
 	found = frappe.db.sql(
 		"""select sum(outstanding_amount * conversion_rate) from `tabSales Invoice`
-		where docstatus = 1 and company = %s and outstanding_amount > 0""",
+		where docstatus = 1 and company = %s and outstanding_amount != 0""",
 		COMPANY,
 	)[0][0]
 	assert _close(said["value"], found, 2), (said["value"], found)

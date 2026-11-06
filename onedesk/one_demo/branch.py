@@ -224,13 +224,14 @@ def _pipeline(customer: str):
 
 def _books():
 	"""Huda invoices the windows that went out, takes half of it into the
-	Riyadh cash account, and books Riyadh Aluminium's bill for what came."""
+	Riyadh cash account, books Riyadh Aluminium's bill for what came, and
+	pays a third of it."""
 	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
 	from erpnext.stock.doctype.purchase_receipt.mapper import make_purchase_invoice
 	from erpnext.stock.doctype.delivery_note.mapper import make_sales_invoice
 
 	if frappe.db.exists("Sales Invoice", {"company": BRANCH, "docstatus": 1}):
-		return
+		return _pay_a_third()
 	with as_user("huda@one.test"):
 		note = frappe.db.get_value("Delivery Note", {"company": BRANCH, "docstatus": 1}, "name")
 		invoice = make_sales_invoice(note)
@@ -251,3 +252,17 @@ def _books():
 		for row in bill.get("payment_schedule") or []:
 			row.due_date = bill.due_date
 		save(bill, submit=True)
+	_pay_a_third()
+
+
+def _pay_a_third():
+	from erpnext.accounts.doctype.payment_entry.payment_entry import get_payment_entry
+
+	bill = frappe.db.get_value("Purchase Invoice", {"company": BRANCH, "docstatus": 1, "is_return": 0}, ["name", "grand_total"], as_dict=True)
+	if not bill or frappe.db.exists("Payment Entry", {"company": BRANCH, "party_type": "Supplier", "docstatus": 1}):
+		return
+	with as_user("huda@one.test"):
+		payment = get_payment_entry("Purchase Invoice", bill.name, party_amount=round(bill.grand_total / 3))
+		payment.posting_date = ago(2)
+		payment.reference_no, payment.reference_date = "RYD-CHQ-0417", ago(2)
+		save(payment, submit=True)

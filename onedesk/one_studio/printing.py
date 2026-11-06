@@ -633,7 +633,7 @@ def save_format(values: dict) -> str:
 
 
 def _sample(doctype: str) -> str | None:
-	found = frappe.get_list(doctype, limit_page_length=1, order_by="modified desc", pluck="name")
+	found = frappe.get_list(doctype, filters={"docstatus": ["<", 2]}, limit_page_length=1, order_by="modified desc", pluck="name")
 	return found[0] if found else None
 
 

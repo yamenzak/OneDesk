@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 20:54+0000\n"
-"PO-Revision-Date: 2026-11-06 20:54+0000\n"
+"POT-Creation-Date: 2026-11-06 21:26+0000\n"
+"PO-Revision-Date: 2026-11-06 21:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -228,7 +228,7 @@ msgstr ""
 msgid "1 day of {0}; {1} left after."
 msgstr ""
 
-#: onedesk/one_portal/portal.py:323 onedesk/one_portal/portal.py:596
+#: onedesk/one_portal/portal.py:326 onedesk/one_portal/portal.py:599
 msgid "1 day overdue"
 msgstr ""
 
@@ -4073,7 +4073,7 @@ msgstr ""
 msgid "Amount Received"
 msgstr ""
 
-#: onedesk/one_portal/portal.py:589
+#: onedesk/one_portal/portal.py:592
 msgid "Amount due"
 msgstr ""
 
@@ -13580,7 +13580,7 @@ msgid "Delivery Trip Notice"
 msgstr ""
 
 #: onedesk/one_crm/portal.py:69 onedesk/one_inventory/portal.py:105
-#: onedesk/one_portal/portal.py:609
+#: onedesk/one_portal/portal.py:612
 #, python-brace-format
 msgid "Delivery {0}"
 msgstr ""
@@ -14253,7 +14253,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_portal/portal.py:480
+#: onedesk/one_portal/portal.py:483
 msgid "Discount"
 msgstr ""
 
@@ -14739,7 +14739,7 @@ msgstr ""
 msgid "Download My Data"
 msgstr ""
 
-#: onedesk/one_portal/portal.py:512
+#: onedesk/one_portal/portal.py:515
 msgid "Download PDF"
 msgstr ""
 
@@ -15057,7 +15057,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/reading_date/reading_date.json:29
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_inventory/print_format/one_maintenance_record/one_maintenance_record.json
-#: onedesk/one_portal/portal.py:48 onedesk/one_portal/portal.py:458
+#: onedesk/one_portal/portal.py:48 onedesk/one_portal/portal.py:461
 #: onedesk/one_studio/print_blocks.py:828
 #: onedesk/public/js/one_account/account_center.js:1002
 msgid "Due"
@@ -15185,8 +15185,8 @@ msgstr ""
 #: frontend/src/inventory/item/ItemSelling.vue:58 frontend/src/one/Home.vue:112
 #: frontend/src/project/Invoices.vue:48 frontend/src/project/Overview.vue:218
 #: frontend/src/project/Suppliers.vue:58 frontend/src/project/Suppliers.vue:103
-#: onedesk/one_inventory/heads.py:545 onedesk/one_portal/portal.py:326
-#: onedesk/one_portal/portal.py:469 onedesk/one_portal/portal.py:600
+#: onedesk/one_inventory/heads.py:545 onedesk/one_portal/portal.py:329
+#: onedesk/one_portal/portal.py:472 onedesk/one_portal/portal.py:603
 #: onedesk/one_task/tell.py:255
 #, python-brace-format
 msgid "Due {0}"
@@ -35072,7 +35072,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_employee_advance/one_employee_advance.json
 #: onedesk/one_hr/print_format/one_gratuity/one_gratuity.json
 #: onedesk/one_inventory/heads.py:549 onedesk/one_inventory/portal.py:23
-#: onedesk/one_portal/portal.py:497 onedesk/one_portal/portal.py:588
+#: onedesk/one_portal/portal.py:500 onedesk/one_portal/portal.py:591
 #: onedesk/one_project/money.py:178 onedesk/one_project/money.py:194
 #: onedesk/one_project/portal.py:229 onedesk/one_project/view.py:407
 #: onedesk/one_studio/print_blocks.py:818
@@ -35196,7 +35196,7 @@ msgstr ""
 msgid "Paid in Advance"
 msgstr ""
 
-#: onedesk/one_portal/portal.py:588
+#: onedesk/one_portal/portal.py:591
 msgid "Paid in full"
 msgstr ""
 
@@ -35840,7 +35840,7 @@ msgstr ""
 msgid "Pay within {0} days to avoid suspension."
 msgstr ""
 
-#: onedesk/one_portal/portal.py:524 onedesk/one_project/view.py:922
+#: onedesk/one_portal/portal.py:527 onedesk/one_project/view.py:922
 #, python-brace-format
 msgid "Pay {0}"
 msgstr ""
@@ -44670,7 +44670,7 @@ msgstr ""
 msgid "Ship To"
 msgstr ""
 
-#: onedesk/one_inventory/portal.py:204 onedesk/one_portal/portal.py:473
+#: onedesk/one_inventory/portal.py:204 onedesk/one_portal/portal.py:476
 msgid "Ship to"
 msgstr ""
 
@@ -47728,7 +47728,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_portal/portal.py:477
+#: onedesk/one_portal/portal.py:480
 msgid "Subtotal"
 msgstr ""
 
@@ -48528,7 +48528,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_classic/one_purchase_order_classic.json
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_portal/portal.py:484
+#: onedesk/one_portal/portal.py:487
 msgid "Tax"
 msgstr ""
 
@@ -49104,7 +49104,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_portal/portal.py:557
+#: onedesk/one_portal/portal.py:560
 #: onedesk/one_project/custom/project_template.json:56
 #: onedesk/one_studio/print_recipes.py:164
 msgid "Terms"
@@ -53139,7 +53139,7 @@ msgid "To or Cc"
 msgstr ""
 
 #: onedesk/one_book/report/tax_return/tax_return.py:74
-#: onedesk/one_portal/portal.py:499
+#: onedesk/one_portal/portal.py:502
 msgid "To pay"
 msgstr ""
 
@@ -53460,8 +53460,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_purchase_order_with_images/one_purchase_order_with_images.json
 #: onedesk/one_inventory/print_format/one_repair_record/one_repair_record.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
-#: onedesk/one_portal/portal.py:34 onedesk/one_portal/portal.py:491
-#: onedesk/one_portal/portal.py:612 onedesk/one_studio/print_blocks.py:710
+#: onedesk/one_portal/portal.py:34 onedesk/one_portal/portal.py:494
+#: onedesk/one_portal/portal.py:615 onedesk/one_studio/print_blocks.py:710
 #: onedesk/one_studio/print_blocks.py:828
 #: onedesk/one_studio/print_blocks.py:895
 #: onedesk/one_studio/print_blocks.py:957
@@ -63555,7 +63555,7 @@ msgstr ""
 msgid "to navigate"
 msgstr ""
 
-#: onedesk/one_portal/portal.py:404
+#: onedesk/one_portal/portal.py:407
 msgid "to pay"
 msgstr ""
 
@@ -64549,7 +64549,7 @@ msgstr ""
 msgid "{0} days of {1}; {2} left after."
 msgstr ""
 
-#: onedesk/one_portal/portal.py:323 onedesk/one_portal/portal.py:596
+#: onedesk/one_portal/portal.py:326 onedesk/one_portal/portal.py:599
 #, python-brace-format
 msgid "{0} days overdue"
 msgstr ""

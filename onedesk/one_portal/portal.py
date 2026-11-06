@@ -240,13 +240,16 @@ def _field(row, field: str):
 
 def _found(doctype: str, txt: str | None = None, limit: int = 0) -> list:
 	"""A kind's records as the reader may see them: its module's own reading
-	(`found`), or the kind's own portal list context."""
+	(`found`), or the kind's own portal list context. That list now carries
+	only the fields its own row draws, so each record it lets the reader see
+	is read whole again: the rows here say what is left to pay and more."""
 	from frappe.www.list import get_list_data_for_context
 
 	declared = kind_of(doctype)
 	if declared.get("found"):
 		return declared["found"](txt, limit)
-	return get_list_data_for_context(None, doctype, txt=txt, limit=limit)
+	listed = get_list_data_for_context(None, doctype, txt=txt, limit=limit)
+	return [frappe.get_doc(doctype, _field(one, "name")) for one in listed]
 
 
 def _row(path: str, doctype: str, doc) -> dict | None:

@@ -23,3 +23,7 @@ answered leaves it.
 ## Planned
 
 - Nothing for One itself; the portal and Your Data move out (above).
+- `atlas.py --site` is stale since the 3 November upstream (frappe's Flow
+  record types), and rerunning it on one.4dl.dev says Access Log, Activity
+  Log, DocType Layout, Module Profile, Package and Display Board Change have
+  no demo record, which test_atlas refuses. Seed those, then rerun (6 Nov).
