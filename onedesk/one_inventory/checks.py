@@ -1240,7 +1240,9 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 	nothing moves until it is submitted.
 	Stock kept by a second company, One Dev here, never reaches Sahara's
 	Stock Summary, its Home or the count: figures are one company's at a
-	time. Somebody who may not count is refused."""
+	time. With two companies a stock entry shows its company and filters by
+	it, and Karim, limited to Sahara, never sees One Dev's receipt or
+	warehouse. Somebody who may not count is refused."""
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai, home, stock
 
@@ -1273,3 +1275,9 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 		after = stock.on_hand()
 		assert (after["worth"], home.read()["figures"]["worth"]) == before, "another company's stock reached Sahara's figures"
 		assert place not in {one["name"] for one in after["warehouses"]}
+	assert frappe.get_meta("Stock Entry").get_field("company").in_standard_filter, "with two companies, a stock entry offers its company as a filter"
+	assert not frappe.get_meta("Stock Entry").get_field("company").hidden
+	frappe.get_doc({"doctype": "User Permission", "user": "karim@one.test", "allow": "Company", "for_value": COMPANY}).insert(ignore_permissions=True)
+	with as_user("karim@one.test"):
+		assert receipt.name not in frappe.get_list("Stock Entry", pluck="name", limit_page_length=0), "Karim, limited to Sahara, saw One Dev's receipt"
+		assert place not in frappe.get_list("Warehouse", pluck="name", limit_page_length=0)

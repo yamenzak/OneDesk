@@ -80,3 +80,12 @@ OneBook keeps invoices, bills, payments and suppliers; OneInventory keeps
 items, stock, what arrives and what is delivered, what is ordered from
 suppliers, and the company's equipment. OneFactory keeps what the company
 makes.
+
+## Several Companies
+
+With more than one company, each stock, buying and asset record says its
+**Company**, starting as yours, and every list can show and filter by it.
+A warehouse belongs to one company, so a record offers only that company's
+warehouses. Home, **Stock Summary**, **Reorder** and an item's figures are
+your company's alone, in its currency. Someone limited to one company sees
+only its records. With one company, none of this shows.

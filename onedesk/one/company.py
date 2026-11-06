@@ -1,43 +1,64 @@
-"""One workspace is one company, so nobody is ever asked which.
+"""A workspace with one company is never asked which.
 
 Every `Company` Link is hidden and filled by the global default, worked out
-from the site's own schema after every migrate.
+from the site's own schema after every migrate and whenever a company is
+added or deleted. Once there is a second company, the record types a module
+has made ready for several (`ready.MODULES[...]["companies"]`) show it, as a
+column and a filter, defaulted by ERPNext to the reader's company.
 """
 
 import frappe
 
 FIELD = "company"
 OFF = (("hidden", "1"), ("in_list_view", "0"), ("in_standard_filter", "0"))
+ON = (("in_list_view", "1"), ("in_standard_filter", "1"))
+PROPS = ("hidden", "in_list_view", "in_standard_filter", "default")
+
+
+def several() -> bool:
+	return frappe.db.count("Company") > 1
+
+
+def ready() -> set[str]:
+	"""The record types every module has made ready for several companies."""
+	from onedesk.one.ready import MODULES
+
+	return {doctype for spec in MODULES.values() for doctype in spec.get("companies", ())}
 
 
 def hide(*_args) -> None:
 	from frappe.custom.doctype.property_setter.property_setter import make_property_setter
 
-	for field in _fields():
-		for prop, value in OFF:
-			if field.get(prop) == int(value):
-				continue
-			if _written(field["parent"], prop):
-				continue
-			make_property_setter(
-				field["parent"],
-				FIELD,
-				prop,
-				value,
-				"Check",
-				validate_fields_for_doctype=False,
+	shown = ready() if several() else set()
+	fields = _fields()
+	for field in fields:
+		parent = field["parent"]
+		if parent in shown:
+			frappe.db.delete(
+				"Property Setter",
+				{"doc_type": parent, "field_name": FIELD, "property": ["in", PROPS], "is_system_generated": 1},
 			)
-	_defaults(make_property_setter)
+		wanted = () if parent in shown and field.get("istable") else ON if parent in shown else OFF
+		for prop, value in wanted:
+			if field.get(prop) == int(value) or _written(parent, prop):
+				continue
+			make_property_setter(parent, FIELD, prop, value, "Check", validate_fields_for_doctype=False)
+	_defaults(make_property_setter, [field for field in fields if field["parent"] not in shown])
 	frappe.clear_cache()
 
 
-def _defaults(make_property_setter) -> None:
+def changed(doc=None, method=None) -> None:
+	"""A company added or deleted: the fields follow, after the commit."""
+	frappe.enqueue("onedesk.one.company.hide", queue="short", enqueue_after_commit=True, deduplicate=True, job_id="one_company_fields")
+
+
+def _defaults(make_property_setter, fields: list[dict]) -> None:
 	"""The company as the default of every hidden mandatory Company field, and
 	again when the company it named is gone."""
 	company = frappe.defaults.get_global_default("company")
 	if not company or not frappe.db.exists("Company", company):
 		return
-	for field in _fields():
+	for field in fields:
 		if not field.get("reqd") or field.get("default"):
 			continue
 		said = frappe.db.get_value(
@@ -60,7 +81,8 @@ def _fields() -> list[dict]:
 		filters=where,
 		fields=["dt as parent", *columns],
 	)
-	return standard + custom
+	tables = set(frappe.get_all("DocType", filters={"istable": 1}, pluck="name"))
+	return [dict(field, istable=field["parent"] in tables) for field in standard + custom]
 
 
 def _written(doctype: str, prop: str) -> bool:
@@ -72,7 +94,8 @@ def _written(doctype: str, prop: str) -> bool:
 	"""
 	return bool(
 		frappe.db.exists(
-			"Property Setter", {"doc_type": doctype, "field_name": FIELD, "property": prop}
+			"Property Setter",
+			{"doc_type": doctype, "field_name": FIELD, "property": prop, "is_system_generated": 0},
 		)
 	)
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 11:38+0000\n"
-"PO-Revision-Date: 2026-11-06 11:38+0000\n"
+"POT-Creation-Date: 2026-11-06 11:46+0000\n"
+"PO-Revision-Date: 2026-11-06 11:46+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4627,7 +4627,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:794
+#: onedesk/one/ready.py:819
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5562,7 +5562,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:808
+#: onedesk/one/ready.py:833
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -7045,7 +7045,7 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one/ready.py:618 onedesk/one/ready.py:685
+#: onedesk/one/ready.py:643 onedesk/one/ready.py:710
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -9154,7 +9154,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:801
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:826
 msgid "Claim an Expense"
 msgstr ""
 
@@ -16570,7 +16570,7 @@ msgid "Equals"
 msgstr ""
 
 #. Label in the One Equipment Handover print format
-#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:241
+#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:266
 #: onedesk/one_hr/heads.py:704
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
@@ -19409,7 +19409,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: onedesk/one/ready.py:235
+#: onedesk/one/ready.py:260
 msgid "Free to Sell"
 msgstr ""
 
@@ -24517,7 +24517,7 @@ msgstr ""
 msgid "Kept by Law"
 msgstr ""
 
-#: onedesk/one/ready.py:238 onedesk/public/js/item_new.js:4
+#: onedesk/one/ready.py:263 onedesk/public/js/item_new.js:4
 msgid "Kept in Stock"
 msgstr ""
 
@@ -26681,7 +26681,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one/ready.py:239
+#: onedesk/one/ready.py:264
 msgid "Made Here"
 msgstr ""
 
@@ -29611,7 +29611,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/one/ready.py:285
+#: onedesk/one/ready.py:310
 msgid "Next Service"
 msgstr ""
 
@@ -32006,7 +32006,7 @@ msgstr ""
 msgid "On Everyone's Calendar"
 msgstr ""
 
-#: onedesk/one/ready.py:235 onedesk/public/js/item_list.js:22
+#: onedesk/one/ready.py:260 onedesk/public/js/item_list.js:22
 msgid "On Hand"
 msgstr ""
 
@@ -32054,7 +32054,7 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:235
+#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:260
 msgid "On Order"
 msgstr ""
 
@@ -43874,7 +43874,7 @@ msgstr ""
 
 #. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
-#: onedesk/one/ready.py:240 onedesk/one_display/doctype/queue/queue.json:47
+#: onedesk/one/ready.py:265 onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Services"
 msgstr ""
@@ -45567,7 +45567,7 @@ msgstr ""
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr ""
 
-#: onedesk/one/ready.py:242 onedesk/public/js/item_new.js:7
+#: onedesk/one/ready.py:267 onedesk/public/js/item_new.js:7
 msgid "Sizes or Colours"
 msgstr ""
 
@@ -46128,7 +46128,7 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
-#: onedesk/one/ready.py:398
+#: onedesk/one/ready.py:423
 msgid "Source Warehouse"
 msgstr ""
 
@@ -48250,7 +48250,7 @@ msgstr ""
 msgid "Target Margin"
 msgstr ""
 
-#: onedesk/one/ready.py:399
+#: onedesk/one/ready.py:424
 msgid "Target Warehouse"
 msgstr ""
 

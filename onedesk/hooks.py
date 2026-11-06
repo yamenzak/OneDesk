@@ -303,7 +303,8 @@ doc_events = {
 	"Letter Head": {"validate": "onedesk.one_studio.printing.validate_letter_head"},
 	"Company": {
 		"validate": "onedesk.one_book.closing.kept_to_today",
-		"after_insert": "onedesk.one_mail.faces.dress_later",
+		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one.company.changed"],
+		"after_delete": "onedesk.one.company.changed",
 		"on_update": [
 			"onedesk.one_studio.letter_heads.redraw",
 			"onedesk.one_mail.faces.dress_later",
