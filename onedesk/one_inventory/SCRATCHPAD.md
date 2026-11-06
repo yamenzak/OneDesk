@@ -73,7 +73,7 @@ Left:
 - **A fresh site.** Not walked: this bench keeps only the domain pair and
   Yamen wants no .localhost sites; Inventory Check is what a new workspace
   meets first.
-- **The demo's own second company**, BACKLOG.
+- **The demo's second company**: done, Sahara Glass Saudi (`one_demo/branch.py`), with stock, an order and a sale; the check reads Riyadh's Stock Summary in riyals.
 - **Speed**, a phone at 4x CPU on 6 November against 5 November: Home 4.5s
   (4.4), Item list 6.5s (6.1), the Item page 10.5 to 11s with 23 requests
   (7.3s and 27 as its own page, before it became a form), Stock Summary

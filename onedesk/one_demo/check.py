@@ -3588,7 +3588,7 @@ def sales_books_and_stock_tell_what_waits_on_somebody():
 		item = frappe.db.get_value("Item", {"is_stock_item": 1, "disabled": 0})
 		with as_user("karim@one.test"):
 			asked = frappe.get_doc(
-				{"doctype": "Material Request", "material_request_type": "Purchase", "schedule_date": add_days(today(), 7), "items": [{"item_code": item, "qty": 2, "schedule_date": add_days(today(), 7), "warehouse": frappe.db.get_value("Warehouse", {"is_group": 0})}]}
+				{"doctype": "Material Request", "material_request_type": "Purchase", "schedule_date": add_days(today(), 7), "items": [{"item_code": item, "qty": 2, "schedule_date": add_days(today(), 7), "warehouse": frappe.db.get_value("Warehouse", {"is_group": 0, "company": COMPANY})}]}
 			).insert()
 			asked.submit()
 		_name, users, values = said("Material Request Asked", ("Material Request", asked.name))
@@ -3628,7 +3628,9 @@ def sales_books_and_stock_tell_what_the_second_pass_found():
 	with patch("onedesk.one.notify.notify", side_effect=heard):
 		request = frappe.copy_doc(frappe.get_doc("Material Request", frappe.db.get_value("Material Request", {"material_request_type": "Purchase", "docstatus": 1})))
 		request.material_request_type = "Material Transfer"
-		other = frappe.db.get_value("Warehouse", {"is_group": 0, "name": ["!=", request.items[0].warehouse]})
+		for row in request.items:
+			row.reorder_level = None
+		other = frappe.db.get_value("Warehouse", {"is_group": 0, "company": request.company, "name": ["!=", request.items[0].warehouse]})
 		for row in request.items:
 			row.from_warehouse = other
 		with as_user("karim@one.test"):

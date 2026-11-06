@@ -637,7 +637,7 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 	from onedesk.one_inventory import ai, heads, ready, stock
 
 	_before_reordering()
-	held = sum(flt(one) for one in frappe.get_all("Bin", pluck="stock_value"))
+	held = sum(flt(one) for one in frappe.get_all("Bin", filters={"company": COMPANY}, pluck="stock_value"))
 	with as_user("karim@one.test"):
 		every = stock.on_hand()
 		assert every["count"] and abs(every["worth"] - held) < 0.01, (every["worth"], held)
@@ -656,7 +656,7 @@ def oneinventory_stock_on_hand_says_what_the_stores_hold():
 		assert heads.warehouse_items(place) == sum(1 for one in stores["items"] if one["on_hand"] > 0)
 		assert heads.warehouse_low(place)["value"] >= 1 and heads.warehouse_last(place)
 		assert heads.warehouse_worth(place)
-		group = frappe.db.get_value("Warehouse", {"is_group": 1, "parent_warehouse": ["in", ("", None)]}) or frappe.db.get_value("Warehouse", {"is_group": 1})
+		group = frappe.db.get_value("Warehouse", {"is_group": 1, "company": COMPANY, "parent_warehouse": ["in", ("", None)]}) or frappe.db.get_value("Warehouse", {"is_group": 1, "company": COMPANY})
 		assert heads.warehouse_items(frappe.get_doc("Warehouse", group)) >= heads.warehouse_items(place), "a group holds what is under it"
 		facts = ai.stock_on_hand(warehouse=wh("Stores"))
 		assert abs(facts["worth"] - in_stores) < 0.01 and any(one["item"] == "SIL-CLR" and one["low_in"] for one in facts["lines"]), facts["worth"]
@@ -1235,14 +1235,11 @@ def oneinventory_fixing_the_check_is_an_ability():
 
 @check
 def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
-	"""OneAI drafts a count of the Stores from what Karim says he counted,
-	beside what the books hold, batch by batch for a batched item, and
-	nothing moves until it is submitted.
-	Stock kept by a second company, One Dev here, never reaches Sahara's
-	Stock Summary, its Home or the count: figures are one company's at a
-	time. With two companies a stock entry shows its company and filters by
-	it, and Karim, limited to Sahara, never sees One Dev's receipt or
-	warehouse. Somebody who may not count is refused."""
+	"""OneAI drafts Karim's count of the Stores, batch by batch, and nothing
+	moves until it is submitted; somebody who may not count is refused.
+	Sahara Glass Saudi's stock stays out of Sahara's figures, a stock entry
+	shows and filters by its company, Karim limited to Sahara never sees
+	Riyadh's, and with Riyadh as his company Stock Summary is in riyals."""
 	from onedesk.one_ai import proposals
 	from onedesk.one_inventory import ai, home, stock
 
@@ -1261,8 +1258,10 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 	with as_user("nadia@one.test"):
 		assert ai.plan_count(wh("Stores"), [{"item": "SIL-CLR", "qty": 1}]).get("error")
 
-	other = frappe.db.get_value("Company", {"name": ["!=", COMPANY]})
-	assert other, "the bench has a second company"
+	from onedesk.one_demo.branch import BRANCH
+
+	other = BRANCH
+	assert frappe.db.exists("Company", other), "the demo has its second company (one_demo/branch.py)"
 	place = frappe.db.get_value("Warehouse", {"company": other, "is_group": 0, "warehouse_name": "Stores"}) or frappe.db.get_value(
 		"Warehouse", {"company": other, "is_group": 0}
 	)
@@ -1279,5 +1278,14 @@ def oneinventory_a_count_is_drafted_and_another_company_keeps_its_stock():
 	assert not frappe.get_meta("Stock Entry").get_field("company").hidden
 	frappe.get_doc({"doctype": "User Permission", "user": "karim@one.test", "allow": "Company", "for_value": COMPANY}).insert(ignore_permissions=True)
 	with as_user("karim@one.test"):
-		assert receipt.name not in frappe.get_list("Stock Entry", pluck="name", limit_page_length=0), "Karim, limited to Sahara, saw One Dev's receipt"
+		assert receipt.name not in frappe.get_list("Stock Entry", pluck="name", limit_page_length=0), "Karim, limited to Sahara, saw Riyadh's receipt"
 		assert place not in frappe.get_list("Warehouse", pluck="name", limit_page_length=0)
+	frappe.db.delete("User Permission", {"user": "karim@one.test", "allow": "Company"})
+	frappe.defaults.set_user_default("company", other, "karim@one.test")
+	try:
+		with as_user("karim@one.test"):
+			riyadh = stock.on_hand()
+	finally:
+		frappe.defaults.clear_user_default("company", "karim@one.test")
+	held = flt(frappe.db.sql("select sum(stock_value) from `tabBin` where company = %s", other)[0][0])
+	assert riyadh["currency"] == "SAR" and abs(flt(riyadh["worth"]) - held) < 1, (riyadh["currency"], riyadh["worth"], held)

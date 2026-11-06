@@ -30,6 +30,7 @@ STEPS = (
 	"assets",
 	"books",
 	"ledger",
+	"branch",
 	"hr",
 	"career",
 	"calendar",

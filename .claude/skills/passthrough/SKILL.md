@@ -95,7 +95,9 @@ What an app declares about itself, in its own folder and in
   (CLAUDE.md, Several companies). *How:* list the app's record types with
   a company field in `ready.MODULES[app]["companies"]`; `one/company.py`
   then shows Company on them, as a column and a filter, once there are two
-  companies. Its check gives a person a User Permission on one company and
+  companies. The demo's second company is Sahara Glass Saudi, in riyals
+  (`one_demo/branch.py`): the app's pass gives it the app's own records
+  there, made by the person whose work it is. Its check gives a person a User Permission on one company and
   asserts the other's records stay out of `get_list`. Item-wide figures
   read the reader's company only (`Bin.company`), and money takes the
   record's company's currency, never the global default.
