@@ -138,11 +138,11 @@ MODULES = {
 			},
 		},
 		"checked": {
-			"copy": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-29", "commit": "837180a1818d", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -164,11 +164,11 @@ MODULES = {
 		"ready": True,
 		"companies": ("Project", "Timesheet"),
 		"checked": {
-			"copy": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-05", "commit": "0e1630ff6ee4", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
