@@ -5,7 +5,8 @@
 **Repeat**, in a task's **⋯** menu, sets it to repeat daily, weekly, monthly
 and so on. Each time, a new task is made: due on the day it repeats, open,
 with its checklist unticked, and assigned to the same people, or to whoever
-did it if it was done. Stop repeating from the same menu.
+did it if it was done. **Actions › Stop Repeating** stops it; anyone who may
+change the task may stop it, not only whoever set it to repeat.
 
 ## Kinds of Task
 

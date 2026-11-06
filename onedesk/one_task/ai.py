@@ -16,8 +16,6 @@ from frappe.utils import get_fullname, getdate
 REACH = {}
 
 NOT_FOR_AI = {
-	"task.add_step": "OneAI adds steps its own way, as a card from plan_steps that adds them once it is approved.",
-	"task.tick": "Ticking a step says the person did it, which only they know.",
 	"task.stop_repeat": "Stopping a repeat ends tasks nobody has seen yet, so the person does it from the task's menu.",
 	"timer.start": "A timer measures the person's own time as they work, so only they start it.",
 	"timer.pause": "A timer measures the person's own time as they work, so only they pause it.",

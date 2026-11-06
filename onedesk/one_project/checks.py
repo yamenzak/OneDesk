@@ -823,7 +823,7 @@ def oneproject_its_contracts_are_on_the_page():
 @check
 def oneproject_a_project_is_seen_by_its_people_and_its_plan_follows():
 	"""Rania sees the projects she is on, what is under them and those nobody
-	is on, and no other. Somebody made a project's manager sees it. A member
+	is on, in the company she is limited to, and no other. Somebody made a project's manager sees it. A member
 	added is told in One and shared the project, never sent ERPNext's mail,
 	and loses the share when taken off. A slip moves what waits on it in a
 	sub-project, work already started included."""
@@ -833,6 +833,9 @@ def oneproject_a_project_is_seen_by_its_people_and_its_plan_follows():
 	of = tree.parents()
 	teams = {one.name: _team(one.name) for one in frappe.get_all("Project", fields=["name"])}
 	hers = tree.below({name for name, people in teams.items() if "rania@one.test" in people or not people}, of)
+	limited = set(frappe.get_all("User Permission", {"user": "rania@one.test", "allow": "Company"}, pluck="for_value"))
+	if limited:
+		hers = {name for name in hers if frappe.db.get_value("Project", name, "company") in limited}
 	with as_user("rania@one.test"):
 		seen = set(frappe.get_list("Project", pluck="name", limit=0))
 	assert seen == hers and "PROJ-0002" in seen and "PROJ-0011" not in seen, (seen ^ hers)
@@ -873,11 +876,12 @@ def oneproject_a_template_hands_on_what_erpnext_leaves_out():
 	milestone and the hours it is planned at."""
 	from onedesk.one_demo.projects import TEMPLATE
 	from onedesk.one_project import template_view, templates
-	from onedesk.one_task import task
 
 	with as_user("samir@one.test"):
 		source = next(one for one in template_view.read(TEMPLATE)["tasks"] if not one["is_group"])["name"]
-		task.add_step(source, "Check the anchor spacing")
+		step = frappe.get_doc("Task", source)
+		step.append("one_steps", {"step": "Check the anchor spacing"})
+		step.save()
 		frappe.db.set_value("Task", source, {"is_milestone": 1, "expected_time": 6})
 		made = template_view.add(TEMPLATE, "Seal the joints")
 		assert not frappe.parse_json(frappe.db.get_value("Task", made, "_assign") or "[]"), "a template task is given to nobody"
@@ -1325,3 +1329,20 @@ def oneproject_tasks_are_listed_under_their_milestones():
 	for i in heads:
 		after = rows[i + 1] if i + 1 < len(rows) else None
 		assert after is None or after["is_group"] or after["parent_task"] == rows[i]["name"], (rows[i], after)
+
+
+@check
+def oneproject_riyadh_runs_its_own_job():
+	"""Sahara Glass Saudi's job is its own: its money is in riyals, its tasks
+	are the company's, Samir sees it, and Rania, limited to the Dubai company,
+	does not."""
+	from onedesk.one_project import money
+
+	job = frappe.db.get_value("Project", {"company": "Sahara Glass Saudi"}, "name")
+	assert job, "the Riyadh company has a project"
+	with as_user("samir@one.test"):
+		assert frappe.has_permission("Project", "read", job)
+		assert money.money(job)["currency"] == "SAR"
+	assert set(frappe.get_all("Task", {"project": job}, pluck="company")) == {"Sahara Glass Saudi"}
+	with as_user("rania@one.test"):
+		assert not frappe.has_permission("Project", "read", job)

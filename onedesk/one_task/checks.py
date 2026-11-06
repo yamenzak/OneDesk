@@ -24,9 +24,12 @@ def onetask_works_for_whoever_has_tasks():
 		assert groups and counts.get("mine"), (groups, counts)
 		assert ai.my_tasks("mine")["groups"]
 		one = groups[0]["tasks"][0].name
-		row = task.add_step(one, "Photograph the anchors")
-		task.tick(one, row, 1)
-		assert frappe.db.get_value("Task Step", row, "done") == 1
+		doc = frappe.get_doc("Task", one)
+		doc.append("one_steps", {"step": "Photograph the anchors"})
+		doc.save()
+		doc.one_steps[-1].done = 1
+		doc.save()
+		assert frappe.db.get_value("Task Step", doc.one_steps[-1].name, "done") == 1
 		timer.start(one)
 		assert timer.running()["task"] == one
 		timer.stop()
@@ -149,7 +152,8 @@ def onetask_a_task_is_its_peoples_and_ends_as_they_say():
 	with as_user("samir@one.test"):
 		job = frappe.get_doc({"doctype": "Task", "subject": "Measure the stair void", "project": VILLA, "exp_end_date": add_days(today(), 3)}).insert()
 		assign({"doctype": "Task", "name": job.name, "assign_to": ["rania@one.test"]})
-		task.add_step(job.name, "Take the laser")
+		job.append("one_steps", {"step": "Take the laser"})
+		job.save()
 	with _Told() as told, as_user("rania@one.test"):
 		done = frappe.get_doc("Task", job.name)
 		done.status = "Completed"

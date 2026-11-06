@@ -2,23 +2,19 @@
 
 What is known to be wrong and what is planned, kept short.
 
-- **Help pictures.** The pages are words only; the project page, its
-  Overview for each kind and Bill Progress want a picture each.
 - **Help is long.** A Project's Page and Billing the Customer are the README's
   sections as they were; each could be split by kind of project.
 
-## Demo checks failing (5 Nov 2026, before the template moved)
+## The pass of 6 November 2026
 
-- oneproject_its_invoices_suppliers_team_and_activity_read_true (checks.py:637)
-- oneproject_oneai_reminds_adds_and_the_rules_stand (checks.py:680)
-- oneproject_a_manager_sees_every_project_and_a_member_sees_their_own (checks.py:1301)
+Closed: every point of the passthrough but a fresh site, which waits for the
+temporary site after the last module.
 
-## Since the page went (6 Nov 2026)
-
-- **Main only.** The page could show a parent's own work alone (All Work /
-  Main). The form shows the whole tree; the server still takes `only`, and
-  OneAI's `_main` uses it. Bring it back as a filter on the parts if asked.
-- **Tasks.** The Tasks tab is ERPNext's own list. The page's own (grouped by
-  milestone, a task panel beside it) is gone; Board and Schedule are frappe's
-  views. If grouping by part of the job is missed, it is a part to add.
-- **Help pictures** are still words only.
+- Speed on a phone at 4x CPU (samir): project list 5.7s; the villa 15s for
+  the first form in a session (frappe's bundles), 2.2s for the next; task
+  list 7.4s; My Tasks 4.0s; timesheets 6.4s; Workload 4.2s.
+- ERPNext's own overview prints Next Milestone's dates backwards in Arabic,
+  and a task's dates show 00:00 now that ERPNext keeps them as date and time.
+- A parent project's form counts it with its sub-projects. The old page's
+  Main-only switch is left out (recommended 6 Nov; Yamen may ask for it);
+  the server still takes `only`, which OneAI's `_main` uses.

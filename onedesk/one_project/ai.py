@@ -268,7 +268,7 @@ def project_facts(project: Annotated[str, "The project's id, such as PROJ-0005."
 	open_ = [["project", "in", said["tree"]], ["status", "not in", overview.DONE]]
 	late = frappe.get_list(
 		"Task",
-		filters=[*open_, ["exp_end_date", "<", today]],
+		filters=[*open_, ["exp_end_date", "is", "set"], ["exp_end_date", "<", today]],
 		fields=["name", "subject", "status", "exp_end_date", "_assign", "project"],
 		order_by="exp_end_date asc",
 		limit_page_length=MOST,
@@ -1169,6 +1169,7 @@ def projects_needing_attention() -> dict:
 			filters=[
 				["project", "in", [one.name for one in projects]],
 				["status", "not in", overview.DONE],
+				["exp_end_date", "is", "set"],
 				["exp_end_date", "<", today],
 			],
 			fields=["project", {"COUNT": "*", "as": "n"}],

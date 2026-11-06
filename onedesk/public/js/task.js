@@ -12,8 +12,30 @@ onedesk.task_timer.button = async (frm) => {
 	});
 };
 
+onedesk.task_timer.repeats = async (frm) => {
+	if (frm.is_new() || !frm.doc.auto_repeat || !frm.perm[0]?.write) return;
+	const repeat = await frappe.xcall("onedesk.one_task.task.repeat_of", { task: frm.doc.name });
+	if (!repeat || repeat.disabled) return;
+	frm.add_custom_button(
+		__("Stop Repeating"),
+		async () => {
+			const go = await onedesk.interface.ask({
+				question: __("Stop repeating {0}?", [frm.doc.subject]),
+				effect: __("No new task is made from it. This one stays as it is."),
+				verb: __("Stop Repeating"),
+			});
+			if (!go) return;
+			await frappe.xcall("onedesk.one_task.task.stop_repeat", { task: frm.doc.name });
+			frappe.show_alert({ message: __("Repeating stopped."), indicator: "green" });
+			frm.reload_doc();
+		},
+		__("Actions")
+	);
+};
+
 frappe.ui.form.on("Task", {
 	refresh(frm) {
 		onedesk.task_timer.button(frm);
+		onedesk.task_timer.repeats(frm);
 	},
 });

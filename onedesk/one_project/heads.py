@@ -11,7 +11,7 @@ from urllib.parse import quote
 
 import frappe
 from frappe import _, _lt
-from frappe.utils import cint, flt, fmt_money, formatdate, today
+from frappe.utils import add_days, cint, flt, fmt_money, formatdate, today
 from frappe.utils.caching import request_cache
 
 from onedesk.one import stages
@@ -118,7 +118,7 @@ def late(doc):
 		"tone": "alarm",
 		"route": f"/desk/task?project={_route(['in', said['tree']])}"
 		f"&status={_route(['not in', list(DONE)])}"
-		f"&exp_end_date={_route(['<', today()])}",
+		f"&exp_end_date={_route(['between', ['2000-01-01', str(add_days(today(), -1))]])}",
 	}
 
 

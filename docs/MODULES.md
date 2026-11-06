@@ -1085,10 +1085,8 @@ No doctypes yet.
 * `onedesk.one_studio.reports.where`
 * `onedesk.one_task.mine.counts`
 * `onedesk.one_task.mine.tasks`
-* `onedesk.one_task.task.add_step`
 * `onedesk.one_task.task.repeat_of`
 * `onedesk.one_task.task.stop_repeat`
-* `onedesk.one_task.task.tick`
 * `onedesk.one_task.timer.pause`
 * `onedesk.one_task.timer.running`
 * `onedesk.one_task.timer.start`

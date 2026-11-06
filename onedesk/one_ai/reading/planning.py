@@ -405,6 +405,7 @@ def _money(ctx: dict, reading) -> None:
 		ctx["purchase_order"] = next((one for one in named if frappe.db.exists("Purchase Order", {"name": one, "supplier": ctx["supplier"], "docstatus": 1})), None)
 		company = (
 			(ctx["purchase_order"] and frappe.db.get_value("Purchase Order", ctx["purchase_order"], "company"))
+			or (ctx["project"] and frappe.db.get_value("Project", ctx["project"], "company"))
 			or frappe.db.get_value("Purchase Invoice", {"supplier": ctx["supplier"], "docstatus": 1}, "company", order_by="posting_date desc")
 			or company
 		)

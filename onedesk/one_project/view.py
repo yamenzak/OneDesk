@@ -975,7 +975,7 @@ def _late_route(projects: list[str]) -> str:
 		{
 			"project": ["in", projects],
 			"status": ["not in", list(overview.DONE)],
-			"exp_end_date": ["<", nowdate()],
+			"exp_end_date": ["between", ["2000-01-01", str(add_days(nowdate(), -1))]],
 		},
 	)
 
