@@ -234,11 +234,11 @@ MODULES = {
 			"Warehouse",
 		),
 		"checked": {
-			"copy": {"on": "2026-11-06", "commit": "18ed51594916", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-06", "commit": "18ed51594916", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-06", "commit": "18ed51594916", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-06", "commit": "18ed51594916", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-06", "commit": "18ed51594916", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
 		},
 		"interface": {
 			"Item": {

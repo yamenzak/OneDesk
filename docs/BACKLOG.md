@@ -25,6 +25,12 @@ module's README says what it does.
   `oneinventory_equipment_bought_given_serviced_and_mended`. The twelve steps
   are in `onedesk/one_demo/README.md`. A fresh site needs the database's root
   password.
+- **A second company in the demo.** The passthrough asks for one with
+  records; the demo builds only Sahara, and OneInventory's check borrows the
+  bench's One Dev inside a rollback. Build a second company (another
+  currency) with its warehouses, a few stock moves, orders and an asset, so
+  every module's walk sees two. `one/company.py` then shows Company on each
+  module's `ready.MODULES[...]["companies"]`.
 - **The asks upstream.** `docs/OVERRIDES.md` lists 62 changes to ask frappe,
   erpnext and hrms for (31, 23 and 7). Each one sent and merged retires an
   override row. Which to send, and in what order, is yours.
