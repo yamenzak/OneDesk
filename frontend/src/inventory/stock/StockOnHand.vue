@@ -5,7 +5,7 @@
       <Figures :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <div class="mt-6 flex flex-wrap items-center gap-2">
+      <div ref="finder" class="mt-6 flex flex-wrap items-center gap-2">
         <Dropdown :options="placeMenu">
           <template #trigger>
             <Button icon-left="lucide-warehouse" icon-right="lucide-chevron-down" :label="shown === 'all' ? __('All Warehouses') : short(shown)" />
@@ -60,7 +60,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, Button, Dropdown, TabButtons, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Page, PlaceSpot, __, call, count, followList, go, money, onResize, onedesk, quantity, setQuery, viewWidth } from "../../kit";
+import { Figures, Loading, Page, PlaceSpot, __, call, count, followList, go, money, onResize, onedesk, quantity, shortcut, setQuery, viewWidth } from "../../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -196,4 +196,9 @@ function extended(s) {
     action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
   });
 }
+
+const finder = ref(null);
+const find = () => finder.value?.querySelector("input[type=search]")?.focus();
+const forget = [shortcut("one_inventory.find_stock", find)];
+onBeforeUnmount(() => forget.forEach((one) => one()));
 </script>

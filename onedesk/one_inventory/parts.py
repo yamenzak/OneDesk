@@ -107,8 +107,8 @@ def read(text: str | None = None, file_url: str | None = None) -> dict:
 	codes = [one["code"] for one in parts if one["code"]]
 	names = [one["name"] for one in parts if one["name"]]
 	fields = ["name", "item_name", "stock_uom"]
-	by_code = {one.name.lower(): one for one in frappe.get_list("Item", filters={"name": ["in", codes or [""]], "disabled": 0}, fields=fields)}
-	by_name = {one.item_name.lower(): one for one in frappe.get_list("Item", filters={"item_name": ["in", names or [""]], "disabled": 0}, fields=fields)}
+	by_code = {one.name.lower(): one for one in frappe.get_list("Item", filters={"name": ["in", codes or [""]], "disabled": 0}, fields=fields, limit_page_length=0)}
+	by_name = {one.item_name.lower(): one for one in frappe.get_list("Item", filters={"item_name": ["in", names or [""]], "disabled": 0}, fields=fields, limit_page_length=0)}
 	by_supplier = {
 		one.supplier_part_no.lower(): one.parent
 		for one in frappe.get_all("Item Supplier", filters={"supplier_part_no": ["in", codes or [""]], "parenttype": "Item"}, fields=["parent", "supplier_part_no"])
@@ -116,7 +116,7 @@ def read(text: str | None = None, file_url: str | None = None) -> dict:
 	units = {one.lower(): one for one in frappe.get_all("UOM", filters={"enabled": 1}, pluck="name")}
 	for one in parts:
 		item = by_code.get(one["code"].lower()) or (
-			by_supplier.get(one["code"].lower()) and frappe.db.get_value("Item", by_supplier[one["code"].lower()], fields, as_dict=True)
+			by_supplier.get(one["code"].lower()) and next(iter(frappe.get_list("Item", filters={"name": by_supplier[one["code"].lower()]}, fields=fields)), None)
 		) or by_name.get(one["name"].lower())
 		unit = units.get(one["unit"].lower()) if one["unit"] else None
 		if item:
@@ -160,6 +160,7 @@ def add(parts: list | str) -> list[dict]:
 				}
 			).insert()
 			name = item.name
+		frappe.has_permission("Item", "read", doc=name, throw=True)
 		said = frappe.db.get_value("Item", name, ["item_name", "stock_uom"], as_dict=True)
 		rows.append({"item_code": name, "item_name": said.item_name, "qty": flt(one.get("qty")), "uom": said.stock_uom})
 	return rows

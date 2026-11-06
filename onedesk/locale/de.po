@@ -14780,6 +14780,10 @@ msgstr "Entwurfs-Nr."
 msgid "Draft Orders"
 msgstr "Bestellentwürfe erstellen"
 
+#: onedesk/one_inventory/shortcuts.py:12
+msgid "Draft Purchase Orders"
+msgstr "Bestellungen als Entwurf anlegen"
+
 #: onedesk/one_ai/jobs.py:53
 msgid "Draft a Reply"
 msgstr "Eine Antwort entwerfen"

@@ -5,7 +5,7 @@
       <Figures :figures="figures" :columns="figures.length" class="mt-6" />
       <PlaceSpot :said="placed" class="mt-4" />
 
-      <div class="mt-6 flex flex-wrap items-center gap-2">
+      <div ref="finder" class="mt-6 flex flex-wrap items-center gap-2">
         <TextInput v-model="search" class="w-full max-w-xs" type="search" :placeholder="__('Search')" :aria-label="__('Search')">
           <template #prefix><span class="lucide-search size-4 text-ink-gray-5" aria-hidden="true" /></template>
         </TextInput>
@@ -65,7 +65,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Avatar, Badge, TabButtons, TextInput } from "frappe-ui";
 import { List, ListCell, ListHeader, ListHeaderCell, ListRow, ListRows } from "frappe-ui/list";
 
-import { Figures, Loading, Page, PlaceSpot, __, alert, call, confirm, count, followList, fromToday, go, money, newDoc, onResize, onedesk, prompt, quantity, viewWidth } from "../../kit";
+import { Figures, Loading, Page, PlaceSpot, __, alert, call, confirm, count, followList, fromToday, go, money, newDoc, onResize, onedesk, prompt, quantity, shortcut, viewWidth } from "../../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -201,4 +201,10 @@ function extended(s) {
     action: (label, handler) => placed.actions.push({ label: String(label || ""), handler }),
   });
 }
+
+const finder = ref(null);
+const find = () => finder.value?.querySelector("input[type=search]")?.focus();
+const orderKey = () => said.value?.can.order && lines.value.length && order();
+const forget = [shortcut("one_inventory.find_order", find), shortcut("one_inventory.order", orderKey)];
+onBeforeUnmount(() => forget.forEach((one) => one()));
 </script>

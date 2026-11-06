@@ -38,6 +38,8 @@ def last_bought(item: str) -> dict | None:
 		("Purchase Receipt Item", "Purchase Receipt", "posting_date", "received"),
 		("Purchase Order Item", "Purchase Order", "transaction_date", "ordered"),
 	):
+		if not frappe.has_permission(parent, "read"):
+			continue
 		found = frappe.db.sql(
 			f"""select item.base_rate as rate, doc.supplier, doc.{date} as on_date,
 				item.base_rate / coalesce(nullif(item.conversion_factor, 0), 1) as unit_rate
@@ -59,6 +61,8 @@ def rates(item: str, count: int = 12) -> list[float]:
 		("Purchase Receipt Item", "Purchase Receipt", "posting_date"),
 		("Purchase Order Item", "Purchase Order", "transaction_date"),
 	):
+		if not frappe.has_permission(parent, "read"):
+			continue
 		found = frappe.db.sql(
 			f"""select item.base_rate from `tab{child}` item join `tab{parent}` doc on doc.name = item.parent
 			where item.item_code = %s and doc.docstatus = 1

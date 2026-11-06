@@ -157,10 +157,11 @@ def read(supplier: str) -> dict:
 
 	known = {
 		row.name: row
-		for row in frappe.get_all(
+		for row in frappe.get_list(
 			"Item",
 			filters={"name": ["in", list(items) or [""]]},
 			fields=["name", "item_name", "image", "stock_uom", "lead_time_days", "disabled"],
+			limit_page_length=0,
 		)
 	}
 	symbols = dict(

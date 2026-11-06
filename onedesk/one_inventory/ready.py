@@ -295,6 +295,10 @@ def _serviced(one) -> dict:
 def fix(key: str, **values) -> None:
 	if not fixes():
 		raise frappe.PermissionError
+	if key in ("home", "workshop", "floor"):
+		frappe.has_permission("Company", "write", throw=True)
+	elif key == "depreciation":
+		frappe.has_permission("Accounts Settings", "write", throw=True)
 	one = company()
 	if key == "serials":
 		_settle(enable_serial_and_batch_no_for_item=1)
@@ -304,7 +308,6 @@ def fix(key: str, **values) -> None:
 			frappe.throw(_("Add a warehouse first."))
 		company_ = frappe.get_doc("Company", one.name)
 		company_.default_warehouse = home(names)
-		company_.flags.ignore_permissions = True
 		company_.save()
 	elif key == "below_zero":
 		_settle(allow_negative_stock=0)
@@ -328,7 +331,6 @@ def fix(key: str, **values) -> None:
 			frappe.throw(_("Add an account for costs included in stock value first."))
 		company_ = frappe.get_doc("Company", one.name)
 		company_.default_operating_cost_account = account
-		company_.flags.ignore_permissions = True
 		company_.save()
 	elif key == "floor":
 		made = {name: frappe.db.get_value("Warehouse", {"company": one.name, "warehouse_name": name, "is_group": 0}) for name in ("Work In Progress", "Finished Goods")}
@@ -336,7 +338,6 @@ def fix(key: str, **values) -> None:
 			frappe.throw(_("Add the Work In Progress and Finished Goods warehouses first."))
 		company_ = frappe.get_doc("Company", one.name)
 		company_.default_wip_warehouse, company_.default_fg_warehouse = made["Work In Progress"], made["Finished Goods"]
-		company_.flags.ignore_permissions = True
 		company_.save()
 	elif key == "rejected":
 		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")

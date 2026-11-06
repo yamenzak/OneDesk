@@ -26,6 +26,7 @@ NOT_FOR_AI = {
 	"quotes.order_cheapest": "An order to a supplier is a person's to place, from the quotes OneAI compares.",
 	"ready.fix": "What Inventory Check fixes changes how the whole workspace keeps stock, so a manager presses Fix.",
 	"stock.issue": "Stock used is recorded by whoever took it off the shelf, and OneAI moves stock as a card from plan_transfer.",
+	"stock.transfer": "OneAI moves stock its own way, as a card from plan_transfer.",
 	"upkeep.done": "A service is recorded done by whoever did it.",
 }
 

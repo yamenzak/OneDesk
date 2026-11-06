@@ -85,15 +85,21 @@ def rows() -> list[dict]:
 	from erpnext import get_default_company
 
 	company = get_default_company()
+	allowed = frappe.get_list(
+		"Material Request",
+		filters={"company": company, "docstatus": 1, "material_request_type": "Purchase", "status": ["not in", ["Stopped", "Cancelled"]]},
+		pluck="name",
+		limit_page_length=0,
+	)
 	requested = frappe.db.sql(
 		"""select item.item_code, item.item_name, item.warehouse, item.name as material_request_item,
 			item.parent as material_request, item.stock_qty, item.ordered_qty, item.stock_uom as uom,
 			item.project, item.schedule_date as needed_by
 		from `tabMaterial Request Item` item join `tabMaterial Request` request on request.name = item.parent
 		where request.docstatus = 1 and request.material_request_type = 'Purchase' and request.company = %(company)s
-			and request.status not in ('Stopped', 'Cancelled') and item.stock_qty > item.ordered_qty
+			and request.name in %(allowed)s and item.stock_qty > item.ordered_qty
 		order by request.transaction_date, item.idx""",
-		{"company": company},
+		{"company": company, "allowed": allowed or [""]},
 		as_dict=True,
 	)
 	held = drafted([row.material_request_item for row in requested], company)
@@ -118,7 +124,7 @@ def rows() -> list[dict]:
 		as_dict=True,
 	)
 	asked = {(row.item_code, row.warehouse) for row in requested} | {(row.item_code, row.warehouse) for row in drafted_lows}
-	low = frappe.db.sql(
+	low = [] if not frappe.has_permission("Bin", "read") else frappe.db.sql(
 		"""select level.parent as item_code, item.item_name, level.warehouse, item.stock_uom as uom,
 			level.warehouse_reorder_level as level, level.warehouse_reorder_qty as reorder_qty,
 			coalesce(bin.projected_qty, 0) as projected, coalesce(bin.actual_qty, 0) as actual

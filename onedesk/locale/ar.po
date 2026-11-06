@@ -14780,6 +14780,10 @@ msgstr "رقم المسودة"
 msgid "Draft Orders"
 msgstr "إنشاء مسودات الأوامر"
 
+#: onedesk/one_inventory/shortcuts.py:12
+msgid "Draft Purchase Orders"
+msgstr "إعداد مسودات أوامر الشراء"
+
 #: onedesk/one_ai/jobs.py:53
 msgid "Draft a Reply"
 msgstr "صياغة رد"

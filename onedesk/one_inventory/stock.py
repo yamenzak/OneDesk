@@ -172,7 +172,7 @@ def on_hand(
 	}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def transfer(
 	source: Annotated[str, "The warehouse the stock leaves."],
 	target: Annotated[str, "The warehouse it goes to."],
