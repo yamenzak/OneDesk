@@ -4,6 +4,8 @@
 count or asset, with **Ready**, **To Do** or **Suggested** beside each and a
 **Fix** where there is one:
 
+![Inventory Check with one suggestion to fix and what is ready](getting-ready/inventory-check.png)
+
 - **Somewhere to keep stock** and **stock is valued in the books** — a
   warehouse, and the company's stock accounts. A new company has both.
 - **Stock has a warehouse to go to.** Without one, every receipt and count

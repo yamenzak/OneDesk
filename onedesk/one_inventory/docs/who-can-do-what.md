@@ -13,8 +13,9 @@ what a person holds and ask for it back when they leave. They change none
 of it.
 
 **Fix** in Inventory Check, which turns on batches or names the home
-warehouse, is for stock managers, and for the accounts
-manager who could always do it.
+warehouse, is for stock managers, and for the accounts manager who could
+always do it. A fix that changes the company's warehouses or accounts, or
+turns on depreciation posting, also needs the right to change those.
 
 ## What Each Role Starts With
 

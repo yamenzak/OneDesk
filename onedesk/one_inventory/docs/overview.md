@@ -21,7 +21,7 @@ Receipt**, **New Stock Entry** and **New Material Request** start one.
 
 - **Overview** opens first. A button for each kind of thing that needs
   somebody (3 Late Orders, 1 Item Running Low) leads to Today. Then the story
-  of the stock, in six parts:
+  of the stock, in five parts:
   - **Where Stock Is**: its worth by warehouse, by item group, and the most
     valuable items.
   - **How Stock Moves**: its worth month by month, what came in and went out

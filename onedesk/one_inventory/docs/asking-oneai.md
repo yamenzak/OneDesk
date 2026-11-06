@@ -3,6 +3,8 @@
 The OneAI panel offers questions that fit the page you are on. Press one, or
 type your own.
 
+![The OneAI panel on an item, with the questions it offers there](asking-oneai/panel.png)
+
 - **Home**: **Which orders are late?**, **What is running low?** and
   **Which services are due?**
 - **An item's page**: **How is this item doing?**, **Should I order

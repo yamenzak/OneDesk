@@ -20,8 +20,7 @@ Order** starts one with them.
    **Progress** how far it has got: Requested, Quoted (how many suppliers
    answered), Ordered and Received.
    The list leads with the title, which
-   already names the items and whether they are bought or made, so it has
-   no number or Purpose column; a request's lines take the request's
+   names the items, so it has no number column; a request's lines take the request's
    Required By and leave it out of the table.
 2. **Ask for prices.** On a material request, **Create › Request for
    Quotation** makes the request for the lines still to buy. Add the
@@ -32,8 +31,7 @@ Order** starts one with them.
    Till**, and expires by itself after. From a project, **Ask for Prices**
    on its **Suppliers** does all of it in one step.
 3. **Compare.** **Request for Quotation** in the rail lists the requests,
-   each **Waiting**, answered by how many of the suppliers asked, or
-   **Ordered**, and **Supplier Quotation** the quotes. A request's page says how many
+   and **Supplier Quotation** the quotes. A request's page says how many
    suppliers have **Quoted** and who is **Cheapest**, line by line, and
    **View › Supplier Quotation Comparison** sets its quotes side by side,
    in the company's money too. A quote past its **Valid Till** is never the
@@ -79,7 +77,7 @@ Order** starts one with them.
 
 ## Ordering What Runs Low
 
-Give an item a reorder level on its page's **Stock** view (**Set Reorder
+Give an item a reorder level on its page's **Inventory** tab (**Set Reorder
 Level**): the warehouse, the level, and how many to order each time. Once a
 day, anything at or below its level gets a **Material Request** by itself.
 

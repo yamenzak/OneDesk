@@ -2,14 +2,16 @@
 
 **Batch** and **Serial No** in the rail list lots (batches) and numbered
 pieces. A batch row shows its item, how much is left and when it goes off;
-open one to see what each warehouse holds of it under **Stock Levels**, and
-**Move** or **Split** it from there. A serial number shows its status, where
+open one, and **Connections** on the right shows what each warehouse holds
+of it under **Stock Levels**, where **Move** and **Split** are. A serial number shows its status, where
 it is or the customer it went to, its lot, and when its warranty ends. The
 lots going off within a month are on Home under **Expiring Soon**.
 
+![A batch's page with how much is left, when it expires and where it came from](batches-and-quality/batch.png)
+
 ### Tracking Batches and Serials
 
-On an item's **Stock** view, **Track by Batch or Serial No** sets the item
+On an item's **Inventory** tab, **Track by Batch or Serial No** sets the item
 up to be kept in lots or by number in one step: **By Batch** or **By Serial
 No**, whether new lots are numbered for you and how (**Automatically Create
 New Batch**, **Batch Number Series**), whether lots go off and how many days
@@ -20,16 +22,15 @@ that has never moved, since how an item is kept cannot change once it has.
 off; left empty, the date is worked out from how long the item keeps. Each
 receipt asks which lot or numbers came in.
 
-An item's Stock view shows its lots and numbers. Its Overview says
-**Expiring Soon** for a lot that runs out of date within a month and **Expired, Still in Stock** for one past its date, so it is used,
-sold or taken out of stock first. The stock managers are told once when
-a lot with some left will expire within a month. **Batch Item Expiry
+An item's **Inventory** tab shows its lots and numbers. A lot's page says
+when it expires, amber within a month and red once past, so it is used,
+sold or taken out of stock first. The stock managers are told once when a
+lot with some left will expire within a month. **Batch Item Expiry
 Status** and **Available Batch Report** are under Reports.
 
 A lot's page says what is left (**Batch Quantity**), its **Manufacturing
 Date** and **Expiry Date**, the receipt it came from (**Source Document**),
 and how many times some was taken out (**Issued**), which opens its trace.
-Its stock levels, Move and Split are on the lot's form as usual.
 
 OneAI answers **Which lots go off soon?** and **Where is each numbered
 piece?** on the page.
