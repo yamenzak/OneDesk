@@ -203,10 +203,19 @@ def extra_work(reading: dict, ctx: dict) -> list[Action]:
 
 def goods(reading: dict, ctx: dict) -> list[Action]:
 	"""A supplier's delivery note, as a draft Purchase Receipt against the
-	order it delivers."""
+	order it delivers, for what the note says came. A line that matches no
+	item makes it a proposal."""
 	if not _real(reading, ctx) or reading.get("kind") != "Delivery Note" or not ctx.get("purchase_order"):
 		return []
-	return [Action("Create", "Purchase Receipt", values={"order": ctx["purchase_order"], "supplier_delivery_note": reading.get("number")}, key="books|receipt", flow="onedesk.one_ai.reading.planning.receipt_from_order", propose_on_error=True)]
+	items = ctx.get("items") or {}
+	source = reading.get("lines") or []
+	delivered = {}
+	for index, one in enumerate(source):
+		if items.get(index):
+			delivered[items[index]] = delivered.get(items[index], 0) + float(one.get("qty") or 0)
+	missing = any(not items.get(index) for index in range(len(source)))
+	values = {"order": ctx["purchase_order"], "supplier_delivery_note": reading.get("number"), "delivered": delivered}
+	return [Action("Create", "Purchase Receipt", values={key: value for key, value in values.items() if value}, key="books|receipt", flow="onedesk.one_ai.reading.planning.receipt_from_order", propose=missing, why=ctx["said"]["unmatched"] if missing else "", propose_on_error=True)]
 
 
 def unordered(reading: dict, ctx: dict) -> list[Action]:

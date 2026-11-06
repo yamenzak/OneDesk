@@ -201,6 +201,10 @@ def test_a_suppliers_delivery_note_is_a_draft_receipt_against_its_order():
 	assert [(one.kind, one.doctype) for one in made] == [("Create", "Purchase Receipt")]
 	assert made[0].values == {"order": "PO-1", "supplier_delivery_note": "DN-778"}
 	assert made[0].flow == "onedesk.one_ai.reading.planning.receipt_from_order" and made[0].propose_on_error
+	assert made[0].propose, "a line that is no item waits for a person"
+	matched = MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1", "items": {0: "ALU-6063"}})
+	assert matched[0].values["delivered"] == {"ALU-6063": 50.0}, "what the note says came, not what is open"
+	assert not matched[0].propose
 	assert MONEY["goods"](DELIVERY, CTX) == [], "no order, no receipt"
 	assert MONEY["goods"]({**DELIVERY, "kind": "Invoice"}, {**CTX, "purchase_order": "PO-1"}) == []
 	assert MONEY["goods"](DELIVERY, {**CTX, "purchase_order": "PO-1", "books": False}) == []

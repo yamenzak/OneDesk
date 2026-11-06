@@ -60,11 +60,11 @@ def headline(doc: dict, said: dict, today: date) -> dict | None:
 	if doc.get("disabled"):
 		return {"key": "disabled", "tone": "gray"}
 	if doc.get("end_of_life") and getdate(doc["end_of_life"]) <= today:
-		return {"key": "ended", "date": str(doc["end_of_life"]), "tone": "orange"}
+		return {"key": "ended", "date": str(doc["end_of_life"]), "tone": "amber"}
 	if said.get("free") is not None and flt(said["free"]) < 0:
 		return {"key": "short", "qty": -flt(said["free"]), "tone": "red"}
 	if said.get("below"):
-		return {"key": "low", "names": said["below"], "tone": "orange"}
+		return {"key": "low", "names": said["below"], "tone": "amber"}
 	return None
 
 

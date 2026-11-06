@@ -165,7 +165,15 @@ def sent(rfq: str, supplier: str) -> list[str]:
 	)
 
 
-def rfq_page(doc, sent: list[str]) -> dict:
+def currency_for(doc, supplier: str | None) -> str:
+	"""What a supplier quotes a request in: their own currency, else the
+	company's."""
+	return (supplier and frappe.get_cached_value("Supplier", supplier, "default_currency")) or frappe.get_cached_value(
+		"Company", doc.company, "default_currency"
+	)
+
+
+def rfq_page(doc, sent: list[str], supplier: str | None = None) -> dict:
 	"""A quote request's page for one supplier, with the quotes they sent."""
 	from frappe.locale import get_number_format
 	from frappe.utils import fmt_money, sanitize_html, strip_html
@@ -194,7 +202,7 @@ def rfq_page(doc, sent: list[str]) -> dict:
 	if doc.get("shipping_address_display"):
 		lines = re.sub(r"\s*<br\s*/?>\s*", "\n", doc.shipping_address_display)
 		facts.append({"label": _("Ship to"), "value": strip_html(lines).strip(), "lines": True})
-	currency = doc.get("currency") or frappe.db.get_default("currency")
+	currency = currency_for(doc, supplier or doc.get("supplier"))
 	said = get_number_format()
 	symbol = frappe.db.get_value("Currency", currency, "symbol") or currency
 	return {
@@ -287,8 +295,7 @@ def priced(rfq: str, rows: str | dict, notes: str | None = None, sending: bool =
 			"doctype": "Supplier Quotation",
 			"supplier": supplier,
 			"company": doc.company,
-			"currency": supplier_doc.default_currency
-			or frappe.get_cached_value("Company", doc.company, "default_currency"),
+			"currency": currency_for(doc, supplier),
 			"buying_price_list": supplier_doc.default_price_list
 			or frappe.db.get_single_value("Buying Settings", "buying_price_list"),
 			"ignore_pricing_rule": 1,

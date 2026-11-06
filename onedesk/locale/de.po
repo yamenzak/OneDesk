@@ -275,6 +275,10 @@ msgstr "1 Element ausgewählt"
 msgid "1 key"
 msgstr "1 Schlüssel"
 
+#: onedesk/one_inventory/heads.py:324
+msgid "1 line"
+msgstr "1 Zeile"
+
 #: onedesk/public/js/module_docs.js:219
 msgid "1 matching section"
 msgstr "1 passender Abschnitt"
@@ -41094,17 +41098,6 @@ msgstr "Angefordert"
 msgid "Requested By"
 msgstr "Angefordert von"
 
-#. Label in the One Request for Quotation print format
-#. Label in the One Request for Quotation Bordered print format
-#. Label in the One Request for Quotation Classic print format
-#. Label in the One Request for Quotation with Images print format
-#: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
-msgid "Requested From"
-msgstr "Angefragt bei"
-
 #: frontend/src/inventory/to_order/ToOrderPage.vue:125
 #, python-brace-format
 msgid "Requested {0}"
@@ -63492,6 +63485,10 @@ msgstr "deine Nachricht"
 msgid "your quotations, orders and invoices"
 msgstr "Ihre Angebote, Aufträge und Rechnungen"
 
+#: onedesk/one_ai/reading/act.py:596
+msgid "your role doesn't allow deleting it"
+msgstr "Ihre Rolle erlaubt das Löschen nicht"
+
 #: onedesk/one_sheet/table.py:539
 #, python-brace-format
 msgid "{0} (and {1} more)"
@@ -65597,6 +65594,11 @@ msgstr "{0} übrig, etwa drei Tage beim jetzigen Verbrauch des Arbeitsbereichs."
 #, python-brace-format
 msgid "{0} left, reorder at {1}"
 msgstr "{0} übrig, Nachbestellung bei {1}"
+
+#: onedesk/one_inventory/heads.py:324
+#, python-brace-format
+msgid "{0} lines"
+msgstr "{0} Zeilen"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:145
 #, python-brace-format

@@ -9,7 +9,7 @@ import json
 
 import frappe
 from frappe import _
-from frappe.utils import cint, today
+from frappe.utils import cint, flt, today
 
 from onedesk.one_ai.reading import act, identity, matters, plans, tell
 from onedesk.one_ai.reading import identifiers as ids
@@ -610,11 +610,20 @@ def invoice_from_order(values: dict):
 
 
 def receipt_from_order(values: dict):
-	"""A supplier's delivery note, as ERPNext receives a Purchase Order."""
+	"""A supplier's delivery note, as ERPNext receives a Purchase Order, for
+	what the note says came when it says (`delivered`, by item)."""
 	from erpnext.buying.doctype.purchase_order.mapper import make_purchase_receipt
 
 	values = dict(values)
 	doc = mapped(make_purchase_receipt, values.pop("order"))
+	delivered = values.pop("delivered", None)
+	if delivered:
+		left = dict(delivered)
+		for row in doc.items:
+			take = min(flt(row.qty), flt(left.get(row.item_code)))
+			left[row.item_code] = flt(left.get(row.item_code)) - take
+			row.qty = take
+		doc.set("items", [row for row in doc.items if flt(row.qty) > 0])
 	doc.update({key: value for key, value in values.items() if value})
 	doc.insert()
 	return doc

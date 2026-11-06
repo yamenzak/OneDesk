@@ -389,7 +389,7 @@ def link_view(token: str) -> dict:
 	doc = frappe.get_doc(link.reference_doctype, link.reference_name)
 	link.db_set({"opened": (link.opened or 0) + 1, "last_opened": now_datetime()}, update_modified=False)
 	if doc.doctype == "Request for Quotation":
-		page = buying.rfq_page(doc, buying.sent(doc.name, link.party))
+		page = buying.rfq_page(doc, buying.sent(doc.name, link.party), link.party)
 		page["open"] = page["open"] and not link.used_on
 		kind = "rfq"
 	else:
@@ -482,3 +482,10 @@ def link_pdf(token: str) -> None:
 	link = _live(token)
 	frappe.flags.ignore_print_permissions = True
 	download_pdf(link.reference_doctype, link.reference_name, _print_format(link.reference_doctype))
+
+
+def forget(doc, method=None) -> None:
+	"""A deleted record's signed links go with it, so nothing opens a record
+	that is gone and nothing they hold stops it being deleted."""
+	if doc.doctype != "Portal Link" and frappe.db.exists("Portal Link", {"reference_doctype": doc.doctype, "reference_name": doc.name}):
+		frappe.db.delete("Portal Link", {"reference_doctype": doc.doctype, "reference_name": doc.name})

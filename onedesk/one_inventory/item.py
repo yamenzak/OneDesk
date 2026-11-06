@@ -32,8 +32,11 @@ def summary(bins: list, levels: list) -> dict:
 
 
 def last_bought(item: str) -> dict | None:
-	"""The last receipt or order it was on: the rate, the rate of one stock
-	unit, from whom, when, and whether it was received or only ordered."""
+	"""The last receipt or order of the reader's company it was on: the rate,
+	the rate of one stock unit, from whom, when, and whether it was received
+	or only ordered."""
+	from erpnext import get_default_company
+
 	for child, parent, date, kind in (
 		("Purchase Receipt Item", "Purchase Receipt", "posting_date", "received"),
 		("Purchase Order Item", "Purchase Order", "transaction_date", "ordered"),
@@ -44,9 +47,9 @@ def last_bought(item: str) -> dict | None:
 			f"""select item.base_rate as rate, doc.supplier, doc.{date} as on_date,
 				item.base_rate / coalesce(nullif(item.conversion_factor, 0), 1) as unit_rate
 			from `tab{child}` item join `tab{parent}` doc on doc.name = item.parent
-			where item.item_code = %s and doc.docstatus = 1
+			where item.item_code = %s and doc.docstatus = 1 and doc.company = %s
 			order by doc.{date} desc, doc.creation desc limit 1""",
-			item,
+			(item, get_default_company()),
 			as_dict=True,
 		)
 		if found:
@@ -55,8 +58,10 @@ def last_bought(item: str) -> dict | None:
 
 
 def rates(item: str, count: int = 12) -> list[float]:
-	"""What it cost each of the last `count` times it was received, oldest
-	first, or ordered when it has not been received yet."""
+	"""What it cost the reader's company each of the last `count` times it was
+	received, oldest first, or ordered when it has not been received yet."""
+	from erpnext import get_default_company
+
 	for child, parent, date in (
 		("Purchase Receipt Item", "Purchase Receipt", "posting_date"),
 		("Purchase Order Item", "Purchase Order", "transaction_date"),
@@ -65,9 +70,9 @@ def rates(item: str, count: int = 12) -> list[float]:
 			continue
 		found = frappe.db.sql(
 			f"""select item.base_rate from `tab{child}` item join `tab{parent}` doc on doc.name = item.parent
-			where item.item_code = %s and doc.docstatus = 1
+			where item.item_code = %s and doc.docstatus = 1 and doc.company = %s
 			order by doc.{date} desc, doc.creation desc limit %s""",
-			(item, count),
+			(item, get_default_company(), count),
 		)
 		if found:
 			return [flt(row[0]) for row in reversed(found)]
@@ -86,9 +91,14 @@ def said(item: str) -> dict:
 		}
 	if not doc.is_stock_item:
 		return {"last": last_bought(item)}
+	from erpnext import get_default_company
+
 	bins = frappe.get_all(
 		"Bin",
-		filters={"item_code": item},
+		filters={
+			"item_code": item,
+			"company": get_default_company(),
+		},
 		fields=["warehouse", "actual_qty", "reserved_qty", "reserved_stock", "ordered_qty", "projected_qty", "stock_value"],
 	)
 	return {

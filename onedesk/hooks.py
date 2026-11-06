@@ -490,6 +490,7 @@ doc_events = {
 			"onedesk.one_ai.reading.filing.forget",
 			"onedesk.one_ai.index.removed",
 			"onedesk.one_display.live.record_saved",
+			"onedesk.one_portal.share.forget",
 		],
 	},
 	"Budget": {
@@ -768,7 +769,7 @@ override_whitelisted_methods = {
 	"frappe.desk.search.search_link": "onedesk.one.apps.search_link",
 }
 
-ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party"]
+ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party", "Portal Link"]
 
 has_permission = {
 	"Dashboard": "onedesk.one_hr.access.dashboard_allowed",

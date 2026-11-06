@@ -275,6 +275,10 @@ msgstr "عنصر واحد محدد"
 msgid "1 key"
 msgstr "مفتاح واحد"
 
+#: onedesk/one_inventory/heads.py:324
+msgid "1 line"
+msgstr "سطر واحد"
+
 #: onedesk/public/js/module_docs.js:219
 msgid "1 matching section"
 msgstr "قسم واحد مطابق"
@@ -41094,17 +41098,6 @@ msgstr "مطلوب"
 msgid "Requested By"
 msgstr "طلبه"
 
-#. Label in the One Request for Quotation print format
-#. Label in the One Request for Quotation Bordered print format
-#. Label in the One Request for Quotation Classic print format
-#. Label in the One Request for Quotation with Images print format
-#: onedesk/one_inventory/print_format/one_request_for_quotation/one_request_for_quotation.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
-#: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
-msgid "Requested From"
-msgstr "مطلوب من"
-
 #: frontend/src/inventory/to_order/ToOrderPage.vue:125
 #, python-brace-format
 msgid "Requested {0}"
@@ -63492,6 +63485,10 @@ msgstr "رسالتك"
 msgid "your quotations, orders and invoices"
 msgstr "عروض الأسعار والطلبات والفواتير الخاصة بك"
 
+#: onedesk/one_ai/reading/act.py:596
+msgid "your role doesn't allow deleting it"
+msgstr "دورك لا يسمح بحذفه"
+
 #: onedesk/one_sheet/table.py:539
 #, python-brace-format
 msgid "{0} (and {1} more)"
@@ -65597,6 +65594,11 @@ msgstr "تبقى {0}، أي نحو ثلاثة أيام بمعدل استخدام
 #, python-brace-format
 msgid "{0} left, reorder at {1}"
 msgstr "بقي {0}، إعادة الطلب عند {1}"
+
+#: onedesk/one_inventory/heads.py:324
+#, python-brace-format
+msgid "{0} lines"
+msgstr "{0} سطور"
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:145
 #, python-brace-format

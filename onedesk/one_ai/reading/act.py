@@ -592,7 +592,9 @@ def _undo_create(row, before, after) -> str | None:
 		return _("someone has checked it since")
 	if cint(doc.get("docstatus")) != 0:
 		return _("it has been submitted")
-	frappe.delete_doc(row.target_doctype, row.target_name, ignore_permissions=True)
+	if not frappe.has_permission(row.target_doctype, "delete", doc=doc):
+		return _("your role doesn't allow deleting it")
+	frappe.delete_doc(row.target_doctype, row.target_name)
 	return None
 
 

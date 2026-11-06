@@ -29,8 +29,13 @@ def _asset(name: str) -> dict:
 	return assets.said(name)
 
 
-def _money(value) -> str:
-	return fmt_money(flt(value), currency=frappe.db.get_default("currency"))
+def _money(value, doc=None) -> str:
+	"""In the record's company's currency, or the reader's company's for a
+	record that belongs to no company (an item)."""
+	from erpnext import get_default_company
+
+	company = (doc and doc.get("company")) or get_default_company()
+	return fmt_money(flt(value), currency=frappe.get_cached_value("Company", company, "default_currency"))
 
 
 def _count(doc, value) -> str:
@@ -83,11 +88,11 @@ def last_bought(doc):
 
 
 def worth_now(doc):
-	return _money(_asset(doc.name)["worth"])
+	return _money(_asset(doc.name)["worth"], doc)
 
 
 def cost(doc):
-	return _money(_asset(doc.name)["cost"])
+	return _money(_asset(doc.name)["cost"], doc)
 
 
 def _depreciating(doc) -> bool:
@@ -121,7 +126,7 @@ def next_depreciation(doc):
 	upcoming = _asset(doc.name)["next"]
 	if not upcoming:
 		return {"value": _("None left"), "tone": "quiet"}
-	return {"value": _money(upcoming.depreciation_amount)}
+	return {"value": _money(upcoming.depreciation_amount, doc)}
 
 
 def next_service(doc):
@@ -207,7 +212,7 @@ def warehouse_items(doc):
 
 
 def warehouse_worth(doc):
-	return _money(_held(doc.name)["worth"])
+	return _money(_held(doc.name)["worth"], doc)
 
 
 def warehouse_low(doc):
@@ -310,12 +315,16 @@ def receipt_landed(doc):
 
 
 def receipt_rejected(doc):
-	rejected = sum(flt(row.rejected_qty) for row in doc.items)
-	if not rejected:
+	"""How much was rejected: the quantity in its unit for one item, the
+	lines for several."""
+	rows = [row for row in doc.items if flt(row.rejected_qty)]
+	if not rows:
 		return None
-	units = {row.uom for row in doc.items if flt(row.rejected_qty)}
-	unit = _(units.pop()) if len(units) == 1 else ""
-	return {"value": f"{fmt_money(rejected, precision=0)} {unit}".strip(), "tone": "alarm"}
+	if len({(row.item_code, row.uom) for row in rows}) > 1:
+		value = _("1 line") if len(rows) == 1 else _("{0} lines").format(len(rows))
+		return {"value": value, "tone": "alarm"}
+	rejected = sum(flt(row.rejected_qty) for row in rows)
+	return {"value": f"{fmt_money(rejected, precision=0)} {_(rows[0].uom or '')}".strip(), "tone": "alarm"}
 
 
 def delivery_order(doc):
@@ -484,19 +493,27 @@ def order_total(doc):
 
 
 def _paid(doc) -> float:
-	"""What has been paid on an order: what was paid ahead, and what its
-	submitted bills no longer owe."""
-	bills = frappe.get_all(
-		"Purchase Invoice Item",
-		filters={"purchase_order": doc.name, "docstatus": 1},
-		pluck="parent",
-		distinct=True,
-	)
-	paid = flt(doc.advance_paid)
-	for bill in frappe.get_all(
-		"Purchase Invoice", filters={"name": ["in", bills or [""]]}, fields=["grand_total", "outstanding_amount"]
+	"""What has been paid on an order, in its currency: what was paid ahead,
+	and its share of what its submitted bills no longer owe."""
+	ours = {}
+	for row in frappe.get_all(
+		"Purchase Invoice Item", filters={"purchase_order": doc.name, "docstatus": 1}, fields=["parent", "amount"]
 	):
-		paid += flt(bill.grand_total) - flt(bill.outstanding_amount)
+		ours[row.parent] = ours.get(row.parent, 0) + flt(row.amount)
+	advance = flt(doc.advance_paid)
+	if doc.get("party_account_currency") and doc.party_account_currency != doc.currency:
+		advance /= flt(doc.conversion_rate) or 1
+	paid = advance
+	for bill in frappe.get_all(
+		"Purchase Invoice",
+		filters={"name": ["in", list(ours) or [""]]},
+		fields=["name", "total", "grand_total", "outstanding_amount", "currency", "party_account_currency", "conversion_rate"],
+	):
+		owed = flt(bill.outstanding_amount)
+		if bill.party_account_currency and bill.party_account_currency != bill.currency:
+			owed /= flt(bill.conversion_rate) or 1
+		share = min(ours[bill.name] / flt(bill.total), 1) if flt(bill.total) else 1
+		paid += (flt(bill.grand_total) - owed) * share
 	return min(paid, flt(doc.grand_total))
 
 
@@ -794,12 +811,15 @@ def blanket_runs(doc):
 
 def blanket_ordered(doc):
 	"""How much of what was agreed has been ordered on it."""
-	agreed = sum(flt(row.qty) for row in doc.items)
-	ordered = sum(flt(row.ordered_qty) for row in doc.items)
-	if not agreed:
+	rows = [row for row in doc.items if flt(row.qty)]
+	if not rows:
 		return None
-	units = {row.get("stock_uom") or frappe.get_cached_value("Item", row.item_code, "stock_uom") for row in doc.items}
-	unit = _(units.pop()) if len(units) == 1 else ""
+	if len({row.item_code for row in rows}) > 1:
+		done = sum(min(flt(row.ordered_qty) / flt(row.qty), 1) for row in rows) / len(rows)
+		return {"value": f"{round(done * 100)}%", "meter": {"value": done, "of": 1}}
+	agreed = sum(flt(row.qty) for row in rows)
+	ordered = sum(flt(row.ordered_qty) for row in rows)
+	unit = _(frappe.get_cached_value("Item", rows[0].item_code, "stock_uom") or "")
 	return {
 		"value": f"{fmt_money(ordered, precision=0)} {unit}".strip(),
 		"meter": {"value": ordered, "of": agreed},
@@ -884,14 +904,14 @@ def move_value(doc):
 		value = doc.total_incoming_value
 	else:
 		value = doc.total_outgoing_value
-	return _money(value) if flt(value) else None
+	return _money(value, doc) if flt(value) else None
 
 
 def move_used(doc):
 	"""What making the goods used up."""
 	if doc.purpose not in MADE or not flt(doc.total_outgoing_value):
 		return None
-	return _money(doc.total_outgoing_value)
+	return _money(doc.total_outgoing_value, doc)
 
 
 def count_items(doc):
@@ -1005,7 +1025,7 @@ def repair_out(doc):
 
 def repair_cost(doc):
 	value = flt(doc.total_repair_cost) or flt(doc.repair_cost)
-	return _money(value) if value else {"value": _("Nothing yet"), "tone": "quiet"}
+	return _money(value, doc) if value else {"value": _("Nothing yet"), "tone": "quiet"}
 
 
 def worth_change(doc):
@@ -1013,7 +1033,7 @@ def worth_change(doc):
 	change = flt(doc.new_asset_value) - flt(doc.current_asset_value)
 	if not flt(doc.current_asset_value):
 		return None
-	return {"value": _money(change), "tone": "alarm" if change < 0 else None}
+	return {"value": _money(change, doc), "tone": "alarm" if change < 0 else None}
 
 
 def moved(doc):
@@ -1068,8 +1088,8 @@ def life(doc):
 		"kind": "line",
 		"labels": [formatdate(day, "MMM yyyy") for day, _value in points],
 		"values": [value for _day, value in points],
-		"currency": frappe.db.get_default("currency"),
-		"said": _("{0} at the end").format(_money(points[-1][1])),
+		"currency": frappe.get_cached_value("Company", doc.company, "default_currency"),
+		"said": _("{0} at the end").format(_money(points[-1][1], doc)),
 	}
 
 
