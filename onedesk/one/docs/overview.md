@@ -61,11 +61,12 @@ search them, as you would in a field that picks a record. **All Projects**
 at the foot opens the whole list.
 
 On a phone the tabs along the bottom are **Home**, **Apps**, **Search**,
-**Notifications** and **Profile**. **Apps** opens every app and its places
-from any page: type in its search to find a place in any app, such as
-"leave" or "bank", or tap an app to see its places under it. A dot on
-**Apps** says something waits in one of its tools. Tapping the place's name
-at the top of a page opens the same.
+**Notifications** and **Profile**. **Apps** opens every app from any page:
+tap one to open it, or type in its search to find a place in any app, such
+as "leave" or "bank". A dot on **Apps** says something waits in one of its
+tools. Inside an app, the menu button before the page's name, **☰ Items** for
+example, opens the app's places from the side. A record has a back button
+there instead.
 
 On a phone the bar at the top has the place, **Refresh**, **Search** and
 the menu. **Search** there, or the **Search** tab, opens at the top of

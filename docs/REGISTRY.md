@@ -496,7 +496,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInterface 1.9.10
+## OneInterface 1.10.0
 
 Not marked ready yet.
 
@@ -525,7 +525,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## One 2.9.21
+## One 2.9.22
 
 Ready.
 

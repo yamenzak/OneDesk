@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 23:47+0000\n"
+"POT-Creation-Date: 2026-11-06 06:35+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -4627,7 +4627,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr "Zuschnitt anwenden"
 
-#: onedesk/one/ready.py:790
+#: onedesk/one/ready.py:794
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
 
@@ -4945,6 +4945,7 @@ msgstr "Die Genehmigung von „{0}“ ist nicht durchgegangen: {1} Korrigieren S
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
 #: onedesk/public/js/one_interface/phone.js:71
+#: onedesk/public/js/one_interface/phone.js:250
 msgid "Apps"
 msgstr ""
 
@@ -5561,7 +5562,7 @@ msgstr "Neue Unterhaltungen zuweisen"
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:804
+#: onedesk/one/ready.py:808
 msgid "Assign a Salary Structure"
 msgstr "Gehaltsstruktur zuweisen"
 
@@ -8064,7 +8065,7 @@ msgstr "Kann ansehen"
 #: onedesk/public/js/one/shortcut_center.js:153
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:355
+#: onedesk/public/js/one_interface/phone.js:419
 #: onedesk/public/js/one_legal/trust_center.js:463
 msgid "Cancel"
 msgstr ""
@@ -9153,7 +9154,7 @@ msgstr "Antragsnr."
 msgid "Claim a receipt"
 msgstr "Beleg einreichen"
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:797
+#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:801
 msgid "Claim an Expense"
 msgstr ""
 
@@ -27863,6 +27864,7 @@ msgid "Mentioned in the message"
 msgstr "In der Nachricht erwähnt"
 
 #: onedesk/one_display/starters.py:802
+#: onedesk/public/js/one_interface/phone.js:285
 msgid "Menu"
 msgstr "Menü"
 
@@ -30272,7 +30274,7 @@ msgstr "Keine passenden Felder"
 msgid "No matching notifications"
 msgstr "Keine passenden Benachrichtigungen"
 
-#: onedesk/public/js/one_interface/phone.js:178
+#: onedesk/public/js/one_interface/phone.js:183
 msgid "No matching pages"
 msgstr "Keine passenden Seiten"
 
@@ -42995,9 +42997,9 @@ msgstr "Abdichten und wetterfest machen"
 #: onedesk/public/js/one_interface/chrome.js:73
 #: onedesk/public/js/one_interface/chrome.js:74
 #: onedesk/public/js/one_interface/frame.js:253
-#: onedesk/public/js/one_interface/phone.js:323
-#: onedesk/public/js/one_interface/phone.js:326
-#: onedesk/public/js/one_interface/phone.js:327
+#: onedesk/public/js/one_interface/phone.js:387
+#: onedesk/public/js/one_interface/phone.js:390
+#: onedesk/public/js/one_interface/phone.js:391
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr "Suchen"

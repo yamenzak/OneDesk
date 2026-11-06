@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-05 23:59+0000\n"
-"PO-Revision-Date: 2026-11-05 23:59+0000\n"
+"POT-Creation-Date: 2026-11-06 06:40+0000\n"
+"PO-Revision-Date: 2026-11-06 06:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -4941,6 +4941,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
 #: onedesk/public/js/one_interface/phone.js:71
+#: onedesk/public/js/one_interface/phone.js:250
 msgid "Apps"
 msgstr ""
 
@@ -8060,7 +8061,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:153
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:355
+#: onedesk/public/js/one_interface/phone.js:419
 #: onedesk/public/js/one_legal/trust_center.js:463
 msgid "Cancel"
 msgstr ""
@@ -27871,6 +27872,7 @@ msgid "Mentioned in the message"
 msgstr ""
 
 #: onedesk/one_display/starters.py:802
+#: onedesk/public/js/one_interface/phone.js:285
 msgid "Menu"
 msgstr ""
 
@@ -30280,7 +30282,7 @@ msgstr ""
 msgid "No matching notifications"
 msgstr ""
 
-#: onedesk/public/js/one_interface/phone.js:178
+#: onedesk/public/js/one_interface/phone.js:183
 msgid "No matching pages"
 msgstr ""
 
@@ -43008,9 +43010,9 @@ msgstr ""
 #: onedesk/public/js/one_interface/chrome.js:73
 #: onedesk/public/js/one_interface/chrome.js:74
 #: onedesk/public/js/one_interface/frame.js:253
-#: onedesk/public/js/one_interface/phone.js:323
-#: onedesk/public/js/one_interface/phone.js:326
-#: onedesk/public/js/one_interface/phone.js:327
+#: onedesk/public/js/one_interface/phone.js:387
+#: onedesk/public/js/one_interface/phone.js:390
+#: onedesk/public/js/one_interface/phone.js:391
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr ""

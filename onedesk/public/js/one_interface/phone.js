@@ -137,6 +137,11 @@ $.extend(onedesk.interface.phone, {
 			if (this.sheet) this.sheet.set_title = (label) => this.$one_heading?.text(label);
 		};
 
+		proto.browse_dock_entry = function (entry) {
+			this.close_sheet();
+			frappe.app.sidebar.open_dock_entry(entry);
+		};
+
 		const put_back = proto.return_sidebar;
 		proto.return_sidebar = function () {
 			put_back.call(this);
@@ -230,6 +235,65 @@ $.extend(onedesk.interface.phone, {
 				? () => onedesk.interface.here()?.address()
 				: null;
 		frappe.container?.page?.page?.render_breadcrumbs?.();
+	},
+
+	/** The app's own places, as a drawer from the start edge, opened by the
+	 * menu button before the page's name on a phone. The rail is frappe's own:
+	 * its rows are moved in while the drawer is open and put back after, as
+	 * frappe's navigation sheet does. */
+	drawer() {
+		const sidebar = frappe.app?.sidebar;
+		if (!sidebar?.$items_container || document.querySelector(".one-drawer")) return;
+		frappe.ui.mobile_nav?.close_sheet();
+		const home = sidebar.$items_container.parent();
+		const $scrim = $(`<div class="one-drawer-scrim"></div>`);
+		const $drawer = $(`<nav class="one-drawer" role="dialog" aria-modal="true" tabindex="-1"></nav>`).attr("aria-label", frappe.ui.mobile_nav?.module_label(sidebar.current_module) || __("Apps"));
+		const $body = $(`<div class="desk-mobile-sheet one-drawer-body"></div>`).appendTo($drawer);
+		$(`<div class="one-drawer-head"></div>`).text($drawer.attr("aria-label")).appendTo($body);
+		const $rail = $(`<div class="body-sidebar desk-mobile-sheet-sidebar one-drawer-rail"></div>`).appendTo($body);
+		sidebar.$items_container.appendTo($rail);
+		const shut = () => {
+			if (!$drawer.parent().length) return;
+			sidebar.$items_container.appendTo(home);
+			$drawer.remove();
+			$scrim.remove();
+			$(document).off("keydown.one-drawer");
+		};
+		$scrim.on("click", shut);
+		$drawer.on("click", "a[href]", () => setTimeout(shut));
+		$(document).on("keydown.one-drawer", (e) => e.key === "Escape" && shut());
+		frappe.router?.once?.("change", shut);
+		$("body").append($scrim, $drawer);
+		requestAnimationFrame(() => {
+			$scrim.addClass("is-open");
+			$drawer.addClass("is-open");
+			$drawer.trigger("focus");
+		});
+	},
+
+	/** The menu button before a list's, a report's or an app home's name on a
+	 * phone. A record keeps its back button instead. */
+	burger() {
+		const put = () => {
+			if (!frappe.is_mobile() || (frappe.get_route() || [])[0] === "Form") return;
+			const title = frappe.container?.page?.page?.wrapper?.find(".page-head .page-title").first();
+			if (!title?.length || title.prev(".one-burger").length) return;
+			frappe.ui
+				.button({
+					icon: "menu",
+					variant: "ghost",
+					title: __("Menu"),
+					css_class: "one-burger",
+					onclick: (e) => {
+						e.stopPropagation();
+						onedesk.interface.phone.drawer();
+					},
+				})
+				.insertBefore(title);
+		};
+		frappe.router?.on?.("change", () => setTimeout(put, 0));
+		$(document).on("page-change", () => setTimeout(put, 0));
+		setTimeout(put, 0);
 	},
 
 	/** Every sheet closes as a phone's own sheets do: pulled down from
@@ -379,6 +443,7 @@ $.extend(onedesk.interface.phone, {
 });
 
 onedesk.interface.phone.tuck();
+onedesk.interface.phone.burger();
 onedesk.interface.phone.search(onedesk.interface.Frame);
 
 if (frappe.ui.mobile_nav) {

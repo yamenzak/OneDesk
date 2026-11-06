@@ -1039,6 +1039,13 @@ OVERRIDES = [
 		"frappe.ui.toggle_like = function ($btn, doctype, name, callback) {",
 	),
 	(
+		"An app tapped in Apps on a phone opens it",
+		"frappe's navigation sheet shows a tapped app's rail in place and navigates only when a row is picked. phone.js replaces browse_dock_entry: the sheet closes and the sidebar's own open_dock_entry opens the app. The app's places are a drawer of their own, from the menu button before a page's name, which borrows frappe's items list as the sheet does",
+		"onedesk/public/js/one_interface/phone.js",
+		"frappe/frappe/public/js/frappe/ui/mobile_nav.js",
+		"browse_dock_entry(entry, $dock) {",
+	),
+	(
 		"Back to top shows after half a screen on a phone",
 		"frappe's phone Back to top appears once .main-section has scrolled two screens, so a record or list under three screens long never offered it. phone.js wraps make_back_to_top: frappe still draws the button and scrolls, and One swaps its scroll listener for one that shows it after half a screen and checks again on every route change",
 		"onedesk/public/js/one_interface/phone.js",

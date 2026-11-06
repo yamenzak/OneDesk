@@ -427,3 +427,88 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		display: none !important;
 	}
 }
+
+/* Inside an app, its places are a drawer from the start edge, opened by the
+   menu button before the page's name (phone.js drawer); Apps holds the apps. */
+.one-phone-sheet .one-phone-heading,
+.one-phone-sheet .desk-mobile-sheet-sidebar {
+	display: none;
+}
+
+.one-burger {
+	margin-inline-end: 4px;
+	flex: none;
+}
+
+.one-drawer-scrim {
+	position: fixed;
+	inset: 0;
+	z-index: var(--one-layer-backdrop);
+	background: var(--one-scrim);
+	opacity: 0;
+	transition: opacity 0.2s ease;
+}
+
+.one-drawer-scrim.is-open {
+	opacity: 1;
+}
+
+.one-drawer {
+	position: fixed;
+	inset-block: 0;
+	inset-inline-start: 0;
+	z-index: var(--one-layer-dialog);
+	width: min(84vw, 320px);
+	display: flex;
+	flex-direction: column;
+	background: var(--one-level-float);
+	transform: translateX(-100%);
+	transition: transform 0.22s ease;
+	padding: calc(env(safe-area-inset-top) + 12px) 8px calc(env(safe-area-inset-bottom) + 12px);
+}
+
+[dir="rtl"] .one-drawer {
+	transform: translateX(100%);
+}
+
+.one-drawer.is-open {
+	transform: none;
+}
+
+.one-drawer:focus {
+	outline: none;
+}
+
+.one-drawer-body {
+	display: flex;
+	flex-direction: column;
+	min-height: 0;
+	flex: 1;
+}
+
+.one-drawer-head {
+	padding: 8px 12px 12px;
+	font-size: var(--text-lg);
+	font-weight: 600;
+	color: var(--one-ink-strong);
+}
+
+.one-drawer-rail {
+	flex: 1;
+	overflow-y: auto;
+}
+
+:root[data-one-look="canvas"] .one-drawer-rail .standard-sidebar-item.active-sidebar {
+	background: var(--one-chosen);
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-drawer,
+	.one-drawer-scrim {
+		transition: none;
+	}
+}
+
+.one-phone-sheet .desk-mobile-sheet-dock {
+	border-bottom: none;
+}
