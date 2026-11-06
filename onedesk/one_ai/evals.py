@@ -21,6 +21,8 @@ USER = "wsadmin@one.test"
 
 PEOPLE = "faisal@one.test"
 
+STORES = "karim@one.test"
+
 CASES = [
 	{
 		"id": "count-customers",
@@ -291,6 +293,27 @@ CASES = [
 	},
 	{"id": "remember", "page": {}, "ask": "Remember that I prefer short answers.", "tools": ("remember",)},
 	{"id": "cannot", "page": {}, "ask": "Can you order pizza for the office?", "tools": ()},
+	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
+	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
+	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},
+	{
+		"id": "inv-transfer",
+		"page": {},
+		"ask": "Move 10 Concealed Hinges from the Stores to Finished Goods.",
+		"tools": ("plan_transfer",),
+		"card": True,
+		"user": STORES,
+	},
+	{"id": "inv-count", "page": {}, "ask": "I counted 40 Structural Silicone in the Stores.", "tools": ("plan_count",), "card": True, "user": STORES},
+	{
+		"id": "inv-quote",
+		"page": _on("Material Request", name="MAT-MR-2026-00009"),
+		"ask": "Ask the suppliers we bought these from for prices.",
+		"tools": ("plan_quote_request",),
+		"card": True,
+		"user": STORES,
+	},
+	{"id": "inv-asset", "page": _on("Asset", name="ACC-ASS-2026-00002"), "ask": "When is this next serviced?", "tools": ("asset_facts", "services_due", "upkeep_now"), "user": STORES},
 ]
 
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-06 12:36+0000\n"
-"PO-Revision-Date: 2026-11-06 12:36+0000\n"
+"POT-Creation-Date: 2026-11-06 12:51+0000\n"
+"PO-Revision-Date: 2026-11-06 12:51+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3614,8 +3614,8 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:634 onedesk/one_inventory/heads.py:716
 #: onedesk/one_inventory/heads.py:742 onedesk/one_project/heads.py:198
 #: onedesk/public/js/one_account/account_center.js:624
-#: onedesk/public/js/one_interface/look.js:655
-#: onedesk/public/js/one_interface/look.js:685
+#: onedesk/public/js/one_interface/look.js:665
+#: onedesk/public/js/one_interface/look.js:695
 msgid "All"
 msgstr ""
 
@@ -29015,8 +29015,8 @@ msgstr ""
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:705
-#: onedesk/public/js/one_interface/look.js:707
+#: onedesk/public/js/one_interface/look.js:715
+#: onedesk/public/js/one_interface/look.js:717
 msgid "New"
 msgstr ""
 
@@ -62242,29 +62242,12 @@ msgstr ""
 msgid "cancelled"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:483
-msgid "cancelled this"
-msgstr ""
-
 #: onedesk/one/news/library.py:111
 msgid "category"
 msgstr ""
 
 #: onedesk/one_calendar/tell.py:169
 msgid "changed"
-msgstr ""
-
-#: onedesk/public/js/one_interface/look.js:534
-msgid "changed 1 field"
-msgstr ""
-
-#: onedesk/public/js/one_interface/look.js:534
-#, python-brace-format
-msgid "changed {0} fields"
-msgstr ""
-
-#: onedesk/public/js/one_interface/look.js:531
-msgid "commented"
 msgstr ""
 
 #: onedesk/one_project/activity.py:352
@@ -62300,10 +62283,6 @@ msgstr ""
 
 #: onedesk/one_storage/history.py:237
 msgid "created it"
-msgstr ""
-
-#: onedesk/public/js/one_interface/look.js:529
-msgid "created this"
 msgstr ""
 
 #: onedesk/one/account.py:255
@@ -63153,10 +63132,6 @@ msgstr ""
 msgid "restored {0} as {1}"
 msgstr ""
 
-#: onedesk/public/js/one_interface/look.js:483
-msgid "returned this to draft"
-msgstr ""
-
 #: onedesk/one_portal/share.py:313
 #, python-brace-format
 msgid "revoked the portal link for {0}"
@@ -63261,10 +63236,6 @@ msgstr ""
 
 #: onedesk/one_project/activity.py:338
 msgid "submitted"
-msgstr ""
-
-#: onedesk/public/js/one_interface/look.js:483
-msgid "submitted this"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:60
@@ -64139,6 +64110,17 @@ msgstr ""
 msgid "{0} can't sign in, so can't join the project."
 msgstr ""
 
+#: onedesk/public/js/one_interface/look.js:527
+#, python-brace-format
+msgid "{0} cancelled this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:527
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} cancelled this"
+msgstr ""
+
 #: onedesk/one/linked.py:299
 #, python-brace-format
 msgid "{0} cannot be changed by you."
@@ -64185,6 +64167,17 @@ msgstr ""
 msgid "{0} cells"
 msgstr ""
 
+#: onedesk/public/js/one_interface/look.js:529
+#, python-brace-format
+msgid "{0} changed 1 field"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:529
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} changed 1 field"
+msgstr ""
+
 #: onedesk/one_ai/heads.py:33
 #, python-brace-format
 msgid "{0} changed after this was suggested, so it no longer applies."
@@ -64198,6 +64191,17 @@ msgstr ""
 #: onedesk/public/js/audit_list.js:16
 #, python-brace-format
 msgid "{0} changed {1}"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:530
+#, python-brace-format
+msgid "{0} changed {1} fields"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:530
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} changed {1} fields"
 msgstr ""
 
 #: onedesk/public/js/one_ai/panel/Record.vue:136
@@ -64218,6 +64222,17 @@ msgstr ""
 #: onedesk/one_hr/heads.py:446
 #, python-brace-format
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:525
+#, python-brace-format
+msgid "{0} commented"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:525
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} commented"
 msgstr ""
 
 #: frontend/src/mail/MailConversation.vue:5
@@ -64264,6 +64279,17 @@ msgstr ""
 #: onedesk/public/js/project_new.js:301
 #, python-brace-format
 msgid "{0} created"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:524
+#, python-brace-format
+msgid "{0} created this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:524
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} created this"
 msgstr ""
 
 #: onedesk/one_admin/doctype/offering/offering.py:88
@@ -66322,6 +66348,17 @@ msgstr ""
 msgid "{0} returned"
 msgstr ""
 
+#: onedesk/public/js/one_interface/look.js:528
+#, python-brace-format
+msgid "{0} returned this to draft"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:528
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} returned this to draft"
+msgstr ""
+
 #: onedesk/one_doc/paper.py:275 onedesk/public/js/one_interface/report.js:72
 #, python-brace-format
 msgid "{0} rows"
@@ -66498,6 +66535,17 @@ msgstr ""
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.js:29
 #, python-brace-format
 msgid "{0} submitted"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:526
+#, python-brace-format
+msgid "{0} submitted this"
+msgstr ""
+
+#: onedesk/public/js/one_interface/look.js:526
+#, python-brace-format
+msgctxt "Said of the reader"
+msgid "{0} submitted this"
 msgstr ""
 
 #: onedesk/one/head.py:174

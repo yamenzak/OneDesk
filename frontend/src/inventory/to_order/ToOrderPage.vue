@@ -16,7 +16,7 @@
       <List data-tour="oneinventory-order-list" v-else v-model:selection="picked" :selectable="said.can.order" :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
-          <ListHeaderCell class="max-sm:hidden">{{ __("Why") }}</ListHeaderCell>
+          <ListHeaderCell class="max-lg:hidden">{{ __("Why") }}</ListHeaderCell>
           <ListHeaderCell class="max-lg:hidden">{{ __("Supplier") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Qty") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Cost") }}</ListHeaderCell>
@@ -28,12 +28,12 @@
               <div class="flex min-w-0 flex-col gap-1">
                 <span class="truncate text-base font-medium text-ink-gray-8">{{ item.item_name }}</span>
                 <div class="flex min-w-0 items-center gap-2">
-                  <Badge :label="WHY[item.why].label" :theme="WHY[item.why].theme" size="sm" class="sm:hidden" />
+                  <Badge :label="WHY[item.why].label" :theme="WHY[item.why].theme" size="sm" class="lg:hidden" />
                   <span class="truncate text-sm text-ink-gray-5">{{ [item.item_code !== item.item_name && item.item_code, item.warehouse_label].filter(Boolean).join(" · ") }}</span>
                 </div>
               </div>
             </ListCell>
-            <ListCell class="max-sm:hidden">
+            <ListCell class="max-lg:hidden">
               <div class="flex min-w-0 flex-col items-start gap-1">
                 <Badge :label="WHY[item.why].label" :theme="WHY[item.why].theme" size="md" />
                 <span class="max-w-full truncate text-sm text-ink-gray-5">{{ because(item) }}</span>
@@ -82,7 +82,7 @@ const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 const columns = {
   base: ["minmax(0,1fr)", "auto"],
-  sm: ["minmax(0,1fr)", "11rem", "8rem"],
+  sm: ["minmax(0,1fr)", "8rem"],
   lg: ["minmax(12rem,1.4fr)", "minmax(9rem,1fr)", "13rem", "8rem"],
   xl: ["minmax(14rem,1.4fr)", "minmax(12rem,1fr)", "13rem", "7rem", "8rem"],
 };

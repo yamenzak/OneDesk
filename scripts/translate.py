@@ -77,21 +77,22 @@ def neighbours(pot) -> dict[str, list[str]]:
 
 def todo() -> None:
 	pot = load(LOCALE / "main.pot")
-	ours = {lang: {m.id: m.string for m in load(LOCALE / f"{lang}.po") if m.id} for lang in LANGS}
+	ours = {lang: {(m.id, m.context): m.string for m in load(LOCALE / f"{lang}.po") if m.id} for lang in LANGS}
 	theirs = {lang: upstream(lang) for lang in LANGS}
 	near = neighbours(pot)
 	out = []
 	for m in pot:
 		if not m.id or not isinstance(m.id, str):
 			continue
-		needed = [lang for lang in LANGS if not ours[lang].get(m.id) and m.id not in theirs[lang]]
+		needed = [lang for lang in LANGS if not ours[lang].get((m.id, m.context)) and (m.context or m.id not in theirs[lang])]
 		if not needed:
 			continue
 		out.append({
 			"msgid": m.id,
+			**({"context": m.context} if m.context else {}),
 			"kind": kind(m),
 			"where": [path for path, _ in m.locations][:3],
-			"near": [{"en": one, "ar": ours["ar"].get(one, "")} for one in near[m.id][: NEAR * 2]],
+			"near": [{"en": one, "ar": ours["ar"].get((one, None), "")} for one in near[m.id][: NEAR * 2]],
 			"glossary": {row["term"]: {"ar": row["ar"], "de": row["de"], "note": row["note"]} for row in glossary.found(m.id)},
 			**{lang: "" for lang in needed},
 		})
@@ -107,10 +108,11 @@ def apply(path: str) -> None:
 		po_path = LOCALE / f"{lang}.po"
 		po = load(po_path)
 		for entry in entries:
-			msgid, said = entry["msgid"], (entry.get(lang) or "").strip()
+			msgid, context, said = entry["msgid"], entry.get("context"), (entry.get(lang) or "").strip()
 			if not said:
 				continue
-			if msgid not in pot:
+			source = pot.get(msgid, context=context)
+			if source is None:
 				refused.append(f"{lang}: not in the POT: {msgid[:70]}")
 				continue
 			if sorted(PLACEHOLDER.findall(msgid)) != sorted(PLACEHOLDER.findall(said)):
@@ -120,13 +122,14 @@ def apply(path: str) -> None:
 			if missed:
 				refused.append(f"{lang}: says {', '.join(missed)} another way: {msgid[:70]} → {said[:70]}")
 				continue
-			if msgid in po:
-				po[msgid].string = said
+			there = po.get(msgid, context=context)
+			if there is not None:
+				there.string = said
 			else:
-				po.add(msgid, said, locations=pot[msgid].locations, auto_comments=pot[msgid].auto_comments, context=pot[msgid].context)
+				po.add(msgid, said, locations=source.locations, auto_comments=source.auto_comments, context=context)
 		for m in list(po):
-			if m.id and m.id not in pot:
-				del po[m.id]
+			if m.id and pot.get(m.id, context=m.context) is None:
+				po.delete(m.id, context=m.context)
 		with po_path.open("wb") as f:
 			write_po(f, po, sort_output=True, ignore_obsolete=True, width=None)
 	print("\n".join(refused) or "all written")

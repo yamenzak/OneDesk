@@ -21,7 +21,7 @@
       <List data-tour="oneinventory-stock-list" v-else :columns="columns" divider="full" :row-height="60" class="-mx-3 mt-3 list-gap-4 list-row-px-3">
         <ListHeader>
           <ListHeaderCell>{{ __("Item") }}</ListHeaderCell>
-          <ListHeaderCell class="max-sm:hidden">{{ __("Status") }}</ListHeaderCell>
+          <ListHeaderCell class="max-lg:hidden">{{ __("Status") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Actual Qty") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end max-xl:hidden">{{ __("Reserved Qty") }}</ListHeaderCell>
           <ListHeaderCell class="justify-end">{{ __("Available Qty") }}</ListHeaderCell>
@@ -35,12 +35,12 @@
               <div class="flex min-w-0 flex-col gap-1">
                 <span class="truncate text-base font-medium text-ink-gray-8">{{ item.item_name }}</span>
                 <div class="flex min-w-0 items-center gap-2">
-                  <Badge :label="STATE[item.state].label" :theme="STATE[item.state].theme" size="sm" class="sm:hidden" />
+                  <Badge :label="STATE[item.state].label" :theme="STATE[item.state].theme" size="sm" class="lg:hidden" />
                   <span class="truncate text-sm text-ink-gray-5">{{ [item.item !== item.item_name && item.item, item.group].filter(Boolean).join(" · ") }}</span>
                 </div>
               </div>
             </ListCell>
-            <ListCell class="max-sm:hidden"><Badge :label="STATE[item.state].label" :theme="STATE[item.state].theme" size="md" :title="note(item)" /></ListCell>
+            <ListCell class="max-lg:hidden"><Badge :label="STATE[item.state].label" :theme="STATE[item.state].theme" size="md" :title="note(item)" /></ListCell>
             <ListCell v-for="key in ['on_hand', 'committed', 'free', 'on_order']" :key="key" class="justify-end whitespace-nowrap tabular-nums" :class="SHOWN[key]">
               <span v-if="item[key]" class="text-base" :class="item[key] < 0 ? 'text-ink-red-5' : key === 'free' ? 'text-ink-gray-8' : 'text-ink-gray-7'">{{ quantity(item[key]) }}</span>
               <span v-else class="text-base text-ink-gray-4">–</span>
@@ -77,7 +77,7 @@ const wide = ref(viewWidth() >= 640);
 onBeforeUnmount(onResize(() => (wide.value = viewWidth() >= 640)));
 const columns = {
   base: ["minmax(0,1fr)", "auto"],
-  sm: ["minmax(0,1fr)", "6.5rem", "8rem", "9rem"],
+  sm: ["minmax(0,1fr)", "8rem", "9rem"],
   lg: ["minmax(0,1fr)", "6.5rem", "8rem", "8rem", "9rem"],
   xl: ["minmax(0,1fr)", "6.5rem", "8rem", "8rem", "8rem", "8rem", "9rem"],
 };

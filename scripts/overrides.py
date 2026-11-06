@@ -2713,7 +2713,7 @@ OVERRIDES = [
 	),
 	(
 		"A record's buttons show on a phone",
-		"phone.css shows the custom actions frappe hides below md (hidden-xs) once the record head has moved them in, and lets the head's groups dissolve so every button wraps on the screen",
+		"phone.css shows the custom actions frappe hides on a phone and a tablet (hidden-xs hidden-md) once the record head has moved them in, and lets the head's groups dissolve so every button wraps on the screen",
 		"onedesk/public/css/one_interface/phone.css",
 		"frappe/frappe/public/js/frappe/ui/page.html",
 		'<div class="custom-actions hide hidden-xs hidden-md"></div>',

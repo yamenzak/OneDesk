@@ -419,7 +419,7 @@ def item_facts(item: Annotated[str, "The item's code, such as ALU-6063."]) -> di
 
 
 def stock_on_hand(
-	warehouse: Annotated[str, "Only this warehouse, as named, such as Stores - ABC."] | None = None,
+	warehouse: Annotated[str, "Only this warehouse, by its name, such as Stores."] | None = None,
 	search: Annotated[str, "Only items whose name or code has this in it."] | None = None,
 ) -> dict:
 	"""What the stores hold now, as Stock on Hand shows it: each item's
@@ -429,8 +429,11 @@ def stock_on_hand(
 	in stock, short or worth what."""
 	from onedesk.one_inventory import stock
 
-	if warehouse and not frappe.db.exists("Warehouse", warehouse):
-		return {"error": f"There is no warehouse called {warehouse}. Ask which one they meant."}
+	if warehouse:
+		found = _warehouse(warehouse, groups=True)
+		if not found:
+			return {"error": f"There is no warehouse called {warehouse}. Ask which one they meant."}
+		warehouse = found
 	if not frappe.has_permission("Bin", "read"):
 		return {"error": "The reader may not see stock levels."}
 	said = stock.on_hand(warehouse=warehouse, search=search)
@@ -817,14 +820,41 @@ def plan_delivery(
 	}
 
 
+def _warehouse(said: str | None, groups: bool = False) -> str | None:
+	"""The warehouse the reader means: by its full name (Stores - ABC), or by
+	its plain name (Stores) in their company; one stock is kept in, unless
+	`groups`."""
+	from erpnext import get_default_company
+
+	if not said:
+		return None
+	kept = {} if groups else {"is_group": 0}
+	return frappe.db.get_value("Warehouse", {"name": said, **kept}) or frappe.db.get_value(
+		"Warehouse", {"warehouse_name": said, "company": get_default_company(), **kept}
+	)
+
+
+def _item(said: str | None) -> str | None:
+	"""The item the reader means, by its code or by its name, said once or
+	more than once (Concealed Hinges)."""
+	if not said:
+		return None
+	for name in (said, said[:-1] if said.endswith("s") else None, said[:-2] if said.endswith("es") else None):
+		found = name and (frappe.db.exists("Item", name) or frappe.db.get_value("Item", {"item_name": name, "disabled": 0}))
+		if found:
+			return found
+	return None
+
+
 def plan_transfer(
-	to: Annotated[str, "The warehouse the goods go to, such as Branch Store - ABC."],
-	lines: Annotated[list[dict], "What goes: each {item: code, qty: how many}."],
+	to: Annotated[str, "The warehouse the goods go to, by its name, such as Branch Store."],
+	lines: Annotated[list[dict], "What goes: each {item: its code or name, qty: how many}."],
 	source: Annotated[str, "The warehouse they come from. The company's default one when not said."] | None = None,
 	project: Annotated[str, "The project they are for, when they are for one."] | None = None,
 	why: Annotated[str, "In a sentence, why this transfer."] | None = None,
 ) -> dict:
-	"""Suggest a draft transfer of stock from one warehouse to another, a
+	"""When the reader wants stock moved ("send 20 hinges to the site"),
+	suggest a draft transfer of stock from one warehouse to another, a
 	site's among them, as a card the reader approves. It prints as a transfer
 	note that travels with the goods. Nothing moves until the draft is
 	submitted on its form."""
@@ -833,17 +863,18 @@ def plan_transfer(
 
 	if not frappe.has_permission("Stock Entry", "create"):
 		return {"error": "The reader may not move stock."}
-	source = source or ready.company().default_warehouse
-	for warehouse in (source, to):
-		if not warehouse or not frappe.db.exists("Warehouse", {"name": warehouse, "is_group": 0}):
-			return {"error": f"{warehouse or 'Where from'} is not a warehouse stock can be kept in."}
+	asked = (source, to)
+	source, to = _warehouse(source) or (None if source else ready.company().default_warehouse), _warehouse(to)
+	for warehouse, said in zip((source, to), asked, strict=True):
+		if not warehouse:
+			return {"error": f"{said or 'Where from'} is not a warehouse stock can be kept in."}
 	if source == to:
 		return {"error": "The goods would go nowhere: both warehouses are the same."}
 	if project and not frappe.has_permission("Project", "read", doc=project):
 		return {"error": f"No project the reader may see is {project}."}
 	rows = []
 	for one in lines or []:
-		code, qty = str(one.get("item") or ""), flt(one.get("qty"))
+		code, qty = _item(str(one.get("item") or "")) or str(one.get("item") or ""), flt(one.get("qty"))
 		item = frappe.db.get_value("Item", code, ["item_name", "stock_uom", "is_stock_item"], as_dict=True)
 		if not item or not item.is_stock_item or qty <= 0:
 			return {"error": f"{code} is not a stock item with a quantity to move."}
@@ -880,12 +911,13 @@ def plan_transfer(
 
 
 def plan_count(
-	warehouse: Annotated[str, "The warehouse that was counted, such as Stores - ABC."],
-	counted: Annotated[list[dict], "What was found: each {item: code, qty: how many were counted, batch: the batch, for an item kept in several}."],
+	warehouse: Annotated[str, "The warehouse that was counted, by its name, such as Stores."],
+	counted: Annotated[list[dict], "What was found: each {item: its code or name, qty: how many were counted, batch: the batch, for an item kept in several}."],
 	why: Annotated[str, "In a sentence, why this count."] | None = None,
 ) -> dict:
-	"""Suggest a draft stock count of one warehouse from what the reader
-	counted, as a card they approve: a line for each item counted, beside
+	"""When the reader says what they counted ("I counted 40 of X in the
+	Stores"), suggest a draft stock count of that warehouse, as a card they
+	approve: a line for each item counted, beside
 	what the books say is there. Nothing changes in the books until the count
 	is submitted on its form."""
 	from erpnext.stock.doctype.stock_reconciliation.stock_reconciliation import get_items
@@ -894,14 +926,14 @@ def plan_count(
 
 	if not frappe.has_permission("Stock Reconciliation", "create"):
 		return {"error": "The reader may not count stock."}
-	place = frappe.db.get_value("Warehouse", {"name": warehouse, "is_group": 0}, ["name", "company"], as_dict=True)
+	place = frappe.db.get_value("Warehouse", _warehouse(warehouse) or "", ["name", "company"], as_dict=True)
 	if not place or not frappe.has_permission("Warehouse", "read", doc=place.name):
 		return {"error": f"{warehouse} is not a warehouse stock can be kept in."}
 	now = frappe.utils.now_datetime()
 	fields = {df.fieldname for df in frappe.get_meta("Stock Reconciliation Item").fields}
 	rows = []
 	for one in counted or []:
-		code, qty, batch = str(one.get("item") or ""), one.get("qty"), one.get("batch")
+		code, qty, batch = _item(str(one.get("item") or "")) or str(one.get("item") or ""), one.get("qty"), one.get("batch")
 		if qty is None or flt(qty) < 0 or not frappe.db.get_value("Item", code, "is_stock_item"):
 			return {"error": f"{code} is not a stock item with a count."}
 		held = get_items(place.name, now.date(), now.time().strftime("%H:%M:%S"), place.company, item_code=code)

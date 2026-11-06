@@ -480,7 +480,7 @@ record.thread = (frm) => {
 		(data.changed || []).forEach(([field, before, after]) => {
 			if (blank(before) && blank(after)) return;
 			if (field === "docstatus") {
-				verb = after == 1 ? __("submitted this") : after == 2 ? __("cancelled this") : __("returned this to draft");
+				verb = after == 1 ? "submitted" : after == 2 ? "cancelled" : "draft";
 				return;
 			}
 			const df = frappe.meta.get_docfield(doctype, field);
@@ -520,20 +520,30 @@ record.thread = (frm) => {
 		} else groups.push({ ...event, lines: [...(event.lines || [])] });
 	});
 	const who = (user) => esc(frappe.user.full_name(user));
+	const SAID = {
+		made: (n, mine) => (mine ? __("{0} created this", [n], "Said of the reader") : __("{0} created this", [n])),
+		commented: (n, mine) => (mine ? __("{0} commented", [n], "Said of the reader") : __("{0} commented", [n])),
+		submitted: (n, mine) => (mine ? __("{0} submitted this", [n], "Said of the reader") : __("{0} submitted this", [n])),
+		cancelled: (n, mine) => (mine ? __("{0} cancelled this", [n], "Said of the reader") : __("{0} cancelled this", [n])),
+		draft: (n, mine) => (mine ? __("{0} returned this to draft", [n], "Said of the reader") : __("{0} returned this to draft", [n])),
+		one: (n, mine) => (mine ? __("{0} changed 1 field", [n], "Said of the reader") : __("{0} changed 1 field", [n])),
+		many: (n, mine, count) => (mine ? __("{0} changed {1} fields", [n, count], "Said of the reader") : __("{0} changed {1} fields", [n, count])),
+	};
+	const said_by = (user, kind, count) => SAID[kind](`<b>${who(user)}</b>`, user === frappe.session.user, count);
 	const mark = (inner) => `<div class="one-act-mark">${inner}</div>`;
 	const dot = mark(`<span class="one-act-dot"></span>`);
 	const html = groups
 		.map((group) => {
 			const when = `<span class="one-act-when">${comment_when(group.at)}</span>`;
 			if (group.kind === "told") return `<div class="one-act is-told">${group.icon ? mark(frappe.utils.icon(group.icon, "xs")) : dot}<div class="one-act-body"><div class="one-act-head">${when}${group.html}</div></div></div>`;
-			if (group.kind === "made") return `<div class="one-act">${dot}<div class="one-act-body"><div class="one-act-head"><b>${who(group.owner)}</b> ${__("created this")}${when}</div></div></div>`;
+			if (group.kind === "made") return `<div class="one-act">${dot}<div class="one-act-body"><div class="one-act-head">${said_by(group.owner, "made")}${when}</div></div></div>`;
 			if (group.kind === "comment")
-				return `<div class="one-act is-comment">${mark(frappe.avatar(group.owner, "avatar-xs"))}<div class="one-act-body"><div class="one-act-head"><b>${who(group.owner)}</b> ${__("commented")}${when}</div><div class="one-act-comment">${group.html}</div></div></div>`;
+				return `<div class="one-act is-comment">${mark(frappe.avatar(group.owner, "avatar-xs"))}<div class="one-act-body"><div class="one-act-head">${said_by(group.owner, "commented")}${when}</div><div class="one-act-comment">${group.html}</div></div></div>`;
 			const count = group.lines.length;
 			const open = count <= 3;
-			const said = group.verb || (count === 1 ? __("changed 1 field") : __("changed {0} fields", [count]));
-			if (!count) return `<div class="one-act">${dot}<div class="one-act-body"><div class="one-act-head"><b>${who(group.owner)}</b> ${said}${when}</div></div></div>`;
-			return `<div class="one-act is-group ${open ? "is-open" : ""}">${dot}<div class="one-act-body"><button type="button" class="one-act-head one-act-toggle" aria-expanded="${open}"><b>${who(group.owner)}</b> ${said}<span class="one-act-chev">${frappe.utils.icon("chevron-right", "xs")}</span>${when}</button><div class="one-act-lines">${group.lines.map((line) => `<div class="one-ch">${line}</div>`).join("")}</div></div></div>`;
+			const said = said_by(group.owner, group.verb || (count === 1 ? "one" : "many"), count);
+			if (!count) return `<div class="one-act">${dot}<div class="one-act-body"><div class="one-act-head">${said}${when}</div></div></div>`;
+			return `<div class="one-act is-group ${open ? "is-open" : ""}">${dot}<div class="one-act-body"><button type="button" class="one-act-head one-act-toggle" aria-expanded="${open}">${said}<span class="one-act-chev">${frappe.utils.icon("chevron-right", "xs")}</span>${when}</button><div class="one-act-lines">${group.lines.map((line) => `<div class="one-ch">${line}</div>`).join("")}</div></div></div>`;
 		})
 		.join("");
 	list.innerHTML = `<div class="one-acts">${html}</div>`;

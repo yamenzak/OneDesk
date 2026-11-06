@@ -584,3 +584,10 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		order: -1;
 	}
 }
+
+@media (min-width: 768px) and (max-width: 991px) {
+	:root[data-one-look] body .one-hero-actions.one-hero-actions .custom-actions:not(.hide) {
+		display: flex !important;
+		flex-wrap: wrap;
+	}
+}
