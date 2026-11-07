@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 09:14+0000\n"
-"PO-Revision-Date: 2026-11-07 09:14+0000\n"
+"POT-Creation-Date: 2026-11-07 09:57+0000\n"
+"PO-Revision-Date: 2026-11-07 09:57+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -47936,7 +47936,7 @@ msgstr ""
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:372
+#: onedesk/one_ai/tools.py:734 onedesk/one_hr/ai.py:372
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -61565,7 +61565,7 @@ msgstr ""
 msgid "You may not read these records, so their fields are not offered."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:466
+#: onedesk/one_ai/tools.py:468
 #, python-brace-format
 msgid "You may not read {0} {1}."
 msgstr ""
@@ -61585,7 +61585,7 @@ msgstr ""
 msgid "You may not read {0}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:523
+#: onedesk/one_ai/tools.py:525
 #, python-brace-format
 msgid "You may not run {0}."
 msgstr ""
@@ -64497,7 +64497,7 @@ msgstr ""
 msgid "{0} can't see this project. Add them to it?"
 msgstr ""
 
-#: onedesk/one_project/members.py:123
+#: onedesk/one_project/members.py:125
 #, python-brace-format
 msgid "{0} can't sign in, so can't join the project."
 msgstr ""
@@ -65710,7 +65710,7 @@ msgstr ""
 msgid "{0} is not a template for {1}."
 msgstr ""
 
-#: onedesk/one_ai/tools.py:704
+#: onedesk/one_ai/tools.py:706
 #, python-brace-format
 msgid "{0} is not a tool."
 msgstr ""
@@ -67092,7 +67092,7 @@ msgstr ""
 msgid "{0} warehouses"
 msgstr ""
 
-#: onedesk/one_project/members.py:181
+#: onedesk/one_project/members.py:183
 #, python-brace-format
 msgid "{0} was added to {1}."
 msgstr ""

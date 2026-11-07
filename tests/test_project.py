@@ -101,7 +101,7 @@ def test_a_task_prefix_is_short_and_starts_with_a_letter():
 
 def test_a_project_is_its_members():
 	source = (PROJECT / "members.py").read_text()
-	assert 'rights.held("Project", "project_every", user)' in source and 'WORKER = "Projects User"' in source
+	assert 'rights.held("Project", "project_every", user)' in source and "picking()" in source
 	assert (
 		'"Project": "onedesk.one_project.members.allowed"' in HOOKS
 		and '"Project": "onedesk.one_project.members.query"' in HOOKS

@@ -3434,7 +3434,7 @@ def work_and_mail_tell_what_the_second_pass_found():
 		project = frappe.get_doc("Project", frappe.db.get_value("Project", {"status": "Open", "one_manager": "samir@one.test"}))
 		project.append("users", {"user": "rania@one.test"})
 		project.save(ignore_permissions=True)
-		with as_user("mariam@one.test"):
+		with as_user(OWNER):
 			project.status = "On hold"
 			project.save(ignore_permissions=True)
 			project.status = "Open"

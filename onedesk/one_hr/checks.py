@@ -97,6 +97,8 @@ def onehr_requests_are_answered_by_who_answers_them():
 		day = add_days(today(), -2)
 		while is_holiday(_employee("Rania"), day):
 			day = add_days(day, -1)
+		for marked in frappe.get_all("Attendance", {"employee": _employee("Rania"), "attendance_date": day, "docstatus": 1}, pluck="name"):
+			frappe.get_doc("Attendance", marked).cancel()
 		rania = frappe.get_doc({"doctype": "Attendance Request", "employee": _employee("Rania"), "company": COMPANY, "from_date": day, "to_date": day, "reason": "On Duty", "one_reason": "Customer Site", "explanation": "At the tower all day."}).insert()
 		request.reject(rania.name, "You were in the office that day.")
 		assert frappe.db.get_value("Attendance Request", rania.name, ["docstatus", "one_decision"]) == (0, request.REJECTED)

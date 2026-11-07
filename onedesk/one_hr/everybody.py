@@ -153,3 +153,31 @@ def personal_allowed(doc, ptype=None, user=None, debug=False) -> bool:
 		return True
 	field = PERSONAL.get(doc.doctype)
 	return doc.get("employee") in _crew(user) or bool(field and doc.get(field) == user)
+
+
+#: Roles that read every employee's record.
+READS_EVERYBODY = {"HR User", "HR Manager", roles.ADMINISTRATOR}
+
+
+def _reads_everybody(user: str) -> bool:
+	return user == "Administrator" or bool(READS_EVERYBODY & set(frappe.get_roles(user)))
+
+
+def employee_query(user: str | None = None, doctype: str | None = None) -> str:
+	"""Somebody not in HR opens their own record and those of the people who
+	report to them, and picks any employee in a field (one/picking.py)."""
+	from onedesk.one.picking import picking
+
+	user = user or frappe.session.user
+	if _reads_everybody(user) or picking():
+		return ""
+	crew = ", ".join(frappe.db.escape(one) for one in _crew(user)) or frappe.db.escape("-")
+	return f"`tabEmployee`.name in ({crew})"
+
+
+def employee_allowed(doc, ptype=None, user=None, debug=False) -> bool:
+	"""True leaves frappe's own rules to decide; a hook can only take away."""
+	user = user or frappe.session.user
+	if ptype == "select" or doc.is_new() or _reads_everybody(user):
+		return True
+	return doc.name in _crew(user)

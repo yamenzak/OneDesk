@@ -174,6 +174,7 @@ scheduler_events = {
 			"onedesk.one.news.fetching.due",
 			"onedesk.one_admin.google_news.tick",
 		],
+		"15 9 * * *": ["onedesk.one_demo.living.day"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
 		"30 6 * * *": [
@@ -806,6 +807,7 @@ has_permission = {
 	"Payroll Correction": "onedesk.one_hr.everybody.pay_allowed",
 	"Gratuity": "onedesk.one_hr.everybody.pay_allowed",
 	"Full and Final Statement": "onedesk.one_hr.everybody.pay_allowed",
+	"Employee": "onedesk.one_hr.everybody.employee_allowed",
 	"Leave Application": "onedesk.one_hr.everybody.personal_allowed",
 	"Leave Allocation": "onedesk.one_hr.everybody.personal_allowed",
 	"Leave Encashment": "onedesk.one_hr.everybody.personal_allowed",
@@ -855,6 +857,7 @@ permission_query_conditions = {
 	"Payroll Correction": "onedesk.one_hr.everybody.pay_query",
 	"Gratuity": "onedesk.one_hr.everybody.pay_query",
 	"Full and Final Statement": "onedesk.one_hr.everybody.pay_query",
+	"Employee": "onedesk.one_hr.everybody.employee_query",
 	"Leave Application": "onedesk.one_hr.everybody.personal_query",
 	"Leave Allocation": "onedesk.one_hr.everybody.personal_query",
 	"Leave Encashment": "onedesk.one_hr.everybody.personal_query",

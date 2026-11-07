@@ -18,8 +18,8 @@ ONLY_IN = {
 #: nothing to hold.
 NO_INCOME_TAX = ("Bahrain", "Kuwait", "Oman", "Qatar", "Saudi Arabia", "United Arab Emirates")
 
-#: Screens for a country that taxes income, hidden where every company is in
-#: one that does not.
+#: Screens for a country that taxes income, benefits and accrued earnings
+#: with them, hidden where every company is in one that does not.
 NOT_IN = {
 	name: NO_INCOME_TAX
 	for name in (
@@ -31,6 +31,9 @@ NOT_IN = {
 		"Employee Other Income",
 		"Employee Tax Exemption Category",
 		"Employee Tax Exemption Sub Category",
+		"Employee Benefit Application",
+		"Employee Benefit Claim",
+		"Accrued Earnings Report",
 	)
 }
 

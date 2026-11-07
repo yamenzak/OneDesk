@@ -272,6 +272,14 @@ straight into tables, so what the demo shows is what a workspace would. A
 step that has run is remembered and not run twice; a step that fails stops
 the build with what it tripped on, and the next run starts from it.
 
+### living.py
+
+A daily job, on a dev site with the demo company only: each working morning
+the day-shift people's check-ins of the day and check-outs of the day before
+are written, a missed week caught up, holidays, leave and days already
+decided left alone. frappe's Day shift makes them attendance, so the demo
+reads as a working week, not the day it was built.
+
 ### check.py
 
 Each check opens what a person would open, as that person, and holds what it

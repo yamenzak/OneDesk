@@ -12,9 +12,9 @@ they're a member. Filter **Project** by it, or by **Health**.
 ## Who Sees a Project
 
 **A project's members** are the people listed under **Members** on its **More Info** tab.
-They see the project and every task in it. People who work in projects but
-aren't members don't see it. Projects Managers see every project, and whoever
-created a project sees it.
+They see the project and every task in it. Nobody else opens it, whether they
+work in projects, the stores or buying: Projects Managers and accounts see
+every project, and whoever created a project sees it.
 
 **A project with no members is open** to everyone who works in projects, so a
 small team never has to add anyone.
@@ -22,8 +22,8 @@ small team never has to add anyone.
 **A task's own people always see it.** Whoever is assigned a task sees it on
 My Tasks, member or not, but nothing else of the project.
 
-Someone who only picks a project on a quotation, order or invoice sees every
-project in that list. Picking one doesn't open it.
+Anybody who puts a project on a quotation, an order, a receipt or an invoice
+picks from every project in that field. Picking one doesn't open it.
 
 ## The Two Roles
 

@@ -441,9 +441,11 @@ def find_records(
 	if not frappe.has_permission(doctype, ptype="read"):
 		frappe.throw(frappe._("You may not read {0}.").format(doctype), frappe.PermissionError)
 
-	found = search_widget(
-		doctype=doctype, txt=text or "", page_length=min(int(limit or 10), MOST)
-	)
+	frappe.flags.one_picking = True
+	try:
+		found = search_widget(doctype=doctype, txt=text or "", page_length=min(int(limit or 10), MOST))
+	finally:
+		frappe.flags.one_picking = False
 	return [
 		{"name": row[0], "label": " — ".join(str(cell) for cell in row[1:] if cell)}
 		for row in (found or [])

@@ -7,8 +7,6 @@ from frappe import _
 
 BOOKS = ("Accounts User", "Accounts Manager")
 
-WORKER = "Projects User"
-
 
 def manages(user: str) -> bool:
 	"""Whether this person sees every project: OneProject's See Every Project
@@ -19,9 +17,11 @@ def manages(user: str) -> bool:
 
 
 def narrowed(user: str) -> bool:
-	"""Whether this person's list of projects is their own rather than all."""
+	"""Whether this person's list of projects is their own rather than all:
+	everybody but who sees every project and accounts. A buyer or a
+	storekeeper still picks any project in a field (one/picking.py)."""
 	held = set(frappe.get_roles(user))
-	return not manages(user) and WORKER in held and not held & set(BOOKS)
+	return user != "Administrator" and not manages(user) and not held & set(BOOKS)
 
 
 def visible(user: str) -> set[str]:
@@ -57,14 +57,16 @@ def sees(project: str, user: str) -> bool:
 
 def allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	user = user or frappe.session.user
-	if not narrowed(user) or doc.is_new():
+	if ptype == "select" or not narrowed(user) or doc.is_new():
 		return True
 	return doc.name in visible(user)
 
 
 def query(user=None, doctype=None) -> str:
+	from onedesk.one.picking import picking
+
 	user = user or frappe.session.user
-	if not narrowed(user):
+	if not narrowed(user) or picking():
 		return ""
 	return f"`tabProject`.`name` in ({names(visible(user))})"
 

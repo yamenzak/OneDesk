@@ -5,7 +5,9 @@ changes how each person hears of each one.
 
 - **Requests** — a leave application, expense claim, shift request or
   attendance request is told to whoever answers it (HR when nobody is
-  named), and the answer, with its note, to whoever asked.
+  named), and the answer, with its note, to whoever asked. An advance
+  somebody asks for is told to their expense approver, or HR (Advance
+  Asked).
 - **Attendance** — Not Checked In, Marked Absent, Check-in Rejected, and a
   day closed at the shift's end (Check-in Closed for You).
 - **Running out** — a passport, visa or permit a month and a week before it
