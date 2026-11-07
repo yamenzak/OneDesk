@@ -182,6 +182,7 @@ scheduler_events = {
 			"onedesk.one_book.tell.overdue",
 			"onedesk.one_inventory.tell.deliveries_late",
 			"onedesk.one_factory.tell.back_late",
+			"onedesk.one_factory.tell.late",
 			"onedesk.one_crm.tell.contracts_ending",
 			"onedesk.one_project.tell.milestones_late",
 		],

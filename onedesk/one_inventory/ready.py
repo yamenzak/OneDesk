@@ -46,8 +46,6 @@ def checks() -> list[dict]:
 		_reposted(),
 		_corrected(),
 		_scored(),
-		_workshop(one),
-		_floor(one),
 		_serials(),
 		_location(),
 		_categories(one),
@@ -181,36 +179,6 @@ def _scored() -> dict:
 	return _row("scoring", check, SUGGESTED, _("Nothing to score suppliers by yet. Fix adds Delivered On Time and Accepted on Arrival."), "scoring")
 
 
-def _absorbed(company_name: str) -> str | None:
-	"""The account ERPNext keeps for costs that go into what stock is worth."""
-	return frappe.db.get_value(
-		"Account", {"company": company_name, "account_type": "Expenses Included In Valuation", "is_group": 0, "disabled": 0}
-	)
-
-
-def _workshop(one) -> dict:
-	check = _("Workshop time is costed")
-	if one.default_operating_cost_account:
-		return _row("workshop", check, READY, _("Time on a job card is added to what was made, against {0}.").format(one.default_operating_cost_account))
-	return _row(
-		"workshop",
-		check,
-		TO_DO,
-		_("Making goods that take workshop time fails until the company names an account for it. Fix uses {0}.").format(
-			_absorbed(one.name) or _("the account for costs included in stock value")
-		),
-		"workshop",
-	)
-
-
-def _floor(one) -> dict:
-	"""Where a new work order takes its materials to and puts what it makes."""
-	check = _("Work orders know their warehouses")
-	if one.default_wip_warehouse and one.default_fg_warehouse:
-		return _row("floor", check, READY, _("Materials go to {0} and what is made goes to {1}.").format(one.default_wip_warehouse, one.default_fg_warehouse))
-	return _row("floor", check, SUGGESTED, _("Each new work order asks where to work and where to put what it makes. Fix sets the company's Work In Progress and Finished Goods."), "floor")
-
-
 def add_criteria() -> list[str]:
 	made = []
 	for name, formula in CRITERIA:
@@ -295,7 +263,7 @@ def _serviced(one) -> dict:
 def fix(key: str, **values) -> None:
 	if not fixes():
 		raise frappe.PermissionError
-	if key in ("home", "workshop", "floor"):
+	if key == "home":
 		frappe.has_permission("Company", "write", throw=True)
 	elif key == "depreciation":
 		frappe.has_permission("Accounts Settings", "write", throw=True)
@@ -325,20 +293,6 @@ def fix(key: str, **values) -> None:
 		_settle("Stock Reposting Settings", repost_incorrect_valuation_entries=1)
 	elif key == "scoring":
 		add_criteria()
-	elif key == "workshop":
-		account = _absorbed(one.name)
-		if not account:
-			frappe.throw(_("Add an account for costs included in stock value first."))
-		company_ = frappe.get_doc("Company", one.name)
-		company_.default_operating_cost_account = account
-		company_.save()
-	elif key == "floor":
-		made = {name: frappe.db.get_value("Warehouse", {"company": one.name, "warehouse_name": name, "is_group": 0}) for name in ("Work In Progress", "Finished Goods")}
-		if not all(made.values()):
-			frappe.throw(_("Add the Work In Progress and Finished Goods warehouses first."))
-		company_ = frappe.get_doc("Company", one.name)
-		company_.default_wip_warehouse, company_.default_fg_warehouse = made["Work In Progress"], made["Finished Goods"]
-		company_.save()
 	elif key == "rejected":
 		_settle(bill_for_rejected_quantity_in_purchase_invoice=0, settings="Buying Settings")
 	elif key == "location":

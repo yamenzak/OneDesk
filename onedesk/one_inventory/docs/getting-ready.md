@@ -31,12 +31,6 @@ the count. Change the company at the top to check another.
   this year's entries.
 - **Suppliers can be scored.** Nothing to score them by to begin with.
   **Fix** adds Delivered On Time and Accepted on Arrival, each out of 100.
-- **Workshop time is costed.** Making goods that take time at a workstation
-  fails until the company names an account for that time. **Fix** uses the
-  company's account for costs included in stock value.
-- **Work orders know their warehouses.** Without them, each new work order
-  asks where its materials go and where what it makes is kept. **Fix** sets
-  the company's Work In Progress and Finished Goods.
 - **Serial and batch numbers can be used.** Off to begin with, so no item
   can have serial numbers or batches. **Fix** turns them on. An item then
   has **Has Serial No** and **Has Batch No**.

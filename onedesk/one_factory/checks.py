@@ -9,6 +9,7 @@ from frappe.utils import flt
 
 from onedesk.one_demo.base import COMPANY, as_user, wh
 from onedesk.one_demo.check import _Told, check
+from onedesk.one_demo.people import OWNER
 
 
 @check
@@ -66,6 +67,48 @@ def onefactory_the_shop_floor_runs_a_step_from_start_to_close():
 			pass
 		else:
 			raise AssertionError("somebody outside the workshop read the Shop Floor")
+
+
+@check
+def onefactory_home_says_what_needs_the_workshop():
+	"""OneFactory's Home: the figures are the Shop Floor's and the suppliers'
+	own, a work order past the day it was wanted is late on Today and its
+	maker and the project's manager are told the next morning, and somebody
+	outside the workshop cannot open it."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one_factory import control, floor, home, tell
+
+	order = frappe.get_all("Work Order", filters={"docstatus": 1, "status": ["in", ["Not Started", "In Process"]], "project": ["is", "set"]}, fields=["name", "owner", "project"], limit=1)[0]
+	frappe.db.set_value("Work Order", order.name, "expected_delivery_date", add_days(today(), -1), update_modified=False)
+	with as_user("karim@one.test"):
+		said = home.read()
+		assert said["figures"]["open"] == floor.figures()["open"], said["figures"]
+		assert order.name in {one["name"] for one in said["needs"]["late"]["rows"]}, said["needs"]["late"]
+		assert said["figures"]["late"] == said["needs"]["late"]["count"]
+		assert {"Work Order", "Shop Floor", "Subcontracting Order", "Work Order Summary"} <= {one["label"] for one in said["everything"]}
+	with _Told() as told:
+		tell.late()
+	manager = frappe.db.get_value("Project", order.project, "one_manager")
+	assert manager in told.to("Work Order Late"), told.said
+	with as_user("nadia@one.test"):
+		try:
+			home.read()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody outside the workshop opened OneFactory's Home")
+		try:
+			control.save_workshop()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody outside the books emptied the workshop's settings")
+	with as_user(OWNER):
+		said = control.workshop()
+		assert said["may"] and control.costed() and control.placed(), said
+		again = control.save_workshop(**{key: said[key] for key in control.FIELDS})
+		assert {key: again[key] for key in control.FIELDS} == {key: said[key] for key in control.FIELDS}
 
 
 @check
@@ -165,8 +208,7 @@ def onefactory_making_from_bill_to_finished_goods():
 	from erpnext.stock.utils import get_stock_balance
 
 	from onedesk.one_demo import making
-	from onedesk.one_factory import heads, tell
-	from onedesk.one_inventory import ready
+	from onedesk.one_factory import control, heads, tell
 
 	villa = frappe.db.get_value("Project", {"project_name": making.VILLA})
 	tower = frappe.db.get_value("Project", {"project_name": making.TOWER})
@@ -229,8 +271,7 @@ def onefactory_making_from_bill_to_finished_goods():
 	assert flt(get_stock_balance("ALU-6063-PC", wh("Stores"))) == 300
 	assert flt(get_stock_balance("ALU-6063", wh(making.COATER))) == making.COATING[0]
 
-	rows = {row["key"]: row for row in ready.checks()}
-	assert rows["workshop"]["state"] == ready.READY and rows["floor"]["state"] == ready.READY
+	assert control.costed() and control.placed(), "the workshop's account and warehouses are set"
 
 	with as_user(making.SUPERVISOR):
 		imported = frappe.get_doc(

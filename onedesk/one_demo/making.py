@@ -54,7 +54,7 @@ COATING = (200, 4.5, ago(3), ahead(4))
 
 
 def run(password=None):
-	from onedesk.one_inventory import ready
+	from onedesk.one_factory import control
 
 	projects = {name: frappe.db.get_value("Project", {"project_name": name}) for name in (VILLA, TOWER)}
 	with as_user(SUPERVISOR):
@@ -65,8 +65,7 @@ def run(password=None):
 		if not frappe.db.exists("BOM", {"item": "ALU-6063-PC", "is_default": 1}):
 			_bom("ALU-6063-PC", (("ALU-6063", 1),), ())
 	with as_user(BUYER):
-		ready.fix("workshop")
-		ready.fix("floor")
+		control.save_workshop(**control.suggested(COMPANY))
 	if not frappe.db.exists("Work Order", {"docstatus": 1}):
 		with as_user(SUPERVISOR):
 			for product, qty, started, made, project in ORDERS:

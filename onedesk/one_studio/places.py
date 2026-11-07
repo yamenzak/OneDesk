@@ -98,6 +98,17 @@ PLACES = {
 			},
 		},
 	},
+	"onefactory_home": {
+		"label": "OneFactory",
+		"record": "Work Order",
+		"events": {
+			"shown": {
+				"about": _lt("OneFactory's Home is opened, and each time a work order, a step or a subcontracting order changes."),
+				"gives": "home.late (work orders past the day they were wanted), home.start (work orders due to have started), home.back (work late back from suppliers), home.drafts (drafts left)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"oneinventory_home": {
 		"label": "OneInventory",
 		"record": "Item",

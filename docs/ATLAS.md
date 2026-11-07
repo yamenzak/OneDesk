@@ -25,9 +25,9 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 81 | 2 | 35 | 0 |
+| onedesk | 82 | 2 | 35 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
-| erpnext | 298 | 137 | 51 | 0 |
+| erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
 
 ## Our screens
@@ -54,7 +54,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | item_part (`frontend/src/inventory/item/ItemPart.vue`) | Asset, BOM, BOM Item, BOM Operation, Bin, Blanket Order, Employee, File, Item, Item Manufacturer, Item Price, Purchase Order, Quotation, Sales Invoice, Serial No, Stock Entry, Stock Ledger Entry, Supplier Quotation, Work Order, Work Order Operation | – | – | – |
 | check (`frontend/src/check/CheckList.vue`) | – | – | – | – |
 | workload (`frontend/src/workload/WorkloadList.vue`) | – | – | – | – |
-| floor (`frontend/src/factory/floor/ShopFloor.vue`) | Employee, Job Card, Work Order, Workstation | – | – | – |
+| floor (`frontend/src/factory/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | – | – | – |
+| factory (`frontend/src/factory/home/FactoryHome.vue`) | Stock Entry, Work Order | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
@@ -278,12 +279,12 @@ Reports: Maintenance Schedules (on a rail or a home).
 | Production Plan Schedule | through a form's connections (Production Plan's Connections) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 | Routing | on a rail or a home | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 | Sales Forecast | on a rail or a home | OneCRM, OneFactory | untouched | yes | general |  | yes |  |  |  |  |
-| Work Order | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done |
+| Work Order | on a rail or a home | OneFactory, OneInventory | a head, events, list script, 15 settings | yes | taught |  | yes |  |  |  | Work Order Done, Work Order Late |
 | Workstation | on a rail or a home | OneFactory | untouched | yes | taught |  | yes |  |  |  |  |
 | Workstation Operating Component | through a form's link (Workstation Type: operating_component) | OneFactory | untouched | yes | general |  | yes |  |  |  |  |
 | Workstation Type | through a form's link (Routing: workstation_type) | OneFactory | untouched | yes | general |  | **none** |  |  |  |  |
 
-Reports: BOM Explorer (under a list's related reports (BOM's list)); BOM Operations Time (under a list's related reports (BOM's list)); BOM Stock Analysis (under a list's related reports (BOM's list)); BOM Variance Report (under a list's related reports (Stock Entry's list)); Completed Work Orders (under a list's related reports (Work Order's list)); Cost of Poor Quality Report (under a list's related reports (Job Card's list)); Downtime Analysis (on a rail or a home); Exponential Smoothing Forecasting (under a list's related reports (Sales Order's list)); Issued Items Against Work Order (under a list's related reports (Work Order's list)); Job Card Summary (under a list's related reports (Job Card's list)); Material Requirements Planning Report (on a rail or a home); Open Work Orders (under a list's related reports (Work Order's list)); Process Loss Report (under a list's related reports (Work Order's list)); Production Analytics (under a list's related reports (Work Order's list)); Production Plan Summary (under a list's related reports (Production Plan's list)); Production Planning Report (under a list's related reports (Work Order's list)); Quality Inspection Summary (under a list's related reports (Quality Inspection's list)); Work Order Consumed Materials (under a list's related reports (Work Order's list)); Work Order Stock Report (under a list's related reports (Work Order's list)); Work Order Summary (on a rail or a home); Work Orders in Progress (under a list's related reports (Work Order's list)).
+Reports: BOM Explorer (on a rail or a home); BOM Operations Time (under a list's related reports (BOM's list)); BOM Stock Analysis (on a rail or a home); BOM Variance Report (under a list's related reports (Stock Entry's list)); Completed Work Orders (under a list's related reports (Work Order's list)); Cost of Poor Quality Report (on a rail or a home); Downtime Analysis (on a rail or a home); Exponential Smoothing Forecasting (under a list's related reports (Sales Order's list)); Issued Items Against Work Order (under a list's related reports (Work Order's list)); Job Card Summary (on a rail or a home); Material Requirements Planning Report (on a rail or a home); Open Work Orders (under a list's related reports (Work Order's list)); Process Loss Report (on a rail or a home); Production Analytics (on a rail or a home); Production Plan Summary (under a list's related reports (Production Plan's list)); Production Planning Report (on a rail or a home); Quality Inspection Summary (under a list's related reports (Quality Inspection's list)); Work Order Consumed Materials (on a rail or a home); Work Order Stock Report (under a list's related reports (Work Order's list)); Work Order Summary (on a rail or a home); Work Orders in Progress (under a list's related reports (Work Order's list)).
 
 Pages: bom-comparison-tool (on a rail or a home); production-plan-visualizer (on a rail or a home); shop-floor (replaced: Shop Floor); visual-plant-floor (replaced: Plant Floor).
 
@@ -1017,7 +1018,7 @@ Pages: document (opened by our screens).
 ## onedesk / One Factory
 
 
-Pages: floor (on a rail or a home).
+Pages: floor (on a rail or a home); onefactory (on a rail or a home).
 
 ## onedesk / One HR
 

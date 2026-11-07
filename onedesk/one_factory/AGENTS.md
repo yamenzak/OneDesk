@@ -43,6 +43,17 @@ Floor) and its own rail; a business that buys and sells but makes nothing
 never needs to see it. `hooks.py` `one_module_heirs` names OneFactory the
 heir of ERPNext's Manufacturing and Subcontracting.
 
+- `home.py`, `page/onefactory` and `frontend/src/factory/home` — the Home,
+  an island (`tiers`): the figures (the Shop Floor's open and running, late
+  work orders, `sent_out.figures` out, and the goods made this month from
+  Manufacture entries' `total_incoming_value`, the reader's company's),
+  Today (late, due to start, back late from suppliers, drafts) and the
+  directory. It tells OneStudio `onefactory_home.shown`.
+- `control.py`, `setup.py` and `public/js/one_factory/factory_control.js` —
+  the Workshop tab of its settings: the company's Default Operating Cost
+  Account and Work In Progress and Finished Goods warehouses, and the two
+  setup steps that point at it. They were Inventory Check's until
+  November 2026.
 - `making.py` — a work order takes its bill's steps however it is saved.
   ERPNext's form fetches them when the bill is chosen, so one saved by Data
   Import, OneAI or a script had none and made no job cards; `steps`

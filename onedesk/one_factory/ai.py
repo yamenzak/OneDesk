@@ -14,9 +14,12 @@ from frappe.utils import flt, get_fullname
 # own kind (plan_work_order), and nothing here is a call of OneFactory's own.
 REACH = {}
 
-NOT_FOR_AI = {}
+NOT_FOR_AI = {
+	"control.save_workshop": "The company's cost account and warehouses are set once, in Settings, by whoever keeps the books.",
+}
 
 FLOOR = "floor"
+HOME = "onefactory"
 
 _IN_HAND = {
 	"label": _lt("What is the workshop making?"),
@@ -57,6 +60,7 @@ _OUT_NOW = {
 }
 
 SUGGESTIONS = {
+	f"page:{HOME}": [_ON_FLOOR, _OUT_NOW],
 	f"page:{FLOOR}": [_ON_FLOOR, _IN_HAND],
 	"Work Order": [_HOW_FAR, _IN_HAND],
 	"BOM": [_MAKE, _IN_HAND],
@@ -68,13 +72,21 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on the Shop Floor and ERPNext's two making pages."""
+	"""The sentence the model is told on the Home, the Shop Floor and ERPNext's two making pages."""
 	if said.get("page") == FLOOR:
 		return (
 			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
 			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
 			"work_order_facts reads one work order; the open work orders are list_records on Work Order with "
 			"docstatus 1 and status in Not Started or In Process, by expected_delivery_date. How the page works is in OneFactory's documentation (how_to)."
+		)
+	if said.get("page") == HOME:
+		return (
+			"The reader is on OneFactory's Home, which shows the open work orders, the steps running now, the work "
+			"orders late or due to start, the work late back from suppliers and the drafts left, and everything in "
+			"OneFactory with what it is for. on_the_floor reads the floor now and sent_out_now what is with suppliers; "
+			"late work orders are list_records on Work Order with docstatus 1, status in Not Started or In Process and "
+			"expected_delivery_date before today. How each part works is in OneFactory's documentation (how_to)."
 		)
 	if said.get("page") == "production-plan-visualizer":
 		return (

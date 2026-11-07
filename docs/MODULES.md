@@ -651,7 +651,10 @@ No doctypes yet.
 * `onedesk.one_doc.versions.new_version`
 * `onedesk.one_doc.word.open_file`
 * `onedesk.one_doc.word.write_back`
+* `onedesk.one_factory.control.save_workshop`
+* `onedesk.one_factory.control.workshop`
 * `onedesk.one_factory.floor.read`
+* `onedesk.one_factory.home.read`
 * `onedesk.one_hr.clock.punch`
 * `onedesk.one_hr.clock.ready`
 * `onedesk.one_hr.control.load`

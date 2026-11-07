@@ -20,6 +20,18 @@ TYPES = [
 		"message": "It was due back on {due}. Chase {supplier}.",
 	},
 	{
+		"name": "Work Order Late",
+		"app": "OneFactory",
+		"roles": ("Manufacturing User", "Manufacturing Manager", "Projects Manager"),
+		"about": "The day after a work order was wanted and is not all made.",
+		"to": "Whoever made the work order, and the project's manager",
+		"channels": ALL,
+		"email_default": True,
+		"sender": "workspace",
+		"subject": "{order} is late",
+		"message": "{item} was wanted on {due} and {made} are made. Plan the rest on the Shop Floor.",
+	},
+	{
 		"name": "Work Order Done",
 		"app": "OneFactory",
 		"roles": ("Manufacturing User", "Projects Manager", "Sales User"),

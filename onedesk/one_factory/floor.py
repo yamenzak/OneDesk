@@ -44,42 +44,9 @@ def read(
 			said["work_order"] = _work_order(work_order)
 		return said
 	board = shop_floor.get_work_orders("completed" if frappe.utils.cint(done) else "open", 0, MOST, search)
-	unfinished = _to_finish(search)
-	if frappe.utils.cint(done):
-		kept = [one for one in board["work_orders"] if one.name not in unfinished]
-		said["total"] = max(board["total"] - (len(board["work_orders"]) - len(kept)), 0)
-	else:
-		kept = list(unfinished.values()) + board["work_orders"]
-		said["total"] = board["total"] + len(unfinished)
-	said["work_orders"] = [_card(one) for one in kept]
+	said["total"] = board["total"]
+	said["work_orders"] = [_card(one) for one in board["work_orders"]]
 	return said
-
-
-def _to_finish(search: str | None = None) -> dict:
-	"""Work orders whose every job card is closed but whose goods are not all
-	made yet. ERPNext's floor counts them done, since nobody works a step on
-	them any more; somebody still has to press Finish, so they stay on the
-	open board until the work order is Completed."""
-	filters = {
-		"docstatus": 1,
-		"status": ["in", shop_floor.WORK_ORDER_STATUS_GROUPS["open"]],
-		"company": erpnext.get_default_company(),
-	}
-	if search:
-		filters["name"] = ["like", f"%{search}%"]
-	rows = frappe.get_all("Work Order", filters=filters, fields=shop_floor.WORK_ORDER_FIELDS, order_by="planned_start_date asc")
-	rows = [one for one in rows if flt(one.produced_qty) < flt(one.qty) and _floor_done(one.name)]
-	shop_floor._enrich_work_orders(rows)
-	return {one.name: one for one in rows}
-
-
-def _floor_done(work_order: str) -> bool:
-	cards = frappe.get_all(
-		"Job Card",
-		filters={"work_order": work_order, "docstatus": ["<", 2], "company": erpnext.get_default_company()},
-		pluck="docstatus",
-	)
-	return bool(cards) and all(one == 1 for one in cards)
 
 
 def figures() -> dict:
@@ -94,7 +61,7 @@ def figures() -> dict:
 	)
 	running = [one.name for one in drafts if running_now(one)]
 	return {
-		"open": open_orders + len(_to_finish()),
+		"open": open_orders,
 		"running": len(running),
 		"waiting": sum(1 for one in drafts if one.status == "Open"),
 		"done_today": frappe.db.count(

@@ -178,6 +178,7 @@ SCREENS = {
 	"books": "OneBook's home: how the money is doing, what needs somebody today, and everything in it (GL Entry, Sales Invoice, Purchase Invoice, Bank Transaction)",
 	"inventory": "OneInventory's home: what needs somebody today, and everything in it (Purchase Order, Bin, Batch, Work Order)",
 	"to-order": "what to buy, each open purchase request and each item low, ordered a supplier at a time (Material Request)",
+	"onefactory": "OneFactory's home: what needs somebody in the workshop today, and everything in it (Work Order, Job Card, Subcontracting Order)",
 	"floor": "the work on the floor, work orders and each step's job card (Work Order, Job Card)",
 	"timers": "the reader's task timers, the rail's Timers popover on a page for a phone (Timesheet)",
 	"counter": "a queue counter: the ticket it serves, call the next, and who waits (Queue Ticket)",
