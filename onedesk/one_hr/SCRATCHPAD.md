@@ -34,3 +34,7 @@ temporary site after the last module.
   list view, a saved report's too (one_interface).
 - Income Tax Computation opens on "No employees found with selected filters
   and active salary structure": it waits on the Tax & Benefits question.
+- Leaving a OneHR page whose chart is still drawing throws "removeChild ... not
+  a child of this node" from frappe-charts' makeChartArea: its delayed update
+  runs after the container was emptied (seen by tests/browser/routes.mjs,
+  8 Nov 2026).

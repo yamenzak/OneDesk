@@ -494,6 +494,12 @@ GUARDS = [
 		"tests/guards/test_legal.py::test_nobody_is_promised_what_is_not_built",
 	),
 	Guard(
+		"page-own-rail",
+		6,
+		"a page of ours not listed in its own app's rail, so Back or a link opens it in another app's",
+		"tests/guards/test_routes.py::test_every_page_opens_in_its_own_apps_rail",
+	),
+	Guard(
 		"app-on-rail",
 		6,
 		"an app's sidebar with no tile on the rail",
