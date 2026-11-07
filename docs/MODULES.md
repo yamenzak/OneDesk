@@ -157,7 +157,7 @@ No doctypes yet.
 |---|--:|---|
 | Face | 5 | document |
 | Mail Conversation | 9 | document |
-| Mail Draft | 14 | document |
+| Mail Draft | 15 | document |
 | Mail Folder | 15 | document |
 | Mail Rule | 8 | document |
 

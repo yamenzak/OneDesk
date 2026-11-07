@@ -973,3 +973,62 @@ def onemail_a_team_works_its_shared_mailbox():
 			except frappe.PermissionError:
 				continue
 			raise AssertionError("somebody who doesn't hold the mailbox worked its conversation")
+
+
+@check
+def onemail_a_connected_mailboxs_drafts_are_on_its_server():
+	"""A draft written for a connected mailbox is kept in its Drafts on the
+	server, with one Message-ID however often it changes, so a phone shows
+	it; sent or thrown away, it leaves there too; and its copy read back is
+	not listed twice. The server is stood in for."""
+	from unittest import mock
+
+	from onedesk.one_mail import api, drafts, holders
+
+	account = holders.workspace()
+	email = frappe.db.get_value("Email Account", account, "email_id")
+	frappe.db.set_value("Email Account", account, "one_connected", 1, update_modified=False)
+	said = []
+
+	class Server:
+		def __init__(self, *args, **kwargs):
+			pass
+
+		def __enter__(self):
+			return self
+
+		def __exit__(self, *args):
+			return False
+
+		def select(self, path, readonly=True):
+			said.append(("select", path))
+
+		def uids(self, criteria):
+			said.append(("search", criteria))
+			return [7] if any(one[0] == "append" for one in said) else []
+
+		def expunge(self, uids):
+			said.append(("expunge", tuple(uids)))
+
+		def append(self, path, raw, flags):
+			said.append(("append", path, flags, raw))
+
+	with as_user(OWNER), mock.patch("frappe.enqueue"), mock.patch("onedesk.one_mail.imap.Session", Server):
+		name = drafts.save(sender=email, subject="Glass samples", recipients="jordan@acme.example", content="<p>Two samples on Monday.</p>")
+		message_id = frappe.db.get_value("Mail Draft", name, "message_id")
+		assert message_id, "a connected mailbox's draft has a Message-ID"
+		drafts.to_server(name)
+		drafts.save(sender=email, name=name, subject="Glass samples", recipients="jordan@acme.example", content="<p>Three samples on Monday.</p>")
+		drafts.to_server(name)
+		assert frappe.db.get_value("Mail Draft", name, "message_id") == message_id, "one Message-ID however often it changes"
+		appended = [one for one in said if one[0] == "append"]
+		assert len(appended) == 2 and appended[-1][2] == "\\Draft \\Seen" and b"Three samples" in appended[-1][3], "kept on the server, the newest in place of the last"
+		assert ("expunge", (7,)) in said, "the copy before it is taken out"
+		path = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Drafts"}, "path")
+		copy = frappe.get_doc({"doctype": "Communication", "communication_medium": "Email", "email_account": account, "one_folder": path, "subject": "Glass samples", "message_id": message_id, "sent_or_received": "Sent", "sender": email}).insert(ignore_permissions=True)
+		folder = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Drafts"})
+		listed = api.conversations(account, folder)["items"]
+		assert name in {one.get("draft") for one in listed} and copy.name not in {one.get("name") for one in listed}, "its copy is not listed twice"
+		said.clear()
+		drafts.off_server(account, message_id)
+		assert [one for one in said if one[0] == "expunge"] and not [one for one in said if one[0] == "append"], "thrown away, it leaves the server"

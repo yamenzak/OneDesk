@@ -55,6 +55,7 @@ def save(sender: str | None = None, name: str | None = None, attachments=None, *
 	doc.flags.ignore_permissions = True
 	doc.save()
 	live.changed(account)
+	_mirror(doc)
 	return doc.name
 
 
@@ -89,6 +90,10 @@ def discard(name: str) -> None:
 	account = doc.account
 	frappe.delete_doc(DRAFT, name, ignore_permissions=True)
 	live.changed(account)
+	if doc.message_id and frappe.db.get_value("Email Account", account, "one_connected"):
+		frappe.enqueue(
+			"onedesk.one_mail.drafts.off_server", account=account, message_id=doc.message_id, queue="short", enqueue_after_commit=True
+		)
 
 
 def listed(account: str) -> list[dict]:
@@ -180,3 +185,95 @@ def unschedule(name: str) -> str:
 	frappe.delete_doc("Communication", name, ignore_permissions=True, force=True)
 	live.changed(doc.email_account)
 	return draft.name
+
+
+def _mirror(doc) -> None:
+	"""A connected mailbox's draft goes to its Drafts on the server too, so a
+	mail app on a phone shows it: once a moment after the last change."""
+	if not frappe.db.get_value("Email Account", doc.account, "one_connected"):
+		return
+	if not doc.message_id:
+		from email.utils import make_msgid
+
+		domain = (frappe.db.get_value("Email Account", doc.account, "email_id") or "one").split("@")[-1]
+		doc.db_set("message_id", make_msgid(domain=domain).strip("<>"), update_modified=False)
+	frappe.enqueue(
+		"onedesk.one_mail.drafts.to_server",
+		name=doc.name,
+		queue="short",
+		job_id=f"onemail_draft:{doc.name}",
+		deduplicate=True,
+		enqueue_after_commit=True,
+	)
+
+
+def message(doc) -> bytes:
+	"""A draft as the message a mail client keeps in Drafts. Pure apart from
+	reading its mailbox's address."""
+	from email.message import EmailMessage
+	from email.utils import format_datetime
+
+	sender = frappe.db.get_value("Email Account", doc.account, "email_id")
+	said = EmailMessage()
+	said["From"] = sender
+	for header, value in (("To", doc.recipients), ("Cc", doc.cc), ("Bcc", doc.bcc)):
+		if value:
+			said[header] = ", ".join(one.strip() for one in value.replace(";", ",").split(",") if one.strip())
+	said["Subject"] = doc.subject or ""
+	said["Message-ID"] = f"<{doc.message_id}>"
+	said["Date"] = format_datetime(frappe.utils.get_datetime(doc.modified).astimezone())
+	if doc.in_reply_to:
+		parent = frappe.db.get_value("Communication", doc.in_reply_to, "message_id")
+		if parent:
+			said["In-Reply-To"] = f"<{parent.strip('<>')}>"
+			said["References"] = f"<{parent.strip('<>')}>"
+	from frappe.core.utils import html2text
+
+	said.set_content(html2text(doc.content or ""))
+	said.add_alternative(doc.content or "", subtype="html")
+	return said.as_bytes()
+
+
+def _replace(session, path: str, message_id: str, raw: bytes | None) -> None:
+	session.select(path, readonly=False)
+	session.expunge(session.uids(f'HEADER Message-ID "{message_id}"'))
+	if raw:
+		session.append(path, raw, "\\Draft \\Seen")
+
+
+def to_server(name: str) -> None:
+	"""The draft as it is now, in its connected mailbox's Drafts: the copy
+	before it taken out, this one put in."""
+	from onedesk.one_mail import actions, imap
+
+	if not frappe.db.exists(DRAFT, name):
+		return
+	doc = frappe.get_doc(DRAFT, name)
+	path = actions.folder_of(doc.account, "Drafts")
+	if not path or not doc.message_id:
+		return
+	try:
+		with imap.Session(frappe.get_doc("Email Account", doc.account)) as session:
+			_replace(session, path, doc.message_id, message(doc))
+	except Exception:
+		frappe.log_error(title=f"OneMail could not keep a draft in {doc.account}'s Drafts")
+
+
+def off_server(account: str, message_id: str) -> None:
+	"""A draft sent or thrown away leaves the server's Drafts too."""
+	from onedesk.one_mail import actions, imap
+
+	path = actions.folder_of(account, "Drafts")
+	if not path:
+		return
+	try:
+		with imap.Session(frappe.get_doc("Email Account", account)) as session:
+			_replace(session, path, message_id, None)
+	except Exception:
+		frappe.log_error(title=f"OneMail could not take a draft out of {account}'s Drafts")
+
+
+def mirrored(account: str) -> list[str]:
+	"""The Message-IDs of the reader's drafts kept on the server, whose copies
+	the Drafts folder does not list again."""
+	return frappe.get_all(DRAFT, filters={"account": account, "owner": frappe.session.user, "message_id": ["is", "set"]}, pluck="message_id")

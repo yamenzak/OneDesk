@@ -27,6 +27,14 @@ module's README says what it does.
   password.
 - **OneStudio's server extensions on dev.** `onestudio_tells_the_others_and_oneai_remembers_once`
   needs `server_script_enabled` on one.4dl.dev, which is yours to switch.
+- **Every island is over its 2 MB budget, by what they share.** Measured 7
+  November 2026: each island loads about 2.2 MB raw before its own code
+  (frappe-ui's core chunk 754 kB, the kit 380 kB, Vue 219 kB, one stylesheet
+  928 kB), 430 kB gzipped and cached across islands. Of the stylesheet, 515 kB
+  is 293 icons that frappe-ui's iconPackPlugin writes twice each (mask and
+  -webkit-mask) as percent-encoded SVG with lucide's licence comment in every
+  one. Ask frappe-ui to encode them once, without the comment and with
+  minimal escaping (about 60% off); then lower the budget's warning.
 - **The asks upstream.** `docs/OVERRIDES.md` lists 62 changes to ask frappe,
   erpnext and hrms for (31, 23 and 7). Each one sent and merged retires an
   override row. Which to send, and in what order, is yours.

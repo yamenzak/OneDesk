@@ -16,6 +16,7 @@ PARTY = {
 	"Supplier Quotation": "supplier",
 	"Purchase Order": "supplier",
 	"Purchase Invoice": "supplier",
+	"Subcontracting Order": "supplier",
 }
 
 DIGEST = 10
@@ -30,6 +31,7 @@ OPEN = {
 	"Supplier Quotation": {"status": ("in", ("Submitted",))},
 	"Purchase Order": {"status": ("not in", ("Completed", "Closed", "Cancelled"))},
 	"Purchase Invoice": {"outstanding_amount": (">", 0)},
+	"Subcontracting Order": {"status": ("not in", ("Completed", "Closed", "Cancelled"))},
 }
 
 NAMED = re.compile(r"\b[A-Z][A-Z0-9]*(?:[-/.][A-Z0-9]+)+\b")

@@ -12,17 +12,6 @@ Known issues and plans, kept short. Something done leaves it.
 
 ## Known issues
 
-- **The island is over its size budget**: 2,384 kB of JS and CSS against
-  2,048 (the build warns). It was 2,381 kB before November's drafts and team
-  inbox; find what the entry pulls in that it shouldn't.
-- **A draft written here stays in One.** A connected mailbox's drafts made in
-  Gmail or Outlook show in Drafts, but ours are not appended to the server, so
-  a draft started here doesn't show on the phone's mail app.
-- **OneAI can't tell a supplier about their subcontracting orders**:
-  theirs.py reads what the portal shows, and the portal doesn't list them yet.
-- **Forward reads تقدم in Arabic**, frappe's own word for "advance"; it
-  wants إعادة توجيه in our translations.
-
 - **OneAI is told only the title** of One › Mail and One › Mail Templates on
   the rail (`one_ai/here.py untold`, the demo check
   `oneai_is_told_what_every_place_shows`).

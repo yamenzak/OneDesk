@@ -350,3 +350,37 @@ def onefactory_what_making_costs_is_an_ability():
 		window.set_onload("one_costs_hidden", 0)
 		costs.onload(window)
 		assert window.get_onload().get("one_costs_hidden") == 1
+
+
+@check
+def onefactory_a_supplier_sees_the_work_sent_to_them():
+	"""On the portal a supplier's contact finds the work sent to them under
+	Work Sent to You, opens it, and sees no other supplier's; a customer's
+	contact sees none. OneAI answering the supplier's mail reads it too."""
+	from onedesk.one_factory import portal as theirs_portal
+	from onedesk.one_mail import theirs
+	from onedesk.one_portal import portal
+
+	khalid = "khalid@mansour.example"
+	contact, supplier = frappe.db.sql(
+		"""select c.name, d.link_name from tabContact c join `tabDynamic Link` d on d.parent = c.name and d.parenttype = 'Contact'
+		where d.link_doctype = 'Supplier' and ifnull(c.user, '') != '' limit 1"""
+	)[0]
+	rami = frappe.db.get_value("Contact", contact, "user")
+	sent, other = frappe.get_all("Subcontracting Order", filters={"docstatus": 1}, pluck="name", order_by="creation asc", limit=2)
+	frappe.db.set_value("Subcontracting Order", sent, "supplier", supplier, update_modified=False)
+	with as_user(rami):
+		listed = {one["name"] for one in portal.rows("subcontracting-orders")["rows"]}
+		assert sent in listed and other not in listed, listed
+		assert theirs_portal.has_website_permission(frappe.get_doc("Subcontracting Order", sent))
+		assert not theirs_portal.has_website_permission(frappe.get_doc("Subcontracting Order", other))
+		assert portal.record("subcontracting-orders", sent)["name"] == sent
+	assert sent in {one["name"] for one in theirs.records(rami, "Where is our coating order?") if one["doctype"] == "Subcontracting Order"}
+	with as_user(khalid):
+		assert not theirs_portal.has_website_permission(frappe.get_doc("Subcontracting Order", sent))
+		try:
+			portal.rows("subcontracting-orders")
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("a customer's contact has a tab for work sent to suppliers")

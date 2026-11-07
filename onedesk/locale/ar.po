@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 12:22+0000\n"
+"POT-Creation-Date: 2026-11-07 17:05+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -62,7 +62,7 @@ msgstr "(فارغة)"
 msgid "(first 6 rows)"
 msgstr "(أول 6 صفوف)"
 
-#: frontend/src/mail/MailConversation.vue:9 frontend/src/mail/MailList.vue:59
+#: frontend/src/mail/MailConversation.vue:10 frontend/src/mail/MailList.vue:63
 #: onedesk/one_mail/rules.py:397 onedesk/one_mail/rules.py:399
 #: onedesk/public/js/one_mail/record_mail.js:28
 msgid "(no subject)"
@@ -931,7 +931,7 @@ msgstr "نسخة كاملة من مصنف في لحظة معينة. تُخفَّ
 msgid "A full picture with the new collection and its price."
 msgstr "صورة كاملة مع المجموعة الجديدة وسعرها."
 
-#: onedesk/one_quality/home.py:26
+#: onedesk/one_quality/home.py:28
 msgid "A goal checked, objective by objective."
 msgstr "هدف تم التحقق منه، غاية تلو الأخرى."
 
@@ -2396,7 +2396,7 @@ msgstr "إجراء"
 #: frontend/src/kit/Rows.vue:45 frontend/src/project/Invoices.vue:53
 #: frontend/src/project/Suppliers.vue:62 frontend/src/project/Suppliers.vue:108
 #: frontend/src/project/Team.vue:46 frontend/src/template/Tasks.vue:86
-#: onedesk/one_quality/custom/non_conformance.json:6
+#: onedesk/one_quality/custom/non_conformance.json:20
 #: onedesk/one_quality/heads.py:79 onedesk/public/js/one/access_center.js:427
 #: onedesk/public/js/one/access_center.js:487
 #: onedesk/public/js/one/access_center.js:516
@@ -2428,7 +2428,7 @@ msgstr "تفعيل الموقع"
 #. Option for the 'Status' (Select) field in DocType 'Device'
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
-#: onedesk/one/ready.py:610 onedesk/one_account/doctype/device/device.json:66
+#: onedesk/one/ready.py:617 onedesk/one_account/doctype/device/device.json:66
 #: onedesk/one_account/heads.py:16
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:57
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:82
@@ -2990,7 +2990,7 @@ msgstr "أضف إلى الشريحة"
 msgid "Add to {0}"
 msgstr "أضف إلى {0}"
 
-#: onedesk/one_mail/ai.py:1101 onedesk/public/js/project_tree.js:28
+#: onedesk/one_mail/ai.py:1111 onedesk/public/js/project_tree.js:28
 #, python-brace-format
 msgid "Add {0}"
 msgstr "إضافة {0}"
@@ -4518,7 +4518,7 @@ msgstr "رد {0}، {1}"
 msgid "Answered by {0}, {1}."
 msgstr "رد {0}، {1}."
 
-#: onedesk/one_mail/ai.py:854
+#: onedesk/one_mail/ai.py:864
 msgid "Answers"
 msgstr "يردّ على"
 
@@ -4530,7 +4530,7 @@ msgstr "يرد على محادثة"
 msgid "Answers from your own records"
 msgstr "يجيب من سجلاتك"
 
-#: onedesk/one_mail/ai.py:1058
+#: onedesk/one_mail/ai.py:1068
 #: onedesk/public/js/one_mail/onemail_settings.js:1307
 msgid "Any domain"
 msgstr "أي نطاق"
@@ -4712,7 +4712,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr "تطبيق القص"
 
-#: onedesk/one/ready.py:1132
+#: onedesk/one/ready.py:1169
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
 
@@ -4883,7 +4883,7 @@ msgstr "وافق على الطلب أو ارفضه."
 msgid "Approve the site mock-up"
 msgstr "اعتماد النموذج في الموقع"
 
-#: onedesk/one_mail/ai.py:922
+#: onedesk/one_mail/ai.py:932
 #, python-brace-format
 msgid "Approve {0}"
 msgstr "الموافقة على {0}"
@@ -5076,10 +5076,10 @@ msgstr "مراحل التصميم المعماري"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: frontend/src/mail/OneMail.vue:147 frontend/src/mail/OneMail.vue:177
+#: frontend/src/mail/OneMail.vue:175 frontend/src/mail/OneMail.vue:205
 #: frontend/src/mail/mail.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/one_mail/ai.py:646
+#: onedesk/one_mail/ai.py:656
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:54
 #: onedesk/one_mail/shortcuts.py:16
 msgid "Archive"
@@ -5087,7 +5087,7 @@ msgstr "الأرشيف"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
-#: frontend/src/mail/OneMail.vue:478 onedesk/one_account/heads.py:19
+#: frontend/src/mail/OneMail.vue:512 onedesk/one_account/heads.py:19
 #: onedesk/one_admin/accounts.py:123
 #: onedesk/one_admin/doctype/tenant/tenant.json:99
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
@@ -5643,7 +5643,8 @@ msgstr "الأصول حسب الحالة"
 msgid "Assets have categories"
 msgstr "للأصول فئات"
 
-#: onedesk/one/ai.py:3742 onedesk/public/js/one_mail/rule_builder.js:45
+#: frontend/src/mail/MailTeam.vue:6 onedesk/one/ai.py:3742
+#: onedesk/public/js/one_mail/rule_builder.js:45
 msgid "Assign"
 msgstr "إسناد"
 
@@ -5656,7 +5657,7 @@ msgstr "إسناد المحادثات الجديدة"
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:1146
+#: onedesk/one/ready.py:1183
 msgid "Assign a Salary Structure"
 msgstr "إسناد هيكل راتب"
 
@@ -5690,6 +5691,7 @@ msgid "Assign to {0}"
 msgstr "إسناد إلى {0}"
 
 #. Option for the 'Used By' (Select) field in DocType 'Device'
+#: frontend/src/mail/MailList.vue:58
 #: onedesk/one_account/doctype/device/device.json:37
 #: onedesk/public/js/one_account/account_center.js:1289
 msgid "Assigned"
@@ -5729,7 +5731,7 @@ msgstr ""
 msgid "Assignment for {0} {1}"
 msgstr ""
 
-#: frontend/src/factory/floor/OrderRows.vue:7 onedesk/one_mail/ai.py:1058
+#: frontend/src/factory/floor/OrderRows.vue:7 onedesk/one_mail/ai.py:1068
 msgid "At"
 msgstr "في"
 
@@ -5823,7 +5825,9 @@ msgstr "إرفاق {0} ملفات"
 msgid "Attachment"
 msgstr "مرفق"
 
+#. Label of the attachments (JSON) field in DocType 'Mail Draft'
 #: frontend/src/intake/IntakeFacts.vue:87
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:66
 msgid "Attachments"
 msgstr "المرفقات"
 
@@ -5832,7 +5836,7 @@ msgstr "المرفقات"
 msgid "Attachments Not Saved"
 msgstr "مرفقات لم تُحفظ"
 
-#: frontend/src/mail/OneMail.vue:304
+#: frontend/src/mail/OneMail.vue:332
 msgid "Attachments in OneCloud"
 msgstr "المرفقات في OneCloud"
 
@@ -6096,7 +6100,7 @@ msgstr ""
 msgid "Auto Reply"
 msgstr "رد تلقائي"
 
-#: frontend/src/mail/OneMail.vue:213
+#: frontend/src/mail/OneMail.vue:241
 #: onedesk/public/js/one_mail/onemail_settings.js:72
 msgid "Auto Reply On"
 msgstr "الرد التلقائي مفعّل"
@@ -6150,7 +6154,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/OneMail.vue:303 onedesk/one_mail/abilities.py:45
+#: frontend/src/mail/OneMail.vue:331 onedesk/one_mail/abilities.py:45
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:194
 #: onedesk/public/js/doctype_settings.js:213
 #: onedesk/public/js/one_mail/onemail_settings.js:733
@@ -6291,6 +6295,11 @@ msgstr "غائب حتى"
 #: onedesk/public/js/size.js:6
 msgid "B"
 msgstr "بايت"
+
+#. Label of the bcc (Small Text) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:56
+msgid "BCC"
+msgstr ""
 
 #. Label in the One Production Plan print format
 #. Label of a Sidebar Item
@@ -7176,8 +7185,8 @@ msgstr "يُفوتر بالساعة بأسعار متفق عليها، إضاف�
 msgid "Billed by {0}"
 msgstr "فواتير {0}"
 
-#: onedesk/one/ready.py:811 onedesk/one/ready.py:850 onedesk/one/ready.py:866
-#: onedesk/one/ready.py:942
+#: onedesk/one/ready.py:836 onedesk/one/ready.py:875 onedesk/one/ready.py:891
+#: onedesk/one/ready.py:969
 msgid "Billed in 12 Months"
 msgstr "المفوتر خلال 12 شهرًا"
 
@@ -7966,6 +7975,11 @@ msgstr "البايتات الموقَّع عليها منذ آخر قياس."
 msgid "Bytes, from the last measurement."
 msgstr "بالبايت، من آخر قياس."
 
+#. Label of the cc (Small Text) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:51
+msgid "CC"
+msgstr ""
+
 #: onedesk/one_inventory/home.py:133
 msgid "COGS By Item Group"
 msgstr ""
@@ -8415,7 +8429,7 @@ msgstr "حجز الضيافة والصوت والأثاث"
 msgid "Cause"
 msgstr "السبب"
 
-#: frontend/src/mail/MailConversation.vue:47
+#: frontend/src/mail/MailConversation.vue:50
 msgid "Cc"
 msgstr "نسخة"
 
@@ -9116,7 +9130,7 @@ msgstr "اختر ملفًا أولًا."
 msgid "Choose a file to send."
 msgstr "اختر ملفًا لإرساله."
 
-#: onedesk/one_mail/api.py:120
+#: onedesk/one_mail/api.py:168
 msgid "Choose a folder."
 msgstr "اختر مجلدًا."
 
@@ -9303,7 +9317,7 @@ msgstr "رقم المطالبة"
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
-#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1139
+#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1176
 #: onedesk/one_hr/shortcuts.py:11
 msgid "Claim an Expense"
 msgstr "المطالبة بمصروف"
@@ -9379,7 +9393,7 @@ msgid "Clear formatting"
 msgstr "مسح التنسيق"
 
 #: frontend/src/mail/MailList.vue:9 frontend/src/mail/MailList.vue:10
-#: frontend/src/mail/OneMail.vue:151
+#: frontend/src/mail/OneMail.vue:179
 msgid "Clear selection"
 msgstr "إلغاء التحديد"
 
@@ -9581,6 +9595,7 @@ msgstr "إغلاق {0}؟ لن يمكن تسجيل أي شيء آخر عليها.
 #: onedesk/one_admin/accounts.py:141 onedesk/one_admin/accounts.py:160
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_display/widgets.py:145 onedesk/one_display/widgets.py:192
+#: onedesk/one_factory/portal.py:54
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:40
 #: onedesk/one_storage/file_requests.py:170
 msgid "Closed"
@@ -10112,6 +10127,8 @@ msgstr "الشركات التي تتلقى البيانات"
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label of the organisation (Data) field in DocType 'Project Contact'
+#. Label of the company (Link) field in DocType 'Non Conformance'
+#. Label of the company (Link) field in DocType 'Quality Action'
 #: onedesk/one/control.py:19
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:148
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
@@ -10124,6 +10141,8 @@ msgstr "الشركات التي تتلقى البيانات"
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_project/ai.py:760
 #: onedesk/one_project/doctype/project_contact/project_contact.json:39
+#: onedesk/one_quality/custom/non_conformance.json:6
+#: onedesk/one_quality/custom/quality_action.json:17
 #: onedesk/one_storage/history.py:199 onedesk/one_storage/namespace.py:386
 #: onedesk/one_storage/namespace.py:527 onedesk/one_storage/namespace.py:628
 #: onedesk/one_storage/namespace.py:884 onedesk/one_studio/letter_heads.py:586
@@ -10133,7 +10152,7 @@ msgstr "الشركات التي تتلقى البيانات"
 msgid "Company"
 msgstr "الشركة"
 
-#: onedesk/one/ready.py:781
+#: onedesk/one/ready.py:806
 msgid "Company Account"
 msgstr ""
 
@@ -10433,7 +10452,7 @@ msgstr "تم التأكيد"
 msgid "Connect"
 msgstr "اتصال"
 
-#: frontend/src/mail/OneMail.vue:253
+#: frontend/src/mail/OneMail.vue:281
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:920
 msgid "Connect Mailbox"
@@ -10876,13 +10895,17 @@ msgid "ControlCenter"
 msgstr "ControlCenter"
 
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
-#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:65
+#. Label of the thread (Data) field in DocType 'Mail Conversation'
+#. Label of the thread (Data) field in DocType 'Mail Draft'
+#: onedesk/one_ai/doctype/ai_chat/ai_chat.json:65 onedesk/one_mail/ai.py:1291
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:34
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:76
 msgid "Conversation"
 msgstr "المحادثة"
 
 #. Label of a Sidebar Item
 #: frontend/src/mail/MailList.vue:17 onedesk/one_ai/sidebar/oneai/oneai.json:25
-#: onedesk/one_mail/ai.py:730
+#: onedesk/one_mail/ai.py:740
 msgid "Conversations"
 msgstr "المحادثات"
 
@@ -11503,7 +11526,7 @@ msgstr "الشخص البديل يقرأ بريدي"
 msgid "Covering Until"
 msgstr "يغطي حتى"
 
-#: frontend/src/mail/OneMail.vue:212
+#: frontend/src/mail/OneMail.vue:240
 #: onedesk/public/js/one_mail/onemail_settings.js:69
 #, python-brace-format
 msgid "Covering until {0}"
@@ -11513,7 +11536,7 @@ msgstr "يغطي حتى {0}"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Marketing Campaign project template
-#: frontend/src/mail/OneMail.vue:313
+#: frontend/src/mail/MailTeam.vue:27 frontend/src/mail/OneMail.vue:341
 #: frontend/src/writer/components/NewVersionDialog.vue:8
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -12149,7 +12172,7 @@ msgstr "دور مخصص في {0}"
 #. Label in the One Supplier Quotation print format
 #. Label in the One Timesheet print format
 #: frontend/src/project/Invoices.vue:24 frontend/src/project/Money.vue:17
-#: onedesk/one/ready.py:208 onedesk/one_admin/doctype/tenant/tenant.json:127
+#: onedesk/one/ready.py:209 onedesk/one_admin/doctype/tenant/tenant.json:127
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:57
 #: onedesk/one_admin/doctype/tenant_event/tenant_event_list.js:30
 #: onedesk/one_ai/doctype/reading_reference/reading_reference.json:18
@@ -12996,7 +13019,7 @@ msgstr "رفض"
 msgid "Decline Quotation"
 msgstr "رفض عرض السعر"
 
-#: onedesk/one_mail/ai.py:923
+#: onedesk/one_mail/ai.py:933
 #, python-brace-format
 msgid "Decline {0}"
 msgstr "رفض {0}"
@@ -13060,7 +13083,7 @@ msgstr "تنظيف شامل"
 #: frontend/src/inventory/item/ItemSuppliers.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:28
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:84
-#: onedesk/one/ai.py:2590 onedesk/one/ready.py:609
+#: onedesk/one/ai.py:2590 onedesk/one/ready.py:616
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/doctype_settings.js:324
 #: onedesk/public/js/doctype_settings.js:346
@@ -13078,7 +13101,7 @@ msgstr ""
 msgid "Default Finished Goods Warehouse"
 msgstr ""
 
-#: onedesk/one_mail/ai.py:1061
+#: onedesk/one_mail/ai.py:1071
 #: onedesk/public/js/one_mail/onemail_settings.js:1125
 #: onedesk/public/js/one_mail/onemail_settings.js:1186
 msgid "Default Incoming"
@@ -13098,7 +13121,7 @@ msgstr "الرسالة الافتراضية"
 msgid "Default Operating Cost Account"
 msgstr ""
 
-#: onedesk/one_mail/ai.py:1062
+#: onedesk/one_mail/ai.py:1072
 #: onedesk/public/js/one_mail/onemail_settings.js:1134
 #: onedesk/public/js/one_mail/onemail_settings.js:1186
 msgid "Default Outgoing"
@@ -13195,8 +13218,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/cloud/OneCloud.vue:542 frontend/src/cloud/OneCloud.vue:628
-#: frontend/src/mail/OneMail.vue:148 frontend/src/mail/OneMail.vue:180
-#: frontend/src/mail/OneMail.vue:287
+#: frontend/src/mail/OneMail.vue:176 frontend/src/mail/OneMail.vue:208
+#: frontend/src/mail/OneMail.vue:315
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:734
 #: frontend/src/sheet/components/SheetEditor/index.vue:1102
@@ -13341,8 +13364,8 @@ msgstr "حذف صوت مقابلة مسجلة قبل انتهاء مدة الا�
 msgid "Delete this rule?"
 msgstr "حذف هذه القاعدة؟"
 
-#: onedesk/one_ai/proposals.py:658 onedesk/one_mail/ai.py:768
-#: onedesk/one_mail/ai.py:921 onedesk/public/js/one_ai/panel/Record.vue:139
+#: onedesk/one_ai/proposals.py:658 onedesk/one_mail/ai.py:778
+#: onedesk/one_mail/ai.py:931 onedesk/public/js/one_ai/panel/Record.vue:139
 #: onedesk/public/js/one_legal/trust_center.js:135
 #, python-brace-format
 msgid "Delete {0}"
@@ -13388,7 +13411,7 @@ msgstr "حذف {0}؟"
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "حذف {0}؟ سيُبلَّغ كل المدعوين بإلغائه."
 
-#: frontend/src/mail/OneMail.vue:327
+#: frontend/src/mail/OneMail.vue:355
 #, python-brace-format
 msgid "Delete {0}? Its messages move to Trash."
 msgstr "حذف {0}؟ تنتقل رسائله إلى المهملات."
@@ -14326,6 +14349,7 @@ msgid "Disabled"
 msgstr "معطّل"
 
 #: frontend/portal/src/parts/WebForm.vue:5
+#: frontend/src/mail/MailConversation.vue:86
 msgid "Discard"
 msgstr "تجاهل"
 
@@ -14774,9 +14798,11 @@ msgstr "نطاقات بالانتظار"
 #. Label in the One Work Order print format
 #. Label in the One Appraisal print format
 #. Label in the One Delivery Trip print format
+#. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. Label of the done (Check) field in DocType 'Task Step'
 #: frontend/src/cloud/CloudUploads.vue:14 frontend/src/display/Counter.vue:20
-#: frontend/src/intake/IntakeInbox.vue:83
+#: frontend/src/intake/IntakeInbox.vue:83 frontend/src/mail/MailList.vue:57
+#: frontend/src/mail/MailTeam.vue:13 frontend/src/mail/OneMail.vue:134
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
 #: frontend/src/slide/shim/EditorNavbar.vue:30
@@ -14794,6 +14820,7 @@ msgstr "نطاقات بالانتظار"
 #: onedesk/one_hr/doctype/clock_device/clock_device.js:32
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_project/portal.py:16 onedesk/one_slide/decks.py:64
 #: onedesk/one_slide/decks.py:236
 #: onedesk/one_task/doctype/task_step/task_step.json:28
@@ -14949,7 +14976,7 @@ msgid "Dr Name Surname"
 msgstr "د. الاسم الكنية"
 
 #: frontend/src/inventory/item/ItemMaking.vue:115
-#: frontend/src/project/Time.vue:80
+#: frontend/src/mail/MailList.vue:53 frontend/src/project/Time.vue:80
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:17
 msgid "Draft"
 msgstr "مسودة"
@@ -16504,7 +16531,7 @@ msgstr "نوع التوظيف"
 msgid "Employment Types"
 msgstr "أنواع التوظيف"
 
-#: onedesk/one/ready.py:990
+#: onedesk/one/ready.py:1017
 msgid "Empty"
 msgstr ""
 
@@ -16793,7 +16820,7 @@ msgid "Equals"
 msgstr "يساوي"
 
 #. Label in the One Equipment Handover print format
-#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:286
+#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:292
 #: onedesk/one_hr/heads.py:743
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
@@ -17219,7 +17246,7 @@ msgstr "يُرحّل كل استلام وتسليم إلى حسابات المخ
 msgid "Every record in the workspace."
 msgstr "كل سجل في مساحة العمل."
 
-#: onedesk/one_quality/home.py:29
+#: onedesk/one_quality/home.py:31
 msgid "Every review, passed or failed, goal by goal."
 msgstr "كل مراجعة، ناجحة أو فاشلة، هدفاً تلو الآخر."
 
@@ -18412,7 +18439,7 @@ msgstr "رابط الملف"
 msgid "File not found"
 msgstr "الملف غير موجود"
 
-#: onedesk/one_mail/ai.py:806
+#: onedesk/one_mail/ai.py:816
 #, python-brace-format
 msgid "File on {0}"
 msgstr "حفظ في {0}"
@@ -19042,7 +19069,7 @@ msgstr "طيّ أو فتح"
 msgid "Folder"
 msgstr "المجلد"
 
-#: frontend/src/mail/OneMail.vue:310
+#: frontend/src/mail/OneMail.vue:338
 msgid "Folder Name"
 msgstr "اسم المجلد"
 
@@ -19502,12 +19529,15 @@ msgstr "التنسيق"
 msgid "Forms and integrations"
 msgstr "النماذج والتكاملات"
 
-#: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:77
-#: onedesk/one_interface/shortcuts.py:17 onedesk/one_mail/shortcuts.py:15
+#. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
+#: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:91
+#: onedesk/one_interface/shortcuts.py:17
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
+#: onedesk/one_mail/shortcuts.py:15
 #: onedesk/public/js/one_interface/frame.js:247
 #: onedesk/public/js/one_mail/rule_builder.js:44
 msgid "Forward"
-msgstr "تقدم"
+msgstr "إعادة توجيه"
 
 #: onedesk/public/js/one_mail/rule_builder.js:722
 #: onedesk/public/js/one_mail/rule_builder.js:725
@@ -19668,7 +19698,7 @@ msgstr "توصيل مجاني"
 msgid "Free for {0} days"
 msgstr "مجاناً لمدة {0} يوماً"
 
-#: onedesk/one/ready.py:280
+#: onedesk/one/ready.py:286
 msgid "Free to Sell"
 msgstr "متاح للبيع"
 
@@ -19846,7 +19876,7 @@ msgstr "ودودون وسريعون. سأعود مجدداً."
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
-#: onedesk/one_mail/ai.py:852 onedesk/one_mail/flow.py:283
+#: onedesk/one_mail/ai.py:862 onedesk/one_mail/flow.py:283
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/print_blocks.py:58 onedesk/one_studio/print_blocks.py:62
 #: onedesk/one_studio/print_blocks.py:77 onedesk/public/js/item_actions.js:117
@@ -21684,7 +21714,7 @@ msgstr "كيف يُطابق سطر البنك دون سؤال."
 msgid "How a cheque is printed for each bank."
 msgstr "كيف يُطبع الشيك لكل بنك."
 
-#: onedesk/one_quality/home.py:24
+#: onedesk/one_quality/home.py:26
 msgid "How a piece of work is done, step by step, and who owns it."
 msgstr "كيف يُنجز العمل خطوة بخطوة، ومن المسؤول عنه."
 
@@ -22107,7 +22137,7 @@ msgstr "كيف تُفوتر الاشتراكات وتُلغى."
 msgid "How the Job Stands"
 msgstr "أين يقف العمل"
 
-#: onedesk/one_mail/ai.py:1055
+#: onedesk/one_mail/ai.py:1065
 msgid "How the Workspace's Mail Is Set Up"
 msgstr "إعداد بريد مساحة العمل"
 
@@ -22692,6 +22722,11 @@ msgstr "قيد التنفيذ"
 msgid "In Recycle Bin"
 msgstr "في سلة المحذوفات"
 
+#. Label of the in_reply_to (Link) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:84
+msgid "In Reply To"
+msgstr ""
+
 #: onedesk/one_project/portal.py:15
 msgid "In Review"
 msgstr "قيد المراجعة"
@@ -22912,7 +22947,7 @@ msgstr "في {holiday_list}: {what}. تُحتسب الإجازات والحضو�
 msgid "In-app notifications are always on."
 msgstr "الإشعارات داخل التطبيق مفعّلة دائمًا."
 
-#: onedesk/one/ready.py:611
+#: onedesk/one/ready.py:618
 msgid "Inactive"
 msgstr ""
 
@@ -22929,6 +22964,8 @@ msgid "Inbox"
 msgstr "البريد الوارد"
 
 #. Name of a role
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:95
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:133
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:85
 msgid "Inbox User"
 msgstr "مستخدم صندوق الوارد"
@@ -23018,7 +23055,7 @@ msgstr "الإيرادات والمصروفات حسب مركز التكلفة �
 msgid "Income less expenses, month by month or year by year."
 msgstr "الإيرادات ناقص المصروفات، شهرًا بشهر أو سنة بسنة."
 
-#: onedesk/one_mail/ai.py:1103 onedesk/public/js/crm_record.js:72
+#: onedesk/one_mail/ai.py:1113 onedesk/public/js/crm_record.js:72
 msgid "Incoming"
 msgstr ""
 
@@ -23211,7 +23248,7 @@ msgstr "إدراج صفوف / أعمدة"
 msgid "Insert slicer"
 msgstr "إدراج مقسِّم طرق العرض"
 
-#: onedesk/one_mail/ai.py:775
+#: onedesk/one_mail/ai.py:785
 msgid "Inside"
 msgstr "داخل"
 
@@ -23998,7 +24035,7 @@ msgstr "انتهت صلاحيته في {0} وبقي {1} من {2} رصيد دون
 msgid "It failed more than once. Open it to read it yourself, or try again later."
 msgstr "فشلت القراءة أكثر من مرة. افتحه لتقرأه بنفسك، أو حاول لاحقاً."
 
-#: onedesk/one_mail/drafts.py:158
+#: onedesk/one_mail/drafts.py:163
 msgid "It has already gone."
 msgstr "تم إرساله بالفعل."
 
@@ -24523,13 +24560,18 @@ msgstr "استيراد الأصناف والعملاء والموردين"
 msgid "Items, warehouses, what is ordered and received, and the company's equipment."
 msgstr "الأصناف والمستودعات وما طُلب واستُلم ومعدات الشركة."
 
-#: onedesk/one_mail/ai.py:776
+#: onedesk/one_mail/ai.py:786
 msgid "Its Mail"
 msgstr "بريده"
 
 #: onedesk/one_crm/tour.py:46
 msgid "Its amount and probability, how long it has been in its stage, its next step and when it should close."
 msgstr "مبلغها واحتماليتها، ومدة بقائها في مرحلتها، وخطوتها التالية، وموعد إغلاقها المتوقع."
+
+#. Description of the 'Message ID' (Data) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:116
+msgid "Its copy in a connected mailbox's Drafts on the server carries this."
+msgstr ""
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
@@ -24618,7 +24660,7 @@ msgstr "متقدم للوظيفة"
 #. Label in the One Job Card print format
 #. Label of a Sidebar Item
 #. Label in the One Material Request print format
-#: onedesk/one/ready.py:571 onedesk/one_factory/home.py:26
+#: onedesk/one/ready.py:578 onedesk/one_factory/home.py:26
 #: onedesk/one_factory/home.py:59
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:72
@@ -24877,7 +24919,7 @@ msgstr "يظهر أعلى السجل ويُعاد كتابته مرة في ال�
 msgid "Kept by Law"
 msgstr "محفوظ بموجب القانون"
 
-#: onedesk/one/ready.py:283 onedesk/public/js/item_new.js:4
+#: onedesk/one/ready.py:289 onedesk/public/js/item_new.js:4
 msgid "Kept in Stock"
 msgstr "محفوظ في المخزون"
 
@@ -24966,6 +25008,7 @@ msgstr "ورشة الانطلاق"
 #. Label in the One Training Event print format
 #. Label in the One Vehicle Log print format
 #. Label of the kind (Select) field in DocType 'Face'
+#. Label of the kind (Select) field in DocType 'Mail Draft'
 #. Label of the kind (Select) field in DocType 'Mail Folder'
 #. Label of the one_kind (Select) field in DocType 'Project'
 #. Label of the op_type (Data) field in DocType 'Workbook Change'
@@ -24989,6 +25032,7 @@ msgstr "ورشة الانطلاق"
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 #: onedesk/one_mail/doctype/face/face.json:30
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:91
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:53
 #: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
@@ -26386,7 +26430,7 @@ msgstr "البنود المنتقاة"
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Label in the One Payment Request print format
 #. Label of the cloud_link (Link) field in DocType 'Presentation View'
-#: frontend/src/mail/MailConversation.vue:142
+#: frontend/src/mail/MailConversation.vue:198
 #: onedesk/one/doctype/news_item/news_item.json:81
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -26439,7 +26483,7 @@ msgstr "تم إيقاف الرابط"
 msgid "Link the contact to a customer or supplier first."
 msgstr "اربط جهة الاتصال بعميل أو مورد أولاً."
 
-#: frontend/src/mail/MailConversation.vue:137 frontend/src/mail/OneMail.vue:149
+#: frontend/src/mail/MailConversation.vue:193 frontend/src/mail/OneMail.vue:177
 msgid "Link to Record"
 msgstr "ربط بسجل"
 
@@ -27073,7 +27117,7 @@ msgstr "مصنوع من"
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one/ready.py:284
+#: onedesk/one/ready.py:290
 msgid "Made Here"
 msgstr "يُصنع هنا"
 
@@ -27193,7 +27237,7 @@ msgstr "الحركة السحرية"
 #: onedesk/one_ai/chat.py:327
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
-#: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:23
+#: onedesk/one_mail/cloud.py:65 onedesk/one_mail/linking.py:25
 #: onedesk/one_mail/sidebar/onemail/onemail.json:15
 #: onedesk/one_storage/namespace.py:388
 #: onedesk/public/js/one_interface/form.js:152
@@ -27215,7 +27259,7 @@ msgid "Mail Domain"
 msgstr "نطاق البريد"
 
 #. Name of a DocType
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:115
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:124
 msgid "Mail Draft"
 msgstr "مسودة بريد"
 
@@ -27313,11 +27357,16 @@ msgstr "البريد الذي أرسلته أو استلمته"
 msgid "Mail {0}"
 msgstr "إرسال {0} بالبريد"
 
+#. Label of the account (Link) field in DocType 'Mail Conversation'
+#. Label of the account (Link) field in DocType 'Mail Draft'
 #. Label of the account (Link) field in DocType 'Mail Folder'
 #. Label of the account (Link) field in DocType 'Mail Rule'
-#: onedesk/one_mail/ai.py:283 onedesk/one_mail/ai.py:729
-#: onedesk/one_mail/ai.py:774 onedesk/one_mail/ai.py:810
-#: onedesk/one_mail/ai.py:851 onedesk/one_mail/ai.py:928
+#: onedesk/one_mail/ai.py:283 onedesk/one_mail/ai.py:739
+#: onedesk/one_mail/ai.py:784 onedesk/one_mail/ai.py:820
+#: onedesk/one_mail/ai.py:861 onedesk/one_mail/ai.py:938
+#: onedesk/one_mail/ai.py:1291
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:26
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:32
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:32
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:25
 #: onedesk/public/js/one_ai/ai_center.js:489
@@ -27334,7 +27383,7 @@ msgstr "صندوق بريد لا يمكن الوصول إليه"
 msgid "Mailbox OneAI Limit Reached"
 msgstr "بلغ صندوق البريد حد OneAI"
 
-#: frontend/src/mail/OneMail.vue:305
+#: frontend/src/mail/OneMail.vue:333
 msgid "Mailbox Settings"
 msgstr "إعدادات صندوق البريد"
 
@@ -27348,7 +27397,7 @@ msgstr "صندوق بريد شورك معك"
 msgid "Mailbox connected"
 msgstr "تم ربط صندوق البريد"
 
-#: frontend/src/mail/OneMail.vue:264 onedesk/one_mail/abilities.py:18
+#: frontend/src/mail/OneMail.vue:292 onedesk/one_mail/abilities.py:18
 #: onedesk/public/js/one_ai/ai_center.js:143
 #: onedesk/public/js/one_ai/ai_center.js:473
 #: onedesk/public/js/one_mail/onemail_settings.js:49
@@ -27790,6 +27839,7 @@ msgstr "التسجيل كـ"
 msgid "Mark Attendance"
 msgstr ""
 
+#: frontend/src/mail/MailTeam.vue:13 onedesk/one_mail/ai.py:1282
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:7
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:9
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:14
@@ -27808,20 +27858,20 @@ msgstr "وضع علامة كمُراجَع"
 msgid "Mark as Done"
 msgstr "تعليم كمكتمل"
 
-#: onedesk/one_mail/ai.py:648 onedesk/one_mail/flow.py:328
+#: onedesk/one_mail/ai.py:658 onedesk/one_mail/flow.py:328
 #: onedesk/public/js/one_mail/rule_builder.js:40
 msgid "Mark as Read"
 msgstr "تعليم كمقروء"
 
-#: onedesk/one_mail/ai.py:649 onedesk/one_mail/shortcuts.py:19
+#: onedesk/one_mail/ai.py:659 onedesk/one_mail/shortcuts.py:19
 msgid "Mark as Unread"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:143 frontend/src/mail/OneMail.vue:175
+#: frontend/src/mail/OneMail.vue:171 frontend/src/mail/OneMail.vue:203
 msgid "Mark as read"
 msgstr "تعليم كمقروء"
 
-#: frontend/src/mail/OneMail.vue:144 frontend/src/mail/OneMail.vue:175
+#: frontend/src/mail/OneMail.vue:172 frontend/src/mail/OneMail.vue:203
 msgid "Mark as unread"
 msgstr "تعليم كغير مقروء"
 
@@ -28123,6 +28173,10 @@ msgstr "المواد المستخدمة"
 msgid "Materials We Send"
 msgstr "المواد التي نرسلها"
 
+#: onedesk/one_factory/portal.py:49
+msgid "Materials to come"
+msgstr "المواد قيد الإرسال"
+
 #: onedesk/one_display/starters.py:1047
 msgid "Maths"
 msgstr "رياضيات"
@@ -28158,7 +28212,7 @@ msgstr "لون الحد الأقصى"
 msgid "May"
 msgstr ""
 
-#: onedesk/one_mail/ai.py:1003
+#: onedesk/one_mail/ai.py:1013
 msgid "May Change"
 msgstr "يمكنه تغيير"
 
@@ -28254,7 +28308,7 @@ msgstr "غرف الاجتماعات"
 msgid "Meetings Still Open"
 msgstr "اجتماعات ما زالت مفتوحة"
 
-#: onedesk/one_quality/home.py:16
+#: onedesk/one_quality/home.py:18
 msgid "Meetings and Feedback"
 msgstr "الاجتماعات والملاحظات"
 
@@ -28335,6 +28389,7 @@ msgstr "دمج الخلايا"
 #. Label in the One Request for Quotation Bordered print format
 #. Label in the One Request for Quotation Classic print format
 #. Label in the One Request for Quotation with Images print format
+#. Label of the content (Long Text) field in DocType 'Mail Draft'
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #: frontend/src/mail/MailBody.vue:13
 #: onedesk/one/custom/notification_type.json:67
@@ -28346,6 +28401,7 @@ msgstr "دمج الخلايا"
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:61
 #: onedesk/one_mail/mail_templates.py:316
 #: onedesk/one_mail/mail_templates.py:317
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:53
@@ -28364,7 +28420,9 @@ msgid "Message"
 msgstr "الرسالة"
 
 #. Label of the message_id (Data) field in DocType 'Reading'
+#. Label of the message_id (Data) field in DocType 'Mail Draft'
 #: onedesk/one_ai/doctype/reading/reading.json:139
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:113
 msgid "Message ID"
 msgstr "معرّف الرسالة"
 
@@ -28449,6 +28507,7 @@ msgstr "الأدنى"
 msgid "Min colour"
 msgstr "لون الحد الأدنى"
 
+#: frontend/src/mail/OneMail.vue:132
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
 msgid "Mine"
 msgstr "الخاصة بي"
@@ -28839,7 +28898,7 @@ msgstr "نقل النشرات والإشعارات خارج البريد الو�
 msgid "Move selection"
 msgstr "نقل التحديد"
 
-#: frontend/src/mail/OneMail.vue:146
+#: frontend/src/mail/OneMail.vue:174
 msgid "Move to"
 msgstr "نقل إلى"
 
@@ -28851,7 +28910,7 @@ msgstr "نقل إلى مجلد"
 msgid "Move to Junk"
 msgstr "نقل إلى البريد غير الهام"
 
-#: onedesk/one_mail/ai.py:647
+#: onedesk/one_mail/ai.py:657
 msgid "Move to Trash"
 msgstr "نقل إلى المهملات"
 
@@ -28859,7 +28918,7 @@ msgstr "نقل إلى المهملات"
 msgid "Move to the Top"
 msgstr "النقل إلى الأعلى"
 
-#: onedesk/one_mail/ai.py:645 onedesk/one_mail/flow.py:316
+#: onedesk/one_mail/ai.py:655 onedesk/one_mail/flow.py:316
 #, python-brace-format
 msgid "Move to {0}"
 msgstr "نقل إلى {0}"
@@ -28874,7 +28933,7 @@ msgstr "عطلة الانتقال"
 msgid "Move {0}"
 msgstr "نقل {0}"
 
-#: frontend/src/mail/OneMail.vue:478 onedesk/one_inventory/heads.py:633
+#: frontend/src/mail/OneMail.vue:512 onedesk/one_inventory/heads.py:633
 msgid "Moved"
 msgstr "تم النقل"
 
@@ -28896,7 +28955,7 @@ msgstr "أُعيد نقله"
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
-#: frontend/src/mail/OneMail.vue:478 onedesk/one_mail/ai.py:776
+#: frontend/src/mail/OneMail.vue:512 onedesk/one_mail/ai.py:786
 msgid "Moved to Trash"
 msgstr "نُقل إلى المهملات"
 
@@ -29409,6 +29468,7 @@ msgstr "لم تُستخدم"
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #. Label in the One Leave Allocation print format
+#. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
 #: frontend/src/cloud/OneCloud.vue:6 frontend/src/cloud/OneCloud.vue:49
 #: frontend/src/slide/utils/slideMenu.js:9
 #: onedesk/one_admin/doctype/account_request/account_request.json:66
@@ -29416,6 +29476,7 @@ msgstr "لم تُستخدم"
 #: onedesk/one_display/widgets.py:322
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
 #: onedesk/public/js/one_interface/look.js:719
@@ -29427,7 +29488,7 @@ msgstr "جديد"
 msgid "New Address"
 msgstr "عنوان جديد"
 
-#: onedesk/one_mail/ai.py:1059
+#: onedesk/one_mail/ai.py:1069
 msgid "New Addresses Send"
 msgstr "العناوين الجديدة ترسل"
 
@@ -29477,7 +29538,7 @@ msgid "New Document"
 msgstr "مستند جديد"
 
 #: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
-#: frontend/src/mail/OneMail.vue:487 onedesk/one_mail/shortcuts.py:12
+#: frontend/src/mail/OneMail.vue:533 onedesk/one_mail/shortcuts.py:12
 #: onedesk/public/js/one_interface/form.js:239
 #: onedesk/public/js/one_mail/record_mail.js:35
 #: onedesk/www/account_profile.html:36
@@ -29507,12 +29568,12 @@ msgstr "مطالبة نفقات جديدة"
 msgid "New Fiscal Year"
 msgstr "سنة مالية جديدة"
 
-#: frontend/src/mail/OneMail.vue:282 frontend/src/mail/OneMail.vue:299
-#: frontend/src/mail/OneMail.vue:313
+#: frontend/src/mail/OneMail.vue:310 frontend/src/mail/OneMail.vue:327
+#: frontend/src/mail/OneMail.vue:341
 msgid "New Folder"
 msgstr "مجلد جديد"
 
-#: onedesk/one_mail/ai.py:766
+#: onedesk/one_mail/ai.py:776
 #, python-brace-format
 msgid "New Folder {0}"
 msgstr "مجلد جديد {0}"
@@ -30053,7 +30114,7 @@ msgstr "السجل التالي"
 msgid "Next Run"
 msgstr "التشغيل التالي"
 
-#: onedesk/one/ready.py:330
+#: onedesk/one/ready.py:336
 msgid "Next Service"
 msgstr "الصيانة التالية"
 
@@ -30090,6 +30151,10 @@ msgstr "موعد الخطوة التالية"
 #: onedesk/one_crm/heads.py:430
 msgid "Next Visit"
 msgstr "الزيارة التالية"
+
+#: frontend/src/mail/MailTeam.vue:113
+msgid "Next Week"
+msgstr ""
 
 #: onedesk/public/js/one_hr/hr_control.js:124
 msgid "Next Year's List"
@@ -30314,7 +30379,7 @@ msgstr "إعادة التحميل الليلية."
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_legal/abilities.py:21 onedesk/one_mail/abilities.py:23
-#: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1052
+#: onedesk/one_mail/ai.py:1012 onedesk/one_mail/ai.py:1062
 #: onedesk/one_portal/abilities.py:21 onedesk/one_project/abilities.py:20
 #: onedesk/one_quality/abilities.py:17 onedesk/one_sheet/abilities.py:22
 #: onedesk/one_slide/abilities.py:22 onedesk/one_studio/print_blocks.py:427
@@ -30327,7 +30392,7 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:468
+#: frontend/src/mail/OneMail.vue:502
 msgid "No Archive folder in this mailbox"
 msgstr "لا يوجد مجلد أرشيف في صندوق البريد هذا"
 
@@ -30723,7 +30788,7 @@ msgstr "لا توجد قوالب بريد"
 msgid "No mailbox can send as {0}."
 msgstr "لا يوجد صندوق بريد يمكنه الإرسال باسم {0}."
 
-#: frontend/src/mail/OneMail.vue:53 onedesk/public/js/one_ai/ai_center.js:145
+#: frontend/src/mail/OneMail.vue:56 onedesk/public/js/one_ai/ai_center.js:145
 #: onedesk/public/js/one_ai/ai_center.js:260
 #: onedesk/public/js/one_mail/onemail_settings.js:64
 #: onedesk/public/js/one_mail/onemail_settings.js:1243
@@ -31146,7 +31211,7 @@ msgstr "لا يوجد {0} بعد، لذا تبقى حقوله فارغة."
 msgid "No."
 msgstr ""
 
-#: frontend/src/project/Time.vue:126
+#: frontend/src/mail/MailTeam.vue:87 frontend/src/project/Time.vue:126
 msgid "Nobody"
 msgstr "لا أحد"
 
@@ -31225,7 +31290,7 @@ msgstr "لا أحد بعد."
 #. Label of a Sidebar Item
 #: frontend/src/quality/QualityHome.vue:153
 #: onedesk/one_quality/custom/quality_action.json:6
-#: onedesk/one_quality/heads.py:86 onedesk/one_quality/home.py:22
+#: onedesk/one_quality/heads.py:86 onedesk/one_quality/home.py:24
 #: onedesk/one_quality/sidebar/onequality/onequality.json:33
 msgid "Non Conformance"
 msgstr "عدم مطابقة"
@@ -31662,7 +31727,7 @@ msgstr "لم تُراجع بعد"
 msgid "Not saved"
 msgstr "لم يُحفظ"
 
-#: frontend/src/mail/MailConversation.vue:67
+#: frontend/src/mail/MailConversation.vue:75
 msgid "Not saved, storage is full"
 msgstr "لم يُحفظ، التخزين ممتلئ"
 
@@ -32517,7 +32582,7 @@ msgstr "المناوبون اليوم"
 msgid "On Everyone's Calendar"
 msgstr "في تقويم الجميع"
 
-#: onedesk/one/ready.py:280 onedesk/public/js/item_list.js:22
+#: onedesk/one/ready.py:286 onedesk/public/js/item_list.js:22
 msgid "On Hand"
 msgstr "في المخزون"
 
@@ -32541,7 +32606,7 @@ msgstr "في إجازة"
 msgid "On Leave Today"
 msgstr "في إجازة اليوم"
 
-#: frontend/src/mail/OneMail.vue:214
+#: frontend/src/mail/OneMail.vue:242
 #: onedesk/public/js/one_mail/onemail_settings.js:70
 #, python-brace-format
 msgid "On Leave until {0}"
@@ -32565,7 +32630,7 @@ msgstr "على سجل واحد"
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:280
+#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:286
 msgid "On Order"
 msgstr "قيد الطلب"
 
@@ -33095,7 +33160,7 @@ msgstr "سياسات One تتغيّر"
 #. 'Interview'
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
-#: frontend/src/mail/OneMail.vue:302
+#: frontend/src/mail/OneMail.vue:330
 #: onedesk/one/doctype/news_source/news_source.json:57
 #: onedesk/one/doctype/news_source/news_source.json:144
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:180
@@ -33574,7 +33639,7 @@ msgstr "عند فتح الصفحة الرئيسية لـ OneInventory، وكلم
 #. Label of the one_mail_section (Section Break) field in DocType
 #. 'Communication'
 #. Title of a Sidebar
-#: frontend/src/mail/OneMail.vue:194
+#: frontend/src/mail/OneMail.vue:222
 #: onedesk/one_mail/custom/communication.json:9
 #: onedesk/one_mail/page/onemail/onemail.js:2
 #: onedesk/one_mail/sidebar/onemail/onemail.json:29
@@ -33945,7 +34010,7 @@ msgstr "لا يمكن الإخفاء إلا عن جهات اتصال السجل 
 msgid "Only the workspace's administrators set who may do what."
 msgstr "لا يحدد من يفعل ماذا إلا مسؤولو مساحة العمل."
 
-#: onedesk/one_mail/drafts.py:154
+#: onedesk/one_mail/drafts.py:159
 msgid "Only whoever wrote it may take it back."
 msgstr "لا يستردها إلا من كتبها."
 
@@ -33992,18 +34057,21 @@ msgstr "العتامة"
 #. Label of the open (Check) field in DocType 'Workspace Server'
 #. Option for the 'Matter State' (Select) field in DocType 'Reading'
 #. Option for the 'Outcome' (Select) field in DocType 'Sales Stage'
+#. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
 #: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:593
 #: frontend/src/cloud/OneCloud.vue:597 frontend/src/cloud/OneCloud.vue:606
 #: frontend/src/factory/floor/ShopFloor.vue:119
-#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:170
+#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:131
+#: frontend/src/mail/OneMail.vue:198
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:289
 #: onedesk/one_crm/custom/sales_stage.json:28
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
 #: onedesk/one_project/status.py:14
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:40
@@ -35077,7 +35145,7 @@ msgstr "من 100."
 msgid "Out of 100. Below Flag Below Score the log is flagged for review."
 msgstr "من 100. تحت قيمة «الإشارة تحت الدرجة» يُعلَّم السجل للمراجعة."
 
-#: frontend/src/mail/OneMail.vue:215 frontend/src/mail/OneMail.vue:301
+#: frontend/src/mail/OneMail.vue:243 frontend/src/mail/OneMail.vue:329
 #: onedesk/one_mail/abilities.py:37
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #: onedesk/public/js/one_mail/onemail_settings.js:311
@@ -35085,11 +35153,11 @@ msgstr "من 100. تحت قيمة «الإشارة تحت الدرجة» يُع�
 msgid "Out of Office"
 msgstr "خارج المكتب"
 
-#: onedesk/one_mail/ai.py:849
+#: onedesk/one_mail/ai.py:859
 msgid "Out of Office Off"
 msgstr "إيقاف الرد خارج المكتب"
 
-#: onedesk/one_mail/ai.py:849
+#: onedesk/one_mail/ai.py:859
 msgid "Out of Office On"
 msgstr "تشغيل الرد خارج المكتب"
 
@@ -35098,7 +35166,7 @@ msgstr "تشغيل الرد خارج المكتب"
 msgid "Out of Office Replies"
 msgstr "ردود الغياب"
 
-#: frontend/src/mail/OneMail.vue:215
+#: frontend/src/mail/OneMail.vue:243
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #, python-brace-format
 msgid "Out of Office until {0}"
@@ -35161,7 +35229,7 @@ msgstr "قديم"
 msgid "Outflow"
 msgstr "التدفق الخارج"
 
-#: onedesk/one_mail/ai.py:1104 onedesk/public/js/crm_record.js:71
+#: onedesk/one_mail/ai.py:1114 onedesk/public/js/crm_record.js:71
 msgid "Outgoing"
 msgstr ""
 
@@ -35399,7 +35467,7 @@ msgstr "مستحق له"
 msgid "Owing"
 msgstr "عليها مستحقات"
 
-#: onedesk/one_mail/ai.py:1057
+#: onedesk/one_mail/ai.py:1067
 msgid "Own Mailboxes"
 msgstr "صناديق البريد الخاصة"
 
@@ -35844,6 +35912,10 @@ msgstr "جزء من"
 msgid "Part one"
 msgstr "الجزء الأول"
 
+#: onedesk/one_factory/portal.py:52
+msgid "Part returned"
+msgstr "أُعيد جزء"
+
 #. Label of the parties (Table) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:498
 msgid "Parties"
@@ -35940,7 +36012,7 @@ msgstr "تُملأ الأجزاء بين {{ }} و{% %} عند الإرسال."
 msgid "Party"
 msgstr "الطرف"
 
-#: onedesk/one/ready.py:782
+#: onedesk/one/ready.py:807
 msgid "Party Account"
 msgstr ""
 
@@ -36928,7 +37000,7 @@ msgstr "بداية الفترة"
 msgid "Periods"
 msgstr "الفترات"
 
-#: frontend/src/mail/OneMail.vue:454
+#: frontend/src/mail/OneMail.vue:488
 msgid "Permanently delete these messages? This can't be undone."
 msgstr "حذف هذه الرسائل نهائيًا؟ لا يمكن التراجع عن ذلك."
 
@@ -38297,7 +38369,7 @@ msgstr "انتهاء فترة التجربة"
 msgid "Problem"
 msgstr "المشكلة"
 
-#: onedesk/one_quality/home.py:14
+#: onedesk/one_quality/home.py:16
 msgid "Problems and Actions"
 msgstr "المشكلات والإجراءات"
 
@@ -38311,7 +38383,7 @@ msgstr "حل المشكلات"
 msgid "Procedure"
 msgstr ""
 
-#: onedesk/one_quality/home.py:15
+#: onedesk/one_quality/home.py:17
 msgid "Procedures and Goals"
 msgstr "الإجراءات والأهداف"
 
@@ -38332,7 +38404,7 @@ msgid "Process Loss Report"
 msgstr ""
 
 #. Label of the 'full_name' field in DocType 'Non Conformance'
-#: onedesk/one_quality/custom/non_conformance.json:29
+#: onedesk/one_quality/custom/non_conformance.json:43
 #: onedesk/one_quality/heads.py:109
 msgid "Process Owner"
 msgstr ""
@@ -38998,7 +39070,7 @@ msgstr "فواتير شراء مستحقة"
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:626
+#: onedesk/one/ready.py:633
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/heads.py:1408 onedesk/one_inventory/heads.py:1417
 #: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:111
@@ -39270,26 +39342,26 @@ msgid "Quality"
 msgstr "الجودة"
 
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:668 onedesk/one/ready.py:669
-#: onedesk/one_quality/home.py:23
+#: onedesk/one/ready.py:676 onedesk/one/ready.py:677
+#: onedesk/one_quality/home.py:25
 #: onedesk/one_quality/sidebar/onequality/onequality.json:45
 msgid "Quality Action"
 msgstr "إجراء الجودة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:28
+#: onedesk/one_quality/home.py:30
 #: onedesk/one_quality/sidebar/onequality/onequality.json:105
 msgid "Quality Feedback"
 msgstr "ملاحظات الجودة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:30
+#: onedesk/one_quality/home.py:32
 #: onedesk/one_quality/sidebar/onequality/onequality.json:146
 msgid "Quality Feedback Template"
 msgstr "قالب ملاحظات الجودة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:25
+#: onedesk/one_quality/home.py:27
 #: onedesk/one_quality/sidebar/onequality/onequality.json:69
 msgid "Quality Goal"
 msgstr "هدف الجودة"
@@ -39301,19 +39373,19 @@ msgid "Quality Inspection"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:27
+#: onedesk/one_quality/home.py:29
 #: onedesk/one_quality/sidebar/onequality/onequality.json:93
 msgid "Quality Meeting"
 msgstr "اجتماع الجودة"
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:24
+#: onedesk/one_quality/home.py:26
 #: onedesk/one_quality/sidebar/onequality/onequality.json:57
 msgid "Quality Procedure"
 msgstr "إجراء العمل"
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:26
+#: onedesk/one_quality/home.py:28
 #: onedesk/one_quality/sidebar/onequality/onequality.json:81
 msgid "Quality Review"
 msgstr "مراجعة الجودة"
@@ -40298,7 +40370,7 @@ msgstr "استُلم {0} من المقاول من الباطن"
 msgid "Received, billed and paid."
 msgstr "تم الاستلام والفوترة والدفع."
 
-#: onedesk/one_mail/ai.py:1060
+#: onedesk/one_mail/ai.py:1070
 msgid "Receives only"
 msgstr "يستقبل فقط"
 
@@ -40375,7 +40447,7 @@ msgstr "إعادة ربط {0}"
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
 #: frontend/src/cloud/CloudPreview.vue:97 frontend/src/cloud/cloud.js:68
-#: frontend/src/mail/MailConversation.vue:140
+#: frontend/src/mail/MailConversation.vue:196
 #: frontend/src/slide/shim/DataDialog.vue:110
 #: onedesk/one/doctype/record_head/record_head.json:28
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json:19
@@ -40487,7 +40559,7 @@ msgstr "مشاركة السجلات"
 #. Label of the reference_doctype (Link) field in DocType 'Portal Link'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
-#: frontend/src/mail/MailConversation.vue:139
+#: frontend/src/mail/MailConversation.vue:195
 #: frontend/src/slide/shim/DataDialog.vue:109 onedesk/one/access_center.py:258
 #: onedesk/one/notification_words.py:222
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:47
@@ -40729,12 +40801,19 @@ msgstr "المرجع"
 msgid "Reference Date"
 msgstr ""
 
+#. Label of the reference_name (Dynamic Link) field in DocType 'Mail Draft'
 #: onedesk/one_book/heads.py:671 onedesk/one_inventory/heads.py:1248
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:103
 msgid "Reference Name"
 msgstr ""
 
 #: onedesk/one_book/heads.py:649 onedesk/one_book/heads.py:672
 msgid "Reference Number"
+msgstr ""
+
+#. Label of the reference_doctype (Link) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:97
+msgid "Reference Type"
 msgstr ""
 
 #. Label of the refs (Table) field in DocType 'Reading'
@@ -41054,10 +41133,18 @@ msgstr ""
 msgid "Remembered: {0}"
 msgstr "تم التذكّر: {0}"
 
+#. Label of the remind_by (Link) field in DocType 'Mail Conversation'
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:77
 #: onedesk/public/js/onecloud_dialogs.js:497
 msgid "Remind"
 msgstr "ذكّر"
 
+#. Label of the remind_at (Datetime) field in DocType 'Mail Conversation'
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:71
+msgid "Remind At"
+msgstr ""
+
+#: frontend/src/mail/MailTeam.vue:23 frontend/src/mail/MailTeam.vue:122
 #: onedesk/public/js/record.js:163
 msgid "Remind Me"
 msgstr ""
@@ -41168,7 +41255,7 @@ msgstr "إزالة واحدة"
 msgid "Remove Photo"
 msgstr "إزالة الصورة"
 
-#: onedesk/one_mail/ai.py:651
+#: onedesk/one_mail/ai.py:661
 msgid "Remove Star"
 msgstr "إزالة النجمة"
 
@@ -41222,7 +41309,7 @@ msgid "Remove your passkey?"
 msgstr "إزالة مفتاح المرور؟"
 
 #: frontend/src/task/TaskWaits.vue:8 onedesk/one/ai.py:2324
-#: onedesk/one_mail/ai.py:1089
+#: onedesk/one_mail/ai.py:1099
 #, python-brace-format
 msgid "Remove {0}"
 msgstr "إزالة {0}"
@@ -41273,7 +41360,7 @@ msgstr "إزالة العنوان"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/cloud/OneCloud.vue:539 frontend/src/cloud/OneCloud.vue:627
-#: frontend/src/mail/OneMail.vue:286 frontend/src/mail/OneMail.vue:320
+#: frontend/src/mail/OneMail.vue:314 frontend/src/mail/OneMail.vue:348
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
 #: frontend/src/sheet/components/SheetEditor/index.vue:713
 #: frontend/src/sheet/components/SheetEditor/index.vue:748
@@ -41292,7 +41379,7 @@ msgstr "إعادة تسمية"
 msgid "Rename Conversation"
 msgstr "إعادة تسمية المحادثة"
 
-#: frontend/src/mail/OneMail.vue:320
+#: frontend/src/mail/OneMail.vue:348
 msgid "Rename Folder"
 msgstr "إعادة تسمية المجلد"
 
@@ -41312,7 +41399,7 @@ msgstr "أعد تسمية الاتصال بدلًا من ذلك."
 msgid "Rename this version"
 msgstr "إعادة تسمية هذا الإصدار"
 
-#: onedesk/one_mail/ai.py:767
+#: onedesk/one_mail/ai.py:777
 #, python-brace-format
 msgid "Rename {0} to {1}"
 msgstr "إعادة تسمية {0} إلى {1}"
@@ -41511,14 +41598,16 @@ msgstr "تصل الردود على الإشعارات إلى صندوق البر
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
-#: frontend/src/mail/MailConversation.vue:75
+#. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
+#: frontend/src/mail/MailConversation.vue:89
 #: frontend/src/sheet/components/SheetEditor/index.vue:1113
 #: frontend/src/writer/components/FloatingComments.vue:157
 #: onedesk/one_ai/chat.py:316
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
-#: onedesk/one_mail/ai.py:855 onedesk/one_mail/flow.py:318
-#: onedesk/one_mail/shortcuts.py:13
+#: onedesk/one_mail/ai.py:865
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
+#: onedesk/one_mail/flow.py:318 onedesk/one_mail/shortcuts.py:13
 #: onedesk/public/js/one_mail/rule_builder.js:43
 #: onedesk/public/js/one_mail/rule_builder.js:201
 #: onedesk/public/js/record.js:118
@@ -41533,7 +41622,7 @@ msgstr "الرد على الكل"
 msgid "Reply With OneAI"
 msgstr "الرد عبر OneAI"
 
-#: frontend/src/mail/MailConversation.vue:76
+#: frontend/src/mail/MailConversation.vue:90
 msgid "Reply all"
 msgstr "رد على الكل"
 
@@ -41613,7 +41702,7 @@ msgstr "يبلّغ عنها المتصفح حيثما كان مدعومًا."
 #: onedesk/one_hr/home.py:30 onedesk/one_inventory/home.py:18
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:275
 #: onedesk/one_project/sidebar/oneproject/oneproject.json:74
-#: onedesk/one_quality/home.py:17
+#: onedesk/one_quality/home.py:19
 #: onedesk/one_quality/sidebar/onequality/onequality.json:117
 #: onedesk/one_task/sidebar/onetask/onetask.json:62
 msgid "Reports"
@@ -42104,7 +42193,7 @@ msgstr "النتائج"
 msgid "Results and lessons"
 msgstr "النتائج والدروس المستفادة"
 
-#: frontend/src/mail/OneMail.vue:129
+#: frontend/src/mail/OneMail.vue:157
 #, python-brace-format
 msgid "Results for {0}"
 msgstr "نتائج {0}"
@@ -42321,6 +42410,10 @@ msgstr "إرجاع إلى المخزن"
 msgid "Return {0} ({1})"
 msgstr "إرجاع {0} ({1})"
 
+#: onedesk/one_factory/portal.py:53
+msgid "Returned"
+msgstr ""
+
 #: onedesk/one_hr/heads.py:839
 msgid "Returned Amount"
 msgstr ""
@@ -42358,7 +42451,7 @@ msgstr "رقم إعادة التقييم"
 #: onedesk/one_crm/portal.py:49 onedesk/one_display/starters.py:604
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:120
 #: onedesk/one_project/library/client_onboarding.json
-#: onedesk/one_quality/home.py:29
+#: onedesk/one_quality/home.py:31
 #: onedesk/one_quality/sidebar/onequality/onequality.json:126
 #: onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.js:142
@@ -43051,7 +43144,7 @@ msgstr "فواتير المبيعات حسب الحالة"
 #. Label of a Sidebar Item
 #. Label in the One Subcontracting Inward Order print format
 #. Label in the One Work Order print format
-#: onedesk/one/ready.py:209 onedesk/one/ready.py:573
+#: onedesk/one/ready.py:210 onedesk/one/ready.py:580
 #: onedesk/one_crm/heads.py:130 onedesk/one_crm/home.py:115
 #: onedesk/one_crm/home.py:331
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -43193,7 +43286,7 @@ msgstr "السبت"
 #: frontend/src/inventory/item/ItemPlaces.vue:21
 #: frontend/src/inventory/item/ItemSuppliers.vue:20
 #: frontend/src/inventory/item/ItemSuppliers.vue:38
-#: frontend/src/kit/FieldEdit.vue:22
+#: frontend/src/kit/FieldEdit.vue:22 frontend/src/mail/MailTeam.vue:107
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/slide/composables/useShortcuts.js:232
@@ -43284,7 +43377,7 @@ msgstr "احفظ السجل قبل فتح نصه في مستند."
 msgid "Save to Library"
 msgstr "حفظ في المكتبة"
 
-#: frontend/src/mail/MailConversation.vue:59
+#: frontend/src/mail/MailConversation.vue:67
 msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
 
@@ -43336,7 +43429,7 @@ msgstr "حُفظ المستند"
 msgid "Saved report {0}"
 msgstr "التقرير المحفوظ {0}"
 
-#: frontend/src/mail/MailConversation.vue:159
+#: frontend/src/mail/MailConversation.vue:221
 msgid "Saved to My Files"
 msgstr "تم الحفظ في ملفاتي"
 
@@ -43691,7 +43784,7 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/to_order/ToOrderPage.vue:9
-#: frontend/src/mail/OneMail.vue:185 frontend/src/quality/QualityHome.vue:20
+#: frontend/src/mail/OneMail.vue:213 frontend/src/quality/QualityHome.vue:20
 #: onedesk/one_hr/custom/employee_attendance_tool.json:15
 #: onedesk/one_interface/shortcuts.py:15 onedesk/one_inventory/shortcuts.py:11
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:121
@@ -44061,6 +44154,11 @@ msgstr "فاصلة منقوطة"
 msgid "Send"
 msgstr "إرسال"
 
+#. Label of the send_after (Datetime) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:108
+msgid "Send After"
+msgstr ""
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1232
 msgid "Send From New Addresses"
 msgstr "الإرسال من العناوين الجديدة"
@@ -44210,7 +44308,7 @@ msgstr "سجلات المرسل"
 msgid "Sending…"
 msgstr "جارٍ الإرسال…"
 
-#: onedesk/one_mail/ai.py:1002 onedesk/one_mail/ai.py:1060
+#: onedesk/one_mail/ai.py:1012 onedesk/one_mail/ai.py:1070
 msgid "Sends"
 msgstr "يرسل"
 
@@ -44573,7 +44671,7 @@ msgstr "نفذ الخدمة"
 
 #. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
-#: onedesk/one/ready.py:285 onedesk/one_display/doctype/queue/queue.json:47
+#: onedesk/one/ready.py:291 onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Services"
 msgstr ""
@@ -44911,7 +45009,7 @@ msgstr "يسدّد"
 #: onedesk/one_hr/home.py:31 onedesk/one_hr/sidebar/onehr/onehr.json:68
 #: onedesk/one_inventory/home.py:19
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:289
-#: onedesk/one_quality/home.py:18
+#: onedesk/one_quality/home.py:20
 #: onedesk/one_quality/sidebar/onequality/onequality.json:137
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:61
 #: onedesk/one_task/sidebar/onetask/onetask.json:85
@@ -45024,7 +45122,7 @@ msgstr "هل تريد المشاركة مع الأشخاص المُشار إلي
 msgid "Share {0}"
 msgstr "مشاركة {0}"
 
-#: onedesk/one_mail/ai.py:998
+#: onedesk/one_mail/ai.py:1008
 #, python-brace-format
 msgid "Share {0} with {1}"
 msgstr "مشاركة {0} مع {1}"
@@ -45814,7 +45912,7 @@ msgid "Sign-off to go live"
 msgstr "الموافقة على التشغيل"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/mail/OneMail.vue:300 onedesk/one_ai/chat.py:347
+#: frontend/src/mail/OneMail.vue:328 onedesk/one_ai/chat.py:347
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/one_mail/onemail_settings.js:195
 #: onedesk/public/js/one_mail/onemail_settings.js:197
@@ -46262,7 +46360,7 @@ msgstr "وحدة المقاس"
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr "لا يمكن كتابة المقاسات بوحدة {0}. اختر وحدة طول: مليمتر، سنتيمتر، بوصة."
 
-#: onedesk/one/ready.py:287 onedesk/public/js/item_new.js:7
+#: onedesk/one/ready.py:293 onedesk/public/js/item_new.js:7
 msgid "Sizes or Colours"
 msgstr "مقاسات أو ألوان"
 
@@ -46635,6 +46733,10 @@ msgstr "في بعض البلدان عطلات تخص جزءًا من البلد 
 msgid "Some lines match no item."
 msgstr "بعض البنود لا تطابق أي صنف."
 
+#: onedesk/one_factory/portal.py:50
+msgid "Some materials sent"
+msgstr "أُرسل جزء من المواد"
+
 #: onedesk/one_ai/reading/drafts.py:27
 msgid "Some values aren't in the document."
 msgstr "بعض القيم غير موجودة في المستند."
@@ -46711,7 +46813,7 @@ msgstr "شيء اقترح نموذج فعله. ولا يحدث شيء حتى ي�
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr "أمر تراجع عنه شخص أو رفضه، يُتذكَّر للمستند التالي من الطرف نفسه."
 
-#: onedesk/one_quality/home.py:22
+#: onedesk/one_quality/home.py:24
 msgid "Something done wrong, what caused it and what stops it again."
 msgstr "عمل نُفذ بشكل خاطئ، وسببه، وما يمنع تكراره."
 
@@ -46856,7 +46958,7 @@ msgstr ""
 msgid "Source Type"
 msgstr "نوع المصدر"
 
-#: onedesk/one/ready.py:443
+#: onedesk/one/ready.py:449
 msgid "Source Warehouse"
 msgstr ""
 
@@ -47107,11 +47209,11 @@ msgstr "التقييم"
 msgid "Standing (9:16)"
 msgstr "عمودي (9:16)"
 
-#: frontend/src/cloud/OneCloud.vue:623 frontend/src/mail/MailList.vue:64
-#: frontend/src/mail/OneMail.vue:145 frontend/src/mail/OneMail.vue:176
+#: frontend/src/cloud/OneCloud.vue:623 frontend/src/mail/MailList.vue:68
+#: frontend/src/mail/OneMail.vue:173 frontend/src/mail/OneMail.vue:204
 #: frontend/src/slide/shim/LayersPanel.vue:99
 #: frontend/src/slide/utils/toolbarTools.js:54
-#: onedesk/one_display/widgets.py:66 onedesk/one_mail/ai.py:650
+#: onedesk/one_display/widgets.py:66 onedesk/one_mail/ai.py:660
 #: onedesk/one_mail/flow.py:329 onedesk/public/js/one_mail/rule_builder.js:41
 msgid "Star"
 msgstr "تمييز بنجمة"
@@ -47231,7 +47333,7 @@ msgstr "ابدأ الكتابة..."
 msgid "Start {0}"
 msgstr "بدء {0}"
 
-#: onedesk/one_mail/ai.py:1133
+#: onedesk/one_mail/ai.py:1143
 #, python-brace-format
 msgid "Start {0} Mail with {1}"
 msgstr "بدء بريد {0} بـ {1}"
@@ -47431,6 +47533,7 @@ msgstr ""
 #. Label in the One Sales Forecast print format
 #. Label in the One Stock Closing Entry print format
 #. Label in the One Stock Reservation Entry print format
+#. Label of the status (Select) field in DocType 'Mail Conversation'
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
 #: frontend/src/factory/floor/OrderRows.vue:6
@@ -47499,6 +47602,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_sales_forecast/one_sales_forecast.json
 #: onedesk/one_inventory/print_format/one_stock_closing_entry/one_stock_closing_entry.json
 #: onedesk/one_inventory/print_format/one_stock_reservation_entry/one_stock_reservation_entry.json
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:49
 #: onedesk/one_portal/portal.py:34 onedesk/one_project/ai.py:539
 #: onedesk/one_project/portal.py:339 onedesk/one_project/portal.py:344
 #: onedesk/one_project/report/project_progress/project_progress.js:5
@@ -47671,7 +47775,7 @@ msgid "Stock Count"
 msgstr "جرد المخزون"
 
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:572 onedesk/one_inventory/home.py:94
+#: onedesk/one/ready.py:579 onedesk/one_inventory/home.py:94
 #: onedesk/one_inventory/home.py:262
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:93
 msgid "Stock Entry"
@@ -47899,7 +48003,7 @@ msgstr "إيقاف العرض المباشر"
 msgid "Stop Repeating"
 msgstr "إيقاف التكرار"
 
-#: onedesk/one_mail/ai.py:998
+#: onedesk/one_mail/ai.py:1008
 #, python-brace-format
 msgid "Stop Sharing {0} with {1}"
 msgstr "إيقاف مشاركة {0} مع {1}"
@@ -47994,7 +48098,7 @@ msgstr "التخزين ممتلئ"
 msgid "Storage Nearly Full"
 msgstr "التخزين شبه ممتلئ"
 
-#: frontend/src/mail/MailConversation.vue:104
+#: frontend/src/mail/MailConversation.vue:127
 msgid "Storage is full. Saved automatically once there's space."
 msgstr "التخزين ممتلئ. سيُحفظ تلقائيًا عند توفر مساحة."
 
@@ -48231,11 +48335,15 @@ msgstr "عنوان فرعي"
 
 #. Label of the one_subject (Data) field in DocType 'Notification Type'
 #. Label in the One Employee Grievance print format
+#. Label of the subject (Data) field in DocType 'Mail Conversation'
+#. Label of the subject (Data) field in DocType 'Mail Draft'
 #: onedesk/one/custom/notification_type.json:55
 #: onedesk/one/notification_words.py:227 onedesk/one/notify.py:269
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:41
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:40
 #: onedesk/one_mail/flow.py:285 onedesk/one_mail/mail_templates.py:315
 #: onedesk/one_studio/automation_steps.py:41
 #: onedesk/public/js/doctype_settings.js:138
@@ -48713,7 +48821,7 @@ msgstr "طلبات الدعم"
 msgid "Support Settings"
 msgstr "إعدادات الدعم"
 
-#: frontend/src/mail/OneMail.vue:186
+#: frontend/src/mail/OneMail.vue:214
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr "يدعم from: وto: وsubject: وhas:attachment وis:unread وis:starred"
 
@@ -48909,7 +49017,7 @@ msgstr "وُسم بـ {0}"
 msgid "Take Back"
 msgstr "استرجاع"
 
-#: onedesk/one_mail/ai.py:806
+#: onedesk/one_mail/ai.py:816
 #, python-brace-format
 msgid "Take Off {0}"
 msgstr "إزالة من {0}"
@@ -49004,7 +49112,7 @@ msgstr "أخذها معك"
 msgid "Target Margin"
 msgstr "الهامش المستهدف"
 
-#: onedesk/one/ready.py:444
+#: onedesk/one/ready.py:450
 msgid "Target Warehouse"
 msgstr ""
 
@@ -49915,7 +50023,7 @@ msgstr "لهذا العنوان حساب بالفعل. سجّل الدخول ب�
 #: onedesk/one/notification_center.py:90 onedesk/one/notification_center.py:102
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:134
 #: onedesk/one/people.py:144 onedesk/one/rights.py:87 onedesk/one/rights.py:178
-#: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1230
+#: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1253
 #: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:818
 #: onedesk/one_studio/ai_setup.py:825 onedesk/one_studio/reports.py:210
 #: onedesk/one_studio/reports.py:242
@@ -49949,7 +50057,7 @@ msgstr "هذه المسودة لشخص آخر."
 msgid "That event is not on your calendar."
 msgstr "هذا الحدث ليس في تقويمك."
 
-#: onedesk/one_mail/api.py:94
+#: onedesk/one_mail/api.py:112
 msgid "That folder is not in this mailbox."
 msgstr "هذا المجلد ليس في صندوق البريد هذا."
 
@@ -50283,7 +50391,7 @@ msgstr "العناوين المرسَل إليها"
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr "العناوين في التكرار، ومنشئه عند الفشل"
 
-#: onedesk/one_quality/home.py:27
+#: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "جدول أعمال اجتماع الجودة ومحضره."
 
@@ -50501,7 +50609,7 @@ msgid "The contract with {party} ends on {date}"
 msgstr "ينتهي العقد مع {party} في {date}"
 
 #. Description of the 'Conversation' (Data) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:77
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:78
 msgid "The conversation a reply belongs to."
 msgstr "المحادثة التي ينتمي إليها الرد."
 
@@ -50763,7 +50871,7 @@ msgid "The file field on the record, or on one of its tables, the file goes in."
 msgstr "حقل الملف في السجل، أو في أحد جداوله، الذي يوضع فيه الملف."
 
 #. Description of the 'Attachments' (JSON) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:66
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:67
 msgid "The files chosen to go with it."
 msgstr "الملفات المختارة لترافقه."
 
@@ -51569,7 +51677,7 @@ msgstr "العطلات الرسمية وأيام الراحة الأسبوعية
 msgid "The quality managers"
 msgstr "مديرو الجودة"
 
-#: onedesk/one_quality/home.py:30
+#: onedesk/one_quality/home.py:32
 msgid "The questions feedback is asked with."
 msgstr "الأسئلة التي تُطلب بها الملاحظات."
 
@@ -51774,7 +51882,7 @@ msgstr "البرمجيات التي بُني منها One، والتراخيص �
 msgid "The stages an opportunity moves through, and their probability."
 msgstr "المراحل التي تمر بها الفرصة، واحتماليتها."
 
-#: onedesk/one_mail/ai.py:855
+#: onedesk/one_mail/ai.py:865
 msgid "The standard reply"
 msgstr "الرد المعتاد"
 
@@ -52826,7 +52934,7 @@ msgstr "هذه الرسالة أكبر من 5 ميغابايت."
 msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr "هذه الرسالة أكبر من 5 ميغابايت. شارك الملفات الكبيرة كروابط OneCloud."
 
-#: onedesk/one_mail/actions.py:65 onedesk/one_mail/linking.py:351
+#: onedesk/one_mail/actions.py:65 onedesk/one_mail/linking.py:385
 msgid "This message isn't in a mailbox."
 msgstr "هذه الرسالة ليست في صندوق بريد."
 
@@ -53631,9 +53739,10 @@ msgstr "مُسمّاة"
 #. Label in the One Stock Closing Entry print format
 #. Label in the One Stock Entry print format
 #. Label in the One Supplier Scorecard Period print format
+#. Label of the recipients (Small Text) field in DocType 'Mail Draft'
 #. Label in the One Timesheet print format
 #: frontend/src/intake/IntakePay.vue:33
-#: frontend/src/mail/MailConversation.vue:46
+#: frontend/src/mail/MailConversation.vue:49
 #: frontend/src/slide/shim/WidgetSection.vue:44 onedesk/one_ai/chat.py:325
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
@@ -53672,6 +53781,7 @@ msgstr "مُسمّاة"
 #: onedesk/one_inventory/print_format/one_stock_closing_entry/one_stock_closing_entry.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:46
 #: onedesk/one_mail/flow.py:284
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/ai_setup.py:412 onedesk/one_studio/print_blocks.py:63
@@ -53802,6 +53912,10 @@ msgstr "للتسليم"
 #: onedesk/one_slide/decks.py:80
 msgid "To fix"
 msgstr "يحتاج إصلاحاً"
+
+#: onedesk/one_factory/portal.py:51
+msgid "To make"
+msgstr "للتصنيع"
 
 #: onedesk/public/js/one_mail/rule_builder.js:17
 msgid "To or Cc"
@@ -54671,7 +54785,7 @@ msgstr "الثلاثاء"
 msgid "Turn Off"
 msgstr "إيقاف"
 
-#: onedesk/one_mail/ai.py:920
+#: onedesk/one_mail/ai.py:930
 #, python-brace-format
 msgid "Turn Off {0}"
 msgstr "إيقاف {0}"
@@ -54695,7 +54809,7 @@ msgstr "تشغيل لمساحة العمل"
 msgid "Turn On or Off"
 msgstr "تشغيل أو إيقاف"
 
-#: onedesk/one_mail/ai.py:919
+#: onedesk/one_mail/ai.py:929
 #, python-brace-format
 msgid "Turn On {0}"
 msgstr "تشغيل {0}"
@@ -55047,6 +55161,10 @@ msgstr ""
 msgid "Uh oh!"
 msgstr "عذرًا!"
 
+#: frontend/src/mail/OneMail.vue:133
+msgid "Unassigned"
+msgstr ""
+
 #: frontend/src/mail/MailTeam.vue:87
 msgid "Unassigned."
 msgstr "تم إلغاء الإسناد."
@@ -55094,7 +55212,7 @@ msgstr "مفهوم"
 msgid "Understood On"
 msgstr "فُهم في"
 
-#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:479
+#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:513
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: frontend/src/slide/composables/useShortcuts.js:239
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:11
@@ -55315,7 +55433,7 @@ msgstr "ما لم تُدفع، ستُعلَّق مساحة العمل في {date
 msgid "Unlimited"
 msgstr "بلا حدود"
 
-#: frontend/src/mail/MailConversation.vue:18
+#: frontend/src/mail/MailConversation.vue:19
 msgid "Unlink"
 msgstr "إلغاء الربط"
 
@@ -55397,8 +55515,8 @@ msgstr "معاملات بنكية غير مسواة"
 msgid "Unresolve"
 msgstr "إعادة فتح"
 
-#: frontend/src/mail/MailList.vue:64 frontend/src/mail/OneMail.vue:145
-#: frontend/src/mail/OneMail.vue:176
+#: frontend/src/mail/MailList.vue:68 frontend/src/mail/OneMail.vue:173
+#: frontend/src/mail/OneMail.vue:204
 msgid "Unstar"
 msgstr "إزالة النجمة"
 
@@ -55422,7 +55540,7 @@ msgstr "أيام غير مأخوذة تُصرف."
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_mail/ai.py:853
+#: onedesk/one_mail/ai.py:863
 #: onedesk/public/js/one_mail/onemail_settings.js:341
 msgid "Until"
 msgstr "حتى"
@@ -57138,7 +57256,7 @@ msgstr "ما قاله عميل عن العمل معنا."
 msgid "What a customer is told when their delivery leaves."
 msgstr "ما يُبلَّغ به العميل عند خروج شحنته."
 
-#: onedesk/one_quality/home.py:28
+#: onedesk/one_quality/home.py:30
 msgid "What a customer or a colleague said of the work."
 msgstr "ما قاله عميل أو زميل عن العمل."
 
@@ -57168,7 +57286,7 @@ msgstr "ما تنسخه النسخة الجديدة من الصنف عن قال�
 msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
 msgstr "ما كانت عليه شرائح العرض التقديمي في لحظة ما، محفوظة للرجوع إليها من سجل النسخ."
 
-#: onedesk/one_quality/home.py:25
+#: onedesk/one_quality/home.py:27
 msgid "What a procedure should achieve, and how often it is checked."
 msgstr "ما يجب أن يحققه الإجراء، وكم مرة يُتحقق منه."
 
@@ -57407,7 +57525,7 @@ msgstr "ما يحدث اليوم، ومتى وأين."
 msgid "What have I agreed to?"
 msgstr "على ماذا وافقت؟"
 
-#: onedesk/one_quality/home.py:23
+#: onedesk/one_quality/home.py:25
 msgid "What is being done to put a problem right, step by step, by whom."
 msgstr "ما يُتخذ لإصلاح مشكلة، خطوة بخطوة، ومن يقوم به."
 
@@ -58212,9 +58330,9 @@ msgstr "ما لم يُصرف ولم يُعَد يُخصم من راتبي."
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the event (Select) field in DocType 'Extension'
-#: frontend/src/intake/IntakeFacts.vue:73 frontend/src/template/Tasks.vue:6
-#: onedesk/one/ai.py:3756 onedesk/one/notification_words.py:223
-#: onedesk/one_display/starters.py:961
+#: frontend/src/intake/IntakeFacts.vue:73 frontend/src/mail/MailTeam.vue:107
+#: frontend/src/template/Tasks.vue:6 onedesk/one/ai.py:3756
+#: onedesk/one/notification_words.py:223 onedesk/one_display/starters.py:961
 #: onedesk/one_hr/custom/timesheet_detail.json:7
 #: onedesk/one_legal/doctype/legal_acceptance/legal_acceptance.json:69
 #: onedesk/one_mail/ai.py:284
@@ -60872,7 +60990,7 @@ msgstr "مع الفاتورة"
 msgid "With OneAI"
 msgstr "باستخدام OneAI"
 
-#: onedesk/one/ready.py:989
+#: onedesk/one/ready.py:1016
 msgid "With Subscribers"
 msgstr "بها مشتركون"
 
@@ -61071,8 +61189,8 @@ msgstr "قيد التنفيذ في"
 #. Label in the One Stock Entry print format
 #: frontend/src/factory/floor/OrderRows.vue:5
 #: frontend/src/factory/home/FactoryHome.vue:161
-#: frontend/src/factory/home/FactoryHome.vue:179 onedesk/one/ready.py:604
-#: onedesk/one/ready.py:605 onedesk/one_factory/heads.py:231
+#: frontend/src/factory/home/FactoryHome.vue:179 onedesk/one/ready.py:611
+#: onedesk/one/ready.py:612 onedesk/one_factory/heads.py:231
 #: onedesk/one_factory/heads.py:237 onedesk/one_factory/home.py:25
 #: onedesk/one_factory/home.py:58
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
@@ -61113,6 +61231,10 @@ msgstr "مستودعات أوامر العمل"
 #: frontend/src/factory/floor/ShopFloor.vue:146
 msgid "Work Orders"
 msgstr "أوامر العمل"
+
+#: onedesk/one_factory/portal.py:46
+msgid "Work Sent to You"
+msgstr "أعمال مرسلة إليك"
 
 #: frontend/src/project/Overview.vue:18
 msgid "Work and Billing"
@@ -61945,8 +62067,8 @@ msgstr "سنوات الخدمة"
 #: onedesk/one_crm/abilities.py:17 onedesk/one_display/abilities.py:16
 #: onedesk/one_doc/abilities.py:22 onedesk/one_factory/abilities.py:17
 #: onedesk/one_hr/abilities.py:17 onedesk/one_inventory/abilities.py:17
-#: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1002
-#: onedesk/one_mail/ai.py:1052 onedesk/one_portal/abilities.py:21
+#: onedesk/one_legal/abilities.py:21 onedesk/one_mail/ai.py:1012
+#: onedesk/one_mail/ai.py:1062 onedesk/one_portal/abilities.py:21
 #: onedesk/one_project/abilities.py:20 onedesk/one_quality/abilities.py:17
 #: onedesk/one_sheet/abilities.py:22 onedesk/one_slide/abilities.py:22
 #: onedesk/one_task/abilities.py:20 onedesk/public/js/bom_list.js:5
@@ -65484,7 +65606,7 @@ msgid "{0} doesn't support workspace automations."
 msgstr "لا يدعم {0} أتمتة مساحة العمل."
 
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.py:21
-#: onedesk/one_mail/holders.py:418
+#: onedesk/one_mail/holders.py:418 onedesk/one_mail/team.py:92
 #, python-brace-format
 msgid "{0} doesn't use this mailbox."
 msgstr "{0} لا يستخدم صندوق البريد هذا."
@@ -66950,7 +67072,7 @@ msgstr "منها {0} تعمل."
 
 #: frontend/src/factory/floor/OrderRows.vue:34
 #: frontend/src/factory/floor/OrderRows.vue:39
-#: frontend/src/mail/OneMail.vue:395 frontend/src/project/MilestoneLanes.vue:32
+#: frontend/src/mail/OneMail.vue:425 frontend/src/project/MilestoneLanes.vue:32
 #: frontend/src/project/MilestoneLanes.vue:93 frontend/src/project/Months.vue:8
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97

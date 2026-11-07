@@ -21,7 +21,8 @@
   "kind",
   "reference_doctype",
   "reference_name",
-  "send_after"
+  "send_after",
+  "message_id"
  ],
  "fields": [
   {
@@ -105,6 +106,13 @@
    "fieldname": "send_after",
    "fieldtype": "Datetime",
    "label": "Send After"
+  },
+  {
+   "fieldname": "message_id",
+   "fieldtype": "Data",
+   "label": "Message ID",
+   "read_only": 1,
+   "search_index": 1
   }
  ],
  "index_web_pages_for_search": 0,

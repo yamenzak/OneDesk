@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 16:39+0000\n"
-"PO-Revision-Date: 2026-11-07 16:39+0000\n"
+"POT-Creation-Date: 2026-11-07 17:10+0000\n"
+"PO-Revision-Date: 2026-11-07 17:10+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5823,7 +5823,7 @@ msgstr ""
 
 #. Label of the attachments (JSON) field in DocType 'Mail Draft'
 #: frontend/src/intake/IntakeFacts.vue:87
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:65
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:66
 msgid "Attachments"
 msgstr ""
 
@@ -6293,7 +6293,7 @@ msgid "B"
 msgstr ""
 
 #. Label of the bcc (Small Text) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:55
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:56
 msgid "BCC"
 msgstr ""
 
@@ -7972,7 +7972,7 @@ msgid "Bytes, from the last measurement."
 msgstr ""
 
 #. Label of the cc (Small Text) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:50
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:51
 msgid "CC"
 msgstr ""
 
@@ -9126,7 +9126,7 @@ msgstr ""
 msgid "Choose a file to send."
 msgstr ""
 
-#: onedesk/one_mail/api.py:162
+#: onedesk/one_mail/api.py:168
 msgid "Choose a folder."
 msgstr ""
 
@@ -9591,6 +9591,7 @@ msgstr ""
 #: onedesk/one_admin/accounts.py:141 onedesk/one_admin/accounts.py:160
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_display/widgets.py:145 onedesk/one_display/widgets.py:192
+#: onedesk/one_factory/portal.py:54
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:40
 #: onedesk/one_storage/file_requests.py:170
 msgid "Closed"
@@ -10894,7 +10895,7 @@ msgstr ""
 #. Label of the thread (Data) field in DocType 'Mail Draft'
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:65 onedesk/one_mail/ai.py:1291
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:34
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:75
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:76
 msgid "Conversation"
 msgstr ""
 
@@ -19528,7 +19529,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
 #: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:91
 #: onedesk/one_interface/shortcuts.py:17
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:88
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/one_mail/shortcuts.py:15
 #: onedesk/public/js/one_interface/frame.js:247
 #: onedesk/public/js/one_mail/rule_builder.js:44
@@ -22725,7 +22726,7 @@ msgid "In Recycle Bin"
 msgstr ""
 
 #. Label of the in_reply_to (Link) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:83
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:84
 msgid "In Reply To"
 msgstr ""
 
@@ -22967,7 +22968,7 @@ msgstr ""
 
 #. Name of a role
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:95
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:124
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:132
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:85
 msgid "Inbox User"
 msgstr ""
@@ -24037,7 +24038,7 @@ msgstr ""
 msgid "It failed more than once. Open it to read it yourself, or try again later."
 msgstr ""
 
-#: onedesk/one_mail/drafts.py:158
+#: onedesk/one_mail/drafts.py:163
 msgid "It has already gone."
 msgstr ""
 
@@ -25029,7 +25030,7 @@ msgstr ""
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_hr/print_format/one_vehicle_log/one_vehicle_log.json
 #: onedesk/one_mail/doctype/face/face.json:30
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:90
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:91
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:53
 #: onedesk/one_project/ai.py:954 onedesk/one_project/custom/project.json:53
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:46
@@ -27261,7 +27262,7 @@ msgid "Mail Domain"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:115
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:123
 msgid "Mail Draft"
 msgstr ""
 
@@ -27368,7 +27369,7 @@ msgstr ""
 #: onedesk/one_mail/ai.py:861 onedesk/one_mail/ai.py:938
 #: onedesk/one_mail/ai.py:1291
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:26
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:31
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:32
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:32
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:25
 #: onedesk/public/js/one_ai/ai_center.js:489
@@ -28175,6 +28176,10 @@ msgstr ""
 msgid "Materials We Send"
 msgstr ""
 
+#: onedesk/one_factory/portal.py:49
+msgid "Materials to come"
+msgstr ""
+
 #: onedesk/one_display/starters.py:1047
 msgid "Maths"
 msgstr ""
@@ -28399,7 +28404,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_classic/one_request_for_quotation_classic.json
 #: onedesk/one_inventory/print_format/one_request_for_quotation_with_images/one_request_for_quotation_with_images.json
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:60
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:61
 #: onedesk/one_mail/mail_templates.py:316
 #: onedesk/one_mail/mail_templates.py:317
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:53
@@ -28418,7 +28423,9 @@ msgid "Message"
 msgstr ""
 
 #. Label of the message_id (Data) field in DocType 'Reading'
+#. Label of the message_id (Data) field in DocType 'Mail Draft'
 #: onedesk/one_ai/doctype/reading/reading.json:139
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:113
 msgid "Message ID"
 msgstr ""
 
@@ -29472,7 +29479,7 @@ msgstr ""
 #: onedesk/one_display/widgets.py:322
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 #: onedesk/one_interface/shortcuts.py:23 onedesk/one_interface/shortcuts.py:27
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:88
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
 #: onedesk/public/js/one_interface/look.js:719
@@ -34006,7 +34013,7 @@ msgstr ""
 msgid "Only the workspace's administrators set who may do what."
 msgstr ""
 
-#: onedesk/one_mail/drafts.py:154
+#: onedesk/one_mail/drafts.py:159
 msgid "Only whoever wrote it may take it back."
 msgstr ""
 
@@ -35906,6 +35913,10 @@ msgstr ""
 
 #: onedesk/one_slide/decks.py:87
 msgid "Part one"
+msgstr ""
+
+#: onedesk/one_factory/portal.py:52
+msgid "Part returned"
 msgstr ""
 
 #. Label of the parties (Table) field in DocType 'Reading'
@@ -40798,7 +40809,7 @@ msgstr ""
 
 #. Label of the reference_name (Dynamic Link) field in DocType 'Mail Draft'
 #: onedesk/one_book/heads.py:671 onedesk/one_inventory/heads.py:1248
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:102
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:103
 msgid "Reference Name"
 msgstr ""
 
@@ -40807,7 +40818,7 @@ msgid "Reference Number"
 msgstr ""
 
 #. Label of the reference_doctype (Link) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:96
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:97
 msgid "Reference Type"
 msgstr ""
 
@@ -41601,7 +41612,7 @@ msgstr ""
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
 #: onedesk/one_mail/ai.py:865
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:88
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/one_mail/flow.py:318 onedesk/one_mail/shortcuts.py:13
 #: onedesk/public/js/one_mail/rule_builder.js:43
 #: onedesk/public/js/one_mail/rule_builder.js:201
@@ -42405,6 +42416,10 @@ msgstr ""
 #: onedesk/one_inventory/custody.py:60
 #, python-brace-format
 msgid "Return {0} ({1})"
+msgstr ""
+
+#: onedesk/one_factory/portal.py:53
+msgid "Returned"
 msgstr ""
 
 #: onedesk/one_hr/heads.py:839
@@ -44148,7 +44163,7 @@ msgid "Send"
 msgstr ""
 
 #. Label of the send_after (Datetime) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:107
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:108
 msgid "Send After"
 msgstr ""
 
@@ -46746,6 +46761,10 @@ msgstr ""
 msgid "Some lines match no item."
 msgstr ""
 
+#: onedesk/one_factory/portal.py:50
+msgid "Some materials sent"
+msgstr ""
+
 #: onedesk/one_ai/reading/drafts.py:27
 msgid "Some values aren't in the document."
 msgstr ""
@@ -48352,7 +48371,7 @@ msgstr ""
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:41
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:39
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:40
 #: onedesk/one_mail/flow.py:285 onedesk/one_mail/mail_templates.py:315
 #: onedesk/one_studio/automation_steps.py:41
 #: onedesk/public/js/doctype_settings.js:138
@@ -50618,7 +50637,7 @@ msgid "The contract with {party} ends on {date}"
 msgstr ""
 
 #. Description of the 'Conversation' (Data) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:77
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:78
 msgid "The conversation a reply belongs to."
 msgstr ""
 
@@ -50887,7 +50906,7 @@ msgid "The file field on the record, or on one of its tables, the file goes in."
 msgstr ""
 
 #. Description of the 'Attachments' (JSON) field in DocType 'Mail Draft'
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:66
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:67
 msgid "The files chosen to go with it."
 msgstr ""
 
@@ -53797,7 +53816,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_stock_closing_entry/one_stock_closing_entry.json
 #: onedesk/one_inventory/print_format/one_stock_entry/one_stock_entry.json
 #: onedesk/one_inventory/print_format/one_supplier_scorecard_period/one_supplier_scorecard_period.json
-#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:45
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:46
 #: onedesk/one_mail/flow.py:284
 #: onedesk/one_project/print_format/one_timesheet/one_timesheet.json
 #: onedesk/one_studio/ai_setup.py:412 onedesk/one_studio/print_blocks.py:63
@@ -53927,6 +53946,10 @@ msgstr ""
 
 #: onedesk/one_slide/decks.py:80
 msgid "To fix"
+msgstr ""
+
+#: onedesk/one_factory/portal.py:51
+msgid "To make"
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:17
@@ -61258,6 +61281,10 @@ msgstr ""
 
 #: frontend/src/factory/floor/ShopFloor.vue:146
 msgid "Work Orders"
+msgstr ""
+
+#: onedesk/one_factory/portal.py:46
+msgid "Work Sent to You"
 msgstr ""
 
 #: frontend/src/project/Overview.vue:18

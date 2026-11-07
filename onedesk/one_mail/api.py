@@ -130,7 +130,13 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 	from onedesk.one_mail import drafts
 
 	kept = drafts.listed(account)
-	return {**said, "items": kept + said["items"], "total": len(kept) + (said["total"] or 0)}
+	copies = set(drafts.mirrored(account))
+	theirs = [one for one in said["items"] if not copies or _message_id(one["name"]) not in copies]
+	return {**said, "items": kept + theirs, "total": len(kept) + (said["total"] or 0) - (len(said["items"]) - len(theirs))}
+
+
+def _message_id(name: str | None) -> str:
+	return ((frappe.db.get_value("Communication", name, "message_id") or "") if name else "").strip("<>")
 
 
 TEAM = ("open", "mine", "unassigned", "done")

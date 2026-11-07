@@ -571,11 +571,11 @@ def _called(doctype: str) -> str:
 
 
 def _total_field(doc) -> str:
-	return (
-		"rounded_total"
-		if doc.get("rounded_total") and not doc.get("disable_rounded_total")
-		else "grand_total"
-	)
+	"""A document's total: its rounded total, its grand total, or the total
+	of one that has neither, as a subcontracting order."""
+	if doc.get("rounded_total") and not doc.get("disable_rounded_total"):
+		return "rounded_total"
+	return "grand_total" if doc.meta.has_field("grand_total") else "total"
 
 
 def _summary(doctype: str, doc, total: str) -> dict:

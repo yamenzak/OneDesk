@@ -437,9 +437,12 @@ Stage 10, drafts and the team inbox, is built (November 2026).
   (`_account` by the From address), and frappe's `clear_cache`, which it calls
   after sending and on Discard, throws it away. A draft is its writer's alone
   (`has_permission`). The Drafts folder lists the reader's drafts before the
-  server's; a conversation returns its reply draft. Connected mailboxes keep
-  their own server drafts as before: ours are not appended there, so a draft
-  started here does not show in Gmail. Send later is frappe's Schedule email
+  server's; a conversation returns its reply draft. A connected mailbox's
+  draft is also kept in the server's Drafts (`to_server`, a job a moment
+  after the last change): one Message-ID for its life, the copy before it
+  expunged by that Message-ID and the new one appended with \Draft, and
+  `off_server` takes it out once sent or discarded. Its copy synced back is
+  left out of the Drafts list (`mirrored`). Send later is frappe's Schedule email
   (Email Queue `send_after`); `scheduled` reads the queue and `unschedule`
   empties it and makes the message a draft again.
 - **team.py** and `Mail Conversation`: one row per conversation, made the

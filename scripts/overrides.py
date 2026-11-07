@@ -3187,7 +3187,7 @@ ASKS = {
 		"before_validate calls WorkOrder.set_work_order_operations, upstream's own public method, only when operations are empty. Propose upstream WorkOrder.validate do the same (fill operations from a with_operations BOM when the table is empty), so Data Import and API work orders get job cards."
 	),
 	'Workshop time has an account before anything is made': (
-		'The Inventory Check sets Company.default_operating_cost_account through the Company\'s own save. Propose adding "default_operating_cost_account": "Expenses Included In Valuation" to the default_accounts map in Company.set_default_accounts (company.py ~line 750), which would make the Fix unnecessary on new companies.'
+		'OneFactory\'s Workshop tab (one_factory/control.py) sets Company.default_operating_cost_account through the Company\'s own save. Propose adding "default_operating_cost_account": "Expenses Included In Valuation" to the default_accounts map in Company.set_default_accounts (company.py ~line 750), which would make that setup step unnecessary on new companies.'
 	),
 	"A quote priced on the portal keeps the request's project": (
 		'_quote reuses mapper.add_items then copies each RFQ row\'s project_name onto the quote row. Propose adding "project": rfq_row.get("project_name") to the args in mapper.create_rfq_items (request_for_quotation/mapper.py:140), then drop our loop.'

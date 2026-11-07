@@ -1591,6 +1591,7 @@ one_portal = [
 	"onedesk.one_inventory.portal",
 	"onedesk.one_book.portal",
 	"onedesk.one_project.portal",
+	"onedesk.one_factory.portal",
 ]
 
 one_record_heads = [
@@ -1690,6 +1691,11 @@ has_website_permission = {
 		"Purchase Invoice",
 	)
 }
+has_website_permission["Subcontracting Order"] = "onedesk.one_factory.portal.has_website_permission"
+
+standard_portal_menu_items = [
+	{"title": "Work Sent to You", "route": "/subcontracting-orders", "reference_doctype": "Subcontracting Order", "role": "Supplier"},
+]
 
 website_redirects = [
 	{"source": r"/request-for-account-deletion.*", "target": "/your-data"},

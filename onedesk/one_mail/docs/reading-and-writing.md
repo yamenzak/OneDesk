@@ -67,7 +67,9 @@ minimise it and keep reading.
 What you write is kept as you type, from any mailbox you hold. Close the
 email window, or the tab, and nothing is lost: **Drafts** lists it, and a reply
 waits on its conversation with **Continue Draft**. Sending it, or **Discard**,
-throws the draft away. A draft is yours alone, even on a shared mailbox.
+throws the draft away. A draft is yours alone, even on a shared mailbox. On
+a mailbox you connected, it's kept in the mailbox's own Drafts too, so your
+phone's mail app shows it.
 
 ## Snoozing and Reminders
 
