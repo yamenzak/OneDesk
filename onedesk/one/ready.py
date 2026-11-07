@@ -105,11 +105,11 @@ MODULES = {
 		"names": ("one_calendar", "onecalendar"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "bfa493356848", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "bfa493356848", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "bfa493356848", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "bfa493356848", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "bfa493356848", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "5536d07d51f8", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
