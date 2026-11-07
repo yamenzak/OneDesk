@@ -7,7 +7,7 @@ who holds it. These keep a team from answering twice or not at all.
 
 ![A conversation given to Mariam, with a note for the team](working-as-a-team/team.png)
 
-**Assign** on a conversation gives it to one of the people who hold the
+**Assign**, in a conversation's panel, gives it to one of the people who hold the
 mailbox. They're told, and it's among their tasks until it's done. Above the
 list, **Open**, **Mine**, **Unassigned** and **Done** show the conversations
 each way.
@@ -19,7 +19,7 @@ and closes its assignment. If the customer writes again, it opens by itself.
 
 ## Notes for the Team
 
-**Add a note for the team** writes beside the conversation, for the people
+**Add a note**, under **Notes for the Team** in the panel, writes beside the conversation, for the people
 who hold the mailbox. It's never sent to anybody outside.
 
 ## Who Is Replying

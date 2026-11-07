@@ -14,7 +14,7 @@ Each incoming message is linked on its own to:
 | What the conversation is linked to | An earlier message in it was linked |
 | An invoice, order or other document | The message names it by its number |
 
-A conversation shows its links beside its subject. **Link to Record** adds
+A conversation's panel shows its links under **Linked To**. Its **+** adds
 another, and the × on a link removes it.
 
 ## On the Record
@@ -43,7 +43,7 @@ anyway.
 
 ## Records From a Mail
 
-**Create** on a conversation starts a lead, an opportunity, an issue, a task, a
+**Create**, in a conversation's panel, starts a lead, an opportunity, an issue, a task, a
 non conformance or a purchase order, filled in from the mail: who wrote, the
 subject and what they said, and the customer or supplier when One knows them.
 Once saved, the conversation is linked to it.

@@ -62,7 +62,6 @@
             </Dropdown>
             <Button v-else size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" @click="command(one.act)" />
           </template>
-          <Button size="sm" variant="ghost" icon="lucide-link" :aria-label="__('Link to Record')" :title="__('Link to Record')" @click="command('link')" />
         </template>
       </MailConversation>
     </div>

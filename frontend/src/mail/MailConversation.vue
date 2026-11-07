@@ -13,40 +13,47 @@
             <Button v-if="back" variant="ghost" icon="lucide-arrow-left" class="-ms-1.5 mt-0.5 shrink-0" :aria-label="__('Back')" :title="__('Back')" @click="emit('back')" />
             <h1 class="min-w-0 text-3xl font-medium leading-tight text-ink-gray-9 md:text-5xl">{{ messages[0].subject || __("(no subject)") }}</h1>
           </span>
-          <span class="flex shrink-0 items-center rounded-5 bg-surface-gray-3" role="toolbar" :aria-label="__('Conversation')">
-            <slot name="commands" />
-          </span>
-        </div>
-        <div v-if="records.length" class="flex flex-wrap gap-1.5">
-          <span
-            v-for="row in records"
-            :key="`${row.link_doctype}/${row.link_name}`"
-            class="inline-flex items-center gap-1 rounded-full bg-surface-gray-2 py-0.5 pe-1 ps-2.5 text-sm"
-            :title="[row.link_title, (FILED_BY[row.one_linked_by || 'contact'] || FILED_BY.contact)()].filter(Boolean).join(' · ')"
-          >
-            <a :href="recordRoute(row.link_doctype, row.link_name)" class="text-ink-gray-9 hover:underline">{{ __(row.link_doctype) }} {{ row.link_name }}</a>
-            <button type="button" class="rounded-full p-0.5 text-ink-gray-5 hover:bg-surface-gray-3" :aria-label="__('Unlink')" :title="__('Unlink')" @click="unfile(row)">
-              <span class="lucide-x size-3" aria-hidden="true" />
-            </button>
+          <span class="flex shrink-0 items-center gap-2">
+            <Button
+              v-if="team.said.shared"
+              :variant="team.said.status === 'Done' ? 'subtle' : 'solid'"
+              :icon-left="team.said.status === 'Done' ? 'lucide-circle-check' : 'lucide-check'"
+              :label="team.said.status === 'Done' ? __('Done') : __('Mark Done')"
+              :title="team.said.status === 'Done' ? __('Open Again') : __('Mark Done')"
+              @click="team.toggleDone()"
+            />
+            <span class="flex items-center rounded-5 bg-surface-gray-3" role="toolbar" :aria-label="__('Conversation')">
+              <slot name="commands" />
+              <Dropdown :options="team.snoozeOptions">
+                <template #trigger>
+                  <Button
+                    size="sm"
+                    :variant="team.said.snoozed_until ? 'subtle' : 'ghost'"
+                    icon="lucide-alarm-clock"
+                    :title="team.said.snoozed_until ? __('Snoozed until {0}', [dateTime(team.said.snoozed_until)]) : __('Snooze')"
+                    :aria-label="__('Snooze')"
+                  />
+                </template>
+              </Dropdown>
+            </span>
           </span>
         </div>
         <PlaceSpot :said="placed" />
-        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="-ms-1.5" @changed="emit('changed')" @state="(got) => (state = got)" />
+        <span v-if="replying.length" class="inline-flex items-center gap-1.5 text-sm text-ink-amber-6">
+          <span class="lucide-pen-line size-3.5" aria-hidden="true" />{{ __("{0} is writing a reply", [replying.join(", ")]) }}
+        </span>
       </div>
       <button
-        v-if="!wide && (state.shared || party)"
+        v-if="!wide && box && thread"
         type="button"
         class="flex items-center gap-2 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-start text-sm"
         @click="aside = !aside"
       >
         <span class="lucide-panel-right size-4 text-ink-gray-5" aria-hidden="true" />
-        <span class="min-w-0 flex-1 truncate text-ink-gray-8">{{ [party && party.title, state.notes.length ? __("Notes: {0}", [state.notes.length]) : null].filter(Boolean).join(" · ") || __("Notes for the Team") }}</span>
+        <span class="min-w-0 flex-1 truncate text-ink-gray-8">{{ [party && party.title, records.length ? __("Linked: {0}", [records.length]) : null, team.said.notes.length ? __("Notes: {0}", [team.said.notes.length]) : null].filter(Boolean).join(" · ") || __("Details") }}</span>
         <span :class="aside ? 'lucide-chevron-up' : 'lucide-chevron-down'" class="size-4 text-ink-gray-5" aria-hidden="true" />
       </button>
-      <div v-if="!wide && aside" class="flex flex-col gap-4 rounded-6 border border-outline-gray-1 px-4 py-3">
-        <MailNotes v-if="state.shared && box && thread" :account="box.name" :thread="thread" :notes="state.notes" @state="took" />
-        <MailSender :address="other" />
-      </div>
+      <MailPanel v-if="!wide && aside && box && thread" :team="team" :records="records" :address="other" :account="box.name" :thread="thread" @link="fileOn" @unlink="unfile" />
 
       <template v-for="(message, at) in messages" :key="message.name">
         <button
@@ -119,10 +126,17 @@
         <Button variant="subtle" icon-left="lucide-forward" :label="__('Forward')" @click="emit('write', { forward: true })" />
       </div>
     </div>
-    <aside v-if="wide" class="flex w-80 shrink-0 flex-col gap-5 overflow-auto rounded-6 border border-outline-gray-1 p-4">
-      <MailNotes v-if="state.shared && box && thread" :account="box.name" :thread="thread" :notes="state.notes" @state="took" />
-      <MailSender :address="other" />
-    </aside>
+    <MailPanel
+      v-if="wide && box && thread"
+      class="max-h-full w-80 shrink-0 self-start overflow-auto"
+      :team="team"
+      :records="records"
+      :address="other"
+      :account="box.name"
+      :thread="thread"
+      @link="fileOn"
+      @unlink="unfile"
+    />
     </div>
     </template>
   </div>
@@ -134,14 +148,13 @@
 import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button, Dropdown } from "frappe-ui";
 
-import { PlaceSpot, __, alert, call, dialog, fileSize, onedesk, recordRoute } from "../kit";
+import { PlaceSpot, __, alert, call, dateTime, dialog, fileSize, onedesk } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
-import { FILED_BY, when } from "./mail";
+import { when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
-import MailNotes from "./MailNotes.vue";
-import MailSender from "./MailSender.vue";
-import MailTeam from "./MailTeam.vue";
+import MailPanel from "./MailPanel.vue";
+import { useTeam } from "./team";
 
 const props = defineProps({
   messages: { type: Array, default: () => [] },
@@ -154,7 +167,7 @@ const props = defineProps({
   back: Boolean,
 });
 const emit = defineEmits(["write", "draft", "discard", "changed", "back"]);
-defineExpose({ fileOn, team: () => team.value });
+defineExpose({ fileOn, team: () => team });
 
 const more = [
   { label: __("Reply all"), icon: "lucide-reply-all", onClick: () => emit("write", { reply: true, all: true }) },
@@ -168,12 +181,7 @@ const scroller = ref(null);
 let openEl = null;
 
 const party = ref(null);
-const state = ref({ shared: false, notes: [] });
 const aside = ref(false);
-function took(got) {
-  state.value = got;
-  team.value?.take(got);
-}
 const frame = ref(null);
 const wide = ref(false);
 const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 980));
@@ -182,7 +190,7 @@ watch(frame, (now, was) => {
   if (now) sized.observe(now);
 });
 onBeforeUnmount(() => sized.disconnect());
-const team = ref(null);
+const team = useTeam(() => [props.box?.name, props.thread], { make: (doctype) => make(doctype), changed: () => emit("changed") });
 const mine = computed(() => (props.box?.email || "").toLowerCase());
 const other = computed(() => {
   const heard = [...props.messages].reverse().find((one) => one.sent_or_received === "Received" && (one.sender || "").toLowerCase() !== mine.value);
