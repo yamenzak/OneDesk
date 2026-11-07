@@ -2,7 +2,7 @@
 
 ## Your Profile
 
-**Profile** holds your name, photo, mobile, bio, language and time zone.
+**Profile** holds your name, photo, mobile, bio, language and time zone. **Sign Out**, beside your photo, signs you out on this device.
 Change any of them and press **Save**. If you are an employee, three more
 parts sit under it, each saved on its own:
 

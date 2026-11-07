@@ -48,7 +48,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				<div class="one-shell-quiet">${[data.email, ...job].map(esc).join(" · ")}</div>
 				<div class="os-who-actions">${onedesk.shell.button(image ? __("Change Photo") : __("Add Photo"), { "data-photo": "1" }, "ghost")}${
 					image ? onedesk.shell.button(__("Remove Photo"), { "data-unphoto": "1" }, "ghost") : ""
-				}</div>
+				}${onedesk.shell.button(__("Sign Out"), { "data-sign-out-here": "1" }, "ghost", "log-out")}</div>
 			</div>
 		</div>`;
 		const rows = [
@@ -65,6 +65,12 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 		const $card = this.part(data, names, rows, { before: who });
 		$card.find(".os-photo .es-avatar__fallback").text(frappe.get_abbr(data.full_name || ""));
 		const photo = (user_image) => this.save({ ...this.values(), user_image });
+		$card.find("[data-sign-out-here]").on("click", () =>
+			frappe.call({ method: "logout" }).then(() => {
+				frappe.app.logged_out = true;
+				frappe.app.redirect_to_login();
+			})
+		);
 		$card.find("[data-photo]").on("click", () => {
 			new frappe.ui.FileUploader({
 				doctype: "User",
