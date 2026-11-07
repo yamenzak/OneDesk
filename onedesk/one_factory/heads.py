@@ -14,8 +14,11 @@ from onedesk.one import stages
 SUBMITTED = [["docstatus", "=", 1]]
 
 
-def _money(value) -> str:
-	return fmt_money(flt(value), currency=frappe.db.get_default("currency"))
+def _money(value, company: str | None) -> str:
+	"""An amount in the company's own currency."""
+	from erpnext import get_company_currency
+
+	return fmt_money(flt(value), currency=get_company_currency(company) if company else None)
 
 
 def _of(made, wanted, unit) -> dict:
@@ -132,13 +135,14 @@ def work_for(doc):
 
 
 def bom_cost(doc):
-	"""What one costs to make, by the materials and the work it takes, for
-	whoever may see what making costs (costs.py)."""
+	"""What one costs to make, by the materials and the work it takes, in
+	its company's currency, for whoever may see what making costs
+	(costs.py)."""
 	from onedesk.one_factory import costs
 
 	if not flt(doc.quantity) or not costs.seen():
 		return None
-	return _money(flt(doc.total_cost) / flt(doc.quantity))
+	return _money(flt(doc.base_total_cost) / flt(doc.quantity), doc.company)
 
 
 def bom_orders(doc):
@@ -232,8 +236,8 @@ HEADS = [
 		"band": [
 			{"label": _lt("Work Order"), "source": "Measure", "measure": "card.order"},
 			{"label": _lt("Workstation"), "source": "Field", "field": "workstation"},
-			{"label": _lt("Total Completed Qty"), "source": "Measure", "measure": "card.done"},
-			{"label": _lt("Total Time in Mins"), "source": "Measure", "measure": "card.time"},
+			{"label": _lt("Completed"), "source": "Measure", "measure": "card.done"},
+			{"label": _lt("Time Taken"), "source": "Measure", "measure": "card.time"},
 			{"label": _lt("Employee"), "source": "Measure", "measure": "card.by"},
 		],
 	},

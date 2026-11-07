@@ -74,7 +74,8 @@ def onefactory_home_says_what_needs_the_workshop():
 	"""OneFactory's Home: the figures are the Shop Floor's and the suppliers'
 	own, a work order past the day it was wanted is late on Today and its
 	maker and the project's manager are told the next morning, and somebody
-	outside the workshop cannot open it."""
+	outside the workshop cannot open it. With Riyadh as Karim's company the
+	Home is Riyadh's, in riyals, and Sahara's work order is not on it."""
 	from frappe.utils import add_days, today
 
 	from onedesk.one_factory import control, floor, home, tell
@@ -104,6 +105,17 @@ def onefactory_home_says_what_needs_the_workshop():
 			pass
 		else:
 			raise AssertionError("somebody outside the books emptied the workshop's settings")
+	from onedesk.one_demo.branch import BRANCH
+
+	assert not frappe.get_meta("Work Order").get_field("company").hidden, "with two companies a work order shows its company"
+	frappe.defaults.set_user_default("company", BRANCH, "karim@one.test")
+	try:
+		with as_user("karim@one.test"):
+			riyadh = home.read()
+	finally:
+		frappe.defaults.clear_user_default("company", "karim@one.test")
+	assert riyadh["currency"] == "SAR", riyadh["currency"]
+	assert order.name not in {one["name"] for one in riyadh["needs"]["late"]["rows"]}, "Riyadh's Home read Sahara's work order"
 	with as_user(OWNER):
 		said = control.workshop()
 		assert said["may"] and control.costed() and control.placed(), said
