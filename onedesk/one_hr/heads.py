@@ -667,6 +667,34 @@ VERBS = {
 	},
 }
 
+def leave_left(doc):
+	"""The days of its type left once this leave is taken: an approved leave
+	is in the ledger already, an open one is taken off what is there."""
+	from hrms.hr.doctype.leave_application.leave_application import get_leave_balance_on
+
+	if doc.is_new() or doc.status in ("Rejected", "Cancelled") or not (doc.employee and doc.leave_type and doc.to_date):
+		return None
+	left = flt(get_leave_balance_on(doc.employee, doc.leave_type, doc.to_date))
+	if doc.status != "Approved":
+		left -= flt(doc.total_leave_days)
+	return {"value": _("{0} days").format(f"{flt(left, 1):g}"), "tone": "alarm" if left < 0 else None}
+
+
+def _stars(value):
+	"""A frappe Rating, kept from 0 to 1, as the five stars it is drawn with."""
+	if not flt(value):
+		return None
+	return _("{0} of 5").format(f"{flt(value) * 5:.1f}".rstrip("0").rstrip("."))
+
+
+def applicant_rating(doc):
+	return _stars(doc.applicant_rating)
+
+
+def interview_rating(doc):
+	return _stars(doc.average_rating)
+
+
 MEASURES = {
 	"employee.state": state,
 	"employee.standing": standing,
@@ -690,6 +718,9 @@ MEASURES = {
 	"shift_type.deaf": shift_deaf,
 	"attempt.state": attempt_state,
 	"attempt.why": attempt_why,
+	"leave.left": leave_left,
+	"applicant.rating": applicant_rating,
+	"interview.rating": interview_rating,
 }
 
 HEADS = [
@@ -708,6 +739,7 @@ HEADS = [
 	},
 	{
 		"doctype": "Leave Application",
+		"band": [{"label": _lt("Total Leave Days"), "source": "Field", "field": "total_leave_days"}, {"label": _lt("Left After This"), "source": "Measure", "measure": "leave.left"}, {"label": _lt("Leave Approver Name"), "source": "Field", "field": "leave_approver_name"}],
 		"sentences": [{"measure": "leave.about"}],
 		"verbs": [{"verb": "leave.approve", "primary": 1}, {"verb": "leave.reject"}],
 	},
@@ -724,21 +756,29 @@ HEADS = [
 	},
 	{
 		"doctype": "Expense Claim",
-		"band": [{"label": _lt("Project"), "source": "Measure", "measure": "project.of"}],
+		"band": [
+			{"label": _lt("Total Claimed Amount"), "source": "Field", "field": "total_claimed_amount"},
+			{"label": _lt("Total Sanctioned Amount"), "source": "Field", "field": "total_sanctioned_amount"},
+			{"label": _lt("Total Advance Amount"), "source": "Field", "field": "total_advance_amount"},
+			{"label": _lt("Project"), "source": "Measure", "measure": "project.of"},
+		],
 		"sentences": [{"measure": "expense.about"}],
 		"verbs": [{"verb": "expense.approve", "primary": 1}, {"verb": "expense.reject"}],
 	},
 	{
 		"doctype": "Salary Slip",
+		"band": [{"label": _lt("Gross Pay"), "source": "Field", "field": "gross_pay"}, {"label": _lt("Total Deduction"), "source": "Field", "field": "total_deduction"}, {"label": _lt("Net Pay"), "source": "Field", "field": "net_pay"}, {"label": _lt("Payment Days"), "source": "Field", "field": "payment_days"}],
 		"sentences": [{"measure": "slip.pays"}],
 		"redraw_on": ["net_pay"],
 	},
 	{
 		"doctype": "Payroll Entry",
+		"band": [{"label": _lt("Number Of Employees"), "source": "Field", "field": "number_of_employees"}, {"label": _lt("Payroll Frequency"), "source": "Field", "field": "payroll_frequency"}],
 		"sentences": [{"measure": "payroll.run"}],
 	},
 	{
 		"doctype": "Appraisal",
+		"band": [{"label": _lt("Final Score"), "source": "Field", "field": "final_score"}, {"label": _lt("Appraisal Cycle"), "source": "Field", "field": "appraisal_cycle"}],
 		"sentences": [{"measure": "appraisal.stands"}],
 		"redraw_on": ["final_score"],
 	},
@@ -781,5 +821,29 @@ HEADS = [
 		"indicators": [{"label": _lt("State"), "measure": "attempt.state"}],
 		"sentences": [{"measure": "attempt.why"}],
 		"verbs": [{"verb": "attempt.reject"}, {"verb": "attempt.accept", "primary": 1}],
+	},
+	{
+		"doctype": "Attendance",
+		"band": [{"label": _lt("Working Hours"), "source": "Field", "field": "working_hours"}, {"label": _lt("Shift"), "source": "Field", "field": "shift"}, {"label": _lt("In Time"), "source": "Field", "field": "in_time"}],
+	},
+	{
+		"doctype": "Employee Advance",
+		"band": [{"label": _lt("Advance Amount"), "source": "Field", "field": "advance_amount"}, {"label": _lt("Paid Amount"), "source": "Field", "field": "paid_amount"}, {"label": _lt("Claimed Amount"), "source": "Field", "field": "claimed_amount"}, {"label": _lt("Returned Amount"), "source": "Field", "field": "return_amount"}],
+	},
+	{
+		"doctype": "Job Applicant",
+		"band": [{"label": _lt("Job Opening"), "source": "Field", "field": "job_title"}, {"label": _lt("Source"), "source": "Field", "field": "source"}, {"label": _lt("Applicant Rating"), "source": "Measure", "measure": "applicant.rating"}],
+	},
+	{
+		"doctype": "Interview",
+		"band": [{"label": _lt("Scheduled On"), "source": "Field", "field": "scheduled_on"}, {"label": _lt("Average Rating"), "source": "Measure", "measure": "interview.rating"}],
+	},
+	{
+		"doctype": "Leave Allocation",
+		"band": [{"label": _lt("New Leaves Allocated"), "source": "Field", "field": "new_leaves_allocated"}, {"label": _lt("Total Leaves Allocated"), "source": "Field", "field": "total_leaves_allocated"}],
+	},
+	{
+		"doctype": "Gratuity",
+		"band": [{"label": _lt("Total Amount"), "source": "Field", "field": "amount"}],
 	},
 ]

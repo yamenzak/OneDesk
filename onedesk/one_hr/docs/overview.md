@@ -40,3 +40,12 @@ leave policy or leave year, it shows the name — *Rania Sabbagh*, *Standard*,
 what makes sense there — "Claim a receipt" on expense claims, "Check this
 payroll" on a payroll entry. No OneAI button is ever put on a page itself. See
 **OneAI in OneHR** below.
+
+## Several Companies
+
+With more than one company, every employee, attendance, leave, claim, payslip,
+payroll run, opening and review shows its **Company**, starting as yours, and
+every list opens on your company. Home and its figures are your company's
+alone, in its currency. Each company keeps its own holidays and weekend, its
+leave year and the accounts its claims and payroll go to. Somebody limited to
+one company sees only its people. Change company from the top bar.

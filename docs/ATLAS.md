@@ -790,10 +790,10 @@ Pages: workflow-builder (opened by our screens).
 | Appraisal | on a rail or a home | everybody | a head, events, 1 settings | yes | taught |  | yes |  |  |  |  |
 | Appraisal Cycle | on a rail or a home | everybody | 1 settings | yes | taught |  | yes |  |  |  |  |
 | Appraisal Template | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Attendance | on a rail or a home | everybody | events, form script, list script, 5 settings | yes | taught |  | yes |  |  |  |  |
+| Attendance | on a rail or a home | everybody | a head, events, form script, list script, 5 settings | yes | taught |  | yes |  |  |  |  |
 | Attendance Request | on a rail or a home | everybody | a head, events, form script, 7 fields, 6 settings | yes | general |  | yes |  |  |  |  |
 | Compensatory Leave Request | through a form's connections (Leave Allocation's Connections) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Employee Advance | on a rail or a home | everybody | 1 settings | yes | general |  | yes |  |  |  |  |
+| Employee Advance | on a rail or a home | everybody | a head, 1 settings | yes | general |  | yes |  |  |  |  |
 | Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |  |  |  | ar 6, de 5 |  |
 | Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 4 settings | yes | general |  | yes |  |  |  | Check-in Closed for You |
 | Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
@@ -821,10 +821,10 @@ Pages: workflow-builder (opened by our screens).
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | 1 fields | yes | general |  | yes |  |  |  |  |
 | Interest | left out: a list HRMS keeps that no form of its own asks for | everybody | untouched | yes | general |  | **none** |  |  |  |  |
-| Interview | on a rail or a home | OneHR | class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  |  | Interview Feedback Due, Interview Scheduled |
-| Interview Feedback | inside: an interview's Submit Feedback | OneHR | untouched | yes | taught |  | yes |  |  | ar 3 |  |
+| Interview | on a rail or a home | OneHR | a head, class, events, form script, 3 fields, 3 settings | yes | taught |  | yes |  |  |  | Interview Feedback Due, Interview Scheduled |
+| Interview Feedback | inside: an interview's Submit Feedback | OneHR | untouched | yes | taught |  | yes |  |  | ar 2 |  |
 | Interview Type | on a rail or a home | OneHR | untouched | yes | taught |  | yes |  |  |  |  |
-| Job Applicant | on a rail or a home | OneHR | events, 6 fields, 3 settings | yes | taught | makes it | yes |  |  |  |  |
+| Job Applicant | on a rail or a home | OneHR | a head, events, 6 fields, 3 settings | yes | taught | makes it | yes |  |  |  |  |
 | Job Applicant Source | through a form's link (Job Applicant: source) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Job Offer | on a rail or a home | OneHR | 3 settings | yes | taught |  | yes |  |  |  |  |
 | Job Offer Term Template | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
@@ -833,7 +833,7 @@ Pages: workflow-builder (opened by our screens).
 | Job Requisition | on a rail or a home | OneHR | events, 1 settings | yes | taught |  | yes |  |  |  |  |
 | KRA | through a form's link (Appraisal Template: key_result_area) | OneHR, the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Leave Adjustment | through a form's connections (Leave Allocation's Connections) | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Leave Allocation | on a rail or a home | OneHR | 10 settings | yes | general |  | yes |  |  |  | Leave Expiring |
+| Leave Allocation | on a rail or a home | OneHR | a head, 10 settings | yes | general |  | yes |  |  |  | Leave Expiring |
 | Leave Application | on a rail or a home | everybody | a head, class, events, 9 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Leave Application Cancelled (theirs), Leave Application Pending Approval (theirs), Leave Application Status Update (theirs) |
 | Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 5 |  |
@@ -885,7 +885,7 @@ Pages: organizational-chart (on a rail or a home).
 | Employee Tax Exemption Declaration | on a rail or a home | everybody | a head, 2 settings | yes | general |  | **none** |  |  |  |  |
 | Employee Tax Exemption Proof Submission | on a rail or a home | everybody | a head, 2 settings | yes | general |  | **none** |  |  |  |  |
 | Employee Tax Exemption Sub Category | through a form's link (Employee Tax Exemption Proof Submission: exemption_sub_category) | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
-| Gratuity | on a rail or a home | OneBook, OneHR | 1 settings | yes | general |  | yes |  |  |  |  |
+| Gratuity | on a rail or a home | OneBook, OneHR | a head, 1 settings | yes | general |  | yes |  |  |  |  |
 | Gratuity Rule | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Income Tax Slab | on a rail or a home | OneHR | untouched | yes | general |  | **none** |  |  |  |  |
 | Payroll Correction | on a rail or a home | everybody | untouched | yes | general |  | **none** |  |  |  |  |

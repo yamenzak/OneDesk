@@ -9,7 +9,7 @@
     <Section v-if="story.people" :title="__('Employee')" icon="lucide-users" data-cards>
       <div class="grid gap-3 lg:grid-cols-2">
         <ChartCard v-if="departments.length" class="h-96">
-          <BarChart :title="__('Headcount by Department')" :data="departments" x="label" y="count" horizontal :x-axis="wrapped" :y-axis="{ format: count }" :series-config="{ count: { label: __('Employee'), color: hue(0) } }" @select="(one) => go(`/desk/employee?status=Active&department=${encodeURIComponent(one.row.department || '')}`)" />
+          <BarChart :title="__('Headcount by Department')" :data="departments" x="label" y="count" horizontal :x-axis="wrapped" :y-axis="{ format: count, echartOptions: { minInterval: 1 } }" :series-config="{ count: { label: __('Employee'), color: hue(0) } }" @select="(one) => go(`/desk/employee?status=Active&department=${encodeURIComponent(one.row.department || '')}`)" />
         </ChartCard>
         <ChartCard class="h-96">
           <BarChart :title="__('Joined and Left')" :data="story.people.moves" x="month" :y="['joined', 'left']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="whole" :series-config="moveSeries" @select="go('/desk/query-report/Employee Exits')" />

@@ -939,6 +939,54 @@ MODULES = {
 		"screens": "hr",
 		"names": ("one_hr", "onehr"),
 		"ready": True,
+		"companies": (
+			"Additional Salary",
+			"Appointment Letter",
+			"Appraisal",
+			"Appraisal Cycle",
+			"Arrear",
+			"Attendance",
+			"Attendance Request",
+			"Employee",
+			"Employee Advance",
+			"Employee Benefit Application",
+			"Employee Benefit Claim",
+			"Employee Incentive",
+			"Employee Onboarding",
+			"Employee Other Income",
+			"Employee Performance Feedback",
+			"Employee Promotion",
+			"Employee Separation",
+			"Employee Tax Exemption Declaration",
+			"Employee Tax Exemption Proof Submission",
+			"Employee Transfer",
+			"Exit Interview",
+			"Expense Claim",
+			"Full and Final Statement",
+			"Goal",
+			"Gratuity",
+			"Job Offer",
+			"Job Opening",
+			"Job Requisition",
+			"Leave Allocation",
+			"Leave Application",
+			"Leave Encashment",
+			"Leave Policy Assignment",
+			"Overtime Slip",
+			"Payroll Correction",
+			"Payroll Entry",
+			"Retention Bonus",
+			"Salary Slip",
+			"Salary Structure",
+			"Salary Structure Assignment",
+			"Salary Withholding",
+			"Shift Assignment",
+			"Shift Request",
+			"Staffing Plan",
+			"Training Event",
+			"Training Program",
+			"Travel Request",
+		),
 		"checked": {
 			"copy": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
 			"demo": {"on": "2026-10-29", "commit": "2d2abb28732e", "by": "Claude, for Yamen"},
@@ -968,6 +1016,10 @@ MODULES = {
 		# How its record types are drawn. See OneBook's and interface().
 		"interface": {
 			"Employee": {
+				"tabs": {"basic_details_tab": "id-card", "employment_details": "briefcase", "contact_details": "phone", "attendance_and_leave_details": "calendar-check", "salary_information": "banknote", "personal_details": "user", "profile_tab": "graduation-cap", "exit": "door-open", "connections_tab": "link"},
+				"fields": {"company": "building", "department": "network", "designation": "briefcase", "reports_to": "user", "date_of_joining": "calendar", "cell_number": "phone", "user_id": "at-sign"},
+				"cards": ({"key": "employee.standing"}, {"key": "employee.leave"}, {"key": "employee.awaiting"}, {"key": "employee.checked"}),
+				"states": {"order": ("Active", "Suspended", "Inactive", "Left")},
 				"links": (
 					{
 						"label": _lt("Apply for Leave"),
@@ -991,6 +1043,97 @@ MODULES = {
 						"when": (("status", "=", "Active"),),
 					},
 				),
+			},
+			"Leave Application": {
+				"fields": {"employee": "user", "leave_type": "plane", "from_date": "calendar", "to_date": "calendar-check", "leave_approver": "user-check"},
+				"cards": ({"key": "total_leave_days"}, {"key": "leave.left"}, {"key": "leave_approver_name"}),
+				"states": {"order": ("Open", "Approved", "Rejected"), "hide": ("Cancelled",)},
+			},
+			"Leave Allocation": {
+				"fields": {"employee": "user", "leave_type": "plane"},
+				"cards": ({"key": "new_leaves_allocated"}, {"key": "total_leaves_allocated"}),
+				"states": {"field": "leave_type"},
+			},
+			"Attendance": {
+				"fields": {"employee": "user", "attendance_date": "calendar", "shift": "clock"},
+				"cards": ({"key": "working_hours"}, {"key": "shift"}, {"key": "in_time"}),
+				"states": {"order": ("Present", "Work From Home", "Half Day", "On Leave", "Absent")},
+			},
+			"Expense Claim": {
+				"tabs": {"expenses_and_advances_tab": "receipt", "accounting_details_tab": "landmark", "more_info_tab": "info", "dashboard_tab": "link"},
+				"fields": {"employee": "user", "expense_approver": "user-check", "project": "folder-kanban", "company": "building"},
+				"cards": ({"key": "total_claimed_amount"}, {"key": "total_sanctioned_amount"}, {"key": "total_advance_amount"}, {"key": "project.of"}),
+				"states": {"order": ("Draft", "Unpaid", "Partially Paid", "Paid", "Rejected"), "hide": ("Submitted", "Cancelled")},
+			},
+			"Employee Advance": {
+				"fields": {"employee": "user", "purpose": "target"},
+				"cards": ({"key": "advance_amount"}, {"key": "paid_amount"}, {"key": "claimed_amount"}, {"key": "return_amount"}),
+				"states": {"order": ("Draft", "Unpaid", "Paid", "Partially Paid", "Claimed", "Returned", "Partly Claimed and Returned"), "hide": ("Cancelled",)},
+			},
+			"Salary Slip": {
+				"tabs": {"employee_and_payroll_tab": "user", "earnings_and_deductions_tab": "banknote", "payment_days_tab": "calendar-days"},
+				"fields": {"employee": "user", "start_date": "calendar", "end_date": "calendar-check", "company": "building"},
+				"cards": ({"key": "gross_pay"}, {"key": "total_deduction"}, {"key": "net_pay"}, {"key": "payment_days"}),
+				"states": {"order": ("Draft", "Submitted", "Withheld"), "hide": ("Cancelled",)},
+			},
+			"Payroll Entry": {
+				"tabs": {"employees_tab": "users", "accounting_dimensions_tab": "landmark", "connections_tab": "link"},
+				"cards": ({"key": "number_of_employees"}, {"key": "payroll_frequency"}),
+				"states": {"order": ("Draft", "Queued", "Submitted", "Failed"), "hide": ("Cancelled",)},
+			},
+			"Job Applicant": {
+				"fields": {"email_id": "mail", "phone_number": "phone", "job_title": "briefcase", "source": "compass"},
+				"cards": ({"key": "job_title"}, {"key": "source"}, {"key": "applicant.rating"}),
+				"states": {"order": ("Open", "Replied", "Shortlisted", "Hold", "Accepted", "Rejected")},
+			},
+			"Job Opening": {
+				"states": {"order": ("Open", "Closed")},
+			},
+			"Interview": {
+				"cards": ({"key": "scheduled_on"}, {"key": "interview.rating"}),
+				"states": {"order": ("Pending", "Under Review", "Cleared", "Rejected"), "hide": ("Cancelled",)},
+			},
+			"Job Offer": {
+				"states": {"order": ("Draft", "Ready to Send", "Awaiting Response", "Accepted", "Rejected"), "hide": ("Cancelled",)},
+			},
+			"Job Requisition": {
+				"states": {"order": ("Pending", "Open & Approved", "On Hold", "Filled", "Rejected"), "hide": ("Cancelled",)},
+			},
+			"Appraisal": {
+				"tabs": {"kra_tab": "target", "feedback_tab": "message-square", "self_appraisal_tab": "user", "employee_details_tab": "id-card"},
+				"cards": ({"key": "final_score"}, {"key": "appraisal_cycle"}),
+				"states": {"field": "appraisal_cycle"},
+			},
+			"Appraisal Cycle": {
+				"states": {"order": ("Not Started", "In Progress", "Completed")},
+			},
+			"Goal": {
+				"states": {"order": ("Pending", "In Progress", "Completed", "Closed", "Archived")},
+			},
+			"Shift Request": {
+				"states": {"order": ("Draft", "Approved", "Rejected")},
+			},
+			"Attendance Request": {
+				"states": {"field": "reason"},
+			},
+			"Employee Onboarding": {
+				"states": {"field": "boarding_status", "order": ("Pending", "In Process", "Completed")},
+			},
+			"Employee Separation": {
+				"states": {"field": "boarding_status", "order": ("Pending", "In Process", "Completed")},
+			},
+			"Gratuity": {
+				"cards": ({"key": "amount"},),
+				"states": {"order": ("Draft", "Unpaid", "Paid"), "hide": ("Submitted", "Cancelled")},
+			},
+			"Full and Final Statement": {
+				"states": {"order": ("Unpaid", "Paid"), "hide": ("Cancelled",)},
+			},
+			"Employee Grievance": {
+				"states": {"order": ("Open", "Investigated", "Resolved", "Invalid"), "hide": ("Cancelled",)},
+			},
+			"Training Event": {
+				"states": {"field": "event_status", "order": ("Scheduled", "Completed"), "hide": ("Cancelled",)},
 			},
 		},
 	},

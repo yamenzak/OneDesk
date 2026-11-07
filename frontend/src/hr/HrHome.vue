@@ -150,7 +150,7 @@ const cards = computed(() => {
         value: got[one.key].value ?? 0,
         format: format(one),
         ...(got[one.key].series && change(got[one.key].series, one.plain) !== null ? { delta: change(got[one.key].series, one.plain), deltaSuffix: one.plain ? "" : "%", deltaCaption: __("vs last month") } : {}),
-        ...(got[one.key].series ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
+        ...(got[one.key].series?.some((v) => v) ? { sparkline: { data: got[one.key].series, type: one.type, color: hues[one.hue] || undefined } } : {}),
       },
     }));
 });

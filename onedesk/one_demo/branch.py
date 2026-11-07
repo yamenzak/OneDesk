@@ -1,14 +1,11 @@
 """Sahara Glass Saudi, the sister company in Riyadh, in riyals: its own
-warehouses, a supplier and a customer, the stock it opened with, an order
-Karim placed and half received, windows Omar sold and delivered, and his
-Riyadh pipeline: a lead, and the tower's next phase quoted; Huda invoices
-the windows and has half of it paid, and books the supplier's bill; Samir
-runs the tower's installation as a project of its own. Its
-chart is the one ERPNext builds when nobody names one (docs/ACCOUNTS.md);
-the riyal and the dirham are both pegged to the dollar, so their rate holds."""
+stores, stock, buying and selling, pipeline and books, Samir's installation
+project and Ahmed, its site supervisor, on the Saudi weekend. Its chart is
+the one ERPNext builds when nobody names one (docs/ACCOUNTS.md); the riyal
+and the dirham are both pegged to the dollar, so their rate holds."""
 
 import frappe
-from frappe.utils import add_days
+from frappe.utils import add_days, getdate, today
 
 from onedesk.one_book.currency import bill_in
 from onedesk.one_demo.base import ago, as_user, dated, make, on, once, save, tag
@@ -40,6 +37,7 @@ def run(password=None):
 	_pipeline(customer)
 	_books()
 	_job(customer)
+	_people()
 
 
 def _company():
@@ -320,3 +318,118 @@ def _job(customer: str):
 					}
 				)
 			)
+
+
+SUPERVISOR = ("Ahmed", "Al-Qahtani", "ahmed@one.test")
+
+
+def _people():
+	"""Riyadh's calendar (Friday and Saturday off, Founding Day and National
+	Day), its leave year and the accounts its claims go to; and Ahmed, the
+	tower's site supervisor, with his leave allowance, a few days off taken,
+	the last two weeks' attendance and a taxi claim Samir approved."""
+	from onedesk.one_hr import expense
+
+	year = getdate(today()).year
+	holidays = f"{BRANCH} {year}"
+	if not frappe.db.exists("Holiday List", holidays):
+		days = frappe.new_doc("Holiday List")
+		days.update({"holiday_list_name": holidays, "from_date": f"{year}-01-01", "to_date": f"{year}-12-31"})
+		for name, day in (("Founding Day", f"{year}-02-22"), ("Saudi National Day", f"{year}-09-23")):
+			days.append("holidays", {"holiday_date": day, "description": name})
+		for weekday in ("Friday", "Saturday"):
+			days.weekly_off = weekday
+			days.get_weekly_off_dates()
+		days.insert()
+	frappe.db.set_value("Company", BRANCH, "default_holiday_list", holidays)
+	if not frappe.db.exists("Holiday List Assignment", {"applicable_for": "Company", "assigned_to": BRANCH, "docstatus": 1}):
+		make(
+			{
+				"doctype": "Holiday List Assignment",
+				"applicable_for": "Company",
+				"assigned_to": BRANCH,
+				"holiday_list": holidays,
+				"from_date": f"{year}-01-01",
+			},
+			submit=True,
+		)
+	if not frappe.db.exists("Leave Period", {"company": BRANCH}):
+		make({"doctype": "Leave Period", "from_date": f"{year}-01-01", "to_date": f"{year}-12-31", "company": BRANCH, "is_active": 1})
+	for kind in frappe.get_all("Expense Claim Type", pluck="name"):
+		claim_type = frappe.get_doc("Expense Claim Type", kind)
+		if not any(row.company == BRANCH for row in claim_type.accounts):
+			claim_type.append("accounts", {"company": BRANCH, "default_account": f"Expense Claims - {ABBR}"})
+			claim_type.save()
+	if not frappe.db.exists("Department", {"company": BRANCH, "department_name": "Projects"}):
+		make({"doctype": "Department", "department_name": "Projects", "company": BRANCH, "parent_department": frappe.db.get_value("Department", {"is_group": 1, "company": BRANCH}) or "All Departments"})
+	first, last, email = SUPERVISOR
+	employee = frappe.db.get_value("Employee", {"company": BRANCH, "first_name": first})
+	if not employee:
+		employee = make(
+			{
+				"doctype": "Employee",
+				"first_name": first,
+				"last_name": last,
+				"gender": "Male",
+				"date_of_birth": "1988-04-17",
+				"date_of_joining": f"{year - 2}-03-01",
+				"company": BRANCH,
+				"designation": "Workshop Supervisor",
+				"department": frappe.db.get_value("Department", {"company": BRANCH, "department_name": "Projects"})
+				or frappe.db.get_value("Department", {"company": BRANCH, "is_group": 0}),
+				"holiday_list": holidays,
+				"leave_approver": "samir@one.test",
+				"expense_approver": "samir@one.test",
+				"personal_email": email,
+			}
+		).name
+	if not frappe.db.exists("Leave Allocation", {"employee": employee, "docstatus": 1}):
+		make(
+			{
+				"doctype": "Leave Allocation",
+				"employee": employee,
+				"leave_type": "Privilege Leave",
+				"from_date": f"{year}-01-01",
+				"to_date": f"{year}-12-31",
+				"new_leaves_allocated": 21,
+			},
+			submit=True,
+		)
+	starts = ago(30)
+	while getdate(starts).weekday() != 6:
+		starts = add_days(starts, 1)
+	if not frappe.db.exists("Leave Application", {"employee": employee}):
+		make(
+			{
+				"doctype": "Leave Application",
+				"employee": employee,
+				"leave_type": "Privilege Leave",
+				"from_date": starts,
+				"to_date": add_days(starts, 2),
+				"leave_approver": "samir@one.test",
+				"description": "Family visit in Abha",
+				"status": "Approved",
+			},
+			submit=True,
+		)
+	for back in range(14, 0, -1):
+		day = ago(back)
+		if getdate(day).weekday() in (4, 5) or frappe.db.exists("Attendance", {"employee": employee, "attendance_date": day}):
+			continue
+		make({"doctype": "Attendance", "employee": employee, "attendance_date": day, "status": "Present", "company": BRANCH}, submit=True)
+	if not frappe.db.exists("Expense Claim", {"employee": employee}):
+		claim = frappe.new_doc("Expense Claim")
+		claim.update(
+			{
+				"employee": employee,
+				"company": BRANCH,
+				"expense_approver": "samir@one.test",
+				"payable_account": frappe.db.get_value("Company", BRANCH, "default_payable_account") or f"Creditors - {ABBR}",
+				"project": frappe.db.get_value("Project", {"company": BRANCH}),
+			}
+		)
+		dated(claim, ago(5))
+		claim.append("expenses", {"expense_date": ago(6), "expense_type": "Travel", "description": "Taxis between the tower and the Riyadh stores", "amount": 185, "sanctioned_amount": 185})
+		claim = save(claim)
+		with as_user("samir@one.test"):
+			expense.approve(claim.name)
