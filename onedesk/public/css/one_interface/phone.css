@@ -85,6 +85,19 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	text-align: start;
 }
 
+.one-phone-tools > .one-bar-company {
+	grid-column: 1 / -1;
+	font-weight: inherit;
+}
+
+.one-phone-tools > .one-bar-company .one-company-name {
+	flex: 1;
+	min-width: 0;
+	overflow: hidden;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+}
+
 .one-phone-tools > button::after {
 	content: attr(data-one-label);
 	overflow: hidden;
@@ -596,25 +609,6 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	}
 }
 
-.one-drawer-company {
-	display: flex;
-	align-items: center;
-	gap: calc(var(--spacing) * 1.5);
-	margin: 0 calc(var(--spacing) * 4) calc(var(--spacing) * 2);
-	padding: calc(var(--spacing) * 1.5) calc(var(--spacing) * 2);
-	border: 0;
-	border-radius: var(--one-radius-control);
-	background: var(--one-head-button-bg);
-	color: var(--one-ink);
-	font-size: var(--text-sm);
-	text-align: start;
-}
-
-.one-drawer-company .one-company-name {
-	flex: 1;
-	min-width: 0;
-	overflow-wrap: anywhere;
-}
 
 body.one-drawer-open .es-bottom-sheet-root {
 	z-index: calc(var(--one-layer-dialog) + 1);

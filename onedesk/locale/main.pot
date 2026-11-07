@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 20:36+0000\n"
-"PO-Revision-Date: 2026-11-07 20:36+0000\n"
+"POT-Creation-Date: 2026-11-07 20:53+0000\n"
+"PO-Revision-Date: 2026-11-07 20:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5031,7 +5031,7 @@ msgstr ""
 #: onedesk/public/js/one_account/account_center.js:647
 #: onedesk/public/js/one_ai/ai_center.js:414
 #: onedesk/public/js/one_interface/phone.js:71
-#: onedesk/public/js/one_interface/phone.js:250
+#: onedesk/public/js/one_interface/phone.js:255
 msgid "Apps"
 msgstr ""
 
@@ -8213,7 +8213,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:153
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
-#: onedesk/public/js/one_interface/phone.js:440
+#: onedesk/public/js/one_interface/phone.js:444
 #: onedesk/public/js/one_legal/trust_center.js:463
 msgid "Cancel"
 msgstr ""
@@ -21334,7 +21334,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:406
 #: onedesk/public/js/one_interface/dialogs.js:67
 #: onedesk/public/js/one_interface/nav_tree.js:259
-#: onedesk/public/js/one_interface/phone.js:269
+#: onedesk/public/js/one_interface/phone.js:273
 msgid "Help"
 msgstr ""
 
@@ -28379,7 +28379,7 @@ msgid "Mentioned in the message"
 msgstr ""
 
 #: onedesk/one_display/starters.py:802
-#: onedesk/public/js/one_interface/phone.js:306
+#: onedesk/public/js/one_interface/phone.js:310
 msgid "Menu"
 msgstr ""
 
@@ -30854,7 +30854,7 @@ msgstr ""
 msgid "No matching notifications"
 msgstr ""
 
-#: onedesk/public/js/one_interface/phone.js:183
+#: onedesk/public/js/one_interface/phone.js:188
 msgid "No matching pages"
 msgstr ""
 
@@ -43847,9 +43847,9 @@ msgstr ""
 #: onedesk/public/js/one_interface/chrome.js:102
 #: onedesk/public/js/one_interface/chrome.js:103
 #: onedesk/public/js/one_interface/frame.js:253
-#: onedesk/public/js/one_interface/phone.js:408
-#: onedesk/public/js/one_interface/phone.js:411
 #: onedesk/public/js/one_interface/phone.js:412
+#: onedesk/public/js/one_interface/phone.js:415
+#: onedesk/public/js/one_interface/phone.js:416
 #: onedesk/public/js/one_mail/onemail_settings.js:1378
 msgid "Search"
 msgstr ""
@@ -44994,7 +44994,7 @@ msgstr ""
 #: onedesk/public/js/head.js:23 onedesk/public/js/one_ai/ai_center.js:135
 #: onedesk/public/js/one_interface/nav_tree.js:244
 #: onedesk/public/js/one_interface/nav_tree.js:245
-#: onedesk/public/js/one_interface/phone.js:267
+#: onedesk/public/js/one_interface/phone.js:271
 msgid "Settings"
 msgstr ""
 
@@ -49145,7 +49145,7 @@ msgid "Take off the shelf"
 msgstr ""
 
 #: onedesk/public/js/one_interface/nav_tree.js:254
-#: onedesk/public/js/one_interface/phone.js:268
+#: onedesk/public/js/one_interface/phone.js:272
 msgid "Take the Tour"
 msgstr ""
 
@@ -58413,7 +58413,7 @@ msgstr ""
 
 #: onedesk/public/js/module_docs.js:341
 #: onedesk/public/js/one_interface/nav_tree.js:264
-#: onedesk/public/js/one_interface/phone.js:271
+#: onedesk/public/js/one_interface/phone.js:275
 #, python-brace-format
 msgid "What's New in {0}"
 msgstr ""

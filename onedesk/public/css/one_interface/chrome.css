@@ -628,8 +628,11 @@ body.one-barred .dock-item-icon .one-flat {
 	font-weight: 500;
 }
 
-.one-bar-company .icon,
-.one-drawer-company .icon {
+.one-bar .one-company-mark {
+	display: none;
+}
+
+.one-bar-company .icon {
 	margin: 0;
 	flex: none;
 }

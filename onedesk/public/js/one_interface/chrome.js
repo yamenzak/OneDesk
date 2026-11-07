@@ -27,7 +27,7 @@ $.extend(onedesk.interface, {
 	company_switch(css) {
 		const said = frappe.boot.one_companies;
 		if (!said) return null;
-		const $button = $(`<button type="button" class="${css}"><span class="one-company-name"></span>${frappe.utils.icon("chevron-down", "xs")}</button>`);
+		const $button = $(`<button type="button" class="${css}"><span class="one-bar-icon one-company-mark">${frappe.utils.icon("building-2", "sm")}</span><span class="one-company-name"></span>${frappe.utils.icon("chevron-down", "xs")}</button>`);
 		$button.find(".one-company-name").text(said.current);
 		$button.attr({ "aria-label": __("Change Company"), title: __("Change Company") });
 		new frappe.ui.Dropdown({

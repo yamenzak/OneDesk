@@ -161,7 +161,12 @@ $.extend(onedesk.interface.phone, {
 				$tools.append(tool);
 			}
 		});
-		$tools.on("click", "button", () => setTimeout(() => nav.close_sheet()));
+		const company = document.querySelector(".one-bar .one-bar-company");
+		if (company) {
+			nav.one_tools.unshift({ tool: company, group: company.parentElement });
+			$tools.prepend(company);
+		}
+		$tools.on("click", "button:not(.one-bar-company)", () => setTimeout(() => nav.close_sheet()));
 		nav.$one_heading = $(`<div class="one-phone-heading"></div>`).text(title).insertAfter($body.find(".desk-mobile-sheet-dock"));
 		const $found = $(`<div class="one-phone-found hide" role="list"></div>`).appendTo($body);
 		let pages = null;
@@ -255,7 +260,6 @@ $.extend(onedesk.interface.phone, {
 		const name = $shown?.find(".header-title").html();
 		if (logo) $(`<span class="one-drawer-logo"></span>`).html(logo).appendTo($head);
 		$(`<span class="one-drawer-name"></span>`)[name ? "html" : "text"](name || $drawer.attr("aria-label")).appendTo($head);
-		onedesk.interface.company_switch("one-drawer-company")?.appendTo($body);
 		document.body.classList.add("one-drawer-open");
 		const $rail = $(`<div class="body-sidebar desk-mobile-sheet-sidebar one-drawer-rail"></div>`).appendTo($body);
 		sidebar.$items_container.appendTo($rail);
