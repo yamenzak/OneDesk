@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 08:01+0000\n"
-"PO-Revision-Date: 2026-11-07 08:01+0000\n"
+"POT-Creation-Date: 2026-11-07 08:40+0000\n"
+"PO-Revision-Date: 2026-11-07 08:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3301,7 +3301,7 @@ msgstr ""
 msgid "Advance After"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:831
+#: onedesk/one_hr/heads.py:839
 msgid "Advance Amount"
 msgstr ""
 
@@ -4585,7 +4585,7 @@ msgstr ""
 msgid "Applicant Name"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:835
+#: onedesk/one_hr/heads.py:843
 msgid "Applicant Rating"
 msgstr ""
 
@@ -4729,7 +4729,7 @@ msgid "Appraisal"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_hr/heads.py:781 onedesk/one_hr/home.py:278
+#: onedesk/one_hr/heads.py:789 onedesk/one_hr/home.py:278
 #: onedesk/one_hr/sidebar/onehr/onehr.json:961
 msgid "Appraisal Cycle"
 msgstr ""
@@ -6152,7 +6152,7 @@ msgstr ""
 msgid "Average"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:839
+#: onedesk/one_hr/heads.py:847
 msgid "Average Rating"
 msgstr ""
 
@@ -6178,7 +6178,7 @@ msgstr ""
 msgid "Avoid"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:734
+#: onedesk/one_hr/heads.py:742
 msgid "Awaiting"
 msgstr ""
 
@@ -9229,7 +9229,7 @@ msgstr ""
 msgid "Claimed"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:831
+#: onedesk/one_hr/heads.py:839
 msgid "Claimed Amount"
 msgstr ""
 
@@ -16654,7 +16654,7 @@ msgstr ""
 
 #. Label in the One Equipment Handover print format
 #: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:286
-#: onedesk/one_hr/heads.py:735
+#: onedesk/one_hr/heads.py:743
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
 msgid "Equipment"
@@ -18491,7 +18491,7 @@ msgid "Filters on what is counted. A value may name the record's fields as {{ do
 msgstr ""
 
 #. Label in the One Appraisal print format
-#: onedesk/one_hr/heads.py:781
+#: onedesk/one_hr/heads.py:789
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 msgid "Final Score"
 msgstr ""
@@ -20560,7 +20560,7 @@ msgstr ""
 #. Label in the One Payslip print format
 #. Label in the One Payslip Compact print format
 #. Label in the One Salary Statement print format
-#: frontend/src/hr/HrStory.vue:83 onedesk/one_hr/heads.py:770
+#: frontend/src/hr/HrStory.vue:83 onedesk/one_hr/heads.py:778
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -22495,7 +22495,7 @@ msgstr ""
 msgid "In Stock"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:827
+#: onedesk/one_hr/heads.py:835
 msgid "In Time"
 msgstr ""
 
@@ -24428,7 +24428,7 @@ msgid "Job Offer Term Template"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_hr/heads.py:835 onedesk/one_hr/home.py:233
+#: onedesk/one_hr/heads.py:843 onedesk/one_hr/home.py:233
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.js:17
 #: onedesk/one_hr/sidebar/onehr/onehr.json:830
 msgid "Job Opening"
@@ -24969,7 +24969,7 @@ msgstr ""
 msgid "Last Call"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:72 onedesk/one_hr/heads.py:732
+#: onedesk/one_hr/heads.py:72 onedesk/one_hr/heads.py:740
 msgid "Last Check-in"
 msgstr ""
 
@@ -25448,7 +25448,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label of a Card Break in the OneHR Setup Workspace
 #: frontend/src/sheet/shim/confirmLeave.js:6 onedesk/one_hr/calendar.py:53
-#: onedesk/one_hr/custom/employee_grievance.json:31 onedesk/one_hr/heads.py:733
+#: onedesk/one_hr/custom/employee_grievance.json:31 onedesk/one_hr/heads.py:741
 #: onedesk/one_hr/home.py:23 onedesk/one_hr/home.py:35
 #: onedesk/one_hr/home.py:42
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
@@ -25484,7 +25484,7 @@ msgstr ""
 msgid "Leave Application"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:742
+#: onedesk/one_hr/heads.py:750
 msgid "Leave Approver Name"
 msgstr ""
 
@@ -25753,7 +25753,7 @@ msgstr ""
 msgid "Left"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:742
+#: onedesk/one_hr/heads.py:750
 msgid "Left After This"
 msgstr ""
 
@@ -29092,7 +29092,7 @@ msgstr ""
 #. Label in the One Payslip print format
 #. Label in the One Payslip Compact print format
 #. Label in the One Salary Statement print format
-#: frontend/src/hr/HrStory.vue:83 onedesk/one_hr/heads.py:770
+#: frontend/src/hr/HrStory.vue:83 onedesk/one_hr/heads.py:778
 #: onedesk/one_hr/print_format/one_payslip/one_payslip.json
 #: onedesk/one_hr/print_format/one_payslip_compact/one_payslip_compact.json
 #: onedesk/one_hr/print_format/one_salary_statement/one_salary_statement.json
@@ -29305,7 +29305,7 @@ msgstr ""
 msgid "New Leads"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:843
+#: onedesk/one_hr/heads.py:851
 msgid "New Leaves Allocated"
 msgstr ""
 
@@ -31893,7 +31893,7 @@ msgstr ""
 msgid "Number Cards"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:776
+#: onedesk/one_hr/heads.py:784
 msgid "Number Of Employees"
 msgstr ""
 
@@ -35172,7 +35172,7 @@ msgid "Paid"
 msgstr ""
 
 #: onedesk/one_book/heads.py:549 onedesk/one_book/heads.py:681
-#: onedesk/one_hr/heads.py:831
+#: onedesk/one_hr/heads.py:839
 msgid "Paid Amount"
 msgstr ""
 
@@ -35304,7 +35304,7 @@ msgstr ""
 msgid "Paid to Them"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:736
+#: onedesk/one_hr/heads.py:744
 msgid "Paid under"
 msgstr ""
 
@@ -35977,7 +35977,7 @@ msgstr ""
 msgid "Payment Advice"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:770
+#: onedesk/one_hr/heads.py:778
 msgid "Payment Days"
 msgstr ""
 
@@ -36276,7 +36276,7 @@ msgstr ""
 msgid "Payroll Entry"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:776
+#: onedesk/one_hr/heads.py:784
 msgid "Payroll Frequency"
 msgstr ""
 
@@ -38182,7 +38182,7 @@ msgstr ""
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_factory/print_format/one_subcontracting_receipt/one_subcontracting_receipt.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
-#: onedesk/one_hr/heads.py:763
+#: onedesk/one_hr/heads.py:771
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_hr/print_format/one_expense_claim/one_expense_claim.json
@@ -41877,7 +41877,7 @@ msgstr ""
 msgid "Return {0} ({1})"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:831
+#: onedesk/one_hr/heads.py:839
 msgid "Returned Amount"
 msgstr ""
 
@@ -43069,7 +43069,7 @@ msgstr ""
 msgid "Scheduled"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:839
+#: onedesk/one_hr/heads.py:847
 msgid "Scheduled On"
 msgstr ""
 
@@ -44680,7 +44680,7 @@ msgstr ""
 #. Label in the One Shift Request print format
 #. Label in the One Shift Schedule print format
 #. Label in the One Asset Shift Allocation print format
-#: onedesk/one_hr/custom/hr_settings.json:340 onedesk/one_hr/heads.py:827
+#: onedesk/one_hr/custom/hr_settings.json:340 onedesk/one_hr/heads.py:835
 #: onedesk/one_hr/print_format/one_attendance/one_attendance.json
 #: onedesk/one_hr/print_format/one_attendance_request/one_attendance_request.json
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
@@ -46354,7 +46354,7 @@ msgstr ""
 #: onedesk/one_crm/report/lead_sources/lead_sources.py:75
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:22
 #: onedesk/one_display/doctype/display_widget/display_widget.json:41
-#: onedesk/one_hr/heads.py:835
+#: onedesk/one_hr/heads.py:843
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:192
 msgid "Source"
 msgstr ""
@@ -46616,7 +46616,7 @@ msgstr ""
 #. Label of the one_standing (Int) field in DocType 'Employee'
 #. Label of the one_ai_standing (Percent) field in DocType 'Job Applicant'
 #: onedesk/one_account/heads.py:84 onedesk/one_hr/custom/employee.json:20
-#: onedesk/one_hr/custom/job_applicant.json:27 onedesk/one_hr/heads.py:731
+#: onedesk/one_hr/custom/job_applicant.json:27 onedesk/one_hr/heads.py:739
 msgid "Standing"
 msgstr ""
 
@@ -46855,7 +46855,7 @@ msgstr ""
 #: onedesk/one_display/doctype/display_board_state/display_board_state.json:15
 #: onedesk/one_display/layout.py:70
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:36
-#: onedesk/one_hr/heads.py:821
+#: onedesk/one_hr/heads.py:829
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:27
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:110
 #: onedesk/one_studio/heads.py:97
@@ -53598,11 +53598,11 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:762
+#: onedesk/one_hr/heads.py:770
 msgid "Total Advance Amount"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:847
+#: onedesk/one_hr/heads.py:855
 msgid "Total Amount"
 msgstr ""
 
@@ -53619,7 +53619,7 @@ msgstr ""
 msgid "Total Charges"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:760
+#: onedesk/one_hr/heads.py:768
 msgid "Total Claimed Amount"
 msgstr ""
 
@@ -53649,7 +53649,7 @@ msgstr ""
 msgid "Total Debit"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:770
+#: onedesk/one_hr/heads.py:778
 msgid "Total Deduction"
 msgstr ""
 
@@ -53684,11 +53684,11 @@ msgstr ""
 msgid "Total Hours"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:742
+#: onedesk/one_hr/heads.py:750
 msgid "Total Leave Days"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:843
+#: onedesk/one_hr/heads.py:851
 msgid "Total Leaves Allocated"
 msgstr ""
 
@@ -53720,7 +53720,7 @@ msgstr ""
 msgid "Total Qty"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:761
+#: onedesk/one_hr/heads.py:769
 msgid "Total Sanctioned Amount"
 msgstr ""
 
@@ -58985,7 +58985,7 @@ msgstr ""
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_hr/doctype/clock_place/clock_place.json:81
-#: onedesk/one_hr/heads.py:729
+#: onedesk/one_hr/heads.py:737
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
 #: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:344
@@ -60555,7 +60555,7 @@ msgstr ""
 msgid "Working Days"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:827
+#: onedesk/one_hr/heads.py:835
 msgid "Working Hours"
 msgstr ""
 

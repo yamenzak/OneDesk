@@ -695,6 +695,13 @@ def interview_rating(doc):
 	return _stars(doc.average_rating)
 
 
+def applicant_opening(doc):
+	"""The opening applied for, by its title rather than its id."""
+	if not doc.job_title:
+		return None
+	return frappe.db.get_value("Job Opening", doc.job_title, "job_title") or doc.job_title
+
+
 MEASURES = {
 	"employee.state": state,
 	"employee.standing": standing,
@@ -721,6 +728,7 @@ MEASURES = {
 	"leave.left": leave_left,
 	"applicant.rating": applicant_rating,
 	"interview.rating": interview_rating,
+	"applicant.opening": applicant_opening,
 }
 
 HEADS = [
@@ -832,7 +840,7 @@ HEADS = [
 	},
 	{
 		"doctype": "Job Applicant",
-		"band": [{"label": _lt("Job Opening"), "source": "Field", "field": "job_title"}, {"label": _lt("Source"), "source": "Field", "field": "source"}, {"label": _lt("Applicant Rating"), "source": "Measure", "measure": "applicant.rating"}],
+		"band": [{"label": _lt("Job Opening"), "source": "Measure", "measure": "applicant.opening"}, {"label": _lt("Source"), "source": "Field", "field": "source"}, {"label": _lt("Applicant Rating"), "source": "Measure", "measure": "applicant.rating"}],
 	},
 	{
 		"doctype": "Interview",

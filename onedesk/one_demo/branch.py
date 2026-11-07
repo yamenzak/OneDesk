@@ -376,6 +376,7 @@ def _people():
 				"date_of_joining": f"{year - 2}-03-01",
 				"company": BRANCH,
 				"designation": "Workshop Supervisor",
+				"employment_type": "Full-time",
 				"department": frappe.db.get_value("Department", {"company": BRANCH, "department_name": "Projects"})
 				or frappe.db.get_value("Department", {"company": BRANCH, "is_group": 0}),
 				"holiday_list": holidays,

@@ -1083,7 +1083,7 @@ MODULES = {
 			},
 			"Job Applicant": {
 				"fields": {"email_id": "mail", "phone_number": "phone", "job_title": "briefcase", "source": "compass"},
-				"cards": ({"key": "job_title"}, {"key": "source"}, {"key": "applicant.rating"}),
+				"cards": ({"key": "applicant.opening"}, {"key": "source"}, {"key": "applicant.rating"}),
 				"states": {"order": ("Open", "Replied", "Shortlisted", "Hold", "Accepted", "Rejected")},
 			},
 			"Job Opening": {

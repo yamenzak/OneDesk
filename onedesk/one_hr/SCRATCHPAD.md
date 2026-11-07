@@ -29,3 +29,8 @@ temporary site after the last module.
 - frappe's Geolocation field throws in Leaflet ("reading 'x'") when it adds
   a circle to a map with no size yet; the map then draws. One console error
   on a Clock Place.
+- A Report Builder report (Employee Information) says **Not Saved** as it
+  opens with several companies: list.js adds the company filter to every
+  list view, a saved report's too (one_interface).
+- Income Tax Computation opens on "No employees found with selected filters
+  and active salary structure": it waits on the Tax & Benefits question.
