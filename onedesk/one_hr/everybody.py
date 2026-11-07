@@ -90,3 +90,66 @@ def pay_allowed(doc, ptype=None, user=None, debug=False) -> bool:
 	if not _own_pay_only(doc.doctype, user):
 		return True
 	return bool(doc.get("employee")) and doc.get("employee") == own.employee_of(user)
+
+
+#: A person's own HR records, each with the field naming who decides it:
+#: read by HR (and, for money, accounts) in full, and by anybody else as the
+#: employee, as the employee's manager, or as the one asked to decide.
+PERSONAL = {
+	"Leave Application": "leave_approver",
+	"Leave Allocation": None,
+	"Leave Encashment": None,
+	"Attendance": None,
+	"Attendance Request": None,
+	"Shift Request": "approver",
+	"Employee Checkin": None,
+	"Expense Claim": "expense_approver",
+	"Employee Advance": None,
+	"Travel Request": None,
+}
+
+#: Roles that read these as somebody's own: their employee, their manager,
+#: their approver. "All" is everybody's, so it is one of them.
+AS_A_PERSON = SELF | {"All", "Leave Approver", "Expense Approver"}
+
+
+def _personal_only(doctype: str, user: str) -> bool:
+	if user == "Administrator":
+		return False
+	roles = {
+		perm.get("role")
+		for perm in frappe.permissions.get_valid_perms(doctype, user)
+		if perm.get("read") and not perm.get("permlevel")
+	}
+	return bool(roles) and roles <= AS_A_PERSON
+
+
+def _crew(user: str) -> list[str]:
+	from onedesk.one_hr import own
+
+	mine = own.employee_of(user)
+	if not mine:
+		return []
+	return [mine, *frappe.get_all("Employee", filters={"reports_to": mine}, pluck="name")]
+
+
+def personal_query(user: str | None = None, doctype: str | None = None) -> str:
+	"""Their own, their reports', and what they are asked to decide."""
+	user = user or frappe.session.user
+	if not doctype or not _personal_only(doctype, user):
+		return ""
+	crew = ", ".join(frappe.db.escape(one) for one in _crew(user)) or frappe.db.escape("-")
+	said = f"`tab{doctype}`.employee in ({crew})"
+	field = PERSONAL.get(doctype)
+	if field:
+		said = f"({said} or `tab{doctype}`.{field} = {frappe.db.escape(user)})"
+	return said
+
+
+def personal_allowed(doc, ptype=None, user=None, debug=False) -> bool:
+	"""True leaves frappe's own rules to decide; a hook can only take away."""
+	user = user or frappe.session.user
+	if doc.is_new() or not _personal_only(doc.doctype, user):
+		return True
+	field = PERSONAL.get(doc.doctype)
+	return doc.get("employee") in _crew(user) or bool(field and doc.get(field) == user)

@@ -758,3 +758,29 @@ def onehr_riyadh_keeps_its_own_people():
 	assert today_said["company"] == "Sahara Glass Saudi" and today_said["counted"] == 1, today_said
 	with as_user("rania@one.test"):
 		assert not frappe.has_permission("Employee", "read", ahmed)
+
+
+@check
+def onehr_a_person_reads_their_own_their_crews_and_what_they_decide():
+	"""Who Can Do What says it: somebody who is not HR reads their own leave,
+	attendance and check-ins, those of the people who report to them, and
+	what they are asked to approve; HR reads everybody's. A manager of
+	another app (Karim keeps the stores) is not HR."""
+	def mine(user):
+		return frappe.db.get_value("Employee", {"user_id": user})
+
+	every = set(frappe.get_all("Leave Application", pluck="name"))
+	with as_user("karim@one.test"):
+		seen = set(frappe.get_list("Leave Application", pluck="name"))
+	assert seen and all(frappe.db.get_value("Leave Application", one, "employee") == mine("karim@one.test") for one in seen), seen
+	assert len(seen) < len(every)
+	tariq = mine("tariq@one.test")
+	crew = {tariq, *frappe.get_all("Employee", filters={"reports_to": tariq}, pluck="name")}
+	with as_user("tariq@one.test"):
+		days = frappe.get_list("Attendance", fields=["employee"], limit_page_length=0)
+	assert days and {one.employee for one in days} <= crew, {one.employee for one in days} - crew
+	decided = set(frappe.get_all("Leave Application", filters={"leave_approver": "samir@one.test"}, pluck="name"))
+	with as_user("samir@one.test"):
+		assert decided <= set(frappe.get_list("Leave Application", pluck="name"))
+	with as_user("mariam@one.test"):
+		assert set(frappe.get_list("Leave Application", pluck="name")) == every

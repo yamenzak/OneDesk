@@ -10,6 +10,8 @@ GIVEN = {
 	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}
 	for doctype in ("Travel Request", "Employee Advance", "Vehicle Log")
 } | {one: {USER: roles.USE, MANAGER: roles.MANAGE} for one in ("Purpose of Travel", "Vehicle Service Item", "Driver", "Vehicle")}
+GIVEN["Expense Claim"] = {"Accounts User": roles.USE, "Accounts Manager": roles.USE}
+GIVEN["Employee Advance"] = {**GIVEN["Employee Advance"], "Accounts User": roles.USE, "Accounts Manager": roles.USE}
 
 RAISED = {
 	doctype: {USER: roles.WORK, MANAGER: roles.MANAGE}
