@@ -702,6 +702,15 @@ TreeView's set_primary_action and again after its post_render (ERPNext's
 Account tree sets its button anew there), and after QueryReport's
 setup_page_head, which runs once per report opened.
 
+An island that lists things of its own (OneMail's conversations) asks the
+window for the same head through the kit's `interfaceHeading` (look.js
+`onedesk.interface.heading`): its name and icon, a quieter word after it, New
+beside it, its ways as frappe's tab buttons at the far end and its states as
+the strip. They are the list's own nodes in the page, outside the island's
+shadow root, so the look dresses them as it dresses a list's and the island
+draws none of it. A fitted island under them takes what is left of the
+height (frame.css).
+
 In Canvas each view's body reads the page's roles rather than its library's
 own colours: a report's table (and a query report's) has its heads on the
 list's head fill and its filter boxes filled like a field; a Gantt chart's

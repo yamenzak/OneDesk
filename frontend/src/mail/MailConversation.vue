@@ -5,30 +5,33 @@
       <span class="text-base">{{ selected > 1 ? __("{0} conversations selected", [selected]) : __("No conversation selected") }}</span>
     </div>
     <template v-else>
-    <div class="flex shrink-0 items-center gap-0.5 pb-2" :aria-label="__('Conversation')" role="toolbar">
-      <Button v-if="back" size="sm" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="emit('back')" />
-      <span v-if="back" class="mx-1 h-4 w-px bg-surface-gray-4" />
-      <slot name="commands" />
-    </div>
     <div ref="frame" class="flex min-h-0 flex-1 gap-2.5">
     <div ref="scroller" class="flex min-h-0 flex-1 flex-col gap-2.5 overflow-auto">
-      <div class="flex flex-col gap-2 px-1 pt-1">
-        <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
-          <h2 class="min-w-0 text-xl font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
+      <div class="flex flex-col gap-2.5 pb-1 pt-1 md:pt-3">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+          <span class="flex min-w-[min(100%,16rem)] flex-1 items-start gap-1.5">
+            <Button v-if="back" variant="ghost" icon="lucide-arrow-left" class="-ms-1.5 mt-0.5 shrink-0" :aria-label="__('Back')" :title="__('Back')" @click="emit('back')" />
+            <h1 class="min-w-0 text-3xl font-medium leading-tight text-ink-gray-9 md:text-5xl">{{ messages[0].subject || __("(no subject)") }}</h1>
+          </span>
+          <span class="flex shrink-0 items-center rounded-5 bg-surface-gray-3" role="toolbar" :aria-label="__('Conversation')">
+            <slot name="commands" />
+          </span>
+        </div>
+        <div v-if="records.length" class="flex flex-wrap gap-1.5">
           <span
             v-for="row in records"
             :key="`${row.link_doctype}/${row.link_name}`"
             class="inline-flex items-center gap-1 rounded-full bg-surface-gray-2 py-0.5 pe-1 ps-2.5 text-sm"
             :title="[row.link_title, (FILED_BY[row.one_linked_by || 'contact'] || FILED_BY.contact)()].filter(Boolean).join(' · ')"
           >
-            <a :href="recordRoute(row.link_doctype, row.link_name)" class="text-ink-gray-8 hover:underline">{{ __(row.link_doctype) }} {{ row.link_name }}</a>
+            <a :href="recordRoute(row.link_doctype, row.link_name)" class="text-ink-gray-9 hover:underline">{{ __(row.link_doctype) }} {{ row.link_name }}</a>
             <button type="button" class="rounded-full p-0.5 text-ink-gray-5 hover:bg-surface-gray-3" :aria-label="__('Unlink')" :title="__('Unlink')" @click="unfile(row)">
               <span class="lucide-x size-3" aria-hidden="true" />
             </button>
           </span>
         </div>
         <PlaceSpot :said="placed" />
-        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="-ms-2" @changed="emit('changed')" @state="(got) => (state = got)" />
+        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="-ms-1.5" @changed="emit('changed')" @state="(got) => (state = got)" />
       </div>
       <button
         v-if="!wide && (state.shared || party)"

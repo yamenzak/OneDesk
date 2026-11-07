@@ -1,11 +1,11 @@
 <template>
-  <div ref="root" class="flex h-full min-h-0 gap-2.5 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
+  <div ref="root" class="flex h-full min-h-0 flex-col text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
+    <div class="flex min-h-0 flex-1 gap-2.5 px-2.5 pb-2.5" :class="{ 'pt-2.5': stacked && thread }">
     <div class="flex shrink-0 flex-col overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-elevation-2" :class="stacked ? (thread ? 'hidden' : 'w-full') : 'w-96'" data-tour="onemail-list">
       <Loading v-if="loading && !items.length" />
       <ContextMenu v-else :options="menu" class="min-h-0 flex-1">
         <template #trigger>
           <MailList
-            :title="heading"
             :items="items"
             :picked="picked"
             :open="thread"
@@ -28,19 +28,6 @@
                   <Button v-else size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
                 </template>
               </template>
-              <Button
-                v-if="!picked.size && !narrow"
-                size="sm"
-                variant="ghost"
-                :icon="pane ? 'lucide-panel-right-close' : 'lucide-panel-right'"
-                :aria-label="pane ? __('Hide Reading Pane') : __('Show Reading Pane')"
-                :title="pane ? __('Hide Reading Pane') : __('Show Reading Pane')"
-                @click="togglePane"
-              />
-              <Button v-if="!picked.size && from" size="sm" variant="solid" :label="__('New Email')" data-tour="onemail-new" @click="write()" />
-            </template>
-            <template v-if="box?.shared && !search && folder?.kind !== 'Drafts'" #strip>
-              <TabButtons v-model="team" :options="TEAMS" />
             </template>
           </MailList>
         </template>
@@ -79,6 +66,7 @@
         </template>
       </MailConversation>
     </div>
+    </div>
   </div>
 </template>
 
@@ -87,7 +75,7 @@
 // window's nav pane, the conversations of the one chosen in the view, and the
 // one open beside them. Its keys are its shortcuts (one_mail/shortcuts.py).
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button, ContextMenu, Dropdown, TabButtons } from "frappe-ui";
+import { Button, ContextMenu, Dropdown } from "frappe-ui";
 
 import {
   Loading,
@@ -110,6 +98,7 @@ import {
   interfaceHandles,
   interfaceSearch,
   interfaceStatus,
+  interfaceHeading,
   requires,
   interfaceModuleFoot,
   interfaceHeadAction,
@@ -134,6 +123,10 @@ const items = ref([]);
 const messages = ref([]);
 const draft = ref(null);
 const team = ref(null);
+const PANES = [
+  { value: "list", icon: "lucide-rows-3", label: __("Hide Reading Pane") },
+  { value: "pane", icon: "lucide-columns-2", label: __("Show Reading Pane") },
+];
 const TEAMS = [
   { label: __("Open"), value: "open" },
   { label: __("Mine"), value: "mine" },
@@ -166,6 +159,7 @@ onBeforeUnmount(() => sized.disconnect());
 let anchor = null;
 
 const from = computed(() => sender(boxes.value, box.value));
+
 const conversation = ref(null);
 const menu = ref([]);
 
@@ -176,7 +170,7 @@ const theseItems = computed(() => items.value.filter((one) => these.value.includ
 const heading = computed(() => {
   if (search.value) return __("Results for {0}", [search.value]);
   if (!folder.value) return "";
-  return boxes.value.length > 1 && box.value ? `${folderLabel(folder.value)} · ${called(box.value)}` : folderLabel(folder.value);
+  return folderLabel(folder.value);
 });
 
 // Each command an icon, the read and star ones saying what a click would do:
@@ -624,6 +618,28 @@ watch(
     }
   }
 );
+
+watch(
+  () => [stacked.value && thread.value, heading.value, folder.value, search.value, from.value, box.value, team.value, pane.value, narrow.value, boxes.value.length],
+  () => {
+    if (stacked.value && thread.value) return interfaceHeading(props.win, null);
+    interfaceHeading(props.win, {
+      title: heading.value,
+      icon: folder.value && !search.value ? kindOf(folder.value)[0] : "lucide-search",
+      quiet: boxes.value.length > 1 && box.value && !search.value ? called(box.value) : "",
+      primary: from.value ? { label: __("New Email"), click: () => write() } : null,
+      ways: narrow.value ? [] : PANES,
+      ways_label: __("Reading Pane"),
+      way: pane.value ? "pane" : "list",
+      pick_way: (value) => (value === "pane") !== pane.value && togglePane(),
+      states: box.value?.shared && !search.value && folder.value?.kind !== "Drafts" ? TEAMS : [],
+      state: team.value,
+      pick_state: (value) => (team.value = value),
+    });
+  },
+  { flush: "post" }
+);
+onBeforeUnmount(() => interfaceHeading(props.win, null));
 
 load();
 const stop = listen("onemail_change", (data) => {

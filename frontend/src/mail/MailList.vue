@@ -1,7 +1,7 @@
 <template>
   <div class="flex h-full min-h-0 flex-col">
-    <div class="flex items-center gap-3 px-4 py-2.5">
-      <span class="flex size-8 shrink-0 items-center justify-center">
+    <div class="m-1.5 mb-0 flex h-9 shrink-0 items-center gap-3 rounded-full bg-surface-gray-3 px-3.5 text-sm font-medium text-ink-gray-7">
+      <span class="flex w-8 shrink-0 justify-center">
         <Checkbox
           :modelValue="every"
           :indeterminate="!every && picked.size > 0"
@@ -11,19 +11,26 @@
           @update:modelValue="(on) => emit('all', on)"
         />
       </span>
-      <span class="min-w-0 flex-1 truncate font-semibold text-ink-gray-9">{{ picked.size ? __("{0} selected", [picked.size]) : title }}</span>
-      <span class="flex shrink-0 items-center gap-0.5"><slot name="action" /></span>
+      <template v-if="picked.size">
+        <span class="min-w-0 flex-1 truncate text-ink-gray-9">{{ __("{0} selected", [picked.size]) }}</span>
+        <span class="flex shrink-0 items-center gap-0.5"><slot name="action" /></span>
+      </template>
+      <template v-else-if="wide">
+        <span class="w-4 shrink-0" />
+        <span class="w-52 shrink-0">{{ __("From") }}</span>
+        <span class="min-w-0 flex-1">{{ __("Subject") }}</span>
+        <span class="w-16 shrink-0 text-end">{{ __("Date") }}</span>
+      </template>
+      <span v-else class="min-w-0 flex-1 truncate">{{ __("Conversations") }}</span>
     </div>
-    <div v-if="$slots.strip" class="px-3 pb-2"><slot name="strip" /></div>
-    <div class="border-b border-outline-gray-1" />
-    <div ref="scroller" class="min-h-0 flex-1 overflow-auto" role="listbox" aria-multiselectable="true" :aria-label="__('Conversations')">
+    <div ref="scroller" class="min-h-0 flex-1 overflow-auto px-1.5" role="listbox" aria-multiselectable="true" :aria-label="__('Conversations')">
       <div v-if="!items.length" class="py-16 text-center text-base text-ink-gray-5">{{ searching ? __("No results") : __("No conversations") }}</div>
       <div
         v-for="item in items"
         :key="item.thread"
         role="option"
         :aria-selected="picked.has(item.thread)"
-        class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-4 [content-visibility:auto]"
+        class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-3.5 [content-visibility:auto] last:border-b-0"
         :style="{ containIntrinsicSize: wide ? 'auto 44px' : 'auto 88px' }"
         :class="picked.has(item.thread) ? 'bg-surface-blue-2' : item.thread === open ? 'bg-surface-gray-2' : 'hover:bg-surface-gray-1'"
         @click="clicked(item, $event)"
@@ -126,7 +133,6 @@ import { when, who } from "./mail";
 import MailFace from "./MailFace.vue";
 
 const props = defineProps({
-  title: String,
   items: { type: Array, default: () => [] },
   picked: { type: Set, required: true },
   open: { type: String, default: null },

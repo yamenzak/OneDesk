@@ -235,6 +235,17 @@
 		min-height: 0;
 	}
 
+	/* With the window's head over it, the island takes what is left. */
+	.one-interface-fit :has(> .one-hero-island) {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.one-interface-fit :has(> .one-hero-island) > .one-island {
+		flex: 1 1 0;
+		height: auto;
+	}
+
 	/* The details pane, right of the view. */
 	.one-interface .layout-main:has(> .one-interface-details) {
 		display: flex;

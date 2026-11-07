@@ -707,6 +707,62 @@ list.kinds = async (view, hero, kinds) => {
 	});
 };
 
+// The same head over an island's own list (the kit's interfaceHeading): its
+// icon and name, a quieter word after it, New beside it, its ways of looking
+// at the far end and a strip of states under it, drawn as a frappe list's
+// are so the look dresses both alike. Said again, drawn again; said empty,
+// gone. `ways` and `states` are [{ value, label, icon?, count? }].
+onedesk.interface.heading = (win, spec) => {
+	const main = win && win.page && win.page.main && win.page.main[0];
+	if (!main) return;
+	main.querySelectorAll(":scope > .one-hero-island, :scope > .one-strip-island").forEach((one) => one.remove());
+	if (!spec) return;
+	const island = main.querySelector(":scope > .one-island");
+	const hero = document.createElement("div");
+	hero.className = "one-hero one-hero-list one-hero-island";
+	hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon"${spec.icon ? "" : " hidden"}></span><h1></h1></div>`;
+	hero.querySelector("h1").textContent = spec.title || "";
+	if (spec.icon) hero.querySelector(".one-hero-icon").innerHTML = frappe.utils.icon(spec.icon, "md");
+	const title = hero.querySelector(".one-hero-title");
+	if (spec.quiet) title.insertAdjacentHTML("beforeend", `<span class="one-hero-quiet">${esc(spec.quiet)}</span>`);
+	if (spec.primary) {
+		const group = document.createElement("span");
+		group.className = "one-interface-group";
+		group.dataset.tour = "interface-new";
+		$(group).append(frappe.ui.button({ label: spec.primary.label, icon: "plus", variant: "solid", css_class: "primary-action", onclick: spec.primary.click }));
+		title.append(group);
+	}
+	if (spec.ways && spec.ways.length) {
+		const ways = document.createElement("span");
+		ways.className = "one-interface-ways";
+		$(ways).append(
+			frappe.ui.tab_buttons({
+				type: "ghost",
+				label: spec.ways_label || __("View"),
+				value: spec.way,
+				options: spec.ways.map((one) => ({ value: one.value, icon: one.icon, label: one.label, title: one.label })),
+				on_change: (value) => spec.pick_way && spec.pick_way(value),
+			})
+		);
+		hero.append(ways);
+	}
+	main.insertBefore(hero, island);
+	if (!spec.states || !spec.states.length) return;
+	const strip = document.createElement("div");
+	strip.className = "one-strip one-strip-island";
+	strip.setAttribute("role", "tablist");
+	strip.innerHTML = spec.states
+		.map(
+			(one) =>
+				`<button type="button" role="tab" aria-selected="${one.value === spec.state}" class="one-strip-item${one.value === spec.state ? " is-on" : ""}" data-value="${esc(one.value)}"><span class="one-strip-label">${esc(one.label)}</span>${one.count == null ? "" : `<span class="one-strip-count">${one.count}</span>`}</button>`
+		)
+		.join("");
+	strip.querySelectorAll(".one-strip-item").forEach((button) => {
+		button.onclick = () => button.dataset.value !== spec.state && spec.pick_state && spec.pick_state(button.dataset.value);
+	});
+	main.insertBefore(strip, island);
+};
+
 // The heading row holds what acts on the whole list: New beside the name,
 // the ways of looking at the far end. The Frame keeps both by reference, so
 // they go on working where they are put.

@@ -13,7 +13,7 @@ MAILBOX = [
 		"text": _lt("Every mailbox you can read is here, and each opens to its folders."),
 	},
 	{
-		"target": "onemail-new",
+		"target": "interface-new",
 		"side": "bottom",
 		"title": _lt("Write an Email"),
 		"text": _lt("Start a new email here, or press C anywhere in OneMail."),

@@ -538,6 +538,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .sort-selector .sort-selector-button { border-start-start-radius: 0 !important; border-end-start-radius: 0 !important; }
 :root[data-one-look="canvas"] .one-hero-list { display: flex; align-items: center; gap: 12px; padding-top: 22px !important; padding-bottom: 14px !important; }
 :root[data-one-look="canvas"] .one-hero-list .one-hero-title { flex: 1 1 auto; min-width: 0; align-items: center; }
+:root[data-one-look="canvas"] .one-hero-list .one-hero-quiet { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 14px; color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-hero-list .one-hero-title > .one-interface-group { display: inline-flex; margin-inline-start: 4px; }
 :root[data-one-look="canvas"] .one-hero-list .primary-action { height: 28px !important; padding: 0 12px 0 10px !important; gap: 4px; }
 :root[data-one-look="canvas"] .one-hero-list > .one-interface-ways { display: flex; align-items: center; gap: 2px; flex: none; }
@@ -683,6 +684,7 @@
 	/* a list's heading on one line: its name gives way before New does; the ways of looking are frappe's one
 	   menu, which shows the view you are in and lists the rest, in place of a toggle for each */
 	:root[data-one-look="canvas"] .one-interface .one-hero-list { gap: 8px; padding-top: 14px !important; padding-bottom: 10px !important; }
+	:root[data-one-look="canvas"] .one-hero-list .one-hero-quiet { display: none; }
 	:root[data-one-look="canvas"] .one-hero-list .one-hero-title h1 { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 22px; }
 	:root[data-one-look="canvas"] .one-hero-list .one-hero-title > .one-interface-group { flex: none; }
 	:root[data-one-look="canvas"] .one-hero-list > .one-interface-ways > .es-tab-buttons { display: none; }

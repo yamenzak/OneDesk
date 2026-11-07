@@ -452,6 +452,21 @@ export const interfaceMeters = (win, rows) => win && win.meters(rows);
 // status row.
 export const interfaceHandles = (win, handlers) => win && win.view(handlers);
 export const interfaceStatus = (win, text) => win && win.status(text);
+
+// The window's head over this island's list (one_interface/look.js
+// `heading`): { title, icon, quiet, primary: { label, click },
+// ways, way, pick_way, states, state, pick_state }, or null to take it away.
+// Icons are lucide names.
+export const interfaceHeading = (win, spec) =>
+	win &&
+	onedesk().interface.heading(
+		win,
+		spec && {
+			...spec,
+			icon: spec.icon && spec.icon.replace(/^lucide-/, ""),
+			ways: (spec.ways || []).map((one) => ({ ...one, icon: one.icon && one.icon.replace(/^lucide-/, "") })),
+		}
+	);
 export const interfaceCan = (win, can) => win && win.can(can);
 
 // An event published to a doctype's room (frappe's get_doctype_room), heard
