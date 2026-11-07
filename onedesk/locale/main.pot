@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 06:17+0000\n"
-"PO-Revision-Date: 2026-11-07 06:17+0000\n"
+"POT-Creation-Date: 2026-11-07 06:28+0000\n"
+"PO-Revision-Date: 2026-11-07 06:28+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -108,15 +108,15 @@ msgstr ""
 msgid "1 Batch Expiring Soon"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:163
+#: frontend/src/hr/HrHome.vue:170
 msgid "1 Check-in Flagged"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:165
+#: frontend/src/hr/HrHome.vue:172
 msgid "1 Contract or Probation Ending"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:164
+#: frontend/src/hr/HrHome.vue:171
 msgid "1 Document Expiring"
 msgstr ""
 
@@ -125,7 +125,7 @@ msgstr ""
 msgid "1 Draft Left"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:166
+#: frontend/src/hr/HrHome.vue:173
 msgid "1 Interview Today"
 msgstr ""
 
@@ -165,7 +165,7 @@ msgstr ""
 msgid "1 Quotation Expiring"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:162
+#: frontend/src/hr/HrHome.vue:169
 msgid "1 Request Waiting for You"
 msgstr ""
 
@@ -204,7 +204,7 @@ msgstr ""
 
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/control.py:314
-#: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:29
+#: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:28
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/heads.py:234
 #: onedesk/public/js/project_template_list.js:4
 msgid "1 day"
@@ -301,7 +301,7 @@ msgstr ""
 msgid "1 order"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:33
+#: onedesk/one_hr/heads.py:32
 msgid "1 person"
 msgstr ""
 
@@ -5421,7 +5421,7 @@ msgstr ""
 msgid "Asked twice a day"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:204 frontend/src/one/Home.vue:96
+#: frontend/src/hr/HrHome.vue:211 frontend/src/one/Home.vue:96
 #, python-brace-format
 msgid "Asked {0}"
 msgstr ""
@@ -8706,14 +8706,14 @@ msgid "Check Again"
 msgstr ""
 
 #. The button on a notification's mail
-#: frontend/src/hr/HrHome.vue:237 onedesk/one_hr/notifications.py
+#: frontend/src/hr/HrHome.vue:244 onedesk/one_hr/notifications.py
 #: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:101
 #: onedesk/public/js/desk.js:193 onedesk/public/js/desk.js:204
 #: onedesk/public/js/desk.js:209 onedesk/public/js/one_interface/chrome.js:139
 msgid "Check In"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:236
+#: frontend/src/hr/HrHome.vue:243
 msgid "Check In (late)"
 msgstr ""
 
@@ -8731,7 +8731,7 @@ msgstr ""
 msgid "Check Network"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:234 onedesk/public/js/checkin_list.js:18
+#: frontend/src/hr/HrHome.vue:241 onedesk/public/js/checkin_list.js:18
 #: onedesk/public/js/clock.js:60
 msgid "Check Out"
 msgstr ""
@@ -8749,7 +8749,7 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:237 onedesk/public/js/desk.js:202
+#: frontend/src/hr/HrHome.vue:244 onedesk/public/js/desk.js:202
 #: onedesk/public/js/desk.js:209
 #, python-brace-format
 msgid "Check in by {0}"
@@ -8835,7 +8835,7 @@ msgstr ""
 msgid "Check-ins"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:220
+#: frontend/src/hr/HrHome.vue:227
 msgid "Check-ins Flagged"
 msgstr ""
 
@@ -9211,7 +9211,8 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:248 onedesk/one/ready.py:1032
+#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1032
+#: onedesk/one_hr/shortcuts.py:11
 msgid "Claim an Expense"
 msgstr ""
 
@@ -9374,7 +9375,7 @@ msgstr ""
 #. Name of a DocType
 #. Label of a Sidebar Item
 #. Label of a Link in the OneHR Setup Workspace
-#: frontend/src/hr/HrHome.vue:224
+#: frontend/src/hr/HrHome.vue:231
 #: onedesk/one_hr/custom/employee_checkin.json:31
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:333
 #: onedesk/one_hr/home.py:87 onedesk/one_hr/sidebar/onehr/onehr.json:139
@@ -10753,7 +10754,7 @@ msgstr ""
 msgid "Contracts"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:227
+#: frontend/src/hr/HrHome.vue:234
 msgid "Contracts and Probations Ending"
 msgstr ""
 
@@ -14571,7 +14572,7 @@ msgstr ""
 msgid "Documents"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:226
+#: frontend/src/hr/HrHome.vue:233
 msgid "Documents Expiring"
 msgstr ""
 
@@ -17259,7 +17260,7 @@ msgid "Everyone's Deletions"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:95 frontend/src/crm/CrmHome.vue:95
-#: frontend/src/hr/HrHome.vue:108
+#: frontend/src/hr/HrHome.vue:115
 #: frontend/src/inventory/home/InventoryHome.vue:113
 #: onedesk/public/js/one/access_center.js:208
 #: onedesk/public/js/one/notification_center.js:159
@@ -20902,7 +20903,7 @@ msgstr ""
 msgid "Head Office"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:119
+#: frontend/src/hr/HrHome.vue:126
 msgid "Headcount"
 msgstr ""
 
@@ -22682,7 +22683,7 @@ msgstr ""
 msgid "In {0}"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:207 frontend/src/project/Milestones.vue:29
+#: frontend/src/hr/HrHome.vue:214 frontend/src/project/Milestones.vue:29
 #: onedesk/one_admin/heads.py:184 onedesk/one_project/heads.py:69
 #: onedesk/one_project/portal.py:263 onedesk/one_project/view.py:380
 #: onedesk/one_project/view.py:588
@@ -23235,7 +23236,7 @@ msgstr ""
 msgid "Interviews"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:229
+#: frontend/src/hr/HrHome.vue:236
 msgid "Interviews Today"
 msgstr ""
 
@@ -24493,7 +24494,7 @@ msgstr ""
 msgid "Joined"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:120
+#: frontend/src/hr/HrHome.vue:127
 msgid "Joined This Month"
 msgstr ""
 
@@ -24968,11 +24969,11 @@ msgstr ""
 msgid "Last Call"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:73 onedesk/one_hr/heads.py:732
+#: onedesk/one_hr/heads.py:72 onedesk/one_hr/heads.py:732
 msgid "Last Check-in"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:73
+#: onedesk/one_hr/heads.py:72
 msgid "Last Check-out"
 msgstr ""
 
@@ -25056,7 +25057,7 @@ msgstr ""
 msgid "Last Opened"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:123
+#: frontend/src/hr/HrHome.vue:130
 msgid "Last Payroll"
 msgstr ""
 
@@ -25477,7 +25478,7 @@ msgstr ""
 
 #. Label in the One Leave Application print format
 #. Label of a Sidebar Item
-#: frontend/src/hr/HrHome.vue:215 onedesk/one_hr/home.py:117
+#: frontend/src/hr/HrHome.vue:222 onedesk/one_hr/home.py:117
 #: onedesk/one_hr/print_format/one_leave_application/one_leave_application.json
 #: onedesk/one_hr/sidebar/onehr/onehr.json:318
 msgid "Leave Application"
@@ -29222,6 +29223,10 @@ msgstr ""
 msgid "New Email"
 msgstr ""
 
+#: onedesk/one_hr/shortcuts.py:12
+msgid "New Employee"
+msgstr ""
+
 #. Label in the One Transfer Letter print format
 #: onedesk/one_hr/print_format/one_transfer_letter/one_transfer_letter.json
 msgid "New Employee No"
@@ -32207,7 +32212,7 @@ msgid "On Leave"
 msgstr ""
 
 #. Label of a number card
-#: frontend/src/hr/HrHome.vue:122
+#: frontend/src/hr/HrHome.vue:129
 #: onedesk/one_hr/number_card/on_leave_today/on_leave_today.json
 msgid "On Leave Today"
 msgstr ""
@@ -33199,7 +33204,7 @@ msgstr ""
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
-#: frontend/src/hr/HrHome.vue:242 onedesk/one_hr/page/onehr/onehr.js:5
+#: frontend/src/hr/HrHome.vue:249 onedesk/one_hr/page/onehr/onehr.js:5
 #: onedesk/one_hr/sidebar/onehr/onehr.json:1250
 #: onedesk/one_studio/doctype/record_type/record_type.json:33
 msgid "OneHR"
@@ -33784,7 +33789,7 @@ msgstr ""
 msgid "Open Plan and Credits"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:124
+#: frontend/src/hr/HrHome.vue:131
 msgid "Open Positions"
 msgstr ""
 
@@ -34966,7 +34971,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/books/BooksHome.vue:93 frontend/src/crm/CrmHome.vue:93
-#: frontend/src/hr/HrHome.vue:106
+#: frontend/src/hr/HrHome.vue:113
 #: frontend/src/inventory/home/InventoryHome.vue:111
 #: onedesk/one_book/sidebar/onebook/onebook.json:29
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json:29
@@ -37525,7 +37530,7 @@ msgid "Present Live"
 msgstr ""
 
 #. Label of a number card
-#: frontend/src/hr/HrHome.vue:121
+#: frontend/src/hr/HrHome.vue:128
 #: onedesk/one_hr/number_card/present_today/present_today.json
 msgid "Present Today"
 msgstr ""
@@ -41229,7 +41234,7 @@ msgstr ""
 msgid "Request For Quotation"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:247
+#: frontend/src/hr/HrHome.vue:254 onedesk/one_hr/shortcuts.py:10
 msgid "Request Leave"
 msgstr ""
 
@@ -53286,7 +53291,7 @@ msgid "To-dos given to you"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:94 frontend/src/crm/CrmHome.vue:94
-#: frontend/src/hr/HrHome.vue:107 frontend/src/hr/HrHome.vue:207
+#: frontend/src/hr/HrHome.vue:114 frontend/src/hr/HrHome.vue:214
 #: frontend/src/inventory/home/InventoryHome.vue:112
 #: frontend/src/project/MilestoneLanes.vue:16
 #: frontend/src/project/Milestones.vue:29
@@ -53398,7 +53403,7 @@ msgstr ""
 msgid "Token Once"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:207 frontend/src/project/Milestones.vue:29
+#: frontend/src/hr/HrHome.vue:214 frontend/src/project/Milestones.vue:29
 #: onedesk/one_task/mine.py:17
 msgid "Tomorrow"
 msgstr ""
@@ -55907,7 +55912,7 @@ msgstr ""
 msgid "Waiting for Frappe Cloud"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:215 onedesk/public/js/privacy_copy_list.js:7
+#: frontend/src/hr/HrHome.vue:222 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
 msgid "Waiting for You"
 msgstr ""
@@ -61782,7 +61787,7 @@ msgstr ""
 msgid "Your Request Is On Hold"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:216
+#: frontend/src/hr/HrHome.vue:223
 msgid "Your Requests"
 msgstr ""
 
@@ -63796,7 +63801,7 @@ msgid "us"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:136 frontend/src/crm/CrmHome.vue:133
-#: frontend/src/hr/HrHome.vue:152
+#: frontend/src/hr/HrHome.vue:159
 #: frontend/src/inventory/home/InventoryHome.vue:149
 #: onedesk/public/js/one_interface/look.js:224
 msgid "vs last month"
@@ -63982,17 +63987,17 @@ msgstr ""
 msgid "{0} Can Send"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:163
+#: frontend/src/hr/HrHome.vue:170
 #, python-brace-format
 msgid "{0} Check-ins Flagged"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:165
+#: frontend/src/hr/HrHome.vue:172
 #, python-brace-format
 msgid "{0} Contracts or Probations Ending"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:164
+#: frontend/src/hr/HrHome.vue:171
 #, python-brace-format
 msgid "{0} Documents Expiring"
 msgstr ""
@@ -64026,7 +64031,7 @@ msgstr ""
 msgid "{0} Help"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:166
+#: frontend/src/hr/HrHome.vue:173
 #, python-brace-format
 msgid "{0} Interviews Today"
 msgstr ""
@@ -64041,7 +64046,7 @@ msgstr ""
 msgid "{0} Late Orders"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:139
+#: frontend/src/hr/HrHome.vue:146
 #, python-brace-format
 msgid "{0} Left"
 msgstr ""
@@ -64096,7 +64101,7 @@ msgstr ""
 msgid "{0} Quotations Expiring"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:162
+#: frontend/src/hr/HrHome.vue:169
 #, python-brace-format
 msgid "{0} Requests Waiting for You"
 msgstr ""
@@ -64266,7 +64271,7 @@ msgstr ""
 msgid "{0} and Your Data"
 msgstr ""
 
-#: onedesk/one_hr/heads.py:40 onedesk/one_hr/tell.py:874
+#: onedesk/one_hr/heads.py:39 onedesk/one_hr/tell.py:874
 #, python-brace-format
 msgid "{0} and {1}"
 msgstr ""
@@ -64669,7 +64674,7 @@ msgstr ""
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
 #: onedesk/one_ai/reading/understand.py:520 onedesk/one_crm/heads.py:34
-#: onedesk/one_crm/heads.py:42 onedesk/one_hr/heads.py:29
+#: onedesk/one_crm/heads.py:42 onedesk/one_hr/heads.py:28
 #: onedesk/one_hr/heads.py:680 onedesk/one_inventory/heads.py:1022
 #: onedesk/one_project/ai.py:865 onedesk/one_project/heads.py:234
 #: onedesk/public/js/project_template_list.js:4
@@ -66004,7 +66009,7 @@ msgstr ""
 msgid "{0} late. {2} still to pay {1}."
 msgstr ""
 
-#: frontend/src/project/Overview.vue:318 onedesk/one_hr/heads.py:87
+#: frontend/src/project/Overview.vue:318 onedesk/one_hr/heads.py:86
 #: onedesk/one_inventory/heads.py:551 onedesk/public/js/project_actions.js:550
 #, python-brace-format
 msgid "{0} left"
@@ -66093,7 +66098,7 @@ msgid "{0} months"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:186 frontend/src/crm/CrmHome.vue:200
-#: frontend/src/hr/HrHome.vue:212
+#: frontend/src/hr/HrHome.vue:219
 #: frontend/src/inventory/home/InventoryHome.vue:204
 #: frontend/src/sheet/components/SheetEditor/index.vue:698
 #, python-brace-format
@@ -66299,7 +66304,7 @@ msgstr ""
 msgid "{0} of {1} credits used this month."
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:139
+#: frontend/src/hr/HrHome.vue:146
 #, python-brace-format
 msgid "{0} of {1} days"
 msgstr ""
@@ -66573,7 +66578,7 @@ msgstr ""
 msgid "{0} pending"
 msgstr ""
 
-#: onedesk/one_factory/heads.py:182 onedesk/one_hr/heads.py:33
+#: onedesk/one_factory/heads.py:182 onedesk/one_hr/heads.py:32
 #: onedesk/one_inventory/heads.py:946
 #: onedesk/public/js/one/access_center.js:511 onedesk/www/start.py:114
 #, python-brace-format

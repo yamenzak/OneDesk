@@ -2,7 +2,7 @@
   <Page wide>
     <Loading v-if="!said" />
     <template v-else>
-      <div v-if="cards.length" ref="cardsRoot" data-tour="onehr-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6">
+      <div v-if="cards.length" ref="cardsRoot" data-tour="onehr-figures" class="mt-6 grid grid-cols-2 gap-3 md:grid-cols-3 xl:grid-cols-6 [&_.truncate]:whitespace-normal">
         <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
       </div>
       <PlaceSpot :said="placed" class="mt-4" />
@@ -49,7 +49,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, ago, call, date, followList, go, money, newDoc, onedesk, setQuery } from "../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, ago, call, can, date, followList, go, money, newDoc, onedesk, setQuery, shortcut } from "../kit";
 import HrStory from "./HrStory.vue";
 
 const props = defineProps({
@@ -96,6 +96,13 @@ const stop = [
   "Job Applicant",
   "Job Offer",
 ].map((one) => followList(one, soon));
+const keyed = (doctype) => () => can("create", doctype) && newDoc(doctype);
+const forgetKeys = [
+  shortcut("one_hr.request_leave", keyed("Leave Application")),
+  shortcut("one_hr.claim_expense", keyed("Expense Claim")),
+  shortcut("one_hr.new_employee", keyed("Employee")),
+];
+onBeforeUnmount(() => forgetKeys.forEach((one) => one()));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);

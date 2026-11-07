@@ -808,7 +808,7 @@ def purge() -> None:
 	before = frappe.utils.add_days(frappe.utils.today(), -days)
 	for recording in frappe.get_all(
 		"Interview Recording",
-		filters={"ended_on": ["<", before], "sound_deleted_on": ["is", "not set"]},
+		filters=[["ended_on", "is", "set"], ["ended_on", "<", before], ["sound_deleted_on", "is", "not set"]],
 		pluck="name",
 	):
 		frappe.flags.one_purging_sound = True

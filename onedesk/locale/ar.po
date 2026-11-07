@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 06:05+0000\n"
+"POT-Creation-Date: 2026-11-07 06:21+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -206,7 +206,7 @@ msgstr "بلد واحد"
 
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/control.py:314
-#: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:29
+#: onedesk/one/stages.py:33 onedesk/one_hr/heads.py:28
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/heads.py:234
 #: onedesk/public/js/project_template_list.js:4
 msgid "1 day"
@@ -220,12 +220,12 @@ msgstr "يوم واحد"
 msgid "1 day late"
 msgstr "متأخرة يوماً واحداً"
 
-#: onedesk/one_hr/ai.py:957
+#: onedesk/one_hr/ai.py:965
 #, python-brace-format
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:961
+#: onedesk/one_hr/ai.py:969
 #, python-brace-format
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
@@ -303,7 +303,7 @@ msgstr "مهمة واحدة مفتوحة"
 msgid "1 order"
 msgstr "طلب واحد"
 
-#: onedesk/one_hr/heads.py:33
+#: onedesk/one_hr/heads.py:32
 msgid "1 person"
 msgstr "شخص واحد"
 
@@ -2787,11 +2787,11 @@ msgstr "أضف مستودعًا أولًا."
 msgid "Add an account for costs included in stock value first."
 msgstr "أضف أولاً حساباً للتكاليف المضافة إلى قيمة المخزون."
 
-#: onedesk/one_hr/ai.py:108 onedesk/one_hr/ai.py:140
+#: onedesk/one_hr/ai.py:116 onedesk/one_hr/ai.py:148
 msgid "Add an applicant from each of these CVs, to the open job each one fits best."
 msgstr "أضف متقدمًا من كل سيرة ذاتية من هذه، إلى الوظيفة المفتوحة الأنسب لكل منها."
 
-#: onedesk/one_hr/ai.py:99
+#: onedesk/one_hr/ai.py:107
 msgid "Add an applicant to this opening from each of these CVs."
 msgstr "أضف متقدمًا إلى هذه الوظيفة من كل سيرة ذاتية من هذه."
 
@@ -2810,7 +2810,7 @@ msgstr "أضف صنفًا وكم عاد منه."
 msgid "Add an item and how many to move."
 msgstr "أضف صنفًا والكمية المراد نقلها."
 
-#: onedesk/one_hr/ai.py:98 onedesk/one_hr/ai.py:107 onedesk/one_hr/ai.py:139
+#: onedesk/one_hr/ai.py:106 onedesk/one_hr/ai.py:115 onedesk/one_hr/ai.py:147
 msgid "Add applicants from CVs"
 msgstr "إضافة متقدمين من السير الذاتية"
 
@@ -5213,7 +5213,7 @@ msgstr "اطلب مجددًا"
 msgid "Ask For"
 msgstr "اسأل عن"
 
-#: onedesk/one_hr/ai.py:240 onedesk/one_hr/ai.py:286
+#: onedesk/one_hr/ai.py:248 onedesk/one_hr/ai.py:294
 msgid "Ask HR for a letter"
 msgstr "طلب خطاب من الموارد البشرية"
 
@@ -7343,7 +7343,7 @@ msgstr "احجز عند مكتب الاستقبال"
 msgid "Book online"
 msgstr "احجز عبر الإنترنت"
 
-#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
+#: onedesk/one_hr/ai.py:81 onedesk/one_hr/ai.py:300
 msgid "Book time off"
 msgstr "حجز إجازة"
 
@@ -8777,11 +8777,11 @@ msgstr "تحقق من الموقع في Frappe Cloud."
 msgid "Check the unordered delivery from {0}"
 msgstr "تحقق من التسليم غير المطلوب من {0}"
 
-#: onedesk/one_hr/ai.py:224
+#: onedesk/one_hr/ai.py:232
 msgid "Check this payroll"
 msgstr "تدقيق هذا الراتب"
 
-#: onedesk/one_hr/ai.py:225
+#: onedesk/one_hr/ai.py:233
 msgid "Check this payroll against last month and tell me what looks unusual, most money first."
 msgstr "قارن كشف الرواتب هذا بالشهر الماضي وأخبرني بما يبدو غير معتاد، بدءًا بالمبالغ الأكبر."
 
@@ -9211,7 +9211,7 @@ msgstr "المدينة"
 msgid "Claim No"
 msgstr "رقم المطالبة"
 
-#: onedesk/one_hr/ai.py:58 onedesk/one_hr/ai.py:294
+#: onedesk/one_hr/ai.py:66 onedesk/one_hr/ai.py:302
 msgid "Claim a receipt"
 msgstr "قدّم إيصالًا للمطالبة"
 
@@ -10106,7 +10106,7 @@ msgstr "قارن عروض الأسعار"
 msgid "Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."
 msgstr "قارن عروض الأسعار التي أرسلها الموردون لهذا الطلب، بندًا بندًا، وقل من الأرخص في كل بند."
 
-#: onedesk/one_hr/ai.py:233
+#: onedesk/one_hr/ai.py:241
 msgid "Compare this salary slip with this person's last one and tell me what changed."
 msgstr "قارن قسيمة الراتب هذه بآخر قسيمة لهذا الشخص وأخبرني بما تغيّر."
 
@@ -14873,7 +14873,7 @@ msgstr "جهّز مسودة تسليم لما تبقى من هذا الأمر."
 msgid "Draft a follow-up"
 msgstr "اكتب مسودة متابعة"
 
-#: onedesk/one_hr/ai.py:148
+#: onedesk/one_hr/ai.py:156
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr "صِغ وظيفة شاغرة من هذا الطلب — عنوانها ووصفها وما يتمتع به المتقدم القوي، سطرًا قصيرًا لكل بند — واقترح إنشاءها."
 
@@ -14930,27 +14930,27 @@ msgstr "صغ أمر عمل لصنع عشرة من هذا، بقائمة المو
 msgid "Draft accounts"
 msgstr "مسودة القوائم المالية"
 
-#: onedesk/one_hr/ai.py:165
+#: onedesk/one_hr/ai.py:173
 msgid "Draft my feedback"
 msgstr "صياغة ملاحظاتي"
 
-#: onedesk/one_hr/ai.py:184
+#: onedesk/one_hr/ai.py:192
 msgid "Draft my feedback from the recording"
 msgstr "صياغة ملاحظاتي من التسجيل"
 
-#: onedesk/one_hr/ai.py:166
+#: onedesk/one_hr/ai.py:174
 msgid "Draft my feedback on this appraisal from what happened in the cycle, and suggest it as my feedback."
 msgstr "صِغ ملاحظاتي على هذا التقييم مما حدث خلال الدورة، واقترحها كملاحظاتي."
 
-#: onedesk/one_hr/ai.py:185
+#: onedesk/one_hr/ai.py:193
 msgid "Draft my feedback on this interview from its recording and OneAI's remarks, with a rating for each expected skill, and suggest it as my feedback."
 msgstr "صِغ ملاحظاتي على هذه المقابلة من تسجيلها وتعليقات OneAI، مع تقييم لكل مهارة متوقعة، واقترحها كملاحظاتي."
 
-#: onedesk/one_hr/ai.py:260
+#: onedesk/one_hr/ai.py:268
 msgid "Draft my goals for this appraisal cycle from my role, last cycle's goals and the feedback I was given, and suggest them."
 msgstr "صِغ أهدافي لدورة التقييم هذه من دوري وأهداف الدورة الماضية والملاحظات التي تلقيتها، واقترحها."
 
-#: onedesk/one_hr/ai.py:259
+#: onedesk/one_hr/ai.py:267
 msgid "Draft my goals for this cycle"
 msgstr "صياغة أهدافي لهذه الدورة"
 
@@ -14967,7 +14967,7 @@ msgstr "صِغ تحديثي عن هذا المشروع من أسبوعي: ما �
 msgid "Draft purchase orders for all {0} lines?"
 msgstr "إنشاء مسودات أوامر شراء لكل البنود الـ {0}؟"
 
-#: onedesk/one_hr/ai.py:147
+#: onedesk/one_hr/ai.py:155
 msgid "Draft the opening"
 msgstr "صياغة الوظيفة"
 
@@ -19756,7 +19756,7 @@ msgstr "من المشروع"
 msgid "From Year"
 msgstr "من سنة"
 
-#: onedesk/one_hr/ai.py:358
+#: onedesk/one_hr/ai.py:366
 #, python-brace-format
 msgid "From a receipt: {0}, {1}."
 msgstr "من إيصال: {0}، {1}."
@@ -19824,11 +19824,11 @@ msgstr "من القالب"
 msgid "From their timesheet."
 msgstr "من سجل وقتهم."
 
-#: onedesk/one_hr/ai.py:133
+#: onedesk/one_hr/ai.py:141
 msgid "From this applicant's CV and OneAI's screening of it, what should I confirm on a first call, and what would a short email asking for the missing pieces say?"
 msgstr "من السيرة الذاتية لهذا المتقدم وفحص OneAI لها، ما الذي يجب أن أتأكد منه في أول مكالمة، وماذا تقول رسالة قصيرة تطلب المعلومات الناقصة؟"
 
-#: onedesk/one_hr/ai.py:159
+#: onedesk/one_hr/ai.py:167
 msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
 msgstr "من هذا التقييم، أين يكون هذا الشخص أضعف، وأي من برامجنا التدريبية أو الفعاليات القادمة سيساعد؟ إن لم يناسب أي منها، قل ما الذي يُبحث عنه."
 
@@ -19840,7 +19840,7 @@ msgstr "من سجل هذا العميل المحتمل، اقترح خطوته �
 msgid "From this opportunity's history, suggest its next step and the day to do it by."
 msgstr "من سجل هذه الفرصة، اقترح خطوتها التالية واليوم الذي تُنجز فيه."
 
-#: onedesk/one_hr/ai.py:206
+#: onedesk/one_hr/ai.py:214
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "بناءً على مسمى هذا الشخص وقسمه، ماذا يجب أن تتضمن أسبوعاه الأولان يومًا بيوم، ومن يتولى كل جزء؟"
 
@@ -21121,7 +21121,7 @@ msgstr "مرحبًا {0}"
 msgid "Help"
 msgstr "مساعدة"
 
-#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
+#: onedesk/one_hr/ai.py:81 onedesk/one_hr/ai.py:300
 msgid "Help me book time off."
 msgstr "ساعدني في حجز إجازة."
 
@@ -21817,11 +21817,11 @@ msgstr "عدد أوامر العمل المفتوحة، والجارية، وا�
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr "عدد مساحات العمل التي يتسع لها قبل أن يمتلئ. اتركه 0 بلا حد."
 
-#: onedesk/one_hr/ai.py:76 onedesk/one_hr/ai.py:302
+#: onedesk/one_hr/ai.py:84 onedesk/one_hr/ai.py:310
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr "كم تبقى لي من الإجازات، ومن في فريقي في إجازة خلال الأسبوعين القادمين؟"
 
-#: onedesk/one_hr/ai.py:75 onedesk/one_hr/ai.py:301
+#: onedesk/one_hr/ai.py:83 onedesk/one_hr/ai.py:309
 msgid "How much leave do I have?"
 msgstr "كم لديّ من الإجازات؟"
 
@@ -21978,7 +21978,7 @@ msgstr "تحدثت معهم للتو على الهاتف. اسألني عمّا 
 msgid "I have received the equipment above in good order. I will look after it, and give it back when I am asked."
 msgstr "استلمت المعدات المذكورة أعلاه بحالة جيدة. سأعتني بها، وأعيدها عندما يُطلب مني ذلك."
 
-#: onedesk/one_hr/ai.py:241 onedesk/one_hr/ai.py:287
+#: onedesk/one_hr/ai.py:249 onedesk/one_hr/ai.py:295
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr "أحتاج خطابًا من الموارد البشرية — شهادة راتب أو شهادة خبرة أو خطاب توظيف. اسألني أيها ولمن هو، ثم صِغه."
 
@@ -24965,11 +24965,11 @@ msgstr "آخر فوترة"
 msgid "Last Call"
 msgstr "آخر استدعاء"
 
-#: onedesk/one_hr/heads.py:73 onedesk/one_hr/heads.py:732
+#: onedesk/one_hr/heads.py:72 onedesk/one_hr/heads.py:732
 msgid "Last Check-in"
 msgstr "آخر تسجيل حضور"
 
-#: onedesk/one_hr/heads.py:73
+#: onedesk/one_hr/heads.py:72
 msgid "Last Check-out"
 msgstr "آخر تسجيل انصراف"
 
@@ -27344,7 +27344,7 @@ msgstr "أنشئ أمر عمل"
 msgid "Make an event everybody in the workspace sees, such as a closure or a training day."
 msgstr "إنشاء حدث يراه كل من في مساحة العمل، مثل إغلاق أو يوم تدريب."
 
-#: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:295
+#: onedesk/one_hr/ai.py:67 onedesk/one_hr/ai.py:303
 msgid "Make an expense claim from this receipt."
 msgstr "أنشئ مطالبة مصروفات من هذا الإيصال."
 
@@ -37020,7 +37020,7 @@ msgstr "أعدت ترتيب {0} متقدمين بناءً على ما كتبته
 msgid "Placement"
 msgstr "الموضع"
 
-#: onedesk/one_hr/ai.py:87
+#: onedesk/one_hr/ai.py:95
 msgid "Placing everybody again from what I wrote about each. The applicant list updates when I am done."
 msgstr "أعيد ترتيب الجميع بناءً على ما كتبته عن كل منهم. ستتحدّث قائمة المتقدمين عند الانتهاء."
 
@@ -37120,7 +37120,7 @@ msgstr "خطة الربع القادم"
 msgid "Plan my day"
 msgstr "خطط يومي"
 
-#: onedesk/one_hr/ai.py:205
+#: onedesk/one_hr/ai.py:213
 msgid "Plan the first two weeks"
 msgstr "تخطيط الأسبوعين الأولين"
 
@@ -37406,7 +37406,7 @@ msgstr "تجهيز المكتب الجديد"
 msgid "Prepare the Team"
 msgstr "تجهيز الفريق"
 
-#: onedesk/one_hr/ai.py:176
+#: onedesk/one_hr/ai.py:184
 msgid "Prepare this interview again"
 msgstr "إعادة تحضير هذه المقابلة"
 
@@ -37469,7 +37469,7 @@ msgstr "أُعدّ لـ"
 msgid "Preparing"
 msgstr "قيد الإعداد"
 
-#: onedesk/one_hr/ai.py:181
+#: onedesk/one_hr/ai.py:189
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr "أحضّرها من جديد. سيتحدّث التحضير للمقابلة عند الانتهاء."
 
@@ -39240,7 +39240,7 @@ msgstr "انتهت صلاحيته في {0}"
 msgid "Range"
 msgstr "النطاق"
 
-#: onedesk/one_hr/ai.py:82
+#: onedesk/one_hr/ai.py:90
 msgid "Rank the applicants again"
 msgstr "إعادة ترتيب المتقدمين"
 
@@ -39591,7 +39591,7 @@ msgstr "القراءة متوقفة"
 msgid "Reading is turned off for this workspace."
 msgstr "القراءة متوقفة في مساحة العمل هذه."
 
-#: onedesk/one_hr/ai.py:122
+#: onedesk/one_hr/ai.py:130
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
 msgstr "أقرأ السيرة الذاتية من جديد. سيظهر التقييم والترتيب وتعليق على هذا المتقدم عند الانتهاء."
 
@@ -43155,7 +43155,7 @@ msgstr "شاشة غير متصلة"
 msgid "Screen Size"
 msgstr "مقاس الشاشة"
 
-#: onedesk/one_hr/ai.py:117
+#: onedesk/one_hr/ai.py:125
 msgid "Screen again"
 msgstr "إعادة الفحص"
 
@@ -47871,7 +47871,7 @@ msgstr "اقترح تغييراً على {0}"
 msgid "Suggested by {0} and approved by {1}"
 msgstr "اقترحه {0} ووافق عليه {1}"
 
-#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:364
+#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:372
 msgid "Suggested. It happens when somebody approves it."
 msgstr "اقتُرح. ويحدث حين يوافق عليه أحد."
 
@@ -53844,7 +53844,7 @@ msgstr "تفريغ المقابلات"
 msgid "Transcribe Recordings"
 msgstr "تفريغ التسجيلات"
 
-#: onedesk/one_hr/ai.py:214
+#: onedesk/one_hr/ai.py:222
 msgid "Transcribe again"
 msgstr "إعادة التفريغ"
 
@@ -56611,11 +56611,11 @@ msgstr "ماذا وصل في هذا الاستلام؟"
 msgid "What came in on this receipt? Say what was accepted and rejected and why, what it cost with freight and duty, which order it was for, and whether it is billed."
 msgstr "ماذا وصل في هذا الاستلام؟ اذكر ما قُبل وما رُفض ولماذا، وكم كلّف مع الشحن والرسوم، ولأي أمر شراء كان، وهل فوتر."
 
-#: onedesk/one_hr/ai.py:53
+#: onedesk/one_hr/ai.py:61
 msgid "What can I claim as an expense here, and who has to approve it?"
 msgstr "ما الذي يمكنني المطالبة به كمصروف هنا، ومن يجب أن يوافق عليه؟"
 
-#: onedesk/one_hr/ai.py:52
+#: onedesk/one_hr/ai.py:60
 msgid "What can I claim?"
 msgstr "ما الذي يمكنني المطالبة به؟"
 
@@ -56623,7 +56623,7 @@ msgstr "ما الذي يمكنني المطالبة به؟"
 msgid "What can One tell me about, and which of those do I also get by email?"
 msgstr "ما الذي يمكن أن يخبرني به One، وأيها يصلني بالبريد أيضاً؟"
 
-#: onedesk/one_hr/ai.py:232
+#: onedesk/one_hr/ai.py:240
 msgid "What changed since last month?"
 msgstr "ما الذي تغيّر منذ الشهر الماضي؟"
 
@@ -56675,7 +56675,7 @@ msgstr "ماذا تعرف عني؟"
 msgid "What do you know about me? Say what you remember from our conversations, and what my workspace told you."
 msgstr "ماذا تعرف عني؟ قل ما تتذكره من محادثاتنا، وما أخبرتك به مساحة عملي."
 
-#: onedesk/one_hr/ai.py:68
+#: onedesk/one_hr/ai.py:76
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr "ماذا تقول سياسة الإجازات لدينا — كم يومًا أحصل عليه من كل نوع، وما الذي يُرحّل، وما أيام العطل؟"
 
@@ -56849,7 +56849,7 @@ msgstr "ما في تقويمي هذا الأسبوع؟ قل ما الأهم وم
 msgid "What is on this week?"
 msgstr "ما في هذا الأسبوع؟"
 
-#: onedesk/one_hr/ai.py:67
+#: onedesk/one_hr/ai.py:75
 msgid "What is our leave policy?"
 msgstr "ما سياسة الإجازات لدينا؟"
 
@@ -56986,7 +56986,7 @@ msgstr "ما الذي يعمل تلقائيًا؟"
 msgid "What runs low, and orders for it."
 msgstr "ما ينفد، والطلبات له."
 
-#: onedesk/one_hr/ai.py:132
+#: onedesk/one_hr/ai.py:140
 msgid "What should I ask first?"
 msgstr "ما الذي يجب أن أسأل عنه أولًا؟"
 
@@ -57323,7 +57323,7 @@ msgstr "ما يجب إرساله، كما سيراه الشخص."
 msgid "What to set up so {0} works the way your company does."
 msgstr "ما يلزم إعداده ليعمل {0} بالطريقة التي تعمل بها شركتك."
 
-#: onedesk/one_hr/ai.py:158
+#: onedesk/one_hr/ai.py:166
 msgid "What training would help?"
 msgstr "ما التدريب الذي سيساعد؟"
 
@@ -59905,7 +59905,7 @@ msgstr "لماذا خُسرت؟"
 msgid "Why an opportunity or a quotation is lost."
 msgstr "سبب خسارة الفرصة أو عرض السعر."
 
-#: onedesk/one_hr/ai.py:269 onedesk/one_hr/ai.py:277
+#: onedesk/one_hr/ai.py:277 onedesk/one_hr/ai.py:285
 msgid "Why are people leaving?"
 msgstr "لماذا يغادر الموظفون؟"
 
@@ -59925,7 +59925,7 @@ msgstr "لماذا فشلت هذه المهمة؟"
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr "لماذا فشلت هذه المهمة؟ قل أين توقفت، وما معنى الخطأ بكلمات بسيطة، وهل من المرجح أن ينجح استئنافها."
 
-#: onedesk/one_hr/ai.py:270 onedesk/one_hr/ai.py:278
+#: onedesk/one_hr/ai.py:278 onedesk/one_hr/ai.py:286
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr "لماذا غادر الموظفون خلال الاثني عشر شهرًا الماضية، وكم منهم ذكر كل سبب؟"
 
@@ -60878,15 +60878,15 @@ msgstr "اكتب تعليقًا"
 msgid "Write a first draft"
 msgstr "اكتب مسودة أولى"
 
-#: onedesk/one_hr/ai.py:125
+#: onedesk/one_hr/ai.py:133
 msgid "Write a kind decline"
 msgstr "كتابة اعتذار لطيف"
 
-#: onedesk/one_hr/ai.py:250
+#: onedesk/one_hr/ai.py:258
 msgid "Write a letter about this employee — ask me which kind and who it is for, then draft it."
 msgstr "اكتب خطابًا عن هذا الموظف — اسألني عن نوعه ولمن هو، ثم صِغه."
 
-#: onedesk/one_hr/ai.py:249
+#: onedesk/one_hr/ai.py:257
 msgid "Write a letter for this person"
 msgstr "كتابة خطاب لهذا الشخص"
 
@@ -60914,7 +60914,7 @@ msgstr "اكتب إعلانًا منطوقًا قصيرًا لشاشاتنا ع�
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
 msgstr "اكتب تحديثاً قصيراً عن هذا المشروع لعميله: ما الذي أُنجز، وما التالي، ومتى ينبغي أن ينتهي. بكلمات بسيطة. اترك الساعات والتكاليف ومن يفعل ماذا في الفريق."
 
-#: onedesk/one_hr/ai.py:126
+#: onedesk/one_hr/ai.py:134
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr "اكتب رسالة قصيرة ولطيفة تُبلغ هذا المتقدم بأنه لم يُختر، وتشكره على شيء محدد في طلبه. لا تذكر أسبابًا."
 
@@ -60989,7 +60989,7 @@ msgstr "اكتب للعميل تحديثاً"
 msgid "Write the facts, terms and policies OneAI reads with every answer."
 msgstr "كتابة الحقائق والشروط والسياسات التي يقرؤها OneAI مع كل إجابة."
 
-#: onedesk/one_hr/ai.py:195
+#: onedesk/one_hr/ai.py:203
 msgid "Write the offer terms"
 msgstr "كتابة شروط العرض"
 
@@ -61001,15 +61001,15 @@ msgstr "اكتب السؤال لـ OneAI."
 msgid "Write the reply."
 msgstr "اكتب الرد."
 
-#: onedesk/one_hr/ai.py:196
+#: onedesk/one_hr/ai.py:204
 msgid "Write this offer's terms from the opening it is for — the role, the salary range and the start — and suggest them as a change to it."
 msgstr "اكتب شروط هذا العرض من الوظيفة التي يخصها — الدور ونطاق الراتب وموعد البدء — واقترحها كتعديل عليه."
 
-#: onedesk/one_hr/ai.py:90
+#: onedesk/one_hr/ai.py:98
 msgid "Write this opening"
 msgstr "كتابة هذه الوظيفة"
 
-#: onedesk/one_hr/ai.py:91
+#: onedesk/one_hr/ai.py:99
 msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
 msgstr "اكتب وصف هذه الوظيفة، وما يتمتع به المتقدم القوي سطرًا قصيرًا لكل بند، من مسماها وقسمها وطلبها. اقترح الاثنين كتعديل عليها."
 
@@ -61073,7 +61073,7 @@ msgstr "يكتب نبذة الشخص في ملفه مما يخبره به ومن
 msgid "Writing"
 msgstr "كتابة"
 
-#: onedesk/one_hr/ai.py:219
+#: onedesk/one_hr/ai.py:227
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr "أفرّغه كتابيًا من جديد. سيتبع النص وتعليقاتي عند الانتهاء."
 
@@ -64210,7 +64210,7 @@ msgstr "يعمل {0} دائمًا أيضًا."
 msgid "{0} and Your Data"
 msgstr "{0} وبياناتك"
 
-#: onedesk/one_hr/heads.py:40 onedesk/one_hr/tell.py:874
+#: onedesk/one_hr/heads.py:39 onedesk/one_hr/tell.py:874
 #, python-brace-format
 msgid "{0} and {1}"
 msgstr "{0} و{1}"
@@ -64613,7 +64613,7 @@ msgstr "{0} قاعدة بيانات"
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
 #: onedesk/one_ai/reading/understand.py:520 onedesk/one_crm/heads.py:34
-#: onedesk/one_crm/heads.py:42 onedesk/one_hr/heads.py:29
+#: onedesk/one_crm/heads.py:42 onedesk/one_hr/heads.py:28
 #: onedesk/one_hr/heads.py:680 onedesk/one_inventory/heads.py:1022
 #: onedesk/one_project/ai.py:865 onedesk/one_project/heads.py:234
 #: onedesk/public/js/project_template_list.js:4
@@ -64657,12 +64657,12 @@ msgstr "قبل {1} بـ {0} أيام"
 msgid "{0} days late"
 msgstr "متأخرة {0} أيام"
 
-#: onedesk/one_hr/ai.py:959
+#: onedesk/one_hr/ai.py:967
 #, python-brace-format
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:963
+#: onedesk/one_hr/ai.py:971
 #, python-brace-format
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."
@@ -65948,7 +65948,7 @@ msgstr "متأخر {0}. لا يزال على {1} مبلغ {2}."
 msgid "{0} late. {2} still to pay {1}."
 msgstr "متأخر {0}. لا يزال {2} مستحق الدفع إلى {1}."
 
-#: frontend/src/project/Overview.vue:318 onedesk/one_hr/heads.py:87
+#: frontend/src/project/Overview.vue:318 onedesk/one_hr/heads.py:86
 #: onedesk/one_inventory/heads.py:551 onedesk/public/js/project_actions.js:550
 #, python-brace-format
 msgid "{0} left"
@@ -66517,7 +66517,7 @@ msgstr "{0} مؤقتات متوقفة مؤقتًا"
 msgid "{0} pending"
 msgstr "{0} قيد الانتظار"
 
-#: onedesk/one_factory/heads.py:182 onedesk/one_hr/heads.py:33
+#: onedesk/one_factory/heads.py:182 onedesk/one_hr/heads.py:32
 #: onedesk/one_inventory/heads.py:946
 #: onedesk/public/js/one/access_center.js:511 onedesk/www/start.py:114
 #, python-brace-format

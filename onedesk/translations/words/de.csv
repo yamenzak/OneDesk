@@ -408,3 +408,10 @@ Tasks still open on this completed project,Noch offene Aufgaben in diesem abgesc
 {0} open,{0} offen
 Ledger,Hauptbuch,
 Back to top,Nach oben,
+Total Allocated Leaves,Zugeteilte Abwesenheiten gesamt,
+Expired Leaves,Verfallene Abwesenheiten,
+Used Leaves,Genommene Abwesenheiten,
+Leaves Pending Approval,Abwesenheiten in Genehmigung,
+Available Leaves,Verfügbare Abwesenheiten,
+Create Assignments,Zuweisungen erstellen,
+Submit this Leave Application to confirm.,Buchen Sie diesen Abwesenheitsantrag zur Bestätigung.,

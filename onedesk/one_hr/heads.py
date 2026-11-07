@@ -1,6 +1,5 @@
 """What OneHR's pages say above their fields. See one/head.py."""
 
-import re
 from urllib.parse import quote
 
 import frappe
@@ -83,13 +82,14 @@ def leave(doc):
 	allocation: one number each."""
 	return [
 		{
-			"label": re.sub(r" Leave$", "", row["type"]),
+			"label": _(kind),
 			"value": _("{0} left").format(_number(row["left"])),
 			"route": f"/desk/leave-application?employee={quote(doc.name, safe='')}",
 			"tone": None if (row["left"] or 0) > 0 else "quiet",
 			"meter": {"value": row["left"], "of": row["allocated"]} if row["allocated"] else None,
 		}
 		for row in _said(doc.name)["leave"]
+		if (kind := row["type"])
 	]
 
 
