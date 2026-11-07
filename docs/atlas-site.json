@@ -9,7 +9,6 @@
 ],
 "AI Knowledge": [
 "All",
-"OneAI Manager",
 "Workspace Administrator"
 ],
 "AI Memory": [
@@ -224,6 +223,10 @@
 ],
 "Assignment Rule": [
 "Sales Manager",
+"System Manager"
+],
+"Attachment Queue": [
+"Desk User",
 "System Manager"
 ],
 "Attendance": [
@@ -730,7 +733,6 @@
 ],
 "Deleted Document": [
 "Desk User",
-"One Manager",
 "System Manager",
 "Workspace Administrator"
 ],
@@ -902,8 +904,6 @@
 "Email Account": [
 "HR Manager",
 "Inbox User",
-"Mail Manager",
-"OneMail User",
 "System Manager"
 ],
 "Email Campaign": [
@@ -953,6 +953,8 @@
 "HR User"
 ],
 "Employee Advance": [
+"Accounts Manager",
+"Accounts User",
 "Employee",
 "Employee Self Service",
 "Expense Approver",
@@ -1113,7 +1115,6 @@
 "Event": [
 "All",
 "Desk User",
-"OneCalendar Manager",
 "System Manager"
 ],
 "Exchange Rate Revaluation": [
@@ -1127,6 +1128,8 @@
 "System Manager"
 ],
 "Expense Claim": [
+"Accounts Manager",
+"Accounts User",
 "Employee",
 "Employee Self Service",
 "Expense Approver",
@@ -1149,6 +1152,9 @@
 "File": [
 "All",
 "Employee Self Service",
+"System Manager"
+],
+"File Blob": [
 "System Manager"
 ],
 "File Link": [
@@ -1174,6 +1180,53 @@
 "Sales User",
 "Stock Manager",
 "Stock User",
+"System Manager"
+],
+"Flow Agent": [
+"Flow User",
+"System Manager"
+],
+"Flow Agent Memory": [
+"System Manager"
+],
+"Flow Knowledge Base": [
+"System Manager"
+],
+"Flow Knowledge Chunk": [
+"System Manager"
+],
+"Flow Knowledge Settings": [
+"System Manager"
+],
+"Flow Knowledge Source": [
+"System Manager"
+],
+"Flow Model": [
+"Flow User",
+"System Manager"
+],
+"Flow Provider": [
+"System Manager"
+],
+"Flow Run": [
+"Flow User",
+"System Manager"
+],
+"Flow Session": [
+"Flow User",
+"System Manager"
+],
+"Flow Settings": [
+"System Manager"
+],
+"Flow Skill": [
+"Flow User",
+"System Manager"
+],
+"Flow Tool": [
+"System Manager"
+],
+"Flow Trigger": [
 "System Manager"
 ],
 "Form Tour": [
@@ -1576,7 +1629,6 @@
 "System Manager"
 ],
 "Legal Acceptance": [
-"OneLegal Manager",
 "Workspace Administrator"
 ],
 "Legal Document Version": [
@@ -1727,6 +1779,7 @@
 "Non Conformance": [
 "Employee",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -1749,6 +1802,9 @@
 "Notification Type": [
 "System Manager",
 "Workspace Administrator"
+],
+"Notification Webhook URL": [
+"System Manager"
 ],
 "Number Card": [
 "Dashboard Manager",
@@ -1846,6 +1902,7 @@
 "Accounts User"
 ],
 "POS Settings": [
+"Accounts Manager",
 "Accounts User",
 "Sales User",
 "System Manager"
@@ -2102,7 +2159,6 @@
 "Accounts User",
 "HR Manager",
 "HR User",
-"OneProject Manager",
 "Projects Manager",
 "Projects User"
 ],
@@ -2183,6 +2239,7 @@
 "Quality Action": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2190,12 +2247,14 @@
 "Quality Feedback": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
 ],
 "Quality Feedback Template": [
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2203,6 +2262,7 @@
 "Quality Goal": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2233,6 +2293,7 @@
 "Quality Meeting": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2240,6 +2301,7 @@
 "Quality Procedure": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2247,6 +2309,7 @@
 "Quality Review": [
 "Desk User",
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager"
@@ -2367,7 +2430,6 @@
 "Manufacturing User"
 ],
 "SMS Center": [
-"Sales Manager",
 "System Manager"
 ],
 "SMS Log": [
@@ -2436,7 +2498,9 @@
 "Sales User"
 ],
 "Sales Stage": [
-"Sales Manager"
+"Sales Manager",
+"Sales Master Manager",
+"Sales User"
 ],
 "Sales Taxes and Charges Template": [
 "Accounts Manager",
@@ -2577,9 +2641,6 @@
 "System Manager",
 "Workspace Administrator"
 ],
-"Slack Webhook URL": [
-"System Manager"
-],
 "Slide Playlist": [
 "OneDisplay Manager",
 "System Manager",
@@ -2634,6 +2695,8 @@
 "System Manager"
 ],
 "Stock Reservation Entry": [
+"Manufacturing Manager",
+"Manufacturing User",
 "Purchase Manager",
 "Purchase User",
 "Sales Manager",
@@ -2643,9 +2706,7 @@
 "System Manager"
 ],
 "Stock Settings": [
-"Accounts Manager",
 "Accounts User",
-"Manufacturing Manager",
 "Manufacturing User",
 "Projects User",
 "Purchase User",
@@ -2655,6 +2716,29 @@
 ],
 "Stripe Webhook Event": [
 "One Operator"
+],
+"Studio AI Message": [
+"Studio User",
+"System Manager"
+],
+"Studio AI Session": [
+"Studio User",
+"System Manager"
+],
+"Studio App": [
+"Studio User",
+"System Manager"
+],
+"Studio Component": [
+"Studio User",
+"System Manager"
+],
+"Studio Page": [
+"Studio User",
+"System Manager"
+],
+"Studio Settings": [
+"System Manager"
 ],
 "Subcontracting BOM": [
 "Manufacturing Manager",
@@ -2669,12 +2753,16 @@
 "Stock User"
 ],
 "Subcontracting Order": [
+"Manufacturing Manager",
+"Manufacturing User",
 "Purchase Manager",
 "Purchase User",
 "Stock User"
 ],
 "Subcontracting Receipt": [
 "Accounts User",
+"Manufacturing Manager",
+"Manufacturing User",
 "Purchase User",
 "Stock Manager",
 "Stock User"
@@ -2776,7 +2864,6 @@
 "Desk User",
 "HR Manager",
 "HR User",
-"OneTask Manager",
 "Projects User"
 ],
 "Task Type": [
@@ -2982,7 +3069,7 @@
 "Workspace Administrator"
 ],
 "Video": [
-"All",
+"Desk User",
 "System Manager"
 ],
 "Video Settings": [
@@ -2997,7 +3084,7 @@
 "Workspace Administrator"
 ],
 "Voice Call Settings": [
-"All",
+"Desk User",
 "System Manager"
 ],
 "Voice Pack": [
@@ -3011,6 +3098,7 @@
 "Manufacturing User",
 "Purchase User",
 "Sales User",
+"Stock Manager",
 "Stock User"
 ],
 "Warehouse Type": [
@@ -3120,7 +3208,6 @@
 "Workspace Manager"
 ],
 "Workspace Account": [
-"OneAccount Manager",
 "System Manager",
 "Workspace Administrator"
 ],
@@ -3153,9 +3240,11 @@
 },
 "kept": [
 "AI Chat",
+"AI Chunk",
 "AI Knowledge",
 "AI Proposal",
 "AI Touch",
+"Access Log",
 "Account",
 "Account Category",
 "Accounting Period",
@@ -3250,8 +3339,10 @@
 "Display Channel",
 "Display Screen",
 "Display Source",
+"Display Voice",
 "DocShare",
 "DocType",
+"DocType Layout",
 "DocType Settings Map",
 "Dock",
 "Domain",
@@ -3299,6 +3390,8 @@
 "File Link",
 "Financial Report Template",
 "Fiscal Year",
+"Flow Skill",
+"Flow Tool",
 "Form Tour",
 "Full and Final Statement",
 "GL Entry",
@@ -3316,6 +3409,7 @@
 "Industry Type",
 "Interview",
 "Interview Feedback",
+"Interview Recording",
 "Interview Type",
 "Issue",
 "Issue Priority",
@@ -3358,6 +3452,7 @@
 "Legal Document Version",
 "Letter Head",
 "List Filter",
+"List View Settings",
 "Location",
 "Mail Folder",
 "Maintenance Schedule",
@@ -3371,6 +3466,7 @@
 "Mode of Payment",
 "Module Def",
 "Module Onboarding",
+"Module Profile",
 "Music Playlist",
 "News Category",
 "News Item",
@@ -3390,6 +3486,7 @@
 "Opportunity Type",
 "Overtime Slip",
 "Overtime Type",
+"Package",
 "Packing Slip",
 "Page",
 "Party Link",
@@ -3420,6 +3517,7 @@
 "Process Deferred Accounting",
 "Process Payment Reconciliation",
 "Process Statement Of Accounts",
+"Process Subscription",
 "Project",
 "Project Template",
 "Project Type",
@@ -3472,6 +3570,7 @@
 "Sales Stage",
 "Sales Taxes and Charges Template",
 "Salutation",
+"Scheduled Job Log",
 "Scheduled Job Type",
 "Serial No",
 "Serial and Batch Bundle",
@@ -3538,7 +3637,6 @@
 "Vehicle Log",
 "Vehicle Service Item",
 "Version",
-"View Log",
 "Voice Ad",
 "Voice Call Settings",
 "Voice Pack",
@@ -3552,15 +3650,12 @@
 "Widget Collection",
 "Work Order",
 "Workbook",
-"Workbook Change",
-"Workbook Version",
 "Workflow Action Master",
 "Workflow State",
 "Workspace",
 "Workstation",
 "Workstation Operating Component",
-"Writer Document",
-"Writer Document Version"
+"Writer Document"
 ],
 "pages": {
 "backups": [
@@ -3613,21 +3708,10 @@
 "Stock Manager",
 "Stock User"
 ],
-"item-view": [
-"Desk User"
-],
 "legal": [
 "Desk User"
 ],
-"lots": [
-"Item Manager",
-"Manufacturing Manager",
-"Manufacturing User",
-"Purchase Manager",
-"Purchase User",
-"Stock Manager",
-"Stock User"
-],
+"notifications": [],
 "one": [
 "Desk User"
 ],
@@ -3641,6 +3725,12 @@
 "Sales Manager",
 "Sales User"
 ],
+"onefactory": [
+"Manufacturing Manager",
+"Manufacturing User",
+"Shop Floor Manager",
+"Shop Floor User"
+],
 "onehr": [
 "Employee",
 "HR Manager",
@@ -3649,6 +3739,10 @@
 "onemail": [
 "Desk User"
 ],
+"onequality": [
+"Quality Manager",
+"Quality User"
+],
 "organizational-chart": [
 "HR Manager",
 "HR User",
@@ -3656,13 +3750,6 @@
 ],
 "permission-manager": [
 "System Manager"
-],
-"plant": [
-"Manufacturing Manager",
-"Manufacturing User",
-"Operator",
-"Shop Floor Manager",
-"Shop Floor User"
 ],
 "point-of-sale": [
 "Accounts Manager",
@@ -3683,33 +3770,12 @@
 "Manufacturing User",
 "System Manager"
 ],
-"project-template-view": [
-"Desk User"
-],
-"project-view": [
-"Desk User"
-],
-"quotes": [
-"Item Manager",
-"Manufacturing Manager",
-"Manufacturing User",
-"Purchase Manager",
-"Purchase User",
-"Stock Manager",
-"Stock User"
-],
+"profile": [],
+"report-print": [],
 "sales-funnel": [
 "Sales Manager"
 ],
-"sent-out": [
-"Item Manager",
-"Manufacturing Manager",
-"Manufacturing User",
-"Purchase Manager",
-"Purchase User",
-"Stock Manager",
-"Stock User"
-],
+"search": [],
 "setup-wizard": [
 "System Manager",
 "Workspace Administrator"
@@ -3735,15 +3801,6 @@
 "Stock Manager",
 "Stock User",
 "Workspace Administrator"
-],
-"upkeep": [
-"Item Manager",
-"Manufacturing Manager",
-"Manufacturing User",
-"Purchase Manager",
-"Purchase User",
-"Stock Manager",
-"Stock User"
 ],
 "visual-plant-floor": [
 "Manufacturing Manager",
@@ -3827,7 +3884,8 @@
 "Accounts User"
 ],
 "Asset Maintenance": [
-"System Manager"
+"Manufacturing User",
+"Quality Manager"
 ],
 "Attendance by Shift": [
 "HR Manager",
@@ -3976,9 +4034,7 @@
 "Consolidated Financial Statement": [
 "Accounts Manager",
 "Accounts User",
-"Auditor",
-"Purchase User",
-"Sales User"
+"Auditor"
 ],
 "Consolidated Trial Balance": [
 "Accounts Manager",
@@ -4039,6 +4095,11 @@
 ],
 "Database Storage Usage By Tables": [
 "System Manager"
+],
+"Day Book": [
+"Accounts Manager",
+"Accounts User",
+"Auditor"
 ],
 "Deadlines": [
 "Desk User",
@@ -4620,10 +4681,17 @@
 "Stock User"
 ],
 "Reserved Stock": [
+"Purchase Manager",
+"Purchase User",
+"Sales Manager",
+"Sales User",
+"Stock Manager",
+"Stock User",
 "System Manager"
 ],
 "Review": [
 "Quality Manager",
+"Quality User",
 "Stock Manager",
 "Stock User",
 "System Manager",

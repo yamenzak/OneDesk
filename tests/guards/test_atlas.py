@@ -219,7 +219,7 @@ EMPTY = {
 	"erpnext / Subcontracting": 1,
 	"erpnext / Support": 0,
 	"frappe / Automation": 1,
-	"frappe / Core": 4,
+	"frappe / Core": 0,
 	"frappe / Desk": 0,
 	"frappe / Email": 2,
 	"frappe / Integrations": 3,

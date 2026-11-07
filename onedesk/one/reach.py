@@ -128,6 +128,16 @@ def _without_empty_sections(items: list[dict]) -> list[dict]:
 	return kept
 
 
+def _counted(doctype: str) -> int:
+	"""How many a record type keeps, a virtual one's too (Activity Log and
+	Access Log are, since frappe moved its logs); one that cannot say counts
+	none."""
+	try:
+		return frappe.db.count(doctype, cache=False)
+	except Exception:
+		return 0
+
+
 def _allowed(field: str, name: str) -> list[str]:
 	"""Who may open a report or a page: its Custom Role, which replaces its
 	own roles, or those."""
@@ -150,11 +160,5 @@ def atlas() -> dict:
 		name: _allowed("report", name) for name in frappe.get_all("Report", filters={"is_standard": "Yes"}, pluck="name")
 	}
 	pages = {name: _allowed("page", name) for name in frappe.get_all("Page", pluck="name")}
-	kept = sorted(
-		name
-		for name in doctypes
-		if not frappe.get_meta(name).issingle
-		and not frappe.get_meta(name).is_virtual
-		and frappe.db.count(name, cache=False)
-	)
+	kept = sorted(name for name in doctypes if not frappe.get_meta(name).issingle and _counted(name))
 	return {"doctypes": doctypes, "reports": reports, "pages": pages, "kept": kept}

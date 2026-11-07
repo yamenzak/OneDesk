@@ -25,13 +25,6 @@ module's README says what it does.
   `oneinventory_equipment_bought_given_serviced_and_mended`. The twelve steps
   are in `onedesk/one_demo/README.md`. A fresh site needs the database's root
   password.
-- **The site atlas, taken on one.4dl.dev.** `atlas.py --site` with
-  `ONE_SITE=one.4dl.dev` differs from the ledger in about 30 places: roles
-  that hold only One's own permission types on Email Account, Event, AI
-  Knowledge and Deleted Document read as not opening them, and six record
-  types the old demo had rows of have none (Access Log, Activity Log, DocType
-  Layout, Module Profile, Package, Display Board Change). Take it with the
-  fresh site; until then `one_atlas_knows_who_may_open_what` fails.
 - **OneStudio's server extensions on dev.** `onestudio_tells_the_others_and_oneai_remembers_once`
   needs `server_script_enabled` on one.4dl.dev, which is yours to switch.
 - **The asks upstream.** `docs/OVERRIDES.md` lists 62 changes to ask frappe,

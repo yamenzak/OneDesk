@@ -58,8 +58,17 @@ def run(password=None):
 		).insert(ignore_permissions=True)
 	with as_user(OWNER):
 		_screens()
+		_bay()
 	_paired()
 	_morning()
+
+
+def _bay() -> None:
+	"""Bay 1 set to Cutting from its phone, so the board has a change kept."""
+	from onedesk.one_display import boards
+
+	if not frappe.db.exists(boards.CHANGE, {"board": BOARD}):
+		boards.change(BOARD, "Bay 1", state="Cutting")
 
 
 def _make(doctype: str, name: str, values: dict) -> str:

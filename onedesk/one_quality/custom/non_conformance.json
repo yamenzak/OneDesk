@@ -1,5 +1,19 @@
 {
- "custom_fields": [],
+ "custom_fields": [
+  {
+   "dt": "Non Conformance",
+   "fieldname": "company",
+   "label": "Company",
+   "fieldtype": "Link",
+   "options": "Company",
+   "insert_after": "procedure",
+   "module": "One Quality",
+   "reqd": 1,
+   "in_standard_filter": 1,
+   "remember_last_selected_value": 1,
+   "search_index": 1
+  }
+ ],
  "doctype": "Non Conformance",
  "links": [
   {

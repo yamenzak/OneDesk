@@ -49,7 +49,8 @@ def onequality_a_problem_is_raised_told_and_resolved():
 def onequality_home_says_what_is_open_late_and_failing():
 	"""OneQuality's Home: the sealant problem is open with its one action,
 	the crews' briefing is overdue with Tariq, and the curtain wall's goal
-	fails on last month's review. An action made from the problem carries it,
+	fails on last month's review, all Sahara's: Riyadh's problem is on
+Riyadh's Home only. An action made from the problem carries it,
 	and the problem counts it. Tariq is told the morning after a step of his
 	was due. OneAI reads the same through quality_now. Somebody outside
 	quality cannot open the Home."""
@@ -80,6 +81,23 @@ def onequality_home_says_what_is_open_late_and_failing():
 	with _Told() as told:
 		tell.overdue()
 	assert "tariq@one.test" in told.to("Quality Step Overdue"), told.said
+
+	from onedesk.one_demo.branch import BRANCH
+
+	assert not frappe.get_meta("Non Conformance").get_field("company").hidden, "with two companies a problem shows its company"
+	there = frappe.get_doc({"doctype": "Non Conformance", "subject": "Showroom glass fitted unlabelled", "procedure": PROCEDURE, "company": BRANCH}).insert()
+	with as_user("karim@one.test"):
+		assert there.name not in {one["name"] for one in home.read()["needs"]["problems"]["rows"]}, "Sahara's Home showed Riyadh's problem"
+	frappe.defaults.set_user_default("company", BRANCH, "karim@one.test")
+	try:
+		with as_user("karim@one.test"):
+			riyadh = {one["name"] for one in home.read()["needs"]["problems"]["rows"]}
+	finally:
+		frappe.defaults.clear_user_default("company", "karim@one.test")
+	assert there.name in riyadh and problem not in riyadh, riyadh
+	with as_user("tariq@one.test"):
+		filled = frappe.get_doc({"doctype": "Non Conformance", "subject": "Cap missing", "procedure": PROCEDURE}).insert()
+	assert filled.company, "a problem saved with no company takes the reader's"
 	with as_user("nadia@one.test"):
 		assert ai.quality_now().get("error")
 		try:

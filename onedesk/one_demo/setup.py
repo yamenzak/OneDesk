@@ -37,6 +37,7 @@ def run(password=None):
 		if (said or {}).get("status") != "ok":
 			frappe.throw(f"The setup wizard did not finish: {said}")
 		frappe.db.commit()
+	_kept()
 	settle()
 
 
@@ -93,3 +94,20 @@ def last_years(back=3):
 					"companies": [{"company": COMPANY}],
 				}
 			).insert()
+
+
+
+def _kept() -> None:
+	"""One of each thing an administrator sets up by hand in frappe: a
+	module profile for the site crew, a layout of a non conformance for a
+	report from site, and a package for the company's own changes."""
+	if not frappe.db.exists("Module Profile", "Site Crew"):
+		frappe.get_doc(
+			{"doctype": "Module Profile", "module_profile_name": "Site Crew", "block_modules": [{"module": one} for one in ("Accounts", "Payroll", "Buying")]}
+		).insert(ignore_permissions=True)
+	if not frappe.db.exists("DocType Layout", "Site Report"):
+		frappe.get_doc({"doctype": "DocType Layout", "title": "Site Report", "document_type": "Non Conformance"}).insert(ignore_permissions=True)
+	if not frappe.db.exists("Package", "Sahara-Customisations"):
+		frappe.get_doc(
+			{"doctype": "Package", "name": "Sahara-Customisations", "package_name": "Sahara-Customisations", "readme": "The fields and layouts Sahara Glass added to One, kept to move to a new workspace."}
+		).insert(ignore_permissions=True)

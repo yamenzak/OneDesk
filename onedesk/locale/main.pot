@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 12:42+0000\n"
-"PO-Revision-Date: 2026-11-07 12:42+0000\n"
+"POT-Creation-Date: 2026-11-07 13:56+0000\n"
+"PO-Revision-Date: 2026-11-07 13:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -923,7 +923,7 @@ msgstr ""
 msgid "A full picture with the new collection and its price."
 msgstr ""
 
-#: onedesk/one_quality/home.py:26
+#: onedesk/one_quality/home.py:28
 msgid "A goal checked, objective by objective."
 msgstr ""
 
@@ -2383,7 +2383,7 @@ msgstr ""
 #: frontend/src/kit/Rows.vue:45 frontend/src/project/Invoices.vue:53
 #: frontend/src/project/Suppliers.vue:62 frontend/src/project/Suppliers.vue:108
 #: frontend/src/project/Team.vue:46 frontend/src/template/Tasks.vue:86
-#: onedesk/one_quality/custom/non_conformance.json:6
+#: onedesk/one_quality/custom/non_conformance.json:20
 #: onedesk/one_quality/heads.py:79 onedesk/public/js/one/access_center.js:427
 #: onedesk/public/js/one/access_center.js:487
 #: onedesk/public/js/one/access_center.js:516
@@ -2415,7 +2415,7 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Device'
 #. Option for the 'Status' (Select) field in DocType 'Tenant Domain'
 #. Option for the 'Status' (Select) field in DocType 'Clock Device'
-#: onedesk/one/ready.py:610 onedesk/one_account/doctype/device/device.json:66
+#: onedesk/one/ready.py:616 onedesk/one_account/doctype/device/device.json:66
 #: onedesk/one_account/heads.py:16
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:57
 #: onedesk/one_hr/doctype/clock_device/clock_device.json:82
@@ -4691,7 +4691,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:1132
+#: onedesk/one/ready.py:1168
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5635,7 +5635,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:1146
+#: onedesk/one/ready.py:1182
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -7142,8 +7142,8 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one/ready.py:811 onedesk/one/ready.py:850 onedesk/one/ready.py:866
-#: onedesk/one/ready.py:942
+#: onedesk/one/ready.py:835 onedesk/one/ready.py:874 onedesk/one/ready.py:890
+#: onedesk/one/ready.py:968
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -9265,7 +9265,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1139
+#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1175
 #: onedesk/one_hr/shortcuts.py:11
 msgid "Claim an Expense"
 msgstr ""
@@ -10074,6 +10074,8 @@ msgstr ""
 #. Label in the One Purchase Order Bordered print format
 #. Label in the One Request for Quotation Bordered print format
 #. Label of the organisation (Data) field in DocType 'Project Contact'
+#. Label of the company (Link) field in DocType 'Non Conformance'
+#. Label of the company (Link) field in DocType 'Quality Action'
 #: onedesk/one/control.py:19
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:148
 #: onedesk/one_book/print_format/one_purchase_invoice_bordered/one_purchase_invoice_bordered.json
@@ -10086,6 +10088,8 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_request_for_quotation_bordered/one_request_for_quotation_bordered.json
 #: onedesk/one_project/ai.py:760
 #: onedesk/one_project/doctype/project_contact/project_contact.json:39
+#: onedesk/one_quality/custom/non_conformance.json:6
+#: onedesk/one_quality/custom/quality_action.json:17
 #: onedesk/one_storage/history.py:199 onedesk/one_storage/namespace.py:386
 #: onedesk/one_storage/namespace.py:527 onedesk/one_storage/namespace.py:628
 #: onedesk/one_storage/namespace.py:884 onedesk/one_studio/letter_heads.py:586
@@ -10095,7 +10099,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: onedesk/one/ready.py:781
+#: onedesk/one/ready.py:805
 msgid "Company Account"
 msgstr ""
 
@@ -13018,7 +13022,7 @@ msgstr ""
 #: frontend/src/inventory/item/ItemSuppliers.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:28
 #: frontend/src/sheet/components/SheetEditor/ColorPicker.vue:84
-#: onedesk/one/ai.py:2590 onedesk/one/ready.py:609
+#: onedesk/one/ai.py:2590 onedesk/one/ready.py:615
 #: onedesk/public/js/doctype_settings.js:137
 #: onedesk/public/js/doctype_settings.js:324
 #: onedesk/public/js/doctype_settings.js:346
@@ -16450,7 +16454,7 @@ msgstr ""
 msgid "Employment Types"
 msgstr ""
 
-#: onedesk/one/ready.py:990
+#: onedesk/one/ready.py:1016
 msgid "Empty"
 msgstr ""
 
@@ -16739,7 +16743,7 @@ msgid "Equals"
 msgstr ""
 
 #. Label in the One Equipment Handover print format
-#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:286
+#: frontend/src/inventory/home/InventoryStory.vue:68 onedesk/one/ready.py:291
 #: onedesk/one_hr/heads.py:743
 #: onedesk/one_inventory/print_format/one_equipment_handover/one_equipment_handover.json
 #: onedesk/public/js/item_new.js:6
@@ -17165,7 +17169,7 @@ msgstr ""
 msgid "Every record in the workspace."
 msgstr ""
 
-#: onedesk/one_quality/home.py:29
+#: onedesk/one_quality/home.py:31
 msgid "Every review, passed or failed, goal by goal."
 msgstr ""
 
@@ -19615,7 +19619,7 @@ msgstr ""
 msgid "Free for {0} days"
 msgstr ""
 
-#: onedesk/one/ready.py:280
+#: onedesk/one/ready.py:285
 msgid "Free to Sell"
 msgstr ""
 
@@ -21628,7 +21632,7 @@ msgstr ""
 msgid "How a cheque is printed for each bank."
 msgstr ""
 
-#: onedesk/one_quality/home.py:24
+#: onedesk/one_quality/home.py:26
 msgid "How a piece of work is done, step by step, and who owns it."
 msgstr ""
 
@@ -22844,7 +22848,7 @@ msgstr ""
 msgid "In-app notifications are always on."
 msgstr ""
 
-#: onedesk/one/ready.py:611
+#: onedesk/one/ready.py:617
 msgid "Inactive"
 msgstr ""
 
@@ -24546,7 +24550,7 @@ msgstr ""
 #. Label in the One Job Card print format
 #. Label of a Sidebar Item
 #. Label in the One Material Request print format
-#: onedesk/one/ready.py:571 onedesk/one_factory/home.py:26
+#: onedesk/one/ready.py:577 onedesk/one_factory/home.py:26
 #: onedesk/one_factory/home.py:59
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:72
@@ -24805,7 +24809,7 @@ msgstr ""
 msgid "Kept by Law"
 msgstr ""
 
-#: onedesk/one/ready.py:283 onedesk/public/js/item_new.js:4
+#: onedesk/one/ready.py:288 onedesk/public/js/item_new.js:4
 msgid "Kept in Stock"
 msgstr ""
 
@@ -27001,7 +27005,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_linked/record_head_linked.json:47
 #: onedesk/one/doctype/record_head_sentence/record_head_sentence.json:47
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:38
-#: onedesk/one/ready.py:284
+#: onedesk/one/ready.py:289
 msgid "Made Here"
 msgstr ""
 
@@ -28173,7 +28177,7 @@ msgstr ""
 msgid "Meetings Still Open"
 msgstr ""
 
-#: onedesk/one_quality/home.py:16
+#: onedesk/one_quality/home.py:18
 msgid "Meetings and Feedback"
 msgstr ""
 
@@ -29972,7 +29976,7 @@ msgstr ""
 msgid "Next Run"
 msgstr ""
 
-#: onedesk/one/ready.py:330
+#: onedesk/one/ready.py:335
 msgid "Next Service"
 msgstr ""
 
@@ -31124,7 +31128,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/quality/QualityHome.vue:153
 #: onedesk/one_quality/custom/quality_action.json:6
-#: onedesk/one_quality/heads.py:86 onedesk/one_quality/home.py:22
+#: onedesk/one_quality/heads.py:86 onedesk/one_quality/home.py:24
 #: onedesk/one_quality/sidebar/onequality/onequality.json:33
 msgid "Non Conformance"
 msgstr ""
@@ -32408,7 +32412,7 @@ msgstr ""
 msgid "On Everyone's Calendar"
 msgstr ""
 
-#: onedesk/one/ready.py:280 onedesk/public/js/item_list.js:22
+#: onedesk/one/ready.py:285 onedesk/public/js/item_list.js:22
 msgid "On Hand"
 msgstr ""
 
@@ -32456,7 +32460,7 @@ msgstr ""
 
 #: frontend/src/inventory/item/ItemBuying.vue:11
 #: frontend/src/inventory/supplier/SupplierItems.vue:18
-#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:280
+#: frontend/src/project/Overview.vue:168 onedesk/one/ready.py:285
 msgid "On Order"
 msgstr ""
 
@@ -35813,7 +35817,7 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
-#: onedesk/one/ready.py:782
+#: onedesk/one/ready.py:806
 msgid "Party Account"
 msgstr ""
 
@@ -38169,7 +38173,7 @@ msgstr ""
 msgid "Problem"
 msgstr ""
 
-#: onedesk/one_quality/home.py:14
+#: onedesk/one_quality/home.py:16
 msgid "Problems and Actions"
 msgstr ""
 
@@ -38183,7 +38187,7 @@ msgstr ""
 msgid "Procedure"
 msgstr ""
 
-#: onedesk/one_quality/home.py:15
+#: onedesk/one_quality/home.py:17
 msgid "Procedures and Goals"
 msgstr ""
 
@@ -38204,7 +38208,7 @@ msgid "Process Loss Report"
 msgstr ""
 
 #. Label of the 'full_name' field in DocType 'Non Conformance'
-#: onedesk/one_quality/custom/non_conformance.json:29
+#: onedesk/one_quality/custom/non_conformance.json:43
 #: onedesk/one_quality/heads.py:109
 msgid "Process Owner"
 msgstr ""
@@ -38870,7 +38874,7 @@ msgstr ""
 #. Label in the One Purchase Order Classic print format
 #. Label in the One Purchase Order with Images print format
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:626
+#: onedesk/one/ready.py:632
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
 #: onedesk/one_inventory/heads.py:1408 onedesk/one_inventory/heads.py:1417
 #: onedesk/one_inventory/heads.py:1426 onedesk/one_inventory/home.py:111
@@ -39142,26 +39146,26 @@ msgid "Quality"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:668 onedesk/one/ready.py:669
-#: onedesk/one_quality/home.py:23
+#: onedesk/one/ready.py:675 onedesk/one/ready.py:676
+#: onedesk/one_quality/home.py:25
 #: onedesk/one_quality/sidebar/onequality/onequality.json:45
 msgid "Quality Action"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:28
+#: onedesk/one_quality/home.py:30
 #: onedesk/one_quality/sidebar/onequality/onequality.json:105
 msgid "Quality Feedback"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:30
+#: onedesk/one_quality/home.py:32
 #: onedesk/one_quality/sidebar/onequality/onequality.json:146
 msgid "Quality Feedback Template"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:25
+#: onedesk/one_quality/home.py:27
 #: onedesk/one_quality/sidebar/onequality/onequality.json:69
 msgid "Quality Goal"
 msgstr ""
@@ -39173,19 +39177,19 @@ msgid "Quality Inspection"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:27
+#: onedesk/one_quality/home.py:29
 #: onedesk/one_quality/sidebar/onequality/onequality.json:93
 msgid "Quality Meeting"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:24
+#: onedesk/one_quality/home.py:26
 #: onedesk/one_quality/sidebar/onequality/onequality.json:57
 msgid "Quality Procedure"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/home.py:26
+#: onedesk/one_quality/home.py:28
 #: onedesk/one_quality/sidebar/onequality/onequality.json:81
 msgid "Quality Review"
 msgstr ""
@@ -41470,7 +41474,7 @@ msgstr ""
 #: onedesk/one_hr/home.py:30 onedesk/one_inventory/home.py:18
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:275
 #: onedesk/one_project/sidebar/oneproject/oneproject.json:74
-#: onedesk/one_quality/home.py:17
+#: onedesk/one_quality/home.py:19
 #: onedesk/one_quality/sidebar/onequality/onequality.json:117
 #: onedesk/one_task/sidebar/onetask/onetask.json:62
 msgid "Reports"
@@ -42217,7 +42221,7 @@ msgstr ""
 #: onedesk/one_crm/portal.py:49 onedesk/one_display/starters.py:604
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:120
 #: onedesk/one_project/library/client_onboarding.json
-#: onedesk/one_quality/home.py:29
+#: onedesk/one_quality/home.py:31
 #: onedesk/one_quality/sidebar/onequality/onequality.json:126
 #: onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.js:142
@@ -42910,7 +42914,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label in the One Subcontracting Inward Order print format
 #. Label in the One Work Order print format
-#: onedesk/one/ready.py:209 onedesk/one/ready.py:573
+#: onedesk/one/ready.py:209 onedesk/one/ready.py:579
 #: onedesk/one_crm/heads.py:130 onedesk/one_crm/home.py:115
 #: onedesk/one_crm/home.py:331
 #: onedesk/one_crm/print_format/one_sales_order/one_sales_order.json
@@ -44427,7 +44431,7 @@ msgstr ""
 
 #. Label of the services (Table) field in DocType 'Queue'
 #. Label in the One Asset Capitalization print format
-#: onedesk/one/ready.py:285 onedesk/one_display/doctype/queue/queue.json:47
+#: onedesk/one/ready.py:290 onedesk/one_display/doctype/queue/queue.json:47
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 msgid "Services"
 msgstr ""
@@ -44765,7 +44769,7 @@ msgstr ""
 #: onedesk/one_hr/home.py:31 onedesk/one_hr/sidebar/onehr/onehr.json:68
 #: onedesk/one_inventory/home.py:19
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:289
-#: onedesk/one_quality/home.py:18
+#: onedesk/one_quality/home.py:20
 #: onedesk/one_quality/sidebar/onequality/onequality.json:137
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:61
 #: onedesk/one_task/sidebar/onetask/onetask.json:85
@@ -46127,7 +46131,7 @@ msgstr ""
 msgid "Sizes can't be typed in {0}. Pick a length: millimetres, centimetres, inches."
 msgstr ""
 
-#: onedesk/one/ready.py:287 onedesk/public/js/item_new.js:7
+#: onedesk/one/ready.py:292 onedesk/public/js/item_new.js:7
 msgid "Sizes or Colours"
 msgstr ""
 
@@ -46548,7 +46552,7 @@ msgstr ""
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr ""
 
-#: onedesk/one_quality/home.py:22
+#: onedesk/one_quality/home.py:24
 msgid "Something done wrong, what caused it and what stops it again."
 msgstr ""
 
@@ -46693,7 +46697,7 @@ msgstr ""
 msgid "Source Type"
 msgstr ""
 
-#: onedesk/one/ready.py:443
+#: onedesk/one/ready.py:448
 msgid "Source Warehouse"
 msgstr ""
 
@@ -47508,7 +47512,7 @@ msgid "Stock Count"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one/ready.py:572 onedesk/one_inventory/home.py:94
+#: onedesk/one/ready.py:578 onedesk/one_inventory/home.py:94
 #: onedesk/one_inventory/home.py:262
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:93
 msgid "Stock Entry"
@@ -48841,7 +48845,7 @@ msgstr ""
 msgid "Target Margin"
 msgstr ""
 
-#: onedesk/one/ready.py:444
+#: onedesk/one/ready.py:449
 msgid "Target Warehouse"
 msgstr ""
 
@@ -50116,7 +50120,7 @@ msgstr ""
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr ""
 
-#: onedesk/one_quality/home.py:27
+#: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr ""
 
@@ -51399,7 +51403,7 @@ msgstr ""
 msgid "The quality managers"
 msgstr ""
 
-#: onedesk/one_quality/home.py:30
+#: onedesk/one_quality/home.py:32
 msgid "The questions feedback is asked with."
 msgstr ""
 
@@ -56960,7 +56964,7 @@ msgstr ""
 msgid "What a customer is told when their delivery leaves."
 msgstr ""
 
-#: onedesk/one_quality/home.py:28
+#: onedesk/one_quality/home.py:30
 msgid "What a customer or a colleague said of the work."
 msgstr ""
 
@@ -56990,7 +56994,7 @@ msgstr ""
 msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
 msgstr ""
 
-#: onedesk/one_quality/home.py:25
+#: onedesk/one_quality/home.py:27
 msgid "What a procedure should achieve, and how often it is checked."
 msgstr ""
 
@@ -57229,7 +57233,7 @@ msgstr ""
 msgid "What have I agreed to?"
 msgstr ""
 
-#: onedesk/one_quality/home.py:23
+#: onedesk/one_quality/home.py:25
 msgid "What is being done to put a problem right, step by step, by whom."
 msgstr ""
 
@@ -60700,7 +60704,7 @@ msgstr ""
 msgid "With OneAI"
 msgstr ""
 
-#: onedesk/one/ready.py:989
+#: onedesk/one/ready.py:1015
 msgid "With Subscribers"
 msgstr ""
 
@@ -60899,8 +60903,8 @@ msgstr ""
 #. Label in the One Stock Entry print format
 #: frontend/src/factory/floor/OrderRows.vue:5
 #: frontend/src/factory/home/FactoryHome.vue:161
-#: frontend/src/factory/home/FactoryHome.vue:179 onedesk/one/ready.py:604
-#: onedesk/one/ready.py:605 onedesk/one_factory/heads.py:231
+#: frontend/src/factory/home/FactoryHome.vue:179 onedesk/one/ready.py:610
+#: onedesk/one/ready.py:611 onedesk/one_factory/heads.py:231
 #: onedesk/one_factory/heads.py:237 onedesk/one_factory/home.py:25
 #: onedesk/one_factory/home.py:58
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json

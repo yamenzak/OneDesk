@@ -273,7 +273,9 @@ doc_events = {
 	"Repost Item Valuation": {"on_change": "onedesk.one_project.money.restocked"},
 	"Work Order": {"before_validate": "onedesk.one_factory.making.steps"},
 	"BOM": {"onload": "onedesk.one_factory.costs.onload"},
+	"Quality Action": {"before_validate": "onedesk.one_quality.company.fill"},
 	"Non Conformance": {
+		"before_validate": "onedesk.one_quality.company.fill",
 		"validate": "onedesk.one_quality.resolve.guard",
 		"after_insert": "onedesk.one_quality.tell.raised",
 		"on_update": "onedesk.one_quality.tell.resolved",
