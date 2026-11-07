@@ -57,7 +57,7 @@ GROUPS = {
 		"words": (),
 	},
 	"mail": {
-		"about": "mail: read a conversation, what waits for an answer, draft a reply, move, archive or star mail, folders, file mail on a record, rules, out of office, signatures, who shares a mailbox, the company's domains and mail settings",
+		"about": "mail: read a conversation, what waits for an answer, draft a reply, move, archive or star mail, give a conversation to a colleague, mark it done, snooze it or be reminded, folders, file mail on a record, rules, out of office, signatures, who shares a mailbox, the company's domains and mail settings",
 		"tools": (
 			"open_conversation",
 			"waiting_for_answer",
@@ -78,7 +78,7 @@ GROUPS = {
 			"company_domain",
 		),
 		"words": (
-			"mail", "email", "e-mail", "inbox", "folder", "reply", "signature", "archive", "out of office", "mailbox",
+			"mail", "email", "e-mail", "inbox", "folder", "reply", "signature", "archive", "out of office", "mailbox", "conversation", "snooze",
 			"postfach", "ordner", "antwort", "abwesenheit",
 			"بريد", "رسالة", "رسائل", "مجلد", "صندوق",
 		),

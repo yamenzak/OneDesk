@@ -30,6 +30,9 @@ be undone with **Undo** for a few seconds. Deleting from Trash is for good.
 | `u` | Mark as unread |
 | `c` | New email |
 | `/` | Search |
+| `d` | Mark done, or open again |
+| `b` | Snooze |
+| `Shift` `a` | Assign, on a shared mailbox |
 
 ## Searching
 
@@ -67,7 +70,10 @@ minimise it and keep reading.
 What you write is kept as you type, from any mailbox you hold. Close the
 email window, or the tab, and nothing is lost: **Drafts** lists it, and a reply
 waits on its conversation with **Continue Draft**. Sending it, or **Discard**,
-throws the draft away. A draft is yours alone, even on a shared mailbox. On
+throws the draft away. A draft is yours alone, even on a shared mailbox.
+
+![A draft in Drafts](reading-and-writing/drafts.png)
+ On
 a mailbox you connected, it's kept in the mailbox's own Drafts too, so your
 phone's mail app shows it.
 

@@ -15,7 +15,7 @@
   </InterfacePart>
   <InterfacePart :win="win" part="views" inline>
     <span v-if="!picked.size && thread" class="inline-flex items-center gap-0.5">
-      <Button class="md:hidden" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="close()" />
+      <Button v-if="narrow" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="close()" />
       <template v-for="one in commands" :key="one.act">
         <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
           <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
@@ -26,7 +26,7 @@
   </InterfacePart>
 
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
-    <div class="flex w-96 shrink-0 flex-col border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }" data-tour="onemail-list">
+    <div class="flex shrink-0 flex-col border-e border-outline-gray-1" :class="narrow ? (thread ? 'hidden' : 'w-full') : 'w-96'" data-tour="onemail-list">
       <div v-if="box?.shared && !search" class="border-b border-outline-gray-1 px-3 py-2">
         <TabButtons v-model="team" :options="TEAMS" />
       </div>
@@ -50,7 +50,7 @@
         </template>
       </ContextMenu>
     </div>
-    <div class="min-w-0 flex-1" :class="{ 'max-md:hidden': !thread }" data-tour="onemail-reading">
+    <div class="min-w-0 flex-1" :class="{ hidden: narrow && !thread }" data-tour="onemail-reading">
       <div v-if="!boxes.length && !loading" class="flex h-full flex-col items-center justify-center gap-2 text-ink-gray-5">
         <span class="lucide-mail size-6" aria-hidden="true" />
         <span class="text-base">{{ __("No mailboxes") }}</span>
@@ -143,6 +143,13 @@ const picked = reactive(new Set());
 const folds = ref({});
 const loading = ref(true);
 const root = ref(null);
+const narrow = ref(false);
+const sized = new ResizeObserver(([one]) => (narrow.value = one.contentRect.width < 900));
+watch(root, (now, was) => {
+  if (was) sized.unobserve(was);
+  if (now) sized.observe(now);
+});
+onBeforeUnmount(() => sized.disconnect());
 let anchor = null;
 
 const from = computed(() => sender(boxes.value, box.value));
@@ -560,6 +567,9 @@ const KEYS = {
   unread: () => thread.value && run("unread", [thread.value]),
   compose: () => write(),
   search: () => searchBox?.focus(),
+  done: () => thread.value && conversation.value?.team()?.toggleDone(),
+  snooze: () => thread.value && conversation.value?.team()?.snoozeNow(),
+  assign: () => thread.value && conversation.value?.team()?.assignNow(),
 };
 const forget = Object.entries(KEYS).map(([key, fn]) => shortcut(`one_mail.${key}`, fn));
 onBeforeUnmount(() => forget.forEach((one) => one()));

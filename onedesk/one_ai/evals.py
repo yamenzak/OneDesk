@@ -12,6 +12,17 @@ import time
 import frappe
 
 
+def _in_mail(subject: str):
+	"""OneMail with a conversation open, found by its subject when the case
+	runs, since a demo's threads are made when it is built."""
+
+	def page() -> dict:
+		found = frappe.db.get_value("Communication", {"subject": ["like", f"%{subject}%"], "one_folder": ["is", "set"]}, ["email_account", "name", "one_thread"], as_dict=True)
+		return {"page": "onemail", "box": found.email_account, "record": found.one_thread or found.name} if found else {"page": "onemail"}
+
+	return page
+
+
 def _on(doctype: str, view: str | None = None, name: str | None = None) -> dict:
 	"""A page as the panel describes it: a kind of record, its view, its id."""
 	return {key: value for key, value in (("doctype", doctype), ("view", view), ("name", name)) if value}
@@ -343,6 +354,8 @@ CASES = [
 	{"id": "gap-hr-papers", "page": {}, "ask": "Whose documents expire in the next month?", "tools": ("papers_expiring",), "user": HR},
 	{"id": "gap-hr-de", "page": {}, "ask": "Wie viele Mitarbeitende haben wir in jeder Abteilung?", "tools": ("headcount", "list_records"), "user": HR},
 	{"id": "gap-inv-late", "page": {}, "ask": "Which purchase orders are late?", "tools": ("still_to_arrive",), "user": STORES},
+	{"id": "gap-mail-mine", "page": {}, "ask": "What mail is waiting on me?", "tools": ("mail_for_me",), "user": HR},
+	{"id": "gap-mail-assign", "page": _in_mail("Balcony doors"), "ask": "Give this conversation to Mariam.", "tools": ("work_conversation",), "user": USER},
 	{"id": "gap-quality-now", "page": {}, "ask": "Which quality problems are still open, and whose steps are overdue?", "tools": ("quality_now", "list_records"), "user": STORES},
 	{"id": "gap-quality-ar", "page": {}, "ask": "ما مشكلات الجودة التي لا تزال مفتوحة؟", "tools": ("quality_now", "list_records"), "user": STORES},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
@@ -400,7 +413,8 @@ def run(only: str | None = None, every: bool = False) -> list[dict]:
 		asker = case.get("user") or USER
 		frappe.set_user(asker)
 		started = frappe.utils.now_datetime()
-		turns = chat._asked(case["ask"], case.get("page") or {})
+		page = case["page"]() if callable(case.get("page")) else case.get("page") or {}
+		turns = chat._asked(case["ask"], page)
 		at = time.monotonic()
 		try:
 			said = runner.ask(
@@ -408,7 +422,7 @@ def run(only: str | None = None, every: bool = False) -> list[dict]:
 				case["ask"],
 				turns=turns,
 				expects=suggest.expected(case["ask"]),
-				groups=None if every else groups.chosen(case["ask"], case.get("page") or {}, turns),
+				groups=None if every else groups.chosen(case["ask"], page, turns),
 			)
 		except Exception as e:
 			frappe.db.rollback()

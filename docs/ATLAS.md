@@ -1059,7 +1059,7 @@ Pages: legal (opened by our screens).
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
 | Face | engine: the faces OneMail draws beside a sender | the administrator | untouched | yes | general |  | yes |  |  |  |  |
-| Mail Conversation | inside: a conversation in OneMail: Assign, Mark Done, Snooze and Remind Me, and the notes for the team; its row opens there | **nobody** | form script | yes | taught |  | **none** |  |  |  | No Reply Yet |
+| Mail Conversation | inside: a conversation in OneMail: Assign, Mark Done, Snooze and Remind Me, and the notes for the team; its row opens there | **nobody** | form script | yes | taught |  | yes |  |  |  | No Reply Yet |
 | Mail Draft | inside: OneMail's Drafts folder and a conversation's Continue Draft, which the composer writes as it is typed | **nobody** | untouched | yes | taught |  | yes |  |  |  |  |
 | Mail Folder | engine: a mailbox's folders, which OneMail's sidebar shows and makes | the administrator | untouched | yes | taught |  | yes |  |  |  |  |
 | Mail Rule | inside: OneMail's settings, a mailbox's Automation tab, which writes it | **nobody** | untouched | yes | taught |  | **none** |  |  |  |  |

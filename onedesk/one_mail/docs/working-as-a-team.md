@@ -5,6 +5,8 @@ who holds it. These keep a team from answering twice or not at all.
 
 ## Who Has It
 
+![A conversation given to Mariam, with a note for the team](working-as-a-team/team.png)
+
 **Assign** on a conversation gives it to one of the people who hold the
 mailbox. They're told, and it's among their tasks until it's done. Above the
 list, **Open**, **Mine**, **Unassigned** and **Done** show the conversations

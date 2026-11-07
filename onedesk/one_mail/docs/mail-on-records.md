@@ -33,7 +33,11 @@ non conformances and quality actions.
 Beside a conversation, the customer, supplier, lead, employee or applicant who
 wrote it shows with what of theirs is still open: deals and quotations,
 orders to deliver, invoices still to pay, issues and projects, purchase
-orders, leave and claims. Each opens its record. On a narrow screen it's a
+orders, leave and claims. Each opens its record.
+
+![Who wrote, beside their mail](mail-on-records/who-wrote.png)
+
+On a narrow screen it's a
 line above the mail that opens on a click. You see only what you could open
 anyway.
 

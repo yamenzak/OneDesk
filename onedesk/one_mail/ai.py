@@ -74,7 +74,9 @@ def page(said: dict) -> str | None:
 		where + ". open_conversation reads a conversation's messages; waiting_for_answer lists the folder's "
 		"conversations whose last message is not ours. To draft a reply, read the conversation first, then call "
 		"draft_reply with the whole reply written as the reader asked, in the language of the conversation: it "
-		"becomes a card that opens the email window with the reply in, and is never sent by itself. How OneMail "
+		"becomes a card that opens the email window with the reply in, and is never sent by itself. "
+		"work_conversation gives the open conversation to a colleague, marks it done, snoozes it or sets a "
+		"reminder, as a card. How OneMail "
 		"works is in its documentation (how_to)."
 	)
 
@@ -1257,23 +1259,45 @@ WORK = ("assign", "unassign", "done", "reopen", "snooze", "unsnooze", "remind")
 
 
 def work_conversation(
-	thread: Annotated[str, "The conversation's thread."],
 	do: Annotated[str, "assign, unassign, done, reopen, snooze, unsnooze or remind."],
-	person: Annotated[str, "Who to give it to, by their login, for assign."] | None = None,
+	thread: Annotated[str, "The conversation's thread, when known."] | None = None,
+	subject: Annotated[str, "Words of its subject, to find it by, when the thread isn't known."] | None = None,
+	person: Annotated[str, "Who to give it to, by their name or login, for assign."] | None = None,
 	until: Annotated[str, "When, as YYYY-MM-DD HH:MM, for snooze and remind."] | None = None,
 	mailbox: Annotated[str, "The mailbox it is in (my_mailboxes). Left out when the reader holds one."] | None = None,
 	why: Annotated[str, "In a sentence, why."] | None = None,
 ) -> dict:
 	"""Suggest giving a conversation to a colleague who holds its mailbox,
 	marking it done or open again, snoozing it until a time, or being
-	reminded then if nobody replies, as a card the reader approves."""
+	reminded then if nobody replies, as a card the reader approves. Name the
+	conversation by words of its subject, as the reader said them; nothing
+	needs finding first."""
 	box = _held(mailbox)
+	if not box and not mailbox and subject:
+		box = next((one for one in _boxes_with(subject)), None)
 	if not box:
 		return _not("work_conversation", "Name one of the reader's mailboxes (my_mailboxes).")
+	if not thread and subject:
+		found = frappe.db.get_value(
+			"Communication",
+			{"email_account": box["name"], "subject": ["like", f"%{subject}%"], "one_folder": ["is", "set"]},
+			["name", "one_thread"],
+			order_by="communication_date desc",
+			as_dict=True,
+		)
+		thread = found and (found.one_thread or found.name)
+	if not thread:
+		return _not("work_conversation", "Say the conversation's thread, or words of its subject.")
 	if do not in WORK:
 		return _not("work_conversation", "Say one of: " + ", ".join(WORK) + ".")
 	if do == "assign" and not person:
 		return _not("work_conversation", "Name who to give it to.")
+	if do == "assign" and not frappe.db.exists("User", person):
+		holders = frappe.get_all("User Email", filters={"email_account": box["name"]}, pluck="parent", distinct=True)
+		named = [one for one in holders if person.lower() in (frappe.utils.get_fullname(one) or "").lower()]
+		if len(named) != 1:
+			return _not("work_conversation", f"Name one of the people who hold {box['email']}.")
+		person = named[0]
 	if do in ("snooze", "remind") and not until:
 		return _not("work_conversation", "Say until when.")
 	titles = {
@@ -1297,6 +1321,17 @@ def work_conversation(
 		person=person,
 		until=until,
 	)
+
+
+def _boxes_with(subject: str) -> list[dict]:
+	"""The reader's mailboxes holding a conversation about this."""
+	from onedesk.one_mail import holders
+
+	return [
+		one
+		for one in holders.mailboxes()
+		if frappe.db.exists("Communication", {"email_account": one["name"], "subject": ["like", f"%{subject}%"]})
+	]
 
 
 def mail_for_me() -> dict:

@@ -4,7 +4,7 @@
       <span class="lucide-mail-open size-6" aria-hidden="true" />
       <span class="text-base">{{ selected > 1 ? __("{0} conversations selected", [selected]) : __("No conversation selected") }}</span>
     </div>
-    <div v-else class="flex min-h-0 flex-1">
+    <div v-else ref="frame" class="flex min-h-0 flex-1">
     <div ref="scroller" class="min-h-0 flex-1 overflow-auto">
       <div class="border-b border-outline-gray-1 px-5 py-3">
         <h2 class="text-lg font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
@@ -23,7 +23,7 @@
         </div>
         <PlaceSpot :said="placed" class="mt-2" />
         <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="mt-3" @changed="emit('changed')" />
-        <MailSender :address="other" class="mt-3 xl:hidden" folded @found="(got) => (party = got)" />
+        <MailSender v-if="!wide" :address="other" class="mt-3" folded @found="(got) => (party = got)" />
       </div>
 
       <template v-for="(message, at) in messages" :key="message.name">
@@ -91,8 +91,8 @@
         <Button variant="subtle" icon-left="lucide-forward" :label="__('Forward')" @click="emit('write', { forward: true })" />
       </div>
     </div>
-    <aside class="hidden w-80 shrink-0 overflow-auto border-s border-outline-gray-1 p-4 xl:block">
-      <MailSender :address="other" />
+    <aside v-if="wide" class="w-80 shrink-0 overflow-auto border-s border-outline-gray-1 p-4">
+      <MailSender :address="other" @found="(got) => (party = got)" />
     </aside>
     </div>
   </div>
@@ -101,7 +101,7 @@
 <script setup>
 // A conversation, its newest message open and the older ones read folded to
 // a line; the records it is filed on, and reply, reply all and forward.
-import { computed, nextTick, reactive, ref, watch } from "vue";
+import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { Button } from "frappe-ui";
 
 import { PlaceSpot, __, alert, call, dialog, fileSize, onedesk, recordRoute } from "../kit";
@@ -122,7 +122,7 @@ const props = defineProps({
   replying: { type: Array, default: () => [] },
 });
 const emit = defineEmits(["write", "draft", "discard", "changed"]);
-defineExpose({ fileOn });
+defineExpose({ fileOn, team: () => team.value });
 
 const fullNote = __("Storage is full. Saved automatically once there's space.");
 const records = ref([]);
@@ -132,6 +132,14 @@ const scroller = ref(null);
 let openEl = null;
 
 const party = ref(null);
+const frame = ref(null);
+const wide = ref(false);
+const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 1000));
+watch(frame, (now, was) => {
+  if (was) sized.unobserve(was);
+  if (now) sized.observe(now);
+});
+onBeforeUnmount(() => sized.disconnect());
 const team = ref(null);
 const mine = computed(() => (props.box?.email || "").toLowerCase());
 const other = computed(() => {

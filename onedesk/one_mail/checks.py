@@ -944,6 +944,9 @@ def onemail_a_team_works_its_shared_mailbox():
 		box_drafts = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Drafts"})
 		assert draft in {one.get("draft") for one in api.conversations(account, box_drafts)["items"]}
 		assert drafts.save(sender="nobody@stranger.example", subject="x") is None, "nothing is kept for an address the writer doesn't hold"
+		listed_to = drafts.save(sender=email, subject="List", recipients='["rashid@marinahotels.example", "hessa@bayview.example"]')
+		assert frappe.db.get_value("Mail Draft", listed_to, "recipients") == "rashid@marinahotels.example, hessa@bayview.example", "the composer's list is kept as addresses"
+		drafts.discard(listed_to)
 		drafts.discard(draft)
 		assert not frappe.db.exists("Mail Draft", draft)
 
@@ -962,7 +965,8 @@ def onemail_a_team_works_its_shared_mailbox():
 		assert frappe.db.get_value("Mail Draft", back, "subject") == "Fitter booked" and not frappe.db.exists("Communication", later)
 
 	with as_user(OWNER):
-		card = ai.work_conversation(thread, "assign", person="mariam@one.test", mailbox=email)
+		card = ai.work_conversation("assign", thread=thread, person="mariam@one.test", mailbox=email)
+		assert ai.work_conversation("done", subject="Balcony doors").get("proposal"), "found by its subject"
 		assert card.get("proposal"), card
 		runs.apply(card["proposal"])
 		assert "mariam@one.test" in {one["user"] for one in team.state(account, thread)["assigned"]}

@@ -10,6 +10,7 @@ from frappe import _
 from onedesk.one_mail import actions, live
 
 DRAFT = "Mail Draft"
+ADDRESSED = ("recipients", "cc", "bcc")
 FIELDS = ("subject", "recipients", "cc", "bcc", "content", "thread", "in_reply_to", "kind", "reference_doctype", "reference_name", "send_after")
 
 
@@ -18,6 +19,16 @@ def _mine(name: str):
 	if doc.owner != frappe.session.user:
 		frappe.throw(_("That draft is somebody else's."), frappe.PermissionError)
 	return doc
+
+
+def addresses(value) -> str | None:
+	"""To, Cc or Bcc as one line, whether the composer gives a list, a JSON
+	list or a line. Pure."""
+	if isinstance(value, str) and value.strip().startswith("["):
+		value = frappe.parse_json(value)
+	if isinstance(value, (list, tuple)):
+		value = ", ".join(str(one).strip() for one in value if str(one).strip())
+	return (value or "").strip() or None
 
 
 def has_permission(doc, ptype=None, user=None) -> bool:
@@ -48,7 +59,7 @@ def save(sender: str | None = None, name: str | None = None, attachments=None, *
 	doc.account = account
 	for field in FIELDS:
 		if field in values:
-			doc.set(field, values[field] or None)
+			doc.set(field, addresses(values[field]) if field in ADDRESSED else values[field] or None)
 	doc.kind = doc.kind or "New"
 	if attachments is not None:
 		doc.attachments = frappe.as_json(frappe.parse_json(attachments) or [])

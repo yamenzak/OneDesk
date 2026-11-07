@@ -18,4 +18,7 @@ SHORTCUTS = [
 	{"key": "star", "label": _lt("Star or Unstar"), "keys": ["KeyS"], "where": "onemail"},
 	{"key": "unread", "label": _lt("Mark as Unread"), "keys": ["KeyU"], "where": "onemail"},
 	{"key": "search", "label": _lt("Search Mail"), "keys": ["Slash"], "where": "onemail"},
+	{"key": "done", "label": _lt("Mark Done or Open Again"), "keys": ["KeyD"], "where": "onemail"},
+	{"key": "snooze", "label": _lt("Snooze"), "keys": ["KeyB"], "where": "onemail"},
+	{"key": "assign", "label": _lt("Assign"), "keys": ["shift+KeyA"], "where": "onemail"},
 ]

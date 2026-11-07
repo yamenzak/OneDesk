@@ -49,7 +49,7 @@
 import { computed, ref, watch } from "vue";
 import { Button, Dropdown, TextInput } from "frappe-ui";
 
-import { __, ago, asDateTime, call, can, dateTime, escape, prompt, toast } from "../kit";
+import { __, ago, asDateTime, call, can, dateTime, dialog, escape, prompt, toast } from "../kit";
 
 const props = defineProps({
   account: { type: String, required: true },
@@ -126,5 +126,22 @@ const remindOptions = computed(() => [
 const MAKES = ["Lead", "Opportunity", "Issue", "Task", "Non Conformance", "Purchase Order"];
 const makeOptions = computed(() => (props.make ? MAKES.filter((one) => can("create", one)).map((one) => ({ label: __(one), onClick: () => props.make(one) })) : []));
 
-defineExpose({ load });
+function choose(title, options, done) {
+  const asking = dialog({
+    title,
+    fields: [{ fieldname: "choice", fieldtype: "Select", label: title, options: options.map((one) => one.label).join("\n"), reqd: 1 }],
+    primary_action_label: __("Save"),
+    primary_action: ({ choice }) => {
+      asking.hide();
+      done(options.find((one) => one.label === choice));
+    },
+  });
+  asking.show();
+}
+
+const toggleDone = () => act("done", { done: said.value.status === "Done" ? 0 : 1 }, said.value.status === "Done" ? __("Opened again.") : __("Marked done."));
+const snoozeNow = () => choose(__("Snooze"), snoozeOptions.value, (one) => one?.onClick());
+const assignNow = () => said.value.shared && choose(__("Assign"), assignTo.value, (one) => one?.onClick());
+
+defineExpose({ load, toggleDone, snoozeNow, assignNow });
 </script>
