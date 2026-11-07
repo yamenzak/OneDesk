@@ -33,11 +33,11 @@ MODULES = {
 		# The points a guard can't settle, each as a person last looked at it
 		# (HAND).
 		"checked": {
-			"copy": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-02", "commit": "9c0746570ece", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "52a0c1d96fdb", "by": "Claude, for Yamen"},
 		},
 		# Its help pages in reading order, each with its icon (docs/).
 		"help": (
