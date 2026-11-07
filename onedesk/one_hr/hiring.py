@@ -32,10 +32,13 @@ READABLE = 300
 
 
 def ensure() -> None:
-	"""The OneAI user every OneAI comment is written by. The hiring switches
-	are seeded with the rest of HR Settings' in `one_hr/policy.py`."""
+	"""The OneAI user every OneAI comment is written by, a desk user so it
+	may take back a record it made. The hiring switches are seeded with the
+	rest of HR Settings' in `one_hr/policy.py`."""
 	if not frappe.db.exists("User", AUTHOR):
 		_author()
+	if frappe.db.get_value("User", AUTHOR, "user_type") != "System User":
+		_desk()
 	for contact in frappe.get_all("Contact", filters={"user": AUTHOR}, pluck="name"):
 		frappe.delete_doc("Contact", contact, ignore_permissions=True, force=True)
 	_no_placeholder_mailbox()
@@ -54,6 +57,18 @@ def _no_placeholder_mailbox() -> None:
 	):
 		if not frappe.db.exists("Communication", {"email_account": account}):
 			frappe.delete_doc("Email Account", account, ignore_permissions=True, force=True)
+
+
+def _desk() -> None:
+	"""frappe makes a user with no desk role a Website User, which loses
+	Desk User and with it the tasks OneAI made. Written directly: saving a
+	user queues the contact OneAI must not have."""
+	from onedesk.one_ai.abilities import EVERYONE
+
+	if not frappe.db.exists("Has Role", {"parent": AUTHOR, "parenttype": "User", "role": EVERYONE}):
+		frappe.get_doc({"doctype": "Has Role", "parent": AUTHOR, "parenttype": "User", "parentfield": "roles", "role": EVERYONE}).db_insert()
+	frappe.db.set_value("User", AUTHOR, "user_type", "System User", update_modified=False)
+	frappe.clear_cache(user=AUTHOR)
 
 
 def _author() -> None:

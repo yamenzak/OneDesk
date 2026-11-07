@@ -11,6 +11,8 @@ from email.utils import format_datetime, make_msgid
 import frappe
 from frappe.utils import add_days, get_datetime, now_datetime
 
+from onedesk.one_demo.people import OWNER
+
 MAILS = (
 	(
 		("Hessa Al Marri", "hessa@bayview.example"),
@@ -79,7 +81,7 @@ PERSONAL = (
 	),
 )
 
-# Who answers the workspace's own address besides its administrators.
+# Who answers the workspace's own address besides the demo's owner.
 ANSWERS = ("mariam@one.test",)
 
 
@@ -90,7 +92,7 @@ def run(password=None):
 	if not account:
 		return
 	everybody()
-	for user in ANSWERS:
+	for user in (OWNER, *ANSWERS):
 		if not frappe.db.exists("User Email", {"parent": user, "email_account": account}):
 			addresses.hold(account, user)
 	box = frappe.get_doc("Email Account", account)

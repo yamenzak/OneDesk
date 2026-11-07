@@ -27,6 +27,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 	from werkzeug.wrappers import Request
 
 	from onedesk.one_demo.slide import NAME as DEMO
+	from onedesk.one_legal import services
 	from onedesk.one_slide import api, paper, play, templates, versions
 
 	dot = "data:image/png;base64," + base64.b64encode(DOT_PNG).decode()
@@ -126,6 +127,7 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			table = struct.pack(">HHH", 0, 1, 18) + struct.pack(">HHHHHH", 3, 1, 0x409, 1, len(said), 0) + said
 			sfnt = struct.pack(">IHHHH", 0x00010000, 1, 16, 0, 0) + struct.pack(">4sIII", b"name", 0, 28, len(table)) + table
 			assert fonts._family_in(sfnt) == "Brand Sans"
+			services._set(fonts.SERVICE, 0)
 			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.fonts.upload", method="POST", data={"file": (io.BytesIO(sfnt), "brand.ttf")}).get_environ())
 			offered = fonts.upload()
 			assert {"family": "Brand Sans", "faces": [{"weight": 400, "style": "normal"}]} in offered["yours"], offered["yours"]
@@ -194,7 +196,10 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			noted = paper.pdf(name, json.dumps([page]), notes=1)
 			from pypdf import PdfReader
 
-			words = " ".join(PdfReader(io.BytesIO(frappe.get_doc("File", noted["name"]).get_content())).pages[0].extract_text().split())
+			import unicodedata
+
+			read = PdfReader(io.BytesIO(frappe.get_doc("File", noted["name"]).get_content())).pages[0].extract_text()
+			words = " ".join(unicodedata.normalize("NFKC", read).split())
 			assert noted["file_name"].endswith("with notes.pdf") and "Thank the client first." in words, (noted, words)
 			# the decks One ships and the slide library: built in the business's colour, kept by a manager
 			from onedesk.one_slide import decks, library

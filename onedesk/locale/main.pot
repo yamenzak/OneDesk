@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 09:57+0000\n"
-"PO-Revision-Date: 2026-11-07 09:57+0000\n"
+"POT-Creation-Date: 2026-11-07 10:57+0000\n"
+"PO-Revision-Date: 2026-11-07 10:57+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3420,12 +3420,12 @@ msgstr ""
 msgid "After the Headline"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:739
+#: onedesk/one_hr/hiring.py:754
 #, python-brace-format
 msgid "After the interview: {0}"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:737
+#: onedesk/one_hr/hiring.py:752
 #, python-brace-format
 msgid "After the {0} interview: {1}"
 msgstr ""
@@ -4254,7 +4254,7 @@ msgid "An incentive paid with the next payroll."
 msgstr ""
 
 #: onedesk/one_hr/doctype/interview_recording/interview_recording.py:15
-#: onedesk/one_hr/hiring.py:527
+#: onedesk/one_hr/hiring.py:542
 msgid "An interview is only recorded once the candidate has agreed."
 msgstr ""
 
@@ -5309,7 +5309,7 @@ msgstr ""
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:791
+#: onedesk/one_hr/hiring.py:806
 msgid "Ask next round"
 msgstr ""
 
@@ -7867,7 +7867,7 @@ msgstr ""
 msgid "By continuing you agree to the {0} and the {1}."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:787
+#: onedesk/one_hr/hiring.py:802
 msgid "By skill"
 msgstr ""
 
@@ -10291,7 +10291,7 @@ msgstr ""
 msgid "Confirm deleting your account"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:487
+#: onedesk/one_hr/hiring.py:502
 msgid "Confirm first"
 msgstr ""
 
@@ -11325,7 +11325,7 @@ msgstr ""
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:73
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json:26
 #: onedesk/one_display/page/counter/counter.js:2
-#: onedesk/one_display/programme.py:428
+#: onedesk/one_display/programme.py:431
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:64
 #: onedesk/one_display/starters.py:1137 onedesk/one_display/widgets.py:39
 #: onedesk/www/tv.py:53
@@ -17055,7 +17055,7 @@ msgstr ""
 msgid "Every other administrator"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:616
+#: onedesk/one_hr/hiring.py:631
 msgid "Every part is already transcribed."
 msgstr ""
 
@@ -28662,7 +28662,7 @@ msgstr ""
 msgid "Moved Back"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:878
+#: onedesk/one_hr/hiring.py:893
 #, python-brace-format
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
@@ -28678,7 +28678,7 @@ msgstr ""
 msgid "Moved to {0}"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:878
+#: onedesk/one_hr/hiring.py:893
 #, python-brace-format
 msgid "Moved up from {0}% to {1}%."
 msgstr ""
@@ -30394,7 +30394,7 @@ msgid "No groups"
 msgstr ""
 
 #: onedesk/one/doctype/news_source/news_source.js:52
-#: onedesk/one_display/programme.py:436
+#: onedesk/one_display/programme.py:439
 msgid "No headlines yet."
 msgstr ""
 
@@ -30809,7 +30809,7 @@ msgstr ""
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr ""
 
-#: onedesk/one_display/programme.py:430 onedesk/www/tv.py:62
+#: onedesk/one_display/programme.py:433 onedesk/www/tv.py:62
 msgid "No ticket is being served."
 msgstr ""
 
@@ -31344,7 +31344,7 @@ msgstr ""
 msgid "Not pushed in this workspace."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:789
+#: onedesk/one_hr/hiring.py:804
 msgid "Not reached"
 msgstr ""
 
@@ -31397,7 +31397,7 @@ msgstr ""
 msgid "Not set up yet"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:332
+#: onedesk/one_hr/hiring.py:347
 msgid "Not shown"
 msgstr ""
 
@@ -37050,7 +37050,7 @@ msgstr ""
 msgid "Placed In"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:166
+#: onedesk/one_hr/hiring.py:181
 #, python-brace-format
 msgid "Placed {0} applicants again from what I wrote about each."
 msgstr ""
@@ -38979,7 +38979,7 @@ msgstr ""
 msgid "Quarterly town hall"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:497
+#: onedesk/one_hr/hiring.py:512
 msgid "Questions"
 msgstr ""
 
@@ -39326,7 +39326,7 @@ msgstr ""
 msgid "Rated against the Screening Criteria of the Job Opening."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:322
+#: onedesk/one_hr/hiring.py:337
 #, python-brace-format
 msgid "Rated {0} of 5"
 msgstr ""
@@ -45203,7 +45203,7 @@ msgstr ""
 msgid "Shown with the address on every email sent from this mailbox, or the default name if empty."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:331
+#: onedesk/one_hr/hiring.py:346
 msgid "Shows"
 msgstr ""
 
@@ -49481,7 +49481,7 @@ msgstr ""
 msgid "That invoice has nothing to book."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:562
+#: onedesk/one_hr/hiring.py:577
 msgid "That is not a recording."
 msgstr ""
 
@@ -49505,7 +49505,7 @@ msgstr ""
 msgid "That isn't on offer."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:565
+#: onedesk/one_hr/hiring.py:580
 msgid "That part of the recording is empty or too large."
 msgstr ""
 
@@ -51378,7 +51378,7 @@ msgstr ""
 msgid "The theme could not be changed. Try again."
 msgstr ""
 
-#: onedesk/one_display/programme.py:433 onedesk/www/tv.py:66
+#: onedesk/one_display/programme.py:436 onedesk/www/tv.py:66
 msgid "The ticket could not be taken. Try again."
 msgstr ""
 
@@ -52412,11 +52412,11 @@ msgstr ""
 msgid "This record type doesn't exist."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:613
+#: onedesk/one_hr/hiring.py:628
 msgid "This recording cannot be transcribed again."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:560
+#: onedesk/one_hr/hiring.py:575
 msgid "This recording has already ended."
 msgstr ""
 
@@ -52614,7 +52614,7 @@ msgstr ""
 msgid "This workspace cannot be moved."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:529
+#: onedesk/one_hr/hiring.py:544
 msgid "This workspace does not record interviews. HR Settings says whether it does."
 msgstr ""
 
@@ -52805,7 +52805,7 @@ msgstr ""
 msgid "Ticket number"
 msgstr ""
 
-#: onedesk/one_display/programme.py:363
+#: onedesk/one_display/programme.py:366
 #, python-brace-format
 msgid "Ticket {0}, counter {1}"
 msgstr ""
@@ -55899,7 +55899,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:8
 #: onedesk/one_admin/heads.py:46
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:65
-#: onedesk/one_display/programme.py:429
+#: onedesk/one_display/programme.py:432
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
@@ -60932,11 +60932,11 @@ msgstr ""
 msgid "Worth at the End"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:333
+#: onedesk/one_hr/hiring.py:348
 msgid "Worth knowing before you call"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:790
+#: onedesk/one_hr/hiring.py:805
 msgid "Worth weighing"
 msgstr ""
 
@@ -61557,7 +61557,7 @@ msgstr ""
 msgid "You may not change {0}."
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:839
+#: onedesk/one_hr/hiring.py:854
 msgid "You may not delete the sound of a recorded interview."
 msgstr ""
 
@@ -62265,7 +62265,7 @@ msgstr ""
 msgid "Your sign-ins"
 msgstr ""
 
-#: onedesk/one_display/programme.py:431 onedesk/www/tv.py:63
+#: onedesk/one_display/programme.py:434 onedesk/www/tv.py:63
 msgid "Your ticket"
 msgstr ""
 
@@ -63444,7 +63444,7 @@ msgstr ""
 msgid "phone"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:324
+#: onedesk/one_hr/hiring.py:339
 #, python-brace-format
 msgid "placed {0} of {1}"
 msgstr ""
@@ -63751,7 +63751,7 @@ msgstr ""
 msgid "there is no field {0} for the barcode"
 msgstr ""
 
-#: onedesk/one_hr/hiring.py:697
+#: onedesk/one_hr/hiring.py:712
 msgid "this part could not be transcribed"
 msgstr ""
 
@@ -64266,7 +64266,7 @@ msgstr ""
 msgid "{0} agreed on {1}"
 msgstr ""
 
-#: onedesk/one_display/programme.py:432 onedesk/www/tv.py:64
+#: onedesk/one_display/programme.py:435 onedesk/www/tv.py:64
 #, python-brace-format
 msgid "{0} ahead of you"
 msgstr ""
@@ -65006,7 +65006,7 @@ msgstr ""
 msgid "{0} h used of {1} h."
 msgstr ""
 
-#: frontend/src/display/Boards.vue:54 onedesk/one_display/programme.py:435
+#: frontend/src/display/Boards.vue:54 onedesk/one_display/programme.py:438
 #, python-brace-format
 msgid "{0} h {1}"
 msgstr ""
@@ -66142,7 +66142,7 @@ msgstr ""
 
 #: frontend/src/display/Boards.vue:54
 #: frontend/src/inventory/item/ItemMaking.vue:75
-#: onedesk/one_display/programme.py:434
+#: onedesk/one_display/programme.py:437
 #, python-brace-format
 msgid "{0} min"
 msgstr ""

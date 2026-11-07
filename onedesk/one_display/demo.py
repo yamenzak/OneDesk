@@ -18,6 +18,7 @@ import frappe
 from onedesk.one_demo.base import as_user
 from onedesk.one_demo.people import OWNER
 from onedesk.one_display import chips
+from onedesk.one_display import widgets as kinds
 
 QUEUE = "Showroom"
 CHANNEL = "Showroom Lobby"
@@ -306,6 +307,9 @@ def _design(ground: str, eyebrow: str, title: str, line: str) -> dict:
 
 
 def _widget(kind, x, y, w, h, source=None, settings=None, mapping=None) -> dict:
+	"""A widget as the editor places one: in its first look."""
+	look = kinds.worn(kinds.FIRST_LOOK.get(kind, "Plain"), "")
+	settings = {"look": look, **(settings or {})} if look else settings
 	return {
 		"widget_type": kind,
 		"x": x,

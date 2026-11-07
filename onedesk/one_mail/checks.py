@@ -243,21 +243,22 @@ def onemail_a_mailbox_is_set_up_in_its_own_tabs():
 		holders.set_allowed_domains([])
 		holders.set_external(1)
 		assert isinstance(mail_templates.templates(), list)
-		if frappe.db.exists("Email Template", "Interview Reminder"):
+		sent = "Exit Questionnaire Notification"
+		if frappe.db.exists("Email Template", sent):
 			mail_templates.settle()
-			was = frappe.db.get_single_value("HR Settings", "interview_reminder_template")
-			frappe.db.set_single_value("HR Settings", "interview_reminder_template", "Interview Reminder")
+			was = frappe.db.get_single_value("HR Settings", "exit_questionnaire_notification_template")
+			frappe.db.set_single_value("HR Settings", "exit_questionnaire_notification_template", sent)
 			try:
-				row = next(one for one in mail_templates.templates() if one["name"] == "Interview Reminder")
-				assert row["reference_doctype"] == "Interview", row
+				row = next(one for one in mail_templates.templates() if one["name"] == sent)
+				assert row["reference_doctype"] == "Exit Interview", row
 				assert row["used_by"] and row["code"], "HR's template says who sends it and that it holds code"
 				try:
-					frappe.delete_doc("Email Template", "Interview Reminder")
+					frappe.delete_doc("Email Template", sent)
 					raise AssertionError("a template HR Settings sends was deleted")
 				except frappe.ValidationError:
 					pass
 			finally:
-				frappe.db.set_single_value("HR Settings", "interview_reminder_template", was)
+				frappe.db.set_single_value("HR Settings", "exit_questionnaire_notification_template", was)
 		assert {one["label"] for one in api.capacity()}
 
 
@@ -682,7 +683,9 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 	open_ = frappe.get_all("Sales Invoice", filters={"customer": "Mansour & Sons", "docstatus": 1, "outstanding_amount": (">", 0)}, pluck="name")
 	assert set(open_) <= set(owed), "every invoice still to pay, however old"
 	assert any(row.get("owed") for row in rows), "what is still to pay on a part-paid one"
-	assert len(theirs.records("khalid@mansour.example", "About ACC-PINV-2026-00019")) == len(rows), "a name not theirs adds nothing"
+	mine = next(row["name"] for row in rows if row["doctype"] == "Sales Invoice" and row.get("owed"))
+	other = frappe.get_all("Purchase Invoice", filters={"docstatus": 1}, pluck="name", limit=1)[0]
+	assert len(theirs.records("khalid@mansour.example", f"About {other}")) == len(rows), "a name not theirs adds nothing"
 
 	asked, looked = [], []
 
@@ -690,9 +693,9 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 		from onedesk.one_ai import tools as surface
 
 		asked.append(text)
-		looked.append(surface.run("their_record", {"doctype": "Sales Invoice", "name": "ACC-SINV-2026-00001"})["answer"]["totals"])
+		looked.append(surface.run("their_record", {"doctype": "Sales Invoice", "name": mine})["answer"]["totals"])
 		try:
-			surface.run("their_record", {"doctype": "Purchase Invoice", "name": "ACC-PINV-2026-00019"})
+			surface.run("their_record", {"doctype": "Purchase Invoice", "name": other})
 			looked.append("leaked")
 		except frappe.ValidationError:
 			pass
@@ -706,7 +709,7 @@ def onemail_oneai_tells_a_sender_only_their_own_records():
 		rules._drafted({"instruction": "Answer from their records.", "records": 1}, frappe._dict(mail, one_verified=0))
 		rules._drafted({"instruction": "Answer from their records.", "records": 0}, frappe._dict(mail, one_verified=1))
 		rules._drafted({"instruction": "Answer.", "records": 1}, frappe._dict(mail, sender="nobody@stranger.example", one_verified=1))
-	assert "ACC-SINV-2026-00001" in asked[0] and "Mansour & Sons" in asked[0]
+	assert mine in asked[0] and "Mansour & Sons" in asked[0]
 	assert len(looked) == 1 and any(one.get("label") == "To pay" for one in looked[0]), "one record in full, only theirs"
 	assert not frappe.flags.one_ai_tools and not frappe.flags.one_mail_sender, "the tools go with the run"
 	assert all("SINV" not in one and "could not be confirmed" in one for one in asked[1:2])

@@ -254,8 +254,10 @@ def onedisplay_draws_any_size_and_pictures_as_sharp_as_the_screen():
 			frappe.local.request = Request(EnvironBuilder(path="/api/method/onedesk.one_slide.api.shown", method="GET").get_environ())
 			sent = api.shown(picture, play.seal(picture), edge=1920)
 			assert sent.status_code == 200 and Image.open(io.BytesIO(b"".join(sent.response))).size == (1920, 1280)
+		gone = frappe.get_doc("File", picture)
 		frappe.delete_doc("File", picture, ignore_permissions=True, force=True)
 		picture = None
+		gone._delete_file_on_disk()
 		assert not os.path.exists(path), "the copy goes with the picture"
 	finally:
 		frappe.local.request = was

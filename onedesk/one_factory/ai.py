@@ -68,13 +68,24 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on the Shop Floor."""
+	"""The sentence the model is told on the Shop Floor and ERPNext's two making pages."""
 	if said.get("page") == FLOOR:
 		return (
 			"The reader is on the Shop Floor, which shows the open work orders with how far their steps have got, "
 			"and each step's job card to start, pause, record and close. on_the_floor reads what is running now; "
 			"work_order_facts reads one work order; the open work orders are list_records on Work Order with "
 			"docstatus 1 and status in Not Started or In Process, by expected_delivery_date. How the page works is in OneFactory's documentation (how_to)."
+		)
+	if said.get("page") == "production-plan-visualizer":
+		return (
+			"The reader is on the Production Plan Visualizer, which draws one Production Plan as a tree: the items "
+			"it makes, their work orders and the sub-assemblies under them. The plan itself is get_record on "
+			"Production Plan; its work orders are list_records on Work Order with production_plan set to it."
+		)
+	if said.get("page") == "bom-comparison-tool":
+		return (
+			"The reader is on the BOM Comparison Tool, which sets two bills of materials side by side and shows "
+			"which fields, materials and quantities differ. Each bill is get_record on BOM."
 		)
 	return None
 

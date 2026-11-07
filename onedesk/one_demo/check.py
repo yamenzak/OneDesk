@@ -40,9 +40,23 @@ def run(only: str | None = None) -> int:
 	failed = []
 	chosen = [fn for fn in CHECKS if not only or fn.__name__ == only or (only.endswith("_") and fn.__name__.startswith(only))]
 	with _unsent():
-		_each(chosen, failed, unkept)
+		with _on_disk():
+			_each(chosen, failed, unkept)
 	print(f"{len(chosen) - len(failed)} of {len(chosen)} passed" if len(chosen) != 1 else "")
 	return len(failed)
+
+
+@contextmanager
+def _on_disk():
+	"""Files the checks make stay on this machine, as on a workspace with no
+	store, so a run sends nothing to R2 and reads back what it wrote. A check
+	of the store switches it on for itself."""
+	was = frappe.conf.get("onestorage_on_disk")
+	frappe.conf.onestorage_on_disk = 1
+	try:
+		yield
+	finally:
+		frappe.conf.onestorage_on_disk = was
 
 
 @contextmanager
@@ -234,6 +248,7 @@ def a_projects_figures_are_its_documents():
 	"""Ordered, invoiced and billed on the page are the sums of the
 	submitted documents carrying the project, its sub-projects' too."""
 	from onedesk.one_project import money, tree
+	from onedesk.one_project.retention import ITEM
 
 	wrong = []
 	for project in _projects():
@@ -247,9 +262,11 @@ def a_projects_figures_are_its_documents():
 		):
 			if label not in figures:
 				continue
+			held = " and ifnull(one_held, '') = ''" if frappe.db.has_column(child, "one_held") else ""
 			found = frappe.db.sql(
-				f"""select sum(base_net_amount) from `tab{child}` where project in %s and docstatus = 1""",
-				(scope,),
+				f"""select sum(base_net_amount) from `tab{child}` where project in %s and docstatus = 1
+				and ifnull(item_code, '') != %s{held}""",
+				(scope, ITEM),
 			)[0][0]
 			if not _close(figures[label], found, 1):
 				wrong.append((project.project_name, label, figures[label], flt(found)))
@@ -1408,6 +1425,7 @@ def onecloud_files_go_out_and_come_in():
 	server folder. The store and the server are stood in for here."""
 	from io import BytesIO
 	from unittest import mock
+	from urllib.parse import unquote
 
 	from onedesk.one_demo import storage as demo
 	from onedesk.one_storage import api, file_requests, links, mounts, store, upload
@@ -1427,8 +1445,11 @@ def onecloud_files_go_out_and_come_in():
 
 	frappe.set_user("Guest")
 	_asked(path="/", method="GET")
-	links.get(token)
-	assert frappe.local.response.filename == demo.ELEVATIONS and frappe.local.response.filecontent.startswith(b"%PDF")
+	sent = links.get(token)
+	if sent is not None:
+		assert sent.status_code == 302 and demo.ELEVATIONS in unquote(sent.location), "a stored file is sent from the store"
+	else:
+		assert frappe.local.response.filename == demo.ELEVATIONS and frappe.local.response.filecontent.startswith(b"%PDF")
 	_asked()
 	assert "said=wrong" in links.unlock(inbox_token, "guess").location
 	_asked()
@@ -1962,9 +1983,10 @@ def one_devices_decide_where_a_passkey_lives():
 	from onedesk.one_account import devices
 	from onedesk.one_account.signin import facts
 	from onedesk.one_demo.setup import BUILDER
-	from onedesk.one_hr import passkey
+	from onedesk.one_hr import passkey, signin
 
 	tariq = _employee("Tariq")
+	frappe.db.set_single_value("System Settings", signin.SWITCH, 1)
 	frappe.db.set_single_value("HR Settings", "one_self_checkin", 1)
 	frappe.db.delete("Clock Device", {"user": "tariq@one.test"})
 
@@ -4177,6 +4199,8 @@ class FakeCloudflare:
 			if method == "POST":
 				held.append({"name": body["name"]})
 			return self.answer({"buckets": held})
+		if path.endswith("/domains/custom") and method == "GET":
+			return self.answer({"domains": []})
 		if path.endswith("/ssl/certificate_packs/quota"):
 			return self.answer({"advanced": {"allocated": 0, "used": 0}})
 		if "/ai-gateway/gateways/" in path and method == "GET":

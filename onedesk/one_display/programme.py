@@ -87,8 +87,11 @@ def plays(channel, at: datetime | None = None) -> dict:
 
 
 def _url(path: str) -> str:
+	"""A file a screen may play: on this machine, in the store, or on the web."""
+	from onedesk.one_storage import store
+
 	path = path or ""
-	return path if path.startswith(("/files/", "https://", "http://")) else ""
+	return path if path.startswith(("/files/", f"{store.FETCH}?key=files/public/", "https://", "http://")) else ""
 
 
 def slides(name: str | None, today=None, edge: int | None = None) -> dict | None:

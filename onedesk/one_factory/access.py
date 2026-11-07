@@ -13,6 +13,14 @@ GIVEN = {
 		"Purchase Manager": roles.MANAGE,
 		"Manufacturing Manager": roles.MANAGE,
 	},
+	"Subcontracting Order": {
+		"Manufacturing User": roles.USE,
+		"Manufacturing Manager": roles.USE,
+	},
+	"Subcontracting Receipt": {
+		"Manufacturing User": roles.USE,
+		"Manufacturing Manager": roles.USE,
+	},
 	"Plant Floor": {
 		"Manufacturing User": roles.USE,
 		"Manufacturing Manager": roles.MANAGE,
