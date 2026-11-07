@@ -31,9 +31,10 @@ non conformances and quality actions.
 ## Who Wrote
 
 Beside a conversation, the customer, supplier, lead, employee or applicant who
-wrote it shows with what of theirs is still open: deals and quotations,
-orders to deliver, invoices still to pay, issues and projects, purchase
-orders, leave and claims. Each opens its record.
+wrote it shows in the panel, with a count of what of theirs is still open:
+deals and quotations, orders to deliver, invoices still to pay, issues and
+projects, purchase orders, leave and claims. The count lists them, and each
+opens its record.
 
 ![Who wrote, beside their mail](mail-on-records/who-wrote.png)
 

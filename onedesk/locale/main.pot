@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 20:30+0000\n"
-"PO-Revision-Date: 2026-11-07 20:30+0000\n"
+"POT-Creation-Date: 2026-11-07 20:36+0000\n"
+"PO-Revision-Date: 2026-11-07 20:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2792,7 +2792,7 @@ msgstr ""
 msgid "Add a line below the header when printing."
 msgstr ""
 
-#: frontend/src/mail/MailPanel.vue:64
+#: frontend/src/mail/MailPanel.vue:66
 msgid "Add a note"
 msgstr ""
 
@@ -29492,7 +29492,7 @@ msgstr ""
 msgid "Never changed"
 msgstr ""
 
-#: frontend/src/mail/MailPanel.vue:65
+#: frontend/src/mail/MailPanel.vue:67
 msgid "Never sent to anybody outside."
 msgstr ""
 
@@ -31884,7 +31884,7 @@ msgstr ""
 msgid "Notes ({0}) — Shift+F2 to add"
 msgstr ""
 
-#: frontend/src/mail/MailPanel.vue:61
+#: frontend/src/mail/MailPanel.vue:62
 msgid "Notes for the Team"
 msgstr ""
 

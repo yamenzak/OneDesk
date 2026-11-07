@@ -1,18 +1,18 @@
 <template>
-  <div v-if="said" :class="folded ? 'rounded-3 border border-outline-gray-1 px-3 py-2.5' : ''">
+  <div v-if="said">
     <a :href="recordRoute(said.doctype, said.name)" class="flex items-center gap-2.5">
-      <Avatar :image="said.image" :label="said.title" size="lg" />
+      <Avatar :image="said.image" :label="said.title" size="md" />
       <span class="min-w-0 flex-1">
         <span class="block truncate font-medium text-ink-gray-9">{{ said.title }}</span>
-        <span class="block text-sm text-ink-gray-5">{{ said.label }}</span>
+        <span class="block text-ink-gray-5">{{ said.label }}</span>
       </span>
       <span class="lucide-arrow-up-right size-4 text-ink-gray-5" aria-hidden="true" />
     </a>
     <p v-if="!said.groups.length" class="mt-2 text-sm text-ink-gray-5">{{ __("Nothing open") }}</p>
-    <button v-else-if="folded && !opened" type="button" class="mt-1.5 text-sm text-ink-gray-5 hover:underline" @click="opened = true">
+    <button v-else-if="!opened" type="button" class="mt-1.5 text-sm text-ink-gray-5 hover:underline" @click="opened = true">
       {{ said.groups.map((one) => `${one.label}: ${one.rows.length}${one.more ? "+" : ""}`).join(" · ") }}
     </button>
-    <div v-for="group in folded && !opened ? [] : said.groups" :key="group.doctype" class="mt-2.5">
+    <div v-for="group in !opened ? [] : said.groups" :key="group.doctype" class="mt-2.5">
       <div class="text-xs font-medium uppercase tracking-wide text-ink-gray-5">{{ group.label }}</div>
       <a
         v-for="row in group.rows"
@@ -39,7 +39,7 @@ import { Avatar } from "frappe-ui";
 
 import { __, call, date, money, recordRoute } from "../kit";
 
-const props = defineProps({ address: { type: String, default: "" }, folded: { type: Boolean, default: false } });
+const props = defineProps({ address: { type: String, default: "" } });
 const opened = ref(false);
 const emit = defineEmits(["found"]);
 const said = ref(null);

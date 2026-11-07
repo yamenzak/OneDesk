@@ -128,7 +128,7 @@
     </div>
     <MailPanel
       v-if="wide && box && thread"
-      class="max-h-full w-80 shrink-0 self-start overflow-auto"
+      class="max-h-full w-97.5 shrink-0 self-start overflow-auto"
       :team="team"
       :records="records"
       :address="other"
@@ -184,7 +184,7 @@ const party = ref(null);
 const aside = ref(false);
 const frame = ref(null);
 const wide = ref(false);
-const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 980));
+const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 1040));
 watch(frame, (now, was) => {
   if (was) sized.unobserve(was);
   if (now) sized.observe(now);
