@@ -45,7 +45,7 @@ onedesk.interface.WINDOWED = ["task", "create", "centre"];
 					this.$one_controls = this.$wrapper.find(".modal-actions").first().prepend(this.$one_enlarge);
 				}
 			}
-			this.$one_enlarge.toggle(onedesk.interface.WINDOWED.includes(kind));
+			this.$one_enlarge.toggle(onedesk.interface.WINDOWED.includes(kind) && !this.minimizable);
 			// A centre opens at the size it was left at, in this browser.
 			if (kind === "centre") this.one_enlarge(!!onedesk.interface.kept("centre_large", false), true);
 			return this;

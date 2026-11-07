@@ -302,17 +302,20 @@ export function timeZone() {
 // One value of the page's own address, such as ?board= on a QR code's link.
 export const getQuery = (key) => new URL(window.location.href).searchParams.get(key);
 
-export function setQuery(key, value) {
+export function setQuery(key, value, { push = false } = {}) {
 	const url = new URL(window.location.href);
 	if (value) url.searchParams.set(key, value);
 	else url.searchParams.delete(key);
-	window.history.replaceState(window.history.state, "", url);
+	if (push) window.history.pushState(window.history.state, "", url);
+	else window.history.replaceState(window.history.state, "", url);
 	// A rail row may name the question (the Address Book's Addresses), so the
 	// rail lights its row again for the new address.
 	frappe().app?.sidebar?.highlight_active_item?.();
 	const oneai = window.onedesk && window.onedesk.oneai;
 	if (oneai && oneai.panel) oneai.panel.moved(oneai.where());
 }
+
+export const historyBack = () => window.history.back();
 
 export function barcode(value, format, options = {}) {
 	const control = frappe().ui.form.make_control({

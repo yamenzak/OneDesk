@@ -27,6 +27,11 @@ frappe.ui.Sidebar = class OneSidebar extends frappe.ui.Sidebar {
 		if (first) onedesk.dock.rows(this);
 	}
 
+	shell_can_show(shell, route, opts = {}) {
+		const page = super.link_type_from_route(route) === "Page" && !frappe.router.page_info_for(route)?.shared_page;
+		return super.shell_can_show(shell, route, page ? { ...opts, listed_only: true } : opts);
+	}
+
 	entity_from_route(route) {
 		return route[0] === "print" && route[1] ? route[1] : super.entity_from_route(route);
 	}

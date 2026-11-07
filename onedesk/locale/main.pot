@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 21:26+0000\n"
-"PO-Revision-Date: 2026-11-07 21:26+0000\n"
+"POT-Creation-Date: 2026-11-07 21:42+0000\n"
+"PO-Revision-Date: 2026-11-07 21:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5068,7 +5068,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: frontend/src/mail/OneMail.vue:183 frontend/src/mail/OneMail.vue:218
+#: frontend/src/mail/OneMail.vue:184 frontend/src/mail/OneMail.vue:219
 #: frontend/src/mail/mail.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_mail/ai.py:658
@@ -5079,7 +5079,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
-#: frontend/src/mail/OneMail.vue:528 onedesk/one_account/heads.py:19
+#: frontend/src/mail/OneMail.vue:536 onedesk/one_account/heads.py:19
 #: onedesk/one_admin/accounts.py:123
 #: onedesk/one_admin/doctype/tenant/tenant.json:99
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
@@ -5321,7 +5321,7 @@ msgstr ""
 msgid "Ask again under Your Data if you still want your account deleted."
 msgstr ""
 
-#: onedesk/public/js/desk.js:363 onedesk/public/js/outside.js:276
+#: onedesk/public/js/desk.js:368 onedesk/public/js/outside.js:276
 #: onedesk/www/message.html:20
 msgid "Ask an administrator for access."
 msgstr ""
@@ -5830,7 +5830,7 @@ msgstr ""
 msgid "Attachments Not Saved"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:348
+#: frontend/src/mail/OneMail.vue:349
 msgid "Attachments in OneCloud"
 msgstr ""
 
@@ -6094,7 +6094,7 @@ msgstr ""
 msgid "Auto Reply"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:257
+#: frontend/src/mail/OneMail.vue:258
 #: onedesk/public/js/one_mail/onemail_settings.js:72
 msgid "Auto Reply On"
 msgstr ""
@@ -6148,7 +6148,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/OneMail.vue:347 onedesk/one_mail/abilities.py:45
+#: frontend/src/mail/OneMail.vue:348 onedesk/one_mail/abilities.py:45
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:194
 #: onedesk/public/js/doctype_settings.js:213
 #: onedesk/public/js/one_mail/onemail_settings.js:733
@@ -8799,9 +8799,9 @@ msgstr ""
 
 #. The button on a notification's mail
 #: frontend/src/hr/HrHome.vue:244 onedesk/one_hr/notifications.py
-#: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:101
-#: onedesk/public/js/desk.js:193 onedesk/public/js/desk.js:204
-#: onedesk/public/js/desk.js:209 onedesk/public/js/one_interface/chrome.js:139
+#: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:106
+#: onedesk/public/js/desk.js:198 onedesk/public/js/desk.js:209
+#: onedesk/public/js/desk.js:214 onedesk/public/js/one_interface/chrome.js:139
 msgid "Check In"
 msgstr ""
 
@@ -8809,7 +8809,7 @@ msgstr ""
 msgid "Check In (late)"
 msgstr ""
 
-#: onedesk/public/js/desk.js:240
+#: onedesk/public/js/desk.js:245
 msgid "Check In From Your Phone"
 msgstr ""
 
@@ -8841,8 +8841,8 @@ msgstr ""
 msgid "Check bill from {0}"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:244 onedesk/public/js/desk.js:202
-#: onedesk/public/js/desk.js:209
+#: frontend/src/hr/HrHome.vue:244 onedesk/public/js/desk.js:207
+#: onedesk/public/js/desk.js:214
 #, python-brace-format
 msgid "Check in by {0}"
 msgstr ""
@@ -8984,11 +8984,11 @@ msgstr ""
 msgid "Checked By"
 msgstr ""
 
-#: onedesk/public/js/desk.js:209 onedesk/public/js/desk.js:270
+#: onedesk/public/js/desk.js:214 onedesk/public/js/desk.js:275
 msgid "Checked In"
 msgstr ""
 
-#: onedesk/public/js/desk.js:270
+#: onedesk/public/js/desk.js:275
 msgid "Checked Out"
 msgstr ""
 
@@ -8996,12 +8996,12 @@ msgstr ""
 msgid "Checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:198
+#: onedesk/public/js/desk.js:203
 #, python-brace-format
 msgid "Checked in {0}"
 msgstr ""
 
-#: onedesk/public/js/desk.js:197
+#: onedesk/public/js/desk.js:202
 #, python-brace-format
 msgid "Checked in {0}, late"
 msgstr ""
@@ -9014,19 +9014,19 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: onedesk/public/js/desk.js:248
+#: onedesk/public/js/desk.js:253
 msgid "Checking in needs a passkey on this phone. It takes a few seconds, and after that you check in the way you unlock your phone."
 msgstr ""
 
-#: onedesk/public/js/desk.js:241
+#: onedesk/public/js/desk.js:246
 msgid "Checking in needs a passkey on your phone. Check in from One on your phone, and it asks you to register one the first time."
 msgstr ""
 
-#: onedesk/public/js/desk.js:223
+#: onedesk/public/js/desk.js:228
 msgid "Checking in…"
 msgstr ""
 
-#: onedesk/public/js/desk.js:223
+#: onedesk/public/js/desk.js:228
 msgid "Checking out…"
 msgstr ""
 
@@ -9387,7 +9387,7 @@ msgid "Clear formatting"
 msgstr ""
 
 #: frontend/src/mail/MailList.vue:9 frontend/src/mail/MailList.vue:10
-#: frontend/src/mail/OneMail.vue:192
+#: frontend/src/mail/OneMail.vue:193
 msgid "Clear selection"
 msgstr ""
 
@@ -10446,7 +10446,7 @@ msgstr ""
 msgid "Connect"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:297
+#: frontend/src/mail/OneMail.vue:298
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:920
 msgid "Connect Mailbox"
@@ -11278,7 +11278,7 @@ msgstr ""
 msgid "Couldn't reach the server."
 msgstr ""
 
-#: onedesk/public/js/desk.js:228
+#: onedesk/public/js/desk.js:233
 msgid "Couldn't record the check-in."
 msgstr ""
 
@@ -11521,7 +11521,7 @@ msgstr ""
 msgid "Covering Until"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:256
+#: frontend/src/mail/OneMail.vue:257
 #: onedesk/public/js/one_mail/onemail_settings.js:69
 #, python-brace-format
 msgid "Covering until {0}"
@@ -11532,7 +11532,7 @@ msgstr ""
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Marketing Campaign project template
 #: frontend/src/mail/MailPanel.vue:39 frontend/src/mail/MailPanel.vue:41
-#: frontend/src/mail/OneMail.vue:357
+#: frontend/src/mail/OneMail.vue:358
 #: frontend/src/writer/components/NewVersionDialog.vue:8
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -13215,8 +13215,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/cloud/OneCloud.vue:542 frontend/src/cloud/OneCloud.vue:628
-#: frontend/src/mail/OneMail.vue:184 frontend/src/mail/OneMail.vue:221
-#: frontend/src/mail/OneMail.vue:331
+#: frontend/src/mail/OneMail.vue:185 frontend/src/mail/OneMail.vue:222
+#: frontend/src/mail/OneMail.vue:332
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:734
 #: frontend/src/sheet/components/SheetEditor/index.vue:1102
@@ -13408,7 +13408,7 @@ msgstr ""
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:371
+#: frontend/src/mail/OneMail.vue:372
 #, python-brace-format
 msgid "Delete {0}? Its messages move to Trash."
 msgstr ""
@@ -14703,7 +14703,7 @@ msgstr ""
 #: onedesk/one_ai/sidebar/oneai/oneai.json:14
 #: onedesk/one_book/print_format/one_repost_accounting_ledger/one_repost_accounting_ledger.json
 #: onedesk/one_book/print_format/one_repost_payment_ledger/one_repost_payment_ledger.json
-#: onedesk/public/js/desk.js:109 onedesk/public/js/desk.js:178
+#: onedesk/public/js/desk.js:114 onedesk/public/js/desk.js:183
 #: onedesk/public/js/one_interface/chrome.js:111
 #: onedesk/public/js/print_documents.js:14
 msgid "Documents"
@@ -14801,7 +14801,7 @@ msgstr ""
 #: frontend/src/cloud/CloudUploads.vue:14 frontend/src/display/Counter.vue:20
 #: frontend/src/intake/IntakeInbox.vue:83
 #: frontend/src/mail/MailConversation.vue:21 frontend/src/mail/MailList.vue:83
-#: frontend/src/mail/MailList.vue:95 frontend/src/mail/OneMail.vue:133
+#: frontend/src/mail/MailList.vue:95 frontend/src/mail/OneMail.vue:134
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
 #: frontend/src/slide/shim/EditorNavbar.vue:30
@@ -15071,7 +15071,7 @@ msgstr ""
 msgid "Draft accounts"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:542
+#: frontend/src/mail/OneMail.vue:550
 msgid "Draft discarded."
 msgstr ""
 
@@ -19070,7 +19070,7 @@ msgstr ""
 msgid "Folder"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:354
+#: frontend/src/mail/OneMail.vue:355
 msgid "Folder Name"
 msgstr ""
 
@@ -21425,7 +21425,7 @@ msgstr ""
 msgid "Hide Master"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:126
+#: frontend/src/mail/OneMail.vue:127
 msgid "Hide Reading Pane"
 msgstr ""
 
@@ -25497,7 +25497,7 @@ msgstr ""
 
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:178
 #: onedesk/one_project/report/workload/workload.py:181
-#: onedesk/public/js/band.js:166 onedesk/public/js/desk.js:193
+#: onedesk/public/js/band.js:166 onedesk/public/js/desk.js:198
 #: onedesk/public/js/project.js:155 onedesk/public/js/work_order_list.js:10
 msgid "Late"
 msgstr ""
@@ -25529,7 +25529,7 @@ msgid "Late Work Orders"
 msgstr ""
 
 #: onedesk/one_crm/heads.py:258 onedesk/one_inventory/heads.py:386
-#: onedesk/one_inventory/heads.py:543 onedesk/public/js/desk.js:209
+#: onedesk/one_inventory/heads.py:543 onedesk/public/js/desk.js:214
 #, python-brace-format
 msgid "Late since {0}"
 msgstr ""
@@ -26497,7 +26497,7 @@ msgid "Link the contact to a customer or supplier first."
 msgstr ""
 
 #: frontend/src/mail/MailConversation.vue:261
-#: frontend/src/mail/MailPanel.vue:21 frontend/src/mail/OneMail.vue:190
+#: frontend/src/mail/MailPanel.vue:21 frontend/src/mail/OneMail.vue:191
 msgid "Link to Record"
 msgstr ""
 
@@ -27404,7 +27404,7 @@ msgstr ""
 msgid "Mailbox OneAI Limit Reached"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:349
+#: frontend/src/mail/OneMail.vue:350
 msgid "Mailbox Settings"
 msgstr ""
 
@@ -27418,7 +27418,7 @@ msgstr ""
 msgid "Mailbox connected"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:308 onedesk/one_mail/abilities.py:18
+#: frontend/src/mail/OneMail.vue:309 onedesk/one_mail/abilities.py:18
 #: onedesk/public/js/one_ai/ai_center.js:143
 #: onedesk/public/js/one_ai/ai_center.js:473
 #: onedesk/public/js/one_mail/onemail_settings.js:49
@@ -27893,11 +27893,11 @@ msgstr ""
 msgid "Mark as Unread"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:186 frontend/src/mail/OneMail.vue:216
+#: frontend/src/mail/OneMail.vue:187 frontend/src/mail/OneMail.vue:217
 msgid "Mark as read"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:187 frontend/src/mail/OneMail.vue:216
+#: frontend/src/mail/OneMail.vue:188 frontend/src/mail/OneMail.vue:217
 msgid "Mark as unread"
 msgstr ""
 
@@ -28537,7 +28537,7 @@ msgstr ""
 msgid "Min colour"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:131
+#: frontend/src/mail/OneMail.vue:132
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
 msgid "Mine"
 msgstr ""
@@ -28929,7 +28929,7 @@ msgstr ""
 msgid "Move selection"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:189
+#: frontend/src/mail/OneMail.vue:190
 msgid "Move to"
 msgstr ""
 
@@ -28964,7 +28964,7 @@ msgstr ""
 msgid "Move {0}"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:528 onedesk/one_inventory/heads.py:633
+#: frontend/src/mail/OneMail.vue:536 onedesk/one_inventory/heads.py:633
 msgid "Moved"
 msgstr ""
 
@@ -28986,7 +28986,7 @@ msgstr ""
 msgid "Moved down from {0}% to {1}%."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:528 onedesk/one_mail/ai.py:788
+#: frontend/src/mail/OneMail.vue:536 onedesk/one_mail/ai.py:788
 msgid "Moved to Trash"
 msgstr ""
 
@@ -29572,8 +29572,8 @@ msgstr ""
 msgid "New Document"
 msgstr ""
 
-#: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:549
-#: frontend/src/mail/OneMail.vue:629 onedesk/one_mail/shortcuts.py:12
+#: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:557
+#: frontend/src/mail/OneMail.vue:638 onedesk/one_mail/shortcuts.py:12
 #: onedesk/public/js/one_interface/form.js:239
 #: onedesk/public/js/one_mail/record_mail.js:35
 #: onedesk/www/account_profile.html:36
@@ -29603,8 +29603,8 @@ msgstr ""
 msgid "New Fiscal Year"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:326 frontend/src/mail/OneMail.vue:343
-#: frontend/src/mail/OneMail.vue:357
+#: frontend/src/mail/OneMail.vue:327 frontend/src/mail/OneMail.vue:344
+#: frontend/src/mail/OneMail.vue:358
 msgid "New Folder"
 msgstr ""
 
@@ -30427,7 +30427,7 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:518
+#: frontend/src/mail/OneMail.vue:526
 msgid "No Archive folder in this mailbox"
 msgstr ""
 
@@ -31434,7 +31434,7 @@ msgid "Not Booked"
 msgstr ""
 
 #. Name of a notification
-#: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:262
+#: onedesk/one_hr/notifications.py onedesk/public/js/desk.js:267
 msgid "Not Checked In"
 msgstr ""
 
@@ -31472,7 +31472,7 @@ msgstr ""
 msgid "Not Matched"
 msgstr ""
 
-#: onedesk/public/js/desk.js:254 onedesk/public/js/passkey.js:141
+#: onedesk/public/js/desk.js:259 onedesk/public/js/passkey.js:141
 msgid "Not Now"
 msgstr ""
 
@@ -31582,7 +31582,7 @@ msgstr ""
 msgid "Not checked in"
 msgstr ""
 
-#: onedesk/public/js/desk.js:205
+#: onedesk/public/js/desk.js:210
 msgid "Not checking in today"
 msgstr ""
 
@@ -31955,7 +31955,7 @@ msgid "Nothing here uses this key."
 msgstr ""
 
 #: frontend/portal/src/pages/Home.vue:74 frontend/portal/src/pages/List.vue:85
-#: onedesk/public/js/desk.js:362
+#: onedesk/public/js/desk.js:367
 msgid "Nothing here yet"
 msgstr ""
 
@@ -32034,7 +32034,7 @@ msgstr ""
 msgid "Nothing shared with you"
 msgstr ""
 
-#: onedesk/public/js/desk.js:216
+#: onedesk/public/js/desk.js:221
 #, python-brace-format
 msgid "Nothing to check in. You're {0} today."
 msgstr ""
@@ -32646,7 +32646,7 @@ msgstr ""
 msgid "On Leave Today"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:258
+#: frontend/src/mail/OneMail.vue:259
 #: onedesk/public/js/one_mail/onemail_settings.js:70
 #, python-brace-format
 msgid "On Leave until {0}"
@@ -33200,7 +33200,7 @@ msgstr ""
 #. 'Interview'
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
-#: frontend/src/mail/OneMail.vue:346
+#: frontend/src/mail/OneMail.vue:347
 #: onedesk/one/doctype/news_source/news_source.json:57
 #: onedesk/one/doctype/news_source/news_source.json:144
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:180
@@ -33679,7 +33679,7 @@ msgstr ""
 #. Label of the one_mail_section (Section Break) field in DocType
 #. 'Communication'
 #. Title of a Sidebar
-#: frontend/src/mail/OneMail.vue:235
+#: frontend/src/mail/OneMail.vue:236
 #: onedesk/one_mail/custom/communication.json:9
 #: onedesk/one_mail/page/onemail/onemail.js:2
 #: onedesk/one_mail/sidebar/onemail/onemail.json:29
@@ -34103,8 +34103,8 @@ msgstr ""
 #: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:593
 #: frontend/src/cloud/OneCloud.vue:597 frontend/src/cloud/OneCloud.vue:606
 #: frontend/src/factory/floor/ShopFloor.vue:119
-#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:130
-#: frontend/src/mail/OneMail.vue:211
+#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:131
+#: frontend/src/mail/OneMail.vue:212
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
@@ -35189,7 +35189,7 @@ msgstr ""
 msgid "Out of 100. Below Flag Below Score the log is flagged for review."
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:259 frontend/src/mail/OneMail.vue:345
+#: frontend/src/mail/OneMail.vue:260 frontend/src/mail/OneMail.vue:346
 #: onedesk/one_mail/abilities.py:37
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #: onedesk/public/js/one_mail/onemail_settings.js:311
@@ -35210,7 +35210,7 @@ msgstr ""
 msgid "Out of Office Replies"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:259
+#: frontend/src/mail/OneMail.vue:260
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #, python-brace-format
 msgid "Out of Office until {0}"
@@ -37044,7 +37044,7 @@ msgstr ""
 msgid "Periods"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:504
+#: frontend/src/mail/OneMail.vue:512
 msgid "Permanently delete these messages? This can't be undone."
 msgstr ""
 
@@ -40127,7 +40127,7 @@ msgstr ""
 msgid "Reading Line"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:631
+#: frontend/src/mail/OneMail.vue:640
 msgid "Reading Pane"
 msgstr ""
 
@@ -40995,7 +40995,7 @@ msgstr ""
 msgid "Register Number"
 msgstr ""
 
-#: onedesk/public/js/desk.js:249
+#: onedesk/public/js/desk.js:254
 msgid "Register Passkey"
 msgstr ""
 
@@ -41003,7 +41003,7 @@ msgstr ""
 msgid "Register This Device"
 msgstr ""
 
-#: onedesk/public/js/desk.js:247
+#: onedesk/public/js/desk.js:252
 msgid "Register a Passkey"
 msgstr ""
 
@@ -41411,7 +41411,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/cloud/OneCloud.vue:539 frontend/src/cloud/OneCloud.vue:627
-#: frontend/src/mail/OneMail.vue:330 frontend/src/mail/OneMail.vue:364
+#: frontend/src/mail/OneMail.vue:331 frontend/src/mail/OneMail.vue:365
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
 #: frontend/src/sheet/components/SheetEditor/index.vue:713
 #: frontend/src/sheet/components/SheetEditor/index.vue:748
@@ -41430,7 +41430,7 @@ msgstr ""
 msgid "Rename Conversation"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:364
+#: frontend/src/mail/OneMail.vue:365
 msgid "Rename Folder"
 msgstr ""
 
@@ -42246,7 +42246,7 @@ msgstr ""
 msgid "Results and lessons"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:170
+#: frontend/src/mail/OneMail.vue:171
 #, python-brace-format
 msgid "Results for {0}"
 msgstr ""
@@ -43840,7 +43840,7 @@ msgstr ""
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/to_order/ToOrderPage.vue:9
-#: frontend/src/mail/OneMail.vue:226 frontend/src/quality/QualityHome.vue:20
+#: frontend/src/mail/OneMail.vue:227 frontend/src/quality/QualityHome.vue:20
 #: onedesk/one_hr/custom/employee_attendance_tool.json:15
 #: onedesk/one_interface/shortcuts.py:15 onedesk/one_inventory/shortcuts.py:11
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:121
@@ -45585,7 +45585,7 @@ msgstr ""
 msgid "Show Raw"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:127
+#: frontend/src/mail/OneMail.vue:128
 msgid "Show Reading Pane"
 msgstr ""
 
@@ -45974,7 +45974,7 @@ msgid "Sign-off to go live"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/mail/OneMail.vue:344 onedesk/one_ai/chat.py:347
+#: frontend/src/mail/OneMail.vue:345 onedesk/one_ai/chat.py:347
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/one_mail/onemail_settings.js:195
 #: onedesk/public/js/one_mail/onemail_settings.js:197
@@ -47294,7 +47294,7 @@ msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:623 frontend/src/mail/MailList.vue:66
 #: frontend/src/mail/MailList.vue:67 frontend/src/mail/MailList.vue:106
-#: frontend/src/mail/OneMail.vue:188 frontend/src/mail/OneMail.vue:217
+#: frontend/src/mail/OneMail.vue:189 frontend/src/mail/OneMail.vue:218
 #: frontend/src/slide/shim/LayersPanel.vue:99
 #: frontend/src/slide/utils/toolbarTools.js:54
 #: onedesk/one_display/widgets.py:66 onedesk/one_mail/ai.py:662
@@ -48906,7 +48906,7 @@ msgstr ""
 msgid "Support Settings"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:227
+#: frontend/src/mail/OneMail.vue:228
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr ""
 
@@ -53660,7 +53660,7 @@ msgid "Timeout (seconds)"
 msgstr ""
 
 #: frontend/src/task/Timers.vue:13 onedesk/one_task/page/timers/timers.js:2
-#: onedesk/public/js/desk.js:118 onedesk/public/js/desk.js:146
+#: onedesk/public/js/desk.js:123 onedesk/public/js/desk.js:151
 #: onedesk/public/js/one_interface/chrome.js:149
 msgid "Timers"
 msgstr ""
@@ -53727,7 +53727,7 @@ msgstr ""
 msgid "Timetable"
 msgstr ""
 
-#: onedesk/public/js/desk.js:146
+#: onedesk/public/js/desk.js:151
 #, python-brace-format
 msgid "Timing {0}"
 msgstr ""
@@ -55253,7 +55253,7 @@ msgstr ""
 msgid "Uh oh!"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:132
+#: frontend/src/mail/OneMail.vue:133
 msgid "Unassigned"
 msgstr ""
 
@@ -55304,7 +55304,7 @@ msgstr ""
 msgid "Understood On"
 msgstr ""
 
-#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:529
+#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:537
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: frontend/src/slide/composables/useShortcuts.js:239
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:11
@@ -55608,8 +55608,8 @@ msgid "Unresolve"
 msgstr ""
 
 #: frontend/src/mail/MailList.vue:66 frontend/src/mail/MailList.vue:67
-#: frontend/src/mail/MailList.vue:106 frontend/src/mail/OneMail.vue:188
-#: frontend/src/mail/OneMail.vue:217
+#: frontend/src/mail/MailList.vue:106 frontend/src/mail/OneMail.vue:189
+#: frontend/src/mail/OneMail.vue:218
 msgid "Unstar"
 msgstr ""
 
@@ -63118,7 +63118,7 @@ msgstr ""
 msgid "Your sessions are on the Sign-in page."
 msgstr ""
 
-#: onedesk/public/js/desk.js:201
+#: onedesk/public/js/desk.js:206
 #, python-brace-format
 msgid "Your shift started at {0}"
 msgstr ""
@@ -64126,7 +64126,7 @@ msgid "not known yet"
 msgstr ""
 
 #: onedesk/one/notify.py:345 onedesk/one_account/heads.py:28
-#: onedesk/public/js/desk.js:324
+#: onedesk/public/js/desk.js:329
 msgid "nothing"
 msgstr ""
 
@@ -67182,7 +67182,7 @@ msgstr ""
 
 #: frontend/src/factory/floor/OrderRows.vue:34
 #: frontend/src/factory/floor/OrderRows.vue:39
-#: frontend/src/mail/OneMail.vue:441 frontend/src/project/MilestoneLanes.vue:32
+#: frontend/src/mail/OneMail.vue:442 frontend/src/project/MilestoneLanes.vue:32
 #: frontend/src/project/MilestoneLanes.vue:93 frontend/src/project/Months.vue:8
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
@@ -67514,7 +67514,7 @@ msgstr ""
 msgid "{0} passkeys on it stopped working"
 msgstr ""
 
-#: onedesk/public/js/desk.js:146
+#: onedesk/public/js/desk.js:151
 #, python-brace-format
 msgid "{0} paused timers"
 msgstr ""
@@ -67973,7 +67973,7 @@ msgstr ""
 msgid "{0} waiting"
 msgstr ""
 
-#: onedesk/public/js/desk.js:178
+#: onedesk/public/js/desk.js:183
 #, python-brace-format
 msgid "{0} waiting in Documents"
 msgstr ""

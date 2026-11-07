@@ -521,6 +521,13 @@ OVERRIDES = [
 		'id: "workflow",',
 	),
 	(
+		"A page of One's opens in its own app's rail",
+		"frappe keeps a route in the shell on screen when both shells are one app's (shell_can_show, crosses_app), and every One app is a shell of onedesk, so Back from OneMail to Home kept OneMail's empty rail; desk.js asks for a Page to be listed in the shell on screen, else it opens in its own",
+		"onedesk/public/js/desk.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"shell_can_show(shell, route, { listed_only = false } = {}) {",
+	),
+	(
 		"A printed record keeps its app's sidebar",
 		"frappe's sidebar finds the app by the route's doctype, and a print route names it second; desk.js reads print/<doctype>/<name> as that doctype, so an invoice prints inside OneBook",
 		"onedesk/public/js/desk.js",

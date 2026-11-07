@@ -60,6 +60,10 @@
 
 /* The body. A dialog with a rail lays out its own panes, edge to edge. */
 .one-dialog .modal-body:not(.settings-dialog-body) { padding: 4px 20px 20px; }
+.one-dialog.email-composer-modal .modal-header { padding-inline: 16px 12px; }
+.one-dialog.email-composer-modal .modal-body { padding: 0; }
+.one-dialog.email-composer-modal :is(.ql-container, .ql-editor) { background: transparent !important; }
+.one-dialog.email-composer-modal .email-composer-footer { background: var(--one-dialog-bg); }
 
 /* The footer: what is still needed on the left, the verbs on the right, the main one last. */
 .one-dialog .modal-footer { display: flex; align-items: center; justify-content: flex-end; gap: 8px; padding: 12px 16px 12px 20px; border-top: 1px solid var(--one-line); }
