@@ -29,6 +29,8 @@ BOOKS = "huda@one.test"
 
 PROJECTS = "samir@one.test"
 
+HR = "mariam@one.test"
+
 CASES = [
 	{
 		"id": "count-customers",
@@ -327,6 +329,10 @@ CASES = [
 	{"id": "proj-ar-late", "page": _on("Project", name="PROJ-0001"), "ask": "ما المهام المتأخرة في هذا المشروع؟", "tools": ("project_facts",), "user": PROJECTS},
 	{"id": "task-mine", "page": {}, "ask": "Was steht heute auf meiner Liste?", "tools": ("my_tasks", "my_day"), "user": PROJECTS},
 	{"id": "task-state", "page": _on("Task", name="TASK-2026-00052"), "ask": "Where does this task stand?", "tools": ("task_facts",), "user": PROJECTS},
+	{"id": "hr-today", "page": {}, "ask": "Who is in today, and who came late?", "tools": ("people_today",), "user": HR},
+	{"id": "hr-ar-off", "page": {}, "ask": "من الغائب اليوم؟", "tools": ("people_today",), "user": HR},
+	{"id": "hr-applicant", "page": _on("Job Applicant", name="paul.mensah@example.com"), "ask": "How did this candidate do in the interview?", "tools": ("interview_facts",), "user": HR},
+	{"id": "hr-why-leave", "page": {}, "ask": "Why do people leave us?", "tools": ("why_people_leave",), "user": HR},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
 	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
 	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},

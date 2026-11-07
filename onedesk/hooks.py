@@ -1371,6 +1371,7 @@ one_ai_reads = [
 	"onedesk.one_ai.reading.ai.find_documents",
 	"onedesk.one_ai.ai_web.web_search",
 	"onedesk.one_hr.ai.my_leave",
+	"onedesk.one_hr.ai.people_today",
 	"onedesk.one_hr.ai.appraisal_facts",
 	"onedesk.one_hr.ai.why_people_leave",
 	"onedesk.one_hr.ai.interview_facts",

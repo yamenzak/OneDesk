@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 05:43+0000\n"
+"POT-Creation-Date: 2026-11-07 06:05+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -220,12 +220,12 @@ msgstr "1 Tag"
 msgid "1 day late"
 msgstr "1 Tag zu spät"
 
-#: onedesk/one_hr/ai.py:916
+#: onedesk/one_hr/ai.py:957
 #, python-brace-format
 msgid "1 day of {0}."
 msgstr "1 Tag {0}."
 
-#: onedesk/one_hr/ai.py:920
+#: onedesk/one_hr/ai.py:961
 #, python-brace-format
 msgid "1 day of {0}; {1} left after."
 msgstr "1 Tag {0}; danach bleiben {1}."
@@ -1946,7 +1946,7 @@ msgstr "Über dem Mindestbestand"
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: frontend/src/hr/HrStory.vue:89
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:311
-#: onedesk/one_hr/presence.py:207
+#: onedesk/one_hr/presence.py:206
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:169
 #: onedesk/public/js/band.js:169
 msgid "Absent"
@@ -3004,6 +3004,11 @@ msgstr "1 Aufgabe hinzugefügt"
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Added Since"
 msgstr "Hinzugefügt seit"
+
+#. Message of a notification
+#: onedesk/one_hr/notifications.py
+msgid "Added because people kept checking in from it. Reject it if it is wrong."
+msgstr "Hinzugefügt, weil von dort immer wieder eingestempelt wurde. Lehnen Sie ihn ab, wenn er falsch ist."
 
 #. Description of the 'History' (Check) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:180
@@ -4655,6 +4660,10 @@ msgstr "Zuschnitt anwenden"
 #: onedesk/one/ready.py:1025
 msgid "Apply for Leave"
 msgstr "Urlaub beantragen"
+
+#: onedesk/one_hr/tour.py:46
+msgid "Apply for leave, claim an expense or assign a salary structure for them, and their history is under Activity."
+msgstr "Urlaub beantragen, eine Auslage einreichen oder eine Gehaltsstruktur zuweisen, und der Verlauf steht unter Aktivität."
 
 #: frontend/src/slide/components/SlidePlaybackSection.vue:32
 #: frontend/src/slide/components/TransitionSection.vue:43
@@ -8895,7 +8904,7 @@ msgstr "Eingecheckt"
 msgid "Checked Out"
 msgstr "Ausgecheckt"
 
-#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:169
+#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:168
 msgid "Checked in"
 msgstr "Eingecheckt"
 
@@ -8909,7 +8918,7 @@ msgstr "Eingecheckt {0}"
 msgid "Checked in {0}, late"
 msgstr "Eingestempelt {0}, verspätet"
 
-#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:164
+#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:163
 msgid "Checked out"
 msgstr "Ausgecheckt"
 
@@ -19058,6 +19067,10 @@ msgstr "Für Monat"
 msgid "For Orders"
 msgstr "Für Aufträge"
 
+#: onedesk/one_hr/tour.py:45
+msgid "For This Person"
+msgstr "Für diese Person"
+
 #: frontend/src/slide/shim/ScreenTemplates.vue:50
 msgid "For This Screen"
 msgstr "Für diesen Bildschirm"
@@ -20751,7 +20764,7 @@ msgstr ""
 msgid "Half Day On"
 msgstr "Halber Tag am"
 
-#: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:167
+#: onedesk/one_hr/presence.py:110 onedesk/public/js/band.js:167
 msgid "Half day"
 msgstr "Halbtags"
 
@@ -21290,7 +21303,7 @@ msgstr "Inhaber"
 
 #: onedesk/one_hr/control.py:90 onedesk/one_hr/control.py:135
 #: onedesk/one_hr/employee.py:105 onedesk/one_hr/employee.py:252
-#: onedesk/one_hr/presence.py:139 onedesk/public/js/band.js:170
+#: onedesk/one_hr/presence.py:138 onedesk/public/js/band.js:170
 msgid "Holiday"
 msgstr "Feiertag"
 
@@ -21751,6 +21764,10 @@ msgstr "Wie viele Credits ein Dollar Anbieterkosten vor dem Aufschlag ergibt. Ni
 #: onedesk/one_inventory/home.py:104
 msgid "How many days each item takes to buy or make."
 msgstr "Wie viele Tage jeder Artikel zum Einkauf oder zur Fertigung braucht."
+
+#: onedesk/one_hr/tour.py:55
+msgid "How many days it takes, how many of its kind are left after it, and who approves it."
+msgstr "Wie viele Tage sie dauert, wie viele dieser Art danach übrig sind und wer sie genehmigt."
 
 #: onedesk/one_hr/home.py:500
 msgid "How many days of each kind a year gives."
@@ -27584,7 +27601,7 @@ msgstr "Als geprüft markiert"
 msgid "Marked as lost"
 msgstr "Als verloren markiert"
 
-#: onedesk/one_hr/presence.py:214
+#: onedesk/one_hr/presence.py:213
 msgid "Marked present"
 msgstr "Als anwesend erfasst"
 
@@ -32290,8 +32307,8 @@ msgstr "Zurückgestellt. {0} wurde über den Grund benachrichtigt."
 msgid "On in this browser"
 msgstr "In diesem Browser an"
 
-#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:111
-#: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:168
+#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:110
+#: onedesk/one_hr/presence.py:209 onedesk/public/js/band.js:168
 msgid "On leave"
 msgstr "Im Urlaub"
 
@@ -32558,11 +32575,6 @@ msgstr "Eine Meldung nach der anderen"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
 msgid "One Task"
 msgstr "OneTask"
-
-#. Message of a notification
-#: onedesk/one_hr/notifications.py
-msgid "One added it because people kept checking in from it. Reject it if it is wrong."
-msgstr "One hat ihn hinzugefügt, weil sich dort immer wieder Leute angemeldet haben. Lehnen Sie ihn ab, wenn er falsch ist."
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:28
@@ -34935,7 +34947,7 @@ msgstr "Überstundenbeleg"
 msgid "Overtime Type"
 msgstr "Überstundenart"
 
-#: onedesk/one_hr/overtime.py:263
+#: onedesk/one_hr/overtime.py:264
 msgid "Overtime pay cannot be worked out until this employee has a salary structure."
 msgstr "Die Überstundenvergütung lässt sich erst berechnen, wenn dieser Person eine Gehaltsstruktur zugewiesen ist."
 
@@ -44167,7 +44179,7 @@ msgstr "Preis festlegen"
 msgid "Set Reorder Level"
 msgstr "Meldebestand festlegen"
 
-#: onedesk/one_hr/overtime.py:242
+#: onedesk/one_hr/overtime.py:243
 msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
 msgstr "Hinterlegen Sie die Standardarbeitszeit in den Anwesenheitseinstellungen, bevor Überstunden geltend gemacht werden."
 
@@ -49507,6 +49519,10 @@ msgstr "Das Datum"
 msgid "The Day"
 msgstr "Der Tag"
 
+#: onedesk/one_hr/tour.py:54
+msgid "The Days Asked For"
+msgstr "Die beantragten Tage"
+
 #: onedesk/www/start.html:51
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr "Mit der Europäischen Union werden die Dateien des Arbeitsbereichs in der EU gespeichert. Das lässt sich später nicht ändern."
@@ -51590,6 +51606,10 @@ msgstr "Passkey und Schichtzuweisungen wurden beendet, aber der Status ist noch 
 msgid "Their shift approver, or HR when none is set"
 msgstr "Die Schichtgenehmigung, oder die Personalabteilung, wenn keine festgelegt ist"
 
+#: onedesk/one_hr/tour.py:40
+msgid "Their standing, the leave they have left, what waits on an approver and when they last checked in."
+msgstr "Der Stand, der verbleibende Urlaub, was auf eine Genehmigung wartet und das letzte Einstempeln."
+
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
 #: onedesk/one_slide/doctype/presentation/presentation.json:56
@@ -52247,7 +52267,7 @@ msgstr "Dieses Netzwerk gehört Ihnen und nicht einem Arbeitsort."
 msgid "This network is not one you may check in from."
 msgstr "Von diesem Netzwerk dürfen Sie nicht einchecken."
 
-#: onedesk/one_hr/overtime.py:268
+#: onedesk/one_hr/overtime.py:269
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "Für diese Überstundenart ist kein Satz hinterlegt, sie vergütet daher nichts."
 
@@ -54682,7 +54702,7 @@ msgstr "Einheiten"
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:423 onedesk/one_crm/tell.py:89
-#: onedesk/one_hr/presence.py:81
+#: onedesk/one_hr/presence.py:80
 msgid "Unknown"
 msgstr "Unbekannt"
 
@@ -58934,6 +58954,10 @@ msgstr "Wo er steht"
 #: frontend/src/inventory/home/InventoryStory.vue:9
 msgid "Where Stock Is"
 msgstr "Wo der Bestand ist"
+
+#: onedesk/one_hr/tour.py:39
+msgid "Where They Stand"
+msgstr "Wo die Person steht"
 
 #: onedesk/one_legal/tour.py:11
 msgid "Where You Stand"
@@ -64633,12 +64657,12 @@ msgstr "{0} Tage vor {1}"
 msgid "{0} days late"
 msgstr "{0} Tage zu spät"
 
-#: onedesk/one_hr/ai.py:918
+#: onedesk/one_hr/ai.py:959
 #, python-brace-format
 msgid "{0} days of {1}."
 msgstr "{0} Tage {1}."
 
-#: onedesk/one_hr/ai.py:922
+#: onedesk/one_hr/ai.py:963
 #, python-brace-format
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} Tage {1}; danach bleiben {2}."

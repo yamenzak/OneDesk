@@ -182,8 +182,9 @@ GROUPS = {
 		),
 	},
 	"hr": {
-		"about": "people: appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
+		"about": "people: who is in, late or off today, appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
 		"tools": (
+			"people_today",
 			"appraisal_facts",
 			"why_people_leave",
 			"interview_facts",
@@ -199,7 +200,8 @@ GROUPS = {
 		),
 		"words": (
 			"employee", "leave", "salary", "payroll", "appraisal", "applicant", "interview", "hiring", "policy", "goal",
-			"training", "mitarbeiter", "urlaub", "gehalt", "bewerb", "موظف", "إجازة", "راتب", "رواتب", "توظيف",
+			"training", "checked in", "who is in", "who's in", "who is off", "absent", "late today", "mitarbeiter", "urlaub", "gehalt", "bewerb",
+			"anwesend", "abwesend", "verspätet", "موظف", "إجازة", "راتب", "رواتب", "توظيف", "حاضر", "غائب", "الغائب", "الغائبين", "غياب", "الحاضرين", "متأخر", "المتأخرين", "الحضور",
 		),
 	},
 	"display": {
@@ -338,7 +340,18 @@ MODULES = {
 	"One Admin": "console",
 }
 
-DOCTYPES = {"Employee": "hr", "File": "files", "Communication": "mail"}
+DOCTYPES = {
+	"Employee": "hr",
+	"Job Applicant": "hr",
+	"Job Opening": "hr",
+	"Interview": "hr",
+	"Appraisal": "hr",
+	"Leave Application": "hr",
+	"Attendance": "hr",
+	"Salary Slip": "hr",
+	"File": "files",
+	"Communication": "mail",
+}
 
 PAGES = {
 	"onemail": "mail",

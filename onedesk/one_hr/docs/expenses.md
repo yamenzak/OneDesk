@@ -15,6 +15,8 @@ by department, and of advances by status.
    your department) and **Save**. It goes to them, or to HR when no approver
    is picked.
 
+![An expense claim with what was claimed and sanctioned](expenses/expense-claim.png)
+
 In the OneAI panel, *Claim a receipt* with a photo of the receipt fills in
 the claim for you to approve, and *What can I claim?* says what may be
 claimed and who approves it. A receipt sent in to OneAI becomes a claim

@@ -17,6 +17,8 @@ def rate(employee: str, on: str) -> dict:
 		get_assigned_salary_structure,
 	)
 
+	frappe.has_permission("Leave Encashment", "create", throw=True)
+	frappe.has_permission("Employee", "read", employee, throw=True)
 	structure = get_assigned_salary_structure(employee, on)
 	if not structure:
 		return {"structure": None, "per_day": 0}

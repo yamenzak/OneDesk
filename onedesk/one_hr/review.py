@@ -7,13 +7,13 @@ from frappe.utils import now_datetime
 REVIEWERS = ("HR User", "HR Manager")
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def accept(attempt: str, note: str | None = None) -> dict:
 	"""The check-in stands. Nothing about the day changes."""
 	return _settle(attempt, "Accepted", note)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def reject(attempt: str, note: str | None = None) -> dict:
 	"""The check-in stops counting, and says so on the log itself."""
 	settled = _settle(attempt, "Rejected", note)

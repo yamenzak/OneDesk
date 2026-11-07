@@ -133,6 +133,7 @@ def dates(employee: str, posting_date: str) -> dict:
 	was in the middle of working out, so the message read "for date None" — even
 	though a fixed hourly rate needs no structure at all.
 	"""
+	frappe.has_permission("Employee", "read", employee, throw=True)
 	from hrms.payroll.doctype.payroll_entry.payroll_entry import get_start_end_dates
 	from hrms.payroll.doctype.salary_structure_assignment.salary_structure_assignment import (
 		get_assigned_salary_structure,

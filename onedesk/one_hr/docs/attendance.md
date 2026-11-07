@@ -1,5 +1,7 @@
 # Attendance
 
+![The attendance list counted by status](attendance/attendance.png)
+
 ## Attendance Settings
 
 The rail's **Attendance Settings** opens HR Settings on its Attendance tab:

@@ -737,8 +737,9 @@ def onehr_deleting_an_interviews_sound_is_an_ability():
 def onehr_riyadh_keeps_its_own_people():
 	"""Sahara Glass Saudi's supervisor is its own: his weekend is Friday and
 	Saturday, his leave says what is left, Home read in Riyadh counts him in
-	riyals, and Rania, limited to the Dubai company, does not see him."""
-	from onedesk.one_hr import heads, story
+	riyals and OneAI's who is in today counts him alone, and Rania, limited to
+	the Dubai company, does not see him."""
+	from onedesk.one_hr import ai, heads, story
 
 	ahmed = frappe.db.get_value("Employee", {"company": "Sahara Glass Saudi"}, "name")
 	assert ahmed, "the Riyadh company has an employee"
@@ -750,8 +751,10 @@ def onehr_riyadh_keeps_its_own_people():
 		frappe.defaults.set_user_default("company", "Sahara Glass Saudi")
 		try:
 			said = story.read()
+			today_said = ai.people_today()
 		finally:
 			frappe.defaults.set_user_default("company", COMPANY)
 	assert said["currency"] == "SAR" and said["cards"]["headcount"]["value"] == 1, said["cards"].get("headcount")
+	assert today_said["company"] == "Sahara Glass Saudi" and today_said["counted"] == 1, today_said
 	with as_user("rania@one.test"):
 		assert not frappe.has_permission("Employee", "read", ahmed)

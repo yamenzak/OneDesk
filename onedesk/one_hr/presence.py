@@ -64,12 +64,11 @@ def in_now() -> int:
 	person on leave who badged in is counted here and shows as on leave there,
 	which is the disagreement `of()` exists to rank rather than an error.
 	"""
-	rows = frappe.get_all(
+	rows = frappe.get_list(
 		"Employee Checkin",
 		filters={"time": [">=", f"{nowdate()} 00:00:00"]},
 		fields=["employee", "log_type"],
 		order_by="employee asc, time asc",
-		ignore_permissions=True,
 	)
 	last: dict[str, str] = {}
 	for row in rows:

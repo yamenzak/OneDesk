@@ -19,6 +19,10 @@ NOT_FOR_AI = {
 	"control.save": "Holidays are set for the whole workspace by its administrator.",
 	"expense.approve": "Approving an expense owes an employee money, so their approver decides.",
 	"expense.reject": "Turning down an expense is the approver's decision about a person.",
+	"hiring.recorded_part": "A recording's parts come from the interview as it is held.",
+	"hiring.start_recording": "Recording an interview needs the candidate's agreement, given in the room.",
+	"hiring.stop_recording": "The interviewer ends a recording when the interview ends.",
+	"hiring.transcribe_again": "Transcribing a recording again is the interviewer's call when it failed.",
 	"holidays.next_year": "Holidays are set for the whole workspace by its administrator.",
 	"holidays.use": "Holidays are set for the whole workspace by its administrator.",
 	"learned.confirm": "Trusting a place or device to check in from is HR's decision.",
@@ -26,8 +30,12 @@ NOT_FOR_AI = {
 	"leave.approve": "Granting leave is the approver's decision about a person.",
 	"leave.reject": "Turning leave down is the approver's decision about a person.",
 	"overtime.record": "Overtime is paid, so whoever saw it worked records it.",
+	"passkey.finish_registration": "A passkey is registered by its person, on their own phone.",
 	"passkey.not_now": "It is a person's own answer to being offered a passkey.",
 	"passkey.remove": "A passkey is somebody's way in, so a person takes it away.",
+	"passkey.reset": "Resetting somebody's way in is HR's decision, made on their record.",
+	"review.accept": "Accepting a flagged check-in is HR's decision about a person.",
+	"review.reject": "Turning down a check-in is HR's decision about a person.",
 	"request.approve": "Approving a request for days at work is the approver's decision about a person.",
 	"request.reject": "Turning down a request for days at work is the approver's decision about a person.",
 	"shift.approve": "Giving somebody a shift is their manager's decision.",
@@ -529,7 +537,7 @@ def draft_feedback(
 
 
 def interview_facts(
-	interview: Annotated[str, "The interview's id."],
+	interview: Annotated[str, "The interview's id, or a job applicant's, for their latest interview."],
 ) -> dict:
 	"""What one interview found, for writing the reader's feedback on it: the
 	expected skills, what OneAI prepared, the transcript of its recording and
@@ -537,6 +545,11 @@ def interview_facts(
 	draft to draft_interview_feedback rather than writing it in the answer."""
 	from onedesk.one_hr import hiring
 
+	if not frappe.db.exists("Interview", interview) and frappe.db.exists("Job Applicant", interview):
+		latest = frappe.get_list("Interview", filters={"job_applicant": interview}, pluck="name", order_by="scheduled_on desc", limit_page_length=1)
+		if not latest:
+			return {"error": "This applicant has no interview yet."}
+		interview = latest[0]
 	doc = frappe.get_doc("Interview", interview)
 	doc.check_permission("read")
 	skills = frappe.get_all(
@@ -763,10 +776,12 @@ def reader() -> str:
 
 
 def workspace() -> str:
-	"""The weekly offs, for the `one_ai_workspace` hook: read off this year's
-	default holiday list, because "Friday" costing a day or not is the first
-	thing a question about leave turns on."""
-	company = frappe.defaults.get_global_default("company")
+	"""The weekly offs, for the `one_ai_workspace` hook: read off the reader's
+	company's default holiday list, because "Friday" costing a day or not is
+	the first thing a question about leave turns on."""
+	from erpnext import get_default_company
+
+	company = get_default_company()
 	listed = company and frappe.db.get_value("Company", company, "default_holiday_list")
 	if not listed:
 		return ""
@@ -778,6 +793,40 @@ def workspace() -> str:
 		return ""
 	names = [calendar.day_name[one] for one in days]
 	return f"The weekly days off are {' and '.join(names)}."
+
+
+def people_today() -> dict:
+	"""Who is absent, in, late or on leave today in the reader's company, as
+	each one's page says it: in (and who came late), out again, on leave, on
+	a holiday, absent, or not heard from yet. Only the people the reader may
+	see are counted. Read it before saying anything about who is or is not at
+	work today: nothing else knows."""
+	from erpnext import get_default_company
+
+	from onedesk.one_hr import presence
+
+	if not presence.installed():
+		return {"error": "Check-ins are not kept in this workspace."}
+	people = frappe.get_list(
+		"Employee",
+		filters={"status": "Active", "company": get_default_company()},
+		fields=["name", "employee_name"],
+		limit_page_length=500,
+	)
+	groups: dict[str, list] = {}
+	late = []
+	for one in people:
+		said = presence.of(one.name)
+		state = said.get("state") or "unknown"
+		groups.setdefault(state, []).append(one.employee_name)
+		if state == "in" and said.get("late"):
+			late.append(one.employee_name)
+	return {
+		"company": get_default_company(),
+		"counted": len(people),
+		**{state: {"count": len(names), "people": names[:20]} for state, names in groups.items()},
+		"late": late[:20],
+	}
 
 
 def my_leave(

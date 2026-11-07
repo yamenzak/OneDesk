@@ -7,6 +7,8 @@ makes the new joiner's employee record. In the OneAI panel, *Plan the first
 two weeks* suggests what their first days should hold and who owns each
 part.
 
+![An onboarding with the new joiner's activities](joining-and-leaving/onboarding.png)
+
 **Separation** shows its status in the list. Submitting one adds a **Return**
 task for each asset the person holds (a laptop, a phone), for whoever looks
 after the company's equipment; see OneInventory.

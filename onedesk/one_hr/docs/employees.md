@@ -6,6 +6,8 @@ waiting on an approver, what they are paid under, and how long they have been
 here — and, when they hold any, how much of the company's equipment they
 have. Each answer links to the record it came from.
 
+![An employee's record with where they stand, their leave and what waits](employees/employee.png)
+
 **Identity Documents** — passport, national ID, residence permit, work permit,
 visa, driving licence — each with its number, issue and expiry dates and a
 scan. A workspace with a company in the UAE also has Emirates ID, Labour

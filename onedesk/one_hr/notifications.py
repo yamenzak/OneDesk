@@ -92,7 +92,7 @@ TYPES = [
 		"channels": ALL,
 		"sender": "workspace",
 		"subject": "{place} was added to where people check in",
-		"message": "One added it because people kept checking in from it. Reject it if it is wrong.",
+		"message": "Added because people kept checking in from it. Reject it if it is wrong.",
 	},
 	{
 		"name": "Check-in Rejected",

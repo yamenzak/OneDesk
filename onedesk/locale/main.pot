@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 05:52+0000\n"
-"PO-Revision-Date: 2026-11-07 05:52+0000\n"
+"POT-Creation-Date: 2026-11-07 06:09+0000\n"
+"PO-Revision-Date: 2026-11-07 06:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -218,12 +218,12 @@ msgstr ""
 msgid "1 day late"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:916
+#: onedesk/one_hr/ai.py:965
 #, python-brace-format
 msgid "1 day of {0}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:920
+#: onedesk/one_hr/ai.py:969
 #, python-brace-format
 msgid "1 day of {0}; {1} left after."
 msgstr ""
@@ -1942,7 +1942,7 @@ msgstr ""
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: frontend/src/hr/HrStory.vue:89
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:311
-#: onedesk/one_hr/presence.py:207
+#: onedesk/one_hr/presence.py:206
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:169
 #: onedesk/public/js/band.js:169
 msgid "Absent"
@@ -2783,11 +2783,11 @@ msgstr ""
 msgid "Add an account for costs included in stock value first."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:108 onedesk/one_hr/ai.py:140
+#: onedesk/one_hr/ai.py:116 onedesk/one_hr/ai.py:148
 msgid "Add an applicant from each of these CVs, to the open job each one fits best."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:99
+#: onedesk/one_hr/ai.py:107
 msgid "Add an applicant to this opening from each of these CVs."
 msgstr ""
 
@@ -2806,7 +2806,7 @@ msgstr ""
 msgid "Add an item and how many to move."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:98 onedesk/one_hr/ai.py:107 onedesk/one_hr/ai.py:139
+#: onedesk/one_hr/ai.py:106 onedesk/one_hr/ai.py:115 onedesk/one_hr/ai.py:147
 msgid "Add applicants from CVs"
 msgstr ""
 
@@ -2999,6 +2999,11 @@ msgstr ""
 #. Label in the One Asset Card print format
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Added Since"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/one_hr/notifications.py
+msgid "Added because people kept checking in from it. Reject it if it is wrong."
 msgstr ""
 
 #. Description of the 'History' (Check) field in DocType 'Reading'
@@ -4652,6 +4657,10 @@ msgstr ""
 msgid "Apply for Leave"
 msgstr ""
 
+#: onedesk/one_hr/tour.py:46
+msgid "Apply for leave, claim an expense or assign a salary structure for them, and their history is under Activity."
+msgstr ""
+
 #: frontend/src/slide/components/SlidePlaybackSection.vue:32
 #: frontend/src/slide/components/TransitionSection.vue:43
 msgid "Apply to all slides"
@@ -5200,7 +5209,7 @@ msgstr ""
 msgid "Ask For"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:240 onedesk/one_hr/ai.py:286
+#: onedesk/one_hr/ai.py:248 onedesk/one_hr/ai.py:294
 msgid "Ask HR for a letter"
 msgstr ""
 
@@ -7330,7 +7339,7 @@ msgstr ""
 msgid "Book online"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
+#: onedesk/one_hr/ai.py:81 onedesk/one_hr/ai.py:300
 msgid "Book time off"
 msgstr ""
 
@@ -8764,11 +8773,11 @@ msgstr ""
 msgid "Check the unordered delivery from {0}"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:224
+#: onedesk/one_hr/ai.py:232
 msgid "Check this payroll"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:225
+#: onedesk/one_hr/ai.py:233
 msgid "Check this payroll against last month and tell me what looks unusual, most money first."
 msgstr ""
 
@@ -8891,7 +8900,7 @@ msgstr ""
 msgid "Checked Out"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:169
+#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:168
 msgid "Checked in"
 msgstr ""
 
@@ -8905,7 +8914,7 @@ msgstr ""
 msgid "Checked in {0}, late"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:164
+#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:163
 msgid "Checked out"
 msgstr ""
 
@@ -9198,7 +9207,7 @@ msgstr ""
 msgid "Claim No"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:58 onedesk/one_hr/ai.py:294
+#: onedesk/one_hr/ai.py:66 onedesk/one_hr/ai.py:302
 msgid "Claim a receipt"
 msgstr ""
 
@@ -10093,7 +10102,7 @@ msgstr ""
 msgid "Compare the quotes suppliers sent for this request, line by line, and say who is cheapest on each."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:233
+#: onedesk/one_hr/ai.py:241
 msgid "Compare this salary slip with this person's last one and tell me what changed."
 msgstr ""
 
@@ -14860,7 +14869,7 @@ msgstr ""
 msgid "Draft a follow-up"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:148
+#: onedesk/one_hr/ai.py:156
 msgid "Draft a job opening from this requisition — its title, description and what a strong applicant has, one short line each — and suggest creating it."
 msgstr ""
 
@@ -14917,27 +14926,27 @@ msgstr ""
 msgid "Draft accounts"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:165
+#: onedesk/one_hr/ai.py:173
 msgid "Draft my feedback"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:184
+#: onedesk/one_hr/ai.py:192
 msgid "Draft my feedback from the recording"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:166
+#: onedesk/one_hr/ai.py:174
 msgid "Draft my feedback on this appraisal from what happened in the cycle, and suggest it as my feedback."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:185
+#: onedesk/one_hr/ai.py:193
 msgid "Draft my feedback on this interview from its recording and OneAI's remarks, with a rating for each expected skill, and suggest it as my feedback."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:260
+#: onedesk/one_hr/ai.py:268
 msgid "Draft my goals for this appraisal cycle from my role, last cycle's goals and the feedback I was given, and suggest them."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:259
+#: onedesk/one_hr/ai.py:267
 msgid "Draft my goals for this cycle"
 msgstr ""
 
@@ -14954,7 +14963,7 @@ msgstr ""
 msgid "Draft purchase orders for all {0} lines?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:147
+#: onedesk/one_hr/ai.py:155
 msgid "Draft the opening"
 msgstr ""
 
@@ -19055,6 +19064,10 @@ msgstr ""
 msgid "For Orders"
 msgstr ""
 
+#: onedesk/one_hr/tour.py:45
+msgid "For This Person"
+msgstr ""
+
 #: frontend/src/slide/shim/ScreenTemplates.vue:50
 msgid "For This Screen"
 msgstr ""
@@ -19740,7 +19753,7 @@ msgstr ""
 msgid "From Year"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:358
+#: onedesk/one_hr/ai.py:366
 #, python-brace-format
 msgid "From a receipt: {0}, {1}."
 msgstr ""
@@ -19808,11 +19821,11 @@ msgstr ""
 msgid "From their timesheet."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:133
+#: onedesk/one_hr/ai.py:141
 msgid "From this applicant's CV and OneAI's screening of it, what should I confirm on a first call, and what would a short email asking for the missing pieces say?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:159
+#: onedesk/one_hr/ai.py:167
 msgid "From this appraisal, where is this person weakest, and which of our training programs or coming events would help? If none fits, say what to look for."
 msgstr ""
 
@@ -19824,7 +19837,7 @@ msgstr ""
 msgid "From this opportunity's history, suggest its next step and the day to do it by."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:206
+#: onedesk/one_hr/ai.py:214
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr ""
 
@@ -20748,7 +20761,7 @@ msgstr ""
 msgid "Half Day On"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:167
+#: onedesk/one_hr/presence.py:110 onedesk/public/js/band.js:167
 msgid "Half day"
 msgstr ""
 
@@ -21109,7 +21122,7 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:73 onedesk/one_hr/ai.py:292
+#: onedesk/one_hr/ai.py:81 onedesk/one_hr/ai.py:300
 msgid "Help me book time off."
 msgstr ""
 
@@ -21293,7 +21306,7 @@ msgstr ""
 
 #: onedesk/one_hr/control.py:90 onedesk/one_hr/control.py:135
 #: onedesk/one_hr/employee.py:105 onedesk/one_hr/employee.py:252
-#: onedesk/one_hr/presence.py:139 onedesk/public/js/band.js:170
+#: onedesk/one_hr/presence.py:138 onedesk/public/js/band.js:170
 msgid "Holiday"
 msgstr ""
 
@@ -21755,6 +21768,10 @@ msgstr ""
 msgid "How many days each item takes to buy or make."
 msgstr ""
 
+#: onedesk/one_hr/tour.py:55
+msgid "How many days it takes, how many of its kind are left after it, and who approves it."
+msgstr ""
+
 #: onedesk/one_hr/home.py:500
 msgid "How many days of each kind a year gives."
 msgstr ""
@@ -21803,11 +21820,11 @@ msgstr ""
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:76 onedesk/one_hr/ai.py:302
+#: onedesk/one_hr/ai.py:84 onedesk/one_hr/ai.py:310
 msgid "How much leave do I have left, and who on my team is off in the next two weeks?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:75 onedesk/one_hr/ai.py:301
+#: onedesk/one_hr/ai.py:83 onedesk/one_hr/ai.py:309
 msgid "How much leave do I have?"
 msgstr ""
 
@@ -21964,7 +21981,7 @@ msgstr ""
 msgid "I have received the equipment above in good order. I will look after it, and give it back when I am asked."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:241 onedesk/one_hr/ai.py:287
+#: onedesk/one_hr/ai.py:249 onedesk/one_hr/ai.py:295
 msgid "I need a letter from HR — a salary certificate, an experience letter or an employment letter. Ask me which one and who it is for, then draft it."
 msgstr ""
 
@@ -27335,7 +27352,7 @@ msgstr ""
 msgid "Make an event everybody in the workspace sees, such as a closure or a training day."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:59 onedesk/one_hr/ai.py:295
+#: onedesk/one_hr/ai.py:67 onedesk/one_hr/ai.py:303
 msgid "Make an expense claim from this receipt."
 msgstr ""
 
@@ -27592,7 +27609,7 @@ msgstr ""
 msgid "Marked as lost"
 msgstr ""
 
-#: onedesk/one_hr/presence.py:214
+#: onedesk/one_hr/presence.py:213
 msgid "Marked present"
 msgstr ""
 
@@ -32298,8 +32315,8 @@ msgstr ""
 msgid "On in this browser"
 msgstr ""
 
-#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:111
-#: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:168
+#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:110
+#: onedesk/one_hr/presence.py:209 onedesk/public/js/band.js:168
 msgid "On leave"
 msgstr ""
 
@@ -32565,11 +32582,6 @@ msgstr ""
 #. Option for the 'App' (Select) field in DocType 'Workspace Field'
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
 msgid "One Task"
-msgstr ""
-
-#. Message of a notification
-#: onedesk/one_hr/notifications.py
-msgid "One added it because people kept checking in from it. Reject it if it is wrong."
 msgstr ""
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Network'
@@ -34943,7 +34955,7 @@ msgstr ""
 msgid "Overtime Type"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:263
+#: onedesk/one_hr/overtime.py:264
 msgid "Overtime pay cannot be worked out until this employee has a salary structure."
 msgstr ""
 
@@ -37019,7 +37031,7 @@ msgstr ""
 msgid "Placement"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:87
+#: onedesk/one_hr/ai.py:95
 msgid "Placing everybody again from what I wrote about each. The applicant list updates when I am done."
 msgstr ""
 
@@ -37119,7 +37131,7 @@ msgstr ""
 msgid "Plan my day"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:205
+#: onedesk/one_hr/ai.py:213
 msgid "Plan the first two weeks"
 msgstr ""
 
@@ -37405,7 +37417,7 @@ msgstr ""
 msgid "Prepare the Team"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:176
+#: onedesk/one_hr/ai.py:184
 msgid "Prepare this interview again"
 msgstr ""
 
@@ -37468,7 +37480,7 @@ msgstr ""
 msgid "Preparing"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:181
+#: onedesk/one_hr/ai.py:189
 msgid "Preparing it again. Interview Preparation updates on the interview when I am done."
 msgstr ""
 
@@ -39239,7 +39251,7 @@ msgstr ""
 msgid "Range"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:82
+#: onedesk/one_hr/ai.py:90
 msgid "Rank the applicants again"
 msgstr ""
 
@@ -39590,7 +39602,7 @@ msgstr ""
 msgid "Reading is turned off for this workspace."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:122
+#: onedesk/one_hr/ai.py:130
 msgid "Reading the CV again. The rating, the standing and a comment land on this applicant when I am done."
 msgstr ""
 
@@ -43156,7 +43168,7 @@ msgstr ""
 msgid "Screen Size"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:117
+#: onedesk/one_hr/ai.py:125
 msgid "Screen again"
 msgstr ""
 
@@ -44180,7 +44192,7 @@ msgstr ""
 msgid "Set Reorder Level"
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:242
+#: onedesk/one_hr/overtime.py:243
 msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
 msgstr ""
 
@@ -47892,7 +47904,7 @@ msgstr ""
 msgid "Suggested by {0} and approved by {1}"
 msgstr ""
 
-#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:364
+#: onedesk/one_ai/tools.py:732 onedesk/one_hr/ai.py:372
 msgid "Suggested. It happens when somebody approves it."
 msgstr ""
 
@@ -49538,6 +49550,10 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:180
 msgid "The Day"
+msgstr ""
+
+#: onedesk/one_hr/tour.py:54
+msgid "The Days Asked For"
 msgstr ""
 
 #: onedesk/www/start.html:51
@@ -51630,6 +51646,10 @@ msgstr ""
 msgid "Their shift approver, or HR when none is set"
 msgstr ""
 
+#: onedesk/one_hr/tour.py:40
+msgid "Their standing, the leave they have left, what waits on an approver and when they last checked in."
+msgstr ""
+
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
 #: onedesk/one_slide/doctype/presentation/presentation.json:56
@@ -52287,7 +52307,7 @@ msgstr ""
 msgid "This network is not one you may check in from."
 msgstr ""
 
-#: onedesk/one_hr/overtime.py:268
+#: onedesk/one_hr/overtime.py:269
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr ""
 
@@ -53864,7 +53884,7 @@ msgstr ""
 msgid "Transcribe Recordings"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:214
+#: onedesk/one_hr/ai.py:222
 msgid "Transcribe again"
 msgstr ""
 
@@ -54722,7 +54742,7 @@ msgstr ""
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:423 onedesk/one_crm/tell.py:89
-#: onedesk/one_hr/presence.py:81
+#: onedesk/one_hr/presence.py:80
 msgid "Unknown"
 msgstr ""
 
@@ -56631,11 +56651,11 @@ msgstr ""
 msgid "What came in on this receipt? Say what was accepted and rejected and why, what it cost with freight and duty, which order it was for, and whether it is billed."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:53
+#: onedesk/one_hr/ai.py:61
 msgid "What can I claim as an expense here, and who has to approve it?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:52
+#: onedesk/one_hr/ai.py:60
 msgid "What can I claim?"
 msgstr ""
 
@@ -56643,7 +56663,7 @@ msgstr ""
 msgid "What can One tell me about, and which of those do I also get by email?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:232
+#: onedesk/one_hr/ai.py:240
 msgid "What changed since last month?"
 msgstr ""
 
@@ -56695,7 +56715,7 @@ msgstr ""
 msgid "What do you know about me? Say what you remember from our conversations, and what my workspace told you."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:68
+#: onedesk/one_hr/ai.py:76
 msgid "What does our leave policy say — how many days of each kind do I get, what carries forward, and which days are holidays?"
 msgstr ""
 
@@ -56869,7 +56889,7 @@ msgstr ""
 msgid "What is on this week?"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:67
+#: onedesk/one_hr/ai.py:75
 msgid "What is our leave policy?"
 msgstr ""
 
@@ -57006,7 +57026,7 @@ msgstr ""
 msgid "What runs low, and orders for it."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:132
+#: onedesk/one_hr/ai.py:140
 msgid "What should I ask first?"
 msgstr ""
 
@@ -57354,7 +57374,7 @@ msgstr ""
 msgid "What to set up so {0} works the way your company does."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:158
+#: onedesk/one_hr/ai.py:166
 msgid "What training would help?"
 msgstr ""
 
@@ -58987,6 +59007,10 @@ msgstr ""
 msgid "Where Stock Is"
 msgstr ""
 
+#: onedesk/one_hr/tour.py:39
+msgid "Where They Stand"
+msgstr ""
+
 #: onedesk/one_legal/tour.py:11
 msgid "Where You Stand"
 msgstr ""
@@ -59933,7 +59957,7 @@ msgstr ""
 msgid "Why an opportunity or a quotation is lost."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:269 onedesk/one_hr/ai.py:277
+#: onedesk/one_hr/ai.py:277 onedesk/one_hr/ai.py:285
 msgid "Why are people leaving?"
 msgstr ""
 
@@ -59953,7 +59977,7 @@ msgstr ""
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:270 onedesk/one_hr/ai.py:278
+#: onedesk/one_hr/ai.py:278 onedesk/one_hr/ai.py:286
 msgid "Why have people left over the last twelve months, and how many said each reason?"
 msgstr ""
 
@@ -60910,15 +60934,15 @@ msgstr ""
 msgid "Write a first draft"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:125
+#: onedesk/one_hr/ai.py:133
 msgid "Write a kind decline"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:250
+#: onedesk/one_hr/ai.py:258
 msgid "Write a letter about this employee — ask me which kind and who it is for, then draft it."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:249
+#: onedesk/one_hr/ai.py:257
 msgid "Write a letter for this person"
 msgstr ""
 
@@ -60946,7 +60970,7 @@ msgstr ""
 msgid "Write a short update on this project for its customer: what was done, what comes next and when it should be finished. Plain words. Leave out hours, costs and who in the team does what."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:126
+#: onedesk/one_hr/ai.py:134
 msgid "Write a short, kind note telling this applicant they were not chosen, that thanks them for something specific in their application. Do not give reasons."
 msgstr ""
 
@@ -61021,7 +61045,7 @@ msgstr ""
 msgid "Write the facts, terms and policies OneAI reads with every answer."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:195
+#: onedesk/one_hr/ai.py:203
 msgid "Write the offer terms"
 msgstr ""
 
@@ -61033,15 +61057,15 @@ msgstr ""
 msgid "Write the reply."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:196
+#: onedesk/one_hr/ai.py:204
 msgid "Write this offer's terms from the opening it is for — the role, the salary range and the start — and suggest them as a change to it."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:90
+#: onedesk/one_hr/ai.py:98
 msgid "Write this opening"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:91
+#: onedesk/one_hr/ai.py:99
 msgid "Write this opening's description, and what a strong applicant has as one short line each, from its designation, department and requisition. Suggest both as a change to it."
 msgstr ""
 
@@ -61105,7 +61129,7 @@ msgstr ""
 msgid "Writing"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:219
+#: onedesk/one_hr/ai.py:227
 msgid "Writing it down again. The transcript and my remarks follow when I am done."
 msgstr ""
 
@@ -64689,12 +64713,12 @@ msgstr ""
 msgid "{0} days late"
 msgstr ""
 
-#: onedesk/one_hr/ai.py:918
+#: onedesk/one_hr/ai.py:967
 #, python-brace-format
 msgid "{0} days of {1}."
 msgstr ""
 
-#: onedesk/one_hr/ai.py:922
+#: onedesk/one_hr/ai.py:971
 #, python-brace-format
 msgid "{0} days of {1}; {2} left after."
 msgstr ""

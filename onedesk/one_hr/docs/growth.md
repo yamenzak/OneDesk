@@ -4,6 +4,8 @@
 drafts up to five goals from your role, last cycle's goals and your feedback,
 each as its own card to approve. Managers can do it for their direct reports.
 
+![An appraisal with its score and cycle](growth/appraisal.png)
+
 **Appraisal Cycle** moves to In Progress when its first appraisal is made. Each
 appraisal takes the cycle's dates.
 

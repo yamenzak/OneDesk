@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 05:43+0000\n"
+"POT-Creation-Date: 2026-11-07 06:05+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -220,12 +220,12 @@ msgstr "يوم واحد"
 msgid "1 day late"
 msgstr "متأخرة يوماً واحداً"
 
-#: onedesk/one_hr/ai.py:916
+#: onedesk/one_hr/ai.py:957
 #, python-brace-format
 msgid "1 day of {0}."
 msgstr "يوم واحد من {0}."
 
-#: onedesk/one_hr/ai.py:920
+#: onedesk/one_hr/ai.py:961
 #, python-brace-format
 msgid "1 day of {0}; {1} left after."
 msgstr "يوم واحد من {0}؛ يتبقى بعده {1}."
@@ -1946,7 +1946,7 @@ msgstr "فوق مستواه"
 #. Option for the 'Position' (Select) field in DocType 'Clock Attempt'
 #: frontend/src/hr/HrStory.vue:89
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:311
-#: onedesk/one_hr/presence.py:207
+#: onedesk/one_hr/presence.py:206
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:169
 #: onedesk/public/js/band.js:169
 msgid "Absent"
@@ -3004,6 +3004,11 @@ msgstr "تمت إضافة مهمة واحدة"
 #: onedesk/one_inventory/print_format/one_asset_card/one_asset_card.json
 msgid "Added Since"
 msgstr "المضاف منذ"
+
+#. Message of a notification
+#: onedesk/one_hr/notifications.py
+msgid "Added because people kept checking in from it. Reject it if it is wrong."
+msgstr "أُضيف لأن الموظفين ظلوا يسجلون الحضور منه. ارفضه إن كان خطأً."
 
 #. Description of the 'History' (Check) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:180
@@ -4655,6 +4660,10 @@ msgstr "تطبيق القص"
 #: onedesk/one/ready.py:1025
 msgid "Apply for Leave"
 msgstr "تقديم طلب إجازة"
+
+#: onedesk/one_hr/tour.py:46
+msgid "Apply for leave, claim an expense or assign a salary structure for them, and their history is under Activity."
+msgstr "قدّم طلب إجازة أو مطالبة مصروفات أو عيّن هيكل راتب له، وسجله في النشاط."
 
 #: frontend/src/slide/components/SlidePlaybackSection.vue:32
 #: frontend/src/slide/components/TransitionSection.vue:43
@@ -8895,7 +8904,7 @@ msgstr "سجّل الحضور"
 msgid "Checked Out"
 msgstr "سجّل الانصراف"
 
-#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:169
+#: onedesk/one_hr/employee.py:130 onedesk/one_hr/presence.py:168
 msgid "Checked in"
 msgstr "سجّل الحضور"
 
@@ -8909,7 +8918,7 @@ msgstr "سجّل الحضور {0}"
 msgid "Checked in {0}, late"
 msgstr "سجّلت حضورك {0}، متأخراً"
 
-#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:164
+#: onedesk/one_hr/employee.py:146 onedesk/one_hr/presence.py:163
 msgid "Checked out"
 msgstr "سجّل الانصراف"
 
@@ -19058,6 +19067,10 @@ msgstr "عن شهر"
 msgid "For Orders"
 msgstr "للطلبات"
 
+#: onedesk/one_hr/tour.py:45
+msgid "For This Person"
+msgstr "لهذا الشخص"
+
 #: frontend/src/slide/shim/ScreenTemplates.vue:50
 msgid "For This Screen"
 msgstr "لهذه الشاشة"
@@ -20751,7 +20764,7 @@ msgstr ""
 msgid "Half Day On"
 msgstr "نصف يوم في"
 
-#: onedesk/one_hr/presence.py:111 onedesk/public/js/band.js:167
+#: onedesk/one_hr/presence.py:110 onedesk/public/js/band.js:167
 msgid "Half day"
 msgstr "نصف يوم"
 
@@ -21290,7 +21303,7 @@ msgstr "الحامل"
 
 #: onedesk/one_hr/control.py:90 onedesk/one_hr/control.py:135
 #: onedesk/one_hr/employee.py:105 onedesk/one_hr/employee.py:252
-#: onedesk/one_hr/presence.py:139 onedesk/public/js/band.js:170
+#: onedesk/one_hr/presence.py:138 onedesk/public/js/band.js:170
 msgid "Holiday"
 msgstr "عطلة"
 
@@ -21751,6 +21764,10 @@ msgstr "كم رصيدًا يصبح دولار واحد من كلفة المزو�
 #: onedesk/one_inventory/home.py:104
 msgid "How many days each item takes to buy or make."
 msgstr "كم يومًا يستغرق شراء كل صنف أو تصنيعه."
+
+#: onedesk/one_hr/tour.py:55
+msgid "How many days it takes, how many of its kind are left after it, and who approves it."
+msgstr "كم يومًا تستغرق، وكم يبقى من نوعها بعدها، ومن يعتمدها."
 
 #: onedesk/one_hr/home.py:500
 msgid "How many days of each kind a year gives."
@@ -27584,7 +27601,7 @@ msgstr "تم وضع علامة كمُراجَع"
 msgid "Marked as lost"
 msgstr "تم التحديد كمفقود"
 
-#: onedesk/one_hr/presence.py:214
+#: onedesk/one_hr/presence.py:213
 msgid "Marked present"
 msgstr "مُسجَّل حاضراً"
 
@@ -32290,8 +32307,8 @@ msgstr "معلّق. تم إبلاغ {0} بالسبب."
 msgid "On in this browser"
 msgstr "يعمل في هذا المتصفح"
 
-#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:111
-#: onedesk/one_hr/presence.py:210 onedesk/public/js/band.js:168
+#: onedesk/one_hr/employee.py:120 onedesk/one_hr/presence.py:110
+#: onedesk/one_hr/presence.py:209 onedesk/public/js/band.js:168
 msgid "On leave"
 msgstr "في إجازة"
 
@@ -32558,11 +32575,6 @@ msgstr "خبر واحد في كل مرة"
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:61
 msgid "One Task"
 msgstr "OneTask"
-
-#. Message of a notification
-#: onedesk/one_hr/notifications.py
-msgid "One added it because people kept checking in from it. Reject it if it is wrong."
-msgstr "أضافه One لأن الموظفين ظلوا يسجلون حضورهم منه. ارفضه إن كان خاطئاً."
 
 #. Description of the 'Address' (Data) field in DocType 'Clock Network'
 #: onedesk/one_hr/doctype/clock_network/clock_network.json:28
@@ -34935,7 +34947,7 @@ msgstr "قسيمة عمل إضافي"
 msgid "Overtime Type"
 msgstr "نوع العمل الإضافي"
 
-#: onedesk/one_hr/overtime.py:263
+#: onedesk/one_hr/overtime.py:264
 msgid "Overtime pay cannot be worked out until this employee has a salary structure."
 msgstr "لا يمكن حساب أجر العمل الإضافي قبل إسناد هيكل راتب لهذا الموظف."
 
@@ -44167,7 +44179,7 @@ msgstr "تحديد السعر"
 msgid "Set Reorder Level"
 msgstr "تعيين حد إعادة الطلب"
 
-#: onedesk/one_hr/overtime.py:242
+#: onedesk/one_hr/overtime.py:243
 msgid "Set Standard Working Hours in Attendance Settings before claiming overtime."
 msgstr "اضبط ساعات العمل القياسية في إعدادات الحضور قبل المطالبة بعمل إضافي."
 
@@ -49507,6 +49519,10 @@ msgstr "التاريخ"
 msgid "The Day"
 msgstr "اليوم كاملاً"
 
+#: onedesk/one_hr/tour.py:54
+msgid "The Days Asked For"
+msgstr "الأيام المطلوبة"
+
 #: onedesk/www/start.html:51
 msgid "The European Union keeps the workspace's files in the EU. This cannot be changed later."
 msgstr "اختيار الاتحاد الأوروبي يحفظ ملفات مساحة العمل داخل الاتحاد الأوروبي. لا يمكن تغيير ذلك لاحقًا."
@@ -51590,6 +51606,10 @@ msgstr "أُنهي مفتاح مروره وتكليفات الورديات، ل�
 msgid "Their shift approver, or HR when none is set"
 msgstr "معتمد الورديات، أو الموارد البشرية إن لم يُحدَّد"
 
+#: onedesk/one_hr/tour.py:40
+msgid "Their standing, the leave they have left, what waits on an approver and when they last checked in."
+msgstr "وضعه، والإجازة المتبقية له، وما ينتظر الاعتماد، وآخر تسجيل حضور له."
+
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
 #: onedesk/one_slide/doctype/presentation/presentation.json:56
@@ -52247,7 +52267,7 @@ msgstr "هذه الشبكة تخصك أنت لا مكان عمل."
 msgid "This network is not one you may check in from."
 msgstr "هذه الشبكة ليست من الشبكات التي يجوز لك تسجيل الحضور منها."
 
-#: onedesk/one_hr/overtime.py:268
+#: onedesk/one_hr/overtime.py:269
 msgid "This overtime type has no rate set, so it pays nothing."
 msgstr "لا يوجد سعر محدد لهذا النوع من العمل الإضافي، فلا يدفع شيئاً."
 
@@ -54682,7 +54702,7 @@ msgstr "الوحدات"
 
 #. Option for the 'Paid How' (Select) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:423 onedesk/one_crm/tell.py:89
-#: onedesk/one_hr/presence.py:81
+#: onedesk/one_hr/presence.py:80
 msgid "Unknown"
 msgstr "غير معروف"
 
@@ -58934,6 +58954,10 @@ msgstr "أين يقف"
 #: frontend/src/inventory/home/InventoryStory.vue:9
 msgid "Where Stock Is"
 msgstr "أين المخزون"
+
+#: onedesk/one_hr/tour.py:39
+msgid "Where They Stand"
+msgstr "أين يقف"
 
 #: onedesk/one_legal/tour.py:11
 msgid "Where You Stand"
@@ -64633,12 +64657,12 @@ msgstr "قبل {1} بـ {0} أيام"
 msgid "{0} days late"
 msgstr "متأخرة {0} أيام"
 
-#: onedesk/one_hr/ai.py:918
+#: onedesk/one_hr/ai.py:959
 #, python-brace-format
 msgid "{0} days of {1}."
 msgstr "{0} يوم من {1}."
 
-#: onedesk/one_hr/ai.py:922
+#: onedesk/one_hr/ai.py:963
 #, python-brace-format
 msgid "{0} days of {1}; {2} left after."
 msgstr "{0} يوم من {1}؛ يتبقى بعدها {2}."

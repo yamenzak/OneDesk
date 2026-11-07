@@ -13,6 +13,11 @@
    record or your department, or to HR when there is none. It waits under
    **Your Requests** on Home's Today until it is answered.
 
+![A leave application with its days and what is left after it](leave/leave-application.png)
+
+At the top of an application are its days, how many days of its kind are
+left once it is taken, and who approves it.
+
 You are told the answer, with the approver's note. In the OneAI panel, *Book
 time off* fills in the same application from what you tell it, for you to
 approve. Approved leave that is cancelled later is told to the approver

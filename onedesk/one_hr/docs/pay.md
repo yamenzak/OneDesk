@@ -23,6 +23,8 @@ Assignment** for many at once (below). Then each month:
    books.
 5. **Make Bank Entry** records the net pay leaving the bank.
 
+![A payslip with its gross pay, deductions and net pay](pay/salary-slip.png)
+
 ## The Payroll Screens
 
 **Payroll Entry** says the whole run in one line: *01-08-2026 – 31-08-2026: 5

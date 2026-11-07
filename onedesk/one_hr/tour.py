@@ -32,4 +32,32 @@ HOME = [
 	},
 ]
 
-TOURS = [{"key": "home", "at": "onehr-views", "steps": HOME}]
+EMPLOYEE = [
+	{
+		"target": "record-cards",
+		"side": "bottom",
+		"title": _lt("Where They Stand"),
+		"text": _lt("Their standing, the leave they have left, what waits on an approver and when they last checked in."),
+	},
+	{
+		"target": "record-panel",
+		"side": "left",
+		"title": _lt("For This Person"),
+		"text": _lt("Apply for leave, claim an expense or assign a salary structure for them, and their history is under Activity."),
+	},
+]
+
+LEAVE = [
+	{
+		"target": "record-cards",
+		"side": "bottom",
+		"title": _lt("The Days Asked For"),
+		"text": _lt("How many days it takes, how many of its kind are left after it, and who approves it."),
+	},
+]
+
+TOURS = [
+	{"key": "home", "at": "onehr-views", "steps": HOME},
+	{"key": "employee", "at": "record-employee", "steps": EMPLOYEE},
+	{"key": "leave", "at": "record-leave-application", "steps": LEAVE},
+]

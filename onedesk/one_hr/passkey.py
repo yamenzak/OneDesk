@@ -84,7 +84,7 @@ def _may_register(user: str, employee: str) -> str | None:
 	return at.name
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def finish_registration(credential: str, seen: str | dict | None = None) -> dict:
 	"""Verify what the device made, and keep it."""
 	user = frappe.session.user
@@ -366,7 +366,7 @@ def ask_for_a_reset(why: str | None = None) -> dict:
 	return {"told": len(_hr_users())}
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def reset(employee: str) -> dict:
 	"""HR's one click, and the only way a block is lifted.
 

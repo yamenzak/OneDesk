@@ -1,7 +1,9 @@
 # What OneHR Is
 
-OneHR is HR for one company: people, attendance, leave, pay, expenses, hiring,
-appraisals, and joining and leaving.
+OneHR is HR for every company in the workspace: people, attendance, leave,
+pay, expenses, hiring, appraisals, and joining and leaving.
+
+![OneHR's Home with its figures and charts](overview/home.png)
 
 ## Finding Your Way
 

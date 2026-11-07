@@ -3,6 +3,8 @@
 OneAI works through the whole of hiring, and a person makes every decision.
 Nothing OneAI does changes an applicant's status or contacts the candidate.
 
+![An applicant with the opening they applied for and where they came from](hiring/job-applicant.png)
+
 **Job Opening.** Write **Screening Criteria** — what a strong applicant has, one
 per line. Every applicant is rated against them. OneAI's panel on the opening
 offers **Write this opening**, which drafts the description and the criteria as

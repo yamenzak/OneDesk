@@ -16,6 +16,7 @@ def run(name: str) -> dict:
 	Counted off the slips rather than the `employees` table, because the table is
 	who was *selected* and the slips are what was actually worked out.
 	"""
+	frappe.has_permission("Payroll Entry", "read", name, throw=True)
 	slips = frappe.get_all(
 		"Salary Slip",
 		filters={"payroll_entry": name, "docstatus": ("<", 2)},

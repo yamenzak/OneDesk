@@ -520,7 +520,7 @@ def interview_onload(doc, method=None) -> None:
 	doc.set_onload("one_ai_record", on("one_ai_record"))
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def start_recording(interview: str, agreed: int) -> str:
 	"""A new recording of this interview, once the candidate has agreed."""
 	if not cint(agreed):
@@ -544,7 +544,7 @@ def start_recording(interview: str, agreed: int) -> str:
 	return held.name
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def recorded_part(recording: str, file_name: str, data: str, starts_at: int, seconds: int) -> str:
 	"""One closed part: file its sound on the recording, add it, and transcribe it.
 
@@ -587,7 +587,7 @@ def recorded_part(recording: str, file_name: str, data: str, starts_at: int, sec
 	return row.name
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def stop_recording(recording: str, seconds: int) -> None:
 	"""The interview is over: the length, and the transcript once it is whole."""
 	held = frappe.get_doc("Interview Recording", recording)
@@ -604,7 +604,7 @@ def stop_recording(recording: str, seconds: int) -> None:
 		_finished(recording)
 
 
-@frappe.whitelist()
+@frappe.whitelist(methods=["POST"])
 def transcribe_again(recording: str) -> None:
 	"""Try the parts that failed once more — after a model was picked, say."""
 	held = frappe.get_doc("Interview Recording", recording)
