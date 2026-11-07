@@ -92,6 +92,7 @@ import {
   prompt,
   setQuery,
   historyBack,
+  pushedHere,
   shortcut,
   toast,
   userSettings,
@@ -445,12 +446,8 @@ async function list({ keep = false, more: further = false } = {}) {
   for (const one of [...picked]) if (!here.has(one)) picked.delete(one);
 }
 
-let pushed = false;
 function close() {
-  if (pushed) {
-    pushed = false;
-    return historyBack();
-  }
+  if (pushedHere()) return historyBack();
   thread.value = null;
   messages.value = [];
   draft.value = null;
@@ -465,7 +462,6 @@ async function open(name, { quiet = false, keep = false } = {}) {
   const first = !thread.value && !quiet;
   thread.value = name;
   setQuery("thread", name, { push: first });
-  if (first) pushed = true;
   const answer = await call(API + "conversation", { account: box.value.name, thread: name });
   if (thread.value !== name) return;
   if (!(answer.messages || []).length) return close();
@@ -615,12 +611,12 @@ watch(
   }
 );
 watch(
-  () => props.query.thread,
-  (want) => {
+  () => props.query,
+  (query) => {
+    const want = query.thread;
     if (want && want !== thread.value) open(want, { quiet: true });
     // Back in the browser to the list, as on a phone, closes it.
     if (!want && thread.value) {
-      pushed = false;
       thread.value = null;
       messages.value = [];
     }

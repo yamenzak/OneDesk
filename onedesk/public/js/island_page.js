@@ -87,5 +87,6 @@ onedesk.island_page = (wrapper, { island, title, parent = null, requires = [], h
 			draw_chrome();
 		});
 	$(wrapper).on("show", show);
+	frappe.router.on("change", () => handle && frappe.container.page === wrapper && handle.update(where()));
 	return page;
 };

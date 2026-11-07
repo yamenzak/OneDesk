@@ -306,8 +306,8 @@ export function setQuery(key, value, { push = false } = {}) {
 	const url = new URL(window.location.href);
 	if (value) url.searchParams.set(key, value);
 	else url.searchParams.delete(key);
-	if (push) window.history.pushState(window.history.state, "", url);
-	else window.history.replaceState(window.history.state, "", url);
+	if (push) window.history.pushState({ ...(window.history.state || {}), one_pushed: true }, "", url);
+	else window.history.replaceState(value ? window.history.state : { ...(window.history.state || {}), one_pushed: false }, "", url);
 	// A rail row may name the question (the Address Book's Addresses), so the
 	// rail lights its row again for the new address.
 	frappe().app?.sidebar?.highlight_active_item?.();
@@ -316,6 +316,8 @@ export function setQuery(key, value, { push = false } = {}) {
 }
 
 export const historyBack = () => window.history.back();
+
+export const pushedHere = () => Boolean(window.history.state?.one_pushed);
 
 export function barcode(value, format, options = {}) {
 	const control = frappe().ui.form.make_control({

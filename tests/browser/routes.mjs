@@ -39,6 +39,17 @@ const standing = (page) =>
 		return { where: location.pathname + location.search, shell, wrong };
 	});
 
+const INSIDE = {
+	OneMail: { open: "[role=option]", back: "[data-tour=onemail-list]" },
+};
+
+const island = (page, selector) =>
+	page.evaluate((selector) => {
+		const root = [...document.querySelectorAll(".frappe-island")].map((one) => one.shadowRoot).find((one) => one && one.querySelector(selector));
+		const found = root && root.querySelector(selector);
+		return found ? { shown: !!found.offsetParent } : null;
+	}, selector);
+
 const failed = [];
 const page = await context.newPage();
 let here = "Home";
@@ -62,6 +73,21 @@ for (const app of apps.filter((one) => !ONLY || one.toLowerCase().includes(ONLY)
 	await page.locator(`.dock-items .dock-item[aria-label="${app}"]`).first().click();
 	await settle(page);
 	const opened = await look("opened");
+	const inside = INSIDE[app];
+	if (inside && (await island(page, inside.open))) {
+		const before = await standing(page);
+		await page.evaluate((selector) => {
+			const root = [...document.querySelectorAll(".frappe-island")].map((one) => one.shadowRoot).find((one) => one && one.querySelector(selector));
+			root.querySelector(selector).click();
+		}, inside.open);
+		await settle(page);
+		await look("opened one");
+		await page.goBack();
+		await settle(page);
+		const after = await look("Back from it");
+		if (after.where !== before.where) failed.push(`${app}: Back from what it opened went to ${after.where}, not ${before.where}`);
+		if (!(await island(page, inside.back))?.shown) failed.push(`${app}: Back from what it opened changed the address but left it on screen`);
+	}
 	const hrefs = await page.evaluate(
 		(count) =>
 			[...document.querySelectorAll(".body-sidebar a.item-anchor[href^='/desk/']")]
