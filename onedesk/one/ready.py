@@ -164,11 +164,11 @@ MODULES = {
 		"ready": True,
 		"companies": ("Project", "Timesheet"),
 		"checked": {
-			"copy": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-06", "commit": "18161bb9ffa6", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "b77156875045", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "b77156875045", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "b77156875045", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "b77156875045", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "b77156875045", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
