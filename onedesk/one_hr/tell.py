@@ -171,6 +171,29 @@ def _attendance(doc) -> dict:
 	}
 
 
+def advance_asked(doc, method=None) -> None:
+	"""Employee Advance after_insert: an advance somebody asked for
+	themselves is told to their expense approver, or HR when none is set."""
+	if frappe.flags.in_import or frappe.flags.in_install or frappe.flags.in_migrate:
+		return
+	user = frappe.db.get_value("Employee", doc.employee, "user_id")
+	if not user or user != frappe.session.user:
+		return
+	approver = frappe.db.get_value("Employee", doc.employee, "expense_approver")
+	people = [one for one in ([approver] if approver else _hr()) if one != user]
+	if not people:
+		return
+	notify.notify(
+		"Advance Asked",
+		people,
+		record=("Employee Advance", doc.name),
+		sender=user,
+		employee=doc.employee_name,
+		amount=doc.get_formatted("advance_amount"),
+		purpose=doc.purpose or _("an advance"),
+	)
+
+
 def _hr() -> list[str]:
 	from onedesk.one.people import NOT_PEOPLE
 

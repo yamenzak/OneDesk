@@ -520,3 +520,38 @@ def write_up_call(
 	call.pop("doctype")
 	call.update(start_time=str(call["start_time"].replace(microsecond=0)), end_time=str(call["end_time"].replace(microsecond=0)))
 	return {"proposal": proposals.propose("Create", "Call Log", changes=call), "state": "Proposed"}
+
+
+def quotes_waiting(
+	within_days: Annotated[int, "Only those whose last day falls within this many days; all if none."] | None = None,
+) -> dict:
+	"""The reader's company's quotations still waiting for the customer's
+	answer (open or replied), soonest last day first, each with its customer,
+	total and how many days it has left. Read it before saying which quotes
+	are open, waiting or running out."""
+	from erpnext import get_default_company
+
+	filters = [["docstatus", "=", 1], ["status", "in", ["Open", "Replied"]], ["company", "=", get_default_company()]]
+	if within_days is not None:
+		filters += [["valid_till", "is", "set"], ["valid_till", "<=", add_days(today(), cint(within_days))]]
+	rows = frappe.get_list(
+		"Quotation",
+		filters=filters,
+		fields=["name", "customer_name", "party_name", "grand_total", "currency", "valid_till", "status", "transaction_date"],
+		order_by="valid_till asc",
+		limit_page_length=50,
+	)
+	return {
+		"quotations": [
+			{
+				"quotation": one.name,
+				"customer": one.customer_name or one.party_name,
+				"total": flt(one.grand_total),
+				"currency": one.currency,
+				"status": one.status,
+				"valid_till": str(one.valid_till) if one.valid_till else None,
+				"days_left": (getdate(one.valid_till) - getdate(today())).days if one.valid_till else None,
+			}
+			for one in rows
+		]
+	}

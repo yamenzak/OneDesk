@@ -245,3 +245,26 @@ def bank_to_match() -> dict:
 		return {"error": "The reader may not see bank transactions."}
 	said = home._bank()
 	return {"accounts": said["rows"], "lines": said["count"]}
+
+
+def tax_now(
+	from_date: Annotated[str, "The first day, as YYYY-MM-DD; this quarter's first day if none."] | None = None,
+	to_date: Annotated[str, "The last day, as YYYY-MM-DD; today if none."] | None = None,
+) -> dict:
+	"""The tax return for the reader's company and a period, as Financial
+	Reports › Tax Return draws it: the tax charged on sales, the tax paid on
+	bills and expense claims, each by account and rate, and what is left to
+	pay or reclaim. Read it before saying anything about tax owed."""
+	from erpnext import get_company_currency, get_default_company
+
+	from onedesk.one_book.report.tax_return import tax_return
+
+	company = get_default_company()
+	_columns, lines = tax_return.execute({"company": company, "from_date": from_date, "to_date": to_date})
+	return {
+		"company": company,
+		"currency": get_company_currency(company),
+		"from_date": str(getdate(from_date)) if from_date else None,
+		"to_date": str(getdate(to_date or nowdate())),
+		"lines": [{key: one[key] for key in ("line", "rate", "taxable", "tax") if one.get(key) not in (None, "")} for one in lines],
+	}

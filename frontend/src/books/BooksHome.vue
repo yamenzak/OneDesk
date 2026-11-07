@@ -76,7 +76,7 @@ const soon = () => {
   clearTimeout(timer);
   timer = setTimeout(load, 800);
 };
-const stop = ["Sales Invoice", "Purchase Invoice", "Payment Entry", "Journal Entry", "Bank Transaction", "GL Entry", "Account"].map((one) => followList(one, soon));
+const stop = ["Sales Invoice", "Purchase Invoice", "Payment Entry", "Journal Entry", "Bank Transaction", "GL Entry", "Account", "Expense Claim", "Employee Advance"].map((one) => followList(one, soon));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);
@@ -99,7 +99,7 @@ const views = computed(() => [
 const needed = computed(() => {
   const n = said.value?.needs;
   if (!n) return 0;
-  return n.overdue.count + n.bills.count + n.bank.count + n.drafts.reduce((sum, one) => sum + one.count, 0);
+  return n.overdue.count + n.bills.count + n.bank.count + (n.people?.count || 0) + n.drafts.reduce((sum, one) => sum + one.count, 0);
 });
 
 const CARDS = () => [
@@ -147,6 +147,7 @@ const chips = computed(() => {
     n.overdue.count && { key: "overdue", tone: "late", icon: "lucide-file-warning", label: n.overdue.count === 1 ? __("1 Overdue Sales Invoice") : __("{0} Overdue Sales Invoices", [n.overdue.count]) },
     n.bills.count && { key: "bills", tone: "soon", icon: "lucide-receipt", label: n.bills.count === 1 ? __("1 Purchase Invoice Due") : __("{0} Purchase Invoices Due", [n.bills.count]) },
     n.bank.count && { key: "bank", tone: "soon", icon: "lucide-landmark", label: n.bank.count === 1 ? __("1 Unreconciled Bank Transaction") : __("{0} Unreconciled Bank Transactions", [n.bank.count]) },
+    n.people?.count && { key: "people", tone: "soon", icon: "lucide-hand-coins", label: n.people.count === 1 ? __("1 Claim or Advance to Pay") : __("{0} Claims and Advances to Pay", [n.people.count]) },
     drafts && { key: "drafts", tone: "left", icon: "lucide-file-pen-line", label: drafts === 1 ? __("1 Draft Left") : __("{0} Drafts Left", [drafts]) },
   ].filter(Boolean);
 });
@@ -235,6 +236,23 @@ const parts = computed(() => {
         route: `/desk/bank-transaction?status=Unreconciled${one.bank_account ? `&bank_account=${encodeURIComponent(one.bank_account)}` : ""}`,
       })),
     });
+  if (n.people?.count)
+    out.push({
+      key: "people",
+      title: __("To Pay to Employees"),
+      icon: "lucide-hand-coins",
+      count: n.people.count,
+      rows: n.people.rows.map((one) => ({
+        key: one.name,
+        label: one.employee,
+        sub: one.name,
+        dot: "amber",
+        value: money(one.owed, one.currency),
+        under: __(one.doctype),
+        route: `/desk/${slug(one.doctype)}/${encodeURIComponent(one.name)}`,
+      })),
+      more: more(n.people, __("Expense Claim"), "/desk/expense-claim?status=Unpaid&approval_status=Approved"),
+    });
   if (n.drafts.length)
     out.push({
       key: "drafts",
@@ -273,7 +291,7 @@ function extended(s) {
   const places = onedesk().places;
   if (!places?.listening("onebook_home.shown")) return;
   const n = s.needs;
-  const data = { home: { overdue: n.overdue.count, bills: n.bills.count, bank: n.bank.count, drafts: n.drafts.reduce((sum, one) => sum + one.count, 0) } };
+  const data = { home: { overdue: n.overdue.count, bills: n.bills.count, bank: n.bank.count, people: n.people?.count || 0, drafts: n.drafts.reduce((sum, one) => sum + one.count, 0) } };
   const now = JSON.stringify(data);
   if (now === drawn) return;
   drawn = now;

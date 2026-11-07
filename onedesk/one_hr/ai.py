@@ -829,6 +829,75 @@ def people_today() -> dict:
 	}
 
 
+def whos_off(
+	from_date: Annotated[str, "The first day, as YYYY-MM-DD."],
+	to_date: Annotated[str, "The last day, as YYYY-MM-DD."],
+) -> dict:
+	"""Everybody in the reader's company on leave on any day between two
+	dates, approved or still asked for, as the reader may see them, with the
+	kind and the days. Read it before saying who is off on days to come."""
+	from erpnext import get_default_company
+
+	rows = frappe.get_list(
+		"Leave Application",
+		filters=[
+			["company", "=", get_default_company()],
+			["status", "in", ["Approved", "Open"]],
+			["docstatus", "<", 2],
+			["from_date", "<=", to_date],
+			["to_date", ">=", from_date],
+		],
+		fields=["employee_name", "leave_type", "from_date", "to_date", "status", "half_day"],
+		order_by="from_date asc",
+		limit_page_length=100,
+	)
+	return {
+		"off": [
+			{
+				"employee": one.employee_name,
+				"kind": one.leave_type,
+				"from": str(one.from_date),
+				"to": str(one.to_date),
+				"approved": one.status == "Approved",
+				"half_day": bool(one.half_day),
+			}
+			for one in rows
+		]
+	}
+
+
+def papers_expiring(
+	days: Annotated[int, "How many days ahead to look; 30 if none."] | None = None,
+) -> dict:
+	"""Passports, visas, permits and the rest on the records of the reader's
+	company's active employees that expire within the days given, soonest
+	first, with their number. Read it before saying whose papers run out."""
+	from erpnext import get_default_company
+
+	until = add_days(today(), int(days or 30))
+	people = {
+		one.name: one.employee_name
+		for one in frappe.get_list(
+			"Employee",
+			filters={"status": "Active", "company": get_default_company()},
+			fields=["name", "employee_name"],
+			limit_page_length=0,
+		)
+	}
+	rows = frappe.get_all(
+		"Employee Document",
+		filters={"parenttype": "Employee", "parent": ["in", list(people) or [""]], "expires_on": ["between", [today(), str(until)]]},
+		fields=["parent", "document_type", "number", "expires_on"],
+		order_by="expires_on asc",
+	)
+	return {
+		"expiring": [
+			{"employee": people[one.parent], "document": one.document_type, "number": one.number, "expires_on": str(one.expires_on)}
+			for one in rows
+		]
+	}
+
+
 def my_leave(
 	from_date: Annotated[str, "The first day asked about, as YYYY-MM-DD, if the person named one."] | None = None,
 	to_date: Annotated[str, "The last day asked about, as YYYY-MM-DD."] | None = None,

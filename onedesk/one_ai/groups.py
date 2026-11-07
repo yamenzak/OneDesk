@@ -114,20 +114,20 @@ GROUPS = {
 		),
 	},
 	"crm": {
-		"about": "sales: deals and leads, what has gone quiet, why deals are lost, next steps, writing up a call",
-		"tools": ("crm_facts", "gone_quiet", "why_we_lose", "add_lead", "plan_next_step", "write_up_call"),
+		"about": "sales: deals and leads, what has gone quiet, why deals are lost, next steps, writing up a call, quotations waiting for an answer or running out",
+		"tools": ("crm_facts", "gone_quiet", "why_we_lose", "add_lead", "plan_next_step", "write_up_call", "quotes_waiting"),
 		"words": (
-			"deal", "lead", "pipeline", "opportunit", "prospect", "sales", "call", "verkauf", "kunde", "angebot",
-			"صفقة", "عميل", "مبيعات", "عملاء",
+			"deal", "lead", "pipeline", "opportunit", "prospect", "sales", "call", "quotation", "quote", "verkauf", "kunde", "angebot",
+			"صفقة", "عميل", "مبيعات", "عملاء", "عرض سعر", "عروض", "الأسعار",
 		),
 	},
 	"books": {
-		"about": "money: how the money is doing, cash, what customers owe and how late, what we owe and what falls due this week, profit, one invoice and what settled it, drafting a payment reminder, bank lines still to match",
-		"tools": ("money_now", "late_invoices", "invoice_facts", "bank_to_match"),
+		"about": "money: how the money is doing, cash, what customers owe and how late, what we owe and what falls due this week, profit, one invoice and what settled it, drafting a payment reminder, bank lines still to match, tax owed for a period",
+		"tools": ("money_now", "late_invoices", "invoice_facts", "bank_to_match", "tax_now"),
 		"words": (
 			"money", "cash", "invoice", "bill", "owe", "overdue", "paid", "payment", "profit", "bank", "receivable",
-			"payable", "rechnung", "zahlung", "gewinn", "schuld", "überfällig", "bargeld", "fällig",
-			"فاتورة", "فواتير", "دفع", "ربح", "بنك", "مستحق", "يدين", "يدينون", "ديون", "دين", "نقد", "متأخر", "مبلغ", "دفعة",
+			"payable", "tax", "rechnung", "zahlung", "gewinn", "schuld", "überfällig", "bargeld", "fällig", "steuer",
+			"ضريبة", "فاتورة", "فواتير", "دفع", "ربح", "بنك", "مستحق", "يدين", "يدينون", "ديون", "دين", "نقد", "متأخر", "مبلغ", "دفعة",
 		),
 	},
 	"projects": {
@@ -182,9 +182,11 @@ GROUPS = {
 		),
 	},
 	"hr": {
-		"about": "people: who is in, late or off today, appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
+		"about": "people: who is in, late or off today, who is on leave on days to come, whose papers expire, appraisals, why people leave, hiring and interviews, payroll changes, letters, HR policy, goals and training",
 		"tools": (
 			"people_today",
+			"whos_off",
+			"papers_expiring",
 			"appraisal_facts",
 			"why_people_leave",
 			"interview_facts",

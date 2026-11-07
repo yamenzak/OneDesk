@@ -1,6 +1,15 @@
 frappe.query_reports["Tax Return"] = {
 	filters: [
 		{
+			fieldname: "company",
+			label: __("Company"),
+			fieldtype: "Link",
+			options: "Company",
+			reqd: 1,
+			hidden: frappe.boot.one_companies ? 0 : 1,
+			default: frappe.defaults.get_user_default("company"),
+		},
+		{
 			fieldname: "from_date",
 			label: __("From Date"),
 			fieldtype: "Date",

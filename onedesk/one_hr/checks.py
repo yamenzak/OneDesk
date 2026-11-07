@@ -786,3 +786,38 @@ def onehr_a_person_reads_their_own_their_crews_and_what_they_decide():
 		assert decided <= set(frappe.get_list("Leave Application", pluck="name"))
 	with as_user("mariam@one.test"):
 		assert set(frappe.get_list("Leave Application", pluck="name")) == every
+
+
+@check
+def onehr_an_advance_asked_for_reaches_its_approver():
+	"""Somebody asking for an advance themselves is heard by their expense
+	approver, or HR; HR making one for them tells nobody."""
+	from unittest.mock import patch
+
+	told = []
+	nadia = frappe.db.get_value("Employee", {"user_id": "nadia@one.test"})
+	approver = frappe.db.get_value("Employee", nadia, "expense_approver")
+	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, users))):
+		with as_user("nadia@one.test"):
+			frappe.get_doc({"doctype": "Employee Advance", "employee": nadia, "purpose": "Showroom samples", "advance_amount": 400, "exchange_rate": 1, "advance_account": frappe.db.get_value("Employee Advance", {"company": COMPANY}, "advance_account")}).insert()
+		with as_user("mariam@one.test"):
+			frappe.get_doc({"doctype": "Employee Advance", "employee": nadia, "purpose": "Trade fair", "advance_amount": 300, "exchange_rate": 1, "advance_account": frappe.db.get_value("Employee Advance", {"company": COMPANY}, "advance_account")}).insert()
+	asked = [one for one in told if one[0] == "Advance Asked"]
+	assert len(asked) == 1 and "nadia@one.test" not in asked[0][1], told
+	assert not approver or asked[0][1] == [approver], (approver, asked)
+
+
+@check
+def onehr_oneai_reads_who_is_off_and_whose_papers_run_out():
+	"""OneAI's whos_off lists the leave across days to come, approved or
+	asked for, and papers_expiring the documents running out, both the
+	reader's company's."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one_hr import ai
+
+	with as_user("mariam@one.test"):
+		off = ai.whos_off(today(), add_days(today(), 60))["off"]
+		papers = ai.papers_expiring(400)["expiring"]
+	assert off and any(not one["approved"] for one in off), off
+	assert all(one["expires_on"] >= today() for one in papers), papers

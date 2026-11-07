@@ -1,6 +1,7 @@
 """What OneCRM tells people: the next step on a lead or an opportunity come
-due, to its owner, and a quotation a customer accepted or declined on the
-portal, to whoever made it. Every notification's words are its file in
+due, to its owner, an issue whose first answer is late, to whoever has it,
+and a quotation a customer accepted or declined on the portal, to whoever
+made it. Every notification's words are its file in
 notifications/one_crm/."""
 
 from datetime import timedelta
@@ -49,6 +50,49 @@ def due() -> None:
 				title=one.title or one.name,
 				kind=_lt(doctype),
 			)
+
+
+def answers_late() -> None:
+	"""Every five minutes: an open issue whose first answer was due in the
+	last day and has not come, told once to whoever it is assigned to, else
+	to the support team."""
+	now = now_datetime()
+	for one in frappe.get_all(
+		"Issue",
+		filters=[
+			["status", "=", "Open"],
+			["response_by", "is", "set"],
+			["response_by", ">", now - BACK],
+			["response_by", "<=", now],
+			["first_responded_on", "is", "not set"],
+		],
+		fields=["name", "subject", "customer", "response_by", "_assign"],
+	):
+		key = f"one_crm:answer_late:{one.name}:{one.response_by}"
+		if frappe.cache.get_value(key):
+			continue
+		frappe.cache.set_value(key, 1, expires_in_sec=int(BACK.total_seconds()) * 2)
+		people = frappe.parse_json(one._assign or "[]") or _support()
+		if not people:
+			continue
+		notify.notify(
+			"Issue Answer Late",
+			people,
+			record=("Issue", one.name),
+			sender="Administrator",
+			title=one.subject or one.name,
+			due=frappe.utils.format_datetime(one.response_by, "d MMM, HH:mm"),
+			customer=one.customer or "",
+		)
+
+
+def _support() -> list[str]:
+	return frappe.get_all(
+		"Has Role",
+		filters={"role": "Support Team", "parenttype": "User", "parent": ["not in", ["Administrator", "Guest"]]},
+		pluck="parent",
+		distinct=True,
+	)
 
 
 def given(doc, method=None) -> None:
@@ -119,13 +163,16 @@ def _title(doc) -> str:
 
 
 def _sellers(quotation) -> list[str]:
-	"""Whoever made the quotation and the opportunity's owner, while they can
-	sign in; the sales managers when neither can."""
+	"""Whoever made the quotation, the opportunity's owner and, for a
+	project's extra work, the project's manager, while they can sign in; the
+	sales managers when none can."""
 	from frappe.utils.user import get_users_with_role
 
 	people = [quotation.owner]
 	if quotation.get("opportunity"):
 		people.append(frappe.db.get_value("Opportunity", quotation.opportunity, "opportunity_owner"))
+	if quotation.get("project"):
+		people.append(frappe.db.get_value("Project", quotation.project, "one_manager"))
 	found = frappe.get_all(
 		"User", filters={"name": ["in", [one for one in people if one]], "enabled": 1}, pluck="name"
 	)

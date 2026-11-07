@@ -533,3 +533,21 @@ def onebook_riyadh_keeps_its_own_books():
 	with as_user("huda@one.test"):
 		assert invoice.name not in frappe.get_list("Sales Invoice", pluck="name", limit_page_length=0)
 		assert bill.name not in frappe.get_list("Purchase Invoice", pluck="name", limit_page_length=0)
+
+
+@check
+def onebook_oneai_reads_the_tax_return_of_one_company():
+	"""OneAI's tax_now is Tax Return for the reader's company: with Riyadh
+	worked in, Dubai's VAT is not in it."""
+	from onedesk.one_book import ai
+
+	with as_user("huda@one.test"):
+		dubai = ai.tax_now(from_date="2026-01-01")
+		frappe.defaults.set_user_default("company", "Sahara Glass Saudi")
+		try:
+			riyadh = ai.tax_now(from_date="2026-01-01")
+		finally:
+			frappe.defaults.set_user_default("company", "Sahara Glass & Aluminium")
+	charged = lambda said: next(one["tax"] for one in said["lines"] if one["line"] == "Total charged")
+	assert dubai["currency"] == "AED" and riyadh["currency"] == "SAR", (dubai["currency"], riyadh["currency"])
+	assert charged(dubai) > 0 and charged(riyadh) != charged(dubai), (charged(dubai), charged(riyadh))

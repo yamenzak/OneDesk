@@ -269,6 +269,36 @@ Each screen in scope gets these, whichever kind its app is.
   `<` filter on a date that may be empty matches it; ask `is set` first.
   Three jobs did harm this way in one week.
 
+### 5. What is missing, from the jobs
+
+The lists above check what exists. These four start from each role's work
+and ask what should exist and does not; every pass of a module runs them,
+because nothing missing is found by reading what is there. For each role
+the module serves (the `ux` skill's demo users), write its jobs first:
+what it does every day, what it waits on, what it hands on.
+
+- **Notifications.** Every moment somebody waits on somebody else has a
+  type: something to approve or answer, an answer given, something due,
+  late or expiring, a hand-off. List the moments per role, then the module's
+  `notifications.py` TYPES beside them; a moment without a type is a
+  finding, and so is a type nobody waits on.
+- **Who may read what.** For each record type, the rule Who Can Do What
+  promises (own, the reports', the approver's, HR, accounts) tried as one
+  demo user per role with `frappe.get_list` and `has_permission`: a person
+  reading more than the rule says is a leak, one refused what their job
+  needs is a wall. *Found:* every manager of another app read everybody's
+  leave and claims, because "All" reads Leave Application.
+- **OneAI.** For each role, five questions it asks every day and three
+  things it wants done. Each is a tool, an eval in `one_ai/evals.py` in
+  English and one in Arabic or German, or a NOT_FOR_AI reason. *Found:*
+  HR could not ask who is in today.
+- **Quick actions.** On each record a role opens daily, the next thing it
+  makes or opens from it is one click in the panel: the registry's
+  `links` (new, list, or the record a field names, open). An invoice's
+  payment, a customer's quotation, an employee's leave. frappe's own
+  Create menu and Connections count; a job that needs a trip to the list
+  and the record picked again is a finding.
+
 ## Each item, in this order
 
 1. **Make it real.** Seed demo data if it is empty; sign in as the person

@@ -1,5 +1,6 @@
 """Tax charged on invoices against tax paid on bills and expense claims, by
-tax account and rate, for a period, and what is left to pay or reclaim.
+tax account and rate, for one company and a period, and what is left to pay
+or reclaim.
 """
 
 import frappe
@@ -20,13 +21,16 @@ SOURCES = (
 
 
 def execute(filters=None):
+	from erpnext import get_default_company
+
 	filters = frappe._dict(filters or {})
 	start = getdate(filters.from_date or get_quarter_start(nowdate()))
 	end = getdate(filters.to_date or nowdate())
+	company = filters.company or get_default_company()
 	rows = []
 	for section, parent, child, taxable, extra in SOURCES:
 		if frappe.db.table_exists(child) and frappe.has_permission(parent, "read"):
-			rows += _rows(section, parent, child, taxable, extra, start, end)
+			rows += _rows(section, parent, child, taxable, extra, start, end, company)
 	return columns(), lines(rows)
 
 
@@ -39,16 +43,17 @@ def columns() -> list[dict]:
 	]
 
 
-def _rows(section, parent, child, taxable, extra, start, end) -> list[dict]:
+def _rows(section, parent, child, taxable, extra, start, end, company) -> list[dict]:
 	amount = "tax.base_tax_amount" if child == "Expense Taxes and Charges" else "tax.base_tax_amount_after_discount_amount"
 	found = frappe.db.sql(
 		f"""select tax.account_head as account, tax.rate as rate,
 			sum({amount}) as tax, sum(doc.{taxable}) as taxable, '{parent}' as source
 		from `tab{child}` tax join `tab{parent}` doc on doc.name = tax.parent
 		where tax.parenttype = %(parent)s and doc.docstatus = 1
+			and doc.company = %(company)s
 			and doc.posting_date between %(start)s and %(end)s {extra}
 		group by tax.account_head, tax.rate""",
-		{"parent": parent, "start": start, "end": end},
+		{"parent": parent, "start": start, "end": end, "company": company},
 		as_dict=True,
 	)
 	return [dict(one, section=section) for one in found]

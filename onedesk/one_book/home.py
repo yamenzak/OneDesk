@@ -444,13 +444,15 @@ def _kept(rows: list) -> dict:
 
 
 def needs_you() -> dict:
-	"""Invoices overdue, bills due this week or late, bank lines to match and
-	drafts left more than a day, each as the reader may see them."""
+	"""Invoices overdue, bills due this week or late, bank lines to match,
+	approved claims and advances still to pay their employees, and drafts left
+	more than a day, each as the reader may see them."""
 	day = getdate(nowdate())
 	return {
 		"overdue": _kept(_late("Sales Invoice", "customer", yesterday(), day)),
 		"bills": {**_kept(_late("Purchase Invoice", "supplier", this_week(), day)), "until": str(this_week())},
 		"bank": _bank(),
+		"people": _to_people(),
 		"drafts": drafts(),
 	}
 
@@ -505,6 +507,31 @@ def _bank() -> dict:
 		"rows": [{"bank_account": one.bank_account, "lines": one.lines, "amount": flt(one.amount)} for one in rows],
 		"count": sum(one.lines for one in rows),
 	}
+
+
+def _to_people() -> dict:
+	"""Approved expense claims not yet paid back and employee advances not yet
+	paid out, the reader's company's, oldest first."""
+	rows = []
+	if frappe.has_permission("Expense Claim", "read"):
+		for one in frappe.get_list(
+			"Expense Claim",
+			filters={"docstatus": 1, "approval_status": "Approved", "status": ["in", ["Unpaid", "Partially Paid"]], "company": _company()},
+			fields=["name", "employee_name", "grand_total", "total_amount_reimbursed", "posting_date", "currency"],
+			order_by="posting_date asc",
+			limit_page_length=0,
+		):
+			rows.append({"doctype": "Expense Claim", "name": one.name, "employee": one.employee_name, "owed": flt(one.grand_total) - flt(one.total_amount_reimbursed), "since": str(one.posting_date), "currency": one.currency})
+	if frappe.has_permission("Employee Advance", "read"):
+		for one in frappe.get_list(
+			"Employee Advance",
+			filters={"docstatus": 1, "status": "Unpaid", "company": _company()},
+			fields=["name", "employee_name", "advance_amount", "paid_amount", "posting_date", "currency"],
+			order_by="posting_date asc",
+			limit_page_length=0,
+		):
+			rows.append({"doctype": "Employee Advance", "name": one.name, "employee": one.employee_name, "owed": flt(one.advance_amount) - flt(one.paid_amount), "since": str(one.posting_date), "currency": one.currency})
+	return {"rows": rows[:FEW], "count": len(rows)}
 
 
 DRAFTS = (

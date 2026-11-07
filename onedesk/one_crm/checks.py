@@ -253,3 +253,38 @@ def onecrm_riyadh_keeps_its_own_pipeline():
 	with as_user("omar@one.test"):
 		assert deal not in frappe.get_list("Opportunity", pluck="name", limit_page_length=0)
 		assert quote not in frappe.get_list("Quotation", pluck="name", limit_page_length=0)
+
+
+@check
+def onecrm_an_issue_late_for_its_first_answer_is_told():
+	"""An open issue whose first answer was due an hour ago and has not come
+	is told, once, to the support team when nobody has it."""
+	from unittest.mock import patch
+
+	from frappe.utils import add_to_date, now_datetime
+
+	from onedesk.one_crm import tell
+
+	issue = frappe.db.get_value("Issue", {"status": "Open", "first_responded_on": ["is", "not set"]})
+	assert issue, "the demo has an open issue nobody answered"
+	frappe.db.set_value("Issue", issue, {"response_by": add_to_date(now_datetime(), hours=-1), "_assign": None}, update_modified=False)
+	frappe.cache.delete_keys("one_crm:answer_late:")
+	told = []
+	with patch("onedesk.one.notify.notify", side_effect=lambda name, users, **said: told.append((name, users, said))):
+		tell.answers_late()
+		tell.answers_late()
+	late = [one for one in told if one[0] == "Issue Answer Late"]
+	assert len(late) == 1 and set(late[0][1]) == set(tell._support()), told
+
+
+@check
+def onecrm_oneai_lists_the_quotations_still_waiting():
+	"""OneAI's quotes_waiting lists the reader's company's open and replied
+	quotations, soonest last day first."""
+	from onedesk.one_crm import ai
+
+	with as_user("omar@one.test"):
+		said = ai.quotes_waiting()["quotations"]
+	assert said and all(one["status"] in ("Open", "Replied") for one in said), said
+	days = [one["days_left"] for one in said if one["days_left"] is not None]
+	assert days == sorted(days), days

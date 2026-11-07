@@ -46,7 +46,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | one_home (`frontend/src/one/Home.vue`) | Email Account | – | – | – |
 | home (`frontend/src/inventory/home/InventoryHome.vue`) | Asset, Asset Maintenance, Asset Maintenance Log, Bin, Item, Material Request, Purchase Order, Purchase Receipt, Stock Ledger Entry, Warehouse | – | – | – |
 | head (`frontend/src/interface/RecordHead.vue`) | – | – | – | – |
-| books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, GL Entry, Payment Schedule | – | – | – |
+| books (`frontend/src/books/BooksHome.vue`) | Account, Bank Transaction, Employee Advance, Expense Claim, GL Entry, Payment Schedule | – | – | – |
 | crm (`frontend/src/crm/CrmHome.vue`) | Lead, Opportunity, Opportunity Lost Reason Detail, Quotation | – | – | – |
 | hr (`frontend/src/hr/HrHome.vue`) | Attendance, Clock Attempt, Employee, Employee Checkin, Employee Document, Expense Claim, Expense Claim Detail, Interview, Interview Detail, Job Applicant, Job Offer, Job Opening, Leave Allocation, Leave Application, Leave Period, Salary Slip | – | – | – |
 | to_order (`frontend/src/inventory/to_order/ToOrderPage.vue`) | Bin, Item, Item Reorder, Material Request, Material Request Item, Project, Purchase Order, Purchase Order Item, Supplier, UOM, Warehouse | – | – | – |
@@ -341,7 +341,7 @@ Reports: Electronic Invoice Register (under a list's related reports (Sales Invo
 | Party Specific Item | on a rail or a home | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
 | Product Bundle | through a form's link (Delivery Note: product_bundle) | OneCRM, OneInventory | untouched | yes | general |  | **none** |  |  |  |  |
 | Proforma Invoice | through a form's connections (Sales Order's Connections) | OneCRM | untouched | yes | general |  | **none** | ours |  |  |  |
-| Quotation | on a rail or a home | OneCRM | a head, events, form script, 3 fields, 2 settings | yes | general | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
+| Quotation | on a rail or a home | OneCRM | a head, events, form script, 3 fields, 2 settings | yes | taught | makes it | yes |  |  |  | Quotation Declined, Quotation Running Out |
 | SMS Center | left out: sends through SMS Settings, which waits in docs/BACKLOG.md | OneCRM | untouched | no | general |  |  |  |  |  |  |
 | Sales Order | on a rail or a home | OneBook, OneCRM, OneInventory | a head, events, form script, list script, 7 fields, 5 settings | yes | taught | makes it | yes | ours |  |  | Delivery Late, Quotation Accepted |
 | Sales Partner Type | through a form's link (Sales Partner: partner_type) | OneCRM | untouched | yes | general |  | yes |  |  |  |  |
@@ -453,7 +453,7 @@ Reports: Subcontracted Items To Be Delivered (under a list's related reports (Su
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Issue | on a rail or a home | OneCRM | list script | yes | taught |  | yes |  |  |  |  |
+| Issue | on a rail or a home | OneCRM | list script | yes | taught |  | yes |  |  |  | Issue Answer Late |
 | Issue Priority | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Issue Type | on a rail or a home | OneCRM, the administrator | untouched | yes | general |  | yes |  |  |  |  |
 | Service Level Agreement | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
@@ -793,7 +793,7 @@ Pages: workflow-builder (opened by our screens).
 | Attendance | on a rail or a home | everybody | a head, events, form script, list script, 5 settings | yes | taught |  | yes |  |  |  |  |
 | Attendance Request | on a rail or a home | everybody | a head, events, form script, 7 fields, 6 settings | yes | general |  | yes |  |  |  |  |
 | Compensatory Leave Request | through a form's connections (Leave Allocation's Connections) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| Employee Advance | on a rail or a home | everybody | a head, 1 settings | yes | general |  | yes |  |  |  |  |
+| Employee Advance | on a rail or a home | everybody | a head, events, 1 settings | yes | general |  | yes |  |  |  | Advance Asked |
 | Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |  |  |  | ar 5, de 4 |  |
 | Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 4 settings | yes | general |  | yes |  |  |  | Check-in Closed for You |
 | Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
