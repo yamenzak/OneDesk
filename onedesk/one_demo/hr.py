@@ -37,6 +37,9 @@ def _employee(first):
 	return frappe.db.get_value("Employee", {"first_name": first})
 
 
+ENCASHED_DAY = 250
+
+
 def _pay():
 	for name, abbr, kind in (("Basic Salary", "BS", "Earning"), ("Housing Allowance", "HA", "Earning"), ("Transport Allowance", "TA", "Earning")):
 		if not frappe.db.exists("Salary Component", name):
@@ -52,6 +55,7 @@ def _pay():
 				"currency": "AED",
 				"payroll_frequency": "Monthly",
 				"is_active": "Yes",
+				"leave_encashment_amount_per_day": ENCASHED_DAY,
 				"earnings": [
 					{"salary_component": "Basic Salary", "abbr": "BS", "amount_based_on_formula": 1, "formula": "base * 0.6"},
 					{"salary_component": "Housing Allowance", "abbr": "HA", "amount_based_on_formula": 1, "formula": "base * 0.25"},
@@ -60,6 +64,8 @@ def _pay():
 			},
 			submit=True,
 		)
+	if not frappe.db.get_value("Salary Structure", structure, "leave_encashment_amount_per_day"):
+		frappe.db.set_value("Salary Structure", structure, "leave_encashment_amount_per_day", ENCASHED_DAY)
 	if not frappe.db.exists("Salary Component", HOURS):
 		make({"doctype": "Salary Component", "salary_component": HOURS, "salary_component_abbr": "HW", "type": "Earning"})
 	if not frappe.db.exists("Salary Structure", HOURLY):
@@ -111,7 +117,7 @@ def _payroll():
 	for back in (3, 2, 1):
 		starts = get_first_day(add_months(today(), -back))
 		ends = get_last_day(starts)
-		if frappe.db.exists("Payroll Entry", {"start_date": starts, "docstatus": 1, "salary_slip_based_on_timesheet": 0}):
+		if frappe.db.exists("Payroll Entry", {"company": COMPANY, "start_date": starts, "docstatus": 1, "salary_slip_based_on_timesheet": 0}):
 			continue
 		entry = frappe.new_doc("Payroll Entry")
 		entry.update(
@@ -552,7 +558,7 @@ def _shifts():
 	name, starts, ends = SHIFT
 	if not frappe.db.exists("Shift Type", name):
 		make({"doctype": "Shift Type", "name": name, "__newname": name, "start_time": starts, "end_time": ends})
-	for first, days, state in (("Joseph", 3, None), ("Bilal", 10, "Rejected")):
+	for first, days, state in (("Arun", 3, None), ("Bilal", 10, "Rejected")):
 		employee = _employee(first)
 		if frappe.db.exists("Shift Request", {"employee": employee, "shift_type": name}):
 			continue

@@ -603,7 +603,7 @@ def oneinventory_transfer_stock_moves_it_in_one_step():
 
 	before = held("HW-HINGE", "Stores"), held("HW-HINGE", "Finished Goods")
 	with as_user("karim@one.test"):
-		project = frappe.get_all("Project", filters={"status": "Open"}, pluck="name", limit=1)[0]
+		project = frappe.get_all("Project", filters={"status": "Open", "company": COMPANY}, pluck="name", limit=1)[0]
 		name = stock.transfer(
 			wh("Stores"), wh("Finished Goods"), [{"item": "HW-HINGE", "qty": 10}, {"item": "SIL-WP", "qty": 5}], project=project, remarks="For the villa's doors"
 		)

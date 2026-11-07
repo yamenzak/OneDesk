@@ -77,12 +77,12 @@ def onehr_requests_are_answered_by_who_answers_them():
 		assert frappe.db.get_value("Expense Claim", claim.name, ["approval_status", "docstatus"]) == ("Rejected", 1)
 
 	name, _starts, _ends = demo.SHIFT
-	joseph = frappe.db.get_value("Shift Request", {"employee": _employee("Joseph"), "docstatus": 0})
+	arun = frappe.db.get_value("Shift Request", {"employee": _employee("Arun"), "docstatus": 0})
 	with as_user(demo.HR):
-		assert demo.HR in shift.approvers(_employee("Joseph"))
+		assert demo.HR in shift.approvers(_employee("Arun"))
 		assert shift.hours(name)
-		shift.approve(joseph)
-		assert frappe.db.exists("Shift Assignment", {"employee": _employee("Joseph"), "shift_type": name, "docstatus": 1})
+		shift.approve(arun)
+		assert frappe.db.exists("Shift Assignment", {"employee": _employee("Arun"), "shift_type": name, "docstatus": 1})
 		frappe.db.set_value("Employee", _employee("Imran"), "shift_request_approver", demo.HR)
 		imran = frappe.get_doc({"doctype": "Shift Request", "shift_type": name, "employee": _employee("Imran"), "company": COMPANY, "from_date": add_days(today(), 20), "to_date": add_days(today(), 30), "approver": demo.HR, "status": "Draft"}).insert()
 		shift.reject(imran.name, "Days are full that month.")
@@ -139,7 +139,7 @@ def onehr_the_crews_days_overtime_and_pay_add_up():
 			pass
 		shift_setup.start_reading(demo.SHIFT[0])
 		assert frappe.db.get_value("Shift Type", demo.SHIFT[0], "enable_auto_attendance") == 1
-		entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1, "salary_slip_based_on_timesheet": 0})
+		entry = frappe.db.get_value("Payroll Entry", {"docstatus": 1, "salary_slip_based_on_timesheet": 0, "company": COMPANY})
 		ran = payroll.run(entry)
 		assert ran["people"] >= 10 and ran["total"] > 0
 		assert encashment.rate(arun, today())["structure"]
@@ -444,8 +444,8 @@ def onehr_each_payslip_adds_up_and_the_payroll_posts_it():
 		if abs(earned - flt(slip.gross_pay)) > CENTS or abs(taken - flt(slip.total_deduction)) > CENTS or abs(flt(slip.gross_pay) - flt(slip.total_deduction) - flt(slip.net_pay)) > CENTS:
 			wrong.append((slip.name, earned, slip.gross_pay, taken, slip.total_deduction, slip.net_pay))
 	assert not wrong, wrong[:5]
-	payable = frappe.db.get_value("Company", COMPANY, "default_payroll_payable_account")
-	for entry in frappe.get_all("Payroll Entry", filters={"docstatus": 1}, pluck="name"):
+	for entry, company in frappe.get_all("Payroll Entry", filters={"docstatus": 1}, fields=["name", "company"], as_list=True):
+		payable = frappe.db.get_value("Company", company, "default_payroll_payable_account")
 		owed = frappe.db.sql("select ifnull(sum(net_pay), 0) from `tabSalary Slip` where payroll_entry = %s and docstatus = 1", entry)[0][0]
 		posted = frappe.db.sql(
 			"""select ifnull(sum(row.credit_in_account_currency - row.debit_in_account_currency), 0)
@@ -736,7 +736,8 @@ def onehr_deleting_an_interviews_sound_is_an_ability():
 @check
 def onehr_riyadh_keeps_its_own_people():
 	"""Sahara Glass Saudi's supervisor is its own: his weekend is Friday and
-	Saturday, his leave says what is left, Home read in Riyadh counts him in
+	Saturday, his leave says what is left, his pay is Riyadh's own payroll in
+	riyals, Home read in Riyadh counts him in
 	riyals and OneAI's who is in today counts him alone, and Rania, limited to
 	the Dubai company, does not see him."""
 	from onedesk.one_hr import ai, heads, story
@@ -756,6 +757,7 @@ def onehr_riyadh_keeps_its_own_people():
 			frappe.defaults.set_user_default("company", COMPANY)
 	assert said["currency"] == "SAR" and said["cards"]["headcount"]["value"] == 1, said["cards"].get("headcount")
 	assert today_said["company"] == "Sahara Glass Saudi" and today_said["counted"] == 1, today_said
+	assert said["cards"]["payroll"]["value"] == 9000, said["cards"].get("payroll")
 	with as_user("rania@one.test"):
 		assert not frappe.has_permission("Employee", "read", ahmed)
 

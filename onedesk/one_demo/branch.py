@@ -38,6 +38,7 @@ def run(password=None):
 	_books()
 	_job(customer)
 	_people()
+	_payroll()
 
 
 def _company():
@@ -433,3 +434,76 @@ def _people():
 		claim = save(claim)
 		with as_user("samir@one.test"):
 			expense.approve(claim.name)
+
+
+RIYADH_PAY = "Riyadh Standard"
+
+
+def _payroll():
+	"""Ahmed paid last month in riyals: Riyadh's own salary structure, the
+	salary components' accounts for the Saudi company, his assignment and
+	the month's payroll run, its slips submitted."""
+	from frappe.utils import add_months, get_first_day, get_last_day
+
+	employee = frappe.db.get_value("Employee", {"company": BRANCH, "first_name": SUPERVISOR[0]})
+	if not employee:
+		return
+	parts = (("Basic Salary", "BS", "base * 0.6"), ("Housing Allowance", "HA", "base * 0.25"), ("Transport Allowance", "TA", "base * 0.15"))
+	for name, _abbr, _formula in parts:
+		component = frappe.get_doc("Salary Component", name)
+		if not any(row.company == BRANCH for row in component.accounts):
+			component.append("accounts", {"company": BRANCH, "account": f"Salary - {ABBR}"})
+			component.save()
+	if not frappe.db.exists("Salary Structure", RIYADH_PAY):
+		make(
+			{
+				"doctype": "Salary Structure",
+				"__newname": RIYADH_PAY,
+				"company": BRANCH,
+				"currency": CURRENCY,
+				"payroll_frequency": "Monthly",
+				"is_active": "Yes",
+				"earnings": [
+					{"salary_component": name, "abbr": abbr, "amount_based_on_formula": 1, "formula": formula}
+					for name, abbr, formula in parts
+				],
+			},
+			submit=True,
+		)
+	payable = frappe.db.get_value("Company", BRANCH, "default_payroll_payable_account")
+	starts = get_first_day(add_months(today(), -1))
+	if not frappe.db.exists("Salary Structure Assignment", {"employee": employee, "docstatus": 1}):
+		make(
+			{
+				"doctype": "Salary Structure Assignment",
+				"employee": employee,
+				"salary_structure": RIYADH_PAY,
+				"company": BRANCH,
+				"currency": CURRENCY,
+				"from_date": starts,
+				"base": 9000,
+				"payroll_payable_account": payable,
+			},
+			submit=True,
+		)
+	if frappe.db.exists("Payroll Entry", {"company": BRANCH, "start_date": starts, "docstatus": 1}):
+		return
+	entry = frappe.new_doc("Payroll Entry")
+	entry.update(
+		{
+			"company": BRANCH,
+			"payroll_frequency": "Monthly",
+			"start_date": starts,
+			"end_date": get_last_day(starts),
+			"posting_date": get_last_day(starts),
+			"currency": CURRENCY,
+			"exchange_rate": 1,
+			"payroll_payable_account": payable,
+			"cost_center": frappe.db.get_value("Company", BRANCH, "cost_center"),
+			"payment_account": frappe.db.get_value("Account", {"company": BRANCH, "account_type": "Cash", "is_group": 0}),
+		}
+	)
+	entry.fill_employee_details()
+	entry = save(entry, submit=True)
+	entry.reload()
+	entry.submit_salary_slips()

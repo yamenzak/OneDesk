@@ -70,13 +70,14 @@ def use(company: str) -> None:
 
 
 def changed(doc=None, method=None) -> None:
-	"""A company added or deleted: the fields follow, after the commit."""
+	"""A company added or deleted, or the default company changed: the fields
+	follow, after the commit."""
 	frappe.enqueue("onedesk.one.company.hide", queue="short", enqueue_after_commit=True, deduplicate=True, job_id="one_company_fields")
 
 
 def _defaults(make_property_setter, fields: list[dict]) -> None:
 	"""The company as the default of every hidden mandatory Company field, and
-	again when the company it named is gone."""
+	again when the workspace's default company changes or is gone."""
 	company = frappe.defaults.get_global_default("company")
 	if not company or not frappe.db.exists("Company", company):
 		return
@@ -86,7 +87,7 @@ def _defaults(make_property_setter, fields: list[dict]) -> None:
 		said = frappe.db.get_value(
 			"Property Setter", {"doc_type": field["parent"], "field_name": FIELD, "property": "default"}, "value"
 		)
-		if said and frappe.db.exists("Company", said):
+		if said == company:
 			continue
 		make_property_setter(
 			field["parent"], FIELD, "default", company, "Text", validate_fields_for_doctype=False

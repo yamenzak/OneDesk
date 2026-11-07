@@ -49,7 +49,7 @@ function draw(frm) {
 	const { latitude, longitude, radius } = frm.doc;
 	if (!latitude && !longitude) return;
 
-	frm.doc.area = JSON.stringify({
+	const area = JSON.stringify({
 		type: "FeatureCollection",
 		features: [
 			{
@@ -59,20 +59,29 @@ function draw(frm) {
 			},
 		],
 	});
-	frm.refresh_field("area");
+	if (area !== frm.doc.area) {
+		frm.doc.area = area;
+		frm.refresh_field("area");
+	}
 	fit(frm.get_field("area"));
 }
 
-function fit(control) {
+function fit(control, tries = 10) {
 	if (!control) return;
 
 	setTimeout(() => {
 		if (!control.map) return;
+		const box = control.map.getContainer();
+		if (!box.offsetWidth || !box.offsetHeight) {
+			if (tries) fit(control, tries - 1);
+			return;
+		}
 		control.map.invalidateSize();
 
 		const drawn = control.editableLayers;
-		if (drawn && drawn.getLayers().length) {
-			control.map.fitBounds(drawn.getBounds(), { maxZoom: 17, padding: [24, 24] });
+		const bounds = drawn && drawn.getLayers().length && drawn.getBounds();
+		if (bounds && bounds.isValid()) {
+			control.map.fitBounds(bounds, { maxZoom: 17, padding: [24, 24] });
 		}
 	}, 300);
 }

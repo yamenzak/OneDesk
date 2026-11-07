@@ -368,7 +368,7 @@ Pages: point-of-sale (left out: the point of sale, until One has a till screen o
 | Email Digest | on a rail or a home | OneBook | untouched | yes | general |  | yes |  |  |  |  |
 | Employee | on a rail or a home | everybody | a head, events, form script, 11 fields, 28 settings | yes | taught | makes it | yes |  |  |  | Could Not Mark Left, Document Expiring, Employee Details Changed, Passkey Reset Asked |
 | Employee Group | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | untouched | no | general |  |  |  |  |  |  |
+| Global Defaults | inside: One's ControlCenter › Region and Formats: how amounts read | **nobody** | events | no | general |  |  |  |  |  |  |
 | Holiday List | on a rail or a home | everybody | untouched | yes | taught |  | yes |  |  |  |  |
 | Incoterm | through a form's link (Supplier Quotation: incoterm) | OneBook, OneCRM, OneInventory | untouched | yes | general |  | yes |  |  |  |  |
 | Item Group | on a rail or a home | OneBook, OneCRM, OneFactory, OneInventory, the administrator | events | yes | taught |  | yes |  |  |  |  |
@@ -794,7 +794,7 @@ Pages: workflow-builder (opened by our screens).
 | Attendance Request | on a rail or a home | everybody | a head, events, form script, 7 fields, 6 settings | yes | general |  | yes |  |  |  |  |
 | Compensatory Leave Request | through a form's connections (Leave Allocation's Connections) | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Employee Advance | on a rail or a home | everybody | a head, 1 settings | yes | general |  | yes |  |  |  |  |
-| Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |  |  |  | ar 6, de 5 |  |
+| Employee Attendance Tool | on a rail or a home | OneHR | form script, 4 fields, 3 settings | no | general |  |  |  |  | ar 5, de 4 |  |
 | Employee Checkin | on a rail or a home | everybody | class, list script, 5 fields, 4 settings | yes | general |  | yes |  |  |  | Check-in Closed for You |
 | Employee Feedback Criteria | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Employee Grade | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
@@ -816,7 +816,7 @@ Pages: workflow-builder (opened by our screens).
 | Full and Final Statement | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Goal | on a rail or a home | everybody | 2 settings | yes | taught |  | yes |  |  |  |  |
 | Grievance Type | through a form's link (Employee Grievance: grievance_type) | everybody | untouched | yes | general |  | yes |  |  |  |  |
-| HR Settings | on a rail or a home | everybody | 31 fields, 27 settings | no | taught |  |  |  |  | ar 27, de 7 |  |
+| HR Settings | on a rail or a home | everybody | 31 fields, 27 settings | no | taught |  |  |  |  | ar 14, de 4 |  |
 | HR Telemetry Milestone | engine: HRMS counting its own setup steps | **nobody** | untouched | yes | general |  | **none** |  |  | ar 1, de 1 |  |
 | Holiday List Assignment | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
 | Identification Document Type | through a form's link (Travel Request: personal_id_type) | OneHR, the administrator | 1 fields | yes | general |  | yes |  |  |  |  |
@@ -836,7 +836,7 @@ Pages: workflow-builder (opened by our screens).
 | Leave Allocation | on a rail or a home | OneHR | a head, 10 settings | yes | general |  | yes |  |  |  | Leave Expiring |
 | Leave Application | on a rail or a home | everybody | a head, class, events, 9 fields, 7 settings | yes | taught | makes it | yes |  |  |  | Leave Application Cancelled (theirs), Leave Application Pending Approval (theirs), Leave Application Status Update (theirs) |
 | Leave Block List | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |
-| Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 5 |  |
+| Leave Control Panel | on a rail or a home | OneHR | form script | no | general |  |  |  |  | ar 3 |  |
 | Leave Encashment | on a rail or a home | everybody | a head, 5 settings | yes | general |  | yes |  |  |  |  |
 | Leave Ledger Entry | engine: one line per leave allocated, taken, encashed or lapsed; Leave Balance reads it | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Leave Period | on a rail or a home | OneHR | untouched | yes | general |  | yes |  |  |  |  |

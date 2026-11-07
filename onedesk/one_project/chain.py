@@ -55,19 +55,21 @@ def customers_one(doc, method=None) -> None:
 	if doc.get("project") or doc.get("is_return"):
 		return
 	customer = doc.get("customer") or (doc.get("party_name") if doc.get("quotation_to") == "Customer" else None)
-	project = customer_project(customer) if customer else None
+	project = customer_project(customer, doc.get("company")) if customer else None
 	if project:
 		doc.project = project
 
 
 @frappe.whitelist()
 @frappe.read_only()
-def customer_project(customer: str) -> str | None:
+def customer_project(customer: str, company: str | None = None) -> str | None:
 	"""A new order's, delivery's or invoice's project: the customer's one open
-	project, when there's exactly one. With more, the person picks."""
+	project in the paper's company, when there's exactly one. With more, the
+	person picks."""
 	if not customer or not frappe.has_permission("Customer", "read", doc=customer):
 		return None
-	found = frappe.get_list(
-		"Project", filters={"customer": customer, "status": "Open"}, pluck="name", limit_page_length=2
-	)
+	filters = {"customer": customer, "status": "Open"}
+	if company:
+		filters["company"] = company
+	found = frappe.get_list("Project", filters=filters, pluck="name", limit_page_length=2)
 	return found[0] if len(found) == 1 else None

@@ -22,3 +22,10 @@ temporary site after the last module.
   Arabic and German, as the workspace named them.
 - Payroll for Riyadh is not in the demo: it needs its salary components'
   accounts for the Saudi company.
+- **Tax & Benefits** (exemption declarations and proofs, other income,
+  benefit applications and claims) has no demo record, and a UAE or Saudi
+  company pays no income tax: whether the rail shows it there is Yamen's
+  call.
+- frappe's Geolocation field throws in Leaflet ("reading 'x'") when it adds
+  a circle to a map with no size yet; the map then draws. One console error
+  on a Clock Place.

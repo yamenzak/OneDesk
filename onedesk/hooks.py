@@ -301,6 +301,7 @@ doc_events = {
 	"Number Card": {"validate": "onedesk.one_studio.reports.chart_kept"},
 	"Auto Email Report": {"validate": "onedesk.one_studio.reports.mail_kept"},
 	"Letter Head": {"validate": "onedesk.one_studio.printing.validate_letter_head"},
+	"Global Defaults": {"on_update": "onedesk.one.company.changed"},
 	"Company": {
 		"validate": "onedesk.one_book.closing.kept_to_today",
 		"after_insert": ["onedesk.one_mail.faces.dress_later", "onedesk.one.company.changed"],
