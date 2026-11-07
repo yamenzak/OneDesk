@@ -494,6 +494,12 @@ GUARDS = [
 		"tests/guards/test_legal.py::test_nobody_is_promised_what_is_not_built",
 	),
 	Guard(
+		"empty-dates",
+		2,
+		"a < or <= on a date that may be empty, which frappe reads as the earliest day and so finds every record without one",
+		"tests/guards/test_empty_dates.py::test_every_date_before_something_says_it_is_set",
+	),
+	Guard(
 		"page-own-rail",
 		6,
 		"a page of ours not listed in its own app's rail, so Back or a link opens it in another app's",

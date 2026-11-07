@@ -57,13 +57,12 @@ def ended() -> None:
 	Ended, so the list's Status filter is right without a page of its own."""
 	from frappe.utils import now_datetime
 
-	frappe.db.set_value(
+	for name in frappe.get_all(
 		NOTE,
-		{"public": 1, "one_status": "Showing", "expire_notification_on": ["<=", now_datetime()]},
-		"one_status",
-		"Ended",
-		update_modified=False,
-	)
+		filters=[["public", "=", 1], ["one_status", "=", "Showing"], ["expire_notification_on", "is", "set"], ["expire_notification_on", "<=", now_datetime()]],
+		pluck="name",
+	):
+		frappe.db.set_value(NOTE, name, "one_status", "Ended", update_modified=False)
 
 
 def validate(doc, method=None) -> None:

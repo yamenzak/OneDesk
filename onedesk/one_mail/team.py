@@ -202,7 +202,9 @@ def due() -> None:
 	from onedesk.one_mail import tell
 
 	now = now_datetime()
-	for one in frappe.get_all(CONVERSATION, filters={"snoozed_until": ["<=", now]}, fields=["name", "account", "thread"]):
+	for one in frappe.get_all(
+		CONVERSATION, filters=[["snoozed_until", "is", "set"], ["snoozed_until", "<=", now]], fields=["name", "account", "thread"]
+	):
 		frappe.db.set_value(CONVERSATION, one.name, {"snoozed_until": None, "snoozed_by": None})
 		newest = frappe.db.get_value(
 			"Communication", {"email_account": one.account, "one_thread": one.thread}, "name", order_by="communication_date desc"
@@ -211,7 +213,9 @@ def due() -> None:
 			frappe.db.set_value("Communication", newest, "seen", 0, update_modified=False)
 		live.changed(one.account)
 	for one in frappe.get_all(
-		CONVERSATION, filters={"remind_at": ["<=", now]}, fields=["name", "account", "thread", "subject", "remind_by"]
+		CONVERSATION,
+		filters=[["remind_at", "is", "set"], ["remind_at", "<=", now]],
+		fields=["name", "account", "thread", "subject", "remind_by"],
 	):
 		frappe.db.set_value(CONVERSATION, one.name, {"remind_at": None, "remind_by": None})
 		tell.no_reply(one, place(one.account, one.thread))

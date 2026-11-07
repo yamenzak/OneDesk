@@ -6,17 +6,11 @@ module's README says what it does.
 
 ## Due now
 
-- **Empty dates in `<` filters.** frappe reads an empty date as the earliest
-  day (`IFNULL(field, '0001-01-01') < x`), which took every mailbox away
-  each night (one_mail rules.cover, fixed 5 November 2026). Read the rest in
-  each module's pass: inventory's expiring batches and due services, a
-  project's end date, HR's scheduled reviews, matters.act_after, the
-  admin runner, and announcements.ended (db.set_value).
 - **Rebuild the demo on a fresh site.** Five checks read dates relative to
   today and fail on a demo built days ago:
   `onecalendar_shows_each_person_their_week`,
   `oneinventory_quotes_ask_compare_and_order_on_one_page`,
-  `oneinventory_sent_out_says_what_went_and_what_came_back`,
+  `onefactory_sent_out_says_what_went_and_what_came_back` (moved from OneInventory),
   `onebook_home_tells_how_the_money_is_doing` and
   `oneinventory_equipment_bought_given_serviced_and_mended`. The twelve steps
   are in `onedesk/one_demo/README.md`. A fresh site needs the database's root

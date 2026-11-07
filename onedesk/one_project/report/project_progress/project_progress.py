@@ -35,11 +35,12 @@ def execute(filters=None):
 def late(projects):
 	counts = frappe.get_list(
 		"Task",
-		filters={
-			"project": ["in", [project.name for project in projects]],
-			"exp_end_date": ["<", today()],
-			"status": ["not in", ("Completed", "Cancelled", "Template")],
-		},
+		filters=[
+			["project", "in", [project.name for project in projects]],
+			["exp_end_date", "is", "set"],
+			["exp_end_date", "<", today()],
+			["status", "not in", ("Completed", "Cancelled", "Template")],
+		],
 		fields=["project", {"COUNT": "*", "as": "count"}],
 		group_by="project",
 	)

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 22:43+0000\n"
-"PO-Revision-Date: 2026-11-07 22:43+0000\n"
+"POT-Creation-Date: 2026-11-07 22:49+0000\n"
+"PO-Revision-Date: 2026-11-07 22:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9156,7 +9156,7 @@ msgstr ""
 msgid "Choose an employee and a posting date first."
 msgstr ""
 
-#: onedesk/one/announcements.py:135
+#: onedesk/one/announcements.py:134
 msgid "Choose announcements or news."
 msgstr ""
 
@@ -33879,11 +33879,11 @@ msgstr ""
 msgid "Only an administrator of this workspace can do this."
 msgstr ""
 
-#: onedesk/one/announcements.py:72
+#: onedesk/one/announcements.py:71
 msgid "Only an administrator posts an announcement. Your notes stay your own."
 msgstr ""
 
-#: onedesk/one/announcements.py:175
+#: onedesk/one/announcements.py:174
 msgid "Only an administrator stops an announcement."
 msgstr ""
 

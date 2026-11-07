@@ -108,7 +108,7 @@ def _late(day) -> list[dict]:
 		return []
 	rows = frappe.get_all(
 		"Quality Action Resolution",
-		filters={"parent": ["in", open_actions], "status": "Open", "completion_by": ["<", day]},
+		filters=[["parent", "in", open_actions], ["status", "=", "Open"], ["completion_by", "is", "set"], ["completion_by", "<", day]],
 		fields=["parent", "problem", "responsible", "completion_by"],
 		order_by="completion_by asc",
 	)

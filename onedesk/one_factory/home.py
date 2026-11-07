@@ -116,10 +116,10 @@ def _kept(rows: list) -> dict:
 	return {"rows": rows[:FEW], "count": len(rows)}
 
 
-def _orders(filters: dict, order_by: str) -> list:
+def _orders(filters: list, order_by: str) -> list:
 	return frappe.get_list(
 		"Work Order",
-		filters={"docstatus": 1, "status": ["in", OPEN], "company": erpnext.get_default_company(), **filters},
+		filters=[["docstatus", "=", 1], ["status", "in", OPEN], ["company", "=", erpnext.get_default_company()], *filters],
 		fields=["name", "production_item", "item_name", "qty", "produced_qty", "stock_uom", "status", "planned_start_date", "expected_delivery_date"],
 		order_by=order_by,
 	)
@@ -134,11 +134,11 @@ def needs_you() -> dict:
 	day = getdate(today())
 	late = [
 		{**one, "late_by": date_diff(day, one.expected_delivery_date)}
-		for one in _orders({"expected_delivery_date": ["<", day]}, "expected_delivery_date asc")
+		for one in _orders([["expected_delivery_date", "is", "set"], ["expected_delivery_date", "<", day]], "expected_delivery_date asc")
 	]
 	start = [
 		{**one, "planned_start_date": str(getdate(one.planned_start_date))}
-		for one in _orders({"status": "Not Started", "planned_start_date": ["<", add_days(day, 1)]}, "planned_start_date asc")
+		for one in _orders([["status", "=", "Not Started"], ["planned_start_date", "<", add_days(day, 1)]], "planned_start_date asc")
 	]
 	back = [one for one in sent_out.orders() if one["late"]]
 	return {
