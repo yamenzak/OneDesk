@@ -1361,11 +1361,11 @@ MODULES = {
 		"names": ("one_portal", "oneportal"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "6c558d9cdec3", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "6c558d9cdec3", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "6c558d9cdec3", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "6c558d9cdec3", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "6c558d9cdec3", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "5e04e24b45b0", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "globe"),
