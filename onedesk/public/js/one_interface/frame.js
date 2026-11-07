@@ -441,7 +441,7 @@ onedesk.interface.Frame = class Frame {
 		if (!this.$search) {
 			this.$search = onedesk.shell.search(this.$tools.find(".one-interface-search"), { placeholder });
 			if (on_input) this.$search.on("input", frappe.utils.debounce(() => on_input(this.$search.val().trim()), 300));
-			if (on_key) this.$search.on("keydown", on_key);
+			if (on_key) this.$search.on("keydown", (event) => void on_key(event));
 		}
 		this.$search.attr("placeholder", placeholder);
 		return this.$search;

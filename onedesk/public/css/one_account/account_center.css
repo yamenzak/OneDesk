@@ -5,6 +5,10 @@
 	min-width: 0;
 }
 
+.os-who-text {
+	min-width: 0;
+}
+
 .os-who-name {
 	color: var(--ink-gray-9);
 	font-size: var(--text-lg);
@@ -17,6 +21,7 @@
 
 .os-who-actions {
 	display: flex;
+	flex-wrap: wrap;
 	gap: calc(var(--spacing) * 1);
 	margin: calc(var(--spacing) * 1.5) 0 0 calc(var(--spacing) * -2);
 }
