@@ -4,11 +4,17 @@
       <span class="lucide-mail-open size-6" aria-hidden="true" />
       <span class="text-base">{{ selected > 1 ? __("{0} conversations selected", [selected]) : __("No conversation selected") }}</span>
     </div>
-    <div v-else ref="frame" class="flex min-h-0 flex-1">
-    <div ref="scroller" class="min-h-0 flex-1 overflow-auto">
-      <div class="border-b border-outline-gray-1 px-5 py-3">
-        <h2 class="text-lg font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
-        <div v-if="records.length" class="mt-2 flex flex-wrap gap-1.5">
+    <template v-else>
+    <div class="flex shrink-0 items-center gap-0.5 pb-2" :aria-label="__('Conversation')" role="toolbar">
+      <Button v-if="back" size="sm" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="emit('back')" />
+      <span v-if="back" class="mx-1 h-4 w-px bg-surface-gray-4" />
+      <slot name="commands" />
+    </div>
+    <div ref="frame" class="flex min-h-0 flex-1 gap-2.5">
+    <div ref="scroller" class="flex min-h-0 flex-1 flex-col gap-2.5 overflow-auto">
+      <div class="flex flex-col gap-2 px-1 pt-1">
+        <div class="flex flex-wrap items-center gap-x-3 gap-y-1.5">
+          <h2 class="min-w-0 text-xl font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
           <span
             v-for="row in records"
             :key="`${row.link_doctype}/${row.link_name}`"
@@ -21,16 +27,29 @@
             </button>
           </span>
         </div>
-        <PlaceSpot :said="placed" class="mt-2" />
-        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="mt-3" @changed="emit('changed')" />
-        <MailSender v-if="!wide" :address="other" class="mt-3" folded @found="(got) => (party = got)" />
+        <PlaceSpot :said="placed" />
+        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="-ms-2" @changed="emit('changed')" @state="(got) => (state = got)" />
+      </div>
+      <button
+        v-if="!wide && (state.shared || party)"
+        type="button"
+        class="flex items-center gap-2 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-start text-sm"
+        @click="aside = !aside"
+      >
+        <span class="lucide-panel-right size-4 text-ink-gray-5" aria-hidden="true" />
+        <span class="min-w-0 flex-1 truncate text-ink-gray-8">{{ [party && party.title, state.notes.length ? __("Notes: {0}", [state.notes.length]) : null].filter(Boolean).join(" · ") || __("Notes for the Team") }}</span>
+        <span :class="aside ? 'lucide-chevron-up' : 'lucide-chevron-down'" class="size-4 text-ink-gray-5" aria-hidden="true" />
+      </button>
+      <div v-if="!wide && aside" class="flex flex-col gap-4 rounded-6 border border-outline-gray-1 px-4 py-3">
+        <MailNotes v-if="state.shared && box && thread" :account="box.name" :thread="thread" :notes="state.notes" @state="took" />
+        <MailSender :address="other" />
       </div>
 
       <template v-for="(message, at) in messages" :key="message.name">
         <button
           v-if="folded(message, at)"
           type="button"
-          class="flex w-full items-center gap-3 border-b border-outline-gray-1 px-5 py-2.5 text-start hover:bg-surface-gray-1"
+          class="flex w-full items-center gap-3 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-start hover:bg-surface-gray-1"
           @click="unfolded.add(message.name)"
         >
           <MailFace :name="message.sender_full_name" :email="message.sender" :picture="message.face" />
@@ -38,7 +57,7 @@
           <span class="min-w-0 flex-1 truncate text-sm text-ink-gray-5">{{ message.snippet }}</span>
           <span class="shrink-0 text-sm text-ink-gray-5">{{ when(message.communication_date) }}</span>
         </button>
-        <article v-else :ref="(el) => at === firstOpen && (openEl = el)" class="border-b border-outline-gray-1 px-5 py-4">
+        <article v-else :ref="(el) => at === firstOpen && (openEl = el)" class="rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-4">
           <div class="flex items-start gap-3">
             <MailFace :name="message.sender_full_name" :email="message.sender" :picture="message.face" />
             <div class="min-w-0 flex-1 text-sm">
@@ -50,6 +69,12 @@
               <div v-if="message.cc" class="truncate text-ink-gray-6"><span class="text-ink-gray-5">{{ __("Cc") }}</span> {{ message.cc }}</div>
             </div>
             <span class="shrink-0 text-sm text-ink-gray-5" :title="when(message.communication_date, true)">{{ when(message.communication_date) }}</span>
+            <span class="-my-1 flex shrink-0 items-center">
+              <Button size="sm" variant="ghost" icon="lucide-reply" :aria-label="__('Reply')" :title="__('Reply')" @click="emit('write', { reply: true })" />
+              <Dropdown :options="more">
+                <template #trigger><Button size="sm" variant="ghost" icon="lucide-ellipsis-vertical" :aria-label="__('More')" :title="__('More')" /></template>
+              </Dropdown>
+            </span>
           </div>
           <div v-if="message.scheduled" class="mt-2 flex flex-wrap items-center gap-2 rounded-3 bg-surface-blue-1 px-3 py-1.5 text-sm">
             <span class="lucide-calendar-clock size-4 text-ink-blue-3" aria-hidden="true" />
@@ -79,22 +104,24 @@
         </article>
       </template>
 
-      <div v-if="draft" class="mx-5 mt-4 flex flex-wrap items-center gap-2 rounded-3 bg-surface-gray-2 px-3 py-2 text-sm">
+      <div v-if="draft" class="flex flex-wrap items-center gap-2 rounded-6 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-2.5 text-sm">
         <span class="lucide-file-pen-line size-4 text-ink-red-4" aria-hidden="true" />
         <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("You have a draft of a reply") }}</span>
         <Button size="sm" variant="solid" :label="__('Continue Draft')" @click="emit('draft', draft)" />
         <Button size="sm" variant="ghost" :label="__('Discard')" @click="emit('discard', draft)" />
       </div>
-      <div class="flex flex-wrap gap-2 px-5 py-4">
+      <div class="flex flex-wrap gap-2 pb-2">
         <Button variant="subtle" icon-left="lucide-reply" :label="__('Reply')" @click="emit('write', { reply: true })" />
         <Button variant="subtle" icon-left="lucide-reply-all" :label="__('Reply all')" @click="emit('write', { reply: true, all: true })" />
         <Button variant="subtle" icon-left="lucide-forward" :label="__('Forward')" @click="emit('write', { forward: true })" />
       </div>
     </div>
-    <aside v-if="wide" class="w-80 shrink-0 overflow-auto border-s border-outline-gray-1 p-4">
-      <MailSender :address="other" @found="(got) => (party = got)" />
+    <aside v-if="wide" class="flex w-80 shrink-0 flex-col gap-5 overflow-auto rounded-6 border border-outline-gray-1 p-4">
+      <MailNotes v-if="state.shared && box && thread" :account="box.name" :thread="thread" :notes="state.notes" @state="took" />
+      <MailSender :address="other" />
     </aside>
     </div>
+    </template>
   </div>
 </template>
 
@@ -102,13 +129,14 @@
 // A conversation, its newest message open and the older ones read folded to
 // a line; the records it is filed on, and reply, reply all and forward.
 import { computed, nextTick, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button } from "frappe-ui";
+import { Button, Dropdown } from "frappe-ui";
 
 import { PlaceSpot, __, alert, call, dialog, fileSize, onedesk, recordRoute } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
 import { FILED_BY, when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
+import MailNotes from "./MailNotes.vue";
 import MailSender from "./MailSender.vue";
 import MailTeam from "./MailTeam.vue";
 
@@ -120,10 +148,15 @@ const props = defineProps({
   draft: { type: String, default: null },
   thread: { type: String, default: null },
   replying: { type: Array, default: () => [] },
+  back: Boolean,
 });
-const emit = defineEmits(["write", "draft", "discard", "changed"]);
+const emit = defineEmits(["write", "draft", "discard", "changed", "back"]);
 defineExpose({ fileOn, team: () => team.value });
 
+const more = [
+  { label: __("Reply all"), icon: "lucide-reply-all", onClick: () => emit("write", { reply: true, all: true }) },
+  { label: __("Forward"), icon: "lucide-forward", onClick: () => emit("write", { forward: true }) },
+];
 const fullNote = __("Storage is full. Saved automatically once there's space.");
 const records = ref([]);
 const unfolded = reactive(new Set());
@@ -132,9 +165,15 @@ const scroller = ref(null);
 let openEl = null;
 
 const party = ref(null);
+const state = ref({ shared: false, notes: [] });
+const aside = ref(false);
+function took(got) {
+  state.value = got;
+  team.value?.take(got);
+}
 const frame = ref(null);
 const wide = ref(false);
-const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 1000));
+const sized = new ResizeObserver(([one]) => (wide.value = one.contentRect.width >= 980));
 watch(frame, (now, was) => {
   if (was) sized.unobserve(was);
   if (now) sized.observe(now);
@@ -148,6 +187,16 @@ const other = computed(() => {
   const first = (props.messages[0]?.recipients || "").split(",")[0] || "";
   return (first.match(/<([^>]+)>/) || [null, first])[1].trim();
 });
+watch(
+  () => other.value,
+  async (address) => {
+    party.value = null;
+    if (!address) return;
+    const got = await call("onedesk.one_mail.sender.about", { address });
+    if (address === other.value) party.value = got;
+  },
+  { immediate: true }
+);
 
 function make(doctype) {
   const last = [...props.messages].reverse().find((one) => one.sent_or_received === "Received") || props.messages[props.messages.length - 1];

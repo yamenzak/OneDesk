@@ -14,7 +14,7 @@ Each incoming message is linked on its own to:
 | What the conversation is linked to | An earlier message in it was linked |
 | An invoice, order or other document | The message names it by its number |
 
-The reading pane shows a message's links above it. **Link to Record** adds
+A conversation shows its links beside its subject. **Link to Record** adds
 another, and the × on a link removes it.
 
 ## On the Record

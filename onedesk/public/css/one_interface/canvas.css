@@ -521,7 +521,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > .one-interface-group[data-group="menu"] { display: inline-flex; align-items: center; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button { height: 28px !important; width: 28px; padding: 0 !important; justify-content: center; background: var(--one-address-bg) !important; color: var(--one-ink-quiet) !important; border-radius: var(--one-radius-control) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(.es-button, .btn, button, a)) { display: none !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(:is(.es-button, .btn, button, a):not(.hide, .hide *, [hidden]))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters::-webkit-scrollbar { display: none; }
@@ -560,7 +560,7 @@
 :root[data-one-look="canvas"] .one-interface .one-strip-item .one-strip-count { background: var(--one-count-bg) !important; color: var(--one-count-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on .one-strip-count { background: var(--one-head-bg) !important; color: var(--one-tab-on-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .standard-items-section, :root[data-one-look="canvas"] .one-interface .page-head .standard-items-section .page-actions { padding-inline: 0 !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .standard-items-section:not(:has(.custom-actions > *, .standard-actions > :not(.hide))) { display: none !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .standard-items-section:not(:has(.custom-actions > *, .standard-actions :is(.es-button, .btn, button):not(.hide, .hide *, [hidden]))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .one-interface-filters { padding-inline-end: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-toggle { display: none !important; }
 

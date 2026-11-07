@@ -115,7 +115,7 @@ export function plainText(stored) {
 	return text.replace(/\n{3,}/g, "\n\n").trim();
 }
 
-export function framePage(content, pictures = false) {
+export function framePage(content, pictures = false, dark = false) {
 	const escape = (text) => String(text).replace(/[&<>"']/g, (c) => `&#${c.charCodeAt(0)};`);
 	let raw = content || "";
 	if (!/<[a-z][\s\S]*>/i.test(raw)) raw = `<div style="white-space: pre-wrap">${escape(plainText(raw))}</div>`;
@@ -136,11 +136,13 @@ export function framePage(content, pictures = false) {
 		}
 	});
 	const policy = `default-src 'none'; img-src 'self' data: ${pictures ? "https: http:" : ""}; style-src 'unsafe-inline'; font-src 'self' data:`;
+	const painted = dark && /bgcolor|background|<style|color\s*:/i.test(raw);
+	const ink = dark && !painted ? { scheme: "dark", text: "#e5e5e5", quote: "#404040", quoted: "#a3a3a3" } : { scheme: "light", text: "#171717", quote: "#e2e2e2", quoted: "#525252" };
 	const head = `<meta http-equiv="Content-Security-Policy" content="${policy}"><base target="_blank"><style>
-			html { color-scheme: light; }
-			body { margin: 0; font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #171717; overflow-wrap: anywhere; }
+			html { color-scheme: ${ink.scheme}; ${painted ? "background: #fff;" : ""} }
+			body { margin: 0; ${painted ? "padding: 12px;" : ""} font: 14px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: ${ink.text}; overflow-wrap: anywhere; }
 			img { max-width: 100%; height: auto; }
-			blockquote { margin: 0 0 0 .6em; padding-left: .8em; border-left: 3px solid #e2e2e2; color: #525252; }
+			blockquote { margin: 0 0 0 .6em; padding-left: .8em; border-left: 3px solid ${ink.quote}; color: ${ink.quoted}; }
 			pre { white-space: pre-wrap; }
 			table { max-width: 100%; }
 	</style>`;

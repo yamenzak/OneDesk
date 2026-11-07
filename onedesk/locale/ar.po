@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 18:45+0000\n"
+"POT-Creation-Date: 2026-11-07 19:43+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -62,9 +62,9 @@ msgstr "(فارغة)"
 msgid "(first 6 rows)"
 msgstr "(أول 6 صفوف)"
 
-#: frontend/src/mail/MailConversation.vue:10 frontend/src/mail/MailList.vue:63
-#: onedesk/one_mail/rules.py:397 onedesk/one_mail/rules.py:399
-#: onedesk/public/js/one_mail/record_mail.js:28
+#: frontend/src/mail/MailConversation.vue:17 frontend/src/mail/MailList.vue:72
+#: frontend/src/mail/MailList.vue:94 onedesk/one_mail/rules.py:397
+#: onedesk/one_mail/rules.py:399 onedesk/public/js/one_mail/record_mail.js:28
 msgid "(no subject)"
 msgstr "(بلا موضوع)"
 
@@ -2628,7 +2628,7 @@ msgstr "إضافة مرحلة"
 msgid "Add News Source"
 msgstr "إضافة مصدر أخبار"
 
-#: frontend/src/mail/MailTeam.vue:41
+#: frontend/src/mail/MailNotes.vue:15
 msgid "Add Note"
 msgstr "إضافة ملاحظة"
 
@@ -2800,9 +2800,9 @@ msgstr "أضف خطًا فوق التذييل عند الطباعة."
 msgid "Add a line below the header when printing."
 msgstr "أضف خطًا تحت الترويسة عند الطباعة."
 
-#: frontend/src/mail/MailTeam.vue:44
-msgid "Add a note for the team"
-msgstr "إضافة ملاحظة للفريق"
+#: frontend/src/mail/MailNotes.vue:14
+msgid "Add a note"
+msgstr "إضافة ملاحظة"
 
 #: onedesk/one_studio/automations.py:115
 msgid "Add a number to a field on the target document."
@@ -5076,7 +5076,7 @@ msgstr "مراحل التصميم المعماري"
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Folder'
-#: frontend/src/mail/OneMail.vue:182 frontend/src/mail/OneMail.vue:212
+#: frontend/src/mail/OneMail.vue:190 frontend/src/mail/OneMail.vue:225
 #: frontend/src/mail/mail.js:12
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_mail/ai.py:658
@@ -5087,7 +5087,7 @@ msgstr "الأرشيف"
 
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
-#: frontend/src/mail/OneMail.vue:519 onedesk/one_account/heads.py:19
+#: frontend/src/mail/OneMail.vue:535 onedesk/one_account/heads.py:19
 #: onedesk/one_admin/accounts.py:123
 #: onedesk/one_admin/doctype/tenant/tenant.json:99
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:14
@@ -5643,8 +5643,9 @@ msgstr "الأصول حسب الحالة"
 msgid "Assets have categories"
 msgstr "للأصول فئات"
 
-#: frontend/src/mail/MailTeam.vue:6 frontend/src/mail/MailTeam.vue:144
-#: onedesk/one/ai.py:3742 onedesk/one_mail/shortcuts.py:23
+#: frontend/src/mail/MailTeam.vue:5 frontend/src/mail/MailTeam.vue:7
+#: frontend/src/mail/MailTeam.vue:128 onedesk/one/ai.py:3742
+#: onedesk/one_mail/shortcuts.py:23
 #: onedesk/public/js/one_mail/rule_builder.js:45
 msgid "Assign"
 msgstr "إسناد"
@@ -5692,7 +5693,7 @@ msgid "Assign to {0}"
 msgstr "إسناد إلى {0}"
 
 #. Option for the 'Used By' (Select) field in DocType 'Device'
-#: frontend/src/mail/MailList.vue:58
+#: frontend/src/mail/MailList.vue:77 frontend/src/mail/MailList.vue:89
 #: onedesk/one_account/doctype/device/device.json:37
 #: onedesk/public/js/one_account/account_center.js:1289
 msgid "Assigned"
@@ -5708,7 +5709,7 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr "مسندة إليّ"
 
-#: frontend/src/mail/MailTeam.vue:86
+#: frontend/src/mail/MailTeam.vue:70
 #, python-brace-format
 msgid "Assigned to {0}."
 msgstr "تم الإسناد إلى {0}."
@@ -5837,7 +5838,7 @@ msgstr "المرفقات"
 msgid "Attachments Not Saved"
 msgstr "مرفقات لم تُحفظ"
 
-#: frontend/src/mail/OneMail.vue:339
+#: frontend/src/mail/OneMail.vue:355
 msgid "Attachments in OneCloud"
 msgstr "المرفقات في OneCloud"
 
@@ -6101,7 +6102,7 @@ msgstr ""
 msgid "Auto Reply"
 msgstr "رد تلقائي"
 
-#: frontend/src/mail/OneMail.vue:248
+#: frontend/src/mail/OneMail.vue:264
 #: onedesk/public/js/one_mail/onemail_settings.js:72
 msgid "Auto Reply On"
 msgstr "الرد التلقائي مفعّل"
@@ -6155,7 +6156,7 @@ msgid "Automatically Create New Batch"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/OneMail.vue:338 onedesk/one_mail/abilities.py:45
+#: frontend/src/mail/OneMail.vue:354 onedesk/one_mail/abilities.py:45
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:194
 #: onedesk/public/js/doctype_settings.js:213
 #: onedesk/public/js/one_mail/onemail_settings.js:733
@@ -6346,7 +6347,7 @@ msgstr ""
 msgid "BOM Update Tool"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:26 frontend/src/mail/OneMail.vue:18
+#: frontend/src/cloud/OneCloud.vue:26 frontend/src/mail/MailConversation.vue:9
 #: frontend/src/sheet/components/SheetEditor/index.vue:39
 #: frontend/src/slide/components/SlideshowEndScreen.vue:5
 #: frontend/src/slide/shim/EditorNavbar.vue:4
@@ -6379,7 +6380,7 @@ msgstr "فروقات زيادة بأثر رجعي."
 msgid "Back to Inbox"
 msgstr "العودة إلى صندوق الوارد"
 
-#: frontend/src/mail/MailTeam.vue:115
+#: frontend/src/mail/MailTeam.vue:99
 msgid "Back to Inbox Now"
 msgstr "العودة إلى صندوق الوارد الآن"
 
@@ -8430,7 +8431,7 @@ msgstr "حجز الضيافة والصوت والأثاث"
 msgid "Cause"
 msgstr "السبب"
 
-#: frontend/src/mail/MailConversation.vue:50
+#: frontend/src/mail/MailConversation.vue:69
 msgid "Cc"
 msgstr "نسخة"
 
@@ -9394,7 +9395,7 @@ msgid "Clear formatting"
 msgstr "مسح التنسيق"
 
 #: frontend/src/mail/MailList.vue:9 frontend/src/mail/MailList.vue:10
-#: frontend/src/mail/OneMail.vue:186
+#: frontend/src/mail/OneMail.vue:199
 msgid "Clear selection"
 msgstr "إلغاء التحديد"
 
@@ -10453,7 +10454,7 @@ msgstr "تم التأكيد"
 msgid "Connect"
 msgstr "اتصال"
 
-#: frontend/src/mail/OneMail.vue:288
+#: frontend/src/mail/OneMail.vue:304
 #: onedesk/public/js/one_mail/onemail_settings.js:54
 #: onedesk/public/js/one_mail/onemail_settings.js:920
 msgid "Connect Mailbox"
@@ -10766,7 +10767,7 @@ msgstr "المحتويات"
 msgid "Continue"
 msgstr "متابعة"
 
-#: frontend/src/mail/MailConversation.vue:85
+#: frontend/src/mail/MailConversation.vue:110
 msgid "Continue Draft"
 msgstr "متابعة المسودة"
 
@@ -10898,6 +10899,7 @@ msgstr "ControlCenter"
 #. Label of the said_section (Section Break) field in DocType 'AI Chat'
 #. Label of the thread (Data) field in DocType 'Mail Conversation'
 #. Label of the thread (Data) field in DocType 'Mail Draft'
+#: frontend/src/mail/MailConversation.vue:8
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:65 onedesk/one_mail/ai.py:1315
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:34
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:76
@@ -10905,7 +10907,7 @@ msgid "Conversation"
 msgstr "المحادثة"
 
 #. Label of a Sidebar Item
-#: frontend/src/mail/MailList.vue:17 onedesk/one_ai/sidebar/oneai/oneai.json:25
+#: frontend/src/mail/MailList.vue:19 onedesk/one_ai/sidebar/oneai/oneai.json:25
 #: onedesk/one_mail/ai.py:742
 msgid "Conversations"
 msgstr "المحادثات"
@@ -11527,7 +11529,7 @@ msgstr "الشخص البديل يقرأ بريدي"
 msgid "Covering Until"
 msgstr "يغطي حتى"
 
-#: frontend/src/mail/OneMail.vue:247
+#: frontend/src/mail/OneMail.vue:263
 #: onedesk/public/js/one_mail/onemail_settings.js:69
 #, python-brace-format
 msgid "Covering until {0}"
@@ -11537,7 +11539,7 @@ msgstr "يغطي حتى {0}"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Marketing Campaign project template
-#: frontend/src/mail/MailTeam.vue:27 frontend/src/mail/OneMail.vue:348
+#: frontend/src/mail/MailTeam.vue:31 frontend/src/mail/OneMail.vue:364
 #: frontend/src/writer/components/NewVersionDialog.vue:8
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -13219,8 +13221,8 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #: frontend/src/cloud/OneCloud.vue:542 frontend/src/cloud/OneCloud.vue:628
-#: frontend/src/mail/OneMail.vue:183 frontend/src/mail/OneMail.vue:215
-#: frontend/src/mail/OneMail.vue:322
+#: frontend/src/mail/OneMail.vue:191 frontend/src/mail/OneMail.vue:228
+#: frontend/src/mail/OneMail.vue:338
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
 #: frontend/src/sheet/components/SheetEditor/index.vue:734
 #: frontend/src/sheet/components/SheetEditor/index.vue:1102
@@ -13412,7 +13414,7 @@ msgstr "حذف {0}؟"
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "حذف {0}؟ سيُبلَّغ كل المدعوين بإلغائه."
 
-#: frontend/src/mail/OneMail.vue:362
+#: frontend/src/mail/OneMail.vue:378
 #, python-brace-format
 msgid "Delete {0}? Its messages move to Trash."
 msgstr "حذف {0}؟ تنتقل رسائله إلى المهملات."
@@ -14350,7 +14352,7 @@ msgid "Disabled"
 msgstr "معطّل"
 
 #: frontend/portal/src/parts/WebForm.vue:5
-#: frontend/src/mail/MailConversation.vue:86
+#: frontend/src/mail/MailConversation.vue:111
 msgid "Discard"
 msgstr "تجاهل"
 
@@ -14802,9 +14804,9 @@ msgstr "نطاقات بالانتظار"
 #. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. Label of the done (Check) field in DocType 'Task Step'
 #: frontend/src/cloud/CloudUploads.vue:14 frontend/src/display/Counter.vue:20
-#: frontend/src/intake/IntakeInbox.vue:83 frontend/src/mail/MailList.vue:57
-#: frontend/src/mail/MailTeam.vue:13 frontend/src/mail/OneMail.vue:134
-#: frontend/src/project/MilestoneLanes.vue:92
+#: frontend/src/intake/IntakeInbox.vue:83 frontend/src/mail/MailList.vue:76
+#: frontend/src/mail/MailList.vue:88 frontend/src/mail/MailTeam.vue:15
+#: frontend/src/mail/OneMail.vue:141 frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
 #: frontend/src/slide/shim/EditorNavbar.vue:30
 #: onedesk/one_admin/doctype/account_request/account_request.json:66
@@ -14977,7 +14979,8 @@ msgid "Dr Name Surname"
 msgstr "د. الاسم الكنية"
 
 #: frontend/src/inventory/item/ItemMaking.vue:115
-#: frontend/src/mail/MailList.vue:53 frontend/src/project/Time.vue:80
+#: frontend/src/mail/MailList.vue:67 frontend/src/mail/MailList.vue:84
+#: frontend/src/project/Time.vue:80
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:17
 msgid "Draft"
 msgstr "مسودة"
@@ -15072,7 +15075,7 @@ msgstr "صغ أمر عمل لصنع عشرة من هذا، بقائمة المو
 msgid "Draft accounts"
 msgstr "مسودة القوائم المالية"
 
-#: frontend/src/mail/OneMail.vue:533
+#: frontend/src/mail/OneMail.vue:549
 msgid "Draft discarded."
 msgstr "تم تجاهل المسودة."
 
@@ -15781,7 +15784,7 @@ msgstr "تعديل"
 msgid "Edit Access"
 msgstr "تعديل الصلاحيات"
 
-#: frontend/src/mail/MailConversation.vue:57
+#: frontend/src/mail/MailConversation.vue:82
 msgid "Edit Before It Sends"
 msgstr "تعديل قبل الإرسال"
 
@@ -19070,7 +19073,7 @@ msgstr "طيّ أو فتح"
 msgid "Folder"
 msgstr "المجلد"
 
-#: frontend/src/mail/OneMail.vue:345
+#: frontend/src/mail/OneMail.vue:361
 msgid "Folder Name"
 msgstr "اسم المجلد"
 
@@ -19531,7 +19534,9 @@ msgid "Forms and integrations"
 msgstr "النماذج والتكاملات"
 
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
-#: frontend/src/cloud/OneCloud.vue:27 frontend/src/mail/MailConversation.vue:91
+#: frontend/src/cloud/OneCloud.vue:27
+#: frontend/src/mail/MailConversation.vue:116
+#: frontend/src/mail/MailConversation.vue:158
 #: onedesk/one_interface/shortcuts.py:17
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/one_mail/shortcuts.py:15
@@ -21416,6 +21421,10 @@ msgstr "إخفاء العنوان"
 msgid "Hide Master"
 msgstr "إخفاء القالب الرئيسي"
 
+#: frontend/src/mail/OneMail.vue:36 frontend/src/mail/OneMail.vue:37
+msgid "Hide Reading Pane"
+msgstr "إخفاء جزء القراءة"
+
 #: frontend/src/slide/shim/EditorNavbar.vue:174
 msgid "Hide Rulers and Guides"
 msgstr "إخفاء المساطر والأدلة"
@@ -22651,11 +22660,11 @@ msgstr "حسّنه"
 msgid "In"
 msgstr ""
 
-#: frontend/src/mail/MailTeam.vue:119
+#: frontend/src/mail/MailTeam.vue:103
 msgid "In 1 Day"
 msgstr "بعد يوم"
 
-#: frontend/src/mail/MailTeam.vue:120
+#: frontend/src/mail/MailTeam.vue:104
 msgid "In 3 Days"
 msgstr "بعد 3 أيام"
 
@@ -22820,7 +22829,7 @@ msgstr "بالحروف: {0}"
 msgid "In Working Hours"
 msgstr "في ساعات العمل"
 
-#: frontend/src/mail/MailTeam.vue:121
+#: frontend/src/mail/MailTeam.vue:105
 msgid "In a Week"
 msgstr "بعد أسبوع"
 
@@ -25525,7 +25534,7 @@ msgstr "متأخر منذ {0}"
 msgid "Later"
 msgstr "لاحقًا"
 
-#: frontend/src/mail/MailTeam.vue:111
+#: frontend/src/mail/MailTeam.vue:95
 msgid "Later Today"
 msgstr "لاحقاً اليوم"
 
@@ -26426,7 +26435,7 @@ msgstr "البنود المنتقاة"
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Label in the One Payment Request print format
 #. Label of the cloud_link (Link) field in DocType 'Presentation View'
-#: frontend/src/mail/MailConversation.vue:206
+#: frontend/src/mail/MailConversation.vue:255
 #: onedesk/one/doctype/news_item/news_item.json:81
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -26479,7 +26488,8 @@ msgstr "تم إيقاف الرابط"
 msgid "Link the contact to a customer or supplier first."
 msgstr "اربط جهة الاتصال بعميل أو مورد أولاً."
 
-#: frontend/src/mail/MailConversation.vue:201 frontend/src/mail/OneMail.vue:184
+#: frontend/src/mail/MailConversation.vue:250 frontend/src/mail/OneMail.vue:78
+#: frontend/src/mail/OneMail.vue:197
 msgid "Link to Record"
 msgstr "ربط بسجل"
 
@@ -27379,7 +27389,7 @@ msgstr "صندوق بريد لا يمكن الوصول إليه"
 msgid "Mailbox OneAI Limit Reached"
 msgstr "بلغ صندوق البريد حد OneAI"
 
-#: frontend/src/mail/OneMail.vue:340
+#: frontend/src/mail/OneMail.vue:356
 msgid "Mailbox Settings"
 msgstr "إعدادات صندوق البريد"
 
@@ -27393,7 +27403,7 @@ msgstr "صندوق بريد شورك معك"
 msgid "Mailbox connected"
 msgstr "تم ربط صندوق البريد"
 
-#: frontend/src/mail/OneMail.vue:299 onedesk/one_mail/abilities.py:18
+#: frontend/src/mail/OneMail.vue:315 onedesk/one_mail/abilities.py:18
 #: onedesk/public/js/one_ai/ai_center.js:143
 #: onedesk/public/js/one_ai/ai_center.js:473
 #: onedesk/public/js/one_mail/onemail_settings.js:49
@@ -27835,7 +27845,8 @@ msgstr "التسجيل كـ"
 msgid "Mark Attendance"
 msgstr ""
 
-#: frontend/src/mail/MailTeam.vue:13 onedesk/one_mail/ai.py:1306
+#: frontend/src/mail/MailTeam.vue:15 frontend/src/mail/MailTeam.vue:16
+#: frontend/src/mail/MailTeam.vue:17 onedesk/one_mail/ai.py:1306
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:7
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:9
 #: onedesk/public/js/one_inventory/asset_maintenance_log.js:14
@@ -27867,11 +27878,11 @@ msgstr "تعليم كمقروء"
 msgid "Mark as Unread"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:178 frontend/src/mail/OneMail.vue:210
+#: frontend/src/mail/OneMail.vue:193 frontend/src/mail/OneMail.vue:223
 msgid "Mark as read"
 msgstr "تعليم كمقروء"
 
-#: frontend/src/mail/OneMail.vue:179 frontend/src/mail/OneMail.vue:210
+#: frontend/src/mail/OneMail.vue:194 frontend/src/mail/OneMail.vue:223
 msgid "Mark as unread"
 msgstr "تعليم كغير مقروء"
 
@@ -27911,7 +27922,7 @@ msgstr "تم وضع علامة كمُراجَع"
 msgid "Marked as lost"
 msgstr "تم التحديد كمفقود"
 
-#: frontend/src/mail/MailTeam.vue:142
+#: frontend/src/mail/MailTeam.vue:126
 msgid "Marked done."
 msgstr "تم وضع علامة منجز."
 
@@ -28511,7 +28522,7 @@ msgstr "الأدنى"
 msgid "Min colour"
 msgstr "لون الحد الأدنى"
 
-#: frontend/src/mail/OneMail.vue:132
+#: frontend/src/mail/OneMail.vue:139
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
 msgid "Mine"
 msgstr "الخاصة بي"
@@ -28733,6 +28744,7 @@ msgstr "الأشهر"
 #. Label of a Sidebar Item
 #: frontend/portal/src/App.vue:17 frontend/src/display/Boards.vue:102
 #: frontend/src/intake/IntakeInbox.vue:42
+#: frontend/src/mail/MailConversation.vue:75
 #: frontend/src/sheet/components/SheetEditor/index.vue:292
 #: frontend/src/sheet/components/SheetEditor/index.vue:1166
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:383
@@ -28902,7 +28914,7 @@ msgstr "نقل النشرات والإشعارات خارج البريد الو�
 msgid "Move selection"
 msgstr "نقل التحديد"
 
-#: frontend/src/mail/OneMail.vue:181
+#: frontend/src/mail/OneMail.vue:196
 msgid "Move to"
 msgstr "نقل إلى"
 
@@ -28937,7 +28949,7 @@ msgstr "عطلة الانتقال"
 msgid "Move {0}"
 msgstr "نقل {0}"
 
-#: frontend/src/mail/OneMail.vue:519 onedesk/one_inventory/heads.py:633
+#: frontend/src/mail/OneMail.vue:535 onedesk/one_inventory/heads.py:633
 msgid "Moved"
 msgstr "تم النقل"
 
@@ -28959,7 +28971,7 @@ msgstr "أُعيد نقله"
 msgid "Moved down from {0}% to {1}%."
 msgstr "انخفض من {0}% إلى {1}%."
 
-#: frontend/src/mail/OneMail.vue:519 onedesk/one_mail/ai.py:788
+#: frontend/src/mail/OneMail.vue:535 onedesk/one_mail/ai.py:788
 msgid "Moved to Trash"
 msgstr "نُقل إلى المهملات"
 
@@ -29465,6 +29477,10 @@ msgstr "لم يُشترَ قط"
 msgid "Never changed"
 msgstr "لم تُغيَّر قط"
 
+#: frontend/src/mail/MailNotes.vue:7
+msgid "Never sent to anybody outside."
+msgstr "لا تُرسل أبدًا إلى أي جهة خارجية."
+
 #: onedesk/public/js/onecloud_dialogs.js:561
 msgid "Never used"
 msgstr "لم تُستخدم"
@@ -29541,8 +29557,8 @@ msgstr "رمز جديد"
 msgid "New Document"
 msgstr "مستند جديد"
 
-#: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:4
-#: frontend/src/mail/OneMail.vue:540 onedesk/one_mail/shortcuts.py:12
+#: frontend/src/kit/ActivityComposer.vue:18 frontend/src/mail/OneMail.vue:40
+#: frontend/src/mail/OneMail.vue:556 onedesk/one_mail/shortcuts.py:12
 #: onedesk/public/js/one_interface/form.js:239
 #: onedesk/public/js/one_mail/record_mail.js:35
 #: onedesk/www/account_profile.html:36
@@ -29572,8 +29588,8 @@ msgstr "مطالبة نفقات جديدة"
 msgid "New Fiscal Year"
 msgstr "سنة مالية جديدة"
 
-#: frontend/src/mail/OneMail.vue:317 frontend/src/mail/OneMail.vue:334
-#: frontend/src/mail/OneMail.vue:348
+#: frontend/src/mail/OneMail.vue:333 frontend/src/mail/OneMail.vue:350
+#: frontend/src/mail/OneMail.vue:364
 msgid "New Folder"
 msgstr "مجلد جديد"
 
@@ -30156,7 +30172,7 @@ msgstr "موعد الخطوة التالية"
 msgid "Next Visit"
 msgstr "الزيارة التالية"
 
-#: frontend/src/mail/MailTeam.vue:113
+#: frontend/src/mail/MailTeam.vue:97
 msgid "Next Week"
 msgstr ""
 
@@ -30396,7 +30412,7 @@ msgstr ""
 msgid "No Answer"
 msgstr ""
 
-#: frontend/src/mail/OneMail.vue:509
+#: frontend/src/mail/OneMail.vue:525
 msgid "No Archive folder in this mailbox"
 msgstr "لا يوجد مجلد أرشيف في صندوق البريد هذا"
 
@@ -30442,7 +30458,7 @@ msgstr "شهادة عدم ممانعة"
 msgid "No Order Yet"
 msgstr "لا طلب بعد"
 
-#: frontend/src/mail/MailTeam.vue:123
+#: frontend/src/mail/MailTeam.vue:107
 msgid "No Reminder"
 msgstr "بلا تذكير"
 
@@ -30587,7 +30603,7 @@ msgstr "لا توجد عقود"
 msgid "No conversation selected"
 msgstr "لم يتم اختيار محادثة"
 
-#: frontend/src/mail/MailList.vue:18
+#: frontend/src/mail/MailList.vue:20
 msgid "No conversations"
 msgstr "لا توجد محادثات"
 
@@ -30792,7 +30808,7 @@ msgstr "لا توجد قوالب بريد"
 msgid "No mailbox can send as {0}."
 msgstr "لا يوجد صندوق بريد يمكنه الإرسال باسم {0}."
 
-#: frontend/src/mail/OneMail.vue:56 onedesk/public/js/one_ai/ai_center.js:145
+#: frontend/src/mail/OneMail.vue:52 onedesk/public/js/one_ai/ai_center.js:145
 #: onedesk/public/js/one_ai/ai_center.js:260
 #: onedesk/public/js/one_mail/onemail_settings.js:64
 #: onedesk/public/js/one_mail/onemail_settings.js:1243
@@ -31015,7 +31031,7 @@ msgstr "لا رد بعد: {subject}"
 msgid "No request for quotation the reader may see is {0}."
 msgstr "لا يوجد طلب عرض أسعار مرئي باسم {0}."
 
-#: frontend/src/cloud/cloud.js:107 frontend/src/mail/MailList.vue:18
+#: frontend/src/cloud/cloud.js:107 frontend/src/mail/MailList.vue:20
 msgid "No results"
 msgstr "لا توجد نتائج"
 
@@ -31215,7 +31231,7 @@ msgstr "لا يوجد {0} بعد، لذا تبقى حقوله فارغة."
 msgid "No."
 msgstr ""
 
-#: frontend/src/mail/MailTeam.vue:87 frontend/src/project/Time.vue:126
+#: frontend/src/mail/MailTeam.vue:71 frontend/src/project/Time.vue:126
 msgid "Nobody"
 msgstr "لا أحد"
 
@@ -31731,7 +31747,7 @@ msgstr "لم تُراجع بعد"
 msgid "Not saved"
 msgstr "لم يُحفظ"
 
-#: frontend/src/mail/MailConversation.vue:75
+#: frontend/src/mail/MailConversation.vue:100
 msgid "Not saved, storage is full"
 msgstr "لم يُحفظ، التخزين ممتلئ"
 
@@ -31832,10 +31848,6 @@ msgstr "ملاحظة"
 msgid "Note No"
 msgstr "رقم الإشعار"
 
-#: frontend/src/mail/MailTeam.vue:40
-msgid "Note for the team, never sent"
-msgstr "ملاحظة للفريق، لا تُرسل أبداً"
-
 #. Label in the One BOM Creator print format
 #. Label in the One Work Order print format
 #. Label in the One Leave Allocation print format
@@ -31857,9 +31869,18 @@ msgstr "ملاحظات"
 msgid "Notes ({0}) — Shift+F2 to add"
 msgstr "الملاحظات ({0}) — Shift+F2 للإضافة"
 
+#: frontend/src/mail/MailConversation.vue:40 frontend/src/mail/MailNotes.vue:4
+msgid "Notes for the Team"
+msgstr "ملاحظات للفريق"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:106
 msgid "Notes — Shift+F2 to add"
 msgstr "الملاحظات — Shift+F2 للإضافة"
+
+#: frontend/src/mail/MailConversation.vue:40
+#, python-brace-format
+msgid "Notes: {0}"
+msgstr "الملاحظات: {0}"
 
 #: frontend/src/intake/IntakeReading.vue:21 frontend/src/task/TaskWaits.vue:10
 #: onedesk/one/privacy_copy.py:366
@@ -32610,7 +32631,7 @@ msgstr "في إجازة"
 msgid "On Leave Today"
 msgstr "في إجازة اليوم"
 
-#: frontend/src/mail/OneMail.vue:249
+#: frontend/src/mail/OneMail.vue:265
 #: onedesk/public/js/one_mail/onemail_settings.js:70
 #, python-brace-format
 msgid "On Leave until {0}"
@@ -33164,7 +33185,7 @@ msgstr "سياسات One تتغيّر"
 #. 'Interview'
 #. Group in Interview's connections
 #. Label of the one_ai_section (Section Break) field in DocType 'Job Applicant'
-#: frontend/src/mail/OneMail.vue:337
+#: frontend/src/mail/OneMail.vue:353
 #: onedesk/one/doctype/news_source/news_source.json:57
 #: onedesk/one/doctype/news_source/news_source.json:144
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:180
@@ -33643,7 +33664,7 @@ msgstr "عند فتح الصفحة الرئيسية لـ OneInventory، وكلم
 #. Label of the one_mail_section (Section Break) field in DocType
 #. 'Communication'
 #. Title of a Sidebar
-#: frontend/src/mail/OneMail.vue:229
+#: frontend/src/mail/OneMail.vue:242
 #: onedesk/one_mail/custom/communication.json:9
 #: onedesk/one_mail/page/onemail/onemail.js:2
 #: onedesk/one_mail/sidebar/onemail/onemail.json:29
@@ -34067,8 +34088,8 @@ msgstr "العتامة"
 #: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:593
 #: frontend/src/cloud/OneCloud.vue:597 frontend/src/cloud/OneCloud.vue:606
 #: frontend/src/factory/floor/ShopFloor.vue:119
-#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:131
-#: frontend/src/mail/OneMail.vue:205
+#: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:138
+#: frontend/src/mail/OneMail.vue:218
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
@@ -34097,6 +34118,7 @@ msgstr "فتح"
 msgid "Open Actions"
 msgstr "إجراءات مفتوحة"
 
+#: frontend/src/mail/MailTeam.vue:16 frontend/src/mail/MailTeam.vue:17
 #: onedesk/one_mail/ai.py:1307
 msgid "Open Again"
 msgstr "فتح مجدداً"
@@ -34415,7 +34437,7 @@ msgstr "فُتح من"
 msgid "Opened On"
 msgstr "فُتح في"
 
-#: frontend/src/mail/MailTeam.vue:142
+#: frontend/src/mail/MailTeam.vue:126
 msgid "Opened again."
 msgstr "تم الفتح مجدداً."
 
@@ -35153,7 +35175,7 @@ msgstr "من 100."
 msgid "Out of 100. Below Flag Below Score the log is flagged for review."
 msgstr "من 100. تحت قيمة «الإشارة تحت الدرجة» يُعلَّم السجل للمراجعة."
 
-#: frontend/src/mail/OneMail.vue:250 frontend/src/mail/OneMail.vue:336
+#: frontend/src/mail/OneMail.vue:266 frontend/src/mail/OneMail.vue:352
 #: onedesk/one_mail/abilities.py:37
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #: onedesk/public/js/one_mail/onemail_settings.js:311
@@ -35174,7 +35196,7 @@ msgstr "تشغيل الرد خارج المكتب"
 msgid "Out of Office Replies"
 msgstr "ردود الغياب"
 
-#: frontend/src/mail/OneMail.vue:250
+#: frontend/src/mail/OneMail.vue:266
 #: onedesk/public/js/one_mail/onemail_settings.js:71
 #, python-brace-format
 msgid "Out of Office until {0}"
@@ -37008,7 +37030,7 @@ msgstr "بداية الفترة"
 msgid "Periods"
 msgstr "الفترات"
 
-#: frontend/src/mail/OneMail.vue:495
+#: frontend/src/mail/OneMail.vue:511
 msgid "Permanently delete these messages? This can't be undone."
 msgstr "حذف هذه الرسائل نهائيًا؟ لا يمكن التراجع عن ذلك."
 
@@ -37200,7 +37222,7 @@ msgstr "رقم قائمة الالتقاط"
 msgid "Pick a Picture for {0}"
 msgstr "اختر صورة لـ {0}"
 
-#: frontend/src/mail/MailTeam.vue:114 frontend/src/mail/MailTeam.vue:122
+#: frontend/src/mail/MailTeam.vue:98 frontend/src/mail/MailTeam.vue:106
 msgid "Pick a Time"
 msgstr "اختيار وقت"
 
@@ -40455,7 +40477,7 @@ msgstr "إعادة ربط {0}"
 #. Request'
 #. Label of the record_doctype (Link) field in DocType 'Extension'
 #: frontend/src/cloud/CloudPreview.vue:97 frontend/src/cloud/cloud.js:68
-#: frontend/src/mail/MailConversation.vue:204
+#: frontend/src/mail/MailConversation.vue:253
 #: frontend/src/slide/shim/DataDialog.vue:110
 #: onedesk/one/doctype/record_head/record_head.json:28
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json:19
@@ -40567,7 +40589,7 @@ msgstr "مشاركة السجلات"
 #. Label of the reference_doctype (Link) field in DocType 'Portal Link'
 #. Label of the reference_doctype (Link) field in DocType 'Cloud File Request'
 #. Name of a DocType
-#: frontend/src/mail/MailConversation.vue:203
+#: frontend/src/mail/MailConversation.vue:252
 #: frontend/src/slide/shim/DataDialog.vue:109 onedesk/one/access_center.py:258
 #: onedesk/one/notification_words.py:222
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:47
@@ -41152,7 +41174,7 @@ msgstr "ذكّر"
 msgid "Remind At"
 msgstr ""
 
-#: frontend/src/mail/MailTeam.vue:23 frontend/src/mail/MailTeam.vue:122
+#: frontend/src/mail/MailTeam.vue:27 frontend/src/mail/MailTeam.vue:106
 #: onedesk/public/js/record.js:163
 msgid "Remind Me"
 msgstr ""
@@ -41194,12 +41216,12 @@ msgstr "تذكير بفاتورة غير معروفة. اطلب الفاتورة
 msgid "Reminder sent to {0} people"
 msgstr "أُرسل تذكير إلى {0} أشخاص"
 
-#: frontend/src/mail/MailTeam.vue:119 frontend/src/mail/MailTeam.vue:120
-#: frontend/src/mail/MailTeam.vue:121 frontend/src/mail/MailTeam.vue:122
+#: frontend/src/mail/MailTeam.vue:103 frontend/src/mail/MailTeam.vue:104
+#: frontend/src/mail/MailTeam.vue:105 frontend/src/mail/MailTeam.vue:106
 msgid "Reminder set."
 msgstr "تم ضبط التذكير."
 
-#: frontend/src/mail/MailTeam.vue:23
+#: frontend/src/mail/MailTeam.vue:27
 #, python-brace-format
 msgid "Reminder {0}"
 msgstr "تذكير {0}"
@@ -41368,7 +41390,7 @@ msgstr "إزالة العنوان"
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #: frontend/src/cloud/OneCloud.vue:539 frontend/src/cloud/OneCloud.vue:627
-#: frontend/src/mail/OneMail.vue:321 frontend/src/mail/OneMail.vue:355
+#: frontend/src/mail/OneMail.vue:337 frontend/src/mail/OneMail.vue:371
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
 #: frontend/src/sheet/components/SheetEditor/index.vue:713
 #: frontend/src/sheet/components/SheetEditor/index.vue:748
@@ -41387,7 +41409,7 @@ msgstr "إعادة تسمية"
 msgid "Rename Conversation"
 msgstr "إعادة تسمية المحادثة"
 
-#: frontend/src/mail/OneMail.vue:355
+#: frontend/src/mail/OneMail.vue:371
 msgid "Rename Folder"
 msgstr "إعادة تسمية المجلد"
 
@@ -41607,7 +41629,8 @@ msgstr "تصل الردود على الإشعارات إلى صندوق البر
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Asks To' (Select) field in DocType 'Reading Ask'
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
-#: frontend/src/mail/MailConversation.vue:89
+#: frontend/src/mail/MailConversation.vue:73
+#: frontend/src/mail/MailConversation.vue:114
 #: frontend/src/sheet/components/SheetEditor/index.vue:1113
 #: frontend/src/writer/components/FloatingComments.vue:157
 #: onedesk/one_ai/chat.py:316
@@ -41630,7 +41653,8 @@ msgstr "الرد على الكل"
 msgid "Reply With OneAI"
 msgstr "الرد عبر OneAI"
 
-#: frontend/src/mail/MailConversation.vue:90
+#: frontend/src/mail/MailConversation.vue:115
+#: frontend/src/mail/MailConversation.vue:157
 msgid "Reply all"
 msgstr "رد على الكل"
 
@@ -42201,7 +42225,7 @@ msgstr "النتائج"
 msgid "Results and lessons"
 msgstr "النتائج والدروس المستفادة"
 
-#: frontend/src/mail/OneMail.vue:164
+#: frontend/src/mail/OneMail.vue:177
 #, python-brace-format
 msgid "Results for {0}"
 msgstr "نتائج {0}"
@@ -43294,8 +43318,8 @@ msgstr "السبت"
 #: frontend/src/inventory/item/ItemPlaces.vue:21
 #: frontend/src/inventory/item/ItemSuppliers.vue:20
 #: frontend/src/inventory/item/ItemSuppliers.vue:38
-#: frontend/src/kit/FieldEdit.vue:22 frontend/src/mail/MailTeam.vue:107
-#: frontend/src/mail/MailTeam.vue:133
+#: frontend/src/kit/FieldEdit.vue:22 frontend/src/mail/MailTeam.vue:91
+#: frontend/src/mail/MailTeam.vue:117
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:35
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/slide/composables/useShortcuts.js:232
@@ -43386,7 +43410,7 @@ msgstr "احفظ السجل قبل فتح نصه في مستند."
 msgid "Save to Library"
 msgstr "حفظ في المكتبة"
 
-#: frontend/src/mail/MailConversation.vue:67
+#: frontend/src/mail/MailConversation.vue:92
 msgid "Save to My Files"
 msgstr "حفظ في ملفاتي"
 
@@ -43438,7 +43462,7 @@ msgstr "حُفظ المستند"
 msgid "Saved report {0}"
 msgstr "التقرير المحفوظ {0}"
 
-#: frontend/src/mail/MailConversation.vue:229
+#: frontend/src/mail/MailConversation.vue:278
 msgid "Saved to My Files"
 msgstr "تم الحفظ في ملفاتي"
 
@@ -43793,7 +43817,7 @@ msgstr "الإحكام والعزل ضد الطقس"
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/to_order/ToOrderPage.vue:9
-#: frontend/src/mail/OneMail.vue:220 frontend/src/quality/QualityHome.vue:20
+#: frontend/src/mail/OneMail.vue:233 frontend/src/quality/QualityHome.vue:20
 #: onedesk/one_hr/custom/employee_attendance_tool.json:15
 #: onedesk/one_interface/shortcuts.py:15 onedesk/one_inventory/shortcuts.py:11
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:121
@@ -44016,7 +44040,7 @@ msgstr ""
 msgid "Seen By"
 msgstr "شاهده"
 
-#: frontend/src/mail/MailList.vue:34 frontend/src/mail/MailList.vue:35
+#: frontend/src/mail/MailList.vue:38 frontend/src/mail/MailList.vue:39
 #: onedesk/public/js/doctype_settings.js:253
 msgid "Select"
 msgstr "تحديد"
@@ -44321,7 +44345,7 @@ msgstr "جارٍ الإرسال…"
 msgid "Sends"
 msgstr "يرسل"
 
-#: frontend/src/mail/MailConversation.vue:56
+#: frontend/src/mail/MailConversation.vue:81
 #, python-brace-format
 msgid "Sends {0}"
 msgstr "يُرسل {0}"
@@ -45537,6 +45561,10 @@ msgstr "عرض الناشر"
 msgid "Show Raw"
 msgstr "عرض النص الخام"
 
+#: frontend/src/mail/OneMail.vue:36 frontend/src/mail/OneMail.vue:37
+msgid "Show Reading Pane"
+msgstr "إظهار جزء القراءة"
+
 #: frontend/src/inventory/to_order/ToOrderPage.vue:143
 msgid "Show Requested"
 msgstr "اعرض المطلوب"
@@ -45921,7 +45949,7 @@ msgid "Sign-off to go live"
 msgstr "الموافقة على التشغيل"
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/mail/OneMail.vue:335 onedesk/one_ai/chat.py:347
+#: frontend/src/mail/OneMail.vue:351 onedesk/one_ai/chat.py:347
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/public/js/one_mail/onemail_settings.js:195
 #: onedesk/public/js/one_mail/onemail_settings.js:197
@@ -46569,12 +46597,12 @@ msgstr "قائمة الملاحظات والإصلاح"
 msgid "Snapshot"
 msgstr "لقطة"
 
-#: frontend/src/mail/MailTeam.vue:18 frontend/src/mail/MailTeam.vue:143
+#: frontend/src/mail/MailTeam.vue:22 frontend/src/mail/MailTeam.vue:127
 #: onedesk/one_mail/shortcuts.py:22
 msgid "Snooze"
 msgstr "تأجيل"
 
-#: frontend/src/mail/MailTeam.vue:114
+#: frontend/src/mail/MailTeam.vue:98
 msgid "Snooze Until"
 msgstr "تأجيل حتى"
 
@@ -46583,7 +46611,7 @@ msgstr "تأجيل حتى"
 msgid "Snooze Until {0}"
 msgstr "تأجيل حتى {0}"
 
-#: frontend/src/mail/MailList.vue:59
+#: frontend/src/mail/MailList.vue:78 frontend/src/mail/MailList.vue:90
 msgid "Snoozed"
 msgstr "مؤجلة"
 
@@ -46597,13 +46625,13 @@ msgstr "أجّلها"
 msgid "Snoozed Until"
 msgstr "مؤجلة حتى"
 
-#: frontend/src/mail/MailTeam.vue:18
+#: frontend/src/mail/MailTeam.vue:22
 #, python-brace-format
 msgid "Snoozed until {0}"
 msgstr "مؤجلة حتى {0}"
 
-#: frontend/src/mail/MailTeam.vue:111 frontend/src/mail/MailTeam.vue:112
-#: frontend/src/mail/MailTeam.vue:113 frontend/src/mail/MailTeam.vue:114
+#: frontend/src/mail/MailTeam.vue:95 frontend/src/mail/MailTeam.vue:96
+#: frontend/src/mail/MailTeam.vue:97 frontend/src/mail/MailTeam.vue:98
 msgid "Snoozed."
 msgstr "تم التأجيل."
 
@@ -47219,8 +47247,9 @@ msgstr "التقييم"
 msgid "Standing (9:16)"
 msgstr "عمودي (9:16)"
 
-#: frontend/src/cloud/OneCloud.vue:623 frontend/src/mail/MailList.vue:68
-#: frontend/src/mail/OneMail.vue:180 frontend/src/mail/OneMail.vue:211
+#: frontend/src/cloud/OneCloud.vue:623 frontend/src/mail/MailList.vue:59
+#: frontend/src/mail/MailList.vue:60 frontend/src/mail/MailList.vue:99
+#: frontend/src/mail/OneMail.vue:195 frontend/src/mail/OneMail.vue:224
 #: frontend/src/slide/shim/LayersPanel.vue:99
 #: frontend/src/slide/utils/toolbarTools.js:54
 #: onedesk/one_display/widgets.py:66 onedesk/one_mail/ai.py:662
@@ -48108,7 +48137,7 @@ msgstr "التخزين ممتلئ"
 msgid "Storage Nearly Full"
 msgstr "التخزين شبه ممتلئ"
 
-#: frontend/src/mail/MailConversation.vue:127
+#: frontend/src/mail/MailConversation.vue:160
 msgid "Storage is full. Saved automatically once there's space."
 msgstr "التخزين ممتلئ. سيُحفظ تلقائيًا عند توفر مساحة."
 
@@ -48831,7 +48860,7 @@ msgstr "طلبات الدعم"
 msgid "Support Settings"
 msgstr "إعدادات الدعم"
 
-#: frontend/src/mail/OneMail.vue:221
+#: frontend/src/mail/OneMail.vue:234
 msgid "Supports from:, to:, subject:, has:attachment, is:unread and is:starred"
 msgstr "يدعم from: وto: وsubject: وhas:attachment وis:unread وis:starred"
 
@@ -53752,7 +53781,7 @@ msgstr "مُسمّاة"
 #. Label of the recipients (Small Text) field in DocType 'Mail Draft'
 #. Label in the One Timesheet print format
 #: frontend/src/intake/IntakePay.vue:33
-#: frontend/src/mail/MailConversation.vue:49
+#: frontend/src/mail/MailConversation.vue:68
 #: frontend/src/slide/shim/WidgetSection.vue:44 onedesk/one_ai/chat.py:325
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
@@ -54073,7 +54102,7 @@ msgstr "الرمز لمرة واحدة"
 msgid "Tomorrow"
 msgstr "غدًا"
 
-#: frontend/src/mail/MailTeam.vue:112
+#: frontend/src/mail/MailTeam.vue:96
 msgid "Tomorrow Morning"
 msgstr "صباح الغد"
 
@@ -55171,11 +55200,11 @@ msgstr ""
 msgid "Uh oh!"
 msgstr "عذرًا!"
 
-#: frontend/src/mail/OneMail.vue:133
+#: frontend/src/mail/OneMail.vue:140
 msgid "Unassigned"
 msgstr ""
 
-#: frontend/src/mail/MailTeam.vue:87
+#: frontend/src/mail/MailTeam.vue:71
 msgid "Unassigned."
 msgstr "تم إلغاء الإسناد."
 
@@ -55222,7 +55251,7 @@ msgstr "مفهوم"
 msgid "Understood On"
 msgstr "فُهم في"
 
-#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:520
+#: frontend/src/intake/IntakeReading.vue:36 frontend/src/mail/OneMail.vue:536
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:103
 #: frontend/src/slide/composables/useShortcuts.js:239
 #: onedesk/one_ai/doctype/reading_action/reading_action.js:11
@@ -55443,7 +55472,7 @@ msgstr "ما لم تُدفع، ستُعلَّق مساحة العمل في {date
 msgid "Unlimited"
 msgstr "بلا حدود"
 
-#: frontend/src/mail/MailConversation.vue:19
+#: frontend/src/mail/MailConversation.vue:25
 msgid "Unlink"
 msgstr "إلغاء الربط"
 
@@ -55525,8 +55554,9 @@ msgstr "معاملات بنكية غير مسواة"
 msgid "Unresolve"
 msgstr "إعادة فتح"
 
-#: frontend/src/mail/MailList.vue:68 frontend/src/mail/OneMail.vue:180
-#: frontend/src/mail/OneMail.vue:211
+#: frontend/src/mail/MailList.vue:59 frontend/src/mail/MailList.vue:60
+#: frontend/src/mail/MailList.vue:99 frontend/src/mail/OneMail.vue:195
+#: frontend/src/mail/OneMail.vue:224
 msgid "Unstar"
 msgstr "إزالة النجمة"
 
@@ -58340,7 +58370,7 @@ msgstr "ما لم يُصرف ولم يُعَد يُخصم من راتبي."
 #. Label of the one_when (Data) field in DocType 'Timesheet Detail'
 #. Label of the accepted_on (Datetime) field in DocType 'Legal Acceptance'
 #. Label of the event (Select) field in DocType 'Extension'
-#: frontend/src/intake/IntakeFacts.vue:73 frontend/src/mail/MailTeam.vue:107
+#: frontend/src/intake/IntakeFacts.vue:73 frontend/src/mail/MailTeam.vue:91
 #: frontend/src/template/Tasks.vue:6 onedesk/one/ai.py:3756
 #: onedesk/one/notification_words.py:223 onedesk/one_display/starters.py:961
 #: onedesk/one_hr/custom/timesheet_detail.json:7
@@ -62290,7 +62320,7 @@ msgstr "ليس لديك صندوق بريد."
 msgid "You don’t have access to this sheet"
 msgstr "ليس لديك حق الوصول إلى هذا الجدول"
 
-#: frontend/src/mail/MailConversation.vue:84
+#: frontend/src/mail/MailConversation.vue:109
 msgid "You have a draft of a reply"
 msgstr "لديك مسودة رد"
 
@@ -66770,7 +66800,7 @@ msgstr "يُستخدم {0} خارج الصفوف التي يكررها."
 msgid "{0} is used twice. Each {1} must have a unique name."
 msgstr "{0} مستخدم مرتين. يجب أن يكون لكل {1} اسم فريد."
 
-#: frontend/src/mail/MailTeam.vue:31
+#: frontend/src/mail/MailTeam.vue:34
 #, python-brace-format
 msgid "{0} is writing a reply"
 msgstr "{0} يكتب رداً"
@@ -67082,7 +67112,7 @@ msgstr "منها {0} تعمل."
 
 #: frontend/src/factory/floor/OrderRows.vue:34
 #: frontend/src/factory/floor/OrderRows.vue:39
-#: frontend/src/mail/OneMail.vue:432 frontend/src/project/MilestoneLanes.vue:32
+#: frontend/src/mail/OneMail.vue:448 frontend/src/project/MilestoneLanes.vue:32
 #: frontend/src/project/MilestoneLanes.vue:93 frontend/src/project/Months.vue:8
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:86
 #: frontend/src/sheet/components/SheetEditor/FindReplace.vue:97
@@ -67593,7 +67623,7 @@ msgstr "{0} مقاعد"
 msgid "{0} seconds"
 msgstr "{0} ثانية"
 
-#: frontend/src/mail/MailList.vue:15
+#: frontend/src/mail/MailList.vue:14
 #, python-brace-format
 msgid "{0} selected"
 msgstr "{0} محدد"
@@ -68001,7 +68031,7 @@ msgstr "{0} {1} مطلوبة"
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "تم اعتماد {0} {1}، ولا يمكن تغيير هذه الآن."
 
-#: frontend/src/mail/MailConversation.vue:170
+#: frontend/src/mail/MailConversation.vue:219
 #, python-brace-format
 msgid "{0} {1} made and linked to this conversation."
 msgstr "تم إنشاء {0} {1} وربطه بهذه المحادثة."

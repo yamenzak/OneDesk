@@ -11,8 +11,8 @@ message can be linked to the customer, supplier or employee it is about.
 | Part | What it holds |
 | --- | --- |
 | **Mailboxes**, on the left | Every mailbox you can read, the workspace's first, then shared ones, then your own. Each opens to its folders. |
-| **The list** | The conversations in the folder you picked, newest first. A blue dot means unread. |
-| **The reading pane** | The conversation you opened, with the records it is linked to above it. |
+| **The list** | The conversations in the folder you picked, newest first, one to a line. A blue dot means unread. |
+| **The conversation** | Opens in place of the list, with **Archive**, **Delete**, **Mark as unread**, **Star**, **Move to** and **Link to Record** over it and the back arrow to return. **Show Reading Pane**, beside **New Email**, keeps the list and the conversation side by side instead. |
 | **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and OneMail's version, which opens What's New. |
 
 A short tour shows you each of these: press the play button at the foot of

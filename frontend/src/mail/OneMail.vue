@@ -1,35 +1,6 @@
 <template>
-  <InterfacePart :win="win" part="commands" inline>
-    <span class="inline-flex items-center gap-0.5">
-      <Button variant="solid" icon-left="lucide-pencil" :label="__('New Email')" :disabled="!from" data-tour="onemail-new" @click="write()" />
-      <template v-if="picked.size">
-        <span class="mx-1 h-5 w-px bg-surface-gray-4" />
-        <template v-for="one in commands" :key="one.act">
-          <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
-            <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
-          </Dropdown>
-          <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
-        </template>
-      </template>
-    </span>
-  </InterfacePart>
-  <InterfacePart :win="win" part="views" inline>
-    <span v-if="!picked.size && thread" class="inline-flex items-center gap-0.5">
-      <Button v-if="narrow" variant="ghost" icon="lucide-arrow-left" :aria-label="__('Back')" :title="__('Back')" @click="close()" />
-      <template v-for="one in commands" :key="one.act">
-        <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
-          <template #trigger><Button variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
-        </Dropdown>
-        <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
-      </template>
-    </span>
-  </InterfacePart>
-
-  <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
-    <div class="flex shrink-0 flex-col border-e border-outline-gray-1" :class="narrow ? (thread ? 'hidden' : 'w-full') : 'w-96'" data-tour="onemail-list">
-      <div v-if="box?.shared && !search" class="border-b border-outline-gray-1 px-3 py-2">
-        <TabButtons v-model="team" :options="TEAMS" />
-      </div>
+  <div ref="root" class="flex h-full min-h-0 gap-2.5 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
+    <div class="flex shrink-0 flex-col overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-elevation-2" :class="stacked ? (thread ? 'hidden' : 'w-full') : 'w-96'" data-tour="onemail-list">
       <Loading v-if="loading && !items.length" />
       <ContextMenu v-else :options="menu" class="min-h-0 flex-1">
         <template #trigger>
@@ -40,17 +11,42 @@
             :open="thread"
             :more="more"
             :searching="!!search"
+            :wide="stacked && !narrow"
             @open="open"
             @toggle="toggle"
             @all="(on) => (on ? items.forEach((one) => picked.add(one.thread)) : picked.clear())"
             @star="(item) => run(item.flagged ? 'unstar' : 'star', [item.thread])"
             @more="list({ more: true, keep: true })"
             @menu="menuFor"
-          />
+          >
+            <template #action>
+              <template v-if="picked.size">
+                <template v-for="one in commands" :key="one.act">
+                  <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
+                    <template #trigger><Button size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" /></template>
+                  </Dropdown>
+                  <Button v-else size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="command(one.act)" />
+                </template>
+              </template>
+              <Button
+                v-if="!picked.size && !narrow"
+                size="sm"
+                variant="ghost"
+                :icon="pane ? 'lucide-panel-right-close' : 'lucide-panel-right'"
+                :aria-label="pane ? __('Hide Reading Pane') : __('Show Reading Pane')"
+                :title="pane ? __('Hide Reading Pane') : __('Show Reading Pane')"
+                @click="togglePane"
+              />
+              <Button v-if="!picked.size && from" size="sm" variant="solid" :label="__('New Email')" data-tour="onemail-new" @click="write()" />
+            </template>
+            <template v-if="box?.shared && !search && folder?.kind !== 'Drafts'" #strip>
+              <TabButtons v-model="team" :options="TEAMS" />
+            </template>
+          </MailList>
         </template>
       </ContextMenu>
     </div>
-    <div class="min-w-0 flex-1" :class="{ hidden: narrow && !thread }" data-tour="onemail-reading">
+    <div class="min-w-0 flex-1" :class="{ hidden: stacked && !thread }" data-tour="onemail-reading">
       <div v-if="!boxes.length && !loading" class="flex h-full flex-col items-center justify-center gap-2 text-ink-gray-5">
         <span class="lucide-mail size-6" aria-hidden="true" />
         <span class="text-base">{{ __("No mailboxes") }}</span>
@@ -65,11 +61,23 @@
         :draft="draft"
         :thread="thread"
         :replying="replyingHere"
+        :back="stacked"
+        @back="close"
         @changed="refresh"
         @write="write"
         @draft="openDraft"
         @discard="discardDraft"
-      />
+      >
+        <template #commands>
+          <template v-for="one in commands.filter((c) => !['link', 'clear'].includes(c.act))" :key="one.act">
+            <Dropdown v-if="one.act === 'move'" :options="moveTo((target) => run(`move:${target}`, these))">
+              <template #trigger><Button size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" /></template>
+            </Dropdown>
+            <Button v-else size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" @click="command(one.act)" />
+          </template>
+          <Button size="sm" variant="ghost" icon="lucide-link" :aria-label="__('Link to Record')" :title="__('Link to Record')" @click="command('link')" />
+        </template>
+      </MailConversation>
     </div>
   </div>
 </template>
@@ -83,7 +91,6 @@ import { Button, ContextMenu, Dropdown, TabButtons } from "frappe-ui";
 
 import {
   Loading,
-  InterfacePart,
   __,
   alert,
   ask,
@@ -145,6 +152,12 @@ const loading = ref(true);
 const root = ref(null);
 const narrow = ref(false);
 const sized = new ResizeObserver(([one]) => (narrow.value = one.contentRect.width < 900));
+const pane = ref(false);
+const stacked = computed(() => narrow.value || !pane.value);
+function togglePane() {
+  pane.value = !pane.value;
+  userSettings.save("OneMail", "pane", pane.value);
+}
 watch(root, (now, was) => {
   if (was) sized.unobserve(was);
   if (now) sized.observe(now);
@@ -174,13 +187,13 @@ const commands = computed(() => {
   const unread = theseItems.value.some((one) => one.unread);
   const starred = theseItems.value.length > 0 && theseItems.value.every((one) => one.flagged);
   const out = [
+    { act: "archive", icon: "lucide-archive", title: __("Archive"), off: none },
+    { act: "delete", icon: "lucide-trash-2", title: __("Delete"), off: none },
     unread
       ? { act: "read", icon: "lucide-mail-open", title: __("Mark as read"), off: none }
       : { act: "unread", icon: "lucide-mail", title: __("Mark as unread"), off: none },
     starred ? { act: "unstar", icon: "lucide-star-off", title: __("Unstar"), off: none } : { act: "star", icon: "lucide-star", title: __("Star"), off: none },
     { act: "move", icon: "lucide-folder-input", title: __("Move to"), off: none },
-    { act: "archive", icon: "lucide-archive", title: __("Archive"), off: none },
-    { act: "delete", icon: "lucide-trash-2", title: __("Delete"), off: none },
     { act: "link", icon: "lucide-link", title: __("Link to Record"), off: !thread.value || picked.size > 1 },
   ];
   if (picked.size) out.push({ act: "clear", icon: "lucide-x", title: __("Clear selection"), off: false });
@@ -228,7 +241,10 @@ const searchBox = interfaceSearch(props.win, {
 interfaceHandles(props.win, { refresh: () => refresh() });
 props.onTitle?.(__("OneMail"));
 
-userSettings.get("OneMail").then((said) => (folds.value = (said && said.folds) || {}));
+userSettings.get("OneMail").then((said) => {
+  folds.value = (said && said.folds) || {};
+  pane.value = !!(said && said.pane);
+});
 
 // The mailboxes the reader may read, each with its folders, folded as the
 // reader left them: the window's tree (window/nav_tree.js) in the nav pane.

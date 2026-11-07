@@ -7,7 +7,7 @@
     </div>
     <iframe
       ref="frame"
-      class="block w-full border-0"
+      class="block w-full rounded-3 border-0"
       sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin"
       referrerpolicy="no-referrer"
       :title="__('Message')"
@@ -19,7 +19,7 @@
 
 <script setup>
 // A message's own HTML in a sandboxed frame (mail.js, framePage).
-import { computed, ref } from "vue";
+import { computed, onBeforeUnmount, ref } from "vue";
 import { Button } from "frappe-ui";
 
 import { __ } from "../kit";
@@ -30,7 +30,14 @@ const props = defineProps({ content: { type: String, default: "" } });
 const frame = ref(null);
 const allowed = ref(false);
 
-const framed = computed(() => framePage(props.content, allowed.value));
+const dark = ref(false);
+const seen = () => (dark.value = document.documentElement.dataset.theme === "dark");
+seen();
+const theme = new MutationObserver(seen);
+theme.observe(document.documentElement, { attributes: true, attributeFilter: ["data-theme"] });
+onBeforeUnmount(() => theme.disconnect());
+
+const framed = computed(() => framePage(props.content, allowed.value, dark.value));
 const page = computed(() => framed.value.page);
 const held = computed(() => framed.value.held);
 

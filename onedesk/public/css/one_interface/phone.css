@@ -300,6 +300,10 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		display: inline-flex !important;
 	}
 
+	.one-interface .page-head .one-interface-tools:has(> .one-interface-search:not(:empty)) > [data-interface="address"] {
+		display: none !important;
+	}
+
 	.one-interface .page-head .navbar-modal-search-mobile,
 	.one-interface .page-head .filter-selector > .hidden-lg {
 		display: none !important;

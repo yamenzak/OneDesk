@@ -1,55 +1,46 @@
 <template>
-  <div class="flex flex-col gap-2">
-    <div class="flex flex-wrap items-center gap-1.5">
-      <Dropdown v-if="said.shared" :options="assignTo">
-        <template #trigger>
-          <Button size="sm" variant="subtle" :icon-left="said.assigned.length ? 'lucide-user-check' : 'lucide-user-plus'" :label="said.assigned.length ? said.assigned.map((one) => one.name).join(', ') : __('Assign')" />
-        </template>
-      </Dropdown>
-      <Button
-        size="sm"
-        :variant="said.status === 'Done' ? 'solid' : 'subtle'"
-        :icon-left="said.status === 'Done' ? 'lucide-circle-check' : 'lucide-circle'"
-        :label="said.status === 'Done' ? __('Done') : __('Mark Done')"
-        @click="act('done', { done: said.status === 'Done' ? 0 : 1 })"
-      />
-      <Dropdown :options="snoozeOptions">
-        <template #trigger>
-          <Button size="sm" variant="subtle" icon-left="lucide-alarm-clock" :label="said.snoozed_until ? __('Snoozed until {0}', [dateTime(said.snoozed_until)]) : __('Snooze')" />
-        </template>
-      </Dropdown>
-      <Dropdown :options="remindOptions">
-        <template #trigger>
-          <Button size="sm" variant="subtle" icon-left="lucide-bell-ring" :label="said.remind_at ? __('Reminder {0}', [dateTime(said.remind_at)]) : __('Remind Me')" />
-        </template>
-      </Dropdown>
-      <Dropdown v-if="makeOptions.length" :options="makeOptions">
-        <template #trigger><Button size="sm" variant="subtle" icon-left="lucide-plus" :label="__('Create')" /></template>
-      </Dropdown>
-    </div>
-    <p v-if="replying.length" class="flex items-center gap-1.5 text-sm text-ink-amber-6">
+  <div class="flex flex-wrap items-center gap-1">
+    <Dropdown v-if="said.shared" :options="assignTo">
+      <template #trigger>
+        <Button size="sm" variant="ghost" :title="__('Assign')">
+          <template #prefix><span :class="said.assigned.length ? 'lucide-user-check' : 'lucide-user-plus'" class="size-4" aria-hidden="true" /></template>
+          {{ said.assigned.length ? said.assigned.map((one) => one.name).join(", ") : __("Assign") }}
+        </Button>
+      </template>
+    </Dropdown>
+    <Button
+      size="sm"
+      :variant="said.status === 'Done' ? 'subtle' : 'ghost'"
+      :icon-left="said.status === 'Done' ? 'lucide-circle-check' : 'lucide-circle'"
+      :label="said.status === 'Done' ? __('Done') : __('Mark Done')"
+      :title="said.status === 'Done' ? __('Open Again') : __('Mark Done')"
+      :aria-label="said.status === 'Done' ? __('Open Again') : __('Mark Done')"
+      @click="toggleDone"
+    />
+    <Dropdown :options="snoozeOptions">
+      <template #trigger>
+        <Button size="sm" :variant="said.snoozed_until ? 'subtle' : 'ghost'" icon="lucide-alarm-clock" :title="said.snoozed_until ? __('Snoozed until {0}', [dateTime(said.snoozed_until)]) : __('Snooze')" :aria-label="__('Snooze')" />
+      </template>
+    </Dropdown>
+    <Dropdown :options="remindOptions">
+      <template #trigger>
+        <Button size="sm" :variant="said.remind_at ? 'subtle' : 'ghost'" icon="lucide-bell-ring" :title="said.remind_at ? __('Reminder {0}', [dateTime(said.remind_at)]) : __('Remind Me')" :aria-label="__('Remind Me')" />
+      </template>
+    </Dropdown>
+    <Dropdown v-if="makeOptions.length" :options="makeOptions">
+      <template #trigger><Button size="sm" variant="ghost" icon="lucide-file-plus" :title="__('Create')" :aria-label="__('Create')" /></template>
+    </Dropdown>
+    <span v-if="replying.length" class="ms-1 inline-flex items-center gap-1 text-sm text-ink-amber-6">
       <span class="lucide-pen-line size-3.5" aria-hidden="true" />{{ __("{0} is writing a reply", [replying.join(", ")]) }}
-    </p>
-    <div v-if="said.shared && (said.notes.length || noting)" class="flex flex-col gap-1.5 rounded-3 bg-surface-amber-1 px-3 py-2">
-      <div v-for="one in said.notes" :key="one.name" class="text-sm">
-        <span class="font-medium text-ink-gray-8">{{ one.by }}</span>
-        <span class="ms-1.5 text-ink-gray-5">{{ ago(one.creation) }}</span>
-        <div class="text-ink-gray-8" v-html="one.content" />
-      </div>
-      <div v-if="noting" class="flex items-end gap-1.5">
-        <TextInput v-model="typed" class="flex-1" :placeholder="__('Note for the team, never sent')" @keydown.enter.prevent="save" />
-        <Button size="sm" variant="solid" :label="__('Add Note')" :disabled="!typed.trim()" @click="save" />
-      </div>
-    </div>
-    <button v-if="said.shared && !noting" type="button" class="self-start text-sm text-ink-gray-5 hover:underline" @click="noting = true">{{ __("Add a note for the team") }}</button>
+    </span>
   </div>
 </template>
 
 <script setup>
 import { computed, ref, watch } from "vue";
-import { Button, Dropdown, TextInput } from "frappe-ui";
+import { Button, Dropdown } from "frappe-ui";
 
-import { __, ago, asDateTime, call, can, dateTime, dialog, escape, prompt, toast } from "../kit";
+import { __, asDateTime, call, can, dateTime, dialog, prompt, toast } from "../kit";
 
 const props = defineProps({
   account: { type: String, required: true },
@@ -57,29 +48,22 @@ const props = defineProps({
   replying: { type: Array, default: () => [] },
   make: { type: Function, default: null },
 });
-const emit = defineEmits(["changed"]);
+const emit = defineEmits(["changed", "state"]);
 
 const TEAM = "onedesk.one_mail.team.";
 const said = ref({ shared: false, assigned: [], notes: [], people: [], status: "Open" });
-const noting = ref(false);
-const typed = ref("");
 
 async function load() {
   said.value = await call(TEAM + "state", { account: props.account, thread: props.thread });
-  noting.value = false;
+  emit("state", said.value);
 }
 watch(() => [props.account, props.thread], load, { immediate: true });
 
 async function act(method, args, message) {
   said.value = await call(TEAM + method, { account: props.account, thread: props.thread, ...args });
+  emit("state", said.value);
   if (message) toast(message);
   emit("changed");
-}
-
-async function save() {
-  if (!typed.value.trim()) return;
-  await act("note", { content: escape(typed.value.trim()) });
-  typed.value = "";
 }
 
 const assignTo = computed(() => [
@@ -143,5 +127,9 @@ const toggleDone = () => act("done", { done: said.value.status === "Done" ? 0 : 
 const snoozeNow = () => choose(__("Snooze"), snoozeOptions.value, (one) => one?.onClick());
 const assignNow = () => said.value.shared && choose(__("Assign"), assignTo.value, (one) => one?.onClick());
 
-defineExpose({ load, toggleDone, snoozeNow, assignNow });
+function take(state) {
+  said.value = state;
+}
+
+defineExpose({ load, toggleDone, snoozeNow, assignNow, take });
 </script>

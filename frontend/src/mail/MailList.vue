@@ -1,6 +1,6 @@
 <template>
   <div class="flex h-full min-h-0 flex-col">
-    <div class="flex items-center gap-3 border-b border-outline-gray-1 px-4 py-2.5">
+    <div class="flex items-center gap-3 px-4 py-2.5">
       <span class="flex size-8 shrink-0 items-center justify-center">
         <Checkbox
           :modelValue="every"
@@ -11,9 +11,11 @@
           @update:modelValue="(on) => emit('all', on)"
         />
       </span>
-      <span class="min-w-0 flex-1 truncate font-semibold text-ink-gray-9">{{ title }}</span>
-      <span v-if="picked.size" class="shrink-0 text-sm text-ink-gray-5">{{ __("{0} selected", [picked.size]) }}</span>
+      <span class="min-w-0 flex-1 truncate font-semibold text-ink-gray-9">{{ picked.size ? __("{0} selected", [picked.size]) : title }}</span>
+      <span class="flex shrink-0 items-center gap-0.5"><slot name="action" /></span>
     </div>
+    <div v-if="$slots.strip" class="px-3 pb-2"><slot name="strip" /></div>
+    <div class="border-b border-outline-gray-1" />
     <div ref="scroller" class="min-h-0 flex-1 overflow-auto" role="listbox" aria-multiselectable="true" :aria-label="__('Conversations')">
       <div v-if="!items.length" class="py-16 text-center text-base text-ink-gray-5">{{ searching ? __("No results") : __("No conversations") }}</div>
       <div
@@ -21,7 +23,8 @@
         :key="item.thread"
         role="option"
         :aria-selected="picked.has(item.thread)"
-        class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-4 py-3 [contain-intrinsic-size:auto_88px] [content-visibility:auto]"
+        class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-4 [content-visibility:auto]"
+        :style="{ containIntrinsicSize: wide ? 'auto 44px' : 'auto 88px' }"
         :class="picked.has(item.thread) ? 'bg-surface-blue-2' : item.thread === open ? 'bg-surface-gray-2' : 'hover:bg-surface-gray-1'"
         @click="clicked(item, $event)"
         @contextmenu="emit('menu', item.thread)"
@@ -29,7 +32,8 @@
         <button
           type="button"
           role="checkbox"
-          class="size-8 shrink-0 rounded-full [perspective:400px]"
+          class="size-8 shrink-0 self-start rounded-full [perspective:400px]"
+          :class="wide ? 'my-1.5' : 'mt-3'"
           :aria-checked="picked.has(item.thread)"
           :aria-label="__('Select')"
           :title="__('Select')"
@@ -47,7 +51,34 @@
             </span>
           </span>
         </button>
-        <span class="flex min-w-0 flex-1 flex-col gap-0.5">
+        <span v-if="wide" class="flex min-w-0 flex-1 items-center gap-3">
+          <button
+            type="button"
+            class="shrink-0"
+            :class="item.flagged ? 'text-ink-amber-6' : 'text-ink-gray-4 hover:text-ink-gray-6'"
+            :title="item.flagged ? __('Unstar') : __('Star')"
+            :aria-label="item.flagged ? __('Unstar') : __('Star')"
+            @click.stop="emit('star', item)"
+          >
+            <span class="lucide-star size-4" aria-hidden="true" />
+          </button>
+          <span class="flex w-52 shrink-0 items-center gap-1.5">
+            <span v-if="item.unread" class="size-2 shrink-0 rounded-full bg-surface-blue-6" />
+            <span v-if="item.draft" class="shrink-0 text-ink-red-4">{{ __("Draft") }}</span>
+            <span class="min-w-0 truncate" :class="item.unread ? 'font-semibold text-ink-gray-9' : 'text-ink-gray-8'">{{ who(item) }}</span>
+            <span v-if="item.count > 1" class="shrink-0 text-sm text-ink-gray-5">{{ count(item.count) }}</span>
+          </span>
+          <span class="min-w-0 flex-1 truncate">
+            <span :class="item.unread ? 'font-semibold text-ink-gray-9' : 'text-ink-gray-8'">{{ item.subject || __("(no subject)") }}</span>
+            <span v-if="item.snippet" class="text-ink-gray-5"> – {{ item.snippet }}</span>
+          </span>
+          <span v-if="item.attachments" class="lucide-paperclip size-3.5 shrink-0 text-ink-gray-5" />
+          <span v-if="item.done" class="lucide-circle-check size-3.5 shrink-0 text-ink-green-3" :title="__('Done')" />
+          <span v-if="(item.assigned || []).length" class="lucide-user-check size-3.5 shrink-0 text-ink-gray-5" :title="__('Assigned')" />
+          <span v-if="item.snoozed_until" class="lucide-alarm-clock size-3.5 shrink-0 text-ink-gray-5" :title="__('Snoozed')" />
+          <span class="w-16 shrink-0 text-end text-sm" :class="item.unread ? 'font-semibold text-ink-gray-9' : 'text-ink-gray-5'">{{ when(item.date) }}</span>
+        </span>
+        <span v-else class="flex min-w-0 flex-1 flex-col gap-0.5 py-3">
           <span class="flex items-center gap-1.5">
             <span v-if="item.unread" class="size-2 shrink-0 rounded-full bg-surface-blue-6" />
             <span v-if="item.draft" class="shrink-0 text-ink-red-4">{{ __("Draft") }}</span>
@@ -101,6 +132,7 @@ const props = defineProps({
   open: { type: String, default: null },
   more: Boolean,
   searching: Boolean,
+  wide: Boolean,
 });
 const emit = defineEmits(["open", "toggle", "all", "star", "more", "menu"]);
 
