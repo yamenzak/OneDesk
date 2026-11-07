@@ -44,7 +44,7 @@ import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
 import { TextInput } from "frappe-ui";
 import { NumberCard } from "frappe-ui/charts";
 
-import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery } from "../../kit";
+import { Loading, Page, PlaceSpot, Rows, Section, ViewTabs, __, call, can, count, date, followList, go, money, newDoc, onedesk, quantity, setQuery, shortcut } from "../../kit";
 
 const props = defineProps({
   route: { type: Array, default: () => [] },
@@ -74,6 +74,9 @@ const soon = () => {
   timer = setTimeout(load, 800);
 };
 const stop = ["Work Order", "Job Card", "BOM", "Production Plan", "Subcontracting Order", "Subcontracting Receipt", "Stock Entry"].map((one) => followList(one, soon));
+const keyed = (doctype) => () => can("create", doctype) && newDoc(doctype);
+const forgetKeys = [shortcut("one_factory.new_work_order", keyed("Work Order")), shortcut("one_factory.new_bom", keyed("BOM"))];
+onBeforeUnmount(() => forgetKeys.forEach((one) => one()));
 onBeforeUnmount(() => {
   stop.forEach((one) => one());
   clearTimeout(timer);

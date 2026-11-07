@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 11:50+0000\n"
-"PO-Revision-Date: 2026-11-07 11:50+0000\n"
+"POT-Creation-Date: 2026-11-07 12:05+0000\n"
+"PO-Revision-Date: 2026-11-07 12:05+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -215,7 +215,7 @@ msgid "1 day"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:183
-#: frontend/src/factory/home/FactoryHome.vue:154
+#: frontend/src/factory/home/FactoryHome.vue:157
 #: frontend/src/inventory/home/InventoryHome.vue:218
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:268
 #: frontend/src/project/Suppliers.vue:201 onedesk/one_project/retention.py:237
@@ -242,7 +242,7 @@ msgid "1 day past"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:266 frontend/src/crm/CrmHome.vue:265
-#: frontend/src/factory/home/FactoryHome.vue:205
+#: frontend/src/factory/home/FactoryHome.vue:208
 #: frontend/src/inventory/home/InventoryHome.vue:286
 #: frontend/src/project/Invoices.vue:106
 msgid "1 draft"
@@ -15269,7 +15269,7 @@ msgstr ""
 msgid "Due this week"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:163
+#: frontend/src/factory/home/FactoryHome.vue:166
 msgid "Due to Start"
 msgstr ""
 
@@ -15284,7 +15284,7 @@ msgid "Due tomorrow"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:218 frontend/src/crm/CrmHome.vue:184
-#: frontend/src/factory/home/FactoryHome.vue:190
+#: frontend/src/factory/home/FactoryHome.vue:193
 #: frontend/src/inventory/home/InventoryHome.vue:271
 #: frontend/src/inventory/item/ItemBuying.vue:61
 #: frontend/src/inventory/item/ItemSelling.vue:58 frontend/src/one/Home.vue:112
@@ -17347,7 +17347,7 @@ msgid "Everyone's Deletions"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:95 frontend/src/crm/CrmHome.vue:95
-#: frontend/src/factory/home/FactoryHome.vue:85 frontend/src/hr/HrHome.vue:115
+#: frontend/src/factory/home/FactoryHome.vue:88 frontend/src/hr/HrHome.vue:115
 #: frontend/src/inventory/home/InventoryHome.vue:113
 #: onedesk/public/js/one/access_center.js:208
 #: onedesk/public/js/one/notification_center.js:159
@@ -25351,7 +25351,7 @@ msgstr ""
 msgid "Late Arrivals per Absent Day"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:181
+#: frontend/src/factory/home/FactoryHome.vue:184
 msgid "Late Back from Suppliers"
 msgstr ""
 
@@ -25367,8 +25367,8 @@ msgstr ""
 msgid "Late Orders"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:98
-#: frontend/src/factory/home/FactoryHome.vue:145
+#: frontend/src/factory/home/FactoryHome.vue:101
+#: frontend/src/factory/home/FactoryHome.vue:148
 msgid "Late Work Orders"
 msgstr ""
 
@@ -25904,7 +25904,7 @@ msgid "Left Early Only"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:259 frontend/src/crm/CrmHome.vue:258
-#: frontend/src/factory/home/FactoryHome.vue:198
+#: frontend/src/factory/home/FactoryHome.vue:201
 #: frontend/src/inventory/home/InventoryHome.vue:279
 msgid "Left as Drafts"
 msgstr ""
@@ -26991,7 +26991,7 @@ msgstr ""
 msgid "Made So Far"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:100
+#: frontend/src/factory/home/FactoryHome.vue:103
 msgid "Made This Month"
 msgstr ""
 
@@ -29328,7 +29328,8 @@ msgstr ""
 msgid "New Automation"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:219
+#: frontend/src/factory/home/FactoryHome.vue:222
+#: onedesk/one_factory/shortcuts.py:11
 msgid "New BOM"
 msgstr ""
 
@@ -29520,7 +29521,7 @@ msgstr ""
 msgid "New Print Format"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:220
+#: frontend/src/factory/home/FactoryHome.vue:223
 msgid "New Production Plan"
 msgstr ""
 
@@ -29621,7 +29622,8 @@ msgid "New Version"
 msgstr ""
 
 #: frontend/src/factory/floor/ShopFloor.vue:145
-#: frontend/src/factory/home/FactoryHome.vue:218
+#: frontend/src/factory/home/FactoryHome.vue:221
+#: onedesk/one_factory/shortcuts.py:10
 msgid "New Work Order"
 msgstr ""
 
@@ -33348,7 +33350,7 @@ msgid "OneDisplay User"
 msgstr ""
 
 #. Title of a Sidebar
-#: frontend/src/factory/home/FactoryHome.vue:214
+#: frontend/src/factory/home/FactoryHome.vue:217
 #: onedesk/one_factory/page/onefactory/onefactory.js:4
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:300
 msgid "OneFactory"
@@ -33995,7 +33997,7 @@ msgid "Open Webhooks"
 msgstr ""
 
 #: frontend/src/factory/floor/ShopFloor.vue:132
-#: frontend/src/factory/home/FactoryHome.vue:96
+#: frontend/src/factory/home/FactoryHome.vue:99
 msgid "Open Work Orders"
 msgstr ""
 
@@ -34917,7 +34919,7 @@ msgstr ""
 msgid "Out of order; it cannot be used until it is mended."
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:99
+#: frontend/src/factory/home/FactoryHome.vue:102
 msgid "Out with Suppliers"
 msgstr ""
 
@@ -37329,7 +37331,7 @@ msgstr ""
 msgid "Planned Hours"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:173
+#: frontend/src/factory/home/FactoryHome.vue:176
 #, python-brace-format
 msgid "Planned {0}"
 msgstr ""
@@ -44997,7 +44999,7 @@ msgstr ""
 
 #. Label of a Sidebar Item
 #: frontend/src/factory/floor/ShopFloor.vue:141
-#: frontend/src/factory/home/FactoryHome.vue:166 onedesk/one_factory/home.py:23
+#: frontend/src/factory/home/FactoryHome.vue:169 onedesk/one_factory/home.py:23
 #: onedesk/one_factory/page/floor/floor.js:5
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:38
 msgid "Shop Floor"
@@ -46964,7 +46966,7 @@ msgid "Started by {0} from Workspace Settings."
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:265 frontend/src/crm/CrmHome.vue:264
-#: frontend/src/factory/home/FactoryHome.vue:204
+#: frontend/src/factory/home/FactoryHome.vue:207
 #: frontend/src/inventory/home/InventoryHome.vue:285
 msgid "Started more than a day ago"
 msgstr ""
@@ -47303,7 +47305,7 @@ msgstr ""
 msgid "Steps"
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:97
+#: frontend/src/factory/home/FactoryHome.vue:100
 msgid "Steps Running Now"
 msgstr ""
 
@@ -47898,7 +47900,7 @@ msgstr ""
 
 #. Label in the One Subcontracting Order print format
 #. Label of a Sidebar Item
-#: frontend/src/factory/home/FactoryHome.vue:193
+#: frontend/src/factory/home/FactoryHome.vue:196
 #: onedesk/one_factory/heads.py:258 onedesk/one_factory/home.py:34
 #: onedesk/one_factory/home.py:62
 #: onedesk/one_factory/print_format/one_subcontracting_order/one_subcontracting_order.json
@@ -53518,7 +53520,7 @@ msgid "To-dos given to you"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:94 frontend/src/crm/CrmHome.vue:94
-#: frontend/src/factory/home/FactoryHome.vue:84 frontend/src/hr/HrHome.vue:114
+#: frontend/src/factory/home/FactoryHome.vue:87 frontend/src/hr/HrHome.vue:114
 #: frontend/src/hr/HrHome.vue:214
 #: frontend/src/inventory/home/InventoryHome.vue:112
 #: frontend/src/project/MilestoneLanes.vue:16
@@ -56244,7 +56246,7 @@ msgstr ""
 msgid "Wanted by {0}."
 msgstr ""
 
-#: frontend/src/factory/home/FactoryHome.vue:155
+#: frontend/src/factory/home/FactoryHome.vue:158
 #, python-brace-format
 msgid "Wanted {0}"
 msgstr ""
@@ -60720,8 +60722,8 @@ msgstr ""
 #. Label in the One Pick List print format
 #. Label in the One Stock Entry print format
 #: frontend/src/factory/floor/OrderRows.vue:5
-#: frontend/src/factory/home/FactoryHome.vue:158
-#: frontend/src/factory/home/FactoryHome.vue:176 onedesk/one/ready.py:604
+#: frontend/src/factory/home/FactoryHome.vue:161
+#: frontend/src/factory/home/FactoryHome.vue:179 onedesk/one/ready.py:604
 #: onedesk/one/ready.py:605 onedesk/one_factory/heads.py:231
 #: onedesk/one_factory/heads.py:237 onedesk/one_factory/home.py:25
 #: onedesk/one_factory/home.py:58
@@ -65042,7 +65044,7 @@ msgid "{0} days before {1}"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:183
-#: frontend/src/factory/home/FactoryHome.vue:154
+#: frontend/src/factory/home/FactoryHome.vue:157
 #: frontend/src/inventory/home/InventoryHome.vue:218
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:269
 #: frontend/src/project/Suppliers.vue:201 onedesk/one_project/heads.py:68
@@ -65130,7 +65132,7 @@ msgid "{0} draft orders made."
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:266 frontend/src/crm/CrmHome.vue:265
-#: frontend/src/factory/home/FactoryHome.vue:205
+#: frontend/src/factory/home/FactoryHome.vue:208
 #: frontend/src/inventory/home/InventoryHome.vue:286
 #: frontend/src/project/Invoices.vue:106
 #, python-brace-format
@@ -66434,7 +66436,7 @@ msgid "{0} months"
 msgstr ""
 
 #: frontend/src/books/BooksHome.vue:187 frontend/src/crm/CrmHome.vue:200
-#: frontend/src/factory/home/FactoryHome.vue:140 frontend/src/hr/HrHome.vue:219
+#: frontend/src/factory/home/FactoryHome.vue:143 frontend/src/hr/HrHome.vue:219
 #: frontend/src/inventory/home/InventoryHome.vue:204
 #: frontend/src/sheet/components/SheetEditor/index.vue:698
 #, python-brace-format
@@ -66671,7 +66673,7 @@ msgid "{0} of {1} lines in"
 msgstr ""
 
 #: frontend/src/factory/floor/ShopFloor.vue:21
-#: frontend/src/factory/home/FactoryHome.vue:135
+#: frontend/src/factory/home/FactoryHome.vue:138
 #: frontend/src/inventory/item/ItemMaking.vue:87
 #, python-brace-format
 msgid "{0} of {1} made"
