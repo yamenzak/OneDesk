@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 23:06+0000\n"
+"POT-Creation-Date: 2026-11-07 23:28+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -3697,7 +3697,7 @@ msgid "All Categories"
 msgstr "كل الفئات"
 
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "All Day"
 msgstr ""
 
@@ -7958,7 +7958,7 @@ msgid "By the Hour"
 msgstr "بالساعة"
 
 #: frontend/src/inventory/item/ItemStock.vue:93
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:278
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:281
 #, python-brace-format
 msgid "By {0}"
 msgstr "بواسطة {0}"
@@ -8007,7 +8007,7 @@ msgstr "سيرة ذاتية, السيرة الذاتية, طلب توظيف, و�
 #. Label of a Sidebar Item
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:54
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:55
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:154
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
 #: onedesk/one_calendar/sidebar/onecalendar/onecalendar.json:22
 #: onedesk/public/js/record_calendar.js:5
 msgid "Calendar"
@@ -8029,7 +8029,7 @@ msgstr "رابط التقويم"
 msgid "Calendar Links"
 msgstr "روابط التقويم"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:161
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
 msgid "Calendar View"
 msgstr ""
 
@@ -8038,7 +8038,7 @@ msgstr ""
 msgid "Calendar links are turned off for this workspace."
 msgstr "روابط التقويم متوقفة في مساحة العمل هذه."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:211
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:214
 msgid "Calendars"
 msgstr "التقاويم"
 
@@ -12734,7 +12734,7 @@ msgstr "التواريخ"
 #. Label in the One Employee Separation print format
 #. Label in the One Shift Schedule print format
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:43
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:165
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:172
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
 #: onedesk/one_hr/print_format/one_employee_separation/one_employee_separation.json
 #: onedesk/one_hr/print_format/one_shift_schedule/one_shift_schedule.json
@@ -13233,7 +13233,7 @@ msgstr ""
 #: frontend/src/writer/components/FloatingComments.vue:106
 #: frontend/src/writer/components/ToC.vue:375
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:294
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:297
 #: onedesk/one_mail/shortcuts.py:17
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:27
 #: onedesk/public/js/doctype_settings.js:253
@@ -13407,7 +13407,7 @@ msgstr "حذف حساب {0}؟ لا يمكن التراجع عن ذلك."
 msgid "Delete {0}?"
 msgstr "حذف {0}؟"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:299
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:302
 #, python-brace-format
 msgid "Delete {0}? Everyone invited is notified that it's cancelled."
 msgstr "حذف {0}؟ سيُبلَّغ كل المدعوين بإلغائه."
@@ -13990,7 +13990,7 @@ msgstr "صِف ما يجب أن يصنعه OneAI."
 #: onedesk/one_book/print_format/one_sales_invoice_with_images/one_sales_invoice_with_images.json
 #: onedesk/one_book/print_format/one_sales_voucher/one_sales_voucher.json
 #: onedesk/one_book/print_format/one_simplified_tax_invoice/one_simplified_tax_invoice.json
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:384
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:387
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 #: onedesk/one_crm/print_format/one_maintenance_plan/one_maintenance_plan.json
 #: onedesk/one_crm/print_format/one_proforma_invoice/one_proforma_invoice.json
@@ -16159,7 +16159,7 @@ msgstr "عناوين البريد الإلكتروني"
 msgid "Email addresses of people outside the workspace to invite. Each is mailed the event for their own calendar."
 msgstr "عناوين بريد أشخاص من خارج مساحة العمل لدعوتهم. يُرسل لكل منهم الحدث لتقويمه."
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:381
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:384
 msgid "Email addresses outside the workspace, each sent an invitation."
 msgstr "عناوين بريد من خارج مساحة العمل، يُرسل إلى كل منها دعوة."
 
@@ -16652,7 +16652,7 @@ msgid "Ends"
 msgstr "ينتهي"
 
 #. Label in the One Contract print format
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:358
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:361
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_studio/print_blocks.py:93 onedesk/one_studio/print_blocks.py:96
 msgid "Ends On"
@@ -20503,6 +20503,10 @@ msgstr "راجع معي هذه الإعدادات: أيها مهم لشركة م
 msgid "Go to"
 msgstr "انتقل إلى"
 
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:180
+msgid "Go to Date"
+msgstr "الانتقال إلى تاريخ"
+
 #: onedesk/public/js/one_interface/frame.js:358
 msgid "Go to a place, a record or a command"
 msgstr "انتقل إلى مكان أو سجل أو أمر"
@@ -20892,7 +20896,7 @@ msgstr "واي فاي الضيوف"
 
 #. Label of the one_guests (Small Text) field in DocType 'Event'
 #: onedesk/one_calendar/custom/event.json:9
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:380
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:383
 msgid "Guests"
 msgstr "الضيوف"
 
@@ -23570,7 +23574,7 @@ msgid "Invitations and registration"
 msgstr "الدعوات والتسجيل"
 
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:131
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:365
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:368
 #: onedesk/public/js/one_account/account_center.js:656
 #: onedesk/public/js/one_portal/portal.js:131
 msgid "Invite"
@@ -26606,7 +26610,7 @@ msgstr "Linux"
 
 #. Option for the 'View' (Select) field in DocType 'Extension'
 #: frontend/src/writer/components/CommentEditor.vue:92
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:166
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:173
 #: onedesk/one_display/widgets.py:51 onedesk/one_display/widgets.py:130
 #: onedesk/one_studio/doctype/extension/extension.json:78
 msgid "List"
@@ -26701,7 +26705,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:13
 #: frontend/src/sheet/shim/AddSheetsDialog.vue:6
 #: frontend/src/writer/shim/FieldDialog.vue:18
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:265
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:268
 #: onedesk/public/js/center_section.js:95 onedesk/public/js/one/news_add.js:199
 #: onedesk/public/js/one_account/account_center.js:824
 #: onedesk/public/js/one_account/account_center.js:1061
@@ -26731,7 +26735,7 @@ msgstr "الردهة"
 #. Label of the description (Small Text) field in DocType 'Display Channel'
 #. Label of the description (Small Text) field in DocType 'Sound Zone'
 #. Label of the place_section (Section Break) field in DocType 'Clock Attempt'
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:360
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:363
 #: onedesk/one_display/doctype/display_channel/display_channel.json:58
 #: onedesk/one_display/doctype/sound_zone/sound_zone.json:62
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:261
@@ -28530,7 +28534,7 @@ msgid "Min colour"
 msgstr "لون الحد الأدنى"
 
 #: frontend/src/mail/OneMail.vue:133
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:207
 msgid "Mine"
 msgstr "الخاصة بي"
 
@@ -28654,7 +28658,7 @@ msgstr "أحادي المسافة"
 msgid "Monospace"
 msgstr ""
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:163
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:170
 #: onedesk/one_crm/report/won_and_lost/won_and_lost.js:20
 #: onedesk/one_hr/report/monthly_attendance/monthly_attendance.js:22
 #: onedesk/one_interface/shortcuts.py:35
@@ -28754,7 +28758,7 @@ msgstr "الأشهر"
 #: frontend/src/mail/MailConversation.vue:85
 #: frontend/src/sheet/components/SheetEditor/index.vue:292
 #: frontend/src/sheet/components/SheetEditor/index.vue:1166
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:383
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:386
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:118
 #: onedesk/one_sheet/ai.py:247 onedesk/public/js/center_section.js:45
 #: onedesk/public/js/one_interface/form.js:368
@@ -29506,8 +29510,8 @@ msgstr "لم تُستخدم"
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:89
 #: onedesk/public/js/doctype_settings.js:57 onedesk/public/js/item_new.js:266
 #: onedesk/public/js/module_docs.js:155 onedesk/public/js/module_docs.js:307
-#: onedesk/public/js/one_interface/look.js:778
-#: onedesk/public/js/one_interface/look.js:780
+#: onedesk/public/js/one_interface/look.js:779
+#: onedesk/public/js/one_interface/look.js:781
 msgid "New"
 msgstr "جديد"
 
@@ -29581,8 +29585,8 @@ msgstr ""
 msgid "New Employee No"
 msgstr "رقم الموظف الجديد"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:21
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:351
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:168
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
 msgid "New Event"
 msgstr "حدث جديد"
 
@@ -30083,7 +30087,7 @@ msgstr "النشرات إلى مجلد"
 #: frontend/src/slide/shim/PresenterView.vue:49
 #: frontend/src/slide/shim/WidgetMock.vue:198
 #: frontend/src/slide/shim/WidgetMock.vue:206
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:175
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:158
 #: onedesk/one_slide/decks.py:64 onedesk/one_studio/print_blocks.py:687
 #: onedesk/public/js/doctype_settings.js:326 onedesk/public/js/item_new.js:326
 #: onedesk/public/js/module_docs.js:488
@@ -32610,7 +32614,7 @@ msgstr "نيابةً عن"
 msgid "On Duty Today"
 msgstr "المناوبون اليوم"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:388
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:391
 msgid "On Everyone's Calendar"
 msgstr "في تقويم الجميع"
 
@@ -34101,7 +34105,7 @@ msgstr "العتامة"
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:289
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
 #: onedesk/one_crm/custom/sales_stage.json:28
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:47
 #: onedesk/one_portal/doctype/portal_link/portal_link_list.js:12
@@ -34413,7 +34417,7 @@ msgid "Open your One account"
 msgstr "افتح حسابك في One"
 
 #: onedesk/one/notify.py:745
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:290
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:293
 #: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
 #: onedesk/www/s.html:147
 #, python-brace-format
@@ -38125,7 +38129,7 @@ msgid "Previewing"
 msgstr "معاينة"
 
 #: frontend/portal/src/parts/Gallery.vue:9
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:174
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:157
 #: onedesk/public/js/item_new.js:217 onedesk/public/js/module_docs.js:489
 #: onedesk/public/js/project_new.js:238
 msgid "Previous"
@@ -43337,7 +43341,7 @@ msgstr "السبت"
 #: frontend/src/slide/shim/libraryKeep.js:20 frontend/src/task/TaskWaits.vue:15
 #: onedesk/one_book/report/books_check/books_check.js:23
 #: onedesk/one_book/report/books_check/books_check.js:40
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:392
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:395
 #: onedesk/one_interface/shortcuts.py:26 onedesk/public/js/apps.js:68
 #: onedesk/public/js/crm_record.js:97 onedesk/public/js/lots_actions.js:53
 #: onedesk/public/js/next_step.js:27 onedesk/public/js/one/access_center.js:169
@@ -47441,7 +47445,7 @@ msgstr "يبدأ عند (ثوانٍ)"
 #. Label in the One Work Order print format
 #. Label in the One Employee Onboarding print format
 #. Label in the One Employee Separation print format
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:355
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:358
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
 #: onedesk/one_factory/print_format/one_work_order/one_work_order.json
 #: onedesk/one_hr/print_format/one_employee_onboarding/one_employee_onboarding.json
@@ -48392,7 +48396,7 @@ msgstr "عنوان فرعي"
 #: onedesk/one/custom/notification_type.json:55
 #: onedesk/one/notification_words.py:227 onedesk/one/notify.py:269
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:353
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
 #: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:41
 #: onedesk/one_mail/doctype/mail_draft/mail_draft.json:40
@@ -54006,7 +54010,7 @@ msgstr "المهام المسندة إليك"
 #: frontend/src/sheet/utils/recency-groups.js:10
 #: frontend/src/slide/shim/WidgetMock.vue:297 onedesk/one/weather.py:115
 #: onedesk/one_book/heads.py:64
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:154
 #: onedesk/one_display/starters.py:256 onedesk/one_display/starters.py:796
 #: onedesk/one_display/widgets.py:119 onedesk/one_interface/shortcuts.py:32
 #: onedesk/one_project/heads.py:69 onedesk/one_project/view.py:378
@@ -56403,7 +56407,7 @@ msgstr "تعذّر إنشاء فيديو لعرض تقديمي"
 #: onedesk/one_studio/doctype/extension/extension.json:77
 #: onedesk/public/js/account_tree.js:14
 #: onedesk/public/js/one_interface/frame.js:550
-#: onedesk/public/js/one_interface/look.js:744
+#: onedesk/public/js/one_interface/look.js:745
 #: onedesk/public/js/onecloud_dialogs.js:37 onedesk/public/js/project.js:27
 #: onedesk/public/js/project.js:32 onedesk/www/account_invoices.html:39
 msgid "View"
@@ -57009,7 +57013,7 @@ msgstr "عنوان الموقع أو الخلاصة"
 msgid "Wednesday"
 msgstr "الأربعاء"
 
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:164
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:171
 #: onedesk/one_interface/shortcuts.py:36
 msgid "Week"
 msgstr ""
@@ -61485,7 +61489,7 @@ msgstr "ورش العمل"
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:5
 #: onedesk/one_ai/abilities.py:18 onedesk/one_book/abilities.py:15
 #: onedesk/one_calendar/abilities.py:18
-#: onedesk/one_calendar/page/onecalendar/onecalendar.js:204
+#: onedesk/one_calendar/page/onecalendar/onecalendar.js:207
 #: onedesk/one_crm/abilities.py:15 onedesk/one_display/abilities.py:14
 #: onedesk/one_doc/abilities.py:20 onedesk/one_factory/abilities.py:15
 #: onedesk/one_hr/abilities.py:15 onedesk/one_inventory/abilities.py:15

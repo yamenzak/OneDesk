@@ -718,7 +718,7 @@ onedesk.interface.heading = (win, spec) => {
 	if (!main) return;
 	main.querySelectorAll(":scope > .one-hero-island, :scope > .one-strip-island").forEach((one) => one.remove());
 	if (!spec) return;
-	const island = main.querySelector(":scope > .one-island");
+	const island = main.querySelector(":scope > .one-island") || main.firstElementChild;
 	const hero = document.createElement("div");
 	hero.className = "one-hero one-hero-list one-hero-island";
 	hero.innerHTML = `<div class="one-hero-title"><span class="one-hero-icon"${spec.icon ? "" : " hidden"}></span><h1></h1></div>`;
@@ -738,6 +738,7 @@ onedesk.interface.heading = (win, spec) => {
 	if (spec.ways && spec.ways.length) {
 		const ways = document.createElement("span");
 		ways.className = "one-interface-ways";
+		ways.dataset.tour = "interface-ways";
 		$(ways).append(
 			frappe.ui.tab_buttons({
 				type: "ghost",

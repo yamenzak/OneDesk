@@ -19,7 +19,7 @@ CALENDAR = [
 		"text": _lt("Go back or ahead with the arrows, come back with Today, or pick a date from the title."),
 	},
 	{
-		"target": "onecalendar-views",
+		"target": "interface-ways",
 		"side": "bottom",
 		"title": _lt("Month, Week or Day"),
 		"text": _lt("Choose how much you see, and the calendar opens on that view next time."),

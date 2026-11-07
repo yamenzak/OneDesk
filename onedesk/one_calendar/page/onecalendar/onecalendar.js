@@ -13,12 +13,12 @@ frappe.provide("onedesk");
 onedesk.OneCalendar = class OneCalendar {
 	// The rail stays OneCalendar's: Calendar, Event, Deadlines and Setup are
 	// its rows, and the layers are a section of the nav pane under them
-	// (window.tree). New Event is the page's primary action, and moving
-	// through the days, Today and the views are the window's command row.
+	// (window.tree). The days shown head the page with New Event beside them
+	// and the views at the far end (look.js heading); Today and moving
+	// through the days join the address row.
 	constructor(page) {
 		this.page = page;
 		this.about = this.narrowed();
-		page.set_primary_action(__("New Event"), () => this.new_event(), "plus");
 		this.$grid = $(`<div class="one-calendar one-calendar-grid" data-tour="onecalendar-grid"></div>`).appendTo(page.$shell);
 		onedesk.shell.fit(this.$grid);
 		frappe.require("calendar.bundle.js", () => this.start());
@@ -111,7 +111,7 @@ onedesk.OneCalendar = class OneCalendar {
 				}
 			},
 			datesSet: (info) => {
-				this.$title.find(".es-button__label").text(info.view.title);
+				this.head(info.view.title, info.view.type);
 				const now = new Date();
 				this.$today.prop("disabled", info.view.activeStart <= now && now < info.view.activeEnd);
 				if (this.drawn && this.saved.view !== info.view.type) {
@@ -151,31 +151,34 @@ onedesk.OneCalendar = class OneCalendar {
 	}
 
 	draw_toolbar() {
-		this.$title = frappe.ui.button({ label: __("Calendar"), variant: "ghost", css_class: "text-lg-medium text-ink-gray-7" });
-		this.jumper = new frappe.ui.Popover({
-			trigger: this.$title,
-			content: () => this.date_jumper(),
-			css_class: "calendar-date-jumper",
-		});
-		this.views = new frappe.ui.TabButtons({
-			label: __("Calendar View"),
-			options: [
-				{ label: __("Month"), value: "dayGridMonth" },
-				{ label: __("Week"), value: "timeGridWeek" },
-				{ label: __("Day"), value: "timeGridDay" },
-				{ label: __("List"), value: "listWeek" },
-			],
-			value: this.first_view,
-			on_change: (view) => this.calendar.changeView(view),
-		});
 		this.$today = frappe.ui.button({ label: __("Today"), onclick: () => this.calendar.today() });
 		const moves = $(`<span class="one-calendar-moves" data-tour="onecalendar-moves"></span>`).append(
 			this.$today,
 			frappe.ui.button({ icon: "chevron-left", variant: "ghost", title: __("Previous"), onclick: () => this.calendar.prev() }),
-			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() }),
-			this.$title
+			frappe.ui.button({ icon: "chevron-right", variant: "ghost", title: __("Next"), onclick: () => this.calendar.next() })
 		);
-		this.page.interface.view({ commands: moves, views: $(`<span data-tour="onecalendar-views"></span>`).append(this.views.$el) });
+		this.page.interface.view({ commands: moves });
+		this.head(__("Calendar"), this.first_view);
+	}
+
+	head(title, view) {
+		onedesk.interface.heading(this.page.interface, {
+			title,
+			icon: "calendar",
+			primary: { label: __("New Event"), click: () => this.new_event() },
+			ways: [
+				{ value: "dayGridMonth", icon: "calendar", label: __("Month") },
+				{ value: "timeGridWeek", icon: "calendar-range", label: __("Week") },
+				{ value: "timeGridDay", icon: "calendar-1", label: __("Day") },
+				{ value: "listWeek", icon: "list", label: __("List") },
+			],
+			ways_label: __("Calendar View"),
+			way: view,
+			pick_way: (one) => this.calendar.changeView(one),
+		});
+		const $name = $(this.page.main).find(".one-hero-island h1").first();
+		$name.attr({ role: "button", tabindex: 0, title: __("Go to Date") }).addClass("one-calendar-jump");
+		this.jumper = new frappe.ui.Popover({ trigger: $name, content: () => this.date_jumper(), css_class: "calendar-date-jumper" });
 	}
 
 	date_jumper() {

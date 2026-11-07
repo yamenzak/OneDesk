@@ -698,6 +698,8 @@
 	:root[data-one-look="canvas"] .one-hero-list .one-hero-title h1 { flex: 0 1 auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 22px; }
 	:root[data-one-look="canvas"] .one-hero-list .one-hero-title > .one-interface-group { flex: none; }
 	:root[data-one-look="canvas"] .one-hero-list > .one-interface-ways > .es-tab-buttons { display: none; }
+	:root[data-one-look="canvas"] .one-hero-island > .one-interface-ways > .es-tab-buttons { display: flex; }
+	:root[data-one-look="canvas"] .one-interface .one-hero-island { flex-wrap: wrap; row-gap: 8px; }
 	:root[data-one-look="canvas"] .one-hero-list > .one-interface-ways .view-switcher .es-button { background: var(--one-head-button-bg) !important; color: var(--one-button-ink) !important; }
 	/* what narrows the view is its own row under the address; its fields keep at least one readable, and Filter
 	   and Sort go under them before squeezing them */

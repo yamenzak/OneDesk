@@ -375,6 +375,11 @@ Checked against `onedesk/one_intake/` on 2026-10-18. The design is
   goes in the step of the person whose work it is, with the next demo
   rebuild.
 
+- **OneCloud inside something else** (a record's files, the picker) still
+  draws its own bar, frappe-ui's white view toggle and a filled preview;
+  on its page it wears the list's head and card since 8 November 2026. Give
+  the dialog the same card, band and outlined preview.
+
 ## Upstream's, not ours
 
 Reported or to report; nothing here is patched in One.

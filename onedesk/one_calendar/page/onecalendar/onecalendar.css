@@ -1,7 +1,16 @@
 .one-calendar-grid {
 	flex: 1;
 	min-height: 520px;
-	padding: calc(var(--spacing) * 2) calc(var(--spacing) * 2) 0;
+	margin: 0 var(--one-inset) var(--one-inset);
+	padding: calc(var(--spacing) * 1.5);
+	overflow: hidden;
+	border: 1px solid var(--one-line);
+	border-radius: var(--one-radius-sheet);
+	background: var(--one-card-bg);
+}
+
+.one-calendar-jump {
+	cursor: pointer;
 }
 
 .one-calendar-moves {

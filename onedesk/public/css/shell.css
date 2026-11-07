@@ -619,6 +619,12 @@ a.one-shell-row:hover {
 }
 
 /* In a fitted window (onedesk/one_interface/AGENTS.md) a page's shell is the screen's height. */
+.one-interface-fit :has(> .one-hero-island) > .one-shell {
+	flex: 1 1 0;
+	min-height: 0;
+	height: auto;
+}
+
 .one-interface-fit .one-shell {
 	padding: 0;
 	display: flex;
