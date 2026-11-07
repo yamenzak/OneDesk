@@ -1,23 +1,16 @@
 <template>
-  <InterfacePart v-if="win" :win="win" part="commands" inline>
+  <InterfacePart v-if="win && !chosen.length && commands.some((one) => !one.off)" :win="win" part="commands" inline>
     <span class="inline-flex items-center gap-0.5">
-      <Dropdown :options="newMenu">
-        <template #trigger>
-          <Button variant="solid" icon-left="lucide-plus" icon-right="lucide-chevron-down" :label="__('New')" :disabled="!canNew" />
-        </template>
-      </Dropdown>
-      <span class="mx-1 h-5 w-px bg-surface-gray-4" />
-      <template v-for="one in commands" :key="one.act">
-        <Button v-if="one.label" variant="ghost" :icon-left="one.icon" :label="one.label" :disabled="one.off" @click="act(one.act)" />
-        <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" :disabled="one.off" @click="act(one.act)" />
+      <template v-for="one in commands.filter((c) => !c.off)" :key="one.act">
+        <Button v-if="one.label" variant="ghost" :icon-left="one.icon" :label="one.label" @click="act(one.act)" />
+        <Button v-else variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" @click="act(one.act)" />
       </template>
     </span>
   </InterfacePart>
-  <InterfacePart v-if="win" :win="win" part="views" inline>
-    <TabButtons :model-value="settings.view" :options="views" @update:model-value="(view) => remember({ view })" />
-  </InterfacePart>
   <InterfacePart v-if="win" :win="win" part="details" details-key="onecloud">
-    <CloudPreview :chosen="chosen" :items="items" :node="node" :here-name="here?.name || ''" @changed="refresh" />
+    <div class="rounded-6 border border-outline-gray-2">
+      <CloudPreview :chosen="chosen" :items="items" :node="node" :here-name="here?.name || ''" @changed="refresh" />
+    </div>
   </InterfacePart>
 
   <div ref="root" class="relative flex h-full min-h-0 flex-col text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
@@ -60,12 +53,13 @@
       </div>
     </template>
 
-    <div class="flex min-h-0 flex-1">
+    <div class="flex min-h-0 flex-1" :class="{ 'px-2.5 pb-2.5': win }">
       <ContextMenu :options="picker ? [] : menu" class="min-w-0 flex-1">
         <template #trigger>
           <div class="h-full min-w-0 flex-1">
             <CloudItems
               ref="list"
+              :card="!!win"
               :items="sorted"
               :view="settings.view"
               :sort="{ key: settings.sort, asc: !!settings.asc }"
@@ -95,7 +89,14 @@
               @dragover="over"
               @dragleave="leave"
               @drop="drop"
-            />
+            >
+              <template #action>
+                <template v-for="one in commands.filter((c) => !c.off)" :key="one.act">
+                  <Button v-if="one.label" size="sm" variant="ghost" :icon-left="one.icon" :label="one.label" @click="act(one.act)" />
+                  <Button v-else size="sm" variant="ghost" :icon="one.icon" :aria-label="one.title" :title="one.title" @click="act(one.act)" />
+                </template>
+              </template>
+            </CloudItems>
           </div>
         </template>
       </ContextMenu>
@@ -150,6 +151,7 @@ import {
   userSettings,
   interfaceCan,
   interfaceHandles,
+  interfaceHeading,
   interfaceMeters,
   interfaceSearch,
   interfaceStatus,
@@ -1204,6 +1206,27 @@ interfaceHandles(props.win, {
       .catch(() => false),
 });
 props.onTitle?.(__("OneCloud"));
+
+watch(
+  () => [here.value, newMenu.value, settings.view, search.value, treeRows.value],
+  () =>
+    interfaceHeading(props.win, {
+      title: search.value ? __("Results for {0}", [search.value]) : here.value?.name || __("Files"),
+      icon: search.value ? "lucide-search" : treeRows.value.find((one) => one.id === node.value)?.icon || "lucide-folder",
+      primary: canNew.value
+        ? {
+            label: __("New"),
+            menu: newMenu.value.flatMap((group) => group.options.filter((one) => !one.disabled).map((one) => ({ label: one.label, icon: one.icon, onclick: one.onClick }))),
+          }
+        : null,
+      ways: views,
+      ways_label: __("View"),
+      way: settings.view,
+      pick_way: (view) => remember({ view }),
+    }),
+  { flush: "post" }
+);
+onBeforeUnmount(() => interfaceHeading(props.win, null));
 // Its frappe dialogs (share, members, servers, requests, drives) are desk's.
 requires(onedesk().cloud_assets || []);
 

@@ -711,7 +711,8 @@ list.kinds = async (view, hero, kinds) => {
 // icon and name, a quieter word after it, New beside it, its ways of looking
 // at the far end and a strip of states under it, drawn as a frappe list's
 // are so the look dresses both alike. Said again, drawn again; said empty,
-// gone. `ways` and `states` are [{ value, label, icon?, count? }].
+// gone. `ways` and `states` are [{ value, label, icon?, count? }]; a
+// `primary` with a `menu` ([{ label, icon, onclick }]) opens it.
 onedesk.interface.heading = (win, spec) => {
 	const main = win && win.page && win.page.main && win.page.main[0];
 	if (!main) return;
@@ -729,7 +730,9 @@ onedesk.interface.heading = (win, spec) => {
 		const group = document.createElement("span");
 		group.className = "one-interface-group";
 		group.dataset.tour = "interface-new";
-		$(group).append(frappe.ui.button({ label: spec.primary.label, icon: "plus", variant: "solid", css_class: "primary-action", onclick: spec.primary.click }));
+		const $new = $(frappe.ui.button({ label: spec.primary.label, icon: "plus", variant: "solid", css_class: "primary-action", onclick: spec.primary.menu ? null : spec.primary.click }));
+		$(group).append($new);
+		if (spec.primary.menu) new frappe.ui.Dropdown({ trigger: $new, options: spec.primary.menu.map((one) => ({ label: one.label, icon: one.icon, onclick: one.onclick })) });
 		title.append(group);
 	}
 	if (spec.ways && spec.ways.length) {

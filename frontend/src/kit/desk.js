@@ -470,6 +470,7 @@ export const interfaceHeading = (win, spec) =>
 			...spec,
 			icon: spec.icon && spec.icon.replace(/^lucide-/, ""),
 			ways: (spec.ways || []).map((one) => ({ ...one, icon: one.icon && one.icon.replace(/^lucide-/, "") })),
+			primary: spec.primary && { ...spec.primary, menu: spec.primary.menu?.map((one) => ({ ...one, icon: one.icon && one.icon.replace(/^lucide-/, "") })) },
 		}
 	);
 export const interfaceCan = (win, can) => win && win.can(can);

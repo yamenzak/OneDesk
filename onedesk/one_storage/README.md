@@ -83,12 +83,17 @@ dialog that isn't attached to a record goes to your My Files.
   At the top level of OneCloud it searches everywhere by default.
   Right-click a result for **Open file location**. Servers under Network
   aren't searched.
-- **New**: create a folder, or upload files or a whole folder. You can also
-  drag files or folders from your computer onto the page or onto a folder.
-- **Details** and **Tiles** switch the view. Click a column heading to sort
-  by it.
-- **Preview pane**: shows the selected file (images, PDFs, text, video and
-  audio) with its size, date and owner.
+- **New**, beside the folder's name: create a folder, a workbook, a document
+  or a presentation, or upload files or a whole folder. You can also drag
+  files or folders from your computer onto the page or onto a folder.
+- **Details** and **Tiles**, at the other end of the folder's name, switch
+  the view. Click a column heading to sort by it.
+- Choose files and what you can do with them (cut, copy, rename, share,
+  download, delete) takes the place of the column headings, with how many
+  you chose.
+- **Preview pane**: the button at the end of the address row shows the
+  selected file (images, PDFs, text, video and audio) with its size, date
+  and owner. On a phone a file opens instead.
 - **Right-click** an item to open, download, copy a link, cut, copy, paste,
   rename or delete it.
 - **Drag** items onto a folder to move them. Hold Ctrl to copy instead.

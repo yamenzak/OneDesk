@@ -1,6 +1,14 @@
 <template>
-  <div class="flex h-full min-h-0 flex-col">
-    <div v-if="view === 'details'" class="grid shrink-0 items-center border-b border-outline-gray-1 px-2 py-1.5 text-sm text-ink-gray-5" :class="grid">
+  <div class="flex h-full min-h-0 flex-col" :class="card ? 'overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-elevation-2 p-1.5' : ''">
+    <div v-if="card && selected.size" class="flex h-9 shrink-0 items-center gap-2 rounded-full bg-surface-gray-3 pe-1.5 ps-3.5 text-sm font-medium text-ink-gray-9">
+      <span class="min-w-0 flex-1 truncate">{{ __("{0} selected", [selected.size]) }}</span>
+      <span class="flex shrink-0 items-center gap-0.5"><slot name="action" /></span>
+    </div>
+    <div
+      v-else-if="view === 'details'"
+      class="grid shrink-0 items-center text-sm"
+      :class="[grid, card ? 'h-9 rounded-full bg-surface-gray-3 px-2 font-medium text-ink-gray-7' : 'border-b border-outline-gray-1 px-2 py-1.5 text-ink-gray-5']"
+    >
       <button v-for="col in columns" :key="col.key" type="button" class="flex items-center gap-1 truncate rounded-2 px-1 text-start hover:text-ink-gray-8" :class="col.class" @click="emit('sort', col.key)">
         {{ col.label }}
         <span v-if="sort.key === col.key" :class="sort.asc ? 'lucide-chevron-up' : 'lucide-chevron-down'" class="size-3" aria-hidden="true" />
@@ -34,7 +42,9 @@
         :aria-selected="selected.has(item.id)"
         class="cursor-default select-none"
         :class="[
-          view === 'details' ? ['grid items-center px-2 py-1.5 text-base', grid] : 'flex flex-col items-center gap-1.5 rounded-4 p-2 text-center text-sm',
+          view === 'details'
+            ? ['grid items-center px-2 text-base', grid, card ? 'border-b border-outline-gray-1 py-2.5 last:border-b-0' : 'py-1.5']
+            : 'flex flex-col items-center gap-1.5 rounded-4 p-2 text-center text-sm',
           selected.has(item.id) ? 'bg-surface-blue-2' : 'hover:bg-surface-gray-2',
           item.id === focusId ? 'outline outline-1 -outline-offset-1 outline-outline-blue-4' : '',
           cut.has(item.id) ? 'opacity-50' : '',
@@ -116,6 +126,7 @@ const props = defineProps({
   here: { type: String, default: "" },
   dropOn: { type: String, default: null },
   intakeOn: Boolean,
+  card: Boolean,
 });
 const emit = defineEmits(["pick", "open", "sort", "space", "menu", "renamed", "everywhere", "dragstart", "dragend", "dragover", "dragleave", "drop"]);
 

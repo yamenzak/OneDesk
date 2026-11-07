@@ -10,6 +10,8 @@
 /* the canvas and the sheet */
 :root[data-one-look="canvas"] .one-interface .page-body, :root[data-one-look="canvas"] .one-interface .layout-main-section-wrapper, :root[data-one-look="canvas"] .one-interface .layout-main-list, :root[data-one-look="canvas"] .one-interface .layout-main-section { background: var(--one-canvas) !important; }
 :root[data-one-look="canvas"] .one-interface .layout-side-section.one-interface-details { background: var(--one-canvas) !important; border-left: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .one-interface-details:not(.one-interface-details-own) { background: var(--one-canvas); border-inline-start: 0; }
+:root[data-one-look="canvas"] .one-interface .one-interface-details:not(.one-interface-details-own) > .one-interface-details-body { padding: 0 var(--one-inset) var(--one-inset) 0; }
 :root[data-one-look="canvas"] .one-interface, :root[data-one-look="canvas"] .one-interface .page-head, :root[data-one-look="canvas"] .one-interface .page-wrapper, :root[data-one-look="canvas"] .one-interface .page-content, :root[data-one-look="canvas"] .one-interface .layout-main, :root[data-one-look="canvas"] .one-interface .std-form-layout, :root[data-one-look="canvas"] .one-interface .form-layout, :root[data-one-look="canvas"] .one-interface .layout-main-section > div { background: var(--one-canvas) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head { border-bottom: 0 !important; }
 
@@ -521,7 +523,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools > .one-interface-group[data-group="menu"] { display: inline-flex; align-items: center; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button { height: 28px !important; width: 28px; padding: 0 !important; justify-content: center; background: var(--one-address-bg) !important; color: var(--one-ink-quiet) !important; border-radius: var(--one-radius-control) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(:is(.es-button, .btn, button, a):not(.hide, .hide *, [hidden]))) { display: none !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(.one-island-part, :is(.es-button, .btn, button, a):not(.hide, .hide *, [hidden]))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters::-webkit-scrollbar { display: none; }
@@ -604,6 +606,14 @@
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-tools { order: 3; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-switch { order: 4; position: relative; margin: 8px 8px 0 0 !important; align-self: flex-start; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-break { order: 5; }
+/* An island under the window's head (look.js heading) joins the same way: what acts on the whole view and the details
+   switch end the address row, and nothing is left on a row of its own. */
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-nav { order: 0; }
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .page-title { order: 1; flex: 1 1 220px; }
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-commands { order: 2; position: relative; margin-top: 0 !important; flex: none; }
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-tools { order: 3; }
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-switch { order: 4; position: relative; margin: 0 8px 0 0 !important; align-self: center; }
+:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-break { order: 5; }
 :root[data-one-look="canvas"] .one-head-joined .page-head :is(.one-interface-commands, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) { background: var(--one-address-bg) !important; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .one-interface-commands .one-bar-icons { margin-inline: 4px 0 !important; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .one-interface-commands .one-bar-icons :is(.es-button, .btn, button) { background: transparent !important; }

@@ -329,6 +329,10 @@
 		display: none !important;
 	}
 
+	.one-interface .layout-main > .one-interface-details:not(.one-interface-details-own) {
+		display: none !important;
+	}
+
 	.one-interface > .page-head {
 		height: auto;
 	}

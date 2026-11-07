@@ -131,7 +131,7 @@ that exists.
 | `src/crm/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
 | `src/hr/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
 | `src/inventory/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
-| `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging |
+| `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging; drawn on a list's own head (the folder's name, New, the views) and card |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |
 | `src/interface/RecordHead.vue` | OneBook's and OneInventory's Homes: the same figure cards, at most four, at the head of a record, as its module declares them |

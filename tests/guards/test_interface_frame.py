@@ -94,10 +94,12 @@ def test_back_and_forward_are_the_browsers():
 
 def test_onecloud_on_its_page_draws_none_of_the_windows_parts():
 	"""Its own bar, address and status are drawn only off the window (a
-	record's files, the picker); on its page each goes to the window's part."""
+	record's files, the picker); on its page each goes to the window's part,
+	and its name, New and views to the window's head over a list."""
 	assert '<template v-if="!win">' in CLOUD and '<div v-if="!win" class="border-t' in CLOUD
-	for part in ("commands", "views", "details"):
+	for part in ("commands", "details"):
 		assert f'part="{part}"' in CLOUD, part
+	assert "interfaceHeading(props.win" in CLOUD and "ways: views" in CLOUD
 	assert "interfaceTree(props.win" in CLOUD
 	assert "interfaceSearch(props.win" in CLOUD and "interfaceStatus(props.win" in CLOUD and "interfaceHandles(props.win" in CLOUD
 	page = (tree.APP / "one_storage" / "page" / "onecloud" / "onecloud.js").read_text(encoding="utf-8")
@@ -176,7 +178,8 @@ def test_every_row_sits_on_one_gutter():
 	assert '.one-interface[data-one-view="list"] .frappe-list {\n\t\tmargin-inline: 0;' in CSS
 	assert ".one-interface[data-one-view=\"list\"] .list-row-container,\n" in CSS
 	items = (tree.ROOT / "frontend" / "src" / "cloud" / "CloudItems.vue").read_text(encoding="utf-8")
-	assert "border-b border-outline-gray-1 px-2 py-1.5" in items and "'grid items-center px-2 py-1.5 text-base'" in items
+	assert "border-b border-outline-gray-1 px-2 py-1.5" in items and "'grid items-center px-2 text-base'" in items
+	assert "rounded-full bg-surface-gray-3 px-2" in items
 
 
 def test_a_view_frappe_loads_late_is_waited_for():
