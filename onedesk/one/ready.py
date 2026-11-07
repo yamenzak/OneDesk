@@ -204,6 +204,10 @@ MODULES = {
 				},
 				"fields": {"customer": "building-2", "expected_start_date": "calendar", "expected_end_date": "calendar-check", "company": "building", "sales_order": "file-text", "priority": "flag"},
 				"cards": ({"key": "project.done"}, {"key": "project.cost"}, {"key": "project.billed"}, {"key": "project.margin"}),
+				"links": (
+					{"label": _lt("Customer"), "icon": "building-2", "open": "customer"},
+					{"label": _lt("Sales Order"), "icon": "file-text", "open": "sales_order"},
+				),
 				"states": {"field": "status", "order": ("Open", "On hold", "Completed"), "hide": ("Cancelled",)},
 			},
 			"Project Template": {
@@ -1549,21 +1553,23 @@ def _states(said: dict | None) -> dict:
 	return {"field": said.get("field", "status"), "order": list(said.get("order") or ()), "hide": list(said.get("hide") or ()), "kinds": kinds}
 
 
-LINK_KEYS = {"label", "icon", "new", "list", "with", "when"}
+LINK_KEYS = {"label", "icon", "new", "list", "open", "with", "when"}
 
 
 def _link(said: dict) -> dict:
-	"""A record's shortcut: a new record of `new`, or the list of `list`,
-	with `with` (the other type's field: this record's field) carried over,
-	shown while every `when` ([field, "=" | "!=" | "in", value]) holds."""
+	"""A record's shortcut: a new record of `new`, the list of `list`, or
+	the record this one's `open` field names, with `with` (the other type's
+	field: this record's field) carried over, shown while every `when`
+	([field, "=" | "!=" | "in", value]) holds."""
 	strange = set(said) - LINK_KEYS
-	if strange or not said.get("label") or bool(said.get("new")) == bool(said.get("list")):
-		raise ValueError(f"a link must say a label and one of new or list: {said}")
+	if strange or not said.get("label") or sum(bool(said.get(one)) for one in ("new", "list", "open")) != 1:
+		raise ValueError(f"a link must say a label and one of new, list or open: {said}")
 	return {
 		"label": str(said["label"]),
 		"icon": said.get("icon") or "arrow-up-right",
 		"new": said.get("new"),
 		"list": said.get("list"),
+		"open": said.get("open"),
 		"with": dict(said.get("with") or {}),
 		"when": [list(one) for one in said.get("when") or ()],
 	}

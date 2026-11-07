@@ -30006,6 +30006,10 @@ msgstr "Kein Abschlussdatum"
 msgid "No Due Date"
 msgstr "Ohne Fälligkeitsdatum"
 
+#: onedesk/public/js/project.js:153
+msgid "No End Date"
+msgstr "Kein Enddatum"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:12
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:31
 msgid "No Location"
@@ -44818,6 +44822,10 @@ msgstr "Ankündigungen zeigen"
 #: onedesk/public/js/project_tree.js:8
 msgid "Show Completed"
 msgstr "Abgeschlossene anzeigen"
+
+#: onedesk/public/js/project.js:109
+msgid "Show Completed Tasks"
+msgstr "Abgeschlossene Aufgaben anzeigen"
 
 #: onedesk/one_display/widgets.py:108
 msgid "Show Date"

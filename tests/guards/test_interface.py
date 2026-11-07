@@ -129,6 +129,10 @@ def test_a_link_opens_a_record_type_that_exists_and_carries_real_fields():
 	for doctype, said in DECLARED.items():
 		ours = _fieldnames(doctype)
 		for one in said["links"]:
+			if one.get("open"):
+				if ours is not None and one["open"] not in ours:
+					wrong.append(f"{doctype}: {one['label']} opens the record in {one['open']}, which it does not have")
+				continue
 			target = one["new"] or one["list"]
 			theirs = _fieldnames(target)
 			if theirs is None:

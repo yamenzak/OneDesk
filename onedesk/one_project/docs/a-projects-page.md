@@ -11,6 +11,9 @@ and health, and four figures:
 
 ![A project's page with its four figures and its tabs](a-projects-page/project.png)
 
+At the top of the panel beside it are the customer and the sales order the
+project was won with, each opening its own page.
+
 Beside the name are the project's buttons (see Buttons below), and on the
 right who it's assigned to, its attachments, tags, sharing and likes, with
 its **Activity**, **Mail** and **Connections**.

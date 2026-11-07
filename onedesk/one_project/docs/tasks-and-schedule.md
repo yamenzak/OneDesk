@@ -1,13 +1,21 @@
 # Tasks and Schedule
 
-A project's **Tasks** tab lists its tasks, each with its status, priority,
-start and end dates, progress and who it's assigned to. Change a task's
-status or priority right in its row. The tasks are listed under the
-milestone they belong to, each milestone in bold with its steps under it;
-the sort's **Milestone** puts them back that way after another order.
-**Search** finds a task, and **Add Task** adds one. Click a task to open it. **Board**,
-**Calendar** and **Schedule** at the top of the project show its tasks in
-columns, on its calendar or on a timeline (see below).
+A project's **Tasks** tab lists its tasks still to do, each with its status,
+priority, start and end dates, progress and who it's assigned to. Change a
+task's status or priority right in its row. **Completed** shows the tasks
+already done or cancelled too.
+
+The tasks are listed under the milestone they belong to, each milestone in
+bold with its steps under it. Sort by **Status** or **Priority** and they are
+grouped by it, or by **End Date** into **Late**, **Next 7 Days**, **Later**
+and **No End Date**, each group with how many it holds. **Milestone** in the
+sort puts them back under their milestones.
+
+Click a task to see it in a panel beside the project, with **Open in full
+page** to change it. On a phone it opens on its own. **Search** finds a task,
+and **Add Task** adds one. **Board**, **Calendar** and **Schedule** at the
+top of the project show its tasks in columns, on its calendar or on a
+timeline (see below).
 
 ![A project's Tasks tab, each task under its milestone](tasks-and-schedule/tasks.png)
 

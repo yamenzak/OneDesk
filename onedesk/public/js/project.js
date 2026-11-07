@@ -71,6 +71,20 @@ frappe.provide("onedesk.project");
 
 onedesk.project.by_milestone = (frm, list) => {
 	const $actions = frm.get_field("tasks_html").$wrapper.find(".embedded-list-header-actions");
+	frm.tasks_done ??= false;
+	list.get_page = ({ start, page_length, txt }) =>
+		frappe.xcall("erpnext.projects.doctype.project.project.get_project_tasks", {
+			project: frm.doc.name,
+			...frm.tasks_sort,
+			start,
+			page_length,
+			txt,
+			done: frm.tasks_done ? 1 : 0,
+		});
+	list.on_row_click = (row) =>
+		frappe.is_mobile()
+			? frappe.set_route("Form", "Task", row.name)
+			: frappe.require("side_panel.bundle.js").then(() => frappe.ui.get_side_panel().open("Task", row.name));
 	new frappe.ui.SortSelector({
 		parent: $actions,
 		doctype: "Task",
@@ -89,12 +103,38 @@ onedesk.project.by_milestone = (frm, list) => {
 			list.refresh();
 		},
 	}).wrapper.insertAfter($actions.find("[data-action='search']"));
+	const $done = $(
+		frappe.ui.button.html({ label: __("Completed"), icon: "circle-check", variant: frm.tasks_done ? "subtle" : "ghost", attrs: { "aria-pressed": String(frm.tasks_done) } })
+	).insertBefore($actions.find("[data-action='add-row']").first().length ? $actions.find("[data-action='add-row']").first() : $actions.children().last());
+	$done.attr("title", __("Show Completed Tasks")).on("click", () => {
+		frm.tasks_done = !frm.tasks_done;
+		frappe.ui.button.dress($done, { variant: frm.tasks_done ? "subtle" : "ghost" });
+		$done.attr("aria-pressed", String(frm.tasks_done));
+		list.refresh();
+	});
 	const dress = () => {
-		const grouped = frm.tasks_sort.sort_by === "lft";
-		list.$wrapper.find("tbody tr[data-row-idx]").each((_i, tr) => {
+		const by = frm.tasks_sort.sort_by;
+		const $rows = list.$wrapper.find("tbody tr[data-row-idx]");
+		list.$wrapper.find("tbody tr.one-row-heading").remove();
+		$rows.each((_i, tr) => {
 			const row = list.data[tr.dataset.rowIdx] || {};
-			tr.classList.toggle("one-row-group", grouped && !!row.is_group);
-			tr.classList.toggle("one-row-child", grouped && !row.is_group && !!row.parent_task);
+			tr.classList.toggle("one-row-group", by === "lft" && !!row.is_group);
+			tr.classList.toggle("one-row-child", by === "lft" && !row.is_group && !!row.parent_task);
+		});
+		const group = onedesk.project.TASK_GROUPS[by];
+		if (!group) return;
+		const keys = list.data.map((row) => group(row));
+		const width = list.columns.length + (list.show_index ? 1 : 0);
+		let was = null;
+		$rows.each((_i, tr) => {
+			const key = keys[tr.dataset.rowIdx];
+			if (key === was) return;
+			was = key;
+			const count = keys.filter((one) => one === key).length;
+			$(`<tr class="one-row-heading"><td colspan="${width}"><span></span><span class="one-row-count"></span></td></tr>`)
+				.find("span:first").text(key).end()
+				.find(".one-row-count").text(count).end()
+				.insertBefore(tr);
 		});
 	};
 	list.after_render = dress;
@@ -103,7 +143,17 @@ onedesk.project.by_milestone = (frm, list) => {
 		more();
 		dress();
 	};
-	dress();
+	list.refresh();
+};
+
+onedesk.project.TASK_GROUPS = {
+	status: (row) => __(row.status || "Open"),
+	priority: (row) => __(row.priority || "Low"),
+	exp_end_date: (row) => {
+		if (!row.exp_end_date) return __("No End Date");
+		const days = frappe.datetime.get_day_diff(row.exp_end_date, frappe.datetime.get_today());
+		return days < 0 ? __("Late") : days <= 7 ? __("Next 7 Days") : __("Later");
+	},
 };
 
 onedesk.project.said = (frm) => {

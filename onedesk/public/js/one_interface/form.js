@@ -593,16 +593,19 @@ onedesk.interface.holds = (doc, when) =>
 onedesk.interface.links = (frm) => {
 	const said = frappe.boot.one_interface?.[frm.doctype]?.links;
 	if (!said?.length || frm.is_new() || !frm.sidebar) return;
-	frm.sidebar.clear_user_actions();
+	frm.sidebar.user_actions.find(".user-action-row:has(.user-action-link[data-one-link])").remove();
 	for (const link of said) {
 		if (!onedesk.interface.holds(frm.doc, link.when)) continue;
-		if (link.new ? !frappe.model.can_create(link.new) : !frappe.model.can_read(link.list)) continue;
+		const target = link.open && frm.fields_dict[link.open]?.df.options;
+		const value = link.open && frm.doc[link.open];
+		if (link.open ? !value || !frappe.model.can_read(target) : link.new ? !frappe.model.can_create(link.new) : !frappe.model.can_read(link.list)) continue;
 		const values = Object.fromEntries(Object.entries(link.with).map(([theirs, ours]) => [theirs, frm.doc[ours]]));
+		const label = link.open ? frappe.utils.get_link_title(target, value) || value : __(link.label);
 		frm.sidebar
-			.add_user_action(`${frappe.utils.icon(link.icon, "sm")}<span>${__(link.label)}</span>`, () =>
-				link.new ? frappe.new_doc(link.new, values) : frappe.set_route("List", link.list, values)
+			.add_user_action(`${frappe.utils.icon(link.icon, "sm")}<span>${frappe.utils.escape_html(label)}</span>`, () =>
+				link.open ? frappe.set_route("Form", target, value) : link.new ? frappe.new_doc(link.new, values) : frappe.set_route("List", link.list, values)
 			)
-			.attr("data-kind", link.new ? "new" : "list");
+			.attr({ "data-kind": link.open ? "open" : link.new ? "new" : "list", "data-one-link": "", title: link.open ? __(link.label) : null });
 	}
 };
 

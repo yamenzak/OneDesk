@@ -427,7 +427,7 @@ record.icons = (frm) => {
 record.shortcuts = (frm) => {
 	const box = frm.page.wrapper[0].querySelector(".form-sidebar .user-actions");
 	if (!box) return;
-	const TRAIL = { new: "plus", list: "arrow-up-right" };
+	const TRAIL = { new: "plus", list: "arrow-up-right", open: "arrow-up-right" };
 	box.querySelectorAll(".user-action-link").forEach((link) => {
 		if (link.querySelector(".one-trail")) return;
 		link.querySelector(".user-action-external-icon")?.remove();

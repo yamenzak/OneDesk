@@ -473,6 +473,26 @@ a.one-shell-row:hover {
 .embedded-list tr.one-row-child td:first-child {
 	padding-inline-start: 28px;
 }
+.embedded-list .embedded-list-header-actions {
+	flex-shrink: 1;
+	flex-wrap: wrap;
+	justify-content: flex-end;
+	min-width: 0;
+}
+.embedded-list tr.one-row-heading td {
+	padding-top: 14px;
+	font-weight: var(--weight-semibold);
+	color: var(--ink-gray-9);
+	background: transparent;
+}
+.embedded-list tr.one-row-heading:hover {
+	background: transparent;
+}
+.embedded-list tr.one-row-heading .one-row-count {
+	margin-inline-start: 8px;
+	font-weight: var(--weight-regular);
+	color: var(--ink-gray-5);
+}
 
 .one-shell-part-mark {
 	display: inline-flex;

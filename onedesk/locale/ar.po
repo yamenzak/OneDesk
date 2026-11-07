@@ -30006,6 +30006,10 @@ msgstr "بلا تاريخ إغلاق"
 msgid "No Due Date"
 msgstr "بلا تاريخ استحقاق"
 
+#: onedesk/public/js/project.js:153
+msgid "No End Date"
+msgstr "بلا تاريخ انتهاء"
+
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:12
 #: onedesk/one_hr/doctype/clock_place/clock_place.js:31
 msgid "No Location"
@@ -44818,6 +44822,10 @@ msgstr "عرض الإعلانات"
 #: onedesk/public/js/project_tree.js:8
 msgid "Show Completed"
 msgstr "إظهار المكتملة"
+
+#: onedesk/public/js/project.js:109
+msgid "Show Completed Tasks"
+msgstr "إظهار المهام المكتملة"
 
 #: onedesk/one_display/widgets.py:108
 msgid "Show Date"
