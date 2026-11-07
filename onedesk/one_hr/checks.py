@@ -77,12 +77,12 @@ def onehr_requests_are_answered_by_who_answers_them():
 		assert frappe.db.get_value("Expense Claim", claim.name, ["approval_status", "docstatus"]) == ("Rejected", 1)
 
 	name, _starts, _ends = demo.SHIFT
-	ravi = frappe.db.get_value("Shift Request", {"employee": _employee("Ravi"), "docstatus": 0})
+	joseph = frappe.db.get_value("Shift Request", {"employee": _employee("Joseph"), "docstatus": 0})
 	with as_user(demo.HR):
-		assert demo.HR in shift.approvers(_employee("Ravi"))
+		assert demo.HR in shift.approvers(_employee("Joseph"))
 		assert shift.hours(name)
-		shift.approve(ravi)
-		assert frappe.db.exists("Shift Assignment", {"employee": _employee("Ravi"), "shift_type": name, "docstatus": 1})
+		shift.approve(joseph)
+		assert frappe.db.exists("Shift Assignment", {"employee": _employee("Joseph"), "shift_type": name, "docstatus": 1})
 		frappe.db.set_value("Employee", _employee("Imran"), "shift_request_approver", demo.HR)
 		imran = frappe.get_doc({"doctype": "Shift Request", "shift_type": name, "employee": _employee("Imran"), "company": COMPANY, "from_date": add_days(today(), 20), "to_date": add_days(today(), 30), "approver": demo.HR, "status": "Draft"}).insert()
 		shift.reject(imran.name, "Days are full that month.")
@@ -309,12 +309,16 @@ def onehr_uae_papers_are_kept_where_a_company_is_in_the_uae():
 def onehr_late_arrivals_can_count_as_an_absent_day():
 	"""Off by default. At 4 late arrivals to an absent day, an employee late
 	five times in October loses one day on the October payslip, which says
-	so, and is paid that much less; with the rule off again nothing is taken."""
+	so, and is paid that much less; with the rule off again nothing is taken.
+	The October payroll already ran, so the employee's slip is set aside for
+	the check, which is rolled back."""
 	from onedesk.one_hr import lates
 
 	assert lates.days_off(5, 4) == 1 and lates.days_off(3, 4) == 0 and lates.days_off(9, 0) == 0
 	employee = "HR-EMP-00018"
 	start, end = "2026-10-01", "2026-10-31"
+	for paid in frappe.get_all("Salary Slip", filters={"employee": employee, "start_date": start, "docstatus": ["<", 2]}, pluck="name"):
+		frappe.db.set_value("Salary Slip", paid, "docstatus", 2)
 	marked = set(frappe.get_all("Attendance", filters={"employee": employee, "attendance_date": ["between", [start, end]]}, pluck="attendance_date"))
 	holidays = set(frappe.get_all("Holiday", filters={"parent": frappe.db.get_value("Company", COMPANY, "default_holiday_list")}, pluck="holiday_date"))
 	days = [day for day in (add_days(start, n) for n in range(31)) if getdate(day) not in marked and getdate(day) not in holidays][:5]
@@ -589,7 +593,8 @@ def onehr_tells_each_moment_somebody_waits_on():
 		_name, users, values = said("Document Expiring")
 		assert "nadia@one.test" in users and "mariam@one.test" in users and values["number"] == "WP-1", values
 
-		leave = frappe.get_doc("Leave Application", frappe.db.get_value("Leave Application", {"docstatus": 1}))
+		users = frappe.get_all("Employee", filters={"user_id": ["is", "set"]}, pluck="name")
+		leave = frappe.get_doc("Leave Application", frappe.db.get_value("Leave Application", {"docstatus": 1, "employee": ["in", users]}))
 		leave.one_note, leave.one_decided_by = "Enjoy it.", "mariam@one.test"
 		with as_user("mariam@one.test"):
 			leave.answered("Approved")
@@ -726,3 +731,27 @@ def onehr_deleting_an_interviews_sound_is_an_ability():
 			raise AssertionError("somebody without the ability deleted an interview's sound")
 	with as_user("mariam@one.test"):
 		hiring.keep_sound(sound)
+
+
+@check
+def onehr_riyadh_keeps_its_own_people():
+	"""Sahara Glass Saudi's supervisor is its own: his weekend is Friday and
+	Saturday, his leave says what is left, Home read in Riyadh counts him in
+	riyals, and Rania, limited to the Dubai company, does not see him."""
+	from onedesk.one_hr import heads, story
+
+	ahmed = frappe.db.get_value("Employee", {"company": "Sahara Glass Saudi"}, "name")
+	assert ahmed, "the Riyadh company has an employee"
+	weekend = {getdate(day).weekday() for day in frappe.get_all("Holiday", filters={"parent": frappe.db.get_value("Company", "Sahara Glass Saudi", "default_holiday_list"), "weekly_off": 1}, pluck="holiday_date")}
+	assert weekend == {4, 5}, weekend
+	leave = frappe.get_doc("Leave Application", frappe.db.get_value("Leave Application", {"employee": ahmed, "docstatus": 1}))
+	assert heads.leave_left(leave)["value"], "a leave says what is left"
+	with as_user("mariam@one.test"):
+		frappe.defaults.set_user_default("company", "Sahara Glass Saudi")
+		try:
+			said = story.read()
+		finally:
+			frappe.defaults.set_user_default("company", COMPANY)
+	assert said["currency"] == "SAR" and said["cards"]["headcount"]["value"] == 1, said["cards"].get("headcount")
+	with as_user("rania@one.test"):
+		assert not frappe.has_permission("Employee", "read", ahmed)

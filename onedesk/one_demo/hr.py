@@ -552,7 +552,7 @@ def _shifts():
 	name, starts, ends = SHIFT
 	if not frappe.db.exists("Shift Type", name):
 		make({"doctype": "Shift Type", "name": name, "__newname": name, "start_time": starts, "end_time": ends})
-	for first, days, state in (("Ravi", 3, None), ("Bilal", 10, "Rejected")):
+	for first, days, state in (("Joseph", 3, None), ("Bilal", 10, "Rejected")):
 		employee = _employee(first)
 		if frappe.db.exists("Shift Request", {"employee": employee, "shift_type": name}):
 			continue
