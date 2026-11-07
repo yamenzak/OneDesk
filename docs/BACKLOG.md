@@ -6,10 +6,6 @@ module's README says what it does.
 
 ## Due now
 
-- **The tests inside modules are not in the gate.** `quick.py --all` runs
-  `tests/`; the nine `onedesk/*/tests/test_*.py` (127 tests) run nowhere,
-  and `one_ai/tests/test_oneai_words.py::test_no_tool_says_it` fails. Move
-  them into `tests/` or add the folders to `--all`, and fix that one.
 - **Empty dates in `<` filters.** frappe reads an empty date as the earliest
   day (`IFNULL(field, '0001-01-01') < x`), which took every mailbox away
   each night (one_mail rules.cover, fixed 5 November 2026). Read the rest in

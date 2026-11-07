@@ -89,7 +89,7 @@ def recall(
 ) -> dict:
 	"""Search what the reader asked OneAI to remember and what this workspace
 	wrote down for OneAI — policies, a glossary, how things are done here —
-	by its words and by what it means, as frappe's Flow recalls memory.
+	by its words and by what it means.
 	Without words, everything: what OneAI knows about the reader."""
 	words = _words(text)
 	meant = _meant(text)

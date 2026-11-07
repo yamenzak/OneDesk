@@ -319,7 +319,7 @@ def test_a_message_is_drawn_without_scripts_or_pictures_from_elsewhere():
 	sandbox = re.search(r'sandbox="([^"]*)"', PAGE_JS).group(1)
 	assert "allow-scripts" not in sandbox, "a message never runs code"
 	assert "default-src 'none'" in PAGE_JS
-	assert "Show pictures" in PAGE_JS and "framePage(props.content, allowed.value)" in PAGE_JS, (
+	assert "Show pictures" in PAGE_JS and "framePage(props.content, allowed.value" in PAGE_JS, (
 		"remote pictures wait to be asked for"
 	)
 	assert 'querySelectorAll("script' in PAGE_JS

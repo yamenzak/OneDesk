@@ -3,6 +3,10 @@
     python3 scripts/quick.py            # guards that name what changed
     python3 scripts/quick.py --all      # every test, in parallel: the gate
 
+`--all` runs `tests/` and each module's own `tests/` folder (onedesk/<module>/
+tests), which need no site; a doctype's test_*.py beside its JSON does, and
+is left to bench.
+
 A guard is picked when its source names a changed file's stem, its module's
 folder, or its kind of file (a CSS change picks every guard that reads
 `.css`). Nothing changed, or a change to a guard or to scripts/, picks them
@@ -52,7 +56,8 @@ def picked(paths: list[Path]) -> list[Path] | None:
 
 def main() -> int:
 	if "--all" in sys.argv:
-		return subprocess.call([sys.executable, "-m", "pytest", "-q", "-n", "auto", "tests", *SKIP], cwd=ROOT)
+		modules = sorted(str(one.relative_to(ROOT)) for one in (ROOT / "onedesk").glob("*/tests") if any(one.glob("test_*.py")))
+		return subprocess.call([sys.executable, "-m", "pytest", "-q", "-n", "auto", "tests", *modules, *SKIP], cwd=ROOT)
 	paths = changed()
 	guards = picked(paths)
 	targets = [str(one.relative_to(ROOT)) for one in guards] if guards is not None else ["tests/guards"]
