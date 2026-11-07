@@ -910,6 +910,7 @@ No doctypes yet.
 * `onedesk.one_project.view.said`
 * `onedesk.one_project.view.to_quote`
 * `onedesk.one_project.view.updates`
+* `onedesk.one_quality.home.read`
 * `onedesk.one_sheet.api.download`
 * `onedesk.one_sheet.api.get_link_preview`
 * `onedesk.one_sheet.api.get_sheet`

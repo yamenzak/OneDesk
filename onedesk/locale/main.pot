@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-07 12:05+0000\n"
-"PO-Revision-Date: 2026-11-07 12:05+0000\n"
+"POT-Creation-Date: 2026-11-07 12:42+0000\n"
+"PO-Revision-Date: 2026-11-07 12:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -185,6 +185,10 @@ msgstr ""
 msgid "1 With No Next Step"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:148
+msgid "1 action"
+msgstr ""
+
 #: onedesk/public/js/one_account/account_center.js:723
 msgid "1 add-on"
 msgstr ""
@@ -218,8 +222,9 @@ msgstr ""
 #: frontend/src/factory/home/FactoryHome.vue:157
 #: frontend/src/inventory/home/InventoryHome.vue:218
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:268
-#: frontend/src/project/Suppliers.vue:201 onedesk/one_project/retention.py:237
-#: onedesk/one_project/view.py:882
+#: frontend/src/project/Suppliers.vue:201
+#: frontend/src/quality/QualityHome.vue:167
+#: onedesk/one_project/retention.py:237 onedesk/one_project/view.py:882
 msgid "1 day late"
 msgstr ""
 
@@ -730,7 +735,7 @@ msgstr ""
 msgid "A document arrived for {0}"
 msgstr ""
 
-#: onedesk/one_studio/places.py:186
+#: onedesk/one_studio/places.py:197
 msgid "A document is opened in Documents."
 msgstr ""
 
@@ -874,7 +879,7 @@ msgstr ""
 msgid "A field says only its label, kind, choices, whether it is required and whether it is in the list."
 msgstr ""
 
-#: onedesk/one_studio/places.py:172
+#: onedesk/one_studio/places.py:183
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr ""
 
@@ -916,6 +921,10 @@ msgstr ""
 
 #: onedesk/one_display/starters.py:1175
 msgid "A full picture with the new collection and its price."
+msgstr ""
+
+#: onedesk/one_quality/home.py:26
+msgid "A goal checked, objective by objective."
 msgstr ""
 
 #. Description of the 'Kind' (Select) field in DocType 'Credit Ledger Entry'
@@ -1337,27 +1346,27 @@ msgstr ""
 msgid "A production plan as a tree of its work orders."
 msgstr ""
 
-#: onedesk/one_studio/places.py:248
+#: onedesk/one_studio/places.py:259
 msgid "A project's Invoices view is opened, and each time its invoices change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:239
+#: onedesk/one_studio/places.py:250
 msgid "A project's Money view is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:222
+#: onedesk/one_studio/places.py:233
 msgid "A project's Overview is opened, and each time its figures change."
 msgstr ""
 
-#: onedesk/one_studio/places.py:257
+#: onedesk/one_studio/places.py:268
 msgid "A project's Suppliers view is opened, and each time what it buys changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:265
+#: onedesk/one_studio/places.py:276
 msgid "A project's Team view is opened, and each time its team changes."
 msgstr ""
 
-#: onedesk/one_studio/places.py:231
+#: onedesk/one_studio/places.py:242
 msgid "A project's Time view is opened, and each time its hours change."
 msgstr ""
 
@@ -1605,7 +1614,7 @@ msgstr ""
 msgid "A source can be fetched at most {0} times a day."
 msgstr ""
 
-#: onedesk/one_studio/places.py:211
+#: onedesk/one_studio/places.py:222
 msgid "A space's home page is opened: One, OneCRM, OneHR, OneBook and every other."
 msgstr ""
 
@@ -2365,6 +2374,7 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
+#. Group in Non Conformance's connections
 #: frontend/src/factory/floor/FloorSteps.vue:45
 #: frontend/src/inventory/item/ItemCustomers.vue:26
 #: frontend/src/inventory/item/ItemManufacturerRow.vue:16
@@ -2373,7 +2383,8 @@ msgstr ""
 #: frontend/src/kit/Rows.vue:45 frontend/src/project/Invoices.vue:53
 #: frontend/src/project/Suppliers.vue:62 frontend/src/project/Suppliers.vue:108
 #: frontend/src/project/Team.vue:46 frontend/src/template/Tasks.vue:86
-#: onedesk/public/js/one/access_center.js:427
+#: onedesk/one_quality/custom/non_conformance.json:6
+#: onedesk/one_quality/heads.py:79 onedesk/public/js/one/access_center.js:427
 #: onedesk/public/js/one/access_center.js:487
 #: onedesk/public/js/one/access_center.js:516
 #: onedesk/public/js/one/notification_center.js:416
@@ -4237,7 +4248,7 @@ msgstr ""
 msgid "An employee who never checks out gets an OUT written at the shift end, marked Closed Automatically."
 msgstr ""
 
-#: onedesk/one_studio/places.py:304
+#: onedesk/one_studio/places.py:315
 msgid "An event's card is opened in OneCalendar."
 msgstr ""
 
@@ -4680,7 +4691,7 @@ msgstr ""
 msgid "Apply crop"
 msgstr ""
 
-#: onedesk/one/ready.py:1128
+#: onedesk/one/ready.py:1132
 msgid "Apply for Leave"
 msgstr ""
 
@@ -5624,7 +5635,7 @@ msgstr ""
 msgid "Assign To"
 msgstr ""
 
-#: onedesk/one/ready.py:1142
+#: onedesk/one/ready.py:1146
 msgid "Assign a Salary Structure"
 msgstr ""
 
@@ -7131,8 +7142,8 @@ msgstr ""
 msgid "Billed by {0}"
 msgstr ""
 
-#: onedesk/one/ready.py:807 onedesk/one/ready.py:846 onedesk/one/ready.py:862
-#: onedesk/one/ready.py:938
+#: onedesk/one/ready.py:811 onedesk/one/ready.py:850 onedesk/one/ready.py:866
+#: onedesk/one/ready.py:942
 msgid "Billed in 12 Months"
 msgstr ""
 
@@ -9254,7 +9265,7 @@ msgstr ""
 msgid "Claim a receipt"
 msgstr ""
 
-#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1135
+#: frontend/src/hr/HrHome.vue:255 onedesk/one/ready.py:1139
 #: onedesk/one_hr/shortcuts.py:11
 msgid "Claim an Expense"
 msgstr ""
@@ -10084,7 +10095,7 @@ msgstr ""
 msgid "Company"
 msgstr ""
 
-#: onedesk/one/ready.py:777
+#: onedesk/one/ready.py:781
 msgid "Company Account"
 msgstr ""
 
@@ -15290,9 +15301,9 @@ msgstr ""
 #: frontend/src/inventory/item/ItemSelling.vue:58 frontend/src/one/Home.vue:112
 #: frontend/src/project/Invoices.vue:48 frontend/src/project/Overview.vue:218
 #: frontend/src/project/Suppliers.vue:58 frontend/src/project/Suppliers.vue:103
-#: onedesk/one_inventory/heads.py:545 onedesk/one_portal/portal.py:329
-#: onedesk/one_portal/portal.py:472 onedesk/one_portal/portal.py:603
-#: onedesk/one_task/tell.py:255
+#: frontend/src/quality/QualityHome.vue:168 onedesk/one_inventory/heads.py:545
+#: onedesk/one_portal/portal.py:329 onedesk/one_portal/portal.py:472
+#: onedesk/one_portal/portal.py:603 onedesk/one_task/tell.py:255
 #, python-brace-format
 msgid "Due {0}"
 msgstr ""
@@ -16439,7 +16450,7 @@ msgstr ""
 msgid "Employment Types"
 msgstr ""
 
-#: onedesk/one/ready.py:986
+#: onedesk/one/ready.py:990
 msgid "Empty"
 msgstr ""
 
@@ -17154,6 +17165,10 @@ msgstr ""
 msgid "Every record in the workspace."
 msgstr ""
 
+#: onedesk/one_quality/home.py:29
+msgid "Every review, passed or failed, goal by goal."
+msgstr ""
+
 #: onedesk/one_display/starters.py:1193
 msgid "Every room's state on a screen on its side."
 msgstr ""
@@ -17349,6 +17364,7 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:95 frontend/src/crm/CrmHome.vue:95
 #: frontend/src/factory/home/FactoryHome.vue:88 frontend/src/hr/HrHome.vue:115
 #: frontend/src/inventory/home/InventoryHome.vue:113
+#: frontend/src/quality/QualityHome.vue:88
 #: onedesk/public/js/one/access_center.js:208
 #: onedesk/public/js/one/notification_center.js:159
 #: onedesk/public/js/one/notification_center.js:161
@@ -18055,6 +18071,11 @@ msgstr ""
 #: onedesk/one/setup_wizard.py:13 onedesk/one/setup_wizard.py:28
 #: onedesk/one/setup_wizard.py:33
 msgid "Failed to set up One"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:183
+#, python-brace-format
+msgid "Failed {0}"
 msgstr ""
 
 #. Label of the failed_reason (Small Text) field in DocType 'Account Request'
@@ -20395,13 +20416,18 @@ msgstr ""
 #. Label of a Sidebar Item
 #: onedesk/one_hr/home.py:275
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
-#: onedesk/one_hr/sidebar/onehr/onehr.json:949 onedesk/one_quality/heads.py:64
+#: onedesk/one_hr/sidebar/onehr/onehr.json:949 onedesk/one_quality/heads.py:87
 msgid "Goal"
 msgstr ""
 
 #. Label in the One Appraisal print format
 #: onedesk/one_hr/print_format/one_appraisal/one_appraisal.json
 msgid "Goals"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:102
+#: frontend/src/quality/QualityHome.vue:175
+msgid "Goals Failing"
 msgstr ""
 
 #. Task in the Event project template
@@ -21464,6 +21490,7 @@ msgstr ""
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:14
 #: onedesk/one_hr/sidebar/onehr/onehr.json:16
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:15
+#: onedesk/one_quality/sidebar/onequality/onequality.json:21
 msgid "Home"
 msgstr ""
 
@@ -21599,6 +21626,10 @@ msgstr ""
 
 #: onedesk/one_book/home.py:411
 msgid "How a cheque is printed for each bank."
+msgstr ""
+
+#: onedesk/one_quality/home.py:24
+msgid "How a piece of work is done, step by step, and who owns it."
 msgstr ""
 
 #: onedesk/one_hr/home.py:524
@@ -25221,7 +25252,7 @@ msgstr ""
 msgid "Last Restart"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:78
+#: onedesk/one_quality/heads.py:101
 msgid "Last Review"
 msgstr ""
 
@@ -28138,6 +28169,14 @@ msgstr ""
 msgid "Meeting rooms"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:190
+msgid "Meetings Still Open"
+msgstr ""
+
+#: onedesk/one_quality/home.py:16
+msgid "Meetings and Feedback"
+msgstr ""
+
 #: onedesk/one/people.py:62
 msgid "Meetings, leave and deadlines from every app, on one calendar."
 msgstr ""
@@ -29546,6 +29585,14 @@ msgstr ""
 msgid "New Purchase Receipt"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:212 onedesk/one_quality/shortcuts.py:11
+msgid "New Quality Action"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:213
+msgid "New Quality Review"
+msgstr ""
+
 #: frontend/src/crm/CrmHome.vue:281
 #: frontend/src/inventory/item/ItemCustomers.vue:72
 #: frontend/src/project/Overview.vue:280 onedesk/one_crm/shortcuts.py:12
@@ -30270,6 +30317,10 @@ msgstr ""
 #: onedesk/public/js/one_portal/portal.js:104
 #, python-brace-format
 msgid "No account needed. It opens until {0}."
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:148
+msgid "No action yet"
 msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:583
@@ -31061,18 +31112,31 @@ msgstr ""
 msgid "Nobody on this list checked in"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:166
+msgid "Nobody responsible"
+msgstr ""
+
 #: frontend/src/display/Counter.vue:15
 msgid "Nobody yet."
 msgstr ""
 
+#. Label of the one_non_conformance (Link) field in DocType 'Quality Action'
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:21
+#: frontend/src/quality/QualityHome.vue:153
+#: onedesk/one_quality/custom/quality_action.json:6
+#: onedesk/one_quality/heads.py:86 onedesk/one_quality/home.py:22
+#: onedesk/one_quality/sidebar/onequality/onequality.json:33
 msgid "Non Conformance"
 msgstr ""
 
 #. Name of a notification
 #: onedesk/one_quality/notifications.py
 msgid "Non Conformance Raised"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/one_quality/notifications.py
+msgid "Non Conformance Resolved"
 msgstr ""
 
 #. Option for the 'Transition' (Select) field in DocType 'Slide Playlist'
@@ -31116,7 +31180,8 @@ msgstr ""
 
 #: onedesk/one_book/checks.py:521 onedesk/one_book/heads.py:242
 #: onedesk/one_book/heads.py:502 onedesk/one_crm/heads.py:233
-#: onedesk/one_factory/heads.py:177 onedesk/public/js/one_ai/ai_center.js:314
+#: onedesk/one_factory/heads.py:177 onedesk/one_quality/heads.py:20
+#: onedesk/public/js/one_ai/ai_center.js:314
 msgid "None yet"
 msgstr ""
 
@@ -31487,7 +31552,7 @@ msgstr ""
 msgid "Not registered by itself: {0}"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:38
+#: onedesk/one_quality/heads.py:59
 msgid "Not reviewed yet"
 msgstr ""
 
@@ -31701,6 +31766,7 @@ msgstr ""
 #: frontend/src/hr/HrHome.vue:28
 #: frontend/src/inventory/home/InventoryHome.vue:28
 #: frontend/src/inventory/to_order/ToOrderPage.vue:15
+#: frontend/src/quality/QualityHome.vue:23
 #: onedesk/public/js/one_interface/json_view.js:149
 msgid "Nothing matches"
 msgstr ""
@@ -31717,6 +31783,7 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:17 frontend/src/crm/CrmHome.vue:17
 #: frontend/src/factory/home/FactoryHome.vue:12 frontend/src/hr/HrHome.vue:17
 #: frontend/src/inventory/home/InventoryHome.vue:17
+#: frontend/src/quality/QualityHome.vue:12
 msgid "Nothing needs you"
 msgstr ""
 
@@ -32141,7 +32208,7 @@ msgstr ""
 msgid "Oat or almond milk on request"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:71
+#: onedesk/one_quality/heads.py:94
 msgid "Objectives Met"
 msgstr ""
 
@@ -33279,7 +33346,7 @@ msgstr ""
 msgid "OneBook"
 msgstr ""
 
-#: onedesk/one_studio/places.py:150
+#: onedesk/one_studio/places.py:161
 msgid "OneBook's Home is opened, and each time an invoice, a payment or a bank line changes."
 msgstr ""
 
@@ -33291,7 +33358,7 @@ msgstr ""
 msgid "OneCRM"
 msgstr ""
 
-#: onedesk/one_studio/places.py:128
+#: onedesk/one_studio/places.py:139
 msgid "OneCRM's Home is opened, and each time a lead, an opportunity or a quotation changes."
 msgstr ""
 
@@ -33356,7 +33423,7 @@ msgstr ""
 msgid "OneFactory"
 msgstr ""
 
-#: onedesk/one_studio/places.py:106
+#: onedesk/one_studio/places.py:117
 msgid "OneFactory's Home is opened, and each time a work order, a step or a subcontracting order changes."
 msgstr ""
 
@@ -33373,7 +33440,7 @@ msgstr ""
 msgid "OneHR Setup"
 msgstr ""
 
-#: onedesk/one_studio/places.py:139
+#: onedesk/one_studio/places.py:150
 msgid "OneHR's Home is opened, and each time a request, a flagged check-in or an interview changes."
 msgstr ""
 
@@ -33386,7 +33453,7 @@ msgstr ""
 msgid "OneInventory"
 msgstr ""
 
-#: onedesk/one_studio/places.py:117
+#: onedesk/one_studio/places.py:128
 msgid "OneInventory's Home is opened, and each time an order, a move, a lot or a service changes."
 msgstr ""
 
@@ -33423,8 +33490,14 @@ msgid "OneProject"
 msgstr ""
 
 #. Title of a Sidebar
+#: frontend/src/quality/QualityHome.vue:207
+#: onedesk/one_quality/page/onequality/onequality.js:4
 #: onedesk/one_quality/sidebar/onequality/onequality.json:14
 msgid "OneQuality"
+msgstr ""
+
+#: onedesk/one_studio/places.py:106
+msgid "OneQuality's Home is opened, and each time a non conformance, an action, a review or a meeting changes."
 msgstr ""
 
 #: onedesk/one_slide/page/presentation/presentation.js:4
@@ -33830,6 +33903,10 @@ msgctxt "Go to it"
 msgid "Open"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:100
+msgid "Open Actions"
+msgstr ""
+
 #: onedesk/one/doctype/news_item/news_item.js:21
 msgid "Open Article"
 msgstr ""
@@ -33903,7 +33980,8 @@ msgstr ""
 msgid "Open My Tasks"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:85
+#: frontend/src/quality/QualityHome.vue:99
+#: frontend/src/quality/QualityHome.vue:140 onedesk/one_quality/heads.py:108
 msgid "Open Non Conformances"
 msgstr ""
 
@@ -34145,6 +34223,11 @@ msgstr ""
 
 #: onedesk/public/js/one_portal/portal.js:22
 msgid "Opened once"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:198
+#, python-brace-format
+msgid "Opened {0}"
 msgstr ""
 
 #: onedesk/public/js/one_portal/portal.js:22
@@ -35730,7 +35813,7 @@ msgstr ""
 msgid "Party"
 msgstr ""
 
-#: onedesk/one/ready.py:778
+#: onedesk/one/ready.py:782
 msgid "Party Account"
 msgstr ""
 
@@ -38086,14 +38169,22 @@ msgstr ""
 msgid "Problem"
 msgstr ""
 
+#: onedesk/one_quality/home.py:14
+msgid "Problems and Actions"
+msgstr ""
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Problems fixed"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:56 onedesk/one_quality/heads.py:65
-#: onedesk/one_quality/heads.py:72 onedesk/one_quality/heads.py:79
+#: onedesk/one_quality/heads.py:77 onedesk/one_quality/heads.py:88
+#: onedesk/one_quality/heads.py:95 onedesk/one_quality/heads.py:102
 msgid "Procedure"
+msgstr ""
+
+#: onedesk/one_quality/home.py:15
+msgid "Procedures and Goals"
 msgstr ""
 
 #: onedesk/one_quality/tour.py:11
@@ -38112,7 +38203,9 @@ msgstr ""
 msgid "Process Loss Report"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:86
+#. Label of the 'full_name' field in DocType 'Non Conformance'
+#: onedesk/one_quality/custom/non_conformance.json:29
+#: onedesk/one_quality/heads.py:109
 msgid "Process Owner"
 msgstr ""
 
@@ -39049,22 +39142,27 @@ msgid "Quality"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:33
+#: onedesk/one/ready.py:668 onedesk/one/ready.py:669
+#: onedesk/one_quality/home.py:23
+#: onedesk/one_quality/sidebar/onequality/onequality.json:45
 msgid "Quality Action"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:93
+#: onedesk/one_quality/home.py:28
+#: onedesk/one_quality/sidebar/onequality/onequality.json:105
 msgid "Quality Feedback"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:134
+#: onedesk/one_quality/home.py:30
+#: onedesk/one_quality/sidebar/onequality/onequality.json:146
 msgid "Quality Feedback Template"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:57
+#: onedesk/one_quality/home.py:25
+#: onedesk/one_quality/sidebar/onequality/onequality.json:69
 msgid "Quality Goal"
 msgstr ""
 
@@ -39075,18 +39173,26 @@ msgid "Quality Inspection"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:81
+#: onedesk/one_quality/home.py:27
+#: onedesk/one_quality/sidebar/onequality/onequality.json:93
 msgid "Quality Meeting"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:45
+#: onedesk/one_quality/home.py:24
+#: onedesk/one_quality/sidebar/onequality/onequality.json:57
 msgid "Quality Procedure"
 msgstr ""
 
 #. Label of a Sidebar Item
-#: onedesk/one_quality/sidebar/onequality/onequality.json:69
+#: onedesk/one_quality/home.py:26
+#: onedesk/one_quality/sidebar/onequality/onequality.json:81
 msgid "Quality Review"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/one_quality/notifications.py
+msgid "Quality Step Overdue"
 msgstr ""
 
 #: frontend/src/factory/floor/FloorSteps.vue:85
@@ -39428,8 +39534,13 @@ msgstr ""
 
 #. Label in the One Employee Grievance print format
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
-#: onedesk/one_quality/heads.py:57
+#: onedesk/one_quality/heads.py:78
 msgid "Raised By"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:150
+#, python-brace-format
+msgid "Raised {0}"
 msgstr ""
 
 #: onedesk/one_crm/heads.py:268
@@ -41327,6 +41438,10 @@ msgstr ""
 msgid "Report No"
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:211 onedesk/one_quality/shortcuts.py:10
+msgid "Report a Problem"
+msgstr ""
+
 #: onedesk/one_display/starters.py:559
 msgid "Report any hazard at once"
 msgstr ""
@@ -41355,7 +41470,8 @@ msgstr ""
 #: onedesk/one_hr/home.py:30 onedesk/one_inventory/home.py:18
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:275
 #: onedesk/one_project/sidebar/oneproject/oneproject.json:74
-#: onedesk/one_quality/sidebar/onequality/onequality.json:105
+#: onedesk/one_quality/home.py:17
+#: onedesk/one_quality/sidebar/onequality/onequality.json:117
 #: onedesk/one_task/sidebar/onetask/onetask.json:62
 msgid "Reports"
 msgstr ""
@@ -41702,7 +41818,7 @@ msgstr ""
 msgid "Resolution Date"
 msgstr ""
 
-#: onedesk/one_quality/heads.py:63
+#: onedesk/one_quality/heads.py:85
 msgid "Resolutions Done"
 msgstr ""
 
@@ -42101,7 +42217,8 @@ msgstr ""
 #: onedesk/one_crm/portal.py:49 onedesk/one_display/starters.py:604
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:120
 #: onedesk/one_project/library/client_onboarding.json
-#: onedesk/one_quality/sidebar/onequality/onequality.json:114
+#: onedesk/one_quality/home.py:29
+#: onedesk/one_quality/sidebar/onequality/onequality.json:126
 #: onedesk/one_studio/ai.py:375
 #: onedesk/one_studio/doctype/extension/extension.js:142
 #: onedesk/one_studio/doctype/extension/extension.json:143
@@ -43123,7 +43240,7 @@ msgstr ""
 msgid "Say hello in one short sentence."
 msgstr ""
 
-#: onedesk/one_quality/ai.py:24
+#: onedesk/one_quality/ai.py:26
 msgid "Say in a few lines how this work is done, and which goals and problems point at it."
 msgstr ""
 
@@ -43433,7 +43550,7 @@ msgstr ""
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
 #: frontend/src/inventory/to_order/ToOrderPage.vue:9
-#: frontend/src/mail/OneMail.vue:185
+#: frontend/src/mail/OneMail.vue:185 frontend/src/quality/QualityHome.vue:20
 #: onedesk/one_hr/custom/employee_attendance_tool.json:15
 #: onedesk/one_interface/shortcuts.py:15 onedesk/one_inventory/shortcuts.py:11
 #: onedesk/public/js/crumb_switch.js:110 onedesk/public/js/module_docs.js:121
@@ -44648,7 +44765,8 @@ msgstr ""
 #: onedesk/one_hr/home.py:31 onedesk/one_hr/sidebar/onehr/onehr.json:68
 #: onedesk/one_inventory/home.py:19
 #: onedesk/one_inventory/sidebar/oneinventory/oneinventory.json:289
-#: onedesk/one_quality/sidebar/onequality/onequality.json:125
+#: onedesk/one_quality/home.py:18
+#: onedesk/one_quality/sidebar/onequality/onequality.json:137
 #: onedesk/one_studio/sidebar/onestudio/onestudio.json:61
 #: onedesk/one_task/sidebar/onetask/onetask.json:85
 #: onedesk/public/js/one_mail/onemail_settings.js:1028
@@ -46430,6 +46548,10 @@ msgstr ""
 msgid "Something a person took back or turned down, remembered for the next document from the same party."
 msgstr ""
 
+#: onedesk/one_quality/home.py:22
+msgid "Something done wrong, what caused it and what stops it again."
+msgstr ""
+
 #: onedesk/one_display/starters.py:500
 msgid "Something new is coming"
 msgstr ""
@@ -46601,7 +46723,7 @@ msgstr ""
 msgid "Space"
 msgstr ""
 
-#: onedesk/one_studio/places.py:207
+#: onedesk/one_studio/places.py:218
 msgid "Space Home"
 msgstr ""
 
@@ -47303,6 +47425,11 @@ msgstr ""
 #: onedesk/one_mail/doctype/mail_rule/mail_rule.json:58
 #: onedesk/public/js/one_studio/studio_control.js:76
 msgid "Steps"
+msgstr ""
+
+#: frontend/src/quality/QualityHome.vue:101
+#: frontend/src/quality/QualityHome.vue:158
+msgid "Steps Overdue"
 msgstr ""
 
 #: frontend/src/factory/home/FactoryHome.vue:100
@@ -48181,7 +48308,7 @@ msgstr ""
 msgid "Summarise this file in a few lines. Who is it from or for, and does anything in it need doing?"
 msgstr ""
 
-#: onedesk/one_quality/ai.py:23
+#: onedesk/one_quality/ai.py:25
 msgid "Summarise this procedure"
 msgstr ""
 
@@ -49852,7 +49979,7 @@ msgstr ""
 msgid "The Person on the Record"
 msgstr ""
 
-#: onedesk/one_studio/places.py:276
+#: onedesk/one_studio/places.py:287
 msgid "The Projects list is opened, and each time it is drawn again."
 msgstr ""
 
@@ -49987,6 +50114,10 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/one_book/notifications.py
 msgid "The addresses on the repeat, and its maker when it fails"
+msgstr ""
+
+#: onedesk/one_quality/home.py:27
+msgid "The agenda and the minutes of a quality meeting."
 msgstr ""
 
 #: onedesk/one_legal/gate.py:18
@@ -50299,6 +50430,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/one_project/notifications.py
 msgid "The day after a milestone was due and is not done."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/one_quality/notifications.py
+msgid "The day after a step of a quality action was due and is still open."
 msgstr ""
 
 #. When a notification is sent
@@ -51107,7 +51243,7 @@ msgstr ""
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
 msgstr ""
 
-#: onedesk/one_studio/places.py:200
+#: onedesk/one_studio/places.py:211
 msgid "The pipeline board is drawn, and each time what a stage is worth changes."
 msgstr ""
 
@@ -51261,6 +51397,10 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/one_quality/notifications.py
 msgid "The quality managers"
+msgstr ""
+
+#: onedesk/one_quality/home.py:30
+msgid "The questions feedback is asked with."
 msgstr ""
 
 #: onedesk/one_display/starters.py:1140
@@ -53432,7 +53572,7 @@ msgstr ""
 msgid "To No"
 msgstr ""
 
-#: onedesk/one_studio/places.py:161
+#: onedesk/one_studio/places.py:172
 msgid "To Order is opened, and each time a request, a purchase order or stock changes."
 msgstr ""
 
@@ -53525,6 +53665,7 @@ msgstr ""
 #: frontend/src/inventory/home/InventoryHome.vue:112
 #: frontend/src/project/MilestoneLanes.vue:16
 #: frontend/src/project/Milestones.vue:29
+#: frontend/src/quality/QualityHome.vue:87
 #: frontend/src/sheet/components/SheetEditor/VersionHistory.vue:185
 #: frontend/src/sheet/utils/recency-groups.js:10
 #: frontend/src/slide/shim/WidgetMock.vue:297 onedesk/one/weather.py:115
@@ -56819,6 +56960,10 @@ msgstr ""
 msgid "What a customer is told when their delivery leaves."
 msgstr ""
 
+#: onedesk/one_quality/home.py:28
+msgid "What a customer or a colleague said of the work."
+msgstr ""
+
 #: onedesk/one_crm/home.py:112
 msgid "What a customer signs, and until when."
 msgstr ""
@@ -56843,6 +56988,10 @@ msgstr ""
 #. Description of a DocType
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:21
 msgid "What a presentation's slides were at a moment, kept to go back to from its Version History."
+msgstr ""
+
+#: onedesk/one_quality/home.py:25
+msgid "What a procedure should achieve, and how often it is checked."
 msgstr ""
 
 #: onedesk/one_factory/home.py:27
@@ -57080,6 +57229,10 @@ msgstr ""
 msgid "What have I agreed to?"
 msgstr ""
 
+#: onedesk/one_quality/home.py:23
+msgid "What is being done to put a problem right, step by step, by whom."
+msgstr ""
+
 #: onedesk/public/js/one_legal/trust_center.js:170
 msgid "What is changing in the agreements, and from when."
 msgstr ""
@@ -57165,7 +57318,7 @@ msgstr ""
 msgid "What is short?"
 msgstr ""
 
-#: onedesk/one_quality/ai.py:12
+#: onedesk/one_quality/ai.py:14
 msgid "What is still open?"
 msgstr ""
 
@@ -57240,6 +57393,10 @@ msgstr ""
 
 #: onedesk/one_mail/ai.py:35
 msgid "What needs an answer?"
+msgstr ""
+
+#: onedesk/one_quality/ai.py:34
+msgid "What needs fixing?"
 msgstr ""
 
 #: onedesk/one_admin/ai.py:19
@@ -57679,7 +57836,7 @@ msgstr ""
 msgid "What was deleted lately?"
 msgstr ""
 
-#: onedesk/one_quality/ai.py:17
+#: onedesk/one_quality/ai.py:19
 msgid "What was done about it?"
 msgstr ""
 
@@ -57753,7 +57910,7 @@ msgstr ""
 msgid "What went to each supplier, and what came back."
 msgstr ""
 
-#: onedesk/one_quality/ai.py:18
+#: onedesk/one_quality/ai.py:20
 msgid "What went wrong here, what was done to put it right, and what stops it happening again?"
 msgstr ""
 
@@ -58136,6 +58293,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_admin/workspace_ready.md
 msgid "When a new workspace has been built and is ready to use."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/one_quality/notifications.py
+msgid "When a non conformance somebody raised is resolved."
 msgstr ""
 
 #. When a notification is sent
@@ -59563,7 +59725,7 @@ msgstr ""
 msgid "Which lots go off within a month or have gone off, how much is left of each and where is it?"
 msgstr ""
 
-#: onedesk/one_quality/ai.py:13
+#: onedesk/one_quality/ai.py:15
 msgid "Which non conformances and quality actions are still open, against which procedure, and since when?"
 msgstr ""
 
@@ -59636,6 +59798,10 @@ msgstr ""
 
 #: onedesk/one/ai.py:174
 msgid "Which print format do Sales Invoices print with, and which others could they use?"
+msgstr ""
+
+#: onedesk/one_quality/ai.py:35
+msgid "Which problems are still open, which steps are overdue and with whom, and which goals are failing?"
 msgstr ""
 
 #: onedesk/one_project/ai.py:212
@@ -60073,6 +60239,11 @@ msgid "Whoever held it, completed it or made it, but whoever reopened it"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/one_quality/notifications.py
+msgid "Whoever is responsible for the step"
+msgstr ""
+
+#. Who a notification is sent to
 #: onedesk/one_task/notifications.py
 msgid "Whoever it is given to"
 msgstr ""
@@ -60161,6 +60332,11 @@ msgstr ""
 #. Who a notification is sent to
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "Whoever pressed Fix With OneAI"
+msgstr ""
+
+#. Who a notification is sent to
+#: onedesk/one_quality/notifications.py
+msgid "Whoever raised it"
 msgstr ""
 
 #. Who a notification is sent to
@@ -60524,7 +60700,7 @@ msgstr ""
 msgid "With OneAI"
 msgstr ""
 
-#: onedesk/one/ready.py:985
+#: onedesk/one/ready.py:989
 msgid "With Subscribers"
 msgstr ""
 
@@ -60903,7 +61079,7 @@ msgstr ""
 msgid "Workload"
 msgstr ""
 
-#: onedesk/one_studio/places.py:290
+#: onedesk/one_studio/places.py:301
 msgid "Workload is opened, and each time it is drawn again."
 msgstr ""
 
@@ -62548,6 +62724,12 @@ msgstr ""
 
 #: onedesk/one/privacy_copy.py:17
 msgid "Your sign-ins"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/one_quality/notifications.py
+#, python-brace-format
+msgid "Your step on {action} is still open. Do it, or say on the action why it waits."
 msgstr ""
 
 #: onedesk/one_display/programme.py:434 onedesk/www/tv.py:63
@@ -64521,6 +64703,11 @@ msgstr ""
 msgid "{0} across {1} accounts."
 msgstr ""
 
+#: frontend/src/quality/QualityHome.vue:148
+#, python-brace-format
+msgid "{0} actions"
+msgstr ""
+
 #: onedesk/public/js/one_account/account_center.js:723
 #, python-brace-format
 msgid "{0} add-ons"
@@ -65047,7 +65234,8 @@ msgstr ""
 #: frontend/src/factory/home/FactoryHome.vue:157
 #: frontend/src/inventory/home/InventoryHome.vue:218
 #: frontend/src/project/Milestones.vue:29 frontend/src/project/Overview.vue:269
-#: frontend/src/project/Suppliers.vue:201 onedesk/one_project/heads.py:68
+#: frontend/src/project/Suppliers.vue:201
+#: frontend/src/quality/QualityHome.vue:167 onedesk/one_project/heads.py:68
 #: onedesk/one_project/portal.py:260 onedesk/one_project/retention.py:237
 #: onedesk/one_project/view.py:584 onedesk/one_project/view.py:882
 #: onedesk/one_task/heads.py:21
@@ -66438,6 +66626,7 @@ msgstr ""
 #: frontend/src/books/BooksHome.vue:187 frontend/src/crm/CrmHome.vue:200
 #: frontend/src/factory/home/FactoryHome.vue:143 frontend/src/hr/HrHome.vue:219
 #: frontend/src/inventory/home/InventoryHome.vue:204
+#: frontend/src/quality/QualityHome.vue:135
 #: frontend/src/sheet/components/SheetEditor/index.vue:698
 #, python-brace-format
 msgid "{0} more"
@@ -66590,7 +66779,7 @@ msgstr ""
 #: onedesk/one_inventory/heads.py:430 onedesk/one_inventory/heads.py:843
 #: onedesk/one_inventory/heads.py:852 onedesk/one_inventory/heads.py:861
 #: onedesk/one_inventory/heads.py:928 onedesk/one_project/view.py:570
-#: onedesk/one_quality/heads.py:22 onedesk/one_quality/heads.py:31
+#: onedesk/one_quality/heads.py:43 onedesk/one_quality/heads.py:52
 #: onedesk/one_storage/api.py:141 onedesk/one_task/heads.py:63
 #: onedesk/public/js/work_order_list.js:16
 #, python-brace-format
@@ -66652,7 +66841,8 @@ msgstr ""
 msgid "{0} of {1} delivered"
 msgstr ""
 
-#: frontend/src/factory/floor/FloorSteps.vue:29 onedesk/one_task/heads.py:29
+#: frontend/src/factory/floor/FloorSteps.vue:29 onedesk/one_quality/heads.py:23
+#: onedesk/one_task/heads.py:29
 #, python-brace-format
 msgid "{0} of {1} done"
 msgstr ""
@@ -66784,7 +66974,7 @@ msgid "{0} on the odometer since the last log."
 msgstr ""
 
 #: onedesk/one_account/center.py:264 onedesk/one_account/signin.py:40
-#: onedesk/one_ai/proposals.py:660 onedesk/one_quality/heads.py:40
+#: onedesk/one_ai/proposals.py:660 onedesk/one_quality/heads.py:61
 #: onedesk/public/js/deleted_document_list.js:10 onedesk/public/js/push.js:41
 #, python-brace-format
 msgid "{0} on {1}"
@@ -68533,6 +68723,12 @@ msgid "{plan} then costs {price}, charged to your card on that day. Change your 
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/one_quality/notifications.py
+#, python-brace-format
+msgid "{problem} was due {due}"
+msgstr ""
+
+#. Subject of a notification
 #: onedesk/one_project/notifications.py
 #, python-brace-format
 msgid "{project} has used its {allowance} h for this month"
@@ -68613,6 +68809,12 @@ msgstr ""
 #: onedesk/one_crm/notifications.py
 #, python-brace-format
 msgid "{step} on {title} is due"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/one_quality/notifications.py
+#, python-brace-format
+msgid "{subject} is resolved"
 msgstr ""
 
 #. Message of a notification
@@ -68982,6 +69184,12 @@ msgstr ""
 #: onedesk/notifications/one_storage/file_request.md
 #, python-brace-format
 msgid "{who} requested files for {request}"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/one_quality/notifications.py
+#, python-brace-format
+msgid "{who} resolved it. Read what was done to stop it happening again."
 msgstr ""
 
 #. Subject of a notification

@@ -13,6 +13,27 @@ def nc_raised_by(doc):
 	return {"value": get_fullname(doc.owner)}
 
 
+def nc_actions(doc):
+	"""The actions taken on it, and how many are done."""
+	rows = frappe.get_all("Quality Action", filters={"one_non_conformance": doc.name}, pluck="status")
+	if not rows:
+		return {"value": _("None yet"), "tone": "waiting" if doc.status == "Open" else "quiet"}
+	done = sum(1 for one in rows if one == "Completed")
+	return {
+		"value": _("{0} of {1} done").format(done, len(rows)),
+		"tone": None if done == len(rows) else "waiting",
+		"route": f"/desk/quality-action?one_non_conformance={quote(doc.name)}",
+	}
+
+
+def action_problem(doc):
+	"""The non conformance it fixes, by its subject."""
+	if not doc.get("one_non_conformance"):
+		return None
+	subject = frappe.db.get_value("Non Conformance", doc.one_non_conformance, "subject") or doc.one_non_conformance
+	return {"value": subject, "route": f"/desk/non-conformance/{quote(doc.one_non_conformance)}"}
+
+
 def action_done(doc):
 	"""How many of its resolutions are done."""
 	rows = doc.get("resolutions") or []
@@ -55,12 +76,14 @@ HEADS = [
 		"band": [
 			{"label": _lt("Procedure"), "source": "Field", "field": "procedure"},
 			{"label": _lt("Raised By"), "source": "Measure", "measure": "quality.raised_by"},
+			{"label": _lt("Actions"), "source": "Measure", "measure": "quality.nc_actions"},
 		],
 	},
 	{
 		"doctype": "Quality Action",
 		"band": [
 			{"label": _lt("Resolutions Done"), "source": "Measure", "measure": "quality.action_done"},
+			{"label": _lt("Non Conformance"), "source": "Measure", "measure": "quality.action_problem"},
 			{"label": _lt("Goal"), "source": "Field", "field": "goal", "hide_empty": 1},
 			{"label": _lt("Procedure"), "source": "Field", "field": "procedure", "hide_empty": 1},
 		],
@@ -90,6 +113,8 @@ HEADS = [
 
 MEASURES = {
 	"quality.raised_by": nc_raised_by,
+	"quality.nc_actions": nc_actions,
+	"quality.action_problem": action_problem,
 	"quality.action_done": action_done,
 	"quality.review_met": review_met,
 	"quality.goal_last": goal_last,

@@ -403,8 +403,7 @@ Reported or to report; nothing here is patched in One.
 ## OneQuality and OneGovernance
 
 Decided with Yamen on 5 November 2026. OneQuality left OneInventory as an app
-of ERPNext's quality forms. It grows with its own job: a snag or non
-conformance reported from a phone on site, with photos, turned into an
-action with tasks and an owner; procedures people sign off; audits on a
-schedule. OneGovernance is a separate app for later: policies people sign, a
+of ERPNext's quality forms. Reporting a problem from a phone and turning it
+into an action with an owner per step was built on 7 November 2026. Still
+to build: procedures people sign off; audits on a schedule. OneGovernance is a separate app for later: policies people sign, a
 risk register, compliance deadlines.

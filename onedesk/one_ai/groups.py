@@ -170,6 +170,7 @@ GROUPS = {
 			"lots_and_numbers",
 			"quotes_now",
 			"sent_out_now",
+			"quality_now",
 			"upkeep_now",
 			"plan_work_order",
 			"asset_facts",
@@ -177,8 +178,8 @@ GROUPS = {
 		),
 		"words": (
 			"item", "stock", "inventory", "warehouse", "reorder", "on hand", "running low", "receipt", "received",
-			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "quote", "quotation", "supplier", "purchase order", "late order", "work order", "workshop", "job card", "bill of materials", "asset", "equipment", "laptop", "truck", "service", "maintenance", "repair", "handover", "lot", "batch", "expiry", "going off", "serial", "warranty", "charge", "seriennummer", "artikel", "anlage", "wartung", "arbeitsauftrag", "fertigung", "angebot", "lager", "bestand", "wareneingang",
-			"صنف", "مخزون", "مستودع", "أمر عمل", "تصنيع", "أصل", "معدات", "صيانة", "دفعة", "رقم تسلسلي",
+			"arrive", "delivery note", "deliver", "dispatch", "trip", "transfer", "move", "count", "site", "quote", "quotation", "supplier", "purchase order", "late order", "work order", "workshop", "job card", "bill of materials", "asset", "equipment", "laptop", "truck", "service", "maintenance", "repair", "handover", "lot", "batch", "expiry", "quality", "non conformance", "snag", "defect", "corrective action", "going off", "serial", "warranty", "charge", "seriennummer", "artikel", "anlage", "wartung", "arbeitsauftrag", "fertigung", "angebot", "lager", "bestand", "wareneingang", "qualität", "abweichung",
+			"صنف", "مخزون", "مستودع", "أمر عمل", "تصنيع", "أصل", "معدات", "صيانة", "دفعة", "رقم تسلسلي", "جودة", "عدم مطابقة",
 		),
 	},
 	"hr": {

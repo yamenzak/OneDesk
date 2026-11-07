@@ -343,6 +343,8 @@ CASES = [
 	{"id": "gap-hr-papers", "page": {}, "ask": "Whose documents expire in the next month?", "tools": ("papers_expiring",), "user": HR},
 	{"id": "gap-hr-de", "page": {}, "ask": "Wie viele Mitarbeitende haben wir in jeder Abteilung?", "tools": ("headcount", "list_records"), "user": HR},
 	{"id": "gap-inv-late", "page": {}, "ask": "Which purchase orders are late?", "tools": ("still_to_arrive",), "user": STORES},
+	{"id": "gap-quality-now", "page": {}, "ask": "Which quality problems are still open, and whose steps are overdue?", "tools": ("quality_now", "list_records"), "user": STORES},
+	{"id": "gap-quality-ar", "page": {}, "ask": "ما مشكلات الجودة التي لا تزال مفتوحة؟", "tools": ("quality_now", "list_records"), "user": STORES},
 	{"id": "inv-item", "page": _on("Item", name="ALU-6063"), "ask": "How is this item doing?", "tools": ("item_facts",), "user": STORES},
 	{"id": "inv-low", "page": {}, "ask": "What is running low in the stores?", "tools": ("running_low", "stock_on_hand"), "user": STORES},
 	{"id": "inv-ar-low", "page": {}, "ask": "ما الأصناف التي قاربت على النفاد في المخزون؟", "tools": ("running_low", "stock_on_hand"), "user": STORES},

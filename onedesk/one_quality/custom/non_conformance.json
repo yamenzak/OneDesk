@@ -1,0 +1,55 @@
+{
+ "custom_fields": [],
+ "doctype": "Non Conformance",
+ "links": [
+  {
+   "group": "Actions",
+   "link_doctype": "Quality Action",
+   "link_fieldname": "one_non_conformance",
+   "parent": "Non Conformance",
+   "parentfield": "links",
+   "parenttype": "DocType"
+  }
+ ],
+ "property_setters": [
+  {
+   "doc_type": "Non Conformance",
+   "doctype_or_field": "DocField",
+   "field_name": "process_owner",
+   "property": "hidden",
+   "property_type": "Check",
+   "value": "1"
+  },
+  {
+   "doc_type": "Non Conformance",
+   "doctype_or_field": "DocField",
+   "field_name": "full_name",
+   "property": "label",
+   "property_type": "Data",
+   "value": "Process Owner"
+  },
+  {
+   "doc_type": "Non Conformance",
+   "doctype_or_field": "DocField",
+   "field_name": "status",
+   "property": "depends_on",
+   "property_type": "Data",
+   "value": "eval:!doc.__islocal"
+  },
+  {
+   "doc_type": "Non Conformance",
+   "doctype_or_field": "DocType",
+   "property": "title_field",
+   "property_type": "Data",
+   "value": "subject"
+  },
+  {
+   "doc_type": "Non Conformance",
+   "doctype_or_field": "DocType",
+   "property": "show_title_field_in_link",
+   "property_type": "Check",
+   "value": "1"
+  }
+ ],
+ "sync_on_migrate": 1
+}

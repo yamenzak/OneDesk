@@ -8,6 +8,11 @@ the commit that finishes its pass and taken out by a change that undoes it.
 import re
 
 PASSED: dict[str, dict] = {
+	"onequality": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
+	"Form/Non Conformance": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
+	"List/Non Conformance": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
+	"Form/Quality Action": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
+	"List/Quality Action": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
 	"onefactory": {"on": "2026-11-07", "pass": "OneFactory, the pass of November"},
 	"Form/Work Order": {"on": "2026-11-07", "pass": "OneFactory, the pass of November"},
 	"List/Work Order": {"on": "2026-11-07", "pass": "OneFactory, the pass of November"},
@@ -121,9 +126,7 @@ PASSED: dict[str, dict] = {
 	"Form/Supplier Quotation": {"on": "2026-11-05", "pass": "OneInventory, buying"},
 	"Form/Purchase Order": {"on": "2026-11-06", "pass": "OneInventory, closing"},
 	"Form/Quality Inspection": {"on": "2026-11-05", "pass": "OneInventory, quality"},
-	"Form/Non Conformance": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
 	"Form/Quality Goal": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
-	"List/Quality Action": {"on": "2026-11-05", "pass": "OneQuality, first walk"},
 	"List/Asset": {"on": "2026-11-05", "pass": "OneInventory, assets"},
 	"Form/Asset": {"on": "2026-11-06", "pass": "OneInventory, closing"},
 	"Form/Asset Maintenance Log": {"on": "2026-11-06", "pass": "OneInventory, closing"},

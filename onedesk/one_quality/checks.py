@@ -34,11 +34,57 @@ def onequality_a_problem_is_raised_told_and_resolved():
 			pass
 		else:
 			raise AssertionError("a quality user resolved a non conformance")
-	with as_user("karim@one.test"):
+	with as_user("karim@one.test"), _Told() as told:
 		assert resolve.held()
 		done = frappe.get_doc("Non Conformance", raised.name)
 		done.status = "Resolved"
 		done.save()
+	assert told.to("Non Conformance Resolved") == {"tariq@one.test"}, told.said
 	with as_user("nadia@one.test"):
 		assert frappe.has_permission("Non Conformance", "create"), "anybody may report a problem"
 		assert not resolve.held() and not frappe.has_permission("Quality Procedure", "write")
+
+
+@check
+def onequality_home_says_what_is_open_late_and_failing():
+	"""OneQuality's Home: the sealant problem is open with its one action,
+	the crews' briefing is overdue with Tariq, and the curtain wall's goal
+	fails on last month's review. An action made from the problem carries it,
+	and the problem counts it. Tariq is told the morning after a step of his
+	was due. OneAI reads the same through quality_now. Somebody outside
+	quality cannot open the Home."""
+	from frappe.utils import add_days, today
+
+	from onedesk.one_demo.base import as_user
+	from onedesk.one_demo.quality import GOAL
+	from onedesk.one_quality import ai, heads, home, tell
+
+	problem = frappe.db.get_value("Non Conformance", {"subject": "Sealant laid below 5°C"})
+	with as_user("karim@one.test"):
+		said = home.read()
+		rows = {one["name"]: one for one in said["needs"]["problems"]["rows"]}
+		assert rows[problem]["actions"] >= 1, rows
+		assert any(one["who"] == "Tariq Haidar" and one["late_by"] > 0 for one in said["needs"]["late"]["rows"]), said["needs"]["late"]
+		assert GOAL in {one["goal"] for one in said["needs"]["failing"]["rows"]}
+		assert said["figures"]["problems"] == said["needs"]["problems"]["count"]
+		now = ai.quality_now()
+		assert problem in {one["name"] for one in now["open"]} and now["overdue_count"] == said["needs"]["late"]["count"], now
+		before = heads.nc_actions(frappe.get_doc("Non Conformance", problem))
+		made = frappe.get_doc(
+			{"doctype": "Quality Action", "corrective_preventive": "Preventive", "one_non_conformance": problem, "procedure": PROCEDURE, "status": "Open",
+			 "resolutions": [{"problem": "Sealing before 9 in winter.", "resolution": "Start sealing after 9 from December.", "responsible": "tariq@one.test", "completion_by": add_days(today(), -1), "status": "Open"}]}
+		).insert()
+		assert heads.action_problem(made)["value"] == "Sealant laid below 5°C"
+		after = heads.nc_actions(frappe.get_doc("Non Conformance", problem))
+		assert after["value"] != before["value"], (before, after)
+	with _Told() as told:
+		tell.overdue()
+	assert "tariq@one.test" in told.to("Quality Step Overdue"), told.said
+	with as_user("nadia@one.test"):
+		assert ai.quality_now().get("error")
+		try:
+			home.read()
+		except frappe.PermissionError:
+			pass
+		else:
+			raise AssertionError("somebody outside quality opened OneQuality's Home")

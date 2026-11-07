@@ -98,6 +98,17 @@ PLACES = {
 			},
 		},
 	},
+	"onequality_home": {
+		"label": "OneQuality",
+		"record": "Non Conformance",
+		"events": {
+			"shown": {
+				"about": _lt("OneQuality's Home is opened, and each time a non conformance, an action, a review or a meeting changes."),
+				"gives": "home.problems (non conformances open), home.late (action steps past their day), home.failing (goals whose last review failed), home.meetings (meetings still open)",
+				"may": ("note", "action"),
+			},
+		},
+	},
 	"onefactory_home": {
 		"label": "OneFactory",
 		"record": "Work Order",

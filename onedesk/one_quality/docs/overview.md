@@ -8,8 +8,14 @@ followed until it is fixed.
 
 ## Finding Your Way
 
-**OneQuality** in the dock opens it on **Non Conformance**. The rail keeps
-the rest:
+**OneQuality** in the dock opens it on **Home**: the non conformances still
+open, the actions open, the steps overdue and the goals failing. **Today**
+lists each, with who raised a problem and whether anybody acts on it, whose
+step is late, the goals whose last review failed and the meetings still
+open. **Report a Problem** at the top records a non conformance, from a
+phone too. **Everything** is all of OneQuality, each with what it is for.
+
+The rail keeps the rest:
 
 - **Non Conformance** and **Quality Action**: what went wrong and what is
   done about it. See [Problems and Actions](problems-and-actions).

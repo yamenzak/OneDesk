@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 82 | 2 | 35 | 0 |
+| onedesk | 83 | 2 | 35 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -56,6 +56,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | workload (`frontend/src/workload/WorkloadList.vue`) | – | – | – | – |
 | floor (`frontend/src/factory/floor/ShopFloor.vue`) | Employee, Job Card, Workstation | – | – | – |
 | factory (`frontend/src/factory/home/FactoryHome.vue`) | Stock Entry, Work Order | – | – | – |
+| quality (`frontend/src/quality/QualityHome.vue`) | Non Conformance, Quality Action, Quality Action Resolution, Quality Goal, Quality Meeting | – | – | – |
 | timers (`frontend/src/task/Timers.vue`) | Project, Task, Timesheet, Timesheet Detail | – | – | – |
 | counter (`frontend/src/display/Counter.vue`) | – | – | – | – |
 | boards (`frontend/src/display/Boards.vue`) | – | – | – | – |
@@ -309,8 +310,8 @@ Reports: Daily Timesheet Summary (on a rail or a home); Delayed Tasks Summary (o
 
 | Record | Way in | Open to | One changed | OneStudio | OneAI | OneIntake | Demo | Print | List | Still in English | Sends |
 |---|---|---|---|---|---|---|---|---|---|---|---|
-| Non Conformance | on a rail or a home | everybody | a head, events | yes | taught |  | yes |  |  |  | Non Conformance Raised |
-| Quality Action | on a rail or a home | everybody | a head | yes | taught |  | yes |  |  |  |  |
+| Non Conformance | on a rail or a home | everybody | a head, events, 5 settings | yes | taught |  | yes |  |  |  | Non Conformance Raised, Non Conformance Resolved |
+| Quality Action | on a rail or a home | everybody | a head, 1 fields | yes | taught |  | yes |  |  |  | Quality Step Overdue |
 | Quality Feedback | on a rail or a home | everybody | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Feedback Template | on a rail or a home | OneInventory, OneQuality | untouched | yes | general |  | yes |  |  |  |  |
 | Quality Goal | on a rail or a home | everybody | a head | yes | general |  | yes |  |  |  |  |
@@ -1073,6 +1074,11 @@ Pages: onemail (on a rail or a home).
 
 
 Reports: Project Progress (on a rail or a home); Stock by Project (on a rail or a home); Workload (on a rail or a home).
+
+## onedesk / One Quality
+
+
+Pages: onequality (on a rail or a home).
 
 ## onedesk / One Sheet
 

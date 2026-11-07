@@ -663,12 +663,16 @@ MODULES = {
 		"interface": {
 			"Non Conformance": {
 				"fields": {"subject": "triangle-alert", "procedure": "list-ordered", "status": "circle-dot", "full_name": "user"},
-				"cards": ({"key": "procedure"}, {"key": "quality.raised_by"}),
+				"cards": ({"key": "quality.nc_actions"}, {"key": "procedure"}, {"key": "quality.raised_by"}),
+				"links": (
+					{"label": _lt("Quality Action"), "icon": "wrench", "new": "Quality Action", "with": {"one_non_conformance": "name", "procedure": "procedure"}, "when": (("status", "=", "Open"),)},
+					{"label": _lt("Quality Action"), "icon": "wrench", "list": "Quality Action", "with": {"one_non_conformance": "name"}},
+				),
 				"states": {"order": ("Open", "Resolved"), "hide": ("Cancelled",)},
 			},
 			"Quality Action": {
-				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered", "review": "clipboard-check", "feedback": "message-square", "corrective_preventive": "wrench"},
-				"cards": ({"key": "quality.action_done"}, {"key": "goal"}, {"key": "procedure"}),
+				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered", "review": "clipboard-check", "feedback": "message-square", "corrective_preventive": "wrench", "one_non_conformance": "triangle-alert"},
+				"cards": ({"key": "quality.action_done"}, {"key": "quality.action_problem"}, {"key": "goal"}, {"key": "procedure"}),
 				"states": {"order": ("Open", "Completed")},
 			},
 			"Quality Review": {

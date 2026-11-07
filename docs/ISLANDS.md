@@ -123,6 +123,7 @@ that exists.
 | `portal/src/pages/Rfq.vue` | Ariba's supplier quote: the buyer's message, each row priced in place in one card, with a discount and the tax the workspace charges on it, and the totals; notes; and beside them what the quote comes to and Send Quote (`send_quote`) |
 | `portal/src/pages/YourData.vue` | Google Account's Data & privacy: download, or delete |
 | `src/check/CheckList.vue` | Shopify's setup guide and Stripe's account checklist: how much is ready, then what is still to do, what is suggested and what is ready, each with what it means and its Fix |
+| `src/quality/QualityHome.vue` | Linear's Inbox and Shopify's admin Home: the figures, then the problems still open with whether anyone acts on them, the steps overdue with who owns them and the goals failing, then where everything is |
 | `src/factory/home/FactoryHome.vue` | Katana's Manufacturing view and Shopify's admin Home: the workshop's figures, then the work orders late or due to start and the work late back from suppliers, then where everything is |
 | `src/factory/floor/ShopFloor.vue` | Odoo's Shop Floor: a tab per workstation, the orders as a table, and each step a card with its clock, who is on it and one button for what comes next |
 | `src/one/Home.vue` | Microsoft 365's Home and Slack's announcements: what waits for the reader's approval in every app, what the office is saying, what is new in their apps, and for an administrator the workspace at a glance and what in it needs them first |

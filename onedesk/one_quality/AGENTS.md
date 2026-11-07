@@ -38,11 +38,25 @@ a OneGovernance (policies, risk, compliance) would be a separate app.
 - `abilities.py`, `resolve.py` — Resolve Non Conformances, a Permission Type
   on Non Conformance (`permission_type/`). `resolve.guard` (validate)
   refuses setting a non conformance to Resolved without it.
+- `home.py`, `page/onequality` and `frontend/src/quality/QualityHome.vue` —
+  the Home, an island (`tiers`): problems open, action steps overdue
+  (Quality Action Resolution's `completion_by`), goals whose latest review
+  failed, meetings open, and the directory. The page's roles decide who
+  reads it, since ERPNext lets everybody read a non conformance. OneStudio
+  hears `onequality_home.shown`.
+- `custom/quality_action.json` — `one_non_conformance` ties an action to
+  the problem it fixes; Non Conformance lists them under Actions, and
+  `heads.nc_actions` and `heads.action_problem` say so on each head.
+  `custom/non_conformance.json` titles a problem by its subject, hides
+  ERPNext's Process Owner address for the name, and asks no status of a
+  new one.
 - `tell.py` and `notifications.py` — Non Conformance Raised, after insert,
-  to every Quality Manager but whoever raised it.
-- `ai.py` — the suggestions on a non conformance, an action and a
-  procedure. OneAI reads quality through the generic tools and changes
-  nothing (`legal.py` says so).
+  to every Quality Manager but whoever raised it; Non Conformance Resolved
+  to whoever raised it; Quality Step Overdue, each morning, to whoever is
+  responsible for a step due yesterday.
+- `ai.py` — the suggestions on Home, a non conformance, an action and a
+  procedure, the Home's sentence (`page`) and `quality_now`, which reads
+  what Home shows. OneAI changes nothing (`legal.py` says so).
 - `custom/quality_meeting.json` — the meeting list's columns.
 - The demo (`one_demo/quality.py`): the curtain wall's procedure, its goal
   and last month's failed review, the action it asked for, a non conformance

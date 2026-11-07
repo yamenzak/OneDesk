@@ -105,8 +105,10 @@ def _review():
 
 
 def _nonconformance():
+	"""Sealant laid in the cold, and the action taken on it: the bays sealed
+	again, and the crews' briefing three days late."""
 	with as_user(SUPERVISOR):
-		once(
+		problem = once(
 			"Non Conformance",
 			{"subject": "Sealant laid below 5°C"},
 			{
@@ -116,6 +118,34 @@ def _nonconformance():
 				"details": "Two bays on level 14 of Bayview Tower were sealed at 3°C before dawn.",
 				"corrective_action": "Cut the sealant out of both bays and seal them again in the afternoon.",
 				"preventive_action": "No sealing before 9 in the morning from December to February.",
+			},
+		)
+	with as_user(MANAGER):
+		once(
+			"Quality Action",
+			{"one_non_conformance": problem.name},
+			{
+				"corrective_preventive": "Corrective",
+				"one_non_conformance": problem.name,
+				"procedure": PROCEDURE,
+				"date": add_days(today(), -6),
+				"status": "Open",
+				"resolutions": [
+					{
+						"problem": "Two bays on level 14 sealed at 3°C.",
+						"resolution": "Sealant cut out and both bays sealed again in the afternoon.",
+						"responsible": SUPERVISOR,
+						"completion_by": add_days(today(), -5),
+						"status": "Completed",
+					},
+					{
+						"problem": "Crews not told about sealing in the cold.",
+						"resolution": "Brief every installation crew on the 5°C rule at the morning talk.",
+						"responsible": SUPERVISOR,
+						"completion_by": add_days(today(), -3),
+						"status": "Open",
+					},
+				],
 			},
 		)
 

@@ -1,0 +1,19 @@
+{
+ "custom_fields": [
+  {
+   "dt": "Quality Action",
+   "fieldname": "one_non_conformance",
+   "label": "Non Conformance",
+   "fieldtype": "Link",
+   "options": "Non Conformance",
+   "insert_after": "procedure",
+   "module": "One Quality",
+   "in_standard_filter": 1,
+   "search_index": 1
+  }
+ ],
+ "doctype": "Quality Action",
+ "links": [],
+ "property_setters": [],
+ "sync_on_migrate": 1
+}
