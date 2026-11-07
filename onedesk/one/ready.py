@@ -911,11 +911,11 @@ MODULES = {
 		"names": ("one_display", "onedisplay"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-31", "commit": "256c5eb48b27", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
@@ -988,11 +988,11 @@ MODULES = {
 			"Travel Request",
 		),
 		"checked": {
-			"copy": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "70b26c9333b3", "by": "Claude, for Yamen"},
 		},
 		"help": (
 			("overview", "info"),
