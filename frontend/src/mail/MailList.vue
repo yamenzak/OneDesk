@@ -50,9 +50,13 @@
         <span class="flex min-w-0 flex-1 flex-col gap-0.5">
           <span class="flex items-center gap-1.5">
             <span v-if="item.unread" class="size-2 shrink-0 rounded-full bg-surface-blue-6" />
+            <span v-if="item.draft" class="shrink-0 text-ink-red-4">{{ __("Draft") }}</span>
             <span class="min-w-0 flex-1 truncate" :class="item.unread ? 'font-semibold text-ink-gray-9' : 'text-ink-gray-8'">{{ who(item) }}</span>
             <span v-if="item.count > 1" class="text-sm text-ink-gray-5">{{ count(item.count) }}</span>
             <span v-if="item.attachments" class="lucide-paperclip size-3.5 text-ink-gray-5" />
+            <span v-if="item.done" class="lucide-circle-check size-3.5 text-ink-green-3" :title="__('Done')" />
+            <span v-if="(item.assigned || []).length" class="lucide-user-check size-3.5 text-ink-gray-5" :title="__('Assigned')" />
+            <span v-if="item.snoozed_until" class="lucide-alarm-clock size-3.5 text-ink-gray-5" :title="__('Snoozed')" />
             <span class="shrink-0 text-sm text-ink-gray-5">{{ when(item.date) }}</span>
           </span>
           <span class="flex items-center gap-1">

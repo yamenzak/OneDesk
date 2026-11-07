@@ -239,6 +239,8 @@ ANSWERS = {
 	("DocType", "Face"): (ENGINE, "the faces OneMail draws beside a sender"),
 	("DocType", "Mail Rule"): (INSIDE, "OneMail's settings, a mailbox's Automation tab, which writes it"),
 	("DocType", "Mail Folder"): (ENGINE, "a mailbox's folders, which OneMail's sidebar shows and makes"),
+	("DocType", "Mail Draft"): (INSIDE, "OneMail's Drafts folder and a conversation's Continue Draft, which the composer writes as it is typed"),
+	("DocType", "Mail Conversation"): (INSIDE, "a conversation in OneMail: Assign, Mark Done, Snooze and Remind Me, and the notes for the team; its row opens there"),
 	("DocType", "File Link"): (ENGINE, "what OneAI filed a document under"),
 	("DocType", "Identifier"): (ENGINE, "numbers OneAI recognised a party by"),
 	("DocType", "Reading Lesson"): (ENGINE, "what OneAI learnt from a correction"),

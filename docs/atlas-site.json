@@ -1669,6 +1669,12 @@
 "Accounts User",
 "System Manager"
 ],
+"Mail Conversation": [
+"Inbox User"
+],
+"Mail Draft": [
+"Inbox User"
+],
 "Mail Folder": [
 "Workspace Administrator"
 ],
@@ -3454,6 +3460,7 @@
 "List Filter",
 "List View Settings",
 "Location",
+"Mail Draft",
 "Mail Folder",
 "Maintenance Schedule",
 "Maintenance Visit",

@@ -252,3 +252,105 @@ onedesk.mail.reply_to = async (account, thread, { text = "" } = {}) => {
 	};
 	Composer.prototype.one_warns_away = true;
 })();
+
+// A mail being written is kept on the server a moment after each change
+// (one_mail/drafts.py), from any mailbox the writer holds, so closing the
+// window or the tab loses nothing. Sending or Discard throws it away;
+// closing it otherwise says it was kept.
+(() => {
+	const Composer = frappe.views && frappe.views.CommunicationComposer;
+	if (!Composer || Composer.prototype.one_drafts) return;
+	const DRAFTS = "onedesk.one_mail.drafts.";
+	const WATCHED = ["sender", "recipients", "cc", "bcc", "subject", "content"];
+	const make = Composer.prototype.make;
+	Composer.prototype.make = function () {
+		const made = make.apply(this, arguments);
+		const dialog = this.dialog;
+		if (!dialog) return made;
+		let waiting = null;
+		const later = () => {
+			clearTimeout(waiting);
+			waiting = setTimeout(() => this.one_keep(), 1500);
+		};
+		for (const name of WATCHED) {
+			const field = dialog.fields_dict[name];
+			if (!field) continue;
+			const changed = field.df.onchange;
+			field.df.onchange = (...args) => {
+				if (changed) changed.apply(field, args);
+				later();
+			};
+			field.$wrapper.on("input", later);
+		}
+		dialog.$wrapper.on("hidden.bs.modal", async () => {
+			clearTimeout(waiting);
+			if (this.one_gone) return;
+			await this.one_keep();
+			if (this.one_draft) frappe.show_alert({ message: __("Draft saved."), indicator: "green" });
+		});
+		return made;
+	};
+	Composer.prototype.one_keep = async function () {
+		if (this.one_gone || !this.dialog) return;
+		const values = this.dialog.get_values(true) || {};
+		const content = this.dialog.get_value("content") || "";
+		const typed = (values.recipients || values.subject || frappe.utils.html2text(content).trim());
+		if (!values.sender || (!typed && !this.one_draft)) return;
+		const record = this.doc || (this.frm && this.frm.doc) || {};
+		const chosen = this.selected_attachments || new Set();
+		const files = (this.get_available_attachments ? this.get_available_attachments() : []).filter((one) => chosen.has(one.name));
+		this.one_saving = frappe
+			.xcall(DRAFTS + "save", {
+				sender: values.sender,
+				name: this.one_draft || null,
+				subject: values.subject || "",
+				recipients: values.recipients || "",
+				cc: values.cc || "",
+				bcc: values.bcc || "",
+				content,
+				in_reply_to: (this.last_email && this.last_email.name) || null,
+				kind: this.is_a_reply ? "Reply" : this.forward ? "Forward" : "New",
+				reference_doctype: record.doctype || null,
+				reference_name: record.name || null,
+				send_after: values.send_after || null,
+				attachments: JSON.stringify(files.map((one) => ({ name: one.name, file_name: one.file_name, file_url: one.file_url }))),
+			})
+			.then((name) => (this.one_draft = name || this.one_draft))
+			.catch(() => null);
+		return this.one_saving;
+	};
+	const clear = Composer.prototype.clear_cache;
+	Composer.prototype.clear_cache = function () {
+		this.one_gone = true;
+		const done = clear.apply(this, arguments);
+		Promise.resolve(this.one_saving).then(() => this.one_draft && frappe.xcall(DRAFTS + "discard", { name: this.one_draft }));
+		return done;
+	};
+	Composer.prototype.one_drafts = true;
+})();
+
+// A draft opened again, where it was left.
+onedesk.mail.open_draft = async (name) => {
+	const said = await frappe.xcall("onedesk.one_mail.drafts.get", { name });
+	const last_email = said.in_reply_to ? await frappe.xcall("onedesk.one_mail.drafts.replying_to", { name }) : null;
+	const composer = new frappe.views.CommunicationComposer({
+		sender: said.sender,
+		recipients: said.recipients || "",
+		cc: said.cc || "",
+		bcc: said.bcc || "",
+		subject: said.subject || "",
+		message: said.content || "",
+		doc: said.reference_doctype && said.reference_name ? { doctype: said.reference_doctype, name: said.reference_name } : undefined,
+		is_a_reply: said.kind === "Reply",
+		forward: said.kind === "Forward",
+		...(last_email ? { last_email } : {}),
+	});
+	composer.one_draft = name;
+	if (said.attachments.length) {
+		composer.attachments = said.attachments;
+		composer.selected_attachments = new Set(said.attachments.map((one) => one.name));
+		composer.render_attachment_rows && composer.render_attachment_rows();
+	}
+	if (said.send_after) composer.dialog.set_value("send_after", said.send_after);
+	return composer;
+};

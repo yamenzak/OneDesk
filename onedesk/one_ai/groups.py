@@ -65,6 +65,8 @@ GROUPS = {
 			"sort_conversations",
 			"change_folder",
 			"file_conversation",
+			"work_conversation",
+			"mail_for_me",
 			"suggest_mail_rule",
 			"mail_rules",
 			"change_mail_rule",

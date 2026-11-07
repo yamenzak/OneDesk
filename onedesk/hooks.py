@@ -164,6 +164,7 @@ scheduler_events = {
 			"onedesk.one.announcements.ended",
 		],
 		"*/5 * * * *": [
+			"onedesk.one_mail.team.due",
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",
 			"onedesk.one_calendar.tell.soon",
@@ -718,6 +719,7 @@ doc_events = {
 		"after_insert": [
 			"onedesk.one_mail.threads.adopt",
 			"onedesk.one_mail.live.inserted",
+			"onedesk.one_mail.team.arrived",
 			"onedesk.one_crm.capture.replied",
 			"onedesk.one_crm.tell.they_replied",
 			"onedesk.one_project.updates.answered",
@@ -789,6 +791,8 @@ override_whitelisted_methods = {
 ignore_links_on_delete = ["Reading Action", "Reading Lesson", "Reading", "Reading Party", "Portal Link"]
 
 has_permission = {
+	"Mail Draft": "onedesk.one_mail.drafts.has_permission",
+	"Mail Conversation": "onedesk.one_mail.team.has_permission",
 	"Dashboard": "onedesk.one_hr.access.dashboard_allowed",
 	"Interview": "onedesk.one_hr.access.interview_allowed",
 	"Clock Device": "onedesk.one_hr.passkey.has_permission",
@@ -907,6 +911,7 @@ fixtures = [
 
 
 doctype_js = {
+	"Mail Conversation": "public/js/one_mail/mail_conversation.js",
 	"Asset Maintenance Log": "public/js/one_inventory/asset_maintenance_log.js",
 	"Request for Quotation": "public/js/one_inventory/request_for_quotation.js",
 	"Shift Location": "public/js/one_hr/shift_location.js",
@@ -1499,6 +1504,8 @@ one_ai_suggests = [
 	"onedesk.one_mail.ai.sort_conversations",
 	"onedesk.one_mail.ai.change_folder",
 	"onedesk.one_mail.ai.file_conversation",
+	"onedesk.one_mail.ai.work_conversation",
+	"onedesk.one_mail.ai.mail_for_me",
 	"onedesk.one_mail.ai.suggest_away",
 	"onedesk.one_mail.ai.change_mail_rule",
 	"onedesk.one_mail.ai.share_mailbox",

@@ -1,6 +1,7 @@
 """Telling people about their mailboxes (notifications.py)."""
 
 import frappe
+from frappe import _
 
 from onedesk.one import notify
 
@@ -163,3 +164,18 @@ def not_sent() -> None:
 			subject=one.subject or "",
 			to=one.recipients or "",
 		)
+
+
+def no_reply(conversation, link: str) -> None:
+	"""A reminder come due with no reply since (team.due), told to whoever
+	asked for it."""
+	if not conversation.remind_by or not frappe.db.get_value("User", conversation.remind_by, "enabled"):
+		return
+	notify.notify(
+		"No Reply Yet",
+		[conversation.remind_by],
+		record=("Mail Conversation", conversation.name),
+		link=link,
+		sender="Administrator",
+		subject=conversation.subject or _("A conversation"),
+	)

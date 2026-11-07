@@ -8,6 +8,7 @@ the commit that finishes its pass and taken out by a change that undoes it.
 import re
 
 PASSED: dict[str, dict] = {
+	"onemail": {"on": "2026-11-07", "pass": "OneMail, drafts and the team inbox"},
 	"onequality": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
 	"Form/Non Conformance": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},
 	"List/Non Conformance": {"on": "2026-11-07", "pass": "OneQuality, the pass of November"},

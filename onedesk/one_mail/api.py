@@ -64,6 +64,9 @@ def searched(query, C, asked: dict, inside: list[str] | None = None):
 		query = query.where(C.seen == 1)
 	if "starred" in asked["is"]:
 		query = query.where(C.one_flagged == 1)
+	if "snoozed" in asked["is"]:
+		M = frappe.qb.DocType("Mail Conversation")
+		query = query.where(M.snoozed_until > frappe.utils.now_datetime())
 	every = None
 	for value in asked["words"]:
 		like = f"%{value}%"
@@ -77,6 +80,21 @@ def searched(query, C, asked: dict, inside: list[str] | None = None):
 		every = said if every is None else every & said
 	if every is not None:
 		query = query.where(every | C.name.isin(inside) if inside else every)
+	return query
+
+
+def _team(query, M, team: str | None):
+	"""A shared mailbox's conversations by who has them: open ones, the
+	reader's, nobody's, or those done."""
+	if team not in TEAM:
+		return query
+	if team == "done":
+		return query.where(M.status == "Done")
+	query = query.where(M.status.isnull() | (M.status != "Done"))
+	if team == "mine":
+		return query.where(M._assign.like(f'%"{frappe.session.user}"%'))
+	if team == "unassigned":
+		return query.where(M._assign.isnull() | (M._assign == "") | (M._assign == "[]"))
 	return query
 
 
@@ -101,12 +119,34 @@ def mailboxes() -> list[dict]:
 
 
 @frappe.whitelist()
-def conversations(account: str, folder: str | None = None, search: str | None = None, start: int = 0) -> dict:
+def conversations(account: str, folder: str | None = None, search: str | None = None, start: int = 0, team: str | None = None) -> dict:
 	"""One page of a folder's conversations, newest first. With `search`, the
-	whole mailbox is searched and `folder` is ignored."""
+	whole mailbox is searched and `folder` is ignored. Drafts opens on the
+	reader's own drafts written here (drafts.py), then the server's."""
 	actions.require(account)
+	said = _conversations(account, folder, search, start, team)
+	if (search or "").strip() or cint(start) or not folder or frappe.db.get_value("Mail Folder", folder, "kind") != "Drafts":
+		return said
+	from onedesk.one_mail import drafts
+
+	kept = drafts.listed(account)
+	return {**said, "items": kept + said["items"], "total": len(kept) + (said["total"] or 0)}
+
+
+TEAM = ("open", "mine", "unassigned", "done")
+
+
+def _conversations(account: str, folder: str | None, search: str | None, start: int, team: str | None = None) -> dict:
 	C = frappe.qb.DocType("Communication")
-	query = frappe.qb.from_(C).where(C.email_account == account).where(C.communication_medium == "Email")
+	M = frappe.qb.DocType("Mail Conversation")
+	query = (
+		frappe.qb.from_(C)
+		.left_join(M)
+		.on((M.account == C.email_account) & (M.thread == Coalesce(C.one_thread, C.name)))
+		.where(C.email_account == account)
+		.where(C.communication_medium == "Email")
+	)
+	query = _team(query, M, team)
 	search = (search or "").strip()
 	if search:
 		from onedesk.one_ai.reading import search as documents
@@ -116,6 +156,8 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 		query = searched(query, C, asked, inside).where(C.one_folder.isnotnull())
 	elif folder:
 		query = query.where(C.one_folder.isin(_paths(account, folder)))
+		if frappe.db.get_value("Mail Folder", folder, "kind") == "Inbox":
+			query = query.where(M.snoozed_until.isnull() | (M.snoozed_until <= frappe.utils.now_datetime()))
 	else:
 		frappe.throw(frappe._("Choose a folder."))
 	thread = Coalesce(C.one_thread, C.name)
@@ -127,9 +169,12 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 			Sum(1 - C.seen).as_("unread"),
 			Max(C.one_flagged).as_("flagged"),
 			Max(C.has_attachment).as_("attachments"),
+			Max(M.status).as_("status"),
+			Max(M._assign).as_("assigned"),
+			Max(M.snoozed_until).as_("snoozed_until"),
 		)
 		.groupby(thread)
-		.orderby("date", order=frappe.qb.desc)
+		.orderby(Max(C.communication_date), order=frappe.qb.desc)
 		.limit(PAGE + 1)
 		.offset(cint(start))
 		.run(as_dict=True)
@@ -179,6 +224,9 @@ def conversations(account: str, folder: str | None = None, search: str | None = 
 				"flagged": cint(row.flagged),
 				"attachments": cint(row.attachments),
 				"folder": message.get("one_folder"),
+				"done": int(row.status == "Done"),
+				"assigned": frappe.parse_json(row.assigned or "[]") or [],
+				"snoozed_until": row.snoozed_until,
 			}
 		)
 	pictures = faces.lookup([_address(one["recipients"] if one["sent"] else one["sender"]) for one in items])
@@ -218,7 +266,12 @@ def conversation(account: str, thread: str) -> dict:
 		one["attachments"] = files.get(one.name, [])
 		one["unsaved"] = frappe.parse_json(one.pop("one_unsaved") or "[]") or []
 		one["snippet"] = snippet(one.content)
-	return {"thread": thread, "messages": messages}
+	from onedesk.one_mail import drafts
+
+	waiting = drafts.scheduled([one.name for one in messages if one.sent_or_received == "Sent"])
+	for one in messages:
+		one["scheduled"] = waiting.get(one.name)
+	return {"thread": thread, "messages": messages, "draft": drafts.of_thread(account, thread)}
 
 
 @frappe.whitelist()

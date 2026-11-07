@@ -8,6 +8,19 @@ ALL = {"bell": True, "email": True, "push": True}
 
 TYPES = [
 	{
+		"name": "No Reply Yet",
+		"app": "OneMail",
+		"about": "When you asked to be reminded about a conversation and nobody has replied by then.",
+		"to": "Whoever asked to be reminded",
+		"channels": ALL,
+		"button": "Open Conversation",
+		"email_default": False,
+		"push_default": True,
+		"sender": "workspace",
+		"subject": "No reply yet: {subject}",
+		"message": "Nobody has answered since. Write again, or mark it done.",
+	},
+	{
 		"name": "Attachments Not Saved",
 		"app": "OneMail",
 		"about": "When mail arrives with attachments and the workspace's storage is full. Once a day at most.",

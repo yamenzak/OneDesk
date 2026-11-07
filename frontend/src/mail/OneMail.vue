@@ -26,9 +26,12 @@
   </InterfacePart>
 
   <div ref="root" class="flex h-full min-h-0 text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
-    <div class="w-96 shrink-0 border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }" data-tour="onemail-list">
+    <div class="flex w-96 shrink-0 flex-col border-e border-outline-gray-1 max-md:w-full" :class="{ 'max-md:hidden': thread }" data-tour="onemail-list">
+      <div v-if="box?.shared && !search" class="border-b border-outline-gray-1 px-3 py-2">
+        <TabButtons v-model="team" :options="TEAMS" />
+      </div>
       <Loading v-if="loading && !items.length" />
-      <ContextMenu v-else :options="menu" class="h-full">
+      <ContextMenu v-else :options="menu" class="min-h-0 flex-1">
         <template #trigger>
           <MailList
             :title="heading"
@@ -52,7 +55,21 @@
         <span class="lucide-mail size-6" aria-hidden="true" />
         <span class="text-base">{{ __("No mailboxes") }}</span>
       </div>
-      <MailConversation v-else ref="conversation" :messages="picked.size > 1 ? [] : messages" :box="box" :folder="folder" :selected="picked.size" @write="write" />
+      <MailConversation
+        v-else
+        ref="conversation"
+        :messages="picked.size > 1 ? [] : messages"
+        :box="box"
+        :folder="folder"
+        :selected="picked.size"
+        :draft="draft"
+        :thread="thread"
+        :replying="replyingHere"
+        @changed="refresh"
+        @write="write"
+        @draft="openDraft"
+        @discard="discardDraft"
+      />
     </div>
   </div>
 </template>
@@ -62,7 +79,7 @@
 // window's nav pane, the conversations of the one chosen in the view, and the
 // one open beside them. Its keys are its shortcuts (one_mail/shortcuts.py).
 import { computed, onBeforeUnmount, reactive, ref, watch } from "vue";
-import { Button, ContextMenu, Dropdown } from "frappe-ui";
+import { Button, ContextMenu, Dropdown, TabButtons } from "frappe-ui";
 
 import {
   Loading,
@@ -108,6 +125,17 @@ const folder = ref(null);
 const thread = ref(null);
 const items = ref([]);
 const messages = ref([]);
+const draft = ref(null);
+const team = ref(null);
+const TEAMS = [
+  { label: __("Open"), value: "open" },
+  { label: __("Mine"), value: "mine" },
+  { label: __("Unassigned"), value: "unassigned" },
+  { label: __("Done"), value: "done" },
+];
+watch(team, () => list());
+const writers = ref({});
+const replyingHere = computed(() => Object.values(writers.value[thread.value] || {}));
 const more = ref(0);
 const total = ref(0);
 const search = ref("");
@@ -344,6 +372,7 @@ async function load() {
   boxes.value = (await call(API + "mailboxes")) || [];
   const want = props.query;
   box.value = boxes.value.find((one) => one.name === want.box) || boxes.value[0] || null;
+  team.value = box.value?.shared ? "open" : null;
   const folders = box.value?.folders || [];
   folder.value = folders.find((one) => one.name === want.folder) || folders.find((one) => one.kind === "Inbox") || folders[0] || null;
   loading.value = false;
@@ -383,7 +412,8 @@ async function list({ keep = false, more: further = false } = {}) {
       account: box.value.name,
       folder: folder.value ? folder.value.name : null,
       search: search.value || null,
-      start: further ? items.value.length : 0,
+      team: box.value.shared && !search.value ? team.value : null,
+      start: further ? items.value.filter((one) => !one.draft).length : 0,
     });
   } finally {
     if (further) fetching = false;
@@ -401,11 +431,14 @@ async function list({ keep = false, more: further = false } = {}) {
 function close() {
   thread.value = null;
   messages.value = [];
+  draft.value = null;
   setQuery("thread", null);
 }
 
 async function open(name, { quiet = false, keep = false } = {}) {
   if (!box.value) return;
+  const item = items.value.find((one) => one.thread === name);
+  if (item?.draft) return openDraft(item.draft);
   if (!keep) picked.clear();
   thread.value = name;
   setQuery("thread", name);
@@ -413,6 +446,7 @@ async function open(name, { quiet = false, keep = false } = {}) {
   if (thread.value !== name) return;
   if (!(answer.messages || []).length) return close();
   messages.value = answer.messages;
+  draft.value = answer.draft || null;
   const unread = messages.value.filter((one) => !one.seen).map((one) => one.name);
   if (unread.length && !quiet) {
     await call(ACT + "mark", { names: unread, seen: 1 });
@@ -481,13 +515,28 @@ async function run(what, threads) {
   }
 }
 
+async function openDraft(name) {
+  const composer = await onedesk().mail.open_draft(name);
+  composer.dialog.$wrapper.on("hidden.bs.modal", () => setTimeout(refresh, 1500));
+}
+
+async function discardDraft(name) {
+  await call("onedesk.one_mail.drafts.discard", { name });
+  draft.value = null;
+  toast(__("Draft discarded."));
+  refresh();
+}
+
 function write({ reply: answering = false, all = false, forward: passing = false } = {}) {
   if (!from.value) return noSender();
   const done = () => setTimeout(refresh, 1500);
   if (!answering && !passing) return compose({ sender: from.value, title: __("New Email") }, done);
   if (!messages.value.length) return;
   if (passing) return forward(messages.value, from.value, done);
-  reply(boxes.value, messages.value, from.value, { all }, done);
+  const here = { account: box.value.name, thread: thread.value };
+  call("onedesk.one_mail.team.replying", { ...here, on: 1 });
+  const composer = reply(boxes.value, messages.value, from.value, { all }, done);
+  composer.dialog.$wrapper.on("hidden.bs.modal", () => call("onedesk.one_mail.team.replying", { ...here, on: 0 }));
 }
 
 // The mailbox's keys are OneMail's shortcuts (one_mail/shortcuts.py), as
@@ -529,6 +578,7 @@ watch(
     const found = boxes.value.find((one) => one.name === wantBox);
     if (!found) return load();
     box.value = found;
+    team.value = found.shared ? "open" : null;
     folder.value = found.folders.find((one) => one.name === wantFolder) || found.folders.find((one) => one.kind === "Inbox") || found.folders[0];
     search.value = "";
     searchBox?.set("");
@@ -557,4 +607,12 @@ const stop = listen("onemail_change", (data) => {
 });
 let soon = null;
 onBeforeUnmount(stop);
+const stopWriters = listen("onemail_replying", (data) => {
+  if (!data || !boxes.value.some((one) => one.name === data.account)) return;
+  const now = { ...(writers.value[data.thread] || {}) };
+  if (data.on) now[data.user] = data.name;
+  else delete now[data.user];
+  writers.value = { ...writers.value, [data.thread]: now };
+});
+onBeforeUnmount(stopWriters);
 </script>

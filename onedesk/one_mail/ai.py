@@ -613,6 +613,10 @@ REACH = {
 	"connect.add_domain": "company_domain",
 	"connect.remove_domain": "company_domain",
 	"mail_templates.set_default": "default_mail_template",
+	"team.assign": "work_conversation",
+	"team.done": "work_conversation",
+	"team.snooze": "work_conversation",
+	"team.remind": "work_conversation",
 }
 
 NOT_FOR_AI = {
@@ -626,6 +630,11 @@ NOT_FOR_AI = {
 	"holders.set_access": "It replaces everyone who holds a mailbox at once, with the whole list in view; share_mailbox changes one person.",
 	"inbound.notice": "It is the mail Worker's signed call that new mail is waiting, not anything a person does.",
 	"signatures.set_preset": "A preset is picked by looking at it drawn; sign_mailbox writes a signature itself.",
+	"team.note": "A note is the team's own words to each other about a conversation.",
+	"team.replying": "It says the reader has the reply window open, which only the window knows.",
+	"drafts.save": "A draft is kept as its writer types; draft_reply writes one for the reader to finish.",
+	"drafts.discard": "Throwing a draft away is its writer's own choice, made where they wrote it.",
+	"drafts.unschedule": "Taking back a message about to go is its writer's own choice, made on the message.",
 }
 
 APPROVED = (
@@ -639,6 +648,7 @@ APPROVED = (
 	"mail_policy",
 	"domain",
 	"template_default",
+	"team",
 )
 
 ACTS = {
@@ -1172,6 +1182,19 @@ def approved(changes: dict) -> str:
 			return actions.rename_folder(changes["folder"], changes["label"])
 		actions.delete_folder(changes["folder"])
 		return changes["account"]
+	if what == "team":
+		from onedesk.one_mail import team
+
+		do, account, thread = changes["do"], changes["account"], changes["thread"]
+		if do in ("assign", "unassign"):
+			team.assign(account, thread, changes.get("person") if do == "assign" else None)
+		elif do in ("done", "reopen"):
+			team.done(account, thread, 1 if do == "done" else 0)
+		elif do in ("snooze", "unsnooze"):
+			team.snooze(account, thread, changes.get("until") if do == "snooze" else None)
+		else:
+			team.remind(account, thread, changes.get("until"))
+		return thread
 	if what == "filing":
 		names = api.names(changes["account"], [changes["thread"]])
 		if changes["off"]:
@@ -1228,3 +1251,78 @@ def approved(changes: dict) -> str:
 		mail_templates.set_default(changes["doctype"], changes["template"])
 		return changes["template"]
 	frappe.throw(_("That cannot be set."))
+
+
+WORK = ("assign", "unassign", "done", "reopen", "snooze", "unsnooze", "remind")
+
+
+def work_conversation(
+	thread: Annotated[str, "The conversation's thread."],
+	do: Annotated[str, "assign, unassign, done, reopen, snooze, unsnooze or remind."],
+	person: Annotated[str, "Who to give it to, by their login, for assign."] | None = None,
+	until: Annotated[str, "When, as YYYY-MM-DD HH:MM, for snooze and remind."] | None = None,
+	mailbox: Annotated[str, "The mailbox it is in (my_mailboxes). Left out when the reader holds one."] | None = None,
+	why: Annotated[str, "In a sentence, why."] | None = None,
+) -> dict:
+	"""Suggest giving a conversation to a colleague who holds its mailbox,
+	marking it done or open again, snoozing it until a time, or being
+	reminded then if nobody replies, as a card the reader approves."""
+	box = _held(mailbox)
+	if not box:
+		return _not("work_conversation", "Name one of the reader's mailboxes (my_mailboxes).")
+	if do not in WORK:
+		return _not("work_conversation", "Say one of: " + ", ".join(WORK) + ".")
+	if do == "assign" and not person:
+		return _not("work_conversation", "Name who to give it to.")
+	if do in ("snooze", "remind") and not until:
+		return _not("work_conversation", "Say until when.")
+	titles = {
+		"assign": _("Give to {0}").format(frappe.utils.get_fullname(person) if person else ""),
+		"unassign": _("Give to Nobody"),
+		"done": _("Mark Done"),
+		"reopen": _("Open Again"),
+		"snooze": _("Snooze Until {0}").format(until or ""),
+		"unsnooze": _("Back to Inbox"),
+		"remind": _("Remind Me {0}").format(until or ""),
+	}
+	return _card(
+		"team",
+		titles[do],
+		[{"label": _("Mailbox"), "value": box["email"]}, {"label": _("Conversation"), "value": _subject(box["name"], thread)}],
+		why,
+		"Say in one sentence what happens once approved. Nothing changes until they approve it.",
+		account=box["name"],
+		thread=thread,
+		do=do,
+		person=person,
+		until=until,
+	)
+
+
+def mail_for_me() -> dict:
+	"""What mail waits on the reader: conversations given to them and still
+	open, open ones on shared mailboxes nobody has, their drafts, and
+	conversations they snoozed or asked to be reminded about."""
+	from onedesk.one_mail import holders
+
+	me = frappe.session.user
+	held = {one["name"]: one for one in holders.mailboxes()}
+	if not held:
+		return {"error": "The reader holds no mailbox."}
+	rows = frappe.get_all(
+		"Mail Conversation",
+		filters={"account": ["in", list(held)]},
+		fields=["account", "thread", "subject", "status", "_assign", "snoozed_until", "snoozed_by", "remind_at", "remind_by"],
+	)
+	mine = [one for one in rows if one.status != "Done" and me in (frappe.parse_json(one._assign or "[]") or [])]
+	return {
+		"given_to_me": [{"mailbox": held[one.account]["email"], "thread": one.thread, "subject": one.subject} for one in mine],
+		"snoozed": [{"mailbox": held[one.account]["email"], "thread": one.thread, "subject": one.subject, "until": str(one.snoozed_until)} for one in rows if one.snoozed_until and one.snoozed_by == me],
+		"reminders": [{"mailbox": held[one.account]["email"], "thread": one.thread, "subject": one.subject, "at": str(one.remind_at)} for one in rows if one.remind_at and one.remind_by == me],
+		"drafts": frappe.get_all("Mail Draft", filters={"owner": me}, fields=["subject", "recipients", "modified"], order_by="modified desc", limit=10),
+		"unassigned_shared": sum(
+			1
+			for one in rows
+			if one.status != "Done" and held[one.account]["shared"] and not (frappe.parse_json(one._assign or "[]") or [])
+		),
+	}

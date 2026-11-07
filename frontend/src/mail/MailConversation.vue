@@ -4,7 +4,8 @@
       <span class="lucide-mail-open size-6" aria-hidden="true" />
       <span class="text-base">{{ selected > 1 ? __("{0} conversations selected", [selected]) : __("No conversation selected") }}</span>
     </div>
-    <div v-else ref="scroller" class="min-h-0 flex-1 overflow-auto">
+    <div v-else class="flex min-h-0 flex-1">
+    <div ref="scroller" class="min-h-0 flex-1 overflow-auto">
       <div class="border-b border-outline-gray-1 px-5 py-3">
         <h2 class="text-lg font-semibold text-ink-gray-9">{{ messages[0].subject || __("(no subject)") }}</h2>
         <div v-if="records.length" class="mt-2 flex flex-wrap gap-1.5">
@@ -21,6 +22,8 @@
           </span>
         </div>
         <PlaceSpot :said="placed" class="mt-2" />
+        <MailTeam v-if="box && thread" ref="team" :account="box.name" :thread="thread" :replying="replying" :make="make" class="mt-3" @changed="emit('changed')" />
+        <MailSender :address="other" class="mt-3 xl:hidden" folded @found="(got) => (party = got)" />
       </div>
 
       <template v-for="(message, at) in messages" :key="message.name">
@@ -48,6 +51,11 @@
             </div>
             <span class="shrink-0 text-sm text-ink-gray-5" :title="when(message.communication_date, true)">{{ when(message.communication_date) }}</span>
           </div>
+          <div v-if="message.scheduled" class="mt-2 flex flex-wrap items-center gap-2 rounded-3 bg-surface-blue-1 px-3 py-1.5 text-sm">
+            <span class="lucide-calendar-clock size-4 text-ink-blue-3" aria-hidden="true" />
+            <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("Sends {0}", [when(message.scheduled, true)]) }}</span>
+            <Button size="sm" variant="ghost" :label="__('Edit Before It Sends')" @click="unschedule(message)" />
+          </div>
           <MailBody :content="message.content" class="mt-3" />
           <div v-if="(message.attachments || []).length || (message.unsaved || []).length" class="mt-3 flex flex-wrap gap-2">
             <span v-for="file in message.attachments || []" :key="file.name" class="inline-flex items-center gap-1 rounded-3 border border-outline-gray-2 ps-2 text-sm">
@@ -71,11 +79,21 @@
         </article>
       </template>
 
+      <div v-if="draft" class="mx-5 mt-4 flex flex-wrap items-center gap-2 rounded-3 bg-surface-gray-2 px-3 py-2 text-sm">
+        <span class="lucide-file-pen-line size-4 text-ink-red-4" aria-hidden="true" />
+        <span class="min-w-0 flex-1 text-ink-gray-8">{{ __("You have a draft of a reply") }}</span>
+        <Button size="sm" variant="solid" :label="__('Continue Draft')" @click="emit('draft', draft)" />
+        <Button size="sm" variant="ghost" :label="__('Discard')" @click="emit('discard', draft)" />
+      </div>
       <div class="flex flex-wrap gap-2 px-5 py-4">
         <Button variant="subtle" icon-left="lucide-reply" :label="__('Reply')" @click="emit('write', { reply: true })" />
         <Button variant="subtle" icon-left="lucide-reply-all" :label="__('Reply all')" @click="emit('write', { reply: true, all: true })" />
         <Button variant="subtle" icon-left="lucide-forward" :label="__('Forward')" @click="emit('write', { forward: true })" />
       </div>
+    </div>
+    <aside class="hidden w-80 shrink-0 overflow-auto border-s border-outline-gray-1 p-4 xl:block">
+      <MailSender :address="other" />
+    </aside>
     </div>
   </div>
 </template>
@@ -91,14 +109,19 @@ import IntakePanel from "../intake/IntakePanel.vue";
 import { FILED_BY, when } from "./mail";
 import MailBody from "./MailBody.vue";
 import MailFace from "./MailFace.vue";
+import MailSender from "./MailSender.vue";
+import MailTeam from "./MailTeam.vue";
 
 const props = defineProps({
   messages: { type: Array, default: () => [] },
   box: { type: Object, default: null },
   folder: { type: Object, default: null },
   selected: { type: Number, default: 0 },
+  draft: { type: String, default: null },
+  thread: { type: String, default: null },
+  replying: { type: Array, default: () => [] },
 });
-const emit = defineEmits(["write"]);
+const emit = defineEmits(["write", "draft", "discard", "changed"]);
 defineExpose({ fileOn });
 
 const fullNote = __("Storage is full. Saved automatically once there's space.");
@@ -107,6 +130,39 @@ const unfolded = reactive(new Set());
 const placed = reactive({ notes: [], actions: [] });
 const scroller = ref(null);
 let openEl = null;
+
+const party = ref(null);
+const team = ref(null);
+const mine = computed(() => (props.box?.email || "").toLowerCase());
+const other = computed(() => {
+  const heard = [...props.messages].reverse().find((one) => one.sent_or_received === "Received" && (one.sender || "").toLowerCase() !== mine.value);
+  if (heard) return heard.sender;
+  const first = (props.messages[0]?.recipients || "").split(",")[0] || "";
+  return (first.match(/<([^>]+)>/) || [null, first])[1].trim();
+});
+
+function make(doctype) {
+  const last = [...props.messages].reverse().find((one) => one.sent_or_received === "Received") || props.messages[props.messages.length - 1];
+  const kind = party.value?.doctype;
+  const named = party.value?.name;
+  const text = last.content || "";
+  const fill = {
+    Lead: { first_name: last.sender_full_name || "", email_id: last.sender || "" },
+    Opportunity: kind === "Customer" || kind === "Lead" ? { opportunity_from: kind, party_name: named } : {},
+    Issue: { subject: last.subject || "", raised_by: last.sender || "", description: text, ...(kind === "Customer" ? { customer: named } : {}) },
+    Task: { subject: last.subject || "", description: text },
+    "Non Conformance": { subject: last.subject || "", details: text },
+    "Purchase Order": kind === "Supplier" ? { supplier: named } : {},
+  }[doctype] || {};
+  onedesk().interface.create(doctype, {
+    init_callback: (doc) => Object.assign(doc, fill),
+    after_insert: async (doc) => {
+      await call("onedesk.one_mail.linking.file", { names: props.messages.map((one) => one.name), doctype, docname: doc.name });
+      loadRecords();
+      alert(__("{0} {1} made and linked to this conversation.", [__(doctype), doc.name]));
+    },
+  });
+}
 
 const firstOpen = computed(() => props.messages.findIndex((one, at) => !folded(one, at)));
 const folded = (message, at) => at < props.messages.length - 1 && message.seen && !unfolded.has(message.name);
@@ -152,6 +208,12 @@ function fileOn() {
 async function unfile(row) {
   await call("onedesk.one_mail.linking.unfile", { names: props.messages.map((one) => one.name), doctype: row.link_doctype, docname: row.link_name });
   loadRecords();
+}
+
+async function unschedule(message) {
+  const draft = await call("onedesk.one_mail.drafts.unschedule", { name: message.name });
+  emit("changed");
+  emit("draft", draft);
 }
 
 async function saveFile(file) {

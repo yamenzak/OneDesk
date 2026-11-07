@@ -14,7 +14,9 @@ from onedesk.one_mail import actions, live
 NAMED = (
 	"Sales Invoice", "Purchase Invoice", "Sales Order", "Purchase Order", "Quotation", "Supplier Quotation",
 	"Delivery Note", "Purchase Receipt", "Payment Entry", "Material Request", "Request for Quotation",
-	"Opportunity", "Issue", "Project", "Task", "Job Applicant", "Expense Claim",
+	"Opportunity", "Issue", "Project", "Task", "Expense Claim", "Payment Request", "Dunning",
+	"Subcontracting Order", "Subcontracting Receipt", "Work Order", "Job Offer", "Interview", "Leave Application",
+	"Non Conformance", "Quality Action",
 )  # fmt: skip
 
 TABS = [
@@ -38,6 +40,22 @@ TABS = [
 			"Purchase Order",
 			"Purchase Invoice",
 			"Supplier Quotation",
+			"Request for Quotation",
+			"Material Request",
+			"Delivery Note",
+			"Purchase Receipt",
+			"Payment Entry",
+			"Payment Request",
+			"Dunning",
+			"Subcontracting Order",
+			"Work Order",
+			"Task",
+			"Expense Claim",
+			"Leave Application",
+			"Interview",
+			"Job Offer",
+			"Non Conformance",
+			"Quality Action",
 		),
 	}
 ]
@@ -45,6 +63,9 @@ TABS = [
 BY_ADDRESS = (
 	("Employee", ("company_email", "personal_email", "prefered_email")),
 	("Lead", ("email_id",)),
+	("Customer", ("email_id",)),
+	("Supplier", ("email_id",)),
+	("Job Applicant", ("email_id",)),
 )
 
 QUOTED = re.compile(
@@ -71,6 +92,18 @@ def prefixes(options: str | None) -> list[str]:
 		if len(head) >= 3 and re.fullmatch(r"[A-Za-z0-9-/]+", head):
 			out.append(head)
 	return out
+
+
+def own_pattern(autoname: str | None) -> str | None:
+	"""A record type's own naming as a series, such as `TASK-.YYYY.-.#####`
+	or `QA-NC-` from `format:QA-NC-{#####}`; nothing for a type named by a
+	field, a hash or a prompt. Pure."""
+	autoname = (autoname or "").strip()
+	if not autoname or autoname.startswith(("naming_series:", "field:", "hash", "Prompt", "autoincrement", "UUID")):
+		return None
+	if autoname.startswith("format:"):
+		return autoname[len("format:") :].split("{", 1)[0] + "."
+	return autoname
 
 
 def candidates(text: str, starts: list[str]) -> list[str]:
@@ -198,8 +231,9 @@ def starts() -> dict[str, str]:
 	for doctype in NAMED:
 		if not frappe.db.exists("DocType", doctype):
 			continue
-		field = frappe.get_meta(doctype).get_field("naming_series")
-		for prefix in prefixes(field.options if field else None):
+		meta = frappe.get_meta(doctype)
+		field = meta.get_field("naming_series")
+		for prefix in prefixes(field.options if field else None) + prefixes(own_pattern(meta.autoname)):
 			out.setdefault(prefix, doctype)
 	frappe.cache.set_value("one_mail_series", out, expires_in_sec=3600)
 	return out

@@ -920,6 +920,13 @@ OVERRIDES = [
 		"get_email_content() {",
 	),
 	(
+		"A mail being written is kept on the server, and thrown away once sent or discarded",
+		"mail_compose.js wraps CommunicationComposer.make and clear_cache: frappe keeps a draft only in the browser (localforage, and only for a form), so a draft is saved to Mail Draft a moment after each change, and clear_cache, which frappe calls after sending and on Discard, throws the server's away too",
+		"onedesk/public/js/one_mail/mail_compose.js",
+		"frappe/frappe/public/js/frappe/views/communication.js",
+		"clear_cache() {",
+	),
+	(
 		"The email composer offers the templates of the record it is about, form or none",
 		"mail_compose.js wraps CommunicationComposer.get_fields and replaces the Email Template field's get_query, which asks only the form, so OneMail's composer, which has none, asks the record it is about, and with none is offered templates for any record",
 		"onedesk/public/js/one_mail/mail_compose.js",

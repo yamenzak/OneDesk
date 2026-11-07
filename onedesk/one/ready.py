@@ -44,6 +44,7 @@ MODULES = {
 			("overview", "info"),
 			("your-addresses", "at-sign"),
 			("reading-and-writing", "mail"),
+			("working-as-a-team", "users"),
 			("connecting-a-mailbox", "plug"),
 			("rules-and-out-of-office", "workflow"),
 			("mail-on-records", "link"),

@@ -1,0 +1,101 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-07 12:00:00.000000",
+ "description": "One conversation of a mailbox as a team works it: who has it, whether it is done, when it comes back and who to remind.",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "account",
+  "thread",
+  "subject",
+  "status",
+  "column_break_later",
+  "snoozed_until",
+  "snoozed_by",
+  "remind_at",
+  "remind_by"
+ ],
+ "fields": [
+  {
+   "fieldname": "account",
+   "fieldtype": "Link",
+   "options": "Email Account",
+   "label": "Mailbox",
+   "reqd": 1,
+   "in_list_view": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "thread",
+   "fieldtype": "Data",
+   "label": "Conversation",
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "subject",
+   "fieldtype": "Data",
+   "label": "Subject",
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "options": "Open\nDone",
+   "default": "Open",
+   "label": "Status",
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "column_break_later",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "snoozed_until",
+   "fieldtype": "Datetime",
+   "label": "Snoozed Until"
+  },
+  {
+   "fieldname": "snoozed_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Snoozed By"
+  },
+  {
+   "fieldname": "remind_at",
+   "fieldtype": "Datetime",
+   "label": "Remind At"
+  },
+  {
+   "fieldname": "remind_by",
+   "fieldtype": "Link",
+   "options": "User",
+   "label": "Remind"
+  }
+ ],
+ "index_web_pages_for_search": 0,
+ "links": [],
+ "modified": "2026-11-07 12:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Mail",
+ "name": "Mail Conversation",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": [],
+ "title_field": "subject",
+ "track_changes": 1,
+ "permissions": [
+  {
+   "role": "Inbox User",
+   "read": 1,
+   "write": 1,
+   "create": 1
+  }
+ ]
+}

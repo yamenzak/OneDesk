@@ -156,6 +156,8 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Face | 5 | document |
+| Mail Conversation | 9 | document |
+| Mail Draft | 14 | document |
 | Mail Folder | 15 | document |
 | Mail Rule | 8 | document |
 
@@ -780,6 +782,11 @@ No doctypes yet.
 * `onedesk.one_mail.connect.reconnect`
 * `onedesk.one_mail.connect.remove_domain`
 * `onedesk.one_mail.connect.servers_for`
+* `onedesk.one_mail.drafts.discard`
+* `onedesk.one_mail.drafts.get`
+* `onedesk.one_mail.drafts.replying_to`
+* `onedesk.one_mail.drafts.save`
+* `onedesk.one_mail.drafts.unschedule`
 * `onedesk.one_mail.gate.set_settings`
 * `onedesk.one_mail.gate.settings_of`
 * `onedesk.one_mail.holders.addresses_of_people`
@@ -821,8 +828,17 @@ No doctypes yet.
 * `onedesk.one_mail.rules.save_rule`
 * `onedesk.one_mail.rules.set_away`
 * `onedesk.one_mail.rules.who_is_away`
+* `onedesk.one_mail.sender.about`
 * `onedesk.one_mail.signatures.presets_of`
 * `onedesk.one_mail.signatures.set_preset`
+* `onedesk.one_mail.team.assign`
+* `onedesk.one_mail.team.done`
+* `onedesk.one_mail.team.note`
+* `onedesk.one_mail.team.opened`
+* `onedesk.one_mail.team.remind`
+* `onedesk.one_mail.team.replying`
+* `onedesk.one_mail.team.snooze`
+* `onedesk.one_mail.team.state`
 * `onedesk.one_portal.invite.invite_again`
 * `onedesk.one_portal.invite.invite_contact`
 * `onedesk.one_portal.invite.restore`

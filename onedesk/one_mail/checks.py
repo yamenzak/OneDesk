@@ -882,3 +882,94 @@ def onemail_oneai_reaches_what_the_page_changes():
 		assert ai.company_domain("reachcheck.example").get("error")
 	for one in made:
 		frappe.delete_doc("AI Proposal", one, ignore_permissions=True, force=True)
+
+
+@check
+def onemail_a_team_works_its_shared_mailbox():
+	"""The workspace's address worked by a team: who wrote and what of theirs
+	is open, assigning, notes, done and opened again, snooze and reminders,
+	drafts kept and found again, a scheduled mail taken back, OneAI's card,
+	and nothing for somebody who doesn't hold the mailbox."""
+	from frappe.utils import add_to_date, now_datetime
+
+	from onedesk.one_ai import run as runs
+	from onedesk.one_demo.check import _Told
+	from onedesk.one_mail import ai, api, drafts, holders, sender, team
+
+	account = holders.workspace()
+	email = frappe.db.get_value("Email Account", account, "email_id")
+	inbox = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Inbox"})
+	with as_user(OWNER):
+		found = api.conversations(account, search="from:marinahotels")["items"]
+		assert found, "the hotel's mail is in the workspace's inbox"
+		thread = found[0]["thread"]
+		about = sender.about("rashid@marinahotels.example")
+		assert about and about["doctype"] == "Customer" and about["title"] == "Marina Hotels Group", about
+		assert {one["doctype"] for one in about["groups"]} & {"Sales Order", "Sales Invoice"}, about["groups"]
+		said = team.state(account, thread)
+		assert said["shared"] and "mariam@one.test" in {one["user"] for one in said["people"]}
+		team.assign(account, thread, "mariam@one.test")
+		conversation = frappe.db.get_value("Mail Conversation", {"account": account, "thread": thread})
+		assert frappe.db.exists("ToDo", {"reference_type": "Mail Conversation", "reference_name": conversation, "allocated_to": "mariam@one.test", "status": "Open"})
+		assert team.opened(conversation) == team.place(account, thread)
+	with as_user("mariam@one.test"):
+		assert thread in {one["thread"] for one in api.conversations(account, inbox, team="mine")["items"]}
+		assert thread not in {one["thread"] for one in api.conversations(account, inbox, team="unassigned")["items"]}
+		assert team.note(account, thread, "Booked the fitter for Tuesday morning.")["notes"][-1]["by"] == "Mariam Saleh"
+		team.replying(account, thread, 1)
+		assert thread in {one["thread"] for one in ai.mail_for_me()["given_to_me"]}
+		assert team.done(account, thread)["status"] == "Done"
+		assert not frappe.db.exists("ToDo", {"reference_type": "Mail Conversation", "reference_name": conversation, "status": "Open"}), "done closes its assignment"
+		assert thread in {one["thread"] for one in api.conversations(account, inbox, team="done")["items"]}
+	reply = frappe.get_doc("Communication", found[0]["name"]).as_dict()
+	team.arrived(frappe._dict(reply, sent_or_received="Received", one_thread=thread, communication_medium="Email"))
+	assert frappe.db.get_value("Mail Conversation", conversation, "status") == "Open", "a new mail from outside opens it again"
+
+	with as_user("mariam@one.test"):
+		team.snooze(account, thread, str(add_to_date(now_datetime(), hours=3)))
+		assert thread not in {one["thread"] for one in api.conversations(account, inbox)["items"]}, "a snoozed conversation leaves the inbox"
+		assert thread in {one["thread"] for one in api.conversations(account, search="is:snoozed")["items"]}
+		team.remind(account, thread, str(add_to_date(now_datetime(), hours=1)))
+	frappe.db.set_value("Mail Conversation", conversation, {"snoozed_until": add_to_date(now_datetime(), minutes=-1), "remind_at": add_to_date(now_datetime(), minutes=-1)})
+	with _Told() as told:
+		team.due()
+	assert told.to("No Reply Yet") == {"mariam@one.test"}, told.said
+	with as_user("mariam@one.test"):
+		assert thread in {one["thread"] for one in api.conversations(account, inbox)["items"]}, "back in the inbox when its time comes"
+
+		draft = drafts.save(sender=email, subject="Re: Balcony doors", recipients="rashid@marinahotels.example", content="<p>Tuesday at 9 suits us.</p>", in_reply_to=found[0]["name"], kind="Reply")
+		assert draft and drafts.get(draft)["recipients"] == "rashid@marinahotels.example"
+		assert api.conversation(account, thread)["draft"] == draft, "the draft waits on its conversation"
+		assert drafts.replying_to(draft)["name"] == found[0]["name"]
+		box_drafts = frappe.db.get_value("Mail Folder", {"account": account, "kind": "Drafts"})
+		assert draft in {one.get("draft") for one in api.conversations(account, box_drafts)["items"]}
+		assert drafts.save(sender="nobody@stranger.example", subject="x") is None, "nothing is kept for an address the writer doesn't hold"
+		drafts.discard(draft)
+		assert not frappe.db.exists("Mail Draft", draft)
+
+		from frappe.core.doctype.communication.email import make
+
+		later = make(
+			recipients="rashid@marinahotels.example",
+			subject="Fitter booked",
+			content="<p>Tuesday, 9 in the morning.</p>",
+			sender=email,
+			send_email=True,
+			send_after=str(add_to_date(now_datetime(), hours=2)),
+		)["name"]
+		assert drafts.scheduled([later]), "a mail scheduled for later waits in the queue"
+		back = drafts.unschedule(later)
+		assert frappe.db.get_value("Mail Draft", back, "subject") == "Fitter booked" and not frappe.db.exists("Communication", later)
+
+	with as_user(OWNER):
+		card = ai.work_conversation(thread, "assign", person="mariam@one.test", mailbox=email)
+		assert card.get("proposal"), card
+		runs.apply(card["proposal"])
+		assert "mariam@one.test" in {one["user"] for one in team.state(account, thread)["assigned"]}
+	with as_user("nadia@one.test"):
+		for call in (lambda: team.state(account, thread), lambda: team.done(account, thread)):
+			try:
+				call()
+			except frappe.PermissionError:
+				continue
+			raise AssertionError("somebody who doesn't hold the mailbox worked its conversation")

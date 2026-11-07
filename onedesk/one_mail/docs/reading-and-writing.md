@@ -41,7 +41,7 @@ Words you type are found anywhere in a message. These narrow it down:
 | `to:sales` | Mail to an address with "sales" in it |
 | `subject:"price list"` | Mail with those words in the subject |
 | `has:attachment` | Mail with a file attached |
-| `is:unread`, `is:read`, `is:starred` | Mail in that state |
+| `is:unread`, `is:read`, `is:starred`, `is:snoozed` | Mail in that state |
 
 They combine: `from:ana subject:"price list" is:unread` finds unread mail from
 Ana about the price list.
@@ -56,10 +56,27 @@ minimise it and keep reading.
 
 | To | Use |
 | --- | --- |
-| Send it later | The arrow beside **Send** |
+| Send it later | The arrow beside **Send**, then **Schedule email** |
 | Take it back | **Undo**, for a few seconds after sending |
+| Change one scheduled for later | **Edit Before It Sends** on the message, which makes it a draft again |
 | Ask for a read receipt, or a copy to yourself | **⋯** |
 | Start from a template | **Use template** |
+
+## Drafts
+
+What you write is kept as you type, from any mailbox you hold. Close the
+email window, or the tab, and nothing is lost: **Drafts** lists it, and a reply
+waits on its conversation with **Continue Draft**. Sending it, or **Discard**,
+throws the draft away. A draft is yours alone, even on a shared mailbox.
+
+## Snoozing and Reminders
+
+On a conversation, **Snooze** takes it out of the Inbox until later today,
+tomorrow morning, next week or a time you pick. It comes back unread, or
+sooner if somebody writes. `is:snoozed` finds what's snoozed.
+
+**Remind Me** on a conversation you've written tells you then if nobody has
+replied. A reply cancels it.
 
 ## Signatures
 

@@ -378,6 +378,8 @@ export const hasRole = (role) => Boolean(frappe().user.has_role(role));
 
 export const dateTime = (value) => (value ? frappe().datetime.str_to_user(value) : "");
 
+export const asDateTime = (when) => frappe().datetime.get_datetime_as_string(when);
+
 export const fileSize = (bytes) => (window.onedesk?.size ? window.onedesk.size(bytes) : "");
 
 // frappe's mail composer, told when it closes.

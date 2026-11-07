@@ -645,6 +645,10 @@ msgstr "Eine Beschwerde, eingereicht, geprüft und gelöst."
 msgid "A conference, launch or company event, from the idea to the thank-you mails."
 msgstr "Eine Konferenz, ein Launch oder ein Firmenevent, von der Idee bis zu den Dankesmails."
 
+#: onedesk/one_mail/team.py:97 onedesk/one_mail/tell.py:180
+msgid "A conversation"
+msgstr "Eine Unterhaltung"
+
 #: onedesk/one_studio/places.py:27
 msgid "A conversation is opened in OneMail's reading pane."
 msgstr "Eine Unterhaltung wird im Lesebereich von OneMail geöffnet."
@@ -1095,6 +1099,11 @@ msgstr "Ein längerer Scan wird bis zu dieser Seite gelesen und darüber hinaus 
 #, python-brace-format
 msgid "A mail about {0}"
 msgstr "Eine E-Mail zu {0}"
+
+#. Description of a DocType
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:6
+msgid "A mail being written, kept on the server as its writer types, until it is sent or discarded."
+msgstr "Eine E-Mail im Entstehen, beim Schreiben auf dem Server gespeichert, bis sie gesendet oder verworfen wird."
 
 #: onedesk/one_book/home.py:380
 msgid "A mail each day, week or month of how the business is doing."
@@ -2619,6 +2628,10 @@ msgstr "Meilenstein hinzufügen"
 msgid "Add News Source"
 msgstr "Nachrichtenquelle hinzufügen"
 
+#: frontend/src/mail/MailTeam.vue:41
+msgid "Add Note"
+msgstr "Notiz hinzufügen"
+
 #: onedesk/public/js/admin_settings.js:51
 #: onedesk/public/js/admin_settings.js:56
 msgid "Add Operator"
@@ -2786,6 +2799,10 @@ msgstr "Beim Drucken eine Linie über der Fußzeile einfügen."
 #: frontend/src/writer/components/WriterSettings.vue:118
 msgid "Add a line below the header when printing."
 msgstr "Beim Drucken eine Linie unter der Kopfzeile einfügen."
+
+#: frontend/src/mail/MailTeam.vue:44
+msgid "Add a note for the team"
+msgstr "Notiz für das Team hinzufügen"
 
 #: onedesk/one_studio/automations.py:115
 msgid "Add a number to a field on the target document."
@@ -5688,6 +5705,11 @@ msgstr ""
 msgid "Assigned to Me"
 msgstr "Mir zugewiesen"
 
+#: frontend/src/mail/MailTeam.vue:86
+#, python-brace-format
+msgid "Assigned to {0}."
+msgstr "{0} zugewiesen."
+
 #: onedesk/one/notification_words.py:229 onedesk/one_studio/automations.py:133
 msgid "Assignees"
 msgstr "Zugewiesene"
@@ -6342,6 +6364,14 @@ msgstr "Zurück in {0}"
 #: onedesk/one_hr/home.py:174
 msgid "Back pay for a raise dated in the past."
 msgstr "Nachzahlung für eine rückwirkende Erhöhung."
+
+#: onedesk/one_mail/ai.py:1285
+msgid "Back to Inbox"
+msgstr "Zurück in den Posteingang"
+
+#: frontend/src/mail/MailTeam.vue:115
+msgid "Back to Inbox Now"
+msgstr "Jetzt zurück in den Posteingang"
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:30
 msgid "Back to home"
@@ -9106,6 +9136,10 @@ msgstr "Wählen Sie ein Blatt zum Drucken."
 msgid "Choose a template from the list."
 msgstr "Wählen Sie eine Vorlage aus der Liste."
 
+#: onedesk/one_mail/team.py:148 onedesk/one_mail/team.py:162
+msgid "Choose a time still to come."
+msgstr "Wählen Sie einen Zeitpunkt in der Zukunft."
+
 #: onedesk/one/news/adding.py:111
 msgid "Choose a type of source."
 msgstr "Wählen Sie eine Art von Quelle."
@@ -10711,6 +10745,10 @@ msgstr "Inhalt"
 #: frontend/src/kit/desk.js:96
 msgid "Continue"
 msgstr "Weiter"
+
+#: frontend/src/mail/MailConversation.vue:85
+msgid "Continue Draft"
+msgstr "Entwurf fortsetzen"
 
 #: onedesk/public/js/one_account/account_center.js:1265
 msgid "Continue to Payment"
@@ -15006,6 +15044,10 @@ msgstr "Entwirf einen Arbeitsauftrag über zehn Stück davon, mit seiner eigenen
 msgid "Draft accounts"
 msgstr "Entwurf des Abschlusses"
 
+#: frontend/src/mail/OneMail.vue:526
+msgid "Draft discarded."
+msgstr "Entwurf verworfen."
+
 #: onedesk/one_hr/ai.py:173
 msgid "Draft my feedback"
 msgstr "Mein Feedback entwerfen"
@@ -15042,6 +15084,10 @@ msgstr "Entwirf mein Update zu diesem Projekt aus meiner Woche: was ich abgeschl
 #, python-brace-format
 msgid "Draft purchase orders for all {0} lines?"
 msgstr "Bestellentwürfe für alle {0} Positionen anlegen?"
+
+#: onedesk/public/js/one_mail/mail_compose.js:289
+msgid "Draft saved."
+msgstr "Entwurf gespeichert."
 
 #: onedesk/one_hr/ai.py:155
 msgid "Draft the opening"
@@ -15706,6 +15752,10 @@ msgstr "Bearbeiten"
 #: onedesk/public/js/one_mail/onemail_settings.js:660
 msgid "Edit Access"
 msgstr "Zugriff bearbeiten"
+
+#: frontend/src/mail/MailConversation.vue:57
+msgid "Edit Before It Sends"
+msgstr "Vor dem Senden bearbeiten"
 
 #: onedesk/one_admin/report/price_check/price_check.js:11
 msgid "Edit Costs"
@@ -20271,6 +20321,15 @@ msgstr "Diese Aufgabe übergeben an "
 msgid "Give this task to…"
 msgstr "Diese Aufgabe übergeben an…"
 
+#: onedesk/one_mail/ai.py:1281
+msgid "Give to Nobody"
+msgstr "Niemandem zuweisen"
+
+#: onedesk/one_mail/ai.py:1280
+#, python-brace-format
+msgid "Give to {0}"
+msgstr "{0} zuweisen"
+
 #: onedesk/one_project/billing.py:78
 #, python-brace-format
 msgid "Give {0} a customer to bill its time to."
@@ -22561,6 +22620,14 @@ msgstr "Verbessern"
 msgid "In"
 msgstr ""
 
+#: frontend/src/mail/MailTeam.vue:119
+msgid "In 1 Day"
+msgstr "In 1 Tag"
+
+#: frontend/src/mail/MailTeam.vue:120
+msgid "In 3 Days"
+msgstr "In 3 Tagen"
+
 #. Label in the One Leave Allocation print format
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
 msgid "In All"
@@ -22716,6 +22783,10 @@ msgstr "In Worten: {0}"
 #: onedesk/one_mail/flow.py:304
 msgid "In Working Hours"
 msgstr "Während der Arbeitszeit"
+
+#: frontend/src/mail/MailTeam.vue:121
+msgid "In a Week"
+msgstr "In einer Woche"
 
 #: onedesk/one_display/starters.py:565
 msgid "In an emergency, call reception on 0"
@@ -23926,6 +23997,10 @@ msgstr "Abgelaufen am {0}, {1} von {2} Credits unverbraucht."
 #: onedesk/one_ai/reading/tell.py:104
 msgid "It failed more than once. Open it to read it yourself, or try again later."
 msgstr "Es ist mehrmals fehlgeschlagen. Öffnen Sie es, um es selbst zu lesen, oder versuchen Sie es später erneut."
+
+#: onedesk/one_mail/drafts.py:158
+msgid "It has already gone."
+msgstr "Sie ist bereits gesendet."
 
 #: onedesk/one_inventory/assets.py:59
 msgid "It has no asset category."
@@ -25409,6 +25484,10 @@ msgstr "Überfällig seit {0}"
 #: onedesk/one_task/mine.py:19 onedesk/public/js/project.js:155
 msgid "Later"
 msgstr "Später"
+
+#: frontend/src/mail/MailTeam.vue:111
+msgid "Later Today"
+msgstr "Später heute"
 
 #: onedesk/one_display/widgets.py:37 onedesk/one_display/widgets.py:337
 msgid "Latest Call"
@@ -27125,10 +27204,20 @@ msgstr "E-Mail"
 msgid "Mail About What Is Assigned to You"
 msgstr "E-Mails zu dem, was Ihnen zugewiesen ist"
 
+#. Name of a DocType
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:85
+msgid "Mail Conversation"
+msgstr "E-Mail-Unterhaltung"
+
 #. Label of the mail_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:180
 msgid "Mail Domain"
 msgstr "Mail-Domain"
+
+#. Name of a DocType
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:115
+msgid "Mail Draft"
+msgstr "E-Mail-Entwurf"
 
 #. Name of a DocType
 #: onedesk/one_mail/doctype/mail_folder/mail_folder.json:129
@@ -30284,6 +30373,15 @@ msgstr "Unbedenklichkeitsbescheinigung"
 msgid "No Order Yet"
 msgstr "Noch keine Bestellung"
 
+#: frontend/src/mail/MailTeam.vue:123
+msgid "No Reminder"
+msgstr "Keine Erinnerung"
+
+#. Name of a notification
+#: onedesk/one_mail/notifications.py
+msgid "No Reply Yet"
+msgstr "Noch keine Antwort"
+
 #: onedesk/one_hr/report/attendance_by_shift/attendance_by_shift.py:180
 msgid "No Shift"
 msgstr "Ohne Schicht"
@@ -30837,6 +30935,12 @@ msgstr "Keine Datensätze mit Dateien"
 msgid "No reminders sent"
 msgstr "Keine Erinnerungen gesendet"
 
+#. Subject of a notification
+#: onedesk/one_mail/notifications.py
+#, python-brace-format
+msgid "No reply yet: {subject}"
+msgstr "Noch keine Antwort: {subject}"
+
 #: onedesk/one_inventory/quotes.py:371
 #, python-brace-format
 msgid "No request for quotation the reader may see is {0}."
@@ -31067,6 +31171,11 @@ msgstr "Niemand kann eine Datei hochladen, bis Platz frei ist, auch nicht über 
 #: onedesk/public/js/one_account/account_center.js:1334
 msgid "Nobody has a passkey yet"
 msgstr "Noch niemand hat einen Passkey"
+
+#. Message of a notification
+#: onedesk/one_mail/notifications.py
+msgid "Nobody has answered since. Write again, or mark it done."
+msgstr "Seitdem hat niemand geantwortet. Schreiben Sie erneut oder markieren Sie sie als erledigt."
 
 #: onedesk/public/js/one_legal/trust_center.js:131
 msgid "Nobody has asked yet."
@@ -31654,6 +31763,10 @@ msgstr "Notiz"
 msgid "Note No"
 msgstr "Protokollnr."
 
+#: frontend/src/mail/MailTeam.vue:40
+msgid "Note for the team, never sent"
+msgstr "Notiz für das Team, wird nie gesendet"
+
 #. Label in the One BOM Creator print format
 #. Label in the One Work Order print format
 #. Label in the One Leave Allocation print format
@@ -31795,6 +31908,10 @@ msgstr "Nichts in der Werkstatt"
 #: frontend/src/slide/shim/LayersPanel.vue:5
 msgid "Nothing on this slide yet."
 msgstr "Auf dieser Folie ist noch nichts."
+
+#: frontend/src/mail/MailSender.vue:11
+msgid "Nothing open"
+msgstr "Nichts offen"
 
 #: onedesk/one_inventory/heads.py:661
 msgid "Nothing ordered yet. Ask for quotes or order it."
@@ -32820,6 +32937,11 @@ msgid "One code of a code list, and what it stands for here."
 msgstr "Ein Code einer Codeliste, und wofür er hier steht."
 
 #. Description of a DocType
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:6
+msgid "One conversation of a mailbox as a team works it: who has it, whether it is done, when it comes back and who to remind."
+msgstr "Eine Unterhaltung eines Postfachs, wie ein Team sie bearbeitet: wer sie hat, ob sie erledigt ist, wann sie zurückkommt und wer erinnert wird."
+
+#. Description of a DocType
 #: onedesk/one_ai/doctype/ai_chat/ai_chat.json:130
 msgid "One conversation with OneAI, kept so it is still there tomorrow."
 msgstr "Eine Unterhaltung mit OneAI, gespeichert, damit sie morgen noch da ist."
@@ -33823,6 +33945,10 @@ msgstr "Nur vor den eigenen Kontakten des Datensatzes kann er verborgen werden."
 msgid "Only the workspace's administrators set who may do what."
 msgstr "Nur die Administratoren des Arbeitsbereichs legen fest, wer was darf."
 
+#: onedesk/one_mail/drafts.py:154
+msgid "Only whoever wrote it may take it back."
+msgstr "Nur wer sie geschrieben hat, kann sie zurücknehmen."
+
 #: onedesk/public/js/one_account/account_center.js:93
 msgid "Only you and HR see these."
 msgstr "Nur du und die Personalabteilung sehen diese Angaben."
@@ -33899,6 +34025,10 @@ msgstr "Öffnen"
 msgid "Open Actions"
 msgstr "Offene Maßnahmen"
 
+#: onedesk/one_mail/ai.py:1283
+msgid "Open Again"
+msgstr "Erneut öffnen"
+
 #: onedesk/one/doctype/news_item/news_item.js:21
 msgid "Open Article"
 msgstr "Artikel öffnen"
@@ -33907,6 +34037,11 @@ msgstr "Artikel öffnen"
 #: onedesk/one_mail/notifications.py
 msgid "Open Automation"
 msgstr "Automatisierung öffnen"
+
+#. The button on a notification's mail
+#: onedesk/one_mail/notifications.py
+msgid "Open Conversation"
+msgstr "Unterhaltung öffnen"
 
 #. The button on a notification's mail
 #: onedesk/one_ai/notifications.py
@@ -36984,6 +37119,10 @@ msgstr "Kommissionierliste Nr."
 #, python-brace-format
 msgid "Pick a Picture for {0}"
 msgstr "Bild für {0} wählen"
+
+#: frontend/src/mail/MailTeam.vue:114 frontend/src/mail/MailTeam.vue:122
+msgid "Pick a Time"
+msgstr "Zeit wählen"
 
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:63
 msgid "Pick a column"
@@ -40923,6 +41062,11 @@ msgstr "Erinnern"
 msgid "Remind Me"
 msgstr ""
 
+#: onedesk/one_mail/ai.py:1286
+#, python-brace-format
+msgid "Remind Me {0}"
+msgstr "Erinnern {0}"
+
 #: onedesk/one_project/ai.py:134
 msgid "Remind a customer of an overdue invoice"
 msgstr "Einen Kunden an eine überfällige Rechnung erinnern"
@@ -40954,6 +41098,16 @@ msgstr "Mahnung zu einer unbekannten Rechnung. Fordern Sie die Rechnung vor der 
 #, python-brace-format
 msgid "Reminder sent to {0} people"
 msgstr "Erinnerung an {0} Personen gesendet"
+
+#: frontend/src/mail/MailTeam.vue:119 frontend/src/mail/MailTeam.vue:120
+#: frontend/src/mail/MailTeam.vue:121 frontend/src/mail/MailTeam.vue:122
+msgid "Reminder set."
+msgstr "Erinnerung gesetzt."
+
+#: frontend/src/mail/MailTeam.vue:23
+#, python-brace-format
+msgid "Reminder {0}"
+msgstr "Erinnerung {0}"
 
 #: onedesk/one_ai/reading/planning.py:136
 #, python-brace-format
@@ -44060,6 +44214,11 @@ msgstr "Wird gesendet…"
 msgid "Sends"
 msgstr "Sendet"
 
+#: frontend/src/mail/MailConversation.vue:56
+#, python-brace-format
+msgid "Sends {0}"
+msgstr "Wird {0} gesendet"
+
 #. Label of the one_ai_sensitive (Check) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/ai_grievance.py:68
 #: onedesk/one_hr/custom/employee_grievance.json:14
@@ -46302,6 +46461,43 @@ msgstr "Mängelliste und Nachbesserung"
 #: onedesk/one_doc/doctype/writer_document_version/writer_document_version.json:42
 msgid "Snapshot"
 msgstr "Momentaufnahme"
+
+#: frontend/src/mail/MailTeam.vue:18
+msgid "Snooze"
+msgstr "Zurückstellen"
+
+#: frontend/src/mail/MailTeam.vue:114
+msgid "Snooze Until"
+msgstr "Zurückstellen bis"
+
+#: onedesk/one_mail/ai.py:1284
+#, python-brace-format
+msgid "Snooze Until {0}"
+msgstr "Zurückstellen bis {0}"
+
+#: frontend/src/mail/MailList.vue:59
+msgid "Snoozed"
+msgstr "Zurückgestellt"
+
+#. Label of the snoozed_by (Link) field in DocType 'Mail Conversation'
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:66
+msgid "Snoozed By"
+msgstr "Zurückgestellt von"
+
+#. Label of the snoozed_until (Datetime) field in DocType 'Mail Conversation'
+#: onedesk/one_mail/doctype/mail_conversation/mail_conversation.json:60
+msgid "Snoozed Until"
+msgstr "Zurückgestellt bis"
+
+#: frontend/src/mail/MailTeam.vue:18
+#, python-brace-format
+msgid "Snoozed until {0}"
+msgstr "Zurückgestellt bis {0}"
+
+#: frontend/src/mail/MailTeam.vue:111 frontend/src/mail/MailTeam.vue:112
+#: frontend/src/mail/MailTeam.vue:113 frontend/src/mail/MailTeam.vue:114
+msgid "Snoozed."
+msgstr "Zurückgestellt."
 
 #: onedesk/one/weather.py:37
 msgid "Snow"
@@ -49745,6 +49941,10 @@ msgstr "Das hat nicht funktioniert. Versuchen Sie es gleich noch einmal."
 msgid "That didn't go through. Try again in a moment."
 msgstr "Das hat nicht geklappt. Versuchen Sie es gleich noch einmal."
 
+#: onedesk/one_mail/drafts.py:19
+msgid "That draft is somebody else's."
+msgstr "Dieser Entwurf gehört jemand anderem."
+
 #: onedesk/one_calendar/events.py:401
 msgid "That event is not on your calendar."
 msgstr "Dieser Termin steht nicht in Ihrem Kalender."
@@ -50300,6 +50500,11 @@ msgstr "Der eingeladene Kontakt"
 msgid "The contract with {party} ends on {date}"
 msgstr "Der Vertrag mit {party} endet am {date}"
 
+#. Description of the 'Conversation' (Data) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:77
+msgid "The conversation a reply belongs to."
+msgstr "Die Unterhaltung, zu der eine Antwort gehört."
+
 #: onedesk/one_mail/tour.py:31
 msgid "The conversation opens here, with the records it is linked to above it."
 msgstr "Die Unterhaltung öffnet sich hier, darüber die Datensätze, mit denen sie verknüpft ist."
@@ -50556,6 +50761,11 @@ msgstr "Die Datei konnte nicht gelesen werden: {0}"
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:56
 msgid "The file field on the record, or on one of its tables, the file goes in."
 msgstr "Das Dateifeld im Datensatz oder in einer seiner Tabellen, in das die Datei kommt."
+
+#. Description of the 'Attachments' (JSON) field in DocType 'Mail Draft'
+#: onedesk/one_mail/doctype/mail_draft/mail_draft.json:66
+msgid "The files chosen to go with it."
+msgstr "Die Dateien, die mitgesendet werden."
 
 #. Description of the 'Matter' (Link) field in DocType 'Reading'
 #: onedesk/one_ai/doctype/reading/reading.json:318
@@ -53739,6 +53949,10 @@ msgstr "Einmaliger Token"
 msgid "Tomorrow"
 msgstr "Morgen"
 
+#: frontend/src/mail/MailTeam.vue:112
+msgid "Tomorrow Morning"
+msgstr "Morgen früh"
+
 #. Label of the tone (Select) field in DocType 'Record Head Band'
 #. Label of the tone (Select) field in DocType 'Voice Ad'
 #. Label of the tone (Select) field in DocType 'Voice Pack'
@@ -54832,6 +55046,10 @@ msgstr ""
 #: frontend/src/writer/components/ErrorPage.vue:10
 msgid "Uh oh!"
 msgstr "Hoppla!"
+
+#: frontend/src/mail/MailTeam.vue:87
+msgid "Unassigned."
+msgstr "Zuweisung entfernt."
 
 #: onedesk/public/js/admin_settings.js:95
 msgid "Unchanged"
@@ -59279,6 +59497,11 @@ msgstr "Wenn Sie für ein Vorstellungsgespräch eingeteilt werden."
 msgid "When you ask for your account to be deleted and sign in without a password."
 msgstr "Wenn Sie die Löschung Ihres Kontos anfragen und sich ohne Passwort anmelden."
 
+#. When a notification is sent
+#: onedesk/one_mail/notifications.py
+msgid "When you asked to be reminded about a conversation and nobody has replied by then."
+msgstr "Wenn Sie an eine Unterhaltung erinnert werden wollten und bis dahin niemand geantwortet hat."
+
 #: frontend/portal/src/pages/Rfq.vue:80
 msgid "When you can deliver, and anything the buyer should know."
 msgstr "Wann Sie liefern können und was der Käufer wissen sollte."
@@ -60135,6 +60358,11 @@ msgstr "Wer es angefragt hat"
 #: onedesk/one_factory/notifications.py
 msgid "Whoever asked for it, and the project's manager"
 msgstr "Wer ihn angefordert hat, und die Projektleitung"
+
+#. Who a notification is sent to
+#: onedesk/one_mail/notifications.py
+msgid "Whoever asked to be reminded"
+msgstr "Wer um die Erinnerung gebeten hat"
 
 #. Who a notification is sent to
 #: onedesk/one_crm/notifications.py
@@ -61410,6 +61638,10 @@ msgstr "E-Mail-Vorlage schreiben"
 msgid "Write a mail template for: "
 msgstr "Schreibe eine E-Mail-Vorlage für: "
 
+#: onedesk/one_mail/team.py:125
+msgid "Write a note first."
+msgstr "Schreiben Sie zuerst eine Notiz."
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:289
 msgid "Write a reply that says: "
 msgstr "Schreibe eine Antwort, die sagt: "
@@ -61925,6 +62157,10 @@ msgstr "Sie haben kein Postfach."
 #: frontend/src/sheet/components/SheetEditor/index.vue:21
 msgid "You don’t have access to this sheet"
 msgstr "Sie haben keinen Zugriff auf diese Tabelle"
+
+#: frontend/src/mail/MailConversation.vue:84
+msgid "You have a draft of a reply"
+msgstr "Sie haben einen Antwortentwurf"
 
 #: onedesk/public/js/one_account/account_center.js:958
 msgid "You have a full download."
@@ -66402,6 +66638,11 @@ msgstr "{0} wird außerhalb der Zeilen verwendet, die es wiederholt."
 msgid "{0} is used twice. Each {1} must have a unique name."
 msgstr "{0} wird zweimal verwendet. Jedes {1} braucht einen eindeutigen Namen."
 
+#: frontend/src/mail/MailTeam.vue:31
+#, python-brace-format
+msgid "{0} is writing a reply"
+msgstr "{0} schreibt eine Antwort"
+
 #: onedesk/one_admin/lifecycle.py:104
 #, python-brace-format
 msgid "{0} is {1} and can't move to {2}."
@@ -67627,6 +67868,11 @@ msgstr "{0} {1} angefragt"
 #, python-brace-format
 msgid "{0} {1} is submitted, and these cannot change now."
 msgstr "{0} {1} ist gebucht, diese können sich jetzt nicht mehr ändern."
+
+#: frontend/src/mail/MailConversation.vue:162
+#, python-brace-format
+msgid "{0} {1} made and linked to this conversation."
+msgstr "{0} {1} erstellt und mit dieser Unterhaltung verknüpft."
 
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.py:18
 #, python-brace-format

@@ -429,6 +429,40 @@ mail domain (their own server does that, connected); complaints and
 soft-bounce backoff (no feedback loop reaches us); formal letters
 (Correspondence), which are OneWriter's rather than mail's; and the AI lane.
 
+Stage 10, drafts and the team inbox, is built (November 2026).
+
+- **drafts.py** and `Mail Draft`: frappe's composer keeps a draft only in the
+  browser (localforage, and only for a form). mail_compose.js saves one to the
+  server 1.5 s after a change, from any mailbox the writer holds
+  (`_account` by the From address), and frappe's `clear_cache`, which it calls
+  after sending and on Discard, throws it away. A draft is its writer's alone
+  (`has_permission`). The Drafts folder lists the reader's drafts before the
+  server's; a conversation returns its reply draft. Connected mailboxes keep
+  their own server drafts as before: ours are not appended there, so a draft
+  started here does not show in Gmail. Send later is frappe's Schedule email
+  (Email Queue `send_after`); `scheduled` reads the queue and `unschedule`
+  empties it and makes the message a draft again.
+- **team.py** and `Mail Conversation`: one row per conversation, made the
+  first time somebody assigns, notes, finishes, snoozes or asks for a
+  reminder. Assignment is frappe's Assign To on the row, so the person is told
+  and it is among their ToDos; Done closes it; notes are frappe's comments on
+  the row. `conversations` joins the row for the list's Open, Mine, Unassigned
+  and Done and keeps snoozed ones out of the Inbox. `arrived` (Communication
+  after_insert) opens a Done conversation again on a message from outside and
+  ends its snooze and reminder; `due`, every five minutes, brings snoozed ones
+  back unread and tells reminders through tell.no_reply. "Is writing a reply"
+  is a realtime event to the mailbox's other holders, `onemail_replying`. The
+  row's form sends its reader to OneMail (mail_conversation.js).
+- **sender.py**: the party an address belongs to (a contact's links through
+  frappe's `get_contact_name`, then the party's own address) and what of
+  theirs is open, by `frappe.get_list`, so only what the reader may open.
+- **Create** (MailConversation.vue) is One's create dialog with the mail carried
+  over, then `linking.file` on the new record.
+- **linking.py** reads a record type's own naming (`own_pattern`) as well as
+  its naming series, so Task, Job Offer, Interview and quality's `format:`
+  names are found by their numbers, and links customers, suppliers and
+  applicants by their own address.
+
 ### Where Help's claims are kept
 
 The pages in `docs/` name no code, so what each claim rests on is here. Their

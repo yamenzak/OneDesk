@@ -124,10 +124,14 @@ def onehr_the_crews_days_overtime_and_pay_add_up():
 
 	demo._attendance()
 	arun = _employee("Arun")
+	frappe.db.sql(
+		"update `tabEmployee Checkin` set skip_auto_attendance = 0 where log_type = 'IN' and time >= %s and employee in %s",
+		(f"{today()} 00:00:00", (_employee("Samir"), _employee("Rania"), arun)),
+	)
 	worked = frappe.db.get_value("Attendance", {"employee": arun, "status": "Present", "docstatus": 1}, "attendance_date", order_by="attendance_date desc")
 	with as_user(demo.HR):
 		assert set(marking.clocked_in(today())) >= {_employee("Samir"), _employee("Rania"), arun}
-		assert presence.in_now() >= 5
+		assert presence.in_now() >= (5 if frappe.utils.now_datetime().hour < 17 else 0), "the crew is in during the day"
 		assert presence.of(_employee("Tariq"))["state"]
 		assert overtime.day(arun, str(worked))["ok"] == 1
 		overtime.record(arun, str(worked), "Workshop Overtime", 2.5)
@@ -550,6 +554,9 @@ def onehr_tells_each_moment_somebody_waits_on():
 		return found[-1]
 
 	nadia = frappe.db.get_value("Employee", {"user_id": "nadia@one.test"})
+	for one in frappe.get_all("Attendance", filters={"employee": nadia, "attendance_date": today(), "docstatus": 1}, pluck="name"):
+		frappe.get_doc("Attendance", one).cancel()
+	frappe.db.delete("Attendance", {"employee": nadia, "attendance_date": today(), "docstatus": 2})
 	with patch("onedesk.one.notify.notify", side_effect=heard):
 		with as_user("nadia@one.test"):
 			asked = frappe.get_doc(

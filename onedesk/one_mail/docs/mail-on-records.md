@@ -9,8 +9,8 @@ Each incoming message is linked on its own to:
 
 | Linked to | When |
 | --- | --- |
-| A customer or supplier | The sender is one of their contacts |
-| An employee or lead | They have the sender's address |
+| A customer or supplier | The sender is one of their contacts, or writes from their address |
+| An employee, lead or job applicant | They have the sender's address |
 | What the conversation is linked to | An earlier message in it was linked |
 | An invoice, order or other document | The message names it by its number |
 
@@ -19,10 +19,30 @@ another, and the × on a link removes it.
 
 ## On the Record
 
-Customers, suppliers, leads, employees and documents have a **Mail** tab beside
-their Files, with their conversations and **New Email**.
+Customers, suppliers, leads, employees and the documents people write about
+have a **Mail** tab beside their Files, with their conversations and **New
+Email**: quotations, orders, invoices, deliveries, receipts, requests for
+quotation, payments and reminders, work orders and work sent to suppliers,
+projects and tasks, leave, expense claims, interviews and job offers,
+non conformances and quality actions.
 
 ![A customer's Mail tab](mail-on-records/mail-tab.png)
+
+## Who Wrote
+
+Beside a conversation, the customer, supplier, lead, employee or applicant who
+wrote it shows with what of theirs is still open: deals and quotations,
+orders to deliver, invoices still to pay, issues and projects, purchase
+orders, leave and claims. Each opens its record. On a narrow screen it's a
+line above the mail that opens on a click. You see only what you could open
+anyway.
+
+## Records From a Mail
+
+**Create** on a conversation starts a lead, an opportunity, an issue, a task, a
+non conformance or a purchase order, filled in from the mail: who wrote, the
+subject and what they said, and the customer or supplier when One knows them.
+Once saved, the conversation is linked to it.
 
 ## Templates From a Record
 
