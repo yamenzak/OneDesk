@@ -6,9 +6,9 @@ roll over.
 """
 
 import frappe
-from frappe.utils import get_first_day, get_last_day, getdate
+from frappe.utils import add_days, get_first_day, get_last_day, getdate, today
 
-from onedesk.one_admin import ledger, site, stripe
+from onedesk.one_admin import ledger, price_list, site, stripe
 from onedesk.one_admin.faults import Refused
 
 GRANTED_ON = ("Live", "Overdue")
@@ -58,6 +58,7 @@ def bought(session: dict) -> str | None:
 		reference=session.get("id"),
 		key=f"stripe:{session.get('id')}",
 		why=frappe.db.get_value("Offering", pack, "label"),
+		expires_on=add_days(today(), price_list.PACK_CREDITS_LAST_DAYS),
 	)
 
 

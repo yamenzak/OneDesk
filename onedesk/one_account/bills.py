@@ -46,6 +46,19 @@ def payment_portal() -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
+def set_spend_limit(limit: int = 0) -> dict:
+	"""The most the workspace spends in OneCredits a month: OneAI,
+	conversions and mail sent through One stop there until the next month.
+	0 for no limit."""
+	roles.require()
+	from onedesk.one import account
+
+	said = account.ask("onedesk.one_admin.proxy.spend_limit", limit=max(0, int(limit or 0))) or {}
+	account.refresh()
+	return said
+
+
+@frappe.whitelist(methods=["POST"])
 def change_card() -> dict:
 	"""A checkout that takes a new card, drawn in Plan and Credits. The card
 	becomes the one invoices are paid with when Stripe says it was saved."""

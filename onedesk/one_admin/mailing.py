@@ -15,6 +15,7 @@ from onedesk.one_admin import cloudflare, faults
 LARGEST = 5 * 1024 * 1024
 
 HOURLY, DAILY = 200, 2000
+SENDING_USD = 0.35 / 1000
 
 
 def allowed(sender: str, slug: str, domain: str) -> bool:
@@ -49,6 +50,19 @@ def send(tenant, sender: str, recipient: str, message: str) -> dict:
 	if len(raw) > LARGEST:
 		frappe.throw(frappe._("This message is larger than 5 MB. Share large files as OneCloud links."))
 	spend(tenant.slug)
+	from onedesk.one_admin import ledger, price_list
+
+	holding = ledger.reserve(tenant.name, price_list.MAIL_CREDITS, why="mail", reference=f"OneMail to {recipient}", action="mail_send")
+	try:
+		said = _sent(sender, recipient, raw)
+	except Exception:
+		ledger.release(holding)
+		raise
+	ledger.commit(holding, price_list.MAIL_CREDITS, SENDING_USD, model="cloudflare/email")
+	return said
+
+
+def _sent(sender: str, recipient: str, raw: bytes) -> dict:
 	account, token, _namespace = cloudflare._settings()
 	answered = requests.post(
 		f"{cloudflare.API}/accounts/{account}/email/sending/send_raw",

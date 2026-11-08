@@ -6,7 +6,9 @@ invoices. Seats, storage, database and OneCredits are a tile each, with
 what is used and how much is left, and each has its own button to buy more:
 **Add Seats**, **Add Storage**, **Add Database** and **Buy Credits**. **Change
 Plan** moves to another plan. Monthly credits are used first, and credits you
-buy never expire.
+buy last 12 months. **Monthly Limit**, under the OneCredits tile, caps what
+the workspace spends in a month: once it is reached, OneAI, conversions and
+mail sent through One stop until the next month or until you raise it.
 
 Paying happens on this page: **Buy Credits** and **Payment Method** open
 Stripe's own form in a window here, and nothing leaves One. **Billing

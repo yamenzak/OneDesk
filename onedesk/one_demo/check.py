@@ -3213,7 +3213,7 @@ def _account(method: str, **kwargs):
 def the_plan_credits_domains_and_bills_are_the_administrators():
 	"""Layla's Plan and Credits and Domains pages, with the account on the
 	admin site answering as it would: credit packs and paying for one and a
-	new card, both drawn in the page, the
+	new card, both drawn in the page, a monthly limit, the
 	plans offered, a quote and a change of plan, Huda made the payer, a
 	domain added, made the main address and dropped, the bills from One
 	listed and one put into the books as a purchase invoice. Omar may do
@@ -3244,6 +3244,10 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 		assert bills.invoices()["invoices"][0]["number"] == "ONE-2026-0042"
 		assert bills.payment_portal()["url"].startswith("https://billing.stripe.com/")
 		assert bills.change_card()["checkout"]["key"].startswith("pk_"), "a card is given in the page"
+		with mock.patch("onedesk.one.account.ask", return_value={"limit": 2000}) as asked:
+			assert bills.set_spend_limit(2000) == {"limit": 2000} and asked.call_args.kwargs == {"limit": 2000}
+			bills.set_spend_limit(-5)
+			assert asked.call_args.kwargs == {"limit": 0}, "a monthly limit is never below nothing"
 		with mock.patch("onedesk.one_account.bills._attach"):
 			bill = bills.to_books("ONE-2026-0042")
 		made = frappe.get_doc("Purchase Invoice", bill)

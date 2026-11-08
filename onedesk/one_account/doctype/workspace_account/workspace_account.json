@@ -32,6 +32,8 @@
   "credits_month",
   "credits_expiring",
   "credits_expires_on",
+  "credits_limit",
+  "credits_spent",
   "domains_section",
   "domains",
   "dns_target",
@@ -242,6 +244,18 @@
    "hidden": 1
   },
   {
+   "fieldname": "credits_limit",
+   "fieldtype": "Int",
+   "label": "Monthly Limit (OneCredits)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "credits_spent",
+   "fieldtype": "Float",
+   "label": "Monthly Spend",
+   "read_only": 1
+  },
+  {
    "fieldname": "domains_section",
    "fieldtype": "Section Break",
    "label": "Addresses"
@@ -343,7 +357,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-10-01 22:00:00.000000",
+ "modified": "2026-11-08 14:44:19.103817",
  "modified_by": "Administrator",
  "module": "One Account",
  "name": "Workspace Account",

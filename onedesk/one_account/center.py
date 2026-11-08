@@ -681,7 +681,7 @@ def _plan() -> dict:
 			key: held.get(key)
 			for key in (
 				"workspace_name", "billed_to", "plan", "plan_key", "monthly", "plan_currency", "seats", "storage_bytes", "storage_limit", "database_bytes",
-				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring",
+				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring", "credits_limit", "credits_spent",
 				"credits_expires_on", "last_heard",
 			)
 		},

@@ -61,7 +61,7 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 49 | document |
+| Tenant | 50 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -214,7 +214,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 45 | single |
+| Workspace Account | 47 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
@@ -398,6 +398,7 @@ No doctypes yet.
 * `onedesk.one_account.bills.change_card`
 * `onedesk.one_account.bills.invoices`
 * `onedesk.one_account.bills.payment_portal`
+* `onedesk.one_account.bills.set_spend_limit`
 * `onedesk.one_account.bills.to_books`
 * `onedesk.one_account.center.invite`
 * `onedesk.one_account.center.invite_again`
@@ -485,6 +486,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.plans_take`
 * `onedesk.one_admin.proxy.private_apps`
 * `onedesk.one_admin.proxy.search_access`
+* `onedesk.one_admin.proxy.spend_limit`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`

@@ -144,6 +144,8 @@ def hello(database_bytes: int | None = None) -> dict:
 			**ledger.standing(tenant.name),
 			"month": 0 if known.get("is_house") else _used_lately(tenant.name),
 			"gift": ledger.last_gift(tenant.name),
+			"limit": frappe.db.get_value("Tenant", tenant.name, "spend_limit") or 0,
+			"spent": ledger.spent_this_month(tenant.name),
 		},
 		"domains": domains.mine(_tenant_doc(tenant)),
 		"dns_target": known.domain,
@@ -195,6 +197,16 @@ def ai_make(action: str, text: str, tier: str | None = None, reference: str | No
 		return actions.make(tenant.name, action, text, tier=tier, reference=reference, voice=voice)
 	except faults.Refused as raised:
 		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def spend_limit(limit: int | None = None) -> dict:
+	"""The most this workspace spends in OneCredits a month, set by its
+	administrators; 0 or nothing for no limit."""
+	tenant = caller()
+	frappe.db.set_value("Tenant", tenant.name, "spend_limit", max(0, cint(limit)))
+	return {"limit": max(0, cint(limit))}
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

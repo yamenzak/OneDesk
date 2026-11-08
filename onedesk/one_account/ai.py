@@ -43,6 +43,7 @@ NOT_FOR_AI = {
 	"devices.retire_passkey": "Turning a passkey off locks somebody out of a device, so an administrator does it, never OneAI.",
 	"bills.payment_portal": "Paying is done by the person paying, never by OneAI.",
 	"bills.change_card": "A card is given by the person paying, never by OneAI.",
+	"bills.set_spend_limit": "A limit on what the workspace spends is an administrator's decision about money, never OneAI's.",
 	"bills.to_books": "An invoice from One goes into the books when somebody chooses to put it there.",
 	"closing.prepare": "Getting ready to close the workspace is the billing owner's decision, never OneAI's.",
 	"closing.close": "Closing the workspace is the billing owner's decision, never OneAI's.",

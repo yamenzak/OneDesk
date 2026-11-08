@@ -210,8 +210,9 @@ say(
 	terms.
 
 	A plan's monthly credits expire at the end of the month they are given for and do not roll over.
-	Credits you buy do not expire. Credits that expire are always used before the ones you bought, and the
-	workspace's administrators are told a week before any expire.
+	Credits you buy last 12 months from the day they are bought. Credits that expire soonest are always used
+	first, and the workspace's administrators are told a week before any expire. A workspace's administrators
+	can set a monthly limit on what it spends; once it is reached, nothing more is charged until the next month.
 """,
 	order=30,
 )

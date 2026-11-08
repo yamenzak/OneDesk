@@ -712,7 +712,9 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				<${href ? `a href="${esc(href)}"` : "div"} class="os-meter-figure">${esc(used)}${of ? ` <span>${esc(of)}</span>` : ""}</${href ? "a" : "div"}>
 				${share == null ? "" : frappe.ui.progress.html({ value: Math.min(100, Math.round(share)), size: "md", css_class: over ? "os-bar-over" : near ? "os-bar-near" : "" })}
 				<div class="os-way-text">${esc(text || "")}</div>
-				${buying ? `<div class="os-way-actions">${onedesk.shell.button(buy, { "data-buy": kind }, "subtle")}</div>` : ""}
+				${buying ? `<div class="os-way-actions">${onedesk.shell.button(buy, { "data-buy": kind }, "subtle")}${
+					kind === "credits" ? onedesk.shell.button(__("Monthly Limit"), { "data-limit": "1" }, "ghost") : ""
+				}</div>` : ""}
 			</div>`;
 		};
 		const share = (used, limit) => (Number(limit) ? (100 * (Number(used) || 0)) / Number(limit) : null);
@@ -783,7 +785,10 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 				used: number(account.credits_balance),
 				of: __("left"),
 				share: null,
-				text: credits_said.length ? credits_said.join(" · ") : __("Monthly credits are used first. Bought credits never expire."),
+				text: [
+					...credits_said,
+					account.credits_limit ? __("{0} of the {1} monthly limit spent", [number(account.credits_spent), number(account.credits_limit)]) : "",
+				].filter(Boolean).join(" · ") || __("Monthly credits are used first. Bought credits last 12 months."),
 				buy: __("Buy Credits"),
 				kind: "credits",
 			}),
@@ -828,12 +833,13 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 					? onedesk.shell.section(
 							__("Credits Ledger"),
 							data.ledger ? '<div data-list="ledger"></div>' : `<div class="one-shell-quiet">${esc(__("Couldn't load the ledger."))}</div>`,
-							__("Last {0} days. Monthly credits are used first. Bought credits never expire.", [data.ledger_days])
+							__("Last {0} days. Monthly credits are used first. Bought credits last 12 months.", [data.ledger_days])
 					  )
 					: "") +
 				(data.admin ? this.closing_section(closing) : "")
 		);
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
+		this.$content.find("[data-limit]").on("click", () => this.set_limit(account));
 		this.$content.find("[data-buy]").on("click", (event) => {
 			const kind = $(event.currentTarget).attr("data-buy");
 			kind === "credits" ? this.buy_credits() : this.add_to_plan(data, kind);
@@ -1243,6 +1249,26 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 	async check_again() {
 		await frappe.xcall("onedesk.one.account.check_again");
 		this.refresh({ fresh: true });
+	}
+
+	set_limit(account) {
+		frappe.prompt(
+			{
+				fieldname: "limit",
+				fieldtype: "Int",
+				label: __("Monthly Limit (OneCredits)"),
+				default: account.credits_limit || 0,
+				non_negative: 1,
+				description: __("Set to 0 for no limit."),
+			},
+			({ limit }) =>
+				frappe.xcall("onedesk.one_account.bills.set_spend_limit", { limit }).then(() => {
+					frappe.show_alert({ message: __("Monthly limit saved."), indicator: "green" });
+					this.refresh();
+				}),
+			__("Monthly Limit"),
+			__("Save")
+		);
 	}
 
 	async buy_credits() {

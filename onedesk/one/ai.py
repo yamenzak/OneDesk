@@ -2016,7 +2016,7 @@ def workspace_plan() -> dict:
 		"closing": said["closing"],
 		**_domains(),
 		"as_of": str(held["last_heard"]) if held["last_heard"] else None,
-		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits never expire. Credits "
+		"next": "The plan's monthly credits expire at the end of the month and are used first; bought credits last 12 months. Credits "
 		"are bought from Buy Credits in the page head of Plan and Credits in AccountCenter.",
 	}
 

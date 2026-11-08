@@ -114,6 +114,8 @@ def refresh() -> dict:
 			"credits_month": credits.get("month") or 0,
 			"credits_expiring": credits.get("expiring") or 0,
 			"credits_expires_on": credits.get("expires_on"),
+			"credits_limit": credits.get("limit") or 0,
+			"credits_spent": credits.get("spent") or 0,
 			"owing": 1 if standing.get("owing") else 0,
 			"days_left": standing.get("days_left"),
 			"next_status": standing.get("next"),

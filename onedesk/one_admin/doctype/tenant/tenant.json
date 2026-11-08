@@ -41,6 +41,7 @@
   "archived_backup",
   "last_backup",
   "backup_ready",
+  "spend_limit",
   "closing_on",
   "closing_asked_by",
   "limits_section",
@@ -287,6 +288,14 @@
    "description": "If enabled, the workspace sends its own backup every night."
   },
   {
+   "fieldname": "spend_limit",
+   "fieldtype": "Int",
+   "label": "Monthly Limit (OneCredits)",
+   "description": "Leave empty for no limit. Set by the workspace's administrators in AccountCenter.",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
    "fieldname": "closing_on",
    "fieldtype": "Date",
    "label": "Closing On",
@@ -395,7 +404,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-08 13:52:33.240228",
+ "modified": "2026-11-08 14:43:01.818425",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

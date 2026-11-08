@@ -13,6 +13,9 @@ from onedesk.one_admin import credits, site
 ENTRY = "Credit Ledger Entry"
 
 
+PAYING = ("Live",)
+
+
 class NotEnough(frappe.ValidationError):
 	"""The workspace cannot afford this call. Said before one is made."""
 
@@ -110,7 +113,11 @@ def reserve(
 	amount = _amount(amount)
 	_lock(tenant)
 
-	ours = frappe.db.get_value("Tenant", tenant, "is_house")
+	ours, status, limit = frappe.db.get_value("Tenant", tenant, ["is_house", "status", "spend_limit"]) or (0, None, 0)
+	if not ours and status not in PAYING:
+		frappe.throw(frappe._("{0} is behind on payment, so nothing more is charged until it is paid.").format(tenant), NotEnough)
+	if not ours and limit and spent_this_month(tenant) + held(tenant, locking=True) + amount > limit:
+		frappe.throw(frappe._("{0} has reached its limit of {1} OneCredits this month.").format(tenant, limit), NotEnough)
 	if not ours and not credits.enough(
 		_buckets(tenant, locking=True), amount, held(tenant, locking=True), _today()
 	):
@@ -381,6 +388,17 @@ def _summed(query: str, tenant: str, locking: bool = False) -> float:
 	"""
 	rows = frappe.db.sql(query + (" FOR UPDATE" if locking else ""), (tenant,))
 	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
+
+
+def spent_this_month(tenant: str) -> float:
+	"""What a workspace has spent since the first of this month, in credits."""
+	start = _today().replace(day=1)
+	rows = frappe.db.sql(
+		"""SELECT COALESCE(SUM(ABS(credits)), 0) FROM `tabCredit Ledger Entry`
+		 WHERE tenant = %s AND kind = 'Spend' AND docstatus = 1 AND creation >= %s""",
+		(tenant, start),
+	)
+	return round(float(rows[0][0] or 0), credits.PLACES)
 
 
 def _settle(holding, amount: float, usd: float | None = None) -> None:
