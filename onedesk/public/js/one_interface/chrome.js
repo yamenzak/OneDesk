@@ -454,57 +454,72 @@ onedesk.interface.tips = {
 onedesk.interface.tips.setup();
 
 onedesk.interface.rail = {
-	make(kind) {
-		const glider = document.createElement("span");
-		glider.className = "one-rail-glider";
-		glider.dataset.rail = kind;
-		glider.innerHTML = "<i></i>";
-		return glider;
+	TIME: 300,
+	EASE: "cubic-bezier(0.22, 1, 0.36, 1)",
+	ghosts: new Set(),
+
+	piece(name) {
+		const el = document.createElement("span");
+		el.className = `one-rail-piece one-rail-${name}`;
+		el.innerHTML = "<i></i>";
+		return el;
 	},
 
-	place(glider, tile, jump) {
-		const y = tile.offsetTop;
-		let from = glider.one_y;
-		if (glider.parentElement !== this.items) {
-			this.items.prepend(glider);
-			if (performance.now() - (glider.one_moved || 0) < 420 && glider.one_from !== undefined) {
-				from = glider.one_from;
-				glider.style.transition = "none";
-				glider.style.transform = `translateY(${from}px)`;
-				glider.offsetWidth;
-				glider.style.transition = "";
-			}
-			glider.offsetWidth;
-		}
-		glider.style.left = `${tile.offsetLeft}px`;
-		if (jump || from === undefined) {
-			glider.style.transition = "none";
-			glider.style.transform = `translateY(${y}px)`;
-			glider.offsetWidth;
-			glider.style.transition = "";
-		} else if (from !== y) {
-			glider.style.transform = `translateY(${y}px)`;
-			glider.one_from = from;
-			glider.one_moved = performance.now();
-			this.stretch(glider, Math.abs(y - from));
-		}
-		glider.one_y = y;
-		glider.dataset.on = "1";
+	at(el, tile, y) {
+		el.style.left = `${tile.offsetLeft}px`;
+		el.style.transform = `translateY(${y}px)`;
 	},
 
-	stretch(glider, distance) {
-		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
-		const pull = 1 + Math.min(distance / 90, 1.1);
-		glider.firstChild.animate(
-			[{ transform: "translateY(-50%) scaleY(1)" }, { transform: `translateY(-50%) scaleY(${pull})`, offset: 0.35 }, { transform: "translateY(-50%) scaleY(1)" }],
-			{ duration: 420, easing: "ease-out" }
-		);
+	still() {
+		return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+	},
+
+	scale(mark, from, to) {
+		const turn = (by) => ({ transform: `translateY(-50%) scaleY(${by})` });
+		return mark.firstChild.animate([turn(from), turn(to)], { duration: this.TIME, easing: this.EASE });
+	},
+
+	attach() {
+		[this.fill, this.mark, ...this.ghosts].forEach((el) => {
+			if (el.parentElement !== this.items) this.items.prepend(el);
+		});
+	},
+
+	shrink() {
+		const ghost = this.mark.cloneNode(true);
+		this.ghosts.add(ghost);
+		this.items.prepend(ghost);
+		const gone = this.scale(ghost, 1, 0);
+		gone.onfinish = gone.oncancel = () => {
+			this.ghosts.delete(ghost);
+			ghost.remove();
+		};
+	},
+
+	tile() {
+		if (this.picked) return this.items.querySelector(`.dock-item[aria-label="${CSS.escape(this.picked)}"]`);
+		return this.items.querySelector(".dock-item.active");
 	},
 
 	track() {
-		const tile = this.items.querySelector(".dock-item.active");
-		if (tile) this.place(this.active, tile);
-		else this.active.dataset.on = "0";
+		this.attach();
+		const tile = this.tile();
+		this.fill.dataset.on = this.mark.dataset.on = tile ? "1" : "0";
+		if (!tile) return;
+		const y = tile.offsetTop;
+		const from = this.y;
+		this.y = y;
+		if (from === y || from === undefined || this.still()) {
+			this.at(this.fill, tile, y);
+			this.at(this.mark, tile, y);
+			return;
+		}
+		const drawn = new DOMMatrix(getComputedStyle(this.fill).transform).m42;
+		this.shrink();
+		this.at(this.fill, tile, y);
+		this.at(this.mark, tile, y);
+		this.scale(this.mark, 0, 1);
+		this.fill.animate([{ transform: `translateY(${drawn}px)` }, { transform: `translateY(${y}px)` }], { duration: this.TIME, easing: this.EASE });
 	},
 
 	setup() {
@@ -513,24 +528,24 @@ onedesk.interface.rail = {
 		items.one_rail = true;
 		this.items = items;
 		items.classList.add("one-rail");
-		this.active = this.make("active");
-		this.hover = this.make("hover");
+		this.fill = this.piece("fill");
+		this.mark = this.piece("mark");
 		this.track();
+		const ours = (nodes) => [...nodes].every((n) => n.classList?.contains("one-rail-piece"));
 		new MutationObserver((changes) => {
-			if (changes.some((c) => c.type === "childList" ? ![...c.addedNodes, ...c.removedNodes].every((n) => n.classList?.contains("one-rail-glider")) : c.target.classList.contains("dock-item"))) this.track();
+			const theirs = changes.some((c) => (c.type === "childList" ? !ours(c.addedNodes) || !ours(c.removedNodes) : c.target.classList.contains("dock-item")));
+			if (theirs) this.track();
 		}).observe(items, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
-		items.addEventListener("pointerover", (e) => {
-			const tile = e.target.closest?.(".dock-item");
-			if (tile) this.place(this.hover, tile, this.hover.dataset.on !== "1");
-		});
-		items.addEventListener("pointerleave", () => {
-			this.hover.dataset.on = "0";
-		});
 		items.addEventListener("click", (e) => {
 			const tile = e.target.closest?.(".dock-item");
 			if (!tile) return;
-			this.place(this.active, tile);
-			setTimeout(() => this.track(), 1500);
+			this.picked = tile.getAttribute("aria-label");
+			this.track();
+			clearTimeout(this.settling);
+			this.settling = setTimeout(() => {
+				this.picked = null;
+				this.track();
+			}, 1500);
 		});
 	},
 };

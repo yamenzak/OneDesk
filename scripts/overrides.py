@@ -3210,7 +3210,7 @@ OVERRIDES = [
 	),
 	(
 		"The rail's highlight is one piece that moves",
-		"one_interface/chrome.css clears frappe's fill on a dock tile, and chrome.js draws the hovered and active tile with a highlight that glides to it; the rule under the logo takes the frame's ink",
+		"one_interface/chrome.css clears frappe's fill on a dock tile, and chrome.js draws the active tile's fill, which glides to it, and its marker, which grows there; the rule under the logo takes the frame's ink",
 		"onedesk/public/css/one_interface/chrome.css",
 		"frappe/frappe/public/scss/desk/dock.scss",
 		"background: var(--surface-elevation-3);",

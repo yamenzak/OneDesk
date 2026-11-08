@@ -636,64 +636,74 @@ body.one-barred .dock-items.one-rail .dock-item.active {
 	z-index: 1;
 	background: transparent;
 	box-shadow: none;
+	transition: background-color 0.12s ease;
 }
 
-.one-rail-glider {
+body.one-barred .dock-items.one-rail .dock-item:hover:not(.active) {
+	background: var(--one-frame-hover);
+}
+
+.one-rail-piece {
 	position: absolute;
 	top: 0;
 	width: var(--dock-tile);
 	height: var(--dock-tile);
-	border-radius: var(--radius-4);
 	pointer-events: none;
 	opacity: 0;
-	transition: transform var(--one-rail-glide), opacity 0.16s ease;
 }
 
-.one-rail-glider[data-on="1"] {
+.one-rail-piece[data-on="1"] {
 	opacity: 1;
 }
 
-.one-rail-glider[data-rail="active"] {
+.one-rail-fill {
+	border-radius: var(--radius-4);
 	background: var(--one-frame-active);
 }
 
-.one-rail-glider[data-rail="hover"] {
-	background: var(--one-frame-hover);
-	transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.16s ease;
+.one-rail-fill > i {
+	display: none;
 }
 
-.one-rail-glider > i {
+.one-rail-mark > i,
+body.one-barred .dock-items.one-rail .dock-item::before {
 	position: absolute;
 	inset-inline-start: -8px;
 	top: 50%;
 	width: 4px;
-	height: 20px;
 	border-start-end-radius: var(--radius-full);
 	border-end-end-radius: var(--radius-full);
 	background: var(--one-frame-ink-strong);
 	transform: translateY(-50%);
 }
 
-.one-rail-glider[data-rail="hover"] > i {
+.one-rail-mark > i {
+	height: 20px;
+}
+
+body.one-barred .dock-items.one-rail .dock-item::before {
+	content: "";
+	height: 0;
+	transition: height 0.12s ease;
+}
+
+body.one-barred .dock-items.one-rail .dock-item:hover:not(.active)::before {
 	height: 8px;
-	opacity: 0.7;
 }
 
 body.one-barred .dock-items.one-rail .dock-item-icon {
-	transition: transform var(--one-rail-glide);
+	transition: transform 0.14s ease-out;
 }
 
 body.one-barred .dock-items.one-rail .dock-item:hover .dock-item-icon {
-	transform: scale(1.12);
+	transform: scale(1.06);
 }
 
 body.one-barred .dock-items.one-rail .dock-item:active .dock-item-icon {
-	transform: scale(0.9);
-	transition-duration: 90ms;
+	transform: scale(0.94);
 }
 
 @media (prefers-reduced-motion: reduce) {
-	.one-rail-glider,
 	body.one-barred .dock-items.one-rail .dock-item-icon {
 		transition: none;
 	}
