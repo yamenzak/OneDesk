@@ -487,7 +487,7 @@
 /* The list's column heads are a filled pill, the island's material, held at the top as the rows scroll under it and
    whole as they scroll sideways: the pill is drawn by a sticky layer as wide as the list's window, the heads ride over it. */
 :root[data-one-look="canvas"] .one-interface .frappe-list .result-container { container-type: inline-size; }
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { display: grid; background: var(--one-canvas) !important; border-bottom: 0 !important; padding-bottom: 6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { display: grid; background: transparent !important; border-bottom: 0 !important; padding-bottom: 6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before { content: ""; grid-area: 1 / 1; position: sticky; inset-inline-start: 0; width: 100cqw; height: 36px; border-radius: var(--radius-full); background: var(--one-head-bg); border: 1px solid var(--one-line); box-sizing: border-box; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head { grid-area: 1 / 1; position: relative; height: 36px; align-items: center; border-bottom: 0 !important; font-size: 13px !important; font-weight: 500; color: var(--one-ink-soft) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { background: transparent !important; }
@@ -855,7 +855,6 @@
 /* A list stands on an island, as a report's table and a record's sections do: its rows on the island level,
    its column heads on the control level, as every table's are (AGENTS.md, Levels). */
 :root[data-one-look="canvas"] .one-interface .frappe-list .result-container { background: var(--one-level-island); border: 1px solid var(--one-line); border-radius: var(--one-radius-sheet); padding: 6px; }
-:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child { background: var(--one-level-island) !important; }
 /* A report's table is the same island as a list's: the sheet radius all round, a hairline, the list's inset,
    and its column heads the same rounded band on the control level, with no rules between them. */
 :root[data-one-look="canvas"] .one-interface .datatable { border: 1px solid var(--one-line) !important; border-radius: var(--one-radius-sheet) !important; padding: 6px; overflow: clip !important; overflow-clip-margin: content-box; }
@@ -941,5 +940,20 @@
 
 	:root[data-one-look="canvas"] body.one-barred[data-route^="Form"] .layout-side-section {
 		height: calc(100dvh - var(--page-head-height) - var(--one-bar-offset) - calc(var(--spacing) * 2));
+	}
+}
+
+@supports (backdrop-filter: blur(1px)) {
+	:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before {
+		background: color-mix(in oklab, var(--one-level-control) 58%, transparent);
+		backdrop-filter: blur(16px) saturate(150%);
+	}
+
+	:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right {
+		background: color-mix(in oklab, var(--one-level-control) 58%, var(--one-sheet)) !important;
+	}
+
+	:root[data-one-look="canvas"] .one-interface-fit[data-one-view="list"] .frappe-list .result-container {
+		mask-image: linear-gradient(transparent 0 calc(var(--spacing) * 1.5 + 1px), black calc(var(--spacing) * 1.5 + 1px));
 	}
 }
