@@ -168,12 +168,13 @@ def _zone_id(token: str) -> str:
 def forget(slug: str) -> None:
 	"""Stop serving this slug at the edge.
 
-	Used when a workspace is archived, for its web route and its mail route.
-	A DELETE of a key that is not there
+	Used when a workspace is archived, for its web route, its mail route and
+	the secret it signs its backups with. A DELETE of a key that is not there
 	answers 200, so this is safe to run on a workspace that never had one.
 	"""
 	_call("DELETE", f"values/{slug}")
 	_call("DELETE", f"values/mail:{slug}")
+	_call("DELETE", f"values/backup:{slug}")
 
 
 def routed(slug: str) -> str | None:

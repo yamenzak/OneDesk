@@ -17,6 +17,13 @@ function bucketOf(env, which) {
 	return null;
 }
 
+async function moved(object, target, env) {
+	const { readable, writable } = new FixedLengthStream(object.size);
+	const piped = object.body.pipeTo(writable);
+	await env.BACKUPS.put(target, readable);
+	await piped;
+}
+
 async function keep(env, key, body) {
 	if (!KEY.test(key) || key.includes("..")) return answer({ error: "bad key" }, 400);
 	if (await env.BACKUPS.head(key)) return answer({ kept: key, already: true });
@@ -32,23 +39,23 @@ async function fetched(env, { url, key }) {
 	const length = Number(got.headers.get("content-length"));
 	if (!length) return answer({ error: "source gave no length" }, 502);
 	const { readable, writable } = new FixedLengthStream(length);
-	got.body.pipeTo(writable);
-	return keep(env, key, readable);
+	const piped = got.body.pipeTo(writable);
+	const said = await keep(env, key, readable);
+	await piped;
+	return said;
 }
 
 async function copied(env, { bucket, prefix, cursor, into }) {
 	const source = bucketOf(env, bucket);
 	if (!source || bucket === "backups" || !prefix || !into || !KEY.test(into)) return answer({ error: "bad copy" }, 400);
-	const listed = await source.list({ prefix, cursor, limit: 200 });
+	const listed = await source.list({ prefix, cursor: cursor || undefined, limit: 200 });
 	let copiedCount = 0;
 	for (const one of listed.objects) {
 		const target = `${into}${one.key}`;
 		if (await env.BACKUPS.head(target)) continue;
 		const object = await source.get(one.key);
 		if (!object) continue;
-		const { readable, writable } = new FixedLengthStream(object.size);
-		object.body.pipeTo(writable);
-		await env.BACKUPS.put(target, readable);
+		await moved(object, target, env);
 		copiedCount += 1;
 	}
 	return answer({ copied: copiedCount, cursor: listed.truncated ? listed.cursor : null });
@@ -81,9 +88,8 @@ async function again(env, { slug, day, into }) {
 		const target = one.key.replace(/^daily\//, `${into}/`);
 		if (await env.BACKUPS.head(target)) continue;
 		const object = await env.BACKUPS.get(one.key);
-		const { readable, writable } = new FixedLengthStream(object.size);
-		object.body.pipeTo(writable);
-		await env.BACKUPS.put(target, readable);
+		if (!object) continue;
+		await moved(object, target, env);
 		kept.push(target);
 	}
 	return answer({ kept });
