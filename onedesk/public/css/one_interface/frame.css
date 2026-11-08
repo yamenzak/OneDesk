@@ -314,22 +314,6 @@
 		width: var(--one-frame-gutter);
 	}
 
-	.one-interface-details-edge::after {
-		content: "";
-		position: absolute;
-		inset-block: calc(50% - 14px);
-		inset-inline-start: 3px;
-		width: 2px;
-		border-radius: var(--radius-full);
-		background: var(--one-edge-heavy);
-		transition: inset var(--one-pane-motion);
-	}
-
-	.one-interface-details-edge:hover::after,
-	.one-interface-details-edge:active::after {
-		inset-block: 0;
-	}
-
 	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
 	   its own variables and scrolls it, so the window's width wins and the
 	   edge sits inside its box. */
@@ -604,18 +588,102 @@
 	cursor: col-resize;
 }
 
-.body-sidebar-container .sidebar-edge::after {
-	top: calc(50% - 14px);
-	height: 28px;
-	background: var(--one-edge-heavy);
-	transition: top var(--one-pane-motion), height var(--one-pane-motion);
+.one-interface-details-edge,
+.body-sidebar-container .sidebar-edge {
+	--one-grip: var(--one-edge-strong);
+	--one-grip-on: var(--one-edge-heavy);
+	--one-grip-held: var(--one-primary-bg);
 }
 
-.body-sidebar-container .sidebar-edge:hover::after,
+.one-fold-edge {
+	--one-grip: color-mix(in srgb, var(--one-frame-ink) 28%, transparent);
+	--one-grip-on: color-mix(in srgb, var(--one-frame-ink) 60%, transparent);
+	--one-grip-held: var(--one-frame-ink);
+}
+
+.one-interface-details-edge,
+.one-fold-edge[data-one-fold="dock"],
+.body-sidebar-container .sidebar-edge {
+	background: linear-gradient(to bottom, transparent, var(--one-grip) 18%, var(--one-grip) 82%, transparent) center / 1px 0 no-repeat;
+	transition: background-size var(--one-pane-motion);
+}
+
+.one-fold-edge[data-one-fold="top"],
+.one-fold-edge[data-one-fold="bottom"] {
+	background: linear-gradient(to right, transparent, var(--one-grip) 18%, var(--one-grip) 82%, transparent) center / 0 1px no-repeat;
+	transition: background-size var(--one-pane-motion);
+}
+
+.one-interface-details-edge:is(:hover, :active),
+.one-fold-edge[data-one-fold="dock"]:is(:hover, :active),
+.body-sidebar-container .sidebar-edge:is(:hover, :active) {
+	background-size: 1px 100%;
+}
+
+.one-fold-edge[data-one-fold="top"]:is(:hover, :active),
+.one-fold-edge[data-one-fold="bottom"]:is(:hover, :active) {
+	background-size: 100% 1px;
+}
+
+.one-interface-details-edge::after,
+.one-fold-edge::after,
+.body-sidebar-container .sidebar-edge::after {
+	content: "";
+	position: absolute;
+	border-radius: var(--radius-full);
+	background: var(--one-grip);
+	transition: top var(--one-pane-motion), height var(--one-pane-motion), left var(--one-pane-motion), width var(--one-pane-motion), background-color 0.15s ease;
+}
+
+.one-interface-details-edge::after,
+.one-fold-edge[data-one-fold="dock"]::after,
+.body-sidebar-container .sidebar-edge::after {
+	top: calc(50% - 11px);
+	width: 4px;
+	height: 22px;
+}
+
+.one-interface-details-edge::after,
+.one-fold-edge[data-one-fold="dock"]::after {
+	inset-inline-start: calc(50% - 2px);
+}
+
+.one-fold-edge[data-one-fold="top"]::after,
+.one-fold-edge[data-one-fold="bottom"]::after {
+	top: calc(50% - 2px);
+	left: calc(50% - 11px);
+	width: 22px;
+	height: 4px;
+}
+
+.one-interface-details-edge:hover::after,
+.one-fold-edge[data-one-fold="dock"]:hover::after,
+.body-sidebar-container .sidebar-edge:hover::after {
+	top: calc(50% - 20px);
+	height: 40px;
+	background: var(--one-grip-on);
+}
+
+.one-fold-edge[data-one-fold="top"]:hover::after,
+.one-fold-edge[data-one-fold="bottom"]:hover::after {
+	left: calc(50% - 20px);
+	width: 40px;
+	background: var(--one-grip-on);
+}
+
+.one-interface-details-edge:active::after,
+.one-fold-edge[data-one-fold="dock"]:active::after,
 .body-sidebar-container .sidebar-edge:active::after {
-	top: 0;
-	height: 100%;
-	background: var(--one-edge-heavy);
+	top: calc(50% - 28px);
+	height: 56px;
+	background: var(--one-grip-held);
+}
+
+.one-fold-edge[data-one-fold="top"]:active::after,
+.one-fold-edge[data-one-fold="bottom"]:active::after {
+	left: calc(50% - 28px);
+	width: 56px;
+	background: var(--one-grip-held);
 }
 
 @property --one-bar-top {

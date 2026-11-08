@@ -153,34 +153,6 @@
 		transition: --one-dock-now var(--one-pane-motion);
 	}
 
-	.one-fold-edge::after {
-		content: "";
-		position: absolute;
-		inset-block: calc(50% - 1px);
-		inset-inline: calc(50% - 14px);
-		border-radius: var(--radius-full);
-		background: var(--one-frame-ink);
-		opacity: 0.35;
-		transition: inset var(--one-pane-motion), opacity 0.15s ease;
-	}
-
-	.one-fold-edge[data-one-fold="dock"]::after {
-		inset-block: calc(50% - 14px);
-		inset-inline: calc(50% - 1px);
-	}
-
-	.one-fold-edge:hover::after,
-	.one-fold-edge:active::after {
-		inset-inline: 0;
-		opacity: 0.5;
-	}
-
-	.one-fold-edge[data-one-fold="dock"]:hover::after,
-	.one-fold-edge[data-one-fold="dock"]:active::after {
-		inset-block: 0;
-		inset-inline: calc(50% - 1px);
-	}
-
 	/* The inset: frappe's sidebar and the screen beside it, one rounded
 	   surface in the frame, with a strip of the frame on its far side. */
 	body.one-barred.dock-pinned .main-section {
