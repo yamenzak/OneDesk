@@ -43,6 +43,7 @@
   "aws_section",
   "aws_access_key_id",
   "aws_secret_access_key",
+  "github_token",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -268,6 +269,12 @@
    "description": "Moved to the site's config when saved."
   },
   {
+   "fieldname": "github_token",
+   "fieldtype": "Password",
+   "label": "GitHub Token",
+   "description": "A fine-grained token that may only read the OneDesk repository. Moved to the site's config when saved."
+  },
+  {
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
    "label": "Storage",
@@ -435,7 +442,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 15:41:19.056505",
+ "modified": "2026-11-08 16:08:38.634442",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

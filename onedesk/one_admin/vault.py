@@ -19,6 +19,7 @@ KEPT = (
 	"office_secret",
 	"keeper_secret",
 	"aws_secret_access_key",
+	"github_token",
 )
 MASTER = "cloudflare_master_token"
 ON_PRESS = "one_admin_press_site"
