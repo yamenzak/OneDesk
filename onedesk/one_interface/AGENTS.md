@@ -75,9 +75,14 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 ```
 
 - **Nav pane** is frappe's sidebar (`.body-sidebar-container`), unchanged in
-  what it lists. Its edge, which frappe uses to fold it to the rail, can also
-  be dragged: a drag sets `--sidebar-width` (frappe's own variable) between
-  180 and 440 px and keeps it per browser; a click still folds. A view that
+  what it lists. Its edge, which frappe uses to fold it, can also be dragged:
+  180 to 440 px sets `--sidebar-width` (frappe's own variable), and on past
+  that it snaps to its icons or away, saved in the person's One Interface
+  settings; a click folds to the last of those. The top bar, the bottom bar,
+  the dock and the details pane fold the same way, each dragged back from
+  the strip it leaves (`onedesk.interface.folds`, `frame.details_edge`). A
+  drag touches only what moves, because a change that inherits through the
+  page restyles 26,000 elements. A view that
   has a tree (OneCloud's folders, OneMail's mailboxes, a module's lists) hands
   its rows to the window's tree (`win.tree()`, `one_interface/nav_tree.js`, and
   `interfaceTree` from an island), which draws them as the rail's own rows

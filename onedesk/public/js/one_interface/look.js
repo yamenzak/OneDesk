@@ -867,7 +867,10 @@ list.icons = (view) => {
 				if (head && !this.one_measured && window.ResizeObserver) {
 					this.one_measured = new ResizeObserver(() => {
 						this.one_join(head);
-						if (head.offsetHeight) this.$wrapper[0].style.setProperty("--page-head-height", `${head.offsetHeight}px`);
+						if (head.offsetHeight && head.offsetHeight !== this.one_head_height) {
+							this.one_head_height = head.offsetHeight;
+							this.$wrapper[0].style.setProperty("--page-head-height", `${head.offsetHeight}px`);
+						}
 					});
 					this.one_measured.observe(head);
 					this.one_measured.observe(this.$commands[0]);

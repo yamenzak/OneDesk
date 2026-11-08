@@ -12,7 +12,7 @@ $.extend(onedesk.interface, {
 	// width, each details pane), in frappe's user settings under one name,
 	// read from the boot so nothing jumps when a page opens.
 	SETTINGS: "One Interface",
-	NAV: { min: 180, max: 440, key: "nav" },
+	NAV: { min: 180, max: 440, rail: 48, key: "nav", state: "nav_state" },
 
 	settings() {
 		if (!onedesk.interface.held) {
@@ -101,26 +101,51 @@ $.extend(onedesk.interface, {
 	// width when the drag starts, `to` is told each new one. The pointer's
 	// own direction is reversed in a right-to-left page and for a pane whose
 	// handle is on its leading side.
-	drag(edge, { from, to, done, leading = false }) {
+	drag(edge, { from, to, done, leading = false, axis = "x" }) {
+		$(edge).on("mousedown", (e) => e.preventDefault());
 		$(edge).on("pointerdown", (e) => {
 			if (e.button !== 0) return;
-			const start = e.clientX;
-			const width = from();
-			const way = (document.dir === "rtl" ? -1 : 1) * (leading ? -1 : 1);
+			const read = (p) => (axis === "y" ? p.clientY : p.clientX);
+			const start = read(e);
+			const way = (axis === "x" && document.dir === "rtl" ? -1 : 1) * (leading ? -1 : 1);
+			let width = 0;
+			let px = 0;
 			let moved = false;
-			const move = (m) => {
-				const dx = (m.clientX - start) * way;
-				if (!moved && Math.abs(dx) < 4) return;
-				moved = true;
-				document.body.classList.add("one-interface-dragging");
-				to(width + dx);
+			let frame = null;
+			let last = 0;
+			let at = e.timeStamp;
+			let speed = 0;
+			const paint = () => {
+				frame = null;
+				to(px);
 			};
-			const up = () => {
+			const move = (m) => {
+				const dx = (read(m) - start) * way;
+				if (!moved && Math.abs(dx) < 4) return;
+				if (!moved) {
+					moved = true;
+					width = from();
+					edge.setPointerCapture?.(e.pointerId);
+					document.body.classList.add("one-interface-dragging");
+					document.body.dataset.oneDrag = axis;
+				}
+				const gone = m.timeStamp - at;
+				if (gone > 0) speed = 0.7 * ((dx - last) / gone) + 0.3 * speed;
+				last = dx;
+				at = m.timeStamp;
+				px = width + dx;
+				if (frame === null) frame = requestAnimationFrame(paint);
+			};
+			const up = (u) => {
 				document.removeEventListener("pointermove", move);
 				document.removeEventListener("pointerup", up);
-				document.body.classList.remove("one-interface-dragging");
+				document.removeEventListener("pointercancel", up);
 				if (!moved) return;
-				done && done();
+				if (frame !== null) cancelAnimationFrame(frame);
+				to(px);
+				document.body.classList.remove("one-interface-dragging");
+				delete document.body.dataset.oneDrag;
+				done && done(px, u.timeStamp - at > 80 ? 0 : speed);
 				const swallow = (c) => {
 					c.stopImmediatePropagation();
 					c.preventDefault();
@@ -130,9 +155,124 @@ $.extend(onedesk.interface, {
 			};
 			document.addEventListener("pointermove", move);
 			document.addEventListener("pointerup", up);
+			document.addEventListener("pointercancel", up);
 		});
 	},
+
+	// Where a released pane is heading: a flick carries on past the pointer.
+	aim: (px, speed) => px + speed * 160,
 });
+
+onedesk.interface.folds = {
+	PARTS: {
+		top: { axis: "y", key: "fold:top", full: "--one-bar-height", floor: 0, now: "--one-bar-top" },
+		bottom: { axis: "y", leading: true, key: "fold:bottom", full: "--one-bar-height", floor: 0, now: "--one-bar-bottom" },
+		dock: { axis: "x", key: "fold:dock", full: "--dock-width", floor: 6, now: "--one-dock-now" },
+	},
+	HEIGHTS: ".main-section, .dock, .body-sidebar, .sidebar-panel",
+	bars: { top: null, bottom: null },
+
+	full(part) {
+		return parseFloat(getComputedStyle(document.documentElement).getPropertyValue(part.full)) || 0;
+	},
+
+	part(name) {
+		return name === "dock" ? $(".dock") : $(`.one-bar[data-at="${name}"]`);
+	},
+
+	edge(name) {
+		return $(`.one-fold-edge[data-one-fold="${name}"]`);
+	},
+
+	paint(name, px) {
+		const part = this.PARTS[name];
+		const value = Math.max(part.floor, Math.min(this.full(part), px));
+		const held = (el) => el.style.setProperty(part.now, `${value}px`);
+		this.part(name).each((_, el) => held(el));
+		this.edge(name).each((_, el) => held(el));
+		if (name !== "dock") this.frame(name, value);
+		return value;
+	},
+
+	frame(name, px) {
+		this.bars[name] = px;
+		const body = document.body;
+		const gutter = body.classList.contains("dock-pinned") ? parseFloat(getComputedStyle(body).getPropertyValue("--one-frame-gutter")) || 0 : 0;
+		body.style.setProperty(`padding-${name}`, `${px + gutter}px`, "important");
+		const full = this.full(this.PARTS.top);
+		const top = this.bars.top ?? full;
+		const bottom = this.bars.bottom ?? full;
+		const height = `calc(100dvh - ${top + bottom + 2 * gutter}px)`;
+		$(this.HEIGHTS).each((_, el) => {
+			el.style.height = height;
+		});
+		this.edge("dock").each((_, el) => {
+			el.style.top = `${top + gutter}px`;
+			el.style.bottom = `${bottom + gutter}px`;
+		});
+	},
+
+	commit() {
+		const body = document.body;
+		body.classList.remove("one-folds-moving");
+		const full = this.full(this.PARTS.top);
+		["top", "bottom"].forEach((name) => {
+			body.style.setProperty(this.PARTS[name].now, `${this.bars[name] ?? full}px`);
+			body.style.removeProperty(`padding-${name}`);
+		});
+		$(this.HEIGHTS).each((_, el) => {
+			el.style.height = "";
+		});
+		this.edge("dock").each((_, el) => {
+			el.style.top = "";
+			el.style.bottom = "";
+		});
+		window.dispatchEvent(new Event("resize"));
+	},
+
+	set(name, open) {
+		const part = this.PARTS[name];
+		this.paint(name, open ? this.full(part) : part.floor);
+		this.part(name).prop("inert", !open);
+	},
+
+	settle(name, open) {
+		if (name !== "dock") $("body").addClass("one-folds-moving");
+		this.set(name, open);
+		onedesk.interface.keep(this.PARTS[name].key, !open);
+		clearTimeout(this.committing);
+		this.committing = setTimeout(() => this.commit(), 320);
+	},
+
+	setup() {
+		if (this.ready || !$(".one-bar").length || !$(".dock").length || frappe.is_mobile()) return;
+		this.ready = true;
+		Object.entries(this.PARTS).forEach(([name, part]) => {
+			const $edge = $(`<div class="one-fold-edge" data-one-fold="${name}" aria-hidden="true"></div>`).appendTo("body");
+			const held = onedesk.interface.kept(part.key, false);
+			this.set(name, !held);
+			let open = !held;
+			onedesk.interface.drag($edge[0], {
+				axis: part.axis,
+				leading: part.leading,
+				from: () => {
+					this.part(name).prop("inert", false);
+					return open ? this.full(part) : part.floor;
+				},
+				to: (px) => this.paint(name, px),
+				done: (px, speed) => {
+					open = onedesk.interface.aim(px, speed) > (part.floor + this.full(part)) / 2;
+					this.settle(name, open);
+				},
+			});
+			$edge.on("click", () => {
+				open = !open;
+				this.settle(name, open);
+			});
+		});
+		this.commit();
+	},
+};
 
 // The nav pane is frappe's sidebar. Its edge folds it when clicked, as
 // frappe made it; dragged, it sets frappe's own --sidebar-width.
@@ -144,29 +284,111 @@ onedesk.interface.nav = {
 		return value;
 	},
 
+	state: "open",
+	fold: "hidden",
+
+	sidebar() {
+		return frappe.app && frappe.app.sidebar;
+	},
+
+	hold(sidebar) {
+		const nav = this;
+		const { hides_when_collapsed, open, close } = sidebar;
+		sidebar.hides_when_collapsed = function () {
+			if (frappe.is_mobile() || nav.state === "open") return hides_when_collapsed.call(this);
+			return nav.state === "hidden";
+		};
+		sidebar.open = function () {
+			if (!frappe.is_mobile()) nav.remember("open");
+			open.call(this);
+		};
+		sidebar.close = function () {
+			if (!frappe.is_mobile()) nav.remember(nav.fold);
+			close.call(this);
+		};
+	},
+
+	remember(state) {
+		this.state = state;
+		if (state !== "open") this.fold = state;
+		onedesk.interface.keep(onedesk.interface.NAV.state, { state, fold: this.fold });
+	},
+
+	show(state) {
+		const sidebar = this.sidebar();
+		if (!sidebar || this.shown === state) return;
+		this.shown = state;
+		this.state = state;
+		sidebar.sidebar_expanded = state === "open";
+		sidebar.apply_expanded_state();
+		if (state === "open") sidebar.highlight_active_item();
+	},
+
+	live($container, px) {
+		const { min, max, rail } = onedesk.interface.NAV;
+		const value = Math.max(0, Math.min(max, px));
+		const el = $container[0];
+		el.style.setProperty("--one-nav-live", `${value}px`);
+		el.style.setProperty("--one-nav-ink", Math.max(0, Math.min(1, (value - (rail + min) / 2) / ((min - rail) / 2))));
+		this.show(value >= (rail + min) / 2 ? "open" : "rail");
+		return value;
+	},
+
+	settle($container, px, speed) {
+		const { min, max, rail, key } = onedesk.interface.NAV;
+		const aim = onedesk.interface.aim(px, speed);
+		const state = aim < rail / 2 ? "hidden" : aim < (rail + min) / 2 ? "rail" : "open";
+		$container.removeClass("no-transition one-nav-live");
+		if (state === "open") onedesk.interface.keep(key, this.width(Math.min(max, Math.max(min, px))));
+		this.show(state);
+		const sidebar = this.sidebar();
+		if (sidebar && !frappe.is_mobile()) sidebar.save_collapsed_state(state !== "open");
+		this.remember(state);
+		window.setTimeout(() => window.dispatchEvent(new Event("resize")), 320);
+	},
+
+	restore(sidebar, $container) {
+		const held = onedesk.interface.kept(onedesk.interface.NAV.state, null);
+		if (held) {
+			this.state = held.state;
+			this.fold = held.fold || "hidden";
+			if (!sidebar.wrapper) return;
+			$container.addClass("no-transition");
+			this.shown = null;
+			this.show(held.state);
+			sidebar.save_collapsed_state(held.state !== "open");
+			$container[0].offsetWidth;
+			$container.removeClass("no-transition");
+			return;
+		}
+		this.state = sidebar.sidebar_expanded ? "open" : sidebar.hides_when_collapsed() ? "hidden" : "rail";
+		this.shown = this.state;
+	},
+
 	setup() {
 		const kept = onedesk.interface.kept(onedesk.interface.NAV.key, null);
 		if (kept) onedesk.interface.nav.width(kept);
 		const $container = $(".body-sidebar-container");
-		// The whole pane is what a tour's first step points at (interface-nav).
 		$container.find(".body-sidebar").first().attr("data-tour", "interface-nav");
+		onedesk.interface.folds.setup();
 		const edge = $container.find(".sidebar-edge")[0];
 		if (!edge || edge.one_interface) return;
 		edge.one_interface = true;
-		let now = null;
+		const sidebar = this.sidebar();
+		if (sidebar && !frappe.is_mobile()) {
+			this.hold(sidebar);
+			this.restore(sidebar, $container);
+		}
 		onedesk.interface.drag(edge, {
 			from: () => {
-				$container.addClass("no-transition");
-				return $container.find(".body-sidebar")[0].getBoundingClientRect().width;
+				const width = $container.find(".body-sidebar")[0].getBoundingClientRect().width;
+				$container[0].style.setProperty("--one-nav-live", `${width}px`);
+				$container.addClass("no-transition one-nav-live");
+				this.shown = this.state;
+				return width;
 			},
-			to: (px) => {
-				if (!$container.hasClass("expanded")) return;
-				now = onedesk.interface.nav.width(px);
-			},
-			done: () => {
-				$container.removeClass("no-transition");
-				if (now) onedesk.interface.keep(onedesk.interface.NAV.key, now);
-			},
+			to: (px) => this.live($container, px),
+			done: (px, speed) => this.settle($container, px, speed),
 		});
 		$(edge).attr("title", __("Drag to resize, click to fold"));
 	},
@@ -474,6 +696,7 @@ onedesk.interface.Frame = class Frame {
 		this.details_edge();
 		this.$switch.show();
 		this.show_details(kept.open !== false);
+		requestAnimationFrame(() => $pane.addClass("one-interface-details-ready"));
 		return this.$details;
 	}
 
@@ -483,13 +706,29 @@ onedesk.interface.Frame = class Frame {
 		const $pane = this.$details_pane;
 		if (!$pane || $pane.children(".one-interface-details-edge").length) return;
 		const $edge = $(`<div class="one-interface-details-edge"></div>`).prependTo($pane);
+		const set = (px) => $pane[0].style.setProperty("--one-details-width", `${px}px`);
 		onedesk.interface.drag($edge[0], {
 			leading: true,
-			from: () => $pane[0].getBoundingClientRect().width,
-			to: (px) => $pane.css("--one-details-width", `${this.details_size(px)}px`),
-			done: () => {
-				this.remember_details({ width: $pane[0].getBoundingClientRect().width });
-				window.dispatchEvent(new Event("resize"));
+			from: () => {
+				const width = $pane[0].getBoundingClientRect().width;
+				$pane.addClass("one-interface-details-live");
+				set(width);
+				$pane.removeClass("one-interface-details-shut");
+				return width;
+			},
+			to: (px) => set(px < 200 ? Math.max(8, px) : this.details_size(px)),
+			done: (px, speed) => {
+				const open = onedesk.interface.aim(px, speed) >= 120;
+				$pane.removeClass("one-interface-details-live");
+				if (open) {
+					const width = this.details_size(Math.max(200, px));
+					set(width);
+					this.remember_details({ width, open: true });
+				} else {
+					this.remember_details({ open: false });
+				}
+				this.show_details(open);
+				window.setTimeout(() => window.dispatchEvent(new Event("resize")), 320);
 			},
 		});
 	}
@@ -501,7 +740,7 @@ onedesk.interface.Frame = class Frame {
 
 	show_details(open) {
 		this.details_open = !!open;
-		this.$details_pane.prop("hidden", !open);
+		this.$details_pane.toggleClass("one-interface-details-shut", !open);
 		this.$switch.attr("data-state", open ? "on" : null).attr("aria-pressed", open ? "true" : "false");
 		this.$wrapper.trigger("one-interface-details", [open]);
 	}

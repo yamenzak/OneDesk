@@ -3180,6 +3180,20 @@ OVERRIDES = [
 		"frappe/frappe/automation/doctype/reminder/reminder.py",
 		'self.db_set("notified", 1, update_modified=False)',
 	),
+	(
+		"A sidebar folds to its rail, or away, by being dragged",
+		"one_interface/frame.js wraps the sidebar's hides_when_collapsed, open and close: one saved state (open, rail or hidden, in the person's One Interface settings) decides which fold it takes, in place of the pinned dock always hiding it",
+		"onedesk/public/js/one_interface/frame.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/sidebar.js",
+		"hides_when_collapsed() {",
+	),
+	(
+		"A folding sidebar moves at One's pace",
+		"one_interface/frame.css sets frappe's --dock-sidebar-ease to the pane motion every fold shares, and moves the edge of a hidden sidebar inward so it is not under the dock's own",
+		"onedesk/public/css/one_interface/frame.css",
+		"frappe/frappe/public/scss/desk/dock.scss",
+		"--dock-sidebar-ease: 0.5s cubic-bezier(0.65, 0, 0.35, 1);",
+	),
 ]
 
 

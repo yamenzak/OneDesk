@@ -128,6 +128,7 @@ onedesk.dock.rows = (sidebar) => {
 		});
 	}
 	onedesk.interface.bars();
+	onedesk.interface.folds.setup();
 	onedesk.dock.refresh();
 	onedesk.dock.intake();
 	onedesk.dock.timers();

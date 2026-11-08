@@ -10,10 +10,27 @@
 
 @media (min-width: 768px) {
 	body.one-barred {
-		--one-bar-offset: calc(2 * var(--one-bar-height));
-		padding-top: var(--one-bar-height) !important;
-		padding-bottom: var(--one-bar-height) !important;
+		--one-bar-top: var(--one-bar-height);
+		--one-bar-bottom: var(--one-bar-height);
+		--one-bar-offset: calc(var(--one-bar-top) + var(--one-bar-bottom));
+		padding-top: var(--one-bar-top) !important;
+		padding-bottom: var(--one-bar-bottom) !important;
 		background: var(--one-frame);
+	}
+
+	body.one-folds-moving {
+		transition: padding var(--one-pane-motion);
+	}
+
+	body.one-folds-moving .main-section,
+	body.one-folds-moving .dock,
+	body.one-folds-moving .body-sidebar,
+	body.one-folds-moving .sidebar-panel {
+		transition: height var(--one-pane-motion);
+	}
+
+	body.one-folds-moving .one-fold-edge[data-one-fold="dock"] {
+		transition: top var(--one-pane-motion), bottom var(--one-pane-motion);
 	}
 
 	.one-bar {
@@ -31,10 +48,16 @@
 
 	.one-bar[data-at="top"] {
 		top: 0;
+		--one-bar-top: var(--one-bar-height);
+		transform: translateY(calc(var(--one-bar-top) - var(--one-bar-height)));
+		transition: transform var(--one-pane-motion);
 	}
 
 	.one-bar[data-at="bottom"] {
 		bottom: 0;
+		--one-bar-bottom: var(--one-bar-height);
+		transform: translateY(calc(var(--one-bar-height) - var(--one-bar-bottom)));
+		transition: transform var(--one-pane-motion);
 	}
 
 	body.one-barred .main-section,
@@ -68,16 +91,85 @@
 	   which pads itself: off the top bar, the bottom bar and the window's
 	   far edge alike. */
 	body.one-barred.dock-pinned {
-		--one-bar-offset: calc(2 * (var(--one-bar-height) + var(--one-frame-gutter)));
-		padding-top: calc(var(--one-bar-height) + var(--one-frame-gutter)) !important;
-		padding-bottom: calc(var(--one-bar-height) + var(--one-frame-gutter)) !important;
+		--one-bar-offset: calc(var(--one-bar-top) + var(--one-bar-bottom) + 2 * var(--one-frame-gutter));
+		padding-top: calc(var(--one-bar-top) + var(--one-frame-gutter)) !important;
+		padding-bottom: calc(var(--one-bar-bottom) + var(--one-frame-gutter)) !important;
 	}
 
 	/* frappe adds a pixel for a border the frame does not draw, which put
 	   every tile on a half pixel. */
 	body.one-barred.dock-pinned .dock {
-		width: var(--dock-width);
+		--one-dock-now: var(--dock-width);
+		width: var(--one-dock-now);
 		border-right: 0;
+		padding-inline: 0;
+		overflow-x: hidden;
+		transition: --one-dock-now var(--one-pane-motion);
+	}
+
+	body.one-barred.dock-pinned .dock > * {
+		width: var(--dock-width);
+		transform: translateX(calc(var(--one-dock-now) - var(--dock-width)));
+	}
+
+	:root[dir="rtl"] body.one-barred.dock-pinned .dock > * {
+		transform: translateX(calc(var(--dock-width) - var(--one-dock-now)));
+	}
+
+	.one-fold-edge {
+		position: fixed;
+		z-index: calc(var(--one-layer-frame) + 2);
+		display: none;
+	}
+
+	body.one-barred .one-fold-edge:not([data-one-fold="dock"]),
+	body.one-barred.dock-pinned.dock-active .one-fold-edge[data-one-fold="dock"] {
+		display: block;
+	}
+
+	.one-fold-edge[data-one-fold="top"],
+	.one-fold-edge[data-one-fold="bottom"] {
+		left: 0;
+		right: 0;
+		height: var(--one-frame-gutter);
+		cursor: row-resize;
+	}
+
+	.one-fold-edge[data-one-fold="top"] {
+		top: var(--one-bar-top);
+	}
+
+	.one-fold-edge[data-one-fold="bottom"] {
+		bottom: var(--one-bar-bottom);
+	}
+
+	.one-fold-edge[data-one-fold="dock"] {
+		--one-dock-now: var(--dock-width);
+		top: calc(var(--one-bar-top) + var(--one-frame-gutter));
+		bottom: calc(var(--one-bar-bottom) + var(--one-frame-gutter));
+		inset-inline-start: max(0px, calc(var(--one-dock-now) - 7px));
+		width: 6px;
+		cursor: col-resize;
+		transition: --one-dock-now var(--one-pane-motion);
+	}
+
+	.one-fold-edge::after {
+		content: "";
+		position: absolute;
+		inset: 2px 0;
+		border-radius: var(--radius-full);
+		background: var(--one-edge-heavy);
+		opacity: 0;
+		transition: opacity 0.15s ease 0.1s;
+	}
+
+	.one-fold-edge[data-one-fold="dock"]::after {
+		inset: 0 2px;
+	}
+
+	.one-fold-edge:hover::after,
+	.one-fold-edge:active::after {
+		opacity: 1;
 	}
 
 	/* The inset: frappe's sidebar and the screen beside it, one rounded
@@ -89,13 +181,14 @@
 		background: var(--one-surface);
 	}
 
-	body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar,
-	body.one-barred.dock-pinned .body-sidebar-container:is(:not(.expanded), [style*="display: none"]) + .main-section {
+	body.one-barred.dock-pinned .body-sidebar-container.expanded:not(.sidebar-hidden, [style*="display: none"]) > .body-sidebar,
+	body.one-barred.dock-pinned .body-sidebar-container:not(.expanded, .sidebar-hidden, [style*="display: none"]) > .body-sidebar,
+	body.one-barred.dock-pinned .body-sidebar-container:is(.sidebar-hidden, [style*="display: none"]) + .main-section {
 		border-start-start-radius: var(--one-radius-sheet);
 		border-end-start-radius: var(--one-radius-sheet);
 	}
 
-	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) + .main-section {
+	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container:not(.sidebar-hidden, [style*="display: none"]) + .main-section {
 		border-inline-start: 1px solid var(--one-sidebar-line);
 	}
 
@@ -104,7 +197,7 @@
 		border: 1px solid var(--one-line);
 	}
 
-	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container.expanded:not([style*="display: none"]) > .body-sidebar {
+	:root[data-theme="dark"] body.one-barred.dock-pinned .body-sidebar-container:not(.sidebar-hidden, [style*="display: none"]) > .body-sidebar {
 		border: 1px solid var(--one-sidebar-line);
 		border-inline-end: 0;
 	}

@@ -266,8 +266,26 @@
 		background: var(--one-details-bg);
 	}
 
-	.one-interface-details[hidden] {
-		display: none;
+	.one-interface-details-ready {
+		transition: flex-basis var(--one-pane-motion), width var(--one-pane-motion);
+	}
+
+	.one-interface .layout-main > .one-interface-details.one-interface-details-shut {
+		flex-basis: 8px;
+		width: 8px;
+		overflow: hidden;
+		border-inline-start-color: transparent;
+		background: transparent !important;
+	}
+
+	.one-interface-details > :not(.one-interface-details-edge) {
+		min-width: 200px;
+		transition: opacity var(--one-pane-motion), visibility var(--one-pane-motion);
+	}
+
+	.one-interface-details-shut > :not(.one-interface-details-edge) {
+		opacity: 0;
+		visibility: hidden;
 	}
 
 	.one-interface-details-body {
@@ -278,14 +296,27 @@
 	.one-interface-details-edge {
 		position: absolute;
 		inset-block: 0;
-		inset-inline-start: -4px;
+		inset-inline-start: 0;
 		z-index: 2;
 		width: 8px;
 		cursor: col-resize;
 	}
 
-	.one-interface-details-edge:hover {
-		background: var(--one-edge);
+	.one-interface-details-edge::after {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: 3px;
+		width: 2px;
+		border-radius: var(--radius-full);
+		background: var(--one-edge-heavy);
+		opacity: 0;
+		transition: opacity 0.15s ease 0.1s;
+	}
+
+	.one-interface-details-edge:hover::after,
+	.one-interface-details-edge:active::after {
+		opacity: 1;
 	}
 
 	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
@@ -303,10 +334,6 @@
 		max-width: none;
 	}
 
-	.one-interface .one-interface-details-own > .one-interface-details-edge {
-		inset-inline-start: 0;
-		width: 6px;
-	}
 }
 
 /* Below a tablet frappe's own phone head stays, laid in three rows: the
@@ -315,6 +342,10 @@
    scrolling sideways when they don't fit, frappe's own buttons (a
    submitted record's Cancel) at its end. */
 @media (max-width: 767px) {
+	.one-interface-details-shut {
+		display: none;
+	}
+
 	/* frappe stacks a phone's filter toggle over the Filter button, and Sort
 	   in a box as tall; on the window's one row they sit side by side. */
 	.one-interface .one-interface-filters,
@@ -563,11 +594,81 @@
 	cursor: col-resize;
 }
 
-body.one-interface-dragging,
-body.one-interface-dragging * {
-	cursor: col-resize !important;
-	user-select: none !important;
+@property --one-bar-top {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 28px;
 }
+
+@property --one-bar-bottom {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 28px;
+}
+
+@property --one-dock-now {
+	syntax: "<length>";
+	inherits: true;
+	initial-value: 56px;
+}
+
+:root {
+	--one-pane-motion: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+body.one-barred.dock-pinned.dock-active .body-sidebar-container {
+	--dock-sidebar-ease: var(--one-pane-motion);
+}
+
+body.one-barred.dock-pinned.dock-active .body-sidebar-container .body-sidebar {
+	transition: background 0.2s ease, border-color 0.2s ease, width var(--one-pane-motion), padding var(--one-pane-motion);
+}
+
+.body-sidebar-container {
+	--one-nav-live: 0px;
+	--one-nav-ink: 1;
+}
+
+.body-sidebar-container.one-nav-live .body-sidebar {
+	width: var(--one-nav-live) !important;
+}
+
+.body-sidebar-container.one-nav-live .sidebar-edge {
+	inset-inline-start: calc(var(--one-nav-live) - 4px) !important;
+}
+
+.body-sidebar-container.one-nav-live .sidebar-collapse-arrow {
+	display: none;
+}
+
+.body-sidebar-container.one-nav-live :is(.sidebar-item-label, .section-break) {
+	opacity: var(--one-nav-ink);
+}
+
+body.one-barred .body-sidebar-container.sidebar-hidden .sidebar-edge {
+	inset-inline-start: 0;
+}
+
+body.one-interface-dragging {
+	transition: none !important;
+}
+
+body.one-interface-dragging .dock,
+body.one-interface-dragging .one-fold-edge,
+body.one-interface-dragging .one-bar,
+body.one-interface-dragging .main-section,
+body.one-interface-dragging .body-sidebar,
+body.one-interface-dragging .sidebar-panel {
+	transition: none !important;
+}
+
+.body-sidebar-container.one-nav-live,
+.body-sidebar-container.one-nav-live *,
+.one-interface-details-live,
+.one-interface-details-live > * {
+	transition: none !important;
+}
+
 
 .one-interface-nav-slot {
 	padding-block: 0 2px;
