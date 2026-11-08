@@ -2,8 +2,8 @@
 
 A price list is wrong in a way nothing raises: a plan nobody would move up
 to, an add-on nobody would buy, a price under what it costs us. The
-calculator (one_admin/plans.py) says which, and these hold the list the
-admin site starts with (one_admin/offerings.py) to it.
+calculator (one_admin/plans.py) says which, and these hold what the
+price list sells (one_admin/price_list.py) to it.
 """
 
 import ast
@@ -27,53 +27,17 @@ def _plans():
 plans = _plans()
 
 
-def _literal(name):
-	"""A constant from offerings.py, read without importing frappe."""
-	source = (tree.APP / "one_admin" / "offerings.py").read_text(encoding="utf-8")
-	for node in ast.parse(source).body:
-		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", None) == name:
-			return ast.literal_eval(node.value)
-	raise AssertionError(f"offerings.py has no {name}")
-
-
 def _list():
-	ladder = [
-		plans.Offer(
-			key,
-			label,
-			"Plan",
-			price,
-			seats=seats,
-			storage_gb=storage,
-			database_gb=database,
-			credits_a_month=credits,
-		)
-		for key, label, price, seats, storage, database, credits, _trial in _literal("PLANS")
-	]
-	sold = [
-		plans.Offer(key, label, "Add-on", price, **adds) for key, label, price, adds in _literal("ADDONS")
-	]
-	sold += [
-		plans.Offer(key, label, "Credit Pack", price, credits=credits)
-		for key, label, price, credits in _literal("PACKS")
-	]
-	held = _literal("COSTS")
-	costs = plans.Costs(
-		workspace=held["cost_workspace"],
-		seat=held["cost_seat"],
-		storage_gb=held["cost_storage_gb"],
-		database_gb=held["cost_database_gb"],
-		backup_gb=held["cost_backup_gb"],
-		backups_kept=held["backups_kept"],
-		credit=1 / 2000,
-		margin=held["least_margin"],
-	)
-	return ladder, sold, costs
+	"""What the price list sells, as the calculator reads it, with its costs."""
+	from onedesk.one_admin import price_list, margins, offerings
+
+	sold_plans, sold_addons, sold_packs = price_list.selling()
+	return [*map(margins._offer, sold_plans)], [*map(margins._offer, (*sold_addons, *sold_packs))], offerings.costs()
 
 
 def test_the_price_list_we_start_with_makes_sense():
 	ladder, sold, costs = _list()
-	assert len(ladder) == 4 and min(one.price for one in ladder) == 30
+	assert len(ladder) == 4 and min(one.price for one in ladder) == 109
 	found = plans.check(ladder, sold, costs)
 	assert not found, [one.said for one in found]
 
@@ -90,9 +54,9 @@ def test_moving_up_beats_add_ons_and_a_little_more_is_an_add_on():
 	for lower, upper in pairwise(ladder):
 		assert plans.upgrade_saving(lower, upper, sold) > 0.3, (lower.label, upper.label)
 	cheapest = plans.quote({"seats": 5, "database_gb": 3}, ladder, sold)[0]
-	assert cheapest.plan.key == "starter" and cheapest.extras
+	assert cheapest.plan.key.startswith("starter@") and cheapest.extras
 	cheapest = plans.quote({"seats": 15, "database_gb": 3}, ladder, sold)[0]
-	assert cheapest.plan.key == "team" and not cheapest.extras
+	assert cheapest.plan.key.startswith("team@") and not cheapest.extras
 
 
 def test_the_check_catches_what_does_not_make_sense():
@@ -113,7 +77,7 @@ def test_the_check_catches_what_does_not_make_sense():
 	assert any(one.level == "red" and one.offer == "starter" for one in plans.check(cheap, sold, costs))
 	fewer = [
 		ladder[0],
-		plans.Offer("team", "Team", "Plan", 70, seats=4, storage_gb=100, database_gb=3, credits_a_month=3000),
+		plans.Offer("team", "Team", "Plan", 299, seats=4, storage_gb=200, database_gb=5, credits_a_month=1500),
 		*ladder[2:],
 	]
 	assert any(one.offer == "team" and "fewer" in one.said for one in plans.check(fewer, sold, costs))
@@ -122,7 +86,9 @@ def test_the_check_catches_what_does_not_make_sense():
 def test_add_ons_are_bought_in_the_cheapest_mix():
 	_ladder, sold, _costs = _list()
 	mix = plans.extras_for("storage_gb", 300, sold)
-	assert sorted((one.key, count) for one, count in mix) == [("storage-250", 1), ("storage-50", 1)]
+	assert sorted((one.key, count) for one, count in mix) == [("storage-100@2026-12", 3)]
+	mix = plans.extras_for("storage_gb", 450, sold)
+	assert sorted((one.key, count) for one, count in mix) == [("storage-500@2026-12", 1)]
 	assert plans.topping("database_gb", 0, sold) == 0
 
 

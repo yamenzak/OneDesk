@@ -42,6 +42,8 @@ REGIONAL = {
 	"one_ai/doctype/reading_party/reading_party.json": "the same",
 	"public/js/crm_record.js": "the EU VAT ID on a customer",
 	"one_legal/documents.py": "the operator's own address and law",
+	"one_admin/costs.py": "what the operator pays, in its own currency, and its Stripe account's country",
+	"one_admin/price_list.py": "the operator's own currency and tax registration",
 	"one_legal/legal.py": "the operator's own law",
 	"one_legal/laws.py": "the laws the agreements answer, the UAE's among them",
 	"one_portal/checks.py": "the demo company's own customers and suppliers, which its checks sign in as",

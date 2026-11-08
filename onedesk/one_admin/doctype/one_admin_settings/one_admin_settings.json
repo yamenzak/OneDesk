@@ -53,20 +53,6 @@
   "ai_gateway_token",
   "weather_section",
   "openweather_key",
-  "money_tab",
-  "credits_section",
-  "credits_per_dollar",
-  "column_break_credits",
-  "default_markup",
-  "costs_section",
-  "cost_workspace",
-  "cost_seat",
-  "cost_storage_gb",
-  "column_break_costs",
-  "cost_database_gb",
-  "cost_backup_gb",
-  "backups_kept",
-  "least_margin",
   "ladder_tab",
   "ladder_section",
   "grace_days",
@@ -319,89 +305,6 @@
    "description": "One Call API 4.0. Workspaces near one place share its reading."
   },
   {
-   "fieldname": "money_tab",
-   "fieldtype": "Tab Break",
-   "label": "Money"
-  },
-  {
-   "fieldname": "credits_section",
-   "fieldtype": "Section Break",
-   "label": "Credits",
-   "description": "What an AI call costs a workspace. What a credit sells for is the credit packs' price, in the price list."
-  },
-  {
-   "fieldname": "credits_per_dollar",
-   "fieldtype": "Float",
-   "precision": "6",
-   "label": "Credits per Dollar",
-   "description": "How many credits one dollar of provider cost becomes, before markup. Not the price of a credit."
-  },
-  {
-   "fieldname": "column_break_credits",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "default_markup",
-   "fieldtype": "Float",
-   "precision": "4",
-   "label": "Default Markup",
-   "description": "Multiplied onto provider cost. 2 charges twice the provider's price."
-  },
-  {
-   "fieldname": "costs_section",
-   "fieldtype": "Section Break",
-   "label": "Costs",
-   "description": "A month, in the price list's currency. The Price Check and the Plan Calculator price from these."
-  },
-  {
-   "fieldname": "cost_workspace",
-   "fieldtype": "Currency",
-   "label": "Per Workspace",
-   "description": "Monthly cost of one workspace's Frappe Cloud site at the smallest size, including mail."
-  },
-  {
-   "fieldname": "cost_seat",
-   "fieldtype": "Currency",
-   "label": "Per Seat"
-  },
-  {
-   "fieldname": "cost_storage_gb",
-   "fieldtype": "Currency",
-   "label": "Per GB of Storage",
-   "precision": "4",
-   "description": "Files in R2."
-  },
-  {
-   "fieldname": "column_break_costs",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "cost_database_gb",
-   "fieldtype": "Currency",
-   "label": "Per GB of Database",
-   "precision": "4",
-   "description": "What each GB of database adds to the site's Frappe Cloud plan."
-  },
-  {
-   "fieldname": "cost_backup_gb",
-   "fieldtype": "Currency",
-   "label": "Per GB of Backup",
-   "precision": "4",
-   "description": "One backup copy of one GB of database, kept a month."
-  },
-  {
-   "fieldname": "backups_kept",
-   "fieldtype": "Int",
-   "label": "Backups Kept",
-   "description": "How many copies of the database are kept at any time."
-  },
-  {
-   "fieldname": "least_margin",
-   "fieldtype": "Float",
-   "label": "Least Margin",
-   "description": "The least a price may be over its cost. 2 means twice."
-  },
-  {
    "fieldname": "ladder_tab",
    "fieldtype": "Tab Break",
    "label": "Grace Periods"
@@ -473,7 +376,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 10:44:23.872876",
+ "modified": "2026-11-08 12:20:30.160178",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

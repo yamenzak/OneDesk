@@ -327,7 +327,7 @@ def settings_check() -> dict:
 		return {"error": "Only an operator of One, on the admin site, sees the settings."}
 	import json
 
-	from onedesk.one_admin import heads, offerings
+	from onedesk.one_admin import price_list, heads, offerings
 
 	held = frappe.get_single("One Admin Settings")
 	try:
@@ -338,10 +338,11 @@ def settings_check() -> dict:
 		"missing": heads.settings_missing(held),
 		"cloudflare_setup": [{key: one.get(key) for key in ("step", "state", "detail")} for one in setup],
 		"money": {
-			"credits_per_dollar_of_provider_cost": held.credits_per_dollar,
-			"default_markup": held.default_markup,
+			"credits_per_dollar_of_provider_cost": price_list.credits_per_dollar(),
+			"markup": price_list.MARKUP,
 			"a_credit_sells_for": round(offerings.credit_price(), 5),
-			"least_margin": held.least_margin,
+			"margin_floor": price_list.MARGIN_FLOOR,
+			"currency": price_list.CURRENCY,
 		},
 		"grace_days": {"overdue": held.grace_days, "suspended": held.held_days, "archived": held.kept_days},
 		"workspace_domain": held.tenant_domain,

@@ -1,11 +1,7 @@
-"""One row in the price list: a plan, a pack of credits, or an add-on.
-
-The old control plane had four doctypes for this — plan, credit pack, add-on and
-a catalogue price beside them — and they differed by which fields they left
-empty. One doctype with a kind says the same thing and cannot drift, and the
-quota set is three named fields rather than a table of open-ended keys, because
-a quota nothing enforces is a promise nobody keeps.
-"""
+"""One row in the price list: a plan, a pack of OneCredits, or an add-on,
+written from the code (price_list.py) by `offerings.install` and never
+edited by hand; only the Stripe price id is written later. One doctype with
+a kind, and three named quota fields a workspace's limits are copied from."""
 
 import frappe
 from frappe.model.document import Document
@@ -22,9 +18,16 @@ CARRIES = {
 RANK = {"Plan": 1, "Add-on": 2, "Credit Pack": 3}
 
 
+DECLARED = ("key", "label", "kind", "amount", "currency", "recurring", "trial_days", "seats", "storage_gb", "database_gb", "credits", "credits_a_month")
+
+
 class Offering(Document):
 	def validate(self) -> None:
 		site.require_admin()
+		from onedesk.one_admin import offerings
+
+		if not frappe.flags.get(offerings.SYNCING) and (self.is_new() or any(self.has_value_changed(one) for one in DECLARED)):
+			frappe.throw(frappe._("Prices are set in the price list in code. Add a new version there."))
 		self.key = (self.key or "").strip().lower()
 		if self.kind == "Credit Pack":
 			self.recurring = 0
@@ -83,7 +86,7 @@ def gives(offering) -> str:
 		elif plan:
 			said.append(unlimited)
 	if offering.get("credits_a_month"):
-		said.append(_("{0} credits a month").format(number(offering.credits_a_month)))
+		said.append(_("{0} OneCredits a month").format(number(offering.credits_a_month)))
 	if offering.get("credits"):
-		said.append(_("{0} credits").format(number(offering.credits)))
+		said.append(_("{0} OneCredits").format(number(offering.credits)))
 	return " · ".join(said)

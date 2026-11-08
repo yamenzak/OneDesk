@@ -361,11 +361,6 @@ NEEDED = (
 	(("stripe_secret_key",), _lt("Stripe's secret key"), _lt("no one can pay")),
 	(("stripe_webhook_secret",), _lt("Stripe's webhook secret"), _lt("every payment is refused")),
 	(("ai_gateway", "ai_gateway_token"), _lt("the AI Gateway"), _lt("OneAI cannot answer")),
-	(
-		("credits_per_dollar", "default_markup"),
-		_lt("the credit rate and markup"),
-		_lt("no AI call can be priced"),
-	),
 )
 
 

@@ -1,95 +1,62 @@
-"""The price list a new admin site starts with, and what it costs us.
-
-Four plans from 30 a month, the add-ons that go on them, and the credit packs.
-`install` adds what is missing by key and never touches an offering that exists.
+"""The price list as OneAdmin's Offering rows, written from the code
+(price_list.py) on every migrate and never edited by hand. A row whose key
+the price list no longer sells is turned off for new signups and kept, so a
+workspace on that version keeps paying its Stripe price (grandfathering).
 """
 
 import frappe
 from frappe import _lt
 from frappe.utils import flt
 
-from onedesk.one_admin import plans, site
+from onedesk.one_admin import price_list, plans, site
+from onedesk.one_admin import costs as ours
 
-COSTS = {
-	"cost_workspace": 8,
-	"cost_seat": 0.5,
-	"cost_storage_gb": 0.02,
-	"cost_database_gb": 3,
-	"cost_backup_gb": 0.015,
-	"backups_kept": 14,
-	"least_margin": 2,
-}
+SYNCING = "one_admin_price_list_sync"
 
-PLANS = [
-	("starter", "Starter", 30, 5, 20, 1, 1000, 14),
-	("team", "Team", 70, 15, 100, 3, 3000, 14),
-	("business", "Business", 150, 40, 300, 8, 8000, 0),
-	("scale", "Scale", 300, 100, 1000, 15, 20000, 0),
-]
 
-ADDONS = [
-	("storage-50", "50 GB of Storage", 5, {"storage_gb": 50}),
-	("storage-250", "250 GB of Storage", 20, {"storage_gb": 250}),
-	("database-1", "1 GB of Database", 9, {"database_gb": 1}),
-	("database-5", "5 GB of Database", 40, {"database_gb": 5}),
-	("seats-5", "5 Seats", 20, {"seats": 5}),
-]
-
-PACKS = [
-	("pack1k", "1,000 credits", 9, 1000),
-	("pack5k", "5,000 credits", 40, 5000),
-	("pack20k", "20,000 credits", 150, 20000),
-]
-
-CURRENCY = "USD"
+def _row(one) -> dict:
+	sold = one in (*price_list.selling()[0], *price_list.selling()[1], *price_list.selling()[2])
+	if isinstance(one, price_list.Plan):
+		made = {
+			"kind": "Plan",
+			"recurring": 1,
+			"trial_days": 0,
+			"seats": one.seats,
+			"storage_gb": one.storage_gb,
+			"database_gb": one.database_gb,
+			"credits_a_month": one.credits_a_month,
+		}
+	elif isinstance(one, price_list.AddOn):
+		made = {"kind": "Add-on", "recurring": 1, **one.gives}
+	else:
+		made = {"kind": "Credit Pack", "recurring": 0, "credits": one.credits}
+	return {"doctype": "Offering", "key": one.key, "label": one.label, "amount": one.price, "currency": price_list.CURRENCY, "enabled": int(sold), **made}
 
 
 def rows() -> list[dict]:
-	"""Every offering above, as the Offering it becomes."""
-	made = [
-		{
-			"key": key,
-			"label": label,
-			"kind": "Plan",
-			"amount": price,
-			"recurring": 1,
-			"trial_days": trial,
-			"seats": seats,
-			"storage_gb": storage,
-			"database_gb": database,
-			"credits_a_month": credits,
-		}
-		for key, label, price, seats, storage, database, credits, trial in PLANS
-	]
-	made += [
-		{"key": key, "label": label, "kind": "Add-on", "amount": price, "recurring": 1, **adds}
-		for key, label, price, adds in ADDONS
-	]
-	made += [
-		{
-			"key": key,
-			"label": label,
-			"kind": "Credit Pack",
-			"amount": price,
-			"recurring": 0,
-			"credits": credits,
-		}
-		for key, label, price, credits in PACKS
-	]
-	return [{"doctype": "Offering", "currency": CURRENCY, "enabled": 1, **one} for one in made]
+	"""Every plan, add-on and pack the price list declares, as its Offering."""
+	return [_row(one) for one in (*price_list.PLANS, *price_list.ADDONS, *price_list.PACKS)]
 
 
 def install(*_args) -> None:
-	"""Add what is missing, on the admin site only; change nothing that exists."""
+	"""After migrate, on the admin site: each declared offering made if it is
+	not there, sold or not as the price list says, and every other one off. A
+	declared row's price is never changed: a new price is a new version."""
 	if not site.is_admin() or not frappe.db.table_exists("Offering"):
 		return
-	for one in rows():
-		if not frappe.db.exists("Offering", one["key"]):
-			frappe.get_doc(one).insert(ignore_permissions=True)
-	settings = frappe.get_single("One Admin Settings")
-	unset = {field: value for field, value in COSTS.items() if not settings.get(field)}
-	if unset:
-		settings.db_set(unset)
+	frappe.flags[SYNCING] = True
+	try:
+		declared = {}
+		for one in rows():
+			declared[one["key"]] = one["enabled"]
+			if not frappe.db.exists("Offering", one["key"]):
+				frappe.get_doc(one).insert(ignore_permissions=True)
+		for key, enabled in frappe.get_all("Offering", fields=["name", "enabled"], as_list=True):
+			want = declared.get(key, 0)
+			if int(enabled or 0) != want:
+				frappe.db.set_value("Offering", key, "enabled", want, update_modified=False)
+	finally:
+		frappe.flags[SYNCING] = False
 
 
 def listed(including_off: bool = False) -> tuple[list, list, "plans.Costs"]:
@@ -130,26 +97,21 @@ def listed(including_off: bool = False) -> tuple[list, list, "plans.Costs"]:
 
 
 def costs() -> "plans.Costs":
-	"""What each thing costs us a month (One Admin Settings, Costs).
-	A credit costs what a dollar of provider cost buys, marked up: the
-	gateway prices a call the same way (gateway.py, one_ai/models.py)."""
-	held = frappe.get_single("One Admin Settings")
-	per_dollar = flt(held.credits_per_dollar) * (flt(held.default_markup) or 1)
+	"""What each thing costs us a month, from costs.py, as plans.py reads
+	them; the margin is the price list's floor as a multiple of cost."""
 	return plans.Costs(
-		workspace=flt(held.cost_workspace),
-		seat=flt(held.cost_seat),
-		storage_gb=flt(held.cost_storage_gb),
-		database_gb=flt(held.cost_database_gb),
-		backup_gb=flt(held.cost_backup_gb),
-		backups_kept=int(held.backups_kept or 0),
-		credit=1 / per_dollar if per_dollar else 0,
-		margin=flt(held.least_margin) or 2,
+		workspace=ours.COST["server_workspace"] + ours.COST["cloudflare_fixed"],
+		seat=ours.COST["server_seat"],
+		storage_gb=ours.COST["storage_gb"],
+		database_gb=ours.COST["database_gb"],
+		credit=price_list.ONECREDIT / min(price_list.MARKUP.values()),
+		margin=round(1 / (1 - price_list.MARGIN_FLOOR), 4),
 	)
 
 
 def currency() -> str:
 	"""What the price list is in: the plans', which every offering shares."""
-	return frappe.db.get_value("Offering", {"kind": "Plan", "enabled": 1}, "currency") or CURRENCY
+	return frappe.db.get_value("Offering", {"kind": "Plan", "enabled": 1}, "currency") or price_list.CURRENCY
 
 
 def credit_price() -> float:
@@ -188,7 +150,7 @@ RESOURCE_SAID = {
 def said(finding) -> str:
 	"""One finding in the reader's language."""
 	words = RULES.get(finding.rule)
-	if not words:
+	if not words or not finding.slots:
 		return finding.said
 	slots = dict(finding.slots)
 	if "resource" in slots:
@@ -197,10 +159,11 @@ def said(finding) -> str:
 
 
 def findings(offer: str | None = None) -> list[dict]:
-	"""What plans.check finds about the enabled price list, in words, the
-	wrong first: all of it, or only what is about one offering."""
-	ladder, sold, costs = listed()
-	found = plans.check(ladder, sold, costs)
+	"""What the calculator finds about what is sold (margins.py), in words,
+	the wrong first: all of it, or only what is about one offering."""
+	from onedesk.one_admin import margins
+
+	found = margins.findings()
 	if offer:
 		found = [one for one in found if one.offer == offer]
 	found.sort(key=lambda one: one.level != "red")

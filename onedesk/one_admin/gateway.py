@@ -449,8 +449,9 @@ _LEAST = 0.000001
 
 
 def _money() -> dict:
-	stored = frappe.get_cached_doc("One Admin Settings")
-	return {"markup": stored.default_markup or 0, "per_dollar": stored.credits_per_dollar or 0}
+	from onedesk.one_admin import price_list
+
+	return {"markup": price_list.MARKUP["ai"], "per_dollar": price_list.credits_per_dollar()}
 
 
 def _unpriced(spent: pricing.Bill) -> str:

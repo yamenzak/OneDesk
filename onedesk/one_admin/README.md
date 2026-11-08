@@ -1663,25 +1663,56 @@ the provider billed us for it either way.
 of tokens, so the unit is the same word — which is a coincidence rather than a
 rule, and is why it is written down rather than assumed at the call site.
 
-### offerings.py
+### price_list.py, costs.py, margins.py and offerings.py
 
-Four plans from 30 a month, the add-ons that go on them, and the credit packs.
-Written once: `install` adds what is missing by key and never touches an
-offering that exists, because the operator's prices are theirs to change and a
-migrate must not put the old ones back. The Price Check report says whether the
-list still makes sense after they do (`plans.py`).
+**The price list is code** (decided 8 November 2026). `price_list.py`
+declares every plan, add-on, OneCredit pack and service, what a OneCredit is
+worth, the trial and tax; `costs.py` declares what running One costs us, line
+by line; `margins.py` prices everything sold against those costs at its
+worst and refuses what would lose money. `python3 scripts/prices.py` prints
+the table. Nothing about money is typed into a form any more: One Admin
+Settings lost its Money tab.
 
-Why these numbers, briefly (the Price Check shows the rest):
+**Versions.** Each plan, add-on and pack carries a version in its key
+(`team@2026-12`). A version is never edited. A new price is a new version:
+new signups get it, and a workspace keeps the one it bought, because its
+Stripe subscription keeps the Stripe price made for that version. Moving
+workspaces onto a new version is done with notice.
 
-* Each plan is at least twice what it costs us (`COSTS`), and each step up
-  saves more than half over buying the difference as add-ons, so somebody who
-  has outgrown a plan is better off moving up.
-* The smallest add-on of each thing costs less than any step up, so somebody
-  who needs a little more is better off adding it.
-* A bigger add-on is cheaper per unit than a smaller one.
-* Database is dear and storage is cheap, because a GB of database moves the
-  site up Frappe Cloud's plans and is backed up every day, where a GB of files
-  is a GB in R2.
+**Offering rows** are written from the price list after every migrate
+(`offerings.install`): each declared row made if missing, sold or not as the
+price list says, every other row turned off and kept. The Offering
+controller refuses any change to a declared field outside that sync; only
+the Stripe price id is written later, when Stripe makes it (`stripe.price_for`).
+
+**What One costs us** (`costs.py`), in dirhams, since the dirham is pegged to
+the dollar and most of what we pay is in dollars:
+
+- The server is Frappe Cloud's Hetzner unified box in Falkenstein (2 vCPU,
+  4 GB, 80 GB, $40). Half its cost is spread over the workspaces on it (the
+  scheduler runs for each whether anybody works or not) and half over their
+  seats (requests). Until a week of `scripts/load.py` figures, about 20
+  workspaces and 200 seats share one; each line says it is an estimate.
+- A workspace may take at most a quarter of a shared server's seats or
+  disk. A plan bigger than that runs on its own server (Hetzner, 4 vCPU,
+  8 GB, 160 GB, $70) and pays all of it (`own_server`).
+- A GB of database costs the server's disk twice over, for the memory it
+  also takes, and its backups in R2 (a quarter of its size, 42 kept).
+- A GB of files is two GB of R2: the file and its backup copy.
+- Cloudflare's fixed charges (Workers Paid, Advanced Certificate Manager) are
+  spread over only 20 workspaces, so a price holds while there are few.
+- Stripe, for an account in the UAE (stripe.com/en-ae/pricing, 8 Nov 2026):
+  2.9% + AED 1 a card payment, +1% for an international card, +1% for a
+  currency conversion, and Billing's 0.7%. The worst case, an international
+  card paid in euros, is what the calculator uses. Payouts in AED are free.
+
+**The margin floor** is 40% of the price after Stripe and our costs, at
+worst: every seat working, storage and database full, every credit a plan
+gives spent. A OneCredit spent on any kind of usage is priced at its cost
+times `MARKUP` for that kind, and must also keep 40% when bought in the
+smallest pack at the worst fee. The ladder rules of `plans.py` still hold:
+moving up beats buying the difference as add-ons, and a bigger add-on is
+cheaper per unit.
 
 ### operator.py
 

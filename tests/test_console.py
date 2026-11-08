@@ -559,7 +559,7 @@ def test_settings_say_what_is_missing_and_tell_the_other_operators():
 	price rather than at the provider-cost rate."""
 	spec = json.loads((ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.json").read_text())
 	tabs = [f["label"] for f in spec["fields"] if f["fieldtype"] == "Tab Break"]
-	assert tabs == ["Connections", "Money", "Grace Periods"] and not spec["permissions"][0]["share"]
+	assert tabs == ["Connections", "Grace Periods"] and not spec["permissions"][0]["share"]
 	settings = (ADMIN / "doctype" / "one_admin_settings" / "one_admin_settings.py").read_text()
 	assert "tell.settings_changed(" in settings and 'df.fieldtype == "Password"' in settings
 	assert '"settings.said": settings_said' in (ADMIN / "heads.py").read_text()

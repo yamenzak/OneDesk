@@ -9,7 +9,7 @@ import frappe
 import requests
 from frappe import _
 
-from onedesk.one_admin import ledger, site
+from onedesk.one_admin import price_list, ledger, site
 from onedesk.one_admin.faults import Refused
 
 #: standard-1 (half a vCPU, 4 GiB, 8 GB) per second, in dollars: memory and
@@ -51,7 +51,6 @@ def convert(tenant: str, name: str, content: bytes, reference: str | None = None
 	if len(content) > MOST_BYTES:
 		raise Refused(f"{name} is over {MOST_BYTES // 1024 // 1024} MB")
 	url, secret = _where()
-	settings = frappe.get_cached_doc("One Admin Settings")
 	holding = ledger.reserve(tenant, HOLD, why="office", reference=reference or name, action="office_convert")
 	began = time.monotonic()
 	try:
@@ -71,7 +70,7 @@ def convert(tenant: str, name: str, content: bytes, reference: str | None = None
 	if not answered.ok or not answered.content.startswith(b"%PDF"):
 		ledger.release(holding)
 		raise Refused(f"the office containers could not convert {name}: {answered.status_code}")
-	charged = credits(seconds, settings.default_markup, settings.credits_per_dollar)
+	charged = credits(seconds, price_list.MARKUP["office"], price_list.credits_per_dollar())
 	ledger.commit(holding, charged, cost(seconds), model="office/standard-1")
 	return {"data": answered.content, "credits": charged, "seconds": round(seconds, 1)}
 
