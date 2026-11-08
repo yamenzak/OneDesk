@@ -234,7 +234,7 @@ const searchBox = interfaceSearch(props.win, {
   onKey: (event) => event.key === "Escape" && root.value?.focus(),
 });
 interfaceHandles(props.win, { refresh: () => refresh() });
-props.onTitle?.(__("OneMail"));
+watch(heading, (name) => props.onTitle?.(name || __("OneMail")), { immediate: true });
 
 userSettings.get("OneMail").then((said) => {
   folds.value = (said && said.folds) || {};

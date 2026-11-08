@@ -3236,6 +3236,13 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/router.js",
 		"render_page() {",
 	),
+	(
+		"A trail never starts with the app",
+		"one_interface/frame.js wraps Page.set_breadcrumbs: a first crumb that names an app on the dock is dropped when others follow, since the dock and the sidebar already say which app this is",
+		"onedesk/public/js/one_interface/frame.js",
+		"frappe/frappe/public/js/frappe/ui/page.js",
+		"set_breadcrumbs(items) {",
+	),
 ]
 
 

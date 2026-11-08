@@ -882,6 +882,16 @@ onedesk.interface.here = () => {
 	};
 	frappe.ui.make_app_page.one_interface = true;
 
+	const Page = frappe.ui.Page;
+	if (Page && !Object.hasOwn(Page.prototype, "one_app_crumb")) {
+		Page.prototype.one_app_crumb = true;
+		const said = Page.prototype.set_breadcrumbs;
+		Page.prototype.set_breadcrumbs = function (items) {
+			const apps = [...document.querySelectorAll(".dock-items .dock-item")].map((tile) => tile.getAttribute("aria-label"));
+			return said.call(this, items?.length > 1 && apps.includes(items[0].label) ? items.slice(1) : items);
+		};
+	}
+
 	const Sidebar = frappe.ui.Sidebar;
 	if (Sidebar && !Object.hasOwn(Sidebar.prototype, "one_interface")) {
 		Sidebar.prototype.one_interface = true;

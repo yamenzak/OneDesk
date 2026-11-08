@@ -392,7 +392,7 @@ function tellWindow() {
     trail.value.map((one, at) => ({ label: one.name, ...(at < last ? { href: `/desk/onecloud?node=${encodeURIComponent(one.id)}` } : {}) })),
     last >= 0 ? trail.value[last].name : __("OneCloud")
   );
-  interfaceCan(props.win, { up: trail.value.length > 1 });
+  interfaceCan(props.win, { up: trail.value.length > 2 });
   searchBox?.placeholder(searchPlaceholder.value);
 }
 
