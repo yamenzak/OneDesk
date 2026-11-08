@@ -136,6 +136,10 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   from the page itself the last time it settled, kept in the person's "One
   Skeletons" user settings, one generic shape per kind until then. No screen
   writes one. A page already opened in this tab shows no skeleton.
+- **Icons** come from one registry, `one_interface/icons.py`: a field or tab
+  by the words of its label (the phrase with the most words wins, then the
+  rule written first), else by its type, and every record type by name. A
+  module's `interface` names an icon only where it means to differ.
 - **Views** are chosen from the crumb after the record type's name
   (`Sales Invoice / List`), frappe's own view switcher moved there. List's
   submenu is frappe's saved layouts: Create Layout saves what is on screen

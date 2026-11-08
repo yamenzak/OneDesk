@@ -18,8 +18,10 @@ def boot_session(bootinfo) -> None:
 
 	bootinfo["one_interface_held"] = frappe.parse_json(get_user_settings("One Interface")) or {}
 	from onedesk.one import ready
+	from onedesk.one_interface import icons
 
 	bootinfo["one_interface"] = ready.interface()
+	bootinfo["one_icons"] = icons.boot()
 	# the look every screen is drawn in (one_interface look.js): Canvas unless
 	# the workspace chose another
 	bootinfo["one_look"] = frappe.db.get_default("one_look") or "canvas"

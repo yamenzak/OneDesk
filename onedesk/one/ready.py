@@ -132,8 +132,7 @@ MODULES = {
 		"companies": ("Task",),
 		"interface": {
 			"Task": {
-				"tabs": {"dependencies_tab": "git-branch", "more_info_tab": "info"},
-				"fields": {"project": "folder-kanban", "priority": "flag", "exp_start_date": "calendar", "exp_end_date": "calendar-check", "parent_task": "corner-left-up", "type": "shapes", "company": "building"},
+				"fields": {"parent_task": "corner-left-up"},
 				"cards": ({"key": "task.due"}, {"key": "task.steps"}, {"key": "task.waits"}, {"key": "task.logged"}),
 				"states": {"order": ("Open", "Working", "Pending Review", "Overdue", "Completed"), "hide": ("Template", "Cancelled")},
 			},
@@ -191,19 +190,6 @@ MODULES = {
 		),
 		"interface": {
 			"Project": {
-				"tabs": {
-					"overview_tab": "layout-dashboard",
-					"details_tab": "file-text",
-					"tasks_tab": "list-checks",
-					"one_time_tab": "clock",
-					"one_suppliers_tab": "truck",
-					"costing_tab": "wallet",
-					"users_tab": "users",
-					"more_info_tab": "building-2",
-					"monitor_progress_tab": "message-square",
-					"connections_tab": "link",
-				},
-				"fields": {"customer": "building-2", "expected_start_date": "calendar", "expected_end_date": "calendar-check", "company": "building", "sales_order": "file-text", "priority": "flag"},
 				"cards": ({"key": "project.done"}, {"key": "project.cost"}, {"key": "project.billed"}, {"key": "project.margin"}),
 				"links": (
 					{"label": _lt("Customer"), "icon": "building-2", "open": "customer"},
@@ -212,13 +198,10 @@ MODULES = {
 				"states": {"field": "status", "order": ("Open", "On hold", "Completed"), "hide": ("Cancelled",)},
 			},
 			"Project Template": {
-				"fields": {"project_type": "shapes", "one_payment_terms": "calendar-clock", "one_terms": "scroll-text", "one_retention": "percent"},
 				"cards": ({"key": "template.tasks"}, {"key": "template.days"}, {"key": "template.used"}),
 				"states": {"field": "project_type"},
 			},
 			"Timesheet": {
-				"tabs": {"billing_tab": "receipt"},
-				"fields": {"employee": "user", "company": "building", "parent_project": "folder-kanban", "start_date": "calendar", "end_date": "calendar-check", "customer": "building-2"},
 				"cards": ({"key": "timesheet.progress"}, {"key": "timesheet.worth"}),
 				"states": {"order": ("Draft", "Submitted", "Partially Billed", "Billed", "Payslip"), "hide": ("Completed", "Cancelled")},
 			},
@@ -268,21 +251,7 @@ MODULES = {
 		},
 		"interface": {
 			"Item": {
-				"tabs": {
-					"details": "file-text",
-					"inventory_section": "warehouse",
-					"purchasing_tab": "shopping-cart",
-					"sales_details": "hand-coins",
-					"manufacturing": "hammer",
-					"accounting": "book-open",
-					"uom_tab": "ruler",
-					"variants_section": "layers",
-					"quality_tab": "badge-check",
-					"item_tax_section_break": "percent",
-					"pricing_tab": "tags",
-					"dashboard_tab": "link",
-				},
-				"fields": {"item_group": "tag", "stock_uom": "ruler", "brand": "award", "valuation_method": "coins", "item_code": "hash"},
+				"fields": {"item_code": "hash"},
 				"cards": ({"key": "item.on_hand", "title": _lt("On Hand")}, {"key": "item.free", "title": _lt("Free to Sell")}, {"key": "item.on_order", "title": _lt("On Order")}, {"key": "item.worth"}),
 				"states": {
 					"kinds": (
@@ -295,44 +264,25 @@ MODULES = {
 				},
 			},
 			"Purchase Receipt": {
-				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {"supplier": "truck", "posting_date": "calendar", "set_warehouse": "warehouse", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
 				"cards": ({"key": "receipt.order"}, {"key": "receipt.worth"}, {"key": "receipt.rejected"}, {"key": "project.of"}),
 				"track": "receipt.progress",
 				"states": {"order": ("To Bill", "Partly Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Delivery Note": {
-				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {"customer": "user", "posting_date": "calendar", "set_warehouse": "warehouse", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
 				"cards": ({"key": "delivery.order"}, {"key": "delivery.total"}, {"key": "delivery.trip"}, {"key": "project.of"}),
 				"track": "delivery.progress",
 				"states": {"order": ("To Bill", "Partially Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Delivery Trip": {
-				"fields": {"driver": "user", "vehicle": "truck", "departure_time": "clock", "total_distance": "route"},
 				"cards": ({"key": "trip.stops"}, {"key": "vehicle"}, {"key": "departure_time"}),
 				"states": {"order": ("Scheduled", "In Transit", "Completed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Pick List": {
-				"tabs": {"other_info_tab": "info", "connections_tab": "link"},
-				"fields": {"purpose": "list-checks", "customer": "user", "parent_warehouse": "warehouse"},
 				"cards": ({"key": "pick.done"}, {"key": "customer_name"}, {"key": "parent_warehouse"}),
 				"states": {"order": ("Open", "Partly Delivered", "Partially Transferred", "Completed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Shipment": {"states": {"order": ("Submitted", "Booked", "Completed", "Draft"), "hide": ("Cancelled",)}},
 			"Asset": {
-				"tabs": {"depreciation_tab": "chart-line", "other_info_tab": "info", "connections_tab": "link"},
-				"fields": {
-					"item_code": "package",
-					"asset_category": "tag",
-					"location": "map-pin",
-					"custodian": "user",
-					"department": "building-2",
-					"purchase_date": "calendar",
-					"available_for_use_date": "calendar-check",
-					"net_purchase_amount": "coins",
-					"supplier": "truck",
-				},
 				"cards": ({"key": "asset.worth_now"}, {"key": "asset.cost"}, {"key": "asset.next_service", "title": _lt("Next Service")}, {"key": "asset.next_depreciation"}),
 				"states": {
 					"order": ("Submitted", "Partially Depreciated", "In Maintenance", "Out of Order", "Fully Depreciated", "Sold", "Scrapped", "Capitalized", "Work In Progress", "Draft"),
@@ -340,53 +290,31 @@ MODULES = {
 				},
 			},
 			"Asset Maintenance Log": {
-				"fields": {"asset_name": "wrench", "maintenance_type": "tag", "due_date": "calendar-clock", "completion_date": "calendar-check", "assign_to_name": "user"},
 				"cards": ({"key": "service.due"}, {"key": "assign_to_name"}, {"key": "service.last"}),
 				"states": {"field": "maintenance_status", "order": ("Overdue", "Planned", "Completed"), "hide": ("Cancelled",)},
 			},
 			"Asset Maintenance": {
-				"fields": {"asset_name": "wrench", "maintenance_team": "users", "maintenance_manager_name": "user"},
 				"cards": ({"key": "schedule.next"}, {"key": "service.asset"}, {"key": "maintenance_team"}),
 				"states": {"field": "maintenance_team"},
 			},
 			"Asset Repair": {
-				"tabs": {"connection_tab": "link"},
-				"fields": {"asset": "wrench", "failure_date": "calendar-x", "completion_date": "calendar-check", "repair_cost": "coins"},
 				"cards": ({"key": "repair.out"}, {"key": "repair.cost"}),
 				"states": {"field": "repair_status", "order": ("Pending", "Completed"), "hide": ("Cancelled",)},
 			},
 			"Asset Movement": {
-				"fields": {"purpose": "arrow-left-right", "transaction_date": "calendar"},
+				"fields": {"purpose": "arrow-left-right"},
 				"cards": ({"key": "handover.what"}, {"key": "handover.from"}, {"key": "handover.to"}, {"key": "transaction_date"}),
 				"states": {"field": "purpose", "order": ("Issue", "Receipt", "Transfer", "Transfer and Issue")},
 			},
 			"Asset Value Adjustment": {
-				"fields": {"asset": "wrench", "date": "calendar", "current_asset_value": "coins", "new_asset_value": "coins"},
 				"cards": ({"key": "repair.asset"}, {"key": "current_asset_value"}, {"key": "new_asset_value"}, {"key": "adjustment.change"}),
 				"states": {"field": "asset_category"},
 			},
 			"Quality Inspection": {
-				"fields": {
-					"inspection_type": "list-checks",
-					"report_date": "calendar",
-					"reference_name": "file-text",
-					"item_code": "package",
-					"batch_no": "layers",
-					"inspected_by": "user",
-					"sample_size": "hash",
-				},
 				"cards": ({"key": "inspection.readings"}, {"key": "inspection.of"}, {"key": "item_name"}, {"key": "inspection.by"}),
 				"states": {"order": ("Accepted", "Rejected"), "hide": ("Cancelled",)},
 			},
 			"Material Request": {
-				"tabs": {"terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {
-					"material_request_type": "list-checks",
-					"transaction_date": "calendar",
-					"schedule_date": "calendar-clock",
-					"set_warehouse": "warehouse",
-					"customer": "user",
-				},
 				"cards": ({"key": "request.asked_by"}, {"key": "project.of"}),
 				"track": "material.progress",
 				"states": {
@@ -395,28 +323,14 @@ MODULES = {
 				},
 			},
 			"Request for Quotation": {
-				"tabs": {"address_and_contact_tab": "map-pin"},
-				"fields": {"transaction_date": "calendar", "schedule_date": "calendar-clock", "vendor": "truck"},
 				"cards": ({"key": "rfq.answered"}, {"key": "rfq.cheapest"}, {"key": "rfq.request"}, {"key": "project.of"}),
 				"states": {"hide": ("Submitted", "Cancelled")},
 			},
 			"Supplier Quotation": {
-				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {"supplier": "truck", "transaction_date": "calendar", "valid_till": "calendar-x", "grand_total": "sigma"},
 				"cards": ({"key": "quote.cheapest"}, {"key": "quote.valid"}, {"key": "quote.request"}, {"key": "quote.ordered"}),
 				"states": {"order": ("Submitted", "Partially Ordered", "Ordered", "Expired", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Purchase Order": {
-				"tabs": {"terms_tab": "scroll-text", "more_info_tab": "info", "address_and_contact_tab": "map-pin", "connections_tab": "link"},
-				"fields": {
-					"supplier": "truck",
-					"transaction_date": "calendar",
-					"schedule_date": "calendar-clock",
-					"set_warehouse": "warehouse",
-					"project": "folder-kanban",
-					"currency": "coins",
-					"grand_total": "sigma",
-				},
 				"cards": ({"key": "order.total"}, {"key": "project.of"}, {"key": "order.blanket"}),
 				"track": "order.progress",
 				"states": {
@@ -425,26 +339,6 @@ MODULES = {
 				},
 			},
 			"Stock Entry": {
-				"tabs": {
-					"stock_entry_details_tab": "file-text",
-					"additional_costs_section": "receipt",
-					"supplier_info_tab": "truck",
-					"accounting_dimensions_section": "layers",
-					"other_info_tab": "info",
-					"tab_connections": "link",
-				},
-				"fields": {
-					"stock_entry_type": "arrow-left-right",
-					"posting_date": "calendar",
-					"posting_time": "clock",
-					"project": "folder-kanban",
-					"from_warehouse": "warehouse",
-					"to_warehouse": "warehouse",
-					"work_order": "hard-hat",
-					"total_outgoing_value": "sigma",
-					"total_incoming_value": "sigma",
-					"value_difference": "sigma",
-				},
 				"cards": (
 					{"key": "move.from", "title": _lt("Source Warehouse")},
 					{"key": "move.to", "title": _lt("Target Warehouse")},
@@ -457,15 +351,6 @@ MODULES = {
 				},
 			},
 			"Stock Reconciliation": {
-				"fields": {
-					"purpose": "list-checks",
-					"posting_date": "calendar",
-					"posting_time": "clock",
-					"set_warehouse": "warehouse",
-					"expense_account": "book-open",
-					"cost_center": "target",
-					"difference_amount": "sigma",
-				},
 				"cards": (
 					{"key": "count.where"},
 					{"key": "count.items"},
@@ -474,14 +359,6 @@ MODULES = {
 				"states": {"field": "purpose", "order": ("Stock Reconciliation", "Opening Stock")},
 			},
 			"Batch": {
-				"fields": {
-					"item": "package",
-					"manufacturing_date": "calendar",
-					"expiry_date": "calendar-x",
-					"supplier": "truck",
-					"batch_qty": "boxes",
-					"reference_name": "file-text",
-				},
 				"cards": (
 					{"key": "batch.left"},
 					{"key": "batch.expires"},
@@ -491,32 +368,9 @@ MODULES = {
 				"states": {"field": "item"},
 			},
 			"Serial No": {
-				"fields": {
-					"item_code": "package",
-					"warehouse": "warehouse",
-					"batch_no": "layers",
-					"customer": "user",
-					"employee": "user",
-					"asset": "wrench",
-					"location": "map-pin",
-					"purchase_rate": "coins",
-					"warranty_expiry_date": "shield-check",
-					"amc_expiry_date": "calendar-clock",
-				},
 				"states": {"field": "status", "order": ("Active", "Delivered", "Consumed", "Inactive", "Expired")},
 			},
 			"Warehouse": {
-				"fields": {
-					"warehouse_name": "warehouse",
-					"parent_warehouse": "folder-tree",
-					"warehouse_type": "tag",
-					"company": "building-2",
-					"account": "book-open",
-					"phone_no": "phone",
-					"email_id": "mail",
-					"address_line_1": "map-pin",
-					"city": "map-pin",
-				},
 				"cards": (
 					{"key": "warehouse.items"},
 					{"key": "warehouse.worth"},
@@ -562,16 +416,6 @@ MODULES = {
 		),
 		"interface": {
 			"Work Order": {
-				"tabs": {
-					"item": "package",
-					"work_order_configuration": "calendar-clock",
-					"job_card_tab": "list-checks",
-					"material_request_tab": "boxes",
-					"stock_entry_tab": "warehouse",
-					"more_info": "info",
-					"connections_tab": "link",
-				},
-				"fields": {"production_item": "package", "bom_no": "list-tree", "qty": "hash", "project": "folder-kanban", "expected_delivery_date": "calendar", "fg_warehouse": "warehouse"},
 				"cards": ({"key": "work.for"}, {"key": "project.of"}),
 				"track": "work.progress",
 				"links": (
@@ -582,30 +426,10 @@ MODULES = {
 				"states": {"order": ("Not Started", "In Process", "Completed", "Stopped", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Job Card": {
-				"tabs": {
-					"scheduled_time_tab": "timer",
-					"raw_material_tab": "boxes",
-					"section_break_21": "workflow",
-					"corrective_operation_section": "wrench",
-					"secondary_items_section": "layers",
-					"more_information": "info",
-					"connections_tab": "link",
-				},
-				"fields": {"work_order": "factory", "operation": "hammer", "workstation": "hard-hat", "for_quantity": "hash"},
 				"cards": ({"key": "card.order"}, {"key": "workstation"}, {"key": "card.done"}, {"key": "card.time"}),
 				"states": {"order": ("Open", "Work In Progress", "On Hold", "Material Transferred", "Completed"), "hide": ("Cancelled",)},
 			},
 			"BOM": {
-				"tabs": {
-					"production_item_tab": "package",
-					"bom_conf_tab": "sliders-horizontal",
-					"costing": "coins",
-					"section_break0": "network",
-					"website_section": "globe",
-					"more_info_tab": "info",
-					"connections_tab": "link",
-				},
-				"fields": {"item": "package", "quantity": "hash", "currency": "coins", "total_cost": "sigma"},
 				"cards": ({"key": "bom.cost"}, {"key": "bom.steps"}, {"key": "bom.orders"}),
 				"links": (
 					{"label": _lt("Work Order"), "icon": "factory", "new": "Work Order", "with": {"production_item": "item", "bom_no": "name"}, "when": (("is_active", "=", 1),)},
@@ -620,13 +444,9 @@ MODULES = {
 				},
 			},
 			"Production Plan": {
-				"tabs": {"demand_tab": "receipt", "finished_items_tab": "package-check", "sub_assemblies_tab": "layers", "raw_material_tab": "boxes"},
-				"fields": {"posting_date": "calendar", "get_items_from": "list-checks", "customer": "user", "for_warehouse": "warehouse"},
 				"states": {"order": ("Not Started", "In Process", "Material Requested", "Completed", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Subcontracting Order": {
-				"tabs": {"tab_address_and_contact": "map-pin", "tab_additional_costs": "coins", "tab_other_info": "info", "tab_connections": "link"},
-				"fields": {"supplier": "truck", "transaction_date": "calendar", "schedule_date": "calendar-clock", "project": "folder-kanban", "total": "sigma"},
 				"cards": ({"key": "project.of"}, {"key": "total"}),
 				"track": "sub.progress",
 				"links": (
@@ -635,19 +455,14 @@ MODULES = {
 				"states": {"order": ("Open", "Partial Material Transferred", "Material Transferred", "Partially Received", "Completed", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Subcontracting Receipt": {
-				"tabs": {"tab_addresses": "map-pin", "tab_additional_costs": "coins", "tab_other_info": "info", "tab_connections": "link"},
-				"fields": {"supplier": "truck", "posting_date": "calendar", "project": "folder-kanban", "total": "sigma"},
 				"cards": ({"key": "sub.order"}, {"key": "supplier_name"}, {"key": "project.of"}, {"key": "total"}),
 				"states": {"order": ("Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
 			},
 			"Workstation": {
-				"tabs": {"details_tab": "hard-hat", "over_heads": "coins", "working_hours_section": "clock", "workstaion_description": "scroll-text", "workstation_status_tab": "activity", "connections_tab": "link"},
-				"fields": {"workstation_type": "cog", "plant_floor": "factory", "production_capacity": "gauge", "hour_rate": "coins"},
+				"tabs": {"details_tab": "hard-hat"},
 				"states": {"order": ("Production", "Idle", "Setup", "Maintenance", "Problem", "Off")},
 			},
 			"Plant Floor": {
-				"tabs": {"workstations_tab": "hard-hat", "details_tab": "factory", "stock_summary_tab": "warehouse"},
-				"fields": {"warehouse": "warehouse", "company": "factory"},
 				"states": {"field": "warehouse"},
 			},
 		},
@@ -670,7 +485,7 @@ MODULES = {
 		"companies": ("Non Conformance", "Quality Action"),
 		"interface": {
 			"Non Conformance": {
-				"fields": {"subject": "triangle-alert", "procedure": "list-ordered", "status": "circle-dot", "full_name": "user"},
+				"fields": {"subject": "triangle-alert"},
 				"cards": ({"key": "quality.nc_actions"}, {"key": "procedure"}, {"key": "quality.raised_by"}),
 				"links": (
 					{"label": _lt("Quality Action"), "icon": "wrench", "new": "Quality Action", "with": {"one_non_conformance": "name", "procedure": "procedure"}, "when": (("status", "=", "Open"),)},
@@ -679,27 +494,23 @@ MODULES = {
 				"states": {"order": ("Open", "Resolved"), "hide": ("Cancelled",)},
 			},
 			"Quality Action": {
-				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered", "review": "clipboard-check", "feedback": "message-square", "corrective_preventive": "wrench", "one_non_conformance": "triangle-alert"},
 				"cards": ({"key": "quality.action_done"}, {"key": "quality.action_problem"}, {"key": "goal"}, {"key": "procedure"}),
 				"states": {"order": ("Open", "Completed")},
 			},
 			"Quality Review": {
-				"fields": {"date": "calendar", "goal": "target", "procedure": "list-ordered"},
 				"cards": ({"key": "quality.review_met"}, {"key": "procedure"}),
 				"states": {"order": ("Open", "Failed", "Passed")},
 			},
 			"Quality Goal": {
-				"fields": {"goal": "target", "procedure": "list-ordered", "frequency": "repeat"},
 				"cards": ({"key": "quality.goal_last"}, {"key": "procedure"}),
 				"states": {"field": "frequency"},
 			},
 			"Quality Procedure": {
-				"fields": {"quality_procedure_name": "list-ordered", "parent_quality_procedure": "folder-tree", "process_owner": "user"},
 				"cards": ({"key": "quality.procedure_open"}, {"key": "process_owner_full_name"}),
 				"states": {"field": "process_owner_full_name"},
 			},
 			"Quality Meeting": {"states": {"order": ("Open", "Closed")}},
-			"Quality Feedback": {"fields": {"template": "file-text", "document_type": "tag", "document_name": "user"}, "states": {"field": "document_type"}},
+			"Quality Feedback": { "states": {"field": "document_type"}},
 		},
 		"help": (
 			("overview", "info"),
@@ -799,7 +610,6 @@ MODULES = {
 		# heads.py) and the row whose steps are the track. See interface().
 		"interface": {
 			"Bank Account": {
-				"fields": {"account_name": "landmark", "bank": "building-2", "account": "book-open", "iban": "hash", "party": "user"},
 				"cards": ({"key": "bank.balance"}, {"key": "bank.unmatched"}, {"key": "bank.last_line"}),
 				"states": {
 					"kinds": (
@@ -809,26 +619,20 @@ MODULES = {
 				},
 			},
 			"Bank Transaction": {
-				"fields": {"date": "calendar", "bank_account": "landmark", "deposit": "arrow-down-left", "withdrawal": "arrow-up-right", "reference_number": "hash", "party": "user"},
 				"cards": ({"key": "bank_account"}, {"key": "reference_number"}, {"key": "bank.line_match"}, {"key": "bank.line_reconcile"}),
 				"states": {"order": ("Unreconciled", "Reconciled", "Pending", "Settled"), "hide": ("Cancelled",)},
 			},
 			"Journal Entry": {
-				"tabs": {"tax_withholding_tab": "percent", "more_info_tab": "info"},
-				"fields": {"voucher_type": "shapes", "posting_date": "calendar", "total_debit": "sigma", "cheque_no": "hash", "cheque_date": "calendar", "bill_no": "receipt", "due_date": "calendar-clock", "mode_of_payment": "wallet"},
 				"cards": ({"key": "journal.reference"}, {"key": "cheque_no"}, {"key": "total_debit"}),
 				"track": "journal.progress",
 				"states": {"field": "voucher_type", "order": ("Journal Entry", "Bank Entry", "Cash Entry", "Credit Note", "Debit Note", "Opening Entry", "Depreciation Entry", "Exchange Rate Revaluation")},
 			},
 			"Payment Entry": {
-				"fields": {"payment_type": "arrow-left-right", "posting_date": "calendar", "mode_of_payment": "wallet", "party": "user", "bank_account": "landmark", "reference_no": "hash", "reference_date": "calendar", "paid_amount": "sigma", "project": "folder-kanban"},
 				"cards": ({"key": "paid_amount"}, {"key": "mode_of_payment"}, {"key": "reference_no"}, {"key": "project.of"}),
 				"track": "payment.progress",
 				"states": {"field": "payment_type", "order": ("Receive", "Pay", "Internal Transfer")},
 			},
 			"Purchase Invoice": {
-				"tabs": {"payments_tab": "wallet", "address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {"supplier": "building-2", "tax_id": "hash", "bill_no": "receipt", "bill_date": "calendar", "posting_date": "calendar", "due_date": "calendar-clock", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma", "outstanding_amount": "wallet", "supplier_group": "folder"},
 				"cards": (
 					{"key": "invoice.outstanding"},
 					{"key": "invoice.due"},
@@ -843,31 +647,6 @@ MODULES = {
 				},
 			},
 			"Sales Invoice": {
-				"tabs": {
-					"__details": "file-text",
-					"payments_tab": "wallet",
-					"contact_and_address_tab": "map-pin",
-					"terms_tab": "scroll-text",
-					"more_info_tab": "info",
-					"connections_tab": "link",
-				},
-				"fields": {
-					"customer": "user",
-					"company_tax_id": "hash",
-					"tax_id": "hash",
-					"posting_date": "calendar",
-					"posting_time": "clock",
-					"due_date": "calendar-clock",
-					"project": "folder-kanban",
-					"currency": "coins",
-					"selling_price_list": "tags",
-					"grand_total": "sigma",
-					"outstanding_amount": "wallet",
-					"status": "circle-dot",
-					"total_qty": "package",
-					"total": "sigma",
-					"taxes_and_charges": "percent",
-				},
 				"cards": (
 					{"key": "invoice.outstanding"},
 					{"key": "invoice.due"},
@@ -882,8 +661,6 @@ MODULES = {
 				},
 			},
 			"Supplier": {
-				"tabs": {"overview_tab": "layout-dashboard", "details_tab": "file-text", "contact_and_address_tab": "map-pin", "accounting_tab": "landmark", "tax_tab": "percent", "items_tab": "package", "settings_tab": "settings", "portal_users_tab": "user-check", "more_info_tab": "info"},
-				"fields": {"supplier_type": "shapes", "supplier_group": "folder", "country": "globe", "default_currency": "coins", "tax_id": "hash"},
 				"cards": (
 					{"key": "party.overdue"},
 					{"key": "party.last_bill"},
@@ -943,25 +720,6 @@ MODULES = {
 		# How its record types are drawn. See OneBook's and interface().
 		"interface": {
 			"Customer": {
-				"tabs": {
-					"details_tab": "file-text",
-					"contact_and_address_tab": "map-pin",
-					"accounting_tab": "landmark",
-					"tax_tab": "percent",
-					"settings_tab": "settings",
-					"sales_team_tab": "users",
-					"portal_users_tab": "user-check",
-					"more_info_tab": "info",
-					"connections_tab": "link",
-				},
-				"fields": {
-					"customer_name": "building-2",
-					"customer_type": "shapes",
-					"territory": "globe",
-					"customer_group": "folder",
-					"default_currency": "coins",
-					"tax_id": "hash",
-				},
 				"cards": (
 					{"key": "party.overdue"},
 					{"key": "party.last_bill"},
@@ -971,46 +729,39 @@ MODULES = {
 				"states": {"field": "customer_type", "order": ("Company", "Individual", "Partnership")},
 			},
 			"Lead": {
-				"tabs": {"activities_tab": "calendar-check", "notes_tab": "notebook-pen", "dashboard_tab": "link"},
-				"fields": {"email_id": "mail", "mobile_no": "phone", "phone": "phone", "website": "globe", "company_name": "building-2", "utm_source": "compass", "lead_owner": "user", "territory": "globe"},
+				"tabs": {"activities_tab": "calendar-check"},
 				"cards": ({"key": "crm.next_step"}, {"key": "crm.reply"}, {"key": "crm.contact"}, {"key": "crm.deals"}),
 				"states": {"order": ("Lead", "Open", "Replied", "Interested", "Opportunity", "Quotation", "Converted"), "hide": ("Do Not Contact", "Lost Quotation")},
 			},
 			"Opportunity": {
-				"tabs": {"contact_info": "contact", "items_section": "package", "activities_tab": "calendar-check", "notes_tab": "message-square", "dashboard_tab": "link"},
-				"fields": {"party_name": "building-2", "opportunity_owner": "user", "sales_stage": "kanban", "expected_closing": "calendar", "probability": "percent", "utm_source": "compass", "currency": "coins", "opportunity_amount": "sigma"},
+				"tabs": {"activities_tab": "calendar-check"},
 				"cards": ({"key": "crm.value"}, {"key": "crm.stage"}, {"key": "crm.next_step"}, {"key": "crm.closes"}),
 				"states": {"order": ("Open", "Replied", "Quotation", "Converted", "Lost"), "hide": ("Closed",)},
 			},
 			"Quotation": {
-				"tabs": {"address_and_contact_tab": "map-pin", "terms_tab": "scroll-text", "more_info_tab": "info", "connections_tab": "link"},
-				"fields": {"party_name": "building-2", "transaction_date": "calendar", "valid_till": "calendar-clock", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma", "opportunity": "handshake"},
 				"cards": ({"key": "order.total"}, {"key": "crm.valid"}, {"key": "crm.deal_of"}, {"key": "project.of"}),
 				"states": {"order": ("Draft", "Open", "Replied", "Partially Ordered", "Ordered", "Expired", "Lost"), "hide": ("Cancelled",)},
 			},
 			"Sales Order": {
-				"tabs": {"contact_info": "map-pin", "proforma_tab": "receipt", "payment_schedule_section": "calendar-clock", "more_info": "info", "connections_tab": "link"},
-				"fields": {"customer": "building-2", "transaction_date": "calendar", "delivery_date": "truck", "project": "folder-kanban", "currency": "coins", "grand_total": "sigma"},
+				"tabs": {"payment_schedule_section": "calendar-clock"},
 				"cards": ({"key": "order.total"}, {"key": "crm.deliver_by"}, {"key": "per_delivered"}, {"key": "per_billed"}),
 				"states": {"order": ("Draft", "To Deliver and Bill", "To Bill", "To Deliver", "Completed"), "hide": ("Cancelled", "Closed")},
 			},
 			"Contract": {
-				"fields": {"party_name": "building-2", "start_date": "calendar", "end_date": "calendar-x", "contract_template": "scroll-text"},
 				"cards": ({"key": "signed_on"}, {"key": "end_date"}, {"key": "project.of"}),
 				"states": {"order": ("Unsigned", "Active", "Inactive")},
 			},
 			"Appointment": {
-				"fields": {"scheduled_time": "calendar-clock", "status": "circle-dot", "customer_name": "user", "customer_email": "mail", "customer_phone_number": "phone", "appointment_with": "link", "party": "building-2", "calendar_event": "calendar"},
+				"fields": {"customer_name": "user"},
 				"cards": ({"key": "scheduled_time"}, {"key": "crm.met_with"}),
 				"states": {"order": ("Open", "Unverified", "Closed")},
 			},
 			"Email Campaign": {
-				"fields": {"campaign_name": "megaphone", "email_campaign_for": "users", "recipient": "user", "sender": "send", "start_date": "calendar", "end_date": "calendar-check"},
+				"fields": {"email_campaign_for": "users"},
 				"cards": ({"key": "start_date"}, {"key": "end_date"}, {"key": "recipient"}),
 				"states": {"order": ("Scheduled", "In Progress", "Completed", "Unsubscribed")},
 			},
 			"Email Group": {
-				"fields": {"title": "mails", "total_subscribers": "users", "confirmation_email_template": "mail-check", "welcome_email_template": "mail-plus", "welcome_url": "globe"},
 				"states": {
 					"kinds": (
 						{"label": _lt("With Subscribers"), "filters": (("total_subscribers", ">", 0),)},
@@ -1019,21 +770,18 @@ MODULES = {
 				},
 			},
 			"Issue": {
-				"fields": {"subject": "message-circle-warning", "customer": "building-2", "raised_by": "mail", "priority": "flag", "issue_type": "shapes"},
+				"fields": {"subject": "message-circle-warning"},
 				"states": {"order": ("Open", "Replied", "On Hold", "Resolved", "Closed")},
 			},
 			"Maintenance Schedule": {
-				"fields": {"customer": "building-2", "transaction_date": "calendar", "contact_person": "user", "customer_address": "map-pin", "territory": "globe", "company": "landmark"},
 				"cards": ({"key": "crm.next_visit"}, {"key": "crm.visits_made"}),
 				"states": {"field": "status"},
 			},
 			"Prospect": {
-				"tabs": {"overview_tab": "layout-dashboard", "contacts_tab": "map-pin", "leads_section": "user-plus", "opportunities_tab": "handshake", "activities_tab": "calendar-check", "notes_section": "message-square"},
-				"fields": {"company_name": "building-2", "industry": "factory", "market_segment": "shapes", "territory": "globe", "prospect_owner": "user", "website": "globe"},
+				"tabs": {"activities_tab": "calendar-check"},
 				"states": {"field": "industry"},
 			},
 			"Warranty Claim": {
-				"fields": {"complaint_date": "calendar", "customer": "building-2", "serial_no": "hash", "item_code": "package", "complaint": "message-circle-warning", "warranty_amc_status": "shield-check", "warranty_expiry_date": "calendar-x", "resolution_date": "calendar-check", "resolved_by": "user-check", "contact_person": "user", "territory": "globe"},
 				"cards": ({"key": "warranty_amc_status"}, {"key": "warranty_expiry_date"}, {"key": "resolution_date"}),
 				"states": {"order": ("Open", "Work In Progress", "Closed", "Cancelled")},
 			},
@@ -1160,8 +908,7 @@ MODULES = {
 		# How its record types are drawn. See OneBook's and interface().
 		"interface": {
 			"Employee": {
-				"tabs": {"basic_details_tab": "id-card", "employment_details": "briefcase", "contact_details": "phone", "attendance_and_leave_details": "calendar-check", "salary_information": "banknote", "personal_details": "user", "profile_tab": "graduation-cap", "exit": "door-open", "connections_tab": "link"},
-				"fields": {"company": "building", "department": "network", "designation": "briefcase", "reports_to": "user", "date_of_joining": "calendar", "cell_number": "phone", "user_id": "at-sign"},
+				"tabs": {"basic_details_tab": "id-card"},
 				"cards": ({"key": "employee.standing"}, {"key": "employee.leave"}, {"key": "employee.awaiting"}, {"key": "employee.checked"}),
 				"states": {"order": ("Active", "Suspended", "Inactive", "Left")},
 				"links": (
@@ -1189,44 +936,36 @@ MODULES = {
 				),
 			},
 			"Leave Application": {
-				"fields": {"employee": "user", "leave_type": "plane", "from_date": "calendar", "to_date": "calendar-check", "leave_approver": "user-check"},
 				"cards": ({"key": "total_leave_days"}, {"key": "leave.left"}, {"key": "leave_approver_name"}),
 				"states": {"order": ("Open", "Approved", "Rejected"), "hide": ("Cancelled",)},
 			},
 			"Leave Allocation": {
-				"fields": {"employee": "user", "leave_type": "plane"},
 				"cards": ({"key": "new_leaves_allocated"}, {"key": "total_leaves_allocated"}),
 				"states": {"field": "leave_type"},
 			},
 			"Attendance": {
-				"fields": {"employee": "user", "attendance_date": "calendar", "shift": "clock"},
 				"cards": ({"key": "working_hours"}, {"key": "shift"}, {"key": "in_time"}),
 				"states": {"order": ("Present", "Work From Home", "Half Day", "On Leave", "Absent")},
 			},
 			"Expense Claim": {
-				"tabs": {"expenses_and_advances_tab": "receipt", "accounting_details_tab": "landmark", "more_info_tab": "info", "dashboard_tab": "link"},
-				"fields": {"employee": "user", "expense_approver": "user-check", "project": "folder-kanban", "company": "building"},
 				"cards": ({"key": "total_claimed_amount"}, {"key": "total_sanctioned_amount"}, {"key": "total_advance_amount"}, {"key": "project.of"}),
 				"states": {"order": ("Draft", "Unpaid", "Partially Paid", "Paid", "Rejected"), "hide": ("Submitted", "Cancelled")},
 			},
 			"Employee Advance": {
-				"fields": {"employee": "user", "purpose": "target"},
+				"fields": {"purpose": "target"},
 				"cards": ({"key": "advance_amount"}, {"key": "paid_amount"}, {"key": "claimed_amount"}, {"key": "return_amount"}),
 				"states": {"order": ("Draft", "Unpaid", "Paid", "Partially Paid", "Claimed", "Returned", "Partly Claimed and Returned"), "hide": ("Cancelled",)},
 			},
 			"Salary Slip": {
-				"tabs": {"employee_and_payroll_tab": "user", "earnings_and_deductions_tab": "banknote", "payment_days_tab": "calendar-days"},
-				"fields": {"employee": "user", "start_date": "calendar", "end_date": "calendar-check", "company": "building"},
+				"tabs": {"employee_and_payroll_tab": "user"},
 				"cards": ({"key": "gross_pay"}, {"key": "total_deduction"}, {"key": "net_pay"}, {"key": "payment_days"}),
 				"states": {"order": ("Draft", "Submitted", "Withheld"), "hide": ("Cancelled",)},
 			},
 			"Payroll Entry": {
-				"tabs": {"employees_tab": "users", "accounting_dimensions_tab": "landmark", "connections_tab": "link"},
 				"cards": ({"key": "number_of_employees"}, {"key": "payroll_frequency"}),
 				"states": {"order": ("Draft", "Queued", "Submitted", "Failed"), "hide": ("Cancelled",)},
 			},
 			"Job Applicant": {
-				"fields": {"email_id": "mail", "phone_number": "phone", "job_title": "briefcase", "source": "compass"},
 				"cards": ({"key": "applicant.opening"}, {"key": "source"}, {"key": "applicant.rating"}),
 				"states": {"order": ("Open", "Replied", "Shortlisted", "Hold", "Accepted", "Rejected")},
 			},
@@ -1244,7 +983,6 @@ MODULES = {
 				"states": {"order": ("Pending", "Open & Approved", "On Hold", "Filled", "Rejected"), "hide": ("Cancelled",)},
 			},
 			"Appraisal": {
-				"tabs": {"kra_tab": "target", "feedback_tab": "message-square", "self_appraisal_tab": "user", "employee_details_tab": "id-card"},
 				"cards": ({"key": "final_score"}, {"key": "appraisal_cycle"}),
 				"states": {"field": "appraisal_cycle"},
 			},

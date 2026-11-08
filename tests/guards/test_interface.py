@@ -144,3 +144,27 @@ def test_a_link_opens_a_record_type_that_exists_and_carries_real_fields():
 				wrong += [f"{doctype}: {one['label']} reads {field}, which it does not have" for field in named if field not in ours | {"name"}]
 				wrong += [f"{doctype}: {one['label']} says {rule[1]}" for rule in one["when"] if rule[1] not in ("=", "!=", "in")]
 	assert not wrong, "Links that go nowhere:\n" + "\n".join(wrong)
+
+
+def _icons():
+	import runpy
+
+	return runpy.run_path(str(ROOT / "onedesk" / "one_interface" / "icons.py"))
+
+
+def test_every_shared_icon_is_one_frappe_draws():
+	if not SPRITE.exists():
+		pytest.skip("frappe's icons are not on this bench")
+	drawn = set(re.findall(r'<symbol[^>]*id="(?:icon-)?([\w-]+)"', SPRITE.read_text()))
+	said = _icons()
+	used = {icon for icon, _phrases in said["RULES"]} | set(said["TYPES"].values()) | set(said["DOCTYPES"].values())
+	assert not used - drawn, f"Icons frappe does not draw: {sorted(used - drawn)}"
+
+
+def test_a_label_goes_by_its_most_specific_phrase():
+	said = _icons()
+	assert said["by_label"]("Expiry Date") != said["by_label"]("Start Date")
+	assert said["by_label"]("Warranty Expiry Date") != said["by_label"]("Expiry Date")
+	assert said["field"]("Allow Something", "Check") is None
+	assert said["field"]("Something Odd", "Currency") == said["TYPES"]["Currency"]
+

@@ -105,6 +105,18 @@ const esc = (value) => frappe.utils.escape_html(String(value ?? ""));
 const DATED = /(\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4})/g;
 const isolated = (value) => esc(value).replace(DATED, "<bdi>$1</bdi>");
 const declared = (doctype) => (frappe.boot.one_interface || {})[doctype] || null;
+
+onedesk.interface.label_icon = (label) => {
+	const said = ` ${((label || "").toLowerCase().match(/[a-z0-9]+/g) || []).join(" ")} `;
+	const found = (frappe.boot.one_icons?.phrases || []).find(([phrase]) => said.includes(` ${phrase} `));
+	return found ? found[1] : null;
+};
+
+onedesk.interface.field_icon = (df) => {
+	const shared = frappe.boot.one_icons;
+	if (!shared || shared.none.includes(df.fieldtype)) return null;
+	return onedesk.interface.label_icon(df.label) || shared.types[df.fieldtype] || null;
+};
 const icon = (name) => `<span class="one-ico">${frappe.utils.icon(name, "sm")}</span>`;
 
 // ── A record ────────────────────────────────────────────────────────────
@@ -405,18 +417,18 @@ record.fields = (frm) => {
 	}
 };
 
-// The icons a module declares for a record type's tabs and fields.
+// A record's tabs and fields wear the shared registry's icons, or the one its
+// module names where it means to differ.
 record.icons = (frm) => {
-	const reg = declared(frm.doctype);
-	if (!reg) return;
+	const reg = declared(frm.doctype) || {};
 	((frm.layout && frm.layout.tabs) || []).forEach((tab) => {
 		const link = tab.tab_link && (tab.tab_link[0] || tab.tab_link).querySelector && (tab.tab_link[0] || tab.tab_link).querySelector(".nav-link");
-		const name = reg.tabs && reg.tabs[tab.df.fieldname];
+		const name = (reg.tabs && reg.tabs[tab.df.fieldname]) || onedesk.interface.label_icon(tab.df.label);
 		if (name && link && !link.querySelector(".one-ico")) link.insertAdjacentHTML("afterbegin", icon(name).replace("one-ico", "one-ico one-tab-ico"));
 	});
-	Object.entries(reg.fields || {}).forEach(([field, name]) => {
-		const control = frm.fields_dict[field];
-		const label = control && control.$wrapper && control.$wrapper[0].querySelector(".control-label");
+	Object.entries(frm.fields_dict || {}).forEach(([field, control]) => {
+		const name = (reg.fields && reg.fields[field]) || (control?.df && onedesk.interface.field_icon(control.df));
+		const label = name && control.$wrapper && control.$wrapper[0] && control.$wrapper[0].querySelector(".control-label");
 		if (label && !label.querySelector(".one-ico")) label.insertAdjacentHTML("afterbegin", icon(name));
 	});
 };
@@ -440,6 +452,7 @@ record.draw = (frm) => {
 	if (onedesk.interface.uses("head")) record.head(frm);
 	record.fields(frm);
 	if (onedesk.interface.uses("icons")) record.icons(frm);
+	setTimeout(() => record.icons(frm), 700);
 	if (onedesk.interface.uses("head")) record.shortcuts(frm);
 };
 
@@ -585,8 +598,7 @@ const list = onedesk.interface.list;
 // The icon a kind of record is shown with: its module's declared icon, else
 // the one its row on the rail carries (frappe's module sidebars).
 onedesk.interface.icon_of = (doctype) => {
-	const reg = declared(doctype);
-	if (reg && reg.icon) return reg.icon;
+	if (frappe.boot.one_icons?.doctypes[doctype]) return frappe.boot.one_icons.doctypes[doctype];
 	let found = null;
 	const walk = (node, depth) => {
 		if (found || !node || typeof node !== "object" || depth > 6) return;
@@ -816,11 +828,11 @@ list.filters = (view, form = false) => {
 // The icons a module declares for its fields, on the list's column heads,
 // drawn again whenever the list is.
 list.icons = (view) => {
-	const reg = declared(view.doctype);
-	if (!reg || !reg.fields) return;
+	const reg = declared(view.doctype) || {};
 	const named = {};
 	frappe.get_meta(view.doctype).fields.forEach((df) => {
-		if (reg.fields[df.fieldname]) named[__(df.label)] = reg.fields[df.fieldname];
+		const name = (reg.fields && reg.fields[df.fieldname]) || onedesk.interface.field_icon(df);
+		if (name) named[__(df.label)] = name;
 	});
 	view.$result[0].querySelectorAll(".list-row-head .list-row-col span, .list-row-head .list-row-col").forEach((el) => {
 		const name = named[(el.textContent || "").trim()];
