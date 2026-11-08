@@ -131,24 +131,24 @@
 	.one-fold-edge[data-one-fold="bottom"] {
 		left: 0;
 		right: 0;
-		height: var(--one-frame-gutter);
+		height: calc(var(--one-frame-gutter) + 4px);
 		cursor: row-resize;
 	}
 
 	.one-fold-edge[data-one-fold="top"] {
-		top: var(--one-bar-top);
+		top: calc(var(--one-bar-top) - 2px);
 	}
 
 	.one-fold-edge[data-one-fold="bottom"] {
-		bottom: var(--one-bar-bottom);
+		bottom: calc(var(--one-bar-bottom) - 2px);
 	}
 
 	.one-fold-edge[data-one-fold="dock"] {
 		--one-dock-now: var(--dock-width);
 		top: calc(var(--one-bar-top) + var(--one-frame-gutter));
 		bottom: calc(var(--one-bar-bottom) + var(--one-frame-gutter));
-		inset-inline-start: max(0px, calc(var(--one-dock-now) - 7px));
-		width: 6px;
+		inset-inline-start: max(0px, calc(var(--one-dock-now) - 9px));
+		width: 10px;
 		cursor: col-resize;
 		transition: --one-dock-now var(--one-pane-motion);
 	}
@@ -156,20 +156,29 @@
 	.one-fold-edge::after {
 		content: "";
 		position: absolute;
-		inset: 2px 0;
+		inset-block: calc(50% - 1px);
+		inset-inline: calc(50% - 14px);
 		border-radius: var(--radius-full);
-		background: var(--one-edge-heavy);
-		opacity: 0;
-		transition: opacity 0.15s ease 0.1s;
+		background: var(--one-frame-ink);
+		opacity: 0.35;
+		transition: inset var(--one-pane-motion), opacity 0.15s ease;
 	}
 
 	.one-fold-edge[data-one-fold="dock"]::after {
-		inset: 0 2px;
+		inset-block: calc(50% - 14px);
+		inset-inline: calc(50% - 1px);
 	}
 
 	.one-fold-edge:hover::after,
 	.one-fold-edge:active::after {
-		opacity: 1;
+		inset-inline: 0;
+		opacity: 0.5;
+	}
+
+	.one-fold-edge[data-one-fold="dock"]:hover::after,
+	.one-fold-edge[data-one-fold="dock"]:active::after {
+		inset-block: 0;
+		inset-inline: calc(50% - 1px);
 	}
 
 	/* The inset: frappe's sidebar and the screen beside it, one rounded

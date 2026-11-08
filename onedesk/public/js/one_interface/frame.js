@@ -898,6 +898,7 @@ onedesk.interface.here = () => {
 		if (current && current.interface) setTimeout(() => current.interface.can(), 0);
 		onedesk.interface.nav.place();
 		onedesk.interface.place_status();
+		onedesk.interface.folds.setup();
 	});
 	$(document).on("app_ready", () => onedesk.interface.nav.setup());
 	$(() => setTimeout(() => onedesk.interface.nav.setup(), 0));

@@ -317,18 +317,17 @@
 	.one-interface-details-edge::after {
 		content: "";
 		position: absolute;
-		inset-block: 0;
+		inset-block: calc(50% - 14px);
 		inset-inline-start: 3px;
 		width: 2px;
 		border-radius: var(--radius-full);
 		background: var(--one-edge-heavy);
-		opacity: 0;
-		transition: opacity 0.15s ease 0.1s;
+		transition: inset var(--one-pane-motion);
 	}
 
 	.one-interface-details-edge:hover::after,
 	.one-interface-details-edge:active::after {
-		opacity: 1;
+		inset-block: 0;
 	}
 
 	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
@@ -603,6 +602,20 @@
 /* The nav pane: frappe's sidebar, with a view's own tree under its row. */
 .body-sidebar-container .sidebar-edge {
 	cursor: col-resize;
+}
+
+.body-sidebar-container .sidebar-edge::after {
+	top: calc(50% - 14px);
+	height: 28px;
+	background: var(--one-edge-heavy);
+	transition: top var(--one-pane-motion), height var(--one-pane-motion);
+}
+
+.body-sidebar-container .sidebar-edge:hover::after,
+.body-sidebar-container .sidebar-edge:active::after {
+	top: 0;
+	height: 100%;
+	background: var(--one-edge-heavy);
 }
 
 @property --one-bar-top {
