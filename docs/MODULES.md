@@ -1057,6 +1057,7 @@ No doctypes yet.
 * `onedesk.one_storage.links.make`
 * `onedesk.one_storage.links.put`
 * `onedesk.one_storage.links.unlock`
+* `onedesk.one_storage.made.create`
 * `onedesk.one_storage.mounts.disconnect`
 * `onedesk.one_storage.mounts.get`
 * `onedesk.one_storage.mounts.save`

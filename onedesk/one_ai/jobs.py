@@ -74,6 +74,10 @@ JOBS = {
 	"slide_design": Job(_lt("Design a Slide"), "OneSlide", "build", most=6000, thinks="always"),
 	"slide_picture": Job(_lt("Make a Picture for a Slide"), "OneSlide", "picture"),
 	"slide_video": Job(_lt("Make a Video for a Slide"), "OneSlide", "video"),
+	"cloud_picture": Job(_lt("Make a Picture"), "OneCloud", "picture"),
+	"cloud_music": Job(_lt("Make Music"), "OneCloud", "music"),
+	"cloud_video": Job(_lt("Make a Video"), "OneCloud", "video"),
+	"cloud_voice": Job(_lt("Read Words Aloud"), "OneCloud", "speak"),
 }
 
 

@@ -7,10 +7,12 @@
 starts with it, such as a module's.
 """
 
+import base64
 import io
 import json
 import traceback
 from contextlib import contextmanager
+from unittest import mock
 
 import frappe
 from frappe.utils import (
@@ -1344,7 +1346,9 @@ def onecloud_the_site_team_works_in_its_library():
 	from pypdf import PdfReader
 
 	from onedesk.one_demo import storage as demo
-	from onedesk.one_storage import ai, api, dav, history, library, pdf, share
+	from PIL import Image
+
+	from onedesk.one_storage import ai, api, dav, history, library, made, pdf, share
 	from onedesk.one_storage import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
@@ -1382,6 +1386,21 @@ def onecloud_the_site_team_works_in_its_library():
 			raise AssertionError("a text file was put into a PDF")
 		except frappe.ValidationError:
 			pass
+		dot = io.BytesIO()
+		Image.new("RGB", (4, 4), "blue").save(dot, "PNG")
+		making = {"picture": {"data": base64.b64encode(dot.getvalue()).decode(), "mime": "image/png"}, "speech": {"data": base64.b64encode(b"\0\0" * 800).decode(), "mime": "audio/L16;rate=16000"}}
+		asked = []
+		with mock.patch("onedesk.one_ai.run.make", side_effect=lambda job, text, reference=None, voice=None: asked.append((job, voice)) or making[reference.split()[-1]]), mock.patch("onedesk.one.apps.refuse_ai"), mock.patch("frappe.enqueue") as later:
+			assert made.create("picture", folder, "A site at dawn", shape="wide")["name"] == "A site at dawn.png"
+			assert made.create("speech", folder, "Gates open at seven.", voice="Puck", name="Gates")["name"] == "Gates.wav"
+			assert made.create("music", folder, "Calm piano") == {"begun": True} and later.call_args.kwargs["kind"] == "music"
+		assert asked == [("cloud_picture", None), ("cloud_voice", "Puck")]
+		with as_user("yousef@one.test"):
+			try:
+				made.create("picture", folder, "Anything")
+				raise AssertionError("a reader made a file in the library")
+			except frappe.PermissionError:
+				pass
 		api.move(copied, ns.home())
 		assert frappe.db.get_value("File", copied[0], "folder") == ns.home()
 		attached = api.attach([drawing], "Project", VILLA)

@@ -102,6 +102,7 @@ export function typeOf(item) {
 	if (item.folder) return __("Folder");
 	if (item.workbook) return __("Workbook");
 	if (item.document) return __("Document");
+	if (item.presentation) return __("Presentation");
 	const ext = extension(item);
 	const found = KINDS.find(([exts]) => exts.includes(ext));
 	if (found) return found[2]();

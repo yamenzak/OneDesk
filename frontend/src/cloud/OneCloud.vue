@@ -157,6 +157,7 @@ import {
   goToUrl,
   hasRole,
   intakeOn,
+  oneaiOn,
   listenIn,
   onedesk,
   openTab,
@@ -577,6 +578,46 @@ function combine() {
   );
 }
 
+const MAKES = {
+  picture: { title: () => __("Make a Picture"), said: () => __("Description"), shapes: ["square", "wide", "tall"] },
+  music: { title: () => __("Make Music"), said: () => __("Description") },
+  video: { title: () => __("Make a Video"), said: () => __("Description"), shapes: ["wide", "tall"] },
+  speech: { title: () => __("Make Speech"), said: () => __("Words"), voices: ["Kore", "Puck", "Charon", "Aoede", "Fenrir", "Leda", "Orus", "Zephyr"] },
+};
+const SHAPE_NAMES = { square: () => __("Square"), wide: () => __("Wide"), tall: () => __("Tall") };
+
+function makeWithAI(kind) {
+  const make = MAKES[kind];
+  const target = node.value;
+  const shapes = (make.shapes || []).map((one) => SHAPE_NAMES[one]());
+  prompt(
+    [
+      { fieldname: "description", fieldtype: "Small Text", label: make.said(), reqd: 1 },
+      make.shapes ? { fieldname: "shape", fieldtype: "Select", label: __("Shape"), options: shapes.join("\n"), default: shapes[0] } : null,
+      make.voices ? { fieldname: "voice", fieldtype: "Select", label: __("Voice"), options: make.voices.join("\n"), default: make.voices[0] } : null,
+      { fieldname: "name", fieldtype: "Data", label: __("File Name"), description: __("Leave empty to name it from the description.") },
+    ].filter(Boolean),
+    async ({ description, shape, voice, name }) => {
+      const later = kind === "music" || kind === "video";
+      if (!later) alert(__("OneAI is making it…"), "blue");
+      const made = await call("onedesk.one_storage.made.create", {
+        kind,
+        target,
+        description,
+        shape: make.shapes?.[shapes.indexOf(shape)] || null,
+        voice: voice || null,
+        name: name || null,
+      });
+      if (made.begun) return alert(__("Being made. You will get a notification when it is ready."), "blue");
+      alert(__("{0} made.", [made.name]));
+      reveal = made.id;
+      if (target === node.value) refresh();
+    },
+    make.title(),
+    __("Make")
+  );
+}
+
 async function colorize(color) {
   const folders = chosen.value.filter((one) => one.folder && stored(one)).map((one) => one.id);
   await call(API + "color", { nodes: folders, color });
@@ -680,6 +721,14 @@ const newMenu = computed(() => {
       ["upload-folder", "lucide-folder-up", __("Upload folder"), can.add && k !== "record"],
     ],
     [["new-request", "lucide-inbox", __("File request"), can.add && local]],
+    oneaiOn() && can.add && local
+      ? [
+          ["make-picture", "lucide-image", __("Picture with OneAI…"), true],
+          ["make-music", "lucide-music", __("Music with OneAI…"), true],
+          ["make-video", "lucide-clapperboard", __("Video with OneAI…"), true],
+          ["make-speech", "lucide-audio-lines", __("Speech with OneAI…"), true],
+        ]
+      : [],
   ]);
 });
 
@@ -818,6 +867,11 @@ async function act(name) {
       return cloud().new_library(dialogsGo);
     case "new-mount":
       return cloud().mount(null, dialogsGo);
+    case "make-picture":
+    case "make-music":
+    case "make-video":
+    case "make-speech":
+      return makeWithAI(name.slice(5));
     case "new-request":
       return cloud().request({ node: node.value, kind: k, trail: trail.value }, dialogsGo);
     case "request-progress":

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 10:14+0000\n"
-"PO-Revision-Date: 2026-11-08 10:14+0000\n"
+"POT-Creation-Date: 2026-11-08 10:26+0000\n"
+"PO-Revision-Date: 2026-11-08 10:26+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -265,7 +265,7 @@ msgstr ""
 msgid "1 invoice"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:281
+#: frontend/src/cloud/OneCloud.vue:282
 #: frontend/src/inventory/supplier/SupplierItems.vue:119
 msgid "1 item"
 msgstr ""
@@ -276,7 +276,7 @@ msgstr ""
 msgid "1 item in {title} needs review"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:284
+#: frontend/src/cloud/OneCloud.vue:285
 msgid "1 item selected"
 msgstr ""
 
@@ -6797,7 +6797,7 @@ msgstr ""
 msgid "Before Insert"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:420
+#: onedesk/one_slide/ai.py:422
 msgid "Before OneAI wrote slides"
 msgstr ""
 
@@ -6914,6 +6914,10 @@ msgstr ""
 
 #: onedesk/one_factory/heads.py:74 onedesk/one_inventory/heads.py:666
 msgid "Being made."
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:611
+msgid "Being made. You will get a notification when it is ready."
 msgstr ""
 
 #: onedesk/one_factory/heads.py:73
@@ -7309,15 +7313,15 @@ msgstr ""
 msgid "Blank"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:814
+#: frontend/src/cloud/OneCloud.vue:863
 msgid "Blank Document"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1009
+#: frontend/src/cloud/OneCloud.vue:1063
 msgid "Blank Presentation"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:812
+#: frontend/src/cloud/OneCloud.vue:861
 msgid "Blank Workbook"
 msgstr ""
 
@@ -9954,7 +9958,7 @@ msgstr ""
 msgid "Collections"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:537
+#: frontend/src/cloud/OneCloud.vue:538
 #: frontend/src/slide/components/BorderSection.vue:11
 #: frontend/src/slide/components/FontSection.vue:35
 #: frontend/src/slide/components/ShadowSection.vue:4
@@ -9966,7 +9970,7 @@ msgstr ""
 msgid "Colors"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:731
+#: frontend/src/cloud/OneCloud.vue:780
 msgid "Color…"
 msgstr ""
 
@@ -10026,7 +10030,7 @@ msgstr ""
 msgid "Columns of {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:576
+#: frontend/src/cloud/OneCloud.vue:577
 msgid "Combine"
 msgstr ""
 
@@ -10035,11 +10039,11 @@ msgstr ""
 msgid "Combine at most {0} files at once."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:575 frontend/src/cloud/OneCloud.vue:639
+#: frontend/src/cloud/OneCloud.vue:576 frontend/src/cloud/OneCloud.vue:680
 msgid "Combine into PDF"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:724
+#: frontend/src/cloud/OneCloud.vue:773
 msgid "Combine into PDF…"
 msgstr ""
 
@@ -10047,7 +10051,7 @@ msgstr ""
 msgid "Combined"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:571
+#: frontend/src/cloud/OneCloud.vue:572
 #, python-brace-format
 msgid "Combined into {0}."
 msgstr ""
@@ -10535,11 +10539,11 @@ msgstr ""
 msgid "Connect Shared Mailboxes"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:723 frontend/src/cloud/OneCloud.vue:761
+#: frontend/src/cloud/OneCloud.vue:772 frontend/src/cloud/OneCloud.vue:810
 msgid "Connect as a drive…"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:739
+#: frontend/src/cloud/OneCloud.vue:788
 #: onedesk/public/js/onecloud_dialogs.js:277
 msgid "Connect server"
 msgstr ""
@@ -10985,7 +10989,7 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1077
+#: frontend/src/cloud/OneCloud.vue:900 frontend/src/cloud/OneCloud.vue:1131
 msgid "Copied 1 item"
 msgstr ""
 
@@ -10993,13 +10997,13 @@ msgstr ""
 msgid "Copied to clipboard"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1077
+#: frontend/src/cloud/OneCloud.vue:900 frontend/src/cloud/OneCloud.vue:1131
 #, python-brace-format
 msgid "Copied {0} items"
 msgstr ""
 
 #. Option for the 'Placed By' (Select) field in DocType 'Reading'
-#: frontend/src/cloud/OneCloud.vue:634 frontend/src/cloud/OneCloud.vue:714
+#: frontend/src/cloud/OneCloud.vue:675 frontend/src/cloud/OneCloud.vue:763
 #: frontend/src/intake/IntakeExplain.vue:19
 #: frontend/src/intake/IntakePay.vue:10
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:153
@@ -11055,7 +11059,7 @@ msgstr ""
 msgid "Copy it now. It won't be shown again."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:710
+#: frontend/src/cloud/OneCloud.vue:759
 #: frontend/src/sheet/components/SheetEditor/LinkPreviewCard.vue:44
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:136
 #: onedesk/public/js/onecloud_dialogs.js:107
@@ -11228,7 +11232,7 @@ msgstr ""
 msgid "Could not add the sheets."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:431
+#: onedesk/one_slide/ai.py:433
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr ""
 
@@ -12381,12 +12385,12 @@ msgstr ""
 msgid "Customize {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:633 frontend/src/cloud/OneCloud.vue:713
+#: frontend/src/cloud/OneCloud.vue:674 frontend/src/cloud/OneCloud.vue:762
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:154
 msgid "Cut"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846
+#: frontend/src/cloud/OneCloud.vue:900
 msgid "Cut 1 item"
 msgstr ""
 
@@ -12395,7 +12399,7 @@ msgstr ""
 msgid "Cut and machine profiles"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846
+#: frontend/src/cloud/OneCloud.vue:900
 #, python-brace-format
 msgid "Cut {0} items"
 msgstr ""
@@ -13293,7 +13297,7 @@ msgid "Delayed Tasks Summary"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
-#: frontend/src/cloud/OneCloud.vue:640 frontend/src/cloud/OneCloud.vue:727
+#: frontend/src/cloud/OneCloud.vue:681 frontend/src/cloud/OneCloud.vue:776
 #: frontend/src/mail/OneMail.vue:186 frontend/src/mail/OneMail.vue:223
 #: frontend/src/mail/OneMail.vue:333
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:59
@@ -13395,7 +13399,7 @@ msgstr ""
 msgid "Delete named range “{0}”?"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:701
+#: frontend/src/cloud/OneCloud.vue:750
 msgid "Delete permanently"
 msgstr ""
 
@@ -13452,22 +13456,22 @@ msgstr ""
 msgid "Delete {0} and the tasks under it?"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1056
+#: frontend/src/cloud/OneCloud.vue:1110
 #, python-brace-format
 msgid "Delete {0} from the server? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1056
+#: frontend/src/cloud/OneCloud.vue:1110
 #, python-brace-format
 msgid "Delete {0} items from the server? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:907
+#: frontend/src/cloud/OneCloud.vue:961
 #, python-brace-format
 msgid "Delete {0} items permanently? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:907
+#: frontend/src/cloud/OneCloud.vue:961
 #, python-brace-format
 msgid "Delete {0} permanently? This can't be undone."
 msgstr ""
@@ -13978,7 +13982,7 @@ msgstr ""
 msgid "Describe It"
 msgstr ""
 
-#: onedesk/one_display/make.py:80
+#: onedesk/one_display/make.py:80 onedesk/one_storage/made.py:71
 msgid "Describe what OneAI should make."
 msgstr ""
 
@@ -14047,6 +14051,8 @@ msgstr ""
 #. Label in the One Stock Entry print format
 #. Label in the One Supplier Quotation print format
 #. Label of the description (Small Text) field in DocType 'Record Type'
+#: frontend/src/cloud/OneCloud.vue:582 frontend/src/cloud/OneCloud.vue:583
+#: frontend/src/cloud/OneCloud.vue:584
 #: onedesk/one_admin/doctype/offering/offering.json:177
 #: onedesk/one_admin/doctype/private_app/private_app.json:63
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
@@ -14263,8 +14269,8 @@ msgstr ""
 #. Label of the said (Small Text) field in DocType 'Reading Lesson'
 #. Label in the One Travel Request print format
 #: frontend/portal/src/pages/Record.vue:66
-#: frontend/portal/src/pages/Rfq.vue:109 frontend/src/cloud/OneCloud.vue:254
-#: frontend/src/cloud/OneCloud.vue:751 frontend/src/intake/IntakePanel.vue:25
+#: frontend/portal/src/pages/Rfq.vue:109 frontend/src/cloud/OneCloud.vue:255
+#: frontend/src/cloud/OneCloud.vue:800 frontend/src/intake/IntakePanel.vue:25
 #: frontend/src/inventory/item/ItemBuying.vue:31
 #: frontend/src/inventory/item/ItemMaking.vue:36
 #: frontend/src/inventory/item/ItemSelling.vue:22
@@ -14438,7 +14444,7 @@ msgstr ""
 msgid "Discard the new version? The one that is on stays as it is."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:697
+#: frontend/src/cloud/OneCloud.vue:746
 #: frontend/src/slide/components/ElementContextMenu.vue:149
 #: onedesk/public/js/one_mail/onemail_settings.js:694
 msgid "Disconnect"
@@ -14448,7 +14454,7 @@ msgstr ""
 msgid "Disconnect the server instead."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:828
+#: frontend/src/cloud/OneCloud.vue:882
 #, python-brace-format
 msgid "Disconnect {0}? Files on the server stay as they are."
 msgstr ""
@@ -14712,7 +14718,7 @@ msgstr ""
 #. Label in the One Serial and Batch Bundle print format
 #. Label of the document (Data) field in DocType 'Legal Acceptance'
 #. Label of the document (Data) field in DocType 'Legal Document Version'
-#: frontend/src/cloud/OneCloud.vue:675 frontend/src/cloud/cloud.js:26
+#: frontend/src/cloud/OneCloud.vue:716 frontend/src/cloud/cloud.js:26
 #: frontend/src/cloud/cloud.js:104 frontend/src/project/Suppliers.vue:131
 #: onedesk/one_ai/reading/calendar.py:96 onedesk/one_ai/reading/inbox.py:60
 #: onedesk/one_ai/report/ready_to_submit/ready_to_submit.py:22
@@ -14975,7 +14981,7 @@ msgid "Down For"
 msgstr ""
 
 #: frontend/src/cloud/CloudViewer.vue:28 frontend/src/cloud/CloudViewer.vue:56
-#: frontend/src/cloud/OneCloud.vue:638 frontend/src/cloud/OneCloud.vue:707
+#: frontend/src/cloud/OneCloud.vue:679 frontend/src/cloud/OneCloud.vue:756
 #: onedesk/public/js/one_account/account_center.js:914 onedesk/www/s.html:91
 #: onedesk/www/s.html:150
 msgid "Download"
@@ -15010,11 +15016,11 @@ msgstr ""
 msgid "Download Your Data"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:709
+#: frontend/src/cloud/OneCloud.vue:758
 msgid "Download as CSV"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:708
+#: frontend/src/cloud/OneCloud.vue:757
 msgid "Download as Excel"
 msgstr ""
 
@@ -15912,7 +15918,7 @@ msgstr ""
 msgid "Edit chart"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:696
+#: frontend/src/cloud/OneCloud.vue:745
 msgid "Edit connection…"
 msgstr ""
 
@@ -16616,11 +16622,11 @@ msgstr ""
 msgid "Empty"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:644
+#: frontend/src/cloud/OneCloud.vue:685
 msgid "Empty Recycle Bin"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:915
+#: frontend/src/cloud/OneCloud.vue:969
 msgid "Empty Recycle Bin? Everything in it is deleted permanently."
 msgstr ""
 
@@ -18457,7 +18463,7 @@ msgstr ""
 #. Label of the item (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
-#: frontend/src/cloud/CloudViewer.vue:7 frontend/src/cloud/OneCloud.vue:563
+#: frontend/src/cloud/CloudViewer.vue:7 frontend/src/cloud/OneCloud.vue:564
 #: frontend/src/cloud/cloud.js:108
 #: frontend/src/sheet/components/SheetEditor/index.vue:95
 #: frontend/src/slide/shim/EditorNavbar.vue:27
@@ -18486,7 +18492,7 @@ msgstr ""
 msgid "File Link"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:554
+#: frontend/src/cloud/OneCloud.vue:555 frontend/src/cloud/OneCloud.vue:598
 msgid "File Name"
 msgstr ""
 
@@ -18538,7 +18544,7 @@ msgstr ""
 msgid "File received. Thank you."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:670 frontend/src/cloud/OneCloud.vue:682
+#: frontend/src/cloud/OneCloud.vue:711 frontend/src/cloud/OneCloud.vue:723
 #: frontend/src/cloud/cloud.js:101 onedesk/one_storage/file_requests.py:119
 msgid "File request"
 msgstr ""
@@ -18553,7 +18559,7 @@ msgstr ""
 msgid "File {0} not found"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:247
+#: frontend/src/cloud/OneCloud.vue:248
 msgid "File · From"
 msgstr ""
 
@@ -18577,8 +18583,8 @@ msgstr ""
 #: frontend/portal/src/pages/Project.vue:107
 #: frontend/portal/src/pages/Record.vue:87
 #: frontend/src/cloud/CloudPreview.vue:107 frontend/src/cloud/OneCloud.vue:76
-#: frontend/src/cloud/OneCloud.vue:558 frontend/src/cloud/OneCloud.vue:865
-#: frontend/src/cloud/OneCloud.vue:1364
+#: frontend/src/cloud/OneCloud.vue:559 frontend/src/cloud/OneCloud.vue:919
+#: frontend/src/cloud/OneCloud.vue:1418
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:124
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:93
 #: onedesk/one_storage/namespace.py:15
@@ -19156,7 +19162,7 @@ msgstr ""
 #. Label of the one_folder (Data) field in DocType 'Communication'
 #. Label of the folder (Link) field in DocType 'Cloud File Request'
 #: frontend/src/cloud/CloudItems.vue:175 frontend/src/cloud/CloudPreview.vue:95
-#: frontend/src/cloud/OneCloud.vue:247 frontend/src/cloud/OneCloud.vue:673
+#: frontend/src/cloud/OneCloud.vue:248 frontend/src/cloud/OneCloud.vue:714
 #: frontend/src/cloud/cloud.js:102
 #: onedesk/one_mail/custom/communication.json:20
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:64
@@ -19167,7 +19173,7 @@ msgid "Folder"
 msgstr ""
 
 #. Label of the one_color (Select) field in DocType 'File'
-#: frontend/src/cloud/OneCloud.vue:543 onedesk/one_storage/custom/file.json:79
+#: frontend/src/cloud/OneCloud.vue:544 onedesk/one_storage/custom/file.json:79
 msgid "Folder Color"
 msgstr ""
 
@@ -19175,11 +19181,11 @@ msgstr ""
 msgid "Folder Name"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:583
+#: frontend/src/cloud/OneCloud.vue:624
 msgid "Folder color changed."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:583
+#: frontend/src/cloud/OneCloud.vue:624
 msgid "Folder color removed."
 msgstr ""
 
@@ -19202,7 +19208,7 @@ msgstr ""
 msgid "Folder {0} not found"
 msgstr ""
 
-#: frontend/src/cloud/CloudPreview.vue:106 frontend/src/cloud/OneCloud.vue:445
+#: frontend/src/cloud/CloudPreview.vue:106 frontend/src/cloud/OneCloud.vue:446
 #: onedesk/public/js/one_ai/ai_center.js:155
 #: onedesk/public/js/one_ai/ai_center.js:478
 msgid "Folders"
@@ -26018,7 +26024,7 @@ msgstr ""
 msgid "Leave empty for documents that do not expire. Example: a birth certificate."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:540
+#: frontend/src/cloud/OneCloud.vue:541
 msgid "Leave empty for no color."
 msgstr ""
 
@@ -26056,6 +26062,10 @@ msgstr ""
 
 #: onedesk/public/js/onecloud_dialogs.js:301
 msgid "Leave empty to keep the saved password."
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:598
+msgid "Leave empty to name it from the description."
 msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:339
@@ -26477,7 +26487,7 @@ msgstr ""
 msgid "Libraries"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:668
+#: frontend/src/cloud/OneCloud.vue:709
 msgid "Library"
 msgstr ""
 
@@ -27305,6 +27315,11 @@ msgstr ""
 msgid "Made by OneAI from {0}. Not checked yet."
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+msgid "Made by OneAI in OneCloud"
+msgstr ""
+
 #: onedesk/public/js/one_ai/intake.js:16
 msgid "Made by OneAI. Not checked yet."
 msgstr ""
@@ -27660,6 +27675,7 @@ msgstr ""
 #. Label in the One Job Card print format
 #. Label in the One Work Order print format
 #. Label in the One Vehicle Log print format
+#: frontend/src/cloud/OneCloud.vue:617
 #: frontend/src/slide/shim/EditorNavbar.vue:301
 #: frontend/src/slide/shim/EditorNavbar.vue:403
 #: frontend/src/slide/shim/EditorNavbar.vue:410
@@ -27695,6 +27711,7 @@ msgstr ""
 msgid "Make More"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:583 onedesk/one_ai/jobs.py:78
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:31
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:39
 msgid "Make Music"
@@ -27723,6 +27740,10 @@ msgstr ""
 msgid "Make Smaller"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:585
+msgid "Make Speech"
+msgstr ""
+
 #: frontend/src/slide/shim/EditorNavbar.vue:341
 msgid "Make This Slide a Timeline"
 msgstr ""
@@ -27731,9 +27752,10 @@ msgstr ""
 msgid "Make a Company Device"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:582
 #: frontend/src/slide/shim/EditorNavbar.vue:329
 #: frontend/src/slide/shim/EditorNavbar.vue:403
-#: frontend/src/writer/components/CoreEditor.vue:282
+#: frontend/src/writer/components/CoreEditor.vue:282 onedesk/one_ai/jobs.py:77
 msgid "Make a Picture"
 msgstr ""
 
@@ -27745,8 +27767,9 @@ msgstr ""
 msgid "Make a Picture with OneAI"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:584
 #: frontend/src/slide/shim/EditorNavbar.vue:330
-#: frontend/src/slide/shim/EditorNavbar.vue:410
+#: frontend/src/slide/shim/EditorNavbar.vue:410 onedesk/one_ai/jobs.py:79
 msgid "Make a Video"
 msgstr ""
 
@@ -27834,7 +27857,7 @@ msgstr ""
 msgid "Make it smaller"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:384
+#: onedesk/one_slide/ai.py:386
 #, python-brace-format
 msgid "Make slide {0} a {1}"
 msgstr ""
@@ -28477,7 +28500,7 @@ msgstr ""
 msgid "Member"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:649
+#: frontend/src/cloud/OneCloud.vue:690
 #: frontend/src/sheet/components/SheetEditor/ShareDialog.vue:40
 #: onedesk/one/access_center.py:236 onedesk/public/js/one/access_center.js:329
 #: onedesk/public/js/one/access_center.js:529
@@ -29095,11 +29118,11 @@ msgstr ""
 msgid "Moved"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1077
+#: frontend/src/cloud/OneCloud.vue:1131
 msgid "Moved 1 item"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1049
+#: frontend/src/cloud/OneCloud.vue:1103
 msgid "Moved 1 item to the Recycle Bin"
 msgstr ""
 
@@ -29139,12 +29162,12 @@ msgstr ""
 msgid "Moved {0} in"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1077
+#: frontend/src/cloud/OneCloud.vue:1131
 #, python-brace-format
 msgid "Moved {0} items"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1049
+#: frontend/src/cloud/OneCloud.vue:1103
 #, python-brace-format
 msgid "Moved {0} items to the Recycle Bin"
 msgstr ""
@@ -29201,6 +29224,10 @@ msgstr ""
 #: onedesk/one_display/doctype/sound_zone/sound_zone.json:97
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:132
 msgid "Music Playlist"
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:727
+msgid "Music with OneAI…"
 msgstr ""
 
 #. Description of a DocType
@@ -29631,7 +29658,7 @@ msgstr ""
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #. Label in the One Leave Allocation print format
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
-#: frontend/src/cloud/OneCloud.vue:42 frontend/src/cloud/OneCloud.vue:1368
+#: frontend/src/cloud/OneCloud.vue:42 frontend/src/cloud/OneCloud.vue:1422
 #: frontend/src/slide/utils/slideMenu.js:9
 #: onedesk/one_admin/doctype/account_request/account_request.json:66
 #: onedesk/one_ai/doctype/reading/reading.json:324
@@ -29695,7 +29722,7 @@ msgstr ""
 msgid "New Code"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:744
+#: frontend/src/cloud/OneCloud.vue:793
 msgid "New Document"
 msgstr ""
 
@@ -29853,7 +29880,7 @@ msgstr ""
 msgid "New Plan"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:745
+#: frontend/src/cloud/OneCloud.vue:794
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:45
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:54
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:58
@@ -29978,7 +30005,7 @@ msgstr ""
 msgid "New Work Order"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:743
+#: frontend/src/cloud/OneCloud.vue:792
 msgid "New Workbook"
 msgstr ""
 
@@ -30022,7 +30049,7 @@ msgstr ""
 msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:742 frontend/src/cloud/OneCloud.vue:1019
+#: frontend/src/cloud/OneCloud.vue:791 frontend/src/cloud/OneCloud.vue:1073
 #: onedesk/one_storage/api.py:176 onedesk/one_storage/api.py:180
 msgid "New folder"
 msgstr ""
@@ -30048,7 +30075,7 @@ msgstr ""
 msgid "New level {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:738
+#: frontend/src/cloud/OneCloud.vue:787
 #: onedesk/public/js/onecloud_dialogs.js:196
 msgid "New library"
 msgstr ""
@@ -31593,6 +31620,11 @@ msgstr ""
 #. Name of a notification
 #: onedesk/one_display/notifications.py
 msgid "Not Made by OneAI"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+msgid "Not Made by OneAI in OneCloud"
 msgstr ""
 
 #. Label in the One Bank Transaction print format
@@ -33423,6 +33455,10 @@ msgstr ""
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr ""
 
+#: onedesk/one_storage/made.py:68
+msgid "OneAI can make a picture, music, a video or speech."
+msgstr ""
+
 #: onedesk/one_admin/heads.py:363
 msgid "OneAI cannot answer"
 msgstr ""
@@ -33444,6 +33480,10 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
+#: onedesk/one_storage/made.py:91
+msgid "OneAI could not make it. Try again, or describe it differently."
+msgstr ""
+
 #: onedesk/one_slide/ai.py:113
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
@@ -33453,6 +33493,7 @@ msgid "OneAI could not make the recording. Try again."
 msgstr ""
 
 #. Subject of a notification
+#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 #, python-brace-format
 msgid "OneAI could not make “{what}”"
@@ -33538,6 +33579,10 @@ msgstr ""
 msgid "OneAI is generating the music. You will be notified when it is added to the playlist."
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:602
+msgid "OneAI is making it…"
+msgstr ""
+
 #: frontend/src/slide/shim/EditorNavbar.vue:404
 msgid "OneAI is making the picture…"
 msgstr ""
@@ -33592,6 +33637,11 @@ msgstr ""
 #: onedesk/notifications/one_studio/extension_fixed.md
 #, python-brace-format
 msgid "OneAI looked at {extension}"
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+msgid "OneAI made it in the folder you asked from."
 msgstr ""
 
 #: onedesk/public/js/one_mail/rule_builder.js:245
@@ -33718,7 +33768,7 @@ msgid "OneCalendar"
 msgstr ""
 
 #. Title of a Sidebar
-#: frontend/src/cloud/OneCloud.vue:392 frontend/src/cloud/OneCloud.vue:1358
+#: frontend/src/cloud/OneCloud.vue:393 frontend/src/cloud/OneCloud.vue:1412
 #: onedesk/one_mail/cloud.py:65 onedesk/one_storage/file_requests.py:196
 #: onedesk/one_storage/mounts.py:326 onedesk/one_storage/namespace.py:820
 #: onedesk/one_storage/page/onecloud/onecloud.js:4
@@ -34232,12 +34282,13 @@ msgstr ""
 #. Option for the 'Status' (Select) field in DocType 'Mail Conversation'
 #. Option for the 'Status' (Select) field in DocType 'Cloud File Request'
 #. Option for the 'status' (Select) field in DocType 'Task'
-#: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:691
-#: frontend/src/cloud/OneCloud.vue:695 frontend/src/cloud/OneCloud.vue:704
+#: frontend/src/cloud/CloudPreview.vue:33 frontend/src/cloud/OneCloud.vue:740
+#: frontend/src/cloud/OneCloud.vue:744 frontend/src/cloud/OneCloud.vue:753
 #: frontend/src/factory/floor/ShopFloor.vue:119
 #: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:132
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/notifications/one_storage/link_shared.md
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
@@ -34471,7 +34522,7 @@ msgstr ""
 msgid "Open every task in the workspace, not only your own and your projects'."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:705
+#: frontend/src/cloud/OneCloud.vue:754
 msgid "Open file location"
 msgstr ""
 
@@ -34527,7 +34578,7 @@ msgstr ""
 msgid "Open one to read it, or tick several to file or archive them together."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:647 frontend/src/cloud/OneCloud.vue:706
+#: frontend/src/cloud/OneCloud.vue:688 frontend/src/cloud/OneCloud.vue:755
 msgid "Open record"
 msgstr ""
 
@@ -36373,7 +36424,7 @@ msgstr ""
 msgid "Pasta of the day"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:635 frontend/src/cloud/OneCloud.vue:748
+#: frontend/src/cloud/OneCloud.vue:676 frontend/src/cloud/OneCloud.vue:797
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:155
 msgid "Paste"
 msgstr ""
@@ -36390,7 +36441,7 @@ msgstr ""
 msgid "Paste formulas only"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:715
+#: frontend/src/cloud/OneCloud.vue:764
 msgid "Paste into folder"
 msgstr ""
 
@@ -37504,8 +37555,12 @@ msgstr ""
 msgid "Picture and Text"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:975
+#: frontend/src/cloud/OneCloud.vue:1029
 msgid "Picture saved."
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:726
+msgid "Picture with OneAI…"
 msgstr ""
 
 #: onedesk/one/control.py:24
@@ -38186,7 +38241,7 @@ msgstr ""
 #. Name of a DocType
 #. Label of the presentation (Link) field in DocType 'Presentation Version'
 #. Label of the presentation (Link) field in DocType 'Presentation View'
-#: frontend/src/cloud/OneCloud.vue:676 frontend/src/cloud/cloud.js:29
+#: frontend/src/cloud/OneCloud.vue:717 frontend/src/cloud/cloud.js:29
 #: onedesk/one_display/doctype/display_slide/display_slide.json:22
 #: onedesk/one_display/doctype/display_slide/display_slide.json:31
 #: onedesk/one_slide/doctype/presentation/presentation.json:20
@@ -38752,7 +38807,7 @@ msgid "Programme"
 msgstr ""
 
 #: frontend/portal/src/pages/Project.vue:71
-#: frontend/src/cloud/CloudPreview.vue:95 frontend/src/cloud/OneCloud.vue:247
+#: frontend/src/cloud/CloudPreview.vue:95 frontend/src/cloud/OneCloud.vue:248
 #: frontend/src/slide/shim/WidgetMock.vue:231 onedesk/one_book/heads.py:590
 #: onedesk/one_book/heads.py:670 onedesk/one_book/heads.py:680
 #: onedesk/one_crm/heads.py:370 onedesk/one_display/widgets.py:374
@@ -38773,7 +38828,7 @@ msgstr ""
 msgid "Progress to a Goal"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:691
+#: frontend/src/cloud/OneCloud.vue:740
 msgid "Progress…"
 msgstr ""
 
@@ -40114,6 +40169,10 @@ msgstr ""
 msgid "Read Scans"
 msgstr ""
 
+#: onedesk/one_ai/jobs.py:80
+msgid "Read Words Aloud"
+msgstr ""
+
 #: onedesk/one_ai/jobs.py:63
 msgid "Read a Bill Twice"
 msgstr ""
@@ -40196,7 +40255,7 @@ msgstr ""
 msgid "Read this project, then suggest the tasks it still needs, each with a due date before its end, as cards I can approve."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:725 onedesk/one_mail/ai.py:293
+#: frontend/src/cloud/OneCloud.vue:774 onedesk/one_mail/ai.py:293
 msgid "Read with OneAI"
 msgstr ""
 
@@ -41056,8 +41115,8 @@ msgstr ""
 msgid "Reflections"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:29 frontend/src/cloud/OneCloud.vue:738
-#: frontend/src/cloud/OneCloud.vue:739 frontend/src/cloud/OneCloud.vue:762
+#: frontend/src/cloud/OneCloud.vue:29 frontend/src/cloud/OneCloud.vue:787
+#: frontend/src/cloud/OneCloud.vue:788 frontend/src/cloud/OneCloud.vue:811
 #: onedesk/one_admin/heads.py:505 onedesk/one_admin/heads.py:512
 #: onedesk/one_interface/shortcuts.py:19 onedesk/public/js/head.js:426
 #: onedesk/public/js/one_interface/frame.js:253
@@ -41497,7 +41556,7 @@ msgstr ""
 msgid "Remove slicer"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:720
+#: frontend/src/cloud/OneCloud.vue:769
 msgid "Remove star"
 msgstr ""
 
@@ -41515,12 +41574,12 @@ msgstr ""
 msgid "Remove {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1061
+#: frontend/src/cloud/OneCloud.vue:1115
 #, python-brace-format
 msgid "Remove {0} files from their records? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1061
+#: frontend/src/cloud/OneCloud.vue:1115
 #, python-brace-format
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
@@ -41560,7 +41619,7 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
-#: frontend/src/cloud/OneCloud.vue:636 frontend/src/cloud/OneCloud.vue:726
+#: frontend/src/cloud/OneCloud.vue:677 frontend/src/cloud/OneCloud.vue:775
 #: frontend/src/mail/OneMail.vue:332 frontend/src/mail/OneMail.vue:366
 #: frontend/src/sheet/components/SheetEditor/VersionPreviewBanner.vue:37
 #: frontend/src/sheet/components/SheetEditor/index.vue:713
@@ -42310,8 +42369,8 @@ msgid "Restaurant"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
-#: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:643
-#: frontend/src/cloud/OneCloud.vue:701
+#: frontend/src/cloud/CloudPreview.vue:34 frontend/src/cloud/OneCloud.vue:684
+#: frontend/src/cloud/OneCloud.vue:750
 #: frontend/src/writer/components/VersionsSidebar.vue:29
 #: frontend/src/writer/components/VersionsSidebar.vue:300
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
@@ -42348,7 +42407,7 @@ msgstr ""
 msgid "Restored"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:901
+#: frontend/src/cloud/OneCloud.vue:955
 msgid "Restored 1 item"
 msgstr ""
 
@@ -42357,7 +42416,7 @@ msgstr ""
 msgid "Restored {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:901
+#: frontend/src/cloud/OneCloud.vue:955
 #, python-brace-format
 msgid "Restored {0} items"
 msgstr ""
@@ -42397,7 +42456,7 @@ msgstr ""
 msgid "Results and lessons"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1364 frontend/src/mail/OneMail.vue:172
+#: frontend/src/cloud/OneCloud.vue:1418 frontend/src/mail/OneMail.vue:172
 #, python-brace-format
 msgid "Results for {0}"
 msgstr ""
@@ -42786,7 +42845,7 @@ msgstr ""
 msgid "Rewrite in {0}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:343
+#: onedesk/one_slide/ai.py:345
 #, python-brace-format
 msgid "Rewrite slide {0} in {1}"
 msgstr ""
@@ -43500,7 +43559,7 @@ msgid "Saturday"
 msgstr ""
 
 #: frontend/portal/src/parts/WebForm.vue:6
-#: frontend/src/cloud/CloudViewer.vue:20 frontend/src/cloud/OneCloud.vue:544
+#: frontend/src/cloud/CloudViewer.vue:20 frontend/src/cloud/OneCloud.vue:545
 #: frontend/src/inventory/item/ItemCustomers.vue:17
 #: frontend/src/inventory/item/ItemPlaces.vue:21
 #: frontend/src/inventory/item/ItemSuppliers.vue:20
@@ -43644,7 +43703,7 @@ msgstr ""
 msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:975
+#: frontend/src/cloud/OneCloud.vue:1029
 #, python-brace-format
 msgid "Saved as {0}."
 msgstr ""
@@ -44008,7 +44067,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/portal/src/pages/List.vue:4 frontend/portal/src/pages/List.vue:11
-#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1335
+#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1389
 #: frontend/src/crm/CrmHome.vue:25 frontend/src/factory/home/FactoryHome.vue:20
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
@@ -44080,7 +44139,7 @@ msgstr ""
 msgid "Search every agreement by a word in it."
 msgstr ""
 
-#: frontend/src/cloud/CloudItems.vue:32 frontend/src/cloud/OneCloud.vue:242
+#: frontend/src/cloud/CloudItems.vue:32 frontend/src/cloud/OneCloud.vue:243
 msgid "Search everywhere"
 msgstr ""
 
@@ -44096,7 +44155,7 @@ msgstr ""
 msgid "Search templates..."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:242 onedesk/public/js/crumb_switch.js:135
+#: frontend/src/cloud/OneCloud.vue:243 onedesk/public/js/crumb_switch.js:135
 #: onedesk/public/js/one_interface/list.js:66
 #: onedesk/public/js/one_interface/tree.js:23
 #, python-brace-format
@@ -44830,7 +44889,7 @@ msgstr ""
 msgid "Server Folder"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:669
+#: frontend/src/cloud/OneCloud.vue:710
 msgid "Server connection"
 msgstr ""
 
@@ -45280,6 +45339,7 @@ msgstr ""
 msgid "Shadow"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:596
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/shim/LayersPanel.vue:116
 msgid "Shape"
@@ -45295,7 +45355,7 @@ msgstr ""
 
 #. Label in the One Budget print format
 #. Label in the One Cost Center Allocation print format
-#: frontend/src/cloud/OneCloud.vue:637
+#: frontend/src/cloud/OneCloud.vue:678
 #: frontend/src/sheet/components/SheetEditor/index.vue:147
 #: onedesk/one_book/print_format/one_budget/one_budget.json
 #: onedesk/one_book/print_format/one_cost_center_allocation/one_cost_center_allocation.json
@@ -45403,7 +45463,7 @@ msgstr ""
 msgid "Shared With You"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:247
+#: frontend/src/cloud/OneCloud.vue:248
 msgid "Shared by"
 msgstr ""
 
@@ -45432,7 +45492,7 @@ msgstr ""
 msgid "Shares issued, moved or bought back."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:718
+#: frontend/src/cloud/OneCloud.vue:767
 #: frontend/src/slide/shim/EditorNavbar.vue:150
 msgid "Share…"
 msgstr ""
@@ -46689,7 +46749,7 @@ msgstr ""
 msgid "Slide type in the slide library. Example: Title or Timeline."
 msgstr ""
 
-#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:388
+#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:390
 #, python-brace-format
 msgid "Slide {0}"
 msgstr ""
@@ -46715,7 +46775,7 @@ msgstr ""
 msgid "Slides"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:928
+#: frontend/src/cloud/OneCloud.vue:982
 #, python-brace-format
 msgid "Slides {0} had parts that could not be brought in."
 msgstr ""
@@ -47141,19 +47201,19 @@ msgstr ""
 msgid "Sort by Topic"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:756
+#: frontend/src/cloud/OneCloud.vue:805
 msgid "Sort by date"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:755
+#: frontend/src/cloud/OneCloud.vue:804
 msgid "Sort by name"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:758
+#: frontend/src/cloud/OneCloud.vue:807
 msgid "Sort by size"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:757
+#: frontend/src/cloud/OneCloud.vue:806
 msgid "Sort by type"
 msgstr ""
 
@@ -47304,6 +47364,10 @@ msgstr ""
 msgid "Specifications"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:729
+msgid "Speech with OneAI…"
+msgstr ""
+
 #: frontend/src/slide/components/PlaybackSection.vue:21
 msgid "Speed"
 msgstr ""
@@ -47388,7 +47452,7 @@ msgstr ""
 
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
-#: frontend/src/slide/shim/frame.js:18
+#: frontend/src/cloud/OneCloud.vue:587 frontend/src/slide/shim/frame.js:18
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Square"
@@ -47482,7 +47546,7 @@ msgstr ""
 msgid "Standing (9:16)"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:721 frontend/src/mail/MailList.vue:66
+#: frontend/src/cloud/OneCloud.vue:770 frontend/src/mail/MailList.vue:66
 #: frontend/src/mail/MailList.vue:67 frontend/src/mail/MailList.vue:106
 #: frontend/src/mail/OneMail.vue:190 frontend/src/mail/OneMail.vue:219
 #: frontend/src/slide/shim/LayersPanel.vue:99
@@ -49385,6 +49449,10 @@ msgstr ""
 
 #: onedesk/public/js/one_legal/trust_center.js:151
 msgid "Taking It With You"
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:587
+msgid "Tall"
 msgstr ""
 
 #: onedesk/one_admin/report/price_check/price_check.py:79
@@ -53749,7 +53817,7 @@ msgstr ""
 msgid "Tier"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:255 frontend/src/cloud/OneCloud.vue:752
+#: frontend/src/cloud/OneCloud.vue:256 frontend/src/cloud/OneCloud.vue:801
 #: onedesk/one_display/widgets.py:130
 msgid "Tiles"
 msgstr ""
@@ -55081,6 +55149,11 @@ msgstr ""
 msgid "Try again in a moment."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+msgid "Try again, or describe it differently."
+msgstr ""
+
 #. Option for the 'Days' (Select) field in DocType 'Channel Programme'
 #: frontend/src/inventory/home/InventoryStory.vue:118
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:52
@@ -55302,7 +55375,7 @@ msgstr ""
 #. Label in the One Stock Entry print format
 #. Label of the fieldtype (Data) field in DocType 'Workspace Field'
 #: frontend/src/cloud/CloudItems.vue:177 frontend/src/cloud/CloudPreview.vue:91
-#: frontend/src/cloud/OneCloud.vue:247
+#: frontend/src/cloud/OneCloud.vue:248
 #: frontend/src/sheet/components/SheetEditor/index.vue:905
 #: onedesk/one/doctype/news_source/news_source.json:56 onedesk/one/portal.py:58
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:33
@@ -56042,15 +56115,15 @@ msgstr ""
 msgid "Upload a list or paste one."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:679 frontend/src/cloud/OneCloud.vue:746
+#: frontend/src/cloud/OneCloud.vue:720 frontend/src/cloud/OneCloud.vue:795
 msgid "Upload files"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:680 frontend/src/cloud/OneCloud.vue:747
+#: frontend/src/cloud/OneCloud.vue:721 frontend/src/cloud/OneCloud.vue:796
 msgid "Upload folder"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:722
+#: frontend/src/cloud/OneCloud.vue:771
 msgid "Upload new version"
 msgstr ""
 
@@ -56646,8 +56719,12 @@ msgstr ""
 msgid "Video Not Made for a Presentation"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:728
+msgid "Video with OneAI…"
+msgstr ""
+
 #. Label of the view (Select) field in DocType 'Extension'
-#: frontend/src/cloud/OneCloud.vue:1373
+#: frontend/src/cloud/OneCloud.vue:1427
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:81
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:88
@@ -56748,6 +56825,7 @@ msgstr ""
 #. Label of the voice (Select) field in DocType 'Sound Zone'
 #. Label of the voice (Select) field in DocType 'Voice Ad'
 #. Label of the voice (Select) field in DocType 'Voice Pack'
+#: frontend/src/cloud/OneCloud.vue:597
 #: onedesk/one_display/doctype/display_voice/display_voice.json:39
 #: onedesk/one_display/doctype/sound_zone/sound_zone.json:84
 #: onedesk/one_display/doctype/voice_ad/voice_ad.json:50
@@ -58729,6 +58807,11 @@ msgid "When OneAI could not make a video somebody asked for in a presentation."
 msgstr ""
 
 #. When a notification is sent
+#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+msgid "When OneAI could not make music or a video somebody asked for."
+msgstr ""
+
+#. When a notification is sent
 #: onedesk/one_account/notifications.py
 msgid "When OneAI credits are added, from a pack, the monthly plan or One."
 msgstr ""
@@ -59448,6 +59531,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
 msgid "When mail you sent could not be delivered after every retry."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+msgid "When music or a video somebody asked OneAI for is ready in its folder."
 msgstr ""
 
 #. When a notification is sent
@@ -60796,6 +60884,8 @@ msgid "Whoever asked"
 msgstr ""
 
 #. Who a notification is sent to
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 msgid "Whoever asked for it"
 msgstr ""
@@ -61148,6 +61238,10 @@ msgstr ""
 msgid "Wi-Fi Code"
 msgstr ""
 
+#: frontend/src/cloud/OneCloud.vue:587
+msgid "Wide"
+msgstr ""
+
 #: frontend/src/slide/shim/frame.js:14
 msgid "Wide (16:9)"
 msgstr ""
@@ -61453,6 +61547,7 @@ msgid "Wordmark"
 msgstr ""
 
 #. Option for the 'Value Type' (Select) field in DocType 'Display Board'
+#: frontend/src/cloud/OneCloud.vue:585
 #: frontend/src/slide/shim/WidgetLookSection.vue:10
 #: frontend/src/slide/shim/WidgetSection.vue:61
 #: onedesk/one_display/doctype/display_board/display_board.json:46
@@ -61616,7 +61711,7 @@ msgstr ""
 #. Label of the workbook (Link) field in DocType 'Workbook Change'
 #. Label of the workbook (Link) field in DocType 'Workbook Version'
 #. Label of the sheets_data (Long Text) field in DocType 'Workbook Version'
-#: frontend/src/cloud/OneCloud.vue:674 frontend/src/cloud/cloud.js:103
+#: frontend/src/cloud/OneCloud.vue:715 frontend/src/cloud/cloud.js:103
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:90
 #: onedesk/one_sheet/doctype/workbook/workbook.json:44
 #: onedesk/one_sheet/doctype/workbook/workbook.json:111
@@ -62248,7 +62343,7 @@ msgstr ""
 msgid "Write {0} on a new {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:304
+#: onedesk/one_slide/ai.py:306
 #, python-brace-format
 msgid "Write {0} slides in {1}"
 msgstr ""
@@ -63278,7 +63373,7 @@ msgstr ""
 msgid "Your requisition for {designation} was {status}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:247
+#: frontend/src/cloud/OneCloud.vue:248
 msgid "Your role"
 msgstr ""
 
@@ -63886,12 +63981,12 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:973
+#: frontend/src/cloud/OneCloud.vue:1027
 #: onedesk/public/js/one_interface/look.js:492
 msgid "edited"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:973
+#: frontend/src/cloud/OneCloud.vue:1027
 #, python-brace-format
 msgid "edited {0}"
 msgstr ""
@@ -67186,7 +67281,7 @@ msgstr ""
 msgid "{0} isn't set, so {1}."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:281
+#: frontend/src/cloud/OneCloud.vue:282
 #: frontend/src/inventory/supplier/SupplierItems.vue:119
 #, python-brace-format
 msgid "{0} items"
@@ -67197,7 +67292,7 @@ msgstr ""
 msgid "{0} items have a reorder level, but nothing is asked for when they reach it. To Order still lists them."
 msgstr ""
 
-#: frontend/src/cloud/CloudPreview.vue:5 frontend/src/cloud/OneCloud.vue:284
+#: frontend/src/cloud/CloudPreview.vue:5 frontend/src/cloud/OneCloud.vue:285
 #, python-brace-format
 msgid "{0} items selected"
 msgstr ""
@@ -67287,6 +67382,11 @@ msgstr ""
 #: onedesk/one_hr/heads.py:545
 #, python-brace-format
 msgid "{0} m"
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:612
+#, python-brace-format
+msgid "{0} made."
 msgstr ""
 
 #: onedesk/one_studio/approvals.py:307
@@ -69245,6 +69345,12 @@ msgstr ""
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
 msgid "{event} starts at {time}{where}"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+#, python-brace-format
+msgid "{file} is ready"
 msgstr ""
 
 #. Subject of a notification

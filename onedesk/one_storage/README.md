@@ -86,6 +86,10 @@ dialog that isn't attached to a record goes to your My Files.
 - **New**, beside the folder's name: create a folder, a workbook, a document
   or a presentation, or upload files or a whole folder. You can also drag
   files or folders from your computer onto the page or onto a folder.
+  When OneAI is on, **New** also makes a picture, music, a short video or
+  speech from what you describe, saved in the folder. A picture and speech
+  arrive in a few seconds; music and a video take longer, and you get a
+  notification when they're ready.
 - **Details** and **Tiles**, at the other end of the folder's name, switch
   the view. Click a column heading to sort by it.
 - **Choose** files with the box at the start of each row (on Tiles, in a
@@ -377,6 +381,23 @@ who can see the folder and whether OneAI reads it.
 ## Under the hood
 
 For the people who build OneCloud. OneAI does not read past this heading.
+
+**What OneAI makes** (`made.py`). Four jobs in `one_ai/jobs.py`,
+`cloud_picture`, `cloud_music`, `cloud_video` and `cloud_voice`, each with its
+words in `one_ai/words/`, billed through OneAdmin like OneSlide's and
+OneDisplay's. A picture and speech are made in the request; music and a video
+on the long queue (`made_later`), and the asker hears `Made by OneAI in
+OneCloud` or `Not Made by OneAI in OneCloud`. The video waits as OneSlide's
+does (`one_slide.ai._video`). Speech comes back as raw samples and is kept as
+a WAV (`one_display.voices._wav`). The file goes in through `upload._place`,
+so the folder's add permission is the check.
+
+**Viewer and editor** (`CloudViewer.vue`, `CloudEditor.vue`, `editor.js`,
+`pdf.js`). Bytes come from `api.content`, our own address, so pdf.js and the
+canvas can read a stored file. The picture editor is cropperjs 2, as
+@framework/ui's ImageCropper uses it, and saves through the explorer's upload
+(`version_of` for Save). `pdf.combine` joins PDFs and pictures with pypdf and
+Pillow.
 
 **Where a requested file goes** (`targets.py`). A target is a file field: one
 on the record itself (`image`), or one in a row of one of its tables

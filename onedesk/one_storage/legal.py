@@ -55,3 +55,15 @@ clause(
 		stay yours. Read with OneAI on a file reads that one file as a folder OneAI reads would.
 	""",
 )
+
+clause(
+	document="ai",
+	section="modules",
+	key="onecloud-makes",
+	module=M,
+	body="""
+		In OneCloud, OneAI can make a picture, music, a short video or speech from what you describe. It is
+		sent only that description, or the words to be read aloud. What it makes is saved as a file in the
+		folder you asked from, where it can be moved or deleted like any other file.
+	""",
+)

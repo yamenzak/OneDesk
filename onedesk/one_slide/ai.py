@@ -178,17 +178,19 @@ def added(src: str, what: str, background: str, width: float = convert.WIDE, hei
 	return {"client_id": str(uuid.uuid4()), "background": background or "#000000FF", "elements": play.cleaned([element])}
 
 
-def _video(description: str, orientation: str) -> dict:
+def _video(description: str, orientation: str, job: str = "slide_video", reference: str = "OneSlide video") -> dict:
+	"""A video begun and waited for, collected every few seconds for at most
+	a quarter of an hour."""
 	from onedesk.one_ai import run
 
-	ticket = run.begin("slide_video", description, reference="OneSlide video", orientation=orientation)
+	ticket = run.begin(job, description, reference=reference, orientation=orientation)
 	if not ticket:
 		raise frappe.ValidationError("no video was begun")
 	waited = 0
 	while waited < ASK_FOR:
 		time.sleep(ASK_EVERY)
 		waited += ASK_EVERY
-		said = run.collect(ticket, reference="OneSlide video")
+		said = run.collect(ticket, reference=reference)
 		if said.get("done"):
 			if not said.get("data"):
 				raise frappe.ValidationError("the video came back empty")
