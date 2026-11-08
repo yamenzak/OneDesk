@@ -515,7 +515,7 @@ onedesk.ReadsSection = class ReadsSection extends onedesk.CenterSection {
 		if (one.on) return frappe.confirm(__("Stop OneAI reading new mail in {0}?", [esc(one.email)]), () => set(0));
 		if (!one.mine) return frappe.msgprint(__("Only the owner of {0} can turn this on, because OneAI acts on their behalf.", [esc(one.email)]));
 		frappe.confirm(
-			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits.", [`<b>${esc(one.email)}</b>`]),
+			__("OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits.", [`<b>${esc(one.email)}</b>`]),
 			() => set(1)
 		);
 	}

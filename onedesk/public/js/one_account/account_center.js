@@ -779,7 +779,7 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 			}),
 			meter({
 				icon: "sparkles",
-				title: __("OneAI Credits"),
+				title: __("OneCredits"),
 				used: number(account.credits_balance),
 				of: __("left"),
 				share: null,
@@ -1598,7 +1598,7 @@ onedesk.account_center.SECTIONS = [
 	{ id: "signin", about: __("Your password, your passkey and where you are signed in.") },
 	{ id: "people", about: __("Everyone in the workspace, and inviting someone new.") },
 	{ id: "devices", about: __("The company's computers and phones, and the passkeys on people's own.") },
-	{ id: "plan", about: __("The plan, its seats and storage, OneAI credits and invoices.") },
+	{ id: "plan", about: __("The plan, its seats and storage, OneCredits and invoices.") },
 	{ id: "domains", about: __("The addresses the workspace answers on.") },
 ];
 

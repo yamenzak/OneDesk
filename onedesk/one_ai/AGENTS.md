@@ -154,7 +154,7 @@ next.
   something does. **Summarise Now** writes it straight away.
 - Administrators turn summaries on or off for each kind of record under
   AICenter › **Summaries**, which also shows how many records have one. Each
-  summary uses OneAI credits.
+  summary uses OneCredits.
 
 #### What OneAI remembers
 
@@ -190,7 +190,7 @@ told. An administrator picks the tier in AICenter; Balanced until then. Search a
 
 #### Credits
 
-Every answer uses OneAI credits. The plan gives some each month, and more can
+Every answer uses OneCredits. The plan gives some each month, and more can
 be bought under Workspace › **Plan and Credits**. When the workspace has none
 left, OneAI can't answer until credits are added.
 
@@ -859,7 +859,7 @@ For a folder:
 
 New files and mail there are then read by OneAI as well. Scans and photos
 are read, recordings are transcribed and a scan of the day's post is split
-into separate letters. This uses OneAI credits.
+into separate letters. This uses OneCredits.
 
 - OneAI only does what the person who switched it on has permission to do.
 - Only you can switch it on for your My Files and your own mailbox.
@@ -885,7 +885,7 @@ Anything not found in the document is left out and listed under **Not in
 the document**, and the reading is marked **Unsure**.
 
 E-invoices, bank statements, contact cards and invitations are read from
-their own data, with no OneAI credits used.
+their own data, with no OneCredits used.
 
 Spam, phishing, advertising, newsletters and automatic notifications are
 recognized from a quick look and never read in full, so they cost almost
@@ -1372,7 +1372,7 @@ of it, numbered §1 to §16, which the code's docstrings cite.
   file, a bank statement) is read for every file, so a workspace can search
   inside its documents whether or not it uses OneAI. What needs a model (a
   scan, a photo, a recording) is read only where somebody switched OneAI on,
-  and is charged as OneAI credits.
+  and is charged as OneCredits.
 - A reading that needs a model waits for credits rather than failing
   (`Waiting for Credits`), and whoever added the file is told either way
   (Couldn't Read). One that failed for a passing reason is tried again every
@@ -1783,7 +1783,7 @@ and works inside every space, so it is a OneDesk module, `one_intake`. What
 people see is OneAI doing it, switched on per OneCloud folder and per OneMail
 mailbox. It does things rather than asks, with the short list of exceptions
 in §4. It serves the household, the clinic and the office. There is no
-spending cap: every reading is metered as OneAI credits, and the only limit
+spending cap: every reading is metered as OneCredits, and the only limit
 is the credit balance (§14).
 
 **The five promises**, each with a mechanism behind it:

@@ -16,7 +16,7 @@ HOME = [
 		"target": "one-home-glance",
 		"side": "bottom",
 		"title": _lt("The Workspace"),
-		"text": _lt("Its people, apps, storage and OneAI credits, each opening where it is managed."),
+		"text": _lt("Its people, apps, storage and OneCredits, each opening where it is managed."),
 	},
 	{
 		"target": "one-home-approvals",

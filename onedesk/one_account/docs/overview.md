@@ -21,7 +21,7 @@ Administrators also have these:
   somebody new.
 - **Devices**: the company's computers and phones, and the passkeys on
   people's own.
-- **Plan and Credits**: the plan, its seats and storage, OneAI credits and
+- **Plan and Credits**: the plan, its seats and storage, OneCredits and
   the invoices.
 - **Domains**: the addresses the workspace opens at.
 

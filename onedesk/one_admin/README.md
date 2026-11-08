@@ -224,7 +224,7 @@ There are three types:
   credits. Zero means unlimited.
 - **Add-on**: adds one thing, in one size, to a plan, paid monthly with it.
   For example 50 GB of storage or 5 seats.
-- **Credit Pack**: bought once, for OneAI credits that don't expire at the
+- **Credit Pack**: bought once, for OneCredits that don't expire at the
   end of the month.
 
 **Changing an offering**:
@@ -408,7 +408,7 @@ workspace, OneAI answers **Why wasn't this built?**.
 
 ## Credits
 
-**Credits** is every change to every workspace's OneAI credits, one row each,
+**Credits** is every change to every workspace's OneCredits, one row each,
 never edited. A workspace's balance is the sum of its rows.
 
 - **Grant** adds credits: a plan's monthly credits (expire at month end), a
@@ -1742,7 +1742,7 @@ at); the quotas do, the next time the customer changes their plan or add-ons
 
 A workspace is sold four things it can run out of: **seats**, **storage** (its
 files, in R2), **database** (its site's database on Frappe Cloud, and the
-backups kept of it) and **OneAI credits**. A plan is a bundle of all four at a
+backups kept of it) and **OneCredits**. A plan is a bundle of all four at a
 monthly price. An add-on is one of them, in a fixed size, on top of a plan.
 
 **Why a calculator.** A price list is only coherent if three things hold at

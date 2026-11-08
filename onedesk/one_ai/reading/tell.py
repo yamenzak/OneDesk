@@ -99,7 +99,7 @@ def couldnt_read(reading, waiting: bool) -> None:
 		sender=notify.ONEAI,
 		dedupe_on=["document_type", "document_name"],
 		title=reading.title or reading.name,
-		why=_("The workspace has run out of OneAI credits. It is read as soon as more are added.")
+		why=_("The workspace has run out of OneCredits. It is read as soon as more are added.")
 		if waiting
 		else _("It failed more than once. Open it to read it yourself, or try again later."),
 	)

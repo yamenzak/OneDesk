@@ -36,7 +36,7 @@ The steps run in the order of the five tables below.
 |---|---|
 | setup | The company through the setup wizard, in dirhams, the years before this one, rates for dollars, euros and pounds, and a euro rate from July so a late payment gains or loses |
 | people | 18 people with their departments, managers and pay. Ten sign in, each given what People gives. The owner sets the company's Brand Colour, details and letter head |
-| plan | What the workspace's account last said: a Business plan, its seats and storage, a storage add-on, OneAI credits, and three addresses, one waiting on its DNS record. A demo has no account to ask, so Plan and Credits and Domains show it as last known |
+| plan | What the workspace's account last said: a Business plan, its seats and storage, a storage add-on, OneCredits, and three addresses, one waiting on its DNS record. A demo has no account to ask, so Plan and Credits and Domains show it as last known |
 | masters | 10 customers and 11 suppliers in four currencies, 26 items, prices, activity types (Site Work among them, so a day on site costs), asset categories. Sales in the UAE and bills from UAE suppliers carry 5% VAT, the rest none |
 | stock | The stock the year opened with |
 | buying | Requests, requests for quotation, supplier quotations, orders, receipts, bills, payments, a return, broken glass sent back with a debit note on its bill, euro orders, an order received and not billed |

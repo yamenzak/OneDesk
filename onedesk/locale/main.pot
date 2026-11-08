@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 12:28+0000\n"
-"PO-Revision-Date: 2026-11-08 12:28+0000\n"
+"POT-Creation-Date: 2026-11-08 12:38+0000\n"
+"PO-Revision-Date: 2026-11-08 12:38+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6866,7 +6866,7 @@ msgstr ""
 
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
-msgid "Before some of the workspace's OneAI credits expire, a week ahead."
+msgid "Before some of the workspace's OneCredits expire, a week ahead."
 msgstr ""
 
 #: frontend/src/project/Invoices.vue:84 frontend/src/project/Suppliers.vue:182
@@ -22091,7 +22091,7 @@ msgid "How long stock has been sitting."
 msgstr ""
 
 #: onedesk/one/ai.py:333
-msgid "How long will our OneAI credits last at the rate we use them, and do any expire before we would use them?"
+msgid "How long will our OneCredits last at the rate we use them, and do any expire before we would use them?"
 msgstr ""
 
 #: onedesk/one/ai.py:331
@@ -24736,7 +24736,7 @@ msgid "Its owner"
 msgstr ""
 
 #: onedesk/one/tour.py:19
-msgid "Its people, apps, storage and OneAI credits, each opening where it is managed."
+msgid "Its people, apps, storage and OneCredits, each opening where it is managed."
 msgstr ""
 
 #. Who a notification is sent to
@@ -33352,10 +33352,6 @@ msgstr ""
 msgid "OneAI Action"
 msgstr ""
 
-#: onedesk/one/home.py:191 onedesk/public/js/one_account/account_center.js:782
-msgid "OneAI Credits"
-msgstr ""
-
 #. Label of the one_ai_skips (Small Text) field in DocType 'Email Account'
 #: onedesk/one_ai/custom/email_account.json:111
 msgid "OneAI Leaves Alone"
@@ -33472,16 +33468,6 @@ msgstr ""
 #: onedesk/one_ai/notifications.py
 #, python-brace-format
 msgid "OneAI couldn't read {title}"
-msgstr ""
-
-#. Subject of a notification
-#: onedesk/one/home.py:246 onedesk/one_account/notifications.py
-msgid "OneAI credits are running low"
-msgstr ""
-
-#. Subject of a notification
-#: onedesk/one_account/notifications.py
-msgid "OneAI credits were added"
 msgstr ""
 
 #: frontend/src/intake/IntakePanel.vue:21
@@ -33644,7 +33630,7 @@ msgstr ""
 
 #: onedesk/public/js/one_ai/ai_center.js:518
 #, python-brace-format
-msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
+msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits."
 msgstr ""
 
 #: onedesk/one_ai/heads.py:66
@@ -33736,6 +33722,20 @@ msgstr ""
 #: onedesk/one_storage/sidebar/onecloud/onecloud.json:29
 #: onedesk/public/js/onecloud_picker.js:104
 msgid "OneCloud"
+msgstr ""
+
+#: onedesk/one/home.py:191 onedesk/public/js/one_account/account_center.js:782
+msgid "OneCredits"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/one/home.py:246 onedesk/one_account/notifications.py
+msgid "OneCredits are running low"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/one_account/notifications.py
+msgid "OneCredits were added"
 msgstr ""
 
 #. Title of a Sidebar
@@ -44212,7 +44212,7 @@ msgid "See the changes"
 msgstr ""
 
 #: onedesk/one_account/abilities.py:28
-msgid "See the plan, its seats and storage, OneAI credits and invoices."
+msgid "See the plan, its seats and storage, OneCredits and invoices."
 msgstr ""
 
 #: onedesk/one_display/starters.py:1059
@@ -52411,13 +52411,13 @@ msgid "The workspace does not open at it yet."
 msgstr ""
 
 #: onedesk/one_ai/reading/tell.py:102
-msgid "The workspace has run out of OneAI credits. It is read as soon as more are added."
+msgid "The workspace has run out of OneCredits. It is read as soon as more are added."
 msgstr ""
 
 #. Message of a notification
 #: onedesk/one_account/notifications.py
 #, python-brace-format
-msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
+msgid "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
 msgstr ""
 
 #: onedesk/one_admin/heads.py:262
@@ -58433,7 +58433,7 @@ msgid "What training would help?"
 msgstr ""
 
 #: onedesk/one/ai.py:340
-msgid "What used the most OneAI credits in the last thirty days, by model and by person?"
+msgid "What used the most OneCredits in the last thirty days, by model and by person?"
 msgstr ""
 
 #: onedesk/one/ai.py:339
@@ -58759,16 +58759,6 @@ msgid "When OneAI could not make music or a video somebody asked for."
 msgstr ""
 
 #. When a notification is sent
-#: onedesk/one_account/notifications.py
-msgid "When OneAI credits are added, from a pack, the monthly plan or One."
-msgstr ""
-
-#. When a notification is sent
-#: onedesk/one_account/notifications.py
-msgid "When OneAI credits will run out in about three days."
-msgstr ""
-
-#. When a notification is sent
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "When OneAI finishes fixing an extension you asked it to fix."
 msgstr ""
@@ -58786,6 +58776,16 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/one_hr/notifications.py
 msgid "When OneAI reads a new grievance as urgent."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/one_account/notifications.py
+msgid "When OneCredits are added, from a pack, the monthly plan or One."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/one_account/notifications.py
+msgid "When OneCredits will run out in about three days."
 msgstr ""
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
@@ -58914,7 +58914,7 @@ msgstr ""
 
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
-msgid "When a mailbox uses its OneAI credits for the month. Once a month."
+msgid "When a mailbox uses its OneCredits for the month. Once a month."
 msgstr ""
 
 #. When a notification is sent
@@ -59941,7 +59941,7 @@ msgstr ""
 
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
-msgid "When the workspace's OneAI credits run out, and OneAI stops until more are added."
+msgid "When the workspace's OneCredits run out, and OneAI stops until more are added."
 msgstr ""
 
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
@@ -60147,7 +60147,7 @@ msgid "Where did this project's time go this month? Say who logged it, on which 
 msgstr ""
 
 #: onedesk/one_admin/ai.py:137
-msgid "Where did this workspace's OneAI credits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
+msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr ""
 
 #: onedesk/one_book/ai.py:68
@@ -69123,7 +69123,7 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/one_account/notifications.py
 #, python-brace-format
-msgid "{credits} OneAI credits expire on {date}"
+msgid "{credits} OneCredits expire on {date}"
 msgstr ""
 
 #. Subject of a notification
@@ -69428,7 +69428,7 @@ msgstr ""
 #. Subject of a notification
 #: onedesk/one_mail/notifications.py
 #, python-brace-format
-msgid "{mailbox} used its {limit} OneAI credits for this month"
+msgid "{mailbox} used its {limit} OneCredits for this month"
 msgstr ""
 
 #. Subject of a notification

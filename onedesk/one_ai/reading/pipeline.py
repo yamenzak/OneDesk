@@ -1,7 +1,7 @@
 """Stage 1 of Intake: every file and message that arrives becomes a Reading.
 
 Each is read in the background, once per content. What needs a model is read
-only where somebody switched OneAI on, and is charged as OneAI credits.
+only where somebody switched OneAI on, and is charged as OneCredits.
 """
 
 import hashlib

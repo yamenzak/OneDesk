@@ -364,7 +364,7 @@ anything in OneCloud. Sharing, moving and deleting are done in the explorer.
 
 **Read with OneAI** on a file's menu has OneAI read that file now, file it
 and act on it. A folder whose new files OneAI reads is added in One, under
-**OneAI › What OneAI Reads**. Scans and photos use OneAI credits.
+**OneAI › What OneAI Reads**. Scans and photos use OneCredits.
 
 With nothing selected, the preview pane shows the folder: how many folders
 and files it holds and their total size. For your own folders, it also shows

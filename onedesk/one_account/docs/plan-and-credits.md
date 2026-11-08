@@ -1,8 +1,8 @@
 # Plan and Credits
 
 **Plan and Credits** shows the workspace's plan, how many of its seats are
-used, how much storage and database it takes, its OneAI credits and the
-invoices. Seats, storage, database and OneAI credits are a tile each, with
+used, how much storage and database it takes, its OneCredits and the
+invoices. Seats, storage, database and OneCredits are a tile each, with
 what is used and how much is left, and each has its own button to buy more:
 **Add Seats**, **Add Storage**, **Add Database** and **Buy Credits**. **Change
 Plan** moves to another plan. Monthly credits are used first, and credits you

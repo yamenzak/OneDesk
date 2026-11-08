@@ -1,6 +1,6 @@
 """What the workspace's account last said, as a connected workspace keeps it
 (one/account.py's refresh writes the same fields): a Business plan, its
-seats, storage and database, one storage add-on, OneAI credits, and its
+seats, storage and database, one storage add-on, OneCredits, and its
 addresses: the one One gave, its own made the main one, and one waiting on
 its DNS record. A demo has no account to ask, so Plan and Credits and
 Domains show this as what was last known, and invoices, the ledger and every

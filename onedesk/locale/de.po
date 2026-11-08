@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 12:27+0000\n"
+"POT-Creation-Date: 2026-11-08 12:33+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -6870,8 +6870,8 @@ msgstr "Vor dem Neugestalten nach Layouts"
 
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
-msgid "Before some of the workspace's OneAI credits expire, a week ahead."
-msgstr "Bevor ein Teil des OneAI-Guthabens des Arbeitsbereichs verfällt, eine Woche vorher."
+msgid "Before some of the workspace's OneCredits expire, a week ahead."
+msgstr "Eine Woche bevor ein Teil der OneCredits des Arbeitsbereichs verfällt."
 
 #: frontend/src/project/Invoices.vue:84 frontend/src/project/Suppliers.vue:182
 #: onedesk/public/js/band.js:13
@@ -22088,8 +22088,8 @@ msgid "How long stock has been sitting."
 msgstr "Wie lange der Bestand schon liegt."
 
 #: onedesk/one/ai.py:333
-msgid "How long will our OneAI credits last at the rate we use them, and do any expire before we would use them?"
-msgstr "Wie lange reicht unser OneAI-Guthaben bei unserem Verbrauch, und verfällt etwas davon, bevor wir es nutzen würden?"
+msgid "How long will our OneCredits last at the rate we use them, and do any expire before we would use them?"
+msgstr "Wie lange reichen unsere OneCredits bei unserem Verbrauch, und verfallen welche, bevor wir sie nutzen würden?"
 
 #: onedesk/one/ai.py:331
 msgid "How long will our credits last?"
@@ -24733,8 +24733,8 @@ msgid "Its owner"
 msgstr "Der Verantwortliche"
 
 #: onedesk/one/tour.py:19
-msgid "Its people, apps, storage and OneAI credits, each opening where it is managed."
-msgstr "Seine Personen, Apps, sein Speicher und seine OneAI-Credits, jeweils dort geöffnet, wo es verwaltet wird."
+msgid "Its people, apps, storage and OneCredits, each opening where it is managed."
+msgstr "Personen, Apps, Speicher und OneCredits, jeweils dort geöffnet, wo sie verwaltet werden."
 
 #. Who a notification is sent to
 #: onedesk/one_hr/notifications.py
@@ -33344,10 +33344,6 @@ msgstr "OneAI"
 msgid "OneAI Action"
 msgstr "OneAI-Aktion"
 
-#: onedesk/one/home.py:191 onedesk/public/js/one_account/account_center.js:782
-msgid "OneAI Credits"
-msgstr "OneAI-Guthaben"
-
 #. Label of the one_ai_skips (Small Text) field in DocType 'Email Account'
 #: onedesk/one_ai/custom/email_account.json:111
 msgid "OneAI Leaves Alone"
@@ -33465,16 +33461,6 @@ msgstr "OneAI konnte das Widget nicht schreiben. Versuchen Sie es erneut."
 #, python-brace-format
 msgid "OneAI couldn't read {title}"
 msgstr "OneAI konnte {title} nicht lesen"
-
-#. Subject of a notification
-#: onedesk/one/home.py:246 onedesk/one_account/notifications.py
-msgid "OneAI credits are running low"
-msgstr "Das OneAI-Guthaben wird knapp"
-
-#. Subject of a notification
-#: onedesk/one_account/notifications.py
-msgid "OneAI credits were added"
-msgstr "OneAI-Guthaben wurde aufgeladen"
 
 #: frontend/src/intake/IntakePanel.vue:21
 msgid "OneAI did 1 thing with it"
@@ -33636,8 +33622,8 @@ msgstr "OneAI liest für den Rest des Monats keine neue Post mehr, sobald dies v
 
 #: onedesk/public/js/one_ai/ai_center.js:518
 #, python-brace-format
-msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneAI credits."
-msgstr "OneAI liest neue Mails in {0} und ihre Anhänge, legt sie ab und bearbeitet sie in Ihrem Namen. Scans und Fotos werden mit OneAI-Guthaben gelesen."
+msgid "OneAI will read new mail in {0} and its attachments, file them and act on them on your behalf. Scans and photos are read with OneCredits."
+msgstr "OneAI liest neue E-Mails in {0} und ihre Anhänge, legt sie ab und handelt in Ihrem Namen. Scans und Fotos werden mit OneCredits gelesen."
 
 #: onedesk/one_ai/heads.py:66
 msgid "OneAI writes one here when something happens, such as an invoice, a payment or a mail."
@@ -33729,6 +33715,20 @@ msgstr "OneCalendar"
 #: onedesk/public/js/onecloud_picker.js:104
 msgid "OneCloud"
 msgstr "OneCloud"
+
+#: onedesk/one/home.py:191 onedesk/public/js/one_account/account_center.js:782
+msgid "OneCredits"
+msgstr "OneCredits"
+
+#. Subject of a notification
+#: onedesk/one/home.py:246 onedesk/one_account/notifications.py
+msgid "OneCredits are running low"
+msgstr "Die OneCredits gehen zur Neige"
+
+#. Subject of a notification
+#: onedesk/one_account/notifications.py
+msgid "OneCredits were added"
+msgstr "OneCredits wurden hinzugefügt"
 
 #. Title of a Sidebar
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:14
@@ -44199,8 +44199,8 @@ msgid "See the changes"
 msgstr "Änderungen ansehen"
 
 #: onedesk/one_account/abilities.py:28
-msgid "See the plan, its seats and storage, OneAI credits and invoices."
-msgstr "Sehen Sie den Tarif, seine Plätze und den Speicher, das OneAI-Guthaben und die Rechnungen."
+msgid "See the plan, its seats and storage, OneCredits and invoices."
+msgstr "Plan, Plätze und Speicher, OneCredits und Rechnungen ansehen."
 
 #: onedesk/one_display/starters.py:1059
 msgid "See the projects in the hall"
@@ -52371,14 +52371,14 @@ msgid "The workspace does not open at it yet."
 msgstr "Der Arbeitsbereich ist darunter noch nicht erreichbar."
 
 #: onedesk/one_ai/reading/tell.py:102
-msgid "The workspace has run out of OneAI credits. It is read as soon as more are added."
-msgstr "Der Arbeitsbereich hat keine OneAI-Credits mehr. Es wird gelesen, sobald neue hinzukommen."
+msgid "The workspace has run out of OneCredits. It is read as soon as more are added."
+msgstr "Der Arbeitsbereich hat keine OneCredits mehr. Gelesen wird, sobald neue hinzugefügt werden."
 
 #. Message of a notification
 #: onedesk/one_account/notifications.py
 #, python-brace-format
-msgid "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
-msgstr "Der Arbeitsbereich hat noch {balance} OneAI-Guthaben, beim Verbrauch der letzten dreißig Tage etwa {days} Tage. Kaufen Sie mehr unter Tarif und Guthaben in AccountCenter."
+msgid "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter."
+msgstr "Der Arbeitsbereich hat noch {balance} OneCredits, etwa {days} Tage beim Verbrauch der letzten dreißig. Kaufen Sie mehr unter Plan und Guthaben im AccountCenter."
 
 #: onedesk/one_admin/heads.py:262
 msgid "The workspace is being built."
@@ -58382,8 +58382,8 @@ msgid "What training would help?"
 msgstr "Welche Schulung würde helfen?"
 
 #: onedesk/one/ai.py:340
-msgid "What used the most OneAI credits in the last thirty days, by model and by person?"
-msgstr "Was hat in den letzten dreißig Tagen das meiste OneAI-Guthaben verbraucht, nach Modell und nach Person?"
+msgid "What used the most OneCredits in the last thirty days, by model and by person?"
+msgstr "Was hat in den letzten dreißig Tagen die meisten OneCredits verbraucht, nach Modell und nach Person?"
 
 #: onedesk/one/ai.py:339
 msgid "What used the most credits this month?"
@@ -58708,16 +58708,6 @@ msgid "When OneAI could not make music or a video somebody asked for."
 msgstr "Wenn OneAI angeforderte Musik oder ein Video nicht erstellen konnte."
 
 #. When a notification is sent
-#: onedesk/one_account/notifications.py
-msgid "When OneAI credits are added, from a pack, the monthly plan or One."
-msgstr "Wenn OneAI-Guthaben hinzukommt, aus einem Paket, dem Monatsplan oder von One."
-
-#. When a notification is sent
-#: onedesk/one_account/notifications.py
-msgid "When OneAI credits will run out in about three days."
-msgstr "Wenn das OneAI-Guthaben in etwa drei Tagen aufgebraucht ist."
-
-#. When a notification is sent
 #: onedesk/notifications/one_studio/extension_fixed.md
 msgid "When OneAI finishes fixing an extension you asked it to fix."
 msgstr "Wenn OneAI eine Erweiterung fertig repariert hat, um die Sie gebeten haben."
@@ -58736,6 +58726,16 @@ msgstr "Wenn OneAI eine neue Beschwerde als heikel einstuft."
 #: onedesk/one_hr/notifications.py
 msgid "When OneAI reads a new grievance as urgent."
 msgstr "Wenn OneAI eine neue Beschwerde als dringend einstuft."
+
+#. When a notification is sent
+#: onedesk/one_account/notifications.py
+msgid "When OneCredits are added, from a pack, the monthly plan or One."
+msgstr "Wenn OneCredits hinzukommen, aus einem Paket, dem Monatsplan oder von One."
+
+#. When a notification is sent
+#: onedesk/one_account/notifications.py
+msgid "When OneCredits will run out in about three days."
+msgstr "Wenn die OneCredits in etwa drei Tagen aufgebraucht sind."
 
 #. Option for the 'Tax on Retention' (Select) field in DocType 'Projects
 #. Settings'
@@ -58862,8 +58862,8 @@ msgstr "Wenn eine Mail-Regel Ihnen mitteilen soll, dass Mail angekommen ist, auf
 
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
-msgid "When a mailbox uses its OneAI credits for the month. Once a month."
-msgstr "Wenn ein Postfach sein OneAI-Guthaben für den Monat aufgebraucht hat. Einmal im Monat."
+msgid "When a mailbox uses its OneCredits for the month. Once a month."
+msgstr "Wenn ein Postfach seine OneCredits für den Monat verbraucht hat. Einmal im Monat."
 
 #. When a notification is sent
 #: onedesk/one_mail/notifications.py
@@ -59889,8 +59889,8 @@ msgstr "Wenn der Wert ungültig ist"
 
 #. When a notification is sent
 #: onedesk/one_account/notifications.py
-msgid "When the workspace's OneAI credits run out, and OneAI stops until more are added."
-msgstr "Wenn die OneAI-Credits des Arbeitsbereichs aufgebraucht sind und OneAI anhält, bis neue hinzukommen."
+msgid "When the workspace's OneCredits run out, and OneAI stops until more are added."
+msgstr "Wenn die OneCredits des Arbeitsbereichs aufgebraucht sind und OneAI anhält, bis neue hinzukommen."
 
 #. Description of the 'Hours' (Data) field in DocType 'Shift Request'
 #: onedesk/one_hr/custom/shift_request.json:12
@@ -60095,8 +60095,8 @@ msgid "Where did this project's time go this month? Say who logged it, on which 
 msgstr "Wohin ist die Zeit dieses Projekts in diesem Monat gegangen? Nenne, wer sie erfasst hat, auf welchen Aufgaben, wie viel abrechenbar ist und was noch Entwurf ist."
 
 #: onedesk/one_admin/ai.py:137
-msgid "Where did this workspace's OneAI credits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
-msgstr "Wohin sind die OneAI-Credits dieses Arbeitsbereichs gegangen? Nennen Sie, was noch übrig ist und bis wann, was diesen Monat auf welchen Modellen ausgegeben wurde und was von Hand vergeben oder zurückgenommen wurde, mit der Nachricht dazu."
+msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
+msgstr "Wohin sind die OneCredits dieses Arbeitsbereichs gegangen? Nenne, was übrig ist und bis wann, was diesen Monat für welche Modelle ausgegeben wurde und was von Hand gegeben oder zurückgenommen wurde, mit Notiz."
 
 #: onedesk/one_book/ai.py:68
 msgid "Where does this invoice stand?"
@@ -69067,8 +69067,8 @@ msgstr "{count} Aufgaben heute fällig oder überfällig"
 #. Subject of a notification
 #: onedesk/one_account/notifications.py
 #, python-brace-format
-msgid "{credits} OneAI credits expire on {date}"
-msgstr "{credits} OneAI-Guthaben verfällt am {date}"
+msgid "{credits} OneCredits expire on {date}"
+msgstr "{credits} OneCredits verfallen am {date}"
 
 #. Subject of a notification
 #: onedesk/one_crm/notifications.py
@@ -69372,8 +69372,8 @@ msgstr "{mailbox} verbindet sich nicht: {reason}"
 #. Subject of a notification
 #: onedesk/one_mail/notifications.py
 #, python-brace-format
-msgid "{mailbox} used its {limit} OneAI credits for this month"
-msgstr "{mailbox} hat seine {limit} OneAI-Guthaben für diesen Monat aufgebraucht"
+msgid "{mailbox} used its {limit} OneCredits for this month"
+msgstr "{mailbox} hat seine {limit} OneCredits für diesen Monat verbraucht"
 
 #. Subject of a notification
 #: onedesk/one_project/notifications.py

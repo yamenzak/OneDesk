@@ -126,13 +126,13 @@ TYPES = [
 	{
 		"name": "Mailbox OneAI Limit Reached",
 		"app": "OneMail",
-		"about": "When a mailbox uses its OneAI credits for the month. Once a month.",
+		"about": "When a mailbox uses its OneCredits for the month. Once a month.",
 		"to": "Whoever OneAI reads it for and whoever connected it, or every administrator",
 		"channels": ALL,
 		"button": "Open Mail Settings",
 		"email_default": True,
 		"sender": "system",
-		"subject": "{mailbox} used its {limit} OneAI credits for this month",
+		"subject": "{mailbox} used its {limit} OneCredits for this month",
 		"message": "New mail in <b>{mailbox}</b> is only read without OneAI until next month. Raise the limit in "
 		"OneMail › Settings › {mailbox} › OneAI.",
 	},

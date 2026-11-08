@@ -58,7 +58,7 @@ TYPES = [
 		"name": "Credits Added",
 		"app": "OneAccount",
 		"roles": ("Workspace Administrator",),
-		"about": "When OneAI credits are added, from a pack, the monthly plan or One.",
+		"about": "When OneCredits are added, from a pack, the monthly plan or One.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -67,14 +67,14 @@ TYPES = [
 		},
 		"button": "Open Plan and Credits",
 		"sender": "system",
-		"subject": "OneAI credits were added",
+		"subject": "OneCredits were added",
 		"message": "The workspace now has {balance} credits.{note}",
 	},
 	{
 		"name": "Credits Expiring",
 		"app": "OneAccount",
 		"roles": ("Workspace Administrator",),
-		"about": "Before some of the workspace's OneAI credits expire, a week ahead.",
+		"about": "Before some of the workspace's OneCredits expire, a week ahead.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -83,14 +83,14 @@ TYPES = [
 		},
 		"button": "Open Plan and Credits",
 		"sender": "system",
-		"subject": "{credits} OneAI credits expire on {date}",
+		"subject": "{credits} OneCredits expire on {date}",
 		"message": "They are used before any others, so nothing needs doing unless you want them used.",
 	},
 	{
 		"name": "Credits Ran Out",
 		"app": "OneAccount",
 		"roles": ("Workspace Administrator",),
-		"about": "When the workspace's OneAI credits run out, and OneAI stops until more are added.",
+		"about": "When the workspace's OneCredits run out, and OneAI stops until more are added.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -107,7 +107,7 @@ TYPES = [
 		"name": "Credits Running Low",
 		"app": "OneAccount",
 		"roles": ("Workspace Administrator",),
-		"about": "When OneAI credits will run out in about three days.",
+		"about": "When OneCredits will run out in about three days.",
 		"to": "Every administrator",
 		"channels": {
 			"bell": True,
@@ -117,8 +117,8 @@ TYPES = [
 		"button": "Open Plan and Credits",
 		"always_mailed": True,
 		"sender": "system",
-		"subject": "OneAI credits are running low",
-		"message": "The workspace has {balance} OneAI credits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter.",
+		"subject": "OneCredits are running low",
+		"message": "The workspace has {balance} OneCredits left, about {days} days at the rate of the last thirty. Buy more on Plan and Credits in AccountCenter.",
 	},
 	{
 		"name": "Database Nearly Full",

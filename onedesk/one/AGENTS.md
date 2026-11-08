@@ -454,7 +454,7 @@ the apps, all at once: what waits for the reader's approval in every app,
 the announcements running (`announcements._running`), the apps with a
 version they have not opened (`news`, from `versions.for_boot`), and for an
 administrator the workspace at a glance (`glance`: people against seats,
-apps on, storage against its limit, OneAI credits, from `Workspace
+apps on, storage against its limit, OneCredits, from `Workspace
 Account`) and `attention`. A task, a meeting or a document waiting is its
 own app's, on that app's home. Each approval is read through
 `frappe.get_list`, so it is exactly what the reader may open. The island

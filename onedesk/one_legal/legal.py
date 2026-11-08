@@ -173,7 +173,7 @@ say(
 	"subscription",
 	"""
 	A workspace runs on a plan. Each plan includes a number of seats, an amount of file storage, an amount
-	of database and OneAI credits each month. Its price and what it includes are shown before you subscribe
+	of database and OneCredits each month. Its price and what it includes are shown before you subscribe
 	and in the workspace's settings. Fees are charged in advance for each billing period and are not
 	refundable except where the law requires.
 
