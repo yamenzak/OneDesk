@@ -124,8 +124,8 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   at its end, and the tab you are on is always shown. A list's column heads are drawn as
   OneCloud's: words with a line under them, not a grey box.
 - **Details pane** (`window.details()`) sits right of the view, can be
-  dragged wider, and is switched from the command row; both are kept per
-  view kind. A form's own sidebar is already there.
+  dragged wider or shut from its edge, or switched by its shortcut; both are
+  kept per view kind. A form's own sidebar is already there.
 - **Status** (`window.status()`): what is here, what is chosen, and
   whatever the view puts beside it (a list's paging). The window on screen
   shows it at the start of the frame's bottom bar, as a taskbar would

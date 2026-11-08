@@ -199,7 +199,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > * { border-bottom: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-nav, .page-title, .one-interface-tools) { position: relative; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .page-title .title-area { border-color: transparent !important; background: transparent !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .one-interface-switch, .standard-items-section) { margin-top: 4px; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .standard-items-section) { margin-top: 4px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-search .form-control { height: 28px; }
 :root[data-one-look="canvas"] .one-interface :is(.page-head :is(.one-interface-commands, .one-interface-views, .standard-items-section), .one-hero-list) :is(.es-button, .btn) {
 	height: 28px !important; min-height: 28px !important; padding: 0 10px !important; border-radius: var(--one-radius-control) !important;
@@ -479,7 +479,7 @@
 :root[data-one-look="canvas"] .one-interface { --one-inset: 10px; --one-row-inset: 14px; }
 :root[data-one-look="canvas"] .one-interface .page-head { padding-inline: var(--one-inset) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands { padding-inline-start: 0 !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-views, .one-interface-switch) { padding-inline-end: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { padding-inline-end: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .one-hero-list { padding-inline: var(--one-inset); }
 :root[data-one-look="canvas"] .one-interface .one-strip { padding-inline: 0; margin-inline: var(--one-inset); }
 :root[data-one-look="canvas"] .one-interface .frappe-list { margin-inline: var(--one-inset) !important; padding-inline: 0 !important; }
@@ -604,7 +604,6 @@
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-commands { padding-inline: 4px 0 !important; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .standard-items-section { padding-inline: 6px 0 !important; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-tools { order: 3; }
-:root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-switch { order: 4; position: relative; margin: 8px 8px 0 0 !important; align-self: flex-start; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .page-head-content > .one-interface-break { order: 5; }
 /* An island under the window's head (look.js heading) joins the same way: what acts on the whole view and the details
    switch end the address row, and nothing is left on a row of its own. */
@@ -612,7 +611,6 @@
 :root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .page-title { order: 1; flex: 1 1 220px; }
 :root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-commands { order: 2; position: relative; margin-top: 0 !important; flex: none; }
 :root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-tools { order: 3; }
-:root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-switch { order: 4; position: relative; margin: 0 8px 0 0 !important; align-self: center; }
 :root[data-one-look="canvas"] .one-interface:has(.one-hero-island) .page-head .page-head-content > .one-interface-break { order: 5; }
 :root[data-one-look="canvas"] .one-head-joined .page-head :is(.one-interface-commands, .standard-items-section) :is(.es-button, .btn):not([data-variant="solid"]):not(.primary-action):not(.btn-primary) { background: var(--one-address-bg) !important; }
 :root[data-one-look="canvas"] .one-head-joined .page-head .one-interface-commands .one-bar-icons { margin-inline: 4px 0 !important; }
@@ -631,9 +629,6 @@
 /* The tabs' pills start on the window's edge, like everything else (frappe's 8px link margins are gone). */
 :root[data-one-look="canvas"] .one-interface .one-interface-row.one-tabs-below { padding-inline: var(--one-inset) !important; }
 /* The details switch, when the pane is open, is chosen. */
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch { background: transparent !important; color: var(--one-ink-quiet) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-switch[data-state="on"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
 /* A table in a record has the list's heads: the same tint, the same words, rounded at the table's top. */
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row { background: var(--one-level-control) !important; border-bottom: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .grid-row, :root[data-one-look="canvas"] .one-interface .form-grid .grid-heading-row .static-area { background: transparent !important; color: var(--one-ink-strong) !important; font-weight: 500; }

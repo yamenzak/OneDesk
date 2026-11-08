@@ -264,7 +264,7 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 		content: none;
 	}
 
-	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .one-interface-switch, .standard-items-section) {
+	:root[data-one-look="canvas"] .one-interface .page-head .page-head-content > :is(.one-interface-commands, .one-interface-views, .standard-items-section) {
 		margin-top: 0;
 	}
 

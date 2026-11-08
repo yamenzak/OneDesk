@@ -481,7 +481,6 @@ onedesk.interface.Frame = class Frame {
 		).insertBefore($content.children(".standard-items-section"));
 		this.groups = {};
 		this.$commands.children("[data-group]").each((_, el) => (this.groups[el.dataset.group] = $(el)));
-		this.$switch = $(button("details", "panel-right", __("Details pane"))).addClass("one-interface-switch").appendTo($content).hide();
 		this.$status = $(
 			`<div class="one-interface-status" hidden><span class="one-interface-said"></span><span class="one-interface-more"></span></div>`
 		)
@@ -679,8 +678,8 @@ onedesk.interface.Frame = class Frame {
 
 	// The pane right of the view, its width and whether it is open kept per
 	// kind of view. A view that already has a pane of its own there (a form's
-	// sidebar) hands it over as `pane`, and it becomes this one: the switch in
-	// the command row folds it, its edge drags it as wide as most of the window.
+	// sidebar) hands it over as `pane`, and it becomes this one: its edge drags
+	// it as wide as most of the window, or shut.
 	details({ key, width = 280, pane = null } = {}) {
 		if (this.$details) return this.$details;
 		this.details_key = `details:${key || "page"}`;
@@ -694,7 +693,6 @@ onedesk.interface.Frame = class Frame {
 		this.details_size = (px) => Math.round(Math.min(Math.max(320, this.$wrapper.width() * 0.6), Math.max(200, px)));
 		$pane.css("--one-details-width", `${this.details_size(kept.width || width)}px`);
 		this.details_edge();
-		this.$switch.show();
 		this.show_details(kept.open !== false);
 		requestAnimationFrame(() => $pane.addClass("one-interface-details-ready"));
 		return this.$details;
@@ -741,7 +739,6 @@ onedesk.interface.Frame = class Frame {
 	show_details(open) {
 		this.details_open = !!open;
 		this.$details_pane.toggleClass("one-interface-details-shut", !open);
-		this.$switch.attr("data-state", open ? "on" : null).attr("aria-pressed", open ? "true" : "false");
 		this.$wrapper.trigger("one-interface-details", [open]);
 	}
 
@@ -753,9 +750,9 @@ onedesk.interface.Frame = class Frame {
 
 	// The view's ways of looking at what is here (OneCloud's Details and
 	// Tiles, a list's List, Report, Kanban...), at the command row's far end
-	// beside the details switch, where Explorer keeps them.
+	// where Explorer keeps them.
 	views_slot() {
-		if (!this.$views) this.$views = $(`<div class="one-interface-views"></div>`).insertBefore(this.$switch);
+		if (!this.$views) this.$views = $(`<div class="one-interface-views"></div>`).appendTo(this.$commands.parent());
 		return this.$views;
 	}
 

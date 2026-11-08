@@ -850,7 +850,7 @@ list.icons = (view) => {
 			const deep = (el) => (el ? [...el.children].reduce((sum, child) => sum + (child.children.length && !child.matches("button, .btn, .es-button") ? own(child) : width(child) + 6), 0) : 0);
 			const needed =
 				width(this.$nav[0]) + 220 + deep(this.$commands[0]) + (extra && extra.querySelector(".btn:not(.hide), .es-button:not(.hide)") ? deep(extra) : 0) +
-				width(this.$tools[0]) + width(this.$switch[0]) + 40;
+				width(this.$tools[0]) + 40;
 			this.$wrapper.toggleClass("one-head-joined", needed <= content.clientWidth);
 		};
 		Frame.prototype.view = function (parts = {}) {

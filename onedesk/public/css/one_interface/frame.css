@@ -169,11 +169,6 @@
 		display: contents;
 	}
 
-	.one-interface .page-head-content > .one-interface-switch {
-		order: 8;
-		margin-inline-end: calc(var(--spacing) * 2);
-	}
-
 	/* frappe hides its menu on a wide screen when all it holds is what the
 	   row already shows (hidden-xl). */
 	@media (min-width: 992px) {
@@ -182,7 +177,6 @@
 		}
 	}
 
-	.one-interface .page-head-content > .one-interface-switch[data-state="on"],
 	.one-interface .one-interface-commands .es-button[data-state="on"] {
 		background: var(--one-command-on);
 	}
@@ -356,7 +350,6 @@
 	}
 
 	.one-interface-nav,
-	.one-interface-switch,
 	.one-interface-details-edge {
 		display: none !important;
 	}
