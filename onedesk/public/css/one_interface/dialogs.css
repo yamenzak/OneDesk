@@ -136,7 +136,7 @@
    the width, its actions on the line under it; and a row whose end is a
    value puts the value under its words. */
 @media (max-width: 640px) {
-	.one-dialog .settings-dialog-sidebar { padding-top: 44px; scrollbar-width: none; }
+	.one-dialog .settings-dialog-sidebar { padding-top: 44px; }
 	.one-dialog .settings-dialog-sidebar:has(.one-module-head) { padding-top: 70px; }
 	.one-dialog .settings-dialog-sidebar .one-module-head { position: absolute; top: 10px; inset-inline: 8px 84px; min-width: 0; }
 	.one-dialog .settings-dialog-sidebar .one-module-head :is(.one-module-head-name, .one-module-head-of) { overflow: hidden; white-space: nowrap; text-overflow: ellipsis; }

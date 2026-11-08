@@ -3201,6 +3201,20 @@ OVERRIDES = [
 		"frappe/frappe/public/scss/desk/sidebar.scss",
 		".sidebar-collapse-arrow {",
 	),
+	(
+		"Every title and old-style tooltip renders as frappe's Tooltip",
+		"one_interface/chrome.js takes the title off whatever the pointer or keyboard reaches, shows frappe.ui.Tooltip for it, starts it through its onenter and onfocus, and puts the title back after; $.fn.tooltip no longer draws bootstrap's",
+		"onedesk/public/js/one_interface/chrome.js",
+		"frappe/frappe/public/js/frappe/ui/components/tooltip.js",
+		"this.onenter = () => {",
+	),
+	(
+		"The rail's highlight is one piece that moves",
+		"one_interface/chrome.css clears frappe's fill on a dock tile, and chrome.js draws the hovered and active tile with a highlight that glides to it; the rule under the logo takes the frame's ink",
+		"onedesk/public/css/one_interface/chrome.css",
+		"frappe/frappe/public/scss/desk/dock.scss",
+		"background: var(--surface-elevation-3);",
+	),
 ]
 
 

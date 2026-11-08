@@ -78,7 +78,7 @@ onedesk.band.show = async (frm, said, charts = []) => {
 	const heat = charts.find((chart) => chart.kind === "heat");
 	if (heat) {
 		const drawn = onedesk.band.heat(heat.days);
-		const $home = onedesk.band.put(
+		onedesk.band.put(
 			frm,
 			`<div class="one-band">` +
 				(drawn ? drawn.months : "") +
@@ -86,7 +86,7 @@ onedesk.band.show = async (frm, said, charts = []) => {
 				(drawn ? drawn.legend : "") +
 				`</div>`
 		);
-		return onedesk.band.tip($home);
+		return;
 	}
 	const key = frappe.scrub(frm.doctype);
 	const $home = onedesk.band.put(
@@ -101,12 +101,7 @@ onedesk.band.show = async (frm, said, charts = []) => {
 	// In the record panel a chart is a short strip of context under the figures.
 	const height = frm.one_panel ? 120 : 132;
 	charts.forEach((chart, i) => onedesk.band.chart($band.find(`#one-chart-${key}-${i} .one-chart-body`)[0], chart, height));
-	onedesk.band.tip($band);
 };
-
-// A money figure with a tax on it says the other side of the tax on hover, in
-// the desk's own tooltip, the one the island's frappe-ui Tooltip looks like.
-onedesk.band.tip = ($in) => $in.find(".one-taxed").tooltip({ delay: { show: 150, hide: 100 }, trigger: "hover" });
 
 onedesk.band.panel = (chart, key) => {
 	const esc = frappe.utils.escape_html;

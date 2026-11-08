@@ -302,7 +302,7 @@
 		top: calc(var(--one-bar-top) + var(--one-frame-gutter));
 		bottom: calc(var(--one-bar-bottom) + var(--one-frame-gutter));
 		inset-inline-start: auto;
-		inset-inline-end: calc(var(--one-frame-gutter) + 11px);
+		inset-inline-end: calc(var(--one-frame-gutter) + 1px);
 		z-index: var(--one-layer-frame);
 	}
 
@@ -409,7 +409,6 @@
 		flex: 1 1 100%;
 		min-width: 0;
 		overflow-x: auto;
-		scrollbar-width: none;
 	}
 
 	.one-interface .page-head-content > .one-interface-row:empty {
@@ -451,7 +450,6 @@
 		gap: calc(var(--spacing) * 1);
 		min-width: 0;
 		overflow-x: auto;
-		scrollbar-width: none;
 	}
 
 	.one-interface .one-interface-commands > .one-interface-group {
@@ -487,7 +485,6 @@
 		flex-wrap: nowrap !important;
 		min-width: 0;
 		overflow-x: auto;
-		scrollbar-width: none;
 	}
 
 	.one-interface .one-interface-views > :is(.one-head-filters, .page-form) > .form-group {
@@ -705,6 +702,7 @@
 
 :root {
 	--one-pane-motion: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	--one-rail-glide: 420ms cubic-bezier(0.34, 1.45, 0.64, 1);
 }
 
 body.one-barred.dock-pinned.dock-active .body-sidebar-container {

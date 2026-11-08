@@ -621,26 +621,82 @@ body.one-barred .dock-items {
 	padding-inline: 8px;
 }
 
-body.one-barred .dock-item::before {
-	content: "";
+body.one-barred .dock .dock-logo {
+	border-bottom-color: color-mix(in srgb, var(--one-frame-ink) 14%, transparent);
+}
+
+body.one-barred .dock-items.one-rail {
+	position: relative;
+	isolation: isolate;
+}
+
+body.one-barred .dock-items.one-rail .dock-item,
+body.one-barred .dock-items.one-rail .dock-item:hover,
+body.one-barred .dock-items.one-rail .dock-item.active {
+	z-index: 1;
+	background: transparent;
+	box-shadow: none;
+}
+
+.one-rail-glider {
+	position: absolute;
+	top: 0;
+	width: var(--dock-tile);
+	height: var(--dock-tile);
+	border-radius: var(--radius-4);
+	pointer-events: none;
+	opacity: 0;
+	transition: transform var(--one-rail-glide), opacity 0.16s ease;
+}
+
+.one-rail-glider[data-on="1"] {
+	opacity: 1;
+}
+
+.one-rail-glider[data-rail="active"] {
+	background: var(--one-frame-active);
+}
+
+.one-rail-glider[data-rail="hover"] {
+	background: var(--one-frame-hover);
+	transition: transform 240ms cubic-bezier(0.22, 1, 0.36, 1), opacity 0.16s ease;
+}
+
+.one-rail-glider > i {
 	position: absolute;
 	inset-inline-start: -8px;
 	top: 50%;
 	width: 4px;
-	height: 0;
+	height: 20px;
 	border-start-end-radius: var(--radius-full);
 	border-end-end-radius: var(--radius-full);
 	background: var(--one-frame-ink-strong);
 	transform: translateY(-50%);
-	transition: height 0.15s ease;
 }
 
-body.one-barred .dock-item:hover::before {
+.one-rail-glider[data-rail="hover"] > i {
 	height: 8px;
+	opacity: 0.7;
 }
 
-body.one-barred .dock-item.active::before {
-	height: 20px;
+body.one-barred .dock-items.one-rail .dock-item-icon {
+	transition: transform var(--one-rail-glide);
+}
+
+body.one-barred .dock-items.one-rail .dock-item:hover .dock-item-icon {
+	transform: scale(1.12);
+}
+
+body.one-barred .dock-items.one-rail .dock-item:active .dock-item-icon {
+	transform: scale(0.9);
+	transition-duration: 90ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	.one-rail-glider,
+	body.one-barred .dock-items.one-rail .dock-item-icon {
+		transition: none;
+	}
 }
 
 /* Folded, the announcements are their megaphone and how many there are, at

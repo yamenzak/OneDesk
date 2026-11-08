@@ -889,6 +889,8 @@ onedesk.interface.here = () => {
 		Sidebar.prototype.highlight_active_item = function (...args) {
 			const said = highlight.apply(this, args);
 			onedesk.interface.nav.place();
+			onedesk.interface.folds.setup();
+			onedesk.interface.rail.setup();
 			return said;
 		};
 	}
@@ -899,6 +901,8 @@ onedesk.interface.here = () => {
 		onedesk.interface.nav.place();
 		onedesk.interface.place_status();
 		onedesk.interface.folds.setup();
+		onedesk.interface.rail.setup();
+		onedesk.interface.rail.items && onedesk.interface.rail.track();
 	});
 	$(document).on("app_ready", () => onedesk.interface.nav.setup());
 	$(() => setTimeout(() => onedesk.interface.nav.setup(), 0));

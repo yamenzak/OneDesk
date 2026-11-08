@@ -439,12 +439,6 @@ frappe-mobile-nav-item [data-slot="mobile-nav-item"] {
 	}
 }
 
-@media (hover: none) {
-	.tooltip {
-		display: none !important;
-	}
-}
-
 /* Inside an app, its places are a drawer from the start edge, opened by the
    menu button before the page's name (phone.js drawer); Apps holds the apps. */
 .one-phone-sheet .one-phone-heading,

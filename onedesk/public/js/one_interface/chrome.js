@@ -79,12 +79,9 @@ $.extend(onedesk.interface, {
 		$("body").addClass("one-barred");
 		const $bars = $top.add($bottom);
 		const tip = (el) =>
-			new frappe.ui.Tooltip(el, {
-				text: $(el).data("one-said") || $(el).attr("aria-label"),
+			onedesk.interface.tips.name(el, $(el).data("one-said") || $(el).attr("aria-label"), {
 				side: $(el).closest(".one-bar").attr("data-at") === "bottom" ? "top" : "bottom",
-				delay: 0,
 				offset: 6,
-				class: "es-tooltip--plain",
 			});
 		const add = ({ label, icon, css, badge = "", text = "", click, tip: said = label, group }) => {
 			const $tile = $(
@@ -384,6 +381,159 @@ $.extend(onedesk.interface, {
 		};
 	}
 }
+
+onedesk.interface.tips = {
+	current: null,
+
+	name(el, text, { side = "right", offset = 10 } = {}) {
+		return new frappe.ui.Tooltip(el, { text, side, offset, delay: 0, class: "es-tooltip--plain" });
+	},
+
+	options(el, text) {
+		const lines = text.includes("\n") ? { text_align: "start" } : {};
+		if (el.closest(".dock, .body-sidebar")) return { ...lines, side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" };
+		const bar = el.closest(".one-bar");
+		if (bar) return { ...lines, side: bar.dataset.at === "bottom" ? "top" : "bottom", delay: 0, offset: 6, class: "es-tooltip--plain" };
+		return lines;
+	},
+
+	claim(el) {
+		const text = el.getAttribute("title");
+		this.release();
+		if (!text) return null;
+		el.removeAttribute("title");
+		const tip = new frappe.ui.Tooltip(el, { text, ...this.options(el, text) });
+		this.current = { el, tip, text };
+		return tip;
+	},
+
+	release() {
+		const held = this.current;
+		if (!held) return;
+		this.current = null;
+		held.tip.destroy();
+		if (!held.el.hasAttribute("title")) held.el.setAttribute("title", held.text);
+	},
+
+	over(e) {
+		if (e.pointerType === "touch" || !e.target.closest) return;
+		const el = e.target.closest("[title]");
+		const held = this.current;
+		if (held && held.el.contains(e.target) && !(el && held.el.contains(el))) return;
+		if (el) this.claim(el)?.onenter();
+		else this.release();
+	},
+
+	focus(e) {
+		const el = e.target.closest?.("[title]");
+		if (el) this.claim(el)?.onfocus();
+	},
+
+	bootstrap() {
+		const made = $.fn.tooltip;
+		$.fn.tooltip = function (how) {
+			const said = how && typeof how === "object" ? how.title : null;
+			return this.each((_, el) => {
+				if (said) el.setAttribute("title", typeof said === "function" ? said.call(el) : said);
+				if (how === "hide" || how === "dispose" || how === "destroy") onedesk.interface.tips.release();
+				if (how === "disable" || how === "dispose" || how === "destroy") el.removeAttribute("title");
+			});
+		};
+		Object.assign($.fn.tooltip, made);
+	},
+
+	setup() {
+		document.addEventListener("pointerover", (e) => this.over(e), true);
+		document.addEventListener("focusin", (e) => this.focus(e), true);
+		document.addEventListener("focusout", () => this.release(), true);
+		document.documentElement.addEventListener("pointerleave", () => this.release());
+		this.bootstrap();
+	},
+};
+
+onedesk.interface.tips.setup();
+
+onedesk.interface.rail = {
+	make(kind) {
+		const glider = document.createElement("span");
+		glider.className = "one-rail-glider";
+		glider.dataset.rail = kind;
+		glider.innerHTML = "<i></i>";
+		return glider;
+	},
+
+	place(glider, tile, jump) {
+		const y = tile.offsetTop;
+		let from = glider.one_y;
+		if (glider.parentElement !== this.items) {
+			this.items.prepend(glider);
+			if (performance.now() - (glider.one_moved || 0) < 420 && glider.one_from !== undefined) {
+				from = glider.one_from;
+				glider.style.transition = "none";
+				glider.style.transform = `translateY(${from}px)`;
+				glider.offsetWidth;
+				glider.style.transition = "";
+			}
+			glider.offsetWidth;
+		}
+		glider.style.left = `${tile.offsetLeft}px`;
+		if (jump || from === undefined) {
+			glider.style.transition = "none";
+			glider.style.transform = `translateY(${y}px)`;
+			glider.offsetWidth;
+			glider.style.transition = "";
+		} else if (from !== y) {
+			glider.style.transform = `translateY(${y}px)`;
+			glider.one_from = from;
+			glider.one_moved = performance.now();
+			this.stretch(glider, Math.abs(y - from));
+		}
+		glider.one_y = y;
+		glider.dataset.on = "1";
+	},
+
+	stretch(glider, distance) {
+		if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+		const pull = 1 + Math.min(distance / 90, 1.1);
+		glider.firstChild.animate(
+			[{ transform: "translateY(-50%) scaleY(1)" }, { transform: `translateY(-50%) scaleY(${pull})`, offset: 0.35 }, { transform: "translateY(-50%) scaleY(1)" }],
+			{ duration: 420, easing: "ease-out" }
+		);
+	},
+
+	track() {
+		const tile = this.items.querySelector(".dock-item.active");
+		if (tile) this.place(this.active, tile);
+		else this.active.dataset.on = "0";
+	},
+
+	setup() {
+		const items = document.querySelector(".dock-items");
+		if (!items || items.one_rail) return;
+		items.one_rail = true;
+		this.items = items;
+		items.classList.add("one-rail");
+		this.active = this.make("active");
+		this.hover = this.make("hover");
+		this.track();
+		new MutationObserver((changes) => {
+			if (changes.some((c) => c.type === "childList" ? ![...c.addedNodes, ...c.removedNodes].every((n) => n.classList?.contains("one-rail-glider")) : c.target.classList.contains("dock-item"))) this.track();
+		}).observe(items, { childList: true, subtree: true, attributes: true, attributeFilter: ["class"] });
+		items.addEventListener("pointerover", (e) => {
+			const tile = e.target.closest?.(".dock-item");
+			if (tile) this.place(this.hover, tile, this.hover.dataset.on !== "1");
+		});
+		items.addEventListener("pointerleave", () => {
+			this.hover.dataset.on = "0";
+		});
+		items.addEventListener("click", (e) => {
+			const tile = e.target.closest?.(".dock-item");
+			if (!tile) return;
+			this.place(this.active, tile);
+			setTimeout(() => this.track(), 1500);
+		});
+	},
+};
 
 onedesk.interface.frame();
 $(document).on("app_ready", () => frappe.realtime.on("one_frame", (said) => onedesk.interface.frame(said.colour, said.ink)));

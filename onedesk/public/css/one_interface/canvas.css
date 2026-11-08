@@ -350,7 +350,7 @@
 :root[data-one-look="canvas"] .one-has-head .one-panel { flex: 1 1 auto; min-height: 0 !important; display: flex !important; flex-direction: column; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .one-panel-tabs { flex: 1 1 auto; min-height: 0; display: flex; flex-direction: column; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__list { flex: none; }
-:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__panel { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; scrollbar-width: thin; }
+:root[data-one-look="canvas"] .one-has-head .one-panel .es-tabs__panel { flex: 1 1 auto; min-height: 0; overflow-y: auto; overscroll-behavior: contain; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .comment-box { position: sticky; top: 0; z-index: 2; background: var(--one-sheet); }
 :root[data-one-look="canvas"] .one-has-head .form-sidebar { max-height: calc(100vh - 177px) !important; }
 :root[data-one-look="canvas"] .one-has-head .one-panel .comment-box { top: 0 !important; padding: 14px 0 12px !important; margin: 0 !important; }
@@ -525,8 +525,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(.one-island-part, :is(.es-button, .btn, button, a):not(.hide, .hide *, [hidden]))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; scrollbar-width: none; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters::-webkit-scrollbar { display: none; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .one-interface-filters { flex: none; margin-inline-start: auto; gap: 6px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .btn { height: 28px !important; min-width: 28px; padding: 0 7px !important; display: inline-flex !important; align-items: center; justify-content: center; gap: 0; }
 /* the words go, for the eye only: a reader still hears "Filter" and the sort's field, and an applied count stays */
@@ -555,7 +554,7 @@
 
 /* The states over a list are tabs of the palette: each a quiet pill, the chosen one filled as the views are, the count
    a chip inside it. No line under them: the head pill below is the line. */
-:root[data-one-look="canvas"] .one-interface .one-strip { gap: 4px; padding: 0 !important; border-bottom: 0; margin-bottom: 10px; overflow-x: auto; scrollbar-width: none; }
+:root[data-one-look="canvas"] .one-interface .one-strip { gap: 4px; padding: 0 !important; border-bottom: 0; margin-bottom: 10px; overflow-x: auto; }
 :root[data-one-look="canvas"] .one-interface .one-strip-item { height: 30px; padding: 0 6px 0 12px; margin: 0; gap: 8px; border-radius: var(--one-radius-control); font-size: 13.5px; color: var(--one-tab-ink); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item:hover { background: var(--one-head-button-bg); color: var(--one-tab-on-ink); }
 :root[data-one-look="canvas"] .one-interface .one-strip-item.is-on { background: var(--one-chosen); color: var(--one-tab-on-ink); }

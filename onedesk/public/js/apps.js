@@ -20,7 +20,7 @@ onedesk.apps.button = ($dock) => {
 		event.stopPropagation();
 		onedesk.apps.configure();
 	});
-	new frappe.ui.Tooltip($button[0], { text: __("Apps"), side: "right", delay: 0, offset: 10, class: "es-tooltip--plain" });
+	onedesk.interface.tips.name($button[0], __("Apps"));
 };
 
 onedesk.apps.card = (app, off) => {

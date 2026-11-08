@@ -126,6 +126,10 @@ shell, lists that only shrink; when they are empty the shell is deleted.
 - **Details pane** (`window.details()`) sits right of the view, can be
   dragged wider or shut from its edge, or switched by its shortcut; both are
   kept per view kind. A form's own sidebar is already there.
+- **Tooltips** are frappe's `frappe.ui.Tooltip`, always. A `title` attribute
+  or a call to `$.fn.tooltip` becomes one by itself (`onedesk.interface.tips`,
+  chrome.js), so a screen just sets `title`. Scrollbars are hidden everywhere
+  (scrollbar.css).
 - **Status** (`window.status()`): what is here, what is chosen, and
   whatever the view puts beside it (a list's paging). The window on screen
   shows it at the start of the frame's bottom bar, as a taskbar would
