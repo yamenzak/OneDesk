@@ -3,7 +3,7 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
-## OneMail 1.3.0
+## OneMail 1.3.1
 
 Ready.
 
@@ -496,7 +496,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneInterface 1.11.0
+## OneInterface 1.11.1
 
 Not marked ready yet.
 

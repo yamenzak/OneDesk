@@ -5,6 +5,20 @@ import { __, date, fileSize } from "../kit";
 export const API = "onedesk.one_storage.api.";
 export const UPLOAD = "onedesk.one_storage.upload.";
 
+// A folder's colour (one_storage/api.py color), its ink written out whole so
+// the stylesheet is built with it.
+export const COLORS = [
+	{ value: "red", label: () => __("Red"), ink: "text-ink-red-7" },
+	{ value: "amber", label: () => __("Amber"), ink: "text-ink-amber-7" },
+	{ value: "green", label: () => __("Green"), ink: "text-ink-green-7" },
+	{ value: "cyan", label: () => __("Cyan"), ink: "text-ink-cyan-7" },
+	{ value: "blue", label: () => __("Blue"), ink: "text-ink-blue-7" },
+	{ value: "violet", label: () => __("Violet"), ink: "text-ink-violet-7" },
+	{ value: "pink", label: () => __("Pink"), ink: "text-ink-pink-7" },
+];
+
+export const inkOf = (item) => COLORS.find((one) => one.value === item.color)?.ink || "text-ink-gray-6";
+
 const KINDS = [
 	[["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "heic", "avif", "ico"], "lucide-file-image", () => __("Image")],
 	[["pdf"], "lucide-file-text", () => __("PDF document")],

@@ -32,7 +32,7 @@
         :aria-selected="picked.has(item.thread)"
         class="group flex cursor-pointer gap-3 border-b border-outline-gray-1 px-3.5 [content-visibility:auto] last:border-b-0"
         :style="{ containIntrinsicSize: wide ? 'auto 44px' : 'auto 88px' }"
-        :class="picked.has(item.thread) ? 'bg-surface-blue-2' : item.thread === open ? 'bg-surface-gray-2' : 'hover:bg-surface-gray-1'"
+        :class="picked.has(item.thread) ? 'bg-surface-gray-4' : item.thread === open ? 'bg-surface-gray-2' : 'hover:bg-surface-gray-1'"
         @click="clicked(item, $event)"
         @contextmenu="emit('menu', item.thread)"
       >

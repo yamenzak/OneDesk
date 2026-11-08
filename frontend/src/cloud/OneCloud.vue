@@ -78,6 +78,9 @@
               :drop-on="dropOn"
               :intake-on="intakeOn()"
               @pick="pick"
+              @toggle="toggle"
+              @all="(on) => (on ? sorted.forEach((one) => selected.add(one.id)) : selected.clear())"
+              @lasso="lasso"
               @open="(id) => openItems([find(id)])"
               @sort="sortBy"
               @space="space"
@@ -146,6 +149,7 @@ import {
   listenIn,
   onedesk,
   openTab,
+  prompt,
   requires,
   setCrumbs,
   userSettings,
@@ -158,7 +162,7 @@ import {
   interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
-import { API, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
+import { API, COLORS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
 import CloudUploads from "./CloudUploads.vue";
@@ -407,6 +411,7 @@ const treeRows = computed(() => {
         id: one.id,
         label: one.name,
         icon: iconOf(one),
+        color: one.color || undefined,
         depth,
         open: leaf ? undefined : open,
         active: one.id === node.value,
@@ -487,6 +492,46 @@ function pick(id, event) {
     anchor = id;
   }
   focusId.value = id;
+}
+
+function toggle(id) {
+  if (selected.has(id)) selected.delete(id);
+  else selected.add(id);
+  anchor = id;
+  focusId.value = id;
+}
+
+let lassoBase = new Set();
+function lasso(ids, add, begin) {
+  if (begin) lassoBase = add ? new Set(selected) : new Set();
+  selected.clear();
+  lassoBase.forEach((one) => selected.add(one));
+  ids.forEach((one) => selected.add(one));
+}
+
+function chooseColor() {
+  const now = chosen.value.length === 1 ? chosen.value[0].color : null;
+  const names = COLORS.map((one) => one.label());
+  prompt(
+    {
+      fieldname: "color",
+      fieldtype: "Select",
+      label: __("Color"),
+      options: ["", ...names].join("\n"),
+      default: now ? COLORS.find((one) => one.value === now)?.label() : "",
+      description: __("Leave empty for no color."),
+    },
+    ({ color }) => colorize(COLORS.find((one) => one.label() === color)?.value || null),
+    __("Folder Color"),
+    __("Save")
+  );
+}
+
+async function colorize(color) {
+  const folders = chosen.value.filter((one) => one.folder && stored(one)).map((one) => one.id);
+  await call(API + "color", { nodes: folders, color });
+  alert(color ? __("Folder color changed.") : __("Folder color removed."));
+  refresh();
 }
 
 function space(event) {
@@ -603,7 +648,7 @@ function itemMenu() {
     ]);
   }
   if (kind.value === "bin") return asMenu([[["restore", "lucide-rotate-ccw", __("Restore"), true], ["purge", "lucide-trash-2", __("Delete permanently"), true, "red"]]]);
-  return asMenu([
+  const out = asMenu([
     [
       ["open", one && one.folder ? "lucide-folder-open" : "lucide-external-link", __("Open"), true],
       one && one.parent && search.value ? ["open-location", "lucide-folder-open", __("Open file location"), true] : null,
@@ -630,6 +675,10 @@ function itemMenu() {
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
     ],
   ]);
+  if (picked.length && allStored && picked.every((item) => item.folder && !item.virtual)) {
+    out[out.length - 1].options.splice(-2, 0, { label: __("Color…"), icon: "lucide-palette", onClick: () => act("color") });
+  }
+  return out;
 }
 
 function spaceMenu() {
@@ -747,6 +796,8 @@ async function act(name) {
       return paste(node.value);
     case "paste-into":
       return paste(picked[0].id);
+    case "color":
+      return chooseColor();
     case "rename":
       if (picked.length === 1 && stored(picked[0]) && !["bin", "record"].includes(k)) renaming.value = picked[0].id;
       return;

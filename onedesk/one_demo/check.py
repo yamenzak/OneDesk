@@ -1335,7 +1335,7 @@ class _Server:
 def onecloud_the_site_team_works_in_its_library():
 	"""Samir's Projects library as the crew uses it: listed, searched and
 	found by its path, a folder made, renamed and moved about, a file copied,
-	attached to the villa, starred and put back to its first version, shared
+	attached to the villa, starred and put back to its first version, coloured, shared
 	and unshared, deleted and restored, and the bin emptied. Yousef only
 	reads it. What OneAI says about a file and who sees it, and a drive
 	answering for Samir."""
@@ -1354,6 +1354,14 @@ def onecloud_the_site_team_works_in_its_library():
 		assert {one["user"] for one in library.members(root)["members"]} >= {"rania@one.test", "yousef@one.test"}
 		folder = api.make_folder(root, "Site photos")["id"]
 		folder = api.rename(folder, "Villa site photos")["id"]
+		assert api.color([folder], "green") == [folder]
+		assert next(one for one in api.listing(root)["items"] if one["id"] == folder)["color"] == "green"
+		assert api.color([drawing], "red") == [] and not frappe.db.get_value("File", drawing, "one_color")
+		try:
+			api.color([folder], "orange")
+			raise AssertionError("a colour nobody offered was kept")
+		except frappe.ValidationError:
+			pass
 		copied = api.copy([drawing], folder)
 		assert frappe.db.get_value("File", copied[0], "file_name") == demo.ELEVATIONS
 		api.move(copied, ns.home())
@@ -1411,6 +1419,11 @@ def onecloud_the_site_team_works_in_its_library():
 		try:
 			api.rename(drawing, "Mine now.pdf")
 			raise AssertionError("a reader renamed a library's file")
+		except frappe.PermissionError:
+			pass
+		try:
+			api.color([root], "pink")
+			raise AssertionError("a reader coloured a library's folder")
 		except frappe.PermissionError:
 			pass
 

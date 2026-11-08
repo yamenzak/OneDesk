@@ -88,9 +88,13 @@ dialog that isn't attached to a record goes to your My Files.
   files or folders from your computer onto the page or onto a folder.
 - **Details** and **Tiles**, at the other end of the folder's name, switch
   the view. Click a column heading to sort by it.
-- Choose files and what you can do with them (cut, copy, rename, share,
-  download, delete) takes the place of the column headings, with how many
-  you chose.
+- **Choose** files with the box at the start of each row (on Tiles, in a
+  tile's corner), with Ctrl or Cmd and Shift as you click, or by dragging a
+  box from an empty part of the list. The box over the list chooses all.
+  What you can do with them (cut, copy, rename, share, download, delete)
+  takes the place of the column headings, with how many you chose.
+- **Color…** in a folder's right-click menu draws its icon in a color, for
+  everybody who sees it, in the list and the tree.
 - **Preview pane**: the button at the end of the address row shows the
   selected file (images, PDFs, text, video and audio) with its size, date
   and owner. On a phone a file opens instead.

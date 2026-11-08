@@ -12,7 +12,7 @@
         <video v-else-if="shows('video')" controls preload="metadata" :src="item.url" class="max-h-64 max-w-full" />
         <audio v-else-if="shows('audio')" controls preload="metadata" :src="item.url" class="w-full" />
         <iframe v-else-if="shows('frame')" :title="item.name" :src="item.url" sandbox="allow-same-origin" class="h-64 w-full [border:none]" />
-        <span v-else :class="iconOf(item)" class="size-12 text-ink-gray-5" aria-hidden="true" />
+        <span v-else :class="[iconOf(item), item.color ? inkOf(item) : 'text-ink-gray-5']" class="size-12" aria-hidden="true" />
       </div>
       <div class="mt-3 break-words text-base font-semibold text-ink-gray-9">{{ item.name }}</div>
       <PlaceSpot :said="placed" class="mt-2" />
@@ -65,7 +65,7 @@ import { computed, reactive, ref, watch } from "vue";
 
 import { PlaceSpot, __, call, intakeOn, onedesk, userInfo } from "../kit";
 import IntakePanel from "../intake/IntakePanel.vue";
-import { PREVIEW, dateText, extension, filed, iconOf, sizeText, typeOf } from "./cloud";
+import { PREVIEW, dateText, extension, filed, iconOf, inkOf, sizeText, typeOf } from "./cloud";
 
 const props = defineProps({
   chosen: { type: Array, default: () => [] },

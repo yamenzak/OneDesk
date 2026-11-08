@@ -1012,6 +1012,7 @@ No doctypes yet.
 * `onedesk.one_slide.versions.restore`
 * `onedesk.one_storage.api.attach`
 * `onedesk.one_storage.api.capacity`
+* `onedesk.one_storage.api.color`
 * `onedesk.one_storage.api.copy`
 * `onedesk.one_storage.api.delete`
 * `onedesk.one_storage.api.empty_bin`

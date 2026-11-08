@@ -14,6 +14,7 @@
 //          the rail's own section names (OneCalendar's Mine and Workspace).
 //          `check` (true or false) puts a box where the icon goes, inked
 //          in `color` (a frappe-ui colour); clicking the row ticks it.
+//          Without `check`, `color` inks the icon (a folder's colour).
 //   heading  a name over the rows, drawn as the rail's own section names
 //          (Centers); with `alone` the tree is its own section of the rail,
 //          before the section names, rather than under the view's row.
@@ -76,7 +77,9 @@ onedesk.interface.Tree = class Tree {
 					holds ? ` aria-expanded="${row.open}"` : ""
 				}${row.active ? ` aria-current="page"` : ""}><a class="item-anchor" href="${esc(row.href || "#")}" title="${esc(
 					row.title || row.label
-				)}">${twisty}<span class="sidebar-item-icon">${
+				)}">${twisty}<span class="sidebar-item-icon"${
+					row.color && row.check === undefined ? ` style="color: var(--ink-${esc(row.color)}-7)"` : ""
+				}>${
 					row.check === undefined
 						? icon(row.icon)
 						: `<input type="checkbox" class="one-interface-check" data-check aria-label="${esc(row.label)}"${row.check ? " checked" : ""}${

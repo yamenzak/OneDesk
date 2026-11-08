@@ -208,6 +208,30 @@ def rename(node: str, name: str) -> dict:
 	return ns.node(ns.row(node))
 
 
+COLORS = ("red", "amber", "green", "cyan", "blue", "violet", "pink")
+
+
+@frappe.whitelist(methods=["POST"])
+def color(nodes: str | list, color: str | None = None) -> list[str]:
+	"""Folders drawn in a colour, or in none: for everybody who sees them, by
+	whoever may change them."""
+	if color and color not in COLORS:
+		frappe.throw(_("Choose one of the colors offered."))
+	nodes = frappe.parse_json(nodes) if isinstance(nodes, str) else nodes
+	done = []
+	for node in nodes:
+		if mounts.is_mount(node):
+			continue
+		item = _item(node)
+		if not item.is_folder:
+			continue
+		_need(item, "write")
+		frappe.db.set_value("File", node, "one_color", color or None, update_modified=False)
+		live.announce(item)
+		done.append(node)
+	return done
+
+
 def _note(name: str, what: str) -> None:
 	from onedesk.one_storage import history
 

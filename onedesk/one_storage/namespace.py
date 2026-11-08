@@ -33,7 +33,7 @@ FIELDS = [
 	"name", "file_name", "is_folder", "folder", "file_url", "file_size", "is_private", "owner",
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
-	"one_intake", "one_featured",
+	"one_intake", "one_featured", "one_color",
 ]  # fmt: skip
 
 
@@ -348,6 +348,7 @@ def node(item: dict) -> dict:
 		"starred": frappe.session.user in (item.get("_liked_by") or ""),
 		**({"library": True, "icon": "library-big"} if item.get("one_library") else {}),
 		**({"intake": True} if item.get("one_intake") else {}),
+		**({"color": item["one_color"]} if item.get("one_color") else {}),
 		**({"workbook": book} if (book := _workbook(item)) else {}),
 		**({"document": doc} if (doc := _document(item)) else {}),
 		**({"presentation": deck} if (deck := _presentation(item)) else {}),

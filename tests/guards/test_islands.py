@@ -140,7 +140,7 @@ def test_what_an_island_says_is_translated():
 
 TICKED = {"project/TaskPanel.vue"}
 # Rows picked to act on together, as frappe's list view picks them.
-PICKS = {"mail/MailList.vue"}
+PICKS = {"mail/MailList.vue", "cloud/CloudItems.vue"}
 
 
 def test_a_setting_is_a_switch():

@@ -71,6 +71,20 @@
    "name": "File-one_library",
    "search_index": 1,
    "description": "A folder people are members of, the way a team's document library is."
+  },
+  {
+   "doctype": "Custom Field",
+   "dt": "File",
+   "fieldname": "one_color",
+   "label": "Folder Color",
+   "fieldtype": "Select",
+   "options": "\nred\namber\ngreen\ncyan\nblue\nviolet\npink",
+   "insert_after": "one_library",
+   "hidden": 1,
+   "no_copy": 1,
+   "module": "One Storage",
+   "name": "File-one_color",
+   "description": "The color its icon is drawn in."
   }
  ],
  "doctype": "File",
