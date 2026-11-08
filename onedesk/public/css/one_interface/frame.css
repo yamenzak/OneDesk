@@ -702,6 +702,8 @@
 
 :root {
 	--one-pane-motion: 280ms cubic-bezier(0.22, 1, 0.36, 1);
+	--one-rail-in: 110ms cubic-bezier(0.22, 1, 0.36, 1);
+	--one-rail-out: 460ms cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 body.one-barred.dock-pinned.dock-active .body-sidebar-container {

@@ -3215,6 +3215,13 @@ OVERRIDES = [
 		"frappe/frappe/public/scss/desk/dock.scss",
 		"background: var(--surface-elevation-3);",
 	),
+	(
+		"The rail's tooltips wait for the pointer to settle",
+		"one_interface/chrome.js wraps Dock.name_tile and gives each tile's Tooltip a delay and a floor, so a sweep across the rail draws no bubbles",
+		"onedesk/public/js/one_interface/chrome.js",
+		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
+		"name_tile($el, label, tooltips = this.tooltips) {",
+	),
 ]
 
 

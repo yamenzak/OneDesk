@@ -365,6 +365,14 @@ $.extend(onedesk.interface, {
 	if (Dock && !Dock.prototype.__one_flat) {
 		Dock.prototype.__one_flat = true;
 		const made = Dock.prototype.make_dock_item;
+		const named = Dock.prototype.name_tile;
+		Dock.prototype.name_tile = function ($el, label, tooltips = this.tooltips) {
+			named.call(this, $el, label, tooltips);
+			const tip = tooltips[tooltips.length - 1];
+			const schedule = tip.schedule;
+			tip.delay = 300;
+			tip.schedule = (wait) => schedule.call(tip, Math.max(wait ?? tip.delay, 120));
+		};
 		const flat = () =>
 			(Dock.flat ??= new Set(
 				(frappe.boot.custom_icons || [])

@@ -636,11 +636,25 @@ body.one-barred .dock-items.one-rail .dock-item.active {
 	z-index: 1;
 	background: transparent;
 	box-shadow: none;
-	transition: background-color 0.12s ease;
 }
 
-body.one-barred .dock-items.one-rail .dock-item:hover:not(.active) {
+body.one-barred .dock-items.one-rail .dock-item::after {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -1;
+	border-radius: var(--radius-4);
 	background: var(--one-frame-hover);
+	opacity: 0;
+	transform: scale(0.84);
+	transition: opacity var(--one-rail-out), transform var(--one-rail-out);
+	will-change: opacity, transform;
+}
+
+body.one-barred .dock-items.one-rail .dock-item:hover:not(.active)::after {
+	opacity: 1;
+	transform: scale(1);
+	transition: opacity var(--one-rail-in), transform var(--one-rail-in);
 }
 
 .one-rail-piece {
@@ -683,20 +697,25 @@ body.one-barred .dock-items.one-rail .dock-item::before {
 
 body.one-barred .dock-items.one-rail .dock-item::before {
 	content: "";
-	height: 0;
-	transition: height 0.12s ease;
+	height: 8px;
+	opacity: 0;
+	transform: translateY(-50%) scaleY(0);
+	transition: opacity var(--one-rail-out), transform var(--one-rail-out);
 }
 
 body.one-barred .dock-items.one-rail .dock-item:hover:not(.active)::before {
-	height: 8px;
+	opacity: 0.8;
+	transform: translateY(-50%) scaleY(1);
+	transition: opacity var(--one-rail-in), transform var(--one-rail-in);
 }
 
 body.one-barred .dock-items.one-rail .dock-item-icon {
-	transition: transform 0.14s ease-out;
+	transition: transform var(--one-rail-out);
 }
 
 body.one-barred .dock-items.one-rail .dock-item:hover .dock-item-icon {
-	transform: scale(1.06);
+	transform: scale(1.08);
+	transition: transform var(--one-rail-in);
 }
 
 body.one-barred .dock-items.one-rail .dock-item:active .dock-item-icon {
@@ -704,8 +723,10 @@ body.one-barred .dock-items.one-rail .dock-item:active .dock-item-icon {
 }
 
 @media (prefers-reduced-motion: reduce) {
+	body.one-barred .dock-items.one-rail .dock-item::before,
+	body.one-barred .dock-items.one-rail .dock-item::after,
 	body.one-barred .dock-items.one-rail .dock-item-icon {
-		transition: none;
+		transition: none !important;
 	}
 }
 
