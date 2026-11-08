@@ -103,6 +103,8 @@ dialog that isn't attached to a record goes to your My Files.
   code files. The arrows, the arrow keys or a swipe go to the next file in
   the folder; Back or Escape closes it. A file One can't show offers
   **Download**.
+- **Combine into PDF…** puts the PDFs and pictures you chose into one new
+  PDF in the folder. Drag the rows in the dialog to change their order.
 - **Right-click** an item to open, download, copy a link, cut, copy, paste,
   rename or delete it.
 - **Drag** items onto a folder to move them. Hold Ctrl to copy instead.

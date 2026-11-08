@@ -174,7 +174,7 @@ import {
   interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
-import { API, COLORS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
+import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
 import CloudViewer from "./CloudViewer.vue";
@@ -543,6 +543,38 @@ function chooseColor() {
   );
 }
 
+const combinable = (list) => list.length > 0 && can.add && list.every((one) => !one.folder && stored(one) && PDF_PARTS.includes(extension(one)));
+
+function combine() {
+  const files = sorted.value.filter((one) => selected.has(one.id));
+  prompt(
+    [
+      { fieldname: "name", fieldtype: "Data", label: __("File Name"), reqd: 1, default: files[0].name.replace(/\.[^.]+$/, "") },
+      {
+        fieldname: "files",
+        fieldtype: "Table",
+        label: __("Files"),
+        cannot_add_rows: 1,
+        in_place_edit: 1,
+        data: files.map((one) => ({ file: one.name, node: one.id })),
+        fields: [
+          { fieldname: "file", fieldtype: "Data", label: __("File"), in_list_view: 1, read_only: 1 },
+          { fieldname: "node", fieldtype: "Data", hidden: 1 },
+        ],
+      },
+    ],
+    async ({ name, files: rows }) => {
+      if (!rows?.length) return;
+      const made = await call("onedesk.one_storage.pdf.combine", { nodes: rows.map((row) => row.node), target: node.value, name });
+      alert(__("Combined into {0}.", [made.name]));
+      reveal = made.id;
+      refresh();
+    },
+    __("Combine into PDF"),
+    __("Combine")
+  );
+}
+
 async function colorize(color) {
   const folders = chosen.value.filter((one) => one.folder && stored(one)).map((one) => one.id);
   await call(API + "color", { nodes: folders, color });
@@ -602,6 +634,7 @@ const commands = computed(() => {
     bare("rename", "lucide-pencil", __("Rename"), picked.length === 1 && stored(picked[0]) && k !== "bin" && k !== "record"),
     bare("share", "lucide-user-plus", __("Share"), picked.length === 1 && filed(picked[0]) && k !== "bin"),
     bare("download", "lucide-download", __("Download"), picked.length && picked.every((one) => !one.folder && one.url)),
+    bare("combine", "lucide-file-stack", __("Combine into PDF"), combinable(picked) && k !== "bin"),
     bare("delete", "lucide-trash-2", __("Delete"), allStored),
   ];
   if (k === "bin") {
@@ -686,6 +719,7 @@ function itemMenu() {
         : ["star", "lucide-star", __("Star"), picked.every((item) => filed(item))],
       one && !one.folder && filed(one) ? ["new-version", "lucide-upload", __("Upload new version"), !one.record] : null,
       one && one.folder && !one.virtual ? ["drive", "lucide-hard-drive", __("Connect as a drive…"), true] : null,
+      ["combine", "lucide-file-stack", __("Combine into PDF…"), combinable(picked)],
       one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with OneAI"), true] : null,
       ["rename", "lucide-pencil", __("Rename"), !!(one && allStored) && kind.value !== "record"],
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
@@ -836,6 +870,8 @@ async function act(name) {
       if (picked.length !== 1 || picked[0].folder) return;
       versionOf = picked[0];
       return pickVersion.value?.click();
+    case "combine":
+      return combine();
     case "download":
       return download(picked.filter((one) => !one.folder && one.url));
     case "download-xlsx":

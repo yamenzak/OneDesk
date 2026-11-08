@@ -7,6 +7,7 @@
 starts with it, such as a module's.
 """
 
+import io
 import json
 import traceback
 from contextlib import contextmanager
@@ -1335,12 +1336,15 @@ class _Server:
 def onecloud_the_site_team_works_in_its_library():
 	"""Samir's Projects library as the crew uses it: listed, searched and
 	found by its path, a folder made, renamed and moved about, a file copied,
-	attached to the villa, starred and put back to its first version, coloured, shared
+	attached to the villa, bound with its copy into one PDF, starred and put back
+	to its first version, coloured, shared
 	and unshared, deleted and restored, and the bin emptied. Yousef only
 	reads it. What OneAI says about a file and who sees it, and a drive
 	answering for Samir."""
+	from pypdf import PdfReader
+
 	from onedesk.one_demo import storage as demo
-	from onedesk.one_storage import ai, api, dav, history, library, share
+	from onedesk.one_storage import ai, api, dav, history, library, pdf, share
 	from onedesk.one_storage import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
@@ -1369,6 +1373,15 @@ def onecloud_the_site_team_works_in_its_library():
 			pass
 		copied = api.copy([drawing], folder)
 		assert frappe.db.get_value("File", copied[0], "file_name") == demo.ELEVATIONS
+		bound = pdf.combine([drawing, copied[0]], folder, "Elevations bound")
+		pages = len(PdfReader(io.BytesIO(api._content(api._item(drawing)))).pages)
+		assert bound["name"] == "Elevations bound.pdf"
+		assert len(PdfReader(io.BytesIO(api._content(api._item(bound["id"])))).pages) == 2 * pages
+		try:
+			pdf.combine([drawing, notes], folder)
+			raise AssertionError("a text file was put into a PDF")
+		except frappe.ValidationError:
+			pass
 		api.move(copied, ns.home())
 		assert frappe.db.get_value("File", copied[0], "folder") == ns.home()
 		attached = api.attach([drawing], "Project", VILLA)

@@ -1060,6 +1060,7 @@ No doctypes yet.
 * `onedesk.one_storage.mounts.get`
 * `onedesk.one_storage.mounts.save`
 * `onedesk.one_storage.mounts.settings`
+* `onedesk.one_storage.pdf.combine`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`
 * `onedesk.one_storage.share.share`

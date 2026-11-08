@@ -33,6 +33,7 @@ const KINDS = [
 ];
 
 export const SHEETS = ["xlsx", "xlsm", "xls", "csv"];
+export const PDF_PARTS = ["pdf", "png", "jpg", "jpeg", "webp", "gif", "bmp", "tif", "tiff"];
 export const PREVIEW = {
 	image: ["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "avif", "ico"],
 	frame: ["pdf", "txt", "md", "csv", "tsv", "json", "xml", "html", "css", "js", "py", "yml", "yaml", "sql", "sh"],
