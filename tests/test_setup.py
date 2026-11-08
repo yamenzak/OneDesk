@@ -225,4 +225,4 @@ def test_a_storage_token_with_no_secret_kept_is_rolled():
 	the id and not the secret would otherwise read as held for ever, and
 	OneAdmin would say no file can be kept on every run after."""
 	ensure = _method("ensure_token")
-	assert "self.settings.r2_key_id == held['id'] and self.settings.get_password('r2_secret', raise_exception=False)" in ensure
+	assert "self.settings.r2_key_id == held['id'] and vault.get('r2_secret')" in ensure

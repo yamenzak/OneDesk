@@ -4194,6 +4194,8 @@ class FakeCloudflare:
 				("AI Gateway Run", "com.cloudflare.api.account"),
 				("Workers AI Read", "com.cloudflare.api.account"),
 				("Email Routing Addresses Write", "com.cloudflare.api.account"),
+				("Workers Containers Write", "com.cloudflare.api.account"),
+				("Cloudchamber Write", "com.cloudflare.api.account"),
 				("Zone Read", "com.cloudflare.api.account.zone"),
 				("DNS Write", "com.cloudflare.api.account.zone"),
 				("Workers Routes Write", "com.cloudflare.api.account.zone"),
@@ -4288,14 +4290,15 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 	for: nothing leaves."""
 	from unittest.mock import patch
 
-	from onedesk.one_admin import setup
+	from onedesk.one_admin import setup, vault
 
 	fake = FakeCloudflare()
+	kept = {}
 	settings = frappe.get_doc("One Admin Settings")
-	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway")}
+	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway", "office_url")}
 	for field in was:
 		frappe.db.set_single_value("One Admin Settings", field, None)
-	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"):
+	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"), patch.object(vault, "keep", side_effect=kept.__setitem__), patch.object(vault, "get", side_effect=kept.get), patch.object(vault, "forget_master") as forgot, patch.object(setup.Setup, "wrangle", return_value="Deployed https://one-office.acc1.workers.dev"):
 		# Cut off right after Cloudflare made the OneAI token: its secret was never seen.
 		fake.drop_after = lambda method, path, body: method == "POST" and path == "/user/tokens" and body.get("name") == "[one-prod] OneAI"
 		first = setup.run()
@@ -4307,8 +4310,10 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		assert sorted(fake.made) == ["[one-prod] OneAI", "[one-prod] OneAdmin", "[one-prod] OneAdmin Storage"], f"each token made once: {fake.made}"
 		assert len(fake.kv) == 1 and frappe.db.get_single_value("One Admin Settings", "cloudflare_kv") == kv, "nothing is made twice"
 		ai = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAI")
-		held = frappe.get_doc("One Admin Settings").get_password("ai_gateway_token")
-		assert ai["value"] == held and held.endswith("-2"), "the token whose secret was lost is rolled, and the new one saved"
+		held = kept["ai_gateway_token"]
+		assert ai["value"] == held and held.endswith("-2"), "the token whose secret was lost is rolled, and the new one saved, in the config"
+		assert forgot.called, "the master key is forgotten when a run ends"
+		assert kept["office_secret"] and frappe.db.get_single_value("One Admin Settings", "office_url") == "https://one-office.acc1.workers.dev"
 		admin = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin")
 		assert {key for policy in admin["policies"] for key in policy["resources"]} == {"com.cloudflare.api.account.acc1", "com.cloudflare.api.account.zone.zone1"}, "OneAdmin is narrowed to what was found"
 		storage = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin Storage")

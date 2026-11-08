@@ -9,7 +9,7 @@ import frappe
 import requests
 from frappe.utils import cint, flt
 
-from onedesk.one_admin import faults, ledger
+from onedesk.one_admin import faults, ledger, vault
 from onedesk.one_admin.faults import Refused
 
 API = "https://api.openweathermap.org/data/4.0/onecall/{part}"
@@ -69,8 +69,7 @@ def charged(served: set, place: str) -> bool:
 
 
 def _key() -> str:
-	stored = frappe.get_cached_doc("One Admin Settings")
-	key = frappe.conf.get("openweather_key") or stored.get_password("openweather_key", raise_exception=False)
+	key = vault.get("openweather_key")
 	if not key:
 		raise Refused("Weather is not configured. Set the OpenWeather key in OneAdmin Settings.")
 	return key

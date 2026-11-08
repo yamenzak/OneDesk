@@ -10,7 +10,7 @@ import json
 import frappe
 import requests
 
-from onedesk.one_admin import faults
+from onedesk.one_admin import faults, vault
 
 API = "https://api.cloudflare.com/client/v4"
 
@@ -231,9 +231,7 @@ def _settings():
 	"""
 	held = frappe.get_cached_doc("One Admin Settings")
 	account = frappe.conf.get("cloudflare_account") or held.cloudflare_account
-	token = frappe.conf.get("cloudflare_token") or held.get_password(
-		"cloudflare_token", raise_exception=False
-	)
+	token = vault.get("cloudflare_token")
 	namespace = frappe.conf.get("cloudflare_kv") or held.cloudflare_kv
 	if not (account and token and namespace):
 		raise faults.Refused(

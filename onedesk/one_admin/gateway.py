@@ -15,7 +15,7 @@ from datetime import date
 import frappe
 import requests
 
-from onedesk.one_admin import faults, ledger, meter, pricing, site
+from onedesk.one_admin import faults, ledger, meter, pricing, site, vault
 from onedesk.one_admin.faults import Again, Refused
 from onedesk.one_ai import models
 
@@ -813,8 +813,7 @@ def _settings() -> dict:
 		"url": frappe.conf.get("ai_gateway_url") or URL,
 		"account": frappe.conf.get("cloudflare_account") or stored.cloudflare_account,
 		"gateway": frappe.conf.get("ai_gateway") or stored.ai_gateway,
-		"token": frappe.conf.get("ai_gateway_token")
-		or stored.get_password("ai_gateway_token", raise_exception=False),
+		"token": vault.get("ai_gateway_token"),
 	}
 	missing = [key for key, value in found.items() if not value]
 	if missing:

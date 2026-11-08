@@ -9,7 +9,7 @@ import frappe
 import requests
 from frappe import _
 
-from onedesk.one_admin import price_list, ledger, site
+from onedesk.one_admin import ledger, price_list, site, vault
 from onedesk.one_admin.faults import Refused
 
 #: standard-1 (half a vCPU, 4 GiB, 8 GB) per second, in dollars: memory and
@@ -39,7 +39,7 @@ def credits(seconds: float, markup: float, per_dollar: float) -> int:
 def _where() -> tuple[str, str]:
 	settings = frappe.get_cached_doc("One Admin Settings")
 	url = (settings.office_url or "").rstrip("/")
-	secret = settings.get_password("office_secret", raise_exception=False) if url else None
+	secret = vault.get("office_secret") if url else None
 	if not url or not secret:
 		raise Refused("the office containers are not set up")
 	return url, secret

@@ -9,7 +9,7 @@ import json
 import frappe
 import requests
 
-from onedesk.one_admin import faults, site
+from onedesk.one_admin import faults, site, vault
 from onedesk.one_admin.faults import Again, Refused
 
 TIMEOUT = 60
@@ -83,7 +83,7 @@ def _settings(as_typed: dict | None = None) -> dict:
 	found = {
 		"url": frappe.conf.get("press_url") or typed.get("url") or stored.press_url,
 		"team": frappe.conf.get("press_team") or typed.get("team") or stored.press_team,
-		"token": frappe.conf.get("press_token") or typed.get("token") or stored.get_password("press_token", raise_exception=False),
+		"token": typed.get("token") or vault.get("press_token"),
 	}
 	missing = [key for key, value in found.items() if not value]
 	if missing:

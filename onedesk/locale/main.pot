@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 12:38+0000\n"
-"PO-Revision-Date: 2026-11-08 12:38+0000\n"
+"POT-Creation-Date: 2026-11-08 12:45+0000\n"
+"PO-Revision-Date: 2026-11-08 12:45+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9778,7 +9778,7 @@ msgstr ""
 msgid "Cloudflare"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:191
+#: onedesk/one_admin/setup.py:190
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
@@ -16823,11 +16823,11 @@ msgstr ""
 msgid "Enter at least one currency."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:812
+#: onedesk/one_admin/setup.py:811
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:572
+#: onedesk/one_admin/setup.py:571
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr ""
@@ -16852,7 +16852,7 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:333
+#: onedesk/one_admin/setup.py:332
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
@@ -29515,7 +29515,7 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:390 onedesk/one_admin/setup.py:466
+#: onedesk/one_admin/setup.py:389 onedesk/one_admin/setup.py:465
 msgid "Needs the KV namespace first."
 msgstr ""
 
@@ -31432,7 +31432,7 @@ msgstr ""
 msgid "Nobody yet."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:641
+#: onedesk/one_admin/setup.py:640
 #, python-brace-format
 msgid "Node is not on this server: {0}"
 msgstr ""
@@ -44862,7 +44862,7 @@ msgstr ""
 
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:371
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:84
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:87
 #: onedesk/public/js/one_mail/onemail_settings.js:1105
 msgid "Servers"
 msgstr ""
@@ -48507,7 +48507,7 @@ msgstr ""
 msgid "Stripe did not answer for {0}. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_admin/stripe.py:530
+#: onedesk/one_admin/stripe.py:529
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
@@ -50534,7 +50534,7 @@ msgstr ""
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:300
+#: onedesk/one_admin/setup.py:299
 msgid "The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -52333,12 +52333,12 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:316
+#: onedesk/one_admin/setup.py:315
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:338
+#: onedesk/one_admin/setup.py:337
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr ""
@@ -55169,7 +55169,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:412
+#: onedesk/one_admin/setup.py:411
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
@@ -63875,7 +63875,7 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:672
+#: onedesk/one_admin/setup.py:671
 msgid "deployed"
 msgstr ""
 
@@ -64241,7 +64241,7 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:501
+#: onedesk/one_admin/setup.py:500
 #, python-brace-format
 msgid "left to {0}"
 msgstr ""
@@ -64303,7 +64303,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:263
+#: onedesk/one_admin/setup.py:262
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr ""
@@ -64972,7 +64972,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:683
+#: onedesk/one_admin/setup.py:682
 msgid "unchanged"
 msgstr ""
 
@@ -65065,12 +65065,12 @@ msgstr ""
 msgid "words, with commas"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:612
+#: onedesk/one_admin/setup.py:611
 #, python-brace-format
 msgid "wrangler did not say where {0} is"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:643
+#: onedesk/one_admin/setup.py:642
 #, python-brace-format
 msgid "wrangler took too long: {0}"
 msgstr ""
@@ -65116,7 +65116,7 @@ msgstr ""
 msgid "{0} (and {1} more)"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:86
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:89
 #, python-brace-format
 msgid "{0} (changed)"
 msgstr ""
@@ -66994,7 +66994,7 @@ msgstr ""
 msgid "{0} is not in a folder."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:530
+#: onedesk/one_admin/setup.py:529
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr ""
@@ -68645,7 +68645,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:527
+#: onedesk/one_admin/setup.py:526
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr ""
@@ -68655,7 +68655,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:507
+#: onedesk/one_admin/setup.py:506
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr ""
@@ -68696,17 +68696,17 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:428
+#: onedesk/one_admin/setup.py:427
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:449
+#: onedesk/one_admin/setup.py:448
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:483
+#: onedesk/one_admin/setup.py:482
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""

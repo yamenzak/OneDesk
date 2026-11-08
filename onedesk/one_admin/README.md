@@ -1663,6 +1663,31 @@ the provider billed us for it either way.
 of tokens, so the unit is the same word — which is a coincidence rather than a
 rule, and is why it is written down rather than assumed at the call site.
 
+### vault.py: Keys
+
+**Keys live in the site's config, not its database** (decided 8 November
+2026), so a leaked backup or a read of the database gives nobody a key.
+`vault.KEPT` names them: Frappe Cloud's token, Cloudflare's, R2's secret,
+Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
+
+- Typed into One Admin Settings, a key is moved to the config when the
+  settings are saved (`vault.move`, from the settings' `on_update`) and the
+  database's copy deleted. The form then shows the field empty; the head
+  still counts the key as set, since it reads the config too.
+- Everything reads a key through `vault.get`: the config, or the database
+  only while a key typed there has not been moved yet.
+- Set Up Cloudflare writes the tokens it makes straight to the config
+  (`Setup.own` → `vault.keep`).
+- **The master key is never kept.** It is typed for a run of Set Up
+  Cloudflare and forgotten when the run ends (`vault.forget_master`, in
+  `setup.run`'s `finally`).
+- **Where the config is.** On this machine, `site_config.json`. On Frappe
+  Cloud, which rewrites that file from its own record, through its API
+  (`press.api.site.update_config`, type Password): set
+  `one_admin_press_site` in the site's config to the site's name there.
+- Rebuilding OneAdmin from a backup therefore needs the keys again: the
+  database restored has none of them.
+
 ### price_list.py, costs.py, margins.py and offerings.py
 
 **The price list is code** (decided 8 November 2026). `price_list.py`

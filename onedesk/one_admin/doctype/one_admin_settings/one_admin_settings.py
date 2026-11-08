@@ -57,6 +57,9 @@ class OneAdminSettings(Document):
 			row.region = (found.get("region_info") or {}).get("name")
 
 	def on_update(self) -> None:
+		from onedesk.one_admin import vault
+
+		vault.move()
 		self._tell()
 
 	def _tell(self) -> None:

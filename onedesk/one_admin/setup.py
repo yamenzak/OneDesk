@@ -17,9 +17,8 @@ from pathlib import Path
 import frappe
 import requests
 from frappe import _
-from frappe.utils.password import set_encrypted_password
 
-from onedesk.one_admin import site
+from onedesk.one_admin import site, vault
 
 API = "https://api.cloudflare.com/client/v4"
 TIMEOUT = 30
@@ -154,7 +153,7 @@ class Setup:
 		"""What only this setup makes, One's tokens and R2 keys: replaced
 		whenever it makes them anew, and saved before anything else is done."""
 		if secret:
-			set_encrypted_password("One Admin Settings", "One Admin Settings", value, field)
+			vault.keep(field, value)
 		else:
 			self.settings.set(field, value)
 			frappe.db.set_single_value("One Admin Settings", field, value)
@@ -235,12 +234,12 @@ class Setup:
 		held = next((one for one in tokens if one["name"] == called), None) or (
 			None if self.env else next((one for one in tokens if one["name"] == name), None)
 		)
-		value = self.settings.get_password(field, raise_exception=False)
+		value = vault.get(field)
 		if name == "OneAdmin Storage":
 			# Its secret is kept only as a hash, so it cannot be checked
 			# against Cloudflare: held means the id matches and a secret is
 			# kept. Either missing, the token is rolled and both are saved.
-			kept = held and self.settings.r2_key_id == held["id"] and self.settings.get_password("r2_secret", raise_exception=False)
+			kept = held and self.settings.r2_key_id == held["id"] and vault.get("r2_secret")
 			value = "held" if kept else None
 		state = OURS
 		if not held:
@@ -602,7 +601,7 @@ class Setup:
 			"".join((source / one).read_text() for one in ("worker.js", "package.json")).encode() + f"{OFFICE_IMAGE}{OFFICE_TYPE}{OFFICE_MOST}".encode()
 		).hexdigest()
 		held = json.loads(self.settings.cloudflare_deployed or "{}")
-		secret = self.settings.get_password("office_secret", raise_exception=False)
+		secret = vault.get("office_secret")
 		if held.get(name) == wanted and self.settings.office_url and secret:
 			return self.note(f"office {name}", OURS)
 		secret = secret or secrets.token_urlsafe(32)
@@ -822,9 +821,7 @@ def set_up() -> dict:
 
 
 def master() -> str | None:
-	return frappe.conf.get("cloudflare_master_token") or frappe.get_doc("One Admin Settings").get_password(
-		"cloudflare_master_token", raise_exception=False
-	)
+	return vault.get(vault.MASTER)
 
 
 def run(user: str | None = None) -> list[dict]:
@@ -840,5 +837,7 @@ def run(user: str | None = None) -> list[dict]:
 		said = Setup(master()).run()
 	finally:
 		frappe.cache.delete(key)
+		vault.forget_master()
+		frappe.db.commit()
 	frappe.publish_realtime("cloudflare_setup", {"said": said, "done": True}, user=frappe.session.user)
 	return said
