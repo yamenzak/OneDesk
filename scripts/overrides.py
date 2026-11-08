@@ -3194,6 +3194,13 @@ OVERRIDES = [
 		"frappe/frappe/public/scss/desk/dock.scss",
 		"--dock-sidebar-ease: 0.5s cubic-bezier(0.65, 0, 0.35, 1);",
 	),
+	(
+		"A sidebar has no collapse arrow",
+		"one_interface/frame.css hides frappe's arrow on the sidebar's edge: the edge folds it by a drag or a click",
+		"onedesk/public/css/one_interface/frame.css",
+		"frappe/frappe/public/scss/desk/sidebar.scss",
+		".sidebar-collapse-arrow {",
+	),
 ]
 
 

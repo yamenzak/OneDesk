@@ -637,8 +637,8 @@ body.one-barred.dock-pinned.dock-active .body-sidebar-container .body-sidebar {
 	inset-inline-start: calc(var(--one-nav-live) - 4px) !important;
 }
 
-.body-sidebar-container.one-nav-live .sidebar-collapse-arrow {
-	display: none;
+.sidebar-collapse-arrow {
+	display: none !important;
 }
 
 .body-sidebar-container.one-nav-live :is(.sidebar-item-label, .section-break) {
