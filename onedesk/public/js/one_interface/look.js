@@ -451,8 +451,10 @@ record.draw = (frm) => {
 	if (!frm || !frm.page || !frm.page.interface) return;
 	if (onedesk.interface.uses("head")) record.head(frm);
 	record.fields(frm);
-	if (onedesk.interface.uses("icons")) record.icons(frm);
-	setTimeout(() => record.icons(frm), 700);
+	if (onedesk.interface.uses("icons")) {
+		record.icons(frm);
+		setTimeout(() => record.icons(frm), 700);
+	}
 	if (onedesk.interface.uses("head")) record.shortcuts(frm);
 };
 
