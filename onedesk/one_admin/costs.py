@@ -25,11 +25,11 @@ class Line:
 	measured: bool = False
 
 
-SERVER = {"aed_a_month": usd(40), "disk_gb": 80}
-OWN_SERVER = {"aed_a_month": usd(70), "disk_gb": 160}
+SERVER = {"aed_a_month": usd(24), "disk_gb": 80}
+OWN_SERVER = {"aed_a_month": usd(44), "disk_gb": 160}
 SHARE_MOST = 0.25
-WORKSPACES_A_SERVER = 20
-SEATS_A_SERVER = 200
+WORKSPACES_A_SERVER = 5
+SEATS_A_SERVER = 60
 
 CLOUDFLARE_FIXED = {"workers_paid": usd(5), "advanced_certificate_manager": usd(10)}
 TENANTS_SHARING = 20

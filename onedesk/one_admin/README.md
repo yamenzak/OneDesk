@@ -1803,14 +1803,15 @@ the Stripe price id is written later, when Stripe makes it (`stripe.price_for`).
 **What One costs us** (`costs.py`), in dirhams, since the dirham is pegged to
 the dollar and most of what we pay is in dollars:
 
-- The server is Frappe Cloud's Hetzner unified box in Falkenstein (2 vCPU,
-  4 GB, 80 GB, $40). Half its cost is spread over the workspaces on it (the
-  scheduler runs for each whether anybody works or not) and half over their
-  seats (requests). Until a week of `scripts/load.py` figures, about 20
-  workspaces and 200 seats share one; each line says it is an estimate.
+- The server is a Lightsail `medium_3_0` (2 vCPU, 4 GB, 80 GB, $24), which
+  sustains about 20% of its CPU once its burst credits are spent. Half its
+  cost is spread over the workspaces on it (the scheduler runs for each
+  whether anybody works or not) and half over their seats (requests). We
+  plan on 5 workspaces and 60 seats a box; each line says it is an estimate.
 - A workspace may take at most a quarter of a shared server's seats or
-  disk. A plan bigger than that runs on its own server (Hetzner, 4 vCPU,
-  8 GB, 160 GB, $70) and pays all of it (`own_server`).
+  disk. A plan bigger than that runs on its own server (Lightsail
+  `large_3_0`, 2 vCPU, 8 GB, 160 GB, $44) and pays all of it (`own_server`).
+  Business and Scale do.
 - A GB of database costs the server's disk twice over, for the memory it
   also takes, and its backups in R2 (a quarter of its size, 42 kept).
 - A GB of files is two GB of R2: the file and its backup copy.

@@ -58,7 +58,7 @@ class Service:
 PLANS = (
 	Plan("starter@2026-12", "Starter", 109, 5, 50, 2, 500),
 	Plan("team@2026-12", "Team", 299, 15, 200, 5, 1500),
-	Plan("business@2026-12", "Business", 749, 40, 500, 15, 4000),
+	Plan("business@2026-12", "Business", 749, 40, 500, 15, 4000, own_server=True),
 	Plan("scale@2026-12", "Scale", 1699, 100, 1500, 40, 10000, own_server=True),
 )
 
