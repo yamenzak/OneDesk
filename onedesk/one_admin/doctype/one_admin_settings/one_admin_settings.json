@@ -8,14 +8,6 @@
   "connections_tab",
   "operators_section",
   "operators",
-  "press_section",
-  "press_team",
-  "press_token",
-  "column_break_press",
-  "press_url",
-  "press_domain",
-  "press_bench",
-  "press_plan",
   "servers_section",
   "servers",
   "cloudflare_section",
@@ -38,8 +30,6 @@
   "backup_bucket",
   "keeper_url",
   "release_at",
-  "release_apps",
-  "release_running",
   "aws_section",
   "aws_access_key_id",
   "aws_secret_access_key",
@@ -85,39 +75,6 @@
    "fieldname": "operators",
    "fieldtype": "HTML",
    "label": "Operators"
-  },
-  {
-   "fieldname": "press_section",
-   "fieldtype": "Section Break",
-   "label": "Frappe Cloud",
-   "description": "Credentials for the Frappe Cloud account that hosts customer sites."
-  },
-  {
-   "fieldname": "press_team",
-   "fieldtype": "Data",
-   "label": "Team"
-  },
-  {
-   "fieldname": "press_token",
-   "fieldtype": "Password",
-   "label": "API Token"
-  },
-  {
-   "fieldname": "column_break_press",
-   "fieldtype": "Column Break"
-  },
-  {
-   "default": "https://cloud.frappe.io",
-   "fieldname": "press_url",
-   "fieldtype": "Data",
-   "label": "Base URL"
-  },
-  {
-   "default": "frappe.cloud",
-   "fieldname": "press_domain",
-   "fieldtype": "Data",
-   "label": "Press Root Domain",
-   "description": "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
   },
   {
    "fieldname": "cloudflare_section",
@@ -236,20 +193,6 @@
    "label": "Next Update",
    "read_only": 1,
    "description": "Set for the next Saturday window, early on Saturday morning UTC. Every workspace is told."
-  },
-  {
-   "fieldname": "release_apps",
-   "fieldtype": "Code",
-   "options": "JSON",
-   "label": "Update Apps",
-   "read_only": 1,
-   "hidden": 1
-  },
-  {
-   "fieldname": "release_running",
-   "fieldtype": "Data",
-   "label": "Update Running",
-   "read_only": 1
   },
   {
    "fieldname": "aws_section",
@@ -413,19 +356,6 @@
    "label": "Sender Email",
    "default": "noreply@4dl.app",
    "description": "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
-  },
-  {
-   "fieldname": "press_bench",
-   "fieldtype": "Data",
-   "label": "Bench Group",
-   "description": "The one bench group every workspace runs on, added to each server below. It must carry erpnext, hrms and onedesk."
-  },
-  {
-   "default": "Unlimited - Hetzner",
-   "fieldname": "press_plan",
-   "fieldtype": "Data",
-   "label": "Site Plan",
-   "description": "The free Frappe Cloud plan each site on these servers takes. It sets only its CPU time a day."
   },
   {
    "fieldname": "servers_section",

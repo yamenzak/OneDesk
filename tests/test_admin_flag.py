@@ -94,11 +94,11 @@ def test_nothing_mirrors_frappe_cloud():
 	)
 
 
-def test_the_press_client_holds_nothing():
-	source = (tree.APP / "one_admin" / "press.py").read_text()
+def test_the_pilot_client_holds_nothing():
+	source = (tree.APP / "one_admin" / "pilot.py").read_text()
 	for writing in ("frappe.get_doc(", "insert(", ".save(", "db.set_value"):
 		assert writing not in source, (
-			f"press.py calls {writing}. It asks press and caches; it does not "
+			f"pilot.py calls {writing}. It asks Pilot; it does not "
 			"write, because the moment it writes there is a copy to go stale."
 		)
 

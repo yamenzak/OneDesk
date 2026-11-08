@@ -12,21 +12,7 @@ def test_the_window_is_the_first_saturday_at_least_three_days_away():
 	assert releases.window_after(datetime(2026, 11, 11, 1, 0)) == datetime(2026, 11, 14, 1, 0), "exactly three days is enough"
 
 
-def _app(name, current, releases_, next_release=None, update=True):
-	return {"app": name, "current_hash": current, "releases": releases_, "next_release": next_release, "update_available": update, "source": f"SRC-{name}"}
-
-
-def test_a_pinned_app_goes_to_its_pin_and_ours_to_main():
-	apps = [
-		_app("frappe", "aaa", [{"name": "r-new", "hash": "fff"}, {"name": "r-pin", "hash": "pin1234", "source": "SRC-frappe"}]),
-		_app("onedesk", "old", [{"name": "r-main", "hash": "main99"}], next_release="r-main"),
-		_app("hrms", "pin5678", [{"name": "r-h", "hash": "pin5678"}]),
-	]
-	chosen, missing = releases.chosen(apps, {"frappe": "pin1234", "hrms": "pin5678"})
-	assert [(one["app"], one["release"]) for one in chosen] == [("frappe", "r-pin"), ("onedesk", "r-main")], "hrms is already on its pin"
-	assert not missing
-
-
-def test_a_pin_frappe_cloud_does_not_offer_holds_it():
-	chosen, missing = releases.chosen([_app("erpnext", "x", [{"name": "r", "hash": "develop-head"}])], {"erpnext": "pinned"})
-	assert chosen == [] and missing == ["erpnext"]
+def test_a_server_is_behind_only_when_onedesk_has_commits_waiting():
+	assert releases.behind({"apps": [{"name": "onedesk", "commits_behind": 2}]})
+	assert not releases.behind({"apps": [{"name": "onedesk", "commits_behind": 0}, {"name": "frappe", "commits_behind": 9}]})
+	assert not releases.behind(None)

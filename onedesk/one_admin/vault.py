@@ -9,7 +9,6 @@ from frappe.utils.password import remove_encrypted_password
 
 SETTINGS = "One Admin Settings"
 KEPT = (
-	"press_token",
 	"cloudflare_token",
 	"r2_secret",
 	"stripe_secret_key",

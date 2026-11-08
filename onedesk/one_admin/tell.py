@@ -387,7 +387,7 @@ def servers_filling() -> None:
 
 
 @_quietly
-def release_set(at, apps: list[str], missing: list[str]) -> None:
+def release_set(at, apps: list[str]) -> None:
 	"""An update is set for its window: the operators hear when, and what."""
 	notify.notify(
 		"Update Set",
@@ -396,11 +396,4 @@ def release_set(at, apps: list[str], missing: list[str]) -> None:
 		sender="Administrator",
 		at=frappe.utils.format_datetime(at, "EEEE d MMMM, HH:mm 'UTC'"),
 		apps=", ".join(apps),
-		held=(frappe._("{0} waits for its pinned commit.").format(", ".join(missing)) if missing else ""),
 	)
-
-
-@_quietly
-def release_held(apps: list[str]) -> None:
-	"""The window came and a pinned commit was not there."""
-	notify.notify("Update Held", operators(), link=HOME, sender="Administrator", apps=", ".join(apps))

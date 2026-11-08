@@ -1,25 +1,20 @@
 """Updates in one quiet window for everyone: Saturday 01:00 to 03:00 UTC.
-An update Frappe Cloud has waiting is set for the first window at least
+A server behind on OneDesk's `main` is set for the first window at least
 `NOTICE_HOURS` away, every workspace is told when (`hello`), and in the
-window the bench group is deployed with each app at the commit the gates
-passed: OneDesk's `main` as Frappe Cloud has it, frappe, erpnext and hrms at
-the commits upstream.json pins. A pinned commit Frappe Cloud does not offer
-holds the update and tells the operators (README, Updates)."""
+window each server moves to it through Pilot, which backs up first and
+restores if the update fails. README, Updates."""
 
-import json
 from datetime import datetime, timedelta
-from pathlib import Path
 
 import frappe
 from frappe.utils import get_datetime, now_datetime
 
-from onedesk.one_admin import faults, press, site
+from onedesk.one_admin import pilot, site
 
 WEEKDAY = 5
 HOUR = 1
 NOTICE_HOURS = 72
-PINNED = ("frappe", "erpnext", "hrms")
-UPSTREAM = Path(__file__).resolve().parents[2] / "upstream.json"
+APP = "onedesk"
 
 
 def window_after(moment: datetime, notice_hours: int = NOTICE_HOURS) -> datetime:
@@ -31,94 +26,58 @@ def window_after(moment: datetime, notice_hours: int = NOTICE_HOURS) -> datetime
 	return day if day >= earliest else day + timedelta(days=7)
 
 
-def pins() -> dict:
-	"""The commit each pinned app runs on, from upstream.json."""
-	held = json.loads(UPSTREAM.read_text())
-	return {app: held[app]["sha"] for app in PINNED if app in held}
+def _servers() -> list[str]:
+	return [one.server for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.server and one.pilot_host]
 
 
-def chosen(apps: list[dict], pinned: dict) -> tuple[list[dict], list[str]]:
-	"""Each app's release to deploy, and the apps whose pinned commit Frappe
-	Cloud does not offer. An app already on its target is left out. Pure."""
-	out, missing = [], []
-	for app in apps:
-		name = app.get("app") or app.get("name")
-		releases = app.get("releases") or []
-		if name in pinned:
-			if (app.get("current_hash") or "").startswith(pinned[name]):
-				continue
-			found = next((one for one in releases if (one.get("hash") or "").startswith(pinned[name])), None)
-			if not found:
-				missing.append(name)
-				continue
-		else:
-			if not app.get("update_available"):
-				continue
-			found = next((one for one in releases if one.get("name") == app.get("next_release")), None)
-			if not found:
-				continue
-		out.append({"app": name, "source": found.get("source") or app.get("source"), "release": found["name"], "hash": found.get("hash")})
-	return out, missing
+def behind(answer: dict | None) -> bool:
+	"""Whether Pilot's list of apps says OneDesk has commits waiting. Pure."""
+	return any(one.get("name") == APP and one.get("commits_behind") for one in (answer or {}).get("apps") or [])
 
 
-def _bench() -> str | None:
-	return frappe.db.get_single_value("One Admin Settings", "press_bench")
+def _waiting() -> list[str]:
+	return [one for one in _servers() if behind(pilot.call(one, "POST", "/app-update-checks"))]
 
 
 def check() -> dict:
 	"""Hourly, on the admin site: an update waiting is set for its window,
 	once, and the operators told; none waiting clears it."""
-	if not site.is_admin() or not _bench():
+	if not site.is_admin() or not _servers():
 		return {}
-	info = press.call("press.api.bench.deploy_information", name=_bench()) or {}
-	apps, missing = chosen(info.get("apps") or [], pins())
+	waiting = _waiting()
 	settings = frappe.get_single("One Admin Settings")
-	if info.get("deploy_in_progress"):
-		return {"running": True}
-	if settings.release_running:
-		settings.db_set("release_running", None)
-	if not apps:
-		if settings.release_at and not settings.release_running:
-			settings.db_set({"release_at": None, "release_apps": None})
-		return {"waiting": False, "missing": missing}
+	if not waiting:
+		if settings.release_at:
+			settings.db_set("release_at", None)
+		return {"waiting": False}
 	if not settings.release_at:
 		at = window_after(now_datetime())
-		settings.db_set({"release_at": at, "release_apps": json.dumps(apps)})
+		settings.db_set("release_at", at)
 		from onedesk.one_admin import tell
 
-		tell.release_set(at, [one["app"] for one in apps], missing)
-	else:
-		settings.db_set("release_apps", json.dumps(apps))
-	return {"at": str(settings.release_at), "apps": apps, "missing": missing}
+		tell.release_set(at, [APP])
+	return {"at": str(settings.release_at), "servers": waiting}
+
+
+def _a_site_on(server: str) -> str | None:
+	return frappe.db.get_value("Tenant", {"server": server, "site": ["is", "set"], "status": ["not in", ("Archived", "Dropped")]}, "site")
 
 
 def window() -> dict:
-	"""Scheduled for Saturday 01:00 UTC: the update set for now deployed,
-	every site on the bench group updated."""
-	if not site.is_admin() or not _bench():
+	"""Scheduled for Saturday 01:00 UTC: each server behind is updated, every
+	site on it with it."""
+	if not site.is_admin() or not _servers():
 		return {}
 	settings = frappe.get_single("One Admin Settings")
 	if not settings.release_at or get_datetime(settings.release_at) > now_datetime() + timedelta(minutes=30):
 		return {"due": False}
-	info = press.call("press.api.bench.deploy_information", name=_bench()) or {}
-	apps, missing = chosen(info.get("apps") or [], pins())
-	if missing:
-		from onedesk.one_admin import tell
-
-		tell.release_held(missing)
-		settings.db_set("release_at", window_after(now_datetime()))
-		return {"held": missing}
-	if not apps:
-		settings.db_set({"release_at": None, "release_apps": None})
-		return {"nothing": True}
-	sites = [one["name"] for one in info.get("sites") or []]
-	try:
-		started = press.call("press.api.bench.deploy_and_update", name=_bench(), apps=apps, sites=sites)
-	except faults.Refused:
-		settings.db_set("release_at", window_after(now_datetime()))
-		raise
-	settings.db_set({"release_at": None, "release_apps": None, "release_running": str(started or "")})
-	return {"started": started, "apps": apps, "sites": len(sites)}
+	started = {}
+	for server in _waiting():
+		one = _a_site_on(server)
+		if one:
+			started[server] = pilot.call(server, "POST", f"/sites/{one}/actions/update-apps", key=f"{settings.release_at}:{server}", json={"apps": [APP]})
+	settings.db_set("release_at", None)
+	return {"started": list(started)}
 
 
 def upcoming() -> dict | None:

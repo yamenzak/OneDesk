@@ -89,7 +89,6 @@ def needs() -> list[dict]:
 		*_over_database(),
 		*_mispriced(),
 		*_domains(),
-		*_updates(),
 		*_filling(),
 	]
 
@@ -355,37 +354,6 @@ def _filling() -> list[dict]:
 				}
 			)
 	return said
-
-
-def _updates() -> list[dict]:
-	"""An update waiting for the bench group new workspaces go on. Every site
-	on it runs the same release, so this is every workspace's release; the
-	deploy itself is started in Frappe Cloud."""
-	from onedesk.one_admin import press
-
-	bench = frappe.db.get_single_value("One Admin Settings", "press_bench")
-	if not bench:
-		return []
-	try:
-		held = [one for one in press.apps(bench) or [] if isinstance(one, dict)]
-	except Exception:
-		return []
-	waiting = [one.get("name") or one.get("app") for one in held if one.get("update_available")]
-	if not waiting:
-		return []
-	return [
-		{
-			"kind": "update",
-			"doctype": "One Admin Settings",
-			"name": "One Admin Settings",
-			"title": _("Update available for {0}").format(bench),
-			"why": ", ".join(waiting),
-			"detail": _("Deploying it in Frappe Cloud updates every workspace on it."),
-			"since": "",
-			"badge": _("Update"),
-			"action": None,
-		}
-	]
 
 
 def _mispriced() -> list[dict]:

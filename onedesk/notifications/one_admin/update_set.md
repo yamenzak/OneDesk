@@ -9,4 +9,4 @@ email_default: yes
 
 # One updates on {at}
 
-{apps}. Every workspace is told now. {held}
+{apps}. Every workspace is told now.

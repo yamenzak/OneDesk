@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 22:47+0000\n"
+"POT-Creation-Date: 2026-11-08 23:12+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -910,7 +910,7 @@ msgstr "Eine Datei mit diesem Namen ist bereits hier"
 
 #. Description of the 'GitHub Token' (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:275
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:218
 msgid "A fine-grained token that may only read the OneDesk repository. Moved to the site's config when saved."
 msgstr "Ein fein abgestimmtes Token, das nur das OneDesk-Repository lesen darf. Wird beim Speichern in die Konfiguration der Site verschoben."
 
@@ -1899,7 +1899,7 @@ msgstr "KI-Credits"
 
 #. Label of the ai_section (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:343
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:286
 msgid "AI Gateway"
 msgstr "KI-Gateway"
 
@@ -1937,25 +1937,20 @@ msgstr "KI-Nutzung"
 msgid "AICenter"
 msgstr "AICenter"
 
-#. Label of the press_token (Password) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:103
-msgid "API Token"
-msgstr "API-Token"
-
 #. Label of the aws_section (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:257
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:200
 msgid "AWS"
 msgstr "AWS"
 
 #. Label of the aws_access_key_id (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:262
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:205
 msgid "AWS Access Key ID"
 msgstr "AWS-Zugriffsschlüssel-ID"
 
 #. Label of the aws_secret_access_key (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:268
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:211
 msgid "AWS Secret Access Key"
 msgstr "Geheimer AWS-Zugriffsschlüssel"
 
@@ -2240,7 +2235,7 @@ msgid "Account Email Changed"
 msgstr "Konto-E-Mail geändert"
 
 #. Label of the cloudflare_account (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:130
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:87
 msgid "Account ID"
 msgstr "Konto-ID"
 
@@ -4199,7 +4194,7 @@ msgstr "Beträge zeigen das Symbol ihrer Währung."
 
 #. Description of the 'AWS Access Key ID' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:263
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:206
 msgid "An IAM user's key allowed Lightsail only. Never the root user's."
 msgstr "Der Schlüssel eines IAM-Benutzers, der nur Lightsail darf. Nie der des Root-Benutzers."
 
@@ -5139,7 +5134,7 @@ msgid "Archived"
 msgstr ""
 
 #. Label of the kept_days (Int) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:406
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:349
 msgid "Archived For"
 msgstr "Archiviert für"
 
@@ -5831,7 +5826,7 @@ msgstr "Am Ende jeder E-Mail, die der Arbeitsbereich sendet. Leer lassen für ke
 msgid "At {0}; nobody has it."
 msgstr "In {0}; niemand hat es."
 
-#: onedesk/one_admin/home.py:113 onedesk/one_admin/home.py:296
+#: onedesk/one_admin/home.py:112 onedesk/one_admin/home.py:295
 #, python-brace-format
 msgid "At: {0}"
 msgstr "Bei: {0}"
@@ -6492,7 +6487,7 @@ msgid "Backup Before Archive"
 msgstr "Sicherung vor der Archivierung"
 
 #. Label of the backup_bucket (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:223
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:180
 msgid "Backup Bucket"
 msgstr "Backup-Bucket"
 
@@ -6718,14 +6713,9 @@ msgstr "Basiswährung"
 msgid "Base Pay"
 msgstr "Grundgehalt"
 
-#. Label of the press_url (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:113
-msgid "Base URL"
-msgstr ""
-
 #. Description of the 'Workspace Domain' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:169
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:126
 msgid "Base domain for workspace addresses. Example: t.4dl.app"
 msgstr "Basisdomain für Adressen von Arbeitsbereichen. Beispiel: t.4dl.app"
 
@@ -7017,11 +7007,6 @@ msgstr "Darunter warten die Änderungen von OneAI unter „Prüfung nötig“."
 #: onedesk/one_admin/doctype/tenant/tenant.json:173
 msgid "Bench"
 msgstr "Bench"
-
-#. Label of the press_bench (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:420
-msgid "Bench Group"
-msgstr "Bench-Gruppe"
 
 #. Label in the One Bank Guarantee print format
 #: onedesk/one_book/print_format/one_bank_guarantee/one_bank_guarantee.json
@@ -7771,7 +7756,7 @@ msgstr ""
 msgid "Build Slow"
 msgstr "Aufbau langsam"
 
-#: onedesk/one_admin/heads.py:520 onedesk/one_admin/home.py:179
+#: onedesk/one_admin/heads.py:520 onedesk/one_admin/home.py:178
 msgid "Build Workspace"
 msgstr "Arbeitsbereich anlegen"
 
@@ -7816,7 +7801,7 @@ msgstr "Aufbau von {0} fehlgeschlagen"
 msgid "Building {0} is stalled"
 msgstr "Erstellung von {0} hängt"
 
-#: onedesk/one_admin/home.py:295
+#: onedesk/one_admin/home.py:294
 #, python-brace-format
 msgid "Building {0} is taking hours"
 msgstr "Der Aufbau von {0} dauert Stunden"
@@ -7896,7 +7881,7 @@ msgstr "Guthaben kaufen"
 msgid "Buy online"
 msgstr "Online kaufen"
 
-#: onedesk/one_admin/home.py:327
+#: onedesk/one_admin/home.py:326
 msgid "Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
 msgstr "Kaufen Sie den nächsten Server in Frappe Cloud, fügen Sie ihn der Bench-Gruppe hinzu und tragen Sie ihn unter Server ein."
 
@@ -8866,7 +8851,7 @@ msgstr "Am günstigsten"
 msgid "Check"
 msgstr "Prüfung"
 
-#: onedesk/one_admin/heads.py:534 onedesk/one_admin/home.py:433
+#: onedesk/one_admin/heads.py:534 onedesk/one_admin/home.py:401
 #: onedesk/public/js/one_account/account_center.js:691
 #: onedesk/public/js/one_account/account_center.js:1458
 #: onedesk/public/js/one_legal/legal.js:71
@@ -8932,7 +8917,7 @@ msgstr "Rechnung an {0} prüfen"
 msgid "Check the connection and try again."
 msgstr "Prüfen Sie die Verbindung und versuchen Sie es erneut."
 
-#: onedesk/one_admin/home.py:297
+#: onedesk/one_admin/home.py:296
 msgid "Check the site in Frappe Cloud."
 msgstr "Prüfen Sie die Site in Frappe Cloud."
 
@@ -9125,7 +9110,7 @@ msgstr "Checkliste"
 
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:318
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:261
 msgid "Checkout and webhook credentials. Webhook signature checks fail without the webhook secret."
 msgstr "Zugangsdaten für Checkout und Webhook. Ohne Webhook-Secret schlägt die Signaturprüfung fehl."
 
@@ -9826,7 +9811,7 @@ msgstr "Verbundener Server"
 #. Label of the cloudflare_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the said_section (Section Break) field in DocType 'Tenant Domain'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:125
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:82
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:81
 #: onedesk/one_admin/heads.py:356
 msgid "Cloudflare"
@@ -10636,7 +10621,7 @@ msgstr "Verbindung"
 #. Label of the connections_tab (Tab Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the one_connections_tab (Tab Break) field in DocType 'Timesheet'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:76
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:66
 #: onedesk/one_hr/custom/timesheet.json:7
 #: onedesk/public/js/one_interface/form.js:152
 msgid "Connections"
@@ -11862,12 +11847,6 @@ msgstr "Zugangsdaten"
 msgid "Credential ID"
 msgstr "Credential-ID"
 
-#. Description of the 'Frappe Cloud' (Section Break) field in DocType 'One
-#. Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:93
-msgid "Credentials for the Frappe Cloud account that hosts customer sites."
-msgstr "Zugangsdaten des Frappe-Cloud-Kontos, das die Kundensites hostet."
-
 #. Label in the One Journal Voucher print format
 #. Label in the One Sales Voucher print format
 #: onedesk/one_book/print_format/one_journal_voucher/one_journal_voucher.json
@@ -12971,7 +12950,7 @@ msgstr "Bezahlte Tage"
 
 #. Description of the 'Grace Periods' (Section Break) field in DocType 'One
 #. Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:382
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:325
 msgid "Days at each status before moving to the next. Zero disables the move."
 msgstr "Tage je Status, bevor der nächste folgt. Null deaktiviert den Wechsel."
 
@@ -13994,13 +13973,9 @@ msgstr ""
 
 #. Label of the cloudflare_deployed (Small Text) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:202
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:159
 msgid "Deployed Workers"
 msgstr "Bereitgestellte Worker"
-
-#: onedesk/one_admin/home.py:383
-msgid "Deploying it in Frappe Cloud updates every workspace on it."
-msgstr "Die Bereitstellung in Frappe Cloud aktualisiert jeden Arbeitsbereich darauf."
 
 #: onedesk/one_inventory/heads.py:1306
 msgid "Depreciation"
@@ -15592,7 +15567,7 @@ msgid "EU"
 msgstr "EU"
 
 #. Label of the bucket_eu (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:295
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:238
 msgid "EU Bucket"
 msgstr "EU-Bucket"
 
@@ -16947,7 +16922,7 @@ msgid "Envelope"
 msgstr "Gebäudehülle"
 
 #. Label of the environment (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:135
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:92
 msgid "Environment"
 msgstr "Umgebung"
 
@@ -18785,7 +18760,7 @@ msgstr "Getankt bei"
 msgid "Filled in {0}"
 msgstr "{0} ergänzt"
 
-#: onedesk/one_admin/home.py:330
+#: onedesk/one_admin/home.py:329
 msgid "Filling Up"
 msgstr "Wird voll"
 
@@ -18936,7 +18911,7 @@ msgstr "Finde die Datei, die "
 
 #. Description of the 'Set Up Cloudflare' (Button) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:184
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:141
 msgid "Finds or makes everything a workspace needs from Cloudflare. Running it again checks it all and mends what is missing."
 msgstr "Findet oder erstellt alles, was ein Arbeitsbereich von Cloudflare braucht. Ein erneuter Lauf prüft alles und ergänzt, was fehlt."
 
@@ -19827,9 +19802,6 @@ msgstr "Gerahmtes Bild"
 msgid "Frappe App"
 msgstr "Frappe-App"
 
-#. Label of the press_section (Section Break) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:92
 #: onedesk/one_admin/heads.py:353
 msgid "Frappe Cloud"
 msgstr "Frappe Cloud"
@@ -19838,12 +19810,6 @@ msgstr "Frappe Cloud"
 #: onedesk/one_admin/doctype/tenant/tenant.json:328
 msgid "Frappe Cloud Plan"
 msgstr "Frappe-Cloud-Tarif"
-
-#. Message of a notification
-#: onedesk/notifications/one_admin/update_held.md
-#, python-brace-format
-msgid "Frappe Cloud doesn't offer the commit upstream.json pins for {apps}. The update moves to the next window."
-msgstr "Frappe Cloud bietet den in upstream.json festgelegten Commit für {apps} nicht an. Das Update rückt ins nächste Zeitfenster."
 
 #: onedesk/one_admin/log.py:18
 msgid "Frappe Cloud stopped serving the site"
@@ -20297,7 +20263,7 @@ msgstr "Kraftstoffpreis"
 msgid "Fulfilment"
 msgstr "Erfüllung"
 
-#: onedesk/one_admin/home.py:330 onedesk/one_admin/home.py:353
+#: onedesk/one_admin/home.py:329 onedesk/one_admin/home.py:352
 #: onedesk/one_ai/center.py:21
 #: onedesk/public/js/one_account/account_center.js:710
 msgid "Full"
@@ -20364,13 +20330,13 @@ msgid "Garden salad"
 msgstr "Gartensalat"
 
 #. Label of the ai_gateway (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:348
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:291
 msgid "Gateway Name"
 msgstr "Gateway-Name"
 
 #. Label of the ai_gateway_token (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:358
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:301
 msgid "Gateway Token"
 msgstr "Gateway-Token"
 
@@ -20450,7 +20416,7 @@ msgid "Getting Started"
 msgstr "Erste Schritte"
 
 #. Label of the github_token (Password) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:274
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:217
 msgid "GitHub Token"
 msgstr "GitHub-Token"
 
@@ -20628,7 +20594,7 @@ msgid "Global"
 msgstr "Global"
 
 #. Label of the bucket_global (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:286
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:229
 msgid "Global Bucket"
 msgstr "Globaler Bucket"
 
@@ -20822,7 +20788,7 @@ msgstr "Google News ist ausgeschaltet. Im TrustCenter einschalten."
 #. Label of the ladder_tab (Tab Break) field in DocType 'One Admin Settings'
 #. Label of the ladder_section (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:376
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:319
 msgid "Grace Periods"
 msgstr "Karenzzeiten"
 
@@ -25076,7 +25042,7 @@ msgid "Keep walkways clear"
 msgstr "Gehwege freihalten"
 
 #. Label of the keeper_url (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:230
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:187
 msgid "Keeper"
 msgstr "Hüter"
 
@@ -25612,7 +25578,7 @@ msgstr "Zuletzt gesendet"
 #. Label of the cloudflare_setup_said (HTML) field in DocType 'One Admin
 #. Settings'
 #. Label of the cloudflare_setup (Code) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:189
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:146
 #: onedesk/public/js/admin_settings.js:87
 msgid "Last Setup"
 msgstr "Letzte Einrichtung"
@@ -27396,7 +27362,7 @@ msgstr "Von OneAI erstellt. Noch nicht geprüft."
 
 #. Description of the 'OneAdmin Token' (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:148
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:105
 msgid "Made by Set Up Cloudflare for OneAdmin's own calls, and made again when its secret is lost."
 msgstr "Von „Cloudflare einrichten“ für die eigenen Aufrufe von OneAdmin erstellt und neu erstellt, wenn sein Geheimnis verloren geht."
 
@@ -27433,7 +27399,7 @@ msgstr "Angelegt aus {0}."
 
 #. Description of the 'Master Token' (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:142
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:99
 msgid "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
 msgstr "In Cloudflare aus der Vorlage „Create Additional Tokens“ erstellt. „Cloudflare einrichten“ nutzt ihn nur, um die eigenen Tokens von One zu erstellen."
 
@@ -27486,7 +27452,7 @@ msgid "Mail Conversation"
 msgstr "E-Mail-Unterhaltung"
 
 #. Label of the mail_domain (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:177
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:134
 msgid "Mail Domain"
 msgstr "Mail-Domain"
 
@@ -28247,7 +28213,7 @@ msgstr ""
 
 #. Label of the cloudflare_master_token (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:141
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:98
 msgid "Master Token"
 msgstr "Haupt-Token"
 
@@ -29229,7 +29195,7 @@ msgstr "In den Papierkorb verschoben"
 
 #. Description of the 'AWS Secret Access Key' (Password) field in DocType 'One
 #. Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:269
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:212
 msgid "Moved to the site's config when saved."
 msgstr "Wird beim Speichern in die Konfiguration der Site verschoben."
 
@@ -30242,7 +30208,7 @@ msgstr "Neue Versionen von: {documents}. Sie gelten ab dem {effective}. TrustCen
 msgid "New work orders for {0} use this one."
 msgstr "Neue Arbeitsaufträge für {0} nutzen diese."
 
-#: onedesk/one_admin/home.py:351
+#: onedesk/one_admin/home.py:350
 msgid "New workspaces can't be built until a server is added."
 msgstr "Neue Arbeitsbereiche können erst erstellt werden, wenn ein Server hinzugefügt ist."
 
@@ -30432,7 +30398,7 @@ msgstr "Nächster Schritt fällig"
 #. Label of the update_at (Datetime) field in DocType 'Workspace Account'
 #. Label of the release_at (Datetime) field in DocType 'One Admin Settings'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:262
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:236
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:193
 msgid "Next Update"
 msgstr "Nächste Aktualisierung"
 
@@ -30479,7 +30445,7 @@ msgstr "Melden Sie sich beim nächsten Mal mit Gesicht, Fingerabdruck oder Bilds
 msgid "Next year's is made three days before this one ends."
 msgstr "Das nächste wird drei Tage vor Ende dieses Jahres angelegt."
 
-#: onedesk/one_admin/home.py:147 onedesk/public/js/doctype_settings.js:375
+#: onedesk/one_admin/home.py:146 onedesk/public/js/doctype_settings.js:375
 #: onedesk/public/js/doctype_settings.js:390
 #: onedesk/public/js/doctype_settings.js:803
 #: onedesk/public/js/doctype_settings.js:950
@@ -31206,11 +31172,11 @@ msgstr "Niemand zu benachrichtigen"
 msgid "No one yet"
 msgstr "Noch niemand"
 
-#: onedesk/one_admin/home.py:339
+#: onedesk/one_admin/home.py:338
 msgid "No open server for EU workspaces"
 msgstr "Kein offener Server für EU-Arbeitsbereiche"
 
-#: onedesk/one_admin/home.py:338
+#: onedesk/one_admin/home.py:337
 msgid "No open server for new workspaces"
 msgstr "Kein offener Server für neue Arbeitsbereiche"
 
@@ -32086,7 +32052,7 @@ msgid "Not used: {0}"
 msgstr "Nicht verwendet: {0}"
 
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:10
-#: onedesk/one_admin/heads.py:48 onedesk/one_admin/home.py:429
+#: onedesk/one_admin/heads.py:48 onedesk/one_admin/home.py:397
 msgid "Not working"
 msgstr "Funktioniert nicht"
 
@@ -32188,7 +32154,7 @@ msgid "Nothing bought from them yet"
 msgstr "Noch nichts bei ihnen gekauft"
 
 #. Description of the 'Overdue For' (Int) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:389
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:332
 msgid "Nothing changes for the workspace during this period."
 msgstr "In diesem Zeitraum ändert sich für den Arbeitsbereich nichts."
 
@@ -32809,12 +32775,12 @@ msgid "Offerings"
 msgstr "Angebote"
 
 #. Label of the office_url (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:209
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:166
 msgid "Office Containers"
 msgstr "Office-Container"
 
 #. Label of the office_secret (Password) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:216
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:173
 msgid "Office Containers Secret"
 msgstr "Geheimnis der Office-Container"
 
@@ -33183,7 +33149,7 @@ msgid "One Admin"
 msgstr "OneAdmin"
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:448
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:378
 msgid "One Admin Settings"
 msgstr "OneAdmin-Einstellungen"
 
@@ -33204,7 +33170,7 @@ msgstr "OneCalendar"
 
 #. Description of the 'OpenWeather Key' (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:371
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:314
 msgid "One Call API 4.0. Workspaces near one place share its reading."
 msgstr "One Call API 4.0. Arbeitsbereiche nahe einem Ort teilen sich seine Daten."
 
@@ -33257,7 +33223,7 @@ msgstr "Eine Nachricht nach der anderen"
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:153
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:115
 #: onedesk/one_admin/doctype/offering/offering.json:216
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:455
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:385
 #: onedesk/one_admin/doctype/private_app/private_app.json:96
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:146
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:85
@@ -33828,7 +33794,7 @@ msgstr "OneAdmin"
 
 #. Label of the cloudflare_token (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:147
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:104
 msgid "OneAdmin Token"
 msgstr "One-Admin-Token"
 
@@ -34749,7 +34715,7 @@ msgstr "{0} ältere Einträge öffnen"
 
 #. Label of the openweather_key (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:370
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:313
 msgid "OpenWeather Key"
 msgstr "OpenWeather-Schlüssel"
 
@@ -34894,7 +34860,7 @@ msgstr ""
 #. Label of the operators_section (Section Break) field in DocType 'One Admin
 #. Settings'
 #. Label of the operators (HTML) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:81
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:71
 msgid "Operators"
 msgstr "Operatoren"
 
@@ -35662,7 +35628,7 @@ msgstr "Bei Überschreitung ist Warnen oder Stoppen."
 msgid "Over Capacity"
 msgstr "Über Kapazität"
 
-#: onedesk/one_admin/home.py:262
+#: onedesk/one_admin/home.py:261
 msgid "Over Database"
 msgstr "Datenbank überschritten"
 
@@ -35676,7 +35642,7 @@ msgstr "Über Folien"
 
 #. Option for the 'Event' (Select) field in DocType 'Tenant Event'
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:33
-#: onedesk/one_admin/home.py:233
+#: onedesk/one_admin/home.py:232
 msgid "Over Storage"
 msgstr "Speicher überschritten"
 
@@ -35714,7 +35680,7 @@ msgid "Overdue"
 msgstr "Überfällig"
 
 #. Label of the grace_days (Int) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:388
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:331
 msgid "Overdue For"
 msgstr "Überfällig für"
 
@@ -37004,7 +36970,7 @@ msgstr "Die Zahlung läuft über Stripe. Es wird nichts abgebucht, bis sie dort 
 
 #: onedesk/one_account/heads.py:17 onedesk/one_admin/accounts.py:121
 #: onedesk/one_admin/doctype/tenant/tenant_list.js:12
-#: onedesk/one_admin/heads.py:21 onedesk/one_admin/home.py:196
+#: onedesk/one_admin/heads.py:21 onedesk/one_admin/home.py:195
 #: onedesk/one_admin/tell.py:129
 msgid "Payment overdue"
 msgstr "Zahlung überfällig"
@@ -38398,11 +38364,6 @@ msgstr "Live-Präsentation: Alle mit einem Link zu dieser Präsentation folgen I
 msgid "Press OK to enable sound"
 msgstr "OK drücken, um Ton zu aktivieren"
 
-#. Label of the press_domain (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:119
-msgid "Press Root Domain"
-msgstr "Frappe-Cloud-Hauptdomain"
-
 #. Label of the site (Data) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:193
 msgid "Press Site"
@@ -38849,7 +38810,7 @@ msgstr "Produktionsanforderung"
 
 #. Description of the 'Environment' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:136
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:93
 msgid "Production leaves this blank. Any other name, like dev, is added to each Worker, store, bucket, gateway and token setup makes."
 msgstr "In der Produktion bleibt dies leer. Jeder andere Name, etwa dev, wird an jeden Worker, Speicher, Bucket, jedes Gateway und jedes Token angehängt, das die Einrichtung anlegt."
 
@@ -39353,7 +39314,7 @@ msgstr "Öffentlicher Schlüssel"
 
 #. Label of the stripe_publishable_key (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:323
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:266
 msgid "Publishable Key"
 msgstr "Veröffentlichbarer Schlüssel"
 
@@ -40051,18 +40012,18 @@ msgid "Quotes"
 msgstr "Angebote"
 
 #. Label of the r2_key_id (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:304
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:247
 msgid "R2 Access Key ID"
 msgstr "R2-Zugriffsschlüssel-ID"
 
 #. Label of the r2_secret (Password) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:311
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:254
 msgid "R2 Secret"
 msgstr "R2-Geheimnis"
 
 #. Description of the 'Storage' (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:281
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:224
 msgid "R2 buckets. A workspace is a prefix in one of them, fixed by its jurisdiction."
 msgstr "R2-Buckets. Ein Arbeitsbereich ist ein Präfix in einem davon, festgelegt durch seinen Rechtsraum."
 
@@ -42608,7 +42569,7 @@ msgstr "Ergebnisse in {0}"
 
 #: frontend/src/factory/floor/FloorSteps.vue:99
 #: frontend/src/slide/shim/PresenterView.vue:12 onedesk/one_admin/heads.py:513
-#: onedesk/one_admin/home.py:117 onedesk/public/js/timesheet.js:66
+#: onedesk/one_admin/home.py:116 onedesk/public/js/timesheet.js:66
 msgid "Resume"
 msgstr "Fortsetzen"
 
@@ -43344,7 +43305,7 @@ msgstr "Lauf"
 msgid "Run No"
 msgstr "Lauf-Nr."
 
-#: onedesk/one_admin/home.py:152
+#: onedesk/one_admin/home.py:151
 msgid "Run Now"
 msgstr "Jetzt ausführen"
 
@@ -44353,7 +44314,7 @@ msgstr "Geheimnis"
 
 #. Label of the stripe_secret_key (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:329
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:272
 msgid "Secret Key"
 msgstr "Geheimer Schlüssel"
 
@@ -44711,7 +44672,7 @@ msgid "Sender"
 msgstr "Absender"
 
 #. Label of the sender_email (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:413
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:356
 msgid "Sender Email"
 msgstr ""
 
@@ -45067,7 +45028,7 @@ msgid "Server {0} not found."
 msgstr "Server {0} nicht gefunden."
 
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:437
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:367
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:67
 #: onedesk/public/js/one_mail/onemail_settings.js:1105
 msgid "Servers"
@@ -45222,19 +45183,19 @@ msgstr "Einrichtung"
 
 #. Label of the set_up_cloudflare (Button) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:183
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:140
 msgid "Set Up Cloudflare"
 msgstr "Cloudflare einrichten"
 
 #. Description of the 'Office Containers' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:211
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:168
 msgid "Set Up Cloudflare deploys it. Files a browser can't open are converted to PDF there."
 msgstr "Wird von „Cloudflare einrichten“ bereitgestellt. Dateien, die ein Browser nicht öffnen kann, werden dort in PDF umgewandelt."
 
 #. Description of the 'Backup Bucket' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:225
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:182
 msgid "Set Up Cloudflare makes and locks it. Only the keeper adds to it, and nothing deletes from it."
 msgstr "Wird von „Cloudflare einrichten“ angelegt und gesperrt. Nur der Hüter fügt hinzu, und nichts löscht daraus."
 
@@ -45281,7 +45242,7 @@ msgstr "Wird durch Abrechnungsereignisse und die Aktionen in der Symbolleiste ge
 
 #. Description of the 'Next Update' (Datetime) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:238
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:195
 msgid "Set for the next Saturday window, early on Saturday morning UTC. Every workspace is told."
 msgstr "Für das nächste Samstagsfenster angesetzt, früh am Samstagmorgen UTC. Jeder Arbeitsbereich wird informiert."
 
@@ -46372,7 +46333,7 @@ msgstr "Anmeldung und Konten"
 
 #. Description of the 'Sender Email' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:415
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:358
 msgid "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
 msgstr "Anmeldelinks, Registrierungen und Hinweise an Kundschaft kommen von dieser Adresse. Sie muss in der Zone der Arbeitsbereichs- oder der Maildomain liegen."
 
@@ -46554,11 +46515,6 @@ msgstr "Montage vor Ort & Logistik"
 #: onedesk/one_ai/doctype/reading/reading.json:236
 msgid "Site Log"
 msgstr "Baustellenbericht"
-
-#. Label of the press_plan (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:427
-msgid "Site Plan"
-msgstr "Website-Tarif"
 
 #: onedesk/one_admin/log.py:19
 msgid "Site deleted after a backup. Files kept."
@@ -46974,7 +46930,7 @@ msgstr ""
 msgid "Slip No"
 msgstr "Schein Nr."
 
-#: onedesk/one_admin/home.py:298
+#: onedesk/one_admin/home.py:297
 msgid "Slow"
 msgstr "Langsam"
 
@@ -47649,7 +47605,7 @@ msgstr "Phasen werden vom niedrigsten zum höchsten Wert aufgelistet."
 msgid "Stale"
 msgstr "Veraltet"
 
-#: onedesk/one_admin/home.py:149
+#: onedesk/one_admin/home.py:148
 msgid "Stalled"
 msgstr "Hängt"
 
@@ -47907,7 +47863,7 @@ msgstr "Beginnt mit https://"
 
 #. Description of the 'Publishable Key' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:324
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:267
 msgid "Starts with pk_live_ or pk_test_. Used by checkout pages and safe to expose."
 msgstr "Beginnt mit pk_live_ oder pk_test_. Wird von Checkout-Seiten genutzt und darf öffentlich sein."
 
@@ -48566,7 +48522,7 @@ msgstr "Besuchte Stopps"
 #. Label of the storage_section (Section Break) field in DocType 'Tenant'
 #. Label of the storage_bytes (Long Int) field in DocType 'Tenant'
 #: onedesk/one/home.py:180 onedesk/one_account/heads.py:86
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:280
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:223
 #: onedesk/one_admin/doctype/tenant/tenant.json:362
 #: onedesk/one_admin/heads.py:547
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:113
@@ -48671,7 +48627,7 @@ msgstr "Rückbau & Rohinstallation"
 #. Settings'
 #. Label of the one_stripe_invoice (Data) field in DocType 'Sales Invoice'
 #: onedesk/one_admin/doctype/offering/offering.json:182
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:317
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:260
 #: onedesk/one_book/custom/sales_invoice.json:7
 msgid "Stripe"
 msgstr "Stripe"
@@ -49359,11 +49315,11 @@ msgid "Suspended"
 msgstr ""
 
 #. Label of the held_days (Int) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:395
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:338
 msgid "Suspended For"
 msgstr "Gesperrt für"
 
-#: onedesk/one_admin/home.py:196 onedesk/one_admin/tell.py:129
+#: onedesk/one_admin/home.py:195 onedesk/one_admin/tell.py:129
 msgid "Suspended for non-payment"
 msgstr "Wegen Nichtzahlung gesperrt"
 
@@ -50071,10 +50027,7 @@ msgstr "Steuerpflichtig dieses Jahr"
 msgid "Taxes"
 msgstr ""
 
-#. Label of the press_team (Data) field in DocType 'One Admin Settings'
-#: frontend/src/project/Team.vue:7
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:98
-#: onedesk/one_slide/decks.py:28
+#: frontend/src/project/Team.vue:7 onedesk/one_slide/decks.py:28
 msgid "Team"
 msgstr "Team"
 
@@ -50644,7 +50597,7 @@ msgstr "Die 15-stellige Steuernummer auf der USt-Registrierungsbescheinigung."
 
 #. Description of the 'Gateway Name' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:349
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:292
 msgid "The AI Gateway on the Cloudflare account above."
 msgstr "Das KI-Gateway auf dem Cloudflare-Konto oben."
 
@@ -50692,12 +50645,6 @@ msgstr "Die wichtigen Zahlen"
 msgid "The Floor at a Glance"
 msgstr "Die Fertigung auf einen Blick"
 
-#. Description of the 'Press Root Domain' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:120
-msgid "The Frappe Cloud root domain sites are created on, for example frappe.cloud."
-msgstr "Die Frappe-Cloud-Hauptdomain, auf der Sites angelegt werden, zum Beispiel frappe.cloud."
-
 #: onedesk/one_ai/reading/planning.py:520
 #, python-brace-format
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
@@ -50728,13 +50675,13 @@ msgstr "Das One-Konto mit dieser E-Mail wird Eigentümer und erhält Rechnungen 
 
 #. Description of the 'Gateway Token' (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:359
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:302
 msgid "The OneAI token, made by Set Up Cloudflare. Provider keys are stored in the gateway, never here."
 msgstr "Der One-AI-Token, von „Cloudflare einrichten“ erstellt. Anbieterschlüssel liegen im Gateway, nie hier."
 
 #. Description of the 'R2 Access Key ID' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:306
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:249
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr "Der One-Storage-Token, von „Cloudflare einrichten“ erstellt und nur für die beiden Buckets zugelassen."
 
@@ -50799,7 +50746,7 @@ msgstr "Die Woche"
 
 #. Description of the 'Workers KV Namespace' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:155
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:112
 msgid "The Workers KV namespace the edge router reads. The API token needs edit access to this namespace only."
 msgstr "Der Workers-KV-Namespace, den der Edge-Router liest. Das API-Token braucht nur Bearbeitungsrechte für diesen Namespace."
 
@@ -51457,11 +51404,6 @@ msgstr "Die Ergebnisse der Formel können nicht eingefügt werden, weil eine Zel
 msgid "The formula uses a value of the wrong type, such as text where a number is expected."
 msgstr "Die Formel verwendet einen Wert des falschen Typs, etwa Text, wo eine Zahl erwartet wird."
 
-#. Description of the 'Site Plan' (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:428
-msgid "The free Frappe Cloud plan each site on these servers takes. It sets only its CPU time a day."
-msgstr "Der kostenlose Frappe-Cloud-Tarif, den jede Website auf diesen Servern erhält. Er legt nur ihre tägliche CPU-Zeit fest."
-
 #. Subject of a notification
 #: onedesk/one/notifications.py
 msgid "The full download is ready"
@@ -51801,12 +51743,6 @@ msgstr "Die Office-Container werden gestartet. Versuchen Sie es in einigen Minut
 msgid "The oldest message read so far. Older ones are read a batch at a time until there are none."
 msgstr "Die älteste bisher gelesene Nachricht. Ältere werden stapelweise gelesen, bis keine mehr übrig ist."
 
-#. Description of the 'Bench Group' (Data) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:421
-msgid "The one bench group every workspace runs on, added to each server below. It must carry erpnext, hrms and onedesk."
-msgstr "Die eine Bench-Gruppe, auf der jeder Arbeitsbereich läuft, jedem Server unten hinzugefügt. Sie muss erpnext, hrms und onedesk enthalten."
-
 #. Description of the 'Primary' (Check) field in DocType 'Record Head Verb'
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:33
 msgid "The one dark button while it shows."
@@ -51828,7 +51764,6 @@ msgstr "Die offenen Arbeitsaufträge und jeder Schritt zum Starten, Pausieren un
 #: onedesk/notifications/one_admin/paid_while_archived.md
 #: onedesk/notifications/one_admin/server_filling_up.md
 #: onedesk/notifications/one_admin/signup_not_built.md
-#: onedesk/notifications/one_admin/update_held.md
 #: onedesk/notifications/one_admin/update_set.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
 #: onedesk/notifications/one_admin/workspace_owing.md
@@ -52344,7 +52279,7 @@ msgstr "Die ausgeblendete erste Spalte des Blatts wurde gelöscht. Machen Sie di
 
 #. Description of the 'Archived For' (Int) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:407
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:350
 msgid "The site is deleted, after an offsite backup. Files are deleted at the end of this period."
 msgstr "Die Site wird nach einer externen Sicherung gelöscht. Die Dateien werden am Ende dieses Zeitraums gelöscht."
 
@@ -52355,7 +52290,7 @@ msgstr "Der bei Frappe Cloud angefragte Site-Tarif für die Datenbankgrenze."
 
 #. Description of the 'Suspended For' (Int) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:396
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:339
 msgid "The site stops serving. Data is retained."
 msgstr "Die Site wird nicht mehr ausgeliefert. Die Daten bleiben erhalten."
 
@@ -52555,12 +52490,6 @@ msgstr "Die Summen- und Saldenlisten mehrerer Unternehmen als eine."
 msgid "The two passwords are not the same."
 msgstr "Die beiden Passwörter stimmen nicht überein."
 
-#. Subject of a notification
-#: onedesk/notifications/one_admin/update_held.md
-#, python-brace-format
-msgid "The update waits for {apps}"
-msgstr "Das Update wartet auf {apps}"
-
 #: frontend/src/slide/utils/mediaUploads.js:99
 msgid "The upload failed. Try again."
 msgstr "Das Hochladen ist fehlgeschlagen. Versuchen Sie es erneut."
@@ -52718,7 +52647,7 @@ msgid "The years the books are kept and closed in."
 msgstr "Die Jahre, in denen die Bücher geführt und abgeschlossen werden."
 
 #. Description of the 'Zone ID' (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:161
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:118
 msgid "The zone the workspace domain is in. Customers' own domains are added to it as custom hostnames."
 msgstr "Die Zone, in der die Arbeitsbereichs-Domain liegt. Eigene Domains der Kunden werden ihr als benutzerdefinierte Hostnamen hinzugefügt."
 
@@ -56198,7 +56127,7 @@ msgstr "Bis zu {0}"
 #. Label in the One Project Update print format
 #: frontend/portal/src/pages/Password.vue:4
 #: frontend/src/writer/components/WriterSettings.vue:134
-#: onedesk/one_admin/home.py:385 onedesk/one_ai/chat.py:336
+#: onedesk/one_ai/chat.py:336
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading/reading.json:324
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
@@ -56211,16 +56140,6 @@ msgstr "Bis zu {0}"
 msgid "Update"
 msgstr "Aktualisierung"
 
-#. Label of the release_apps (Code) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:244
-msgid "Update Apps"
-msgstr "Apps der Aktualisierung"
-
-#. Name of a notification
-#: onedesk/notifications/one_admin/update_held.md
-msgid "Update Held"
-msgstr "Aktualisierung angehalten"
-
 #: onedesk/public/js/one_interface/list.js:306
 msgid "Update Layout"
 msgstr "Layout aktualisieren"
@@ -56230,11 +56149,6 @@ msgstr "Layout aktualisieren"
 msgid "Update No"
 msgstr "Aktualisierungs-Nr."
 
-#. Label of the release_running (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:251
-msgid "Update Running"
-msgstr "Aktualisierung läuft"
-
 #. Name of a notification
 #: onedesk/notifications/one_admin/update_set.md
 msgid "Update Set"
@@ -56243,11 +56157,6 @@ msgstr "Aktualisierung angesetzt"
 #: onedesk/public/js/one_mail/onemail_settings.js:407
 msgid "Update Tax ID, Website and Phone"
 msgstr "Steuernummer, Website und Telefon aktualisieren"
-
-#: onedesk/one_admin/home.py:381
-#, python-brace-format
-msgid "Update available for {0}"
-msgstr "Update verfügbar für {0}"
 
 #: onedesk/www/account_invoices.html:56
 msgid "Update card"
@@ -57150,7 +57059,7 @@ msgstr "Wartet auf Genehmigung"
 msgid "Waiting for Credits"
 msgstr "Wartet auf Guthaben"
 
-#: onedesk/one_admin/home.py:429
+#: onedesk/one_admin/home.py:397
 msgid "Waiting for DNS"
 msgstr "Wartet auf DNS"
 
@@ -57437,7 +57346,7 @@ msgstr "Wir haben geschlossen"
 #. Label of the section_weather (Section Break) field in DocType 'Display
 #. Source'
 #. Option for the 'Widget' (Select) field in DocType 'Display Widget'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:365
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:308
 #: onedesk/one_display/doctype/display_source/display_source.json:52
 #: onedesk/one_display/doctype/display_source/display_source.json:217
 #: onedesk/one_display/doctype/display_widget/display_widget.json:28
@@ -57494,7 +57403,7 @@ msgstr "Webhook-Aufrufe"
 
 #. Label of the stripe_webhook_secret (Password) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:338
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:281
 msgid "Webhook Signing Secret"
 msgstr "Webhook-Signaturgeheimnis"
 
@@ -59554,11 +59463,6 @@ msgid "When an open quotation has three days left to hold."
 msgstr "Wenn ein offenes Angebot noch drei Tage gilt."
 
 #. When a notification is sent
-#: onedesk/notifications/one_admin/update_held.md
-msgid "When an update can't go out in its window because Frappe Cloud doesn't offer a pinned commit."
-msgstr "Wenn ein Update nicht in seinem Zeitfenster erfolgen kann, weil Frappe Cloud einen festgelegten Commit nicht anbietet."
-
-#. When a notification is sent
 #: onedesk/notifications/one_admin/update_set.md
 msgid "When an update waiting at Frappe Cloud is set for the next quiet window."
 msgstr "Wenn ein bei Frappe Cloud wartendes Update für das nächste ruhige Zeitfenster angesetzt wird."
@@ -60436,7 +60340,7 @@ msgid "Where is this project's money going? Say what the customer has been invoi
 msgstr "Wohin fließt das Geld dieses Projekts? Sag, was dem Kunden in Rechnung gestellt wurde und was er bezahlt hat, was es gekostet hat und wofür, welche Kostenarten nahe an ihrem Budget oder darüber sind und wohin die prognostizierte Marge geht."
 
 #. Description of the 'Servers' (Table) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:439
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:369
 msgid "Where new workspaces are built. Each goes on the emptiest open server that may take it."
 msgstr "Wo neue Arbeitsbereiche aufgebaut werden. Jeder kommt auf den leersten offenen Server, der ihn aufnehmen darf."
 
@@ -60963,7 +60867,7 @@ msgstr "Wer gegangen ist, wann und warum."
 
 #. Description of the 'Operators' (Section Break) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:82
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:72
 msgid "Who may run OneAdmin. The workspace's administrators are its first operators."
 msgstr "Wer OneAdmin führen darf. Die Administration des Arbeitsbereichs stellt die ersten Operatoren."
 
@@ -61935,7 +61839,7 @@ msgid "Worked out nightly from 90 days of Clock Attempt rows. Weights this emplo
 msgstr "Nächtlich aus 90 Tagen Stempelversuchen berechnet. Gewichtet die Stempelungen dieser Person, wenn ein Netzwerk oder Standort gelernt wird."
 
 #. Label of the cloudflare_kv (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:154
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:111
 msgid "Workers KV Namespace"
 msgstr "Workers-KV-Namespace"
 
@@ -62149,7 +62053,7 @@ msgstr "Arbeitsbereich verzögert"
 #. Name of a DocType
 #. Label of the tenant_domain (Data) field in DocType 'One Admin Settings'
 #: onedesk/one_account/doctype/workspace_domain/workspace_domain.json:65
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:172
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:129
 msgid "Workspace Domain"
 msgstr "Arbeitsbereich-Domain"
 
@@ -62267,7 +62171,7 @@ msgstr "Arbeitsbereiche"
 
 #. Description of the 'Mail Domain' (Data) field in DocType 'One Admin
 #. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:178
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:135
 msgid "Workspaces get their mail addresses here, for example m.4dl.app. It may be in another zone than the workspace domain."
 msgstr "Arbeitsbereiche erhalten hier ihre Mailadressen, zum Beispiel m.4dl.app. Sie darf in einer anderen Zone als die Arbeitsbereichsdomain liegen."
 
@@ -62636,7 +62540,7 @@ msgstr "Falsch"
 msgid "Wrong Passwords Before a Lockout"
 msgstr "Falsche Passwörter vor einer Sperre"
 
-#: onedesk/one_admin/home.py:405
+#: onedesk/one_admin/home.py:373
 msgid "Wrong Price"
 msgstr "Falscher Preis"
 
@@ -63741,7 +63645,7 @@ msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr "Null heißt unbegrenzt. Frappe setzt es aus der Site-Konfiguration durch."
 
 #. Label of the cloudflare_zone (Data) field in DocType 'One Admin Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:160
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:117
 msgid "Zone ID"
 msgstr "Zonen-ID"
 
@@ -63864,7 +63768,7 @@ msgstr "eine Position, ungenauer als der Ort"
 msgid "a width in pixels, such as 120px"
 msgstr "eine Breite in Pixeln, etwa 120px"
 
-#: onedesk/one_admin/home.py:444
+#: onedesk/one_admin/home.py:412
 msgid "a workspace"
 msgstr "ein Arbeitsbereich"
 
@@ -66929,7 +66833,7 @@ msgstr "{0} vertritt."
 msgid "{0} is done"
 msgstr "{0} ist erledigt"
 
-#: onedesk/one_admin/home.py:324
+#: onedesk/one_admin/home.py:323
 #, python-brace-format
 msgid "{0} is filling up"
 msgstr "{0} wird voll"
@@ -67929,7 +67833,7 @@ msgstr "{0} von {1} Aufgaben"
 msgid "{0} of {1} tasks done"
 msgstr "{0} von {1} Aufgaben erledigt"
 
-#: onedesk/one_admin/home.py:325
+#: onedesk/one_admin/home.py:324
 #, python-brace-format
 msgid "{0} of {1} workspaces"
 msgstr "{0} von {1} Arbeitsbereichen"
@@ -68076,7 +67980,7 @@ msgstr "{0} offen"
 msgid "{0} pages"
 msgstr "{0} Seiten"
 
-#: onedesk/one_admin/home.py:174
+#: onedesk/one_admin/home.py:173
 #, python-brace-format
 msgid "{0} paid and has no workspace"
 msgstr "{0} hat bezahlt und hat keinen Arbeitsbereich"
@@ -68579,11 +68483,6 @@ msgstr "{0} wartend"
 #, python-brace-format
 msgid "{0} waiting in Documents"
 msgstr "{0} warten in Dokumente"
-
-#: onedesk/one_admin/tell.py:399
-#, python-brace-format
-msgid "{0} waits for its pinned commit."
-msgstr "{0} wartet auf seinen festgelegten Commit."
 
 #: onedesk/one_inventory/heads.py:887
 #, python-brace-format
@@ -69180,8 +69079,8 @@ msgstr "{amount} ist auf dem Weg zu Ihnen."
 #. Message of a notification
 #: onedesk/notifications/one_admin/update_set.md
 #, python-brace-format
-msgid "{apps}. Every workspace is told now. {held}"
-msgstr "{apps}. Jeder Arbeitsbereich wird jetzt informiert. {held}"
+msgid "{apps}. Every workspace is told now."
+msgstr "{apps}. Alle Arbeitsbereiche werden jetzt informiert."
 
 #. Subject of a notification
 #: onedesk/one_ai/notifications.py
