@@ -400,15 +400,16 @@ onedesk.interface.layouts = {
 				if ($nested.attr("data-one-layouts") === signature) return;
 				$nested.attr("data-one-layouts", signature);
 				$link.find(".one-layout-twisty").remove();
+				$link.closest(".standard-sidebar-item").toggleClass("indent", !!rows.length);
 				if (!rows.length) return void $nested.empty().removeClass("one-layout-rows");
 				const open = onedesk.interface.kept(`layouts_open:${doctype}`, true);
 				const $twisty = $(`<button type="button" class="btn-reset drop-icon one-layout-twisty" aria-label="${__("Views")}">${frappe.utils.icon("chevron-right", "xs")}</button>`).toggleClass("one-layout-open", !!open);
 				$link.find(".sidebar-item-control").append($twisty);
-				$nested.addClass("one-layout-rows").toggleClass("hidden", !open);
+				$nested.addClass("one-layout-rows").toggleClass("hidden", !open).attr("data-one-doctype", doctype);
 				$nested.html(
 					rows
 						.map(
-							([name, one]) => `<div class="sidebar-item-container"><div class="standard-sidebar-item"><a class="item-anchor" href="${$link[0].pathname}/view/list" data-one-layout="${frappe.utils.escape_html(name)}">${this.face(one.icon)}<span class="sidebar-item-label">${frappe.utils.escape_html(one.label || name)}</span></a></div></div>`
+							([name, one]) => `<div class="sidebar-item-container"><div class="standard-sidebar-item"><a class="item-anchor" data-one-layout="${frappe.utils.escape_html(name)}">${this.face(one.icon)}<span class="sidebar-item-label">${frappe.utils.escape_html(one.label || name)}</span></a></div></div>`
 						)
 						.join("")
 				);
@@ -427,6 +428,25 @@ onedesk.interface.layouts = {
 					this.open(doctype, name, all[key][name].label || name);
 				});
 			});
+		this.mark();
+	},
+
+	mark() {
+		const view = window.cur_list;
+		const shown = view?.view_name === "List" && frappe.container.page?.page === view.page;
+		$(".one-layout-rows").each((_, rows) => {
+			const here = shown && view.doctype === rows.dataset.oneDoctype;
+			const active = here ? view.list_filter?.active_layout_name : null;
+			let chosen = false;
+			$(rows)
+				.find("[data-one-layout]")
+				.each((_i, row) => {
+					const on = row.dataset.oneLayout === active;
+					chosen = chosen || on;
+					$(row).closest(".standard-sidebar-item").toggleClass("active-sidebar", on);
+				});
+			$(rows).parent().children(".standard-sidebar-item").toggleClass("active-sidebar", here && !chosen);
+		});
 	},
 
 	picker(view, $at) {
@@ -512,6 +532,7 @@ onedesk.interface.layouts = {
 			const content = Select.prototype.set_trigger_content;
 			Select.prototype.set_trigger_content = function (text) {
 				content.call(this, text);
+				layouts.mark();
 				const filter = this.current_view === "List" ? this.list_view?.list_filter : null;
 				const icon = filter && filter.active_layout_name !== "default_layout" && layouts.said(this.doctype)[filter.active_layout_name]?.icon;
 				if (!icon) return;
