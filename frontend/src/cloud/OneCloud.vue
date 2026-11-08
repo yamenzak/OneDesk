@@ -121,6 +121,8 @@
       @download="(one) => download([one])"
       @tab="(one) => openTab(one.url)"
       @moved="moved"
+      :editable="(one) => ({ save: stored(one), copy: can.add })"
+      @edited="edited"
     />
     <input ref="pickFiles" type="file" multiple hidden @change="picked($event)" />
     <input ref="pickFolder" type="file" webkitdirectory hidden @change="picked($event)" />
@@ -957,6 +959,16 @@ function closeViewer() {
   viewing.value = null;
 }
 
+async function edited({ item, blob, copy }) {
+  const ext = extension(item);
+  const base = item.name.slice(0, item.name.length - ext.length - 1);
+  const taken = new Set(items.value.map((one) => one.name));
+  let name = item.name;
+  for (let n = 1; copy && (n === 1 || taken.has(name)); n++) name = `${base} (${n === 1 ? __("edited") : __("edited {0}", [n])}).${ext}`;
+  const rows = await upload([{ file: new File([blob], name, { type: blob.type }), path: name, version_of: copy ? null : item.id }], node.value);
+  if (rows?.every((row) => row.state === "done")) alert(copy ? __("Saved as {0}.", [name]) : __("Picture saved."));
+}
+
 function moved(item) {
   selected.clear();
   selected.add(item.id);
@@ -1249,6 +1261,7 @@ async function upload(list, target) {
   forget(target);
   if (target === node.value) refresh();
   else drawTree();
+  return rows;
 }
 
 async function pool(list, most, work) {

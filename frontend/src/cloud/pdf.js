@@ -1,7 +1,7 @@
 // A PDF read in the page with PDF.js (pdfjs-dist, Apache-2.0), loaded only
 // when one is opened. Its bytes come from OneCloud's own address
 // (one_storage/api.py content), since the store's may not be read by a page.
-import { API } from "./cloud";
+import { contentUrl } from "./cloud";
 
 let library = null;
 
@@ -15,7 +15,7 @@ async function load() {
 
 export async function openPdf(node) {
 	const lib = await load();
-	const answer = await fetch(`/api/method/${API}content?node=${encodeURIComponent(node)}`, { credentials: "same-origin" });
+	const answer = await fetch(contentUrl(node), { credentials: "same-origin" });
 	if (!answer.ok) throw new Error(`${answer.status}`);
 	return lib.getDocument({ data: new Uint8Array(await answer.arrayBuffer()) }).promise;
 }

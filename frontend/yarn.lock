@@ -1524,7 +1524,7 @@ crelt@^1.0.5, crelt@^1.0.6:
   resolved "https://registry.yarnpkg.com/crelt/-/crelt-1.0.7.tgz#3b441b2ddfa73161d6a2770aa4cd677f895eaf28"
   integrity sha512-aK6BbWfhf4U/wCcLHKPJl/xa6VkVstRaPywWtMKGwuOLc/wZTyQYuoxgvZnNsBvv7Kg3YTBQYYBCggcviQczuA==
 
-cropperjs@^2.1.1:
+cropperjs@2.2.0, cropperjs@^2.1.1:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/cropperjs/-/cropperjs-2.2.0.tgz#7bb12ad62d41f6448d3313593b361ebe849fad0e"
   integrity sha512-7egO+tXxt3jGHQcO6x4k1CVoMIlEu+4Klixc6ejspKOAns7onlC/lEi5tRi3qbuHVcATK7rqaZyp8LzynPz6Cg==

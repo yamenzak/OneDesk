@@ -4,6 +4,7 @@ import { __, date, fileSize } from "../kit";
 
 export const API = "onedesk.one_storage.api.";
 export const UPLOAD = "onedesk.one_storage.upload.";
+export const contentUrl = (node) => `/api/method/${API}content?node=${encodeURIComponent(node)}`;
 
 // A folder's colour (one_storage/api.py color), its ink written out whole so
 // the stylesheet is built with it.
