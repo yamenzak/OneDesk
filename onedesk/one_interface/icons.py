@@ -41,8 +41,8 @@ RULES = (
 	("banknote", "salary|payroll|earnings|deductions|earning|deduction|wages|gratuity|encashment"),
 	("hand-coins", "sales|commission|incentive|loyalty"),
 	("badge-percent", "discount amount|discount percentage|discount|discounts|coupon|promotion"),
-	("percent", "tax|taxes|taxes and charges|tax category|tax withholding|withholding|vat|retention|probability|percentage|percent"),
-	("hash", "trn|abbr|iban|tax id|tax no|naming series|series|serial|serial no|id|no|number|code|reference no|reference number|registration|national id|qty|quantity|count|sample size"),
+	("percent", "tax|taxes|taxes and charges|tax category|tax withholding|withholding|retention|probability|percentage|percent"),
+	("hash", "abbr|iban|tax id|tax no|naming series|series|serial|serial no|id|no|number|code|reference no|reference number|registration|national id|qty|quantity|count|sample size"),
 	("tags", "price list|pricing|pricing rule|tags"),
 	("coins", "revenue|annual revenue|rounding adjustment|adjustment|currency|billing currency|amount|price|rate|cost|costing|costs|value|fee|charges|valuation|exchange|additional costs|net rate|incoming rate"),
 	("receipt", "invoice no|supplier invoice no|invoice|bill|bill no|billing|receipt|expense|expenses|proforma|demand"),
@@ -366,8 +366,6 @@ DOCTYPES = {
 	# Regional
 	"Import Supplier Invoice": "file-down",
 	"Lower Deduction Certificate": "file-badge",
-	"South Africa VAT Settings": "settings",
-	"UAE VAT Settings": "settings",
 	# Selling
 	"Customer": "building-2",
 	"Delivery Schedule Item": "calendar-clock",
@@ -654,7 +652,6 @@ DOCTYPES = {
 	"Device": "smartphone",
 	"Workspace Account": "circle-user-round",
 	"Account Request": "user-plus",
-	"Credit Ledger Entry": "coins",
 	"Offering": "shopping-bag",
 	"One Admin Settings": "settings",
 	"Private App": "app-window",

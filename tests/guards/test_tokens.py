@@ -62,7 +62,7 @@ RADIUS = re.compile(r"var\(--(radius(-(sm|md|lg|xl|2xl|full|none|[0-9]))?|one-ra
 
 OLD = re.compile(
 	r"--(text-(color|muted|light|extra-muted|on-[\w-]+)|bg-[\w-]+|border-color|fg-color|card-bg|subtle-[\w-]+|control-bg|btn-[\w-]+|heading-color"
-	r"|white|black|shadow[\w-]*|elevation-[\w-]+|dock-[\w-]+|(gray|blue|green|red|orange|amber|yellow|teal|cyan"
+	r"|white|black|shadow[\w-]*|elevation-[\w-]+|dock-(?!width$)[\w-]+|(gray|blue|green|red|orange|amber|yellow|teal|cyan"
 	r"|violet|purple|pink|neutral)-\d+)"
 )
 

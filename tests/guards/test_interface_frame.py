@@ -275,8 +275,8 @@ def test_the_app_you_are_in_is_marked_on_the_rails_edge():
 	and the tile itself unfilled. The tile list reaches the rail's edges so
 	its scrolling box does not clip the bar."""
 	chrome_css = (FRAME_CSS / "chrome.css").read_text(encoding="utf-8")
-	assert "body.one-barred .dock-item.active::before {\n\theight: 20px;" in chrome_css
-	assert "body.one-barred .dock-item:hover::before {\n\theight: 8px;" in chrome_css
+	assert ".one-rail-mark > i {\n\theight: 20px;" in chrome_css
+	assert 'body.one-barred .dock-items.one-rail .dock-item::before {\n\tcontent: "";\n\theight: 8px;' in chrome_css
 	assert "width: calc(100% + 16px);\n\tmargin-inline: -8px;" in chrome_css
 
 

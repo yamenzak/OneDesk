@@ -643,7 +643,7 @@ body.one-barred .dock-items.one-rail .dock-item::after {
 	position: absolute;
 	inset: 0;
 	z-index: -1;
-	border-radius: var(--radius-4);
+	border-radius: var(--one-radius-small);
 	background: var(--one-frame-hover);
 	opacity: 0;
 	transform: scale(0.84);
@@ -671,7 +671,7 @@ body.one-barred .dock-items.one-rail .dock-item:hover:not(.active)::after {
 }
 
 .one-rail-fill {
-	border-radius: var(--radius-4);
+	border-radius: var(--one-radius-small);
 	background: var(--one-frame-active);
 }
 

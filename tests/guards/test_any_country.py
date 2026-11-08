@@ -101,7 +101,7 @@ def test_a_taxed_figure_says_the_other_side_on_hover():
 	figures = (SRC / "kit" / "Figures.vue").read_text(encoding="utf-8")
 	assert "<Tooltip" in figures and "one.other" in figures and "decoration-dashed" in figures
 	band = (APP / "public" / "js" / "band.js").read_text(encoding="utf-8")
-	assert "one-taxed" in band and ".tooltip(" in band
+	assert "one-taxed" in band and '.attr("title", other)' in band
 	css = (APP / "public" / "css" / "desk.css").read_text(encoding="utf-8")
 	assert re.search(r"\.one-taxed \{[^}]*underline dashed", css)
 	head = (APP / "one" / "head.py").read_text(encoding="utf-8")

@@ -343,11 +343,11 @@ onedesk.interface.nav = {
 	},
 
 	settle($container, px, speed) {
-		const { min, max, rail, key } = onedesk.interface.NAV;
+		const { min, max, rail } = onedesk.interface.NAV;
 		const aim = onedesk.interface.aim(px, speed);
 		const state = aim < rail / 2 ? "hidden" : aim < (rail + min) / 2 ? "rail" : "open";
 		$container.removeClass("no-transition one-nav-live");
-		if (state === "open") onedesk.interface.keep(key, this.width(Math.min(max, Math.max(min, px))));
+		if (state === "open") onedesk.interface.keep(onedesk.interface.NAV.key, this.width(Math.min(max, Math.max(min, px))));
 		this.show(state);
 		const sidebar = this.sidebar();
 		if (sidebar && !frappe.is_mobile()) sidebar.save_collapsed_state(state !== "open");

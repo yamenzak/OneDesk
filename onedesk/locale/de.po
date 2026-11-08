@@ -3002,6 +3002,10 @@ msgstr "Zum Tarif hinzufügen"
 msgid "Add to Project"
 msgstr "Zum Projekt hinzufügen"
 
+#: onedesk/public/js/one_interface/list.js:253
+msgid "Add to Sidebar"
+msgstr "Zur Seitenleiste hinzufügen"
+
 #: frontend/src/project/Team.vue:164
 msgid "Add to Users"
 msgstr "Zu Benutzern hinzufügen"
@@ -11719,6 +11723,10 @@ msgstr "Termine anlegen"
 msgid "Create Invoice"
 msgstr "Rechnung erstellen"
 
+#: onedesk/public/js/one_interface/list.js:303
+msgid "Create Layout"
+msgstr "Layout erstellen"
+
 #: onedesk/public/js/one_calendar/calendar_control.js:20
 msgid "Create Link"
 msgstr ""
@@ -12421,6 +12429,11 @@ msgstr "Kunden, letzte 12 Monate"
 #: onedesk/public/js/record.js:171
 msgid "Customize"
 msgstr ""
+
+#: onedesk/public/js/one_interface/list.js:677
+msgctxt "Customize qucik filters of List View"
+msgid "Customize Quick Filters"
+msgstr "Schnellfilter anpassen"
 
 #: onedesk/one_ai/proposals.py:638
 #: onedesk/public/js/one_ai/panel/Record.vue:140
@@ -14325,10 +14338,6 @@ msgstr "Einzelheit"
 msgid "Details"
 msgstr "Details"
 
-#: onedesk/public/js/one_interface/frame.js:262
-msgid "Details pane"
-msgstr "Detailbereich"
-
 #: frontend/src/sheet/components/SheetEditor/ChartDialog.vue:18
 msgid "Detect"
 msgstr "Erkennen"
@@ -15936,6 +15945,10 @@ msgstr "Master bearbeiten"
 #: onedesk/public/js/one_ai/ai_center.js:393
 msgid "Edit Memory"
 msgstr "Erinnerung bearbeiten"
+
+#: onedesk/public/js/one_interface/list.js:515
+msgid "Edit Quick Filters"
+msgstr "Schnellfilter bearbeiten"
 
 #: onedesk/public/js/doctype_settings.js:896
 msgid "Edit Rule"
@@ -25797,10 +25810,18 @@ msgstr "Ebenen"
 msgid "Layout"
 msgstr "Layout"
 
+#: onedesk/public/js/one_interface/list.js:250
+msgid "Layout Name"
+msgstr "Layoutname"
+
 #. Task in the Office Move project template
 #: onedesk/one_project/library/office_move.json
 msgid "Layout and seating plan"
 msgstr "Raum- und Sitzplan"
+
+#: onedesk/public/js/one_interface/list.js:240
+msgid "Layout updated."
+msgstr "Layout aktualisiert."
 
 #: frontend/src/slide/components/LayoutDialog.vue:5
 msgid "Layouts"
@@ -27962,6 +27983,10 @@ msgstr "Fertigung mit Werkstattzeit schlägt fehl, bis das Unternehmen ein Konto
 #, python-brace-format
 msgid "Making {0} presentations. You will be told when they are filed."
 msgstr "{0} Präsentationen werden erstellt. Sie erhalten eine Nachricht, sobald sie abgelegt sind."
+
+#: onedesk/public/js/one_interface/list.js:308
+msgid "Manage Layouts"
+msgstr "Layouts verwalten"
 
 #: onedesk/public/js/one_account/account_center.js:108
 msgid "Managed by HR."
@@ -43713,6 +43738,10 @@ msgstr "Speichern"
 msgid "Save Address"
 msgstr "Adresse speichern"
 
+#: onedesk/public/js/one_interface/list.js:248
+msgid "Save Layout"
+msgstr "Layout speichern"
+
 #: frontend/src/sheet/shim/PrintDialog.vue:18
 #: frontend/src/writer/shim/PrintDialog.vue:17
 msgid "Save PDF to OneCloud"
@@ -56180,6 +56209,10 @@ msgstr "Apps der Aktualisierung"
 msgid "Update Held"
 msgstr "Aktualisierung angehalten"
 
+#: onedesk/public/js/one_interface/list.js:306
+msgid "Update Layout"
+msgstr "Layout aktualisieren"
+
 #. Label in the One Project Update print format
 #: onedesk/one_project/print_format/one_project_update/one_project_update.json
 msgid "Update No"
@@ -65421,6 +65454,11 @@ msgstr "{0} Auslagen und Vorschüsse zu zahlen"
 #, python-brace-format
 msgid "{0} Contracts or Probations Ending"
 msgstr "{0} Verträge oder Probezeiten enden"
+
+#: onedesk/public/js/one_interface/list.js:250
+#, python-brace-format
+msgid "{0} Copy"
+msgstr "{0} Kopie"
 
 #: frontend/src/hr/HrHome.vue:171
 #, python-brace-format
