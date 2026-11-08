@@ -3257,6 +3257,13 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/list/list_view.js",
 		"async setup_columns(fields_override = null) {",
 	),
+	(
+		"A list loads as it scrolls on a desktop too",
+		"one_interface/list.js replaces ListView.load_more_on_scroll without its phone-only check, watches the end of the list from its own scroll box and hides the paging area, as frappe does on a phone",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		"load_more_on_scroll() {",
+	),
 ]
 
 

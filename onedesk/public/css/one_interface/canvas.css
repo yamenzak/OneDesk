@@ -895,7 +895,7 @@
 :root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { inset-inline-end: -6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right > * { position: relative; inset-inline-start: -6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-container:hover .list-row .level-right { background: var(--one-tint) !important; }
-:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { inset-inline-end: 0; background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { z-index: 3; inset-inline-end: 0; background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
 /* A record's name keeps room to be read beside its track; with less, the track takes the next line. */
 :root[data-one-look="canvas"] .one-hero-record .one-hero-row > .one-hero-main { min-width: min(100%, 300px); }
 :root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open), :root[data-one-look="canvas"] .one-interface .form-grid .grid-body .grid-row:not(.grid-row-open) > .data-row :is(.col, .row-check, .row-index) { background: var(--one-sheet) !important; }
@@ -959,4 +959,13 @@
 	backdrop-filter: blur(4px);
 	mask-image: linear-gradient(black calc(100% - 16px), transparent);
 	pointer-events: none;
+}
+
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head {
+	--one-list-x: 0px;
+	clip-path: inset(0 calc(100% - var(--one-list-x) - 100cqw) 0 var(--one-list-x) round var(--radius-full));
+}
+
+:root[data-one-look="canvas"][dir="rtl"] .one-interface .frappe-list .list-row-head {
+	clip-path: inset(0 var(--one-list-x) 0 calc(100% - var(--one-list-x) - 100cqw) round var(--radius-full));
 }

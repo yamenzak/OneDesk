@@ -5,3 +5,29 @@
 *::-webkit-scrollbar {
 	display: none !important;
 }
+
+:is(.result-container, .dt-scrollable, .form-grid, .table-responsive) {
+	scrollbar-width: thin !important;
+	scrollbar-color: var(--one-edge-strong) transparent;
+}
+
+@supports selector(::-webkit-scrollbar) {
+	:is(.result-container, .dt-scrollable, .form-grid, .table-responsive) {
+		scrollbar-width: auto !important;
+		scrollbar-color: auto;
+	}
+
+	:is(.result-container, .dt-scrollable, .form-grid, .table-responsive)::-webkit-scrollbar:horizontal {
+		display: block !important;
+		height: 6px;
+	}
+
+	:is(.result-container, .dt-scrollable, .form-grid, .table-responsive)::-webkit-scrollbar-track {
+		background: transparent;
+	}
+
+	:is(.result-container, .dt-scrollable, .form-grid, .table-responsive)::-webkit-scrollbar-thumb {
+		border-radius: var(--radius-full);
+		background: var(--one-edge-strong);
+	}
+}

@@ -458,7 +458,7 @@ onedesk.interface.layouts = {
 			.map((df) => ({ fieldname: df.fieldname, label: __(df.label, null, df.parent) }));
 		if (frappe.has_indicator?.(view.doctype)) fields.unshift({ fieldname: "status_field", label: __("Status") });
 		let changed = false;
-		const $panel = $(`<div class="one-crumb-switch-panel"><label class="one-crumb-switch-search">${frappe.utils.icon("search", "sm")}<input class="form-control" placeholder="${__("Search")}"></label><div class="one-crumb-switch-rows one-column-rows"></div></div>`);
+		const $panel = $(`<div class="one-crumb-switch-panel"><label class="one-crumb-switch-search">${frappe.utils.icon("search", "sm")}<input placeholder="${__("Search")}"></label><div class="one-crumb-switch-rows one-column-rows"></div></div>`);
 		const $rows = $panel.find(".one-column-rows");
 		const draw = (text = "") => {
 			const needle = text.trim().toLowerCase();
@@ -470,7 +470,7 @@ onedesk.interface.layouts = {
 			);
 		};
 		draw();
-		$panel.find("input.form-control").on("input", (e) => draw(e.target.value));
+		$panel.find(".one-crumb-switch-search input").on("input", (e) => draw(e.target.value));
 		$rows.on("change", "input", (e) => {
 			const field = e.target.dataset.field;
 			changed = true;
@@ -497,6 +497,10 @@ onedesk.interface.layouts = {
 			const field = col.dataset.fieldname;
 			if (field && field !== "undefined" && !col.querySelector(".list-col-resize-handle")) col.insertAdjacentHTML("beforeend", '<div class="list-col-resize-handle"></div>');
 		});
+		const box = $head.closest(".result-container")[0];
+		const clip = () => $head[0].style.setProperty("--one-list-x", `${Math.abs(box.scrollLeft)}px`);
+		clip();
+		$(box).off("scroll.one-layouts").on("scroll.one-layouts", clip);
 		const $left = $head.find(".level-left").first();
 		view.one_sortable?.destroy();
 		view.one_sortable = new Sortable($left[0], {
@@ -563,6 +567,34 @@ onedesk.interface.layouts = {
 		List.prototype.save_column_width = function (fieldname, width) {
 			this.one_widths = { ...this.one_widths, [fieldname]: cint(width) };
 			layouts.personal(this);
+		};
+		List.prototype.load_more_on_scroll = function () {
+			if (this.loading_more || this.data.length < this.page_length) return;
+			this.loading_more = true;
+			this.start = this.data.length;
+			this.page_length = this.selected_page_count;
+			this.refresh_now().finally(() => {
+				this.loading_more = false;
+				this.observe_list_end();
+			});
+		};
+		const observe = List.prototype.observe_list_end;
+		List.prototype.observe_list_end = function () {
+			if (frappe.is_mobile()) return observe.call(this);
+			this.scroll_observer?.disconnect();
+			this.scroll_observer = new IntersectionObserver(
+				(entries) => {
+					if (entries.some((entry) => entry.isIntersecting)) this.load_more_on_scroll();
+				},
+				{ root: this.$result.closest(".result-container")[0], rootMargin: "0px 0px 600px 0px" }
+			);
+			this.scroll_observer.observe(this.$list_end[0]);
+		};
+		const toggled = List.prototype.toggle_result_area;
+		List.prototype.toggle_result_area = function (...args) {
+			const said = toggled.apply(this, args);
+			if (this.load_on_scroll) this.$paging_area.hide();
+			return said;
 		};
 		$(document).on("page-change", () => layouts.arrived());
 	},
