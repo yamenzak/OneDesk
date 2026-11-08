@@ -136,6 +136,15 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   from the page itself the last time it settled, kept in the person's "One
   Skeletons" user settings, one generic shape per kind until then. No screen
   writes one. A page already opened in this tab shows no skeleton.
+- **Views** are chosen from the crumb after the record type's name
+  (`Sales Invoice / List`), frappe's own view switcher moved there. List's
+  submenu is frappe's saved layouts: Create Layout saves what is on screen
+  (filters, sort, column order and widths) as the person's own layout, Update
+  Layout appears when an open layout has changed, Manage Layouts is frappe's.
+  A layout's icon, Default and Add to Sidebar are kept in the person's One
+  Interface settings, not on the layout. On the plain list, anyone may resize
+  and reorder columns or pick them left of the star, kept for them alone
+  (`onedesk.interface.layouts`, list.js).
 - **Status** (`window.status()`): what is here, what is chosen, and
   whatever the view puts beside it (a list's paging). The window on screen
   shows it at the start of the frame's bottom bar, as a taskbar would

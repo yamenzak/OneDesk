@@ -30,7 +30,15 @@ $.extend(onedesk.interface, {
 
 	keep(key, value) {
 		onedesk.interface.settings()[key] = value;
-		return frappe.model.user_settings.save(onedesk.interface.SETTINGS, key, value);
+		return new Promise((done) => {
+			(onedesk.interface.keepers ||= []).push(done);
+			clearTimeout(onedesk.interface.keeping);
+			onedesk.interface.keeping = setTimeout(() => {
+				const waiting = onedesk.interface.keepers;
+				onedesk.interface.keepers = [];
+				Promise.resolve(frappe.model.user_settings.update(onedesk.interface.SETTINGS, onedesk.interface.held)).then(() => waiting.forEach((one) => one()));
+			}, 200);
+		});
 	},
 
 	// The trees modules hang under a list's row in the nav pane (list.js).
@@ -776,6 +784,10 @@ onedesk.interface.Frame = class Frame {
 				return { value: view, icon: select.icon_map[view] || "list", label, title: label };
 			});
 		const $slot = this.ways_slot();
+		if (!frappe.is_mobile() && this.page.$title_area) {
+			select.$wrapper.addClass("one-crumb-view").appendTo(this.page.$title_area);
+			return;
+		}
 		// Said again, the toggles are drawn again; frappe's menu is its own
 		// node and is only moved, never removed, so its handlers stay.
 		$slot.children(".es-tab-buttons").remove();
@@ -901,6 +913,7 @@ onedesk.interface.here = () => {
 			onedesk.interface.nav.place();
 			onedesk.interface.folds.setup();
 			onedesk.interface.rail.setup();
+			onedesk.interface.layouts.sidebar();
 			return said;
 		};
 	}

@@ -144,3 +144,373 @@ onedesk.interface.adapt("list", () => {
 		return done;
 	};
 }
+
+onedesk.interface.layouts = {
+	pending: null,
+
+	key: (doctype) => `layouts:${doctype}`,
+
+	said(doctype) {
+		return onedesk.interface.kept(this.key(doctype), {});
+	},
+
+	note(doctype, name, change) {
+		const all = { ...this.said(doctype) };
+		if (change.default) Object.keys(all).forEach((one) => (all[one] = { ...all[one], default: 0 }));
+		all[name] = { ...all[name], ...change };
+		onedesk.interface.keep(this.key(doctype), all);
+		this.sidebar();
+	},
+
+	forget(doctype, name) {
+		const all = { ...this.said(doctype) };
+		delete all[name];
+		onedesk.interface.keep(this.key(doctype), all);
+		this.sidebar();
+	},
+
+	default_of(doctype) {
+		return Object.entries(this.said(doctype)).find(([, one]) => one.default)?.[0] || null;
+	},
+
+	emoji: (icon) => !!icon && !/^[a-z0-9-]+$/.test(icon),
+
+	columns(view) {
+		const widths = view.one_widths || {};
+		return view.list_filter
+			.get_current_columns_state()
+			.map((one) => ({ fieldname: one.fieldname, label: one.label, width: widths[one.fieldname] || null }));
+	},
+
+	state(view) {
+		return {
+			filters: (view.filter_area?.get() || []).map((one) => one.slice(0, 4)),
+			columns: this.columns(view),
+			sort_field: view.sort_by,
+			sort_order: view.sort_order,
+		};
+	},
+
+	plain(said) {
+		return JSON.stringify({
+			filters: [...said.filters].map(String).sort(),
+			columns: said.columns.map((one) => [one.fieldname, cint(one.width)]),
+			sort: [said.sort_field, String(said.sort_order || "").toLowerCase()],
+		});
+	},
+
+	changed(view, layout) {
+		const filter = view.list_filter;
+		return (
+			this.plain(this.state(view)) !==
+			this.plain({
+				filters: filter.parse_layout_filters(layout).map((one) => one.slice(0, 4)),
+				columns: filter.get_layout_columns(layout),
+				sort_field: layout.sort_field,
+				sort_order: layout.sort_order,
+			})
+		);
+	},
+
+	personal(view) {
+		const filter = view.list_filter;
+		if (filter && filter.active_layout_name !== "default_layout") return;
+		onedesk.interface.keep(`columns:${view.doctype}`, this.columns(view));
+	},
+
+	apply(view, columns) {
+		view.last_args = null;
+		return view.setup_columns(columns).then(() => {
+			this.personal(view);
+			return view.refresh(true);
+		});
+	},
+
+	saved(view, filter, state) {
+		return { ...state, route_signature: filter.get_route_signature_from_filters(state.filters) };
+	},
+
+	update(view) {
+		const filter = view.list_filter;
+		const layout = filter.get_active_layout();
+		const state = this.saved(view, filter, this.state(view));
+		return filter
+			.update_layout_from_dialog(layout, { filter_name: layout.filter_name, ...state })
+			.then(() => filter.get_list_filters())
+			.then(() => frappe.show_alert({ message: __("Layout updated."), indicator: "green" }));
+	},
+
+	dialog(view, layout = null, from = null) {
+		const filter = view.list_filter;
+		const held = (layout && this.said(view.doctype)[layout.name]) || {};
+		const editable = !layout || filter.can_edit_layout(layout);
+		const dialog = new frappe.ui.Dialog({
+			title: layout ? __("Edit Layout") : __("Save Layout"),
+			fields: [
+				{ fieldtype: "Data", fieldname: "filter_name", label: __("Layout Name"), reqd: 1, read_only: !editable, default: layout?.filter_name || (from ? __("{0} Copy", [from.filter_name]) : "") },
+				{ fieldtype: "Icon", fieldname: "icon", label: __("Icon"), options: "Emojis", default: held.icon || "" },
+				{ fieldtype: "Check", fieldname: "default", label: __("Set as Default"), default: held.default ? 1 : 0 },
+				{ fieldtype: "Check", fieldname: "sidebar", label: __("Add to Sidebar"), default: held.sidebar ? 1 : 0 },
+			],
+			primary_action_label: __("Save"),
+			primary_action: (values) => {
+				const meta = { icon: values.icon || "", default: values.default, sidebar: values.sidebar, label: values.filter_name };
+				const done = (name) => {
+					this.note(view.doctype, name, meta);
+					dialog.hide();
+					return filter.setup_layout_menu({ refetch: true }).then(() => filter.select_layout(name, values.filter_name));
+				};
+				if (layout) {
+					if (!editable) return done(layout.name);
+					const state = {
+						filters: filter.parse_layout_filters(layout),
+						columns: filter.get_layout_columns(layout),
+						sort_field: layout.sort_field,
+						sort_order: layout.sort_order,
+					};
+					return filter.update_layout_from_dialog(layout, { filter_name: values.filter_name, ...this.saved(view, filter, state) }).then(() => done(layout.name));
+				}
+				const state = from
+					? { filters: filter.parse_layout_filters(from), columns: filter.get_layout_columns(from), sort_field: from.sort_field, sort_order: from.sort_order }
+					: this.state(view);
+				return filter.create_layout_from_dialog({ filter_name: values.filter_name, ...this.saved(view, filter, state) }).then((doc) => done(doc.name));
+			},
+		});
+		dialog.show();
+	},
+
+	dress(filter) {
+		const view = filter.list_view;
+		const held = this.said(view.doctype);
+		const row = (one) => {
+			const layout = (filter.filters || []).find((each) => filter.get_layout_label(each) === one.label);
+			const icon = layout && held[layout.name]?.icon;
+			if (!icon) return one;
+			return this.emoji(icon) ? { ...one, label: `${icon} ${one.label}` } : { ...one, icon };
+		};
+		return (items) =>
+			items.map((one) => {
+				if (one.group === undefined) return row(one);
+				if (one.hide_label) return one;
+				return { ...one, options: one.options.map(row) };
+			});
+	},
+
+	menu(filter, items) {
+		const view = filter.list_view;
+		const shown = this.dress(filter)(items);
+		const actions = [{ label: __("Create Layout"), icon: "plus", onclick: () => this.dialog(view) }];
+		const active = filter.get_active_layout();
+		if (active && filter.can_edit_layout(active) && this.changed(view, active)) {
+			actions.push({ label: __("Update Layout"), icon: "save", onclick: () => this.update(view) });
+		}
+		actions.push({ label: __("Manage Layouts"), icon: "settings", onclick: () => filter.open_manage_layouts_dialog() });
+		shown[shown.length - 1] = { ...shown[shown.length - 1], options: actions };
+		return shown;
+	},
+
+	patch(Filter) {
+		const P = Filter.prototype;
+		if (Object.hasOwn(P, "one_layouts")) return;
+		P.one_layouts = true;
+		const layouts = onedesk.interface.layouts;
+		const menu = P.get_layout_menu_items;
+		P.get_layout_menu_items = function () {
+			return layouts.menu(this, menu.call(this));
+		};
+		P.open_layout_dialog = function (layout = null, { duplicate_from = null } = {}) {
+			layouts.dialog(this.list_view, layout, duplicate_from);
+		};
+		const saved = P.get_saved_active_layout_name;
+		P.get_saved_active_layout_name = function () {
+			const doctype = this.list_view.doctype;
+			if (layouts.pending?.doctype === doctype) return layouts.pending.name;
+			return layouts.default_of(doctype) || saved.call(this);
+		};
+		const deleted = P.delete_layout;
+		P.delete_layout = function (layout) {
+			return deleted.call(this, layout).then((said) => {
+				layouts.forget(this.list_view.doctype, layout.name);
+				return said;
+			});
+		};
+	},
+
+	open(doctype, name, label) {
+		const view = window.cur_list;
+		if (view?.doctype === doctype && view.view_name === "List" && frappe.container.page?.page === view.page) {
+			return view.list_filter?.select_layout(name, label);
+		}
+		this.pending = { doctype, name, label };
+		frappe.set_route(frappe.router.slug(doctype), "view", "list");
+	},
+
+	arrived() {
+		const pending = this.pending;
+		const view = window.cur_list;
+		if (!pending || view?.doctype !== pending.doctype || frappe.container.page?.page !== view.page) return;
+		this.pending = null;
+		Promise.resolve(view.list_filter?.setup_promise).then(() => view.list_filter?.select_layout(pending.name, pending.label));
+	},
+
+	face(icon) {
+		if (this.emoji(icon)) return `<span class="sidebar-item-icon one-layout-emoji">${frappe.utils.escape_html(icon)}</span>`;
+		return `<span class="sidebar-item-icon">${frappe.utils.icon(icon || "list", "sm", "", "", "current-color", true)}</span>`;
+	},
+
+	sidebar() {
+		const all = onedesk.interface.settings();
+		Object.keys(all)
+			.filter((key) => key.startsWith("layouts:") && all[key])
+			.forEach((key) => {
+				const doctype = key.slice("layouts:".length);
+				const rows = Object.entries(all[key]).filter(([, one]) => one.sidebar);
+				const slug = `/${frappe.router.slug(doctype)}`;
+				const $link = $(".body-sidebar a.item-anchor[href]:not([data-one-layout])")
+					.filter((_, a) => a.pathname.replace(/\/view\/list$/, "").endsWith(slug))
+					.first();
+				if (!$link.length) return;
+				const $row = $link.closest(".sidebar-item-container");
+				const $nested = $row.children(".nested-container");
+				const signature = JSON.stringify(rows);
+				if ($nested.attr("data-one-layouts") === signature) return;
+				$nested.attr("data-one-layouts", signature);
+				$link.find(".one-layout-twisty").remove();
+				if (!rows.length) return void $nested.empty().removeClass("one-layout-rows");
+				const open = onedesk.interface.kept(`layouts_open:${doctype}`, true);
+				const $twisty = $(`<button type="button" class="btn-reset drop-icon one-layout-twisty" aria-label="${__("Views")}">${frappe.utils.icon("chevron-right", "xs")}</button>`).toggleClass("one-layout-open", !!open);
+				$link.find(".sidebar-item-control").append($twisty);
+				$nested.addClass("one-layout-rows").toggleClass("hidden", !open);
+				$nested.html(
+					rows
+						.map(
+							([name, one]) => `<div class="sidebar-item-container"><div class="standard-sidebar-item"><a class="item-anchor" href="${$link[0].pathname}/view/list" data-one-layout="${frappe.utils.escape_html(name)}">${this.face(one.icon)}<span class="sidebar-item-label">${frappe.utils.escape_html(one.label || name)}</span></a></div></div>`
+						)
+						.join("")
+				);
+				$twisty.on("click", (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const now = $nested.hasClass("hidden");
+					$nested.toggleClass("hidden", !now);
+					$twisty.toggleClass("one-layout-open", now);
+					onedesk.interface.keep(`layouts_open:${doctype}`, now);
+				});
+				$nested.find("[data-one-layout]").on("click", (e) => {
+					e.preventDefault();
+					e.stopPropagation();
+					const name = e.currentTarget.dataset.oneLayout;
+					this.open(doctype, name, all[key][name].label || name);
+				});
+			});
+	},
+
+	picker(view, $at) {
+		const held = new Map(this.columns(view).map((one) => [one.fieldname, one]));
+		const subject = view.meta.title_field || "name";
+		const fields = frappe.meta
+			.get_docfields(view.doctype)
+			.filter((df) => frappe.model.is_value_type(df) && !df.hidden && df.fieldname !== subject)
+			.map((df) => ({ fieldname: df.fieldname, label: __(df.label, null, df.parent) }));
+		if (frappe.has_indicator?.(view.doctype)) fields.unshift({ fieldname: "status_field", label: __("Status") });
+		let changed = false;
+		const $panel = $(`<div class="one-crumb-switch-panel"><label class="one-crumb-switch-search">${frappe.utils.icon("search", "sm")}<input class="form-control" placeholder="${__("Search")}"></label><div class="one-crumb-switch-rows one-column-rows"></div></div>`);
+		const $rows = $panel.find(".one-column-rows");
+		const draw = (text = "") => {
+			const needle = text.trim().toLowerCase();
+			$rows.html(
+				fields
+					.filter((one) => !needle || one.label.toLowerCase().includes(needle))
+					.map((one) => `<label class="one-column-row"><input type="checkbox" data-field="${one.fieldname}" ${held.has(one.fieldname) ? "checked" : ""}><span>${frappe.utils.escape_html(one.label)}</span></label>`)
+					.join("")
+			);
+		};
+		draw();
+		$panel.find("input.form-control").on("input", (e) => draw(e.target.value));
+		$rows.on("change", "input", (e) => {
+			const field = e.target.dataset.field;
+			changed = true;
+			if (e.target.checked) held.set(field, { fieldname: field, label: fields.find((one) => one.fieldname === field).label, width: null });
+			else held.delete(field);
+		});
+		new frappe.ui.Popover({
+			trigger: $at,
+			align: "end",
+			css_class: "one-crumb-switch-popover",
+			content: () => $panel[0],
+			on_close: () => {
+				if (!changed) return;
+				changed = false;
+				this.apply(view, [...held.values()]);
+			},
+		});
+	},
+
+	head(view) {
+		const $head = view.$result?.find(".list-row-head").first();
+		if (!$head?.length || view.view_name !== "List") return;
+		$head.find(".list-row-col[data-fieldname]").not(".tag-col").each((_, col) => {
+			const field = col.dataset.fieldname;
+			if (field && field !== "undefined" && !col.querySelector(".list-col-resize-handle")) col.insertAdjacentHTML("beforeend", '<div class="list-col-resize-handle"></div>');
+		});
+		const $left = $head.find(".level-left").first();
+		view.one_sortable?.destroy();
+		view.one_sortable = new Sortable($left[0], {
+			draggable: ".list-row-col:not(.list-subject, .tag-col)",
+			filter: ".list-col-resize-handle",
+			preventOnFilter: false,
+			animation: 180,
+			onEnd: (e) => {
+				if (e.oldIndex === e.newIndex) return;
+				const order = [...$left.children(".list-row-col[data-fieldname]")].map((col) => col.dataset.fieldname);
+				const columns = this.columns(view).sort((a, b) => order.indexOf(a.fieldname) - order.indexOf(b.fieldname));
+				this.apply(view, columns);
+			},
+		});
+		const $right = $head.find(".level-right").first();
+		if (!view.list_filter || $right.find(".one-column-picker").length) return;
+		const $button = frappe.ui.button({ icon: "columns-3", variant: "ghost", css_class: "one-column-picker", attrs: { "aria-label": __("Columns"), title: __("Columns") } });
+		$right.prepend($button);
+		this.picker(view, $button);
+	},
+
+	setup() {
+		const layouts = this;
+		onedesk.interface.when(frappe.views, "ListFilter", (Filter) => layouts.patch(Filter));
+		onedesk.interface.when(frappe.views, "ListViewSelect", (Select) => {
+			if (Object.hasOwn(Select.prototype, "one_layouts")) return;
+			Select.prototype.one_layouts = true;
+			const label = Select.prototype.get_trigger_label;
+			Select.prototype.get_trigger_label = function () {
+				const said = label.call(this);
+				return said === this.label_map[this.current_view] ? __(this.current_view) : said;
+			};
+		});
+		const List = frappe.views.ListView;
+		const columns = List.prototype.setup_columns;
+		List.prototype.setup_columns = function (override = null) {
+			if (this.view_name !== "List") return columns.call(this, override);
+			const plain = !this.list_filter || this.list_filter.active_layout_name === "default_layout";
+			const mine = override || (plain ? onedesk.interface.kept(`columns:${this.doctype}`, null) : null) || (!plain && this.list_filter.get_layout_columns(this.list_filter.get_active_layout())) || null;
+			this.one_widths = {};
+			(mine || []).forEach((one) => {
+				if (!one.width) return;
+				this.one_widths[one.fieldname] = cint(one.width);
+				this.column_max_widths[one.fieldname] = cint(one.width);
+			});
+			return columns.call(this, mine && mine.length ? mine : null);
+		};
+		const resize = List.prototype.setup_column_resize;
+		List.prototype.setup_column_resize = function (...args) {
+			if (this.view_name === "List" && !frappe.is_mobile()) layouts.head(this);
+			return resize.apply(this, args);
+		};
+		List.prototype.save_column_width = function (fieldname, width) {
+			this.one_widths = { ...this.one_widths, [fieldname]: cint(width) };
+			layouts.personal(this);
+		};
+		$(document).on("page-change", () => layouts.arrived());
+	},
+};
+
+onedesk.interface.layouts.setup();

@@ -3243,6 +3243,20 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/ui/page.js",
 		"set_breadcrumbs(items) {",
 	),
+	(
+		"A list's layouts are saved in one click",
+		"one_interface/list.js wraps ListFilter.get_layout_menu_items for Create and Update Layout, replaces open_layout_dialog with One's name and icon dialog, and answers get_saved_active_layout_name with a person's default",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/list/list_filter/list_filter_menu.js",
+		"get_layout_menu_items() {",
+	),
+	(
+		"Columns are the person's own",
+		"one_interface/list.js wraps ListView.setup_columns to apply a person's columns and replaces save_column_width so a dragged width is kept for them alone, where frappe writes it to the workspace's List View Settings",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		"async setup_columns(fields_override = null) {",
+	),
 ]
 
 
