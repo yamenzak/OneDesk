@@ -35,6 +35,8 @@
   "cloudflare_deployed",
   "office_url",
   "office_secret",
+  "backup_bucket",
+  "keeper_url",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -209,6 +211,19 @@
    "hidden": 1
   },
   {
+   "fieldname": "backup_bucket",
+   "fieldtype": "Data",
+   "label": "Backup Bucket",
+   "read_only": 1,
+   "description": "Set Up Cloudflare makes and locks it. Only the keeper adds to it, and nothing deletes from it."
+  },
+  {
+   "fieldname": "keeper_url",
+   "fieldtype": "Data",
+   "label": "Keeper",
+   "read_only": 1
+  },
+  {
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
    "label": "Storage",
@@ -376,7 +391,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 12:20:30.160178",
+ "modified": "2026-11-08 12:55:01.696659",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

@@ -1680,7 +1680,25 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   (`Setup.own` → `vault.keep`).
 - **The master key is never kept.** It is typed for a run of Set Up
   Cloudflare and forgotten when the run ends (`vault.forget_master`, in
-  `setup.run`'s `finally`).
+  `setup.run`'s `finally`). It is Cloudflare's "Create Additional Tokens"
+  template, which makes tokens and reaches nothing else.
+- **A run works with a token of its own.** `Setup.run_token` makes
+  `[one-…] Setup` from the master key, allowed what a run makes and changes
+  (Workers, buckets and their locks, the AI Gateway, containers), for an
+  hour, and `Setup.end` deletes it whatever happened.
+- **OneAdmin's own token can't change anything that keeps.** It routes,
+  adds hostnames, writes KV and sends mail; it can't deploy a Worker, touch
+  a bucket's settings or a lock, or run containers. Tried on dev on 8
+  November 2026: lifting the backup lock, deleting the bucket, redeploying
+  the keeper and reading the lock were all refused with it.
+- **The keeper** (`deploy/keeper`) holds what the server must not: the
+  only way into the backup bucket, which adds and reads and never deletes,
+  and the account-wide R2 token that makes the search index's temporary
+  credentials (`storage.search_access`). Its address is `keeper_url` and
+  its secret `keeper_secret`. The backup bucket (`backup_bucket`,
+  `one-backups`) locks every object for 30 days; `daily/` goes after 31 and
+  `monthly/` after 366. A run of Set Up Cloudflare sets both again, so a
+  lock somebody lifted comes back.
 - **Where the config is.** On this machine, `site_config.json`. On Frappe
   Cloud, which rewrites that file from its own record, through its API
   (`press.api.site.update_config`, type Password): set

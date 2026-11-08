@@ -3,6 +3,7 @@ everything a workspace needs from Cloudflare found or made with them. It takes
 nothing of anybody else's, running it twice is running it once, and a run cut
 off anywhere loses nothing (README, under setup.py)."""
 
+import datetime
 import hashlib
 import json
 import os
@@ -34,6 +35,31 @@ OFFICE_IMAGE = "docker.io/gotenberg/gotenberg:8"
 OFFICE_TYPE = "standard-1"
 OFFICE_MOST = 2
 DEPLOYED_AT = re.compile(r"https://[\w.-]+\.workers\.dev")
+BACKUPS = "one-backups"
+KEEPER = "one-keeper"
+KEEPER_NEEDS = (("Workers R2 Storage Write", "Workers R2 Storage Edit"),)
+RUN = "Setup"
+RUN_NEEDS = (
+	("Account Settings Read",),
+	("Workers Scripts Write", "Workers Scripts Edit"),
+	("Workers KV Storage Write", "Workers KV Storage Edit"),
+	("Workers R2 Storage Write", "Workers R2 Storage Edit"),
+	("AI Gateway Write", "AI Gateway Edit"),
+	("Email Routing Addresses Write", "Email Routing Addresses Edit"),
+	("Email Sending*",),
+	("Zone Read",),
+	("DNS Write", "DNS Edit"),
+	("Workers Routes Write", "Workers Routes Edit"),
+	("SSL and Certificates Write", "SSL and Certificates Edit"),
+	("Zone Settings Write", "Zone Settings Edit"),
+	("Email Routing Rules Write", "Email Routing Rules Edit"),
+	("Workers Containers Write", "Workers Containers Edit"),
+	("Cloudchamber Write", "Cloudchamber Edit"),
+)
+LOCKED_DAYS = 30
+DAILY_DAYS = 31
+MONTHLY_DAYS = 366
+A_DAY = 86400
 NOWHERE = "192.0.2.1"
 DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
@@ -48,10 +74,7 @@ TOKENS = {
 		"cloudflare_token",
 		(
 			("Account Settings Read",),
-			("Workers Scripts Write", "Workers Scripts Edit"),
 			("Workers KV Storage Write", "Workers KV Storage Edit"),
-			("Workers R2 Storage Write", "Workers R2 Storage Edit"),
-			("AI Gateway Write", "AI Gateway Edit"),
 			("Email Routing Addresses Write", "Email Routing Addresses Edit"),
 			# Not named in Cloudflare's documentation: whichever it has.
 			("Email Sending*",),
@@ -61,8 +84,6 @@ TOKENS = {
 			("SSL and Certificates Write", "SSL and Certificates Edit"),
 			("Zone Settings Write", "Zone Settings Edit"),
 			("Email Routing Rules Write", "Email Routing Rules Edit"),
-			("Workers Containers Write", "Workers Containers Edit"),
-			("Cloudchamber Write", "Cloudchamber Edit"),
 		),
 	),
 	"OneAdmin Storage": ("r2_secret", (("Workers R2 Storage Bucket Item Write",),)),
@@ -113,6 +134,8 @@ class Setup:
 		self.mailer_name = for_env(self.env, MAILER)
 
 	def call(self, method: str, path: str, token: str | None = None, **kwargs) -> dict:
+		"""A call to Cloudflare, with this run's own token unless another is
+		named (README, Keys)."""
 		headers = {"Authorization": f"Bearer {token or self.token}", **kwargs.pop("headers", {})}
 		answered = requests.request(method, f"{API}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
 		try:
@@ -161,7 +184,7 @@ class Setup:
 
 	def run(self) -> list[dict]:
 		for step in (
-			self.admin_token,
+			self.run_token,
 			self.find_account,
 			self.find_zone,
 			self.kv,
@@ -179,12 +202,14 @@ class Setup:
 			self.sender_account,
 			self.ai_gateway,
 			self.office,
+			self.backups,
+			self.keeper,
 		):
 			try:
 				step()
 			except Refused as reason:
 				self.note(step.__name__, FAILED, str(reason))
-				if step in (self.admin_token, self.find_account, self.find_zone):
+				if step in (self.run_token, self.find_account, self.find_zone):
 					break
 			except requests.RequestException as reason:
 				self.note(step.__name__, FAILED, _("Cloudflare did not answer: {0}. Set up again.").format(reason))
@@ -287,21 +312,38 @@ class Setup:
 		]
 		return held + [("default", DOCS_BUCKET)] if held else held
 
-	def admin_token(self) -> None:
-		"""The token every other step runs with. Before the account and the
-		zone are known it may reach any of them; tokens() narrows it once
-		they are."""
-		self.token = self.ensure_token("OneAdmin")
+	def run_token(self) -> None:
+		"""The token this run works with, made from the master key: allowed
+		what a run makes and changes (Workers, buckets and their locks, the
+		gateway, containers), for an hour, on any account and zone, and
+		deleted when the run ends (`end`). OneAdmin's own token is never given
+		these (README, Keys)."""
+		called = token_for_env(self.env, RUN)
+		for stale in (one for one in self.held_tokens() if one["name"] == called):
+			self.call("DELETE", f"/user/tokens/{stale['id']}", token=self.master)
+		wanted, _missing = policies(self.permission_groups(), RUN_NEEDS, None, None, [])
+		until = (datetime.datetime.utcnow() + datetime.timedelta(hours=1)).strftime("%Y-%m-%dT%H:%M:%SZ")
+		made = self.call("POST", "/user/tokens", token=self.master, json={"name": called, "policies": wanted, "expires_on": until})["result"]
+		self.run_id, self.token = made["id"], made["value"]
 		for _try in range(5):
 			if self.verified(self.token):
 				return
 			time.sleep(1)
-		raise Refused(_("The OneAdmin token was made but Cloudflare does not accept it yet. Set up again."))
+		raise Refused(_("The setup token was made but Cloudflare does not accept it yet. Set up again."))
+
+	def end(self) -> None:
+		"""The run's own token deleted, whatever happened."""
+		if getattr(self, "run_id", None):
+			try:
+				self.call("DELETE", f"/user/tokens/{self.run_id}", token=self.master)
+			except (Refused, requests.RequestException):
+				pass
+			self.run_id = None
 
 	def tokens(self) -> None:
-		"""One's three tokens, each allowed only its own work on what was
+		"""One's own tokens, each allowed only its own work on what was
 		found: the account, the zone and the two buckets."""
-		self.token = self.ensure_token("OneAdmin")
+		self.ensure_token("OneAdmin")
 		if self.buckets_held():
 			self.ensure_token("OneAdmin Storage")
 		self.ensure_token("OneAI")
@@ -590,6 +632,83 @@ class Setup:
 		self.call("PUT", f"{base}/{name}", json=guarded(held or {}))
 		self.keep("ai_gateway", name)
 
+	def backups(self) -> None:
+		"""The backup bucket (deploy/keeper/README.md): every object in it
+		locked for `LOCKED_DAYS`, `daily/` gone after `DAILY_DAYS` and
+		`monthly/` after `MONTHLY_DAYS`. Both rules are set on every run, so a
+		lock somebody lifted comes back."""
+		name = self.settings.get("backup_bucket") or for_env(self.env, BACKUPS)
+		base = f"/accounts/{self.account}/r2/buckets"
+		held = self.call("GET", base)["result"]
+		if any(one["name"] == name for one in held.get("buckets", [])):
+			self.note("bucket backups", OURS, name)
+		else:
+			self.call("POST", base, json={"name": name})
+			self.note("bucket backups", MADE, name)
+		self.keep("backup_bucket", name)
+		self.call("PUT", f"{base}/{name}/lock", json={"rules": [{"id": "one-kept", "enabled": True, "prefix": "", "condition": {"type": "Age", "maxAgeSeconds": LOCKED_DAYS * A_DAY}}]})
+		self.call(
+			"PUT",
+			f"{base}/{name}/lifecycle",
+			json={
+				"rules": [
+					{"id": f"one-{prefix}", "enabled": True, "conditions": {"prefix": f"{prefix}/"}, "deleteObjectsTransition": {"condition": {"type": "Age", "maxAge": days * A_DAY}}}
+					for prefix, days in (("daily", DAILY_DAYS), ("monthly", MONTHLY_DAYS))
+				]
+			},
+		)
+		self.note("backup lock", OURS, _("{0} days").format(LOCKED_DAYS))
+
+	def keeper_token(self) -> str:
+		"""The Keeper token, which may make R2's temporary credentials (and
+		so could lift a lock): made or rolled for a new secret on every run,
+		and given only to the keeper Worker, never kept here."""
+		called = token_for_env(self.env, "Keeper")
+		wanted, missing = policies(self.permission_groups(), KEEPER_NEEDS, self.account, self.zone_ids(), self.buckets_held())
+		if missing:
+			raise Refused(_("missing permissions: {0}").format(", ".join(missing)))
+		held = next((one for one in self.held_tokens() if one["name"] == called), None)
+		if not held:
+			return self.call("POST", "/user/tokens", token=self.master, json={"name": called, "policies": wanted})["result"]["value"]
+		if not same(held.get("policies") or [], wanted) or held.get("status") != "active":
+			self.call("PUT", f"/user/tokens/{held['id']}", token=self.master, json={"name": called, "policies": wanted, "status": "active"})
+		return self.call("PUT", f"/user/tokens/{held['id']}/value", token=self.master, json={})["result"]
+
+	def keeper(self) -> None:
+		"""The keeper Worker (deploy/keeper): the only way into the backup
+		bucket, adding and reading, never deleting, and the maker of the
+		search index's temporary credentials. Deployed on every run, with
+		the Keeper token rolled."""
+		bucket, files, files_eu = self.settings.get("backup_bucket"), self.settings.bucket_global, self.settings.bucket_eu
+		key_id = self.settings.r2_key_id
+		if not (bucket and files and files_eu and key_id):
+			return self.note("keeper", WAITING, _("Needs the buckets and the storage token first."))
+		name = for_env(self.env, KEEPER)
+		secret = vault.get("keeper_secret") or secrets.token_urlsafe(32)
+		bindings = [
+			{"type": "r2_bucket", "name": "BACKUPS", "bucket_name": bucket},
+			{"type": "r2_bucket", "name": "FILES", "bucket_name": files},
+			{"type": "r2_bucket", "name": "FILES_EU", "bucket_name": files_eu, "jurisdiction": "eu"},
+			{"type": "plain_text", "name": "ACCOUNT", "text": self.account},
+			{"type": "plain_text", "name": "PARENT_KEY", "text": key_id},
+			{"type": "plain_text", "name": "TENANT_BUCKETS", "text": json.dumps([files, files_eu])},
+			{"type": "plain_text", "name": "EU_BUCKET", "text": files_eu},
+			{"type": "secret_text", "name": "ONE_SECRET", "text": secret},
+			{"type": "secret_text", "name": "R2_TOKEN", "text": self.keeper_token()},
+		]
+		metadata = {"main_module": "worker.js", "compatibility_date": COMPATIBILITY, "bindings": bindings}
+		code = (DEPLOY / "keeper" / "worker.js").read_text()
+		self.call(
+			"PUT",
+			f"/accounts/{self.account}/workers/scripts/{name}",
+			files={"metadata": (None, json.dumps(metadata), "application/json"), "worker.js": ("worker.js", code, "application/javascript+module")},
+		)
+		self.call("POST", f"/accounts/{self.account}/workers/scripts/{name}/subdomain", json={"enabled": True})
+		subdomain = self.call("GET", f"/accounts/{self.account}/workers/subdomain")["result"]["subdomain"]
+		vault.keep("keeper_secret", secret)
+		self.own("keeper_url", f"https://{name}.{subdomain}.workers.dev", secret=False)
+		self.note(f"worker {name}", MADE, _("deployed"))
+
 	def office(self) -> None:
 		"""One's office containers (deploy/office): deployed with wrangler,
 		which hands Cloudflare the image to pull, then its secret put, and
@@ -833,9 +952,11 @@ def run(user: str | None = None) -> list[dict]:
 	key = frappe.cache.make_key(LOCK)
 	if not frappe.cache.set(key, 1, nx=True, ex=LOCKED_FOR):
 		return []
+	held = Setup(master())
 	try:
-		said = Setup(master()).run()
+		said = held.run()
 	finally:
+		held.end()
 		frappe.cache.delete(key)
 		vault.forget_master()
 		frappe.db.commit()

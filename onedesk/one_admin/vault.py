@@ -17,6 +17,7 @@ KEPT = (
 	"ai_gateway_token",
 	"openweather_key",
 	"office_secret",
+	"keeper_secret",
 )
 MASTER = "cloudflare_master_token"
 ON_PRESS = "one_admin_press_site"

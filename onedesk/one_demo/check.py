@@ -4243,19 +4243,23 @@ class FakeCloudflare:
 			if path == "/user/tokens" and method == "GET":
 				return self.answer([{key: value for key, value in one.items() if key != "value"} for one in self.tokens.values()])
 			if path == "/user/tokens" and method == "POST":
-				ident = f"t{len(self.tokens)}"
+				self.counted = getattr(self, "counted", -1) + 1
+				ident = f"t{self.counted}"
 				self.tokens[ident] = {"id": ident, "name": body["name"], "policies": body["policies"], "status": "active", "value": f"secret-{ident}-1"}
 				self.made.append(body["name"])
 				return self.answer(self.tokens[ident])
 			ident = path.split("/")[3]
+			if method == "DELETE":
+				self.tokens.pop(ident, None)
+				return self.answer({"id": ident})
 			if path.endswith("/value"):
 				one = self.tokens[ident]
 				one["value"] = f"secret-{ident}-{int(one['value'].rsplit('-', 1)[1]) + 1}"
 				return self.answer(one["value"])
 			self.tokens[ident].update(policies=body["policies"], status=body.get("status", "active"))
 			return self.answer(self.tokens[ident])
-		known = {one["value"] for one in self.tokens.values() if one["name"] == "[one-prod] OneAdmin"}
-		assert bearer in known, f"everything else runs with the OneAdmin token: {path}"
+		known = {one["value"] for one in self.tokens.values() if one["name"] == "[one-prod] Setup"}
+		assert bearer in known, f"everything else runs with the run's own token: {path}"
 		if path == "/accounts":
 			return self.answer([{"id": "acc1", "name": "One"}])
 		if path == "/zones":
@@ -4276,6 +4280,11 @@ class FakeCloudflare:
 			return self.answer({"advanced": {"allocated": 0, "used": 0}})
 		if "/ai-gateway/gateways/" in path and method == "GET":
 			return self.answer(ok=False, status=404)
+		if path.endswith("/lock") or path.endswith("/lifecycle"):
+			self.rules = {**getattr(self, "rules", {}), path.rsplit("/", 1)[1]: body}
+			return self.answer({})
+		if path.endswith("/workers/subdomain"):
+			return self.answer({"subdomain": "acc1"})
 		if method == "GET":
 			return self.answer([])
 		return self.answer({"enabled": True, "id": "x"})
@@ -4295,7 +4304,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 	fake = FakeCloudflare()
 	kept = {}
 	settings = frappe.get_doc("One Admin Settings")
-	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway", "office_url")}
+	was = {field: settings.get(field) for field in ("cloudflare_account", "cloudflare_zone", "cloudflare_kv", "bucket_global", "bucket_eu", "r2_key_id", "cloudflare_deployed", "cloudflare_setup", "ai_gateway", "office_url", "backup_bucket", "keeper_url")}
 	for field in was:
 		frappe.db.set_single_value("One Admin Settings", field, None)
 	with patch("requests.request", side_effect=fake), patch.object(frappe.db, "commit"), patch("time.sleep"), patch.object(setup, "master", return_value="MASTER"), patch("frappe.publish_realtime"), patch.object(vault, "keep", side_effect=kept.__setitem__), patch.object(vault, "get", side_effect=kept.get), patch.object(vault, "forget_master") as forgot, patch.object(setup.Setup, "wrangle", return_value="Deployed https://one-office.acc1.workers.dev"):
@@ -4307,7 +4316,15 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 		assert kv and frappe.db.get_single_value("One Admin Settings", "cloudflare_account") == "acc1", "what was found is kept as it was found"
 
 		second = setup.run()
-		assert sorted(fake.made) == ["[one-prod] OneAI", "[one-prod] OneAdmin", "[one-prod] OneAdmin Storage"], f"each token made once: {fake.made}"
+		kept_tokens = [name for name in fake.made if name not in ("[one-prod] Setup",)]
+		assert sorted(kept_tokens) == ["[one-prod] Keeper", "[one-prod] OneAI", "[one-prod] OneAdmin", "[one-prod] OneAdmin Storage"], f"each token made once: {fake.made}"
+		assert not any(one["name"] == "[one-prod] Setup" for one in fake.tokens.values()), "the run's own token is deleted when it ends"
+		runtime = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAdmin")
+		given = {group["id"] for policy in runtime["policies"] for group in policy["permission_groups"]}
+		mighty = {one["id"] for one in fake.GROUPS if one["name"] in ("Workers Scripts Write", "Workers R2 Storage Write", "Workers Containers Write", "Cloudchamber Write", "AI Gateway Write")}
+		assert not given & mighty, "OneAdmin's own token can't deploy a Worker or change a bucket"
+		assert fake.rules["lock"]["rules"][0]["condition"] == {"type": "Age", "maxAgeSeconds": setup.LOCKED_DAYS * setup.A_DAY}, "every backup is locked"
+		assert kept["keeper_secret"] and frappe.db.get_single_value("One Admin Settings", "keeper_url") == "https://one-keeper.acc1.workers.dev"
 		assert len(fake.kv) == 1 and frappe.db.get_single_value("One Admin Settings", "cloudflare_kv") == kv, "nothing is made twice"
 		ai = next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAI")
 		held = kept["ai_gateway_token"]
@@ -4325,7 +4342,7 @@ def oneadmin_sets_up_cloudflare_from_a_master_token():
 
 		made = len(fake.tokens)
 		setup.run()
-		assert len(fake.tokens) == made and len(fake.kv) == 1, "a third run finds everything and makes nothing"
+		assert len(fake.tokens) == made and len(fake.kv) == 1, "a third run finds everything and makes nothing but its own token, gone again"
 		assert next(one for one in fake.tokens.values() if one["name"] == "[one-prod] OneAI")["value"].endswith("-2"), "a held secret that works is not rolled"
 	frappe.db.rollback()
 	for field, value in was.items():

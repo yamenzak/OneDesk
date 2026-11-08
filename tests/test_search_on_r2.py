@@ -21,9 +21,11 @@ def _body(source: str, name: str) -> str:
 
 def test_the_key_lent_is_for_the_workspaces_own_search_prefix_alone():
 	lent = _body(STORAGE, "search_access")
-	assert "keys.prefix(tenant.name) + SEARCH" in lent and '"prefixes": [prefix]' in lent
-	assert '"permission": "object-read-write"' in lent and '"ttlSeconds": SEARCH_KEY_LASTS' in lent
-	assert 'headers["cf-r2-jurisdiction"] = "eu"' in lent, "an EU workspace's index stays in the EU bucket"
+	assert "keys.prefix(tenant.name) + SEARCH" in lent and '"prefix": prefix' in lent and "/search-credentials" in lent
+	keeper = (tree.ROOT / "deploy" / "keeper" / "worker.js").read_text()
+	assert "const SEARCH = /^tenants\\/[a-z0-9][a-z0-9-]{0,62}\\/search\\/$/;" in keeper, "the keeper lends a search prefix and nothing else"
+	assert 'permission: "object-read-write", prefixes: [prefix]' in keeper and "JSON.parse(env.TENANT_BUCKETS).includes(bucket)" in keeper
+	assert '"cf-r2-jurisdiction": "eu"' in keeper, "an EU workspace's index stays in the EU bucket"
 	assert "storage.search_access(caller())" in _body(PROXY, "search_access"), "for the workspace that asks, by its own key"
 
 

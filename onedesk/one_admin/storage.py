@@ -74,44 +74,34 @@ def get_url(tenant, key: str, filename: str | None = None, inline: bool = True) 
 #: the key it is lent for it lasts.
 SEARCH = "search/"
 SEARCH_KEY_LASTS = 60 * 60
-CREDENTIALS = "https://api.cloudflare.com/client/v4/accounts/{account}/r2/temp-access-credentials"
 
 
 def search_access(tenant) -> dict:
 	"""A key to the workspace's search index on R2, good for an hour and for
 	its own `search/` prefix alone: LanceDB lists and writes objects there
 	itself, which a signed URL a file at a time cannot do. Cloudflare's
-	temporary credentials, made from the storage key this account holds."""
+	temporary credentials, made by the keeper Worker (deploy/keeper), since
+	the token they need could also lift the backup bucket's lock."""
 	import requests
 
 	from onedesk.one_admin import faults
 
 	stored = frappe.get_cached_doc("One Admin Settings")
 	account = frappe.conf.get("cloudflare_account") or stored.cloudflare_account
-	token = vault.get("cloudflare_token")
-	key_id = frappe.conf.get("r2_key_id") or stored.r2_key_id
-	if not (account and token and key_id):
+	keeper, secret = stored.keeper_url, vault.get("keeper_secret")
+	if not (account and keeper and secret):
 		frappe.throw(frappe._("R2 is not configured. Set it in OneAdmin Settings."))
 	bucket = _bucket(tenant.jurisdiction)
 	prefix = keys.prefix(tenant.name) + SEARCH
-	headers = {"Authorization": f"Bearer {token}"}
-	if tenant.jurisdiction == "EU":
-		headers["cf-r2-jurisdiction"] = "eu"
 	try:
 		answered = requests.post(
-			CREDENTIALS.format(account=account),
-			headers=headers,
-			json={
-				"bucket": bucket,
-				"parentAccessKeyId": key_id,
-				"permission": "object-read-write",
-				"prefixes": [prefix],
-				"ttlSeconds": SEARCH_KEY_LASTS,
-			},
+			f"{keeper.rstrip('/')}/search-credentials",
+			headers={"x-one-secret": secret},
+			json={"bucket": bucket, "prefix": prefix, "ttl": SEARCH_KEY_LASTS},
 			timeout=20,
 		)
 	except requests.RequestException as reason:
-		raise faults.Again(f"cloudflare did not answer: {reason}") from reason
+		raise faults.Again(f"the keeper did not answer: {reason}") from reason
 	if answered.status_code != 200:
 		raise faults.raised("r2 credentials", answered.status_code, answered.text[: faults.KEPT])
 	said = answered.json().get("result") or {}

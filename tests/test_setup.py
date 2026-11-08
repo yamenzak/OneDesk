@@ -23,7 +23,11 @@ def _method(name: str) -> str:
 
 
 def test_nothing_is_ever_deleted():
-	assert '"DELETE"' not in SOURCE and "'DELETE'" not in SOURCE
+	"""Nothing Set Up Cloudflare finds or makes is deleted, but the run's
+	own temporary token when the run ends (or one a cut-off run left)."""
+	deleted = re.findall(r'self\.call\("DELETE",\s*f"([^"]+)"', SOURCE)
+	assert deleted == ["/user/tokens/{stale['id']}", "/user/tokens/{self.run_id}"]
+	assert SOURCE.count('"DELETE"') == len(deleted) and "'DELETE'" not in SOURCE
 
 
 def test_a_setting_already_filled_in_is_never_replaced():
@@ -43,6 +47,11 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 		"/zones/{zone}/custom_hostnames/fallback_origin",
 		"/zones/{zone}/email/routing/rules/catch_all",
 		"{base}/{name}",
+		"{base}/{name}/lock",
+		"{base}/{name}/lifecycle",
+		"/user/tokens/{held['id']}",
+		"/user/tokens/{held['id']}/value",
+		"/accounts/{self.account}/workers/scripts/{name}",
 		"/accounts/{self.account}/workers/scripts/{name}",
 	]
 	custom = _method("custom_hostnames")
