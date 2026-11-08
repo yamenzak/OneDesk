@@ -753,6 +753,12 @@ body.one-barred .body-sidebar-container.sidebar-hidden .sidebar-edge {
 	transition: opacity 180ms ease;
 }
 
+@media (max-width: 767px) {
+	.one-page-skeleton {
+		z-index: 99;
+	}
+}
+
 .one-page-skeleton[data-on="1"] {
 	opacity: 1;
 }

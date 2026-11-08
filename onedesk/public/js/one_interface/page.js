@@ -36,12 +36,40 @@ onedesk.interface.skeleton = {
 	key() {
 		const route = frappe.get_route() || [];
 		const head = route[0];
-		if (head === "Form") return route.slice(0, 2).join("/");
-		if (head === "List") return route.slice(0, 3).join("/");
-		return route.slice(0, 2).join("/") || "home";
+		const name = head === "List" ? route.slice(0, 3) : route.slice(0, 2);
+		return `${frappe.is_mobile() ? "phone/" : ""}${name.join("/") || "home"}`;
+	},
+
+	phone(key) {
+		const { TEXT, CONTROL, CARD } = this;
+		const out = [];
+		const add = (kind, x, y, w, h, r = 6) => out.push([kind, x, y, w, h, r]);
+		add(TEXT, 40, 24, 420, 18);
+		add(CONTROL, 780, 16, 180, 32);
+		if (key.includes("Form/")) {
+			add(TEXT, 40, 72, 620, 22);
+			add(CARD, 40, 112, 920, 76, 12);
+			add(TEXT, 80, 132, 300, 11);
+			add(TEXT, 80, 154, 420, 16);
+			add(CARD, 40, 204, 920, 480, 14);
+			for (let row = 0; row < 6; row++) {
+				add(TEXT, 80, 228 + row * 74, 320, 11);
+				add(CONTROL, 80, 248 + row * 74, 840, 32);
+			}
+			return out;
+		}
+		for (let i = 0; i < 3; i++) add(CONTROL, 40 + i * 240, 68, 220, 28);
+		add(CARD, 40, 112, 920, 620, 14);
+		for (let row = 0; row < 9; row++) {
+			add(TEXT, 80, 134 + row * 66, 520, 13);
+			add(TEXT, 80, 158 + row * 66, 320, 10);
+			add(CONTROL, 760, 138 + row * 66, 160, 22);
+		}
+		return out;
 	},
 
 	generic(key) {
+		if (key.startsWith("phone/")) return this.phone(key);
 		const { TEXT, CONTROL, CARD } = this;
 		const out = [];
 		const add = (kind, x, y, w, h, r = 6) => out.push([kind, x, y, w, h, r]);
@@ -112,7 +140,9 @@ onedesk.interface.skeleton = {
 		const el = document.createElement("div");
 		el.className = "one-page-skeleton";
 		el.setAttribute("aria-hidden", "true");
-		el.style.cssText = `left:${area.left}px;top:${area.top}px;width:${area.width}px;height:${area.height}px;border-radius:${getComputedStyle(main).borderRadius}`;
+		const top = Math.max(0, area.top);
+		const bottom = Math.min(window.innerHeight, area.bottom);
+		el.style.cssText = `left:${area.left}px;top:${top}px;width:${area.width}px;height:${bottom - top}px;border-radius:${getComputedStyle(main).borderRadius}`;
 		el.innerHTML = `${cards.join("")}<div class="one-skeleton-bars">${bars.join("")}</div>`;
 		document.body.appendChild(el);
 		el.offsetWidth;
@@ -139,7 +169,6 @@ onedesk.interface.skeleton = {
 	},
 
 	begin() {
-		if (frappe.is_mobile()) return;
 		const route = frappe.get_route_str();
 		if (route === this.route) return;
 		this.stop();
@@ -203,6 +232,7 @@ onedesk.interface.skeleton = {
 		const area = main.getBoundingClientRect();
 		const width = main.clientWidth;
 		const top = area.top - main.scrollTop;
+		const limit = Math.min(area.bottom, window.innerHeight);
 		const boxes = [];
 		const skip = ".one-page-skeleton, .dropdown-menu, .modal, .es-tooltip, .one-interface-details-edge, [hidden]";
 		const whole = "button, .btn, .es-button, input, select, textarea, .form-control, .es-badge, .indicator-pill, .avatar";
@@ -213,7 +243,7 @@ onedesk.interface.skeleton = {
 			return Math.min(Math.round(parseFloat(said) || 0), 24);
 		};
 		const push = (kind, r, round) => {
-			if (r.width < 4 || r.height < 3 || r.bottom < area.top || r.top > area.bottom) return;
+			if (r.width < 4 || r.height < 3 || r.bottom < area.top || r.top > limit) return;
 			boxes.push([kind, Math.round(((r.left - area.left) / width) * 1000), Math.round(r.top - top), Math.round((r.width / width) * 1000), Math.round(r.height), round]);
 		};
 		const lines = (node) => {
@@ -227,7 +257,7 @@ onedesk.interface.skeleton = {
 		const walk = (el, under) => {
 			if (boxes.length >= this.BOXES || el.matches(skip)) return;
 			const rect = el.getBoundingClientRect();
-			if (!rect.width || !rect.height || rect.bottom < area.top || rect.top > area.bottom) return;
+			if (!rect.width || !rect.height || rect.bottom < area.top || rect.top > limit) return;
 			const style = getComputedStyle(el);
 			if (style.visibility === "hidden" || style.opacity === "0") return;
 			if (el.matches(whole)) return push(this.CONTROL, rect, radius(style));
