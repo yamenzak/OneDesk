@@ -53,6 +53,11 @@ onedesk.interface.adapt("list", () => {
 		const said = setup_page.apply(this, args);
 		const win = this.page && this.page.interface;
 		if (!win) return said;
+		if (kind(this) === "list" && !frappe.is_mobile()) {
+			win.fit = true;
+			win.$wrapper.addClass("one-interface-fit");
+			if (frappe.container.page?.page === this.page) $("body").addClass("full-height-page");
+		}
 		const field = this.meta.title_field || "name";
 		win.view({
 			kind: kind(this),

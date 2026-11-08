@@ -53,7 +53,7 @@
       </div>
     </template>
 
-    <div class="flex min-h-0 flex-1" :class="{ 'px-2.5 pb-2.5': win }">
+    <div class="flex min-h-0 flex-1" :class="{ 'px-2.5 pb-2': win }">
       <ContextMenu :options="picker ? [] : menu" class="min-w-0 flex-1">
         <template #trigger>
           <div class="h-full min-w-0 flex-1">

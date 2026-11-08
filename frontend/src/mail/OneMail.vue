@@ -1,6 +1,6 @@
 <template>
   <div ref="root" class="flex h-full min-h-0 flex-col text-ink-gray-8 outline-none" tabindex="-1" @keydown="key">
-    <div class="flex min-h-0 flex-1 gap-2.5 px-2.5 pb-2.5" :class="{ 'pt-2.5': stacked && thread }">
+    <div class="flex min-h-0 flex-1 gap-2.5 px-2.5 pb-2" :class="{ 'pt-2.5': stacked && thread }">
     <div class="flex shrink-0 flex-col overflow-hidden rounded-6 border border-outline-gray-1 bg-surface-elevation-2" :class="stacked ? (thread ? 'hidden' : 'w-full') : 'w-96'" data-tour="onemail-list">
       <Loading v-if="loading && !items.length" />
       <ContextMenu v-else :options="menu" class="min-h-0 flex-1">

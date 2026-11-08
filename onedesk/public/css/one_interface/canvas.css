@@ -907,3 +907,39 @@
 :root[data-one-look="canvas"] .one-act.is-told .one-act-when { float: inline-end; margin-inline-start: 8px; }
 :root[data-one-look="canvas"] .one-act.is-told .one-act-mark .icon { color: var(--one-ink-muted); }
 :root[data-one-look="canvas"] .one-act.is-told .one-update { margin-top: 4px; color: var(--one-ink-strong); white-space: pre-line; }
+
+@media (min-width: 768px) {
+	:root[data-one-look="canvas"] .one-interface-fit[data-one-view="list"] .layout-main-section {
+		display: flex;
+		flex-direction: column;
+	}
+
+	:root[data-one-look="canvas"] .one-interface-fit[data-one-view="list"] .frappe-list {
+		display: flex;
+		flex: 1 1 0;
+		flex-direction: column;
+		min-height: 0;
+		margin-bottom: calc(var(--spacing) * 2);
+		padding-bottom: 0 !important;
+	}
+
+	:root[data-one-look="canvas"] .one-interface-fit[data-one-view="list"] .frappe-list .result-container {
+		flex: 1 1 0;
+		min-height: 0;
+		overflow-y: auto;
+	}
+
+	:root[data-one-look="canvas"] .one-interface:not(.one-interface-fit)::after {
+		content: "";
+		position: sticky;
+		bottom: 0;
+		z-index: 7;
+		flex: none;
+		height: calc(var(--spacing) * 2);
+		background: var(--one-canvas);
+	}
+
+	:root[data-one-look="canvas"] body.one-barred[data-route^="Form"] .layout-side-section {
+		height: calc(100dvh - var(--page-head-height) - var(--one-bar-offset) - calc(var(--spacing) * 2));
+	}
+}
