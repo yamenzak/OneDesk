@@ -415,10 +415,12 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group > .form-control { border-radius: var(--one-radius-control) !important; padding-inline-end: 30px !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group-btn { position: absolute; inset-inline-end: 2px; top: 2px; z-index: 2; margin: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .match-type-dropdown-btn { height: 24px; width: 24px; padding: 0 !important; display: flex; align-items: center; justify-content: center; background: transparent !important; border: 0 !important; color: var(--one-ink-muted); border-radius: var(--one-radius-small) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group-btn .btn.match-type-dropdown-btn:not(:hover) { background: transparent !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .match-type-dropdown-btn:hover { background: var(--one-press) !important; color: var(--one-ink); }
 /* on the canvas a field is outlined, not filled (rule 34), and fills its own group */
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control { background: transparent !important; border: 1px solid var(--one-edge) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control:hover { border-color: var(--one-edge-strong) !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control { text-overflow: ellipsis; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .input-group > .form-control { flex: 1 1 auto; width: 100% !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-group { margin: 0 !important; }
 :root[data-one-look="canvas"] .one-interface :is(.page-head, .one-hero-list) .es-pill[data-state="active"] { background: var(--one-chosen) !important; color: var(--one-ink-strong) !important; }
@@ -889,7 +891,7 @@
 :root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { background: var(--one-level-island) !important; }
 /* pinned to the island's edge, not 6px inside it, where the columns showed through the island's padding */
 :root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { inset-inline-end: -6px; }
-:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right > * { position: relative; inset-inline-start: 6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right > * { position: relative; inset-inline-start: -6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-container:hover .list-row .level-right { background: var(--one-tint) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { inset-inline-end: 0; background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
 /* A record's name keeps room to be read beside its track; with less, the track takes the next line. */
