@@ -739,6 +739,23 @@ body.one-barred .body-sidebar-container.sidebar-hidden .sidebar-edge {
 	inset-inline-start: 0;
 }
 
+#freeze.modal-backdrop.fade:not(.grid-form) {
+	transition: opacity 0.2s ease 0.4s;
+}
+
+@keyframes one-page-in {
+	from {
+		opacity: 0;
+	}
+}
+
+@media (prefers-reduced-motion: no-preference) {
+	body.one-barred .page-container,
+	body.one-barred .one-island > .frappe-island {
+		animation: one-page-in 180ms ease-out;
+	}
+}
+
 body.one-interface-dragging {
 	transition: none !important;
 }

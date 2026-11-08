@@ -3222,6 +3222,13 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/ui/sidebar/dock.js",
 		"name_tile($el, label, tooltips = this.tooltips) {",
 	),
+	(
+		"A short freeze never paints",
+		"one_interface/frame.css delays the fade of frappe's freeze backdrop by 400 ms, so a module switch that freezes for 100 ms shows nothing and a long save still shows it; clicks are blocked either way",
+		"onedesk/public/css/one_interface/frame.css",
+		"frappe/frappe/public/js/frappe/dom.js",
+		'<div id="freeze" class="modal-backdrop fade"></div>',
+	),
 ]
 
 
