@@ -40,6 +40,7 @@
   "column_break_billing",
   "archived_backup",
   "last_backup",
+  "backup_ready",
   "closing_on",
   "closing_asked_by",
   "limits_section",
@@ -279,6 +280,13 @@
    "description": "When its backup and files were last copied into the locked backup bucket."
   },
   {
+   "fieldname": "backup_ready",
+   "fieldtype": "Check",
+   "label": "Backs Itself Up",
+   "read_only": 1,
+   "description": "If enabled, the workspace sends its own backup every night."
+  },
+  {
    "fieldname": "closing_on",
    "fieldtype": "Date",
    "label": "Closing On",
@@ -387,7 +395,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-08 13:06:54.568891",
+ "modified": "2026-11-08 13:52:33.240228",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

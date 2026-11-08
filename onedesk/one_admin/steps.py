@@ -223,7 +223,7 @@ def create_site(job, tenant) -> None:
 			"server": tenant.server,
 			"version": group.get("version"),
 			"plan": _setting("press_plan") or "Unlimited - Hetzner",
-			"apps": list(APPS),
+			"apps": ["frappe", *APPS],
 			**({"files": files} if files else {}),
 		},
 	)
@@ -275,9 +275,12 @@ def push_config(job, tenant) -> None:
 	The token is generated here and never again: only its hash is kept, on the
 	tenant. Also sets `max_file_size` and `host_name`.
 	"""
+	from onedesk.one_admin import backups
+
 	token = secrets.token_urlsafe(32)
 	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
 	mail_secret = secrets.token_urlsafe(32)
+	backup = backups.given(tenant.slug)
 	press.call(
 		"press.api.site.update_config",
 		name=tenant.site,
@@ -290,9 +293,12 @@ def push_config(job, tenant) -> None:
 				{"key": "max_file_size", "value": store.LARGEST, "type": "Number"},
 				{"key": "one_mail_secret", "value": mail_secret, "type": "Password"},
 				{"key": "one_mail_domain", "value": cloudflare.mail_domain(), "type": "String"},
+				{"key": "one_backup_secret", "value": backup["one_backup_secret"], "type": "Password"},
+				{"key": "one_keeper_url", "value": backup["one_keeper_url"], "type": "String"},
 			]
 		),
 	)
+	tenant.db_set("backup_ready", 1)
 	cloudflare.mail_route(tenant.slug, cloudflare.mail_entry(tenant, mail_secret, [tenant.slug]))
 
 
@@ -417,7 +423,7 @@ def restore_site(job, tenant) -> None:
 	payload = frappe.parse_json(job.payload or "{}") or {}
 	if payload.get("restore_asked"):
 		return
-	press.call("press.api.site.restore", name=tenant.site, files=frappe.as_json(payload.get("files") or {}))
+	press.call("press.api.site.restore", name=tenant.site, files=payload.get("files") or {})
 	payload["restore_asked"] = True
 	job.db_set("payload", frappe.as_json(payload))
 

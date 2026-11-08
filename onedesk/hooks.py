@@ -177,6 +177,7 @@ scheduler_events = {
 		],
 		"15 9 * * *": ["onedesk.one_demo.living.day"],
 		"20 1 * * *": ["onedesk.one_admin.backups.nightly"],
+		"40 1 * * *": ["onedesk.one.backup.nightly"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
 		"30 6 * * *": [

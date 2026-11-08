@@ -11,9 +11,14 @@ def test_a_part_is_kept_by_where_workspace_day_and_part():
 
 def test_the_form_is_streamed_with_its_whole_length():
 	length, kind, body = backups.form({"key": "uploads/x", "policy": "p"}, "db.sql.gz", 6, iter([b"abc", b"def"]))
-	sent = b"".join(body)
+	sent = body.read()
 	assert len(sent) == length and kind.startswith("multipart/form-data; boundary=one-")
 	boundary = kind.split("=", 1)[1]
 	assert sent.startswith(f"--{boundary}\r\n".encode()) and sent.endswith(f"\r\n--{boundary}--\r\n".encode())
 	assert b'name="key"\r\n\r\nuploads/x\r\n' in sent and b'filename="db.sql.gz"' in sent and b"abcdef" in sent
 	assert sent.index(b'name="policy"') < sent.index(b'name="file"'), "S3 reads the fields before the file"
+
+
+def test_a_streamed_body_reads_in_the_sizes_asked():
+	body = backups.Streamed(iter([b"ab", b"cde", b"f"]), 6)
+	assert len(body) == 6 and body.read(4) == b"abcd" and body.read(4) == b"ef" and body.read(4) == b""

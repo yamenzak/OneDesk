@@ -689,6 +689,7 @@ class Setup:
 			{"type": "r2_bucket", "name": "BACKUPS", "bucket_name": bucket},
 			{"type": "r2_bucket", "name": "FILES", "bucket_name": files},
 			{"type": "r2_bucket", "name": "FILES_EU", "bucket_name": files_eu, "jurisdiction": "eu"},
+			{**self.kv_binding()},
 			{"type": "plain_text", "name": "ACCOUNT", "text": self.account},
 			{"type": "plain_text", "name": "PARENT_KEY", "text": key_id},
 			{"type": "plain_text", "name": "TENANT_BUCKETS", "text": json.dumps([files, files_eu])},

@@ -61,7 +61,7 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 48 | document |
+| Tenant | 49 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |

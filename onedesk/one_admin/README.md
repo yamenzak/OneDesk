@@ -1708,38 +1708,46 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
 
 ### backups.py: Backups
 
-**Every night at 01:20 UTC** (`backups.nightly`), on the admin site:
+**Each workspace backs itself up** (`one/backup.py`, nightly at 01:40 UTC
+on its own site): its database, public and private files and config, each
+sent to the keeper's `/workspace/<slug>/<part>/<name>`, signed with the
+workspace's own backup secret. The keeper checks the signature against
+`backup:<slug>` in the routing store and adds the file under
+`daily/<slug>/<day>/`, and on the first of a month under `monthly/` too; it
+never overwrites. A stolen secret can only add files to that workspace's
+own folder. Provisioning gives the secret (`push_config`, `backups.given`);
+a workspace made before is given it by the nightly run (`backups.ready`,
+through Frappe Cloud's config). `Tenant.backup_ready` says it has one. This
+does not rely on Frappe Cloud's offsite backups, which depend on the
+site's plan, and works for dev's own sites too.
 
-- OneAdmin's own database is backed up here and put in the locked bucket
-  through the keeper (`daily/oneadmin/<day>/database/…`).
-- For each workspace on Frappe Cloud that is Live, Overdue or Suspended, a
-  job copies Frappe Cloud's newest backup of its site (database, public and
-  private files, config) by handing the keeper Frappe Cloud's signed links
-  (`/fetch`), so no backup passes through this server. On the first of a
-  month the same backup is also kept under `monthly/`. Its files in R2 are
-  copied bucket to bucket into `files/`, skipping what is kept already.
-  `Tenant.last_backup` says when.
-- A workspace not on Frappe Cloud (no bench: dev's own sites) is left out.
+**Every night at 01:20 UTC** on the admin site (`backups.nightly`):
+OneAdmin's own database is backed up and put in the bucket, and each
+running workspace's files in R2 are copied bucket to bucket into `files/`,
+skipping what is kept. `Tenant.last_backup` says when.
 
-**Archiving** keeps the newest backup and the files once more under
-`archived/`, which no lifecycle rule expires (`steps.note_backup` →
-`backups.archived`). A keeper that does not answer stops the step, to be
-tried again: a workspace is never archived with nothing kept, and dropping
-it afterwards deletes only its live files.
+**Archiving** keeps the newest daily backup again under `archived/`, which
+no lifecycle rule expires, inside the bucket (the keeper's `/again`), and
+the files once more. A workspace with no backup kept yet is not archived:
+the step waits.
 
 **Restoring**, from the Tenant's **Backups** button, which lists what is
 kept:
 
 - **Roll Back** (a running workspace): the backup is streamed from the keeper
-  into Frappe Cloud's signed upload (`backups.to_press`), and Frappe Cloud
+  into Frappe Cloud's signed upload (`backups.to_press`, a body of known
+  length, since S3's signed POST refuses a chunked one), and Frappe Cloud
   restores the site from it (`press.api.site.restore`).
 - **Rebuild** (an archived or dropped workspace): the backup is sent the same
   way and a new site is made from it (`press.api.site.new` with `files`),
   then routed, configured and marked Live. Billing is set up again
   separately.
 
-Both are Provisioning Jobs, resumable like any other; a part already sent
-is not sent again.
+Both are Provisioning Jobs, resumable like any other. A backup must come
+from the code the site runs, or older: Frappe Cloud migrates after
+restoring, and a newer database fails there (tried on dev, 8 November
+2026: the restore ran and stopped at a property setter that was already
+there).
 
 ### price_list.py, costs.py, margins.py and offerings.py
 

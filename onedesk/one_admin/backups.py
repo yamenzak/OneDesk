@@ -1,17 +1,18 @@
-"""Every workspace's newest backup and its files, and OneAdmin's own, copied
-each night into the locked backup bucket through the keeper, kept again when
-a workspace is archived, and listed for a restore. A workspace not on
-Frappe Cloud (no bench: dev's own sites) is left out (README, Backups)."""
+"""Backups, in the locked bucket, through the keeper: each workspace pushes
+its own every night, signed with the secret given it here (`ready`, and
+one/backup.py on its side); OneAdmin backs itself up and copies every
+workspace's files; archiving keeps the newest backup again; and a kept
+backup is sent back to Frappe Cloud for a restore (README, Backups)."""
 
 import os
+import secrets
 
 import frappe
 import requests
-from frappe.utils import getdate, now_datetime, today
+from frappe.utils import now_datetime, today
 
-from onedesk.one_admin import faults, keys, press, vault
+from onedesk.one_admin import cloudflare, faults, keys, press, vault
 
-PARTS = ("database", "public", "private", "config")
 BACKED_UP = ("Live", "Overdue", "Suspended")
 OURS = "oneadmin"
 ROUNDS = 100
@@ -43,25 +44,28 @@ def key(where: str, slug: str, day: str, part: str, name: str) -> str:
 	return f"{where}/{slug}/{day}/{part}/{os.path.basename(name or part)}"
 
 
-def newest(site: str) -> dict | None:
-	"""Frappe Cloud's newest backup of a site, offsite first."""
-	held = [one for one in press.call("press.api.site.backups", name=site) or [] if isinstance(one, dict)]
-	return next((one for one in held if one.get("offsite")), held[0] if held else None)
+def given(slug: str) -> dict:
+	"""A workspace's backup secret, new: written where the keeper reads it
+	(`backup:<slug>` in the routing store), and the config the workspace
+	needs to sign its uploads with it."""
+	secret = secrets.token_urlsafe(32)
+	cloudflare._call("PUT", f"values/backup:{slug}", data=frappe.as_json({"secret": secret}))
+	url = (frappe.db.get_single_value("One Admin Settings", "keeper_url") or "").rstrip("/")
+	return {"one_backup_secret": secret, "one_keeper_url": url}
 
 
-def _copy_backup(tenant, held: dict, where: tuple[str, ...]) -> list[str]:
-	day = str(getdate(held.get("creation")))
-	kept = []
-	for part in PARTS:
-		if not held.get(f"remote_{part}_file"):
-			continue
-		link = press.call("press.api.site.get_backup_link", name=tenant.site, backup=held["name"], file=part)
-		if not link:
-			continue
-		for prefix in where:
-			said = _post("/fetch", {"url": link, "key": key(prefix, tenant.slug, day, part, held.get(f"{part}_file"))})
-			kept.append(said.get("kept"))
-	return kept
+def ready(tenant) -> bool:
+	"""A workspace on Frappe Cloud given its backup secret, once."""
+	if tenant.backup_ready or not (tenant.site and tenant.bench):
+		return bool(tenant.backup_ready)
+	config = given(tenant.slug)
+	press.call(
+		"press.api.site.update_config",
+		name=tenant.site,
+		config=frappe.as_json([{"key": key_, "value": value, "type": "Password" if key_.endswith("secret") else "String"} for key_, value in config.items()]),
+	)
+	tenant.db_set("backup_ready", 1)
+	return True
 
 
 def _copy_files(tenant) -> int:
@@ -79,17 +83,15 @@ def _copy_files(tenant) -> int:
 
 
 def tenant(name: str) -> dict:
-	"""One workspace backed up: its newest backup, kept daily (and monthly
-	on the first), and its files."""
+	"""One workspace: given its backup secret if it has none yet (it pushes
+	its own backup), and its files copied."""
 	held = frappe.get_doc("Tenant", name)
-	if not (held.site and held.bench) or held.is_house:
+	if held.is_house:
 		return {"skipped": True}
-	found = newest(held.site)
-	where = ("daily", "monthly") if today().endswith("-01") else ("daily",)
-	kept = _copy_backup(held, found, where) if found else []
+	ready(held)
 	files = _copy_files(held)
 	held.db_set("last_backup", now_datetime(), update_modified=False)
-	return {"kept": kept, "files": files}
+	return {"files": files}
 
 
 def ours() -> dict:
@@ -118,17 +120,21 @@ def nightly() -> None:
 	if not site.is_admin():
 		return
 	frappe.enqueue("onedesk.one_admin.backups.ours", queue="long", timeout=PATIENCE)
-	for name in frappe.get_all("Tenant", filters={"status": ["in", BACKED_UP], "is_house": 0, "site": ["is", "set"], "bench": ["is", "set"]}, pluck="name"):
+	for name in frappe.get_all("Tenant", filters={"status": ["in", BACKED_UP], "is_house": 0, "site": ["is", "set"]}, pluck="name"):
 		frappe.enqueue("onedesk.one_admin.backups.tenant", queue="long", timeout=PATIENCE * 2, name=name, job_id=f"one_backup_{name}", deduplicate=True)
 
 
 def archived(tenant) -> list[str]:
-	"""A workspace being archived: its newest backup kept under `archived/`,
-	which no lifecycle rule expires, and its files once more."""
-	found = newest(tenant.site) if tenant.site else None
-	kept = _copy_backup(tenant, found, ("archived",)) if found else []
+	"""A workspace being archived: its newest backup kept again under
+	`archived/`, which no lifecycle rule expires, and its files once more.
+	A workspace with no backup kept is refused: nothing is archived that
+	could not be rebuilt."""
+	kept = [one for one in listed(tenant.slug) if one["where"] == "daily" and "database" in one["parts"]]
+	if not kept:
+		raise faults.Again(f"no backup of {tenant.slug} is kept yet")
+	said = _post("/again", {"slug": tenant.slug, "day": kept[0]["day"], "into": "archived"})
 	_copy_files(tenant)
-	return kept
+	return said.get("kept") or []
 
 
 def listed(slug: str) -> list[dict]:
@@ -161,22 +167,45 @@ def chosen(slug: str, day: str, where: str) -> dict:
 	return found
 
 
-def form(fields: dict, name: str, size: int, chunks) -> tuple[int, str, object]:
+class Streamed:
+	"""A body requests sends with its length rather than chunked: read as
+	asked, from the opening, the file's chunks and the closing."""
+
+	def __init__(self, pieces, length: int):
+		self.pieces, self.length, self.held = iter(pieces), length, b""
+
+	def __len__(self) -> int:
+		return self.length
+
+	def read(self, size: int = -1) -> bytes:
+		while size < 0 or len(self.held) < size:
+			piece = next(self.pieces, None)
+			if piece is None:
+				break
+			self.held += piece
+		if size < 0:
+			out, self.held = self.held, b""
+		else:
+			out, self.held = self.held[:size], self.held[size:]
+		return out
+
+
+def form(fields: dict, name: str, size: int, chunks) -> tuple[int, str, Streamed]:
 	"""A multipart form of `fields` and one file, streamed: its length, its
 	content type and its body, the file's bytes read as they come. S3's
 	signed POST takes a length and no chunked upload. Pure but for `chunks`."""
 	boundary = f"one-{os.urandom(12).hex()}"
 	head = "".join(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n' for k, v in fields.items())
 	head += f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{name}"\r\nContent-Type: application/octet-stream\r\n\r\n'
-	tail = f"\r\n--{boundary}--\r\n"
-	opening, closing = head.encode(), tail.encode()
+	opening, closing = head.encode(), f"\r\n--{boundary}--\r\n".encode()
+	length = len(opening) + size + len(closing)
 
-	def body():
+	def pieces():
 		yield opening
 		yield from chunks
 		yield closing
 
-	return len(opening) + size + len(closing), f"multipart/form-data; boundary={boundary}", body()
+	return length, f"multipart/form-data; boundary={boundary}", Streamed(pieces(), length)
 
 
 def to_press(part: dict) -> str:

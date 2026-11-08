@@ -6,8 +6,11 @@ and frappe writes every request and background job, with its duration, to
 many seconds of work its requests, its scheduled jobs and its other jobs
 took, and which jobs cost the most. Scheduled jobs run whether anybody uses
 the site or not, so they are what an idle workspace costs; requests are
-what its people cost. OneAdmin's calculator takes its server share from
-these figures (docs: the OneAdmin plan, Measuring).
+what its people cost. The seconds are wall-clock seconds a worker or a web
+process was busy, so a job that waits on OneAI or a mail server counts its
+waiting too: a fair measure of how many workers a server needs, an
+overstatement of its CPU. OneAdmin's calculator takes its server share from
+these figures (one_admin/costs.py).
 
     python3 scripts/load.py [--log PATH] [--top 10] [--json]
 """
