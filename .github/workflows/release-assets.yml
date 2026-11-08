@@ -1,0 +1,40 @@
+name: Release assets
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "10 20 * * 2"
+  push:
+    branches: ["release/**"]
+
+concurrency:
+  group: release-assets
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install Pilot
+        run: |
+          curl -fsSL https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o "$RUNNER_TEMP/pilot.sh"
+          sudo BENCH_USER="$USER" sh "$RUNNER_TEMP/pilot.sh"
+          bash "$RUNNER_TEMP/pilot.sh"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+          echo "$HOME/pilot/bin" >> "$GITHUB_PATH"
+
+      - name: Build and publish
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RELEASE_BRANCH: ${{ github.ref_name }}
+          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
+          R2_ASSETS_BUCKET: ${{ secrets.R2_ASSETS_BUCKET }}
+          R2_ASSETS_KEY: ${{ secrets.R2_ASSETS_KEY }}
+          R2_ASSETS_SECRET: ${{ secrets.R2_ASSETS_SECRET }}
+        run: deploy/release/build.sh
