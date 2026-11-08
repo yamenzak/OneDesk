@@ -888,7 +888,8 @@
    columns pass under them instead of showing through. */
 :root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { background: var(--one-level-island) !important; }
 /* pinned to the island's edge, not 6px inside it, where the columns showed through the island's padding */
-:root[data-one-look="canvas"] .one-interface .frappe-list .result :is(.list-row, .list-row-head) .level-right { inset-inline-end: -6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .result .list-row .level-right { inset-inline-end: -6px; }
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right > * { position: relative; inset-inline-start: 6px; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-container:hover .list-row .level-right { background: var(--one-tint) !important; }
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right { inset-inline-end: 0; background: var(--one-level-control) !important; border-start-end-radius: var(--radius-full); border-end-end-radius: var(--radius-full); }
 /* A record's name keeps room to be read beside its track; with less, the track takes the next line. */
