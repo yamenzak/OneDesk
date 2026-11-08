@@ -1,33 +1,35 @@
 """One registry of the icons a field, a tab and a record type wear, read by
 the desk from the boot (`frappe.boot.one_icons`, look.js). A field or tab goes
-by the words of its label, the phrase with the most words winning and, among
-those of one length, the rule written first; so Expiry Date is not Start Date
-though both say Date. A field no phrase fits wears its type's icon. A module's
+by the words of its label, brackets left out: the phrase with the most words
+wins, then the one nearest the label's end (a label's noun comes last, so a
+Party Type is a type), then the rule written first. So Expiry Date is not Start
+Date though both say Date. A label that starts with a word in LEADS takes its
+icon whatever follows, and one that starts with % is a percentage. A field no phrase fits wears its type's icon. A module's
 `interface` names an icon only where it means to differ. Pure."""
 
 import re
 
 RULES = (
 	("shield-check", "warranty expiry date|warranty amc status|warranty period|warranty"),
-	("calendar-clock", "amc expiry date|due date|payment due date|required by|required date|schedule date|scheduled date|scheduled time|next date|next schedule date|reminder|deadline|payment terms"),
+	("calendar-clock", "remind at|send after|next update|amc expiry date|due date|payment due date|required by|required date|schedule date|scheduled date|scheduled time|next date|next schedule date|reminder|deadline|payment terms"),
 	("calendar-x", "valid up to|expiry date|expires on|expiry|expires|valid till|valid upto|valid to|end of life|failure date|relieving date|cancelled on|last date"),
-	("calendar-check", "end date|end time|to date|completion date|completed on|resolution date|closing date|expected closing date|closed on|approved on|available for use date|actual end date"),
-	("calendar-plus", "start date|start time|from date|valid from|effective from|starts on|date of joining|joining date|creation|created on|actual start date"),
+	("calendar-check", "decided on|issued on|made on|end date|end time|to date|completion date|completed on|resolution date|closing date|expected closing date|closed on|approved on|available for use date|actual end date"),
+	("calendar-plus", "first seen|start date|start time|from date|valid from|effective from|starts on|date of joining|joining date|creation|created on|actual start date"),
 	("cake", "date of birth|birthday"),
 	("truck", "job worker|delivery date|delivered on|delivery|delivery note|shipping|shipment|vehicle|transporter|carrier|driver name|supplier|suppliers|supplier name|supplier info"),
 	("clock", "posting time|departure time|arrival time|time|shift|working hours|overtime|hours|duration"),
 	("timer", "time logs|timer|timesheet"),
 	("calendar-days", "payment days|leaves|days|holiday|holidays|holiday list"),
 	("calendar", "invoice date|posting date|transaction date|bill date|date|day|month|year|fiscal year|period|calendar|event|schedule"),
-	("user-check", "approver|expense approver|leave approver|resolved by|approved by|reviewer|portal users"),
+	("user-check", "decided by|approver|expense approver|leave approver|resolved by|approved by|reviewer|portal users"),
 	("user-plus", "lead|leads|lead name|applicant|job applicant"),
 	("at-sign", "user id|username"),
-	("users", "team|teams|employees|users|members|attendees|participants|subscribers|sales team|maintenance team|customers"),
-	("user", "self appraisal|lead owner|opportunity owner|process owner|prospect owner|full name|first name|last name|middle name|employee|employee name|owner|person|contact person|sales person|manager|custodian|driver|recipient|assigned to|assign to|inspected by|feedback by|raised by|created by|modified by|user|personal|nominee|guardian"),
+	("users", "recipients|interviewers|people|team|teams|employees|users|members|attendees|participants|subscribers|sales team|maintenance team|customers"),
+	("user", "reports to|contact name|trainer name|requested by|asked by|on behalf of|operator|interviewer|self appraisal|lead owner|opportunity owner|process owner|prospect owner|full name|first name|last name|middle name|employee|employee name|owner|person|contact person|sales person|manager|custodian|driver|recipient|assigned to|assign to|inspected by|feedback by|raised by|created by|modified by|user|personal|nominee|guardian"),
 	("building", "company|company name|tenant"),
 	("building-2", "customer|customer name|party|party name|organization|organization name|prospect"),
 	("network", "department|departments|exploded items|hierarchy|org chart"),
-	("briefcase", "designation|job|job opening|job title|occupation|position|joining|employment"),
+	("briefcase", "job offer|designation|job|job opening|job title|occupation|position|joining|employment"),
 	("graduation-cap", "training|education|qualification|background|course"),
 	("award", "brand|grade|certificate|certification|bonus"),
 	("sparkles", "skill|skills|oneai"),
@@ -38,9 +40,9 @@ RULES = (
 	("wallet", "advances|outstanding|outstanding amount|payment|payments|mode of payment|paid|balance|advance|paid amount"),
 	("banknote", "salary|payroll|earnings|deductions|earning|deduction|wages|gratuity|encashment"),
 	("hand-coins", "sales|commission|incentive|loyalty"),
-	("badge-percent", "discount|discounts|coupon|promotion|offer"),
+	("badge-percent", "discount amount|discount percentage|discount|discounts|coupon|promotion"),
 	("percent", "tax|taxes|taxes and charges|tax category|tax withholding|withholding|vat|retention|probability|percentage|percent"),
-	("hash", "iban|tax id|tax no|naming series|series|serial|serial no|id|no|number|code|reference no|reference number|registration|national id|qty|quantity|count|sample size"),
+	("hash", "trn|abbr|iban|tax id|tax no|naming series|series|serial|serial no|id|no|number|code|reference no|reference number|registration|national id|qty|quantity|count|sample size"),
 	("tags", "price list|pricing|pricing rule|tags"),
 	("coins", "revenue|annual revenue|rounding adjustment|adjustment|currency|billing currency|amount|price|rate|cost|costing|costs|value|fee|charges|valuation|exchange|additional costs|net rate|incoming rate"),
 	("receipt", "invoice no|supplier invoice no|invoice|bill|bill no|billing|receipt|expense|expenses|proforma|demand"),
@@ -121,7 +123,33 @@ RULES = (
 	("radio", "medium"),
 	("history", "version"),
 	("file", "file"),
-	("heading", "title|heading|subject"),
+	("book-bookmark", "finance book|finance books"),
+	("layout-grid", "workspace"),
+	("user-round", "gender"),
+	("list-filter", "filter|filters|dynamic filters|condition|conditions"),
+	("database", "record|doctype|database"),
+	("cpu", "model"),
+	("smartphone", "device"),
+	("audio-lines", "voice"),
+	("inbox", "mailbox"),
+	("mic", "interview|interviews"),
+	("store", "pos profile|store"),
+	("circle-pause", "downtime"),
+	("code", "script|custom css"),
+	("zap", "action|actions"),
+	("eye", "view"),
+	("monitor", "screen|board"),
+	("messages-square", "conversation"),
+	("list-music", "playlist"),
+	("columns-3", "columns|column"),
+	("chart-pie", "charts"),
+	("car", "license plate"),
+	("printer", "fax"),
+	("hand", "salutation"),
+	("swords", "competitors|competitor"),
+	("armchair", "seats"),
+	("layout-template", "format"),
+	("heading", "label|title|heading|subject"),
 )
 
 TYPES = {
@@ -163,6 +191,9 @@ TYPES = {
 }
 
 # A switch draws itself, so a Check wears nothing.
+# A label that starts with one of these is that, whatever it is a total of.
+LEADS = {"total": "sigma"}
+
 NO_ICON = frozenset({"Check", "Section Break", "Column Break", "Tab Break", "HTML", "Button", "Fold", "Heading"})
 
 DOCTYPES = {
@@ -688,12 +719,20 @@ PHRASES = phrases()
 
 def by_label(label: str) -> str | None:
 	"""The icon the words of a label ask for, if any phrase fits them."""
-	words = _words(label)
+	if (label or "").strip().startswith("%"):
+		return "percent"
+	words = _words(re.sub(r"\(.*?\)", " ", label or ""))
+	if words and words[0] in LEADS:
+		return LEADS[words[0]]
+	best = None
 	for phrase, icon in PHRASES:
 		size = len(phrase)
-		if any(words[at : at + size] == phrase for at in range(len(words) - size + 1)):
-			return icon
-	return None
+		if best and size < best[0]:
+			break
+		at = [at for at in range(len(words) - size + 1) if words[at : at + size] == phrase]
+		if at and (not best or at[-1] > best[1]):
+			best = (size, at[-1], icon)
+	return best[2] if best else None
 
 
 def field(label: str, fieldtype: str) -> str | None:
@@ -706,4 +745,4 @@ def field(label: str, fieldtype: str) -> str | None:
 
 def boot() -> dict:
 	"""What the desk resolves with, the phrases already in their order."""
-	return {"phrases": [[" ".join(phrase), icon] for phrase, icon in PHRASES], "types": TYPES, "none": sorted(NO_ICON), "doctypes": DOCTYPES}
+	return {"phrases": [[" ".join(phrase), icon] for phrase, icon in PHRASES], "leads": LEADS, "types": TYPES, "none": sorted(NO_ICON), "doctypes": DOCTYPES}

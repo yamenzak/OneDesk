@@ -165,6 +165,9 @@ def test_a_label_goes_by_its_most_specific_phrase():
 	said = _icons()
 	assert said["by_label"]("Expiry Date") != said["by_label"]("Start Date")
 	assert said["by_label"]("Warranty Expiry Date") != said["by_label"]("Expiry Date")
+	assert said["by_label"]("Party Type") == said["by_label"]("Type")
+	assert said["by_label"]("Net Total (Company Currency)") == said["by_label"]("Total")
+	assert said["by_label"]("% Returned") == "percent"
 	assert said["field"]("Allow Something", "Check") is None
 	assert said["field"]("Something Odd", "Currency") == said["TYPES"]["Currency"]
 

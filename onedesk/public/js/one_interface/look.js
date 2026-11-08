@@ -107,9 +107,24 @@ const isolated = (value) => esc(value).replace(DATED, "<bdi>$1</bdi>");
 const declared = (doctype) => (frappe.boot.one_interface || {})[doctype] || null;
 
 onedesk.interface.label_icon = (label) => {
-	const said = ` ${((label || "").toLowerCase().match(/[a-z0-9]+/g) || []).join(" ")} `;
-	const found = (frappe.boot.one_icons?.phrases || []).find(([phrase]) => said.includes(` ${phrase} `));
-	return found ? found[1] : null;
+	const shared = frappe.boot.one_icons;
+	const text = (label || "").trim();
+	if (!shared) return null;
+	if (text.startsWith("%")) return "percent";
+	const words = text.replace(/\(.*?\)/g, " ").toLowerCase().match(/[a-z0-9]+/g) || [];
+	if (shared.leads[words[0]]) return shared.leads[words[0]];
+	let best = null;
+	for (const [phrase, name] of shared.phrases) {
+		const parts = phrase.split(" ");
+		if (best && parts.length < best.size) break;
+		for (let at = words.length - parts.length; at >= 0; at--) {
+			if (parts.every((part, i) => words[at + i] === part)) {
+				if (!best || at > best.at) best = { size: parts.length, at, name };
+				break;
+			}
+		}
+	}
+	return best ? best.name : null;
 };
 
 onedesk.interface.field_icon = (df) => {
