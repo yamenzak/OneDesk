@@ -11,12 +11,13 @@ import frappe
 import requests
 from frappe.utils import now_datetime, today
 
-from onedesk.one_admin import cloudflare, faults, keys, press, vault
+from onedesk.one_admin import cloudflare, faults, keys, pilot, vault
 
 BACKED_UP = ("Live", "Overdue", "Suspended")
 OURS = "oneadmin"
 ROUNDS = 100
 PATIENCE = 900
+PIECE = 64 * 1024 * 1024
 
 
 def _keeper() -> tuple[str, dict]:
@@ -55,15 +56,10 @@ def given(slug: str) -> dict:
 
 
 def ready(tenant) -> bool:
-	"""A workspace on Frappe Cloud given its backup secret, once."""
-	if tenant.backup_ready or not (tenant.site and tenant.bench):
+	"""A workspace on a server given its backup secret, once."""
+	if tenant.backup_ready or not (tenant.site and tenant.server):
 		return bool(tenant.backup_ready)
-	config = given(tenant.slug)
-	press.call(
-		"press.api.site.update_config",
-		name=tenant.site,
-		config=frappe.as_json([{"key": key_, "value": value, "type": "Password" if key_.endswith("secret") else "String"} for key_, value in config.items()]),
-	)
+	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json=given(tenant.slug))
 	tenant.db_set("backup_ready", 1)
 	return True
 
@@ -167,67 +163,22 @@ def chosen(slug: str, day: str, where: str) -> dict:
 	return found
 
 
-class Streamed:
-	"""A body requests sends with its length rather than chunked: read as
-	asked, from the opening, the file's chunks and the closing."""
-
-	def __init__(self, pieces, length: int):
-		self.pieces, self.length, self.held = iter(pieces), length, b""
-
-	def __len__(self) -> int:
-		return self.length
-
-	def read(self, size: int = -1) -> bytes:
-		while size < 0 or len(self.held) < size:
-			piece = next(self.pieces, None)
-			if piece is None:
-				break
-			self.held += piece
-		if size < 0:
-			out, self.held = self.held, b""
-		else:
-			out, self.held = self.held[:size], self.held[size:]
-		return out
-
-
-def form(fields: dict, name: str, size: int, chunks) -> tuple[int, str, Streamed]:
-	"""A multipart form of `fields` and one file, streamed: its length, its
-	content type and its body, the file's bytes read as they come. S3's
-	signed POST takes a length and no chunked upload. Pure but for `chunks`."""
-	boundary = f"one-{os.urandom(12).hex()}"
-	head = "".join(f'--{boundary}\r\nContent-Disposition: form-data; name="{k}"\r\n\r\n{v}\r\n' for k, v in fields.items())
-	head += f'--{boundary}\r\nContent-Disposition: form-data; name="file"; filename="{name}"\r\nContent-Type: application/octet-stream\r\n\r\n'
-	opening, closing = head.encode(), f"\r\n--{boundary}--\r\n".encode()
-	length = len(opening) + size + len(closing)
-
-	def pieces():
-		yield opening
-		yield from chunks
-		yield closing
-
-	return length, f"multipart/form-data; boundary={boundary}", Streamed(pieces(), length)
-
-
-def to_press(part: dict) -> str:
-	"""One kept part of a backup uploaded to Frappe Cloud for a restore:
-	streamed from the keeper into Frappe Cloud's signed upload, and the name
-	Frappe Cloud gives the file."""
+def to_server(server: str, site: str, parts: dict) -> tuple[str, list[str]]:
+	"""A kept backup sent to a server's Pilot for a restore, streamed from the
+	keeper in pieces a request can carry: the upload's id and the parts."""
+	wanted = {name: kept for name, kept in parts.items() if name in ("database", "public", "private")}
+	files = {name: {"filename": os.path.basename(kept["key"]), "size": kept["size"]} for name, kept in wanted.items()}
+	started = pilot.call(server, "POST", f"/sites/{site}/uploads", json={"files": files}) or {}
+	upload = started.get("upload_id")
+	if not upload:
+		raise faults.Again(f"{server} gave no upload")
 	url, headers = _keeper()
-	name = os.path.basename(part["key"])
-	signed = press.call("press.api.site.get_upload_link", file=name) or {}
-	if not signed.get("url"):
-		raise faults.Again("Frappe Cloud gave no upload link")
-	with requests.get(f"{url}/backup/{part['key']}", headers=headers, stream=True, timeout=PATIENCE) as kept:
-		if not kept.ok:
-			raise faults.raised("keeper", kept.status_code, kept.text[: faults.KEPT])
-		length, kind, body = form(signed.get("fields") or {}, name, part["size"], kept.iter_content(1024 * 1024))
-		sent = requests.post(signed["url"], data=body, headers={"Content-Type": kind, "Content-Length": str(length)}, timeout=PATIENCE * 4)
-	if sent.status_code not in (200, 201, 204):
-		raise faults.raised("upload", sent.status_code, sent.text[: faults.KEPT])
-	return press.call(
-		"press.api.site.uploaded_backup_info",
-		file=name,
-		path=(signed.get("fields") or {}).get("key"),
-		type="application/x-gzip" if name.endswith(".gz") else "application/x-tar",
-		size=part["size"],
-	)
+	for name, kept in wanted.items():
+		with requests.get(f"{url}/backup/{kept['key']}", headers=headers, stream=True, timeout=PATIENCE) as held:
+			if not held.ok:
+				raise faults.raised("keeper", held.status_code, held.text[: faults.KEPT])
+			offset = 0
+			for piece in held.iter_content(PIECE):
+				pilot.call(server, "PUT", f"/sites/{site}/uploads/{upload}/files/{name}?offset={offset}", data=piece)
+				offset += len(piece)
+	return upload, list(wanted)

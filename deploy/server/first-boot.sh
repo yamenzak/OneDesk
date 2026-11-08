@@ -59,6 +59,11 @@ BOOT
 chown frappe:frappe /home/frappe/boot.sh
 sudo -iu frappe bash /home/frappe/boot.sh
 
+cat > /etc/cron.d/one-after-boot <<'CRON'
+@reboot root sleep 60 && sudo -iu frappe bash -lc 'for bench in $(ls ~/pilot/benches | grep -v common_config); do pilot -y -b "$bench" restart; done'
+CRON
+chmod 644 /etc/cron.d/one-after-boot
+
 rm -f /home/frappe/boot.env /home/frappe/boot.sh /tmp/pilot.sh
 rm -f /var/lib/cloud/instance/user-data.txt* /var/lib/cloud/instance/scripts/part-* /var/lib/cloud/instance/obj.pkl
 echo FIRST-BOOT-DONE

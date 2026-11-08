@@ -10,7 +10,9 @@
   "region",
   "eu",
   "open",
-  "capacity"
+  "capacity",
+  "pilot_host",
+  "origin_host"
  ],
  "fields": [
   {
@@ -27,7 +29,7 @@
    "fieldtype": "Data",
    "label": "Region",
    "in_list_view": 1,
-   "read_only": 1,
+   "read_only": 0,
    "columns": 2,
    "description": "Read from Frappe Cloud when Settings is saved."
   },
@@ -57,6 +59,19 @@
    "in_list_view": 1,
    "columns": 2,
    "description": "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+  },
+  {
+   "fieldname": "pilot_host",
+   "fieldtype": "Data",
+   "label": "Pilot Address",
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "origin_host",
+   "fieldtype": "Data",
+   "label": "Origin Address",
+   "description": "Example: box-1.4dl.app",
+   "in_list_view": 0
   }
  ],
  "index_web_pages_for_search": 0,

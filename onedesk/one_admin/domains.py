@@ -7,7 +7,7 @@ It is a custom hostname on our Cloudflare zone, routed to the same Worker as
 import frappe
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, press
+from onedesk.one_admin import cloudflare, faults, hosts, pilot
 
 SETTLED = ("Active",)
 
@@ -188,14 +188,8 @@ def _keep(name: str, said: dict | None) -> None:
 
 
 def _call_itself(tenant, name: str) -> None:
-	"""Write the name the site calls itself into its config, as provisioning
-	first did (steps.py). Press's own `set_host_name` wants a domain press
-	serves, and neither of ours is one."""
-	press.call(
-		"press.api.site.update_config",
-		name=tenant.site,
-		config=frappe.as_json([{"key": "host_name", "value": f"https://{name}", "type": "String"}]),
-	)
+	"""The name the site calls itself, set on its server."""
+	pilot.call(tenant.server, "POST", f"/sites/{tenant.site}/domains", json={"domain": name, "primary": True})
 
 
 def _claimable(raw: str) -> str:

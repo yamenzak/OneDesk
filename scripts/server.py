@@ -3,7 +3,8 @@ and Access lock on Cloudflare, the box on AWS, set up by
 deploy/server/first-boot.sh from a release in the registry. Keys come from
 a JSON file; what it makes goes in ~/.one-servers/<name>.json, mode 600.
 
-    python scripts/server.py new NAME --domain D --release SHA --keys FILE --owner EMAIL
+    python scripts/server.py new NAME --domain D --release SHA --keys FILE --owner EMAIL \
+        --tenant-domain T --origin-zone Z
     python scripts/server.py drop NAME --domain D --keys FILE
 """
 
@@ -115,9 +116,11 @@ class Cloudflare:
 		return {"client_id": token["client_id"], "client_secret": token["client_secret"]}
 
 
-	def forget(self, name: str, tunnel: str, host: str, zone: str) -> None:
-		found = self.call("GET", "/zones", params={"name": zone})["result"]
-		if found:
+	def forget(self, name: str, tunnel: str, host: str, zones: list[str]) -> None:
+		for zone in zones:
+			found = self.call("GET", "/zones", params={"name": zone})["result"]
+			if not found:
+				continue
 			records = f"/zones/{found[0]['id']}/dns_records"
 			for one in self.call("GET", records, params={"content": f"{tunnel}.cfargotunnel.com"})["result"]:
 				self.call("DELETE", f"{records}/{one['id']}")
@@ -177,17 +180,19 @@ def new(args: argparse.Namespace) -> None:
 	keys = json.loads(Path(args.keys).read_text())
 	about = release_of(keys, args.release)
 	host = admin_host(args.name, args.domain)
-	hosts = [host, *args.host]
+	origin = f"box-{args.name}.{args.origin_zone}"
+	hosts = [host, *args.host, origin, f"*.{args.tenant_domain}"]
 	password = f"Pi{secrets.token_hex(14)}-Z9"
 	cloudflare = Cloudflare(keys["cloudflare_master"], keys["cloudflare_account"])
 	try:
 		tunnel, tunnel_token = cloudflare.tunnel(f"one-{args.name}", hosts)
-		for one in hosts:
+		for one in [host, *args.host]:
 			cloudflare.address(args.domain, one, tunnel)
+		cloudflare.address(args.origin_zone, origin, tunnel)
 		access = cloudflare.lock(f"one-{args.name}", host, args.owner)
 	finally:
 		cloudflare.end()
-	path = keep(args.name, {"tunnel": tunnel, "host": host, "access": access, "pilot_password": password})
+	path = keep(args.name, {"tunnel": tunnel, "host": host, "origin": origin, "origin_zone": args.origin_zone, "access": access, "pilot_password": password})
 	print(f"Cloudflare ready, kept in {path}")
 
 	script = user_data(
@@ -243,7 +248,7 @@ def drop(args: argparse.Namespace) -> None:
 	time.sleep(30)
 	cloudflare = Cloudflare(keys["cloudflare_master"], keys["cloudflare_account"])
 	try:
-		cloudflare.forget(f"one-{args.name}", made["tunnel"], made["host"], args.domain)
+		cloudflare.forget(f"one-{args.name}", made["tunnel"], made["host"], [args.domain, made.get("origin_zone") or args.domain])
 	finally:
 		cloudflare.end()
 	path.unlink()
@@ -258,6 +263,8 @@ def main() -> None:
 	one.add_argument("--domain", required=True)
 	one.add_argument("--release", required=True)
 	one.add_argument("--keys", required=True)
+	one.add_argument("--tenant-domain", required=True)
+	one.add_argument("--origin-zone", required=True)
 	one.add_argument("--owner", required=True)
 	one.add_argument("--host", action="append", default=[])
 	one.add_argument("--repository", default="yamenzak/onedesk")

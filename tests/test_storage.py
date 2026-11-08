@@ -434,7 +434,7 @@ def test_a_tenant_is_limited_by_storage_not_by_file_size():
 	largest = _load(STORE, ("LARGEST",))["LARGEST"]
 	assert largest == 5 * 1024**3, "what R2 takes in one PUT"
 	steps = (tree.APP / "one_admin" / "steps.py").read_text()
-	assert '"key": "max_file_size", "value": store.LARGEST' in steps, "every request's limit, set when the site is built"
+	assert '"max_file_size": store.LARGEST' in steps, "every request's limit, set when the site is built"
 	assert HOOKS.count('"onedesk.one_storage.store.unlimit"') == 2, "the attach button's, on install and every migrate"
 
 

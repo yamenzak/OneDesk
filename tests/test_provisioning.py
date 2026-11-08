@@ -142,17 +142,17 @@ def test_each_job_is_committed_and_a_throw_counts_as_an_attempt():
 	assert "_later(" in counted
 
 
-def test_a_lost_answer_does_not_ask_press_for_a_second_site():
+def test_a_lost_answer_does_not_ask_for_a_second_site():
 	create = _source(STEPS, "create_site")
-	assert create.index("_ours_already(") < create.index("press.api.site.new")
+	assert "job.name" in create and "'/sites'" in create
 
 
 def test_nothing_is_destroyed_without_asking_again():
 	"""A job queued before a payment or a restore must not suspend, archive or
 	empty the workspace it no longer applies to."""
 	for name, acts in (
-		("deactivate_site", "press.api.site.deactivate"),
-		("archive_site", "press.api.site.archive"),
+		("deactivate_site", "_quiet(tenant, 1)"),
+		("archive_site", "'DELETE'"),
 		("empty_storage", "storage.empty"),
 	):
 		step = _source(STEPS, name)

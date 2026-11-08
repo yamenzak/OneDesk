@@ -22,7 +22,6 @@ KEPT = (
 	"github_token",
 )
 MASTER = "cloudflare_master_token"
-ON_PRESS = "one_admin_press_site"
 
 
 def get(key: str) -> str | None:
@@ -38,19 +37,12 @@ def _typed(key: str) -> str | None:
 
 
 def keep(key: str, value: str) -> None:
-	"""Write a key to this site's config: through Frappe Cloud when the site
-	runs there (it rewrites the file from its own record), else to the file."""
+	"""Write a key to this site's config."""
 	if not value:
 		return
-	where = frappe.conf.get(ON_PRESS)
-	if where:
-		from onedesk.one_admin import press
+	from frappe.installer import update_site_config
 
-		press.call("press.api.site.update_config", name=where, config=frappe.as_json([{"key": key, "value": value, "type": "Password"}]))
-	else:
-		from frappe.installer import update_site_config
-
-		update_site_config(key, value)
+	update_site_config(key, value)
 	frappe.conf[key] = value
 
 
@@ -72,7 +64,7 @@ def forget_master() -> None:
 	"""Set Up Cloudflare's run is over: the master key goes, from the
 	database and the config alike."""
 	remove_encrypted_password(SETTINGS, SETTINGS, MASTER)
-	if frappe.conf.get(MASTER) and not frappe.conf.get(ON_PRESS):
+	if frappe.conf.get(MASTER):
 		from frappe.installer import update_site_config
 
 		update_site_config(MASTER, "None")

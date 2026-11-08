@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 22:33+0000\n"
-"PO-Revision-Date: 2026-11-08 22:33+0000\n"
+"POT-Creation-Date: 2026-11-08 22:47+0000\n"
+"PO-Revision-Date: 2026-11-08 22:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9103,7 +9103,7 @@ msgid "Checking out…"
 msgstr ""
 
 #: onedesk/one_admin/steps.py:63
-msgid "Checking the app is on the bench group"
+msgid "Checking the app is on the server"
 msgstr ""
 
 #: onedesk/one_admin/steps.py:45
@@ -15583,7 +15583,7 @@ msgstr ""
 #. Label of the eu (Check) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/account_request/account_request.json:102
 #: onedesk/one_admin/doctype/tenant/tenant.json:163
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:38
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:40
 msgid "EU"
 msgstr ""
 
@@ -17661,6 +17661,12 @@ msgstr ""
 #. Description of the 'Value Label' (Data) field in DocType 'Display Board'
 #: onedesk/one_display/doctype/display_board/display_board.json:40
 msgid "Example: Score, Count or Price. Leave empty if items only have a state."
+msgstr ""
+
+#. Description of the 'Origin Address' (Data) field in DocType 'Workspace
+#. Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
+msgid "Example: box-1.4dl.app"
 msgstr ""
 
 #. Description of the 'Look For' (Small Text) field in DocType 'News Source'
@@ -19834,16 +19840,6 @@ msgstr ""
 #: onedesk/notifications/one_admin/update_held.md
 #, python-brace-format
 msgid "Frappe Cloud doesn't offer the commit upstream.json pins for {apps}. The update moves to the next window."
-msgstr ""
-
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:55
-#, python-brace-format
-msgid "Frappe Cloud has no server {0} on this account."
-msgstr ""
-
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:56
-#, python-brace-format
-msgid "Frappe Cloud refused to say whether {0} is on this account: {1}"
 msgstr ""
 
 #: onedesk/one_admin/log.py:18
@@ -22232,7 +22228,7 @@ msgstr ""
 
 #. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
 #. Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:59
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:61
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr ""
 
@@ -29067,7 +29063,7 @@ msgid "Most Valuable Items"
 msgstr ""
 
 #. Label of the capacity (Int) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:58
 msgid "Most Workspaces"
 msgstr ""
 
@@ -34428,7 +34424,7 @@ msgstr ""
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:49
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
@@ -35324,6 +35320,11 @@ msgstr ""
 #. Entry'
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:71
 msgid "Origin"
+msgstr ""
+
+#. Label of the origin_host (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:72
+msgid "Origin Address"
 msgstr ""
 
 #. Label of the one_raw_key (Data) field in DocType 'Communication'
@@ -37773,6 +37774,11 @@ msgstr ""
 
 #: onedesk/one_display/widgets.py:250
 msgid "Pill"
+msgstr ""
+
+#. Label of the pilot_host (Data) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:66
+msgid "Pilot Address"
 msgstr ""
 
 #: frontend/src/cloud/cloud.js:19
@@ -40342,7 +40348,7 @@ msgid "Read by OneAI"
 msgstr ""
 
 #. Description of the 'Region' (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:32
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:34
 msgid "Read from Frappe Cloud when Settings is saved."
 msgstr ""
 
@@ -41320,7 +41326,7 @@ msgstr ""
 #. Label of the region (Data) field in DocType 'Workspace Server'
 #: onedesk/one/doctype/weather_place/weather_place.json:32
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:104
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:28
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:30
 msgid "Region"
 msgstr ""
 
@@ -44753,7 +44759,7 @@ msgid "Sender's Records"
 msgstr ""
 
 #: onedesk/one_admin/steps.py:67
-msgid "Sending the backup to Frappe Cloud"
+msgid "Sending the backup to the server"
 msgstr ""
 
 #: onedesk/www/r.html:65 onedesk/www/s.html:107
@@ -45028,7 +45034,7 @@ msgstr ""
 #. Label of the server (Data) field in DocType 'Workspace Server'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/tenant/tenant.json:179
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:19
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:21
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
 #: onedesk/public/js/one_mail/onemail_settings.js:947
 #: onedesk/public/js/onecloud_dialogs.js:280
@@ -45064,7 +45070,7 @@ msgid "Server is required."
 msgstr ""
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:23
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:25
 msgid "Server name in Frappe Cloud. Example: u25-nuremberg-3.frappe.cloud"
 msgstr ""
 
@@ -45075,7 +45081,7 @@ msgstr ""
 
 #. Label of the servers (Table) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:437
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:87
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:67
 #: onedesk/public/js/one_mail/onemail_settings.js:1105
 msgid "Servers"
 msgstr ""
@@ -49621,12 +49627,12 @@ msgid "Taken back."
 msgstr ""
 
 #. Description of the 'Open' (Check) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:50
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:52
 msgid "Takes new workspaces. Untick it to stop a server filling any further."
 msgstr ""
 
 #. Description of the 'EU' (Check) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:41
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:43
 msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
 msgstr ""
 
@@ -57188,10 +57194,6 @@ msgstr ""
 msgid "Waiting for DNS"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:47 onedesk/one_admin/steps.py:65
-msgid "Waiting for Frappe Cloud"
-msgstr ""
-
 #: frontend/src/hr/HrHome.vue:222 onedesk/public/js/privacy_copy_list.js:7
 #: onedesk/public/js/privacy_request_list.js:8
 msgid "Waiting for You"
@@ -57217,6 +57219,10 @@ msgstr ""
 
 #: frontend/src/slide/shim/PresenterView.vue:73
 msgid "Waiting for the phone…"
+msgstr ""
+
+#: onedesk/one_admin/steps.py:47 onedesk/one_admin/steps.py:65
+msgid "Waiting for the server"
 msgstr ""
 
 #: onedesk/one_ai/heads.py:14 onedesk/one_ai/reading/digest.py:89
@@ -62262,7 +62268,7 @@ msgid "Workspace Rule"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:68
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:83
 msgid "Workspace Server"
 msgstr ""
 
@@ -65395,7 +65401,7 @@ msgstr ""
 msgid "{0} (and {1} more)"
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:89
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:69
 #, python-brace-format
 msgid "{0} (changed)"
 msgstr ""
@@ -67019,7 +67025,7 @@ msgstr ""
 msgid "{0} is larger than {1} MB, which is as much as one question may carry."
 msgstr ""
 
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:45
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.py:36
 #, python-brace-format
 msgid "{0} is listed twice under Servers."
 msgstr ""
@@ -67325,7 +67331,7 @@ msgstr ""
 msgid "{0} is not on this project."
 msgstr ""
 
-#: onedesk/one_admin/domains.py:212
+#: onedesk/one_admin/domains.py:206
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr ""

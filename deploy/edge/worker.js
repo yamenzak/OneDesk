@@ -27,6 +27,8 @@ export default {
 		} else {
 			site = await env.SITES.get(`host:${host}`, { cacheTtl: REMEMBER_FOR });
 		}
+		const [where_to, origin] = (site || "").split(" ");
+		site = where_to;
 		if (!site) {
 			return new Response("No workspace by that name.", {
 				status: 404,
@@ -56,7 +58,7 @@ export default {
 			redirect: "manual",
 		});
 
-		const answered = await fetch(sent, { cf: { resolveOverride: site } });
+		const answered = await fetch(sent, { cf: { resolveOverride: origin || site } });
 
 		const where = answered.headers.get("location");
 		if (!where) return answered;
