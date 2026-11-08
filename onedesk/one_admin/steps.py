@@ -281,7 +281,8 @@ def _admin_url() -> str:
 
 
 def deactivate_site(job, tenant) -> None:
-	"""The site stops answering and its jobs pause; the data is untouched."""
+	"""The site stops answering and its jobs pause; the data is untouched. The
+	web process reads the change when it next recycles, within minutes."""
 	if not tenant.site:
 		raise faults.Refused("there is no site to suspend")
 	_still_going(job, tenant)
@@ -289,7 +290,8 @@ def deactivate_site(job, tenant) -> None:
 
 
 def _quiet(tenant, on: int) -> None:
-	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json={"maintenance_mode": on, "pause_scheduler": on})
+	body = {"maintenance_mode": on, "pause_scheduler": on, "allow_reads_during_maintenance": 0 if on else None}
+	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json=body)
 
 
 def mark_suspended(job, tenant) -> None:
