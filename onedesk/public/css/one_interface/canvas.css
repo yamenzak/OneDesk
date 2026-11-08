@@ -511,7 +511,7 @@
 
 /* A list's quick filters are frappe's own (the fields marked to filter in the standard bar, which anyone can change in
    Customize Form), set beside Filter in the actions row and drawn as its neighbours are. */
-:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters { display: flex; align-items: center; gap: 6px; flex-wrap: nowrap; margin: 0 !important; padding: 0 !important; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-head-filters { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; margin: 0 !important; padding: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-group { width: 132px !important; max-width: 132px !important; flex: 0 0 auto !important; margin: 0 !important; padding: 0 !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control { height: 28px !important; font-size: 13px !important; background: var(--one-head-button-bg) !important; border: 1px solid transparent !important; border-radius: var(--one-radius-control) !important; color: var(--one-button-ink) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-head-filters .form-control:focus { background: var(--one-head-bg) !important; border-color: var(--one-edge-strong) !important; box-shadow: none !important; }
@@ -528,7 +528,7 @@
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-tools .menu-btn-group .es-button:hover { background: var(--one-head-button-hover) !important; color: var(--one-ink-strong) !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-commands:not(:has(.one-island-part, :is(.es-button, .btn, button, a):not(.hide, .hide *, [hidden]))) { display: none !important; }
 :root[data-one-look="canvas"] .one-interface .page-head .page-head-content > .one-interface-views { flex: 1 1 auto; display: flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; }
-:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; overflow-x: auto; }
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views .one-head-filters { flex: 1 1 auto; min-width: 0; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > .one-interface-filters { flex: none; margin-inline-start: auto; gap: 6px; }
 :root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .btn { height: 28px !important; min-width: 28px; padding: 0 7px !important; display: inline-flex !important; align-items: center; justify-content: center; gap: 0; }
 /* the words go, for the eye only: a reader still hears "Filter" and the sort's field, and an applied count stays */
@@ -963,9 +963,70 @@
 
 :root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head {
 	--one-list-x: 0px;
-	clip-path: inset(0 calc(100% - var(--one-list-x) - 100cqw) 0 var(--one-list-x) round var(--radius-full));
 }
 
-:root[data-one-look="canvas"][dir="rtl"] .one-interface .frappe-list .list-row-head {
-	clip-path: inset(0 var(--one-list-x) 0 calc(100% - var(--one-list-x) - 100cqw) round var(--radius-full));
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-left {
+	clip-path: inset(0 calc(100% + var(--one-row-inset) + 18px - var(--one-list-x) - 100cqw) 0 max(0px, calc(var(--one-list-x) + 18px - var(--one-row-inset))));
+}
+
+:root[data-one-look="canvas"][dir="rtl"] .one-interface .frappe-list .list-row-head .level-left {
+	clip-path: inset(0 max(0px, calc(var(--one-list-x) + 18px - var(--one-row-inset))) 0 calc(100% + var(--one-row-inset) + 18px - var(--one-list-x) - 100cqw));
+}
+
+@media (min-width: 768px) {
+	:root[data-one-look="canvas"] .one-interface .page-head .one-interface-views > :is(.one-head-filters, .page-form) {
+		flex-wrap: wrap !important;
+		overflow: visible !important;
+		row-gap: 6px;
+	}
+
+	:root[data-one-look="canvas"] .one-interface[data-one-view="list"] .page-head .one-interface-filters .sort-selector {
+		display: none !important;
+	}
+}
+
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-x-button {
+	display: none !important;
+}
+
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-button .filter-label.hidden {
+	display: none !important;
+}
+
+@media (hover: hover) {
+	:root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-button .filter-label:hover {
+		font-size: 0 !important;
+	}
+
+	:root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-button .filter-label:hover::after {
+		content: "\00d7";
+		font-size: 14px;
+		line-height: 1;
+	}
+}
+
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .list-col-resize-handle::before {
+	background-color: var(--one-edge-heavy);
+	opacity: 1;
+}
+
+:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .list-col-resize-handle:hover::before {
+	background-color: var(--one-ink-soft);
+}
+
+.one-sort-mark {
+	margin-inline-start: 4px;
+	color: var(--one-ink-soft);
+	vertical-align: -1px;
+}
+
+.one-quick-edit {
+	flex: none;
+	order: 99;
+}
+
+:root[data-one-look="canvas"] .one-interface .page-head .one-interface-filters .filter-button {
+	gap: 0 !important;
+	padding: 0 7px !important;
+	min-width: 30px;
 }

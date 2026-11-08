@@ -3264,6 +3264,13 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/list/list_view.js",
 		"load_more_on_scroll() {",
 	),
+	(
+		"Quick filters are edited beside them",
+		"one_interface/list.js takes Customize Quick Filters out of ListView.get_menu_items, sets a person's choice on the meta's in_standard_filter before BaseList.setup_filter_area, and rebuilds them with FilterArea.make_standard_filters",
+		"onedesk/public/js/one_interface/list.js",
+		"frappe/frappe/public/js/frappe/list/base_list.js",
+		"async make_standard_filters() {",
+	),
 ]
 
 

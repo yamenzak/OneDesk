@@ -449,17 +449,10 @@ onedesk.interface.layouts = {
 		});
 	},
 
-	picker(view, $at) {
-		const held = new Map(this.columns(view).map((one) => [one.fieldname, one]));
-		const subject = view.meta.title_field || "name";
-		const fields = frappe.meta
-			.get_docfields(view.doctype)
-			.filter((df) => frappe.model.is_value_type(df) && !df.hidden && df.fieldname !== subject)
-			.map((df) => ({ fieldname: df.fieldname, label: __(df.label, null, df.parent) }));
-		if (frappe.has_indicator?.(view.doctype)) fields.unshift({ fieldname: "status_field", label: __("Status") });
-		let changed = false;
-		const $panel = $(`<div class="one-crumb-switch-panel"><label class="one-crumb-switch-search">${frappe.utils.icon("search", "sm")}<input placeholder="${__("Search")}"></label><div class="one-crumb-switch-rows one-column-rows"></div></div>`);
-		const $rows = $panel.find(".one-column-rows");
+	checklist(fields, held) {
+		const state = { changed: false };
+		state.$panel = $(`<div class="one-crumb-switch-panel"><label class="one-crumb-switch-search">${frappe.utils.icon("search", "sm")}<input placeholder="${__("Search")}"></label><div class="one-crumb-switch-rows one-column-rows"></div></div>`);
+		const $rows = state.$panel.find(".one-column-rows");
 		const draw = (text = "") => {
 			const needle = text.trim().toLowerCase();
 			$rows.html(
@@ -470,24 +463,92 @@ onedesk.interface.layouts = {
 			);
 		};
 		draw();
-		$panel.find(".one-crumb-switch-search input").on("input", (e) => draw(e.target.value));
+		state.$panel.find(".one-crumb-switch-search input").on("input", (e) => draw(e.target.value));
 		$rows.on("change", "input", (e) => {
 			const field = e.target.dataset.field;
-			changed = true;
+			state.changed = true;
 			if (e.target.checked) held.set(field, { fieldname: field, label: fields.find((one) => one.fieldname === field).label, width: null });
 			else held.delete(field);
 		});
+		return state;
+	},
+
+	value_fields(view, skip) {
+		return frappe.meta
+			.get_docfields(view.doctype)
+			.filter((df) => frappe.model.is_value_type(df) && !df.hidden && df.fieldname !== skip)
+			.map((df) => ({ fieldname: df.fieldname, label: __(df.label, null, df.parent) }));
+	},
+
+	picker(view, $at) {
+		const held = new Map(this.columns(view).map((one) => [one.fieldname, one]));
+		const fields = this.value_fields(view, view.meta.title_field || "name");
+		if (frappe.has_indicator?.(view.doctype)) fields.unshift({ fieldname: "status_field", label: __("Status") });
+		const list = this.checklist(fields, held);
 		new frappe.ui.Popover({
 			trigger: $at,
 			align: "end",
 			css_class: "one-crumb-switch-popover",
-			content: () => $panel[0],
+			content: () => list.$panel[0],
 			on_close: () => {
-				if (!changed) return;
-				changed = false;
+				if (!list.changed) return;
+				list.changed = false;
 				this.apply(view, [...held.values()]);
 			},
 		});
+	},
+
+	quick_key: (doctype) => `quick:${doctype}`,
+
+	quick_meta(view) {
+		const mine = onedesk.interface.kept(this.quick_key(view.doctype), null);
+		if (!mine || !view.meta) return;
+		view.meta.fields.forEach((df) => {
+			df.in_standard_filter = mine.includes(df.fieldname) ? 1 : 0;
+		});
+	},
+
+	quick_edit(view) {
+		const $at = view.filter_area?.standard_filters_wrapper;
+		if (!$at?.length || frappe.is_mobile()) return;
+		$at.children(".one-quick-edit").remove();
+		const $button = frappe.ui.button({ icon: "pencil", variant: "ghost", css_class: "one-quick-edit", attrs: { "aria-label": __("Edit Quick Filters"), title: __("Edit Quick Filters") } }).appendTo($at);
+		const held = new Map(view.meta.fields.filter((df) => df.in_standard_filter).map((df) => [df.fieldname, df]));
+		const list = this.checklist(this.value_fields(view, "name"), held);
+		new frappe.ui.Popover({
+			trigger: $button,
+			css_class: "one-crumb-switch-popover",
+			content: () => list.$panel[0],
+			on_close: () => {
+				if (!list.changed) return;
+				list.changed = false;
+				onedesk.interface.keep(this.quick_key(view.doctype), [...held.keys()]);
+				this.quick_meta(view);
+				this.quick_redraw(view);
+			},
+		});
+	},
+
+	quick_redraw(view) {
+		const area = view.filter_area;
+		const kept = area.get();
+		const $boxes = area.standard_filters_wrapper.empty();
+		const $mark = $("<span>").insertAfter($boxes);
+		$boxes.appendTo(view.page.page_form);
+		Object.keys(view.page.fields_dict).forEach((name) => delete view.page.fields_dict[name]);
+		Promise.resolve(area.make_standard_filters()).then(() => {
+			$mark.replaceWith($boxes);
+			this.quick_edit(view);
+			return area.clear(false).then(() => area.set(kept)).then(() => view.refresh());
+		});
+	},
+
+	sort_mark(view) {
+		const $head = view.$result?.find(".list-row-head").first();
+		if (!$head?.length) return;
+		$head.find(".one-sort-mark").remove();
+		const $column = $head.find(`[data-sort-by="${view.sort_by}"]`).first();
+		if ($column.length) $column.append($(frappe.utils.icon(view.sort_order === "asc" ? "arrow-up" : "arrow-down", "xs")).addClass("one-sort-mark"));
 	},
 
 	head(view) {
@@ -516,10 +577,12 @@ onedesk.interface.layouts = {
 			},
 		});
 		const $right = $head.find(".level-right").first();
+		this.sort_mark(view);
 		if (!view.list_filter || $right.find(".one-column-picker").length) return;
 		const $button = frappe.ui.button({ icon: "columns-3", variant: "ghost", css_class: "one-column-picker", attrs: { "aria-label": __("Columns"), title: __("Columns") } });
 		$right.prepend($button);
 		this.picker(view, $button);
+		this.sort_mark(view);
 	},
 
 	setup() {
@@ -596,6 +659,36 @@ onedesk.interface.layouts = {
 			if (this.load_on_scroll) this.$paging_area.hide();
 			return said;
 		};
+		const area = frappe.views.BaseList.prototype.setup_filter_area;
+		frappe.views.BaseList.prototype.setup_filter_area = function (...args) {
+			if (this.view_name === "List") layouts.quick_meta(this);
+			const said = area.apply(this, args);
+			if (this.view_name === "List") frappe.after_ajax(() => layouts.quick_edit(this));
+			return said;
+		};
+		const sorted = List.prototype.on_sort_change;
+		List.prototype.on_sort_change = function (...args) {
+			const said = sorted.apply(this, args);
+			layouts.sort_mark(this);
+			return said;
+		};
+		const menu = List.prototype.get_menu_items;
+		List.prototype.get_menu_items = function (...args) {
+			const hidden = __("Customize Quick Filters", null, "Customize qucik filters of List View");
+			return menu.apply(this, args).filter((one) => frappe.is_mobile() || one.label !== hidden);
+		};
+		document.addEventListener(
+			"click",
+			(e) => {
+				const count = e.target.closest?.(".filter-button .filter-label");
+				if (!count || !window.matchMedia("(hover: hover)").matches) return;
+				e.stopImmediatePropagation();
+				e.preventDefault();
+				if (count.closest(".one-interface-filters") && window.cur_list?.filter_area) window.cur_list.filter_area.clear();
+				else count.closest(".filter-selector").querySelector(".filter-x-button")?.click();
+			},
+			true
+		);
 		$(document).on("page-change", () => layouts.arrived());
 	},
 };
