@@ -113,6 +113,15 @@
     <div class="absolute bottom-3 end-3 z-10">
       <CloudUploads :rows="uploads" @close="uploads = []" />
     </div>
+    <CloudViewer
+      v-if="viewing && sorted.some((one) => one.id === viewing)"
+      :files="sorted.filter((one) => !one.folder)"
+      :start="viewing"
+      @close="closeViewer"
+      @download="(one) => download([one])"
+      @tab="(one) => openTab(one.url)"
+      @moved="moved"
+    />
     <input ref="pickFiles" type="file" multiple hidden @change="picked($event)" />
     <input ref="pickFolder" type="file" webkitdirectory hidden @change="picked($event)" />
     <input ref="pickVersion" type="file" hidden @change="pickedVersion($event)" />
@@ -149,6 +158,9 @@ import {
   listenIn,
   onedesk,
   openTab,
+  historyBack,
+  pushedHere,
+  setQuery,
   prompt,
   requires,
   setCrumbs,
@@ -165,6 +177,7 @@ import { sizes as slideSizes } from "../slide/shim/frame.js";
 import { API, COLORS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
+import CloudViewer from "./CloudViewer.vue";
 import CloudUploads from "./CloudUploads.vue";
 
 const props = defineProps({
@@ -887,7 +900,32 @@ function openItems(list) {
   // each saved back into itself.
   if (one && !one.folder && SHEETS.includes(extension(one))) return call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook));
   if (one && !one.folder && extension(one) === "docx") return call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document));
-  list.filter((item) => !item.folder && item.url).forEach((item) => openTab(item.url));
+  const first = list.find((item) => !item.folder && item.url);
+  if (first) view(first.id);
+}
+
+// A file opened is shown in One (CloudViewer); on its page the address says
+// which, with a step of its own, so Back closes it, a phone's too.
+const viewing = ref(null);
+
+function view(id) {
+  if (props.win && !room) setQuery("open", id, { push: !viewing.value });
+  viewing.value = id;
+}
+
+function closeViewer() {
+  if (props.win && !room && viewing.value) {
+    if (pushedHere()) return historyBack();
+    setQuery("open", null);
+  }
+  viewing.value = null;
+}
+
+function moved(item) {
+  selected.clear();
+  selected.add(item.id);
+  focusId.value = item.id;
+  if (props.win && !room && viewing.value) setQuery("open", item.id);
 }
 
 function download(list) {
@@ -1307,6 +1345,14 @@ watch(
     if (props.picker || room) return;
     show();
   }
+);
+watch(
+  () => props.query,
+  (query) => {
+    if (props.picker || room) return;
+    viewing.value = query?.open || null;
+  },
+  { immediate: true }
 );
 
 // A record's files dialog moves to another record's.

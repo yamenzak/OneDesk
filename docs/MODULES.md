@@ -1013,6 +1013,7 @@ No doctypes yet.
 * `onedesk.one_storage.api.attach`
 * `onedesk.one_storage.api.capacity`
 * `onedesk.one_storage.api.color`
+* `onedesk.one_storage.api.content`
 * `onedesk.one_storage.api.copy`
 * `onedesk.one_storage.api.delete`
 * `onedesk.one_storage.api.empty_bin`
@@ -1024,6 +1025,7 @@ No doctypes yet.
 * `onedesk.one_storage.api.rename`
 * `onedesk.one_storage.api.resolve`
 * `onedesk.one_storage.api.restore`
+* `onedesk.one_storage.api.text`
 * `onedesk.one_storage.dav.address`
 * `onedesk.one_storage.dav.drop_password`
 * `onedesk.one_storage.dav.make_password`

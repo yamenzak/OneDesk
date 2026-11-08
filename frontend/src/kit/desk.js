@@ -317,6 +317,10 @@ export function setQuery(key, value, { push = false } = {}) {
 
 export const historyBack = () => window.history.back();
 
+// Markdown as HTML, by frappe's own converter (frappe.markdown); to be shown
+// only in a sandboxed frame, since a file's Markdown may hold any HTML.
+export const markdown = (text) => frappe().markdown(text || "");
+
 export const pushedHere = () => Boolean(window.history.state?.one_pushed);
 
 export function barcode(value, format, options = {}) {

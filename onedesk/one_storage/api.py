@@ -208,6 +208,45 @@ def rename(node: str, name: str) -> dict:
 	return ns.node(ns.row(node))
 
 
+READ_AT_MOST = 2 * 1024 * 1024
+
+
+def _content(item) -> bytes:
+	from onedesk.one_storage import store
+
+	if store.is_stored(item.file_url):
+		return store.get(store.key_of(item.file_url))
+	content = frappe.get_doc("File", item.name).get_content()
+	return content.encode() if isinstance(content, str) else content or b""
+
+
+@frappe.whitelist()
+def content(node: str) -> None:
+	"""A file's bytes from our own address, for what reads a file in the page
+	(the viewer's PDF reader, the picture editor), since a stored file's
+	address leads off to the store, which a page may not read."""
+	item = _item(node)
+	_need(item, "read")
+	if item.is_folder:
+		frappe.throw(_("A folder has no content."))
+	frappe.local.response.filename = item.file_name
+	frappe.local.response.filecontent = _content(item)
+	frappe.local.response.type = "binary"
+
+
+@frappe.whitelist()
+def text(node: str) -> dict:
+	"""A text file's words, for the viewer: its first 2 MB, read where it is
+	kept, since a stored file's address leads off to the store, which a page
+	may not read."""
+	item = _item(node)
+	_need(item, "read")
+	if item.is_folder:
+		frappe.throw(_("A folder has no text."))
+	content = _content(item)
+	return {"text": content[:READ_AT_MOST].decode("utf-8", errors="replace"), "cut": len(content) > READ_AT_MOST}
+
+
 COLORS = ("red", "amber", "green", "cyan", "blue", "violet", "pink")
 
 

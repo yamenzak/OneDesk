@@ -36,9 +36,25 @@ export const SHEETS = ["xlsx", "xlsm", "xls", "csv"];
 export const PREVIEW = {
 	image: ["png", "jpg", "jpeg", "gif", "webp", "svg", "bmp", "avif", "ico"],
 	frame: ["pdf", "txt", "md", "csv", "tsv", "json", "xml", "html", "css", "js", "py", "yml", "yaml", "sql", "sh"],
-	video: ["mp4", "webm", "mov", "m4v"],
-	audio: ["mp3", "wav", "ogg", "m4a", "flac", "aac"],
+	video: ["mp4", "webm", "mov", "m4v", "mkv", "ogv"],
+	audio: ["mp3", "wav", "ogg", "oga", "opus", "m4a", "flac", "aac", "weba"],
 };
+
+// What the viewer shows a file as (CloudViewer), by its extension.
+const READS = {
+	pdf: ["pdf"],
+	markdown: ["md", "markdown"],
+	text: ["txt", "log", "csv", "tsv", "json", "xml", "html", "htm", "css", "js", "ts", "py", "yml", "yaml", "sql", "sh", "ini", "toml", "conf", "env", "vue", "rb", "go", "java", "c", "h", "cpp", "rs", "php"],
+};
+
+export function viewedAs(item) {
+	if (!item || item.folder || !item.url) return null;
+	const ext = extension(item);
+	if (PREVIEW.image.includes(ext)) return "image";
+	if (PREVIEW.video.includes(ext)) return "video";
+	if (PREVIEW.audio.includes(ext)) return "audio";
+	return Object.keys(READS).find((kind) => READS[kind].includes(ext)) || null;
+}
 
 // The icons a node names for itself (one_storage/namespace.py), written out
 // whole so the build keeps each one.

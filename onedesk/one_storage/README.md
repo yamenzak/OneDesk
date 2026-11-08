@@ -98,6 +98,11 @@ dialog that isn't attached to a record goes to your My Files.
 - **Preview pane**: the button at the end of the address row shows the
   selected file (images, PDFs, text, video and audio) with its size, date
   and owner. On a phone a file opens instead.
+- **Open** a file (double-click, Enter, or tap on a phone) to see it over
+  the whole window: pictures, videos, music, PDFs, Markdown, and text or
+  code files. The arrows, the arrow keys or a swipe go to the next file in
+  the folder; Back or Escape closes it. A file One can't show offers
+  **Download**.
 - **Right-click** an item to open, download, copy a link, cut, copy, paste,
   rename or delete it.
 - **Drag** items onto a folder to move them. Hold Ctrl to copy instead.

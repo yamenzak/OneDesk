@@ -27,6 +27,7 @@ NOT_A_SCREEN = ("one_print", "print_format", "letter_head", "/notifications/", "
 
 SANDBOXED = {
 	"frontend/src/mail/mail.js": "a received mail, in a frame",
+	"frontend/src/cloud/frame.js": "a Markdown file, in a frame",
 	"onedesk/public/js/one_studio/studio_control.js": "a letter head as it prints, in a frame",
 	"onedesk/public/js/one_mail/onemail_settings.js": "a signature as it sends, in a frame",
 	"onedesk/public/js/one_mail/mail_compose.js": "a signature as it sends, in a frame",

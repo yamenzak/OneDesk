@@ -1354,6 +1354,11 @@ def onecloud_the_site_team_works_in_its_library():
 		assert {one["user"] for one in library.members(root)["members"]} >= {"rania@one.test", "yousef@one.test"}
 		folder = api.make_folder(root, "Site photos")["id"]
 		folder = api.rename(folder, "Villa site photos")["id"]
+		assert api.text(notes)["text"].strip() == demo.NOTES_SAID and not api.text(notes)["cut"]
+		api.content(notes)
+		assert frappe.local.response.type == "binary" and frappe.local.response.filecontent.decode().strip() == demo.NOTES_SAID
+		for key in ("type", "filecontent", "filename"):
+			frappe.local.response.pop(key, None)
 		assert api.color([folder], "green") == [folder]
 		assert next(one for one in api.listing(root)["items"] if one["id"] == folder)["color"] == "green"
 		assert api.color([drawing], "red") == [] and not frappe.db.get_value("File", drawing, "one_color")
