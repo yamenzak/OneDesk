@@ -229,6 +229,7 @@ def new(args: argparse.Namespace) -> None:
 	print("firewall closed; waiting for first boot")
 	wait_ready(host, access)
 	settle(host, access, password, keys)
+	aws.update_instance_metadata_options(instanceName=args.name, httpEndpoint="disabled")
 	print(f"ready at https://{host}")
 
 

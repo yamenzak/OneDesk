@@ -60,5 +60,5 @@ chown frappe:frappe /home/frappe/boot.sh
 sudo -iu frappe bash /home/frappe/boot.sh
 
 rm -f /home/frappe/boot.env /home/frappe/boot.sh /tmp/pilot.sh
-rm -f /var/lib/cloud/instance/user-data.txt* /var/lib/cloud/instance/scripts/part-*
+rm -f /var/lib/cloud/instance/user-data.txt* /var/lib/cloud/instance/scripts/part-* /var/lib/cloud/instance/obj.pkl
 echo FIRST-BOOT-DONE
