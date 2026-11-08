@@ -67,3 +67,26 @@ clause(
 		folder you asked from, where it can be moved or deleted like any other file.
 	""",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="onecloud-converts",
+	module=M,
+	body="""
+		A Word, Excel, PowerPoint or similar file can be previewed or saved as a PDF in OneCloud when somebody
+		asks. The file is sent to a container we run on Cloudflare, turned into a PDF there and sent back. The
+		container keeps nothing; the preview is kept in the workspace for a day, and each conversion uses 1
+		credit.
+	""",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Containers that turn a file a browser can't open into a PDF, when somebody asks for a preview or a PDF",
+	data="The file being converted, for the seconds the conversion takes",
+	where="Cloudflare's network, on the nearest location able to run the container",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)

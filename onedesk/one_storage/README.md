@@ -111,6 +111,10 @@ dialog that isn't attached to a record goes to your My Files.
   free or to a shape, turn it, flip it, straighten it, set its width, and
   change its brightness, contrast and saturation. **Save** keeps the old one
   as a version; **Save as Copy** makes a new file beside it.
+- A Word, Excel, PowerPoint or OpenDocument file opened in the viewer offers
+  **Preview**: it is turned into a PDF to read there, for 1 credit, and the
+  same file previews free for the rest of the day. **Convert to PDF** in its
+  right-click menu saves the PDF beside it.
 - **Open** a PowerPoint file to make it a presentation in OneSlide, beside
   it. A Word file opens in OneWriter and an Excel file in OneWorkbook.
 - **Combine into PDF…** puts the PDFs and pictures you chose into one new
@@ -391,6 +395,12 @@ Not Made`. The video waits as OneSlide's
 does (`one_slide.ai._video`). Speech comes back as raw samples and is kept as
 a WAV (`one_display.voices._wav`). The file goes in through `upload._place`,
 so the folder's add permission is the check.
+
+**Office files** (`office.py`). What a browser can't draw is sent to
+OneAdmin (`proxy.office_convert`), which bills it and asks One's office
+containers (`deploy/office`, `one_admin/office.py`). The PDF is kept in the
+cache for a day by the file's `content_hash`, so stepping back to it costs
+nothing.
 
 **Viewer and editor** (`CloudViewer.vue`, `CloudEditor.vue`, `editor.js`,
 `pdf.js`). Bytes come from `api.content`, our own address, so pdf.js and the

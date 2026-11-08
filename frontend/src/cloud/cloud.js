@@ -5,6 +5,7 @@ import { __, date, fileSize } from "../kit";
 export const API = "onedesk.one_storage.api.";
 export const UPLOAD = "onedesk.one_storage.upload.";
 export const contentUrl = (node) => `/api/method/${API}content?node=${encodeURIComponent(node)}`;
+export const officeUrl = (node) => `/api/method/onedesk.one_storage.office.preview?node=${encodeURIComponent(node)}`;
 
 // A folder's colour (one_storage/api.py color), its ink written out whole so
 // the stylesheet is built with it.
@@ -46,6 +47,7 @@ export const PREVIEW = {
 const READS = {
 	pdf: ["pdf"],
 	markdown: ["md", "markdown"],
+	office: ["doc", "docx", "docm", "dot", "dotx", "odt", "ott", "rtf", "wpd", "wps", "pages", "xls", "xlsx", "xlsm", "xlsb", "ods", "ots", "numbers", "ppt", "pptx", "pps", "ppsx", "odp", "otp", "key", "odg", "vsd", "vsdx", "pub"],
 	text: ["txt", "log", "csv", "tsv", "json", "xml", "html", "htm", "css", "js", "ts", "py", "yml", "yaml", "sql", "sh", "ini", "toml", "conf", "env", "vue", "rb", "go", "java", "c", "h", "cpp", "rs", "php"],
 };
 

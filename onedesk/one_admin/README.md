@@ -559,6 +559,14 @@ next to its changes, and a job lists the rows it wrote.
   Cloudflare once setup is done; setup then asks for it again only when a
   token needs mending.
 - The R2 buckets, Stripe's keys and the AI Gateway.
+- **Office Containers**: the last step deploys One's office containers
+  (`one-office`, `one-office-dev` on dev), where a file a browser can't open
+  is turned into a PDF, and keeps their address here. The server running
+  OneAdmin needs Node for it; Cloudflare pulls the image itself. A workspace
+  is billed for each conversion by the seconds it took and the five idle
+  minutes after, at its credit rate, at least 1 credit (`office.py`,
+  `deploy/office/README.md`). The first conversion after a deploy waits a few
+  minutes while Cloudflare places the container.
 - **Sender Email** (noreply@4dl.app): where One's own emails come from, such
   as sign-in links, signups and customer notices. Set Up Cloudflare turns on
   sending for its domain and makes it this site's outgoing account, so those

@@ -4,6 +4,7 @@ Calls only ever go tenant to admin. A tenant proves itself with the token
 `push_config` wrote into its site config; every failure says the same thing.
 """
 
+import base64
 import hashlib
 import hmac
 
@@ -194,6 +195,21 @@ def ai_make(action: str, text: str, tier: str | None = None, reference: str | No
 		return actions.make(tenant.name, action, text, tier=tier, reference=reference, voice=voice)
 	except faults.Refused as raised:
 		frappe.throw(str(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def office_convert(name: str, data: str, reference: str | None = None) -> dict:
+	"""A file this workspace can't show in a browser, as a PDF made in One's
+	office containers and billed to it: the PDF, base64'd, and its credits."""
+	from onedesk.one_admin import office
+
+	tenant = caller()
+	try:
+		made = office.convert(tenant.name, name, base64.b64decode(data), reference=reference)
+	except faults.Refused as raised:
+		frappe.throw(office.said(raised), exc=type(raised))
+	return {"data": base64.b64encode(made["data"]).decode(), "credits": made["credits"]}
 
 
 @frappe.whitelist(allow_guest=True)

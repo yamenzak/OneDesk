@@ -2,7 +2,7 @@
   <div ref="scroller" class="h-full w-full overflow-auto">
     <div v-if="failed" class="flex h-full flex-col items-center justify-center gap-3 p-6 text-center">
       <span class="lucide-file-x size-12 text-ink-gray-5" aria-hidden="true" />
-      <span class="text-base text-ink-gray-7">{{ __("This PDF could not be opened.") }}</span>
+      <span class="text-base text-ink-gray-7">{{ failed === true ? __("This PDF could not be opened.") : failed }}</span>
     </div>
     <Loading v-else-if="!pages" />
     <div v-else class="flex flex-col items-center gap-3 py-4">
@@ -25,7 +25,7 @@ import { Button } from "frappe-ui";
 import { Loading, __ } from "../kit";
 import { drawPage, openPdf } from "./pdf";
 
-const props = defineProps({ node: { type: String, required: true } });
+const props = defineProps({ node: { type: String, required: true }, src: { type: String, default: null } });
 
 const scroller = ref(null);
 const pages = ref(0);
@@ -62,12 +62,12 @@ async function open() {
   failed.value = false;
   pages.value = 0;
   try {
-    pdf = await openPdf(props.node);
+    pdf = await openPdf(props.node, props.src);
     pages.value = pdf.numPages;
     await nextTick();
     watchPages();
-  } catch {
-    failed.value = true;
+  } catch (error) {
+    failed.value = props.src && error?.message && !/^\d+$/.test(error.message) ? error.message : true;
   }
 }
 

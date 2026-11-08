@@ -1343,12 +1343,12 @@ def onecloud_the_site_team_works_in_its_library():
 	and unshared, deleted and restored, and the bin emptied. Yousef only
 	reads it. What OneAI says about a file and who sees it, and a drive
 	answering for Samir."""
-	from pypdf import PdfReader
+	from pypdf import PdfReader, PdfWriter
 
 	from onedesk.one_demo import storage as demo
 	from PIL import Image
 
-	from onedesk.one_storage import ai, api, dav, history, library, made, pdf, share
+	from onedesk.one_storage import ai, api, dav, history, library, made, office, pdf, share, upload
 	from onedesk.one_storage import namespace as ns
 
 	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
@@ -1395,6 +1395,25 @@ def onecloud_the_site_team_works_in_its_library():
 			assert made.create("speech", folder, "Gates open at seven.", voice="Puck", name="Gates")["name"] == "Gates.wav"
 			assert made.create("music", folder, "Calm piano") == {"begun": True} and later.call_args.kwargs["kind"] == "music"
 		assert asked == [("cloud_picture", None), ("cloud_voice", "Puck")]
+		letter = upload._place(folder, None, {"file_name": "Site letter.rtf", "content": rb"{\rtf1 Site letter}"})["id"]
+		plain = io.BytesIO()
+		blank = PdfWriter()
+		blank.add_blank_page(100, 100)
+		blank.write(plain)
+		sent = []
+		frappe.cache.delete_value(f"one_storage_office:{frappe.db.get_value('File', letter, 'content_hash')}")
+		with mock.patch("onedesk.one.account.ask", side_effect=lambda endpoint, **said: sent.append((endpoint, said["name"])) or {"data": base64.b64encode(plain.getvalue()).decode(), "credits": 1}):
+			office.preview(letter)
+			assert frappe.local.response.filecontent.startswith(b"%PDF") and frappe.local.response.filename == "Site letter.pdf"
+			for key in ("type", "filecontent", "filename"):
+				frappe.local.response.pop(key, None)
+			assert office.to_pdf(letter)["name"] == "Site letter.pdf"
+		assert sent == [("onedesk.one_admin.proxy.office_convert", "Site letter.rtf")], "the second is the day's kept preview"
+		try:
+			office.to_pdf(notes)
+			raise AssertionError("a text file went to the office containers")
+		except frappe.ValidationError:
+			pass
 		with as_user("yousef@one.test"):
 			try:
 				made.create("picture", folder, "Anything")

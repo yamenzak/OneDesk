@@ -177,7 +177,7 @@ import {
   interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
-import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf } from "./cloud";
+import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
 import CloudViewer from "./CloudViewer.vue";
@@ -771,6 +771,7 @@ function itemMenu() {
       one && !one.folder && filed(one) ? ["new-version", "lucide-upload", __("Upload new version"), !one.record] : null,
       one && one.folder && !one.virtual ? ["drive", "lucide-hard-drive", __("Connect as a drive…"), true] : null,
       ["combine", "lucide-file-stack", __("Combine into PDF…"), combinable(picked)],
+      one && !one.folder && filed(one) && viewedAs(one) === "office" ? ["to-pdf", "lucide-file-output", __("Convert to PDF"), can.add] : null,
       one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with OneAI"), true] : null,
       ["rename", "lucide-pencil", __("Rename"), !!(one && allStored) && kind.value !== "record"],
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
@@ -928,6 +929,13 @@ async function act(name) {
       return pickVersion.value?.click();
     case "combine":
       return combine();
+    case "to-pdf": {
+      alert(__("Converting {0}…", [picked[0].name]), "blue");
+      const made = await call("onedesk.one_storage.office.to_pdf", { node: picked[0].id });
+      alert(__("Converted to {0}.", [made.name]));
+      reveal = made.id;
+      return refresh();
+    }
     case "download":
       return download(picked.filter((one) => !one.folder && one.url));
     case "download-xlsx":

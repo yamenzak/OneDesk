@@ -13,11 +13,22 @@ async function load() {
 	return lib;
 }
 
-export async function openPdf(node) {
+export async function openPdf(node, src = null) {
 	const lib = await load();
-	const answer = await fetch(contentUrl(node), { credentials: "same-origin" });
-	if (!answer.ok) throw new Error(`${answer.status}`);
+	const answer = await fetch(src || contentUrl(node), { credentials: "same-origin" });
+	if (!answer.ok) throw new Error(await refusal(answer));
 	return lib.getDocument({ data: new Uint8Array(await answer.arrayBuffer()) }).promise;
+}
+
+// What the server said when it refused, from frappe's error answer.
+async function refusal(answer) {
+	try {
+		const said = await answer.json();
+		const first = JSON.parse(said._server_messages || "[]")[0];
+		return (first && JSON.parse(first).message) || said.exception || `${answer.status}`;
+	} catch {
+		return `${answer.status}`;
+	}
 }
 
 // One page drawn on a canvas at a width, sharp on a dense screen.

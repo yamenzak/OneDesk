@@ -5,6 +5,12 @@ off anywhere loses nothing (README, under setup.py)."""
 
 import hashlib
 import json
+import os
+import re
+import secrets
+import shutil
+import subprocess
+import tempfile
 import time
 from pathlib import Path
 
@@ -24,9 +30,15 @@ BUCKETS = {"Global": "one-global", "EU": "one-eu"}
 DOCS_BUCKET = "one-docs"
 ROUTER = "one-tenant-router"
 MAILER = "one-mail"
+OFFICE = "one-office"
+OFFICE_IMAGE = "docker.io/gotenberg/gotenberg:8"
+OFFICE_TYPE = "standard-1"
+OFFICE_MOST = 2
+DEPLOYED_AT = re.compile(r"https://[\w.-]+\.workers\.dev")
 NOWHERE = "192.0.2.1"
 DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
+COMPATIBILITY_CONTAINERS = "2025-10-01"
 GATEWAY = "one"
 
 # One's own tokens: each one's settings field and the names Cloudflare may give
@@ -50,6 +62,8 @@ TOKENS = {
 			("SSL and Certificates Write", "SSL and Certificates Edit"),
 			("Zone Settings Write", "Zone Settings Edit"),
 			("Email Routing Rules Write", "Email Routing Rules Edit"),
+			("Workers Containers Write", "Workers Containers Edit"),
+			("Cloudchamber Write", "Cloudchamber Edit"),
 		),
 	),
 	"OneAdmin Storage": ("r2_secret", (("Workers R2 Storage Bucket Item Write",),)),
@@ -165,6 +179,7 @@ class Setup:
 			self.sender_sending,
 			self.sender_account,
 			self.ai_gateway,
+			self.office,
 		):
 			try:
 				step()
@@ -575,6 +590,60 @@ class Setup:
 			self.note("ai gateway", OURS, name)
 		self.call("PUT", f"{base}/{name}", json=guarded(held or {}))
 		self.keep("ai_gateway", name)
+
+	def office(self) -> None:
+		"""One's office containers (deploy/office): deployed with wrangler,
+		which hands Cloudflare the image to pull, then its secret put, and
+		both kept in the settings. Done again only when the code or the
+		image changes."""
+		name = for_env(self.env, OFFICE)
+		source = DEPLOY / "office"
+		wanted = hashlib.sha256(
+			"".join((source / one).read_text() for one in ("worker.js", "package.json")).encode() + f"{OFFICE_IMAGE}{OFFICE_TYPE}{OFFICE_MOST}".encode()
+		).hexdigest()
+		held = json.loads(self.settings.cloudflare_deployed or "{}")
+		secret = self.settings.get_password("office_secret", raise_exception=False)
+		if held.get(name) == wanted and self.settings.office_url and secret:
+			return self.note(f"office {name}", OURS)
+		secret = secret or secrets.token_urlsafe(32)
+		said = self.wrangle(name, source, secret)
+		found = DEPLOYED_AT.search(said)
+		if not found:
+			raise Refused(_("wrangler did not say where {0} is").format(name))
+		self.own("office_secret", secret)
+		self.own("office_url", found[0], secret=False)
+		held[name] = wanted
+		self.own("cloudflare_deployed", json.dumps(held), secret=False)
+		self.note(f"office {name}", MADE, found[0])
+
+	def wrangle(self, name: str, source: Path, secret: str) -> str:
+		"""npm install and wrangler deploy in a room of its own, as OneAdmin's
+		token: what wrangler said."""
+		config = {
+			"name": name,
+			"main": "worker.js",
+			"compatibility_date": COMPATIBILITY_CONTAINERS,
+			"containers": [{"class_name": "Office", "image": OFFICE_IMAGE, "instance_type": OFFICE_TYPE, "max_instances": OFFICE_MOST}],
+			"durable_objects": {"bindings": [{"name": "OFFICE", "class_name": "Office"}]},
+			"migrations": [{"tag": "v1", "new_sqlite_classes": ["Office"]}],
+			"observability": {"enabled": True},
+		}
+		env = {**os.environ, "CLOUDFLARE_API_TOKEN": self.token, "CLOUDFLARE_ACCOUNT_ID": self.account, "WRANGLER_SEND_METRICS": "false", "CI": "1"}
+		with tempfile.TemporaryDirectory() as room:
+			for one in ("worker.js", "package.json"):
+				shutil.copy(source / one, room)
+			Path(room, "wrangler.jsonc").write_text(json.dumps(config, indent=1))
+			try:
+				subprocess.run(["npm", "install", "--no-audit", "--no-fund"], cwd=room, env=env, check=True, capture_output=True, text=True, timeout=600)
+				deployed = subprocess.run(["npx", "wrangler", "deploy"], cwd=room, env=env, check=True, capture_output=True, text=True, timeout=900)
+				subprocess.run(["npx", "wrangler", "secret", "put", "ONE_SECRET"], cwd=room, env=env, input=secret, check=True, capture_output=True, text=True, timeout=300)
+			except FileNotFoundError as missing:
+				raise Refused(_("Node is not on this server: {0}").format(missing)) from missing
+			except subprocess.TimeoutExpired as slow:
+				raise Refused(_("wrangler took too long: {0}").format(slow.cmd[1])) from slow
+			except subprocess.CalledProcessError as failed:
+				raise Refused(((failed.stderr or "") + (failed.stdout or "")).strip()[-600:]) from failed
+		return deployed.stdout + deployed.stderr
 
 	def kv_binding(self) -> dict:
 		return {"type": "kv_namespace", "name": "SITES", "namespace_id": self.settings.cloudflare_kv}

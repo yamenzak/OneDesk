@@ -56,7 +56,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 66 | single |
+| One Admin Settings | 68 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -476,6 +476,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.mail_send`
 * `onedesk.one_admin.proxy.mail_waiting`
 * `onedesk.one_admin.proxy.news_brief`
+* `onedesk.one_admin.proxy.office_convert`
 * `onedesk.one_admin.proxy.plans_offered`
 * `onedesk.one_admin.proxy.plans_quote`
 * `onedesk.one_admin.proxy.plans_take`
@@ -1062,6 +1063,8 @@ No doctypes yet.
 * `onedesk.one_storage.mounts.get`
 * `onedesk.one_storage.mounts.save`
 * `onedesk.one_storage.mounts.settings`
+* `onedesk.one_storage.office.preview`
+* `onedesk.one_storage.office.to_pdf`
 * `onedesk.one_storage.pdf.combine`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`

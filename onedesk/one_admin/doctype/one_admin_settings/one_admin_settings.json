@@ -33,6 +33,8 @@
   "cloudflare_setup_said",
   "cloudflare_setup",
   "cloudflare_deployed",
+  "office_url",
+  "office_secret",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -205,6 +207,20 @@
    "label": "Deployed Workers",
    "hidden": 1,
    "read_only": 1
+  },
+  {
+   "fieldname": "office_url",
+   "fieldtype": "Data",
+   "label": "Office Containers",
+   "read_only": 1,
+   "description": "Set Up Cloudflare deploys it. Files a browser can't open are converted to PDF there."
+  },
+  {
+   "fieldname": "office_secret",
+   "fieldtype": "Password",
+   "label": "Office Containers Secret",
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "storage_section",
@@ -457,7 +473,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-01 14:24:45.592301",
+ "modified": "2026-11-08 10:44:23.872876",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

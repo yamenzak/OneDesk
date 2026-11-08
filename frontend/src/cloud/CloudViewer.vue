@@ -40,6 +40,16 @@
         <audio :src="item.url" controls autoplay class="w-full" />
       </div>
       <CloudPdf v-else-if="kind === 'pdf'" :node="item.id" />
+      <CloudPdf v-else-if="kind === 'office' && previewed.has(item.id)" :key="`office-${item.id}`" :node="item.id" :src="officeUrl(item.id)" />
+      <div v-else-if="kind === 'office'" class="flex max-w-sm flex-col items-center gap-3 p-6 text-center">
+        <span :class="[iconOf(item), inkOf(item)]" class="size-12" aria-hidden="true" />
+        <span class="text-lg font-medium text-ink-gray-9">{{ __("Preview as PDF") }}</span>
+        <span class="text-base text-ink-gray-6">{{ __("Uses 1 credit.") }}</span>
+        <div class="flex gap-2">
+          <Button variant="subtle" icon-left="lucide-download" :label="__('Download')" @click="emit('download', item)" />
+          <Button variant="solid" icon-left="lucide-eye" :label="__('Preview')" @click="previewed.add(item.id)" />
+        </div>
+      </div>
       <iframe
         v-else-if="kind === 'markdown' && text !== null"
         :key="`md-${item.id}`"
@@ -68,11 +78,11 @@
 // played, a PDF drawn page by page, text and code as they are,
 // Markdown as it reads (frappe's converter, in a frame that runs nothing),
 // and the files beside it a step away with the arrows, the keys or a swipe.
-import { computed, nextTick, onMounted, ref, watch } from "vue";
+import { computed, nextTick, onMounted, reactive, ref, watch } from "vue";
 import { Button, usePortalTarget } from "frappe-ui";
 
 import { Loading, __, call } from "../kit";
-import { API, extension, iconOf, inkOf, sizeText, viewedAs } from "./cloud";
+import { API, extension, iconOf, inkOf, officeUrl, sizeText, viewedAs } from "./cloud";
 import { markdownPage } from "./frame";
 import CloudEditor from "./CloudEditor.vue";
 import CloudPdf from "./CloudPdf.vue";
@@ -96,6 +106,7 @@ const cut = ref(false);
 
 const colors = ref({});
 const editing = ref(false);
+const previewed = reactive(new Set());
 const saving = ref(null);
 const editorPart = ref(null);
 const canEdit = computed(() => {
@@ -168,7 +179,7 @@ function key(event) {
 let touched = null;
 const touchStart = (event) => (touched = event.changedTouches[0]?.clientX ?? null);
 function touchEnd(event) {
-  if (touched === null || kind.value === "pdf" || editing.value) return;
+  if (touched === null || kind.value === "pdf" || previewed.has(item.value?.id) || editing.value) return;
   const moved = (event.changedTouches[0]?.clientX ?? touched) - touched;
   touched = null;
   if (Math.abs(moved) > 60) step(moved < 0 ? 1 : -1);
