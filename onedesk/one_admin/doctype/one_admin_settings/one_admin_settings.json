@@ -40,6 +40,9 @@
   "release_at",
   "release_apps",
   "release_running",
+  "aws_section",
+  "aws_access_key_id",
+  "aws_secret_access_key",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -248,6 +251,23 @@
    "read_only": 1
   },
   {
+   "fieldname": "aws_section",
+   "fieldtype": "Section Break",
+   "label": "AWS"
+  },
+  {
+   "fieldname": "aws_access_key_id",
+   "fieldtype": "Data",
+   "label": "AWS Access Key ID",
+   "description": "An IAM user's key allowed Lightsail only. Never the root user's."
+  },
+  {
+   "fieldname": "aws_secret_access_key",
+   "fieldtype": "Password",
+   "label": "AWS Secret Access Key",
+   "description": "Moved to the site's config when saved."
+  },
+  {
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
    "label": "Storage",
@@ -415,7 +435,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 14:57:32.971553",
+ "modified": "2026-11-08 15:41:19.056505",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

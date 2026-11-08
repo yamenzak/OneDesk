@@ -18,6 +18,7 @@ KEPT = (
 	"openweather_key",
 	"office_secret",
 	"keeper_secret",
+	"aws_secret_access_key",
 )
 MASTER = "cloudflare_master_token"
 ON_PRESS = "one_admin_press_site"
