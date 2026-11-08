@@ -386,8 +386,8 @@ For the people who build OneCloud. OneAI does not read past this heading.
 `cloud_picture`, `cloud_music`, `cloud_video` and `cloud_voice`, each with its
 words in `one_ai/words/`, billed through OneAdmin like OneSlide's and
 OneDisplay's. A picture and speech are made in the request; music and a video
-on the long queue (`made_later`), and the asker hears `Made by OneAI in
-OneCloud` or `Not Made by OneAI in OneCloud`. The video waits as OneSlide's
+on the long queue (`made_later`), and the asker hears `File Ready` or `File
+Not Made`. The video waits as OneSlide's
 does (`one_slide.ai._video`). Speech comes back as raw samples and is kept as
 a WAV (`one_display.voices._wav`). The file goes in through `upload._place`,
 so the folder's add permission is the check.

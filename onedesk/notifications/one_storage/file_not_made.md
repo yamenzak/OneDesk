@@ -1,5 +1,5 @@
 ---
-name: Not Made by OneAI in OneCloud
+name: File Not Made
 app: OneCloud
 about: When OneAI could not make music or a video somebody asked for.
 to: Whoever asked for it

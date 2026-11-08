@@ -1,5 +1,5 @@
 ---
-name: Made by OneAI in OneCloud
+name: File Ready
 app: OneCloud
 about: When music or a video somebody asked OneAI for is ready in its folder.
 to: Whoever asked for it

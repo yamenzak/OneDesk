@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 10:25+0000\n"
+"POT-Creation-Date: 2026-11-08 10:33+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -18468,7 +18468,7 @@ msgstr "الأرقام"
 #. Label of the file (Link) field in DocType 'Cloud File Version'
 #. Label of the file (Link) field in DocType 'Cloud Link'
 #: frontend/src/cloud/CloudViewer.vue:7 frontend/src/cloud/OneCloud.vue:564
-#: frontend/src/cloud/cloud.js:108
+#: frontend/src/cloud/cloud.js:109
 #: frontend/src/sheet/components/SheetEditor/index.vue:95
 #: frontend/src/slide/shim/EditorNavbar.vue:27
 #: frontend/src/writer/DocumentPage.vue:21
@@ -18499,6 +18499,16 @@ msgstr "ربط ملف"
 #: frontend/src/cloud/OneCloud.vue:555 frontend/src/cloud/OneCloud.vue:598
 msgid "File Name"
 msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_storage/file_not_made.md
+msgid "File Not Made"
+msgstr "لم يُنشأ الملف"
+
+#. Name of a notification
+#: onedesk/notifications/one_storage/file_ready.md
+msgid "File Ready"
+msgstr "الملف جاهز"
 
 #. Name of a notification
 #: onedesk/notifications/one_storage/file_request.md
@@ -27308,11 +27318,6 @@ msgstr "من إنشاء OneAI"
 msgid "Made by OneAI from {0}. Not checked yet."
 msgstr "أنشأه OneAI من {0}. لم تتم مراجعته بعد."
 
-#. Name of a notification
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
-msgid "Made by OneAI in OneCloud"
-msgstr "أنشأه OneAI في OneCloud"
-
 #: onedesk/public/js/one_ai/intake.js:16
 msgid "Made by OneAI. Not checked yet."
 msgstr "أنشأه OneAI. لم تتم مراجعته بعد."
@@ -30808,7 +30813,7 @@ msgstr "لا أيام في الموقع"
 msgid "No default bill of materials"
 msgstr "لا قائمة مواد افتراضية"
 
-#: frontend/src/cloud/cloud.js:141
+#: frontend/src/cloud/cloud.js:142
 msgid "No deleted items"
 msgstr "لا توجد عناصر محذوفة"
 
@@ -30868,7 +30873,7 @@ msgstr "لم يُعثر على خلاصات."
 msgid "No field matches."
 msgstr "لا يوجد حقل مطابق."
 
-#: frontend/src/cloud/cloud.js:146
+#: frontend/src/cloud/cloud.js:147
 msgid "No file requests"
 msgstr "لا توجد طلبات ملفات"
 
@@ -30880,7 +30885,7 @@ msgstr "لم يُرسل أي ملف."
 msgid "No file was uploaded."
 msgstr "لم يُرفع أي ملف."
 
-#: frontend/src/cloud/cloud.js:147
+#: frontend/src/cloud/cloud.js:148
 msgid "No files yet"
 msgstr "لا توجد ملفات بعد"
 
@@ -30944,7 +30949,7 @@ msgstr "لا توجد ترويسات"
 msgid "No level set"
 msgstr "لا يوجد مستوى محدد"
 
-#: frontend/src/cloud/cloud.js:149
+#: frontend/src/cloud/cloud.js:150
 msgid "No libraries"
 msgstr "لا توجد مكتبات"
 
@@ -31166,7 +31171,7 @@ msgstr "لا توجد طوابير"
 msgid "No quotations"
 msgstr "لا توجد عروض أسعار"
 
-#: frontend/src/cloud/cloud.js:144
+#: frontend/src/cloud/cloud.js:145
 msgid "No recent files"
 msgstr "لا توجد ملفات حديثة"
 
@@ -31174,7 +31179,7 @@ msgstr "لا توجد ملفات حديثة"
 msgid "No record type to preview the letter head on."
 msgstr "لا يوجد نوع سجل لمعاينة الترويسة عليه."
 
-#: frontend/src/cloud/cloud.js:143
+#: frontend/src/cloud/cloud.js:144
 msgid "No records with files"
 msgstr "لا توجد سجلات بها ملفات"
 
@@ -31193,7 +31198,7 @@ msgstr "لا رد بعد: {subject}"
 msgid "No request for quotation the reader may see is {0}."
 msgstr "لا يوجد طلب عرض أسعار مرئي باسم {0}."
 
-#: frontend/src/cloud/cloud.js:139 frontend/src/mail/MailList.vue:27
+#: frontend/src/cloud/cloud.js:140 frontend/src/mail/MailList.vue:27
 msgid "No results"
 msgstr "لا توجد نتائج"
 
@@ -31245,7 +31250,7 @@ msgstr "لا توجد شاشة تعرض الرمز {0}. تحقق من الرمز
 msgid "No selling price"
 msgstr "لا سعر بيع"
 
-#: frontend/src/cloud/cloud.js:145
+#: frontend/src/cloud/cloud.js:146
 msgid "No server connections"
 msgstr "لا توجد اتصالات بخوادم"
 
@@ -31278,7 +31283,7 @@ msgstr "لا يوجد صوت. تحقّق من الميكروفون."
 msgid "No sources yet. Add the record this presentation is about, or a list of records."
 msgstr "لا مصادر بعد. أضف السجل الذي يدور حوله هذا العرض، أو قائمة من السجلات."
 
-#: frontend/src/cloud/cloud.js:148
+#: frontend/src/cloud/cloud.js:149
 msgid "No starred items"
 msgstr "لا توجد عناصر مميزة بنجمة"
 
@@ -31613,11 +31618,6 @@ msgstr "لم تُفوتر بعد"
 #: onedesk/one_display/notifications.py
 msgid "Not Made by OneAI"
 msgstr "لم يصنعه OneAI"
-
-#. Name of a notification
-#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
-msgid "Not Made by OneAI in OneCloud"
-msgstr "لم يتمكن OneAI من الإنشاء في OneCloud"
 
 #. Label in the One Bank Transaction print format
 #: onedesk/one_book/print_format/one_bank_transaction/one_bank_transaction.json
@@ -32182,7 +32182,7 @@ msgstr "لا شيء قيد التشغيل"
 msgid "Nothing requested or received"
 msgstr "لم يُطلب أو يُستلم شيء"
 
-#: frontend/src/cloud/cloud.js:142
+#: frontend/src/cloud/cloud.js:143
 msgid "Nothing shared with you"
 msgstr "لا شيء مُشارَك معك"
 
@@ -33485,7 +33485,7 @@ msgid "OneAI could not make the recording. Try again."
 msgstr "تعذّر على OneAI صنع التسجيل. حاول مرة أخرى."
 
 #. Subject of a notification
-#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_not_made.md
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 #, python-brace-format
 msgid "OneAI could not make “{what}”"
@@ -33632,7 +33632,7 @@ msgid "OneAI looked at {extension}"
 msgstr "فحص OneAI الإضافة {extension}"
 
 #. Message of a notification
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_ready.md
 msgid "OneAI made it in the folder you asked from."
 msgstr "أنشأه OneAI في المجلد الذي طلبته منه."
 
@@ -34279,8 +34279,8 @@ msgstr "العتامة"
 #: frontend/src/factory/floor/ShopFloor.vue:119
 #: frontend/src/intake/IntakeReading.vue:27 frontend/src/mail/OneMail.vue:132
 #: frontend/src/mail/OneMail.vue:213
+#: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:47
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
@@ -38231,6 +38231,7 @@ msgstr "الحاضرون اليوم"
 #. Label of the presentation (Link) field in DocType 'Presentation Version'
 #. Label of the presentation (Link) field in DocType 'Presentation View'
 #: frontend/src/cloud/OneCloud.vue:717 frontend/src/cloud/cloud.js:29
+#: frontend/src/cloud/cloud.js:105
 #: onedesk/one_display/doctype/display_slide/display_slide.json:22
 #: onedesk/one_display/doctype/display_slide/display_slide.json:31
 #: onedesk/one_slide/doctype/presentation/presentation.json:20
@@ -53126,7 +53127,7 @@ msgstr "هذا الملف أكبر من أن يوضع على شريحة."
 msgid "This file type isn't accepted."
 msgstr "نوع الملف هذا غير مقبول."
 
-#: frontend/src/cloud/cloud.js:152
+#: frontend/src/cloud/cloud.js:153
 msgid "This folder is empty"
 msgstr "هذا المجلد فارغ"
 
@@ -55110,7 +55111,7 @@ msgid "Try again in a moment."
 msgstr "حاول مرة أخرى بعد لحظات."
 
 #. Message of a notification
-#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_not_made.md
 msgid "Try again, or describe it differently."
 msgstr "حاول مرة أخرى، أو صِفه بطريقة مختلفة."
 
@@ -58756,7 +58757,7 @@ msgid "When OneAI could not make a video somebody asked for in a presentation."
 msgstr "عندما يتعذّر على OneAI إنشاء فيديو طلبه أحدهم في عرض تقديمي."
 
 #. When a notification is sent
-#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_not_made.md
 msgid "When OneAI could not make music or a video somebody asked for."
 msgstr "عندما يتعذّر على OneAI إنشاء موسيقى أو فيديو طلبه أحدهم."
 
@@ -59482,7 +59483,7 @@ msgid "When mail you sent could not be delivered after every retry."
 msgstr "عندما يتعذر تسليم بريد أرسلته بعد كل محاولة."
 
 #. When a notification is sent
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_ready.md
 msgid "When music or a video somebody asked OneAI for is ready in its folder."
 msgstr "عندما تصبح الموسيقى أو الفيديو الذي طلبه أحدهم من OneAI جاهزًا في مجلده."
 
@@ -60832,8 +60833,8 @@ msgid "Whoever asked"
 msgstr "من طلب"
 
 #. Who a notification is sent to
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
-#: onedesk/notifications/one_storage/not_made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_not_made.md
+#: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/one_display/notifications.py onedesk/one_slide/notifications.py
 msgid "Whoever asked for it"
 msgstr "من طلبه"
@@ -66079,7 +66080,7 @@ msgstr "{0} مستحق اليوم."
 msgid "{0} field"
 msgstr "حقل {0}"
 
-#: frontend/src/cloud/cloud.js:108
+#: frontend/src/cloud/cloud.js:109
 #, python-brace-format
 msgid "{0} file"
 msgstr "ملف {0}"
@@ -69292,7 +69293,7 @@ msgid "{event} starts at {time}{where}"
 msgstr "يبدأ {event} في {time}{where}"
 
 #. Subject of a notification
-#: onedesk/notifications/one_storage/made_by_oneai_in_onecloud.md
+#: onedesk/notifications/one_storage/file_ready.md
 #, python-brace-format
 msgid "{file} is ready"
 msgstr "{file} جاهز"

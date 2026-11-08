@@ -126,7 +126,7 @@ def made(user: str, item: dict, folder: str) -> None:
 	"""What OneAI made in the background is in its folder. Sent as the
 	workspace, since the bell does not tell a person of their own doing."""
 	notify.notify(
-		"Made by OneAI in OneCloud",
+		"File Ready",
 		user,
 		record=("File", item["id"]),
 		link=f"/desk/onecloud?node={quote(folder, safe='')}&file={quote(item['id'], safe='')}",
@@ -138,7 +138,7 @@ def made(user: str, item: dict, folder: str) -> None:
 def not_made(user: str, what: str, folder: str) -> None:
 	"""OneAI could not make what was asked."""
 	notify.notify(
-		"Not Made by OneAI in OneCloud",
+		"File Not Made",
 		user,
 		link=f"/desk/onecloud?node={quote(folder, safe='')}",
 		sender="Administrator",
