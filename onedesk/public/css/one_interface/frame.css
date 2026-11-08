@@ -268,6 +268,7 @@
 		flex-basis: 8px;
 		width: 8px;
 		overflow: hidden;
+		z-index: var(--one-layer-frame);
 		border-inline-start-color: transparent;
 		background: transparent !important;
 	}
@@ -294,6 +295,23 @@
 		z-index: 2;
 		width: 8px;
 		cursor: col-resize;
+	}
+
+	.one-interface-details-shut > .one-interface-details-edge {
+		position: fixed;
+		top: calc(var(--one-bar-top) + var(--one-frame-gutter));
+		bottom: calc(var(--one-bar-bottom) + var(--one-frame-gutter));
+		inset-inline-start: auto;
+		inset-inline-end: calc(var(--one-frame-gutter) + 11px);
+		z-index: var(--one-layer-frame);
+	}
+
+	.one-interface-details-shut > .one-interface-details-edge::before {
+		content: "";
+		position: absolute;
+		inset-block: 0;
+		inset-inline-start: calc(100% + 11px);
+		width: var(--one-frame-gutter);
 	}
 
 	.one-interface-details-edge::after {
