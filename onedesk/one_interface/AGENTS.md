@@ -79,8 +79,8 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   180 to 440 px sets `--sidebar-width` (frappe's own variable), and on past
   that it snaps to its icons or away, saved in the person's One Interface
   settings; a click folds to the last of those. The top bar, the bottom bar,
-  the dock and the details pane fold the same way, each dragged back from
-  the strip it leaves (`onedesk.interface.folds`, `frame.details_edge`). A
+  the dock and the details pane fold the same way, each dragged back by
+  the pill it leaves (`onedesk.interface.folds`, `frame.details_edge`). A
   drag touches only what moves, because a change that inherits through the
   page restyles 26,000 elements. A view that
   has a tree (OneCloud's folders, OneMail's mailboxes, a module's lists) hands

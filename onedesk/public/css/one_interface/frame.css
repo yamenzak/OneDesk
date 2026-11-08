@@ -306,14 +306,6 @@
 		z-index: var(--one-layer-frame);
 	}
 
-	.one-interface-details-shut > .one-interface-details-edge::before {
-		content: "";
-		position: absolute;
-		inset-block: 0;
-		inset-inline-start: calc(100% + 11px);
-		width: var(--one-frame-gutter);
-	}
-
 	/* A view's own pane handed over (a form's sidebar): frappe sizes it by
 	   its own variables and scrolls it, so the window's width wins and the
 	   edge sits inside its box. */
@@ -602,27 +594,34 @@
 }
 
 .one-interface-details-edge,
-.one-fold-edge[data-one-fold="dock"],
+.one-fold-edge,
 .body-sidebar-container .sidebar-edge {
-	background: linear-gradient(to bottom, transparent, var(--one-grip) 18%, var(--one-grip) 82%, transparent) center / 1px 0 no-repeat;
-	transition: background-size var(--one-pane-motion);
+	pointer-events: none;
 }
 
-.one-fold-edge[data-one-fold="top"],
-.one-fold-edge[data-one-fold="bottom"] {
-	background: linear-gradient(to right, transparent, var(--one-grip) 18%, var(--one-grip) 82%, transparent) center / 0 1px no-repeat;
-	transition: background-size var(--one-pane-motion);
+.one-interface-details-edge::before,
+.one-fold-edge::before,
+.body-sidebar-container .sidebar-edge::before {
+	content: "";
+	position: absolute;
+	pointer-events: auto;
 }
 
-.one-interface-details-edge:is(:hover, :active),
-.one-fold-edge[data-one-fold="dock"]:is(:hover, :active),
-.body-sidebar-container .sidebar-edge:is(:hover, :active) {
-	background-size: 1px 100%;
+.one-interface-details-edge::before,
+.one-fold-edge[data-one-fold="dock"]::before,
+.body-sidebar-container .sidebar-edge::before {
+	top: calc(50% - 32px);
+	inset-inline-start: calc(50% - 7px);
+	width: 14px;
+	height: 64px;
 }
 
-.one-fold-edge[data-one-fold="top"]:is(:hover, :active),
-.one-fold-edge[data-one-fold="bottom"]:is(:hover, :active) {
-	background-size: 100% 1px;
+.one-fold-edge[data-one-fold="top"]::before,
+.one-fold-edge[data-one-fold="bottom"]::before {
+	top: calc(50% - 7px);
+	left: calc(50% - 32px);
+	width: 64px;
+	height: 14px;
 }
 
 .one-interface-details-edge::after,
