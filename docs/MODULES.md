@@ -61,7 +61,7 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 47 | document |
+| Tenant | 48 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -431,15 +431,18 @@ No doctypes yet.
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
+* `onedesk.one_admin.operator.backups`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`
 * `onedesk.one_admin.operator.measure`
+* `onedesk.one_admin.operator.rebuild`
 * `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`
 * `onedesk.one_admin.operator.restore`
 * `onedesk.one_admin.operator.resume`
 * `onedesk.one_admin.operator.retry_signup`
+* `onedesk.one_admin.operator.roll_back`
 * `onedesk.one_admin.operator.run_now`
 * `onedesk.one_admin.operator.sold`
 * `onedesk.one_admin.operator.standing`

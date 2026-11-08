@@ -11,7 +11,7 @@ from onedesk.one_admin import ladder, lifecycle, runner, site
 BY_HAND = {
 	"Overdue": "",
 	"Suspended": "The site stops. No one can sign in until it's restored.",
-	"Archived": "The site is deleted after a backup. Restoring it is manual.",
+	"Archived": "The site is deleted after its backup and files are kept. It can be rebuilt from them.",
 	"Dropped": "Every file this workspace stored is deleted permanently.",
 }
 
@@ -62,6 +62,36 @@ def fall(tenant: str, rung: str) -> dict:
 
 	lifecycle.fall(held, rung, log.said("by_hand"))
 	return standing(tenant)
+
+
+@frappe.whitelist()
+def backups(tenant: str) -> list[dict]:
+	"""Every backup kept of a workspace in the locked bucket, newest first."""
+	_may()
+	from onedesk.one_admin import backups as kept
+
+	return kept.listed(frappe.db.get_value("Tenant", tenant, "slug") or tenant)
+
+
+@frappe.whitelist(methods=["POST"])
+def rebuild(tenant: str, day: str, where: str = "daily") -> str:
+	"""An archived or dropped workspace built again from a kept backup, on a
+	new site: the job that does it. Billing is set up again separately."""
+	_may()
+	status = frappe.db.get_value("Tenant", tenant, "status")
+	if status not in ("Archived", "Dropped"):
+		frappe.throw(frappe._("Only an archived workspace is rebuilt. Use Roll Back for one that is running."))
+	return runner.start(tenant, "Rebuild", {"day": day, "where": where})
+
+
+@frappe.whitelist(methods=["POST"])
+def roll_back(tenant: str, day: str, where: str = "daily") -> str:
+	"""A running workspace's site put back to a kept backup: the job."""
+	_may()
+	status = frappe.db.get_value("Tenant", tenant, "status")
+	if status not in ("Live", "Overdue", "Suspended"):
+		frappe.throw(frappe._("Only a running workspace is rolled back. Use Rebuild for an archived one."))
+	return runner.start(tenant, "Roll Back", {"day": day, "where": where})
 
 
 @frappe.whitelist()

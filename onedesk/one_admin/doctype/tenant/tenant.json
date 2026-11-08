@@ -39,6 +39,7 @@
   "add_ons",
   "column_break_billing",
   "archived_backup",
+  "last_backup",
   "closing_on",
   "closing_asked_by",
   "limits_section",
@@ -271,6 +272,13 @@
    "description": "Name of the offsite backup Frappe Cloud held when the site was archived."
   },
   {
+   "fieldname": "last_backup",
+   "fieldtype": "Datetime",
+   "label": "Last Backup",
+   "read_only": 1,
+   "description": "When its backup and files were last copied into the locked backup bucket."
+  },
+  {
    "fieldname": "closing_on",
    "fieldtype": "Date",
    "label": "Closing On",
@@ -379,7 +387,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-01 22:00:00.000000",
+ "modified": "2026-11-08 13:06:54.568891",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

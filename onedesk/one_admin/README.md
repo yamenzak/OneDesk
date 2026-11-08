@@ -1706,6 +1706,41 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
 - Rebuilding OneAdmin from a backup therefore needs the keys again: the
   database restored has none of them.
 
+### backups.py: Backups
+
+**Every night at 01:20 UTC** (`backups.nightly`), on the admin site:
+
+- OneAdmin's own database is backed up here and put in the locked bucket
+  through the keeper (`daily/oneadmin/<day>/database/…`).
+- For each workspace on Frappe Cloud that is Live, Overdue or Suspended, a
+  job copies Frappe Cloud's newest backup of its site (database, public and
+  private files, config) by handing the keeper Frappe Cloud's signed links
+  (`/fetch`), so no backup passes through this server. On the first of a
+  month the same backup is also kept under `monthly/`. Its files in R2 are
+  copied bucket to bucket into `files/`, skipping what is kept already.
+  `Tenant.last_backup` says when.
+- A workspace not on Frappe Cloud (no bench: dev's own sites) is left out.
+
+**Archiving** keeps the newest backup and the files once more under
+`archived/`, which no lifecycle rule expires (`steps.note_backup` →
+`backups.archived`). A keeper that does not answer stops the step, to be
+tried again: a workspace is never archived with nothing kept, and dropping
+it afterwards deletes only its live files.
+
+**Restoring**, from the Tenant's **Backups** button, which lists what is
+kept:
+
+- **Roll Back** (a running workspace): the backup is streamed from the keeper
+  into Frappe Cloud's signed upload (`backups.to_press`), and Frappe Cloud
+  restores the site from it (`press.api.site.restore`).
+- **Rebuild** (an archived or dropped workspace): the backup is sent the same
+  way and a new site is made from it (`press.api.site.new` with `files`),
+  then routed, configured and marked Live. Billing is set up again
+  separately.
+
+Both are Provisioning Jobs, resumable like any other; a part already sent
+is not sent again.
+
 ### price_list.py, costs.py, margins.py and offerings.py
 
 **The price list is code** (decided 8 November 2026). `price_list.py`

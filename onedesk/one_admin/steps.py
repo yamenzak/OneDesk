@@ -35,6 +35,8 @@ WALKS = {
 	"Restore": ("activate_site", "route_it", "mark_live"),
 	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived"),
 	"Drop": ("empty_storage", "mark_dropped"),
+	"Rebuild": ("upload_backup", "forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "route_it", "push_config", "mark_live"),
+	"Roll Back": ("upload_backup", "restore_site", "site_is_up", "mark_live"),
 	"Install App": ("app_on_bench", "install_app", "app_is_installed", "app_installed"),
 }
 
@@ -62,6 +64,9 @@ SAID = {
 	"install_app": _lt("Installing the app"),
 	"app_is_installed": _lt("Waiting for Frappe Cloud"),
 	"app_installed": _lt("Marking it installed"),
+	"upload_backup": _lt("Sending the backup to Frappe Cloud"),
+	"forget_site": _lt("Leaving the old site behind"),
+	"restore_site": _lt("Restoring the backup"),
 }
 
 
@@ -207,6 +212,7 @@ def create_site(job, tenant) -> None:
 		tenant.db_set("site", name)
 		return
 	group = press.call("press.api.bench.get", name=tenant.bench) or {}
+	files = (frappe.parse_json(job.payload or "{}") or {}).get("files") if job.kind == "Rebuild" else None
 	answered = press.call(
 		"press.api.site.new",
 		site={
@@ -218,6 +224,7 @@ def create_site(job, tenant) -> None:
 			"version": group.get("version"),
 			"plan": _setting("press_plan") or "Unlimited - Hetzner",
 			"apps": list(APPS),
+			**({"files": files} if files else {}),
 		},
 	)
 	tenant.db_set("site", (answered or {}).get("site") or tenant.slug)
@@ -382,14 +389,51 @@ def mark_live(job, tenant) -> None:
 	_arrive(tenant, "Live", log.said("paid"), job)
 
 
-def note_backup(job, tenant) -> None:
-	"""Write down which backup press is holding, before the site goes.
+def upload_backup(job, tenant) -> None:
+	"""The backup chosen for this job (its payload's `day` and `where`) sent
+	from the locked bucket to Frappe Cloud, part by part. A part already sent
+	is not sent again: its name is kept in the payload as it arrives."""
+	from onedesk.one_admin import backups
 
-	Recorded and not copied. A workspace with no backup, or no site, is not a
-	reason to stop.
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	held = backups.chosen(tenant.slug, payload.get("day"), payload.get("where") or "daily")
+	files = payload.setdefault("files", {})
+	for part, kept in held["parts"].items():
+		if part in files or part not in ("database", "public", "private"):
+			continue
+		files[part] = backups.to_press(kept)
+		job.db_set("payload", frappe.as_json(payload))
+
+
+def forget_site(job, tenant) -> None:
+	"""A rebuilt workspace gets a new site; the archived one is left as it
+	is at Frappe Cloud."""
+	if tenant.site:
+		tenant.db_set("site", None)
+
+
+def restore_site(job, tenant) -> None:
+	"""A live workspace's site put back to the backup sent, by Frappe Cloud."""
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	if payload.get("restore_asked"):
+		return
+	press.call("press.api.site.restore", name=tenant.site, files=frappe.as_json(payload.get("files") or {}))
+	payload["restore_asked"] = True
+	job.db_set("payload", frappe.as_json(payload))
+
+
+def note_backup(job, tenant) -> None:
+	"""Write down which backup press is holding, before the site goes, and
+	keep it and the workspace's files in the locked backup bucket
+	(backups.archived): a keeper that does not answer stops the step, to be
+	tried again, rather than archive a workspace nothing kept. A workspace
+	with no backup, or no site, is not a reason to stop.
 	"""
 	if tenant.archived_backup or not tenant.site:
 		return
+	from onedesk.one_admin import backups
+
+	backups.archived(tenant)
 	held = press.call("press.api.site.backups", name=tenant.site) or []
 	newest = next(
 		(one for one in held if isinstance(one, dict) and one.get("offsite")),

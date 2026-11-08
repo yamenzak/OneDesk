@@ -176,6 +176,7 @@ scheduler_events = {
 			"onedesk.one_admin.google_news.tick",
 		],
 		"15 9 * * *": ["onedesk.one_demo.living.day"],
+		"20 1 * * *": ["onedesk.one_admin.backups.nightly"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
 		"30 6 * * *": [

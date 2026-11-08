@@ -23,6 +23,8 @@ frappe.ui.form.on("Tenant", {
 			billing,
 		);
 
+		frm.add_custom_button(__("Backups"), () => onedesk.tenant.backups(frm));
+
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 	},
 });
@@ -97,4 +99,43 @@ onedesk.tenant.said = (frm) => {
 	field.$wrapper.html(
 		`<div class="text-muted" style="padding-bottom:8px">${lines.join("<br>")}</div>`,
 	);
+};
+
+onedesk.tenant.backups = (frm) => {
+	const running = ["Live", "Overdue", "Suspended"].includes(frm.doc.status);
+	const gone = ["Archived", "Dropped"].includes(frm.doc.status);
+	frappe.xcall("onedesk.one_admin.operator.backups", { tenant: frm.doc.name }).then((kept) => {
+		const options = (kept || []).map((one) => ({ label: `${frappe.datetime.str_to_user(one.day)} · ${__(one.where)}`, value: `${one.where}|${one.day}` }));
+		if (!options.length) return frappe.msgprint(__("No backups are kept for {0} yet.", [frm.doc.slug]));
+		const verb = running ? __("Roll Back") : gone ? __("Rebuild") : null;
+		const dialog = new frappe.ui.Dialog({
+			title: __("Backups"),
+			fields: [
+				{ fieldname: "kept", fieldtype: "Select", label: __("Backup"), options, default: options[0].value, reqd: 1 },
+				{
+					fieldtype: "HTML",
+					options: `<p class="text-muted small">${
+						running
+							? __("Roll Back puts the site back to this backup. What changed since is lost.")
+							: gone
+								? __("Rebuild makes a new site from this backup. Billing is set up again separately.")
+								: ""
+					}</p>`,
+				},
+			],
+			primary_action_label: verb || __("Close"),
+			primary_action: ({ kept: chosen }) => {
+				if (!verb) return dialog.hide();
+				const [where, day] = chosen.split("|");
+				frappe
+					.xcall(`onedesk.one_admin.operator.${running ? "roll_back" : "rebuild"}`, { tenant: frm.doc.name, day, where })
+					.then((job) => {
+						dialog.hide();
+						frappe.show_alert({ message: __("{0} started.", [verb]), indicator: "green" });
+						frappe.set_route("Form", "Provisioning Job", job);
+					});
+			},
+		});
+		dialog.show();
+	});
 };
