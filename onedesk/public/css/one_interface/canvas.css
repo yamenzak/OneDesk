@@ -943,17 +943,15 @@
 	}
 }
 
-@supports (backdrop-filter: blur(1px)) {
-	:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::before {
-		background: color-mix(in oklab, var(--one-level-control) 58%, transparent);
-		backdrop-filter: blur(16px) saturate(150%);
-	}
-
-	:root[data-one-look="canvas"] .one-interface .frappe-list .list-row-head .level-right {
-		background: color-mix(in oklab, var(--one-level-control) 58%, var(--one-sheet)) !important;
-	}
-
-	:root[data-one-look="canvas"] .one-interface-fit[data-one-view="list"] .frappe-list .result-container {
-		mask-image: linear-gradient(transparent 0 calc(var(--spacing) * 1.5 + 1px), black calc(var(--spacing) * 1.5 + 1px));
-	}
+:root[data-one-look="canvas"] .one-interface .frappe-list .result > .list-row-container:first-child::after {
+	content: "";
+	position: absolute;
+	top: calc(var(--spacing) * -2);
+	bottom: calc(var(--spacing) * -2);
+	inset-inline: 0;
+	z-index: -1;
+	background: var(--one-sheet);
+	backdrop-filter: blur(4px);
+	mask-image: linear-gradient(black calc(100% - 16px), transparent);
+	pointer-events: none;
 }
