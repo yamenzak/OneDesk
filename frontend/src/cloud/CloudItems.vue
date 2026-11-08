@@ -60,10 +60,10 @@
         class="group relative cursor-default select-none"
         :class="[
           view === 'details'
-            ? ['grid items-center px-2 text-base', grid, card ? 'border-b border-outline-gray-1 py-2.5 last:border-b-0' : 'py-1.5']
+            ? ['grid items-center px-2 text-base', grid, card ? 'rounded-4 border-b border-outline-gray-1 py-2.5 last:border-b-0' : 'py-1.5']
             : 'flex flex-col items-center gap-1.5 rounded-4 p-2 text-center text-sm',
           selected.has(item.id) ? 'bg-surface-gray-4' : 'hover:bg-surface-gray-2',
-          item.id === focusId ? 'outline outline-1 -outline-offset-1 outline-outline-gray-3' : '',
+          item.id === focusId ? 'ring-2 ring-inset ring-outline-gray-3' : '',
           cut.has(item.id) ? 'opacity-50' : '',
           dropOn === item.id ? 'ring-2 ring-inset ring-outline-blue-5' : '',
         ]"

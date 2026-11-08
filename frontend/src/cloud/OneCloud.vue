@@ -65,7 +65,7 @@
               :sort="{ key: settings.sort, asc: !!settings.asc }"
               :selected="selected"
               :cut="cutIds"
-              :focus-id="focusId"
+              :focus-id="keyed ? focusId : null"
               :renaming="renaming"
               :kind="kind"
               :where-head="whereHead"
@@ -475,6 +475,7 @@ function twist(id) {
 // ---- choosing ----
 
 function pick(id, event) {
+  if (event?.type?.startsWith("mouse")) keyed.value = false;
   const order = sorted.value.map((one) => one.id);
   if (event.button === 2 && selected.has(id)) return;
   if (event.button > 2) return;
@@ -495,6 +496,7 @@ function pick(id, event) {
 }
 
 function toggle(id) {
+  keyed.value = false;
   if (selected.has(id)) selected.delete(id);
   else selected.add(id);
   anchor = id;
@@ -503,6 +505,7 @@ function toggle(id) {
 
 let lassoBase = new Set();
 function lasso(ids, add, begin) {
+  keyed.value = false;
   if (begin) lassoBase = add ? new Set(selected) : new Set();
   selected.clear();
   lassoBase.forEach((one) => selected.add(one));
@@ -986,8 +989,11 @@ async function transfer(ids, target, how) {
 
 // ---- keys, as Explorer has them ----
 
+const keyed = ref(false);
+
 function key(event) {
   if (event.target.closest?.("input, textarea, [contenteditable]")) return;
+  if (event.key.startsWith("Arrow") || ["Home", "End", "PageUp", "PageDown", " "].includes(event.key)) keyed.value = true;
   const ctrl = event.ctrlKey || event.metaKey;
   const k = event.key;
   const done = (then) => {
