@@ -7,7 +7,7 @@
  "engine": "InnoDB",
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-30 16:20:28.631969",
+ "modified": "2026-11-08 10:06:31.597872",
  "modified_by": "Administrator",
  "module": "One Slide",
  "owner": "Administrator",
@@ -49,6 +49,14 @@
    "options": "File",
    "search_index": 1,
    "in_list_view": 1
+  },
+  {
+   "fieldname": "from_file",
+   "fieldtype": "Link",
+   "label": "From File",
+   "options": "File",
+   "read_only": 1,
+   "hidden": 1
   },
   {
    "fieldname": "theme",
@@ -123,6 +131,7 @@
  "field_order": [
   "title",
   "file",
+  "from_file",
   "theme",
   "width",
   "height",

@@ -318,6 +318,18 @@ site) is left out, and `export` names the slides that lost something. The
 file is kept beside the presentation like the PDF (`paper.beside`). Fades
 turn from a CSS angle into PowerPoint's.
 
+`from_powerpoint.read` goes the other way, for OneCloud's Open on a .pptx
+(`open_file`): the slides at the file's size, each shape as the element it
+draws (a text, a shape PowerPoint and the editor both have, a picture kept
+on the presentation, a table's words, a line between its ends), groups
+placed where they show, and theme colours read from the master's theme and
+from a shape's own style (`fillRef`, `lnRef`, `fontRef`), which python-pptx
+leaves unread. A chart, SmartArt or a video is left out and the slide named.
+The presentation is made beside the file and remembers it (`from_file`), so
+opening the file again opens the same one. Sizes a placeholder inherits from
+its layout are guessed (44pt for a title, 24 for a body), and bullets a
+layout gives are read as plain paragraphs.
+
 ### Fonts
 
 `fonts.py` is the workspace's font library, which every editor and the TV

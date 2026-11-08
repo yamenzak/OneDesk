@@ -243,6 +243,17 @@ def oneslide_keeps_a_presentation_in_onecloud():
 			assert said.paragraphs[0].runs[0].text == "Bold" and said.paragraphs[0].runs[0].font.bold and said.paragraphs[1].runs[0].text.endswith("one"), said.text
 			assert opened.slides[0].notes_slide.notes_text_frame.text == "Say this."
 			assert opened.slide_width == api.frame(name)[0] * powerpoint.EMU
+			# and back: the .pptx opened in OneCloud is a presentation beside it, the same one each time
+			from onedesk.one_slide import from_powerpoint
+
+			back = from_powerpoint.open_file(made["name"])
+			assert back["made"] and back["lost"] == [] and from_powerpoint.open_file(made["name"]) == {"presentation": back["presentation"], "made": False}
+			again = api.get(back["presentation"])
+			assert len(again["slides"]) == 2 and api.frame(back["presentation"]) == api.frame(name)
+			bold = next(one for one in json.loads(again["slides"][0]["elements"]) if "Bold" in (one.get("content") or ""))
+			assert "<strong>Bold</strong>" in bold["content"] and again["slides"][0]["notes"] == "Say this."
+			frappe.delete_doc("File", frappe.db.get_value("Presentation", back["presentation"], "file"), ignore_permissions=True, force=True)
+			frappe.delete_doc("Presentation", back["presentation"], ignore_permissions=True, force=True)
 			api.visited("Presentation", name)
 			api.download(name)
 			assert frappe.local.response["location"] == f"/desk/presentation/{name}"

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 10:03+0000\n"
-"PO-Revision-Date: 2026-11-08 10:03+0000\n"
+"POT-Creation-Date: 2026-11-08 10:14+0000\n"
+"PO-Revision-Date: 2026-11-08 10:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -6797,7 +6797,7 @@ msgstr ""
 msgid "Before Insert"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:419
+#: onedesk/one_slide/ai.py:420
 msgid "Before OneAI wrote slides"
 msgstr ""
 
@@ -7313,7 +7313,7 @@ msgstr ""
 msgid "Blank Document"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1003
+#: frontend/src/cloud/OneCloud.vue:1009
 msgid "Blank Presentation"
 msgstr ""
 
@@ -10985,7 +10985,7 @@ msgstr ""
 msgid "Copied"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1071
+#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1077
 msgid "Copied 1 item"
 msgstr ""
 
@@ -10993,7 +10993,7 @@ msgstr ""
 msgid "Copied to clipboard"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1071
+#: frontend/src/cloud/OneCloud.vue:846 frontend/src/cloud/OneCloud.vue:1077
 #, python-brace-format
 msgid "Copied {0} items"
 msgstr ""
@@ -11228,7 +11228,7 @@ msgstr ""
 msgid "Could not add the sheets."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:430
+#: onedesk/one_slide/ai.py:431
 msgid "Could not change the slide: it is no longer in the presentation."
 msgstr ""
 
@@ -11294,7 +11294,7 @@ msgstr ""
 msgid "Could not read range."
 msgstr ""
 
-#: onedesk/one_storage/pdf.py:102
+#: onedesk/one_slide/from_powerpoint.py:315 onedesk/one_storage/pdf.py:102
 #, python-brace-format
 msgid "Could not read {0}."
 msgstr ""
@@ -13452,12 +13452,12 @@ msgstr ""
 msgid "Delete {0} and the tasks under it?"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1050
+#: frontend/src/cloud/OneCloud.vue:1056
 #, python-brace-format
 msgid "Delete {0} from the server? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1050
+#: frontend/src/cloud/OneCloud.vue:1056
 #, python-brace-format
 msgid "Delete {0} items from the server? This can't be undone."
 msgstr ""
@@ -18578,7 +18578,7 @@ msgstr ""
 #: frontend/portal/src/pages/Record.vue:87
 #: frontend/src/cloud/CloudPreview.vue:107 frontend/src/cloud/OneCloud.vue:76
 #: frontend/src/cloud/OneCloud.vue:558 frontend/src/cloud/OneCloud.vue:865
-#: frontend/src/cloud/OneCloud.vue:1358
+#: frontend/src/cloud/OneCloud.vue:1364
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:124
 #: onedesk/one_storage/doctype/cloud_file_request/cloud_file_request.json:93
 #: onedesk/one_storage/namespace.py:15
@@ -20028,6 +20028,11 @@ msgstr ""
 msgid "From Employee"
 msgstr ""
 
+#. Label of the from_file (Link) field in DocType 'Presentation'
+#: onedesk/one_slide/doctype/presentation/presentation.json:56
+msgid "From File"
+msgstr ""
+
 #: onedesk/public/js/project_actions.js:69 onedesk/public/js/project_new.js:74
 #: onedesk/public/js/project_template_list.js:9
 #: onedesk/public/js/project_template_list.js:11
@@ -21013,7 +21018,7 @@ msgstr ""
 
 #. Label of the guides (Long Text) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:172
-#: onedesk/one_slide/doctype/presentation/presentation.json:75
+#: onedesk/one_slide/doctype/presentation/presentation.json:83
 msgid "Guides"
 msgstr ""
 
@@ -21413,7 +21418,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:55
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:55
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:68
+#: onedesk/one_slide/doctype/presentation/presentation.json:76
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:61
 #: onedesk/public/js/table_workbook.js:49
 msgid "Height"
@@ -23988,7 +23993,7 @@ msgstr ""
 #. Label of the is_template (Check) field in DocType 'Presentation'
 #: onedesk/one_doc/doctype/writer_document/writer_document.json:94
 #: onedesk/one_sheet/doctype/workbook/workbook.json:94
-#: onedesk/one_slide/doctype/presentation/presentation.json:108
+#: onedesk/one_slide/doctype/presentation/presentation.json:116
 msgid "Is Template"
 msgstr ""
 
@@ -27829,7 +27834,7 @@ msgstr ""
 msgid "Make it smaller"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:383
+#: onedesk/one_slide/ai.py:384
 #, python-brace-format
 msgid "Make slide {0} a {1}"
 msgstr ""
@@ -28134,7 +28139,7 @@ msgid "Master"
 msgstr ""
 
 #. Label of the master_of (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:90
+#: onedesk/one_slide/doctype/presentation/presentation.json:98
 msgid "Master Of"
 msgstr ""
 
@@ -29090,11 +29095,11 @@ msgstr ""
 msgid "Moved"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1071
+#: frontend/src/cloud/OneCloud.vue:1077
 msgid "Moved 1 item"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1043
+#: frontend/src/cloud/OneCloud.vue:1049
 msgid "Moved 1 item to the Recycle Bin"
 msgstr ""
 
@@ -29134,12 +29139,12 @@ msgstr ""
 msgid "Moved {0} in"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1071
+#: frontend/src/cloud/OneCloud.vue:1077
 #, python-brace-format
 msgid "Moved {0} items"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1043
+#: frontend/src/cloud/OneCloud.vue:1049
 #, python-brace-format
 msgid "Moved {0} items to the Recycle Bin"
 msgstr ""
@@ -29626,7 +29631,7 @@ msgstr ""
 #. Option for the 'Change' (Select) field in DocType 'Reading'
 #. Label in the One Leave Allocation print format
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
-#: frontend/src/cloud/OneCloud.vue:42 frontend/src/cloud/OneCloud.vue:1362
+#: frontend/src/cloud/OneCloud.vue:42 frontend/src/cloud/OneCloud.vue:1368
 #: frontend/src/slide/utils/slideMenu.js:9
 #: onedesk/one_admin/doctype/account_request/account_request.json:66
 #: onedesk/one_ai/doctype/reading/reading.json:324
@@ -30017,7 +30022,7 @@ msgstr ""
 msgid "New files in this folder and the folders inside it are read, filed and acted on by OneAI."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:742 frontend/src/cloud/OneCloud.vue:1013
+#: frontend/src/cloud/OneCloud.vue:742 frontend/src/cloud/OneCloud.vue:1019
 #: onedesk/one_storage/api.py:176 onedesk/one_storage/api.py:180
 msgid "New folder"
 msgstr ""
@@ -33430,7 +33435,7 @@ msgstr ""
 msgid "OneAI could not be reached. The question is still here — try again."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:102
+#: onedesk/one_slide/ai.py:103
 msgid "OneAI could not design the slide. Try again."
 msgstr ""
 
@@ -33439,7 +33444,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:112
+#: onedesk/one_slide/ai.py:113
 msgid "OneAI could not make the picture. Try again."
 msgstr ""
 
@@ -33713,7 +33718,7 @@ msgid "OneCalendar"
 msgstr ""
 
 #. Title of a Sidebar
-#: frontend/src/cloud/OneCloud.vue:392 frontend/src/cloud/OneCloud.vue:1352
+#: frontend/src/cloud/OneCloud.vue:392 frontend/src/cloud/OneCloud.vue:1358
 #: onedesk/one_mail/cloud.py:65 onedesk/one_storage/file_requests.py:196
 #: onedesk/one_storage/mounts.py:326 onedesk/one_storage/namespace.py:820
 #: onedesk/one_storage/page/onecloud/onecloud.js:4
@@ -33896,6 +33901,10 @@ msgstr ""
 
 #: onedesk/one_studio/extensions.py:344
 msgid "Only OneAI writes an extension. Ask it to change this one; turning it on or off is yours."
+msgstr ""
+
+#: onedesk/one_slide/from_powerpoint.py:303
+msgid "Only PowerPoint files can be opened as a presentation."
 msgstr ""
 
 #: frontend/src/slide/shim/DataDialog.vue:112
@@ -37495,7 +37504,7 @@ msgstr ""
 msgid "Picture and Text"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:969
+#: frontend/src/cloud/OneCloud.vue:975
 msgid "Picture saved."
 msgstr ""
 
@@ -41506,12 +41515,12 @@ msgstr ""
 msgid "Remove {0}"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1055
+#: frontend/src/cloud/OneCloud.vue:1061
 #, python-brace-format
 msgid "Remove {0} files from their records? This can't be undone."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1055
+#: frontend/src/cloud/OneCloud.vue:1061
 #, python-brace-format
 msgid "Remove {0} from its record? This can't be undone."
 msgstr ""
@@ -42388,7 +42397,7 @@ msgstr ""
 msgid "Results and lessons"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:1358 frontend/src/mail/OneMail.vue:172
+#: frontend/src/cloud/OneCloud.vue:1364 frontend/src/mail/OneMail.vue:172
 #, python-brace-format
 msgid "Results for {0}"
 msgstr ""
@@ -42777,7 +42786,7 @@ msgstr ""
 msgid "Rewrite in {0}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:342
+#: onedesk/one_slide/ai.py:343
 #, python-brace-format
 msgid "Rewrite slide {0} in {1}"
 msgstr ""
@@ -43635,7 +43644,7 @@ msgstr ""
 msgid "Saved as drafts in Ready to Submit, and a bill asking to be paid to a new IBAN is held."
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:969
+#: frontend/src/cloud/OneCloud.vue:975
 #, python-brace-format
 msgid "Saved as {0}."
 msgstr ""
@@ -43706,7 +43715,7 @@ msgstr ""
 msgid "Say what OneAI should keep in mind."
 msgstr ""
 
-#: onedesk/one_slide/ai.py:72
+#: onedesk/one_slide/ai.py:73
 msgid "Say what OneAI should make."
 msgstr ""
 
@@ -43999,7 +44008,7 @@ msgstr ""
 
 #. Label of the one_search (Data) field in DocType 'Employee Attendance Tool'
 #: frontend/portal/src/pages/List.vue:4 frontend/portal/src/pages/List.vue:11
-#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1329
+#: frontend/src/books/BooksHome.vue:25 frontend/src/cloud/OneCloud.vue:1335
 #: frontend/src/crm/CrmHome.vue:25 frontend/src/factory/home/FactoryHome.vue:20
 #: frontend/src/hr/HrHome.vue:25
 #: frontend/src/inventory/home/InventoryHome.vue:25
@@ -46523,7 +46532,7 @@ msgstr ""
 #: onedesk/one_inventory/print_format/one_supplier_quotation/one_supplier_quotation.json
 #: onedesk/one_sheet/doctype/workbook/workbook.json:49
 #: onedesk/one_sheet/doctype/workbook_version/workbook_version.json:63
-#: onedesk/one_slide/doctype/presentation/presentation.json:114
+#: onedesk/one_slide/doctype/presentation/presentation.json:122
 #: onedesk/one_storage/doctype/cloud_file_version/cloud_file_version.json:46
 #: onedesk/public/js/table_workbook.js:39
 msgid "Size"
@@ -46680,7 +46689,7 @@ msgstr ""
 msgid "Slide type in the slide library. Example: Title or Timeline."
 msgstr ""
 
-#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:387
+#: frontend/src/slide/shim/ViewsDialog.vue:20 onedesk/one_slide/ai.py:388
 #, python-brace-format
 msgid "Slide {0}"
 msgstr ""
@@ -46701,9 +46710,14 @@ msgstr ""
 #. Label of the slides (JSON) field in DocType 'Presentation Version'
 #: onedesk/one_display/doctype/channel_programme/channel_programme.json:20
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.json:29
-#: onedesk/one_slide/doctype/presentation/presentation.json:119
+#: onedesk/one_slide/doctype/presentation/presentation.json:127
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:66
 msgid "Slides"
+msgstr ""
+
+#: frontend/src/cloud/OneCloud.vue:928
+#, python-brace-format
+msgid "Slides {0} had parts that could not be brought in."
 msgstr ""
 
 #. Description of a DocType
@@ -46748,7 +46762,7 @@ msgstr ""
 #. Label of the slug (Data) field in DocType 'Tenant'
 #. Label of the slug (Data) field in DocType 'Presentation'
 #: onedesk/one_admin/doctype/tenant/tenant.json:68
-#: onedesk/one_slide/doctype/presentation/presentation.json:98
+#: onedesk/one_slide/doctype/presentation/presentation.json:106
 msgid "Slug"
 msgstr ""
 
@@ -47233,7 +47247,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #. Label of the sources (Long Text) field in DocType 'Presentation'
 #: onedesk/one/sidebar/one/one.json:124
-#: onedesk/one_slide/doctype/presentation/presentation.json:82
+#: onedesk/one_slide/doctype/presentation/presentation.json:90
 #: onedesk/public/js/one_interface/chrome.js:321
 msgid "Sources"
 msgstr ""
@@ -51410,7 +51424,7 @@ msgid "The letter heads and print formats documents are printed and sent on."
 msgstr ""
 
 #. Description of the 'Guides' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:76
+#: onedesk/one_slide/doctype/presentation/presentation.json:84
 msgid "The lines dragged out of the rulers to line things up against. Shown only in the editor."
 msgstr ""
 
@@ -51861,7 +51875,7 @@ msgid "The presentation could not be saved. Try again."
 msgstr ""
 
 #. Description of the 'Master Of' (Link) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:93
+#: onedesk/one_slide/doctype/presentation/presentation.json:101
 msgid "The presentation this one is the master of. A master has no File of its own."
 msgstr ""
 
@@ -52033,7 +52047,7 @@ msgid "The record's own link to the one whose fields are shown."
 msgstr ""
 
 #. Description of the 'Sources' (Long Text) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:83
+#: onedesk/one_slide/doctype/presentation/presentation.json:91
 msgid "The records whose words this presentation shows, filled each time it is drawn."
 msgstr ""
 
@@ -52142,12 +52156,12 @@ msgid "The slide is in the library."
 msgstr ""
 
 #. Description of the 'Height' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:70
+#: onedesk/one_slide/doctype/presentation/presentation.json:78
 msgid "The slides' height in pixels."
 msgstr ""
 
 #. Description of the 'Width' (Int) field in DocType 'Presentation'
-#: onedesk/one_slide/doctype/presentation/presentation.json:63
+#: onedesk/one_slide/doctype/presentation/presentation.json:71
 msgid "The slides' width in pixels."
 msgstr ""
 
@@ -52578,7 +52592,7 @@ msgstr ""
 
 #. Label of the theme (Data) field in DocType 'Presentation'
 #: frontend/src/slide/shim/EditorNavbar.vue:24
-#: onedesk/one_slide/doctype/presentation/presentation.json:56
+#: onedesk/one_slide/doctype/presentation/presentation.json:64
 #: onedesk/public/js/outside.js:106 onedesk/public/js/theme.js:132
 msgid "Theme"
 msgstr ""
@@ -53068,6 +53082,7 @@ msgstr ""
 
 #: onedesk/one_doc/word.py:225 onedesk/one_doc/word.py:261
 #: onedesk/one_sheet/api.py:224 onedesk/one_sheet/excel.py:278
+#: onedesk/one_slide/from_powerpoint.py:300
 msgid "This file cannot be opened."
 msgstr ""
 
@@ -53627,7 +53642,7 @@ msgstr ""
 
 #. Label of the thumbnail (Data) field in DocType 'Presentation'
 #. Label of the thumbnail (Long Text) field in DocType 'Presentation Slide'
-#: onedesk/one_slide/doctype/presentation/presentation.json:103
+#: onedesk/one_slide/doctype/presentation/presentation.json:111
 #: onedesk/one_slide/doctype/presentation_slide/presentation_slide.json:41
 msgid "Thumbnail"
 msgstr ""
@@ -56632,7 +56647,7 @@ msgid "Video Not Made for a Presentation"
 msgstr ""
 
 #. Label of the view (Select) field in DocType 'Extension'
-#: frontend/src/cloud/OneCloud.vue:1367
+#: frontend/src/cloud/OneCloud.vue:1373
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:81
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:88
@@ -61245,7 +61260,7 @@ msgstr ""
 #: onedesk/one_inventory/custom/stock_reconciliation_item.json:43
 #: onedesk/one_inventory/custom/supplier_quotation_item.json:43
 #: onedesk/one_inventory/print_format/one_shipment/one_shipment.json
-#: onedesk/one_slide/doctype/presentation/presentation.json:61
+#: onedesk/one_slide/doctype/presentation/presentation.json:69
 #: onedesk/one_slide/doctype/presentation_version/presentation_version.json:56
 #: onedesk/public/js/table_workbook.js:48
 msgid "Width"
@@ -62233,7 +62248,7 @@ msgstr ""
 msgid "Write {0} on a new {1}"
 msgstr ""
 
-#: onedesk/one_slide/ai.py:303
+#: onedesk/one_slide/ai.py:304
 #, python-brace-format
 msgid "Write {0} slides in {1}"
 msgstr ""
@@ -63871,12 +63886,12 @@ msgstr ""
 msgid "edit"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:967
+#: frontend/src/cloud/OneCloud.vue:973
 #: onedesk/public/js/one_interface/look.js:492
 msgid "edited"
 msgstr ""
 
-#: frontend/src/cloud/OneCloud.vue:967
+#: frontend/src/cloud/OneCloud.vue:973
 #, python-brace-format
 msgid "edited {0}"
 msgstr ""

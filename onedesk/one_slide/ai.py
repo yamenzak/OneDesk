@@ -23,6 +23,7 @@ NOT_FOR_AI = {
 	"ai.picture": "It is OneAI making a picture, asked from the presentation's own OneAI menu.",
 	"ai.video": "It is OneAI making a video, asked from the presentation's own OneAI menu.",
 	"api.make": "A presentation is made in OneCloud where it is to be kept, by the person who will work on it.",
+	"from_powerpoint.open_file": "It answers Open on a PowerPoint file in OneCloud, which then shows the presentation.",
 	"api.save_slides": "Slides are laid out by eye in the editor, which saves them as it goes.",
 	"api.update_slide_attachments": "It answers a slide pasted in the editor.",
 	"api.get_updated_json": "It answers a slide pasted from another presentation in the editor.",

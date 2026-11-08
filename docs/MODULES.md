@@ -258,7 +258,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Presentation | 13 | document |
+| Presentation | 14 | document |
 | Presentation Slide | 13 | child |
 | Presentation Version | 5 | document |
 | Presentation View | 8 | document |
@@ -986,6 +986,7 @@ No doctypes yet.
 * `onedesk.one_slide.fonts.google_search`
 * `onedesk.one_slide.fonts.library`
 * `onedesk.one_slide.fonts.upload`
+* `onedesk.one_slide.from_powerpoint.open_file`
 * `onedesk.one_slide.guides.keep`
 * `onedesk.one_slide.layouts.restyle`
 * `onedesk.one_slide.library.forget`

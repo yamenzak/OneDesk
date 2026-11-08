@@ -107,6 +107,8 @@ dialog that isn't attached to a record goes to your My Files.
   free or to a shape, turn it, flip it, straighten it, set its width, and
   change its brightness, contrast and saturation. **Save** keeps the old one
   as a version; **Save as Copy** makes a new file beside it.
+- **Open** a PowerPoint file to make it a presentation in OneSlide, beside
+  it. A Word file opens in OneWriter and an Excel file in OneWorkbook.
 - **Combine into PDF…** puts the PDFs and pictures you chose into one new
   PDF in the folder. Drag the rows in the dialog to change their order.
 - **Right-click** an item to open, download, copy a link, cut, copy, paste,

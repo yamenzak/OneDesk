@@ -924,6 +924,11 @@ async function act(name) {
   }
 }
 
+function openedDeck(made) {
+  if (made.lost?.length) alert(__("Slides {0} had parts that could not be brought in.", [made.lost.join(", ")]), "yellow");
+  goTo("presentation", made.presentation);
+}
+
 function openItems(list) {
   list = list.filter(Boolean);
   if (!list.length) return;
@@ -938,6 +943,7 @@ function openItems(list) {
   // each saved back into itself.
   if (one && !one.folder && SHEETS.includes(extension(one))) return call("onedesk.one_sheet.api.open_file", { file: one.id }).then((made) => goTo("workbook", made.workbook));
   if (one && !one.folder && extension(one) === "docx") return call("onedesk.one_doc.word.open_file", { file: one.id }).then((made) => goTo("document", made.document));
+  if (one && !one.folder && ["pptx", "ppsx"].includes(extension(one))) return call("onedesk.one_slide.from_powerpoint.open_file", { file: one.id }).then(openedDeck);
   const first = list.find((item) => !item.folder && item.url);
   if (first) view(first.id);
 }

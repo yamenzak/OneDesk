@@ -36,6 +36,14 @@ backgrounds, the master and speaker notes come along. A blur, free CSS or a
 widget has no PowerPoint equivalent, so it is left out, and you are told
 which slides lost one.
 
+## Open a PowerPoint File
+
+Open a .pptx in **OneCloud** and it becomes a presentation beside it, with
+its words, shapes, pictures, tables, backgrounds and speaker notes, in the
+file's own colours. Opening the file again opens the same presentation. A
+chart, SmartArt or a video can't come along, and you are told which slides
+had one.
+
 ## On a Record
 
 A record's **Files** tab is OneCloud, so **New › Presentation** there files
