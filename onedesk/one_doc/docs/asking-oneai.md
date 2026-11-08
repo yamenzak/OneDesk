@@ -22,8 +22,8 @@ by name and reads them, but only ones you may open.
 ## A Picture
 
 **Make a Picture with OneAI**, beside the picture button in the bar, asks for
-a sentence and puts the picture OneAI makes where your cursor is. It is kept
-in the document like a picture you put in.
+a sentence and a shape (wide, square or tall) and puts the picture OneAI makes
+where your cursor is. It is kept in the document like a picture you put in.
 
 Each question uses credits like any other. An administrator can turn OneAI
 off for OneWriter in AICenter.

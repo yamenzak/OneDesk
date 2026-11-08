@@ -33,8 +33,9 @@ Each is marked `One:` where it is.
 
 - `components/CoreEditor.vue`, `components/core-editor/menu-buttons.js`:
   **Make a Picture with OneAI** after the picture button, when OneAI is on;
-  it asks for a sentence, calls `one_doc.api.make_picture` and puts the
-  picture at the cursor with the image extension's own `setImage`.
+  it asks for a sentence and a shape (wide, square, tall), says it is being
+  made, calls `one_doc.api.make_picture` (OneCloud's picture job) and puts
+  the picture at the cursor with the image extension's own `setImage`.
 
 - `components/CoreEditor.vue`: `styleClipboard: {}` in `RichTextKit.configure`,
   because Suite's frappe-ui turned the format painter on by default and ours

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 10:33+0000\n"
-"PO-Revision-Date: 2026-11-08 10:33+0000\n"
+"POT-Creation-Date: 2026-11-08 10:37+0000\n"
+"PO-Revision-Date: 2026-11-08 10:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1765,7 +1765,7 @@ msgstr ""
 msgid "A version needs a name."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:342
+#: frontend/src/writer/components/CoreEditor.vue:352
 msgid "A version of this document could not be kept. Try again later."
 msgstr ""
 
@@ -10103,7 +10103,7 @@ msgstr ""
 #: frontend/src/kit/ActivityComposer.vue:10
 #: frontend/src/sheet/components/SheetEditor/index.vue:1084
 #: frontend/src/sheet/components/SheetEditor/index.vue:1113
-#: frontend/src/writer/components/CoreEditor.vue:287
+#: frontend/src/writer/components/CoreEditor.vue:297
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
 msgid "Comment"
@@ -13978,11 +13978,12 @@ msgid "Depreciations Booked"
 msgstr ""
 
 #: frontend/src/slide/shim/EditorNavbar.vue:380
-#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/writer/components/CoreEditor.vue:282
 msgid "Describe It"
 msgstr ""
 
-#: onedesk/one_display/make.py:80 onedesk/one_storage/made.py:71
+#: onedesk/one_display/make.py:80 onedesk/one_doc/api.py:291
+#: onedesk/one_storage/made.py:72
 msgid "Describe what OneAI should make."
 msgstr ""
 
@@ -27684,7 +27685,7 @@ msgstr ""
 #: frontend/src/slide/shim/EditorNavbar.vue:301
 #: frontend/src/slide/shim/EditorNavbar.vue:403
 #: frontend/src/slide/shim/EditorNavbar.vue:410
-#: frontend/src/writer/components/CoreEditor.vue:282
+#: frontend/src/writer/components/CoreEditor.vue:291
 #: onedesk/one_display/doctype/music_playlist/music_playlist.js:40
 #: onedesk/one_display/doctype/slide_playlist/slide_playlist.js:55
 #: onedesk/one_factory/print_format/one_job_card/one_job_card.json
@@ -27760,7 +27761,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:582
 #: frontend/src/slide/shim/EditorNavbar.vue:329
 #: frontend/src/slide/shim/EditorNavbar.vue:403
-#: frontend/src/writer/components/CoreEditor.vue:282 onedesk/one_ai/jobs.py:77
+#: frontend/src/writer/components/CoreEditor.vue:290 onedesk/one_ai/jobs.py:77
 msgid "Make a Picture"
 msgstr ""
 
@@ -33455,7 +33456,7 @@ msgstr ""
 msgid "OneAI answers new conversations from outside, in the sender's language."
 msgstr ""
 
-#: onedesk/one_storage/made.py:68
+#: onedesk/one_storage/made.py:69
 msgid "OneAI can make a picture, music, a video or speech."
 msgstr ""
 
@@ -33480,7 +33481,7 @@ msgstr ""
 msgid "OneAI could not fix {0}: {1}"
 msgstr ""
 
-#: onedesk/one_storage/made.py:91
+#: onedesk/one_doc/api.py:295 onedesk/one_storage/made.py:92
 msgid "OneAI could not make it. Try again, or describe it differently."
 msgstr ""
 
@@ -33580,6 +33581,7 @@ msgid "OneAI is generating the music. You will be notified when it is added to t
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:602
+#: frontend/src/writer/components/CoreEditor.vue:286
 msgid "OneAI is making it…"
 msgstr ""
 
@@ -43709,7 +43711,7 @@ msgstr ""
 msgid "Saved as {0}."
 msgstr ""
 
-#: frontend/src/writer/components/CoreEditor.vue:432
+#: frontend/src/writer/components/CoreEditor.vue:442
 msgid "Saved document"
 msgstr ""
 
@@ -45343,6 +45345,7 @@ msgstr ""
 #: frontend/src/cloud/OneCloud.vue:596
 #: frontend/src/slide/components/PropertiesPanel.vue:176
 #: frontend/src/slide/shim/LayersPanel.vue:116
+#: frontend/src/writer/components/CoreEditor.vue:283
 msgid "Shape"
 msgstr ""
 
@@ -47454,6 +47457,7 @@ msgstr ""
 #. Option for the 'Screen Size' (Select) field in DocType 'Display Channel'
 #. Option for the 'Screen Size' (Select) field in DocType 'Widget Collection'
 #: frontend/src/cloud/OneCloud.vue:587 frontend/src/slide/shim/frame.js:18
+#: frontend/src/writer/components/CoreEditor.vue:279
 #: onedesk/one_display/doctype/display_channel/display_channel.json:34
 #: onedesk/one_display/doctype/widget_collection/widget_collection.json:27
 msgid "Square"
@@ -49453,6 +49457,7 @@ msgid "Taking It With You"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:587
+#: frontend/src/writer/components/CoreEditor.vue:279
 msgid "Tall"
 msgstr ""
 
@@ -55955,7 +55960,7 @@ msgid "Untitled"
 msgstr ""
 
 #: frontend/src/writer/DocumentPage.vue:250
-#: frontend/src/writer/components/CoreEditor.vue:359 onedesk/one_doc/api.py:81
+#: frontend/src/writer/components/CoreEditor.vue:369 onedesk/one_doc/api.py:81
 #: onedesk/public/js/workbooks.js:17
 msgid "Untitled Document"
 msgstr ""
@@ -61240,6 +61245,8 @@ msgid "Wi-Fi Code"
 msgstr ""
 
 #: frontend/src/cloud/OneCloud.vue:587
+#: frontend/src/writer/components/CoreEditor.vue:279
+#: frontend/src/writer/components/CoreEditor.vue:283
 msgid "Wide"
 msgstr ""
 

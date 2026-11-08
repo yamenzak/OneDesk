@@ -147,9 +147,10 @@ this quotation from the template" makes one whose fields print what the
 quotation says. Each question costs credits like any other OneAI request.
 
 **Make a Picture with OneAI**, beside the picture button in the bar, asks
-for a sentence and puts the picture OneAI makes where the cursor is. It is
-kept on the document as an uploaded picture is (`api.make_picture`, with
-OneSlide's picture job, `one_slide/ai.py`).
+for a sentence and a shape (wide, square or tall) and puts the picture OneAI
+makes where the cursor is. It is kept on the document as an uploaded picture
+is (`api.make_picture`, with OneCloud's picture job through
+`one_storage/made.py`, billed as "OneWriter picture").
 
 ## Connections
 

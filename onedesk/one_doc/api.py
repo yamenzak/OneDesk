@@ -278,13 +278,21 @@ def add_picture(file_id: str) -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
-def make_picture(file_id: str, description: str) -> dict:
-	"""A picture OneAI makes from a sentence, kept on the document as an
-	uploaded one is (OneSlide's job, one_slide/ai.py)."""
-	from onedesk.one_slide import ai
+def make_picture(file_id: str, description: str, shape: str | None = None) -> dict:
+	"""A picture OneAI makes from a sentence, square, wide or tall, kept on
+	the document as an uploaded one is (OneCloud's job, one_storage/made.py)."""
+	from onedesk.one import apps
+	from onedesk.one_storage import made as maker
 
 	_may(file_id, "write")
-	content, extension = ai.made_picture(ai.asked(description, 2000))
+	apps.refuse_ai()
+	description = (description or "").strip()[: maker.MOST_WORDS]
+	if not description:
+		frappe.throw(_("Describe what OneAI should make."))
+	try:
+		content, extension = maker.making("picture", description, shape, None, reference="OneWriter picture")
+	except frappe.ValidationError:
+		frappe.throw(_("OneAI could not make it. Try again, or describe it differently."))
 	made = frappe.get_doc(
 		{
 			"doctype": "File",

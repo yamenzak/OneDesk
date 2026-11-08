@@ -49,7 +49,7 @@
 </template>
 
 <script setup>
-import { __, call, oneaiOn, prompt } from '../../kit/desk' // One: the desk's translations, calls and OneAI
+import { __, alert, call, oneaiOn, prompt } from '../../kit/desk' // One: the desk's translations, calls and OneAI
 import { writerRoot } from '../shim/root.js' // One: the island's shadow root, not document
 import {
   computed,
@@ -276,10 +276,20 @@ const menuButtons = computed(() =>
 // One: OneAI makes a picture from a sentence, kept on the document as an
 // uploaded one is, and put where the cursor is
 function makePicture(e) {
-  prompt([{ fieldname: 'description', fieldtype: 'Small Text', label: __('Describe It'), reqd: 1 }], async ({ description }) => {
-    const made = await call('onedesk.one_doc.api.make_picture', { file_id: props.file.doc.name, description })
-    e.chain().focus().setImage({ src: made.file_url, alt: description.slice(0, 120) }).run()
-  }, __('Make a Picture'), __('Make'))
+  const shapes = { [__('Wide')]: 'wide', [__('Square')]: 'square', [__('Tall')]: 'tall' }
+  prompt(
+    [
+      { fieldname: 'description', fieldtype: 'Small Text', label: __('Describe It'), reqd: 1 },
+      { fieldname: 'shape', fieldtype: 'Select', label: __('Shape'), options: Object.keys(shapes).join('\n'), default: __('Wide') },
+    ],
+    async ({ description, shape }) => {
+      alert(__('OneAI is making it…'), 'blue')
+      const made = await call('onedesk.one_doc.api.make_picture', { file_id: props.file.doc.name, description, shape: shapes[shape] })
+      e.chain().focus().setImage({ src: made.file_url, alt: description.slice(0, 120) }).run()
+    },
+    __('Make a Picture'),
+    __('Make'),
+  )
 }
 
 const bubbleMenuButtons = [

@@ -30,13 +30,14 @@ def named(name: str | None, description: str) -> str:
 	return words if len(words) <= TITLE else words[: TITLE - 1].rstrip() + "…"
 
 
-def _made(kind: str, description: str, shape: str | None, voice: str | None) -> tuple[bytes, str]:
-	"""Make it: the bytes and their extension."""
+def making(kind: str, description: str, shape: str | None, voice: str | None, reference: str | None = None) -> tuple[bytes, str]:
+	"""Make it: the bytes and their extension. OneWriter's pictures are made
+	here too, under their own reference."""
 	from onedesk.one_ai import run
 	from onedesk.one_display.make import EXTENSIONS
 	from onedesk.one_display.voices import _wav
 
-	job, reference = JOBS[kind], f"OneCloud {kind}"
+	job, reference = JOBS[kind], reference or f"OneCloud {kind}"
 	look, orientation = SHAPES.get(shape or "", SHAPES["square" if kind == "picture" else "wide"])
 	if kind == "video":
 		from onedesk.one_slide.ai import _video
@@ -86,7 +87,7 @@ def create(kind: str, target: str, description: str, shape: str | None = None, v
 		)
 		return {"begun": True}
 	try:
-		content, extension = _made(kind, description, shape, voice)
+		content, extension = making(kind, description, shape, voice)
 	except frappe.ValidationError:
 		frappe.throw(_("OneAI could not make it. Try again, or describe it differently."))
 	return _keep(target, stem, content, extension)
@@ -98,7 +99,7 @@ def made_later(kind: str, target: str, description: str, shape: str | None, stem
 	frappe.set_user(asker)
 	frappe.db.savepoint("one_storage_made")
 	try:
-		content, extension = _made(kind, description, shape, None)
+		content, extension = making(kind, description, shape, None)
 		tell.made(asker, _keep(target, stem, content, extension), target)
 	except Exception:
 		frappe.db.rollback(save_point="one_storage_made")

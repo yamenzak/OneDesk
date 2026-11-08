@@ -369,7 +369,7 @@ def oneai_makes_slides_and_pictures():
 				assert len(slides) == before + 1 and video["type"] == "video" and video["src"].startswith(api.MEDIA), video
 				assert told == [("Video Made for a Presentation", ["karim@one.test"], "Waves on a glass facade")], told
 				document = doc_api.make("@my", "Picture check")["document"]
-				picture = doc_api.make_picture(document, "A floor plan")
+				picture = doc_api.make_picture(document, "A floor plan", "wide")
 				assert picture["file_url"].startswith(doc_api.PICTURE), picture
 			portrait = convert.slide({"orientation": "Portrait", "blocks": [{"kind": "shape", "x": 0, "y": 0, "w": 100, "h": 100}]})
 			box = portrait["elements"][0]
