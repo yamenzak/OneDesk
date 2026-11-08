@@ -684,8 +684,11 @@ onedesk.interface.layouts = {
 				if (!count || !window.matchMedia("(hover: hover)").matches) return;
 				e.stopImmediatePropagation();
 				e.preventDefault();
-				if (count.closest(".one-interface-filters") && window.cur_list?.filter_area) window.cur_list.filter_area.clear();
-				else count.closest(".filter-selector").querySelector(".filter-x-button")?.click();
+				const area = count.closest(".one-interface-filters") && window.cur_list?.filter_area;
+				if (area) {
+					area.clear();
+					setTimeout(() => area.get().length && area.clear(), 400);
+				} else count.closest(".filter-selector").querySelector(".filter-x-button")?.click();
 			},
 			true
 		);
