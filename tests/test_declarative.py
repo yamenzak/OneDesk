@@ -114,3 +114,32 @@ def test_every_module_folder_is_in_modules_txt():
 		and p.name not in {"public", "patches", "config", "templates", "www", "one_demo", "notifications"}
 	]
 	assert not strays, f"module folders missing from modules.txt: {strays}"
+
+
+def _links_on_other_files_fields(files: dict[str, dict]) -> list[str]:
+	"""Each Connections row in a custom JSON whose field another file adds.
+	A fresh install syncs the files in the order the disk lists them and
+	checks every row as it goes, so the column may not be there yet."""
+	added = {(one["dt"], one["fieldname"]): name for name, data in files.items() for one in data.get("custom_fields") or []}
+	return [
+		f"{name}: {link['link_doctype']}.{link['link_fieldname']} is added by {added[(link['link_doctype'], link['link_fieldname'])]}"
+		for name, data in files.items()
+		for link in data.get("links") or []
+		if added.get((link["link_doctype"], link["link_fieldname"]), name) != name
+	]
+
+
+def test_a_connection_never_waits_on_another_files_field():
+	import json
+
+	files = {str(path.relative_to(tree.APP)): json.loads(path.read_text()) for path in tree.APP.glob("*/custom/*.json")}
+	found = _links_on_other_files_fields(files)
+	assert not found, "a Connections row on a field another file adds breaks a fresh install; declare it in override_doctype_dashboards: " + "; ".join(found)
+
+
+def test_the_connection_scan_would_catch_one():
+	files = {
+		"a/custom/b.json": {"links": [{"link_doctype": "C", "link_fieldname": "one_b"}]},
+		"a/custom/c.json": {"custom_fields": [{"dt": "C", "fieldname": "one_b"}]},
+	}
+	assert _links_on_other_files_fields(files) == ["a/custom/b.json: C.one_b is added by a/custom/c.json"]

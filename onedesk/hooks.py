@@ -1019,6 +1019,7 @@ override_doctype_dashboards = {
 	"Task": ["onedesk.one_task.task.dashboard"],
 	"Project": ["onedesk.one_project.tree.dashboard"],
 	"Activity Type": ["onedesk.one_project.rates.dashboard"],
+	"Non Conformance": ["onedesk.one_quality.connections.dashboard"],
 }
 
 override_doctype_class = {

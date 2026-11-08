@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 16:10+0000\n"
-"PO-Revision-Date: 2026-11-08 16:10+0000\n"
+"POT-Creation-Date: 2026-11-08 17:37+0000\n"
+"PO-Revision-Date: 2026-11-08 17:37+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2412,7 +2412,6 @@ msgstr ""
 msgid "Action"
 msgstr ""
 
-#. Group in Non Conformance's connections
 #: frontend/src/factory/floor/FloorSteps.vue:45
 #: frontend/src/inventory/item/ItemCustomers.vue:26
 #: frontend/src/inventory/item/ItemManufacturerRow.vue:16
@@ -2421,8 +2420,8 @@ msgstr ""
 #: frontend/src/kit/Rows.vue:45 frontend/src/project/Invoices.vue:53
 #: frontend/src/project/Suppliers.vue:62 frontend/src/project/Suppliers.vue:108
 #: frontend/src/project/Team.vue:46 frontend/src/template/Tasks.vue:86
-#: onedesk/one_quality/custom/non_conformance.json:20
-#: onedesk/one_quality/heads.py:79 onedesk/public/js/one/access_center.js:427
+#: onedesk/one_quality/connections.py:9 onedesk/one_quality/heads.py:79
+#: onedesk/public/js/one/access_center.js:427
 #: onedesk/public/js/one/access_center.js:487
 #: onedesk/public/js/one/access_center.js:516
 #: onedesk/public/js/one/notification_center.js:416
@@ -38747,7 +38746,7 @@ msgid "Process Loss Report"
 msgstr ""
 
 #. Label of the 'full_name' field in DocType 'Non Conformance'
-#: onedesk/one_quality/custom/non_conformance.json:43
+#: onedesk/one_quality/custom/non_conformance.json:34
 #: onedesk/one_quality/heads.py:109
 msgid "Process Owner"
 msgstr ""

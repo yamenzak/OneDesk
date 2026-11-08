@@ -15,16 +15,7 @@
   }
  ],
  "doctype": "Non Conformance",
- "links": [
-  {
-   "group": "Actions",
-   "link_doctype": "Quality Action",
-   "link_fieldname": "one_non_conformance",
-   "parent": "Non Conformance",
-   "parentfield": "links",
-   "parenttype": "DocType"
-  }
- ],
+ "links": [],
  "property_setters": [
   {
    "doc_type": "Non Conformance",
