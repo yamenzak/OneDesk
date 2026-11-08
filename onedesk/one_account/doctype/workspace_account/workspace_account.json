@@ -34,6 +34,7 @@
   "credits_expires_on",
   "credits_limit",
   "credits_spent",
+  "update_at",
   "domains_section",
   "domains",
   "dns_target",
@@ -256,6 +257,12 @@
    "read_only": 1
   },
   {
+   "fieldname": "update_at",
+   "fieldtype": "Datetime",
+   "label": "Next Update",
+   "read_only": 1
+  },
+  {
    "fieldname": "domains_section",
    "fieldtype": "Section Break",
    "label": "Addresses"
@@ -357,7 +364,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 14:44:19.103817",
+ "modified": "2026-11-08 14:58:19.231820",
  "modified_by": "Administrator",
  "module": "One Account",
  "name": "Workspace Account",

@@ -95,7 +95,7 @@ def test_the_board_follows_the_stages_and_keeps_lost_off_it():
 	assert '"Archived" if stage.one_outcome == "Lost"' in source, "a drop cannot say why a deal was lost"
 	for event in ("on_update", "after_rename", "after_delete"):
 		assert f'"{event}": "onedesk.one_crm.board.sync"' in HOOKS
-	assert '"onedesk.one_crm.board.sync"' in HOOKS.split("after_migrate")[1].split("]")[0]
+	assert '"onedesk.one_crm.board.sync"' in HOOKS.split("\nafter_migrate = [")[1].split("]")[0]
 
 
 def test_an_opportunity_is_called_an_opportunity():

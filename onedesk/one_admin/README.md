@@ -1749,6 +1749,35 @@ restoring, and a newer database fails there (tried on dev, 8 November
 2026: the restore ran and stopped at a property setter that was already
 there).
 
+### releases.py and notes.py: Updates
+
+**One window for everyone**: Saturday 01:00 to 03:00 UTC, night in Europe,
+early morning in the Gulf, Friday evening in the Americas.
+
+- `releases.check`, hourly: an update Frappe Cloud has waiting for the bench
+  group is set for the first window at least 72 hours away (`release_at`),
+  and the operators hear it (Update Set). Every workspace hears it in its
+  next `hello` (`Workspace Account.update_at`), and its top bar runs "One
+  updates on …" from three days before, opening What's New.
+- `releases.window`, Saturday 01:00 UTC: the bench group deployed and every
+  site on it updated (`press.api.bench.deploy_and_update`), each app at the
+  commit the gates passed: OneDesk at `main` as Frappe Cloud has it, frappe,
+  erpnext and hrms at the commits `upstream.json` pins. Frappe Cloud follows
+  their `develop`, so a deploy of its "next release" would take a commit
+  nobody tested; a pin Frappe Cloud does not offer (it lists each app's 16
+  newest) holds the whole update to the next window and the operators hear
+  it (Update Held).
+- **What's New before it lands** (`notes.py`): an admin site sends every
+  module's version notes, rendered, to `notes/index.json` in the shared
+  `one-docs` bucket whenever it migrates, merged into what is there so an
+  older environment never takes newer notes away. A workspace's What's New
+  shows the versions newer than its own first, marked Coming
+  (`versions.coming`).
+
+Tried on dev, 8 November 2026: the index sent (20 modules, 339 versions);
+the dry run chose hrms at its pin and OneDesk at `main`, and held the update
+because Frappe Cloud doesn't offer the pinned frappe and erpnext.
+
 ### price_list.py, costs.py, margins.py and offerings.py
 
 **The price list is code** (decided 8 November 2026). `price_list.py`

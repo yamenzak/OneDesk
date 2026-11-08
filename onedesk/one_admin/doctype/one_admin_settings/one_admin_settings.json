@@ -37,6 +37,9 @@
   "office_secret",
   "backup_bucket",
   "keeper_url",
+  "release_at",
+  "release_apps",
+  "release_running",
   "storage_section",
   "bucket_global",
   "column_break_buckets",
@@ -224,6 +227,27 @@
    "read_only": 1
   },
   {
+   "fieldname": "release_at",
+   "fieldtype": "Datetime",
+   "label": "Next Update",
+   "read_only": 1,
+   "description": "Set for the next Saturday window, early on Saturday morning UTC. Every workspace is told."
+  },
+  {
+   "fieldname": "release_apps",
+   "fieldtype": "Code",
+   "options": "JSON",
+   "label": "Update Apps",
+   "read_only": 1,
+   "hidden": 1
+  },
+  {
+   "fieldname": "release_running",
+   "fieldtype": "Data",
+   "label": "Update Running",
+   "read_only": 1
+  },
+  {
    "fieldname": "storage_section",
    "fieldtype": "Section Break",
    "label": "Storage",
@@ -391,7 +415,7 @@
  "index_web_pages_for_search": 0,
  "issingle": 1,
  "links": [],
- "modified": "2026-11-08 12:55:01.696659",
+ "modified": "2026-11-08 14:57:32.971553",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin Settings",

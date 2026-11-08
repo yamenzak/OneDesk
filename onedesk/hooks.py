@@ -14,6 +14,7 @@ app_logo_url = "/assets/onedesk/images/one.svg"
 after_sync = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one_admin.media.after_migrate",
+	"onedesk.one_admin.notes.after_migrate",
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
@@ -84,6 +85,7 @@ before_app_uninstall = ["onedesk.one_account.private.refuse_uninstall"]
 after_migrate = [
 	"onedesk.one.roles.ensure",
 	"onedesk.one_admin.media.after_migrate",
+	"onedesk.one_admin.notes.after_migrate",
 	"onedesk.one.notify.install",
 	"onedesk.one_legal.gate.told_of_changes",
 	"onedesk.one.access.settle",
@@ -177,6 +179,8 @@ scheduler_events = {
 		],
 		"15 9 * * *": ["onedesk.one_demo.living.day"],
 		"20 1 * * *": ["onedesk.one_admin.backups.nightly"],
+		"0 1 * * 6": ["onedesk.one_admin.releases.window"],
+		"10 * * * *": ["onedesk.one_admin.releases.check"],
 		"40 1 * * *": ["onedesk.one.backup.nightly"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],

@@ -305,6 +305,7 @@ onedesk.whats_new.open = async (module = null, version = null) => {
 				description: [kinds[one.kind] || one.kind, frappe.datetime.str_to_user(one.date)].join(" · "),
 				render(panel) {
 					if (one.new) panel.$header.find(".settings-dialog-panel-title").append(" ", frappe.ui.badge.html({ label: __("New"), theme: "blue" }));
+					if (one.coming) panel.$header.find(".settings-dialog-panel-title").append(" ", frappe.ui.badge.html({ label: __("Coming"), theme: "amber" }));
 					onedesk.module_docs.page(panel.body.empty(), one.html);
 					if (!one.docs.length) return;
 					const $more = $(`<div class="one-docs-more"></div>`).appendTo(panel.body);

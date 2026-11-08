@@ -120,6 +120,7 @@ def refresh() -> dict:
 			"days_left": standing.get("days_left"),
 			"next_status": standing.get("next"),
 			"closing_on": (said.get("closing") or {}).get("closing_on"),
+			"update_at": (said.get("update") or {}).get("at"),
 			"deleted_on": (said.get("closing") or {}).get("deleted_on"),
 			"last_heard": now_datetime(),
 			"last_error": None,

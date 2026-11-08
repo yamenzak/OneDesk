@@ -338,6 +338,7 @@ $.extend(onedesk.interface, {
 	},
 
 	async announcement(name) {
+		if (name === "one-update") return onedesk.whats_new.open();
 		const esc = frappe.utils.escape_html;
 		const note = await frappe.db.get_doc("Note", name);
 		const one = (onedesk.interface._news || []).find((row) => row.name === name) || {};

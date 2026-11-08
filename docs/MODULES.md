@@ -56,7 +56,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 56 | single |
+| One Admin Settings | 59 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -214,7 +214,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 47 | single |
+| Workspace Account | 48 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 

@@ -163,7 +163,22 @@ def _running() -> list[dict]:
 				"on": str(one.creation),
 			}
 		)
-	return out[:ON_THE_BAR]
+	return [*_update(now), *out][:ON_THE_BAR]
+
+
+UPDATE = "one-update"
+
+
+def _update(now) -> list[dict]:
+	"""One's next update, from the account, run first on everybody's bar
+	once it is three days away or less (one_admin/releases.py)."""
+	from frappe.utils import format_datetime, get_datetime, time_diff_in_hours
+
+	at = frappe.db.get_single_value("Workspace Account", "update_at")
+	if not at or not 0 < time_diff_in_hours(get_datetime(at), now) <= 72:
+		return []
+	when = format_datetime(at, "EEEE d MMMM, HH:mm")
+	return [{"name": UPDATE, "title": _("One updates on {0}").format(when), "text": _("It takes a few minutes. What's New says what changes."), "by": "One", "on": str(now)}]
 
 
 @frappe.whitelist(methods=["POST"])

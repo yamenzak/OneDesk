@@ -55,7 +55,37 @@ def whats_new(module: str) -> dict:
 		)
 	if entries:
 		frappe.defaults.set_user_default(SEEN.format(ready.MODULES[module]["folder"]), entries[0]["version"])
-	return {"module": module, "versions": entries}
+	return {"module": module, "versions": [*coming(module), *entries]}
+
+
+NOTES = "one_coming_notes"
+
+
+def _notes() -> dict:
+	"""The index every admin site publishes to the shared bucket, kept an
+	hour; nothing when it can't be read."""
+	held = frappe.cache.get_value(NOTES)
+	if held is None:
+		import requests
+
+		try:
+			answered = requests.get(f"{media.base()}/notes/index.json", timeout=5)
+			held = answered.json() if answered.ok else {}
+		except (requests.RequestException, ValueError):
+			held = {}
+		frappe.cache.set_value(NOTES, held, expires_in_sec=3600)
+	return held
+
+
+def coming(module: str) -> list[dict]:
+	"""A module's versions newer than this workspace runs, from the shared
+	index: what the next update brings."""
+	now = ready.number(ready.current(module) or "0.0.0")
+	return [
+		{**one, "coming": 1, "new": 0, "docs": []}
+		for one in _notes().get(module) or []
+		if isinstance(one, dict) and one.get("version") and ready.number(one["version"]) > now
+	]
 
 
 def _filled(module: str, body: str) -> str:
