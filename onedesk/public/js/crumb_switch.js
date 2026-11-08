@@ -162,6 +162,10 @@ onedesk.crumbs.records = ($crumb, { doctype, name, list, button = false }) =>
 			if (!$crumbs || !$crumbs.length) return;
 			const items = this.get_breadcrumbs();
 			const route = frappe.get_route();
+			if (["List", "Form"].includes(route[0]) && items[0]?.label === __(route[1]) && !$crumbs.eq(0).find(".one-crumb-icon").length) {
+				const name = onedesk.interface.icon_of?.(route[1]);
+				if (name) $crumbs.eq(0).children().first().prepend($(frappe.utils.icon(name, "sm")).addClass("one-crumb-icon"));
+			}
 			const form = route[0] === "Form" && route[2] && !String(route[2]).startsWith("new-");
 			const doctype = form ? route[1] : this.one_record;
 			const name = form ? route[2] : this.one_record && route[1];

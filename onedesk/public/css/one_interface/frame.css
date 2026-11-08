@@ -1314,8 +1314,14 @@ body.one-barred .body-sidebar-bottom {
 	color: var(--one-ink-strong);
 }
 
-.one-crumb-view .es-button > svg:first-of-type {
-	display: none;
+.one-crumb-icon {
+	flex: none;
+	margin-inline-end: calc(var(--spacing) * 1);
+}
+
+.one-crumb-emoji {
+	font-size: 13px;
+	line-height: 1;
 }
 
 .one-column-rows {

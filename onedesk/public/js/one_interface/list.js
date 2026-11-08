@@ -257,6 +257,7 @@ onedesk.interface.layouts = {
 				const meta = { icon: values.icon || "", default: values.default, sidebar: values.sidebar, label: values.filter_name };
 				const done = (name) => {
 					this.note(view.doctype, name, meta);
+					view.views_list?.refresh_trigger?.();
 					dialog.hide();
 					return filter.setup_layout_menu({ refetch: true }).then(() => filter.select_layout(name, values.filter_name));
 				};
@@ -327,6 +328,20 @@ onedesk.interface.layouts = {
 			if (layouts.pending?.doctype === doctype) return layouts.pending.name;
 			return layouts.default_of(doctype) || saved.call(this);
 		};
+		const restore = P.restore_layout_from_route_signature;
+		P.restore_layout_from_route_signature = function (opts = {}) {
+			const doctype = this.list_view.doctype;
+			const name = layouts.pending?.doctype === doctype ? layouts.pending.name : layouts.default_of(doctype);
+			const layout = name && this.find_layout_by_name(name);
+			if (!layout || this._user_selected_layout || opts.has_route_filters === undefined || !layouts.opened_plainly(this, opts)) return restore.call(this, opts);
+			const finish = () => {
+				this._initial_layout_restored = true;
+				this.list_view.views_list?.refresh_trigger?.();
+			};
+			this.set_active_layout(layout);
+			if (layout.name === opts.shown_name) return finish(), Promise.resolve();
+			return this.apply_saved_layout(layout, { refresh: opts.refresh }).then(finish, finish);
+		};
 		const deleted = P.delete_layout;
 		P.delete_layout = function (layout) {
 			return deleted.call(this, layout).then((said) => {
@@ -334,6 +349,15 @@ onedesk.interface.layouts = {
 				return said;
 			});
 		};
+	},
+
+	opened_plainly(filter, opts) {
+		if (!opts.has_route_filters) return true;
+		const bare = (text) => text.split("&").filter((one) => one && !one.startsWith("company=")).join("&");
+		const slug = `/${frappe.router.slug(filter.list_view.doctype)}`;
+		const link = [...document.querySelectorAll(".body-sidebar a.item-anchor[href]:not([data-one-layout])")].find((a) => a.pathname.replace(/\/view\/list$/, "").endsWith(slug));
+		const said = link ? filter._signature_from_search_params(new URLSearchParams(link.search)) : "";
+		return bare(filter.get_route_signature()) === bare(said);
 	},
 
 	open(doctype, name, label) {
@@ -484,6 +508,16 @@ onedesk.interface.layouts = {
 			Select.prototype.get_trigger_label = function () {
 				const said = label.call(this);
 				return said === this.label_map[this.current_view] ? __(this.current_view) : said;
+			};
+			const content = Select.prototype.set_trigger_content;
+			Select.prototype.set_trigger_content = function (text) {
+				content.call(this, text);
+				const filter = this.current_view === "List" ? this.list_view?.list_filter : null;
+				const icon = filter && filter.active_layout_name !== "default_layout" && layouts.said(this.doctype)[filter.active_layout_name]?.icon;
+				if (!icon) return;
+				const $first = this.$trigger.children("svg").first();
+				if (layouts.emoji(icon)) $first.replaceWith(`<span class="one-crumb-emoji">${frappe.utils.escape_html(icon)}</span>`);
+				else $first.replaceWith(frappe.utils.icon(icon, "sm"));
 			};
 		});
 		const List = frappe.views.ListView;
