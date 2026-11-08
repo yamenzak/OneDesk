@@ -6,14 +6,14 @@ from onedesk.one_legal.registry import clause, subprocessor
 M = "OneAdmin"
 
 subprocessor(
-	name="Frappe Technologies Pvt. Ltd.",
+	name="Amazon Web Services EMEA SARL",
 	module=M,
-	purpose="Frappe Cloud, which runs the servers we rent for One: each workspace's site, its database and its "
-	"daily backups",
+	purpose="The servers we rent for One on Amazon Lightsail: each workspace's site, its database, and a daily "
+	"snapshot of each server kept for seven days",
 	data="Everything in the workspace's database",
-	where="Germany (Nuremberg), on servers rented for One alone",
-	safeguard="Standard Contractual Clauses and Frappe's data processing addendum",
-	url="https://frappecloud.com/policies",
+	where="Sweden (Stockholm)",
+	safeguard="Standard Contractual Clauses and the AWS data processing addendum",
+	url="https://d1.awsstatic.com/legal/aws-dpa/aws-dpa.pdf",
 )
 
 subprocessor(
