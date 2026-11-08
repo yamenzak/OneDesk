@@ -3229,6 +3229,13 @@ OVERRIDES = [
 		"frappe/frappe/public/js/frappe/dom.js",
 		'<div id="freeze" class="modal-backdrop fade"></div>',
 	),
+	(
+		"A page that takes a moment shows its own shape",
+		"one_interface/page.js wraps frappe.router.render to start a skeleton of the route's page, and reads frappe.request.ajax_count to know when its data has come",
+		"onedesk/public/js/one_interface/page.js",
+		"frappe/frappe/public/js/frappe/router.js",
+		"render_page() {",
+	),
 ]
 
 

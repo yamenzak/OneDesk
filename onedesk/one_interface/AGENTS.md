@@ -130,6 +130,12 @@ shell, lists that only shrink; when they are empty the shell is deleted.
   or a call to `$.fn.tooltip` becomes one by itself (`onedesk.interface.tips`,
   chrome.js), so a screen just sets `title`. Scrollbars are hidden everywhere
   (scrollbar.css).
+- **Loading** (`onedesk.interface.skeleton`, page.js): a route that takes over
+  150 ms is covered by a skeleton until its page has arrived, its requests
+  have finished and nothing has changed for a moment. The shape is measured
+  from the page itself the last time it settled, kept in the person's "One
+  Skeletons" user settings, one generic shape per kind until then. No screen
+  writes one. A page already opened in this tab shows no skeleton.
 - **Status** (`window.status()`): what is here, what is chosen, and
   whatever the view puts beside it (a list's paging). The window on screen
   shows it at the start of the frame's bottom bar, as a taskbar would
