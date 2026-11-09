@@ -76,6 +76,11 @@ def heard(server: str, said: dict) -> None:
 	"""A box reports. What happens next depends on what it was told to do."""
 	row = servers.row_of(server)
 	kind = said.get("kind")
+	if str(kind).startswith("session-"):
+		from onedesk.one_admin import sessions
+
+		sessions.heard(said)
+		return
 	if not said.get("ok"):
 		frappe.log_error(title=f"{kind} failed on {server}", message=str(said.get("error")))
 		if kind == "prepare":
@@ -114,7 +119,7 @@ def _moved(tenant: str, bench: str | None) -> None:
 
 def _drop_the_empty(row) -> None:
 	rows = servers.benches(row)
-	used = {one.bench for one in _tenants(row.server)}
+	used = {one.bench for one in _tenants(row.server)} | set(frappe.get_all("Workspace Session", filters={"server": row.server, "status": ["!=", "Deleted"]}, pluck="bench"))
 	newest = servers.newest_ready(rows)
 	for one in rows:
 		if one["bench"] != newest and one["bench"] not in used and one.get("state") == "ready":

@@ -154,7 +154,7 @@ extend_bootinfo = [
 
 scheduler_events = {
 	"cron": {
-		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_admin.spares.keep", "onedesk.one_display.tell.long_waits", "onedesk.one_display.tell.past_limits"],
+		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_admin.spares.keep", "onedesk.one_admin.sessions.tick", "onedesk.one_display.tell.long_waits", "onedesk.one_display.tell.past_limits"],
 		"* * * * *": [
 			"onedesk.one_mail.inbound.sweep",
 			"onedesk.one_mail.sync.sync_all",
@@ -257,6 +257,8 @@ scheduler_events = {
 		"onedesk.one_inventory.tell.reorder_failed",
 		"onedesk.one.tell.repeats_failed",
 		"onedesk.one_admin.tell.builds_slow",
+		"onedesk.one.errors.pushed",
+		"onedesk.one.copies.said",
 		"onedesk.one_ai.brief.due",
 	],
 	"weekly": ["onedesk.one_ai.reading.digest.weekly", "onedesk.one_hr.tell.holidays_weekly"],
@@ -848,6 +850,8 @@ has_permission = {
 	"Offering": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Workspace Server": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Workspace Session": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Workspace Error": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Provisioning Job": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Stripe Webhook Event": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant": "onedesk.one_admin.site.refuse_on_a_tenant",
@@ -900,6 +904,8 @@ permission_query_conditions = {
 	"Offering": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"One Admin Settings": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Workspace Server": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Workspace Session": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Workspace Error": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Provisioning Job": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Stripe Webhook Event": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant": "onedesk.one_admin.site.nothing_on_a_tenant",

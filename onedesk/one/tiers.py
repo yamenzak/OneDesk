@@ -192,6 +192,7 @@ SCREENS = {
 	"oneadmin-billing": "Billing's home: what live workspaces pay, what that leaves against the margin floor, and OneCredits (Tenant, Offering, Credit Reservation)",
 	"oneadmin-releases": "Releases: each release, the versions each server holds and each workspace's window, across servers and workspaces (Workspace Server, Tenant)",
 	"oneadmin-status": "each service's state now and over thirty days, as a status page, which a list of checks cannot show (Health Check)",
+	"oneadmin-sessions": "start, stop, open and delete sessions on our own servers: real actions a list cannot do",
 	"intake": "what Intake read and did (Reading, Reading Action)",
 	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
 }

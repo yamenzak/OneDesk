@@ -3,11 +3,13 @@ umask 022
 trap 'shutdown -h now' ERR
 exec > /var/log/one-first-boot.log 2>&1
 
-fallocate -l 4G /swapfile
-chmod 600 /swapfile
-mkswap /swapfile
-swapon /swapfile
-echo '/swapfile none swap sw 0 0' >> /etc/fstab
+if [ -z "${ONE_IN_CONTAINER:-}" ]; then
+	fallocate -l 4G /swapfile
+	chmod 600 /swapfile
+	mkswap /swapfile
+	swapon /swapfile
+	echo '/swapfile none swap sw 0 0' >> /etc/fstab
+fi
 
 export DEBIAN_FRONTEND=noninteractive
 curl -fsSL https://pkg.cloudflare.com/cloudflare-main.gpg -o /usr/share/keyrings/cloudflare-main.gpg
@@ -16,13 +18,15 @@ apt-get update -qq
 apt-get install -y -qq cloudflared
 cloudflared service install "$ONE_TUNNEL_TOKEN"
 
-apt-get install -y -qq unattended-upgrades
-cat > /etc/apt/apt.conf.d/52one <<'APT'
+if [ -z "${ONE_IN_CONTAINER:-}" ]; then
+	apt-get install -y -qq unattended-upgrades
+	cat > /etc/apt/apt.conf.d/52one <<'APT'
 APT::Periodic::Update-Package-Lists "1";
 APT::Periodic::Unattended-Upgrade "1";
 Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "02:30";
 APT
+fi
 
 curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
 PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh

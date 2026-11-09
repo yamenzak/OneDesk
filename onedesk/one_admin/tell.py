@@ -418,6 +418,27 @@ def workspace_changed(workspace: str, said: str) -> None:
 
 
 @_quietly
+def server_connected(server: str) -> None:
+	"""A connected machine answered for the first time."""
+	notify.notify("Server Connected", operators(), link=HOME, sender="Administrator", server=server)
+
+
+@_quietly
+def new_error(doc) -> None:
+	"""A kind of error no workspace has had before (errors.heard)."""
+	notify.notify(
+		"New Error",
+		operators(),
+		link=f"/desk/workspace-error/{doc.name}",
+		sender="Administrator",
+		record=("Workspace Error", doc.name),
+		title=doc.title,
+		kind=doc.kind or "",
+		workspace=doc.tenant,
+	)
+
+
+@_quietly
 def server_short(server: str, said: str) -> None:
 	"""A server is short of disk or memory."""
 	notify.notify("Server Short", operators(), link=HOME, sender="Administrator", server=server, usage=said)

@@ -77,6 +77,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.oneadmin_billing": None,
 		"onedesk.oneadmin_releases": None,
 		"onedesk.oneadmin_status": None,
+		"onedesk.oneadmin_sessions": None,
 		"onedesk.head": None,
 	}
 	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()

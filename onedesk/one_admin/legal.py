@@ -1,7 +1,7 @@
 """What running a workspace adds to the agreements: where it runs, how it is
 reached, and who takes the money. See one_legal/AGENTS.md."""
 
-from onedesk.one_legal.registry import clause, subprocessor
+from onedesk.one_legal.registry import clause, service, subprocessor
 
 M = "OneAdmin"
 
@@ -47,6 +47,54 @@ subprocessor(
 	safeguard="Standard Contractual Clauses and Stripe's data processing agreement",
 	url="https://stripe.com/legal/dpa",
 )
+
+service(
+	key="training_copies",
+	module=M,
+	title="Training Copies",
+	does="Lets us make a temporary copy of your workspace's database, on a separate server, for your people to train on.",
+	sends="A copy of your workspace's database, not its files, to a server we rent from Oracle.",
+	off="No copy can be made. Copies already made are deleted within 48 hours.",
+	hosts=("onedesk.one_admin.proxy.copies_agreed",),
+)
+
+subprocessor(
+	name="Oracle Corporation",
+	module=M,
+	purpose="A temporary copy of a workspace's database, on a separate server, for the people who train on it",
+	data="A copy of the workspace's database, never its files",
+	where="Germany (Frankfurt)",
+	safeguard="Standard Contractual Clauses and Oracle's data processing agreement",
+	url="https://www.oracle.com/corporate/contracts/cloud-services/",
+	service="training_copies",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneadmin-training-copies",
+	module=M,
+	body="""
+		Training Copies is off until your workspace's administrators turn it on. While it is on, we can make a
+		copy of your workspace's newest nightly database backup, without its files, on a separate server we rent
+		from Oracle. Its mail and scheduled jobs are off. We do not sign in to a copy; your people sign in with
+		their own passwords. We delete a copy when its time ends, at most 30 days after it was made, and within
+		48 hours of your administrators turning Training Copies off.
+	""",
+)
+
+clause(
+	document="privacy",
+	section="modules",
+	key="oneadmin-error-summaries",
+	module=M,
+	body="""
+		Each workspace sends us a summary of its own errors every hour: the kind of error, where in One's code
+		it happened, how often and when. It sends no traceback and none of the data the error was working on.
+		We read these summaries to find and fix faults in One.
+	""",
+)
+
 
 clause(
 	document="privacy",

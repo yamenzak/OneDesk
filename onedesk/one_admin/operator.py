@@ -39,6 +39,15 @@ def order_server(tenant: str | None = None) -> dict:
 	return {"ordered": True}
 
 
+@frappe.whitelist(methods=["POST"])
+def connect_server(region: str) -> dict:
+	"""A machine that is not on AWS joins as a server: the line to run on it."""
+	_may()
+	from onedesk.one_admin import servers
+
+	return servers.connect(region)
+
+
 @frappe.whitelist()
 def standing(tenant: str) -> dict:
 	"""Where this workspace is, and what may be done to it from here.

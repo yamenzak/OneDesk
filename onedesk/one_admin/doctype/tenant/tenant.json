@@ -68,6 +68,7 @@
   "column_break_updates",
   "time_zone",
   "terms_pending",
+  "copies_agreed_on",
   "update_moving",
   "terms_reminded_on"
  ],
@@ -482,6 +483,12 @@
    "read_only": 1
   },
   {
+   "fieldname": "copies_agreed_on",
+   "fieldtype": "Datetime",
+   "label": "Training Copies Agreed On",
+   "read_only": 1
+  },
+  {
    "fieldname": "update_moving",
    "fieldtype": "Check",
    "label": "Moving",
@@ -496,7 +503,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-08 14:43:01.818425",
+ "modified": "2026-11-10 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Tenant",

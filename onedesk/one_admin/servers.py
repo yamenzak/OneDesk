@@ -9,11 +9,14 @@ the server joins Settings when Pilot answers. README, Servers.
 import hashlib
 import hmac
 import json
+import secrets
 import time
 from urllib.parse import urlparse
 
 import boto3
 import frappe
+from frappe.rate_limiter import rate_limit
+from werkzeug.wrappers import Response
 
 from onedesk.one_admin import boxes, faults, fleet, pilot, quota, site, tell, vault
 
@@ -27,6 +30,10 @@ DISK_LIMIT = 85
 MEMORY_LIMIT = 92
 REPOSITORY = boxes.REPOSITORY
 SITE_EVENTS = ("site_down", "site_up")
+CONNECTED_PROVIDER = "Oracle"
+CONNECTING = "Connecting"
+COPIES_AT_ONCE = 4
+TICKET_LASTS = 3600
 
 
 def after_a_check(misses: int, answered: bool) -> tuple[int, str | None]:
@@ -65,6 +72,10 @@ def watch() -> None:
 		except faults.Refused:
 			read = {}
 		answered = bool(read)
+		if row.status == CONNECTING:
+			if answered:
+				_connected(row)
+			continue
 		count = held.get(row.server, 0)
 		frappe.db.set_value("Workspace Server", row.name, {"status": status_of(answered, count, row.capacity), "workspaces": count, **used(read)}, update_modified=False)
 		key = f"one_admin_server_misses_{row.server}"
@@ -72,7 +83,7 @@ def watch() -> None:
 		frappe.db.set_default(key, str(misses))
 		if said:
 			tell.server_changed(row.server, said)
-		if said == "down" and not _own_address(row):
+		if said == "down" and row.provider == "AWS" and not _own_address(row):
 			_restart(row)
 
 
@@ -82,6 +93,21 @@ def _restart(row) -> None:
 		boxes.reboot(_keys(), row.server, row.region or boxes.REGION)
 	except Exception:
 		frappe.log_error(title=f"Rebooting {row.server}")
+
+
+def _connected(row) -> None:
+	"""A connected machine answered for the first time. Its copies get a share
+	of the container's memory, and its backups stay on the machine: a copy is
+	not kept (README, Servers)."""
+	keys = pilot.held(row.server)
+	try:
+		boxes.settle(row.pilot_host, {"client_id": keys["id"], "client_secret": keys["secret"]}, keys["password"], {}, share=boxes.CONTAINER_MEMORY_SHARE)
+		listen(row.server)
+	except Exception:
+		frappe.log_error(title=f"Connecting {row.server}")
+		return
+	frappe.db.set_value("Workspace Server", row.name, "status", "Up", update_modified=False)
+	tell.server_connected(row.server)
 
 
 def remove(server: str) -> None:
@@ -240,6 +266,78 @@ def begin(tenant: str | None = None) -> None:
 	if not vault.get(KEYS) or not vault.get("aws_secret_access_key"):
 		frappe.throw(frappe._("Server keys are not set."))
 	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id=f"one_admin_order_server_{tenant or 'shared'}", deduplicate=True, tenant=tenant)
+
+
+def connect(region: str) -> dict:
+	"""A machine that is not on AWS listed under Servers, and the one line
+	that joins it. Its tunnel, address and lock are made now; the machine
+	asks for its first boot with the ticket in the line. A machine already
+	waiting to join is given a new line."""
+	site.require_admin()
+	waiting = next((one.server for one in fleet.rows() if one.status == CONNECTING), None)
+	if waiting:
+		return {"server": waiting, "command": connect_command(waiting)}
+	if not vault.get(KEYS):
+		frappe.throw(frappe._("Server keys are not set."))
+	keys = _keys()
+	settings = frappe.get_single("One Admin Settings")
+	name = next_name([one.server for one in fleet.rows()], "oracle")
+	zone = keys["origin_zone"]
+	release = boxes.latest_release(keys)
+	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
+
+	def kept(made: dict) -> None:
+		pilot.remember(name, made["access"]["client_id"], made["access"]["client_secret"], made["pilot_password"], made["tunnel"], made["agent"])
+
+	made = boxes.connect(keys, cloudflare, name, zone, settings.tenant_domain, zone, tell.operators(), on_made=kept)
+	doc = frappe.get_doc(
+		{
+			"doctype": "Workspace Server",
+			"server": name,
+			"status": CONNECTING,
+			"region": region,
+			"open": 0,
+			"capacity": COPIES_AT_ONCE,
+			"pilot_host": made["host"],
+			"origin_host": made["origin"],
+			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
+			"provider": CONNECTED_PROVIDER,
+			"monthly_cost": 0,
+		}
+	)
+	doc.flags.ordered = True
+	doc.insert(ignore_permissions=True)
+	return {"server": name, "command": connect_command(name)}
+
+
+def connect_command(server: str) -> str:
+	"""The line that joins a machine: a ticket good for one hour and one use."""
+	ticket = secrets.token_urlsafe(24)
+	frappe.cache().set_value(_ticket(ticket), server, expires_in_sec=TICKET_LASTS)
+	return f"curl -fsSL '{frappe.utils.get_url()}/api/method/onedesk.one_admin.servers.connect_script?ticket={ticket}' | sudo bash"
+
+
+def _ticket(ticket: str) -> str:
+	return f"one_admin_connect:{hashlib.sha256(ticket.encode()).hexdigest()}"
+
+
+@frappe.whitelist(allow_guest=True, methods=["GET"])
+@rate_limit(limit=20, seconds=3600)
+def connect_script(ticket: str) -> Response:
+	"""What the connect line fetches: once, for one server, with the ticket."""
+	site.require_admin()
+	key = _ticket(ticket)
+	server = frappe.cache().get_value(key)
+	row = fleet.row_of(server) if server else None
+	if not row or row.status != CONNECTING:
+		raise frappe.PermissionError
+	frappe.cache().delete_value(key)
+	keys = _keys()
+	held = pilot.held(server)
+	made = {"tunnel": held["tunnel"], "host": row.pilot_host, "pilot_password": held["password"], "agent": held["agent"]}
+	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
+	script = boxes.connect_script(keys, cloudflare, server, made, boxes.latest_release(keys), frappe.utils.get_url())
+	return Response(script, mimetype="text/plain")
 
 
 def costs_of(tenant: str | None) -> int:
