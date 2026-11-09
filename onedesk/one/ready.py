@@ -60,11 +60,11 @@ MODULES = {
 		"names": ("one_legal", "onelegal"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-31", "commit": "b638e6df587d", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-31", "commit": "b638e6df587d", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-31", "commit": "b638e6df587d", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-31", "commit": "b638e6df587d", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-31", "commit": "b638e6df587d", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-09", "commit": "c07da170d8d0", "by": "Claude, for Yamen"},
 		},
 		# A module whose screen is a centre other modules open has no window,
 		# so no foot or settings of its own; it says why (docs/READY.md, A
