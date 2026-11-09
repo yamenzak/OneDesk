@@ -105,7 +105,8 @@ onedesk.tenant.backups = (frm) => {
 	const running = ["Live", "Overdue", "Suspended"].includes(frm.doc.status);
 	const gone = ["Archived", "Dropped"].includes(frm.doc.status);
 	frappe.xcall("onedesk.one_admin.operator.backups", { tenant: frm.doc.name }).then((kept) => {
-		const options = (kept || []).map((one) => ({ label: `${frappe.datetime.str_to_user(one.day)} · ${__(one.where)}`, value: `${one.where}|${one.day}` }));
+		const shown = (one) => (one.where === "recent" ? `${frappe.datetime.str_to_user(one.day.slice(0, 10))} ${one.day.slice(11, 13)}:${one.day.slice(13)} UTC` : frappe.datetime.str_to_user(one.day));
+		const options = (kept || []).map((one) => ({ label: `${shown(one)} · ${__(one.where)}`, value: `${one.where}|${one.day}` }));
 		if (!options.length) return frappe.msgprint(__("No backups are kept for {0} yet.", [frm.doc.slug]));
 		const verb = running ? __("Roll Back") : gone ? __("Rebuild") : null;
 		const dialog = new frappe.ui.Dialog({

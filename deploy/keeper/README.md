@@ -13,6 +13,12 @@ delete a backup or change the bucket's lock.
   time, skipping what is already kept. `GET /backup/<key>` and `GET
   /backups?prefix=` read them back for a restore. Nothing deletes or
   overwrites: a key already kept is left as it is.
+- **A workspace's own backups**, signed with its own secret: `PUT
+  /workspace/<slug>/<part>/<name>` keeps the night's under `daily/`, and
+  `PUT /workspace/<slug>/recent/<stamp>/<part>/<name>` keeps a four-hourly
+  database or config under `recent/`. A stamp more than an hour old or in
+  the future is refused, so a stolen secret cannot put a backup at the top
+  of the list.
 - **Search credentials**: `POST /search-credentials {bucket, prefix, ttl}`
   makes Cloudflare's temporary R2 credentials for a workspace's `search/`
   prefix alone, in a workspace bucket alone. Cloudflare asks an
@@ -26,8 +32,10 @@ OneAdmin's config as `keeper_secret`.
 ## The bucket and its lock
 
 Set Up Cloudflare makes the bucket and locks every object in it for 30
-days (an R2 bucket lock), and adds lifecycle rules so `daily/` goes after 31
-days and `monthly/` after 366. Locks and lifecycle are changed only by a run
+days (an R2 bucket lock), and adds lifecycle rules so `recent/` goes after 7
+days, `daily/` after 31 and `monthly/` after 366. A lock outranks a lifecycle
+rule, so while the whole bucket is locked for 30 days a four-hourly backup
+really stays 30 days. Locks and lifecycle are changed only by a run
 of Set Up Cloudflare, with the master key, which is never kept. OneAdmin's
 day-to-day token has no R2 or Workers rights at all, so it cannot redeploy
 this Worker with a delete path either.

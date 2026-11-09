@@ -168,6 +168,7 @@ scheduler_events = {
 		],
 		"*/5 * * * *": [
 			"onedesk.one_admin.servers.watch",
+			"onedesk.one.backup.due",
 			"onedesk.one_mail.team.due",
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",

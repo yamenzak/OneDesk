@@ -57,6 +57,7 @@ RUN_NEEDS = (
 	("Cloudchamber Write", "Cloudchamber Edit"),
 )
 LOCKED_DAYS = 30
+RECENT_DAYS = 7
 DAILY_DAYS = 31
 MONTHLY_DAYS = 366
 A_DAY = 86400
@@ -634,9 +635,11 @@ class Setup:
 
 	def backups(self) -> None:
 		"""The backup bucket (deploy/keeper/README.md): every object in it
-		locked for `LOCKED_DAYS`, `daily/` gone after `DAILY_DAYS` and
-		`monthly/` after `MONTHLY_DAYS`. Both rules are set on every run, so a
-		lock somebody lifted comes back."""
+		locked for `LOCKED_DAYS`, `recent/` gone after `RECENT_DAYS`, `daily/`
+		after `DAILY_DAYS` and `monthly/` after `MONTHLY_DAYS`. The lock wins
+		over a lifecycle rule, so `recent/` really goes at `LOCKED_DAYS`. Both
+		kinds of rule are set on every run, so a lock somebody lifted comes
+		back."""
 		name = self.settings.get("backup_bucket") or for_env(self.env, BACKUPS)
 		base = f"/accounts/{self.account}/r2/buckets"
 		held = self.call("GET", base)["result"]
@@ -653,7 +656,7 @@ class Setup:
 			json={
 				"rules": [
 					{"id": f"one-{prefix}", "enabled": True, "conditions": {"prefix": f"{prefix}/"}, "deleteObjectsTransition": {"condition": {"type": "Age", "maxAge": days * A_DAY}}}
-					for prefix, days in (("daily", DAILY_DAYS), ("monthly", MONTHLY_DAYS))
+					for prefix, days in (("recent", RECENT_DAYS), ("daily", DAILY_DAYS), ("monthly", MONTHLY_DAYS))
 				]
 			},
 		)

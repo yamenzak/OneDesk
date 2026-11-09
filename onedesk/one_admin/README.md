@@ -1697,8 +1697,8 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   and the account-wide R2 token that makes the search index's temporary
   credentials (`storage.search_access`). Its address is `keeper_url` and
   its secret `keeper_secret`. The backup bucket (`backup_bucket`,
-  `one-backups`) locks every object for 30 days; `daily/` goes after 31 and
-  `monthly/` after 366. A run of Set Up Cloudflare sets both again, so a
+  `one-backups`) locks every object for 30 days; `recent/` goes after 7 (in
+  fact 30, the lock outranks it), `daily/` after 31 and `monthly/` after 366. A run of Set Up Cloudflare sets both again, so a
   lock somebody lifted comes back.
 - **Where the config is.** On this machine, `site_config.json`. On Frappe
   Cloud, which rewrites that file from its own record, through its API
@@ -1721,6 +1721,13 @@ a workspace made before is given it by the nightly run (`backups.ready`,
 through Frappe Cloud's config). `Tenant.backup_ready` says it has one. This
 does not rely on Frappe Cloud's offsite backups, which depend on the
 site's plan, and works for dev's own sites too.
+
+**Every four hours**, in a five-minute turn taken from its name
+(`backup.slot`) so the workspaces on a box do not run together, each workspace
+sends its database and config to `/workspace/<slug>/recent/<stamp>/<part>/<name>`,
+kept under `recent/<slug>/<stamp>/`. The Backups dialog lists them with the
+time. Roll Back restores the database alone; Rebuild and Move Server, onto a
+new site, take the files from the newest night before it (`backups.chosen`).
 
 **Every night at 01:20 UTC** on the admin site (`backups.nightly`):
 OneAdmin's own database is backed up and put in the bucket, and each

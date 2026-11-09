@@ -4,6 +4,9 @@ const KEY = /^[A-Za-z0-9._\/-]{1,500}$/;
 const MOST_LISTED = 1000;
 const SLUG = /^[a-z0-9][a-z0-9-]{1,39}$/;
 const PART = /^(database|public|private|config)$/;
+const RECENT_PART = /^(database|config)$/;
+const STAMP = /^(\d{4}-\d{2}-\d{2})T(\d{2})(\d{2})$/;
+const STAMP_AGE = 60 * 60;
 const FRESH = 10 * 60;
 const KEPT_AGAIN = /^(archived|monthly)$/;
 
@@ -67,13 +70,29 @@ async function signature(secret, text) {
 	return [...new Uint8Array(mac)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
 }
 
-async function fromWorkspace(request, env, slug, part, name) {
-	if (!SLUG.test(slug) || !PART.test(part) || !KEY.test(name) || name.includes("/")) return answer({ error: "bad path" }, 400);
+async function signedBy(request, env, slug, path) {
 	const held = await env.SITES.get(`backup:${slug}`, { type: "json" });
 	const at = Number(request.headers.get("x-one-timestamp"));
-	if (!held || !held.secret || !at || Math.abs(Date.now() / 1000 - at) > FRESH) return new Response("Forbidden", { status: 403 });
-	const wanted = await signature(held.secret, `${at}.${slug}/${part}/${name}`);
-	if (wanted !== request.headers.get("x-one-signature")) return new Response("Forbidden", { status: 403 });
+	if (!held || !held.secret || !at || Math.abs(Date.now() / 1000 - at) > FRESH) return false;
+	return (await signature(held.secret, `${at}.${path}`)) === request.headers.get("x-one-signature");
+}
+
+function stampIsNow(stamp) {
+	const parts = stamp.match(STAMP);
+	if (!parts) return false;
+	const age = Date.now() / 1000 - Date.parse(`${parts[1]}T${parts[2]}:${parts[3]}:00Z`) / 1000;
+	return age >= -FRESH && age <= STAMP_AGE;
+}
+
+async function recentFromWorkspace(request, env, slug, stamp, part, name) {
+	if (!SLUG.test(slug) || !RECENT_PART.test(part) || !KEY.test(name) || name.includes("/") || !stampIsNow(stamp)) return answer({ error: "bad path" }, 400);
+	if (!(await signedBy(request, env, slug, `${slug}/recent/${stamp}/${part}/${name}`))) return new Response("Forbidden", { status: 403 });
+	return keep(env, `recent/${slug}/${stamp}/${part}/${name}`, request.body);
+}
+
+async function fromWorkspace(request, env, slug, part, name) {
+	if (!SLUG.test(slug) || !PART.test(part) || !KEY.test(name) || name.includes("/")) return answer({ error: "bad path" }, 400);
+	if (!(await signedBy(request, env, slug, `${slug}/${part}/${name}`))) return new Response("Forbidden", { status: 403 });
 	const day = new Date().toISOString().slice(0, 10);
 	const said = await keep(env, `daily/${slug}/${day}/${part}/${name}`, request.body);
 	if (day.endsWith("-01")) await again(env, { slug, day, into: "monthly" });
@@ -109,6 +128,8 @@ export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
 		const path = decodeURIComponent(url.pathname);
+		const recent = path.match(/^\/workspace\/([^/]+)\/recent\/([^/]+)\/([^/]+)\/([^/]+)$/);
+		if (recent && request.method === "PUT") return recentFromWorkspace(request, env, ...recent.slice(1));
 		const workspace = path.match(/^\/workspace\/([^/]+)\/([^/]+)\/([^/]+)$/);
 		if (workspace && request.method === "PUT") return fromWorkspace(request, env, ...workspace.slice(1));
 		if (!env.ONE_SECRET || request.headers.get("x-one-secret") !== env.ONE_SECRET) return new Response("Forbidden", { status: 403 });
