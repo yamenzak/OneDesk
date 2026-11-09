@@ -46,8 +46,11 @@ def _row(server: str):
 
 
 def _host(row, bench: str | None) -> str:
-	"""Each bench answers at its own Pilot address; none named is the first."""
-	found = next((one for one in frappe.parse_json(row.benches or "[]") or [] if one.get("bench") == bench), None)
+	"""Each bench answers at its own Pilot address; none named is the newest
+	ready one, since the first is dropped after an update."""
+	rows = frappe.parse_json(row.benches or "[]") or []
+	ready = [one for one in rows if one.get("state") == "ready"]
+	found = next((one for one in rows if one.get("bench") == bench), None) if bench else (ready[-1] if ready else None)
 	return (found or {}).get("host") or row.pilot_host
 
 

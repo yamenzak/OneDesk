@@ -70,7 +70,7 @@ def watch() -> None:
 		frappe.db.set_default(key, str(misses))
 		if said:
 			tell.server_changed(row.server, said)
-		if said == "down":
+		if said == "down" and not _own_address(row):
 			_restart(row)
 
 

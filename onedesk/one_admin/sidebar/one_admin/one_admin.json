@@ -13,8 +13,8 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Home",
-   "link_to": "One Admin",
-   "link_type": "Workspace",
+   "link_to": "oneadmin",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
    "idx": 1
@@ -39,8 +39,8 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Servers",
-   "link_to": "Workspace Server",
-   "link_type": "DocType",
+   "link_to": "oneadmin-servers",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
    "idx": 3
@@ -222,7 +222,7 @@
    "idx": 17
   }
  ],
- "modified": "2026-11-09 22:00:00.000000",
+ "modified": "2026-11-09 23:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",

@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 20:42+0000\n"
+"POT-Creation-Date: 2026-11-09 21:02+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -1167,6 +1167,10 @@ msgstr "Die Anhänge einer Nachricht werden mit ihrem Postfach gelesen."
 #, python-format
 msgid "A milestone bills between 0 and 100% of the contract."
 msgstr "Ein Meilenstein rechnet zwischen 0 und 100 % des Vertrags ab."
+
+#: frontend/src/admin/AdminHome.vue:41
+msgid "A month"
+msgstr "Pro Monat"
 
 #: onedesk/one_hr/home.py:144
 msgid "A month's pay, earning by earning."
@@ -3708,6 +3712,7 @@ msgstr "Ausrichtung"
 
 #. Name of a role
 #: frontend/portal/src/pages/List.vue:127
+#: frontend/src/admin/AdminServers.vue:28
 #: frontend/src/inventory/stock/StockOnHand.vue:133
 #: frontend/src/inventory/to_order/ToOrderPage.vue:124
 #: frontend/src/project/Time.vue:79
@@ -3767,6 +3772,10 @@ msgstr "Alles gelesen"
 #: onedesk/public/js/one_mail/onemail_settings.js:1397
 msgid "All Record Types"
 msgstr "Alle Datensatztypen"
+
+#: frontend/src/admin/AdminHome.vue:22
+msgid "All Servers"
+msgstr "Alle Server"
 
 #: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:179
 msgid "All Time"
@@ -11213,6 +11222,7 @@ msgstr "Korrekturen"
 #. Label in the One Staffing Plan print format
 #. Label in the One Travel Request print format
 #. Label in the One Vehicle Log print format
+#: frontend/src/admin/ServerRows.vue:10
 #: frontend/src/inventory/to_order/ToOrderPage.vue:22
 #: frontend/src/inventory/to_order/ToOrderPage.vue:145
 #: frontend/src/project/Money.vue:20 frontend/src/project/Money.vue:117
@@ -14624,6 +14634,7 @@ msgid "Dishes and prices on a screen on its side."
 msgstr "Gerichte und Preise auf einem Hochformat-Bildschirm."
 
 #. Label of the disk_used (Percent) field in DocType 'Workspace Server'
+#: frontend/src/admin/ServerRows.vue:8
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:125
 msgid "Disk"
 msgstr "Festplatte"
@@ -26938,6 +26949,10 @@ msgstr "Live"
 msgid "Live On"
 msgstr "Live seit"
 
+#: frontend/src/admin/AdminHome.vue:39
+msgid "Live Workspaces"
+msgstr "Aktive Arbeitsbereiche"
+
 #: frontend/src/workload/WorkloadList.vue:18
 #: frontend/src/workload/WorkloadList.vue:44
 #: onedesk/public/js/setup_wizard.js:154
@@ -28632,6 +28647,7 @@ msgid "Members of {0}"
 msgstr "Mitglieder von {0}"
 
 #. Label of the memory_used (Percent) field in DocType 'Workspace Server'
+#: frontend/src/admin/ServerRows.vue:7
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:118
 #: onedesk/public/js/one_ai/ai_center.js:355
 #: onedesk/public/js/one_ai/ai_center.js:357
@@ -29027,6 +29043,10 @@ msgstr "Monatliches Paketlimit"
 #, python-brace-format
 msgid "Monthly Pack Limit must be between 1 and {0}, and Minimum Balance above 0."
 msgstr "Das monatliche Paketlimit muss zwischen 1 und {0} liegen und das Mindestguthaben über 0."
+
+#: frontend/src/admin/AdminHome.vue:40
+msgid "Monthly Revenue"
+msgstr "Monatlicher Umsatz"
 
 #: onedesk/one_slide/decks.py:41
 msgid "Monthly Review"
@@ -29719,7 +29739,8 @@ msgstr "Braucht Aufmerksamkeit"
 msgid "Needs Review"
 msgstr "Prüfung nötig"
 
-#: frontend/portal/src/pages/Home.vue:32 frontend/src/project/Overview.vue:85
+#: frontend/portal/src/pages/Home.vue:32 frontend/src/admin/AdminHome.vue:5
+#: frontend/src/project/Overview.vue:85
 msgid "Needs You"
 msgstr "Braucht Sie"
 
@@ -31443,6 +31464,10 @@ msgstr "Kein Verkaufspreis"
 msgid "No server connections"
 msgstr "Keine Serververbindungen"
 
+#: frontend/src/admin/AdminServers.vue:10
+msgid "No servers"
+msgstr "Keine Server"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1176
 msgid "No shared mailboxes"
 msgstr "Keine gemeinsamen Postfächer"
@@ -32340,8 +32365,9 @@ msgstr "Nichts passt. Versuchen Sie weniger Wörter."
 msgid "Nothing more on it will be ordered or moved. Ask them if you still need it."
 msgstr "Darauf wird nichts mehr bestellt oder bewegt. Fragen Sie nach, wenn Sie es noch brauchen."
 
-#: frontend/src/books/BooksHome.vue:17 frontend/src/crm/CrmHome.vue:17
-#: frontend/src/factory/home/FactoryHome.vue:12 frontend/src/hr/HrHome.vue:17
+#: frontend/src/admin/AdminHome.vue:6 frontend/src/books/BooksHome.vue:17
+#: frontend/src/crm/CrmHome.vue:17 frontend/src/factory/home/FactoryHome.vue:12
+#: frontend/src/hr/HrHome.vue:17
 #: frontend/src/inventory/home/InventoryHome.vue:17
 #: frontend/src/quality/QualityHome.vue:12
 msgid "Nothing needs you"
@@ -35235,6 +35261,7 @@ msgstr ""
 msgid "Order Number"
 msgstr "Bestellnummer"
 
+#: frontend/src/admin/AdminServers.vue:7 frontend/src/admin/AdminServers.vue:36
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:14
 #: onedesk/one_admin/home.py:319 onedesk/one_admin/home.py:350
 msgid "Order Server"
@@ -35244,6 +35271,7 @@ msgstr "Server bestellen"
 msgid "Order This"
 msgstr "Dies bestellen"
 
+#: frontend/src/admin/AdminServers.vue:34
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:12
 msgid "Order a server?"
 msgstr "Server bestellen?"
@@ -35892,6 +35920,7 @@ msgstr "Überstunden von Hand erfasst: {0} Stunden, {1}."
 #: frontend/src/books/BooksHome.vue:93 frontend/src/crm/CrmHome.vue:93
 #: frontend/src/hr/HrHome.vue:113
 #: frontend/src/inventory/home/InventoryHome.vue:111
+#: onedesk/one_admin/page/oneadmin/oneadmin.js:2
 #: onedesk/one_book/sidebar/onebook/onebook.json:29
 #: onedesk/one_crm/sidebar/onecrm/onecrm.json:29
 #: onedesk/one_factory/sidebar/onefactory/onefactory.json:26
@@ -41541,6 +41570,7 @@ msgid "Rejected sets Skip Auto Attendance on the check-in and excludes it from a
 msgstr "„Abgelehnt“ setzt „Automatische Anwesenheit überspringen“ beim Check-in und schließt ihn aus. Nichts wird gelöscht."
 
 #. Task in the Mobile App project template
+#: frontend/src/admin/ServerRows.vue:9
 #: onedesk/one_project/library/mobile_app.json
 msgid "Release"
 msgstr ""
@@ -45146,6 +45176,7 @@ msgstr "Serviert mit Salat und frischem Brot."
 #. Label of the server (Data) field in DocType 'Tenant'
 #. Label of the server (Data) field in DocType 'Workspace Server'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
+#: frontend/src/admin/ServerRows.vue:4
 #: onedesk/one_admin/doctype/tenant/tenant.json:192
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:33
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
@@ -45158,6 +45189,10 @@ msgstr "Server"
 #: onedesk/notifications/one_admin/server_back.md
 msgid "Server Back"
 msgstr "Server wieder da"
+
+#: frontend/src/admin/AdminHome.vue:41
+msgid "Server Cost"
+msgstr "Serverkosten"
 
 #. Name of a notification
 #: onedesk/notifications/one_admin/server_down.md
@@ -45216,6 +45251,9 @@ msgid "Server {0} not found."
 msgstr "Server {0} nicht gefunden."
 
 #. Label of a Sidebar Item
+#: frontend/src/admin/AdminHome.vue:22 frontend/src/admin/AdminHome.vue:42
+#: frontend/src/admin/AdminServers.vue:6
+#: onedesk/one_admin/page/oneadmin_servers/oneadmin_servers.js:2
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:41
 #: onedesk/public/js/one_mail/onemail_settings.js:1105
 msgid "Servers"
@@ -48178,6 +48216,7 @@ msgstr ""
 #. Label of the status (Select) field in DocType 'Mail Conversation'
 #. Label of the status (Select) field in DocType 'Cloud File Request'
 #. Label of the status (Select) field in DocType 'Workspace Field'
+#: frontend/src/admin/ServerRows.vue:5
 #: frontend/src/factory/floor/OrderRows.vue:6
 #: frontend/src/inventory/lots/LotRows.vue:6
 #: frontend/src/inventory/lots/SerialRows.vue:6
@@ -49748,6 +49787,7 @@ msgstr "Von einem Termin entfernt"
 msgid "Taken back."
 msgstr "Zurückgenommen."
 
+#: frontend/src/admin/AdminServers.vue:35
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:13
 msgid "Takes about 25 minutes. $24 a month."
 msgstr "Dauert etwa 25 Minuten. 24 $ pro Monat."
@@ -50811,6 +50851,10 @@ msgstr "Das KI-Gateway auf dem Cloudflare-Konto oben."
 #: onedesk/one_interface/tour.py:17
 msgid "The App's Places"
 msgstr "Die Bereiche der App"
+
+#: frontend/src/admin/AdminHome.vue:19
+msgid "The Business"
+msgstr "Das Geschäft"
 
 #: onedesk/one/control.py:372
 msgid "The Code Comes From"
@@ -57106,7 +57150,7 @@ msgid "Video with OneAI…"
 msgstr "Video mit OneAI…"
 
 #. Label of the view (Select) field in DocType 'Extension'
-#: frontend/src/cloud/OneCloud.vue:1435
+#: frontend/src/admin/AdminHome.vue:15 frontend/src/cloud/OneCloud.vue:1435
 #: frontend/src/sheet/components/SheetEditor/toolbar.config.js:81
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:84
 #: frontend/src/sheet/components/SheetEditor/useShortcuts.js:88
@@ -62465,6 +62509,7 @@ msgstr "Regel des Arbeitsbereichs"
 #. Label of the grants (Table) field in DocType 'Private App'
 #. Label of the workspaces (Int) field in DocType 'Workspace Server'
 #. Label of a Sidebar Item
+#: frontend/src/admin/ServerRows.vue:6
 #: onedesk/one_admin/doctype/private_app/private_app.json:69
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:81
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:115
@@ -67986,7 +68031,7 @@ msgstr "{0} von {1} Monatslimit ausgegeben"
 msgid "{0} of them live."
 msgstr "{0} davon aktiv."
 
-#: frontend/src/cloud/CloudViewer.vue:23
+#: frontend/src/admin/ServerRows.vue:25 frontend/src/cloud/CloudViewer.vue:23
 #: frontend/src/factory/floor/OrderRows.vue:34
 #: frontend/src/factory/floor/OrderRows.vue:39
 #: frontend/src/mail/OneMail.vue:443 frontend/src/project/MilestoneLanes.vue:32

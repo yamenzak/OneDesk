@@ -12,7 +12,8 @@ SCREENS = (ROOT / "tests" / "browser" / "screens.mjs").read_text()
 
 
 def _pages() -> set[str]:
-	return {json.loads(path.read_text())["name"] for path in APP.glob("*/page/*/*.json") if path.parent.name != "__pycache__"}
+	"""A workspace's pages. OneAdmin's exist only on the admin site, which has no demo."""
+	return {json.loads(path.read_text())["name"] for path in APP.glob("*/page/*/*.json") if path.parent.name != "__pycache__" and "one_admin" not in path.parts}
 
 
 def test_every_page_of_ours_is_opened_in_the_browser():

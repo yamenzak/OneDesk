@@ -434,6 +434,8 @@ No doctypes yet.
 * `onedesk.one_admin.accounts.pay`
 * `onedesk.one_admin.accounts.save_name`
 * `onedesk.one_admin.accounts.send_login_link`
+* `onedesk.one_admin.console.overview`
+* `onedesk.one_admin.console.servers`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.backups`

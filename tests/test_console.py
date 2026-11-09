@@ -25,6 +25,7 @@ OPERATOR = "One Operator"
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
 UNRAILED = {
+	"Workspace Server",
 	"Stripe Webhook Event",
 	"Credit Reservation",
 }
@@ -87,8 +88,8 @@ def test_every_rail_entry_points_at_something_real():
 
 def test_the_rail_starts_at_home():
 	first = _sidebar()["items"][0]
-	assert first["link_type"] == "Workspace"
-	assert first["link_to"] == "One Admin"
+	assert first["link_type"] == "Page"
+	assert first["link_to"] == "oneadmin"
 
 
 def test_nothing_is_reachable_only_by_typing_its_name():
