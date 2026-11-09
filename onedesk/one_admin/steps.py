@@ -35,8 +35,8 @@ WALKS = {
 	"Restore": ("activate_site", "route_it", "mark_live"),
 	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived"),
 	"Drop": ("empty_storage", "mark_dropped"),
-	"Rebuild": ("forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "upload_backup", "restore_site", "site_is_up", "route_it", "push_config", "mark_live"),
-	"Roll Back": ("upload_backup", "restore_site", "site_is_up", "mark_live"),
+	"Rebuild": ("forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "upload_backup", "restore_site", "restore_is_done", "route_it", "push_config", "mark_live"),
+	"Roll Back": ("upload_backup", "restore_site", "restore_is_done", "mark_live"),
 	"Install App": ("app_on_bench", "install_app", "app_is_installed", "app_installed"),
 }
 
@@ -67,6 +67,7 @@ SAID = {
 	"upload_backup": _lt("Sending the backup to the server"),
 	"forget_site": _lt("Leaving the old site behind"),
 	"restore_site": _lt("Restoring the backup"),
+	"restore_is_done": _lt("Waiting for the server"),
 }
 
 
@@ -354,6 +355,11 @@ def restore_site(job, tenant) -> str | None:
 	payload["task"] = (answered or {}).get("task_id")
 	payload["restore_asked"] = True
 	job.db_set("payload", frappe.as_json(payload))
+
+
+def restore_is_done(job, tenant) -> str | None:
+	"""Wait for the restore, as for a build."""
+	return site_is_up(job, tenant)
 
 
 def note_backup(job, tenant) -> None:

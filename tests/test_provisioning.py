@@ -1,3 +1,4 @@
+import re
 """The step list, read back without a site.
 
 A name in `ORDER` that is not a function in the module is an `AttributeError`
@@ -169,3 +170,14 @@ def test_a_failed_build_can_be_closed():
 	assert "ladder.by_hand(held.status)" in operator
 	still = STEPS.read_text(encoding="utf-8").split("STILL = ", 1)[1].split("\n", 1)[0]
 	assert '"Archive": ("Suspended", "Failed")' in still
+
+
+def test_no_walk_repeats_a_step():
+	"""A job finds its place by the step's name, so a name used twice sends it
+	round again for ever."""
+	walks = re.search(r"WALKS = \{(.*?)\n\}", STEPS.read_text(), re.S).group(1)
+	names = re.findall(r"\"Provision\": ORDER", walks)
+	for line in walks.splitlines():
+		steps = re.findall(r'"([a-z_]+)"', line)
+		assert len(steps) == len(set(steps)), line.strip()
+	assert names, "the walks are read"
