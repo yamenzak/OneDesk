@@ -50,6 +50,16 @@ def watch() -> None:
 		frappe.db.set_default(key, str(misses))
 		if said:
 			tell.server_changed(row.server, said)
+		if said == "down":
+			_restart(row)
+
+
+def _restart(row) -> None:
+	"""One reboot for a box that stopped answering. The operators are already told."""
+	try:
+		boxes.reboot(_keys(), row.server, row.region or boxes.REGION)
+	except Exception:
+		frappe.log_error(title=f"Rebooting {row.server}")
 
 
 def limits_body(url: str, token: str) -> dict:

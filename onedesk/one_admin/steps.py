@@ -37,6 +37,7 @@ WALKS = {
 	"Drop": ("empty_storage", "mark_dropped"),
 	"Rebuild": ("forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "upload_backup", "restore_site", "restore_is_done", "route_it", "push_config", "mark_live"),
 	"Roll Back": ("upload_backup", "restore_site", "restore_is_done", "mark_live"),
+	"Move": ("note_source", "forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "upload_backup", "restore_site", "restore_is_done", "route_it", "push_config", "route_its_domains", "mark_live", "drop_source"),
 	"Install App": ("app_on_bench", "install_app", "app_is_installed", "app_installed"),
 }
 
@@ -68,6 +69,9 @@ SAID = {
 	"forget_site": _lt("Leaving the old site behind"),
 	"restore_site": _lt("Restoring the backup"),
 	"restore_is_done": _lt("Waiting for the server"),
+	"note_source": _lt("Stopping the old site"),
+	"route_its_domains": _lt("Pointing custom domains at the new server"),
+	"drop_source": _lt("Removing the old site"),
 }
 
 
@@ -126,7 +130,8 @@ def place_it(job, tenant) -> None:
 	if tenant.site or tenant.server:
 		return
 	eu = tenant.jurisdiction == "EU"
-	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and (one.eu or not eu)]
+	leaving = (frappe.parse_json(job.payload or "{}") or {}).get("from_server")
+	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server != leaving and (one.eu or not eu)]
 	kind = "open server that takes EU workspaces" if eu else "open server"
 	if not rows:
 		raise faults.Refused(f"Settings lists no {kind}. List one under Servers, then resume")
@@ -331,6 +336,42 @@ def upload_backup(job, tenant) -> None:
 	held = backups.chosen(tenant.slug, payload.get("day"), payload.get("where") or "daily")
 	payload["upload"], payload["parts"] = backups.to_server(tenant, held["parts"])
 	job.db_set("payload", frappe.as_json(payload))
+
+
+def note_source(job, tenant) -> None:
+	"""Where the workspace is leaving, and that site stopped if its server
+	still answers. A dead server is why many a move happens, so that is no
+	reason to stop."""
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	if payload.get("from_server"):
+		return
+	try:
+		_quiet(tenant, 1)
+	except faults.Busy:
+		raise
+	except faults.Refused:
+		pass
+	payload.update(from_server=tenant.server, from_site=tenant.site, from_bench=tenant.bench)
+	job.db_set("payload", frappe.as_json(payload))
+
+
+def route_its_domains(job, tenant) -> None:
+	"""The customer's own names follow it to the new server."""
+	from onedesk.one_admin import domains
+
+	domains.reroute(tenant)
+
+
+def drop_source(job, tenant) -> None:
+	"""The old site gone, if its server still answers. One that does not
+	keeps a stopped site until the server itself is deleted."""
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	try:
+		pilot.call(payload["from_server"], "DELETE", f"/sites/{payload['from_site']}", key=f"{job.name}:source", bench=payload.get("from_bench"))
+	except faults.Busy:
+		raise
+	except faults.Refused:
+		frappe.log_error(title=f"Old site of {tenant.name} left on {payload['from_server']}")
 
 
 def forget_site(job, tenant) -> None:

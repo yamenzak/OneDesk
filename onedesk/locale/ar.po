@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 18:13+0000\n"
+"POT-Creation-Date: 2026-11-09 18:20+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -2444,7 +2444,7 @@ msgstr "الإجراءات"
 msgid "Actions Performed"
 msgstr "الإجراءات المنفذة"
 
-#: onedesk/one_admin/steps.py:54
+#: onedesk/one_admin/steps.py:55
 msgid "Activating the site"
 msgstr "تفعيل الموقع"
 
@@ -5144,7 +5144,7 @@ msgstr ""
 msgid "Archived For"
 msgstr "مدة الأرشفة"
 
-#: onedesk/one_admin/steps.py:57
+#: onedesk/one_admin/steps.py:58
 msgid "Archiving the site"
 msgstr "أرشفة الموقع"
 
@@ -8307,7 +8307,7 @@ msgstr "إلغاء الحذف"
 msgid "Cancelled"
 msgstr "أُلغي"
 
-#: onedesk/one_admin/steps.py:58
+#: onedesk/one_admin/steps.py:59
 msgid "Cancelling its subscription in Stripe"
 msgstr "إلغاء اشتراكها في Stripe"
 
@@ -9103,11 +9103,11 @@ msgstr "جارٍ تسجيل الحضور…"
 msgid "Checking out…"
 msgstr "جارٍ تسجيل الانصراف…"
 
-#: onedesk/one_admin/steps.py:63
+#: onedesk/one_admin/steps.py:64
 msgid "Checking the app is on the server"
 msgstr "التحقق من وجود التطبيق على الخادم"
 
-#: onedesk/one_admin/steps.py:45
+#: onedesk/one_admin/steps.py:46
 msgid "Checking the name is free"
 msgstr "التحقق من توفر الاسم"
 
@@ -9355,7 +9355,7 @@ msgstr "اختر كلمة المرور لتبدأ.{apps}<br><br>يعمل الر�
 msgid "Choose {0} from the list, or use the location button."
 msgstr "اختر {0} من القائمة، أو استخدم زر الموقع."
 
-#: onedesk/one_admin/steps.py:44
+#: onedesk/one_admin/steps.py:45
 msgid "Choosing a server"
 msgstr "اختيار خادم"
 
@@ -9625,7 +9625,7 @@ msgstr "الساعة والطقس"
 #: onedesk/public/js/module_docs.js:492
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/one_interface/dialogs.js:42
-#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:126
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:137
 #: onedesk/public/js/workbooks.js:122 onedesk/www/s.html:122
 msgid "Close"
 msgstr "إغلاق"
@@ -10455,7 +10455,7 @@ msgstr ""
 msgid "Confidence Floor"
 msgstr "حد الثقة الأدنى"
 
-#: onedesk/one_admin/steps.py:49
+#: onedesk/one_admin/steps.py:50
 msgid "Configuring the site"
 msgstr "تهيئة الموقع"
 
@@ -11840,7 +11840,7 @@ msgstr "يُنشئ مجلد النشرات إن لم يوجد."
 msgid "Creating the download. You'll be notified when it's ready."
 msgstr "يجري إنشاء التنزيل. ستتلقى إشعارًا عندما يصبح جاهزًا."
 
-#: onedesk/one_admin/steps.py:46
+#: onedesk/one_admin/steps.py:47
 msgid "Creating the site"
 msgstr "إنشاء الموقع"
 
@@ -12975,7 +12975,7 @@ msgstr "أيام لا يجوز أخذ إجازة فيها."
 msgid "Days, hours and minutes to an opening or an event."
 msgstr "الأيام والساعات والدقائق حتى افتتاح أو فعالية."
 
-#: onedesk/one_admin/steps.py:52
+#: onedesk/one_admin/steps.py:53
 msgid "Deactivating the site"
 msgstr "إيقاف تفعيل الموقع"
 
@@ -13600,7 +13600,7 @@ msgstr "فشل حذف ملفات {0}"
 msgid "Deleting files of {0} is stalled"
 msgstr "حذف ملفات {0} متوقف"
 
-#: onedesk/one_admin/steps.py:61
+#: onedesk/one_admin/steps.py:62
 msgid "Deleting the files"
 msgstr "حذف الملفات"
 
@@ -23484,7 +23484,7 @@ msgstr "تم التركيب لـ"
 msgid "Installing"
 msgstr "قيد التثبيت"
 
-#: onedesk/one_admin/steps.py:64
+#: onedesk/one_admin/steps.py:65
 msgid "Installing the app"
 msgstr "تثبيت التطبيق"
 
@@ -23810,7 +23810,7 @@ msgstr "مدعوّ، لم يسجّل الدخول بعد"
 msgid "Invitees"
 msgstr "المدعوون"
 
-#: onedesk/one_admin/steps.py:50
+#: onedesk/one_admin/steps.py:51
 msgid "Inviting the owner"
 msgstr "دعوة المالك"
 
@@ -26201,7 +26201,7 @@ msgstr "يستبعد ما يرسمه القالب الرئيسي للعرض تح
 msgid "Leaving"
 msgstr "ترك العمل"
 
-#: onedesk/one_admin/steps.py:68
+#: onedesk/one_admin/steps.py:69
 msgid "Leaving the old site behind"
 msgstr "ترك الموقع القديم"
 
@@ -28189,23 +28189,23 @@ msgstr "حملة تسويقية"
 msgid "Markets open higher"
 msgstr "الأسواق تفتتح على ارتفاع"
 
-#: onedesk/one_admin/steps.py:60
+#: onedesk/one_admin/steps.py:61
 msgid "Marking it archived"
 msgstr "تعليمها مؤرشفة"
 
-#: onedesk/one_admin/steps.py:62
+#: onedesk/one_admin/steps.py:63
 msgid "Marking it dropped"
 msgstr "تعليمها محذوفة"
 
-#: onedesk/one_admin/steps.py:66
+#: onedesk/one_admin/steps.py:67
 msgid "Marking it installed"
 msgstr "تعليمه كمثبّت"
 
-#: onedesk/one_admin/steps.py:51 onedesk/one_admin/steps.py:55
+#: onedesk/one_admin/steps.py:52 onedesk/one_admin/steps.py:56
 msgid "Marking it live"
 msgstr "تعليمها قيد التشغيل"
 
-#: onedesk/one_admin/steps.py:53
+#: onedesk/one_admin/steps.py:54
 msgid "Marking it suspended"
 msgstr "تعليمها معلّقة"
 
@@ -29071,10 +29071,12 @@ msgstr "زر الرجوع في الفأرة"
 msgid "Mouse Forward"
 msgstr "زر التقدم في الفأرة"
 
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Office Move project template
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -29095,6 +29097,10 @@ msgstr "نقل البريد المزعج والتصيد"
 #: onedesk/public/js/one_mail/onemail_settings.js:388
 msgid "Move Newsletters and Ads"
 msgstr "نقل النشرات والإعلانات"
+
+#: onedesk/public/js/tenant.js:126 onedesk/public/js/tenant.js:132
+msgid "Move Server"
+msgstr "نقل الخادم"
 
 #: onedesk/one_calendar/tour.py:18
 msgid "Move Through Time"
@@ -29192,6 +29198,11 @@ msgstr "عطلة الانتقال"
 #, python-brace-format
 msgid "Move {0}"
 msgstr "نقل {0}"
+
+#: onedesk/public/js/tenant.js:129
+#, python-brace-format
+msgid "Move {0} to another server from this backup? What changed since is lost."
+msgstr "هل تريد نقل {0} إلى خادم آخر من هذه النسخة الاحتياطية؟ ستفقد ما تغيّر منذ ذلك الحين."
 
 #: frontend/src/mail/OneMail.vue:532 onedesk/one_inventory/heads.py:633
 msgid "Moved"
@@ -34125,6 +34136,10 @@ msgstr "المكالمات تكون فقط لعميل محتمل أو فرصة."
 msgid "Only a link that still opens can be sent."
 msgstr "لا يمكن إرسال إلا رابط ما زال يفتح."
 
+#: onedesk/one_admin/operator.py:113
+msgid "Only a live workspace is moved."
+msgstr "لا يمكن نقل سوى مساحة عمل نشطة."
+
 #: onedesk/one_mail/connect.py:231
 msgid "Only a mailbox at a company domain can be connected for someone."
 msgstr "لا يمكن ربط صندوق بريد لشخص آخر إلا إذا كان على نطاق الشركة."
@@ -38059,6 +38074,10 @@ msgstr "السباكة والكهرباء"
 msgid "Point your phone's camera at the code to join. No typing needed."
 msgstr "وجّه كاميرا هاتفك نحو الرمز للانضمام. لا حاجة للكتابة."
 
+#: onedesk/one_admin/steps.py:73
+msgid "Pointing custom domains at the new server"
+msgstr "توجيه النطاقات المخصصة إلى الخادم الجديد"
+
 #. Label of the weight (Int) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json:27
 msgid "Points Lost"
@@ -41038,7 +41057,7 @@ msgstr "حُفظ التسجيل. سيفرّغه OneAI كتابيًا ويعلّ�
 msgid "Recording starts only after the interviewer confirms the candidate's consent."
 msgstr "لا يبدأ التسجيل إلا بعد أن يؤكد المُحاور موافقة المرشح."
 
-#: onedesk/one_admin/steps.py:56
+#: onedesk/one_admin/steps.py:57
 msgid "Recording the latest backup"
 msgstr "تسجيل أحدث نسخة احتياطية"
 
@@ -41740,9 +41759,13 @@ msgstr "تمت الإزالة"
 msgid "Removed from Project"
 msgstr "أُزلت من المشروع"
 
-#: onedesk/one_admin/steps.py:59
+#: onedesk/one_admin/steps.py:60
 msgid "Removing the address"
 msgstr "إزالة العنوان"
+
+#: onedesk/one_admin/steps.py:74
+msgid "Removing the old site"
+msgstr "إزالة الموقع القديم"
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
@@ -42548,7 +42571,7 @@ msgstr "استُعيدت {0}"
 msgid "Restored {0} items"
 msgstr "تمت استعادة {0} عناصر"
 
-#: onedesk/one_admin/steps.py:69
+#: onedesk/one_admin/steps.py:70
 msgid "Restoring the backup"
 msgstr "استعادة النسخة الاحتياطية"
 
@@ -44747,7 +44770,7 @@ msgstr "نطاق المرسل"
 msgid "Sender's Records"
 msgstr "سجلات المرسل"
 
-#: onedesk/one_admin/steps.py:67
+#: onedesk/one_admin/steps.py:68
 msgid "Sending the backup to the server"
 msgstr "إرسال النسخة الاحتياطية إلى الخادم"
 
@@ -45073,7 +45096,7 @@ msgstr "خطأ في الخادم: {0}"
 msgid "Server is required."
 msgstr "الخادم مطلوب."
 
-#: onedesk/one_admin/servers.py:174
+#: onedesk/one_admin/servers.py:184
 msgid "Server keys are not set."
 msgstr "لم يتم تعيين مفاتيح الخادم."
 
@@ -45404,7 +45427,7 @@ msgstr "جارٍ الإعداد…"
 msgid "Setting up One"
 msgstr "جارٍ إعداد One"
 
-#: onedesk/one_admin/steps.py:48
+#: onedesk/one_admin/steps.py:49
 msgid "Setting up the address"
 msgstr "إعداد العنوان"
 
@@ -48567,6 +48590,10 @@ msgstr "توقف، وتجاوز القواعد التالية"
 #: onedesk/one_inventory/heads.py:641
 msgid "Stopped; nothing more will be done on it."
 msgstr "موقوف؛ لن يُعمل عليه شيء آخر."
+
+#: onedesk/one_admin/steps.py:72
+msgid "Stopping the old site"
+msgstr "إيقاف الموقع القديم"
 
 #. Label in the One Delivery Trip print format
 #: onedesk/one_inventory/print_format/one_delivery_trip/one_delivery_trip.json
@@ -57222,8 +57249,8 @@ msgstr "بانتظار DNS الخاص بالعميل."
 msgid "Waiting for the phone…"
 msgstr "بانتظار الهاتف…"
 
-#: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:47
-#: onedesk/one_admin/steps.py:65 onedesk/one_admin/steps.py:70
+#: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:48
+#: onedesk/one_admin/steps.py:66 onedesk/one_admin/steps.py:71
 msgid "Waiting for the server"
 msgstr "في انتظار الخادم"
 
@@ -65765,7 +65792,7 @@ msgstr "{0} يخص {1} بالفعل."
 msgid "{0} already has a field called {1}."
 msgstr "يحتوي {0} بالفعل على حقل باسم {1}."
 
-#: onedesk/one_admin/operator.py:233
+#: onedesk/one_admin/operator.py:242
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
@@ -66638,7 +66665,7 @@ msgstr "لا توجد إصدارات لـ {0}."
 msgid "{0} has no {1} account to create {2} under."
 msgstr "لا يوجد لدى {0} حساب {1} لإنشاء {2} تحته."
 
-#: onedesk/one_admin/operator.py:154
+#: onedesk/one_admin/operator.py:163
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr "{0} لم تفشل."
@@ -66668,7 +66695,7 @@ msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr "لدى {0} عدد {1} من الأرصدة ({2} محجوزة)."
 
-#: onedesk/one_admin/operator.py:230
+#: onedesk/one_admin/operator.py:239
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr "لم يُدفع {0}."
@@ -67107,7 +67134,7 @@ msgstr "{0} ليس تنسيقًا يمكن أن يبدأ منه {1}."
 msgid "{0} is not a grant."
 msgstr "{0} ليست منحة."
 
-#: onedesk/one_admin/operator.py:198
+#: onedesk/one_admin/operator.py:207
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr "{0} ليست مهمة."
@@ -67318,7 +67345,7 @@ msgstr "{0} غير متاح هنا."
 msgid "{0} is not on this project."
 msgstr "{0} ليس ضمن هذا المشروع."
 
-#: onedesk/one_admin/domains.py:208
+#: onedesk/one_admin/domains.py:216
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
@@ -67388,7 +67415,7 @@ msgstr "{0} ليس شيئاً يعرفه هذا الإشعار. يمكنه اس�
 msgid "{0} is not under this project."
 msgstr "{0} ليس ضمن هذا المشروع."
 
-#: onedesk/one_admin/operator.py:178
+#: onedesk/one_admin/operator.py:187
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr "{0} لا تنتظر التشغيل."
@@ -68405,7 +68432,7 @@ msgstr "تُجلب مصادر {0} كل {1} دقيقة على الأكثر. تم 
 msgid "{0} spent"
 msgstr "{0} مصروف"
 
-#: onedesk/public/js/tenant.js:134
+#: onedesk/public/js/tenant.js:132 onedesk/public/js/tenant.js:145
 #, python-brace-format
 msgid "{0} started."
 msgstr "بدأ {0}."

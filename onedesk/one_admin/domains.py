@@ -164,6 +164,14 @@ def nightly() -> None:
 	tell.domains_waiting()
 
 
+def reroute(tenant) -> None:
+	"""Every name already routed sent to the workspace's site where it is now."""
+	from onedesk.one_admin import steps
+
+	for name in frappe.get_all("Tenant Domain", filters={"tenant": tenant.name, "cloudflare_id": ["is", "set"]}, pluck="domain"):
+		cloudflare.host_route(name, f"{tenant.site} {steps._origin(tenant.server)}")
+
+
 def unroute(tenant) -> None:
 	"""Take every name off the edge when a workspace is archived: ours, and
 	each of the customer's with its custom hostname."""

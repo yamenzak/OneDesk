@@ -105,6 +105,15 @@ def roll_back(tenant: str, day: str, where: str = "daily") -> str:
 	return runner.start(tenant, "Roll Back", {"day": day, "where": where})
 
 
+@frappe.whitelist(methods=["POST"])
+def move(tenant: str, day: str, where: str = "daily") -> str:
+	"""A live workspace built on another server from a kept backup: the job."""
+	_may()
+	if frappe.db.get_value("Tenant", tenant, "status") != "Live":
+		frappe.throw(frappe._("Only a live workspace is moved."))
+	return runner.start(tenant, "Move", {"day": day, "where": where})
+
+
 @frappe.whitelist()
 def restore(tenant: str) -> dict:
 	"""Put it back to Live.

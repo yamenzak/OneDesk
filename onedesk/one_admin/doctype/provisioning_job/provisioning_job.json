@@ -36,7 +36,7 @@
    "fieldname": "kind",
    "fieldtype": "Select",
    "label": "Kind",
-   "options": "Provision\nSuspend\nRestore\nArchive\nDrop\nInstall App\nRebuild\nRoll Back",
+   "options": "Provision\nSuspend\nRestore\nArchive\nDrop\nInstall App\nRebuild\nRoll Back\nMove",
    "read_only": 1,
    "in_list_view": 1,
    "in_standard_filter": 1

@@ -1768,6 +1768,14 @@ keeps two finished sites on each server with their schedulers paused, and a
 signup renames one to its address: 31 seconds, against 8 minutes for a new
 build. A spare counts towards the server's limit.
 
+A box short of disk (85%) or memory (92%) for five minutes warns the operators:
+Pilot's own webhook, signed with the box's secret, to `servers.pressure`. A box
+that misses three checks gets one reboot. **Move Server**, in a live
+workspace's Backups dialog, builds it on another open server from the backup
+chosen, repoints its names, and drops the old site if that server answers;
+what changed since the backup is lost. OneAdmin's own box is listed with
+**Open** off, so releases reach it and nothing else lands there.
+
 `server.py lock-admin` puts OneAdmin's desk and raw record API behind Access.
 Signup, payment and the customers' account pages stay open.
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 18:13+0000\n"
-"PO-Revision-Date: 2026-11-09 18:13+0000\n"
+"POT-Creation-Date: 2026-11-09 18:20+0000\n"
+"PO-Revision-Date: 2026-11-09 18:20+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2440,7 +2440,7 @@ msgstr ""
 msgid "Actions Performed"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:54
+#: onedesk/one_admin/steps.py:55
 msgid "Activating the site"
 msgstr ""
 
@@ -5140,7 +5140,7 @@ msgstr ""
 msgid "Archived For"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:57
+#: onedesk/one_admin/steps.py:58
 msgid "Archiving the site"
 msgstr ""
 
@@ -8303,7 +8303,7 @@ msgstr ""
 msgid "Cancelled"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:58
+#: onedesk/one_admin/steps.py:59
 msgid "Cancelling its subscription in Stripe"
 msgstr ""
 
@@ -9099,11 +9099,11 @@ msgstr ""
 msgid "Checking out…"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:63
+#: onedesk/one_admin/steps.py:64
 msgid "Checking the app is on the server"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:45
+#: onedesk/one_admin/steps.py:46
 msgid "Checking the name is free"
 msgstr ""
 
@@ -9351,7 +9351,7 @@ msgstr ""
 msgid "Choose {0} from the list, or use the location button."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:44
+#: onedesk/one_admin/steps.py:45
 msgid "Choosing a server"
 msgstr ""
 
@@ -9621,7 +9621,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:492
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/one_interface/dialogs.js:42
-#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:126
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:137
 #: onedesk/public/js/workbooks.js:122 onedesk/www/s.html:122
 msgid "Close"
 msgstr ""
@@ -10451,7 +10451,7 @@ msgstr ""
 msgid "Confidence Floor"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:49
+#: onedesk/one_admin/steps.py:50
 msgid "Configuring the site"
 msgstr ""
 
@@ -11836,7 +11836,7 @@ msgstr ""
 msgid "Creating the download. You'll be notified when it's ready."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:46
+#: onedesk/one_admin/steps.py:47
 msgid "Creating the site"
 msgstr ""
 
@@ -12971,7 +12971,7 @@ msgstr ""
 msgid "Days, hours and minutes to an opening or an event."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:52
+#: onedesk/one_admin/steps.py:53
 msgid "Deactivating the site"
 msgstr ""
 
@@ -13596,7 +13596,7 @@ msgstr ""
 msgid "Deleting files of {0} is stalled"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:61
+#: onedesk/one_admin/steps.py:62
 msgid "Deleting the files"
 msgstr ""
 
@@ -23487,7 +23487,7 @@ msgstr ""
 msgid "Installing"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:64
+#: onedesk/one_admin/steps.py:65
 msgid "Installing the app"
 msgstr ""
 
@@ -23813,7 +23813,7 @@ msgstr ""
 msgid "Invitees"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:50
+#: onedesk/one_admin/steps.py:51
 msgid "Inviting the owner"
 msgstr ""
 
@@ -26204,7 +26204,7 @@ msgstr ""
 msgid "Leaving"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:68
+#: onedesk/one_admin/steps.py:69
 msgid "Leaving the old site behind"
 msgstr ""
 
@@ -28197,23 +28197,23 @@ msgstr ""
 msgid "Markets open higher"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:60
+#: onedesk/one_admin/steps.py:61
 msgid "Marking it archived"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:62
+#: onedesk/one_admin/steps.py:63
 msgid "Marking it dropped"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:66
+#: onedesk/one_admin/steps.py:67
 msgid "Marking it installed"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:51 onedesk/one_admin/steps.py:55
+#: onedesk/one_admin/steps.py:52 onedesk/one_admin/steps.py:56
 msgid "Marking it live"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:53
+#: onedesk/one_admin/steps.py:54
 msgid "Marking it suspended"
 msgstr ""
 
@@ -29079,10 +29079,12 @@ msgstr ""
 msgid "Mouse Forward"
 msgstr ""
 
+#. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #. Option for the 'Kind' (Select) field in DocType 'AI Proposal'
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
 #. Option for the 'OneAI Action' (Select) field in DocType 'Reading Lesson'
 #. Task in the Office Move project template
+#: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:39
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:36
 #: onedesk/one_ai/doctype/reading_lesson/reading_lesson.json:25
@@ -29102,6 +29104,10 @@ msgstr ""
 
 #: onedesk/public/js/one_mail/onemail_settings.js:388
 msgid "Move Newsletters and Ads"
+msgstr ""
+
+#: onedesk/public/js/tenant.js:126 onedesk/public/js/tenant.js:132
+msgid "Move Server"
 msgstr ""
 
 #: onedesk/one_calendar/tour.py:18
@@ -29199,6 +29205,11 @@ msgstr ""
 #: onedesk/one_studio/doctype/record_type/record_type_list.js:59
 #, python-brace-format
 msgid "Move {0}"
+msgstr ""
+
+#: onedesk/public/js/tenant.js:129
+#, python-brace-format
+msgid "Move {0} to another server from this backup? What changed since is lost."
 msgstr ""
 
 #: frontend/src/mail/OneMail.vue:532 onedesk/one_inventory/heads.py:633
@@ -34133,6 +34144,10 @@ msgstr ""
 msgid "Only a link that still opens can be sent."
 msgstr ""
 
+#: onedesk/one_admin/operator.py:113
+msgid "Only a live workspace is moved."
+msgstr ""
+
 #: onedesk/one_mail/connect.py:231
 msgid "Only a mailbox at a company domain can be connected for someone."
 msgstr ""
@@ -38070,6 +38085,10 @@ msgstr ""
 msgid "Point your phone's camera at the code to join. No typing needed."
 msgstr ""
 
+#: onedesk/one_admin/steps.py:73
+msgid "Pointing custom domains at the new server"
+msgstr ""
+
 #. Label of the weight (Int) field in DocType 'Clock Signal'
 #: onedesk/one_hr/doctype/clock_signal/clock_signal.json:27
 msgid "Points Lost"
@@ -41049,7 +41068,7 @@ msgstr ""
 msgid "Recording starts only after the interviewer confirms the candidate's consent."
 msgstr ""
 
-#: onedesk/one_admin/steps.py:56
+#: onedesk/one_admin/steps.py:57
 msgid "Recording the latest backup"
 msgstr ""
 
@@ -41751,8 +41770,12 @@ msgstr ""
 msgid "Removed from Project"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:59
+#: onedesk/one_admin/steps.py:60
 msgid "Removing the address"
+msgstr ""
+
+#: onedesk/one_admin/steps.py:74
+msgid "Removing the old site"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Reading Action'
@@ -42559,7 +42582,7 @@ msgstr ""
 msgid "Restored {0} items"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:69
+#: onedesk/one_admin/steps.py:70
 msgid "Restoring the backup"
 msgstr ""
 
@@ -44760,7 +44783,7 @@ msgstr ""
 msgid "Sender's Records"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:67
+#: onedesk/one_admin/steps.py:68
 msgid "Sending the backup to the server"
 msgstr ""
 
@@ -45086,7 +45109,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:174
+#: onedesk/one_admin/servers.py:184
 msgid "Server keys are not set."
 msgstr ""
 
@@ -45417,7 +45440,7 @@ msgstr ""
 msgid "Setting up One"
 msgstr ""
 
-#: onedesk/one_admin/steps.py:48
+#: onedesk/one_admin/steps.py:49
 msgid "Setting up the address"
 msgstr ""
 
@@ -48599,6 +48622,10 @@ msgstr ""
 
 #: onedesk/one_inventory/heads.py:641
 msgid "Stopped; nothing more will be done on it."
+msgstr ""
+
+#: onedesk/one_admin/steps.py:72
+msgid "Stopping the old site"
 msgstr ""
 
 #. Label in the One Delivery Trip print format
@@ -57262,8 +57289,8 @@ msgstr ""
 msgid "Waiting for the phone…"
 msgstr ""
 
-#: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:47
-#: onedesk/one_admin/steps.py:65 onedesk/one_admin/steps.py:70
+#: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:48
+#: onedesk/one_admin/steps.py:66 onedesk/one_admin/steps.py:71
 msgid "Waiting for the server"
 msgstr ""
 
@@ -65821,7 +65848,7 @@ msgstr ""
 msgid "{0} already has a field called {1}."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:233
+#: onedesk/one_admin/operator.py:242
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr ""
@@ -66694,7 +66721,7 @@ msgstr ""
 msgid "{0} has no {1} account to create {2} under."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:154
+#: onedesk/one_admin/operator.py:163
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr ""
@@ -66724,7 +66751,7 @@ msgstr ""
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:230
+#: onedesk/one_admin/operator.py:239
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr ""
@@ -67163,7 +67190,7 @@ msgstr ""
 msgid "{0} is not a grant."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:198
+#: onedesk/one_admin/operator.py:207
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr ""
@@ -67374,7 +67401,7 @@ msgstr ""
 msgid "{0} is not on this project."
 msgstr ""
 
-#: onedesk/one_admin/domains.py:208
+#: onedesk/one_admin/domains.py:216
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr ""
@@ -67444,7 +67471,7 @@ msgstr ""
 msgid "{0} is not under this project."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:178
+#: onedesk/one_admin/operator.py:187
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr ""
@@ -68461,7 +68488,7 @@ msgstr ""
 msgid "{0} spent"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:134
+#: onedesk/public/js/tenant.js:132 onedesk/public/js/tenant.js:145
 #, python-brace-format
 msgid "{0} started."
 msgstr ""

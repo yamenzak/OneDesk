@@ -123,6 +123,17 @@ onedesk.tenant.backups = (frm) => {
 					}</p>`,
 				},
 			],
+			secondary_action_label: running ? __("Move Server") : undefined,
+			secondary_action: () => {
+				const [where, day] = dialog.get_value("kept").split("|");
+				frappe.confirm(__("Move {0} to another server from this backup? What changed since is lost.", [frm.doc.slug]), () =>
+					frappe.xcall("onedesk.one_admin.operator.move", { tenant: frm.doc.name, day, where }).then((job) => {
+						dialog.hide();
+						frappe.show_alert({ message: __("{0} started.", [__("Move Server")]), indicator: "green" });
+						frappe.set_route("Form", "Provisioning Job", job);
+					})
+				);
+			},
 			primary_action_label: verb || __("Close"),
 			primary_action: ({ kept: chosen }) => {
 				if (!verb) return dialog.hide();

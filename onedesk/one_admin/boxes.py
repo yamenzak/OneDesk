@@ -289,6 +289,10 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 	return made
 
 
+def reboot(keys: dict, name: str, region: str = REGION) -> None:
+	_aws(keys, region).reboot_instance(instanceName=name)
+
+
 def drop(keys: dict, cloudflare: Cloudflare, name: str, made: dict, domain: str, region: str = REGION) -> None:
 	"""The box, its tunnel, addresses and lock gone."""
 	_aws(keys, region).delete_instance(instanceName=name, forceDeleteAddOns=True)
