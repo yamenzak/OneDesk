@@ -1,9 +1,10 @@
 <!-- Written by apps/onedesk/deploy/local/setup.sh from CLAUDE.bench.md, every run. Edit it there. -->
 # This machine: One's dev bench
 
-You are on the dev server, not production. Production is on Frappe Cloud and
-is changed only by pushing `main` and deploying there. Nothing on this machine
-reaches it, and nothing you do here should try to.
+You are on the dev server, not production. Production runs on AWS Lightsail
+boxes that OneAdmin runs. It changes only through a release: push `main`, GitHub
+builds it, and each workspace moves in its own window. Nothing on this machine
+reaches it, except `scripts/server.py` when building the first OneAdmin.
 
 The repository is `apps/onedesk`; its own `CLAUDE.md` is the product and the
 rules. This file is only about how this machine runs it.
@@ -64,9 +65,9 @@ DOMAIN` writes them again. Never print either file.
   files are build output.
 - Never drop or reinstall the domain sites without being asked: they hold the
   setup the person using them did by hand.
-- A signup on the dev OneAdmin builds a real site on Frappe Cloud, on the dev
-  bench group, and costs money while it lives: archive what you made for a
-  test when the test is done.
+- A signup on the dev OneAdmin builds a real site on a Lightsail box, and a box
+  costs money while it lives: delete what you made for a test when the test is
+  done (`scripts/server.py drop`).
 
 ## The gates
 

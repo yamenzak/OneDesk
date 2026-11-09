@@ -49,7 +49,9 @@ def _route(tenant, name: str) -> None:
 	if not _proven(name, tenant.domain):
 		return
 	said = cloudflare.hostname_add(name)
-	cloudflare.host_route(name, tenant.site)
+	from onedesk.one_admin import steps
+
+	cloudflare.host_route(name, f"{tenant.site} {steps._origin(tenant.server)}")
 	_keep(name, said)
 
 
