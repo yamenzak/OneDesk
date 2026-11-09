@@ -74,6 +74,11 @@ done
 
 pilot -y -b main processes disable frappe-flow_server
 pilot -y -b main setup production --admin-domain "$ONE_ADMIN_HOST"
+if [ "$(awk '/MemTotal/{print $2}' /proc/meminfo)" -lt 3000000 ]; then
+	mkdir -p ~/.config/systemd/user/pilot-mariadb.service.d
+	printf '[Service]\nMemoryHigh=900M\nMemoryMax=1100M\n' > ~/.config/systemd/user/pilot-mariadb.service.d/60-one-memory.conf
+	XDG_RUNTIME_DIR=/run/user/$(id -u) systemctl --user daemon-reload
+fi
 pilot -y -b main restart
 BOOT
 
