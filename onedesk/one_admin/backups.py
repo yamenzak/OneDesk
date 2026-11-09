@@ -11,10 +11,11 @@ import frappe
 import requests
 from frappe.utils import now_datetime, today
 
-from onedesk.one_admin import cloudflare, faults, keys, pilot, vault
+from onedesk.one_admin import cloudflare, faults, keys, pilot, seal, vault
 
 BACKED_UP = ("Live", "Overdue", "Suspended")
 OURS = "oneadmin"
+CONFIG_COPIES = "config/oneadmin"
 ROUNDS = 100
 PATIENCE = 900
 PIECE = 64 * 1024 * 1024
@@ -108,14 +109,31 @@ def ours() -> dict:
 	return {"kept": kept}
 
 
+def config_copy() -> dict:
+	"""OneAdmin's own site config, every key and every server's login, sealed
+	to the rescue passphrase (seal.py) and kept under `config/`. This server
+	holds only the public half, so it can write the copy and never read it."""
+	public = (frappe.db.get_single_value("One Admin Settings", "config_copy_key") or "").strip()
+	if not public:
+		raise faults.Refused("there is no Config Copy Key; run scripts/rescue.py key")
+	with open(frappe.get_site_path("site_config.json"), "rb") as held:
+		body = seal.sealed(held.read(), public)
+	url, headers = _keeper()
+	answered = requests.put(f"{url}/backup/{CONFIG_COPIES}/{today()}.one", data=body, headers=headers, timeout=PATIENCE)
+	if not answered.ok:
+		raise faults.raised("keeper", answered.status_code, answered.text[: faults.KEPT])
+	return {"kept": answered.json().get("kept")}
+
+
 def nightly() -> None:
-	"""Scheduled daily: OneAdmin's own backup, and a job for each workspace
-	still running."""
+	"""Scheduled daily: OneAdmin's own backup and sealed config, and a job
+	for each workspace still running."""
 	from onedesk.one_admin import site
 
 	if not site.is_admin():
 		return
 	frappe.enqueue("onedesk.one_admin.backups.ours", queue="long", timeout=PATIENCE)
+	frappe.enqueue("onedesk.one_admin.backups.config_copy", queue="long", timeout=PATIENCE)
 	for name in frappe.get_all("Tenant", filters={"status": ["in", BACKED_UP], "is_house": 0, "site": ["is", "set"]}, pluck="name"):
 		frappe.enqueue("onedesk.one_admin.backups.tenant", queue="long", timeout=PATIENCE * 2, name=name, job_id=f"one_backup_{name}", deduplicate=True)
 

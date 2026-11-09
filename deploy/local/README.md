@@ -75,15 +75,9 @@ it builds a real site on its own bench group (`one-dev`), to be archived after
 the test. It refuses production's domains and a Stripe live key, and touches
 only sites `public.sh` marked `one_dev`. Run it again after changing the file.
 
-Left by hand, in each environment: the OpenWeather key, Stripe's keys, and
-Stripe's webhook, at `https://ADMIN/api/method/onedesk.one_admin.stripe.webhook`
-with these five events:
-
-- `checkout.session.completed`
-- `invoice.paid`
-- `invoice.payment_failed`
-- `customer.subscription.deleted`
-- `charge.refunded`
+Left by hand, in each environment: the OpenWeather key and Stripe's keys.
+Saving Stripe's secret key makes the webhook through Stripe's API and keeps its
+signing secret, so nobody adds it.
 
 ## Always on
 
@@ -118,11 +112,25 @@ ahead, record the new commits there and run `setup.sh` again.
 
 ## A new dev machine
 
-Clone the repo and run `deploy/local/setup.sh`. Then get the newest file under
-`rescue/` from the locked backup bucket, in Cloudflare's dashboard, and run
-`python scripts/rescue.py unpack FILE`. It asks for the passphrase and puts the
-keys back. `python scripts/rescue.py pack` makes a new one; set `ONE_KEEPER_URL`
-to the keeper's address.
+Copy `deploy/local/setup.sh` onto a fresh Ubuntu server, as a user with
+passwordless sudo, and run:
 
-The passphrase is in Yamen's Google Password Manager under `one-rescue-kit`.
-The kit is in `one-backups-dev`, under `rescue/`.
+    ONE_RESCUE_PASSPHRASE=... bash setup.sh
+
+With no further question it fetches the newest rescue kit from the keeper, puts
+every key back (GitHub and the tunnel included), builds the bench and the
+domain's sites, restores each from its newest nightly backup, and turns on the
+service and the nightly backups. Claude Code's own sign-in is not in the kit.
+
+The kit is in `one-backups-dev`, under `rescue/`; if the keeper is down, fetch
+the newest file from Cloudflare's dashboard and set `ONE_RESCUE_KIT` to it. The
+passphrase is in Yamen's Google Password Manager under `one-rescue-kit`.
+
+`python scripts/rescue.py pack` makes a new kit, which holds the domain sites'
+configs and `~/.cloudflared`, and tells the keeper the secret a new machine
+fetches it with. Pack again after a new key or a new tunnel.
+
+**Nightly backups.** `always-on.sh` schedules `scripts/rescue.py nightly` at
+02:10 UTC: every `one_dev` site's database and files go to the dev keeper under
+`daily/dev-<site>/`, and its site config is sealed first, since it holds keys.
+`python scripts/rescue.py key` makes the sealing key from the passphrase, once.

@@ -12,6 +12,9 @@
   "cloudflare_account",
   "environment",
   "cloudflare_master_token",
+  "cloudflare_oauth_client_id",
+  "cloudflare_oauth_client_secret",
+  "cloudflare_oauth_scopes",
   "cloudflare_token",
   "cloudflare_kv",
   "cloudflare_zone",
@@ -20,6 +23,7 @@
   "mail_domain",
   "sender_email",
   "set_up_cloudflare",
+  "sign_in_to_cloudflare",
   "cloudflare_setup_said",
   "cloudflare_setup",
   "cloudflare_deployed",
@@ -27,8 +31,11 @@
   "office_secret",
   "backup_bucket",
   "keeper_url",
+  "config_copy_key",
   "release_at",
   "aws_section",
+  "aws_template_url",
+  "create_aws_user",
   "aws_access_key_id",
   "aws_secret_access_key",
   "github_token",
@@ -97,6 +104,24 @@
    "description": "Made in Cloudflare from the Create Additional Tokens template. Set Up Cloudflare uses it only to make One's own tokens."
   },
   {
+   "fieldname": "cloudflare_oauth_client_id",
+   "fieldtype": "Data",
+   "label": "OAuth Client ID",
+   "description": "Only for Sign In to Cloudflare. Leave empty to use the master token."
+  },
+  {
+   "fieldname": "cloudflare_oauth_client_secret",
+   "fieldtype": "Password",
+   "label": "OAuth Client Secret",
+   "description": "Moved to the site's config when saved."
+  },
+  {
+   "fieldname": "cloudflare_oauth_scopes",
+   "fieldtype": "Small Text",
+   "label": "OAuth Scopes",
+   "description": "The scope IDs the OAuth client was given, separated by spaces."
+  },
+  {
    "fieldname": "cloudflare_token",
    "fieldtype": "Password",
    "label": "OneAdmin Token",
@@ -137,6 +162,12 @@
    "fieldtype": "Button",
    "label": "Set Up Cloudflare",
    "description": "Finds or makes everything a workspace needs from Cloudflare. Running it again checks it all and mends what is missing."
+  },
+  {
+   "fieldname": "sign_in_to_cloudflare",
+   "fieldtype": "Button",
+   "label": "Sign In to Cloudflare",
+   "description": "Runs Set Up Cloudflare from a sign-in instead of the master token. The sign-in is revoked when it ends."
   },
   {
    "fieldname": "cloudflare_setup_said",
@@ -193,9 +224,27 @@
    "description": "Set for the next Saturday window, early on Saturday morning UTC. Every workspace is told."
   },
   {
+   "fieldname": "config_copy_key",
+   "fieldtype": "Small Text",
+   "label": "Config Copy Key",
+   "description": "From scripts/rescue.py key. The nightly copy of this site's config is sealed with it."
+  },
+  {
    "fieldname": "aws_section",
    "fieldtype": "Section Break",
    "label": "AWS"
+  },
+  {
+   "fieldname": "aws_template_url",
+   "fieldtype": "Data",
+   "label": "AWS Template URL",
+   "description": "The address of deploy/aws/lightsail-user.yaml on Amazon S3. Requires an upload to S3 once."
+  },
+  {
+   "fieldname": "create_aws_user",
+   "fieldtype": "Button",
+   "label": "Create AWS User",
+   "description": "Opens AWS with a user allowed Lightsail in eu-north-1 only. Then make its access key there."
   },
   {
    "fieldname": "aws_access_key_id",

@@ -19,6 +19,15 @@
 # GitHub sign-in so it can clone onedesk.
 #
 # Passwords it makes are kept in ~/.one-local (readable by you only).
+#
+# Rebuilding this dev server from nothing, with no questions:
+#
+#   ONE_RESCUE_PASSPHRASE=... bash setup.sh
+#
+# fetches the rescue kit from the keeper, which puts every key back (GitHub and
+# the tunnel included), builds the bench and the domain's sites, puts the newest
+# nightly backup of each back, and turns the service on (README, A new dev
+# machine). The domain comes from the kit.
 
 set -euo pipefail
 
@@ -29,9 +38,48 @@ PY_VERSION=3.14
 NODE_VERSION=24
 SITES=(one.localhost admin.localhost)
 DOMAIN="${1:-}"
+KEEPER="${ONE_KEEPER_URL:-https://one-keeper-dev.4dl.workers.dev}"
+RESCUE="${ONE_RESCUE_PASSPHRASE:-}"
 
 say() { printf '\n\033[1;34m== %s\033[0m\n' "$*"; }
 fail() { printf '\n\033[1;31m%s\033[0m\n' "$*" >&2; exit 1; }
+
+if [ -n "$RESCUE" ]; then
+	say "Rescue kit"
+	sudo apt-get update -qq
+	sudo DEBIAN_FRONTEND=noninteractive apt-get install -y -qq python3-cryptography >/dev/null
+	ONE_KEEPER_URL="$KEEPER" python3 - <<'RESCUE_KIT'
+import base64, json, os, pathlib, urllib.request
+from cryptography.fernet import Fernet
+from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
+
+phrase = os.environ["ONE_RESCUE_PASSPHRASE"].encode()
+home = pathlib.Path(os.environ.get("ONE_RESCUE_INTO") or pathlib.Path.home())
+if os.environ.get("ONE_RESCUE_KIT"):
+	held = pathlib.Path(os.environ["ONE_RESCUE_KIT"]).read_bytes()
+else:
+	secret = Scrypt(salt=b"one-rescue-fetch", length=32, n=2**15, r=8, p=1).derive(phrase).hex()
+	asked = urllib.request.Request(os.environ["ONE_KEEPER_URL"].rstrip("/") + "/rescue/latest", headers={"x-one-rescue": secret})
+	with urllib.request.urlopen(asked, timeout=120) as answered:
+		held = answered.read()
+outer = json.loads(held)
+key = base64.urlsafe_b64encode(Scrypt(salt=base64.b64decode(outer["salt"]), length=32, n=2**15, r=8, p=1).derive(phrase))
+for name, content in json.loads(Fernet(key).decrypt(outer["token"].encode())).items():
+	path = home / name
+	path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+	with os.fdopen(os.open(path, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600), "wb") as file:
+		file.write(base64.b64decode(content))
+RESCUE_KIT
+	if [ -z "$DOMAIN" ]; then
+		for conf in "$HOME"/.one-site-configs/one.*.json; do
+			[ -f "$conf" ] || continue
+			site="$(basename "$conf" .json)"
+			DOMAIN="${site#one.}"
+			break
+		done
+	fi
+	[ -n "$DOMAIN" ] || fail "The rescue kit names no domain."
+fi
 
 if [ -z "$DOMAIN" ]; then
 	for conf in "$BENCH"/sites/one.*/site_config.json; do
@@ -153,7 +201,10 @@ command -v yarn >/dev/null || npm install -g yarn >/dev/null
 
 # --- GitHub, for the private repository -------------------------------------------
 say "GitHub"
-gh auth status >/dev/null 2>&1 || gh auth login --hostname github.com --git-protocol https --web
+if ! gh auth status >/dev/null 2>&1; then
+	[ -z "$RESCUE" ] || fail "The rescue kit's GitHub sign-in no longer works."
+	gh auth login --hostname github.com --git-protocol https --web
+fi
 gh auth setup-git
 
 # --- The bench ----------------------------------------------------------------------
@@ -258,7 +309,28 @@ for port in "${started[@]}"; do
 	redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
 done
 
-[ -z "$DOMAIN" ] || exec bash apps/onedesk/deploy/local/public.sh "$DOMAIN"
+if [ -n "$DOMAIN" ]; then
+	bash apps/onedesk/deploy/local/public.sh "$DOMAIN"
+	[ -n "$RESCUE" ] || exit 0
+	say "The newest backups"
+	started=()
+	for port in 13000 11000; do
+		if ! redis-cli -p "$port" ping >/dev/null 2>&1; then
+			conf=config/redis_cache.conf
+			[ "$port" = 11000 ] && conf=config/redis_queue.conf
+			redis-server "$conf" --daemonize yes >/dev/null
+			started+=("$port")
+		fi
+	done
+	env/bin/python apps/onedesk/scripts/rescue.py restore "one.$DOMAIN" "admin.$DOMAIN"
+	for port in "${started[@]}"; do
+		redis-cli -p "$port" shutdown nosave >/dev/null 2>&1 || true
+	done
+	bash apps/onedesk/deploy/local/always-on.sh
+	say "Rebuilt"
+	echo "https://one.$DOMAIN and https://admin.$DOMAIN are back, from the newest backups."
+	exit 0
+fi
 
 say "Ready"
 SKILLS_COMMIT=5dc2f984081f6d8e23559af03b0e7c2799245d79

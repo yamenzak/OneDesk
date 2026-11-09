@@ -26,6 +26,10 @@ ENDED = "customer.subscription.deleted"
 
 REFUNDED = "charge.refunded"
 
+HEARD = (ACTED_ON, OWED, SETTLED, ENDED, REFUNDED)
+HOOK = "webhook_endpoints"
+HOOK_ID = "stripe_webhook_id"
+
 
 def embedded(made: dict) -> dict:
 	"""What a page needs to draw a Checkout session inside itself (ui_mode
@@ -417,6 +421,41 @@ def set_item(sub: str, item: str | None, price: str, quantity: int) -> str | Non
 MADE_BY_POST = ("checkout/sessions", "prices", "subscription_items", "billing_portal/configurations")
 
 ONCE_MINUTES = 10
+
+
+def hook_url() -> str:
+	"""Where Stripe sends events for this site."""
+	return f"{frappe.utils.get_url()}/api/method/onedesk.one_admin.stripe.webhook"
+
+
+def hook_form(url: str | None = None) -> dict:
+	"""The form that makes or corrects the endpoint: the five events One acts
+	on, and the address when one is given. Pure."""
+	form = {f"enabled_events[{at}]": kind for at, kind in enumerate(HEARD)}
+	return {"url": url, **form} if url else form
+
+
+def hook_made() -> dict:
+	"""Stripe's webhook, made through its API when a secret key is saved, its
+	signing secret kept in the vault. An endpoint already at this address is
+	used when its secret is held, whether we made it or it was added by hand
+	and the secret typed in. One whose secret is lost can only be replaced,
+	since Stripe gives a secret once."""
+	site.require_admin()
+	url = hook_url()
+	held = next((one for one in fetch(HOOK, {"limit": 100}).get("data") or [] if one.get("url") == url), None)
+	secret = vault.get("stripe_webhook_secret")
+	if held and secret and frappe.conf.get(HOOK_ID) in (held["id"], None):
+		vault.keep(HOOK_ID, held["id"])
+		if set(held.get("enabled_events") or []) != set(HEARD) or held.get("status") != "enabled":
+			_post(f"{HOOK}/{held['id']}", {**hook_form(), "disabled": "false"})
+		return {"id": held["id"], "made": False}
+	if held:
+		_delete(f"{HOOK}/{held['id']}")
+	made = _post(HOOK, hook_form(url))
+	vault.keep(HOOK_ID, made["id"])
+	vault.keep("stripe_webhook_secret", made["secret"])
+	return {"id": made["id"], "made": True}
 
 
 def _post(path: str, form: dict) -> dict:

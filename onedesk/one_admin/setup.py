@@ -116,8 +116,9 @@ OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "ne
 class Setup:
 	"""One run: what was found and made, step by step, each saved as it is."""
 
-	def __init__(self, master: str):
+	def __init__(self, master: str | None, signed_in: bool = False):
 		self.master = master
+		self.signed_in = signed_in
 		self.token = None
 		self.settings = frappe.get_doc("One Admin Settings")
 		self.said: list[dict] = []
@@ -317,7 +318,11 @@ class Setup:
 		what a run makes and changes (Workers, buckets and their locks, the
 		gateway, containers), for an hour, on any account and zone, and
 		deleted when the run ends (`end`). OneAdmin's own token is never given
-		these (README, Keys)."""
+		these (README, Keys). A run from Sign In to Cloudflare works with the
+		sign-in's own token instead."""
+		if self.signed_in:
+			self.token = self.master
+			return self.note("sign-in", OURS, _("Signed in to Cloudflare for this run."))
 		called = token_for_env(self.env, RUN)
 		for stale in (one for one in self.held_tokens() if one["name"] == called):
 			self.call("DELETE", f"/user/tokens/{stale['id']}", token=self.master)
@@ -653,7 +658,7 @@ class Setup:
 			json={
 				"rules": [
 					{"id": f"one-{prefix}", "enabled": True, "conditions": {"prefix": f"{prefix}/"}, "deleteObjectsTransition": {"condition": {"type": "Age", "maxAge": days * A_DAY}}}
-					for prefix, days in (("daily", DAILY_DAYS), ("monthly", MONTHLY_DAYS))
+					for prefix, days in (("daily", DAILY_DAYS), ("monthly", MONTHLY_DAYS), ("config", DAILY_DAYS))
 				]
 			},
 		)
@@ -944,22 +949,28 @@ def master() -> str | None:
 	return vault.get(vault.MASTER)
 
 
-def run(user: str | None = None) -> list[dict]:
+def run(user: str | None = None, signed_in: bool = False) -> list[dict]:
 	"""One Set Up Cloudflare, holding the lock while it runs. A run that dies
 	frees the lock when it expires, and the next one carries on from what the
-	last one saved."""
+	last one saved. `signed_in` runs from Sign In to Cloudflare's token,
+	revoked when the run ends."""
 	if user:
 		frappe.set_user(user)
 	key = frappe.cache.make_key(LOCK)
 	if not frappe.cache.set(key, 1, nx=True, ex=LOCKED_FOR):
 		return []
-	held = Setup(master())
+	from onedesk.one_admin import cloudflare_signin
+
+	token = cloudflare_signin.taken() if signed_in else master()
+	held = Setup(token, signed_in=signed_in)
 	try:
-		said = held.run()
+		said = held.run() if token else []
 	finally:
 		held.end()
 		frappe.cache.delete(key)
 		vault.forget_master()
 		frappe.db.commit()
+		if signed_in:
+			cloudflare_signin.discard(token)
 	frappe.publish_realtime("cloudflare_setup", {"said": said, "done": True}, user=frappe.session.user)
 	return said

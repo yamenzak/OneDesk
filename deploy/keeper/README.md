@@ -13,6 +13,11 @@ delete a backup or change the bucket's lock.
   time, skipping what is already kept. `GET /backup/<key>` and `GET
   /backups?prefix=` read them back for a restore. Nothing deletes or
   overwrites: a key already kept is left as it is.
+- **The rescue kit**: `GET /rescue/latest` gives the newest file under
+  `rescue/` to whoever shows `x-one-rescue`, a secret worked out from the
+  rescue passphrase. The keeper holds only its SHA-256 (`rescue:hash` in the
+  routing store, set by `POST /rescue-key` with the keeper's secret), so a new
+  machine needs the passphrase alone to fetch the kit (deploy/local/README.md).
 - **Search credentials**: `POST /search-credentials {bucket, prefix, ttl}`
   makes Cloudflare's temporary R2 credentials for a workspace's `search/`
   prefix alone, in a workspace bucket alone. Cloudflare asks an

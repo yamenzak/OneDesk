@@ -18,8 +18,8 @@
 # (one-mail-dev, one-sites-dev, "[one-dev] OneAI"), its catch-all is never taken
 # from production, and it needs domains of its own, which may not be
 # production's. Only sites public.sh marked one_dev are touched, and a Stripe
-# live key is refused. The two things left by hand are the Stripe test keys
-# and the OpenWeather key, in the file, and the webhook in Stripe's test mode.
+# live key is refused. Left by hand are the Stripe test keys and the OpenWeather
+# key, in the file; saving the Stripe secret key makes the webhook.
 
 set -euo pipefail
 
@@ -122,13 +122,4 @@ cat <<DONE
 
 Sign in as $(jq -r '.owner.email' "$FILE") with PUBLIC_ADMIN_PASSWORD from ~/.one-local.
 Press Test Gateway in OneAdmin Settings to check the AI gateway.
-
-Left by hand, in Stripe's test mode: a webhook to
-  https://$ADMIN/api/method/onedesk.one_admin.stripe.webhook
-with these five events, its signing secret in stripe_webhook_secret:
-  checkout.session.completed
-  invoice.paid
-  invoice.payment_failed
-  customer.subscription.deleted
-  charge.refunded
 DONE

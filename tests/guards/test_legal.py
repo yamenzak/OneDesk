@@ -30,6 +30,7 @@ VERSIONS = {
 
 HOSTS = {
 	"api.cloudflare.com": "Cloudflare, Inc.",
+	"dash.cloudflare.com": "Cloudflare, Inc.",
 	"gateway.ai.cloudflare.com": "Cloudflare, Inc.",
 	"cloudflare-dns.com": "Cloudflare, Inc.",
 	"api.stripe.com": "Stripe, Inc.",

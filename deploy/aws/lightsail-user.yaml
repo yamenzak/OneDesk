@@ -1,0 +1,26 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: OneAdmin's IAM user, allowed Lightsail in eu-north-1 and nothing else. Make its access key in the console afterwards and enter it in One Admin Settings.
+Parameters:
+  UserName:
+    Type: String
+    Default: one-admin
+Resources:
+  OneAdminUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: !Ref UserName
+      Policies:
+        - PolicyName: lightsail-eu-north-1
+          PolicyDocument:
+            Version: "2012-10-17"
+            Statement:
+              - Effect: Allow
+                Action: "lightsail:*"
+                Resource: "*"
+                Condition:
+                  StringEquals:
+                    aws:RequestedRegion: eu-north-1
+Outputs:
+  MakeAccessKey:
+    Description: Open this, choose Create access key, and enter the key in One Admin Settings.
+    Value: !Sub "https://console.aws.amazon.com/iam/home#/users/details/${OneAdminUser}?section=security_credentials"
