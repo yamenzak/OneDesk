@@ -26,6 +26,9 @@ HOME = Path.home()
 SITE_CONFIG = HOME / "one-bench" / "sites" / "admin.4dl.dev" / "site_config.json"
 KEPT = (".one-local", ".one-dev.json", ".one-keys-dev.json", ".one-keys-prod.json", ".ssh/one_servers", ".ssh/one_servers.pub", ".config/gh/hosts.yml")
 KEPT_FOLDERS = (".one-servers",)
+PRODUCTION = HOME / ".one-servers" / "admin.json"
+PRODUCTION_SITE = "admin.4dl.app"
+PRODUCTION_KEEPER = "https://one-keeper.4dl.workers.dev"
 SHORTEST = 12
 
 
@@ -64,11 +67,31 @@ def passphrase_asked(twice: bool) -> str:
 	return given
 
 
-def send(held: bytes) -> str:
+def production_secret() -> str:
+	"""The production keeper's secret, read from OneAdmin's site through its
+	box's Pilot, so it is never kept on this machine."""
+	made = json.loads(PRODUCTION.read_text())
+	pilot = requests.Session()
+	pilot.headers.update({"CF-Access-Client-Id": made["access"]["client_id"], "CF-Access-Client-Secret": made["access"]["client_secret"]})
+	base = f"https://{made['host']}/api/v1"
+	pilot.post(f"{base}/auth/session", json={"password": made["pilot_password"]}, timeout=60).raise_for_status()
+	answer = pilot.get(f"{base}/sites/{PRODUCTION_SITE}/configuration", timeout=60)
+	answer.raise_for_status()
+	return answer.json()["keeper_secret"]
+
+
+def keeper() -> tuple[str, str]:
+	"""The keeper the kit goes to and its secret: production's once it exists."""
+	if PRODUCTION.exists():
+		return PRODUCTION_KEEPER, production_secret()
 	config = json.loads(SITE_CONFIG.read_text())
-	url = config.get("keeper_url") or os.environ["ONE_KEEPER_URL"]
+	return config.get("keeper_url") or os.environ["ONE_KEEPER_URL"], config["keeper_secret"]
+
+
+def send(held: bytes) -> str:
+	url, secret = keeper()
 	key = f"rescue/{datetime.now(UTC).strftime('%Y-%m-%d-%H%M')}.one"
-	requests.put(f"{url.rstrip('/')}/backup/{key}", data=held, headers={"x-one-secret": config["keeper_secret"]}, timeout=120).raise_for_status()
+	requests.put(f"{url.rstrip('/')}/backup/{key}", data=held, headers={"x-one-secret": secret}, timeout=120).raise_for_status()
 	return key
 
 
