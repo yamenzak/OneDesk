@@ -3,15 +3,24 @@
  "allow_rename": 0,
  "creation": "2026-09-29 20:00:00.000000",
  "doctype": "DocType",
- "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
   "server",
+  "status",
+  "provider",
   "region",
-  "eu",
-  "open",
-  "capacity",
   "tenant",
+  "column_break_1",
+  "workspaces",
+  "capacity",
+  "open",
+  "eu",
+  "section_used",
+  "memory_used",
+  "disk_used",
+  "column_break_2",
+  "monthly_cost",
+  "section_addresses",
   "pilot_host",
   "origin_host",
   "spares",
@@ -22,46 +31,37 @@
    "fieldname": "server",
    "fieldtype": "Data",
    "label": "Server",
-   "in_list_view": 1,
+   "in_list_view": 0,
    "reqd": 1,
-   "columns": 4,
-   "description": "Example: box-1"
+   "read_only": 1,
+   "unique": 1
+  },
+  {
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "label": "Status",
+   "options": "Up\nFilling Up\nFull\nDown",
+   "default": "Up",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
+  },
+  {
+   "fieldname": "provider",
+   "fieldtype": "Select",
+   "label": "Provider",
+   "options": "AWS\nOracle",
+   "default": "AWS",
+   "read_only": 1,
+   "in_list_view": 1,
+   "in_standard_filter": 1
   },
   {
    "fieldname": "region",
    "fieldtype": "Data",
    "label": "Region",
-   "in_list_view": 1,
-   "read_only": 0,
-   "columns": 2,
-   "description": "Example: eu-north-1"
-  },
-  {
-   "default": "0",
-   "fieldname": "eu",
-   "fieldtype": "Check",
-   "label": "EU",
-   "in_list_view": 1,
-   "columns": 1,
-   "description": "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
-  },
-  {
-   "default": "1",
-   "fieldname": "open",
-   "fieldtype": "Check",
-   "label": "Open",
-   "in_list_view": 1,
-   "columns": 1,
-   "description": "Takes new workspaces. Untick it to stop a server filling any further."
-  },
-  {
-   "default": "0",
-   "fieldname": "capacity",
-   "fieldtype": "Int",
-   "label": "Most Workspaces",
-   "in_list_view": 1,
-   "columns": 2,
-   "description": "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+   "in_list_view": 0,
+   "read_only": 1
   },
   {
    "fieldname": "tenant",
@@ -69,46 +69,138 @@
    "label": "Workspace",
    "options": "Tenant",
    "read_only": 1,
-   "description": "Only set on a server kept for one workspace."
+   "in_list_view": 0
+  },
+  {
+   "fieldname": "column_break_1",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "workspaces",
+   "fieldtype": "Int",
+   "label": "Workspaces",
+   "default": "0",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "capacity",
+   "fieldtype": "Int",
+   "label": "Most Workspaces",
+   "in_list_view": 1,
+   "description": "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+  },
+  {
+   "default": "1",
+   "fieldname": "open",
+   "fieldtype": "Check",
+   "label": "Open",
+   "in_list_view": 0,
+   "description": "Takes new workspaces. Untick it to stop a server filling any further."
+  },
+  {
+   "default": "0",
+   "fieldname": "eu",
+   "fieldtype": "Check",
+   "label": "EU",
+   "in_list_view": 0,
+   "description": "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
+  },
+  {
+   "fieldname": "section_used",
+   "fieldtype": "Section Break",
+   "label": "Use"
+  },
+  {
+   "fieldname": "memory_used",
+   "fieldtype": "Percent",
+   "label": "Memory",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "disk_used",
+   "fieldtype": "Percent",
+   "label": "Disk",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "column_break_2",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "monthly_cost",
+   "fieldtype": "Int",
+   "label": "Monthly Cost (USD)",
+   "read_only": 1,
+   "in_list_view": 1
+  },
+  {
+   "fieldname": "section_addresses",
+   "fieldtype": "Section Break",
+   "label": "Addresses"
   },
   {
    "fieldname": "pilot_host",
    "fieldtype": "Data",
    "label": "Pilot Address",
-   "in_list_view": 0
+   "in_list_view": 0,
+   "read_only": 1
   },
   {
    "fieldname": "origin_host",
    "fieldtype": "Data",
    "label": "Origin Address",
-   "description": "Example: box-1.4dl.app",
-   "in_list_view": 0
+   "in_list_view": 0,
+   "read_only": 1
   },
   {
    "fieldname": "spares",
    "fieldtype": "Long Text",
    "label": "Spares",
    "hidden": 1,
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 0
   },
   {
    "fieldname": "benches",
    "fieldtype": "Long Text",
    "label": "Benches",
    "hidden": 1,
-   "read_only": 1
+   "read_only": 1,
+   "in_list_view": 0
   }
  ],
  "index_web_pages_for_search": 0,
- "istable": 1,
  "links": [],
- "modified": "2026-09-29 20:00:00.000000",
+ "modified": "2026-11-09 22:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Workspace Server",
  "owner": "Administrator",
- "permissions": [],
- "sort_field": "idx",
+ "permissions": [
+  {
+   "role": "One Operator",
+   "read": 1,
+   "write": 1,
+   "report": 1,
+   "export": 1,
+   "print": 0,
+   "email": 0,
+   "share": 0,
+   "create": 1,
+   "delete": 0
+  }
+ ],
+ "sort_field": "creation",
  "sort_order": "ASC",
- "states": []
+ "states": [],
+ "autoname": "field:server",
+ "naming_rule": "By fieldname",
+ "title_field": "server",
+ "search_fields": "provider,region,status",
+ "show_title_field_in_link": 0,
+ "track_changes": 1
 }

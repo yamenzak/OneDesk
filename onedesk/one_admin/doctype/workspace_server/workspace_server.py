@@ -1,13 +1,12 @@
-"""One of our servers new workspaces may be built on.
+"""One of our servers: where it is, what is on it, how full it is. Made by
+Order Server and read every five minutes (servers.watch). Open, the limit and
+EU are the operators' to change."""
 
-A row in Settings, not a table of Frappe Cloud's state: the server is bought
-and added to the bench group in Frappe Cloud, and listed here to say it may
-take workspaces, whether EU ones, and how many. Its region is read back from
-Frappe Cloud rather than typed (one_admin_settings.py).
-"""
-
+import frappe
 from frappe.model.document import Document
 
 
 class WorkspaceServer(Document):
-	pass
+	def before_insert(self) -> None:
+		if not self.flags.ordered:
+			frappe.throw(frappe._("Use Order Server to add a server."))

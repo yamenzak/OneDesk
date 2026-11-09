@@ -15,12 +15,13 @@ from urllib.parse import urlparse
 import boto3
 import frappe
 
-from onedesk.one_admin import boxes, faults, pilot, site, tell, vault
+from onedesk.one_admin import boxes, faults, fleet, pilot, quota, site, tell, vault
 
 KEYS = "one_server_keys"
 CAPACITY = 5
 FIRST = "main"
 MISSES = 3
+FILLING = 0.7
 DISK_LIMIT = 85
 MEMORY_LIMIT = 92
 REPOSITORY = boxes.REPOSITORY
@@ -34,18 +35,36 @@ def after_a_check(misses: int, answered: bool) -> tuple[int, str | None]:
 	return misses + 1, "down" if misses + 1 == MISSES else None
 
 
+def status_of(answered: bool, held: int, capacity: int) -> str:
+	"""What a server's list says of it. Pure."""
+	if not answered:
+		return "Down"
+	if capacity and held >= capacity:
+		return "Full"
+	return "Filling Up" if capacity and held >= FILLING * capacity else "Up"
+
+
+def used(read: dict) -> dict:
+	"""How full a box says it is, from Pilot's metrics. Pure."""
+	return {"memory_used": read.get("memory_percent") or 0, "disk_used": read.get("disk_percent") or 0} if read else {}
+
+
 def watch() -> None:
 	"""Every five minutes, on the admin site: each server is asked if it is
 	up, through its tunnel and lock, and the operators told if that changes."""
 	if not site.is_admin():
 		return
-	for row in frappe.get_doc("One Admin Settings").get("servers") or []:
+	held = quota.held_on_servers()
+	for row in fleet.rows():
 		if not row.pilot_host:
 			continue
 		try:
-			answered = bool(pilot.call(row.server, "GET", "/health"))
+			read = pilot.call(row.server, "GET", "/metrics") or {}
 		except faults.Refused:
-			answered = False
+			read = {}
+		answered = bool(read)
+		count = held.get(row.server, 0)
+		frappe.db.set_value("Workspace Server", row.name, {"status": status_of(answered, count, row.capacity), "workspaces": count, **used(read)}, update_modified=False)
 		key = f"one_admin_server_misses_{row.server}"
 		misses, said = after_a_check(frappe.utils.cint(frappe.db.get_default(key)), answered)
 		frappe.db.set_default(key, str(misses))
@@ -67,15 +86,13 @@ def remove(server: str) -> None:
 	"""A server kept for a workspace that has gone: the box, its Cloudflare
 	entries and its row."""
 	keys = _keys()
-	settings = frappe.get_doc("One Admin Settings")
-	row = next(one for one in settings.servers if one.server == server)
+	row = fleet.row_of(server)
 	if row.tenant and frappe.db.get_value("Tenant", row.tenant, "status") not in ("Archived", "Dropped"):
 		frappe.throw(frappe._("{0} is still in use.").format(server))
 	zone = keys["origin_zone"]
 	made = {"tunnel": pilot.held(server)["tunnel"], "host": row.pilot_host, "origin_zone": zone}
 	boxes.drop(keys, boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"]), server, made, zone, row.region or boxes.REGION)
-	settings.remove(row)
-	settings.save(ignore_permissions=True)
+	frappe.delete_doc("Workspace Server", server, ignore_permissions=True, force=True)
 	pilot.forget(server)
 
 
@@ -144,12 +161,11 @@ def current(row) -> str:
 
 
 def row_of(server: str):
-	return next(one for one in frappe.get_doc("One Admin Settings").get("servers") if one.server == server)
+	return fleet.row_of(server)
 
 
 def _save(row, value: list[dict]) -> None:
 	frappe.db.set_value("Workspace Server", row.name, "benches", frappe.as_json(value))
-	frappe.clear_document_cache("One Admin Settings", "One Admin Settings")
 
 
 def _keys() -> dict:
@@ -210,12 +226,16 @@ def begin(tenant: str | None = None) -> None:
 	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id=f"one_admin_order_server_{tenant or 'shared'}", deduplicate=True, tenant=tenant)
 
 
+def costs_of(tenant: str | None) -> int:
+	return 44 if tenant else 24
+
+
 def build(tenant: str | None = None) -> str:
 	"""The box made and listed under Servers, open for new workspaces."""
 	site.require_admin()
 	keys = _keys()
 	settings = frappe.get_single("One Admin Settings")
-	name = next_name([one.server for one in settings.get("servers") or []])
+	name = next_name([one.server for one in fleet.rows()])
 	region = keys.get("region") or boxes.REGION
 	zone = keys["origin_zone"]
 	release = boxes.latest_release(keys)
@@ -229,9 +249,9 @@ def build(tenant: str | None = None) -> str:
 	except Exception:
 		frappe.log_error(title=f"Ordering {name} failed")
 		raise
-	settings.append(
-		"servers",
+	doc = frappe.get_doc(
 		{
+			"doctype": "Workspace Server",
 			"server": name,
 			"region": region,
 			"eu": int(region.startswith("eu-")),
@@ -241,9 +261,12 @@ def build(tenant: str | None = None) -> str:
 			"pilot_host": made["host"],
 			"origin_host": made["origin"],
 			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
-		},
+			"provider": "AWS",
+			"monthly_cost": costs_of(tenant),
+		}
 	)
-	settings.save(ignore_permissions=True)
+	doc.flags.ordered = True
+	doc.insert(ignore_permissions=True)
 	listen(name)
 	return name
 

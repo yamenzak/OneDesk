@@ -8,7 +8,7 @@ comes back as a task to ask after (`task`). README, Servers.
 import frappe
 import requests
 
-from onedesk.one_admin import faults, vault
+from onedesk.one_admin import faults, fleet, vault
 
 TIMEOUT = 60
 SESSION_LASTS = 20 * 3600
@@ -39,7 +39,7 @@ def _key(server: str) -> str:
 
 
 def _row(server: str):
-	found = next((one for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.server == server), None)
+	found = fleet.row_of(server)
 	if not found or not found.pilot_host:
 		raise faults.Refused(f"Settings lists no Pilot address for {server}")
 	return found

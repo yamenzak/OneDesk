@@ -56,7 +56,7 @@ No doctypes yet.
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Offering | 24 | document |
-| One Admin Settings | 53 | single |
+| One Admin Settings | 51 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -65,7 +65,7 @@ No doctypes yet.
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
-| Workspace Server | 10 | child |
+| Workspace Server | 20 | document |
 
 ## One AI
 

@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 83 | 2 | 37 | 0 |
+| onedesk | 84 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -960,6 +960,7 @@ Pages: intake (on a rail or a home).
 | Tenant | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | Paid While Archived, Workspace Asked to Close, Workspace Owing |
 | Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  |  |
 | Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
+| Workspace Server | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 

@@ -12,7 +12,7 @@ from zoneinfo import ZoneInfo
 import frappe
 from frappe.utils import add_days, get_datetime, get_system_timezone, getdate, now_datetime, today
 
-from onedesk.one_admin import boxes, servers, site
+from onedesk.one_admin import boxes, fleet, servers, site
 
 WEEKDAY = 5
 HOUR = 1
@@ -48,7 +48,7 @@ def may_move(terms_pending: bool, due: datetime, now: datetime) -> bool:
 
 
 def _rows() -> list:
-	return [one for one in frappe.get_doc("One Admin Settings").get("servers") or [] if one.server and one.pilot_host]
+	return [one for one in fleet.rows() if one.server and one.pilot_host]
 
 
 def _tenants(server: str) -> list:

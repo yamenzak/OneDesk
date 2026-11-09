@@ -25,16 +25,6 @@ class OneAdminSettings(Document):
 
 	def validate(self) -> None:
 		site.require_admin()
-		self._servers()
-
-	def _servers(self) -> None:
-		"""Each listed server once."""
-		seen = set()
-		for row in self.get("servers") or []:
-			row.server = (row.server or "").strip()
-			if row.server in seen:
-				frappe.throw(frappe._("{0} is listed twice under Servers.").format(row.server))
-			seen.add(row.server)
 
 	def on_update(self) -> None:
 		from onedesk.one_admin import vault
@@ -63,8 +53,6 @@ class OneAdminSettings(Document):
 				)
 			else:
 				said.append(frappe._(df.label))
-		if _listed(before) != _listed(self):
-			said.append(frappe._("Servers"))
 		said += [
 			frappe._("{0} (changed)").format(frappe._(label))
 			for label in self.flags.get("keys_changed") or []
@@ -73,8 +61,3 @@ class OneAdminSettings(Document):
 			from onedesk.one_admin import tell
 
 			tell.settings_changed(said)
-
-
-def _listed(doc) -> list:
-	"""The server list as the operators would read it, to tell whether it changed."""
-	return [(one.server, one.eu, one.open, one.capacity) for one in doc.get("servers") or []]

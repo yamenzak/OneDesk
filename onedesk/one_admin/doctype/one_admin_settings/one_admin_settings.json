@@ -8,8 +8,6 @@
   "connections_tab",
   "operators_section",
   "operators",
-  "servers_section",
-  "servers",
   "cloudflare_section",
   "cloudflare_account",
   "environment",
@@ -356,17 +354,6 @@
    "label": "Sender Email",
    "default": "noreply@4dl.app",
    "description": "Sign-in links, signups and notices to customers come from this address. It must be in the workspace or mail domain's zone."
-  },
-  {
-   "fieldname": "servers_section",
-   "fieldtype": "Section Break"
-  },
-  {
-   "fieldname": "servers",
-   "fieldtype": "Table",
-   "label": "Servers",
-   "options": "Workspace Server",
-   "description": "Where new workspaces are built. Each goes on the emptiest open server that may take it."
   }
  ],
  "index_web_pages_for_search": 0,

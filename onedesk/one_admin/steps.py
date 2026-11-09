@@ -13,7 +13,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, price_list, quota, servers, spares
+from onedesk.one_admin import cloudflare, faults, fleet, hosts, log, pilot, price_list, quota, servers, spares
 from onedesk.one_storage import store
 
 WAIT = "wait"
@@ -165,7 +165,7 @@ def _place_on_its_own(job, tenant) -> str | None:
 
 
 def _servers() -> list:
-	return frappe.get_cached_doc("One Admin Settings").get("servers") or []
+	return fleet.rows()
 
 
 def _origin(server: str) -> str:

@@ -10,7 +10,7 @@ import secrets
 
 import frappe
 
-from onedesk.one_admin import faults, hosts, pilot, quota, servers, site
+from onedesk.one_admin import faults, fleet, hosts, pilot, quota, servers, site
 
 KEEP = 2
 WAITING = "one_admin_spare_failed"
@@ -18,7 +18,7 @@ AFTER_A_FAILURE = 3600
 
 
 def _rows() -> list:
-	return [one for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.open and one.pilot_host]
+	return [one for one in fleet.rows() if one.open and one.pilot_host]
 
 
 def held(row) -> list[dict]:
@@ -28,7 +28,6 @@ def held(row) -> list[dict]:
 
 def _save(row, spares: list[dict]) -> None:
 	frappe.db.set_value("Workspace Server", row.name, "spares", frappe.as_json(spares))
-	frappe.clear_document_cache("One Admin Settings", "One Admin Settings")
 
 
 def wants_one(tenants: int, spares: list[dict], capacity: int) -> bool:

@@ -329,7 +329,9 @@ def _filling() -> list[dict]:
 	while, so this is said before a workspace fails to be placed."""
 	from onedesk.one_admin import quota
 
-	listed = [one for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.server]
+	from onedesk.one_admin import fleet
+
+	listed = fleet.rows()
 	if not listed:
 		return []
 	counts = quota.held_on_servers()
