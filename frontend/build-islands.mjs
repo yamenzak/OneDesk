@@ -40,6 +40,8 @@ export const ISLANDS = {
 	"onedesk.oneadmin": "src/islands/oneadmin.js",
 	"onedesk.oneadmin_servers": "src/islands/oneadmin_servers.js",
 	"onedesk.oneadmin_server_part": "src/islands/oneadmin_server_part.js",
+	"onedesk.oneadmin_billing": "src/islands/oneadmin_billing.js",
+	"onedesk.oneadmin_releases": "src/islands/oneadmin_releases.js",
 };
 
 await buildIslands({

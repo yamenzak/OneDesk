@@ -210,12 +210,23 @@ be removed and the app can't be uninstalled. Turn **Enabled** off to stop
 new codes working. Writing one, and putting it on the bench group, is
 `docs/PRIVATE-APPS.md`.
 
+## Billing and Releases
+
+**Billing** on the rail opens with the month's figures: what live workspaces
+pay, what that leaves against the 40% floor, OneCredits sold and used, what
+OneAI cost and how the plans split, each drawn only when there is data.
+
+**Releases** shows each release, the version each server holds, and who is
+moving, waiting on new terms or next in a window. A workspace waiting on the
+terms still moves after 30 days.
+
 ## Price List
 
-**Price List** is everything One sells. It's the one OneAdmin screen
-operators edit. The signup page, a customer's Plan and Credits page, Plan
-Calculator and Price Check all read it, and each offering is an Item in the
-books. The list shows plans, then add-ons, then credit packs, each by price.
+**Price List** is everything One sells. It is written from the price list in
+code on every migrate, so it reads the same as what is sold and nobody edits
+it here. The signup page, a customer's Plan and Credits page, Plan Calculator
+and Price Check all read it, and each offering is an Item in the books. The
+list shows plans, then add-ons, then credit packs, each by price.
 
 There are three types:
 
@@ -227,7 +238,8 @@ There are three types:
 - **Credit Pack**: bought once, for OneCredits that don't expire at the
   end of the month.
 
-**Changing an offering**:
+**A new price** is a new version in the price list in code, added by a
+release:
 
 - Prices never change for existing customers. Stripe keeps each subscriber
   on the price they signed up at, and the next sale creates a new Stripe
@@ -235,10 +247,9 @@ There are three types:
 - Quotas apply the next time the customer changes their plan or add-ons.
 - The top of each offering shows how many workspaces have it.
 
-**Disabling an offering** removes it from the signup page and customers'
-choices. Workspaces already on it keep it. An offering a workspace has can't
-be deleted. **View Signup Page** in the list's menu opens the page as a
-customer sees it.
+**A version no longer sold** leaves the signup page and customers' choices.
+Workspaces already on it keep it. **View Signup Page** in the list's menu
+opens the page as a customer sees it.
 
 ## Price Check
 

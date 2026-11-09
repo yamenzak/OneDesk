@@ -321,6 +321,26 @@ def catch_up() -> None:
 			frappe.log_error(title=f"Booking {invoice.get('id')}")
 
 
+def by_month(start) -> tuple[list, str | None]:
+	"""What Stripe's invoices came to each month since a date, net of tax and
+	refunds, in the company's currency."""
+	site.require_admin()
+	if not frappe.get_all("Company", limit=1):
+		return [], None
+	rows = frappe.db.sql(
+		"""
+		SELECT DATE_FORMAT(posting_date, '%%Y-%%m-01') AS month, SUM(base_net_total) AS amount
+		  FROM `tabSales Invoice`
+		 WHERE docstatus = 1 AND company = %(company)s AND IFNULL(one_stripe_invoice, '') != ''
+		   AND posting_date >= %(start)s
+		 GROUP BY month
+		""",
+		{"company": company(), "start": start},
+		as_dict=True,
+	)
+	return rows, frappe.get_cached_value("Company", company(), "default_currency")
+
+
 def _booked(stripe_id: str | None) -> str | None:
 	return (
 		frappe.db.get_value("Sales Invoice", {"one_stripe_invoice": stripe_id, "docstatus": 1}, "name")

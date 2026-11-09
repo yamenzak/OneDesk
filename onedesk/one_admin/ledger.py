@@ -399,9 +399,25 @@ def by_month(start) -> list:
 	site.require_admin()
 	return frappe.db.sql(
 		"""
-		SELECT DATE_FORMAT(creation, '%%Y-%%m-01') AS month, SUM(settled) AS credits
+		SELECT DATE_FORMAT(creation, '%%Y-%%m-01') AS month, SUM(settled) AS credits,
+		       SUM(usd) AS usd, COUNT(*) AS calls
 		  FROM `tabCredit Reservation`
 		 WHERE state = 'Settled' AND creation >= %(start)s
+		 GROUP BY month
+		""",
+		{"start": start},
+		as_dict=True,
+	)
+
+
+def sold_by_month(start) -> list:
+	"""OneCredits bought each month since a date, for Billing's chart."""
+	site.require_admin()
+	return frappe.db.sql(
+		"""
+		SELECT DATE_FORMAT(creation, '%%Y-%%m-01') AS month, SUM(credits) AS credits
+		  FROM `tabCredit Ledger Entry`
+		 WHERE kind = 'Grant' AND source = 'Purchase' AND docstatus = 1 AND creation >= %(start)s
 		 GROUP BY month
 		""",
 		{"start": start},
