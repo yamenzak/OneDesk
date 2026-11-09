@@ -1776,6 +1776,10 @@ chosen, repoints its names, and drops the old site if that server answers;
 what changed since the backup is lost. OneAdmin's own box is listed with
 **Open** off, so releases reach it and nothing else lands there.
 
+A plan with `own_server` waits at `place_it` until an operator presses **Order
+Server** on Home (8 GB, Open off, one workspace), and Home offers **Delete
+Server** once that workspace is archived or dropped.
+
 `server.py lock-admin` puts OneAdmin's desk and raw record API behind Access.
 Signup, payment and the customers' account pages stay open.
 

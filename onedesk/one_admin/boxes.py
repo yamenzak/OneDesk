@@ -28,6 +28,7 @@ ACCOUNT = "com.cloudflare.api.account"
 ZONE = "com.cloudflare.api.account.zone"
 REGION = "eu-north-1"
 BUNDLE = "medium_3_0"
+OWN_BUNDLE = "large_3_0"
 REPOSITORY = "yamenzak/onedesk"
 LOCKED_ON_ADMIN = ("/desk", "/desk/*", "/app", "/app/*", "/api/resource/*", "/api/v2/*")
 NEEDS = (

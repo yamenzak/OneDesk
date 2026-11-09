@@ -91,6 +91,11 @@ TAX = {"registered": False, "rate": 0.05, "inclusive": False}
 PACK_CREDITS_LAST_DAYS = 365
 
 
+def has_own_server(key: str | None) -> bool:
+	"""Whether a plan runs on a server of its own. Pure."""
+	return any(one.key == key and one.own_server for one in PLANS)
+
+
 def credits_per_dollar() -> float:
 	"""How many OneCredits a dollar of our cost is before markup: a dollar in
 	dirhams over a OneCredit's value. Pure."""

@@ -62,6 +62,22 @@ def _restart(row) -> None:
 		frappe.log_error(title=f"Rebooting {row.server}")
 
 
+def remove(server: str) -> None:
+	"""A server kept for a workspace that has gone: the box, its Cloudflare
+	entries and its row."""
+	keys = _keys()
+	settings = frappe.get_doc("One Admin Settings")
+	row = next(one for one in settings.servers if one.server == server)
+	if row.tenant and frappe.db.get_value("Tenant", row.tenant, "status") not in ("Archived", "Dropped"):
+		frappe.throw(frappe._("{0} is still in use.").format(server))
+	zone = keys["origin_zone"]
+	made = {"tunnel": pilot.held(server)["tunnel"], "host": row.pilot_host, "origin_zone": zone}
+	boxes.drop(keys, boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"]), server, made, zone, row.region or boxes.REGION)
+	settings.remove(row)
+	settings.save(ignore_permissions=True)
+	pilot.forget(server)
+
+
 def limits_body(url: str, token: str) -> dict:
 	"""What a box's Pilot is told to warn about, and where. Pure."""
 	return {
@@ -178,14 +194,14 @@ def prepare(row, release: str) -> None:
 	instruct(row.server, "prepare", bench=name, release=release, frappe=about["frappe"], erpnext=about["erpnext"], hrms=about["hrms"], repository=REPOSITORY, branch="main", host=host)
 
 
-def begin() -> None:
-	"""Queue the order, once."""
+def begin(tenant: str | None = None) -> None:
+	"""Queue the order, once. A named workspace gets a server of its own."""
 	if not vault.get(KEYS) or not vault.get("aws_secret_access_key"):
 		frappe.throw(frappe._("Server keys are not set."))
-	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id="one_admin_order_server", deduplicate=True)
+	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id=f"one_admin_order_server_{tenant or 'shared'}", deduplicate=True, tenant=tenant)
 
 
-def build() -> str:
+def build(tenant: str | None = None) -> str:
 	"""The box made and listed under Servers, open for new workspaces."""
 	site.require_admin()
 	keys = _keys()
@@ -200,7 +216,7 @@ def build() -> str:
 		pilot.remember(name, made["access"]["client_id"], made["access"]["client_secret"], made["pilot_password"], made["tunnel"], made["agent"])
 
 	try:
-		made = boxes.new(keys, cloudflare, name, zone, settings.tenant_domain, zone, tell.operators(), release, region=region, on_made=kept, admin_url=frappe.utils.get_url())
+		made = boxes.new(keys, cloudflare, name, zone, settings.tenant_domain, zone, tell.operators(), release, region=region, bundle=boxes.OWN_BUNDLE if tenant else boxes.BUNDLE, on_made=kept, admin_url=frappe.utils.get_url())
 	except Exception:
 		frappe.log_error(title=f"Ordering {name} failed")
 		raise
@@ -210,8 +226,9 @@ def build() -> str:
 			"server": name,
 			"region": region,
 			"eu": int(region.startswith("eu-")),
-			"open": 1,
-			"capacity": CAPACITY,
+			"open": 0 if tenant else 1,
+			"capacity": 1 if tenant else CAPACITY,
+			"tenant": tenant,
 			"pilot_host": made["host"],
 			"origin_host": made["origin"],
 			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),

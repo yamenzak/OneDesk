@@ -29,14 +29,24 @@ def _may() -> None:
 
 
 @frappe.whitelist(methods=["POST"])
-def order_server() -> dict:
-	"""The next server, ordered in the background: about 25 minutes, and it
-	joins Settings by itself."""
+def order_server(tenant: str | None = None) -> dict:
+	"""The next server, or one for a workspace that has its own, ordered in
+	the background: about 25 minutes, and it joins Settings by itself."""
 	_may()
 	from onedesk.one_admin import servers
 
-	servers.begin()
+	servers.begin(tenant)
 	return {"ordered": True}
+
+
+@frappe.whitelist(methods=["POST"])
+def delete_server(server: str) -> dict:
+	"""A server kept for a workspace that has gone, deleted."""
+	_may()
+	from onedesk.one_admin import servers
+
+	servers.remove(server)
+	return {"deleted": server}
 
 
 @frappe.whitelist()

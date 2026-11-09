@@ -305,6 +305,24 @@ def _slow_builds() -> list[dict]:
 FILLING = 0.7
 
 
+def _own_servers(listed: list) -> list[dict]:
+	"""A workspace waiting for a server of its own, and a server kept for one
+	that has gone."""
+	from onedesk.one_admin import price_list
+
+	row = lambda title, detail, label, method, args: {"kind": "storage", "doctype": "One Admin Settings", "name": "One Admin Settings", "title": title, "why": "", "detail": detail, "since": "", "badge": _("Waiting"), "action": {"label": label, "method": method, "args": args}}
+	has = {one.tenant for one in listed if one.tenant}
+	said = []
+	for tenant in frappe.get_all("Tenant", filters={"status": "Provisioning", "server": ["is", "not set"]}, fields=["name", "workspace_name", "offering"]):
+		key = frappe.db.get_value("Offering", tenant.offering, "key") if tenant.offering else None
+		if tenant.name not in has and price_list.has_own_server(key):
+			said.append(row(_("{0} needs its own server").format(tenant.workspace_name or tenant.name), _("Order it. It takes about 25 minutes."), _("Order Server"), "onedesk.one_admin.operator.order_server", {"tenant": tenant.name}))
+	for one in listed:
+		if one.tenant and frappe.db.get_value("Tenant", one.tenant, "status") in ("Archived", "Dropped"):
+			said.append(row(_("{0} is no longer used").format(one.server), _("Its workspace has been archived."), _("Delete Server"), "onedesk.one_admin.operator.delete_server", {"server": one.server}))
+	return said
+
+
 def _filling() -> list[dict]:
 	"""Servers new workspaces go on that are near their limit or at it, and a
 	jurisdiction with no open server at all. Buying the next one takes a
@@ -332,6 +350,7 @@ def _filling() -> list[dict]:
 		for one in listed
 		if one.open and one.capacity and counts.get(one.server, 0) >= FILLING * one.capacity
 	]
+	said += _own_servers(listed)
 	offers_eu = bool(frappe.get_cached_value("One Admin Settings", None, "bucket_eu"))
 	for eu, title in (
 		(False, _("No open server for new workspaces")),

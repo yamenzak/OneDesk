@@ -11,6 +11,7 @@
   "eu",
   "open",
   "capacity",
+  "tenant",
   "pilot_host",
   "origin_host",
   "spares",
@@ -61,6 +62,14 @@
    "in_list_view": 1,
    "columns": 2,
    "description": "How many workspaces it holds before it is full. Leave it at 0 for no limit."
+  },
+  {
+   "fieldname": "tenant",
+   "fieldtype": "Link",
+   "label": "Workspace",
+   "options": "Tenant",
+   "read_only": 1,
+   "description": "Only set on a server kept for one workspace."
   },
   {
    "fieldname": "pilot_host",

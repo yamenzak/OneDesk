@@ -21,6 +21,12 @@ def remember(server: str, client_id: str, client_secret: str, password: str, tun
 	vault.keep(_key(server), frappe.as_json({"id": client_id, "secret": client_secret, "password": password, "tunnel": tunnel, "agent": agent}))
 
 
+def forget(server: str) -> None:
+	from frappe.installer import update_site_config
+
+	update_site_config(_key(server), "None")
+
+
 def held(server: str) -> dict:
 	found = frappe.parse_json(vault.get(_key(server)) or "null")
 	if not found:

@@ -13,7 +13,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, quota, servers, spares
+from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, price_list, quota, servers, spares
 from onedesk.one_storage import store
 
 WAIT = "wait"
@@ -124,11 +124,14 @@ def app_installed(job, tenant) -> None:
 	private.installed(job)
 
 
-def place_it(job, tenant) -> None:
+def place_it(job, tenant) -> str | None:
 	"""The emptiest open server that may take this workspace. None with room
 	fails the job, saying so, and Resume places it once there is one."""
 	if tenant.site or tenant.server:
-		return
+		return None
+	key = frappe.db.get_value("Offering", tenant.offering, "key") if tenant.offering else None
+	if price_list.has_own_server(key):
+		return _place_on_its_own(job, tenant)
 	eu = tenant.jurisdiction == "EU"
 	leaving = (frappe.parse_json(job.payload or "{}") or {}).get("from_server")
 	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server != leaving and (one.eu or not eu)]
@@ -141,6 +144,24 @@ def place_it(job, tenant) -> None:
 		raise faults.Refused(f"Every {kind} is full. Add a server, list it under Servers in Settings, then resume")
 	room.sort(key=lambda one: (not spares.ready(one.server), counts.get(one.server, 0) / (one.capacity or 1000)))
 	tenant.db_set({"bench": servers.current(room[0]), "server": room[0].server, "cluster": room[0].region})
+	return None
+
+
+def _place_on_its_own(job, tenant) -> str | None:
+	"""A plan with its own server waits for that server. An operator orders
+	it from Home; the operators are told once."""
+	row = next((one for one in _servers() if one.tenant == tenant.name and one.pilot_host), None)
+	if row:
+		tenant.db_set({"bench": servers.current(row), "server": row.server, "cluster": row.region})
+		return None
+	payload = frappe.parse_json(job.payload or "{}") or {}
+	if not payload.get("told"):
+		from onedesk.one_admin import tell
+
+		tell.server_wanted(tenant)
+		payload["told"] = 1
+		job.db_set("payload", frappe.as_json(payload))
+	return WAIT
 
 
 def _servers() -> list:
