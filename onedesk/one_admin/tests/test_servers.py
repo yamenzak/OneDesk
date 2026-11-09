@@ -2,8 +2,8 @@ from onedesk.one_admin import boxes, servers
 
 
 def test_the_next_box_takes_the_lowest_free_number():
-	assert servers.next_name([]) == "box-1"
-	assert servers.next_name(["box-1", "box-3"]) == "box-2"
+	assert servers.next_name([], "eu-north-1") == "se-1"
+	assert servers.next_name(["se-1", "se-3"], "eu-north-1") == "se-2"
 
 
 def test_a_box_answers_for_its_addresses_and_nothing_else():
