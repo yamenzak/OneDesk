@@ -353,7 +353,7 @@ def upload_backup(job, tenant) -> None:
 	payload = frappe.parse_json(job.payload or "{}") or {}
 	if payload.get("upload"):
 		return
-	held = backups.chosen(tenant.slug, payload.get("day"), payload.get("where") or "daily")
+	held = backups.chosen(tenant.slug, payload.get("day"), payload.get("where") or "daily", new_site=job.kind != "Roll Back")
 	payload["upload"], payload["parts"] = backups.to_server(tenant, held["parts"])
 	job.db_set("payload", frappe.as_json(payload))
 

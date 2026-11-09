@@ -232,7 +232,7 @@ say(
 	"availability",
 	"backups",
 	"""
-	Workspaces are backed up daily by the platform they run on. Backups are for our recovery from a failure
+	We back up each workspace's database and settings every four hours, and its files every night. Backups are for our recovery from a failure
 	on our side; they are not a substitute for your own export.
 """,
 	order=20,
@@ -689,7 +689,7 @@ say(
 	"security",
 	"measures",
 	"""
-	We keep appropriate technical and organisational measures: encryption in transit everywhere, encryption at rest for stored files and backups, a separate database for each workspace, and access inside the product that follows each record's own permissions. Suppliers' keys are held in our gateway and never in a workspace, and backups are taken daily.
+	We keep appropriate technical and organisational measures: encryption in transit everywhere, encryption at rest for stored files and backups, a separate database for each workspace, and access inside the product that follows each record's own permissions. Suppliers' keys are held in our gateway and never in a workspace, and each workspace's database is backed up every four hours and its files every night.
 """,
 )
 

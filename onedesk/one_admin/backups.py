@@ -1,5 +1,6 @@
 """Backups, in the locked bucket, through the keeper: each workspace pushes
-its own every night, signed with the secret given it here (`ready`, and
+its own every night, and its database every four hours under `recent/`,
+signed with the secret given it here (`ready`, and
 one/backup.py on its side); OneAdmin backs itself up and copies every
 workspace's files; archiving keeps the newest backup again; and a kept
 backup is sent back to Frappe Cloud for a restore (README, Backups)."""
@@ -16,6 +17,8 @@ from onedesk.one_admin import cloudflare, faults, keys, pilot, seal, vault
 BACKED_UP = ("Live", "Overdue", "Suspended")
 OURS = "oneadmin"
 CONFIG_COPIES = "config/oneadmin"
+RECENT = "recent"
+FILE_PARTS = ("public", "private")
 ROUNDS = 100
 PATIENCE = 900
 PIECE = 64 * 1024 * 1024
@@ -151,12 +154,22 @@ def archived(tenant) -> list[str]:
 	return said.get("kept") or []
 
 
+def when(where: str, day: str, uploaded: str | None) -> str:
+	"""What kept backups are put in order by. A four-hourly one says its time
+	in its name (`2026-11-09T0415`) and a nightly one by when it arrived;
+	`monthly/` and `archived/` were copied later, so only their day means
+	anything. Pure."""
+	if where == RECENT:
+		return f"{day[:13]}:{day[13:]}"
+	return (uploaded or day) if where == "daily" else day
+
+
 def listed(slug: str) -> list[dict]:
-	"""Every backup kept of a workspace, newest first: its day, where it is
-	kept, and its parts."""
+	"""Every backup kept of a workspace, newest first: its day (and for a
+	four-hourly one its time), where it is kept, and its parts."""
 	url, headers = _keeper()
 	days: dict[tuple, dict] = {}
-	for where in ("archived", "monthly", "daily"):
+	for where in ("archived", "monthly", "daily", RECENT):
 		cursor = None
 		while True:
 			answered = requests.get(f"{url}/backups", params={"prefix": f"{where}/{slug}/", "cursor": cursor or ""}, headers=headers, timeout=60)
@@ -165,12 +178,12 @@ def listed(slug: str) -> list[dict]:
 			said = answered.json()
 			for one in said.get("objects") or []:
 				_where, _slug, day, part, _name = one["key"].split("/", 4)
-				held = days.setdefault((day, where), {"day": day, "where": where, "parts": {}})
+				held = days.setdefault((day, where), {"day": day, "where": where, "parts": {}, "at": when(where, day, one.get("uploaded"))})
 				held["parts"][part] = {"key": one["key"], "size": one["size"]}
 			cursor = said.get("cursor")
 			if not cursor:
 				break
-	return sorted(days.values(), key=lambda one: (one["day"], one["where"] == "archived"), reverse=True)
+	return sorted(days.values(), key=lambda one: (one["at"], one["where"] == "archived"), reverse=True)
 
 
 def kept_on(slug: str, day: str) -> bool:
@@ -182,11 +195,17 @@ def kept_on(slug: str, day: str) -> bool:
 	return bool(answered.json().get("objects"))
 
 
-def chosen(slug: str, day: str, where: str) -> dict:
-	"""One kept backup of a workspace: its parts, as `listed` gives them."""
-	found = next((one for one in listed(slug) if one["day"] == day and one["where"] == where), None)
+def chosen(slug: str, day: str, where: str, new_site: bool = False) -> dict:
+	"""One kept backup of a workspace: its parts, as `listed` gives them. A
+	four-hourly one has no files, so one going onto a new site takes them
+	from the newest night up to it; a site rolled back keeps its own."""
+	kept = listed(slug)
+	found = next((one for one in kept if one["day"] == day and one["where"] == where), None)
 	if not found or "database" not in found["parts"]:
 		raise faults.Refused(f"no backup of {slug} kept for {where} {day}")
+	if new_site and where == RECENT:
+		night = next((one for one in kept if one["where"] != RECENT and one["day"] <= day and set(one["parts"]) & set(FILE_PARTS)), None)
+		found["parts"].update({part: held for part, held in (night["parts"] if night else {}).items() if part in FILE_PARTS})
 	return found
 
 
