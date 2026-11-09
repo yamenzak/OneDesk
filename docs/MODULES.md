@@ -435,6 +435,7 @@ No doctypes yet.
 * `onedesk.one_admin.accounts.save_name`
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.console.overview`
+* `onedesk.one_admin.earnings.overview`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.backups`
@@ -505,6 +506,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
+* `onedesk.one_admin.rollout.overview`
 * `onedesk.one_admin.servers.pressure`
 * `onedesk.one_admin.servers.reported`
 * `onedesk.one_admin.setup.set_up`

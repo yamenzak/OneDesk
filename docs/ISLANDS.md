@@ -132,6 +132,8 @@ that exists.
 | `src/hr/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
 | `src/inventory/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
 | `src/admin/AdminHome.vue` | Vercel's and Railway's dashboards: what needs you, the business's figures, then the servers |
+| `src/admin/BillingHome.vue` | Stripe's billing overview and OneBook's Home: the month's figures, invoiced by month, margin at worst against the floor, OneCredits sold and used, OneAI's cost and the plans |
+| `src/admin/ReleasesHome.vue` | Vercel's Deployments: each release with where it is and how far it has rolled out, each server's versions, then who is moving, waiting on terms or next in a window |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging; drawn on a list's own head (the folder's name, New, the views) and card |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |

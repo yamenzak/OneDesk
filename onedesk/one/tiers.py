@@ -188,6 +188,8 @@ SCREENS = {
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",
 	"oneadmin": "OneAdmin's overview, a console of its own, read from several records",
+	"oneadmin-billing": "Billing's home: what live workspaces pay, what that leaves against the margin floor, and OneCredits (Tenant, Offering, Credit Reservation)",
+	"oneadmin-releases": "Releases: each release, the versions each server holds and each workspace's window, across servers and workspaces (Workspace Server, Tenant)",
 	"intake": "what Intake read and did (Reading, Reading Action)",
 	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
 }

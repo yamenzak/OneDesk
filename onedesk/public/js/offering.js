@@ -20,16 +20,6 @@ frappe.ui.form.on("Offering", {
 			);
 		}
 	},
-	kind(frm) {
-		onedesk.offering.say(frm);
-	},
-	enabled(frm) {
-		if (frm.doc.enabled || frm.is_new()) return;
-		frappe.show_alert({
-			message: __("Existing workspaces keep it. New signups can't pick it."),
-			indicator: "blue",
-		});
-	},
 });
 
 frappe.provide("onedesk.offering");

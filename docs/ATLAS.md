@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 85 | 2 | 37 | 0 |
+| onedesk | 87 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -67,6 +67,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | oneadmin (`frontend/src/admin/AdminHome.vue`) | Offering, Tenant | – | – | – |
+| oneadmin_billing (`frontend/src/admin/BillingHome.vue`) | Offering, Tenant, Tenant Add-on | – | – | – |
+| oneadmin_releases (`frontend/src/admin/ReleasesHome.vue`) | Tenant | – | – | – |
 
 ## erpnext / Accounts
 
@@ -965,7 +967,7 @@ Pages: intake (on a rail or a home).
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 
-Pages: oneadmin (on a rail or a home).
+Pages: oneadmin (on a rail or a home); oneadmin-billing (on a rail or a home); oneadmin-releases (on a rail or a home).
 
 ## onedesk / One Book
 
