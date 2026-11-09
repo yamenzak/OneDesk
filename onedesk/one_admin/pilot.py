@@ -54,12 +54,12 @@ def _host(row, bench: str | None) -> str:
 	return (found or {}).get("host") or row.pilot_host
 
 
-def _sign_in(server: str, bench: str | None, base: str, session: requests.Session) -> str:
+def _sign_in(server: str, bench: str | None, base: str, session: requests.Session, wait: int = TIMEOUT) -> str:
 	"""A Pilot session, kept so a busy OneAdmin does not trip its limit on
 	sign-ins."""
 	keys = held(server)
 	try:
-		answer = session.post(f"{base}/auth/session", json={"password": keys["password"]}, timeout=TIMEOUT, allow_redirects=False)
+		answer = session.post(f"{base}/auth/session", json={"password": keys["password"]}, timeout=wait, allow_redirects=False)
 	except requests.RequestException as raised:
 		raise faults.Again(f"{server} could not be reached: {raised}") from raised
 	if answer.status_code != 201:
@@ -73,26 +73,27 @@ def _held_session(server: str, bench: str | None) -> str:
 	return f"one_admin_pilot_session:{server}:{bench or ''}"
 
 
-def _session(server: str, bench: str | None) -> tuple[requests.Session, str]:
+def _session(server: str, bench: str | None, wait: int = TIMEOUT) -> tuple[requests.Session, str]:
 	keys = held(server)
 	base = f"https://{_host(_row(server), bench)}{API}"
 	session = requests.Session()
 	session.headers.update({"CF-Access-Client-Id": keys["id"], "CF-Access-Client-Secret": keys["secret"]})
-	sid = frappe.cache().get_value(_held_session(server, bench)) or _sign_in(server, bench, base, session)
+	sid = frappe.cache().get_value(_held_session(server, bench)) or _sign_in(server, bench, base, session, wait)
 	session.headers["Authorization"] = f"Bearer {sid}"
 	return session, base
 
 
-def call(server: str, method: str, path: str, key: str | None = None, bench: str | None = None, **kwargs):
+def call(server: str, method: str, path: str, key: str | None = None, bench: str | None = None, wait: int = TIMEOUT, **kwargs):
 	"""One Admin API call; `key` makes a repeat of it the same task. None for
-	a GET that finds no such site or task."""
-	session, base = _session(server, bench)
+	a GET that finds no such site or task. `wait` is how long to wait for an
+	answer, for a screen that would rather say so than hang."""
+	session, base = _session(server, bench, wait)
 	headers = {"Idempotency-Key": key} if key else {}
 	try:
-		answer = session.request(method, f"{base}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
+		answer = session.request(method, f"{base}{path}", headers=headers, timeout=wait, **kwargs)
 		if answer.status_code == 401:
-			session.headers["Authorization"] = f"Bearer {_sign_in(server, bench, base, session)}"
-			answer = session.request(method, f"{base}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
+			session.headers["Authorization"] = f"Bearer {_sign_in(server, bench, base, session, wait)}"
+			answer = session.request(method, f"{base}{path}", headers=headers, timeout=wait, **kwargs)
 	except requests.RequestException as raised:
 		raise faults.Again(f"{path} on {server} could not be reached: {raised}") from raised
 	if answer.status_code == 404 and method == "GET":

@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 85 | 2 | 37 | 0 |
+| onedesk | 86 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -67,6 +67,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
 | oneadmin (`frontend/src/admin/AdminHome.vue`) | Offering, Tenant | – | – | – |
+| oneadmin_servers (`frontend/src/admin/AdminServers.vue`) | Tenant | – | – | – |
+| oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
 
 ## erpnext / Accounts
 
@@ -961,11 +963,11 @@ Pages: intake (on a rail or a home).
 | Tenant | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | Paid While Archived, Workspace Asked to Close, Workspace Owing |
 | Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  |  |
 | Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
-| Workspace Server | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  |  |
+| Workspace Server | opened by our screens | not read | form script | no | general |  | **none** |  |  |  |  |
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 
-Pages: oneadmin (on a rail or a home).
+Pages: oneadmin (on a rail or a home); oneadmin-servers (on a rail or a home).
 
 ## onedesk / One Book
 

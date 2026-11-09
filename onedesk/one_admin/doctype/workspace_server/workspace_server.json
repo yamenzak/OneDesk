@@ -19,6 +19,8 @@
   "disk_used",
   "column_break_2",
   "monthly_cost",
+  "section_metrics",
+  "metrics",
   "section_addresses",
   "pilot_host",
   "origin_host",
@@ -127,6 +129,16 @@
    "label": "Monthly Cost (USD)",
    "read_only": 1,
    "in_list_view": 1
+  },
+  {
+   "fieldname": "section_metrics",
+   "fieldtype": "Section Break",
+   "label": "Metrics"
+  },
+  {
+   "fieldname": "metrics",
+   "fieldtype": "HTML",
+   "label": "Metrics"
   },
   {
    "fieldname": "section_addresses",

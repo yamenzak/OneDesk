@@ -936,6 +936,7 @@ doctype_js = {
 	"Personal Data Download Request": "public/js/privacy_copy.js",
 	"Workspace Account": "public/js/one_account/workspace_account.js",
 	"Tenant": "public/js/tenant.js",
+	"Workspace Server": "public/js/workspace_server.js",
 	"Account Request": "public/js/account_request.js",
 	"Credit Ledger Entry": "public/js/credit_ledger_entry.js",
 	"Offering": "public/js/offering.js",

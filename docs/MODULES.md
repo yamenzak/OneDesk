@@ -65,7 +65,7 @@ No doctypes yet.
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
-| Workspace Server | 19 | document |
+| Workspace Server | 21 | document |
 
 ## One AI
 
@@ -437,6 +437,10 @@ No doctypes yet.
 * `onedesk.one_admin.console.overview`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
+* `onedesk.one_admin.metrics.card`
+* `onedesk.one_admin.metrics.cards`
+* `onedesk.one_admin.metrics.charts`
+* `onedesk.one_admin.metrics.traffic`
 * `onedesk.one_admin.operator.backups`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`

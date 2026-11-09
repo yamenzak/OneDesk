@@ -590,7 +590,13 @@ Keys show as dots and are never read back.
 
 ### Servers
 
-**Servers** lists the servers new workspaces are built on. To add one:
+**Servers** shows a card for each server: its provider, status, live CPU,
+memory and disk, the workspaces on it and its release. Click a card to open its
+record, which has the server's charts under **Metrics**. **List View** opens the
+plain list. Under the cards are the requests, Workers and R2 storage Cloudflare
+counted over the last day.
+
+The servers new workspaces are built on are added here. To add one:
 
 1. Press **Order Server** on the Home when a server is filling up. It takes
    about 25 minutes, and the row appears here by itself.
@@ -1775,6 +1781,13 @@ workspace's Backups dialog, builds it on another open server from the backup
 chosen, repoints its names, and drops the old site if that server answers;
 what changed since the backup is lost. OneAdmin's own box is listed with
 **Open** off, so releases reach it and nothing else lands there.
+
+`metrics.py` is what the Servers cards and a server's charts read: Pilot's
+monitor and database history, Lightsail's CPU, burst and disk, and Cloudflare's
+GraphQL Analytics. Nothing is stored; a read stays in the cache for 25 seconds
+(five minutes for Cloudflare) and a source that cannot answer empties only its
+own charts. Cloudflare needs Account Analytics Read and Analytics Read on the
+token in OneAdmin Settings; without them the screen names the permission.
 
 A plan with `own_server` waits at `place_it` until an operator presses **Order
 Server** on Home (8 GB, Open off, one workspace), and Home offers **Delete

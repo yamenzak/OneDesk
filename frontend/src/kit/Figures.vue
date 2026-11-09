@@ -1,11 +1,11 @@
 <template>
   <div class="grid grid-cols-2 gap-3 max-sm:[&_.text-3xl-semibold]:text-xl-semibold [&_.text-3xl-semibold>span:first-child]:min-w-0 [&_.text-3xl-semibold>span:first-child]:shrink [&_.text-3xl-semibold>span:first-child]:[overflow-wrap:anywhere] [&_span.min-w-0.truncate]:whitespace-normal" :class="COLUMNS[columns || figures.length] || 'lg:grid-cols-4'">
-    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: !one.sparkline }">
+    <div v-for="one in figures" :key="one.title" class="flex min-w-0 flex-col" :class="{ [CARD]: !one.sparkline && !bare }">
       <Tooltip :text="one.other ? `${one.other.label}: ${one.other.value}` : ''" :disabled="!one.other" :hover-delay="150">
       <NumberCard
         :title="one.title"
         :value="isolated(one.value)"
-        :card="!!one.sparkline"
+        :card="!!one.sparkline && !bare"
         :class="{ 'flex-1': one.sparkline, [TAXED]: one.other }"
         :color="one.alarm ? 'var(--ink-red-7)' : undefined"
         :sparkline="one.sparkline"
@@ -35,7 +35,7 @@ import { NumberCard } from "frappe-ui/charts";
 
 import { go } from "./desk";
 
-defineProps({ figures: { type: Array, required: true }, columns: Number });
+defineProps({ figures: { type: Array, required: true }, columns: Number, bare: Boolean });
 const DATED = /(\d{1,4}[-/.]\d{1,2}[-/.]\d{1,4})/g;
 const isolated = (value) => (typeof value === "string" ? value.replace(DATED, (date) => `\u2068${date.replaceAll("-", "\u2011")}\u2069`) : value);
 const CARD = "rounded-4 border border-outline-gray-1 bg-surface-elevation-2 px-4 py-3";

@@ -228,8 +228,8 @@ def latest_release(keys: dict) -> str:
 	return max(found, key=lambda one: one["LastModified"])["Key"].removeprefix("releases/").removesuffix(".json")
 
 
-def _aws(keys: dict, region: str):
-	return boto3.client("lightsail", region_name=region, aws_access_key_id=keys["aws_access_key_id"], aws_secret_access_key=keys["aws_secret_access_key"])
+def _aws(keys: dict, region: str, config=None):
+	return boto3.client("lightsail", region_name=region, aws_access_key_id=keys["aws_access_key_id"], aws_secret_access_key=keys["aws_secret_access_key"], config=config)
 
 
 def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], release: str, branch: str = "main", region: str = REGION, bundle: str = BUNDLE, key: str | None = None, ssh_from: str | None = None, more_hosts: tuple = (), repository: str = REPOSITORY, say=lambda _said: None, on_made=lambda _made: None, admin_url: str = "") -> dict:

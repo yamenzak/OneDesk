@@ -159,7 +159,9 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on OneAdmin's Home."""
+	"""The sentence the model is told on OneAdmin's Home and Servers."""
+	if said.get("page") == "oneadmin-servers":
+		return "The reader is an operator of One, on OneAdmin's Servers: every server as a card with its status, live CPU, memory and disk, workspaces and release, and below them the requests, Workers and R2 storage Cloudflare counted over the last day."
 	if said.get("page") != "oneadmin":
 		return None
 	return (

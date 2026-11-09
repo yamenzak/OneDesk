@@ -39,8 +39,8 @@
    "indent": 0,
    "keep_closed": 0,
    "label": "Servers",
-   "link_to": "Workspace Server",
-   "link_type": "DocType",
+   "link_to": "oneadmin-servers",
+   "link_type": "Page",
    "show_arrow": 0,
    "type": "Link",
    "idx": 3

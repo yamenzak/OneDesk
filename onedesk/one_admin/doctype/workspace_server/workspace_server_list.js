@@ -2,6 +2,10 @@ frappe.listview_settings["Workspace Server"] = {
 	add_fields: ["status", "capacity", "tenant"],
 	hide_name_column: true,
 
+	onload(list) {
+		list.page.add_inner_button(__("Cards View"), () => frappe.set_route("oneadmin-servers"));
+	},
+
 	get_indicator(doc) {
 		const colour = { Up: "green", "Filling Up": "orange", Full: "orange", Down: "red" }[doc.status] || "gray";
 		return [__(doc.status), colour, `status,=,${doc.status}`];
