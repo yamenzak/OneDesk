@@ -13,6 +13,8 @@ import frappe
 from onedesk.one_admin import faults, hosts, pilot, quota, site
 
 KEEP = 2
+WAITING = "one_admin_spare_failed"
+AFTER_A_FAILURE = 3600
 
 
 def _rows() -> list:
@@ -63,8 +65,9 @@ def _tend(row, tenants: int) -> None:
 			raise
 		except faults.Refused:
 			spares.remove(one)
+			frappe.cache().set_value(f"{WAITING}:{row.server}", 1, expires_in_sec=AFTER_A_FAILURE)
 			frappe.log_error(title=f"A spare failed on {row.server}")
-	if wants_one(tenants, spares, row.capacity):
+	if wants_one(tenants, spares, row.capacity) and not frappe.cache().get_value(f"{WAITING}:{row.server}"):
 		from onedesk.one_admin.steps import APPS, _tenant_domain
 
 		name = hosts.under(f"spare-{secrets.token_hex(4)}", _tenant_domain())

@@ -173,7 +173,7 @@ def create_site(job, tenant) -> None:
 	name = _site_name(tenant)
 	spare = spares.ready(tenant.server)
 	if spare:
-		body = {"new_name": name, "keep_old_hostname": False, "make_primary": True}
+		body = {"new_name": name, "keep_old_hostname": False, "make_primary": False}
 		answered = pilot.call(tenant.server, "POST", f"/sites/{spare}/actions/rename", key=f"{job.name}:site", json=body)
 		spares.used(tenant.server, spare)
 	else:
@@ -213,7 +213,7 @@ def push_config(job, tenant) -> None:
 	"""Tell the site who it is, where admin is, and what it is called.
 
 	The token is generated here and never again: only its hash is kept, on the
-	tenant. The site is named for its address, so it needs no `host_name`.
+	tenant. `hostname` is its address with https, since nginx behind the tunnel only sees http.
 	"""
 	from onedesk.one_admin import backups
 
@@ -227,6 +227,7 @@ def push_config(job, tenant) -> None:
 		f"/sites/{tenant.site}/configuration",
 		json={
 			"pause_scheduler": 0,
+			"hostname": f"https://{tenant.domain}",
 			"one_admin_url": _admin_url(),
 			"one_tenant": tenant.slug,
 			"one_token": token,

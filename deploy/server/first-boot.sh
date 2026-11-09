@@ -64,6 +64,7 @@ for app in frappe erpnext hrms onedesk; do
 	ln -sfn "$bench/apps/$app/$app/public" "sites/assets/$app"
 done
 
+pilot -y -b main processes disable frappe-flow_server
 pilot -y -b main setup production --admin-domain "$ONE_ADMIN_HOST"
 pilot -y -b main restart
 BOOT
