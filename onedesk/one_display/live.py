@@ -30,7 +30,11 @@ def admit(
 
 
 def wake(screen: str | None = None) -> None:
-	"""Tell one screen, or every screen, to ask for its state now."""
+	"""Tell one screen, or every screen, to ask for its state now, and what
+	they would be told built again."""
+	from onedesk.one_display import programme
+
+	frappe.db.after_commit.add(programme.forget)
 	frappe.publish_realtime(EVENT, {}, room=ROOM.format(screen or EVERY), after_commit=True)
 
 

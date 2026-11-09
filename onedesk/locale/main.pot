@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 18:39+0000\n"
-"PO-Revision-Date: 2026-11-09 18:39+0000\n"
+"POT-Creation-Date: 2026-11-09 18:48+0000\n"
+"PO-Revision-Date: 2026-11-09 18:48+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -11595,7 +11595,7 @@ msgstr ""
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:73
 #: onedesk/one_display/doctype/voice_pack_clip/voice_pack_clip.json:26
 #: onedesk/one_display/page/counter/counter.js:2
-#: onedesk/one_display/programme.py:431
+#: onedesk/one_display/programme.py:450
 #: onedesk/one_display/sidebar/onedisplay/onedisplay.json:64
 #: onedesk/one_display/starters.py:1137 onedesk/one_display/widgets.py:39
 #: onedesk/www/tv.py:53
@@ -31090,7 +31090,7 @@ msgid "No groups"
 msgstr ""
 
 #: onedesk/one/doctype/news_source/news_source.js:52
-#: onedesk/one_display/programme.py:439
+#: onedesk/one_display/programme.py:458
 msgid "No headlines yet."
 msgstr ""
 
@@ -31511,7 +31511,7 @@ msgstr ""
 msgid "No template is the default, so nothing is charged unless somebody picks one."
 msgstr ""
 
-#: onedesk/one_display/programme.py:433 onedesk/www/tv.py:62
+#: onedesk/one_display/programme.py:452 onedesk/www/tv.py:62
 msgid "No ticket is being served."
 msgstr ""
 
@@ -52665,7 +52665,7 @@ msgstr ""
 msgid "The theme could not be changed. Try again."
 msgstr ""
 
-#: onedesk/one_display/programme.py:436 onedesk/www/tv.py:66
+#: onedesk/one_display/programme.py:455 onedesk/www/tv.py:66
 msgid "The ticket could not be taken. Try again."
 msgstr ""
 
@@ -54126,7 +54126,7 @@ msgstr ""
 msgid "Ticket number"
 msgstr ""
 
-#: onedesk/one_display/programme.py:366
+#: onedesk/one_display/programme.py:385
 #, python-brace-format
 msgid "Ticket {0}, counter {1}"
 msgstr ""
@@ -57306,7 +57306,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain_list.js:8
 #: onedesk/one_admin/heads.py:46 onedesk/one_admin/home.py:313
 #: onedesk/one_display/doctype/queue_ticket/queue_ticket.json:65
-#: onedesk/one_display/programme.py:432
+#: onedesk/one_display/programme.py:451
 #: onedesk/one_hr/doctype/interview_recording_part/interview_recording_part.json:37
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:232
 #: onedesk/one_storage/doctype/cloud_file_request_recipient/cloud_file_request_recipient.json:28
@@ -63874,7 +63874,7 @@ msgstr ""
 msgid "Your step on {action} is still open. Do it, or say on the action why it waits."
 msgstr ""
 
-#: onedesk/one_display/programme.py:434 onedesk/www/tv.py:63
+#: onedesk/one_display/programme.py:453 onedesk/www/tv.py:63
 msgid "Your ticket"
 msgstr ""
 
@@ -65929,7 +65929,7 @@ msgstr ""
 msgid "{0} agreed on {1}"
 msgstr ""
 
-#: onedesk/one_display/programme.py:435 onedesk/www/tv.py:64
+#: onedesk/one_display/programme.py:454 onedesk/www/tv.py:64
 #, python-brace-format
 msgid "{0} ahead of you"
 msgstr ""
@@ -66672,7 +66672,7 @@ msgstr ""
 msgid "{0} h used of {1} h."
 msgstr ""
 
-#: frontend/src/display/Boards.vue:54 onedesk/one_display/programme.py:438
+#: frontend/src/display/Boards.vue:54 onedesk/one_display/programme.py:457
 #, python-brace-format
 msgid "{0} h {1}"
 msgstr ""
@@ -67853,7 +67853,7 @@ msgstr ""
 
 #: frontend/src/display/Boards.vue:54
 #: frontend/src/inventory/item/ItemMaking.vue:75
-#: onedesk/one_display/programme.py:437
+#: onedesk/one_display/programme.py:456
 #, python-brace-format
 msgid "{0} min"
 msgstr ""

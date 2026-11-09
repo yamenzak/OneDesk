@@ -34,6 +34,10 @@ TIME = re.compile(r"(\d{1,2})[:.](\d{2})")
 SLIDE = 10
 
 
+CACHED = "one_display:composed:"
+KEPT_FOR = 30
+
+
 def now_ms() -> int:
 	return int(time.time() * 1000)
 
@@ -294,6 +298,21 @@ def zone_minutes() -> int:
 	widget adds: a TV's own time zone is often wrong."""
 	offset = datetime.now(ZoneInfo(get_system_timezone())).utcoffset()
 	return int(offset.total_seconds() // 60) if offset else 0
+
+
+def current(channel_name: str) -> dict:
+	"""What a screen on this channel plays, built once however many screens
+	ask. A change forgets it at once (`live.wake`); the clock, within `KEPT_FOR`."""
+	key = f"{CACHED}{channel_name}"
+	said = frappe.cache.get_value(key)
+	if said is None:
+		said = compose(channel_name)
+		frappe.cache.set_value(key, said, expires_in_sec=KEPT_FOR)
+	return said
+
+
+def forget() -> None:
+	frappe.cache.delete_keys(CACHED)
 
 
 def compose(channel_name: str, lang: str | None = None) -> dict:

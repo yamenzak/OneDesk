@@ -258,7 +258,7 @@ def _language(channel: str | None) -> str:
 def _channel(name: str | None, have: str | None):
 	if not name:
 		return None
-	said = programme.compose(name)
+	said = programme.current(name)
 	return programme.light(said) if have and have == said["revision"] else said
 
 

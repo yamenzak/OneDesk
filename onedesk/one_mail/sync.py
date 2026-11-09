@@ -117,6 +117,20 @@ def discover(session, doc) -> list[str]:
 	return seen
 
 
+def unchanged(folder, now: dict) -> bool:
+	"""Whether the server says nothing in this folder moved since last time.
+	Only a server that reports a change counter can say so; flags change
+	without a new message. Pure."""
+	return bool(
+		folder.backfilled
+		and now["modseq"]
+		and folder.modseq == str(now["modseq"])
+		and cint(folder.uidvalidity) == cint(now["uidvalidity"])
+		and cint(folder.uidnext) == cint(now["uidnext"])
+		and cint(folder.total) == cint(now["exists"])
+	)
+
+
 def sync_folder(session, doc, folder) -> dict:
 	now = session.select(folder.path, readonly=True)
 	read = {"new": 0, "old": 0, "flags": 0, "gone": 0}
@@ -126,6 +140,9 @@ def sync_folder(session, doc, folder) -> dict:
 		folder.oldest_uid = 0
 		folder.backfilled = 0
 		folder.modseq = None
+	if unchanged(folder, now):
+		frappe.db.set_value("Mail Folder", folder.name, "last_synced", now_datetime(), update_modified=False)
+		return read
 	own = folder.kind in OWN
 
 	if now["exists"]:
