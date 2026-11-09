@@ -3,7 +3,7 @@
     <Loading v-if="!said" />
     <div v-else>
       <OneAlert v-if="failing.length" colour="red" class="mt-6">{{ failingSaid }}</OneAlert>
-      <OneAlert v-else colour="green" class="mt-6">{{ __("All Services Working") }}</OneAlert>
+      <OneAlert v-else-if="working" colour="green" class="mt-6">{{ __("All Services Working") }}</OneAlert>
       <Section :title="__('Services')" icon="lucide-heart-pulse">
         <Rows :rows="services" />
       </Section>
@@ -23,7 +23,7 @@
 import { computed, onBeforeUnmount, ref } from "vue";
 import { ChartCard, HeatmapChart } from "frappe-ui/charts";
 
-import { Loading, OneAlert, Page, Rows, Section, __, clock, count, date, followList, get, shortMonth } from "../kit";
+import { Loading, OneAlert, Page, Rows, Section, __, count, dateTime, followList, get, shortMonth } from "../kit";
 
 const FAILING = "Failing";
 const THEMES = { Working: "green", Failing: "red", "Not Set Up": "gray" };
@@ -34,13 +34,14 @@ load();
 onBeforeUnmount(followList("Health Check", load));
 
 const failing = computed(() => said.value.services.filter((one) => one.state === FAILING));
+const working = computed(() => said.value.services.every((one) => one.state === "Working"));
 const failingSaid = computed(() =>
   failing.value.length === 1 ? __("{0} is failing", [__(failing.value[0].service)]) : __("{0} services are failing", [count(failing.value.length)])
 );
 const share = (value) => `${Math.round(value)}%`;
 const nameOf = (value) => __(value);
 const dayOf = (value) => `${shortMonth(String(value))} ${String(value).slice(8)}`;
-const checked = (one) => (one.checked_at ? __("Checked {0}", [`${date(one.checked_at)} ${clock(one.checked_at)}`]) : __("Not checked yet"));
+const checked = (one) => (one.checked_at ? __("Checked {0}", [dateTime(one.checked_at)]) : __("Not checked yet"));
 const route = (one) => `/desk/health-check?service=${encodeURIComponent(one.service)}`;
 
 const services = computed(() =>
@@ -60,7 +61,7 @@ const incidents = computed(() =>
     key: at,
     label: __(one.service),
     below: one.detail,
-    value: `${date(one.started)} ${clock(one.started)}`,
+    value: dateTime(one.started),
     under: __("{0} checks in a row", [count(one.checks)]),
     route: route(one),
   }))

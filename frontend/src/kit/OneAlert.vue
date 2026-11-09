@@ -1,19 +1,35 @@
 <template>
-  <div class="one-alert" :class="colour">
-    <span class="one-alert-icon" v-html="icon" />
-    <div class="one-alert-text"><slot>{{ text }}</slot></div>
-    <div v-if="$slots.verbs" class="one-notice-verbs"><slot name="verbs" /></div>
+  <div class="flex items-center gap-2 rounded-4 bg-surface-gray-1 px-4 py-2 text-base text-ink-gray-8">
+    <span class="flex size-7 shrink-0 items-center justify-center self-start rounded-full text-ink-white" :class="BACKGROUNDS[colour] || BACKGROUNDS.blue">
+      <span :class="icon" class="size-4" aria-hidden="true" />
+    </span>
+    <div class="min-w-0 flex-1"><slot>{{ text }}</slot></div>
+    <div v-if="$slots.verbs" class="flex flex-wrap gap-1"><slot name="verbs" /></div>
   </div>
 </template>
 
 <script setup>
-// The desk's alert (onedesk.alert in head.js), so a note in an island is the
-// same card as one on a form: desk.css draws both.
 import { computed } from "vue";
 
-import { alertIcon } from "./desk";
+const ICONS = {
+  red: "lucide-circle-alert",
+  orange: "lucide-triangle-alert",
+  yellow: "lucide-triangle-alert",
+  green: "lucide-circle-check",
+  gray: "lucide-info",
+  blue: "lucide-info",
+};
+
+const BACKGROUNDS = {
+  red: "bg-surface-red-5",
+  orange: "bg-surface-amber-5",
+  yellow: "bg-surface-amber-5",
+  green: "bg-surface-green-5",
+  gray: "bg-surface-gray-5",
+  blue: "bg-surface-blue-5",
+};
 
 const props = defineProps({ text: String, colour: { type: String, default: "blue" } });
 
-const icon = computed(() => alertIcon(props.colour));
+const icon = computed(() => ICONS[props.colour] || ICONS.blue);
 </script>

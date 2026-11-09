@@ -113,8 +113,6 @@ export const escape = (text) => frappe().utils.escape_html(text);
 export const onedesk = () => window.onedesk;
 
 // The round icon of an alert in this colour, as onedesk.alert draws it.
-export const alertIcon = (colour) => frappe().utils.icon(window.onedesk.head.ALERT_ICONS[colour] || "info", "sm");
-
 /** Who is signed in, as desk knows them: name, full name, picture and roles. */
 export const person = () => {
 	const desk = frappe();

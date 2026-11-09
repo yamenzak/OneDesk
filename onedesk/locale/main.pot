@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 22:58+0000\n"
-"PO-Revision-Date: 2026-11-09 22:58+0000\n"
+"POT-Creation-Date: 2026-11-09 23:17+0000\n"
+"PO-Revision-Date: 2026-11-09 23:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -9270,7 +9270,7 @@ msgstr ""
 msgid "Checked when someone sets or changes their password."
 msgstr ""
 
-#: frontend/src/admin/AdminStatus.vue:43
+#: frontend/src/admin/AdminStatus.vue:44
 #, python-brace-format
 msgid "Checked {0}"
 msgstr ""
@@ -32475,7 +32475,7 @@ msgstr ""
 msgid "Not checked in"
 msgstr ""
 
-#: frontend/src/admin/AdminStatus.vue:43
+#: frontend/src/admin/AdminStatus.vue:44
 msgid "Not checked yet"
 msgstr ""
 
@@ -65538,7 +65538,7 @@ msgstr ""
 msgid "in the list"
 msgstr ""
 
-#: frontend/src/kit/desk.js:264
+#: frontend/src/kit/desk.js:262
 #, python-brace-format
 msgid "in {0} days"
 msgstr ""
@@ -66411,11 +66411,11 @@ msgstr ""
 msgid "to pay"
 msgstr ""
 
-#: frontend/src/kit/desk.js:261
+#: frontend/src/kit/desk.js:259
 msgid "today"
 msgstr ""
 
-#: frontend/src/kit/desk.js:262
+#: frontend/src/kit/desk.js:260
 msgid "tomorrow"
 msgstr ""
 
@@ -66543,7 +66543,7 @@ msgstr ""
 msgid "yellow"
 msgstr ""
 
-#: frontend/src/kit/desk.js:263
+#: frontend/src/kit/desk.js:261
 msgid "yesterday"
 msgstr ""
 
@@ -67279,7 +67279,7 @@ msgstr ""
 msgid "{0} changes to {1}"
 msgstr ""
 
-#: frontend/src/admin/AdminStatus.vue:64
+#: frontend/src/admin/AdminStatus.vue:65
 #, python-brace-format
 msgid "{0} checks in a row"
 msgstr ""
@@ -67425,7 +67425,7 @@ msgstr ""
 msgid "{0} days after {1}"
 msgstr ""
 
-#: frontend/src/kit/desk.js:264
+#: frontend/src/kit/desk.js:262
 #, python-brace-format
 msgid "{0} days ago"
 msgstr ""
@@ -68176,7 +68176,7 @@ msgstr ""
 msgid "{0} is done"
 msgstr ""
 
-#: frontend/src/admin/AdminStatus.vue:38
+#: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} is failing"
 msgstr ""
@@ -69592,7 +69592,7 @@ msgstr ""
 msgid "{0} sends this email itself. Send This turns it on and off."
 msgstr ""
 
-#: frontend/src/admin/AdminStatus.vue:38
+#: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} services are failing"
 msgstr ""
@@ -69974,7 +69974,7 @@ msgstr ""
 msgid "{0} years"
 msgstr ""
 
-#: frontend/src/kit/desk.js:209 onedesk/one_portal/share.py:352
+#: frontend/src/kit/desk.js:207 onedesk/one_portal/share.py:352
 #: onedesk/one_studio/ai_setup.py:524
 #, python-brace-format
 msgid "{0} {1}"
