@@ -3,7 +3,7 @@ umask 022
 trap 'shutdown -h now' ERR
 exec > /var/log/one-first-boot.log 2>&1
 
-fallocate -l 2G /swapfile
+fallocate -l 4G /swapfile
 chmod 600 /swapfile
 mkswap /swapfile
 swapon /swapfile
@@ -43,6 +43,7 @@ export PATH="$HOME/pilot/bin:$HOME/.local/bin:$PATH"
 bench=~/pilot/benches/main
 
 pilot -y new main --frappe-branch develop --admin-password "$ONE_PILOT_PASSWORD"
+printf '\n[build]\nmemory_limit_mb = 2800\n' >> "$bench/bench.toml"
 pilot -y -b main init --commit "$ONE_FRAPPE"
 
 (umask 077; printf '{"provider":"github","token":"%s","username":"x-access-token","token_expires_at":null,"is_token_valid":true}' "$ONE_GITHUB_TOKEN" > "$bench/.bench.git.info")
