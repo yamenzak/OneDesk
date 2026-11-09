@@ -27,7 +27,7 @@ TENANT = {
 
 JOB = {
 	"Pending": ("orange", _lt("Waiting to run")),
-	"Waiting": ("blue", _lt("Waiting on Frappe Cloud")),
+	"Waiting": ("blue", _lt("Waiting for the server")),
 	"Done": ("green", _lt("Done")),
 	"Failed": ("red", _lt("Failed")),
 }
@@ -350,7 +350,6 @@ def _take_back_fields(doc) -> list[dict]:
 
 
 NEEDED = (
-	(("press_team", "press_token", "press_url"), _lt("Frappe Cloud"), _lt("no workspace can be built")),
 	(
 		("cloudflare_account", "cloudflare_token", "cloudflare_zone"),
 		_lt("Cloudflare"),

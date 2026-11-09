@@ -46,7 +46,6 @@
   "closing_asked_by",
   "limits_section",
   "seats",
-  "press_plan",
   "credits_a_month",
   "column_break_limits",
   "database_bytes",
@@ -280,7 +279,7 @@
    "fieldtype": "Data",
    "label": "Backup Before Archive",
    "read_only": 1,
-   "description": "Name of the offsite backup Frappe Cloud held when the site was archived."
+   "description": "The newest backup on the server when the site was archived."
   },
   {
    "fieldname": "last_backup",
@@ -330,13 +329,6 @@
    "label": "Seats",
    "read_only": 1,
    "description": "The plan's and the add-ons'. Zero means no limit."
-  },
-  {
-   "fieldname": "press_plan",
-   "fieldtype": "Data",
-   "label": "Frappe Cloud Plan",
-   "read_only": 1,
-   "description": "The site plan asked of Frappe Cloud for the database limit."
   },
   {
    "default": "0",

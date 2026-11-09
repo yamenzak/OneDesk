@@ -15,7 +15,7 @@ SAID = {
 	"paid": _lt("Paid"),
 	"clock": _lt("Grace period ended"),
 	"by_hand": _lt("Set by an operator"),
-	"stopped": _lt("Frappe Cloud stopped serving the site"),
+	"stopped": _lt("The site stopped answering"),
 	"archived": _lt("Site deleted after a backup. Files kept."),
 	"dropped": _lt("Files deleted"),
 }

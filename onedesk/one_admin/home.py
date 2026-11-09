@@ -293,7 +293,7 @@ def _slow_builds() -> list[dict]:
 			"name": one.name,
 			"title": _("Building {0} is taking hours").format(_workspace(one.tenant)),
 			"why": _("At: {0}").format(str(steps.SAID.get(one.step, one.step))) if one.step else "",
-			"detail": _("Check the site in Frappe Cloud."),
+			"detail": _("Check the site on its server."),
 			"badge": _("Slow"),
 			"since": str(one.creation),
 			"action": None,

@@ -24,7 +24,7 @@
    "in_list_view": 1,
    "reqd": 1,
    "columns": 4,
-   "description": "Server name in Frappe Cloud. Example: u25-nuremberg-3.frappe.cloud"
+   "description": "Example: box-1"
   },
   {
    "fieldname": "region",
@@ -33,7 +33,7 @@
    "in_list_view": 1,
    "read_only": 0,
    "columns": 2,
-   "description": "Read from Frappe Cloud when Settings is saved."
+   "description": "Example: eu-north-1"
   },
   {
    "default": "0",
