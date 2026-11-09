@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-08 23:15+0000\n"
-"PO-Revision-Date: 2026-11-08 23:15+0000\n"
+"POT-Creation-Date: 2026-11-09 06:14+0000\n"
+"PO-Revision-Date: 2026-11-09 06:14+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -15558,7 +15558,7 @@ msgstr ""
 #. Label of the eu (Check) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/account_request/account_request.json:102
 #: onedesk/one_admin/doctype/tenant/tenant.json:163
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:40
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:41
 msgid "EU"
 msgstr ""
 
@@ -17640,7 +17640,7 @@ msgstr ""
 
 #. Description of the 'Origin Address' (Data) field in DocType 'Workspace
 #. Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:74
 msgid "Example: box-1.4dl.app"
 msgstr ""
 
@@ -22194,7 +22194,7 @@ msgstr ""
 
 #. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
 #. Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:61
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:62
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr ""
 
@@ -29029,7 +29029,7 @@ msgid "Most Valuable Items"
 msgstr ""
 
 #. Label of the capacity (Int) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:58
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:59
 msgid "Most Workspaces"
 msgstr ""
 
@@ -34390,7 +34390,7 @@ msgstr ""
 #: frontend/src/mail/OneMail.vue:213
 #: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:49
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:50
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
@@ -35289,7 +35289,7 @@ msgid "Origin"
 msgstr ""
 
 #. Label of the origin_host (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:72
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
 msgid "Origin Address"
 msgstr ""
 
@@ -37743,7 +37743,7 @@ msgid "Pill"
 msgstr ""
 
 #. Label of the pilot_host (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:66
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:67
 msgid "Pilot Address"
 msgstr ""
 
@@ -40309,7 +40309,7 @@ msgid "Read by OneAI"
 msgstr ""
 
 #. Description of the 'Region' (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:34
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:35
 msgid "Read from Frappe Cloud when Settings is saved."
 msgstr ""
 
@@ -41287,7 +41287,7 @@ msgstr ""
 #. Label of the region (Data) field in DocType 'Workspace Server'
 #: onedesk/one/doctype/weather_place/weather_place.json:32
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:104
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:30
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:31
 msgid "Region"
 msgstr ""
 
@@ -44995,7 +44995,7 @@ msgstr ""
 #. Label of the server (Data) field in DocType 'Workspace Server'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/tenant/tenant.json:179
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:21
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:22
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
 #: onedesk/public/js/one_mail/onemail_settings.js:947
 #: onedesk/public/js/onecloud_dialogs.js:280
@@ -45031,7 +45031,7 @@ msgid "Server is required."
 msgstr ""
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:25
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:26
 msgid "Server name in Frappe Cloud. Example: u25-nuremberg-3.frappe.cloud"
 msgstr ""
 
@@ -47482,6 +47482,11 @@ msgstr ""
 msgid "Spam"
 msgstr ""
 
+#. Label of the spares (Long Text) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:80
+msgid "Spares"
+msgstr ""
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:204
 msgid "Speak"
 msgstr ""
@@ -49583,12 +49588,12 @@ msgid "Taken back."
 msgstr ""
 
 #. Description of the 'Open' (Check) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:52
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:53
 msgid "Takes new workspaces. Untick it to stop a server filling any further."
 msgstr ""
 
 #. Description of the 'EU' (Check) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:43
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:44
 msgid "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
 msgstr ""
 
@@ -62172,7 +62177,7 @@ msgid "Workspace Rule"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:83
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:91
 msgid "Workspace Server"
 msgstr ""
 

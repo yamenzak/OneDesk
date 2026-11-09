@@ -9,6 +9,14 @@ apt-get update -qq
 apt-get install -y -qq cloudflared
 cloudflared service install "$ONE_TUNNEL_TOKEN"
 
+apt-get install -y -qq unattended-upgrades
+cat > /etc/apt/apt.conf.d/52one <<'APT'
+APT::Periodic::Update-Package-Lists "1";
+APT::Periodic::Unattended-Upgrade "1";
+Unattended-Upgrade::Automatic-Reboot "true";
+Unattended-Upgrade::Automatic-Reboot-Time "02:30";
+APT
+
 curl -fsSL https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
 sh /tmp/pilot.sh
 chmod 644 /tmp/pilot.sh

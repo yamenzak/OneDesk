@@ -13,7 +13,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, quota
+from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, quota, spares
 from onedesk.one_storage import store
 
 WAIT = "wait"
@@ -134,7 +134,7 @@ def place_it(job, tenant) -> None:
 	room = [one for one in rows if not one.capacity or counts.get(one.server, 0) < one.capacity]
 	if not room:
 		raise faults.Refused(f"Every {kind} is full. Add a server, list it under Servers in Settings, then resume")
-	room.sort(key=lambda one: counts.get(one.server, 0) / (one.capacity or 1000))
+	room.sort(key=lambda one: (not spares.ready(one.server), counts.get(one.server, 0) / (one.capacity or 1000)))
 	tenant.db_set({"bench": BENCH, "server": room[0].server, "cluster": room[0].region})
 
 
@@ -165,12 +165,19 @@ def name_is_free(job, tenant) -> None:
 
 
 def create_site(job, tenant) -> None:
-	"""Ask Pilot for the site, once: the job's name makes a repeat the same
-	task, so a retry after a lost answer starts nothing."""
+	"""A spare renamed to this address, or a new site. Once: the job's name
+	makes a repeat the same task, so a retry after a lost answer starts
+	nothing."""
 	if tenant.site:
 		return
 	name = _site_name(tenant)
-	answered = pilot.call(tenant.server, "POST", "/sites", key=f"{job.name}:site", json={"name": name, "apps": ["frappe", *APPS]})
+	spare = spares.ready(tenant.server)
+	if spare:
+		body = {"new_name": name, "keep_old_hostname": False, "make_primary": True}
+		answered = pilot.call(tenant.server, "POST", f"/sites/{spare}/actions/rename", key=f"{job.name}:site", json=body)
+		spares.used(tenant.server, spare)
+	else:
+		answered = pilot.call(tenant.server, "POST", "/sites", key=f"{job.name}:site", json={"name": name, "apps": ["frappe", *APPS]})
 	_remember_task(job, answered)
 	tenant.db_set("site", name)
 
@@ -219,6 +226,7 @@ def push_config(job, tenant) -> None:
 		"PATCH",
 		f"/sites/{tenant.site}/configuration",
 		json={
+			"pause_scheduler": 0,
 			"one_admin_url": _admin_url(),
 			"one_tenant": tenant.slug,
 			"one_token": token,

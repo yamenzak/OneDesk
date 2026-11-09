@@ -154,7 +154,7 @@ extend_bootinfo = [
 
 scheduler_events = {
 	"cron": {
-		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_display.tell.long_waits", "onedesk.one_display.tell.past_limits"],
+		"*/2 * * * *": ["onedesk.one_admin.runner.tick", "onedesk.one_admin.spares.keep", "onedesk.one_display.tell.long_waits", "onedesk.one_display.tell.past_limits"],
 		"* * * * *": [
 			"onedesk.one_mail.inbound.sweep",
 			"onedesk.one_mail.sync.sync_all",

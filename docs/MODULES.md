@@ -65,7 +65,7 @@ No doctypes yet.
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
-| Workspace Server | 7 | child |
+| Workspace Server | 8 | child |
 
 ## One AI
 
