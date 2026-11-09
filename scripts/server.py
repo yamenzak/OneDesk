@@ -6,6 +6,7 @@ a JSON file; what it makes goes in ~/.one-servers/<name>.json, mode 600.
     python scripts/server.py new NAME --domain D --release SHA --keys FILE --owner EMAIL \
         --tenant-domain T --origin-zone Z
     python scripts/server.py drop NAME --domain D --keys FILE
+    python scripts/server.py lock-admin HOST --keys FILE --owner EMAIL
 """
 
 import argparse
@@ -29,6 +30,7 @@ READY_WITHIN = 90 * 60
 SNAPSHOT_AT = "03:00"
 ACCOUNT = "com.cloudflare.api.account"
 ZONE = "com.cloudflare.api.account.zone"
+LOCKED_ON_ADMIN = ("/desk", "/desk/*", "/app", "/app/*", "/api/resource/*", "/api/v2/*")
 NEEDS = (
 	("Cloudflare Tunnel Write", ACCOUNT),
 	("Access: Apps Write", ACCOUNT),
@@ -115,6 +117,20 @@ class Cloudflare:
 		self.call("POST", f"{base}/apps", json=body)
 		return {"client_id": token["client_id"], "client_secret": token["client_secret"]}
 
+
+	def lock_admin(self, host: str, owners: list[str]) -> None:
+		"""OneAdmin's desk and raw record API behind Access for its operators.
+		The rest stays open: signup, payment, and the account pages customers
+		sign in to on this site."""
+		base = f"/accounts/{self.account}/access/apps"
+		people = [{"email": {"email": one}} for one in owners]
+		wanted = {f"{host}{path}" for path in LOCKED_ON_ADMIN}
+		for one in self.call("GET", base)["result"]:
+			if one.get("domain") in wanted:
+				self.call("DELETE", f"{base}/{one['id']}")
+		for domain in sorted(wanted):
+			body = {"name": f"OneAdmin {domain}", "domain": domain, "type": "self_hosted", "session_duration": "24h", "policies": [{"name": "Operators", "decision": "allow", "include": people}]}
+			self.call("POST", base, json=body)
 
 	def forget(self, name: str, tunnel: str, host: str, zones: list[str]) -> None:
 		for zone in zones:
@@ -238,6 +254,16 @@ def new(args: argparse.Namespace) -> None:
 	print(f"ready at https://{host}")
 
 
+def lock_admin(args: argparse.Namespace) -> None:
+	keys = json.loads(Path(args.keys).read_text())
+	cloudflare = Cloudflare(keys["cloudflare_master"], keys["cloudflare_account"])
+	try:
+		cloudflare.lock_admin(args.host, args.owner)
+	finally:
+		cloudflare.end()
+	print(f"{args.host} locked on {len(LOCKED_ON_ADMIN)} paths")
+
+
 def drop(args: argparse.Namespace) -> None:
 	keys = json.loads(Path(args.keys).read_text())
 	path = Path.home() / ".one-servers" / f"{args.name}.json"
@@ -274,6 +300,11 @@ def main() -> None:
 	one.add_argument("--key", default="one-dev")
 	one.add_argument("--ssh-from")
 	one.set_defaults(run=new)
+	locked = commands.add_parser("lock-admin")
+	locked.add_argument("host")
+	locked.add_argument("--keys", required=True)
+	locked.add_argument("--owner", action="append", required=True)
+	locked.set_defaults(run=lock_admin)
 	gone = commands.add_parser("drop")
 	gone.add_argument("name")
 	gone.add_argument("--domain", required=True)

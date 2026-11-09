@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 06:14+0000\n"
+"POT-Creation-Date: 2026-11-09 06:18+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -7880,10 +7880,6 @@ msgstr "شراء أرصدة"
 #: onedesk/one_display/starters.py:749
 msgid "Buy online"
 msgstr "اشترِ عبر الإنترنت"
-
-#: onedesk/one_admin/home.py:326
-msgid "Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
-msgstr "اشترِ الخادم التالي في Frappe Cloud، وأضفه إلى مجموعة bench، ثم أدرجه تحت الخوادم."
 
 #: onedesk/public/js/one_account/account_center.js:1303
 #, python-brace-format
@@ -35149,6 +35145,10 @@ msgstr "طلب المواد طويلة التوريد"
 #: onedesk/public/js/quotes_actions.js:74
 msgid "Order the cheapest quote on each line?"
 msgstr "هل تطلب أرخص عرض سعر لكل بند؟"
+
+#: onedesk/one_admin/home.py:326
+msgid "Order the next server and list it under Servers."
+msgstr "اطلب الخادم التالي وأضفه ضمن الخوادم."
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:178
 #, python-brace-format

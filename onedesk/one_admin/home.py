@@ -302,7 +302,7 @@ def _slow_builds() -> list[dict]:
 	]
 
 
-FILLING = 0.8
+FILLING = 0.7
 
 
 def _filling() -> list[dict]:
@@ -323,7 +323,7 @@ def _filling() -> list[dict]:
 			"title": _("{0} is filling up").format(one.server),
 			"why": _("{0} of {1} workspaces").format(counts.get(one.server, 0), one.capacity),
 			"detail": _(
-				"Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
+				"Order the next server and list it under Servers."
 			),
 			"since": "",
 			"badge": _("Full") if counts.get(one.server, 0) >= one.capacity else _("Filling Up"),

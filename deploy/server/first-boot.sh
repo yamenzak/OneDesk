@@ -17,10 +17,14 @@ Unattended-Upgrade::Automatic-Reboot "true";
 Unattended-Upgrade::Automatic-Reboot-Time "02:30";
 APT
 
-curl -fsSL https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
+curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
 sh /tmp/pilot.sh
 chmod 644 /tmp/pilot.sh
-sudo -iu frappe bash /tmp/pilot.sh
+for attempt in 1 2 3 4; do
+	sudo -iu frappe bash /tmp/pilot.sh && break
+	[ "$attempt" = 4 ] && exit 1
+	sleep 30
+done
 
 install -m 700 -o frappe -g frappe /dev/null /home/frappe/boot.env
 export -p | grep -E ' ONE_' | grep -v ONE_TUNNEL_TOKEN > /home/frappe/boot.env
