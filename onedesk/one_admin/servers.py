@@ -20,6 +20,8 @@ KEYS = "one_server_keys"
 CAPACITY = 5
 FIRST = "main"
 MISSES = 3
+DISK_LIMIT = 85
+MEMORY_LIMIT = 92
 REPOSITORY = boxes.REPOSITORY
 
 
@@ -48,6 +50,43 @@ def watch() -> None:
 		frappe.db.set_default(key, str(misses))
 		if said:
 			tell.server_changed(row.server, said)
+
+
+def limits_body(url: str, token: str) -> dict:
+	"""What a box's Pilot is told to warn about, and where. Pure."""
+	return {
+		"resource_limits": {"cpu_usage_limit": 0, "memory_usage_limit": MEMORY_LIMIT, "disk_space_limit": DISK_LIMIT},
+		"webhook_endpoints": [{"url": url, "token": token, "events": ["resource_limit_breached"]}],
+	}
+
+
+def listen(server: str) -> None:
+	"""A box's Pilot starts warning this site when its disk or memory runs short."""
+	url = f"{frappe.utils.get_url()}/api/method/onedesk.one_admin.servers.pressure?server={server}"
+	pilot.call(server, "PATCH", "/settings", json=limits_body(url, pilot.held(server)["agent"]))
+
+
+def crossed(said: dict) -> str:
+	"""What a Pilot warning says, in our words. Pure."""
+	names = {"disk_space_limit": "Disk", "memory_usage_limit": "Memory"}
+	found = [(names.get(one.get("limit")), one.get("reading")) for one in (said.get("context") or {}).get("breached_limits") or []]
+	return ", ".join(f"{name} {round(reading)}%" for name, reading in found if name)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+def pressure() -> dict:
+	"""A box's Pilot says it is short of disk or memory. Believed only when
+	signed with that box's own secret."""
+	site.require_admin()
+	body = frappe.request.get_data(as_text=True)
+	server = frappe.request.args.get("server") or ""
+	secret = pilot.held(server).get("agent") or ""
+	if not secret or not hmac.compare_digest(f"sha256={signed(secret, body)}", frappe.get_request_header("X-Pilot-Signature-256") or ""):
+		raise frappe.PermissionError
+	said = crossed(json.loads(body))
+	if said:
+		tell.server_short(server, said)
+	return {"ok": True}
 
 
 def next_name(held: list[str]) -> str:
@@ -169,6 +208,7 @@ def build() -> str:
 		},
 	)
 	settings.save(ignore_permissions=True)
+	listen(name)
 	return name
 
 

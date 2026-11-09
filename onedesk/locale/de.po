@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 13:12+0000\n"
+"POT-Creation-Date: 2026-11-09 18:13+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -45051,6 +45051,11 @@ msgstr "Server füllt sich"
 msgid "Server Folder"
 msgstr "Serverordner"
 
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_short.md
+msgid "Server Short"
+msgstr "Server knapp"
+
 #: frontend/src/cloud/OneCloud.vue:710
 msgid "Server connection"
 msgstr "Serververbindung"
@@ -45068,7 +45073,7 @@ msgstr "Serverfehler: {0}"
 msgid "Server is required."
 msgstr "Server ist erforderlich."
 
-#: onedesk/one_admin/servers.py:130
+#: onedesk/one_admin/servers.py:174
 msgid "Server keys are not set."
 msgstr "Serverschlüssel sind nicht festgelegt."
 
@@ -51835,6 +51840,7 @@ msgstr "Die offenen Arbeitsaufträge und jeder Schritt zum Starten, Pausieren un
 #: onedesk/notifications/one_admin/server_back.md
 #: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
+#: onedesk/notifications/one_admin/server_short.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
 #: onedesk/notifications/one_admin/workspace_owing.md
@@ -57217,7 +57223,7 @@ msgid "Waiting for the phone…"
 msgstr "Warten auf das Telefon…"
 
 #: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:47
-#: onedesk/one_admin/steps.py:65
+#: onedesk/one_admin/steps.py:65 onedesk/one_admin/steps.py:70
 msgid "Waiting for the server"
 msgstr "Warten auf den Server"
 
@@ -59305,6 +59311,11 @@ msgstr "Wenn ein im Hintergrund exportierter Bericht zum Herunterladen bereit is
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
 msgstr "Wenn ein Server für neue Arbeitsbereiche fast oder ganz an seiner Grenze ist."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_short.md
+msgid "When a server stays short of disk or memory for five minutes."
+msgstr "Wenn einem Server fünf Minuten lang Speicherplatz oder Arbeitsspeicher fehlt."
 
 #. When a notification is sent
 #: onedesk/notifications/one_admin/server_down.md
@@ -67307,7 +67318,7 @@ msgstr "{0} wird hier nicht angeboten."
 msgid "{0} is not on this project."
 msgstr "{0} gehört nicht zu diesem Projekt."
 
-#: onedesk/one_admin/domains.py:206
+#: onedesk/one_admin/domains.py:208
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
@@ -67387,7 +67398,7 @@ msgstr "{0} wartet nicht darauf, ausgeführt zu werden."
 msgid "{0} is not working"
 msgstr "{0} funktioniert nicht"
 
-#: onedesk/one_admin/domains.py:92
+#: onedesk/one_admin/domains.py:94
 #, python-brace-format
 msgid "{0} is not working yet, so it cannot be the main address."
 msgstr "{0} funktioniert noch nicht und kann daher nicht die Hauptadresse sein."
@@ -67453,7 +67464,7 @@ msgstr "{0} ist vergeben."
 msgid "{0} is the last owner of {1}. Make someone else an owner first."
 msgstr "{0} ist der letzte Eigentümer von {1}. Machen Sie zuerst jemand anderen zum Eigentümer."
 
-#: onedesk/one_admin/domains.py:72
+#: onedesk/one_admin/domains.py:74
 #, python-brace-format
 msgid "{0} is the main address. Make another address the main one first."
 msgstr "{0} ist die Hauptadresse. Machen Sie zuerst eine andere Adresse zur Hauptadresse."
@@ -69867,6 +69878,12 @@ msgstr "{server} antwortet wieder"
 msgid "{server} is not answering"
 msgstr "{server} antwortet nicht"
 
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{server} is short of space"
+msgstr "{server} hat zu wenig Speicher"
+
 #. Message of a notification
 #: onedesk/one_display/notifications.py
 #, python-brace-format
@@ -70019,6 +70036,12 @@ msgstr "{upper} kostet mehr als {lower} und bietet weniger {what}."
 #, python-brace-format, python-format
 msgid "{upper} saves only {saves}% over {lower} with add-ons."
 msgstr "{upper} spart nur {saves}% gegenüber {lower} mit Zusätzen."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{usage}. Move workspaces off it or order another server."
+msgstr "{usage}. Verschieben Sie Arbeitsbereiche oder bestellen Sie einen weiteren Server."
 
 #. Subject of a notification
 #: onedesk/one_inventory/notifications.py

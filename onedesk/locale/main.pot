@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 15:17+0000\n"
-"PO-Revision-Date: 2026-11-09 15:17+0000\n"
+"POT-Creation-Date: 2026-11-09 18:13+0000\n"
+"PO-Revision-Date: 2026-11-09 18:13+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -45064,6 +45064,11 @@ msgstr ""
 msgid "Server Folder"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_short.md
+msgid "Server Short"
+msgstr ""
+
 #: frontend/src/cloud/OneCloud.vue:710
 msgid "Server connection"
 msgstr ""
@@ -45081,7 +45086,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:135
+#: onedesk/one_admin/servers.py:174
 msgid "Server keys are not set."
 msgstr ""
 
@@ -51875,6 +51880,7 @@ msgstr ""
 #: onedesk/notifications/one_admin/server_back.md
 #: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
+#: onedesk/notifications/one_admin/server_short.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
 #: onedesk/notifications/one_admin/workspace_owing.md
@@ -59356,6 +59362,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_short.md
+msgid "When a server stays short of disk or memory for five minutes."
 msgstr ""
 
 #. When a notification is sent
@@ -69923,6 +69934,12 @@ msgstr ""
 msgid "{server} is not answering"
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{server} is short of space"
+msgstr ""
+
 #. Message of a notification
 #: onedesk/one_display/notifications.py
 #, python-brace-format
@@ -70074,6 +70091,12 @@ msgstr ""
 #: onedesk/one_admin/offerings.py:137
 #, python-brace-format, python-format
 msgid "{upper} saves only {saves}% over {lower} with add-ons."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{usage}. Move workspaces off it or order another server."
 msgstr ""
 
 #. Subject of a notification

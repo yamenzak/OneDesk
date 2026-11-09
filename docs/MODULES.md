@@ -499,6 +499,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
+* `onedesk.one_admin.servers.pressure`
 * `onedesk.one_admin.servers.reported`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`

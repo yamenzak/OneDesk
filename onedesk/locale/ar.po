@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 13:12+0000\n"
+"POT-Creation-Date: 2026-11-09 18:13+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -45051,6 +45051,11 @@ msgstr "خادم يمتلئ"
 msgid "Server Folder"
 msgstr "مجلد الخادم"
 
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_short.md
+msgid "Server Short"
+msgstr "نقص موارد الخادم"
+
 #: frontend/src/cloud/OneCloud.vue:710
 msgid "Server connection"
 msgstr "اتصال بخادم"
@@ -45068,7 +45073,7 @@ msgstr "خطأ في الخادم: {0}"
 msgid "Server is required."
 msgstr "الخادم مطلوب."
 
-#: onedesk/one_admin/servers.py:130
+#: onedesk/one_admin/servers.py:174
 msgid "Server keys are not set."
 msgstr "لم يتم تعيين مفاتيح الخادم."
 
@@ -51835,6 +51840,7 @@ msgstr "أوامر العمل المفتوحة، وكل خطوة للبدء وا
 #: onedesk/notifications/one_admin/server_back.md
 #: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
+#: onedesk/notifications/one_admin/server_short.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
 #: onedesk/notifications/one_admin/workspace_owing.md
@@ -57217,7 +57223,7 @@ msgid "Waiting for the phone…"
 msgstr "بانتظار الهاتف…"
 
 #: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:47
-#: onedesk/one_admin/steps.py:65
+#: onedesk/one_admin/steps.py:65 onedesk/one_admin/steps.py:70
 msgid "Waiting for the server"
 msgstr "في انتظار الخادم"
 
@@ -59305,6 +59311,11 @@ msgstr "عندما يصبح تقرير صُدّر في الخلفية جاهزا
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
 msgstr "عندما يقترب خادم مساحات العمل الجديدة من حدّه، أو يبلغه."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_short.md
+msgid "When a server stays short of disk or memory for five minutes."
+msgstr "عندما يبقى الخادم بمساحة تخزين أو ذاكرة غير كافية لمدة خمس دقائق."
 
 #. When a notification is sent
 #: onedesk/notifications/one_admin/server_down.md
@@ -67307,7 +67318,7 @@ msgstr "{0} غير متاح هنا."
 msgid "{0} is not on this project."
 msgstr "{0} ليس ضمن هذا المشروع."
 
-#: onedesk/one_admin/domains.py:206
+#: onedesk/one_admin/domains.py:208
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr "{0} ليس على مساحة العمل هذه."
@@ -67387,7 +67398,7 @@ msgstr "{0} لا تنتظر التشغيل."
 msgid "{0} is not working"
 msgstr "{0} لا يعمل"
 
-#: onedesk/one_admin/domains.py:92
+#: onedesk/one_admin/domains.py:94
 #, python-brace-format
 msgid "{0} is not working yet, so it cannot be the main address."
 msgstr "{0} لا يعمل بعد، فلا يصلح أن يكون العنوان الرئيسي."
@@ -67453,7 +67464,7 @@ msgstr "{0} محجوز."
 msgid "{0} is the last owner of {1}. Make someone else an owner first."
 msgstr "{0} هو آخر مالك لـ {1}. اجعل شخصًا آخر مالكًا أولًا."
 
-#: onedesk/one_admin/domains.py:72
+#: onedesk/one_admin/domains.py:74
 #, python-brace-format
 msgid "{0} is the main address. Make another address the main one first."
 msgstr "{0} هو العنوان الرئيسي. اجعل عنوانًا آخر رئيسيًا أولًا."
@@ -69867,6 +69878,12 @@ msgstr "{server} يستجيب من جديد"
 msgid "{server} is not answering"
 msgstr "{server} لا يستجيب"
 
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{server} is short of space"
+msgstr "{server} يعاني من نقص في الموارد"
+
 #. Message of a notification
 #: onedesk/one_display/notifications.py
 #, python-brace-format
@@ -70019,6 +70036,12 @@ msgstr "{upper} يكلف أكثر من {lower} ويمنح {what} أقل."
 #, python-brace-format, python-format
 msgid "{upper} saves only {saves}% over {lower} with add-ons."
 msgstr "{upper} يوفر {saves}% فقط مقارنة بـ {lower} مع الإضافات."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_short.md
+#, python-brace-format
+msgid "{usage}. Move workspaces off it or order another server."
+msgstr "{usage}. انقل مساحات العمل منه أو اطلب خادمًا آخر."
 
 #. Subject of a notification
 #: onedesk/one_inventory/notifications.py

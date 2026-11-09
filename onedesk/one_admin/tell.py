@@ -402,3 +402,9 @@ def update_waits(tenant) -> None:
 def server_changed(server: str, said: str) -> None:
 	"""A server stopped answering, or answers again."""
 	notify.notify("Server Down" if said == "down" else "Server Back", operators(), link=HOME, sender="Administrator", server=server)
+
+
+@_quietly
+def server_short(server: str, said: str) -> None:
+	"""A server is short of disk or memory."""
+	notify.notify("Server Short", operators(), link=HOME, sender="Administrator", server=server, usage=said)
