@@ -156,6 +156,7 @@ def move(config: dict, one: dict) -> None:
 		_restore(to, site, database, public, private)
 		path = BENCHES / to / "sites" / site / "site_config.json"
 		path.write_text(json.dumps(merged_config(before, json.loads(path.read_text()), bool(one.get("quiet"))), indent=1))
+		frappe_on(to, site, "migrate")
 		pilot("-b", to, "restart")
 		if not _answers(site):
 			raise RuntimeError(f"{site} does not answer on {to}")
