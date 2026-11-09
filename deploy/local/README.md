@@ -123,3 +123,6 @@ Clone the repo and run `deploy/local/setup.sh`. Then get the newest file under
 `python scripts/rescue.py unpack FILE`. It asks for the passphrase and puts the
 keys back. `python scripts/rescue.py pack` makes a new one; set `ONE_KEEPER_URL`
 to the keeper's address.
+
+The passphrase is in Yamen's Google Password Manager under `one-rescue-kit`.
+The kit is in `one-backups-dev`, under `rescue/`.
