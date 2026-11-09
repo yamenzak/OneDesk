@@ -168,6 +168,7 @@ scheduler_events = {
 		],
 		"*/5 * * * *": [
 			"onedesk.one_admin.servers.watch",
+			"onedesk.one_admin.health.watch",
 			"onedesk.one_mail.team.due",
 			"onedesk.one_hr.tell.interviews_soon",
 			"onedesk.one_hr.tell.not_checked_in",
@@ -181,7 +182,7 @@ scheduler_events = {
 		],
 		"15 9 * * *": ["onedesk.one_demo.living.day"],
 		"20 1 * * *": ["onedesk.one_admin.backups.nightly"],
-		"10 * * * *": ["onedesk.one_admin.releases.check"],
+		"10 * * * *": ["onedesk.one_admin.releases.check", "onedesk.one_admin.health.watch_backups"],
 		"40 1 * * *": ["onedesk.one.backup.nightly"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
 		"40 6 * * *": ["onedesk.one_task.tell.today"],
@@ -212,6 +213,7 @@ scheduler_events = {
 		"onedesk.one_account.devices.forget",
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
+		"onedesk.one_admin.health.prune",
 		"onedesk.one.tell.automations_failing",
 		"onedesk.one_inventory.tell.orders_late",
 		"onedesk.one_inventory.tell.expiring",
@@ -851,6 +853,7 @@ has_permission = {
 	"Private App": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant Domain": "onedesk.one_admin.site.refuse_on_a_tenant",
 	"Tenant Event": "onedesk.one_admin.site.refuse_on_a_tenant",
+	"Health Check": "onedesk.one_admin.site.refuse_on_a_tenant",
 }
 
 permission_query_conditions = {
@@ -902,6 +905,7 @@ permission_query_conditions = {
 	"Private App": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant Domain": "onedesk.one_admin.site.nothing_on_a_tenant",
 	"Tenant Event": "onedesk.one_admin.site.nothing_on_a_tenant",
+	"Health Check": "onedesk.one_admin.site.nothing_on_a_tenant",
 }
 
 awesomebar_search = ["onedesk.one.outside.awesomebar", "onedesk.one_ai.reading.search.awesomebar"]

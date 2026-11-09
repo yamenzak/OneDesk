@@ -159,7 +159,13 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on OneAdmin's Home."""
+	"""The sentence the model is told on OneAdmin's Home and Status."""
+	if said.get("page") == "oneadmin-status":
+		return (
+			"The reader is an operator of One, on OneAdmin's Status: whether each service One depends on is "
+			"working now, the share of its checks that failed each day for 30 days, and what failed. Nothing is "
+			"changed from this screen. How the console works is in OneAdmin's documentation (how_to)."
+		)
 	if said.get("page") != "oneadmin":
 		return None
 	return (

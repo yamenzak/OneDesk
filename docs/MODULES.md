@@ -55,6 +55,7 @@ No doctypes yet.
 | Account Request | 20 | document |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
+| Health Check | 6 | document |
 | Offering | 24 | document |
 | One Admin Settings | 51 | single |
 | Private App | 9 | document |
@@ -435,6 +436,7 @@ No doctypes yet.
 * `onedesk.one_admin.accounts.save_name`
 * `onedesk.one_admin.accounts.send_login_link`
 * `onedesk.one_admin.console.overview`
+* `onedesk.one_admin.health.board`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.backups`

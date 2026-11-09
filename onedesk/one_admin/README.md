@@ -611,6 +611,16 @@ makes one real call. Saving notifies the other operators what changed and
 who changed it (**Settings Changed**). Keys show only as changed. OneAI
 answers **Is everything set up?**. Only operators see this page.
 
+## Status
+
+Status, on the rail, says whether everything OneAdmin depends on is working
+(Cloudflare, the Edge Router, R2, the Keeper, the AI Gateway, Mail, Stripe,
+every Workspace's site and Backups), its share of checks failed over the last
+30 days, and what has failed. Each check is kept as a Health Check.
+
+A Worker on Cloudflare checks admin.4dl.app from outside and mails the
+operators when it stops answering, so OneAdmin being down is noticed too.
+
 ## Notifications
 
 OneAdmin tells operators what needs them, and emails customers about their
@@ -637,6 +647,10 @@ Operators are notified of:
   Workspace Delayed at the same time.
 - **Server Filling Up**: a server new workspaces go on is near its limit, or
   full, once for each.
+- **Service Down** and **Service Back**: something OneAdmin depends on failed
+  three checks in a row, or recovered. Status shows which.
+- **Workspace Down** and **Workspace Back**: a workspace stopped answering, or
+  answers again.
 
 ### What customers are emailed
 
