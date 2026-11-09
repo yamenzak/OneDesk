@@ -1192,6 +1192,7 @@ MODULES = {
 		"screens": "admin",
 		"names": ("one_admin", "oneadmin"),
 		"operators": True,
+		"engine": "OneAdmin runs only on the admin site, where its one role is set, so it ships no roles to a workspace.",
 		"help": (
 			("overview", "info"),
 			("workspaces", "building"),

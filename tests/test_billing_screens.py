@@ -14,10 +14,11 @@ def test_billing_adds_up_only_what_there_is():
 	assert earnings.from_first(["a", "b"], [0, 0]) == 2
 	assert earnings.margin(0, {"servers": 10}) is None
 	assert earnings.margin(100, {"servers": 30, "stripe": 10}) == 60.0
-	sold = {"team": Row(label="Team", amount=299, recurring=1), "seats": Row(label="Seats", amount=20, recurring=1)}
+	sold = {"team": Row(label="Team", amount=299, currency="AED", recurring=1), "seats": Row(label="Seats", amount=20, currency="AED", recurring=1), "old": Row(label="Old", amount=70, currency="USD", recurring=1)}
 	live = [Row(name="a", offering="team"), Row(name="b", offering=None)]
 	billed = earnings.bills(live, [Row(parent="a", offering="seats", quantity=2)], sold)
 	assert billed == [{"tenant": "a", "plan": "Team", "amount": 339.0}]
+	assert earnings.bills([Row(name="c", offering="old")], [], sold) == [{"tenant": "c", "plan": "Old", "amount": 257.075}]
 	spent = earnings.month_cost([339.0], 24, 0, 0, 0)
 	assert spent["servers"] > 0 and spent["oneai"] == 0 and spent["stripe"] > 0
 

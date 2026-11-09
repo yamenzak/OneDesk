@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 23:17+0000\n"
-"PO-Revision-Date: 2026-11-09 23:17+0000\n"
+"POT-Creation-Date: 2026-11-09 23:40+0000\n"
+"PO-Revision-Date: 2026-11-09 23:40+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3712,7 +3712,7 @@ msgstr ""
 msgid "Agreement No"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:393 onedesk/www/legal.html:20
+#: onedesk/public/js/one_legal/trust_center.js:394 onedesk/www/legal.html:20
 #: onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr ""
@@ -8452,7 +8452,7 @@ msgstr ""
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
 #: onedesk/public/js/one_interface/phone.js:444
-#: onedesk/public/js/one_legal/trust_center.js:463
+#: onedesk/public/js/one_legal/trust_center.js:464
 msgid "Cancel"
 msgstr ""
 
@@ -20590,7 +20590,7 @@ msgstr ""
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:340
+#: onedesk/public/js/one_legal/trust_center.js:341
 #, python-brace-format
 msgid "From {0}"
 msgstr ""
@@ -32416,7 +32416,7 @@ msgstr ""
 msgid "Not Tracked"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:334
+#: onedesk/public/js/one_legal/trust_center.js:335
 msgid "Not Used by This Workspace"
 msgstr ""
 
@@ -56374,7 +56374,7 @@ msgstr ""
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:7
 #: onedesk/one_studio/heads.py:76
-#: onedesk/public/js/one_legal/trust_center.js:457
+#: onedesk/public/js/one_legal/trust_center.js:458
 msgid "Turn On"
 msgstr ""
 
@@ -56396,7 +56396,7 @@ msgstr ""
 msgid "Turn On {0}"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:449
+#: onedesk/public/js/one_legal/trust_center.js:450
 #, python-brace-format
 msgid "Turn On {0}?"
 msgstr ""
@@ -56444,7 +56444,7 @@ msgstr ""
 msgid "Turned down."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:472
+#: onedesk/public/js/one_legal/trust_center.js:473
 msgid "Turned off"
 msgstr ""
 
@@ -56452,7 +56452,7 @@ msgstr ""
 msgid "Turned off."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:472
+#: onedesk/public/js/one_legal/trust_center.js:473
 msgid "Turned on"
 msgstr ""
 
@@ -56469,7 +56469,7 @@ msgstr ""
 msgid "Turned on."
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:454
+#: onedesk/public/js/one_legal/trust_center.js:455
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
 msgstr ""
 
@@ -58912,7 +58912,7 @@ msgstr ""
 msgid "What They Get"
 msgstr ""
 
-#: onedesk/public/js/one_legal/trust_center.js:343
+#: onedesk/public/js/one_legal/trust_center.js:344
 msgid "What They Receive"
 msgstr ""
 
@@ -61460,7 +61460,7 @@ msgstr ""
 #: onedesk/one_hr/heads.py:737
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:344
+#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:345
 msgid "Where"
 msgstr ""
 

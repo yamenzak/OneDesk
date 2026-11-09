@@ -530,9 +530,7 @@ html[dir="rtl"] #driver-popover-item {
 		align-items: stretch;
 		gap: 6px;
 		max-height: 45dvh;
-		overflow-x: hidden;
-		overflow-y: auto;
-		overscroll-behavior: contain;
+		overflow: hidden;
 	}
 
 	.one-docs-sidebar .one-docs-search {
@@ -542,8 +540,11 @@ html[dir="rtl"] #driver-popover-item {
 	}
 
 	.one-docs-sidebar .one-docs-tree {
-		flex: none;
+		flex: 1 1 auto;
+		min-height: 0;
 		flex-direction: column;
 		width: auto;
+		overflow-y: auto;
+		overscroll-behavior: contain;
 	}
 }

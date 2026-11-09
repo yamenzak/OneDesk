@@ -13,6 +13,12 @@ def usd(amount: float) -> float:
 	return round(amount * AED_PER_USD, 6)
 
 
+def listed(amount: float, currency: str) -> float:
+	"""An offering's amount in the price list's currency: a plan from before
+	the list moved to dirhams is priced in dollars. Pure."""
+	return usd(amount) if currency == "USD" else amount
+
+
 @dataclass(frozen=True)
 class Line:
 	"""One cost: what it is, its amount in AED, what it is per, where the

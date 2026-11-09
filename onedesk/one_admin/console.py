@@ -6,7 +6,7 @@ from collections import Counter
 import frappe
 from frappe.utils import add_months, get_first_day, getdate, today
 
-from onedesk.one_admin import fleet, home, ledger, operator, price_list
+from onedesk.one_admin import costs, fleet, home, ledger, operator, price_list
 
 MONTHS = 12
 GONE = ("Archived", "Dropped", "Failed")
@@ -28,13 +28,13 @@ def _tenants() -> list:
 
 
 def _revenue(tenants: list) -> tuple[float, str, dict]:
-	"""What live workspaces pay a month, at their plan's price, and how many are on each plan."""
+	"""What live workspaces pay a month in the price list's currency, at their plan's price, and how many are on each plan."""
 	live = [one.offering for one in tenants if one.status == "Live" and one.offering]
 	sold = frappe.get_all("Offering", filters={"name": ["in", live or [""]]}, fields=["name", "label", "amount", "currency", "recurring"])
 	by = {one.name: one for one in sold}
-	total = sum(by[one].amount for one in live if one in by and by[one].recurring)
+	total = sum(costs.listed(by[one].amount, by[one].currency) for one in live if one in by and by[one].recurring)
 	plans = Counter(by[one].label for one in live if one in by)
-	return total, next((one.currency for one in sold), price_list.CURRENCY), plans
+	return total, price_list.CURRENCY, plans
 
 
 def _servers() -> list[dict]:

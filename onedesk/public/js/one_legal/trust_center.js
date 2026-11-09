@@ -321,8 +321,9 @@ onedesk.trust.open = async ({ module = null, at = null } = {}) => {
 			const $card = $(`<div class="one-trust-company"></div>`).appendTo($all);
 			const $head = $(`<div class="one-trust-company-head"></div>`).appendTo($card);
 			const $name = $(`<div class="one-trust-company-name"></div>`).appendTo($head);
-			if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).text(row.name).appendTo($name);
-			else $name.text(row.name);
+			const $legal = $(`<bdi></bdi>`).text(row.name);
+			if (row.url) $(`<a target="_blank" rel="noopener"></a>`).attr("href", row.url).append($legal).appendTo($name);
+			else $name.append($legal);
 			$(`<div class="one-trust-note"></div>`).text(row.safeguard || "").appendTo($head);
 			for (const use of uses) {
 				const $use = $(`<div class="one-trust-use"></div>`).toggleClass("one-trust-unused", !use.used).appendTo($card);

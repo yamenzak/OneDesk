@@ -14,16 +14,16 @@ MODELS = 8
 
 
 def bills(live: list, add_ons: list, sold: dict) -> list[dict]:
-	"""What each live workspace pays a month, plan and add-ons, and its plan. Pure."""
+	"""What each live workspace pays a month in the price list's currency, plan and add-ons, and its plan. Pure."""
 	extras = defaultdict(float)
 	for one in add_ons:
 		if one.offering in sold:
-			extras[one.parent] += flt(sold[one.offering].amount) * max(1, one.quantity or 0)
+			extras[one.parent] += costs.listed(flt(sold[one.offering].amount), sold[one.offering].currency) * max(1, one.quantity or 0)
 	made = []
 	for one in live:
 		plan = sold.get(one.offering)
 		if plan:
-			made.append({"tenant": one.name, "plan": plan.label, "amount": (flt(plan.amount) if plan.recurring else 0) + extras[one.name]})
+			made.append({"tenant": one.name, "plan": plan.label, "amount": (costs.listed(flt(plan.amount), plan.currency) if plan.recurring else 0) + extras[one.name]})
 	return made
 
 
@@ -50,7 +50,7 @@ def from_first(span: list[str], values: list[float]) -> int:
 
 
 def _live() -> tuple[list, list, dict]:
-	sold = {one.name: one for one in frappe.get_all("Offering", fields=["name", "label", "amount", "recurring"])}
+	sold = {one.name: one for one in frappe.get_all("Offering", fields=["name", "label", "amount", "currency", "recurring"])}
 	live = frappe.get_all("Tenant", filters={"is_house": 0, "status": "Live"}, fields=["name", "offering", "storage_bytes", "database_bytes"])
 	add_ons = frappe.get_all("Tenant Add-on", filters={"parenttype": "Tenant", "parent": ["in", [one.name for one in live] or [""]]}, fields=["parent", "offering", "quantity"])
 	return live, add_ons, sold

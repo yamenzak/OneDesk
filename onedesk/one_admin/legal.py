@@ -30,6 +30,16 @@ subprocessor(
 subprocessor(
 	name="Cloudflare, Inc.",
 	module=M,
+	purpose="Object storage (R2) for each workspace's backups, in a bucket locked for 30 days",
+	data="A copy of the workspace's database, settings and files",
+	where="One bucket for every workspace, whichever storage location the workspace chose",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
 	purpose="Sending One's own mails to customers: sign-in links, signup and billing notices",
 	data="The recipient's address and the mail",
 	where="Cloudflare's network",
@@ -77,7 +87,7 @@ clause(
 	body="""
 		Training Copies is off until your workspace's administrators turn it on. While it is on, we can make a
 		copy of your workspace's newest nightly database backup, without its files, on a separate server we rent
-		from Oracle. Its mail and scheduled jobs are off. We do not sign in to a copy; your people sign in with
+		from Oracle. Its mail and scheduled jobs are off. We do not sign in to a copy. Your people sign in with
 		their own passwords. We delete a copy when its time ends, at most 30 days after it was made, and within
 		48 hours of your administrators turning Training Copies off.
 	""",
