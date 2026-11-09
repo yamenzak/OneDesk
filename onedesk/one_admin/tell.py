@@ -409,13 +409,6 @@ def server_short(server: str, said: str) -> None:
 	"""A server is short of disk or memory."""
 	notify.notify("Server Short", operators(), link=HOME, sender="Administrator", server=server, usage=said)
 
-
-@_quietly
-def server_wanted(tenant) -> None:
-	"""A workspace on a plan with its own server waits for one."""
-	notify.notify("Server Wanted", operators(), link=HOME, sender="Administrator", workspace=tenant.workspace_name or tenant.name)
-
-
 @_quietly
 def topup_failed(tenant) -> None:
 	"""A saved card could not pay for a pack, so auto top-up is off."""

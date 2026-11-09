@@ -11,3 +11,8 @@ def rows() -> list:
 
 def row_of(server: str):
 	return next((one for one in rows() if one.server == server), None)
+
+
+def in_eu(row) -> bool:
+	"""Whether a server is in the EU, read from its region. Pure."""
+	return (row.region or "").startswith("eu-")

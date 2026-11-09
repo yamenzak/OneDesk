@@ -5,6 +5,8 @@ Two reads, both for the operator only on the admin site (`operator._may`):
 """
 
 import frappe
+
+from onedesk.one_admin import fleet
 from frappe import _, _lt
 from frappe.utils import add_to_date, now_datetime
 
@@ -317,9 +319,6 @@ def _own_servers(listed: list) -> list[dict]:
 		key = frappe.db.get_value("Offering", tenant.offering, "key") if tenant.offering else None
 		if tenant.name not in has and price_list.has_own_server(key):
 			said.append(row(_("{0} needs its own server").format(tenant.workspace_name or tenant.name), _("Order it. It takes about 25 minutes."), _("Order Server"), "onedesk.one_admin.operator.order_server", {"tenant": tenant.name}))
-	for one in listed:
-		if one.tenant and frappe.db.get_value("Tenant", one.tenant, "status") in ("Archived", "Dropped"):
-			said.append(row(_("{0} is no longer used").format(one.server), _("Its workspace has been archived."), _("Delete Server"), "onedesk.one_admin.operator.delete_server", {"server": one.server}))
 	return said
 
 
@@ -328,8 +327,6 @@ def _filling() -> list[dict]:
 	jurisdiction with no open server at all. Buying the next one takes a
 	while, so this is said before a workspace fails to be placed."""
 	from onedesk.one_admin import quota
-
-	from onedesk.one_admin import fleet
 
 	listed = fleet.rows()
 	if not listed:
@@ -360,7 +357,7 @@ def _filling() -> list[dict]:
 	):
 		if eu and not offers_eu:
 			continue
-		if not any(one.open and (one.eu or not eu) for one in listed):
+		if not any(one.open and (fleet.in_eu(one) or not eu) for one in listed):
 			said.append(
 				{
 					"kind": "storage",

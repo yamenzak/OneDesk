@@ -1,6 +1,6 @@
 """One of our servers: where it is, what is on it, how full it is. Made by
-Order Server and read every five minutes (servers.watch). Open, the limit and
-EU are the operators' to change."""
+Order Server and read every five minutes (servers.watch). Open and the limit are
+the operators' to change."""
 
 import frappe
 from frappe.model.document import Document

@@ -33,7 +33,7 @@ WALKS = {
 	"Provision": ORDER,
 	"Suspend": ("deactivate_site", "mark_suspended"),
 	"Restore": ("activate_site", "route_it", "mark_live"),
-	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived"),
+	"Archive": ("note_backup", "archive_site", "stop_billing", "unroute", "mark_archived", "drop_own_server"),
 	"Drop": ("empty_storage", "mark_dropped"),
 	"Rebuild": ("forget_site", "place_it", "name_is_free", "create_site", "site_is_up", "upload_backup", "restore_site", "restore_is_done", "route_it", "push_config", "mark_live"),
 	"Roll Back": ("upload_backup", "restore_site", "restore_is_done", "mark_live"),
@@ -70,6 +70,7 @@ SAID = {
 	"restore_site": _lt("Restoring the backup"),
 	"restore_is_done": _lt("Waiting for the server"),
 	"note_source": _lt("Stopping the old site"),
+	"drop_own_server": _lt("Deleting its server"),
 	"route_its_domains": _lt("Pointing custom domains at the new server"),
 	"drop_source": _lt("Removing the old site"),
 }
@@ -134,7 +135,7 @@ def place_it(job, tenant) -> str | None:
 		return _place_on_its_own(job, tenant)
 	eu = tenant.jurisdiction == "EU"
 	leaving = (frappe.parse_json(job.payload or "{}") or {}).get("from_server")
-	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server != leaving and (one.eu or not eu)]
+	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server != leaving and (fleet.in_eu(one) or not eu)]
 	kind = "open server that takes EU workspaces" if eu else "open server"
 	if not rows:
 		raise faults.Refused(f"Settings lists no {kind}. List one under Servers, then resume")
@@ -148,17 +149,15 @@ def place_it(job, tenant) -> str | None:
 
 
 def _place_on_its_own(job, tenant) -> str | None:
-	"""A plan with its own server waits for that server. An operator orders
-	it from Home; the operators are told once."""
+	"""A plan with its own server orders it once, the plan being paid for,
+	and waits until it is ready."""
 	row = next((one for one in _servers() if one.tenant == tenant.name and one.pilot_host), None)
 	if row:
 		tenant.db_set({"bench": servers.current(row), "server": row.server, "cluster": row.region})
 		return None
 	payload = frappe.parse_json(job.payload or "{}") or {}
 	if not payload.get("told"):
-		from onedesk.one_admin import tell
-
-		tell.server_wanted(tenant)
+		servers.begin(tenant.name)
 		payload["told"] = 1
 		job.db_set("payload", frappe.as_json(payload))
 	return WAIT
@@ -477,6 +476,13 @@ def unroute(job, tenant) -> None:
 	from onedesk.one_admin import domains
 
 	domains.unroute(tenant)
+
+
+def drop_own_server(job, tenant) -> None:
+	"""A workspace that had a server of its own takes it with it."""
+	row = next((one for one in _servers() if one.tenant == tenant.name), None)
+	if row:
+		servers.remove(row.server)
 
 
 def mark_archived(job, tenant) -> None:

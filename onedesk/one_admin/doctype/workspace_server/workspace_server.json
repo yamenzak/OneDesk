@@ -14,7 +14,6 @@
   "workspaces",
   "capacity",
   "open",
-  "eu",
   "section_used",
   "memory_used",
   "disk_used",
@@ -100,14 +99,6 @@
    "description": "Takes new workspaces. Untick it to stop a server filling any further."
   },
   {
-   "default": "0",
-   "fieldname": "eu",
-   "fieldtype": "Check",
-   "label": "EU",
-   "in_list_view": 0,
-   "description": "Takes the workspaces that asked for their data to stay in the EU. Tick it only for a server in the EU."
-  },
-  {
    "fieldname": "section_used",
    "fieldtype": "Section Break",
    "label": "Use"
@@ -175,7 +166,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-09 22:00:00.000000",
+ "modified": "2026-11-10 00:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Workspace Server",

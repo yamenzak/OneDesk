@@ -21,6 +21,7 @@ KEYS = "one_server_keys"
 CAPACITY = 5
 FIRST = "main"
 MISSES = 3
+REGION_CODES = {"eu-north-1": "se"}
 FILLING = 0.7
 DISK_LIMIT = 85
 MEMORY_LIMIT = 92
@@ -133,12 +134,13 @@ def pressure() -> dict:
 	return {"ok": True}
 
 
-def next_name(held: list[str]) -> str:
-	"""`box-` and the lowest number not taken. Pure."""
+def next_name(held: list[str], region: str) -> str:
+	"""The region's code and the lowest number not taken. Pure."""
+	code = REGION_CODES.get(region, region.split("-")[0])
 	number = 1
-	while f"box-{number}" in held:
+	while f"{code}-{number}" in held:
 		number += 1
-	return f"box-{number}"
+	return f"{code}-{number}"
 
 
 def signed(secret: str, body: str) -> str:
@@ -235,8 +237,8 @@ def build(tenant: str | None = None) -> str:
 	site.require_admin()
 	keys = _keys()
 	settings = frappe.get_single("One Admin Settings")
-	name = next_name([one.server for one in fleet.rows()])
 	region = keys.get("region") or boxes.REGION
+	name = f"own-{frappe.db.get_value('Tenant', tenant, 'slug')}" if tenant else next_name([one.server for one in fleet.rows()], region)
 	zone = keys["origin_zone"]
 	release = boxes.latest_release(keys)
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
@@ -254,7 +256,6 @@ def build(tenant: str | None = None) -> str:
 			"doctype": "Workspace Server",
 			"server": name,
 			"region": region,
-			"eu": int(region.startswith("eu-")),
 			"open": 0 if tenant else 1,
 			"capacity": 1 if tenant else CAPACITY,
 			"tenant": tenant,

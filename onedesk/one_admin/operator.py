@@ -39,16 +39,6 @@ def order_server(tenant: str | None = None) -> dict:
 	return {"ordered": True}
 
 
-@frappe.whitelist(methods=["POST"])
-def delete_server(server: str) -> dict:
-	"""A server kept for a workspace that has gone, deleted."""
-	_may()
-	from onedesk.one_admin import servers
-
-	servers.remove(server)
-	return {"deleted": server}
-
-
 @frappe.whitelist()
 def standing(tenant: str) -> dict:
 	"""Where this workspace is, and what may be done to it from here.
