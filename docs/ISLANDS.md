@@ -136,6 +136,7 @@ that exists.
 | `src/admin/ServerMetrics.vue` | Railway's Metrics tab and Fly.io's Grafana panels: a window picker over a server's CPU, memory, disk, network, load, burst and database, in its form |
 | `src/admin/BillingHome.vue` | Stripe's billing overview and OneBook's Home: the month's figures, invoiced by month, margin at worst against the floor, OneCredits sold and used, OneAI's cost and the plans |
 | `src/admin/ReleasesHome.vue` | Vercel's Deployments: each release with where it is and how far it has rolled out, each server's versions, then who is moving, waiting on terms or next in a window |
+| `src/admin/AdminStatus.vue` | Vercel's and Cloudflare's status pages: whether everything is working, each service's state and thirty days of its history, and what failed |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging; drawn on a list's own head (the folder's name, New, the views) and card |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |
 | `src/mail/OneMail.vue` | Gmail and Outlook: the mailboxes and their folders down the side, the conversations, the one open beside them read as a thread, and Gmail's keys |

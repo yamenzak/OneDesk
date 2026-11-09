@@ -26,6 +26,7 @@ FILLING = 0.7
 DISK_LIMIT = 85
 MEMORY_LIMIT = 92
 REPOSITORY = boxes.REPOSITORY
+SITE_EVENTS = ("site_down", "site_up")
 
 
 def after_a_check(misses: int, answered: bool) -> tuple[int, str | None]:
@@ -100,8 +101,8 @@ def remove(server: str) -> None:
 def limits_body(url: str, token: str) -> dict:
 	"""What a box's Pilot is told to warn about, and where. Pure."""
 	return {
-		"resource_limits": {"cpu_usage_limit": 0, "memory_usage_limit": MEMORY_LIMIT, "disk_space_limit": DISK_LIMIT},
-		"webhook_endpoints": [{"url": url, "token": token, "events": ["resource_limit_breached"]}],
+		"resource_limits": {"cpu_usage_limit": 0, "memory_usage_limit": MEMORY_LIMIT, "disk_space_limit": DISK_LIMIT, "site_uptime": True},
+		"webhook_endpoints": [{"url": url, "token": token, "events": ["resource_limit_breached", *SITE_EVENTS]}],
 	}
 
 
@@ -109,6 +110,13 @@ def listen(server: str) -> None:
 	"""A box's Pilot starts warning this site when its disk or memory runs short."""
 	url = f"{frappe.utils.get_url()}/api/method/onedesk.one_admin.servers.pressure?server={server}"
 	pilot.call(server, "PATCH", "/settings", json=limits_body(url, pilot.held(server)["agent"]))
+
+
+def sites_of(heard: dict) -> list[str]:
+	"""The sites a Pilot event names: `context.sites` when several went down
+	together, its own `site` otherwise. Pure."""
+	listed = [one["site"] for one in (heard.get("context") or {}).get("sites") or [] if one.get("site")]
+	return listed or ([heard["site"]] if heard.get("site") else [])
 
 
 def crossed(said: dict) -> str:
@@ -128,7 +136,13 @@ def pressure() -> dict:
 	secret = pilot.held(server).get("agent") or ""
 	if not secret or not hmac.compare_digest(f"sha256={signed(secret, body)}", frappe.get_request_header("X-Pilot-Signature-256") or ""):
 		raise frappe.PermissionError
-	said = crossed(json.loads(body))
+	heard = json.loads(body)
+	if heard.get("event") in SITE_EVENTS:
+		from onedesk.one_admin import health
+
+		health.pilot_said(sites_of(heard), heard["event"] == "site_up")
+		return {"ok": True}
+	said = crossed(heard)
 	if said:
 		tell.server_short(server, said)
 	return {"ok": True}

@@ -19,7 +19,7 @@ import frappe
 import requests
 from frappe import _
 
-from onedesk.one_admin import site, vault
+from onedesk.one_admin import site, tell, vault
 
 API = "https://api.cloudflare.com/client/v4"
 TIMEOUT = 30
@@ -38,6 +38,9 @@ DEPLOYED_AT = re.compile(r"https://[\w.-]+\.workers\.dev")
 BACKUPS = "one-backups"
 KEEPER = "one-keeper"
 KEEPER_NEEDS = (("Workers R2 Storage Write", "Workers R2 Storage Edit"),)
+WATCHER = "one-watch"
+WATCHER_NEEDS = (("Email Sending*",),)
+WATCHER_CRON = "*/5 * * * *"
 RUN = "Setup"
 RUN_NEEDS = (
 	("Account Settings Read",),
@@ -205,6 +208,7 @@ class Setup:
 			self.office,
 			self.backups,
 			self.keeper,
+			self.watcher,
 		):
 			try:
 				step()
@@ -668,8 +672,13 @@ class Setup:
 		"""The Keeper token, which may make R2's temporary credentials (and
 		so could lift a lock): made or rolled for a new secret on every run,
 		and given only to the keeper Worker, never kept here."""
-		called = token_for_env(self.env, "Keeper")
-		wanted, missing = policies(self.permission_groups(), KEEPER_NEEDS, self.account, self.zone_ids(), self.buckets_held())
+		return self.rolled_token("Keeper", KEEPER_NEEDS)
+
+	def rolled_token(self, name: str, needs: tuple) -> str:
+		"""A token given to one Worker and never kept here: made, or rolled
+		for a new secret on every run."""
+		called = token_for_env(self.env, name)
+		wanted, missing = policies(self.permission_groups(), needs, self.account, self.zone_ids(), self.buckets_held())
 		if missing:
 			raise Refused(_("missing permissions: {0}").format(", ".join(missing)))
 		held = next((one for one in self.held_tokens() if one["name"] == called), None)
@@ -713,6 +722,35 @@ class Setup:
 		subdomain = self.call("GET", f"/accounts/{self.account}/workers/subdomain")["result"]["subdomain"]
 		vault.keep("keeper_secret", secret)
 		self.own("keeper_url", f"https://{name}.{subdomain}.workers.dev", secret=False)
+		self.note(f"worker {name}", MADE, _("deployed"))
+
+	def watcher(self) -> None:
+		"""The outside watcher (deploy/watch): a Worker on a cron asking
+		whether this site answers, and mailing the operators when it stops.
+		It runs on Cloudflare, so it still works with this site down. Deployed
+		on every run, with its mail token rolled."""
+		if not self.settings.cloudflare_kv:
+			return self.note("watcher", WAITING, _("Needs the KV namespace first."))
+		operators = tell.operators()
+		if not operators:
+			return self.note("watcher", WAITING, _("Needs an operator to tell."))
+		name = for_env(self.env, WATCHER)
+		bindings = [
+			self.kv_binding(),
+			{"type": "plain_text", "name": "ACCOUNT", "text": self.account},
+			{"type": "plain_text", "name": "ADMIN_URL", "text": frappe.utils.get_url().rstrip("/")},
+			{"type": "plain_text", "name": "OPERATORS", "text": json.dumps(operators)},
+			{"type": "plain_text", "name": "SENDER", "text": self.sender()},
+			{"type": "secret_text", "name": "MAIL_TOKEN", "text": self.rolled_token("Watch", WATCHER_NEEDS)},
+		]
+		metadata = {"main_module": "worker.js", "compatibility_date": COMPATIBILITY, "bindings": bindings}
+		code = (DEPLOY / "watch" / "worker.js").read_text()
+		self.call(
+			"PUT",
+			f"/accounts/{self.account}/workers/scripts/{name}",
+			files={"metadata": (None, json.dumps(metadata), "application/json"), "worker.js": ("worker.js", code, "application/javascript+module")},
+		)
+		self.call("PUT", f"/accounts/{self.account}/workers/scripts/{name}/schedules", json=[{"cron": WATCHER_CRON}])
 		self.note(f"worker {name}", MADE, _("deployed"))
 
 	def office(self) -> None:

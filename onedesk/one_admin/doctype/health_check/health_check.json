@@ -1,0 +1,82 @@
+{
+ "actions": [],
+ "allow_rename": 0,
+ "autoname": "hash",
+ "creation": "2026-11-09 23:40:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 0,
+ "engine": "InnoDB",
+ "field_order": [
+  "service",
+  "state",
+  "column_break_when",
+  "checked_at",
+  "took",
+  "detail"
+ ],
+ "fields": [
+  {
+   "fieldname": "service",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Service",
+   "options": "Cloudflare\nEdge Router\nR2\nKeeper\nAI Gateway\nMail\nStripe\nWorkspaces\nBackups",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "state",
+   "fieldtype": "Select",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "State",
+   "options": "Working\nFailing\nNot Set Up",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_when",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "checked_at",
+   "fieldtype": "Datetime",
+   "in_list_view": 1,
+   "label": "Checked At",
+   "read_only": 1,
+   "reqd": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "took",
+   "fieldtype": "Int",
+   "label": "Time Taken (ms)",
+   "read_only": 1
+  },
+  {
+   "fieldname": "detail",
+   "fieldtype": "Small Text",
+   "label": "Detail",
+   "read_only": 1
+  }
+ ],
+ "in_create": 1,
+ "index_web_pages_for_search": 0,
+ "modified": "2026-11-09 23:40:00.000000",
+ "modified_by": "Administrator",
+ "module": "One Admin",
+ "name": "Health Check",
+ "naming_rule": "Random",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "read": 1,
+   "report": 1,
+   "role": "One Operator"
+  }
+ ],
+ "sort_field": "checked_at",
+ "sort_order": "DESC",
+ "track_changes": 0
+}

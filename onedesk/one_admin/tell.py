@@ -14,6 +14,7 @@ from onedesk.one import notify
 from onedesk.one_admin import site
 
 HOME = "/desk/one-admin"
+STATUS = "/desk/oneadmin-status"
 
 
 def operators() -> list[str]:
@@ -402,6 +403,18 @@ def update_waits(tenant) -> None:
 def server_changed(server: str, said: str) -> None:
 	"""A server stopped answering, or answers again."""
 	notify.notify("Server Down" if said == "down" else "Server Back", operators(), link=HOME, sender="Administrator", server=server)
+
+
+@_quietly
+def service_changed(service: str, said: str, detail: str) -> None:
+	"""A service OneAdmin depends on started failing, or recovered (health)."""
+	notify.notify("Service Down" if said == "down" else "Service Back", operators(), link=STATUS, sender="Administrator", service=_(service), detail=detail or "")
+
+
+@_quietly
+def workspace_changed(workspace: str, said: str) -> None:
+	"""A workspace stopped answering, or answers again (health)."""
+	notify.notify("Workspace Down" if said == "down" else "Workspace Back", operators(), link=STATUS, sender="Administrator", workspace=workspace)
 
 
 @_quietly

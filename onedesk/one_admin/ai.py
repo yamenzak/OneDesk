@@ -159,7 +159,7 @@ SUGGESTIONS = {
 
 
 def page(said: dict) -> str | None:
-	"""The sentence the model is told on OneAdmin's Home, Servers, Billing and Releases."""
+	"""The sentence the model is told on OneAdmin's Home, Servers, Billing, Releases and Status."""
 	if said.get("page") == "oneadmin-servers":
 		return "The reader is an operator of One, on OneAdmin's Servers: every server as a card with its status, live CPU, memory and disk, workspaces and release, and below them the requests, Workers and R2 storage Cloudflare counted over the last day."
 	if said.get("page") == "oneadmin-billing":
@@ -171,6 +171,12 @@ def page(said: dict) -> str | None:
 		return (
 			"The reader is an operator of One, on OneAdmin's Releases: each release, the version each server holds, and "
 			"each workspace's window. A workspace waiting on new terms waits 30 days and then moves. How updates work is in OneAdmin's documentation (how_to)."
+		)
+	if said.get("page") == "oneadmin-status":
+		return (
+			"The reader is an operator of One, on OneAdmin's Status: whether each service One depends on is "
+			"working now, the share of its checks that failed each day for 30 days, and what failed. Nothing is "
+			"changed from this screen. How the console works is in OneAdmin's documentation (how_to)."
 		)
 	if said.get("page") != "oneadmin":
 		return None

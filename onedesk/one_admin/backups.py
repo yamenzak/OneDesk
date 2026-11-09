@@ -173,6 +173,15 @@ def listed(slug: str) -> list[dict]:
 	return sorted(days.values(), key=lambda one: (one["day"], one["where"] == "archived"), reverse=True)
 
 
+def kept_on(slug: str, day: str) -> bool:
+	"""Whether a workspace's daily backup for this day is kept."""
+	url, headers = _keeper()
+	answered = requests.get(f"{url}/backups", params={"prefix": f"daily/{slug}/{day}/"}, headers=headers, timeout=60)
+	if not answered.ok:
+		raise faults.raised("keeper", answered.status_code, answered.text[: faults.KEPT])
+	return bool(answered.json().get("objects"))
+
+
 def chosen(slug: str, day: str, where: str) -> dict:
 	"""One kept backup of a workspace: its parts, as `listed` gives them."""
 	found = next((one for one in listed(slug) if one["day"] == day and one["where"] == where), None)
