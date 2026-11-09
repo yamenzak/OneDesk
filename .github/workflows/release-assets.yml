@@ -4,8 +4,6 @@ on:
   workflow_dispatch:
   schedule:
     - cron: "10 20 * * 2"
-  push:
-    branches: ["release/**"]
 
 concurrency:
   group: release-assets
@@ -21,11 +19,24 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
+      - name: Already built?
+        id: built
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.R2_ASSETS_KEY }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_ASSETS_SECRET }}
+          AWS_DEFAULT_REGION: auto
+        run: |
+          if aws s3api head-object --endpoint-url "${{ secrets.R2_ENDPOINT }}" --bucket "${{ secrets.R2_ASSETS_BUCKET }}" --key "releases/$GITHUB_SHA.json" > /dev/null 2>&1; then
+            echo "yes=true" >> "$GITHUB_OUTPUT"
+          fi
+
       - uses: actions/setup-node@v4
+        if: steps.built.outputs.yes != 'true'
         with:
           node-version: "24"
 
       - name: Install Pilot
+        if: steps.built.outputs.yes != 'true'
         run: |
           curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o "$RUNNER_TEMP/pilot.sh"
           sudo env PATH="$PATH" BENCH_USER="$USER" PILOT_VERSION=v0.0.99-pre-alpha sh "$RUNNER_TEMP/pilot.sh"
@@ -38,6 +49,7 @@ jobs:
           echo "$HOME/pilot/bin" >> "$GITHUB_PATH"
 
       - name: Build and publish
+        if: steps.built.outputs.yes != 'true'
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_BRANCH: ${{ github.ref_name }}
