@@ -84,11 +84,11 @@ MODULES = {
 		"names": ("one_account", "oneaccount"),
 		"ready": True,
 		"checked": {
-			"copy": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"demo": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"notifications": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"interface": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
-			"legal": {"on": "2026-10-28", "commit": "359b1fca3473", "by": "Claude, for Yamen"},
+			"copy": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-09", "commit": "ad363dde9810", "by": "Claude, for Yamen"},
 		},
 		"windowless": "AccountCenter is a dialog the avatar's menu and links open, so OneAccount has no window, foot or settings of its own.",
 		"help": (
