@@ -10,6 +10,7 @@ import hashlib
 import hmac
 import json
 import time
+from urllib.parse import urlparse
 
 import boto3
 import frappe
@@ -178,6 +179,14 @@ def instruct(server: str, kind: str, **body) -> str:
 	return ident
 
 
+def _own_address(row) -> list[str]:
+	"""This site's own address, when this is the box it runs on: the tunnel's
+	list is written whole, and OneAdmin is not under the workspaces' wildcard."""
+	if frappe.db.get_value("Tenant", {"is_house": 1}, "server") != row.server:
+		return []
+	return [urlparse(frappe.utils.get_url()).hostname]
+
+
 def prepare(row, release: str) -> None:
 	"""The box builds this release as a second bench, reachable at its own
 	Pilot address behind the box's lock."""
@@ -189,7 +198,7 @@ def prepare(row, release: str) -> None:
 	tenant_domain = frappe.get_cached_value("One Admin Settings", None, "tenant_domain")
 	others = [one["host"] for one in rows if one.get("host")]
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
-	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], [row.pilot_host, *others, host, row.origin_host, f"*.{tenant_domain}"], host, keys["origin_zone"], tell.operators())
+	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], [row.pilot_host, *others, host, *_own_address(row), row.origin_host, f"*.{tenant_domain}"], host, keys["origin_zone"], tell.operators())
 	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing"}])
 	instruct(row.server, "prepare", bench=name, release=release, frappe=about["frappe"], erpnext=about["erpnext"], hrms=about["hrms"], repository=REPOSITORY, branch="main", host=host)
 

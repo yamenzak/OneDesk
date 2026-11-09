@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 18:48+0000\n"
-"PO-Revision-Date: 2026-11-09 18:48+0000\n"
+"POT-Creation-Date: 2026-11-09 20:11+0000\n"
+"PO-Revision-Date: 2026-11-09 20:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -45191,7 +45191,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:200
+#: onedesk/one_admin/servers.py:209
 msgid "Server keys are not set."
 msgstr ""
 
@@ -67637,7 +67637,7 @@ msgstr ""
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:72
+#: onedesk/one_admin/servers.py:73
 #, python-brace-format
 msgid "{0} is still in use."
 msgstr ""
