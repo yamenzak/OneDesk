@@ -44,6 +44,7 @@ NOT_FOR_AI = {
 	"bills.payment_portal": "Paying is done by the person paying, never by OneAI.",
 	"bills.change_card": "A card is given by the person paying, never by OneAI.",
 	"bills.set_update_window": "When the workspace is offline for an update is an administrator's decision.",
+	"bills.set_auto_topup": "Charging the saved card without asking is an administrator's decision about money, never OneAI's.",
 	"bills.update_now": "Taking the workspace offline for an update is an administrator's decision.",
 	"bills.set_spend_limit": "A limit on what the workspace spends is an administrator's decision about money, never OneAI's.",
 	"bills.to_books": "An invoice from One goes into the books when somebody chooses to put it there.",

@@ -7,6 +7,7 @@ lock and commits what it cost; a spend names the grant it came out of.
 from datetime import date
 
 import frappe
+from frappe.utils import get_first_day
 
 from onedesk.one_admin import credits, site
 
@@ -192,6 +193,9 @@ def commit(reservation: str, amount: float, usd: float | None = None, model: str
 			update_modified=False,
 		)
 	_settle(holding, amount, usd)
+	from onedesk.one_admin import topup
+
+	topup.after_spend(holding.tenant)
 	return written
 
 
@@ -388,6 +392,11 @@ def _summed(query: str, tenant: str, locking: bool = False) -> float:
 	"""
 	rows = frappe.db.sql(query + (" FOR UPDATE" if locking else ""), (tenant,))
 	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
+
+
+def packs_charged_this_month(tenant: str) -> int:
+	"""Packs bought by auto top-up this month: a payment, not a checkout."""
+	return frappe.db.count("Credit Ledger Entry", {"tenant": tenant, "reference": ["like", "pi_%"], "creation": [">=", get_first_day(_today())]})
 
 
 def spent_this_month(tenant: str) -> float:

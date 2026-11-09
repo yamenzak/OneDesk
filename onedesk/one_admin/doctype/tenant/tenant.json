@@ -60,6 +60,11 @@
   "update_at",
   "update_weekday",
   "update_hour",
+  "auto_topup_section",
+  "auto_topup",
+  "auto_topup_pack",
+  "auto_topup_below",
+  "auto_topup_cap",
   "column_break_updates",
   "time_zone",
   "terms_pending",
@@ -426,6 +431,39 @@
    "label": "Update Hour",
    "read_only": 1,
    "default": "1"
+  },
+  {
+   "fieldname": "auto_topup_section",
+   "fieldtype": "Section Break",
+   "label": "Auto Top-Up"
+  },
+  {
+   "fieldname": "auto_topup",
+   "fieldtype": "Check",
+   "label": "Enable Auto Top-Up",
+   "default": "0",
+   "read_only": 1
+  },
+  {
+   "fieldname": "auto_topup_pack",
+   "fieldtype": "Link",
+   "label": "Pack",
+   "options": "Offering",
+   "read_only": 1
+  },
+  {
+   "fieldname": "auto_topup_below",
+   "fieldtype": "Int",
+   "label": "Minimum Balance",
+   "non_negative": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "auto_topup_cap",
+   "fieldtype": "Int",
+   "label": "Monthly Pack Limit",
+   "non_negative": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_updates",

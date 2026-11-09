@@ -33,3 +33,10 @@ deleted a few weeks later.
 **Domains** lists the addresses the workspace opens at. Add a domain of your
 own, point its DNS where it says, and make it the main address once it
 works.
+
+## Auto Top-Up
+
+An administrator can have a credit pack bought on the saved card when the
+balance falls under **Minimum Balance**, up to **Monthly Pack Limit** packs a
+month. It is off until somebody turns it on. If the card cannot be charged, it
+turns off and the workspace's owner gets an email.

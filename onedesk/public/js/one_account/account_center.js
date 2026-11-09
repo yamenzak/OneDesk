@@ -836,9 +836,11 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 							__("Last {0} days. Monthly credits are used first. Bought credits last 12 months.", [data.ledger_days])
 					  )
 					: "") +
+				(data.admin && data.linked ? this.auto_topup_section() : "") +
 				(data.admin && data.linked ? this.updates_section(account) : "") +
 				(data.admin ? this.closing_section(closing) : "")
 		);
+		this.$content.find("[data-auto-topup]").on("click", () => this.auto_topup());
 		this.$content.find("[data-update-window]").on("click", () => this.update_window(account));
 		this.$content.find("[data-update-now]").on("click", () => this.update_now());
 		this.$content.find("[data-closing]").on("click", (event) => this.closing_act($(event.currentTarget).attr("data-closing"), closing));
@@ -904,6 +906,34 @@ onedesk.AccountSection = class AccountSection extends onedesk.CenterSection {
 
 	week_days() {
 		return [__("Monday"), __("Tuesday"), __("Wednesday"), __("Thursday"), __("Friday"), __("Saturday"), __("Sunday")];
+	}
+
+	auto_topup_section() {
+		return onedesk.shell.section(
+			__("Auto Top-Up"),
+			`<div class="one-shell-quiet">${frappe.utils.escape_html(__("Buy a pack on the saved card when the balance runs low."))}</div>
+			<div class="os-way-actions">${onedesk.shell.button(__("Change Auto Top-Up"), { "data-auto-topup": "1" }, "ghost")}</div>`
+		);
+	}
+
+	async auto_topup() {
+		const held = await frappe.xcall("onedesk.one_account.bills.auto_topup");
+		const named = Object.fromEntries((held.packs || []).map((one) => [`${one.label} · ${format_currency(one.amount, one.currency)}`, one.name]));
+		const shown = Object.keys(named).find((label) => named[label] === held.pack) || Object.keys(named)[0];
+		frappe.prompt(
+			[
+				{ fieldname: "enabled", fieldtype: "Check", label: __("Enable Auto Top-Up"), default: held.enabled },
+				{ fieldname: "pack", fieldtype: "Select", label: __("Pack"), options: Object.keys(named).join("\n"), default: shown, mandatory_depends_on: "enabled" },
+				{ fieldname: "below", fieldtype: "Int", label: __("Minimum Balance"), default: held.below || 100, mandatory_depends_on: "enabled" },
+				{ fieldname: "cap", fieldtype: "Int", label: __("Monthly Pack Limit"), default: held.cap || 1, mandatory_depends_on: "enabled" },
+			],
+			({ enabled, pack, below, cap }) =>
+				frappe
+					.xcall("onedesk.one_account.bills.set_auto_topup", { enabled: enabled ? 1 : 0, pack: named[pack] || "", below, cap })
+					.then(() => frappe.show_alert({ message: __("Auto Top-Up saved."), indicator: "green" })),
+			__("Auto Top-Up"),
+			__("Save")
+		);
 	}
 
 	updates_section(account) {

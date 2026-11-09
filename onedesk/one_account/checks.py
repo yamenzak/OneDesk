@@ -76,3 +76,24 @@ def write_my_bio_is_an_action_an_administrator_can_turn_off():
 			raise AssertionError("Nadia turned an action off")
 		except frappe.PermissionError:
 			pass
+
+
+@check
+def auto_topup_is_an_administrators_and_asks_oneadmin():
+	"""Auto Top-Up (one_account/bills.py): an administrator reads and sets it
+	through OneAdmin, and somebody who isn't is refused."""
+	from unittest import mock
+
+	from onedesk.one_account import bills
+
+	with mock.patch("onedesk.one.account.ask", return_value={"enabled": 1}) as asked:
+		with as_user("wsadmin@one.test"):
+			assert bills.auto_topup() == {"enabled": 1}
+			assert bills.set_auto_topup(1, "pack", 100, 1) == {"enabled": 1}
+		assert asked.call_args.kwargs == {"enabled": 1, "pack": "pack", "below": 100, "cap": 1}
+		with as_user("nadia@one.test"):
+			try:
+				bills.set_auto_topup(1, "pack", 100, 1)
+				raise AssertionError("Auto Top-Up was set by somebody who may not")
+			except frappe.PermissionError:
+				pass

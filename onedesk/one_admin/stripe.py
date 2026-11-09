@@ -204,6 +204,23 @@ def checkout_for_credits(tenant: str, pack: str) -> dict:
 	return embedded(made)
 
 
+def charge_saved_card(tenant, pack: str, key: str) -> str | None:
+	"""A pack charged to the workspace's saved card with nobody present: the
+	payment's id, or None when the card needs its holder or there is none."""
+	site.require_admin()
+	sold = frappe.get_cached_doc("Offering", pack)
+	card = ((_get(f"customers/{tenant.stripe_customer}") or {}).get("invoice_settings") or {}).get("default_payment_method")
+	if not card:
+		return None
+	made = _call(
+		"post",
+		"payment_intents",
+		data={"amount": round(sold.amount * 100), "currency": sold.currency.lower(), "customer": tenant.stripe_customer, "payment_method": card, "off_session": "true", "confirm": "true", "description": sold.label, "metadata[tenant]": tenant.name, "metadata[pack]": sold.name},
+		headers={"Idempotency-Key": f"{key}:{card}"},
+	)
+	return made["id"] if made.get("status") == "succeeded" else None
+
+
 def checkout_for_card(tenant: str) -> dict:
 	"""A Checkout session in setup mode: a new card for the workspace, drawn
 	in Plan and Credits. Nothing is charged; the webhook makes the card the

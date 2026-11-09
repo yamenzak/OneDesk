@@ -61,7 +61,7 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 58 | document |
+| Tenant | 63 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
@@ -395,9 +395,11 @@ No doctypes yet.
 * `onedesk.one.weather.search`
 * `onedesk.one.weather.suggest`
 * `onedesk.one_account.ai.write_bio`
+* `onedesk.one_account.bills.auto_topup`
 * `onedesk.one_account.bills.change_card`
 * `onedesk.one_account.bills.invoices`
 * `onedesk.one_account.bills.payment_portal`
+* `onedesk.one_account.bills.set_auto_topup`
 * `onedesk.one_account.bills.set_spend_limit`
 * `onedesk.one_account.bills.set_update_window`
 * `onedesk.one_account.bills.to_books`
@@ -466,6 +468,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.ai_usage`
 * `onedesk.one_admin.proxy.ai_web_search`
 * `onedesk.one_admin.proxy.app_claim`
+* `onedesk.one_admin.proxy.auto_topup`
 * `onedesk.one_admin.proxy.billed_to`
 * `onedesk.one_admin.proxy.billing_card`
 * `onedesk.one_admin.proxy.billing_invoice`
@@ -491,6 +494,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.plans_take`
 * `onedesk.one_admin.proxy.private_apps`
 * `onedesk.one_admin.proxy.search_access`
+* `onedesk.one_admin.proxy.set_auto_topup`
 * `onedesk.one_admin.proxy.spend_limit`
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`

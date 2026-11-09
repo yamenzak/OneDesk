@@ -56,6 +56,24 @@ def set_update_window(weekday: int, hour: int) -> dict:
 	return said
 
 
+@frappe.whitelist()
+def auto_topup() -> dict:
+	"""The workspace's auto top-up, for an administrator."""
+	roles.require()
+	from onedesk.one import account
+
+	return account.ask("onedesk.one_admin.proxy.auto_topup") or {}
+
+
+@frappe.whitelist(methods=["POST"])
+def set_auto_topup(enabled: int, pack: str = "", below: int = 0, cap: int = 0) -> dict:
+	"""Buy a pack when the balance runs low, up to a number a month."""
+	roles.require()
+	from onedesk.one import account
+
+	return account.ask("onedesk.one_admin.proxy.set_auto_topup", enabled=int(enabled), pack=pack, below=int(below), cap=int(cap)) or {}
+
+
 @frappe.whitelist(methods=["POST"])
 def update_now() -> dict:
 	"""The workspace moves to the waiting version straight away."""

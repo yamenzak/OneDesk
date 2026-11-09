@@ -112,6 +112,21 @@ clause(
 clause(
 	document="terms",
 	section="fees",
+	key="oneadmin-auto-topup",
+	module=M,
+	order=32,
+	body="""
+		Auto top-up is off unless an administrator turns it on, and an administrator can turn it off at any
+		time. While it is on, we charge your saved card for the chosen credit pack when your balance falls
+		under the chosen line. We charge at most the number of packs a month the administrator set. If a
+		charge fails, we turn auto top-up off and tell the workspace's owner.
+	""",
+)
+
+
+clause(
+	document="terms",
+	section="fees",
 	key="oneadmin-given-credits",
 	module=M,
 	order=31,

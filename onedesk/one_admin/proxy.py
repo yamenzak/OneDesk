@@ -410,6 +410,24 @@ def credit_packs() -> list[dict]:
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def auto_topup() -> dict:
+	"""This workspace's auto top-up and the packs it may choose."""
+	from onedesk.one_admin import topup
+
+	return topup.settings(caller())
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def set_auto_topup(enabled: int, pack: str = "", below: int = 0, cap: int = 0) -> dict:
+	"""An administrator of this workspace chose its auto top-up."""
+	from onedesk.one_admin import topup
+
+	return topup.keep_settings(caller(), cint(enabled), pack, cint(below), cint(cap))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def buy_credits(pack: str) -> dict:
 	"""Somewhere for this workspace to pay. Nothing is granted here.
 
