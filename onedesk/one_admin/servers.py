@@ -87,7 +87,12 @@ def _save(row, value: list[dict]) -> None:
 
 
 def _keys() -> dict:
-	return frappe.parse_json(vault.get(KEYS))
+	"""What was handed over, with the AWS key from Settings."""
+	return {
+		**frappe.parse_json(vault.get(KEYS)),
+		"aws_access_key_id": frappe.db.get_single_value("One Admin Settings", "aws_access_key_id"),
+		"aws_secret_access_key": vault.get("aws_secret_access_key"),
+	}
 
 
 def _r2(keys: dict):
@@ -126,7 +131,7 @@ def prepare(row, release: str) -> None:
 
 def begin() -> None:
 	"""Queue the order, once."""
-	if not vault.get(KEYS):
+	if not vault.get(KEYS) or not vault.get("aws_secret_access_key"):
 		frappe.throw(frappe._("Server keys are not set."))
 	frappe.enqueue("onedesk.one_admin.servers.build", queue="long", timeout=3 * 3600, job_id="one_admin_order_server", deduplicate=True)
 
