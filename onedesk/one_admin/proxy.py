@@ -76,7 +76,7 @@ def _refuse():
 
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
-def hello(database_bytes: int | None = None) -> dict:
+def hello(database_bytes: int | None = None, terms_pending: int | None = None, time_zone: str | None = None) -> dict:
 	"""Who this workspace is and what it is allowed, in one call.
 
 	The tenant caches the whole answer in its own `Workspace Account`, so it
@@ -87,6 +87,8 @@ def hello(database_bytes: int | None = None) -> dict:
 	tenant = caller(INTRODUCED)
 	if database_bytes is not None:
 		frappe.db.set_value("Tenant", tenant.name, "database_bytes", cint(database_bytes), update_modified=False)
+	if terms_pending is not None or time_zone:
+		frappe.db.set_value("Tenant", tenant.name, {"terms_pending": cint(terms_pending), "time_zone": time_zone}, update_modified=False)
 	known = frappe.db.get_value(
 		"Tenant",
 		tenant.name,
@@ -149,7 +151,7 @@ def hello(database_bytes: int | None = None) -> dict:
 		},
 		"domains": domains.mine(_tenant_doc(tenant)),
 		"dns_target": known.domain,
-		"update": releases.upcoming(),
+		"update": releases.upcoming(tenant.name),
 	}
 
 
@@ -208,6 +210,32 @@ def spend_limit(limit: int | None = None) -> dict:
 	tenant = caller()
 	frappe.db.set_value("Tenant", tenant.name, "spend_limit", max(0, cint(limit)))
 	return {"limit": max(0, cint(limit))}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def update_window(weekday: int, hour: int) -> dict:
+	"""The day and hour this workspace updates, in its own time zone."""
+	tenant = caller()
+	if not 0 <= cint(weekday) <= 6 or not 0 <= cint(hour) <= 23:
+		frappe.throw(frappe._("That is not a day and hour."))
+	values = {"update_weekday": cint(weekday), "update_hour": cint(hour)}
+	if tenant.update_at:
+		from onedesk.one_admin import releases
+
+		tenant.update(values)
+		values["update_at"] = releases.window_for(tenant)
+	frappe.db.set_value("Tenant", tenant.name, values)
+	return {"at": str(values.get("update_at") or "")}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def update_now() -> dict:
+	"""This workspace updates at the next chance, if one is waiting."""
+	from onedesk.one_admin import releases
+
+	return releases.update_now(caller())
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

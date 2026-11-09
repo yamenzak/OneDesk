@@ -13,7 +13,7 @@ import requests
 from frappe import _lt
 from frappe.utils import now_datetime
 
-from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, quota, spares
+from onedesk.one_admin import cloudflare, faults, hosts, log, pilot, quota, servers, spares
 from onedesk.one_storage import store
 
 WAIT = "wait"
@@ -71,7 +71,6 @@ SAID = {
 
 
 APPS = ("erpnext", "hrms", "onedesk")
-BENCH = "main"
 
 
 def _app(job) -> str:
@@ -84,7 +83,7 @@ def _app(job) -> str:
 
 
 def _installed_on(tenant) -> set:
-	found = pilot.call(tenant.server, "GET", f"/sites/{tenant.site}/apps") or {}
+	found = pilot.on(tenant, "GET", f"/sites/{tenant.site}/apps") or {}
 	rows = found.get("apps") if isinstance(found, dict) else found
 	return {one.get("name") or one.get("app") for one in rows or [] if isinstance(one, dict)}
 
@@ -95,7 +94,7 @@ def app_on_bench(job, tenant) -> None:
 	app = _app(job)
 	if not tenant.site or not tenant.server:
 		raise faults.Refused("the workspace has no site to install on yet")
-	held = pilot.call(tenant.server, "GET", "/apps") or []
+	held = pilot.on(tenant, "GET", "/apps") or []
 	rows = held.get("apps") if isinstance(held, dict) else held
 	if app not in {one.get("name") for one in rows or [] if isinstance(one, dict)}:
 		raise faults.Refused(f"{app} is not on {tenant.server}. Add it there, then resume")
@@ -107,7 +106,7 @@ def install_app(job, tenant) -> None:
 	app = _app(job)
 	if app in _installed_on(tenant):
 		return
-	pilot.call(tenant.server, "POST", f"/sites/{tenant.site}/apps", key=f"{job.name}:app", json={"app": app})
+	pilot.on(tenant, "POST", f"/sites/{tenant.site}/apps", key=f"{job.name}:app", json={"app": app})
 
 
 def app_is_installed(job, tenant) -> str | None:
@@ -135,7 +134,7 @@ def place_it(job, tenant) -> None:
 	if not room:
 		raise faults.Refused(f"Every {kind} is full. Add a server, list it under Servers in Settings, then resume")
 	room.sort(key=lambda one: (not spares.ready(one.server), counts.get(one.server, 0) / (one.capacity or 1000)))
-	tenant.db_set({"bench": BENCH, "server": room[0].server, "cluster": room[0].region})
+	tenant.db_set({"bench": servers.current(room[0]), "server": room[0].server, "cluster": room[0].region})
 
 
 def _servers() -> list:
@@ -160,7 +159,7 @@ def name_is_free(job, tenant) -> None:
 	"""Refuse early rather than half-way."""
 	if tenant.site:
 		return
-	if pilot.call(tenant.server, "GET", f"/sites/{_site_name(tenant)}"):
+	if pilot.on(tenant, "GET", f"/sites/{_site_name(tenant)}"):
 		raise faults.Refused(f"{tenant.slug} is already taken on {tenant.server}")
 
 
@@ -174,10 +173,10 @@ def create_site(job, tenant) -> None:
 	spare = spares.ready(tenant.server)
 	if spare:
 		body = {"new_name": name, "keep_old_hostname": False, "make_primary": False}
-		answered = pilot.call(tenant.server, "POST", f"/sites/{spare}/actions/rename", key=f"{job.name}:site", json=body)
+		answered = pilot.on(tenant, "POST", f"/sites/{spare}/actions/rename", key=f"{job.name}:site", json=body)
 		spares.used(tenant.server, spare)
 	else:
-		answered = pilot.call(tenant.server, "POST", "/sites", key=f"{job.name}:site", json={"name": name, "apps": ["frappe", *APPS]})
+		answered = pilot.on(tenant, "POST", "/sites", key=f"{job.name}:site", json={"name": name, "apps": ["frappe", *APPS]})
 	_remember_task(job, answered)
 	tenant.db_set("site", name)
 
@@ -194,7 +193,7 @@ def site_is_up(job, tenant) -> str | None:
 	task = (frappe.parse_json(job.payload or "{}") or {}).get("task")
 	if not task:
 		return None
-	return None if pilot.task(tenant.server, task) == "done" else WAIT
+	return None if pilot.task(tenant.server, task, bench=tenant.bench) == "done" else WAIT
 
 
 def route_it(job, tenant) -> None:
@@ -221,8 +220,8 @@ def push_config(job, tenant) -> None:
 	tenant.db_set("token_hash", hashlib.sha256(token.encode()).hexdigest())
 	mail_secret = secrets.token_urlsafe(32)
 	backup = backups.given(tenant.slug)
-	pilot.call(
-		tenant.server,
+	pilot.on(
+		tenant,
 		"PATCH",
 		f"/sites/{tenant.site}/configuration",
 		json={
@@ -300,7 +299,7 @@ def deactivate_site(job, tenant) -> None:
 
 def _quiet(tenant, on: int) -> None:
 	body = {"maintenance_mode": on, "pause_scheduler": on, "allow_reads_during_maintenance": 0 if on else None}
-	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json=body)
+	pilot.on(tenant, "PATCH", f"/sites/{tenant.site}/configuration", json=body)
 
 
 def mark_suspended(job, tenant) -> None:
@@ -329,7 +328,7 @@ def upload_backup(job, tenant) -> None:
 	if payload.get("upload"):
 		return
 	held = backups.chosen(tenant.slug, payload.get("day"), payload.get("where") or "daily")
-	payload["upload"], payload["parts"] = backups.to_server(tenant.server, tenant.site, held["parts"])
+	payload["upload"], payload["parts"] = backups.to_server(tenant, held["parts"])
 	job.db_set("payload", frappe.as_json(payload))
 
 
@@ -345,7 +344,7 @@ def restore_site(job, tenant) -> None:
 	if payload.get("restore_asked"):
 		return
 	body = {"parts": payload.get("parts") or [], "upload_id": payload.get("upload")}
-	answered = pilot.call(tenant.server, "POST", f"/sites/{tenant.site}/actions/restore", key=f"{job.name}:restore", json=body)
+	answered = pilot.on(tenant, "POST", f"/sites/{tenant.site}/actions/restore", key=f"{job.name}:restore", json=body)
 	payload["task"] = (answered or {}).get("task_id")
 	payload["restore_asked"] = True
 	job.db_set("payload", frappe.as_json(payload))
@@ -363,7 +362,7 @@ def note_backup(job, tenant) -> None:
 	from onedesk.one_admin import backups
 
 	backups.archived(tenant)
-	held = pilot.call(tenant.server, "GET", f"/sites/{tenant.site}/backups?limit=1") or []
+	held = pilot.on(tenant, "GET", f"/sites/{tenant.site}/backups?limit=1") or []
 	tenant.db_set("archived_backup", held[0].get("created_at") if held else "")
 
 
@@ -373,9 +372,9 @@ def archive_site(job, tenant) -> None:
 	_still_going(job, tenant)
 	if not tenant.site:
 		return
-	if pilot.call(tenant.server, "GET", f"/sites/{tenant.site}") is None:
+	if pilot.on(tenant, "GET", f"/sites/{tenant.site}") is None:
 		return
-	pilot.call(tenant.server, "DELETE", f"/sites/{tenant.site}", key=f"{job.name}:drop")
+	pilot.on(tenant, "DELETE", f"/sites/{tenant.site}", key=f"{job.name}:drop")
 
 
 def stop_billing(job, tenant) -> None:

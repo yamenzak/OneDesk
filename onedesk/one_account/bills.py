@@ -46,6 +46,28 @@ def payment_portal() -> dict:
 
 
 @frappe.whitelist(methods=["POST"])
+def set_update_window(weekday: int, hour: int) -> dict:
+	"""The day and hour the workspace updates, in its own time zone."""
+	roles.require()
+	from onedesk.one import account
+
+	said = account.ask("onedesk.one_admin.proxy.update_window", weekday=int(weekday), hour=int(hour)) or {}
+	account.refresh()
+	return said
+
+
+@frappe.whitelist(methods=["POST"])
+def update_now() -> dict:
+	"""The workspace moves to the waiting version straight away."""
+	roles.require()
+	from onedesk.one import account
+
+	said = account.ask("onedesk.one_admin.proxy.update_now") or {}
+	account.refresh()
+	return said
+
+
+@frappe.whitelist(methods=["POST"])
 def set_spend_limit(limit: int = 0) -> dict:
 	"""The most the workspace spends in OneCredits a month: OneAI,
 	conversions and mail sent through One stop there until the next month.

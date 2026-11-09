@@ -3248,6 +3248,8 @@ def the_plan_credits_domains_and_bills_are_the_administrators():
 			assert bills.set_spend_limit(2000) == {"limit": 2000} and asked.call_args.kwargs == {"limit": 2000}
 			bills.set_spend_limit(-5)
 			assert asked.call_args.kwargs == {"limit": 0}, "a monthly limit is never below nothing"
+			assert bills.set_update_window(0, 9) is not None and asked.call_args.kwargs == {"weekday": 0, "hour": 9}
+			assert bills.update_now() is not None
 		with mock.patch("onedesk.one_account.bills._attach"):
 			bill = bills.to_books("ONE-2026-0042")
 		made = frappe.get_doc("Purchase Invoice", bill)

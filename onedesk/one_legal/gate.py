@@ -90,6 +90,11 @@ def _accepted(key: str, party: str, user: str | None = None) -> str | None:
 	return rows[0]["version"] if rows else None
 
 
+def workspace_behind() -> bool:
+	"""Whether the workspace owes an agreement it has not given."""
+	return any(not _accepted(key, WORKSPACE) for key in keys_for(WORKSPACE))
+
+
 def standing(user: str | None = None) -> list[dict]:
 	"""Every document that needs agreeing, and where this person stands on it."""
 	user = user or frappe.session.user

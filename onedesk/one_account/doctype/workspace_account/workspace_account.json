@@ -35,6 +35,8 @@
   "credits_limit",
   "credits_spent",
   "update_at",
+  "update_weekday",
+  "update_hour",
   "domains_section",
   "domains",
   "dns_target",
@@ -260,6 +262,18 @@
    "fieldname": "update_at",
    "fieldtype": "Datetime",
    "label": "Next Update",
+   "read_only": 1
+  },
+  {
+   "fieldname": "update_weekday",
+   "fieldtype": "Int",
+   "label": "Update Day",
+   "read_only": 1
+  },
+  {
+   "fieldname": "update_hour",
+   "fieldtype": "Int",
+   "label": "Update Hour",
    "read_only": 1
   },
   {

@@ -189,7 +189,7 @@ def _keep(name: str, said: dict | None) -> None:
 
 def _call_itself(tenant, name: str) -> None:
 	"""The name the site calls itself, set on its server."""
-	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json={"hostname": f"https://{name}"})
+	pilot.on(tenant, "PATCH", f"/sites/{tenant.site}/configuration", json={"hostname": f"https://{name}"})
 
 
 def _claimable(raw: str) -> str:

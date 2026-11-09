@@ -59,7 +59,7 @@ def ready(tenant) -> bool:
 	"""A workspace on a server given its backup secret, once."""
 	if tenant.backup_ready or not (tenant.site and tenant.server):
 		return bool(tenant.backup_ready)
-	pilot.call(tenant.server, "PATCH", f"/sites/{tenant.site}/configuration", json=given(tenant.slug))
+	pilot.on(tenant, "PATCH", f"/sites/{tenant.site}/configuration", json=given(tenant.slug))
 	tenant.db_set("backup_ready", 1)
 	return True
 
@@ -163,15 +163,15 @@ def chosen(slug: str, day: str, where: str) -> dict:
 	return found
 
 
-def to_server(server: str, site: str, parts: dict) -> tuple[str, list[str]]:
+def to_server(tenant, parts: dict) -> tuple[str, list[str]]:
 	"""A kept backup sent to a server's Pilot for a restore, streamed from the
 	keeper in pieces a request can carry: the upload's id and the parts."""
 	wanted = {name: kept for name, kept in parts.items() if name in ("database", "public", "private")}
 	files = {name: {"filename": os.path.basename(kept["key"]), "size": kept["size"]} for name, kept in wanted.items()}
-	started = pilot.call(server, "POST", f"/sites/{site}/uploads", json={"files": files}) or {}
+	started = pilot.on(tenant, "POST", f"/sites/{tenant.site}/uploads", json={"files": files}) or {}
 	upload = started.get("upload_id")
 	if not upload:
-		raise faults.Again(f"{server} gave no upload")
+		raise faults.Again(f"{tenant.server} gave no upload")
 	url, headers = _keeper()
 	for name, kept in wanted.items():
 		with requests.get(f"{url}/backup/{kept['key']}", headers=headers, stream=True, timeout=PATIENCE) as held:
@@ -179,6 +179,6 @@ def to_server(server: str, site: str, parts: dict) -> tuple[str, list[str]]:
 				raise faults.raised("keeper", held.status_code, held.text[: faults.KEPT])
 			offset = 0
 			for piece in held.iter_content(PIECE):
-				pilot.call(server, "PUT", f"/sites/{site}/uploads/{upload}/files/{name}?offset={offset}", data=piece)
+				pilot.on(tenant, "PUT", f"/sites/{tenant.site}/uploads/{upload}/files/{name}?offset={offset}", data=piece)
 				offset += len(piece)
 	return upload, list(wanted)

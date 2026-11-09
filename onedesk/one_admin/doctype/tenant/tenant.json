@@ -56,7 +56,16 @@
   "storage_bytes",
   "storage_pending",
   "column_break_storage",
-  "storage_limit"
+  "storage_limit",
+  "updates_section",
+  "update_at",
+  "update_weekday",
+  "update_hour",
+  "column_break_updates",
+  "time_zone",
+  "terms_pending",
+  "update_moving",
+  "terms_reminded_on"
  ],
  "fields": [
   {
@@ -399,6 +408,59 @@
    "label": "Account",
    "in_standard_filter": 1,
    "description": "Whose One account holds this workspace. Set when it is paid for.",
+   "read_only": 1
+  },
+  {
+   "fieldname": "updates_section",
+   "fieldtype": "Section Break",
+   "label": "Updates"
+  },
+  {
+   "fieldname": "update_at",
+   "fieldtype": "Datetime",
+   "label": "Next Update",
+   "read_only": 1
+  },
+  {
+   "fieldname": "update_weekday",
+   "fieldtype": "Int",
+   "label": "Update Day",
+   "read_only": 1,
+   "default": "5"
+  },
+  {
+   "fieldname": "update_hour",
+   "fieldtype": "Int",
+   "label": "Update Hour",
+   "read_only": 1,
+   "default": "1"
+  },
+  {
+   "fieldname": "column_break_updates",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "time_zone",
+   "fieldtype": "Data",
+   "label": "Time Zone",
+   "read_only": 1
+  },
+  {
+   "fieldname": "terms_pending",
+   "fieldtype": "Check",
+   "label": "Waiting On New Terms",
+   "read_only": 1
+  },
+  {
+   "fieldname": "update_moving",
+   "fieldtype": "Check",
+   "label": "Moving",
+   "read_only": 1
+  },
+  {
+   "fieldname": "terms_reminded_on",
+   "fieldtype": "Date",
+   "label": "Reminded About Terms",
    "read_only": 1
   }
  ],

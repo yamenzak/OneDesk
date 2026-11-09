@@ -1773,13 +1773,21 @@ Signup, payment and the customers' account pages stay open.
 
 ### releases.py and notes.py: Updates
 
-A server behind on OneDesk's `main` (Pilot's `app-update-checks`) is set for
-the first Saturday 01:00 UTC at least 72 hours away, every workspace is told,
-and in the window each server is updated through `update-apps`, which backs
-up first and restores if the update fails. frappe, erpnext and hrms move only
-at an upstream checkpoint. A server's sites update together, built on the box
-until per-workspace windows on two benches use the release archive in R2.
-What's New and Help for the coming version are pushed to R2 by `notes.py`.
+A new release in the registry is built on each server as a second bench,
+ahead of time (`servers.prepare`, then the box's agent). Each workspace then
+moves to it in its own window: Saturday 01:00 in its time zone unless an
+administrator picked another in AccountCenter, at least 72 hours after it is
+told, or at once with **Update Now**. A move is a backup and a restore, and a
+move that fails leaves the workspace on the bench it was on and tries again at
+its next window. A workspace that hasn't agreed to new terms waits 30 days,
+its owner reminded weekly, then moves. A bench with nobody left is dropped. A
+server holds two benches at most. frappe, erpnext and hrms move only at an
+upstream checkpoint. What's New and Help for the coming version are pushed to
+R2 by `notes.py`.
+
+A box's agent (`deploy/server/agent.py`) reads signed instructions from R2
+once a minute and answers `servers.reported`, signed with that box's secret.
+Each bench has its own Pilot address, behind the box's Access lock.
 
 ### price_list.py, costs.py, margins.py and offerings.py
 

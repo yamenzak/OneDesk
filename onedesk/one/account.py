@@ -7,7 +7,7 @@ answers, and this asks and records them.
 import frappe
 import requests
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_datetime, today
+from frappe.utils import add_days, date_diff, flt, formatdate, get_system_timezone, getdate, now_datetime, today
 
 from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
@@ -83,7 +83,9 @@ def refresh() -> dict:
 	held = frappe.get_single("Workspace Account")
 	before = held.as_dict()
 	try:
-		said = ask("onedesk.one_admin.proxy.hello", database_bytes=database_bytes()) or {}
+		from onedesk.one_legal import gate
+
+		said = ask("onedesk.one_admin.proxy.hello", database_bytes=database_bytes(), terms_pending=int(gate.workspace_behind()), time_zone=get_system_timezone()) or {}
 	except faults.Refused as refused:
 		held.db_set("last_error", str(refused)[: faults.KEPT])
 		return held.as_dict()
@@ -121,6 +123,8 @@ def refresh() -> dict:
 			"next_status": standing.get("next"),
 			"closing_on": (said.get("closing") or {}).get("closing_on"),
 			"update_at": (said.get("update") or {}).get("at"),
+			"update_weekday": (said.get("update") or {}).get("weekday"),
+			"update_hour": (said.get("update") or {}).get("hour"),
 			"deleted_on": (said.get("closing") or {}).get("deleted_on"),
 			"last_heard": now_datetime(),
 			"last_error": None,

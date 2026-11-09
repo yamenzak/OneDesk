@@ -13,7 +13,8 @@
   "capacity",
   "pilot_host",
   "origin_host",
-  "spares"
+  "spares",
+  "benches"
  ],
  "fields": [
   {
@@ -78,6 +79,13 @@
    "fieldname": "spares",
    "fieldtype": "Long Text",
    "label": "Spares",
+   "hidden": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "benches",
+   "fieldtype": "Long Text",
+   "label": "Benches",
    "hidden": 1,
    "read_only": 1
   }

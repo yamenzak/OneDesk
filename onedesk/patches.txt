@@ -120,3 +120,4 @@ onedesk.one_project.patches.pages_are_forms #project_view
 onedesk.one_inventory.patches.requests_titled_by_items
 onedesk.one_quality.patches.problems_have_a_company
 onedesk.one_quality.patches.actions_are_a_connection
+onedesk.one_admin.patches.updates_on_saturday

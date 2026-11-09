@@ -10,7 +10,7 @@ import secrets
 
 import frappe
 
-from onedesk.one_admin import faults, hosts, pilot, quota, site
+from onedesk.one_admin import faults, hosts, pilot, quota, servers, site
 
 KEEP = 2
 WAITING = "one_admin_spare_failed"
@@ -53,13 +53,19 @@ def keep() -> None:
 
 
 def _tend(row, tenants: int) -> None:
-	spares = held(row)
-	for one in list(spares):
+	now = servers.current(row)
+	spares = []
+	for one in held(row):
+		bench = one.get("bench")
+		if bench and bench != now:
+			pilot.call(row.server, "DELETE", f"/sites/{one['site']}", key=f"drop:{one['site']}", bench=bench)
+			continue
+		spares.append(one)
 		if not one.get("task"):
 			continue
 		try:
-			if pilot.task(row.server, one["task"]) == "done":
-				pilot.call(row.server, "PATCH", f"/sites/{one['site']}/configuration", json={"pause_scheduler": 1})
+			if pilot.task(row.server, one["task"], bench=now) == "done":
+				pilot.call(row.server, "PATCH", f"/sites/{one['site']}/configuration", bench=now, json={"pause_scheduler": 1})
 				one.pop("task")
 		except faults.Again:
 			raise
@@ -71,8 +77,8 @@ def _tend(row, tenants: int) -> None:
 		from onedesk.one_admin.steps import APPS, _tenant_domain
 
 		name = hosts.under(f"spare-{secrets.token_hex(4)}", _tenant_domain())
-		answered = pilot.call(row.server, "POST", "/sites", key=name, json={"name": name, "apps": ["frappe", *APPS]})
-		spares.append({"site": name, "task": (answered or {}).get("task_id")})
+		answered = pilot.call(row.server, "POST", "/sites", key=name, bench=now, json={"name": name, "apps": ["frappe", *APPS]})
+		spares.append({"site": name, "bench": now, "task": (answered or {}).get("task_id")})
 	_save(row, spares)
 
 
@@ -80,7 +86,7 @@ def ready(server: str) -> str | None:
 	"""A finished spare on this server, or None. Left in the list until
 	`used` says the rename was asked for, so a retry finds the same one."""
 	row = next((one for one in _rows() if one.server == server), None)
-	found = next((one for one in held(row) if not one.get("task")), None) if row else None
+	found = next((one for one in held(row) if not one.get("task") and one.get("bench") in (None, servers.current(row))), None) if row else None
 	return found["site"] if found else None
 
 

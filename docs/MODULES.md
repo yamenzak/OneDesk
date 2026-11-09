@@ -61,11 +61,11 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 50 | document |
+| Tenant | 59 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
-| Workspace Server | 8 | child |
+| Workspace Server | 9 | child |
 
 ## One AI
 
@@ -214,7 +214,7 @@ No doctypes yet.
 | Doctype | Fields | Kind |
 |---|--:|---|
 | Device | 13 | document |
-| Workspace Account | 48 | single |
+| Workspace Account | 50 | single |
 | Workspace Add-on | 4 | child |
 | Workspace Domain | 5 | child |
 
@@ -399,7 +399,9 @@ No doctypes yet.
 * `onedesk.one_account.bills.invoices`
 * `onedesk.one_account.bills.payment_portal`
 * `onedesk.one_account.bills.set_spend_limit`
+* `onedesk.one_account.bills.set_update_window`
 * `onedesk.one_account.bills.to_books`
+* `onedesk.one_account.bills.update_now`
 * `onedesk.one_account.center.invite`
 * `onedesk.one_account.center.invite_again`
 * `onedesk.one_account.center.load`
@@ -491,10 +493,13 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.storage_delete`
 * `onedesk.one_admin.proxy.storage_get`
 * `onedesk.one_admin.proxy.storage_put`
+* `onedesk.one_admin.proxy.update_now`
+* `onedesk.one_admin.proxy.update_window`
 * `onedesk.one_admin.proxy.weather_places`
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
+* `onedesk.one_admin.servers.reported`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.pay`

@@ -387,13 +387,12 @@ def servers_filling() -> None:
 
 
 @_quietly
-def release_set(at, apps: list[str]) -> None:
-	"""An update is set for its window: the operators hear when, and what."""
-	notify.notify(
-		"Update Set",
-		operators(),
-		link=HOME,
-		sender="Administrator",
-		at=frappe.utils.format_datetime(at, "EEEE d MMMM, HH:mm 'UTC'"),
-		apps=", ".join(apps),
-	)
+def update_waits(tenant) -> None:
+	"""A workspace's update waits for its administrators to agree to new terms."""
+	from frappe.utils import add_days, formatdate
+
+	from onedesk.one_admin import releases
+
+	to = tenant.get("account") or tenant.get("owner_email")
+	if to:
+		notify.mail("Update Waits For Terms", to, workspace=tenant.workspace_name or tenant.name, date=formatdate(add_days(tenant.update_at, releases.HOLD_DAYS)), reference_doctype="Tenant", reference_name=tenant.name)

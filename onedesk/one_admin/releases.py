@@ -1,86 +1,167 @@
-"""Updates in one quiet window for everyone: Saturday 01:00 to 03:00 UTC.
-A server behind on OneDesk's `main` is set for the first window at least
-`NOTICE_HOURS` away, every workspace is told when (`hello`), and in the
-window each server moves to it through Pilot, which backs up first and
-restores if the update fails. README, Updates."""
+"""Updates, one workspace at a time.
+
+A new release is built on each server as a second bench, ahead of time. Each
+workspace then moves in its own window, at least `NOTICE_HOURS` after it is
+told, or at once with Update Now. One waiting on new terms waits `HOLD_DAYS`,
+reminded weekly. A bench with nobody left is dropped. README, Updates.
+"""
 
 from datetime import datetime, timedelta
+from zoneinfo import ZoneInfo
 
 import frappe
-from frappe.utils import get_datetime, now_datetime
+from frappe.utils import add_days, get_datetime, get_system_timezone, getdate, now_datetime, today
 
-from onedesk.one_admin import pilot, site
+from onedesk.one_admin import boxes, servers, site
 
 WEEKDAY = 5
 HOUR = 1
 NOTICE_HOURS = 72
-APP = "onedesk"
+HOLD_DAYS = 30
+REMIND_EVERY = 7
+MOST_BENCHES = 2
+GONE = ("Archived", "Dropped")
 
 
-def window_after(moment: datetime, notice_hours: int = NOTICE_HOURS) -> datetime:
-	"""The first Saturday 01:00 UTC at least `notice_hours` after `moment`.
-	Pure."""
+def window_after(moment: datetime, notice_hours: int = NOTICE_HOURS, weekday: int = WEEKDAY, hour: int = HOUR) -> datetime:
+	"""The first `weekday` at `hour` at least `notice_hours` after `moment`,
+	all in one timezone. Pure."""
 	earliest = moment + timedelta(hours=notice_hours)
-	day = earliest.replace(hour=HOUR, minute=0, second=0, microsecond=0)
-	day += timedelta(days=(WEEKDAY - day.weekday()) % 7)
+	day = earliest.replace(hour=hour, minute=0, second=0, microsecond=0)
+	day += timedelta(days=(weekday - day.weekday()) % 7)
 	return day if day >= earliest else day + timedelta(days=7)
 
 
-def _servers() -> list[str]:
-	return [one.server for one in frappe.get_cached_doc("One Admin Settings").get("servers") or [] if one.server and one.pilot_host]
+def window_for(tenant, now: datetime | None = None) -> datetime:
+	"""The workspace's next window, as this site's clock reads it."""
+	system = ZoneInfo(get_system_timezone())
+	zone = ZoneInfo(tenant.time_zone or get_system_timezone())
+	moment = (now or now_datetime()).replace(tzinfo=system).astimezone(zone).replace(tzinfo=None)
+	at = window_after(moment, weekday=tenant.update_weekday, hour=tenant.update_hour)
+	return at.replace(tzinfo=zone).astimezone(system).replace(tzinfo=None)
 
 
-def behind(answer: dict | None) -> bool:
-	"""Whether Pilot's list of apps says OneDesk has commits waiting. Pure."""
-	return any(one.get("name") == APP and one.get("commits_behind") for one in (answer or {}).get("apps") or [])
+def may_move(terms_pending: bool, due: datetime, now: datetime) -> bool:
+	"""Whether a workspace moves now: agreed to the terms, or its 30 days of
+	waiting are up. Pure."""
+	return not terms_pending or now >= due + timedelta(days=HOLD_DAYS)
 
 
-def _waiting() -> list[str]:
-	return [one for one in _servers() if behind(pilot.call(one, "POST", "/app-update-checks"))]
+def _rows() -> list:
+	return [one for one in frappe.get_doc("One Admin Settings").get("servers") or [] if one.server and one.pilot_host]
+
+
+def _tenants(server: str) -> list:
+	names = frappe.get_all("Tenant", filters={"server": server, "site": ["is", "set"], "status": ["not in", GONE]}, pluck="name")
+	return [frappe.get_doc("Tenant", one) for one in names]
 
 
 def check() -> dict:
-	"""Hourly, on the admin site: an update waiting is set for its window,
-	once, and the operators told; none waiting clears it."""
-	if not site.is_admin() or not _servers():
+	"""Hourly, on the admin site: a release the servers do not have yet is
+	built on each, unless one is still being built or a box is full."""
+	if not site.is_admin() or not _rows() or not frappe.conf.get(servers.KEYS):
 		return {}
-	waiting = _waiting()
-	settings = frappe.get_single("One Admin Settings")
-	if not waiting:
-		if settings.release_at:
-			settings.db_set("release_at", None)
+	latest = boxes.latest_release(frappe.parse_json(frappe.conf.get(servers.KEYS)))
+	started = []
+	for row in _rows():
+		rows = servers.benches(row)
+		if any(one.get("release") == latest for one in rows) or len(rows) >= MOST_BENCHES:
+			continue
+		servers.prepare(row, latest)
+		started.append(row.server)
+	return {"release": latest, "started": started}
+
+
+def heard(server: str, said: dict) -> None:
+	"""A box reports. What happens next depends on what it was told to do."""
+	row = servers.row_of(server)
+	kind = said.get("kind")
+	if not said.get("ok"):
+		frappe.log_error(title=f"{kind} failed on {server}", message=str(said.get("error")))
+		if kind == "prepare":
+			servers._save(row, [one for one in servers.benches(row) if one["bench"] != said.get("bench")])
+		if kind == "move":
+			_moved(frappe.db.get_value("Tenant", {"site": said["site"]}), None)
+		return
+	if kind == "prepare":
+		_built(row, said["bench"])
+	elif kind == "move":
+		_moved(frappe.db.get_value("Tenant", {"site": said["site"]}), said["to"])
+		_drop_the_empty(row)
+	elif kind == "drop-bench":
+		servers._save(row, [one for one in servers.benches(row) if one["bench"] != said["bench"]])
+
+
+def _built(row, bench: str) -> None:
+	"""The bench is ready: new workspaces go on it, and everybody on the old
+	one gets a window."""
+	rows = [{**one, "state": "ready"} if one["bench"] == bench else one for one in servers.benches(row)]
+	servers._save(row, rows)
+	for tenant in _tenants(row.server):
+		if tenant.bench != bench:
+			tenant.db_set({"update_at": window_for(tenant), "update_moving": 0})
+
+
+def _moved(tenant: str, bench: str | None) -> None:
+	"""A move ended. `None` is a failed one: the workspace is still where it
+	was, and tries again at its next window."""
+	doc = frappe.get_doc("Tenant", tenant)
+	if bench:
+		doc.db_set({"bench": bench, "update_at": None, "update_moving": 0})
+	else:
+		doc.db_set({"update_at": window_for(doc), "update_moving": 0})
+
+
+def _drop_the_empty(row) -> None:
+	rows = servers.benches(row)
+	used = {one.bench for one in _tenants(row.server)}
+	newest = servers.newest_ready(rows)
+	for one in rows:
+		if one["bench"] != newest and one["bench"] not in used and one.get("state") == "ready":
+			servers.instruct(row.server, "drop-bench", bench=one["bench"])
+			servers._save(row, [{**other, "state": "dropping"} if other["bench"] == one["bench"] else other for other in rows])
+
+
+def tick() -> None:
+	"""Every 15 minutes, on the admin site: each workspace whose window has
+	come moves, or is reminded if it is waiting on the terms."""
+	if not site.is_admin():
+		return
+	now = now_datetime()
+	for name in frappe.get_all("Tenant", filters=[["update_at", "is", "set"], ["update_at", "<=", now], ["update_moving", "=", 0], ["site", "is", "set"], ["status", "not in", GONE]], pluck="name"):
+		try:
+			_due(frappe.get_doc("Tenant", name), now)
+		except Exception:
+			frappe.log_error(title=f"Moving {name}")
+
+
+def _due(tenant, now: datetime) -> None:
+	row = servers.row_of(tenant.server)
+	to = servers.current(row)
+	if tenant.bench == to:
+		tenant.db_set("update_at", None)
+		return
+	if not may_move(bool(tenant.terms_pending), get_datetime(tenant.update_at), now):
+		if not tenant.terms_reminded_on or getdate(tenant.terms_reminded_on) <= getdate(add_days(today(), -REMIND_EVERY)):
+			from onedesk.one_admin import tell
+
+			tell.update_waits(tenant)
+			tenant.db_set("terms_reminded_on", today())
+		return
+	tenant.db_set("update_moving", 1)
+	servers.instruct(tenant.server, "move", site=tenant.site, **{"from": tenant.bench, "to": to}, quiet=tenant.status == "Suspended")
+
+
+def update_now(tenant) -> dict:
+	"""The workspace moves at the next tick, if a newer bench is ready."""
+	row = servers.row_of(tenant.server)
+	if tenant.bench == servers.current(row):
 		return {"waiting": False}
-	if not settings.release_at:
-		at = window_after(now_datetime())
-		settings.db_set("release_at", at)
-		from onedesk.one_admin import tell
-
-		tell.release_set(at, [APP])
-	return {"at": str(settings.release_at), "servers": waiting}
+	tenant.db_set("update_at", now_datetime())
+	return {"waiting": True}
 
 
-def _a_site_on(server: str) -> str | None:
-	return frappe.db.get_value("Tenant", {"server": server, "site": ["is", "set"], "status": ["not in", ("Archived", "Dropped")]}, "site")
-
-
-def window() -> dict:
-	"""Scheduled for Saturday 01:00 UTC: each server behind is updated, every
-	site on it with it."""
-	if not site.is_admin() or not _servers():
-		return {}
-	settings = frappe.get_single("One Admin Settings")
-	if not settings.release_at or get_datetime(settings.release_at) > now_datetime() + timedelta(minutes=30):
-		return {"due": False}
-	started = {}
-	for server in _waiting():
-		one = _a_site_on(server)
-		if one:
-			started[server] = pilot.call(server, "POST", f"/sites/{one}/actions/update-apps", key=f"{settings.release_at}:{server}", json={"apps": [APP]})
-	settings.db_set("release_at", None)
-	return {"started": list(started)}
-
-
-def upcoming() -> dict | None:
-	"""What a workspace is told: when the next update is, if one is set."""
-	at = frappe.db.get_single_value("One Admin Settings", "release_at")
-	return {"at": str(at)} if at else None
+def upcoming(tenant) -> dict:
+	"""What a workspace is told: when its next update is, and its window."""
+	at, weekday, hour = frappe.db.get_value("Tenant", tenant, ["update_at", "update_weekday", "update_hour"])
+	return {"at": str(at) if at else None, "weekday": weekday, "hour": hour}

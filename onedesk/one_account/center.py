@@ -682,7 +682,7 @@ def _plan() -> dict:
 			for key in (
 				"workspace_name", "billed_to", "plan", "plan_key", "monthly", "plan_currency", "seats", "storage_bytes", "storage_limit", "database_bytes",
 				"database_limit", "credits_balance", "credits_held", "credits_month", "credits_expiring", "credits_limit", "credits_spent",
-				"credits_expires_on", "last_heard",
+				"credits_expires_on", "last_heard", "update_at", "update_weekday", "update_hour",
 			)
 		},
 		"used": seats_used(),

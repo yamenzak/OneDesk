@@ -17,7 +17,9 @@ import requests
 API = "https://api.cloudflare.com/client/v4"
 ROOT = Path(__file__).resolve().parents[2]
 FIRST_BOOT = ROOT / "deploy/server/first-boot.sh"
+AGENT = ROOT / "deploy/server/agent.py"
 PIPE = 60
+READY_AFTER = 5
 READY_WITHIN = 90 * 60
 SNAPSHOT_AT = "03:00"
 ACCOUNT = "com.cloudflare.api.account"
@@ -62,7 +64,8 @@ def user_data(values: dict[str, str]) -> str:
 	"""first-boot.sh with its values exported ahead of it, written out and
 	run by bash, since Lightsail puts its own /bin/sh lines first."""
 	head = "".join(f"export ONE_{key}={shlex.quote(value)}\n" for key, value in values.items())
-	return f"umask 077\ncat > /root/first-boot <<'ONE_FIRST_BOOT'\n{head}{FIRST_BOOT.read_text()}ONE_FIRST_BOOT\nbash /root/first-boot\nrm -f /root/first-boot\n"
+	agent = f"cat > /root/one-agent.py <<'ONE_AGENT'\n{AGENT.read_text()}ONE_AGENT\n"
+	return f"umask 077\n{agent}cat > /root/first-boot <<'ONE_FIRST_BOOT'\n{head}{FIRST_BOOT.read_text()}ONE_FIRST_BOOT\nbash /root/first-boot\nrm -f /root/first-boot /root/one-agent.py\n"
 
 
 class Cloudflare:
@@ -81,6 +84,7 @@ class Cloudflare:
 		body = {"name": "One Server Run", "policies": wanted_policies(groups, account), "expires_on": until}
 		made = one.call("POST", "/user/tokens", master, json=body)["result"]
 		one.token_id, one.token = made["id"], made["value"]
+		time.sleep(READY_AFTER)
 		return one
 
 	@staticmethod
@@ -112,8 +116,13 @@ class Cloudflare:
 		found = self.call("GET", "/zones", params={"name": zone})["result"]
 		if not found:
 			raise RuntimeError(f"{zone} is not on this Cloudflare account")
+		records = f"/zones/{found[0]['id']}/dns_records"
 		body = {"type": "CNAME", "name": host, "content": f"{tunnel}.cfargotunnel.com", "proxied": True}
-		self.call("POST", f"/zones/{found[0]['id']}/dns_records", json=body)
+		held = self.call("GET", records, params={"name": host})["result"]
+		if held:
+			self.call("PUT", f"{records}/{held[0]['id']}", json=body)
+		else:
+			self.call("POST", records, json=body)
 
 	def lock(self, name: str, host: str, owners: list[str]) -> dict:
 		base = f"/accounts/{self.account}/access"
@@ -141,6 +150,19 @@ class Cloudflare:
 			body = {"name": f"OneAdmin {domain}", "domain": domain, "type": "self_hosted", "session_duration": "24h", "policies": [{"name": "Operators", "decision": "allow", "include": people}]}
 			self.call("POST", base, json=body)
 
+	def add_bench(self, name: str, tunnel: str, hosts: list[str], host: str, zone: str, owners: list[str]) -> None:
+		"""A new bench's Pilot address on the box's tunnel, behind the box's lock."""
+		base = f"/accounts/{self.account}"
+		self.call("PUT", f"{base}/cfd_tunnel/{tunnel}/configurations", json={"config": {"ingress": ingress(hosts)}})
+		self.address(zone, host, tunnel)
+		token = self.call("GET", f"{base}/access/service_tokens", params={"name": name})["result"][0]
+		policies = [
+			{"name": "Owner", "decision": "allow", "include": [{"email": {"email": one}} for one in owners]},
+			{"name": "OneAdmin", "decision": "non_identity", "include": [{"service_token": {"token_id": token["id"]}}]},
+		]
+		if not any(one.get("domain") == host for one in self.call("GET", f"{base}/access/apps")["result"]):
+			self.call("POST", f"{base}/access/apps", json={"name": f"Pilot {host}", "domain": host, "type": "self_hosted", "session_duration": "24h", "policies": policies})
+
 	def forget(self, name: str, tunnel: str, host: str, zones: list[str]) -> None:
 		for zone in zones:
 			found = self.call("GET", "/zones", params={"name": zone})["result"]
@@ -151,7 +173,7 @@ class Cloudflare:
 				self.call("DELETE", f"{records}/{one['id']}")
 		base = f"/accounts/{self.account}"
 		for one in self.call("GET", f"{base}/access/apps")["result"]:
-			if one.get("domain") == host:
+			if one.get("domain") == host or one.get("domain", "").startswith(f"pilot-{name.removeprefix('one-')}-"):
 				self.call("DELETE", f"{base}/access/apps/{one['id']}")
 		for one in self.call("GET", f"{base}/access/service_tokens", params={"name": name})["result"]:
 			self.call("DELETE", f"{base}/access/service_tokens/{one['id']}")
@@ -206,7 +228,7 @@ def _aws(keys: dict, region: str):
 	return boto3.client("lightsail", region_name=region, aws_access_key_id=keys["aws_access_key_id"], aws_secret_access_key=keys["aws_secret_access_key"])
 
 
-def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], release: str, branch: str = "main", region: str = REGION, bundle: str = BUNDLE, key: str | None = None, ssh_from: str | None = None, more_hosts: tuple = (), repository: str = REPOSITORY, say=lambda _said: None, on_made=lambda _made: None) -> dict:
+def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], release: str, branch: str = "main", region: str = REGION, bundle: str = BUNDLE, key: str | None = None, ssh_from: str | None = None, more_hosts: tuple = (), repository: str = REPOSITORY, say=lambda _said: None, on_made=lambda _made: None, admin_url: str = "") -> dict:
 	"""A box from nothing to Pilot answering behind its lock: what was made."""
 	about = release_of(keys, release)
 	host = admin_host(name, domain)
@@ -217,7 +239,8 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 		cloudflare.address(domain, one, tunnel)
 	cloudflare.address(origin_zone, origin, tunnel)
 	access = cloudflare.lock(f"one-{name}", host, owners)
-	made = {"tunnel": tunnel, "host": host, "origin": origin, "origin_zone": origin_zone, "access": access, "pilot_password": password}
+	agent_secret = secrets.token_hex(24)
+	made = {"tunnel": tunnel, "host": host, "origin": origin, "origin_zone": origin_zone, "access": access, "pilot_password": password, "agent": agent_secret}
 	on_made(made)
 	say("Cloudflare ready")
 	script = user_data(
@@ -236,6 +259,9 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 			"R2_BUCKET": keys["assets_bucket"],
 			"R2_KEY": keys["assets_read_key"],
 			"R2_SECRET": keys["assets_read_secret"],
+			"SERVER": name,
+			"AGENT_SECRET": agent_secret,
+			"ADMIN_URL": admin_url,
 		}
 	)
 	aws = _aws(keys, region)

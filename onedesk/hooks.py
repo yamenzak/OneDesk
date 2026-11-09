@@ -161,6 +161,7 @@ scheduler_events = {
 			"onedesk.one_ai.reading.matters.due",
 		],
 		"*/15 * * * *": [
+			"onedesk.one_admin.releases.tick",
 			"onedesk.one_ai.reading.pipeline.again",
 			"onedesk.one_ai.index.catch_up",
 			"onedesk.one.announcements.ended",
@@ -179,7 +180,6 @@ scheduler_events = {
 		],
 		"15 9 * * *": ["onedesk.one_demo.living.day"],
 		"20 1 * * *": ["onedesk.one_admin.backups.nightly"],
-		"0 1 * * 6": ["onedesk.one_admin.releases.window"],
 		"10 * * * *": ["onedesk.one_admin.releases.check"],
 		"40 1 * * *": ["onedesk.one.backup.nightly"],
 		"45 6 * * *": ["onedesk.one_calendar.tell.today_events"],
