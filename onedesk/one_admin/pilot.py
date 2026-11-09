@@ -11,6 +11,7 @@ import requests
 from onedesk.one_admin import faults, vault
 
 TIMEOUT = 60
+SESSION_LASTS = 20 * 3600
 API = "/api/v1"
 
 
@@ -44,17 +45,32 @@ def _host(row, bench: str | None) -> str:
 	return (found or {}).get("host") or row.pilot_host
 
 
-def _session(server: str, bench: str | None) -> tuple[requests.Session, str]:
+def _sign_in(server: str, bench: str | None, base: str, session: requests.Session) -> str:
+	"""A Pilot session, kept so a busy OneAdmin does not trip its limit on
+	sign-ins."""
 	keys = held(server)
-	base = f"https://{_host(_row(server), bench)}{API}"
-	session = requests.Session()
-	session.headers.update({"CF-Access-Client-Id": keys["id"], "CF-Access-Client-Secret": keys["secret"]})
 	try:
 		answer = session.post(f"{base}/auth/session", json={"password": keys["password"]}, timeout=TIMEOUT, allow_redirects=False)
 	except requests.RequestException as raised:
 		raise faults.Again(f"{server} could not be reached: {raised}") from raised
 	if answer.status_code != 201:
 		raise faults.raised(f"{server} sign-in", answer.status_code, faults.detail(None, answer.text))
+	sid = answer.cookies.get("sid")
+	frappe.cache().set_value(_held_session(server, bench), sid, expires_in_sec=SESSION_LASTS)
+	return sid
+
+
+def _held_session(server: str, bench: str | None) -> str:
+	return f"one_admin_pilot_session:{server}:{bench or ''}"
+
+
+def _session(server: str, bench: str | None) -> tuple[requests.Session, str]:
+	keys = held(server)
+	base = f"https://{_host(_row(server), bench)}{API}"
+	session = requests.Session()
+	session.headers.update({"CF-Access-Client-Id": keys["id"], "CF-Access-Client-Secret": keys["secret"]})
+	sid = frappe.cache().get_value(_held_session(server, bench)) or _sign_in(server, bench, base, session)
+	session.headers["Authorization"] = f"Bearer {sid}"
 	return session, base
 
 
@@ -65,6 +81,9 @@ def call(server: str, method: str, path: str, key: str | None = None, bench: str
 	headers = {"Idempotency-Key": key} if key else {}
 	try:
 		answer = session.request(method, f"{base}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
+		if answer.status_code == 401:
+			session.headers["Authorization"] = f"Bearer {_sign_in(server, bench, base, session)}"
+			answer = session.request(method, f"{base}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
 	except requests.RequestException as raised:
 		raise faults.Again(f"{path} on {server} could not be reached: {raised}") from raised
 	if answer.status_code == 404:
