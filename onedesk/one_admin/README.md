@@ -1749,6 +1749,27 @@ restoring, and a newer database fails there (tried on dev, 8 November
 2026: the restore ran and stopped at a property setter that was already
 there).
 
+### Servers: boxes.py, servers.py, pilot.py, spares.py
+
+Each server is a Lightsail box running Pilot, listed under Servers in
+Settings with its Pilot Address and Origin Address. `boxes.py` makes one: the
+tunnel, the addresses and the Access lock on Cloudflare, then the box, which
+sets itself up by `deploy/server/first-boot.sh` from a release in R2 and powers
+off if that fails. No port is open but the AWS browser terminal.
+
+`scripts/server.py` builds the first OneAdmin from dev; `hand-over` writes the
+keys OneAdmin then orders with, kept in its config as `one_server_keys`. At 70%
+of a limit, Home says so with an Order Server button, and `servers.build` adds
+the box to Settings when Pilot answers, about 25 minutes later.
+
+`pilot.py` calls a server's Admin API through its Access lock. `spares.py`
+keeps two finished sites on each server with their schedulers paused, and a
+signup renames one to its address: 31 seconds, against 8 minutes for a new
+build. A spare counts towards the server's limit.
+
+`server.py lock-admin` puts OneAdmin's desk and raw record API behind Access.
+Signup, payment and the customers' account pages stay open.
+
 ### releases.py and notes.py: Updates
 
 A server behind on OneDesk's `main` (Pilot's `app-update-checks`) is set for

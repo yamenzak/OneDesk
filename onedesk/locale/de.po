@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 06:18+0000\n"
+"POT-Creation-Date: 2026-11-09 07:57+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -34106,7 +34106,7 @@ msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 msgid "Only a request still waiting can be turned down."
 msgstr "Nur ein Antrag, der noch offen ist, kann abgelehnt werden."
 
-#: onedesk/one_admin/operator.py:93
+#: onedesk/one_admin/operator.py:104
 msgid "Only a running workspace is rolled back. Use Rebuild for an archived one."
 msgstr "Nur ein laufender Arbeitsbereich wird zurückgesetzt. Für einen archivierten verwenden Sie „Neu aufbauen“."
 
@@ -34158,7 +34158,7 @@ msgstr "Nur ein Administrator beendet eine Ankündigung."
 msgid "Only an application still waiting can be answered."
 msgstr "Nur ein Antrag, der noch offen ist, kann beantwortet werden."
 
-#: onedesk/one_admin/operator.py:83
+#: onedesk/one_admin/operator.py:94
 msgid "Only an archived workspace is rebuilt. Use Roll Back for one that is running."
 msgstr "Nur ein archivierter Arbeitsbereich wird neu aufgebaut. Für einen laufenden verwenden Sie „Zurücksetzen“."
 
@@ -34860,7 +34860,7 @@ msgstr ""
 msgid "Operators"
 msgstr "Operatoren"
 
-#: onedesk/one_admin/operator.py:59
+#: onedesk/one_admin/operator.py:70
 #, python-brace-format
 msgid "Operators can't set {0}."
 msgstr "Operatoren können {0} nicht setzen."
@@ -35101,6 +35101,10 @@ msgstr ""
 msgid "Order Number"
 msgstr "Bestellnummer"
 
+#: onedesk/one_admin/home.py:330
+msgid "Order Server"
+msgstr "Server bestellen"
+
 #: frontend/src/inventory/item/ItemBuying.vue:76
 msgid "Order This"
 msgstr "Dies bestellen"
@@ -35147,8 +35151,8 @@ msgid "Order the cheapest quote on each line?"
 msgstr "Für jede Position das günstigste Angebot bestellen?"
 
 #: onedesk/one_admin/home.py:326
-msgid "Order the next server and list it under Servers."
-msgstr "Den nächsten Server bestellen und unter Server eintragen."
+msgid "Order the next server. It takes about 25 minutes."
+msgstr "Den nächsten Server bestellen. Das dauert etwa 25 Minuten."
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:178
 #, python-brace-format
@@ -45016,6 +45020,10 @@ msgstr "Serverfehler: {0}"
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:18
 msgid "Server is required."
 msgstr "Server ist erforderlich."
+
+#: onedesk/one_admin/servers.py:25
+msgid "Server keys are not set."
+msgstr "Serverschlüssel sind nicht festgelegt."
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:26
@@ -65631,7 +65639,7 @@ msgstr "{0} gehört bereits zu {1}."
 msgid "{0} already has a field called {1}."
 msgstr "{0} hat bereits ein Feld namens {1}."
 
-#: onedesk/one_admin/operator.py:222
+#: onedesk/one_admin/operator.py:233
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "{0} hat bereits einen Arbeitsbereich. Setzen Sie stattdessen dessen Auftrag fort."
@@ -66504,7 +66512,7 @@ msgstr "{0} hat keine Versionen."
 msgid "{0} has no {1} account to create {2} under."
 msgstr "{0} hat kein {1}-Konto, unter dem {2} angelegt werden kann."
 
-#: onedesk/one_admin/operator.py:143
+#: onedesk/one_admin/operator.py:154
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr "{0} ist nicht gescheitert."
@@ -66534,7 +66542,7 @@ msgstr "Bei {0} sind keine Fehler aufgetreten, es gibt also nichts zu beheben."
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr "{0} hat {1} Credits ({2} reserviert)."
 
-#: onedesk/one_admin/operator.py:219
+#: onedesk/one_admin/operator.py:230
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr "{0} wurde nicht bezahlt."
@@ -66973,7 +66981,7 @@ msgstr "{0} ist kein Format, von dem {1} ausgehen kann."
 msgid "{0} is not a grant."
 msgstr "{0} ist keine Gutschrift."
 
-#: onedesk/one_admin/operator.py:187
+#: onedesk/one_admin/operator.py:198
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr "{0} ist kein Auftrag."
@@ -67254,7 +67262,7 @@ msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
 msgid "{0} is not under this project."
 msgstr "{0} gehört nicht zu diesem Projekt."
 
-#: onedesk/one_admin/operator.py:167
+#: onedesk/one_admin/operator.py:178
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr "{0} wartet nicht darauf, ausgeführt zu werden."

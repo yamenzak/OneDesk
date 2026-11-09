@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 06:18+0000\n"
+"POT-Creation-Date: 2026-11-09 07:57+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -34106,7 +34106,7 @@ msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 msgid "Only a request still waiting can be turned down."
 msgstr "لا يُرفض إلا طلب ما زال قيد الانتظار."
 
-#: onedesk/one_admin/operator.py:93
+#: onedesk/one_admin/operator.py:104
 msgid "Only a running workspace is rolled back. Use Rebuild for an archived one."
 msgstr "لا يُعاد إلا مساحة عمل قيد التشغيل إلى نسخة سابقة. استخدم إعادة البناء للمؤرشفة."
 
@@ -34158,7 +34158,7 @@ msgstr "لا يوقف الإعلان إلا المسؤول."
 msgid "Only an application still waiting can be answered."
 msgstr "لا يُبتّ إلا في طلب ما زال قيد الانتظار."
 
-#: onedesk/one_admin/operator.py:83
+#: onedesk/one_admin/operator.py:94
 msgid "Only an archived workspace is rebuilt. Use Roll Back for one that is running."
 msgstr "لا يُعاد بناء إلا مساحة عمل مؤرشفة. استخدم الإرجاع لمساحة قيد التشغيل."
 
@@ -34860,7 +34860,7 @@ msgstr ""
 msgid "Operators"
 msgstr "المشغّلون"
 
-#: onedesk/one_admin/operator.py:59
+#: onedesk/one_admin/operator.py:70
 #, python-brace-format
 msgid "Operators can't set {0}."
 msgstr "لا يمكن للمشغّلين تعيين {0}."
@@ -35101,6 +35101,10 @@ msgstr ""
 msgid "Order Number"
 msgstr "رقم الطلب"
 
+#: onedesk/one_admin/home.py:330
+msgid "Order Server"
+msgstr "طلب خادم"
+
 #: frontend/src/inventory/item/ItemBuying.vue:76
 msgid "Order This"
 msgstr "اطلب هذا"
@@ -35147,8 +35151,8 @@ msgid "Order the cheapest quote on each line?"
 msgstr "هل تطلب أرخص عرض سعر لكل بند؟"
 
 #: onedesk/one_admin/home.py:326
-msgid "Order the next server and list it under Servers."
-msgstr "اطلب الخادم التالي وأضفه ضمن الخوادم."
+msgid "Order the next server. It takes about 25 minutes."
+msgstr "اطلب الخادم التالي. يستغرق ذلك نحو 25 دقيقة."
 
 #: frontend/src/inventory/to_order/ToOrderPage.vue:178
 #, python-brace-format
@@ -45016,6 +45020,10 @@ msgstr "خطأ في الخادم: {0}"
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.py:18
 msgid "Server is required."
 msgstr "الخادم مطلوب."
+
+#: onedesk/one_admin/servers.py:25
+msgid "Server keys are not set."
+msgstr "لم يتم تعيين مفاتيح الخادم."
 
 #. Description of the 'Server' (Data) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/workspace_server/workspace_server.json:26
@@ -65631,7 +65639,7 @@ msgstr "{0} يخص {1} بالفعل."
 msgid "{0} already has a field called {1}."
 msgstr "يحتوي {0} بالفعل على حقل باسم {1}."
 
-#: onedesk/one_admin/operator.py:222
+#: onedesk/one_admin/operator.py:233
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr "لدى {0} مساحة عمل بالفعل. استأنف مهمتها بدلاً من ذلك."
@@ -66504,7 +66512,7 @@ msgstr "لا توجد إصدارات لـ {0}."
 msgid "{0} has no {1} account to create {2} under."
 msgstr "لا يوجد لدى {0} حساب {1} لإنشاء {2} تحته."
 
-#: onedesk/one_admin/operator.py:143
+#: onedesk/one_admin/operator.py:154
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr "{0} لم تفشل."
@@ -66534,7 +66542,7 @@ msgstr "لم تقع {0} في أي خطأ، فلا شيء لإصلاحه."
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr "لدى {0} عدد {1} من الأرصدة ({2} محجوزة)."
 
-#: onedesk/one_admin/operator.py:219
+#: onedesk/one_admin/operator.py:230
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr "لم يُدفع {0}."
@@ -66973,7 +66981,7 @@ msgstr "{0} ليس تنسيقًا يمكن أن يبدأ منه {1}."
 msgid "{0} is not a grant."
 msgstr "{0} ليست منحة."
 
-#: onedesk/one_admin/operator.py:187
+#: onedesk/one_admin/operator.py:198
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr "{0} ليست مهمة."
@@ -67254,7 +67262,7 @@ msgstr "{0} ليس شيئاً يعرفه هذا الإشعار. يمكنه اس�
 msgid "{0} is not under this project."
 msgstr "{0} ليس ضمن هذا المشروع."
 
-#: onedesk/one_admin/operator.py:167
+#: onedesk/one_admin/operator.py:178
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr "{0} لا تنتظر التشغيل."

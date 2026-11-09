@@ -323,11 +323,11 @@ def _filling() -> list[dict]:
 			"title": _("{0} is filling up").format(one.server),
 			"why": _("{0} of {1} workspaces").format(counts.get(one.server, 0), one.capacity),
 			"detail": _(
-				"Order the next server and list it under Servers."
+				"Order the next server. It takes about 25 minutes."
 			),
 			"since": "",
 			"badge": _("Full") if counts.get(one.server, 0) >= one.capacity else _("Filling Up"),
-			"action": None,
+			"action": {"label": _("Order Server"), "method": "onedesk.one_admin.operator.order_server", "args": {}},
 		}
 		for one in listed
 		if one.open and one.capacity and counts.get(one.server, 0) >= FILLING * one.capacity

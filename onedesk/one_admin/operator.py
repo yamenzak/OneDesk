@@ -28,6 +28,17 @@ def _may() -> None:
 	frappe.only_for(site.OPERATOR)
 
 
+@frappe.whitelist(methods=["POST"])
+def order_server() -> dict:
+	"""The next server, ordered in the background: about 25 minutes, and it
+	joins Settings by itself."""
+	_may()
+	from onedesk.one_admin import servers
+
+	servers.begin()
+	return {"ordered": True}
+
+
 @frappe.whitelist()
 def standing(tenant: str) -> dict:
 	"""Where this workspace is, and what may be done to it from here.

@@ -437,6 +437,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`
 * `onedesk.one_admin.operator.measure`
+* `onedesk.one_admin.operator.order_server`
 * `onedesk.one_admin.operator.rebuild`
 * `onedesk.one_admin.operator.refresh_domain`
 * `onedesk.one_admin.operator.refresh_domains`

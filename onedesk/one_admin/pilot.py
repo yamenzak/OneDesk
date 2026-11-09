@@ -14,9 +14,9 @@ TIMEOUT = 60
 API = "/api/v1"
 
 
-def remember(server: str, client_id: str, client_secret: str, password: str) -> None:
-	"""A server's Access token and Pilot password, in the site's config."""
-	vault.keep(_key(server), frappe.as_json({"id": client_id, "secret": client_secret, "password": password}))
+def remember(server: str, client_id: str, client_secret: str, password: str, tunnel: str | None = None) -> None:
+	"""A server's Access token, Pilot password and tunnel, in the site's config."""
+	vault.keep(_key(server), frappe.as_json({"id": client_id, "secret": client_secret, "password": password, "tunnel": tunnel}))
 
 
 def _key(server: str) -> str:
