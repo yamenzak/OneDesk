@@ -18,10 +18,10 @@ Unattended-Upgrade::Automatic-Reboot-Time "02:30";
 APT
 
 curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
-sh /tmp/pilot.sh
+PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh
 chmod 644 /tmp/pilot.sh
 for attempt in 1 2 3 4; do
-	sudo -iu frappe bash /tmp/pilot.sh && break
+	sudo -iu frappe env PILOT_VERSION=v0.0.99-pre-alpha bash /tmp/pilot.sh && break
 	[ "$attempt" = 4 ] && exit 1
 	sleep 30
 done

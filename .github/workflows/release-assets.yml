@@ -28,9 +28,9 @@ jobs:
       - name: Install Pilot
         run: |
           curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o "$RUNNER_TEMP/pilot.sh"
-          sudo env PATH="$PATH" BENCH_USER="$USER" sh "$RUNNER_TEMP/pilot.sh"
+          sudo env PATH="$PATH" BENCH_USER="$USER" PILOT_VERSION=v0.0.99-pre-alpha sh "$RUNNER_TEMP/pilot.sh"
           for attempt in 1 2 3 4; do
-            bash "$RUNNER_TEMP/pilot.sh" && break
+            PILOT_VERSION=v0.0.99-pre-alpha bash "$RUNNER_TEMP/pilot.sh" && break
             [ "$attempt" = 4 ] && exit 1
             sleep 30
           done
