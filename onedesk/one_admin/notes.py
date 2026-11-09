@@ -19,7 +19,9 @@ FRESH = "public, max-age=300"
 def ours() -> dict:
 	"""Every module's versions as this code has them, rendered."""
 	out = {}
-	for module in ready.MODULES:
+	for module, spec in ready.MODULES.items():
+		if spec.get("operators"):
+			continue
 		out[module] = [
 			{
 				"version": one["version"],

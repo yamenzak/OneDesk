@@ -1187,6 +1187,17 @@ MODULES = {
 			("settings", "settings"),
 		),
 	},
+	"OneAdmin": {
+		"folder": "one_admin",
+		"screens": "admin",
+		"names": ("one_admin", "oneadmin"),
+		"operators": True,
+		"help": (
+			("overview", "info"),
+			("workspaces", "building"),
+			("settings", "settings"),
+		),
+	},
 }
 
 # The fourteen points a module is held to before it is marked ready
@@ -1288,6 +1299,14 @@ _ENGINE = "an engine every module uses, kept in One's folder"
 _RAN = "OnePortal's, a patch that has run, kept at the path frappe recorded it under"
 SHARED = {
 	"brand/onemail.svg": "every product's mark is drawn in brand/, into one sprite",
+	"brand/oneadmin.svg": "every product's mark is drawn in brand/, into one sprite",
+	"frontend/src/islands/oneadmin.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_billing.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_releases.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_server_part.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_servers.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_sessions.js": "the islands build takes its entries from one folder",
+	"frontend/src/islands/oneadmin_status.js": "the islands build takes its entries from one folder",
 	"brand/oneinventory.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onefactory.svg": "every product's mark is drawn in brand/, into one sprite",
 	"brand/onequality.svg": "every product's mark is drawn in brand/, into one sprite",

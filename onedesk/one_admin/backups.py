@@ -3,7 +3,7 @@ its own every night, and its database every four hours under `recent/`,
 signed with the secret given it here (`ready`, and
 one/backup.py on its side); OneAdmin backs itself up and copies every
 workspace's files; archiving keeps the newest backup again; and a kept
-backup is sent back to Frappe Cloud for a restore (README, Backups)."""
+backup is sent back to Frappe Cloud for a restore (AGENTS.md, Backups)."""
 
 import os
 import secrets

@@ -29,6 +29,7 @@ UNRAILED = {
 	"Workspace Session",
 	"Stripe Webhook Event",
 	"Credit Reservation",
+	"One Admin Settings",
 }
 
 MADE_FOR_YOU = {
@@ -142,13 +143,10 @@ def test_a_record_the_machinery_makes_cannot_be_typed_by_hand():
 			assert not perm.get("create"), f"{name} can be created by hand"
 
 
-def test_an_offering_can_be_typed_by_hand():
-	"""The exception, and the reason the rule above is a list rather than a sweep.
-
-	A price list is exactly the thing an operator writes.
-	"""
+def test_an_offering_cannot_be_typed_by_hand():
+	"""The Price List is read-only: its rows come from the prices One sets."""
 	doc = _json(ADMIN / "doctype" / "offering" / "offering.json")
-	assert any(perm.get("create") for perm in doc["permissions"])
+	assert not any(perm.get("create") or perm.get("write") for perm in doc["permissions"])
 
 
 def test_both_gates_are_registered_on_every_owned_doctype():
@@ -474,7 +472,7 @@ def test_plan_calculator_quotes_as_the_customer_is_quoted():
 	assert '"report:Plan Calculator"' in ai and '"expects": "plan_quote"' in ai
 	assert "def plan_quote(" in ai and "if not _operator():" in ai.split("def plan_quote(")[1]
 	assert '"onedesk.one_admin.ai.plan_quote"' in (tree.APP / "hooks.py").read_text()
-	assert "## Plan Calculator" in (ADMIN / "README.md").read_text()
+	assert "## Plan Calculator" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
@@ -500,7 +498,7 @@ def test_a_signup_moves_on_its_own_and_lets_an_unpaid_name_go():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "signup_facts"' in ai and "if not _operator():" in ai.split("def signup_facts(")[1]
 	assert '"onedesk.one_admin.ai.signup_facts"' in (tree.APP / "hooks.py").read_text()
-	assert "## Signups" in (ADMIN / "README.md").read_text()
+	assert "## Signups" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
@@ -523,7 +521,7 @@ def test_credits_say_what_is_left_and_an_operator_can_take_back_a_gift():
 	assert {f["fieldname"]: f for f in entry["fields"]}["model"]["fieldtype"] == "Data"
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "credit_facts"' in ai and "if not _operator():" in ai.split("def credit_facts(")[1]
-	assert "## Credits" in (ADMIN / "README.md").read_text()
+	assert "## Credits" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_the_operator_has_no_models_to_manage():
@@ -554,7 +552,7 @@ def test_ai_usage_says_what_a_call_cost_us_and_counts_it_once():
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "run_report"' in ai.split('"report:AI Usage"', 1)[1][:600] and "def ai_usage(" not in ai
 	assert report["roles"] == [{"role": "One Operator"}], "run_report reads it for an operator only"
-	assert "## AI Usage" in (ADMIN / "README.md").read_text()
+	assert "## AI Usage" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_settings_say_what_is_missing_and_tell_the_other_operators():
@@ -571,7 +569,7 @@ def test_settings_say_what_is_missing_and_tell_the_other_operators():
 	assert "offerings.credit_price()" in usage and "credits_per_dollar" not in usage
 	ai = (ADMIN / "ai.py").read_text()
 	assert '"expects": "settings_check"' in ai and "if not _operator():" in ai.split("def settings_check(")[1]
-	assert "## Settings" in (ADMIN / "README.md").read_text()
+	assert "## Settings" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_our_own_workspace_is_never_billed_or_refused_or_sold():
@@ -585,7 +583,7 @@ def test_our_own_workspace_is_never_billed_or_refused_or_sold():
 	assert "if not ours and not credits.enough(" in reserve
 	assert '"live": ("Tenant", {"status": "Live", "is_house": 0})' in (ADMIN / "home.py").read_text()
 	assert "_ours(start, end, by, filters)" in (ADMIN / "report" / "ai_usage" / "ai_usage.py").read_text()
-	assert "## Our own workspace" in (ADMIN / "README.md").read_text()
+	assert "## Our own workspace" in (ADMIN / "AGENTS.md").read_text()
 
 
 def test_the_admin_site_links_itself_after_every_migrate():

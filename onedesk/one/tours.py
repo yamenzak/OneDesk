@@ -10,7 +10,7 @@ import importlib
 import frappe
 from frappe import _
 
-from onedesk.one import ready
+from onedesk.one import ready, versions
 
 SEEN = "one_toured_{}_{}"
 
@@ -28,13 +28,13 @@ def _seen(module: str, key: str) -> bool:
 
 def unseen() -> list[str]:
 	"""The areas whose tour the reader hasn't taken, as `Module:key`, for the boot."""
-	return [f"{module}:{one['key']}" for module in ready.MODULES for one in _tours(module) if not _seen(module, one["key"])]
+	return [f"{module}:{one['key']}" for module in ready.MODULES if versions.offered(module) for one in _tours(module) if not _seen(module, one["key"])]
 
 
 @frappe.whitelist()
 def tour(module: str) -> list[dict]:
 	"""A module's tours, each with its steps in the reader's language."""
-	if module not in ready.MODULES:
+	if module not in ready.MODULES or not versions.offered(module):
 		frappe.throw(_("{0} has no tour.").format(module))
 	return [
 		{

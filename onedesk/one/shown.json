@@ -138,6 +138,7 @@
   "Gratuity",
   "Gratuity Rule",
   "HR Settings",
+  "Health Check",
   "Holiday List",
   "Holiday List Assignment",
   "Import Supplier Invoice",
@@ -341,8 +342,10 @@
   "Widget Collection",
   "Work Order",
   "Workbook",
+  "Workspace Error",
   "Workspace Field",
   "Workspace Server",
+  "Workspace Session",
   "Workstation"
  ],
  "Report": [
@@ -586,6 +589,8 @@
   "oneadmin-billing",
   "oneadmin-releases",
   "oneadmin-servers",
+  "oneadmin-sessions",
+  "oneadmin-status",
   "onecalendar",
   "onecloud",
   "onecrm",

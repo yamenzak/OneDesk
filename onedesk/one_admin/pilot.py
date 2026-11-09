@@ -2,7 +2,7 @@
 
 Pilot runs the benches and sites on each box, and its Admin API is the whole
 boundary. Each server's address and keys are kept by `remember`; a long job
-comes back as a task to ask after (`task`). README, Servers.
+comes back as a task to ask after (`task`). AGENTS.md, Servers.
 """
 
 import frappe

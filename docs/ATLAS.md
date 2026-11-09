@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 88 | 2 | 37 | 0 |
+| onedesk | 93 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -71,6 +71,8 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
 | oneadmin_billing (`frontend/src/admin/BillingHome.vue`) | Offering, Tenant, Tenant Add-on | – | – | – |
 | oneadmin_releases (`frontend/src/admin/ReleasesHome.vue`) | Tenant | – | – | – |
+| oneadmin_status (`frontend/src/admin/AdminStatus.vue`) | – | – | – | – |
+| oneadmin_sessions (`frontend/src/admin/AdminSessions.vue`) | Tenant | – | – | – |
 
 ## erpnext / Accounts
 
@@ -957,19 +959,22 @@ Pages: intake (on a rail or a home).
 | Account Request | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | New Signup, Signup Not Built |
 | Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  | **none** |  |  |  |  |
 | Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Health Check | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  |  |
 | Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  | **none** |  |  |  |  |
-| One Admin Settings | on a rail or a home | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
+| One Admin Settings | opened by our screens | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
 | Private App | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Provisioning Job | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  | Build Slow, Job Failed |
 | Stripe Webhook Event | through a form's connections (Account Request's Connections) | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Tenant | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | Paid While Archived, Workspace Asked to Close, Workspace Owing |
 | Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  |  |
 | Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
+| Workspace Error | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  | New Error |
 | Workspace Server | opened by our screens | not read | form script | no | general |  | **none** |  |  |  |  |
+| Workspace Session | opened by our screens | not read | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 
-Pages: oneadmin (on a rail or a home); oneadmin-billing (on a rail or a home); oneadmin-releases (on a rail or a home); oneadmin-servers (on a rail or a home).
+Pages: oneadmin (on a rail or a home); oneadmin-billing (on a rail or a home); oneadmin-releases (on a rail or a home); oneadmin-servers (on a rail or a home); oneadmin-sessions (on a rail or a home); oneadmin-status (on a rail or a home).
 
 ## onedesk / One Book
 

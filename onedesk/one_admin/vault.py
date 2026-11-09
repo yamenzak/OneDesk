@@ -2,7 +2,7 @@
 leaked backup or a read of the database gives nobody a key. A key typed into
 One Admin Settings is moved to the config when the settings are saved, and
 read from there. The Cloudflare master key is not kept at all: Set Up
-Cloudflare forgets it when its run ends (README, Under the hood, Keys)."""
+Cloudflare forgets it when its run ends (AGENTS.md, Under the hood, Keys)."""
 
 import frappe
 from frappe.utils.password import remove_encrypted_password

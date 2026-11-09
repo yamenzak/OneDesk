@@ -1,8 +1,11 @@
 # OneAdmin
 
-Written by hand. Everything above **Under the hood** is for the operators who
-use OneAdmin, and OneAI reads it to answer "how do I…" questions. Under the
-hood is for the people who build it.
+The one file for agents, OneAI and us: what OneAdmin is made of, its rules,
+where each file is and the decisions that cost something. What operators read
+is in `docs/`, shown in Help and searched by OneAI's `how_to`; its versions are
+`docs/changelog/`. What is known to be wrong and what is planned is
+`SCRATCHPAD.md` (docs/READY.md, A module's folder). The sections above **Under
+the hood** are the operators' guide until each becomes a Help page.
 
 OneAdmin is the console One is run from. It holds the workspaces customers pay
 for, the jobs that build and close them, their domains, the price list,
@@ -531,7 +534,7 @@ next to its changes, and a job lists the rows it wrote.
 
 ## Settings
 
-**Settings** is what OneAdmin runs on, in four tabs.
+**Settings** is what OneAdmin runs on: the cog at the foot of the rail, OneAdmin's ControlCenter (`control.py`), a tab each. Home's waiting rows still open the record's own form.
 
 **Connections**
 

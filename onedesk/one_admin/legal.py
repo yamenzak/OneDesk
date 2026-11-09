@@ -116,11 +116,11 @@ clause(
 	key="oneadmin-signup",
 	module=M,
 	body="""
-		When somebody asks for a workspace on our signup page, we keep what they type (their email address,
-		the workspace's name and address, the plan and their country) whether or not they go on to pay. It
-		becomes a lead and a deal in our own records, so we can follow up a signup that was not finished. A
-		signup not paid for within seven days lets its workspace name go; what was typed is kept with our
-		sales records. We write to that address once, a day after, if payment was not finished, and if
+		When somebody asks for a workspace on our signup page, we keep what they type, whether or not they
+		go on to pay. That is their email address, the workspace's name and address, the plan and their
+		country. It becomes a lead and a deal in our own records, so we can follow up a signup that was not
+		finished. A signup not paid for within seven days lets its workspace name go; what was typed is kept
+		with our sales records. We write to that address once, a day after, if payment was not finished. If
 		payment is taken and the workspace cannot be made yet, we write to say so.
 	""",
 )

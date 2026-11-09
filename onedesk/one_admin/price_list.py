@@ -2,7 +2,7 @@
 packs and services, each versioned in its key (`team@2026-12`), what a
 OneCredit is worth, the trial and tax. A version is never edited; a change
 is a new one. Offering rows are written from it (offerings.py) and
-margins.py refuses what would lose money (README, Under the hood, The price
+margins.py refuses what would lose money (AGENTS.md, Under the hood, The price
 list). Pure."""
 
 from dataclasses import dataclass, field

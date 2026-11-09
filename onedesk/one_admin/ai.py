@@ -11,6 +11,47 @@ from frappe import _lt
 
 from onedesk.one_admin import ledger
 
+NOT_FOR_AI = {
+	"accounts.pay": "A payment is made by the account holder on Stripe's own page.",
+	"accounts.card": "A card is changed by the account holder on Stripe's own page.",
+	"accounts.save_name": "An account holder changes their own name on their account page, where OneAI isn't.",
+	"accounts.ask_email_change": "An account's address decides who may sign in to it, so its holder changes it by hand.",
+	"control.save": "OneAdmin's keys and prices are saved by the operator changing them.",
+	"operator.order_server": "A server costs money from the moment it is ordered, so an operator presses it.",
+	"operator.rebuild": "Building a workspace again from a backup is an operator's call, made on the workspace.",
+	"operator.roll_back": "Putting a workspace back to a backup loses its newer work, so an operator presses it.",
+	"operator.move": "Moving a workspace takes it offline for the move, so an operator presses it.",
+	"operator.run_now": "Running a job's next step early is an operator's call on a job they are looking at.",
+	"private.new_code": "A code is shown once, to the operator who asked for it.",
+	"setup.set_up": "Set Up Cloudflare uses the master key and changes the account, so an operator presses it.",
+	"site.make_operator": "Who may run OneAdmin is decided by an operator by hand.",
+	"accounts.send_login_link": "A sign-in link is asked for on the sign-in page, by somebody not signed in yet.",
+	"proxy.billed_to": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.close": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.mail_send": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.office_convert": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.set_auto_topup": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.spend_limit": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.update_now": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.update_window": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.withdraw_closing": "A workspace's own server calls this with its token, when a person there asks.",
+	"servers.pressure": "A server reports this about itself, and no person is there.",
+	"servers.reported": "A server reports this about itself, and no person is there.",
+	"signup.pay": "Paying is done by whoever is signing up, on the signup page.",
+	"signup.start": "A signup is started by whoever is signing up, on the signup page.",
+	"stripe.webhook": "Stripe calls this, and no person is there.",
+	"aws.link": "Connecting AWS is done by an operator signed in to that account.",
+	"cloudflare_signin.start": "Signing in to Cloudflare is done by an operator in their own browser.",
+	"operator.connect_server": "A connected machine runs the command on itself, so an operator asks for it.",
+	"proxy.copies_agreed": "A workspace's own server calls this with its token, and no person is there.",
+	"proxy.errors_seen": "A workspace's own server calls this with its token, and no person is there.",
+	"sessions.delete": "Deleting a session loses what was done on it, so an operator presses it.",
+	"sessions.resume": "A session is started again by the operator using it.",
+	"sessions.sign_in": "A sign-in link is for the operator who pressed it.",
+	"sessions.start": "A session uses a server and can hold a copy of a workspace, so an operator starts it.",
+	"sessions.stop": "A session is stopped by the operator using it.",
+}
+
 SUGGESTIONS = {
 	"workspace:One Admin": [
 		{

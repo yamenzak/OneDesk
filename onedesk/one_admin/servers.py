@@ -3,7 +3,7 @@
 A box's agent (deploy/server/agent.py) reads signed instructions from R2 and
 answers `reported`, so no port opens. A server holds up to two benches, each a
 release. A box takes about 25 minutes, so ordering runs in the background and
-the server joins Settings when Pilot answers. README, Servers.
+the server joins Settings when Pilot answers. AGENTS.md, Servers.
 """
 
 import hashlib

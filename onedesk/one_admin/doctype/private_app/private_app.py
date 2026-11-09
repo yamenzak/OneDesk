@@ -12,7 +12,7 @@ APP_NAME = re.compile(r"^[a-z][a-z0-9_]*$")
 class PrivateApp(Document):
 	def validate(self):
 		if not APP_NAME.match(self.app or ""):
-			frappe.throw(_("A Frappe app's name is lowercase letters, digits and underscores."))
+			frappe.throw(_("An app's name is lowercase letters, digits and underscores."))
 		before = self.get_doc_before_save()
 		if not before:
 			return

@@ -1,7 +1,8 @@
 """Cloudflare, set up from one master key: One's own tokens made from it, and
 everything a workspace needs from Cloudflare found or made with them. It takes
 nothing of anybody else's, running it twice is running it once, and a run cut
-off anywhere loses nothing (README, under setup.py)."""
+off anywhere loses nothing (AGENTS.md, under setup.py). A workspace's setup
+wizard asks nothing for OneAdmin (STEPS)."""
 
 import datetime
 import hashlib
@@ -20,6 +21,8 @@ import requests
 from frappe import _
 
 from onedesk.one_admin import site, tell, vault
+
+STEPS = []
 
 API = "https://api.cloudflare.com/client/v4"
 TIMEOUT = 30
@@ -140,7 +143,7 @@ class Setup:
 
 	def call(self, method: str, path: str, token: str | None = None, **kwargs) -> dict:
 		"""A call to Cloudflare, with this run's own token unless another is
-		named (README, Keys)."""
+		named (AGENTS.md, Keys)."""
 		headers = {"Authorization": f"Bearer {token or self.token}", **kwargs.pop("headers", {})}
 		answered = requests.request(method, f"{API}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
 		try:
@@ -323,7 +326,7 @@ class Setup:
 		what a run makes and changes (Workers, buckets and their locks, the
 		gateway, containers), for an hour, on any account and zone, and
 		deleted when the run ends (`end`). OneAdmin's own token is never given
-		these (README, Keys). A run from Sign In to Cloudflare works with the
+		these (AGENTS.md, Keys). A run from Sign In to Cloudflare works with the
 		sign-in's own token instead."""
 		if self.signed_in:
 			self.token = self.master

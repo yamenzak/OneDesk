@@ -1,6 +1,6 @@
 """Google News for every workspace, fetched by OneAdmin alone, one edition
 at a time on its own timer, and shared by every workspace that follows the
-same topic or search. How gently it asks is in the README, under Google
+same topic or search. How gently it asks is in AGENTS.md, under Google
 News."""
 
 import hashlib

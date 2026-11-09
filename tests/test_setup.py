@@ -53,6 +53,8 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 		"/user/tokens/{held['id']}/value",
 		"/accounts/{self.account}/workers/scripts/{name}",
 		"/accounts/{self.account}/workers/scripts/{name}",
+		"/accounts/{self.account}/workers/scripts/{name}/schedules",
+		"/accounts/{self.account}/workers/scripts/{name}",
 	]
 	custom = _method("custom_hostnames")
 	assert custom.index("if held.get('origin'):") < custom.index("'PUT'"), "a held fallback origin is kept"

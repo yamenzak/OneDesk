@@ -17,6 +17,11 @@ def is_admin() -> bool:
 	return bool(frappe.conf.get(FLAG))
 
 
+def operates() -> bool:
+	"""Whether the reader runs OneAdmin: an operator, on the admin site."""
+	return is_admin() and OPERATOR in frappe.get_roles()
+
+
 def require_admin() -> None:
 	"""Refuse on a tenant site.
 

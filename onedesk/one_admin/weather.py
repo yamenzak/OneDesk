@@ -1,7 +1,7 @@
 """Weather from OpenWeather's One Call API 4.0, fetched once for every
 workspace near the same place and charged to each that shows it: one place
 a day free, CREDITS_A_DAY for each other. How the cells, the refresh and
-the charge work is in the README, under Weather."""
+the charge work is in AGENTS.md, under Weather."""
 
 from datetime import date, datetime, timezone
 

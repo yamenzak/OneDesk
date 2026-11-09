@@ -2,7 +2,7 @@
 
 The operator makes a code for one workspace (`new_code`); typed into Apps
 there, `claim` queues an Install App job that installs the app on its site.
-The rest is in one_admin/README.md under private.py, and docs/PRIVATE-APPS.md.
+The rest is in one_admin/AGENTS.md under private.py, and docs/PRIVATE-APPS.md.
 """
 
 import hashlib

@@ -9,12 +9,19 @@ from frappe import _
 from frappe.utils import md_to_html
 
 from onedesk.one import media, ready
+from onedesk.one_admin import site
 
 SEEN = "one_seen_version_{}"
 
 
+def offered(module: str) -> bool:
+	"""Whether the reader may see a module's versions, Help and tour: all of
+	them, but OneAdmin's for its operators alone."""
+	return not ready.MODULES[module].get("operators") or site.operates()
+
+
 def _known(module: str) -> None:
-	if module not in ready.MODULES:
+	if module not in ready.MODULES or not offered(module):
 		frappe.throw(_("{0} has no versions.").format(module))
 
 
@@ -26,7 +33,7 @@ def for_boot() -> dict:
 	"""Each module's version, and whether the reader has seen it."""
 	out = {}
 	for module in ready.MODULES:
-		version = ready.current(module)
+		version = ready.current(module) if offered(module) else None
 		if version:
 			out[module] = {"version": version, "unseen": int(seen(module) != version)}
 	return out

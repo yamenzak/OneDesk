@@ -285,19 +285,6 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link"
-  },
-  {
-   "child": 0,
-   "collapsible": 0,
-   "icon": "settings",
-   "idx": 23,
-   "indent": 0,
-   "keep_closed": 0,
-   "label": "Settings",
-   "link_to": "One Admin Settings",
-   "link_type": "DocType",
-   "show_arrow": 0,
-   "type": "Link"
   }
  ],
  "modified": "2026-11-10 02:00:00.000000",

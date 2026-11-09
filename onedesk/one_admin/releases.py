@@ -3,7 +3,7 @@
 A new release is built on each server as a second bench, ahead of time. Each
 workspace then moves in its own window, at least `NOTICE_HOURS` after it is
 told, or at once with Update Now. One waiting on new terms waits `HOLD_DAYS`,
-reminded weekly. A bench with nobody left is dropped. README, Updates.
+reminded weekly. A bench with nobody left is dropped. AGENTS.md, Updates.
 """
 
 from datetime import datetime, timedelta

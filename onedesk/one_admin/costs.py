@@ -1,6 +1,6 @@
 """What running One costs us, line by line, in the price list's currency,
 declared here and only here. margins.py prices everything sold against it;
-each line says whether it was measured or is still an estimate (README,
+each line says whether it was measured or is still an estimate (AGENTS.md,
 Under the hood, What One costs us). Pure."""
 
 from dataclasses import dataclass

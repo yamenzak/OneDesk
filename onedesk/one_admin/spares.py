@@ -3,7 +3,7 @@
 A spare is built in the background with its scheduler paused, and renamed to
 the workspace's address when one is claimed (steps.create_site). Pilot gives
 each its own random administrator password and encryption key, so nothing is
-shared between them. A spare counts towards a server's limit. README, Servers.
+shared between them. A spare counts towards a server's limit. AGENTS.md, Servers.
 """
 
 import secrets

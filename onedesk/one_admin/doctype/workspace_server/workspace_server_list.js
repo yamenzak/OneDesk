@@ -14,13 +14,13 @@ frappe.listview_settings["Workspace Server"] = {
 	onload(listview) {
 		listview.page.add_menu_item(__("Connect Server"), () => {
 			frappe.prompt(
-				[{ fieldname: "region", fieldtype: "Data", label: __("Region"), reqd: 1, default: "eu-frankfurt-1", description: __("Where the machine is. Copies of a workspace are made in this region.") }],
+				[{ fieldname: "region", fieldtype: "Data", label: __("Region"), reqd: 1, default: "eu-frankfurt-1", description: __("Copies of a workspace are made in this region.") }],
 				async ({ region }) => {
 					const said = await frappe.xcall("onedesk.one_admin.operator.connect_server", { region });
 					const shown = new frappe.ui.Dialog({
 						title: __("Connect {0}", [said.server]),
 						fields: [
-							{ fieldname: "command", fieldtype: "Code", label: __("Command"), read_only: 1, default: said.command, description: __("Run it once on the machine as root, within an hour. The server shows as Up in about 30 minutes.") },
+							{ fieldname: "command", fieldtype: "Code", label: __("Command"), read_only: 1, default: said.command, description: __("Run once on the machine as root within an hour.") },
 						],
 						primary_action_label: __("Copy Command"),
 						primary_action() {
