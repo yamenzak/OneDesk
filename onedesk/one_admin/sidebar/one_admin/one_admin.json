@@ -47,6 +47,19 @@
   },
   {
    "child": 0,
+   "collapsible": 0,
+   "icon": "monitor-play",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Sessions",
+   "link_to": "oneadmin-sessions",
+   "link_type": "Page",
+   "show_arrow": 0,
+   "type": "Link",
+   "idx": 4
+  },
+  {
+   "child": 0,
    "collapsible": 1,
    "icon": "activity",
    "indent": 1,
@@ -54,7 +67,7 @@
    "label": "Activity",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 4
+   "idx": 5
   },
   {
    "child": 1,
@@ -67,7 +80,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 5
+   "idx": 6
   },
   {
    "child": 1,
@@ -80,7 +93,20 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 6
+   "idx": 7
+  },
+  {
+   "child": 0,
+   "collapsible": 0,
+   "icon": "bug",
+   "indent": 0,
+   "keep_closed": 0,
+   "label": "Errors",
+   "link_to": "Workspace Error",
+   "link_type": "DocType",
+   "show_arrow": 0,
+   "type": "Link",
+   "idx": 8
   },
   {
    "child": 1,
@@ -93,7 +119,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 7
+   "idx": 9
   },
   {
    "child": 0,
@@ -104,7 +130,7 @@
    "label": "Billing",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 8
+   "idx": 10
   },
   {
    "child": 1,
@@ -117,7 +143,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 9
+   "idx": 11
   },
   {
    "child": 1,
@@ -130,7 +156,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 10
+   "idx": 12
   },
   {
    "child": 1,
@@ -143,7 +169,7 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 11
+   "idx": 13
   },
   {
    "child": 1,
@@ -156,7 +182,7 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 12
+   "idx": 14
   },
   {
    "child": 1,
@@ -169,7 +195,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 13
+   "idx": 15
   },
   {
    "child": 1,
@@ -182,7 +208,7 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 14
+   "idx": 16
   },
   {
    "child": 0,
@@ -193,7 +219,7 @@
    "label": "OneAI",
    "show_arrow": 0,
    "type": "Section Break",
-   "idx": 15
+   "idx": 17
   },
   {
    "child": 1,
@@ -206,7 +232,7 @@
    "link_type": "Report",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 16
+   "idx": 18
   },
   {
    "child": 0,
@@ -219,10 +245,10 @@
    "link_type": "DocType",
    "show_arrow": 0,
    "type": "Link",
-   "idx": 17
+   "idx": 19
   }
  ],
- "modified": "2026-11-09 23:30:00.000000",
+ "modified": "2026-11-10 02:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "One Admin",

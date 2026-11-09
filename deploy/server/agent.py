@@ -10,6 +10,7 @@ import hashlib
 import hmac
 import json
 import os
+import secrets
 import shutil
 import subprocess
 import sys
@@ -189,7 +190,17 @@ def drop_bench(_config: dict, one: dict) -> None:
 	pilot("-b", one["bench"], "drop")
 
 
-KINDS = {"prepare": prepare, "move": move, "drop-bench": drop_bench}
+def session_demo(_config: dict, one: dict) -> None:
+	"""A session's demo company, built in its own site."""
+	frappe_on(one["bench"], one["site"], "execute", "onedesk.one_demo.build.load", "--kwargs", json.dumps({"password": secrets.token_urlsafe(18)}))
+
+
+def session_quiet(_config: dict, one: dict) -> None:
+	"""A copy of a workspace, cut off from everything the workspace sends."""
+	frappe_on(one["bench"], one["site"], "execute", "onedesk.one_admin.sessions.quieted")
+
+
+KINDS = {"prepare": prepare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet}
 
 
 def report(config: dict, said: dict) -> bool:

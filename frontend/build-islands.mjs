@@ -38,6 +38,7 @@ export const ISLANDS = {
 	"onedesk.onemail": "src/mail/island.js",
 	"onedesk.onecloud": "src/islands/onecloud.js",
 	"onedesk.oneadmin": "src/islands/oneadmin.js",
+	"onedesk.oneadmin_sessions": "src/islands/oneadmin_sessions.js",
 };
 
 await buildIslands({

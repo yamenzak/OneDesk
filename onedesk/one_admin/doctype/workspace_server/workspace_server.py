@@ -9,4 +9,4 @@ from frappe.model.document import Document
 class WorkspaceServer(Document):
 	def before_insert(self) -> None:
 		if not self.flags.ordered:
-			frappe.throw(frappe._("Use Order Server to add a server."))
+			frappe.throw(frappe._("Use Order Server or Connect Server to add a server."))

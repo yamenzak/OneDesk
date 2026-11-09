@@ -61,11 +61,13 @@ No doctypes yet.
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
 | Stripe Webhook Event | 7 | document |
-| Tenant | 63 | document |
+| Tenant | 64 | document |
 | Tenant Add-on | 3 | child |
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
+| Workspace Error | 10 | document |
 | Workspace Server | 19 | document |
+| Workspace Session | 18 | document |
 
 ## One AI
 
@@ -438,6 +440,7 @@ No doctypes yet.
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.operator.backups`
+* `onedesk.one_admin.operator.connect_server`
 * `onedesk.one_admin.operator.credit_standing`
 * `onedesk.one_admin.operator.fall`
 * `onedesk.one_admin.operator.give_credits`
@@ -476,12 +479,14 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.billing_portal`
 * `onedesk.one_admin.proxy.buy_credits`
 * `onedesk.one_admin.proxy.close`
+* `onedesk.one_admin.proxy.copies_agreed`
 * `onedesk.one_admin.proxy.credit_packs`
 * `onedesk.one_admin.proxy.domain_add`
 * `onedesk.one_admin.proxy.domain_drop`
 * `onedesk.one_admin.proxy.domain_list`
 * `onedesk.one_admin.proxy.domain_primary`
 * `onedesk.one_admin.proxy.domain_refresh`
+* `onedesk.one_admin.proxy.errors_seen`
 * `onedesk.one_admin.proxy.google_news`
 * `onedesk.one_admin.proxy.hello`
 * `onedesk.one_admin.proxy.mail_names`
@@ -505,8 +510,15 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
+* `onedesk.one_admin.servers.connect_script`
 * `onedesk.one_admin.servers.pressure`
 * `onedesk.one_admin.servers.reported`
+* `onedesk.one_admin.sessions.board`
+* `onedesk.one_admin.sessions.delete`
+* `onedesk.one_admin.sessions.resume`
+* `onedesk.one_admin.sessions.sign_in`
+* `onedesk.one_admin.sessions.start`
+* `onedesk.one_admin.sessions.stop`
 * `onedesk.one_admin.setup.set_up`
 * `onedesk.one_admin.signup.available`
 * `onedesk.one_admin.signup.pay`

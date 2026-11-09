@@ -25,11 +25,14 @@ OPERATOR = "One Operator"
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
 UNRAILED = {
+	"Workspace Session",
 	"Stripe Webhook Event",
 	"Credit Reservation",
 }
 
 MADE_FOR_YOU = {
+	"Workspace Session",
+	"Workspace Error",
 	"Tenant",
 	"Provisioning Job",
 	"Tenant Domain",

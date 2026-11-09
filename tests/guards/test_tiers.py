@@ -72,6 +72,7 @@ def test_every_page_of_its_own_is_declared():
 		"onedesk.onemail": None,
 		"onedesk.onecloud": None,
 		"onedesk.oneadmin": None,
+		"onedesk.oneadmin_sessions": None,
 		"onedesk.head": None,
 	}
 	build = (APP.parent / "frontend" / "build-islands.mjs").read_text()

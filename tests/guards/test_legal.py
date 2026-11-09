@@ -46,6 +46,7 @@ HOSTS = {
 	"onedesk.one_admin.proxy.google_news": "Google LLC",
 	"onedesk.one_admin.proxy.weather_reading": "OpenWeather Ltd",
 	"onedesk.one_admin.proxy.weather_places": "OpenWeather Ltd",
+	"onedesk.one_admin.proxy.copies_agreed": "Oracle Corporation",
 	"fcm.googleapis.com": None,
 	"developers.cloudflare.com": None,
 	"ai.google.dev": None,

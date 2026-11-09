@@ -51,6 +51,26 @@ def caller(serving: tuple = SERVING):
 	return held
 
 
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def errors_seen(rows: list | str) -> dict:
+	"""This workspace's Error Log, in summary: its side is one/errors.py."""
+	from onedesk.one_admin import errors
+
+	tenant = caller()
+	return {"kept": errors.heard(tenant.name, frappe.parse_json(rows) or [])}
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def copies_agreed() -> dict:
+	"""This workspace has Training Copies on, and agreed to them: sent every
+	hour while it does. sessions.py reads how long since."""
+	tenant = caller()
+	frappe.db.set_value("Tenant", tenant.name, "copies_agreed_on", frappe.utils.now_datetime(), update_modified=False)
+	return {"ok": True}
+
+
 def _offered_token() -> str:
 	"""Our own header, because `Authorization` is already spoken for.
 

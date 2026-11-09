@@ -1,6 +1,8 @@
-"""A Lightsail server for One: the tunnel, its addresses and Access lock on
-Cloudflare, the box on AWS, set up by deploy/server/first-boot.sh from a
-release in the registry. Shared by scripts/server.py, which builds the first
+"""A server for One: the tunnel, its addresses and Access lock on Cloudflare,
+and the box, set up by deploy/server/first-boot.sh from a release in the
+registry. On AWS it is a Lightsail box ordered here; on any other provider a
+machine we connect ourselves, which runs the same first boot inside a container
+(deploy/server/connect.sh). Shared by scripts/server.py, which builds the first
 OneAdmin from dev, and servers.py, which orders the rest. Needs no frappe.
 """
 
@@ -20,6 +22,7 @@ API = "https://api.cloudflare.com/client/v4"
 ROOT = Path(__file__).resolve().parents[2]
 FIRST_BOOT = ROOT / "deploy/server/first-boot.sh"
 AGENT = ROOT / "deploy/server/agent.py"
+CONNECT = ROOT / "deploy/server/connect.sh"
 PIPE = 60
 READY_AFTER = 5
 READY_WITHIN = 90 * 60
@@ -29,6 +32,10 @@ ZONE = "com.cloudflare.api.account.zone"
 REGION = "eu-north-1"
 BUNDLE = "medium_3_0"
 OWN_BUNDLE = "large_3_0"
+CONTAINER_MEMORY = "5g"
+CONTAINER_MEMORY_WITH_SWAP = "6g"
+MEMORY_SHARE = 0.7
+CONTAINER_MEMORY_SHARE = 0.3
 REPOSITORY = "yamenzak/onedesk"
 LOCKED_ON_ADMIN = ("/desk", "/desk/*", "/app", "/app/*", "/api/resource/*", "/api/v2/*")
 NEEDS = (
@@ -115,6 +122,9 @@ class Cloudflare:
 		made = self.call("POST", base, json={"name": name, "config_src": "cloudflare"})["result"]
 		self.call("PUT", f"{base}/{made['id']}/configurations", json={"config": {"ingress": ingress(hosts)}})
 		return made["id"], self.call("GET", f"{base}/{made['id']}/token")["result"]
+
+	def tunnel_token(self, tunnel: str) -> str:
+		return self.call("GET", f"/accounts/{self.account}/cfd_tunnel/{tunnel}/token")["result"]
 
 	def address(self, zone: str, host: str, tunnel: str) -> None:
 		found = self.call("GET", "/zones", params={"name": zone})["result"]
@@ -207,13 +217,13 @@ def wait_ready(host: str, access: dict, stopped=lambda: False) -> None:
 	raise RuntimeError("not ready in time; read /var/log/one-first-boot.log in the browser terminal")
 
 
-def settle(host: str, access: dict, password: str, keys: dict) -> None:
+def settle(host: str, access: dict, password: str, keys: dict, share: float = MEMORY_SHARE) -> None:
 	"""MariaDB's share of memory, and backups to R2 when there is a bucket."""
 	pilot = requests.Session()
 	pilot.headers.update({"CF-Access-Client-Id": access["client_id"], "CF-Access-Client-Secret": access["client_secret"]})
 	base = f"https://{host}/api/v1"
 	pilot.post(f"{base}/auth/session", json={"password": password}, timeout=PIPE).raise_for_status()
-	pilot.post(f"{base}/database/quick-actions/memory-share", json={"memory_share": 0.7}, timeout=PIPE).raise_for_status()
+	pilot.post(f"{base}/database/quick-actions/memory-share", json={"memory_share": share}, timeout=PIPE).raise_for_status()
 	if keys.get("backup_key"):
 		s3 = {"provider": "cloudflare", "region": "auto", "bucket": keys["backup_bucket"], "endpoint_url": keys["r2_endpoint"], "access_key": keys["backup_key"], "secret_key": keys["backup_secret"]}
 		pilot.patch(f"{base}/settings", json={"s3": s3}, timeout=PIPE).raise_for_status()
@@ -232,9 +242,9 @@ def _aws(keys: dict, region: str):
 	return boto3.client("lightsail", region_name=region, aws_access_key_id=keys["aws_access_key_id"], aws_secret_access_key=keys["aws_secret_access_key"])
 
 
-def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], release: str, branch: str = "main", region: str = REGION, bundle: str = BUNDLE, key: str | None = None, ssh_from: str | None = None, more_hosts: tuple = (), repository: str = REPOSITORY, say=lambda _said: None, on_made=lambda _made: None, admin_url: str = "") -> dict:
-	"""A box from nothing to Pilot answering behind its lock: what was made."""
-	about = release_of(keys, release)
+def _on_cloudflare(cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], more_hosts: tuple, on_made, say) -> tuple[dict, str]:
+	"""A server's tunnel, addresses and lock, and what was made: every key it
+	will need, given to `on_made` before anything can go wrong with the box."""
 	host = admin_host(name, domain)
 	origin = f"origin-{name}.{origin_zone}"
 	password = f"Pi{secrets.token_hex(14)}-Z9"
@@ -243,31 +253,41 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 		cloudflare.address(domain, one, tunnel)
 	cloudflare.address(origin_zone, origin, tunnel)
 	access = cloudflare.lock(f"one-{name}", host, owners)
-	agent_secret = secrets.token_hex(24)
-	made = {"tunnel": tunnel, "host": host, "origin": origin, "origin_zone": origin_zone, "access": access, "pilot_password": password, "agent": agent_secret}
+	made = {"tunnel": tunnel, "host": host, "origin": origin, "origin_zone": origin_zone, "access": access, "pilot_password": password, "agent": secrets.token_hex(24)}
 	on_made(made)
 	say("Cloudflare ready")
-	script = user_data(
-		{
-			"TUNNEL_TOKEN": tunnel_token,
-			"PILOT_PASSWORD": password,
-			"ADMIN_HOST": host,
-			"GITHUB_TOKEN": keys["github_token"],
-			"REPOSITORY": repository,
-			"BRANCH": branch,
-			"RELEASE": release,
-			"FRAPPE": about["frappe"],
-			"ERPNEXT": about["erpnext"],
-			"HRMS": about["hrms"],
-			"R2_ENDPOINT": keys["r2_endpoint"],
-			"R2_BUCKET": keys["assets_bucket"],
-			"R2_KEY": keys["assets_read_key"],
-			"R2_SECRET": keys["assets_read_secret"],
-			"SERVER": name,
-			"AGENT_SECRET": agent_secret,
-			"ADMIN_URL": admin_url,
-		}
-	)
+	return made, tunnel_token
+
+
+def _boot_values(keys: dict, name: str, made: dict, tunnel_token: str, release: str, branch: str, repository: str, admin_url: str) -> dict:
+	"""What first-boot.sh is given."""
+	about = release_of(keys, release)
+	return {
+		"TUNNEL_TOKEN": tunnel_token,
+		"PILOT_PASSWORD": made["pilot_password"],
+		"ADMIN_HOST": made["host"],
+		"GITHUB_TOKEN": keys["github_token"],
+		"REPOSITORY": repository,
+		"BRANCH": branch,
+		"RELEASE": release,
+		"FRAPPE": about["frappe"],
+		"ERPNEXT": about["erpnext"],
+		"HRMS": about["hrms"],
+		"R2_ENDPOINT": keys["r2_endpoint"],
+		"R2_BUCKET": keys["assets_bucket"],
+		"R2_KEY": keys["assets_read_key"],
+		"R2_SECRET": keys["assets_read_secret"],
+		"SERVER": name,
+		"AGENT_SECRET": made["agent"],
+		"ADMIN_URL": admin_url,
+	}
+
+
+def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], release: str, branch: str = "main", region: str = REGION, bundle: str = BUNDLE, key: str | None = None, ssh_from: str | None = None, more_hosts: tuple = (), repository: str = REPOSITORY, say=lambda _said: None, on_made=lambda _made: None, admin_url: str = "") -> dict:
+	"""A box from nothing to Pilot answering behind its lock: what was made."""
+	made, tunnel_token = _on_cloudflare(cloudflare, name, domain, tenant_domain, origin_zone, owners, more_hosts, on_made, say)
+	host, tunnel, access = made["host"], made["tunnel"], made["access"]
+	script = user_data(_boot_values(keys, name, made, tunnel_token, release, branch, repository, admin_url))
 	aws = _aws(keys, region)
 	order = {"instanceNames": [name], "availabilityZone": f"{region}a", "blueprintId": "ubuntu_24_04", "bundleId": bundle, "userData": script, "tags": [{"key": "one", "value": "server"}], "addOns": [{"addOnType": "AutoSnapshot", "autoSnapshotAddOnRequest": {"snapshotTimeOfDay": SNAPSHOT_AT}}]}
 	try:
@@ -284,10 +304,26 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 	aws.put_instance_public_ports(instanceName=name, portInfos=[ports])
 	say("firewall closed; waiting for first boot")
 	wait_ready(host, access, lambda: aws.get_instance_state(instanceName=name)["state"]["name"] in ("stopped", "stopping"))
-	settle(host, access, password, keys)
+	settle(host, access, made["pilot_password"], keys)
 	aws.update_instance_metadata_options(instanceName=name, httpEndpoint="disabled")
 	say(f"ready at https://{host}")
 	return made
+
+
+def connect(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domain: str, origin_zone: str, owners: list[str], on_made=lambda _made: None) -> dict:
+	"""A machine that is not on AWS, ready to be joined: its tunnel, addresses
+	and lock are made here, and `connect_script` is run on it."""
+	made, _token = _on_cloudflare(cloudflare, name, domain, tenant_domain, origin_zone, owners, (), on_made, lambda _said: None)
+	return made
+
+
+def connect_script(keys: dict, cloudflare: Cloudflare, name: str, made: dict, release: str, admin_url: str, branch: str = "main", repository: str = REPOSITORY) -> str:
+	"""What runs on a connected machine, as root: deploy/server/connect.sh, with
+	the first boot it runs inside a container and that container's memory."""
+	values = _boot_values(keys, name, made, cloudflare.tunnel_token(made["tunnel"]), release, branch, repository, admin_url)
+	box = user_data({**values, "IN_CONTAINER": "1"})
+	head = "".join(f"{key}={shlex.quote(value)}\n" for key, value in (("ONE_BOX", base64.b64encode(box.encode()).decode()), ("ONE_MEMORY", CONTAINER_MEMORY), ("ONE_MEMORY_SWAP", CONTAINER_MEMORY_WITH_SWAP)))
+	return f"{head}{CONNECT.read_text()}"
 
 
 def reboot(keys: dict, name: str, region: str = REGION) -> None:

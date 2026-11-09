@@ -611,6 +611,35 @@ makes one real call. Saving notifies the other operators what changed and
 who changed it (**Settings Changed**). Keys show only as changed. OneAI
 answers **Is everything set up?**. Only operators see this page.
 
+## Sessions
+
+**Sessions** runs short-lived sites on a server we connected ourselves: for
+trying a change, showing the product, or letting a workspace's people train.
+Each one starts **Fresh**, from **Demo Data** (the Sahara demo company) or as
+a **Workspace Copy** of a workspace's newest database backup, without its
+files.
+
+**New Session** asks where it starts from, a name and how long it lasts
+(**8 Hours** to **30 Days**), and then does the rest. A session's row shows
+its state, its address and when it expires. **Open** signs you in to a Fresh
+or Demo session; a Workspace Copy opens at its sign-in page, for the
+workspace's own people. **Stop** puts it to sleep and **Start** wakes it.
+**Delete** removes it, and it is deleted by itself when its time is up. A
+session is not a workspace and has no plan, bill or place on Workspaces.
+
+A Workspace Copy needs the workspace to have **Training Copies** on, in
+TrustCenter's Optional Services: it stays off until its administrators turn
+it on. If they turn it off again, its copies go within 48 hours.
+
+## Errors
+
+**Errors** has one row for each kind of error each workspace has had: the
+workspace, what the error is, the kind of error and where in the code it
+happened, how often, and when. A workspace sends only that, every hour, from
+its own Error Log, never the data it was working on. Mark a row **Fixed**
+once it is; it opens again if it returns. You are told when a kind of error
+that no workspace has had before appears (**New Error**).
+
 ## Notifications
 
 OneAdmin tells operators what needs them, and emails customers about their
@@ -633,6 +662,9 @@ Operators are notified of:
   archived or dropped. The payment is kept. Rebuild it from its backup or
   refund it in Stripe.
 - **Build Slow**: a build has waited on the hosting provider for hours.
+- **New Error**: a workspace has a kind of error no workspace has had before.
+- **Server Connected**: a machine connected with Connect Server answered for
+  the first time.
   Waiting never fails a job, so this is the only notice; its payer is mailed
   Workspace Delayed at the same time.
 - **Server Filling Up**: a server new workspaces go on is near its limit, or
@@ -1750,6 +1782,36 @@ restoring, and a newer database fails there (tried on dev, 8 November
 2026: the restore ran and stopped at a property setter that was already
 there).
 
+### Sessions and copies: sessions.py
+
+`Workspace Session` is a record, not a Tenant, so a session never reaches
+Home's figures, Workspaces or the costs. `start` picks the connected server
+with the most room and queues `advance`; `tick` (every two minutes) moves
+Starting and Deleting ones on and deletes what has run out. Each kind has its
+own steps in `WALKS`: Fresh and Demo make the site through Pilot and route it
+like a workspace, the demo company is built by the box's agent. A Workspace
+Copy is the newest nightly backup's database alone, sent up through the same
+path as a Rebuild; it keeps the new site's own encryption key, so the
+workspace's encrypted secrets stay unreadable, and `quieted`, run by the agent,
+deletes its webhooks and stops its mail accounts. It has no `one_tenant`, so it
+can't reach the account.
+
+A copy is allowed while `Tenant.copies_agreed_on` is fresh (three hours):
+one/copies.py sends it hourly through `services.call("training_copies", ...)`,
+so only a workspace with the service on sends anything. Past 48 hours with no
+word, its copies are deleted. A bench stays while a session is on
+it (`releases._drop_the_empty`).
+
+### Errors: errors.py, one/errors.py
+
+Each workspace's hourly `pushed` reads its Error Log since the last push and
+sends `summaries`: per fingerprint the exception's name, the last file and
+function it passed through, the log's title with addresses and long numbers
+taken out, a count and the first and last times, through `proxy.errors_seen`
+and the signed caller path. The admin site adds its own straight. `heard`
+keeps one Workspace Error per workspace and fingerprint and tells the operators
+(`New Error`) of the first few kinds no workspace has had.
+
 ### Servers: boxes.py, servers.py, pilot.py, spares.py
 
 Each server is a Lightsail box running Pilot, listed under Servers in
@@ -1767,6 +1829,23 @@ the box to Settings when Pilot answers, about 25 minutes later.
 keeps two finished sites on each server with their schedulers paused, and a
 signup renames one to its address: 31 seconds, against 8 minutes for a new
 build. A spare counts towards the server's limit.
+
+### Connecting a server
+
+A machine not on AWS (the Oracle box first) joins with **Connect Server**, in
+the ··· menu on Servers. It gives one line to run once, as root, within the
+hour: it fetches `deploy/server/connect.sh`, which installs podman and starts a
+container, `one-box`, under a Linux user of its own, `one-copies`, with a
+memory limit. Inside it, the usual first boot and agent run, so OneAdmin talks
+to it exactly as to a Lightsail box: Pilot through its tunnel and lock, the
+agent through signed instructions on R2, no port open. `connect.sh` stops if
+`one-copies` could read another home on the machine or is in the sudo group,
+since this machine holds production keys and Pilot's installer gives its own
+user sudo for nginx and certbot: inside the container that grant reaches only
+the container. A connected server has `open` unset, so workspaces and spares
+never land on it, and costs nothing here (`monthly_cost` 0). Until it first
+answers it reads **Connecting**; `watch` then settles its memory (a smaller
+share, for the container's limit) and starts its watching.
 
 A box short of disk (85%) or memory (92%) for five minutes warns the operators:
 Pilot's own webhook, signed with the box's secret, to `servers.pressure`. A box

@@ -341,8 +341,10 @@
   "Widget Collection",
   "Work Order",
   "Workbook",
+  "Workspace Error",
   "Workspace Field",
   "Workspace Server",
+  "Workspace Session",
   "Workstation"
  ],
  "Report": [
@@ -583,6 +585,7 @@
   "legal",
   "one",
   "oneadmin",
+  "oneadmin-sessions",
   "onecalendar",
   "onecloud",
   "onecrm",
