@@ -540,6 +540,15 @@ next to its changes, and a job lists the rows it wrote.
   Includes the **Bench Group** every workspace runs on, the **Site Plan** for
   each site (one of the provider's free Unlimited plans, which only sets daily
   CPU time), and **Servers** (below).
+- **Sign In to Cloudflare** can stand in for the master token, once an OAuth
+  client is made and its **OAuth Client ID**, **Secret** and **Scopes** are
+  filled in (Under the hood, Keys).
+- **Create AWS User** opens AWS with the IAM user OneAdmin needs, allowed
+  Lightsail in `eu-north-1` only. AWS reads the template only from S3, so
+  upload `deploy/aws/lightsail-user.yaml` there once and put its address in
+  **AWS Template URL**. Then make the user's access key in AWS.
+- Saving Stripe's **Secret Key** makes the webhook through Stripe's API and
+  keeps its signing secret.
 - **Cloudflare**: one **Master Token**, made in Cloudflare from the **Create
   Additional Tokens** template. **Set Up Cloudflare** uses it only to make
   One's own three tokens, each allowed only its own work: **OneAdmin** for
@@ -1721,8 +1730,19 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   Cloud, which rewrites that file from its own record, through its API
   (`press.api.site.update_config`, type Password): set
   `one_admin_press_site` in the site's config to the site's name there.
-- Rebuilding OneAdmin from a backup therefore needs the keys again: the
-  database restored has none of them.
+- Rebuilding OneAdmin from a backup needs the keys again, since the
+  database restored has none of them. They come from the nightly config copy
+  (Backups, below).
+- **Sign In to Cloudflare** is the other way to run Set Up Cloudflare
+  (`cloudflare_signin.py`): OAuth's authorization code flow with PKCE, against
+  an OAuth client made once in Cloudflare (Manage Account, OAuth clients) with
+  the redirect URL `https://ADMIN/api/method/onedesk.one_admin.cloudflare_signin.back`.
+  Its id, secret and scope IDs go in Settings. The access token waits encrypted
+  in the cache for the run to take, is read once, is used in place of the run's
+  own token and is revoked when the run ends. Where a scope doesn't reach
+  something, that step is shown as failed and the rest carry on. Making One's
+  own tokens needs Cloudflare's API Tokens permission; without that scope,
+  Sign In can't make or mend them, and the master token still does.
 
 ### backups.py: Backups
 
@@ -1743,6 +1763,24 @@ site's plan, and works for dev's own sites too.
 OneAdmin's own database is backed up and put in the bucket, and each
 running workspace's files in R2 are copied bucket to bucket into `files/`,
 skipping what is kept. `Tenant.last_backup` says when.
+
+**OneAdmin's own config** (`backups.config_copy`) goes in the same nightly
+run, because it holds every key and every ordered server's login and the
+database has none of them. The file is `site_config.json`, sealed
+(`seal.py`), and kept under `config/oneadmin/<day>.one`, which goes after 31
+days. OneAdmin holds only the public half of the key (**Config Copy Key** in
+Settings, from `scripts/rescue.py key`). The private half is stored nowhere:
+it is worked out from the rescue passphrase each time, so neither the bucket,
+the server nor a reader of both can open a copy.
+
+To restore it, on a machine holding the repo and the passphrase:
+
+1. Download the newest `config/oneadmin/*.one` from the backup bucket in
+   Cloudflare's dashboard.
+2. `python scripts/rescue.py open FILE --out site_config.json`, which asks for
+   the passphrase.
+3. Put it at `sites/<site>/site_config.json` on the rebuilt OneAdmin before
+   restoring the database, then restore the newest `daily/oneadmin/` backup.
 
 **Archiving** keeps the newest daily backup again under `archived/`, which
 no lifecycle rule expires, inside the bucket (the keeper's `/again`), and

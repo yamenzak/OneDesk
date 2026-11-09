@@ -20,6 +20,14 @@ frappe.ui.form.on("One Admin Settings", {
 		});
 		frappe.xcall("onedesk.one_admin.setup.set_up").then(() => onedesk.admin.drawSetup(frm, true));
 	},
+	sign_in_to_cloudflare(frm) {
+		if (frm.is_dirty()) return frappe.msgprint(__("Save before signing in to Cloudflare."));
+		frappe.xcall("onedesk.one_admin.cloudflare_signin.start").then((url) => (window.location.href = url));
+	},
+	create_aws_user(frm) {
+		if (frm.is_dirty()) return frappe.msgprint(__("Save before creating the AWS user."));
+		frappe.xcall("onedesk.one_admin.aws.link").then((url) => window.open(url, "_blank", "noopener"));
+	},
 });
 
 frappe.provide("onedesk.admin");

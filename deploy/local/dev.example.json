@@ -27,7 +27,6 @@
 		"press_plan": "",
 		"stripe_publishable_key": "pk_test_",
 		"stripe_secret_key": "sk_test_",
-		"stripe_webhook_secret": "whsec_",
 		"openweather_key": ""
 	}
 }

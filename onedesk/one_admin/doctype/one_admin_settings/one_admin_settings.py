@@ -15,6 +15,7 @@ NOT_NEWS = ("cloudflare_setup", "cloudflare_deployed")
 
 class OneAdminSettings(Document):
 	def before_validate(self) -> None:
+		self.flags.stripe_key_changed = self.get("stripe_secret_key") and set(str(self.get("stripe_secret_key"))) != {"*"}
 		self.flags.keys_changed = [
 			df.label
 			for df in self.meta.fields
@@ -31,6 +32,8 @@ class OneAdminSettings(Document):
 
 		vault.move()
 		self._tell()
+		if self.flags.get("stripe_key_changed"):
+			frappe.enqueue("onedesk.one_admin.stripe.hook_made", queue="long", timeout=120, enqueue_after_commit=True, job_id="one_stripe_hook", deduplicate=True)
 
 	def _tell(self) -> None:
 		"""The other operators hear what changed and who changed it: a price,

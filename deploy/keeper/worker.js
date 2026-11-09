@@ -6,6 +6,8 @@ const SLUG = /^[a-z0-9][a-z0-9-]{1,39}$/;
 const PART = /^(database|public|private|config)$/;
 const FRESH = 10 * 60;
 const KEPT_AGAIN = /^(archived|monthly)$/;
+const RESCUE_HASH = "rescue:hash";
+const HASH = /^[0-9a-f]{64}$/;
 
 const answer = (body, status = 200) =>
 	new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -105,10 +107,26 @@ async function credentials(env, { bucket, prefix, ttl }) {
 	return new Response(asked.body, { status: asked.status, headers: { "content-type": "application/json" } });
 }
 
+async function hashed(text) {
+	const digest = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(text));
+	return [...new Uint8Array(digest)].map((byte) => byte.toString(16).padStart(2, "0")).join("");
+}
+
+async function newestKit(request, env) {
+	const held = await env.SITES.get(RESCUE_HASH);
+	const given = request.headers.get("x-one-rescue");
+	if (!held || !given || (await hashed(given)) !== held) return new Response("Forbidden", { status: 403 });
+	const listed = await env.BACKUPS.list({ prefix: "rescue/", limit: MOST_LISTED });
+	const newest = listed.objects.at(-1);
+	const object = newest && (await env.BACKUPS.get(newest.key));
+	return object ? new Response(object.body, { headers: { "content-length": String(object.size) } }) : answer({ error: "not found" }, 404);
+}
+
 export default {
 	async fetch(request, env) {
 		const url = new URL(request.url);
 		const path = decodeURIComponent(url.pathname);
+		if (path === "/rescue/latest" && request.method === "GET") return newestKit(request, env);
 		const workspace = path.match(/^\/workspace\/([^/]+)\/([^/]+)\/([^/]+)$/);
 		if (workspace && request.method === "PUT") return fromWorkspace(request, env, ...workspace.slice(1));
 		if (!env.ONE_SECRET || request.headers.get("x-one-secret") !== env.ONE_SECRET) return new Response("Forbidden", { status: 403 });
@@ -131,6 +149,11 @@ export default {
 		if (path === "/copy") return copied(env, body);
 		if (path === "/again") return again(env, body);
 		if (path === "/search-credentials") return credentials(env, body);
+		if (path === "/rescue-key") {
+			if (!HASH.test(body.hash || "")) return answer({ error: "bad hash" }, 400);
+			await env.SITES.put(RESCUE_HASH, body.hash);
+			return answer({ kept: true });
+		}
 		return answer({ error: "not found" }, 404);
 	},
 };

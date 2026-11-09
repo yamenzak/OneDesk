@@ -19,6 +19,7 @@ KEPT = (
 	"keeper_secret",
 	"aws_secret_access_key",
 	"github_token",
+	"cloudflare_oauth_client_secret",
 )
 MASTER = "cloudflare_master_token"
 
