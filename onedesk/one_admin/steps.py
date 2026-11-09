@@ -338,13 +338,19 @@ def forget_site(job, tenant) -> None:
 		tenant.db_set({"site": None, "server": None})
 
 
-def restore_site(job, tenant) -> None:
-	"""The site put back to the backup sent, by its server."""
+def restore_site(job, tenant) -> str | None:
+	"""The site put back to the backup sent, by its server. A busy server has
+	already taken the upload, so the backup is sent again."""
 	payload = frappe.parse_json(job.payload or "{}") or {}
 	if payload.get("restore_asked"):
 		return
 	body = {"parts": payload.get("parts") or [], "upload_id": payload.get("upload")}
-	answered = pilot.on(tenant, "POST", f"/sites/{tenant.site}/actions/restore", key=f"{job.name}:restore", json=body)
+	try:
+		answered = pilot.on(tenant, "POST", f"/sites/{tenant.site}/actions/restore", key=f"{job.name}:restore", json=body)
+	except faults.Busy:
+		payload.pop("upload", None)
+		job.db_set({"payload": frappe.as_json(payload), "step": "upload_backup"})
+		return WAIT
 	payload["task"] = (answered or {}).get("task_id")
 	payload["restore_asked"] = True
 	job.db_set("payload", frappe.as_json(payload))

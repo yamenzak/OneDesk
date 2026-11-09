@@ -261,6 +261,16 @@ done
 [ -z "$DOMAIN" ] || exec bash apps/onedesk/deploy/local/public.sh "$DOMAIN"
 
 say "Ready"
+SKILLS_COMMIT=5dc2f984081f6d8e23559af03b0e7c2799245d79
+if [ ! -d "$HOME/.claude/skills/frappe-app-dev" ]; then
+  skills_tmp="$(mktemp -d)"
+  git clone -q https://github.com/frappe/skills "$skills_tmp"
+  git -C "$skills_tmp" checkout -q "$SKILLS_COMMIT"
+  mkdir -p "$HOME/.claude/skills"
+  cp -r "$skills_tmp"/skills/frappe-app-dev "$skills_tmp"/skills/frappe-code-review "$skills_tmp"/skills/deep-app-audit "$HOME/.claude/skills/"
+  rm -rf "$skills_tmp"
+fi
+
 cat <<DONE
 Start everything (web, worker, socketio, redis, and the watchers that rebuild
 on save):

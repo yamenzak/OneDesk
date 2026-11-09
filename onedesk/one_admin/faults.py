@@ -19,6 +19,10 @@ class Again(Refused):
 	"""Press could not answer right now. Worth another attempt."""
 
 
+class Busy(Again):
+	"""A server is doing something else to this site. Not a failure: wait."""
+
+
 class Blank(Again):
 	"""A model answered, and said nothing.
 

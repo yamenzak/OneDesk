@@ -76,7 +76,7 @@ def _session(server: str, bench: str | None) -> tuple[requests.Session, str]:
 
 def call(server: str, method: str, path: str, key: str | None = None, bench: str | None = None, **kwargs):
 	"""One Admin API call; `key` makes a repeat of it the same task. None for
-	a 404, which here always means there is no such site or task."""
+	a GET that finds no such site or task."""
 	session, base = _session(server, bench)
 	headers = {"Idempotency-Key": key} if key else {}
 	try:
@@ -86,8 +86,10 @@ def call(server: str, method: str, path: str, key: str | None = None, bench: str
 			answer = session.request(method, f"{base}{path}", headers=headers, timeout=TIMEOUT, **kwargs)
 	except requests.RequestException as raised:
 		raise faults.Again(f"{path} on {server} could not be reached: {raised}") from raised
-	if answer.status_code == 404:
+	if answer.status_code == 404 and method == "GET":
 		return None
+	if answer.status_code == 409:
+		raise faults.Busy(f"{path} on {server} waits for another task")
 	if answer.status_code >= 300:
 		raise faults.raised(f"{path} on {server}", answer.status_code, faults.detail(None, answer.text))
 	return answer.json() if answer.content else {}

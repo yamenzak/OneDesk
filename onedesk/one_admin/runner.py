@@ -82,6 +82,8 @@ def advance(name: str) -> str:
 		waiting = getattr(steps, step)(job, tenant) == steps.WAIT
 	except steps.CalledOff as off:
 		return _called_off(job, str(off))
+	except faults.Busy:
+		return _waiting(job)
 	except faults.Refused as refused:
 		if isinstance(refused, faults.Again):
 			return _later(job, str(refused))

@@ -115,3 +115,11 @@ Frappe Cloud deploys from there.
 frappe, erpnext and hrms are pinned to the commits in `upstream.json`, which
 is what the tests were last checked against. When Frappe Cloud's bench moves
 ahead, record the new commits there and run `setup.sh` again.
+
+## A new dev machine
+
+Clone the repo and run `deploy/local/setup.sh`. Then get the newest file under
+`rescue/` from the locked backup bucket, in Cloudflare's dashboard, and run
+`python scripts/rescue.py unpack FILE`. It asks for the passphrase and puts the
+keys back. `python scripts/rescue.py pack` makes a new one; set `ONE_KEEPER_URL`
+to the keeper's address.

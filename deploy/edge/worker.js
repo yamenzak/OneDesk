@@ -30,6 +30,7 @@ export default {
 		const [where_to, origin] = (site || "").split(" ");
 		site = where_to;
 		if (!site) {
+			if (ours && !host.endsWith(ours) && asked.pathname.includes(`${ours}/`)) return fetch(request);
 			return new Response("No workspace by that name.", {
 				status: 404,
 				headers: { "content-type": "text/plain; charset=utf-8" },
