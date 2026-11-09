@@ -592,9 +592,10 @@ Keys show as dots and are never read back.
 
 **Servers** lists the servers new workspaces are built on. To add one:
 
-1. Buy it from the hosting provider, add it to the bench group and deploy.
-2. Add a row here with its name. Its **Region** fills in from the hosting
-   provider on save.
+1. Press **Order Server** on the Home when a server is filling up. It takes
+   about 25 minutes, and the row appears here by itself.
+2. A server built by hand gets a row with its name, **Region**, **Pilot
+   Address** and **Origin Address**.
 3. Tick **EU** for a server in the EU. Workspaces that asked to keep data in
    the EU only go on those.
 
