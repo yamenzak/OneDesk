@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 13:13+0000\n"
-"PO-Revision-Date: 2026-11-09 13:13+0000\n"
+"POT-Creation-Date: 2026-11-09 14:47+0000\n"
+"PO-Revision-Date: 2026-11-09 14:47+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -57257,7 +57257,7 @@ msgid "Waiting for the phone…"
 msgstr ""
 
 #: onedesk/one_admin/heads.py:30 onedesk/one_admin/steps.py:47
-#: onedesk/one_admin/steps.py:65
+#: onedesk/one_admin/steps.py:65 onedesk/one_admin/steps.py:70
 msgid "Waiting for the server"
 msgstr ""
 
@@ -67363,7 +67363,7 @@ msgstr ""
 msgid "{0} is not on this project."
 msgstr ""
 
-#: onedesk/one_admin/domains.py:206
+#: onedesk/one_admin/domains.py:208
 #, python-brace-format
 msgid "{0} is not on this workspace."
 msgstr ""
@@ -67443,7 +67443,7 @@ msgstr ""
 msgid "{0} is not working"
 msgstr ""
 
-#: onedesk/one_admin/domains.py:92
+#: onedesk/one_admin/domains.py:94
 #, python-brace-format
 msgid "{0} is not working yet, so it cannot be the main address."
 msgstr ""
@@ -67509,7 +67509,7 @@ msgstr ""
 msgid "{0} is the last owner of {1}. Make someone else an owner first."
 msgstr ""
 
-#: onedesk/one_admin/domains.py:72
+#: onedesk/one_admin/domains.py:74
 #, python-brace-format
 msgid "{0} is the main address. Make another address the main one first."
 msgstr ""
