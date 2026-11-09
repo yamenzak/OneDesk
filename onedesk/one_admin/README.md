@@ -601,9 +601,9 @@ Keys show as dots and are never read back.
 
 Untick **Open** to stop a server taking new workspaces. **Most Workspaces**
 sets when it's full (0 is no limit). A new workspace goes on the emptiest
-open server that allows it, has room and has the bench group. If none does,
-its job fails saying what to buy or add, and **Resume** places it once
-there is one. Home warns when a server is four-fifths full.
+open server that allows it and has room. If none does, its job fails saying
+so, and **Resume** places it once there is one. Home warns when a server is
+70% full.
 
 The note at the top lists what's missing and what that stops (for example,
 without the Stripe webhook secret every payment is refused). **Test Gateway**
