@@ -4,6 +4,8 @@ release in the registry. Shared by scripts/server.py, which builds the first
 OneAdmin from dev, and servers.py, which orders the rest. Needs no frappe.
 """
 
+import base64
+import gzip
 import json
 import secrets
 import shlex
@@ -64,7 +66,8 @@ def user_data(values: dict[str, str]) -> str:
 	"""first-boot.sh with its values exported ahead of it, written out and
 	run by bash, since Lightsail puts its own /bin/sh lines first."""
 	head = "".join(f"export ONE_{key}={shlex.quote(value)}\n" for key, value in values.items())
-	agent = f"cat > /root/one-agent.py <<'ONE_AGENT'\n{AGENT.read_text()}ONE_AGENT\n"
+	packed = base64.b64encode(gzip.compress(AGENT.read_bytes())).decode()
+	agent = f"echo {packed} | base64 -d | gunzip > /root/one-agent.py\n"
 	return f"umask 077\n{agent}cat > /root/first-boot <<'ONE_FIRST_BOOT'\n{head}{FIRST_BOOT.read_text()}ONE_FIRST_BOOT\nbash /root/first-boot\nrm -f /root/first-boot /root/one-agent.py\n"
 
 
@@ -266,7 +269,11 @@ def new(keys: dict, cloudflare: Cloudflare, name: str, domain: str, tenant_domai
 	)
 	aws = _aws(keys, region)
 	order = {"instanceNames": [name], "availabilityZone": f"{region}a", "blueprintId": "ubuntu_24_04", "bundleId": bundle, "userData": script, "tags": [{"key": "one", "value": "server"}], "addOns": [{"addOnType": "AutoSnapshot", "autoSnapshotAddOnRequest": {"snapshotTimeOfDay": SNAPSHOT_AT}}]}
-	aws.create_instances(**order, **({"keyPairName": key} if key else {}))
+	try:
+		aws.create_instances(**order, **({"keyPairName": key} if key else {}))
+	except Exception:
+		cloudflare.forget(f"one-{name}", tunnel, host, [domain, origin_zone])
+		raise
 	say(f"{name} ordered, {bundle} in {region}")
 	while aws.get_instance_state(instanceName=name)["state"]["name"] != "running":
 		time.sleep(10)

@@ -9,5 +9,4 @@ email_default: yes
 
 # {title}
 
-{held}. Buy the next server in Frappe Cloud, add it to the bench group, and
-list it under Servers.
+{held}. Order the next server from the Home. It takes about 25 minutes.

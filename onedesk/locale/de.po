@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 12:21+0000\n"
+"POT-Creation-Date: 2026-11-09 13:08+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -24190,6 +24190,11 @@ msgstr "Eröffnete, beantwortete und gelöste Anfragen, nach Bearbeiter."
 msgid "Issuing Country"
 msgstr "Ausstellungsland"
 
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "It answered its last check. Check that its workspaces are working."
+msgstr "Er hat beim letzten Test geantwortet. Prüfen Sie, ob seine Arbeitsbereiche funktionieren."
+
 #: onedesk/one_studio/heads.py:38
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr "Sie kann hier noch nicht laufen: Dieser Arbeitsbereich führt keine Erweiterungen auf dem Server aus. Bitte uns, sie einzuschalten."
@@ -24217,6 +24222,11 @@ msgstr "Es ist mehrmals fehlgeschlagen. Öffnen Sie es, um es selbst zu lesen, o
 #: onedesk/one_mail/drafts.py:174
 msgid "It has already gone."
 msgstr "Sie ist bereits gesendet."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "It has missed three checks in a row, five minutes apart. Workspaces on it may be down. Open the server in AWS to see why."
+msgstr "Er hat drei Tests in Folge im Abstand von fünf Minuten nicht bestanden. Seine Arbeitsbereiche sind möglicherweise nicht erreichbar. Öffnen Sie den Server in AWS, um die Ursache zu finden."
 
 #: onedesk/one_inventory/assets.py:59
 msgid "It has no asset category."
@@ -45034,6 +45044,16 @@ msgid "Server"
 msgstr "Server"
 
 #. Name of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "Server Back"
+msgstr "Server wieder da"
+
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "Server Down"
+msgstr "Server ausgefallen"
+
+#. Name of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "Server Filling Up"
 msgstr "Server füllt sich"
@@ -45061,7 +45081,7 @@ msgstr "Serverfehler: {0}"
 msgid "Server is required."
 msgstr "Server ist erforderlich."
 
-#: onedesk/one_admin/servers.py:102
+#: onedesk/one_admin/servers.py:130
 msgid "Server keys are not set."
 msgstr "Serverschlüssel sind nicht festgelegt."
 
@@ -51825,6 +51845,8 @@ msgstr "Die offenen Arbeitsaufträge und jeder Schritt zum Starten, Pausieren un
 #: onedesk/notifications/one_admin/job_failed.md
 #: onedesk/notifications/one_admin/new_signup.md
 #: onedesk/notifications/one_admin/paid_while_archived.md
+#: onedesk/notifications/one_admin/server_back.md
+#: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
@@ -59297,6 +59319,16 @@ msgstr "Wenn ein im Hintergrund exportierter Bericht zum Herunterladen bereit is
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
 msgstr "Wenn ein Server für neue Arbeitsbereiche fast oder ganz an seiner Grenze ist."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_down.md
+msgid "When a server stops answering for 15 minutes."
+msgstr "Wenn ein Server 15 Minuten lang nicht antwortet."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_back.md
+msgid "When a server that had stopped answering answers again."
+msgstr "Wenn ein Server, der nicht mehr geantwortet hat, wieder antwortet."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -69600,8 +69632,8 @@ msgstr "{file} in {folder} hochgeladen"
 #. Message of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 #, python-brace-format
-msgid "{held}. Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
-msgstr "{held}. Kaufen Sie den nächsten Server in Frappe Cloud, fügen Sie ihn der Bench-Gruppe hinzu und listen Sie ihn unter Server."
+msgid "{held}. Order the next server from the Home. It takes about 25 minutes."
+msgstr "{held}. Bestellen Sie den nächsten Server auf der Startseite. Das dauert etwa 25 Minuten."
 
 #. Message of a notification
 #: onedesk/one/notifications.py
@@ -69840,6 +69872,18 @@ msgstr "{screen} ist offline"
 #, python-brace-format
 msgid "{sender_name} and {subject} fill in from the message."
 msgstr "{sender_name} und {subject} werden aus der Nachricht ausgefüllt."
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_back.md
+#, python-brace-format
+msgid "{server} is answering again"
+msgstr "{server} antwortet wieder"
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_down.md
+#, python-brace-format
+msgid "{server} is not answering"
+msgstr "{server} antwortet nicht"
 
 #. Message of a notification
 #: onedesk/one_display/notifications.py

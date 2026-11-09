@@ -85,11 +85,7 @@ CRON
 chmod 644 /etc/cron.d/one-after-boot
 
 install -m 755 -o frappe -g frappe /root/one-agent.py /home/frappe/one-agent.py
-sudo -iu frappe env S="$ONE_SERVER" A="$ONE_AGENT_SECRET" U="$ONE_ADMIN_URL" E="$ONE_R2_ENDPOINT" B="$ONE_R2_BUCKET" K="$ONE_R2_KEY" R="$ONE_R2_SECRET" G="$ONE_GITHUB_TOKEN" P="$ONE_PILOT_PASSWORD" python3 -c "
-import json, os
-json.dump({'server': os.environ['S'], 'secret': os.environ['A'], 'admin_url': os.environ['U'], 'r2_endpoint': os.environ['E'], 'r2_bucket': os.environ['B'], 'r2_key': os.environ['K'], 'r2_secret': os.environ['R'], 'github_token': os.environ['G'], 'pilot_password': os.environ['P']}, open('/home/frappe/.one-agent.json', 'w'))
-os.chmod('/home/frappe/.one-agent.json', 0o600)
-" 2>&1
+sudo -iu frappe env S="$ONE_SERVER" A="$ONE_AGENT_SECRET" U="$ONE_ADMIN_URL" E="$ONE_R2_ENDPOINT" B="$ONE_R2_BUCKET" K="$ONE_R2_KEY" R="$ONE_R2_SECRET" G="$ONE_GITHUB_TOKEN" P="$ONE_PILOT_PASSWORD" python3 -c "import json, os; json.dump({'server': os.environ['S'], 'secret': os.environ['A'], 'admin_url': os.environ['U'], 'r2_endpoint': os.environ['E'], 'r2_bucket': os.environ['B'], 'r2_key': os.environ['K'], 'r2_secret': os.environ['R'], 'github_token': os.environ['G'], 'pilot_password': os.environ['P']}, open('/home/frappe/.one-agent.json', 'w')); os.chmod('/home/frappe/.one-agent.json', 0o600)" 2>&1
 cat > /etc/cron.d/one-agent <<'CRON'
 * * * * * frappe cd /home/frappe && PYTHONPATH=/home/frappe/pilot /home/frappe/pilot/.admin-venv/bin/python /home/frappe/one-agent.py >> /home/frappe/agent.log 2>&1
 CRON

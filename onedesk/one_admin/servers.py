@@ -14,12 +14,40 @@ import time
 import boto3
 import frappe
 
-from onedesk.one_admin import boxes, pilot, site, tell, vault
+from onedesk.one_admin import boxes, faults, pilot, site, tell, vault
 
 KEYS = "one_server_keys"
 CAPACITY = 5
 FIRST = "main"
+MISSES = 3
 REPOSITORY = boxes.REPOSITORY
+
+
+def after_a_check(misses: int, answered: bool) -> tuple[int, str | None]:
+	"""How many checks in a row a server has missed, and what to say: `down`
+	once, on reaching `MISSES`, and `back` when it answers again. Pure."""
+	if answered:
+		return 0, "back" if misses >= MISSES else None
+	return misses + 1, "down" if misses + 1 == MISSES else None
+
+
+def watch() -> None:
+	"""Every five minutes, on the admin site: each server is asked if it is
+	up, through its tunnel and lock, and the operators told if that changes."""
+	if not site.is_admin():
+		return
+	for row in frappe.get_doc("One Admin Settings").get("servers") or []:
+		if not row.pilot_host:
+			continue
+		try:
+			answered = bool(pilot.call(row.server, "GET", "/health"))
+		except faults.Refused:
+			answered = False
+		key = f"one_admin_server_misses_{row.server}"
+		misses, said = after_a_check(frappe.utils.cint(frappe.db.get_default(key)), answered)
+		frappe.db.set_default(key, str(misses))
+		if said:
+			tell.server_changed(row.server, said)
 
 
 def next_name(held: list[str]) -> str:

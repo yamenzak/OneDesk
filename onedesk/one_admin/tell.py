@@ -396,3 +396,9 @@ def update_waits(tenant) -> None:
 	to = tenant.get("account") or tenant.get("owner_email")
 	if to:
 		notify.mail("Update Waits For Terms", to, workspace=tenant.workspace_name or tenant.name, date=formatdate(add_days(tenant.update_at, releases.HOLD_DAYS)), reference_doctype="Tenant", reference_name=tenant.name)
+
+
+@_quietly
+def server_changed(server: str, said: str) -> None:
+	"""A server stopped answering, or answers again."""
+	notify.notify("Server Down" if said == "down" else "Server Back", operators(), link=HOME, sender="Administrator", server=server)

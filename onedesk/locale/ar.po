@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 12:21+0000\n"
+"POT-Creation-Date: 2026-11-09 13:08+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: ar\n"
@@ -24190,6 +24190,11 @@ msgstr "البلاغات المفتوحة والمردود عليها والمح
 msgid "Issuing Country"
 msgstr "بلد الإصدار"
 
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "It answered its last check. Check that its workspaces are working."
+msgstr "استجاب في آخر فحص. تأكد من أن مساحات العمل عليه تعمل."
+
 #: onedesk/one_studio/heads.py:38
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr "لا يمكن تشغيلها هنا بعد: مساحة العمل هذه لا تشغّل الإضافات على الخادم. اطلب منا تفعيلها."
@@ -24217,6 +24222,11 @@ msgstr "فشلت القراءة أكثر من مرة. افتحه لتقرأه ب
 #: onedesk/one_mail/drafts.py:174
 msgid "It has already gone."
 msgstr "تم إرساله بالفعل."
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "It has missed three checks in a row, five minutes apart. Workspaces on it may be down. Open the server in AWS to see why."
+msgstr "فاتته ثلاثة فحوص متتالية بفاصل خمس دقائق. قد تكون مساحات العمل عليه متوقفة. افتح الخادم في AWS لمعرفة السبب."
 
 #: onedesk/one_inventory/assets.py:59
 msgid "It has no asset category."
@@ -45034,6 +45044,16 @@ msgid "Server"
 msgstr "الخادم"
 
 #. Name of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "Server Back"
+msgstr "عودة الخادم"
+
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "Server Down"
+msgstr "توقف الخادم"
+
+#. Name of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "Server Filling Up"
 msgstr "خادم يمتلئ"
@@ -45061,7 +45081,7 @@ msgstr "خطأ في الخادم: {0}"
 msgid "Server is required."
 msgstr "الخادم مطلوب."
 
-#: onedesk/one_admin/servers.py:102
+#: onedesk/one_admin/servers.py:130
 msgid "Server keys are not set."
 msgstr "لم يتم تعيين مفاتيح الخادم."
 
@@ -51825,6 +51845,8 @@ msgstr "أوامر العمل المفتوحة، وكل خطوة للبدء وا
 #: onedesk/notifications/one_admin/job_failed.md
 #: onedesk/notifications/one_admin/new_signup.md
 #: onedesk/notifications/one_admin/paid_while_archived.md
+#: onedesk/notifications/one_admin/server_back.md
+#: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
@@ -59297,6 +59319,16 @@ msgstr "عندما يصبح تقرير صُدّر في الخلفية جاهزا
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
 msgstr "عندما يقترب خادم مساحات العمل الجديدة من حدّه، أو يبلغه."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_down.md
+msgid "When a server stops answering for 15 minutes."
+msgstr "عندما يتوقف الخادم عن الاستجابة لمدة 15 دقيقة."
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_back.md
+msgid "When a server that had stopped answering answers again."
+msgstr "عندما يعود خادم توقف عن الاستجابة إلى الاستجابة."
 
 #. When a notification is sent
 #: onedesk/one_inventory/notifications.py
@@ -69600,8 +69632,8 @@ msgstr "رُفع {file} إلى {folder}"
 #. Message of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 #, python-brace-format
-msgid "{held}. Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
-msgstr "{held}. اشترِ الخادم التالي في Frappe Cloud، وأضفه إلى مجموعة bench، وأدرجه تحت الخوادم."
+msgid "{held}. Order the next server from the Home. It takes about 25 minutes."
+msgstr "{held}. اطلب الخادم التالي من الصفحة الرئيسية. يستغرق ذلك نحو 25 دقيقة."
 
 #. Message of a notification
 #: onedesk/one/notifications.py
@@ -69840,6 +69872,18 @@ msgstr "{screen} غير متصلة"
 #, python-brace-format
 msgid "{sender_name} and {subject} fill in from the message."
 msgstr "يُملأ {sender_name} و{subject} من الرسالة."
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_back.md
+#, python-brace-format
+msgid "{server} is answering again"
+msgstr "{server} يستجيب من جديد"
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_down.md
+#, python-brace-format
+msgid "{server} is not answering"
+msgstr "{server} لا يستجيب"
 
 #. Message of a notification
 #: onedesk/one_display/notifications.py

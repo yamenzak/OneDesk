@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 12:22+0000\n"
-"PO-Revision-Date: 2026-11-09 12:22+0000\n"
+"POT-Creation-Date: 2026-11-09 13:09+0000\n"
+"PO-Revision-Date: 2026-11-09 13:09+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -24193,6 +24193,11 @@ msgstr ""
 msgid "Issuing Country"
 msgstr ""
 
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "It answered its last check. Check that its workspaces are working."
+msgstr ""
+
 #: onedesk/one_studio/heads.py:38
 msgid "It cannot run here yet: this workspace does not run extensions on the server. Ask us to turn them on."
 msgstr ""
@@ -24219,6 +24224,11 @@ msgstr ""
 
 #: onedesk/one_mail/drafts.py:174
 msgid "It has already gone."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "It has missed three checks in a row, five minutes apart. Workspaces on it may be down. Open the server in AWS to see why."
 msgstr ""
 
 #: onedesk/one_inventory/assets.py:59
@@ -45047,6 +45057,16 @@ msgid "Server"
 msgstr ""
 
 #. Name of a notification
+#: onedesk/notifications/one_admin/server_back.md
+msgid "Server Back"
+msgstr ""
+
+#. Name of a notification
+#: onedesk/notifications/one_admin/server_down.md
+msgid "Server Down"
+msgstr ""
+
+#. Name of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "Server Filling Up"
 msgstr ""
@@ -45074,7 +45094,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:102
+#: onedesk/one_admin/servers.py:130
 msgid "Server keys are not set."
 msgstr ""
 
@@ -51865,6 +51885,8 @@ msgstr ""
 #: onedesk/notifications/one_admin/job_failed.md
 #: onedesk/notifications/one_admin/new_signup.md
 #: onedesk/notifications/one_admin/paid_while_archived.md
+#: onedesk/notifications/one_admin/server_back.md
+#: onedesk/notifications/one_admin/server_down.md
 #: onedesk/notifications/one_admin/server_filling_up.md
 #: onedesk/notifications/one_admin/signup_not_built.md
 #: onedesk/notifications/one_admin/workspace_asked_to_close.md
@@ -59348,6 +59370,16 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_admin/server_filling_up.md
 msgid "When a server new workspaces go on is near its limit, or at it."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_down.md
+msgid "When a server stops answering for 15 minutes."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/notifications/one_admin/server_back.md
+msgid "When a server that had stopped answering answers again."
 msgstr ""
 
 #. When a notification is sent
@@ -69656,7 +69688,7 @@ msgstr ""
 #. Message of a notification
 #: onedesk/notifications/one_admin/server_filling_up.md
 #, python-brace-format
-msgid "{held}. Buy the next server in Frappe Cloud, add it to the bench group, and list it under Servers."
+msgid "{held}. Order the next server from the Home. It takes about 25 minutes."
 msgstr ""
 
 #. Message of a notification
@@ -69895,6 +69927,18 @@ msgstr ""
 #: onedesk/public/js/one_mail/rule_builder.js:229
 #, python-brace-format
 msgid "{sender_name} and {subject} fill in from the message."
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_back.md
+#, python-brace-format
+msgid "{server} is answering again"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/notifications/one_admin/server_down.md
+#, python-brace-format
+msgid "{server} is not answering"
 msgstr ""
 
 #. Message of a notification
