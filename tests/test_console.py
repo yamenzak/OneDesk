@@ -25,7 +25,6 @@ OPERATOR = "One Operator"
 NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", "Image")
 
 UNRAILED = {
-	"Workspace Server",
 	"Stripe Webhook Event",
 	"Credit Reservation",
 }

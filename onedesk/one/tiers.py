@@ -188,7 +188,6 @@ SCREENS = {
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",
 	"oneadmin": "OneAdmin's overview, a console of its own, read from several records",
-	"oneadmin-servers": "every server on any provider with its live health, a console of its own",
 	"intake": "what Intake read and did (Reading, Reading Action)",
 	"legal": "TrustCenter over the desk: the agreements, the optional services and the companies that receive data",
 }

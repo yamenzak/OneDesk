@@ -1,59 +1,95 @@
 <template>
   <Page wide>
     <Loading v-if="!said" />
-    <template v-else>
-      <Section :title="__('Needs You')" icon="lucide-triangle-alert" :aside="said.needs.length || ''">
-        <p v-if="!said.needs.length" class="py-3 text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
-        <div v-else class="rounded-4 border border-outline-gray-1 bg-surface-elevation-2">
-          <div v-for="one in said.needs" :key="one.title" class="flex items-center gap-3 border-t border-outline-gray-1 px-4 py-2.5 first:border-t-0">
-            <div class="min-w-0 flex-1">
-              <div class="text-base font-medium text-ink-gray-9">{{ one.title }}</div>
-              <div v-if="one.detail || one.why" class="text-sm text-ink-gray-5">{{ one.detail || one.why }}</div>
-            </div>
-            <Badge v-if="one.badge" :label="one.badge" theme="amber" />
-            <Button v-if="one.action" :label="one.action.label" @click="act(one.action)" />
-            <Button v-else :label="__('View')" @click="goTo('Form', one.doctype, one.name)" />
+    <div v-else ref="root">
+      <div class="mt-6 grid grid-cols-2 gap-3 lg:grid-cols-4">
+        <NumberCard v-for="card in cards" :key="card.key" v-bind="card.props" class="cursor-pointer" role="link" @click="go(card.route)" />
+      </div>
+      <ViewTabs v-model="shown" :views="views" class="mt-5" />
+
+      <template v-if="shown === 'overview'">
+        <Section :title="__('Workspaces')" icon="lucide-building-2" data-cards>
+          <div class="grid gap-3 lg:grid-cols-3">
+            <ChartCard class="h-80 lg:col-span-2">
+              <AreaChart :title="__('Workspaces by Month')" :data="growth" x="month" :y="['workspaces']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ workspaces: { label: __('Workspaces'), color: hue(0) } }" />
+            </ChartCard>
+            <ChartCard class="h-80">
+              <DonutChart :title="__('By Status')" :data="said.status" category="status" value="workspaces" :format="count" :center-label="__('Workspaces')" />
+            </ChartCard>
           </div>
-        </div>
-      </Section>
-      <Section :title="__('The Business')" icon="lucide-chart-column">
-        <Figures :figures="figures" />
-      </Section>
-      <Section :title="__('Servers')" icon="lucide-server" :action="{ text: true, label: __('All Servers'), onClick: () => go('oneadmin-servers') }">
-        <ServerRows :rows="said.servers" />
-      </Section>
-    </template>
+        </Section>
+        <Section :title="__('OneCredits')" icon="lucide-sparkles" data-cards>
+          <div class="grid gap-3 lg:grid-cols-3">
+            <ChartCard class="h-80 lg:col-span-2">
+              <BarChart :title="__('Used by Month')" :data="used" x="month" :y="['credits']" :x-axis="{ timeGrain: 'month', format: monthName }" :y-axis="{ format: count }" :series-config="{ credits: { label: __('OneCredits'), color: hue(4) } }" />
+            </ChartCard>
+            <ChartCard class="h-80">
+              <BarChart :title="__('Most Used, Last 30 Days')" :data="said.spenders" x="name" y="credits" split-by="name" stacked horizontal :x-axis="wrapped" :y-axis="{ format: count }" />
+            </ChartCard>
+          </div>
+        </Section>
+        <Section :title="__('Servers')" icon="lucide-server" :action="{ text: true, label: __('All Servers'), onClick: () => go('/desk/workspace-server') }" data-cards>
+          <div class="grid gap-3 lg:grid-cols-2">
+            <ChartCard class="h-80">
+              <BarChart :title="__('Memory and Disk Used')" :data="said.servers" x="server" :y="['memory', 'disk']" :y-axis="{ format: share }" :series-config="USE" />
+            </ChartCard>
+            <ChartCard class="h-80">
+              <BarChart :title="__('Workspaces by Plan')" :data="said.plans" x="plan" y="workspaces" split-by="plan" stacked horizontal :x-axis="wrapped" :y-axis="{ format: count }" />
+            </ChartCard>
+          </div>
+        </Section>
+      </template>
+
+      <template v-else>
+        <p v-if="!said.needs.length" class="py-10 text-center text-base text-ink-gray-5">{{ __("Nothing needs you") }}</p>
+        <Section v-else :title="__('Needs You')" icon="lucide-triangle-alert" :aside="said.needs.length">
+          <Rows :rows="needs" />
+        </Section>
+      </template>
+    </div>
   </Page>
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from "vue";
-import { Badge, Button } from "frappe-ui";
+import { computed, onBeforeUnmount, ref } from "vue";
+import { AreaChart, BarChart, ChartCard, DonutChart, NumberCard, useChartTokens } from "frappe-ui/charts";
 
-import { Figures, Loading, Page, Section, __, call, count, followList, get, go, goTo, money } from "../kit";
-import ServerRows from "./ServerRows.vue";
+import { Loading, Page, Rows, Section, ViewTabs, __, call, count, followList, get, go, goTo, money, shortMonth, wrapped } from "../kit";
 
 const said = ref(null);
+const shown = ref("overview");
+const root = ref();
+const { tokens } = useChartTokens(root);
+const hue = (i) => tokens.value.categorical[i % tokens.value.categorical.length];
+const monthName = (value) => shortMonth(typeof value === "string" ? value : new Date(value).toISOString().slice(0, 10));
+const share = (value) => `${Math.round(value)}%`;
+const USE = computed(() => ({ memory: { label: __("Memory"), color: hue(0) }, disk: { label: __("Disk"), color: hue(4) } }));
+
 const load = async () => (said.value = await get("onedesk.one_admin.console.overview"));
-const figures = computed(() => [
-  { title: __("Live Workspaces"), value: count(said.value.live), route: "List/Tenant" },
-  { title: __("Monthly Revenue"), value: money(said.value.revenue, said.value.currency, 0) },
-  { title: __("Server Cost"), value: `$${count(said.value.cost)}`, note: __("A month") },
-  { title: __("Servers"), value: count(said.value.servers.length), route: "oneadmin-servers" },
+load();
+const stops = ["Tenant", "Offering", "Workspace Server", "Credit Reservation"].map((doctype) => followList(doctype, load));
+onBeforeUnmount(() => stops.forEach((stop) => stop()));
+
+const growth = computed(() => said.value.months.map((month, at) => ({ month, workspaces: said.value.joined[at] })));
+const used = computed(() => said.value.months.map((month, at) => ({ month, credits: said.value.credits[at] })));
+const views = computed(() => [
+  { key: "overview", label: __("Overview") },
+  { key: "needs", label: __("Needs You"), count: said.value.needs.length },
 ]);
-async function act(action) {
-  await call(action.method, action.args);
-  await load();
-}
-let timer;
-let stops = [];
-onMounted(() => {
-  load();
-  stops = ["Tenant", "Offering", "Workspace Server"].map((doctype) => followList(doctype, load));
-  timer = setInterval(load, 60000);
-});
-onBeforeUnmount(() => {
-  clearInterval(timer);
-  stops.forEach((stop) => stop());
-});
+const cards = computed(() => [
+  { key: "live", route: "/desk/tenant", props: { title: __("Live Workspaces"), value: said.value.live, format: count, sparkline: { data: said.value.joined, type: "area", color: hue(0) } } },
+  { key: "revenue", route: "/desk/tenant", props: { title: __("Monthly Revenue"), value: said.value.revenue, format: (value) => money(value, said.value.currency, 0) } },
+  { key: "cost", route: "/desk/workspace-server", props: { title: __("Server Cost a Month"), value: said.value.cost, format: (value) => `$${count(value)}` } },
+  { key: "credits", route: "/desk/credit-ledger-entry", props: { title: __("OneCredits This Month"), value: said.value.credits.at(-1), format: count, sparkline: { data: said.value.credits, type: "bar", color: hue(4) } } },
+]);
+const needs = computed(() =>
+  said.value.needs.map((one, at) => ({
+    key: at,
+    label: one.title,
+    below: one.detail || one.why,
+    badge: one.badge ? { label: one.badge, theme: "amber" } : null,
+    onClick: () => (one.doctype ? goTo("Form", one.doctype, one.name) : null),
+    actions: one.action ? [{ label: one.action.label, onClick: () => call(one.action.method, one.action.args).then(load) }] : [],
+  }))
+);
 </script>

@@ -394,6 +394,21 @@ def _summed(query: str, tenant: str, locking: bool = False) -> float:
 	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
 
 
+def by_month(start) -> list:
+	"""OneCredits spent on model calls each month since a date, for Home's chart."""
+	site.require_admin()
+	return frappe.db.sql(
+		"""
+		SELECT DATE_FORMAT(creation, '%%Y-%%m-01') AS month, SUM(settled) AS credits
+		  FROM `tabCredit Reservation`
+		 WHERE state = 'Settled' AND creation >= %(start)s
+		 GROUP BY month
+		""",
+		{"start": start},
+		as_dict=True,
+	)
+
+
 def packs_charged_this_month(tenant: str) -> int:
 	"""Packs bought by auto top-up this month: a payment, not a checkout."""
 	return frappe.db.count("Credit Ledger Entry", {"tenant": tenant, "reference": ["like", "pi_%"], "creation": [">=", get_first_day(_today())]})

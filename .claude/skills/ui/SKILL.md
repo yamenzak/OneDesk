@@ -66,6 +66,12 @@ arrangement adds a part to the renderer; it never forks it.
 
 If you cannot say why a list or a form won't do, it is 1.
 
+This holds in a custom app too. OneCloud, OneMail and OneCalendar are islands
+because a list cannot be a file browser, an inbox or a calendar. A custom app's
+screen earns its place by doing real work frappe's parts cannot, and a table in
+Vue that frappe's list already draws fails that test. A module's Home follows
+OneBook's and OneInventory's: figures with their trends, then real charts.
+
 ## Where frappe, or the registry, draws it for you
 
 | You want | It is drawn by |
