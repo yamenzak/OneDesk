@@ -334,11 +334,10 @@ class Setup:
 		what a run makes and changes (Workers, buckets and their locks, the
 		gateway, containers), for an hour, on any account and zone, and
 		deleted when the run ends (`end`). OneAdmin's own token is never given
-		these (AGENTS.md, Keys). A run from Sign In to Cloudflare works with the
-		sign-in's own token instead."""
+		these (AGENTS.md, Keys). A run from Sign In to Cloudflare makes it from
+		the sign-in's token the same way, since that token may only make tokens."""
 		if self.signed_in:
-			self.token = self.master
-			return self.note("sign-in", OURS, _("Signed in to Cloudflare for this run."))
+			self.note("sign-in", OURS, _("Signed in to Cloudflare for this run."))
 		called = token_for_env(self.env, RUN)
 		for stale in (one for one in self.held_tokens() if one["name"] == called):
 			self.call("DELETE", f"/user/tokens/{stale['id']}", token=self.master)
