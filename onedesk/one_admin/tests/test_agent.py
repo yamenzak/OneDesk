@@ -14,16 +14,25 @@ SPEC.loader.exec_module(agent)
 
 
 def test_a_moved_site_keeps_its_own_keys_and_comes_back_on():
-	old = {"encryption_key": "k", "db_name": "old", "one_token": "t", "maintenance_mode": 1, "pause_scheduler": 1}
-	new = {"db_name": "new", "encryption_key": "other"}
-	made = agent.merged_config(old, new)
-	assert made["encryption_key"] == "k" and made["one_token"] == "t" and made["db_name"] == "new"
-	assert "maintenance_mode" not in made and "pause_scheduler" not in made
+	before = {"encryption_key": "k", "db_name": "d", "maintenance_mode": 1, "pause_scheduler": 1}
+	made = agent.arrived({**before, "one_token": "t"}, before)
+	assert made == {"encryption_key": "k", "db_name": "d", "one_token": "t"}
 
 
 def test_a_suspended_site_stays_stopped_after_a_move():
-	made = agent.merged_config({"maintenance_mode": 1, "pause_scheduler": 1, "db_name": "old"}, {"db_name": "new"}, quiet=True)
-	assert made["maintenance_mode"] == 1 and made["pause_scheduler"] == 1 and made["db_name"] == "new"
+	before = {"maintenance_mode": 1, "pause_scheduler": 1, "db_name": "d"}
+	made = agent.arrived({"maintenance_mode": 0, "db_name": "d"}, before, quiet=True)
+	assert made == before
+
+
+def test_a_ready_made_bench_lists_the_apps_it_holds():
+	listed = agent.listed_apps({"repository": "o/one", "branch": "main"})
+	assert [one["name"] for one in listed] == ["erpnext", "hrms", "onedesk"]
+	assert listed[-1] == {"name": "onedesk", "repo": "https://github.com/o/one", "branch": "main"}
+
+
+def test_every_instruction_the_admin_sends_is_one_the_agent_knows():
+	assert {"prepare", "spare", "move", "drop-bench", agent.UPDATE} <= set(agent.KINDS)
 
 
 def test_an_instruction_is_only_believed_when_signed():

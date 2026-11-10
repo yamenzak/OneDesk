@@ -38,15 +38,16 @@ jobs:
       - name: Install Pilot
         if: steps.built.outputs.yes != 'true'
         run: |
-          curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o "$RUNNER_TEMP/pilot.sh"
-          sudo env PATH="$PATH" BENCH_USER="$USER" PILOT_VERSION=v0.0.99-pre-alpha sh "$RUNNER_TEMP/pilot.sh"
+          curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
+          chmod 644 /tmp/pilot.sh
+          sudo env PATH="$PATH" PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh
           for attempt in 1 2 3 4; do
-            PILOT_VERSION=v0.0.99-pre-alpha bash "$RUNNER_TEMP/pilot.sh" && break
+            sudo -iu frappe env PATH="/home/frappe/.local/bin:$PATH" PILOT_VERSION=v0.0.99-pre-alpha bash /tmp/pilot.sh && break
             [ "$attempt" = 4 ] && exit 1
             sleep 30
           done
-          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
-          echo "$HOME/pilot/bin" >> "$GITHUB_PATH"
+          sudo cp -a "$GITHUB_WORKSPACE" /tmp/onedesk
+          sudo chown -R frappe:frappe /tmp/onedesk
 
       - name: Build and publish
         if: steps.built.outputs.yes != 'true'
@@ -57,4 +58,10 @@ jobs:
           R2_ASSETS_BUCKET: ${{ secrets.R2_ASSETS_BUCKET }}
           R2_ASSETS_KEY: ${{ secrets.R2_ASSETS_KEY }}
           R2_ASSETS_SECRET: ${{ secrets.R2_ASSETS_SECRET }}
-        run: deploy/release/build.sh
+          ONE_ADMIN_URL: ${{ secrets.ONE_ADMIN_URL }}
+          ONE_RELEASE_SECRET: ${{ secrets.ONE_RELEASE_SECRET }}
+        run: |
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+            GH_TOKEN="$GH_TOKEN" RELEASE_BRANCH="$RELEASE_BRANCH" R2_ENDPOINT="$R2_ENDPOINT" R2_ASSETS_BUCKET="$R2_ASSETS_BUCKET" \
+            R2_ASSETS_KEY="$R2_ASSETS_KEY" R2_ASSETS_SECRET="$R2_ASSETS_SECRET" ONE_ADMIN_URL="$ONE_ADMIN_URL" ONE_RELEASE_SECRET="$ONE_RELEASE_SECRET" \
+            bash /tmp/onedesk/deploy/release/build.sh

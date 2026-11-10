@@ -247,9 +247,10 @@ def _own_address(row) -> list[str]:
 
 
 def prepare(row, release: str) -> None:
-	"""The box builds this release as a second bench, reachable at its own
+	"""The box unpacks this release as a second bench, reachable at its own
 	Pilot address behind the box's lock, its agent updated first so it is
-	never older than the release it builds."""
+	never older than the release it builds. A release with a template site
+	makes this bench's spares from it."""
 	keys = _keys()
 	about = boxes.release_of(keys, release)
 	name = f"r{release[:8]}"
@@ -259,7 +260,7 @@ def prepare(row, release: str) -> None:
 	others = [one["host"] for one in rows if one.get("host")]
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], [row.pilot_host, *others, host, *_own_address(row), row.origin_host, f"*.{tenant_domain}"], host, keys["origin_zone"], tell.operators())
-	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing"}])
+	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing", "template": bool(about.get("template"))}])
 	source = boxes.agent_of(keys, release)
 	if source:
 		instruct(row.server, AGENT_UPDATE, source=source)
@@ -358,6 +359,7 @@ def build(tenant: str | None = None) -> str:
 	name = f"own-{frappe.db.get_value('Tenant', tenant, 'slug')}" if tenant else next_name([one.server for one in fleet.rows()], region)
 	zone = keys["origin_zone"]
 	release = boxes.latest_release(keys)
+	template = bool(boxes.release_of(keys, release).get("template"))
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 
 	def kept(made: dict) -> None:
@@ -378,7 +380,7 @@ def build(tenant: str | None = None) -> str:
 			"tenant": tenant,
 			"pilot_host": made["host"],
 			"origin_host": made["origin"],
-			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
+			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready", "template": template}]),
 			"provider": "AWS",
 			"monthly_cost": costs_of(tenant),
 		}

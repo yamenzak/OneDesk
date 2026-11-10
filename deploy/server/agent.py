@@ -1,7 +1,8 @@
 """One's agent on a box. Once a minute it reads OneAdmin's signed instructions
 from R2, carries out the next one and reports how it went. It only ever calls
-out, so no port opens: it builds a release as a new bench, moves a workspace
-between benches, and drops a bench that has emptied.
+out, so no port opens: it unpacks a release as a new bench, makes a spare site
+from the release's template, moves a workspace between benches, and drops a
+bench that has emptied.
 """
 
 import fcntl
@@ -23,23 +24,90 @@ HOME = Path.home()
 CONFIG = HOME / ".one-agent.json"
 DONE = HOME / ".one-agent-done"
 LOCK = HOME / ".one-agent-lock"
-MOVING = HOME / "moving"
+TEMPLATES = HOME / "templates"
 BENCHES = HOME / "pilot" / "benches"
-PILOT = str(HOME / "pilot" / "bin" / "pilot")
+PILOT_HOME = HOME / "pilot"
+PILOT = str(PILOT_HOME / "bin" / "pilot")
 PYTHON = str(HOME / "pilot" / ".admin-venv" / "bin" / "python")
 APPS = ("frappe", "erpnext", "hrms", "onedesk")
 FLOW = "frappe-flow_server"
-KEPT_OUT = ("installed_apps", "pilot_auth_token", "pilot_endpoint", "backup_retention")
-KEPT_OUT_STARTING = ("db_", "maintenance", "pause_")
+QUIET = ("maintenance_mode", "pause_scheduler")
+TEMPLATE = ("database.sql.gz", "site_config.json", "public", "private")
+SETTLE = """
+import json, sys
+from pathlib import Path
+from pilot.config import BenchConfig
+from pilot.config.common_site_config import update_common_site_config
+from pilot.core.bench import Bench
+from pilot.core.bench.initializer import BenchInitializer
+path, apps = Path(sys.argv[1]), json.loads(sys.argv[2])
+with BenchConfig.open(path, mode="raw") as raw:
+    listed = raw.setdefault("apps", [])
+    new = [one for one in apps if not any(had.get("name") == one["name"] for had in listed)]
+    listed.extend(new)
+bench = Bench(path)
+start = BenchInitializer(bench)
+start._ensure_admin_password()
+start._ensure_database_credentials()
+bench.create_directories()
+bench.write_common_site_config()
+with update_common_site_config(bench.sites_path) as config:
+    config.setdefault("server_script_enabled", True)
+start._configure_redis()
+start._ensure_admin_frontend(print)
+start._generate_process_config()
+"""
+SPARE = """
+import sys
+from pathlib import Path
+from pilot.core.bench import Bench
+from pilot.core.site import Site
+from pilot.core.site.apps import SiteApps
+from pilot.core.site.commands import SiteCommands
+bench, site, database, password = sys.argv[1:5]
+reach = SiteCommands.db_args
+SiteCommands.db_args = lambda self, db_type: [*reach(self, db_type), "--source-sql", database]
+held = Bench(Path.home() / "pilot" / "benches" / bench)
+made = Site.provision(held, site, [], password)
+SiteApps(made).restore_installed_apps_copy()
+held.processes.apply()
+"""
+ARRIVE = """
+import sys
+from pathlib import Path
+from pilot.core.bench import Bench
+from pilot.core.site.provisioning import SiteProvisioner
+from pilot.managers.nginx import NginxManager
+to, was, site = sys.argv[1:4]
+root = Path.home() / "pilot" / "benches"
+gone, here = Bench(root / was), Bench(root / to)
+NginxManager(gone).reload_for_site_change()
+SiteProvisioner(here, site, [], None).write_pilot_communication_config(here.site(site))
+NginxManager(here).reload_for_site_change()
+here.backups.install_schedule()
+"""
+RESTORE = """
+import sys
+from pathlib import Path
+from pilot.core.bench import Bench
+from pilot.core.site.commands import SiteCommands
+bench, site, database = sys.argv[1:4]
+SiteCommands(Bench(Path.home() / "pilot" / "benches" / bench).site(site)).restore(database)
+"""
 TIMEOUT = 8 * 3600
 BUILD_MEMORY_MB = 2800
 UPDATE = "update-agent"
 LOADS = "import importlib.util, sys; spec = importlib.util.spec_from_file_location('agent', sys.argv[1]); agent = importlib.util.module_from_spec(spec); spec.loader.exec_module(agent); assert callable(agent.main) and sys.argv[2] in agent.KINDS"
 
 
-def run(*command: str, cwd: str | None = None) -> str:
-	done = subprocess.run(command, cwd=cwd, check=True, capture_output=True, text=True, timeout=TIMEOUT)
+def run(*command: str, cwd: str | None = None, env: dict | None = None) -> str:
+	done = subprocess.run(command, cwd=cwd, env=env, check=True, capture_output=True, text=True, timeout=TIMEOUT)
 	return done.stdout
+
+
+def on_pilot(code: str, *args: str) -> str:
+	"""Pilot's own code, in Pilot's Python, for what its commands do not offer."""
+	return run(PYTHON, "-c", code, *args, env={**os.environ, "PYTHONPATH": str(PILOT_HOME)})
 
 
 def pilot(*args: str) -> str:
@@ -60,24 +128,98 @@ def store(config: dict):
 	return boto3.client("s3", endpoint_url=config["r2_endpoint"], region_name="auto", aws_access_key_id=config["r2_key"], aws_secret_access_key=config["r2_secret"])
 
 
-def merged_config(old: dict, new: dict, quiet: bool = False) -> dict:
-	"""The new site's config with the old one's own keys, the encryption key
-	among them, and never its database settings. A suspended site stays
-	stopped; any other comes back on. Pure."""
-	left_out = ("db_",) if quiet else KEPT_OUT_STARTING
-	carried = {key: value for key, value in old.items() if not key.startswith(left_out) and key not in KEPT_OUT}
-	return {**new, **carried}
+def arrived(config: dict, before: dict, quiet: bool = False) -> dict:
+	"""A moved site's config on its new bench: a suspended site stays stopped
+	as it was, any other comes back on. Pure."""
+	kept = {key: value for key, value in config.items() if key not in QUIET}
+	if quiet:
+		kept.update({key: before[key] for key in QUIET if key in before})
+	return kept
+
+
+def listed_apps(one: dict) -> list[dict]:
+	"""The apps a ready-made bench holds, as bench.toml lists them. Pure."""
+	return [
+		{"name": "erpnext", "repo": "https://github.com/frappe/erpnext", "branch": "develop"},
+		{"name": "hrms", "repo": "https://github.com/frappe/hrms", "branch": "develop"},
+		{"name": "onedesk", "repo": f"https://github.com/{one['repository']}", "branch": one["branch"]},
+	]
+
+
+def _write_config(path: Path, config: dict) -> None:
+	new = path.with_name(f".{path.name}.new")
+	descriptor = os.open(new, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+	with os.fdopen(descriptor, "w") as file:
+		file.write(json.dumps(config, indent=1, sort_keys=True))
+	os.replace(new, path)
+
+
+def _about(config: dict, release: str) -> dict:
+	return json.loads(store(config).get_object(Bucket=config["r2_bucket"], Key=f"releases/{release}.json")["Body"].read())
+
+
+def _fetch(config: dict, key: str, sha256: str, path: Path) -> Path:
+	"""A file from the registry, refused unless it matches its checksum."""
+	store(config).download_file(config["r2_bucket"], key, str(path))
+	digest = hashlib.sha256()
+	with open(path, "rb") as file:
+		for chunk in iter(lambda: file.read(1 << 20), b""):
+			digest.update(chunk)
+	if digest.hexdigest() != sha256:
+		path.unlink()
+		raise RuntimeError(f"{key} does not match its checksum")
+	return path
 
 
 def prepare(config: dict, one: dict) -> None:
-	"""A release as a bench of its own, its screens from the registry."""
+	"""A release as a bench of its own: the bench the release build made,
+	unpacked where it was built, or built here from its commits when the
+	release has none or it does not start."""
 	name = one["bench"]
 	bench = BENCHES / name
 	if bench.exists():
 		pilot("-b", name, "drop")
+	about = _about(config, one["release"])
+	try:
+		if not about.get("bench"):
+			raise LookupError("the release carries no bench")
+		_ready_made(config, one, about)
+	except Exception as raised:
+		print(f"{name} is built from its commits: {raised}")
+		if bench.exists():
+			pilot("-b", name, "drop")
+		_from_commits(config, one)
+	pilot("-b", name, "processes", "disable", FLOW)
+	pilot("-b", name, "setup", "production", "--admin-domain", one["host"])
+	pilot("-b", name, "restart")
+
+
+def _new_bench(config: dict, name: str) -> Path:
+	bench = BENCHES / name
 	pilot("new", name, "--frappe-branch", "develop", "--admin-password", config["pilot_password"])
 	with open(bench / "bench.toml", "a") as file:
 		file.write(f"\n[build]\nmemory_limit_mb = {BUILD_MEMORY_MB}\n")
+	return bench
+
+
+def _ready_made(config: dict, one: dict, about: dict) -> None:
+	"""The bench from the release, at the path, user and Python it was built
+	with, so its virtualenv works as it is; then what `pilot init` would still
+	do, without cloning or building anything."""
+	name = one["bench"]
+	bench = _new_bench(config, name)
+	archive = _fetch(config, f"releases/{one['release']}.bench.tar.gz", about["bench"]["sha256"], BENCHES / f".{name}.tar.gz")
+	try:
+		run("tar", "xzf", str(archive), "-C", str(HOME), "--skip-old-files", f"pilot/benches/{name}", *about["bench"].get("python", []))
+	finally:
+		archive.unlink(missing_ok=True)
+	run(str(bench / "env" / "bin" / "python"), "-c", f"import {', '.join(APPS)}")
+	on_pilot(SETTLE, str(bench), json.dumps(listed_apps(one)))
+
+
+def _from_commits(config: dict, one: dict) -> None:
+	name = one["bench"]
+	bench = _new_bench(config, name)
 	pilot("-b", name, "init", "--commit", one["frappe"])
 	token = json.dumps({"provider": "github", "token": config["github_token"], "username": "x-access-token", "token_expires_at": None, "is_token_valid": True})
 	descriptor = os.open(bench / ".bench.git.info", os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
@@ -87,23 +229,11 @@ def prepare(config: dict, one: dict) -> None:
 	pilot("-b", name, "get-app", "https://github.com/frappe/hrms", "--branch", "develop", "--commit", one["hrms"], "--skip-assets")
 	pilot("-b", name, "get-app", f"https://github.com/{one['repository']}", "--branch", one["branch"], "--commit", one["release"], "--skip-assets")
 	_unpack(config, bench, one["release"])
-	pilot("-b", name, "processes", "disable", FLOW)
-	pilot("-b", name, "setup", "production", "--admin-domain", one["host"])
-	pilot("-b", name, "restart")
 
 
 def _unpack(config: dict, bench: Path, release: str) -> None:
-	key = f"releases/{release}"
-	r2 = store(config)
-	about = json.loads(r2.get_object(Bucket=config["r2_bucket"], Key=f"{key}.json")["Body"].read())
-	archive = bench / "release.tar.gz"
-	r2.download_file(config["r2_bucket"], f"{key}.tar.gz", str(archive))
-	digest = hashlib.sha256()
-	with open(archive, "rb") as file:
-		for chunk in iter(lambda: file.read(1 << 20), b""):
-			digest.update(chunk)
-	if digest.hexdigest() != about["sha256"]:
-		raise RuntimeError("the release archive does not match its checksum")
+	about = _about(config, release)
+	archive = _fetch(config, f"releases/{release}.tar.gz", about["sha256"], bench / "release.tar.gz")
 	run("tar", "xzf", str(archive), cwd=str(bench))
 	archive.unlink()
 	for app in APPS:
@@ -113,9 +243,43 @@ def _unpack(config: dict, bench: Path, release: str) -> None:
 		link.symlink_to(bench / "apps" / app / app / "public")
 
 
-def _newest(folder: Path, pattern: str, leave_out: str = "\0") -> str:
-	found = [one for one in glob.glob(str(folder / pattern)) if leave_out not in one]
-	return max(found, key=os.path.getmtime)
+def _template(config: dict, release: str) -> Path:
+	"""The release's template site, fetched once and kept until the next
+	release's is."""
+	held = TEMPLATES / release
+	if (held / ".ready").exists():
+		return held
+	TEMPLATES.mkdir(exist_ok=True)
+	for other in TEMPLATES.iterdir():
+		shutil.rmtree(other, ignore_errors=True)
+	held.mkdir()
+	archive = _fetch(config, f"releases/{release}.site.tar.gz", _about(config, release)["template"]["sha256"], TEMPLATES / f".{release}.tar.gz")
+	try:
+		run("tar", "xzf", str(archive), "-C", str(held), *TEMPLATE)
+	finally:
+		archive.unlink(missing_ok=True)
+	(held / ".ready").touch()
+	return held
+
+
+def spare(config: dict, one: dict) -> None:
+	"""A spare site: the release's template restored under a new name, with
+	its own database, user and password, encryption key and Administrator
+	password, and its scheduler paused until it is claimed."""
+	bench, site = one["bench"], one["site"]
+	held = _template(config, one["release"])
+	password = secrets.token_urlsafe(18)
+	on_pilot(SPARE, bench, site, str(held / "database.sql.gz"), password)
+	path = BENCHES / bench / "sites" / site
+	for part in ("public/files", "private/files"):
+		shutil.copytree(held / part, path / part, dirs_exist_ok=True)
+	made = path / "site_config.json"
+	_write_config(made, {**json.loads((held / "site_config.json").read_text()), **json.loads(made.read_text()), "pause_scheduler": 1})
+	frappe_on(bench, site, "set-admin-password", password)
+
+
+def _newest(folder: Path, pattern: str) -> str:
+	return max(glob.glob(str(folder / pattern)), key=os.path.getmtime)
 
 
 def _answers(site: str) -> bool:
@@ -130,64 +294,42 @@ def _answers(site: str) -> bool:
 	return False
 
 
-def _unlink(path: Path) -> None:
-	if path.is_symlink():
-		path.unlink()
-
-
 def move(config: dict, one: dict) -> None:
-	"""A workspace to another bench, by backup and restore. Whatever fails
-	leaves it answering on the bench it was on."""
+	"""A workspace to another bench of this box. Both benches use the box's
+	one MariaDB, so the database stays where it is: the site's folder moves
+	and is migrated there. A copy of the database is taken first and put back
+	if the migrate fails; whatever fails leaves it answering on the bench it
+	was on."""
 	site, was, to = one["site"], one["from"], one["to"]
-	old = BENCHES / was / "sites"
-	aside = f"old-{site}"
-	work = MOVING / site
-	shutil.rmtree(work, ignore_errors=True)
-	work.mkdir(parents=True)
+	old, new = BENCHES / was / "sites" / site, BENCHES / to / "sites" / site
+	if new.exists() or new.is_symlink():
+		raise RuntimeError(f"{site} is already on {to}")
+	before = json.loads((old / "site_config.json").read_text())
 	frappe_on(was, site, "set-maintenance-mode", "on")
-	moved = False
+	copy = None
+	moved = migrating = False
 	try:
-		frappe_on(was, site, "backup", "--with-files")
-		held = old / site / "private" / "backups"
-		parts = [_newest(held, "*-database.sql.gz"), _newest(held, "*-files.tar", "private-files"), _newest(held, "*-private-files.tar")]
-		database, public, private = [shutil.copy2(one_part, work) for one_part in parts]
-		before = json.loads((old / site / "site_config.json").read_text())
-		_unlink(old / aside)
-		pilot("-b", was, "rename-site", "--release-old-hostname", site, aside)
+		frappe_on(was, site, "backup")
+		copy = Path(_newest(old / "private" / "backups", "*-database.sql.gz")).name
+		os.rename(old, new)
 		moved = True
-		_unlink(old / site)
-		_restore(to, site, database, public, private)
-		path = BENCHES / to / "sites" / site / "site_config.json"
-		path.write_text(json.dumps(merged_config(before, json.loads(path.read_text()), bool(one.get("quiet"))), indent=1))
+		on_pilot(ARRIVE, to, was, site)
+		migrating = True
 		frappe_on(to, site, "migrate")
-		pilot("-b", to, "restart")
+		_write_config(new / "site_config.json", arrived(json.loads((new / "site_config.json").read_text()), before, bool(one.get("quiet"))))
 		if not _answers(site):
 			raise RuntimeError(f"{site} does not answer on {to}")
 	except Exception:
-		if (BENCHES / to / "sites" / site).exists():
-			pilot("-b", to, "drop-site", site, "--no-backup")
 		if moved:
-			_unlink(old / site)
-			pilot("-b", was, "rename-site", "--release-old-hostname", aside, site)
-			_unlink(old / aside)
-		frappe_on(was, site, "set-maintenance-mode", "off")
-		pilot("-b", was, "restart")
+			if new.exists():
+				os.rename(new, old)
+			on_pilot(ARRIVE, was, to, site)
+		if migrating:
+			on_pilot(RESTORE, was, site, str(old / "private" / "backups" / copy))
+		_write_config(old / "site_config.json", before)
+		frappe_on(was, site, "clear-cache")
 		raise
-	pilot("-b", was, "drop-site", aside)
-	_unlink(old / site)
-	shutil.rmtree(work, ignore_errors=True)
-
-
-def _restore(bench: str, site: str, database: str, public: str, private: str) -> None:
-	code = (
-		"import sys, secrets\n"
-		"from pathlib import Path\n"
-		"from pilot.core.bench import Bench\n"
-		"from pilot.core.site import provision_from_backup\n"
-		"bench, site, database, public, private = sys.argv[1:6]\n"
-		"provision_from_backup(Bench(Path.home() / 'pilot' / 'benches' / bench), site, database, admin_password=secrets.token_urlsafe(16), public_files=public, private_files=private)\n"
-	)
-	subprocess.run([PYTHON, "-c", code, bench, site, database, public, private], check=True, timeout=TIMEOUT, env={**os.environ, "PYTHONPATH": str(HOME / "pilot")}, capture_output=True, text=True)
+	(new / "private" / "backups" / copy).unlink(missing_ok=True)
 
 
 def drop_bench(_config: dict, one: dict) -> None:
@@ -221,7 +363,7 @@ def update_agent(_config: dict, one: dict) -> None:
 		new.unlink(missing_ok=True)
 
 
-KINDS = {"prepare": prepare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet, UPDATE: update_agent}
+KINDS = {"prepare": prepare, "spare": spare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet, UPDATE: update_agent}
 
 
 def report(config: dict, said: dict) -> bool:

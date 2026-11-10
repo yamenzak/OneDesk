@@ -521,6 +521,7 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.weather_places`
 * `onedesk.one_admin.proxy.weather_reading`
 * `onedesk.one_admin.proxy.withdraw_closing`
+* `onedesk.one_admin.releases.released`
 * `onedesk.one_admin.report.plan_calculator.plan_calculator.needs_of`
 * `onedesk.one_admin.rollout.overview`
 * `onedesk.one_admin.servers.connect_script`

@@ -35,6 +35,7 @@ NOT_FOR_AI = {
 	"proxy.update_now": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.update_window": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.withdraw_closing": "A workspace's own server calls this with its token, when a person there asks.",
+	"releases.released": "The release workflow calls this when a release is built, and no person is there.",
 	"servers.pressure": "A server reports this about itself, and no person is there.",
 	"servers.reported": "A server reports this about itself, and no person is there.",
 	"signup.pay": "Paying is done by whoever is signing up, on the signup page.",

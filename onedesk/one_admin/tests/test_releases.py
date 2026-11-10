@@ -2,6 +2,7 @@
 passed (one_admin/releases.py)."""
 
 from datetime import datetime, timedelta
+from unittest import mock
 
 from onedesk.one_admin import releases, servers
 
@@ -27,3 +28,15 @@ def test_new_workspaces_go_on_the_newest_ready_bench():
 	rows = [{"bench": "main", "state": "ready"}, {"bench": "r2", "state": "preparing"}]
 	assert servers.newest_ready(rows) == "main"
 	assert servers.newest_ready([*rows[:1], {"bench": "r2", "state": "ready"}]) == "r2"
+
+
+def test_update_now_tells_the_box_at_once():
+	tenant = mock.MagicMock(server="eu-1", bench="main", site="a.one", status="Live", terms_pending=0, update_moving=0, update_at=datetime(2026, 11, 10, 9, 0))
+	row = mock.MagicMock(benches='[{"bench": "main", "state": "ready"}, {"bench": "r2", "state": "ready"}]')
+	with (
+		mock.patch.object(servers, "row_of", return_value=row),
+		mock.patch.object(releases, "now_datetime", return_value=datetime(2026, 11, 10, 9, 0)),
+		mock.patch.object(servers, "instruct") as instruct,
+	):
+		assert releases.update_now(tenant) == {"waiting": True}
+	instruct.assert_called_once_with("eu-1", "move", site="a.one", **{"from": "main", "to": "r2"}, quiet=False)

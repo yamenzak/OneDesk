@@ -1,15 +1,20 @@
 """Updates, one workspace at a time.
 
-A new release is built on each server as a second bench, ahead of time. Each
-workspace then moves in its own window, at least `NOTICE_HOURS` after it is
-told, or at once with Update Now. One waiting on new terms waits `HOLD_DAYS`,
-reminded weekly. A bench with nobody left is dropped. AGENTS.md, Updates.
+A new release is put on each server as a second bench, ahead of time, when
+the release workflow says it is up (`released`) or the hourly check finds it.
+Each workspace moves in its own window, `NOTICE_HOURS` after it is told, or
+at once with Update Now; one waiting on new terms waits `HOLD_DAYS`. A bench
+with nobody left is dropped. AGENTS.md, Updates.
 """
 
+import hmac
+import json
+import time
 from datetime import datetime, timedelta
 from zoneinfo import ZoneInfo
 
 import frappe
+from frappe.rate_limiter import rate_limit
 from frappe.utils import add_days, get_datetime, get_system_timezone, getdate, now_datetime, today
 
 from onedesk.one_admin import boxes, fleet, servers, site
@@ -21,6 +26,8 @@ HOLD_DAYS = 30
 REMIND_EVERY = 7
 MOST_BENCHES = 2
 GONE = ("Archived", "Dropped")
+RELEASE_SECRET = "one_release_secret"
+FRESH_FOR = 600
 
 
 def window_after(moment: datetime, notice_hours: int = NOTICE_HOURS, weekday: int = WEEKDAY, hour: int = HOUR) -> datetime:
@@ -57,8 +64,9 @@ def _tenants(server: str) -> list:
 
 
 def check() -> dict:
-	"""Hourly, on the admin site: a release the servers do not have yet is
-	built on each, unless one is still being built or a box is full."""
+	"""Hourly, and when the release workflow says one is up, on the admin
+	site: a release the servers do not have yet is put on each, unless one is
+	still being prepared or a box is full."""
 	if not site.is_admin() or not _rows() or not frappe.conf.get(servers.KEYS):
 		return {}
 	latest = boxes.latest_release(frappe.parse_json(frappe.conf.get(servers.KEYS)))
@@ -72,6 +80,28 @@ def check() -> dict:
 	return {"release": latest, "started": started}
 
 
+def fresh(at, now: float) -> bool:
+	"""Whether a signed call was made in the last `FRESH_FOR` seconds. Pure."""
+	return isinstance(at, int | float) and abs(now - at) <= FRESH_FOR
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(limit=30, seconds=3600)
+def released() -> dict:
+	"""The release workflow says a release is in the registry. Believed only
+	when signed with the secret it shares with this site; what is built is
+	still what the registry holds, so a repeated call starts nothing new."""
+	site.require_admin()
+	body = frappe.request.get_data(as_text=True)
+	secret = frappe.conf.get(RELEASE_SECRET) or ""
+	if not secret or not hmac.compare_digest(servers.signed(secret, body), frappe.get_request_header("X-One-Release") or ""):
+		raise frappe.PermissionError
+	if not fresh(json.loads(body).get("at"), time.time()):
+		raise frappe.PermissionError
+	frappe.enqueue("onedesk.one_admin.releases.check", queue="long", job_id="one_admin_release_check", deduplicate=True)
+	return {"ok": True}
+
+
 def heard(server: str, said: dict) -> None:
 	"""A box reports. What happens next depends on what it was told to do."""
 	row = servers.row_of(server)
@@ -80,6 +110,11 @@ def heard(server: str, said: dict) -> None:
 		from onedesk.one_admin import sessions
 
 		sessions.heard(said)
+		return
+	if kind == "spare":
+		from onedesk.one_admin import spares
+
+		spares.heard(server, said)
 		return
 	if not said.get("ok"):
 		frappe.log_error(title=f"{kind} failed on {server}", message=str(said.get("error")))
@@ -158,11 +193,14 @@ def _due(tenant, now: datetime) -> None:
 
 
 def update_now(tenant) -> dict:
-	"""The workspace moves at the next tick, if a newer bench is ready."""
+	"""The workspace's box is told to move it now, if a newer bench is ready."""
 	row = servers.row_of(tenant.server)
 	if tenant.bench == servers.current(row):
 		return {"waiting": False}
-	tenant.db_set("update_at", now_datetime())
+	if not tenant.update_moving:
+		now = now_datetime()
+		tenant.db_set("update_at", now)
+		_due(tenant, now)
 	return {"waiting": True}
 
 

@@ -1915,7 +1915,21 @@ the box to Settings when Pilot answers, about 25 minutes later.
 `pilot.py` calls a server's Admin API through its Access lock. `spares.py`
 keeps two finished sites on each server with their schedulers paused, and a
 signup renames one to its address: 31 seconds, against 8 minutes for a new
-build. A spare counts towards the server's limit.
+build. A spare counts towards the server's limit. On a bench whose release
+carries a template site, the box's agent makes a spare by restoring it under
+the spare's name (`spare`, about a minute, against 8 minutes of Pilot
+installing the apps). What a site must hold alone is never in the template:
+the release build empties `__Auth` of encrypted values and the
+Administrator's password, and clears sessions, API keys, calendar links and
+logs (`spares.as_template`), and keeps out of its config every database
+setting, the encryption key, Pilot's token and endpoint, the VAPID keys, the
+host name and anything named secret, token, password or key
+(`upload.shareable`). The spare is then given a database, database user and
+password of its own (frappe's `new-site --source-sql`, through Pilot so Pilot
+knows it), a new encryption key the first time one is needed, and an
+Administrator password of its own; the workspace's own keys are pushed when
+it is claimed (`steps.push_config`). A spare the agent has not reported in
+half an hour is dropped.
 
 ### Connecting a server
 
@@ -1962,13 +1976,31 @@ A new release in the registry is built on each server as a second bench,
 ahead of time (`servers.prepare`, then the box's agent). Each workspace then
 moves to it in its own window: Saturday 01:00 in its time zone unless an
 administrator picked another in AccountCenter, at least 72 hours after it is
-told, or at once with **Update Now**. A move is a backup and a restore, and a
-move that fails leaves the workspace on the bench it was on and tries again at
-its next window. A workspace that hasn't agreed to new terms waits 30 days,
+told, or at once with **Update Now**, which writes the box's instruction
+there and then. Both benches of a box use its one MariaDB, so a move leaves
+the database where it is: the site's folder moves to the new bench, Pilot's
+token and nginx follow it, and it is migrated there, offline for the migrate
+and a database copy taken first (about a minute for a new workspace). A move
+that fails puts the folder back, restores that copy if the migrate had
+started, and leaves the workspace on the bench it was on to try again at its
+next window. A workspace that hasn't agreed to new terms waits 30 days,
 its owner reminded weekly, then moves. A bench with nobody left is dropped. A
 server holds two benches at most. frappe, erpnext and hrms move only at an
 upstream checkpoint. What's New and Help for the coming version are pushed to
 R2 by `notes.py`.
+
+Each release carries the whole bench, built by the release workflow at the
+path a box uses (`/home/frappe/pilot/benches/r<sha8>`, as `frappe`, with
+the Python its virtualenv points at), beside its template site
+(`releases/<sha>.bench.tar.gz` and `.site.tar.gz`, their checksums in
+`releases/<sha>.json`). `prepare` unpacks it, adds the apps to bench.toml
+and does what `pilot init` still would (redis, process config, common site
+config), then `setup production`: about a minute, against 6 to 7 of
+building. A release without one, or a bench that does not import its apps,
+is built from its commits as before. The workflow then calls
+`releases.released`, signed with `one_release_secret` (this site's config,
+and the workflow's `ONE_RELEASE_SECRET`, with `ONE_ADMIN_URL`), and the check
+runs within minutes; without the two, the hourly check finds it.
 
 A box's agent (`deploy/server/agent.py`) reads signed instructions from R2
 once a minute and answers `servers.reported`, signed with that box's secret.
