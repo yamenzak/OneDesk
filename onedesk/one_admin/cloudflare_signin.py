@@ -22,6 +22,7 @@ CLIENT_SECRET = "cloudflare_oauth_client_secret"
 RETURN_TO = "onedesk.one_admin.cloudflare_signin.back"
 STATE_FOR = 600
 TOKEN_FOR = 900
+BACK_TO = "/desk/oneadmin?center=settings&module=OneAdmin&at=cloudflare"
 TIMEOUT = 30
 
 
@@ -109,7 +110,7 @@ def back(code: str | None = None, state: str | None = None, error: str | None = 
 		signed_in=True,
 	)
 	frappe.local.response["type"] = "redirect"
-	frappe.local.response["location"] = "/desk/one-admin-settings"
+	frappe.local.response["location"] = BACK_TO
 
 
 def _exchanged(code: str, verifier: str) -> str:

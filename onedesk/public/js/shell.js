@@ -309,7 +309,7 @@ onedesk.shell.Editor = class Editor {
 					let css = null;
 					if (row.row) [css, row] = [row.css, row.row];
 					if (row.heading) {
-						heading = { fieldtype: "Section Break", fieldname: `shell_part_${at}`, label: row.heading, description: row.note, css_class: "one-shell-part" };
+						heading = { fieldtype: "Section Break", fieldname: `shell_part_${at}`, label: row.heading, description: row.note, css_class: "one-shell-part", collapsible: row.collapsible ? 1 : 0 };
 						if (row.mark) marks[`shell_part_${at}`] = row.mark;
 						return [];
 					}
@@ -337,6 +337,7 @@ onedesk.shell.Editor = class Editor {
 		const shown = () => {
 			this.group.refresh_dependency();
 			this.group.refresh_sections();
+			this.group.refresh_section_collapse();
 		};
 		const ready = this.group.set_values(data.values).then(shown);
 		for (const field of this.group.fields_list) {

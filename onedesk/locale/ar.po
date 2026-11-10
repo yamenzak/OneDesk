@@ -19310,10 +19310,6 @@ msgstr "بحث عن التالي"
 msgid "Find the file that "
 msgstr "ابحث عن الملف الذي "
 
-#: onedesk/public/js/one_admin/admin_control.js:26
-msgid "Finds or makes everything a workspace needs from Cloudflare."
-msgstr "يجد أو ينشئ كل ما تحتاج إليه مساحة العمل من Cloudflare."
-
 #. Description of the 'Set Up Cloudflare' (Button) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:164
@@ -27874,10 +27870,6 @@ msgstr "أنشأه OneAI. لم تتم مراجعته بعد."
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:128
 msgid "Made by Set Up Cloudflare for OneAdmin's own calls, and made again when its secret is lost."
 msgstr "ينشئه إعداد Cloudflare لاستدعاءات OneAdmin نفسها، ويُنشأ من جديد إذا ضاع سرّه."
-
-#: onedesk/public/js/one_admin/admin_control.js:28
-msgid "Made by Setup"
-msgstr "أنشأه الإعداد"
 
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Band'
 #. Description of the 'Made Here' (Check) field in DocType 'Record Head Chart'
@@ -46129,6 +46121,10 @@ msgstr "تحديد ميزانية الوقت"
 msgid "Set Up"
 msgstr "الإعداد"
 
+#: onedesk/public/js/one_admin/admin_control.js:206
+msgid "Set Up Again"
+msgstr "إعادة الإعداد"
+
 #. Label of the set_up_cloudflare (Button) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:163
@@ -49567,6 +49563,10 @@ msgstr "التخزين ممتلئ"
 #: onedesk/one_account/notifications.py
 msgid "Storage Nearly Full"
 msgstr "التخزين شبه ممتلئ"
+
+#: onedesk/public/js/one_admin/admin_control.js:186
+msgid "Storage and Backups"
+msgstr "التخزين والنسخ الاحتياطية"
 
 #: frontend/src/mail/MailConversation.vue:176
 msgid "Storage is full. Saved automatically once there's space."
@@ -63244,6 +63244,10 @@ msgstr "حساب مساحة العمل"
 msgid "Workspace Add-on"
 msgstr "إضافة مساحة العمل"
 
+#: onedesk/public/js/one_admin/admin_control.js:184
+msgid "Workspace Addresses"
+msgstr "عناوين مساحات العمل"
+
 #. Name of a role
 #: onedesk/one/doctype/news_category/news_category.json:50
 #: onedesk/one/doctype/news_item/news_item.json:172
@@ -69682,6 +69686,11 @@ msgstr "بدأ {0}."
 #, python-brace-format
 msgid "{0} starts on {1}"
 msgstr "تبدأ {0} في {1}"
+
+#: onedesk/public/js/one_admin/admin_control.js:195
+#, python-brace-format
+msgid "{0} steps"
+msgstr "{0} خطوات"
 
 #: onedesk/one_project/status.py:60 onedesk/one_project/status.py:89
 #, python-brace-format

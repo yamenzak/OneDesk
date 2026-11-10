@@ -16,32 +16,35 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 	draw_cloudflare(data) {
 		const $card = this.form(data, {
 			rows: [
-				{ heading: __("Account") },
-				["cloudflare_account", "cloudflare_zone"],
-				["cloudflare_kv", "environment"],
-				["cloudflare_master_token", "cloudflare_token"],
+				{ html: `<div data-admin-areas="1"></div>` },
 				{ heading: __("Domains") },
 				["tenant_domain", "mail_domain"],
-				["sender_email", ""],
-				{ heading: __("Set Up Cloudflare"), note: __("Finds or makes everything a workspace needs from Cloudflare.") },
-				{ html: `<div data-admin-setup="1"></div><div data-admin-said="1"></div>` },
-				{ heading: __("Made by Setup") },
-				["office_url", "backup_bucket"],
-				["keeper_url", "release_at"],
+				["sender_email", "environment"],
+				["config_copy_key", ""],
+				{ heading: __("Sign In"), collapsible: true },
+				["cloudflare_oauth_client_id", "cloudflare_oauth_client_secret"],
+				{ heading: __("Details"), collapsible: true },
+				{
+					stack: [
+						"cloudflare_account",
+						"cloudflare_zone",
+						"cloudflare_kv",
+						"cloudflare_token",
+						"office_url",
+						"backup_bucket",
+						"keeper_url",
+						"release_at",
+						"cloudflare_oauth_scopes",
+						"cloudflare_master_token",
+					],
+				},
 			],
 		});
-		const $said = $card.find("[data-admin-said]");
-		onedesk.admin.drawSetup($said, data.setup);
-		$card.find("[data-admin-setup]").append(
-			frappe.ui.button({
-				label: __("Set Up Cloudflare"),
-				icon: "play",
-				onclick: () => {
-					if (this.dirty) return frappe.msgprint(__("Save before setting up Cloudflare."));
-					onedesk.admin.runSetup($said, () => this.refresh());
-				},
-			})
-		);
+		onedesk.admin.drawAreas($card.find("[data-admin-areas]"), data, {
+			busy: () => this.dirty && frappe.msgprint(__("Save before setting up Cloudflare.")),
+			done: () => this.refresh(),
+			master: () => onedesk.admin.runSetup($card.find("[data-admin-areas]"), () => this.refresh()),
+		});
 	}
 
 	draw_servers(data) {
@@ -167,14 +170,62 @@ onedesk.admin.drawSetup = ($into, setup, running = false) => {
 	);
 };
 
+// Set Up Cloudflare's last run as a tile per area (control.py areas_of),
+// each opening its steps, and the one button that runs it again.
+onedesk.admin.drawAreas = ($into, data, { busy, done, master }) => {
+	const esc = frappe.utils.escape_html;
+	const states = {
+		ready: [__("Ready"), "green"],
+		failed: [__("Failed"), "red"],
+		"needs attention": [__("Needs Attention"), "amber"],
+	};
+	const names = {
+		account: __("Account"),
+		addresses: __("Workspace Addresses"),
+		mail: __("Mail"),
+		storage: __("Storage and Backups"),
+		services: __("Services"),
+	};
+	const tiles = (data.areas || [])
+		.map((one) => {
+			const [label, theme] = states[one.state] || states.ready;
+			return `<a class="os-way one-admin-area" href="#" data-area="${esc(one.key)}">
+				<div class="os-way-head"><span class="os-way-icon">${frappe.utils.icon(one.icon, "md")}</span>
+				<span class="os-way-title">${esc(names[one.key])}</span>${frappe.ui.badge.html({ label, theme })}</div>
+				<div class="os-way-text">${esc(one.found.join(" · ") || __("{0} steps", [one.steps.length]))}</div>
+			</a>`;
+		})
+		.join("");
+	const $tiles = $(tiles ? `<div class="os-ways mb-3">${tiles}</div>` : `<p class="text-muted">${__("Not set up yet")}</p>`);
+	$tiles.on("click", "[data-area]", (event) => {
+		event.preventDefault();
+		const one = data.areas.find((it) => it.key === $(event.currentTarget).attr("data-area"));
+		frappe.msgprint({ title: names[one.key], message: onedesk.admin.setupTable(one.steps), wide: true });
+	});
+	const sign_in = frappe.ui.button({
+		label: data.running ? __("Setting Up…") : data.areas && data.areas.length ? __("Set Up Again") : __("Sign In to Cloudflare"),
+		icon: "log-in",
+		variant: "solid",
+		onclick: () => {
+			if (busy()) return;
+			if (!data.signs_in) return master();
+			frappe.xcall("onedesk.one_admin.cloudflare_signin.start").then((url) => (window.location.href = url));
+		},
+	});
+	$(sign_in).prop("disabled", !!data.running);
+	$into.empty().append($tiles, $(`<div class="d-flex"></div>`).append(sign_in));
+	frappe.realtime.off("cloudflare_setup");
+	frappe.realtime.on("cloudflare_setup", ({ done: finished }) => finished && done());
+};
+
 onedesk.admin.setupTable = (said) => {
 	const esc = frappe.utils.escape_html;
-	const colour = { ours: "green", created: "blue", theirs: "gray", failed: "red", "needs attention": "orange" };
+	const colour = { ours: "green", created: "blue", theirs: "gray", failed: "red", "needs attention": "amber" };
 	const states = { ours: __("Exists"), created: __("Created"), theirs: __("Unchanged"), failed: __("Failed"), "needs attention": __("Needs Attention") };
 	const rows = said
 		.map(
 			(one) => `<tr><td>${esc(one.step)}</td>
-				<td><span class="indicator-pill ${colour[one.state] || "gray"}">${esc(states[one.state] || one.state)}</span></td>
+				<td>${frappe.ui.badge.html({ label: states[one.state] || one.state, theme: colour[one.state] || "gray" })}</td>
 				<td class="text-muted">${esc(one.detail || "")}</td></tr>`
 		)
 		.join("");
