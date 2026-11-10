@@ -426,15 +426,37 @@ def server_connected(server: str) -> None:
 @_quietly
 def new_error(doc) -> None:
 	"""A kind of error no workspace has had before (errors.heard)."""
+	from onedesk.one_admin import errors, home
+
 	notify.notify(
 		"New Error",
 		operators(),
 		link=f"/desk/workspace-error/{doc.name}",
 		sender="Administrator",
 		record=("Workspace Error", doc.name),
+		workspace=home._workspace(doc.tenant),
+		part=errors.part_of(doc.where_in_code, doc.title),
+		count=max(frappe.utils.cint(doc.occurrences), 1),
 		title=doc.title,
-		kind=doc.kind or "",
-		workspace=doc.tenant,
+	)
+
+
+@_quietly
+def errors_today(kinds: list) -> None:
+	"""Each day, the kinds of error new since yesterday (errors.today), in one
+	notification. Skipped when there were none."""
+	from onedesk.one_admin import errors, home
+
+	if not kinds:
+		return
+	lines = [f"{home._workspace(one.tenant)} · {errors.part_of(one.where_in_code, one.title)} · {one.title} · ×{max(frappe.utils.cint(one.occurrences), 1)}" for one in kinds[: errors.MOST_LISTED]]
+	notify.notify(
+		"Errors Today",
+		operators(),
+		link="/desk/workspace-error?status=Open",
+		sender="Administrator",
+		count=len(kinds),
+		errors=Markup("<br>").join(lines),
 	)
 
 

@@ -17347,6 +17347,11 @@ msgstr "Fehlermeldung (optional)"
 msgid "Errors"
 msgstr "Fehler"
 
+#. Name of a notification
+#: onedesk/one_admin/notifications.py
+msgid "Errors Today"
+msgstr "Fehler heute"
+
 #: onedesk/one_studio/heads.py:100
 msgid "Errors in the Last 7 Days"
 msgstr "Fehler in den letzten 7 Tagen"
@@ -17663,6 +17668,11 @@ msgstr "Jeden Morgen die Domains, die seit über einem Tag auf DNS warten oder n
 #: onedesk/notifications/one_studio/extensions_failing.md
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
 msgstr "Jeden Morgen die Erweiterungen, bei denen am Vortag Fehler auftraten. Wird nicht gesendet, wenn es keine gab."
+
+#. When a notification is sent
+#: onedesk/one_admin/notifications.py
+msgid "Every morning, the kinds of error new since yesterday. Skipped when there are none."
+msgstr "Jeden Morgen die Fehlerarten, die seit gestern neu sind. Entfällt, wenn es keine gibt."
 
 #. When a notification is sent
 #: onedesk/one_project/notifications.py
@@ -30690,6 +30700,12 @@ msgstr "Neue gegenüber wiederkehrenden Kunden, Monat für Monat."
 msgid "New drive password"
 msgstr "Neues Laufwerkspasswort"
 
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New error in {part} on {workspace}: {count} so far"
+msgstr "Neuer Fehler in {part} bei {workspace}: bisher {count}"
+
 #: onedesk/one/ai.py:1130
 msgid "New field"
 msgstr "Neues Feld"
@@ -30724,6 +30740,12 @@ msgstr "Neu da"
 #: frontend/src/one/Home.vue:39 onedesk/one/tour.py:42
 msgid "New in Your Apps"
 msgstr "Neu in Ihren Apps"
+
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New kinds of error since yesterday: {count}"
+msgstr "Neue Fehlerarten seit gestern: {count}"
 
 #: onedesk/one_crm/tour.py:19
 msgid "New leads, the pipeline and what it is likely worth, and what was won and how often, each opening its report."
@@ -34499,6 +34521,10 @@ msgstr "OneAdmin ist gerade nicht erreichbar. Versuchen Sie es in ein paar Minut
 #: onedesk/one_admin/site.py:91
 msgid "OneAdmin needs at least one operator."
 msgstr "OneAdmin braucht mindestens einen Operator."
+
+#: onedesk/one_admin/health.py:184
+msgid "OneAdmin's config isn't copied: there is no Config Copy Key in Settings"
+msgstr "Die Konfiguration von OneAdmin wird nicht kopiert: In den Einstellungen fehlt der Config Copy Key"
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
@@ -43638,6 +43664,11 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json:143
 msgid "Review"
 msgstr "Prüfung"
+
+#. The button on a notification's mail
+#: onedesk/one_admin/notifications.py
+msgid "Review Errors"
+msgstr "Fehler prüfen"
 
 #. The button on a notification's mail
 #: onedesk/one_ai/notifications.py
@@ -70821,6 +70852,12 @@ msgstr "{document} von {employee} läuft am {date} ab"
 msgid "{entry} stopped with an error, so what a back-dated entry changed is not in the books yet. The Inventory Check can try it again."
 msgstr "{entry} ist mit einem Fehler stehen geblieben, daher ist die Änderung der rückdatierten Buchung noch nicht in der Buchhaltung. Die Bestandsprüfung kann es erneut versuchen."
 
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{errors}<br><br>Mark each one Fixed once it is. It opens again if it comes back."
+msgstr "{errors}<br><br>Markieren Sie jeden als Behoben, sobald er es ist. Er öffnet sich wieder, wenn er zurückkommt."
+
 #. Subject of a notification
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
@@ -71226,6 +71263,12 @@ msgstr "{title} wartet auf die erste Antwort"
 #, python-brace-format
 msgid "{title} may be phishing. Don't pay, reply or open its links."
 msgstr "{title} ist möglicherweise Phishing. Nicht bezahlen, nicht antworten und keine Links öffnen."
+
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{title}<br>Open it to see where in the code it happened, and mark it Fixed once it is."
+msgstr "{title}<br>Öffnen Sie ihn, um zu sehen, wo im Code er auftrat, und markieren Sie ihn als Behoben, sobald er es ist."
 
 #: onedesk/one_studio/print_props.py:194
 #, python-brace-format
@@ -71704,12 +71747,6 @@ msgstr "{workspace} hat sich registriert"
 #, python-brace-format
 msgid "{workspace} was suspended and not paid for, so it has been taken offline. A backup is kept, and your files are still there.<br><br>On {date} the workspace and its files will be permanently deleted. To restore it before then, pay the invoice we sent you and reply to this email."
 msgstr "{workspace} war gesperrt und wurde nicht bezahlt, daher ist der Arbeitsbereich offline. Eine Sicherung bleibt erhalten, und Ihre Dateien sind noch da.<br><br>Am {date} werden der Arbeitsbereich und seine Dateien endgültig gelöscht. Wenn Sie ihn vorher wiederherstellen möchten, bezahlen Sie die zugesandte Rechnung und antworten Sie auf diese E-Mail."
-
-#. Message of a notification
-#: onedesk/one_admin/notifications.py
-#, python-brace-format
-msgid "{workspace} · {kind}. Open it to see where in the code it happened."
-msgstr "{workspace} · {kind}. Öffnen Sie ihn, um die Codestelle zu sehen."
 
 #. Subject of a notification
 #: onedesk/one_admin/notifications.py

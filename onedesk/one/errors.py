@@ -16,7 +16,8 @@ CURSOR = "one_errors_sent_until"
 FIRST_LOOK_DAYS = 7
 EMAIL = re.compile(r"[\w.+-]+@[\w-]+\.[\w.-]+")
 LONG_NUMBER = re.compile(r"\b\d{4,}\b")
-FRAME = re.compile(r'File "[^"]*?/apps/(?P<app>[^/"]+)/(?P<path>[^"]+)", line \d+, in (?P<fn>\S+)')
+FRAME = re.compile(r'File "(?:[^"]*/)?apps/(?P<app>[^/"]+)/(?P<path>[^"]+)", line \d+, in (?P<fn>\S+)')
+OURS = "onedesk"
 EXCEPTION = re.compile(r"^([\w.]+(?:Error|Exception|Warning|Timeout|Denied|Fail(?:ed)?|Interrupt))\b")
 
 
@@ -30,11 +31,13 @@ def kind_of(traceback: str) -> str:
 
 
 def where_of(traceback: str) -> str:
-	"""The last place in the code it passed, a file and a function. Pure."""
+	"""The last place in One's own code it passed, a file and a function, or
+	the last place in any app when it never reached ours. Pure."""
 	frames = FRAME.findall(traceback or "")
 	if not frames:
 		return ""
-	app, path, fn = frames[-1]
+	ours = [one for one in frames if one[0] == OURS]
+	app, path, fn = (ours or frames)[-1]
 	return f"{app}/{path}:{fn}"
 
 

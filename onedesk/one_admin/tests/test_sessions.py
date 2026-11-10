@@ -3,6 +3,7 @@ from datetime import datetime, timedelta
 
 from onedesk.one import errors
 from onedesk.one_admin import boxes, servers, sessions
+from onedesk.one_admin import errors as heard
 
 
 def test_every_walk_ends_by_giving_the_session_its_address():
@@ -53,6 +54,28 @@ def test_the_same_fault_on_another_record_is_the_same_kind():
 	one = errors.fingerprint_of("KeyError", "onedesk/a.py:x", errors.scrubbed("Saving 00123456 failed"))
 	two = errors.fingerprint_of("KeyError", "onedesk/a.py:x", errors.scrubbed("Saving 00999888 failed"))
 	assert one == two
+
+
+RELATIVE = '''Traceback with variables (most recent call last):
+  File "apps/frappe/frappe/handler.py", line 85, in execute_cmd
+  File "apps/onedesk/onedesk/one_project/contacts.py", line 78, in contacts
+  File "apps/frappe/frappe/__init__.py", line 767, in has_permission
+  File "env/lib/python3.14/site-packages/requests/models.py", line 1167, in raise_for_status
+builtins.TypeError: has_permission() got an unexpected keyword argument
+'''
+
+
+def test_where_is_our_own_last_place_even_on_a_relative_path():
+	assert errors.where_of(RELATIVE) == "onedesk/onedesk/one_project/contacts.py:contacts"
+	assert errors.where_of('  File "apps/frappe/frappe/app.py", line 1, in application\n') == "frappe/frappe/app.py:application"
+
+
+def test_an_error_names_the_part_of_one_it_was_in():
+	assert heard.part_of("onedesk/onedesk/one_project/contacts.py:contacts") == "OneProject"
+	assert heard.part_of("onedesk/onedesk/one_storage/file.py:get_content") == "OneStorage"
+	assert heard.part_of("", "onedesk.one_admin.backups.config_copy") == "OneAdmin"
+	assert heard.part_of("frappe/frappe/app.py:application") == "Frappe"
+	assert heard.part_of("", "Weather for Dubai") == "One"
 
 
 def test_a_workspaces_errors_are_counted_by_kind():

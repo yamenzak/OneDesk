@@ -32,7 +32,7 @@ def unseen() -> list[str]:
 
 
 @frappe.whitelist()
-def tour(module: str) -> list[dict]:
+def tour(module: str = "") -> list[dict]:
 	"""A module's tours, each with its steps in the reader's language."""
 	if module not in ready.MODULES or not versions.offered(module):
 		frappe.throw(_("{0} has no tour.").format(module))

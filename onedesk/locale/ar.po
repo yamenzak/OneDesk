@@ -17347,6 +17347,11 @@ msgstr "رسالة الخطأ (اختيارية)"
 msgid "Errors"
 msgstr "الأخطاء"
 
+#. Name of a notification
+#: onedesk/one_admin/notifications.py
+msgid "Errors Today"
+msgstr "أخطاء اليوم"
+
 #: onedesk/one_studio/heads.py:100
 msgid "Errors in the Last 7 Days"
 msgstr "الأخطاء في آخر 7 أيام"
@@ -17663,6 +17668,11 @@ msgstr "كل صباح، النطاقات التي تنتظر DNS منذ أكثر
 #: onedesk/notifications/one_studio/extensions_failing.md
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
 msgstr "كل صباح، الإضافات التي وقعت في أخطاء في اليوم السابق. لا يُرسل إن لم يقع أي منها."
+
+#. When a notification is sent
+#: onedesk/one_admin/notifications.py
+msgid "Every morning, the kinds of error new since yesterday. Skipped when there are none."
+msgstr "كل صباح، أنواع الأخطاء الجديدة منذ الأمس. لا يُرسل عند عدم وجود أي منها."
 
 #. When a notification is sent
 #: onedesk/one_project/notifications.py
@@ -30690,6 +30700,12 @@ msgstr "العملاء الجدد مقابل العائدين، شهرًا بش�
 msgid "New drive password"
 msgstr "كلمة مرور جديدة لمحرك الأقراص"
 
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New error in {part} on {workspace}: {count} so far"
+msgstr "خطأ جديد في {part} على {workspace}: {count} حتى الآن"
+
 #: onedesk/one/ai.py:1130
 msgid "New field"
 msgstr "حقل جديد"
@@ -30724,6 +30740,12 @@ msgstr "جديد"
 #: frontend/src/one/Home.vue:39 onedesk/one/tour.py:42
 msgid "New in Your Apps"
 msgstr "الجديد في تطبيقاتك"
+
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New kinds of error since yesterday: {count}"
+msgstr "أنواع أخطاء جديدة منذ الأمس: {count}"
 
 #: onedesk/one_crm/tour.py:19
 msgid "New leads, the pipeline and what it is likely worth, and what was won and how often, each opening its report."
@@ -34499,6 +34521,10 @@ msgstr "تعذّر الوصول إلى OneAdmin الآن. حاول مرة أخر
 #: onedesk/one_admin/site.py:91
 msgid "OneAdmin needs at least one operator."
 msgstr "يحتاج OneAdmin إلى مشغّل واحد على الأقل."
+
+#: onedesk/one_admin/health.py:184
+msgid "OneAdmin's config isn't copied: there is no Config Copy Key in Settings"
+msgstr "لا يُنسخ إعداد OneAdmin: لا يوجد مفتاح نسخ الإعداد في الإعدادات"
 
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
@@ -43638,6 +43664,11 @@ msgstr ""
 #: onedesk/one_studio/doctype/extension/extension.json:143
 msgid "Review"
 msgstr "المراجعة"
+
+#. The button on a notification's mail
+#: onedesk/one_admin/notifications.py
+msgid "Review Errors"
+msgstr "مراجعة الأخطاء"
 
 #. The button on a notification's mail
 #: onedesk/one_ai/notifications.py
@@ -70821,6 +70852,12 @@ msgstr "تنتهي صلاحية {document} الخاص بـ {employee} في {date
 msgid "{entry} stopped with an error, so what a back-dated entry changed is not in the books yet. The Inventory Check can try it again."
 msgstr "توقّف {entry} بخطأ، فما غيّره القيد ذو التاريخ السابق ليس في الدفاتر بعد. يمكن لفحص المخزون إعادة المحاولة."
 
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{errors}<br><br>Mark each one Fixed once it is. It opens again if it comes back."
+msgstr "{errors}<br><br>ضع على كل منها «تم الإصلاح» عند إصلاحه. يُفتح من جديد إذا عاد."
+
 #. Subject of a notification
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
@@ -71226,6 +71263,12 @@ msgstr "{title} بانتظار أول رد"
 #, python-brace-format
 msgid "{title} may be phishing. Don't pay, reply or open its links."
 msgstr "قد يكون {title} تصيدًا احتياليًا. لا تدفع ولا ترد ولا تفتح روابطه."
+
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{title}<br>Open it to see where in the code it happened, and mark it Fixed once it is."
+msgstr "{title}<br>افتحه لترى أين حدث في الشيفرة، وضع عليه «تم الإصلاح» عند إصلاحه."
 
 #: onedesk/one_studio/print_props.py:194
 #, python-brace-format
@@ -71704,12 +71747,6 @@ msgstr "سجّلت {workspace}"
 #, python-brace-format
 msgid "{workspace} was suspended and not paid for, so it has been taken offline. A backup is kept, and your files are still there.<br><br>On {date} the workspace and its files will be permanently deleted. To restore it before then, pay the invoice we sent you and reply to this email."
 msgstr "عُلّقت {workspace} ولم تُدفع، فأُوقفت عن العمل. نحتفظ بنسخة احتياطية، وملفاتك ما زالت موجودة.<br><br>في {date} ستُحذف مساحة العمل وملفاتها نهائيًا. لاستعادتها قبل ذلك، ادفع الفاتورة التي أرسلناها إليك وردّ على هذا البريد."
-
-#. Message of a notification
-#: onedesk/one_admin/notifications.py
-#, python-brace-format
-msgid "{workspace} · {kind}. Open it to see where in the code it happened."
-msgstr "{workspace} · {kind}. افتحه لمعرفة موضع حدوثه في الكود."
 
 #. Subject of a notification
 #: onedesk/one_admin/notifications.py

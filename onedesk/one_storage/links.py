@@ -339,6 +339,8 @@ def get(token: str, item: str | None = None, download: int = 0):
 		return None
 	if store.is_stored(found.file_url):
 		return redirect(store.signed(store.key_of(found.file_url), filename=found.file_name, inline=not cint(download)), 302)
+	if (found.file_url or "").startswith(("http://", "https://")):
+		return redirect(found.file_url, 302)
 	doc = frappe.get_doc("File", found.name)
 	frappe.local.response.filename = found.file_name
 	frappe.local.response.filecontent = doc.get_content()

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 05:41+0000\n"
-"PO-Revision-Date: 2026-11-10 05:41+0000\n"
+"POT-Creation-Date: 2026-11-10 07:06+0000\n"
+"PO-Revision-Date: 2026-11-10 07:06+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -8816,7 +8816,7 @@ msgstr ""
 msgid "Change this task…"
 msgstr ""
 
-#: onedesk/one/notify.py:759
+#: onedesk/one/notify.py:762
 msgid "Change what you get by mail"
 msgstr ""
 
@@ -17343,6 +17343,11 @@ msgstr ""
 msgid "Errors"
 msgstr ""
 
+#. Name of a notification
+#: onedesk/one_admin/notifications.py
+msgid "Errors Today"
+msgstr ""
+
 #: onedesk/one_studio/heads.py:100
 msgid "Errors in the Last 7 Days"
 msgstr ""
@@ -17658,6 +17663,11 @@ msgstr ""
 #. When a notification is sent
 #: onedesk/notifications/one_studio/extensions_failing.md
 msgid "Every morning, the extensions that ran into errors the day before. Not sent when none did."
+msgstr ""
+
+#. When a notification is sent
+#: onedesk/one_admin/notifications.py
+msgid "Every morning, the kinds of error new since yesterday. Skipped when there are none."
 msgstr ""
 
 #. When a notification is sent
@@ -18639,7 +18649,7 @@ msgstr ""
 msgid "Failed to render template: {0}"
 msgstr ""
 
-#: onedesk/one/notify.py:631
+#: onedesk/one/notify.py:634
 msgid "Failed to send notification email"
 msgstr ""
 
@@ -28135,7 +28145,7 @@ msgstr ""
 msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
 msgstr ""
 
-#: onedesk/one/notify.py:756
+#: onedesk/one/notify.py:759
 msgid "Mailed to everybody it concerns, whatever they chose."
 msgstr ""
 
@@ -29142,7 +29152,7 @@ msgstr ""
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #: frontend/src/mail/MailBody.vue:13
 #: onedesk/one/custom/notification_type.json:67
-#: onedesk/one/notification_words.py:228 onedesk/one/notify.py:271
+#: onedesk/one/notification_words.py:228 onedesk/one/notify.py:274
 #: onedesk/one/rules.py:44 onedesk/one_crm/custom/lead.json:26
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json:100
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:56
@@ -30699,6 +30709,12 @@ msgstr ""
 msgid "New drive password"
 msgstr ""
 
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New error in {part} on {workspace}: {count} so far"
+msgstr ""
+
 #: onedesk/one/ai.py:1130
 msgid "New field"
 msgstr ""
@@ -30732,6 +30748,12 @@ msgstr ""
 
 #: frontend/src/one/Home.vue:39 onedesk/one/tour.py:42
 msgid "New in Your Apps"
+msgstr ""
+
+#. Subject of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "New kinds of error since yesterday: {count}"
 msgstr ""
 
 #: onedesk/one_crm/tour.py:19
@@ -34509,6 +34531,10 @@ msgstr ""
 msgid "OneAdmin needs at least one operator."
 msgstr ""
 
+#: onedesk/one_admin/health.py:184
+msgid "OneAdmin's config isn't copied: there is no Config Copy Key in Settings"
+msgstr ""
+
 #. Title of a Sidebar
 #. Option for the 'App' (Select) field in DocType 'Record Type'
 #: frontend/src/books/BooksHome.vue:275 onedesk/one_book/page/books/books.js:5
@@ -35138,7 +35164,7 @@ msgstr ""
 msgid "Open"
 msgstr ""
 
-#: onedesk/one/notify.py:746
+#: onedesk/one/notify.py:749
 msgctxt "Go to it"
 msgid "Open"
 msgstr ""
@@ -35435,7 +35461,7 @@ msgstr ""
 msgid "Open your One account"
 msgstr ""
 
-#: onedesk/one/notify.py:749
+#: onedesk/one/notify.py:752
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:293
 #: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
 #: onedesk/www/s.html:147
@@ -43654,6 +43680,11 @@ msgid "Review"
 msgstr ""
 
 #. The button on a notification's mail
+#: onedesk/one_admin/notifications.py
+msgid "Review Errors"
+msgstr ""
+
+#. The button on a notification's mail
 #: onedesk/one_ai/notifications.py
 msgid "Review It"
 msgstr ""
@@ -49810,7 +49841,7 @@ msgstr ""
 #. Label of the subject (Data) field in DocType 'Mail Draft'
 #: frontend/src/mail/MailList.vue:21
 #: onedesk/one/custom/notification_type.json:55
-#: onedesk/one/notification_words.py:227 onedesk/one/notify.py:271
+#: onedesk/one/notification_words.py:227 onedesk/one/notify.py:274
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
@@ -51156,7 +51187,7 @@ msgstr ""
 msgid "Template Name"
 msgstr ""
 
-#: onedesk/one/notify.py:344 onedesk/one/rules.py:205
+#: onedesk/one/notify.py:347 onedesk/one/rules.py:205
 #, python-brace-format
 msgid "Template error: {0}"
 msgstr ""
@@ -53952,7 +53983,7 @@ msgstr ""
 msgid "There is no new version of {0}."
 msgstr ""
 
-#: onedesk/one/notification_words.py:113 onedesk/one/notify.py:443
+#: onedesk/one/notification_words.py:113 onedesk/one/notify.py:446
 #, python-brace-format
 msgid "There is no notification type {0}."
 msgstr ""
@@ -61156,7 +61187,7 @@ msgstr ""
 msgid "When someone asks to sign in to their One account by email. It can't be turned off."
 msgstr ""
 
-#: onedesk/one/notify.py:372
+#: onedesk/one/notify.py:375
 msgid "When someone assigns you something, or it changes."
 msgstr ""
 
@@ -61175,7 +61206,7 @@ msgstr ""
 msgid "When someone is made a workspace administrator."
 msgstr ""
 
-#: onedesk/one/notify.py:371
+#: onedesk/one/notify.py:374
 msgid "When someone mentions you in a comment."
 msgstr ""
 
@@ -61204,7 +61235,7 @@ msgstr ""
 msgid "When someone shares a file or folder with you."
 msgstr ""
 
-#: onedesk/one/notify.py:373
+#: onedesk/one/notify.py:376
 msgid "When someone shares a record with you."
 msgstr ""
 
@@ -65902,7 +65933,7 @@ msgstr ""
 msgid "not known yet"
 msgstr ""
 
-#: onedesk/one/notify.py:347 onedesk/one_account/heads.py:28
+#: onedesk/one/notify.py:350 onedesk/one_account/heads.py:28
 #: onedesk/public/js/desk.js:330
 msgid "nothing"
 msgstr ""
@@ -67020,7 +67051,7 @@ msgstr ""
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr ""
 
-#: onedesk/one/notify.py:257
+#: onedesk/one/notify.py:260
 #, python-brace-format
 msgid "{0} always sends this. It can't be turned off."
 msgstr ""
@@ -67196,7 +67227,7 @@ msgstr ""
 msgid "{0} can't be turned off."
 msgstr ""
 
-#: onedesk/one/notify.py:251
+#: onedesk/one/notify.py:254
 #, python-brace-format
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr ""
@@ -68628,7 +68659,7 @@ msgstr ""
 msgid "{0} is not something the clock proposes."
 msgstr ""
 
-#: onedesk/one/notify.py:348
+#: onedesk/one/notify.py:351
 #, python-brace-format
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr ""
@@ -70411,7 +70442,7 @@ msgstr ""
 msgid "{0}: you cannot read {1}."
 msgstr ""
 
-#: onedesk/one/notify.py:274 onedesk/one/rules.py:47
+#: onedesk/one/notify.py:277 onedesk/one/rules.py:47
 #: onedesk/one_book/journal.py:46 onedesk/one_mail/mail_templates.py:321
 #: onedesk/one_studio/extensions.py:454
 #: onedesk/public/js/one/access_center.js:99
@@ -70878,6 +70909,12 @@ msgstr ""
 msgid "{entry} stopped with an error, so what a back-dated entry changed is not in the books yet. The Inventory Check can try it again."
 msgstr ""
 
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{errors}<br><br>Mark each one Fixed once it is. It opens again if it comes back."
+msgstr ""
+
 #. Subject of a notification
 #: onedesk/one_calendar/notifications.py
 #, python-brace-format
@@ -71282,6 +71319,12 @@ msgstr ""
 #: onedesk/one_ai/notifications.py
 #, python-brace-format
 msgid "{title} may be phishing. Don't pay, reply or open its links."
+msgstr ""
+
+#. Message of a notification
+#: onedesk/one_admin/notifications.py
+#, python-brace-format
+msgid "{title}<br>Open it to see where in the code it happened, and mark it Fixed once it is."
 msgstr ""
 
 #: onedesk/one_studio/print_props.py:194
@@ -71760,12 +71803,6 @@ msgstr ""
 #: onedesk/one_admin/notifications.py
 #, python-brace-format
 msgid "{workspace} was suspended and not paid for, so it has been taken offline. A backup is kept, and your files are still there.<br><br>On {date} the workspace and its files will be permanently deleted. To restore it before then, pay the invoice we sent you and reply to this email."
-msgstr ""
-
-#. Message of a notification
-#: onedesk/one_admin/notifications.py
-#, python-brace-format
-msgid "{workspace} · {kind}. Open it to see where in the code it happened."
 msgstr ""
 
 #. Subject of a notification

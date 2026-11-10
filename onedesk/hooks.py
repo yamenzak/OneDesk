@@ -215,6 +215,7 @@ scheduler_events = {
 		"onedesk.one_admin.tell.trials_ending",
 		"onedesk.one_admin.tell.servers_filling",
 		"onedesk.one_admin.health.prune",
+		"onedesk.one_admin.errors.today",
 		"onedesk.one.tell.automations_failing",
 		"onedesk.one_inventory.tell.orders_late",
 		"onedesk.one_inventory.tell.expiring",

@@ -677,8 +677,10 @@ it on. If they turn it off again, its copies go within 48 hours.
 workspace, what the error is, the kind of error and where in the code it
 happened, how often, and when. A workspace sends only that, every hour, from
 its own Error Log, never the data it was working on. Mark a row **Fixed**
-once it is; it opens again if it returns. You are told when a kind of error
-that no workspace has had before appears (**New Error**).
+once it is; it opens again if it returns. When a kind of error that no
+workspace has had before appears, the bell says which workspace, which part
+of One and how many times (**New Error**), and each morning one mail lists
+the kinds new since yesterday (**Errors Today**).
 
 ## Notifications
 
@@ -702,7 +704,10 @@ Operators are notified of:
   archived or dropped. The payment is kept. Rebuild it from its backup or
   refund it in Stripe.
 - **Build Slow**: a build has waited on the hosting provider for hours.
-- **New Error**: a workspace has a kind of error no workspace has had before.
+- **New Error**: a workspace has a kind of error no workspace has had before,
+  on the bell only.
+- **Errors Today**: each morning, one mail listing the kinds of error new
+  since yesterday.
 - **Server Connected**: a machine connected with Connect Server answered for
   the first time.
   Waiting never fails a job, so this is the only notice; its payer is mailed
@@ -1890,7 +1895,9 @@ function it passed through, the log's title with addresses and long numbers
 taken out, a count and the first and last times, through `proxy.errors_seen`
 and the signed caller path. The admin site adds its own straight. `heard`
 keeps one Workspace Error per workspace and fingerprint and tells the operators
-(`New Error`) of the first few kinds no workspace has had.
+(`New Error`, bell only) of the first few kinds no workspace has had;
+`today` mails the day's new kinds once (`Errors Today`). `where_of` prefers
+the last frame in onedesk, so `part_of` can name the module.
 
 ### Servers: boxes.py, servers.py, pilot.py, spares.py
 

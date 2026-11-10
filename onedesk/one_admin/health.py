@@ -166,7 +166,8 @@ def _workspaces() -> str:
 
 
 def _backups() -> str:
-	"""A workspace with no backup kept today or yesterday, or OneAdmin itself."""
+	"""A workspace with no backup kept today or yesterday, or OneAdmin itself,
+	or OneAdmin's config with no key to seal its copy to."""
 	try:
 		backups._keeper()
 	except faults.Refused as reason:
@@ -178,8 +179,11 @@ def _backups() -> str:
 	)
 	days = [today(), add_days(today(), -1)]
 	missing = [one for one in [backups.OURS, *asked] if not any(backups.kept_on(one, day) for day in days)]
-	if missing:
-		raise Failing(_("No recent backup: {0}").format(", ".join(missing)))
+	said = [_("No recent backup: {0}").format(", ".join(missing))] if missing else []
+	if not backups.copy_key():
+		said.append(_("OneAdmin's config isn't copied: there is no Config Copy Key in Settings"))
+	if said:
+		raise Failing(". ".join(said))
 	return ""
 
 

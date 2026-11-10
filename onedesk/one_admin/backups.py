@@ -112,11 +112,17 @@ def ours() -> dict:
 	return {"kept": kept}
 
 
+def copy_key() -> str:
+	"""The public half of the rescue passphrase's key, once
+	`scripts/rescue.py key` has been pasted into Settings."""
+	return (frappe.db.get_single_value("One Admin Settings", "config_copy_key") or "").strip()
+
+
 def config_copy() -> dict:
 	"""OneAdmin's own site config, every key and every server's login, sealed
 	to the rescue passphrase (seal.py) and kept under `config/`. This server
 	holds only the public half, so it can write the copy and never read it."""
-	public = (frappe.db.get_single_value("One Admin Settings", "config_copy_key") or "").strip()
+	public = copy_key()
 	if not public:
 		raise faults.Refused("there is no Config Copy Key; run scripts/rescue.py key")
 	with open(frappe.get_site_path("site_config.json"), "rb") as held:
@@ -129,14 +135,16 @@ def config_copy() -> dict:
 
 
 def nightly() -> None:
-	"""Scheduled daily: OneAdmin's own backup and sealed config, and a job
-	for each workspace still running."""
+	"""Scheduled daily: OneAdmin's own backup, its sealed config once there
+	is a key to seal it to (Status says when there is not), and a job for
+	each workspace still running."""
 	from onedesk.one_admin import site
 
 	if not site.is_admin():
 		return
 	frappe.enqueue("onedesk.one_admin.backups.ours", queue="long", timeout=PATIENCE)
-	frappe.enqueue("onedesk.one_admin.backups.config_copy", queue="long", timeout=PATIENCE)
+	if copy_key():
+		frappe.enqueue("onedesk.one_admin.backups.config_copy", queue="long", timeout=PATIENCE)
 	for name in frappe.get_all("Tenant", filters={"status": ["in", BACKED_UP], "is_house": 0, "site": ["is", "set"]}, pluck="name"):
 		frappe.enqueue("onedesk.one_admin.backups.tenant", queue="long", timeout=PATIENCE * 2, name=name, job_id=f"one_backup_{name}", deduplicate=True)
 

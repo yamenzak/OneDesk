@@ -103,7 +103,7 @@ def read_file(name: str, history: int = 0, person: str | None = None) -> str | N
 		],
 		as_dict=True,
 	)
-	if not doc or doc.is_folder:
+	if not doc or doc.is_folder or (doc.file_url or "").startswith(("http://", "https://")):
 		return None
 	person = switches.of_file(doc) or person
 	if doc.content_hash:

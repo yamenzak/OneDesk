@@ -98,11 +98,10 @@ def _forget_gone() -> None:
 def install(*_args) -> None:
 	"""Each declared type as a Notification Type, after every migrate.
 
-	A new type gets its defaults everywhere. For a type that exists, the
-	defaults are refreshed, and the live text moves with them only while the
-	administrator has not edited it. A type that defaults to email is seeded into
-	everybody's email choices once, when it is first made, as frappe's own
-	"Enable email for all users" does.
+	A new type gets its defaults, and email ones are seeded into everybody's
+	choices once. An existing one's defaults are refreshed, its text moves
+	only while unedited, and a channel it no longer goes by leaves
+	everybody's choices.
 	"""
 	from frappe.desk.doctype.notification_type.notification_type import seed_type_into_settings
 
@@ -136,7 +135,7 @@ def install(*_args) -> None:
 		was = frappe.db.get_value(
 			"Notification Type",
 			name,
-			["one_subject", "one_message", "one_default_subject", "one_default_message"],
+			["one_subject", "one_message", "one_default_subject", "one_default_message", "one_allow_email", "one_allow_push"],
 			as_dict=True,
 		)
 		if not was.one_subject or was.one_subject == was.one_default_subject:
@@ -146,6 +145,10 @@ def install(*_args) -> None:
 		if one.get("switch") or one.get("notification"):
 			values["enabled"] = _switch(one)
 		frappe.db.set_value("Notification Type", name, values, update_modified=False)
+		if was.one_allow_email and not values["one_allow_email"]:
+			_take_out(name, EMAIL_FIELD)
+		if was.one_allow_push and not values["one_allow_push"]:
+			_take_out(name, PUSH_FIELD)
 	_settle()
 	_push_once()
 
