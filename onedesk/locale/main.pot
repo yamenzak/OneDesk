@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 00:16+0000\n"
-"PO-Revision-Date: 2026-11-10 00:16+0000\n"
+"POT-Creation-Date: 2026-11-10 05:41+0000\n"
+"PO-Revision-Date: 2026-11-10 05:41+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -34505,7 +34505,7 @@ msgstr ""
 msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr ""
 
-#: onedesk/one_admin/site.py:91
+#: onedesk/one_admin/site.py:109
 msgid "OneAdmin needs at least one operator."
 msgstr ""
 
@@ -34867,7 +34867,7 @@ msgstr ""
 msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
 msgstr ""
 
-#: onedesk/one_admin/site.py:87
+#: onedesk/one_admin/site.py:105
 msgid "Only an active member of the workspace can be an operator."
 msgstr ""
 
@@ -45907,7 +45907,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:267 onedesk/one_admin/servers.py:281
+#: onedesk/one_admin/servers.py:272 onedesk/one_admin/servers.py:286
 msgid "Server keys are not set."
 msgstr ""
 
@@ -49684,7 +49684,7 @@ msgstr ""
 msgid "Stripe did not answer for {0}. Try again in a moment."
 msgstr ""
 
-#: onedesk/one_admin/stripe.py:585
+#: onedesk/one_admin/stripe.py:586
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr ""
 
@@ -54681,7 +54681,7 @@ msgstr ""
 msgid "This site doesn't manage this workspace."
 msgstr ""
 
-#: onedesk/one_admin/site.py:34
+#: onedesk/one_admin/site.py:36
 msgid "This site doesn't manage workspaces."
 msgstr ""
 
@@ -54810,7 +54810,7 @@ msgstr ""
 msgid "This workspace has agreements outstanding. Agree to them, then try again."
 msgstr ""
 
-#: onedesk/one_admin/billing.py:225 onedesk/one_admin/stripe.py:235
+#: onedesk/one_admin/billing.py:225 onedesk/one_admin/stripe.py:236
 msgid "This workspace has no billing account yet."
 msgstr ""
 
@@ -68698,7 +68698,7 @@ msgstr ""
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:119
+#: onedesk/one_admin/servers.py:120
 #, python-brace-format
 msgid "{0} is still in use."
 msgstr ""
