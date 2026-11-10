@@ -44,6 +44,9 @@ jobs:
       - name: Install Pilot
         if: steps.built.outputs.yes != 'true'
         run: |
+          grep -oE '^(XDG|DBUS)_[A-Z_]*' /etc/environment || true
+          sudo sed -i -E '/^(XDG|DBUS)_/d' /etc/environment
+          systemctl show-environment | grep -oE '^(XDG|DBUS)_[A-Z_]*' | xargs -r sudo systemctl unset-environment
           curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
           chmod 644 /tmp/pilot.sh
           sudo env PATH="$PATH" PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh
@@ -79,6 +82,7 @@ jobs:
           id="$(id -u frappe)"
           loginctl show-user frappe || true
           ls -la "/run/user/$id" || true
+          sudo -iu frappe env XDG_RUNTIME_DIR="/run/user/$id" systemctl --user show-environment || true
           sudo -iu frappe env XDG_RUNTIME_DIR="/run/user/$id" systemctl --user --no-pager --all list-units 'pilot*' || true
           sudo -iu frappe env XDG_RUNTIME_DIR="/run/user/$id" systemctl --user --no-pager status pilot-mariadb.service pilot-mariadb-sizing.service || true
           sudo journalctl --no-pager -n 200 _UID="$id" || true
