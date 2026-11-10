@@ -7,6 +7,10 @@ on:
         description: Upload to R2 and tell OneAdmin
         type: boolean
         default: true
+      reuse:
+        description: Start from the last build on the same upstream commits
+        type: boolean
+        default: true
   schedule:
     - cron: "10 20 * * 2"
 
@@ -16,6 +20,11 @@ concurrency:
 
 permissions:
   contents: read
+
+env:
+  PILOT_VERSION: v0.0.99-pre-alpha
+  ONE_BASE: /tmp/one-base
+  ONE_TEMPLATE: /tmp/one-template
 
 jobs:
   build:
@@ -59,20 +68,49 @@ jobs:
           systemctl show-environment | grep -oE '^(XDG|DBUS)_[A-Z_]*' | xargs -r sudo systemctl unset-environment
           curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
           chmod 644 /tmp/pilot.sh
-          sudo env PATH="$PATH" PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh
+          sudo env PATH="$PATH" PILOT_VERSION="$PILOT_VERSION" sh /tmp/pilot.sh
           sudo install -d -o frappe -m 700 /tmp/pilot-api
           printf 'Authorization: Bearer %s\n' "$GH_TOKEN" | sudo -u frappe tee /tmp/pilot-api/header > /dev/null
           printf '%s\n' '#!/bin/sh' 'for one; do case "$one" in https://api.github.com/*) exec /usr/bin/curl --retry 5 --retry-delay 10 --retry-all-errors -H @/tmp/pilot-api/header "$@" ;; esac; done' 'exec /usr/bin/curl "$@"' \
             | sudo -u frappe tee /tmp/pilot-api/curl > /dev/null
           sudo chmod 700 /tmp/pilot-api/curl
           for attempt in 1 2 3 4; do
-            sudo -iu frappe env PATH="/tmp/pilot-api:/home/frappe/.local/bin:$PATH" PILOT_VERSION=v0.0.99-pre-alpha bash /tmp/pilot.sh && break
+            sudo -iu frappe env PATH="/tmp/pilot-api:/home/frappe/.local/bin:$PATH" PILOT_VERSION="$PILOT_VERSION" bash /tmp/pilot.sh && break
             [ "$attempt" = 4 ] && exit 1
             sleep 30
           done
           sudo rm -rf /tmp/pilot-api
           sudo cp -a "$GITHUB_WORKSPACE" /tmp/onedesk
           sudo chown -R frappe:frappe /tmp/onedesk
+
+      - name: What the base is
+        id: base
+        if: steps.built.outputs.yes != 'true'
+        run: |
+          python="$(sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" bash -c 'uv python install 3.14 > /dev/null 2>&1; "$(uv python find 3.14)" -c "import platform; print(platform.python_version())"')"
+          node="$(node -v)"
+          base="release-base-$ImageOS-python$python-node${node#v}-pilot$PILOT_VERSION-${{ hashFiles('upstream.json', 'deploy/release/build.sh', 'deploy/release/base.py') }}"
+          site="$(git ls-files -s -- onedesk pyproject.toml ':!*.js' ':!*.css' ':!*.scss' ':!*.vue' ':!*.ts' ':!*.tsx' ':!*.map' | sha256sum | cut -c1-32)"
+          echo "key=$base" >> "$GITHUB_OUTPUT"
+          echo "template=$base-site-$site" >> "$GITHUB_OUTPUT"
+          echo "base $base, template inputs $site"
+          sudo install -d -m 777 "$ONE_BASE" "$ONE_TEMPLATE"
+
+      - name: Base from an earlier build
+        id: base-cache
+        if: steps.built.outputs.yes != 'true' && inputs.reuse != false
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.ONE_BASE }}
+          key: ${{ steps.base.outputs.key }}
+
+      - name: Template from an earlier build
+        id: template-cache
+        if: steps.built.outputs.yes != 'true' && inputs.reuse != false
+        uses: actions/cache/restore@v4
+        with:
+          path: ${{ env.ONE_TEMPLATE }}
+          key: ${{ steps.base.outputs.template }}
 
       - name: Build and publish
         if: steps.built.outputs.yes != 'true'
@@ -87,10 +125,24 @@ jobs:
           ONE_ADMIN_URL: ${{ inputs.publish != false && secrets.ONE_ADMIN_URL || '' }}
           ONE_RELEASE_SECRET: ${{ inputs.publish != false && secrets.ONE_RELEASE_SECRET || '' }}
         run: |
-          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" PUBLISH="$PUBLISH" \
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" PUBLISH="$PUBLISH" ONE_BASE="$ONE_BASE" ONE_TEMPLATE="$ONE_TEMPLATE" \
             GH_TOKEN="$GH_TOKEN" RELEASE_BRANCH="$RELEASE_BRANCH" R2_ENDPOINT="$R2_ENDPOINT" R2_ASSETS_BUCKET="$R2_ASSETS_BUCKET" \
             R2_ASSETS_KEY="$R2_ASSETS_KEY" R2_ASSETS_SECRET="$R2_ASSETS_SECRET" ONE_ADMIN_URL="$ONE_ADMIN_URL" ONE_RELEASE_SECRET="$ONE_RELEASE_SECRET" \
             bash /tmp/onedesk/deploy/release/build.sh
+
+      - name: Keep the base
+        if: steps.built.outputs.yes != 'true' && steps.base-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.ONE_BASE }}
+          key: ${{ steps.base.outputs.key }}
+
+      - name: Keep the template
+        if: steps.built.outputs.yes != 'true' && steps.template-cache.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v4
+        with:
+          path: ${{ env.ONE_TEMPLATE }}
+          key: ${{ steps.base.outputs.template }}
 
       - name: What failed
         if: failure()
