@@ -94,7 +94,8 @@ jobs:
           echo "key=$base" >> "$GITHUB_OUTPUT"
           echo "template=$base-site-$site" >> "$GITHUB_OUTPUT"
           echo "base $base, template inputs $site"
-          sudo install -d -m 777 "$ONE_BASE" "$ONE_TEMPLATE"
+          mkdir -p "$ONE_BASE" "$ONE_TEMPLATE"
+          chmod 777 "$ONE_BASE" "$ONE_TEMPLATE"
 
       - name: Base from an earlier build
         id: base-cache
