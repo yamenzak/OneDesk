@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-09 22:53+0000\n"
+"POT-Creation-Date: 2026-11-10 09:38+0000\n"
 "PO-Revision-Date: 2026-10-13 10:25+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language: de\n"
@@ -506,7 +506,7 @@ msgstr "<span class=\"h4\"><b>Gerade jetzt</b></span>"
 msgid "A Column for Each Status"
 msgstr "Eine Spalte je Status"
 
-#: onedesk/one_mail/rules.py:1117 onedesk/one_mail/rules.py:1129
+#: onedesk/one_mail/rules.py:1122 onedesk/one_mail/rules.py:1134
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr "Die Regeln dieses Postfachs genehmigt ein E-Mail-Manager."
 
@@ -1647,7 +1647,7 @@ msgstr "Eine Folge von Arbeitsschritten für Stücklisten, die sie teilen."
 msgid "A shared device can't hold a passkey."
 msgstr "Ein gemeinsames Gerät kann keinen Passkey enthalten."
 
-#: onedesk/one_mail/rules.py:816
+#: onedesk/one_mail/rules.py:821
 msgid "A shared mailbox answers by a mail rule instead."
 msgstr "Ein gemeinsames Postfach antwortet stattdessen über eine Mail-Regel."
 
@@ -3716,7 +3716,7 @@ msgstr "Vereinbart bis {0}"
 msgid "Agreement No"
 msgstr "Vereinbarungs-Nr."
 
-#: onedesk/public/js/one_legal/trust_center.js:393 onedesk/www/legal.html:20
+#: onedesk/public/js/one_legal/trust_center.js:394 onedesk/www/legal.html:20
 #: onedesk/www/legal.py:27
 msgid "Agreements"
 msgstr "Vereinbarungen"
@@ -4659,7 +4659,7 @@ msgstr "Beantwortet von {0}, {1}"
 msgid "Answered by {0}, {1}."
 msgstr "Beantwortet von {0}, {1}."
 
-#: onedesk/one_admin/health.py:41
+#: onedesk/one_admin/health.py:45
 #, python-brace-format
 msgid "Answered {0}"
 msgstr "Antwort {0}"
@@ -5501,7 +5501,7 @@ msgstr "Updates anfordern"
 msgid "Ask for retention from {0}"
 msgstr "Einbehalt bei {0} anfordern"
 
-#: onedesk/one_admin/ai.py:124
+#: onedesk/one_admin/ai.py:125
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr "Fragen Sie mich, was benötigt wird oder um welchen Arbeitsbereich es geht, falls ich es nicht gesagt habe. Nennen Sie dann den günstigsten Plan mit Zusatzoptionen dafür, was er im Monat kostet, und die nächstbeste Möglichkeit."
 
@@ -8456,7 +8456,7 @@ msgstr "Kann ansehen"
 #: onedesk/public/js/one/shortcut_center.js:183
 #: onedesk/public/js/one_interface/dialogs.js:181
 #: onedesk/public/js/one_interface/phone.js:444
-#: onedesk/public/js/one_legal/trust_center.js:463
+#: onedesk/public/js/one_legal/trust_center.js:464
 msgid "Cancel"
 msgstr ""
 
@@ -8820,7 +8820,7 @@ msgstr "Diese Aufgabe ändern: "
 msgid "Change this task…"
 msgstr "Diese Aufgabe ändern…"
 
-#: onedesk/one/notify.py:755
+#: onedesk/one/notify.py:762
 msgid "Change what you get by mail"
 msgstr "Ändern, was Sie per E-Mail bekommen"
 
@@ -9274,7 +9274,7 @@ msgstr "Ausgecheckt"
 msgid "Checked when someone sets or changes their password."
 msgstr "Wird geprüft, wenn jemand sein Passwort festlegt oder ändert."
 
-#: frontend/src/admin/AdminStatus.vue:43
+#: frontend/src/admin/AdminStatus.vue:44
 #, python-brace-format
 msgid "Checked {0}"
 msgstr "Geprüft {0}"
@@ -10037,7 +10037,7 @@ msgstr "Cloudflare"
 msgid "Cloudflare did not answer for {0}."
 msgstr "Cloudflare hat für {0} nicht geantwortet."
 
-#: onedesk/one_admin/setup.py:224
+#: onedesk/one_admin/setup.py:232
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr "Cloudflare hat nicht geantwortet: {0}. Richten Sie es erneut ein."
@@ -12313,7 +12313,7 @@ msgstr "Guthaben, das jede Aufgabe in den letzten 30 Tagen verbraucht hat."
 msgid "Credits held while a call is in flight, so two calls cannot both spend the last one."
 msgstr "Guthaben, das während eines laufenden Aufrufs gehalten wird, damit nicht zwei Aufrufe dasselbe letzte ausgeben."
 
-#: onedesk/one_admin/ledger.py:463
+#: onedesk/one_admin/ledger.py:469
 msgid "Credits must be more than zero."
 msgstr "Credits müssen größer als null sein."
 
@@ -17213,7 +17213,7 @@ msgstr "Mindestens eine Währung eingeben."
 msgid "Enter the AWS Template URL first. It must be the template's address on Amazon S3."
 msgstr "Geben Sie zuerst die URL der AWS-Vorlage ein. Sie muss die Adresse der Vorlage auf Amazon S3 sein."
 
-#: onedesk/one_admin/setup.py:980
+#: onedesk/one_admin/setup.py:1045
 msgid "Enter the Cloudflare master token first."
 msgstr "Geben Sie zuerst den Haupt-Token von Cloudflare ein."
 
@@ -17225,7 +17225,7 @@ msgstr "Geben Sie zuerst die OAuth-Client-ID und das Geheimnis ein."
 msgid "Enter the OAuth Scopes first."
 msgstr "Geben Sie zuerst die OAuth-Bereiche ein."
 
-#: onedesk/one_admin/setup.py:626
+#: onedesk/one_admin/setup.py:691
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr "Gib die Absenderadresse für {0} ein."
@@ -17250,7 +17250,7 @@ msgstr "Überstunden eingeben."
 msgid "Enter the street address."
 msgstr "Geben Sie die Straßenadresse ein."
 
-#: onedesk/one_admin/setup.py:387
+#: onedesk/one_admin/setup.py:395
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr "Gib die Arbeitsbereichs- und die Maildomain für {0} ein."
@@ -18653,7 +18653,7 @@ msgstr "Versionen konnten nicht geladen werden"
 msgid "Failed to render template: {0}"
 msgstr "Die Vorlage konnte nicht dargestellt werden: {0}"
 
-#: onedesk/one/notify.py:627
+#: onedesk/one/notify.py:634
 msgid "Failed to send notification email"
 msgstr "Benachrichtigungs-E-Mail konnte nicht gesendet werden"
 
@@ -19837,7 +19837,7 @@ msgstr "Für diesen Bildschirm"
 msgid "For any package"
 msgstr "Für jedes Paket"
 
-#: onedesk/one_mail/rules.py:683
+#: onedesk/one_mail/rules.py:688
 #, python-brace-format
 msgid "For anything urgent, write to {0} at {1}."
 msgstr "Für Dringendes schreiben Sie an {0} unter {1}."
@@ -20607,7 +20607,7 @@ msgstr "Schlage aus dem Verlauf dieser Chance den nächsten Schritt und den Tag 
 msgid "From this person's designation and department, what should their first two weeks hold, day by day, and who should own each part?"
 msgstr "Was sollten die ersten zwei Wochen dieser Person nach Position und Abteilung Tag für Tag enthalten, und wer verantwortet welchen Teil?"
 
-#: onedesk/public/js/one_legal/trust_center.js:340
+#: onedesk/public/js/one_legal/trust_center.js:341
 #, python-brace-format
 msgid "From {0}"
 msgstr "Aus {0}"
@@ -22365,11 +22365,11 @@ msgstr "Wie funktionieren Benachrichtigungen in One, und was kann ich auf dieser
 msgid "How do notifications work?"
 msgstr "Wie funktionieren Benachrichtigungen?"
 
-#: onedesk/one_admin/ai.py:92
+#: onedesk/one_admin/ai.py:93
 msgid "How do our plans compare?"
 msgstr "Wie schneiden unsere Tarife im Vergleich ab?"
 
-#: onedesk/one_admin/ai.py:94
+#: onedesk/one_admin/ai.py:95
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr "Wie schneiden unsere Tarife im Vergleich ab? Gehen Sie die Preisliste durch: was jeder Tarif kostet und bietet, wo die Stufen zwischen den Tarifen ungleich sind und ob Zusätze und Pakete dazu passend bepreist sind."
 
@@ -22477,11 +22477,11 @@ msgstr "Wie läuft dieses Projekt?"
 msgid "How is this project going? Say in a few lines where it stands against its dates and its budget, what is late and what it holds up, the next milestone, and what the team said last."
 msgstr "Wie läuft dieses Projekt? Sagen Sie in wenigen Zeilen, wo es gegenüber Terminen und Budget steht, was verspätet ist und was es aufhält, den nächsten Meilenstein und was das Team zuletzt gesagt hat."
 
-#: onedesk/one_admin/ai.py:67
+#: onedesk/one_admin/ai.py:68
 msgid "How is this workspace doing?"
 msgstr "Wie steht es um diesen Arbeitsbereich?"
 
-#: onedesk/one_admin/ai.py:69
+#: onedesk/one_admin/ai.py:70
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr "Wie steht es um diesen Arbeitsbereich? Sagen Sie, wo er steht und ob etwas nicht stimmt: Zahlungen, Speicher, Guthaben, Domains und die letzten Aufträge, und was ich dagegen tun soll."
 
@@ -22854,11 +22854,11 @@ msgstr "Ich füge eine Liste ein. Schlage jede Zeile als neuen Wert der geöffne
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr "Ich füge eine E-Mail-Signatur ein. Lege die Person darin als Lead an."
 
-#: onedesk/one_mail/rules.py:676
+#: onedesk/one_mail/rules.py:681
 msgid "I'm away and will reply when I'm back."
 msgstr "Ich bin abwesend und antworte, wenn ich zurück bin."
 
-#: onedesk/one_mail/rules.py:674
+#: onedesk/one_mail/rules.py:679
 #, python-brace-format
 msgid "I'm on leave and back on {0}. I'll reply then."
 msgstr "Ich bin im Urlaub und ab {0} zurück. Ich antworte dann."
@@ -24483,11 +24483,11 @@ msgstr "Ist eine Nummerierung aus dem Takt?"
 msgid "Is empty"
 msgstr "Ist leer"
 
-#: onedesk/one_admin/ai.py:156
+#: onedesk/one_admin/ai.py:157
 msgid "Is everything OneAdmin runs on set up? Say which connections are missing and what each stops, what Set Up Cloudflare last said, and whether the money settings look sensible."
 msgstr "Ist alles eingerichtet, worauf OneAdmin läuft? Nennen Sie, welche Verbindungen fehlen und was jede verhindert, was Cloudflare einrichten zuletzt gemeldet hat und ob die Geldeinstellungen sinnvoll aussehen."
 
-#: onedesk/one_admin/ai.py:154
+#: onedesk/one_admin/ai.py:155
 msgid "Is everything set up?"
 msgstr "Ist alles eingerichtet?"
 
@@ -27645,7 +27645,7 @@ msgstr "Sieh dir unsere Feiertagsliste an. Wann endet sie, folgt eine weitere, f
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr "Sieh dir die Benachrichtigungen an, die One hier sendet. Welche sollten die Leute zusätzlich zur Glocke per E-Mail bekommen, und welche bleiben besser bei der Glocke? Begründe jede."
 
-#: onedesk/one_admin/ai.py:114
+#: onedesk/one_admin/ai.py:115
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr "Sehen Sie sich die Preisprüfung an: was falsch und was knapp ist, mit den Zahlen. Sagen Sie, was zuerst geändert werden sollte und um wie viel, damit die Preisliste stimmig ist."
 
@@ -28137,7 +28137,7 @@ msgstr "Postfächer, die Personen unter den Domains des Unternehmens haben."
 msgid "Mailed to addresses outside the workspace, so nobody chooses channels for it."
 msgstr "Wird an Adressen außerhalb des Arbeitsbereichs gemailt, daher wählt niemand Kanäle dafür."
 
-#: onedesk/one/notify.py:752
+#: onedesk/one/notify.py:759
 msgid "Mailed to everybody it concerns, whatever they chose."
 msgstr "Geht per E-Mail an alle, die es betrifft, unabhängig von ihrer Wahl."
 
@@ -29144,7 +29144,7 @@ msgstr "Zellen verbinden"
 #. Label of the message (Small Text) field in DocType 'Cloud File Request'
 #: frontend/src/mail/MailBody.vue:13
 #: onedesk/one/custom/notification_type.json:67
-#: onedesk/one/notification_words.py:228 onedesk/one/notify.py:269
+#: onedesk/one/notification_words.py:228 onedesk/one/notify.py:274
 #: onedesk/one/rules.py:44 onedesk/one_crm/custom/lead.json:26
 #: onedesk/one_crm/web_form/get_in_touch/get_in_touch.json:100
 #: onedesk/one_display/doctype/display_screen/display_screen_list.js:56
@@ -30212,16 +30212,16 @@ msgstr "Braucht Sie"
 msgid "Needs a quality check before it closes"
 msgstr "Braucht vor dem Abschluss eine Qualitätsprüfung"
 
-#: onedesk/one_admin/setup.py:742
+#: onedesk/one_admin/setup.py:807
 msgid "Needs an operator to tell."
 msgstr "Es muss eine Person aus dem Betriebsteam benachrichtigt werden."
 
-#: onedesk/one_admin/setup.py:444 onedesk/one_admin/setup.py:520
-#: onedesk/one_admin/setup.py:739
+#: onedesk/one_admin/setup.py:452 onedesk/one_admin/setup.py:528
+#: onedesk/one_admin/setup.py:804
 msgid "Needs the KV namespace first."
 msgstr "Braucht zuerst den KV-Namespace."
 
-#: onedesk/one_admin/setup.py:705
+#: onedesk/one_admin/setup.py:770
 msgid "Needs the buckets and the storage token first."
 msgstr "Benötigt zuerst die Buckets und das Speicher-Token."
 
@@ -31881,7 +31881,7 @@ msgstr "Keine Angebote"
 msgid "No readings from this server"
 msgstr "Keine Messwerte von diesem Server"
 
-#: onedesk/one_admin/health.py:182
+#: onedesk/one_admin/health.py:218
 #, python-brace-format
 msgid "No recent backup: {0}"
 msgstr "Keine aktuelle Sicherung: {0}"
@@ -32149,7 +32149,7 @@ msgstr "Niemand"
 msgid "Nobody Applied"
 msgstr "Niemand beworben"
 
-#: onedesk/one_mail/rules.py:1143
+#: onedesk/one_mail/rules.py:1148
 msgid "Nobody asked for this rule."
 msgstr "Niemand hat diese Regel angefragt."
 
@@ -32216,7 +32216,7 @@ msgstr "Niemand verantwortlich"
 msgid "Nobody yet."
 msgstr "Noch niemand."
 
-#: onedesk/one_admin/setup.py:809
+#: onedesk/one_admin/setup.py:874
 #, python-brace-format
 msgid "Node is not on this server: {0}"
 msgstr "Node ist auf diesem Server nicht vorhanden: {0}"
@@ -32433,7 +32433,7 @@ msgstr "Nicht gestartet"
 msgid "Not Tracked"
 msgstr "Nicht erfasst"
 
-#: onedesk/public/js/one_legal/trust_center.js:334
+#: onedesk/public/js/one_legal/trust_center.js:335
 msgid "Not Used by This Workspace"
 msgstr "In diesem Arbeitsbereich nicht genutzt"
 
@@ -32470,7 +32470,7 @@ msgstr "Nicht erlaubt"
 msgid "Not answered"
 msgstr "Nicht beantwortet"
 
-#: onedesk/one_admin/health.py:164
+#: onedesk/one_admin/health.py:200
 #, python-brace-format
 msgid "Not answering: {0}"
 msgstr "Antwortet nicht: {0}"
@@ -32492,7 +32492,7 @@ msgstr "Noch nicht eingerichtet"
 msgid "Not checked in"
 msgstr "Nicht eingecheckt"
 
-#: frontend/src/admin/AdminStatus.vue:43
+#: frontend/src/admin/AdminStatus.vue:44
 msgid "Not checked yet"
 msgstr "Noch nicht geprüft"
 
@@ -34518,11 +34518,11 @@ msgstr "One-Admin-Token"
 msgid "OneAdmin can't be reached right now. Try again in a few minutes."
 msgstr "OneAdmin ist gerade nicht erreichbar. Versuchen Sie es in ein paar Minuten erneut."
 
-#: onedesk/one_admin/site.py:91
+#: onedesk/one_admin/site.py:109
 msgid "OneAdmin needs at least one operator."
 msgstr "OneAdmin braucht mindestens einen Operator."
 
-#: onedesk/one_admin/health.py:184
+#: onedesk/one_admin/health.py:220
 msgid "OneAdmin's config isn't copied: there is no Config Copy Key in Settings"
 msgstr "Die Konfiguration von OneAdmin wird nicht kopiert: In den Einstellungen fehlt der Config Copy Key"
 
@@ -34884,7 +34884,7 @@ msgstr "Nur HR-Manager können eine Beschwerde als nicht sensibel markieren."
 msgid "Only an accounts user sets a budget for a cost centre. Set this one against a project."
 msgstr "Nur ein Buchhaltungsbenutzer legt ein Budget für eine Kostenstelle fest. Lege dieses für ein Projekt fest."
 
-#: onedesk/one_admin/site.py:87
+#: onedesk/one_admin/site.py:105
 msgid "Only an active member of the workspace can be an operator."
 msgstr "Nur aktive Mitglieder des Arbeitsbereichs können Operatoren sein."
 
@@ -35155,7 +35155,7 @@ msgstr "Deckkraft"
 msgid "Open"
 msgstr "Offen"
 
-#: onedesk/one/notify.py:742
+#: onedesk/one/notify.py:749
 msgctxt "Go to it"
 msgid "Open"
 msgstr "Öffnen"
@@ -35452,7 +35452,7 @@ msgstr "Während der Prüfungen bis acht Uhr geöffnet"
 msgid "Open your One account"
 msgstr "Ihr One-Konto öffnen"
 
-#: onedesk/one/notify.py:745
+#: onedesk/one/notify.py:752
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:293
 #: onedesk/one_portal/share.py:355 onedesk/public/js/audit_list.js:7
 #: onedesk/www/s.html:147
@@ -40994,7 +40994,7 @@ msgstr "Alle Clips dieses Pakets neu aufnehmen? Vorhandene Clips werden ersetzt.
 msgid "Re-recording {0} clips."
 msgstr "{0} Clips werden neu aufgenommen."
 
-#: onedesk/one_mail/rules.py:872
+#: onedesk/one_mail/rules.py:877
 #, python-brace-format
 msgid "Re: {0}"
 msgstr ""
@@ -45585,6 +45585,11 @@ msgstr "Domain des Absenders"
 msgid "Sender's Records"
 msgstr "Datensätze der absendenden Person"
 
+#. Option for the 'Service' (Select) field in DocType 'Health Check'
+#: onedesk/one_admin/doctype/health_check/health_check.json:24
+msgid "Sending"
+msgstr ""
+
 #: onedesk/one_admin/steps.py:68
 msgid "Sending the backup to the server"
 msgstr "Sicherung wird an den Server gesendet"
@@ -45924,7 +45929,7 @@ msgstr "Serverfehler: {0}"
 msgid "Server is required."
 msgstr "Server ist erforderlich."
 
-#: onedesk/one_admin/servers.py:267 onedesk/one_admin/servers.py:281
+#: onedesk/one_admin/servers.py:273 onedesk/one_admin/servers.py:287
 msgid "Server keys are not set."
 msgstr "Serverschlüssel sind nicht festgelegt."
 
@@ -46137,6 +46142,10 @@ msgstr "Cloudflare einrichten"
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:197
 msgid "Set Up Cloudflare deploys it. Files a browser can't open are converted to PDF there."
 msgstr "Wird von „Cloudflare einrichten“ bereitgestellt. Dateien, die ein Browser nicht öffnen kann, werden dort in PDF umgewandelt."
+
+#: onedesk/one_admin/testmail.py:31
+msgid "Set Up Cloudflare hasn't made the test mail domain yet."
+msgstr "Cloudflare einrichten hat die Test-Maildomain noch nicht angelegt."
 
 #. Description of the 'Backup Bucket' (Data) field in DocType 'One Admin
 #. Settings'
@@ -47373,7 +47382,7 @@ msgstr "Angemeldet als {0}."
 msgid "Signed in as {0}. The workspace joins your account."
 msgstr "Angemeldet als {0}. Der Arbeitsbereich kommt in Ihr Konto."
 
-#: onedesk/one_admin/setup.py:333
+#: onedesk/one_admin/setup.py:341
 msgid "Signed in to Cloudflare for this run."
 msgstr "Für diesen Lauf bei Cloudflare angemeldet."
 
@@ -49681,7 +49690,7 @@ msgstr "Stripe-Webhook-Ereignis"
 msgid "Stripe did not answer for {0}. Try again in a moment."
 msgstr "Stripe hat für {0} nicht geantwortet. Versuchen Sie es gleich noch einmal."
 
-#: onedesk/one_admin/stripe.py:585
+#: onedesk/one_admin/stripe.py:586
 msgid "Stripe is not configured. Set it in OneAdmin Settings."
 msgstr "Stripe ist nicht eingerichtet. Richten Sie es in den OneAdmin-Einstellungen ein."
 
@@ -49807,7 +49816,7 @@ msgstr "Unterüberschrift"
 #. Label of the subject (Data) field in DocType 'Mail Draft'
 #: frontend/src/mail/MailList.vue:21
 #: onedesk/one/custom/notification_type.json:55
-#: onedesk/one/notification_words.py:227 onedesk/one/notify.py:269
+#: onedesk/one/notification_words.py:227 onedesk/one/notify.py:274
 #: onedesk/one/rules.py:44 onedesk/one_ai/chat.py:326
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:356
 #: onedesk/one_hr/print_format/one_employee_grievance/one_employee_grievance.json
@@ -51153,7 +51162,7 @@ msgstr "Vorlage"
 msgid "Template Name"
 msgstr "Vorlagenname"
 
-#: onedesk/one/notify.py:342 onedesk/one/rules.py:205
+#: onedesk/one/notify.py:347 onedesk/one/rules.py:205
 #, python-brace-format
 msgid "Template error: {0}"
 msgstr "Vorlagenfehler: {0}"
@@ -51503,7 +51512,7 @@ msgstr "Diese Adresse hat bereits ein Konto. Melden Sie sich stattdessen damit a
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:134
 #: onedesk/one/people.py:144 onedesk/one/rights.py:87 onedesk/one/rights.py:178
 #: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1255
-#: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:818
+#: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:823
 #: onedesk/one_studio/ai_setup.py:825 onedesk/one_studio/reports.py:210
 #: onedesk/one_studio/reports.py:242
 msgid "That cannot be set."
@@ -51597,7 +51606,7 @@ msgstr "Dieser Passkey ist auf dieser Site nicht registriert."
 msgid "That plan is no longer on offer. Start again."
 msgstr "Dieser Tarif wird nicht mehr angeboten. Beginnen Sie von vorn."
 
-#: onedesk/one_mail/rules.py:1096
+#: onedesk/one_mail/rules.py:1101
 msgid "That rule is not in this mailbox."
 msgstr "Diese Regel gehört nicht zu diesem Postfach."
 
@@ -52242,7 +52251,7 @@ msgstr "Am Tag, nachdem Lohnfertigungsware zurück sein sollte und nicht alles z
 msgid "The day before your exit interview."
 msgstr "Am Tag vor deinem Austrittsgespräch."
 
-#: onedesk/one_mail/rules.py:820
+#: onedesk/one_mail/rules.py:825
 msgid "The day it ends can't be before the day it starts."
 msgstr "Das Enddatum kann nicht vor dem Startdatum liegen."
 
@@ -53356,7 +53365,7 @@ msgstr "Der Server hat die E-Mail-Adresse oder das Passwort abgelehnt."
 msgid "The server's name or address."
 msgstr "Name oder Adresse des Servers."
 
-#: onedesk/one_admin/setup.py:345
+#: onedesk/one_admin/setup.py:353
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
 msgstr "Das Einrichtungs-Token wurde erstellt, aber Cloudflare akzeptiert es noch nicht. Richten Sie erneut ein."
 
@@ -53557,12 +53566,12 @@ msgstr "Uhrzeit, Wetter und ein Code neben den Folien."
 msgid "The title of your presentation"
 msgstr "Der Titel Ihrer Präsentation"
 
-#: onedesk/one_admin/setup.py:370
+#: onedesk/one_admin/setup.py:378
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr "Das Token hat Zugriff auf {0} Konten. Geben Sie die Account ID ein."
 
-#: onedesk/one_admin/setup.py:392
+#: onedesk/one_admin/setup.py:400
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr "Das Token hat keine Zone für {0}."
@@ -53942,7 +53951,7 @@ msgstr "Es gibt kein Wartungsteam, und ein Plan braucht eines."
 msgid "There is no new version of {0}."
 msgstr "Es gibt keine neue Version von {0}."
 
-#: onedesk/one/notification_words.py:113 onedesk/one/notify.py:439
+#: onedesk/one/notification_words.py:113 onedesk/one/notify.py:446
 #, python-brace-format
 msgid "There is no notification type {0}."
 msgstr "Es gibt keinen Benachrichtigungstyp {0}."
@@ -54479,11 +54488,11 @@ msgstr "Dieser Link funktioniert nicht mehr. Bitten Sie den Absender um einen ne
 msgid "This may be {0} {1}: the same {2}."
 msgstr "Dies könnte {0} {1} sein: gleiche {2}."
 
-#: onedesk/one_admin/mailing.py:97
+#: onedesk/one_admin/mailing.py:147
 msgid "This message is larger than 5 MB."
 msgstr "Diese Nachricht ist größer als 5 MB."
 
-#: onedesk/one_admin/mailing.py:51
+#: onedesk/one_admin/mailing.py:55
 msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr "Diese Nachricht ist größer als 5 MB. Teilen Sie große Dateien als OneCloud-Links."
 
@@ -54671,7 +54680,7 @@ msgstr "Diese Anmeldung wurde ohne Zahlung beendet, und der Name ist wieder frei
 msgid "This site doesn't manage this workspace."
 msgstr "Diese Site verwaltet diesen Arbeitsbereich nicht."
 
-#: onedesk/one_admin/site.py:34
+#: onedesk/one_admin/site.py:36
 msgid "This site doesn't manage workspaces."
 msgstr "Diese Site verwaltet keine Arbeitsbereiche."
 
@@ -54800,7 +54809,7 @@ msgstr "Dieser Arbeitsbereich führt noch keine Erweiterungen auf dem Server aus
 msgid "This workspace has agreements outstanding. Agree to them, then try again."
 msgstr "In diesem Arbeitsbereich stehen noch Zustimmungen aus. Stimme ihnen zu und versuche es erneut."
 
-#: onedesk/one_admin/billing.py:225 onedesk/one_admin/stripe.py:235
+#: onedesk/one_admin/billing.py:225 onedesk/one_admin/stripe.py:236
 msgid "This workspace has no billing account yet."
 msgstr "Dieser Arbeitsbereich hat noch kein Abrechnungskonto."
 
@@ -56380,7 +56389,7 @@ msgstr "{0} ausschalten"
 
 #: onedesk/one_display/doctype/display_screen/display_screen.js:7
 #: onedesk/one_studio/heads.py:76
-#: onedesk/public/js/one_legal/trust_center.js:457
+#: onedesk/public/js/one_legal/trust_center.js:458
 msgid "Turn On"
 msgstr "Einschalten"
 
@@ -56402,7 +56411,7 @@ msgstr "Ein- oder ausschalten"
 msgid "Turn On {0}"
 msgstr "{0} einschalten"
 
-#: onedesk/public/js/one_legal/trust_center.js:449
+#: onedesk/public/js/one_legal/trust_center.js:450
 #, python-brace-format
 msgid "Turn On {0}?"
 msgstr "{0} einschalten?"
@@ -56420,7 +56429,7 @@ msgstr "Ihr Konto deaktivieren und Ihren Namen und Ihre Adresse aus den Unterlag
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr "Portalzugang von {0} deaktivieren? Die Person wird sofort abgemeldet."
 
-#: onedesk/one_admin/setup.py:466
+#: onedesk/one_admin/setup.py:474
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr "Aktivieren Sie Advanced Certificate Manager für {0} in Cloudflare und richten Sie es dann erneut ein."
@@ -56450,7 +56459,7 @@ msgstr "Abgelehnt von {0}."
 msgid "Turned down."
 msgstr "Abgelehnt."
 
-#: onedesk/public/js/one_legal/trust_center.js:472
+#: onedesk/public/js/one_legal/trust_center.js:473
 msgid "Turned off"
 msgstr "Ausgeschaltet"
 
@@ -56458,7 +56467,7 @@ msgstr "Ausgeschaltet"
 msgid "Turned off."
 msgstr "Ausgeschaltet."
 
-#: onedesk/public/js/one_legal/trust_center.js:472
+#: onedesk/public/js/one_legal/trust_center.js:473
 msgid "Turned on"
 msgstr "Eingeschaltet"
 
@@ -56475,7 +56484,7 @@ msgstr "Für dieses Postfach aktiviert"
 msgid "Turned on."
 msgstr "Eingeschaltet."
 
-#: onedesk/public/js/one_legal/trust_center.js:454
+#: onedesk/public/js/one_legal/trust_center.js:455
 msgid "Turning it on agrees to this for your whole workspace, and is recorded with your name."
 msgstr "Wer ihn einschaltet, stimmt dem für den ganzen Arbeitsbereich zu, und das wird mit Ihrem Namen festgehalten."
 
@@ -58918,7 +58927,7 @@ msgstr "Was die Antwort von OneAI tun soll, etwa aus ihren Aufträgen antworten 
 msgid "What They Get"
 msgstr "Was sie erhalten"
 
-#: onedesk/public/js/one_legal/trust_center.js:343
+#: onedesk/public/js/one_legal/trust_center.js:344
 msgid "What They Receive"
 msgstr "Was sie erhalten"
 
@@ -59372,11 +59381,11 @@ msgstr "Was braucht eine Antwort?"
 msgid "What needs fixing?"
 msgstr "Was muss behoben werden?"
 
-#: onedesk/one_admin/ai.py:60
+#: onedesk/one_admin/ai.py:61
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr "Was braucht mich heute in OneAdmin? Nennen Sie zuerst das Dringendste, warum jedes feststeckt und was ich tun soll."
 
-#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:58
+#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:59
 msgid "What needs me today?"
 msgstr "Was braucht mich heute?"
 
@@ -59416,11 +59425,11 @@ msgstr "Was sollte ich zuerst fragen?"
 msgid "What should I do first?"
 msgstr "Was soll ich zuerst tun?"
 
-#: onedesk/one_admin/ai.py:122
+#: onedesk/one_admin/ai.py:123
 msgid "What should they buy?"
 msgstr "Was sollten sie kaufen?"
 
-#: onedesk/one_admin/ai.py:112
+#: onedesk/one_admin/ai.py:113
 msgid "What should we change?"
 msgstr "Was sollten wir ändern?"
 
@@ -61134,7 +61143,7 @@ msgstr "Wenn jemand die Löschung seines Kontos beantragt."
 msgid "When someone asks to sign in to their One account by email. It can't be turned off."
 msgstr "Wenn jemand per E-Mail eine Anmeldung bei einem One-Konto anfordert. Kann nicht deaktiviert werden."
 
-#: onedesk/one/notify.py:370
+#: onedesk/one/notify.py:375
 msgid "When someone assigns you something, or it changes."
 msgstr "Wenn Ihnen jemand etwas zuweist oder es sich ändert."
 
@@ -61153,7 +61162,7 @@ msgstr "Wenn jemand einen Kontakt eines Kunden oder Lieferanten zum Portal einl�
 msgid "When someone is made a workspace administrator."
 msgstr "Wenn jemand Administrator des Arbeitsbereichs wird."
 
-#: onedesk/one/notify.py:369
+#: onedesk/one/notify.py:374
 msgid "When someone mentions you in a comment."
 msgstr "Wenn jemand Sie in einem Kommentar erwähnt."
 
@@ -61182,7 +61191,7 @@ msgstr "Wenn jemand alle von Ihnen angeforderten Dateien sendet."
 msgid "When someone shares a file or folder with you."
 msgstr "Wenn jemand eine Datei oder einen Ordner mit Ihnen teilt."
 
-#: onedesk/one/notify.py:371
+#: onedesk/one/notify.py:376
 msgid "When someone shares a record with you."
 msgstr "Wenn jemand einen Datensatz mit Ihnen teilt."
 
@@ -61454,7 +61463,7 @@ msgstr "Wenn {0} zu {1} wechselt"
 #: onedesk/one_hr/heads.py:737
 #: onedesk/one_hr/print_format/one_shift_assignment/one_shift_assignment.json
 #: onedesk/one_hr/print_format/one_training_event/one_training_event.json
-#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:344
+#: onedesk/one_studio/ai.py:452 onedesk/public/js/one_legal/trust_center.js:345
 msgid "Where"
 msgstr "Wo"
 
@@ -61513,7 +61522,7 @@ msgstr "Wohin eingehender Bestand kommt und wie viel jedes Lager fasst."
 msgid "Where calls from this queue are announced."
 msgstr "Wo Aufrufe dieser Warteschlange angesagt werden."
 
-#: onedesk/one_admin/ai.py:176
+#: onedesk/one_admin/ai.py:177
 msgid "Where did the credits go?"
 msgstr "Wohin sind die Credits gegangen?"
 
@@ -61525,7 +61534,7 @@ msgstr "Wohin ist die Zeit gegangen?"
 msgid "Where did this project's time go this month? Say who logged it, on which tasks, how much is billable, and what is still a draft."
 msgstr "Wohin ist die Zeit dieses Projekts in diesem Monat gegangen? Nenne, wer sie erfasst hat, auf welchen Aufgaben, wie viel abrechenbar ist und was noch Entwurf ist."
 
-#: onedesk/one_admin/ai.py:178
+#: onedesk/one_admin/ai.py:179
 msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr "Wohin sind die OneCredits dieses Arbeitsbereichs gegangen? Nenne, was übrig ist und bis wann, was diesen Monat für welche Modelle ausgegeben wurde und was von Hand gegeben oder zurückgenommen wurde, mit Notiz."
 
@@ -61919,7 +61928,7 @@ msgstr "Welche Webhook-Aufrufe haben diese Woche aufgegeben, und was hat das and
 msgid "Which work orders are open, for what, how far along, and which are late?"
 msgstr "Welche Arbeitsaufträge sind offen, wofür, wie weit, und welche sind überfällig?"
 
-#: onedesk/one_admin/ai.py:103
+#: onedesk/one_admin/ai.py:104
 msgid "Which workspaces have this, how many are live, and what do they pay?"
 msgstr "Welche Arbeitsbereiche haben das, wie viele sind live und was zahlen sie?"
 
@@ -62054,7 +62063,7 @@ msgstr "Wer hat sich seit einem Monat oder länger nicht angemeldet, und sollte 
 msgid "Who has not signed in lately?"
 msgstr "Wer hat sich in letzter Zeit nicht angemeldet?"
 
-#: onedesk/one_admin/ai.py:102
+#: onedesk/one_admin/ai.py:103
 msgid "Who has this?"
 msgstr "Wer hat das?"
 
@@ -62086,11 +62095,11 @@ msgstr "Wer ist am günstigsten?"
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr "Wer ist auf ein Gebiet, eine Abteilung oder einen anderen Datensatz beschränkt, und auf welchen?"
 
-#: onedesk/one_admin/ai.py:168
+#: onedesk/one_admin/ai.py:169
 msgid "Who is spending the most on OneAI this month, on which models and for which actions? Say what it was charged, what it cost us and the margin, and anything that looks wrong."
 msgstr "Wer gibt diesen Monat am meisten für OneAI aus, auf welchen Modellen und für welche Aktionen? Nennen Sie, was berechnet wurde, was es uns gekostet hat, die Marge und alles, was falsch aussieht."
 
-#: onedesk/one_admin/ai.py:166
+#: onedesk/one_admin/ai.py:167
 msgid "Who is spending the most?"
 msgstr "Wer gibt am meisten aus?"
 
@@ -62489,11 +62498,11 @@ msgstr "Warum verlieren wir Chancen?"
 msgid "Why did these fail?"
 msgstr "Warum sind diese fehlgeschlagen?"
 
-#: onedesk/one_admin/ai.py:132
+#: onedesk/one_admin/ai.py:133
 msgid "Why did this job fail?"
 msgstr "Warum ist dieser Auftrag fehlgeschlagen?"
 
-#: onedesk/one_admin/ai.py:134
+#: onedesk/one_admin/ai.py:135
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr "Warum ist dieser Auftrag fehlgeschlagen? Sagen Sie, wo er stehen blieb, was der Fehler in einfachen Worten bedeutet und ob ein Fortsetzen wahrscheinlich klappt."
 
@@ -62517,11 +62526,11 @@ msgstr "Warum funktioniert unsere Domain nicht?"
 msgid "Why is this extension off, and what would it take to turn it on?"
 msgstr "Warum ist diese Erweiterung aus, und was braucht es, um sie einzuschalten?"
 
-#: onedesk/one_admin/ai.py:142
+#: onedesk/one_admin/ai.py:143
 msgid "Why is this job waiting?"
 msgstr "Warum wartet dieser Auftrag?"
 
-#: onedesk/one_admin/ai.py:144
+#: onedesk/one_admin/ai.py:145
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr "Warum wartet dieser Auftrag? Sagen Sie, bei welchem Schritt er ist, worauf er wartet, wie oft er es versucht hat und ob etwas nicht stimmt."
 
@@ -62529,11 +62538,11 @@ msgstr "Warum wartet dieser Auftrag? Sagen Sie, bei welchem Schritt er ist, wora
 msgid "Why is this one off?"
 msgstr "Warum ist diese aus?"
 
-#: onedesk/one_admin/ai.py:79
+#: onedesk/one_admin/ai.py:80
 msgid "Why isn't this domain working?"
 msgstr "Warum funktioniert diese Domain nicht?"
 
-#: onedesk/one_admin/ai.py:81
+#: onedesk/one_admin/ai.py:82
 msgid "Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer has to change in their DNS, and whether anything is ours to fix."
 msgstr "Warum funktioniert diese Domain nicht? Sagen Sie in einfachen Worten, was laut Cloudflare falsch ist, was der Kunde in seinem DNS ändern muss und ob etwas bei uns zu beheben ist."
 
@@ -62546,11 +62555,11 @@ msgstr "Warum jemand geht, gefragt, bevor er geht."
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr "Warum diese Tage als gearbeitet zählen sollen. Die Liste pflegt die Personalabteilung unter Anwesenheitsgrund."
 
-#: onedesk/one_admin/ai.py:188
+#: onedesk/one_admin/ai.py:189
 msgid "Why wasn't this built?"
 msgstr "Warum wurde das nicht erstellt?"
 
-#: onedesk/one_admin/ai.py:190
+#: onedesk/one_admin/ai.py:191
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr "Warum wurde der Arbeitsbereich dieser Anmeldung nicht erstellt? Sagen Sie in einfachen Worten, was ihn aufgehalten hat, ob „Arbeitsbereich erstellen“ jetzt wahrscheinlich funktioniert und was zu tun ist, falls nicht."
 
@@ -64655,7 +64664,7 @@ msgstr "Ihre Mail-Regel für {mailbox} wurde abgelehnt"
 msgid "Your mailboxes and folders that OneAI reads, files and acts on as you."
 msgstr "Ihre Postfächer und Ordner, die OneAI in Ihrem Namen liest, ablegt und bearbeitet."
 
-#: onedesk/one_mail/rules.py:872
+#: onedesk/one_mail/rules.py:877
 msgid "Your message"
 msgstr "Deine Nachricht"
 
@@ -65335,8 +65344,8 @@ msgstr "Dezimaltrennzeichen"
 msgid "deleted"
 msgstr "gelöscht"
 
-#: onedesk/one_admin/setup.py:731 onedesk/one_admin/setup.py:760
-#: onedesk/one_admin/setup.py:840
+#: onedesk/one_admin/setup.py:796 onedesk/one_admin/setup.py:825
+#: onedesk/one_admin/setup.py:905
 msgid "deployed"
 msgstr "bereitgestellt"
 
@@ -65548,7 +65557,7 @@ msgstr "verspätet gekommen, früher gegangen"
 msgid "in the list"
 msgstr "in der Liste"
 
-#: frontend/src/kit/desk.js:264
+#: frontend/src/kit/desk.js:262
 #, python-brace-format
 msgid "in {0} days"
 msgstr "in {0} Tagen"
@@ -65702,7 +65711,7 @@ msgstr "übrig"
 msgid "left early"
 msgstr "früher gegangen"
 
-#: onedesk/one_admin/setup.py:555
+#: onedesk/one_admin/setup.py:620
 #, python-brace-format
 msgid "left to {0}"
 msgstr "{0} überlassen"
@@ -65764,7 +65773,7 @@ msgstr "darf jetzt {0}"
 msgid "milestone"
 msgstr "Meilenstein"
 
-#: onedesk/one_admin/setup.py:296 onedesk/one_admin/setup.py:689
+#: onedesk/one_admin/setup.py:304 onedesk/one_admin/setup.py:754
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr "fehlende Berechtigungen: {0}"
@@ -65876,7 +65885,7 @@ msgstr "nicht in der Liste"
 msgid "not known yet"
 msgstr "noch nicht bekannt"
 
-#: onedesk/one/notify.py:345 onedesk/one_account/heads.py:28
+#: onedesk/one/notify.py:350 onedesk/one_account/heads.py:28
 #: onedesk/public/js/desk.js:330
 msgid "nothing"
 msgstr "nichts"
@@ -66421,11 +66430,11 @@ msgstr "zum Navigieren"
 msgid "to pay"
 msgstr "zu zahlen"
 
-#: frontend/src/kit/desk.js:261
+#: frontend/src/kit/desk.js:259
 msgid "today"
 msgstr "heute"
 
-#: frontend/src/kit/desk.js:262
+#: frontend/src/kit/desk.js:260
 msgid "tomorrow"
 msgstr "morgen"
 
@@ -66433,7 +66442,7 @@ msgstr "morgen"
 msgid "too far from the last check-in"
 msgstr "zu weit von der letzten Stempelung"
 
-#: onedesk/one_admin/setup.py:851
+#: onedesk/one_admin/setup.py:916
 msgid "unchanged"
 msgstr "unverändert"
 
@@ -66531,12 +66540,12 @@ msgstr "ohne ihre Datensätze"
 msgid "words, with commas"
 msgstr "Wörter, mit Kommas"
 
-#: onedesk/one_admin/setup.py:780
+#: onedesk/one_admin/setup.py:845
 #, python-brace-format
 msgid "wrangler did not say where {0} is"
 msgstr "wrangler hat nicht angegeben, wo {0} ist"
 
-#: onedesk/one_admin/setup.py:811
+#: onedesk/one_admin/setup.py:876
 #, python-brace-format
 msgid "wrangler took too long: {0}"
 msgstr "wrangler hat zu lange gebraucht: {0}"
@@ -66553,7 +66562,7 @@ msgstr "xlsx oder csv, wenn dies diese Datei an Ort und Stelle bearbeitet und ih
 msgid "yellow"
 msgstr ""
 
-#: frontend/src/kit/desk.js:263
+#: frontend/src/kit/desk.js:261
 msgid "yesterday"
 msgstr "gestern"
 
@@ -66994,7 +67003,7 @@ msgstr "{0} benennt bereits die Aufgaben von {1}."
 msgid "{0} already records {1} hours of overtime on {2}. Remove this row."
 msgstr "{0} erfasst am {2} bereits {1} Überstunden. Diese Zeile entfernen."
 
-#: onedesk/one/notify.py:255
+#: onedesk/one/notify.py:260
 #, python-brace-format
 msgid "{0} always sends this. It can't be turned off."
 msgstr "{0} sendet dies immer. Es kann nicht ausgeschaltet werden."
@@ -67125,6 +67134,11 @@ msgstr "{0} gehört zu {1} {2}. Teilen Sie stattdessen den Datensatz."
 msgid "{0} bills carry VAT the return does not claim back in box 9."
 msgstr "{0} Eingangsrechnungen enthalten Vorsteuer, die die Erklärung in Feld 9 nicht zurückfordert."
 
+#: onedesk/one_admin/health.py:140
+#, python-brace-format
+msgid "{0} bounced and {1} suppressed of {2} sent in {3} days ({4}%)"
+msgstr "{0} unzustellbar und {1} gesperrt von {2} gesendeten in {3} Tagen ({4} %)"
+
 #: frontend/src/project/Overview.vue:173
 #, python-brace-format
 msgid "{0} budget"
@@ -67170,7 +67184,7 @@ msgstr "{0} kann nicht per Webhook gesendet werden."
 msgid "{0} can't be turned off."
 msgstr "{0} kann nicht ausgeschaltet werden."
 
-#: onedesk/one/notify.py:249
+#: onedesk/one/notify.py:254
 #, python-brace-format
 msgid "{0} can't be turned off. Shared links depend on it."
 msgstr "{0} kann nicht ausgeschaltet werden. Geteilte Links hängen davon ab."
@@ -67289,7 +67303,7 @@ msgstr "{0} haben {1} Felder geändert"
 msgid "{0} changes to {1}"
 msgstr "{0} Änderungen an {1}"
 
-#: frontend/src/admin/AdminStatus.vue:64
+#: frontend/src/admin/AdminStatus.vue:65
 #, python-brace-format
 msgid "{0} checks in a row"
 msgstr "{0} Prüfungen in Folge"
@@ -67415,7 +67429,7 @@ msgstr "{0} Datenbank"
 #: frontend/src/hr/HrStory.vue:72
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
-#: onedesk/one_admin/setup.py:675 onedesk/one_ai/reading/understand.py:520
+#: onedesk/one_admin/setup.py:740 onedesk/one_ai/reading/understand.py:520
 #: onedesk/one_crm/heads.py:34 onedesk/one_crm/heads.py:42
 #: onedesk/one_hr/heads.py:28 onedesk/one_hr/heads.py:680
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/ai.py:865
@@ -67435,7 +67449,7 @@ msgstr "{0} Tage nach {2} eines {1}"
 msgid "{0} days after {1}"
 msgstr "{0} Tage nach {1}"
 
-#: frontend/src/kit/desk.js:264
+#: frontend/src/kit/desk.js:262
 #, python-brace-format
 msgid "{0} days ago"
 msgstr "vor {0} Tagen"
@@ -68186,7 +68200,7 @@ msgstr "{0} vertritt."
 msgid "{0} is done"
 msgstr "{0} ist erledigt"
 
-#: frontend/src/admin/AdminStatus.vue:38
+#: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} is failing"
 msgstr "{0} ist fehlerhaft"
@@ -68471,7 +68485,7 @@ msgstr "{0} ist kein Zeitfenster."
 msgid "{0} is not a workspace address."
 msgstr "{0} ist keine Workspace-Adresse."
 
-#: onedesk/one_admin/ledger.py:457
+#: onedesk/one_admin/ledger.py:463
 #, python-brace-format
 msgid "{0} is not a workspace."
 msgstr "{0} ist kein Arbeitsbereich."
@@ -68506,7 +68520,7 @@ msgstr "{0} verbindet sich nicht"
 msgid "{0} is not in a folder."
 msgstr "{0} befindet sich in keinem Ordner."
 
-#: onedesk/one_admin/setup.py:584
+#: onedesk/one_admin/setup.py:649
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr "{0} liegt nicht in der Zone {1}."
@@ -68602,7 +68616,7 @@ msgstr "{0} lässt sich nicht vorschlagen."
 msgid "{0} is not something the clock proposes."
 msgstr "{0} wird von der Zeiterfassung nicht vorgeschlagen."
 
-#: onedesk/one/notify.py:346
+#: onedesk/one/notify.py:351
 #, python-brace-format
 msgid "{0} is not something this notification knows. It can use {1}."
 msgstr "{0} kennt diese Benachrichtigung nicht. Verwendbar ist {1}."
@@ -68672,7 +68686,7 @@ msgstr "{0} ist abgemeldet. Die Daten werden gelöscht."
 msgid "{0} is someone in the workspace. They sign in to One, not the portal."
 msgstr "{0} gehört zum Arbeitsbereich und meldet sich bei One an, nicht im Portal."
 
-#: onedesk/one_admin/servers.py:119
+#: onedesk/one_admin/servers.py:120
 #, python-brace-format
 msgid "{0} is still in use."
 msgstr "{0} wird noch verwendet."
@@ -68757,6 +68771,11 @@ msgstr "{0} ist kein zulässiger Dateityp."
 #, python-brace-format
 msgid "{0} isn't in this workspace."
 msgstr "{0} gehört nicht zu diesem Arbeitsbereich."
+
+#: onedesk/one_admin/testmail.py:47
+#, python-brace-format
+msgid "{0} isn't on the test mail domain."
+msgstr "{0} ist nicht auf der Test-Maildomain."
 
 #: onedesk/one_admin/heads.py:388
 #, python-brace-format
@@ -69013,7 +69032,7 @@ msgstr "{0} nicht gefunden: {1}"
 msgid "{0} not invoiced yet."
 msgstr "{0} noch nicht abgerechnet."
 
-#: onedesk/one_admin/health.py:106
+#: onedesk/one_admin/health.py:110
 #, python-brace-format
 msgid "{0} not sent, {1} waiting"
 msgstr "{0} nicht gesendet, {1} wartend"
@@ -69602,7 +69621,7 @@ msgstr "{0} sendet diese E-Mail selbst. „Dies senden“ ist derselbe Schalter 
 msgid "{0} sends this email itself. Send This turns it on and off."
 msgstr "{0} sendet diese E-Mail selbst. „Senden“ schaltet sie ein und aus."
 
-#: frontend/src/admin/AdminStatus.vue:38
+#: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} services are failing"
 msgstr "{0} Dienste sind fehlerhaft"
@@ -69984,7 +70003,7 @@ msgstr "{0} Arbeitsbereiche haben dies"
 msgid "{0} years"
 msgstr "{0} Jahre"
 
-#: frontend/src/kit/desk.js:209 onedesk/one_portal/share.py:352
+#: frontend/src/kit/desk.js:207 onedesk/one_portal/share.py:352
 #: onedesk/one_studio/ai_setup.py:524
 #, python-brace-format
 msgid "{0} {1}"
@@ -70197,7 +70216,7 @@ msgstr "{0}, Höchstwert {1}, Tiefstwert {2}"
 msgid "{0}, moved to the next working day"
 msgstr "{0}, auf den nächsten Werktag verschoben"
 
-#: onedesk/one_admin/setup.py:581
+#: onedesk/one_admin/setup.py:646
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr "{0}, auf der Mail-Domain"
@@ -70207,7 +70226,7 @@ msgstr "{0}, auf der Mail-Domain"
 msgid "{0}, plus {1}"
 msgstr "{0}, plus {1}"
 
-#: onedesk/one_admin/setup.py:561
+#: onedesk/one_admin/setup.py:626
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr "{0}, ersetzt die vorherige Regel"
@@ -70248,17 +70267,17 @@ msgstr "{0}, {1} — {2}."
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr "{0}, {1}. Es wurde noch nichts bewertet, die Punktzahl ist also kein Urteil."
 
-#: onedesk/one_admin/setup.py:482
+#: onedesk/one_admin/setup.py:490
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr "{0}. Aktivieren Sie den Advanced Certificate Manager für die Zone und richten Sie dann erneut ein."
 
-#: onedesk/one_admin/setup.py:503
+#: onedesk/one_admin/setup.py:511
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr "{0}. Der One-Admin-Token braucht SSL and Certificates: Edit für die Zone."
 
-#: onedesk/one_admin/setup.py:537
+#: onedesk/one_admin/setup.py:582 onedesk/one_admin/setup.py:599
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr "{0}. Der One-Admin-Token braucht Zone Settings: Edit."
@@ -70385,7 +70404,7 @@ msgstr "{0}: Wer ein Feld sieht, wird über Rollen festgelegt."
 msgid "{0}: you cannot read {1}."
 msgstr "{0}: Sie können {1} nicht lesen."
 
-#: onedesk/one/notify.py:272 onedesk/one/rules.py:47
+#: onedesk/one/notify.py:277 onedesk/one/rules.py:47
 #: onedesk/one_book/journal.py:46 onedesk/one_mail/mail_templates.py:321
 #: onedesk/one_studio/extensions.py:454
 #: onedesk/public/js/one/access_center.js:99

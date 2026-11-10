@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 09:07+0000\n"
-"PO-Revision-Date: 2026-11-10 09:07+0000\n"
+"POT-Creation-Date: 2026-11-10 09:39+0000\n"
+"PO-Revision-Date: 2026-11-10 09:39+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -504,7 +504,7 @@ msgstr ""
 msgid "A Column for Each Status"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1117 onedesk/one_mail/rules.py:1129
+#: onedesk/one_mail/rules.py:1122 onedesk/one_mail/rules.py:1134
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr ""
 
@@ -1643,7 +1643,7 @@ msgstr ""
 msgid "A shared device can't hold a passkey."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:816
+#: onedesk/one_mail/rules.py:821
 msgid "A shared mailbox answers by a mail rule instead."
 msgstr ""
 
@@ -4655,7 +4655,7 @@ msgstr ""
 msgid "Answered by {0}, {1}."
 msgstr ""
 
-#: onedesk/one_admin/health.py:41
+#: onedesk/one_admin/health.py:45
 #, python-brace-format
 msgid "Answered {0}"
 msgstr ""
@@ -10033,7 +10033,7 @@ msgstr ""
 msgid "Cloudflare did not answer for {0}."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:224
+#: onedesk/one_admin/setup.py:232
 #, python-brace-format
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
@@ -12309,7 +12309,7 @@ msgstr ""
 msgid "Credits held while a call is in flight, so two calls cannot both spend the last one."
 msgstr ""
 
-#: onedesk/one_admin/ledger.py:463
+#: onedesk/one_admin/ledger.py:469
 msgid "Credits must be more than zero."
 msgstr ""
 
@@ -17209,7 +17209,7 @@ msgstr ""
 msgid "Enter the AWS Template URL first. It must be the template's address on Amazon S3."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:980
+#: onedesk/one_admin/setup.py:1045
 msgid "Enter the Cloudflare master token first."
 msgstr ""
 
@@ -17221,7 +17221,7 @@ msgstr ""
 msgid "Enter the OAuth Scopes first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:626
+#: onedesk/one_admin/setup.py:691
 #, python-brace-format
 msgid "Enter the Sender Email for {0}."
 msgstr ""
@@ -17246,7 +17246,7 @@ msgstr ""
 msgid "Enter the street address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:387
+#: onedesk/one_admin/setup.py:395
 #, python-brace-format
 msgid "Enter the workspace and mail domains for {0}."
 msgstr ""
@@ -19834,7 +19834,7 @@ msgstr ""
 msgid "For any package"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:683
+#: onedesk/one_mail/rules.py:688
 #, python-brace-format
 msgid "For anything urgent, write to {0} at {1}."
 msgstr ""
@@ -22857,11 +22857,11 @@ msgstr ""
 msgid "I will paste an email signature. Add the person in it as a lead."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:676
+#: onedesk/one_mail/rules.py:681
 msgid "I'm away and will reply when I'm back."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:674
+#: onedesk/one_mail/rules.py:679
 #, python-brace-format
 msgid "I'm on leave and back on {0}. I'll reply then."
 msgstr ""
@@ -30221,16 +30221,16 @@ msgstr ""
 msgid "Needs a quality check before it closes"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:742
+#: onedesk/one_admin/setup.py:807
 msgid "Needs an operator to tell."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:444 onedesk/one_admin/setup.py:520
-#: onedesk/one_admin/setup.py:739
+#: onedesk/one_admin/setup.py:452 onedesk/one_admin/setup.py:528
+#: onedesk/one_admin/setup.py:804
 msgid "Needs the KV namespace first."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:705
+#: onedesk/one_admin/setup.py:770
 msgid "Needs the buckets and the storage token first."
 msgstr ""
 
@@ -31890,7 +31890,7 @@ msgstr ""
 msgid "No readings from this server"
 msgstr ""
 
-#: onedesk/one_admin/health.py:182
+#: onedesk/one_admin/health.py:218
 #, python-brace-format
 msgid "No recent backup: {0}"
 msgstr ""
@@ -32158,7 +32158,7 @@ msgstr ""
 msgid "Nobody Applied"
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1143
+#: onedesk/one_mail/rules.py:1148
 msgid "Nobody asked for this rule."
 msgstr ""
 
@@ -32225,7 +32225,7 @@ msgstr ""
 msgid "Nobody yet."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:809
+#: onedesk/one_admin/setup.py:874
 #, python-brace-format
 msgid "Node is not on this server: {0}"
 msgstr ""
@@ -32479,7 +32479,7 @@ msgstr ""
 msgid "Not answered"
 msgstr ""
 
-#: onedesk/one_admin/health.py:164
+#: onedesk/one_admin/health.py:200
 #, python-brace-format
 msgid "Not answering: {0}"
 msgstr ""
@@ -34531,7 +34531,7 @@ msgstr ""
 msgid "OneAdmin needs at least one operator."
 msgstr ""
 
-#: onedesk/one_admin/health.py:184
+#: onedesk/one_admin/health.py:220
 msgid "OneAdmin's config isn't copied: there is no Config Copy Key in Settings"
 msgstr ""
 
@@ -41006,7 +41006,7 @@ msgstr ""
 msgid "Re-recording {0} clips."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:872
+#: onedesk/one_mail/rules.py:877
 #, python-brace-format
 msgid "Re: {0}"
 msgstr ""
@@ -45599,6 +45599,11 @@ msgstr ""
 msgid "Sender's Records"
 msgstr ""
 
+#. Option for the 'Service' (Select) field in DocType 'Health Check'
+#: onedesk/one_admin/doctype/health_check/health_check.json:24
+msgid "Sending"
+msgstr ""
+
 #: onedesk/one_admin/steps.py:68
 msgid "Sending the backup to the server"
 msgstr ""
@@ -46150,6 +46155,10 @@ msgstr ""
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:197
 msgid "Set Up Cloudflare deploys it. Files a browser can't open are converted to PDF there."
+msgstr ""
+
+#: onedesk/one_admin/testmail.py:31
+msgid "Set Up Cloudflare hasn't made the test mail domain yet."
 msgstr ""
 
 #. Description of the 'Backup Bucket' (Data) field in DocType 'One Admin
@@ -47388,7 +47397,7 @@ msgstr ""
 msgid "Signed in as {0}. The workspace joins your account."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:333
+#: onedesk/one_admin/setup.py:341
 msgid "Signed in to Cloudflare for this run."
 msgstr ""
 
@@ -51537,7 +51546,7 @@ msgstr ""
 #: onedesk/one/notification_center.py:154 onedesk/one/people.py:134
 #: onedesk/one/people.py:144 onedesk/one/rights.py:87 onedesk/one/rights.py:178
 #: onedesk/one/setup_steps.py:139 onedesk/one_mail/ai.py:1255
-#: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:818
+#: onedesk/one_mail/flow.py:200 onedesk/one_mail/rules.py:823
 #: onedesk/one_studio/ai_setup.py:825 onedesk/one_studio/reports.py:210
 #: onedesk/one_studio/reports.py:242
 msgid "That cannot be set."
@@ -51631,7 +51640,7 @@ msgstr ""
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:1096
+#: onedesk/one_mail/rules.py:1101
 msgid "That rule is not in this mailbox."
 msgstr ""
 
@@ -52283,7 +52292,7 @@ msgstr ""
 msgid "The day before your exit interview."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:820
+#: onedesk/one_mail/rules.py:825
 msgid "The day it ends can't be before the day it starts."
 msgstr ""
 
@@ -53397,7 +53406,7 @@ msgstr ""
 msgid "The server's name or address."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:345
+#: onedesk/one_admin/setup.py:353
 msgid "The setup token was made but Cloudflare does not accept it yet. Set up again."
 msgstr ""
 
@@ -53598,12 +53607,12 @@ msgstr ""
 msgid "The title of your presentation"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:370
+#: onedesk/one_admin/setup.py:378
 #, python-brace-format
 msgid "The token has access to {0} accounts. Enter the Account ID."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:392
+#: onedesk/one_admin/setup.py:400
 #, python-brace-format
 msgid "The token has no zone for {0}."
 msgstr ""
@@ -54520,11 +54529,11 @@ msgstr ""
 msgid "This may be {0} {1}: the same {2}."
 msgstr ""
 
-#: onedesk/one_admin/mailing.py:97
+#: onedesk/one_admin/mailing.py:147
 msgid "This message is larger than 5 MB."
 msgstr ""
 
-#: onedesk/one_admin/mailing.py:51
+#: onedesk/one_admin/mailing.py:55
 msgid "This message is larger than 5 MB. Share large files as OneCloud links."
 msgstr ""
 
@@ -56461,7 +56470,7 @@ msgstr ""
 msgid "Turn off {0}'s portal access? They're signed out at once."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:466
+#: onedesk/one_admin/setup.py:474
 #, python-brace-format
 msgid "Turn on Advanced Certificate Manager for {0} in Cloudflare, then set up again."
 msgstr ""
@@ -64712,7 +64721,7 @@ msgstr ""
 msgid "Your mailboxes and folders that OneAI reads, files and acts on as you."
 msgstr ""
 
-#: onedesk/one_mail/rules.py:872
+#: onedesk/one_mail/rules.py:877
 msgid "Your message"
 msgstr ""
 
@@ -65392,8 +65401,8 @@ msgstr ""
 msgid "deleted"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:731 onedesk/one_admin/setup.py:760
-#: onedesk/one_admin/setup.py:840
+#: onedesk/one_admin/setup.py:796 onedesk/one_admin/setup.py:825
+#: onedesk/one_admin/setup.py:905
 msgid "deployed"
 msgstr ""
 
@@ -65759,7 +65768,7 @@ msgstr ""
 msgid "left early"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:555
+#: onedesk/one_admin/setup.py:620
 #, python-brace-format
 msgid "left to {0}"
 msgstr ""
@@ -65821,7 +65830,7 @@ msgstr ""
 msgid "milestone"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:296 onedesk/one_admin/setup.py:689
+#: onedesk/one_admin/setup.py:304 onedesk/one_admin/setup.py:754
 #, python-brace-format
 msgid "missing permissions: {0}"
 msgstr ""
@@ -66490,7 +66499,7 @@ msgstr ""
 msgid "too far from the last check-in"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:851
+#: onedesk/one_admin/setup.py:916
 msgid "unchanged"
 msgstr ""
 
@@ -66588,12 +66597,12 @@ msgstr ""
 msgid "words, with commas"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:780
+#: onedesk/one_admin/setup.py:845
 #, python-brace-format
 msgid "wrangler did not say where {0} is"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:811
+#: onedesk/one_admin/setup.py:876
 #, python-brace-format
 msgid "wrangler took too long: {0}"
 msgstr ""
@@ -67182,6 +67191,11 @@ msgstr ""
 msgid "{0} bills carry VAT the return does not claim back in box 9."
 msgstr ""
 
+#: onedesk/one_admin/health.py:140
+#, python-brace-format
+msgid "{0} bounced and {1} suppressed of {2} sent in {3} days ({4}%)"
+msgstr ""
+
 #: frontend/src/project/Overview.vue:173
 #, python-brace-format
 msgid "{0} budget"
@@ -67472,7 +67486,7 @@ msgstr ""
 #: frontend/src/hr/HrStory.vue:72
 #: frontend/src/inventory/supplier/SupplierItems.vue:56
 #: frontend/src/template/Tasks.vue:126 onedesk/one/stages.py:33
-#: onedesk/one_admin/setup.py:675 onedesk/one_ai/reading/understand.py:520
+#: onedesk/one_admin/setup.py:740 onedesk/one_ai/reading/understand.py:520
 #: onedesk/one_crm/heads.py:34 onedesk/one_crm/heads.py:42
 #: onedesk/one_hr/heads.py:28 onedesk/one_hr/heads.py:680
 #: onedesk/one_inventory/heads.py:1022 onedesk/one_project/ai.py:865
@@ -68528,7 +68542,7 @@ msgstr ""
 msgid "{0} is not a workspace address."
 msgstr ""
 
-#: onedesk/one_admin/ledger.py:457
+#: onedesk/one_admin/ledger.py:463
 #, python-brace-format
 msgid "{0} is not a workspace."
 msgstr ""
@@ -68563,7 +68577,7 @@ msgstr ""
 msgid "{0} is not in a folder."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:584
+#: onedesk/one_admin/setup.py:649
 #, python-brace-format
 msgid "{0} is not in the zone {1}."
 msgstr ""
@@ -68813,6 +68827,11 @@ msgstr ""
 #: onedesk/one_mail/holders.py:391
 #, python-brace-format
 msgid "{0} isn't in this workspace."
+msgstr ""
+
+#: onedesk/one_admin/testmail.py:47
+#, python-brace-format
+msgid "{0} isn't on the test mail domain."
 msgstr ""
 
 #: onedesk/one_admin/heads.py:388
@@ -69070,7 +69089,7 @@ msgstr ""
 msgid "{0} not invoiced yet."
 msgstr ""
 
-#: onedesk/one_admin/health.py:106
+#: onedesk/one_admin/health.py:110
 #, python-brace-format
 msgid "{0} not sent, {1} waiting"
 msgstr ""
@@ -70254,7 +70273,7 @@ msgstr ""
 msgid "{0}, moved to the next working day"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:581
+#: onedesk/one_admin/setup.py:646
 #, python-brace-format
 msgid "{0}, on the mail domain"
 msgstr ""
@@ -70264,7 +70283,7 @@ msgstr ""
 msgid "{0}, plus {1}"
 msgstr ""
 
-#: onedesk/one_admin/setup.py:561
+#: onedesk/one_admin/setup.py:626
 #, python-brace-format
 msgid "{0}, replacing the previous rule"
 msgstr ""
@@ -70305,17 +70324,17 @@ msgstr ""
 msgid "{0}, {1}. Nothing has been rated yet, so the score is not a verdict."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:482
+#: onedesk/one_admin/setup.py:490
 #, python-brace-format
 msgid "{0}. Enable Advanced Certificate Manager on the zone, then set up again."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:503
+#: onedesk/one_admin/setup.py:511
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs SSL and Certificates: Edit on the zone."
 msgstr ""
 
-#: onedesk/one_admin/setup.py:537
+#: onedesk/one_admin/setup.py:582 onedesk/one_admin/setup.py:599
 #, python-brace-format
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr ""
