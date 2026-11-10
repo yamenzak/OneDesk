@@ -24,3 +24,35 @@ def test_a_server_is_called_down_once_and_back_once():
 	assert servers.after_a_check(3, False) == (4, None), "said once"
 	assert servers.after_a_check(4, True) == (0, "back")
 	assert servers.after_a_check(1, True) == (0, None), "a blip is not news"
+
+
+def test_a_dropped_bench_is_cleared_and_nothing_else():
+	found = [{"domain": "pilot-se-1-r0123abcd.x"}, {"domain": "pilot-se-1-r89abcdef.x"}, {"domain": "pilot-se-1.x"}, {"domain": "pilot-se-12-r0123abcd.x"}, {"domain": "a.x"}]
+	assert boxes.stale_benches(found, "domain", "se-1", ["pilot-se-1.x", "pilot-se-1-r89abcdef.x"]) == [{"domain": "pilot-se-1-r0123abcd.x"}]
+
+
+class _Cloudflare(boxes.Cloudflare):
+	def __init__(self, apps):
+		super().__init__("acct", "token")
+		self.apps, self.deleted = apps, []
+
+	def call(self, method, path, token=None, **kwargs):
+		if method == "DELETE":
+			self.deleted.append(path.rsplit("/", 1)[-1])
+			return {}
+		if path.endswith("/access/apps"):
+			page = kwargs["params"]["page"]
+			return {"result": self.apps[page - 1], "result_info": {"total_pages": len(self.apps)}}
+		return {"result": []}
+
+
+def test_a_removed_server_loses_every_bench_lock_on_every_page():
+	cloudflare = _Cloudflare([[{"id": "box", "domain": "pilot-se-1.x"}, {"id": "a", "domain": "pilot-se-1-r0123abcd.x"}], [{"id": "b", "domain": "pilot-se-1-r89abcdef.x"}, {"id": "other", "domain": "pilot-se-2-r0123abcd.x"}]])
+	cloudflare.forget("one-se-1", "t", "pilot-se-1.x", [])
+	assert cloudflare.deleted == ["box", "a", "b", "t"]
+
+
+def test_a_dropped_bench_leaves_the_tunnel_and_its_lock_goes():
+	cloudflare = _Cloudflare([[{"id": "gone", "domain": "pilot-se-1-r0123abcd.x"}, {"id": "kept", "domain": "pilot-se-1-r89abcdef.x"}]])
+	cloudflare.drop_bench("one-se-1", "t", ["pilot-se-1.x", "pilot-se-1-r89abcdef.x"], "x")
+	assert cloudflare.deleted == ["gone"]

@@ -129,7 +129,7 @@ def heard(server: str, said: dict) -> None:
 		_moved(frappe.db.get_value("Tenant", {"site": said["site"]}), said["to"])
 		_drop_the_empty(row)
 	elif kind == "drop-bench":
-		servers._save(row, [one for one in servers.benches(row) if one["bench"] != said["bench"]])
+		servers.bench_dropped(row, said["bench"])
 
 
 def _built(row, bench: str) -> None:

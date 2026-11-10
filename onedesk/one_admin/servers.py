@@ -246,6 +246,26 @@ def _own_address(row) -> list[str]:
 	return [urlparse(frappe.utils.get_url()).hostname]
 
 
+def _tunnel_hosts(row, rows: list[dict]) -> list[str]:
+	"""Every address the box's tunnel answers for, from its row and these
+	benches: the list is written whole."""
+	tenant_domain = frappe.get_cached_value("One Admin Settings", None, "tenant_domain")
+	return [row.pilot_host, *(one["host"] for one in rows if one.get("host")), *_own_address(row), row.origin_host, f"*.{tenant_domain}"]
+
+
+def bench_dropped(row, bench: str) -> None:
+	"""A box dropped a bench: it leaves the row, then the tunnel, its address
+	and its lock. A Cloudflare failure is logged and the row stays changed;
+	the next bench prepared on this box clears what was left."""
+	rows = [one for one in benches(row) if one["bench"] != bench]
+	_save(row, rows)
+	try:
+		keys = _keys()
+		boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"]).drop_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], _tunnel_hosts(row, rows), keys["origin_zone"])
+	except Exception:
+		frappe.log_error(title=f"Clearing bench {bench} of {row.server} on Cloudflare")
+
+
 def prepare(row, release: str) -> None:
 	"""The box unpacks this release as a second bench, reachable at its own
 	Pilot address behind the box's lock, its agent updated first so it is
@@ -256,10 +276,8 @@ def prepare(row, release: str) -> None:
 	name = f"r{release[:8]}"
 	host = f"pilot-{row.server}-{name}.{keys['origin_zone']}"
 	rows = benches(row)
-	tenant_domain = frappe.get_cached_value("One Admin Settings", None, "tenant_domain")
-	others = [one["host"] for one in rows if one.get("host")]
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
-	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], [row.pilot_host, *others, host, *_own_address(row), row.origin_host, f"*.{tenant_domain}"], host, keys["origin_zone"], tell.operators())
+	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], _tunnel_hosts(row, [*rows, {"host": host}]), host, keys["origin_zone"], tell.operators())
 	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing", "template": bool(about.get("template"))}])
 	source = boxes.agent_of(keys, release)
 	if source:

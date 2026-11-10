@@ -9,6 +9,7 @@ OneAdmin from dev, and servers.py, which orders the rest. Needs no frappe.
 import base64
 import gzip
 import json
+import re
 import secrets
 import shlex
 import time
@@ -56,6 +57,18 @@ def admin_host(name: str, domain: str) -> str:
 def ingress(hosts: list[str]) -> list[dict]:
 	"""The tunnel's rules: each address to nginx on the box. Pure."""
 	return [{"hostname": one, "service": "http://localhost:80"} for one in hosts] + [{"service": "http_status:404"}]
+
+
+def is_bench_host(host: str, server: str) -> bool:
+	"""Whether an address is one of a server's bench Pilot addresses,
+	pilot-<server>-r<sha8>.<zone>. Pure."""
+	return bool(re.fullmatch(rf"pilot-{re.escape(server)}-r[0-9a-f]{{8}}\..+", host or ""))
+
+
+def stale_benches(found: list[dict], key: str, server: str, hosts: list[str]) -> list[dict]:
+	"""What Cloudflare holds for a server's benches that the tunnel no longer
+	lists. Pure."""
+	return [one for one in found if is_bench_host(one.get(key), server) and one.get(key) not in hosts]
 
 
 def wanted_policies(groups: list[dict], account: str) -> list[dict]:
@@ -164,8 +177,19 @@ class Cloudflare:
 			body = {"name": f"OneAdmin {domain}", "domain": domain, "type": "self_hosted", "session_duration": "24h", "policies": [{"name": "Operators", "decision": "allow", "include": people}]}
 			self.call("POST", base, json=body)
 
+	def every(self, path: str, params: dict | None = None) -> list[dict]:
+		"""Every page of a Cloudflare list."""
+		out, page = [], 1
+		while True:
+			body = self.call("GET", path, params={**(params or {}), "page": page, "per_page": 100})
+			out += body["result"]
+			if page >= ((body.get("result_info") or {}).get("total_pages") or 1):
+				return out
+			page += 1
+
 	def add_bench(self, name: str, tunnel: str, hosts: list[str], host: str, zone: str, owners: list[str]) -> None:
-		"""A new bench's Pilot address on the box's tunnel, behind the box's lock."""
+		"""A new bench's Pilot address on the box's tunnel, behind the box's
+		lock, and what was left of benches already dropped cleared."""
 		base = f"/accounts/{self.account}"
 		self.call("PUT", f"{base}/cfd_tunnel/{tunnel}/configurations", json={"config": {"ingress": ingress(hosts)}})
 		self.address(zone, host, tunnel)
@@ -174,8 +198,27 @@ class Cloudflare:
 			{"name": "Owner", "decision": "allow", "include": [{"email": {"email": one}} for one in owners]},
 			{"name": "OneAdmin", "decision": "non_identity", "include": [{"service_token": {"token_id": token["id"]}}]},
 		]
-		if not any(one.get("domain") == host for one in self.call("GET", f"{base}/access/apps")["result"]):
+		if not any(one.get("domain") == host for one in self.every(f"{base}/access/apps")):
 			self.call("POST", f"{base}/access/apps", json={"name": f"Pilot {host}", "domain": host, "type": "self_hosted", "session_duration": "24h", "policies": policies})
+		self.sweep(name, tunnel, hosts, zone)
+
+	def drop_bench(self, name: str, tunnel: str, hosts: list[str], zone: str) -> None:
+		"""A dropped bench off the box's tunnel, with its address and lock."""
+		self.call("PUT", f"/accounts/{self.account}/cfd_tunnel/{tunnel}/configurations", json={"config": {"ingress": ingress(hosts)}})
+		self.sweep(name, tunnel, hosts, zone)
+
+	def sweep(self, name: str, tunnel: str, hosts: list[str], zone: str) -> None:
+		"""The address and lock of every bench of this box the tunnel no
+		longer lists."""
+		server = name.removeprefix("one-")
+		found = self.call("GET", "/zones", params={"name": zone})["result"]
+		if found:
+			records = f"/zones/{found[0]['id']}/dns_records"
+			for one in stale_benches(self.every(records, {"content": f"{tunnel}.cfargotunnel.com"}), "name", server, hosts):
+				self.call("DELETE", f"{records}/{one['id']}")
+		apps = f"/accounts/{self.account}/access/apps"
+		for one in stale_benches(self.every(apps), "domain", server, hosts):
+			self.call("DELETE", f"{apps}/{one['id']}")
 
 	def forget(self, name: str, tunnel: str, host: str, zones: list[str]) -> None:
 		for zone in zones:
@@ -183,12 +226,13 @@ class Cloudflare:
 			if not found:
 				continue
 			records = f"/zones/{found[0]['id']}/dns_records"
-			for one in self.call("GET", records, params={"content": f"{tunnel}.cfargotunnel.com"})["result"]:
+			for one in self.every(records, {"content": f"{tunnel}.cfargotunnel.com"}):
 				self.call("DELETE", f"{records}/{one['id']}")
 		base = f"/accounts/{self.account}"
-		for one in self.call("GET", f"{base}/access/apps")["result"]:
-			if one.get("domain") == host or one.get("domain", "").startswith(f"pilot-{name.removeprefix('one-')}-"):
-				self.call("DELETE", f"{base}/access/apps/{one['id']}")
+		for one in self.every(f"{base}/access/apps"):
+			if one.get("domain") != host and not is_bench_host(one.get("domain"), name.removeprefix("one-")):
+				continue
+			self.call("DELETE", f"{base}/access/apps/{one['id']}")
 		for one in self.call("GET", f"{base}/access/service_tokens", params={"name": name})["result"]:
 			self.call("DELETE", f"{base}/access/service_tokens/{one['id']}")
 		self.call("DELETE", f"{base}/cfd_tunnel/{tunnel}")
