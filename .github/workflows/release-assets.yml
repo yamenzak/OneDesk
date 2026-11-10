@@ -2,6 +2,11 @@ name: Release assets
 
 on:
   workflow_dispatch:
+    inputs:
+      publish:
+        description: Upload to R2 and tell OneAdmin
+        type: boolean
+        default: true
   schedule:
     - cron: "10 20 * * 2"
 
@@ -21,6 +26,7 @@ jobs:
 
       - name: Already built?
         id: built
+        if: inputs.publish != false
         env:
           AWS_ACCESS_KEY_ID: ${{ secrets.R2_ASSETS_KEY }}
           AWS_SECRET_ACCESS_KEY: ${{ secrets.R2_ASSETS_SECRET }}
@@ -54,14 +60,28 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           RELEASE_BRANCH: ${{ github.ref_name }}
-          R2_ENDPOINT: ${{ secrets.R2_ENDPOINT }}
-          R2_ASSETS_BUCKET: ${{ secrets.R2_ASSETS_BUCKET }}
-          R2_ASSETS_KEY: ${{ secrets.R2_ASSETS_KEY }}
-          R2_ASSETS_SECRET: ${{ secrets.R2_ASSETS_SECRET }}
-          ONE_ADMIN_URL: ${{ secrets.ONE_ADMIN_URL }}
-          ONE_RELEASE_SECRET: ${{ secrets.ONE_RELEASE_SECRET }}
+          PUBLISH: ${{ inputs.publish != false && 'true' || 'false' }}
+          R2_ENDPOINT: ${{ inputs.publish != false && secrets.R2_ENDPOINT || '' }}
+          R2_ASSETS_BUCKET: ${{ inputs.publish != false && secrets.R2_ASSETS_BUCKET || '' }}
+          R2_ASSETS_KEY: ${{ inputs.publish != false && secrets.R2_ASSETS_KEY || '' }}
+          R2_ASSETS_SECRET: ${{ inputs.publish != false && secrets.R2_ASSETS_SECRET || '' }}
+          ONE_ADMIN_URL: ${{ inputs.publish != false && secrets.ONE_ADMIN_URL || '' }}
+          ONE_RELEASE_SECRET: ${{ inputs.publish != false && secrets.ONE_RELEASE_SECRET || '' }}
         run: |
-          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" \
+          sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" GITHUB_REPOSITORY="$GITHUB_REPOSITORY" PUBLISH="$PUBLISH" \
             GH_TOKEN="$GH_TOKEN" RELEASE_BRANCH="$RELEASE_BRANCH" R2_ENDPOINT="$R2_ENDPOINT" R2_ASSETS_BUCKET="$R2_ASSETS_BUCKET" \
             R2_ASSETS_KEY="$R2_ASSETS_KEY" R2_ASSETS_SECRET="$R2_ASSETS_SECRET" ONE_ADMIN_URL="$ONE_ADMIN_URL" ONE_RELEASE_SECRET="$ONE_RELEASE_SECRET" \
             bash /tmp/onedesk/deploy/release/build.sh
+
+      - name: What failed
+        if: failure()
+        run: |
+          id="$(id -u frappe)"
+          loginctl show-user frappe || true
+          ls -la "/run/user/$id" || true
+          sudo -iu frappe env XDG_RUNTIME_DIR="/run/user/$id" systemctl --user --no-pager --all list-units 'pilot*' || true
+          sudo -iu frappe env XDG_RUNTIME_DIR="/run/user/$id" systemctl --user --no-pager status pilot-mariadb.service pilot-mariadb-sizing.service || true
+          sudo journalctl --no-pager -n 200 _UID="$id" || true
+          sudo journalctl --no-pager -n 100 -u "user@$id.service" || true
+          sudo find /home/frappe -maxdepth 6 \( -name '*.err' -o -name 'my.cnf' \) -print -exec tail -n 60 {} \; 2>/dev/null || true
+          sudo dmesg | grep -i -E 'apparmor|mariadb' | tail -n 40 || true

@@ -83,4 +83,12 @@ cp -a "$held/private/files" "$made/private/" 2>/dev/null || mkdir -p "$made/priv
 tar czf "$out/$sha.site.tar.gz" -C "$made" database.sql.gz site_config.json public private
 sha256sum "$out/$sha.site.tar.gz" | cut -d' ' -f1 > "$out/$sha.site.tar.gz.sha256"
 
+for part in "$sha.tar.gz" "$sha.bench.tar.gz" "$sha.site.tar.gz"; do
+	[ "$(sha256sum "$out/$part" | cut -d' ' -f1)" = "$(cat "$out/$part.sha256")" ]
+	tar tzf "$out/$part" > /dev/null
+	echo "$part $(stat -c %s "$out/$part") bytes, $(tar tzf "$out/$part" | wc -l) entries"
+done
+tar xzf "$out/$sha.site.tar.gz" -O database.sql.gz | gzip -t
+echo "built in ${SECONDS}s"
+[ "${PUBLISH:-true}" = true ] || exit 0
 "$bench/env/bin/python" "$repo/deploy/release/upload.py" publish "$out" "$sha" "$(pin frappe)" "$(pin erpnext)" "$(pin hrms)"
