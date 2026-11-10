@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 10:11+0000\n"
-"PO-Revision-Date: 2026-11-10 10:11+0000\n"
+"POT-Creation-Date: 2026-11-10 10:36+0000\n"
+"PO-Revision-Date: 2026-11-10 10:36+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -54025,7 +54025,7 @@ msgstr ""
 
 #: onedesk/one/access_center.py:156 onedesk/one/control.py:77
 #: onedesk/one/notification_words.py:33 onedesk/one_account/center.py:94
-#: onedesk/one_admin/control.py:75 onedesk/one_ai/yours.py:24
+#: onedesk/one_admin/control.py:79 onedesk/one_ai/yours.py:24
 #: onedesk/one_calendar/control.py:17 onedesk/one_hr/control.py:25
 #: onedesk/one_studio/control.py:27
 msgid "There is no such section."
@@ -54084,7 +54084,7 @@ msgstr ""
 #: onedesk/one/access_center.py:169 onedesk/one/access_center.py:344
 #: onedesk/one/control.py:90 onedesk/one/notification_words.py:46
 #: onedesk/one/notification_words.py:161 onedesk/one_account/center.py:111
-#: onedesk/one_admin/control.py:88 onedesk/one_hr/control.py:38
+#: onedesk/one_admin/control.py:92 onedesk/one_hr/control.py:38
 msgid "There is nothing to save here."
 msgstr ""
 
