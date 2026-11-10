@@ -49,7 +49,7 @@ const services = computed(() =>
     key: one.service,
     label: __(one.service),
     dot: THEMES[one.state],
-    below: one.state === FAILING && one.detail ? `${one.detail} · ${checked(one)}` : checked(one),
+    below: one.detail ? `${one.detail} · ${checked(one)}` : checked(one),
     badge: { label: __(one.state), theme: THEMES[one.state] },
     value: one.uptime === null ? "—" : `${one.uptime}%`,
     under: one.took ? `${count(one.took)} ms` : "",

@@ -45,6 +45,7 @@ def test_somebody_elses_record_or_route_is_left_as_it_is():
 		"/user/tokens/{held['id']}/value",
 		"/user/tokens/{held['id']}",
 		"/zones/{zone}/custom_hostnames/fallback_origin",
+		"{base}/{name}/lifecycle",
 		"/zones/{zone}/email/routing/rules/catch_all",
 		"{base}/{name}",
 		"{base}/{name}/lock",
@@ -220,6 +221,23 @@ def test_the_mail_zone_is_its_own_and_another_workers_catch_all_is_left_alone():
 	groups = [{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]}]
 	both, _ = space["policies"](groups, (("DNS Write",),), "acc", ["app", "dev"], [])
 	assert set(both[0]["resources"]) == {"com.cloudflare.api.account.zone.app", "com.cloudflare.api.account.zone.dev"}
+
+
+def test_the_test_mail_sink_keeps_everything_for_a_week_and_sends_nothing_on():
+	"""test.<zone> (test-dev.<zone> on dev) takes every message into a
+	bucket of its own for seven days. The zone's one catch-all is the mail
+	Worker's, so it hands the test domain's mail to the sink by a binding,
+	and only once the sink is deployed; the sink is never public."""
+	sink = _method("sink")
+	assert "TEST_MAIL_DAYS * A_DAY" in sink and "'enabled': False" in sink
+	assert sink.index("self.deploy(") < sink.index("self.testmail_ready = True")
+	assert "for_env(self.env, TEST_LABEL)" in _method("sink_domain") and "for_env(self.env, TESTMAIL)" in _method("__init__")
+	assert "if self.testmail_ready:" in _method("mailer")
+	assert SOURCE.index("self.sink,") < SOURCE.index("self.tokens,") < SOURCE.index("self.mailer,")
+	assert "self.testmail_name" in _method("buckets_held")
+	js = (tree.ROOT / "deploy" / "testmail" / "worker.js").read_text()
+	assert "env.TEST_DOMAIN" in js and "env.MAIL.put(" in js and "fetch(" not in js.replace("async fetch(", "")
+	assert "env.TESTMAIL.fetch(" in MAIL.read_text()
 
 
 def test_production_s_first_tokens_are_renamed_not_made_again():

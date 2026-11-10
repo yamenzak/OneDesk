@@ -518,14 +518,7 @@ def bounce(made, message) -> list[str]:
 	"""A delivery report's permanent failures, onto Email Unsubscribe."""
 	failed = failures(message)
 	for address, status, said in failed:
-		why = f"{status} {said}".strip()
-		found = frappe.db.get_value("Email Unsubscribe", {"email": address, "global_unsubscribe": 1}, "name")
-		if found:
-			frappe.db.set_value("Email Unsubscribe", found, "one_bounce", why, update_modified=False)
-		else:
-			frappe.get_doc(
-				{"doctype": "Email Unsubscribe", "email": address, "global_unsubscribe": 1, "one_bounce": why}
-			).insert(ignore_permissions=True)
+		remember(address, f"{status} {said}".strip())
 	if failed:
 		original = bounced_id(message)
 		if original:
@@ -533,6 +526,18 @@ def bounce(made, message) -> list[str]:
 				"Communication", {"message_id": original}, "delivery_status", "Bounced", update_modified=False
 			)
 	return [one[0] for one in failed]
+
+
+def remember(address: str, why: str) -> None:
+	"""An address mail to which failed for good, onto Email Unsubscribe with
+	what was said, so frappe's queue sends to it no more."""
+	found = frappe.db.get_value("Email Unsubscribe", {"email": address, "global_unsubscribe": 1}, "name")
+	if found:
+		frappe.db.set_value("Email Unsubscribe", found, "one_bounce", why, update_modified=False)
+	else:
+		frappe.get_doc({"doctype": "Email Unsubscribe", "email": address, "global_unsubscribe": 1, "one_bounce": why}).insert(
+			ignore_permissions=True
+		)
 
 
 def _reply(account, made, text: str, html: str | None = None) -> None:

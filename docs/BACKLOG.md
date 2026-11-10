@@ -264,6 +264,12 @@ Checked against ERPNext while passing OneProject's Time tab.
   Mail beside One's Reposting Failed. Standing in means patching their code.
 - **The demo site sends no mail**: it has no outgoing mailbox, so mailed
   notifications fail there. Link it to an admin site or mute mail.
+- **No unsubscribe header on bulk mail**: nothing sets `List-Unsubscribe`
+  (Gmail and Yahoo ask it of bulk senders). An Email Campaign carries
+  frappe's footer link; a Notification or Auto Email Report sent to many
+  carries no link at all.
+- **A suppressed address stays stopped**: an address Cloudflare suppressed
+  or bounced is skipped until its Email Unsubscribe row is deleted.
 
 ## OneIntake
 

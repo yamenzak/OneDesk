@@ -17,6 +17,10 @@ LARGEST = 5 * 1024 * 1024
 HOURLY, DAILY = 200, 2000
 SENDING_USD = 0.35 / 1000
 
+SUPPRESSED_CODE = "recipient_suppressed"
+SUPPRESSED = "Cloudflare suppresses this address."
+BOUNCED = "Cloudflare reported a permanent bounce."
+
 
 def allowed(sender: str, slug: str, domain: str) -> bool:
 	"""Whether a workspace may send as this address. Pure."""
@@ -49,6 +53,9 @@ def send(tenant, sender: str, recipient: str, message: str) -> dict:
 	raw = base64.b64decode(message)
 	if len(raw) > LARGEST:
 		frappe.throw(frappe._("This message is larger than 5 MB. Share large files as OneCloud links."))
+	why = stopped(recipient)
+	if why:
+		return {"skipped": why}
 	spend(tenant.slug)
 	from onedesk.one_admin import ledger, price_list
 
@@ -58,11 +65,17 @@ def send(tenant, sender: str, recipient: str, message: str) -> dict:
 	except Exception:
 		ledger.release(holding)
 		raise
+	if said.get("skipped"):
+		ledger.release(holding)
+		return said
 	ledger.commit(holding, price_list.MAIL_CREDITS, SENDING_USD, model="cloudflare/email")
 	return said
 
 
 def _sent(sender: str, recipient: str, raw: bytes) -> dict:
+	"""One message handed to Cloudflare. An address it suppresses is
+	remembered and skipped, and one it says bounced for good is remembered,
+	so neither is sent to again (`stopped`)."""
 	account, token, _namespace = cloudflare._settings()
 	answered = requests.post(
 		f"{cloudflare.API}/accounts/{account}/email/sending/send_raw",
@@ -72,8 +85,44 @@ def _sent(sender: str, recipient: str, raw: bytes) -> dict:
 	)
 	body = answered.json() if answered.headers.get("content-type", "").startswith("application/json") else {}
 	if not answered.ok or not body.get("success"):
+		if suppressed(body):
+			remember(recipient, SUPPRESSED)
+			return {"skipped": SUPPRESSED}
 		raise faults.raised("cloudflare", answered.status_code, cloudflare._detail(answered))
-	return body.get("result") or {}
+	result = body.get("result") or {}
+	if bounced(result, recipient):
+		remember(recipient, BOUNCED)
+	return result
+
+
+def suppressed(body: dict) -> bool:
+	"""Whether Cloudflare refused because it suppresses the recipient
+	(`email.sending.error.email.recipient_suppressed`), in a code or a
+	message. Pure."""
+	said = (body or {}).get("errors") or []
+	return any(SUPPRESSED_CODE in f"{one.get('code', '')} {one.get('message', '')}" for one in said if isinstance(one, dict))
+
+
+def bounced(result: dict, recipient: str) -> bool:
+	"""Whether Cloudflare's answer lists the recipient as a permanent
+	bounce. Pure."""
+	held = (result or {}).get("permanent_bounces") or []
+	return recipient.strip().lower() in {str(one).strip().lower() for one in held}
+
+
+def stopped(recipient: str) -> str | None:
+	"""Why One no longer sends to an address, or None: one Cloudflare
+	suppressed or bounced, kept on Email Unsubscribe."""
+	return frappe.db.get_value(
+		"Email Unsubscribe", {"email": recipient.strip().lower(), "global_unsubscribe": 1, "one_bounce": ["is", "set"]}, "one_bounce"
+	)
+
+
+def remember(recipient: str, why: str) -> None:
+	from onedesk.one_mail import rules
+
+	rules.remember(recipient.strip().lower(), why)
+	frappe.db.commit()
 
 
 def ours() -> str | None:
@@ -92,17 +141,11 @@ def ours() -> str | None:
 def send_ours(recipient: str, raw: bytes) -> dict:
 	"""One of the admin site's own mails, from Sender Email, straight to
 	Cloudflare: no workspace to check it against and no hourly allowance,
-	since these are sign-in links and notices a customer is waiting for."""
+	since these are sign-in links and notices a customer is waiting for.
+	An address Cloudflare suppressed or bounced is skipped all the same."""
 	if len(raw) > LARGEST:
 		frappe.throw(frappe._("This message is larger than 5 MB."))
-	account, token, _namespace = cloudflare._settings()
-	answered = requests.post(
-		f"{cloudflare.API}/accounts/{account}/email/sending/send_raw",
-		headers={"Authorization": f"Bearer {token}"},
-		json={"from": ours(), "recipients": [recipient], "mime_message": raw.decode("utf-8", "replace")},
-		timeout=30,
-	)
-	body = answered.json() if answered.headers.get("content-type", "").startswith("application/json") else {}
-	if not answered.ok or not body.get("success"):
-		raise faults.raised("cloudflare", answered.status_code, cloudflare._detail(answered))
-	return body.get("result") or {}
+	why = stopped(recipient)
+	if why:
+		return {"skipped": why}
+	return _sent(ours(), recipient, raw)

@@ -394,6 +394,12 @@ def _summed(query: str, tenant: str, locking: bool = False) -> float:
 	return round(float(rows[0][0] or 0) if rows else 0.0, credits.PLACES)
 
 
+def mails_charged(since) -> int:
+	"""Workspaces' mails sent and charged since a moment (mailing.send), for
+	Status's Sending."""
+	return frappe.db.count("Credit Reservation", {"why": "cloudflare/email", "state": "Settled", "creation": [">", since]})
+
+
 def by_month(start) -> list:
 	"""OneCredits spent on model calls each month since a date, for Home's chart."""
 	site.require_admin()

@@ -33,6 +33,10 @@ BUCKETS = {"Global": "one-global", "EU": "one-eu"}
 DOCS_BUCKET = "one-docs"
 ROUTER = "one-tenant-router"
 MAILER = "one-mail"
+TESTMAIL = "one-testmail"
+TEST_LABEL = "test"
+TEST_MAIL_DAYS = 7
+TEST_MAIL_DOMAIN = "one_test_mail_domain"
 OFFICE = "one-office"
 OFFICE_IMAGE = "docker.io/gotenberg/gotenberg:8"
 OFFICE_TYPE = "standard-1"
@@ -140,6 +144,8 @@ class Setup:
 		self.kv_title = for_env(self.env, KV_TITLE)
 		self.router_name = for_env(self.env, ROUTER)
 		self.mailer_name = for_env(self.env, MAILER)
+		self.testmail_name = for_env(self.env, TESTMAIL)
+		self.testmail_ready = False
 
 	def call(self, method: str, path: str, token: str | None = None, **kwargs) -> dict:
 		"""A call to Cloudflare, with this run's own token unless another is
@@ -198,12 +204,14 @@ class Setup:
 			self.kv,
 			self.buckets,
 			self.docs_media,
+			self.sink,
 			self.tokens,
 			self.router,
 			self.certificate,
 			self.custom_hostnames,
 			self.mailer,
 			self.mail_routing,
+			self.sink_routing,
 			self.catch_all,
 			self.mail_sending,
 			self.sender_sending,
@@ -319,7 +327,7 @@ class Setup:
 			for field in ("bucket_global", "bucket_eu")
 			if self.settings.get(field)
 		]
-		return held + [("default", DOCS_BUCKET)] if held else held
+		return held + [("default", DOCS_BUCKET), ("default", self.testmail_name)] if held else held
 
 	def run_token(self) -> None:
 		"""The token this run works with, made from the master key: allowed
@@ -524,7 +532,44 @@ class Setup:
 			{"type": "r2_bucket", "name": "FILES_EU", "bucket_name": self.settings.bucket_eu, "jurisdiction": "eu"},
 			{"type": "plain_text", "name": "MAIL_DOMAIN", "text": self.settings.mail_domain},
 		]
+		if self.testmail_ready:
+			bindings += [
+				{"type": "service", "name": "TESTMAIL", "service": self.testmail_name},
+				{"type": "plain_text", "name": "TEST_DOMAIN", "text": self.sink_domain()},
+			]
 		self.deploy(self.mailer_name, DEPLOY / "mail" / "worker.js", bindings)
+
+	def sink_domain(self) -> str:
+		"""Where rehearsals get their mail: test.<zone> in production, the
+		label carrying the environment anywhere else (test-dev.<zone>)."""
+		return f"{for_env(self.env, TEST_LABEL)}.{self.mail_zone['name']}"
+
+	def sink(self) -> None:
+		"""The test mail sink (deploy/testmail): a bucket of its own, each
+		message in it gone after `TEST_MAIL_DAYS`, and the Worker that keeps
+		every message the mail Worker hands it there under its recipient. It
+		sends nothing on, and is reached only through the mail Worker's
+		binding, never from outside."""
+		name = self.testmail_name
+		base = f"/accounts/{self.account}/r2/buckets"
+		held = self.call("GET", base)["result"]
+		if any(one["name"] == name for one in held.get("buckets", [])):
+			self.note("bucket test mail", OURS, name)
+		else:
+			self.call("POST", base, json={"name": name})
+			self.note("bucket test mail", MADE, name)
+		self.call(
+			"PUT",
+			f"{base}/{name}/lifecycle",
+			json={"rules": [{"id": "one-testmail", "enabled": True, "conditions": {"prefix": ""}, "deleteObjectsTransition": {"condition": {"type": "Age", "maxAge": TEST_MAIL_DAYS * A_DAY}}}]},
+		)
+		bindings = [
+			{"type": "r2_bucket", "name": "MAIL", "bucket_name": name},
+			{"type": "plain_text", "name": "TEST_DOMAIN", "text": self.sink_domain()},
+		]
+		self.deploy(name, DEPLOY / "testmail" / "worker.js", bindings)
+		self.call("POST", f"/accounts/{self.account}/workers/scripts/{name}/subdomain", json={"enabled": False})
+		self.testmail_ready = True
 
 	def mail_routing(self) -> None:
 		"""Email Routing on the mail domain: Cloudflare adds and locks its MX
@@ -540,6 +585,26 @@ class Setup:
 			return self.note("mail routing", OURS, mail)
 		self.call("POST", f"/zones/{zone}/email/routing/dns", json={"name": mail})
 		self.note("mail routing", MADE, mail)
+
+	def sink_routing(self) -> None:
+		"""Email Routing on the test domain, as mail_routing does it for the
+		mail domain. The zone's one catch-all brings its mail to our mail
+		Worker, which hands it to the test mail Worker; the domain is kept
+		for the reader (testmail.py)."""
+		domain = self.sink_domain()
+		zone = self.mail_zone["id"]
+		try:
+			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": domain})["result"]
+		except Refused as reason:
+			return self.note("test mail routing", WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
+		missing = [one for one in (held or {}).get("record", held or []) if isinstance(one, dict) and one.get("missing")]
+		state = OURS
+		if not held or missing:
+			self.call("POST", f"/zones/{zone}/email/routing/dns", json={"name": domain})
+			state = MADE
+		frappe.db.set_default(TEST_MAIL_DOMAIN, domain)
+		frappe.db.commit()
+		self.note("test mail routing", state, domain)
 
 	def catch_all(self) -> None:
 		"""The mail zone's catch-all, to our mail Worker. One that already

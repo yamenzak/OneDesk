@@ -45,12 +45,16 @@ def deliver(account, recipient: str, raw: bytes, sender: str | None = None) -> N
 	if account.get("one_hosted"):
 		from onedesk.one import account as admin
 
-		admin.ask(
+		said = admin.ask(
 			"onedesk.one_admin.proxy.mail_send",
 			sender=sender,
 			recipient=recipient,
 			message=base64.b64encode(raw).decode(),
 		)
+		if (said or {}).get("skipped"):
+			from onedesk.one_mail import rules
+
+			rules.remember(recipient.strip().lower(), said["skipped"])
 		return
 	server = account.get_smtp_server()
 	try:

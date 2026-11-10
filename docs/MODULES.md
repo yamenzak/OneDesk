@@ -541,6 +541,7 @@ No doctypes yet.
 * `onedesk.one_admin.site.make_operator`
 * `onedesk.one_admin.site.operators`
 * `onedesk.one_admin.stripe.webhook`
+* `onedesk.one_admin.testmail.read`
 * `onedesk.one_ai.actions.switch`
 * `onedesk.one_ai.brief.switch`
 * `onedesk.one_ai.center.drop_knowledge`

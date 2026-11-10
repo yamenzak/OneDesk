@@ -21,7 +21,7 @@
    "in_list_view": 1,
    "in_standard_filter": 1,
    "label": "Service",
-   "options": "Cloudflare\nEdge Router\nR2\nKeeper\nAI Gateway\nMail\nStripe\nWorkspaces\nBackups",
+   "options": "Cloudflare\nEdge Router\nR2\nKeeper\nAI Gateway\nMail\nSending\nStripe\nWorkspaces\nBackups",
    "read_only": 1,
    "reqd": 1
   },
@@ -63,7 +63,7 @@
  ],
  "in_create": 1,
  "index_web_pages_for_search": 0,
- "modified": "2026-11-09 23:40:00.000000",
+ "modified": "2026-11-10 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Health Check",

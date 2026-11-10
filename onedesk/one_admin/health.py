@@ -11,7 +11,7 @@ import requests
 from frappe import _
 from frappe.utils import add_days, add_to_date, now_datetime, today
 
-from onedesk.one_admin import backups, cloudflare, faults, gateway, operator, servers, site, storage, stripe, tell, vault
+from onedesk.one_admin import backups, cloudflare, faults, gateway, ledger, mailing, operator, servers, site, storage, stripe, tell, vault
 
 DOCTYPE = "Health Check"
 WORKING, FAILING, NOT_SET_UP = "Working", "Failing", "Not Set Up"
@@ -27,6 +27,10 @@ GAP_MINUTES = 15
 GAPS = {BACKUPS: 90}
 BACKUP_DAYS = 2
 BUSIEST = 16
+SENDING = "Sending"
+SENDING_DAYS = 7
+SENDING_LINE = 2.0
+SENDING_FEWEST = 100
 
 
 class NotSetUp(Exception):
@@ -105,6 +109,38 @@ def _mail() -> str:
 	if errors or stuck:
 		raise Failing(_("{0} not sent, {1} waiting").format(errors, stuck))
 	return ""
+
+
+def reputation(sent: int, bounced: int, suppressed: int) -> dict:
+	"""Bounces and suppressions as a share of what was sent, and whether it
+	is over the line: past `SENDING_LINE` percent once there are
+	`SENDING_FEWEST` sends to judge by. Pure."""
+	share = round(100 * (bounced + suppressed) / sent, 1) if sent else 0.0
+	return {"sent": sent, "bounced": bounced, "suppressed": suppressed, "share": share, "over": sent >= SENDING_FEWEST and share > SENDING_LINE}
+
+
+def _reputation() -> dict:
+	"""The last `SENDING_DAYS`: workspaces' sends charged (mailing.send),
+	the admin site's own sent, and the addresses newly stopped (mailing.stopped)."""
+	since = add_days(now_datetime(), -SENDING_DAYS)
+	sent = ledger.mails_charged(since)
+	sent += frappe.db.count("Email Queue", {"status": "Sent", "modified": [">", since]})
+	stopped = {"global_unsubscribe": 1, "one_bounce": ["is", "set"], "creation": [">", since]}
+	suppressed = frappe.db.count("Email Unsubscribe", {**stopped, "one_bounce": mailing.SUPPRESSED})
+	bounced = frappe.db.count("Email Unsubscribe", stopped) - suppressed
+	return reputation(sent, bounced, suppressed)
+
+
+def _sending() -> str:
+	"""Whether mail is still welcome: the share of sends that bounced or went
+	to an address Cloudflare suppresses, failing over the line."""
+	held = _reputation()
+	if not held["sent"]:
+		raise NotSetUp
+	said = _("{0} bounced and {1} suppressed of {2} sent in {3} days ({4}%)").format(held["bounced"], held["suppressed"], held["sent"], SENDING_DAYS, held["share"])
+	if held["over"]:
+		raise Failing(said)
+	return said
 
 
 def _stripe() -> str:
@@ -194,6 +230,7 @@ CHECKS = {
 	"Keeper": _keeper,
 	"AI Gateway": _gateway,
 	"Mail": _mail,
+	SENDING: _sending,
 	"Stripe": _stripe,
 	WORKSPACES: _workspaces,
 }

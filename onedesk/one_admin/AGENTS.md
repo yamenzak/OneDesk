@@ -644,9 +644,14 @@ answers **Is everything set up?**. Only operators see this page.
 ## Status
 
 Status, on the rail, says whether everything OneAdmin depends on is working
-(Cloudflare, the Edge Router, R2, the Keeper, the AI Gateway, Mail, Stripe,
-every Workspace's site and Backups), its share of checks failed over the last
-30 days, and what has failed. Each check is kept as a Health Check.
+(Cloudflare, the Edge Router, R2, the Keeper, the AI Gateway, Mail, Sending,
+Stripe, every Workspace's site and Backups), its share of checks failed over
+the last 30 days, and what has failed. Each check is kept as a Health Check.
+
+**Sending** says how many addresses bounced or were suppressed by Cloudflare
+against how many mails went out in the last 7 days. It fails, and the
+operators are told, when that is over 2% of at least 100 mails: mail
+providers start refusing a sender not far past that.
 
 A Worker on Cloudflare checks admin.4dl.app from outside and mails the
 operators when it stops answering, so OneAdmin being down is noticed too.
@@ -1723,6 +1728,31 @@ Cloudflare's `send_raw` takes the finished MIME message, so nothing is rebuilt:
 what the workspace's Email Queue made is what goes out, signed by Cloudflare
 with the mail domain's DKIM key.
 
+An address Cloudflare refuses as suppressed
+(`email.sending.error.email.recipient_suppressed`), or lists under
+`permanent_bounces`, goes onto the admin site's Email Unsubscribe with
+`one_bounce` saying which (`remember`). Every later send to it, a workspace's
+or One's own, is skipped before Cloudflare is called and before credits are
+held (`stopped`), and answers `{"skipped": why}`; the workspace then puts the
+address on its own Email Unsubscribe, so its queue stops too. Deleting the
+row on the admin site lets mail go to it again. Status's Sending check counts
+these rows against what was sent.
+
+### testmail.py
+
+The test mail sink. Set Up Cloudflare turns Email Routing on for
+`test.<zone>` (`test-dev.<zone>` on dev) and deploys `deploy/testmail`
+(`one-testmail`, `one-testmail-dev`), which keeps every message to that
+domain in a bucket of the same name under `<recipient>/`, deleted after 7
+days by a lifecycle rule, and sends nothing on. The zone has one catch-all
+and it is the mail Worker's, so the mail Worker hands the test domain's mail
+to the sink through a service binding; the sink has no public address.
+
+`newest(address)` returns the newest messages for an address, each with its
+subject, text and links, for a script; `read` is the same for operators.
+`address("signup+1105")` gives an address on the test domain. A rehearsal
+signs up with one, then opens the link in what arrived.
+
 ### meter.py
 
 Pure, and the shortest module in this arc, because the whole of it is: take the
@@ -2325,6 +2355,7 @@ made here:
   on the zone first, and the key needs SSL and Certificates: Edit; without
   either, the step says so and nothing is ordered;
 - mail routing and sending for the mail domain;
+- the test mail sink and Email Routing on its domain (testmail.py);
 - the AI gateway OneAI calls through (`one`, or the one named in settings),
   with its logs of counts and costs on and Guardrails flagging prompt
   injection and Llama Guard's thirteen hazards on every call. Flagged, not

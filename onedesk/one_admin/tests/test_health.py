@@ -43,3 +43,11 @@ def test_the_sites_a_pilot_event_names():
 	assert servers.sites_of({"site": "a.test", "context": {"sites": [{"site": "a.test"}, {"site": "b.test"}]}}) == ["a.test", "b.test"]
 	assert servers.sites_of({"site": "a.test", "context": {"bench": "x"}}) == ["a.test"]
 	assert servers.sites_of({"context": {}}) == []
+
+
+def test_sending_fails_once_bounces_and_suppressions_pass_the_line():
+	assert health.reputation(0, 0, 0) == {"sent": 0, "bounced": 0, "suppressed": 0, "share": 0.0, "over": False}
+	assert not health.reputation(50, 5, 5)["over"], "too few sends to judge by"
+	assert health.reputation(200, 3, 2)["share"] == 2.5 and health.reputation(200, 3, 2)["over"]
+	assert not health.reputation(200, 2, 2)["over"]
+	assert health.SENDING in health.CHECKS

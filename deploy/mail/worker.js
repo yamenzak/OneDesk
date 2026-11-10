@@ -6,6 +6,7 @@ const SLUG = /^[a-z0-9][a-z0-9-]{1,39}$/;
 export default {
 	async email(message, env, ctx) {
 		const [local = "", host = ""] = message.to.toLowerCase().split("@");
+		if (env.TESTMAIL && host === env.TEST_DOMAIN) return toTestMail(message, env);
 		if (host !== env.MAIL_DOMAIN) return message.setReject("No such address.");
 
 		const bare = local.split("+")[0];
@@ -39,6 +40,15 @@ export default {
 		);
 	},
 };
+
+async function toTestMail(message, env) {
+	const handed = await env.TESTMAIL.fetch("https://testmail/", {
+		method: "POST",
+		headers: { "x-one-to": message.to, "x-one-from": message.from },
+		body: await new Response(message.raw).arrayBuffer(),
+	});
+	if (!handed.ok) message.setReject("No such address.");
+}
 
 async function sign(secret, text) {
 	const key = await crypto.subtle.importKey(
