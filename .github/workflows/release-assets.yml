@@ -41,8 +41,18 @@ jobs:
         with:
           node-version: "24"
 
+      - name: Room to build
+        if: steps.built.outputs.yes != 'true'
+        run: |
+          df -h /
+          sudo rm -rf /usr/local/lib/android /usr/share/dotnet /opt/ghc /usr/local/.ghcup /opt/hostedtoolcache/CodeQL /usr/share/swift
+          sudo docker image prune --all --force > /dev/null || true
+          df -h /
+
       - name: Install Pilot
         if: steps.built.outputs.yes != 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           grep -oE '^(XDG|DBUS)_[A-Z_]*' /etc/environment || true
           sudo sed -i -E '/^(XDG|DBUS)_/d' /etc/environment
@@ -50,11 +60,17 @@ jobs:
           curl -fsSL --retry 5 --retry-delay 20 --retry-all-errors https://raw.githubusercontent.com/frappe/pilot/develop/install.sh -o /tmp/pilot.sh
           chmod 644 /tmp/pilot.sh
           sudo env PATH="$PATH" PILOT_VERSION=v0.0.99-pre-alpha sh /tmp/pilot.sh
+          sudo install -d -o frappe -m 700 /tmp/pilot-api
+          printf 'Authorization: Bearer %s\n' "$GH_TOKEN" | sudo -u frappe tee /tmp/pilot-api/header > /dev/null
+          printf '%s\n' '#!/bin/sh' 'for one; do case "$one" in https://api.github.com/*) exec /usr/bin/curl --retry 5 --retry-delay 10 --retry-all-errors -H @/tmp/pilot-api/header "$@" ;; esac; done' 'exec /usr/bin/curl "$@"' \
+            | sudo -u frappe tee /tmp/pilot-api/curl > /dev/null
+          sudo chmod 700 /tmp/pilot-api/curl
           for attempt in 1 2 3 4; do
-            sudo -iu frappe env PATH="/home/frappe/.local/bin:$PATH" PILOT_VERSION=v0.0.99-pre-alpha bash /tmp/pilot.sh && break
+            sudo -iu frappe env PATH="/tmp/pilot-api:/home/frappe/.local/bin:$PATH" PILOT_VERSION=v0.0.99-pre-alpha bash /tmp/pilot.sh && break
             [ "$attempt" = 4 ] && exit 1
             sleep 30
           done
+          sudo rm -rf /tmp/pilot-api
           sudo cp -a "$GITHUB_WORKSPACE" /tmp/onedesk
           sudo chown -R frappe:frappe /tmp/onedesk
 
@@ -79,6 +95,7 @@ jobs:
       - name: What failed
         if: failure()
         run: |
+          df -h / /tmp || true
           id="$(id -u frappe)"
           loginctl show-user frappe || true
           ls -la "/run/user/$id" || true
