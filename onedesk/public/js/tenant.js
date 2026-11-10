@@ -24,6 +24,14 @@ frappe.ui.form.on("Tenant", {
 		);
 
 		frm.add_custom_button(__("Backups"), () => onedesk.tenant.backups(frm));
+		if (frm.doc.update_at && !frm.doc.update_moving) {
+			frm.add_custom_button(__("Update Now"), () =>
+				frappe.xcall("onedesk.one_admin.operator.update_now", { tenant: frm.doc.name }).then(() => {
+					frappe.show_alert({ message: __("Update started."), indicator: "green" });
+					frm.reload_doc();
+				})
+			);
+		}
 
 		frm.sidebar.sidebar.find(".form-shared").addClass("hidden");
 	},

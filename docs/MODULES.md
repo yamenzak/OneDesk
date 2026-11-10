@@ -471,6 +471,7 @@ No doctypes yet.
 * `onedesk.one_admin.operator.standing`
 * `onedesk.one_admin.operator.take_back_credits`
 * `onedesk.one_admin.operator.try_the_gateway`
+* `onedesk.one_admin.operator.update_now`
 * `onedesk.one_admin.operator.walk`
 * `onedesk.one_admin.private.new_code`
 * `onedesk.one_admin.proxy.ai_begin`

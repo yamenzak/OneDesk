@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 12:54+0000\n"
-"PO-Revision-Date: 2026-11-10 12:54+0000\n"
+"POT-Creation-Date: 2026-11-10 14:56+0000\n"
+"PO-Revision-Date: 2026-11-10 14:56+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5497,7 +5497,7 @@ msgstr ""
 msgid "Ask for retention from {0}"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:125
+#: onedesk/one_admin/ai.py:126
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
@@ -6603,7 +6603,7 @@ msgstr ""
 msgid "Backspace"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:115
+#: onedesk/public/js/tenant.js:123
 msgid "Backup"
 msgstr ""
 
@@ -6619,7 +6619,7 @@ msgstr ""
 
 #. Option for the 'Service' (Select) field in DocType 'Health Check'
 #: onedesk/one_admin/doctype/health_check/health_check.json:24
-#: onedesk/public/js/tenant.js:26 onedesk/public/js/tenant.js:113
+#: onedesk/public/js/tenant.js:26 onedesk/public/js/tenant.js:121
 msgid "Backups"
 msgstr ""
 
@@ -9821,7 +9821,7 @@ msgstr ""
 #: onedesk/public/js/module_docs.js:492
 #: onedesk/public/js/one_ai/panel/Panel.vue:38
 #: onedesk/public/js/one_interface/dialogs.js:42
-#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:138
+#: onedesk/public/js/opportunity.js:12 onedesk/public/js/tenant.js:146
 #: onedesk/public/js/workbooks.js:122 onedesk/www/s.html:122
 msgid "Close"
 msgstr ""
@@ -12249,7 +12249,7 @@ msgstr ""
 #: onedesk/one_ai/sidebar/oneai/oneai.json:101
 #: onedesk/public/js/one_ai/ai_center.js:78
 #: onedesk/public/js/one_mail/onemail_settings.js:545
-#: onedesk/public/js/tenant.js:47
+#: onedesk/public/js/tenant.js:55
 msgid "Credits"
 msgstr ""
 
@@ -18322,7 +18322,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:81
 #: onedesk/one_hr/doctype/employee_document/employee_document.json:41
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:79
-#: onedesk/public/js/tenant.js:51
+#: onedesk/public/js/tenant.js:59
 msgid "Expires On"
 msgstr ""
 
@@ -20844,8 +20844,8 @@ msgstr ""
 msgid "Give"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:14 onedesk/public/js/tenant.js:37
-#: onedesk/public/js/tenant.js:56
+#: onedesk/public/js/tenant.js:14 onedesk/public/js/tenant.js:45
+#: onedesk/public/js/tenant.js:64
 msgid "Give Credits"
 msgstr ""
 
@@ -22366,11 +22366,11 @@ msgstr ""
 msgid "How do notifications work?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:93
+#: onedesk/one_admin/ai.py:94
 msgid "How do our plans compare?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:95
+#: onedesk/one_admin/ai.py:96
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr ""
 
@@ -22478,11 +22478,11 @@ msgstr ""
 msgid "How is this project going? Say in a few lines where it stands against its dates and its budget, what is late and what it holds up, the next milestone, and what the team said last."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:68
+#: onedesk/one_admin/ai.py:69
 msgid "How is this workspace doing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:70
+#: onedesk/one_admin/ai.py:71
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr ""
 
@@ -24484,11 +24484,11 @@ msgstr ""
 msgid "Is empty"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:157
+#: onedesk/one_admin/ai.py:158
 msgid "Is everything OneAdmin runs on set up? Say which connections are missing and what each stops, what Set Up Cloudflare last said, and whether the money settings look sensible."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:155
+#: onedesk/one_admin/ai.py:156
 msgid "Is everything set up?"
 msgstr ""
 
@@ -26562,7 +26562,7 @@ msgstr ""
 msgid "Leave empty for no color."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:52
+#: onedesk/public/js/tenant.js:60
 msgid "Leave empty for no expiry."
 msgstr ""
 
@@ -27650,7 +27650,7 @@ msgstr ""
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:115
+#: onedesk/one_admin/ai.py:116
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr ""
 
@@ -29649,7 +29649,7 @@ msgstr ""
 msgid "Move Newsletters and Ads"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:127 onedesk/public/js/tenant.js:133
+#: onedesk/public/js/tenant.js:135 onedesk/public/js/tenant.js:141
 msgid "Move Server"
 msgstr ""
 
@@ -29750,7 +29750,7 @@ msgstr ""
 msgid "Move {0}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:130
+#: onedesk/public/js/tenant.js:138
 #, python-brace-format
 msgid "Move {0} to another server from this backup? What changed since is lost."
 msgstr ""
@@ -31400,7 +31400,7 @@ msgstr ""
 msgid "No automations"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:110
+#: onedesk/public/js/tenant.js:118
 #, python-brace-format
 msgid "No backups are kept for {0} yet."
 msgstr ""
@@ -32774,7 +32774,7 @@ msgstr ""
 #: onedesk/one_project/doctype/project_contact/project_contact.json:70
 #: onedesk/one_storage/doctype/cloud_file_request_item/cloud_file_request_item.json:28
 #: onedesk/public/js/one_studio/studio_control.js:242
-#: onedesk/public/js/project_actions.js:450 onedesk/public/js/tenant.js:54
+#: onedesk/public/js/project_actions.js:450 onedesk/public/js/tenant.js:62
 msgid "Note"
 msgstr ""
 
@@ -41354,11 +41354,11 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/public/js/tenant.js:111
+#: onedesk/public/js/tenant.js:119
 msgid "Rebuild"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:122
+#: onedesk/public/js/tenant.js:130
 msgid "Rebuild makes a new site from this backup. Billing is set up again separately."
 msgstr ""
 
@@ -43883,11 +43883,11 @@ msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Provisioning Job'
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:39
-#: onedesk/public/js/tenant.js:111
+#: onedesk/public/js/tenant.js:119
 msgid "Roll Back"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:120
+#: onedesk/public/js/tenant.js:128
 msgid "Roll Back puts the site back to this backup. What changed since is lost."
 msgstr ""
 
@@ -57343,6 +57343,7 @@ msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:950
 #: onedesk/public/js/one_account/account_center.js:979
+#: onedesk/public/js/tenant.js:28
 msgid "Update Now"
 msgstr ""
 
@@ -57372,6 +57373,7 @@ msgid "Update pivot"
 msgstr ""
 
 #: onedesk/public/js/one_account/account_center.js:983
+#: onedesk/public/js/tenant.js:30
 msgid "Update started."
 msgstr ""
 
@@ -59430,11 +59432,11 @@ msgstr ""
 msgid "What needs fixing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:61
+#: onedesk/one_admin/ai.py:62
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr ""
 
-#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:59
+#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:60
 msgid "What needs me today?"
 msgstr ""
 
@@ -59474,11 +59476,11 @@ msgstr ""
 msgid "What should I do first?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:123
+#: onedesk/one_admin/ai.py:124
 msgid "What should they buy?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:113
+#: onedesk/one_admin/ai.py:114
 msgid "What should we change?"
 msgstr ""
 
@@ -61583,7 +61585,7 @@ msgstr ""
 msgid "Where calls from this queue are announced."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:177
+#: onedesk/one_admin/ai.py:178
 msgid "Where did the credits go?"
 msgstr ""
 
@@ -61595,7 +61597,7 @@ msgstr ""
 msgid "Where did this project's time go this month? Say who logged it, on which tasks, how much is billable, and what is still a draft."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:179
+#: onedesk/one_admin/ai.py:180
 msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr ""
 
@@ -61989,7 +61991,7 @@ msgstr ""
 msgid "Which work orders are open, for what, how far along, and which are late?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:104
+#: onedesk/one_admin/ai.py:105
 msgid "Which workspaces have this, how many are live, and what do they pay?"
 msgstr ""
 
@@ -62124,7 +62126,7 @@ msgstr ""
 msgid "Who has not signed in lately?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:103
+#: onedesk/one_admin/ai.py:104
 msgid "Who has this?"
 msgstr ""
 
@@ -62156,11 +62158,11 @@ msgstr ""
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:169
+#: onedesk/one_admin/ai.py:170
 msgid "Who is spending the most on OneAI this month, on which models and for which actions? Say what it was charged, what it cost us and the margin, and anything that looks wrong."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:167
+#: onedesk/one_admin/ai.py:168
 msgid "Who is spending the most?"
 msgstr ""
 
@@ -62559,11 +62561,11 @@ msgstr ""
 msgid "Why did these fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:133
+#: onedesk/one_admin/ai.py:134
 msgid "Why did this job fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:135
+#: onedesk/one_admin/ai.py:136
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
@@ -62587,11 +62589,11 @@ msgstr ""
 msgid "Why is this extension off, and what would it take to turn it on?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:143
+#: onedesk/one_admin/ai.py:144
 msgid "Why is this job waiting?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:145
+#: onedesk/one_admin/ai.py:146
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr ""
 
@@ -62599,11 +62601,11 @@ msgstr ""
 msgid "Why is this one off?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:80
+#: onedesk/one_admin/ai.py:81
 msgid "Why isn't this domain working?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:82
+#: onedesk/one_admin/ai.py:83
 msgid "Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer has to change in their DNS, and whether anything is ours to fix."
 msgstr ""
 
@@ -62616,11 +62618,11 @@ msgstr ""
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:189
+#: onedesk/one_admin/ai.py:190
 msgid "Why wasn't this built?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:191
+#: onedesk/one_admin/ai.py:192
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr ""
 
@@ -67047,7 +67049,7 @@ msgstr ""
 msgid "{0} already has a field called {1}."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:251
+#: onedesk/one_admin/operator.py:261
 #, python-brace-format
 msgid "{0} already has a workspace. Resume its job instead."
 msgstr ""
@@ -67470,7 +67472,7 @@ msgstr ""
 msgid "{0} credits in this conversation"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:68
+#: onedesk/public/js/tenant.js:76
 #, python-brace-format
 msgid "{0} credits left"
 msgstr ""
@@ -67930,7 +67932,7 @@ msgstr ""
 msgid "{0} has no {1} account to create {2} under."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:172
+#: onedesk/one_admin/operator.py:182
 #, python-brace-format
 msgid "{0} has not failed."
 msgstr ""
@@ -67960,12 +67962,12 @@ msgstr ""
 msgid "{0} has run into no errors, so there is nothing to fix."
 msgstr ""
 
-#: onedesk/public/js/tenant.js:42
+#: onedesk/public/js/tenant.js:50
 #, python-brace-format
 msgid "{0} has {1} credits ({2} on hold)."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:248
+#: onedesk/one_admin/operator.py:258
 #, python-brace-format
 msgid "{0} hasn't been paid."
 msgstr ""
@@ -68404,7 +68406,7 @@ msgstr ""
 msgid "{0} is not a grant."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:216
+#: onedesk/one_admin/operator.py:226
 #, python-brace-format
 msgid "{0} is not a job."
 msgstr ""
@@ -68695,7 +68697,7 @@ msgstr ""
 msgid "{0} is not under this project."
 msgstr ""
 
-#: onedesk/one_admin/operator.py:196
+#: onedesk/one_admin/operator.py:206
 #, python-brace-format
 msgid "{0} is not waiting to run."
 msgstr ""
@@ -69165,7 +69167,7 @@ msgstr ""
 msgid "{0} of {1}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:90
+#: onedesk/public/js/tenant.js:98
 #, python-brace-format
 msgid "{0} of {1} ({2}%)"
 msgstr ""
@@ -69491,7 +69493,7 @@ msgstr ""
 msgid "{0} paused timers"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:96
+#: onedesk/public/js/tenant.js:104
 #, python-brace-format
 msgid "{0} pending"
 msgstr ""
@@ -69742,7 +69744,7 @@ msgstr ""
 msgid "{0} spent"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:133 onedesk/public/js/tenant.js:146
+#: onedesk/public/js/tenant.js:141 onedesk/public/js/tenant.js:154
 #, python-brace-format
 msgid "{0} started."
 msgstr ""
@@ -70310,7 +70312,7 @@ msgstr ""
 msgid "{0}, starting as {1}"
 msgstr ""
 
-#: onedesk/public/js/tenant.js:92
+#: onedesk/public/js/tenant.js:100
 #, python-brace-format
 msgid "{0}, unmetered"
 msgstr ""

@@ -123,6 +123,16 @@ def move(tenant: str, day: str, where: str = "daily") -> str:
 	return runner.start(tenant, "Move", {"day": day, "where": where})
 
 
+@frappe.whitelist(methods=["POST"])
+def update_now(tenant: str) -> dict:
+	"""The workspace moves to its server's newest version now instead of at
+	its window."""
+	_may()
+	from onedesk.one_admin import releases
+
+	return releases.update_now(frappe.get_doc("Tenant", tenant))
+
+
 @frappe.whitelist()
 def restore(tenant: str) -> dict:
 	"""Put it back to Live.

@@ -21,6 +21,7 @@ NOT_FOR_AI = {
 	"operator.rebuild": "Building a workspace again from a backup is an operator's call, made on the workspace.",
 	"operator.roll_back": "Putting a workspace back to a backup loses its newer work, so an operator presses it.",
 	"operator.move": "Moving a workspace takes it offline for the move, so an operator presses it.",
+	"operator.update_now": "Moving a workspace to a new version is pressed by an operator on its record.",
 	"operator.run_now": "Running a job's next step early is an operator's call on a job they are looking at.",
 	"private.new_code": "A code is shown once, to the operator who asked for it.",
 	"setup.set_up": "Set Up Cloudflare uses the master key and changes the account, so an operator presses it.",
