@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 07:06+0000\n"
-"PO-Revision-Date: 2026-11-10 07:06+0000\n"
+"POT-Creation-Date: 2026-11-10 07:49+0000\n"
+"PO-Revision-Date: 2026-11-10 07:49+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -5497,7 +5497,7 @@ msgstr ""
 msgid "Ask for retention from {0}"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:124
+#: onedesk/one_admin/ai.py:125
 msgid "Ask me what they need, or which workspace, if I have not said. Then say the cheapest plan and add-ons for it, what it costs a month, and the next best way."
 msgstr ""
 
@@ -22368,11 +22368,11 @@ msgstr ""
 msgid "How do notifications work?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:92
+#: onedesk/one_admin/ai.py:93
 msgid "How do our plans compare?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:94
+#: onedesk/one_admin/ai.py:95
 msgid "How do our plans compare? Go through the price list: what each plan costs and gives, where the steps between plans are uneven, and whether the add-ons and packs are priced in line with them."
 msgstr ""
 
@@ -22480,11 +22480,11 @@ msgstr ""
 msgid "How is this project going? Say in a few lines where it stands against its dates and its budget, what is late and what it holds up, the next milestone, and what the team said last."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:67
+#: onedesk/one_admin/ai.py:68
 msgid "How is this workspace doing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:69
+#: onedesk/one_admin/ai.py:70
 msgid "How is this workspace doing? Say where it stands and whether anything is wrong: its payments, storage, credits, domains and its last jobs, and what I should do about anything that is."
 msgstr ""
 
@@ -24486,11 +24486,11 @@ msgstr ""
 msgid "Is empty"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:156
+#: onedesk/one_admin/ai.py:157
 msgid "Is everything OneAdmin runs on set up? Say which connections are missing and what each stops, what Set Up Cloudflare last said, and whether the money settings look sensible."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:154
+#: onedesk/one_admin/ai.py:155
 msgid "Is everything set up?"
 msgstr ""
 
@@ -27652,7 +27652,7 @@ msgstr ""
 msgid "Look at the notifications One sends here. Which should people get by email as well as in the bell, and which are better left to the bell? Say why for each."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:114
+#: onedesk/one_admin/ai.py:115
 msgid "Look at the price check: what is wrong and what is close, with the numbers. Say what to change first, and by how much, to make the price list hold."
 msgstr ""
 
@@ -45938,7 +45938,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:272 onedesk/one_admin/servers.py:286
+#: onedesk/one_admin/servers.py:273 onedesk/one_admin/servers.py:287
 msgid "Server keys are not set."
 msgstr ""
 
@@ -59413,11 +59413,11 @@ msgstr ""
 msgid "What needs fixing?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:60
+#: onedesk/one_admin/ai.py:61
 msgid "What needs me in OneAdmin today? Say what is most urgent first, why each one is stuck, and what I should do about it."
 msgstr ""
 
-#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:58
+#: onedesk/one/ai.py:363 onedesk/one_admin/ai.py:59
 msgid "What needs me today?"
 msgstr ""
 
@@ -59457,11 +59457,11 @@ msgstr ""
 msgid "What should I do first?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:122
+#: onedesk/one_admin/ai.py:123
 msgid "What should they buy?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:112
+#: onedesk/one_admin/ai.py:113
 msgid "What should we change?"
 msgstr ""
 
@@ -61566,7 +61566,7 @@ msgstr ""
 msgid "Where calls from this queue are announced."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:176
+#: onedesk/one_admin/ai.py:177
 msgid "Where did the credits go?"
 msgstr ""
 
@@ -61578,7 +61578,7 @@ msgstr ""
 msgid "Where did this project's time go this month? Say who logged it, on which tasks, how much is billable, and what is still a draft."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:178
+#: onedesk/one_admin/ai.py:179
 msgid "Where did this workspace's OneCredits go? Say what it has left and until when, what it spent this month and on which models, and anything given or taken back by hand, with its note."
 msgstr ""
 
@@ -61972,7 +61972,7 @@ msgstr ""
 msgid "Which work orders are open, for what, how far along, and which are late?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:103
+#: onedesk/one_admin/ai.py:104
 msgid "Which workspaces have this, how many are live, and what do they pay?"
 msgstr ""
 
@@ -62107,7 +62107,7 @@ msgstr ""
 msgid "Who has not signed in lately?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:102
+#: onedesk/one_admin/ai.py:103
 msgid "Who has this?"
 msgstr ""
 
@@ -62139,11 +62139,11 @@ msgstr ""
 msgid "Who is held to a territory, a department or another record, and to which?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:168
+#: onedesk/one_admin/ai.py:169
 msgid "Who is spending the most on OneAI this month, on which models and for which actions? Say what it was charged, what it cost us and the margin, and anything that looks wrong."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:166
+#: onedesk/one_admin/ai.py:167
 msgid "Who is spending the most?"
 msgstr ""
 
@@ -62542,11 +62542,11 @@ msgstr ""
 msgid "Why did these fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:132
+#: onedesk/one_admin/ai.py:133
 msgid "Why did this job fail?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:134
+#: onedesk/one_admin/ai.py:135
 msgid "Why did this job fail? Say where it stopped, what the error means in plain words, and whether resuming it is likely to work."
 msgstr ""
 
@@ -62570,11 +62570,11 @@ msgstr ""
 msgid "Why is this extension off, and what would it take to turn it on?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:142
+#: onedesk/one_admin/ai.py:143
 msgid "Why is this job waiting?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:144
+#: onedesk/one_admin/ai.py:145
 msgid "Why is this job waiting? Say which step it is on, what it is waiting for, how many times it has tried, and whether anything is wrong."
 msgstr ""
 
@@ -62582,11 +62582,11 @@ msgstr ""
 msgid "Why is this one off?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:79
+#: onedesk/one_admin/ai.py:80
 msgid "Why isn't this domain working?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:81
+#: onedesk/one_admin/ai.py:82
 msgid "Why isn't this domain working? Say what Cloudflare says is wrong in plain words, what the customer has to change in their DNS, and whether anything is ours to fix."
 msgstr ""
 
@@ -62599,11 +62599,11 @@ msgstr ""
 msgid "Why these days should count as worked. HR keeps the list in Attendance Reason."
 msgstr ""
 
-#: onedesk/one_admin/ai.py:188
+#: onedesk/one_admin/ai.py:189
 msgid "Why wasn't this built?"
 msgstr ""
 
-#: onedesk/one_admin/ai.py:190
+#: onedesk/one_admin/ai.py:191
 msgid "Why wasn't this signup's workspace built? Say what stopped it in plain words, whether Build Workspace is likely to work now, and what to do if it is not."
 msgstr ""
 
