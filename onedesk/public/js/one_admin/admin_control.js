@@ -19,7 +19,7 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 				{ html: `<div data-admin-areas="1"></div>` },
 				{ heading: __("Domains") },
 				["tenant_domain", "mail_domain"],
-				["sender_email", "environment"],
+				data.values.environment ? ["sender_email", "environment"] : ["sender_email", ""],
 				["config_copy_key", ""],
 				{ heading: __("Sign In"), collapsible: true },
 				["cloudflare_oauth_client_id", "cloudflare_oauth_client_secret"],
