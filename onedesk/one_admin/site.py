@@ -5,6 +5,8 @@ and a tenant workspace otherwise. A file no request can write, so the people
 being billed cannot change it.
 """
 
+from contextlib import contextmanager
+
 import frappe
 
 FLAG = "one_admin"
@@ -32,6 +34,22 @@ def require_admin() -> None:
 	"""
 	if not is_admin():
 		raise frappe.PermissionError(frappe._("This site doesn't manage workspaces."))
+
+
+@contextmanager
+def as_administrator():
+	"""Administrator for this block only, then back to whoever asked.
+
+	For what Stripe's webhook, which runs as Guest, books through ERPNext. Its
+	Customer saves the lead's Contact with `frappe.set_value`, re-links the
+	Opportunity behind `has_permission`, and a Sales Invoice checks the account
+	it posts to; `ignore_permissions` reaches none of those, the user does."""
+	who = frappe.session.user
+	frappe.set_user("Administrator")
+	try:
+		yield
+	finally:
+		frappe.set_user(who)
 
 
 def apply(*_args) -> None:

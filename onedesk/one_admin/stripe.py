@@ -163,7 +163,8 @@ def _book(what: str, body: dict) -> None:
 	mark = "one_books"
 	frappe.db.savepoint(mark)
 	try:
-		getattr(books, what)(body)
+		with site.as_administrator():
+			getattr(books, what)(body)
 		frappe.db.release_savepoint(mark)
 	except Exception:
 		frappe.db.rollback(save_point=mark)

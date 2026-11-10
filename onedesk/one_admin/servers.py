@@ -34,6 +34,7 @@ CONNECTED_PROVIDER = "Oracle"
 CONNECTING = "Connecting"
 COPIES_AT_ONCE = 4
 TICKET_LASTS = 3600
+AGENT_UPDATE = "update-agent"
 
 
 def after_a_check(misses: int, answered: bool) -> tuple[int, str | None]:
@@ -247,7 +248,8 @@ def _own_address(row) -> list[str]:
 
 def prepare(row, release: str) -> None:
 	"""The box builds this release as a second bench, reachable at its own
-	Pilot address behind the box's lock."""
+	Pilot address behind the box's lock, its agent updated first so it is
+	never older than the release it builds."""
 	keys = _keys()
 	about = boxes.release_of(keys, release)
 	name = f"r{release[:8]}"
@@ -258,6 +260,9 @@ def prepare(row, release: str) -> None:
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], [row.pilot_host, *others, host, *_own_address(row), row.origin_host, f"*.{tenant_domain}"], host, keys["origin_zone"], tell.operators())
 	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing"}])
+	source = boxes.agent_of(keys, release)
+	if source:
+		instruct(row.server, AGENT_UPDATE, source=source)
 	instruct(row.server, "prepare", bench=name, release=release, frappe=about["frappe"], erpnext=about["erpnext"], hrms=about["hrms"], repository=REPOSITORY, branch="main", host=host)
 
 

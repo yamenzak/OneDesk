@@ -18,6 +18,7 @@ import time
 import urllib.request
 from pathlib import Path
 
+SELF = Path(__file__).resolve()
 HOME = Path.home()
 CONFIG = HOME / ".one-agent.json"
 DONE = HOME / ".one-agent-done"
@@ -32,6 +33,8 @@ KEPT_OUT = ("installed_apps", "pilot_auth_token", "pilot_endpoint", "backup_rete
 KEPT_OUT_STARTING = ("db_", "maintenance", "pause_")
 TIMEOUT = 8 * 3600
 BUILD_MEMORY_MB = 2800
+UPDATE = "update-agent"
+LOADS = "import importlib.util, sys; spec = importlib.util.spec_from_file_location('agent', sys.argv[1]); agent = importlib.util.module_from_spec(spec); spec.loader.exec_module(agent); assert callable(agent.main) and sys.argv[2] in agent.KINDS"
 
 
 def run(*command: str, cwd: str | None = None) -> str:
@@ -201,7 +204,24 @@ def session_quiet(_config: dict, one: dict) -> None:
 	frappe_on(one["bench"], one["site"], "execute", "onedesk.one_admin.sessions.quieted")
 
 
-KINDS = {"prepare": prepare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet}
+def update_agent(_config: dict, one: dict) -> None:
+	"""This file replaced by a signed new one, taken up by the next run. The
+	new one is loaded in a process of its own first, and must still know this
+	instruction; whatever fails leaves this one where it is."""
+	new = SELF.with_name(f".{SELF.stem}.new.py")
+	try:
+		descriptor = os.open(new, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, SELF.stat().st_mode & 0o777)
+		with os.fdopen(descriptor, "w") as file:
+			file.write(one["source"])
+			file.flush()
+			os.fsync(file.fileno())
+		run(sys.executable, "-B", "-c", LOADS, str(new), UPDATE)
+		os.replace(new, SELF)
+	finally:
+		new.unlink(missing_ok=True)
+
+
+KINDS = {"prepare": prepare, "move": move, "drop-bench": drop_bench, "session-demo": session_demo, "session-quiet": session_quiet, UPDATE: update_agent}
 
 
 def report(config: dict, said: dict) -> bool:
@@ -230,6 +250,11 @@ def instructions(config: dict) -> list[dict]:
 	return found
 
 
+def told(one: dict, **how) -> dict:
+	"""What goes back to OneAdmin: the instruction without the agent it carried. Pure."""
+	return {**{key: value for key, value in one.items() if key != "source"}, **how}
+
+
 def tick() -> None:
 	config = json.loads(CONFIG.read_text())
 	DONE.mkdir(exist_ok=True)
@@ -242,11 +267,11 @@ def tick() -> None:
 			continue
 		try:
 			KINDS[one["kind"]](config, one)
-			said = {**one, "ok": True}
+			said = told(one, ok=True)
 		except subprocess.CalledProcessError as raised:
-			said = {**one, "ok": False, "error": ((raised.stderr or "") + (raised.stdout or ""))[-1500:]}
+			said = told(one, ok=False, error=((raised.stderr or "") + (raised.stdout or ""))[-1500:])
 		except Exception as raised:
-			said = {**one, "ok": False, "error": str(raised)[-1500:]}
+			said = told(one, ok=False, error=str(raised)[-1500:])
 		mark.touch()
 		(DONE / f"{one['id']}.report").write_text(json.dumps(said))
 		if report(config, said):

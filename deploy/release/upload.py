@@ -1,5 +1,6 @@
-"""A release's archive into the registry, with what it holds beside it:
-the four commits and the archive's checksum. Run by build.sh."""
+"""A release's archive into the registry, with what it holds beside it: the
+four commits, the archive's checksum and the box's agent of that commit. Run
+by build.sh."""
 
 import json
 import os
@@ -20,6 +21,7 @@ def main(archive: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> No
 	)
 	key = f"releases/{onedesk}"
 	store.upload_file(archive, bucket, f"{key}.tar.gz")
+	store.upload_file(str(Path(__file__).resolve().parents[1] / "server" / "agent.py"), bucket, f"{key}.agent.py")
 	about = {
 		"onedesk": onedesk,
 		"frappe": frappe,

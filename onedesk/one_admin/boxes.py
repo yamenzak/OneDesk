@@ -200,6 +200,16 @@ def release_of(keys: dict, sha: str) -> dict:
 	return json.loads(store.get_object(Bucket=keys["assets_bucket"], Key=f"releases/{sha}.json")["Body"].read())
 
 
+def agent_of(keys: dict, sha: str) -> str | None:
+	"""The box's agent a release was built with, or None for a release from
+	before releases carried one."""
+	store = boto3.client("s3", endpoint_url=keys["r2_endpoint"], region_name="auto", aws_access_key_id=keys["assets_read_key"], aws_secret_access_key=keys["assets_read_secret"])
+	try:
+		return store.get_object(Bucket=keys["assets_bucket"], Key=f"releases/{sha}.agent.py")["Body"].read().decode()
+	except store.exceptions.NoSuchKey:
+		return None
+
+
 def wait_ready(host: str, access: dict, stopped=lambda: False) -> None:
 	"""Until Pilot answers through the tunnel and the lock. A box whose first
 	boot failed powers itself off, and `stopped` says so."""

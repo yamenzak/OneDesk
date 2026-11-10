@@ -5,9 +5,10 @@ and grows, to a cap.
 """
 
 import json
+from time import monotonic
 
 import frappe
-from frappe.utils import add_to_date, now_datetime
+from frappe.utils import add_to_date, get_datetime, now_datetime
 
 from onedesk.one_admin import faults, ladder, site, steps
 
@@ -17,21 +18,61 @@ GIVE_UP_AFTER = 12
 
 AT_A_TIME = 5
 
+A_JOB_SECONDS = 45
+
+A_TICK_SECONDS = 180
+
 
 def tick() -> None:
 	"""The cron entry. Never raises: one bad job must not stop the queue.
 
-	Each job is committed on its own, so one that throws loses only its own
-	step, and a throw is an attempt like any other (_counted).
+	Each step is committed on its own, so one that throws loses only itself,
+	and a throw is an attempt like any other (_counted). A job left over when
+	the tick's time is up is first in the next tick, being the most overdue.
 	"""
 	if not site.is_admin():
 		return
+	ends = monotonic() + A_TICK_SECONDS
 	for name in _due():
+		if monotonic() >= ends:
+			return
 		try:
-			advance(name)
+			_drive(name)
 		except Exception as raised:
 			_counted(name, raised)
 		frappe.db.commit()
+
+
+def run(name: str) -> None:
+	"""A background job driving one job at once, without waiting for the tick."""
+	try:
+		_drive(name)
+	except Exception as raised:
+		_counted(name, raised)
+	frappe.db.commit()
+
+
+def _drive(name: str) -> None:
+	"""Step after step while each finishes at once, committing each: it stops
+	at a wait or a backoff, and after `A_JOB_SECONDS` so one job does not hold
+	the worker; what is left is due and the next tick carries on."""
+	frappe.db.commit()
+	ends = monotonic() + A_JOB_SECONDS
+	while _take(name) and advance(name) == "Pending":
+		frappe.db.commit()
+		if monotonic() >= ends:
+			return
+
+
+def _take(name: str) -> bool:
+	"""Whether this job is due, holding its row until the step is committed.
+
+	The webhook's run and the tick can reach one job together. The row lock
+	is skipped rather than waited on, so the second finds nothing to do."""
+	held = frappe.db.get_value(
+		"Provisioning Job", name, ["status", "next_run_at"], as_dict=True, for_update=True, skip_locked=True
+	)
+	return bool(held and held.status in ("Pending", "Waiting") and get_datetime(held.next_run_at) <= now_datetime())
 
 
 def _counted(name: str, raised: Exception) -> None:
@@ -227,3 +268,17 @@ def start(tenant: str, kind: str = "Provision", payload: dict | None = None) -> 
 		}
 	).insert(ignore_permissions=True)
 	return job.name
+
+
+def start_now(tenant: str) -> str:
+	"""A paid signup's job, begun as soon as the payment is committed. The
+	page promises the workspace is being built, and the tick is minutes off."""
+	job = start(tenant)
+	frappe.enqueue(
+		"onedesk.one_admin.runner.run",
+		name=job,
+		job_id=f"one_admin_job_{job}",
+		deduplicate=True,
+		enqueue_after_commit=True,
+	)
+	return job

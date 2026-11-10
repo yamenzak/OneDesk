@@ -71,8 +71,8 @@ def customer_for(tenant: str, lead: str | None = None) -> str:
 	receivable = books.receivable(currency)
 	if receivable:
 		customer.set("accounts", [{"company": books.company(), "account": receivable}])
-	customer.flags.ignore_permissions = True
-	customer.insert()
+	with site.as_administrator():
+		customer.insert()
 	if held.owner_email and not lead:
 		_contact(customer.name, held.owner_email)
 	frappe.db.set_value("Tenant", tenant, "customer", customer.name, update_modified=False)
@@ -154,15 +154,13 @@ def _deal(asked, lead: str) -> str:
 
 
 def _won(deal: str, customer: str) -> None:
+	"""The checkout was the order, so there is no quotation behind it: a save
+	would be refused by erpnext's validate_status and stages.before_validate."""
 	from onedesk.one_crm import stages
 
 	held = frappe.get_doc("Opportunity", deal)
 	won = stages.first("Won")
-	if won:
-		held.sales_stage = won
-	held.status = "Converted"
-	held.flags.ignore_permissions = True
-	held.save()
+	held.db_set({"status": "Converted", **({"sales_stage": won, "probability": 100} if won else {})})
 	held.add_comment("Info", f"Paid at checkout. Customer {customer}.")
 
 

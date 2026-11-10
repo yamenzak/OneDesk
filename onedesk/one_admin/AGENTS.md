@@ -173,7 +173,8 @@ to add.
 ### Following a job and resuming one
 
 **Jobs** lists the ones not done, with the workspace, type, status, current
-step and last update. Jobs run every two minutes.
+step and last update. Jobs run every two minutes, and a paid signup's at
+once. Each keeps going while its steps finish at once, up to 45 seconds.
 
 - **Waiting to run**: its next step is due.
 - **Waiting on** the hosting provider (the status names it): a step waits on
@@ -1964,7 +1965,13 @@ R2 by `notes.py`.
 
 A box's agent (`deploy/server/agent.py`) reads signed instructions from R2
 once a minute and answers `servers.reported`, signed with that box's secret.
-Each bench has its own Pilot address, behind the box's Access lock.
+Each bench has its own Pilot address, behind the box's Access lock. A release
+carries its own agent (`releases/<sha>.agent.py`, uploaded by the release
+build); `servers.prepare` sends it to the box as a signed `update-agent` ahead
+of the build, the box loads the new file in a process of its own and only then
+replaces itself, and the next run is the new one. A box still on an agent from
+before this reports that instruction as failed and carries on; it needs the
+file put there by hand once.
 
 ### price_list.py, costs.py, margins.py and offerings.py
 

@@ -83,7 +83,7 @@ def accept(request: str) -> str:
 	from onedesk.one_admin import accounts
 
 	accounts.hold(tenant, asked.email)
-	runner.start(tenant)
+	runner.start_now(tenant)
 	return tenant
 
 
