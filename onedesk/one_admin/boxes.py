@@ -337,7 +337,12 @@ def connect_script(keys: dict, cloudflare: Cloudflare, name: str, made: dict, re
 
 
 def reboot(keys: dict, name: str, region: str = REGION) -> None:
-	_aws(keys, region).reboot_instance(instanceName=name)
+	"""A stopped box is started; any other is rebooted."""
+	aws = _aws(keys, region)
+	if aws.get_instance_state(instanceName=name)["state"]["name"] in ("stopped", "stopping"):
+		aws.start_instance(instanceName=name)
+	else:
+		aws.reboot_instance(instanceName=name)
 
 
 def drop(keys: dict, cloudflare: Cloudflare, name: str, made: dict, domain: str, region: str = REGION) -> None:
