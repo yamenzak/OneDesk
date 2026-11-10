@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-10 09:39+0000\n"
-"PO-Revision-Date: 2026-11-10 09:39+0000\n"
+"POT-Creation-Date: 2026-11-10 10:11+0000\n"
+"PO-Revision-Date: 2026-11-10 10:11+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -45943,7 +45943,7 @@ msgstr ""
 msgid "Server is required."
 msgstr ""
 
-#: onedesk/one_admin/servers.py:273 onedesk/one_admin/servers.py:287
+#: onedesk/one_admin/servers.py:291 onedesk/one_admin/servers.py:305
 msgid "Server keys are not set."
 msgstr ""
 
