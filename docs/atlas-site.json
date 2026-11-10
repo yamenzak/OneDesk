@@ -1299,6 +1299,9 @@
 "HR Telemetry Milestone": [
 "System Manager"
 ],
+"Health Check": [
+"One Operator"
+],
 "Help Article": [
 "Knowledge Base Contributor",
 "Knowledge Base Editor"
@@ -3218,9 +3221,18 @@
 "Workspace Administrator"
 ],
 "Workspace Customization": [],
+"Workspace Error": [
+"One Operator"
+],
 "Workspace Field": [
 "System Manager",
 "Workspace Administrator"
+],
+"Workspace Server": [
+"One Operator"
+],
+"Workspace Session": [
+"One Operator"
 ],
 "Workspace Sidebar": [
 "Desk User",
@@ -3723,6 +3735,12 @@
 "one": [
 "Desk User"
 ],
+"oneadmin": [],
+"oneadmin-billing": [],
+"oneadmin-releases": [],
+"oneadmin-servers": [],
+"oneadmin-sessions": [],
+"oneadmin-status": [],
 "onecalendar": [
 "Desk User"
 ],

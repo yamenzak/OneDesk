@@ -959,7 +959,7 @@ Pages: intake (on a rail or a home).
 | Account Request | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | New Signup, Signup Not Built |
 | Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  | **none** |  |  |  |  |
 | Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Health Check | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  |  |
+| Health Check | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  | **none** |  |  |  |  |
 | One Admin Settings | opened by our screens | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
 | Private App | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
@@ -968,9 +968,9 @@ Pages: intake (on a rail or a home).
 | Tenant | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | Paid While Archived, Workspace Asked to Close, Workspace Owing |
 | Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  |  |
 | Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
-| Workspace Error | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  | New Error |
-| Workspace Server | opened by our screens | not read | form script | no | general |  | **none** |  |  |  |  |
-| Workspace Session | opened by our screens | not read | untouched | no | general |  | **none** |  |  |  |  |
+| Workspace Error | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  | New Error |
+| Workspace Server | opened by our screens | **nobody** | form script | no | general |  | **none** |  |  |  |  |
+| Workspace Session | opened by our screens | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 

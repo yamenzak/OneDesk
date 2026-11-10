@@ -6,7 +6,7 @@ and sets their own; only a workspace administrator sets the workspace's."""
 import frappe
 from frappe import _
 
-from onedesk.one import notify, roles
+from onedesk.one import notify, roles, versions
 
 # A person's own switches, over every type.
 OWN = ("enabled", "enable_email_notifications", "enable_email_threads_on_assigned_document")
@@ -33,7 +33,7 @@ def for_boot() -> list[str]:
 		apps = frappe.get_all("Notification Type", filters={"one_app": ["is", "set"], "one_rule": 0}, pluck="one_app", distinct=True)
 	else:
 		apps = {one["app"] for one in notify.choosable() if one["app"]}
-	return sorted(apps)
+	return sorted(app for app in apps if versions.offered(app))
 
 
 def _why(one: dict) -> str:
@@ -124,7 +124,7 @@ def workspace(module: str | None = None) -> list[dict]:
 	out = []
 	for row in rows:
 		one = declared.get(row.name)
-		if not one:
+		if not one or not versions.offered(row.one_app):
 			continue
 		out.append(
 			{

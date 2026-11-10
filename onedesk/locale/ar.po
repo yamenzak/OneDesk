@@ -17888,6 +17888,10 @@ msgstr "يسجّل بها الجميع في الشركة التجريبية. ا�
 msgid "Everyone in the workspace"
 msgstr "كل من في مساحة العمل"
 
+#: onedesk/public/js/one_account/account_center.js:1710
+msgid "Everyone in the workspace, and inviting someone new."
+msgstr "كل من في مساحة العمل، ودعوة شخص جديد."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:683
 msgid "Everyone listed can read, and those with Send can send from this mailbox too."
 msgstr "يمكن لكل من في القائمة القراءة، ويمكن لمن لديه الإرسال أن يرسل من صندوق البريد هذا أيضًا."
@@ -51856,6 +51860,10 @@ msgstr "العناوين المرسَل إليها"
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr "العناوين في التكرار، ومنشئه عند الفشل"
 
+#: onedesk/public/js/one_account/account_center.js:1713
+msgid "The addresses the workspace answers on."
+msgstr "العناوين التي تستجيب عليها مساحة العمل."
+
 #: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "جدول أعمال اجتماع الجودة ومحضره."
@@ -52042,6 +52050,10 @@ msgstr "ليس للشركة حساب بنكي افتراضي."
 #: onedesk/one_book/home.py:336
 msgid "The company's bank accounts."
 msgstr "الحسابات البنكية للشركة."
+
+#: onedesk/public/js/one_account/account_center.js:1711
+msgid "The company's computers and phones, and the passkeys on people's own."
+msgstr "أجهزة الكمبيوتر والهواتف التابعة للشركة، ومفاتيح المرور على الأجهزة الشخصية."
 
 #: onedesk/one_book/ready.py:72 onedesk/one_book/ready.py:73
 msgid "The company's default accounts are set"
@@ -53044,6 +53056,10 @@ msgstr "الأرصدة الشهرية للخطة، حتى {0}"
 #: onedesk/one_admin/heads.py:309
 msgid "The plan's monthly credits."
 msgstr "أرصدة الخطة الشهرية."
+
+#: onedesk/public/js/one_account/account_center.js:1712
+msgid "The plan, its seats and storage, OneCredits and invoices."
+msgstr "الخطة ومقاعدها ومساحة التخزين وOneCredits والفواتير."
 
 #: onedesk/one_portal/gate.py:25
 msgid "The portal is turned off for this workspace."
@@ -61594,6 +61610,10 @@ msgstr "أين يُحتسب وقت الورشة، وأين يعمل أمر ال�
 msgid "Where you are could not be found. Type the place instead."
 msgstr "تعذّر تحديد موقعك. اكتب المكان بدلًا من ذلك."
 
+#: onedesk/public/js/one_account/account_center.js:1706
+msgid "Where you live, who to call and the details only HR sees."
+msgstr "مكان سكنك، ومن يُتصل به، والتفاصيل التي لا يراها سوى قسم الموارد البشرية."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:438
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
 msgstr "هل يمكن لـ OneAI قراءة صندوق البريد هذا، وما يفعله بالبريد الجديد هنا من تلقاء نفسه."
@@ -64281,6 +64301,10 @@ msgstr "ملفاتك"
 msgid "Your Fonts"
 msgstr "خطوطكم"
 
+#: onedesk/public/js/one_account/account_center.js:1708
+msgid "Your ID, passport and permits. HR is told when you add or change one."
+msgstr "هويتك وجواز سفرك وتصاريحك. يُبلَّغ قسم الموارد البشرية عند إضافة أحدها أو تغييره."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1423
 msgid "Your Mail"
 msgstr "بريدك"
@@ -64566,6 +64590,10 @@ msgstr "مقابلتك في {when}"
 msgid "Your interview is on {when}"
 msgstr "مقابلتك في {when}"
 
+#: onedesk/public/js/one_account/account_center.js:1707
+msgid "Your job as HR keeps it, and your education and past work."
+msgstr "وظيفتك كما يحفظها قسم الموارد البشرية، وتعليمك وخبراتك السابقة."
+
 #: onedesk/one_display/starters.py:1205
 msgid "Your logo and the time in one corner of the slides."
 msgstr "شعارك والوقت في زاوية من الشرائح."
@@ -64609,6 +64637,10 @@ msgstr "اسمك"
 #: onedesk/one_slide/decks.py:258
 msgid "Your name · your email · your phone"
 msgstr "اسمك · بريدك · هاتفك"
+
+#: onedesk/public/js/one_account/account_center.js:1705
+msgid "Your name, photo, bio and language."
+msgstr "اسمك وصورتك ونبذتك ولغتك."
 
 #: onedesk/public/js/one/notification_center.js:48
 msgid "Your notifications are off."
@@ -64654,6 +64686,10 @@ msgstr "لم تُغيَّر كلمة مرورك قط وليس لديك مفتا�
 #: onedesk/one_account/notifications.py
 msgid "Your password was changed"
 msgstr "تم تغيير كلمة مرورك"
+
+#: onedesk/public/js/one_account/account_center.js:1709
+msgid "Your password, your passkey and where you are signed in."
+msgstr "كلمة مرورك ومفتاح مرورك والأماكن التي سجلت الدخول منها."
 
 #: onedesk/one_account/tour.py:12
 msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."

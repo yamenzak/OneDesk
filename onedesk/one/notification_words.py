@@ -57,7 +57,7 @@ def _notification_types(record: str | None = None) -> dict:
 		return _rule(record[5:])
 	if record:
 		return _notification_type(record)
-	from onedesk.one import notify, rules
+	from onedesk.one import notify, rules, versions
 
 	declared = notify.declared()
 	rows = frappe.get_all(
@@ -67,7 +67,7 @@ def _notification_types(record: str | None = None) -> dict:
 	)
 	apps: dict[str, list] = {}
 	for row in rows:
-		if row.one_rule:
+		if row.one_rule or not versions.offered(row.one_app):
 			continue
 		one = declared.get(row.name) or {}
 		apps.setdefault(row.one_app or "", []).append(

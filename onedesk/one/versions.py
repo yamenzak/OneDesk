@@ -17,7 +17,7 @@ SEEN = "one_seen_version_{}"
 def offered(module: str) -> bool:
 	"""Whether the reader may see a module's versions, Help and tour: all of
 	them, but OneAdmin's for its operators alone."""
-	return not ready.MODULES[module].get("operators") or site.operates()
+	return not ready.MODULES.get(module, {}).get("operators") or site.operates()
 
 
 def _known(module: str) -> None:

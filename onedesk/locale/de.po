@@ -17888,6 +17888,10 @@ msgstr "Alle im Demounternehmen melden sich damit an. Inhaber ist {0}."
 msgid "Everyone in the workspace"
 msgstr "Alle im Arbeitsbereich"
 
+#: onedesk/public/js/one_account/account_center.js:1710
+msgid "Everyone in the workspace, and inviting someone new."
+msgstr "Alle Personen im Workspace und neue Einladungen."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:683
 msgid "Everyone listed can read, and those with Send can send from this mailbox too."
 msgstr "Alle Aufgeführten können lesen, und wer Senden hat, kann auch aus diesem Postfach senden."
@@ -51856,6 +51860,10 @@ msgstr "Die Adressen, an die sie geht"
 msgid "The addresses on the repeat, and its maker when it fails"
 msgstr "Die Adressen der Wiederholung und bei einem Fehler ihr Ersteller"
 
+#: onedesk/public/js/one_account/account_center.js:1713
+msgid "The addresses the workspace answers on."
+msgstr "Die Adressen, unter denen der Workspace erreichbar ist."
+
 #: onedesk/one_quality/home.py:29
 msgid "The agenda and the minutes of a quality meeting."
 msgstr "Tagesordnung und Protokoll einer Qualitätsbesprechung."
@@ -52042,6 +52050,10 @@ msgstr "Das Unternehmen hat kein Standardbankkonto."
 #: onedesk/one_book/home.py:336
 msgid "The company's bank accounts."
 msgstr "Die Bankkonten des Unternehmens."
+
+#: onedesk/public/js/one_account/account_center.js:1711
+msgid "The company's computers and phones, and the passkeys on people's own."
+msgstr "Computer und Telefone des Unternehmens sowie Passkeys auf privaten Geräten."
 
 #: onedesk/one_book/ready.py:72 onedesk/one_book/ready.py:73
 msgid "The company's default accounts are set"
@@ -53044,6 +53056,10 @@ msgstr "Monatliches Guthaben des Tarifs, bis {0}"
 #: onedesk/one_admin/heads.py:309
 msgid "The plan's monthly credits."
 msgstr "Die monatlichen Credits des Plans."
+
+#: onedesk/public/js/one_account/account_center.js:1712
+msgid "The plan, its seats and storage, OneCredits and invoices."
+msgstr "Der Plan, seine Plätze und sein Speicher, OneCredits und Rechnungen."
 
 #: onedesk/one_portal/gate.py:25
 msgid "The portal is turned off for this workspace."
@@ -61594,6 +61610,10 @@ msgstr "Wohin Werkstattzeit gebucht wird und wo ein neuer Arbeitsauftrag arbeite
 msgid "Where you are could not be found. Type the place instead."
 msgstr "Ihr Standort wurde nicht gefunden. Geben Sie den Ort stattdessen ein."
 
+#: onedesk/public/js/one_account/account_center.js:1706
+msgid "Where you live, who to call and the details only HR sees."
+msgstr "Ihr Wohnort, Ihre Notfallkontakte und die Angaben, die nur HR sieht."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:438
 msgid "Whether OneAI may read this mailbox, and what it does with new mail here on its own."
 msgstr "Ob OneAI dieses Postfach lesen darf und was es hier selbstständig mit neuen E-Mails tut."
@@ -64281,6 +64301,10 @@ msgstr "Ihre Dateien"
 msgid "Your Fonts"
 msgstr "Ihre Schriften"
 
+#: onedesk/public/js/one_account/account_center.js:1708
+msgid "Your ID, passport and permits. HR is told when you add or change one."
+msgstr "Ausweis, Reisepass und Genehmigungen. HR wird informiert, wenn Sie etwas hinzufügen oder ändern."
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1423
 msgid "Your Mail"
 msgstr "Ihre E-Mails"
@@ -64566,6 +64590,10 @@ msgstr "Ihr Vorstellungsgespräch ist am {when}"
 msgid "Your interview is on {when}"
 msgstr "Ihr Vorstellungsgespräch ist am {when}"
 
+#: onedesk/public/js/one_account/account_center.js:1707
+msgid "Your job as HR keeps it, and your education and past work."
+msgstr "Ihre Stelle, wie HR sie führt, sowie Ausbildung und bisherige Tätigkeiten."
+
 #: onedesk/one_display/starters.py:1205
 msgid "Your logo and the time in one corner of the slides."
 msgstr "Ihr Logo und die Uhrzeit in einer Ecke der Folien."
@@ -64609,6 +64637,10 @@ msgstr "Ihr Name"
 #: onedesk/one_slide/decks.py:258
 msgid "Your name · your email · your phone"
 msgstr "Ihr Name · Ihre E-Mail · Ihr Telefon"
+
+#: onedesk/public/js/one_account/account_center.js:1705
+msgid "Your name, photo, bio and language."
+msgstr "Name, Foto, Kurzbiografie und Sprache."
 
 #: onedesk/public/js/one/notification_center.js:48
 msgid "Your notifications are off."
@@ -64654,6 +64686,10 @@ msgstr "Ihr Passwort wurde nie geändert, und Sie haben keinen Passkey."
 #: onedesk/one_account/notifications.py
 msgid "Your password was changed"
 msgstr "Dein Passwort wurde geändert"
+
+#: onedesk/public/js/one_account/account_center.js:1709
+msgid "Your password, your passkey and where you are signed in."
+msgstr "Passwort, Passkey und wo Sie angemeldet sind."
 
 #: onedesk/one_account/tour.py:12
 msgid "Your profile and how you sign in, and for administrators, the workspace's people, devices, plan and domains."

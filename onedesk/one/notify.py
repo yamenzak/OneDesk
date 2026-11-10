@@ -12,6 +12,8 @@ from functools import cache
 import frappe
 from frappe import _, _lt
 
+from onedesk.one import versions
+
 FIELDS = (
 	"one_app",
 	"one_about",
@@ -399,6 +401,8 @@ def choosable(user: str | None = None) -> list[dict]:
 	)
 	out = []
 	for row in rows:
+		if not versions.offered(row.one_app):
+			continue
 		one = declared_types.get(row.name)
 		if one:
 			if (

@@ -1726,8 +1726,8 @@ onedesk.account_center.HELP = {
 	domains: "plan-and-credits",
 };
 
-// AccountCenter: Yours for everybody, Workspace for administrators. `at`
-// opens one section, and `record` one record in it, such as a person. It
+// AccountCenter: Yours for everybody, Workspace for administrators. at
+// opens one section, and record one record in it, such as a person. It
 // starts with what is left to set up, while something is.
 onedesk.account_center.open = async ({ at = null, record = null } = {}) => {
 	const said = await frappe.xcall(onedesk.AccountSection.API + "sections_of");
