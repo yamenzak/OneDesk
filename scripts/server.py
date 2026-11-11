@@ -19,13 +19,10 @@ when there is one.
 import argparse
 import json
 import os
-import secrets
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-
-import requests
 
 from onedesk.one_admin import boxes, cloudflare_signin
 
@@ -47,28 +44,10 @@ def _keys(args) -> dict:
 
 
 def _signed_in(keys: dict) -> tuple[str, callable]:
-	"""An access token from signing in to Cloudflare, and how to revoke it."""
-	client = (keys["cloudflare_oauth_client_id"], keys["cloudflare_oauth_client_secret"])
-	redirect = f"{keys.get('admin_url') or 'https://admin.' + keys['origin_zone']}/api/method/{cloudflare_signin.RETURN_TO}"
-	state, verifier = secrets.token_urlsafe(32), secrets.token_urlsafe(64)
-	scopes = keys.get("cloudflare_oauth_scopes", SCOPES)
-	print("Open this, sign in and approve:\n")
-	print(cloudflare_signin.authorize_url(client[0], redirect, scopes, state, cloudflare_signin.challenge_of(verifier)))
-	code = cloudflare_signin.code_in(input("\nPaste the address your browser ended on: "), state)
-	answered = requests.post(
-		cloudflare_signin.TOKEN,
-		data={"grant_type": "authorization_code", "code": code, "redirect_uri": redirect, "code_verifier": verifier},
-		auth=client,
-		timeout=cloudflare_signin.TIMEOUT,
+	admin = keys.get("admin_url") or f"https://admin.{keys['origin_zone']}"
+	return cloudflare_signin.signed_in_here(
+		keys["cloudflare_oauth_client_id"], keys["cloudflare_oauth_client_secret"], admin, keys.get("cloudflare_oauth_scopes", SCOPES)
 	)
-	token = answered.json().get("access_token") if answered.ok else None
-	if not token:
-		sys.exit(f"Cloudflare refused the sign-in: {answered.text[:300]}")
-
-	def revoke() -> None:
-		requests.post(cloudflare_signin.REVOKE, data={"token": token, "token_type_hint": "access_token"}, auth=client, timeout=cloudflare_signin.TIMEOUT)
-
-	return token, revoke
 
 
 def _maker(keys: dict) -> tuple[str, callable]:

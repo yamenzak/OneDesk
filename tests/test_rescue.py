@@ -68,3 +68,14 @@ def test_a_kit_holds_the_dev_sites_configs(tmp_path, monkeypatch):
 	monkeypatch.setattr(rescue, "HOME", tmp_path)
 	monkeypatch.setattr(rescue, "SITES", sites)
 	assert ".one-site-configs/one.4dl.dev.json" in rescue.gathered()
+
+
+def test_fetch_reads_only_the_locked_bucket_and_takes_the_newest_day():
+	groups = [{"id": "r", "name": "Workers R2 Storage Bucket Item Read"}, {"id": "w", "name": "Workers R2 Storage Bucket Item Write"}]
+	policy = rescue.read_policy(groups, "acc", "one-backups")
+	assert policy == [{"effect": "allow", "permission_groups": [{"id": "r"}], "resources": {"com.cloudflare.edge.r2.bucket.acc_default_one-backups": "*"}}]
+	key_id, secret = rescue.s3_of({"id": "t1", "value": "v"})
+	assert key_id == "t1" and len(secret) == 64
+	keys = ["daily/oneadmin/2026-11-10/database/a.sql.gz", "daily/oneadmin/2026-11-11/database/b.sql.gz", "daily/oneadmin/2026-11-11/private/c.tar"]
+	assert rescue.newest_under(keys, "daily/oneadmin/") == keys[1:]
+	assert rescue.newest_under([], "daily/oneadmin/") == []

@@ -5,6 +5,9 @@ the dev sites' nightly backups. deploy/local/README.md.
 keeper, under `rescue/`. `unpack` puts the keys back. `key` makes the public
 key OneAdmin seals its config copy with. `open` opens a sealed copy. `nightly`
 backs every dev site up to the keeper. `restore` puts the newest back.
+`fetch` brings OneAdmin's newest sealed config and backup down from the
+locked bucket with nothing but a sign-in to Cloudflare, for when OneAdmin
+and its keeper secret are gone (one_admin/AGENTS.md, Rebuilding OneAdmin).
 
     python scripts/rescue.py pack [--out FILE] [--no-send]
     python scripts/rescue.py unpack FILE [--into DIR]
@@ -12,10 +15,12 @@ backs every dev site up to the keeper. `restore` puts the newest back.
     python scripts/rescue.py open FILE [--out FILE]
     python scripts/rescue.py nightly
     python scripts/rescue.py restore SITE [SITE ...]
+    python scripts/rescue.py fetch [--keys FILE] [--into DIR]
 """
 
 import argparse
 import base64
+import time
 import getpass
 import hashlib
 import json
@@ -34,7 +39,7 @@ from cryptography.hazmat.primitives.kdf.scrypt import Scrypt
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
 
-from onedesk.one_admin import seal  # noqa: E402
+from onedesk.one_admin import cloudflare_signin, seal  # noqa: E402
 
 HOME = Path.home()
 BENCH = HOME / "one-bench"
@@ -47,6 +52,12 @@ KEPT_FOLDERS = (".one-servers", ".cloudflared")
 SHORTEST = 12
 FETCH_SALT = b"one-rescue-fetch"
 PATIENCE = 900
+API = "https://api.cloudflare.com/client/v4"
+LOCKED = "one-backups"
+OURS = "oneadmin"
+READS = "Workers R2 Storage Bucket Item Read"
+FETCH_FOR = 3600
+SCOPES = "user-api-tokens.write account-api-tokens.write"
 PARTS = {"database": "-database.sql.gz", "private": "-private-files.tar", "public": "-files.tar"}
 
 
@@ -263,6 +274,65 @@ def restore(args) -> None:
 		print(f"{site} restored")
 
 
+def read_policy(groups: list[dict], account: str, bucket: str) -> list[dict]:
+	"""A token's policy that reads one bucket and nothing else. Pure."""
+	found = next((one for one in groups if one["name"] == READS), None)
+	if not found:
+		raise SystemExit(f"Cloudflare has no permission {READS}")
+	return [{"effect": "allow", "permission_groups": [{"id": found["id"]}], "resources": {f"com.cloudflare.edge.r2.bucket.{account}_default_{bucket}": "*"}}]
+
+
+def s3_of(made: dict) -> tuple[str, str]:
+	"""An R2 token as S3 credentials: its id, and the SHA-256 of its value. Pure."""
+	return made["id"], hashlib.sha256(made["value"].encode()).hexdigest()
+
+
+def newest_under(keys: list[str], prefix: str) -> list[str]:
+	"""Every object of the newest day under a prefix of `<prefix><day>/…`. Pure."""
+	days = sorted({key[len(prefix):].split("/", 1)[0] for key in keys if key.startswith(prefix)})
+	return [key for key in keys if days and key.startswith(f"{prefix}{days[-1]}/")]
+
+
+def fetch(args) -> None:
+	import boto3
+
+	keys = json.loads(Path(args.keys).expanduser().read_text())
+	account = keys["cloudflare_account"]
+	admin = keys.get("admin_url") or f"https://admin.{keys['origin_zone']}"
+	token, revoke = cloudflare_signin.signed_in_here(keys["cloudflare_oauth_client_id"], keys["cloudflare_oauth_client_secret"], admin, keys.get("cloudflare_oauth_scopes", SCOPES))
+	headers = {"Authorization": f"Bearer {token}"}
+	made = None
+	try:
+		groups = requests.get(f"{API}/user/tokens/permission_groups", headers=headers, timeout=30).json()["result"]
+		until = datetime.fromtimestamp(time.time() + FETCH_FOR, UTC).strftime("%Y-%m-%dT%H:%M:%SZ")
+		body = {"name": "One rescue fetch", "policies": read_policy(groups, account, LOCKED), "expires_on": until}
+		made = requests.post(f"{API}/user/tokens", headers=headers, json=body, timeout=30).json()["result"]
+		key_id, secret = s3_of(made)
+		client = boto3.client("s3", endpoint_url=f"https://{account}.r2.cloudflarestorage.com", aws_access_key_id=key_id, aws_secret_access_key=secret, region_name="auto")
+		listed = []
+		for prefix in (f"config/{OURS}/", f"daily/{OURS}/"):
+			for _try in range(10):
+				try:
+					pages = client.get_paginator("list_objects_v2").paginate(Bucket=LOCKED, Prefix=prefix)
+					listed += [one["Key"] for page in pages for one in page.get("Contents") or []]
+					break
+				except client.exceptions.ClientError:
+					time.sleep(3)
+		copies = sorted(key for key in listed if key.startswith(f"config/{OURS}/"))
+		wanted = copies[-1:] + newest_under(listed, f"daily/{OURS}/")
+		into = Path(args.into).expanduser()
+		into.mkdir(mode=0o700, parents=True, exist_ok=True)
+		for key in wanted:
+			client.download_file(LOCKED, key, str(into / key.replace("/", "__")))
+			print(f"fetched {key}")
+		if not wanted:
+			print("nothing kept yet")
+	finally:
+		if made:
+			requests.delete(f"{API}/user/tokens/{made['id']}", headers=headers, timeout=30)
+		revoke()
+
+
 def main() -> None:
 	parser = argparse.ArgumentParser(description=__doc__)
 	commands = parser.add_subparsers(required=True)
@@ -283,6 +353,10 @@ def main() -> None:
 	four = commands.add_parser("restore")
 	four.add_argument("sites", nargs="+")
 	four.set_defaults(run=restore)
+	five = commands.add_parser("fetch")
+	five.add_argument("--keys", default=str(HOME / ".one-keys-prod.json"))
+	five.add_argument("--into", default=str(HOME / "one-rescue"))
+	five.set_defaults(run=fetch)
 	args = parser.parse_args()
 	args.run(args)
 

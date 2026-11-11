@@ -158,3 +158,29 @@ def discard(token: str | None) -> None:
 		requests.post(REVOKE, data={"token": token, "token_type_hint": "access_token"}, auth=(client_id, secret), timeout=TIMEOUT)
 	except (frappe.ValidationError, requests.RequestException):
 		frappe.log_error(title="Cloudflare sign-in", message="The sign-in token could not be revoked; it expires by itself.")
+
+
+def signed_in_here(client_id: str, secret: str, admin: str, scopes: str) -> tuple[str, callable]:
+	"""A sign-in from a terminal, with OneAdmin up or down: the browser goes to
+	Cloudflare and back to OneAdmin's address, which refuses a sign-in it did
+	not start, and the address it ends on is pasted here. The token, and how
+	to revoke it."""
+	redirect = f"{admin.rstrip('/')}/api/method/{RETURN_TO}"
+	state, verifier = secrets.token_urlsafe(32), secrets.token_urlsafe(64)
+	print("Open this, sign in and approve:\n")
+	print(authorize_url(client_id, redirect, scopes, state, challenge_of(verifier)))
+	code = code_in(input("\nPaste the address your browser ended on: "), state)
+	answered = requests.post(
+		TOKEN,
+		data={"grant_type": "authorization_code", "code": code, "redirect_uri": redirect, "code_verifier": verifier},
+		auth=(client_id, secret),
+		timeout=TIMEOUT,
+	)
+	token = answered.json().get("access_token") if answered.ok else None
+	if not token:
+		raise SystemExit(f"Cloudflare refused the sign-in: {answered.text[:300]}")
+
+	def revoke() -> None:
+		requests.post(REVOKE, data={"token": token, "token_type_hint": "access_token"}, auth=(client_id, secret), timeout=TIMEOUT)
+
+	return token, revoke
