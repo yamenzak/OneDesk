@@ -156,12 +156,11 @@ def zone_to_take(finished: bool, ours: str | None, theirs: str | None) -> str | 
 
 
 def _take_zone(zone: str | None) -> None:
+	"""The zone alone: before the wizard System Settings has no language, and saving it whole is refused."""
 	if not zone:
 		return
-	system = frappe.get_single("System Settings")
-	system.time_zone = zone
-	system.flags.ignore_permissions = True
-	system.save()
+	frappe.db.set_single_value("System Settings", "time_zone", zone)
+	frappe.clear_cache()
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

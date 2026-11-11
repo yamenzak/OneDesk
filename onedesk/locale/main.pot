@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-11 09:30+0000\n"
-"PO-Revision-Date: 2026-11-11 09:30+0000\n"
+"POT-Creation-Date: 2026-11-11 09:52+0000\n"
+"PO-Revision-Date: 2026-11-11 09:52+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3134,7 +3134,7 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: frontend/src/slide/shim/FontsDialog.vue:22 onedesk/one/account.py:302
+#: frontend/src/slide/shim/FontsDialog.vue:22 onedesk/one/account.py:301
 #: onedesk/one_studio/ai_setup.py:643
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:46
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
@@ -7729,7 +7729,7 @@ msgstr ""
 msgid "Bought in a Year"
 msgstr ""
 
-#: onedesk/one/account.py:289
+#: onedesk/one/account.py:288
 #, python-brace-format
 msgid "Bought {0}"
 msgstr ""
@@ -15211,7 +15211,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:569 onedesk/one_account/center.py:39
+#: onedesk/one/account.py:568 onedesk/one_account/center.py:39
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:287
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:131
 #: onedesk/public/js/one_admin/admin_control.js:20
@@ -20974,7 +20974,7 @@ msgstr ""
 msgid "Given On"
 msgstr ""
 
-#: onedesk/one/account.py:295
+#: onedesk/one/account.py:294
 msgid "Given by One"
 msgstr ""
 
@@ -42065,7 +42065,7 @@ msgstr ""
 msgid "Refund"
 msgstr ""
 
-#: onedesk/one/account.py:300 onedesk/public/js/credit_ledger_entry_list.js:14
+#: onedesk/one/account.py:299 onedesk/public/js/credit_ledger_entry_list.js:14
 msgid "Refunded"
 msgstr ""
 
@@ -53133,7 +53133,7 @@ msgstr ""
 msgid "The plan and its add-ons."
 msgstr ""
 
-#: onedesk/one/account.py:477
+#: onedesk/one/account.py:476
 msgid "The plan was not changed"
 msgstr ""
 
@@ -53142,11 +53142,11 @@ msgstr ""
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
-#: onedesk/one/account.py:293
+#: onedesk/one/account.py:292
 msgid "The plan's monthly credits"
 msgstr ""
 
-#: onedesk/one/account.py:291
+#: onedesk/one/account.py:290
 #, python-brace-format
 msgid "The plan's monthly credits, until {0}"
 msgstr ""
@@ -57648,11 +57648,11 @@ msgstr ""
 msgid "Used by Month"
 msgstr ""
 
-#: onedesk/one/account.py:310
+#: onedesk/one/account.py:309
 msgid "Used by OneAI, one call"
 msgstr ""
 
-#: onedesk/one/account.py:312
+#: onedesk/one/account.py:311
 #, python-brace-format
 msgid "Used by OneAI, {0} calls"
 msgstr ""
@@ -62223,7 +62223,7 @@ msgstr ""
 msgid "Who owns shares in the company."
 msgstr ""
 
-#: onedesk/one/account.py:494
+#: onedesk/one/account.py:493
 msgid "Who pays was not changed"
 msgstr ""
 
@@ -65395,7 +65395,7 @@ msgstr ""
 msgid "created it"
 msgstr ""
 
-#: onedesk/one/account.py:289
+#: onedesk/one/account.py:288
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "credits"
 msgstr ""
