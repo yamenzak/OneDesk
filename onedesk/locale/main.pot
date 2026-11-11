@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-11 08:09+0000\n"
-"PO-Revision-Date: 2026-11-11 08:09+0000\n"
+"POT-Creation-Date: 2026-11-11 08:31+0000\n"
+"PO-Revision-Date: 2026-11-11 08:31+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -1668,7 +1668,7 @@ msgid "A short-lived site on a connected server: fresh, demo data, or a copy of 
 msgstr ""
 
 #. Description of a DocType
-#: onedesk/one_admin/doctype/account_request/account_request.json:202
+#: onedesk/one_admin/doctype/account_request/account_request.json:209
 msgid "A signup from the public sign-up page."
 msgstr ""
 
@@ -2021,7 +2021,7 @@ msgid "AWS and GitHub"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_admin/doctype/account_request/account_request_list.js:14
 #: onedesk/one_admin/heads.py:42
 msgid "Abandoned"
@@ -2198,7 +2198,7 @@ msgid "Access Changed"
 msgstr ""
 
 #. Label of the access_key (Data) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:168
+#: onedesk/one_admin/doctype/account_request/account_request.json:175
 msgid "Access Key"
 msgstr ""
 
@@ -2339,7 +2339,7 @@ msgstr ""
 
 #. Name of a DocType
 #. Label of the request (Link) field in DocType 'Stripe Webhook Event'
-#: onedesk/one_admin/doctype/account_request/account_request.json:179
+#: onedesk/one_admin/doctype/account_request/account_request.json:186
 #: onedesk/one_admin/doctype/stripe_webhook_event/stripe_webhook_event.json:52
 msgid "Account Request"
 msgstr ""
@@ -3134,7 +3134,7 @@ msgid "Add-ons"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Field'
-#: frontend/src/slide/shim/FontsDialog.vue:22 onedesk/one/account.py:276
+#: frontend/src/slide/shim/FontsDialog.vue:22 onedesk/one/account.py:302
 #: onedesk/one_studio/ai_setup.py:643
 #: onedesk/one_studio/doctype/workspace_field/workspace_field.json:46
 #: onedesk/one_studio/doctype/workspace_field/workspace_field_list.js:8
@@ -3276,7 +3276,7 @@ msgstr ""
 #: frontend/src/slide/shim/WidgetSection.vue:61
 #: onedesk/one/custom/personal_data_download_request.json:8
 #: onedesk/one/portal.py:58 onedesk/one_account/doctype/device/device.json:93
-#: onedesk/one_admin/doctype/account_request/account_request.json:56
+#: onedesk/one_admin/doctype/account_request/account_request.json:57
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:118
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
 #: onedesk/one_book/print_format/one_payment_reminder/one_payment_reminder.json
@@ -4387,7 +4387,7 @@ msgstr ""
 msgid "An email address for a person, a domain for an organisation."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:291
+#: onedesk/one_admin/signup.py:304
 msgid "An email address is needed."
 msgstr ""
 
@@ -7729,7 +7729,7 @@ msgstr ""
 msgid "Bought in a Year"
 msgstr ""
 
-#: onedesk/one/account.py:263
+#: onedesk/one/account.py:289
 #, python-brace-format
 msgid "Bought {0}"
 msgstr ""
@@ -10070,7 +10070,7 @@ msgstr ""
 
 #. Label of the cluster (Data) field in DocType 'Account Request'
 #. Label of the cluster (Data) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/account_request/account_request.json:90
+#: onedesk/one_admin/doctype/account_request/account_request.json:91
 #: onedesk/one_admin/doctype/tenant/tenant.json:157
 msgid "Cluster"
 msgstr ""
@@ -11860,7 +11860,7 @@ msgstr ""
 #. Type'
 #: onedesk/one/doctype/news_source/news_source.json:174
 #: onedesk/one/doctype/weather_place/weather_place.json:40
-#: onedesk/one_admin/doctype/account_request/account_request.json:109
+#: onedesk/one_admin/doctype/account_request/account_request.json:110
 #: onedesk/one_admin/doctype/tenant/tenant.json:164
 #: onedesk/one_hr/control.py:80
 #: onedesk/one_hr/custom/identification_document_type.json:7
@@ -15211,7 +15211,7 @@ msgstr ""
 
 #. Label of the domains (Table) field in DocType 'Workspace Account'
 #. Label of a Sidebar Item
-#: onedesk/one/account.py:543 onedesk/one_account/center.py:39
+#: onedesk/one/account.py:569 onedesk/one_account/center.py:39
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:287
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:131
 #: onedesk/public/js/one_admin/admin_control.js:20
@@ -15242,7 +15242,7 @@ msgstr ""
 #: frontend/src/project/MilestoneLanes.vue:92
 #: frontend/src/sheet/components/SheetEditor/NamedRangesDialog.vue:69
 #: frontend/src/slide/shim/EditorNavbar.vue:30
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:53
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:25
 #: onedesk/one_admin/heads.py:31
@@ -15893,7 +15893,7 @@ msgstr ""
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/account_request/account_request.json:102
+#: onedesk/one_admin/doctype/account_request/account_request.json:103
 #: onedesk/one_admin/doctype/tenant/tenant.json:177
 msgid "EU"
 msgstr ""
@@ -16481,7 +16481,7 @@ msgstr ""
 #. Label of the email (Data) field in DocType 'Cloud File Request Upload'
 #. Label of the email (Data) field in DocType 'Cloud Link Invitee'
 #: frontend/src/project/Team.vue:66 onedesk/one/control.py:371
-#: onedesk/one_admin/doctype/account_request/account_request.json:35
+#: onedesk/one_admin/doctype/account_request/account_request.json:36
 #: onedesk/one_ai/doctype/identifier/identifier.json:23
 #: onedesk/one_ai/doctype/reading_party/reading_party.json:64
 #: onedesk/one_book/print_format/one_detailed_tax_invoice/one_detailed_tax_invoice.json
@@ -18599,7 +18599,7 @@ msgstr ""
 #. Option for the 'State' (Select) field in DocType 'Interview Recording Part'
 #: frontend/src/cloud/CloudUploads.vue:14
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:354
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:40
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:53
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job_list.js:26
@@ -18688,7 +18688,7 @@ msgid "Failing"
 msgstr ""
 
 #. Label of the failed_reason (Small Text) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:132
+#: onedesk/one_admin/doctype/account_request/account_request.json:139
 msgid "Failure Reason"
 msgstr ""
 
@@ -20974,7 +20974,7 @@ msgstr ""
 msgid "Given On"
 msgstr ""
 
-#: onedesk/one/account.py:269
+#: onedesk/one/account.py:295
 msgid "Given by One"
 msgstr ""
 
@@ -21017,7 +21017,7 @@ msgstr ""
 
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Account Request'
 #. Option for the 'Jurisdiction' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/account_request/account_request.json:102
+#: onedesk/one_admin/doctype/account_request/account_request.json:103
 #: onedesk/one_admin/doctype/tenant/tenant.json:177
 msgid "Global"
 msgstr ""
@@ -25487,7 +25487,7 @@ msgstr ""
 #. Label of the jurisdiction (Select) field in DocType 'Account Request'
 #. Label of the jurisdiction (Select) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:96
-#: onedesk/one_admin/doctype/account_request/account_request.json:101
+#: onedesk/one_admin/doctype/account_request/account_request.json:102
 #: onedesk/one_admin/doctype/tenant/tenant.json:176
 msgid "Jurisdiction"
 msgstr ""
@@ -26303,7 +26303,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/crm/CrmHome.vue:218 frontend/src/crm/CrmHome.vue:236
 #: frontend/src/crm/CrmStory.vue:77 frontend/src/crm/CrmStory.vue:90
-#: onedesk/one_admin/doctype/account_request/account_request.json:154
+#: onedesk/one_admin/doctype/account_request/account_request.json:161
 #: onedesk/one_crm/heads.py:127 onedesk/one_crm/home.py:31
 #: onedesk/one_crm/home.py:106 onedesk/one_crm/sidebar/onecrm/onecrm.json:42
 #: onedesk/public/js/one_crm/appointment.js:7
@@ -30337,7 +30337,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Mail Draft'
 #: frontend/src/cloud/OneCloud.vue:42 frontend/src/cloud/OneCloud.vue:1430
 #: frontend/src/slide/utils/slideMenu.js:9
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_ai/doctype/reading/reading.json:324
 #: onedesk/one_display/widgets.py:322
 #: onedesk/one_hr/print_format/one_leave_allocation/one_leave_allocation.json
@@ -33952,7 +33952,7 @@ msgid "One Message at a Time"
 msgstr ""
 
 #. Name of a role
-#: onedesk/one_admin/doctype/account_request/account_request.json:191
+#: onedesk/one_admin/doctype/account_request/account_request.json:198
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:153
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:115
 #: onedesk/one_admin/doctype/health_check/health_check.json:76
@@ -35595,7 +35595,7 @@ msgid "Opens AWS with a user allowed Lightsail in eu-north-1 only. Then make its
 msgstr ""
 
 #. Description of the 'Access Key' (Data) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:172
+#: onedesk/one_admin/doctype/account_request/account_request.json:179
 msgid "Opens the welcome page for this signup."
 msgstr ""
 
@@ -35668,7 +35668,7 @@ msgstr ""
 #. Label of a Sidebar Item
 #: frontend/src/crm/CrmHome.vue:209 frontend/src/crm/CrmHome.vue:227
 #: frontend/src/crm/CrmStory.vue:78
-#: onedesk/one_admin/doctype/account_request/account_request.json:147
+#: onedesk/one_admin/doctype/account_request/account_request.json:154
 #: onedesk/one_crm/heads.py:128 onedesk/one_crm/heads.py:362
 #: onedesk/one_crm/heads.py:387 onedesk/one_crm/heads.py:456
 #: onedesk/one_crm/home.py:107 onedesk/one_crm/sidebar/onecrm/onecrm.json:56
@@ -36340,7 +36340,7 @@ msgstr ""
 #. Label of the one_outcome (Data) field in DocType 'Employee Checkin'
 #. Label of the outcome (Select) field in DocType 'Clock Attempt'
 #. Label in the One Exit Interview print format
-#: onedesk/one_admin/doctype/account_request/account_request.json:116
+#: onedesk/one_admin/doctype/account_request/account_request.json:123
 #: onedesk/one_ai/doctype/ai_proposal/ai_proposal.json:146
 #: onedesk/one_ai/doctype/reading_action/reading_action.json:45
 #: onedesk/one_crm/custom/sales_stage.json:27
@@ -36726,7 +36726,7 @@ msgstr ""
 #. Label in the One Gratuity print format
 #: frontend/src/project/Invoices.vue:107 frontend/src/project/Suppliers.vue:183
 #: frontend/src/project/Suppliers.vue:207 onedesk/one_admin/accounts.py:223
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_admin/log.py:15 onedesk/one_book/heads.py:108
 #: onedesk/one_book/heads.py:335 onedesk/one_book/portal.py:23
 #: onedesk/one_book/portal.py:31
@@ -37536,7 +37536,7 @@ msgid "Payer Changed"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 msgid "Paying"
 msgstr ""
 
@@ -38645,7 +38645,7 @@ msgstr ""
 #. Task in the Marketing Campaign project template
 #. Task in the Office Move project template
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:133
-#: onedesk/one_admin/doctype/account_request/account_request.json:81
+#: onedesk/one_admin/doctype/account_request/account_request.json:82
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:89
 #: onedesk/one_admin/doctype/offering/offering.json:61
 #: onedesk/one_admin/doctype/tenant/tenant.json:133
@@ -40113,7 +40113,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Account Request'
 #. Option for the 'Status' (Select) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/account_request/account_request.json:66
+#: onedesk/one_admin/doctype/account_request/account_request.json:67
 #: onedesk/one_admin/doctype/tenant/tenant.json:116
 msgid "Provisioning"
 msgstr ""
@@ -42065,7 +42065,7 @@ msgstr ""
 msgid "Refund"
 msgstr ""
 
-#: onedesk/one/account.py:274 onedesk/public/js/credit_ledger_entry_list.js:14
+#: onedesk/one/account.py:300 onedesk/public/js/credit_ledger_entry_list.js:14
 msgid "Refunded"
 msgstr ""
 
@@ -42361,7 +42361,7 @@ msgid "Reminded About Terms"
 msgstr ""
 
 #. Label of the reminded_on (Datetime) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:160
+#: onedesk/one_admin/doctype/account_request/account_request.json:167
 msgid "Reminded On"
 msgstr ""
 
@@ -42960,7 +42960,7 @@ msgstr ""
 #. Label of the request_id (Data) field in DocType 'Workbook Change'
 #. Label of the asked (Small Text) field in DocType 'Extension'
 #. Label of the asked (Small Text) field in DocType 'Record Type'
-#: onedesk/one_admin/doctype/account_request/account_request.json:76
+#: onedesk/one_admin/doctype/account_request/account_request.json:77
 #: onedesk/one_sheet/doctype/workbook_change/workbook_change.json:78
 #: onedesk/one_studio/doctype/extension/extension.json:122
 #: onedesk/one_studio/doctype/record_type/record_type.json:52
@@ -49044,7 +49044,7 @@ msgstr ""
 #: onedesk/one_account/doctype/device/device.json:65
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:79
 #: onedesk/one_account/doctype/workspace_domain/workspace_domain.json:28
-#: onedesk/one_admin/doctype/account_request/account_request.json:65
+#: onedesk/one_admin/doctype/account_request/account_request.json:66
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:42
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:52
 #: onedesk/one_admin/doctype/tenant/tenant.json:115
@@ -49722,7 +49722,7 @@ msgid "Stripe Price ID"
 msgstr ""
 
 #. Label of the stripe_session (Data) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:139
+#: onedesk/one_admin/doctype/account_request/account_request.json:146
 msgid "Stripe Session"
 msgstr ""
 
@@ -51604,7 +51604,7 @@ msgstr ""
 msgid "That invoice has nothing to book."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:241
+#: onedesk/one_admin/proxy.py:246
 msgid "That is not a day and hour."
 msgstr ""
 
@@ -51628,7 +51628,7 @@ msgstr ""
 msgid "That is not your password."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:294
+#: onedesk/one_admin/signup.py:307
 msgid "That isn't on offer."
 msgstr ""
 
@@ -51653,7 +51653,7 @@ msgstr ""
 msgid "That passkey is not registered on this site."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:231
+#: onedesk/one_admin/signup.py:244
 msgid "That plan is no longer on offer. Start again."
 msgstr ""
 
@@ -53133,7 +53133,7 @@ msgstr ""
 msgid "The plan and its add-ons."
 msgstr ""
 
-#: onedesk/one/account.py:451
+#: onedesk/one/account.py:477
 msgid "The plan was not changed"
 msgstr ""
 
@@ -53142,11 +53142,11 @@ msgstr ""
 msgid "The plan's and the add-ons'. Zero means no limit."
 msgstr ""
 
-#: onedesk/one/account.py:267
+#: onedesk/one/account.py:293
 msgid "The plan's monthly credits"
 msgstr ""
 
-#: onedesk/one/account.py:265
+#: onedesk/one/account.py:291
 #, python-brace-format
 msgid "The plan's monthly credits, until {0}"
 msgstr ""
@@ -54726,7 +54726,7 @@ msgstr ""
 msgid "This shift has check-ins but does not read them, so no Attendance is being written and every count that reads Attendance is empty. Open the shift and press Read Check-ins."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:229
+#: onedesk/one_admin/signup.py:242
 msgid "This signup can no longer be paid for. Start again."
 msgstr ""
 
@@ -54875,7 +54875,7 @@ msgstr ""
 msgid "This workspace has no mail domain yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:710
+#: onedesk/one_admin/proxy.py:715
 msgid "This workspace has no mail route yet."
 msgstr ""
 
@@ -54921,7 +54921,7 @@ msgstr ""
 msgid "This workspace's search is not set up yet."
 msgstr ""
 
-#: onedesk/one_admin/proxy.py:707
+#: onedesk/one_admin/proxy.py:712
 msgid "Those addresses aren't on this workspace."
 msgstr ""
 
@@ -55161,7 +55161,9 @@ msgstr ""
 msgid "Time Taken (ms)"
 msgstr ""
 
+#. Label of the time_zone (Data) field in DocType 'Account Request'
 #. Label of the time_zone (Data) field in DocType 'Tenant'
+#: onedesk/one_admin/doctype/account_request/account_request.json:117
 #: onedesk/one_admin/doctype/tenant/tenant.json:476
 msgid "Time Zone"
 msgstr ""
@@ -57646,11 +57648,11 @@ msgstr ""
 msgid "Used by Month"
 msgstr ""
 
-#: onedesk/one/account.py:284
+#: onedesk/one/account.py:310
 msgid "Used by OneAI, one call"
 msgstr ""
 
-#: onedesk/one/account.py:286
+#: onedesk/one/account.py:312
 #, python-brace-format
 msgid "Used by OneAI, {0} calls"
 msgstr ""
@@ -59762,7 +59764,7 @@ msgid "What the workspace was sold. Quotas are copied to this record, not read f
 msgstr ""
 
 #. Description of the 'Address' (Data) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:59
+#: onedesk/one_admin/doctype/account_request/account_request.json:60
 msgid "What the workspace's address starts with."
 msgstr ""
 
@@ -61379,7 +61381,7 @@ msgstr ""
 
 #. Description of the 'Reminded On' (Datetime) field in DocType 'Account
 #. Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:163
+#: onedesk/one_admin/doctype/account_request/account_request.json:170
 msgid "When the one mail asking them to finish went."
 msgstr ""
 
@@ -62221,7 +62223,7 @@ msgstr ""
 msgid "Who owns shares in the company."
 msgstr ""
 
-#: onedesk/one/account.py:468
+#: onedesk/one/account.py:494
 msgid "Who pays was not changed"
 msgstr ""
 
@@ -63278,7 +63280,7 @@ msgstr ""
 #. Option for the 'Away Replies To' (Select) field in DocType 'Email Account'
 #: frontend/src/admin/AdminSessions.vue:27 frontend/src/mail/mail.js:57
 #: onedesk/one/abilities.py:16 onedesk/one_account/abilities.py:17
-#: onedesk/one_admin/doctype/account_request/account_request.json:121
+#: onedesk/one_admin/doctype/account_request/account_request.json:128
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:31
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:25
 #: onedesk/one_admin/doctype/private_app/private_app.js:6
@@ -63465,7 +63467,7 @@ msgid "Workspace Moved to You"
 msgstr ""
 
 #. Label of the workspace_name (Data) field in DocType 'Account Request'
-#: onedesk/one_admin/doctype/account_request/account_request.json:44
+#: onedesk/one_admin/doctype/account_request/account_request.json:45
 msgid "Workspace Name"
 msgstr ""
 
@@ -65393,7 +65395,7 @@ msgstr ""
 msgid "created it"
 msgstr ""
 
-#: onedesk/one/account.py:263
+#: onedesk/one/account.py:289
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:24
 msgid "credits"
 msgstr ""
@@ -68794,8 +68796,8 @@ msgstr ""
 msgid "{0} is still owed."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:36 onedesk/one_admin/signup.py:38
-#: onedesk/one_admin/signup.py:50
+#: onedesk/one_admin/signup.py:40 onedesk/one_admin/signup.py:42
+#: onedesk/one_admin/signup.py:62
 #, python-brace-format
 msgid "{0} is taken."
 msgstr ""
@@ -70030,7 +70032,7 @@ msgstr ""
 msgid "{0} was not added to this playlist."
 msgstr ""
 
-#: onedesk/one_admin/signup.py:95
+#: onedesk/one_admin/signup.py:107
 #, python-brace-format
 msgid "{0} was taken by someone else after this signup was abandoned."
 msgstr ""
