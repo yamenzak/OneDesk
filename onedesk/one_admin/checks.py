@@ -9,35 +9,38 @@ from onedesk.one_demo.check import check
 
 @check
 def oneadmin_a_code_installs_a_private_app_that_stays():
-	"""The operator makes a code for a workspace; typed there (in any case,
-	without its dashes) it queues one Install App job, and typing it again
-	queues no second. The job checks the app is on the bench group, asks press
-	to install it and waits until press lists it. A claimed app can't be
+	"""A release's private app becomes its Private App record. The operator
+	makes a code for a workspace; typed there (in any case, without its
+	dashes) it queues one Install App job, and typing it again queues no
+	second. The job checks the app is on the workspace's server, asks Pilot
+	to install it and waits until the site lists it. A claimed app can't be
 	offered again or taken off the record. A wrong code, or another
 	workspace's, opens nothing; an app missing from the bench fails its job
 	and leaves the workspace Live."""
 	from unittest.mock import patch
 
-	from onedesk.one_admin import press, private, runner
+	from onedesk.one_admin import pilot, private, runner
 
 	app = "acme_fleet"
 	installed: list = []
 	asked: list = []
+	bench: list = [{"name": app}]
 
-	def pressed(method, **kwargs):
-		asked.append(method)
-		if method == "press.api.site.installed_apps":
-			return [{"app": one} for one in installed]
-		if method == "press.api.site.install_app":
-			installed.append(kwargs["app"])
+	def piloted(tenant, method, path, key=None, **kwargs):
+		asked.append((method, path))
+		if path == "/apps":
+			return {"apps": bench}
+		if method == "GET":
+			return {"apps": [{"name": one} for one in installed]}
+		installed.append(kwargs["json"]["app"])
 		return None
 
-	with patch("onedesk.one_admin.site.is_admin", return_value=True), patch("frappe.sendmail"), patch.object(press, "call", side_effect=pressed), patch.object(
-		press, "apps", return_value=[{"name": app}]
-	):
+	with patch("onedesk.one_admin.site.is_admin", return_value=True), patch("frappe.sendmail"), patch.object(pilot, "on", side_effect=piloted):
 		for slug in ("acme-private", "other-private"):
-			frappe.get_doc({"doctype": "Tenant", "slug": slug, "status": "Live", "jurisdiction": "Global", "site": f"{slug}.frappe.cloud", "bench": "bench-1"}).insert(ignore_permissions=True)
-		frappe.get_doc({"doctype": "Private App", "app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes."}).insert(ignore_permissions=True)
+			frappe.get_doc({"doctype": "Tenant", "slug": slug, "status": "Live", "jurisdiction": "Global", "site": f"{slug}.one", "server": "eu-1", "bench": "bench-1"}).insert(ignore_permissions=True)
+		held = [{"app": one.name, "title": one.title, "said": one.said, "icon": one.icon} for one in frappe.get_all("Private App", fields=["name", "title", "said", "icon"])]
+		assert private.register([*held, {"app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes."}])["add"] == {app: {"title": "Acme Fleet", "said": "Acme's vans, drivers and routes.", "icon": ""}}
+		assert private.register([*held, {"app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes."}]) == {"add": {}, "change": {}, "drop": []}
 		code = private.new_code(app, "acme-private")
 		assert len(private.normal(code)) == private.LENGTH and code.count("-") == 2, code
 		for wrong in ("", "ABCD-EFGH-JKLM"):
@@ -62,7 +65,7 @@ def oneadmin_a_code_installs_a_private_app_that_stays():
 			if runner.advance(job) in ("Done", "Failed"):
 				break
 		assert frappe.db.get_value("Provisioning Job", job, "status") == "Done", frappe.db.get_value("Provisioning Job", job, "error")
-		assert installed == [app] and asked.count("press.api.site.install_app") == 1, asked
+		assert installed == [app] and asked.count(("POST", "/sites/acme-private.one/apps")) == 1, asked
 		assert private.mine("acme-private") == [{"app": app, "title": "Acme Fleet", "said": "Acme's vans, drivers and routes.", "icon": "", "state": "Installed"}]
 		try:
 			private.new_code(app, "acme-private")
@@ -80,10 +83,10 @@ def oneadmin_a_code_installs_a_private_app_that_stays():
 			raise AssertionError("an installed app came off the record")
 
 		other = private.new_code(app, "other-private")
-		with patch.object(press, "apps", return_value=[]):
-			private.claim("other-private", other)
-			job = frappe.db.get_value("Private App Grant", {"tenant": "other-private"}, "job")
-			assert runner.advance(job) == "Failed"
+		bench.clear()
+		private.claim("other-private", other)
+		job = frappe.db.get_value("Private App Grant", {"tenant": "other-private"}, "job")
+		assert runner.advance(job) == "Failed"
 		assert frappe.db.get_value("Tenant", "other-private", "status") == "Live", "a failed install took the workspace down"
 		assert private.mine("other-private")[0]["state"] == "Failed"
 

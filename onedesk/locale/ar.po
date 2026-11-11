@@ -51945,8 +51945,8 @@ msgstr "التطبيق الذي ترسل أحداثه هذا."
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
-msgid "The app's name on the bench group, the same as app_name in its hooks.py."
-msgstr "اسم التطبيق في مجموعة الخوادم، وهو نفسه app_name في ملف hooks.py الخاص به."
+msgid "The app's name, the same as app_name in its hooks.py."
+msgstr "اسم التطبيق، وهو نفسه app_name في ملف hooks.py الخاص به."
 
 #: onedesk/one_interface/tour.py:24
 msgid "The app's settings, this tour again, its help and what is new in it."

@@ -25,14 +25,16 @@
    "label": "Frappe App",
    "reqd": 1,
    "unique": 1,
-   "description": "The app's name on the bench group, the same as app_name in its hooks.py."
+   "description": "The app's name, the same as app_name in its hooks.py.",
+   "read_only": 1
   },
   {
    "fieldname": "title",
    "fieldtype": "Data",
    "label": "Title",
    "reqd": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_what",
@@ -42,7 +44,8 @@
    "fieldname": "icon",
    "fieldtype": "Data",
    "label": "Icon",
-   "description": "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says."
+   "description": "The icon the Apps card shows before the app is installed. Installed, the app's own hooks.py says.",
+   "read_only": 1
   },
   {
    "fieldname": "enabled",
@@ -61,7 +64,8 @@
    "fieldname": "said",
    "fieldtype": "Small Text",
    "label": "Description",
-   "description": "One sentence that says what the app is for, shown to the workspace when its code is typed."
+   "description": "One sentence that says what the app is for, shown to the workspace when its code is typed.",
+   "read_only": 1
   },
   {
    "fieldname": "grants_section",
@@ -78,7 +82,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-19 13:00:00.000000",
+ "modified": "2026-11-11 12:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Private App",
@@ -103,5 +107,6 @@
  "sort_field": "creation",
  "sort_order": "DESC",
  "states": [],
- "track_changes": 1
+ "track_changes": 1,
+ "in_create": 1
 }

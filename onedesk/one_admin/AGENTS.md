@@ -161,7 +161,7 @@ time. There are six types:
   subscription so it isn't invoiced again, and removes its mail route.
 - **Drop** deletes the files.
 - **Install App** installs a private app a workspace claimed with its code.
-  It checks the app is on the bench group, asks the hosting provider to
+  It checks the app is on the workspace's server, asks the server to
   install it, and waits until it is. A failed install leaves the workspace
   Live.
 
@@ -202,17 +202,19 @@ Ready** with the address.
 
 ## Private Apps
 
-A **private app** is an app made for one customer. Add one under **Private
-Apps** with the app's name as in its `hooks.py`, its title and one sentence.
-**New Code** makes a code for one workspace and shows it once; send it to
+A **private app** is an app made for one customer. Each release lists the
+private apps it holds, and **Private Apps** shows them, with the title,
+sentence and icon the app gives itself, within the hour of the release.
+Nobody adds one by hand. **New Code** makes a code for one workspace and shows it once; send it to
 them. A new code for the same workspace replaces the old one.
 
 The workspace types the code into Apps. That queues an **Install App** job,
 and the workspace's row under **Workspaces** on the app says Installing,
 then Installed. A workspace that has claimed an app keeps it: its row can't
 be removed and the app can't be uninstalled. Turn **Enabled** off to stop
-new codes working. Writing one, and putting it on the bench group, is
-`docs/PRIVATE-APPS.md`.
+new codes working; a release never turns it back on. An app no release
+holds any more leaves the list, unless a workspace has a code for it.
+Writing one, and putting it on a server, is `docs/PRIVATE-APPS.md`.
 
 ## Billing and Releases
 
@@ -1449,10 +1451,21 @@ code can't open another workspace's app, and every miss says the same thing.
 queues one Install App job (`runner.start` dedupes on its payload, the app
 and the grant); typing it again answers the job's state. `state` is what
 the workspace sees: Installed when the last step has run, Failed when the
-job has, Installing otherwise. The steps are in `steps.py` after `APPS`:
-`app_on_bench` reads `press.apps` for the bench group, `install_app` asks
-`press.api.site.install_app` once (skipped when `press.api.site.installed_apps`
-already lists it), and `app_is_installed` waits on that list.
+job has, Installing otherwise. The steps are in `steps.py` after `APPS`, all
+through `pilot.on`, the workspace's own server and bench: `app_on_bench`
+reads `GET /apps`, `install_app` posts `/sites/<site>/apps` once (skipped
+when `GET /sites/<site>/apps` already lists it), and `app_is_installed`
+waits on that list.
+
+The records come from the release, never from an operator. The release
+build reads each `private/<app>/<app>/hooks.py` with `ast` (upload.py
+`assigned` and `declared`) and writes `private_apps` into
+`releases/<sha>.json`; `releases.check` hands that list to `register`,
+whose pure half `planned` says what to add, what to bring up to date and
+what to delete: only a record no release declares and no grant holds. A
+release from before the list (no `private_apps`) changes nothing. Reading
+the hooks at build time keeps `tests/test_private.py`'s rule: One's code
+never imports or names a private app, and the build runs none of its code.
 
 ### faults.py
 

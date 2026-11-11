@@ -51968,7 +51968,7 @@ msgstr ""
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
-msgid "The app's name on the bench group, the same as app_name in its hooks.py."
+msgid "The app's name, the same as app_name in its hooks.py."
 msgstr ""
 
 #: onedesk/one_interface/tour.py:24
