@@ -953,12 +953,6 @@ msgstr "Eine Datei, die außer an ihren Ablageort auch zu einem Datensatz gehör
 msgid "A file with this name is already here"
 msgstr "Eine Datei mit diesem Namen ist bereits hier"
 
-#. Description of the 'GitHub Token' (Password) field in DocType 'One Admin
-#. Settings'
-#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:265
-msgid "A fine-grained token that may only read the OneDesk repository. Moved to the site's config when saved."
-msgstr "Ein fein abgestimmtes Token, das nur das OneDesk-Repository lesen darf. Wird beim Speichern in die Konfiguration der Site verschoben."
-
 #: onedesk/one_storage/api.py:317 onedesk/one_storage/api.py:445
 msgid "A folder can't be moved into itself."
 msgstr "Ein Ordner kann nicht in sich selbst verschoben werden."
@@ -9086,6 +9080,10 @@ msgstr "Prüfung"
 msgid "Check Again"
 msgstr "Erneut prüfen"
 
+#: onedesk/public/js/one_admin/admin_control.js:265
+msgid "Check Connection"
+msgstr "Verbindung prüfen"
+
 #. The button on a notification's mail
 #: frontend/src/hr/HrHome.vue:244 onedesk/one_hr/notifications.py
 #: onedesk/public/js/checkin_list.js:18 onedesk/public/js/desk.js:106
@@ -10837,6 +10835,14 @@ msgstr "Bestätigt"
 #: onedesk/public/js/onecloud_dialogs.js:319
 msgid "Connect"
 msgstr "Verbinden"
+
+#: onedesk/public/js/one_admin/admin_control.js:268
+msgid "Connect GitHub"
+msgstr "GitHub verbinden"
+
+#: onedesk/one_admin/github_app.py:205
+msgid "Connect GitHub first."
+msgstr "Verbinden Sie zuerst GitHub."
 
 #: frontend/src/mail/OneMail.vue:299
 #: onedesk/public/js/one_mail/onemail_settings.js:54
@@ -20887,10 +20893,46 @@ msgstr "Vertrag unterschreiben lassen"
 msgid "Getting Started"
 msgstr "Erste Schritte"
 
+#. Label of the github_app_name (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:269
+#: onedesk/public/js/one_admin/admin_control.js:248
+msgid "GitHub App"
+msgstr "GitHub-App"
+
+#. Label of the github_app_id (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:282
+msgid "GitHub App ID"
+msgstr "GitHub-App-ID"
+
+#. Label of the github_app_slug (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:276
+msgid "GitHub App Slug"
+msgstr "Kurzname der GitHub-App"
+
+#. Label of the github_installation_id (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:288
+msgid "GitHub Installation ID"
+msgstr "GitHub-Installations-ID"
+
 #. Label of the github_token (Password) field in DocType 'One Admin Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:264
 msgid "GitHub Token"
 msgstr "GitHub-Token"
+
+#: onedesk/public/js/one_admin/admin_control.js:261
+msgid "GitHub connected."
+msgstr "GitHub verbunden."
+
+#: onedesk/one_admin/github_app.py:216
+#, python-brace-format
+msgid "GitHub did not answer: {0}"
+msgstr "GitHub hat nicht geantwortet: {0}"
+
+#: onedesk/one_admin/github_app.py:172
+#, python-brace-format
+msgid "GitHub refused to make the app: {0}"
+msgstr "GitHub hat das Erstellen der App abgelehnt: {0}"
 
 #: onedesk/one_inventory/heads.py:1192
 msgid "Give"
@@ -23955,6 +23997,17 @@ msgstr "Installiert von"
 #: onedesk/one_crm/print_format/one_installation_note/one_installation_note.json
 msgid "Installed For"
 msgstr "Installiert für"
+
+#. Label of the github_installed_on (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:294
+msgid "Installed On"
+msgstr "Installiert in"
+
+#: onedesk/public/js/one_admin/admin_control.js:240
+#, python-brace-format
+msgid "Installed on {0}"
+msgstr "Installiert in {0}"
 
 #. Option for the 'Status' (Select) field in DocType 'Private App Grant'
 #: onedesk/one_admin/doctype/private_app_grant/private_app_grant.json:40
@@ -32400,6 +32453,10 @@ msgstr "Nicht gebucht"
 msgid "Not Checked In"
 msgstr "Nicht eingecheckt"
 
+#: onedesk/public/js/one_admin/admin_control.js:238
+msgid "Not Connected"
+msgstr "Nicht verbunden"
+
 #: onedesk/one/account.py:48
 #: onedesk/public/js/one_account/account_center.js:1097
 #: onedesk/public/js/one_ai/ai_center.js:337
@@ -32418,6 +32475,10 @@ msgstr "Nicht geschätzt"
 #: onedesk/www/404.html:2
 msgid "Not Found"
 msgstr "Nicht gefunden"
+
+#: onedesk/public/js/one_admin/admin_control.js:237
+msgid "Not Installed"
+msgstr "Nicht installiert"
 
 #: frontend/src/project/Overview.vue:44 frontend/src/project/Overview.vue:151
 #: onedesk/one_project/money.py:221
@@ -32646,6 +32707,11 @@ msgstr "Noch nicht im Datensatz: {0} Zellen brauchen einen Blick"
 #: onedesk/one_factory/heads.py:117
 msgid "Not in use; new work orders cannot pick it."
 msgstr "Nicht in Gebrauch; neue Arbeitsaufträge können sie nicht wählen."
+
+#: onedesk/public/js/one_admin/admin_control.js:242
+#, python-brace-format
+msgid "Not installed on {0}"
+msgstr "Nicht in {0} installiert"
 
 #: frontend/src/project/Months.vue:17
 msgid "Not invoiced"
@@ -35151,6 +35217,12 @@ msgstr "Nur vor den eigenen Kontakten des Datensatzes kann er verborgen werden."
 #: onedesk/public/js/one/access_center.js:13
 msgid "Only the workspace's administrators set who may do what."
 msgstr "Nur die Administratoren des Arbeitsbereichs legen fest, wer was darf."
+
+#. Description of the 'GitHub Token' (Password) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:302
+msgid "Only used until GitHub is connected. Moved to the site's config when saved."
+msgstr "Wird nur verwendet, bis GitHub verbunden ist. Wird beim Speichern in die Konfiguration der Website verschoben."
 
 #: onedesk/one_mail/drafts.py:170
 msgid "Only whoever wrote it may take it back."
@@ -38223,6 +38295,10 @@ msgstr "Persönlich"
 #: onedesk/one_account/center.py:32
 msgid "Personal Details"
 msgstr ""
+
+#: onedesk/public/js/one_admin/admin_control.js:56
+msgid "Personal Token"
+msgstr "Persönliches Token"
 
 #: onedesk/one_display/starters.py:878 onedesk/one_display/starters.py:1186
 msgid "Pharmacy"
@@ -46049,6 +46125,10 @@ msgstr "Server {0} nicht gefunden."
 msgid "Servers"
 msgstr "Server"
 
+#: onedesk/public/js/one_admin/admin_control.js:245
+msgid "Servers can't read the code"
+msgstr "Server können den Code nicht lesen"
+
 #. Label of the service (Select) field in DocType 'Health Check'
 #. Option for the 'Description' (Select) field in DocType 'Reading Date'
 #. Label of the service (Data) field in DocType 'Queue Service'
@@ -46288,6 +46368,11 @@ msgstr ""
 #: onedesk/one_hr/custom/shift_request.json:80
 msgid "Set by Approve and Reject, so it always agrees with who decided."
 msgstr "Wird von Genehmigen und Ablehnen gesetzt und stimmt so immer mit der Entscheidung überein."
+
+#. Description of the 'GitHub App' (Data) field in DocType 'One Admin Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:271
+msgid "Set by Connect GitHub."
+msgstr "Wird durch „GitHub verbinden“ gesetzt."
 
 #: onedesk/one_admin/log.py:17
 msgid "Set by an operator"
@@ -51821,6 +51906,11 @@ msgstr "Die wichtigen Zahlen"
 msgid "The Floor at a Glance"
 msgstr "Die Fertigung auf einen Blick"
 
+#: onedesk/one_admin/github_app.py:214
+#, python-brace-format
+msgid "The GitHub App is not installed on {0}."
+msgstr "Die GitHub-App ist nicht in {0} installiert."
+
 #: onedesk/one_ai/reading/planning.py:520
 #, python-brace-format
 msgid "The IBAN isn't on file for {0}. Confirm it by phone before paying."
@@ -53166,6 +53256,10 @@ msgstr "Die Person, der der Passkey gehörte"
 msgid "The person whose password it is"
 msgstr "Die Person, der das Passwort gehört"
 
+#: onedesk/public/js/one_admin/admin_control.js:271
+msgid "The personal token is no longer used and can be cleared."
+msgstr "Das persönliche Token wird nicht mehr verwendet und kann gelöscht werden."
+
 #. Description of the 'User Verified' (Check) field in DocType 'Clock Attempt'
 #: onedesk/one_hr/doctype/clock_attempt/clock_attempt.json:186
 msgid "The phone released the passkey only after a face, fingerprint or PIN."
@@ -53419,6 +53513,16 @@ msgstr "Die Datensätze, deren Inhalte diese Präsentation zeigt, bei jeder Anze
 #, python-brace-format
 msgid "The repeat of {document} stopped"
 msgstr "Die Wiederholung von {document} wurde gestoppt"
+
+#. Description of the 'Installed On' (Data) field in DocType 'One Admin
+#. Settings'
+#: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:296
+msgid "The repository the GitHub App may read."
+msgstr "Das Repository, das die GitHub-App lesen darf."
+
+#: onedesk/one_admin/github_app.py:168
+msgid "The request has expired. Press Connect GitHub again."
+msgstr "Die Anfrage ist abgelaufen. Klicken Sie erneut auf „GitHub verbinden“."
 
 #: onedesk/one_hr/heads.py:616
 msgid "The request is closed and nobody is assigned anything."
@@ -57867,6 +57971,10 @@ msgstr "Personen mit Zugriff sehen dieses Postfach, sobald es verbunden ist."
 #: frontend/src/cloud/CloudViewer.vue:47
 msgid "Uses 1 credit."
 msgstr "Verbraucht 1 Guthaben."
+
+#: onedesk/public/js/one_admin/admin_control.js:244
+msgid "Using the personal token"
+msgstr "Persönliches Token wird verwendet"
 
 #: onedesk/one_crm/report/time_in_sales_stage/time_in_sales_stage.py:82
 msgid "Usual Days"

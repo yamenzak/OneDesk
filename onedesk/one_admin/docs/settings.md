@@ -29,3 +29,16 @@ leaving the page stops nothing. Pressing it again checks everything and mends
 what is missing.
 
 > The master token can make any token on the account. You can delete it in Cloudflare once setup is done.
+
+## Connecting GitHub
+
+Servers read One's code from GitHub through a GitHub App. **Connect GitHub**,
+on the **AWS and GitHub** tab, takes you to GitHub to create the app; press
+**Create GitHub App** there. GitHub then asks where to install it: choose the
+repository the tile names and press **Install**. You come back here and the
+tile shows **Connected**.
+
+Each server is then given a token that reads that one repository for an hour,
+when it needs the code. Until the app is installed, servers use the
+**GitHub Token** under **Personal Token**. Once it is connected, clear that
+field.

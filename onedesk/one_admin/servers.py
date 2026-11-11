@@ -220,6 +220,13 @@ def _keys() -> dict:
 	}
 
 
+def _with_github(keys: dict) -> dict:
+	"""The keys a new box is built with, carrying the GitHub token it starts with."""
+	from onedesk.one_admin import github_app
+
+	return {**keys, "github_token": github_app.for_boxes(keys)}
+
+
 def _r2(keys: dict):
 	return boto3.client("s3", endpoint_url=keys["r2_endpoint"], region_name="auto", aws_access_key_id=keys["assets_write_key"], aws_secret_access_key=keys["assets_write_secret"])
 
@@ -356,7 +363,7 @@ def connect_script(ticket: str) -> Response:
 	if not row or row.status != CONNECTING:
 		raise frappe.PermissionError
 	frappe.cache().delete_value(key)
-	keys = _keys()
+	keys = _with_github(_keys())
 	held = pilot.held(server)
 	made = {"tunnel": held["tunnel"], "host": row.pilot_host, "pilot_password": held["password"], "agent": held["agent"]}
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
@@ -371,7 +378,7 @@ def costs_of(tenant: str | None) -> int:
 def build(tenant: str | None = None) -> str:
 	"""The box made and listed under Servers, open for new workspaces."""
 	site.require_admin()
-	keys = _keys()
+	keys = _with_github(_keys())
 	settings = frappe.get_single("One Admin Settings")
 	region = keys.get("region") or boxes.REGION
 	name = f"own-{frappe.db.get_value('Tenant', tenant, 'slug')}" if tenant else next_name([one.server for one in fleet.rows()], region)
