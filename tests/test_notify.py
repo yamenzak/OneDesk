@@ -230,3 +230,72 @@ def test_no_slot_is_one_of_notifys_own_words():
 		if found:
 			wrong[name] = sorted(found)
 	assert not wrong, wrong
+
+
+UNSUBSCRIBE = tree.APP / "one" / "unsubscribe.py"
+
+
+def _unsubscribe(*names, **extra) -> dict:
+	space = dict(extra)
+	for node in ast.parse(UNSUBSCRIBE.read_text(encoding="utf-8")).body:
+		if isinstance(node, ast.Assign) and getattr(node.targets[0], "id", "") in names:
+			exec(ast.unparse(node), space)
+		if isinstance(node, ast.FunctionDef) and node.name in names:
+			exec(ast.unparse(node), space)
+	return space
+
+
+def test_a_notification_mail_says_list_unsubscribe_with_one_click():
+	with_header = _unsubscribe("with_header")["with_header"]
+	url = "https://acme.example/api/method/onedesk.one.unsubscribe.off?email=a%40b&_signature=ff"
+	sent = with_header(b"From: a@b\r\nSubject: Hi\r\n\r\nbody\r\nList-Unsubscribe: in the body\r\n", url)
+	head, body = sent.split(b"\r\n\r\n", 1)
+	assert b"List-Unsubscribe: <" + url.encode() + b">" in head.split(b"\r\n")
+	assert b"List-Unsubscribe-Post: List-Unsubscribe=One-Click" in head.split(b"\r\n")
+	assert body == b"body\r\nList-Unsubscribe: in the body\r\n", "the body is left as it was"
+	again = with_header(sent, url)
+	assert again.count(b"List-Unsubscribe:") == 2 and again.count(b"List-Unsubscribe-Post:") == 1
+	assert with_header(b"From: a@b\n\nbody\n", url).startswith(b"From: a@b\nList-Unsubscribe: <")
+
+
+def test_only_a_mail_queued_with_our_method_gets_the_header():
+	class Queue(dict):
+		__getattr__ = dict.get
+
+	space = _unsubscribe("KIND", "METHOD", "headed", link=lambda email, kind: f"u/{email}/{kind}")
+	space["with_header"] = lambda raw, url: raw + url.encode()
+	headed, method = space["headed"], space["METHOD"]
+	ours = Queue(add_unsubscribe_link=1, unsubscribe_method=method, reference_doctype="Notification Type", reference_name="Leave Approved")
+	assert headed(b"m", ours, "a@b") == b"mu/a@b/Leave Approved"
+	frappes = Queue(ours, unsubscribe_method="/api/method/frappe.email.queue.unsubscribe")
+	assert headed(b"m", frappes, "a@b") == b"m", "frappe's own conversation link has no one-click"
+	assert headed(b"m", Queue(ours, add_unsubscribe_link=0), "a@b") == b"m"
+	assert headed(b"m", Queue(ours, reference_doctype="Sales Invoice"), "a@b") == b"m"
+
+
+def test_turn_off_these_emails_is_signed_and_turns_off_one_type():
+	"""The link works without signing in, only as signed, and sets the same
+	switch NotificationCenter does, for that one type, by email only."""
+	source = UNSUBSCRIBE.read_text(encoding="utf-8")
+	assert source.count("@frappe.whitelist(allow_guest=True") == 2
+	assert source.count("not _signed()") == 2, "both pages check the signature"
+	assert "hmac.compare_digest(get_signed_params(params), query)" in source
+	assert 'notification_center.choose(kind, "email", on)' in source
+	assert '"POST"' in source.split("def off(", 1)[0].rsplit("@frappe.whitelist", 1)[1], "a mail client's one-click is a POST"
+	assert "get_unsubcribed_url(KIND, kind, email, method, None)" in source, "frappe's own signed link"
+	outbound = (tree.APP / "one_mail" / "outbound.py").read_text(encoding="utf-8")
+	assert "unsubscribe.headed(" in outbound
+
+
+def test_a_mail_that_must_go_carries_no_unsubscribe():
+	"""A sign-in link, an invoice, a security notice: an `always_mailed` type,
+	or a mail to an address outside (`notify.mail`), is never offered off."""
+	source = NOTIFY.read_text(encoding="utf-8")
+	send = source.split("def _send(", 1)[1].split("\ndef ", 1)[0]
+	assert "if always:" in send and "if off:" in send.split("else:", 1)[1]
+	assert "unsubscribe.queued(off) if off and not always else {}" in send
+	mail = source.split("\ndef mail(", 1)[1].split("\ndef ", 1)[0]
+	assert "unsubscribe" not in mail
+	assert "off=unsubscribe.offered(log.for_user, log.type)" in source.split("\ndef mail_log(", 1)[1].split("\ndef ", 1)[0]
+	always = source.split("\ndef notify(", 1)[1].split("\ndef ", 1)[0]
+	assert "_send(email, lang, name, subject, message, link, record, always=True)" in always

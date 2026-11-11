@@ -58,6 +58,12 @@ In NotificationCenter:
 - **Other Emails** has the two emails that aren't notifications: reminders
   before your events, and emails about records assigned to you.
 
+An email of a notification you chose ends with **Turn off these emails**. It
+turns off email for that one notification, as its switch here does, without
+signing in, and the page it opens has **Turn On Again**. Your email app may
+offer the same as an Unsubscribe button. Emails that are always mailed have
+neither.
+
 Each switch is saved as you change it. Administrators choose what new people start
 with, and the text of each notification, in NotificationCenter's
 **Words and Rules**.

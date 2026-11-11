@@ -391,6 +391,8 @@ No doctypes yet.
 * `onedesk.one.start_again.start`
 * `onedesk.one.tours.seen`
 * `onedesk.one.tours.tour`
+* `onedesk.one.unsubscribe.off`
+* `onedesk.one.unsubscribe.on`
 * `onedesk.one.versions.help_pages`
 * `onedesk.one.versions.whats_new`
 * `onedesk.one.weather.here`

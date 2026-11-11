@@ -12,7 +12,7 @@ from functools import cache
 import frappe
 from frappe import _, _lt
 
-from onedesk.one import versions
+from onedesk.one import unsubscribe, versions
 
 FIELDS = (
 	"one_app",
@@ -739,10 +739,22 @@ def mail_log(log) -> None:
 	if not user or not user.email:
 		return
 	record = (log.document_type, log.document_name) if log.document_type and log.document_name else None
-	_send(user.email, user.language, log.type, log.subject, log.email_content, log.link, record)
+	_send(
+		user.email,
+		user.language,
+		log.type,
+		log.subject,
+		log.email_content,
+		log.link,
+		record,
+		off=unsubscribe.offered(log.for_user, log.type) if log.type else None,
+	)
 
 
-def _send(email, lang, kind, subject, message, link=None, record=None, always=False) -> None:
+def _send(email, lang, kind, subject, message, link=None, record=None, always=False, off=None) -> None:
+	"""One notification's mail to one person. `off` is the type its Turn Off
+	These Emails turns off for them (unsubscribe.py), or None for a mail
+	that carries no such link."""
 	from frappe.utils import get_url_to_form
 
 	lang = lang or frappe.db.get_single_value("System Settings", "language")
@@ -758,14 +770,18 @@ def _send(email, lang, kind, subject, message, link=None, record=None, always=Fa
 	if always:
 		reason = f"{said}<br>{_('Mailed to everybody it concerns, whatever they chose.', lang=lang)}"
 	else:
-		change = frappe.utils.get_url("/desk/one?center=notifications")
+		change = frappe.utils.get_url(unsubscribe.SETTINGS)
 		reason = f'{said}<br><a href="{change}">{_("Change what you get by mail", lang=lang)}</a>'
+		if off:
+			stop = frappe.utils.escape_html(unsubscribe.link(email, off))
+			reason += f' · <a href="{stop}">{_("Turn off these emails", lang=lang)}</a>'
 	frappe.sendmail(
 		recipients=email,
 		subject=plain(subject),
 		message=compose(subject, message, link, label, reason, lang, bool(one.get("from_one"))),
 		with_container=True,
 		now=frappe.in_test,
+		**(unsubscribe.queued(off) if off and not always else {}),
 	)
 
 

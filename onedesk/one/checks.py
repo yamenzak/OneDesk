@@ -462,3 +462,49 @@ def shortcuts_move_for_the_reader_alone():
 				raise AssertionError("a key the browser keeps was taken as a shortcut")
 		finally:
 			assert shortcut_center.reset() == {}
+
+
+@check
+def turn_off_these_emails_works_without_signing_in():
+	"""A notification's mail carries a signed link (unsubscribe.link): opened
+	as Guest, or posted by a mail client's one-click, it turns that one type's
+	email off for Nadia as NotificationCenter's switch does, and Turn On
+	Again puts it back. A link with its address changed does nothing."""
+	from urllib.parse import parse_qsl
+
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one import notification_center, unsubscribe
+
+	def mailed(kind):
+		with as_user("nadia@one.test"):
+			return next(one for one in notification_center.yours()["types"] if one["name"] == kind)["email"]
+
+	def opened(url, method="GET"):
+		query = url.split("?", 1)[1]
+		data = {"List-Unsubscribe": "One-Click"} if method == "POST" else None
+		frappe.local.request = Request(EnvironBuilder(method=method, query_string=query, data=data).get_environ())
+		said = dict(parse_qsl(query))
+		with as_user("Guest"):
+			if "unsubscribe.on" in url:
+				unsubscribe.on(said["email"], said["doctype"], said["name"])
+			else:
+				unsubscribe.off(said["email"], said["doctype"], said["name"])
+		return frappe.local.message_title
+
+	was_request = getattr(frappe.local, "request", None)
+	with as_user("nadia@one.test"):
+		kind = next(one["name"] for one in notification_center.yours()["types"] if one["may_email"] and one["email"])
+	assert unsubscribe.offered("nadia@one.test", kind) == kind
+	email = frappe.db.get_value("User", "nadia@one.test", "email")
+	try:
+		forged = unsubscribe.link(email, kind).replace("nadia", "omar")
+		assert opened(forged) == "This link no longer works" and mailed(kind)
+		assert opened(unsubscribe.link(email, kind), "POST") == "Emails Turned Off" and not mailed(kind)
+		assert opened(unsubscribe.link(email, kind, unsubscribe.AGAIN)) == "Emails Turned On" and mailed(kind)
+		assert opened(unsubscribe.link(email, kind)) == "Emails Turned Off" and not mailed(kind)
+	finally:
+		frappe.local.request = was_request
+		with as_user("nadia@one.test"):
+			notification_center.choose(kind, "email", 1)
