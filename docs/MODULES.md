@@ -57,7 +57,7 @@ No doctypes yet.
 | Credit Reservation | 10 | document |
 | Health Check | 6 | document |
 | Offering | 24 | document |
-| One Admin Settings | 58 | single |
+| One Admin Settings | 63 | single |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -446,6 +446,11 @@ No doctypes yet.
 * `onedesk.one_admin.control.load`
 * `onedesk.one_admin.control.save`
 * `onedesk.one_admin.earnings.overview`
+* `onedesk.one_admin.github_app.back`
+* `onedesk.one_admin.github_app.check`
+* `onedesk.one_admin.github_app.for_box`
+* `onedesk.one_admin.github_app.installed`
+* `onedesk.one_admin.github_app.start`
 * `onedesk.one_admin.health.board`
 * `onedesk.one_admin.health.history`
 * `onedesk.one_admin.home.counts`

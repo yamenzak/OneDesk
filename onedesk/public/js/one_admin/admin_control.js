@@ -48,7 +48,16 @@ onedesk.AdminSection = class AdminSection extends onedesk.CenterSection {
 	}
 
 	draw_servers(data) {
-		this.form(data, { rows: [["aws_access_key_id", "aws_secret_access_key"], ["github_token", ""]] });
+		const $card = this.form(data, {
+			rows: [
+				["aws_access_key_id", "aws_secret_access_key"],
+				{ heading: __("GitHub") },
+				{ html: `<div data-admin-github="1"></div>` },
+				{ heading: __("Personal Token"), collapsible: true },
+				["github_token", ""],
+			],
+		});
+		onedesk.admin.drawGitHub($card.find("[data-admin-github]"), data.github, () => this.refresh());
 	}
 
 	draw_storage(data) {
@@ -216,6 +225,52 @@ onedesk.admin.drawAreas = ($into, data, { busy, done, master }) => {
 	$into.empty().append($tiles, $(`<div class="d-flex"></div>`).append(sign_in));
 	frappe.realtime.off("cloudflare_setup");
 	frappe.realtime.on("cloudflare_setup", ({ done: finished }) => finished && done());
+};
+
+// The GitHub App as a tile (github_app.status), and its one action: make
+// it from a manifest, install it, or check it.
+onedesk.admin.drawGitHub = ($into, github, done) => {
+	const esc = frappe.utils.escape_html;
+	const [label, theme] = github.installed
+		? [__("Connected"), "green"]
+		: github.app
+		? [__("Not Installed"), "amber"]
+		: [__("Not Connected"), "gray"];
+	const text = github.installed
+		? __("Installed on {0}", [github.repository])
+		: github.app
+		? __("Not installed on {0}", [github.repository])
+		: github.personal
+		? __("Using the personal token")
+		: __("Servers can't read the code");
+	const $tile = $(`<div class="os-ways mb-3"><div class="os-way">
+		<div class="os-way-head"><span class="os-way-icon">${frappe.utils.icon("github", "md")}</span>
+		<span class="os-way-title">${esc(github.app || __("GitHub App"))}</span>${frappe.ui.badge.html({ label, theme })}</div>
+		<div class="os-way-text">${esc(text)}</div>
+	</div></div>`);
+	const connect = () =>
+		frappe.xcall("onedesk.one_admin.github_app.start").then(({ action, manifest }) => {
+			$(`<form method="post" class="hidden"></form>`)
+				.attr("action", action)
+				.append($(`<input type="hidden" name="manifest">`).val(manifest))
+				.appendTo("body")
+				.trigger("submit");
+		});
+	const check = () =>
+		frappe.xcall("onedesk.one_admin.github_app.check").then(() => {
+			frappe.show_alert({ message: __("GitHub connected."), indicator: "green" });
+			done();
+		});
+	const action = github.installed
+		? frappe.ui.button({ label: __("Check Connection"), icon: "refresh-cw", onclick: check })
+		: github.app
+		? frappe.ui.button({ label: __("Install App"), icon: "github", variant: "solid", onclick: () => (window.location.href = github.install_url) })
+		: frappe.ui.button({ label: __("Connect GitHub"), icon: "github", variant: "solid", onclick: connect });
+	const note =
+		github.installed && github.personal
+			? `<p class="text-muted small mt-2">${__("The personal token is no longer used and can be cleared.")}</p>`
+			: "";
+	$into.empty().append($tile, $(`<div class="d-flex"></div>`).append(action), note);
 };
 
 onedesk.admin.setupTable = (said) => {

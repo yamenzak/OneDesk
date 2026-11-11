@@ -102,6 +102,10 @@ def _section(section: str) -> dict:
 		said["areas"] = areas_of(frappe.parse_json(doc.cloudflare_setup or "[]") or [])
 		said["signs_in"] = bool(doc.cloudflare_oauth_client_id)
 		said["running"] = is_job_enqueued(LOCK)
+	if section == "servers":
+		from onedesk.one_admin import github_app
+
+		said["github"] = github_app.status()
 	return said
 
 

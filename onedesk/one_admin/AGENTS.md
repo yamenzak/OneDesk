@@ -568,6 +568,10 @@ next to its changes, and a job lists the rows it wrote.
 - **Sign In to Cloudflare** can stand in for the master token, once an OAuth
   client is made and its **OAuth Client ID**, **Secret** and **Scopes** are
   filled in (Under the hood, Keys).
+- **Connect GitHub**, on the AWS and GitHub tab, makes a GitHub App that
+  reads One's code and installs it on the repository. Servers are then given
+  a token that lasts an hour instead of the personal **GitHub Token**, which
+  is used only until the app is installed (Under the hood, GitHub).
 - **Create AWS User** opens AWS with the IAM user OneAdmin needs, allowed
   Lightsail in `eu-north-1` only. AWS reads the template only from S3, so
   upload `deploy/aws/lightsail-user.yaml` there once and put its address in
@@ -1891,6 +1895,57 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   something, that step is shown as failed and the rest carry on. Making One's
   own tokens needs Cloudflare's API Tokens permission; without that scope,
   Sign In can't make or mend them, and the master token still does.
+
+### github_app.py: GitHub
+
+**OneAdmin reads One's code through a GitHub App, not a personal token**
+(decided 11 November 2026). The repository is `boxes.REPOSITORY`.
+
+- **Connect GitHub** (ControlCenter, AWS and GitHub) is GitHub's App
+  Manifest flow. `start` returns the manifest and
+  `https://github.com/settings/apps/new?state=…`, and the page posts it as a
+  form, so the app is made on the account of whoever is signed in to GitHub.
+  The manifest asks for Contents and Metadata read, no events and an
+  inactive webhook, with the admin site as its address. Its name is
+  `One <admin host>`, cut to GitHub's 34 characters, so dev and production
+  make apps that don't clash.
+- GitHub sends the browser to `back` with a code, checked against the state
+  the operator started. `back` exchanges it at
+  `POST /app-manifests/{code}/conversions`. The private key goes to the
+  config as `github_app_private_key` (`vault.keep`); its name, slug and id go
+  in Settings. The webhook secret and client secret are not kept, since
+  nothing uses them. The operator is then sent to the app's install page.
+- Installing returns to `installed` (the manifest's `setup_url`). It ignores
+  the `installation_id` in the address and asks GitHub, with the app's JWT,
+  `GET /repos/{repository}/installation`, then records the id and the
+  repository. **Check Connection** asks again and mints a token.
+- **A token is minted when something needs the code**
+  (`repository_token`). The app's JWT is RS256 (PyJWT with `cryptography`,
+  both in the bench), issued a minute back and good for nine minutes. It is
+  exchanged at `POST /app/installations/{id}/access_tokens` for a token
+  narrowed to the one repository and `contents: read`, which GitHub lets
+  live an hour.
+- **What a box gets.** `servers.build` and `connect_script` put a freshly
+  minted token in the first boot's values (`_with_github`), so the user
+  data holds nothing that lasts. First boot then asks OneAdmin for a fresher
+  one just before it fetches One's code (`one-agent.py github-token`, signed
+  with the box's agent secret, `github_app.for_box`, believed within five
+  minutes). It writes Pilot's `.bench.git.info` only for that fetch and
+  deletes it after. erpnext and hrms are public and fetched without it. An
+  agent building a bench from its commits (`_from_commits`) asks the same
+  way. Nothing on a box holds a token for longer than an hour.
+- Pilot has a GitHub App mode of its own (`auth_type: github_app` in
+  `.bench.git.info`), but its tokens come from Frappe's Central, which we
+  don't use. So boxes are given token mode with a short-lived token.
+- **The personal token is the fallback.** Until the app is installed,
+  `for_boxes` gives the `github_token` from Settings or, failing that, the
+  one handed over in `one_server_keys`. `for_box` gives nothing then, and
+  the agent uses the token it was given. Once the tile says Connected, the
+  screen says the field can be cleared. `scripts/server.py`, which builds
+  the first OneAdmin before there is one, still takes a token from its keys
+  file.
+- GitHub is not a subprocessor: it gets no customer data, and the legal
+  guard passes every `github.com` host.
 
 ### backups.py: Backups
 

@@ -167,6 +167,34 @@ def unheld(said: str, apps: str) -> list[str]:
 	return sorted({app for each in listed.values() if isinstance(each, list) for app in each if app not in held})
 
 
+def git_info(token: str) -> str:
+	"""Pilot's .bench.git.info for a token. Pure."""
+	return json.dumps({"provider": "github", "token": token, "username": "x-access-token", "token_expires_at": None, "is_token_valid": True})
+
+
+def token_asked(config: dict, now: int) -> tuple[str, str, dict]:
+	"""The request for a GitHub token: OneAdmin's address, the body and its
+	signature. Pure."""
+	body = json.dumps({"server": config["server"], "at": now})
+	url = f"{config['admin_url'].rstrip('/')}/api/method/onedesk.one_admin.github_app.for_box"
+	return url, body, {"Content-Type": "application/json", "User-Agent": "OneAgent/1.0", "X-One-Agent": signature(config["secret"], body)}
+
+
+def github_token(config: dict) -> str:
+	"""A token that reads One's code for an hour, asked of OneAdmin's GitHub
+	App; the token this box was given when OneAdmin gives none."""
+	if config.get("admin_url") and config.get("secret"):
+		url, body, headers = token_asked(config, int(time.time()))
+		try:
+			with urllib.request.urlopen(urllib.request.Request(url, data=body.encode(), headers=headers, method="POST"), timeout=30) as answered:
+				token = (json.loads(answered.read()).get("message") or {}).get("token")
+			if token:
+				return token
+		except (OSError, ValueError):
+			pass
+	return config.get("github_token") or ""
+
+
 def _write_config(path: Path, config: dict) -> None:
 	new = path.with_name(f".{path.name}.new")
 	descriptor = os.open(new, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
@@ -243,13 +271,16 @@ def _from_commits(config: dict, one: dict) -> None:
 	name = one["bench"]
 	bench = _new_bench(config, name)
 	pilot("-b", name, "init", "--commit", one["frappe"])
-	token = json.dumps({"provider": "github", "token": config["github_token"], "username": "x-access-token", "token_expires_at": None, "is_token_valid": True})
-	descriptor = os.open(bench / ".bench.git.info", os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
-	with os.fdopen(descriptor, "w") as file:
-		file.write(token)
 	pilot("-b", name, "get-app", "https://github.com/frappe/erpnext", "--branch", "develop", "--commit", one["erpnext"], "--skip-assets")
 	pilot("-b", name, "get-app", "https://github.com/frappe/hrms", "--branch", "develop", "--commit", one["hrms"], "--skip-assets")
-	pilot("-b", name, "get-app", f"https://github.com/{one['repository']}", "--branch", one["branch"], "--commit", one["release"], "--skip-assets")
+	held = bench / ".bench.git.info"
+	descriptor = os.open(held, os.O_WRONLY | os.O_CREAT | os.O_TRUNC, 0o600)
+	with os.fdopen(descriptor, "w") as file:
+		file.write(git_info(github_token(config)))
+	try:
+		pilot("-b", name, "get-app", f"https://github.com/{one['repository']}", "--branch", one["branch"], "--commit", one["release"], "--skip-assets")
+	finally:
+		held.unlink(missing_ok=True)
 	checkout = bench / "apps" / "onedesk"
 	placing = checkout / "deploy" / "release" / "private.py"
 	if placing.exists():
@@ -451,7 +482,15 @@ def tick() -> None:
 		return
 
 
+def booting() -> dict:
+	"""First boot's values, before this box has a config."""
+	return {"server": os.environ.get("ONE_SERVER", ""), "secret": os.environ.get("ONE_AGENT_SECRET", ""), "admin_url": os.environ.get("ONE_ADMIN_URL", ""), "github_token": os.environ.get("ONE_GITHUB_TOKEN", "")}
+
+
 def main() -> None:
+	if sys.argv[1:] == ["github-token"]:
+		print(github_token(booting()))
+		return
 	with open(LOCK, "w") as held:
 		try:
 			fcntl.flock(held, fcntl.LOCK_EX | fcntl.LOCK_NB)
