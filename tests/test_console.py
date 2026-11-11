@@ -26,6 +26,7 @@ NOT_A_FIELD = ("Section Break", "Column Break", "Tab Break", "HTML", "Heading", 
 
 UNRAILED = {
 	"Workspace Server",
+	"Health Check",
 	"Workspace Session",
 	"Stripe Webhook Event",
 	"Credit Reservation",

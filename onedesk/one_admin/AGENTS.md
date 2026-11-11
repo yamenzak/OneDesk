@@ -43,16 +43,29 @@ would have found nothing to do.
 
 **OneAdmin** in the dock opens **Home**.
 
-The number cards at the top each open the list they count:
+Eight figures sit at the top, each opening what it counts: **Live
+Workspaces**, **Monthly Revenue** (what live workspaces pay a month at the
+price list), **Paid This Month** (Stripe's invoices in the books),
+**Signups, Last 30 Days**, **OneCredits This Month**, **Server Cost a
+Month**, **Open Errors** and **Services Working**. A figure turns red when it
+needs you.
 
-- **Live**: workspaces serving their customers.
-- **Building**: workspaces still being built.
-- **Owing**: workspaces overdue or suspended for non-payment.
-- **Failed**: jobs that stopped on a step.
-- **Paid, Not Built**: paid signups with no workspace.
+**Overview** draws, each only when there is something to draw:
 
-Below them is **Needs You**. Click a row to open the record. Home updates
-live, without reloading.
+- **Revenue**: paid by month, and the monthly revenue by plan.
+- **Signups**: the last 90 days as a funnel (started, checkout, paid, live)
+  and signups started and paid by month.
+- **Workspaces**: how many there were each month, and by status.
+- **OneAI**: OneCredits used and calls by month, and the workspaces that used
+  most in the last 30 days.
+- **Servers**: memory and disk used, and workspaces against the room left.
+- **Health**: each service's state, new kinds of error by day, and where the
+  open errors are.
+- **Releases**: workspaces by release, how many are on the latest, moving or
+  waiting.
+
+**Needs You**, the second tab, is what an operator has to act on. Click a row
+to open the record. Home updates live, without reloading.
 
 ### Needs You on Home
 
@@ -220,9 +233,12 @@ new codes working. Writing one, and putting it on the bench group, is
 pay, what that leaves against the 40% floor, OneCredits sold and used, what
 OneAI cost and how the plans split, each drawn only when there is data.
 
-**Releases** shows each release, the version each server holds, and who is
-moving, waiting on new terms or next in a window. A workspace waiting on the
-terms still moves after 30 days.
+**Releases** shows a card for each release: its commit and what it says,
+when it was built and how long the build took, how long it took to put on
+its servers, the share of workspaces on it, each server holding it and which
+workspaces. Below are those moving, waiting on new terms or next in a window.
+A workspace waiting on the terms still moves after 30 days. A release built
+before releases said when they were built shows a dash for it.
 
 ## Price List
 
@@ -649,8 +665,19 @@ answers **Is everything set up?**. Only operators see this page.
 
 Status, on the rail, says whether everything OneAdmin depends on is working
 (Cloudflare, the Edge Router, R2, the Keeper, the AI Gateway, Mail, Sending,
-Stripe, every Workspace's site and Backups), its share of checks failed over
-the last 30 days, and what has failed. Each check is kept as a Health Check.
+Stripe, every Workspace's site and Backups). Each service is a card with its
+state, its uptime over 30 days, how long it took to answer through the last
+day and a bar for each of the last 30 days: green when it worked, amber when
+some checks failed, red when half or more did.
+
+Click a card to see its history under the cards: how long it took to answer
+and how many checks failed over 24 hours, 7 days or 30 days, its last checks
+and each time it failed. **All Checks** opens every Health Check of that
+service. Below are all services over 30 days and what has failed.
+
+Status and its checks are one screen. Health Checks was a second row on the
+rail listing the same records five minutes apart, which said less than the
+card it came from.
 
 **Sending** says how many addresses bounced or were suppressed by Cloudflare
 against how many mails went out in the last 7 days. It fails, and the

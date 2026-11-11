@@ -8,6 +8,7 @@ import hashlib
 import hmac
 import json
 import os
+import subprocess
 import sys
 import time
 import urllib.request
@@ -25,6 +26,14 @@ def shareable(config: dict) -> dict:
 def _part(out: Path, name: str) -> dict:
 	path = out / name
 	return {"sha256": Path(f"{path}.sha256").read_text().strip(), "size": path.stat().st_size}
+
+
+def commit_of(repo: Path, sha: str) -> dict:
+	"""The commit's subject and when it was made, or nothing when the
+	checkout cannot say."""
+	found = subprocess.run(["git", "-C", str(repo), "log", "-1", "--format=%s%x00%cI", sha], capture_output=True, text=True, check=False)
+	subject, _, at = found.stdout.strip().partition("\x00")
+	return {"subject": subject, "committed_at": at} if found.returncode == 0 and at else {}
 
 
 def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> None:
@@ -51,6 +60,9 @@ def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> Non
 		**_part(held, f"{onedesk}.tar.gz"),
 		"bench": {**_part(held, f"{onedesk}.bench.tar.gz"), "python": (held / f"{onedesk}.bench.python").read_text().split()},
 		"template": _part(held, f"{onedesk}.site.tar.gz"),
+		**commit_of(Path(__file__).resolve().parents[2], onedesk),
+		"built_at": int(time.time()),
+		"built_in": int(os.environ.get("BUILT_IN") or 0) or None,
 	}
 	store.put_object(Bucket=bucket, Key=f"{key}.json", Body=json.dumps(about).encode(), ContentType="application/json")
 	print(json.dumps(about))

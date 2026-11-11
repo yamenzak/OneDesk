@@ -9,7 +9,7 @@ import time
 import frappe
 import requests
 from frappe import _
-from frappe.utils import add_days, add_to_date, now_datetime, today
+from frappe.utils import add_days, add_to_date, get_datetime, getdate, now_datetime, today
 
 from onedesk.one_admin import backups, cloudflare, faults, gateway, ledger, mailing, operator, servers, site, storage, stripe, tell, vault
 
@@ -31,6 +31,7 @@ SENDING = "Sending"
 SENDING_DAYS = 7
 SENDING_LINE = 2.0
 SENDING_FEWEST = 100
+LAST_CHECKS = 8
 
 
 class NotSetUp(Exception):
@@ -352,6 +353,31 @@ def _daily(start: str) -> list:
 	).run(as_dict=True)
 
 
+def strip(days: list[dict], service: str, upto: str, count: int = KEPT_DAYS) -> list[dict]:
+	"""The service's last `count` days, oldest first, each with the share of
+	its checks that failed, or None for a day with none. Pure."""
+	held = {one["day"]: one["share"] for one in days if one["service"] == service}
+	last = getdate(upto)
+	return [{"day": str(day), "share": held.get(str(day))} for day in (add_days(last, step - count + 1) for step in range(count))]
+
+
+WINDOWS = {"24h": (24, 60), "7d": (7 * 24, 6 * 60), "30d": (KEPT_DAYS * 24, 24 * 60)}
+
+
+def buckets(rows: list, start, minutes: int, count: int) -> list[dict]:
+	"""Checks in `count` spans of `minutes` from `start`: when each began, how
+	long a check took on average and how many failed. A span with no checks
+	keeps its place with nothing in it. Pure."""
+	held = [{"at": str(add_to_date(start, minutes=minutes * step)), "checks": 0, "failed": 0, "took": 0} for step in range(count)]
+	for row in rows:
+		at = int((get_datetime(row["checked_at"]) - get_datetime(start)).total_seconds() // (minutes * 60))
+		if 0 <= at < count:
+			held[at]["checks"] += 1
+			held[at]["failed"] += 1 if row["state"] == FAILING else 0
+			held[at]["took"] += row.get("took") or 0
+	return [{**one, "took": round(one["took"] / one["checks"]) if one["checks"] else None} for one in held]
+
+
 def _latest(service: str) -> dict | None:
 	found = frappe.get_all(DOCTYPE, filters={"service": service}, fields=["state", "checked_at", "detail", "took"], order_by="checked_at desc", limit=1)
 	return found[0] if found else None
@@ -378,7 +404,47 @@ def board() -> dict:
 				"detail": (last.detail or "") if last else "",
 				"took": last.took if last else None,
 				"uptime": round(100 * (checks - failed) / checks, 2) if checks else None,
+				"checks": checks,
+				"strip": strip(days, service, today()),
+				"trend": _trend(service),
 			}
 		)
 	failing = frappe.get_all(DOCTYPE, filters={"state": FAILING, "checked_at": [">=", start]}, fields=["service", "checked_at", "detail"], order_by="service asc, checked_at asc", limit=5000)
-	return {"services": services, "days": days, "incidents": stretches(failing)[:20]}
+	checks = sum(one["checks"] for one in days)
+	failed = sum(one["failed"] for one in days)
+	return {"services": services, "days": days, "incidents": stretches(failing)[:20], "uptime": round(100 * (checks - failed) / checks, 2) if checks else None}
+
+
+def _checks(service: str, start) -> list:
+	return frappe.get_all(DOCTYPE, filters={"service": service, "checked_at": [">=", start], "state": ["!=", NOT_SET_UP]}, fields=["checked_at", "state", "took", "detail"], order_by="checked_at asc", limit=KEPT_DAYS * 24 * 12 + 1)
+
+
+def _hour():
+	return now_datetime().replace(minute=0, second=0, microsecond=0)
+
+
+def _trend(service: str) -> list:
+	"""How long the service took to answer, hour by hour over the last day."""
+	start = add_to_date(_hour(), hours=-24)
+	return [one["took"] for one in buckets(_checks(service, start), start, 60, 25)]
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def history(service: str, window: str = "24h") -> dict:
+	"""One service on the Status screen: how it answered over the window,
+	what failed, and its last checks."""
+	operator._may()
+	if service not in SERVICES or window not in WINDOWS:
+		frappe.throw(_("Not a service or a window the Status screen shows."))
+	hours, minutes = WINDOWS[window]
+	start = add_to_date(_hour(), hours=-hours)
+	rows = _checks(service, start)
+	failing = [{**row, "service": service} for row in rows if row.state == FAILING]
+	last = frappe.get_all(DOCTYPE, filters={"service": service}, fields=["name", "checked_at", "state", "took", "detail"], order_by="checked_at desc", limit=LAST_CHECKS)
+	return {
+		"service": service,
+		"buckets": buckets(rows, start, minutes, hours * 60 // minutes + 1),
+		"incidents": stretches(failing),
+		"checks": last,
+	}

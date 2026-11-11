@@ -84,6 +84,7 @@ def test_a_box_updates_its_agent_before_it_builds():
 		mock.patch.object(servers, "_own_address", return_value=[]),
 		mock.patch.object(servers, "_save"),
 		mock.patch.object(servers.frappe, "get_cached_value", return_value="d"),
+		mock.patch.object(servers.frappe.utils, "now_datetime", return_value="2026-11-11 10:00:00"),
 		mock.patch.object(servers, "instruct") as instruct,
 	):
 		servers.prepare(row, "abcdef012345")

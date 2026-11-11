@@ -447,6 +447,7 @@ No doctypes yet.
 * `onedesk.one_admin.control.save`
 * `onedesk.one_admin.earnings.overview`
 * `onedesk.one_admin.health.board`
+* `onedesk.one_admin.health.history`
 * `onedesk.one_admin.home.counts`
 * `onedesk.one_admin.home.needs`
 * `onedesk.one_admin.metrics.card`

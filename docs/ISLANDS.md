@@ -135,12 +135,15 @@ that exists.
 | `src/crm/CrmHome.vue` | Frappe CRM's Dashboard: the figures that matter, then the sales trend, the forecast and the funnel, where the pipeline stands and where sales come from; laid out as OneBook's Home |
 | `src/hr/HrHome.vue` | HRMS's own phone app's Home (check in, your requests, your team's requests, the leave you have left) for everybody, and laid out as OneCRM's and OneBook's Homes for HR; like them a place an extension may add to |
 | `src/inventory/home/InventoryHome.vue` | Shopify's admin Home: the figures that matter with their trend, then what needs somebody, then where everything is |
-| `src/admin/AdminHome.vue` | Vercel's and Railway's dashboards: what needs you, the business's figures, then the servers |
+| `src/admin/AdminHome.vue` | Stripe's and Vercel's dashboards: the business's figures with their trend, then revenue, the signup funnel, workspaces, OneAI, servers, health and releases as charts, and what needs you |
 | `src/admin/AdminServers.vue` | Railway's and Fly.io's machine cards: a card per server with its provider, status, live CPU, memory and disk, workspaces and release; then what Cloudflare counted |
 | `src/admin/ServerMetrics.vue` | Railway's Metrics tab and Fly.io's Grafana panels: a window picker over a server's CPU, memory, disk, network, load, burst and database, in its form |
 | `src/admin/BillingHome.vue` | Stripe's billing overview and OneBook's Home: the month's figures, invoiced by month, margin at worst against the floor, OneCredits sold and used, OneAI's cost and the plans |
-| `src/admin/ReleasesHome.vue` | Vercel's Deployments: each release with where it is and how far it has rolled out, each server's versions, then who is moving, waiting on terms or next in a window |
-| `src/admin/AdminStatus.vue` | Vercel's and Cloudflare's status pages: whether everything is working, each service's state and thirty days of its history, and what failed |
+| `src/admin/ReleasesHome.vue` | Vercel's Deployments: a card per release with its commit, when it was built and how long it took, how far it has rolled out and the servers and workspaces on it, then who is moving, waiting on terms or next in a window |
+| `src/admin/ReleaseCard.vue` | Vercel's deployment card: the commit and its message, built, build time, share rolled out, its servers and workspaces |
+| `src/admin/AdminStatus.vue` | Better Stack's and Atlassian Statuspage's monitors: a card per service like the Servers page, then the chosen service's history, thirty days of all, and what failed |
+| `src/admin/ServiceCard.vue` | Better Stack's monitor card: state, uptime, time to answer with its trend and a bar per day for thirty days |
+| `src/admin/ServiceHistory.vue` | Better Stack's monitor page: a window picker over time to answer and checks failed, the last checks and each time it failed |
 | `src/admin/AdminSessions.vue` | GitHub Codespaces: every session with its state, its link and when it expires; New Session, Stop and Delete each one |
 | `src/cloud/OneCloud.vue` | Windows Explorer and Finder: folders as a tree, Details and Tiles, the chosen file beside them, and Explorer's keys, menus, cut, copy and paste, rename in place and dragging; drawn on a list's own head (the folder's name, New, the views) and card |
 | `src/intake/IntakeInbox.vue` | Gmail's and Outlook's inbox with the reading pane: one line per document, unread in bold, two boxes, the one open beside the list with what waits for a decision |

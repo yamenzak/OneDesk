@@ -4,7 +4,7 @@ from types import SimpleNamespace as Row
 
 from frappe import _dict
 
-from onedesk.one_admin import earnings, rollout
+from onedesk.one_admin import console, earnings, rollout
 
 
 def test_billing_adds_up_only_what_there_is():
@@ -46,3 +46,34 @@ def test_releases_read_each_version_across_the_servers():
 	)
 	assert [one["name"] for one in waiting] == ["m", "t"]
 	assert waiting[1]["moves_by"].startswith("2026-12-20") and waiting[1]["to"] == "new" and waiting[1]["kind"] == "terms"
+
+
+def test_a_release_says_when_it_was_ready_and_how_long_it_took():
+	"""A release is ready when its first server is, and takes as long as its
+	slowest server; a bench from before either was kept says nothing."""
+	release = {
+		"servers": [
+			{"prepared_at": "2026-11-11 10:00:00", "ready_at": "2026-11-11 10:12:30"},
+			{"prepared_at": "2026-11-11 10:00:00", "ready_at": "2026-11-11 10:05:00"},
+			{"prepared_at": None, "ready_at": None},
+		]
+	}
+	assert rollout.prepared(release) == {"ready_at": "2026-11-11 10:05:00", "prepared_in": 750}
+	assert rollout.prepared({"servers": [{"state": "ready"}]}) == {"ready_at": None, "prepared_in": None}
+	assert rollout.about("main") == {}
+	held = [{"server": "se-1", "benches": [{"bench": "b1", "release": "new", "state": "ready"}]}]
+	made = rollout.by_release(held, [{"server": "se-1", "bench": "b1", "name": "t", "workspace": "Acme"}])
+	assert made[0]["held"] == [{"name": "t", "workspace": "Acme"}]
+
+
+def test_home_follows_each_signup_as_far_as_it_got():
+	"""Each stage counts those that reached it, and every month is drawn."""
+	asked = [
+		_dict(status="New", tenant=None, stripe_session=None, creation="2026-10-02"),
+		_dict(status="Abandoned", tenant=None, stripe_session="cs_1", creation="2026-11-02"),
+		_dict(status="Done", tenant="live", stripe_session="cs_2", creation="2026-11-03"),
+		_dict(status="Failed", tenant="gone", stripe_session="cs_3", creation="2026-11-04"),
+	]
+	assert [one["signups"] for one in console.funnel(asked, {"live"})] == [4, 3, 2, 1]
+	months = console.by_month(asked, ["2026-09-01", "2026-10-01", "2026-11-01"])
+	assert months == [{"month": "2026-09-01", "started": 0, "paid": 0}, {"month": "2026-10-01", "started": 1, "paid": 0}, {"month": "2026-11-01", "started": 3, "paid": 2}]

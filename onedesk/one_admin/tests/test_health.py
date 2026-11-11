@@ -51,3 +51,23 @@ def test_sending_fails_once_bounces_and_suppressions_pass_the_line():
 	assert health.reputation(200, 3, 2)["share"] == 2.5 and health.reputation(200, 3, 2)["over"]
 	assert not health.reputation(200, 2, 2)["over"]
 	assert health.SENDING in health.CHECKS
+
+
+def test_a_service_shows_every_one_of_its_days_even_unchecked():
+	days = [{"service": "R2", "day": "2026-11-10", "share": 25.0}, {"service": "Mail", "day": "2026-11-10", "share": 100.0}]
+	found = health.strip(days, "R2", "2026-11-11", 3)
+	assert found == [{"day": "2026-11-09", "share": None}, {"day": "2026-11-10", "share": 25.0}, {"day": "2026-11-11", "share": None}]
+
+
+def test_checks_fall_in_their_span_and_an_empty_span_keeps_its_place():
+	start = datetime(2026, 11, 11, 10, 0)
+	rows = [
+		{"checked_at": start + timedelta(minutes=5), "state": "Working", "took": 100},
+		{"checked_at": start + timedelta(minutes=10), "state": "Failing", "took": 300},
+		{"checked_at": start + timedelta(hours=2, minutes=1), "state": "Working", "took": 50},
+		{"checked_at": start + timedelta(hours=9), "state": "Working", "took": 50},
+	]
+	found = health.buckets(rows, start, 60, 3)
+	assert [one["checks"] for one in found] == [2, 0, 1]
+	assert found[0]["failed"] == 1 and found[0]["took"] == 200
+	assert found[1]["took"] is None and found[1]["at"] == "2026-11-11 11:00:00"

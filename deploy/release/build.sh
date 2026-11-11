@@ -166,4 +166,4 @@ done
 tar xzf "$out/$sha.site.tar.gz" -O database.sql.gz | gzip -t
 echo "built in ${SECONDS}s"
 [ "${PUBLISH:-true}" = true ] || exit 0
-"$bench/env/bin/python" "$repo/deploy/release/upload.py" publish "$out" "$sha" "$(pin frappe)" "$(pin erpnext)" "$(pin hrms)"
+BUILT_IN="$SECONDS" "$bench/env/bin/python" "$repo/deploy/release/upload.py" publish "$out" "$sha" "$(pin frappe)" "$(pin erpnext)" "$(pin hrms)"

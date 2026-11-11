@@ -66,7 +66,7 @@ has one. `tests/guards/test_atlas.py` holds each to a count that only falls.
 | intake (`frontend/src/intake/IntakeInbox.vue`) | – | – | – | – |
 | onemail (`frontend/src/mail/OneMail.vue`) | Communication, Communication Link, File, Reading, Reading Action, User Email | Communication, Communication Link, File, Reading, Reading Action, User Email | – | – |
 | onecloud (`frontend/src/cloud/OneCloud.vue`) | Cloud File Version, Comment, DocShare, File, Reading, Reading Action | Cloud File Version, Comment, DocShare, Reading, Reading Action | – | – |
-| oneadmin (`frontend/src/admin/AdminHome.vue`) | Offering, Tenant | – | – | – |
+| oneadmin (`frontend/src/admin/AdminHome.vue`) | Account Request, Tenant, Workspace Error | – | – | – |
 | oneadmin_servers (`frontend/src/admin/AdminServers.vue`) | Tenant | – | – | – |
 | oneadmin_server_part (`frontend/src/admin/ServerMetrics.vue`) | – | – | – | – |
 | oneadmin_billing (`frontend/src/admin/BillingHome.vue`) | Offering, Tenant, Tenant Add-on | – | – | – |
@@ -959,7 +959,7 @@ Pages: intake (on a rail or a home).
 | Account Request | on a rail or a home | **nobody** | a head, form script | no | taught |  | **none** |  |  |  | New Signup, Signup Not Built |
 | Credit Ledger Entry | on a rail or a home | **nobody** | a head, form script, list script | no | general |  | **none** |  |  |  |  |
 | Credit Reservation | engine: credits held while OneAI works, released when it is done | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
-| Health Check | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
+| Health Check | opened by our screens | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  | **none** |  |  |  |  |
 | One Admin Settings | opened by our screens | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
 | Private App | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |

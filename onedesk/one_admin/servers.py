@@ -278,7 +278,7 @@ def prepare(row, release: str) -> None:
 	rows = benches(row)
 	cloudflare = boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 	cloudflare.add_bench(f"one-{row.server}", pilot.held(row.server)["tunnel"], _tunnel_hosts(row, [*rows, {"host": host}]), host, keys["origin_zone"], tell.operators())
-	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing", "template": bool(about.get("template"))}])
+	_save(row, [*rows, {"bench": name, "release": release, "host": host, "state": "preparing", "template": bool(about.get("template")), "prepared_at": str(frappe.utils.now_datetime())}])
 	source = boxes.agent_of(keys, release)
 	if source:
 		instruct(row.server, AGENT_UPDATE, source=source)

@@ -510,6 +510,10 @@ msgstr "عمود لكل حالة"
 msgid "A Mail Manager approves the rules of this mailbox."
 msgstr "يوافق مدير البريد على قواعد هذا الصندوق."
 
+#: frontend/src/admin/AdminHome.vue:17
+msgid "A Month"
+msgstr "شهريًا"
+
 #: onedesk/one_ai/tour.py:18
 msgid "A New Conversation"
 msgstr "محادثة جديدة"
@@ -3812,6 +3816,10 @@ msgstr "كل الإعلانات"
 msgid "All Categories"
 msgstr "كل الفئات"
 
+#: frontend/src/admin/AdminStatus.vue:17
+msgid "All Checks"
+msgstr "كل الفحوصات"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:79
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:359
 msgid "All Day"
@@ -3842,6 +3850,10 @@ msgstr "قُرئ الكل"
 msgid "All Record Types"
 msgstr "كل أنواع السجلات"
 
+#: frontend/src/admin/AdminHome.vue:86
+msgid "All Releases"
+msgstr "كل الإصدارات"
+
 #: frontend/src/admin/AdminHome.vue:31
 msgid "All Servers"
 msgstr "جميع الخوادم"
@@ -3849,6 +3861,10 @@ msgstr "جميع الخوادم"
 #: frontend/src/admin/AdminStatus.vue:6
 msgid "All Services Working"
 msgstr "كل الخدمات تعمل"
+
+#: frontend/src/admin/AdminHome.vue:22
+msgid "All Signups"
+msgstr "كل التسجيلات"
 
 #: frontend/src/project/Team.vue:22 frontend/src/project/Time.vue:179
 msgid "All Time"
@@ -3866,6 +3882,10 @@ msgstr "كل المستودعات"
 #: frontend/src/factory/floor/ShopFloor.vue:10
 msgid "All Work Orders"
 msgstr "كل أوامر العمل"
+
+#: frontend/src/admin/AdminHome.vue:33
+msgid "All Workspaces"
+msgstr "كل مساحات العمل"
 
 #: onedesk/www/legal.html:16
 msgid "All agreements"
@@ -6393,6 +6413,10 @@ msgstr "المتوسط"
 msgid "Average Rating"
 msgstr "متوسط التقييم"
 
+#: frontend/src/admin/AdminStatus.vue:76
+msgid "Average Time to Answer"
+msgstr "متوسط زمن الاستجابة"
+
 #: frontend/src/crm/CrmHome.vue:111
 msgid "Average Won Value"
 msgstr "متوسط قيمة الفرص الرابحة"
@@ -7898,6 +7922,10 @@ msgstr ""
 msgid "Build Slow"
 msgstr "بناء بطيء"
 
+#: frontend/src/admin/ReleaseCard.vue:62
+msgid "Build Time"
+msgstr "مدة البناء"
+
 #: onedesk/one_admin/heads.py:519 onedesk/one_admin/home.py:180
 msgid "Build Workspace"
 msgstr "أنشئ مساحة العمل"
@@ -9313,6 +9341,10 @@ msgstr "تسجيل الحضور الذاتي غير مفعَّل في هذا ا�
 msgid "Checklist"
 msgstr "قائمة التحقق"
 
+#: onedesk/one_admin/console.py:19
+msgid "Checkout"
+msgstr "الدفع"
+
 #. Description of the 'Stripe' (Section Break) field in DocType 'One Admin
 #. Settings'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:308
@@ -10428,6 +10460,11 @@ msgstr "تأكيد + الانتقال يمينًا"
 #: frontend/src/project/Money.vue:35
 msgid "Committed"
 msgstr "الملتزم به"
+
+#: frontend/src/admin/ReleaseCard.vue:11
+#, python-brace-format
+msgid "Committed {0}"
+msgstr "أُضيف {0}"
 
 #: onedesk/one_book/home.py:394
 msgid "Common Code"
@@ -21795,11 +21832,6 @@ msgstr "الصحة"
 msgid "Health Check"
 msgstr "فحص صحة"
 
-#. Label of a Sidebar Item
-#: onedesk/one_admin/sidebar/one_admin/one_admin.json:144
-msgid "Health Checks"
-msgstr "فحوصات الصحة"
-
 #: onedesk/one_hr/papers.py:12
 msgid "Health Insurance"
 msgstr "التأمين الصحي"
@@ -25876,7 +25908,11 @@ msgstr "آخر 24 ساعة"
 
 #: frontend/src/admin/AdminStatus.vue:10
 msgid "Last 30 Days"
-msgstr ""
+msgstr "آخر 30 يومًا"
+
+#: frontend/src/admin/AdminHome.vue:25
+msgid "Last 90 Days"
+msgstr "آخر 90 يومًا"
 
 #: onedesk/public/js/one_account/account_center.js:424
 msgid "Last Active"
@@ -25923,6 +25959,10 @@ msgstr "آخر تسجيل انصراف"
 #: onedesk/public/js/one_mail/onemail_settings.js:703
 msgid "Last Checked"
 msgstr "آخر فحص"
+
+#: frontend/src/admin/ServiceHistory.vue:15
+msgid "Last Checks"
+msgstr "آخر الفحوصات"
 
 #. Label of the command (Data) field in DocType 'Display Screen'
 #: onedesk/one_display/doctype/display_screen/display_screen.json:230
@@ -26217,6 +26257,10 @@ msgstr "أحدث العناوين"
 #: onedesk/one_display/widgets.py:334
 msgid "Latest News"
 msgstr "آخر الأخبار"
+
+#: frontend/src/admin/ReleasesHome.vue:46
+msgid "Latest Release"
+msgstr "أحدث إصدار"
 
 #: onedesk/one_display/widgets.py:75
 msgid "Latest headlines from your News Sources, with image, summary and publisher."
@@ -27318,10 +27362,6 @@ msgstr "بداية القائمة"
 #: frontend/src/slide/components/ParagraphSection.vue:19
 msgid "List Style"
 msgstr "نمط القائمة"
-
-#: frontend/src/admin/AdminServers.vue:70
-msgid "List View"
-msgstr ""
 
 #: frontend/src/sheet/components/SheetEditor/index.vue:908
 msgid "List of items"
@@ -30412,6 +30452,14 @@ msgstr "رقم الموظف الجديد"
 msgid "New Error"
 msgstr "خطأ جديد"
 
+#: frontend/src/admin/AdminHome.vue:78
+msgid "New Errors"
+msgstr "أخطاء جديدة"
+
+#: frontend/src/admin/AdminHome.vue:78
+msgid "New Errors by Day"
+msgstr "الأخطاء الجديدة حسب اليوم"
+
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:168
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:354
 msgid "New Event"
@@ -31448,6 +31496,10 @@ msgstr "لا توجد تغييرات للحفظ"
 msgid "No check-in was found for that day. If you were working, ask for it with an attendance request."
 msgstr "لم يُعثر على تسجيل حضور لذلك اليوم. إن كنت تعمل، فاطلبه بطلب حضور."
 
+#: frontend/src/admin/ServiceHistory.vue:16
+msgid "No checks yet"
+msgstr "لا توجد فحوصات بعد"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:725
 msgid "No colour"
 msgstr "بلا لون"
@@ -32449,6 +32501,10 @@ msgstr "ليس مكرراً"
 #: frontend/src/template/Tasks.vue:22
 msgid "Not a Milestone"
 msgstr "ليست مرحلة رئيسية"
+
+#: onedesk/one_admin/health.py:439
+msgid "Not a service or a window the Status screen shows."
+msgstr "ليست خدمة أو فترة تعرضها شاشة الحالة."
 
 #: onedesk/public/js/one_account/account_center.js:553
 msgid "Not active recently"
@@ -33533,6 +33589,10 @@ msgstr "تسليم المكتب القديم"
 msgid "Old system closed"
 msgstr "إغلاق النظام القديم"
 
+#: frontend/src/admin/ReleaseCard.vue:56
+msgid "Older"
+msgstr "أقدم"
+
 #. Description of the 'Items to Keep' (Int) field in DocType 'News Source'
 #: onedesk/one/doctype/news_source/news_source.json:217
 msgid "Older items are deleted when new ones arrive. Set to 0 to keep all items."
@@ -34588,6 +34648,10 @@ msgstr "OneCredits هذا الشهر"
 msgid "OneCredits Used This Month"
 msgstr "OneCredits المستخدمة هذا الشهر"
 
+#: frontend/src/admin/AdminHome.vue:47
+msgid "OneCredits Used by Month"
+msgstr "OneCredits المستخدمة حسب الشهر"
+
 #. Subject of a notification
 #: onedesk/one/home.py:246 onedesk/one_account/notifications.py
 msgid "OneCredits are running low"
@@ -35197,6 +35261,14 @@ msgstr "فتح المستند"
 #: onedesk/one_account/notifications.py
 msgid "Open Domains"
 msgstr "فتح النطاقات"
+
+#: frontend/src/admin/AdminHome.vue:164
+msgid "Open Errors"
+msgstr "الأخطاء المفتوحة"
+
+#: frontend/src/admin/AdminHome.vue:81
+msgid "Open Errors by Workspace"
+msgstr "الأخطاء المفتوحة حسب مساحة العمل"
 
 #. The button on a notification's mail
 #: onedesk/notifications/one_studio/extension_fixed.md
@@ -36797,6 +36869,10 @@ msgstr "تاريخ الدفع"
 msgid "Paid Online"
 msgstr "دُفعت عبر الإنترنت"
 
+#: frontend/src/admin/AdminHome.vue:155
+msgid "Paid This Month"
+msgstr "المدفوع هذا الشهر"
+
 #. Option for the 'Role' (Select) field in DocType 'Reading Party'
 #. Label in the One Payment Receipt print format
 #. Label in the One Payment Voucher print format
@@ -36826,6 +36902,10 @@ msgstr "يُصرف مع رواتب"
 #: onedesk/one_book/tour.py:60
 msgid "Paid and Reconciled"
 msgstr "مدفوعة ومسوّاة"
+
+#: frontend/src/admin/AdminHome.vue:14
+msgid "Paid by Month"
+msgstr "المدفوع حسب الشهر"
 
 #: onedesk/one_ai/reading/planning.py:140
 msgid "Paid by direct debit."
@@ -40356,6 +40436,11 @@ msgstr "ضع صورة هنا"
 msgid "Put many people on a shift at once."
 msgstr "ضع عدة أشخاص على وردية دفعة واحدة."
 
+#: frontend/src/admin/ReleaseCard.vue:22
+#, python-brace-format
+msgid "Put on its servers in {0}"
+msgstr "ثُبّت على خوادمه خلال {0}"
+
 #: onedesk/one_inventory/home.py:152
 msgid "Putaway Rule"
 msgstr ""
@@ -43651,7 +43736,7 @@ msgstr "رقم إعادة التقييم"
 
 #: frontend/src/admin/BillingHome.vue:9
 msgid "Revenue"
-msgstr ""
+msgstr "الإيرادات"
 
 #. Label of the review_section (Section Break) field in DocType 'Clock Attempt'
 #. Task in the New Client Onboarding project template
@@ -43914,6 +43999,10 @@ msgstr "الغرفة 2"
 #: onedesk/one_display/starters.py:902 onedesk/one_display/starters.py:1044
 msgid "Room 3"
 msgstr "الغرفة 3"
+
+#: frontend/src/admin/AdminHome.vue:129
+msgid "Room Left"
+msgstr "المساحة المتبقية"
 
 #: onedesk/one_display/starters.py:1148
 msgid "Room Sign"
@@ -46015,12 +46104,16 @@ msgstr "نفذ الخدمة"
 #: onedesk/one_inventory/print_format/one_asset_capitalization/one_asset_capitalization.json
 #: onedesk/public/js/one_admin/admin_control.js:187
 msgid "Services"
-msgstr ""
+msgstr "الخدمات"
 
 #. Task in the Small Building Works project template
 #: onedesk/one_project/library/small_building_works.json
 msgid "Services & Finishes"
 msgstr "الخدمات والتشطيبات"
+
+#: frontend/src/admin/AdminHome.vue:168 frontend/src/admin/AdminStatus.vue:74
+msgid "Services Working"
+msgstr "الخدمات العاملة"
 
 #: onedesk/one_inventory/home.py:118
 msgid "Services due and what was done on each asset."
@@ -47438,6 +47531,14 @@ msgstr "تسجيل لم يُبنَ"
 msgid "Signups"
 msgstr "التسجيلات"
 
+#: frontend/src/admin/AdminHome.vue:28
+msgid "Signups by Month"
+msgstr "التسجيلات حسب الشهر"
+
+#: frontend/src/admin/AdminHome.vue:160
+msgid "Signups, Last 30 Days"
+msgstr "التسجيلات، آخر 30 يومًا"
+
 #: onedesk/one_mail/signatures.py:17
 msgid "Simple"
 msgstr "بسيط"
@@ -48781,6 +48882,10 @@ msgstr "بدء {0}"
 #, python-brace-format
 msgid "Start {0} Mail with {1}"
 msgstr "بدء بريد {0} بـ {1}"
+
+#: frontend/src/admin/AdminHome.vue:130 onedesk/one_admin/console.py:19
+msgid "Started"
+msgstr "بدأ"
 
 #: onedesk/public/js/floor_actions.js:18
 msgid "Started At"
@@ -55146,6 +55251,11 @@ msgstr "تم تسجيل الوقت"
 msgid "Time on Each Slide"
 msgstr "الوقت على كل شريحة"
 
+#: frontend/src/admin/ServiceCard.vue:54
+#: frontend/src/admin/ServiceHistory.vue:8
+msgid "Time to Answer"
+msgstr "زمن الاستجابة"
+
 #: frontend/src/sheet/components/SheetEditor/index.vue:2402
 #, python-brace-format
 msgid "Time · {0}"
@@ -55180,10 +55290,18 @@ msgstr "عدد المرات"
 msgid "Times Called"
 msgstr "عدد مرات النداء"
 
+#: frontend/src/admin/AdminStatus.vue:77
+msgid "Times Failed, 30 Days"
+msgstr "مرات التعطل، 30 يومًا"
+
 #. Label of the opened (Int) field in DocType 'Portal Link'
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:95
 msgid "Times Opened"
 msgstr "مرات الفتح"
+
+#: frontend/src/admin/AdminHome.vue:81
+msgid "Times Seen"
+msgstr "مرات الظهور"
 
 #. Label of the opened (Int) field in DocType 'Cloud Link'
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json:116
@@ -57463,6 +57581,10 @@ msgstr "منزعج أو عاجل"
 msgid "Upside Down"
 msgstr "مقلوبة"
 
+#: frontend/src/admin/AdminStatus.vue:75 frontend/src/admin/ServiceCard.vue:52
+msgid "Uptime, 30 Days"
+msgstr "مدة التشغيل، 30 يومًا"
+
 #. Label of the one_ai_urgency (Select) field in DocType 'Employee Grievance'
 #: onedesk/one_hr/custom/employee_grievance.json:38
 msgid "Urgency"
@@ -57598,10 +57720,6 @@ msgstr "يستخدمه"
 #: onedesk/one_admin/heads.py:165
 msgid "Used This Month"
 msgstr "المستخدم هذا الشهر"
-
-#: frontend/src/admin/AdminHome.vue:24
-msgid "Used by Month"
-msgstr "المستخدم حسب الشهر"
 
 #: onedesk/one/account.py:309
 msgid "Used by OneAI, one call"
@@ -58299,6 +58417,10 @@ msgstr "بانتظارك"
 #: frontend/src/one/Home.vue:20
 msgid "Waiting for Your Approval"
 msgstr "بانتظار موافقتك"
+
+#: frontend/src/admin/AdminHome.vue:181 frontend/src/admin/ReleasesHome.vue:48
+msgid "Waiting for a Window"
+msgstr "بانتظار موعد"
 
 #: onedesk/public/js/one_legal/trust_center.js:208
 msgid "Waiting for an administrator"
@@ -63501,6 +63623,10 @@ msgstr "قاعدة مساحة العمل"
 msgid "Workspaces"
 msgstr "مساحات العمل"
 
+#: frontend/src/admin/AdminHome.vue:64
+msgid "Workspaces and Room Left"
+msgstr "مساحات العمل والمساحة المتبقية"
+
 #: frontend/src/admin/AdminHome.vue:14
 msgid "Workspaces by Month"
 msgstr "مساحات العمل حسب الشهر"
@@ -63508,6 +63634,10 @@ msgstr "مساحات العمل حسب الشهر"
 #: frontend/src/admin/AdminHome.vue:37 frontend/src/admin/BillingHome.vue:51
 msgid "Workspaces by Plan"
 msgstr "مساحات العمل حسب الباقة"
+
+#: frontend/src/admin/AdminHome.vue:89
+msgid "Workspaces by Release"
+msgstr "مساحات العمل حسب الإصدار"
 
 #. Description of the 'Mail Domain' (Data) field in DocType 'One Admin
 #. Settings'
@@ -68990,6 +69120,12 @@ msgstr "{0} أشخاص آخرين"
 msgid "{0} moved from {1} to {2}."
 msgstr "نُقل {0} من {1} إلى {2}."
 
+#: frontend/src/admin/AdminStatus.vue:76 frontend/src/admin/ServiceCard.vue:55
+#: frontend/src/admin/ServiceHistory.vue:52
+#, python-brace-format
+msgid "{0} ms"
+msgstr "{0} ملّي ثانية"
+
 #: onedesk/one_sheet/table.py:107
 #, python-brace-format
 msgid "{0} must be TRUE or FALSE."
@@ -70032,11 +70168,6 @@ msgstr "{0} أوامر عمل"
 msgid "{0} worked, {1} paid"
 msgstr "عُمل {0}، ودُفع {1}"
 
-#: frontend/src/admin/ReleasesHome.vue:63
-#, python-brace-format
-msgid "{0} workspaces"
-msgstr "{0} مساحة عمل"
-
 #: onedesk/one_admin/heads.py:447
 #, python-brace-format
 msgid "{0} workspaces have this"
@@ -70326,6 +70457,11 @@ msgstr "{0}. يحتاج رمز OneAdmin إلى SSL and Certificates: Edit على
 msgid "{0}. The OneAdmin token needs Zone Settings: Edit."
 msgstr "{0}. يحتاج رمز OneAdmin إلى Zone Settings: Edit."
 
+#: frontend/src/admin/ServiceCard.vue:66
+#, python-brace-format
+msgid "{0}: Not checked"
+msgstr "{0}: لم يُفحص"
+
 #: onedesk/one/layer.py:137 onedesk/one/layer.py:240
 #, python-brace-format
 msgid "{0}: a condition may only compare the record's fields with plain values."
@@ -70485,6 +70621,11 @@ msgstr "{0}: {1} ليس نموذجًا هنا."
 #, python-brace-format
 msgid "{0}: {1} is {2}."
 msgstr "{0}: {1} يجب أن يكون {2}."
+
+#: frontend/src/admin/ServiceCard.vue:67
+#, python-brace-format, python-format
+msgid "{0}: {1}% of checks failed"
+msgstr "{0}: فشل {1}% من الفحوصات"
 
 #: onedesk/one_hr/heads.py:330
 #, python-brace-format

@@ -139,7 +139,7 @@ def heard(server: str, said: dict) -> None:
 def _built(row, bench: str) -> None:
 	"""The bench is ready: new workspaces go on it, everybody on the old one
 	gets a window, and our own workspace moves at once."""
-	rows = [{**one, "state": "ready"} if one["bench"] == bench else one for one in servers.benches(row)]
+	rows = [{**one, "state": "ready", "ready_at": str(now_datetime())} if one["bench"] == bench else one for one in servers.benches(row)]
 	servers._save(row, rows)
 	for tenant in _tenants(row.server):
 		if tenant.bench == bench:
