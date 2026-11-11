@@ -126,8 +126,9 @@ def app_installed(job, tenant) -> None:
 
 
 def place_it(job, tenant) -> str | None:
-	"""The emptiest open server that may take this workspace. None with room
-	fails the job, saying so, and Resume places it once there is one."""
+	"""The emptiest open server that may take this workspace and is not down.
+	None with room fails the job, saying so, and Resume places it once there
+	is one."""
 	if tenant.site or tenant.server:
 		return None
 	key = frappe.db.get_value("Offering", tenant.offering, "key") if tenant.offering else None
@@ -135,7 +136,8 @@ def place_it(job, tenant) -> str | None:
 		return _place_on_its_own(job, tenant)
 	eu = tenant.jurisdiction == "EU"
 	leaving = (frappe.parse_json(job.payload or "{}") or {}).get("from_server")
-	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server != leaving and (fleet.in_eu(one) or not eu)]
+	down = set(frappe.get_all("Workspace Server", filters={"status": "Down"}, pluck="name"))
+	rows = [one for one in _servers() if one.open and one.server and one.pilot_host and one.server not in down and one.server != leaving and (fleet.in_eu(one) or not eu)]
 	kind = "open server that takes EU workspaces" if eu else "open server"
 	if not rows:
 		raise faults.Refused(f"Settings lists no {kind}. List one under Servers, then resume")
