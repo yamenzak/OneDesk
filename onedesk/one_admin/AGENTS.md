@@ -1817,7 +1817,7 @@ Stripe's two, the AI Gateway's, OpenWeather's and the office containers'.
   `one_admin_press_site` in the site's config to the site's name there.
 - Rebuilding OneAdmin from a backup needs the keys again, since the
   database restored has none of them. They come from the nightly config copy
-  (Backups, below).
+  (Backups, below). See **Rebuilding OneAdmin**.
 - **Sign In to Cloudflare** is the other way to run Set Up Cloudflare
   (`cloudflare_signin.py`): OAuth's authorization code flow with PKCE, against
   an OAuth client made once in Cloudflare (Manage Account, OAuth clients) with
@@ -2708,3 +2708,34 @@ workspace that has the Weather service on (`one/weather.py`).
   OpenWeather takes it in the address, so `_get` raises a failure again
   without the address, and the `prev` and `next` links OpenWeather answers
   with are never kept.
+
+## Rebuilding OneAdmin
+
+What brings OneAdmin back with its box, its keeper secret and its keys all
+gone: the rescue kit (`~/.one-keys-prod.json`, with the OAuth client), the
+rescue passphrase, and a Cloudflare sign-in. Drilled on 11 November 2026
+onto a throwaway box beside the real one: about 35 minutes, most of it the
+box's first boot.
+
+1. `python scripts/rescue.py fetch --into DIR`: sign in to Cloudflare in
+   the browser and paste back the address it ends on (OneAdmin's sign-in
+   address refuses a sign-in it didn't start, so this works with OneAdmin
+   down). It makes an hour's token that reads `one-backups` alone, takes
+   the newest sealed config and the newest day of OneAdmin's backup, and
+   deletes the token. The kit's own keys can't read `one-backups`, and
+   the keeper's secret is inside the copy, so this is the only way in.
+2. `python scripts/rescue.py open DIR/config__oneadmin__DAY.one --out
+   site_config.json` with the passphrase.
+3. A keys file from it: `one_server_keys`, plus `aws_secret_access_key` and
+   the AWS key id (One Admin Settings, in the backup). `scripts/server.py
+   new NAME ... --keys FILE` builds the box with OneAdmin's own Cloudflare
+   token from it; no master token, no second sign-in.
+4. On the box: `pilot -b main new-site admin.<zone>`, the copy's config
+   merged over the new site's (keep the site's own `db_*`), the dump loaded
+   through the site's `db_socket`, then `migrate` with the bench's Python
+   (`../env/bin/python -m frappe.utils.bench_helper frappe --site S migrate`).
+5. Point admin.<zone> at the new box's tunnel, and run Set Up Cloudflare.
+
+What it loses is what changed since the backup it restores (the daily one,
+early morning). The drill kept the scheduler paused and mail muted and left
+out every key that reaches outside, so it touched nothing real.
