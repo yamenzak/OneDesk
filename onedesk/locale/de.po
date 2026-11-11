@@ -16636,6 +16636,14 @@ msgstr "Die E-Mail wird immer gesendet, damit man antworten kann."
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "E-Mail ist nicht eingerichtet, daher wurden diese Links nicht gesendet."
 
+#: onedesk/one/unsubscribe.py:119
+msgid "Emails Turned Off"
+msgstr "E-Mails deaktiviert"
+
+#: onedesk/one/unsubscribe.py:133
+msgid "Emails Turned On"
+msgstr "E-Mails aktiviert"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1370
 msgid "Emails people start from when they write."
 msgstr "E-Mails, von denen man beim Schreiben ausgeht."
@@ -56393,6 +56401,10 @@ msgstr "{0} ausschalten"
 msgid "Turn On"
 msgstr "Einschalten"
 
+#: onedesk/one/unsubscribe.py:123
+msgid "Turn On Again"
+msgstr "Wieder aktivieren"
+
 #: onedesk/public/js/one/notification_center.js:199
 msgid "Turn On Push"
 msgstr "Push einschalten"
@@ -56415,6 +56427,10 @@ msgstr "{0} einschalten"
 #, python-brace-format
 msgid "Turn On {0}?"
 msgstr "{0} einschalten?"
+
+#: onedesk/one/notify.py:777
+msgid "Turn off these emails"
+msgstr "Diese E-Mails deaktivieren"
 
 #: onedesk/public/js/one/notification_center.js:167
 msgid "Turn off to stop all notifications."
@@ -68204,6 +68220,11 @@ msgstr "{0} vertritt."
 msgid "{0} is done"
 msgstr "{0} ist erledigt"
 
+#: onedesk/one/unsubscribe.py:134
+#, python-brace-format
+msgid "{0} is emailed to {1} again."
+msgstr "{0} wird wieder per E-Mail an {1} gesendet."
+
 #: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} is failing"
@@ -68278,6 +68299,11 @@ msgstr "{0} ist mehr als die noch offenen {1}."
 #, python-brace-format
 msgid "{0} is needed."
 msgstr "{0} wird benötigt."
+
+#: onedesk/one/unsubscribe.py:120
+#, python-brace-format
+msgid "{0} is no longer emailed to {1}."
+msgstr "{0} wird nicht mehr per E-Mail an {1} gesendet."
 
 #: onedesk/one_storage/pdf.py:92
 #, python-brace-format

@@ -176,6 +176,13 @@ by mail.
   what it opens ("Open Supplier Quotation", or the type's `button`), and the
   type's name and `about` at the foot. Frappe's was "New Notification" and
   "Open Document".
+- **Turn off these emails.** A notification's mail that its person chose ends
+  with a link that turns that one type off for them, as their switch on
+  NotificationCenter does, without signing in, and carries List-Unsubscribe
+  with one-click for their mail client (`one/unsubscribe.py`). The link is
+  frappe's own signed unsubscribe link with our method in place of frappe's,
+  and the page it opens offers Turn On Again. An `always_mailed` type and a
+  mail to an outside address carry neither.
 - **A mail to an outside address** (`notify.mail`) has the same frame, without
   the settings link, since its reader has no settings.
 - **Whose it is.** The masthead is the workspace's name and its company's logo

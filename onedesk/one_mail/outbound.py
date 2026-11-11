@@ -9,6 +9,7 @@ from email.utils import parseaddr
 
 import frappe
 
+from onedesk.one import unsubscribe
 from onedesk.one_mail import threads
 
 ROOMY = 4 * 1024 * 1024
@@ -19,9 +20,10 @@ KEPT = 20
 
 
 def send(queue, sender: str, recipient: str, message) -> None:
-	"""The override_email_send hook."""
+	"""The override_email_send hook. A notification's mail gets its
+	List-Unsubscribe here, where the recipient is known (one/unsubscribe.py)."""
 	raw = message if isinstance(message, bytes) else message.encode()
-	raw = with_references(raw)
+	raw = unsubscribe.headed(with_references(raw), queue, recipient)
 	account = _account(queue, sender)
 	if not account:
 		frappe.throw(frappe._("No mailbox can send as {0}.").format(sender))

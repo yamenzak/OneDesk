@@ -20,6 +20,7 @@ REACH = {}
 
 NOT_FOR_AI = {
 	"company.use": "Which company a person works in is their own choice, from the frame.",
+	"unsubscribe.off": "A signed link in a mail, opened without signing in, while OneAI sets the same switch through NotificationCenter.",
 	"shortcut_center.save": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"shortcut_center.reset": "Which key does what is the reader's own choice in ShortcutCenter, never OneAI's.",
 	"avatars.pick": "How every record of a kind looks is an administrator's choice in One's settings, never OneAI's.",

@@ -16636,6 +16636,14 @@ msgstr "يُرسل البريد دائمًا ليتمكن الناس من الر
 msgid "Email isn't set up, so these links weren't sent."
 msgstr "البريد الإلكتروني غير مُعَدّ، لذا لم تُرسَل هذه الروابط."
 
+#: onedesk/one/unsubscribe.py:119
+msgid "Emails Turned Off"
+msgstr "تم إيقاف رسائل البريد"
+
+#: onedesk/one/unsubscribe.py:133
+msgid "Emails Turned On"
+msgstr "تم تشغيل رسائل البريد"
+
 #: onedesk/public/js/one_mail/onemail_settings.js:1370
 msgid "Emails people start from when they write."
 msgstr "رسائل يبدأ منها الأشخاص عندما يكتبون."
@@ -56393,6 +56401,10 @@ msgstr "إيقاف {0}"
 msgid "Turn On"
 msgstr "تشغيل"
 
+#: onedesk/one/unsubscribe.py:123
+msgid "Turn On Again"
+msgstr "إعادة التشغيل"
+
 #: onedesk/public/js/one/notification_center.js:199
 msgid "Turn On Push"
 msgstr "تفعيل الإشعارات الفورية"
@@ -56415,6 +56427,10 @@ msgstr "تشغيل {0}"
 #, python-brace-format
 msgid "Turn On {0}?"
 msgstr "تشغيل {0}؟"
+
+#: onedesk/one/notify.py:777
+msgid "Turn off these emails"
+msgstr "إيقاف هذه الرسائل"
 
 #: onedesk/public/js/one/notification_center.js:167
 msgid "Turn off to stop all notifications."
@@ -68204,6 +68220,11 @@ msgstr "{0} يغطي عنه."
 msgid "{0} is done"
 msgstr "أُنجز {0}"
 
+#: onedesk/one/unsubscribe.py:134
+#, python-brace-format
+msgid "{0} is emailed to {1} again."
+msgstr "يُرسل {0} بالبريد إلى {1} مجدداً."
+
 #: frontend/src/admin/AdminStatus.vue:39
 #, python-brace-format
 msgid "{0} is failing"
@@ -68278,6 +68299,11 @@ msgstr "{0} أكثر من المتبقي {1}."
 #, python-brace-format
 msgid "{0} is needed."
 msgstr "{0} مطلوب."
+
+#: onedesk/one/unsubscribe.py:120
+#, python-brace-format
+msgid "{0} is no longer emailed to {1}."
+msgstr "لم يعد {0} يُرسل بالبريد إلى {1}."
 
 #: onedesk/one_storage/pdf.py:92
 #, python-brace-format
