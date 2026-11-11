@@ -429,9 +429,10 @@ def note_backup(job, tenant) -> None:
 	keep it and the workspace's files in the locked backup bucket
 	(backups.archived): a keeper that does not answer stops the step, to be
 	tried again, rather than archive a workspace nothing kept. A workspace
-	with no backup, or no site, is not a reason to stop.
+	with no backup, no site, or that never went live and so holds nothing
+	anybody made, is not a reason to stop.
 	"""
-	if tenant.archived_backup or not tenant.site:
+	if tenant.archived_backup or not tenant.site or not tenant.live_on:
 		return
 	from onedesk.one_admin import backups
 
