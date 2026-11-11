@@ -64,25 +64,35 @@ catalogue skips `private/` (`private/**,ignore`, first in
 
 ## Getting it to a customer
 
-1. Frappe Cloud takes an app from the root of a repository, so the folder
-   is pushed to one of its own: `git subtree split --prefix private/<app>`
-   and push that to the app's repository. Add it to the bench group.
-   Deploy. Every site on the bench group then carries its code, and only the
-   ones that claim it install it.
-2. In OneAdmin, add a **Private App**: the app's name as in its `hooks.py`,
-   its title and its sentence.
+1. Push `main`. The release build reads every `private/<app>/<app>/hooks.py`
+   for its `one_private_app` (`deploy/release/upload.py`, `declared`: parsed,
+   never imported, so the build runs none of the app's code and One still
+   names none of them) and lists them in the release's
+   `releases/<sha>.json` as `private_apps`.
+2. OneAdmin's release check (`releases.check`, hourly and when the release
+   workflow says one is up) makes the **Private App** records from that
+   list (`private.register`): one per app, its title, sentence and icon
+   kept to what `hooks.py` says. Nobody adds one by hand, and the form
+   doesn't offer New. A record no release declares any more is deleted
+   only while no workspace holds a code for it; **Enabled** is the
+   operator's and a release never changes it.
 3. On it, **New Code**, and pick the workspace. The code is shown once. A new
    code for the same workspace replaces the old one.
 4. Send the code to the customer. Somebody who administers their workspace
    opens **Apps**, types it under *Have a code for a private app?*, and
    presses **Add**.
-5. OneAdmin queues an **Install App** job: it checks the app is on the bench
-   group, asks Frappe Cloud to install it, and waits until it is. The card
-   says *Installing…* meanwhile. When it is done the app is on the rail.
+5. OneAdmin queues an **Install App** job: it asks Pilot on the workspace's
+   server whether the app is on its bench (`GET /apps`), asks it to install
+   the app on the site (`POST /sites/<site>/apps`), and waits until the
+   site lists it. The card says *Installing…* meanwhile. When it is done
+   the app is on the rail.
 
 A failed job tells the operators and leaves the workspace as it was. Fix
-what it says (usually: deploy the bench group with the app on it) and
-**Resume** the job.
+what it says and **Resume** the job.
+
+The release's bench does not carry a private app as an app yet (see What is
+not built), so today step 5 stops at *Checking the app is on the server*
+until somebody puts it on that server's bench by hand.
 
 ## What holds it in place
 
@@ -95,7 +105,13 @@ what it says (usually: deploy the bench group with the app on it) and
 
 ## What is not built
 
-- A bench group of its own for a customer whose code must not sit on the
-  same servers as anybody else's.
+- A private app on the release's bench. The bench archive already holds its
+  source, inside `apps/onedesk/private/`, on every box; what is missing is
+  `apps/<app>` linked to it, installed into the bench's Python, listed in
+  `apps.txt` and `bench.toml`, and its assets in the screens' archive.
+  Pilot lists only an `apps/` folder with a `.git`, so the link needs
+  Pilot's linked-checkout path or a copy with its own repository.
+- A server of its own for a customer whose code must not sit on the same
+  servers as anybody else's, with `private/` left out of every other bench.
 - Taking a private app away again. By design there is no way, short of an
   operator with the server.

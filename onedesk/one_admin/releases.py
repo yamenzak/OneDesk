@@ -17,7 +17,7 @@ import frappe
 from frappe.rate_limiter import rate_limit
 from frappe.utils import add_days, get_datetime, get_system_timezone, getdate, now_datetime, today
 
-from onedesk.one_admin import boxes, fleet, servers, site
+from onedesk.one_admin import boxes, fleet, private, servers, site
 
 WEEKDAY = 5
 HOUR = 1
@@ -67,10 +67,12 @@ def check() -> dict:
 	"""Hourly, and when the release workflow says one is up, on the admin
 	site: a release the servers do not have yet is put on each, unless one is
 	still being prepared. A full box first drops the versions nobody is on,
-	and takes the release at the next check."""
+	and takes the release at the next check. Then the Private App records
+	become the private apps the release declares."""
 	if not site.is_admin() or not _rows() or not frappe.conf.get(servers.KEYS):
 		return {}
-	latest = boxes.latest_release(frappe.parse_json(frappe.conf.get(servers.KEYS)))
+	keys = frappe.parse_json(frappe.conf.get(servers.KEYS))
+	latest = boxes.latest_release(keys)
 	started = []
 	for row in _rows():
 		rows = servers.benches(row)
@@ -81,7 +83,7 @@ def check() -> dict:
 			continue
 		servers.prepare(row, latest)
 		started.append(row.server)
-	return {"release": latest, "started": started}
+	return {"release": latest, "started": started, "private": private.register(boxes.release_of(keys, latest).get("private_apps"))}
 
 
 def fresh(at, now: float) -> bool:

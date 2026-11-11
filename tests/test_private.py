@@ -74,3 +74,24 @@ def test_one_never_reaches_into_a_private_app():
 	assert not found, f"One reaches into a private app: {found}"
 	assert not [path.name for path in (tree.ROOT / "tests").rglob("test_*.py") if any(name in path.stem for name in names)], "a private app's tests belong in the app"
 	assert (tree.ROOT / "babel_extractors.csv").read_text().splitlines()[0] == "private/**,ignore"
+
+
+def test_a_release_adds_and_updates_its_private_apps_and_keeps_a_claimed_one():
+	planned = _load(ADMIN, {"planned"})["planned"]
+	held = {
+		"fleet": {"title": "Fleet", "said": "Vans.", "icon": "truck", "grants": 0},
+		"kept": {"title": "Kept", "said": "", "icon": "", "grants": 1},
+		"gone": {"title": "Gone", "said": "", "icon": "", "grants": 0},
+	}
+	declared = [
+		{"app": "fleet", "title": "Fleet", "said": "Vans and drivers.", "icon": "truck"},
+		{"app": "routes", "title": "Routes"},
+		{"app": "Bad-Name", "title": "Bad"},
+		"not a dict",
+	]
+	plan = planned(declared, held)
+	assert plan["add"] == {"routes": {"title": "Routes", "said": "", "icon": ""}}
+	assert plan["change"] == {"fleet": {"title": "Fleet", "said": "Vans and drivers.", "icon": "truck"}}
+	assert plan["drop"] == ["gone"], "a record a workspace holds a code for stays"
+	assert planned([{"app": "fleet", "title": "Fleet", "said": "Vans.", "icon": "truck"}], held) == {"add": {}, "change": {}, "drop": ["gone"]}
+	assert planned([], {}) == {"add": {}, "change": {}, "drop": []}

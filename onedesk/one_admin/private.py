@@ -1,7 +1,9 @@
 """Apps made for some workspaces only, and the codes that give them.
 
-The operator makes a code for one workspace (`new_code`); typed into Apps
-there, `claim` queues an Install App job that installs the app on its site.
+The records are the private apps the latest release declares (`register`,
+from releases.check). The operator makes a code for one workspace
+(`new_code`); typed into Apps there, `claim` queues an Install App job that
+installs the app on its site.
 The rest is in one_admin/AGENTS.md under private.py, and docs/PRIVATE-APPS.md.
 """
 
@@ -117,6 +119,46 @@ def _shown(row) -> dict:
 def wanted(job) -> dict:
 	"""The app and grant an Install App job is for."""
 	return json.loads(job.payload or "{}") or {}
+
+
+def planned(declared: list, held: dict) -> dict:
+	"""What a release's private apps make of the Private App records held
+	(app to title, said, icon and how many grants): the apps to add, the
+	ones whose title, sentence or icon changed, and the records no release
+	declares and no workspace holds a code for. Pure."""
+	wanted = {}
+	for one in declared or []:
+		app = str(one.get("app") or "") if isinstance(one, dict) else ""
+		if app[:1].isalpha() and app.isidentifier() and app == app.lower():
+			wanted[app] = {"title": str(one.get("title") or app), "said": str(one.get("said") or ""), "icon": str(one.get("icon") or "")}
+	return {
+		"add": {app: about for app, about in wanted.items() if app not in held},
+		"change": {app: about for app, about in wanted.items() if app in held and {key: held[app].get(key) or "" for key in about} != about},
+		"drop": sorted(app for app, had in held.items() if app not in wanted and not had.get("grants")),
+	}
+
+
+def register(declared: list | None) -> dict:
+	"""The Private App records, as the release's private apps declare
+	themselves (deploy/release/upload.py, `declared`). A release from before
+	releases listed them changes nothing, and a record with a grant is never
+	deleted. Enabled stays the operator's."""
+	if declared is None:
+		return {}
+	held = {row.name: {**row, "grants": 0} for row in frappe.get_all("Private App", fields=["name", "title", "said", "icon"])}
+	for parent in frappe.get_all("Private App Grant", filters={"parenttype": "Private App"}, pluck="parent"):
+		if parent in held:
+			held[parent]["grants"] += 1
+	plan = planned(declared, held)
+	for app, about in plan["add"].items():
+		frappe.get_doc({"doctype": "Private App", "app": app, **about}).insert(ignore_permissions=True)
+	for app, about in plan["change"].items():
+		doc = frappe.get_doc("Private App", app)
+		doc.update(about)
+		doc.save(ignore_permissions=True)
+	for app in plan["drop"]:
+		frappe.delete_doc("Private App", app, ignore_permissions=True)
+	return plan
 
 
 def installed(job) -> None:

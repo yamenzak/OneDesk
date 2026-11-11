@@ -52050,8 +52050,8 @@ msgstr "Die App, deren Ereignisse dies senden."
 
 #. Description of the 'Frappe App' (Data) field in DocType 'Private App'
 #: onedesk/one_admin/doctype/private_app/private_app.json:28
-msgid "The app's name on the bench group, the same as app_name in its hooks.py."
-msgstr "Der Name der App in der Bench-Gruppe, derselbe wie app_name in ihrer hooks.py."
+msgid "The app's name, the same as app_name in its hooks.py."
+msgstr "Der Name der App, derselbe wie app_name in ihrer hooks.py."
 
 #: onedesk/one_interface/tour.py:24
 msgid "The app's settings, this tour again, its help and what is new in it."

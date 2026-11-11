@@ -1,9 +1,12 @@
 """A release into the registry, run by build.sh. `publish` puts up the
 screens' archive, the ready-made bench, the template site and the box's agent
 of that commit, then what they are (`releases/<sha>.json`, last, since its
-arrival is what makes the release exist), and tells OneAdmin. `config` prints
-the template site's config without anything a site must not share."""
+arrival is what makes the release exist), and tells OneAdmin. What they are
+includes the private apps under `private/`, as each one's hooks.py declares
+itself, which OneAdmin keeps as its Private App records. `config` prints the
+template site's config without anything a site must not share."""
 
+import ast
 import hashlib
 import hmac
 import json
@@ -16,11 +19,41 @@ from pathlib import Path
 
 SHARED_NEVER = ("db_", "encryption_key", "admin_password", "pilot_", "cloud_", "onedesk_vapid", "host_name", "installed_apps", "maintenance", "pause_", "domains", "route", "ssl", "cert_name", "email_sender_name", "backup")
 SECRET_WORDS = ("secret", "token", "password", "key")
+HOOK = "one_private_app"
+ROOT = Path(__file__).resolve().parents[2]
 
 
 def shareable(config: dict) -> dict:
 	"""A site's config with only what every site from the template may hold. Pure."""
 	return {key: value for key, value in config.items() if not key.startswith(SHARED_NEVER) and not any(word in key.lower() for word in SECRET_WORDS)}
+
+
+def assigned(source: str) -> dict:
+	"""Every name a module sets to a plain value at its top, read without
+	running it. Pure."""
+	held = {}
+	for node in ast.parse(source).body:
+		if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
+			try:
+				held[node.targets[0].id] = ast.literal_eval(node.value)
+			except (ValueError, TypeError, SyntaxError):
+				continue
+	return held
+
+
+def declared(root: Path = ROOT) -> list[dict]:
+	"""The private apps under `root/private`, each as its hooks.py's
+	`one_private_app` says. Read, never imported: building a release runs
+	none of their code, and nothing in One names one."""
+	found = []
+	for hooks in sorted((root / "private").glob("*/*/hooks.py")):
+		app = hooks.parent.name
+		if app != hooks.parent.parent.name:
+			continue
+		about = assigned(hooks.read_text(encoding="utf-8")).get(HOOK)
+		if isinstance(about, dict):
+			found.append({"app": app, "title": str(about.get("title") or app), "said": str(about.get("said") or ""), "icon": str(about.get("icon") or "")})
+	return found
 
 
 def _part(out: Path, name: str) -> dict:
@@ -63,6 +96,7 @@ def publish(out: str, onedesk: str, frappe: str, erpnext: str, hrms: str) -> Non
 		**commit_of(Path(__file__).resolve().parents[2], onedesk),
 		"built_at": int(time.time()),
 		"built_in": int(os.environ.get("BUILT_IN") or 0) or None,
+		"private_apps": declared(),
 	}
 	store.put_object(Bucket=bucket, Key=f"{key}.json", Body=json.dumps(about).encode(), ContentType="application/json")
 	print(json.dumps(about))
