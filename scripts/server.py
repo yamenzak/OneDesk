@@ -58,6 +58,8 @@ def _maker(keys: dict) -> tuple[str, callable]:
 
 
 def _cloudflare(keys: dict) -> boxes.Cloudflare:
+	if keys.get("cloudflare_token") and not keys.get("cloudflare_master"):
+		return boxes.Cloudflare(keys["cloudflare_account"], keys["cloudflare_token"])
 	token, revoke = _maker(keys)
 	one = boxes.Cloudflare.from_master(token, keys["cloudflare_account"])
 	ended = one.end
