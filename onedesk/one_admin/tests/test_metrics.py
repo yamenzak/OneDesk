@@ -67,3 +67,12 @@ def test_a_bucket_keeps_what_it_holds_and_how_often_it_was_asked():
 	}
 	found = {one["bucket"]: one for one in metrics.buckets(account)}
 	assert found["files"]["requests"] == 4 and found["files"]["size"] == 8 and found["new"]["objects"] == 0
+
+
+def test_an_authz_code_is_a_refusal_whatever_its_words():
+	"""Workers says "authorization denied" with the code `authz`; read as an
+	outage, Servers said Cloudflare did not answer instead of naming the
+	permission the token needs."""
+	assert metrics.refused([{"message": "authorization denied", "extensions": {"code": "authz"}}])
+	assert metrics.refused([{"message": "not authorized for that account"}])
+	assert not metrics.refused([{"message": "unknown field datetimeHour", "extensions": {"code": "parse"}}])

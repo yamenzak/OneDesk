@@ -73,9 +73,13 @@ Frappe already has the way, in our bench's frappe: **desk islands**
   2. an entry in `frontend/src/islands/` (`export const mount =
      screen(Component)`);
   3. a line in `ISLANDS`, named `onedesk.<screen>`;
-  4. a desk Page whose script calls `onedesk.island_page`.
+  4. a desk Page whose script calls `onedesk.island_page`, or, for a way of
+     looking at one record type's list, a view in the registry
+     (`interface` › `views`, one_interface AGENTS.md, A list's own views),
+     which the list's view switcher offers beside List and Report.
 - **Guards** (`tests/guards/test_islands.py`):
-  - every island is built and mounted by a desk page;
+  - every island is built and mounted by a desk page, a record, a report or
+    a list's view;
   - `bench build` builds them, with frappe-ui pinned;
   - a `.vue` file has no style, colour or import of its own;
   - only `kit/desk.js` reaches into desk;

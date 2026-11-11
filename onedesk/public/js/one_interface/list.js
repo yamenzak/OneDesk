@@ -65,7 +65,7 @@ onedesk.interface.adapt("list", () => {
 			menu: { $button: this.page.menu_btn_group, dropdown: this.page.menu_dropdown },
 			up: onedesk.interface.home,
 			search:
-				this.view_name === "Dashboard"
+				this.hide_filters
 					? null
 					: {
 							placeholder: __("Search {0}", [__(this.doctype)]),

@@ -614,11 +614,15 @@ Keys show as dots and are never read back.
 
 ### Servers
 
-**Servers** shows a card for each server: its provider, status, live CPU,
-memory and disk, the workspaces on it and its release. Click a card to open its
-record, which has the server's charts under **Metrics**. **List View** opens the
-plain list. Under the cards are the requests, Workers and R2 storage Cloudflare
-counted over the last day.
+**Servers** opens on **Cards View**: a card for each server, with its
+provider, status, live CPU, memory and disk, the workspaces on it and its
+release. Click a card to open its record, which has the server's charts under
+**Metrics**. The view switcher beside the title also offers **List View** and
+**Report View**, and the list remembers the one you were last on. Under the
+cards are the requests, Workers and R2 storage Cloudflare counted over the last
+day. If a part is missing, the line under the charts names the permission
+Cloudflare's token needs; **Set Up Again** in ControlCenter › Cloudflare
+grants it.
 
 The servers new workspaces are built on are added here. To add one:
 
@@ -1991,7 +1995,15 @@ monitor and database history, Lightsail's CPU, burst and disk, and Cloudflare's
 GraphQL Analytics. Nothing is stored; a read stays in the cache for 25 seconds
 (five minutes for Cloudflare) and a source that cannot answer empties only its
 own charts. Cloudflare needs Account Analytics Read and Analytics Read on the
-token in OneAdmin Settings; without them the screen names the permission.
+token in OneAdmin Settings, which Set Up Cloudflare asks for (`TOKENS`, the
+names `setup.py` and the screen share); without them the screen names the
+permission. Cloudflare refuses an analytics query inside a 200, as an error
+coded `authz` whatever its words (Workers says "authorization denied"), so
+`metrics.refused` reads the code: read as words alone, Workers was taken for
+an outage ("did not answer"). The cards are the Workspace Server list's
+**Cards** view, declared in the registry (`interface` › `views`, one_interface
+AGENTS.md, A list's own views) and its DocType's `default_view`; the
+`oneadmin-servers` page they were on is gone (`servers_are_a_view`).
 
 A plan with `own_server` waits at `place_it` until an operator presses **Order
 Server** on Home (8 GB, Open off, one workspace), and Home offers **Delete

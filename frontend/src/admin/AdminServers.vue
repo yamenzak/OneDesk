@@ -29,13 +29,11 @@
 import { computed, onBeforeUnmount, ref } from "vue";
 import { AreaChart, BarChart, ChartCard, useChartTokens } from "frappe-ui/charts";
 
-import { Loading, Page, Section, __, alert, call, count, fileSize, followList, get, go, onedesk, wrapped } from "../kit";
+import { Loading, Page, Section, __, count, fileSize, followList, get, wrapped } from "../kit";
 import ServerCard from "./ServerCard.vue";
 
 const LIVE_EVERY = 30000;
 const TOP = 12;
-
-const props = defineProps({ onTitle: Function, onActions: Function });
 
 const servers = ref(null);
 const traffic = ref(null);
@@ -57,18 +55,6 @@ onBeforeUnmount(() => {
   stops.forEach((stop) => stop());
   clearInterval(timer);
 });
-
-const order = async () => {
-  const go_ahead = await onedesk().interface.ask({ question: __("Order a server?"), effect: __("Takes about 25 minutes. $24 a month."), verb: __("Order Server") });
-  if (!go_ahead) return;
-  await call("onedesk.one_admin.operator.order_server");
-  alert(__("Server ordered."));
-};
-props.onTitle?.({ title: __("Servers") });
-props.onActions?.([
-  { label: __("Order Server"), primary: true, onClick: order },
-  { label: __("List View"), button: true, onClick: () => go("/desk/workspace-server/view/list") },
-]);
 
 const part = (key) => traffic.value?.[key]?.data || [];
 const workspaces = computed(() => part("workspaces").slice(0, TOP));

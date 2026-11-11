@@ -333,6 +333,7 @@ public/js/one_interface/chrome.js     the frame around it: the top and bottom ba
 public/js/one_interface/page.js       any desk page frappe loads by name: its primary button and menu
 public/js/one_interface/list.js       frappe's list and every view made from it (report, kanban,
                                calendar, gantt, image, map, dashboard, inbox, file)
+public/js/one_interface/views.js      a module's own view of a list (the registry's `views`)
 public/js/one_interface/board.js      a Kanban v2 board
 public/js/one_interface/report.js     a query report: its rows and footer in the status row
 public/js/one_interface/tree.js       a tree (accounts, cost centres...): views and search as a list's
@@ -825,6 +826,22 @@ once more after the form settles:
 
 The registry is `ready.MODULES[module]["interface"]`; `ready.interface()`
 merges it and boot hands it over as `frappe.boot.one_interface`.
+
+### A list's own views
+
+A record type may have a way of looking at its list that frappe has not got,
+drawn by an island: `views`, each a one-word `name` (its route,
+`/view/<name>`), a `label` and an `icon` for the view switcher, and the
+`island` it mounts. OneAdmin's Workspace Server has **Cards**. views.js makes
+each one a view frappe knows: in `frappe.views.view_modes`, its icon and
+label, `frappe.router.list_views_route`, and `frappe.views.<Name>View`, the
+class frappe's ListFactory builds by that name. That class is a ListView with
+no filters, sort or rows of its own (as frappe's Dashboard is): it keeps the
+list's title, primary action, ··· menu and switcher, and mounts the island
+where the rows would be, given `{ doctype, win }`. The island fetches and
+follows what it shows itself. The switcher offers it only on the list of the
+record type that declares it. The DocType's own `default_view` may name it,
+and frappe's `last_view` remembers it like any other.
 
 ## Levels
 

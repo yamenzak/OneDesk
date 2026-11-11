@@ -13,6 +13,7 @@ from botocore.config import Config
 from botocore.exceptions import ClientError
 
 from onedesk.one_admin import boxes, cloudflare, faults, fleet, operator, pilot, servers, vault
+from onedesk.one_admin.setup import ACCOUNT_ANALYTICS, ZONE_ANALYTICS
 
 GRAPHQL = f"{cloudflare.API}/graphql"
 OK, REFUSED, UNREACHABLE = "ok", "refused", "unreachable"
@@ -25,8 +26,7 @@ CARD_WINDOW = "1h"
 WINDOWS = {"1h": (3600, 300), "6h": (21600, 300), "24h": (86400, 900), "1w": (604800, 3600)}
 SPAN = timedelta(hours=24) - timedelta(minutes=5)
 GONE = ("Archived", "Dropped", "Failed")
-NEEDS_ACCOUNT = "Account Analytics Read"
-NEEDS_ZONE = "Analytics Read"
+REFUSALS = ("not authorized", "authorization denied", "permission", "does not have access")
 AWS_CLIENT = Config(connect_timeout=5, read_timeout=READ_WAIT, retries={"max_attempts": 1})
 CARD_METRICS = ("CPUUtilization", "BurstCapacityPercentage")
 LIGHTSAIL = {
@@ -311,10 +311,16 @@ def graphql(token: str, query: str, variables: dict) -> dict:
 		raise faults.Refused("Cloudflare refused analytics", answer.status_code)
 	body = answer.json()
 	if body.get("errors"):
-		text = " ".join(one.get("message", "") for one in body["errors"]).lower()
-		refused = any(word in text for word in ("authz", "not authorized", "permission", "does not have access"))
-		raise faults.Refused(f"Cloudflare analytics: {text}", 403 if refused else 500)
+		text = " ".join(one.get("message", "") for one in body["errors"])
+		raise faults.Refused(f"Cloudflare analytics: {text}", 403 if refused(body["errors"]) else 500)
 	return body["data"]["viewer"]
+
+
+def refused(errors: list[dict]) -> bool:
+	"""Whether Cloudflare's errors say the token may not read this: an error
+	coded `authz`, as Workers' "authorization denied" is, or one that says
+	so in words. Pure."""
+	return any((one.get("extensions") or {}).get("code") == "authz" or any(word in (one.get("message") or "").lower() for word in REFUSALS) for one in errors)
 
 
 def requests_by_workspace(groups: list[dict], domain: str, tenants: dict[str, dict]) -> list[dict]:
@@ -381,4 +387,4 @@ def traffic() -> dict:
 	Worker by the hour, and each R2 bucket. A part the token may not read
 	names the permission it needs."""
 	operator._may()
-	return {**_held("traffic", TRAFFIC_FOR, _traffic), "needs": {"workspaces": NEEDS_ZONE, "workers": NEEDS_ACCOUNT, "r2": NEEDS_ACCOUNT}}
+	return {**_held("traffic", TRAFFIC_FOR, _traffic), "needs": {"workspaces": ZONE_ANALYTICS, "workers": ACCOUNT_ANALYTICS, "r2": ACCOUNT_ANALYTICS}}

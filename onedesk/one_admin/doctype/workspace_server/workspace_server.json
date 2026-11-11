@@ -2,6 +2,7 @@
  "actions": [],
  "allow_rename": 0,
  "creation": "2026-09-29 20:00:00.000000",
+ "default_view": "Cards",
  "doctype": "DocType",
  "engine": "InnoDB",
  "field_order": [
@@ -178,7 +179,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-11-10 01:00:00.000000",
+ "modified": "2026-11-11 19:00:00.000000",
  "modified_by": "Administrator",
  "module": "One Admin",
  "name": "Workspace Server",

@@ -76,6 +76,8 @@ DEPLOY = Path(__file__).resolve().parents[2] / "deploy"
 COMPATIBILITY = "2025-01-01"
 COMPATIBILITY_CONTAINERS = "2025-10-01"
 GATEWAY = "one"
+ZONE_ANALYTICS = "Analytics Read"
+ACCOUNT_ANALYTICS = "Account Analytics Read"
 
 # One's own tokens: each one's settings field and the names Cloudflare may give
 # each permission it needs (Write or Edit). A * name is any that starts so,
@@ -95,6 +97,8 @@ TOKENS = {
 			("SSL and Certificates Write", "SSL and Certificates Edit"),
 			("Zone Settings Write", "Zone Settings Edit"),
 			("Email Routing Rules Write", "Email Routing Rules Edit"),
+			(ZONE_ANALYTICS,),
+			(ACCOUNT_ANALYTICS,),
 		),
 	),
 	"OneAdmin Storage": ("r2_secret", (("Workers R2 Storage Bucket Item Write",),)),

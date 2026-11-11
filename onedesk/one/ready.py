@@ -1193,6 +1193,11 @@ MODULES = {
 		"names": ("one_admin", "oneadmin"),
 		"operators": True,
 		"engine": "OneAdmin runs only on the admin site, where its one role is set, so it ships no roles to a workspace.",
+		"interface": {
+			"Workspace Server": {
+				"views": ({"name": "Cards", "label": _lt("Cards View"), "icon": "layout-grid", "island": "onedesk.oneadmin_servers"},),
+			},
+		},
 		"help": (
 			("overview", "info"),
 			("workspaces", "building"),
@@ -1577,7 +1582,7 @@ def registry(module: str) -> list[dict]:
 	]
 
 
-INTERFACE_KEYS = {"tabs", "fields", "cards", "track", "states", "links"}
+INTERFACE_KEYS = {"tabs", "fields", "cards", "track", "states", "links", "views"}
 
 
 def _states(said: dict | None) -> dict:
@@ -1596,6 +1601,19 @@ def _states(said: dict | None) -> dict:
 			raise ValueError(f"a strip's kind says a label and its filters: {one}")
 		kinds.append({"label": str(one["label"]), "filters": [list(rule) for rule in one["filters"]]})
 	return {"field": said.get("field", "status"), "order": list(said.get("order") or ()), "hide": list(said.get("hide") or ()), "kinds": kinds}
+
+
+VIEW_KEYS = {"name", "label", "icon", "island"}
+
+
+def _view(said: dict) -> dict:
+	"""A way of looking at a list beside frappe's own (List, Report, Kanban…):
+	its name in the route (`/view/<name>`), its label and icon in the view
+	switcher, and the island it draws. The record type's `default_view` may
+	name it."""
+	if set(said) != VIEW_KEYS or not re.fullmatch(r"[A-Z][a-z]+", said["name"]):
+		raise ValueError(f"a view says a one-word name, a label, an icon and its island: {said}")
+	return {**said, "label": str(said["label"])}
 
 
 LINK_KEYS = {"label", "icon", "new", "list", "open", "with", "when"}
@@ -1623,7 +1641,8 @@ def _link(said: dict) -> dict:
 def interface() -> dict:
 	"""How each record type is drawn, as every module declares it under
 	"interface": icons for its tabs and fields, at most four head cards, the
-	row whose steps are its track and the states its list's strip counts. The renderer reads this and nothing
+	row whose steps are its track, the states its list's strip counts and
+	its list's views of its own. The renderer reads this and nothing
 	else; a record type is declared by one module only."""
 	found = {}
 	for module, one in MODULES.items():
@@ -1643,6 +1662,7 @@ def interface() -> dict:
 				"track": said.get("track"),
 				"states": _states(said.get("states")),
 				"links": [_link(one) for one in said.get("links") or ()],
+				"views": [_view(one) for one in said.get("views") or ()],
 			}
 	return found
 
