@@ -35,3 +35,13 @@ def test_the_pasted_address_gives_its_code_only_to_its_own_sign_in():
 		cloudflare_signin.code_in(back, "s2")
 	with pytest.raises(ValueError):
 		cloudflare_signin.code_in("https://admin.example.com/x?error=access_denied&state=s1", "s1")
+
+
+def test_routing_is_missing_when_cloudflare_names_a_missing_record():
+	from onedesk.one_admin import setup
+
+	needed = {"type": "MX", "name": "m.example.com", "content": "route1.mx.cloudflare.net"}
+	assert setup.routing_missing({"errors": [{"code": "missing", "missing": needed}], "record": [needed]})
+	assert not setup.routing_missing({"errors": [], "record": [needed]})
+	assert setup.routing_missing(None)
+	assert setup.routing_missing([{**needed, "missing": True}])

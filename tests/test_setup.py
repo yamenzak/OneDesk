@@ -213,7 +213,7 @@ def test_the_mail_zone_is_its_own_and_another_workers_catch_all_is_left_alone():
 	"""Email Routing's catch-all belongs to a whole zone: setup takes mail
 	in on the mail domain's zone, and leaves a catch-all that already hands
 	mail to another Worker as it is."""
-	for step in ("mail_routing", "catch_all", "mail_sending"):
+	for step in ("routed", "catch_all", "mail_sending"):
 		assert 'self.mail_zone["id"]' in _method(step).replace("'", '"')
 	catch = _method("catch_all")
 	assert catch.index("THEIRS") < catch.index("'PUT'")

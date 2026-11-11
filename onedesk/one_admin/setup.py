@@ -124,6 +124,16 @@ GUARDRAILS = {
 OURS, MADE, THEIRS, FAILED, WAITING = "ours", "created", "theirs", "failed", "needs attention"
 
 
+def routing_missing(held) -> bool:
+	"""Whether Email Routing's answer for a domain names a record it lacks:
+	in `errors`, each with `missing`, or a record marked missing. Pure."""
+	if not held:
+		return True
+	records = held.get("record") or [] if isinstance(held, dict) else held
+	errors = held.get("errors") or [] if isinstance(held, dict) else []
+	return any(isinstance(one, dict) and one.get("missing") for one in [*errors, *records])
+
+
 class Setup:
 	"""One run: what was found and made, step by step, each saved as it is."""
 
@@ -573,17 +583,7 @@ class Setup:
 	def mail_routing(self) -> None:
 		"""Email Routing on the mail domain: Cloudflare adds and locks its MX
 		and SPF records. Needs the key's Zone Settings: Edit."""
-		mail = self.settings.mail_domain
-		zone = self.mail_zone["id"]
-		try:
-			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": mail})["result"]
-		except Refused as reason:
-			return self.note("mail routing", WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
-		missing = [one for one in (held or {}).get("record", held or []) if isinstance(one, dict) and one.get("missing")]
-		if held and not missing:
-			return self.note("mail routing", OURS, mail)
-		self.call("POST", f"/zones/{zone}/email/routing/dns", json={"name": mail})
-		self.note("mail routing", MADE, mail)
+		self.routed("mail routing", self.settings.mail_domain)
 
 	def sink_routing(self) -> None:
 		"""Email Routing on the test domain, as mail_routing does it for the
@@ -591,19 +591,27 @@ class Setup:
 		Worker, which hands it to the test mail Worker; the domain is kept
 		for the reader (testmail.py)."""
 		domain = self.sink_domain()
+		if self.routed("test mail routing", domain):
+			frappe.db.set_default(TEST_MAIL_DOMAIN, domain)
+			frappe.db.commit()
+
+	def routed(self, step: str, domain: str) -> bool:
+		"""Email Routing's MX and SPF records on a domain of the mail zone,
+		added when Cloudflare says one is missing or the zone has no MX for
+		it. Whether the domain is routed."""
 		zone = self.mail_zone["id"]
 		try:
 			held = self.call("GET", f"/zones/{zone}/email/routing/dns", params={"subdomain": domain})["result"]
 		except Refused as reason:
-			return self.note("test mail routing", WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
-		missing = [one for one in (held or {}).get("record", held or []) if isinstance(one, dict) and one.get("missing")]
-		state = OURS
-		if not held or missing:
-			self.call("POST", f"/zones/{zone}/email/routing/dns", json={"name": domain})
-			state = MADE
-		frappe.db.set_default(TEST_MAIL_DOMAIN, domain)
-		frappe.db.commit()
-		self.note("test mail routing", state, domain)
+			self.note(step, WAITING, _("{0}. The OneAdmin token needs Zone Settings: Edit.").format(reason))
+			return False
+		mx = self.call("GET", f"/zones/{zone}/dns_records", params={"type": "MX", "name": domain})["result"] or []
+		if not routing_missing(held) and mx:
+			self.note(step, OURS, domain)
+			return True
+		self.call("POST", f"/zones/{zone}/email/routing/dns", json={"name": domain})
+		self.note(step, MADE, domain)
+		return True
 
 	def catch_all(self) -> None:
 		"""The mail zone's catch-all, to our mail Worker. One that already
