@@ -66,14 +66,18 @@ def _tenants(server: str) -> list:
 def check() -> dict:
 	"""Hourly, and when the release workflow says one is up, on the admin
 	site: a release the servers do not have yet is put on each, unless one is
-	still being prepared or a box is full."""
+	still being prepared. A full box first drops the versions nobody is on,
+	and takes the release at the next check."""
 	if not site.is_admin() or not _rows() or not frappe.conf.get(servers.KEYS):
 		return {}
 	latest = boxes.latest_release(frappe.parse_json(frappe.conf.get(servers.KEYS)))
 	started = []
 	for row in _rows():
 		rows = servers.benches(row)
-		if any(one.get("release") == latest for one in rows) or len(rows) >= MOST_BENCHES:
+		if any(one.get("release") == latest for one in rows):
+			continue
+		if len(rows) >= MOST_BENCHES:
+			_drop_the_empty(row)
 			continue
 		servers.prepare(row, latest)
 		started.append(row.server)
