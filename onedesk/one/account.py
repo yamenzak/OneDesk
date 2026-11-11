@@ -7,7 +7,7 @@ answers, and this asks and records them.
 import frappe
 import requests
 from frappe.rate_limiter import rate_limit
-from frappe.utils import add_days, date_diff, flt, formatdate, get_system_timezone, getdate, now_datetime, today
+from frappe.utils import add_days, date_diff, flt, formatdate, getdate, now_datetime, today
 
 from onedesk.one import roles
 from onedesk.one_admin import faults, proxy
@@ -85,7 +85,9 @@ def refresh() -> dict:
 	try:
 		from onedesk.one_legal import gate
 
-		said = ask("onedesk.one_admin.proxy.hello", database_bytes=database_bytes(), terms_pending=int(gate.workspace_behind()), time_zone=get_system_timezone()) or {}
+		finished = frappe.is_setup_complete()
+		ours = frappe.get_system_settings("time_zone")
+		said = ask("onedesk.one_admin.proxy.hello", database_bytes=database_bytes(), terms_pending=int(gate.workspace_behind()), time_zone=zone_to_say(finished, ours)) or {}
 	except faults.Refused as refused:
 		held.db_set("last_error", str(refused)[: faults.KEPT])
 		return held.as_dict()
@@ -130,12 +132,36 @@ def refresh() -> dict:
 			"last_error": None,
 		}
 	)
+	_take_zone(zone_to_take(finished, ours, said.get("time_zone")))
 	_keep(held, said.get("domains"), said.get("add_ons"))
 	_tell(before, held, credits.get("gift"))
 	from onedesk.one_account import owner
 
 	owner.arrive(said)
 	return held.as_dict()
+
+
+def zone_to_say(finished: bool, ours: str | None) -> str | None:
+	"""The time zone this workspace tells admin: its own once its wizard is
+	through, and nothing before, when all it has is frappe's Asia/Kolkata
+	fallback and admin holds the signup's. Pure."""
+	return (ours or None) if finished else None
+
+
+def zone_to_take(finished: bool, ours: str | None, theirs: str | None) -> str | None:
+	"""The signup's time zone (one_admin/signup.py zone), taken while the
+	wizard is still to come, so the wizard offers it and the backup hour
+	and System Settings agree from the build. Pure."""
+	return theirs if theirs and not finished and theirs != ours else None
+
+
+def _take_zone(zone: str | None) -> None:
+	if not zone:
+		return
+	system = frappe.get_single("System Settings")
+	system.time_zone = zone
+	system.flags.ignore_permissions = True
+	system.save()
 
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])

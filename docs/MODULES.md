@@ -52,7 +52,7 @@ No doctypes yet.
 
 | Doctype | Fields | Kind |
 |---|--:|---|
-| Account Request | 20 | document |
+| Account Request | 21 | document |
 | Credit Ledger Entry | 15 | submittable |
 | Credit Reservation | 10 | document |
 | Health Check | 6 | document |

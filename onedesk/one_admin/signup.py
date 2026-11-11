@@ -4,6 +4,8 @@ Nothing is provisioned until money has moved, and nothing unwinds: every part
 is safe to run twice, and the resume is the same call again.
 """
 
+from zoneinfo import available_timezones
+
 import frappe
 from frappe.rate_limiter import rate_limit
 
@@ -12,6 +14,8 @@ from onedesk.one_admin import keys, runner, site
 HOLDING = ("New", "Paying", "Paid", "Provisioning", "Done")
 
 ABANDONED_DAYS = 7
+
+UNSAID_ZONE = "UTC"
 
 
 class NotBuilt(frappe.ValidationError):
@@ -36,6 +40,14 @@ def refuse_a_taken_slug(slug: str) -> None:
 		frappe.throw(frappe._("{0} is taken.").format(slug), frappe.DuplicateEntryError)
 	if frappe.db.exists("Account Request", {"slug": slug, "status": ["in", HOLDING]}):
 		frappe.throw(frappe._("{0} is taken.").format(slug), frappe.DuplicateEntryError)
+
+
+def zone(said: str | None) -> str:
+	"""The time zone the signup's browser said, or UTC when it said none
+	that exists. The workspace takes it before its wizard (account.refresh)
+	and its backup and update hour are kept in it. Pure."""
+	said = (said or "").strip()
+	return said if said in available_timezones() else UNSAID_ZONE
 
 
 def free(raw: str) -> dict:
@@ -149,6 +161,7 @@ def _tenant_for(asked) -> str:
 			"jurisdiction": asked.jurisdiction,
 			"cluster": asked.cluster,
 			"country": asked.country,
+			"time_zone": zone(asked.time_zone),
 			"storage_limit": (sold.storage_gb or 0) * 1000 * 1000 * 1000,
 			"database_limit": (sold.database_gb or 0) * 1000 * 1000 * 1000,
 			"seats": sold.seats or 0,
@@ -278,7 +291,7 @@ def remind() -> None:
 
 @frappe.whitelist(allow_guest=True, methods=["POST"])
 @rate_limit(limit=STARTS_A_MINUTE, seconds=A_MINUTE)
-def start(workspace_name: str, offering: str, jurisdiction: str = "Global", email: str | None = None) -> dict:
+def start(workspace_name: str, offering: str, jurisdiction: str = "Global", email: str | None = None, time_zone: str | None = None) -> dict:
 	"""Take a signup and hand back somewhere to pay.
 
 	The request is written before the customer is sent to Stripe. Somebody signed
@@ -301,6 +314,7 @@ def start(workspace_name: str, offering: str, jurisdiction: str = "Global", emai
 			"slug": workspace_name,
 			"offering": sold.name,
 			"jurisdiction": jurisdiction if jurisdiction in ("Global", "EU") else "Global",
+			"time_zone": zone(time_zone),
 			"status": "New",
 		}
 	).insert(ignore_permissions=True)

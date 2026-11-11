@@ -270,13 +270,12 @@ def push_config(job, tenant) -> None:
 
 
 def invite_owner(job, tenant) -> str | None:
-	"""Have the new site invite whoever paid for it as its first administrator.
+	"""Have the new site invite whoever paid for it as its first administrator,
+	and take the signup's time zone into its System Settings.
 
 	The site does it (`account.wake`, one_account/owner.py), since we cannot sign in to
 	it. Safe to run twice; a site that has not read its new config yet waits.
 	"""
-	if not tenant.get("owner_email"):
-		return None
 	try:
 		answer = requests.post(
 			f"https://{tenant.site}/api/method/onedesk.one.account.wake", timeout=30
@@ -285,7 +284,7 @@ def invite_owner(job, tenant) -> str | None:
 		raise faults.Again(f"the site could not be reached: {raised}") from raised
 	if answer.status_code != 200:
 		raise faults.Again(f"the site answered {answer.status_code}")
-	if not (answer.json().get("message") or {}).get("administered"):
+	if tenant.get("owner_email") and not (answer.json().get("message") or {}).get("administered"):
 		return WAIT
 	return None
 
