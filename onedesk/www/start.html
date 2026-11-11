@@ -172,6 +172,7 @@
 				workspace_name: form.workspace_name.value,
 				offering: form.offering.value,
 				jurisdiction: form.jurisdiction.value,
+				time_zone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			});
 			// Stripe's Checkout in place of the form; paid, Stripe takes the
 			// page on to the welcome page, and Back frees the name again.

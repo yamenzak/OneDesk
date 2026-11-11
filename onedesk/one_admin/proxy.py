@@ -107,8 +107,11 @@ def hello(database_bytes: int | None = None, terms_pending: int | None = None, t
 	tenant = caller(INTRODUCED)
 	if database_bytes is not None:
 		frappe.db.set_value("Tenant", tenant.name, "database_bytes", cint(database_bytes), update_modified=False)
-	if terms_pending is not None or time_zone:
-		frappe.db.set_value("Tenant", tenant.name, {"terms_pending": cint(terms_pending), "time_zone": time_zone}, update_modified=False)
+	told = {"terms_pending": cint(terms_pending)} if terms_pending is not None else {}
+	if time_zone:
+		told["time_zone"] = time_zone
+	if told:
+		frappe.db.set_value("Tenant", tenant.name, told, update_modified=False)
 	known = frappe.db.get_value(
 		"Tenant",
 		tenant.name,
@@ -128,6 +131,7 @@ def hello(database_bytes: int | None = None, terms_pending: int | None = None, t
 			"storage_limit",
 			"owner_email",
 			"is_house",
+			"time_zone",
 		],
 		as_dict=True,
 	)
@@ -172,6 +176,7 @@ def hello(database_bytes: int | None = None, terms_pending: int | None = None, t
 		"domains": domains.mine(_tenant_doc(tenant)),
 		"dns_target": known.domain,
 		"update": releases.upcoming(tenant.name),
+		"time_zone": known.time_zone,
 	}
 
 

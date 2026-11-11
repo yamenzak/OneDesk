@@ -18,6 +18,7 @@
   "column_break_wants",
   "jurisdiction",
   "country",
+  "time_zone",
   "outcome_section",
   "tenant",
   "column_break_outcome",
@@ -111,6 +112,12 @@
    "read_only": 1
   },
   {
+   "fieldname": "time_zone",
+   "fieldtype": "Data",
+   "label": "Time Zone",
+   "read_only": 1
+  },
+  {
    "fieldname": "outcome_section",
    "fieldtype": "Section Break",
    "label": "Outcome"
@@ -174,7 +181,7 @@
  ],
  "index_web_pages_for_search": 0,
  "links": [],
- "modified": "2026-10-15 18:00:00.000000",
+ "modified": "2026-11-11 12:00:00.000000",
  "modified_by": "Administrator",
  "name": "Account Request",
  "module": "One Admin",
