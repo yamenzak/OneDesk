@@ -40,14 +40,16 @@
    "label": "Key",
    "reqd": 1,
    "set_only_once": 1,
-   "unique": 1
+   "unique": 1,
+   "read_only": 1
   },
   {
    "fieldname": "label",
    "fieldtype": "Data",
    "label": "Label",
    "reqd": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_what",
@@ -60,14 +62,16 @@
    "label": "Kind",
    "options": "Plan\nCredit Pack\nAdd-on",
    "reqd": 1,
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "read_only": 1
   },
   {
    "default": "1",
    "fieldname": "enabled",
    "fieldtype": "Check",
    "label": "Enabled",
-   "in_standard_filter": 1
+   "in_standard_filter": 1,
+   "read_only": 1
   },
   {
    "fieldname": "price_section",
@@ -80,7 +84,8 @@
    "fieldtype": "Link",
    "label": "Currency",
    "options": "Currency",
-   "reqd": 1
+   "reqd": 1,
+   "read_only": 1
   },
   {
    "fieldname": "amount",
@@ -88,7 +93,8 @@
    "label": "Amount",
    "options": "currency",
    "reqd": 1,
-   "in_list_view": 1
+   "in_list_view": 1,
+   "read_only": 1
   },
   {
    "fieldname": "column_break_price",
@@ -100,7 +106,8 @@
    "fieldtype": "Check",
    "label": "Recurring",
    "description": "Clear for a plan paid once. A pack is always once and an add-on always monthly.",
-   "depends_on": "eval:doc.kind=='Plan'"
+   "depends_on": "eval:doc.kind=='Plan'",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -108,7 +115,8 @@
    "fieldname": "trial_days",
    "fieldtype": "Int",
    "label": "Free Trial (Days)",
-   "depends_on": "eval:doc.kind=='Plan' && doc.recurring"
+   "depends_on": "eval:doc.kind=='Plan' && doc.recurring",
+   "read_only": 1
   },
   {
    "fieldname": "quota_section",
@@ -121,7 +129,8 @@
    "fieldname": "storage_gb",
    "fieldtype": "Int",
    "label": "Storage (GB)",
-   "depends_on": "eval:doc.kind!='Credit Pack'"
+   "depends_on": "eval:doc.kind!='Credit Pack'",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -129,7 +138,8 @@
    "fieldtype": "Int",
    "label": "Database (GB)",
    "description": "The site's database and its backups. Zero means unlimited on a plan.",
-   "depends_on": "eval:doc.kind!='Credit Pack'"
+   "depends_on": "eval:doc.kind!='Credit Pack'",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -137,7 +147,8 @@
    "fieldname": "seats",
    "fieldtype": "Int",
    "label": "Seats",
-   "depends_on": "eval:doc.kind!='Credit Pack'"
+   "depends_on": "eval:doc.kind!='Credit Pack'",
+   "read_only": 1
   },
   {
    "fieldname": "column_break_quota",
@@ -149,7 +160,8 @@
    "fieldtype": "Int",
    "label": "Credits",
    "description": "Granted once, when the pack is bought.",
-   "depends_on": "eval:doc.kind=='Credit Pack'"
+   "depends_on": "eval:doc.kind=='Credit Pack'",
+   "read_only": 1
   },
   {
    "default": "0",
@@ -157,7 +169,8 @@
    "fieldtype": "Int",
    "label": "Monthly Credits",
    "description": "Granted at the start of each month and does not roll over.",
-   "depends_on": "eval:doc.kind!='Credit Pack'"
+   "depends_on": "eval:doc.kind!='Credit Pack'",
+   "read_only": 1
   },
   {
    "fieldname": "gives",
@@ -174,7 +187,8 @@
   {
    "fieldname": "description",
    "fieldtype": "Small Text",
-   "label": "Description"
+   "label": "Description",
+   "read_only": 1
   },
   {
    "fieldname": "stripe_section",

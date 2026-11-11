@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-11 18:45+0000\n"
-"PO-Revision-Date: 2026-11-11 18:45+0000\n"
+"POT-Creation-Date: 2026-11-11 18:53+0000\n"
+"PO-Revision-Date: 2026-11-11 18:53+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -3111,7 +3111,7 @@ msgstr ""
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
 #. Label of the offering (Link) field in DocType 'Tenant Add-on'
 #: onedesk/one_account/doctype/workspace_add_on/workspace_add_on.json:18
-#: onedesk/one_admin/doctype/offering/offering.json:61
+#: onedesk/one_admin/doctype/offering/offering.json:63
 #: onedesk/one_admin/doctype/tenant_add_on/tenant_add_on.json:18
 #: onedesk/one_display/starters.py:626
 #: onedesk/public/js/one_account/account_center.js:859
@@ -4188,7 +4188,7 @@ msgstr ""
 #. Label in the One Supplier Quotation print format
 #: frontend/portal/src/pages/Rfq.vue:19 frontend/src/intake/IntakePay.vue:35
 #: frontend/src/project/Suppliers.vue:135 frontend/src/project/Time.vue:30
-#: onedesk/one_admin/doctype/offering/offering.json:88
+#: onedesk/one_admin/doctype/offering/offering.json:93
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:83
 #: onedesk/one_ai/doctype/reading_line/reading_line.json:41
 #: onedesk/one_ai/reading/bundle.py:74
@@ -9654,7 +9654,7 @@ msgid "Clear cell"
 msgstr ""
 
 #. Description of the 'Recurring' (Check) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:102
+#: onedesk/one_admin/doctype/offering/offering.json:108
 msgid "Clear for a plan paid once. A pack is always once and an add-on always monthly."
 msgstr ""
 
@@ -12197,7 +12197,7 @@ msgid "Credit Note Voucher"
 msgstr ""
 
 #. Option for the 'Kind' (Select) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:61
+#: onedesk/one_admin/doctype/offering/offering.json:63
 msgid "Credit Pack"
 msgstr ""
 
@@ -12239,7 +12239,7 @@ msgstr ""
 #: frontend/src/admin/BillingHome.vue:26
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:202
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:54
-#: onedesk/one_admin/doctype/offering/offering.json:150
+#: onedesk/one_admin/doctype/offering/offering.json:161
 #: onedesk/one_admin/heads.py:547
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:122
@@ -12354,7 +12354,7 @@ msgstr ""
 #: frontend/src/sheet/components/SheetEditor/index.vue:177
 #: frontend/src/sheet/components/SheetEditor/index.vue:1847
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:188
-#: onedesk/one_admin/doctype/offering/offering.json:81
+#: onedesk/one_admin/doctype/offering/offering.json:85
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:104
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:152
 #: onedesk/one_admin/report/price_check/price_check.py:88
@@ -12833,7 +12833,7 @@ msgid "Database"
 msgstr ""
 
 #. Label of the database_gb (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:130
+#: onedesk/one_admin/doctype/offering/offering.json:139
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:22
 msgid "Database (GB)"
 msgstr ""
@@ -14390,7 +14390,7 @@ msgstr ""
 #. Label of the description (Small Text) field in DocType 'Record Type'
 #: frontend/src/cloud/OneCloud.vue:582 frontend/src/cloud/OneCloud.vue:583
 #: frontend/src/cloud/OneCloud.vue:584
-#: onedesk/one_admin/doctype/offering/offering.json:177
+#: onedesk/one_admin/doctype/offering/offering.json:190
 #: onedesk/one_admin/doctype/private_app/private_app.json:63
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_ai/doctype/reading_date/reading_date.json:28
@@ -16232,10 +16232,6 @@ msgstr ""
 msgid "Edit Before It Sends"
 msgstr ""
 
-#: onedesk/one_admin/report/price_check/price_check.js:11
-msgid "Edit Costs"
-msgstr ""
-
 #: onedesk/public/js/one_account/account_center.js:1486
 msgid "Edit Device"
 msgstr ""
@@ -17043,7 +17039,7 @@ msgstr ""
 #. Label of the enabled (Check) field in DocType 'Extension'
 #: onedesk/one/doctype/news_source/news_source.json:80
 #: onedesk/one/doctype/record_head/record_head.json:44
-#: onedesk/one_admin/doctype/offering/offering.json:69
+#: onedesk/one_admin/doctype/offering/offering.json:72
 #: onedesk/one_admin/doctype/private_app/private_app.json:51
 #: onedesk/one_ai/doctype/ai_knowledge/ai_knowledge.json:41
 #: onedesk/one_hr/doctype/attendance_reason/attendance_reason.json:50
@@ -20238,7 +20234,7 @@ msgid "Free (Hours)"
 msgstr ""
 
 #. Label of the trial_days (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:110
+#: onedesk/one_admin/doctype/offering/offering.json:117
 msgid "Free Trial (Days)"
 msgstr ""
 
@@ -21002,7 +20998,7 @@ msgid "Given."
 msgstr ""
 
 #. Label of the gives (Data) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:165
+#: onedesk/one_admin/doctype/offering/offering.json:178
 msgid "Gives"
 msgstr ""
 
@@ -21261,7 +21257,7 @@ msgid "Granted"
 msgstr ""
 
 #. Description of the 'Monthly Credits' (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:159
+#: onedesk/one_admin/doctype/offering/offering.json:171
 msgid "Granted at the start of each month and does not roll over."
 msgstr ""
 
@@ -21271,7 +21267,7 @@ msgid "Granted at the start of each month. The plan's and the add-ons'."
 msgstr ""
 
 #. Description of the 'Credits' (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:151
+#: onedesk/one_admin/doctype/offering/offering.json:162
 msgid "Granted once, when the pack is bought."
 msgstr ""
 
@@ -25681,7 +25677,7 @@ msgstr ""
 #: frontend/src/slide/shim/libraryKeep.js:13
 #: onedesk/one/doctype/workspace_customization/workspace_customization.json:28
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:41
-#: onedesk/one_admin/doctype/offering/offering.json:60
+#: onedesk/one_admin/doctype/offering/offering.json:62
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:38
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:43
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
@@ -25776,7 +25772,7 @@ msgstr ""
 #: onedesk/one/doctype/record_head_indicator/record_head_indicator.json:24
 #: onedesk/one/doctype/record_head_verb/record_head_verb.json:24
 #: onedesk/one_account/doctype/workspace_add_on/workspace_add_on.json:26
-#: onedesk/one_admin/doctype/offering/offering.json:48
+#: onedesk/one_admin/doctype/offering/offering.json:49
 #: onedesk/one_display/doctype/display_widget/display_widget.json:35
 #: onedesk/one_display/widgets.py:65
 #: onedesk/public/js/one_mail/rule_builder.js:313
@@ -29453,7 +29449,7 @@ msgstr ""
 
 #. Label of the credits_a_month (Int) field in DocType 'Offering'
 #. Label of the credits_a_month (Int) field in DocType 'Tenant'
-#: onedesk/one_admin/doctype/offering/offering.json:158
+#: onedesk/one_admin/doctype/offering/offering.json:170
 #: onedesk/one_admin/doctype/tenant/tenant.json:343
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:23
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:119
@@ -33489,7 +33485,7 @@ msgid "Offered to employees on check out."
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/offering/offering.json:204
+#: onedesk/one_admin/doctype/offering/offering.json:218
 #: onedesk/one_admin/report/price_check/price_check.py:95
 msgid "Offering"
 msgstr ""
@@ -33956,7 +33952,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:153
 #: onedesk/one_admin/doctype/credit_reservation/credit_reservation.json:115
 #: onedesk/one_admin/doctype/health_check/health_check.json:76
-#: onedesk/one_admin/doctype/offering/offering.json:214
+#: onedesk/one_admin/doctype/offering/offering.json:228
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:421
 #: onedesk/one_admin/doctype/private_app/private_app.json:96
 #: onedesk/one_admin/doctype/provisioning_job/provisioning_job.json:146
@@ -38647,7 +38643,7 @@ msgstr ""
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:133
 #: onedesk/one_admin/doctype/account_request/account_request.json:82
 #: onedesk/one_admin/doctype/credit_ledger_entry/credit_ledger_entry.json:89
-#: onedesk/one_admin/doctype/offering/offering.json:61
+#: onedesk/one_admin/doctype/offering/offering.json:63
 #: onedesk/one_admin/doctype/tenant/tenant.json:133
 #: onedesk/one_admin/heads.py:545
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:157
@@ -39284,7 +39280,7 @@ msgstr ""
 
 #. Label of the price_section (Section Break) field in DocType 'Offering'
 #: frontend/src/inventory/item/ItemPriceRow.vue:15
-#: onedesk/one_admin/doctype/offering/offering.json:75
+#: onedesk/one_admin/doctype/offering/offering.json:79
 #: onedesk/one_admin/report/price_check/price_check.py:105
 #: onedesk/one_display/widgets.py:323
 msgid "Price"
@@ -40696,7 +40692,7 @@ msgid "Quiet Minutes"
 msgstr ""
 
 #. Label of the quota_section (Section Break) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:116
+#: onedesk/one_admin/doctype/offering/offering.json:124
 msgid "Quotas"
 msgstr ""
 
@@ -41912,7 +41908,7 @@ msgid "Rectangle"
 msgstr ""
 
 #. Label of the recurring (Check) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:101
+#: onedesk/one_admin/doctype/offering/offering.json:107
 msgid "Recurring"
 msgstr ""
 
@@ -45178,7 +45174,7 @@ msgstr ""
 #. Label of the seats (Int) field in DocType 'Offering'
 #. Label of the seats (Int) field in DocType 'Tenant'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:153
-#: onedesk/one_admin/doctype/offering/offering.json:139
+#: onedesk/one_admin/doctype/offering/offering.json:149
 #: onedesk/one_admin/doctype/tenant/tenant.json:335
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:20
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.py:112
@@ -48312,7 +48308,7 @@ msgid "Somewhere to keep stock"
 msgstr ""
 
 #. Label of the sort_key (Float) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:194
+#: onedesk/one_admin/doctype/offering/offering.json:208
 msgid "Sort Key"
 msgstr ""
 
@@ -49600,7 +49596,7 @@ msgid "Storage"
 msgstr ""
 
 #. Label of the storage_gb (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:123
+#: onedesk/one_admin/doctype/offering/offering.json:131
 #: onedesk/one_admin/report/plan_calculator/plan_calculator.js:21
 msgid "Storage (GB)"
 msgstr ""
@@ -49699,7 +49695,7 @@ msgstr ""
 #. Settings'
 #. Label of the one_stripe_invoice (Data) field in DocType 'Sales Invoice'
 #: onedesk/one_admin/doctype/health_check/health_check.json:24
-#: onedesk/one_admin/doctype/offering/offering.json:182
+#: onedesk/one_admin/doctype/offering/offering.json:196
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:307
 #: onedesk/one_book/custom/sales_invoice.json:7
 #: onedesk/public/js/one_admin/admin_control.js:88
@@ -49717,7 +49713,7 @@ msgid "Stripe Item"
 msgstr ""
 
 #. Label of the stripe_price (Data) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:188
+#: onedesk/one_admin/doctype/offering/offering.json:202
 msgid "Stripe Price ID"
 msgstr ""
 
@@ -53452,7 +53448,7 @@ msgid "The site stops serving. Data is retained."
 msgstr ""
 
 #. Description of the 'Database (GB)' (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:131
+#: onedesk/one_admin/doctype/offering/offering.json:140
 msgid "The site's database and its backups. Zero means unlimited on a plan."
 msgstr ""
 
@@ -59423,7 +59419,7 @@ msgid "What it costs"
 msgstr ""
 
 #. Description of the 'Gives' (Data) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:168
+#: onedesk/one_admin/doctype/offering/offering.json:181
 msgid "What it gives, in one line, written when it is saved."
 msgstr ""
 
@@ -65053,20 +65049,20 @@ msgid "Zephyr"
 msgstr ""
 
 #. Description of the 'Free Trial (Days)' (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:107
+#: onedesk/one_admin/doctype/offering/offering.json:114
 msgid "Zero means no trial. The card is taken at checkout either way."
 msgstr ""
 
 #. Description of the 'Seats' (Int) field in DocType 'Workspace Account'
 #. Description of the 'Storage (GB)' (Int) field in DocType 'Offering'
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:155
-#: onedesk/one_admin/doctype/offering/offering.json:120
+#: onedesk/one_admin/doctype/offering/offering.json:128
 #: onedesk/public/js/offering.js:29
 msgid "Zero means unlimited."
 msgstr ""
 
 #. Description of the 'Seats' (Int) field in DocType 'Offering'
-#: onedesk/one_admin/doctype/offering/offering.json:136
+#: onedesk/one_admin/doctype/offering/offering.json:146
 msgid "Zero means unlimited. Enforced by Frappe from the site's config."
 msgstr ""
 

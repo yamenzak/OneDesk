@@ -4,8 +4,8 @@ add-ons, and what does not hold. The rules are plans.check's; their words
 are offerings.RULES, so the report reads in the operator's language.
 
 What it gives is the offering's own `gives`, the line the Price List shows,
-so the two cannot describe one thing two ways. The costs are One Admin
-Settings', and the summary says the margin they ask for."""
+so the two cannot describe one thing two ways. The costs are costs.py's and
+the margin floor price_list.py's, code like the prices."""
 
 from itertools import pairwise
 

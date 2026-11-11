@@ -265,20 +265,20 @@ red, **Close Calls** in orange.
 
 It checks that:
 
-- every price covers its cost with the **Target Margin** (2× unless Settings
-  says otherwise)
+- every price keeps at least the margin `price_list.MARGIN_FLOOR` asks for
+  over its cost
 - each higher plan gives at least as much of everything, for more
 - moving up a plan is cheaper than buying the difference as add-ons
 - the smallest add-on is cheaper than moving up a plan
 - a bigger size of an add-on costs no more per unit
 
 Costs (per workspace, seat, GB of storage and database, backups and credit)
-and the target margin are set in **Settings**. **Edit Costs** in the
-report's menu opens them. **Include Disabled** checks withdrawn offerings
-too.
+are in `costs.py` and the margin floor in `price_list.py`, both code, like
+the prices; `margins.py` refuses a price that loses money when the code is
+written, so the report is a view. **Include Disabled** checks withdrawn
+offerings too.
 
-Saving an offering or the costs shows any new problems right away, and
-anything Wrong stays on Home until it's fixed. OneAI answers **What should
+Anything Wrong stays on Home until it's fixed. OneAI answers **What should
 we change?** on the report.
 
 ## Plan Calculator
@@ -427,7 +427,7 @@ workspace, OneAI answers **Why wasn't this built?**.
 never edited. A workspace's balance is the sum of its rows.
 
 - **Grant** adds credits: a plan's monthly credits (expire at month end), a
-  credit pack (never expire), or credits an operator gave with **Give
+  credit pack (a year), or credits an operator gave with **Give
   Credits** (with a note and an optional expiry).
 - **Spend** is one OneAI call, taken from the grant that expires soonest. It
   shows the **Model** used. A spend beyond the balance is owed and has no
@@ -2139,7 +2139,7 @@ which, and `quote` answers the customer's version of the same question: given
 what I need, which plan with which add-ons is cheapest.
 
 Credits in a plan are monthly and do not roll over; credits bought in a pack
-never expire (`topup.py`). A plan's monthly credits are valued at what the same
+last a year (`price_list.PACK_CREDITS_LAST_DAYS`). A plan's monthly credits are valued at what the same
 credits cost in packs, since that is what a customer would otherwise pay.
 
 ### press.py
