@@ -151,8 +151,20 @@ def _moved(tenant: str, bench: str | None) -> None:
 	doc = frappe.get_doc("Tenant", tenant)
 	if bench:
 		doc.db_set({"bench": bench, "update_at": None, "update_moving": 0})
+		frappe.enqueue("onedesk.one_admin.releases.wake", site=doc.site, enqueue_after_commit=True)
 	else:
 		doc.db_set({"update_at": window_for(doc), "update_moving": 0})
+
+
+def wake(site: str) -> None:
+	"""A moved workspace asks again who it is, so its bar stops saying an
+	update is coming."""
+	import requests
+
+	try:
+		requests.post(f"https://{site}/api/method/onedesk.one.account.wake", timeout=30)
+	except requests.RequestException:
+		frappe.log_error(title=f"Waking {site} after its update")
 
 
 def _drop_the_empty(row) -> None:
