@@ -12,8 +12,10 @@ The code is `one_admin/private.py` (control plane) and `one_account/private.py`
 
 It is an ordinary Frappe app, made with `bench new-app`. It lives in this
 repository under `private/<app>`, beside One, so a change to One and the
-app it breaks land in one commit; `private/rua` is the first. On a bench,
-`apps/<app>` is a link to that folder.
+app it breaks land in one commit; `private/rua` is the first. Every
+release's bench carries every one of them as an app of the bench, installed
+on no site until a workspace claims it (On the bench, below). On the dev
+bench, `apps/<app>` is a link to that folder.
 
 The line between them runs one way. The app reaches into One through the
 hooks One declares (`one_verbs`, `one_record_notices`, its own fields and
@@ -38,6 +40,22 @@ catalogue skips `private/` (`private/**,ignore`, first in
 
   `title` and `said` are its card in Apps. `icon` is a name in the icon
   sprite, or one of its own `Custom Icon` fixtures.
+
+- **`pyproject.toml`** names the project as its folder, and says which
+  frappe and which One it runs on, because Pilot refuses an app that
+  doesn't:
+
+  ```toml
+  [tool.bench.frappe-dependencies]
+  frappe = ">=17.0.0-dev,<18.0.0"
+  onedesk = ">=0.0.1"
+  ```
+
+- **Its names are its own.** Its Python package and every module in its
+  `modules.txt` must be a name no other app on the bench uses: frappe,
+  erpnext, hrms, One, or another private app. Frappe keys its module map
+  by the module name across the whole bench, so a second `Accounts` breaks
+  erpnext on every site, including the ones without the private app.
 
 - **Its own record types** live in its own module, as doctypes in the app.
   They are created when it is installed and changed by its patches, exactly
@@ -83,16 +101,49 @@ catalogue skips `private/` (`private/**,ignore`, first in
    presses **Add**.
 5. OneAdmin queues an **Install App** job: it asks Pilot on the workspace's
    server whether the app is on its bench (`GET /apps`), asks it to install
-   the app on the site (`POST /sites/<site>/apps`), and waits until the
-   site lists it. The card says *Installing…* meanwhile. When it is done
-   the app is on the rail.
+   the app on the site (`POST /sites/<site>/apps`), and waits for Pilot's
+   task and until the site lists the app. The card says *Installing…*
+   meanwhile. When it is done the app is on the rail.
 
 A failed job tells the operators and leaves the workspace as it was. Fix
-what it says and **Resume** the job.
+what it says and **Resume** the job. A workspace whose bench is from a
+release before the app fails at *Checking the app is on the server*; it
+moves to the newest release in its window, and Resume then installs it.
 
-The release's bench does not carry a private app as an app yet (see What is
-not built), so today step 5 stops at *Checking the app is on the server*
-until somebody puts it on that server's bench by hand.
+## On the bench
+
+`deploy/release/private.py` puts every folder under `private/` on the
+release's bench, after One and before the archives are made. Each is copied
+to the bench's `private-apps/<app>` and given a repository of its own (one
+commit, branch `main`), then linked into `apps/<app>` and listed in
+`bench.toml` the way Pilot links a local checkout: Pilot lists it in
+`GET /apps` and never updates or fetches it. Pilot checks it as it checks
+any app it is given, it is installed into the bench's Python, added to
+`apps.txt`, and its `public/` built when it has one. The bench archive
+carries `private-apps/` and the link, so every box has them; the box's
+agent lists them in `bench.toml` again when it unpacks the bench, and
+does the same when it builds a release from its commits, as `first-boot.sh`
+does for a new box's first bench.
+
+No site gets it there. The template site is made with frappe, erpnext,
+hrms and One only, and `spares.as_template` stops the build if a private
+app is installed on it, so a spare never holds one. A workspace moved to
+another bench of its box needs every app it has on that bench; the agent
+refuses the move before touching anything when one is missing.
+
+The build stops, naming the app and why, when a private app:
+
+- isn't a Frappe app (no `<app>/hooks.py`), or its folder isn't a lower
+  case Python name;
+- has no `one_private_app` with a title;
+- has a `pyproject.toml` naming another project;
+- takes a Python package or a Frappe module another app on the bench
+  already has (including another private app);
+- is refused by Pilot's checks or does not install into the bench's Python.
+
+`tests/test_private.py` runs the same checks against the private apps in
+the repository, and against frappe, erpnext and hrms where they sit beside
+it, so a clash fails the gates before it fails a release.
 
 ## What holds it in place
 
@@ -105,12 +156,6 @@ until somebody puts it on that server's bench by hand.
 
 ## What is not built
 
-- A private app on the release's bench. The bench archive already holds its
-  source, inside `apps/onedesk/private/`, on every box; what is missing is
-  `apps/<app>` linked to it, installed into the bench's Python, listed in
-  `apps.txt` and `bench.toml`, and its assets in the screens' archive.
-  Pilot lists only an `apps/` folder with a `.git`, so the link needs
-  Pilot's linked-checkout path or a copy with its own repository.
 - A server of its own for a customer whose code must not sit on the same
   servers as anybody else's, with `private/` left out of every other bench.
 - Taking a private app away again. By design there is no way, short of an

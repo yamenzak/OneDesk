@@ -221,9 +221,12 @@ sentence and icon the app gives itself, within the hour of the release.
 Nobody adds one by hand. **New Code** makes a code for one workspace and shows it once; send it to
 them. A new code for the same workspace replaces the old one.
 
-The workspace types the code into Apps. That queues an **Install App** job,
-and the workspace's row under **Workspaces** on the app says Installing,
-then Installed. A workspace that has claimed an app keeps it: its row can't
+Every release's servers already carry every private app, installed on no
+workspace. The workspace types the code into Apps. That queues an **Install
+App** job, which installs it on that workspace alone, and the workspace's
+row under **Workspaces** on the app says Installing, then Installed. A
+workspace still on a release from before the app fails the job's first
+step; **Resume** it once the workspace has moved to the newest release. A workspace that has claimed an app keeps it: its row can't
 be removed and the app can't be uninstalled. Turn **Enabled** off to stop
 new codes working; a release never turns it back on. An app no release
 holds any more leaves the list, unless a workspace has a code for it.
@@ -1481,8 +1484,24 @@ the workspace sees: Installed when the last step has run, Failed when the
 job has, Installing otherwise. The steps are in `steps.py` after `APPS`, all
 through `pilot.on`, the workspace's own server and bench: `app_on_bench`
 reads `GET /apps`, `install_app` posts `/sites/<site>/apps` once (skipped
-when `GET /sites/<site>/apps` already lists it), and `app_is_installed`
-waits on that list.
+when `GET /sites/<site>/apps` already lists it) and keeps Pilot's task, and
+`app_is_installed` waits on that task, failing with Pilot's reason, then on
+that list.
+
+The app is on the bench because the release put it there:
+`deploy/release/private.py`, run by build.sh after One (and by
+`first-boot.sh` and the agent's build from commits), copies each
+`private/<app>` to the bench's `private-apps/<app>`, makes it a repository
+of one commit, and installs it as Pilot installs a linked checkout (link
+into `apps/`, an entry with `path` in bench.toml, Pilot's `Validator`, an
+editable install, `apps.txt`, assets when it has `public/`). Linked, Pilot
+lists it and never fetches or updates it. Before anything is installed,
+`checked` refuses an app that is not a Frappe app, has no
+`one_private_app`, whose pyproject names another project, or whose Python
+package or modules.txt modules another app on the bench (or an earlier
+private app) already has: `frappe.local.module_app` is bench-wide. The
+template site is made with the four apps only, and `spares.as_template`
+stops the build if a private app is installed on it.
 
 The records come from the release, never from an operator. The release
 build reads each `private/<app>/<app>/hooks.py` with `ast` (upload.py
@@ -2062,7 +2081,9 @@ told, or at once with **Update Now**, which writes the box's instruction
 there and then. Both benches of a box use its one MariaDB, so a move leaves
 the database where it is: the site's folder moves to the new bench, Pilot's
 token and nginx follow it, and it is migrated there, offline for the migrate
-and a database copy taken first (about a minute for a new workspace). A move
+and a database copy taken first (about a minute for a new workspace). A move to
+a bench missing an app the site has (a private app the newer release no
+longer holds) is refused before anything is touched (`agent.unheld`). A move
 that fails puts the folder back, restores that copy if the migrate had
 started, and leaves the workspace on the bench it was on to try again at its
 next window. A workspace that hasn't agreed to new terms waits 30 days,
@@ -2076,6 +2097,7 @@ path a box uses (`/home/frappe/pilot/benches/r<sha8>`, as `frappe`, with
 the Python its virtualenv points at), beside its template site
 (`releases/<sha>.bench.tar.gz` and `.site.tar.gz`, their checksums in
 `releases/<sha>.json`). `prepare` unpacks it, adds the apps to bench.toml
+(the private apps in its `private-apps/` as linked checkouts, `listed_apps`)
 and does what `pilot init` still would (redis, process config, common site
 config), then `setup production`: about a minute, against 6 to 7 of
 building. A release without one, or a bench that does not import its apps,
@@ -2786,6 +2808,8 @@ box's first boot.
    merged over the new site's (keep the site's own `db_*`), the dump loaded
    through the site's `db_socket`, then `migrate` with the bench's Python
    (`../env/bin/python -m frappe.utils.bench_helper frappe --site S migrate`).
+   The box's bench carries the private apps, as every release's does;
+   OneAdmin has none installed, and needs none.
 5. Point admin.<zone> at the new box's tunnel, and run Set Up Cloudflare.
 
 What it loses is what changed since the backup it restores (the daily one,

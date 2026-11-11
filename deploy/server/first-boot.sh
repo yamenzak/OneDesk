@@ -54,6 +54,7 @@ pilot -y -b main init --commit "$ONE_FRAPPE"
 pilot -y -b main get-app https://github.com/frappe/erpnext --branch develop --commit "$ONE_ERPNEXT" --skip-assets
 pilot -y -b main get-app https://github.com/frappe/hrms --branch develop --commit "$ONE_HRMS" --skip-assets
 pilot -y -b main get-app "https://github.com/$ONE_REPOSITORY" --branch "$ONE_BRANCH" --commit "$ONE_RELEASE" --skip-assets
+PYTHONPATH="$HOME/pilot" "$HOME/pilot/.admin-venv/bin/python" "$bench/apps/onedesk/deploy/release/private.py" "$bench" "$bench/apps/onedesk" --skip-assets
 
 "$bench/env/bin/python" -I - <<'FETCH'
 import boto3, hashlib, json, os
@@ -72,8 +73,10 @@ FETCH
 cd "$bench"
 tar xzf /tmp/release.tar.gz
 rm /tmp/release.tar.gz
-for app in frappe erpnext hrms onedesk; do
-	ln -sfn "$bench/apps/$app/$app/public" "sites/assets/$app"
+for app in $(cat sites/apps.txt); do
+	if [ -d "$bench/apps/$app/$app/public" ]; then
+		ln -sfn "$bench/apps/$app/$app/public" "sites/assets/$app"
+	fi
 done
 
 pilot -y -b main processes disable frappe-flow_server

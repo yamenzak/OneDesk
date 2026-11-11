@@ -30,6 +30,7 @@ PILOT_HOME = HOME / "pilot"
 PILOT = str(PILOT_HOME / "bin" / "pilot")
 PYTHON = str(HOME / "pilot" / ".admin-venv" / "bin" / "python")
 APPS = ("frappe", "erpnext", "hrms", "onedesk")
+PRIVATE = "private-apps"
 FLOW = "frappe-flow_server"
 QUIET = ("maintenance_mode", "pause_scheduler")
 TEMPLATE = ("database.sql.gz", "site_config.json", "public", "private")
@@ -137,13 +138,33 @@ def arrived(config: dict, before: dict, quiet: bool = False) -> dict:
 	return kept
 
 
-def listed_apps(one: dict) -> list[dict]:
-	"""The apps a ready-made bench holds, as bench.toml lists them. Pure."""
+def listed_apps(one: dict, linked: list[Path] = ()) -> list[dict]:
+	"""The apps a ready-made bench holds, as bench.toml lists them: the
+	private apps as checkouts linked from `private-apps/`. Pure."""
 	return [
 		{"name": "erpnext", "repo": "https://github.com/frappe/erpnext", "branch": "develop"},
 		{"name": "hrms", "repo": "https://github.com/frappe/hrms", "branch": "develop"},
 		{"name": "onedesk", "repo": f"https://github.com/{one['repository']}", "branch": one["branch"]},
+		*({"name": path.name, "path": str(path)} for path in linked),
 	]
+
+
+def private_apps(bench: Path) -> list[Path]:
+	"""The private apps the release put on this bench (deploy/release/private.py)."""
+	held = bench / PRIVATE
+	return sorted(path for path in held.iterdir() if (path / ".git").is_dir()) if held.is_dir() else []
+
+
+def unheld(said: str, apps: str) -> list[str]:
+	"""The apps a site lists (`list-apps --format json`) that a bench's
+	apps.txt does not: moved there, the site would not migrate. Nothing when
+	the listing cannot be read. Pure."""
+	try:
+		listed = json.loads(said[said.index("{") : said.rindex("}") + 1])
+	except ValueError:
+		return []
+	held = set(apps.split())
+	return sorted({app for each in listed.values() if isinstance(each, list) for app in each if app not in held})
 
 
 def _write_config(path: Path, config: dict) -> None:
@@ -213,8 +234,9 @@ def _ready_made(config: dict, one: dict, about: dict) -> None:
 		run("tar", "xzf", str(archive), "-C", str(HOME), "--skip-old-files", f"pilot/benches/{name}", *about["bench"].get("python", []))
 	finally:
 		archive.unlink(missing_ok=True)
-	run(str(bench / "env" / "bin" / "python"), "-c", f"import {', '.join(APPS)}")
-	on_pilot(SETTLE, str(bench), json.dumps(listed_apps(one)))
+	linked = private_apps(bench)
+	run(str(bench / "env" / "bin" / "python"), "-c", f"import {', '.join([*APPS, *(path.name for path in linked)])}")
+	on_pilot(SETTLE, str(bench), json.dumps(listed_apps(one, linked)))
 
 
 def _from_commits(config: dict, one: dict) -> None:
@@ -228,6 +250,10 @@ def _from_commits(config: dict, one: dict) -> None:
 	pilot("-b", name, "get-app", "https://github.com/frappe/erpnext", "--branch", "develop", "--commit", one["erpnext"], "--skip-assets")
 	pilot("-b", name, "get-app", "https://github.com/frappe/hrms", "--branch", "develop", "--commit", one["hrms"], "--skip-assets")
 	pilot("-b", name, "get-app", f"https://github.com/{one['repository']}", "--branch", one["branch"], "--commit", one["release"], "--skip-assets")
+	checkout = bench / "apps" / "onedesk"
+	placing = checkout / "deploy" / "release" / "private.py"
+	if placing.exists():
+		run(PYTHON, str(placing), str(bench), str(checkout), "--skip-assets", env={**os.environ, "PYTHONPATH": str(PILOT_HOME)})
 	_unpack(config, bench, one["release"])
 
 
@@ -236,11 +262,12 @@ def _unpack(config: dict, bench: Path, release: str) -> None:
 	archive = _fetch(config, f"releases/{release}.tar.gz", about["sha256"], bench / "release.tar.gz")
 	run("tar", "xzf", str(archive), cwd=str(bench))
 	archive.unlink()
-	for app in APPS:
-		link = bench / "sites" / "assets" / app
+	for app in (bench / "sites" / "apps.txt").read_text().split():
+		link, public = bench / "sites" / "assets" / app, bench / "apps" / app / app / "public"
 		if link.is_symlink():
 			link.unlink()
-		link.symlink_to(bench / "apps" / app / app / "public")
+		if public.is_dir():
+			link.symlink_to(public)
 
 
 def _template(config: dict, release: str) -> Path:
@@ -304,6 +331,9 @@ def move(config: dict, one: dict) -> None:
 	old, new = BENCHES / was / "sites" / site, BENCHES / to / "sites" / site
 	if new.exists() or new.is_symlink():
 		raise RuntimeError(f"{site} is already on {to}")
+	missing = unheld(frappe_on(was, site, "list-apps", "--format", "json"), (BENCHES / to / "sites" / "apps.txt").read_text())
+	if missing:
+		raise RuntimeError(f"{site} has {', '.join(missing)}, which {to} does not hold, so it stays on {was}")
 	before = json.loads((old / "site_config.json").read_text())
 	frappe_on(was, site, "set-maintenance-mode", "on")
 	copy = None

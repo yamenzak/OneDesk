@@ -95,27 +95,34 @@ def _installed_on(tenant) -> set:
 
 
 def app_on_bench(job, tenant) -> None:
-	"""A private app is installed from the server, so it has to be on it.
-	Missing, the job fails saying so; Resume installs it once it is there."""
+	"""Every release's bench carries every private app (deploy/release/private.py),
+	so it is on the workspace's bench unless that bench is from a release
+	before the app. Then the job fails saying so, and Resume installs it once
+	the workspace has moved to a release that holds it."""
 	app = _app(job)
 	if not tenant.site or not tenant.server:
 		raise faults.Refused("the workspace has no site to install on yet")
 	held = pilot.on(tenant, "GET", "/apps") or []
 	rows = held.get("apps") if isinstance(held, dict) else held
 	if app not in {one.get("name") for one in rows or [] if isinstance(one, dict)}:
-		raise faults.Refused(f"{app} is not on {tenant.server}. Add it there, then resume")
+		raise faults.Refused(f"{app} is not on {tenant.bench or 'the bench'} on {tenant.server}, which is from a release before it. Resume once the workspace is on a release that holds it")
 
 
 def install_app(job, tenant) -> None:
 	"""Pilot installs it on the site: its doctypes, patches, fixtures and
-	after_install. Once: an app already there is not asked for again."""
+	after_install. Once: an app already there is not asked for again, and the
+	job's name makes a repeat the same task."""
 	app = _app(job)
 	if app in _installed_on(tenant):
 		return
-	pilot.on(tenant, "POST", f"/sites/{tenant.site}/apps", key=f"{job.name}:app", json={"app": app})
+	_remember_task(job, pilot.on(tenant, "POST", f"/sites/{tenant.site}/apps", key=f"{job.name}:app", json={"app": app}))
 
 
 def app_is_installed(job, tenant) -> str | None:
+	"""Pilot's task done, and the site listing the app. A task that failed
+	fails the job with Pilot's reason."""
+	if site_is_up(job, tenant) == WAIT:
+		return WAIT
 	return None if _app(job) in _installed_on(tenant) else WAIT
 
 

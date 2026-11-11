@@ -31,6 +31,23 @@ def test_a_ready_made_bench_lists_the_apps_it_holds():
 	assert listed[-1] == {"name": "onedesk", "repo": "https://github.com/o/one", "branch": "main"}
 
 
+def test_a_ready_made_bench_lists_its_private_apps_as_linked_checkouts(tmp_path):
+	(tmp_path / agent.PRIVATE / "fleet" / ".git").mkdir(parents=True)
+	(tmp_path / agent.PRIVATE / "half").mkdir()
+	linked = agent.private_apps(tmp_path)
+	assert [path.name for path in linked] == ["fleet"], "only a copy the build made a repository of"
+	listed = agent.listed_apps({"repository": "o/one", "branch": "main"}, linked)
+	assert listed[-1] == {"name": "fleet", "path": str(tmp_path / agent.PRIVATE / "fleet")}
+	assert agent.private_apps(tmp_path / "none") == []
+
+
+def test_a_site_moves_only_to_a_bench_holding_every_app_it_has():
+	said = 'Loading...\n{\n "s.one": [\n  "frappe",\n  "onedesk",\n  "fleet"\n ]\n}\n'
+	assert agent.unheld(said, "frappe\nerpnext\nonedesk\n") == ["fleet"]
+	assert agent.unheld(said, "frappe\nonedesk\nfleet\n") == []
+	assert agent.unheld("no listing", "frappe\n") == []
+
+
 def test_every_instruction_the_admin_sends_is_one_the_agent_knows():
 	assert {"prepare", "spare", "move", "drop-bench", agent.UPDATE} <= set(agent.KINDS)
 

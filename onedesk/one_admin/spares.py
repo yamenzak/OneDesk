@@ -151,7 +151,13 @@ def as_template() -> None:
 	"""Run once by the release build on its template site, before it is
 	copied: what must be a site's own taken out. Every encrypted value (its
 	key is not kept), the Administrator's password, sessions, API keys,
-	calendar links and logs. A spare made from it is given its own."""
+	calendar links and logs. A spare made from it is given its own. The
+	bench carries every private app, but a template holding one would give
+	it to every workspace, so the build stops there."""
+	from onedesk.one_account import private
+
+	if private.names():
+		raise SystemExit(f"the template site has private apps installed ({', '.join(private.names())}); a workspace gets one only by claiming it")
 	frappe.db.sql("delete from `__Auth` where encrypted = 1 or (doctype = 'User' and fieldname = 'password')")
 	frappe.db.sql("delete from `tabSessions`")
 	frappe.db.sql("update `tabUser` set api_key = null")

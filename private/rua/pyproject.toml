@@ -8,6 +8,10 @@ license = "AGPL-3.0-or-later"
 dynamic = ["version"]
 dependencies = []
 
+[tool.bench.frappe-dependencies]
+frappe = ">=17.0.0-dev,<18.0.0"
+onedesk = ">=0.0.1"
+
 [build-system]
 requires = ["flit_core >=3.4,<4"]
 build-backend = "flit_core.buildapi"

@@ -3,7 +3,8 @@ set -euo pipefail
 
 repo="$(cd "$(dirname "$0")/../.." && pwd)"
 pin() { python3 -c "import json,sys; print(json.load(open('$repo/upstream.json'))[sys.argv[1]]['sha'])" "$1"; }
-on_pilot() { PYTHONPATH="$HOME/pilot" "$HOME/pilot/.admin-venv/bin/python" "$repo/deploy/release/base.py" "$@"; }
+in_pilot() { PYTHONPATH="$HOME/pilot" "$HOME/pilot/.admin-venv/bin/python" "$@"; }
+on_pilot() { in_pilot "$repo/deploy/release/base.py" "$@"; }
 
 slug="${GITHUB_REPOSITORY:-yamenzak/onedesk}"
 sha="$(git -C "$repo" rev-parse HEAD)"
@@ -100,12 +101,21 @@ pilot -y -b "$name" get-app "https://github.com/$slug" --branch "$branch" --comm
 rm -f "$bench/.bench.git.info"
 unshared
 echo "onedesk: built at ${SECONDS}s"
+in_pilot "$repo/deploy/release/private.py" "$bench" "$repo"
+echo "private apps: on the bench at ${SECONDS}s"
 
 cd "$bench"
+built() {
+	if [ -L "apps/$1" ]; then
+		git -C "$2" ls-files -o --directory
+	else
+		git -C "$2" ls-files -oi --exclude-standard --directory
+	fi
+}
 list="$(mktemp)"
-for app in frappe erpnext hrms onedesk; do
-	git -C "apps/$app" ls-files -oi --exclude-standard --directory \
-		| grep -E "/public/|/www/" | grep -vE "node_modules|__pycache__" | sed "s#^#apps/$app/#" >> "$list"
+for app in $(cat sites/apps.txt); do
+	at="$(realpath --relative-to=. "apps/$app")"
+	built "$app" "$at" | awk -v at="$at/" '/\/(public|www)\// && !/node_modules|__pycache__/ { print at $0 }' >> "$list"
 done
 for one in assets.json assets-rtl.json css js locale; do
 	echo "sites/assets/$one" >> "$list"
@@ -119,6 +129,9 @@ whole="$(mktemp)"
 {
 	printf '%s\n' "pilot/benches/$name" "pilot/benches/$name/sites" "pilot/benches/$name/sites/apps.txt"
 	find "pilot/benches/$name/apps" -name node_modules -prune -o -print
+	if [ -d "pilot/benches/$name/private-apps" ]; then
+		find "pilot/benches/$name/private-apps" -name node_modules -prune -o -print
+	fi
 	find "pilot/benches/$name/apps/frappe/node_modules" -print
 	find "pilot/benches/$name/env" "pilot/benches/$name/sites/assets" -print
 	for one in $held_python; do
