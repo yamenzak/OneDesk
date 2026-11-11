@@ -1143,6 +1143,7 @@ app_include_js = stamped([
 	"/assets/onedesk/js/one_interface/nav_tree.js",
 	"/assets/onedesk/js/one_interface/page.js",
 	"/assets/onedesk/js/one_interface/list.js",
+	"/assets/onedesk/js/one_interface/views.js",
 	"/assets/onedesk/js/one_interface/board.js",
 	"/assets/onedesk/js/one_interface/report.js",
 	"/assets/onedesk/js/one_interface/tree.js",

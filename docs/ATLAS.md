@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 93 | 2 | 37 | 0 |
+| onedesk | 92 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -969,12 +969,12 @@ Pages: intake (on a rail or a home).
 | Tenant Domain | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  |  |
 | Tenant Event | on a rail or a home | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
 | Workspace Error | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  | New Error |
-| Workspace Server | opened by our screens | **nobody** | form script | no | general |  | **none** |  |  |  |  |
+| Workspace Server | on a rail or a home | **nobody** | form script | no | taught |  | **none** |  |  |  |  |
 | Workspace Session | opened by our screens | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 
 Reports: AI Usage (on a rail or a home); Plan Calculator (on a rail or a home); Price Check (on a rail or a home).
 
-Pages: oneadmin (on a rail or a home); oneadmin-billing (on a rail or a home); oneadmin-releases (on a rail or a home); oneadmin-servers (on a rail or a home); oneadmin-sessions (on a rail or a home); oneadmin-status (on a rail or a home).
+Pages: oneadmin (on a rail or a home); oneadmin-billing (on a rail or a home); oneadmin-releases (on a rail or a home); oneadmin-sessions (on a rail or a home); oneadmin-status (on a rail or a home).
 
 ## onedesk / One Book
 

@@ -8566,7 +8566,7 @@ msgstr "Karte gespeichert. Die nächste Rechnung wird damit bezahlt."
 
 #: onedesk/one_display/widgets.py:79
 msgid "Cards"
-msgstr ""
+msgstr "Karten"
 
 #: onedesk/one_admin/doctype/workspace_server/workspace_server_list.js:6
 msgid "Cards View"

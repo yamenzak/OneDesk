@@ -188,7 +188,6 @@ SCREENS = {
 	"onecalendar": "everybody's calendar (Event, and the dated records shown on it)",
 	"onecloud": "the files (File)",
 	"oneadmin": "OneAdmin's overview, a console of its own, read from several records",
-	"oneadmin-servers": "every server on any provider with its live readings from Pilot, AWS and Cloudflare, which no list can draw",
 	"oneadmin-billing": "Billing's home: what live workspaces pay, what that leaves against the margin floor, and OneCredits (Tenant, Offering, Credit Reservation)",
 	"oneadmin-releases": "Releases: each release, the versions each server holds and each workspace's window, across servers and workspaces (Workspace Server, Tenant)",
 	"oneadmin-status": "each service's state now and over thirty days, as a status page, which a list of checks cannot show (Health Check)",

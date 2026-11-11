@@ -120,7 +120,7 @@ def test_one_s_tokens_are_allowed_only_what_was_found():
 	"""Before the account and zone are known, OneAdmin may reach any of them;
 	after, only those. OneAdmin Storage reaches only the two buckets. A name
 	Cloudflare does not have is said, unless it is a * name."""
-	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "TOKENS", "named", "plain", "policies", "same"))
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "ZONE_ANALYTICS", "ACCOUNT_ANALYTICS", "TOKENS", "named", "plain", "policies", "same"))
 	groups = [
 		{"id": "a", "name": "Workers Scripts Write", "scopes": ["com.cloudflare.api.account"]},
 		{"id": "z", "name": "DNS Write", "scopes": ["com.cloudflare.api.account.zone"]},
@@ -136,6 +136,22 @@ def test_one_s_tokens_are_allowed_only_what_was_found():
 	assert not space["same"](early, late) and space["same"](late, list(reversed(late)))
 	storage, _ = space["policies"](groups, space["TOKENS"]["OneAdmin Storage"][1], "acc", "zone", [("default", "one-global"), ("eu", "one-eu")])
 	assert storage == [{"effect": "allow", "permission_groups": [{"id": "b"}], "resources": {"com.cloudflare.edge.r2.bucket.acc_default_one-global": "*", "com.cloudflare.edge.r2.bucket.acc_eu_one-eu": "*"}}]
+
+
+def test_oneadmin_s_token_reads_the_analytics_servers_draws():
+	"""Servers' traffic reads the workspace zone's requests and the account's
+	Workers and R2 from Cloudflare's Analytics, so OneAdmin's token asks for
+	both reads, each on its own scope, and the next Set Up Again grants them."""
+	space = _lifted(("ACCOUNT", "ZONE", "BUCKET", "ZONE_ANALYTICS", "ACCOUNT_ANALYTICS", "TOKENS", "named", "plain", "policies"))
+	needs = space["TOKENS"]["OneAdmin"][1]
+	assert ("Analytics Read",) in needs and ("Account Analytics Read",) in needs
+	groups = [
+		{"id": "zone", "name": "Analytics Read", "scopes": ["com.cloudflare.api.account.zone"]},
+		{"id": "account", "name": "Account Analytics Read", "scopes": ["com.cloudflare.api.account"]},
+	]
+	made, _ = space["policies"](groups, needs, "acc", "zone", [])
+	assert {"effect": "allow", "permission_groups": [{"id": "zone"}], "resources": {"com.cloudflare.api.account.zone.zone": "*"}} in made
+	assert {"effect": "allow", "permission_groups": [{"id": "account"}], "resources": {"com.cloudflare.api.account.acc": "*"}} in made
 
 
 def test_a_role_scoped_to_single_resources_is_never_asked_for():

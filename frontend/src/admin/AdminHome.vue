@@ -28,7 +28,7 @@
             </ChartCard>
           </div>
         </Section>
-        <Section :title="__('Servers')" icon="lucide-server" :action="{ text: true, label: __('All Servers'), onClick: () => go('/desk/oneadmin-servers') }" data-cards>
+        <Section :title="__('Servers')" icon="lucide-server" :action="{ text: true, label: __('All Servers'), onClick: () => go('/desk/workspace-server') }" data-cards>
           <div class="grid gap-3 lg:grid-cols-2">
             <ChartCard class="h-80">
               <BarChart :title="__('Memory and Disk Used')" :data="said.servers" x="server" :y="['memory', 'disk']" :y-axis="{ format: share }" :series-config="USE" />
@@ -79,7 +79,7 @@ const views = computed(() => [
 const cards = computed(() => [
   { key: "live", route: "/desk/tenant", props: { title: __("Live Workspaces"), value: said.value.live, format: count, sparkline: { data: said.value.joined, type: "area", color: hue(0) } } },
   { key: "revenue", route: "/desk/tenant", props: { title: __("Monthly Revenue"), value: said.value.revenue, format: (value) => money(value, said.value.currency, 0) } },
-  { key: "cost", route: "/desk/oneadmin-servers", props: { title: __("Server Cost a Month"), value: said.value.cost, format: (value) => `$${count(value)}` } },
+  { key: "cost", route: "/desk/workspace-server", props: { title: __("Server Cost a Month"), value: said.value.cost, format: (value) => `$${count(value)}` } },
   { key: "credits", route: "/desk/credit-ledger-entry", props: { title: __("OneCredits This Month"), value: said.value.credits.at(-1), format: count, sparkline: { data: said.value.credits, type: "bar", color: hue(4) } } },
 ]);
 const needs = computed(() =>

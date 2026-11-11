@@ -122,3 +122,4 @@ onedesk.one_quality.patches.problems_have_a_company
 onedesk.one_quality.patches.actions_are_a_connection
 onedesk.one_admin.patches.updates_on_saturday
 onedesk.one_admin.patches.servers_are_records
+onedesk.one_admin.patches.servers_are_a_view
