@@ -2,6 +2,13 @@
 Keys come from a JSON file; what it makes goes in ~/.one-servers/<name>.json,
 mode 600. `hand-over` writes the keys OneAdmin orders servers with.
 
+Cloudflare is reached by signing in (the OAuth client in the keys file,
+`cloudflare_oauth_client_id` and `_secret`): the browser is sent to
+Cloudflare and back to OneAdmin's sign-in address, which refuses a sign-in
+it did not start, and the address it ends on is pasted here. That works
+with OneAdmin down. A `cloudflare_master` in the keys file is used instead
+when there is one.
+
     python scripts/server.py new NAME --domain D --release SHA --keys FILE --owner EMAIL \\
         --tenant-domain T --origin-zone Z
     python scripts/server.py drop NAME --domain D --keys FILE
@@ -12,12 +19,17 @@ mode 600. `hand-over` writes the keys OneAdmin orders servers with.
 import argparse
 import json
 import os
+import secrets
 import sys
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 
-from onedesk.one_admin import boxes
+import requests
+
+from onedesk.one_admin import boxes, cloudflare_signin
+
+SCOPES = "user-api-tokens.write account-api-tokens.write"
 
 
 def _private(path: Path, value: dict) -> None:
@@ -34,8 +46,51 @@ def _keys(args) -> dict:
 	return json.loads(Path(args.keys).read_text())
 
 
+def _signed_in(keys: dict) -> tuple[str, callable]:
+	"""An access token from signing in to Cloudflare, and how to revoke it."""
+	client = (keys["cloudflare_oauth_client_id"], keys["cloudflare_oauth_client_secret"])
+	redirect = f"{keys.get('admin_url') or 'https://admin.' + keys['origin_zone']}/api/method/{cloudflare_signin.RETURN_TO}"
+	state, verifier = secrets.token_urlsafe(32), secrets.token_urlsafe(64)
+	scopes = keys.get("cloudflare_oauth_scopes", SCOPES)
+	print("Open this, sign in and approve:\n")
+	print(cloudflare_signin.authorize_url(client[0], redirect, scopes, state, cloudflare_signin.challenge_of(verifier)))
+	code = cloudflare_signin.code_in(input("\nPaste the address your browser ended on: "), state)
+	answered = requests.post(
+		cloudflare_signin.TOKEN,
+		data={"grant_type": "authorization_code", "code": code, "redirect_uri": redirect, "code_verifier": verifier},
+		auth=client,
+		timeout=cloudflare_signin.TIMEOUT,
+	)
+	token = answered.json().get("access_token") if answered.ok else None
+	if not token:
+		sys.exit(f"Cloudflare refused the sign-in: {answered.text[:300]}")
+
+	def revoke() -> None:
+		requests.post(cloudflare_signin.REVOKE, data={"token": token, "token_type_hint": "access_token"}, auth=client, timeout=cloudflare_signin.TIMEOUT)
+
+	return token, revoke
+
+
+def _maker(keys: dict) -> tuple[str, callable]:
+	"""What makes Cloudflare tokens: the master key if the file has one, else a sign-in."""
+	if keys.get("cloudflare_master"):
+		return keys["cloudflare_master"], lambda: None
+	return _signed_in(keys)
+
+
 def _cloudflare(keys: dict) -> boxes.Cloudflare:
-	return boxes.Cloudflare.from_master(keys["cloudflare_master"], keys["cloudflare_account"])
+	token, revoke = _maker(keys)
+	one = boxes.Cloudflare.from_master(token, keys["cloudflare_account"])
+	ended = one.end
+
+	def end() -> None:
+		try:
+			ended()
+		finally:
+			revoke()
+
+	one.end = end
+	return one
 
 
 def new(args) -> None:
@@ -75,8 +130,12 @@ def drop(args) -> None:
 
 def hand_over(args) -> None:
 	keys = _keys(args)
-	token = boxes.Cloudflare.lasting(keys["cloudflare_master"], keys["cloudflare_account"], args.name)
-	given = {key: value for key, value in keys.items() if key != "cloudflare_master"}
+	maker, revoke = _maker(keys)
+	try:
+		token = boxes.Cloudflare.lasting(maker, keys["cloudflare_account"], args.name)
+	finally:
+		revoke()
+	given = {key: value for key, value in keys.items() if not key.startswith(("cloudflare_master", "cloudflare_oauth"))}
 	_private(Path(args.out), {**given, "cloudflare_token": token, "origin_zone": args.origin_zone})
 	print(f"keys for OneAdmin written to {args.out}")
 

@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-11 08:31+0000\n"
-"PO-Revision-Date: 2026-11-11 08:31+0000\n"
+"POT-Creation-Date: 2026-11-11 08:42+0000\n"
+"PO-Revision-Date: 2026-11-11 08:42+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -10039,7 +10039,7 @@ msgstr ""
 msgid "Cloudflare did not answer: {0}. Set up again."
 msgstr ""
 
-#: onedesk/one_admin/cloudflare_signin.py:94
+#: onedesk/one_admin/cloudflare_signin.py:107
 #, python-brace-format
 msgid "Cloudflare did not sign in: {0}"
 msgstr ""
@@ -10049,7 +10049,7 @@ msgstr ""
 msgid "Cloudflare has no record of {0}. The customer can remove it and add it again."
 msgstr ""
 
-#: onedesk/one_admin/cloudflare_signin.py:126
+#: onedesk/one_admin/cloudflare_signin.py:139
 #, python-brace-format
 msgid "Cloudflare refused the sign-in: {0}"
 msgstr ""
@@ -53431,7 +53431,7 @@ msgstr ""
 msgid "The sheet's hidden first column was deleted. Undo the change, or reopen the workbook from the record."
 msgstr ""
 
-#: onedesk/one_admin/cloudflare_signin.py:97
+#: onedesk/one_admin/cloudflare_signin.py:110
 msgid "The sign-in has expired. Press Sign In to Cloudflare again."
 msgstr ""
 

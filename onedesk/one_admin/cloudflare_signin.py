@@ -45,6 +45,19 @@ def _redirect() -> str:
 	return frappe.utils.get_url(f"/api/method/{RETURN_TO}")
 
 
+def code_in(address: str, state: str) -> str:
+	"""The code in the address Cloudflare sent the browser back to, once its
+	state is this sign-in's. Pure."""
+	from urllib.parse import parse_qs, urlparse
+
+	asked = {key: values[0] for key, values in parse_qs(urlparse(address.strip()).query).items()}
+	if asked.get("error"):
+		raise ValueError(f"Cloudflare did not sign in: {asked['error']}")
+	if asked.get("state") != state or not asked.get("code"):
+		raise ValueError("That address is not from this sign-in.")
+	return asked["code"]
+
+
 def _state_key(state: str) -> str:
 	return f"one_cloudflare_signin_state:{state}"
 
