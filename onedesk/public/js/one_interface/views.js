@@ -36,6 +36,10 @@ onedesk.interface.views = {
 				const $body = $('<div class="one-island"></div>');
 				this.$frappe_list.empty().append($body);
 				this.one_island = frappe.ui.mount_island(this.one_view.island, $body[0], { doctype: this.doctype, win: this.page.interface || null });
+				this.one_island.ready.catch((error) => {
+					console.error(`could not mount the "${this.one_view.island}" island`, error);
+					$body.html(frappe.ui.empty_state.html({ icon: this.one_view.icon, title: __("This view is not built"), description: frappe.boot.developer_mode ? error.message : "" }));
+				});
 				this.settings.onload && this.settings.onload(this);
 			}
 

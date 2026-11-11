@@ -45,6 +45,13 @@ OVERRIDES = [
 		'let view_class = frappe.views[view_name + "View"];',
 	),
 	(
+		"Servers' main button says Order Server",
+		"one_admin/doctype/workspace_server/workspace_server_list.js replaces the list's set_primary_action in onload, since frappe labels it Add <doctype> whatever primary_action does, and frappe calls it again when a selection is cleared",
+		"onedesk/one_admin/doctype/workspace_server/workspace_server_list.js",
+		"frappe/frappe/public/js/frappe/list/list_view.js",
+		'const add_button_label = __("Add {0}", [doctype_name], "Primary action in list view");',
+	),
+	(
 		"A module's own view is a view frappe knows",
 		"one_interface/views.js adds each declared view to frappe.views.view_modes and view_icon_map, so the switcher lists it and last_view and is_valid take it",
 		"onedesk/public/js/one_interface/views.js",

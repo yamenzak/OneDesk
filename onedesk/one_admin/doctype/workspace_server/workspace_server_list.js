@@ -8,6 +8,8 @@ frappe.listview_settings["Workspace Server"] = {
 	},
 
 	onload(listview) {
+		listview.set_primary_action = () => listview.page.set_primary_action(__("Order Server"), () => listview.settings.primary_action(), "plus");
+		listview.set_primary_action();
 		listview.page.add_menu_item(__("Connect Server"), () => {
 			frappe.prompt(
 				[{ fieldname: "region", fieldtype: "Data", label: __("Region"), reqd: 1, default: "eu-frankfurt-1", description: __("Copies of a workspace are made in this region.") }],

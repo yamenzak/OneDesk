@@ -54904,6 +54904,10 @@ msgstr ""
 msgid "This version no longer exists."
 msgstr ""
 
+#: onedesk/public/js/one_interface/views.js:41
+msgid "This view is not built"
+msgstr ""
+
 #: onedesk/one_ai/reading/act.py:466 onedesk/one_ai/reading/act.py:565
 #, python-brace-format
 msgid "This was already {0}."
