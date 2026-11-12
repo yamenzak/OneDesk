@@ -1,0 +1,65 @@
+"""OneProject's place in One (docs/run/RUN.md, OneRegistry)."""
+
+from onedesk.one.registry.model import App, Roles, _lt
+
+APP = App(
+	id="one_project",
+	name="OneProject",
+	kind="app",
+	module="One Project",
+	line=_lt("Plan each job, follow its time and costs, and bill it as the work gets done."),
+	mark="oneproject",
+	owns=("Projects",),
+	rail=110,
+	sidebar="OneProject",
+	roles=Roles(user=("Projects User",), manager=("Projects Manager",)),
+	screens="project",
+	names=("one_project", "oneproject"),
+	help=(
+		("overview", "info"),
+		("projects", "folder-kanban"),
+		("starting-a-project", "plus"),
+		("a-projects-page", "layout-dashboard"),
+		("tasks-and-schedule", "list-checks"),
+		("time", "timer"),
+		("billing", "receipt"),
+		("costs-and-budget", "wallet"),
+		("subcontracts", "hard-hat"),
+		("sub-projects", "git-branch"),
+		("the-team", "users"),
+		("the-customer", "globe"),
+		("notifications", "bell"),
+		("asking-oneai", "sparkles"),
+		("who-can-do-what", "shield"),
+		("settings", "settings"),
+	),
+	ready={
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-07", "commit": "e24156bb54b5", "by": "Claude, for Yamen"},
+		},
+	},
+	companies=("Project", "Timesheet"),
+	interface={
+		"Project": {
+			"cards": ({"key": "project.done"}, {"key": "project.cost"}, {"key": "project.billed"}, {"key": "project.margin"}),
+			"links": (
+				{"label": _lt("Customer"), "icon": "building-2", "open": "customer"},
+				{"label": _lt("Sales Order"), "icon": "file-text", "open": "sales_order"},
+			),
+			"states": {"field": "status", "order": ("Open", "On hold", "Completed"), "hide": ("Cancelled",)},
+		},
+		"Project Template": {
+			"cards": ({"key": "template.tasks"}, {"key": "template.days"}, {"key": "template.used"}),
+			"states": {"field": "project_type"},
+		},
+		"Timesheet": {
+			"cards": ({"key": "timesheet.progress"}, {"key": "timesheet.worth"}),
+			"states": {"order": ("Draft", "Submitted", "Partially Billed", "Billed", "Payslip"), "hide": ("Completed", "Cancelled")},
+		},
+	},
+)

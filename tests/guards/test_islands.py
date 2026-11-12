@@ -71,7 +71,7 @@ def test_every_island_is_declared_built_and_mounted():
 			for path in (tree.APP / "public" / "js" / "one_interface").glob("*.js")
 			if f'mount_island("{name}"' in path.read_text(encoding="utf-8")
 		]
-		views = f'"island": "{name}"' in (tree.APP / "one" / "ready.py").read_text(encoding="utf-8")
+		views = any(f'"island": "{name}"' in path.read_text(encoding="utf-8") for path in tree.APP.glob("*/manifest.py"))
 		assert pages or tabs or reports or parts or views, f"no desk page, record tab, form field, report, list view or OneInterface part mounts {name}"
 		for page in pages:
 			assert "onedesk.island_page(" in page.read_text(encoding="utf-8"), page

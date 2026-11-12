@@ -1,0 +1,41 @@
+"""One's place in One (docs/run/RUN.md, OneRegistry)."""
+
+from onedesk.one.registry.model import App
+
+APP = App(
+	id="one",
+	name="One",
+	kind="app",
+	module="One",
+	mark="one",
+	rail=10,
+	sidebar="One",
+	screens="one",
+	names=("one_control", "access_center", "notification_center", "role_matrix"),
+	help=(
+		("overview", "info"),
+		("home", "house"),
+		("address-book", "book-user"),
+		("announcements", "megaphone"),
+		("records", "file-text"),
+		("recycle-bin", "trash-2"),
+		("weather", "cloud-sun"),
+		("news", "newspaper"),
+		("notifications", "bell"),
+		("shortcuts", "keyboard"),
+		("access-and-the-audit-log", "shield-check"),
+		("your-data", "folder-lock"),
+		("who-can-do-what", "shield"),
+		("settings", "settings"),
+	),
+	ready={
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-10", "commit": "bc85304106b7", "by": "Claude, for Yamen"},
+		},
+	},
+)

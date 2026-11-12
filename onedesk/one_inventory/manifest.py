@@ -1,0 +1,204 @@
+"""OneInventory's place in One (docs/run/RUN.md, OneRegistry)."""
+
+from onedesk.one.registry.model import App, Roles, _lt
+
+APP = App(
+	id="one_inventory",
+	name="OneInventory",
+	kind="app",
+	module="One Inventory",
+	line=_lt("Know what's in stock, buy what runs low, and track what you sell."),
+	mark="oneinventory",
+	owns=("Stock", "Buying", "Assets"),
+	rail=50,
+	sidebar="OneInventory",
+	roles=Roles(user=("Stock User", "Purchase User"), manager=("Stock Manager", "Purchase Manager", "Item Manager")),
+	screens="inventory",
+	names=("one_inventory", "oneinventory"),
+	help=(
+		("overview", "info"),
+		("getting-ready", "list-checks"),
+		("items", "package"),
+		("an-items-page", "layout-dashboard"),
+		("stock", "warehouse"),
+		("buying", "shopping-cart"),
+		("receiving-and-delivering", "truck"),
+		("batches-and-quality", "layers"),
+		("equipment", "wrench"),
+		("notifications", "bell"),
+		("asking-oneai", "sparkles"),
+		("who-can-do-what", "shield"),
+		("settings", "settings"),
+	),
+	ready={
+		"ready": True,
+		"checked": {
+			"copy": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"demo": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"notifications": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"interface": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+			"legal": {"on": "2026-11-06", "commit": "8184e878afdc", "by": "Claude, for Yamen"},
+		},
+	},
+	companies=(
+		"Asset",
+		"Asset Capitalization",
+		"Asset Maintenance",
+		"Asset Maintenance Team",
+		"Asset Movement",
+		"Asset Repair",
+		"Asset Value Adjustment",
+		"Blanket Order",
+		"Delivery Note",
+		"Delivery Trip",
+		"Item Default",
+		"Item Standard Cost",
+		"Landed Cost Voucher",
+		"Material Request",
+		"Pick List",
+		"Purchase Order",
+		"Purchase Receipt",
+		"Putaway Rule",
+		"Quality Inspection",
+		"Request for Quotation",
+		"Serial No",
+		"Serial and Batch Bundle",
+		"Stock Closing Entry",
+		"Stock Entry",
+		"Stock Reconciliation",
+		"Stock Reservation Entry",
+		"Supplier Quotation",
+		"Warehouse",
+	),
+	interface={
+		"Item": {
+			"fields": {"item_code": "hash"},
+			"cards": ({"key": "item.on_hand", "title": _lt("On Hand")}, {"key": "item.free", "title": _lt("Free to Sell")}, {"key": "item.on_order", "title": _lt("On Order")}, {"key": "item.worth"}),
+			"states": {
+				"kinds": (
+					{"label": _lt("Kept in Stock"), "filters": (("is_stock_item", "=", 1), ("has_variants", "=", 0))},
+					{"label": _lt("Made Here"), "filters": (("default_bom", "is", "set"),)},
+					{"label": _lt("Services"), "filters": (("is_stock_item", "=", 0), ("is_fixed_asset", "=", 0))},
+					{"label": _lt("Equipment"), "filters": (("is_fixed_asset", "=", 1),)},
+					{"label": _lt("Sizes or Colours"), "filters": (("has_variants", "=", 1),)},
+				),
+			},
+		},
+		"Purchase Receipt": {
+			"cards": ({"key": "receipt.order"}, {"key": "receipt.worth"}, {"key": "receipt.rejected"}, {"key": "project.of"}),
+			"track": "receipt.progress",
+			"states": {"order": ("To Bill", "Partly Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
+		},
+		"Delivery Note": {
+			"cards": ({"key": "delivery.order"}, {"key": "delivery.total"}, {"key": "delivery.trip"}, {"key": "project.of"}),
+			"track": "delivery.progress",
+			"states": {"order": ("To Bill", "Partially Billed", "Completed", "Return", "Return Issued", "Closed", "Draft"), "hide": ("Cancelled",)},
+		},
+		"Delivery Trip": {
+			"cards": ({"key": "trip.stops"}, {"key": "vehicle"}, {"key": "departure_time"}),
+			"states": {"order": ("Scheduled", "In Transit", "Completed", "Draft"), "hide": ("Cancelled",)},
+		},
+		"Pick List": {
+			"cards": ({"key": "pick.done"}, {"key": "customer_name"}, {"key": "parent_warehouse"}),
+			"states": {"order": ("Open", "Partly Delivered", "Partially Transferred", "Completed", "Draft"), "hide": ("Cancelled",)},
+		},
+		"Shipment": {"states": {"order": ("Submitted", "Booked", "Completed", "Draft"), "hide": ("Cancelled",)}},
+		"Asset": {
+			"cards": ({"key": "asset.worth_now"}, {"key": "asset.cost"}, {"key": "asset.next_service", "title": _lt("Next Service")}, {"key": "asset.next_depreciation"}),
+			"states": {
+				"order": ("Submitted", "Partially Depreciated", "In Maintenance", "Out of Order", "Fully Depreciated", "Sold", "Scrapped", "Capitalized", "Work In Progress", "Draft"),
+				"hide": ("Cancelled",),
+			},
+		},
+		"Asset Maintenance Log": {
+			"cards": ({"key": "service.due"}, {"key": "assign_to_name"}, {"key": "service.last"}),
+			"states": {"field": "maintenance_status", "order": ("Overdue", "Planned", "Completed"), "hide": ("Cancelled",)},
+		},
+		"Asset Maintenance": {
+			"cards": ({"key": "schedule.next"}, {"key": "service.asset"}, {"key": "maintenance_team"}),
+			"states": {"field": "maintenance_team"},
+		},
+		"Asset Repair": {
+			"cards": ({"key": "repair.out"}, {"key": "repair.cost"}),
+			"states": {"field": "repair_status", "order": ("Pending", "Completed"), "hide": ("Cancelled",)},
+		},
+		"Asset Movement": {
+			"fields": {"purpose": "arrow-left-right"},
+			"cards": ({"key": "handover.what"}, {"key": "handover.from"}, {"key": "handover.to"}, {"key": "transaction_date"}),
+			"states": {"field": "purpose", "order": ("Issue", "Receipt", "Transfer", "Transfer and Issue")},
+		},
+		"Asset Value Adjustment": {
+			"cards": ({"key": "repair.asset"}, {"key": "current_asset_value"}, {"key": "new_asset_value"}, {"key": "adjustment.change"}),
+			"states": {"field": "asset_category"},
+		},
+		"Quality Inspection": {
+			"cards": ({"key": "inspection.readings"}, {"key": "inspection.of"}, {"key": "item_name"}, {"key": "inspection.by"}),
+			"states": {"order": ("Accepted", "Rejected"), "hide": ("Cancelled",)},
+		},
+		"Material Request": {
+			"cards": ({"key": "request.asked_by"}, {"key": "project.of"}),
+			"track": "material.progress",
+			"states": {
+				"order": ("Pending", "Partially Ordered", "Ordered", "Partially Received", "Received", "Issued", "Transferred", "Stopped", "Draft"),
+				"hide": ("Cancelled",),
+			},
+		},
+		"Request for Quotation": {
+			"cards": ({"key": "rfq.answered"}, {"key": "rfq.cheapest"}, {"key": "rfq.request"}, {"key": "project.of"}),
+			"states": {"hide": ("Submitted", "Cancelled")},
+		},
+		"Supplier Quotation": {
+			"cards": ({"key": "quote.cheapest"}, {"key": "quote.valid"}, {"key": "quote.request"}, {"key": "quote.ordered"}),
+			"states": {"order": ("Submitted", "Partially Ordered", "Ordered", "Expired", "Draft"), "hide": ("Cancelled",)},
+		},
+		"Purchase Order": {
+			"cards": ({"key": "order.total"}, {"key": "project.of"}, {"key": "order.blanket"}),
+			"track": "order.progress",
+			"states": {
+				"order": ("To Receive and Bill", "To Receive", "To Bill", "To Pay", "On Hold", "Completed", "Closed", "Delivered", "Draft"),
+				"hide": ("Cancelled",),
+			},
+		},
+		"Stock Entry": {
+			"cards": (
+				{"key": "move.from", "title": _lt("Source Warehouse")},
+				{"key": "move.to", "title": _lt("Target Warehouse")},
+				{"key": "move.value"},
+				{"key": "project.of"},
+			),
+			"states": {
+				"field": "stock_entry_type",
+				"order": ("Material Receipt", "Material Issue", "Material Transfer", "Manufacture", "Repack"),
+			},
+		},
+		"Stock Reconciliation": {
+			"cards": (
+				{"key": "count.where"},
+				{"key": "count.items"},
+				{"key": "difference_amount"},
+			),
+			"states": {"field": "purpose", "order": ("Stock Reconciliation", "Opening Stock")},
+		},
+		"Batch": {
+			"cards": (
+				{"key": "batch.left"},
+				{"key": "batch.expires"},
+				{"key": "batch.came_from"},
+				{"key": "batch.went"},
+			),
+			"states": {"field": "item"},
+		},
+		"Serial No": {
+			"states": {"field": "status", "order": ("Active", "Delivered", "Consumed", "Inactive", "Expired")},
+		},
+		"Warehouse": {
+			"cards": (
+				{"key": "warehouse.items"},
+				{"key": "warehouse.worth"},
+				{"key": "warehouse.low"},
+				{"key": "warehouse.last"},
+			),
+			"states": {"field": "warehouse_type"},
+		},
+	},
+)

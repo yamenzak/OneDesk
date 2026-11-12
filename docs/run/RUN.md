@@ -223,9 +223,9 @@ Status: `[ ]` open, `[~]` in progress, `[x]` done (hash), `[!]` blocked
 
 ### P1. OneRegistry (foundation)
 
-- [ ] P1.1 `onedesk/one/registry/`: dataclasses (App, Centre, Engine, Roles, Kept, Needs, Files, Marketing, Ready, Countries), the loader, validation errors that name the manifest and field; pure tests. — `registry.apps()` returns 24 from manifests.
-- [ ] P1.2 A manifest for every folder, generated once from ready.MODULES, people.APPS, APP_SAID, the Dock, heirs and the hook lists, then edited by hand where the sources disagreed (SURVEY §2: the four module maps, the names). OneCloud and OneStudio get theirs. — every folder has one; a table of each disagreement and how it was settled is in the commit.
-- [ ] P1.3 `ready.MODULES` read from the manifests; ready.py keeps POINTS and HAND until P3 moves them. — no `MODULES = {` literal; guards green.
+- [x] P1.1 `onedesk/one/registry/`: dataclasses (App, Centre, Engine, Roles, Kept, Needs, Files, Marketing, Ready, Countries), the loader, validation errors that name the manifest and field; pure tests. — `registry.apps()` returns 24 from manifests. (A module may be one folder's own and another's to show, as the editors are OneCloud's until P6.2.)
+- [x] P1.2 A manifest for every folder, generated once from ready.MODULES, people.APPS, APP_SAID, the Dock, heirs and the hook lists, then edited by hand where the sources disagreed (SURVEY §2: the four module maps, the names). OneCloud and OneStudio get theirs. — every folder has one; a table of each disagreement and how it was settled is in the commit. (Written from ready.py's source so its _lt markers stay; names are today's, P2 changes them. ui, needs, kept and countries wait for P2.12, P6.1 and P4.)
+- [x] P1.3 `ready.MODULES` read from the manifests; ready.py keeps POINTS and HAND until P3 moves them. — no `MODULES = {` literal; guards green.
 - [ ] P1.4 hooks.py's per-module lists built from the registry: one_abilities, one_ai_*, one_record_heads/measures/verbs/charts, one_calendar_layers, one_portal, one_record_tabs, one_homes, one_notification_types, after_sync/after_migrate access.settle. — the 22 hand lists gone; `bench --site run.localhost migrate` and boot unchanged (diff of `frappe.get_hooks` before/after is empty).
 - [ ] P1.5 One map of Frappe module → app, from manifests; heirs, one_studio/forms.MODULES, one_ai/groups.MODULES and scripts/print_formats.MODULES read it. — the four literals gone.
 - [ ] P1.6 The apps list read from the registry everywhere: people.APPS/APP_SAID, lists.HOMES, one_legal/assemble.MODULES, ready.OUTSIDE, one_demo/people.APPS, apps.KEPT/NEEDS/ICONS, brand.MARK_OF. — none of those literals remains.
@@ -381,6 +381,7 @@ Only what needs his own hands:
 
 (`- [ ] Dn <what> — at P<phase>.<item>: <why>`; run.py shows those due)
 
+- [ ] D2 A manifest's shipped fields (interface, help, roles, companies) count toward its module's fingerprint again; manifest.py is left out while P1 moves ready.MODULES into manifests, since that moved no module's version before — at P3.4: readiness is reworked there.
 - [ ] D1 Remove the locked worktree agent-ae3e27f8 once its agent process has ended, and the dirty worktree agent-af46cdf5 (uncommitted OneAdmin work of 9 Nov; its diff saved first) and any left after P0.3 — at P11.3: removing worktrees was stopped by the permission check on 12 Nov; ask nothing, retry without force, and if still refused leave it.
 
 ## Noticed

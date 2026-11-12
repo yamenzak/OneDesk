@@ -3,6 +3,35 @@
 
 The fourteen points of docs/READY.md, for each module on its way to ready.
 
+## One 2.12.3
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-10, `bc85304` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-10, `bc85304` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-10, `bc85304` |
+| OneInterface pass | — | 2026-11-10, `bc85304` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-10, `bc85304` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
 ## OneMail 1.3.4
 
 Ready.
@@ -32,7 +61,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneLegal 1.5.0
+## OneBook 1.3.0
 
 Ready.
 
@@ -42,132 +71,16 @@ Ready.
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-09, `c07da17` |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `4d0fc1c` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-09, `c07da17` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-09, `c07da17` |
-| OneInterface pass | — | 2026-11-09, `c07da17` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `4d0fc1c` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `4d0fc1c` |
+| OneInterface pass | — | 2026-11-07, `4d0fc1c` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-09, `c07da17` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneAccount 1.2.2
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-09, `ad363dd` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-09, `ad363dd` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-09, `ad363dd` |
-| OneInterface pass | — | 2026-11-09, `ad363dd` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-09, `ad363dd` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneCalendar 1.1.0
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `5536d07` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `5536d07` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `5536d07` |
-| OneInterface pass | — | 2026-11-07, `5536d07` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `5536d07` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneTask 1.3.0
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-06, `18161bb` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-06, `18161bb` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-06, `18161bb` |
-| OneInterface pass | — | 2026-11-06, `18161bb` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-06, `18161bb` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneProject 2.2.0
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `e24156b` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `e24156b` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `e24156b` |
-| OneInterface pass | — | 2026-11-07, `e24156b` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `e24156b` |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `4d0fc1c` |
 
 What a person looks at:
 
@@ -264,35 +177,6 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneBook 1.3.0
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `4d0fc1c` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `4d0fc1c` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `4d0fc1c` |
-| OneInterface pass | — | 2026-11-07, `4d0fc1c` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `4d0fc1c` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
 ## OneCRM 1.3.0
 
 Ready.
@@ -313,35 +197,6 @@ Ready.
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `e24156b` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneDisplay 2.6.8
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `70b26c9` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `70b26c9` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `70b26c9` |
-| OneInterface pass | — | 2026-11-07, `70b26c9` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `70b26c9` |
 
 What a person looks at:
 
@@ -380,7 +235,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneSlide 1.17.0
+## OneTask 1.3.1
 
 Ready.
 
@@ -390,16 +245,16 @@ Ready.
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `ec12a99` |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-06, `18161bb` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `ec12a99` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `ec12a99` |
-| OneInterface pass | — | 2026-11-12, `ec12a99` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-06, `18161bb` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-06, `18161bb` |
+| OneInterface pass | — | 2026-11-06, `18161bb` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `ec12a99` |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-06, `18161bb` |
 
 What a person looks at:
 
@@ -409,7 +264,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneWriter 1.1.0
+## OneProject 2.2.0
 
 Ready.
 
@@ -419,16 +274,16 @@ Ready.
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `3c226de` |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `e24156b` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `3c226de` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `3c226de` |
-| OneInterface pass | — | 2026-11-12, `3c226de` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `e24156b` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `e24156b` |
+| OneInterface pass | — | 2026-11-07, `e24156b` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `3c226de` |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `e24156b` |
 
 What a person looks at:
 
@@ -438,7 +293,7 @@ What a person looks at:
 - **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
 - **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
 
-## OneWorkbook 1.1.0
+## OneCalendar 1.1.0
 
 Ready.
 
@@ -448,16 +303,45 @@ Ready.
 | Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
 | What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `3c226de` |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `5536d07` |
 | Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
 | OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `3c226de` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `3c226de` |
-| OneInterface pass | — | 2026-11-12, `3c226de` |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `5536d07` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `5536d07` |
+| OneInterface pass | — | 2026-11-07, `5536d07` |
 | Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `3c226de` |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `5536d07` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneDisplay 2.6.8
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-07, `70b26c9` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-07, `70b26c9` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-07, `70b26c9` |
+| OneInterface pass | — | 2026-11-07, `70b26c9` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `70b26c9` |
 
 What a person looks at:
 
@@ -487,64 +371,6 @@ Ready.
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-07, `5e04e24` |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## OneInterface 1.12.0
-
-Not marked ready yet.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | not yet |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | not yet |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | not yet |
-| OneInterface pass | — | not yet |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | not yet |
-
-What a person looks at:
-
-- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
-- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
-- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
-- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
-- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
-
-## One 2.12.3
-
-Ready.
-
-| Point | Held by | Last looked at |
-|---|---|---|
-| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
-| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
-| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
-| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-10, `bc85304` |
-| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
-| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
-| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-10, `bc85304` |
-| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-10, `bc85304` |
-| OneInterface pass | — | 2026-11-10, `bc85304` |
-| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
-| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
-| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
-| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-10, `bc85304` |
 
 What a person looks at:
 
@@ -603,6 +429,180 @@ Not marked ready yet.
 | Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
 | Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
 | Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | not yet |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneAccount 1.2.2
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-09, `ad363dd` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-09, `ad363dd` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-09, `ad363dd` |
+| OneInterface pass | — | 2026-11-09, `ad363dd` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-09, `ad363dd` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneWriter 1.1.0
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `3c226de` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `3c226de` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `3c226de` |
+| OneInterface pass | — | 2026-11-12, `3c226de` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `3c226de` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneInterface 1.12.0
+
+Not marked ready yet.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | not yet |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | not yet |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | not yet |
+| OneInterface pass | — | not yet |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | not yet |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneLegal 1.5.0
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-09, `c07da17` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-09, `c07da17` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-09, `c07da17` |
+| OneInterface pass | — | 2026-11-09, `c07da17` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-09, `c07da17` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneWorkbook 1.1.0
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `3c226de` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `3c226de` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `3c226de` |
+| OneInterface pass | — | 2026-11-12, `3c226de` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `3c226de` |
+
+What a person looks at:
+
+- **Copy**: every heading, description and message it shows reads as the copy rules say, in English, Arabic and German.
+- **Demo and tests**: the demo company uses every part of it and nothing in the demo makes it look wrong.
+- **Notifications**: it tells people what they need, on the channels that make sense, only to the roles that should hear it.
+- **OneInterface pass**: each screen, as each role, on a desktop and a phone: tokens only, frappe's controls, live where data changes, and the reader's formats.
+- **Legal**: what it does with data, read against what its clauses, subprocessors and optional services say.
+
+## OneSlide 1.17.0
+
+Ready.
+
+| Point | Held by | Last looked at |
+|---|---|---|
+| One home | `test_nothing_of_a_module_is_left_outside`, `test_nothing_outside_a_module_is_named_for_it`, `test_a_module_writes_only_agents_scratchpad_and_docs` | — |
+| Versioned | `test_every_change_to_a_module_is_a_version`, `test_versions_follow_one_another`, `test_a_version_is_written_for_the_people_using_it` | — |
+| What's New in the app | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Documented | `test_a_module_writes_only_agents_scratchpad_and_docs`, `test_every_help_page_is_listed_and_every_link_lands`, `test_a_help_page_names_no_code`, `test_a_help_page_is_headed_pictured_and_linked_soundly` | — |
+| Copy | `test_a_heading_is_five_words_or_fewer`, `test_a_description_is_one_sentence`, `test_no_banned_word_is_shown` | 2026-11-12, `ec12a99` |
+| Roles | `test_a_module_ships_its_roles`, `test_a_module_grants_through_abilities_alone`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | — |
+| OneAI | `test_a_module_reaches_every_change_through_oneai_or_says_why_not` | — |
+| Demo and tests | `test_no_module_has_more_left_to_cover_than_it_had`, `test_every_step_is_built_and_written_down` | 2026-11-12, `ec12a99` |
+| Notifications | `test_a_module_says_how_and_from_whom_it_tells_people`, `test_every_type_sent_is_declared`, `test_a_module_leaves_roles_and_notifications_to_their_centers` | 2026-11-12, `ec12a99` |
+| OneInterface pass | — | 2026-11-12, `ec12a99` |
+| Setup steps | `test_a_module_says_what_setting_it_up_takes` | — |
+| Tour | `test_a_module_ships_a_tour_of_its_screen` | — |
+| Settings | `test_a_module_has_one_settings_dialog_and_one_foot` | — |
+| Legal | `test_a_change_to_what_a_module_agrees_on_is_said`, `test_every_modules_legal_file_is_assembled` | 2026-11-12, `ec12a99` |
 
 What a person looks at:
 

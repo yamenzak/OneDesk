@@ -32,7 +32,6 @@ sys.path.insert(0, str(ROOT))
 
 from onedesk.one import ready
 
-READY = ROOT / "onedesk" / "one" / "ready.py"
 
 
 def _git(*args: str) -> str:
@@ -97,10 +96,10 @@ def settle(name: str) -> str:
 
 
 def looked(pairs: list[str]) -> list[str]:
-	"""Re-date the named hand looks to HEAD, today, keeping who looked."""
+	"""Re-date the named hand looks to HEAD, today, keeping who looked: in
+	each module's manifest.py, where its readiness is declared."""
 	head = _git("rev-parse", "--short=12", "HEAD").strip()
 	today = datetime.date.today().isoformat()
-	source = READY.read_text(encoding="utf-8")
 	folders = by_folder()
 	said = []
 	for pair in pairs:
@@ -108,19 +107,17 @@ def looked(pairs: list[str]) -> list[str]:
 		name = folders.get(folder, folder)
 		if name not in ready.MODULES:
 			sys.exit(f"no module {folder}")
-		start = source.index(f'\n\t"{name}": {{')
-		end = source.index("\n\t},", start)
-		block = source[start:end]
+		manifest = ROOT / "onedesk" / ready.MODULES[name]["folder"] / "manifest.py"
+		source = manifest.read_text(encoding="utf-8")
 		for point in filter(None, points.split(",")):
 			if point not in ready.HAND:
 				sys.exit(f"{point} is not a hand point: {sorted(ready.HAND)}")
 			pattern = re.compile(rf'("{point}": \{{"on": )"[\d-]+", "commit": "\w+"')
-			if not pattern.search(block):
+			if not pattern.search(source):
 				sys.exit(f"{name} has no look at {point} to re-date")
-			block = pattern.sub(rf'\1"{today}", "commit": "{head}"', block, count=1)
+			source = pattern.sub(rf'\1"{today}", "commit": "{head}"', source, count=1)
 			said.append(f"{name}: looked at {point} on {head}")
-		source = source[:start] + block + source[end:]
-	READY.write_text(source, encoding="utf-8")
+		manifest.write_text(source, encoding="utf-8")
 	return said
 
 
