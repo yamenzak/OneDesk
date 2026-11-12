@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: One VERSION\n"
 "Report-Msgid-Bugs-To: hello@4dl.app\n"
-"POT-Creation-Date: 2026-11-12 20:46+0000\n"
-"PO-Revision-Date: 2026-11-12 20:46+0000\n"
+"POT-Creation-Date: 2026-11-12 22:17+0000\n"
+"PO-Revision-Date: 2026-11-12 22:17+0000\n"
 "Last-Translator: hello@4dl.app\n"
 "Language-Team: hello@4dl.app\n"
 "MIME-Version: 1.0\n"
@@ -2022,7 +2022,7 @@ msgstr ""
 #. Settings'
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
 #: onedesk/one_admin/doctype/one_admin_settings/one_admin_settings.json:256
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "AWS"
 msgstr ""
 
@@ -3413,7 +3413,7 @@ msgstr ""
 #. Server'
 #: frontend/portal/src/pages/Address.vue:18 onedesk/one/sidebar/one/one.json:87
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:300
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:147
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:156
 msgid "Addresses"
 msgstr ""
 
@@ -3749,7 +3749,7 @@ msgid "Agreements Changed"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Akamai"
 msgstr ""
 
@@ -6511,7 +6511,7 @@ msgid "Away Until"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Azure"
 msgstr ""
 
@@ -7209,7 +7209,7 @@ msgid "Bench"
 msgstr ""
 
 #. Label of the benches (Long Text) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:174
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:183
 msgid "Benches"
 msgstr ""
 
@@ -10960,7 +10960,9 @@ msgstr ""
 msgid "Connect {0} as a drive"
 msgstr ""
 
+#. Label of the connected (Check) field in DocType 'Workspace Server'
 #: frontend/src/admin/ServerMetrics.vue:119
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:72
 #: onedesk/public/js/one_admin/admin_control.js:237
 #: onedesk/public/js/one_mail/onemail_settings.js:692 onedesk/www/tv.py:50
 msgid "Connected"
@@ -10980,7 +10982,7 @@ msgid "Connected. Waiting for the presenter view…"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
 msgid "Connecting"
 msgstr ""
 
@@ -14856,7 +14858,7 @@ msgid "Digital"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "DigitalOcean"
 msgstr ""
 
@@ -15031,7 +15033,7 @@ msgstr ""
 #. Label of the disk_used (Percent) field in DocType 'Workspace Server'
 #: frontend/src/admin/AdminHome.vue:128 frontend/src/admin/ServerCard.vue:63
 #: frontend/src/admin/ServerMetrics.vue:20
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:119
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:128
 msgid "Disk"
 msgstr ""
 
@@ -15481,7 +15483,7 @@ msgid "Double arrow"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
 msgid "Down"
 msgstr ""
 
@@ -19365,7 +19367,7 @@ msgid "Filled in {0}"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
 #: onedesk/one_admin/home.py:346
 msgid "Filling Up"
 msgstr ""
@@ -20885,7 +20887,7 @@ msgid "Fulfilment"
 msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
 #: onedesk/one_admin/home.py:346 onedesk/one_admin/home.py:370
 #: onedesk/one_ai/center.py:21
 #: onedesk/public/js/one_account/account_center.js:710
@@ -21443,7 +21445,7 @@ msgid "Google Calendar"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Google Cloud"
 msgstr ""
 
@@ -22208,7 +22210,7 @@ msgid "HelpCenter"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Hetzner"
 msgstr ""
 
@@ -22903,7 +22905,7 @@ msgstr ""
 
 #. Description of the 'Most Workspaces' (Int) field in DocType 'Workspace
 #. Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:94
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:103
 msgid "How many workspaces it holds before it is full. Leave it at 0 for no limit."
 msgstr ""
 
@@ -23360,6 +23362,11 @@ msgstr ""
 #. 'Reading Settings'
 #: onedesk/one_ai/doctype/reading_settings/reading_settings.json:24
 msgid "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
+msgstr ""
+
+#. Description of the 'Connected' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
+msgid "If enabled, the machine was connected by its owner rather than ordered."
 msgstr ""
 
 #. Description of the 'Fill Screen' (Check) field in DocType 'Display Slide'
@@ -29462,7 +29469,7 @@ msgstr ""
 #. Label of the memory_used (Percent) field in DocType 'Workspace Server'
 #: frontend/src/admin/AdminHome.vue:128 frontend/src/admin/ServerCard.vue:62
 #: frontend/src/admin/ServerMetrics.vue:17
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:112
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:121
 #: onedesk/public/js/one_ai/ai_center.js:355
 #: onedesk/public/js/one_ai/ai_center.js:357
 #: onedesk/public/js/one_ai/ai_center.js:395
@@ -29587,7 +29594,7 @@ msgstr ""
 #. Label of the section_metrics (Section Break) field in DocType 'Workspace
 #. Server'
 #. Label of the metrics (HTML) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:137
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:146
 msgid "Metrics"
 msgstr ""
 
@@ -29826,7 +29833,7 @@ msgid "Monthly Attendance"
 msgstr ""
 
 #. Label of the monthly_cost (Int) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:130
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:139
 msgid "Monthly Cost (USD)"
 msgstr ""
 
@@ -29992,7 +29999,7 @@ msgid "Most Valuable Items"
 msgstr ""
 
 #. Label of the capacity (Int) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:92
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:101
 msgid "Most Workspaces"
 msgstr ""
 
@@ -34427,7 +34434,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:115
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:105
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:106
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:189
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:198
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:165
 msgid "One Operator"
 msgstr ""
@@ -35716,7 +35723,7 @@ msgstr ""
 #: onedesk/notifications/one_storage/file_ready.md
 #: onedesk/notifications/one_storage/link_shared.md
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:69
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:100
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:109
 #: onedesk/one_ai/doctype/reading/reading.json:345
 #: onedesk/one_book/heads.py:458
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:292
@@ -36363,7 +36370,7 @@ msgid "Or scan with your phone"
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Oracle"
 msgstr ""
 
@@ -36659,7 +36666,7 @@ msgid "Origin"
 msgstr ""
 
 #. Label of the origin_host (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:159
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:168
 msgid "Origin Address"
 msgstr ""
 
@@ -36690,7 +36697,7 @@ msgstr ""
 #: frontend/src/admin/ServerMetrics.vue:98
 #: frontend/src/admin/ServerMetrics.vue:117 frontend/src/project/Money.vue:210
 #: frontend/src/project/Overview.vue:161
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 #: onedesk/one_admin/earnings.py:98
 #: onedesk/one_ai/doctype/reading/reading.json:236
 #: onedesk/one_ai/doctype/reading_ask/reading_ask.json:20
@@ -39151,7 +39158,7 @@ msgid "Pill"
 msgstr ""
 
 #. Label of the pilot_host (Data) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:152
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:161
 msgid "Pilot Address"
 msgstr ""
 
@@ -40717,7 +40724,7 @@ msgid "Provided by One"
 msgstr ""
 
 #. Label of the provider (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:54
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
 msgid "Provider"
 msgstr ""
 
@@ -42742,7 +42749,7 @@ msgstr ""
 #. Label of the region (Data) field in DocType 'Workspace Server'
 #: onedesk/one/doctype/weather_place/weather_place.json:32
 #: onedesk/one_account/doctype/workspace_account/workspace_account.json:108
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:64
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:65
 msgid "Region"
 msgstr ""
 
@@ -45466,7 +45473,7 @@ msgid "Say why, so they know."
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Scaleway"
 msgstr ""
 
@@ -46555,7 +46562,7 @@ msgstr ""
 #. Label of the server (Link) field in DocType 'Workspace Session'
 #. Label of the host (Data) field in DocType 'Cloud Mount'
 #: onedesk/one_admin/doctype/tenant/tenant.json:202
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:35
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:36
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:95
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:48
 #: onedesk/public/js/one_mail/onemail_settings.js:947
@@ -49175,7 +49182,7 @@ msgid "Spam"
 msgstr ""
 
 #. Label of the spares (Long Text) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:166
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:175
 msgid "Spares"
 msgstr ""
 
@@ -49763,7 +49770,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant/tenant.json:116
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:56
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:68
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:44
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:42
 #: onedesk/one_admin/heads.py:542 onedesk/one_admin/heads.py:559
 #: onedesk/one_admin/heads.py:565 onedesk/one_admin/heads.py:571
@@ -51372,7 +51379,7 @@ msgid "Takes about 25 minutes. $24 a month."
 msgstr ""
 
 #. Description of the 'Open' (Check) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:102
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:111
 msgid "Takes new workspaces. Untick it to stop a server filling any further."
 msgstr ""
 
@@ -58123,7 +58130,7 @@ msgstr ""
 
 #. Option for the 'Status' (Select) field in DocType 'Workspace Server'
 #: frontend/src/cloud/OneCloud.vue:21
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:45
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:46
 #: onedesk/public/js/one_interface/frame.js:480
 msgid "Up"
 msgstr ""
@@ -58395,7 +58402,7 @@ msgstr ""
 #. Label of the section_use (Section Break) field in DocType 'Portal Link'
 #. Label of the section_use (Section Break) field in DocType 'Cloud Link'
 #: onedesk/one_admin/doctype/offering/offering_list.js:19
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:107
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:116
 #: onedesk/one_portal/doctype/portal_link/portal_link.json:90
 #: onedesk/one_storage/doctype/cloud_link/cloud_link.json:111
 #: onedesk/public/js/one_ai/oneai.js:202
@@ -59112,7 +59119,7 @@ msgid "Vouchers whose debits and credits do not agree."
 msgstr ""
 
 #. Option for the 'Provider' (Select) field in DocType 'Workspace Server'
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:55
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:56
 msgid "Vultr"
 msgstr ""
 
@@ -64202,7 +64209,7 @@ msgstr ""
 #: onedesk/one_admin/doctype/tenant_domain/tenant_domain.json:34
 #: onedesk/one_admin/doctype/tenant_event/tenant_event.json:24
 #: onedesk/one_admin/doctype/workspace_error/workspace_error.json:26
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:71
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:80
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:60
 #: onedesk/one_admin/print_format/one_credit_ledger_entry/one_credit_ledger_entry.json
 #: onedesk/one_admin/report/ai_usage/ai_usage.js:24
@@ -64409,7 +64416,7 @@ msgid "Workspace Rule"
 msgstr ""
 
 #. Name of a DocType
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:185
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:194
 msgid "Workspace Server"
 msgstr ""
 
@@ -64467,7 +64474,7 @@ msgstr ""
 #: frontend/src/admin/ReleaseCard.vue:60 frontend/src/admin/ReleaseCard.vue:70
 #: onedesk/one_admin/doctype/health_check/health_check.json:24
 #: onedesk/one_admin/doctype/private_app/private_app.json:73
-#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:83
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:92
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:115
 #: onedesk/one_admin/report/ai_usage/ai_usage.py:163
 #: onedesk/one_admin/sidebar/one_admin/one_admin.json:29

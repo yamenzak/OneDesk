@@ -23359,6 +23359,11 @@ msgstr "Wenn aktiviert, können Personen mit dem Link Dateien in den Ordner hoch
 msgid "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
 msgstr "Wenn aktiviert, werden an Datensätze angehängte Scans und Fotos ebenfalls gelesen, im Namen der Person, die sie angehängt hat."
 
+#. Description of the 'Connected' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
+msgid "If enabled, the machine was connected by its owner rather than ordered."
+msgstr "Wenn aktiviert, wurde die Maschine von ihren Besitzenden verbunden und nicht bestellt."
+
 #. Description of the 'Fill Screen' (Check) field in DocType 'Display Slide'
 #: onedesk/one_display/doctype/display_slide/display_slide.json:57
 msgid "If enabled, the slide fills the screen and is cropped to fit."

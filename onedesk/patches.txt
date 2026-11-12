@@ -123,5 +123,6 @@ onedesk.one_quality.patches.actions_are_a_connection
 onedesk.one_admin.patches.updates_on_saturday
 onedesk.one_admin.patches.servers_are_records
 onedesk.one_admin.patches.servers_are_a_view
+onedesk.one_admin.patches.servers_say_connected
 onedesk.one_storage.patches.one_lease_on_file
 onedesk.one_storage.patches.excel_weighed_again

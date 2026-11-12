@@ -23359,6 +23359,11 @@ msgstr "عند التفعيل، يمكن لمن لديه الرابط رفع م�
 msgid "If enabled, scans and photos attached to records are also read, on behalf of the user who attached them."
 msgstr "عند التفعيل، تُقرأ أيضاً المسوحات والصور المرفقة بالسجلات نيابةً عن المستخدم الذي أرفقها."
 
+#. Description of the 'Connected' (Check) field in DocType 'Workspace Server'
+#: onedesk/one_admin/doctype/workspace_server/workspace_server.json:73
+msgid "If enabled, the machine was connected by its owner rather than ordered."
+msgstr "عند التفعيل، يكون الجهاز قد وُصل من مالكه ولم يُطلب."
+
 #. Description of the 'Fill Screen' (Check) field in DocType 'Display Slide'
 #: onedesk/one_display/doctype/display_slide/display_slide.json:57
 msgid "If enabled, the slide fills the screen and is cropped to fit."

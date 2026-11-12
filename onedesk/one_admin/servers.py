@@ -334,6 +334,7 @@ def connect() -> dict:
 			"origin_host": made["origin"],
 			"benches": frappe.as_json([{"bench": FIRST, "release": release, "state": "ready"}]),
 			"provider": providers.OTHER,
+			"connected": 1,
 			"monthly_cost": 0,
 		}
 	)

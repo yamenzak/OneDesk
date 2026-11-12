@@ -68,7 +68,7 @@ No doctypes yet.
 | Tenant Domain | 10 | document |
 | Tenant Event | 9 | document |
 | Workspace Error | 10 | document |
-| Workspace Server | 21 | document |
+| Workspace Server | 22 | document |
 | Workspace Session | 18 | document |
 
 ## One AI

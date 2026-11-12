@@ -62,7 +62,7 @@ def agreed(agreed_on, now, within_hours: int = AGREED_WITHIN_HOURS) -> bool:
 
 def _server():
 	"""The connected server with the fewest sessions on it that has room."""
-	rows = [one for one in fleet.rows() if one.provider == servers.CONNECTED_PROVIDER and one.status == "Up"]
+	rows = [one for one in fleet.rows() if one.connected and one.status == "Up"]
 	counts = {one.server: frappe.db.count(DOCTYPE, {"server": one.server, "status": ["in", ON_THE_SERVER]}) for one in rows}
 	room = [one for one in rows if not one.capacity or counts[one.server] < one.capacity]
 	if not rows:
@@ -104,7 +104,7 @@ def board() -> dict:
 	return {
 		"sessions": _rows(),
 		"workspaces": _allowed_workspaces(),
-		"can_start": any(one.provider == servers.CONNECTED_PROVIDER and one.status == "Up" for one in fleet.rows()),
+		"can_start": any(one.connected and one.status == "Up" for one in fleet.rows()),
 		"lasts": list(LASTS),
 	}
 
