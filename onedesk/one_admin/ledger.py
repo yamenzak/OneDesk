@@ -162,11 +162,78 @@ def commit(reservation: str, amount: float, usd: float | None = None, model: str
 		_settle(holding, 0, usd)
 		return []
 
-	written = []
 	model = model or holding.why
 	if model != holding.why:
 		holding.db_set("why", model, update_modified=False)
-	for one in credits.draw(_buckets(holding.tenant, locking=True), amount, _today()):
+	written = _spend(holding, amount, model, _buckets(holding.tenant, locking=True))
+	_settle(holding, amount, usd)
+	from onedesk.one_admin import topup
+
+	topup.after_spend(holding.tenant)
+	return written
+
+
+def charge(reservation: str, amount: float, usd: float | None = None, model: str | None = None) -> list[str]:
+	"""Spend part of a hold now and keep the rest held: how something that
+	runs for a while, a OneOS session, is charged as it goes. The hold shrinks
+	by what was spent, so the balance and what is held never count it twice,
+	and `close` settles it at everything charged."""
+	site.require_admin()
+	holding = frappe.get_doc("Credit Reservation", reservation)
+	if holding.state != "Held":
+		frappe.throw(frappe._("{0} was already {1}.").format(reservation, holding.state.lower()))
+	amount = round(float(amount or 0), credits.PLACES)
+	if amount <= 0:
+		return []
+	_lock(holding.tenant)
+	model = model or holding.why
+	if model != holding.why:
+		holding.db_set("why", model, update_modified=False)
+	written = _spend(holding, amount, model, _buckets(holding.tenant, locking=True))
+	holding.db_set(
+		{
+			"credits": max(0.0, round(float(holding.credits or 0) - amount, credits.PLACES)),
+			"settled": round(float(holding.settled or 0) + amount, credits.PLACES),
+			"usd": round(float(holding.usd or 0) + float(usd or 0), credits.PLACES),
+		},
+		update_modified=False,
+	)
+	from onedesk.one_admin import topup
+
+	topup.after_spend(holding.tenant)
+	return written
+
+
+def renew(reservation: str, amount: float, why: str | None = None, reference: str | None = None, action: str | None = None) -> str:
+	"""A hold charged as it goes (`charge`) traded for a fresh one of
+	`amount`: the old stops counting before the new is asked for, so the
+	workspace is never asked to cover both, and is settled once the new one is
+	held. Refused as `reserve` refuses, leaving the old one held at nothing."""
+	site.require_admin()
+	frappe.db.set_value("Credit Reservation", reservation, "credits", 0, update_modified=False)
+	fresh = reserve(frappe.db.get_value("Credit Reservation", reservation, "tenant"), amount, why=why, reference=reference, action=action)
+	close(reservation)
+	return fresh
+
+
+def close(reservation: str) -> None:
+	"""A hold that was charged as it went (`charge`), settled at what it was
+	charged, or let go if nothing was."""
+	site.require_admin()
+	holding = frappe.get_doc("Credit Reservation", reservation)
+	if holding.state != "Held":
+		return
+	if float(holding.settled or 0) > 0:
+		holding.db_set("state", "Settled", update_modified=False)
+	else:
+		holding.db_set({"state": "Released", "settled": 0}, update_modified=False)
+
+
+def _spend(holding, amount: float, model: str, buckets: list[credits.Bucket]) -> list[str]:
+	"""Spend entries for `amount` against a hold's workspace, soonest-expiring
+	grant first, from the grants read under the lock."""
+	written = []
+	for one in credits.draw(buckets, amount, _today()):
 		entry = frappe.get_doc(
 			{
 				"doctype": "Credit Ledger Entry",
@@ -192,10 +259,6 @@ def commit(reservation: str, amount: float, usd: float | None = None, model: str
 			{"owner": "Administrator", "modified_by": "Administrator"},
 			update_modified=False,
 		)
-	_settle(holding, amount, usd)
-	from onedesk.one_admin import topup
-
-	topup.after_spend(holding.tenant)
 	return written
 
 

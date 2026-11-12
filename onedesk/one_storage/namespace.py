@@ -33,7 +33,7 @@ FIELDS = [
 	"name", "file_name", "is_folder", "folder", "file_url", "file_size", "is_private", "owner",
 	"modified", "creation", "attached_to_doctype", "attached_to_name", "one_home_of", "one_deleted",
 	"one_deleted_by", "one_deleted_on", "thumbnail_url", "file_type", "one_library", "_liked_by",
-	"one_intake", "one_featured", "one_color",
+	"one_intake", "one_featured", "one_color", "one_os_user", "one_os_until",
 ]  # fmt: skip
 
 
@@ -352,7 +352,14 @@ def node(item: dict) -> dict:
 		**({"workbook": book} if (book := _workbook(item)) else {}),
 		**({"document": doc} if (doc := _document(item)) else {}),
 		**({"presentation": deck} if (deck := _presentation(item)) else {}),
+		**({"oneos": held} if (held := _in_oneos(item)) else {}),
 	}
+
+
+def _in_oneos(item: dict) -> dict | None:
+	from onedesk.one_storage import oneos
+
+	return None if item.get("is_folder") else oneos.holder(item)
 
 
 def _workbook(item: dict) -> str | None:

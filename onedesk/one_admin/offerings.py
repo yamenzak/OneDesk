@@ -5,7 +5,7 @@ workspace on that version keeps paying its Stripe price (grandfathering).
 """
 
 import frappe
-from frappe import _lt
+from frappe import _, _lt
 from frappe.utils import flt
 
 from onedesk.one_admin import price_list, plans, site
@@ -107,6 +107,26 @@ def costs() -> "plans.Costs":
 		credit=price_list.ONECREDIT / min(price_list.MARKUP.values()),
 		margin=round(1 / (1 - price_list.MARGIN_FLOOR), 4),
 	)
+
+
+@frappe.whitelist()
+@frappe.read_only()
+def rates() -> list[dict]:
+	"""What is charged in OneCredits for what a workspace uses rather than
+	buys, from the code beside each: a conversion, a mail, a minute of OneOS
+	at each instance type."""
+	site.require_admin()
+	frappe.has_permission("Offering", "read", throw=True)
+	from onedesk.one_admin import office, oneos
+
+	made = [
+		{"what": _("Office file to PDF"), "per": _("Conversion, at least"), "credits": office.LEAST},
+		{"what": _("Mail from OneMail"), "per": _("Mail"), "credits": price_list.MAIL_CREDITS},
+	]
+	return made + [
+		{"what": _("OneOS, {0}").format(one["size"]), "per": _("Minute"), "credits": one["credits_a_minute"]}
+		for one in oneos.rates()
+	]
 
 
 def currency() -> str:

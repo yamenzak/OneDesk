@@ -31,6 +31,9 @@ NOT_FOR_AI = {
 	"proxy.close": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.mail_send": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.office_convert": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.oneos_start": "A workspace's own server calls this with its token, when a person there asks.",
+	"proxy.oneos_stop": "A workspace's own server calls this with its token, when a person there asks.",
+	"oneos.stop_session": "Stopping a session closes somebody's open file, so an operator presses it.",
 	"proxy.set_auto_topup": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.spend_limit": "A workspace's own server calls this with its token, when a person there asks.",
 	"proxy.update_now": "A workspace's own server calls this with its token, when a person there asks.",
@@ -393,7 +396,7 @@ def settings_check() -> dict:
 		return {"error": "Only an operator of One, on the admin site, sees the settings."}
 	import json
 
-	from onedesk.one_admin import price_list, heads, offerings
+	from onedesk.one_admin import heads, offerings, oneos, price_list
 
 	held = frappe.get_single("One Admin Settings")
 	try:
@@ -408,6 +411,7 @@ def settings_check() -> dict:
 			"markup": price_list.MARKUP,
 			"a_credit_sells_for": round(offerings.credit_price(), 5),
 			"margin_floor": price_list.MARGIN_FLOOR,
+			"oneos_by_the_minute": oneos.rates(),
 			"currency": price_list.CURRENCY,
 		},
 		"grace_days": {"overdue": held.grace_days, "suspended": held.held_days, "archived": held.kept_days},

@@ -346,6 +346,32 @@ A private file opens only for you and for people who can see the record it's
 attached to. Anyone else who gets the link sees nothing. Public files, such
 as a logo on a web page or an image in an email, open for anyone.
 
+## Editing in OneOS
+
+OneOS is a desktop in the browser. It opens a Word, Excel, PowerPoint,
+OpenDocument or CSV file in a full office app, without installing anything.
+
+1. Right-click the file and choose **Open in OneOS**.
+2. OneOS opens in a new tab. It takes a minute or two the first time.
+3. Edit, then save as you would on a computer. Each save is kept in OneCloud
+   as a new version of the file.
+4. When you are done, choose **Close in OneOS** on the file, or close the
+   app in OneOS.
+
+| What you see | What it means |
+| --- | --- |
+| **You are editing in OneOS** under the file's name | You have it open. Open it in OneOS again to go back to it. |
+| **Huda is editing in OneOS** | Someone else has it open. You can **Make a Copy** and edit that, or **View Read-Only**. |
+| A warning that it closes in 5 minutes | Nothing was typed or clicked for 10 minutes. Use it to keep it open. |
+
+Only one person edits a file in OneOS at a time. A file you can only read
+offers **Make a Copy** too, put beside it or in My Files.
+
+A session closes by itself after 15 minutes without use, after 8 hours, or
+when the workspace runs out of OneCredits. You are told when it does, and
+what you saved is kept. Each minute OneOS is open uses OneCredits; OneAdmin's
+price list says how many.
+
 ## Asking OneAI
 
 The OneAI panel in OneCloud knows the open folder and the selected file.
@@ -375,6 +401,7 @@ who can see the folder and whether OneAI reads it.
 - **From OneMail**: Each mailbox has a folder under Mail with the files its messages sent and received. An attachment in OneMail can be saved to My Files.
 - **From OneAI**: A document is attached to the record it belongs to, or filed in a folder for its type and year. It is renamed and tagged.
 - **From OneAdmin**: OneAdmin keeps the workspace's storage limit. A file is refused when there isn't room.
+- **To OneAdmin**: Open in OneOS starts a session in OneAdmin, which charges the workspace's OneCredits for each minute it is open.
 - **To One**: Every record has a Files tab that opens its folder in OneCloud. Letter heads print their pictures from OneCloud, and the full download includes every file.
 - **To OneMail**: An attachment too large to send goes as a link to the file instead.
 - **To OneAI**: Every new file can be found by its text. A folder OneAI reads has each new file handled in Intake.
@@ -419,6 +446,28 @@ on the row of that kind, or on a new one. The row's other plain columns (a
 number, dates) are asked of whoever sends the file, with it. A table with
 another required Link column is not offered, since the sender could not fill
 it.
+
+**OneOS** (`oneos.py`, `one_admin/oneos.py`, `deploy/oneos`). The workspace
+keeps the lease on the File itself (`one_os_lease`, `one_os_session`,
+`one_os_user`, `one_os_until`, custom/file.json): taken under a row lock in
+`start`, one person per file, renewed for two minutes each time the
+every-minute `tick` hears from OneAdmin (`proxy.oneos_state`) that the
+session runs, and let go when it stopped or OneAdmin has not answered for
+those two minutes. The container is given two addresses on the workspace,
+`oneos.file` and `oneos.save`, each sealed with the site's key over the use,
+the File, the lease and an expiry eight hours on, so a download address
+cannot upload, an address names one file, and a lease taken by somebody else
+voids the old session's (409). `file` redirects to a signed R2 address
+(follow it), or sends the bytes from the disk. `save` takes the request's
+body raw, or the first file of a multipart form, up to 200 MB, and writes it
+as a new version (`history.replace`) as the person holding the lease, after
+checking they still may change it; the same content is not a version. A stop
+in OneAdmin posts `oneos.stopped`, which, like `account.wake`, takes nothing
+on trust and asks OneAdmin itself. A stop the person did not make (idle, the
+time limit, credits, not answering, an operator) is a toast through
+`onecloud_oneos` and the **Closed in OneOS** notification. Read-only for
+somebody else's lease is the viewer, since the container has no read-only
+mode yet.
 
 ### The bars at the foot of the rail (api.capacity)
 

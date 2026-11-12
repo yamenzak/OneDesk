@@ -177,7 +177,7 @@ import {
   interfaceTree,
 } from "../kit";
 import { sizes as slideSizes } from "../slide/shim/frame.js";
-import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
+import { API, COLORS, PDF_PARTS, SHEETS, UPLOAD, across, count, emptyText, extension, filed, iconOf, kindOf, opensInOneOS, sizeText, stored, takes, typeOf, viewedAs } from "./cloud";
 import CloudItems from "./CloudItems.vue";
 import CloudPreview from "./CloudPreview.vue";
 import CloudViewer from "./CloudViewer.vue";
@@ -772,6 +772,8 @@ function itemMenu() {
       one && one.folder && !one.virtual ? ["drive", "lucide-hard-drive", __("Connect as a drive…"), true] : null,
       ["combine", "lucide-file-stack", __("Combine into PDF…"), combinable(picked)],
       one && !one.folder && filed(one) && viewedAs(one) === "office" ? ["to-pdf", "lucide-file-output", __("Convert to PDF"), can.add] : null,
+      one && filed(one) && opensInOneOS(one) ? ["oneos", "lucide-monitor", __("Open in OneOS"), true] : null,
+      one && one.oneos && one.oneos.mine ? ["oneos-close", "lucide-monitor-off", __("Close in OneOS"), true] : null,
       one && !one.folder && intakeOn() && filed(one) && !(one.record && one.record[0] === "Communication") ? ["read-file", "lucide-scan-text", __("Read with OneAI"), true] : null,
       ["rename", "lucide-pencil", __("Rename"), !!(one && allStored) && kind.value !== "record"],
       ["delete", "lucide-trash-2", __("Delete"), allStored, "red"],
@@ -936,6 +938,12 @@ async function act(name) {
       reveal = made.id;
       return refresh();
     }
+    case "oneos":
+      return openInOneOS(picked[0]);
+    case "oneos-close":
+      await call("onedesk.one_storage.oneos.close", { node: picked[0].id });
+      alert(__("{0} closed in OneOS.", [picked[0].name]));
+      return refresh();
     case "download":
       return download(picked.filter((one) => !one.folder && one.url));
     case "download-xlsx":
@@ -1124,6 +1132,38 @@ function remove(list) {
     doIt
   );
 }
+
+// A file opened in OneOS in a tab of its own. The tab is opened at the
+// click, before the server answers, so the browser does not block it.
+async function openInOneOS(item, copy = 0) {
+  const choices = { copy: () => openInOneOS(item, 1), view: () => view(item.id) };
+  if (!copy && item.oneos && !item.oneos.mine) return cloud().oneos_held(item, item.oneos, choices);
+  const tab = openTab("");
+  let said;
+  try {
+    said = await call("onedesk.one_storage.oneos.start", { node: item.id, copy });
+  } catch (failed) {
+    tab?.close();
+    throw failed;
+  }
+  if (said.held) {
+    tab?.close();
+    return cloud().oneos_held(item, said.held, choices);
+  }
+  if (tab) tab.location.href = said.url;
+  else openTab(said.url);
+  alert(__("Opening {0} in OneOS…", [said.name]), "blue");
+  if (copy) reveal = said.node;
+  return refresh();
+}
+
+const ONEOS_SAID = {
+  Idle: (name) => __("{0} was closed in OneOS after 15 minutes without use. Changes you saved are kept.", [name]),
+  "Time Limit": (name) => __("{0} was closed in OneOS after 8 hours. Changes you saved are kept.", [name]),
+  "No Credits": (name) => __("{0} was closed in OneOS because the workspace ran out of OneCredits. Changes you saved are kept.", [name]),
+  "Not Answering": (name) => __("OneOS stopped answering, so {0} was closed. Changes you saved are kept.", [name]),
+  "Stopped by Operator": (name) => __("{0} was closed in OneOS by One's support. Changes you saved are kept.", [name]),
+};
 
 async function paste(target) {
   if (!clipboard.value) return;
@@ -1497,8 +1537,17 @@ const stop = listenIn("File", "onecloud_change", (data) => {
     measure();
   }, 600);
 });
+const stopOneOS = listenIn("File", "onecloud_oneos", (data) => {
+  if (!data || !data.name) return;
+  if (data.warn) return alert(__("{0} closes in OneOS in 5 minutes unless you use it.", [data.name]), "yellow");
+  const said = ONEOS_SAID[data.why];
+  alert(said ? said(data.name) : __("{0} closed in OneOS.", [data.name]), said ? "yellow" : "green");
+  forget(node.value);
+  refresh();
+});
 onBeforeUnmount(() => {
   stop();
+  stopOneOS();
   clearTimeout(soon);
 });
 </script>

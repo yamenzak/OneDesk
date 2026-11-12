@@ -5,6 +5,22 @@ frappe.listview_settings["Offering"] = {
 
 	onload(listview) {
 		listview.page.add_menu_item(__("View Signup Page"), () => window.open("/start", "_blank"));
+		listview.page.add_menu_item(__("OneCredit Rates"), async () => {
+			const rows = await frappe.xcall("onedesk.one_admin.offerings.rates");
+			const cell = (text) => frappe.utils.escape_html(String(text));
+			const body = rows
+				.map((one) => `<tr><td>${cell(one.what)}</td><td>${cell(one.per)}</td><td class="text-right">${cell(format_number(one.credits, null, 4))}</td></tr>`)
+				.join("");
+			new frappe.ui.Dialog({
+				title: __("OneCredit Rates"),
+				fields: [
+					{
+						fieldtype: "HTML",
+						options: `<table class="table table-bordered"><thead><tr><th>${__("Use")}</th><th>${__("Per")}</th><th class="text-right">${__("OneCredits")}</th></tr></thead><tbody>${body}</tbody></table>`,
+					},
+				],
+			}).show();
+		});
 	},
 
 	get_indicator(doc) {
