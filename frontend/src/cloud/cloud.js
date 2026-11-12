@@ -60,6 +60,11 @@ export function viewedAs(item) {
 	return Object.keys(READS).find((kind) => READS[kind].includes(ext)) || null;
 }
 
+// What OneOS opens (one_storage/oneos.py OPENS): office files and CSV, but
+// not One's own workbooks, documents and presentations.
+export const opensInOneOS = (item) =>
+	!!item && !item.folder && !!item.url && !item.workbook && !item.document && !item.presentation && [...READS.office, "csv"].includes(extension(item));
+
 // The icons a node names for itself (one_storage/namespace.py), written out
 // whole so the build keeps each one.
 const NAMED = {

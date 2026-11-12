@@ -940,6 +940,11 @@ msgstr "يذكر الحقل فقط تسميته ونوعه وخياراته وم
 msgid "A file is chosen in OneCloud and its preview is shown."
 msgstr "يُختار ملف في OneCloud وتظهر معاينته."
 
+#. Description of a DocType
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:6
+msgid "A file of a workspace open in OneOS, billed to it by the minute."
+msgstr "ملف من مساحة عمل مفتوح في OneOS، يُحتسب عليها بالدقيقة."
+
 #: frontend/portal/src/pages/YourData.vue:12
 msgid "A file of everything this workspace holds about you, made after an administrator approves."
 msgstr "ملف بكل ما تحتفظ به مساحة العمل هذه عنك، يُعدّ بعد موافقة المسؤول."
@@ -8930,6 +8935,11 @@ msgstr "تنطبق التغييرات فقط على الحزم المبيعة م
 msgid "Changes that never reached the server were discarded."
 msgstr "تم تجاهل التغييرات التي لم تصل إلى الخادم."
 
+#. Message of a notification
+#: onedesk/notifications/one_storage/closed_in_oneos.md
+msgid "Changes you saved are kept. Open it in OneOS again to go on."
+msgstr "التغييرات التي حفظتها محفوظة. افتحه في OneOS مجددًا للمتابعة."
+
 #: onedesk/public/js/one_legal/trust_center.js:215
 #, python-brace-format
 msgid "Changing on {0}"
@@ -9884,6 +9894,10 @@ msgstr "إغلاق العملية"
 msgid "Close Workspace"
 msgstr "إغلاق مساحة العمل"
 
+#: frontend/src/cloud/OneCloud.vue:776
+msgid "Close in OneOS"
+msgstr "إغلاق في OneOS"
+
 #: onedesk/public/js/onecloud_dialogs.js:502
 msgid "Close request"
 msgstr "إغلاق الطلب"
@@ -9936,6 +9950,11 @@ msgstr "أُغلقت بناءً على طلبك."
 #, python-brace-format
 msgid "Closed at your request. It will be deleted on {0}. Reply to our email to keep it."
 msgstr "أُغلق بناءً على طلبك. سيُحذف في {0}. ردّ على رسالتنا للاحتفاظ به."
+
+#. Name of a notification
+#: onedesk/notifications/one_storage/closed_in_oneos.md
+msgid "Closed in OneOS"
+msgstr "أُغلق في OneOS"
 
 #: onedesk/www/tv.py:59
 msgid "Closed now"
@@ -11122,6 +11141,12 @@ msgstr "جهات الاتصال"
 msgid "Contacts and addresses with your address"
 msgstr "جهات الاتصال والعناوين التي تحمل عنوانك"
 
+#. Label of the section_container (Section Break) field in DocType 'OneOS
+#. Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:174
+msgid "Container"
+msgstr "الحاوية"
+
 #. Label in the One Product Bundle print format
 #: frontend/src/sheet/components/SheetEditor/index.vue:1925
 #: frontend/src/sheet/components/SheetEditor/index.vue:4862
@@ -11318,6 +11343,10 @@ msgstr "المحادثة"
 #: onedesk/one_ai/sidebar/oneai/oneai.json:25 onedesk/one_mail/ai.py:742
 msgid "Conversations"
 msgstr "المحادثات"
+
+#: onedesk/one_admin/offerings.py:123
+msgid "Conversion, at least"
+msgstr "تحويل، على الأقل"
 
 #: frontend/src/cloud/OneCloud.vue:774
 msgid "Convert to PDF"
@@ -17164,6 +17193,11 @@ msgstr "انتهى منذ {0} أيام"
 msgid "Ends"
 msgstr "ينتهي"
 
+#. Label of the ends_on (Datetime) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:109
+msgid "Ends By"
+msgstr "ينتهي بحلول"
+
 #. Label in the One Contract print format
 #: onedesk/one_calendar/page/onecalendar/onecalendar.js:361
 #: onedesk/one_crm/print_format/one_contract/one_contract.json
@@ -18978,6 +19012,11 @@ msgstr "ملف"
 #: onedesk/public/js/one_mail/onemail_settings.js:411
 msgid "File Employee Documents"
 msgstr "حفظ مستندات الموظفين"
+
+#. Label of the file (Data) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:192
+msgid "File ID"
+msgstr "معرّف الملف"
 
 #. Name of a DocType
 #: onedesk/one_ai/doctype/file_link/file_link.json:60
@@ -21998,6 +22037,11 @@ msgstr "الطول والوزن والحساسيات والحالات الطبي
 msgid "Held"
 msgstr "المحجوز"
 
+#. Label of the held_at (Datetime) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:209
+msgid "Held Since"
+msgstr "محجوز منذ"
+
 #. Description of the 'Retention Held' (Select) field in DocType 'Purchase
 #. Invoice Item'
 #. Description of the 'Retention Held' (Select) field in DocType 'Sales Invoice
@@ -23076,6 +23120,16 @@ msgstr "وثيقة هوية"
 msgid "Identity Documents"
 msgstr "وثائق الهوية"
 
+#. Label of the idle_seconds (Int) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:91
+msgid "Idle (Seconds)"
+msgstr "الخمول (بالثواني)"
+
+#. Label of the warned (Check) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:223
+msgid "Idle Warning"
+msgstr "تحذير الخمول"
+
 #: onedesk/public/js/doctype_settings.js:477
 #: onedesk/public/js/one_mail/rule_builder.js:390
 #: onedesk/public/js/one_mail/rule_builder.js:411
@@ -24027,6 +24081,11 @@ msgstr "تثبيت التطبيق"
 #: onedesk/public/js/apps.js:29
 msgid "Installing…"
 msgstr "جارٍ التثبيت…"
+
+#. Label of the size (Data) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:186
+msgid "Instance Type"
+msgstr "نوع المثيل"
 
 #. Description of the 'Private Key' (Password) field in DocType 'Cloud Mount'
 #: onedesk/one_storage/doctype/cloud_mount/cloud_mount.json:86
@@ -25995,6 +26054,11 @@ msgstr "آخر عنوان"
 msgid "Last Answer"
 msgstr "آخر جواب"
 
+#. Label of the last_seen (Datetime) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:131
+msgid "Last Answered"
+msgstr "آخر استجابة"
+
 #. Label of the last_backup (Datetime) field in DocType 'Tenant'
 #: onedesk/one_admin/doctype/tenant/tenant.json:293
 msgid "Last Backup"
@@ -26156,6 +26220,11 @@ msgstr "آخر حديث في"
 #: onedesk/one_book/heads.py:244 onedesk/one_crm/heads.py:349
 msgid "Last Sales Invoice"
 msgstr "آخر فاتورة مبيعات"
+
+#. Label of the saved_at (Datetime) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:125
+msgid "Last Saved"
+msgstr "آخر حفظ"
 
 #. Label of the seen_section (Section Break) field in DocType 'Device'
 #. Label of the last_seen (Datetime) field in DocType 'Device'
@@ -28146,6 +28215,10 @@ msgstr "البريد والملاحظات"
 msgid "Mail and files read as they arrive, and filed on their record."
 msgstr "البريد والملفات تُقرأ عند وصولها وتُحفظ على سجلها."
 
+#: onedesk/one_admin/offerings.py:124
+msgid "Mail from OneMail"
+msgstr "بريد من OneMail"
+
 #: onedesk/one_crm/home.py:119
 msgid "Mail sent to a lead or a contact on a schedule."
 msgstr "بريد يُرسل إلى عميل محتمل أو جهة اتصال وفق جدول."
@@ -28408,6 +28481,10 @@ msgstr "تحويل هذه الشريحة إلى خط زمني"
 #: onedesk/public/js/one_account/account_center.js:1486
 msgid "Make a Company Device"
 msgstr "جعله جهازًا للشركة"
+
+#: onedesk/public/js/onecloud_dialogs.js:600
+msgid "Make a Copy"
+msgstr "إنشاء نسخة"
 
 #: frontend/src/cloud/OneCloud.vue:582
 #: frontend/src/slide/shim/EditorNavbar.vue:329
@@ -29405,10 +29482,20 @@ msgstr "شاي بالنعناع"
 msgid "Minutes"
 msgstr ""
 
+#. Label of the minutes_billed (Int) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:142
+msgid "Minutes Billed"
+msgstr "الدقائق المحتسبة"
+
 #. Label of the minutes (Float) field in DocType 'Display Board Change'
 #: onedesk/one_display/doctype/display_board_change/display_board_change.json:51
 msgid "Minutes in Previous State"
 msgstr "الدقائق في الحالة السابقة"
+
+#. Label of the misses (Int) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:216
+msgid "Missed Reads"
+msgstr "القراءات الفائتة"
 
 #: onedesk/one/sections.py:8 onedesk/one_mail/signatures.py:29
 msgid "Mobile"
@@ -31413,6 +31500,11 @@ msgstr "بدون حساب بنكي"
 msgid "No Closing Date"
 msgstr "بلا تاريخ إغلاق"
 
+#. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
+msgid "No Credits"
+msgstr "لا يوجد رصيد"
+
 #: onedesk/one_task/mine.py:20
 msgid "No Due Date"
 msgstr "بلا تاريخ استحقاق"
@@ -32436,6 +32528,11 @@ msgstr "قطعة"
 #: frontend/src/inventory/item/ItemMaking.vue:115
 msgid "Not Active"
 msgstr "غير نشط"
+
+#. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
+msgid "Not Answering"
+msgstr "لا يستجيب"
 
 #: frontend/src/project/Time.vue:83
 msgid "Not Billable"
@@ -33637,6 +33734,10 @@ msgstr "سر حاويات المكتب"
 msgid "Office Move"
 msgstr "انتقال المكتب"
 
+#: onedesk/one_admin/offerings.py:123
+msgid "Office file to PDF"
+msgstr "ملف مكتبي إلى PDF"
+
 #: onedesk/one_display/starters.py:41 onedesk/one_display/starters.py:474
 #: onedesk/one_display/starters.py:487
 msgid "Offices"
@@ -34711,11 +34812,26 @@ msgstr "OneCalendar"
 msgid "OneCloud"
 msgstr "OneCloud"
 
+#: onedesk/one_admin/doctype/offering/offering_list.js:8
+#: onedesk/one_admin/doctype/offering/offering_list.js:15
+msgid "OneCredit Rates"
+msgstr "أسعار OneCredits"
+
 #: frontend/src/admin/AdminHome.vue:47 frontend/src/admin/AdminHome.vue:53
 #: frontend/src/admin/BillingHome.vue:26 frontend/src/admin/BillingHome.vue:32
 #: onedesk/one/home.py:191 onedesk/public/js/one_account/account_center.js:784
 msgid "OneCredits"
 msgstr "OneCredits"
+
+#. Label of the credits (Float) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:149
+msgid "OneCredits Charged"
+msgstr "OneCredits المحتسبة"
+
+#. Label of the held (Float) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:167
+msgid "OneCredits Held"
+msgstr "OneCredits المحجوزة"
 
 #: frontend/src/admin/BillingHome.vue:98
 msgid "OneCredits Sold This Month"
@@ -34829,6 +34945,54 @@ msgstr "عند فتح الصفحة الرئيسية لـ OneInventory، وكلم
 #: onedesk/one_mail/sidebar/onemail/onemail.json:29
 msgid "OneMail"
 msgstr "OneMail"
+
+#. Label of a Sidebar Item
+#: onedesk/one_admin/sidebar/one_admin/one_admin.json:144
+msgid "OneOS"
+msgstr "OneOS"
+
+#. Label of the one_os_lease (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:93
+msgid "OneOS Lease"
+msgstr "حجز OneOS"
+
+#. Label of the one_os_until (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:137
+msgid "OneOS Lease Until"
+msgstr "حجز OneOS حتى"
+
+#: onedesk/one_storage/oneos.py:114
+msgid "OneOS Not Started"
+msgstr "لم يبدأ OneOS"
+
+#. Name of a DocType
+#. Label of the one_os_session (Data) field in DocType 'File'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:233
+#: onedesk/one_storage/custom/file.json:107
+msgid "OneOS Session"
+msgstr "جلسة OneOS"
+
+#: onedesk/one_admin/oneos.py:376 onedesk/one_storage/oneos.py:127
+msgid "OneOS could not be started. Try again in a few minutes."
+msgstr "تعذّر بدء OneOS. حاول مجددًا بعد بضع دقائق."
+
+#: onedesk/one_admin/oneos.py:375
+msgid "OneOS isn't available yet."
+msgstr "OneOS غير متاح بعد."
+
+#: frontend/src/cloud/OneCloud.vue:1164
+#, python-brace-format
+msgid "OneOS stopped answering, so {0} was closed. Changes you saved are kept."
+msgstr "توقف OneOS عن الاستجابة، لذا أُغلق {0}. التغييرات التي حفظتها محفوظة."
+
+#: onedesk/public/js/onecloud_dialogs.js:599
+msgid "OneOS uses OneCredits for each minute it is open."
+msgstr "يستخدم OneOS رصيد OneCredits عن كل دقيقة يكون فيها مفتوحًا."
+
+#: onedesk/one_admin/offerings.py:127
+#, python-brace-format
+msgid "OneOS, {0}"
+msgstr "OneOS، {0}"
 
 #. Title of a Sidebar
 #: onedesk/one_portal/sidebar/oneportal/oneportal.json:14
@@ -35547,6 +35711,16 @@ msgstr ""
 msgid "Open in OneCloud"
 msgstr "افتح في OneCloud"
 
+#: frontend/src/cloud/OneCloud.vue:775
+#: onedesk/public/js/onecloud_dialogs.js:598
+msgid "Open in OneOS"
+msgstr "فتح في OneOS"
+
+#. Label of the one_os_user (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:121
+msgid "Open in OneOS By"
+msgstr "مفتوح في OneOS بواسطة"
+
 #: onedesk/public/js/table_workbook.js:97
 msgid "Open in OneWorkbook"
 msgstr "فتح في OneWorkbook"
@@ -35729,6 +35903,11 @@ msgstr "جارٍ فتح الدفع…"
 #: onedesk/one_display/starters.py:997
 msgid "Opening words"
 msgstr "كلمة الافتتاح"
+
+#: frontend/src/cloud/OneCloud.vue:1155
+#, python-brace-format
+msgid "Opening {0} in OneOS…"
+msgstr "جارٍ فتح {0} في OneOS…"
 
 #: onedesk/one_hr/report/hiring_pipeline/hiring_pipeline.py:224
 msgid "Openings"
@@ -38203,6 +38382,10 @@ msgstr "أصحاب دور الخطوة ممن يمكنهم فتح السجل"
 #: onedesk/one_hr/tour.py:12
 msgid "People, Time and Pay"
 msgstr "الأشخاص والوقت والرواتب"
+
+#: onedesk/one_admin/doctype/offering/offering_list.js:19
+msgid "Per"
+msgstr "لكل"
 
 #: onedesk/one_ai/report/ai_credits/ai_credits.py:49
 msgid "Per Call"
@@ -41114,6 +41297,11 @@ msgstr "السعر"
 #: onedesk/one_book/report/tax_return/tax_return.py:40
 msgid "Rate (%)"
 msgstr "النسبة (%)"
+
+#. Label of the rate (Float) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:160
+msgid "Rate (OneCredits per Minute)"
+msgstr "السعر (OneCredits لكل دقيقة)"
 
 #. Description of the 'OneAI Rating' (Rating) field in DocType 'Job Applicant'
 #: onedesk/one_hr/custom/job_applicant.json:20
@@ -49676,6 +49864,11 @@ msgstr "إيقاف العرض المباشر"
 msgid "Stop Repeating"
 msgstr "إيقاف التكرار"
 
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.js:4
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.js:8
+msgid "Stop Session"
+msgstr "إيقاف الجلسة"
+
 #: onedesk/one_mail/ai.py:1010
 #, python-brace-format
 msgid "Stop Sharing {0} with {1}"
@@ -49719,6 +49912,10 @@ msgstr "إيقاف تكرار {0}؟"
 msgid "Stop sending this"
 msgstr "أوقف إرسال هذا"
 
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.js:6
+msgid "Stop this session?"
+msgstr "إيقاف هذه الجلسة؟"
+
 #: onedesk/public/js/one_ai/panel/Panel.vue:159
 msgid "Stop writing this field"
 msgstr "توقف عن كتابة هذا الحقل"
@@ -49731,6 +49928,16 @@ msgstr "توقف، وتجاوز القواعد التالية"
 #: onedesk/one_admin/doctype/workspace_session/workspace_session.json:43
 msgid "Stopped"
 msgstr ""
+
+#. Label of the stopped_at (Datetime) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:119
+msgid "Stopped On"
+msgstr "أُوقفت في"
+
+#. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
+msgid "Stopped by Operator"
+msgstr "أوقفها المشغّل"
 
 #: onedesk/one_inventory/heads.py:641
 msgid "Stopped; nothing more will be done on it."
@@ -51958,6 +52165,11 @@ msgstr "رمز OneAI، ينشئه إعداد Cloudflare. مفاتيح المزو
 msgid "The OneAdmin Storage token, made by Set Up Cloudflare and allowed only the two buckets."
 msgstr "رمز OneAdmin Storage، ينشئه إعداد Cloudflare ولا يصل إلا إلى الحاويتين."
 
+#. Description of the 'OneOS Session' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:115
+msgid "The OneOS session this file is open in."
+msgstr "جلسة OneOS المفتوح فيها هذا الملف."
+
 #: onedesk/one_doc/tour.py:17
 msgid "The Outline"
 msgstr "المخطط"
@@ -52867,6 +53079,11 @@ msgstr "سيُطبع التخطيط بشكل سيئ: {0}."
 #: onedesk/one_crm/notifications.py
 msgid "The lead's or opportunity's owner"
 msgstr "مالك العميل المحتمل أو الفرصة"
+
+#. Description of the 'OneOS Lease' (Data) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:101
+msgid "The lease that lets one OneOS session save this file."
+msgstr "الحجز الذي يتيح لجلسة OneOS واحدة حفظ هذا الملف."
 
 #: onedesk/one_hr/home.py:376
 msgid "The leave each person has left, kind by kind."
@@ -53877,6 +54094,10 @@ msgstr "تعذّر إنشاء مساحة العمل. وقد أُبلغ أحده�
 #: onedesk/one/home.py:238
 msgid "The workspace does not open at it yet."
 msgstr "لا تفتح مساحة العمل عليه بعد."
+
+#: onedesk/one_admin/oneos.py:373
+msgid "The workspace doesn't have enough OneCredits to open this in OneOS."
+msgstr "لا يوجد في مساحة العمل رصيد OneCredits كافٍ لفتح هذا في OneOS."
 
 #: onedesk/one_ai/reading/tell.py:102
 msgid "The workspace has run out of OneCredits. It is read as soon as more are added."
@@ -55310,6 +55531,11 @@ msgstr "الوقت المفوتر"
 #: onedesk/public/js/project_actions.js:285
 msgid "Time Budget"
 msgstr "ميزانية الوقت"
+
+#. Option for the 'Stop Reason' (Select) field in DocType 'OneOS Session'
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.json:85
+msgid "Time Limit"
+msgstr "الحد الزمني"
 
 #. Label of the limit_minutes (Int) field in DocType 'Display Board State'
 #: onedesk/one_display/doctype/display_board_state/display_board_state.json:28
@@ -58305,6 +58531,10 @@ msgstr "عرض الصنف"
 msgid "View Items"
 msgstr "عرض العناصر"
 
+#: onedesk/public/js/onecloud_dialogs.js:605
+msgid "View Read-Only"
+msgstr "عرض للقراءة فقط"
+
 #: onedesk/one_admin/doctype/offering/offering_list.js:7
 msgid "View Signup Page"
 msgstr "عرض صفحة التسجيل"
@@ -60504,6 +60734,11 @@ msgid "When a file request is sent."
 msgstr "عند إرسال طلب ملفات."
 
 #. When a notification is sent
+#: onedesk/notifications/one_storage/closed_in_oneos.md
+msgid "When a file you had open in OneOS is closed after 15 minutes without use, after 8 hours, or because the workspace ran out of OneCredits."
+msgstr "عندما يُغلق ملف كان مفتوحًا لديك في OneOS بعد 15 دقيقة دون استخدام، أو بعد 8 ساعات، أو لنفاد رصيد OneCredits في مساحة العمل."
+
+#. When a notification is sent
 #: onedesk/one_admin/notifications.py
 msgid "When a job to build, suspend, restore, archive or delete a workspace fails."
 msgstr "عند فشل مهمة بناء مساحة عمل أو تعليقها أو استعادتها أو أرشفتها أو حذفها."
@@ -61550,6 +61785,11 @@ msgstr "عندما تُنقل أو تُصرف كل الأصناف التي طل�
 msgid "When the last task a task waits on is done."
 msgstr "عند إنجاز آخر مهمة تنتظرها المهمة."
 
+#. Description of the 'OneOS Lease Until' (Datetime) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:145
+msgid "When the lease lapses unless OneOS says the session still runs."
+msgstr "وقت انتهاء الحجز ما لم يُفِد OneOS بأن الجلسة ما زالت تعمل."
+
 #. When a notification is sent
 #: onedesk/one_crm/notifications.py
 msgid "When the next step on one of your leads or opportunities comes due."
@@ -62336,6 +62576,11 @@ msgstr "من لم يسجّل الدخول منذ شهر أو أكثر، وهل �
 msgid "Who has not signed in lately?"
 msgstr "من لم يسجّل الدخول مؤخرًا؟"
 
+#. Description of the 'Open in OneOS By' (Link) field in DocType 'File'
+#: onedesk/one_storage/custom/file.json:129
+msgid "Who has this file open in OneOS."
+msgstr "من فتح هذا الملف في OneOS."
+
 #: onedesk/one_admin/ai.py:107
 msgid "Who has this?"
 msgstr "من لديه هذا؟"
@@ -62555,6 +62800,11 @@ msgstr "من أسند المهمة ومن أنشأها، عدا من أكمله�
 #: onedesk/one_task/notifications.py
 msgid "Whoever gave the task and whoever made it, but whoever marked it"
 msgstr "من أسند المهمة ومن أنشأها، باستثناء من غيّر حالتها"
+
+#. Who a notification is sent to
+#: onedesk/notifications/one_storage/closed_in_oneos.md
+msgid "Whoever had it open"
+msgstr "من كان قد فتحه"
 
 #. Who a notification is sent to
 #: onedesk/one_task/notifications.py
@@ -64217,6 +64467,10 @@ msgstr "لديك مفتاح مرور بالفعل على {0}."
 msgid "You already have a passkey. Remove it before registering another."
 msgstr "لديك مفتاح مرور بالفعل. أزله قبل تسجيل مفتاح آخر."
 
+#: frontend/src/cloud/CloudItems.vue:119
+msgid "You are editing in OneOS"
+msgstr "أنت تحرره في OneOS"
+
 #: onedesk/one_hr/rules.py:22
 msgid "You are outside every location this shift may check in from."
 msgstr "أنت خارج جميع المواقع التي يجوز لهذه المناوبة تسجيل الحضور منها."
@@ -65097,6 +65351,11 @@ msgstr "لا يسمح لك دورك بتغيير هذا في {0}."
 #: onedesk/public/js/one_mail/onemail_settings.js:93
 msgid "Your role doesn't allow changing this."
 msgstr "دورك لا يسمح بتغيير هذا."
+
+#: onedesk/public/js/onecloud_dialogs.js:595
+#, python-brace-format
+msgid "Your role doesn't allow changing {0}. Make a copy to edit it in OneOS, or view it read-only."
+msgstr "لا يسمح دورك بتغيير {0}. أنشئ نسخة لتحريرها في OneOS، أو اعرضه للقراءة فقط."
 
 #: onedesk/one_portal/invite.py:39
 msgid "Your role doesn't allow inviting this contact to the portal."
@@ -66294,6 +66553,10 @@ msgstr "سجلات {0} {1} فقط، {2}"
 msgid "open"
 msgstr "مفتوح"
 
+#: onedesk/one_storage/oneos.py:120
+msgid "opened it in OneOS"
+msgstr "فتحه في OneOS"
+
 #: onedesk/public/js/onecloud_dialogs.js:116
 #, python-brace-format
 msgid "opened {0} times"
@@ -67455,6 +67718,11 @@ msgstr "لا يمكن تحويل {0} إلى PDF."
 msgid "{0} can't be edited."
 msgstr "لا يمكن تعديل {0}."
 
+#: onedesk/one_storage/oneos.py:80
+#, python-brace-format
+msgid "{0} can't be opened in OneOS."
+msgstr "لا يمكن فتح {0} في OneOS."
+
 #: onedesk/one_studio/record_types.py:437
 #, python-brace-format
 msgid "{0} can't be restored."
@@ -67609,6 +67877,21 @@ msgstr "طالب {0} بمبلغ {1} عن {2}، وكله مقبول."
 #, python-brace-format
 msgid "{0} claimed {1} for {2}, of which {3} is allowed — the rest is over a category limit."
 msgstr "طالب {0} بمبلغ {1} عن {2}، المقبول منه {3} — والباقي يتجاوز حد الفئة."
+
+#: frontend/src/cloud/OneCloud.vue:945 frontend/src/cloud/OneCloud.vue:1544
+#, python-brace-format
+msgid "{0} closed in OneOS."
+msgstr "أُغلق {0} في OneOS."
+
+#: onedesk/one_admin/doctype/oneos_session/oneos_session.js:7
+#, python-brace-format
+msgid "{0} closes in OneOS for {1}. Changes they saved are kept."
+msgstr "يُغلق {0} في OneOS لدى {1}. التغييرات التي حفظها محفوظة."
+
+#: frontend/src/cloud/OneCloud.vue:1542
+#, python-brace-format
+msgid "{0} closes in OneOS in 5 minutes unless you use it."
+msgstr "سيُغلق {0} في OneOS خلال 5 دقائق ما لم تستخدمه."
 
 #: onedesk/public/js/one_interface/look.js:559
 #, python-brace-format
@@ -68487,6 +68770,16 @@ msgstr "{0} يغطي عنه."
 msgid "{0} is done"
 msgstr "أُنجز {0}"
 
+#: frontend/src/cloud/CloudItems.vue:119
+#, python-brace-format
+msgid "{0} is editing in OneOS"
+msgstr "{0} يحرره في OneOS"
+
+#: onedesk/public/js/onecloud_dialogs.js:596
+#, python-brace-format
+msgid "{0} is editing {1} in OneOS. Make a copy to edit it, or view it read-only."
+msgstr "{0} يحرر {1} في OneOS. أنشئ نسخة لتحريرها، أو اعرضه للقراءة فقط."
+
 #: onedesk/one/unsubscribe.py:133
 #, python-brace-format
 msgid "{0} is emailed to {1} again."
@@ -68953,10 +69246,20 @@ msgstr "{0} على شبكة خاصة. لا يمكن لـ OneCloud الاتصال
 msgid "{0} is on leave until {1}."
 msgstr "{0} في إجازة حتى {1}."
 
+#: onedesk/one_storage/oneos.py:176
+#, python-brace-format
+msgid "{0} is open in OneOS by {1}."
+msgstr "{0} مفتوح في OneOS لدى {1}."
+
 #: onedesk/one_project/view.py:759
 #, python-brace-format
 msgid "{0} is over budget"
 msgstr "{0} تجاوز الميزانية"
+
+#: onedesk/one_storage/oneos.py:227
+#, python-brace-format
+msgid "{0} is over {1} MB."
+msgstr "{0} أكبر من {1} ميغابايت."
 
 #: onedesk/one_inventory/upkeep.py:233
 #, python-brace-format
@@ -70226,6 +70529,26 @@ msgstr "تغيّر {0} في السجل بعد فتح هذا المستند. أع
 msgid "{0} was changed on the record after this sheet was last updated. Reopen the workbook from the record to load the changes."
 msgstr "تم تغيير {0} في السجل بعد آخر تحديث لهذه الورقة. أعد فتح المصنف من السجل لتحميل التغييرات."
 
+#: frontend/src/cloud/OneCloud.vue:1161
+#, python-brace-format
+msgid "{0} was closed in OneOS after 15 minutes without use. Changes you saved are kept."
+msgstr "أُغلق {0} في OneOS بعد 15 دقيقة دون استخدام. التغييرات التي حفظتها محفوظة."
+
+#: frontend/src/cloud/OneCloud.vue:1162
+#, python-brace-format
+msgid "{0} was closed in OneOS after 8 hours. Changes you saved are kept."
+msgstr "أُغلق {0} في OneOS بعد 8 ساعات. التغييرات التي حفظتها محفوظة."
+
+#: frontend/src/cloud/OneCloud.vue:1163
+#, python-brace-format
+msgid "{0} was closed in OneOS because the workspace ran out of OneCredits. Changes you saved are kept."
+msgstr "أُغلق {0} في OneOS لنفاد رصيد OneCredits في مساحة العمل. التغييرات التي حفظتها محفوظة."
+
+#: frontend/src/cloud/OneCloud.vue:1165
+#, python-brace-format
+msgid "{0} was closed in OneOS by One's support. Changes you saved are kept."
+msgstr "أغلق دعم One {0} في OneOS. التغييرات التي حفظتها محفوظة."
+
 #: onedesk/one_inventory/heads.py:772
 #, python-brace-format
 msgid "{0} was due {1} ago."
@@ -71214,6 +71537,12 @@ msgstr "{file} جاهز"
 #, python-brace-format
 msgid "{file} uploaded to {folder}"
 msgstr "رُفع {file} إلى {folder}"
+
+#. Subject of a notification
+#: onedesk/notifications/one_storage/closed_in_oneos.md
+#, python-brace-format
+msgid "{file} was closed in OneOS"
+msgstr "أُغلق {file} في OneOS"
 
 #. Message of a notification
 #: onedesk/one_admin/notifications.py

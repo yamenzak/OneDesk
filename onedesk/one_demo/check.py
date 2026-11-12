@@ -1336,6 +1336,81 @@ class _Server:
 
 
 @check
+def onecloud_a_letter_is_edited_in_oneos():
+	"""Samir opens a letter in OneOS from the Projects library and it is his
+	alone: Rania, who may change it too, is told he has it, and Yousef, who
+	only reads, opens a copy in his own files instead. The container fetches
+	the letter and saves a version as Samir through the two sealed addresses,
+	which open nothing else, and OneAdmin's stop lets the lease go and tells
+	him why."""
+	from urllib.parse import parse_qs, urlparse
+
+	from werkzeug.exceptions import Forbidden
+	from werkzeug.test import EnvironBuilder
+	from werkzeug.wrappers import Request
+
+	from onedesk.one_demo import storage as demo
+	from onedesk.one_storage import api, history, oneos, upload
+
+	root = frappe.db.get_value("File", {"one_library": 1, "file_name": demo.LIBRARY})
+	asked, answers = [], {}
+
+	def admin(endpoint, **said):
+		asked.append((endpoint.rsplit(".", 1)[-1], said))
+		if endpoint.endswith("oneos_start"):
+			return {"session": f"session{len(asked):04d}", "url": f"https://os.example.com/s/session{len(asked):04d}?t=1.x", "state": "Starting"}
+		return answers.get(endpoint.rsplit(".", 1)[-1], {"url": "https://r2.example.com/letter"})
+
+	def sealed(url):
+		return {key: one[0] for key, one in parse_qs(urlparse(url).query).items()}
+
+	with mock.patch("onedesk.one.account.ask", side_effect=admin), mock.patch("onedesk.one.account.configured", return_value=True), mock.patch("frappe.publish_realtime") as told:
+		with as_user(demo.PM):
+			letter = upload._place(root, None, {"file_name": "Villa handover.odt", "content": b"handover v1"})["id"]
+			opened = oneos.start(letter)
+			assert opened["url"].startswith("https://os.example.com/s/") and asked[-1][0] == "oneos_start"
+			assert next(one for one in api.listing(root)["items"] if one["id"] == letter)["oneos"] == {"by": frappe.utils.get_fullname(demo.PM), "mine": True}
+			again = oneos.start(letter)
+			assert asked[-1][1]["again"] == opened["url"].split("/s/")[1].split("?")[0] and again["node"] == letter, "his own session is opened again, not a second"
+		start = next(said for endpoint, said in asked if endpoint == "oneos_start")
+		with as_user("rania@one.test"):
+			assert oneos.start(letter)["held"]["by"] == frappe.utils.get_fullname(demo.PM)
+		with as_user("yousef@one.test"):
+			assert oneos.start(letter)["held"]["readonly"]
+			copy = oneos.start(letter, copy=1)
+			assert copy["node"] != letter and frappe.db.get_value("File", copy["node"], "one_os_user") == "yousef@one.test"
+			oneos.close(copy["node"])
+			assert asked[-1][0] == "oneos_stop" and not frappe.db.get_value("File", copy["node"], "one_os_user")
+		down, up = sealed(start["file_url"]), sealed(start["save_url"])
+		oneos.file(**down)
+		for key in ("type", "filecontent", "filename", "display_content_as"):
+			frappe.local.response.pop(key, None)
+		was = frappe.local.request if hasattr(frappe.local, "request") else None
+		try:
+			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
+			assert oneos.save(**up) == {"saved": True}
+			frappe.local.request = Request(EnvironBuilder(method="POST", data=b"handover v2").get_environ())
+			assert oneos.save(**up) == {"saved": False}, "the same content is not a version"
+			for wrong in ({**down}, {**up, "f": copy["node"]}, {**up, "e": str(int(up["e"]) + 1)}):
+				try:
+					oneos.save(**wrong)
+					raise AssertionError("a sealed address saved what it was not made for")
+				except Forbidden:
+					pass
+		finally:
+			frappe.local.request = was
+		assert len(history.versions(letter)) == 1 and frappe.db.get_value("File", letter, "modified_by") == demo.PM
+		answers["oneos_state"] = {"state": "Stopped", "stop_reason": "Idle"}
+		with mock.patch("onedesk.one_storage.tell.oneos_closed") as closed:
+			oneos.stopped(frappe.db.get_value("File", letter, "one_os_session"))
+		assert not frappe.db.get_value("File", letter, "one_os_user")
+		assert any(call.args[0] == "onecloud_oneos" and call.args[1].get("why") == "Idle" for call in told.call_args_list)
+		assert closed.call_args.args[:2] == (demo.PM, letter)
+	for name in (letter, copy["node"]):
+		frappe.delete_doc("File", name, ignore_permissions=True, force=True)
+
+
+@check
 def onecloud_the_site_team_works_in_its_library():
 	"""Samir's Projects library as the crew uses it: listed, searched and
 	found by its path, a folder made, renamed and moved about, a file copied,

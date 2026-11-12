@@ -716,6 +716,23 @@ A Workspace Copy needs the workspace to have **Training Copies** on, in
 TrustCenter's Optional Services: it stays off until its administrators turn
 it on. If they turn it off again, its copies go within 48 hours.
 
+## OneOS
+
+**OneOS**, under Activity, lists every file a workspace's people have open
+in OneOS, the desktop in the browser, newest first: the workspace, the
+person, the file, its status (**Starting**, **Running** or **Stopped**) and
+the minutes billed. A session's record shows when it started and must end,
+when it was last saved, and what it was charged. **Stop Session** closes it
+for the person using it, keeping what they saved.
+
+A session is charged to its workspace for each minute it runs, at
+its **Rate (OneCredits per Minute)**, from the moment it starts. It holds 30 minutes of
+credits while it runs and holds the next 30 every 15 minutes. It stops by
+itself after 15 minutes without use (the person is warned at 10), after 8
+hours, when the workspace can't cover the next 30 minutes, and when OneOS
+has not answered twice in a row. **Stop Reason** says which. The price
+list's ⋮ menu has **OneCredit Rates**, with each instance type's minute.
+
 ## Errors
 
 **Errors** has one row for each kind of error each workspace has had: the
@@ -830,6 +847,27 @@ Resuming, building and checking again are Home's buttons, not OneAI's.
 ## Under the hood
 
 For the people who build OneAdmin. OneAI does not read past this heading.
+
+- **OneOS** (`oneos.py`, `doctype/oneos_session`, `proxy.oneos_start`,
+  `oneos_state`, `oneos_stop`; the Worker and image are `deploy/oneos`). The
+  workspace sends the two addresses it sealed (download this file, upload a
+  version of it) and the person; `start` holds 30 minutes, asks the Worker
+  (`POST /sessions/{id}`, `x-one-secret`) and answers the browser address
+  `/s/{id}/?t={expires}.{hmac(secret, id.expires)}`, which is what
+  `deploy/oneos/guard.js` checks. The same person's live session on the same
+  file gets a new address rather than a second session. `tick`, every
+  minute, reads `GET /sessions/{id}` and runs the pure `step`: whole minutes
+  are charged as they pass and the begun one at the stop, out of the hold
+  (`ledger.charge`, which spends now and shrinks the hold, so nothing is
+  counted twice), and `ledger.close` settles a hold at what it was charged.
+  Renewing first lets the old hold stop counting, then asks for the new one,
+  so a workspace is never asked to cover both; a refusal stops the session
+  with **No Credits**. Holds never reach `ledger.nightly`'s hour. The rates
+  are Cloudflare's per second for CPU, memory and disk, all of the CPU since
+  a desktop keeps it busy, and an estimate of the streamed screen (1.5 GB an
+  hour) until measured; the markup is `price_list.MARKUP["oneos"]`. Every
+  stop posts the workspace's `oneos.stopped`, which asks back with its own
+  token before letting the lease go.
 
 - **The account** (`accounts.py`) is a frappe Website User named by its
   email, and `Tenant.account` links a workspace to it.

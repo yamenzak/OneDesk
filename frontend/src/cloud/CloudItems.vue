@@ -114,6 +114,10 @@
               <span v-if="item.private === false && !item.folder" class="lucide-globe size-3 shrink-0 text-ink-gray-5" :title="publicNote" />
             </span>
             <span v-if="item.found" class="truncate text-sm text-ink-gray-5">{{ item.found }}</span>
+            <span v-if="item.oneos" class="flex min-w-0 items-center gap-1 text-sm text-ink-blue-7">
+              <span class="lucide-monitor size-3 shrink-0" aria-hidden="true" />
+              <span class="truncate">{{ item.oneos.mine ? __("You are editing in OneOS") : __("{0} is editing in OneOS", [item.oneos.by]) }}</span>
+            </span>
           </span>
         </span>
         <template v-if="view === 'details'">

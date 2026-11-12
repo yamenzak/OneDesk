@@ -90,3 +90,28 @@ subprocessor(
 	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
 	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
 )
+
+clause(
+	document="privacy",
+	section="modules",
+	key="onecloud-oneos",
+	module=M,
+	body="""
+		A Word, Excel, PowerPoint, OpenDocument or CSV file can be opened in OneOS, a desktop shown in the browser,
+		when somebody asks. The file is copied to a container we run on Cloudflare, used only for that session.
+		What is shown and typed passes between the browser and the container through Cloudflare. Each save is
+		sent back to the workspace as a new version of the file. The container and its copy of the file are
+		deleted when the session ends: when it is closed, after 15 minutes without use, or after 8 hours at most.
+		Each minute it is open uses OneCredits.
+	""",
+)
+
+subprocessor(
+	name="Cloudflare, Inc.",
+	module=M,
+	purpose="Containers that run OneOS, the desktop in the browser, while somebody has a file open in it",
+	data="The file opened, what is shown and typed while it is open, and each version saved back",
+	where="Cloudflare's network, on the nearest location able to run the container",
+	safeguard="Standard Contractual Clauses and Cloudflare's data processing addendum",
+	url="https://www.cloudflare.com/cloudflare-customer-dpa/",
+)

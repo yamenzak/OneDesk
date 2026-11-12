@@ -58,6 +58,7 @@ No doctypes yet.
 | Health Check | 6 | document |
 | Offering | 24 | document |
 | One Admin Settings | 63 | single |
+| OneOS Session | 29 | document |
 | Private App | 9 | document |
 | Private App Grant | 8 | child |
 | Provisioning Job | 15 | document |
@@ -459,6 +460,8 @@ No doctypes yet.
 * `onedesk.one_admin.metrics.cards`
 * `onedesk.one_admin.metrics.charts`
 * `onedesk.one_admin.metrics.traffic`
+* `onedesk.one_admin.offerings.rates`
+* `onedesk.one_admin.oneos.stop_session`
 * `onedesk.one_admin.operator.backups`
 * `onedesk.one_admin.operator.connect_server`
 * `onedesk.one_admin.operator.credit_standing`
@@ -515,6 +518,9 @@ No doctypes yet.
 * `onedesk.one_admin.proxy.mail_waiting`
 * `onedesk.one_admin.proxy.news_brief`
 * `onedesk.one_admin.proxy.office_convert`
+* `onedesk.one_admin.proxy.oneos_start`
+* `onedesk.one_admin.proxy.oneos_state`
+* `onedesk.one_admin.proxy.oneos_stop`
 * `onedesk.one_admin.proxy.plans_offered`
 * `onedesk.one_admin.proxy.plans_quote`
 * `onedesk.one_admin.proxy.plans_take`
@@ -1119,6 +1125,11 @@ No doctypes yet.
 * `onedesk.one_storage.mounts.settings`
 * `onedesk.one_storage.office.preview`
 * `onedesk.one_storage.office.to_pdf`
+* `onedesk.one_storage.oneos.close`
+* `onedesk.one_storage.oneos.file`
+* `onedesk.one_storage.oneos.save`
+* `onedesk.one_storage.oneos.start`
+* `onedesk.one_storage.oneos.stopped`
 * `onedesk.one_storage.pdf.combine`
 * `onedesk.one_storage.share.people`
 * `onedesk.one_storage.share.set_edit`

@@ -278,6 +278,43 @@ def office_convert(name: str, data: str, reference: str | None = None) -> dict:
 	return {"data": base64.b64encode(made["data"]).decode(), "credits": made["credits"]}
 
 
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def oneos_start(file: str, file_name: str, user: str, file_url: str, save_url: str, again: str | None = None) -> dict:
+	"""A file of this workspace opened in OneOS for one of its people, billed
+	to it by the minute: the session and the address that opens it."""
+	from onedesk.one_admin import ledger, oneos
+
+	tenant = caller()
+	try:
+		return oneos.start(tenant.name, user, file, file_name, file_url, save_url, again=again)
+	except (faults.Refused, ledger.NotEnough) as raised:
+		frappe.throw(oneos.said(raised), exc=type(raised))
+
+
+@frappe.whitelist(allow_guest=True)
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE * 5, seconds=A_MINUTE, ip_based=False)
+def oneos_state(session: str) -> dict:
+	"""Whether one of this workspace's OneOS sessions still runs, and why it
+	stopped if it did."""
+	from onedesk.one_admin import oneos
+
+	return oneos.state(caller().name, session)
+
+
+@frappe.whitelist(allow_guest=True, methods=["POST"])
+@rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
+def oneos_stop(session: str) -> dict:
+	"""One of this workspace's OneOS sessions closed by the person using it."""
+	from onedesk.one_admin import oneos
+
+	tenant = caller()
+	try:
+		return oneos.stop(tenant.name, session)
+	except faults.Refused as raised:
+		frappe.throw(oneos.said(raised), exc=type(raised))
+
+
 @frappe.whitelist(allow_guest=True)
 @rate_limit(key="tenant", limit=CALLS_A_MINUTE, seconds=A_MINUTE, ip_based=False)
 def ai_begin(action: str, text: str, tier: str | None = None, reference: str | None = None, orientation: str | None = None) -> dict:

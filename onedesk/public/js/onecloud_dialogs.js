@@ -589,6 +589,28 @@ onedesk.cloud.read_file = (item) => {
 	);
 };
 
+onedesk.cloud.oneos_held = (item, held, { copy, view }) => {
+	const name = `<b>${frappe.utils.escape_html(item.name)}</b>`;
+	const said = held.readonly
+		? __("Your role doesn't allow changing {0}. Make a copy to edit it in OneOS, or view it read-only.", [name])
+		: __("{0} is editing {1} in OneOS. Make a copy to edit it, or view it read-only.", [frappe.utils.escape_html(held.by || ""), name]);
+	const dialog = new frappe.ui.Dialog({
+		title: __("Open in OneOS"),
+		fields: [{ fieldtype: "HTML", options: `<p>${said}</p><p class="text-muted">${__("OneOS uses OneCredits for each minute it is open.")}</p>` }],
+		primary_action_label: __("Make a Copy"),
+		primary_action: () => {
+			dialog.hide();
+			copy();
+		},
+		secondary_action_label: __("View Read-Only"),
+		secondary_action: () => {
+			dialog.hide();
+			view();
+		},
+	});
+	dialog.show();
+};
+
 onedesk.cloud.ask_replace = (clash) => {
 	return new Promise((answer) => {
 		const names = clash.slice(0, 5).map((one) => frappe.utils.escape_html(one.file.name)).join("<br>");

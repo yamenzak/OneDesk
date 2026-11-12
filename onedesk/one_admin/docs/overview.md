@@ -9,7 +9,7 @@ on the admin site.
 
 | You see | What it is |
 | --- | --- |
-| **The rail**, on the left | **Home**, **Workspaces**, **Servers** and **Status** (whether every service is working, with its history), then **Activity** (jobs, the log, domains), **Billing** (the price list, signups, credits) and **OneAI** (what AI costs). |
+| **The rail**, on the left | **Home**, **Workspaces**, **Servers** and **Status** (whether every service is working, with its history), then **Activity** (jobs, the log, domains, the files open in OneOS), **Billing** (the price list, signups, credits) and **OneAI** (what AI costs). |
 | **Home** | The figures for the business with their charts (revenue, signups, workspaces, OneAI, servers, health and releases), and what needs you, most pressing first. |
 | **The foot** | **Settings**, the play button that takes the tour, the question mark that opens this Help, and OneAdmin's version, which opens What's New. |
 

@@ -144,3 +144,18 @@ def not_made(user: str, what: str, folder: str) -> None:
 		sender="Administrator",
 		what=what,
 	)
+
+
+def oneos_closed(user: str, name: str, file: str) -> None:
+	"""A file somebody had open in OneOS was closed without them closing it:
+	idle, at the time limit, for want of credits or because OneOS stopped
+	answering. Sent as the workspace, since nobody pressed anything."""
+	folder = frappe.db.get_value("File", name, "folder")
+	notify.notify(
+		"Closed in OneOS",
+		user,
+		record=("File", name),
+		link=f"/desk/onecloud?node={quote(folder or '@recent', safe='')}&file={quote(name, safe='')}",
+		sender="Administrator",
+		file=file,
+	)

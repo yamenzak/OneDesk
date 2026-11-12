@@ -25,7 +25,7 @@ Every sentence upstream says naming ERPNext, Frappe or HRMS reads One
 
 | App | Seen | Found | Answered | Waiting |
 |---|---|---|---|---|
-| onedesk | 92 | 2 | 37 | 0 |
+| onedesk | 93 | 2 | 37 | 0 |
 | frappe | 23 | 35 | 182 | 0 |
 | erpnext | 306 | 129 | 51 | 0 |
 | hrms | 100 | 22 | 8 | 0 |
@@ -547,7 +547,7 @@ Reports: Addresses And Contacts (under a list's related reports (Address's list)
 | Domain Settings | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | DuckDB Sync | engine: the copy frappe's analytics reads from | OneBook, OneCRM | untouched | no | general |  | **none** |  |  | ar 3 |  |
 | Error Log | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | taught |  | yes |  |  | ar 1 |  |
-| File | through a form's link (Presentation: file) | everybody | class, events, 11 fields | no | taught |  | yes |  |  |  | Added to a Library, File Ready, Shared With You |
+| File | through a form's link (Presentation: file) | everybody | class, events, 15 fields | no | taught |  | yes |  |  |  | Added to a Library, Closed in OneOS, File Ready, Shared With You |
 | File Blob | engine: a file's bytes under frappe's second way of storing files, which One leaves off; One keeps files in OneCloud | **nobody** | untouched | no | general |  | **none** |  |  | ar 3, de 2 |  |
 | Installed Applications | the platform's: the site's own workings, which the platform keeps for every workspace | **nobody** | untouched | no | general |  |  |  |  |  |  |
 | Language | through a form's link (Print Format: default_print_language) | everybody | untouched | no | general |  | yes |  |  |  |  |
@@ -962,6 +962,7 @@ Pages: intake (on a rail or a home).
 | Health Check | opened by our screens | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Offering | on a rail or a home | **nobody** | a head, events, form script | no | taught |  | **none** |  |  |  |  |
 | One Admin Settings | opened by our screens | **nobody** | a head, events, form script | no | taught |  |  |  |  |  |  |
+| OneOS Session | on a rail or a home | not read | untouched | no | general |  | **none** |  |  |  |  |
 | Private App | on a rail or a home | **nobody** | untouched | no | general |  | **none** |  |  |  |  |
 | Provisioning Job | on a rail or a home | **nobody** | a head | no | taught |  | **none** |  |  |  | Build Slow, Job Failed |
 | Stripe Webhook Event | through a form's connections (Account Request's Connections) | **nobody** | untouched | no | taught |  | **none** |  |  |  |  |
