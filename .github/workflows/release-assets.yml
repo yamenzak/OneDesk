@@ -32,6 +32,8 @@ jobs:
     timeout-minutes: 120
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Already built?
         id: built
@@ -90,10 +92,11 @@ jobs:
           python="$(sudo -iu frappe env PATH="/home/frappe/pilot/bin:/home/frappe/.local/bin:$PATH" bash -c 'uv python install 3.14 > /dev/null 2>&1; "$(uv python find 3.14)" -c "import platform; print(platform.python_version())"')"
           node="$(node -v)"
           base="release-base-$ImageOS-python$python-node${node#v}-pilot$PILOT_VERSION-${{ hashFiles('upstream.json', 'deploy/release/build.sh', 'deploy/release/base.py') }}"
-          site="$(git ls-files -s -- onedesk pyproject.toml ':!*.js' ':!*.css' ':!*.scss' ':!*.vue' ':!*.ts' ':!*.tsx' ':!*.map' | sha256sum | cut -c1-32)"
+          templates="$base-template-${{ hashFiles('deploy/release/template.py') }}-"
           echo "key=$base" >> "$GITHUB_OUTPUT"
-          echo "template=$base-site-$site" >> "$GITHUB_OUTPUT"
-          echo "base $base, template inputs $site"
+          echo "templates=$templates" >> "$GITHUB_OUTPUT"
+          echo "template=$templates$GITHUB_SHA" >> "$GITHUB_OUTPUT"
+          echo "base $base, template $templates$GITHUB_SHA"
           mkdir -p "$ONE_BASE" "$ONE_TEMPLATE"
           chmod 777 "$ONE_BASE" "$ONE_TEMPLATE"
 
@@ -112,6 +115,7 @@ jobs:
         with:
           path: ${{ env.ONE_TEMPLATE }}
           key: ${{ steps.base.outputs.template }}
+          restore-keys: ${{ steps.base.outputs.templates }}
 
       - name: Build and publish
         if: steps.built.outputs.yes != 'true'
