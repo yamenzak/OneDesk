@@ -14,6 +14,9 @@ def run(password=None):
 		from frappe.desk.page.setup_wizard.setup_wizard import setup_complete
 
 		year = today().year
+		for field, value in (("country", "United Arab Emirates"), ("currency", CURRENCY), ("time_zone", "Asia/Dubai")):
+			if not frappe.db.get_single_value("System Settings", field):
+				frappe.db.set_single_value("System Settings", field, value)
 		said = setup_complete(
 			{
 				"language": "English",
